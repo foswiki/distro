@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1236872297" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="micha" date="1241044682" format="1.1" reprev="1.3" version="1.3"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
@@ -55,56 +55,8 @@ nisi. Mauris est urna, fermentum vel, luctus sed, luctus eu, elit. In nulla.
 ---++ Tooltips
    * <span class="jqToolTip" title="Hello World: This is my first tooltip!!!">Hello world</span>
 
----++ Rounded corners
-<div style="width:520px;">
-  <div class="jqRounded" style="width:250px;float:left;margin:5px">
-    <h2 style="color:#ffffff;background:#778cca;border:0px">1. Lorem ipsum dolor sit amet</h2>
-    <div style="background:#bfdded;color:black">
-      Consectetuer adipiscing elit. Nulla dui turpis,
-      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
-      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
-      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
-    </div>
-  </div>
-  <div class="jqRounded" style="width:250px;float:right;margin:5px">
-    <h2 style="color:#ffffff;background:#9DC35B;border:0px;">2. Lorem ipsum dolor sit amet</h2>
-    <div style="background:#C4E786;color:black">
-      Consectetuer adipiscing elit. Nulla dui turpis,
-      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
-      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
-      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
-    </div>
-  </div>
-  <div class="jqRounded" style="width:250px;float:left;margin:5px;">
-    <h2 style="color:#ffffff;background:#DBB13F;border:0px;">3. Lorem ipsum dolor sit amet</h2>
-    <div style="background:#ffd154;color:black">
-      Consectetuer adipiscing elit. Nulla dui turpis,
-      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
-      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
-      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
-    </div>
-  </div>
-  <div class="jqRounded" style="width:250px;float:right;margin:5px">
-    <h2 style="color:#ffffff;background:#aa0000;border:0px;">4. Lorem ipsum dolor sit amet</h2>
-    <div style="background:#EDC2C2;color:black">
-      Consectetuer adipiscing elit. Nulla dui turpis,
-      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
-      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
-      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
-    </div>
-  </div>
-</div>
-<br clear="all" />
-<div class="jqRounded" style="background:#EDC2C2;color:black;width:250px;margin:5px;">
-  <div>
-  Consectetuer adipiscing elit. Nulla dui turpis,
-  convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
-  egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
-  molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
-  </div>
-</div>
-
 ---++ Treeview
+%JQREQUIRE{"treeview"}%
 <div class="jqTreeview">
    * list
       * item
@@ -119,6 +71,7 @@ nisi. Mauris est urna, fermentum vel, luctus sed, luctus eu, elit. In nulla.
       * item
       * item
 </div>
+---
 <div class="jqTreeview closed red">
    * list
       * item
@@ -191,13 +144,8 @@ sit amet sapien.  Intege
 %ENDTAB%
 %ENDTABPANE%
 
-<script type="text/javascript">
-$(".jqRounded").roundedCorners();
-</script>
-
 ---++ Rating
-%JQSCRIPT{"jquery.rating"}%
-%JQSTYLE{"jquery.rating"}%
+%JQREQUIRE{"rating"}%
 <script type="text/javascript">
 $(function() {
   $(".rating").rating({
@@ -226,8 +174,7 @@ $(function() {
 </form>
 
 ---++ Autocompletion
-%JQSCRIPT{"jquery.autocomplete"}%
-%JQSTYLE{"jquery.autocomplete"}%
+%JQREQUIRE{"autocomplete"}%
 
 <literal>
 <script>
@@ -275,7 +222,7 @@ $(function() {
 <input type="submit" value="Submit" />
 </form>
 
-%JQSCRIPT{"jquery.validate"}%
+%JQREQUIRE{"validate"}%
 <script type="text/javascript">
   $("#validateForm").validate();
 </script>
@@ -318,8 +265,7 @@ $(function() {
 } 
 </style>
 </literal>
-%JQSCRIPT{"jquery.cycle"}%
-%JQSCRIPT{"jquery.cycle.trans"}%
+%JQREQUIRE{"cycle"}%
 <script type="text/javascript">
 $(".pics").cycle({fx:'scrollLeft'});
 </script>

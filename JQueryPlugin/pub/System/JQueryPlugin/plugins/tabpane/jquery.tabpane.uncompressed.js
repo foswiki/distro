@@ -1,5 +1,5 @@
 /*
- * jQuery Tabpane plugin 1.0
+ * jQuery Tabpane plugin 1.1
  *
  * Copyright (c) 2008-2009 Michael Daum http://michaeldaumconsulting.com
  *
@@ -17,6 +17,10 @@
    */
   $.fn.tabpane = function(options) {
     writeDebug("called tabpane()");
+
+    if (typeof(options) == 'undefined') {
+      options = {};
+    }
    
     // build main options before element iteration
     var opts = $.extend({}, $.fn.tabpane.defaults, options);
@@ -27,7 +31,7 @@
       var $thisPane = $(this);
  
       // build element specific options. 
-      var thisOpts = $.extend({}, opts, $thisPane.data());
+      var thisOpts = $.extend({}, opts, $thisPane.metadata());
 
       // create tab group
       var $tabContainer = $thisPane;
@@ -82,7 +86,7 @@
     var $newTab  = $("#"+newTabId);
 
     if (!thisOpts[newTabId]) {
-      thisOpts[newTabId] = $newTab.data();
+      thisOpts[newTabId] = $newTab.metadata();
     }
     var data = thisOpts[newTabId];
 

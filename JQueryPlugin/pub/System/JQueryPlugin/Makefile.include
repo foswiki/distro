@@ -3,11 +3,13 @@ MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
 MINIFYCSS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
 GZIP=gzip
 CAT=cat
+PATCH=patch
 
 .SUFFIXES: .js .css
-.PHONY: $(SUBDIRS)
+.PHONY: subdirs $(SUBDIRS)
 
-all: $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz) $(SUBDIRS)
+all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
+	@echo -n ""
 
 %.js: %.uncompressed.js
 	@echo creating $@ from $<
@@ -21,5 +23,7 @@ all: $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz) $(SUBDIRS)
 	@echo creating $@ from $<
 	@$(MINIFYCSS) $< > $@
 
+subdirs: $(SUBDIRS)
+
 $(SUBDIRS):
-	@$(MAKE) -C $@
+	@$(MAKE) --no-print-directory -C $@

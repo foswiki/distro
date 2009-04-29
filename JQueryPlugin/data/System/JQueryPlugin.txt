@@ -30,6 +30,7 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
 
 ---++ Included libraries
    1 [[http://docs.jquery.com][jquery]]: the core  
+   1 jquery-ui
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/][jquery.autocomplete]]: add an autocomplete to input fields   
    1 jquery.bgiframe: helps ease the pain when having to deal with IE z-index issues  
    1 [[http://malsup.com/jquery/block/][jquery.blockUI]]: an alternative to synchronous ajax; block the UI without locking the browser   
@@ -54,17 +55,6 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-treeview/][jquery.treeview]] create a leightweight and unobtrusive expanding and collapsing treeview control   
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-validation/][jquery.validate]]: client-side form validation   
    1 [[http://zeroedandnoughted.wordpress.com/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/][jquery.shake]]: osx login box animation
-   1 ui.accordion   
-   1 ui.datepicker   
-   1 ui.dialog   
-   1 ui.draggable   
-   1 ui.droppable   
-   1 ui.mouse   
-   1 ui.resizable   
-   1 ui.selectable   
-   1 ui.slider   
-   1 ui.sortable   
-   1 ui.tabs   
 
 ---++ Further references and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
@@ -74,17 +64,15 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
    * [[http://docs.jquery.com/Plugins][Plugin repository]]
 
 ---++ Syntax Rules
-
-=%<nop>JQSCRIPT{"jquery.js"}%= : include the specified script. Keep in mind that the =jquery.js= script must be loaded before plug-ins scripts.<br />
-=%<nop>JQTHEME{"mythemename"}%= : include the specified theme. Better load the desired theme before any script.<br />
-=%<nop>JQIMAGESURLPATH{"myimage.png"}%= : Expand to the specified image path.<br />
-=%<nop>JQIMAGESURLPATH%/myimage.png= : Same result as the above.<br />
+TODO
 
 
 ---++ Themes
 The following themes are provided:
-   * =flora= theme
-   * =ogray= theme (outdated)
+   * base  
+   * lightness  
+   * redmond  
+   * smoothness
 
 ---++ Examples
    * Sandbox.PluginTestJQueryPlugin.txt 	 	
@@ -114,6 +102,7 @@ Available class attributes:
 | =cplusplus= | C++ |
 | =csharp= | C# |
 | =css= | Cascading Style Sheets |
+| =bash= | shell syntax |
 | =delphi= | Delphi |
 | =html= | Hypertext Markup Language |
 | =java= | Java |

@@ -1,10 +1,9 @@
 SUBDIRS=\
-  cookie \
   autocomplete \
   bgiframe \
   blockUI \
   button \
-  chilli \
+  chili \
   cookie \
   cycle \
   debug \

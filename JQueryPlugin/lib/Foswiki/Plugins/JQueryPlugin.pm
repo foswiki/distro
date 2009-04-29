@@ -15,8 +15,7 @@ use strict;
 use vars qw( 
   $VERSION $RELEASE $SHORTDESCRIPTION 
   $NO_PREFS_IN_TOPIC
-  $doneInit $doneHeader
-  $header
+  %plugins
 );
 
 $VERSION = '$Rev: 3740 $';
@@ -24,104 +23,96 @@ $RELEASE = '1.99';
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
-$header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
-<script type="text/javascript">
-var foswiki;
-if (!foswiki) {
-  foswiki = {};
-}
-foswiki.scriptUrl = "%SCRIPTURL%";
-foswiki.scriptUrlPath = "%SCRIPTURLPATH%";
-foswiki.pubUrl = "%PUBURL%";
-foswiki.pubUrlPath = '%PUBURLPATH%';
-foswiki.systemWebName = '%SYSTEMWEB%';
-foswiki.usersWebName = '%USERSWEB%';
-foswiki.wikiName = '%WIKINAME%';
-foswiki.loginName = '%USERNAME%';
-foswiki.wikiUserName = '%WIKIUSERNAME%';
-foswiki.serverTime = '%SERVERTIME%';
-foswiki.ImagePluginEnabled = %IF{"context ImagePluginEnabled" then="true" else="false"}%;
-foswiki.MathModePluginEnabled = %IF{"context MathModePluginEnabled" then="true" else="false"}%;
-var twiki = foswiki; // temporary alias: DEPRECATED
-</script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.js"></script>
-<script type="text/javascript">
-ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';
-ChiliBook.automaticSelector = 'pre';
-//ChiliBook.lineNumbers = true;
-</script>
-HERE
-
-
 ###############################################################################
 sub initPlugin {
   my( $topic, $web, $user, $installWeb ) = @_;
 
-  $doneInit = 0;
-  $doneHeader = 0;
-  Foswiki::Func::registerTagHandler('BUTTON', \&handleButton );
-  Foswiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
-  Foswiki::Func::registerTagHandler('CLEAR', \&handleClear );
+  %plugins = ();
   Foswiki::Func::registerTagHandler('TABPANE', \&handleTabPane );
   Foswiki::Func::registerTagHandler('ENDTABPANE', \&handleEndTabPane );
   Foswiki::Func::registerTagHandler('TAB', \&handleTab );
   Foswiki::Func::registerTagHandler('ENDTAB', \&handleEndTab );
-  Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript );
-  Foswiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle );
+
+  Foswiki::Func::registerTagHandler('BUTTON', \&handleButton );
+  Foswiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
+  Foswiki::Func::registerTagHandler('CLEAR', \&handleClear );
+  Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript ); # DEPRECATED
+  Foswiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle ); # DEPRECATED
   Foswiki::Func::registerTagHandler('JQTHEME', \&handleJQueryTheme );
-  Foswiki::Func::registerTagHandler('JQIMAGESURLPATH', \&handleJQueryImagesUrlPath );
+  Foswiki::Func::registerTagHandler('JQREQUIRE', \&handleJQueryRequire );
+
+  # required
+  getPlugin($Foswiki::Plugins::SESSION, 'FOSWIKI');
 
   return 1;
 }
 
 ###############################################################################
-sub commonTagsHandler {
+sub getPlugin {
+  my ($session, $name) = @_;
 
-  return if $doneHeader;
-  $doneHeader = 1 if ($_[0] =~ s/<head>(.*?[\r\n]+)/<head>$1$header/o);
-}
+  $name = uc($name);
 
-###############################################################################
-sub initCore {
-  return if $doneInit;
-  $doneInit = 1;
-  require Foswiki::Plugins::JQueryPlugin::Core;
-  Foswiki::Plugins::JQueryPlugin::Core::init(@_);
+  unless (defined $plugins{$name}) {
+    my $packageName = 'Foswiki::Plugins::JQueryPlugin::'.$name;
+    eval "use $packageName;";
+    if ($@) {
+      Foswiki::Func::writeWarning("ERROR: can't load jQuery plugin $name: $@");
+      $plugins{$name} = 0;
+    } else {
+      $plugins{$name} = $packageName->new($session);
+    }
+  }
+
+  return $plugins{$name};
 }
 
 ###############################################################################
 sub handleButton {
-  initCore();
-  return Foswiki::Plugins::JQueryPlugin::Core::handleButton(@_);
+  my $session = shift;
+  my $plugin = getPlugin($session, 'BUTTON');
+  return $plugin->handleButton(@_) if $plugin;
+  return '';
 }
 
 ###############################################################################
 sub handleToggle {
-  initCore();
-  return Foswiki::Plugins::JQueryPlugin::Core::handleToggle(@_);
+  my $session = shift;
+  my $plugin = getPlugin($session, 'TOGGLE');
+  return $plugin->handleToggle(@_) if $plugin;
+  return '';
 }
 
 ###############################################################################
 sub handleTabPane {
-  initCore();
-  return Foswiki::Plugins::JQueryPlugin::Core::handleTabPane(@_);
+  my $session = shift;
+  my $plugin = getPlugin($session, 'TABPANE');
+  return $plugin->handleTabPane(@_) if $plugin;
+  return '';
 }
 
 ###############################################################################
 sub handleTab {
-  initCore();
-  return Foswiki::Plugins::JQueryPlugin::Core::handleTab(@_);
+  my $session = shift;
+  my $plugin = getPlugin($session, 'TABPANE');
+  return $plugin->handleTab(@_) if $plugin;
+  return '';
 }
 
 ###############################################################################
 sub handleEndTab {
-  return '</div></div>';
+  my $session = shift;
+  my $plugin = getPlugin($session, 'TABPANE');
+  return $plugin->handleEndTab(@_) if $plugin;
+  return '';
 }
 
 ###############################################################################
 sub handleEndTabPane {
-  return '</div>';
+  my $session = shift;
+  my $plugin = getPlugin($session, 'TABPANE');
+  return $plugin->handleEndTabPane(@_) if $plugin;
+  return '';
 }
 
 ###############################################################################
@@ -130,6 +121,19 @@ sub handleClear {
 }
 
 ###############################################################################
+sub handleJQueryRequire {
+  my ($session, $params, $theTopic, $theWeb) = @_;   
+
+  my $pluginName = $params->{_DEFAULT};
+  my $plugin = getPlugin($session, $pluginName);
+  return "<span class='foswikiAlert'>Error: no such plugin $pluginName</span>"
+    unless $plugin;
+
+  return '';
+}
+
+###############################################################################
+# deprecated
 sub handleJQueryScript {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
@@ -140,6 +144,7 @@ sub handleJQueryScript {
 }
 
 ###############################################################################
+# deprecated
 sub handleJQueryStyle {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
@@ -156,15 +161,7 @@ sub handleJQueryTheme {
   my $themeName = $params->{_DEFAULT};
   return '' unless $themeName;
 
-  return "<style type='text/css'>\@import url(\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/$themeName.all.css\");</style>";
-}
-
-###############################################################################
-sub handleJQueryImagesUrlPath {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
-  my $image = $params->{_DEFAULT};
-  return "%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/$image" if defined $image;
-  return "%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images";
+  return "<style type='text/css'>\@import url(\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/ui.all.css\");</style>";
 }
 
 1;
