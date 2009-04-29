@@ -524,6 +524,22 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         my $searchResultsText = $editTableObject->{'searchResults'} || '';
         $resultText .= $searchResultsText;
 
+        # We do not want TablePlugin to sort the table we are editing
+        # So we use the special setting disableallsort which is added
+        # to TABLE for exactly this purpose. Please to not remove this
+        # feature again.
+        if ( $doEdit && !$doSave && ( $paramTableNr == $tableNr ) &&
+           ( $editTableTag !~ /%TABLE{.*?disableallsort="on".*?}%/ ) ) {
+            $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 disableallsort="on"$2/;
+        }       
+        
+        # The Data::parseText merges a TABLE and EDITTABLE to one line
+        # We split it again to make editing easier for the user
+        # If the two were originally one line - they now become two unless
+        # there was white space between them
+        $editTableTag =~ s/(%EDITTABLE{.*?}%)(%TABLE{.*?}%)/$1\n$2/;
+        $editTableTag =~ s/(%TABLE{.*?}%)(%EDITTABLE{.*?}%)/$1\n$2/;
+
         $resultText = "$editTableTag\n$resultText";
 
         Foswiki::Func::writeDebug(

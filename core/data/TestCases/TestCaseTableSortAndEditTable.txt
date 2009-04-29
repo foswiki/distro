@@ -1,0 +1,57 @@
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+---+ Tables with initsort and EDITTABLE
+
+Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macros and manual test of adding rows with TABLE and EDITTABLE containing other macros
+
+---++ Test Steps
+
+The following is a typical time schedule shown in a table.
+
+It is by default sorted by the 2nd column (the planned date).
+
+   * Check that the top table has column widths 320, 130, 130, 130 when viewed 
+   * Edit the first table using !EditTablePlugin feature.
+      * Check that the date fields work
+      * Check that the first column is shown in alphabetical order in the table you are editing
+      * Check that the other table is still sorted by date in the 2nd column.
+      * Edit one of the dates in the 3rd or 4th column
+   * Save the table
+      * Check that the table is still sorted by the 2nd column
+      * Check that the edits you did are there
+   * Edit the 2nd table
+      * Check that the first table is sorted by planned date
+      * Check that the current edited table is not sorted (first column in alphabetical order)
+      * Add a new row
+      * Enter some data - you must put a date in the 2nd column
+      * Move the row up some row positions
+      * Save
+   * Check that the 2nd table is sorted by planned date
+   * Check in raw view that the 2nd table is still in the original order with first column by alphabetical order, except the row you inserted and moved up
+   * Check that the TABLE and EDITTABLE tags are still there and are intact 
+
+
+%EDITTABLE{format="|text,40|date,11,,%d %b %Y|date,11,,%d %b %Y|date,11,,%d %b %Y|"}%
+%TABLE{columnwidths="320,130,130,130" dataalign="left,center,center,center" initsort="2" sort="off"}%
+| *Milestone* | *Plan* | *Forecast* | *Actual* |
+| A | 12 Sep 2007 | | 12 Sep 2007 |
+| B | 26 Sep 2007 | | 26 Sep 2007 |
+| C | 10 Oct 2007 | | 10 Oct 2007 |
+| D | 10 Jan 2007 | | 30 Jan 2007 |
+| E | 12 Oct 2007 | | 12 Oct 2007 |
+| F | 17 Oct 2007 | 13 Dec 2007 | |
+| G | 12 Dec 2007 | 12 Dec 2007 | |
+| H | 11 Jan 2008 | 11 Jan 2008 | |
+
+
+
+%EDITTABLE{format="|text,40|date,11,,%d %b %Y|date,11,,%d %b %Y|date,11,,%d %b %Y|"}%
+%TABLE{columnwidths="320,130,130,130" dataalign="left,center,center,center" initsort="2" sort="off"}%
+| A | 12 Sep 2007 | | 12 Sep 2007 |
+| B | 26 Sep 2007 | | 26 Sep 2007 |
+| C | 10 Oct 2007 | | 10 Oct 2007 |
+| D | 10 Oct 2009 | | 30 Nov 2009 |
+| E | 12 Oct 2007 | | 12 Oct 2007 |
+| F | 17 Oct 2007 | 13 Dec 2007 | |
+| G | 12 Dec 2007 | 12 Dec 2007 | |
+| H | 11 Jan 2008 | 11 Jan 2008 | |
+
