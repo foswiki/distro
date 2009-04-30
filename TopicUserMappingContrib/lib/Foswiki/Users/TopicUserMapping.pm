@@ -590,16 +590,7 @@ sub eachGroupMember {
             $Foswiki::cfg{UsersWebName},
             $group );
 
-        foreach ( split( /\r?\n/, $groupTopicObject->text() ) ) {
-            if (/$Foswiki::regex{setRegex}GROUP\s*=\s*(.+)$/) {
-                next unless ( $1 eq 'Set' );
-
-                # Note: if there are multiple GROUP assignments in the
-                # topic, only the last will be taken.
-                my $f = $2;
-                $members = _expandUserList( $this, $f );
-            }
-        }
+        $members = _expandUserList( $this, $groupTopicObject->getPreference('GROUP') );
         delete $expanding{$group};
     }
     $this->{eachGroupMember}->{$group} = $members;
