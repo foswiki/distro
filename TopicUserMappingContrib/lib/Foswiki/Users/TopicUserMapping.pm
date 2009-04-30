@@ -174,7 +174,7 @@ sub login2cUID {
     my ( $this, $login, $dontcheck ) = @_;
 
     unless ($dontcheck) {
-        return undef unless ( _userReallyExists( $this, $login ) );
+        return unless ( _userReallyExists( $this, $login ) );
     }
 
     return $this->{mapping_id} . Foswiki::Users::mapLogin2cUID($login);
@@ -208,8 +208,8 @@ sub getLoginName {
     $login =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/gei;
     no bytes;
 
-    return undef unless _userReallyExists( $this, $login );
-    return undef unless ($cUID eq $this->login2cUID($login));
+    return unless _userReallyExists( $this, $login );
+    return unless ($cUID eq $this->login2cUID($login));
 
     # Validated
     return Foswiki::Sandbox::untaintUnchecked( $login );
