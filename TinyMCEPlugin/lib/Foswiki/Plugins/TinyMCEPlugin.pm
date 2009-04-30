@@ -40,7 +40,7 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
+plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
@@ -65,7 +65,7 @@ paste_remove_spans: true,
 paste_remove_styles: true,
 paste_strip_class_attributes: "all",
 theme_advanced_buttons1 : "foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor,separator,attach,image,charmap,hr,separator,undo,redo,separator,search,replace",
-theme_advanced_buttons2: "tablecontrols,separator,code,hide",
+theme_advanced_buttons2: "tablecontrols,separator,code,hide,fullscreen",
 theme_advanced_buttons3: "",
 theme_advanced_toolbar_location: "top",
 theme_advanced_resize_horizontal : false,
@@ -73,17 +73,16 @@ theme_advanced_resizing : true,
 theme_advanced_path: false,
 theme_advanced_statusbar_location : "bottom",
 keep_styles : false,
-gecko_spellcheck : true,
 content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 HERE
 our %defaultINIT_BROWSER     = (
     MSIE => 'paste_auto_cleanup_on_paste : true',
     OPERA => '',
-    GECKO => '',
+    GECKO => 'gecko_spellcheck : true',
     SAFARI => '',
    );
 
-use Foswiki::Func;
+use Foswiki::Func ();
 
 my $query;
 

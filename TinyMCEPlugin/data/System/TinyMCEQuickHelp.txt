@@ -42,21 +42,21 @@
 </td>
 </tr>
 <tr>
-<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/indent.gif" alt="indent" />
-   <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/outdent.gif" alt="outdent" /></td>
+<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/indent.gif" alt="indent" />
+   <img src="%PUBURL%/%WEB%/TinyMCEPlugin/outdent.gif" alt="outdent" /></td>
 <td class="textcolumn"><ul>
     <li> If the cursor is in a list item, changes the indent. Otherwise marks text with &lt;blockquote&gt; tags.</li>
    </ul></td>
 </tr>
 <tr>
-<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/link.gif" alt="link" />
-   <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/unlink.gif" alt="unlink" /></td>
+<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/link.gif" alt="link" />
+   <img src="%PUBURL%/%WEB%/TinyMCEPlugin/unlink.gif" alt="unlink" /></td>
 <td class="textcolumn"><ul>
     <li> Links can either point to a URL or to the name of a Foswiki topic. For example =http://foswiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.</li>
    </ul></td>
 </tr>
 <tr>
-<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/anchor.gif" alt="anchor" /></td>
+<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/anchor.gif" alt="anchor" /></td>
 <td class="textcolumn"><ul>
     <li> An anchor is a hidden mark you can use to link to a certain part of a topic, for example a heading or a paragraph. An anchor must be a !WikiWord. </li>
    </ul></td>

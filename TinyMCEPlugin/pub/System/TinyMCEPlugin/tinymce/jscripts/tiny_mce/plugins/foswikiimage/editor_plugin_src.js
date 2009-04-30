@@ -45,7 +45,7 @@
 			// Register buttons
 			ed.addButton('image', {
                 title : 'foswikiimage.image_desc',
-                cmd : 'foswikiimage',
+                cmd : 'foswikiimage'
 			});
 		},
 

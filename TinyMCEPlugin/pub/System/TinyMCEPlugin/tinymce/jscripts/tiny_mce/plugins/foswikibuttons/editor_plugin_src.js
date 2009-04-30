@@ -53,7 +53,7 @@
                     popup_css: false, // not required
                     inline : true
                 }, {
-                    plugin_url: url,
+                    plugin_url: url
                 });
             });
 
@@ -75,7 +75,7 @@
                     movable : true,
                     inline : true
                 }, {
-                    plugin_url: url,
+                    plugin_url: url
                 });
             });
 
