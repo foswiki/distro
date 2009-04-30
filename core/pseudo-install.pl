@@ -434,11 +434,15 @@ print(
     join( ", ", @modules ), "\n"
 );
 
+my @installedModules;
 foreach my $module (@modules) {
     my $libDir = installModule($module);
-    if ( ( !$installing || $autoenable ) && $libDir && $module =~ /Plugin$/ ) {
-        enablePlugin( $module, $installing, $libDir );
+    if ($libDir) {
+        push(@installedModules, $module);
+        if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
+            enablePlugin( $module, $installing, $libDir );
+        }
     }
 }
 
-print join( ", ", @modules ), ' ', ( $installing ? 'i' : 'uni' ), "nstalled\n";
+print ' '.(($#installedModules > 0) ? join( ", ", @installedModules ) : 'Nothing'). ' '. ( $installing ? 'i' : 'uni' ). "nstalled\n";
