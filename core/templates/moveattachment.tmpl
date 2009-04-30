@@ -14,6 +14,7 @@
 
 %TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"The new topic chosen must already exist."}%</p>%TMPL:END%
 
+%TMPL:DEF{"attachmenthelp"}%<p>%MAKETEXT{"The attachment may be renamed (by appending a number to the name) if an attachment of that name already exists in the target topic."}%</p>%TMPL:END%
 
 %TMPL:DEF{"newweb"}%<p><select class="foswikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:END%
 
@@ -22,6 +23,8 @@
 
 
 %TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
+
+%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%URLPARAM{"attachment"}%" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"attachmenthelp"}%%TMPL:END%
 
 
 %TMPL:DEF{"notes"}%

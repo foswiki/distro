@@ -32,8 +32,14 @@
 %TMPL:P{"totopictitle"}%
 <p>%TMPL:P{"newtopic"}%%TMPL:P{"newtopichelp"}%</p>%TMPL:END%
 
+%TMPL:DEF{"toattachmenttitle"}%---+++ %MAKETEXT{"To attachment:"}% %TMPL:END%
 
-%TMPL:DEF{"renameformsteps"}%%TMPL:P{"changefrom"}%%TMPL:P{"toweb"}%%TMPL:P{"totopic"}%%TMPL:P{"searchresultsstep"}%%TMPL:END%
+%TMPL:DEF{"toattachment"}%
+%TMPL:P{"toattachmenttitle"}%
+<p>%TMPL:P{"newattachment"}%%TMPL:P{"newattachmenthelp"}%</p>%TMPL:END%
+
+
+%TMPL:DEF{"renameformsteps"}%%TMPL:P{"changefrom"}%%TMPL:P{"toweb"}%%TMPL:P{"totopic"}%%TMPL:P{"toattachment"}%%TMPL:P{"searchresultsstep"}%%TMPL:END%
 
 
 %TMPL:DEF{"checkuncheck"}%%TMPL:END%

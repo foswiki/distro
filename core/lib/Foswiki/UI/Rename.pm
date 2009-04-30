@@ -41,6 +41,12 @@ parameters:
 
 =cut
 
+# This function is entered twice during an interaction renaming session. The
+# first time is when the parameters for the rename are being gathered
+# referring topics etc) and in this case, it will terminate at either
+# newWebScreen or newTopicOrAttachmentScreen. The second times is when the
+# rename is proceeding, and/or all the appropriate parameters have been
+# passed by the caller. In this case the rename proceeds.
 sub rename {
     my $session = shift;
 
@@ -65,10 +71,9 @@ sub rename {
 sub _renameTopicOrAttachment {
     my ( $session, $oldWeb, $oldTopic ) = @_;
 
-    my $query = $session->{cgiQuery};
-    my $newTopic = $query->param('newtopic') || '';
-
-    my $newWeb = $query->param('newweb') || '';
+    my $query         = $session->{cgiQuery};
+    my $newTopic      = $query->param('newtopic')      || '';
+    my $newWeb        = $query->param('newweb')        || '';
 
     # Validate the new web name
     $newWeb = Foswiki::Sandbox::untaint(
@@ -131,6 +136,8 @@ sub _renameTopicOrAttachment {
     }
 
     my $attachment = $query->param('attachment');
+    my $newAttachment = $query->param('newattachment');
+
     my $old = Foswiki::Meta->load( $session, $oldWeb, $oldTopic );
 
     if ($attachment) {
@@ -163,14 +170,26 @@ sub _renameTopicOrAttachment {
             }
         );
 
-        if ( $newWeb && $newTopic ) {
+        # Validate the new attachment name, if one was provided
+        if ($newAttachment) {
+            $newAttachment = Foswiki::Sandbox::untaint(
+                $newAttachment,
+                sub {
+                    my ($att) = @_;
+                    return Foswiki::Sandbox::sanitizeAttachmentName($att);
+                }
+               );
+        }
+
+        if ( $newWeb && $newTopic && $newAttachment ) {
+
             Foswiki::UI::checkTopicExists( $session, $newWeb, $newTopic,
                 'rename' );
 
             my $new = Foswiki::Meta->load( $session, $newWeb, $newTopic );
 
             # does new attachment already exist?
-            if ( $new->hasAttachment($attachment) ) {
+            if ( $new->hasAttachment($newAttachment) ) {
                 throw Foswiki::OopsException(
                     'attention',
                     def    => 'move_err',
@@ -179,7 +198,7 @@ sub _renameTopicOrAttachment {
                     params => [
                         $newWeb,
                         $newTopic,
-                        $attachment,
+                        $newAttachment,
                         $session->i18n->maketext(
                             'Attachment already exists in new topic')
                     ]
@@ -212,11 +231,14 @@ sub _renameTopicOrAttachment {
     );
 
     # Has user selected new name yet?
-    if ( !$newTopic || $confirm ) {
+    if ( !$newTopic || ($attachment && !$newAttachment) || $confirm ) {
+        $newAttachment ||= $attachment;
 
         # Must be able to view the source to rename it
         Foswiki::UI::checkAccess( $session, 'VIEW', $old );
-        _newTopicScreen( $session, $old, $new, $attachment, $confirm );
+
+        _newTopicOrAttachmentScreen(
+            $session, $old, $new, $attachment, $newAttachment, $confirm );
         return undef;
 
     }
@@ -232,7 +254,8 @@ sub _renameTopicOrAttachment {
             $newTopic );
     }
 
-    _moveTopicOrAttachment( $session, $old, $new, $attachment, $refs );
+    _moveTopicOrAttachment(
+        $session, $old, $new, $attachment, $newAttachment, $refs );
 
     my $new_url;
     if (   $newWeb eq $Foswiki::cfg{TrashWebName}
@@ -266,6 +289,7 @@ sub _renameTopicOrAttachment {
                   $session->getScriptUrl( 0, 'view', $parentWeb, $parentTopic );
             }
             else {
+                # No parent topic, redirect to home topic
                 $new_url =
                   $session->getScriptUrl( 0, 'view', $oldWeb,
                     $Foswiki::cfg{HomeTopicName} );
@@ -274,7 +298,7 @@ sub _renameTopicOrAttachment {
     }
     else {
 
-        #redirect to new topic
+        # redirect to new topic
         $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
     }
 
@@ -699,14 +723,15 @@ sub _releaseContents {
 #    * =\@refs= - array of webg.topics that must have refs to this topic converted
 # Will throw Foswiki::OopsException on an error.
 sub _moveTopicOrAttachment {
-    my ( $session, $from, $to, $attachment, $refs ) = @_;
+    my ( $session, $from, $to, $attachment, $toattachment, $refs ) = @_;
 
     Foswiki::UI::checkAccess( $session, 'CHANGE', $from );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $to );
 
     if ($attachment) {
         try {
-            $from->moveAttachment( $attachment, $to );
+            $from->moveAttachment(
+                $attachment, $to, new_name => $toattachment );
         }
         catch Error::Simple with {
             throw Foswiki::OopsException(
@@ -958,10 +983,10 @@ sub _replaceInternalRefs {
     return $text;
 }
 
-# Display screen so user can decide on new web and topic.
-sub _newTopicScreen {
-    my ( $session, $from, $to, $attachment, $confirm, $doAllowNonWikiWord ) =
-      @_;
+# Display screen so user can decide on new web, topic, attachment names.
+sub _newTopicOrAttachmentScreen {
+    my ( $session, $from, $to, $attachment, $toattachment,
+         $confirm, $doAllowNonWikiWord ) = @_;
 
     my $query          = $session->{cgiQuery};
     my $tmplname       = $query->param('template') || '';
@@ -974,7 +999,6 @@ sub _newTopicScreen {
     if ($attachment) {
         $tmpl =
           $session->templates->readTemplate( $tmplname || 'moveattachment' );
-        $tmpl =~ s/%FILENAME%/$attachment/go;
     }
     elsif ($confirm) {
         $tmpl = $session->templates->readTemplate('renameconfirm');
@@ -988,23 +1012,41 @@ sub _newTopicScreen {
         $tmpl = $session->templates->readTemplate('rename');
     }
 
-    if ( !$attachment && $to->web eq $Foswiki::cfg{TrashWebName} ) {
+    if ( $to->web eq $Foswiki::cfg{TrashWebName} ) {
+        # Deleting an attachment or a topic
+        if ( $attachment ) {
+            # Trashing an attachment; look for a non-conflicting name in the
+            # trash web
+            my $base = $toattachment || $attachment;
+            my $ext  = '';
+            if ($base =~ s/^(.*)(\..*?)$/$1_/) {
+                $ext = $2;
+            }
+            my $n    = 1;
+            while ( $to->hasAttachment( $toattachment )) {
+                $toattachment = $base . $n . $ext;
+                $n++;
+            }
 
-        # Trashing a topic; look for a non-conflicting name in the
-        # trash web
-        my $renamedTopic = $from->web . $to->topic;
-        my $n            = 1;
-        my $base         = $to->topic;
-        while ( $session->topicExists( $to->web, $renamedTopic ) ) {
-            $renamedTopic = $base . $n;
-            $n++;
+        } else {
+            # Trashing a topic; look for a non-conflicting name in the
+            # trash web
+            my $renamedTopic = $from->web . $to->topic;
+            my $n            = 1;
+            my $base         = $to->topic;
+            while ( $session->topicExists( $to->web, $renamedTopic ) ) {
+                $renamedTopic = $base . $n;
+                $n++;
+            }
+            $to = Foswiki::Meta->new( $session, $to->web, $renamedTopic );
         }
-        $to = Foswiki::Meta->new( $session, $to->web, $renamedTopic );
     }
 
-    $tmpl =~ s/%NEW_WEB%/$to->web()/geo;
-    $tmpl =~ s/%NEW_TOPIC%/$to->topic()/geo;
-    $tmpl =~ s/%NONWIKIWORDFLAG%/$nonWikiWordFlag/go;
+    $tmpl =~ s/%FILENAME%/$attachment/g;
+    $tmpl =~ s/%NEW_FILENAME%/$toattachment/g;
+    $tmpl =~ s/%NEW_WEB%/$to->web()/ge;
+    $tmpl =~ s/%NEW_TOPIC%/$to->topic()/ge;
+    $tmpl =~ s/%NONWIKIWORDFLAG%/$nonWikiWordFlag/g;
 
     if ( !$attachment ) {
         my $refs;

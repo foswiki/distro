@@ -5,3 +5,4 @@
    * Syntax: =%<nop>ALLVARIABLES%=
    * Expands to: a table showing all defined [[macros]] in the current context
 
+*Deprecated 2009-04-29* in favour of [[VarSHOWPREFERENCE][SHOWPREFERENCE]]
