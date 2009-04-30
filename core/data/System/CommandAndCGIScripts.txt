@@ -214,6 +214,7 @@ Rename a topic or an attachment.
 | =newweb= | new web name | |
 | =newtopic= | new topic name | |
 | =attachment= | Attachment to move | =none= |
+| =newattachment= | (Optional) new name for attachment | =none= |
 | =template= | template for error when an attachment doesn't exist, =deleteattachment= for when deleting an attachment | |
 | =currentwebonly= | if defined, searches current web only for links to this topic | |
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |
