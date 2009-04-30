@@ -147,9 +147,11 @@ Find all topics that have form =ColourForm= where the form field 'Shades' is 'gr
 </verbatim>
 Find all topics that have PNG attachments that have been added since 26th March 2007
 <verbatim>
-%SEARCH{"attachments[name ~ '*.png' AND date >= d2n('2007-03-26')"}%
+%SEARCH{"attachments[name ~ '*.png' AND date >= d2n('2007-03-26')]"}%
 </verbatim>
 Find all topics that have a field 'Threat' set to 'Amber' and 'cold virus' somewhere in the topic text.
 <verbatim>
 %SEARCH{"Threat='Amber' AND text ~ '*cold virus*'"}%
 </verbatim>
+
+__Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, Foswiki:TWiki/QuerySearchPatternCookbook
