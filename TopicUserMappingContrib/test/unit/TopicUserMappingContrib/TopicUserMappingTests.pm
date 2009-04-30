@@ -191,28 +191,28 @@ sub verify_AddUsers {
 "$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
     my $me = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
 
-    open( F, ">$ttpath" ) || $this->assert( 0, "open $ttpath failed" );
-    print F $initial;
-    close(F);
+    open( my $F, '>', $ttpath ) || $this->assert( 0, "open $ttpath failed" );
+    print $F $initial;
+    close($F);
     chmod( 0777, $ttpath );
     $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
-    open( F, "<$ttpath" );
+    open( $F, '<', $ttpath );
     local $/ = undef;
-    my $text = <F>;
-    close(F);
+    my $text = <$F>;
+    close($F);
     $this->assert_matches(
         qr/\n\s+\* GeorgeUser - guser - \d\d \w\w\w \d\d\d\d\n/s, $text );
     $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser", $me );
-    open( F, "<$ttpath" );
+    open( $F, '<', $ttpath );
     local $/ = undef;
-    $text = <F>;
-    close(F);
+    $text = <$F>;
+    close($F);
     $this->assert_matches( qr/AaronUser.*GeorgeUser/s, $text );
     $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
-    open( F, "<$ttpath" );
+    open( $F, '<', $ttpath );
     local $/ = undef;
-    $text = <F>;
-    close(F);
+    $text = <$F>;
+    close($F);
     $this->assert_matches( qr/Aaron.*George.*Zebediah/s, $text );
 }
 
@@ -223,9 +223,9 @@ sub verify_Load {
     $ttpath =
 "$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
 
-    open( F, ">$ttpath" ) || $this->assert( 0, "open $ttpath failed" );
-    print F $initial;
-    close(F);
+    open( my $F, '>', $ttpath ) || $this->assert( 0, "open $ttpath failed" );
+    print $F $initial;
+    close($F);
 
     my $zuser_id =
       $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
