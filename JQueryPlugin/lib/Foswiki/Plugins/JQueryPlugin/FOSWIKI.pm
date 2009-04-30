@@ -18,8 +18,69 @@ use strict;
 use Foswiki::Func;
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::EMPTY
+
+This is the perl stub for the jquery.foswiki plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Foswiki',
+    version => '2.00',
+    author => 'Michael Daum',
+    homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
+    tags=>'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+This is plugin takes care of loading the jQuery core and default plugins and
+performs any initialization steps specific to Foswiki, For instance, it reads
+all &lt;meta> tags from the html head as they have been set by Foswiki and
+constructs the =foswiki= javascript object to be used by other javascript
+plugins. 
+
+In addition it adds some basic Foswiki tags to make life easier using jQuery
+plugins, most notably =%<nop>JQREQUIRE{"pluginName"}%= to load a subsequent
+jQuery plugin and all of its dependencies, taking care where and how it
+is added to the html page.
+
+Curent default plugins are: jquery.easing, jquery.metadata, jquery.bgiframe, 
+jquery.hoverIntent
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
+
+  # TODO: make default plugins configurable via Foswiki::cfg
 
   my $header= <<'HERE';
 <meta name="foswiki.scriptUrl" content="%SCRIPTURL%" />

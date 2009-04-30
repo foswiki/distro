@@ -18,9 +18,54 @@ use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::VALIDATE
+
+This is the perl stub for the jquery.validate plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Validate',
+    version => '1.5.2',
+    author => 'Joern Zaefferer',
+    homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+Very powerful client-side form validation framework 
+([[http://bassistance.de/2007/07/04/about-client-side-form-validation-and-frameworks/][article]]).
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
 
   my $header;
 
@@ -36,7 +81,22 @@ HERE
 HERE
   }
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE", $header, 'JQUERYPLUGIN::FOSWIKI');
+  # open matching localization file if it exists
+  my $langTag = $this->{session}->i18n->language();
+  $langTag = 'de';
+  my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/plugins/validate/localization/messages_'.$langTag.'.js';
+  my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
+  if (-f $messageFile) {
+    $header .= <<"HERE";
+<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$messagePath"></script>
+HERE
+  }
+
+  # recommended
+  $this->createPlugin("metadata");
+  $this->createPlugin("Form");
+
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE", $header, 'JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::FORM');
 }
 
 1;

@@ -18,9 +18,67 @@ use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::TABPABNE
+
+This is the perl stub for the jquery.empty plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Tabpane',
+    version => '1.0',
+    author => 'Michael Daum',
+    homepage => 'http://michaeldaumconsutling.com',
+    tags => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+This implements an alternative tabpane widget. There _is_ already one in
+jquery-ui, however as long as jquery-ui is still in flux, this alternative
+offers a safe substitute well integrated into Foswiki. 
+
+Individual tabs can be loaded on demand using a REST call. Installing
+Foswiki:Extensions/RenderPlugin is recommended for that. 
+
+Tabpanes can be nested. Tabs can be extended in height automatically.
+Heights can be auto-updated to follow windows resize events. Tabpanes
+can be established as part of reloaded content via ajax.
+
+Note that this widget does _not_ participate in jquery-ui themerolling.
+It does match jquery.button in terms of look & feel.
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
+  
   $this->{tabPaneCounter} = int(rand(1000));
   $this->{tabCounter} = int(rand(1000));
 
@@ -41,7 +99,14 @@ HERE
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::TABPANE", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
-###############################################################################
+=begin TML
+
+---++ ClassMethod handleTabPane( $this, $params, $topic, $web ) -> $result
+
+Tag handler for =%<nop>TABPANE%=. 
+
+=cut
+
 sub handleTabPane {
   my ($this, $params, $theTopic, $theWeb) = @_;
 
@@ -63,7 +128,14 @@ HERE
   return "<div class='jqTabPane' id='$tpId'>";
 }
 
-###############################################################################
+=begin TML
+
+---++ ClassMethod handleTab( $this, $params, $topic, $web ) -> $result
+
+Tag handler for =%<nop>TAB%=. 
+
+=cut
+
 sub handleTab {
   my ($this, $params, $theTopic, $theWeb) = @_;
 
@@ -100,12 +172,26 @@ sub handleTab {
   return "<div id='$tabId' class=\"jqTab$metaData\">\n<h2 >$theName</h2><div class='jqTabContents'>";
 }
 
-###############################################################################
+=begin TML
+
+---++ ClassMethod handleEndTab( $this, $params, $topic, $web ) -> $result
+
+Tag handler for =%<nop>ENDTAB%=. 
+
+=cut
+
 sub handleEndTab {
   return '</div></div>';
 }
 
-###############################################################################
+=begin TML
+
+---++ ClassMethod handleEndTabPan ( $this, $params, $topic, $web ) -> $result
+
+Tag handler for =%<nop>ENDTABPANE%=. 
+
+=cut
+
 sub handleEndTabPane {
   return '</div>';
 }

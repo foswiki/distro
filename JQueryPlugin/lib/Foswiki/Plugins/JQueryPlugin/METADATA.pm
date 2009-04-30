@@ -1,4 +1,4 @@
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/,
 # 
 # Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
 # 
@@ -18,9 +18,58 @@ use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::METADATA
+
+This is the perl stub for the jquery.metadata plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Metadata',
+    version => '3630',
+    author => 'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
+    homepage => 'http://plugins.jquery.com/project/metadata',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+This plugin is capable of extracting metadata from classes, random attributes,
+and child elements.
+HERE
+
+  # default plugin
+  # TODO: make configurable
+  $this->{isActive} = 1;
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
 
   my $header;
 

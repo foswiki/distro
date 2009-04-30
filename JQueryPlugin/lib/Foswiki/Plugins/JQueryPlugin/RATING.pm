@@ -18,9 +18,60 @@ use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::RATING
+
+This is the perl stub for the jquery star rating plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Rating',
+    version => '3.12',
+    author => 'Diego A. (Fyneworks.com)',
+    homepage => 'http://jquery-star-rating-plugin.googlecode.com/svn/trunk/index.html',
+  ), $class);
+
+
+  $this->{summary} = <<'HERE';
+The Star Rating Plugin is a plugin for the jQuery Javascript library that
+creates a non-obstrusive star rating control based on a set of radio input
+boxes.
+
+It turns a collection of radio boxes into a neat star-rating control.  It
+creates the interface based on standard form elements, which means the basic
+functionality will still be available even if Javascript is disabled.
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
 
   my $header;
 
@@ -35,6 +86,9 @@ HERE
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/rating/jquery.rating.js"></script>
 HERE
   }
+
+  # requires metadata
+  $this->createPlugin("metadata");
 
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::RATING", $header, 'JQUERYPLUGIN::FOSWIKI');
 }

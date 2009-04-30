@@ -15,12 +15,60 @@
 
 package Foswiki::Plugins::JQueryPlugin::BUTTON;
 use strict;
-use Foswiki::Plugins::JQueryPlugin::Core;
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::BUTTON
+
+This is the perl stub for the jquery.button plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Button',
+    version => '1.0',
+    author => 'Michael Daum',
+    homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
+    tags => 'BUTTON',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+This is a simple way to render nice buttons in Foswiki.
+It can be used to replace submit and reset buttons of html forms as well.
+Foswiki:Extensions/FamFamFamContrib is recommended to display nice icons
+on buttons. Note, that this widget does not participate on the jquery
+theme roller. This is independent.
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
 
   my $header;
   
@@ -37,7 +85,14 @@ HERE
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::BUTTON", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
-###############################################################################
+=begin TML
+
+---++ ClassMethod handleBUTTON( $this, $params, $topic, $web ) -> $result
+
+Tag handler for =%<nop>BUTTON%=. 
+
+=cut
+
 sub handleButton {
   my ($this, $params, $theTopic, $theWeb) = @_;
 
@@ -58,8 +113,7 @@ sub handleButton {
   my $theType = $params->{type} || 'button';
 
   my $theIcon;
-  $theIcon = Foswiki::Plugins::JQueryPlugin::Core::getIconUrlPath($theWeb, $theTopic, $theIconName) 
-    if $theIconName;
+  $theIcon = $this->getIconUrlPath($theIconName) if $theIconName;
 
   if ($theIcon) {
     $theText = 
@@ -85,11 +139,11 @@ sub handleButton {
 
   if ($theType eq 'reset') {
     $theOnClick="\$(this).parents('form:first').resetForm();";
-    Foswiki::Plugins::JQueryPlugin::getPlugin($this->{session}, 'FORM');
+    $this->createPlugin('Form');
   }
   if ($theType eq 'clear') {
     $theOnClick="\$(this).parents('form:first').clearForm();";
-    Foswiki::Plugins::JQueryPlugin::getPlugin($this->{session}, 'FORM');
+    $this->createPlugin('Form');
   }
   $theOnClick .= ';return false;' if $theOnClick;
 

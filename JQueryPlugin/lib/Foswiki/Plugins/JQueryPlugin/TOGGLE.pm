@@ -15,19 +15,73 @@
 
 package Foswiki::Plugins::JQueryPlugin::TOGGLE;
 use strict;
-use Foswiki::Plugins::JQueryPlugin::Core;
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::TOGGLE
+
+This is the perl stub for the jquery.toggle plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Toggle',
+    version => '0.5',
+    author => 'Michael Daum',
+    homepage => 'http://michaeldaumconsulting.com',
+    tags => 'TOGGLE',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+This is a lightweigted widget to add a toggle feature similar to
+the [[Foswiki:Extensions/TwistyPlugin][TwistyPlugin]]. It uses
+the means available in jQuery only, i.e. it selectors to toggle
+the display of all matching elements.
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
 
   $this->{toggleCounter} = 0;
 }
 
-###############################################################################
+=begin TML
+
+---++ ClassMethod handleToggle( $this, $params, $topic, $web ) -> $result
+
+Tag handler for =%<nop>TOGGLE%=. You might need to add 
+
+=cut
+
 sub handleToggle {
-  my ($session, $params, $theTopic, $theWeb) = @_;
+  my ($this, $params, $theTopic, $theWeb) = @_;
 
   my $theText = $params->{_DEFAULT} || $params->{text} || 'Button';
   my $theBackground = $params->{bg};
@@ -65,7 +119,7 @@ sub handleToggle {
   return
    "<a id='$toggleId' href='#' onclick=\"$cmd; return false;\" title='".$theTitle."' ".$style.'>'.
    "<span>".
-   Foswiki::Plugins::JQueryPlugin::Core::expandVariables($theText,$theWeb, $theTopic).'</span></a>';
+   $this->expandVariables($theText).'</span></a>';
 }
 
 

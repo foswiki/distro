@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1239024595" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="micha" date="1241108604" format="1.1" reprev="1.3" version="1.3"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -28,32 +28,38 @@ your web pages."
 
 See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by Foswiki.
 
----++ Included libraries
+---++ Installed Plugins
+%JQPLUGINS{
+  header=""
+  format="<h3>$name $active</h3>
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version <br />
+    $percntIF{\"'$tags' != ''\" then=\"Tags: $tags <br />\" else=\"<!-- no tags -->\"}$percnt
+    <noautolink><p>$summary</p></noautolink>$n
+  "
+  footer="$n<span class='foswikiAlert'>$counter plugins found</span>$n"
+}%
+
    1 [[http://docs.jquery.com][jquery]]: the core  
    1 jquery-ui
-   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/][jquery.autocomplete]]: add an autocomplete to input fields   
+
+---++ TODO
+create perl stubs for
    1 jquery.bgiframe: helps ease the pain when having to deal with IE z-index issues  
-   1 [[http://malsup.com/jquery/block/][jquery.blockUI]]: an alternative to synchronous ajax; block the UI without locking the browser   
    1 [[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting
-   1 [[http://www.malsup.com/jquery/cycle/][jquery.cycle, jquery.cycle.trans]]: easy to use light-weight slideshow implementation
    1 jquery.debug: helps debugging jquery code  
    1 [[http://gsgd.co.uk/sandbox/jquery/easing/][jquery.easing]] set custom easing types for standard animations  
-   1 [[http://www.malsup.com/jquery/form/][jquery.form]]: handle form submits via ajax and submit the form just like it is a normal submit   
+   1 [[http://acko.net/dev/farbtastic][farbtastic]]: color chooser
    1 [[http://cherne.net/brian/resources/jquery.hoverIntent.html][jquery.hoverIntent]]: similar to jQuery's hover. However, onMouseOver hoverIntent tracks the user's mouse and waits until it slows down before calling the onMouseOver function   
    1 [[http://medienfreunde.com/lab/innerfade/][jquery.innerfade]]: a more flexible version of Slideshow   
    1 [[http://digitalbush.com/projects/masked-input-plugin/][jquery.maskedinput]]: mask the characters allowed in an input field.    
    1 [[http://www.malsup.com/jquery/media/][jquery.media]]: supports unobtrusive conversion of standard markup into rich media content, e.g.  Flash, Quicktime, Windows Media Player, Real Player, MP3, Silverlight, PDF and more
-   1 [[http://docs.jquery.com/Plugins/Metadata][jquery.metadata]]: read metadata from classes, attributes or elements   
    1 [[http://methvin.com/jquery/jq-corner.html][jquery.nifty]]: create rounded corners, TODO: replace with   
-   1 [[http://www.fyneworks.com/jquery/star-rating/][jquery.rating]]: create a non-obstrusive star rating control   
    1 jquery.shrinkurls:  shrink link long link texts  
    1 jquery.spinner: simple jQuery spinner  
    1 [[http://www.ericmmartin.com/projects/simplemodal/][jquery.simplemodal]]: provides a simple interface to create a modal dialog
-   1 [[http://users.tpg.com.au/j_birch/plugins/superfish/][jquery.superfish]]: multi-tiered dropdown menus including a time delay on mouseover   
-   1 jquery.tabpane: create a tabpane widget  (non-ui version)  
-   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/][jquery.tooltip]]: create customizable tooltips   
-   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-treeview/][jquery.treeview]] create a leightweight and unobtrusive expanding and collapsing treeview control   
-   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-validation/][jquery.validate]]: client-side form validation   
+unobtrusive expanding and collapsing treeview control   
    1 [[http://zeroedandnoughted.wordpress.com/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/][jquery.shake]]: osx login box animation
 
 ---++ Further references and tutorials

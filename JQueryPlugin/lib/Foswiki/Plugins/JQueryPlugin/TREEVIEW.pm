@@ -18,9 +18,56 @@ use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
-###############################################################################
+=begin TML
+
+---+ package Foswiki::Plugins::JQueryPlugin::TREEVIEW
+
+This is the perl stub for the jquery.empty plugin.
+
+=cut
+
+=begin TML
+
+---++ ClassMethod new( $class, $session, ... )
+
+=cut
+
+sub new {
+  my $class = shift;
+  my $session = shift || $Foswiki::Plugins::SESSION;
+
+  my $this = bless($class->SUPER::new( 
+    $session,
+    name => 'Treeview',
+    version => '1.4',
+    author => 'Joern Zaefferer',
+    homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
+  ), $class);
+
+  $this->{summary} = <<'HERE';
+Lightweight and flexible transformation of an unordered list into an
+expandable and collapsable tree, great for unobtrusive navigation enhancements.
+Supports both location and cookie based persistence.
+
+Subtrees can be loaded on demand using AJAX. See the Foswiki:Extensions/RenderPlugin
+how to implement such REST handlers easily.
+HERE
+
+  return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
 sub init {
   my $this = shift;
+
+  return unless $this->SUPER::init();
 
   my $header;
 

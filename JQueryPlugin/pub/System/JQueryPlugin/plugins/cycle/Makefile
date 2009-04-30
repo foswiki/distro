@@ -1,2 +1,2 @@
-TARGET=jquery.cycle.js jquery.cycle.trans.js
+TARGET=jquery.cycle.js
 -include ../../Makefile.include

@@ -1,14 +1,14 @@
 jQuery.validator.addMethod("maxWords", function(value, element, params) { 
     return this.optional(element) || value.match(/\b\w+\b/g).length < params; 
-}, "Please enter {0} words or less."); 
+}, $.format("Please enter {0} words or less.")); 
  
 jQuery.validator.addMethod("minWords", function(value, element, params) { 
     return this.optional(element) || value.match(/\b\w+\b/g).length >= params; 
-}, "Please enter at least {0} words."); 
+}, $.format("Please enter at least {0} words.")); 
  
 jQuery.validator.addMethod("rangeWords", function(value, element, params) { 
     return this.optional(element) || value.match(/\b\w+\b/g).length >= params[0] && value.match(/bw+b/g).length < params[1]; 
-}, "Please enter between {0} and {1} words.");
+}, $.format("Please enter between {0} and {1} words."));
 
 
 jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
@@ -143,19 +143,10 @@ jQuery.validator.addMethod(
  * and not
  * 212 123 4567
  */
-jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
+jQuery.validator.addMethod("phone", function(phone_number, element) {
     phone_number = phone_number.replace(/\s+/g, ""); 
 	return this.optional(element) || phone_number.length > 9 &&
 		phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
-}, "Please specify a valid phone number");
-
-/* international phone numbers */
-jQuery.validator.addMethod("phone", function(phone_number, element) {
-    phone_number = phone_number.replace(/^\s+/g, ""); 
-    phone_number = phone_number.replace(/\s+$/g, ""); 
-    var isOptional = this.optional(element);
-    return isOptional || phone_number.length > 9 &&
-      phone_number.match(/^\+[\d]+ [\d]+ [\d ]+$/);
 }, "Please specify a valid phone number");
 
 // TODO check if value starts with <, otherwise don't try stripping anything
@@ -172,103 +163,3 @@ jQuery.validator.addMethod("email2", function(value, element, param) {
 jQuery.validator.addMethod("url2", function(value, element, param) {
 	return this.optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value); 
 }, jQuery.validator.messages.url);
-
-// strong passwords
-// based on PasswordStrength by firas kassem [2007.04.05]
-
-var lastPasswordMessage = '';
-jQuery.validator.addMethod("password", function(password, element, params) {
-    score = 0 
-
-    params = $.extend({
-      shortPass: 'Password too short',
-      veryBadPass: 'Very bad password',
-      badPass: 'Bad password',
-      goodPass: 'Good password',
-      strongPass: 'Strong password'
-    }, params || {});
-    
-    //password < 4
-    if (password.length < 4 ) { 
-      lastPasswordMessage = params.shortPass;
-      return false;
-    }
-    
-    //password == username
-    var username = $(params.username).val().toLowerCase();
-    var wikiname = $(params.wikiname).val().toLowerCase();
-    var lcpassword = password.toLowerCase();
-    if (username.indexOf(lcpassword) >= 0 ||
-        wikiname.indexOf(lcpassword) >=0) {
-      lastPasswordMessage = params.veryBadPass;
-      return false;
-    }
-    
-    //password length
-    score += password.length * 4
-    score += ( checkRepetition(1,password).length - password.length ) * 1
-    score += ( checkRepetition(2,password).length - password.length ) * 1
-    score += ( checkRepetition(3,password).length - password.length ) * 1
-    score += ( checkRepetition(4,password).length - password.length ) * 1
-
-    //password has 3 numbers
-    if (password.match(/(.*[0-9].*[0-9].*[0-9])/))  score += 5 
-    
-    //password has 2 sybols
-    if (password.match(/(.*[!,@,#,$,%,^,&,*,?,_,~].*[!,@,#,$,%,^,&,*,?,_,~])/)) score += 5 
-    
-    //password has Upper and Lower chars
-    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  score += 10 
-    
-    //password has number and chars
-    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  score += 15 
-    //
-    //password has number and symbol
-    if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([0-9])/))  score += 15 
-    
-    //password has char and symbol
-    if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([a-zA-Z])/))  score += 15 
-    
-    //password is just a nubers or chars
-    if (password.match(/^\w+$/) || password.match(/^\d+$/) )  score -= 10 
-    
-    //verifing 0 < score < 100
-    if ( score < 0 )  score = 0 
-    if ( score > 100 )  score = 100 
-    
-    if (score < 34 ) {
-      lastPasswordMessage = params.badPass;
-      return false;
-    }
-    if (score < 68 ) {
-      lastPasswordMessage = params.goodPass;
-      return true;
-    }
-    lastPasswordMessage = params.strongPass;
-    return true;
-}, function() {
-  return lastPasswordMessage;
-});
-
-function checkRepetition(pLen,str) {
-    res = ""
-    for ( i=0; i<str.length ; i++ ) {
-        repeated=true
-        for (j=0;j < pLen && (j+i+pLen) < str.length;j++)
-            repeated=repeated && (str.charAt(j+i)==str.charAt(j+i+pLen))
-        if (j<pLen) repeated=false
-        if (repeated) {
-            i+=pLen-1
-            repeated=false
-        }
-        else {
-            res+=str.charAt(i)
-        }
-    }
-    return res
-}
-
-// WikiWord
-$.validator.addMethod("wikiword", function(value, element) {
-  return this.optional(element) || /[A-Z]+[a-z0-9]+[A-Z]+[A-Za-z0-9]*/.test(value);
-}, "Not a WikiWord");
