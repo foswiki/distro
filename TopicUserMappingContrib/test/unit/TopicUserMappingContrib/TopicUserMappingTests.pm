@@ -284,7 +284,8 @@ sub groupFix {
     Foswiki::Func::saveTopic( $testUsersWeb, 'BaptistGroup', undef,
         "   * Set GROUP = GeorgeUser,$testUsersWeb.ZebediahUser\n" );
     Foswiki::Func::saveTopic( $testUsersWeb, 'MultiLineGroup', undef,
-        "   * Set GROUP = GeorgeUser,$testUsersWeb.ZebediahUser\n   AaronUser, scum\n" );
+"   * Set GROUP = GeorgeUser,$testUsersWeb.ZebediahUser\n   AaronUser, scum\n"
+    );
 }
 
 sub verify_getListOfGroups {
@@ -294,8 +295,8 @@ sub verify_getListOfGroups {
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
-    $this->assert_str_equals( "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,MultiLineGroup",
-        $k );
+    $this->assert_str_equals(
+        "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,MultiLineGroup", $k );
 }
 
 sub verify_groupMembers {
@@ -308,7 +309,7 @@ sub verify_groupMembers {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', map { $fatwilly->{users}->getLoginName($_) } sort @l );
     $this->assert_str_equals( "auser,guser,scum", $k );
-    
+
     $g = "BaptistGroup";
     $this->assert( $fatwilly->{users}->isGroup($g) );
     $i = $fatwilly->{users}->eachGroupMember($g);
