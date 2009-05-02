@@ -170,12 +170,17 @@
     			// A selection means the buttons should be active.
     			cm.setDisabled('tt', false);
     			cm.setDisabled('colour', false);
-    			cm.setActive('tt', false);
-    			cm.setActive('colour', false);
     		}
             var elm = ed.dom.getParent(n, 'span.WYSIWYG_TT');
             if (elm != null)
                 cm.setActive('tt', true);
+			else
+                cm.setActive('tt', false);
+            elm = ed.dom.getParent(n, 'span.WYSIWYG_COLOR');
+            if (elm != null)
+                cm.setActive('colour', true);
+			else
+                cm.setActive('colour', false);
 
             if (ed.fw_lb) {
                 var puck = -1;

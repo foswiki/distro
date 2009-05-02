@@ -7,8 +7,11 @@ if(format.style!=null){ed.execCommand('mceSetCSSClass',false,format.style);}
 ed.nodeChanged();});ed.onNodeChange.add(this._nodeChange,this);},getInfo:function(){return{longname:'Foswiki Buttons Plugin',author:'Crawford Currie',authorurl:'http://c-dot.co.uk',infourl:'http://c-dot.co.uk',version:2};},createControl:function(n,cm){if(n=='foswikiformat'){var ed=tinyMCE.activeEditor;var m=cm.createListBox(ed.id+'_'+n,{title:'Format',onselect:function(format){ed.execCommand('foswikibuttonsFormat',false,format);}});var formats=ed.getParam("foswikibuttons_formats");for(var i=0;i<formats.length;i++){m.add(formats[i].name,formats[i].name);}
 m.selectByIndex(0);ed.fw_lb=m;return m;}
 return null;},_nodeChange:function(ed,cm,n,co){if(n==null)
-return;if(co){cm.setDisabled('tt',true);cm.setDisabled('colour',true);}else{cm.setDisabled('tt',false);cm.setDisabled('colour',false);cm.setActive('tt',false);cm.setActive('colour',false);}
+return;if(co){cm.setDisabled('tt',true);cm.setDisabled('colour',true);}else{cm.setDisabled('tt',false);cm.setDisabled('colour',false);}
 var elm=ed.dom.getParent(n,'span.WYSIWYG_TT');if(elm!=null)
-cm.setActive('tt',true);if(ed.fw_lb){var puck=-1;var nn=n.nodeName.toLowerCase();do{for(var i=0;i<ed.fw_formats.length;i++){if((!ed.fw_formats[i].el||ed.fw_formats[i].el==nn)&&(!ed.fw_formats[i].style||ed.dom.hasClass(ed.fw_formats[i].style))){puck=i;if(puck>0)
+cm.setActive('tt',true);else
+cm.setActive('tt',false);elm=ed.dom.getParent(n,'span.WYSIWYG_COLOR');if(elm!=null)
+cm.setActive('colour',true);else
+cm.setActive('colour',false);if(ed.fw_lb){var puck=-1;var nn=n.nodeName.toLowerCase();do{for(var i=0;i<ed.fw_formats.length;i++){if((!ed.fw_formats[i].el||ed.fw_formats[i].el==nn)&&(!ed.fw_formats[i].style||ed.dom.hasClass(ed.fw_formats[i].style))){puck=i;if(puck>0)
 break;}}}while(puck<0&&(n=n.parentNode)!=null);if(puck>=0){ed.fw_lb.selectByIndex(puck);}}
 return true;}});tinymce.PluginManager.add('foswikibuttons',tinymce.plugins.FoswikiButtons);})();
