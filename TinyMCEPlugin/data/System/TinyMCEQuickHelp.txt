@@ -37,7 +37,7 @@
 
 *Editing the raw text instead of Wysiwyg*
 <ul>
-<li> Select    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/images/hide.gif" alt="the pickaxe" />
+<li> Select    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />
 , or use the _Raw Edit_ link in the bottom action bar. </li></ul>
 </td>
 </tr>
