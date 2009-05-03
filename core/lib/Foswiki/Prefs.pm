@@ -19,25 +19,42 @@ preference value in global scope, you have to know what topic the topic is
 referenced in, to provide the scope for the request.
 
 A preference may be optionally defined in _Local_ scope, in which case the
-topic definition of the variable is always taken when it is referenced in
-the topic where it is defined. This is a special case to deal with the case
-where a preference has to have a different value in the defining topic.
+topic definition of the variable is always taken when it is referenced in the
+topic where it is defined. This is a special case to deal with the case where a
+preference has to have a different value in the defining topic.
 
 Values in global and local scope are accessed using =getPreference=/
 
-The final scope is _topic_ scope. In this scope, the value of the preference
-is taken directly from the contents of the topic, and is not overridden by
-wider scopes. Topic scope is used for access controls.
+The final scope is _topic_ scope. In this scope, the value of the preference is
+taken directly from the contents of the topic, and is not overridden by wider
+scopes. Topic scope is used for access controls.
 
 Because the highest cost in evaluating preferences is reading the individual
 topics, preferences read from a topic are cached.
 
-An object of type Foswiki::Prefs is a singleton that provides an interface
-to this cache. Normally the cache is repopulated for each request, though
-it would be feasible to cache it on disc if some invalidation mechanism
-were available to deal with topic changes.
+An object of type Foswiki::Prefs is a singleton that provides an interface to
+this cache. Normally the cache is repopulated for each request, though it would
+be feasible to cache it on disc if some invalidation mechanism were available
+to deal with topic changes.
 
-##### Explain ThinPrefs
+This mechanism is composed by a front-end (implemented by this class) that
+deals with preferences logic and back-end objects that provide access to
+preferences values. There is one back-end for each topic (Web preferences are
+back-ends correspondind to the WebPreferences topic). Additionaly, there is a
+back-end object for session preferences. Each context has its own session
+preferences and thus its own session back-end object.
+
+Preferences are like a stack: there are many levels and higher levels have
+precedence over lower levels. It's also needed to push a context and pop to the
+earlier state. It would be easy to implement this stack, but then we would have
+a problem: to get the value of a preference we would need to scan each level
+and it's slow, so we need some fast mechanism to know in which level a
+preference is defined. Or we could copy the values from lower leves to higher
+ones and override the preferences defined at that level. This later approach
+wastes memory. This implementation picks the former and we use bitstrings and
+some maths to accomplish that. It's also flexible and it doesn't matter how
+preferences are stored.  Refer to http://foswiki.org/Development/ThinPrefs for
+details.
 
 =cut
 
