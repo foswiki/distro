@@ -96,6 +96,10 @@ var FoswikiTiny = {
     switchToRaw : function (editor) {
         var text = editor.getContent();
 
+		// Make the raw-edit help visible (still subject to toggle)
+		document.getElementById("foswikiTinyMcePluginWysiwygEditHelp").style.display = 'none';
+		document.getElementById("foswikiTinyMcePluginRawEditHelp").style.display = 'block';
+
         // Evaluate post-processors attached from plugins
         for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
             var cb = FoswikiTiny.html2tml[i];
@@ -132,6 +136,9 @@ var FoswikiTiny = {
             el.value = "WYSIWYG";
             el.className = "foswikiButton";
             el.onclick = function () {
+				// Make the wysiwyg help visible (still subject to toggle)
+				document.getElementById("foswikiTinyMcePluginWysiwygEditHelp").style.display = 'block';
+				document.getElementById("foswikiTinyMcePluginRawEditHelp").style.display = 'none';
                 tinyMCE.execCommand("mceToggleEditor", null, eid);
                 FoswikiTiny.switchToWYSIWYG(editor);
                 return false;

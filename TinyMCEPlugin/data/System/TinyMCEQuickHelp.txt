@@ -1,5 +1,6 @@
 ---+!! !TinyMCE Editor Help Summary 
 %STARTINCLUDE%
+<div id="foswikiTinyMcePluginWysiwygEditHelp" style="display:block">
 <style>
 #tinyMceInfo td {vertical-align:top; padding:0 1em 0 0;}
 #tinyMceInfo td.primaryTextcolumn {width:60%;}
@@ -62,6 +63,10 @@
    </ul></td>
 </tr>
 </table>
+</div>
+<div id="foswikiTinyMcePluginRawEditHelp" style="display:none">
+%INCLUDE{%SYSTEMWEB%.WikiSyntaxSummary}%
+</div>
 %STOPINCLUDE%
 
 %META:FILEATTACHMENT{name="Format_Drop_Down.gif" attr="" comment="" version="1"}%
