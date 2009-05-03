@@ -4,7 +4,7 @@
 
 ---+ package Foswiki::Prefs::BaseBackend
 
-This is the base module for preferences backends. Its main pourpose is to
+This is the base module for preferences backends. Its main purpose is to
 document the interface and provide facilities methods.
 
 =cut
