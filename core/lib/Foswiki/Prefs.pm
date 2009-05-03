@@ -108,7 +108,7 @@ sub _getBackend {
     my $metaObject = shift;
     $metaObject = Foswiki::Meta->new( $this->{session}, $metaObject, @_ )
       unless ref($metaObject) && UNIVERSAL::isa( $metaObject, 'Foswiki::Meta' );
-    my $path = $metaObect->getPath();
+    my $path = $metaObject->getPath();
     unless ( exists $this->{paths}{$path} ) {
         $this->{paths}{$path} = Foswiki::Prefs::TopicRAM->new($metaObject);
     }
