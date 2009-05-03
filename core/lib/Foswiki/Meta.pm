@@ -283,6 +283,25 @@ sub getContainer {
 
 =begin TML
 
+---++ ObjectMethod exists() -> $boolean
+
+Returns true if the corresponding web or topic exists.
+
+=cut
+
+sub exists {
+    my $this = shift;
+    if ( $this->topic() ) {
+        return $this->{_session}->topicExists( $this->web(), $this->topic() );
+    }
+    elsif ( $this->web() ) {
+        return $this->{_session}->webExists( $this->web() );
+    }
+    return 0;
+}
+
+=begin TML
+
 ---++ ObjectMethod stringify( $debug ) -> $string
 
 Return a string version of the meta object. $debug adds

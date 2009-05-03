@@ -37,63 +37,44 @@ to this cache. Normally the cache is repopulated for each request, though
 it would be feasible to cache it on disc if some invalidation mechanism
 were available to deal with topic changes.
 
-As well as the caches for the individual topics there is a stack for each
-level of preferences; DEFAULT, SITE, USER, SESSION, WEB, TOPIC and PLUGIN.
-The head of each stack represents the current state of that preference
-context.
-
-Whenever one or more stacks has been pushed, the Prefs object is "finalised"
-to generate the general prefs tables. These tables reflect the current state
-of the preferences context, taking into account finalisation at different
-levels in the scoping. There are two tables for finalised value, one for
-locals and another for globals, and a third table that stores an internal
-preferences table that overrides the other two. This is used for transitory
-preferences, such as the including context during transclusion, and for
-preferences that must not be overriden by any user action, such as the
-session ID.
+##### Explain ThinPrefs
 
 =cut
 
 package Foswiki::Prefs;
 
+use bytes;
+
 use Assert;
-
-use Foswiki::Prefs::Cache ();
-
-# Preference stacks, in order of evaluation (SESSION overrides DEFAULT)
-our @levels = qw( DEFAULT PLUGIN SITE USER WEB TOPIC SESSION );
+use Foswiki::Prefs::TopicRAM ();
+use Foswiki::Prefs::HASH     ();
+use Scalar::Util             ();
 
 =begin TML
 
----++ ClassMethod new( $session [, $cache] )
+---++ ClassMethod new( $session )
 
-Creates a new Prefs object. If $cache is defined, it will be
-pushed onto the stack.
+Creates a new Prefs object. 
 
 =cut
 
 sub new {
-    my ( $class, $session, $cache ) = @_;
-    my $this = bless(
-        {
-            session   => $session,
-            stacks    => {},         # hash of stacks, indexed by @levels
-            topics    => {},         # hash of Foswiki::Prefs::Cache objects
-            internals => {},         # Foswiki internals
-            finalised => undef,      # the finalised preferences cache
-            locals    => undef,      # locals cache
-        },
-        $class
-    );
+    my ( $proto, $session ) = @_;
+    my $class = ref($proto) || $proto;
+    my $this = {
+        'final'     => {},        # Map prefs to the level they were finalised
+        'level'     => -1,        # Which level we are
+        'levels'    => [],        # Map level => backend objects
+        'map'       => {},        # Map prefs to the bitmap of definition levels
+        'prefix'    => [],        # Map level => prefix uesed
+                                  #     (plugins prefix prefs with PLUGINNAME_)
+        'paths'     => {},        # Map paths to backend objects
+        'contexts'  => [],        # Stack levels corresponding to contexts
+        'internals' => {},        # Store internal preferences
+        'session'   => $session,
+    };
 
-    foreach my $level (@levels) {
-        $this->{stacks}->{$level} = [];
-    }
-
-    # Always have a session stack, so no point creating it lazily
-    push( @{ $this->{stacks}->{SESSION} }, new Foswiki::Prefs::Cache() );
-
-    return $this;
+    return bless $this, $class;
 }
 
 =begin TML
@@ -109,34 +90,58 @@ Break circular references.
 sub finish {
     my $this = shift;
 
-    foreach my $topic ( values %{ $this->{cache} } ) {
-        $topic->finish();
-    }
-    undef $this->{cache};
-    undef $this->{stacks};
-    undef $this->{values};
-    undef $this->{locals};
-    undef $this->{internals};
+    undef $this->{final};
+    undef $this->{level};
+    undef $this->{levels};
+    undef $this->{'map'};
+    undef $this->{prefix};
     undef $this->{session};
+    undef $this->{contexts};
+    $_->finish() foreach values %{ $this->{paths} };
+    undef $this->{paths};
 }
 
-# Look up, lazy-loading if required, the preferences cache for a topic
-# or web.
-sub _getCache {
-    my ( $this, $web, $topic ) = @_;
-    ASSERT( $this->{session} ) if DEBUG;
-    my $path = $web;
-    $path .= ".$topic" if $topic;
-    unless ( $this->{cache}->{$path} ) {
-        my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-        $meta->getPreference('ANY');    # to force a cache load
+# Get a backend object corresponding to the given $web,$topic
+# or Foswiki::Meta object
+sub _getBackend {
+    my $this       = shift;
+    my $metaObject = shift;
+    $metaObject = Foswiki::Meta->new( $this->{session}, $metaObject, @_ )
+      unless ref($metaObject) && UNIVERSAL::isa( $metaObject, 'Foswiki::Meta' );
+    my $path = $metaObect->getPath();
+    unless ( exists $this->{paths}{$path} ) {
+        $this->{paths}{$path} = Foswiki::Prefs::TopicRAM->new($metaObject);
     }
-    return $this->{cache}->{$path};
+    return $this->{paths}{$path};
+}
+
+# Create a new level on the preferences stack, based on the
+# given backend object or class name and prefix.
+sub _newLevel {
+    my ( $this, $back, $prefix ) = @_;
+
+    $this->{level}++;
+    $this->{levels}->[ $this->{level} ] = $back;
+    $prefix ||= '';
+    $this->{prefix}->[ $this->{level} ] = $prefix if $prefix;
+    foreach ( map { $prefix . $_ } $back->prefs ) {
+        next if exists $this->{final}{$_};
+        $this->{'map'}{$_} = '' unless exists $this->{'map'}{$_};
+        vec( $this->{'map'}{$_}, $this->{level}, 1 ) = 1;
+    }
+
+    my @finalPrefs = split /[,\s]+/, ( $back->get('FINALPREFERENCES') || '' );
+    foreach (@finalPrefs) {
+        $this->{final}{$_} = $this->{level}
+          unless exists $this->{final}{$_};
+    }
+
+    return $back;
 }
 
 =begin TML
 
----++ ObjectMethod loadPreferences( $topicObject ) -> $cache
+---++ ObjectMethod loadPreferences( $topicObject ) -> $back
 
 Invoked from Foswiki::Meta to load the preferences into the preferences
 cache. used as part of the lazy-loading of preferences.
@@ -147,30 +152,34 @@ Web preferences are loaded from the {WebPrefsTopicName}.
 
 sub loadPreferences {
     my ( $this, $topicObject ) = @_;
+
     my $path = $topicObject->getPath();
     $topicObject->session->logger->log( 'debug',
         "Loading preferences for $path\n" )
       if DEBUG;
-    my $cache;
+
+    my $back;
+
     if ( $topicObject->topic() ) {
-        $cache = new Foswiki::Prefs::Cache($topicObject);
+        $back = $this->_getBackend($topicObject);
     }
     elsif ( $topicObject->web() ) {
 
         # Link to the cache for the web preferences topic
-        $cache =
-          $this->_getCache( $topicObject->web(),
+        $back =
+          $this->_getBackend( $topicObject->web(),
             $Foswiki::cfg{WebPrefsTopicName} );
     }
-    else {
+    elsif ( $Foswiki::cfg{LocalSitePreferences} ) {
+        my ( $web, $topic ) =
+          $this->{session}
+          ->normalizeWebTopicName( undef, $Foswiki::cfg{LocalSitePreferences} );
 
         # Use the site preferences
-        $cache = $this->{stacks}->{SITE}[-1];
+        $back = $this->_getBackend( $web, $topic );
     }
 
-    $this->{cache}->{$path} = $cache;
-
-    return $cache;
+    return $back;
 }
 
 =begin TML
@@ -185,24 +194,20 @@ popTopicContext.
 
 sub pushTopicContext {
     my ( $this, $web, $topic ) = @_;
-    my $session = $this->{session};
 
-    # Push the web preferences and topic preferences of the new context
-    # The act of pushing will inherit the preferences of the topic
-    # already at the head of the stack.
-    push(
-        @{ $this->{stacks}->{WEB} },
-        $this->_getCache( $web, $Foswiki::cfg{WebPrefsTopicName} )
-    );
-    push( @{ $this->{stacks}->{TOPIC} }, $this->_getCache( $web, $topic ) );
-
-    # Also push a new session stack, to accept local session vars e.g.
-    # include params
-    push(
-        @{ $this->{stacks}->{SESSION} },
-        new Foswiki::Prefs::Cache( $this->{stacks}->{SESSION}[-1] )
-    );
-    $this->{values} = undef;
+    push @{ $this->{contexts} }, $this->{level};
+    my @webPath = split( /[\/\.]+/, $web );
+    my $subWeb = '';
+    my $back;
+    foreach (@webPath) {
+        $subWeb .= '/' if $subWeb;
+        $subWeb .= $_;
+        $back = $this->_getBackend( $subWeb, $Foswiki::cfg{WebPrefsTopicName} );
+        $this->_newLevel($back);
+    }
+    $back = $this->_getBackend( $web, $topic );
+    $this->_newLevel($back);
+    $this->_newLevel( Foswiki::Prefs::HASH->new() );
 }
 
 =begin TML
@@ -215,16 +220,29 @@ Returns the context to the state it was in before the
 =cut
 
 sub popTopicContext {
-    my $this    = shift;
-    my $session = $this->{session};
-    pop( @{ $this->{stacks}->{TOPIC} } );
-    pop( @{ $this->{stacks}->{WEB} } );
-    pop( @{ $this->{stacks}->{SESSION} } );
-    $this->{values} = undef;
-    return (
-        $this->{stacks}->{WEB}[-1]->{web},
-        $this->{stacks}->{TOPIC}[-1]->{topic}
-    );
+    my $this = shift;
+    $this->_restore( pop @{ $this->{contexts} } );
+}
+
+# Restores the preferences stack to the given level
+sub _restore {
+    my ( $this, $level ) = @_;
+
+    my @keys = grep { $this->{final}{$_} > $level } keys %{ $this->{final} };
+    delete @{ $this->{final} }{@keys};
+
+    splice @{ $this->{levels} }, $level + 1;
+    splice @{ $this->{prefix} }, $level + 1 if @{ $this->{prefix} } > $level;
+
+    my $mask =
+      ( chr(0xFF) x int( $level / 8 ) )
+      . chr( ( 2**( ( $level % 8 ) + 1 ) ) - 1 );
+    foreach ( keys %{ $this->{'map'} } ) {
+        $this->{'map'}{$_} &= $mask;
+        delete $this->{'map'}{$_} if $this->{'map'}{$_} eq chr(0);
+    }
+
+    $this->{level} = $level;
 }
 
 =begin TML
@@ -239,72 +257,38 @@ plugin topics.
 
 sub setPluginPreferences {
     my ( $this, $web, $plugin ) = @_;
-    unless ( scalar( @{ $this->{stacks}->{PLUGIN} } ) ) {
-
-        # Create pseudo-topic for collating plugins preferences
-        push( @{ $this->{stacks}->{PLUGIN} }, new Foswiki::Prefs::Cache() );
-    }
-
-    # And load it with values from the plugin topic
-    my $topic = $this->_getCache( $web, $plugin );
-    while ( my ( $k, $v ) = each %{ $topic->{values} } ) {
-        $this->{stacks}->{PLUGIN}[-1]
-          ->insert( 'Set', uc($plugin) . '_' . $k, $v );
-    }
-    $this->{values} = undef;
+    my $back = $this->_getBackend( $web, $plugin );
+    $this->_newLevel( $back, uc($plugin) . '_' );
 }
 
 =begin TML
 
----++ ObjectMethod pushUserPreferences( $wikiname )
+---++ ObjectMethod setUserPreferences( $wikiname )
 
-Reads preferences from the given user topic and pushes them to the head
-of the user preferences stack.
-
-=cut
-
-sub pushUserPreferences {
-    my ( $this, $wn ) = @_;
-    push(
-        @{ $this->{stacks}->{USER} },
-        $this->_getCache( $Foswiki::cfg{UsersWebName}, $wn )
-    );
-    $this->{values} = undef;
-}
-
-=begin TML
-
----++ ObjectMethod popUserPreferences()
-
-Pop the preferences pushed by an earlier pushUserPreferences.
+Reads preferences from the given user topic and pushes them to the preferences
+stack.
 
 =cut
 
-sub popUserPreferences {
+sub setUserPreferences {
     my ( $this, $wn ) = @_;
-    ASSERT( scalar( @{ $this->{stacks}->{USER} } ) > 1 ) if DEBUG;
-    pop( @{ $this->{stacks}->{USER} } );
-    $this->{values} = undef;
+    my $back = $this->_getBackend( $Foswiki::cfg{UsersWebName}, $wn );
+    $this->_newLevel($back);
 }
 
 =begin TML
 
 ---++ ObjectMethod loadDefaultPreferences()
+
 Add default preferences to this preferences stack.
 
 =cut
 
 sub loadDefaultPreferences {
     my $this = shift;
-
-    push(
-        @{ $this->{stacks}->{DEFAULT} },
-        $this->_getCache(
-            $Foswiki::cfg{SystemWebName},
-            $Foswiki::cfg{SitePrefsTopicName}
-        )
-    );
-    $this->{values} = undef;
+    my $back = $this->_getBackend( $Foswiki::cfg{SystemWebName},
+        $Foswiki::cfg{SitePrefsTopicName} );
+    $this->_newLevel($back);
 }
 
 =begin TML
@@ -316,15 +300,12 @@ Add local site preferences to this preferences stack.
 
 sub loadSitePreferences {
     my $this = shift;
-
-    # Then local site prefs
     if ( $Foswiki::cfg{LocalSitePreferences} ) {
-        my ( $lweb, $ltopic ) =
+        my ( $web, $topic ) =
           $this->{session}
           ->normalizeWebTopicName( undef, $Foswiki::cfg{LocalSitePreferences} );
-        push( @{ $this->{stacks}->{SITE} },
-            $this->_getCache( $lweb, $ltopic ) );
-        $this->{values} = undef;
+        my $back = $this->_getBackend( $web, $topic );
+        $this->_newLevel($back);
     }
 }
 
@@ -338,15 +319,13 @@ Set the preference values in the parameters in the SESSION stack.
 
 sub setSessionPreferences {
     my ( $this, %values ) = @_;
-
-    my $req = $this->{stacks}->{SESSION}[-1];
-    my $num = 0;
+    my $back = $this->{levels}->[-1];
+    my $num  = 0;
     while ( my ( $k, $v ) = each %values ) {
-        $num += $req->insert( 'Set', $k, $v );
+        $num += $back->insert( 'Set', $k, $v );
+        $this->{'map'}{$k} = '' unless exists $this->{'map'}{$k};
+        vec( $this->{'map'}{$k}, $this->{level}, 1 ) = 1;
     }
-
-    # Force re-finalisation
-    $this->{values} = undef;
 
     return $num;
 }
@@ -368,7 +347,7 @@ sub setInternalPreferences {
     my ( $this, %values ) = @_;
 
     while ( my ( $k, $v ) = each %values ) {
-        $this->{internals}->{$k} = $v;
+        $this->{internals}{$k} = $v;
     }
 }
 
@@ -382,74 +361,22 @@ Returns the finalised preference value.
 =cut
 
 sub getPreference {
-    my ( $this, $key, $scope ) = @_;
+    my ( $this, $key ) = @_;
 
-    $this->_finalise();
-    ASSERT( $this->{values} ) if DEBUG;
-
-    if ( defined $this->{internals}->{$key} ) {
-        return $this->{internals}->{$key};
+    if ( defined $this->{internals}{$key} ) {
+        return $this->{internals}{$key};
     }
-    elsif ( defined $this->{locals}->{$key} ) {
-        return $this->{locals}->{$key};
+
+    my $value = $this->{levels}->[-2]->getLocal($key);
+    if ( !defined $value && exists $this->{'map'}{$key} ) {
+        my $defLevel =
+          int( log( ord( substr( $this->{'map'}{$key}, -1 ) ) ) / log(2) ) +
+          ( ( length( $this->{'map'}{$key} ) - 1 ) * 8 );
+        my $prefix = $this->{prefix}->[$defLevel];
+        substr( $key, 0, length($prefix), '' ) if $prefix;
+        $value = $this->{levels}->[$defLevel]->get($key);
     }
-    else {
-        return $this->{values}->{$key};
-    }
-}
-
-# Evaluate all the stacks to generate finalised preferences
-sub _finalise {
-    my ( $this, $whereSet ) = @_;
-
-    # $whereSet is an optional ref to a hash, which we use for ALLVARIABLES.
-    # We only populate it if we are asked to.
-
-    return if $this->{values};
-
-    my %values    = ();
-    my %finalised = ();
-    foreach my $level (@levels) {
-        next unless $this->{stacks}->{$level};
-        next unless scalar( @{ $this->{stacks}->{$level} } );
-        # Examine values at each level in the stack
-        my $top = $this->{stacks}->{$level}->[-1];
-        while ( my ( $k, $v ) = each %{ $top->{values} } ) {
-            # If this key has not been finalised
-            unless ( $finalised{$k} ) {
-                $values{$k} = $v;
-                if ($whereSet) {
-                    # Record where this value was set for debugging
-                    $whereSet->{$k} =
-                      ( $top->{web} ? "$top->{web}.$top->{topic}" : $level );
-                }
-            }
-        }
-
-        # Update finalisation for the next level
-        my $finals = $top->{values}->{FINALPREFERENCES};
-        if ($finals) {
-            foreach my $fk ( split( /[\s,]+/, $finals ) ) {
-
-                # Record *where* it was finalised
-                $finalised{$fk} = 1;
-            }
-        }
-    }
-    $this->{values}    = \%values;
-    $this->{finalised} = \%finalised;
-
-    # Compute locals
-    my %locals = ();
-    if ( $this->{stacks}->{TOPIC}
-        && scalar( @{ $this->{stacks}->{TOPIC} } ) )
-    {
-        my $top = $this->{stacks}->{TOPIC}->[-1];
-        while ( my ( $k, $v ) = each %{ $top->{locals} } ) {
-            $locals{$k} = $v;    # Locals are not affected by finalisation
-        }
-    }
-    $this->{locals} = \%locals;
+    return $value;
 }
 
 =begin TML
@@ -461,32 +388,6 @@ Generate TML-formatted information about the key (all keys if $key is undef)
 =cut
 
 sub stringify {
-    my ($this, $key) = @_;
-
-    # Refinalise to populate %whereSet
-    undef $this->{values};
-    my %whereSet;
-    $this->_finalise( \%whereSet );
-
-    my @keys = defined $key ? ( $key ) : sort keys %{ $this->{values} };
-    my @list;
-    foreach my $k ( @keys ) {
-        my $val = Foswiki::entityEncode( $this->{values}->{$k} || '' );
-        push( @list, '   * Set '."$k = \"$val\"");
-        if (defined $whereSet{$k}) {
-            push( @list, "      * $k was "
-                    .($this->{finalised}->{$k} ? '*finalised*' : 'defined')
-                      ." in <nop>$whereSet{$k}");
-        }
-    }
-    @keys = defined $key ? ( $key ) : sort keys %{ $this->{locals} };
-    foreach my $k ( @keys ) {
-        next unless defined $this->{locals}->{$k};
-        my $val = Foswiki::entityEncode( $this->{locals}->{$k} );
-        push( @list, '   * Local '."$k = \"$val\"" );
-    }
-
-    return join( "\n", @list ) . "\n";
 }
 
 1;

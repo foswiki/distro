@@ -1549,7 +1549,7 @@ sub new {
     # which depends on the user mapper.
     my $wn = $this->{users}->getWikiName( $this->{user} );
     if ($wn) {
-        $prefs->pushUserPreferences($wn);
+        $prefs->setUserPreferences($wn);
     }
 
     $prefs->pushTopicContext( $this->{webName}, $this->{topicName} );
