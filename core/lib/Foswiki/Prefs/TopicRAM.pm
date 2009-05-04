@@ -27,7 +27,7 @@ sub new {
     $this->{values} = {};
     $this->{local}  = {};
 
-    if ( $topicObject->exists() ) {
+    if ( $topicObject->existsInStore() ) {
         Foswiki::Prefs::Parser::parse( $topicObject, $this );
     }
     $this->{topicObject} = $topicObject;

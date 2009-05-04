@@ -283,21 +283,25 @@ sub getContainer {
 
 =begin TML
 
----++ ObjectMethod exists() -> $boolean
+---++ ObjectMethod existsInStore() -> $boolean
 
-Returns true if the corresponding web or topic exists.
+A Meta object can be created for a web or topic that has doesn't exist in the
+actual store (e.g. is in the process of being created). This method returns
+true if the corresponding web or topic really exists in the store.
 
 =cut
 
-sub exists {
+sub existsInStore{
     my $this = shift;
-    if ( $this->topic() ) {
-        return $this->{_session}->topicExists( $this->web(), $this->topic() );
+    if ( defined $this->{_topic} ) {
+        return $this->{_session}->{store}->topicExists(
+            $this->{_web}, $this->{_topic} );
     }
-    elsif ( $this->web() ) {
-        return $this->{_session}->webExists( $this->web() );
+    elsif ( defined $this->{_web} ) {
+        return $this->{_session}->{store}->webExists( $this->{_web} );
+    } else {
+        return 1; # the root always exists
     }
-    return 0;
 }
 
 =begin TML
