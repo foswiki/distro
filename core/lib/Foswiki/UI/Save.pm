@@ -545,6 +545,8 @@ WARN
 
     #success - redirect to topic view (unless its a checkpoint save)
 
+    Foswiki::UI::checkValidationKey($session, 'save', $web, $topic);
+
     if ( $saveCmd eq 'delRev' ) {
 
         # delete top revision
@@ -576,6 +578,7 @@ WARN
             timetravel => 1,
             operation  => 'cmd',
         };
+
         try {
             $store->repRev( $user, $web, $topic, $meta->text(), $meta,
                 $saveOpts );
