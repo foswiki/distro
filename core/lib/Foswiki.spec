@@ -581,8 +581,8 @@ $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
 # public (internet) sites are strongly recommended to install
-# <a href="http://foswiki.org/Extensions/AntiSpamPlugin">
-# AntiSpamPlugin </a>
+# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin">
+# AntiWikiSpamPlugin </a>
 
 # **STRING 50**
 # Text added to email addresses to prevent spambots from grabbing
