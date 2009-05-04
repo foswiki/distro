@@ -239,6 +239,10 @@ Returns the context to the state it was in before the
 sub popTopicContext {
     my $this = shift;
     $this->_restore( pop @{ $this->{contexts} } );
+    return (
+        $this->{levels}->[-3]->topicObject->web(),
+        $this->{levels}->[-2]->topicObject->topic()
+    );
 }
 
 # Restores the preferences stack to the given level
@@ -385,11 +389,11 @@ sub getPreference {
     }
 
     my $value;
-    
+
     $value = $this->{levels}->[-2]->getLocal($key)
       unless defined $this->{final}{$key}
           && $this->{final}{$key} < $this->{level} - 1;
-    
+
     if ( !defined $value && exists $this->{'map'}{$key} ) {
         my $defLevel =
           int( log( ord( substr( $this->{'map'}{$key}, -1 ) ) ) / log(2) ) +
@@ -410,13 +414,14 @@ Generate TML-formatted information about the key (all keys if $key is undef)
 =cut
 
 sub stringify {
-    my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-    my @keys = defined $key ? ( $key ) : sort keys %{ $this->{'map'} };
+    my @keys = defined $key ? ($key) : sort keys %{ $this->{'map'} };
     my @list;
     foreach my $k (@keys) {
         my $val = Foswiki::entityEncode( $this->getPreference($k) || '' );
         push( @list, '   * Set ' . "$k = \"$val\"" );
+        next unless exists $this->{'map'}{$k};
         my $defLevel =
           int( log( ord( substr( $this->{'map'}{$k}, -1 ) ) ) / log(2) ) +
           ( ( length( $this->{'map'}{$k} ) - 1 ) * 8 );
@@ -430,7 +435,7 @@ sub stringify {
                   . $topicObject->topic() );
         }
     }
-    
+
     @keys = defined $key ? ($key) : ( sort $this->{levels}->[-2]->localPrefs );
     foreach my $k (@keys) {
         next
