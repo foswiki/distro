@@ -285,7 +285,7 @@ sub getContainer {
 
 ---++ ObjectMethod existsInStore() -> $boolean
 
-A Meta object can be created for a web or topic that has doesn't exist in the
+A Meta object can be created for a web or topic that doesn't exist in the
 actual store (e.g. is in the process of being created). This method returns
 true if the corresponding web or topic really exists in the store.
 
