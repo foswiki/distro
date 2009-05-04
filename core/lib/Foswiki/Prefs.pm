@@ -116,6 +116,7 @@ sub finish {
     undef $this->{contexts};
     $_->finish() foreach values %{ $this->{paths} };
     undef $this->{paths};
+    undef $this->{internals};
 }
 
 # Get a backend object corresponding to the given $web,$topic
