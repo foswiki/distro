@@ -37,6 +37,10 @@ sub prefs {
     return keys %$this;
 }
 
+sub localPrefs {
+    return ();
+}
+
 sub get {
     my ($this, $key) = @_;
     return $this->{$key};

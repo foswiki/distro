@@ -60,6 +60,11 @@ sub prefs {
     return keys %{ $this->{values} };
 }
 
+sub localPrefs {
+    my $this = shift;
+    return keys %{ $this->{local} };
+}
+
 sub get {
     my ( $this, $key ) = @_;
     return $this->{values}{$key};

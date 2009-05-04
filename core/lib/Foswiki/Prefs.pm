@@ -384,13 +384,18 @@ sub getPreference {
         return $this->{internals}{$key};
     }
 
-    my $value = $this->{levels}->[-2]->getLocal($key);
+    my $value;
+    
+    $value = $this->{levels}->[-2]->getLocal($key)
+      unless defined $this->{final}{$key}
+          && $this->{final}{$key} < $this->{level} - 1;
+    
     if ( !defined $value && exists $this->{'map'}{$key} ) {
         my $defLevel =
           int( log( ord( substr( $this->{'map'}{$key}, -1 ) ) ) / log(2) ) +
           ( ( length( $this->{'map'}{$key} ) - 1 ) * 8 );
         my $prefix = $this->{prefix}->[$defLevel];
-        substr( $key, 0, length($prefix), '' ) if $prefix;
+        $key =~ s/^\Q$prefix\E// if $prefix;
         $value = $this->{levels}->[$defLevel]->get($key);
     }
     return $value;
@@ -425,12 +430,16 @@ sub stringify {
                   . $topicObject->topic() );
         }
     }
-    #@keys = defined $key ? ( $key ) : sort keys %{ $this->{locals} };
-    #foreach my $k ( @keys ) {
-    #    next unless defined $this->{locals}->{$k};
-    #    my $val = Foswiki::entityEncode( $this->{locals}->{$k} );
-    #    push( @list, '   * Local '."$k = \"$val\"" );
-    #}
+    
+    @keys = defined $key ? ($key) : ( sort $this->{levels}->[-2]->localPrefs );
+    foreach my $k (@keys) {
+        next
+          unless defined $this->{levels}->[-2]->getLocal($k)
+              && ( !defined $this->{final}{$k}
+                  || $this->{final}{$k} >= $this->{level} - 1 );
+        my $val = Foswiki::entityEncode( $this->{levels}->[-2]->getLocal($k) );
+        push( @list, '   * Local ' . "$k = \"$val\"" );
+    }
 
     return join( "\n", @list ) . "\n";
 }

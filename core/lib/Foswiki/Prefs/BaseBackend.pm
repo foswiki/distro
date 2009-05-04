@@ -55,6 +55,18 @@ sub prefs {
 
 =begin TML
 
+---++ ObjectMethod localPrefs() -> @preferenceKeys
+
+Return a list with the names of 'Local' preferences.
+
+=cut
+
+sub localPrefs {
+    ASSERT('Pure virtual method - child classes must redefine');
+}
+
+=begin TML
+
 ---++ ObjectMethod get($key) -> $value
 
 Return the value of the preference $key.
