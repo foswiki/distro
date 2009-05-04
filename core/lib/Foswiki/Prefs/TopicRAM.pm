@@ -8,6 +8,9 @@ This is a preference backend used to get preferences defined in a topic.
 
 =cut
 
+# See documentation on Foswiki::Prefs::BaseBackend to get details about the
+# methods.
+
 package Foswiki::Prefs::TopicRAM;
 
 use Foswiki::Prefs::BaseBackend ();
@@ -18,15 +21,16 @@ use strict;
 use Foswiki::Prefs::Parser ();
 
 sub new {
-    my ( $proto, $metaObject ) = @_;
+    my ( $proto, $topicObject ) = @_;
 
     my $this = $proto->SUPER::new();
     $this->{values} = {};
     $this->{local}  = {};
 
-    if ( $metaObject->exists() ) {
-        Foswiki::Prefs::Parser::parse( $metaObject, $this );
+    if ( $topicObject->exists() ) {
+        Foswiki::Prefs::Parser::parse( $topicObject, $this );
     }
+    $this->{topicObject} = $topicObject;
 
     return $this;
 }
@@ -35,6 +39,20 @@ sub finish {
     my $this = shift;
     undef $this->{values};
     undef $this->{local};
+    undef $this->{topicObject};
+}
+
+=begin TML
+
+---++ ObjectMethod topicObject() -> $topicObject
+
+Accessor to the topicObject used to create this object.
+
+=cut
+
+sub topicObject {
+    my $this = shift;
+    return $this->{topicObject};
 }
 
 sub prefs {
@@ -60,11 +78,6 @@ sub insert {
     my $index = $type eq 'Set' ? 'values' : 'local';
     $this->{$index}{$key} = $value;
     return 1;
-}
-
-sub stringify {
-    my ( $this, $html ) = @_;
-    my $s = '';
 }
 
 1;

@@ -9,6 +9,9 @@ hash.
 
 =cut
 
+# See documentation on Foswiki::Prefs::BaseBackend to get details about the
+# methods.
+
 package Foswiki::Prefs::HASH;
 
 use Foswiki::Prefs::BaseBackend ();
@@ -49,11 +52,6 @@ sub insert {
     $this->cleanupInsertValue(\$value);
     $this->{$key} = $value;
     return 1;
-}
-
-sub stringify {
-    my ( $this, $html ) = @_;
-    my $s = '';
 }
 
 1;

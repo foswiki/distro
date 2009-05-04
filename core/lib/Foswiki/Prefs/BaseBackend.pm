@@ -91,18 +91,6 @@ sub insert {
 
 =begin TML
 
----++ ObjectMethod stringify() -> $text
-
-Generate TML-formatted information about this object.
-
-=cut
-
-sub stringify {
-    ASSERT('Pure virtual method - child classes must redefine');
-}
-
-=begin TML
-
 ---++ ObjectMethod cleanupInsertValue($value_ref)
 
 Utility method that cleans $$vaue_ref for later use in insert().

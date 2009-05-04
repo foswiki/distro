@@ -405,6 +405,34 @@ Generate TML-formatted information about the key (all keys if $key is undef)
 =cut
 
 sub stringify {
+    my ($this, $key) = @_;
+
+    my @keys = defined $key ? ( $key ) : sort keys %{ $this->{'map'} };
+    my @list;
+    foreach my $k (@keys) {
+        my $val = Foswiki::entityEncode( $this->getPreference($k) || '' );
+        push( @list, '   * Set ' . "$k = \"$val\"" );
+        my $defLevel =
+          int( log( ord( substr( $this->{'map'}{$k}, -1 ) ) ) / log(2) ) +
+          ( ( length( $this->{'map'}{$k} ) - 1 ) * 8 );
+        if ( $this->{levels}->[$defLevel]->can('topicObject') ) {
+            my $topicObject = $this->{levels}->[$defLevel]->topicObject();
+            push( @list,
+                    "      * $k was "
+                  . ( defined $this->{final}{$k} ? '*finalised*' : 'defined' )
+                  . ' in <nop>'
+                  . $topicObject->web() . '.'
+                  . $topicObject->topic() );
+        }
+    }
+    #@keys = defined $key ? ( $key ) : sort keys %{ $this->{locals} };
+    #foreach my $k ( @keys ) {
+    #    next unless defined $this->{locals}->{$k};
+    #    my $val = Foswiki::entityEncode( $this->{locals}->{$k} );
+    #    push( @list, '   * Local '."$k = \"$val\"" );
+    #}
+
+    return join( "\n", @list ) . "\n";
 }
 
 1;
