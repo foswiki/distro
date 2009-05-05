@@ -48,6 +48,7 @@ use strict;
 use Assert;
 use Error qw( :try );
 use CGI;    # Always required to get html generation tags;
+use Digest::MD5 ();
 
 use Foswiki::Response;
 use Foswiki::Request;
@@ -928,10 +929,8 @@ sub cacheQuery {
     # Don't double-cache
     return '' if ( $query->param('foswiki_redirect_cache') );
 
-    require Digest::MD5;
-    my $md5 = new Digest::MD5();
-    $md5->add( $$, time(), rand(time) );
-    my $uid              = $md5->hexdigest();
+    $this->{digester}->add( $$, rand(time) );
+    my $uid              = $this->{digester}->hexdigest();
     my $passthruFilename = "$Foswiki::cfg{WorkingDir}/tmp/passthru_$uid";
 
     use Fcntl;
@@ -945,21 +944,11 @@ sub cacheQuery {
     return 'foswiki_redirect_cache=' . $uid;
 }
 
-=begin TML
-
----++ ObjectMethod getValidationKey( $action ) -> $key
-
-Get a base64-encoded validation key for use in forms.
-
-=cut
-
-sub getValidationKey {
+sub _getValidationKey {
     my ( $this, $action ) = @_;
-    my $data = $action . $Foswiki::cfg{Password};
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
-    require Digest::SHA;
-    my $digest = Digest::SHA::hmac_sha256_base64( $data, $cgis->id() );
-    return $digest;
+    $this->{digester}->add( $action, $cgis->id(), rand(time) );
+    return $this->{digester}->b64digest();
 }
 
 # Clear the set of validation keys for this session
@@ -977,7 +966,7 @@ sub _addValidationKey {
     my $cgis    = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     $actions ||= {};
-    my $nonce = $this->getValidationKey($form);
+    my $nonce = $this->_getValidationKey( $form );
     $actions->{$nonce} = $form;
     $cgis->param( 'VALID_ACTIONS', $actions );
     return "$form<input type='hidden' name='validation_key' value='$nonce' />";
@@ -1388,6 +1377,7 @@ sub new {
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
+    $this->{digester} = new Digest::MD5();
 
     # Tell Foswiki::Response which charset we are using if not default
     if ( defined $Foswiki::cfg{Site}{CharSet}
@@ -1782,6 +1772,7 @@ sub finish {
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};
+    undef $this->{digester};
     undef $this->{urlHost};
     undef $this->{web};
     undef $this->{topic};

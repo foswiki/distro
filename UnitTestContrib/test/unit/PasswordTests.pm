@@ -172,15 +172,7 @@ sub test_htpasswd_crypt_crypt {
 sub test_htpasswd_sha1 {
     my $this = shift;
 
-    eval 'use MIME::Base64';
-    if( $@ ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
-        return;
-    }
-    eval 'use Digest::SHA1';
+    eval 'use Digest::SHA';
     if( $@ ) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
