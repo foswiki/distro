@@ -957,7 +957,13 @@ sub _clearValidationKeys {
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
 
     # This should only be done when the page isn't a login page
-    $cgis->clear('VALID_ACTIONS') unless $this->{request}->action() eq 'login';
+    # nor a 401 redirect (ApacheLogin)
+    unless ( $this->{request}->action() eq 'login'
+        or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 )
+    {
+        $cgis->clear('VALID_ACTIONS')
+          unless $this->{request}->action() eq 'login';
+    }
 }
 
 # Add a new validation key to the set for this session
@@ -966,7 +972,7 @@ sub _addValidationKey {
     my $cgis    = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     $actions ||= {};
-    my $nonce = $this->_getValidationKey( $form );
+    my $nonce = $this->_getValidationKey($form);
     $actions->{$nonce} = $form;
     $cgis->param( 'VALID_ACTIONS', $actions );
     return "$form<input type='hidden' name='validation_key' value='$nonce' />";
