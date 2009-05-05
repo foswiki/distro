@@ -246,6 +246,9 @@ sub _renameTopicOrAttachment {
     return undef if ($query && $query->method()
                        && uc($query->method()) ne 'POST');
 
+    Foswiki::UI::checkValidationKey(
+        $session, 'rename', $session->{webName}, $session->{topicName} );
+
     # Update references in referring pages - not applicable to attachments.
     my $refs;
     unless ($attachment) {
@@ -589,7 +592,8 @@ sub _renameWeb {
         }
     }
 
-    return if ($query && $query->method() && uc($query->method()) ne 'POST');
+    Foswiki::UI::checkValidationKey(
+        $session, 'rename', $session->{webName}, $session->{topicName} );
 
     my $newWebObject = Foswiki::Meta->new( $session, $newWeb );
 

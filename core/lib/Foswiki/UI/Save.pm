@@ -1,3 +1,4 @@
+
 # See bottom of file for license and copyright information
 
 =begin TML
@@ -520,6 +521,8 @@ WARN
     }
 
 
+    Foswiki::UI::checkValidationKey($session, 'save', $web, $topic);
+
     if ( $adminCmd eq 'delRev' ) {
 
         # delete top revision
@@ -546,6 +549,7 @@ WARN
         # make it look as much like the original as possible. The query
         # text is expected to contain %META as well as text.
         $topicObject->text( $query->param('text') );
+
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );
         }

@@ -167,6 +167,9 @@ sub _action_createweb {
         );
     }
 
+    Foswiki::UI::checkValidationKey(
+        $session, 'createweb', $session->{webName}, $session->{topicName} );
+
     # Get options from the form (only those options that are already
     # set in the template WebPreferences topic are changed, so we can
     # just copy everything)

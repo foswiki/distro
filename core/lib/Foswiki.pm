@@ -634,6 +634,10 @@ sub writeCompletePage {
         $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
         $text .= "\n" unless $text =~ /\n$/s;
 
+        if ( $contentType eq 'text/html') {
+            $this->_clearValidationKeys();
+            $text =~ s/(<form[^>]*>)/$this->_addValidationKey( $1 )/gei;
+        }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
               keys %{ $this->{_HTMLHEADERS} } );
@@ -939,6 +943,61 @@ sub cacheQuery {
     $query->save($F);
     close($F);
     return 'foswiki_redirect_cache=' . $uid;
+}
+
+=begin TML
+
+---++ ObjectMethod getValidationKey( $action ) -> $key
+
+Get a base64-encoded validation key for use in forms.
+
+=cut
+
+sub getValidationKey {
+    my ($this, $action) = @_;
+    my $data = $action . $Foswiki::cfg{Password};
+    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    require Digest::SHA;
+    my $digest = Digest::SHA::hmac_sha256_base64($data, $cgis->id());
+    return $digest;
+}
+
+# Clear the set of validation keys for this session
+sub _clearValidationKeys {
+    my $this = shift;
+    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    $cgis->clear('VALID_ACTIONS');
+}
+
+# Add a new validation key to the set for this session
+sub _addValidationKey {
+    my ($this, $form) = @_;
+    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    my $actions = $cgis->param('VALID_ACTIONS');
+    $actions ||= {};
+    my $nonce = $this->getValidationKey( $form );
+    $actions->{$nonce} = $form;
+    $cgis->param('VALID_ACTIONS', $actions);
+    return "$form<input type='hidden' name='validation_key' value='$nonce' />";
+}
+
+=begin TML
+
+---++ ObjectMethod checkValidationKey( $key ) -> $boolean
+
+Check that the given validation key is valid for the current session.
+
+=cut
+
+sub checkValidationKey {
+    my ($this, $nonce) = @_;
+    return 1 unless ($this->{request} && $this->{request}->method());
+    return 0 unless (uc($this->{request}->method()) eq 'POST');
+    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    my $actions = $cgis->param('VALID_ACTIONS');
+    return 0 unless ref($actions) eq 'HASH';
+    return $actions->{$nonce};
+
 }
 
 =begin TML

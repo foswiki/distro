@@ -453,6 +453,27 @@ sub checkAccess {
 
 =begin TML
 
+---++ StaticMethod checkValidationKey( $session, $web, $topic )
+
+Check the validation key for the given action.
+
+=cut
+
+sub checkValidationKey {
+    my ($session, $script, $web, $topic) = @_;
+
+    # Check the nonce before we do anything else
+    my $nonce = $session->{request}->param('validation_key');
+    if (!defined($nonce) || !$session->checkValidationKey($nonce)) {
+        throw Foswiki::AccessControlException(
+            $script, $session->{user},
+            $web, $topic, 'Expired or invalid validation key'
+        );
+    }
+}
+
+=begin TML
+
 ---++ StaticMethod run( $method, %context )
 
 Supported for bin scripts that were written for Foswiki < 1.0. The parameters
