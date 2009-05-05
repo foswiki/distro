@@ -262,7 +262,8 @@ sub _restore {
     foreach ( keys %{ $this->{'map'} } ) {
         $this->{'map'}{$_} &= $mask;
         substr( $this->{'map'}{$_}, -1 ) = ''
-          while ord( substr( $this->{'map'}{$_}, -1 ) ) == 0;
+          while length( $this->{'map'}{$_} ) > 0
+              && ord( substr( $this->{'map'}{$_}, -1 ) ) == 0;
         delete $this->{'map'}{$_} if length( $this->{'map'}{$_} ) == 0;
     }
 
