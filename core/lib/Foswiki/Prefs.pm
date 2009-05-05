@@ -261,7 +261,9 @@ sub _restore {
       . chr( ( 2**( ( $level % 8 ) + 1 ) ) - 1 );
     foreach ( keys %{ $this->{'map'} } ) {
         $this->{'map'}{$_} &= $mask;
-        delete $this->{'map'}{$_} if $this->{'map'}{$_} eq chr(0);
+        substr( $this->{'map'}{$_}, -1 ) = ''
+          while ord( substr( $this->{'map'}{$_}, -1 ) ) == 0;
+        delete $this->{'map'}{$_} if length( $this->{'map'}{$_} ) == 0;
     }
 
     $this->{level} = $level;
