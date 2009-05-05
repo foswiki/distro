@@ -45,7 +45,7 @@ with CGI accelerators such as mod_perl.
 use strict;
 use Assert;
 use Error qw( :try );
-use Monitor ();
+use Monitor     ();
 use Digest::MD5 ();
 
 # Components that all requests need
@@ -635,7 +635,7 @@ sub writeCompletePage {
         $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
         $text .= "\n" unless $text =~ /\n$/s;
 
-        if ( $contentType eq 'text/html') {
+        if ( $contentType eq 'text/html' ) {
             $this->_clearValidationKeys();
             $text =~ s/(<form[^>]*>)/$this->_addValidationKey( $1 )/gei;
         }
@@ -699,8 +699,8 @@ sub generateHTTPHeaders {
 
     # DEPRECATED plugins header handler. Plugins should use
     # modifyHeaderHandler instead.
-    $pluginHeaders = $this->{plugins}->dispatch(
-        'writeHeaderHandler', $this->{request} )
+    $pluginHeaders =
+      $this->{plugins}->dispatch( 'writeHeaderHandler', $this->{request} )
       || '';
     if ($pluginHeaders) {
         foreach ( split /\r?\n/, $pluginHeaders ) {
@@ -850,7 +850,7 @@ sub redirect {
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
-        if ( uc($this->{request}->method()) eq 'POST' ) {
+        if ( uc( $this->{request}->method() ) eq 'POST' ) {
 
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
@@ -900,8 +900,8 @@ sub redirect {
 
     # SMELL: this is a bad breaking of encapsulation: the loginManager
     # should just modify the url, then the redirect should only happen here.
-    return !$this->{users}->{loginManager}->redirectCgiQuery(
-        $this->{request}, $url );
+    return !$this->{users}->{loginManager}
+      ->redirectCgiQuery( $this->{request}, $url );
 }
 
 =begin TML
@@ -947,7 +947,7 @@ sub cacheQuery {
 
 # Get a base64-encoded session-specific validation key for use in forms.
 sub _getValidationKey {
-    my ($this, $action) = @_;
+    my ( $this, $action ) = @_;
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
     $this->{digester}->add( $action, $cgis->id(), rand(time) );
     return $this->{digester}->b64digest();
@@ -957,18 +957,25 @@ sub _getValidationKey {
 sub _clearValidationKeys {
     my $this = shift;
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
-    $cgis->clear('VALID_ACTIONS');
+
+    # nor a 401 redirect (ApacheLogin)
+    unless ( $this->{request}->action() eq 'login'
+        or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 )
+    {
+        $cgis->clear('VALID_ACTIONS')
+          unless $this->{request}->action() eq 'login';
+    }
 }
 
 # Add a new validation key to the set for this session
 sub _addValidationKey {
-    my ($this, $form) = @_;
-    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    my ( $this, $form ) = @_;
+    my $cgis    = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     $actions ||= {};
-    my $nonce = $this->_getValidationKey( $form );
+    my $nonce = $this->_getValidationKey($form);
     $actions->{$nonce} = $form;
-    $cgis->param('VALID_ACTIONS', $actions);
+    $cgis->param( 'VALID_ACTIONS', $actions );
     return "$form<input type='hidden' name='validation_key' value='$nonce' />";
 }
 
@@ -981,13 +988,16 @@ Check that the given validation key is valid for the current session.
 =cut
 
 sub checkValidationKey {
-    my ($this, $nonce) = @_;
+    my ( $this, $nonce ) = @_;
     return 1 if $this->inContext('command_line');
+
     # Double-check that POST was used (this may have been checked in
     # UI.pm already, but a second check doesn't hurt and
-    return 0 unless ($this->{request} && $this->{request}->method()
-                       && (uc($this->{request}->method()) eq 'POST'));
-    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    return 0
+      unless ( $this->{request}
+        && $this->{request}->method()
+        && ( uc( $this->{request}->method() ) eq 'POST' ) );
+    my $cgis    = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     return $actions->{$nonce};
@@ -1269,16 +1279,16 @@ Webs are returned as absolute web pathnames.
 =cut
 
 sub deepWebList {
-    my ($this, $filter, $rootWeb) = @_;
+    my ( $this, $filter, $rootWeb ) = @_;
     my @list;
-    my $webObject = new Foswiki::Meta($this, $rootWeb);
-    my $it = $webObject->eachWeb($Foswiki::cfg{EnableHierarchicalWebs});
+    my $webObject = new Foswiki::Meta( $this, $rootWeb );
+    my $it = $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
     return $it->all() unless $filter;
     while ( $it->hasNext() ) {
         my $w = $rootWeb || '';
         $w .= '/' if $w;
         $w .= $it->next();
-        if ($filter->ok( $this, $w )) {
+        if ( $filter->ok( $this, $w ) ) {
             push( @list, $w );
         }
     }
@@ -1308,13 +1318,13 @@ sub mapToIconFileName {
             my $topicObject = Foswiki::Meta->new( $this, $web, $topic );
             local $/;
             try {
-                my $icons = $topicObject->openAttachment(
-                    '_filetypes.txt', '<');
+                my $icons =
+                  $topicObject->openAttachment( '_filetypes.txt', '<' );
                 %{ $this->{_ICONMAP} } = split( /\s+/, <$icons> );
                 $icons->close();
             }
             catch Error with {
-                ASSERT(0, $_[0] ) if DEBUG;
+                ASSERT( 0, $_[0] ) if DEBUG;
                 %{ $this->{_ICONMAP} } = ();
             };
         }
@@ -1424,9 +1434,9 @@ sub new {
     $this->{context}      = $initialContext;
 
     my $prefs = new Foswiki::Prefs($this);
-    $this->{prefs} = $prefs;
+    $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);
-    $this->{store} = Foswiki::Store::createNewStore( $this,
+    $this->{store}   = Foswiki::Store::createNewStore( $this,
         "Foswiki::Store::$Foswiki::cfg{StoreImpl}" );
 
     # use login as a default (set when running from cmd line)
@@ -1686,6 +1696,7 @@ sub i18n {
 
     unless ( $this->{i18n} ) {
         require Foswiki::I18N;
+
         # language information; must be loaded after
         # *all possible preferences sources* are available
         $this->{i18n} = new Foswiki::I18N($this);
@@ -2479,7 +2490,7 @@ sub innerExpandMacros {
     my $memWeb   = $this->{prefs}->getPreference('WEB');
 
     # Historically this couldn't be called on web objects.
-    my $webContext = $topicObject->web || $this->{webName};
+    my $webContext   = $topicObject->web   || $this->{webName};
     my $topicContext = $topicObject->topic || $this->{topicName};
 
     $this->{prefs}->setInternalPreferences(
@@ -2848,7 +2859,7 @@ sub expandMacros {
     $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # Require defaults for plugin handlers :-(
-    my $webContext = $topicObject->web || $this->{webName};
+    my $webContext   = $topicObject->web   || $this->{webName};
     my $topicContext = $topicObject->topic || $this->{topicName};
 
     my $memW = $this->{prefs}->getPreference('INCLUDINGWEB');
@@ -2863,11 +2874,9 @@ sub expandMacros {
     $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # Plugin Hook
-    $this->{plugins}->dispatch(
-        'commonTagsHandler', $text,
-        $topicContext,
-        $webContext,
-        0, $topicObject );
+    $this->{plugins}
+      ->dispatch( 'commonTagsHandler', $text, $topicContext, $webContext, 0,
+        $topicObject );
 
     # process tags again because plugin hook may have added more in
     $this->innerExpandMacros( \$text, $topicObject );
@@ -2892,8 +2901,8 @@ sub expandMacros {
 
     # Foswiki Plugin Hook (for cache Plugins only)
     $this->{plugins}
-      ->dispatch( 'afterCommonTagsHandler', $text, $topicContext,
-        $webContext, $topicObject );
+      ->dispatch( 'afterCommonTagsHandler', $text, $topicContext, $webContext,
+        $topicObject );
 
     return $text;
 }
@@ -3159,10 +3168,12 @@ sub ADDTOHEAD {
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;
     if ( $args->{topic} ) {
-        my ($web, $topic ) =
+        my ( $web, $topic ) =
           $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
         $topicObject = new Foswiki::Meta( $this, $web, $topic );
-    } else {
+    }
+    else {
+
         # SMELL: horrible hack; assumes the current rev comes from the 'rev'
         # parameter. There has to be a better way!
         my $query = $this->{request};
@@ -3699,7 +3710,7 @@ sub WEBLIST {
     my ( $this, $params ) = @_;
 
     # List of webs to consider; default is all public webs
-    my $webs     = $params->{webs} || 'public';
+    my $webs = $params->{webs} || 'public';
     my @webslist = split( /,\s*/, $webs );
 
     # Modifier on "public" and "webtemplate" pseudo-webs
@@ -3722,17 +3733,18 @@ sub WEBLIST {
 
     my $marker = $params->{marker} || 'selected="selected"';
 
-    my @list     = ();
+    my @list = ();
     foreach my $aweb (@webslist) {
-        if ($aweb =~ /^(public|webtemplate)$/) {
+        if ( $aweb =~ /^(public|webtemplate)$/ ) {
             require Foswiki::WebFilter;
             my $filter;
             if ( $aweb eq 'public' ) {
                 $filter = new Foswiki::WebFilter('user,public,allowed');
-            } elsif ( $aweb eq 'webtemplate' ) {
+            }
+            elsif ( $aweb eq 'webtemplate' ) {
                 $filter = new Foswiki::WebFilter('template,allowed');
             }
-            push( @list, $this->deepWebList($filter, $rootWeb));
+            push( @list, $this->deepWebList( $filter, $rootWeb ) );
         }
         else {
             push( @list, $aweb ) if ( $this->webExists($aweb) );
@@ -4281,10 +4293,11 @@ sub SHOWPREFERENCE {
     my ( $this, $params ) = @_;
     my $tml = '';
     if ( $params->{_DEFAULT} ) {
-        foreach my $preference ( split(/[, ]+/, $params->{_DEFAULT} )) {
-            $tml .= $this->{prefs}->stringify( $preference );
+        foreach my $preference ( split( /[, ]+/, $params->{_DEFAULT} ) ) {
+            $tml .= $this->{prefs}->stringify($preference);
         }
-    } else {
+    }
+    else {
         $tml = $this->{prefs}->stringify();
     }
     return $tml;
