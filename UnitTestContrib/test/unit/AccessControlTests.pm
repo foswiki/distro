@@ -416,4 +416,68 @@ THIS
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrWhite);
     $this->PERMITTED($this->{test_web},$testTopic,"view",$MrBlue);
 }
+
+# Test that controls are inherited from parent webs
+sub test_subweb_inherits_from_parent {
+    my $this   = shift;
+    my $subweb = "$this->{test_web}.SubWeb";
+
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    # First build a parent web with view restricted to MrGreen, and
+    # finalise the setting
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+   * Set ALLOWWEBVIEW = MrGreen
+   * Set FINALPREFERENCES = ALLOWWEBVIEW
+THIS
+
+    # Now build a subweb with no restrictions
+    $this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $subweb);
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $subweb,
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+THIS
+    $this->{twiki}->finish();
+
+    $this->{twiki} = new Foswiki();
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrGreen, $subweb );
+    $this->DENIED( $this->{test_web},$testTopic,"VIEW", $MrOrange, $subweb );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrGreen );
+    $this->DENIED( $this->{test_web},$testTopic,"VIEW", $MrOrange );
+}
+
+# Test that finalised controls in parent web override the subweb controls
+sub test_finalised_parent_overrides_subweb {
+    my $this   = shift;
+    my $subweb = "$this->{test_web}.SubWeb";
+
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    # First build a parent web with view restricted to MrGreen, and
+    # finalise the setting
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+   * Set ALLOWWEBVIEW = MrGreen
+   * Set FINALPREFERENCES = ALLOWWEBVIEW
+THIS
+
+    # Now build a subweb with view restricted to MrOrange
+    $this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $subweb);
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $subweb,
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+   * Set ALLOWWEBVIEW = MrOrange
+THIS
+    $this->{twiki}->finish();
+
+    $this->{twiki} = new Foswiki();
+    $this->DENIED( $this->{test_web},$testTopic,"VIEW", $MrOrange, $subweb );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrGreen, $subweb );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrGreen );
+    $this->DENIED( $this->{test_web},$testTopic,"VIEW", $MrOrange );
+}
+
 1;
