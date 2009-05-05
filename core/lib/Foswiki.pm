@@ -525,16 +525,15 @@ sub UTF82SiteCharSet {
 
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
-            $this->logger->log(
-                'warning',
-                'UTF-8 not remotely supported on Perl '
+            $this->logger->log( 'warning',
+                    'UTF-8 not remotely supported on Perl ' 
                   . $]
-                    . ' - use Perl 5.8 or higher..' );
+                  . ' - use Perl 5.8 or higher..' );
         }
 
         # We still don't have Codev.UnicodeSupport
-        $this->logger->log(
-            'warning', 'UTF-8 not yet supported as site charset -'
+        $this->logger->log( 'warning',
+                'UTF-8 not yet supported as site charset -'
               . 'Foswiki is likely to have problems' );
         return $text;
     }
@@ -560,11 +559,11 @@ sub UTF82SiteCharSet {
             my $charEncoding =
               Encode::resolve_alias( $Foswiki::cfg{Site}{CharSet} );
             if ( not $charEncoding ) {
-                $this->logger->log(
-                    'warning', 'Conversion to "'
+                $this->logger->log( 'warning',
+                        'Conversion to "'
                       . $Foswiki::cfg{Site}{CharSet}
-                        . '" not supported, or name not recognised - check '
-                          . '"perldoc Encode::Supported"' );
+                      . '" not supported, or name not recognised - check '
+                      . '"perldoc Encode::Supported"' );
             }
             else {
 
@@ -582,8 +581,8 @@ sub UTF82SiteCharSet {
             require Unicode::MapUTF8;    # Pre-5.8 Perl versions
             my $charEncoding = $Foswiki::cfg{Site}{CharSet};
             if ( not Unicode::MapUTF8::utf8_supported_charset($charEncoding) ) {
-                $this->logger->log(
-                    'warning', 'Conversion to "'
+                $this->logger->log( 'warning',
+                        'Conversion to "'
                       . $Foswiki::cfg{Site}{CharSet}
                       . '" not supported, or name not recognised - check '
                       . '"perldoc Unicode::MapUTF8"' );
@@ -631,9 +630,10 @@ sub writeCompletePage {
         $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
         $text .= "\n" unless $text =~ /\n$/s;
 
-        if ( $contentType eq 'text/html') {
+        if ( $contentType eq 'text/html' ) {
             $this->_clearValidationKeys();
-            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/$this->_addValidationKey( $1 )/gei;
+            $text =~
+s/(<form[^>]*method=['"]POST['"][^>]*>)/$this->_addValidationKey( $1 )/gei;
         }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
@@ -852,7 +852,7 @@ sub redirect {
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
-        if ( uc($query->method()) eq 'POST' ) {
+        if ( uc( $query->method() ) eq 'POST' ) {
 
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
@@ -954,11 +954,11 @@ Get a base64-encoded validation key for use in forms.
 =cut
 
 sub getValidationKey {
-    my ($this, $action) = @_;
+    my ( $this, $action ) = @_;
     my $data = $action . $Foswiki::cfg{Password};
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
     require Digest::SHA;
-    my $digest = Digest::SHA::hmac_sha256_base64($data, $cgis->id());
+    my $digest = Digest::SHA::hmac_sha256_base64( $data, $cgis->id() );
     return $digest;
 }
 
@@ -966,19 +966,20 @@ sub getValidationKey {
 sub _clearValidationKeys {
     my $this = shift;
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
+
     # This should only be done when the page isn't a login page
     $cgis->clear('VALID_ACTIONS') unless $this->{request}->action() eq 'login';
 }
 
 # Add a new validation key to the set for this session
 sub _addValidationKey {
-    my ($this, $form) = @_;
-    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    my ( $this, $form ) = @_;
+    my $cgis    = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     $actions ||= {};
-    my $nonce = $this->getValidationKey( $form );
+    my $nonce = $this->getValidationKey($form);
     $actions->{$nonce} = $form;
-    $cgis->param('VALID_ACTIONS', $actions);
+    $cgis->param( 'VALID_ACTIONS', $actions );
     return "$form<input type='hidden' name='validation_key' value='$nonce' />";
 }
 
@@ -991,8 +992,8 @@ Check that the given validation key is valid for the current session.
 =cut
 
 sub checkValidationKey {
-    my ($this, $nonce) = @_;
-    my $cgis = $this->{users}->{loginManager}->{_cgisession};
+    my ( $this, $nonce ) = @_;
+    my $cgis    = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     return $actions->{$nonce};
@@ -1691,7 +1692,7 @@ needs the i18ner.
 sub logger {
     my $this = shift;
 
-    unless ($this->{logger}) {
+    unless ( $this->{logger} ) {
         eval "require $Foswiki::cfg{Log}{Implementation}";
         die $@ if $@;
         $this->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
@@ -1838,8 +1839,8 @@ sub logEvent {
 
     my $remoteAddr = $this->{request}->remoteAddress() || '';
 
-    $this->logger->log(
-        'info', $user, $action, $webTopic, $extra, $remoteAddr);
+    $this->logger->log( 'info', $user, $action, $webTopic, $extra,
+        $remoteAddr );
 }
 
 # Add a web reference to a [[...][...]] link in an included topic
@@ -2163,8 +2164,10 @@ sub inlineAlert {
             $text =~ s/%PARAM$n%/$param/g;
             $n++;
         }
+
         # Suppress missing params
         $text =~ s/%PARAM\d+%//g;
+
         # Suppress missing params
         $text =~ s/%PARAM\d+%//g;
     }
@@ -2679,7 +2682,7 @@ sub _processTags {
 
     unless ($depth) {
         my $mess = "Max recursive depth reached: $text";
-        $this->logger->log('warning', $mess);
+        $this->logger->log( 'warning', $mess );
 
         # prevent recursive expansion that just has been detected
         # from happening in the error message
