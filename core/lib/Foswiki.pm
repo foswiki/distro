@@ -966,7 +966,7 @@ sub _addValidationKey {
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     $actions ||= {};
-    my $nonce = $this->getValidationKey( $form );
+    my $nonce = $this->_getValidationKey( $form );
     $actions->{$nonce} = $form;
     $cgis->param('VALID_ACTIONS', $actions);
     return "$form<input type='hidden' name='validation_key' value='$nonce' />";
