@@ -633,7 +633,7 @@ sub writeCompletePage {
 
         if ( $contentType eq 'text/html') {
             $this->_clearValidationKeys();
-            $text =~ s/(<form[^>]*>)/$this->_addValidationKey( $1 )/gei;
+            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/$this->_addValidationKey( $1 )/gei;
         }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
@@ -966,7 +966,8 @@ sub getValidationKey {
 sub _clearValidationKeys {
     my $this = shift;
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
-    $cgis->clear('VALID_ACTIONS');
+    # This should only be done when the page isn't a login page
+    $cgis->clear('VALID_ACTIONS') unless $this->{request}->action() eq 'login';
 }
 
 # Add a new validation key to the set for this session
