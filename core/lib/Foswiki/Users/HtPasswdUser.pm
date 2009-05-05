@@ -41,9 +41,7 @@ sub new {
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require MIME::Base64;
-        import MIME::Base64 qw( encode_base64 );
-        require Digest::SHA1;
-        import Digest::SHA1 qw( sha1 );
+        require Digest::SHA;
     }
     elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
         && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
@@ -176,7 +174,7 @@ sub encrypt {
 
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         my $encodedPassword =
-          '{SHA}' . MIME::Base64::encode_base64( Digest::SHA1::sha1($passwd) );
+          '{SHA}' . MIME::Base64::encode_base64( Digest::SHA::sha1($passwd) );
 
         # don't use chomp, it relies on $/
         $encodedPassword =~ s/\s+$//;

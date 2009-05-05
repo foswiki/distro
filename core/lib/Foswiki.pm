@@ -46,6 +46,7 @@ use strict;
 use Assert;
 use Error qw( :try );
 use Monitor ();
+use Digest::MD5 ();
 
 # Components that all requests need
 use Foswiki::Configure::Load ();
@@ -926,10 +927,9 @@ sub cacheQuery {
     # Don't double-cache
     return '' if ( $query->param('foswiki_redirect_cache') );
 
-    require Digest::MD5;
-    my $md5 = new Digest::MD5();
-    $md5->add( $$, time(), rand(time) );
-    my $uid              = $md5->hexdigest();
+    # get a hex-encoded session-specific unguessable key for the passthrough
+    $this->{digester}->add( $$, rand(time) );
+    my $uid              = $this->{digester}->hexdigest();
     my $passthruFilename = "$Foswiki::cfg{WorkingDir}/tmp/passthru_$uid";
 
     use Fcntl;
@@ -945,21 +945,12 @@ sub cacheQuery {
     return 'foswiki_redirect_cache=' . $uid;
 }
 
-=begin TML
-
----++ ObjectMethod getValidationKey( $action ) -> $key
-
-Get a base64-encoded validation key for use in forms.
-
-=cut
-
-sub getValidationKey {
+# Get a base64-encoded session-specific validation key for use in forms.
+sub _getValidationKey {
     my ($this, $action) = @_;
-    my $data = $action . $Foswiki::cfg{Password};
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
-    require Digest::SHA;
-    my $digest = Digest::SHA::hmac_sha256_base64($data, $cgis->id());
-    return $digest;
+    $this->{digester}->add( $action, $cgis->id(), rand(time) );
+    return $this->{digester}->b64digest();
 }
 
 # Clear the set of validation keys for this session
@@ -991,13 +982,15 @@ Check that the given validation key is valid for the current session.
 
 sub checkValidationKey {
     my ($this, $nonce) = @_;
-    return 1 unless ($this->{request} && $this->{request}->method());
-    return 0 unless (uc($this->{request}->method()) eq 'POST');
+    return 1 if $this->inContext('command_line');
+    # Double-check that POST was used (this may have been checked in
+    # UI.pm already, but a second check doesn't hurt and
+    return 0 unless ($this->{request} && $this->{request}->method()
+                       && (uc($this->{request}->method()) eq 'POST'));
     my $cgis = $this->{users}->{loginManager}->{_cgisession};
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     return $actions->{$nonce};
-
 }
 
 =begin TML
@@ -1418,6 +1411,7 @@ sub new {
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
+    $this->{digester} = new Digest::MD5();
 
     # Tell Foswiki::Response which charset we are using if not default
     if ( defined $Foswiki::cfg{Site}{CharSet}
@@ -1782,6 +1776,7 @@ sub finish {
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};
+    undef $this->{digester};
     undef $this->{urlHost};
     undef $this->{web};
     undef $this->{topic};

@@ -53,7 +53,7 @@ sub register_cgi {
 
     my $query = $session->{request};
     my $action = $query->param('action') || '';
-    
+
     if ( $action ne 'verify' && $query && $query->method() &&
                                 uc($query->method()) ne 'POST') {
         throw Foswiki::OopsException(
@@ -62,7 +62,7 @@ sub register_cgi {
             topic => $session->{topicName},
             def   => 'post_method_only',
             params => [ 'upload' ]
-        );    
+        );
     }
 
     if ( $action eq 'register' ) {

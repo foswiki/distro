@@ -200,7 +200,7 @@ sub test_htpasswd_sha1 {
         $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
         return;
     }
-    eval 'use Digest::SHA1';
+    eval 'use Digest::SHA';
     if ($@) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
