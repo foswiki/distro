@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1241108604" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="micha" date="1241630646" format="1.1" reprev="1.4" version="1.4"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -117,8 +117,49 @@ Available class attributes:
 | =sql= | Structured Query Language |
 | =tml= | Wiki Markup Language |
 
+---++ Using compressed javascript and css files
+All jQuery plugins are shipped with uncompressed js and css files, as well as minified and gzip compressed.
+For instance the jquery.autocomplete comes with the following set:
+   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.uncompressed.js
+   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js
+   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js.gz
+
+There is a Makefile in the =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin= root directory that grants all these
+files are up to date. By default all files in the !JQueryPlugin package are up to date. So you only have to
+issue a =make= in the root directory if you wish to
+modify one of the files underneath. This will update
+all minified and gzipped files as needed. Enable the ={JQueryPlugin}{Debug}= flag in =configure=, 
+to use the uncompressed files right away to omit the =make= step during development of further javascript components.
+
+Apache can be configured to automatically use the =.gz= files if present using mod_rewrite as follows:
+<verbatim>
+  <FilesMatch ".*\.(js|css)$">
+    RewriteEngine On
+    RewriteCond %{HTTP:Accept-encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}.gz -f
+    RewriteRule ^(.*)$ %{REQUEST_URI}.gz [L,QSA]
+  </FilesMatch>
+
+  <Files *.js.gz>
+    AddEncoding gzip .js
+    ForceType application/x-javascript
+  </Files>
+
+  <Files *.css.gz>
+    AddEncoding gzip .css
+    ForceType text/css
+  </Files>
+</verbatim>
+
+So whenever the browser accepts encoding the file as gzip _and_ the file with the =.gz= does exist
+in the filesystem, then trigger an internal redirect while still enforcing the original mine-type.
+The browser on the other side will unzip the css and js files automatically. This will drastically
+reduce bandwidth and speed up interactive performance.
+
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
+
+
 
 ---++ Plugin Info
 |  Plugin Author(s): | Michael Daum |
