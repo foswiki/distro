@@ -1,4 +1,4 @@
-TARGET=jquery.treeview.js jquery.treeview.css
+TARGET=jquery.treeview.js jquery.treeview.css $(JQUERYPLUGIN_LIB)/TREEVIEW.pm
 -include ../../Makefile.include
 
 JS_SOURCES=\

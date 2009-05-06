@@ -46,10 +46,8 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
 
 ---++ TODO
 create perl stubs for
-   1 jquery.bgiframe: helps ease the pain when having to deal with IE z-index issues  
    1 [[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting
    1 jquery.debug: helps debugging jquery code  
-   1 [[http://gsgd.co.uk/sandbox/jquery/easing/][jquery.easing]] set custom easing types for standard animations  
    1 [[http://acko.net/dev/farbtastic][farbtastic]]: color chooser
    1 [[http://cherne.net/brian/resources/jquery.hoverIntent.html][jquery.hoverIntent]]: similar to jQuery's hover. However, onMouseOver hoverIntent tracks the user's mouse and waits until it slows down before calling the onMouseOver function   
    1 [[http://medienfreunde.com/lab/innerfade/][jquery.innerfade]]: a more flexible version of Slideshow   

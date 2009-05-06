@@ -82,7 +82,7 @@ HERE
   }
 
   # dependencies
-  # $this->createPlugin('Validate');
+  # Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Validate');
 
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::EMPTY", $header, 'JQUERYPLUGIN::FOSWIKI');
 }

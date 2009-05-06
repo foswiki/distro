@@ -93,8 +93,8 @@ HERE
   }
 
   # recommended
-  $this->createPlugin("metadata");
-  $this->createPlugin("Form");
+  Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('metadata');
+  Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('form');
 
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE", $header, 'JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::FORM');
 }

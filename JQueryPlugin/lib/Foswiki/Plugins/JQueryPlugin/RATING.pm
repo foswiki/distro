@@ -88,7 +88,7 @@ HERE
   }
 
   # requires metadata
-  $this->createPlugin("metadata");
+  Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('metadata');
 
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::RATING", $header, 'JQUERYPLUGIN::FOSWIKI');
 }

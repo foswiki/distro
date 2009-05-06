@@ -1,4 +1,4 @@
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/,
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
 # Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
 # 
@@ -13,16 +13,16 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package Foswiki::Plugins::JQueryPlugin::METADATA;
+package Foswiki::Plugins::JQueryPlugin::WIKIWORD;
 use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::METADATA
+---+ package Foswiki::Plugins::JQueryPlugin::WIKIWORD
 
-This is the perl stub for the jquery.metadata plugin.
+This is the perl stub for the jquery.wikiword plugin.
 
 =cut
 
@@ -40,15 +40,17 @@ sub new {
 
   my $this = bless($class->SUPER::new( 
     $session,
-    name => 'Metadata',
-    version => '3630',
-    author => 'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
-    homepage => 'http://plugins.jquery.com/project/metadata',
+    name => 'WikiWord',
+    version => '$Rev$',
+    author => 'Michael Daum',
+    homepage => 'http://michaeldaumconsulting.com',
   ), $class);
 
   $this->{summary} = <<'HERE';
-This plugin is capable of extracting metadata from classes, random attributes,
-and child elements.
+This plugin allows to create a <nop>WikiWord on the base of a set of
+input elements. The value of these are concatenated and the result is
+normalized to be a valid <nop>WikiWord. For example, this can be used
+to derive a topic name from a free-form topic title text.
 HERE
 
   return $this;
@@ -71,15 +73,16 @@ sub init {
 
   if ($this->{debug}) {
    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.uncompressed.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/wikiword/jquery.wikiword.uncompressed.js"></script>
 HERE
   } else {
    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/wikiword/jquery.wikiword.js"></script>
 HERE
   }
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::METADATA", $header, 'JQUERYPLUGIN::FOSWIKI');
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::WIKIWORD", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;
+

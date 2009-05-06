@@ -80,8 +80,6 @@ sub init {
 
   return unless $this->SUPER::init();
 
-  # TODO: make default plugins configurable via Foswiki::cfg
-
   my $header= <<'HERE';
 <meta name="foswiki.scriptUrl" content="%SCRIPTURL%" />
 <meta name="foswiki.scriptUrlPath" content="%SCRIPTURLPATH%" />
@@ -98,19 +96,16 @@ sub init {
 HERE
 
   unless ($this->{debug}) {
-    $header .= '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.js"></script>';
+    $header .= <<'MORE';
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/jquery.foswiki.js"></script>
+MORE
   } else {
     $header .= <<'MORE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.uncompressed.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/easing/jquery.easing.uncompressed.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.uncompressed.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/bgiframe/jquery.bgiframe.uncompressed.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/hoverIntent/jquery.hoverIntent.uncompressed.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/jquery.foswiki.uncompressed.js"></script>
 MORE
   }
 
-  Foswiki::Func::addToHEAD('JQUERYPLUGIN::FOSWIKI', $header);
+  Foswiki::Func::addToHEAD('JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
 
 }
 

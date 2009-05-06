@@ -403,18 +403,12 @@ data="{"+data+"}";data=eval("("+data+")");$.data(elem,settings.single,data);retu
 '"/>';return this.each(function(){if($('> iframe.bgiframe',this).length==0)
 this.insertBefore(document.createElement(html),this.firstChild);});}
 return this;};})(jQuery);;;
+﻿
 (function($){$.fn.hoverIntent=function(f,g){var cfg={sensitivity:7,interval:100,timeout:0};cfg=$.extend(cfg,g?{over:f,out:g}:f);var cX,cY,pX,pY;var track=function(ev){cX=ev.pageX;cY=ev.pageY;};var compare=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);if((Math.abs(pX-cX)+Math.abs(pY-cY))<cfg.sensitivity){$(ob).unbind("mousemove",track);ob.hoverIntent_s=1;return cfg.over.apply(ob,[ev]);}else{pX=cX;pY=cY;ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}};var delay=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);ob.hoverIntent_s=0;return cfg.out.apply(ob,[ev]);};var handleHover=function(e){var p=(e.type=="mouseover"?e.fromElement:e.toElement)||e.relatedTarget;while(p&&p!=this){try{p=p.parentNode;}catch(e){p=this;}}
 if(p==this){return false;}
 var ev=jQuery.extend({},e);var ob=this;if(ob.hoverIntent_t){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);}
 if(e.type=="mouseover"){pX=ev.pageX;pY=ev.pageY;$(ob).bind("mousemove",track);if(ob.hoverIntent_s!=1){ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}}else{$(ob).unbind("mousemove",track);if(ob.hoverIntent_s==1){ob.hoverIntent_t=setTimeout(function(){delay(ev,ob);},cfg.timeout);}}};return this.mouseover(handleHover).mouseout(handleHover);};})(jQuery);;;
 var foswiki;if(typeof(foswiki)=="undefined"){foswiki={};}
-(function($){$(function(){$("head meta[name^='foswiki.']").each(function(){foswiki[this.name.substr(8)]=this.content;});var $jqTreeviews;if(true){$jqTreeviews=$(".jqTreeview");$jqTreeviews.children("> ul").each(function(){var args=Array();var parentClass=$(this).parent().attr('class');if(parentClass.match(/\bopen\b/)){args['collapsed']=false;}
-if(parentClass.match(/\bclosed?\b/)){args['collapsed']=true;}
-if(parentClass.match(/\bunique\b/)){args['unique']=true;}
-if(parentClass.match(/\bprerendered\b/)){args['prerendered']=true;}
-args['animated']='fast';if(parentClass.match(/\bspeed_(fast|slow|normal|none|[\d\.]+)\b/)){var speed=RegExp.$1;if(speed=="none"){delete args['animated'];}else{args['animated']=speed;}}
-$(this).treeview(args);});}
-if(false){$(".foswikiAttachments .foswikiTable a").shrinkUrls({size:25,trunc:'middle'});}
+(function($){$(function(){$("head meta[name^='foswiki.']").each(function(){foswiki[this.name.substr(8)]=this.content;});if(false){$(".foswikiAttachments .foswikiTable a").shrinkUrls({size:25,trunc:'middle'});}
 if(false){$.fn.media.defaults.mp3Player=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/media/mediaplayer/player.swf';$.fn.media.defaults.flvPlayer=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/media/mediaplayer/player.swf';$.fn.media.defaults.players.flash.eAttrs.allowfullscreen='true';$(".media a[href*=.flv]").media();$(".media a[href*=.swf]").media();$(".media a[href*=.mp3]").media();}
-if(typeof ChiliBook!="undefined"){ChiliBook.recipeFolder=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';ChiliBook.automaticSelector='pre';}
-if($jqTreeviews){$jqTreeviews.css('display','block');}});})(jQuery);;;
+if(typeof ChiliBook!="undefined"){ChiliBook.recipeFolder=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';ChiliBook.automaticSelector='pre';}});})(jQuery);;;

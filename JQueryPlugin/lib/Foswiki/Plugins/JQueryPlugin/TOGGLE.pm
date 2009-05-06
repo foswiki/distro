@@ -119,7 +119,7 @@ sub handleToggle {
   return
    "<a id='$toggleId' href='#' onclick=\"$cmd; return false;\" title='".$theTitle."' ".$style.'>'.
    "<span>".
-   $this->expandVariables($theText).'</span></a>';
+   Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theText).'</span></a>';
 }
 
 

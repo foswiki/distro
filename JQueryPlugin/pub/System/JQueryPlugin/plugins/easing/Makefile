@@ -1,2 +1,2 @@
-TARGET=jquery.easing.js
+TARGET=jquery.easing.js $(JQUERYPLUGIN_LIB)/EASING.pm
 -include ../../Makefile.include

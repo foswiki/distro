@@ -113,7 +113,7 @@ sub handleButton {
   my $theType = $params->{type} || 'button';
 
   my $theIcon;
-  $theIcon = $this->getIconUrlPath($theIconName) if $theIconName;
+  $theIcon = Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($theIconName) if $theIconName;
 
   if ($theIcon) {
     $theText = 
@@ -139,11 +139,11 @@ sub handleButton {
 
   if ($theType eq 'reset') {
     $theOnClick="\$(this).parents('form:first').resetForm();";
-    $this->createPlugin('Form');
+    Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
   if ($theType eq 'clear') {
     $theOnClick="\$(this).parents('form:first').clearForm();";
-    $this->createPlugin('Form');
+    Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
   $theOnClick .= ';return false;' if $theOnClick;
 

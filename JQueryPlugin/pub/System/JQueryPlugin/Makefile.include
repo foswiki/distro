@@ -1,4 +1,6 @@
 FOSWIKI_ROOT=~/foswiki/trunk/core
+FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
+JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
 MINIFYCSS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
 GZIP=gzip
@@ -27,3 +29,10 @@ subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
 	@$(MAKE) --no-print-directory -C $@
+
+%.pm:
+	@if test -f $@; then \
+	   echo "found"; \
+	 else \
+	   echo "WARNING: no perl stub found at $@ "; \
+	 fi

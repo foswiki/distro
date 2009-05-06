@@ -1,4 +1,4 @@
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/,
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
 # Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
 # 
@@ -13,16 +13,16 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package Foswiki::Plugins::JQueryPlugin::METADATA;
+package Foswiki::Plugins::JQueryPlugin::BGIFRAME;
 use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::METADATA
+---+ package Foswiki::Plugins::JQueryPlugin::BGIFRAME
 
-This is the perl stub for the jquery.metadata plugin.
+This is the perl stub for the jquery.bgiframe plugin.
 
 =cut
 
@@ -40,15 +40,14 @@ sub new {
 
   my $this = bless($class->SUPER::new( 
     $session,
-    name => 'Metadata',
-    version => '3630',
-    author => 'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
-    homepage => 'http://plugins.jquery.com/project/metadata',
+    name => 'bgiframe',
+    version => '2.1.1',
+    author => 'Brandon Aaron',
+    homepage => 'http://brandonaaron.net',
   ), $class);
 
   $this->{summary} = <<'HERE';
-This plugin is capable of extracting metadata from classes, random attributes,
-and child elements.
+A jQuery plugin that helps ease the pain when having to deal with IE z-index issues.
 HERE
 
   return $this;
@@ -71,15 +70,19 @@ sub init {
 
   if ($this->{debug}) {
    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.uncompressed.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/bgiframe/jquery.bgiframe.uncompressed.js"></script>
 HERE
   } else {
    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/bgiframe/jquery.bgiframe.js"></script>
 HERE
   }
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::METADATA", $header, 'JQUERYPLUGIN::FOSWIKI');
+  # dependencies
+  # Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Validate');
+
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::BGIFRAME", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;
+
