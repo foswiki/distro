@@ -33,7 +33,7 @@ Features:
    1 Add some new rows to your %SYSTEMWEB%.DataForms definition by editing the definition table.
    1 Create a new topic (e.g. Sandbox.MyTestTopic) and put the following to this new topic:
      <verbatim>
-%RENDERFORM{"MyTestForm")%
+%RENDERFORM{"MyTestForm"}%
 
 %SEARCH{search="MyTestTopic\d+" scope="topic" type="regex"}%
      </verbatim>
