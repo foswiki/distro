@@ -44,6 +44,8 @@ sub new {
     version => '1.5.2',
     author => 'Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
+    javascript => ['jquery.validate.js', 'jquery.validate.additional-methods.js'],
+    dependencies => ['metadata', 'form'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -69,18 +71,6 @@ sub init {
 
   my $header;
 
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/validate/jquery.validate.uncompressed.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/validate/jquery.validate.additional-methods.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/validate/jquery.validate.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/validate/jquery.validate.additional-methods.js"></script>
-HERE
-  }
-
   # open matching localization file if it exists
   my $langTag = $this->{session}->i18n->language();
   $langTag = 'de';
@@ -92,11 +82,7 @@ HERE
 HERE
   }
 
-  # recommended
-  Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('metadata');
-  Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('form');
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE", $header, 'JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::FORM');
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
 }
 
 1;

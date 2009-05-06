@@ -45,6 +45,9 @@ sub new {
     author => 'First Last',
     homepage => 'http://...',
     tags => 'EMPTY',
+    css => ['jquery.empty.css'],
+    javascript => ['jquery.empty.js'],
+    dependencies => ['metadata'], # just an example
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -62,29 +65,10 @@ Initialize this plugin by adding the required static files to the html header
 
 =cut
 
-sub init {
+sub DISinit {
   my $this = shift;
 
   return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/empty/jquery.empty.uncompressed.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/empty/jquery.empty.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/empty/jquery.empty.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/empty/jquery.empty.js"></script>
-HERE
-  }
-
-  # dependencies
-  # Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Validate');
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::EMPTY", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 =begin TML

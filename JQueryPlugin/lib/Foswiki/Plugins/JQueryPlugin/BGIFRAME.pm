@@ -44,6 +44,7 @@ sub new {
     version => '2.1.1',
     author => 'Brandon Aaron',
     homepage => 'http://brandonaaron.net',
+    javascript => ['jquery.bgiframe.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -51,37 +52,6 @@ A jQuery plugin that helps ease the pain when having to deal with IE z-index iss
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/bgiframe/jquery.bgiframe.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/bgiframe/jquery.bgiframe.js"></script>
-HERE
-  }
-
-  # dependencies
-  # Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Validate');
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::BGIFRAME", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

@@ -44,6 +44,7 @@ sub new {
     version => '2.18',
     author => 'M. Alsup',
     homepage => 'http://malsup.com/jquery/block/',
+    javascript => ['jquery.blockUI.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -55,35 +56,6 @@ blocking user interaction.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init()
-
-This is called at the end of the object constructor. See 
-Foswiki::Plugins::JQueryPlugin::Plugin.
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/blockUI/jquery.blockUI.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/blockUI/jquery.blockUI.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::BLOCKUI", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

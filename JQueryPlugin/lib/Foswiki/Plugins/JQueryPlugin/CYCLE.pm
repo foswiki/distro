@@ -44,6 +44,7 @@ sub new {
     version => '2.65',
     author => 'M. Alsup',
     homepage => 'http://www.malsup.com/jquery/cycle',
+    javascript => ['jquery.cycle.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -56,27 +57,6 @@ Plugin and the Easing Plugin.
 HERE
 
   return $this;
-}
-
-###############################################################################
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/cycle/jquery.cycle.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/cycle/jquery.cycle.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::CYCLE", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

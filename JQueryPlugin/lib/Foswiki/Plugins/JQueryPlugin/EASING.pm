@@ -44,6 +44,7 @@ sub new {
     version => '1.3',
     author => 'George <nop>McGinley Smith',
     homepage => 'http://gsgd.co.uk/sandbox/jquery/easing',
+    javascript => ['jquery.easing.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -52,37 +53,6 @@ to offer multiple easing options.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/easing/jquery.easing.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/easing/jquery.easing.js"></script>
-HERE
-  }
-
-  # dependencies
-  # Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Validate');
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::EASING", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

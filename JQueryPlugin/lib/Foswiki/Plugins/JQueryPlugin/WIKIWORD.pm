@@ -41,9 +41,10 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'WikiWord',
-    version => '$Rev$',
+    version => '1.0',
     author => 'Michael Daum',
     homepage => 'http://michaeldaumconsulting.com',
+    javascript => ['jquery.wikiword.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -54,34 +55,6 @@ to derive a topic name from a free-form topic title text.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/wikiword/jquery.wikiword.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/wikiword/jquery.wikiword.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::WIKIWORD", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

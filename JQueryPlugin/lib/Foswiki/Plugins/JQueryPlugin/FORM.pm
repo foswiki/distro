@@ -43,6 +43,7 @@ sub new {
     version => '2.25',
     author => 'M. Alsup',
     homepage => 'http://malsup.com/jquery/form',
+    javascript => ['jquery.form.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -55,34 +56,6 @@ doesn't get any easier than this!
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/form/jquery.form.uncompressed.js"></script>
-HERE
-  } else {
-    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/form/jquery.form.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::FORM", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

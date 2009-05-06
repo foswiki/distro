@@ -43,6 +43,7 @@ sub new {
     version => '1.4.1',
     author => 'Joel Birch',
     homepage => 'http://users.tpg.com.au/j_birch/plugins/superfish/',
+    javascript => ['jquery.superfish.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -63,35 +64,6 @@ TODO: upgrade to 1.4.8 or later
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-###############################################################################
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.uncompressed.js"></script>
-HERE
-  } else {
-    $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD('JQUERYPLUGIN::SUPERFISH', $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

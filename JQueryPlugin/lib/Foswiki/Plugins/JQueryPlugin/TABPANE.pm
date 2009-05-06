@@ -45,6 +45,8 @@ sub new {
     author => 'Michael Daum',
     homepage => 'http://michaeldaumconsutling.com',
     tags => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
+    css => ['jquery.tabpane.css'],
+    javascript => ['jquery.tabpane.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -64,39 +66,6 @@ It does match jquery.button in terms of look & feel.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-  
-  $this->{tabPaneCounter} = int(rand(1000));
-  $this->{tabCounter} = int(rand(1000));
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tabpane/jquery.tabpane.uncompressed.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tabpane/jquery.tabpane.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tabpane/jquery.tabpane.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tabpane/jquery.tabpane.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::TABPANE", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 =begin TML

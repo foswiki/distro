@@ -365,6 +365,8 @@ sub handleJQueryPlugins {
 sub handleJQueryScript {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
+  Foswiki::Func::writeWarning("WARNING: deprecated use of JQSCRIPT in $theWeb.$theTopic");
+
   my $scriptFileName = $params->{_DEFAULT};
   return '' unless $scriptFileName;
   $scriptFileName .= '.js' unless $scriptFileName =~ /\.js$/;
@@ -373,6 +375,8 @@ sub handleJQueryScript {
 
 sub handleJQueryStyle {
   my ($session, $params, $theTopic, $theWeb) = @_;   
+
+  Foswiki::Func::writeWarning("WARNING: deprecated use of JQSTYLE in $theWeb.$theTopic");
 
   my $styleFileName = $params->{_DEFAULT};
   return '' unless $styleFileName;

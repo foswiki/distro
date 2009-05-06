@@ -55,6 +55,9 @@ sub new {
     version => 'unknown',
     summary => 'unknown',
     homepage => 'unknown',
+    css => [],
+    javascript => [],
+    dependencies => [],
     tags => '',
     @_
   }, $class);
@@ -76,6 +79,38 @@ sub init {
 
   return 0 if $this->{isInit};
   $this->{isInit} = 1;
+
+
+  my $header = '';
+  my $name = lc($this->{name});
+
+  # load all css
+  foreach my $css (@{$this->{css}}) {
+    $css =~ s/\.css$/.uncompressed.css/ if $this->{debug};
+    $css .= '?version='.$this->{version};
+    $header .= <<"HERE";
+<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/$name/$css' type='text/css' media='all' />
+HERE
+  }
+
+  # load all javascript
+  foreach my $js (@{$this->{javascript}}) {
+    $js =~ s/\.js$/.uncompressed.js/ if $this->{debug};
+    $js .= '?version='.$this->{version};
+    $header .= <<"HERE";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/$name/$js'></script>
+HERE
+  }
+
+  # dependencies
+  my @headerDependency = ('JQUERYPLUGIN::FOSWIKI'); # jquery.foswiki is in there by default
+  foreach my $pluginName (@{$this->{dependencies}}) {
+    Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($pluginName);
+    push @headerDependency, 'JQUERYPLUGIN::'.uc($name);
+  }
+
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::".uc($name), $header, join(', ', @headerDependency));
+
   return 1;
 }
 

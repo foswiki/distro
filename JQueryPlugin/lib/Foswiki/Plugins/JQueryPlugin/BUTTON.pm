@@ -44,6 +44,7 @@ sub new {
     author => 'Michael Daum',
     homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
     tags => 'BUTTON',
+    css => ['jquery.button.css'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -55,34 +56,6 @@ theme roller. This is independent.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-  
-  if ($this->{debug}) {
-    $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/button/jquery.button.uncompressed.css" type="text/css" media="all" />
-HERE
-  } else {
-    $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/button/jquery.button.css" type="text/css" media="all" />
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::BUTTON", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 =begin TML

@@ -44,6 +44,8 @@ sub new {
     version => '3.12',
     author => 'Diego A. (Fyneworks.com)',
     homepage => 'http://jquery-star-rating-plugin.googlecode.com/svn/trunk/index.html',
+    css => ['jquery.rating.css'],
+    javascript => ['jquery.rating.js'],
   ), $class);
 
 
@@ -58,39 +60,6 @@ functionality will still be available even if Javascript is disabled.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/rating/jquery.rating.uncompressed.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/rating/jquery.rating.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/rating/jquery.rating.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/rating/jquery.rating.js"></script>
-HERE
-  }
-
-  # requires metadata
-  Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('metadata');
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::RATING", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

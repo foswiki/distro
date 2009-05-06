@@ -95,15 +95,13 @@ sub init {
 <meta name="foswiki.MathModePluginEnabled" content="%IF{"context MathModePluginEnabled" then="true" else="false"}%" />
 HERE
 
-  unless ($this->{debug}) {
-    $header .= <<'MORE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/jquery.foswiki.js"></script>
-MORE
-  } else {
-    $header .= <<'MORE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/jquery.foswiki.uncompressed.js"></script>
-MORE
-  }
+  my $js = 'jquery.foswiki';
+  $js .= '.uncompressed' if $this->{debug};
+  $js .= '.js?version='.$this->{version};
+
+  $header .= <<"HEADER";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>
+HEADER
 
   Foswiki::Func::addToHEAD('JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
 

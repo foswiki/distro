@@ -44,6 +44,8 @@ sub new {
     version => '1.3',
     author => 'Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/',
+    css => ['jquery.tooltip.css'],
+    javascript => ['jquery.tooltip.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -59,35 +61,6 @@ backend dynamically.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-  if ($this->{debug}) {
-    $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tooltip/jquery.tooltip.uncompressed.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tooltip/jquery.tooltip.uncompressed.js"></script>
-HERE
-  } else {
-    $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tooltip/jquery.tooltip.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/tooltip/jquery.tooltip.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD('JQUERYPLUGIN::TOOLTIP', $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

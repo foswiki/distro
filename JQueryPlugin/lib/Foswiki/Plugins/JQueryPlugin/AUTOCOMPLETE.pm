@@ -23,14 +23,6 @@ use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 Autocomplete - jQuery plugin 1.1pre
 
-Copyright (c) 2007 Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Jörn Zaefferer
-
-Dual licensed under the MIT and GPL licenses:
-  http://www.opensource.org/licenses/mit-license.php
-  http://www.gnu.org/licenses/gpl.html
-
-Revision: jquery.autocomplete.js 5785 2008-07-12 10:37:33Z joern.zaefferer
-
 =cut
 
 =begin TML
@@ -49,8 +41,10 @@ sub new {
     $session,
     name => 'Autocomplete',
     version => '1.1pre',
-    author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Jörn Zaefferer',
+    author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, JÃ¶rn Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
+    css => ['jquery.autocomplete.css'],
+    javascript => ['jquery.autocomplete.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -66,36 +60,6 @@ addresses from an addressbook.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init ($this)
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.uncompressed.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css" type="text/css" media="all" />
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::AUTOCOMPLETE", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

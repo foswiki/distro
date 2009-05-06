@@ -44,6 +44,7 @@ sub new {
     version => '3630',
     author => 'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
     homepage => 'http://plugins.jquery.com/project/metadata',
+    javascript => [ 'jquery.metadata.js' ],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -52,34 +53,6 @@ and child elements.
 HERE
 
   return $this;
-}
-
-=begin TML
-
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  my $header;
-
-  if ($this->{debug}) {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.uncompressed.js"></script>
-HERE
-  } else {
-   $header = <<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/metadata/jquery.metadata.js"></script>
-HERE
-  }
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::METADATA", $header, 'JQUERYPLUGIN::FOSWIKI');
 }
 
 1;

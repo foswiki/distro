@@ -7,13 +7,8 @@
 Include the jQuery javascript we need
 -->
 
-%JQTHEME{"flora"}%
-%JQSCRIPT{"jquery.spinner"}%
-%JQSCRIPT{"ui.core"}%
-%JQSCRIPT{"ui.mouse"}%
-%JQSCRIPT{"ui.draggable"}%
-%JQSCRIPT{"ui.resizable"}%
-%JQSCRIPT{"ui.dialog"}%  
+%JQREQUIRE{"jquery.spinner"}%
+%JQREQUIRE{"ui"}%
 
 ---++ Dialog
 ---+++ Default, no options
