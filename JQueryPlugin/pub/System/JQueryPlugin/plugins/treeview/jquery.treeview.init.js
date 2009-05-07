@@ -1,4 +1,4 @@
-(function(){$(function(){var $jqTreeviews;if(true){$jqTreeviews=$(".jqTreeview");$jqTreeviews.children("> ul").each(function(){var args=Array();var parentClass=$(this).parent().attr('class');if(parentClass.match(/\bopen\b/)){args['collapsed']=false;}
+;(function($){$(function(){var $jqTreeviews;if(true){$jqTreeviews=$(".jqTreeview");$jqTreeviews.children("> ul").each(function(){var args=Array();var parentClass=$(this).parent().attr('class');if(parentClass.match(/\bopen\b/)){args['collapsed']=false;}
 if(parentClass.match(/\bclosed?\b/)){args['collapsed']=true;}
 if(parentClass.match(/\bunique\b/)){args['unique']=true;}
 if(parentClass.match(/\bprerendered\b/)){args['prerendered']=true;}

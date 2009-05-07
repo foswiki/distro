@@ -14,6 +14,7 @@
 /***************************************************************************
  * plugin definition 
  */
+;(function($) {
 $.wikiword = {
 
     
@@ -21,7 +22,7 @@ $.wikiword = {
    * constructor
    */
   build: function(source, options) {
-    $.wikiword.writeDebug("called wikiword()");
+    $.log("called wikiword()");
    
     // build main options before element iteration
     var opts = $.extend({}, $.fn.wikiword.defaults, options);
@@ -65,10 +66,10 @@ $.wikiword = {
     } else {
       result = thisOpts.initial;
     }
-    $.wikiword.writeDebug("result="+result);
+    $.log("result="+result);
 
     target.each(function() {
-      //$.wikiword.writeDebug("this="+this);
+      //$.log("this="+this);
       $(this).is(':input')?$(this).val(result):$(this).text(result);
     });
   },
@@ -83,7 +84,7 @@ $.wikiword = {
     for (var i = 0; i < source.length; i++) {
       chVal = source.charCodeAt(i);
 
-      //$.wikiword.writeDebug("chVal="+chVal);
+      //$.log("chVal="+chVal);
 
       if (chVal == 192 || chVal == 193 || chVal == 194 || chVal == 195) { ch = 'A'; }
       else if (chVal == 196) { result += 'Ae'; }
@@ -139,25 +140,9 @@ $.wikiword = {
   },
 
   /***************************************************************************
-   * private function for debugging using the firebug console
-   * TODO: move this to $.foswiki.writeDebug()
-   */
-  writeDebug: function(msg) {
-    if ($.wikiword.defaults.debug) {
-      if (window.console && window.console.log) {
-        window.console.log("DEBUG: wikiword - "+msg);
-      } else {
-        /* generic debugging. TODO come up with something better */
-        //alert("DEBUG: wikiword - "+msg) 
-      }
-    }
-  },
-
-  /***************************************************************************
    * plugin defaults
    */
   defaults: {
-    debug: false,
     suffix: '',
     prefix: '',
     initial: ''
@@ -168,3 +153,5 @@ $.wikiword = {
 $(function() {
   $.fn.wikiword = $.wikiword.build;
 });
+
+})(jQuery);

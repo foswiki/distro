@@ -73,7 +73,6 @@ sub init {
 
   # open matching localization file if it exists
   my $langTag = $this->{session}->i18n->language();
-  $langTag = 'de';
   my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/plugins/validate/localization/messages_'.$langTag.'.js';
   my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
   if (-f $messageFile) {

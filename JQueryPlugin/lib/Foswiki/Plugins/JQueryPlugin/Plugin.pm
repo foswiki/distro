@@ -104,9 +104,13 @@ HERE
 
   # dependencies
   my @headerDependency = ('JQUERYPLUGIN::FOSWIKI'); # jquery.foswiki is in there by default
-  foreach my $pluginName (@{$this->{dependencies}}) {
-    Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($pluginName);
-    push @headerDependency, 'JQUERYPLUGIN::'.uc($name);
+  foreach my $dep (@{$this->{dependencies}}) {
+    if ($dep =~ /^JQUERYPLUGIN/) {
+      push @headerDependency, $dep;
+    } else {
+      Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
+      push @headerDependency, 'JQUERYPLUGIN::'.uc($name);
+    }
   }
 
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::".uc($name), $header, join(', ', @headerDependency));

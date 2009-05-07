@@ -16,7 +16,7 @@
    * plugin definition 
    */
   $.fn.tabpane = function(options) {
-    writeDebug("called tabpane()");
+    $.log("called tabpane()");
 
     if (typeof(options) == 'undefined') {
       options = {};
@@ -47,7 +47,7 @@
           currentTabId = this.id;
           $(this).addClass("current");
         } else {
-          //writeDebug("hiding "+this.id);
+          //$.log("hiding "+this.id);
           $(this).removeClass("current");
         }
         index++;
@@ -81,9 +81,9 @@
    * switchin from tab1 to tab2
    */
   function switchTab(oldTabId, newTabId, thisOpts) {
-    writeDebug("switch from "+oldTabId+" to "+newTabId);
+    jQuery.log("switch from "+oldTabId+" to "+newTabId);
 
-    var $newTab  = $("#"+newTabId);
+    var $newTab  = jQuery("#"+newTabId);
 
     if (!thisOpts[newTabId]) {
       thisOpts[newTabId] = $newTab.metadata();
@@ -93,7 +93,7 @@
     // before click handler
     if (typeof(data.beforeHandler) != "undefined") {
       var command = "{ oldTab = '"+oldTabId+"'; newTab = '"+newTabId+"'; "+data.beforeHandler+";}";
-      writeDebug("exec "+command);
+      jQuery.log("exec "+command);
       var func = new Function(command);
       func();
     }
@@ -102,11 +102,11 @@
     if (typeof(data.url) != "undefined") {
       var container = data.container || '.jqTabContents';
       var $container = $newTab.find(container);
-      writeDebug("loading "+data.url+" into "+container);
+      jQuery.log("loading "+data.url+" into "+container);
 
       if (typeof(data.afterLoadHandler) != "undefined") {
         var command = "{ oldTab = '"+oldTabId+"'; newTab = '"+newTabId+"'; "+data.afterLoadHandler+";}";
-        writeDebug("after load handler "+command);
+        jQuery.log("after load handler "+command);
         var func = new Function(command);
         $container.load(data.url, undefined, func);
       } else {
@@ -118,35 +118,21 @@
     // after click handler
     if (typeof(data.afterHandler) != "undefined") {
       var command = "{ oldTab = '"+oldTabId+"'; newTab = '"+newTabId+"'; "+data.afterHandler+";}";
-      writeDebug("exec "+command);
+      jQuery.log("exec "+command);
       var func = new Function(command);
       func();
     }
 
   }
 
-  /***************************************************************************
-   * private function for debugging using the firebug console
-   */
-  function writeDebug(msg) {
-    if ($.fn.tabpane.defaults.debug) {
-      if (window.console && window.console.log) {
-        window.console.log("DEBUG: TabPane - "+msg);
-      } else {
-        alert(msg);
-      }
-    }
-  };
-
-
   /*************************************************************************
    * adjust height of pane to window height
    */
   function autoMaxExpand() {
-    //writeDebug("called autoMaxExpand");
+    //jQuery.log("called autoMaxExpand");
     fixHeightOfPane();
     window.setTimeout(function() {
-      $(window).one("resize", function() {
+      jQuery(window).one("resize", function() {
         autoMaxExpand()
       });
     }, 100); 
@@ -157,11 +143,10 @@
    * plugin defaults
    */
   $.fn.tabpane.defaults = {
-    debug: false,
     select: 1
   };
-})(jQuery);
 
+})(jQuery);
 
 /* TODO rework */
 var bottomBarHeight = -1;
@@ -170,7 +155,7 @@ function fixHeightOfPane() {
   var selector = (typeof(newTab) != 'undefined')?"#"+newTab:".jqTab:visible";
   selector += " .jqTabContents";
   //alert("newTab="+newTab+" selector="+selector);
-  var $container = $(selector);
+  var $container = jQuery(selector);
   var paneOffset = $container.offset({
     scroll:false,
     border:true,
@@ -183,11 +168,11 @@ function fixHeightOfPane() {
 
     var paneTop = paneOffset.top;
     if (bottomBarHeight < 0) {
-      bottomBarHeight = $('.natEditBottomBar').outerHeight({margin:true});
+      bottomBarHeight = jQuery('.natEditBottomBar').outerHeight({margin:true});
     }
     //alert("container="+$container.parent().attr('id')+" paneTop="+paneTop+" bottomBarHeight="+bottomBarHeight);
 
-    var windowHeight = $(window).height();
+    var windowHeight = jQuery(window).height();
     if (!windowHeight) {
       windowHeight = window.innerHeight; // woops, jquery, whats up, i.e. for konqueror
     }
@@ -201,10 +186,12 @@ function fixHeightOfPane() {
     }
 
     // add new height to those containers, that don't have an natEditAutoMaxExpand element
-    $(newTabSelector+" .jqTabContents").filter(function(index) { 
-      return $(".natEditAutoMaxExpand", this).length == 0; 
+    jQuery(newTabSelector+" .jqTabContents").filter(function(index) { 
+      return jQuery(".natEditAutoMaxExpand", this).length == 0; 
     }).each(function() {
-      $(this).height(height);
+      jQuery(this).height(height);
     });
   }
 }
+
+

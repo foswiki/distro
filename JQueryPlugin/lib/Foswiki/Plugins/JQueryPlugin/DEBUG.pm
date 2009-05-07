@@ -13,22 +13,24 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package Foswiki::Plugins::JQueryPlugin::TREEVIEW;
+package Foswiki::Plugins::JQueryPlugin::DEBUG;
 use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::TREEVIEW
+---+ package Foswiki::Plugins::JQueryPlugin::DEBUG
 
-This is the perl stub for the jquery.treeview plugin.
+This is the perl stub for the jquery.debug plugin.
 
 =cut
 
 =begin TML
 
 ---++ ClassMethod new( $class, $session, ... )
+
+Constructor
 
 =cut
 
@@ -38,24 +40,33 @@ sub new {
 
   my $this = bless($class->SUPER::new( 
     $session,
-    name => 'Treeview',
-    version => '1.4',
-    author => 'Joern Zaefferer',
-    homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
-    css => ['jquery.treeview.css'],
-    javascript => ['jquery.treeview.js', 'jquery.treeview.async.js', 'jquery.treeview.init.js'],
+    name => 'Debug',
+    version => '20080225',
+    author => 'Stephane Lenclud',
+    homepage => 'http://www.glyphix.com',
+    css => ['jquery.debug.css'],
+    javascript => ['jquery.debug.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
-Lightweight and flexible transformation of an unordered list into an
-expandable and collapsable tree, great for unobtrusive navigation enhancements.
-Supports both location and cookie based persistence.
+Simple jQuery logger / debugger using firebug's console or a div of its own of the form
+<verbatim class="html">
+<div id="DEBUG">
+  <ol>
+    <li>...</li>
+    ...
+  </ol>
+</div>
+</verbatim>
 
-Subtrees can be loaded on demand using AJAX. See the Foswiki:Extensions/RenderPlugin
-how to implement such REST handlers easily.
+Usage:
+   * =$.log("message");=: will send the message to the console
+   * =$.log(object);=: will stringify the object 
+   * =$("<selector>").debug();= will stringify the found objects
 HERE
 
   return $this;
 }
 
 1;
+

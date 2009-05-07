@@ -215,9 +215,10 @@ sub handleJQueryRequire {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
   my $pluginName = $params->{_DEFAULT};
+  my $warn = $params->{warn} || '';
   my $plugin = createPlugin($pluginName, $session);
   return "<span class='foswikiAlert'>Error: no such plugin $pluginName</span>"
-    unless $plugin;
+    if !$plugin && $warn ne 'off' ;
 
   return '';
 }

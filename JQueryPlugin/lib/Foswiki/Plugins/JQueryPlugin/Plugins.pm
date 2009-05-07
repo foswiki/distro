@@ -54,6 +54,11 @@ sub init () {
   $jQuery .= '.uncompressed' if $debug;
 
   my $header = '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/'.$jQuery.'.js"></script>';
+
+  # switch on noconflict mode
+  if ($Foswiki::cfg{JQueryPlugin}{NoConflict}) {
+    $header .= "\n".'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js"></script>'
+  }
   Foswiki::Func::addToHEAD('JQUERYPLUGIN', $header);
 
   # initial plugins

@@ -1,2 +1,2 @@
-$.empty={build:function(options){writeDebug("called empty()");var opts=$.extend({},$.fn.empty.defaults,options);return this.each(function(){$this=$(this);var thisOpts=$.meta?$.extend({},opts,$this.data()):opts;});},helper:function(){},writeDebug:function(msg){if(defaults.debug){if(window.console&&window.console.log){window.console.log("DEBUG: empty - "+msg);}else{}}};defaults:{debug:false};}
-(function($){$.fn.empty=$.empty.build;})(jQuery);;
+;(function($){$.empty={build:function(options){$.log("called empty()");var opts=$.extend({},$.fn.empty.defaults,options);return this.each(function(){$this=$(this);var thisOpts=$.meta?$.extend({},opts,$this.data()):opts;});},helper:function(){},defaults:{};}
+$.fn.empty=$.empty.build;})(jQuery);;

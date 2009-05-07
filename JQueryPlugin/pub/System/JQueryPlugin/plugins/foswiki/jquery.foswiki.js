@@ -1,4 +1,2 @@
 var foswiki;if(typeof(foswiki)=="undefined"){foswiki={};}
-(function($){$(function(){$("head meta[name^='foswiki.']").each(function(){foswiki[this.name.substr(8)]=this.content;});if(false){$(".foswikiAttachments .foswikiTable a").shrinkUrls({size:25,trunc:'middle'});}
-if(false){$.fn.media.defaults.mp3Player=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/media/mediaplayer/player.swf';$.fn.media.defaults.flvPlayer=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/media/mediaplayer/player.swf';$.fn.media.defaults.players.flash.eAttrs.allowfullscreen='true';$(".media a[href*=.flv]").media();$(".media a[href*=.swf]").media();$(".media a[href*=.mp3]").media();}
-if(typeof ChiliBook!="undefined"){ChiliBook.recipeFolder=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';ChiliBook.automaticSelector='pre';}});})(jQuery);;
+(function($){$("head meta[name^='foswiki.']").each(function(){foswiki[this.name.substr(8)]=this.content;});$.log=function(message){};$.fn.debug=function(){};})(jQuery);;

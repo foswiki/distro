@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1241630646" format="1.1" reprev="1.4" version="1.4"}%
+%META:TOPICINFO{author="micha" date="1241714653" format="1.1" reprev="1.6" version="1.6"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -31,7 +31,7 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
 ---++ Installed Plugins
 %JQPLUGINS{
   header=""
-  format="<h3>$name $active</h3>
+  format="<h3><nop>$name $active</h3>
     Homepage: $homepage <br />
     Author(s): $author <br />
     Version: $version <br />
@@ -40,35 +40,6 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
   "
   footer="$n<span class='foswikiAlert'>$counter plugins found</span>$n"
 }%
-
-   1 [[http://docs.jquery.com][jquery]]: the core  
-   1 jquery-ui
-
----++ TODO
-create perl stubs for
-   1 [[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting
-   1 jquery.debug: helps debugging jquery code  
-   1 [[http://acko.net/dev/farbtastic][farbtastic]]: color chooser
-   1 [[http://cherne.net/brian/resources/jquery.hoverIntent.html][jquery.hoverIntent]]: similar to jQuery's hover. However, onMouseOver hoverIntent tracks the user's mouse and waits until it slows down before calling the onMouseOver function   
-   1 [[http://medienfreunde.com/lab/innerfade/][jquery.innerfade]]: a more flexible version of Slideshow   
-   1 [[http://digitalbush.com/projects/masked-input-plugin/][jquery.maskedinput]]: mask the characters allowed in an input field.    
-   1 [[http://www.malsup.com/jquery/media/][jquery.media]]: supports unobtrusive conversion of standard markup into rich media content, e.g.  Flash, Quicktime, Windows Media Player, Real Player, MP3, Silverlight, PDF and more
-   1 [[http://methvin.com/jquery/jq-corner.html][jquery.nifty]]: create rounded corners, TODO: replace with   
-   1 jquery.shrinkurls:  shrink link long link texts  
-   1 jquery.spinner: simple jQuery spinner  
-   1 [[http://www.ericmmartin.com/projects/simplemodal/][jquery.simplemodal]]: provides a simple interface to create a modal dialog
-unobtrusive expanding and collapsing treeview control   
-   1 [[http://zeroedandnoughted.wordpress.com/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/][jquery.shake]]: osx login box animation
-
----++ Further references and tutorials
-   * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
-   * [[http://docs.jquery.com/Tutorials][Tutorials]]
-   * [[http://docs.jquery.com/Main_Page][Reference API]]
-   * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
-   * [[http://docs.jquery.com/Plugins][Plugin repository]]
-
----++ Syntax Rules
-TODO
 
 
 ---++ Themes
@@ -79,8 +50,8 @@ The following themes are provided:
    * smoothness
 
 ---++ Examples
-   * Sandbox.PluginTestJQueryPlugin.txt 	 	
-   * Sandbox.JQueryPluginExamples.txt
+   * Sandbox.PluginTestJQueryPlugin	 	
+   * Sandbox.JQueryPluginExamples
 
 ---++ Chili Syntax Highlighting
 [[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting has been added to the JQueryPlugin.
@@ -116,6 +87,14 @@ Available class attributes:
 | =php= | Hypertext Preprocessor |
 | =sql= | Structured Query Language |
 | =tml= | Wiki Markup Language |
+
+---++ Further references and tutorials
+   * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
+   * [[http://docs.jquery.com/Tutorials][Tutorials]]
+   * [[http://docs.jquery.com/Main_Page][Reference API]]
+   * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
+   * [[http://docs.jquery.com/Plugins][Plugin repository]]
+
 
 ---++ Using compressed javascript and css files
 All jQuery plugins are shipped with uncompressed js and css files, as well as minified and gzip compressed.
@@ -156,10 +135,37 @@ in the filesystem, then trigger an internal redirect while still enforcing the o
 The browser on the other side will unzip the css and js files automatically. This will drastically
 reduce bandwidth and speed up interactive performance.
 
+
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
+---++ Plugin Roadmap
+for v2.0:
+   * create perl stubs for
+      1 [[http://acko.net/dev/farbtastic][farbtastic]]: color chooser
+      1 [[http://medienfreunde.com/lab/innerfade/][jquery.innerfade]]: a more flexible version of Slideshow   
+      1 [[http://digitalbush.com/projects/masked-input-plugin/][jquery.maskedinput]]: mask the characters allowed in an input field.    
+      1 [[http://methvin.com/jquery/jq-corner.html][jquery.nifty]]: create rounded corners, TODO: replace with   
+      1 jquery.spinner: simple jQuery spinner  
+      1 [[http://zeroedandnoughted.wordpress.com/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/][jquery.shake]]: osx login box animation
+   * explain how to make use of jquery-ui
+   * provide <nop>VarXXX docu for tags
+   * update demos
+   * replace jquery.nifty with [[http://www.malsup.com/jquery/corner/][jquery.corner]]
+   * secure all plain =$= using a =(function($) { ... })(jQuery);= wrapper so that it does not clash with other
+     javascript frameworks
 
+for v2.1:
+   * create formfield types for colors, user, topic, web
+
+for v2.2:
+   * replace JSCalendarContrib date formfield with a jquery based one
+
+for v2.3:
+   * add jquery.tablesorter and rewrite serverbased sorting by TablePlugin automatically
+
+for v3.0
+   * add more Foswiki %TAGs to ease handling of diverse jQuery plugins
 
 ---++ Plugin Info
 |  Plugin Author(s): | Michael Daum |

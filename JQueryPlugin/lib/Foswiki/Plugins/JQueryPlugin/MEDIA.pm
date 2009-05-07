@@ -13,22 +13,25 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package Foswiki::Plugins::JQueryPlugin::TREEVIEW;
+package Foswiki::Plugins::JQueryPlugin::MEDIA;
 use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::TREEVIEW
+---+ package Foswiki::Plugins::JQueryPlugin::MEDIA
 
-This is the perl stub for the jquery.treeview plugin.
+This is the perl stub for the jquery.media plugin.
 
 =cut
 
 =begin TML
 
 ---++ ClassMethod new( $class, $session, ... )
+
+Constructor
+
 
 =cut
 
@@ -38,24 +41,33 @@ sub new {
 
   my $this = bless($class->SUPER::new( 
     $session,
-    name => 'Treeview',
-    version => '1.4',
-    author => 'Joern Zaefferer',
-    homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
-    css => ['jquery.treeview.css'],
-    javascript => ['jquery.treeview.js', 'jquery.treeview.async.js', 'jquery.treeview.init.js'],
+    name => 'Media',
+    version => '0.89',
+    author => 'M. Alsup',
+    homepage => 'http://malsup.com/jquery/media',
+    javascript => ['jquery.media.js', 'jquery.media.init.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
-Lightweight and flexible transformation of an unordered list into an
-expandable and collapsable tree, great for unobtrusive navigation enhancements.
-Supports both location and cookie based persistence.
+jQuery Media Plugin for converting elements into rich media content.
 
-Subtrees can be loaded on demand using AJAX. See the Foswiki:Extensions/RenderPlugin
-how to implement such REST handlers easily.
+Supported Media Players:
+   * Flash
+   * Quicktime
+   * Real Player
+   * Silverlight
+   * Windows Media Player
+   * iframe
+
+Supported Media Formats:%BR%
+Any types supported by the above players, such as:
+   * Video: asf, avi, flv, mov, mpg, mpeg, mp4, qt, smil, swf, wmv, 3g2, 3gp
+   * Audio: aif, aac, au, gsm, mid, midi, mov, mp3, m4a, snd, rm, wav, wma
+   * Other: bmp, html, pdf, psd, qif, qtif, qti, tif, tiff, xaml
 HERE
 
   return $this;
 }
 
 1;
+

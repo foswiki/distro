@@ -1,7 +1,7 @@
 /*
- * jQuery Shrinkurls plugin 1.0
+ * jQuery Shrinkurls plugin 1.1
  *
- * http://wikiring.de
+ * http://michaeldaumconsulting.com
  *
  * Copyright (c) 2007-2009 Michael Daum
  *
@@ -20,8 +20,8 @@
  * is appended to the title attribute of the anchor.
  *
  * Usage
- *  $("#container").shrinkUrls({
- *    size:<number,           // max size (default 25)
+ *  $("#container a").shrinkUrls({
+ *    size:<number>,           // max size (default 25)
  *    include:'<regex>'       // regular expression a link text must 
  *                            // match to be considered
  *    exclude:'<regex>'       // regular expression a link text must 
@@ -33,6 +33,7 @@
  *
  */
 
+;(function($) {
 $.fn.extend({
   shrinkUrls: function(settings) {
     settings = $.extend({
@@ -42,11 +43,12 @@ $.fn.extend({
 
     return this.each(function() {
       var text = $(this).text();
-      if ((text.length > settings.size) && 
+      var txtlength = text.length;
+      $(text).debug();
+      if ((txtlength > settings.size) && 
           (!settings.include || text.match(settings.include)) &&
           (!settings.exclude || !text.match(settings.exclude)) &&
           (settings.whitespace || !text.match(/\s/))) {
-        var txtlength = text.length;
         var firstPart = "";
         var lastPart = "";
         var middlePart = "";
@@ -76,3 +78,14 @@ $.fn.extend({
     });
   }
 });
+
+$(function() {
+  /********************************************************
+   * shrink urls in WikiTables lists
+   */
+  if (true) { // TODO: make this configurable
+    $(".foswikiAttachments .foswikiTable a").shrinkUrls({size:25, trunc:'middle'});
+  }
+});
+
+})(jQuery);

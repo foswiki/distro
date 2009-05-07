@@ -18,6 +18,7 @@
 /***************************************************************************
  * plugin definition 
  */
+;(function($) {
 $.empty = {
 
     
@@ -25,7 +26,7 @@ $.empty = {
    * constructor
    */
   build: function(options) {
-    writeDebug("called empty()");
+    $.log("called empty()");
    
     // build main options before element iteration
     var opts = $.extend({}, $.fn.empty.defaults, options);
@@ -49,29 +50,14 @@ $.empty = {
   },
 
   /***************************************************************************
-   * private function for debugging using the firebug console
-   * TODO: move this to $.foswiki.writeDebug()
-   */
-  writeDebug: function(msg) {
-    if (defaults.debug) {
-      if (window.console && window.console.log) {
-        window.console.log("DEBUG: empty - "+msg);
-      } else {
-        /* generic debugging. TODO come up with something better */
-        //alert("DEBUG: empty - "+msg) 
-      }
-    }
-  };
-
-  /***************************************************************************
    * plugin defaults
    */
   defaults: {
-    debug: false
+    //key: 'value'
   };
 }
 
 /* register by extending jquery */
-(function($) {
-  $.fn.empty = $.empty.build;
+$.fn.empty = $.empty.build;
+
 })(jQuery);

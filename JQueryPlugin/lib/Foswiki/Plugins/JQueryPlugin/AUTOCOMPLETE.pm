@@ -41,7 +41,7 @@ sub new {
     $session,
     name => 'Autocomplete',
     version => '1.1pre',
-    author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Jörn Zaefferer',
+    author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
     css => ['jquery.autocomplete.css'],
     javascript => ['jquery.autocomplete.js'],
@@ -57,6 +57,9 @@ better matches.
 This can be used to enter previous selected values, eg. for tags, to complete
 an address, eg. enter a city name and get the zip code, or maybe enter email
 addresses from an addressbook.
+
+See also [[%SYSTEMWEB%.JQueryAjaxHelper][JQueryjaxHelper]] for examples on how to integrate autocompletion
+into Foswiki.
 HERE
 
   return $this;

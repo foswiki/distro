@@ -22,7 +22,7 @@ use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 ---+ package Foswiki::Plugins::JQueryPlugin::TABPABNE
 
-This is the perl stub for the jquery.empty plugin.
+This is the perl stub for the jquery.tabpane plugin.
 
 =cut
 
@@ -88,9 +88,11 @@ sub handleTabPane {
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::TABPANE:$tpId", <<"HERE", 'JQUERYPLUGIN::TABPANE');
 <script type="text/javascript">
 //<![CDATA[
-jQuery(function(\$) {
+(function(\$) {
+\$(function() {
   \$("#$tpId").tabpane({select:'$select', autoMaxExpand:$autoMaxExpand});
-});
+})
+})(jQuery);
 //]]>
 </script>
 HERE

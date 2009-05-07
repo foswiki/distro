@@ -1,0 +1,23 @@
+#DEBUG {
+  position:fixed;
+  bottom:0px;
+  left:0px;
+  height:15em;
+  width:100%;
+  overflow:auto;
+  border-top:10px solid #d9d8d8;
+  padding:5px 0px;
+  background:white;
+  color:black;
+  font-family:monospace;
+  font-size:12px;
+  text-align:left; 
+}
+#DEBUG ol {
+  padding-left:2em;
+}
+#DEBUG li {
+  padding-bottom:2px;
+  margin-bottom:2px;
+  border-bottom:1px solid #d7d7d7;
+}
