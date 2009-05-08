@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 # tests for the correct expansion of SEARCH
 # SMELL: this test is pathetic, becase SEARCH has dozens of untested modes
@@ -10,6 +11,20 @@ use base qw( FoswikiFnTestCase );
 use Foswiki;
 use Error qw( :try );
 
+# Load locale if UseLocale on;
+# otherwise the Ok+Topic Ok-Topic lexical sort order gets reversed
+# locale being a pragma, it has to be in a BEGIN block
+# but setlocale has to be outside
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} && $Foswiki::cfg{Site}{Locale} ) {
+        require POSIX;
+        require locale;
+        locale::import();
+    }
+}
+POSIX::setlocale( POSIX::LC_COLLATE, $Foswiki::cfg{Site}{Locale} )
+    if ( $Foswiki::cfg{UseLocale} && $Foswiki::cfg{Site}{Locale} );
+
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
     return $self;
@@ -19,9 +34,6 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-    # Turn UseLocale off; otherwise the Ok+Topic Ok-Topic lexical sort
-    # order gets reversed
-    $Foswiki::cfg{UseLocale} = 0;
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
         $this->{test_web}, 'OkTopic', "BLEEGLE blah/matchme.blah" );
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
@@ -192,7 +204,7 @@ sub verify_separator {
         $this->{test_web}, $this->{test_topic}
     );
 
-    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic", $result );
+    $this->assert_str_equals( join(',', sort qw(OkTopic Ok-Topic Ok+Topic)), $result );
 }
 
 sub verify_separator_with_header {
@@ -206,8 +218,8 @@ sub verify_separator_with_header {
 
     # FIXME: The first , shouldn't be there, but Arthur knows why
     # waiting for him to fix, and as I can't put this test into TODO...
-    $this->assert_str_equals( "RESULT:
-Ok+Topic,Ok-Topic,OkTopic", $result );
+    $this->assert_str_equals( "RESULT:\n" . join(',', sort qw(Ok+Topic Ok-Topic OkTopic)),
+        $result );
 }
 
 sub verify_regex_match {
@@ -1166,7 +1178,7 @@ sub verify_casesensitivesetting {
         $this->{test_web}, $this->{test_topic}
       );
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -1184,7 +1196,7 @@ sub verify_casesensitivesetting {
         $this->{test_web}, $this->{test_topic}
       );
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -1193,7 +1205,7 @@ sub verify_casesensitivesetting {
         $this->{test_web}, $this->{test_topic}
       );
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
     $this->assert_str_equals( $expected, $actual );
 
 #topic scope
@@ -1203,7 +1215,7 @@ sub verify_casesensitivesetting {
         $this->{test_web}, $this->{test_topic}
       );
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic';
+    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic);
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -1221,7 +1233,7 @@ sub verify_casesensitivesetting {
         $this->{test_web}, $this->{test_topic}
       );
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic';
+    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic);
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -1230,7 +1242,7 @@ sub verify_casesensitivesetting {
         $this->{test_web}, $this->{test_topic}
       );
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic';
+    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic);
     $this->assert_str_equals( $expected, $actual );
 
 }
