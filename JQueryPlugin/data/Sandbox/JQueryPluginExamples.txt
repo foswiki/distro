@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1241795900" format="1.1" reprev="1.5" version="1.5"}%
+%META:TOPICINFO{author="micha" date="1241797759" format="1.1" reprev="1.5" version="1.5"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
@@ -13,6 +13,14 @@ Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
 %BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key"}%
 %CLEAR%
 %BR%
+
+---++ Shake
+%JQREQUIRE{"shake"}%
+%BUTTON{"Shake it, baby" icon="bomb" onclick="jQuery('#lorem').shake(3, 10, 180)"}%
+%CLEAR%
+
+<div id="lorem" style="width:300px;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare fringilla est, eget condimentum quam auctor quis. Curabitur vitae nibh eu nisl scelerisque facilisis. Vestibulum posuere pretium magna, eu pulvinar libero cursus in. Phasellus tortor dui, viverra vitae molestie a, aliquam quis risus. Mauris fringilla mattis ligula, et laoreet dui rhoncus vel. Aliquam bibendum, nisi nec pellentesque convallis, augue elit rutrum sapien, nec molestie augue mauris et tellus. </div>
 
 ---++ Toggles
 %TOGGLE{

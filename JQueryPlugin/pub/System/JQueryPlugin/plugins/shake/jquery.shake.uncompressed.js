@@ -1,5 +1,5 @@
-/* http://zeroedandnoughted.wordpress.com/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/ */
-jQuery.fn.shake = function(intShakes /*Amount of shakes*/, intDistance /*Shake distance*/, intDuration /*Time duration*/) {  
+(function($) {
+$.fn.shake = function(intShakes /*Amount of shakes*/, intDistance /*Shake distance*/, intDuration /*Time duration*/) {  
   this.each(function() {  
     $(this).css({position:'relative'});  
     for (var x=1; x<=intShakes; x++) {  
@@ -10,3 +10,4 @@ jQuery.fn.shake = function(intShakes /*Amount of shakes*/, intDistance /*Shake d
   });  
   return this;  
 }; 
+})(jQuery);

@@ -20,11 +20,13 @@ lib/Foswiki/Plugins/JQueryPlugin/FORM.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/FOSWIKI.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/HOVERINTENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/INNERFADE.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/MASKEDINPUT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MEDIA.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/METADATA.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugin.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugins.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/RATING.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/SHAKE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SHRINKURLS.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SIMPLEMODAL.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SUPERFISH.pm 0644
@@ -219,6 +221,9 @@ pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.js.gz 0644
 pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/maskedinput/Makefile 0644
+pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.init.js 0644
+pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.js 0644
 pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.js.gz 0644
 pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.uncompressed.js 0644

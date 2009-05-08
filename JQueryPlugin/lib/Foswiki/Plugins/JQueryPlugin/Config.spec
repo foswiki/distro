@@ -75,6 +75,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{ShrinkUrls}{Enabled} = 1;
 
 # **BOOLEAN**

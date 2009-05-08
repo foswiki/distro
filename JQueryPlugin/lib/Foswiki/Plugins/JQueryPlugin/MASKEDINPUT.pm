@@ -22,7 +22,7 @@ use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 ---+ package Foswiki::Plugins::JQueryPlugin::MASKEDINPUT
 
-This is the perl stub for the jquery.empty plugin.
+This is the perl stub for the jquery.maskedinput plugin.
 
 =cut
 
