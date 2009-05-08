@@ -23,7 +23,7 @@ BEGIN {
     }
 }
 POSIX::setlocale( POSIX::LC_COLLATE, $Foswiki::cfg{Site}{Locale} )
-    if ( $Foswiki::cfg{UseLocale} && $Foswiki::cfg{Site}{Locale} );
+  if ( $Foswiki::cfg{UseLocale} && $Foswiki::cfg{Site}{Locale} );
 
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
@@ -204,7 +204,8 @@ sub verify_separator {
         $this->{test_web}, $this->{test_topic}
     );
 
-    $this->assert_str_equals( join(',', sort qw(OkTopic Ok-Topic Ok+Topic)), $result );
+    $this->assert_str_equals( join( ',', sort qw(OkTopic Ok-Topic Ok+Topic) ),
+        $result );
 }
 
 sub verify_separator_with_header {
@@ -218,7 +219,8 @@ sub verify_separator_with_header {
 
     # FIXME: The first , shouldn't be there, but Arthur knows why
     # waiting for him to fix, and as I can't put this test into TODO...
-    $this->assert_str_equals( "RESULT:\n" . join(',', sort qw(Ok+Topic Ok-Topic OkTopic)),
+    $this->assert_str_equals(
+        "RESULT:\n" . join( ',', sort qw(Ok+Topic Ok-Topic OkTopic) ),
         $result );
 }
 
@@ -840,8 +842,9 @@ sub verify_formQuery3 {
 sub verify_formQuery4 {
     my $this = shift;
 
-    if ($Foswiki::cfg{OS} eq 'WINDOWS'
-          && $Foswiki::cfg{DetailedOS} ne 'cygwin') {
+    if (   $Foswiki::cfg{OS} eq 'WINDOWS'
+        && $Foswiki::cfg{DetailedOS} ne 'cygwin' )
+    {
         $this->expect_failure();
         $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
     }
@@ -856,8 +859,9 @@ sub verify_formQuery4 {
 sub verify_formQuery5 {
     my $this = shift;
 
-    if ($Foswiki::cfg{OS} eq 'WINDOWS'
-          && $Foswiki::cfg{DetailedOS} ne 'cygwin') {
+    if (   $Foswiki::cfg{OS} eq 'WINDOWS'
+        && $Foswiki::cfg{DetailedOS} ne 'cygwin' )
+    {
         $this->expect_failure();
         $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
     }
@@ -1133,36 +1137,51 @@ sub test_validatepattern {
 sub verify_formatOfLinks {
     my $this = shift;
 
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user},
         $this->{test_web}, 'Item977', "---+ Apache
 
 Apache is the [[http://www.apache.org/httpd/][well known web server]].
-" );
-
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"Item977" scope="topic" nonoise="on" format="$summary"}%',
-        $this->{test_web}, $this->{test_topic}
+"
     );
 
-    $this->assert_str_equals( 'Apache Apache is the well known web server.',   $result );
+    my $result =
+      $this->{twiki}->handleCommonTags(
+        '%SEARCH{"Item977" scope="topic" nonoise="on" format="$summary"}%',
+        $this->{test_web}, $this->{test_topic} );
 
-    #TODO: these test should move to a proper testing of Render.pm - will happen during
-    #extractFormat feature
-    $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[http://www.apache.org/httpd/][well known web server]].'));
+    $this->assert_str_equals( 'Apache Apache is the well known web server.',
+        $result );
+
+#TODO: these test should move to a proper testing of Render.pm - will happen during
+#extractFormat feature
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{twiki}->{renderer}->TML2PlainText(
+'Apache is the [[http://www.apache.org/httpd/][well known web server]].'
+        )
+    );
 
     #test a few others to try to not break things
-    $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[http://www.apache.org/httpd/ well known web server]].'));
-    $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[ApacheServer][well known web server]].'));
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{twiki}->{renderer}->TML2PlainText(
+'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
+        )
+    );
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{twiki}->{renderer}->TML2PlainText(
+            'Apache is the [[ApacheServer][well known web server]].')
+    );
 
     #SMELL: an unexpected result :/
     $this->assert_str_equals( 'Apache is the   well known web server  .',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[well known web server]].'));
+        $this->{twiki}->{renderer}
+          ->TML2PlainText('Apache is the [[well known web server]].') );
     $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the well known web server.'));
-
+        $this->{twiki}->{renderer}
+          ->TML2PlainText('Apache is the well known web server.') );
 
 }
 
@@ -1171,81 +1190,83 @@ sub verify_casesensitivesetting {
     my $session = $this->{session};
 
     my $actual, my $expected;
-    
-    $actual =
-      $this->{twiki}->handleCommonTags(
+
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
+    $expected = '<nop>' . join ',<nop>',
+      sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
     $expected = '';
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
+    $expected = '<nop>' . join ',<nop>',
+      sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
+    $expected = '<nop>' . join ',<nop>',
+      sort qw(OkTopic Ok-Topic Ok+Topic TestTopicSEARCH);
     $this->assert_str_equals( $expected, $actual );
 
-#topic scope
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    #topic scope
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic);
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
     $expected = '';
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic);
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $this->{twiki}->handleCommonTags(
+    $actual = $this->{twiki}->handleCommonTags(
 '%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
-      );
+    );
+
     #$actual = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>' . join ',<nop>', sort qw(OkTopic Ok-Topic Ok+Topic);
     $this->assert_str_equals( $expected, $actual );
 
 }
-
 
 1;
