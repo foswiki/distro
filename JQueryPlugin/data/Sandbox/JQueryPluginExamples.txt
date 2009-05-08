@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1241782356" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="micha" date="1241791529" format="1.1" reprev="1.5" version="1.5"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
@@ -286,6 +286,15 @@ $(function() {
 </script>
 
 ---++ Animated slideshows
+---+++ Using jquery.cycle
+%JQREQUIRE{"cycle"}%
+<script type="text/javascript">
+(function($) {
+  $(function() {
+    $(".pics").cycle({fx:'scrollLeft'});
+  });
+})(jQuery);
+</script>
 <div class="pics">
 <div>
   <img src="%ATTACHURLPATH%/beach1.jpg" />
@@ -323,15 +332,16 @@ $(function() {
 } 
 </style>
 </literal>
-%JQREQUIRE{"cycle"}%
-<script type="text/javascript">
-(function($) {
-  $(function() {
-    $(".pics").cycle({fx:'scrollLeft'});
-  });
-})(jQuery);
-</script>
 
+---+++ Using jquery.innerfade
+%JQREQUIRE{"innerfade"}%
+<div class="jqInnerfade {timeout:5000, type:'random', containerheight:'220px'}">
+<img src="%PUBURLPATH%/%WEB%/JQueryPluginExamples/ggbg.gif" alt="Good Guy bad Guy" />
+<img src="%PUBURLPATH%/%WEB%/JQueryPluginExamples/whizzkids.gif" alt="Whizzkids" />
+<img src="%PUBURLPATH%/%WEB%/JQueryPluginExamples/km.jpg" alt="Königin Mutter" />
+<img src="%PUBURLPATH%/%WEB%/JQueryPluginExamples/rt_arch.jpg" alt="RT Hybride Archivierung" />
+<img src="%PUBURLPATH%/%WEB%/JQueryPluginExamples/tuev.jpg" alt="TÜV SÜD Gruppe" />
+</div>
 ---++ Code highlightning
 %JQREQUIRE{"chili"}%
 <verbatim class="html">

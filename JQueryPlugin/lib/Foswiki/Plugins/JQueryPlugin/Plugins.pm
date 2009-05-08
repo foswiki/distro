@@ -173,7 +173,8 @@ sub expandVariables {
   return '' unless $format;
   
   foreach my $key (keys %params) {
-    my $val = $params{$key} || '';
+    my $val = $params{$key};
+    $val = '' unless defined $val;
     $format =~ s/\$$key\b/$val/g;
   }
   $format =~ s/\$percnt/\%/go;

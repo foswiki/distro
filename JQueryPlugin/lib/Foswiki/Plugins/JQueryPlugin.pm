@@ -334,6 +334,7 @@ sub handleJQueryPlugins {
     my $active = defined($plugin->{isInit})?'<span class="foswikiAlert">(active)</span>':'';
     my $line = 
       Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theFormat,
+        'index' => ($counter+1),
         name => $plugin->{name},
         version => $plugin->{version},
         summary => $summary,
