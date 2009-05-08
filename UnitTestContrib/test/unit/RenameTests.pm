@@ -322,7 +322,7 @@ sub test_rename_oldwebnewtopic {
     $query->path_info( "/$this->{test_web}/SanityCheck" );
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
-    $this->capture(\&Foswiki::UI::Manage::rename, $this->{twiki} );
+    $this->captureWithKey( rename => \&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     $this->assert( $this->{twiki}->{store}->topicExists(
         $this->{test_web}, 'NewTopic' ));
@@ -441,7 +441,7 @@ sub test_rename_newweboldtopic {
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
-    $this->capture( \&Foswiki::UI::Manage::rename, $this->{twiki} );
+    $this->captureWithKey( rename => \&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     $this->assert( $this->{twiki}->{store}->topicExists(
         $this->{new_web}, 'OldTopic' ));
@@ -576,7 +576,7 @@ THIS
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
     my ($text,$result) =
-      $this->capture( \&Foswiki::UI::Manage::rename, $this->{twiki} );
+      $this->captureWithKey( rename => \&Foswiki::UI::Manage::rename, $this->{twiki} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches(qr/^Status:\s+302/s,$text);
     $this->assert_matches(qr([lL]ocation:\s+\S+?/view$ext/$this->{test_web}/UpperCase)s,$text);
@@ -660,7 +660,7 @@ sub test_leaseReleasemeLetMeGo {
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
-    $this->capture(\&Foswiki::UI::Manage::rename, $this->{twiki} );
+    $this->captureWithKey( rename => \&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     my $lease = $this->{twiki}->{store}->getLease(
         $this->{test_web}, 'OldTopic');
@@ -702,7 +702,7 @@ CONTENT
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
-    my ($text, $exit) = $this->capture( \&Foswiki::UI::Manage::rename, $this->{twiki} );
+    my ($text, $exit) = $this->captureWithKey( rename => \&Foswiki::UI::Manage::rename, $this->{twiki} );
     $this->assert(!$exit);
     $this->assert(Foswiki::Func::webExists("$this->{test_web}/Notrenamedweb/Renamedweb"));
     $this->assert(!Foswiki::Func::webExists("$this->{test_web}/Renamedweb"));
@@ -774,7 +774,7 @@ EOF
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
 
-    my ($text, $exit) = $this->capture(
+    my ($text, $exit) = $this->captureWithKey( rename =>
         \&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     $this->assert(!$exit);

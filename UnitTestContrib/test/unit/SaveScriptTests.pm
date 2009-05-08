@@ -115,7 +115,7 @@ sub test_AUTOINC {
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t eq 'TestAuto00') {
@@ -128,7 +128,7 @@ sub test_AUTOINC {
     $this->{twiki}->finish();
     $query->method('pOsT');
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t =~ /^TestAuto0[01]$/) {
@@ -155,7 +155,7 @@ sub test_XXXXXXXXXX {
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t eq 'TestTopic0') {
@@ -167,7 +167,7 @@ sub test_XXXXXXXXXX {
     $this->assert($seen);
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t =~ /^TestTopic[01]$/) {
@@ -195,7 +195,7 @@ sub test_XXXXXXXXX {
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert(!$this->{twiki}->{store}->topicExists($this->{test_web},'TestTopic0'));
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
@@ -222,7 +222,7 @@ sub test_XXXXXXXXXXX {
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t eq 'TestTopic0') {
@@ -242,7 +242,7 @@ sub test_emptySave {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
                                                   'EmptyTestSaveScriptTopic');
     $this->assert_matches(qr/^\s*$/, $text);
@@ -258,7 +258,7 @@ sub test_simpleTextSave {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
                                                  'DeleteTestSaveScriptTopic');
     $this->assert_matches(qr/CORRECT/, $text);
@@ -274,7 +274,7 @@ sub test_templateTopicTextSave {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
         templatetopic => [ 'TemplateTopic' ],
         action => [ 'save' ],
@@ -282,7 +282,7 @@ sub test_templateTopicTextSave {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopic');
     $this->assert_matches(qr/Template Topic/, $text);
     $this->assert_null($meta->get('FORM'));
@@ -298,7 +298,7 @@ sub test_prevTopicTextSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
                          text => [ 'CORRECT' ],
                          action => [ 'save' ],
@@ -306,7 +306,7 @@ sub test_prevTopicTextSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicTextSave');
     $this->assert_matches(qr/CORRECT/, $text);
     $this->assert_null($meta->get('FORM'));
@@ -322,14 +322,14 @@ sub test_prevTopicEmptyTextSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
                          action => [ 'save' ],
                          topic => [ $this->{test_web}.'.PrevTopicEmptyTextSave' ]
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicEmptyTextSave');
     $this->assert_matches(qr/^\s*CORRECT\s*$/, $text);
     $this->assert_null($meta->get('FORM'));
@@ -347,7 +347,7 @@ sub test_simpleFormSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave');
     $this->assert_matches(qr/^CORRECT\s*$/, $text);
@@ -370,7 +370,7 @@ sub test_templateTopicFormSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
 
     my($xmeta, $xtext) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopic');
     $query = new Unit::Request({
@@ -380,7 +380,7 @@ sub test_templateTopicFormSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
                                                   'TemplateTopicAgain');
     $this->assert_matches(qr/Template Topic/, $text);
@@ -404,7 +404,7 @@ sub test_prevTopicFormSave {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
                       action => [ 'save' ],
                       'Textfield' =>
@@ -413,7 +413,7 @@ sub test_prevTopicFormSave {
                      });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicFormSave');
     $this->assert_matches(qr/Template Topic/, $text);
     $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
@@ -436,7 +436,7 @@ sub test_simpleFormSave1 {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormTopic'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormTopic');
     $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
@@ -469,7 +469,7 @@ sub test_simpleFormSave2 {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave2'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave2');
     $this->assert_str_equals('TestForm3', $meta->get('FORM')->{name});
@@ -505,7 +505,7 @@ sub test_simpleFormSave3 {
            });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave3'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave3');
     $this->assert($meta);
@@ -527,7 +527,7 @@ sub test_templateTopicWithMeta {
            });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki} );
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopicWithMeta');
     my $pref = $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' );
     $this->assert_not_null($pref);
@@ -581,7 +581,7 @@ GUMP
     # Do the save
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query1);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     my( $r1Date, $r1Auth, $r1Rev ) = $meta->getRevisionInfo();
 
     #print STDERR "First edit saved as ${r1Rev}_$r1Date\n";
@@ -610,7 +610,7 @@ GUMP
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_2_login}, $query2);
     try {
-        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+        $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals('merge_notice', $e->{def});
@@ -663,7 +663,7 @@ sub test_restoreRevision {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     
     # retrieve revision number
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
@@ -687,7 +687,7 @@ sub test_restoreRevision {
                         });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
 
     ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
     ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
@@ -704,7 +704,7 @@ sub test_restoreRevision {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
     ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
     $original = "${orgRev}_$orgDate";
@@ -722,7 +722,7 @@ sub test_restoreRevision {
        });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
     ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
     $original = "${orgRev}_$orgDate";
@@ -782,7 +782,7 @@ sub test_1897 {
            });
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
 
     # make sure it's still rev 1 as expected
     ($meta, $text) = $this->{twiki}->{store}->readTopic(
@@ -802,7 +802,7 @@ sub test_1897 {
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_2_login}, $query);
     try {
-        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+        $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals('merge_notice', $e->{def});
@@ -828,7 +828,7 @@ sub test_missingTemplateTopic {
     $query->method('post');
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     try {
-        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+        $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals('no_such_topic_template', $e->{def});
@@ -850,7 +850,7 @@ sub test_addform {
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     try {
         my ($text, $result) =
-          $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
+          $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki} );
         $this->assert(!$result, $result);
         $this->assert_matches(
             qr/input value="TestForm1" name="formtemplate"/, $text);
@@ -880,7 +880,7 @@ sub test_get {
 
     try {
         my ($text, $result) =
-          $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
+          $this->captureWithKey( save => \&Foswiki::UI::Save::save, $this->{twiki} );
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
     } catch Error::Simple with {
     };

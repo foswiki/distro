@@ -199,7 +199,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&Foswiki::UI::Save::save, $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text = Foswiki::Func::readTopicText($web, $topic);
     $this->assert_matches(qr/$comm/, $text, "$web.$topic: $text");
@@ -345,7 +345,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&Foswiki::UI::Save::save, $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
@@ -390,7 +390,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&Foswiki::UI::Save::save, $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
@@ -461,7 +461,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&Foswiki::UI::Save::save, $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
@@ -518,7 +518,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&Foswiki::UI::Save::save, $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed

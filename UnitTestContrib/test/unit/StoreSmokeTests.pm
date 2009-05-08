@@ -233,7 +233,7 @@ sub verify_releaselocksonsave {
 
     $this->{twiki} = new Foswiki( $testUser1, $query );
     try {
-        $this->capture(\&Foswiki::UI::Save::save, $this->{twiki} );
+        $this->captureWithKey(save => \&Foswiki::UI::Save::save, $this->{twiki} );
     } catch Foswiki::OopsException with {
         my $e = shift;
         print $e->stringify();
@@ -253,7 +253,7 @@ sub verify_releaselocksonsave {
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $testUser1, $query );
     try {
-        $this->capture( \&Foswiki::UI::Save::save,  $this->{twiki} );
+        $this->captureWithKey( save => \&Foswiki::UI::Save::save,  $this->{twiki} );
     } catch Foswiki::OopsException with {
         my $e = shift;
         print $e->stringify();
@@ -274,7 +274,7 @@ sub verify_releaselocksonsave {
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $testUser2, $query );
     try {
-        $this->capture( \&Foswiki::UI::Save::save,  $this->{twiki} );
+        $this->captureWithKey( save => \&Foswiki::UI::Save::save,  $this->{twiki} );
         $this->annotate("\na merge notice exception should have been thrown for /$this->{test_web}/$topic");
         $this->assert(0);
     } catch Foswiki::OopsException with {
