@@ -63,6 +63,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{InnerFade}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{MaskedInput}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 
 # **BOOLEAN**

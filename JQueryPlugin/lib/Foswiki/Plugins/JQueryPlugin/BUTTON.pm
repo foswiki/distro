@@ -107,15 +107,15 @@ sub handleButton {
   }
 
   if ($theType eq 'submit') {
-    $theOnClick="\$(this).parents('form:first').submit();";
+    $theOnClick="jQuery(this).parents('form:first').submit();";
   }
 
   if ($theType eq 'reset') {
-    $theOnClick="\$(this).parents('form:first').resetForm();";
+    $theOnClick="jQuery(this).parents('form:first').resetForm();";
     Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
   if ($theType eq 'clear') {
-    $theOnClick="\$(this).parents('form:first').clearForm();";
+    $theOnClick="jQuery(this).parents('form:first').clearForm();";
     Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
   $theOnClick .= ';return false;' if $theOnClick;
