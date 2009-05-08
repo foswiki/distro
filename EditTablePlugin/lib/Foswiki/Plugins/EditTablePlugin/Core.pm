@@ -584,14 +584,8 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         }
 
         # render variables (only in view mode)
-        # CALC tags are protected from rendering as the SpreadSheetPlugin
-        # will only work if all CALC macros are rendered in commonTagsHandler
-        if ( !$doEdit && ( $mode & $MODE->{READ} ) ) {
-            $resultText =~ s/%CALC{/%CALC<protected_from_rendering>{/g;
-            $resultText = Foswiki::Func::expandCommonVariables($resultText);
-            $resultText =~ s/%CALC<protected_from_rendering>{/%CALC{/g;
-        }
-        
+        $resultText = Foswiki::Func::expandCommonVariables($resultText)
+          if ( !$doEdit && ( $mode & $MODE->{READ} ) );
         $topicText =~ s/<!--%EDITTABLESTUB\{$tableNr\}%-->/$resultText/;
 
         # END PUT PROCESSED TABLE BACK IN TEXT
@@ -626,7 +620,7 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         Foswiki::Func::redirectCgiQuery( $query, $url );
         return;
     }
-    Foswiki::Func::writeDebug("$topicText");
+
     # update the text
     $_[2] = $topicText;
 }
@@ -1068,10 +1062,6 @@ sub inputElement {
     my @bitsExpanded = split( /,\s*/, $formatExpanded[$i] );
 
     my $cellFormat = '';
-
-    # If the cell containts an EDITCELL we extract the format
-    # and put the result in $cellFormat and remove the EDITCELL macro
-    # leaving only the value.
     $theValue =~
       s/\s*$PATTERN_EDITCELL/&parseEditCellFormat( $1, $cellFormat )/eo;
 
@@ -1079,8 +1069,6 @@ sub inputElement {
     # he needs to add text to empty cell.
     $theValue = '' if ( $theValue eq ' ' );
 
-    # We had an EDITCELL macro in the field, process the format
-    # by expanding standard escapes
     if ($cellFormat) {
         my @aFormat = parseFormat( $cellFormat, $inTopic, $inWeb, 0 );
         @bits = split( /,\s*/, $aFormat[0] );
@@ -1088,21 +1076,17 @@ sub inputElement {
         @bitsExpanded = split( /,\s*/, $aFormat[0] );
     }
 
-    # type of cell given as first position in format, default text
-    my $type = 'text';    
+    my $type = 'text';
     $type = $bits[0] if @bits > 0;
 
     # a table header is considered a label if read only header flag set
     $type = 'label'
       if ( ( $params{'headerislabel'} ) && ( $theValue =~ /^\s*\*.*\*\s*$/ ) );
     $type = 'label' if ( $type eq 'editbutton' );    # Hide [Edit table] button
-    
-    # size of cell given as 2nd position in format, default initially 0
     my $size = 0;
     $size = $bits[1] if @bits > 1;
-
-    my $val         = '';  # parsed bit of the format 
-    my $valExpanded = '';  # parsed and macro expanded format
+    my $val         = '';
+    my $valExpanded = '';
     my $sel         = '';
 
     if ( $type eq 'select' ) {
@@ -1113,7 +1097,7 @@ sub inputElement {
           "<select class=\"foswikiSelect\" name=\"$theName\" size=\"$size\">";
         $i = 2;
         while ( $i < @bits ) {
-            $val         = $bits[$i]         || '';#value 0?
+            $val         = $bits[$i]         || '';
             $valExpanded = $bitsExpanded[$i] || '';
             $expandedValue =~ s/^\s+//;
             $expandedValue =~ s/\s+$//;
@@ -1230,7 +1214,7 @@ sub inputElement {
         my $isHeader = 0;
         $isHeader = 1 if ( $theValue =~ s/^\s*\*(.*)\*\s*$/$1/o );
         $text = $theValue;
-        $text =~ s/$PATTERN_SPREADSHEETPLUGIN_CALC/CALC/go;
+
 #        $text =~ s/($PATTERN_SPREADSHEETPLUGIN_CALC)/handleSpreadsheetFormula($1)/geox;
 
         # To optimize things, only in the case where a read-only column is
