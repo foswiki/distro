@@ -1,6 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ Installed Plugins
 
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+
 Here is a list of the plugins currently installed and enabled on this Foswiki site:
 
 %PLUGINDESCRIPTIONS%
