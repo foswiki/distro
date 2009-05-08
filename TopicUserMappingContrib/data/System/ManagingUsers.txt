@@ -35,7 +35,7 @@ _Note that the below features are only relevant when you use an internal passwor
      change it
    * ResetPassword is for users who _cannot_ remember their password; a system
      generated password is e-mailed to them
-   * BulkResetPassword if for administrators who want to reset many passwords
+   * BulkResetPassword is for administrators who want to reset many passwords
      at once
    * ChangeEmailAddress changes the hidden email address stored in the password
      file
