@@ -1,14 +1,14 @@
 jQuery.validator.addMethod("maxWords", function(value, element, params) { 
     return this.optional(element) || value.match(/\b\w+\b/g).length < params; 
-}, $.format("Please enter {0} words or less.")); 
+}, jQuery.format("Please enter {0} words or less.")); 
  
 jQuery.validator.addMethod("minWords", function(value, element, params) { 
     return this.optional(element) || value.match(/\b\w+\b/g).length >= params; 
-}, $.format("Please enter at least {0} words.")); 
+}, jQuery.format("Please enter at least {0} words.")); 
  
 jQuery.validator.addMethod("rangeWords", function(value, element, params) { 
     return this.optional(element) || value.match(/\b\w+\b/g).length >= params[0] && value.match(/bw+b/g).length < params[1]; 
-}, $.format("Please enter between {0} and {1} words."));
+}, jQuery.format("Please enter between {0} and {1} words."));
 
 
 jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {

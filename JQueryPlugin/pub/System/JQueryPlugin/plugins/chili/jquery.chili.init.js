@@ -1,1 +1,1 @@
-ChiliBook.recipeFolder=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';ChiliBook.automaticSelector='pre';;
+ChiliBook.recipeFolder=foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';ChiliBook.automaticSelector='pre';ChiliBook.codeLanguage=function(el){var recipeName=jQuery(el).attr("class");recipeName=recipeName.replace(/\s*{.*}\s*/,"");return recipeName?recipeName:'';};

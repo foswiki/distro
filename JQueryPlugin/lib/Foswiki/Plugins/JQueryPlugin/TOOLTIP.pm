@@ -45,7 +45,7 @@ sub new {
     author => 'Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/',
     css => ['jquery.tooltip.css'],
-    javascript => ['jquery.tooltip.js'],
+    javascript => ['jquery.tooltip.js', 'jquery.tooltip.init.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';

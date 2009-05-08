@@ -89,13 +89,16 @@ sub handleToggle {
     $showEffect = $hideEffect = "slideToggle('fast')";
   } elsif ($theEffect eq 'ease') {
     $showEffect = $hideEffect = "slideToggle({duration:400, easing:'easeInOutQuad'})";
+  } elsif ($theEffect eq 'elastic') {
+    $showEffect = "slideToggle({duration:300, easing:'easeInQuad'})";
+    $hideEffect = "slideToggle({duration:1000, easing:'easeOutElastic'})";
   } elsif ($theEffect eq 'bounce') {
     $showEffect = "slideUp({ duration:300, easing:'easeInQuad'})";
     $hideEffect = "slideDown({ duration:500, easing:'easeOutBounce'})";
   } else {
     $showEffect = $hideEffect = "toggle()";
   }
-  my $cmd = "\$('$theTarget').each(function() {\$(this).is(':visible')?\$(this).$showEffect:\$(this).$hideEffect;})";
+  my $cmd = "jQuery('$theTarget').each(function() {jQuery(this).is(':visible')?jQuery(this).$showEffect:jQuery(this).$hideEffect;})";
 
   my $toggleId = "jqToggle".Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
