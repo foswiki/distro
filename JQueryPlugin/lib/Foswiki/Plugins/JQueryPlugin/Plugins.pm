@@ -21,6 +21,10 @@ our $debug;
 
 use Foswiki::Func;
 
+BEGIN { 
+  srand() if $] < 5.004 
+}
+
 =begin TML
 
 ---+ package Foswiki::Plugins::JQueryPlugin
@@ -74,7 +78,7 @@ sub init () {
 
 =begin TML
 
----++ ClassMethod createPlugin( $pluginName ) -> $plugin 
+---++ ObjectMethod createPlugin( $pluginName ) -> $plugin 
 
 Helper method to establish plugin dependencies. See =load()=.
 
@@ -111,7 +115,7 @@ sub finish {
 
 =begin TML
 
----++ ClassMethod load ( $pluginName ) -> $plugin
+---++ ObjectMethod load ( $pluginName ) -> $plugin
 
 Loads a plugin and runs its initializer. 
 
@@ -149,7 +153,7 @@ sub load {
 
 =begin TML
 
----++ ClassMethod expandVariables( $format, %params) -> $string
+---++ ObjectMethod expandVariables( $format, %params) -> $string
 
 Helper function to expand standard escape sequences =$percnt=, =$nop=,
 =$n= and =$dollar=. 
@@ -183,7 +187,7 @@ sub expandVariables {
 
 =begin TML
 
----++ ClassMethod getIconUrlPath ( $iconName ) -> $pubUrlPath
+---++ ObjectMethod getIconUrlPath ( $iconName ) -> $pubUrlPath
 
 Returns the path to the named icon searching along a given icon search path.
 This path can be in =$Foswiki::cfg{JQueryPlugin}{IconSearchPath}= or will fall
@@ -240,7 +244,7 @@ sub getIconUrlPath {
 
 =begin TML
 
----++ ClassMethod getPlugins () -> @plugins
+---++ ObjectMethod getPlugins () -> @plugins
 
 returns a list of all known plugins
 
@@ -259,5 +263,20 @@ sub getPlugins {
   return @plugins;
 }
 
+=begin TML
+
+---++ ObjectMethd getRandom () -> $integer
+
+returns a random positive integer between 1 and 10000. 
+this can be used to
+generate html element IDs which are not
+allowed to clash within the same html page,
+even not when it got extended via ajax.
+
+=cut
+
+sub getRandom {
+  return int(rand(10000)) +1;
+}
 
 1;

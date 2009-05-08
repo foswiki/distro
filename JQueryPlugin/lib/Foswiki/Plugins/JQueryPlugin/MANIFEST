@@ -286,6 +286,7 @@ pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js.gz 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/tabpane/spinner.gif 0644
 pub/System/JQueryPlugin/plugins/tabpane/tab_horiz.gif 0644
 pub/System/JQueryPlugin/plugins/tabpane/tab_horiz.png 0644
 pub/System/JQueryPlugin/plugins/tabpane/tab_left.gif 0644
@@ -361,7 +362,6 @@ pub/System/JQueryPlugin/plugins/wikiword/Makefile 0644
 pub/System/JQueryPlugin/plugins/wikiword/jquery.wikiword.js 0644
 pub/System/JQueryPlugin/plugins/wikiword/jquery.wikiword.js.gz 0644
 pub/System/JQueryPlugin/plugins/wikiword/jquery.wikiword.uncompressed.js 0644
-pub/System/JQueryPlugin/test.html 0644
 pub/System/JQueryPlugin/themes/Makefile 0644
 pub/System/JQueryPlugin/themes/base/Makefile 0644
 pub/System/JQueryPlugin/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png 0644

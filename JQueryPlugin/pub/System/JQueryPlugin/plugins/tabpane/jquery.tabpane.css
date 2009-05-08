@@ -5,4 +5,4 @@ ul.jqTabGroup a{text-decoration:none !important;white-space:nowrap;background-co
 ul.jqTabGroup a:hover,
 ul.jqTabGroup a:focus{color:red !important;}ul.jqTabGroup li.current{background-image:url('tab_right_on.png') !important;_background-image:url('tab_right_on.gif') !important;background-color:white;}.foswikiFormSteps ul.jqTabGroup li.current{background-color:inherit;}ul.jqTabGroup li.current a:active,
 ul.jqTabGroup li.current a:hover,
-ul.jqTabGroup li.current a{background-image:url('tab_left_on.png') !important;_background-image:url('tab_left_on.gif') !important;color:#333;}.jqTabPane .fltMakeIndexWrapper{margin:0px;}
+ul.jqTabGroup li.current a{background-image:url('tab_left_on.png') !important;_background-image:url('tab_left_on.gif') !important;color:#333;}.jqTabPane .fltMakeIndexWrapper{margin:0px;}.jqAjaxLoader{background:url(spinner.gif) 0 0 no-repeat;height:16px;width:16px;display:block;}

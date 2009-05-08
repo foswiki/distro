@@ -35,7 +35,7 @@
 
       // create tab group
       var $tabContainer = $thisPane;
-      var $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo($tabContainer);
+      var $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo($thisPane);
 
       // get all headings and create tabs
       var index = 1;
@@ -47,7 +47,7 @@
           currentTabId = this.id;
           $(this).addClass("current");
         } else {
-          //$.log("hiding "+this.id);
+          $.log("hiding "+this.id);
           $(this).removeClass("current");
         }
         index++;
@@ -58,7 +58,7 @@
 
       /* establish auto max expand */
       if (thisOpts.autoMaxExpand) {
-        window.setTimeout(autoMaxExpand, 1);
+        window.setTimeout(autoMaxExpand, 100);
       }
 
       $(".jqTabGroup li > a", this).click(function() {
@@ -125,19 +125,6 @@
 
   }
 
-  /*************************************************************************
-   * adjust height of pane to window height
-   */
-  function autoMaxExpand() {
-    //jQuery.log("called autoMaxExpand");
-    fixHeightOfPane();
-    window.setTimeout(function() {
-      jQuery(window).one("resize", function() {
-        autoMaxExpand()
-      });
-    }, 100); 
-  }
-  
 
   /***************************************************************************
    * plugin defaults
@@ -147,6 +134,20 @@
   };
 
 })(jQuery);
+
+/*************************************************************************
+ * adjust height of pane to window height
+ */
+function autoMaxExpand() {
+  //jQuery.log("called autoMaxExpand");
+  fixHeightOfPane();
+  window.setTimeout(function() {
+    jQuery(window).one("resize", function() {
+      autoMaxExpand()
+    });
+  }, 100); 
+}
+  
 
 /* TODO rework */
 var bottomBarHeight = -1;

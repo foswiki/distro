@@ -80,3 +80,11 @@ ul.jqTabGroup li.current a {
 .jqTabPane .fltMakeIndexWrapper {
   margin:0px;
 }
+
+.jqAjaxLoader {
+  background: url(spinner.gif) 0 0 no-repeat;
+  height: 16px;
+  width: 16px;
+  display: block;
+}
+

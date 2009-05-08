@@ -79,24 +79,21 @@ Tag handler for =%<nop>TABPANE%=.
 sub handleTabPane {
   my ($this, $params, $theTopic, $theWeb) = @_;
 
-  my $tpId = 'jqTabPane'.($this->{tabPaneCounter}++);
+  my $tpId = 'jqTabPane'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
   my $select = $params->{select} || 1;
   my $autoMaxExpand = $params->{automaxexpand} || 'off';
 
   $autoMaxExpand = ($autoMaxExpand eq 'on')?'true':'false';
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::TABPANE:$tpId", <<"HERE", 'JQUERYPLUGIN::TABPANE');
+  my $script = <<"EOS";
 <script type="text/javascript">
-//<![CDATA[
-(function(\$) {
-\$(function() {
+jQuery(function(\$) {
   \$("#$tpId").tabpane({select:'$select', autoMaxExpand:$autoMaxExpand});
-})
-})(jQuery);
-//]]>
+});
 </script>
-HERE
-  return "<div class='jqTabPane' id='$tpId'>";
+EOS
+
+  return $script."<div class='jqTabPane' id='$tpId'>";
 }
 
 =begin TML
@@ -117,7 +114,7 @@ sub handleTab {
   my $url = $params->{url} || '';
   my $container = $params->{container} || '';
   my $tabId = $params->{id};
-  $tabId = 'jqTab'.($this->{tabCounter}++) unless defined $tabId;
+  $tabId = 'jqTab'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
   my @metaData = ();
   if ($beforeHandler) {

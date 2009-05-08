@@ -58,22 +58,6 @@ HERE
 
 =begin TML
 
----++ ClassMethod init( $this )
-
-Initialize this plugin by adding the required static files to the html header
-
-=cut
-
-sub init {
-  my $this = shift;
-
-  return unless $this->SUPER::init();
-
-  $this->{toggleCounter} = 0;
-}
-
-=begin TML
-
 ---++ ClassMethod handleToggle( $this, $params, $topic, $web ) -> $result
 
 Tag handler for =%<nop>TOGGLE%=. You might need to add 
@@ -113,8 +97,7 @@ sub handleToggle {
   }
   my $cmd = "\$('$theTarget').each(function() {\$(this).is(':visible')?\$(this).$showEffect:\$(this).$hideEffect;})";
 
-  $this->{toggleCounter}++;
-  my $toggleId = "toggle".$this->{toggleCounter};
+  my $toggleId = "jqToggle".Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
   return
    "<a id='$toggleId' href='#' onclick=\"$cmd; return false;\" title='".$theTitle."' ".$style.'>'.
