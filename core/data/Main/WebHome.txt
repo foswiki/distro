@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="KennethLavrsen" date="1241473664" format="1.1" version="1.4"}%
 ---+!! Welcome to the <nop>%USERSWEB% web 
 Congratulations, you have finished installing Foswiki.
 
@@ -24,3 +24,5 @@ and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of you
    * [[WebPreferences]] - preferences of this web
 </form>
 
+
+%META:REVCOMMENT{ncomments="0"}%
