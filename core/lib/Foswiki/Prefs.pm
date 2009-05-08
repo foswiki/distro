@@ -144,12 +144,11 @@ sub _getBackend {
 # Create a new level on the preferences stack, based on the
 # given backend object or class name and prefix.
 sub _newLevel {
-    my ( $this, $stack, $back, $prefix ) = @_;
+    my ( $stack, $back, $prefix ) = @_;
 
     push @{ $stack->{levels} }, $back;
     my $level = $#{ $stack->{levels} };
     $prefix ||= '';
-    $this->{prefix}->[$level] = $prefix if $prefix;
     foreach ( map { $prefix . $_ } $back->prefs ) {
         next if exists $stack->{final}{$_};
         $stack->{'map'}{$_} = '' unless exists $stack->{'map'}{$_};
@@ -173,12 +172,82 @@ sub _getDefinitionLevel {
 }
 
 sub _getStackPreference {
+    my ( $stack, $key, $level ) = @_;
+    my $map = $stack->{'map'}{$key};
+    return undef unless defined $map;
+    if ( defined $level ) {
+        my $mask =
+          ( chr(0xFF) x int( $level / 8 ) )
+          . chr( ( 2**( ( $level % 8 ) + 1 ) ) - 1 );
+        $map &= $mask;
+        substr( $map, -1 ) = ''
+          while length($map) > 0 && ord( substr( $map, -1 ) ) == 0;
+        return undef unless length($map) > 0;
+    }
+    my $defLevel = _getDefinitionLevel($map);
+    return $stack->{levels}->[$defLevel]->get($key);
 }
 
 sub _cloneStack {
+    my ( $src, $level );
+    my $clone = {
+        'map'    => { %{ $src->{'map'} } },
+        'levels' => [ @{ $src->{levels} } ],
+        'final'  => { %{ $src->{final} } },
+    };
+    _restore( $src, $level ) if defined $level;
+    return $clone;
 }
 
 sub _pushWebInStack {
+    my ( $this, $stack, $web ) = @_;
+    my @webPath = split( /[\/\.]+/, $web );
+    my $subWeb = '';
+    $subWeb = join '/', splice @webPath, 0, scalar @{ $stack->{levels} };
+    my $back;
+    foreach (@webPath) {
+        $subWeb .= '/' if $subWeb;
+        $subWeb .= $_;
+        $back = $this->_getBackend( $subWeb, $Foswiki::cfg{WebPrefsTopicName} );
+        _newLevel( $stack, $back );
+    }
+}
+
+sub _getWebPreference {
+    my ($this, $web, $key) = @_;
+    my ($stack, $level);
+    
+    if ( exists $this->{weblocation}{$web} ) {
+        ( $stack, $level ) = $this->{weblocation}{$web};
+        return _getStackPreference( $stack, $key, $level );
+    }
+    
+    my $part;
+    $stack = {
+        'levels' => [],
+        'map'    => '',
+        'final'  => {},
+    };
+    my @path = split /[\/\.]+/, $web;
+    my @websToAdd = (pop @path);
+    while ( @path > 0 ) {
+        $part = join( '/', @path );
+        if ( exists $this->{weblocation}{$part} ) {
+            $stack = _cloneStack(@{$this->{weblocation}{$part}});
+            last;
+        }
+        unshift @websToAdd, pop @path;
+    }
+
+    _pushWebInStack($stack, $web);
+    push @{ $this->{stacks} }, $stack;
+    $level = scalar @path;
+    foreach (@websToAdd) {
+        $part .= '/' if $part;
+        $part .= $_;
+        $this->{weblocation}{$part} = [ $stack, $level++ ];
+    }
+    return _getStackPreference( $stack, $key );
 }
 
 =begin TML
@@ -246,11 +315,11 @@ sub pushTopicContext {
         $subWeb .= '/' if $subWeb;
         $subWeb .= $_;
         $back = $this->_getBackend( $subWeb, $Foswiki::cfg{WebPrefsTopicName} );
-        $this->_newLevel( $stack, $back );
+        _newLevel( $stack, $back );
     }
     $back = $this->_getBackend( $web, $topic );
-    $this->_newLevel( $stack, $back );
-    $this->_newLevel( $stack, Foswiki::Prefs::HASH->new() );
+    _newLevel( $stack, $back );
+    _newLevel( $stack, Foswiki::Prefs::HASH->new() );
 }
 
 =begin TML
@@ -263,9 +332,11 @@ Returns the context to the state it was in before the
 =cut
 
 sub popTopicContext {
-    my $this = shift;
+    my $this  = shift;
     my $stack = $this->{stacks}->[0];
-    $this->_restore( $stack, pop @{ $this->{contexts} } );
+    my $level = pop @{ $this->{contexts} };
+    _restore( $stack, $level );
+    splice @{ $this->{prefix} }, $level + 1 if @{ $this->{prefix} } > $level;
     return (
         $stack->{levels}->[-3]->topicObject->web(),
         $stack->{levels}->[-2]->topicObject->topic()
@@ -274,13 +345,11 @@ sub popTopicContext {
 
 # Restores the preferences stack to the given level
 sub _restore {
-    my ( $this, $stack, $level ) = @_;
+    my ( $stack, $level ) = @_;
 
     my @keys = grep { $stack->{final}{$_} > $level } keys %{ $stack->{final} };
     delete @{ $stack->{final} }{@keys};
-
     splice @{ $stack->{levels} }, $level + 1;
-    splice @{ $this->{prefix} }, $level + 1 if @{ $this->{prefix} } > $level;
 
     my $mask =
       ( chr(0xFF) x int( $level / 8 ) )
@@ -306,8 +375,11 @@ plugin topics.
 
 sub setPluginPreferences {
     my ( $this, $web, $plugin ) = @_;
-    my $back = $this->_getBackend( $web, $plugin );
-    $this->_newLevel( $this->{stacks}->[0], $back, uc($plugin) . '_' );
+    my $back   = $this->_getBackend( $web, $plugin );
+    my $prefix = uc($plugin) . '_';
+    my $stack  = $this->{stacks}->[0];
+    _newLevel( $stack, $back, $prefix );
+    $this->{prefix}->[ $#{ $stack->{levels} } ] = $prefix;
 }
 
 =begin TML
@@ -322,7 +394,7 @@ stack.
 sub setUserPreferences {
     my ( $this, $wn ) = @_;
     my $back = $this->_getBackend( $Foswiki::cfg{UsersWebName}, $wn );
-    $this->_newLevel($this->{stacks}->[0], $back);
+    _newLevel($this->{stacks}->[0], $back);
 }
 
 =begin TML
@@ -337,7 +409,7 @@ sub loadDefaultPreferences {
     my $this = shift;
     my $back = $this->_getBackend( $Foswiki::cfg{SystemWebName},
         $Foswiki::cfg{SitePrefsTopicName} );
-    $this->_newLevel($this->{stacks}->[0], $back);
+    _newLevel($this->{stacks}->[0], $back);
 }
 
 =begin TML
@@ -354,7 +426,7 @@ sub loadSitePreferences {
           $this->{session}
           ->normalizeWebTopicName( undef, $Foswiki::cfg{LocalSitePreferences} );
         my $back = $this->_getBackend( $web, $topic );
-        $this->_newLevel($this->{stacks}->[0], $back);
+        _newLevel($this->{stacks}->[0], $back);
     }
 }
 
