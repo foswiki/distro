@@ -23,7 +23,19 @@ Format tokens that can be used in the header string:
 | =$web= | Name of the web |
 %INCLUDE{FormatTokens}%
 
----+++ 2. =format="..."= parameter
+---+++ 2. =footer="..."= parameter
+
+Use the footer parameter to specify the footer of a search result. It should correspond to the format of the format parameter. This parameter is optional. <br /> Example: =footer="| <nop>*Topic*<nop> | <nop>*Summary*<nop> |"=
+
+Format tokens that can be used in the footer string:
+
+| *Name:* | *Expands To:* |
+| =$web= | Name of the web |
+| =$ntopics= | Number of topics found in current web |
+| =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
+%INCLUDE{FormatTokens}%
+
+---+++ 3. =format="..."= parameter
 
 Use the format parameter to specify the format of one search hit.
 <br /> Example: =format="| $topic | $summary |"=
@@ -63,6 +75,8 @@ Format tokens that can be used in the format string:
 | =$formfield(name, 30, ...)= | Form field value, shortended to 30 characters with "<tt>...</tt>" indication |
 | =$pattern(reg-exp)= | A regular expression pattern to extract some text from a topic (does not search meta data; use =$formfield= instead). In case of a =multiple="on"= search, the pattern is applied to the line found in each search hit.%BB% Specify a RegularExpression that covers the whole text (topic or line), which typically starts with =.*=, and must end in =.*= %BB% Put text you want to keep in parenthesis, like =$pattern(.*?(from here.*?to here).*)= %BB% Example: =$pattern(.*?\*.*?Email\:\s*([^\n\r]+).*)= extracts the e-mail address from a bullet of format =* Email: ...= %BB% This example has non-greedy =.*?= patterns to scan for the first occurance of the Email bullet; use greedy =.*= patterns to scan for the last occurance %BB% Limitation: Do not use =.*)= inside the pattern, e.g. =$pattern(.*foo(.*)bar.*)= does not work, but =$pattern(.*foo(.*?)bar.*)= does %BB% Note: Make sure that the integrity of a web page is not compromised; for example, if you include an HTML table make sure to include everything including the table end tag |
 | =$count(reg-exp)= | Count of number of times a regular expression pattern appears in the text of a topic (does not search meta data). Follows guidelines for use and limitations outlined above under =$pattern(reg-exp)=. Example: =$count(.*?(---[+][+][+][+]) .*)= counts the number of &lt;H4&gt; headers in a page. |
+| =$ntopics= | Number of topics found in current web. This is the current topic count, not the total number of topics |
+| =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
 %INCLUDE{FormatTokens}%
 
 ---++ Examples
@@ -74,12 +88,11 @@ Here are some samples of formatted searches. The SearchPatternCookbook has other
 
 *Write this:*
 
-=%<nop>SEARCH{ "FAQ" scope="topic" nosearch="on" nototal="on" header="   * <nop>*Topic: Summary:*" format="   * [<nop>[$topic]]: $summary" }%=
+=%<nop>SEARCH{ "VarREMOTE" scope="topic" nosearch="on" nototal="on" header="| <nop>*Topic* | <nop>*Summary* |" format="| [<nop>[$topic]] | $summary |"  footer="| <nop>*Topics found* | <nop>*$ntopics* |"  }%=
 
 *To get this:*
 
-%SEARCH{ "FAQ" scope="topic" nosearch="on" nototal="on" header="   * *Topic: Summary:*" format="   * [[$topic]]: $summary" }%
-
+%SEARCH{ "VarREMOTE" scope="topic" nosearch="on" nototal="on" header="| *Topic* | *Summary* |" format="| [[$topic]] | $summary |"  footer="| *Topics found* | *$ntopics* |"  }%
 
 ---+++ Table showing form field values of topics with a form
 
@@ -108,11 +121,11 @@ To get this:
 
 *Write this:*
 
-=%<nop>SEARCH{ "\*Back to:\* <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
+=%<nop>SEARCH{ "\*Back to:\* <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" footer="Found $ntopics FAQ topics" }%=
 
 *To get this:*
 
-%SEARCH{ "\*Back to:\* FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
+%SEARCH{ "\*Back to:\* FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" footer="Found $ntopics FAQ topics" }%
 
 
 ---+++ Nested Search
