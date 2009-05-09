@@ -22,7 +22,7 @@ BEGIN {
         locale::import();
     }
 }
-POSIX::setlocale( POSIX::LC_COLLATE, $Foswiki::cfg{Site}{Locale} )
+POSIX::setlocale( 'POSIX::LC_COLLATE', $Foswiki::cfg{Site}{Locale} )
   if ( $Foswiki::cfg{UseLocale} && $Foswiki::cfg{Site}{Locale} );
 
 sub new {
