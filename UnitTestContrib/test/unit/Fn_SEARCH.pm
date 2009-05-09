@@ -226,6 +226,32 @@ OkATopic,OkBTopic,OkTopic", $result
     );
 }
 
+sub verify_footer_with_ntopics {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="$topic"}%'
+    );
+
+    $this->assert_str_equals(
+        join( "\n", sort qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
+        $result );
+}
+
+sub verify_multiple_and_footer_with_ntopics_and_nhits {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" footer="Total found: $ntopics, Hits: $nhits" format="$text - $nhits"}%'
+    );
+
+    $this->assert_str_equals(
+        "   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
+        $result );
+}
+
 sub verify_regex_match {
     my $this = shift;
 
@@ -644,6 +670,11 @@ sub set_up_for_formatted_search {
 !MichaelAnchor and !AnnaAnchor lived in Skagen in !DenmarkEurope!. There is a very nice museum you can visit!
 
 This text is fill in text which is there to ensure that the unique word below does not show up in a summary.
+
+   * Bullet 1
+   * Bullet 2
+   * Bullet 3
+   * Bullet 4
 
 %META:FORM{name="FormattedSearchForm"}%
 %META:FIELD{name="Name" attributes="" title="Name" value="!AnnaAnchor"}%
