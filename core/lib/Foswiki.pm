@@ -1773,17 +1773,28 @@ sub finish {
     my $this = shift;
 
     $_->finish() foreach values %{ $this->{forms} };
-    $this->{plugins}->finish()   if $this->{plugins};
-    $this->{users}->finish()     if $this->{users};
-    $this->{prefs}->finish()     if $this->{prefs};
+    $this->{plugins}->finish() if $this->{plugins};
+    undef $this->{plugins};
+    $this->{users}->finish() if $this->{users};
+    undef $this->{users};
+    $this->{prefs}->finish() if $this->{prefs};
+    undef $this->{prefs};
     $this->{templates}->finish() if $this->{templates};
-    $this->{renderer}->finish()  if $this->{renderer};
-    $this->{net}->finish()       if $this->{net};
-    $this->{store}->finish()     if $this->{store};
-    $this->{search}->finish()    if $this->{search};
-    $this->{attach}->finish()    if $this->{attach};
-    $this->{security}->finish()  if $this->{security};
-    $this->{i18n}->finish()      if $this->{i18n};
+    undef $this->{templates};
+    $this->{renderer}->finish() if $this->{renderer};
+    undef $this->{renderer};
+    $this->{net}->finish() if $this->{net};
+    undef $this->{net};
+    $this->{store}->finish() if $this->{store};
+    undef $this->{store};
+    $this->{search}->finish() if $this->{search};
+    undef $this->{search};
+    $this->{attach}->finish() if $this->{attach};
+    undef $this->{attach};
+    $this->{security}->finish() if $this->{security};
+    undef $this->{security};
+    $this->{i18n}->finish() if $this->{i18n};
+    undef $this->{i18n};
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};

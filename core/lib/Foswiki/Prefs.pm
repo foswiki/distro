@@ -202,7 +202,12 @@ sub loadPreferences {
     my $obj;
 
     if ( $topicObject->topic() ) {
-        $obj = $this->_getBackend($topicObject);
+        if ( $topicObject->text() ) {
+            $obj = Foswiki::Prefs::TopicRAM->new($topicObject);
+        }
+        else {
+            $obj = $this->_getBackend($topicObject);
+        }
     }
     elsif ( $topicObject->web() ) {
         $obj = $this->_getWebPrefsObj( $topicObject->web() );
@@ -349,6 +354,7 @@ sub setSessionPreferences {
     my $stack = $this->{main};
     my $num   = 0;
     while ( my ( $k, $v ) = each %values ) {
+        next if $stack->finalized($k);
         $num += $stack->insert( 'Set', $k, $v );
     }
 
