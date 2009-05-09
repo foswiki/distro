@@ -555,7 +555,9 @@ lib/Foswiki/Prefs.pm 0444
 lib/Foswiki/Prefs/BaseBackend.pm 0444
 lib/Foswiki/Prefs/HASH.pm 0444
 lib/Foswiki/Prefs/Parser.pm 0444
+lib/Foswiki/Prefs/Stack.pm 0444
 lib/Foswiki/Prefs/TopicRAM.pm 0444
+lib/Foswiki/Prefs/Web.pm 0444
 lib/Foswiki/Query/BinaryOP.pm 0444
 lib/Foswiki/Query/HoistREs.pm 0444
 lib/Foswiki/Query/Node.pm 0444
