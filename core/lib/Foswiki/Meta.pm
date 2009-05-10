@@ -171,6 +171,7 @@ sub finish {
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_text};
+    $this->{_preferences}->finish() if defined $this->{_preferences};
     undef $this->{_preferences};
     undef $this->{_session};
 }
@@ -581,6 +582,7 @@ sub reload {
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
     #SMELL: removed see getLoadedRevision - should remove any non-numeric rev's (like the $rev stuff from svn)
+    $this->{_preferences}->finish() if defined $this->{_preferences};
     $this->{_preferences} = undef;
 }
 
