@@ -1,3 +1,9 @@
+foswiki (1.0.5-2) unstable; urgency=low
+
+  *  Item1601: make /usr/lib/cgi-bin/foswiki/LocalLib.cfg a config file 
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 26 Apr 2009 09:53:40 +0100
+
 foswiki (1.0.5-1) unstable; urgency=high
 
   * upgrade to foswiki 1.0.5
