@@ -638,14 +638,11 @@ sub copyTopic {
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, \%options) -> \%matches
+---++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, \%options) -> $outputTopicSet
 
 Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
 
-Returns a reference to a hash that maps the names of topics that all matched
-to the result of the query expression (e.g. if the query expression is
-'TOPICPARENT.name' then you will get back a hash that maps topic names
-to their parent.
+Returns an Foswiki::Search::InfoCache iterator
 
 =cut
 
@@ -676,6 +673,8 @@ name to a list of the lines in that topic that matched the search,
 as would be returned by 'grep'. If =files_without_match= is specified, it will
 return on the first match in each topic (i.e. it will return only one
 match per topic, and will not return matching lines).
+
+DEPRECATED: this is the old way to search, and should not be used in new code.
 
 =cut
 

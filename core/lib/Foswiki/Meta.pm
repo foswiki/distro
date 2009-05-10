@@ -435,15 +435,12 @@ sub searchInText {
 
 =begin TML
 
----++ ObjectMethod query($query, $inputTopicSet, \%options) -> \%matches
+---++ ObjectMethod query($query, $inputTopicSet, \%options) -> $outputTopicSet
 
 Search for a meta-data expression in the content of a web.
 =$query= must be a =Foswiki::Query= object.
 
-Returns a reference to a hash that maps the names of topics that all matched
-to the result of the query expression (e.g. if the query expression is
-'TOPICPARENT.name' then you will get back a hash that maps topic names
-to their parent.
+Returns an Foswiki::Search::InfoCache iterator
 
 =cut
 
@@ -1622,7 +1619,7 @@ sub getMaxRevNo {
 Get the currently loaded revision. Result will be a revision number or
 0 if no revision has been loaded. Only valid on topics.
 
-SMELL: while the docco says '$integer' its untrue. it will return whatever is in the 
+SMELL: while the docco says '$integer' its untrue. it will return whatever is in the
 File's META::TOPICINFO - which for core topics is a $Rev$ string.
 forcing the value to an integer atm forces a reload (thousands of readFiles more)
 

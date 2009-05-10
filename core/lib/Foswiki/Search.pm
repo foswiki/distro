@@ -309,17 +309,10 @@ sub searchWeb {
     my $excludeTopic  = $params{excludetopic} || '';
     my $doExpandVars  = Foswiki::isTrue( $params{expandvariables} );
     my $format        = defined $params{format} ? $params{format} : '';
-    my $header        = $params{header};
     my $inline        = $params{inline};
     my $doMultiple    = Foswiki::isTrue( $params{multiple} );
     my $nonoise       = Foswiki::isTrue( $params{nonoise} );
     my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );
-
-    # Note: a defined header overrides noheader
-    my $noHeader = !defined($header)
-      && Foswiki::isTrue( $params{noheader}, $nonoise )
-      # Note: This is done for Cairo compatibility
-      || ( !$header && $format && $inline );
 
     my $noSearch  = Foswiki::isTrue( $params{nosearch},  $nonoise );
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $nonoise );
@@ -552,12 +545,7 @@ sub searchWeb {
 
         next if ( $noEmpty && !$inputTopicSet->hasNext() );    # Nothing to show for this web
 
-        my $matches = $webObject->query( $query, $inputTopicSet, $options );
-        my @topicList = keys %$matches;
-
-        # the current Web's Result Set
-        my $infoCache = new Foswiki::Search::InfoCache( $session, $web, \@topicList);
-
+        my $infoCache = $webObject->query( $query, $inputTopicSet, $options );
         $this->sortResults($web, $infoCache, %params);
         my ($web_ttopics, $web_searchResult) = $this->formatResults($tmplTable, $tmplNumber, $webObject, $query, $infoCache, %params);
         $ttopics += $web_ttopics;
@@ -734,15 +722,15 @@ sub formatResults{
 
     my $doMultiple    = Foswiki::isTrue( $params{multiple} );
     my $nonoise       = Foswiki::isTrue( $params{nonoise} );
-    my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );    
-      
+    my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );
+
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
     # now deprecated option 'inline' is used combined with 'format'
     my $noHeader = !defined($header)
       && Foswiki::isTrue( $params{noheader}, $nonoise )
       || ( !$header && $format && $inline );
-      
+
     my $noFooter = !defined($footer)
       && Foswiki::isTrue( $params{nofooter}, $nonoise )
       || ( !$footer && $format && $inline );

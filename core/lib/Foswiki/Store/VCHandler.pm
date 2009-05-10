@@ -197,6 +197,7 @@ Get the text of the most recent revision
 
 sub getLatestRevision {
     my $this = shift;
+#SMELL: why is this assumption made rather than delegating to the impl? ($this->getRevision();)
     return readFile( $this, $this->{file} );
 }
 
@@ -336,15 +337,12 @@ sub searchInWebContent {
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, $inputTopicSet, $store) -> \%matches
+---++ ObjectMethod searchInWebMetaData($query, $inputTopicSet, $store) -> $outputTopicSet
 
 Search for a meta-data expression in the content of a web. =$query= must
 be a =Foswiki::*::Node= object.
 
-Returns a reference to a hash that maps the names of topics that all matched
-to the result of the query expression (e.g. if the query expression is
-'TOPICPARENT.name' then you will get back a hash that maps topic names
-to their parent.
+Returns an Foswiki::Search::InfoCache iterator
 
 This will become a 'query engine' factory that will allow us to plug in different
 query 'types' (Sven has code for 'tag' and 'attachment' waiting for this)

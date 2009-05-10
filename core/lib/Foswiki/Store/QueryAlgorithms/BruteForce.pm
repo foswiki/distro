@@ -23,6 +23,8 @@ use strict;
 
 use Foswiki::Search::Node ();
 use Foswiki::Meta ();
+use Foswiki::Search::InfoCache;
+
 
 sub query {
     my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
@@ -40,9 +42,7 @@ sub query {
                         files_without_match => 1,
                     };
             my $searchQuery = new Foswiki::Search::Node($query->toString(), \@filter, $searchOptions);
-            my $m = $store->searchInWebMetaData($searchQuery, $web, $topicSet, $searchOptions);
-            my @matches = keys %$m;
-            $topicSet = new Foswiki::ListIterator(\@matches);
+            $topicSet = $store->searchInWebMetaData($searchQuery, $web, $topicSet, $searchOptions);
         } else {
             #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
         }
@@ -63,7 +63,10 @@ sub query {
             $matches{$topic} = $match;
         }
     }
-    return \%matches;
+
+    my @topics = keys(%matches);
+    my $resultTopicSet = new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web, \@topics);
+    return $resultTopicSet;
 }
 
 1;

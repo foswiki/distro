@@ -4,6 +4,8 @@ package Foswiki::Store::SearchAlgorithms::PurePerl;
 
 use strict;
 use Assert;
+use Foswiki::Search::InfoCache;
+
 
 =begin TML
 
@@ -14,6 +16,9 @@ Pure perl implementation of the RCS cache search.
 ---++ search($searchString, $inputTopicSet, $options, $sDir) -> \%seen
 Search .txt files in $dir for $string. See RcsFile::searchInWebContent
 for details.
+
+DEPRECATED
+
 
 =cut
 
@@ -144,10 +149,11 @@ sub query {
         }
         # reduced topic list for next token
         @scopeTextList = keys(%completeMatch);
-        $topicSet = new Foswiki::ListIterator(\@scopeTextList);
+        $topicSet = new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web, \@scopeTextList);
     }
 
-    return \%completeMatch;
+    return $topicSet;
+#    return \%completeMatch;
 }
 
 1;

@@ -30,6 +30,10 @@ $defaultWeb is used to qualify topics that do not have a web specifier - should 
 because this 'Iterator can be created and filled dynamically, once the Iterator hasNext() and next() methods are called, it is immutable.
 
 TODO: duplicates??, what about topicExists?
+TODO: remove the iterator code from this __container__ and make a $this->getIterator() which can then be used.
+TODO: replace the Iterator->reset() function with a lightweight Iterator->copyConstructor?
+TODO: or..... make reset() make the object muttable again, so we can change the elements in the list, but re-use the meta cache??
+CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
 
 =cut
 
