@@ -1343,7 +1343,7 @@ sub setTopicEditLock {
      | =comment= | Comment relating to the save |
 For example,
 <verbatim>
-my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic )
+my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 $text =~ s/APPLE/ORANGE/g;
 Foswiki::Func::saveTopic( $web, $topic, $meta, $text, { forcenewrevision => 1 } );
 </verbatim>
@@ -2837,7 +2837,7 @@ what permissions are set on the web, for example:
 foreach my $type qw( ALLOW DENY ) {
     foreach my $action qw( CHANGE VIEW ) {
         my $pref = $type . 'WEB' . $action;
-        my $val = getPreferencesValue( $pref, $web ) || '';
+        my $val = Foswiki::Func::getPreferencesValue( $pref, $web ) || '';
         if( $val =~ /\S/ ) {
             print "$pref is set to $val on $web\n";
         }
