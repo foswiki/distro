@@ -65,11 +65,14 @@ sub new {
     my ($class) = @_;
 
     my $this = new HTML::Parser(
-        start_h       => [ \&_openTag,  'self,tagname,attr' ],
-        end_h         => [ \&_closeTag, 'self,tagname' ],
-        declaration_h => [ \&_ignore,   'self' ],
-        default_h     => [ \&_text,     'self,text' ],
-        comment_h     => [ \&_comment,  'self,text' ]
+        start_h          => [ \&_openTag,  'self,tagname,attr' ],
+        end_h            => [ \&_closeTag, 'self,tagname' ],
+        text_h           => [ \&_text,     'self,text' ],
+        comment_h        => [ \&_comment,  'self,text' ],
+        declaration_h    => [ \&_ignore,   'self' ],
+        start_document_h => [ \&_ignore,   'self' ],
+        end_document_h   => [ \&_ignore,   'self' ],
+		default_h        => [ \&_default,  'self,event,text' ]
     );
 
     $this = bless( $this, $class );
@@ -217,6 +220,12 @@ sub _comment {
 }
 
 sub _ignore {
+}
+
+sub _default {
+	my ( $this, $event, $text ) = @_;
+    # Unexpected $event event from HTML::Parser; text contains '$text'
+	ASSERT(0);
 }
 
 sub _apply {
