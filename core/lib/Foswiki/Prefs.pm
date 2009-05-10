@@ -202,12 +202,7 @@ sub loadPreferences {
     my $obj;
 
     if ( $topicObject->topic() ) {
-        if ( $topicObject->text() ) {
-            $obj = Foswiki::Prefs::TopicRAM->new($topicObject);
-        }
-        else {
-            $obj = $this->_getBackend($topicObject);
-        }
+        $obj = Foswiki::Prefs::TopicRAM->new($topicObject);
     }
     elsif ( $topicObject->web() ) {
         $obj = $this->_getWebPrefsObj( $topicObject->web() );
