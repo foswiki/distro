@@ -215,7 +215,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture( $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $session );
 
     $text = Foswiki::Func::readTopicText( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
@@ -364,7 +364,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture( $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -408,7 +408,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture( $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -473,7 +473,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture( $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -530,7 +530,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture( $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );

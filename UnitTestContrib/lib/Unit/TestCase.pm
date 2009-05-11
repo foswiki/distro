@@ -313,6 +313,38 @@ sub assert_html_matches {
     }
 }
 
+# invoke capture with first setting a key
+# so it's authorized. First parameter is the action name,
+# rest is passed over to capture
+sub captureWithKey {
+    my $this = shift;
+    my $action = shift;
+
+    # If we pass a Foswiki object to capture, use that
+    # otherwise take $Foswiki::Plugins::SESSION
+    # and we fallback to the one from the test object
+    my $fatwilly;
+    if( UNIVERSAL::isa( $_[1], 'Foswiki' ) ) {
+        $fatwilly = $_[1];
+    }
+    elsif( UNIVERSAL::isa( $Foswiki::Plugins::SESSION, 'Foswiki' ) ) {
+        $fatwilly = $Foswiki::Plugins::SESSION;
+    }
+    else {
+        $fatwilly = $this->{twiki};
+    }
+    $this->assert( $fatwilly->isa( 'Foswiki' ), "Could not find the Foswiki object" );
+    my $key = $fatwilly->_addValidationKey( $action );
+    my $re = qr/$action<input type='hidden' name='(.*)' value='(.*)' \/>/;
+    $this->assert_matches( $re, $key, "Could not extract validation key from $key" );
+    my $request = $fatwilly->{request};
+    $this->assert( $request->isa( 'Unit::Request' ), "Could not find the Unit::Request object" );
+    $key =~ $re;
+    $request->param( -name => $1, -value => $2 );
+    $request->method( 'POST' );
+    $this->capture( @_ );
+}
+ 
 # invoke a subroutine while grabbing stdout, so the "http
 # response" doesn't flood the console that you're running the
 # unit test from.

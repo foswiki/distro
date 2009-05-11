@@ -100,7 +100,7 @@ sub save_test {
     $Foswiki::Plugins::SESSION->{response}->charset($charset) if $charset;
 
     require Foswiki::UI::Save;
-    my ( $dummy, $result ) = $this->capture(
+    my ( $dummy, $result ) = $this->captureWithKey( save =>
         sub {
             no strict 'refs';
             my $ok = &$UI_FN($Foswiki::Plugins::SESSION);
@@ -146,7 +146,7 @@ sub TML2HTML_test {
     my $foswiki = new Foswiki( 'guest', $query );
     $foswiki->{response}->charset($charset) if $charset;
 
-    my ( $out, $result ) = $this->capture(
+    my ( $out, $result ) = $this->captureWithKey( save =>
         sub {
             my $ok =
               Foswiki::Plugins::WysiwygPlugin::_restTML2HTML( $foswiki, undef,
@@ -200,7 +200,7 @@ sub HTML2TML_test {
     my $foswiki = new Foswiki( 'guest', $query );
     $foswiki->{response}->charset($charset) if $charset;
 
-    my ( $out, $result ) = $this->capture(
+    my ( $out, $result ) = $this->captureWithKey( save =>
         sub {
             my $ok =
               Foswiki::Plugins::WysiwygPlugin::_restHTML2TML( $foswiki, undef,

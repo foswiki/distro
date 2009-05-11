@@ -74,7 +74,7 @@ sub run_testcase {
         print F $text;
         close F;
         $query->delete('test');
-        ( $text, $result ) = $this->capture( \&$VIEW_UI_FN, $wiki );
+        ( $text, $result ) = $this->capture( $VIEW_UI_FN, $wiki );
         open( F, ">${testcase}.html" );
         print F $text;
         close F;

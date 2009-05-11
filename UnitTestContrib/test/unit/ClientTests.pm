@@ -124,7 +124,7 @@ sub verify_edit {
 
     $this->set_up_user();
     try {
-        $text = $this->capture( \&$VIEW_UI_FN, $this->{session} );
+        $text = $this->capture( $VIEW_UI_FN, $this->{session} );
     }
     catch Foswiki::OopsException with {
         $this->assert( 0, shift->stringify() );
@@ -140,7 +140,7 @@ sub verify_edit {
     $this->{session} = new Foswiki( undef, $query );
 
     try {
-        $text = $this->capture( \&$EDIT_UI_FN, $this->{session} );
+        $text = $this->capture( $EDIT_UI_FN, $this->{session} );
     }
     catch Foswiki::AccessControlException with {} catch Error::Simple with {
         $this->assert( 0, shift->stringify() );

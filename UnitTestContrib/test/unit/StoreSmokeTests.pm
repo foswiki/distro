@@ -249,7 +249,7 @@ sub verify_releaselocksonsave {
 
     $this->{session} = new Foswiki( $testUser1, $query );
     try {
-        $this->capture( \&$UI_FN, $this->{session} );
+        $this->captureWithKey( save => \&$UI_FN, $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
@@ -277,7 +277,7 @@ sub verify_releaselocksonsave {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $testUser1, $query );
     try {
-        $this->capture( \&$UI_FN, $this->{session} );
+        $this->captureWithKey( save => \&$UI_FN, $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
@@ -302,7 +302,7 @@ sub verify_releaselocksonsave {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $testUser2, $query );
     try {
-        $this->capture( \&$UI_FN, $this->{session} );
+        $this->captureWithKey( save => \&$UI_FN, $this->{session} );
         $this->annotate(
 "\na merge notice exception should have been thrown for /$this->{test_web}/$topic"
         );

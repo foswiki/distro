@@ -121,7 +121,7 @@ sub test_oopsScript {
     );
     my $session = new Foswiki( undef, $query );
     my ( $output, $result ) =
-      $this->capture( \&$UI_FN, $session, "Flum", "DeDum", $query, 0 );
+      $this->capture( $UI_FN, $session, "Flum", "DeDum", $query, 0 );
     $this->assert_matches( qr/^phlegm$/m,           $output );
     $this->assert_matches( qr/^&#60;pus&#62;$/m,    $output );
     $this->assert_matches( qr/^snot&#64;dot.dat$/m, $output );
