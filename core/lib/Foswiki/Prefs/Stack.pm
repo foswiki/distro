@@ -331,7 +331,7 @@ __END__
 ---+ Mathematical Considerations
 
 <div align="right"> 
-_by [[Foswiki:Main/GilmarSantosJr][Gilmar Santos Jr]], Apr 2009_
+_by [[Foswiki:Main/GilmarSantosJr][Gilmar Santos Jr]], May 2009_
 </div>
 
 The bitmap is built in an way to meet two properties:
