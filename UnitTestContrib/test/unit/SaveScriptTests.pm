@@ -144,6 +144,7 @@ sub test_AUTOINC {
     $this->captureWithKey( save => $UI_FN, $this->{session} );
     $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+
         if ( $t =~ /^TestAuto0[01]$/ ) {
             $seen++;
         }
@@ -989,25 +990,26 @@ sub test_addform {
     $this->{session}->finish();
     my $query = new Unit::Request(
         {
-            action        => ['addform'],
-            topic         => [ "$this->{test_web}.$this->{test_topic}" ],
+            action => ['addform'],
+            topic  => ["$this->{test_web}.$this->{test_topic}"],
         }
     );
     $query->method('POST');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
-        my ($text, $result) =
+        my ( $text, $result ) =
           $this->captureWithKey( save => $UI_FN, $this->{session} );
-        $this->assert(!$result, $result);
-        $this->assert_matches(
-            qr/input value="TestForm1" name="formtemplate"/, $text);
-        $this->assert_matches(
-            qr/value="TestForm2" name="formtemplate"/, $text);
-        $this->assert_matches(
-            qr/value="TestForm3" name="formtemplate"/, $text);
-        $this->assert_matches(
-            qr/value="TestForm4" name="formtemplate"/, $text);
-    } catch Error::Simple with {
+        $this->assert( !$result, $result );
+        $this->assert_matches( qr/input value="TestForm1" name="formtemplate"/,
+            $text );
+        $this->assert_matches( qr/value="TestForm2" name="formtemplate"/,
+            $text );
+        $this->assert_matches( qr/value="TestForm3" name="formtemplate"/,
+            $text );
+        $this->assert_matches( qr/value="TestForm4" name="formtemplate"/,
+            $text );
+    }
+    catch Error::Simple with {
         $this->assert( 0, shift );
     };
 }
@@ -1018,19 +1020,19 @@ sub test_get {
     $this->{session}->finish();
     my $query = new Unit::Request(
         {
-            action        => ['save'],
-            topic         => [ "$this->{test_web}.$this->{test_topic}" ]
+            action => ['save'],
+            topic  => ["$this->{test_web}.$this->{test_topic}"]
         }
     );
     $query->method('GET');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
 
     try {
-        my ($text, $result) =
+        my ( $text, $result ) =
           $this->captureWithKey( save => $UI_FN, $this->{session} );
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
-    } catch Error::Simple with {
-    };
+    }
+    catch Error::Simple with {};
 }
 
 1;

@@ -70,8 +70,9 @@ THIS
     # Strategically-selected set of identical topics in the test web
     foreach my $topic ( 'OldTopic', 'OtherTopic', 'random', 'Random', 'ranDom' )
     {
-        my $meta = Foswiki::Meta->new(
-            $this->{session}, $this->{test_web}, $topic, $originaltext );
+        my $meta =
+          Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
+            $originaltext );
         $meta->putKeyed(
             'FIELD',
             {
@@ -112,8 +113,9 @@ THIS
     }
 
     # Topic in the new web
-    my $meta = Foswiki::Meta->new(
-        $this->{session}, $this->{new_web}, 'OtherTopic', $originaltext );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{new_web}, 'OtherTopic',
+        $originaltext );
     $meta->putKeyed(
         'FIELD',
         {
@@ -161,8 +163,8 @@ THIS
 sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, $this->{new_web} );
-    $this->removeWebFixture( $this->{session}, "Renamedweb$this->{test_web}")
-      if ($this->{session}->webExists("Renamedweb$this->{test_web}"));
+    $this->removeWebFixture( $this->{session}, "Renamedweb$this->{test_web}" )
+      if ( $this->{session}->webExists("Renamedweb$this->{test_web}") );
     $this->SUPER::tear_down();
 }
 
@@ -354,7 +356,8 @@ THIS
 }
 
 # Test references to a topic in this web, where the topic is not a wikiword
-sub test_renameTopic_find_referring_topics_when_renamed_topic_is_not_a_WikiWord {
+sub test_renameTopic_find_referring_topics_when_renamed_topic_is_not_a_WikiWord
+{
     my $this = shift;
     my $ott  = 'ranDom';
     my $lott = lc($ott);
@@ -714,7 +717,8 @@ THIS
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $result ) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    my ( $text, $result ) =
+      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/s, $text );
     $this->assert_matches(
@@ -851,18 +855,20 @@ sub test_makeSafeTopicName {
 # Move a subweb, ensuring that static links to that subweb are re-pointed
 sub test_renameWeb_1307a {
     my $this = shift;
-    my $m = Foswiki::Meta->new( $this->{session},
-                                "$this->{test_web}/Renamedweb" );
+    my $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Renamedweb" );
     $m->populateNewWeb();
-    $m = Foswiki::Meta->new( $this->{session},
-                                "$this->{test_web}/Renamedweb/Subweb" );
+    $m =
+      Foswiki::Meta->new( $this->{session},
+        "$this->{test_web}/Renamedweb/Subweb" );
     $m->populateNewWeb();
-    $m = Foswiki::Meta->new( $this->{session},
-                                "$this->{test_web}/Notrenamedweb" );
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Notrenamedweb" );
     $m->populateNewWeb();
-    my $vue = "$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
-    $m = Foswiki::Meta->new( 
-        $this->{session}, "$this->{test_web}/Notrenamedweb",
+    my $vue =
+"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Notrenamedweb",
         'ReferringTopic', <<CONTENT );
 $this->{test_web}.Renamedweb.Subweb
 $this->{test_web}/Renamedweb/Subweb
@@ -875,9 +881,9 @@ CONTENT
 
     my $query = new Unit::Request(
         {
-            action   => 'renameweb',
-            newparentweb => "$this->{test_web}/Notrenamedweb",
-            newsubweb => "Renamedweb",
+            action           => 'renameweb',
+            newparentweb     => "$this->{test_web}/Notrenamedweb",
+            newsubweb        => "Renamedweb",
             referring_topics => [ $m->getPath() ],
         }
     );
@@ -886,46 +892,49 @@ CONTENT
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text, $exit) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
-    $this->assert(!$exit);
-    $this->assert(Foswiki::Func::webExists(
-        "$this->{test_web}/Notrenamedweb/Renamedweb"));
-    $this->assert(!Foswiki::Func::webExists(
-        "$this->{test_web}/Renamedweb"));
-    $m = Foswiki::Meta->load(
-        $this->{session}, "$this->{test_web}/Notrenamedweb",
+    my ( $text, $exit ) =
+      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->assert( !$exit );
+    $this->assert(
+        Foswiki::Func::webExists("$this->{test_web}/Notrenamedweb/Renamedweb")
+    );
+    $this->assert( !Foswiki::Func::webExists("$this->{test_web}/Renamedweb") );
+    $m =
+      Foswiki::Meta->load( $this->{session}, "$this->{test_web}/Notrenamedweb",
         'ReferringTopic' );
-    my @lines = split(/\n/, $m->text());
+    my @lines = split( /\n/, $m->text() );
     $this->assert_str_equals(
-        "$this->{test_web}/Notrenamedweb/Renamedweb.Subweb", $lines[0]);
+        "$this->{test_web}/Notrenamedweb/Renamedweb.Subweb",
+        $lines[0] );
     $this->assert_str_equals(
-        "$this->{test_web}/Notrenamedweb/Renamedweb/Subweb", $lines[1]);
+        "$this->{test_web}/Notrenamedweb/Renamedweb/Subweb",
+        $lines[1] );
+    $this->assert_str_equals( "$this->{test_web}.Notrenamedweb.Subweb",
+        $lines[2] );
+    $this->assert_str_equals( "$this->{test_web}/Notrenamedweb/Subweb",
+        $lines[3] );
     $this->assert_str_equals(
-        "$this->{test_web}.Notrenamedweb.Subweb", $lines[2]);
-    $this->assert_str_equals(
-        "$this->{test_web}/Notrenamedweb/Subweb", $lines[3]);
-    $this->assert_str_equals(
-        "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/WebHome", $lines[4]);
+        "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/WebHome",
+        $lines[4] );
     $this->assert_str_equals(
         "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/SubwebWebHome",
-        $lines[5]);
+        $lines[5] );
 }
 
 # Move a root web, ensuring that static links are re-pointed
 sub test_renameWeb_1307b {
     my $this = shift;
-    my $m = Foswiki::Meta->new( $this->{session},
-                                "Renamed$this->{test_web}" );
+    my $m = Foswiki::Meta->new( $this->{session}, "Renamed$this->{test_web}" );
     $m->populateNewWeb();
-    $m = Foswiki::Meta->new( $this->{session},
-                                "Renamed$this->{test_web}/Subweb" );
+    $m =
+      Foswiki::Meta->new( $this->{session}, "Renamed$this->{test_web}/Subweb" );
     $m->populateNewWeb();
-    $m = Foswiki::Meta->new( $this->{session},
-                                "$this->{test_web}" );
+    $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}" );
     $m->populateNewWeb();
-    my $vue = "$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
-    $m = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}",
+    my $vue =
+"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}",
         'ReferringTopic', <<CONTENT );
 Renamed$this->{test_web}.Subweb
 Renamed$this->{test_web}/Subweb
@@ -939,19 +948,18 @@ CONTENT
     # need rename access on the root for this one, which is a bit of a
     # faff to set up, so we'll cheat a bit and add the user to the admin
     # group. Fortunately we have a private users web.
-    my $grope = Foswiki::Meta->new(
-        $this->{session},
-        $this->{users_web},
+    my $grope =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web},
         $Foswiki::cfg{SuperAdminGroup}, <<EOF);
    * Set GROUP = $this->{test_user_wikiname}
 EOF
-   $grope->save();
+    $grope->save();
 
     my $query = new Unit::Request(
         {
-            action   => 'renameweb',
-            newparentweb => $this->{test_web},
-            newsubweb => "Renamed$this->{test_web}",
+            action           => 'renameweb',
+            newparentweb     => $this->{test_web},
+            newsubweb        => "Renamed$this->{test_web}",
             referring_topics => [ $m->getPath() ],
         }
     );
@@ -960,120 +968,142 @@ EOF
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text, $exit) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
-    $this->assert(!$exit);
-    $this->assert(Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}"));
-    $this->assert(!Foswiki::Func::webExists("Renamed$this->{test_web}"));
-    $m = Foswiki::Meta->load(
-        $this->{session}, "$this->{test_web}",
+    my ( $text, $exit ) =
+      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->assert( !$exit );
+    $this->assert(
+        Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}")
+    );
+    $this->assert( !Foswiki::Func::webExists("Renamed$this->{test_web}") );
+    $m =
+      Foswiki::Meta->load( $this->{session}, "$this->{test_web}",
         'ReferringTopic' );
-    my @lines = split(/\n/, $m->text());
+    my @lines = split( /\n/, $m->text() );
     $this->assert_str_equals(
-        "$this->{test_web}/Renamed$this->{test_web}.Subweb", $lines[0]);
+        "$this->{test_web}/Renamed$this->{test_web}.Subweb",
+        $lines[0] );
     $this->assert_str_equals(
-        "$this->{test_web}/Renamed$this->{test_web}/Subweb", $lines[1]);
+        "$this->{test_web}/Renamed$this->{test_web}/Subweb",
+        $lines[1] );
+    $this->assert_str_equals( "$this->{test_web}.Subweb", $lines[2] );
+    $this->assert_str_equals( "$this->{test_web}/Subweb", $lines[3] );
     $this->assert_str_equals(
-        "$this->{test_web}.Subweb", $lines[2]);
+        "$vue/$this->{test_web}/Renamed$this->{test_web}/WebHome",
+        $lines[4] );
     $this->assert_str_equals(
-        "$this->{test_web}/Subweb", $lines[3]);
-    $this->assert_str_equals(
-        "$vue/$this->{test_web}/Renamed$this->{test_web}/WebHome", $lines[4]);
-    $this->assert_str_equals(
-        "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome", $lines[5]);
+        "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome",
+        $lines[5] );
 }
 
 sub test_rename_attachment {
     my $this = shift;
 
-    my $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, 'NewTopic');
+    my $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web}, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
-    my $stream = new File::Temp(UNLINK => 0);
+    my $stream = new File::Temp( UNLINK => 0 );
     print $stream "Blah Blah";
     $stream->close();
     $stream->unlink_on_destroy(1);
 
-    $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, $this->{test_topic});
-    $to->attach(name => 'dis.dat', file => $stream->filename);
+    $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    $to->attach( name => 'dis.dat', file => $stream->filename );
 
     $this->{session}->finish();
 
     my $query = new Unit::Request(
         {
-            attachment       => ['dis.dat'],
-            newtopic         => ['NewTopic'],
-            newweb           => $this->{test_web},
+            attachment => ['dis.dat'],
+            newtopic   => ['NewTopic'],
+            newweb     => $this->{test_web},
         }
     );
 
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text, $result) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
-    $this->assert_matches(qr/Status: 302/, $text);
-    $this->assert_matches(qr#/$this->{test_web}/NewTopic#, $text);
-    $this->assert(!Foswiki::Func::attachmentExists(
-        $this->{test_web}, $this->{test_topic}, 'dis.dat'));
-    $this->assert(Foswiki::Func::attachmentExists(
-        $this->{test_web}, 'NewTopic', 'dis.dat'));
+    my ( $text, $result ) =
+      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->assert_matches( qr/Status: 302/,                 $text );
+    $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
+    $this->assert(
+        !Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'dis.dat'
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, 'NewTopic', 'dis.dat'
+        )
+    );
 }
 
 sub test_rename_attachment_not_in_meta {
     my $this = shift;
 
-    my $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, 'NewTopic');
+    my $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web}, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
 
-    $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, $this->{test_topic});
-    my $fh = $to->openAttachment('dis.dat', '>');
+    $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    my $fh = $to->openAttachment( 'dis.dat', '>' );
     print $fh "Oh no not again";
-    close ($fh);
+    close($fh);
 
     $this->{session}->finish();
 
     my $query = new Unit::Request(
         {
-            attachment       => ['dis.dat'],
-            newtopic         => ['NewTopic'],
-            newweb           => $this->{test_web},
+            attachment => ['dis.dat'],
+            newtopic   => ['NewTopic'],
+            newweb     => $this->{test_web},
         }
     );
 
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text, $result) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
-    $this->assert_matches(qr/Status: 302/, $text);
-    $this->assert_matches(qr#/$this->{test_web}/NewTopic#, $text);
-    $this->assert(!Foswiki::Func::attachmentExists(
-        $this->{test_web}, $this->{test_topic}, 'dis.dat'));
-    $this->assert(Foswiki::Func::attachmentExists(
-        $this->{test_web}, 'NewTopic', 'dis.dat'));
+    my ( $text, $result ) =
+      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->assert_matches( qr/Status: 302/,                 $text );
+    $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
+    $this->assert(
+        !Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'dis.dat'
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, 'NewTopic', 'dis.dat'
+        )
+    );
 }
 
 sub test_rename_attachment_no_dest_topic {
     my $this = shift;
 
-    my $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, $this->{test_topic});
-    my $fh = $to->openAttachment('dis.dat', '>');
+    my $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    my $fh = $to->openAttachment( 'dis.dat', '>' );
     print $fh "Oh no not again";
-    close ($fh);
+    close($fh);
 
     $this->{session}->finish();
 
     my $query = new Unit::Request(
         {
-            attachment       => ['dis.dat'],
-            newtopic         => ['NewTopic'],
-            newweb           => $this->{test_web},
+            attachment => ['dis.dat'],
+            newtopic   => ['NewTopic'],
+            newweb     => $this->{test_web},
         }
     );
 
@@ -1081,14 +1111,17 @@ sub test_rename_attachment_no_dest_topic {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     try {
-        my ($text, $result) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
-        $this->assert(0, "$result $text");
-    } catch Foswiki::OopsException with {
+        my ( $text, $result ) =
+          $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+        $this->assert( 0, "$result $text" );
+    }
+    catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_equals('no_such_topic', $e->{def});
-        $this->assert_equals('NewTopic', $e->{topic});
-    } otherwise {
-        $this->assert(0, shift);
+        $this->assert_equals( 'no_such_topic', $e->{def} );
+        $this->assert_equals( 'NewTopic',      $e->{topic} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
     };
 }
 
@@ -1096,25 +1129,29 @@ sub test_rename_attachment_no_dest_topic {
 sub test_rename_attachment_not_on_disc {
     my $this = shift;
 
-    my $stream = new File::Temp(UNLINK => 0);
+    my $stream = new File::Temp( UNLINK => 0 );
     print $stream "Blah Blah";
     $stream->close();
     $stream->unlink_on_destroy(1);
 
-    my $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, $this->{test_topic});
-    $to->attach(name => 'dis.dat', file => $stream->filename);
+    my $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    $to->attach( name => 'dis.dat', file => $stream->filename );
 
-    unless( -e "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/dis.dat" ) {
+    unless (
+        -e "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/dis.dat"
+      )
+    {
         $this->expect_failure();
         $this->annotate("Attachment not on disc");
         $this->assert(0);
     }
 
-    unlink("$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/dis.dat");
+    unlink(
+        "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/dis.dat");
 
-    $to = new Foswiki::Meta(
-        $this->{session}, $this->{test_web}, 'NewTopic');
+    $to = new Foswiki::Meta( $this->{session}, $this->{test_web}, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
 
@@ -1122,22 +1159,29 @@ sub test_rename_attachment_not_on_disc {
 
     my $query = new Unit::Request(
         {
-            attachment       => ['dis.dat'],
-            newtopic         => ['NewTopic'],
-            newweb           => $this->{test_web},
+            attachment => ['dis.dat'],
+            newtopic   => ['NewTopic'],
+            newweb     => $this->{test_web},
         }
     );
 
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text, $result) = $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
-    $this->assert_matches(qr/Status: 302/, $text);
-    $this->assert_matches(qr#/$this->{test_web}/NewTopic#, $text);
-    $this->assert(!Foswiki::Func::attachmentExists(
-        $this->{test_web}, $this->{test_topic}, 'dis.dat'));
-    $this->assert(Foswiki::Func::attachmentExists(
-        $this->{test_web}, 'NewTopic', 'dis.dat'));
+    my ( $text, $result ) =
+      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->assert_matches( qr/Status: 302/,                 $text );
+    $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
+    $this->assert(
+        !Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'dis.dat'
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, 'NewTopic', 'dis.dat'
+        )
+    );
 }
 
 1;
