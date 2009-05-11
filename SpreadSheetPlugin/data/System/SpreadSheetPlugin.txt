@@ -632,7 +632,7 @@ Conventions for Syntax:
 
 #FuncTIME
 ---+++ TIME( text ) -- convert a date string into a serialized date number
-   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. Date is assumed to be server time; add =GMT= to indicate Greenwich time zone
+   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. Date is assumed to be GMT unless SPREADSHEETPLUGIN_TIMEISLOCAL is set (default 0). Add =GMT= to force Greenwich time zone. Add =LOCAL= to force the timezone of the server. Note that if you use LOCAL or SPREADSHEETPLUGIN_TIMEISLOCAL is set to 1, dates entered by users on servers placed to the east of Greenwich will be converted to the day before which will often be undesired. It is recommended to keep SPREADSHEETPLUGIN_TIMEISLOCAL = 0 which is the default. |
    * Syntax: ==$TIME( _text_ )==
    * Example: ==%<nop>CALC{"$TIME(2003/10/14 GMT)"}%== returns ==1066089600==
    * Related: =[[#FuncFORMATGMTIME][$FORMATGMTIME()]]=, =[[#FuncFORMATTIME][$FORMATTIME()]]=, =[[#FuncFORMATTIMEDIFF][$FORMATTIMEDIFF()]]=, =[[#FuncTIMEADD][$TIMEADD()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=, =[[#FuncTODAY][$TODAY()]]=, =[[#FuncWORKINGDAYS][$WORKINGDAYS()]]=
@@ -751,6 +751,11 @@ topic while including topic | 1 |
 [[%SYSTEMWEB%.WikiWord][WikiWords]] to exclude from being spaced out by \
 the ==$PROPERSPACE(text)== function. | \
 <noautolink>CodeWarrior, MacDonald, McIntosh, RedHat, SuSE</noautolink> |
+| =SPREADSHEETPLUGIN_TIMEISLOCAL= | \
+Makes the TIME function assume input is local time \
+and converts the entered time to GMT unless the date has 'GMT' appended. \
+Note that this behavior creates problems for users using servers in time zones \
+to the east of Greenwich. The setting is present for compatibility. | 0 | 
 
 Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DONTSPACE= preference for historical reasons.
 
@@ -762,8 +767,9 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 |  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2009 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 22 Apr 2009 |
+|  Plugin Version: | 11 May 2009 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  11 May 2009: | Fixed the calculation of WORKINGDAYS. Changed the default behavior of TIME back to not converting dates to GMT as this creates surprising effects for users living to the east of Greenwich. Added SPREADSHEETPLUGIN_TIMEISLOCAL so users depending on the old behavior keep the old behavior if TIME. Added the feature 'local' to TIME so conversion behavior can be used on demand. |
 |  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Foswikitask:Item5471: Fixed replacing 0 in REPLACE. Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
 |  29 Mar 2009: | Added $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), and $INSERTSTRING() |
 |  06 Jan 2009: | Foswikitask:Item4835: Allow SUBSTITUTE and REPLACE to return values 0 and '' |
