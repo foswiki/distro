@@ -330,6 +330,10 @@ __END__
 #MathStuff
 ---+ Mathematical Considerations
 
+<div align="right"> 
+_by [[Foswiki:Main/GilmarSantosJr][Gilmar Santos Jr]], Apr 2009_
+</div>
+
 The bitmap is built in an way to meet two properties:
    * It has the minimal possible length.                       (I)
    * If it exists in the hash, it has at least length 1.       (II)
@@ -580,7 +584,7 @@ in this architecture are far smaller than the preferences values (a typical big
 bitstring has less than 4 bytes, while a preference value is bigger than this).
 
 =pack= and =unpack= are not used cause they are not needed and cause the way to
-know the level where a preference is defined is an O(1) operation that
+know the level where a preference is defined is an =O(1)= operation that
 *depends* on the packed string.
 
 =cut
