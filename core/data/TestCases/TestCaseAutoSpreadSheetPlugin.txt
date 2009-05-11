@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="KennethLavrsen" date="1238343465" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectCoordinator" date="1242057514" format="1.1"  version="1.1"}%
 %META:TOPICPARENT{name="WebHome"}%
 Description: Tag tests that can be automated
 
@@ -886,10 +886,23 @@ Designed by: Kenneth Lavrsen
 
 #FuncTIME
 ---+++ TIME( text ) -- convert a date string into a serialized date number
-   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. Date is assumed to be server time; add =GMT= to indicate Greenwich time zone
-   * Syntax: ==$TIME( _text_ )==
-   * Example: ==%<nop>CALC{"$TIME(2003/10/14 GMT)"}%== returns ==1066089600==
-   * Related: =[[#FuncFORMATGMTIME][$FORMATGMTIME()]]=, =[[#FuncFORMATTIME][$FORMATTIME()]]=, =[[#FuncFORMATTIMEDIFF][$FORMATTIMEDIFF()]]=, =[[#FuncTIMEADD][$TIMEADD()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=, =[[#FuncTODAY][$TODAY()]]=, =[[#FuncWORKINGDAYS][$WORKINGDAYS()]]=
+
+   * Test: %<nop>CALC{"$TIME(2003/10/14 GMT)"}%
+   * Expected: <!-- expected time1 -->1066089600<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$TIME(2003/10/14 GMT)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$TIME(2009/05/10 GMT)"}%
+   * Expected: <!-- expected time2 -->1241913600<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$TIME(2009/05/10 GMT)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$TIME(10 May 2009 GMT)"}%
+   * Expected: <!-- expected time3 -->1241913600<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$TIME(10 May 2009 GMT)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$TIME(10 May 2009 GMT)"}%
+   * Expected: <!-- expected time4 -->1241913660<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$TIME(10 May 2009 00:01:00 GMT)"}%<!-- /actual -->
+
 
 #FuncTIMEADD
 ---+++ TIMEADD( serial, value, unit ) -- add a value to a serialized date
@@ -936,7 +949,74 @@ Designed by: Kenneth Lavrsen
 
 #FuncWORKINGDAYS
 ---+++ WORKINGDAYS( serial_1, serial_2 ) -- working days between two serialized dates
-   * Working days are Monday through Friday (sorry, Israel!)
-   * Syntax: ==$WORKINGDAYS( serial_1, serial_2 )==
-   * Example: ==%<nop>CALC{"$WORKINGDAYS($TIME(2004/07/15), $TIME(2004/08/03))"}%== returns ==13==
-   * Related: =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncTIME][$TIME()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=
+
+The 4th column contains  
+ %<nop>CALC{"$WORKINGDAYS($TIME(2009/05/07), $TIME(2009/05/07))"}%
+ 
+ Note that the tests around March 2009 cross a Daylight Saving Time change.
+
+| *Start* | *End* | *Expected* | *Actual* |
+| 2009/05/07 | 2009/05/07 | <!-- expected workingdays1 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/08 | <!-- expected workingdays2 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/09 | <!-- expected workingdays3 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/10 | <!-- expected workingdays4 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/11 | <!-- expected workingdays5 -->2<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/12 | <!-- expected workingdays6 -->3<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/13 | <!-- expected workingdays7 -->4<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/14 | <!-- expected workingdays8 -->5<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/15 | <!-- expected workingdays9 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/16 | <!-- expected workingdays10 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/17 | <!-- expected workingdays11 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/18 | <!-- expected workingdays12 -->7<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/20 | <!-- expected workingdays13 -->9<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/21 | <!-- expected workingdays14 -->10<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/22 | <!-- expected workingdays15 -->11<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/23 | <!-- expected workingdays16 -->11<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/24 | <!-- expected workingdays17 -->11<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/05/07 | 2009/05/25 | <!-- expected workingdays18 -->12<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/19 | <!-- expected workingdays18 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/20 | <!-- expected workingdays19 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/21 | <!-- expected workingdays20 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/22 | <!-- expected workingdays21 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/23 | <!-- expected workingdays22 -->2<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/24 | <!-- expected workingdays23 -->3<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/30 | <!-- expected workingdays24 -->7<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/19 | 2009/03/31 | <!-- expected workingdays25 -->8<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/20 | <!-- expected workingdays26 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/21 | <!-- expected workingdays27 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/22 | <!-- expected workingdays28 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/23 | <!-- expected workingdays29 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/24 | <!-- expected workingdays30 -->2<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/30 | <!-- expected workingdays31 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/03/31 | <!-- expected workingdays32 -->7<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/20 | 2009/04/01 | <!-- expected workingdays33 -->8<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/21 | <!-- expected workingdays34 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/22 | <!-- expected workingdays35 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/23 | <!-- expected workingdays36 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/24 | <!-- expected workingdays37 -->2<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/25 | <!-- expected workingdays38 -->3<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/30 | <!-- expected workingdays39 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/03/31 | <!-- expected workingdays40 -->7<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/21 | 2009/04/01 | <!-- expected workingdays41 -->8<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/03/22 | <!-- expected workingdays42 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/03/23 | <!-- expected workingdays43 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/03/24 | <!-- expected workingdays44 -->2<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/03/25 | <!-- expected workingdays45 -->3<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/03/30 | <!-- expected workingdays46 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/03/31 | <!-- expected workingdays47 -->7<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/04/01 | <!-- expected workingdays48 -->8<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/22 | 2009/04/02 | <!-- expected workingdays49 -->9<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/23 | <!-- expected workingdays50 -->0<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/24 | <!-- expected workingdays51 -->1<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/25 | <!-- expected workingdays52 -->2<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/26 | <!-- expected workingdays53 -->3<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/27 | <!-- expected workingdays54 -->4<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/28 | <!-- expected workingdays55 -->4<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/29 | <!-- expected workingdays56 -->4<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/30 | <!-- expected workingdays57 -->5<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/03/31 | <!-- expected workingdays58 -->6<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/04/01 | <!-- expected workingdays59 -->7<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/04/02 | <!-- expected workingdays60 -->8<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/04/03 | <!-- expected workingdays61 -->9<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2009/03/23 | 2009/04/04 | <!-- expected workingdays62 -->9<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
+| 2008/12/31 | 2009/12/31 | <!-- expected workingdays63 -->261<!-- /expected --> | <!-- actual -->%CALC{"$WORKINGDAYS($TIME($T(R$ROW():C1)), $TIME($T(R$ROW():C2)))"}%<!-- /actual --> |
