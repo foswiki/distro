@@ -2802,7 +2802,7 @@ STATIC Add a tag handler to the function tag handlers.
 
 sub registerTagHandler {
     my ( $tag, $fnref, $syntax ) = @_;
-    $functionTags{$tag} = \&$fnref;
+    $functionTags{$tag} = $fnref;
     if ( $syntax && $syntax eq 'context-free' ) {
         $contextFreeSyntax{$tag} = 1;
     }
@@ -2834,7 +2834,7 @@ where:
 
 sub registerRESTHandler {
     my ( $subject, $verb, $fnref ) = @_;
-    $restDispatch{$subject}{$verb} = \&$fnref;
+    $restDispatch{$subject}{$verb} = $fnref;
 }
 
 =begin TML

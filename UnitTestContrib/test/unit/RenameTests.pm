@@ -461,7 +461,7 @@ sub test_renameTopic_same_web_new_topic_name {
     $query->path_info("/$this->{test_web}/SanityCheck");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->captureWithKey( rename => $UI_FN, $this->{session} );
 
     $this->assert(
         $this->{session}->topicExists( $this->{test_web}, 'NewTopic' ) );
@@ -718,7 +718,7 @@ THIS
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my ( $text, $result ) =
-      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/s, $text );
     $this->assert_matches(
@@ -820,7 +820,7 @@ sub test_renameTopic_ensure_leases_are_released {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+    $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $m = Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OldTopic' );
     my $lease = $m->getLease();
     $this->assert_null( $lease, $lease );
@@ -893,7 +893,7 @@ CONTENT
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my ( $text, $exit ) =
-      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert( !$exit );
     $this->assert(
         Foswiki::Func::webExists("$this->{test_web}/Notrenamedweb/Renamedweb")
@@ -969,7 +969,7 @@ EOF
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my ( $text, $exit ) =
-      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert( !$exit );
     $this->assert(
         Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}")
@@ -1028,7 +1028,7 @@ sub test_rename_attachment {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my ( $text, $result ) =
-      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(
@@ -1072,7 +1072,7 @@ sub test_rename_attachment_not_in_meta {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my ( $text, $result ) =
-      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(
@@ -1112,7 +1112,7 @@ sub test_rename_attachment_no_dest_topic {
     $Foswiki::Plugins::SESSION = $this->{session};
     try {
         my ( $text, $result ) =
-          $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+          $this->captureWithKey( rename => $UI_FN, $this->{session} );
         $this->assert( 0, "$result $text" );
     }
     catch Foswiki::OopsException with {
@@ -1169,7 +1169,7 @@ sub test_rename_attachment_not_on_disc {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my ( $text, $result ) =
-      $this->captureWithKey( rename => \&$UI_FN, $this->{session} );
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(

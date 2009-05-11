@@ -493,7 +493,7 @@ sub run {
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
         $context{command_line} = 1;
     }
-    _execute( Foswiki::Request->new(), \&$method, %context );
+    _execute( Foswiki::Request->new(), $method, %context );
 }
 
 1;
