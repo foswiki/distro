@@ -313,7 +313,7 @@ sub restore {
         $this->{'map'}{$p} &= $mask;
         
         while ( length( $this->{'map'}{$p} ) > 0
-            && ord( substr( $this->{'map'}, -1 ) ) == 0 )
+            && ord( substr( $this->{'map'}{$p}, -1 ) ) == 0 )
         {
             substr( $this->{'map'}{$p}, -1 ) = '';
         }
