@@ -682,7 +682,7 @@ Conventions for Syntax:
 
 #FuncWORKINGDAYS
 ---+++ WORKINGDAYS( serial_1, serial_2 ) -- working days between two serialized dates
-   * Working days are Monday through Friday (sorry, Israel!)
+   * Working days are Monday through Friday (sorry, Israel!). The start date is not included in the count. The end date is concluded. If you need both included simply subtract one day from the start date.
    * Syntax: ==$WORKINGDAYS( serial_1, serial_2 )==
    * Example: ==%<nop>CALC{"$WORKINGDAYS($TIME(2004/07/15), $TIME(2004/08/03))"}%== returns ==13==
    * Related: =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncTIME][$TIME()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=
