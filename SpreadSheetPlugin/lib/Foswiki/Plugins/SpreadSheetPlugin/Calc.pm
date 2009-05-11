@@ -1253,10 +1253,24 @@ sub _date2serial
         # unsupported, out of range
         return 0;
     }
-    if( $theText =~ /gmt/i ) {
-        return timegm( $sec, $min, $hour, $day, $mon, $year );
-    } else {
+
+    # Flag to force the TIME function to convert entered dates to GMT.
+    # This will normally cause trouble for users on a server installed
+    # the east of Greenwich because dates entered without a time get
+    # converted to the day before and this is usually not what the user
+    # intended. Especially the function WORKINGDAYS suffer from this.
+    # and it also causes surprises with respect to daylight saving time
+    my $timeislocal = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_TIMEISLOCAL" ) || 0;
+    $timeislocal = Foswiki::Func::isTrue($timeislocal);
+
+    if( $theText =~ /local/i ) {
         return timelocal( $sec, $min, $hour, $day, $mon, $year );
+    } elsif( $theText =~ /gmt/i ) {  
+        return timegm( $sec, $min, $hour, $day, $mon, $year );
+    } elsif( $timeislocal ) {
+        return timelocal( $sec, $min, $hour, $day, $mon, $year );
+    } else {
+        return timegm( $sec, $min, $hour, $day, $mon, $year );
     }
 }
 
@@ -1322,27 +1336,27 @@ sub _workingDays
 {
     my ( $start, $end ) = @_;
 
-    # Contributed by CrawfordCurrie - 17 Jul 2004
-    # Calculate working days between two times. Times are standard system times (secs since 1970). 
+    # Calculate working days between two times.
+    # Times are standard system times (secs since 1970). 
     # Working days are Monday through Friday (sorry, Israel!)
+    # A day has 60 * 60 * 24 = 86400 sec
 
+    # We allow the two dates to be swapped around
+    ($start, $end) = ($end, $start) if ( $start > $end );
     use integer;
-    my $elapsed_days = ( $end - $start ) / ( 60 * 60 * 24 );
-    # total number of elapsed 7-day weeks
-    my $whole_weeks = $elapsed_days / 7;
+    my $elapsed_days = int( ( $end - $start ) / 86400 );
+    my $whole_weeks = int( $elapsed_days / 7 );
     my $extra_days = $elapsed_days - ( $whole_weeks * 7 );
-    if( $extra_days > 0 ) {
-      my @lt = gmtime( $start );
-      my $wday = $lt[6]; # weekday, 0 is sunday
-
-      if( $wday == 0 ) {
-        $extra_days-- if( $extra_days > 0 );
-      } else {
-        $extra_days-- if( $extra_days > ( 6 - $wday ) );
-        $extra_days-- if( $extra_days > ( 6 - $wday ) );
-      }
+    my $work_days = $elapsed_days - ($whole_weeks * 2);
+ 
+    for ( my $i = 0; $i < $extra_days; $i++ ) {
+        my $tempwday = (gmtime( $end - $i * 86400))[6];
+        if ( $tempwday == 6 || $tempwday == 0 ) {
+            $work_days--;
+        }
     }
-    return $whole_weeks * 5 + $extra_days;
+
+    return $work_days;
 }
 
 # =========================
