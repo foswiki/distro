@@ -530,7 +530,7 @@ bytes.
 <verbatim>
 0  <= $L <  8 implies the mask 1-byte  long.
 8  <= $L < 16 implies the mask 2-bytes long.
-16 <= $L < 32 implies the mask 3-bytes long. 
+16 <= $L < 24 implies the mask 3-bytes long. 
 </verbatim>
 
 and so on. We conclude that all bytes of the mask, except the last, will be
