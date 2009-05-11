@@ -7,9 +7,10 @@ use strict;
 
 Preferences are set in topics, using either 'Set' lines embedded in the
 topic text, or via PREFERENCE meta-data attached to the topic. A preference
-value has three _scopes_:
+value has four _scopes_:
    * _Global_ scope
    * _Local_ scope
+   * _Web_ scope
    * _Topic_ scope
 
 In _global_ scope, the value of a preference is determined by examining
@@ -25,9 +26,13 @@ preference has to have a different value in the defining topic.
 
 Values in global and local scope are accessed using =getPreference=/
 
+_Web_ scope is used by web access controls. Subwebs inherint access controls
+from parent webs and only from parent webs. Global and Local scopes are
+disconsidered.
+
 The final scope is _topic_ scope. In this scope, the value of the preference is
 taken directly from the contents of the topic, and is not overridden by wider
-scopes. Topic scope is used for access controls.
+scopes. Topic scope is used for topic access controls.
 
 Because the highest cost in evaluating preferences is reading the individual
 topics, preferences read from a topic are cached.
@@ -53,14 +58,11 @@ preference is defined. Or we could copy the values from lower leves to higher
 ones and override the preferences defined at that level. This later approach
 wastes memory. This implementation picks the former and we use bitstrings and
 some maths to accomplish that. It's also flexible and it doesn't matter how
-preferences are stored.  Refer to http://foswiki.org/Development/ThinPrefs for
-details.
+preferences are stored. 
 
 =cut
 
 package Foswiki::Prefs;
-
-use bytes;
 
 use Assert;
 use Foswiki::Prefs::TopicRAM ();
@@ -81,7 +83,7 @@ sub new {
     my ( $proto, $session ) = @_;
     my $class = ref($proto) || $proto;
     my $this = {
-        'main'  => Foswiki::Prefs::Stack->new(),
+        'main'  => Foswiki::Prefs::Stack->new(),  # Main preferences stack
         'paths' => {},                            # Map paths to backend objects
         'contexts'  => [],    # Store the main levels corresponding to contexts
         'prefix'    => [],    # Map level => prefix uesed
@@ -107,17 +109,21 @@ Break circular references.
 sub finish {
     my $this = shift;
 
-    $this->{main}->finish();
+    $this->{main}->finish() if $this->{main};
     undef $this->{main};
     undef $this->{prefix};
     undef $this->{session};
     undef $this->{contexts};
-    foreach my $back ( values %{ $this->{paths} } ) {
-        $back->finish();
+    if ( $this->{paths} ) {
+        foreach my $back ( values %{ $this->{paths} } ) {
+            $back->finish();
+        }
     }
     undef $this->{paths};
-    foreach my $webStack ( values %{ $this->{webprefs} } ) {
-        $webStack->finish();
+    if ( $this->{webprefs} ) {
+        foreach my $webStack ( values %{ $this->{webprefs} } ) {
+            $webStack->finish();
+        }
     }
     undef $this->{webprefs};
     undef $this->{internals};
@@ -137,6 +143,10 @@ sub _getBackend {
     return $this->{paths}{$path};
 }
 
+# Given a (sub)web and a stack object, push the (sub)web on the stack,
+# considering that part of the (sub)web may already be in the stack.  This is
+# used to build, for example, Web/Subweb/WebA stack based on Web/Subweb or Web
+# stack.
 sub _pushWebInStack {
     my ( $this, $stack, $web ) = @_;
     my @webPath = split( /[\/\.]+/, $web );
@@ -151,6 +161,12 @@ sub _pushWebInStack {
     }
 }
 
+# Returns a Foswiki::Prefs::Web object. It consider the already existing
+# objects and build a new one only if it doesn't exist. And even if it doesn't
+# exist, consider existing ones to speedup the construction. Example:
+# Web/SubWeb already exists and we want Web/Subweb/WebA. Then we just push
+# WebA. If, instead, Web/Subweb/WebB exists, then we clone tha stack up to
+# Web/Subweb and push WebA on it.
 sub _getWebPrefsObj {
     my ( $this, $web ) = @_;
     my ( $stack, $level );
@@ -167,7 +183,10 @@ sub _getWebPrefsObj {
         $part = join( '/', @path );
         if ( exists $this->{webprefs}{$part} ) {
             my $base = $this->{webprefs}{$part};
-            $stack = $base->cloneStack( scalar(@path) - 1 );
+            $stack =
+                $base->isInTopOfStack()
+              ? $base->stack()
+              : $base->cloneStack( scalar(@path) - 1 );
             last;
         }
         unshift @websToAdd, pop @path;

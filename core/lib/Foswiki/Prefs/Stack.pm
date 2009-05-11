@@ -1,21 +1,46 @@
-# See bottom of file for license and copyright information
+# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# As per the GPL, removal of this notice is prohibited.
 
 =begin TML
 
 ---+ UNPUBLISHED package Foswiki::Prefs::Stack
 
 Foswiki preferences mechanism are like stacks:
-   * Preferences pushed later have precendence over ones pushed earlier I must
+   * Preferences pushed later have precedence over ones pushed earlier I must
    * be able to return (restore) to a state I was earlier
 
 This stack can exist as an index, so preference data is not copied everywhere.
 
-This class deals with this index and must be used only by Foswiki::Prefs.
+The index is composed by three elements:
+   * A bitstring map. Each preference has a bitmap. Each bit corresponds to a
+     level. The bit is 1 if the preference is defined at that level and 0
+     otherwise. If a preference is "defined" in some level, but it was
+     finalized, then the corresponding bit is 0.  
+   * A level list storing a backend object that is associated with each level 
+   * A final hash that maps preferences to the level they were finalized.
+
+This class deals with this stuff and must be used only by Foswiki::Prefs.
 
 =cut
 
 package Foswiki::Prefs::Stack;
 use strict;
+use bytes;
 
 =begin TML
 
@@ -50,8 +75,10 @@ Break circular references.
 sub finish {
     my $this = shift;
     undef $this->{'final'};
-    foreach my $back ( @{ $this->{'levels'} } ) {
-        $back->finish();
+    if ( $this->{'levels'} ) {
+        foreach my $back ( @{ $this->{'levels'} } ) {
+            $back->finish();
+        }
     }
     undef $this->{'levels'};
     undef $this->{'map'};
@@ -282,31 +309,214 @@ sub restore {
     my $mask =
       ( chr(0xFF) x int( $level / 8 ) )
       . chr( ( 2**( ( $level % 8 ) + 1 ) ) - 1 );
-    foreach ( keys %{ $this->{'map'} } ) {
-        $this->{'map'}{$_} &= $mask;
-        substr( $this->{'map'}{$_}, -1 ) = ''
-          while length( $this->{'map'}{$_} ) > 0
-              && ord( substr( $this->{'map'}{$_}, -1 ) ) == 0;
-        delete $this->{'map'}{$_} if length( $this->{'map'}{$_} ) == 0;
+    foreach my $p ( keys %{ $this->{'map'} } ) {
+        $this->{'map'}{$p} &= $mask;
+        
+        while ( length( $this->{'map'}{$p} ) > 0
+            && ord( substr( $this->{'map'}, -1 ) ) == 0 )
+        {
+            substr( $this->{'map'}{$p}, -1 ) = '';
+        }
+        
+        delete $this->{'map'}{$p} if length( $this->{'map'}{$p} ) == 0;
     }
 }
 
 1;
-__DATA__
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+__END__
+
+=begin TML
+
+---++ Mathematical Considerations
+
+The bitmap is built in an way to meet two properties:
+   * It has the minimal possible length.                       (I)
+   * If it exists in the hash, it has at least length 1.       (II)
+
+Preference levels 0-7 are in the first byte. 8-15 in the second and so on. If a
+preference is defined in levels 2 and 7, for example, its bitmap will have
+length 1, even if the stack is in 30th level. This is what "minimal possible
+length" means.
+
+These two properties implies that the last byte of a bit string is non-zero.
+
+---
+
+Let's consider the first scenario: at most 8 preference values. This means that
+bitmaps have one character. The built-in perl function =ord= converts a
+character to an integer between 0 and 255. If the character of a preference is
+0, then the preference doesn't exist in the map hash, cause of the second
+listed property above. 
+
+This implies that I can *always* take the logarithm of ord($map). (III)
+
+The question is: given a bitstring, what is the highest level containing a 1?
+To answer this question let's consider the following mathematical expressions:
+(log2(X) means "the logarithm of X in base 2")
+
+log2(1) = 0; 1 == 1 * 2 ** 0; 1 in base 2 is "00000001" (considering one byte)
+log2(2) = 1; 2 == 1 * 2 ** 1; 2 in base 2 is "00000010" (considering one byte)
+log2(4) = 2; 4 == 1 * 2 ** 2; 4 in base 2 is "00000100" (considering one byte)
+log2(8) = 3; 8 == 1 * 2 ** 3; 8 in base 2 is "00001000" (considering one byte)
+
+Also notice that:
+2 ** B <= X < 2 ** (B + 1) implies B <= log2(X) < (B + 1). This implies
+int(log2(X)) == B for any X in the rage. Some examples:
+
+int(log2(3)) = log2(2) = 1; 3 in base 2 is "00000011" (considering one byte)
+int(log2(5)) = log2(4) = 2; 5 in base 2 is "00000101" (considering one byte)
+int(log2(6)) = log2(4) = 2; 6 in base 2 is "00000110" (considering one byte)
+int(log2(7)) = log2(4) = 2; 7 in base 2 is "00000111" (considering one byte)
+int(log2(9)) = log2(8) = 3; 9 in base 2 is "00001001" (considering one byte)
+
+The position of least significant bit is 0 and the position of the most
+significant bit is 8, then: int(log2(X)) is the position of the
+highest-significant bit equal to 1.  This always holds. The complete
+mathematical proof is left as an exercise.
+
+Back to the question "given a bitstring, what is the highest level containing a
+1?", it's clear the answer is: int(log2(X)). 
+
+X is the number corresponding to the bitstring character, so X == ord($map). 
+
+Also, log2(Y) == ln(Y)/ln(2) for any Y real positive. 
+
+Then we have: int(log2(X)) == int( ln( ord($map) ) / ln(2) ).
+
+Conclusion: considering (III) and at most 8 levels I can figure out in
+which level a preference is defined with the following O(1) operation: 
+
+$defLevel = int( ln( ord($map) ) / ln(2) );
+
+---
+
+But preferences may have far more levels than 8. Now let's consider this
+general case. We'll reduce it to the "at most 8 levels" case.
+
+At this point I must consider how perl built-in function =vec= works:
+$a = '';
+vec($a,  0, 1) = 1; print unpack("b*", $a);  # "10000000"
+vec($a,  2, 1) = 1; print unpack("b*", $a);  # "10100000"
+vec($a,  7, 1) = 1; print unpack("b*", $a);  # "10100001"
+vec($a, 16, 1) = 1; print unpack("b*", $a);  # "1010000100000000100000000"
+
+The least significant bit is the bit 0 of the first byte. The most significant
+bit is the bit 7 of the last byte. unpack with "b*" gives us this
+representation, that is different from the one we're used to, but it's only a
+representation. Test for yourself:
+
+$a = '';
+vec($a, 0, 1) = 1; print ord($a); #   1
+vec($a, 2, 1) = 1; print ord($a); #   5
+vec($a, 7, 1) = 1; print ord($a); # 133
+
+Since ord() operates with one character (or the first one, if length($a) > 1),
+we have to figure out a way to deal with preferences bigger than 8 levels. 
+
+The level to consider in order to get a preference value is the highest in
+which it was defined. Because of properties (I) and (II) above, this level is
+in the last byte of the bitmap. This implies that no matter the value of the
+other bytes are, I need to consider only the last byte. (IV)
+
+Since (IV) holds, we can reduce the general case to the restricted case as
+follows: we calculate the level considering the last byte. We'll get L in
+[0,7].  Then we transform this value to the correct, considering that the bit 0
+of the last byte is the bit (N - 1) * 8 of the general string, where N is the
+total number of bytes. Examples:
+
+1  byte: bit 0 of the last byte is bit (1 - 1) * 8 == 0  of the string
+2 bytes: bit 0 of the last byte is bit (2 - 1) * 8 == 8  of the string
+3 bytes: bit 0 of the last byte is bit (3 - 1) * 8 == 16 of the string
+and so on.
+
+So, considering the general case where $map has arbitrary length, the answer
+to "what is the highest level containing a 1?" is:
+
+$defLevel = int( log( ord( substr($map, -1) ) ) / ln(2) ) + 
+            (length($map) - 1) * 8;
+
+=substr($map, -1)= is "the last byte of $map" and because of (I) it's non-zero,
+so log( ord( substr($map,-1) ) ) exists.  Because of (II), length($map) is at
+least 1. So this general expression is *always* valid.
+
+---
+
+There are growth and shrink operations on the stack and hence in the bitmaps.
+These operations *must* keep (I) and (II). Let's consider the initial case:
+$stack->{map} is an empty hashref, so both (I) and (II) holds.
+
+The addition of a preference uses =vec()=, that expands the string as (and only
+as) needed, so (I) holds. And if the preference is being added, then it must
+exist in preferences map, so (II) also holds.
+
+The restore operation is more complex: if we're restoring to level L, this
+means that all bits above level L must be 0. I can accomplish this using
+bitwise AND (&):
+
+Considering at most 8 bytes, let's assume we want to restore to the level 5.
+Notice that: 2 ** (5 + 1) == 64 == "01000000". 64 - 1 == 63 == "00111111". Bits
+0-5 are 1 and all others are 0. Since (1 & X) == X and (0 & X) == 0, we can
+build a mask using this process and apply it to the map and we'll get the
+bitmap restored to the desired level. So, in order to restore to level L we
+build a mask as ((2 ** (L+1)) - 1) and perform: 
+
+$map &= $mask; 
+
+If the result is 0, we need to remove that preference from the hash, so both
+(I) and (II) holds.
+
+Now considering the general case: if we want to restore to level L, we need to
+build a mask whose bits 0-L are 1. This mask will have length int($L/8) + 1:
+
+0  <= $L <  8 implies the mask 1-byte  long.
+8  <= $L < 16 implies the mask 2-bytes long.
+16 <= $L < 32 implies the mask 3-bytes long. 
+
+and so on. We conclude that all bytes of the mask, except the last, will be
+\xFF (all bits 1). If we map $L to [0,7], then we have the restricted case
+above.
+
+The number of bytes except the last in the bitstring is int($L/8). The bit
+position of $L in the last byte is ($L % 8):
+
+Level  8 corresponds to bit 0 of the second byte. int(8/8)  = 1.  8 % 8 = 0.
+Level  9 corresponds to bit 1 of the second byte. int(9/8)  = 1.  9 % 8 = 1.
+Level 15 corresponds to bit 7 of the second byte. int(15/8) = 1. 15 % 8 = 7.
+Level 16 corresponds to bit 0 of the third byte.  int(16/8) = 2. 16 % 8 = 0.
+
+So the general way to build the mask is:
+
+$mask = ("\xFF" x int($L/8)); # All bytes except the last have all bits 1.
+$mask .= chr( ( 2**( ( $L % 8 ) + 1 ) ) - 1 ); # The last byte is built based
+                                               # on the restricted case above.
+
+The $mask has the minimal possible length, cause the way it's built. $map &
+$mask has at most length($mask) bytes, cause the way & works. But we still must
+guarantee (I) and (II), so we need to purge the possible zero-bytes in the end
+of the bitstring:
+
+while (ord(substr($map, -1)) == 0 && length($map) > 0 ) {
+    substr($map, -1) = '';
+}
+
+We need to test if length($map) is greater than 0, otherwise we may enter on an
+infinite loop, if all bytes of the result are 0.
+
+This =while= guarantee (I) above. Then we check if the resulting $map has
+length 0. If so we remove the pref from the hash, so (II) is achieved.
+
+---++ Other Considerations
+
+This implementation is more complex than the "natural" way, but using this we
+avoid to have more than one copy of preference values and this architecture
+(index separated from the values) make it easy to change the way values are
+stored. And consider it's slow to copy large chunks of data around. All copied
+values in this architecture are far smaller than the preferences values (a
+typical big bitstring has less than 4 bytes, while a preference value is bigger
+than this).
+
+=pack= and =unpack= are not used cause they are not needed and cause the way to
+know the level where a preference is defined is an O(1) operation that
+*depends* on the packed string.
+
+=cut

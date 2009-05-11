@@ -49,9 +49,34 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    $this->{stack}->finish();
+    $this->{stack}->finish() if $this->{stack};
     undef $this->{stack};
     undef $this->{level};
+}
+
+=begin TML
+
+---++ ObjectMethod isInTopOfStack() -> $boolean
+
+Returns true if this web is the hihger of the underlying stack object.
+
+=cut
+
+sub isInTopOfStack {
+    my $this = shift;
+    return $this->{level} == $this->{stack}->size() - 1;
+}
+
+=begin TML
+
+---++ ObjectMethod stack() -> $stack
+
+Read-only accessor to the underlying stack object.
+
+=cut
+
+sub stack {
+    return $_[0]->{stack};
 }
 
 =begin TML
