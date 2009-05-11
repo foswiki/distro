@@ -34,7 +34,7 @@ The index is composed by three elements:
    * A level list storing a backend object that is associated with each level 
    * A final hash that maps preferences to the level they were finalized.
 
-This class deals with this stuff and must be used only by Foswiki::Prefs.
+This class deals with this stuff and must be used only by =Foswiki::Prefs=
 
 =cut
 
@@ -327,7 +327,8 @@ __END__
 
 =begin TML
 
----++ Mathematical Considerations
+#MathStuff
+---+ Mathematical Considerations
 
 The bitmap is built in an way to meet two properties:
    * It has the minimal possible length.                       (I)
@@ -335,12 +336,12 @@ The bitmap is built in an way to meet two properties:
 
 Preference levels 0-7 are in the first byte. 8-15 in the second and so on. If a
 preference is defined in levels 2 and 7, for example, its bitmap will have
-length 1, even if the stack is in 30th level. This is what "minimal possible
-length" means.
+length 1, even if the stack is in 30th level. 
+This is what _minimal possible length_ means.
 
 These two properties implies that the last byte of a bit string is non-zero.
 
----
+---++ Getting/Setting preferences with at most 8 levels
 
 Let's consider the first scenario: at most 8 preference values. This means that
 bitmaps have one character. The built-in perl function =ord= converts a
@@ -348,70 +349,100 @@ character to an integer between 0 and 255. If the character of a preference is
 0, then the preference doesn't exist in the map hash, cause of the second
 listed property above. 
 
-This implies that I can *always* take the logarithm of ord($map). (III)
+This implies that I can *always* take the logarithm of =ord($map)=. (III)
 
-The question is: given a bitstring, what is the highest level containing a 1?
+The question is: 
+__given a bitstring, what is the highest level containing a 1?__
+
 To answer this question let's consider the following mathematical expressions:
-(log2(X) means "the logarithm of X in base 2")
+(=log2(X)= means _the logarithm of X in base 2_)
 
+<verbatim>
 log2(1) = 0; 1 == 1 * 2 ** 0; 1 in base 2 is "00000001" (considering one byte)
 log2(2) = 1; 2 == 1 * 2 ** 1; 2 in base 2 is "00000010" (considering one byte)
 log2(4) = 2; 4 == 1 * 2 ** 2; 4 in base 2 is "00000100" (considering one byte)
 log2(8) = 3; 8 == 1 * 2 ** 3; 8 in base 2 is "00001000" (considering one byte)
+</verbatim>
 
 Also notice that:
-2 ** B <= X < 2 ** (B + 1) implies B <= log2(X) < (B + 1). This implies
-int(log2(X)) == B for any X in the rage. Some examples:
 
+<verbatim>
+2 ** B <= X < 2 ** (B + 1) implies B <= log2(X) < (B + 1) 
+</verbatim>
+
+This implies:
+
+<verbatim>
+int(log2(X)) == B, for any X in the above rage.
+</verbatim>
+
+ Some examples:
+
+<verbatim>
 int(log2(3)) = log2(2) = 1; 3 in base 2 is "00000011" (considering one byte)
 int(log2(5)) = log2(4) = 2; 5 in base 2 is "00000101" (considering one byte)
 int(log2(6)) = log2(4) = 2; 6 in base 2 is "00000110" (considering one byte)
 int(log2(7)) = log2(4) = 2; 7 in base 2 is "00000111" (considering one byte)
 int(log2(9)) = log2(8) = 3; 9 in base 2 is "00001001" (considering one byte)
+</verbatim>
 
 The position of least significant bit is 0 and the position of the most
-significant bit is 8, then: int(log2(X)) is the position of the
+significant bit is 8, then: =int(log2(X))= is the position of the
 highest-significant bit equal to 1.  This always holds. The complete
 mathematical proof is left as an exercise.
 
-Back to the question "given a bitstring, what is the highest level containing a
-1?", it's clear the answer is: int(log2(X)). 
+Back to the question __what is the highest level containing a 1?__
 
-X is the number corresponding to the bitstring character, so X == ord($map). 
+It's clear the answer is: =int(log2(X))=. 
 
-Also, log2(Y) == ln(Y)/ln(2) for any Y real positive. 
+=X= is the number corresponding to the bitstring character, so X = =ord($map)=.
 
-Then we have: int(log2(X)) == int( ln( ord($map) ) / ln(2) ).
+Also, 
+<verbatim>
+log2(Y) == ln(Y)/ln(2), for any Y real positive
+</verbatim>
 
-Conclusion: considering (III) and at most 8 levels I can figure out in
-which level a preference is defined with the following O(1) operation: 
+Then we have: 
+<verbatim>
+int(log2(X)) == int( ln( ord($map) ) / ln(2) )
+</verbatim>
 
+*Conclusion*: considering (III) and at most 8 levels I can figure out in
+which level a preference is defined with the following _O(1)_ operation: 
+
+<verbatim>
 $defLevel = int( ln( ord($map) ) / ln(2) );
+</verbatim>
 
----
+---++ Getting/Setting preferences with arbitrary number of levels
 
 But preferences may have far more levels than 8. Now let's consider this
-general case. We'll reduce it to the "at most 8 levels" case.
+general case. We'll reduce it to the _at most 8 levels_ case.
 
 At this point I must consider how perl built-in function =vec= works:
+<verbatim>
 $a = '';
 vec($a,  0, 1) = 1; print unpack("b*", $a);  # "10000000"
 vec($a,  2, 1) = 1; print unpack("b*", $a);  # "10100000"
 vec($a,  7, 1) = 1; print unpack("b*", $a);  # "10100001"
 vec($a, 16, 1) = 1; print unpack("b*", $a);  # "1010000100000000100000000"
+</verbatim>
 
 The least significant bit is the bit 0 of the first byte. The most significant
-bit is the bit 7 of the last byte. unpack with "b*" gives us this
+bit is the bit 7 of the last byte. =unpack= with ="b*"= gives us this
 representation, that is different from the one we're used to, but it's only a
 representation. Test for yourself:
 
+<verbatim>
 $a = '';
 vec($a, 0, 1) = 1; print ord($a); #   1
 vec($a, 2, 1) = 1; print ord($a); #   5
 vec($a, 7, 1) = 1; print ord($a); # 133
+</verbatim>
 
-Since ord() operates with one character (or the first one, if length($a) > 1),
-we have to figure out a way to deal with preferences bigger than 8 levels. 
+Since =ord()= operates with one character (or with the first one, if
+=length($a) > 1=), we have to figure out a way to deal with preferences bigger
+than 8 levels. 
 
 The level to consider in order to get a preference value is the highest in
 which it was defined. Because of properties (I) and (II) above, this level is
@@ -419,31 +450,36 @@ in the last byte of the bitmap. This implies that no matter the value of the
 other bytes are, I need to consider only the last byte. (IV)
 
 Since (IV) holds, we can reduce the general case to the restricted case as
-follows: we calculate the level considering the last byte. We'll get L in
-[0,7].  Then we transform this value to the correct, considering that the bit 0
-of the last byte is the bit (N - 1) * 8 of the general string, where N is the
-total number of bytes. Examples:
+follows: we calculate the level considering the last byte. We'll get =$L= in
+=[0,7]=.  Then we transform this value to the correct, considering that the bit
+0 of the last byte is the bit =(N - 1) * 8= of the general string, where =N= is
+the total number of bytes. Examples:
 
+<verbatim>
 1  byte: bit 0 of the last byte is bit (1 - 1) * 8 == 0  of the string
 2 bytes: bit 0 of the last byte is bit (2 - 1) * 8 == 8  of the string
 3 bytes: bit 0 of the last byte is bit (3 - 1) * 8 == 16 of the string
+</verbatim>
+
 and so on.
 
-So, considering the general case where $map has arbitrary length, the answer
-to "what is the highest level containing a 1?" is:
+So, considering the general case where =$map= has arbitrary length, the
+*general answer* to __what is the highest level containing a 1?__ is:
 
+<verbatim>
 $defLevel = int( log( ord( substr($map, -1) ) ) / ln(2) ) + 
             (length($map) - 1) * 8;
+</verbatim>
 
-=substr($map, -1)= is "the last byte of $map" and because of (I) it's non-zero,
-so log( ord( substr($map,-1) ) ) exists.  Because of (II), length($map) is at
-least 1. So this general expression is *always* valid.
+=substr($map, -1)= is _the last byte of =$map=_ and because of (I) it's
+non-zero, so =log( ord( substr($map,-1) ) )= exists.  Because of (II),
+=length($map)= is at least 1. So this general expression is *always* valid.
 
----
+---++ Growth/Shrink operations with at most 8 levels
 
 There are growth and shrink operations on the stack and hence in the bitmaps.
 These operations *must* keep (I) and (II). Let's consider the initial case:
-$stack->{map} is an empty hashref, so both (I) and (II) holds.
+=$stack->{map}= is an empty hashref, so both (I) and (II) holds.
 
 The addition of a preference uses =vec()=, that expands the string as (and only
 as) needed, so (I) holds. And if the preference is being added, then it must
@@ -454,66 +490,94 @@ means that all bits above level L must be 0. I can accomplish this using
 bitwise AND (&):
 
 Considering at most 8 bytes, let's assume we want to restore to the level 5.
-Notice that: 2 ** (5 + 1) == 64 == "01000000". 64 - 1 == 63 == "00111111". Bits
-0-5 are 1 and all others are 0. Since (1 & X) == X and (0 & X) == 0, we can
-build a mask using this process and apply it to the map and we'll get the
-bitmap restored to the desired level. So, in order to restore to level L we
-build a mask as ((2 ** (L+1)) - 1) and perform: 
+Notice that:
 
-$map &= $mask; 
+<verbatim>
+2 ** (5 + 1) == 64 == "01000000"
+64 - 1 == 63 == "00111111"
+</verbatim>
+
+Bits 0-5 are 1 and all others are 0. 
+
+And Since:
+
+<verbatim>
+(1 & X) == X
+(0 & X) == 0
+</verbatim>
+
+we can build a mask using this process and apply it to the map and we'll get
+the bitmap restored to the desired level. So, in order to restore to level =$L=
+we build a mask as =((2 ** (L+1)) - 1)= and perform: 
+
+<verbatim>
+$map &= $mask;
+</verbatim>
 
 If the result is 0, we need to remove that preference from the hash, so both
 (I) and (II) holds.
 
-Now considering the general case: if we want to restore to level L, we need to
-build a mask whose bits 0-L are 1. This mask will have length int($L/8) + 1:
+---++ Growth/Shrink operations with arbitrary number of levels
 
+Now considering the general case: if we want to restore to level =$L=, we need
+to build a mask whose bits 0-L are 1. This mask will have =int($L/8) + 1=
+bytes.
+
+<verbatim>
 0  <= $L <  8 implies the mask 1-byte  long.
 8  <= $L < 16 implies the mask 2-bytes long.
 16 <= $L < 32 implies the mask 3-bytes long. 
+</verbatim>
 
 and so on. We conclude that all bytes of the mask, except the last, will be
-\xFF (all bits 1). If we map $L to [0,7], then we have the restricted case
+=\xFF= (all bits 1). If we map =$L= to [0,7], then we have the restricted case
 above.
 
-The number of bytes except the last in the bitstring is int($L/8). The bit
-position of $L in the last byte is ($L % 8):
+The number of bytes except the last in the bitstring is =int($L/8)=. The bit
+position of =$L= in the last byte is =($L % 8)=:
 
+<verbatim>
 Level  8 corresponds to bit 0 of the second byte. int(8/8)  = 1.  8 % 8 = 0.
 Level  9 corresponds to bit 1 of the second byte. int(9/8)  = 1.  9 % 8 = 1.
 Level 15 corresponds to bit 7 of the second byte. int(15/8) = 1. 15 % 8 = 7.
 Level 16 corresponds to bit 0 of the third byte.  int(16/8) = 2. 16 % 8 = 0.
+</verbatim>
 
 So the general way to build the mask is:
 
+<verbatim>
 $mask = ("\xFF" x int($L/8)); # All bytes except the last have all bits 1.
 $mask .= chr( ( 2**( ( $L % 8 ) + 1 ) ) - 1 ); # The last byte is built based
                                                # on the restricted case above.
+</verbatim>
 
-The $mask has the minimal possible length, cause the way it's built. $map &
-$mask has at most length($mask) bytes, cause the way & works. But we still must
-guarantee (I) and (II), so we need to purge the possible zero-bytes in the end
-of the bitstring:
+The =$mask= has the minimal possible length, cause the way it's built. 
+=$map & $mask= has at most =length($mask)= bytes, cause the way =&= works. But
+we still must guarantee (I) and (II), so we need to purge the possible
+zero-bytes in the end of the bitstring:
 
+<verbatim>
 while (ord(substr($map, -1)) == 0 && length($map) > 0 ) {
     substr($map, -1) = '';
 }
+</verbatim>
 
-We need to test if length($map) is greater than 0, otherwise we may enter on an
-infinite loop, if all bytes of the result are 0.
+We need to test if =length($map)= is greater than 0, otherwise we may enter on
+an infinite loop, if all bytes of the result are 0.
 
-This =while= guarantee (I) above. Then we check if the resulting $map has
-length 0. If so we remove the pref from the hash, so (II) is achieved.
+This =while= guarantee (I) above. Then we check if the resulting =$map= has
+length 0. If so we remove the pref from the hash, so (II) is also achieved.
 
----++ Other Considerations
+---+ Other Considerations
 
-This implementation is more complex than the "natural" way, but using this we
-avoid to have more than one copy of preference values and this architecture
-(index separated from the values) make it easy to change the way values are
-stored. And consider it's slow to copy large chunks of data around. All copied
-values in this architecture are far smaller than the preferences values (a
-typical big bitstring has less than 4 bytes, while a preference value is bigger
-than this).
+This implementation is more complex than the "natural" way, but using this:
+   * We avoid to have more than one copy of preference values
+   * This architecture (index separated from the values) make it easy to change
+     the way values are stored. 
+
+Also, consider it's slow to copy large chunks of data around. All copied values
+in this architecture are far smaller than the preferences values (a typical big
+bitstring has less than 4 bytes, while a preference value is bigger than this).
 
 =pack= and =unpack= are not used cause they are not needed and cause the way to
 know the level where a preference is defined is an O(1) operation that
