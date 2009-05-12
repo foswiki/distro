@@ -787,7 +787,10 @@ sub _emitTR {
             $fn = "CGI::th";
         }
 
-        push( @tr, { fn => $fn, attr => $attr, text => $cell } );
+        $cell = ' '.$cell if $cell =~ /^(?:\*|==?|__?)[^\s]/;
+        $cell = $cell.' ' if $cell =~ /[^\s](?:\*|==?|__?)$/;
+
+        push( @tr, { fn => $fn, attr => $attr, text => $cell } ); 
     }
 
     # Work out colspans

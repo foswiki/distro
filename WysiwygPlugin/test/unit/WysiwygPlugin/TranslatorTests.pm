@@ -229,10 +229,52 @@ BLAH
         tml  => '==Code=='
     },
     {
-        exec => $HTML2TML | $ROUNDTRIP,
+        exec => $HTML2TML,
         name => 'ttClassInTable',
         html => '<table><tr><td class="WYSIWYG_TT">Code</td></tr></table>',
         tml  => '| =Code= |'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'tmlInTable',
+        html => <<'BLAH',
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td> <span class="WYSIWYG_TT">Code</span> </td></tr>
+<tr><td> <span class="WYSIWYG_TT">code</span> at start</td></tr>
+<tr><td>ends with <span class="WYSIWYG_TT">code</span> </td></tr>
+
+<tr><td> <b><span class="WYSIWYG_TT">Code</span></b> </td></tr>
+<tr><td> <b><span class="WYSIWYG_TT">code</span></b> at start</td></tr>
+<tr><td>ends with <b><span class="WYSIWYG_TT">code</span></b> </td></tr>
+
+<tr><td> <i>Emphasis</i> </td></tr>
+<tr><td> <i>emphasis</i> at start</td></tr>
+<tr><td>ends with <i>emphasis</i> </td></tr>
+
+<tr><td> <b><i>Emphasis</i></b> </td></tr>
+<tr><td> <b><i>emphasis</i></b> at start</td></tr>
+<tr><td>ends with <b><i>emphasis</i></b> </td></tr>
+
+<tr><td> <b>bold</b> at start</td></tr>
+<tr><td>ends with <b>bold</b> </td></tr>
+</table>
+BLAH
+        tml  => <<'BLAH',
+| =Code= |
+| =code= at start |
+| ends with =code= |
+| ==Code== |
+| ==code== at start |
+| ends with ==code== |
+| _Emphasis_ |
+| _emphasis_ at start |
+| ends with _emphasis_ |
+| __Emphasis__ |
+| __emphasis__ at start |
+| ends with __emphasis__ |
+| *bold* at start |
+| ends with *bold* |
+BLAH
     },
     {
         exec => $ROUNDTRIP,
