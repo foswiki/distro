@@ -362,7 +362,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
 }
 
 # Collapse adjacent VERBATIM nodes together
-# Collapse a <p> than contains only a protected span into a protected P
+# Collapse a <p> that contains only a protected span into a protected P
 # Collapse em in em
 # Collapse adjacent text nodes
 sub _collapse {
@@ -443,6 +443,27 @@ sub _collapse {
     }
 }
 
+# If this node has the specified class, insert a new "span" node with that
+# class between this node and all of this node's children.
+sub _moveClassToSpan
+{
+    my $this = shift;
+    my $class = shift;
+
+    if ( $this->{tag} and 
+         lc($this->{tag}) ne 'span' and
+         $this->_removeClass($class) ) {
+         
+        my $newspan = new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node( $this->{context}, 'span', { class => $class } );
+        my $kid = $this->{head};
+        while ($kid) {
+            $newspan->addChild($kid);
+            $kid = $kid->{next};
+        }
+        $this->{head} = $this->{tail} = $newspan;
+    }
+}
+
 # the actual generate function. rootGenerate is only applied to the root node.
 sub generate {
     my ( $this, $options ) = @_;
@@ -486,6 +507,8 @@ sub generate {
     # make the names of the function versions
     $tag =~ s/!//;    # DOCTYPE
     my $tmlFn = '_handle' . uc($tag);
+
+    $this->_moveClassToSpan('WYSIWYG_TT');
 
     # See if we have a TML translation function for this tag
     # the translation functions will work out the rendering
@@ -838,11 +861,13 @@ sub _isConvertableTableRow {
     my $kid        = $this->{head};
     while ($kid) {
         if ( $kid->{tag} eq 'th' ) {
+            $kid->_moveClassToSpan('WYSIWYG_TT');
             ( $flags, $text ) = $kid->_flatten($options);
             $text = _TDtrim($text);
             $text = "*$text*" if length($text);
         }
         elsif ( $kid->{tag} eq 'td' ) {
+            $kid->_moveClassToSpan('WYSIWYG_TT');
             ( $flags, $text ) = $kid->_flatten($options);
             $text = _TDtrim($text);
         }

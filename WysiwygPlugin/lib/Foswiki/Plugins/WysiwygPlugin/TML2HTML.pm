@@ -471,7 +471,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     $text =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
       (CGI::span({class => 'WYSIWYG_TT'}, $1))gem;
 
-    # Handle [[][] and [[]] links
+    # Handle [[][]] and [[]] links
 
     # We _not_ support [[http://link text]] syntax
 
@@ -771,7 +771,10 @@ sub _emitTR {
             $fn = "CGI::th";
         }
 
-        push( @tr, { fn => $fn, attr => $attr, text => $cell } );
+        $cell = ' '.$cell if $cell =~ /^(?:\*|==?|__?)[^\s]/;
+        $cell = $cell.' ' if $cell =~ /[^\s](?:\*|==?|__?)$/;
+
+        push( @tr, { fn => $fn, attr => $attr, text => $cell } ); 
     }
 
     # Work out colspans
