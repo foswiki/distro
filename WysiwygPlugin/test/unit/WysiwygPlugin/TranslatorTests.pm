@@ -38,6 +38,13 @@ require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 my $TML2HTML  = 1 << 0;    # test tml => html
 my $HTML2TML  = 1 << 1;    # test html => finaltml (default tml)
 my $ROUNDTRIP = 1 << 2;    # test tml => => finaltml
+# Note: ROUNDTRIP is *not* the same as the combination of 
+# HTML2TML and TML2HTML. The HTML and TML comparisons are both
+# somewhat "flexible". This is necessry because, for example,
+# the nature of whitespace in the TML may change.
+# ROUNDTRIP tests are intended to isolate gradual degradation 
+# of the TML, where TML -> HTML -> not quite TML -> HTML
+# -> even worse TML, ad nauseum
 
 # Bit mask for selected test types
 my $mask = $TML2HTML | $HTML2TML | $ROUNDTRIP;
@@ -54,11 +61,14 @@ my $nop        = "$protecton<nop>$protectoff";
 # testcase, so they get picked up and run by TestRunner.
 
 # Each testcase is a subhash with fields as follows:
-# exec => 1 to test TML -> HTML, 2 to test HTML -> TML, 3 to
-# test both, anything else to skin the test.
+# exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML, 
+#   $ROUNDTRIP to test TML-> ->TML, all other bits are ignored.
+#   They may be OR'd togoether to perform multiple tests. 
+#   For example: $TML2HTML | $HTML2TML to test both 
+#   TML -> HTML and HTML -> TML
 # name => identifier (used to compose the testcase function name)
 # tml => source topic meta-language
-# html => expected html from expanding tml
+# html => expected html from expanding tml (not used in roundtrip tests)
 # finaltml => optional expected tml from translating html. If not there,
 # will use tml. Only use where round-trip can't be closed because
 # we are testing deprecated syntax.
@@ -151,10 +161,120 @@ HERE
         tml  => '=Code='
     },
     {
+        exec => $TML2HTML | $HTML2TML,
+        name => 'codeToFromHtml',
+        html => <<'BLAH',
+<p>
+<span class="WYSIWYG_TT">Code</span>
+</p>
+BLAH
+        tml  => '=Code='
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'strongCode',
         html => '<b><code>Bold Code</code></b>',
         tml  => '==Bold Code=='
+    },
+    {
+        exec => $TML2HTML |  $HTML2TML,
+        name => 'bToFromHtml',
+        html => '<p><b>Bold</b></p>',
+        tml  => '*Bold*'
+    },
+    {
+        exec => $TML2HTML |  $HTML2TML,
+        name => 'strongCodeToFromHtml',
+        html => <<'BLAH',
+<p>
+<b><span class="WYSIWYG_TT">Code</span></b>
+</p>
+BLAH
+        tml  => '==Code=='
+    },
+    {
+        exec => $HTML2TML,
+        name => 'spanWithTtClassWithStrong',
+        html => <<'BLAH',
+<p>
+<span class="WYSIWYG_TT"><strong>Code</strong></span>
+</p>
+BLAH
+        tml  => '==Code=='
+    },
+    {
+        exec => $HTML2TML,
+        name => 'strongWithSpanWithTtClass',
+        html => <<'BLAH',
+<p>
+<strong><span class="WYSIWYG_TT">Code</span></strong>
+</p>
+BLAH
+        tml  => '==Code=='
+    },
+    {
+        exec => $HTML2TML,
+        name => 'strongWithTtClass',
+        html => <<'BLAH',
+<p>
+<strong class="WYSIWYG_TT">Code</strong>
+</p>
+BLAH
+        tml  => '==Code=='
+    },
+    {
+        exec => $HTML2TML,
+        name => 'bWithTtClass',
+        html => "<p>\n<b class=\"WYSIWYG_TT\">Code</b>\n</p>",
+        tml  => '==Code=='
+    },
+    {
+        exec => $HTML2TML,
+        name => 'ttClassInTable',
+        html => '<table><tr><td class="WYSIWYG_TT">Code</td></tr></table>',
+        tml  => '| =Code= |'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'tmlInTable',
+        html => <<'BLAH',
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td> <span class="WYSIWYG_TT">Code</span> </td></tr>
+<tr><td> <span class="WYSIWYG_TT">code</span> at start</td></tr>
+<tr><td>ends with <span class="WYSIWYG_TT">code</span> </td></tr>
+
+<tr><td> <b><span class="WYSIWYG_TT">Code</span></b> </td></tr>
+<tr><td> <b><span class="WYSIWYG_TT">code</span></b> at start</td></tr>
+<tr><td>ends with <b><span class="WYSIWYG_TT">code</span></b> </td></tr>
+
+<tr><td> <i>Emphasis</i> </td></tr>
+<tr><td> <i>emphasis</i> at start</td></tr>
+<tr><td>ends with <i>emphasis</i> </td></tr>
+
+<tr><td> <b><i>Emphasis</i></b> </td></tr>
+<tr><td> <b><i>emphasis</i></b> at start</td></tr>
+<tr><td>ends with <b><i>emphasis</i></b> </td></tr>
+
+<tr><td> <b>bold</b> at start</td></tr>
+<tr><td>ends with <b>bold</b> </td></tr>
+</table>
+BLAH
+        tml  => <<'BLAH',
+| =Code= |
+| =code= at start |
+| ends with =code= |
+| ==Code== |
+| ==code== at start |
+| ends with ==code== |
+| _Emphasis_ |
+| _emphasis_ at start |
+| ends with _emphasis_ |
+| __Emphasis__ |
+| __emphasis__ at start |
+| ends with __emphasis__ |
+| *bold* at start |
+| ends with *bold* |
+BLAH
     },
     {
         exec => $ROUNDTRIP,
