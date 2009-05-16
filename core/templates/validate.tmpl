@@ -1,0 +1,31 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Request Validation"}%%TMPL:END%
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(login)"}% %TMPL:END%
+%TMPL:DEF{"pagetitle"}%%TMPL:END%
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] validation)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
+
+%TMPL:DEF{"title"}%---++ %MAKETEXT{"Suspicious request from browser"}%
+%TMPL:END%
+
+%TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
+%TMPL:P{"title"}%
+<div style="display:block">
+%MAKETEXT{"[_1] received a request from your browser which has an expired validation key. This may be because someone is trying to post using your session. Please indicate whether you want [_1] to process this request." args="<nop>%WIKITOOLNAME%"}%</div></div><!-- /foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
+
+%TMPL:DEF{"formend"}%<literal>
+%QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%
+</literal><input type="hidden" name="origurl" value="%ORIGURL%" /></form>%TMPL:END%
+
+%TMPL:DEF{"submit"}%<input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='OK' /><input name="response" tabindex='5' type='submit' class='foswikiSubmit' value='Cancel' />%TMPL:END%
+
+%TMPL:DEF{"form"}%<div id="foswikiLogin">
+<div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
+%TMPL:P{"submit"}%
+%TMPL:P{"formend"}%
+</div><!-- /foswikiFormSteps-->
+</div><!-- /foswikiLogin-->%TMPL:END%
+
+%TMPL:DEF{"content"}%%TMPL:P{"form"}%%TMPL:END%

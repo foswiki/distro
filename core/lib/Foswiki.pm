@@ -47,12 +47,14 @@ with CGI accelerators such as mod_perl.
 use strict;
 use Assert;
 use Error qw( :try );
-use CGI;    # Always required to get html generation tags;
-use Digest::MD5 ();
 
-use Foswiki::Response;
-use Foswiki::Request;
-use Foswiki::Logger;
+use Fcntl;          # File control constants e.g. O_EXCL
+use CGI         (); # Always required to get html generation tags;
+use Digest::MD5 (); # For passthru and validation
+
+use Foswiki::Response ();
+use Foswiki::Request  ();
+use Foswiki::Logger   ();
 
 require 5.005;    # For regex objects and internationalisation
 
@@ -631,10 +633,16 @@ sub writeCompletePage {
         $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
         $text .= "\n" unless $text =~ /\n$/s;
 
-        if ( $contentType eq 'text/html' ) {
-            $this->_clearValidationKeys();
-            $text =~
-s/(<form[^>]*method=['"]POST['"][^>]*>)/$this->_addValidationKey( $1 )/gei;
+        my $cgis = $this->getCGISession();
+        if ( $cgis && $contentType eq 'text/html' ) {
+            # Don't expire the validation key through login, or when
+            # endpoint is an error.
+            Foswiki::Validation::expireValidationKeys($cgis)
+                unless ($this->{request}->action() eq 'login'
+                          or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400);
+            # Inject validation key in HTML forms
+            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+              Foswiki::Validation::addValidationKey( $cgis, $1 )/gei;
         }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
@@ -933,66 +941,29 @@ sub cacheQuery {
     my $uid              = $this->{digester}->hexdigest();
     my $passthruFilename = "$Foswiki::cfg{WorkingDir}/tmp/passthru_$uid";
 
-    use Fcntl;
-
-#passthrough file is only written to once, so if it already exists, suspect a security hack (O_EXCL)
+    # passthrough file is only written to once, so if it already exists,
+    # suspect a security hack (O_EXCL)
     sysopen( F, "$passthruFilename", O_RDWR | O_EXCL | O_CREAT, 0600 )
-      || die
-"Unable to open $Foswiki::cfg{WorkingDir}/tmp for write; check the setting of {WorkingDir} in configure, and check file permissions: $!";
+      || die 'Unable to open '.$Foswiki::cfg{WorkingDir}
+        .'/tmp for write; check the setting of {WorkingDir} in configure,'
+          .' and check file permissions: '.$!;
     $query->save( \*F );
     close(F);
     return 'foswiki_redirect_cache=' . $uid;
 }
 
-sub _getValidationKey {
-    my ( $this, $action ) = @_;
-    my $cgis = $this->{users}->{loginManager}->{_cgisession};
-    $this->{digester}->add( $action, $cgis->id(), rand(time) );
-    return $this->{digester}->b64digest();
-}
-
-# Clear the set of validation keys for this session
-sub _clearValidationKeys {
-    my $this = shift;
-    my $cgis = $this->{users}->{loginManager}->{_cgisession};
-
-    # This should only be done when the page isn't a login page
-    # nor a 401 redirect (ApacheLogin)
-    unless ( $this->{request}->action() eq 'login'
-        or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 )
-    {
-        $cgis->clear('VALID_ACTIONS')
-          unless $this->{request}->action() eq 'login';
-    }
-}
-
-# Add a new validation key to the set for this session
-sub _addValidationKey {
-    my ( $this, $form ) = @_;
-    my $cgis    = $this->{users}->{loginManager}->{_cgisession};
-    my $actions = $cgis->param('VALID_ACTIONS');
-    $actions ||= {};
-    my $nonce = $this->_getValidationKey($form);
-    $actions->{$nonce} = $form;
-    $cgis->param( 'VALID_ACTIONS', $actions );
-    return "$form<input type='hidden' name='validation_key' value='$nonce' />";
-}
-
 =begin TML
 
----++ ObjectMethod checkValidationKey( $key ) -> $boolean
+---++ ObjectMethod getCGISession() -> $cgisession
 
-Check that the given validation key is valid for the current session.
+Get the CGI::Session object associated with this session, if there is
+one. May return undef.
 
 =cut
 
-sub checkValidationKey {
-    my ( $this, $nonce ) = @_;
-    my $cgis    = $this->{users}->{loginManager}->{_cgisession};
-    my $actions = $cgis->param('VALID_ACTIONS');
-    return 0 unless ref($actions) eq 'HASH';
-    return $actions->{$nonce};
-
+sub getCGISession {
+    my $this = shift;
+    return $this->{users}->{loginManager}->{_cgisession};
 }
 
 =begin TML

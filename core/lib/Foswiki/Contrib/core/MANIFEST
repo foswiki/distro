@@ -611,6 +611,7 @@ lib/Foswiki/Users/ApacheHtpasswdUser.pm 0444
 lib/Foswiki/Users/BaseUserMapping.pm 0444
 lib/Foswiki/Users/HtPasswdUser.pm 0444
 lib/Foswiki/Users/Password.pm 0444
+lib/Foswiki/Validation.pm 0444
 lib/MANIFEST 0444
 lib/Monitor.pm 0444
 locale/Foswiki.pot 0444
@@ -1030,6 +1031,7 @@ templates/searchbookview.tmpl 0444
 templates/searchformat.tmpl 0444
 templates/searchmeta.tmpl 0444
 templates/settings.tmpl 0444
+templates/validate.tmpl 0444
 templates/view.plain.tmpl 0444
 templates/view.print.tmpl 0444
 templates/view.rss.tmpl 0444

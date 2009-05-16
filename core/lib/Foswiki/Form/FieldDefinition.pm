@@ -325,7 +325,6 @@ The value is protected by Foswiki::Render::protectFormFieldValue.
 
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
-    ASSERT( !$attrs || ref($attrs) eq 'HASH' ) if DEBUG;
 
     if ( !$attrs->{showhidden} ) {
         my $fa = $this->{attributes} || '';
