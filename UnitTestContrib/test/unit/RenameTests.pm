@@ -1018,9 +1018,10 @@ sub test_rename_attachment {
 
     my $query = new Unit::Request(
         {
-            attachment => ['dis.dat'],
-            newtopic   => ['NewTopic'],
-            newweb     => $this->{test_web},
+            attachment    => ['dis.dat'],
+            newattachment => ['dis.dat'],
+            newtopic      => ['NewTopic'],
+            newweb        => $this->{test_web},
         }
     );
 
@@ -1062,9 +1063,10 @@ sub test_rename_attachment_not_in_meta {
 
     my $query = new Unit::Request(
         {
-            attachment => ['dis.dat'],
-            newtopic   => ['NewTopic'],
-            newweb     => $this->{test_web},
+            attachment    => ['dis.dat'],
+            newattachment => ['dis.dat'],
+            newtopic      => ['NewTopic'],
+            newweb        => $this->{test_web},
         }
     );
 
@@ -1101,9 +1103,10 @@ sub test_rename_attachment_no_dest_topic {
 
     my $query = new Unit::Request(
         {
-            attachment => ['dis.dat'],
-            newtopic   => ['NewTopic'],
-            newweb     => $this->{test_web},
+            attachment    => ['dis.dat'],
+            newattachment => ['dis.dat'],
+            newtopic      => ['NewTopic'],
+            newweb        => $this->{test_web},
         }
     );
 
@@ -1159,9 +1162,10 @@ sub test_rename_attachment_not_on_disc {
 
     my $query = new Unit::Request(
         {
-            attachment => ['dis.dat'],
-            newtopic   => ['NewTopic'],
-            newweb     => $this->{test_web},
+            attachment    => ['dis.dat'],
+            newattachment => ['dis.dat'],
+            newtopic      => ['NewTopic'],
+            newweb        => $this->{test_web},
         }
     );
 
