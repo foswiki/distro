@@ -9,6 +9,7 @@ Coordinator of execution flow and service functions used by the UI packages
 =cut
 
 package Foswiki::UI;
+
 use strict;
 
 BEGIN {
@@ -143,13 +144,16 @@ BEGIN {
 
 use Error qw(:try);
 use Assert;
-
-use Foswiki ();
-use Foswiki::Request ();
-use Foswiki::Response ();
-use Foswiki::OopsException ();
-use Foswiki::EngineException ();
 use CGI ();
+
+use Foswiki                         ();
+use Foswiki::Request                ();
+use Foswiki::Response               ();
+use Foswiki::OopsException          ();
+use Foswiki::EngineException        ();
+use Foswiki::ValidationException    ();
+use Foswiki::AccessControlException ();
+use Foswiki::Validation             ();
 
 # Used to lazily load UI handler modules
 our %isInitialized = ();
@@ -240,6 +244,9 @@ sub handleRequest {
               if TRACE_PASSTHRU;
         }
     }
+    #print STDERR "INCOMING ".$req->method()." ".$req->url." -> ".$sub."\n";
+    #require Data::Dumper;
+    #print STDERR Data::Dumper->Dump([$req]);
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
         $dispatcher->{context}->{command_line} = 1;
     } elsif ( defined $req->method()
@@ -287,6 +294,20 @@ sub _execute {
         try {
             $session->{users}->{loginManager}->checkAccess();
             &$sub($session);
+        }
+        catch Foswiki::ValidationException with {
+            my $query = $session->{request};
+            # Redirect with passthrough so we don't lose the
+            # original query params. We use the login script for
+            # validation because it already has the correct criteria
+            # in httpd.conf for Apache login.
+            my $url     = $session->getScriptUrl(
+                0, 'login', $session->{webName}, $session->{topicName} );
+            $query->param( -name => 'action',
+                           -value => 'validate' );
+            $query->param( -name => 'origurl',
+                           -value => $session->{request}->uri );
+            $session->redirect( $url, 1 );    # with passthrough
         }
         catch Foswiki::AccessControlException with {
             my $e = shift;
@@ -373,7 +394,14 @@ Handler to "logon" action.
 
 sub logon {
     my $session = shift;
-    $session->{users}->{loginManager}->login( $session->{request}, $session );
+    if (($session->{request}->param('action') ||'') eq 'validate'
+          # Force login if not recognisably authenticated
+          && $session->inContext('authenticated')) {
+        Foswiki::Validation::validate( $session );
+    } else {
+        $session->{users}->{loginManager}->login(
+            $session->{request}, $session );
+    }
 }
 
 =begin TML
@@ -453,22 +481,23 @@ sub checkAccess {
 
 =begin TML
 
----++ StaticMethod checkValidationKey( $session, $web, $topic )
+---++ StaticMethod checkValidationKey( $session )
 
-Check the validation key for the given action.
+Check the validation key for the given action. Throws an exception
+if the validation key isn't valid (handled in _execute(), above)
+
+See Foswiki::Validation for more information.
 
 =cut
 
 sub checkValidationKey {
-    my ($session, $script, $web, $topic) = @_;
+    my ($session) = @_;
 
     # Check the nonce before we do anything else
     my $nonce = $session->{request}->param('validation_key');
-    if (!defined($nonce) || !$session->checkValidationKey($nonce)) {
-        throw Foswiki::AccessControlException(
-            $script, $session->{user},
-            $web, $topic, 'Expired or invalid validation key'
-        );
+    if (!defined($nonce) || !Foswiki::Validation::isValidNonce(
+        $session->getCGISession(), $nonce)) {
+        throw Foswiki::ValidationException();
     }
 }
 

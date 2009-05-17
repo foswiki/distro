@@ -1150,6 +1150,10 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # can always be broken, but they are valuable if you want to avoid merge
 # conflicts (e.g. you use highly structured data in your topic text and
 # want to avoid ever having to deal with conflicts)
+# <p />Since Foswiki 1.0.6, Foswiki pages that can be used to POST to the
+# server have a validation key, that must be sent to the server for the
+# post to succeed. These validation keys can only be used once, and expire
+# at the same time as the lease expires.
 $Foswiki::cfg{LeaseLength} = 3600;
 
 # **NUMBER EXPERT**

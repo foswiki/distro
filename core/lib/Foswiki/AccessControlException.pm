@@ -44,7 +44,7 @@ the function or parameter.
 
 package Foswiki::AccessControlException;
 use Error ();
-@ISA = ( 'Error' );
+@ISA = ( 'Error' ); # base class
 
 use strict;
 
