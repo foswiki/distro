@@ -2326,6 +2326,7 @@ sub _twikify_perl {
             $text =~ s/'foswiki'/'twiki'/g;
             $text =~ s/FOSWIKI_/TWIKI_/g;
             $text =~ s/foswikiNewLink/twikiNewLink/g;          # CSS
+            $text =~ s/foswikiAlert/twikiAlert/g;
             $text =~ s/new Foswiki/new TWiki/g;
             return $text;
         }
