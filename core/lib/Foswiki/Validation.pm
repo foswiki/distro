@@ -51,6 +51,7 @@ sub addValidationKey {
     $digester->add( $form, $cgis->id(), rand(time) );
     my $nonce = $digester->b64digest();
     $actions->{$nonce} = time() + $Foswiki::cfg{LeaseLength};
+    #print STDERR time.": ADD $nonce ".join('; ', map { "$_=$actions->{$_}" } keys %$actions)."\n";
     $cgis->param( 'VALID_ACTIONS', $actions );
     return $form.CGI::hidden(-name => 'validation_key', -value=>$nonce);
 }
@@ -85,7 +86,8 @@ sub expireValidationKeys {
     if ($actions) {
         my $deaths = 0;
         while (my ($nonce, $time) = each %$actions) {
-            if ($time > time()) {
+            if ($time < time()) {
+                #print STDERR time.": EXPIRE $nonce $time\n";
                 delete $actions->{$nonce};
                 $deaths++;
             }
