@@ -4,5 +4,5 @@
 ---+++ FAILEDPLUGINS -- debugging for plugins that failed to load, and handler list
    * Syntax: =%<nop>FAILEDPLUGINS%=
    * Expands to: See [[Plugins#FAILEDPLUGINS]]
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%ACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%PLUGINVERSION2][PLUGINVERSION]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINVERSION][PLUGINVERSION]]
 
