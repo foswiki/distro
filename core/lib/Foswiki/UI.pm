@@ -499,6 +499,12 @@ sub checkValidationKey {
         $session->getCGISession(), $nonce)) {
         throw Foswiki::ValidationException();
     }
+    if (defined($nonce)) {
+        # Expire the nonce. If the user tries to use it again, they will
+        # be prompted.
+        Foswiki::Validation::expireValidationKeys(
+            $session->getCGISession(), $nonce );
+    }
 }
 
 =begin TML

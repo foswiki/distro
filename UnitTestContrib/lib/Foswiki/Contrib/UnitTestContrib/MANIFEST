@@ -53,6 +53,7 @@ test/unit/PasswordTests.pm 0644
 test/unit/PluginHandlerTests.pm 0644
 test/unit/PrefsTests.pm 0644
 test/unit/QueryTests.pm 0644
+test/unit/RESTTests.pm 0644
 test/unit/RcsTests.pm 0644
 test/unit/RegisterTests.pm 0644
 test/unit/RenameTests.pm 0755

@@ -74,19 +74,24 @@ sub isValidNonce {
 
 =begin TML
 
----++ StaticMethod expireValidationKeys($cgis)
+---++ StaticMethod expireValidationKeys($cgis[, $key])
 
-Expire any timed-out validation keys for this session
+Expire any timed-out validation keys for this session, and (optionally)
+force expiry of a specific key, even if it hasn't timed out.
 
 =cut
 
 sub expireValidationKeys {
-    my $cgis = shift;
+    my ($cgis, $key) = @_;
     my $actions = $cgis->param('VALID_ACTIONS');
     if ($actions) {
+        if (defined $key && exists $actions->{$key}) {
+            $actions->{$key} = 0; # force-expire this key
+        }
         my $deaths = 0;
+        my $now = time();
         while (my ($nonce, $time) = each %$actions) {
-            if ($time < time()) {
+            if ($time < $now) {
                 #print STDERR time.": EXPIRE $nonce $time\n";
                 delete $actions->{$nonce};
                 $deaths++;

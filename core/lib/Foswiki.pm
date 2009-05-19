@@ -79,7 +79,6 @@ our $foswikiLibDir;
 our %regex;
 our %functionTags;
 our %contextFreeSyntax;
-our %restDispatch;
 our $VERSION;
 our $RELEASE;
 our $TRUE  = 1;
@@ -2770,35 +2769,6 @@ sub registerTagHandler {
     if ( $syntax && $syntax eq 'context-free' ) {
         $contextFreeSyntax{$tag} = 1;
     }
-}
-
-=begin TML=
-
----++ StaticMethod registerRESTHandler( $subject, $verb, \&fn )
-
-Adds a function to the dispatch table of the REST interface
-for a given subject. See System.CommandAndCGIScripts#rest for more info.
-
-   * =$subject= - The subject under which the function will be registered.
-   * =$verb= - The verb under which the function will be registered.
-   * =\&fn= - Reference to the function.
-
-The handler function must be of the form:
-<verbatim>
-sub handler(\%session,$subject,$verb) -> $text
-</verbatim>
-where:
-   * =\%session= - a reference to the Foswiki session object (may be ignored)
-   * =$subject= - The invoked subject (may be ignored)
-   * =$verb= - The invoked verb (may be ignored)
-
-*Since:* Foswiki::Plugins::VERSION 1.1
-
-=cut=
-
-sub registerRESTHandler {
-    my ( $subject, $verb, $fnref ) = @_;
-    $restDispatch{$subject}{$verb} = $fnref;
 }
 
 =begin TML
