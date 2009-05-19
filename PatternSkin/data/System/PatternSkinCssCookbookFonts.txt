@@ -7,7 +7,7 @@
 <div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim>
-   * Set USERSTYLEURL = %ATTACHURLPATH%/fonts.css
+   * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookFonts/fonts.css
 </verbatim>
 You can write this line in %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
 </div>
