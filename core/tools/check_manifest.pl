@@ -16,7 +16,7 @@ die "No such MANIFEST $manifest" unless -e $manifest;
 
 my %man;
 
-open MAN, "< $manifest" or die "Can't open $manifest for reading: $!";
+open MAN, '<', $manifest or die "Can't open $manifest for reading: $!";
 while( <MAN> ) {
     next if /^!include/;
     $man{$1} = 1 if /^(\S+)\s+\d+$/;

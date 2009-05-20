@@ -35,7 +35,7 @@ sub run {
     my @po = @{$opts{o} || [($opts{d}||'messages').'.po']};
 
     foreach my $file (@{$opts{f}||[]}) {
-        open FILE, $file or die "Cannot open $file: $!";
+        open FILE, '<', $file or die "Cannot open $file: $!";
         while (<FILE>) {
             push @ARGV, $_ if -r and !-d;
         }

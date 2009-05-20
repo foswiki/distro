@@ -110,11 +110,11 @@ sub checkCanCreateFile {
         return File::Spec->catfile( @path, '' ) . ' is not writable';
     }
     my $txt1 = "test 1 2 3";
-    open( FILE, ">$name" )
+    open( FILE, '>', $name )
       || return 'Could not create test file ' . $name . ':' . $!;
     print FILE $txt1;
     close(FILE);
-    open( IN_FILE, "<$name" )
+    open( IN_FILE, '<', $name )
       || return 'Could not read test file ' . $name . ':' . $!;
     my $txt2 = <IN_FILE>;
     close(IN_FILE);

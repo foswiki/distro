@@ -2435,7 +2435,7 @@ sub readFile {
     my $name = shift;
     my $data = '';
     my $IN_FILE;
-    open( $IN_FILE, "<$name" ) || return '';
+    open( $IN_FILE, '<', $name ) || return '';
     local $/ = undef;    # set to read to EOF
     $data = <$IN_FILE>;
     close($IN_FILE);
@@ -2459,7 +2459,7 @@ __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and a
 sub saveFile {
     my ( $name, $text ) = @_;
     my $FILE;
-    unless ( open( $FILE, ">$name" ) ) {
+    unless ( open( $FILE, '>', $name ) ) {
         die "Can't create file $name - $!\n";
     }
     print $FILE $text;

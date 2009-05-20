@@ -187,7 +187,7 @@ sub _getValueObject {
 sub _parse {
     my ( $file, $root, $haveLSC ) = @_;
 
-    open( F, "<$file" ) || return '';
+    open( F, '<', $file ) || return '';
     local $/ = "\n";
     my $open = undef;
     my @settings;
@@ -284,7 +284,7 @@ sub save {
         $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
 
-    if ( open( F, '<' . $lsc ) ) {
+    if ( open( F, '<', $lsc ) ) {
         local $/ = undef;
         $this->{content} = <F>;
         close(F);
@@ -298,7 +298,7 @@ HERE
     }
 
     my $out = $this->_save();
-    open( F, '>' . $lsc )
+    open( F, '>', $lsc )
       || die "Could not open $lsc for write: $!";
     print F $this->{content};
     close(F);

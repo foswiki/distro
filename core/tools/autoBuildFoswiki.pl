@@ -55,7 +55,7 @@ my $unitTests = "export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$fosw
 my $return = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ($errorcode == 0) {
-    open(UNIT, "$foswikihome/Foswiki-UnitTests.log");
+    open(UNIT, '<', "$foswikihome/Foswiki-UnitTests.log");
     local $/ = undef;
     my $unittestErrors = <UNIT>;
     close(UNIT);

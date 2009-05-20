@@ -266,7 +266,7 @@ sub _loadDEPENDENCIES {
     pop(@dir);    # Cutting off trailing Foswiki.spec gives us lib dir
     $from = File::Spec->catfile( @dir, 'DEPENDENCIES' );
     my $d;
-    open( $d, '<' . $from ) || return 'Failed to load DEPENDENCIES: ' . $!;
+    open( $d, '<', $from ) || return 'Failed to load DEPENDENCIES: ' . $!;
     my @perlModules;
 
     foreach my $line (<$d>) {

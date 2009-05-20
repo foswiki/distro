@@ -30,7 +30,7 @@ BEGIN {
 
     my $n = 0;
     $n++ while ( -e "testtgt$n" || -e "testlink$n" );
-    open( F, ">testtgt$n" ) || die "$basedir is not writeable: $!";
+    open( F, '>', "testtgt$n" ) || die "$basedir is not writeable: $!";
     print F "";
     close(F);
     eval {
@@ -135,7 +135,7 @@ sub installModule {
     }
 
     if ( -e "$manifest" ) {
-        open( F, "<$manifest" ) || die $!;
+        open( F, '<', "$manifest" ) || die $!;
         foreach my $file (<F>) {
             chomp($file);
             next unless $file =~ /^\w+/;
@@ -325,7 +325,7 @@ sub enablePlugin {
     my ( $module, $installing, $libDir ) = @_;
     my $cfg = '';
     print "Updating LocalSite.cfg\n";
-    if ( open( F, "<lib/LocalSite.cfg" ) ) {
+    if ( open( F, '<', "lib/LocalSite.cfg" ) ) {
         local $/;
         $cfg = <F>;
         $cfg =~ s/\r//g;
@@ -348,7 +348,7 @@ sub enablePlugin {
     }
 
     if ($changed) {
-        if ( open( F, ">lib/LocalSite.cfg" ) ) {
+        if ( open( F, '>', "lib/LocalSite.cfg" ) ) {
             print F $cfg;
             close(F);
             print(

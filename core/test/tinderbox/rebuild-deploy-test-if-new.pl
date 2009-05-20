@@ -66,7 +66,7 @@ exit 0 if -e BUILD_LOCK || -e FREEZE_LOCK;
 chomp( my ( $rev, $author ) = `./latest-svn-checkin.pl` );
 
 my $lastVersion = '';
-if ( open( VERSION, LAST_BUILD ) )
+if ( open( VERSION, '<', LAST_BUILD ) )
 {
     chomp( $lastVersion = <VERSION> );
     close( VERSION );

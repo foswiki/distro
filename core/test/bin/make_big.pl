@@ -56,7 +56,7 @@ sub getWords {
     my $words = '';
     my $word;
     if (!$dict_fh) {
-        open($dict_fh, "<$dict") || die $!;
+        open($dict_fh, '<', $dict) || die $!;
     }
     while ($n) {
         while ($n && ($word = <$dict_fh>)) {
@@ -65,7 +65,7 @@ sub getWords {
         }
         last unless $n;
         close($dict_fh);
-        open($dict_fh, "<$dict");
+        open($dict_fh, '<', $dict);
     }
 
     return $words;
@@ -104,7 +104,7 @@ while ($newWebs < $opts{webs}) {
             $nextTopic++;
         }
         my $topic = "$opts{base}$nextTopic";
-        open(TOPIC, ">data/$web/$topic.txt") || die $!;
+        open(TOPIC, '>', "data/$web/$topic.txt") || die $!;
         my $t = time();
         print TOPIC <<FLUFF;
 %META:TOPICINFO{author="ProjectContributor" date="$t" format="1.1" version="1"}%

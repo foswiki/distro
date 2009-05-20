@@ -19,7 +19,7 @@ foreach my $line (split(/\r?\n/, $text)) {
         }
     }
 }
-if (open(F, "<$where/DontBugMe.txt")) {
+if (open(F, '<', "$where/DontBugMe.txt")) {
     local $/ = "\n";
     while (<F>) {
         $_ =~ s#(TWiki:)?Main[./]##g;
@@ -28,7 +28,7 @@ if (open(F, "<$where/DontBugMe.txt")) {
     }
     close(F);
 }
-open(F, ">$where/WebNotify.txt") || die "Can't open WebNotify: $!";
+open(F, '>', "$where/WebNotify.txt") || die "Can't open WebNotify: $!";
 print F <<GUFF;
 <!--
    * Set NOAUTOLINK = on

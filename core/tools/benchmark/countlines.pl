@@ -14,7 +14,7 @@ foreach my $script qw( attach changes configure edit geturl login logon manage o
 }
 
 foreach $i (split( /\s+/, $pms)) {
-    open($in, $i) or next;
+    open($in, '<', $i) or next;
 
     $collect = 'code';
     $module{code} = 0;

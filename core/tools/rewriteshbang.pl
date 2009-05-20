@@ -65,14 +65,14 @@ opendir(D, ".") || die $!;
 foreach my $file (grep { -f && /^\w+$/ } readdir D) {
     $scanned++;
     $/ = undef;
-    open(F, "<$file") || die $!;
+    open(F, '<', $file) || die $!;
     my $contents = <F>;
     close F;
 
     if( $contents =~ s/^#!\s*\S+/#!$new/s ) {
         my $mode = (stat($file))[2];
         chmod( oct(600), "$file");
-        open(F, ">$file") || die $!;
+        open(F, '>', $file) || die $!;
         print F $contents;
         close F;
         chmod( $mode, "$file");

@@ -385,7 +385,7 @@ sub _requireVerification {
 
     my $file = _codeFile( $data->{VerificationCode} );
     my $F;
-    open( $F, ">$file" ) or throw Error::Simple( 'Failed to open file: ' . $! );
+    open( $F, '>', $file ) or throw Error::Simple( 'Failed to open file: ' . $! );
     print $F '# Verification code', "\n";
 
     # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws

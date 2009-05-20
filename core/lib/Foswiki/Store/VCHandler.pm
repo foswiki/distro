@@ -818,7 +818,7 @@ sub saveFile {
 
     mkPathTo($name);
     my $FILE;
-    open( $FILE, '>' . $name )
+    open( $FILE, '>', $name )
       || throw Error::Simple(
         'VCHandler: failed to create file ' . $name . ': ' . $! );
     binmode($FILE)

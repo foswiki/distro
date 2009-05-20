@@ -32,12 +32,12 @@ if( $ENV{'DOCUMENT_ROOT'} ) {
     $theRemoteUser = $query->remote_user();
     $theUrl = $query->url;
 
-    open(OF,'>/tmp/twiki_bm.cgi') || die "Store failed";
+    open(OF, '>', '/tmp/twiki_bm.cgi') || die "Store failed";
     print OF Dumper(\$query, $thePathInfo, $theRemoteUser, $theUrl);
     close(OF);
     `chmod 777 /tmp/twiki_bm.cgi`
 } else {
-    open(IF, "</tmp/twiki_bm.cgi")  || die "Retrieve failed";
+    open(IF, '<', '/tmp/twiki_bm.cgi')  || die "Retrieve failed";
     undef $/;
     my $blah = <IF>;
     close(IF);

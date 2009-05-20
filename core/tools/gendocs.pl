@@ -45,7 +45,7 @@ print "Building in $Config->{root}\n" if $Config->{debug};
 
 find( \&eachfile, ( $Config->{root}.'/lib' ));
 
-open(F, ">$Config->{root}/data/Foswiki/SourceCode.txt") or die $!;
+open(F, '>', "$Config->{root}/data/Foswiki/SourceCode.txt") or die $!;
 print F <<__TOPIC__;
 ---+!! Foswiki Source Code Packages
 
@@ -99,7 +99,7 @@ sub eachfile {
     $topic =~ s!/(.)!uc($1)!ge;
     $topic =~ s/^(.)/uc($1)/e;
 
-    open(PMFILE, "<$pmfile") or die "Failed to open $pmfile";
+    open(PMFILE, '<', $pmfile) or die "Failed to open $pmfile";
     my $text = "";
     my $inPod = 0;
     my $extends = "";
@@ -167,7 +167,7 @@ sub eachfile {
         $text =~ s/!!!$method!!!/$spec{$method}/;
     }
 
-    open(F, ">$Config->{root}/data/Foswiki/$topic.txt") || die "$! : $Config->{root}/data/Foswiki/$topic.txt \n";
+    open(F, '>', "$Config->{root}/data/Foswiki/$topic.txt") || die "$! : $Config->{root}/data/Foswiki/$topic.txt \n";
     print F $text;
     close F;
 }

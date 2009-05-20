@@ -219,7 +219,7 @@ sub GetAWeb
     my $exportWeb = "$webOutput.tar";
     $mech->$getaweb( "${webOutput}.${web}.tar" );
 ###
-    open( WEB, ">$exportWeb" ) or die $!;
+    open( WEB, '>', $exportWeb ) or die $!;
     print WEB $mech->content() or die $!;
     close( WEB ) or warn $!;
 

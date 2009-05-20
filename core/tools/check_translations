@@ -29,7 +29,7 @@ sub extract {
 
 sub list_translators {
   for my $file (<locale/*.po>) {
-    open(PO, $file);
+    open(PO, '<', $file);
     my $line;
     while($line = <PO>, $line =~ /^#/) {
       if ($line =~ m/^#\s*Foswiki\s*translation\s*for\s*(.*)$/) {

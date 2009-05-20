@@ -862,7 +862,7 @@ sub Get_head_foot {
     local (*FPT);
     my $line;
     if (defined $doc_head) {
-    	if (! open (FPT, $doc_head)) {
+    	if (! open (FPT, '<', $doc_head)) {
 	    print "Failed opening documentation header file $doc_head.\n";
 	    return 0;
 	    }
@@ -873,7 +873,7 @@ sub Get_head_foot {
     }
     
     if (defined $doc_foot) {
-    	if (! open (FPT, $doc_foot)) {
+    	if (! open (FPT, '<', $doc_foot)) {
 	    print "Failed opening documentation footer file $doc_foot.\n";
 	    return 0;
 	}

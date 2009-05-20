@@ -36,7 +36,7 @@ sub read_MANIFEST {
     my ( $manifest, $prefix ) = @_;
 
     my @files;
-    open(R, $manifest) || die "Could not open $manifest: $!";
+    open(R, '<', $manifest) || die "Could not open $manifest: $!";
     foreach my $source (<R>) {
         chomp($source);
 

@@ -484,7 +484,7 @@ HERE
 
         # see if we can write in $TWIKI_PACKAGES
         my $test = $ENV{TWIKI_PACKAGES} . '/' . $$;
-        if ( open( F, ">$test" ) ) {
+        if ( open( F, '>', $test ) ) {
             close(F);
             unlink($test);
             $downloadDir = $ENV{TWIKI_PACKAGES};
@@ -497,7 +497,7 @@ HERE
 
         if ( $response->is_success() ) {
             $f = $downloadDir . '/' . $module . $type;
-            open( F, ">$f" ) || die "Failed to open $f for write: $!";
+            open( F, '>', $f ) || die "Failed to open $f for write: $!";
             binmode F;
             print F $response->content();
             close(F);

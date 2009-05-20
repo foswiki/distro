@@ -41,7 +41,7 @@ sub get_stat_info {
 
     # open and read the main stat file
     my $_INFO;
-    if ( !open( $_INFO, "</proc/$_[0]/stat" ) ) {
+    if ( !open( $_INFO, '<', "/proc/$_[0]/stat" ) ) {
 
         # Failed
         return { vsize => 0, rss => 0 };

@@ -27,7 +27,7 @@ sub analyseLogFile {
 	my $linesProcessed = 0;
 	
 	die 'cannot find: '.$logFile unless ( -e $logFile );   #change this to throw, so caller can continue
-	open(logFile, $logFile);
+	open(logFile, '<', $logFile);
 	if ( $pos->{$logFile} ) {
 		seek(logFile, $pos->{$logFile}, 0);
 	}
@@ -75,7 +75,7 @@ sub analyseLogFile {
 	my %pos;
 	if (-e 'twiki_seek.cfg' ) {
 #TODO: gonna need a lock file too	
-		open(seekFile, 'twiki_seek.cfg');
+		open(seekFile, '<', 'twiki_seek.cfg');
 		while(<seekFile>) {
 			if ( /^(.*): (\d*)$/ ) {
 				$pos{$1} = $2;
@@ -114,7 +114,7 @@ $pos{total_number_of_edits} = 0;
 	   if ( $previousLog ) {
     		analyseLogFile($previousLog, \%pos, $timeRegex);
     	}
-    	open(seekFile, '>twiki_seek.cfg');
+    	open(seekFile, '>', 'twiki_seek.cfg');
     	foreach my $fileName (keys %pos) {
     	   print seekFile $fileName.': '.$pos{$fileName}."\n";
     	}

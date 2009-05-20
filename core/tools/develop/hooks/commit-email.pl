@@ -456,7 +456,7 @@ foreach my $project (@project_settings_list)
       {
         # Open a pipe to sendmail.
         my $command = "$sendmail $userlist";
-        if (open(SENDMAIL, "| $command"))
+        if (open(SENDMAIL, '|', $command"))
           {
             print SENDMAIL @head, @body;
             close SENDMAIL
@@ -471,7 +471,7 @@ foreach my $project (@project_settings_list)
     # Dump the output to logfile (if its name is not empty).
     if ($log_file =~ /\w/)
       {
-        if (open(LOGFILE, ">> $log_file"))
+        if (open(LOGFILE, '>>', $log_file))
           {
             print LOGFILE @head, @body;
             close LOGFILE

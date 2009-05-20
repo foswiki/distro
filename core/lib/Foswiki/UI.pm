@@ -229,7 +229,7 @@ sub handleRequest {
                   '?', $req->query_string(), "\n";
                 print STDERR <F>, "\n";
                 close($F);
-                open( $F, '<' . $passthruFilename );
+                open( $F, '<', $passthruFilename );
             }
             $req->load($F);
             close(F);

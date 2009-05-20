@@ -110,7 +110,7 @@ sub read_po {
     my $header = '';
 
     local *LEXICON;
-    open LEXICON, $file or die $!;
+    open LEXICON, '<', $file or die $!;
     while (<LEXICON>) {
         (1 .. /^$/) or last;
         $header .= $_;
@@ -132,7 +132,7 @@ sub write_po {
     my ($self, $file, $add_format) = @_;
 
     local *LEXICON;
-    open LEXICON, ">$file" or die "Can't write to $file$!\n";
+    open LEXICON, '>', $file or die "Can't write to $file$!\n";
 
     print LEXICON $self->header;
 
@@ -296,7 +296,7 @@ sub extract_file {
     my ($self, $file) = @_;
 
     local($/, *FH);
-    open FH, $file or die $!;
+    open FH, '<', $file or die $!;
     $self->extract($file => scalar <FH>);
     close FH;
 }

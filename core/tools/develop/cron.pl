@@ -23,7 +23,7 @@ if ( ! -f $COMMIT_FLAG ) {
 print "Update started at ",`date`;
 print "Last update was to ",`cat $LATEST`;
 
-open(F, ">$UPDATE_FLAG") || die $!;
+open(F, '>', $UPDATE_FLAG) || die $!;
 print F time();
 close(F);
 
@@ -46,7 +46,7 @@ eval {
 
     print "Updated $rev";
     $rev =~ s/^.*revision (\d+).*?$/$1/s;
-    open(F, ">$LATEST") || die $!;
+    open(F, '>', $LATEST) || die $!;
     print F "$rev\n";
     close(F);
 

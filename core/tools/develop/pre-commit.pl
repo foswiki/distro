@@ -38,7 +38,7 @@ $logmsg =~ s/\b(Item\d+):/push(@items, $1); '';/gem;
 foreach my $item ( @items ) {
     fail "Bug item $item does not exist"
       unless( -f "$dataDir/Tasks/$item.txt" );
-    open(F, "<$dataDir/Tasks/$item.txt") || die "Cannot open $item";
+    open(F, '<', "$dataDir/Tasks/$item.txt") || die "Cannot open $item";
     my $text = <F>;
     my $state = "Closed";
     if( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {

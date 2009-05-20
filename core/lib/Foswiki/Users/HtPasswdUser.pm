@@ -109,7 +109,7 @@ sub _readPasswd {
         return $data;
     }
     my $IN_FILE;
-    open( $IN_FILE, "<$Foswiki::cfg{Htpasswd}{FileName}" )
+    open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
@@ -159,7 +159,7 @@ sub _savePasswd {
     my $db = shift;
 
     umask(077);
-    open( FILE, ">$Foswiki::cfg{Htpasswd}{FileName}" )
+    open( FILE, '>', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
 

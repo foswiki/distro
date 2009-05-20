@@ -187,7 +187,7 @@ sub diff {
 	        unless defined $options->{"MTIME_$AorB"};
 
             local $/ = "\n";
-            open F, "<$seq" or carp "$!: $seq";
+            open F, '<', $seq or carp "$!: $seq";
             $seqs[$i] = [<F>];
             close F;
 

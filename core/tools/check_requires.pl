@@ -32,7 +32,7 @@ foreach my $file (@files) {
         my %satisfied;
         $m =~ s/\.pm$//; $m =~ s#^\./##; $m =~ s#/#::#g;
         local $/ = "\n";
-        open(F, "<$file");
+        open(F, '<', $file);
         my $inpod = 0;
         my $base = '';
         foreach my $line (<F>) {

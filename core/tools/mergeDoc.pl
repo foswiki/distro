@@ -93,7 +93,7 @@ foreach my $web (@ARGV) {
             next; # a link; ignore it
         }
 
-        unless (open(SF, "<$svnfile")) {
+        unless (open(SF, '<', $svnfile)) {
             print STDERR "Failed to open $svnfile: $!\n";
             next;
         }
@@ -113,7 +113,7 @@ foreach my $web (@ARGV) {
 
         # Load tagged version
         my $twikifile = "$twikipath/data/$path.txt";
-        unless (open(TF, "<$twikifile")) {
+        unless (open(TF, '<', $twikifile)) {
             print STDERR "Failed to open $twikifile: $!\n";
             next;
         }
@@ -177,7 +177,7 @@ foreach my $web (@ARGV) {
             $outfile = $twikifile;
         }
         my $content = join("\n", @$top, @new, @$bottom);
-        if (open(F, ">$outfile")) {
+        if (open(F, '>', $outfile)) {
             print F $content,"\n";
             print STDERR "\t$outfile has been updated\n";
             close(F);

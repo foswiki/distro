@@ -45,7 +45,7 @@ print "SCAN $coreExt" if $verbose;
 my $topSid = `$svnlook youngest $REPOS`;
 my $maxSid = 0;
 my %sid2who;
-if (open(F, "<WhoDunnit.sid2cin")) {
+if (open(F, '<', 'WhoDunnit.sid2cin')) {
     local $/ = "\n";
     while (<F>) {
         if (/(\S+) (\S+)$/) {
@@ -58,7 +58,7 @@ close(F);
 $maxSid++;
 if ($maxSid < $topSid) {
     print "Refreshing $maxSid..$topSid\n" if $verbose;
-    open(F, ">>WhoDunnit.sid2cin") || die $!;
+    open(F, '>>', 'WhoDunnit.sid2cin') || die $!;
     for ($maxSid..$topSid) {
         my $who = `$svnlook author -r $_ $REPOS`;
         chomp($who);
@@ -80,7 +80,7 @@ foreach my $item (sort { $a <=> $b }
                       grep { s/^Item(\d+)\.txt$/$1/ }
                                readdir(D)) {
     print "Item$item      \r" if $verbose;
-    open(F, "<$BUGS/Item$item.txt") || next;
+    open(F, '<', "$BUGS/Item$item.txt") || next;
     local $/ = undef;
     my $bug = <F>;
     close(F);
@@ -129,7 +129,7 @@ foreach my $zapper (keys %zappedBy) {
     }
 }
 print "\n" if $verbose;
-open(F, ">$BUGS/HallOfFame.txt") || die $!;
+open(F, '>', "$BUGS/HallOfFame.txt") || die $!;
 print F <<HEADING;
 The following tables show contributions to the core.
 The tables are refreshed regularly

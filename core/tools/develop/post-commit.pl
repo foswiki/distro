@@ -16,7 +16,7 @@ my $SUPPORT = '/home/svn';
 my $verbose = 0; # 1 to debug
 
 my $first = 1;
-if (open(F, "$SUPPORT/lastupdate")) {
+if (open(F, '<', "$SUPPORT/lastupdate")) {
     local $/ = "\n";
     $first = <F>;
     chomp($first);
@@ -55,7 +55,7 @@ sub _add {
 }
 
 # Don't know where STDERR goes, so send it somewhere we can read it
-open(STDERR, ">>$SUPPORT/logs/post-commit.log") || die $!;
+open(STDERR, '>>', "$SUPPORT/logs/post-commit.log") || die $!;
 print STDERR "Post-Commit $first..$last in $REPOS\n";
 $/ = undef;
 
@@ -72,7 +72,7 @@ for my $rev ($first..$last) {
         my $fi = "$BUGS/$item.txt";
         my $changed = 0;
 
-        open(F, "<$fi") || next;
+        open(F, '<', $fi) || next;
         my $text = <F>;
         close(F);
 
@@ -86,7 +86,7 @@ for my $rev ($first..$last) {
 
         print STDERR `co -l -f $fi`;
         die $! if $?;
-        open(F, ">$fi") || die "Failed to write $fi: $!";
+        open(F, '>', $fi) || die "Failed to write $fi: $!";
         print F $text;
         close(F);
         print STDERR `ci -mauto -u $fi`;
@@ -100,12 +100,12 @@ for my $rev ($first..$last) {
 }
 
 # Create the flag that tells the cron job to update from the repository
-open(F, ">>$SUPPORT/svncommit") || die "Failed to write $SUPPORT/svncommit: $!";
+open(F, '>>', "$SUPPORT/svncommit") || die "Failed to write $SUPPORT/svncommit: $!";
 print F join(" ", @changes);
 close(F);
 
 # Create the flag for this script
-open(F, ">$SUPPORT/lastupdate") || die $!;
+open(F, '>', "$SUPPORT/lastupdate") || die $!;
 print F "$last\n";
 close(F);
 
