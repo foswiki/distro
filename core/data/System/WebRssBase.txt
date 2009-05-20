@@ -29,6 +29,7 @@ The WebRss topic in each web contains the following text:
   &lt;description>(the description of the web). Foswiki, the Free and Open-Source Wiki.&lt;/description>
 %<nop>INCLUDE{"%SYSTEMWEB%.WebRssBase"}% &lt;!--
    * Set <nop>SKIN = rss
+   * Set <nop>COVER = rss
 -->
 </pre>
 -----
