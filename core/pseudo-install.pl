@@ -100,7 +100,7 @@ sub findRelativeTo {
         return $found if -e $found;
         pop(@path);
     }
-    return undef;
+    return;
 }
 
 sub installModule {

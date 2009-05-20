@@ -222,7 +222,7 @@ sub getHeader {
         return ref $value ? @$value : ($value);
     }
     else {
-        return undef;
+        return;
     }
 }
 
@@ -388,8 +388,8 @@ sub redirect {
       rearrange( [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ],
         @p );
 
-    return undef unless $url;
-    return undef if ( $status && $status !~ /^\s*3\d\d.*/ );
+    return unless $url;
+    return if ( $status && $status !~ /^\s*3\d\d.*/ );
 
     my @headers = ( -Location => $url );
     push @headers, '-Status' => ( $status || 302 );

@@ -88,7 +88,7 @@ sub _replaceNextLargerWith
 
         if ( $aValue == $found )
         {
-            return undef;
+            return;
         }
         elsif ( $aValue > $found )
         {

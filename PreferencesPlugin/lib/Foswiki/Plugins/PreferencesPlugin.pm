@@ -153,7 +153,7 @@ sub _getField {
             return $f;
         }
     }
-    return undef;
+    return;
 }
 
 # Generate a field suitable for editing this type. Use of the core

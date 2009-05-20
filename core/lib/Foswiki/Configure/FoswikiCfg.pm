@@ -122,7 +122,7 @@ sub _loadSpecsFrom {
         return $this;
     }
 
-    sub getValueObject { return undef; }
+    sub getValueObject { return; }
 }
 
 # Process the config array and add section objects
@@ -179,7 +179,7 @@ sub _getValueObject {
         my $i = $item->getValueObject($keys);
         return $i if $i;
     }
-    return undef;
+    return;
 }
 
 # Parse the config declaration file and return a root node for the

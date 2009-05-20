@@ -508,7 +508,7 @@ sub UTF82SiteCharSet {
     return $text unless ( defined $Foswiki::cfg{Site}{CharSet} );
 
     # Detect character encoding of the full topic name from URL
-    return undef if ( $text =~ $regex{validAsciiStringRegex} );
+    return if ( $text =~ $regex{validAsciiStringRegex} );
 
     # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
@@ -523,7 +523,7 @@ sub UTF82SiteCharSet {
     else {
 
         #SMELL: this seg faults on OSX leopard. (and possibly others)
-        return undef unless ( $text =~ $regex{validUtf8StringRegex} );
+        return unless ( $text =~ $regex{validUtf8StringRegex} );
     }
 
     # If site charset is already UTF-8, there is no need to convert anything:
@@ -2687,7 +2687,7 @@ sub _expandMacroOnTopicCreation {
     # This is what we want to make sure new user templates are populated
     # correctly, but you need to think about this if you extend the set of
     # tags expanded here.
-    return undef
+    return
       unless $_[0] =~
 /^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
 

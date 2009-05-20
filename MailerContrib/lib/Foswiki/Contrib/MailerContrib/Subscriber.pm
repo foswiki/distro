@@ -235,7 +235,7 @@ sub isSubscribedTo {
         }
     }
 
-    return undef;
+    return;
 }
 
 =pod
@@ -256,7 +256,7 @@ sub isUnsubscribedFrom {
         }
     }
 
-    return undef;
+    return;
 }
 
 =pod

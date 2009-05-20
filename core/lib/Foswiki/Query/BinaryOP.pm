@@ -42,7 +42,7 @@ sub evalTest {
             push( @res, $lhs ) if &$sub( $lhs, $eb, @_ );
         }
         if ( scalar(@res) == 0 ) {
-            return undef;
+            return;
         }
         elsif ( scalar(@res) == 1 ) {
             return $res[0];

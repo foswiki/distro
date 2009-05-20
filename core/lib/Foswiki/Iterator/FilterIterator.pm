@@ -57,7 +57,7 @@ sub hasNext {
 # See Foswiki::Iterator for a description of the general iterator contract
 sub next {
     my $this = shift;
-    return undef unless $this->hasNext();
+    return unless $this->hasNext();
     $this->{pending} = 0;
     return $this->{next};
 }

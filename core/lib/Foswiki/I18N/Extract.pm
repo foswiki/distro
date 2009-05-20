@@ -42,7 +42,7 @@ sub new {
 
     if (defined $initError) {
         $session->logger->log( 'warning', $initError ) if $session;
-        return undef;
+        return;
     }
 
     my $self = new Locale::Maketext::Extract;

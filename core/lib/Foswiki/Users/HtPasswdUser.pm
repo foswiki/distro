@@ -284,7 +284,7 @@ sub setPassword {
         print STDERR "ERROR: failed to resetPassword - $! ($e)";
         $this->{error} = 'unknown error in resetPassword'
           unless ( $this->{error} && length( $this->{error} ) );
-        return undef;
+        return;
     };
 
     $this->{error} = undef;

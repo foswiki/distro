@@ -1022,12 +1022,12 @@ sub isBlockNode {
 sub previousLeaf {
     my $node = shift;
     if ( !$node ) {
-        return undef;
+        return;
     }
     do {
         while ( !$node->{prev} ) {
             if ( !$node->{parent} ) {
-                return undef;    # can't go any further back
+                return;    # can't go any further back
             }
             $node = $node->{parent};
         }
@@ -1052,7 +1052,7 @@ sub _checkBeforeEmphasis {
 sub nextLeaf {
     my $node = shift;
     if ( !$node ) {
-        return undef;
+        return;
     }
     do {
         while ( !$node->{next} ) {

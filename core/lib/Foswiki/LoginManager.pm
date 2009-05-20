@@ -215,7 +215,7 @@ sub _IP2SID {
 
     my $ip = $this->{session}->{request}->address;
 
-    return undef unless $ip;    # no IP address, can't map
+    return unless $ip;    # no IP address, can't map
 
     my %ips;
     my $IPMAP;
@@ -435,7 +435,7 @@ sub checkAccess {
     my $this    = shift;
     my $session = $this->{session};
 
-    return undef if $session->inContext('command_line');
+    return if $session->inContext('command_line');
 
     unless ( $session->inContext('authenticated')
         || $Foswiki::cfg{LoginManager} eq 'none' )
@@ -540,7 +540,7 @@ sub userLoggedIn {
     if ( $session->{users} ) {
         $session->{user} = $session->{users}->getCanonicalUserID($authUser);
     }
-    return undef if $session->inContext('command_line');
+    return if $session->inContext('command_line');
 
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
@@ -713,7 +713,7 @@ sub endRenderingHandler {
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
     my $this = shift;
-    return undef if $this->{session}->inContext('command_line');
+    return if $this->{session}->inContext('command_line');
 
     # If cookies are not turned on and transparent CGI session IDs are,
     # grab every URL that is an internal link and pass a CGI variable
@@ -794,7 +794,7 @@ sub addCookie {
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
     my ( $this, $c ) = @_;
-    return undef if $this->{session}->inContext('command_line');
+    return if $this->{session}->inContext('command_line');
     ASSERT( $c->isa('CGI::Cookie') ) if DEBUG;
 
     push( @{ $this->{_cookies} }, $c );
@@ -876,7 +876,7 @@ Get a name->value hash of all the defined session variables
 sub getSessionValues {
     my ($this) = @_;
 
-    return undef unless $this->{_cgisession};
+    return unless $this->{_cgisession};
 
     return $this->{_cgisession}->param_hashref();
 }
@@ -891,7 +891,7 @@ Get the value of a session variable.
 
 sub getSessionValue {
     my ( $this, $key ) = @_;
-    return undef unless $this->{_cgisession};
+    return unless $this->{_cgisession};
 
     return $this->{_cgisession}->param($key);
 }
@@ -916,7 +916,7 @@ sub setSessionValue {
         return 1;
     }
 
-    return undef;
+    return;
 }
 
 =begin TML
@@ -941,7 +941,7 @@ sub clearSessionValue {
         return 1;
     }
 
-    return undef;
+    return;
 }
 
 =begin TML
@@ -991,7 +991,7 @@ the username stored in the session will be used.
 =cut
 
 sub getUser {
-    return undef;
+    return;
 }
 
 =begin TML

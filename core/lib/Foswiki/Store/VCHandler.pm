@@ -735,7 +735,7 @@ sub getLease {
         my $lease = { split( /\r?\n/, $t ) };
         return $lease;
     }
-    return undef;
+    return;
 }
 
 =begin TML
@@ -828,7 +828,7 @@ sub saveFile {
     close($FILE)
       || throw Error::Simple(
         'VCHandler: failed to create file ' . $name . ': ' . $! );
-    return undef;
+    return;
 }
 
 # Used by subclasses
@@ -967,7 +967,7 @@ sub _rmtree {
 
     sub READLINE {
         my $this = shift;
-        return undef if $this->{ptr} == $this->{size};
+        return if $this->{ptr} == $this->{size};
         return substr($this->{data}, $this->{ptr}) if !defined $/;
         my $start = $this->{ptr};
         while ($this->{ptr} < $this->{size}
@@ -1048,7 +1048,7 @@ sub _constructAttributesForAutoAttached {
         return \%pairs;
     }
     else {
-        return undef;
+        return;
     }
 }
 

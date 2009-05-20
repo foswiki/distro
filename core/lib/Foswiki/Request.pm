@@ -348,7 +348,7 @@ future, so it could be possible to get query and body parameters independently.
 
 sub queryParam {
     my $this = shift;
-    return undef if $this->method && $this->method eq 'POST';
+    return if $this->method && $this->method eq 'POST';
     return $this->param(@_);
 }
 
@@ -436,7 +436,7 @@ sub cookie {
         return () unless $this->{cookies}{$name};
         return $this->{cookies}{$name}->value if defined $name && $name ne '';
     }
-    return undef unless defined $name && $name ne '';
+    return unless defined $name && $name ne '';
     return new CGI::Cookie(
         -name  => $name,
         -value => $value,

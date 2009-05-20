@@ -78,7 +78,7 @@ sub hoist {
 sub _hoistOR {
     my $node = shift;
 
-    return undef unless ref( $node->{op} );
+    return unless ref( $node->{op} );
 
     if ( $node->{op}->{name} eq '(' ) {
         return _hoistOR( $node->{params}[0] );
@@ -98,14 +98,14 @@ sub _hoistOR {
     }
 
     print STDERR "\tFAILED\n" if MONITOR_HOIST;
-    return undef;
+    return;
 }
 
 # depth 2: can handle = and ~ expressions
 sub _hoistEQ {
     my $node = shift;
 
-    return undef unless ref( $node->{op} );
+    return unless ref( $node->{op} );
 
     if ( $node->{op}->{name} eq '(' ) {
         return _hoistEQ( $node->{params}[0] );
@@ -145,7 +145,7 @@ sub _hoistEQ {
     }
 
     print STDERR "\tFAILED\n" if MONITOR_HOIST;
-    return undef;
+    return;
 }
 
 # Expecting a (root level) field access expression. This must be of the form
@@ -198,12 +198,12 @@ sub _hoistDOT {
         if ( $node->{params}[0] eq 'name' ) {
 
             # Special case for the topic name
-            return undef;
+            return;
         }
         elsif ( $node->{params}[0] eq 'web' ) {
 
             # Special case for the web name
-            return undef;
+            return;
         }
         elsif ( $node->{params}[0] eq 'text' ) {
 
@@ -217,7 +217,7 @@ sub _hoistDOT {
     }
 
     print STDERR "\tFAILED\n" if MONITOR_HOIST;
-    return undef;
+    return;
 }
 
 # Expecting a constant
@@ -232,7 +232,7 @@ sub _hoistConstant {
     {
         return $node->{params}[0];
     }
-    return undef;
+    return;
 }
 
 1;

@@ -326,7 +326,7 @@ sub dispatch {
             return $status;
         }
     }
-    return undef;
+    return;
 }
 
 =begin TML

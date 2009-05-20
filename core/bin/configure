@@ -277,7 +277,7 @@ sub findFileOnPath {
             return "$dir/$file";
         }
     }
-    return undef;
+    return;
 }
 
 ###########################################################

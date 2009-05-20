@@ -57,7 +57,7 @@ sub getRepository {
     foreach my $place ( @{ $this->{repositories} } ) {
         return $place if $place->{name} eq $reponame;
     }
-    return undef;
+    return;
 }
 
 # Static UI factory
@@ -69,7 +69,7 @@ sub loadUI {
 
     eval "use $id; \$ui = new $id(\$item);";
 
-    return undef if ( !$ui && $@ );
+    return if ( !$ui && $@ );
 
     return $ui;
 }

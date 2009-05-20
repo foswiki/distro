@@ -440,7 +440,7 @@ Default behaviour is to fail.
 =cut
 
 sub setPassword {
-    return undef;
+    return;
 }
 
 =begin TML
@@ -455,7 +455,7 @@ returns undef if no error (the default)
 =cut
 
 sub passwordError {
-    return undef;
+    return;
 }
 
 1;

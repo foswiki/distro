@@ -382,7 +382,7 @@ sub fromSiteCharSet {
                   . $Foswiki::cfg{Site}{CharSet}
                   . '" not supported, or name not recognised - check '
                   . '"perldoc Encode::Supported"' );
-            return undef;
+            return;
         }
         else {
             my $octets =

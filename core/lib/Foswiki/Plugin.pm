@@ -138,7 +138,7 @@ sub load {
                 "$p could not be loaded.  Errors were:\n$@\n----"
             );
             $this->{disabled} = 1;
-            return undef;
+            return;
         }
         else {
             $this->{module} = $p;
@@ -150,7 +150,7 @@ sub load {
 "$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} is not defined - re-run configure\n---"
         );
         $this->{disabled} = 1;
-        return undef;
+        return;
     }
 
     my $noTopic = eval '$' . $p . '::NO_PREFS_IN_TOPIC';
@@ -185,7 +185,7 @@ sub load {
         if ($error) {
             push( @{ $this->{errors} }, $sub . ' failed: ' . $error );
             $this->{disabled} = 1;
-            return undef;
+            return;
         }
         use strict 'refs';
     }

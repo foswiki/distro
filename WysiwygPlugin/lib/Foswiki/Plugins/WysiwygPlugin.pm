@@ -449,7 +449,7 @@ sub postConvertURL {
 sub _convertImage {
     my ( $src, $opts ) = @_;
 
-    return undef unless $src;
+    return unless $src;
 
     local $recursionBlock = 1;    # block calls to beforeCommonTagshandler
 
@@ -734,7 +734,7 @@ sub _restTML2HTML {
 
     returnRESTResult( $response, 200, $html );
 
-    return undef;    # to prevent further processing
+    return;    # to prevent further processing
 }
 
 # Rest handler for use from Javascript
@@ -762,7 +762,7 @@ sub _restHTML2TML {
     );
 
     returnRESTResult( $response, 200, $tml );
-    return undef;    # to prevent further processing
+    return;    # to prevent further processing
 }
 
 # SMELL: foswiki supports proper REST usage of the upload script,
@@ -773,7 +773,7 @@ sub _restUpload {
     # Item1458 ignore uploads not using POST
     if ($query && $query->method() && uc($query->method()) ne 'POST') {
         returnRESTResult($response, 405, "Method not Allowed");
-        return undef;
+        return;
     }
     my ( $web, $topic ) =
       Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
@@ -783,7 +783,7 @@ sub _restUpload {
         \&Foswiki::Sandbox::validateTopicName );
     unless ( defined $web && defined $topic ) {
         returnRESTResult( $response, 401, "Access denied" );
-        return undef;    # to prevent further processing
+        return;    # to prevent further processing
     }
     my $hideFile    = $query->param('hidefile')    || '';
     my $fileComment = $query->param('filecomment') || '';
@@ -809,7 +809,7 @@ sub _restUpload {
       )
     {
         returnRESTResult( $response, 401, "Access denied" );
-        return undef;    # to prevent further processing
+        return;    # to prevent further processing
     }
 
     my ( $fileSize, $fileDate, $tmpFileName );
@@ -832,7 +832,7 @@ sub _restUpload {
 
         unless ( $fileSize && $fileName ) {
             returnRESTResult( $response, 500, "Zero-sized file upload" );
-            return undef;    # to prevent further processing
+            return;    # to prevent further processing
         }
 
         my $maxSize = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT');
@@ -840,7 +840,7 @@ sub _restUpload {
 
         if ( $maxSize && $fileSize > $maxSize * 1024 ) {
             returnRESTResult( $response, 500, "OVERSIZED UPLOAD" );
-            return undef;    # to prevent further processing
+            return;    # to prevent further processing
         }
     }
 
@@ -866,7 +866,7 @@ sub _restUpload {
 
     if ($error) {
         returnRESTResult( $response, 500, $error );
-        return undef;    # to prevent further processing
+        return;    # to prevent further processing
     }
 
     # Otherwise allow the rest dispatcher to write a 200
@@ -904,7 +904,7 @@ sub _restAttachments {
       )
     {
         returnRESTResult( $response, 401, "Access denied" );
-        return undef;    # to prevent further processing
+        return;    # to prevent further processing
     }
 
     # Create a JSON list of attachment data, sorted by name

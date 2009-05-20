@@ -78,7 +78,7 @@ Returns undef otherwise.
 =cut
 
 sub fetchPass {
-    return undef;
+    return;
 }
 
 =begin TML

@@ -474,7 +474,7 @@ Cannot find a local $what for $module, and LWP is not installed
 so I can't download it. Please download it manually and re-run
 this script.
 HERE
-        return undef;
+        return;
     }
 
     my $url         = "$PACKAGES_URL/$module/$module";
@@ -508,7 +508,7 @@ HERE
     unless ( $f && -e $f ) {
         print STDERR "Failed to download $module $what\n",
           $response->status_line(), "\n";
-        return undef;
+        return;
     }
     else {
         print "Downloaded $what from $PACKAGES_URL to $f\n";

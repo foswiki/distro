@@ -279,7 +279,7 @@ sub getContainer {
         return Foswiki::Meta->new( $this->{_session} );
     }
     ASSERT(0) if DEBUG;
-    return undef;
+    return;
 }
 
 =begin TML
@@ -738,7 +738,7 @@ sub get {
         }
     }
 
-    return undef;
+    return;
 }
 
 =begin TML

@@ -454,7 +454,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         die "ERROR: Can't send mail, missing recipient";
     }
 
-    return undef unless ( scalar @to );
+    return unless ( scalar @to );
 
     # Change SMTP protocol recipient format from
     # "User Name <userid@domain>" to "userid@domain"

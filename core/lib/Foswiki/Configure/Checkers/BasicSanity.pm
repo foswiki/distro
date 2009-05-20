@@ -141,7 +141,7 @@ HERE
 sub _copy {
     my $n = shift;
 
-    return undef unless defined($n);
+    return unless defined($n);
 
     if ( UNIVERSAL::isa( $n, 'ARRAY' ) ) {
         my @new;

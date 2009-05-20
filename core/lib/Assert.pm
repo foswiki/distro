@@ -63,7 +63,7 @@ sub ASSERT ($;$) {
         $msg .= " failed!\n";
         Carp::confess($msg);
     }
-    return undef;
+    return;
 }
 
 # Test if a value is untainted

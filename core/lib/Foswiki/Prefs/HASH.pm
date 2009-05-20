@@ -47,7 +47,7 @@ sub get {
 }
 
 sub getLocal {
-    return undef;
+    return;
 }
 
 sub insert {

@@ -73,11 +73,11 @@ sub inc {
 }
 
 sub getSectionObject {
-    return undef;
+    return;
 }
 
 sub getValueObject {
-    return undef;
+    return;
 }
 
 1;

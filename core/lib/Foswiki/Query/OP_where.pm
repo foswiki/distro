@@ -32,7 +32,7 @@ sub evaluate {
                 push( @res, $el );
             }
         }
-        return undef unless scalar(@res);
+        return unless scalar(@res);
         return \@res;
     }
     else {

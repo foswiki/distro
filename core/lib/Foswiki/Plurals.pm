@@ -38,11 +38,11 @@ sub singularForm {
 
     # Plural processing only if enabled in configure or one of the
     # distributed webs
-    return undef
+    return
       unless ( $Foswiki::cfg{PluralToSingular}
         or $web eq $Foswiki::cfg{UsersWebName}
         or $web eq $Foswiki::cfg{SystemWebName} );
-    return undef unless ( $pluralForm =~ /s$/ );
+    return unless ( $pluralForm =~ /s$/ );
 
     # Topic name is plural in form
     my $singularForm = $pluralForm;

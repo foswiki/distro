@@ -257,7 +257,7 @@ the same stack for Web and Web/Subweb.
 sub getPreference {
     my ( $this, $key, $level ) = @_;
     my $map = $this->{'map'}{$key};
-    return undef unless defined $map;
+    return unless defined $map;
     if ( defined $level ) {
         my $mask =
           ( chr(0xFF) x int( $level / 8 ) )
@@ -265,7 +265,7 @@ sub getPreference {
         $map &= $mask;
         substr( $map, -1 ) = ''
           while length($map) > 0 && ord( substr( $map, -1 ) ) == 0;
-        return undef unless length($map) > 0;
+        return unless length($map) > 0;
     }
     return $this->{levels}->[ _getLevel($map) ]->get($key);
 }

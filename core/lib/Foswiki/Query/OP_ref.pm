@@ -29,9 +29,9 @@ sub evaluate {
 
     my $a    = $pnode->{params}[0];
     my $node = $a->evaluate(@_);
-    return undef unless defined $node;
+    return unless defined $node;
     if ( ref($node) eq 'HASH' ) {
-        return undef;
+        return;
     }
     if ( !( ref($node) eq 'ARRAY' ) ) {
         $node = [$node];
@@ -56,7 +56,7 @@ sub evaluate {
         }
         catch Error::Simple with {};
     }
-    return undef unless scalar(@result);
+    return unless scalar(@result);
     return $result[0] if scalar(@result) == 1;
     return \@result;
 }

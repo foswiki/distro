@@ -410,7 +410,7 @@ sub searchWeb {
           . ' template (missing sections? There should be 4 %SPLIT% tags)';
         if ( defined $callback ) {
             &$callback( $cbdata, $mess );
-            return undef;
+            return;
         }
         else {
             return $mess;
@@ -576,7 +576,7 @@ sub searchWeb {
         }
     }
 
-    return undef if ( defined $callback );
+    return if ( defined $callback );
     return $searchResult if $inline;
 
     $searchResult = $baseWebObject->expandMacros($searchResult);

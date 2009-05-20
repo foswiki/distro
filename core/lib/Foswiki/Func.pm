@@ -663,10 +663,10 @@ sub wikiToUserName {
     my $cUID = getCanonicalUserID($wiki);
     if ($cUID) {
         my $login = $Foswiki::Plugins::SESSION->{users}->getLoginName($cUID);
-        return undef if !$login || $login eq 'unknown';
+        return if !$login || $login eq 'unknown';
         return $login;
     }
-    return undef;
+    return;
 }
 
 =begin TML
@@ -942,7 +942,7 @@ Use it as follows:
 sub eachGroupMember {
     my $user    = shift;
     my $session = $Foswiki::Plugins::SESSION;
-    return undef
+    return
       unless $Foswiki::Plugins::SESSION->{users}->isGroup($user);
     my $it = $Foswiki::Plugins::SESSION->{users}->eachGroupMember($user);
     $it->{process} = sub {

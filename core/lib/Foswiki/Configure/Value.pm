@@ -63,7 +63,7 @@ sub getValueObject {
     my ( $this, $keys ) = @_;
 
     return $this if ( $this->{keys} && $keys eq $this->{keys} );
-    return undef;
+    return;
 }
 
 # See if this value is changed from the default. The comparison

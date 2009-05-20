@@ -260,7 +260,7 @@ sub _getInstalledVersion {
     my ( $this, $module ) = @_;
     my $lib;
 
-    return undef unless $module;
+    return unless $module;
 
     if ( $module =~ /Plugin$/ ) {
         $lib = 'Plugins';

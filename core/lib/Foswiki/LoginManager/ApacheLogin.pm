@@ -81,7 +81,7 @@ sub forceAuthentication {
         $session->redirect( $url, 1 );
         return 1;
     }
-    return undef;
+    return;
 }
 
 =begin TML

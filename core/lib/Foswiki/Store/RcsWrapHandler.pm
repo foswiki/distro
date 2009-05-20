@@ -170,7 +170,7 @@ sub replaceRevision {
 sub deleteRevision {
     my ($this) = @_;
     my $rev = $this->numRevisions();
-    return undef if ( $rev <= 1 );
+    return if ( $rev <= 1 );
     return _deleteRevision( $this, $rev );
 }
 
@@ -503,7 +503,7 @@ sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
     if ( !-e $this->{rcsFile} ) {
-        return undef;
+        return;
     }
     require Foswiki::Time;
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );

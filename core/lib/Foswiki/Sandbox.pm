@@ -144,7 +144,7 @@ validation with untaint(). Returns the name, or undef if it is invalid.
 sub validateWebName {
     my $web = shift;
     return $web if Foswiki::isValidWebName( $web, 1 );
-    return undef;
+    return;
 }
 
 =begin TML
@@ -159,7 +159,7 @@ validation with untaint(). Returns the name, or undef if it is invalid.
 sub validateTopicName {
     my $topic = shift;
     return $topic if Foswiki::isValidTopicName( $topic, 1 );
-    return undef;
+    return;
 }
 
 =begin TML

@@ -239,11 +239,11 @@ sub _renameTopicOrAttachment {
 
         _newTopicOrAttachmentScreen(
             $session, $old, $new, $attachment, $newAttachment, $confirm );
-        return undef;
+        return;
 
     }
 
-    return undef if ($query && $query->method()
+    return if ($query && $query->method()
                        && uc($query->method()) ne 'POST');
 
     Foswiki::UI::checkValidationKey(

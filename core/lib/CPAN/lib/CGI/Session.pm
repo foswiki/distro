@@ -288,7 +288,7 @@ sub param {
         if ($name =~ m/^_SESSION_/) {
 
             carp "param(): attempt to write to private parameter";
-            return undef;
+            return;
         }
         $self->_set_status( STATUS_MODIFIED );
         return $self->{_DATA}->{ $name } = $value;
@@ -699,7 +699,7 @@ sub load {
     $self->_load_pluggables();
 
     # Did load_pluggable fail? If so, return undef, just like $class->set_error() would
-    return undef if $class->errstr;
+    return if $class->errstr;
 
     if (not defined $self->{_CLAIMED_ID}) {
         my $query = $self->query();

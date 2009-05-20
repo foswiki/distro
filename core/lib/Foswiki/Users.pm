@@ -213,7 +213,7 @@ sub _getMapping {
     # requested otherwise.
     return $this->{basemapping} unless ($noFallBack);
 
-    return undef;
+    return;
 }
 
 =begin TML
@@ -619,7 +619,7 @@ Get the login name of a user. Returns undef if the user is not known.
 sub getLoginName {
     my ( $this, $cUID ) = @_;
 
-    return undef unless defined($cUID);
+    return unless defined($cUID);
 
     return $this->{cUID2Login}->{$cUID}
       if ( defined( $this->{cUID2Login}->{$cUID} ) );

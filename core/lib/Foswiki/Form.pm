@@ -77,7 +77,7 @@ sub new {
       Foswiki::Sandbox::untaint( $form, \&Foswiki::Sandbox::validateTopicName );
 
     unless ( $web && $form ) {
-        return undef;
+        return;
     }
 
     my $this = $session->{forms}->{"$web.$form"};
@@ -85,7 +85,7 @@ sub new {
 
         # Got to have either a def or a topic
         unless ( $def || $session->topicExists( $web, $form ) ) {
-            return undef;
+            return;
         }
 
         $this = $class->SUPER::new( $session, $web, $form );
@@ -516,7 +516,7 @@ sub getField {
     foreach my $fieldDef ( @{ $this->{fields} } ) {
         return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
     }
-    return undef;
+    return;
 }
 
 =begin TML

@@ -78,7 +78,7 @@ sub getSectionObject {
         my $cvo = $child->getSectionObject( $head, $depth );
         return $cvo if $cvo;
     }
-    return undef;
+    return;
 }
 
 # Get the value object associated with the given keys
@@ -88,7 +88,7 @@ sub getValueObject {
         my $cvo = $child->getValueObject($keys);
         return $cvo if $cvo;
     }
-    return undef;
+    return;
 }
 
 # See if this section is changed from the default values. Should
