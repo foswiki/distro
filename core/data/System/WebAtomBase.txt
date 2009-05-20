@@ -27,7 +27,8 @@ The WebAtom topic in each web contains the following text:
 &lt;title>&lt;nop>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>BASEWEB% web&lt;/title>
 &lt;subtitle>(the description of the web, plain text with no markup and no wikiwords). Foswiki is the Free and Open Source Wiki.&lt;/subtitle>
 %<nop>INCLUDE{"%<nop>SYSTEMWEB%.WebAtomBase"}% &lt;!--
-   * Set <nop>SKIN = rss
+   * Set <nop>SKIN = rssatom
+   * Set <nop>COVER = rssatom
 --&gt;
 </pre>
 -----
