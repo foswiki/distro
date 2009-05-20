@@ -157,12 +157,12 @@ sub test_attachments {
     my $topic = "BlahBlahBlah";
 
     my $stream;
-    $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
+    $this->assert( open( $stream, '>', $this->{tmpdatafile} ) );
     binmode($stream);
     print $stream $data;
     close($stream);
 
-    $this->assert( open( $stream, "<$this->{tmpdatafile}" ) );
+    $this->assert( open( $stream, '<', $this->{tmpdatafile} ) );
     binmode($stream);
 
     TWiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
@@ -280,7 +280,7 @@ sub test_moveAttachment {
     TWiki::Func::saveTopicText( $this->{test_web}, "SourceTopic", "Wibble" );
     my $stream;
     my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
-    $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
+    $this->assert( open( $stream, '>', $this->{tmpdatafile} ) );
     binmode($stream);
     print $stream $data;
     close($stream);

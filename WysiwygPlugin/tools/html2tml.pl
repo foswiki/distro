@@ -4,6 +4,8 @@
 #
 # cd to the tools directory to run it
 
+use strict;
+
 BEGIN { do '../bin/setlib.cfg'; }
 
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML;

@@ -8,10 +8,11 @@ Class of errors used with Foswiki::Infix::Parser
 =cut
 
 package Foswiki::Infix::Error;
-use Error ();
-@ISA = ( 'Error' );
 
 use strict;
+
+use Error ();
+our @ISA = ( 'Error' );
 
 sub new {
     my ( $class, $message, $expr, $at ) = @_;

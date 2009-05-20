@@ -1,4 +1,6 @@
 #!/usr/bin/perl -w
+use strict;
+
 use Benchmark qw(:all :hireswallclock);
 use vars qw( $begin );
 BEGIN { $begin = new Benchmark; }
@@ -14,7 +16,6 @@ BEGIN {
     require 'setlib.cfg';
 }
 
-use strict;
 use CGI::Carp qw( fatalsToBrowser );
 use CGI;
 

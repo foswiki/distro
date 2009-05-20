@@ -3,10 +3,11 @@
 #
 # The root of all configurations
 package Foswiki::Configure::Root;
-use Foswiki::Configure::Section ();
-@ISA = ( 'Foswiki::Configure::Section' );
 
 use strict;
+
+use Foswiki::Configure::Section ();
+our @ISA = ( 'Foswiki::Configure::Section' );
 
 sub new {
     my $class = shift;

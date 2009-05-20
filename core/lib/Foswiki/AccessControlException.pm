@@ -43,10 +43,12 @@ the function or parameter.
 # AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::AccessControlException;
-use Error ();
-@ISA = ( 'Error' ); # base class
 
 use strict;
+
+use Error ();
+our @ISA = ( 'Error' ); # base class
+
 
 our $VERSION = '$Rev$';
 

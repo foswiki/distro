@@ -9,10 +9,10 @@ Exception used raise a validation error. See also Foswiki::Validation.
 =cut
 
 package Foswiki::ValidationException;
-use Error ();
-@ISA = ( 'Error' ); # base class
-
 use strict;
+
+use Error ();
+our @ISA = ( 'Error' ); # base class
 
 =begin TML
 

@@ -11,14 +11,17 @@ If if becomes useful, it will become a set of Nodes as for Foswiki::Query
 =cut
 
 package Foswiki::Search::Parser;
-use Foswiki::Infix::Parser ();
-@ISA = ( 'Foswiki::Infix::Parser' );
 
-use Foswiki::Search::Node ();
-use Foswiki::Infix::Error ();
+use strict;
 
 use Assert;
 use Error qw( :try );
+
+use Foswiki::Infix::Parser ();
+our @ISA = ( 'Foswiki::Infix::Parser' );
+
+use Foswiki::Search::Node ();
+use Foswiki::Infix::Error ();
 
 =begin TML
 
@@ -107,7 +110,7 @@ sub parse {
           split( /[\s]+/, $searchString );                 # split on spaces
     }
 
-    $result = new Foswiki::Search::Node($search, \@tokens, $options );
+    my $result = new Foswiki::Search::Node($searchString, \@tokens, $options );
     return $result;
 }
 

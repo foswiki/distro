@@ -18,6 +18,8 @@
 #
 
 # Standard preamble
+use strict;
+
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }

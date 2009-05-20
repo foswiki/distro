@@ -7,10 +7,11 @@
 =cut
 
 package Foswiki::If::OP_ingroup;
-use Foswiki::Query::BinaryOP ();
-@ISA = ( 'Foswiki::Query::BinaryOP' );
 
 use strict;
+
+use Foswiki::Query::BinaryOP ();
+our @ISA = ( 'Foswiki::Query::BinaryOP' );
 
 sub new {
     my $class = shift;

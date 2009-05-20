@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::WarningFileName;
-use Foswiki::Configure::Checker ();
-@ISA = ( 'Foswiki::Configure::Checker' );
 
 use strict;
+
+use Foswiki::Configure::Checker ();
+our @ISA = ( 'Foswiki::Configure::Checker' );
 
 use Foswiki::Configure::Load ();
 

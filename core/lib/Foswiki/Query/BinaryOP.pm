@@ -1,5 +1,7 @@
 package Foswiki::Query::BinaryOP;
 
+use strict;
+
 sub new {
     my $class = shift;
     my $this = { @_, arity => 2 };

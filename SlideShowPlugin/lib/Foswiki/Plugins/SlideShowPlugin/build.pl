@@ -2,6 +2,8 @@
 #
 # Build for SlideShowPlugin
 #
+use strict;
+
 BEGIN {
   foreach my $pc (split(/:/, $ENV{FOSWIKI_LIBS})) {
     unshift @INC, $pc;

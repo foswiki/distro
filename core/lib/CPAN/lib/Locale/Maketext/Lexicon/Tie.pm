@@ -1,8 +1,9 @@
 package Locale::Maketext::Lexicon::Tie;
-$Locale::Maketext::Lexicon::Tie::VERSION = '0.03';
 
 use strict;
 use Symbol ();
+
+$Locale::Maketext::Lexicon::Tie::VERSION = '0.03';
 
 =head1 NAME
 

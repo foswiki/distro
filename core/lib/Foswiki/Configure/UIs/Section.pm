@@ -7,10 +7,11 @@
 # different behaviours for each of level 0 (the root), level 1 (twisty
 # sections) and level > 1 (subsection).
 package Foswiki::Configure::UIs::Section;
-use Foswiki::Configure::UI ();
-@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
+
+use Foswiki::Configure::UI ();
+our @ISA = ( 'Foswiki::Configure::UI' );
 
 # depth == 1 is the root
 # depth == 2 are twisty sections

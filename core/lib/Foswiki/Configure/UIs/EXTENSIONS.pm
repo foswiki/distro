@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::UIs::EXTENSIONS;
-use Foswiki::Configure::UI ();
-@ISA = ( 'Foswiki::Configure::UI' );
-
 use strict;
+
+use Foswiki::Configure::UI ();
+our @ISA = ( 'Foswiki::Configure::UI' );
+
 use Foswiki::Configure::Type ();
 
 # THE FOLLOWING MUST BE MAINTAINED CONSISTENT WITH Extensions.FastReport

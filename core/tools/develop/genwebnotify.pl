@@ -3,6 +3,8 @@
 #
 # Generates WebNotify from the WaitingFor and ReportedBy fields
 #
+use strict;
+
 my $where = '/home/foswiki.org/trunk/core/data/Tasks';
 my $text = `cd /home/trunk.foswiki.org/core/bin && perl -T ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
 my %topics;

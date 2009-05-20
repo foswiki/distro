@@ -24,6 +24,8 @@
 
 package Foswiki::Plugins::SpreadSheetPlugin;
 
+use strict;
+
 
 # =========================
 use vars qw(

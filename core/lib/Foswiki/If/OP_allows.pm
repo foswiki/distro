@@ -7,10 +7,11 @@
 =cut
 
 package Foswiki::If::OP_allows;
-use Foswiki::Query::BinaryOP ();
-@ISA = ( 'Foswiki::Query::BinaryOP' );
 
 use strict;
+
+use Foswiki::Query::BinaryOP ();
+our @ISA = ( 'Foswiki::Query::BinaryOP' );
 
 use Assert;
 use Foswiki::Meta ();

@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+use strict;
+
 # cruise back up the tree until we find lib and data subdirs
 require Cwd;
 use File::Find;

@@ -29,12 +29,13 @@
 # The warning switch is set here and not in the shebang line above
 # with /usr/bin/env because env will try to find the binary named
 # 'perl -w', which won't work.
+use strict;
+
 BEGIN
   {
     $^W = 1;
   }
 
-use strict;
 use Carp;
 
 ######################################################################

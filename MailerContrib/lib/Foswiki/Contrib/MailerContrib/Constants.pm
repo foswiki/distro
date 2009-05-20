@@ -14,6 +14,8 @@ package name short).
 
 package MailerConst;
 
+use strict;
+
 our $ALWAYS     = 1;    # Always send, even if there are no changes
 our $FULL_TOPIC = 2;    # Send the full topic rather than just changes
 

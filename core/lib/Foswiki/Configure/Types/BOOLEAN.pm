@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::BOOLEAN;
-use Foswiki::Configure::Type ();
-@ISA = ( 'Foswiki::Configure::Type' );
 
 use strict;
+
+use Foswiki::Configure::Type ();
+our @ISA = ( 'Foswiki::Configure::Type' );
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

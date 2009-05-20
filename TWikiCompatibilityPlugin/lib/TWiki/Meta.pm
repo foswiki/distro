@@ -1,5 +1,7 @@
 package TWiki::Meta;
 
+use strict;
+
 use Foswiki::Meta;
 
 sub new {

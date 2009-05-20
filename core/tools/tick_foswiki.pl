@@ -16,6 +16,8 @@
 #
 # 0 0 * * 0 cd /usr/foswiki/bin && perl ../tools/tick_foswiki.pl
 #
+use strict;
+
 BEGIN {
     if (-e './setlib.cfg') {
         unshift @INC, '.';

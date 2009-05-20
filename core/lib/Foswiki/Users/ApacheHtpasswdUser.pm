@@ -1,11 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Users::ApacheHtpasswdUser;
+use strict;
+
 use Foswiki::Users::Password ();
-@ISA = ( 'Foswiki::Users::Password' );
+our @ISA = ( 'Foswiki::Users::Password' );
 
 use Apache::Htpasswd ();
 use Assert;
-use strict;
 use Error qw( :try );
 
 =begin TML

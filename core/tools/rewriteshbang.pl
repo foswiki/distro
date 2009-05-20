@@ -20,6 +20,8 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 # HELP
+use strict;
+
 print <<'END';
 Change the "shebang" lines of all perl scripts found in the current
 directory.

@@ -4,10 +4,11 @@
 # and use the Foswiki proxy setup
 
 package Foswiki::Net::UserCredAgent;
-use LWP::UserAgent ();
-@ISA = ( 'LWP::UserAgent' );
 
 use strict;
+
+use LWP::UserAgent ();
+our @ISA = ( 'LWP::UserAgent' );
 
 sub new {
     my ( $class, $user, $pass ) = @_;

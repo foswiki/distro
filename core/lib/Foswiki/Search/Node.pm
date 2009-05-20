@@ -11,11 +11,14 @@ If if becomes useful, it will become a set of Nodes as for Foswiki::Query
 =cut
 
 package Foswiki::Search::Node;
-use Foswiki::Infix::Node ();
-@ISA = ( 'Foswiki::Infix::Node' );
+
+use strict;
 
 use Assert;
 use Error qw( :try );
+
+use Foswiki::Infix::Node ();
+our @ISA = ( 'Foswiki::Infix::Node' );
 
 =begin TML
 

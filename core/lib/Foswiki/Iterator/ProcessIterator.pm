@@ -10,11 +10,12 @@ element in the iteration.
 =cut
 
 package Foswiki::Iterator::ProcessIterator;
-use Foswiki::Iterator ();
-@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
 use Assert;
+
+use Foswiki::Iterator ();
+our @ISA = ( 'Foswiki::Iterator' );
 
 =begin TML
 

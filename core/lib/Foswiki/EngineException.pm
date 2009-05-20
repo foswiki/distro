@@ -12,10 +12,11 @@ following fields:
 =cut
 
 package Foswiki::EngineException;
-use Error ();
-@ISA = ( 'Error' );
 
 use strict;
+
+use Error ();
+our @ISA = ( 'Error' );
 
 =begin TML
 

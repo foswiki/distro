@@ -1,8 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::COMMAND;
+
+use strict;
+
 use Foswiki::Configure::Types::STRING ();
-@ISA = ( 'Foswiki::Configure::Types::STRING' );
+our @ISA = ( 'Foswiki::Configure::Types::STRING' );
 
 1;
 __DATA__

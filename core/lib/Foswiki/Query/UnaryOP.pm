@@ -1,5 +1,7 @@
 package Foswiki::Query::UnaryOP;
 
+use strict;
+
 sub new {
     my $class = shift;
     my $this = { @_, arity => 1 };

@@ -1,5 +1,8 @@
 package TWiki::OopsException;
-use base 'Foswiki::OopsException';
+use strict;
+
+use Foswiki::OopsException;
+our @ISA = 'Foswiki::OopsException';
 
 sub new {
     my $class = shift;

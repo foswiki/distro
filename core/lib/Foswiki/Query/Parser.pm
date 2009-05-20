@@ -9,13 +9,14 @@ Parser for queries
 =cut
 
 package Foswiki::Query::Parser;
-use Foswiki::Infix::Parser ();
-@ISA = ( 'Foswiki::Infix::Parser' );
-
-use Foswiki::Query::Node ();
 
 use strict;
 use Assert;
+
+use Foswiki::Infix::Parser ();
+our @ISA = ( 'Foswiki::Infix::Parser' );
+
+use Foswiki::Query::Node ();
 
 # Operators
 #

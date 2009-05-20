@@ -20,11 +20,12 @@ methods of this class.
 =cut
 
 package Foswiki::LoginManager::ApacheLogin;
-use Foswiki::LoginManager ();
-@ISA = ( 'Foswiki::LoginManager' );
 
 use strict;
 use Assert;
+
+use Foswiki::LoginManager ();
+our @ISA = ( 'Foswiki::LoginManager' );
 
 =begin TML
 

@@ -8,10 +8,11 @@
 # appropriate, you will have to implement a new visit() function for
 # saving configuration data.
 package Foswiki::Configure::Pluggable;
-use Foswiki::Configure::Section ();
-@ISA = ( 'Foswiki::Configure::Section' );
 
 use strict;
+
+use Foswiki::Configure::Section ();
+our @ISA = ( 'Foswiki::Configure::Section' );
 
 sub load {
     my ($name) = @_;

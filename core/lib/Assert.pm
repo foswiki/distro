@@ -1,6 +1,4 @@
 package Assert;
-use Exporter;
-@ISA = ( 'Exporter' );
 
 # Derived from Carp::Assert
 # Copyright 2004 Crawford Currie
@@ -18,6 +16,9 @@ use Exporter;
 # add ENV{FOSWIKI_ASSERTS} = 1; to you bin/setlib.cfg or bin/LocalLib.cfg
 
 use strict;
+
+use Exporter;
+our @ISA = ( 'Exporter' );
 
 our %EXPORT_TAGS = (
     NDEBUG => ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'],

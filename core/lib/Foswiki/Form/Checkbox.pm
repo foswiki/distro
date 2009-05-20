@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Checkbox;
-use Foswiki::Form::ListFieldDefinition ();
-@ISA = ( 'Foswiki::Form::ListFieldDefinition' );
 
 use strict;
+
+use Foswiki::Form::ListFieldDefinition ();
+our @ISA = ( 'Foswiki::Form::ListFieldDefinition' );
 
 sub new {
     my $class = shift;

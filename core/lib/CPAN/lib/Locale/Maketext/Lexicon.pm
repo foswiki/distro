@@ -1,7 +1,8 @@
 package Locale::Maketext::Lexicon;
-$Locale::Maketext::Lexicon::VERSION = '0.49';
 
 use strict;
+
+$Locale::Maketext::Lexicon::VERSION = '0.49';
 
 =head1 NAME
 

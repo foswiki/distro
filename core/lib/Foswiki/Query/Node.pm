@@ -19,11 +19,14 @@ able to do it better....
 =cut
 
 package Foswiki::Query::Node;
-use Foswiki::Infix::Node ();
-@ISA = ( 'Foswiki::Infix::Node' );
+
+use strict;
 
 use Assert;
 use Error qw( :try );
+
+use Foswiki::Infix::Node ();
+our @ISA = ( 'Foswiki::Infix::Node' );
 
 # 1 for debug
 sub MONITOR_EVAL { 0 }

@@ -1,4 +1,6 @@
 #!/usr/bin/perl -w
+use strict;
+
 use Benchmark qw(:all :hireswallclock);
 use vars qw( $begin );
 BEGIN { $begin = new Benchmark; }
@@ -29,8 +31,6 @@ BEGIN { unshift @INC, '.'; require 'setlib.cfg'; }
 
 use CGI::Carp qw( fatalsToBrowser );
 use CGI;
-
-use strict;
 
 &main();
 

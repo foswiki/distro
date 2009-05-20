@@ -10,10 +10,10 @@ Iterator over a perl list
 =cut
 
 package Foswiki::ListIterator;
-use Foswiki::Iterator ();
-@ISA = ( 'Foswiki::Iterator' );
-
 use strict;
+
+use Foswiki::Iterator ();
+our @ISA = ( 'Foswiki::Iterator' );
 
 use Assert;
 

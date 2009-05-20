@@ -7,10 +7,11 @@
 =cut
 
 package Foswiki::Query::OP_length;
-use Foswiki::Query::UnaryOP ();
-@ISA = ( 'Foswiki::Query::UnaryOP' );
 
 use strict;
+
+use Foswiki::Query::UnaryOP ();
+our @ISA = ( 'Foswiki::Query::UnaryOP' );
 
 sub new {
     my $class = shift;

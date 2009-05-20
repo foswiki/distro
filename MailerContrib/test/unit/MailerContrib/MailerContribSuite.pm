@@ -277,7 +277,7 @@ sub set_up {
         my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
         my $dirpath = $web;
         $dirpath =~ s#/#.#g;
-        $this->assert( open( F, ">$metadir/$dirpath" ),
+        $this->assert( open( F, '>', "$metadir/$dirpath" ),
             "$metadir/$dirpath: $!" );
         print F time();
         close(F);

@@ -1,7 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::InfoCache;
+use strict;
+
 use Foswiki::ListIterator ();
-@ISA = ( 'Foswiki::ListIterator' );
+our @ISA = ( 'Foswiki::ListIterator' );
 
 =begin TML
 
@@ -17,7 +19,6 @@ I have the feeling that we should make result sets immutable
 
 =cut
 
-use strict;
 use Assert;
 use Foswiki::Meta ();
 

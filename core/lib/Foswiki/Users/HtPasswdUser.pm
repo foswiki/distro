@@ -12,10 +12,11 @@ See documentation of that class for descriptions of the methods of this class.
 =cut
 
 package Foswiki::Users::HtPasswdUser;
-use Foswiki::Users::Password ();
-@ISA = ( 'Foswiki::Users::Password' );
-
 use strict;
+
+use Foswiki::Users::Password ();
+our @ISA = ( 'Foswiki::Users::Password' );
+
 use Assert;
 use Error qw( :try );
 

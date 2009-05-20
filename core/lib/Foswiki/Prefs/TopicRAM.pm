@@ -13,10 +13,10 @@ This is a preference backend used to get preferences defined in a topic.
 
 package Foswiki::Prefs::TopicRAM;
 
-use Foswiki::Prefs::BaseBackend ();
-@ISA = qw(Foswiki::Prefs::BaseBackend);
-
 use strict;
+
+use Foswiki::Prefs::BaseBackend ();
+our @ISA = qw(Foswiki::Prefs::BaseBackend);
 
 use Foswiki::Prefs::Parser ();
 

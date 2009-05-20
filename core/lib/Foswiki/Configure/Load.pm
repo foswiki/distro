@@ -14,6 +14,8 @@ normal Foswiki operation.
 
 package Foswiki::Configure::Load;
 
+use strict;
+
 our $TRUE = 1;
 
 =begin TML
@@ -83,7 +85,7 @@ GOLLYGOSH
     $Foswiki::cfg{ConfigurationFinished} = 1;
 
     # Alias TWiki cfg to Foswiki cfg for plugins and contribs
-    *{'TWiki::cfg'} = *{'Foswiki::cfg'};
+    *TWiki::cfg = \%Foswiki::cfg;
 }
 
 sub expand {
@@ -144,6 +146,7 @@ sub readDefaults {
     };
     push( @errors, $@ ) if ($@);
     foreach my $dir (@INC) {
+        my $root; # SMELL: Not used
         _loadDefaultsFrom( "$dir/Foswiki/Plugins", $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/Foswiki/Contrib", $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );

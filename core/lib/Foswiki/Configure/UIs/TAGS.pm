@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::TAGS;
-use Foswiki::Configure::UI ();
-@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
+
+use Foswiki::Configure::UI ();
+our @ISA = ( 'Foswiki::Configure::UI' );
 
 use Foswiki::Configure::Type ();
 use Foswiki::Configure::Value ();

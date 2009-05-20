@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Value;
-use Foswiki::Configure::Item ();
-@ISA = ( 'Foswiki::Configure::Item' );
 
 use strict;
+
+use Foswiki::Configure::Item ();
+our @ISA = ( 'Foswiki::Configure::Item' );
 
 use Foswiki::Configure::Type ();
 

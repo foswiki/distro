@@ -16,10 +16,11 @@ has no equivalent in Foswiki 1.0. The equivalent of the old
 =cut
 
 package Foswiki::Store::RcsLite;
-use Foswiki::Store::VCStore ();
-@ISA = ( 'Foswiki::Store::VCStore' );
 
 use strict;
+
+use Foswiki::Store::VCStore ();
+our @ISA = ( 'Foswiki::Store::VCStore' );
 
 # This constructor is required to hide the =Foswiki::Store::RcsLiteHandler=
 # class during construction, so that the core can simply say "give me a new

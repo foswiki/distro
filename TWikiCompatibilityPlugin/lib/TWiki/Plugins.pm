@@ -1,5 +1,7 @@
 package TWiki::Plugins;
 
+use strict;
+
 use Foswiki::Plugins;
 
 # Compatible version of TWiki::Plugins. Note that this has to be versioned

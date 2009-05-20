@@ -1,5 +1,8 @@
 package Foswiki::Contrib::BehaviourContrib;
-use vars qw( $VERSION );
+
+use strict;
+
+use vars qw( $VERSION $RELEASE );
 $VERSION = '$Rev$';
 $RELEASE = '1.4';
 

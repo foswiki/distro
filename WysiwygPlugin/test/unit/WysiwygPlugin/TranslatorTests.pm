@@ -1849,12 +1849,12 @@ sub gen_file_tests {
             foreach my $file ( grep { /^.*\.html$/i } readdir D ) {
                 $file =~ s/\.html$//;
                 my $test = { name => $file };
-                open( F, "<$d/test_html/$file.html" );
+                open( F, '<', "$d/test_html/$file.html" );
                 undef $/;
                 $test->{html} = <F>;
                 close(F);
                 next unless -e "$d/result_tml/$file.txt";
-                open( F, "<$d/result_tml/$file.txt" );
+                open( F, '<', "$d/result_tml/$file.txt" );
                 undef $/;
                 $test->{finaltml} = <F>;
                 close(F);

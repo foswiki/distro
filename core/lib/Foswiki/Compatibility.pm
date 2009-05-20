@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Compatibility;
 
+use strict;
 use Assert;
 
 =begin TML

@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::OCTAL;
-use Foswiki::Configure::Types::NUMBER ();
-@ISA = ( 'Foswiki::Configure::Types::NUMBER' );
 
 use strict;
+
+use Foswiki::Configure::Types::NUMBER ();
+our @ISA = ( 'Foswiki::Configure::Types::NUMBER' );
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

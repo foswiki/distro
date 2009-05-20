@@ -4,6 +4,8 @@
 #
 # cd to the tools directory to run it
 
+use strict;
+
 do '../bin/setlib.cfg';
 use Foswiki::Plugins::WysiwygPlugin::TML2HTML;
 my $conv = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();

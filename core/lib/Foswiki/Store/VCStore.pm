@@ -28,10 +28,10 @@ in this class _previously_ resided in =Foswiki::Store=.
 =cut
 
 package Foswiki::Store::VCStore;
-use Foswiki::Store ();
-@ISA = ( 'Foswiki::Store' );
-
 use strict;
+
+use Foswiki::Store ();
+our @ISA = ( 'Foswiki::Store' );
 
 use Assert;
 use Error qw( :try );

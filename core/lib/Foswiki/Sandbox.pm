@@ -583,14 +583,14 @@ sub sysCommand {
               . length($cmd) . ")\n";
         }
 
-        open( OLDERR, '>&STDERR' ) || die "Can't steal STDERR: $!";
+        open( my $oldStderr, '>&STDERR' ) || die "Can't steal STDERR: $!";
         open( STDERR, '>', File::Spec->devnull() );
         $data = `$cmd`;
 
         # restore STDERR
         close(STDERR);
-        open( STDERR, '>&OLDERR' ) || die "Can't restore STDERR: $!";
-        close(OLDERR);
+        open( STDERR, '>&', $oldStderr ) || die "Can't restore STDERR: $!";
+        close($oldStderr);
 
         $exit = ( $? >> 8 );
 

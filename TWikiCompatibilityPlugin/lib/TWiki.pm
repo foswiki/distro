@@ -1,5 +1,7 @@
 #package TWiki;
 
+use strict;
+
 use Foswiki;
 
 sub TWiki::new {

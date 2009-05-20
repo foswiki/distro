@@ -12,6 +12,8 @@
 #
 #
 
+use strict;
+
 my $SvensAutomatedBuilds = 0;
 if ( grep('-sven', @ARGV) ) {
    $SvensAutomatedBuilds = 1;

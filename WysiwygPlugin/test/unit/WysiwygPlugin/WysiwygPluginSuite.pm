@@ -19,7 +19,10 @@
 
 package WysiwygPluginSuite;
 
-use base qw(Unit::TestSuite);
+use strict;
+
+use Unit::TestSuite;
+our @ISA = 'Unit::TestSuite';
 
 sub include_tests {
     return qw(TranslatorTests WysiwygPluginTests);

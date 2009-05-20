@@ -16,10 +16,11 @@ is analagous to the old =Foswiki::Store::RcsWrap=.
 =cut
 
 package Foswiki::Store::RcsWrapHandler;
-use Foswiki::Store::VCHandler ();
-@ISA = ( 'Foswiki::Store::VCHandler' );
-
 use strict;
+
+use Foswiki::Store::VCHandler ();
+our @ISA = ( 'Foswiki::Store::VCHandler' );
+
 use File::Copy ();
 
 use Foswiki::Store   ();

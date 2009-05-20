@@ -1,7 +1,11 @@
 # See bottom of file for license and copyright information
 package Foswiki::Logger::PlainFile;
+
+use strict;
+use Assert;
+
 use Foswiki::Logger ();
-@ISA = ( 'Foswiki::Logger' );
+our @ISA = ( 'Foswiki::Logger' );
 
 =begin TML
 
@@ -21,10 +25,6 @@ This logger implementation maps groups of levels to a single logfile, viz.
      written to standard error (the webserver log file, usually)
 
 =cut
-
-use strict;
-
-use Assert;
 
 use Foswiki::Time ();
 use Foswiki::ListIterator ();

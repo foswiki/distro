@@ -18,6 +18,8 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
+use strict;
+
 use Socket;
 
 if( ! $ARGV[1] ) {

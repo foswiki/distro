@@ -84,10 +84,10 @@ yyyyyy   is the new line 5
 =cut
 
 package Foswiki::Store::RcsLiteHandler;
-use Foswiki::Store::VCHandler ();
-@ISA = ( 'Foswiki::Store::VCHandler' );
-
 use strict;
+
+use Foswiki::Store::VCHandler ();
+our @ISA = ( 'Foswiki::Store::VCHandler' );
 
 use Assert;
 use Error qw( :try );

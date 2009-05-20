@@ -1,7 +1,7 @@
 package Locale::Maketext::Lexicon::Auto;
-$Locale::Maketext::Lexicon::Auto::VERSION = '0.02';
-
 use strict;
+
+$Locale::Maketext::Lexicon::Auto::VERSION = '0.02';
 
 =head1 NAME
 

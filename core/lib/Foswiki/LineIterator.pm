@@ -10,10 +10,11 @@ Iterator over the lines read from a file handle.
 =cut
 
 package Foswiki::LineIterator;
-use Foswiki::Iterator ();
-@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
+
+use Foswiki::Iterator ();
+our @ISA = ( 'Foswiki::Iterator' );
 
 =begin TML
 

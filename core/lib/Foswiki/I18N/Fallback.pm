@@ -3,10 +3,11 @@
 # Locale::Maketext isn't available.
 
 package Foswiki::I18N::Fallback;
-use Foswiki::I18N ();
-@ISA = ( 'Foswiki::I18N' );
 
 use strict;
+
+use Foswiki::I18N ();
+our @ISA = ( 'Foswiki::I18N' );
 
 sub new {
     my $class = shift;

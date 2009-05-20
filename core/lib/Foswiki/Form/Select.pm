@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Select;
-use Foswiki::Form::ListFieldDefinition ();
-@ISA = ( 'Foswiki::Form::ListFieldDefinition' );
-
 use strict;
+
+use Foswiki::Form::ListFieldDefinition ();
+our @ISA = ( 'Foswiki::Form::ListFieldDefinition' );
+
 use Assert;
 
 sub new {

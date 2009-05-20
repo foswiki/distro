@@ -2,6 +2,8 @@ package CGI::Session::Tutorial;
 
 # $Id: Tutorial.pm 447 2008-11-01 03:46:08Z markstos $
 
+use strict;
+
 $CGI::Session::Tutorial::VERSION = '4.38';
 
 =pod

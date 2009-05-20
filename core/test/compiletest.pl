@@ -1,5 +1,7 @@
 #! /usr/bin/perl -w
 
+use strict;
+
 my $pms = `find .. -name '*.pm'`;
 
 my @pms = split /\n/, $pms;

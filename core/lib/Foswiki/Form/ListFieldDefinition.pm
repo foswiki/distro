@@ -10,11 +10,12 @@ can *store* multiple values.
 =cut
 
 package Foswiki::Form::ListFieldDefinition;
-use Foswiki::Form::FieldDefinition ();
-@ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 use strict;
 use Assert;
+
+use Foswiki::Form::FieldDefinition ();
+our @ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 =begin TML
 

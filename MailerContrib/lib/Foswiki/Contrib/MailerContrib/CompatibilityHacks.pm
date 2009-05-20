@@ -3,6 +3,8 @@ package CompatibilityHacks;
 
 package IteratorHack;
 
+use strict;
+
 sub new {
     my ( $class, $list ) = @_;
     my $this = bless( { list => $list, index => 0, next => undef }, $class );
@@ -33,7 +35,7 @@ sub eachChangeSince {
     my ( $web, $since ) = @_;
 
     my $changes;
-    if ( open( F, "<$Foswiki::cfg{DataDir}/$web/.changes" ) ) {
+    if ( open( F, '<', "$Foswiki::cfg{DataDir}/$web/.changes" ) ) {
         local $/ = undef;
         $changes = <F>;
         close(F);

@@ -53,10 +53,11 @@ Fields:
 =cut
 
 package Foswiki::Request;
-use CGI ();
-@ISA = ( 'CGI' );
-
 use strict;
+
+use CGI ();
+our @ISA = ( 'CGI' );
+
 use Assert;
 use Error ();
 use IO::File ();

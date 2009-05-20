@@ -1,7 +1,8 @@
 package Locale::Maketext::Extract;
-$Locale::Maketext::Extract::VERSION = '0.08';
 
 use strict;
+
+$Locale::Maketext::Extract::VERSION = '0.08';
 
 =head1 NAME
 

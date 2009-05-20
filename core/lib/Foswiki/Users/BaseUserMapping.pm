@@ -25,10 +25,11 @@ prefix 'BaseUserMapping_'.
 =cut
 
 package Foswiki::Users::BaseUserMapping;
-use Foswiki::UserMapping ();
-@ISA = ( 'Foswiki::UserMapping' );
-
 use strict;
+
+use Foswiki::UserMapping ();
+our @ISA = ( 'Foswiki::UserMapping' );
+
 use Assert;
 use Error ();
 

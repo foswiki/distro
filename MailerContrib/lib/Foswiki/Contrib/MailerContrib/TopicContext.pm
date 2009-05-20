@@ -1,6 +1,8 @@
 # Replacement for pushTopicContext in older TWikis. Does the minimum needed
 # by MailerContrib.
 
+use strict;
+
 sub Foswiki::Func::pushTopicContext {
     my ( $web, $topic ) = @_;
     my $session = $Foswiki::Plugins::SESSION;

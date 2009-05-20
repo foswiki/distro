@@ -2,6 +2,8 @@
 #
 # Build for InterwikiPlugin
 #
+use strict;
+
 BEGIN {
   foreach my $pc (split(/:/, $ENV{FOSWIKI_LIBS})) {
     unshift @INC, $pc;

@@ -2,6 +2,8 @@
 
 package ManifestEntry;
 
+use strict;
+
 use File::Copy qw( cp );
 use File::Path qw( mkpath );
 

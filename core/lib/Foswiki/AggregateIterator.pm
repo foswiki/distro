@@ -10,10 +10,10 @@ Combine multiple iterators into a single iteration.
 =cut
 
 package Foswiki::AggregateIterator;
-use Foswiki::Iterator ();
-@ISA = ( 'Foswiki::Iterator' );
-
 use strict;
+
+use Foswiki::Iterator ();
+our @ISA = ( 'Foswiki::Iterator' );
 
 =begin TML
 

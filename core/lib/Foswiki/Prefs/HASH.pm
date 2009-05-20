@@ -14,10 +14,10 @@ hash.
 
 package Foswiki::Prefs::HASH;
 
-use Foswiki::Prefs::BaseBackend ();
-@ISA = qw(Foswiki::Prefs::BaseBackend);
-
 use strict;
+
+use Foswiki::Prefs::BaseBackend ();
+our @ISA = qw(Foswiki::Prefs::BaseBackend);
 
 sub new {
     my ($proto, $values) = @_;

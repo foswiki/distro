@@ -8,6 +8,8 @@
 #warning: presumes that AllowLoginName is off
 
 
+use strict;
+
 undef $/;
 open( PWD, ">>data/BIGGROUPS_htpasswd" ) || die $!;
 open( TWUSER, ">>data/Main/WikiUsers.txt" ) || die $!;

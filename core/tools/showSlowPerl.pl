@@ -1,5 +1,7 @@
 #!/usr/bin/perl -wT
 
+use strict;
+
 require Benchmark;
 import Benchmark ':hireswallclock';
 

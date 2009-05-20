@@ -24,6 +24,8 @@
 # search path for this script, so it can find the rest of Foswiki e.g.
 # perl -I /usr/local/foswiki/bin /usr/local/foswiki/tools/mailnotify
 
+use strict;
+
 BEGIN {
     require 'setlib.cfg';
 }

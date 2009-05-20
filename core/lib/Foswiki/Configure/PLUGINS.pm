@@ -2,10 +2,11 @@
 
 # Plug-in module for finding and handling plugins
 package Foswiki::Configure::PLUGINS;
-use Foswiki::Configure::Pluggable ();
-@ISA = ( 'Foswiki::Configure::Pluggable' );
 
 use strict;
+
+use Foswiki::Configure::Pluggable ();
+our @ISA = ( 'Foswiki::Configure::Pluggable' );
 
 use Foswiki::Configure::Pluggable ();
 use Foswiki::Configure::Type ();

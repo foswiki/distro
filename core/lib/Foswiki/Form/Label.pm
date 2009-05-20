@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Label;
-use Foswiki::Form::FieldDefinition ();
-@ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 use strict;
+
+use Foswiki::Form::FieldDefinition ();
+our @ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 sub isEditable {
     return 0;

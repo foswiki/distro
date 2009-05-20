@@ -29,10 +29,11 @@ of possible values.
 # intelligence is in the individual field types.
 
 package Foswiki::Form;
-use Foswiki::Meta ();
-@ISA = ( 'Foswiki::Meta' );
-
 use strict;
+
+use Foswiki::Meta ();
+our @ISA = ( 'Foswiki::Meta' );
+
 use Assert;
 use Error qw( :try );
 

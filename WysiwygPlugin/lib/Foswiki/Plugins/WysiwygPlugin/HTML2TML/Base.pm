@@ -1,6 +1,8 @@
 # Abstract base class of node types
 package Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base;
 
+use strict;
+
 use Assert;
 
 sub isLeafNode {

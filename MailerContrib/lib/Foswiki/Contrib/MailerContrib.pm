@@ -240,7 +240,7 @@ sub _processSubscriptions {
     $notmeta = "$metadir/$notmeta";
 
     my $timeOfLastNotify = 0;
-    if ( open( F, "<$notmeta" ) ) {
+    if ( open( F, '<', $notmeta ) ) {
         local $/ = undef;
         $timeOfLastNotify = <F>;
         close(F);
@@ -314,7 +314,7 @@ sub _processSubscriptions {
     $report .= _sendNewsletterMails( $twiki, $web, \%allSet );
 
     if ( $timeOfLastChange != 0 ) {
-        if ( open( F, ">$notmeta" ) ) {
+        if ( open( F, '>', $notmeta ) ) {
             print F $timeOfLastChange;
             close(F);
         }

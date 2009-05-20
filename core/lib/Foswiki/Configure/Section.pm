@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Section;
-use Foswiki::Configure::Item ();
-@ISA = ( 'Foswiki::Configure::Item' );
 
 use strict;
+
+use Foswiki::Configure::Item ();
+our @ISA = ( 'Foswiki::Configure::Item' );
 
 sub new {
     my ( $class, $head ) = @_;

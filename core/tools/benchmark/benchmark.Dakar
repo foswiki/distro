@@ -1,5 +1,7 @@
 #!/usr/bin/perl -wT
 #
+use strict;
+
 BEGIN {
     # Set default current working directory (needed for mod_perl)
     if( $ENV{"SCRIPT_FILENAME"} && $ENV{"SCRIPT_FILENAME"} =~ /^(.+)\/[^\/]+$/ ) {

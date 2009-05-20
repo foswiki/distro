@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::SELECTCLASS;
-use Foswiki::Configure::Types::SELECT ();
-@ISA = ( 'Foswiki::Configure::Types::SELECT' );
 
 use strict;
+
+use Foswiki::Configure::Types::SELECT ();
+our @ISA = ( 'Foswiki::Configure::Types::SELECT' );
 
 # generate an input field for SELECTCLASS types
 # Takes a comma-separated list of options

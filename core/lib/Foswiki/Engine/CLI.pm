@@ -12,11 +12,12 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 =cut
 
 package Foswiki::Engine::CLI;
-use Foswiki::Engine ();
-@ISA = ( 'Foswiki::Engine' );
 
 use strict;
 use Assert;
+
+use Foswiki::Engine ();
+our @ISA = ( 'Foswiki::Engine' );
 
 use Foswiki::Request ();
 use Foswiki::Request::Upload ();

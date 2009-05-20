@@ -9,10 +9,11 @@ Support for the conditions in %IF{} statements.
 =cut
 
 package Foswiki::If::Parser;
-use Foswiki::Query::Parser ();
-@ISA = ( 'Foswiki::Query::Parser' );
 
 use strict;
+
+use Foswiki::Query::Parser ();
+our @ISA = ( 'Foswiki::Query::Parser' );
 
 use Assert;
 use Foswiki::If::Node ();

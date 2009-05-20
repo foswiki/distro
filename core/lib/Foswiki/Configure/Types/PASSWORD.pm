@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::PASSWORD;
-use Foswiki::Configure::Types::STRING ();
-@ISA = ( 'Foswiki::Configure::Types::STRING' );
 
 use strict;
+
+use Foswiki::Configure::Types::STRING ();
+our @ISA = ( 'Foswiki::Configure::Types::STRING' );
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

@@ -7,11 +7,12 @@
 =cut
 
 package Foswiki::Query::OP_ref;
-use Foswiki::Query::BinaryOP ();
-@ISA = ( 'Foswiki::Query::BinaryOP' );
 
 use strict;
 use Error qw( :try );
+
+use Foswiki::Query::BinaryOP ();
+our @ISA = ( 'Foswiki::Query::BinaryOP' );
 
 sub new {
     my $class = shift;

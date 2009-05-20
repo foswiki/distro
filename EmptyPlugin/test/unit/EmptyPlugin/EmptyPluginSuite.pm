@@ -1,6 +1,9 @@
 package EmptyPluginSuite;
 
-use base qw(Unit::TestSuite);
+use strict;
+
+use Unit::TestSuite;
+our @ISA = 'Unit::TestSuite';
 
 sub name { 'EmptyPluginSuite' }
 

@@ -4,10 +4,11 @@
 # Value type for objects of unknown type, such as uncommented
 # config settings from LocalSite.cfg
 package Foswiki::Configure::Types::UNKNOWN;
-use Foswiki::Configure::Type ();
-@ISA = ( 'Foswiki::Configure::Type' );
 
 use strict;
+
+use Foswiki::Configure::Type ();
+our @ISA = ( 'Foswiki::Configure::Type' );
 
 sub new {
     my $class = shift;

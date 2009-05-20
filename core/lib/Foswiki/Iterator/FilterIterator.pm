@@ -9,11 +9,12 @@ Iterator that filters another iterator based on the results from a function.
 =cut
 
 package Foswiki::Iterator::FilterIterator;
-use Foswiki::Iterator ();
-@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
 use Assert;
+
+use Foswiki::Iterator ();
+our @ISA = ( 'Foswiki::Iterator' );
 
 =begin TML
 

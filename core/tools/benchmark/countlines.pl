@@ -2,6 +2,8 @@
 # Count "real code" lines in TWiki core perl modules
 # $where must be set to the root of your twiki installation
 
+use strict;
+
 use FindBin;
 my $where = $ARGV[0] || "$FindBin::Bin/../..";
 

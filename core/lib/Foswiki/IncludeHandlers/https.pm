@@ -1,5 +1,7 @@
 # See bottom of file for license and copyright information
 
+use strict;
+
 =begin TML
 
 ---+ package Foswiki::IncludeHandlers::https

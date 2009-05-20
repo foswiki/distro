@@ -2,6 +2,8 @@
 #
 # Build class for WysiwygPlugin
 #
+use strict;
+
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }
