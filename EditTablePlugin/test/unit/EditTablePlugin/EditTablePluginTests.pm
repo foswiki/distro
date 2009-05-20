@@ -974,7 +974,7 @@ INPUT
 
     my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
 
-    # Expected is that saving causes the TABLE and EDITTABLE tags to be saved on two lines.
+# Expected is that saving causes the TABLE and EDITTABLE tags to be saved on two lines.
     my $expected = <<NEWEXPECTED;
 %TABLE{columnwidths="80,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%
 %EDITTABLE{format="|text,10|text,10|text,3|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%

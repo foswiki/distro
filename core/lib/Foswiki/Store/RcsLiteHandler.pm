@@ -87,12 +87,12 @@ package Foswiki::Store::RcsLiteHandler;
 use strict;
 
 use Foswiki::Store::VCHandler ();
-our @ISA = ( 'Foswiki::Store::VCHandler' );
+our @ISA = ('Foswiki::Store::VCHandler');
 
 use Assert;
 use Error qw( :try );
 
-use FileHandle ();
+use FileHandle       ();
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
 

@@ -12,7 +12,7 @@ package Foswiki::Configure::UI;
 
 use strict;
 use File::Spec ();
-use FindBin ();
+use FindBin    ();
 
 our $totwarnings;
 our $toterrors;

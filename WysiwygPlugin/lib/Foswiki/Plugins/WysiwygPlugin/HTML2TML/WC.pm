@@ -42,9 +42,14 @@ package WC;
 
 use strict;
 
-our ( $NO_TML, $NO_HTML, $NO_BLOCK_TML, $NOP_ALL, $BLOCK_TML, $BR2NL,
-      $CHECKn, $CHECKw, $CHECKs, $CHECK1, $CHECK2, $NBSP, $NBBR, $TAB, $PON, $POFF, $WS,
-      $VERY_CLEAN, $PROTECTED, $KEEP_ENTITIES, $KEEP_WS );
+our (
+    $NO_TML,    $NO_HTML,    $NO_BLOCK_TML, $NOP_ALL,
+    $BLOCK_TML, $BR2NL,      $CHECKn,       $CHECKw,
+    $CHECKs,    $CHECK1,     $CHECK2,       $NBSP,
+    $NBBR,      $TAB,        $PON,          $POFF,
+    $WS,        $VERY_CLEAN, $PROTECTED,    $KEEP_ENTITIES,
+    $KEEP_WS
+);
 
 $NO_HTML       = 1 << 0;
 $NO_TML        = 1 << 1;

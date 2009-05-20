@@ -56,10 +56,10 @@ package Foswiki::Request;
 use strict;
 
 use CGI ();
-our @ISA = ( 'CGI' );
+our @ISA = ('CGI');
 
 use Assert;
-use Error ();
+use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
 

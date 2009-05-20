@@ -5,8 +5,8 @@ package Foswiki::UI::Preview;
 use strict;
 use Error qw( :try );
 
-use Foswiki ();
-use Foswiki::UI::Save ();
+use Foswiki                ();
+use Foswiki::UI::Save      ();
 use Foswiki::OopsException ();
 
 use Assert;

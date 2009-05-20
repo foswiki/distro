@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::Environment;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub ui {
     my $this  = shift;

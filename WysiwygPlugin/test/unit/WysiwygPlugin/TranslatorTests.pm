@@ -38,11 +38,12 @@ require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 my $TML2HTML  = 1 << 0;    # test tml => html
 my $HTML2TML  = 1 << 1;    # test html => finaltml (default tml)
 my $ROUNDTRIP = 1 << 2;    # test tml => => finaltml
-# Note: ROUNDTRIP is *not* the same as the combination of 
+
+# Note: ROUNDTRIP is *not* the same as the combination of
 # HTML2TML and TML2HTML. The HTML and TML comparisons are both
 # somewhat "flexible". This is necessry because, for example,
 # the nature of whitespace in the TML may change.
-# ROUNDTRIP tests are intended to isolate gradual degradation 
+# ROUNDTRIP tests are intended to isolate gradual degradation
 # of the TML, where TML -> HTML -> not quite TML -> HTML
 # -> even worse TML, ad nauseum
 
@@ -61,10 +62,10 @@ my $nop        = "$protecton<nop>$protectoff";
 # testcase, so they get picked up and run by TestRunner.
 
 # Each testcase is a subhash with fields as follows:
-# exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML, 
+# exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML,
 #   $ROUNDTRIP to test TML-> ->TML, all other bits are ignored.
-#   They may be OR'd togoether to perform multiple tests. 
-#   For example: $TML2HTML | $HTML2TML to test both 
+#   They may be OR'd togoether to perform multiple tests.
+#   For example: $TML2HTML | $HTML2TML to test both
 #   TML -> HTML and HTML -> TML
 # name => identifier (used to compose the testcase function name)
 # tml => source topic meta-language
@@ -168,7 +169,7 @@ HERE
 <span class="WYSIWYG_TT">Code</span>
 </p>
 BLAH
-        tml  => '=Code='
+        tml => '=Code='
     },
     {
         exec => $ROUNDTRIP,
@@ -177,20 +178,20 @@ BLAH
         tml  => '==Bold Code=='
     },
     {
-        exec => $TML2HTML |  $HTML2TML,
+        exec => $TML2HTML | $HTML2TML,
         name => 'bToFromHtml',
         html => '<p><b>Bold</b></p>',
         tml  => '*Bold*'
     },
     {
-        exec => $TML2HTML |  $HTML2TML,
+        exec => $TML2HTML | $HTML2TML,
         name => 'strongCodeToFromHtml',
         html => <<'BLAH',
 <p>
 <b><span class="WYSIWYG_TT">Code</span></b>
 </p>
 BLAH
-        tml  => '==Code=='
+        tml => '==Code=='
     },
     {
         exec => $HTML2TML,
@@ -200,7 +201,7 @@ BLAH
 <span class="WYSIWYG_TT"><strong>Code</strong></span>
 </p>
 BLAH
-        tml  => '==Code=='
+        tml => '==Code=='
     },
     {
         exec => $HTML2TML,
@@ -210,7 +211,7 @@ BLAH
 <strong><span class="WYSIWYG_TT">Code</span></strong>
 </p>
 BLAH
-        tml  => '==Code=='
+        tml => '==Code=='
     },
     {
         exec => $HTML2TML,
@@ -220,7 +221,7 @@ BLAH
 <strong class="WYSIWYG_TT">Code</strong>
 </p>
 BLAH
-        tml  => '==Code=='
+        tml => '==Code=='
     },
     {
         exec => $HTML2TML,
@@ -259,7 +260,7 @@ BLAH
 <tr><td>ends with <b>bold</b> </td></tr>
 </table>
 BLAH
-        tml  => <<'BLAH',
+        tml => <<'BLAH',
 | =Code= |
 | =code= at start |
 | ends with =code= |

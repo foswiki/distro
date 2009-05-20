@@ -139,14 +139,15 @@ sub viewfile {
 
     my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 
-    my $type   = _suffixToMimeType($fileName);
-    my $dispo  = 'inline;filename=' . $fileName;
+    my $type  = _suffixToMimeType($fileName);
+    my $dispo = 'inline;filename=' . $fileName;
 
     #re-set to 200, in case this was a 404 or other redirect
     $session->{response}->status(200);
     $session->{response}
       ->header( -type => $type, qq(Content-Disposition="$dispo") );
     local $/;
+
     # SMELL: Maybe could be less memory hungry if we could
     # set the response body to the file handle.
     $session->{response}->print(<$fh>);

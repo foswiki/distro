@@ -16,10 +16,10 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki ();
-use Foswiki::UI ();
+use Foswiki                ();
+use Foswiki::UI            ();
 use Foswiki::OopsException ();
-use Foswiki::Sandbox ();
+use Foswiki::Sandbox       ();
 
 =begin TML
 
@@ -167,21 +167,21 @@ sub _action_createweb {
         );
     }
 
-    Foswiki::UI::checkValidationKey(
-        $session, 'createweb', $session->{webName}, $session->{topicName} );
+    Foswiki::UI::checkValidationKey( $session, 'createweb', $session->{webName},
+        $session->{topicName} );
 
     # Get options from the form (only those options that are already
     # set in the template WebPreferences topic are changed, so we can
     # just copy everything)
-    my $me = $session->{users}->getWikiName($cUID);
+    my $me   = $session->{users}->getWikiName($cUID);
     my $opts = {
 
         # Set permissions such that only the creating user can modify the
         # web preferences
         ALLOWTOPICCHANGE => $me,
         ALLOWTOPICRENAME => 'nobody',
-        ALLOWWEBCHANGE => $me,
-        ALLOWWEBRENAME => $me,
+        ALLOWWEBCHANGE   => $me,
+        ALLOWWEBRENAME   => $me,
     };
     foreach my $p ( $query->param() ) {
         $opts->{ uc($p) } = $query->param($p);
@@ -373,12 +373,11 @@ sub _action_saveSettings {
     my $originalrev = $query->param('originalrev');
 
     $newTopicObject->remove('PREFERENCE');    # delete previous settings
-    # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
-    # use in code that parses multiline settings line by line.
+        # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
+        # use in code that parses multiline settings line by line.
     $settings =~
-      s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
+s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
         (_parsePreferenceValue($newTopicObject, $1, $2, $3))mgeo;
-
 
     my $saveOpts = {};
     $saveOpts->{minor}            = 1;    # don't notify
@@ -392,8 +391,7 @@ sub _action_saveSettings {
         if (   $info->{version} ne $originalrev
             && $info->{author} ne $session->{user} )
         {
-            my $currTopicObject = Foswiki::Meta->load(
-                $session, $web, $topic );
+            my $currTopicObject = Foswiki::Meta->load( $session, $web, $topic );
             $newTopicObject->merge($currTopicObject);
         }
     }

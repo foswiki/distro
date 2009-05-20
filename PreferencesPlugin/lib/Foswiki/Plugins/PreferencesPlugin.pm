@@ -25,26 +25,29 @@ package Foswiki::Plugins::PreferencesPlugin;
 
 use strict;
 
-use Foswiki::Func ();    # The plugins API
-use Foswiki::Plugins (); # For the API version
+use Foswiki::Func    ();    # The plugins API
+use Foswiki::Plugins ();    # For the API version
 
 use vars qw( @shelter );
 
 our $VERSION = '$Rev$';
 our $RELEASE = '19 Apr 2009';
-our $SHORTDESCRIPTION = 'Allows editing of preferences using fields predefined in a form';
+our $SHORTDESCRIPTION =
+  'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;
 
 my $MARKER = "\007";
 
 # Markers used during form generation
-my $START_MARKER  = $MARKER.'STARTPREF'.$MARKER;
-my $END_MARKER    = $MARKER.'ENDPREF'.$MARKER;
+my $START_MARKER = $MARKER . 'STARTPREF' . $MARKER;
+my $END_MARKER   = $MARKER . 'ENDPREF' . $MARKER;
 
 sub initPlugin {
+
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning( 'Version mismatch between PreferencesPlugin and Plugins.pm' );
+    if ( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning(
+            'Version mismatch between PreferencesPlugin and Plugins.pm');
         return 0;
     }
     @shelter = ();
@@ -55,16 +58,16 @@ sub initPlugin {
 sub beforeCommonTagsHandler {
     ### my ( $text, $topic, $web ) = @_;
     my $topic = $_[1];
-    my $web = $_[2];
+    my $web   = $_[2];
     return unless ( $_[0] =~ m/%EDITPREFERENCES(?:{(.*?)})?%/ );
 
     require CGI;
     require Foswiki::Attrs;
     my $formDef;
-    my $attrs = new Foswiki::Attrs( $1 );
-    if( defined( $attrs->{_DEFAULT} )) {
-        my( $formWeb, $form ) = Foswiki::Func::normalizeWebTopicName(
-            $web, $attrs->{_DEFAULT} );
+    my $attrs = new Foswiki::Attrs($1);
+    if ( defined( $attrs->{_DEFAULT} ) ) {
+        my ( $formWeb, $form ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $attrs->{_DEFAULT} );
 
         # SMELL: Unpublished API. No choice, though :-(
         require Foswiki::Form;    # SMELL
@@ -74,23 +77,26 @@ sub beforeCommonTagsHandler {
 
     my $query = Foswiki::Func::getCgiQuery();
 
-    my $action = lc( $query->param( 'prefsaction' ));
-    $query->Delete( 'prefsaction' );
+    my $action = lc( $query->param('prefsaction') );
+    $query->Delete('prefsaction');
     $action =~ s/\s.*$//;
 
     if ( $action eq 'edit' ) {
         Foswiki::Func::setTopicEditLock( $web, $topic, 1 );
 
         # Replace setting values by form fields but not inside comments Item4816
-        my $outtext = '';
+        my $outtext       = '';
         my $insidecomment = 0;
-        foreach my $token ( split/(<!--|-->)/, $_[0] ) {
+        foreach my $token ( split /(<!--|-->)/, $_[0] ) {
             if ( $token =~ /<!--/ ) {
                 $insidecomment++;
-            } elsif ( $token =~ /-->/ ) {
+            }
+            elsif ( $token =~ /-->/ ) {
                 $insidecomment-- if ( $insidecomment > 0 );
-            } elsif ( !$insidecomment ) {
-                $token =~ s(^((?:\t|   )+\*\s(Set|Local)\s*)(\w+)\s*\=(.*$(\n[ \t]+[^\s*].*$)*))
+            }
+            elsif ( !$insidecomment ) {
+                $token =~
+s(^((?:\t|   )+\*\s(Set|Local)\s*)(\w+)\s*\=(.*$(\n[ \t]+[^\s*].*$)*))
                            ($1._generateEditField($web, $topic, $3, $4, $formDef))gem;
             }
             $outtext .= $token;
@@ -99,40 +105,47 @@ sub beforeCommonTagsHandler {
 
         $_[0] =~ s/%EDITPREFERENCES({.*?})?%/
           _generateControlButtons($web, $topic)/ge;
-        my $viewUrl = Foswiki::Func::getScriptUrl(
-            $web, $topic, 'viewauth' );
+        my $viewUrl = Foswiki::Func::getScriptUrl( $web, $topic, 'viewauth' );
         my $startForm = CGI::start_form(
-            -name => 'editpreferences',
+            -name   => 'editpreferences',
             -method => 'post',
-            -action => $viewUrl );
+            -action => $viewUrl
+        );
         $startForm =~ s/\s+$//s;
         my $endForm = CGI::end_form();
         $endForm =~ s/\s+$//s;
-        $_[0] =~ s/^(.*?)$START_MARKER(.*)$END_MARKER(.*?)$/$1$startForm$2$endForm$3/s;
+        $_[0] =~
+          s/^(.*?)$START_MARKER(.*)$END_MARKER(.*?)$/$1$startForm$2$endForm$3/s;
         $_[0] =~ s/$START_MARKER|$END_MARKER//gs;
     }
 
-    if( $action eq 'cancel' ) {
+    if ( $action eq 'cancel' ) {
         Foswiki::Func::setTopicEditLock( $web, $topic, 0 );
 
-    } elsif( $action eq 'save' ) {
+    }
+    elsif ( $action eq 'save' ) {
 
         # Make sure the request came from POST
-        if ( $query && $query->method() && uc($query->method()) ne 'POST' ) {
+        if ( $query && $query->method() && uc( $query->method() ) ne 'POST' ) {
+
             # silently ignore it if the request didn't come from a POST
-        } else {
-            my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+        }
+        else {
+            my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+
             # SMELL: unchecked implicit untaint of value?
             $text =~ s(^((?:\t|   )+\*\s(Set|Local)\s)(\w+)\s\=\s(.*)$)
               ($1._saveSet($query, $web, $topic, $3, $4, $formDef))mgeo;
             Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
         }
         Foswiki::Func::setTopicEditLock( $web, $topic, 0 );
+
         # Finish with a redirect so that the *new* values are seen
         my $viewUrl = Foswiki::Func::getScriptUrl( $web, $topic, 'view' );
         Foswiki::Func::redirectCgiQuery( undef, $viewUrl );
         return;
     }
+
     # implicit action="view", or drop through from "save" or "cancel"
     $_[0] =~ s/%EDITPREFERENCES({.*?})?%/_generateEditButton($web, $topic)/ge;
 }
@@ -147,9 +160,9 @@ sub postRenderingHandler {
 
 # Pluck the default value of a named field from a form definition
 sub _getField {
-    my( $formDef, $name ) = @_;
-    foreach my $f ( @{$formDef->{fields}} ) {
-        if( $f->{name} eq $name ) {
+    my ( $formDef, $name ) = @_;
+    foreach my $f ( @{ $formDef->{fields} } ) {
+        if ( $f->{name} eq $name ) {
             return $f;
         }
     }
@@ -160,64 +173,84 @@ sub _getField {
 # function 'renderFieldForEdit' ensures that we will pick up
 # extra edit types defined in other plugins.
 sub _generateEditField {
-    my( $web, $topic, $name, $value, $formDef ) = @_;
+    my ( $web, $topic, $name, $value, $formDef ) = @_;
     $value =~ s/^\s*(.*?)\s*$/$1/ge;
 
-    my ($extras, $html);
+    my ( $extras, $html );
 
-    if( $formDef ) {
+    if ($formDef) {
         my $fieldDef;
-        if (defined(&Foswiki::Form::getField)) {
+        if ( defined(&Foswiki::Form::getField) ) {
+
             # TWiki 4.2 and later
-            $fieldDef = $formDef->getField( $name );
-        } else {
+            $fieldDef = $formDef->getField($name);
+        }
+        else {
+
             # TWiki < 4.2
             $fieldDef = _getField( $formDef, $name );
         }
-        if ( $fieldDef ) {
-            if( defined(&Foswiki::Form::renderFieldForEdit)) {
+        if ($fieldDef) {
+            if ( defined(&Foswiki::Form::renderFieldForEdit) ) {
+
                 # TWiki < 4.2 SMELL: use of unpublished core function
                 ( $extras, $html ) =
-                  $formDef->renderFieldForEdit( $fieldDef, $web, $topic, $value);
-            } else {
+                  $formDef->renderFieldForEdit( $fieldDef, $web, $topic,
+                    $value );
+            }
+            else {
+
                 # TWiki 4.2 and later SMELL: use of unpublished core function
                 ( $extras, $html ) =
                   $fieldDef->renderForEdit( $web, $topic, $value );
             }
         }
     }
-    unless( $html ) {
+    unless ($html) {
+
         # No form definition, default to text field.
-        $html = CGI::textfield( -class=>'foswikiAlert foswikiInputField',
-                                -name => $name,
-                                -size => 80, -value => $value );
+        $html = CGI::textfield(
+            -class => 'foswikiAlert foswikiInputField',
+            -name  => $name,
+            -size  => 80,
+            -value => $value
+        );
     }
 
     push( @shelter, $html );
 
-    return $START_MARKER.
-      CGI::span({class=>'foswikiAlert',
-                 style=>'font-weight:bold;'},
-                $name . ' = SHELTER' . $MARKER . $#shelter).$END_MARKER;
+    return $START_MARKER
+      . CGI::span(
+        {
+            class => 'foswikiAlert',
+            style => 'font-weight:bold;'
+        },
+        $name . ' = SHELTER' . $MARKER . $#shelter
+      ) . $END_MARKER;
 }
 
 # Generate the button that replaces the EDITPREFERENCES tag in view mode
 sub _generateEditButton {
-    my( $web, $topic ) = @_;
+    my ( $web, $topic ) = @_;
 
-    my $viewUrl = Foswiki::Func::getScriptUrl(
-        $web, $topic, 'viewauth' );
+    my $viewUrl = Foswiki::Func::getScriptUrl( $web, $topic, 'viewauth' );
     my $text = CGI::start_form(
-        -name => 'editpreferences',
+        -name   => 'editpreferences',
         -method => 'post',
-        -action => $viewUrl );
-    $text .= CGI::input({
-        type => 'hidden',
-        name => 'prefsaction',
-        value => 'edit'});
-    $text .= CGI::submit(-name => 'edit',
-                         -value=>'Edit Preferences',
-                         -class=>'foswikiButton');
+        -action => $viewUrl
+    );
+    $text .= CGI::input(
+        {
+            type  => 'hidden',
+            name  => 'prefsaction',
+            value => 'edit'
+        }
+    );
+    $text .= CGI::submit(
+        -name  => 'edit',
+        -value => 'Edit Preferences',
+        -class => 'foswikiButton'
+    );
     $text .= CGI::end_form();
     $text =~ s/\n//sg;
     return $text;
@@ -225,16 +258,22 @@ sub _generateEditButton {
 
 # Generate the buttons that replace the EDITPREFERENCES tag in edit mode
 sub _generateControlButtons {
-    my( $web, $topic ) = @_;
+    my ( $web, $topic ) = @_;
 
-    my $text = $START_MARKER.CGI::submit(-name=>'prefsaction',
-                                         -value=>'Save new settings',
-                                         -class=>'foswikiSubmit',
-                                         -accesskey=>'s');
+    my $text = $START_MARKER
+      . CGI::submit(
+        -name      => 'prefsaction',
+        -value     => 'Save new settings',
+        -class     => 'foswikiSubmit',
+        -accesskey => 's'
+      );
     $text .= '&nbsp;';
-    $text .= CGI::submit(-name=>'prefsaction', -value=>'Cancel',
-                         -class=>'foswikiButtonCancel',
-                         -accesskey=>'c').$END_MARKER;
+    $text .= CGI::submit(
+        -name      => 'prefsaction',
+        -value     => 'Cancel',
+        -class     => 'foswikiButtonCancel',
+        -accesskey => 'c'
+    ) . $END_MARKER;
     return $text;
 }
 
@@ -242,33 +281,35 @@ sub _generateControlButtons {
 # if there is a new value for the Set and generate a new
 # Set statement.
 sub _saveSet {
-    my( $query, $web, $topic, $name, $value, $formDef ) = @_;
+    my ( $query, $web, $topic, $name, $value, $formDef ) = @_;
 
-    my $newValue = $query->param( $name ) || $value;
+    my $newValue = $query->param($name) || $value;
 
-    if( $formDef ) {
+    if ($formDef) {
         my $fieldDef = _getField( $formDef, $name );
         my $type = $fieldDef->{type} || '';
-        if( $type && $type =~ /^checkbox/ ) {
-            my $val = '';
+        if ( $type && $type =~ /^checkbox/ ) {
+            my $val  = '';
             my $vals = $fieldDef->{value};
-            foreach my $item ( @$vals ) {
-                my $cvalue = $query->param( $name.$item );
-                if( defined( $cvalue ) ) {
-                    if( ! $val ) {
+            foreach my $item (@$vals) {
+                my $cvalue = $query->param( $name . $item );
+                if ( defined($cvalue) ) {
+                    if ( !$val ) {
                         $val = '';
-                    } else {
-                        $val .= ', ' if( $cvalue );
                     }
-                    $val .= $item if( $cvalue );
+                    else {
+                        $val .= ', ' if ($cvalue);
+                    }
+                    $val .= $item if ($cvalue);
                 }
             }
             $newValue = $val;
         }
     }
+
     # if no form def, it's just treated as text
 
-    return $name.' = '.$newValue;
+    return $name . ' = ' . $newValue;
 }
 
 1;

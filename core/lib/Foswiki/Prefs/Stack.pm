@@ -311,13 +311,13 @@ sub restore {
       . chr( ( 2**( ( $level % 8 ) + 1 ) ) - 1 );
     foreach my $p ( keys %{ $this->{'map'} } ) {
         $this->{'map'}{$p} &= $mask;
-        
+
         while ( length( $this->{'map'}{$p} ) > 0
             && ord( substr( $this->{'map'}{$p}, -1 ) ) == 0 )
         {
             substr( $this->{'map'}{$p}, -1 ) = '';
         }
-        
+
         delete $this->{'map'}{$p} if length( $this->{'map'}{$p} ) == 0;
     }
 }

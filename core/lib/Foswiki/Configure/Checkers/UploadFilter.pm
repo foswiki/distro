@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::UploadFilter;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check { return shift->checkRE('{UploadFilter}'); }
 

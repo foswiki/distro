@@ -52,9 +52,9 @@ use strict;
 use Error qw( :try );
 use Assert;
 
-use Foswiki ();
+use Foswiki          ();
 use Foswiki::Plugins ();
-use Foswiki::Meta ();
+use Foswiki::Meta    ();
 
 =begin TML
 
@@ -1042,11 +1042,11 @@ as follows:
 
 sub getListOfWebs {
     my $filter = shift;
-    my $web = shift;
+    my $web    = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     require Foswiki::WebFilter;
     my $f = new Foswiki::WebFilter($filter);
-    return $Foswiki::Plugins::SESSION->deepWebList($f, $web);
+    return $Foswiki::Plugins::SESSION->deepWebList( $f, $web );
 }
 
 =begin TML
@@ -1630,11 +1630,11 @@ Get a list of the attachments on the given topic.
 =cut
 
 sub getAttachmentList {
-    my ($web, $topic) = @_;
+    my ( $web, $topic ) = @_;
     ( $web, $topic ) =
       $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
-    my $topicObject = Foswiki::Meta->new(
-        $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     my $it = $topicObject->eachAttachment();
     return sort $it->all();
 }
@@ -1656,9 +1656,9 @@ sub attachmentExists {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     ( $web, $topic ) =
       $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
-    my $topicObject = Foswiki::Meta->new(
-        $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->hasAttachment( $attachment );
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    return $topicObject->hasAttachment($attachment);
 }
 
 =begin TML
@@ -2309,7 +2309,8 @@ sub registerRESTHandler {
             my $result = &$function(@_);
             $Foswiki::Plugins::SESSION = $record;
             return $result;
-        }, %options
+        },
+        %options
     );
 }
 

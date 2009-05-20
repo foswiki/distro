@@ -5,7 +5,7 @@ package Foswiki::Configure::Types::SELECT;
 use strict;
 
 use Foswiki::Configure::Type ();
-our @ISA = ( 'Foswiki::Configure::Type' );
+our @ISA = ('Foswiki::Configure::Type');
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;
@@ -21,7 +21,8 @@ sub prompt {
             $sopts .= '<option>' . $opt . '</option>';
         }
     }
-    return CGI::Select( { name => $id, size => 1, class => 'foswikiSelect' }, $sopts );
+    return CGI::Select( { name => $id, size => 1, class => 'foswikiSelect' },
+        $sopts );
 }
 
 1;

@@ -25,7 +25,7 @@ our $NO_PREFS_IN_TOPIC = 1;
 # Defaults for TINYMCEPLUGIN_INIT and INIT_browser. Defined as our vars to
 # allow other extensions to override them.
 # PLEASE ENSURE THE PLUGIN TOPIC EXAMPLES ARE KEPT IN SYNCH!
-our $defaultINIT       = <<'HERE';
+our $defaultINIT = <<'HERE';
 mode:"textareas",
 editor_selector : "foswikiWysiwygEdit",
 save_on_tinymce_forms: true,
@@ -75,12 +75,12 @@ theme_advanced_statusbar_location : "bottom",
 keep_styles : false,
 content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 HERE
-our %defaultINIT_BROWSER     = (
-    MSIE => 'paste_auto_cleanup_on_paste : true',
-    OPERA => '',
-    GECKO => 'gecko_spellcheck : true',
+our %defaultINIT_BROWSER = (
+    MSIE   => 'paste_auto_cleanup_on_paste : true',
+    OPERA  => '',
+    GECKO  => 'gecko_spellcheck : true',
     SAFARI => '',
-   );
+);
 
 use Foswiki::Func ();
 
@@ -179,8 +179,9 @@ sub beforeEditHandler {
         $extras = 'MSIE';
     }
     if ($extras) {
-        $extras = Foswiki::Func::getPreferencesValue(
-            'TINYMCEPLUGIN_INIT_' . $extras ) || $defaultINIT_BROWSER{$extras};
+        $extras =
+          Foswiki::Func::getPreferencesValue( 'TINYMCEPLUGIN_INIT_' . $extras )
+          || $defaultINIT_BROWSER{$extras};
         if ( defined $extras ) {
             $init = join( ',', ( split( ',', $init ), split( ',', $extras ) ) );
         }

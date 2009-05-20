@@ -11,7 +11,7 @@ package Foswiki::If::OP_allows;
 use strict;
 
 use Foswiki::Query::BinaryOP ();
-our @ISA = ( 'Foswiki::Query::BinaryOP' );
+our @ISA = ('Foswiki::Query::BinaryOP');
 
 use Assert;
 use Foswiki::Meta ();

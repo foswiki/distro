@@ -26,65 +26,71 @@ package Foswiki::Plugins::SpreadSheetPlugin;
 
 use strict;
 
-
 # =========================
 use vars qw(
-        $web $topic $user $installWeb $debug $skipInclude $doInit
-    );
+  $web $topic $user $installWeb $debug $skipInclude $doInit
+);
 
-our $VERSION = '$Rev: 13748 $';
-our $RELEASE = '11 May 2009';
+our $VERSION           = '$Rev: 13748 $';
+our $RELEASE           = '11 May 2009';
 our $NO_PREFS_IN_TOPIC = 1;
-our $SHORTDESCRIPTION = 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
+our $SHORTDESCRIPTION =
+'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
 
 $doInit = 0;
 
 # =========================
-sub initPlugin
-{
+sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1 ) {
-        Foswiki::Func::writeWarning( "Version mismatch between SpreadSheetPlugin and Plugins.pm" );
+    if ( $Foswiki::Plugins::VERSION < 1 ) {
+        Foswiki::Func::writeWarning(
+            "Version mismatch between SpreadSheetPlugin and Plugins.pm");
         return 0;
     }
 
     # Get plugin debug flag
-    $debug = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_DEBUG" ) || 0;
+    $debug = Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_DEBUG") || 0;
 
     # Flag to skip calc if in include
-    $skipInclude = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_SKIPINCLUDE" ) || 1;
+    $skipInclude =
+      Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_SKIPINCLUDE") || 1;
 
     # Plugin correctly initialized
-    Foswiki::Func::writeDebug( "- Foswiki::Plugins::SpreadSheetPlugin::initPlugin( $web.$topic ) is OK" ) if $debug;
+    Foswiki::Func::writeDebug(
+        "- Foswiki::Plugins::SpreadSheetPlugin::initPlugin( $web.$topic ) is OK"
+    ) if $debug;
     $doInit = 1;
     return 1;
 }
 
 # =========================
-sub commonTagsHandler
-{
+sub commonTagsHandler {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
 
-    Foswiki::Func::writeDebug( "- SpreadSheetPlugin::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug(
+        "- SpreadSheetPlugin::commonTagsHandler( $_[2].$_[1] )")
+      if $debug;
 
-    if( ( $_[3] ) && ( $skipInclude ) ) {
+    if ( ( $_[3] ) && ($skipInclude) ) {
+
         # bail out, handler called from an %INCLUDE{}%
         return;
     }
-    unless( $_[0] =~ /%CALC\{.*?\}%/ ) {
+    unless ( $_[0] =~ /%CALC\{.*?\}%/ ) {
+
         # nothing to do
         return;
     }
 
     require Foswiki::Plugins::SpreadSheetPlugin::Calc;
 
-    if( $doInit ) {
+    if ($doInit) {
         $doInit = 0;
         Foswiki::Plugins::SpreadSheetPlugin::Calc::init( $web, $topic, $debug );
     }
-    Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC( @_ );
+    Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC(@_);
 }
 
 1;

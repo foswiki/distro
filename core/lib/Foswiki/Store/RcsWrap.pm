@@ -20,7 +20,7 @@ package Foswiki::Store::RcsWrap;
 use strict;
 
 use Foswiki::Store::VCStore ();
-our @ISA = ( 'Foswiki::Store::VCStore' );
+our @ISA = ('Foswiki::Store::VCStore');
 
 # This constructor is required to hide the =Foswiki::Store::RcsWrapHandler=
 # class during construction, so that the core can simply say "give me a new

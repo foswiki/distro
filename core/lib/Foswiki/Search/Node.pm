@@ -18,7 +18,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki::Infix::Node ();
-our @ISA = ( 'Foswiki::Infix::Node' );
+our @ISA = ('Foswiki::Infix::Node');
 
 =begin TML
 
@@ -30,10 +30,11 @@ Construct a Legacy Search token container (its not yet a proper Node)
 
 sub new {
     my ( $class, $search, $tokens, $options ) = @_;
-    my $this = bless( { tokens => $tokens, search => $search, options => $options }, $class );
+    my $this =
+      bless( { tokens => $tokens, search => $search, options => $options },
+        $class );
     return $this;
 }
-
 
 1;
 __DATA__

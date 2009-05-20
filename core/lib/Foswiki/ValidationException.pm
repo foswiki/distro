@@ -12,7 +12,7 @@ package Foswiki::ValidationException;
 use strict;
 
 use Error ();
-our @ISA = ( 'Error' ); # base class
+our @ISA = ('Error');    # base class
 
 =begin TML
 

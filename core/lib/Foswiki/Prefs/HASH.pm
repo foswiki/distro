@@ -20,11 +20,11 @@ use Foswiki::Prefs::BaseBackend ();
 our @ISA = qw(Foswiki::Prefs::BaseBackend);
 
 sub new {
-    my ($proto, $values) = @_;
+    my ( $proto, $values ) = @_;
 
     my $this = $proto->SUPER::new();
-    while (my ($key, $value) = each %$values) {
-        $this->insert('Set', $key, $value);
+    while ( my ( $key, $value ) = each %$values ) {
+        $this->insert( 'Set', $key, $value );
     }
 
     return $this;
@@ -42,7 +42,7 @@ sub localPrefs {
 }
 
 sub get {
-    my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
     return $this->{$key};
 }
 
@@ -53,7 +53,7 @@ sub getLocal {
 sub insert {
     my ( $this, $type, $key, $value ) = @_;
 
-    $this->cleanupInsertValue(\$value);
+    $this->cleanupInsertValue( \$value );
     $this->{$key} = $value;
     return 1;
 }

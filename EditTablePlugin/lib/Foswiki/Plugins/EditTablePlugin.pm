@@ -25,12 +25,13 @@ use strict;
 our $VERSION = '$Rev$';
 our $RELEASE = '4.23';
 
-our $pluginName   = 'EditTablePlugin';
-our $ENCODE_START = '--EditTableEncodeStart--';
-our $ENCODE_END   = '--EditTableEncodeEnd--';
-our $ASSET_URL    = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
+our $pluginName        = 'EditTablePlugin';
+our $ENCODE_START      = '--EditTableEncodeStart--';
+our $ENCODE_END        = '--EditTableEncodeEnd--';
+our $ASSET_URL         = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
 our $NO_PREFS_IN_TOPIC = 1;
-our $SHORTDESCRIPTION = 'Edit tables using edit fields, date pickers and drop down boxes';
+our $SHORTDESCRIPTION =
+  'Edit tables using edit fields, date pickers and drop down boxes';
 our $web;
 our $topic;
 our $user;
@@ -59,7 +60,7 @@ sub initPlugin {
     $debug = Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_DEBUG');
     $usesJavascriptInterface =
       Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_JAVASCRIPTINTERFACE')
-          || 1;
+      || 1;
     $viewModeHeaderDone = 0;
     $editModeHeaderDone = 0;
 

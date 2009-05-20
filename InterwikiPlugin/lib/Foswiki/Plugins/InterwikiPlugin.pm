@@ -37,13 +37,14 @@ package Foswiki::Plugins::InterwikiPlugin;
 
 use strict;
 
-use Foswiki::Func ();       # The plugins API
+use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-our $VERSION = '$Rev$';
-our $RELEASE = '15 Apr 2009';
+our $VERSION           = '$Rev$';
+our $RELEASE           = '15 Apr 2009';
 our $NO_PREFS_IN_TOPIC = 1;
-our $SHORTDESCRIPTION = 'Link ExternalSite:Page text to external sites based on aliases defined in a rules topic';
+our $SHORTDESCRIPTION =
+'Link ExternalSite:Page text to external sites based on aliases defined in a rules topic';
 
 our $interLinkFormat;
 our $sitePattern;
@@ -74,11 +75,11 @@ sub initPlugin {
       Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_INTERLINKFORMAT')
       || '<a class="interwikiLink" href="$url" title="$tooltip"><noautolink>$label</noautolink></a>';
 
-    my ($interWeb, $interTopic) =
-      Foswiki::Func::normalizeWebTopicName(
-          $installWeb,
-          Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_RULESTOPIC')
-              || 'InterWikis' );
+    my ( $interWeb, $interTopic ) = Foswiki::Func::normalizeWebTopicName(
+        $installWeb,
+        Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_RULESTOPIC')
+          || 'InterWikis'
+    );
 
     my $text = Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
 

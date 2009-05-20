@@ -37,8 +37,7 @@ sub INCLUDE {
         if ( $incAtt =~ m/\.(txt|html?)$/i ) {
             my $topicObject =
               Foswiki::Meta->new( $session, $incWeb, $incTopic );
-            unless ( $topicObject->hasAttachment( $incAtt ) )
-            {
+            unless ( $topicObject->hasAttachment($incAtt) ) {
                 return $session->_includeWarning( $control->{warn},
                     'bad_attachment', $url );
             }
@@ -52,7 +51,7 @@ sub INCLUDE {
                         'access_denied', "$incWeb.$incTopic" );
                 }
             }
-            my $fh = $topicObject->openAttachment($incAtt, '<');
+            my $fh = $topicObject->openAttachment( $incAtt, '<' );
             local $/;
             $text = <$fh>;
             $fh->close();

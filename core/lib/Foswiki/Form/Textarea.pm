@@ -4,7 +4,7 @@ package Foswiki::Form::Textarea;
 use strict;
 
 use Foswiki::Form::FieldDefinition ();
-our @ISA = ( 'Foswiki::Form::FieldDefinition' );
+our @ISA = ('Foswiki::Form::FieldDefinition');
 
 sub new {
     my $class = shift;
@@ -43,7 +43,7 @@ sub renderForEdit {
     return (
         '',
         CGI::textarea(
-            -class   => $this->cssClasses( 'foswikiTextarea' ),
+            -class   => $this->cssClasses('foswikiTextarea'),
             -cols    => $this->{cols},
             -rows    => $this->{rows},
             -name    => $this->{name},

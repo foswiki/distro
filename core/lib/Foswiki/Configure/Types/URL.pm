@@ -5,7 +5,7 @@ package Foswiki::Configure::Types::URL;
 use strict;
 
 use Foswiki::Configure::Type ();
-our @ISA = ( 'Foswiki::Configure::Type' );
+our @ISA = ('Foswiki::Configure::Type');
 
 sub new {
     my $class = shift;

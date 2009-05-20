@@ -223,9 +223,10 @@ sub _ignore {
 }
 
 sub _default {
-	my ( $this, $event, $text ) = @_;
+    my ( $this, $event, $text ) = @_;
+
     # Unexpected $event event from HTML::Parser; text contains '$text'
-	ASSERT(0);
+    ASSERT(0);
 }
 
 sub _apply {

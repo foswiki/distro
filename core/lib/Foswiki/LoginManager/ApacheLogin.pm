@@ -25,7 +25,7 @@ use strict;
 use Assert;
 
 use Foswiki::LoginManager ();
-our @ISA = ( 'Foswiki::LoginManager' );
+our @ISA = ('Foswiki::LoginManager');
 
 =begin TML
 

@@ -224,6 +224,7 @@ sub _collectLogData {
 
         while ( !$logFileUserName && scalar(@$line) ) {
             $logFileUserName = shift @$line;
+
             # Use Func::getCanonicalUserID because it accepts login,
             # wikiname or web.wikiname
             $logFileUserName =

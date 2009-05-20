@@ -5,7 +5,7 @@ package Foswiki::Configure::UIs::AUTH;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 
 my %nonos = (
     cfgAccess => 1,
@@ -21,7 +21,9 @@ sub ui {
     my $scriptName = pop(@script);
     $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
 
-    $output .= CGI::start_form( { name => 'twiki_configure', action => $scriptName, method => 'post' } );
+    $output .= CGI::start_form(
+        { name => 'twiki_configure', action => $scriptName, method => 'post' }
+    );
 
     # Pass URL params through, except those below
     foreach my $param ( $Foswiki::query->param ) {
@@ -40,7 +42,12 @@ sub ui {
         { class => 'foswikiFormStep' },
         CGI::h3( CGI::strong("Your Password:") )
           . CGI::p(
-                CGI::password_field( -name=>'cfgAccess', -size =>20, -maxlength=>80, -class => 'foswikiInputField' ) 
+            CGI::password_field(
+                -name      => 'cfgAccess',
+                -size      => 20,
+                -maxlength => 80,
+                -class     => 'foswikiInputField'
+              )
               . '&nbsp;'
               . CGI::submit(
                 -class => 'foswikiSubmit',
@@ -106,12 +113,26 @@ HERE
         $output .= CGI::div(
             { class => 'foswikiFormStep' },
             CGI::strong('New Password:')
-              . CGI::p( CGI::password_field( -name=>'newCfgP', -size=>20, -maxlength=>80, -class => 'foswikiInputField' ) )
+              . CGI::p(
+                CGI::password_field(
+                    -name      => 'newCfgP',
+                    -size      => 20,
+                    -maxlength => 80,
+                    -class     => 'foswikiInputField'
+                )
+              )
         );
         $output .= CGI::div(
             { class => 'foswikiFormStep' },
             CGI::strong('Confirm Password:')
-              . CGI::p( CGI::password_field( -name=>'confCfgP', size=>20, -maxlength=>80, -class => 'foswikiInputField' ) )
+              . CGI::p(
+                CGI::password_field(
+                    -name      => 'confCfgP',
+                    size       => 20,
+                    -maxlength => 80,
+                    -class     => 'foswikiInputField'
+                )
+              )
         );
         $submitStr = 'Change Password and ' . $submitStr;
         $output .= CGI::div( { class => 'foswikiFormStep foswikiLast' },

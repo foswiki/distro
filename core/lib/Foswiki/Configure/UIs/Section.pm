@@ -11,7 +11,7 @@ package Foswiki::Configure::UIs::Section;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 
 # depth == 1 is the root
 # depth == 2 are twisty sections
@@ -59,7 +59,9 @@ sub open_html {
                 rel     => 'nofollow',
                 onclick => 'foldBlock("' . $id . '"); return false;'
             },
-            '<span class="blockLinkIndicator"></span>' . $section->{headline} . $mess
+            '<span class="blockLinkIndicator"></span>'
+              . $section->{headline}
+              . $mess
         );
 
         $guts .= "<div id='$id' class='foldableBlock foldableBlockClosed'>";

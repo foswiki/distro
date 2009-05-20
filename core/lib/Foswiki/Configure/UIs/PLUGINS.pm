@@ -5,7 +5,7 @@ package Foswiki::Configure::UIs::PLUGINS;
 use strict;
 
 use Foswiki::Configure::UIs::Section ();
-our @ISA = ( 'Foswiki::Configure::UIs::Section' );
+our @ISA = ('Foswiki::Configure::UIs::Section');
 
 1;
 __DATA__

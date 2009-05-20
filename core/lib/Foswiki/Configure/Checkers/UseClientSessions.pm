@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::UseClientSessions;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 my @modules = (
     {

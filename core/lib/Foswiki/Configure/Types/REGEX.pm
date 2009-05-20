@@ -4,7 +4,7 @@ package Foswiki::Configure::Types::REGEX;
 use strict;
 
 use Foswiki::Configure::Types::STRING ();
-our @ISA = ( 'Foswiki::Configure::Types::STRING' );
+our @ISA = ('Foswiki::Configure::Types::STRING');
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

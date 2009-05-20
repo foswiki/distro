@@ -25,17 +25,17 @@
 package Foswiki::Plugins::TwistyPlugin;
 
 use Foswiki::Func ();
-use CGI::Cookie ();
+use CGI::Cookie   ();
 use strict;
 
-use vars
-  qw( @modes $doneHeader $doneDefaults $twistyCount
+use vars qw( @modes $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
 our $VERSION = '$Rev$';
 
 our $RELEASE = '1.5.2';
-our $SHORTDESCRIPTION = 'Twisty section Javascript library to open/close content dynamically';
+our $SHORTDESCRIPTION =
+  'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
 
 our $pluginName = 'TwistyPlugin';
@@ -99,7 +99,7 @@ sub _addHeader {
 
     # Untaint is required if use locale is on
     Foswiki::Func::loadTemplate(
-        Foswiki::Sandbox::untaintUnchecked(lc($pluginName)) );
+        Foswiki::Sandbox::untaintUnchecked( lc($pluginName) ) );
     my $header = Foswiki::Func::expandTemplate('twisty:header');
     Foswiki::Func::addToHEAD( $pluginName, $header );
 }
@@ -247,11 +247,12 @@ sub _twistyBtn {
       ( $imgleft ne '' )
       ? '<img src="' . $imgleft . '" border="0" alt="" />'
       : '';
-    
+
     my $imgLinkTag =
         '<a href="#">'
       . $imgLeftTag
-      . '<span class="foswikiLinkLabel foswikiUnvisited' . $linkClass . '">'
+      . '<span class="foswikiLinkLabel foswikiUnvisited'
+      . $linkClass . '">'
       . $link
       . '</span>'
       . $imgTag

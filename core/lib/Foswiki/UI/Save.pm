@@ -15,9 +15,9 @@ use strict;
 use Error qw( :try );
 use Assert;
 
-use Foswiki ();
-use Foswiki::UI ();
-use Foswiki::Meta ();
+use Foswiki                ();
+use Foswiki::UI            ();
+use Foswiki::Meta          ();
 use Foswiki::OopsException ();
 
 # Used by save and preview
@@ -431,13 +431,13 @@ WARN
             last if ( $session->topicExists( $w, $t ) );
         }
         my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
-        $session->redirect($session->redirectto($viewURL), undef, 1 );
+        $session->redirect( $session->redirectto($viewURL), undef, 1 );
 
         return;
     }
 
     # Do this *before* we do any query parameter rewriting
-    Foswiki::UI::checkValidationKey($session, 'save', $web, $topic);
+    Foswiki::UI::checkValidationKey( $session, 'save', $web, $topic );
 
     my $editaction = lc( $query->param('editaction') ) || '';
     my $edit       = $query->param('edit')             || 'edit';
@@ -488,9 +488,13 @@ WARN
         }
 
         # drop through
-    } else {
+    }
+    else {
+
       # redirect to topic view or any other redirectto specified as an url param
-      $redirecturl = $session->redirectto($session->getScriptUrl( 1, 'view', $web, $topic ));
+        $redirecturl =
+          $session->redirectto(
+            $session->getScriptUrl( 1, 'view', $web, $topic ) );
     }
 
     if ( $saveaction eq 'quietsave' ) {
@@ -522,7 +526,6 @@ WARN
             params => [ $Foswiki::cfg{SuperAdminGroup} ]
         );
     }
-
 
     if ( $adminCmd eq 'delRev' ) {
 

@@ -7,7 +7,7 @@ package Foswiki::I18N::Fallback;
 use strict;
 
 use Foswiki::I18N ();
-our @ISA = ( 'Foswiki::I18N' );
+our @ISA = ('Foswiki::I18N');
 
 sub new {
     my $class = shift;

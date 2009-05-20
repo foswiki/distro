@@ -31,7 +31,7 @@ package Foswiki::Store::VCStore;
 use strict;
 
 use Foswiki::Store ();
-our @ISA = ( 'Foswiki::Store' );
+our @ISA = ('Foswiki::Store');
 
 use Assert;
 use Error qw( :try );
@@ -114,10 +114,12 @@ sub readTopic {
 
     # Use the potentially more risky topic version number for speed
     my $gotRev;
-    my $ri = $topicObject->get( 'TOPICINFO' );
-    if (defined($ri)) {
+    my $ri = $topicObject->get('TOPICINFO');
+    if ( defined($ri) ) {
         $gotRev = $ri->{version};
-    } else {
+    }
+    else {
+
         # SMELL: Risky. In most cases, I reckon this is going to be OK.
         # Alt kick down to to the handler to get the real deal?
         # Sven reckons it is too slow. Synch the TOPICINFO version number
@@ -128,9 +130,9 @@ sub readTopic {
 
     # Add attachments that are new from reading the pub directory.
     # Only check the currently requested topic.
-    if ( $Foswiki::cfg{AutoAttachPubFiles}
-           && $topicObject->web eq $this->{session}->{webName}
-             && $topicObject->topic eq $this->{session}->{topicName} )
+    if (   $Foswiki::cfg{AutoAttachPubFiles}
+        && $topicObject->web   eq $this->{session}->{webName}
+        && $topicObject->topic eq $this->{session}->{topicName} )
     {
 
         my @knownAttachments = $topicObject->find('FILEATTACHMENT');
@@ -138,6 +140,7 @@ sub readTopic {
           $handler->synchroniseAttachmentsList( \@knownAttachments );
         my @validAttachmentsFound;
         foreach my $foundAttachment (@attachmentsFoundInPub) {
+
             # test if the attachment filename would need sanitizing,
             # if so, ignore it.
             my ( $fileName, $origName ) =
@@ -166,23 +169,22 @@ sub readTopic {
 
 # Documented in Foswiki::Store
 sub moveAttachment {
-    my (
-        $this,           $oldTopicObject, $oldAttachment,
-        $newTopicObject, $newAttachment, $cUID
-    ) = @_;
+    my ( $this, $oldTopicObject, $oldAttachment, $newTopicObject,
+        $newAttachment, $cUID )
+      = @_;
 
-    ASSERT($oldTopicObject->isa('Foswiki::Meta')) if DEBUG;
-    ASSERT($newTopicObject->isa('Foswiki::Meta')) if DEBUG;
-    ASSERT($oldAttachment) if DEBUG;
-    ASSERT($newAttachment) if DEBUG;
-    ASSERT($cUID) if DEBUG;
+    ASSERT( $oldTopicObject->isa('Foswiki::Meta') ) if DEBUG;
+    ASSERT( $newTopicObject->isa('Foswiki::Meta') ) if DEBUG;
+    ASSERT($oldAttachment)                          if DEBUG;
+    ASSERT($newAttachment)                          if DEBUG;
+    ASSERT($cUID)                                   if DEBUG;
 
     my $handler =
       $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic,
         $oldAttachment );
-    if ($handler->storedDataExists()) {
+    if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $newTopicObject->web, $newTopicObject->topic,
-                                  $newAttachment );
+            $newAttachment );
     }
 
     # Modify the cache of the old topic
@@ -219,9 +221,10 @@ sub moveAttachment {
 # Documented in Foswiki::Store
 sub attachmentExists {
     my ( $this, $topicObject, $att ) = @_;
-    my $handler = $this->getHandler(
-        $topicObject->web, $topicObject->topic, $att );
+    my $handler =
+      $this->getHandler( $topicObject->web, $topicObject->topic, $att );
     return 1 if $handler->storedDataExists();
+
     # Filestore denies knowledge of it; check the meta
     $topicObject->reload() unless $topicObject->getLoadedRev();
     return defined $topicObject->get( 'FILEATTACHMENT', $att );
@@ -258,10 +261,10 @@ sub moveWeb {
 
 # Documented in Foswiki::Store
 sub testAttachment {
-    my ($this, $topicObject, $attachment, $test) = @_;
-    my $handler = $this->getHandler(
-        $topicObject->web, $topicObject->topic, $attachment);
-    return $handler->test( $test );
+    my ( $this, $topicObject, $attachment, $test ) = @_;
+    my $handler =
+      $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
+    return $handler->test($test);
 }
 
 # Documented in Foswiki::Store
@@ -270,7 +273,7 @@ sub openAttachment {
 
     my $handler =
       $this->getHandler( $topicObject->web, $topicObject->topic, $att );
-    return $handler->openStream($mode, @opts);
+    return $handler->openStream( $mode, @opts );
 }
 
 # Documented in Foswiki::Store
@@ -326,10 +329,10 @@ sub getRevisionInfo {
 # Documented in Foswiki::Store
 sub saveAttachment {
     my ( $this, $topicObject, $name, $stream, $author ) = @_;
-    ASSERT($topicObject->isa('Foswiki::Meta')) if DEBUG;
-    ASSERT(defined $name) if DEBUG;
-    ASSERT(defined $stream) if DEBUG;
-    ASSERT(defined $author) if DEBUG;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
+    ASSERT( defined $name )                      if DEBUG;
+    ASSERT( defined $stream )                    if DEBUG;
+    ASSERT( defined $author )                    if DEBUG;
     my $handler =
       $this->getHandler( $topicObject->web, $topicObject->topic, $name );
     my $currentRev = $handler->numRevisions() || 0;
@@ -341,7 +344,7 @@ sub saveAttachment {
 # Documented in Foswiki::Store
 sub saveTopic {
     my ( $this, $topicObject, $cUID, $options ) = @_;
-    ASSERT($topicObject->isa('Foswiki::Meta')) if DEBUG;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
@@ -369,14 +372,13 @@ sub saveTopic {
     }
     $topicObject->setRevisionInfo(
         {
-            date    => $options->{forcedate} || time(),
+            date => $options->{forcedate} || time(),
             author  => $cUID,
             version => $nextRev
         }
     );
 
-    $handler->addRevisionFromText(
-        $topicObject->getEmbeddedStoreForm(),
+    $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
 
     # just in case they are not sequential
@@ -391,7 +393,7 @@ sub saveTopic {
 # Documented in Foswiki::Store
 sub repRev {
     my ( $this, $topicObject, $cUID, %options ) = @_;
-    ASSERT( $topicObject->isa( 'Foswiki::Meta' ) ) if DEBUG;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
 
     my $info = $topicObject->getRevisionInfo();
@@ -409,7 +411,7 @@ sub repRev {
     else {
 
         # use defaults (current time, current user)
-        $info->{date} = time();
+        $info->{date}   = time();
         $info->{author} = $cUID;
     }
 
@@ -427,7 +429,7 @@ sub repRev {
 # Documented in Foswiki::Store
 sub delRev {
     my ( $this, $topicObject, $cUID ) = @_;
-    ASSERT( $topicObject->isa('Foswiki::Meta')) if DEBUG;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
@@ -440,7 +442,7 @@ sub delRev {
     $handler->deleteRevision();
 
     # restore last topic from repository
-    $handler->restoreLatestRevision( $cUID );
+    $handler->restoreLatestRevision($cUID);
 
     return $rev;
 }
@@ -450,7 +452,7 @@ sub delRev {
 # (doesn't work on all platforms)
 sub lockTopic {
     my ( $this, $topicObject, $cUID ) = @_;
-    ASSERT($topicObject->isa('Foswiki::Meta')) if DEBUG;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
 
@@ -529,19 +531,19 @@ sub eachChange {
 
 # Documented in Foswiki::Store
 sub eachAttachment {
-    my ($this, $topicObject) = @_;
+    my ( $this, $topicObject ) = @_;
 
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     my @list = $handler->getAttachmentList();
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator(\@list);
+    return new Foswiki::ListIterator( \@list );
 }
 
 # Documented in Foswiki::Store
 sub eachTopic {
     my ( $this, $webObject ) = @_;
 
-    my $handler = $this->getHandler($webObject->web);
+    my $handler = $this->getHandler( $webObject->web );
     my @list    = $handler->getTopicNames();
 
     require Foswiki::ListIterator;
@@ -551,12 +553,13 @@ sub eachTopic {
 # Documented in Foswiki::Store
 sub eachWeb {
     my ( $this, $webObject, $all ) = @_;
+
     # Undocumented; this fn actually accepts a web name as well. This is
     # to make the recursion more efficient.
     my $web = ref($webObject) ? $webObject->web : $webObject;
 
-    my $handler = $this->getHandler( $web );
-    my @list = $handler->getWebNames();
+    my $handler = $this->getHandler($web);
+    my @list    = $handler->getWebNames();
     if ($all) {
         my $root = $web ? "$web/" : '';
         my @expandedList;
@@ -594,20 +597,23 @@ sub copyTopic {
 sub searchInWebMetaData {
     my ( $this, $query, $web, $inputTopicSet, $options ) = @_;
     ASSERT($query);
-    ASSERT( UNIVERSAL::isa( $query, 'Foswiki::Query::Node' ) || UNIVERSAL::isa( $query, 'Foswiki::Search::Node' ) );
+    ASSERT(  UNIVERSAL::isa( $query, 'Foswiki::Query::Node' )
+          || UNIVERSAL::isa( $query, 'Foswiki::Search::Node' ) );
 
     my $handler = $this->getHandler($web);
-    return $handler->searchInWebMetaData( $query, $web, $inputTopicSet, $this, $options );
+    return $handler->searchInWebMetaData( $query, $web, $inputTopicSet, $this,
+        $options );
 }
 
 # Documented in Foswiki::Store
 sub searchInWebContent {
     my ( $this, $searchString, $web, $topics, $options ) = @_;
 
-    my $handler = $this->getHandler($web);
+    my $handler       = $this->getHandler($web);
     my $inputTopicSet = new Foswiki::ListIterator($topics);
 
-    return $handler->searchInWebContent( $searchString, $web, $inputTopicSet, $this, $options );
+    return $handler->searchInWebContent( $searchString, $web, $inputTopicSet,
+        $this, $options );
 }
 
 # Documented in Foswiki::Store

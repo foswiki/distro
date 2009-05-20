@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::CGISetup;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 use File::Spec ();
 
@@ -125,7 +125,9 @@ HERE
     }
     else {
         $mess =
-          'Foswiki.pm (Version: <strong>' . $Foswiki::VERSION . '</strong>) found';
+            'Foswiki.pm (Version: <strong>'
+          . $Foswiki::VERSION
+          . '</strong>) found';
     }
     $block .= $this->setting( 'Foswiki module in @INC path', $mess );
 

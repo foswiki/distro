@@ -13,11 +13,11 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki ();
-use Foswiki::Sandbox ();
-use Foswiki::Render ();    # SMELL: expensive
-use Foswiki::Search::InfoCache ();
-use Foswiki::ListIterator ();
+use Foswiki                           ();
+use Foswiki::Sandbox                  ();
+use Foswiki::Render                   ();    # SMELL: expensive
+use Foswiki::Search::InfoCache        ();
+use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 
 #TODO: move these into a more appropriate place - they are function objects so can persist for a _long_ time
@@ -111,14 +111,16 @@ sub _getTopicList {
     my ( $this, $webObject, $options ) = @_;
 
     # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
-    $options->{excludeTopics} = _makeTopicPattern($options->{excludeTopics})
-		if ($options->{excludeTopics});
+    $options->{excludeTopics} = _makeTopicPattern( $options->{excludeTopics} )
+      if ( $options->{excludeTopics} );
 
     my $topicFilter;
     my $it;
-    if ($options->{includeTopics}) {
-    	# E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
-    	$options->{includeTopics} = _makeTopicPattern($options->{includeTopics});
+    if ( $options->{includeTopics} ) {
+
+        # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
+        $options->{includeTopics} =
+          _makeTopicPattern( $options->{includeTopics} );
 
         # limit search to topic list
         if ( $options->{includeTopics} =~
@@ -135,9 +137,9 @@ sub _getTopicList {
             # build list from topic pattern
             #TODO: erm, what about non-case senstive?
             my @list =
-            grep( $this->{session}->topicExists( $webObject->web, $_ ),
+              grep( $this->{session}->topicExists( $webObject->web, $_ ),
                 split( /\|/, $topics ) );
-            $it = new Foswiki::ListIterator(\@list);
+            $it = new Foswiki::ListIterator( \@list );
         }
         elsif ( !$options->{casesensitive} ) {
             $topicFilter = qr/$options->{includeTopics}/i;
@@ -147,35 +149,39 @@ sub _getTopicList {
         }
     }
 
-    $it = $webObject->eachTopic() unless (defined($it));
+    $it = $webObject->eachTopic() unless ( defined($it) );
 
-    my $filterIter = new Foswiki::Iterator::FilterIterator($it, sub {
-                    my $item = shift;
-                    #my $data = shift;
-                    return unless !$topicFilter || $item =~ /$topicFilter/;
+    my $filterIter = new Foswiki::Iterator::FilterIterator(
+        $it,
+        sub {
+            my $item = shift;
 
-                    # exclude topics, Codev.ExcludeWebTopicsFromSearch
-                    if ( $options->{casesensitive} && $options->{excludeTopics} ) {
-                        return if $item =~ /$options->{excludeTopics}/i;
-                    }
-                    elsif ($options->{excludeTopics}) {
-                        return if $item =~ /$options->{excludeTopics}/;
-                   }
-                    return 1;
-                });
+            #my $data = shift;
+            return unless !$topicFilter || $item =~ /$topicFilter/;
+
+            # exclude topics, Codev.ExcludeWebTopicsFromSearch
+            if ( $options->{casesensitive} && $options->{excludeTopics} ) {
+                return if $item =~ /$options->{excludeTopics}/i;
+            }
+            elsif ( $options->{excludeTopics} ) {
+                return if $item =~ /$options->{excludeTopics}/;
+            }
+            return 1;
+        }
+    );
     return $filterIter;
 
-#    my @topicList = ();
-#    while ( $filterIter->hasNext() ) {
-#        my $tn = $filterIter->next();
-#        push( @topicList, $tn );
-#    }
-#    return @topicList;
+    #    my @topicList = ();
+    #    while ( $filterIter->hasNext() ) {
+    #        my $tn = $filterIter->next();
+    #        push( @topicList, $tn );
+    #    }
+    #    return @topicList;
 }
 
 #convert a comma separated list of webs into the list we'll process
 sub _getListOfWebs {
-    my ($this, $webName, $recurse, $searchAllFlag) = @_;
+    my ( $this, $webName, $recurse, $searchAllFlag ) = @_;
     my $session = $this->{session};
 
     my %excludeWeb;
@@ -319,15 +325,15 @@ sub searchWeb {
     my $zeroResults =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $nonoise );
     my $noTotal = Foswiki::isTrue( $params{nototal}, $nonoise );
-    my $newLine      = $params{newline}  || '';
-    my $sortOrder    = $params{order}    || '';
-    my $revSort      = Foswiki::isTrue( $params{reverse} );
-    my $scope        = $params{scope}    || '';
+    my $newLine   = $params{newline} || '';
+    my $sortOrder = $params{order}   || '';
+    my $revSort   = Foswiki::isTrue( $params{reverse} );
+    my $scope     = $params{scope}   || '';
     my $searchString = defined $params{search} ? $params{search} : '';
     my $separator    = $params{separator};
     my $template     = $params{template} || '';
-    my $topic        = $params{topic}    || '';
-    my $type         = $params{type}     || '';
+    my $topic        = $params{topic} || '';
+    my $type         = $params{type} || '';
 
     my $wordBoundaries = 0;
     if ( $type eq 'word' ) {
@@ -368,7 +374,8 @@ sub searchWeb {
     # otherwise ignored (unless there is a web called 'All'.)
     my $searchAllFlag = ( $webName =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
 
-    my @webs = $this->_getListOfWebs($webName, $recurse, $searchAllFlag);
+    my @webs = $this->_getListOfWebs( $webName, $recurse, $searchAllFlag );
+
     #to help later processing (formatResults)
     $params{numberOfWebs} = scalar(@webs);
 
@@ -452,6 +459,7 @@ sub searchWeb {
             &$callback( $cbdata, $tmplSearch );
         }
         else {
+
             # don't render; will be done later
             $searchResult .= $tmplSearch;
         }
@@ -467,31 +475,34 @@ sub searchWeb {
     my $query;
 
 #TODO: actually want to pass the entire SEARCH params - so that each search backend can optimise if it suites its impl
-        my $options = {
-            casesensitive  => $caseSensitive,
-            wordboundaries => $wordBoundaries,
-            includeTopics  => $topic,
-            excludeTopics  => $excludeTopic,
-            scope          => $scope,
-            type           => $type,
-        };
+    my $options = {
+        casesensitive  => $caseSensitive,
+        wordboundaries => $wordBoundaries,
+        includeTopics  => $topic,
+        excludeTopics  => $excludeTopic,
+        scope          => $scope,
+        type           => $type,
+    };
 
     if ( length($searchString) == 0 ) {
+
         #default search should return no results
         $searchString = '1 = 2';
-        #shortcircuit the search
-        #FIXME: this breaks the per-web summary output that is hidden in the foreach
+
+    #shortcircuit the search
+    #FIXME: this breaks the per-web summary output that is hidden in the foreach
         @webs = ();
     }
 
     my $theParser;
-    if ($type eq 'query') {
+    if ( $type eq 'query' ) {
         unless ( defined($queryParser) ) {
             require Foswiki::Query::Parser;
             $queryParser = new Foswiki::Query::Parser();
         }
         $theParser = $queryParser;
-    } else {
+    }
+    else {
         unless ( defined($searchParser) ) {
             require Foswiki::Search::Parser;
             $searchParser = new Foswiki::Search::Parser($session);
@@ -500,7 +511,7 @@ sub searchWeb {
     }
     my $error = '';
     try {
-        $query = $theParser->parse($searchString, $options);
+        $query = $theParser->parse( $searchString, $options );
     }
     catch Foswiki::Infix::Error with {
 
@@ -510,11 +521,11 @@ sub searchWeb {
     return $error unless $query;
 
     #TODO:
-    unless ($type eq 'query')
-    {
-        #shorcircuit the search foreach below for a zero result search
-        #FIXME: this breaks the per-web summary output that is hidden in the foreach
-        @webs = () unless scalar(@{$query->{tokens}});    #default
+    unless ( $type eq 'query' ) {
+
+    #shorcircuit the search foreach below for a zero result search
+    #FIXME: this breaks the per-web summary output that is hidden in the foreach
+        @webs = () unless scalar( @{ $query->{tokens} } );    #default
     }
 
     # Loop through webs
@@ -543,11 +554,16 @@ sub searchWeb {
         # Run the search on topics in this web
         my $inputTopicSet = _getTopicList( $this, $webObject, $options );
 
-        next if ( $noEmpty && !$inputTopicSet->hasNext() );    # Nothing to show for this web
+        next
+          if ( $noEmpty && !$inputTopicSet->hasNext() )
+          ;    # Nothing to show for this web
 
         my $infoCache = $webObject->query( $query, $inputTopicSet, $options );
-        $this->sortResults($web, $infoCache, %params);
-        my ($web_ttopics, $web_searchResult) = $this->formatResults($tmplTable, $tmplNumber, $webObject, $query, $infoCache, %params);
+        $this->sortResults( $web, $infoCache, %params );
+        my ( $web_ttopics, $web_searchResult ) = $this->formatResults(
+            $tmplTable, $tmplNumber, $webObject,
+            $query,     $infoCache,  %params
+        );
         $ttopics += $web_ttopics;
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
@@ -591,32 +607,35 @@ sub searchWeb {
 the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
 
 =cut
+
 sub sortResults {
-    my ($this, $web, $infoCache, %params) = @_;
+    my ( $this, $web, $infoCache, %params ) = @_;
     my $session = $this->{session};
 
-    my $sortOrder   = $params{order}        || '';
-    my $revSort     = Foswiki::isTrue( $params{reverse} );
-    my $date        = $params{date}         || '';
-    my $limit       = $params{limit}        || '';
+    my $sortOrder = $params{order} || '';
+    my $revSort   = Foswiki::isTrue( $params{reverse} );
+    my $date      = $params{date} || '';
+    my $limit     = $params{limit} || '';
 
     #SMELL: duplicated code - removeme
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
+
         # only digits, all else is the same as
         # an empty string.  "+10" won't work.
         $limit = $1;
     }
     else {
+
         # change 'all' to 0, then to big number
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
 
-
     # sort the topic list by date, author or topic name, and cache the
     # info extracted to do the sorting
     if ( $sortOrder eq 'modified' ) {
+
         # For performance:
         #   * sort by approx time (to get a rough list)
         #   * shorten list to the limit + some slack
@@ -625,21 +644,21 @@ sub sortResults {
         # SMELL: In Dakar this seems to be pointless since latest rev
         # time is taken from topic instead of dir list.
         my $slack = 10;
-        if ( $limit + 2 * $slack < scalar(@{$infoCache->{list}}) ) {
+        if ( $limit + 2 * $slack < scalar( @{ $infoCache->{list} } ) ) {
 
             # sort by approx latest rev time
             my @tmpList =
               map  { $_->[1] }
               sort { $a->[0] <=> $b->[0] }
               map  { [ $session->getApproxRevTime( $web, $_ ), $_ ] }
-              @{$infoCache->{list}};
+              @{ $infoCache->{list} };
             @tmpList = reverse(@tmpList) if ($revSort);
 
             # then shorten list and build the hashes for date and author
             my $idx = $limit + $slack;
-            @{$infoCache->{list}} = ();
+            @{ $infoCache->{list} } = ();
             foreach (@tmpList) {
-                push( @{$infoCache->{list}}, $_ );
+                push( @{ $infoCache->{list} }, $_ );
                 $idx -= 1;
                 last if $idx <= 0;
             }
@@ -656,14 +675,17 @@ sub sortResults {
         $infoCache->sortTopics( $sortOrder, !$revSort );
     }
     else {
+
         # simple sort, see Codev.SchwartzianTransformMisused
         # note no extraction of topic info here, as not needed
         # for the sort. Instead it will be read lazily, later on.
         if ($revSort) {
-            @{$infoCache->{list}} = sort { $b cmp $a } @{$infoCache->{list}};
+            @{ $infoCache->{list} } =
+              sort { $b cmp $a } @{ $infoCache->{list} };
         }
         else {
-            @{$infoCache->{list}} = sort { $a cmp $b } @{$infoCache->{list}};
+            @{ $infoCache->{list} } =
+              sort { $a cmp $b } @{ $infoCache->{list} };
         }
     }
 
@@ -671,13 +693,14 @@ sub sortResults {
         require Foswiki::Time;
         my @ends       = Foswiki::Time::parseInterval($date);
         my @resultList = ();
-        foreach my $topic (@{$infoCache->{list}}) {
+        foreach my $topic ( @{ $infoCache->{list} } ) {
+
             # if date falls out of interval: exclude topic from result
             my $topicdate = $session->getApproxRevTime( $web, $topic );
             push( @resultList, $topic )
               unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
         }
-        @{$infoCache->{list}} = @resultList;
+        @{ $infoCache->{list} } = @resultList;
     }
 }
 
@@ -687,13 +710,15 @@ sub sortResults {
 the implementation of %FORMAT{}%
 
 =cut
-sub formatResults{
-    my ($this, $tmplTable, $tmplNumber, $webObject, $query, $infoCache, %params) = @_;
-    my $session = $this->{session};
-    my $users = $session->{users};
-    my $web = $webObject->web;
-    my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
+sub formatResults {
+    my ( $this, $tmplTable, $tmplNumber, $webObject, $query, $infoCache,
+        %params )
+      = @_;
+    my $session            = $this->{session};
+    my $users              = $session->{users};
+    my $web                = $webObject->web;
+    my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
     my $callback      = $params{_callback};
     my $cbdata        = $params{_cbdata};
@@ -708,31 +733,34 @@ sub formatResults{
     my $footer        = $params{footer};
     my $inline        = $params{inline};
     my $limit         = $params{limit} || '';
+
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
+
         # only digits, all else is the same as
         # an empty string.  "+10" won't work.
         $limit = $1;
     }
     else {
+
         # change 'all' to 0, then to big number
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
 
-    my $doMultiple    = Foswiki::isTrue( $params{multiple} );
-    my $nonoise       = Foswiki::isTrue( $params{nonoise} );
-    my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );
+    my $doMultiple = Foswiki::isTrue( $params{multiple} );
+    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
+    my $noEmpty    = Foswiki::isTrue( $params{noempty}, $nonoise );
 
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
     # now deprecated option 'inline' is used combined with 'format'
-    my $noHeader = !defined($header)
-      && Foswiki::isTrue( $params{noheader}, $nonoise )
+    my $noHeader =
+      !defined($header) && Foswiki::isTrue( $params{noheader}, $nonoise )
       || ( !$header && $format && $inline );
 
-    my $noFooter = !defined($footer)
-      && Foswiki::isTrue( $params{nofooter}, $nonoise )
+    my $noFooter =
+      !defined($footer) && Foswiki::isTrue( $params{nofooter}, $nonoise )
       || ( !$footer && $format && $inline );
 
     my $noSearch  = Foswiki::isTrue( $params{nosearch},  $nonoise );
@@ -750,7 +778,7 @@ sub formatResults{
     my $topic        = $params{topic}    || '';
     my $type         = $params{type}     || '';
 
-    my $ttopics = 0;
+    my $ttopics      = 0;
     my $searchResult = '';
 
     # header and footer of $web
@@ -759,36 +787,36 @@ sub formatResults{
 
     if ( defined $header ) {
         $beforeText = Foswiki::expandStandardEscapes($header);
-        $beforeText =~ s/\$web/$web/gos;    # expand name of web
-        $beforeText =~ s/([^\n])$/$1\n/os;  # add new line at end
+        $beforeText =~ s/\$web/$web/gos;      # expand name of web
+        $beforeText =~ s/([^\n])$/$1\n/os;    # add new line at end
     }
 
     if ( defined $footer ) {
         $afterText = Foswiki::expandStandardEscapes($footer);
-        $afterText =~ s/\$web/$web/gos;    # expand name of web
-        $afterText =~ s/([^\n])$/$1\n/os;  # add new line at end
+        $afterText =~ s/\$web/$web/gos;       # expand name of web
+        $afterText =~ s/([^\n])$/$1\n/os;     # add new line at end
     }
 
     # output the list of topics in $web
-    my $ntopics    = 0; # number of topics in current web
-    my $nhits      = 0; # number of hits (if multiple=on) in current web
+    my $ntopics    = 0;         # number of topics in current web
+    my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
-    while ($infoCache->hasNext()) {
-        my $topic = $infoCache->next();
+    while ( $infoCache->hasNext() ) {
+        my $topic          = $infoCache->next();
         my $forceRendering = 0;
         my $info           = $infoCache->get($topic);
 
         my $epochSecs = $info->{modified};
         require Foswiki::Time;
         my $revDate = Foswiki::Time::formatTime($epochSecs);
-        my $isoDate =
-          Foswiki::Time::formatTime( $epochSecs, '$iso', 'gmtime' );
+        my $isoDate = Foswiki::Time::formatTime( $epochSecs, '$iso', 'gmtime' );
 
         my $ru     = $info->{editby} || 'UnknownUser';
         my $revNum = $info->{revNum} || 0;
 
         my $cUID = $users->getCanonicalUserID($ru);
         if ( !$cUID ) {
+
             # Not a login name or a wiki name. Is it a valid cUID?
             my $ln = $users->getLoginName($ru);
             $cUID = $ru if defined $ln && $ln ne 'unknown';
@@ -806,6 +834,7 @@ sub formatResults{
 
             if ($doExpandVars) {
                 if ( $web eq $baseWeb && $topic eq $baseTopic ) {
+
                     # primitive way to prevent recursion
                     $text =~ s/%SEARCH/%<nop>SEARCH/g;
                 }
@@ -815,9 +844,10 @@ sub formatResults{
 
         my @multipleHitLines = ();
         if ($doMultiple) {
+
             #TODO: i wonder if this shoudl be a HoistRE..
-            my @tokens = @{$query->{tokens}};
-            my $pattern = $tokens[$#tokens];   # last token in an AND search
+            my @tokens  = @{ $query->{tokens} };
+            my $pattern = $tokens[$#tokens];       # last token in an AND search
             $pattern = quotemeta($pattern) if ( $type ne 'regex' );
             unless ($text) {
                 $text = $info->{tom}->text();
@@ -930,11 +960,11 @@ sub formatResults{
                 $out =~
                   s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
 
-# FIXME: Allow all regex characters but escape them
-# Note: The RE requires a .* at the end of a pattern to avoid false positives
-# in pattern matching
+   # FIXME: Allow all regex characters but escape them
+   # Note: The RE requires a .* at the end of a pattern to avoid false positives
+   # in pattern matching
                 $out =~
-s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+                  s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                 $out =~ s/\r?\n/$newLine/gos if ($newLine);
                 if ( defined($separator) ) {
                     $out .= $separator;
@@ -981,7 +1011,7 @@ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                 }
             }
 
-         #don't expand if a format is specified - it breaks tables and stuff
+            #don't expand if a format is specified - it breaks tables and stuff
             unless ($format) {
                 $out = $webObject->renderTML($out);
             }
@@ -1040,7 +1070,7 @@ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
             }
         }
     }
-    return ($ttopics, $searchResult);
+    return ( $ttopics, $searchResult );
 }
 
 =begin TML

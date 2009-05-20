@@ -11,52 +11,58 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
 # As per the GPL, removal of this notice is prohibited.
 # =========================
 
-
 # =========================
-package Foswiki::Plugins::RenderListPlugin;    # change the package name and $pluginName!!!
+package Foswiki::Plugins::RenderListPlugin
+  ;    # change the package name and $pluginName!!!
 
 use strict;
 
 # =========================
 use vars qw(
-        $web $topic $user $installWeb
-        $pubUrl $attachUrl
-    );
+  $web $topic $user $installWeb
+  $pubUrl $attachUrl
+);
 
-our $VERSION = '$Rev: 16234 $';
-our $RELEASE = '2.1';
-our $pluginName = 'RenderListPlugin';  # Name of this Plugin
+our $VERSION           = '$Rev: 16234 $';
+our $RELEASE           = '2.1';
+our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
 
 our %defaultThemes = (
     THREAD => 'tree, 1',
-    HOME   => 'icon, 1, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif',
-    ORG    => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif',
-    GROUP  => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/group.gif',
-    EMAIL  => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/email.gif',
-    TREND  => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/trend.gif',
-    FILE   => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/file.gif',
+    HOME =>
+'icon, 1, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif',
+    ORG =>
+'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif',
+    GROUP =>
+'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/group.gif',
+    EMAIL =>
+'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/email.gif',
+    TREND =>
+'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/trend.gif',
+    FILE =>
+'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/file.gif',
 );
 
 # =========================
-sub initPlugin
-{
+sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1 ) {
-        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if ( $Foswiki::Plugins::VERSION < 1 ) {
+        Foswiki::Func::writeWarning(
+            "Version mismatch between $pluginName and Plugins.pm");
         return 0;
     }
 
     # one time initialization
-    $pubUrl = Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath();
+    $pubUrl    = Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath();
     $attachUrl = "$pubUrl/$installWeb/$pluginName";
 
     # Plugin correctly initialized
@@ -64,93 +70,104 @@ sub initPlugin
 }
 
 # =========================
-sub startRenderingHandler
-{
+sub startRenderingHandler {
 ### my ( $text, $web ) = @_;   # do not uncomment, use $_[0], $_[1] instead
 
     # This handler is called by getRenderedVersion just before the line loop
 
     # Render here, not in commonTagsHandler so that lists produced by
     # Plugins, TOC and SEARCH can be rendered
-    if ($_[0] =~/%RENDERLIST/o ) {
-        unless ($_[0] =~ s/%RENDERLIST{(.*?)}%(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges ) {
+    if ( $_[0] =~ /%RENDERLIST/o ) {
+        unless ( $_[0] =~
+s/%RENDERLIST{(.*?)}%(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
+          )
+        {
+
             # Cairo compatibility fallback
-            $_[0] =~ s/%RENDERLIST{(.*?)}%(([\n\r]+[^\t]{1}[^\n\r]*)*?)(([\n\r]+\t[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges;
+            $_[0] =~
+s/%RENDERLIST{(.*?)}%(([\n\r]+[^\t]{1}[^\n\r]*)*?)(([\n\r]+\t[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges;
         }
     }
 }
 
 # =========================
-sub handleRenderList
-{
+sub handleRenderList {
     my ( $theAttr, $thePre, $theList ) = @_;
 
     $theAttr =~ s/ {3}/\t/gs;
-    $thePre =~ s/ {3}/\t/gs;
+    $thePre  =~ s/ {3}/\t/gs;
     $theList =~ s/ {3}/\t/gs;
 
     my $focus = &Foswiki::Func::extractNameValuePair( $theAttr, "focus" );
     my $depth = &Foswiki::Func::extractNameValuePair( $theAttr, "depth" );
-    my $theme = &Foswiki::Func::extractNameValuePair( $theAttr, "theme" ) ||
-                &Foswiki::Func::extractNameValuePair( $theAttr );
-    $theme = uc($theme || '');
-    if (defined $defaultThemes{$theme}) {
+    my $theme = &Foswiki::Func::extractNameValuePair( $theAttr, "theme" )
+      || &Foswiki::Func::extractNameValuePair($theAttr);
+    $theme = uc( $theme || '' );
+    if ( defined $defaultThemes{$theme} ) {
         $theme = $defaultThemes{$theme};
-    } else {
+    }
+    else {
         $theme = "RENDERLISTPLUGIN_${theme}_THEME";
-        $theme = &Foswiki::Func::getPreferencesValue( $theme )
+        $theme = &Foswiki::Func::getPreferencesValue($theme)
           || "unrecognized theme type";
     }
     my ( $type, $params ) = split( /, */, $theme, 2 );
-    $type = lc( $type );
+    $type = lc($type);
 
-    if( $type eq "tree" || $type eq "icon" ) {
-        return $thePre . renderIconList( $type, $params, $focus, $depth, $theList );
-    } else {
+    if ( $type eq "tree" || $type eq "icon" ) {
+        return $thePre
+          . renderIconList( $type, $params, $focus, $depth, $theList );
+    }
+    else {
         return "$thePre$theList";
     }
 }
 
 # =========================
-sub renderIconList
-{
+sub renderIconList {
     my ( $theType, $theParams, $theFocus, $theDepth, $theText ) = @_;
 
     $theText =~ s/^[\n\r]*//os;
-    my @tree = ();
-    my $level = 0;
-    my $type = "";
-    my $text = "";
+    my @tree       = ();
+    my $level      = 0;
+    my $type       = "";
+    my $text       = "";
     my $focusIndex = -1;
-    foreach( split ( /[\n\r]+/, $theText ) ) {
+    foreach ( split( /[\n\r]+/, $theText ) ) {
         m/^(\t+)(.) *(.*)/;
-        $level = length( $1 );
-        $type = $2;
-        $text = $3;
-        if( ( $theFocus ) && ( $focusIndex < 0 ) && ( $text =~ /$theFocus/ ) ) {
-            $focusIndex = scalar( @tree );
+        $level = length($1);
+        $type  = $2;
+        $text  = $3;
+        if ( ($theFocus) && ( $focusIndex < 0 ) && ( $text =~ /$theFocus/ ) ) {
+            $focusIndex = scalar(@tree);
         }
         push( @tree, { level => $level, type => $type, text => $text } );
     }
 
     # reduce tree to relatives around focus
-    if( $focusIndex >= 0 ) {
+    if ( $focusIndex >= 0 ) {
+
         # splice tree into before, current node and after parts
         my @after = splice( @tree, $focusIndex + 1 );
-        my $nref = pop( @tree );
+        my $nref = pop(@tree);
 
         # highlight node with focus and remove links
         $text = $nref->{'text'};
-        $text =~ s/^([^\-]*)\[\[.*?\]\[(.*?)\]\]/$1$2/o;  # remove [[...][...]] link
-        $text =~ s/^([^\-]*)\[\[(.*?)\]\]/$1$2/o;         # remove [[...]] link
-        $text = "<b> $text </b>"; # bold focus text
+        $text =~
+          s/^([^\-]*)\[\[.*?\]\[(.*?)\]\]/$1$2/o;    # remove [[...][...]] link
+        $text =~ s/^([^\-]*)\[\[(.*?)\]\]/$1$2/o;    # remove [[...]] link
+        $text = "<b> $text </b>";                    # bold focus text
         $nref->{'text'} = $text;
 
         # remove uncles and siblings below current node
         $level = $nref->{'level'};
-        for( my $i = 0; $i < scalar( @after ); $i++ ) {
-            if( ( $after[$i]->{'level'} < $level )
-             || ( $after[$i]->{'level'} <= $level &&  $after[$i]->{'type'} ne " " ) ) {
+        for ( my $i = 0 ; $i < scalar(@after) ; $i++ ) {
+            if (
+                ( $after[$i]->{'level'} < $level )
+                || (   $after[$i]->{'level'} <= $level
+                    && $after[$i]->{'type'} ne " " )
+              )
+            {
                 splice( @after, $i );
                 last;
             }
@@ -158,34 +175,35 @@ sub renderIconList
 
         # remove uncles and siblings above current node
         my @before = ();
-        for( my $i = scalar( @tree ) - 1; $i >= 0; $i-- ) {
-            if( $tree[$i]->{'level'} < $level ) {
+        for ( my $i = scalar(@tree) - 1 ; $i >= 0 ; $i-- ) {
+            if ( $tree[$i]->{'level'} < $level ) {
                 push( @before, $tree[$i] );
                 $level = $tree[$i]->{'level'};
             }
         }
-        @tree = reverse( @before );
-        $focusIndex = scalar( @tree );
+        @tree       = reverse(@before);
+        $focusIndex = scalar(@tree);
         push( @tree, $nref );
         push( @tree, @after );
     }
 
     # limit depth of tree
     my $depth = $theDepth;
-    unless( $depth =~ s/.*?([0-9]+).*/$1/o ) {
+    unless ( $depth =~ s/.*?([0-9]+).*/$1/o ) {
         $depth = 0;
     }
-    if( $theFocus ) {
-        if( $theDepth eq "" ) {
+    if ($theFocus) {
+        if ( $theDepth eq "" ) {
             $depth = $focusIndex + 3;
-        } else {
+        }
+        else {
             $depth += $focusIndex + 1;
         }
     }
-    if( $depth > 0 ) {
+    if ( $depth > 0 ) {
         my @tmp = ();
-        foreach my $ref ( @tree ) {
-            push( @tmp, $ref ) if( $ref->{'level'} <= $depth );
+        foreach my $ref (@tree) {
+            push( @tmp, $ref ) if ( $ref->{'level'} <= $depth );
         }
         @tree = @tmp;
     }
@@ -197,80 +215,104 @@ sub renderIconList
     $theParams =~ s/%TWIKIWEB%/$Foswiki::cfg{SystemWebName}/geo;
     $theParams =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/geo;
     my ( $showLead, $width, $height, $iconSp, $iconT, $iconI, $iconL, $iconImg )
-       = split( /, */, $theParams );
-    $width   = 16 unless( $width );
-    $height  = 16 unless( $height );
-    $iconSp  = "empty.gif"   unless( $iconSp );
-    $iconSp  = fixImageTag( $iconSp, $width, $height );
-    $iconT   = "dot_udr.gif" unless( $iconT );
-    $iconT   = fixImageTag( $iconT, $width, $height );
-    $iconI   = "dot_ud.gif"  unless( $iconI );
-    $iconI   = fixImageTag( $iconI, $width, $height );
-    $iconL   = "dot_ur.gif"  unless( $iconL );
-    $iconL   = fixImageTag( $iconL, $width, $height );
-    $iconImg = "home.gif"    unless( $iconImg );
+      = split( /, */, $theParams );
+    $width  = 16          unless ($width);
+    $height = 16          unless ($height);
+    $iconSp = "empty.gif" unless ($iconSp);
+    $iconSp = fixImageTag( $iconSp, $width, $height );
+    $iconT = "dot_udr.gif" unless ($iconT);
+    $iconT = fixImageTag( $iconT, $width, $height );
+    $iconI = "dot_ud.gif" unless ($iconI);
+    $iconI = fixImageTag( $iconI, $width, $height );
+    $iconL = "dot_ur.gif" unless ($iconL);
+    $iconL = fixImageTag( $iconL, $width, $height );
+    $iconImg = "home.gif" unless ($iconImg);
     $iconImg = fixImageTag( $iconImg, $width, $height );
 
     $text = "";
     my $start = 0;
-    $start = 1 unless( $showLead );
+    $start = 1 unless ($showLead);
     my @listIcon = ();
-    for( my $i = 0; $i < scalar( @tree ); $i++ ) {
-        $text .= '<table border="0" cellspacing="0" cellpadding="0"><tr>' . "\n";
+    for ( my $i = 0 ; $i < scalar(@tree) ; $i++ ) {
+        $text .=
+          '<table border="0" cellspacing="0" cellpadding="0"><tr>' . "\n";
         $level = $tree[$i]->{'level'};
-        for( my $l = $start; $l < $level; $l++ ) {
-            if( $l == $level - 1 ) {
+        for ( my $l = $start ; $l < $level ; $l++ ) {
+            if ( $l == $level - 1 ) {
                 $listIcon[$l] = $iconSp;
-                for( my $x = $i + 1; $x < scalar( @tree ); $x++ ) {
-                   last if( $tree[$x]->{'level'} < $level );
-                   if( $tree[$x]->{'level'} <= $level && $tree[$x]->{'type'} ne " " ) {
-                       $listIcon[$l] = $iconI;
-                       last;
-                   }
+                for ( my $x = $i + 1 ; $x < scalar(@tree) ; $x++ ) {
+                    last if ( $tree[$x]->{'level'} < $level );
+                    if (   $tree[$x]->{'level'} <= $level
+                        && $tree[$x]->{'type'} ne " " )
+                    {
+                        $listIcon[$l] = $iconI;
+                        last;
+                    }
                 }
-                if( $tree[$i]->{'type'} eq " " ) {
-                   $text .= "<td valign=\"top\">$listIcon[$l]</td>\n";
-                } elsif( $listIcon[$l] eq $iconSp ) {
-                   $text .= "<td valign=\"top\">$iconL</td>\n";
-                } else {
-                   $text .= "<td valign=\"top\">$iconT</td>\n";
+                if ( $tree[$i]->{'type'} eq " " ) {
+                    $text .= "<td valign=\"top\">$listIcon[$l]</td>\n";
                 }
-            } else {
-                $text .= "<td valign=\"top\">" . ($listIcon[$l] || '') . "</td>\n";
+                elsif ( $listIcon[$l] eq $iconSp ) {
+                    $text .= "<td valign=\"top\">$iconL</td>\n";
+                }
+                else {
+                    $text .= "<td valign=\"top\">$iconT</td>\n";
+                }
+            }
+            else {
+                $text .=
+                  "<td valign=\"top\">" . ( $listIcon[$l] || '' ) . "</td>\n";
             }
         }
-        if( $theType eq "icon" ) {
+        if ( $theType eq "icon" ) {
+
             # icon theme type
-            if( $tree[$i]->{'type'} eq " " ) {
+            if ( $tree[$i]->{'type'} eq " " ) {
+
                 # continuation line
                 $text .= "<td valign=\"top\">$iconSp</td>\n";
-            } elsif( $tree[$i]->{'text'} =~ /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ ) {
+            }
+            elsif ( $tree[$i]->{'text'} =~
+                /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
+            {
+
                 # specific icon
                 $tree[$i]->{'text'} = $4;
-                $tree[$i]->{'text'} = "$1 $4" if( $1 );
+                $tree[$i]->{'text'} = "$1 $4" if ($1);
                 my $icon = $2;
                 $icon =~ s/^icon\://o;
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
-            } else {
+            }
+            else {
+
                 # default icon
                 $text .= "<td valign=\"top\">$iconImg</td>\n";
             }
-            $text .= "<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
+            $text .=
+"<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
 
-        } else {
+        }
+        else {
+
             # tree theme type
-            if( $tree[$i]->{'text'} =~ /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ ) {
+            if ( $tree[$i]->{'text'} =~
+                /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
+            {
+
                 # specific icon
                 $tree[$i]->{'text'} = $4;
-                $tree[$i]->{'text'} = "$1 $4" if( $1 );
+                $tree[$i]->{'text'} = "$1 $4" if ($1);
                 my $icon = $2;
                 $icon =~ s/^icon\://o;
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
-                $text .= "<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
-            } else {
-                $text .= "<td valign=\"top\"><nobr> $tree[$i]->{'text'} </nobr></td>\n";
+                $text .=
+"<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
+            }
+            else {
+                $text .=
+"<td valign=\"top\"><nobr> $tree[$i]->{'text'} </nobr></td>\n";
             }
         }
         $text .= '</tr></table>' . "\n";
@@ -279,15 +321,15 @@ sub renderIconList
 }
 
 # =========================
-sub fixImageTag
-{
+sub fixImageTag {
     my ( $theIcon, $theWidth, $theHeight ) = @_;
 
-    if( $theIcon !~ /^<img/i ) {
-        $theIcon .= '.gif' if( $theIcon !~ /\.(png|gif|jpeg|jpg)$/i );
-        $theIcon = "$attachUrl/$theIcon" if( $theIcon !~ /^(\/|https?\:)/ );
-        $theIcon = "<img src=\"$theIcon\" width=\"$theWidth\" height=\"$theHeight\""
-                 . " alt=\"\" border=\"0\" />";
+    if ( $theIcon !~ /^<img/i ) {
+        $theIcon .= '.gif' if ( $theIcon !~ /\.(png|gif|jpeg|jpg)$/i );
+        $theIcon = "$attachUrl/$theIcon" if ( $theIcon !~ /^(\/|https?\:)/ );
+        $theIcon =
+            "<img src=\"$theIcon\" width=\"$theWidth\" height=\"$theHeight\""
+          . " alt=\"\" border=\"0\" />";
     }
     return $theIcon;
 }

@@ -3,7 +3,7 @@ package Foswiki::Form::Select;
 use strict;
 
 use Foswiki::Form::ListFieldDefinition ();
-our @ISA = ( 'Foswiki::Form::ListFieldDefinition' );
+our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 use Assert;
 

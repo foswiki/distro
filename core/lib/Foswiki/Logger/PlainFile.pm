@@ -5,7 +5,7 @@ use strict;
 use Assert;
 
 use Foswiki::Logger ();
-our @ISA = ( 'Foswiki::Logger' );
+our @ISA = ('Foswiki::Logger');
 
 =begin TML
 
@@ -26,7 +26,7 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 =cut
 
-use Foswiki::Time ();
+use Foswiki::Time         ();
 use Foswiki::ListIterator ();
 
 # Local symbol used so we can override it during unit testing
@@ -78,7 +78,7 @@ sub log {
     # Private subclass of LineIterator that splits events into fields
     package Foswiki::Logger::EventIterator;
     require Foswiki::LineIterator;
-    @Foswiki::Logger::EventIterator::ISA = ( 'Foswiki::LineIterator' );
+    @Foswiki::Logger::EventIterator::ISA = ('Foswiki::LineIterator');
 
     sub new {
         my ( $class, $fh, $threshold, $level ) = @_;

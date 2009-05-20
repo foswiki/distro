@@ -4,14 +4,15 @@ package Foswiki::Configure::Checkers::ScriptSuffix;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
 
     # SMELL: should check to see what the extension on _this_ script
     # is, and generate a helpful message
-    if ( defined $Foswiki::cfg{ScriptSuffix} && $Foswiki::cfg{ScriptSuffix} ne '' )
+    if ( defined $Foswiki::cfg{ScriptSuffix}
+        && $Foswiki::cfg{ScriptSuffix} ne '' )
     {
         if ( !$Foswiki::query->path_info() =~ /$Foswiki::cfg{ScriptSuffix}$/ ) {
             return $this->ERROR( 'this script ('

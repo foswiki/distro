@@ -15,12 +15,12 @@ package Foswiki::Engine::CGI;
 use strict;
 
 use Foswiki::Engine ();
-our @ISA = ( 'Foswiki::Engine' );
+our @ISA = ('Foswiki::Engine');
 
 use Assert;
-use Foswiki::Request ();
+use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
-use Foswiki::Response ();
+use Foswiki::Response        ();
 
 sub run {
     my $this = shift;

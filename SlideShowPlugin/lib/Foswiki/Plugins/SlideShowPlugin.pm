@@ -28,7 +28,8 @@ use vars qw(
 
 our $VERSION = '$Rev$';
 our $RELEASE = '31 Mar 2009';
-our $SHORTDESCRIPTION = 'Create web based presentations based on topics with headings';
+our $SHORTDESCRIPTION =
+  'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {

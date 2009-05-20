@@ -19,7 +19,7 @@ package Foswiki::LoginManager::Session;
 use strict;
 
 use CGI::Session ();
-our @ISA = ( 'CGI::Session' );
+our @ISA = ('CGI::Session');
 
 *VERSION = \$CGI::Session::VERSION;
 *NAME    = \$CGI::Session::NAME;

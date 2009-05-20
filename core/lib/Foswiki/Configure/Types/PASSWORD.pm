@@ -5,7 +5,7 @@ package Foswiki::Configure::Types::PASSWORD;
 use strict;
 
 use Foswiki::Configure::Types::STRING ();
-our @ISA = ( 'Foswiki::Configure::Types::STRING' );
+our @ISA = ('Foswiki::Configure::Types::STRING');
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;
@@ -24,7 +24,7 @@ sub prompt {
         -size         => $size,
         -default      => $value,
         -autocomplete => 'off',
-        -class   => 'foswikiInputField',
+        -class        => 'foswikiInputField',
     );
 }
 

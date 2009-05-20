@@ -14,7 +14,7 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki ();
+use Foswiki     ();
 use Foswiki::UI ();
 
 #TODO: this needs to be exposed to plugins and whoever might want to over-ride the rendering of diffs
@@ -474,7 +474,7 @@ sub diff {
         $contextLines = 3 unless defined $contextLines;
     }
     my $revHigh = $query->param('rev1');
-    my $revLow = $query->param('rev2');
+    my $revLow  = $query->param('rev2');
 
     my $skin = $session->getSkin();
     my $tmpl = $session->templates->readTemplate( 'rdiff', $skin );
@@ -490,7 +490,7 @@ sub diff {
 
     if ( $diffType eq 'last' ) {
         $revHigh = $maxrev;
-        $revLow = $maxrev - 1;
+        $revLow  = $maxrev - 1;
     }
 
     $revHigh = Foswiki::Store::cleanUpRevID($revHigh);
@@ -513,12 +513,12 @@ sub diff {
 
     # do one or more diffs
     $difftmpl = $topicObject->expandMacros($difftmpl);
-    my $rHigh            = $revHigh;
-    my $rLow             = $revLow;
+    my $rHigh          = $revHigh;
+    my $rLow           = $revLow;
     my $isMultipleDiff = 0;
 
     if ( ( $diffType eq 'history' ) && ( $rHigh > $rLow + 1 ) ) {
-        $rLow            = $rHigh - 1;
+        $rLow           = $rHigh - 1;
         $isMultipleDiff = 1;
     }
 
@@ -527,15 +527,23 @@ sub diff {
     do {
 
         # Load the revs being diffed
-        $topicObject{$rHigh} = Foswiki::Meta->load(
-            $session, $topicObject->web, $topicObject->topic, $rHigh )
+        $topicObject{$rHigh} =
+          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
+            $rHigh )
           unless $topicObject{$rHigh};
-        ASSERT($topicObject{$rHigh}->getLoadedRev() == $rHigh, $topicObject{$rHigh}->getLoadedRev()." == $rHigh") if DEBUG;
+        ASSERT(
+            $topicObject{$rHigh}->getLoadedRev() == $rHigh,
+            $topicObject{$rHigh}->getLoadedRev() . " == $rHigh"
+        ) if DEBUG;
 
-        $topicObject{$rLow} = Foswiki::Meta->load(
-            $session, $topicObject->web, $topicObject->topic, $rLow )
+        $topicObject{$rLow} =
+          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
+            $rLow )
           unless $topicObject{$rLow};
-        ASSERT($topicObject{$rLow}->getLoadedRev() == $rLow, $topicObject{$rLow}->getLoadedRev()." == $rLow") if DEBUG;
+        ASSERT(
+            $topicObject{$rLow}->getLoadedRev() == $rLow,
+            $topicObject{$rLow}->getLoadedRev() . " == $rLow"
+        ) if DEBUG;
 
         my $diff = $difftmpl;
         $diff =~ s/%REVTITLE1%/$rHigh/go;
@@ -549,9 +557,11 @@ sub diff {
                 $rLow, $rHigh );
         }
         else {
-            $rInfo = $session->renderer->renderRevisionInfo( $topicObject, $rHigh,
+            $rInfo =
+              $session->renderer->renderRevisionInfo( $topicObject, $rHigh,
                 '$date - $wikiusername' );
-            $rInfo2 = $session->renderer->renderRevisionInfo( $topicObject, $rHigh,
+            $rInfo2 =
+              $session->renderer->renderRevisionInfo( $topicObject, $rHigh,
                 '$rev ($date - $time) - $wikiusername' );
         }
 
@@ -592,8 +602,8 @@ sub diff {
         $diff =~ s/%TEXT%/$text/go;
         $page .= $diff;
         $rHigh = $rHigh - 1;
-        $rLow = $rLow - 1;
-        $rLow = 1 if ( $rLow < 1 );
+        $rLow  = $rLow - 1;
+        $rLow  = 1 if ( $rLow < 1 );
     } while ( $diffType eq 'history' && ( $rHigh > $revLow || $rHigh == 1 ) );
 
     $session->logEvent( 'rdiff', $web . '.' . $topic, "$revHigh $revLow" );

@@ -5,7 +5,7 @@ package Foswiki::Configure::Section;
 use strict;
 
 use Foswiki::Configure::Item ();
-our @ISA = ( 'Foswiki::Configure::Item' );
+our @ISA = ('Foswiki::Configure::Item');
 
 sub new {
     my ( $class, $head ) = @_;

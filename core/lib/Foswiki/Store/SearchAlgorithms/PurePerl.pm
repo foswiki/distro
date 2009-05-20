@@ -6,7 +6,6 @@ use strict;
 use Assert;
 use Foswiki::Search::InfoCache;
 
-
 =begin TML
 
 ---+ package Foswiki::Store::SearchAlgorithms::PurePerl
@@ -75,21 +74,24 @@ sub search {
 =TML
 this is the new way -
 =cut
+
 sub query {
     my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
-    ASSERT(scalar(@{$query->{tokens}}) > 0) if DEBUG;
+    ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
 
     # default scope is 'text'
-    $options->{'scope'} = 'text' unless ( defined($options->{'scope'}) && $options->{'scope'} =~ /^(topic|all)$/ );
+    $options->{'scope'} = 'text'
+      unless ( defined( $options->{'scope'} )
+        && $options->{'scope'} =~ /^(topic|all)$/ );
 
     my $topicSet = $inputTopicSet;
-    ASSERT(UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' )) if DEBUG;
+    ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
     my %completeMatch;
 
 #print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
-    # AND search - search once for each token, ANDing result together
-    foreach my $token (@{$query->{tokens}}) {
+# AND search - search once for each token, ANDing result together
+    foreach my $token ( @{ $query->{tokens} } ) {
 
         # flag for AND NOT search
         my $invertSearch = 0;
@@ -107,7 +109,8 @@ sub query {
                 my $topic = $topicSet->next();
 
                 # FIXME I18N
-                $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
+                $qtoken = quotemeta($qtoken)
+                  if ( $options->{'type'} ne 'regex' );
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
@@ -115,6 +118,7 @@ sub query {
                     $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/ );
                 }
                 else {
+
                     #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/i );
                     $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/i );
                 }
@@ -137,23 +141,31 @@ sub query {
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
                 my $topic = $topicSet->next();
+
                 #push( @scopeTextList, $topic )
                 if ( $topicMatches{$topic} ) {
+
                     #remove this match
                     delete $completeMatch{$topic};
                 }
             }
-        } else {
+        }
+        else {
+
             #TODO: the sad thing about this is we lose info
             %completeMatch = %topicMatches;
         }
+
         # reduced topic list for next token
         @scopeTextList = keys(%completeMatch);
-        $topicSet = new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web, \@scopeTextList);
+        $topicSet =
+          new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
+            \@scopeTextList );
     }
 
     return $topicSet;
-#    return \%completeMatch;
+
+    #    return \%completeMatch;
 }
 
 1;

@@ -15,11 +15,11 @@ use integer;
 use Monitor ();
 use Assert;
 
-use Foswiki ();
-use Foswiki::UI ();
-use Foswiki::Sandbox ();
+use Foswiki                ();
+use Foswiki::UI            ();
+use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
-use Foswiki::Store ();
+use Foswiki::Store         ();
 
 =begin TML
 
@@ -329,7 +329,7 @@ sub view {
 
     my $page;
 
-    if ($query->param('xml')) {
+    if ( $query->param('xml') ) {
         require Foswiki::TOM;
         $page = Foswiki::TOM->new->TML2TOM($text);
         $session->writeCompletePage( $page, 'view', 'text/xml' );

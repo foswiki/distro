@@ -14,9 +14,9 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki ();
+use Foswiki                ();
 use Foswiki::OopsException ();
-use Foswiki::Sandbox ();
+use Foswiki::Sandbox       ();
 
 # Keys from the user data that should *not* be included in
 # the user topic.
@@ -54,14 +54,17 @@ sub register_cgi {
     my $query = $session->{request};
     my $action = $query->param('action') || '';
 
-    if ( $action ne 'verify' && $query && $query->method() &&
-                                uc($query->method()) ne 'POST') {
+    if (   $action ne 'verify'
+        && $query
+        && $query->method()
+        && uc( $query->method() ) ne 'POST' )
+    {
         throw Foswiki::OopsException(
             'attention',
-            web   => $session->{webName},
-            topic => $session->{topicName},
-            def   => 'post_method_only',
-            params => [ 'upload' ]
+            web    => $session->{webName},
+            topic  => $session->{topicName},
+            def    => 'post_method_only',
+            params => ['upload']
         );
     }
 
@@ -385,7 +388,8 @@ sub _requireVerification {
 
     my $file = _codeFile( $data->{VerificationCode} );
     my $F;
-    open( $F, '>', $file ) or throw Error::Simple( 'Failed to open file: ' . $! );
+    open( $F, '>', $file )
+      or throw Error::Simple( 'Failed to open file: ' . $! );
     print $F '# Verification code', "\n";
 
     # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws

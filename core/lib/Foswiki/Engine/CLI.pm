@@ -17,11 +17,11 @@ use strict;
 use Assert;
 
 use Foswiki::Engine ();
-our @ISA = ( 'Foswiki::Engine' );
+our @ISA = ('Foswiki::Engine');
 
-use Foswiki::Request ();
+use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
-use Foswiki::Response ();
+use Foswiki::Response        ();
 
 sub run {
     my $this = shift;

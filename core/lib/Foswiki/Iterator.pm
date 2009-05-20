@@ -54,7 +54,6 @@ iterator object:
 
 sub next { ASSERT('Pure virtual function called') if DEBUG; }
 
-
 =begin TML
 
 ---++ reset() -> $boolean

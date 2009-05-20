@@ -28,7 +28,7 @@ package Foswiki::Users::BaseUserMapping;
 use strict;
 
 use Foswiki::UserMapping ();
-our @ISA = ( 'Foswiki::UserMapping' );
+our @ISA = ('Foswiki::UserMapping');
 
 use Assert;
 use Error ();

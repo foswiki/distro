@@ -28,8 +28,8 @@ Creates a new WebPrefs object.
 sub new {
     my $proto = shift;
     my $class = ref($proto) || $proto;
-    my ($stack, $level) = @_;
-    my $this  = {
+    my ( $stack, $level ) = @_;
+    my $this = {
         stack => $stack,
         level => $level,
     };
@@ -92,7 +92,7 @@ of bar Foswiki::Prefs::Stack and this operation is needed.
 =cut
 
 sub cloneStack {
-    my ($this, $level) = @_;
+    my ( $this, $level ) = @_;
     return $this->{stack}->clone($level);
 }
 
@@ -105,7 +105,7 @@ Returns the $value of the given $pref.
 =cut
 
 sub get {
-    my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
     $this->{stack}->getPreference( $key, $this->{level} );
 }
 

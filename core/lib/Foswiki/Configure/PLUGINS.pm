@@ -6,11 +6,11 @@ package Foswiki::Configure::PLUGINS;
 use strict;
 
 use Foswiki::Configure::Pluggable ();
-our @ISA = ( 'Foswiki::Configure::Pluggable' );
+our @ISA = ('Foswiki::Configure::Pluggable');
 
 use Foswiki::Configure::Pluggable ();
-use Foswiki::Configure::Type ();
-use Foswiki::Configure::Value ();
+use Foswiki::Configure::Type      ();
+use Foswiki::Configure::Value     ();
 
 my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
 
@@ -30,7 +30,7 @@ sub new {
         # the first can get loaded from @INC.
         $modules{$simple} = $module;
     }
-    foreach my $module ( sort { lc( $a ) cmp lc( $b ) } keys %modules ) {
+    foreach my $module ( sort { lc($a) cmp lc($b) } keys %modules ) {
         $this->addChild(
             new Foswiki::Configure::Value(
                 parent   => $this,

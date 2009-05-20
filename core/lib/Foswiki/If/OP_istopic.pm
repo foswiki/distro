@@ -11,7 +11,7 @@ package Foswiki::If::OP_istopic;
 use strict;
 
 use Foswiki::Query::UnaryOP ();
-our @ISA = ( 'Foswiki::Query::UnaryOP' );
+our @ISA = ('Foswiki::Query::UnaryOP');
 
 sub new {
     my $class = shift;

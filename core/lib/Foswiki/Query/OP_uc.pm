@@ -11,7 +11,7 @@ package Foswiki::Query::OP_uc;
 use strict;
 
 use Foswiki::Query::UnaryOP ();
-our @ISA = ( 'Foswiki::Query::UnaryOP' );
+our @ISA = ('Foswiki::Query::UnaryOP');
 
 sub new {
     my $class = shift;

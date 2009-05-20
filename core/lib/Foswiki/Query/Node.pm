@@ -26,7 +26,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki::Infix::Node ();
-our @ISA = ( 'Foswiki::Infix::Node' );
+our @ISA = ('Foswiki::Infix::Node');
 
 # 1 for debug
 sub MONITOR_EVAL { 0 }

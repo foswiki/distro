@@ -18,21 +18,21 @@ package Assert;
 use strict;
 
 use Exporter;
-our @ISA = ( 'Exporter' );
+our @ISA = ('Exporter');
 
 our %EXPORT_TAGS = (
-    NDEBUG => ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'],
-    DEBUG  => ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'],
+    NDEBUG => [ 'ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG' ],
+    DEBUG  => [ 'ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG' ],
 );
 
 our $VERSION = '$Rev$';
-our $DIRTY = $ENV{PATH}; # Used in TAINT
+our $DIRTY   = $ENV{PATH};    # Used in TAINT
 
 Exporter::export_tags(qw(NDEBUG DEBUG));
 
 # constant.pm, alas, adds too much load time (yes, I benchmarked it)
-sub ASSERTS_ON  { 1 }    # CONSTANT
-sub ASSERTS_OFF { 0 }    # CONSTANT
+sub ASSERTS_ON  { 1 }         # CONSTANT
+sub ASSERTS_OFF { 0 }         # CONSTANT
 
 sub noop { return $_[0] }
 
@@ -47,9 +47,9 @@ sub import {
     }
     else {
         my $caller = caller;
-        *{ $caller . '::ASSERT' }    = \&noop;
-        *{ $caller . '::TAINT' }     = \&noop;
-        *{ $caller . '::DEBUG' }     = \&ASSERTS_OFF;
+        *{ $caller . '::ASSERT' } = \&noop;
+        *{ $caller . '::TAINT' }  = \&noop;
+        *{ $caller . '::DEBUG' }  = \&ASSERTS_OFF;
     }
     use strict 'refs';
     use warnings 'redefine';
@@ -75,7 +75,7 @@ sub UNTAINTED($) {
 
 # Taint the datum passed and return the tainted value
 sub TAINT($) {
-    return substr($_[0].$DIRTY, 0, length($_[0]));
+    return substr( $_[0] . $DIRTY, 0, length( $_[0] ) );
 }
 
 1;

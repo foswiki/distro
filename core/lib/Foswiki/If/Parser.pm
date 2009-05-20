@@ -13,7 +13,7 @@ package Foswiki::If::Parser;
 use strict;
 
 use Foswiki::Query::Parser ();
-our @ISA = ( 'Foswiki::Query::Parser' );
+our @ISA = ('Foswiki::Query::Parser');
 
 use Assert;
 use Foswiki::If::Node ();

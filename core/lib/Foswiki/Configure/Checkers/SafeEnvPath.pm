@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::SafeEnvPath;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 # Unix or Linux, Windows ActiveState Perl, using PERL5SHELL set to cygwin shell
 #   path separator is :

@@ -5,7 +5,7 @@ package Foswiki::Configure::UIs::Value;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 
 # Generates the appropriate HTML for getting a value to configure the
 # entry. The actual input field is decided by the type.

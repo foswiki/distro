@@ -14,7 +14,7 @@ use strict;
 use Assert;
 
 use Foswiki::Iterator ();
-our @ISA = ( 'Foswiki::Iterator' );
+our @ISA = ('Foswiki::Iterator');
 
 =begin TML
 
@@ -66,8 +66,8 @@ sub next {
 sub reset {
     my ($this) = @_;
 
-    return unless ($this->{iterator}->reset());
-    $this->{next} = undef;
+    return unless ( $this->{iterator}->reset() );
+    $this->{next}    = undef;
     $this->{pending} = 0;
 
     return 1;

@@ -4,7 +4,7 @@ package Foswiki::Form::Text;
 use strict;
 
 use Foswiki::Form::FieldDefinition ();
-our @ISA = ( 'Foswiki::Form::FieldDefinition' );
+our @ISA = ('Foswiki::Form::FieldDefinition');
 
 sub new {
     my $class = shift;

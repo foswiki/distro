@@ -19,8 +19,9 @@ BEGIN {
     require Locale::Maketext::Extract;
     if ($@) {
         $initError = $@;
-    } else {
-        @Foswiki::I18N::Extract::ISA = ( 'Locale::Maketext::Extract' );
+    }
+    else {
+        @Foswiki::I18N::Extract::ISA = ('Locale::Maketext::Extract');
     }
 }
 
@@ -40,7 +41,7 @@ sub new {
     my $class   = shift;
     my $session = shift;
 
-    if (defined $initError) {
+    if ( defined $initError ) {
         $session->logger->log( 'warning', $initError ) if $session;
         return;
     }

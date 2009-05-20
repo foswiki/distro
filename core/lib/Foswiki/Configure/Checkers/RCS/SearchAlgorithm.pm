@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::RCS::SearchAlgorithm;
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 use strict;
 

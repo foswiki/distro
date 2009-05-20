@@ -4,12 +4,14 @@ package Foswiki::Configure::Checkers::PubUrlPath;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
 
-    unless ( $Foswiki::cfg{PubUrlPath} && $Foswiki::cfg{PubUrlPath} ne 'NOT SET' ) {
+    unless ( $Foswiki::cfg{PubUrlPath}
+        && $Foswiki::cfg{PubUrlPath} ne 'NOT SET' )
+    {
         my $guess = $Foswiki::cfg{ScriptUrlPath};
         $guess =~ s/bin$/pub/;
         $Foswiki::cfg{PubUrlPath} = $guess;

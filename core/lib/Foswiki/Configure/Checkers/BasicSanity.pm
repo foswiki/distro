@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::BasicSanity;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub new {
     my ( $class, $item ) = @_;
@@ -28,7 +28,8 @@ sub ui {
 
     $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('LocalSite.cfg');
     unless ( $this->{LocalSiteDotCfg} ) {
-        $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('Foswiki.spec') || '';
+        $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('Foswiki.spec')
+          || '';
         $this->{LocalSiteDotCfg} =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
 
@@ -67,7 +68,7 @@ You can view the configuration, but you will not be able to save.
 Check the file permissions.
 HERE
         }
-        elsif ( (my $mess = $this->checkCfg(\%Foswiki::cfg)) ) {
+        elsif ( ( my $mess = $this->checkCfg( \%Foswiki::cfg ) ) ) {
             $result .= <<HERE;
 The existing configuration file
 $this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
@@ -172,24 +173,24 @@ sub _copy {
 # Check that an existing LocalSite.cfg doesn't contain crap.
 
 sub checkCfg {
-    my ($this, $entry, $keys) = @_;
+    my ( $this, $entry, $keys ) = @_;
     $keys ||= '';
     my $mess = '';
 
-    if (ref($entry) eq 'HASH') {
-        foreach my $el (keys %$entry) {
-            $mess .= $this->checkCfg($entry->{$el}, "$keys\{$el}");
+    if ( ref($entry) eq 'HASH' ) {
+        foreach my $el ( keys %$entry ) {
+            $mess .= $this->checkCfg( $entry->{$el}, "$keys\{$el}" );
         }
     }
-    elsif (ref($entry) eq 'ARRAY') {
-        foreach my $i (0..scalar(@$entry)) {
-            $mess .= $this->checkCfg($entry->[$i], "$keys\[$i]")
+    elsif ( ref($entry) eq 'ARRAY' ) {
+        foreach my $i ( 0 .. scalar(@$entry) ) {
+            $mess .= $this->checkCfg( $entry->[$i], "$keys\[$i]" );
         }
     }
     else {
-        if (defined $entry && $entry =~ /NOT SET/) {
+        if ( defined $entry && $entry =~ /NOT SET/ ) {
             $mess .=
-              "<div>\$Foswiki::cfg::$keys has been guessed and may be incorrect</div>";
+"<div>\$Foswiki::cfg::$keys has been guessed and may be incorrect</div>";
         }
     }
     return $mess;

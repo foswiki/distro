@@ -19,7 +19,7 @@ package Foswiki::Store::RcsWrapHandler;
 use strict;
 
 use Foswiki::Store::VCHandler ();
-our @ISA = ( 'Foswiki::Store::VCHandler' );
+our @ISA = ('Foswiki::Store::VCHandler');
 
 use File::Copy ();
 
@@ -107,10 +107,11 @@ sub initText {
 sub addRevisionFromText {
     my ( $this, $text, $comment, $user, $date ) = @_;
     $this->init();
+
     #print STDERR "Wrap: Forced save at $date $this->{file}\n" if $date;
 
-    unless ( -e $this->{rcsFile} ) {#
-        # SMELL: what is this for?
+    unless ( -e $this->{rcsFile} ) {    #
+                                        # SMELL: what is this for?
         _lock($this);
         _ci( $this, $comment, $user, $date );
     }

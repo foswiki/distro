@@ -67,6 +67,7 @@ use Foswiki::LoginManager      ();
 #Monitor::MonitorMethod('Foswiki::Users');
 
 BEGIN {
+
     # no point calling rand() without this
     # See Camel-3 pp 800.  "Do not call =srand()= multiple times in your
     # program ... just do it once at the top of your program or you won't
@@ -408,6 +409,7 @@ Returns undef if the user does not exist.
 sub getCanonicalUserID {
     my ( $this, $identifier ) = @_;
     my $cUID;
+
     # Someone we already know?
 
     if ( defined( $this->{login2cUID}->{$identifier} ) ) {

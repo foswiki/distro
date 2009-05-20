@@ -137,6 +137,7 @@ sub new {
 
     $this->{_web}   = $web;
     $this->{_topic} = $topic;
+
     #$this->{_text}  = undef;    # topics only
 
     # Preferences cache object. We store a pointer, rather than looking
@@ -232,7 +233,7 @@ sub getPath {
 
     return '' unless $path;
     return $path unless $this->{_topic};
-    $path .= '.'.$this->{_topic};
+    $path .= '.' . $this->{_topic};
     return $path;
 }
 
@@ -250,9 +251,10 @@ sub getPreference {
     my ( $this, $key ) = @_;
     my $scope;
 
-    unless ($this->{_web} || $this->{_topic}) {
+    unless ( $this->{_web} || $this->{_topic} ) {
         return $this->{_session}->{prefs}->getPreference($key);
     }
+
     # make sure the preferences are parsed and cached
     unless ( $this->{_preferences} ) {
         $this->{_preferences} =
@@ -292,16 +294,17 @@ true if the corresponding web or topic really exists in the store.
 
 =cut
 
-sub existsInStore{
+sub existsInStore {
     my $this = shift;
     if ( defined $this->{_topic} ) {
-        return $this->{_session}->{store}->topicExists(
-            $this->{_web}, $this->{_topic} );
+        return $this->{_session}->{store}
+          ->topicExists( $this->{_web}, $this->{_topic} );
     }
     elsif ( defined $this->{_web} ) {
         return $this->{_session}->{store}->webExists( $this->{_web} );
-    } else {
-        return 1; # the root always exists
+    }
+    else {
+        return 1;    # the root always exists
     }
 }
 
@@ -360,8 +363,8 @@ sub populateNewWeb {
         while ( $it->hasNext() ) {
             my $topic = $it->next();
             next unless ( $templateWeb =~ /^_/ || $topic =~ /^Web/ );
-            my $topicObject = Foswiki::Meta->load(
-                $this->{_session}, $templateWeb, $topic );
+            my $topicObject =
+              Foswiki::Meta->load( $this->{_session}, $templateWeb, $topic );
             $topicObject->saveAs( $this->{_web}, $topic );
         }
     }
@@ -388,10 +391,10 @@ sub populateNewWeb {
           Foswiki::Meta->load( $this->{_session}, $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
-        foreach my $key (keys %$opts) {
+        foreach my $key ( keys %$opts ) {
             $text =~
               s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
-                if defined $opts->{$key};
+              if defined $opts->{$key};
         }
         $prefsTopicObject->text($text);
         $prefsTopicObject->save();
@@ -482,12 +485,13 @@ Return an iterator over each topic name in the web. Only valid on webs.
 sub eachTopic {
     my ($this) = @_;
     ASSERT( !$this->{_topic} ) if DEBUG;
-    if (!$this->{_web}) {
+    if ( !$this->{_web} ) {
+
         # Root
         require Foswiki::ListIterator;
-        return new Foswiki::ListIterator([]);
+        return new Foswiki::ListIterator( [] );
     }
-    return $this->{_session}->{store}->eachTopic( $this );
+    return $this->{_session}->{store}->eachTopic($this);
 }
 
 =begin TML
@@ -506,8 +510,8 @@ only lists the attachments that are normally visible to the user.
 sub eachAttachment {
     my ($this) = @_;
     ASSERT( $this->{_topic} ) if DEBUG;
-    ASSERT( $this->{_web} ) if DEBUG;
-    return $this->{_session}->{store}->eachAttachment( $this );
+    ASSERT( $this->{_web} )   if DEBUG;
+    return $this->{_session}->{store}->eachAttachment($this);
 }
 
 =begin TML
@@ -581,7 +585,8 @@ sub reload {
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
-    #SMELL: removed see getLoadedRevision - should remove any non-numeric rev's (like the $rev stuff from svn)
+
+#SMELL: removed see getLoadedRevision - should remove any non-numeric rev's (like the $rev stuff from svn)
     $this->{_preferences}->finish() if defined $this->{_preferences};
     $this->{_preferences} = undef;
 }
@@ -605,8 +610,8 @@ sub text {
     }
     else {
 
-        # Lazy load
-        #SMELL: will reload repeatedly if there is no topic text - ie if the topic is all META
+# Lazy load
+#SMELL: will reload repeatedly if there is no topic text - ie if the topic is all META
         $this->reload() unless defined( $this->{_text} );
     }
     return $this->{_text};
@@ -1174,7 +1179,7 @@ sub haveAccess {
     my $session = $this->{_session};
     undef $reason;
 
-    print STDERR "Check $mode access $cUID to ".$this->getPath()."\n"
+    print STDERR "Check $mode access $cUID to " . $this->getPath() . "\n"
       if MONITOR_ACLS;
 
     # super admin is always allowed
@@ -1402,11 +1407,11 @@ sub saveAs {
 }
 
 sub _atomicLock {
-    my ($this, $cUID) = @_;
+    my ( $this, $cUID ) = @_;
     if ( $this->{_topic} ) {
 
         # Topic
-        $this->{_session}->{store}->lockTopic($this, $cUID);
+        $this->{_session}->{store}->lockTopic( $this, $cUID );
     }
     else {
 
@@ -1428,9 +1433,9 @@ sub _atomicLock {
 }
 
 sub _atomicUnlock {
-    my ($this, $cUID) = @_;
+    my ( $this, $cUID ) = @_;
     if ( $this->{_topic} ) {
-        $this->{_session}->{store}->unlockTopic($this, $cUID);
+        $this->{_session}->{store}->unlockTopic( $this, $cUID );
     }
     else {
         my $it = $this->eachWeb();
@@ -1530,13 +1535,13 @@ Delete (or elide) the most recent revision of this. Only works on topics.
 =cut
 
 sub deleteMostRecentRevision {
-    my ($this, %opts) = @_;
+    my ( $this, %opts ) = @_;
     my $rev;
     my $cUID = $opts{user} || $this->{_session}->{user};
 
     $this->_atomicLock($cUID);
     try {
-        $rev = $this->{_session}->{store}->delRev($this, $cUID);
+        $rev = $this->{_session}->{store}->delRev( $this, $cUID );
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -1586,11 +1591,8 @@ sub replaceMostRecentRevision {
         my $extra = "repRev $info->{version} by " . $cUID . ' ';
         $extra .= Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' );
         $extra .= ' minor' if ( $opts{minor} );
-        $this->{_session}->writeLog(
-            $opts{forcedate} ? 'cmd' : 'save',
-            $this->getPath(),
-            $extra, $cUID
-        );
+        $this->{_session}->writeLog( $opts{forcedate} ? 'cmd' : 'save',
+            $this->getPath(), $extra, $cUID );
     }
 }
 
@@ -1660,7 +1662,8 @@ sub removeFromStore {
     }
 
     if ( $attachment
-           && !$store->attachmentExists( $this, $attachment ) ) {
+        && !$store->attachmentExists( $this, $attachment ) )
+    {
         throw Error::Simple( 'No such attachment '
               . $this->{_web} . '.'
               . $this->{_topic} . '.'
@@ -1775,30 +1778,31 @@ any other admin job that needs doing at regular intervals.
 =cut
 
 sub onTick {
-    my ($this, $time) = @_;
+    my ( $this, $time ) = @_;
 
-    if (!$this->{_topic}) {
+    if ( !$this->{_topic} ) {
         my $it = $this->eachWeb();
-        while ($it->hasNext()) {
+        while ( $it->hasNext() ) {
             my $web = $it->next();
-            $web = $this->getPath()."/$web" if $this->getPath();
-            my $m = new Foswiki::Meta($this->{_session}, $web);
+            $web = $this->getPath() . "/$web" if $this->getPath();
+            my $m = new Foswiki::Meta( $this->{_session}, $web );
             $m->onTick($time);
         }
         $it = $this->eachTopic();
-        while ($it->hasNext()) {
+        while ( $it->hasNext() ) {
             my $topic = $it->next();
-            my $topicObject = new Foswiki::Meta(
-                $this->{_session}, $this->getPath(), $topic);
+            my $topicObject =
+              new Foswiki::Meta( $this->{_session}, $this->getPath(), $topic );
             $topicObject->onTick($time);
         }
+
         # Clean up spurious leases that may have been left behind
         # during cancelled topic creation
-        $this->{_session}->{store}
-          ->removeSpuriousLeases( $this->getPath() );
-    } else {
+        $this->{_session}->{store}->removeSpuriousLeases( $this->getPath() );
+    }
+    else {
         my $lease = $this->getLease();
-        if( $lease && $lease->{expires} < $time) {
+        if ( $lease && $lease->{expires} < $time ) {
             $this->clearLease();
         }
     }
@@ -1868,7 +1872,7 @@ sub attach {
     if ( $opts{stream} ) {
         $action = 'upload';
 
-        $attrs  = {
+        $attrs = {
             name        => $opts{name},
             attachment  => $opts{name},
             stream      => $opts{stream},
@@ -1878,6 +1882,7 @@ sub attach {
         };
 
         if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+
             # SMELL: the attachment handler requires a file on disc
             # Because of the way CGI works, the stream is actually attached
             # to a file that is already on disc. So all we need to do
@@ -1899,23 +1904,23 @@ sub attach {
         my $error;
         try {
             $this->{_session}->{store}
-              ->saveAttachment(
-                  $this, $opts{name}, $opts{stream},
-                  $opts{author} || $this->{_session}->{user});
-        } catch Error with {
+              ->saveAttachment( $this, $opts{name}, $opts{stream},
+                $opts{author} || $this->{_session}->{user} );
+        }
+        catch Error with {
             $error = shift;
         };
 
         my $fileVersion = $this->getMaxRevNo( $opts{name} );
         $attrs->{version} = $fileVersion;
-        $attrs->{path} = $opts{filepath} if ( defined( $opts{filepath} ) );
-        $attrs->{size} = $opts{filesize} if ( defined( $opts{filesize} ) );
-        $attrs->{date} = $opts{filedate} if ( defined( $opts{filedate} ) );
+        $attrs->{path}    = $opts{filepath} if ( defined( $opts{filepath} ) );
+        $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
+        $attrs->{date}    = $opts{filedate} if ( defined( $opts{filedate} ) );
 
         if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
             $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
-                                $this->{_topic}, $this->{_web},
-                                $error ? $error->{-text} : undef );
+                $this->{_topic}, $this->{_web},
+                $error ? $error->{-text} : undef );
         }
     }
     else {
@@ -1993,17 +1998,20 @@ Errors will be signalled by an Error::Simple exception.
 =cut
 
 sub testAttachment {
-    my ($this, $attachment, $test) = @_;
+    my ( $this, $attachment, $test ) = @_;
 
-    $test =~ /(\w)/; $test = $1;
-    if ($test eq 'r') {
+    $test =~ /(\w)/;
+    $test = $1;
+    if ( $test eq 'r' ) {
         return $this->haveAccess('VIEW');
-    } elsif ($test eq 'w') {
+    }
+    elsif ( $test eq 'w' ) {
         return $this->haveAccess('CHANGE');
     }
 
-    return return $this->{_session}->{store}
-      ->testAttachment($this, $attachment, $test);
+    return
+      return $this->{_session}->{store}
+      ->testAttachment( $this, $attachment, $test );
 }
 
 =begin TML
@@ -2031,10 +2039,10 @@ See also =attach= if this function is too basic for you.
 =cut
 
 sub openAttachment {
-    my ($this, $attachment, $mode, @opts) = @_;
+    my ( $this, $attachment, $mode, @opts ) = @_;
 
     return $this->{_session}->{store}
-      ->openAttachment($this, $attachment, $mode, @opts);
+      ->openAttachment( $this, $attachment, $mode, @opts );
 
 }
 
@@ -2062,10 +2070,11 @@ sub moveAttachment {
 
     try {
         $this->{_session}->{store}
-          ->moveAttachment( $this, $name, $to, $newName, $cUID);
+          ->moveAttachment( $this, $name, $to, $newName, $cUID );
         $this->reload();
         $to->reload();
-    } finally {
+    }
+    finally {
         $to->_atomicUnlock($cUID);
         $this->_atomicUnlock($cUID);
     };

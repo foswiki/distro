@@ -13,7 +13,7 @@ package Foswiki::ListIterator;
 use strict;
 
 use Foswiki::Iterator ();
-our @ISA = ( 'Foswiki::Iterator' );
+our @ISA = ('Foswiki::Iterator');
 
 use Assert;
 
@@ -30,7 +30,7 @@ any way.
 sub new {
     my ( $class, $list ) = @_;
 
-    ASSERT(!defined($list) || UNIVERSAL::isa( $list, 'ARRAY' )) if DEBUG;
+    ASSERT( !defined($list) || UNIVERSAL::isa( $list, 'ARRAY' ) ) if DEBUG;
 
     my $this = bless(
         {
@@ -163,7 +163,7 @@ while ($it->hasNext()) {
 
 sub reset {
     my ($this) = @_;
-    $this->{next} = undef;
+    $this->{next}  = undef;
     $this->{index} = 0;
 
     return 1;

@@ -5,7 +5,7 @@ package Foswiki::Configure::Types::OCTAL;
 use strict;
 
 use Foswiki::Configure::Types::NUMBER ();
-our @ISA = ( 'Foswiki::Configure::Types::NUMBER' );
+our @ISA = ('Foswiki::Configure::Types::NUMBER');
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

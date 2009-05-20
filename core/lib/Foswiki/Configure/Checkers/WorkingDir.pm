@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::WorkingDir;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
@@ -15,7 +15,7 @@ sub check {
     unless ( -d "$Foswiki::cfg{WorkingDir}" ) {
         mkdir("$Foswiki::cfg{WorkingDir}")
           || return $this->ERROR(
-            "$Foswiki::cfg{WorkingDir} does not exist, and I can't create it: $!"
+"$Foswiki::cfg{WorkingDir} does not exist, and I can't create it: $!"
           );
         $mess .= $this->NOTE("Created $Foswiki::cfg{WorkingDir}");
     }
@@ -46,7 +46,8 @@ sub check {
                 "Could not create $Foswiki::cfg{WorkingDir}/work_areas");
         }
         else {
-            $mess .= $this->NOTE("Created $Foswiki::cfg{WorkingDir}/work_areas");
+            $mess .=
+              $this->NOTE("Created $Foswiki::cfg{WorkingDir}/work_areas");
         }
     }
 

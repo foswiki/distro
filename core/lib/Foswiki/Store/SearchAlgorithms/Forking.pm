@@ -6,7 +6,6 @@ use strict;
 use Assert;
 use Foswiki::Search::InfoCache;
 
-
 =begin TML
 
 ---+ package Foswiki::Store::SearchAlgorithms::Forking
@@ -76,32 +75,37 @@ sub search {
     #SMELL, TODO, replace with Store call.
     my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
 
-#    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
-#        @set = map { "$sDir/$_.txt" } @set;
+    #    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
+    #        @set = map { "$sDir/$_.txt" } @set;
     my @set;
     $inputTopicSet->reset();
     while ( $inputTopicSet->hasNext() ) {
         my $tn = $inputTopicSet->next();
-        push(@set, "$sDir/$tn.txt");
-        if (($#set >= $maxTopicsInSet)      #replace with character count..
-            || !($inputTopicSet->hasNext())) {
+        push( @set, "$sDir/$tn.txt" );
+        if (
+            ( $#set >= $maxTopicsInSet )    #replace with character count..
+            || !( $inputTopicSet->hasNext() )
+          )
+        {
             my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
                 $program,
                 TOKEN => $searchString,
                 FILES => \@set
             );
             @set = ();
+
             # man grep: "Normally, exit status is 0 if selected lines are found
             # and 1 otherwise. But the exit status is 2 if an error occurred,
             # unless the -q or --quiet or --silent option is used and a selected
             # line is found."
             if ( $exit > 1 ) {
-                #TODO: need to work out a way to alert the admin there is a problem, without
-                #      filling up the log files with repeated SEARCH's
 
-                # NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
-                #       or a file it does not have permission to open, so throwing here gives wrong search results.
-                # throw Error::Simple("$program Grep for '$searchString' returned error")
+    #TODO: need to work out a way to alert the admin there is a problem, without
+    #      filling up the log files with repeated SEARCH's
+
+# NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
+#       or a file it does not have permission to open, so throwing here gives wrong search results.
+# throw Error::Simple("$program Grep for '$searchString' returned error")
             }
             $matches .= $m;
         }
@@ -120,21 +124,24 @@ sub search {
 =TML
 this is the new way -
 =cut
+
 sub query {
     my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
-    ASSERT(scalar(@{$query->{tokens}}) > 0) if DEBUG;
+    ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
 
     # default scope is 'text'
-    $options->{'scope'} = 'text' unless ( defined($options->{'scope'}) && $options->{'scope'} =~ /^(topic|all)$/ );
+    $options->{'scope'} = 'text'
+      unless ( defined( $options->{'scope'} )
+        && $options->{'scope'} =~ /^(topic|all)$/ );
 
     my $topicSet = $inputTopicSet;
-    ASSERT(UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' )) if DEBUG;
+    ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
     my %completeMatch;
 
 #print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
-    # AND search - search once for each token, ANDing result together
-    foreach my $token (@{$query->{tokens}}) {
+# AND search - search once for each token, ANDing result together
+    foreach my $token ( @{ $query->{tokens} } ) {
 
         # flag for AND NOT search
         my $invertSearch = 0;
@@ -152,7 +159,8 @@ sub query {
                 my $topic = $topicSet->next();
 
                 # FIXME I18N
-                $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
+                $qtoken = quotemeta($qtoken)
+                  if ( $options->{'type'} ne 'regex' );
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
@@ -160,6 +168,7 @@ sub query {
                     $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/ );
                 }
                 else {
+
                     #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/i );
                     $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/i );
                 }
@@ -182,22 +191,30 @@ sub query {
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
                 my $topic = $topicSet->next();
+
                 #push( @scopeTextList, $topic )
                 if ( $topicMatches{$topic} ) {
+
                     #remove this match
                     delete $completeMatch{$topic};
                 }
             }
-        } else {
+        }
+        else {
+
             #TODO: the sad thing about this is we lose info
             %completeMatch = %topicMatches;
         }
+
         # reduced topic list for next token
         @scopeTextList = keys(%completeMatch);
-        $topicSet = new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web, \@scopeTextList);
+        $topicSet =
+          new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
+            \@scopeTextList );
     }
 
     return $topicSet;
+
     #return \%completeMatch;
 }
 

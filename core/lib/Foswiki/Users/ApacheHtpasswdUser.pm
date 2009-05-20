@@ -3,7 +3,7 @@ package Foswiki::Users::ApacheHtpasswdUser;
 use strict;
 
 use Foswiki::Users::Password ();
-our @ISA = ( 'Foswiki::Users::Password' );
+our @ISA = ('Foswiki::Users::Password');
 
 use Apache::Htpasswd ();
 use Assert;

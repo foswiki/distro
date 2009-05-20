@@ -14,7 +14,7 @@ package Foswiki::LineIterator;
 use strict;
 
 use Foswiki::Iterator ();
-our @ISA = ( 'Foswiki::Iterator' );
+our @ISA = ('Foswiki::Iterator');
 
 =begin TML
 

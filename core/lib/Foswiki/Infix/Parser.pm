@@ -17,7 +17,7 @@ use strict;
 use Assert;
 use Error qw( :try );
 use Foswiki::Infix::Error ();
-use Foswiki::Infix::Node ();
+use Foswiki::Infix::Node  ();
 
 # Set to 1 for debug
 sub MONITOR_PARSER { 0 }

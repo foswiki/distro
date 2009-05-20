@@ -17,13 +17,13 @@ use strict;
 use URI ();
 use CGI qw(-any);
 
-use Foswiki ();
-use Foswiki::Plugins ();
-use Foswiki::Time ();
-use Foswiki::Func ();
+use Foswiki                                    ();
+use Foswiki::Plugins                           ();
+use Foswiki::Time                              ();
+use Foswiki::Func                              ();
 use Foswiki::Contrib::MailerContrib::WebNotify ();
-use Foswiki::Contrib::MailerContrib::Change ();
-use Foswiki::Contrib::MailerContrib::UpData ();
+use Foswiki::Contrib::MailerContrib::Change    ();
+use Foswiki::Contrib::MailerContrib::UpData    ();
 
 our $VERSION = '$Rev$';
 our $RELEASE = '23 Apr 2009';

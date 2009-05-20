@@ -8,7 +8,7 @@ package Foswiki::Net::UserCredAgent;
 use strict;
 
 use LWP::UserAgent ();
-our @ISA = ( 'LWP::UserAgent' );
+our @ISA = ('LWP::UserAgent');
 
 sub new {
     my ( $class, $user, $pass ) = @_;

@@ -5,7 +5,7 @@ package Foswiki::Configure::Types::SELECTCLASS;
 use strict;
 
 use Foswiki::Configure::Types::SELECT ();
-our @ISA = ( 'Foswiki::Configure::Types::SELECT' );
+our @ISA = ('Foswiki::Configure::Types::SELECT');
 
 # generate an input field for SELECTCLASS types
 # Takes a comma-separated list of options
@@ -47,9 +47,11 @@ sub findClasses {
 
         foreach my $place (@$places) {
             if ( opendir( DIR, $place ) ) {
+
                 #next if ($place =~ /^\..*/);
                 foreach my $subplace ( readdir DIR ) {
                     next unless $subplace =~ $pathel;
+
                     #next if ($subplace =~ /^\..*/);
                     push( @newplaces, $place . '/' . $1 );
                 }
@@ -66,7 +68,7 @@ sub findClasses {
         if ( opendir( DIR, $place ) ) {
             foreach my $file ( readdir DIR ) {
                 next unless $file =~ $leaf;
-                next if ($file =~ /^\..*/);
+                next if ( $file =~ /^\..*/ );
                 $file =~ /^(.*)\.pm$/;
                 my $module = "$place/$1";
                 $module =~ s./.::.g;

@@ -45,10 +45,10 @@ with CGI accelerators such as mod_perl.
 use strict;
 use Assert;
 use Error qw( :try );
-use Monitor     ();
-use Fcntl;          # File control constants e.g. O_EXCL
-use CGI         (); # Always required to get html generation tags;
-use Digest::MD5 (); # For passthru and validation
+use Monitor ();
+use Fcntl;    # File control constants e.g. O_EXCL
+use CGI         ();    # Always required to get html generation tags;
+use Digest::MD5 ();    # For passthru and validation
 
 # Components that all requests need
 use Foswiki::Configure::Load ();
@@ -638,11 +638,13 @@ sub writeCompletePage {
 
         my $cgis = $this->getCGISession();
         if ( $cgis && $contentType eq 'text/html' ) {
+
             # Don't expire the validation key through login, or when
             # endpoint is an error.
             Foswiki::Validation::expireValidationKeys($cgis)
-                unless ($this->{request}->action() eq 'login'
-                          or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400);
+              unless ( $this->{request}->action() eq 'login'
+                or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
+
             # Inject validation key in HTML forms
             $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
               Foswiki::Validation::addValidationKey( $cgis, $1 )/gei;
@@ -944,9 +946,11 @@ sub cacheQuery {
     # suspect a security hack (O_EXCL)
     my $F;
     sysopen( $F, "$passthruFilename", O_RDWR | O_EXCL | O_CREAT, 0600 )
-      || die 'Unable to open '.$Foswiki::cfg{WorkingDir}
-        .'/tmp for write; check the setting of {WorkingDir} in configure,'
-          .' and check file permissions: '.$!;
+      || die 'Unable to open '
+      . $Foswiki::cfg{WorkingDir}
+      . '/tmp for write; check the setting of {WorkingDir} in configure,'
+      . ' and check file permissions: '
+      . $!;
     $query->save($F);
     close($F);
     return 'foswiki_redirect_cache=' . $uid;

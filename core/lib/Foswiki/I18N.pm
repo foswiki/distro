@@ -92,8 +92,9 @@ BEGIN {
               . $@
               . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
         );
-    } else {
-        @Foswiki::I18N::ISA = ( 'Locale::Maketext' );
+    }
+    else {
+        @Foswiki::I18N::ISA = ('Locale::Maketext');
     }
 
     unless ( $Foswiki::cfg{LocalesDir} && -e $Foswiki::cfg{LocalesDir} ) {

@@ -3,7 +3,7 @@ package Foswiki::Search::InfoCache;
 use strict;
 
 use Foswiki::ListIterator ();
-our @ISA = ( 'Foswiki::ListIterator' );
+our @ISA = ('Foswiki::ListIterator');
 
 =begin TML
 
@@ -41,30 +41,35 @@ CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resul
 sub new {
     my ( $class, $session, $defaultWeb, $topicList ) = @_;
     my $this = $class->SUPER::new($topicList);
-    $this->{_session} = $session;
+    $this->{_session}    = $session;
     $this->{_defaultWeb} = $defaultWeb;
 
     return $this;
 }
+
 sub isImmutable {
     my $this = shift;
-    return ($this->{index} != 0);
+    return ( $this->{index} != 0 );
 }
+
 sub addTopics {
     my ( $this, $defaultWeb, @list ) = @_;
-    ASSERT(!$this->isImmutable());    #cannot modify list once its being used as an iterator.
+    ASSERT( !$this->isImmutable() )
+      ;    #cannot modify list once its being used as an iterator.
 
-    if (defined($defaultWeb) && ($defaultWeb ne $this->{_defaultWeb})) {
+    if ( defined($defaultWeb) && ( $defaultWeb ne $this->{_defaultWeb} ) ) {
         foreach my $t (@list) {
-            my ($web, $topic) = Foswiki::Func::normalizeTopic($defaultWeb, $t);
-            push(@{$this->{list}}, "$web.$topic");
+            my ( $web, $topic ) =
+              Foswiki::Func::normalizeTopic( $defaultWeb, $t );
+            push( @{ $this->{list} }, "$web.$topic" );
         }
-    } else {
+    }
+    else {
+
         #TODO: what if the list is an arrayref?
-        push(@{$this->{list}}, @list);
+        push( @{ $this->{list} }, @list );
     }
 }
-
 
 ######OLD methods
 sub get {
@@ -76,7 +81,8 @@ sub get {
         $this->{$topic} = $info = {};
 
         $info->{tom} =
-          Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb}, $topic );
+          Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb},
+            $topic );
 
         # SMELL: why do this here? Smells of a hack, as AFAICT it is done
         # anyway during output processing. Disable it, and see what happens....
@@ -108,8 +114,8 @@ sub getRev1Info {
         my $ri = $info->{rev1info};
         unless ($ri) {
             my $tmp =
-              Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb}, $topic,
-                1 );
+              Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb},
+                $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
 
@@ -139,10 +145,11 @@ sub sortTopics {
     my ( $this, $sortfield, $revSort ) = @_;
     ASSERT($sortfield);
 
-    ASSERT(!$this->isImmutable());    #cannot modify list once its being used as an iterator.
+    ASSERT( !$this->isImmutable() )
+      ;    #cannot modify list once its being used as an iterator.
 
     # populate the cache for each topic
-    foreach my $topic (@{$this->{list}}) {
+    foreach my $topic ( @{ $this->{list} } ) {
         if ( $sortfield =~ /^creat/ ) {
 
             # The act of getting the info will cache it
@@ -163,14 +170,14 @@ sub sortTopics {
           $info->{tom}->session->{users}->getWikiName( $info->{editby} );
     }
     if ($revSort) {
-        @{$this->{list}} = map { $_->[1] }
+        @{ $this->{list} } = map { $_->[1] }
           sort { _compare( $b->[0], $a->[0] ) }
-          map { [ $this->{$_}->{$sortfield}, $_ ] } @{$this->{list}};
+          map { [ $this->{$_}->{$sortfield}, $_ ] } @{ $this->{list} };
     }
     else {
-        @{$this->{list}} = map { $_->[1] }
+        @{ $this->{list} } = map { $_->[1] }
           sort { _compare( $a->[0], $b->[0] ) }
-          map { [ $this->{$_}->{$sortfield}, $_ ] } @{$this->{list}};
+          map { [ $this->{$_}->{$sortfield}, $_ ] } @{ $this->{list} };
     }
 }
 

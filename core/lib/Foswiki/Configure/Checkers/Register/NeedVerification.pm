@@ -4,12 +4,13 @@ package Foswiki::Configure::Checkers::Register::NeedVerification;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
 
-    if ( $Foswiki::cfg{Register}{NeedVerification} and !$Foswiki::cfg{EnableEmail} )
+    if ( $Foswiki::cfg{Register}{NeedVerification}
+        and !$Foswiki::cfg{EnableEmail} )
     {
         return $this->WARN(
 'Verification is enabled, but email is disabled. No verification emails will be sent. Either disable this option or enable email.'

@@ -12,7 +12,7 @@ use strict;
 use Error qw( :try );
 
 use Foswiki::Query::BinaryOP ();
-our @ISA = ( 'Foswiki::Query::BinaryOP' );
+our @ISA = ('Foswiki::Query::BinaryOP');
 
 sub new {
     my $class = shift;

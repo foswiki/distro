@@ -87,7 +87,7 @@ package Foswiki::OopsException;
 use strict;
 
 use Error ();
-our @ISA = ( 'Error' );
+our @ISA = ('Error');
 
 use Assert;
 

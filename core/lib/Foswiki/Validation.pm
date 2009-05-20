@@ -6,7 +6,7 @@ use strict;
 use Assert;
 
 use Digest::MD5 ();
-use Foswiki ();
+use Foswiki     ();
 
 =begin TML
 
@@ -51,9 +51,10 @@ sub addValidationKey {
     $digester->add( $form, $cgis->id(), rand(time) );
     my $nonce = $digester->b64digest();
     $actions->{$nonce} = time() + $Foswiki::cfg{LeaseLength};
-    #print STDERR time.": ADD $nonce ".join('; ', map { "$_=$actions->{$_}" } keys %$actions)."\n";
+
+#print STDERR time.": ADD $nonce ".join('; ', map { "$_=$actions->{$_}" } keys %$actions)."\n";
     $cgis->param( 'VALID_ACTIONS', $actions );
-    return $form.CGI::hidden(-name => 'validation_key', -value=>$nonce);
+    return $form . CGI::hidden( -name => 'validation_key', -value => $nonce );
 }
 
 =begin TML
@@ -82,23 +83,24 @@ force expiry of a specific key, even if it hasn't timed out.
 =cut
 
 sub expireValidationKeys {
-    my ($cgis, $key) = @_;
+    my ( $cgis, $key ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS');
     if ($actions) {
-        if (defined $key && exists $actions->{$key}) {
-            $actions->{$key} = 0; # force-expire this key
+        if ( defined $key && exists $actions->{$key} ) {
+            $actions->{$key} = 0;    # force-expire this key
         }
         my $deaths = 0;
-        my $now = time();
-        while (my ($nonce, $time) = each %$actions) {
-            if ($time < $now) {
+        my $now    = time();
+        while ( my ( $nonce, $time ) = each %$actions ) {
+            if ( $time < $now ) {
+
                 #print STDERR time.": EXPIRE $nonce $time\n";
                 delete $actions->{$nonce};
                 $deaths++;
             }
         }
         if ($deaths) {
-            $cgis->param('VALID_ACTIONS', $actions);
+            $cgis->param( 'VALID_ACTIONS', $actions );
         }
     }
 }
@@ -114,27 +116,29 @@ response to a ValidationException.
 =cut
 
 sub validate {
-    my ( $session ) = @_;
-    my $query   = $session->{request};
-    my $web     = $session->{webName};
-    my $topic   = $session->{topicName};
+    my ($session) = @_;
+    my $query     = $session->{request};
+    my $web       = $session->{webName};
+    my $topic     = $session->{topicName};
 
     my $origurl = $query->param('origurl');
-    $query->delete( 'origurl' );
+    $query->delete('origurl');
 
     my $tmpl =
       $session->templates->readTemplate( 'validate', $session->getSkin() );
 
-    if ($query->param('response')) {
+    if ( $query->param('response') ) {
         my $url;
-        if ($query->param('response') eq 'OK') {
+        if ( $query->param('response') eq 'OK' ) {
             if ( !$origurl || $origurl eq $query->url() ) {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
                 $url = $origurl;
+
                 # SMELL: do we ever need this?
-                ASSERT($url !~ /#/) if DEBUG;
+                ASSERT( $url !~ /#/ ) if DEBUG;
+
                 # Unpack params encoded in the origurl and restore them
                 # to the query. If they were left in the query string they
                 # would be lost when we redirect with passthrough
@@ -152,19 +156,21 @@ sub validate {
             $session->redirect( $url, 1 );
         }
         else {
+
             #print STDERR "REJECTED; redirect to GET view\n";
             # Validation failed; redirect to view (302)
             $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             $session->redirect( $url, 0 );    # no passthrough
         }
-    } else {
+    }
+    else {
+
         #print STDERR "PROMPT VALIDATE\n";
         # prompt for user verification
         $session->{response}->status(401);
 
         $session->{prefs}->setSessionPreferences(
-            ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ),
-           );
+            ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ), );
 
         my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
         $tmpl = $topicObject->expandMacros($tmpl);

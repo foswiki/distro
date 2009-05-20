@@ -4,7 +4,7 @@ package Foswiki::Form::Radio;
 use strict;
 
 use Foswiki::Form::ListFieldDefinition ();
-our @ISA = ( 'Foswiki::Form::ListFieldDefinition' );
+our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 sub new {
     my $class = shift;
@@ -25,7 +25,7 @@ sub renderForEdit {
     my %attrs;
     foreach my $item ( @{ $this->getOptions() } ) {
         $attrs{$item} = {
-            class => $this->cssClasses( 'foswikiRadioButton' ),
+            class => $this->cssClasses('foswikiRadioButton'),
             label => $topicObject->expandMacros($item)
         };
 

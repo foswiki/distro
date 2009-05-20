@@ -78,7 +78,7 @@ sub getLocal {
 sub insert {
     my ( $this, $type, $key, $value ) = @_;
 
-    $this->cleanupInsertValue(\$value);
+    $this->cleanupInsertValue( \$value );
 
     my $index = $type eq 'Set' ? 'values' : 'local';
     $this->{$index}{$key} = $value;

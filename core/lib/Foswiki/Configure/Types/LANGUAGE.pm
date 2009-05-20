@@ -4,7 +4,7 @@ package Foswiki::Configure::Types::LANGUAGE;
 use strict;
 
 use Foswiki::Configure::Types::BOOLEAN ();
-our @ISA = ( 'Foswiki::Configure::Types::BOOLEAN' );
+our @ISA = ('Foswiki::Configure::Types::BOOLEAN');
 
 # When any language changes, delete the cache
 sub onUpdate {

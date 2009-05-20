@@ -28,117 +28,119 @@ BEGIN {
     # with Foswiki 1.0.0 and 1.0.4.
 
     $Foswiki::cfg{SwitchBoard}{attach} = {
-        package => 'Foswiki::UI::Attach',
+        package  => 'Foswiki::UI::Attach',
         function => 'attach',
-        context => { attach => 1 },
+        context  => { attach => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{changes} = {
-        package => 'Foswiki::UI::Changes',
+        package  => 'Foswiki::UI::Changes',
         function => 'changes',
-        context => { changes => 1 },
+        context  => { changes => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{edit} = {
-        package => 'Foswiki::UI::Edit',
+        package  => 'Foswiki::UI::Edit',
         function => 'edit',
-        context => { edit => 1 },
+        context  => { edit => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{login} = {
-        package => undef,
+        package  => undef,
         function => 'logon',
-        context => { ( login => 1, logon => 1 ) },
+        context  => { ( login => 1, logon => 1 ) },
     };
     $Foswiki::cfg{SwitchBoard}{logon} = {
-        package => undef,
+        package  => undef,
         function => 'logon',
-        context => { ( login => 1, logon => 1 ) },
+        context  => { ( login => 1, logon => 1 ) },
     };
     $Foswiki::cfg{SwitchBoard}{manage} = {
-        package => 'Foswiki::UI::Manage',
+        package  => 'Foswiki::UI::Manage',
         function => 'manage',
-        context => { manage => 1 },
-        allow => { POST => 1 },
+        context  => { manage => 1 },
+        allow    => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{oops} = {
-        package => 'Foswiki::UI::Oops',
+        package  => 'Foswiki::UI::Oops',
         function => 'oops_cgi',
-        context => { oops => 1 },
+        context  => { oops => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{preview} = {
-        package => 'Foswiki::UI::Preview',
+        package  => 'Foswiki::UI::Preview',
         function => 'preview',
-        context => { preview => 1 },
+        context  => { preview => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rdiffauth} = {
-        package => 'Foswiki::UI::RDiff',
+        package  => 'Foswiki::UI::RDiff',
         function => 'diff',
-        context => { diff => 1 },
+        context  => { diff => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rdiff} = {
-        package => 'Foswiki::UI::RDiff',
+        package  => 'Foswiki::UI::RDiff',
         function => 'diff',
-        context => { diff => 1 },
+        context  => { diff => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{register} = {
-        package => 'Foswiki::UI::Register',
+        package  => 'Foswiki::UI::Register',
         function => 'register_cgi',
-        context => { register => 1 },
+        context  => { register => 1 },
+
         # method verify must allow GET; protect in Foswiki::UI::Register
         #allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rename} = {
-        package => 'Foswiki::UI::Rename',
+        package  => 'Foswiki::UI::Rename',
         function => 'rename',
-        context => { rename => 1 },
+        context  => { rename => 1 },
+
         # Rename is 2 stage; protect in Foswiki::UI::Rename
         #allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
-        package => 'Foswiki::UI::Passwords',
+        package  => 'Foswiki::UI::Passwords',
         function => 'resetPassword',
-        context => { resetpasswd => 1 },
-        allow => { POST => 1 },
+        context  => { resetpasswd => 1 },
+        allow    => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rest} = {
-        package => 'Foswiki::UI::Rest',
+        package  => 'Foswiki::UI::Rest',
         function => 'rest',
-        context => { rest => 1 },
+        context  => { rest => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{save} = {
-        package => 'Foswiki::UI::Save',
+        package  => 'Foswiki::UI::Save',
         function => 'save',
-        context => { save => 1 },
-        allow => { POST => 1 },
+        context  => { save => 1 },
+        allow    => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{search} = {
-        package => 'Foswiki::UI::Search',
+        package  => 'Foswiki::UI::Search',
         function => 'search',
-        context => { search => 1 },
+        context  => { search => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{statistics} = {
-        package => 'Foswiki::UI::Statistics',
+        package  => 'Foswiki::UI::Statistics',
         function => 'statistics',
-        context => { statistics => 1 },
+        context  => { statistics => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{upload} = {
-        package => 'Foswiki::UI::Upload',
+        package  => 'Foswiki::UI::Upload',
         function => 'upload',
-        context => { upload => 1 },
-        allow => { POST => 1 },
+        context  => { upload => 1 },
+        allow    => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{viewauth} = {
-        package => 'Foswiki::UI::View',
+        package  => 'Foswiki::UI::View',
         function => 'view',
-        context => { view => 1 },
+        context  => { view => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{viewfile} = {
-        package => 'Foswiki::UI::Viewfile',
+        package  => 'Foswiki::UI::Viewfile',
         function => 'viewfile',
-        context => { viewfile => 1 },
+        context  => { viewfile => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{view} = {
-        package => 'Foswiki::UI::View',
+        package  => 'Foswiki::UI::View',
         function => 'view',
-        context => { view => 1 },
+        context  => { view => 1 },
     };
 }
 
@@ -191,7 +193,8 @@ sub handleRequest {
         return $res;
     }
 
-    if (ref($dispatcher) eq 'ARRAY') {
+    if ( ref($dispatcher) eq 'ARRAY' ) {
+
         # Old-style array entry in switchboard from a plugin
         my @array = @$dispatcher;
         $dispatcher = {
@@ -201,10 +204,10 @@ sub handleRequest {
         };
     }
 
-    if ( $dispatcher->{package} && !$isInitialized{$dispatcher->{package}} ) {
+    if ( $dispatcher->{package} && !$isInitialized{ $dispatcher->{package} } ) {
         eval qq(use $dispatcher->{package});
         die $@ if $@;
-        $isInitialized{$dispatcher->{package}} = 1;
+        $isInitialized{ $dispatcher->{package} } = 1;
     }
 
     my $sub;
@@ -244,27 +247,34 @@ sub handleRequest {
               if TRACE_PASSTHRU;
         }
     }
+
     #print STDERR "INCOMING ".$req->method()." ".$req->url." -> ".$sub."\n";
     #require Data::Dumper;
     #print STDERR Data::Dumper->Dump([$req]);
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
         $dispatcher->{context}->{command_line} = 1;
-    } elsif ( defined $req->method()
-              && (
-                ( defined $dispatcher->{allow}
-                  && !$dispatcher->{allow}->{uc($req->method())} )
-                ||
-                ( defined $dispatcher->{deny}
-                  && $dispatcher->{deny}->{uc($req->method())} )
-              )
-            ) {
+    }
+    elsif (
+        defined $req->method()
+        && (
+            (
+                defined $dispatcher->{allow}
+                && !$dispatcher->{allow}->{ uc( $req->method() ) }
+            )
+            || ( defined $dispatcher->{deny}
+                && $dispatcher->{deny}->{ uc( $req->method() ) } )
+        )
+      )
+    {
         $res = new Foswiki::Response();
         $res->header( -type => 'text/html', -status => '405' );
-        $res->print('Bad Request: '.uc($req->method()).' denied for '
-                      .$req->action());
+        $res->print( 'Bad Request: '
+              . uc( $req->method() )
+              . ' denied for '
+              . $req->action() );
         return $res;
     }
-    $res = _execute( $req, \&$sub, %{$dispatcher->{context}} );
+    $res = _execute( $req, \&$sub, %{ $dispatcher->{context} } );
     return $res;
 }
 
@@ -297,16 +307,22 @@ sub _execute {
         }
         catch Foswiki::ValidationException with {
             my $query = $session->{request};
+
             # Redirect with passthrough so we don't lose the
             # original query params. We use the login script for
             # validation because it already has the correct criteria
             # in httpd.conf for Apache login.
-            my $url     = $session->getScriptUrl(
-                0, 'login', $session->{webName}, $session->{topicName} );
-            $query->param( -name => 'action',
-                           -value => 'validate' );
-            $query->param( -name => 'origurl',
-                           -value => $session->{request}->uri );
+            my $url =
+              $session->getScriptUrl( 0, 'login', $session->{webName},
+                $session->{topicName} );
+            $query->param(
+                -name  => 'action',
+                -value => 'validate'
+            );
+            $query->param(
+                -name  => 'origurl',
+                -value => $session->{request}->uri
+            );
             $session->redirect( $url, 1 );    # with passthrough
         }
         catch Foswiki::AccessControlException with {
@@ -394,13 +410,18 @@ Handler to "logon" action.
 
 sub logon {
     my $session = shift;
-    if (($session->{request}->param('action') ||'') eq 'validate'
-          # Force login if not recognisably authenticated
-          && $session->inContext('authenticated')) {
-        Foswiki::Validation::validate( $session );
-    } else {
-        $session->{users}->{loginManager}->login(
-            $session->{request}, $session );
+    if (
+        ( $session->{request}->param('action') || '' ) eq 'validate'
+
+        # Force login if not recognisably authenticated
+        && $session->inContext('authenticated')
+      )
+    {
+        Foswiki::Validation::validate($session);
+    }
+    else {
+        $session->{users}->{loginManager}
+          ->login( $session->{request}, $session );
     }
 }
 
@@ -495,15 +516,18 @@ sub checkValidationKey {
 
     # Check the nonce before we do anything else
     my $nonce = $session->{request}->param('validation_key');
-    if (!defined($nonce) || !Foswiki::Validation::isValidNonce(
-        $session->getCGISession(), $nonce)) {
+    if ( !defined($nonce)
+        || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
+            $nonce ) )
+    {
         throw Foswiki::ValidationException();
     }
-    if (defined($nonce)) {
+    if ( defined($nonce) ) {
+
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted.
-        Foswiki::Validation::expireValidationKeys(
-            $session->getCGISession(), $nonce );
+        Foswiki::Validation::expireValidationKeys( $session->getCGISession(),
+            $nonce );
     }
 }
 

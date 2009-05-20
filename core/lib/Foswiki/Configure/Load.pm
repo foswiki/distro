@@ -146,7 +146,7 @@ sub readDefaults {
     };
     push( @errors, $@ ) if ($@);
     foreach my $dir (@INC) {
-        my $root; # SMELL: Not used
+        my $root;    # SMELL: Not used
         _loadDefaultsFrom( "$dir/Foswiki/Plugins", $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/Foswiki/Contrib", $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );

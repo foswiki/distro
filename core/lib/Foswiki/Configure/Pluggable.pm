@@ -12,7 +12,7 @@ package Foswiki::Configure::Pluggable;
 use strict;
 
 use Foswiki::Configure::Section ();
-our @ISA = ( 'Foswiki::Configure::Section' );
+our @ISA = ('Foswiki::Configure::Section');
 
 sub load {
     my ($name) = @_;

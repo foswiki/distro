@@ -11,7 +11,7 @@ package Foswiki::Query::OP_like;
 use strict;
 
 use Foswiki::Query::BinaryOP ();
-our @ISA = ( 'Foswiki::Query::BinaryOP' );
+our @ISA = ('Foswiki::Query::BinaryOP');
 
 sub new {
     my $class = shift;

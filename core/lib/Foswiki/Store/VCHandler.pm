@@ -60,13 +60,13 @@ sub new {
             $this->{attachment} = $attachment;
 
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/'
+                $Foswiki::cfg{PubDir} . '/' 
               . $web . '/'
               . $this->{topic} . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/'
-              . $web . '/'
+                $Foswiki::cfg{PubDir} . '/' 
+              . $web . '/' 
               . $topic
               . $rcsSubDir . '/'
               . $attachment . ',v';
@@ -76,7 +76,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/'
+                $Foswiki::cfg{DataDir} . '/' 
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -197,6 +197,7 @@ Get the text of the most recent revision
 
 sub getLatestRevision {
     my $this = shift;
+
 #SMELL: why is this assumption made rather than delegating to the impl? ($this->getRevision();)
     return readFile( $this, $this->{file} );
 }
@@ -331,7 +332,9 @@ sub searchInWebContent {
     }
 
     no strict 'refs';
-    return &{ $this->{searchFn} }( $searchString, $web, $inputTopicSet, $store, $options, $Foswiki::sandbox );
+    return &{ $this->{searchFn} }(
+        $searchString, $web, $inputTopicSet, $store, $options, $Foswiki::sandbox
+    );
     use strict 'refs';
 }
 
@@ -355,28 +358,30 @@ sub searchInWebMetaData {
     my ( $this, $query, $web, $inputTopicSet, $store, $options ) = @_;
 
     my $engine;
-    if ($options->{type} eq 'query') {
+    if ( $options->{type} eq 'query' ) {
         unless ( $this->{queryFn} ) {
             eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
             die
-    "Bad {RCS}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+"Bad {RCS}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
             $this->{queryFn} = $Foswiki::cfg{RCS}{QueryAlgorithm} . '::query';
         }
         $engine = $this->{queryFn};
-    } else {
+    }
+    else {
         unless ( $this->{searchQueryFn} ) {
             eval "require $Foswiki::cfg{RCS}{SearchAlgorithm}";
             die
-    "Bad {RCS}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+"Bad {RCS}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->{searchQueryFn} = $Foswiki::cfg{RCS}{SearchAlgorithm} . '::query';
+            $this->{searchQueryFn} =
+              $Foswiki::cfg{RCS}{SearchAlgorithm} . '::query';
         }
         $engine = $this->{searchQueryFn};
     }
 
     no strict 'refs';
-    return &{ $engine }( $query, $web, $inputTopicSet, $store, $options );
+    return &{$engine}( $query, $web, $inputTopicSet, $store, $options );
     use strict 'refs';
 }
 
@@ -763,7 +768,7 @@ sub removeSpuriousLeases {
 }
 
 sub test {
-    my ($this, $test) = @_;
+    my ( $this, $test ) = @_;
     return eval "-$test '$this->{file}'";
 }
 
@@ -915,7 +920,7 @@ sub _rmtree {
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple( 'VCHandler: Failed to delete file '
+                    throw Error::Simple( 'VCHandler: Failed to delete file ' 
                           . $entry . ': '
                           . $! );
                 }
@@ -945,22 +950,24 @@ sub _rmtree {
 }
 
 {
+
     # Package that ties a filehandle to a memory string for reading
     package Foswiki::Store::_MemoryFile;
 
     sub TIEHANDLE {
-        my ($class, $data) = @_;
-        return bless({data => $data, size => length($data), ptr => 0}, $class);
+        my ( $class, $data ) = @_;
+        return
+          bless( { data => $data, size => length($data), ptr => 0 }, $class );
     }
 
     sub READ {
         my $this = shift;
         my ( undef, $len, $offset ) = @_;
-        if ($this->{size} - $this->{ptr} < $len) {
+        if ( $this->{size} - $this->{ptr} < $len ) {
             $len = $this->{size} - $this->{ptr};
         }
         return 0 unless $len;
-        $_[0] = substr($this->{data}, $this->{ptr}, $len);
+        $_[0] = substr( $this->{data}, $this->{ptr}, $len );
         $this->{ptr} += $len;
         return $len;
     }
@@ -968,14 +975,15 @@ sub _rmtree {
     sub READLINE {
         my $this = shift;
         return if $this->{ptr} == $this->{size};
-        return substr($this->{data}, $this->{ptr}) if !defined $/;
+        return substr( $this->{data}, $this->{ptr} ) if !defined $/;
         my $start = $this->{ptr};
-        while ($this->{ptr} < $this->{size}
-                 && substr($this->{data}, $this->{ptr}, 1) ne $/) {
+        while ( $this->{ptr} < $this->{size}
+            && substr( $this->{data}, $this->{ptr}, 1 ) ne $/ )
+        {
             $this->{ptr}++;
         }
         $this->{ptr}++ if $this->{ptr} < $this->{size};
-        return substr($this->{data}, $start, $this->{ptr} - $start);
+        return substr( $this->{data}, $start, $this->{ptr} - $start );
     }
 
     sub CLOSE {
@@ -1006,19 +1014,21 @@ respectively. %
 =cut
 
 sub openStream {
-    my ($this, $mode, %opts) = @_;
+    my ( $this, $mode, %opts ) = @_;
     my $stream;
-    if ($mode eq '<' && $opts{version}) {
+    if ( $mode eq '<' && $opts{version} ) {
+
         # Bulk load the revision and tie a filehandle
         require Symbol;
-        $stream = Symbol::gensym; # create an anonymous glob
-        tie(*$stream, 'Foswiki::Store::_MemoryFile',
-            $this->getRevision($opts{version}));
-    } else {
-        if ($mode =~ />/) {
-            mkPathTo($this->{file});
+        $stream = Symbol::gensym;    # create an anonymous glob
+        tie( *$stream, 'Foswiki::Store::_MemoryFile',
+            $this->getRevision( $opts{version} ) );
+    }
+    else {
+        if ( $mode =~ />/ ) {
+            mkPathTo( $this->{file} );
         }
-        unless ( open( $stream, $mode, $this->{file} )) {
+        unless ( open( $stream, $mode, $this->{file} ) ) {
             throw Error::Simple(
                 'VCHandler: stream open ' . $this->{file} . ' failed: ' . $! );
         }
@@ -1073,7 +1083,7 @@ option is set.
 sub synchroniseAttachmentsList {
     my ( $this, $attachmentsKnownInMeta ) = @_;
 
-    my %filesListedInPub = $this->_getAttachmentStats();
+    my %filesListedInPub  = $this->_getAttachmentStats();
     my %filesListedInMeta = ();
 
     # You need the following lines if you want metadata to supplement
@@ -1101,8 +1111,7 @@ sub synchroniseAttachmentsList {
 
     # Do not change this from array to hash, you would lose the
     # proper attachment sequence
-    my @deindexedBecauseMetaDoesnotIndexAttachments =
-      values(%filesListedInPub);
+    my @deindexedBecauseMetaDoesnotIndexAttachments = values(%filesListedInPub);
 
     return @deindexedBecauseMetaDoesnotIndexAttachments;
 }
@@ -1117,7 +1126,7 @@ Get list of attachment names actually stored for topic.
 
 sub getAttachmentList {
     my $this = shift;
-    my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
+    my $dir  = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     opendir DIR, $dir || return ();
     my @files = grep { !/^[.*_]/ && !/,v$/ } readdir(DIR);
     closedir(DIR);
@@ -1127,10 +1136,10 @@ sub getAttachmentList {
 # returns {} of filename => { key => value, key2 => value }
 # for any given web, topic
 sub _getAttachmentStats {
-    my $this = shift;
+    my $this           = shift;
     my %attachmentList = ();
-    my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
-    foreach my $attachment ($this->getAttachmentList()) {
+    my $dir            = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
+    foreach my $attachment ( $this->getAttachmentList() ) {
         my @stat = stat( $dir . "/" . $attachment );
         $attachmentList{$attachment} =
           _constructAttributesForAutoAttached( $attachment, \@stat );

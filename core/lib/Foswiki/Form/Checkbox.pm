@@ -4,7 +4,7 @@ package Foswiki::Form::Checkbox;
 use strict;
 
 use Foswiki::Form::ListFieldDefinition ();
-our @ISA = ( 'Foswiki::Form::ListFieldDefinition' );
+our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 sub new {
     my $class = shift;

@@ -12,7 +12,7 @@ package Foswiki::Infix::Error;
 use strict;
 
 use Error ();
-our @ISA = ( 'Error' );
+our @ISA = ('Error');
 
 sub new {
     my ( $class, $message, $expr, $at ) = @_;

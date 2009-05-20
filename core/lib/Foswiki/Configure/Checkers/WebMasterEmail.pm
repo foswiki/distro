@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::WebMasterEmail;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
@@ -14,6 +14,7 @@ sub check {
 'Please make sure you enter the e-mail address of the webmaster. This is required for registration to work.'
         );
     }
+
     #    $regex{emailAddrRegex} ...
     if ( $Foswiki::cfg{WebMasterEmail} !~
         /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i )

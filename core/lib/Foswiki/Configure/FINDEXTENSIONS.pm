@@ -7,9 +7,9 @@ package Foswiki::Configure::FINDEXTENSIONS;
 use strict;
 
 use Foswiki::Configure::Pluggable ();
-our @ISA = ( 'Foswiki::Configure::Pluggable' );
+our @ISA = ('Foswiki::Configure::Pluggable');
 
-use Foswiki::Configure::Type ();
+use Foswiki::Configure::Type  ();
 use Foswiki::Configure::Value ();
 
 sub new {

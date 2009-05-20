@@ -5,7 +5,7 @@ package Foswiki::Configure::UIs::FINDEXTENSIONS;
 use strict;
 
 use Foswiki::Configure::UIs::Section ();
-our @ISA = ( 'Foswiki::Configure::UIs::Section' );
+our @ISA = ('Foswiki::Configure::UIs::Section');
 use Foswiki::Configure::Type ();
 
 sub close_html {
@@ -19,7 +19,8 @@ HERE
     # Check that the extensions UI is loadable
     my $bad = 0;
     foreach my $module
-      qw(Foswiki::Configure::UIs::EXTEND Foswiki::Configure::UIs::FINDEXTENSIONS) {
+      qw(Foswiki::Configure::UIs::EXTEND Foswiki::Configure::UIs::FINDEXTENSIONS)
+    {
         eval "require $module";
         if ($@) {
             $bad = 1;

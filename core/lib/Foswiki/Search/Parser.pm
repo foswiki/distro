@@ -18,7 +18,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki::Infix::Parser ();
-our @ISA = ( 'Foswiki::Infix::Parser' );
+our @ISA = ('Foswiki::Infix::Parser');
 
 use Foswiki::Search::Node ();
 use Foswiki::Infix::Error ();
@@ -41,7 +41,7 @@ sub new {
 sub _initialise {
     my $this = shift;
 
-    return if ($this->{initialised});
+    return if ( $this->{initialised} );
 
     # Build pattern of stop words
     my $prefs = $this->{session}->{prefs};
@@ -110,7 +110,7 @@ sub parse {
           split( /[\s]+/, $searchString );                 # split on spaces
     }
 
-    my $result = new Foswiki::Search::Node($searchString, \@tokens, $options );
+    my $result = new Foswiki::Search::Node( $searchString, \@tokens, $options );
     return $result;
 }
 

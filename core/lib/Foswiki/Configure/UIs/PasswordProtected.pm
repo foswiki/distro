@@ -8,7 +8,7 @@ package Foswiki::Configure::UIs::PasswordProtected;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 
 use Foswiki::Configure::Type ();
 
@@ -17,8 +17,8 @@ sub ui {
     my $output = '';
 
     if ( $Foswiki::query->param('newCfgP') ) {
-        if ( $Foswiki::query->param('newCfgP') eq $Foswiki::query->param('confCfgP')
-          )
+        if ( $Foswiki::query->param('newCfgP') eq
+            $Foswiki::query->param('confCfgP') )
         {
             $this->{updates}{'{Password}'} =
               $this->_encode( $Foswiki::query->param('newCfgP') );

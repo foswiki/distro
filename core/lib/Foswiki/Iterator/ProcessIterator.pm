@@ -15,7 +15,7 @@ use strict;
 use Assert;
 
 use Foswiki::Iterator ();
-our @ISA = ( 'Foswiki::Iterator' );
+our @ISA = ('Foswiki::Iterator');
 
 =begin TML
 

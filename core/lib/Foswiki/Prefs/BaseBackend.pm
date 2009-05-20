@@ -23,7 +23,7 @@ Creates a preferences backend object.
 =cut
 
 sub new {
-    my ($proto, $values) = @_;
+    my ( $proto, $values ) = @_;
     my $class = ref($proto) || $proto;
 
     return bless {}, $class;
@@ -110,13 +110,13 @@ Utility method that cleans $$vaue_ref for later use in insert().
 =cut
 
 sub cleanupInsertValue {
-    my ($this, $value_ref) = @_;
-    
-    $$value_ref =~ tr/\r//d;                 # Delete \r
-    $$value_ref =~ tr/\t/ /;                 # replace TAB by space
-    $$value_ref =~ s/([^\\])\\n/$1\n/g;      # replace \n by new line
-    $$value_ref =~ s/([^\\])\\\\n/$1\\n/g;   # replace \\n by \n
-    $$value_ref =~ tr/`//d;                  # filter out dangerous chars
+    my ( $this, $value_ref ) = @_;
+
+    $$value_ref =~ tr/\r//d;                  # Delete \r
+    $$value_ref =~ tr/\t/ /;                  # replace TAB by space
+    $$value_ref =~ s/([^\\])\\n/$1\n/g;       # replace \n by new line
+    $$value_ref =~ s/([^\\])\\\\n/$1\\n/g;    # replace \\n by \n
+    $$value_ref =~ tr/`//d;                   # filter out dangerous chars
 }
 
 1;

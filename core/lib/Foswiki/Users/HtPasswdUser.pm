@@ -15,7 +15,7 @@ package Foswiki::Users::HtPasswdUser;
 use strict;
 
 use Foswiki::Users::Password ();
-our @ISA = ( 'Foswiki::Users::Password' );
+our @ISA = ('Foswiki::Users::Password');
 
 use Assert;
 use Error qw( :try );
@@ -173,8 +173,7 @@ sub encrypt {
     $passwd ||= '';
 
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
-        my $encodedPassword =
-          '{SHA}' . Digest::SHA::sha1_base64( $passwd );
+        my $encodedPassword = '{SHA}' . Digest::SHA::sha1_base64($passwd);
 
         # don't use chomp, it relies on $/
         $encodedPassword =~ s/\s+$//;

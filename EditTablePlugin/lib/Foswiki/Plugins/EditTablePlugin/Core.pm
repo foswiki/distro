@@ -170,7 +170,7 @@ sub processText {
 
     # Item1458 ignore all saving unless it happened using POST method.
     $doSave = 0
-      if ( $query && $query->method() && uc($query->method()) ne 'POST' );
+      if ( $query && $query->method() && uc( $query->method() ) ne 'POST' );
 
     if ($Foswiki::Plugins::EditTablePlugin::debug) {
         Foswiki::Func::writeDebug(
@@ -528,11 +528,14 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         # So we use the special setting disableallsort which is added
         # to TABLE for exactly this purpose. Please to not remove this
         # feature again.
-        if ( $doEdit && !$doSave && ( $paramTableNr == $tableNr ) &&
-           ( $editTableTag !~ /%TABLE{.*?disableallsort="on".*?}%/ ) ) {
+        if (   $doEdit
+            && !$doSave
+            && ( $paramTableNr == $tableNr )
+            && ( $editTableTag !~ /%TABLE{.*?disableallsort="on".*?}%/ ) )
+        {
             $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 disableallsort="on"$2/;
-        }       
-        
+        }
+
         # The Data::parseText merges a TABLE and EDITTABLE to one line
         # We split it again to make editing easier for the user
         # If the two were originally one line - they now become two unless
@@ -643,7 +646,7 @@ sub getPreferencesValues {
 
     $prefEDIT_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_EDIT_BUTTON")
-      ||  '%MAKETEXT{"Edit this table"}%, %ATTACHURL%/edittable.gif';
+      || '%MAKETEXT{"Edit this table"}%, %ATTACHURL%/edittable.gif';
 
     $prefSAVE_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_SAVE_BUTTON")
@@ -660,11 +663,11 @@ sub getPreferencesValues {
     $prefDELETE_LAST_ROW_BUTTON = Foswiki::Func::getPreferencesValue(
         "\U$pluginName\E_DELETE_LAST_ROW_BUTTON")
       || '%MAKETEXT{"Delete last row"}%';
-      
+
     $prefCANCEL_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_CANCEL_BUTTON")
       || '%MAKETEXT{"Cancel"}%';
-      
+
     $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST =
       Foswiki::Func::getPreferencesValue(
         "\U$pluginName\E_INCLUDED_TOPIC_DOES_NOT_EXIST")
@@ -766,11 +769,13 @@ sub handleEditTableTag {
     # include topic to read definitions
     my $iTopic = Foswiki::Func::extractNameValuePair( $theArgs, 'include' );
     if ($iTopic) {
-	($inWeb, $iTopic) = Foswiki::Func::normalizeWebTopicName($inWeb, $iTopic);
+        ( $inWeb, $iTopic ) =
+          Foswiki::Func::normalizeWebTopicName( $inWeb, $iTopic );
 
-        unless (Foswiki::Func::topicExists( $inWeb, $iTopic )) {
+        unless ( Foswiki::Func::topicExists( $inWeb, $iTopic ) ) {
             $warningMessage = $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST;
-        } else {
+        }
+        else {
 
             my $text = Foswiki::Func::readTopicText( $inWeb, $iTopic );
             $text =~ /$PATTERN_EDITTABLEPLUGIN/os;

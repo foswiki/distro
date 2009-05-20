@@ -14,7 +14,7 @@ use strict;
 use Assert;
 
 use Foswiki::Infix::Parser ();
-our @ISA = ( 'Foswiki::Infix::Parser' );
+our @ISA = ('Foswiki::Infix::Parser');
 
 use Foswiki::Query::Node ();
 

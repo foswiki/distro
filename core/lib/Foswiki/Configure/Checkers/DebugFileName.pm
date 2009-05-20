@@ -4,7 +4,7 @@ package Foswiki::Configure::Checkers::DebugFileName;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 
 use Foswiki::Configure::Load ();
 
@@ -12,7 +12,7 @@ sub check {
     my $this = shift;
 
     if (   $Foswiki::cfg{DebugFileName}
-        && $Foswiki::cfg{DebugFileName}!~/^NOT SET/ )
+        && $Foswiki::cfg{DebugFileName} !~ /^NOT SET/ )
     {
         my $logFile = $Foswiki::cfg{DebugFileName} || "";
         $logFile =~ s/%DATE%/DATE/;

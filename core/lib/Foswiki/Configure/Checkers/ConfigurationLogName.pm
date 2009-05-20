@@ -4,14 +4,14 @@ package Foswiki::Configure::Checkers::ConfigurationLogName;
 use strict;
 
 use Foswiki::Configure::Checker ();
-our @ISA = ( 'Foswiki::Configure::Checker' );
+our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load ();
 
 sub check {
     my $this = shift;
 
     if (   $Foswiki::cfg{ConfigurationLogName}
-        && $Foswiki::cfg{ConfigurationLogName}!~/^NOT SET/ )
+        && $Foswiki::cfg{ConfigurationLogName} !~ /^NOT SET/ )
     {
         my $logFile = $Foswiki::cfg{ConfigurationLogName} || "";
         $logFile =~ s/%DATE%/DATE/;
@@ -21,7 +21,8 @@ sub check {
         return $e;
     }
     else {
-        $Foswiki::cfg{ConfigurationLogName} =~ s/^NOT SET/$Foswiki::cfg{DataDir}/g;
+        $Foswiki::cfg{ConfigurationLogName} =~
+          s/^NOT SET/$Foswiki::cfg{DataDir}/g;
         return $this->guessed(0);
     }
     return '';

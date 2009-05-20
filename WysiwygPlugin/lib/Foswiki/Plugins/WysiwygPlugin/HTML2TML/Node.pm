@@ -445,16 +445,18 @@ sub _collapse {
 
 # If this node has the specified class, insert a new "span" node with that
 # class between this node and all of this node's children.
-sub _moveClassToSpan
-{
-    my $this = shift;
+sub _moveClassToSpan {
+    my $this  = shift;
     my $class = shift;
 
-    if ( $this->{tag} and 
-         lc($this->{tag}) ne 'span' and
-         $this->_removeClass($class) ) {
-         
-        my $newspan = new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node( $this->{context}, 'span', { class => $class } );
+    if (    $this->{tag}
+        and lc( $this->{tag} ) ne 'span'
+        and $this->_removeClass($class) )
+    {
+
+        my $newspan =
+          new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node( $this->{context},
+            'span', { class => $class } );
         my $kid = $this->{head};
         while ($kid) {
             $newspan->addChild($kid);

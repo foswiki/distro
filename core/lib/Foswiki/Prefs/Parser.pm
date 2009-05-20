@@ -73,7 +73,7 @@ sub parse {
         # SMELL: What is this mysterious undocumented code for? It inserts
         # PREFERENCE_<pref title> but that's all I can work out :-(
         # I can't find any clues in Codev either.
-        if (defined($field->{title})) {
+        if ( defined( $field->{title} ) ) {
             $prefs->insert( $type, 'PREFERENCE_' . $field->{title}, $value );
         }
     }

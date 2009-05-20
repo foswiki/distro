@@ -61,11 +61,12 @@ sub generate {
         $formList .= CGI::input($props);
         my ( $formWeb, $formTopic ) =
           $session->normalizeWebTopicName( $topicObject->web, $form );
-        my $formLabelContent =
-          '&nbsp;'
-          . ( $session->topicExists( $formWeb, $formTopic )
+        my $formLabelContent = '&nbsp;'
+          . (
+            $session->topicExists( $formWeb, $formTopic )
             ? '[[' . $formWeb . '.' . $formTopic . '][' . $form . ']]'
-            : $form );
+            : $form
+          );
         $formList .= CGI::label( { for => $formElemId }, $formLabelContent );
     }
     $page =~ s/%FORMLIST%/$formList/go;

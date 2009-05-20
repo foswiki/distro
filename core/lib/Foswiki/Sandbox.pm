@@ -59,7 +59,7 @@ sub _assessPipeSupport {
     $REAL_SAFE_PIPE_OPEN     = 1;
     $EMULATED_SAFE_PIPE_OPEN = 1;
 
-    # Detect ActiveState and Strawberry perl.   (Cygwin perl returns "cygwin" for $^O)
+# Detect ActiveState and Strawberry perl.   (Cygwin perl returns "cygwin" for $^O)
     if ( $^O eq 'MSWin32' ) {
         $REAL_SAFE_PIPE_OPEN     = 0;
         $EMULATED_SAFE_PIPE_OPEN = 0;

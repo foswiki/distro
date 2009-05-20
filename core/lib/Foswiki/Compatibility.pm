@@ -386,18 +386,18 @@ sub _symmetricalDataDecode {
 # Return a list of alternative anchor names generated using old generations
 # of anchor name generator
 sub makeCompatibleAnchors {
-    my ( $text ) = @_;
+    my ($text) = @_;
     my @anchors;
 
     # Use the old algorithm to generate the old style, non-unique, anchor
     # target.
     my $badAnchor = _makeBadAnchorName( $text, 0 );
-    push(@anchors, $badAnchor),
+    push( @anchors, $badAnchor ),
 
-    # There's an even older algorithm we have to allow for
-    my $worseAnchor = _makeBadAnchorName( $text, 1 );
-    if ($worseAnchor ne $badAnchor) {
-        push(@anchors, $worseAnchor ),
+      # There's an even older algorithm we have to allow for
+      my $worseAnchor = _makeBadAnchorName( $text, 1 );
+    if ( $worseAnchor ne $badAnchor ) {
+        push( @anchors, $worseAnchor ),;
     }
 
     return @anchors;
@@ -432,7 +432,7 @@ sub _makeBadAnchorName {
     $anchorName =~ s/<\/?[a-zA-Z][^>]*>//gi;    # remove HTML tags
     $anchorName =~ s/&#?[a-zA-Z0-9]+;//g;       # remove HTML entities
     $anchorName =~ s/&//g;                      # remove &
-    # filter TOC excludes if not at beginning
+         # filter TOC excludes if not at beginning
     $anchorName =~ s/^(.+?)\s*$Foswiki::regex{headerPatternNoTOC}.*/$1/o;
 
     # filter '!!', '%NOTOC%'
@@ -441,23 +441,23 @@ sub _makeBadAnchorName {
     # No matter what character set we use, the HTML standard does not allow
     # anything else than English alphanum characters in anchors
     # So we convert anything non A-Za-z0-9_ to underscores
-    # and limit the number consecutive of underscores to 1 
-    # This means that pure non-English anchors will become A, A_AN1, A_AN2, ... 
+    # and limit the number consecutive of underscores to 1
+    # This means that pure non-English anchors will become A, A_AN1, A_AN2, ...
     # We accept anchors starting with 0-9. It is non RFC but it works and it
     # is very important for compatibility
     $anchorName =~ s/[^A-Za-z0-9]+/_/g;
-    $anchorName =~ s/__+/_/g;   # remove excessive '_' chars 
-    
+    $anchorName =~ s/__+/_/g;             # remove excessive '_' chars
+
     if ( !$compatibilityMode ) {
-        $anchorName =~ s/^[\s#_]+//;    # no leading space nor '#', '_'
+        $anchorName =~ s/^[\s#_]+//;      # no leading space nor '#', '_'
     }
-    
-    $anchorName =~ s/^$/A/;             # prevent empty anchor
+
+    $anchorName =~ s/^$/A/;               # prevent empty anchor
 
     # limit to 32 chars
     $anchorName =~ s/^(.{32})(.*)$/$1/;
     if ( !$compatibilityMode ) {
-        $anchorName =~ s/[\s_]+$//;     # no trailing space, nor '_'
+        $anchorName =~ s/[\s_]+$//;       # no trailing space, nor '_'
     }
     return $anchorName;
 }

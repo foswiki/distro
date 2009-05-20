@@ -29,8 +29,8 @@ use strict;
 use Assert;
 use Encode ();
 
-use Foswiki::Func ();       # The plugins API
-use Foswiki::Plugins ();    # For the API version
+use Foswiki::Func                              ();    # The plugins API
+use Foswiki::Plugins                           ();    # For the API version
 use Foswiki::Plugins::WysiwygPlugin::Constants ();
 
 use vars qw( $html2tml $tml2html $recursionBlock $imgMap );
@@ -770,9 +770,10 @@ sub _restHTML2TML {
 sub _restUpload {
     my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
+
     # Item1458 ignore uploads not using POST
-    if ($query && $query->method() && uc($query->method()) ne 'POST') {
-        returnRESTResult($response, 405, "Method not Allowed");
+    if ( $query && $query->method() && uc( $query->method() ) ne 'POST' ) {
+        returnRESTResult( $response, 405, "Method not Allowed" );
         return;
     }
     my ( $web, $topic ) =

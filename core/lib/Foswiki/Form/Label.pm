@@ -4,7 +4,7 @@ package Foswiki::Form::Label;
 use strict;
 
 use Foswiki::Form::FieldDefinition ();
-our @ISA = ( 'Foswiki::Form::FieldDefinition' );
+our @ISA = ('Foswiki::Form::FieldDefinition');
 
 sub isEditable {
     return 0;

@@ -14,9 +14,9 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki ();
-use Foswiki::UI ();
-use Foswiki::Sandbox ();
+use Foswiki                ();
+use Foswiki::UI            ();
+use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
 
 =begin TML

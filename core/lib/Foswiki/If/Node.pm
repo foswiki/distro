@@ -13,7 +13,7 @@ package Foswiki::If::Node;
 use strict;
 
 use Foswiki::Query::Node ();
-our @ISA = ( 'Foswiki::Query::Node' );
+our @ISA = ('Foswiki::Query::Node');
 
 use Foswiki::Infix::Node ();
 

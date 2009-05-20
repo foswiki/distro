@@ -47,8 +47,7 @@ package Foswiki::AccessControlException;
 use strict;
 
 use Error ();
-our @ISA = ( 'Error' ); # base class
-
+our @ISA = ('Error');    # base class
 
 our $VERSION = '$Rev$';
 

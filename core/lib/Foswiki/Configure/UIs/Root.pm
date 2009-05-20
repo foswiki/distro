@@ -7,7 +7,7 @@ use strict;
 use Foswiki::Configure::UI ();
 
 use Foswiki::Configure::UIs::Section ();
-our @ISA = ( 'Foswiki::Configure::UIs::Section' );
+our @ISA = ('Foswiki::Configure::UIs::Section');
 
 # Visit the nodes in a tree of configuration items, and generate
 # their UIs.

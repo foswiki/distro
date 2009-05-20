@@ -1005,9 +1005,10 @@ $Foswiki::cfg{LoginNameFilterIn}
 =cut
 
 sub isValidLoginName {
-    my ($this, $name) = @_;
+    my ( $this, $name ) = @_;
+
     # this function was erroneously marked as static
-    ASSERT(! ref($name) ) if DEBUG;
+    ASSERT( !ref($name) ) if DEBUG;
     return $name =~ /$Foswiki::cfg{LoginNameFilterIn}/;
 }
 

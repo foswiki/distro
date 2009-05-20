@@ -22,39 +22,45 @@ package Foswiki::Store::QueryAlgorithms::BruteForce;
 use strict;
 
 use Foswiki::Search::Node ();
-use Foswiki::Meta ();
+use Foswiki::Meta         ();
 use Foswiki::Search::InfoCache;
-
 
 sub query {
     my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
 
     my $topicSet = $inputTopicSet;
 
-#TODO: howto ask iterator for list length?
-#    if ( scalar(@$topics) > 6 ) {
-        require Foswiki::Query::HoistREs;
-        my @filter = Foswiki::Query::HoistREs::hoist($query);
-        if (scalar(@filter)) {
-            my $searchOptions = {
-                        type                => 'regex',
-                        casesensitive       => 1,
-                        files_without_match => 1,
-                    };
-            my $searchQuery = new Foswiki::Search::Node($query->toString(), \@filter, $searchOptions);
-            $topicSet = $store->searchInWebMetaData($searchQuery, $web, $topicSet, $searchOptions);
-        } else {
-            #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
-        }
-#    }
+    #TODO: howto ask iterator for list length?
+    #    if ( scalar(@$topics) > 6 ) {
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    if ( scalar(@filter) ) {
+        my $searchOptions = {
+            type                => 'regex',
+            casesensitive       => 1,
+            files_without_match => 1,
+        };
+        my $searchQuery =
+          new Foswiki::Search::Node( $query->toString(), \@filter,
+            $searchOptions );
+        $topicSet =
+          $store->searchInWebMetaData( $searchQuery, $web, $topicSet,
+            $searchOptions );
+    }
+    else {
+
+        #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
+    }
+
+    #    }
 
     my %matches;
     local $/;
     while ( $topicSet->hasNext() ) {
         my $topic = $topicSet->next();
         my $meta =
-          Foswiki::Meta->new( $store->{session}, $web, $topic);#, <FILE> );
-        #this 'lazy load will become useful when @$topics becomes an infoCache
+          Foswiki::Meta->new( $store->{session}, $web, $topic );    #, <FILE> );
+           #this 'lazy load will become useful when @$topics becomes an infoCache
         $meta->reload() unless ( $meta->getLoadedRev() );
         next unless ( $meta->getLoadedRev() );
 
@@ -65,7 +71,9 @@ sub query {
     }
 
     my @topics = keys(%matches);
-    my $resultTopicSet = new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web, \@topics);
+    my $resultTopicSet =
+      new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
+        \@topics );
     return $resultTopicSet;
 }
 

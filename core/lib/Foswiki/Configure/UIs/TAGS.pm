@@ -5,9 +5,9 @@ package Foswiki::Configure::UIs::TAGS;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 
-use Foswiki::Configure::Type ();
+use Foswiki::Configure::Type  ();
 use Foswiki::Configure::Value ();
 
 sub ui {

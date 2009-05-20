@@ -75,10 +75,10 @@ sub rest {
 
         # SMELL: excess brackets in RE?
         unless ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
-            $res->header( -type   => 'text/html', -status => '400' );
+            $res->header( -type => 'text/html', -status => '400' );
             $err = 'ERROR: (400) Invalid REST invocation'
               . " - Invalid topic parameter $topic\n";
-            $res->print( $err );
+            $res->print($err);
             throw Foswiki::EngineException( 400, $err, $res );
         }
     }
@@ -93,10 +93,10 @@ sub rest {
     # If there's login info, try and apply it
     my $login = $req->param('username');
     if ($login) {
-        my $pass  = $req->param('password');
+        my $pass = $req->param('password');
         my $validation = $session->{users}->checkPassword( $login, $pass );
         unless ($validation) {
-            $res->header( -type   => 'text/html', -status => '401' );
+            $res->header( -type => 'text/html', -status => '401' );
             $err = "ERROR: (401) Can't login as $login";
             $res->print($err);
             throw Foswiki::EngineException( 401, $err, $res );
@@ -111,9 +111,10 @@ sub rest {
     # {AuthScripts} contract
     try {
         $session->{users}->{loginManager}->checkAccess();
-    } catch Error with {
-        my $e   = shift;
-        $res->header( -type   => 'text/html', -status => '401' );
+    }
+    catch Error with {
+        my $e = shift;
+        $res->header( -type => 'text/html', -status => '401' );
         $err = "ERROR: (401) $e";
         $res->print($err);
         throw Foswiki::EngineException( 401, $err, $res );
@@ -126,7 +127,7 @@ sub rest {
     # well-structured.
     unless ( $pathInfo =~ m#/(.*?)[./]([^/]*)# ) {
 
-        $res->header( -type   => 'text/html', -status => '400' );
+        $res->header( -type => 'text/html', -status => '400' );
         $err = "ERROR: (400) Invalid REST invocation - $pathInfo is malformed";
         $res->print($err);
         throw Foswiki::EngineException( 400, $err, $res );
@@ -138,30 +139,34 @@ sub rest {
     my $record = $restDispatch{$subject}{$verb};
 
     # Check we have this handler
-    unless ( $record ) {
-        $res->header( -type   => 'text/html', -status => '404' );
-        $err = 'ERROR: (404) Invalid REST invocation - '
-          .$pathInfo.' does not refer to a known handler';
+    unless ($record) {
+        $res->header( -type => 'text/html', -status => '404' );
+        $err =
+            'ERROR: (404) Invalid REST invocation - '
+          . $pathInfo
+          . ' does not refer to a known handler';
         $res->print($err);
         throw Foswiki::EngineException( 404, $err, $res );
     }
 
     # Check the method is allowed
-    if ($record->{http_allow} && defined $req->method()) {
-        my %allowed = map { $_ => 1 } split (/[,\s]+/, $record->{http_allow});
-        unless ($allowed{uc($req->method())}) {
+    if ( $record->{http_allow} && defined $req->method() ) {
+        my %allowed = map { $_ => 1 } split( /[,\s]+/, $record->{http_allow} );
+        unless ( $allowed{ uc( $req->method() ) } ) {
             $res->header( -type => 'text/html', -status => '405' );
-            $err = 'ERROR: (405) Bad Request: '.uc($req->method()).' denied';
+            $err =
+              'ERROR: (405) Bad Request: ' . uc( $req->method() ) . ' denied';
             $res->print($err);
             throw Foswiki::EngineException( 404, $err, $res );
         }
     }
 
     # Check someone is logged in
-    if ($record->{authenticate}) {
+    if ( $record->{authenticate} ) {
         unless ( $session->inContext('authenticated')
-                   || $Foswiki::cfg{LoginManager} eq 'none' ) {
-            $res->header( -type   => 'text/html', -status => '401' );
+            || $Foswiki::cfg{LoginManager} eq 'none' )
+        {
+            $res->header( -type => 'text/html', -status => '401' );
             $err = "ERROR: (401) $pathInfo requires you to be logged in";
             $res->print($err);
             throw Foswiki::EngineException( 401, $err, $res );
@@ -169,15 +174,21 @@ sub rest {
     }
 
     # Validate the request
-    if ($record->{validate}) {
+    if ( $record->{validate} ) {
         my $nonce = $req->param('validation_key');
-        if (!defined($nonce) || !Foswiki::Validation::isValidNonce(
-            $session->getCGISession(), $nonce)) {
-            $res->header( -type   => 'text/html', -status => '401' );
+        if (
+            !defined($nonce)
+            || !Foswiki::Validation::isValidNonce(
+                $session->getCGISession(), $nonce
+            )
+          )
+        {
+            $res->header( -type => 'text/html', -status => '401' );
             $err = "ERROR: (403) Invalid validation code";
             $res->print($err);
             throw Foswiki::EngineException( 401, $err, $res );
         }
+
         # SMELL: Note we don't expire the validation code. If we expired it,
         # then subsequent requests using the same code would have to be
         # interactively confirmed, which isn't really an option with
@@ -196,10 +207,12 @@ sub rest {
         $session->redirect($nurl);
     }
     elsif ($result) {
+
         # If the handler doesn't want to handle all the details of the
         # response, they can return a page here and get it 200'd
         $session->writeCompletePage($result);
     }
+
     # Otherwise it's assumed that the handler dealt with the response.
 }
 

@@ -7,7 +7,7 @@ package Foswiki::Configure::Root;
 use strict;
 
 use Foswiki::Configure::Section ();
-our @ISA = ( 'Foswiki::Configure::Section' );
+our @ISA = ('Foswiki::Configure::Section');
 
 sub new {
     my $class = shift;

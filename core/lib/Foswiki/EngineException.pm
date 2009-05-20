@@ -16,7 +16,7 @@ package Foswiki::EngineException;
 use strict;
 
 use Error ();
-our @ISA = ( 'Error' );
+our @ISA = ('Error');
 
 =begin TML
 

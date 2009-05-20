@@ -5,7 +5,7 @@ package Foswiki::Configure::LANGUAGES;
 use strict;
 
 use Foswiki::Configure::Pluggable ();
-our @ISA = ( 'Foswiki::Configure::Pluggable' );
+our @ISA = ('Foswiki::Configure::Pluggable');
 
 sub new {
     my ($class) = @_;

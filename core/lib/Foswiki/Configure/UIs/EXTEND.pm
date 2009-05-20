@@ -5,11 +5,11 @@ package Foswiki::Configure::UIs::EXTEND;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 use File::Temp ();
 use File::Copy ();
 use File::Spec ();
-use Cwd ();
+use Cwd        ();
 
 sub ui {
     my $this  = shift;
@@ -150,16 +150,16 @@ MESS
         # interaction if the script ignores -a. At the moment it
         # will just hang :-(
         chdir( $this->{root} );
-        unshift( @ARGV, '-a' ); # don't prompt
-        unshift(@ARGV, '-d'); # yes, you can download
-        # Note: -r not passed to the script, so it will _not_ try to
-        # re-use existing archives found on disc to resolve dependencies.
+        unshift( @ARGV, '-a' );    # don't prompt
+        unshift( @ARGV, '-d' );    # yes, you can download
+             # Note: -r not passed to the script, so it will _not_ try to
+             # re-use existing archives found on disc to resolve dependencies.
         print "<pre>\n";
         eval {
             no warnings 'redefine';
             do $installScript;
             use warnings 'redefine';
-            die $@ if $@;            # propagate
+            die $@ if $@;    # propagate
         };
         print "</pre>\n";
         if ($@) {
@@ -217,7 +217,8 @@ sub _findTarget {
     }
     elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
     }
-    elsif ( $file =~ s#^(bin/\w+)$#$this->{root}$1$Foswiki::cfg{ScriptSuffix}# ) {
+    elsif ( $file =~ s#^(bin/\w+)$#$this->{root}$1$Foswiki::cfg{ScriptSuffix}# )
+    {
 
         #This makes a couple of bad assumptions
         #1. that the twiki's bin dir _is_ called bin
@@ -240,12 +241,13 @@ sub _listDir {
     my @names = ();
     if ( opendir( $d, "$dir$path" ) ) {
         foreach my $f ( grep { !/^\.*$/ } readdir $d ) {
+
             # Someone might upload a package that contains
             # a filename which, when passed to File::Copy, does something
             # evil. Check and untaint the filenames here.
             # SMELL: potential problem with unicode chars in file names? (yes)
             # TODO: should really compare to MANIFEST
-            if ($f =~ /^([-\w.,]+)$/) {
+            if ( $f =~ /^([-\w.,]+)$/ ) {
                 $f = $1;
                 if ( -d "$dir$path/$f" ) {
                     push( @names, "$path$f/" );
@@ -254,8 +256,10 @@ sub _listDir {
                 else {
                     push( @names, "$path$f" );
                 }
-            } else {
-                print "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n";
+            }
+            else {
+                print
+"WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n";
             }
         }
         closedir($d);
@@ -304,11 +308,11 @@ sub _unzip {
 
         my @members = $zip->members();
         foreach my $member (@members) {
-            my $file   = $member->fileName();
+            my $file = $member->fileName();
             $file =~ /(.*)/;
-            $file = $1; #yes, we must untaint
+            $file = $1;    #yes, we must untaint
             my $target = $file;
-            my $err    = $zip->extractMember( $file, $target );
+            my $err = $zip->extractMember( $file, $target );
             if ($err) {
                 print "Failed to extract '$file' from zip file ",
                   $zip, ". Archive may be corrupt.<br />\n";

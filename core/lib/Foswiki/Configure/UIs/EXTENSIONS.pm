@@ -3,7 +3,7 @@ package Foswiki::Configure::UIs::EXTENSIONS;
 use strict;
 
 use Foswiki::Configure::UI ();
-our @ISA = ( 'Foswiki::Configure::UI' );
+our @ISA = ('Foswiki::Configure::UI');
 
 use Foswiki::Configure::Type ();
 
@@ -128,8 +128,8 @@ sub ui {
                     if ( $ext->{installedVersion} eq 'HEAD' ) {
 
                         # Unexpanded, assume pseudo-installed
-                        $link = '';
-                        $text = 'pseudo-installed';
+                        $link            = '';
+                        $text            = 'pseudo-installed';
                         $ext->{cssclass} = 'pseudoinstalled';
                     }
                     elsif ( $ext->{installedVersion} =~
@@ -142,11 +142,12 @@ sub ui {
                         my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~ /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
+                        if ( $ext->{version} =~
+                            /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
                         {
 
                             # Compatible version number
-                            my $arev = ( $1 * 1000 + $2 ) * 1000 + ($3 || 0);
+                            my $arev = ( $1 * 1000 + $2 ) * 1000 + ( $3 || 0 );
                             if ( $arev > $irev ) {
                                 $text = 'Upgrade';
                                 $ext->{cssclass} = 'upgrade';
@@ -167,13 +168,15 @@ sub ui {
                             }
                         }
                     }
-                    elsif ( $ext->{installedVersion} =~
-                        /(\d{4})-(\d\d)-(\d\d)/ ) {
+                    elsif (
+                        $ext->{installedVersion} =~ /(\d{4})-(\d\d)-(\d\d)/ )
+                    {
+
                         # ISO date
                         my $idate = d2n( $3, $2, $1 );
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
+                        if ( $ext->{version} =~ /(\d{4})-(\d\d)-(\d\d)/ ) {
                             my $adate = d2n( $3, $2, $1 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
@@ -182,15 +185,15 @@ sub ui {
                         }
                     }
                     elsif ( $ext->{installedVersion} =~
-                        /(\d{1,2}) ($MNAME) (\d{4})/ ) {
+                        /(\d{1,2}) ($MNAME) (\d{4})/ )
+                    {
 
                         # dd Mmm yyyy date
-                        my $idate = d2n( $1, $N2M{lc($2)}, $3 );
+                        my $idate = d2n( $1, $N2M{ lc($2) }, $3 );
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~
-                               /(\d{1,2}) ($MNAME) (\d{4})/ ) {
-                            my $adate = d2n( $1, $N2M{lc($2)}, $3 );
+                        if ( $ext->{version} =~ /(\d{1,2}) ($MNAME) (\d{4})/ ) {
+                            my $adate = d2n( $1, $N2M{ lc($2) }, $3 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
                                 $ext->{cssclass} = 'upgrade';
@@ -205,11 +208,12 @@ sub ui {
             }
             else {
                 $text = $ext->{$f} || '-';
-                $text =~ s/!(\w+)/$1/go; # remove ! escape syntax from text
+                $text =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
                 if ( $f eq 'topic' ) {
                     my $link = $ext->{data} . $ext->{topic};
                     $text = CGI::a( { href => $link }, $text );
                 }
+
 =pod
                 elsif ($f eq 'image'
                     && $ext->{namespace}
@@ -218,6 +222,7 @@ sub ui {
                     $text = "$text ($ext->{namespace})";
                 }
 =cut
+
             }
             my %opts = ( valign => 'top' );
             if ( $ext->{namespace} && $ext->{namespace} ne 'Foswiki' ) {
@@ -228,7 +233,7 @@ sub ui {
         my @classes = ( $rows % 2 ? 'odd' : 'even' );
         if ( $ext->{installedVersion} ) {
             push @classes, 'installed';
-            push( @classes, $ext->{cssclass} ) if ($ext->{cssclass}); 
+            push( @classes, $ext->{cssclass} ) if ( $ext->{cssclass} );
             push @classes, 'twikiExtension'
               if $ext->{installedVersion} =~ /\(TWiki\)/;
         }

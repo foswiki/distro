@@ -7,8 +7,8 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki ();
-use Foswiki::UI ();
+use Foswiki       ();
+use Foswiki::UI   ();
 use Foswiki::Time ();
 
 # Command handler for changes command

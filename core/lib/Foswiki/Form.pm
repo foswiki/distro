@@ -32,12 +32,12 @@ package Foswiki::Form;
 use strict;
 
 use Foswiki::Meta ();
-our @ISA = ( 'Foswiki::Meta' );
+our @ISA = ('Foswiki::Meta');
 
 use Assert;
 use Error qw( :try );
 
-use Foswiki::Form::FieldDefinition ();
+use Foswiki::Form::FieldDefinition     ();
 use Foswiki::Form::ListFieldDefinition ();
 
 # The following are reserved as URL parameters to scripts and may not be
