@@ -10,7 +10,7 @@ BEGIN {
 
 use Foswiki::Contrib::Build;
 
-$build = new Foswiki::Contrib::Build( "TinyMCEPlugin" );
+my $build = new Foswiki::Contrib::Build( "TinyMCEPlugin" );
 $build->build($build->{target});
 
 
