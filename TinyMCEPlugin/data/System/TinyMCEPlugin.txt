@@ -49,6 +49,7 @@ For a full explanation of the available options, and guidance on reconfiguring T
    convert_urls : true,
    relative_urls : false,
    remove_script_host : false,
+   extended_valid_elements : "li[type]",
    setupcontent_callback : FoswikiTiny.setUpContent,
    urlconverter_callback : "FoswikiTiny.convertLink",
    hide_instance_callback : FoswikiTiny.switchToRaw,
