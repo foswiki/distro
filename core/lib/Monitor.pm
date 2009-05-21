@@ -112,12 +112,17 @@ sub END {
     #    }
     my %methods;
     foreach my $call (@methodStats) {
-        $methods{ $call->{method} } = { count => 0, min => 99999999, max => 0 }
+        $methods{ $call->{method} } = {
+            count   => 0,
+            min     => 99999999,
+            max     => 0,
+            mem_min => 99999999,
+            mem_max => 0
+          }
           unless defined( $methods{ $call->{method} } );
         $methods{ $call->{method} }{count} += 1;
         my $diff = timediff( $call->{out}, $call->{in} );
 
-        #my $diff = $call->{out}{rss} - $call->{in}{rss};
         $methods{ $call->{method} }{min} = ${$diff}[0]
           if ( $methods{ $call->{method} }{min} > ${$diff}[0] );
         $methods{ $call->{method} }{max} = ${$diff}[0]
@@ -129,13 +134,25 @@ sub END {
         else {
             $methods{ $call->{method} }{total} = $diff;
         }
+        my $memdiff = $call->{out_stat}{rss} - $call->{in_stat}{rss};
+        $methods{ $call->{method} }{mem_min} = $memdiff
+          if ( $methods{ $call->{method} }{mem_min} > $memdiff );
+        $methods{ $call->{method} }{mem_max} = $memdiff
+          if ( $methods{ $call->{method} }{mem_max} < $memdiff );
     }
-    print STDERR "\n| Count  |  Min   |  Max   | Total      | Method |";
+    print STDERR
+      "\n| Count  |  Time (Min/Max) | Memory(Min/Max) | Total      | Method |";
     foreach my $method ( sort keys %methods ) {
-        print STDERR "\n| "
-          . sprintf( '%6u',   $methods{$method}{count} ) . ' | '
-          . sprintf( '%6.3f', $methods{$method}{min} ) . ' | '
-          . sprintf( '%6.3f', $methods{$method}{max} ) . ' | '
+        print STDERR "\n| " 
+          . sprintf( '%6u', $methods{$method}{count} ) . ' | '
+          . sprintf( '%6.3f / %6.3f',
+            $methods{$method}{min},
+            $methods{$method}{max} )
+          . ' | '
+          . sprintf( '%6u / %6u',
+            $methods{$method}{mem_min},
+            $methods{$method}{mem_max} )
+          . ' | '
           . timestr( $methods{$method}{total} )
           . " | $method |";
     }
