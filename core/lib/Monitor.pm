@@ -29,6 +29,8 @@ is total memory.
 
 NOTE: it uses /proc - so its linux specific...
 
+TODO: replace FOSWIKI_MONITOR with LocalSite.cfg setting that can turn on per module instrumentation.
+
 =cut
 
 package Monitor;
