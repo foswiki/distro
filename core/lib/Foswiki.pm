@@ -282,6 +282,9 @@ BEGIN {
         import locale();
     }
 
+    # If not set, default to strikeone validation
+    $Foswiki::cfg{ValidationMethod} ||= 'strikeone';
+
     # Constant tags dependent on the config
     $functionTags{ALLOWLOGINNAME} =
       sub { $Foswiki::cfg{Register}{AllowLoginName} || 0 };
@@ -637,7 +640,8 @@ sub writeCompletePage {
         $text .= "\n" unless $text =~ /\n$/s;
 
         my $cgis = $this->getCGISession();
-        if ( $cgis && $contentType eq 'text/html' ) {
+        if ( $cgis && $contentType eq 'text/html'
+               && $Foswiki::cfg{ValidationMethod} ne 'none') {
 
             # Don't expire the validation key through login, or when
             # endpoint is an error.
@@ -645,9 +649,30 @@ sub writeCompletePage {
               unless ( $this->{request}->action() eq 'login'
                 or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
 
+            my $usingStrikeOne = 0;
+            if ($Foswiki::cfg{ValidationMethod} eq 'strikeone'
+                  # Add the onsubmit handler to the form
+                  && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+                    Foswiki::Validation::addOnSubmit($1)/gei) {
+                # At least one form has been touched; add the validation
+                # cookie
+                $this->{users}->{loginManager}->addCookie(
+                    Foswiki::Validation::getCookie(
+                        $cgis, $this->{response}));
+                # Add the JS module to the page. Note that this is *not*
+                # incorporated into the foswikilib.js because that module
+                # is conditionally loaded under the control of the
+                # templates, and we have to be *sure* it gets loaded.
+                $this->addToHEAD( 'FOSWIKI STRIKE ONE',
+                                  <<STRIKEONE);
+<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone.js"></script>
+STRIKEONE
+                $usingStrikeOne = 1;
+            }
             # Inject validation key in HTML forms
             $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-              Foswiki::Validation::addValidationKey( $cgis, $1 )/gei;
+              Foswiki::Validation::addValidationKey(
+                  $cgis, $1, $usingStrikeOne )/gei;
         }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
@@ -2870,7 +2895,7 @@ sub addToHEAD {
     my ( $this, $tag, $header, $requires, $topicObject ) = @_;
 
     # Expand macros in the header
-    $header = $topicObject->expandMacros($header);
+    $header = $topicObject->expandMacros($header) if $topicObject;
 
     $this->{_SORTEDHEADS} ||= {};
     $tag ||= '';

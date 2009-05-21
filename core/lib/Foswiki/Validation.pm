@@ -19,9 +19,25 @@ received from the browser that requires validation, that request must
 be accompanied by the validation key. The functions in this package
 support the generation and checking of these validation keys.
 
+Two key validation methods are supported by this module; simple token
+validation, and double-submission validation. Simple token validation
+stores a magic number in the session, and then adds that magic number to
+all forms in the output HTML. When a form is submitted, the magic number
+submitted with the form must match the number stored in the session. This is
+a relatively weak protection method, but requires some coding around so may
+discourage many hackers.
+
+The second method supported is properly called double cookie submission,
+but referred to as "strikeone" in Foswiki. This again uses a token added
+to output forms, but this time it uses Javascript to combine that token
+with a secret stored in a cookie, to create a new token. This is more secure
+because the cookie containing the secret cannot be read outside the domain
+of the server, making it much harder for a page hosted on an evil site to
+forge a valid transaction.
+
 When a request requiring validation comes in, Foswiki::UI::checkValidationKey
 is called. This compares the key in the request with the set of valid keys
-stored in the session. if the comparison fails, the browser is redirected
+stored in the session. If the comparison fails, the browser is redirected
 to the =login= script (even if the user is currently logged in) with the
 =action= parameter set to =validate=. This generates a confirmation screen
 that the user must accept before the transaction can proceed. When the screen
@@ -37,24 +53,89 @@ our $digester = new Digest::MD5();
 
 =begin TML
 
----++ StaticMethod addValidationKey( $cgis, $form ) -> $form
+---++ StaticMethod addValidationKey( $cgis, $form, $strikeone ) -> $form
 
-Add a new validation key to the form. The key will
-time out after {LeaseLength}
+Add a new validation key to a form. The key will time out after {LeaseLength}.
+   * =$cgis= - a CGI::Session
+   * =$form= - the opening tag of a form, ie. &lt;form ...&gt;=
+   * =$strikeone= - if set, expect the nonce to be combined with the
+     session secret before it is posted back.
+The validation key will be added as a hidden parameter at the end of
+the form tag.
 
 =cut
 
 sub addValidationKey {
-    my ( $cgis, $form ) = @_;
+    my ( $cgis, $form, $strikeone ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS');
     $actions ||= {};
     $digester->add( $form, $cgis->id(), rand(time) );
     my $nonce = $digester->b64digest();
-    $actions->{$nonce} = time() + $Foswiki::cfg{LeaseLength};
+    my $action = $nonce;
+    if ($strikeone) {
+        # When using strikeone, the validation key pushed into the form will
+        # be combined with the secret in the cookie, and the combination
+        # will be md5 encoded before sending back. Since we know the secret
+        # and the validation key, then might as save the hashed version.
+        # This has to be consistent with the algorithm in strikeone.js
+        my $secret = _getSecret( $cgis );
+        $digester->add( $nonce, $secret );
+        $action = $digester->b64digest();
+        #print STDERR time.": STRIKEONE $nonce + $secret = $action\n";
+    }
+    $actions->{$action} = time() + $Foswiki::cfg{LeaseLength};
+    #print STDERR time.": ADD $action ".join('; ', map { "$_=$actions->{$_}" } keys %$actions)."\n";
 
-#print STDERR time.": ADD $nonce ".join('; ', map { "$_=$actions->{$_}" } keys %$actions)."\n";
     $cgis->param( 'VALID_ACTIONS', $actions );
     return $form . CGI::hidden( -name => 'validation_key', -value => $nonce );
+}
+
+=begin TML
+
+---++ StaticMethod addOnSubmit( $form ) -> $form
+
+Add a =foswikiStrikeOne= double submission onsubmit handler to a form.
+   * =$form= - the opening tag of a form, ie. &lt;form ...&gt;=
+The handler will be added to an existing on submit, or by adding a new
+onsubmit in the form tag.
+
+=cut
+
+sub addOnSubmit {
+    my ( $form ) = @_;
+    unless ($form =~ s/\bonsubmit=(["'])(.*)\1/onsubmit=${1}foswikiStrikeOne();$2$1/i) {
+        $form =~ s/>$/ onsubmit="foswikiStrikeOne()">/;
+    }
+    return $form;
+}
+
+=begin TML
+
+---++ StaticMethod getCookie( $cgis ) -> $cookie
+
+Get a double submission cookie
+   * =$cgis= - a CGI::Session
+
+The cookie is a non-HttpOnly cookie that contains the current session ID
+and a secret. The secret is constant for a given session.
+
+=cut
+
+sub getCookie {
+    my ( $cgis ) = @_;
+
+    my $secret = _getSecret($cgis);
+
+    # Add the cookie to the response
+    require CGI::Cookie;
+    my $cookie = CGI::Cookie->new(
+        -name     => 'FOSWIKISTRIKEONE',
+        -value    => $secret,
+        -path     => '/',
+        -httponly => 0, # we *want* JS to be able to read it!
+    );
+
+    return $cookie;
 }
 
 =begin TML
@@ -68,6 +149,7 @@ Return false if not.
 
 sub isValidNonce {
     my ( $cgis, $nonce ) = @_;
+    return 1 if ($Foswiki::cfg{ValidationMethod} eq 'none');
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     return $actions->{$nonce};
@@ -178,6 +260,19 @@ sub validate {
         $tmpl =~ s/<nop>//g;
         $session->writeCompletePage($tmpl);
     }
+}
+
+# Get/set the one-strike secret in the CGI::Session
+sub _getSecret {
+    my $cgis = shift;
+    my $secret = $cgis->param('STRIKEONESECRET');
+    unless ($secret) {
+        $digester->add( $cgis->id(), rand(time) );
+        # Use hex encoding to make it cookie-friendly
+        $secret = $digester->hexdigest();
+        $cgis->param('STRIKEONESECRET', $secret);
+    }
+    return $secret;
 }
 
 1;

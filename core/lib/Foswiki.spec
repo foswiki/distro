@@ -256,6 +256,25 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 # <i>off</i>.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
+# **STRING EXPERT**
+# By default Foswiki uses Javascript to perform "double submission" validation
+# of browser requests. This technique, called "strikeone", is highly
+# recommended for the prevention of cross-site request forgery (CSRF).
+# If Javascript is known not to be available in browsers that use the site,
+# or cookies are disabled, but you still want validation of submissions,
+# then you can fall back on a embedded-key validation technique that
+# is less secure, but still offers some protection against CSRF. Both
+# validation techniques rely on user verification of "suspicious"
+# transactions.
+# This option allows you to select which validation technique will be used.
+# If it is set to "strikeone", or is undefined, 0, or the empty string, then
+# double-submission using Javascript will be used.
+# If it is set to "embedded", then embedded validation keys will be used.
+# If it is set to "none", then no validation of posted requests will
+# be performed.
+# If the option is not set, Foswiki will default to 'strikeone'.
+$Foswiki::cfg{ValidationMethod} = 'strikeone';
+
 #---++ Authentication
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
 # Foswiki supports different ways of responding when the user asks to log
