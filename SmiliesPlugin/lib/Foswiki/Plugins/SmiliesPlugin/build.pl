@@ -13,7 +13,7 @@ BEGIN {
 use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new Foswiki::Contrib::Build( 'SmiliesPlugin' );
+my $build = new Foswiki::Contrib::Build( 'SmiliesPlugin' );
 
 # Build the target on the command line, or the default target
 $build->build($build->{target});

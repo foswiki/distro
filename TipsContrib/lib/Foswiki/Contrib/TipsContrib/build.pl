@@ -7,5 +7,5 @@ BEGIN {
   }
 }
 use Foswiki::Contrib::Build;
-$build = new Foswiki::Contrib::Build("TipsContrib" );
+my $build = new Foswiki::Contrib::Build("TipsContrib" );
 $build->build($build->{target});

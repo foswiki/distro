@@ -37,6 +37,6 @@ sub new {
   return bless( $class->SUPER::new( "JSCalendarContrib" ), $class );
 }
 
-$build = new JSCalendarBuild();
+my $build = new JSCalendarBuild();
 
 $build->build($build->{target});

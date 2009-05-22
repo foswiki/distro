@@ -7,5 +7,5 @@ BEGIN {
   }
 }
 use Foswiki::Contrib::Build;
-$build = new Foswiki::Contrib::Build("PatternSkin" );
+my $build = new Foswiki::Contrib::Build("PatternSkin" );
 $build->build($build->{target});

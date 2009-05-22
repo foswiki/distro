@@ -47,7 +47,7 @@ sub target_build {
 package main;
 
 # Create the build object
-$build = new BuildBuild();
+my $build = new BuildBuild();
 
 # Build the target on the command line, or the default target
 $build->build($build->{target});

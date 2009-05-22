@@ -45,7 +45,7 @@ use Foswiki::Contrib::Build;
 }
 
 # Create the build object
-$build = new MailerBuild();
+my $build = new MailerBuild();
 
 # Mailer the target on the command line, or the default target
 $build->build($build->{target});
