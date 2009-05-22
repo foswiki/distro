@@ -163,7 +163,21 @@ sub _expandAttrs {
         return $info->{version};
     }
     elsif ( $attr eq 'ICON' ) {
-        return $this->{session}->ICON( { _DEFAULT => $file } );
+        my $picked = $this->{session}->mapToIconFileName($file);
+        if (!defined($picked) || ($picked eq '')) {
+            return '';
+        }
+        my $url = $this->{session}->getIconUrl( 0, $picked );
+        return CGI::img(
+            {
+                src    => $url,
+                width  => 16,
+                height => 16,
+                align  => 'top',
+                alt    => $picked || '',
+                border => 0
+            }
+        );
     }
     elsif ( $attr eq 'EXT' ) {
 
