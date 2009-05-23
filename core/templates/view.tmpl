@@ -14,18 +14,17 @@
 %TMPL:DEF{"attachmentstop"}%%TMPL:END%
 %TMPL:DEF{"attachmentsbottom"}%%TMPL:P{"attachments"}%%TMPL:END%
 
-%TMPL:DEF{"footernote"}%<div class="foswikiFooterNote">
-%META{"parent" prefix="<br />Parents: "}%
-%META{"moved"}%
-</div>%TMPL:END%
+%TMPL:DEF{"footernote"}%<div class="foswikiFooterNote">%META{"parent" prefix="<br />Parents: "}%%META{"moved"}%</div>%TMPL:END%
 
-%TMPL:DEF{"simpleheader"}%%TMPL:P{"broadcastmessage"}%%TMPL:P{"standardheader"}%%TMPL:END%
+%TMPL:DEF{"simpleheader"}%%TMPL:P{"broadcastmessage"}%%TMPL:P{"standardheader"}%%TMPL:P{"flashnote"}%%TMPL:END%
 
-%TMPL:DEF{"content"}%<div class="foswikiTopicText">
-%TEXT%
+%TMPL:DEF{"content"}%<div class="foswikiTopicText">%TEXT%
 #TopicEnd
 </div>%TMPL:END%
 
 %TMPL:DEF{"contentwrapper"}%%TMPL:P{"contentheaderstylewrapper"}%%TMPL:P{"formtop"}%%TMPL:P{"attachmentstop"}%
 %TMPL:P{"content"}%
 %TMPL:P{"contentfooterstylewrapper"}%%TMPL:P{"formbottom"}%%TMPL:P{"attachmentsbottom"}%%TMPL:P{"topicinfo"}%%TMPL:END%
+
+%TMPL:DEF{"flashnote"}%%IF{"defined FLASHNOTE and $FLASHNOTE != ''" then="$percntTMPL:P{$quotflashnote:contents$quot}$percnt"}%%TMPL:END%
+%TMPL:DEF{"flashnote:contents"}%<div class="foswikiNotification"> %FLASHNOTE% </div>%TMPL:END%
