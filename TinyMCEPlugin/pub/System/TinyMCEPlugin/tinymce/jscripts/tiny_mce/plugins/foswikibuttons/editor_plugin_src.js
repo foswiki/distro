@@ -171,12 +171,12 @@
     			cm.setDisabled('tt', false);
     			cm.setDisabled('colour', false);
     		}
-            var elm = ed.dom.getParent(n, '.WYSIWYG_TT');
+            var elm = ed.dom.getParent(n, 'span.WYSIWYG_TT');
             if (elm != null)
                 cm.setActive('tt', true);
 			else
                 cm.setActive('tt', false);
-            elm = ed.dom.getParent(n, '.WYSIWYG_COLOR');
+            elm = ed.dom.getParent(n, 'span.WYSIWYG_COLOR');
             if (elm != null)
                 cm.setActive('colour', true);
 			else
