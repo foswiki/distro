@@ -339,8 +339,8 @@ sub test_beforeSaveHandlerChangeMeta {
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    $meta->remove( 'TOPICINFO', 'rev' );
-    $readMeta->remove( 'TOPICINFO', 'rev' );
+    delete $meta->get( 'TOPICINFO')->{rev};
+    delete $readMeta->get( 'TOPICINFO')->{rev};
     $this->assert_str_equals( $meta->stringify(), $readMeta->stringify() );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();
@@ -381,8 +381,8 @@ sub test_beforeSaveHandlerChangeBoth {
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    $meta->remove( 'TOPICINFO', 'rev' );
-    $readMeta->remove( 'TOPICINFO', 'rev' );
+    delete $meta->get( 'TOPICINFO' )->{rev};
+    delete $readMeta->get( 'TOPICINFO')->{rev};
     $this->assert_str_equals( $meta->stringify(), $readMeta->stringify() );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();

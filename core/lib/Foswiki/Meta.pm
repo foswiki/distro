@@ -55,11 +55,22 @@ Pictorially,
       * date => '...'
       * ...
    * FILEATTACHMENT
-      * [0] -> { name => '...' ... }
-      * [1] -> { name => '...' ... }
+      * [0] = { name => 'a' ... }
+      * [1] = { name => 'b' ... }
    * FIELD
-      * [0] -> { name => '...' ... }
-      * [1] -> { name => '...' ... }
+      * [0] = { name => 'c' ... }
+      * [1] = { name => 'd' ... }
+
+Implementor note: the =_indices= field gives a quick lookup into this
+structure; it is a hash of top-level types, each mapping to a hash indexed
+on the key name. For the above example, it looks like this:
+   * _indices => {
+      FILEATTACHMENT => { a => 0, b => 1 },
+      FIELD => { c => 0, d => 1 }
+   }
+It is maintained on the fly by the methods of this module, which makes it
+important *not* to write new data directly into the structure, but *always*
+to go through the methods exported from here.
 
 This module also include some methods to support embedding meta-data for
 topics directly in topic text, a la the traditional Foswiki store
@@ -126,8 +137,13 @@ existing content of the stored object, use the =load= method instead.
 
 sub new {
     my ( $class, $session, $web, $topic, $text ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-    my $this = bless( { _session => $session }, $class );
+
+    my $this = bless( {
+        _session => $session,
+        # Index keyed on top level type mapping entry names to their
+        # index within the data array.
+        _indices => undef,
+    }, $class );
 
     # Normalise web path (replace [./]+ with /)
     $web =~ tr#/.#/#s if $web;
@@ -169,6 +185,7 @@ Clean up the object, releasing any memory stored in it.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
+    undef $this->{_indices};
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_text};
@@ -610,8 +627,9 @@ sub text {
     }
     else {
 
-# Lazy load
-#SMELL: will reload repeatedly if there is no topic text - ie if the topic is all META
+        # Lazy load
+        # SMELL: SD: will reload repeatedly if there is no topic text -
+        # ie if the topic is all META
         $this->reload() unless defined( $this->{_text} );
     }
     return $this->{_text};
@@ -633,15 +651,28 @@ $meta->put( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' } );
 
 sub put {
     my ( $this, $type, $args ) = @_;
+    ASSERT(defined $type) if DEBUG;
+
+    unless ( $this->{$type} ) {
+        $this->{$type} = [];
+        $this->{_indices}->{$type} = {};
+    }
 
     my $data = $this->{$type};
+    my $i = 0;
     if ($data) {
-
         # overwrite old single value
+        if (scalar(@$data) && defined $data->[0]->{name}) {
+            delete $this->{_indices}->{$type}->{$data->[0]->{name}};
+        }
         $data->[0] = $args;
     }
     else {
-        push( @{ $this->{$type} }, $args );
+        $i = push( @$data, $args ) - 1;
+    }
+    if (defined $args->{name}) {
+        $this->{_indices}->{$type} ||= {};
+        $this->{_indices}->{$type}->{$args->{name}} = $i;
     }
 }
 
@@ -663,24 +694,22 @@ $meta->putKeyed( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' 
 
 sub putKeyed {
     my ( $this, $type, $args ) = @_;
+    ASSERT($type) if DEBUG;
+    my $keyName = $args->{name};
+    ASSERT($keyName) if DEBUG;
+
+    unless ( $this->{$type} ) {
+        $this->{$type} = [];
+        $this->{_indices}->{$type} = {};
+    }
 
     my $data = $this->{$type};
-    if ($data) {
-        my $keyName = $args->{name};
-        ASSERT($keyName) if DEBUG;
-        my $i = scalar(@$data);
-        while ( $keyName && $i-- ) {
-            if ( defined $data->[$i]->{name}
-                && $data->[$i]->{name} eq $keyName )
-            {
-                $data->[$i] = $args;
-                return;
-            }
-        }
-        push @$data, $args;
-    }
-    else {
-        push( @{ $this->{$type} }, $args );
+    # The \% shouldn't be necessary, but it is
+    my $indices = \%{$this->{_indices}->{$type}};
+    if (defined $indices->{$keyName}) {
+        $data->[$indices->{$keyName}] = $args;
+    } else {
+        $indices->{$keyName} = push( @$data, $args ) - 1;
     }
 }
 
@@ -704,7 +733,14 @@ $meta->putAll( 'FIELD',
 sub putAll {
     my ( $this, $type, @array ) = @_;
 
+    my %indices;
+    for ( my $i = 0; $i < scalar(@array); $i++ ) {
+        if ( defined $array[$i]->{name} ) {
+            $indices{$array[$i]->{name}} = $i;
+        }
+    }
     $this->{$type} = \@array;
+    $this->{_indices}->{$type} = \%indices;
 }
 
 =begin TML
@@ -728,22 +764,22 @@ my $topicinfo = $meta->get( 'TOPICINFO' ); # get the TOPICINFO hash
 =cut
 
 sub get {
-    my ( $this, $type, $keyValue ) = @_;
+    my ( $this, $type, $name ) = @_;
 
     my $data = $this->{$type};
     if ($data) {
-        if ( defined $keyValue ) {
-            foreach my $item (@$data) {
-                return $item
-                  if ( $item->{name} and ( $item->{name} eq $keyValue ) );
-            }
+        if ( defined $name ) {
+            my $indices = $this->{_indices}->{$type};
+            return undef unless defined $indices;
+            return undef unless defined $indices->{$name};
+            return $data->[$indices->{$name}];
         }
         else {
             return $data->[0];
         }
     }
 
-    return;
+    return undef;
 }
 
 =begin TML
@@ -787,33 +823,43 @@ With a $type and a $key it will remove only the specific item.
 =cut
 
 sub remove {
-    my ( $this, $type, $keyValue ) = @_;
+    my ( $this, $type, $name ) = @_;
 
-    if ($keyValue) {
-        my $data    = $this->{$type};
-        my @newData = ();
-        foreach my $item (@$data) {
-            if ( $item->{name} && $item->{name} ne $keyValue ) {
-                push @newData, $item;
+    if ($type) {
+        my $data = $this->{$type};
+        return unless defined $data;
+        if ($name) {
+            my $indices = $this->{_indices}->{$type};
+            if ( defined $indices ) {
+                my $i = $indices->{$name};
+                return unless defined $i;
+                splice(@$data, $i, 1);
+                delete $indices->{$name};
+                for (my $i = 0; $i < scalar(@$data); $i++) {
+                    my $item = $data->[$i];
+                    next unless exists $item->{name};
+                    $indices->{$item->{name}} = $i;
+                }
             }
         }
-        $this->{$type} = \@newData;
-    }
-    elsif ($type) {
-        delete $this->{$type};
+        else {
+            delete $this->{$type};
+            delete $this->{_indices}->{$type};
+        }
     }
     else {
         foreach my $entry ( keys %$this ) {
             unless ( $entry =~ /^_/ ) {
-                $this->remove($entry);
+                delete $this->{$entry};
             }
         }
+        $this->{_indices} = {};
     }
 }
 
 =begin TML
 
----++ ObjectMethod copyFrom( $otherMeta, $type, $nameFilter )
+---++ ObjectMethod copyFrom( $otherMeta [, $type [, $nameFilter]] )
 
 Copy all entries of a type from another meta data set. This
 will destroy the old values for that type, unless the
@@ -830,23 +876,24 @@ Does *not* copy web, topic or text.
 =cut
 
 sub copyFrom {
-    my ( $this, $otherMeta, $type, $filter ) = @_;
-    ASSERT( $otherMeta->isa('Foswiki::Meta') ) if DEBUG;
+    my ( $this, $other, $type, $filter ) = @_;
+    ASSERT( $other->isa('Foswiki::Meta') ) if DEBUG;
 
     if ($type) {
-        foreach my $item ( @{ $otherMeta->{$type} } ) {
-            if ( !$filter || ( $item->{name} && $item->{name} =~ /$filter/ ) ) {
-                my %data = map { $_ => $item->{$_} } keys %$item;
-                push( @{ $this->{$type} }, \%data );
+        my @data;
+        foreach my $item ( @{ $other->{$type} } ) {
+            if ( !$filter
+                   || ( $item->{name} && $item->{name} =~ /$filter/ ) ) {
+                my %datum = %$item;
+                push( @data, \%datum );
             }
         }
+        $this->putAll( $type, @data );
     }
     else {
-        foreach my $k ( keys %$otherMeta ) {
-
-            # Don't copy the web and topic fields, this may be a new topic
+        foreach my $k ( keys %$other ) {
             unless ( $k =~ /^_/ ) {
-                $this->copyFrom( $otherMeta, $k );
+                $this->copyFrom( $other, $k );
             }
         }
     }
@@ -890,9 +937,9 @@ sub setRevisionInfo {
     my %args = %$data;
     $args{version} = 1 if $args{version} < 1;
     $args{version} = '1.' . $args{version};
-    $args{format}  = $EMBEDDING_FORMAT_VERSION,
+    $args{format}  = $EMBEDDING_FORMAT_VERSION;
 
-      $this->put( 'TOPICINFO', \%args );
+    $this->put( 'TOPICINFO', \%args );
 }
 
 =begin TML
