@@ -1428,4 +1428,29 @@ FORM
 
 }
 
+sub test_Search_expression {
+#make sure perl-y characters in SEARCH expressions are escaped well enough
+    my $this    = shift;
+
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
+
+    my $actual =
+      $webObject->expandMacros(
+'%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" nototal="on"}%'
+      );
+    my $expected = <<'HERE';
+<span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks~'Blah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+HERE
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $webObject->expandMacros(
+'%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%'
+      );
+    $expected = <<'HERE';
+<span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks = 'B/lah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+HERE
+    $this->assert_str_equals( $expected, $actual );
+}
+
 1;
