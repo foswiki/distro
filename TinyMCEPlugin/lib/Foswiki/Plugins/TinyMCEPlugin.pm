@@ -119,10 +119,11 @@ sub initPlugin {
 }
 
 sub _notAvailable {
-    return
-      "Disabled by preference '"
-      . Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DISABLE') . "'"
-      if Foswiki::Func::getPreferencesFlag('TINYMCEPLUGIN_DISABLE');
+    for my $c qw(TINYMCEPLUGIN_DISABLE NOWYSIWYG) {
+        return
+          "Disabled by * Set $c = " . Foswiki::Func::getPreferencesValue($c)
+            if Foswiki::Func::getPreferencesFlag($c);
+    }
 
     # Disable TinyMCE if we are on a specialised edit skin
     my $skin = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_WYSIWYGSKIN');
