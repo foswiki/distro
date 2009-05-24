@@ -46,6 +46,14 @@ var FoswikiTiny = {
         if (elm) {
             elm.disabled = status;
         }
+        elm = document.getElementById("quietsave");
+        if (elm) {
+            elm.disabled = status;
+        }
+        elm = document.getElementById("checkpoint");
+        if (elm) {
+            elm.disabled = status;
+        }
         elm = document.getElementById("preview");
         if (elm) {
             elm.style.display = 'none'; // Item5263: broken preview
@@ -88,6 +96,18 @@ var FoswikiTiny = {
         var editor = tinyMCE.getInstanceById(editor_id);
         FoswikiTiny.switchToWYSIWYG(editor);
         FoswikiTiny.initialisedFromServer = true;
+    },
+
+    cleanBeforeSave : function (eid, buttonId) {
+        var el = document.getElementById(buttonId);
+        if (el == null)
+            return;
+        // SMELL: what if there is already an onclick handler?
+        el.onclick = function () {
+            var editor = tinyMCE.getInstanceById(eid);
+            editor.isNotDirty = true;
+            return true;
+        }
     },
 
     onSubmitHandler : false,
@@ -167,6 +187,15 @@ var FoswikiTiny = {
         // SMELL: Event.addToTop() is undocumented and liable
         // to break when we upgrade TMCE
         editor.onSubmit.addToTop(this.onSubmitHandler);
+        // Make the save buttons mark the text as not-dirty 
+        // to avoid the popup that says "Are you sure? The changes you have made will be lost"
+        FoswikiTiny.cleanBeforeSave(eid, "save");
+        FoswikiTiny.cleanBeforeSave(eid, "quietsave");
+        FoswikiTiny.cleanBeforeSave(eid, "checkpoint");
+        // preview shouldn't get the popup either, when preview is enabled one day
+        FoswikiTiny.cleanBeforeSave(eid, "preview"); 
+        // cancel shouldn't get the popup because the user just *said* they want to cancel
+        FoswikiTiny.cleanBeforeSave(eid, "cancel"); 
     },
 
     // Convert textarea content to HTML. This is invoked from the content

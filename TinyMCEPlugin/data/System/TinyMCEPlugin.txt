@@ -127,12 +127,12 @@ The topic TinyMCEFrequentlyAskedQuestions contains more help with things like: "
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright: | &copy; 2007-2008 Crawford Currie http://c-dot.co.uk |
+|  Copyright: | &copy; 2007-2009 Crawford Currie http://c-dot.co.uk |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |             | This package also includes the complete sources for version 3.2.2 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  24 May 2009 | Foswikitask:Item1205: add support for global NOWYSIWYG flag Foswikitask:Item1341: keep TML lettered & roman numeral lists (Michael Tempest) Foswikitask:Item1534: fix typewriter text (Michael Tempest) |
+|  24 May 2009 | Foswikitask:Item1205: add support for global NOWYSIWYG flag Foswikitask:Item1341: keep TML lettered & roman numeral lists (Michael Tempest) Foswikitask:Item1534: fix typewriter text (Michael Tempest) Foswikitask:Item1548: fix data-loss warning when saving from wiki-text (Michael Tempest) |
 |  10 Apr 2009 | Foswikitask:Item1394: fixed colour handling Foswikitask:Item8108: added safari,inlinepopups,fullscreen plugins, fixed some minor bugs on IE |
 |  3 Apr 2009 | Foswikitask:Item1383: Optimised the preferences Foswikitask:Item8094: fixed the pickaxe |
 |  15 Mar 2009 | Foswikitask:Item930: Crawford Currie upgraded to Tiny MCE 3.2.2 and recoded all the standard plugins that had to be recoded |
