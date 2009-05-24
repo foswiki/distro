@@ -363,7 +363,7 @@ sub searchWeb {
         $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
 
-    my $searchResult  = '';
+    my $searchResult = '';
 
     # A value of 'all' or 'on' by itself gets all webs,
     # otherwise ignored (unless there is a web called 'All'.)
@@ -375,7 +375,6 @@ sub searchWeb {
     $params{numberOfWebs} = scalar(@webs);
 
     my $output = '';
-
 
     # Write log entry
     # FIXME: Move log entry further down to log actual webs searched
@@ -440,7 +439,7 @@ sub searchWeb {
         @webs = () unless scalar( @{ $query->{tokens} } );    #default
     }
 
-#TODO: work out how to remove this formatting value..
+    #TODO: work out how to remove this formatting value..
     my $tmplTail;
 
     # Loop through webs
@@ -475,10 +474,10 @@ sub searchWeb {
 
         my $infoCache = $webObject->query( $query, $inputTopicSet, $options );
         $this->sortResults( $web, $infoCache, %params );
-        my ($web_ttopics, $web_searchResult);
-        ( $web_ttopics, $web_searchResult,  $tmplTail) = $this->formatResults(
-            $webObject, $query, $searchString, $infoCache,  %params
-        );
+        my ( $web_ttopics, $web_searchResult );
+        ( $web_ttopics, $web_searchResult, $tmplTail ) =
+          $this->formatResults( $webObject, $query, $searchString, $infoCache,
+            %params );
         $ttopics += $web_ttopics;
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
@@ -494,7 +493,7 @@ sub searchWeb {
         }
     }
 
-    #this should really be the object used to render things. (ie, move to format)
+   #this should really be the object used to render things. (ie, move to format)
     my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
 
     unless ($inline) {
@@ -638,8 +637,7 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 =cut
 
 sub formatResults {
-    my ( $this, $webObject, $query, $searchString, $infoCache, %params )
-      = @_;
+    my ( $this, $webObject, $query, $searchString, $infoCache, %params ) = @_;
     my $session            = $this->{session};
     my $users              = $session->{users};
     my $web                = $webObject->web;
@@ -653,7 +651,7 @@ sub formatResults {
     my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params{expandvariables} );
     my $nonoise       = Foswiki::isTrue( $params{nonoise} );
-    my $noSearch      = Foswiki::isTrue( $params{nosearch},  $nonoise );
+    my $noSearch      = Foswiki::isTrue( $params{nosearch}, $nonoise );
     my $format        = $params{format} || '';
     my $header        = $params{header};
     my $footer        = $params{footer};
@@ -662,94 +660,93 @@ sub formatResults {
 
     my $searchResult = '';
 
+    #tmpl loading code.
+    my $tmpl = '';
 
-        #tmpl loading code.
-        my $tmpl   = '';
+    my $originalSearch = $searchString;
+    my $spacedTopic;
 
-        my $originalSearch = $searchString;
-        my $spacedTopic;
+    my $template = $params{template} || '';
+    if ($format) {
+        $template = 'searchformat';
+    }
+    elsif ($template) {
 
-        my $template     = $params{template} || '';
-        if ($format) {
-            $template = 'searchformat';
-        }
-        elsif ($template) {
+        # template definition overrides book and rename views
+    }
+    elsif ($doBookView) {
+        $template = 'searchbookview';
+    }
+    else {
+        $template = 'search';
+    }
+    $tmpl = $session->templates->readTemplate($template);
 
-            # template definition overrides book and rename views
-        }
-        elsif ($doBookView) {
-            $template = 'searchbookview';
+    # SMELL: the only META tags in a template will be METASEARCH
+    # Why the heck are they being filtered????
+    $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
+
+    # Split template into 5 sections
+    my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
+      split( /%SPLIT%/, $tmpl );
+
+    # Invalid template?
+    if ( !$tmplTail ) {
+        my $mess =
+            CGI::h1('Foswiki Installation Error')
+          . 'Incorrect format of '
+          . $template
+          . ' template (missing sections? There should be 4 %SPLIT% tags)';
+        if ( defined $callback ) {
+            &$callback( $cbdata, $mess );
+            return;
         }
         else {
-            $template = 'search';
+            return $mess;
         }
-        $tmpl = $session->templates->readTemplate($template);
+    }
 
-        # SMELL: the only META tags in a template will be METASEARCH
-        # Why the heck are they being filtered????
-        $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
+    # Expand tags in template sections
+    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
+    $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
+    $tmplNumber = $baseWebObject->expandMacros($tmplNumber);
 
-        # Split template into 5 sections
-        my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
-          split( /%SPLIT%/, $tmpl );
+    # If not inline search, also expand tags in head and tail sections
+    unless ($inline) {
+        $tmplHead = $baseWebObject->expandMacros($tmplHead);
 
-        # Invalid template?
-        if ( !$tmplTail ) {
-            my $mess =
-                CGI::h1('Foswiki Installation Error')
-              . 'Incorrect format of '
-              . $template
-              . ' template (missing sections? There should be 4 %SPLIT% tags)';
-            if ( defined $callback ) {
-                &$callback( $cbdata, $mess );
-                return;
-            }
-            else {
-                return $mess;
-            }
+        if ( defined $callback ) {
+            $tmplHead = $baseWebObject->renderTML($tmplHead);
+            $tmplHead =~ s|</*nop/*>||goi;    # remove <nop> tags
+            &$callback( $cbdata, $tmplHead );
         }
+        else {
 
-        # Expand tags in template sections
-        my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
-        $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
-        $tmplNumber = $baseWebObject->expandMacros($tmplNumber);
-
-        # If not inline search, also expand tags in head and tail sections
-        unless ($inline) {
-            $tmplHead = $baseWebObject->expandMacros($tmplHead);
-
-            if ( defined $callback ) {
-                $tmplHead = $baseWebObject->renderTML($tmplHead);
-                $tmplHead =~ s|</*nop/*>||goi;    # remove <nop> tags
-                &$callback( $cbdata, $tmplHead );
-            }
-            else {
-
-                # don't render; this will be done by a single
-                # call at the end.
-                $searchResult .= $tmplHead;
-            }
+            # don't render; this will be done by a single
+            # call at the end.
+            $searchResult .= $tmplHead;
         }
+    }
 
-        # Generate 'Search:' part showing actual search string used
-        unless ($noSearch) {
-            my $searchStr = $searchString;
-            $searchStr  =~ s/&/&amp;/go;
-            $searchStr  =~ s/</&lt;/go;
-            $searchStr  =~ s/>/&gt;/go;
-            $searchStr  =~ s/^\.\*$/Index/go;
-            $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
-            if ( defined $callback ) {
-                $tmplSearch = $baseWebObject->renderTML($tmplSearch);
-                $tmplSearch =~ s|</*nop/*>||goi;    # remove <nop> tag
-                &$callback( $cbdata, $tmplSearch );
-            }
-            else {
-
-                # don't render; will be done later
-                $searchResult .= $tmplSearch;
-            }
+    # Generate 'Search:' part showing actual search string used
+    unless ($noSearch) {
+        my $searchStr = $searchString;
+        $searchStr  =~ s/&/&amp;/go;
+        $searchStr  =~ s/</&lt;/go;
+        $searchStr  =~ s/>/&gt;/go;
+        $searchStr  =~ s/^\.\*$/Index/go;
+        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
+        if ( defined $callback ) {
+            $tmplSearch = $baseWebObject->renderTML($tmplSearch);
+            $tmplSearch =~ s|</*nop/*>||goi;    # remove <nop> tag
+            &$callback( $cbdata, $tmplSearch );
         }
+        else {
+
+            # don't render; will be done later
+            $searchResult .= $tmplSearch;
+        }
+    }
 
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
@@ -765,9 +762,9 @@ sub formatResults {
     }
     $limit = 32000 unless ($limit);
 
-#TODO: multiple is an attribute of the ResultSet
-    my $doMultiple    = Foswiki::isTrue( $params{multiple} );
-    my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );
+    #TODO: multiple is an attribute of the ResultSet
+    my $doMultiple = Foswiki::isTrue( $params{multiple} );
+    my $noEmpty = Foswiki::isTrue( $params{noempty}, $nonoise );
 
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
@@ -784,15 +781,15 @@ sub formatResults {
     my $zeroResults =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $nonoise );
     my $noTotal = Foswiki::isTrue( $params{nototal}, $nonoise );
-    my $newLine      = $params{newline}  || '';
-    my $sortOrder    = $params{order}    || '';
-    my $revSort      = Foswiki::isTrue( $params{reverse} );
-    my $scope        = $params{scope}    || '';
-    my $separator    = $params{separator};
-    my $topic        = $params{topic}    || '';
-    my $type         = $params{type}     || '';
+    my $newLine   = $params{newline} || '';
+    my $sortOrder = $params{order}   || '';
+    my $revSort   = Foswiki::isTrue( $params{reverse} );
+    my $scope     = $params{scope}   || '';
+    my $separator = $params{separator};
+    my $topic     = $params{topic}   || '';
+    my $type      = $params{type}    || '';
 
-    my $ttopics      = 0;
+    my $ttopics = 0;
 
     # header and footer of $web
     my ( $beforeText, $repeatText, $afterText ) =
