@@ -132,8 +132,7 @@ sub isSubscribedTo {
         topicSub   => \&_isSubscribedToTopic
     };
 
-    my $ret = Foswiki::Contrib::MailerContrib::parsePageList( $subscribed, $who,
-        $topicList );
+    my $ret = parsePageList( $subscribed, $who, $topicList );
 
     return ( !defined( $subscribed->{not_subscribed} )
           || ( 0 == scalar( $subscribed->{not_subscribed} ) ) );
@@ -164,17 +163,17 @@ sub _isSubscribedToTopic {
     else {
         push( @{ $subscribed->{not_subscribed} }, $stopic );
     }
-    return '';
 }
 
 =pod
+
 ---+++ sub parsePageList ( $object, $who, $spec, $unsubscribe ) => unprocessable remainder of $spec line
-calls the $topicSub (ref to sub) once per identified topic entry.
-   * $object (is a hashref) can be used to set status' and its definition is dependent on $topicSub
-   * $object->{topicSub} _must_ be a sub ref and _must_ return an empty string
-   * $unsubscribe can be set to '-' to force an unsubscription (used by SubscribePlugin)
-   
-   $object is a functor.
+Calls the $object->{topicSub} once per identified topic entry.
+   * $object (a hashref) may be a hashref that has the field, =topicSub=,
+     which _may_ be a sub ref as follows:
+     =&topicSub($object, $who, $unsubscribe, $webTopic, $options, $childDepth)=
+   * =$unsubscribe= can be set to '-' to force an unsubscription
+     (used by SubscribePlugin)
 
 =cut
 
@@ -183,16 +182,22 @@ sub parsePageList {
 
     #ASSERT(defined($object->{topicSub}));
 
-    return $spec if ( !defined( $object->{topicSub} ) );
+    return $spec if ( !$object || !defined( $object->{topicSub} ) );
 
     $spec =~ s/,/ /g;
 
-    #TODO: refine the $2 regex to be proper web.topic/topic/* style..
+    # $1: + or -, optional
+    # $2: the wildcarded topic specifier (may be quoted)
+    # TODO: refine the $2 regex to be proper web.topic/topic/* style..
+    # $3: options
+    # $4: child depth
     while ( $spec =~
-s/^\s*([+-])?\s*([\w.\*]+)([!?]?)\s*(?:\((\d+)\))?/&{$object->{topicSub}}($object, $who, $unsubscribe||$1, $2, $3, $4)/e
-      )
-    {
-
+              s/^\s*([+-])?\s*([*\w.]+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//) {
+        my ( $us, $webTopic, $options, $childDepth ) = (
+            $unsubscribe||$1||'+', $2, $3, $4||0 );
+        $webTopic =~ s/^(['"])(.*)\1$/$2/; # remove quotes
+        &{$object->{topicSub}}(
+            $object, $who, $us, $webTopic, $options, $childDepth);
         #go
     }
     return $spec;
@@ -204,7 +209,7 @@ sub _processWeb {
 
     if ( !Foswiki::Func::webExists($web) ) {
 
-        #        print STDERR "**** ERROR mailnotifier cannot find web $web\n";
+        # print STDERR "**** ERROR mailnotifier cannot find web $web\n";
         return '';
     }
 

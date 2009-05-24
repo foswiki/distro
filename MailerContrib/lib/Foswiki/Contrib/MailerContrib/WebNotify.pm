@@ -416,11 +416,11 @@ sub parsePageSubscriptions {
 
     $this->{topicSub} = \&_subscribeTopic;
 
-    my $ret =
-      Foswiki::Contrib::MailerContrib::parsePageList( $this, $who, $spec,
-        $unsubscribe );
+    my $ret = Foswiki::Contrib::MailerContrib::parsePageList(
+        $this, $who, $spec, $unsubscribe );
     if ( $ret =~ m/\S/ ) {
-        Foswiki::Func::writeWarning("Badly formatted page list at $who: $spec");
+        Foswiki::Func::writeWarning(
+            "Badly formatted page list at $who: $spec");
         return -1;
     }
     return;

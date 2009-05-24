@@ -19,8 +19,8 @@ my %expectedRevs = (
     TestTopic121  => "r1->r2",
     TestTopic122  => "r1->r2",
     TestTopic1221 => "r1->r2",
-    TestTopic2    => "r2->r3",
-    TestTopic21   => "r1->r2",
+    'TestTopic2'    => "r2->r3",
+    'TestTopic21'   => "r1->r2",
 );
 
 my %finalText = (
@@ -33,8 +33,8 @@ my %finalText = (
     TestTopic121  => "Where did I put my silver jumpsuit?",
     TestTopic122  => "That danged robot",
     TestTopic1221 => "What's up, Buck?",
-    TestTopic2    => "roast my nipple-nuts",
-    TestTopic21   => "smoke me a kipper, I'll be back for breakfast",
+    'TestTopic2'    => "roast my nipple-nuts",
+    'TestTopic21'   => "smoke me a kipper, I'll be back for breakfast",
 
     # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
     # encoding. No tests for multibyte encodings :-(
@@ -144,7 +144,7 @@ sub set_up {
         # Comma separated list of subscriptions
         {
             email     => "email4\@example.com",
-            entry     => "email4\@example.com: TestTopic1 (0), TestTopic2 (3)",
+            entry     => "email4\@example.com: TestTopic1 (0), 'TestTopic2' (3)",
             topicsout => "TestTopic1 TestTopic2 TestTopic21"
         },
 
@@ -152,7 +152,7 @@ sub set_up {
         {
             email => "email5\@example.com",
             entry =>
-              "email5\@example.com: TestTopic1 + TestTopic2(3), -TestTopic21",
+              "email5\@example.com: TestTopic1 + 'TestTopic2'(3), -'TestTopic21'",
             topicsout => "TestTopic1 TestTopic2"
         },
 
@@ -166,7 +166,7 @@ sub set_up {
         # wildcard unsubscription
         {
             email => "email7\@example.com",
-            entry => "email7\@example.com: TestTopic*1 - \\\n   TestTopic2*",
+            entry => "email7\@example.com: TestTopic*1 - \\\n   'TestTopic2*'",
             topicsout => "TestTopic1 TestTopic11 TestTopic121",
         },
 
@@ -337,11 +337,11 @@ sub set_up {
 
         ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic2" );
         Foswiki::Func::saveTopic( $web, "TestTopic2", $meta,
-            $finalText{TestTopic2}, { forcenewrevision => 1 } );
+            $finalText{'TestTopic2'}, { forcenewrevision => 1 } );
 
         ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic21" );
         Foswiki::Func::saveTopic( $web, "TestTopic21", $meta,
-            $finalText{TestTopic21}, { forcenewrevision => 1 } );
+            $finalText{'TestTopic21'}, { forcenewrevision => 1 } );
 
         # wait a wee bit more for the clock to tick over again
         sleep(1);

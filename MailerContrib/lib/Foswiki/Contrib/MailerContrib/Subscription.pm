@@ -67,8 +67,14 @@ sub stringify {
     my $this   = shift;
     my $record = $this->{topics};
 
-    # convert RE back to wildcard
-    $record =~ s/\.\*\?/\*/;
+    # Protect non-alphanumerics in topic name
+    if ($record =~ /[^*\w.]/) {
+        if ($record =~ /'/) {
+            $record = "\"$record\"";
+        } else {
+            $record = "'$record'";
+        }
+    }
     $record .= $this->getMode();
     $record .= " ($this->{depth})" if ( $this->{depth} );
     return $record;
