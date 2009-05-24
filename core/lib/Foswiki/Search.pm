@@ -170,13 +170,6 @@ sub _getTopicList {
         }
     );
     return $filterIter;
-
-    #    my @topicList = ();
-    #    while ( $filterIter->hasNext() ) {
-    #        my $tn = $filterIter->next();
-    #        push( @topicList, $tn );
-    #    }
-    #    return @topicList;
 }
 
 #convert a comma separated list of webs into the list we'll process
@@ -310,20 +303,16 @@ sub searchWeb {
     my $cbdata        = $params{_cbdata};
     my $baseTopic     = $params{basetopic} || $session->{topicName};
     my $baseWeb       = $params{baseweb} || $session->{webName};
-    my $doBookView    = Foswiki::isTrue( $params{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
     my $excludeTopic  = $params{excludetopic} || '';
-    my $doExpandVars  = Foswiki::isTrue( $params{expandvariables} );
     my $format        = defined $params{format} ? $params{format} : '';
     my $inline        = $params{inline};
     my $doMultiple    = Foswiki::isTrue( $params{multiple} );
     my $nonoise       = Foswiki::isTrue( $params{nonoise} );
     my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );
-
-    my $noSummary = Foswiki::isTrue( $params{nosummary}, $nonoise );
     my $zeroResults =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $nonoise );
-    my $noTotal = Foswiki::isTrue( $params{nototal}, $nonoise );
+
     my $newLine   = $params{newline} || '';
     my $sortOrder = $params{order}   || '';
     my $revSort   = Foswiki::isTrue( $params{reverse} );
@@ -431,11 +420,11 @@ sub searchWeb {
     };
     return $error unless $query;
 
-    #TODO:
+    #TODO: redo with a $query->isEmpty() or something generic, and then push into the foreach?
     unless ( $type eq 'query' ) {
 
-    #shorcircuit the search foreach below for a zero result search
-    #FIXME: this breaks the per-web summary output that is hidden in the foreach
+        #shorcircuit the search foreach below for a zero result search
+        #FIXME: this breaks the per-web summary output that is hidden in the foreach
         @webs = () unless scalar( @{ $query->{tokens} } );    #default
     }
 
