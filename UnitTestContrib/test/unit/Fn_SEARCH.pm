@@ -1428,7 +1428,7 @@ FORM
 
 }
 
-sub test_Search_expression {
+sub verify_Search_expression {
 #make sure perl-y characters in SEARCH expressions are escaped well enough
     my $this    = shift;
 
@@ -1436,10 +1436,10 @@ sub test_Search_expression {
 
     my $actual =
       $webObject->expandMacros(
-'%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" nototal="on"}%'
+'%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%'
       );
     my $expected = <<'HERE';
-<span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks~'Blah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+<span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks~'Bl&gt;ah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
 HERE
     $this->assert_str_equals( $expected, $actual );
 
