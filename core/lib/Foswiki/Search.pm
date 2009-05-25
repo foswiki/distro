@@ -466,7 +466,7 @@ sub searchWeb {
         my ( $web_ttopics, $web_searchResult );
         ( $web_ttopics, $web_searchResult, $tmplTail ) =
           $this->formatResults( $webObject, $query, $searchString, $infoCache,
-            %params );
+            \%params );
         $ttopics += $web_ttopics;
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
@@ -626,26 +626,26 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 =cut
 
 sub formatResults {
-    my ( $this, $webObject, $query, $searchString, $infoCache, %params ) = @_;
+    my ( $this, $webObject, $query, $searchString, $infoCache, $params ) = @_;
     my $session            = $this->{session};
     my $users              = $session->{users};
     my $web                = $webObject->web;
     my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
-    my $callback      = $params{_callback};
-    my $cbdata        = $params{_cbdata};
-    my $baseTopic     = $params{basetopic} || $session->{topicName};
-    my $baseWeb       = $params{baseweb} || $session->{webName};
-    my $doBookView    = Foswiki::isTrue( $params{bookview} );
-    my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
-    my $doExpandVars  = Foswiki::isTrue( $params{expandvariables} );
-    my $nonoise       = Foswiki::isTrue( $params{nonoise} );
-    my $noSearch      = Foswiki::isTrue( $params{nosearch}, $nonoise );
-    my $format        = $params{format} || '';
-    my $header        = $params{header};
-    my $footer        = $params{footer};
-    my $inline        = $params{inline};
-    my $limit         = $params{limit} || '';
+    my $callback      = $params->{_callback};
+    my $cbdata        = $params->{_cbdata};
+    my $baseTopic     = $params->{basetopic} || $session->{topicName};
+    my $baseWeb       = $params->{baseweb} || $session->{webName};
+    my $doBookView    = Foswiki::isTrue( $params->{bookview} );
+    my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
+    my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
+    my $nonoise       = Foswiki::isTrue( $params->{nonoise} );
+    my $noSearch      = Foswiki::isTrue( $params->{nosearch}, $nonoise );
+    my $format        = $params->{format} || '';
+    my $header        = $params->{header};
+    my $footer        = $params->{footer};
+    my $inline        = $params->{inline};
+    my $limit         = $params->{limit} || '';
 
     my $searchResult = '';
 
@@ -655,7 +655,7 @@ sub formatResults {
     my $originalSearch = $searchString;
     my $spacedTopic;
 
-    my $template = $params{template} || '';
+    my $template = $params->{template} || '';
     if ($format) {
         $template = 'searchformat';
     }
@@ -752,31 +752,31 @@ sub formatResults {
     $limit = 32000 unless ($limit);
 
     #TODO: multiple is an attribute of the ResultSet
-    my $doMultiple = Foswiki::isTrue( $params{multiple} );
-    my $noEmpty = Foswiki::isTrue( $params{noempty}, $nonoise );
+    my $doMultiple = Foswiki::isTrue( $params->{multiple} );
+    my $noEmpty = Foswiki::isTrue( $params->{noempty}, $nonoise );
 
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
     # now deprecated option 'inline' is used combined with 'format'
     my $noHeader =
-      !defined($header) && Foswiki::isTrue( $params{noheader}, $nonoise )
+      !defined($header) && Foswiki::isTrue( $params->{noheader}, $nonoise )
       || ( !$header && $format && $inline );
 
     my $noFooter =
-      !defined($footer) && Foswiki::isTrue( $params{nofooter}, $nonoise )
+      !defined($footer) && Foswiki::isTrue( $params->{nofooter}, $nonoise )
       || ( !$footer && $format && $inline );
 
-    my $noSummary = Foswiki::isTrue( $params{nosummary}, $nonoise );
+    my $noSummary = Foswiki::isTrue( $params->{nosummary}, $nonoise );
     my $zeroResults =
-      1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $nonoise );
-    my $noTotal = Foswiki::isTrue( $params{nototal}, $nonoise );
-    my $newLine   = $params{newline} || '';
-    my $sortOrder = $params{order}   || '';
-    my $revSort   = Foswiki::isTrue( $params{reverse} );
-    my $scope     = $params{scope}   || '';
-    my $separator = $params{separator};
-    my $topic     = $params{topic}   || '';
-    my $type      = $params{type}    || '';
+      1 - Foswiki::isTrue( ( $params->{zeroresults} || 'on' ), $nonoise );
+    my $noTotal = Foswiki::isTrue( $params->{nototal}, $nonoise );
+    my $newLine   = $params->{newline} || '';
+    my $sortOrder = $params->{order}   || '';
+    my $revSort   = Foswiki::isTrue( $params->{reverse} );
+    my $scope     = $params->{scope}   || '';
+    my $separator = $params->{separator};
+    my $topic     = $params->{topic}   || '';
+    my $type      = $params->{type}    || '';
 
     my $ttopics = 0;
 
@@ -802,6 +802,7 @@ sub formatResults {
     my $headerDone = $noHeader;
     while ( $infoCache->hasNext() ) {
         my $topic          = $infoCache->next();
+
         my $forceRendering = 0;
         my $info           = $infoCache->get($topic);
 
@@ -1055,7 +1056,7 @@ sub formatResults {
 
     # output number of topics (only if hits in web or if
     # only searching one web)
-    if ( $ntopics || $params{numberOfWebs} < 2 ) {
+    if ( $ntopics || $params->{numberOfWebs} < 2 ) {
         unless ($noTotal) {
             my $thisNumber = $tmplNumber;
             $thisNumber =~ s/%NTOPICS%/$ntopics/go;

@@ -181,6 +181,7 @@ BEGIN {
         ENCODE            => \&ENCODE,
         ENV               => \&ENV,
         FORMFIELD         => \&FORMFIELD,
+        FORMAT            => \&FORMAT,
         GMTIME            => \&GMTIME,
         GROUPS            => \&GROUPS,
         HTTP_HOST         => \&HTTP_HOST_deprecated,
@@ -535,7 +536,7 @@ sub UTF82SiteCharSet {
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
             $this->logger->log( 'warning',
-                    'UTF-8 not remotely supported on Perl ' 
+                    'UTF-8 not remotely supported on Perl '
                   . $]
                   . ' - use Perl 5.8 or higher..' );
         }
@@ -922,7 +923,7 @@ sub redirect {
             template => 'oopsaccessdenied',
             def      => 'topic_access',
             param1   => 'redirect',
-            param2   => 'unsafe redirect to ' 
+            param2   => 'unsafe redirect to '
               . $url
               . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls}"'
               . $Foswiki::cfg{DefaultUrlHost} . '"'
@@ -2227,7 +2228,7 @@ sub expandMacrosOnTopicCreation {
                   substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                 $this->innerExpandMacros( \$etext, $topicObject );
                 $ntext =
-                    substr( $ntext, 0, $s->{start} ) 
+                    substr( $ntext, 0, $s->{start} )
                   . $etext
                   . substr( $ntext, $s->{end}, length($ntext) );
             }
@@ -3668,6 +3669,47 @@ sub SEARCH {
     my $s;
     try {
         $s = $this->search->searchWeb(%$params);
+    }
+    catch Error::Simple with {
+        my $message = (DEBUG) ? shift->stringify() : shift->{-text};
+
+        # Block recursions kicked off by the text being repeated in the
+        # error message
+        $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
+        $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
+    };
+    return $s;
+}
+
+sub FORMAT {
+    my ( $this, $params, $topicObject ) = @_;
+
+    # pass on all attrs, and add some more
+    #$params->{_callback} = undef;
+    $params->{inline}    = 1;
+    $params->{baseweb}   = $topicObject->web;
+    $params->{basetopic} = $topicObject->topic;
+    $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};
+    $params->{type}      = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
+      unless ( $params->{type} );
+    $params->{format}      = '$topic'  unless ( $params->{format} );
+    $params->{header}      = '<nop>'  unless ( $params->{header} );
+    $params->{footer}      = '<nop>'  unless ( $params->{footer} );
+    $params->{nonoise} = 1;
+    my $s;
+    try {
+        my $webObject = Foswiki::Meta->new( $this, $params->{baseweb} );
+        my $topicString = $params->{_DEFAULT} || '';
+        #from Search::_makeTopicPattern (plus an added . to allow web.topic)
+        my @topics = map { s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
+            split( /,\s*/, $topicString );
+
+        my $query;  #query node
+        my $searchString = '';
+        require Foswiki::Search::InfoCache;
+        my $infoCache = new Foswiki::Search::InfoCache($this, $params->{baseweb}, \@topics);
+        my ( $ttopics, $searchResult, $tmplTail ) = $this->search->formatResults($webObject, $query, $searchString, $infoCache, $params);
+        $s = $searchResult;
     }
     catch Error::Simple with {
         my $message = (DEBUG) ? shift->stringify() : shift->{-text};

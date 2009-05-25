@@ -197,6 +197,7 @@ data/System/VarENDSECTION.txt 0644
 data/System/VarENV.txt 0644
 data/System/VarFAILEDPLUGINS.txt 0644
 data/System/VarFORMFIELD.txt 0644
+data/System/VarFORMAT.txt 0644
 data/System/VarGMTIME.txt 0644
 data/System/VarGRAY.txt 0644
 data/System/VarGREEN.txt 0644
