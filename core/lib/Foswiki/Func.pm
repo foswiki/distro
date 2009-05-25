@@ -2134,14 +2134,14 @@ sub registerTagHandler {
 
 =begin TML=
 
----+++ registerRESTHandler( $alias, \&fn, )
+---+++ registerRESTHandler( $alias, \&fn, %options )
 
 Should only be called from initPlugin.
 
 Adds a function to the dispatch table of the REST interface 
    * =$alias= - The name .
    * =\&fn= - Reference to the function.
-
+   * =%options= - additional options affecting the handler
 The handler function must be of the form:
 <verbatim>
 sub handler(\%session)
@@ -2152,16 +2152,37 @@ where:
 From the REST interface, the name of the plugin must be used
 as the subject of the invokation.
 
-Example
--------
+Additional options are set in the =%options= hash. These options are important
+to ensuring that requests to your handler can't be used in cross-scripting
+attacks, or used for phishing.
+   * =authenticate= - use this boolean option to require authentication for the
+     handler. If this is set, then an authenticated session must be in place
+     or the REST call will be rejected with a 401 (Unauthorized) status code.
+     By default, rest handlers do *not* require authentication.
+   * =validate= - use this boolean option to require validation of any requests
+     made to this handler. Validation is the process by which a secret key
+     is passed to the server so it can identify the origin of the request.
+     By default, requests made to REST handlers are not validated.
+   * =http_allow= use this option to specify that the HTTP methods that can
+     be used to invoke the handler. For example, =http_allow=>'POST,GET'= will
+     constrain the handler to be invoked using POST and GET, but not other
+     HTTP methods, such as DELETE. Normally you will use http_allow=>'POST'.
+     Together with authentication this is an important security tool.
+     Handlers that can be invoked using GET are vulnerable to being called
+     in the =src= parameter of =img= tags, a common method for cross-site
+     request forgery (CSRF) attacks. This option is set automatically if
+     =authenticate= is specified.
+
+---++++ Example
 
 The EmptyPlugin has the following call in the initPlugin handler:
 <verbatim>
-   Foswiki::Func::registerRESTHandler('example', \&restExample);
+   Foswiki::Func::registerRESTHandler('example', \&restExample,
+     http_allow=>'GET,POST');
 </verbatim>
 
-This adds the =restExample= function to the REST dispatch table 
-for the EmptyPlugin under the 'example' alias, and allows it 
+This adds the =restExample= function to the REST dispatch table
+for the EmptyPlugin under the 'example' alias, and allows it
 to be invoked using the URL
 
 =http://server:port/bin/rest/EmptyPlugin/example=
@@ -2172,17 +2193,28 @@ note that the URL
 
 (ie, with the name of the function instead of the alias) will not work.
 
+---++++ Calling REST handlers from the command-line
+The =rest= script allows handlers to be invoked from the command line. The
+script is invoked passing the parameters as described in CommandAndCGIScripts.
+If the handler requires authentication ( =authenticate=>1= ) then this can
+be passed in the username and =password= parameters.
+
+For example,
+
+=perl -wT rest /EmptyPlugin/example -username HughPugh -password trumpton=
+
 =cut
 
 sub registerRESTHandler {
-    my ( $alias, $function ) = @_;
+    my ( $alias, $function, %options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $plugin = caller;
     $plugin =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
 
     # Use an anonymous function so it gets inlined at compile time.
     # Make sure we don't mangle the session reference.
-    Foswiki::registerRESTHandler(
+    require Foswiki::UI::Rest;
+    Foswiki::UI::Rest::registerRESTHandler(
         $plugin, $alias,
         sub {
             my $record = $Foswiki::Plugins::SESSION;
@@ -2190,7 +2222,7 @@ sub registerRESTHandler {
             my $result = &$function(@_);
             $Foswiki::Plugins::SESSION = $record;
             return $result;
-        }
+        }, %options
     );
 }
 

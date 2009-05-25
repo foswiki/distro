@@ -72,7 +72,6 @@ our $foswikiLibDir;
 our %regex;
 our %functionTags;
 our %contextFreeSyntax;
-our %restDispatch;
 our $VERSION;
 our $RELEASE;
 our $TRUE  = 1;
@@ -278,6 +277,9 @@ BEGIN {
         require locale;
         import locale();
     }
+
+    # If not set, default to strikeone validation
+    $Foswiki::cfg{ValidationMethod} ||= 'strikeone';
 
     # Constant tags dependent on the config
     $functionTags{ALLOWLOGINNAME} =
@@ -634,15 +636,37 @@ sub writeCompletePage {
         $text .= "\n" unless $text =~ /\n$/s;
 
         my $cgis = $this->getCGISession();
-        if ( $cgis && $contentType eq 'text/html' ) {
+        if ( $cgis && $contentType eq 'text/html'
+               && $Foswiki::cfg{ValidationMethod} ne 'none') {
             # Don't expire the validation key through login, or when
             # endpoint is an error.
             Foswiki::Validation::expireValidationKeys($cgis)
                 unless ($this->{request}->action() eq 'login'
                           or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400);
+            my $usingStrikeOne = 0;
+            if ($Foswiki::cfg{ValidationMethod} eq 'strikeone'
+                  # Add the onsubmit handler to the form
+                  && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+                    Foswiki::Validation::addOnSubmit($1)/gei) {
+                # At least one form has been touched; add the validation
+                # cookie
+                $this->{users}->{loginManager}->addCookie(
+                    Foswiki::Validation::getCookie(
+                        $cgis, $this->{response}));
+                # Add the JS module to the page. Note that this is *not*
+                # incorporated into the foswikilib.js because that module
+                # is conditionally loaded under the control of the
+                # templates, and we have to be *sure* it gets loaded.
+                $this->addToHEAD( 'FOSWIKI STRIKE ONE',
+                                  <<STRIKEONE);
+<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone.js"></script>
+STRIKEONE
+                $usingStrikeOne = 1;
+            }
             # Inject validation key in HTML forms
             $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-              Foswiki::Validation::addValidationKey( $cgis, $1 )/gei;
+              Foswiki::Validation::addValidationKey(
+                  $cgis, $1, $usingStrikeOne )/gei;
         }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
@@ -2909,35 +2933,6 @@ sub registerTagHandler {
     if ( $syntax && $syntax eq 'context-free' ) {
         $contextFreeSyntax{$tag} = 1;
     }
-}
-
-=begin TML=
-
----++ StaticMethod registerRESTHandler( $subject, $verb, \&fn )
-
-Adds a function to the dispatch table of the REST interface
-for a given subject. See System.CommandAndCGIScripts#rest for more info.
-
-   * =$subject= - The subject under which the function will be registered.
-   * =$verb= - The verb under which the function will be registered.
-   * =\&fn= - Reference to the function.
-
-The handler function must be of the form:
-<verbatim>
-sub handler(\%session,$subject,$verb) -> $text
-</verbatim>
-where:
-   * =\%session= - a reference to the Foswiki session object (may be ignored)
-   * =$subject= - The invoked subject (may be ignored)
-   * =$verb= - The invoked verb (may be ignored)
-
-*Since:* Foswiki::Plugins::VERSION 1.1
-
-=cut=
-
-sub registerRESTHandler {
-    my ( $subject, $verb, $fnref ) = @_;
-    $restDispatch{$subject}{$verb} = \&$fnref;
 }
 
 =begin TML

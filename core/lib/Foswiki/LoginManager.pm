@@ -59,6 +59,11 @@ $M1 = chr(5);
 $M2 = chr(6);
 $M3 = chr(7);
 
+# Some session keys are secret (not to be given to the browser) and
+# others read only (not to be changed from the browser)
+our %secretSK   = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
+our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
+
 =begin TML
 
 ---++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
@@ -892,18 +897,14 @@ sub getSessionValue {
 ---++ ObjectMethod setSessionValue( $name, $value )
 
 Set the value of a session variable.
-We do not allow setting of AUTHUSER.
 
 =cut
 
 sub setSessionValue {
     my ( $this, $key, $value ) = @_;
 
-    # We do not allow setting of AUTHUSER.
-    if (   $this->{_cgisession}
-        && $key ne 'AUTHUSER'
-        && defined( $this->{_cgisession}->param( $key, $value ) ) )
-    {
+    if ( $this->{_cgisession}
+           && defined( $this->{_cgisession}->param( $key, $value ) ) ) {
         return 1;
     }
 
@@ -1113,17 +1114,22 @@ sub _SESSION_VARIABLE {
     my $this = $session->{users}->{loginManager};
     my $name = $params->{_DEFAULT};
 
-    if ( defined( $params->{set} ) ) {
-        $this->setSessionValue( $name, $params->{set} );
-        return '';
+    if (defined $name) {
+        if ( defined( $params->{set} ) ) {
+            unless( $readOnlySK{$name} ) {
+                $this->setSessionValue( $name, $params->{set} );
+            }
+        }
+        elsif ( defined( $params->{clear} ) ) {
+            unless( $readOnlySK{$name} ) {
+                $this->clearSessionValue($name);
+            }
+        }
+        elsif ( !$secretSK{$name} ) {
+            return $this->getSessionValue($name) || '';
+        }
     }
-    elsif ( defined( $params->{clear} ) ) {
-        $this->clearSessionValue($name);
-        return '';
-    }
-    else {
-        return $this->getSessionValue($name) || '';
-    }
+    return '';
 }
 
 =begin TML

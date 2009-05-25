@@ -951,6 +951,7 @@ pub/System/JavascriptFiles/foswikiWindow.js 0644
 pub/System/JavascriptFiles/foswiki_edit.js 0644
 pub/System/JavascriptFiles/foswiki_renamebase.js 0644
 pub/System/JavascriptFiles/foswikilib.js 0644
+pub/System/JavascriptFiles/strikeone.js 0644
 pub/System/PlainSkin/fullscreen.gif 0644
 pub/System/PlainSkin/screenshot.gif 0644
 pub/System/PreviewBackground/blankltgraybg.gif 0644
