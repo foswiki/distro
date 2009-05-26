@@ -49,15 +49,18 @@ object.
 
 =cut
 
-our $digester = new Digest::MD5();
+# Done as a sub to help perl optimise it away
+sub TRACE { 0 }
 
 =begin TML
 
----++ StaticMethod addValidationKey( $cgis, $form, $strikeone ) -> $form
+---++ StaticMethod addValidationKey( $cgis, $context, $strikeone ) -> $form
 
-Add a new validation key to a form. The key will time out after {LeaseLength}.
+Add a new validation key to a form. The key will time out after
+{Validation}{ValidForTime}.
    * =$cgis= - a CGI::Session
-   * =$form= - the opening tag of a form, ie. &lt;form ...&gt;=
+   * =$context= - the context for the key, usually the URL of the target
+     page plus the time. This should be unique for each rendered page.
    * =$strikeone= - if set, expect the nonce to be combined with the
      session secret before it is posted back.
 The validation key will be added as a hidden parameter at the end of
@@ -66,28 +69,30 @@ the form tag.
 =cut
 
 sub addValidationKey {
-    my ( $cgis, $form, $strikeone ) = @_;
-    my $actions = $cgis->param('VALID_ACTIONS');
-    $actions ||= {};
-    $digester->add( $form, $cgis->id(), rand(time) );
-    my $nonce = $digester->b64digest();
+    my ( $cgis, $context, $strikeone ) = @_;
+    my $actions = $cgis->param('VALID_ACTIONS') || {};
+    my $nonce = Digest::MD5::md5_hex($context, $cgis->id());
     my $action = $nonce;
     if ($strikeone) {
         # When using strikeone, the validation key pushed into the form will
         # be combined with the secret in the cookie, and the combination
         # will be md5 encoded before sending back. Since we know the secret
-        # and the validation key, then might as save the hashed version.
+        # and the validation key, then might as well save the hashed version.
         # This has to be consistent with the algorithm in strikeone.js
         my $secret = _getSecret( $cgis );
-        $digester->add( $nonce, $secret );
-        $action = $digester->b64digest();
-        #print STDERR time.": STRIKEONE $nonce + $secret = $action\n";
+        $action = Digest::MD5::md5_hex($nonce, $secret);
+        print STDERR "V: STRIKEONE $nonce + $secret = $action\n" if TRACE;
     }
-    $actions->{$action} = time() + $Foswiki::cfg{LeaseLength};
-    #print STDERR time.": ADD $action ".join('; ', map { "$_=$actions->{$_}" } keys %$actions)."\n";
+    my $timeout = time() + $Foswiki::cfg{Validation}{ValidForTime};
+    print STDERR "V: ADD $action".($nonce ne $action ? "($nonce)" : '')
+      .' = '.$timeout."\n"
+        if TRACE && !defined $actions->{$action};
+    $actions->{$action} = $timeout;
 
     $cgis->param( 'VALID_ACTIONS', $actions );
-    return $form.CGI::hidden(-name => 'validation_key', -value=>$nonce);
+    # Don't use CGI::hidden; it will inherit the URL param value of
+    # validation key and override our value :-(
+    return "<input type='hidden' name='validation_key' value='?$nonce' />";
 }
 
 =begin TML
@@ -103,8 +108,8 @@ onsubmit in the form tag.
 
 sub addOnSubmit {
     my ( $form ) = @_;
-    unless ($form =~ s/\bonsubmit=(["'])(.*)\1/onsubmit=${1}foswikiStrikeOne();$2$1/i) {
-        $form =~ s/>$/ onsubmit="foswikiStrikeOne()">/;
+    unless ($form =~ s/\bonsubmit=(["'])(.*)\1/onsubmit=${1}foswikiStrikeOne(this);$2$1/i) {
+        $form =~ s/>$/ onsubmit="foswikiStrikeOne(this)">/;
     }
     return $form;
 }
@@ -149,7 +154,9 @@ Return false if not.
 
 sub isValidNonce {
     my ( $cgis, $nonce ) = @_;
-    return 1 if ($Foswiki::cfg{ValidationMethod} eq 'none');
+    print STDERR "V: CHECK: $nonce\n" if TRACE;
+    return 1 if ($Foswiki::cfg{Validation}{Method} eq 'none');
+    return 0 unless defined $nonce;
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     return $actions->{$nonce};
@@ -175,8 +182,23 @@ sub expireValidationKeys {
         my $now = time();
         while (my ($nonce, $time) = each %$actions) {
             if ($time < $now) {
-                #print STDERR time.": EXPIRE $nonce $time\n";
+                print STDERR "V: EXPIRE $nonce $time\n" if TRACE;
                 delete $actions->{$nonce};
+                $deaths++;
+            }
+        }
+        # If we have more than the permitted number of keys, expire
+        # the oldest ones.
+        my $excess = scalar(keys %$actions)
+          - $Foswiki::cfg{Validation}{MaxKeysPerSession};
+        if ($excess > 0) {
+            print STDERR "V: $excess TOO MANY KEYS\n" if TRACE;
+            my @keys = sort { $actions->{$a} <=> $actions->{$b} }
+              keys %$actions;
+            while ($excess-- > 0) {
+                my $key = shift(@keys);
+                print STDERR "V: EXPIRE $key $actions->{$key}\n" if TRACE;
+                delete $actions->{$key};
                 $deaths++;
             }
         }
@@ -201,6 +223,7 @@ sub validate {
     my $query   = $session->{request};
     my $web     = $session->{webName};
     my $topic   = $session->{topicName};
+    my $cgis    = $session->getCGISession();
 
     my $origurl = $query->param('origurl');
     $query->delete( 'origurl' );
@@ -210,7 +233,8 @@ sub validate {
 
     if ($query->param('response')) {
         my $url;
-        if ($query->param('response') eq 'OK') {
+        if ($query->param('response') eq 'OK' &&
+              isValidNonce($cgis, $query->param('validation_key'))) {
             if ( !$origurl || $origurl eq $query->url() ) {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
@@ -231,17 +255,17 @@ sub validate {
             }
 
             # Redirect with passthrough (302)
-            #print STDERR "CONFIRMED; redirect to POST $url\n";
+            print STDERR "WV: CONFIRMED; POST to $url\n" if TRACE;
             $session->redirect( $url, 1 );
         }
         else {
-            #print STDERR "REJECTED; redirect to GET view\n";
+            print STDERR "V: CONFIRMATION REJECTED\n" if TRACE;
             # Validation failed; redirect to view (302)
             $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             $session->redirect( $url, 0 );    # no passthrough
         }
     } else {
-        #print STDERR "PROMPT VALIDATE\n";
+        print STDERR "V: PROMPT FOR CONFIRMATION\n" if TRACE;
         # prompt for user verification
         $session->{response}->status(401);
 
@@ -264,9 +288,8 @@ sub _getSecret {
     my $cgis = shift;
     my $secret = $cgis->param('STRIKEONESECRET');
     unless ($secret) {
-        $digester->add( $cgis->id(), rand(time) );
         # Use hex encoding to make it cookie-friendly
-        $secret = $digester->hexdigest();
+        $secret = Digest::MD5::md5_hex($cgis->id(), rand(time));
         $cgis->param('STRIKEONESECRET', $secret);
     }
     return $secret;

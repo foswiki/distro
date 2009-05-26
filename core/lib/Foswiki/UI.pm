@@ -235,6 +235,7 @@ sub handleRequest {
             $req->delete('foswiki_redirect_cache');
             print STDERR "Passthru: Loaded and unlinked $passthruFilename\n"
               if TRACE_PASSTHRU;
+
             $req->method('POST');
         }
         else {
@@ -243,6 +244,7 @@ sub handleRequest {
         }
     }
     #print STDERR "INCOMING ".$req->method()." ".$req->url." -> ".$sub."\n";
+    #print STDERR "Validation: ".($req->param('validation_key')||'no key')."\n";
     #require Data::Dumper;
     #print STDERR Data::Dumper->Dump([$req]);
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
@@ -518,6 +520,7 @@ sub checkValidationKey {
 
     # Check the nonce before we do anything else
     my $nonce = $session->{request}->param('validation_key');
+    $session->{request}->delete('validation_key');
     if (!defined($nonce) || !Foswiki::Validation::isValidNonce(
         $session->getCGISession(), $nonce)) {
         throw Foswiki::ValidationException();

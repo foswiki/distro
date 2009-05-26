@@ -189,6 +189,11 @@ sub login {
         $session->{response}->status(400);
     }
 
+    # Remove the validation_key from the passed through params. It isn't
+    # required, because the form will have a new validation key, and
+    # giving the parameter twice will confuse the strikeone Javascript.
+    $session->{request}->delete('validation_key');
+
     # TODO: add JavaScript password encryption in the template
     # to use a template)
     $origurl ||= '';

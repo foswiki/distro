@@ -279,7 +279,11 @@ BEGIN {
     }
 
     # If not set, default to strikeone validation
-    $Foswiki::cfg{ValidationMethod} ||= 'strikeone';
+    $Foswiki::cfg{Validation}{Method} ||= 'strikeone';
+    $Foswiki::cfg{Validation}{ValidForTime} = $Foswiki::cfg{LeaseLength}
+      unless defined $Foswiki::cfg{Validation}{ValidForTime};
+    $Foswiki::cfg{Validation}{MaxKeys} = 1000
+      unless defined $Foswiki::cfg{Validation}{MaxKeys};
 
     # Constant tags dependent on the config
     $functionTags{ALLOWLOGINNAME} =
@@ -637,14 +641,14 @@ sub writeCompletePage {
 
         my $cgis = $this->getCGISession();
         if ( $cgis && $contentType eq 'text/html'
-               && $Foswiki::cfg{ValidationMethod} ne 'none') {
+               && $Foswiki::cfg{Validation}{Method} ne 'none') {
             # Don't expire the validation key through login, or when
             # endpoint is an error.
             Foswiki::Validation::expireValidationKeys($cgis)
                 unless ($this->{request}->action() eq 'login'
                           or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400);
             my $usingStrikeOne = 0;
-            if ($Foswiki::cfg{ValidationMethod} eq 'strikeone'
+            if ($Foswiki::cfg{Validation}{Method} eq 'strikeone'
                   # Add the onsubmit handler to the form
                   && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
                     Foswiki::Validation::addOnSubmit($1)/gei) {
@@ -664,9 +668,12 @@ STRIKEONE
                 $usingStrikeOne = 1;
             }
             # Inject validation key in HTML forms
+            my $context =
+              $this->{request}->url( -full => 1, -path => 1, -query => 1 )
+                . time();
             $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-              Foswiki::Validation::addValidationKey(
-                  $cgis, $1, $usingStrikeOne )/gei;
+              $1 . Foswiki::Validation::addValidationKey(
+                  $cgis, $context, $usingStrikeOne )/gei;
         }
         my $htmlHeader = join( "\n",
             map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
@@ -885,6 +892,7 @@ sub redirect {
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
+
         if ( uc( $query->method() ) eq 'POST' ) {
 
             # Redirecting from a post to a get
@@ -894,6 +902,7 @@ sub redirect {
             }
         }
         else {
+            # Redirecting a get to a get; no need to use passthru
             if ( $query->query_string() ) {
                 $url .= '?' . $query->query_string();
             }
