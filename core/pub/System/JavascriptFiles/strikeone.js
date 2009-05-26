@@ -1,17 +1,16 @@
-function foswikiStrikeOne() {
+function foswikiStrikeOne(form) {
     // Read the cookie to get the secret
     var secret = readCookie('FOSWIKISTRIKEONE');
-    // Find all validation_key inputs
-    var inputs = document.getElementsByTagName('input');
-    for (var i in inputs) {
-        if (inputs[i].name == 'validation_key') {
-            // combine the validation key with the secret in a way that
-            // can't easily be reverse-engineered, but can be duplicated
-            // on the server (which also knows the secret)
-            var key = inputs[i].value;
-            var newkey = b64_md5(key + secret);
-            inputs[i].value = newkey;
-        }
+    //console.debug("Submit "+form.name);
+    var input = form.validation_key;
+    if (input && input.value) {
+        // combine the validation key with the secret in a way
+        // that can't easily be reverse-engineered, but can be
+        // duplicated on the server (which also knows the secret)
+        var key = input.value.substring(1);
+        var newkey = hex_md5(key + secret);
+        input.value = newkey;
+        //console.debug("Revise "+key+" + "+secret+" -> "+newkey);
     }
 }
 
