@@ -273,7 +273,16 @@ $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 # If it is set to "none", then no validation of posted requests will
 # be performed.
 # If the option is not set, Foswiki will default to 'strikeone'.
-$Foswiki::cfg{ValidationMethod} = 'strikeone';
+$Foswiki::cfg{Validation}{Method} = 'strikeone';
+# **NUMBER EXPERT**
+# Validation keys are stored for a maximum of this amount of time before
+# they are invalidated. Time in seconds.
+$Foswiki::cfg{Validation}{ValidForTime} = 3600;
+# **NUMBER EXPERT**
+# The maximum number of validation keys to store in a session. There is one
+# key stored for each page rendered. If the number of keys exceeds this
+# number, the oldest keys will be force-expired to bring the number down.
+$Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 
 #---++ Authentication
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
