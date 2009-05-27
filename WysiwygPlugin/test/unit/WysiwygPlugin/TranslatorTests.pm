@@ -1612,6 +1612,25 @@ GLUED
 </p>
 '
     },
+	{
+		exec => $HTML2TML,
+		name => 'mergeStickyItem1667',
+		html => <<'BLAH',
+<div class="WYSIWYG_STICKY">Line 1</div>
+<div class="WYSIWYG_STICKY">Line 2</div>
+BLAH
+		tml => "<sticky>Line 1\nLine 2</sticky>"
+	},
+	{
+		exec => $HTML2TML | $ROUNDTRIP,
+		name => 'separateStickyRegions',
+		html => <<'BLAH',
+<div class="WYSIWYG_STICKY">Oranges</div>
+<p></p>
+<div class="WYSIWYG_STICKY">Apples</div>
+BLAH
+		tml => "<sticky>Oranges</sticky>\n\n<sticky>Apples</sticky>"
+	},
     {
         exec => $TML2HTML,
         name => 'Item4705_B',

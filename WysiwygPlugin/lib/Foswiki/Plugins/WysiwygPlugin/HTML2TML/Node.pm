@@ -360,8 +360,47 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
 
     return $text;
 }
+# collapse adjacent nodes together, if they share the same class
+sub _collapseOneClass
+{
+    my $node = shift;
+	my $class = shift;
+	if ( defined( $node->{tag} ) && $node->hasClass($class) ) {
+		my $next = $node->{next};
+		my @edible;
+		my $collapsible;
+		while (
+			$next
+			&& (
+				( !$next->{tag} && $next->{text} =~ /^\s*$/ )
+				|| (   $node->{tag} eq $next->{tag}
+					&& $next->hasClass($class) )
+			)
+		  )
+		{
+			push( @edible, $next );
+			$collapsible ||= $next->hasClass($class);
+			$next = $next->{next};
+		}
+		if ($collapsible) {
+			foreach my $meal (@edible) {
+				$meal->_remove();
+				if ( $meal->{tag} ) {
+					require Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
+					$node->addChild(
+						new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf(
+							$WC::NBBR)
+					);
+					$node->_eat($meal);
+				}
+			}
+		}
+	}
+}
+
 
 # Collapse adjacent VERBATIM nodes together
+# Collapse adjacent STICKY nodes together
 # Collapse a <p> that contains only a protected span into a protected P
 # Collapse em in em
 # Collapse adjacent text nodes
@@ -371,43 +410,14 @@ sub _collapse {
     my @jobs = ($this);
     while ( scalar(@jobs) ) {
         my $node = shift(@jobs);
-        if ( defined( $node->{tag} ) && $node->hasClass('TMLverbatim') ) {
-            my $next = $node->{next};
-            my @edible;
-            my $collapsible;
-            while (
-                $next
-                && (
-                    ( !$next->{tag} && $next->{text} =~ /^\s*$/ )
-                    || (   $node->{tag} eq $next->{tag}
-                        && $next->hasClass('TMLverbatim') )
-                )
-              )
-            {
-                push( @edible, $next );
-                $collapsible ||= $next->hasClass('TMLverbatim');
-                $next = $next->{next};
-            }
-            if ($collapsible) {
-                foreach my $meal (@edible) {
-                    $meal->_remove();
-                    if ( $meal->{tag} ) {
-                        require Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
-                        $node->addChild(
-                            new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf(
-                                $WC::NBBR)
-                        );
-                        $node->_eat($meal);
-                    }
-                }
-            }
-        }
+		_collapseOneClass($node, 'TMLverbatim');
+		_collapseOneClass($node, 'WYSIWYG_STICKY');
         if (   $node->{tag} eq 'p'
             && $node->{head}
             && $node->{head} == $node->{tail} )
         {
             my $kid = $node->{head};
-            if (   $kid->{tag} eq 'SPAN'
+            if (   uc($kid->{tag}) eq 'SPAN'
                 && $kid->hasClass('WYSIWYG_PROTECTED') )
             {
                 $kid->_remove();
