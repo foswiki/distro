@@ -454,9 +454,12 @@ sub _moveClassToSpan {
         and $this->_removeClass($class) )
     {
 
+		my %new_attrs = ( class => $class );
+        $new_attrs{style} = $this->{attrs}->{style}
+          if exists $this->{attrs}->{style};
         my $newspan =
           new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node( $this->{context},
-            'span', { class => $class } );
+            'span', \%new_attrs );
         my $kid = $this->{head};
         while ($kid) {
             $newspan->addChild($kid);
@@ -511,6 +514,8 @@ sub generate {
     my $tmlFn = '_handle' . uc($tag);
 
     $this->_moveClassToSpan('WYSIWYG_TT');
+    $this->_moveClassToSpan('WYSIWYG_COLOR')
+      if lc( $this->{tag} ) ne 'font';
 
     # See if we have a TML translation function for this tag
     # the translation functions will work out the rendering
@@ -864,12 +869,14 @@ sub _isConvertableTableRow {
     while ($kid) {
         if ( $kid->{tag} eq 'th' ) {
             $kid->_moveClassToSpan('WYSIWYG_TT');
+            $kid->_moveClassToSpan('WYSIWYG_COLOR');
             ( $flags, $text ) = $kid->_flatten($options);
             $text = _TDtrim($text);
             $text = "*$text*" if length($text);
         }
         elsif ( $kid->{tag} eq 'td' ) {
             $kid->_moveClassToSpan('WYSIWYG_TT');
+            $kid->_moveClassToSpan('WYSIWYG_COLOR');
             ( $flags, $text ) = $kid->_flatten($options);
             $text = _TDtrim($text);
         }

@@ -224,6 +224,16 @@ BLAH
         tml => '==Code=='
     },
     {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'strongWithTtAndColorClasses',
+        html => <<'BLAH',
+<p>
+<strong class="WYSIWYG_TT WYSIWYG_COLOR" style="color:#FF0000;">Code</strong>
+</p>
+BLAH
+		tml => '*%RED% =Code= %ENDCOLOR%*'
+    },
+    {
         exec => $HTML2TML,
         name => 'bWithTtClass',
         html => "<p>\n<b class=\"WYSIWYG_TT\">Code</b>\n</p>",
@@ -414,6 +424,34 @@ HERE
    A. Sushi
 
    i. Sushi
+
+   1 Sushi
+   A. Sushi
+   i. Sushi
+HERE
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'orderedList_Item1341',
+        html => <<'HERE',
+<ol><li>Sushi</li><li>Banana</li></ol><p />
+<ol><li type="A">Sushi</li><li type="A">Banana</li></ol><p />
+<ol><li type="i">Sushi</li><li type="i">Banana</li></ol><p />
+<ol><li type="I">Sushi</li><li type="I">Banana</li></ol><p />
+<ol><li>Sushi</li><li type="A">Sushi</li><li type="i">Sushi</li></ol>
+HERE
+        tml => <<'HERE',
+   1 Sushi
+   1 Banana
+
+   A. Sushi
+   A. Banana
+
+   i. Sushi
+   i. Banana
+
+   I. Sushi
+   I. Banana
 
    1 Sushi
    A. Sushi
@@ -837,6 +875,12 @@ EVERYWHERE
  Inside
  </verbatim> Outside',
     },
+	{
+		exec => $TML2HTML | $ROUNDTRIP,
+		name => 'verbatimWithNbsp1554',
+		html => '<p><pre class="TMLverbatim">&amp;nbsp;</pre></p>',
+		tml => "<verbatim>&nbsp;</verbatim>"
+	},
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'nestedPre',
@@ -1672,6 +1716,44 @@ BLAH
         exec => $HTML2TML,
         html => 'the <tt><tt>co</tt>mple<code>te</code></tt> table',
         tml  => 'the =complete= table',
+    },
+    {
+        exec => $HTML2TML,
+        name => 'strongWithColorClass',
+        html => <<'BLAH',
+<p>
+<strong class="WYSIWYG_COLOR" style="color:#FF0000;">Strong red</strong>
+</p>
+BLAH
+        tml => '*%RED%Strong red%ENDCOLOR%*'
+    },
+    {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'colorClassInTable',
+        html => <<'BLAH',
+<table>
+<tr><th class="WYSIWYG_COLOR" style="color:#FF0000;">Red Heading</th></tr>
+<tr><td class="WYSIWYG_COLOR" style="color:#FF0000;">Red herring</td></tr>
+</table>
+BLAH
+        tml  => <<'BLAH',
+| *%RED%Red Heading%ENDCOLOR%* |
+| %RED%Red herring%ENDCOLOR% |
+BLAH
+    },
+    {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'colorAndTtClassInTable',
+        html => <<'BLAH',
+<table>
+<tr><th class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Redder code</th></tr>
+<tr><td class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Red code</td></tr>
+</table>
+BLAH
+        tml  => <<'BLAH',
+| *%RED% =Redder code= %ENDCOLOR%* |
+| %RED% =Red code= %ENDCOLOR% |
+BLAH
     },
     {
         name => 'fontconv',
