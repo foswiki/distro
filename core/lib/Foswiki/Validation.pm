@@ -6,7 +6,7 @@ use strict;
 use Assert;
 
 use Digest::MD5 ();
-use Foswiki ();
+use Foswiki     ();
 
 =begin TML
 
@@ -52,6 +52,10 @@ object.
 # Done as a sub to help perl optimise it away
 sub TRACE { 0 }
 
+# Define cookie name only once
+# WARNING: If you change this, be sure to also change the javascript
+sub _getSecretCookieName { 'FOSWIKISTRIKEONE' }
+
 =begin TML
 
 ---++ StaticMethod addValidationKey( $cgis, $context, $strikeone ) -> $form
@@ -71,25 +75,28 @@ the form tag.
 sub addValidationKey {
     my ( $cgis, $context, $strikeone ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS') || {};
-    my $nonce = Digest::MD5::md5_hex($context, $cgis->id());
+    my $nonce = Digest::MD5::md5_hex( $context, $cgis->id() );
     my $action = $nonce;
     if ($strikeone) {
+
         # When using strikeone, the validation key pushed into the form will
         # be combined with the secret in the cookie, and the combination
         # will be md5 encoded before sending back. Since we know the secret
         # and the validation key, then might as well save the hashed version.
         # This has to be consistent with the algorithm in strikeone.js
-        my $secret = _getSecret( $cgis );
-        $action = Digest::MD5::md5_hex($nonce, $secret);
+        my $secret = _getSecret($cgis);
+        $action = Digest::MD5::md5_hex( $nonce, $secret );
         print STDERR "V: STRIKEONE $nonce + $secret = $action\n" if TRACE;
     }
     my $timeout = time() + $Foswiki::cfg{Validation}{ValidForTime};
-    print STDERR "V: ADD $action".($nonce ne $action ? "($nonce)" : '')
-      .' = '.$timeout."\n"
-        if TRACE && !defined $actions->{$action};
+    print STDERR "V: ADD $action"
+      . ( $nonce ne $action ? "($nonce)" : '' ) . ' = '
+      . $timeout . "\n"
+      if TRACE && !defined $actions->{$action};
     $actions->{$action} = $timeout;
 
     $cgis->param( 'VALID_ACTIONS', $actions );
+
     # Don't use CGI::hidden; it will inherit the URL param value of
     # validation key and override our value :-(
     return "<input type='hidden' name='validation_key' value='?$nonce' />";
@@ -107,8 +114,10 @@ onsubmit in the form tag.
 =cut
 
 sub addOnSubmit {
-    my ( $form ) = @_;
-    unless ($form =~ s/\bonsubmit=(["'])(.*)\1/onsubmit=${1}foswikiStrikeOne(this);$2$1/i) {
+    my ($form) = @_;
+    unless ( $form =~
+        s/\bonsubmit=(["'])(.*)\1/onsubmit=${1}foswikiStrikeOne(this);$2$1/i )
+    {
         $form =~ s/>$/ onsubmit="foswikiStrikeOne(this)">/;
     }
     return $form;
@@ -127,17 +136,17 @@ and a secret. The secret is constant for a given session.
 =cut
 
 sub getCookie {
-    my ( $cgis ) = @_;
+    my ($cgis) = @_;
 
     my $secret = _getSecret($cgis);
 
     # Add the cookie to the response
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
-        -name     => 'FOSWIKISTRIKEONE',
-        -value    => $secret,
-        -path     => '/',
-        -httponly => 0, # we *want* JS to be able to read it!
+        -name  => _getSecretCookieName(),
+        -value => $secret,
+        -path  => '/',
+        -httponly => 0,    # we *want* JS to be able to read it!
     );
 
     return $cookie;
@@ -155,7 +164,7 @@ Return false if not.
 sub isValidNonce {
     my ( $cgis, $nonce ) = @_;
     print STDERR "V: CHECK: $nonce\n" if TRACE;
-    return 1 if ($Foswiki::cfg{Validation}{Method} eq 'none');
+    return 1 if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
     return 0 unless defined $nonce;
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
@@ -172,30 +181,33 @@ force expiry of a specific key, even if it hasn't timed out.
 =cut
 
 sub expireValidationKeys {
-    my ($cgis, $key) = @_;
+    my ( $cgis, $key ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS');
     if ($actions) {
-        if (defined $key && exists $actions->{$key}) {
-            $actions->{$key} = 0; # force-expire this key
+        if ( defined $key && exists $actions->{$key} ) {
+            $actions->{$key} = 0;    # force-expire this key
         }
         my $deaths = 0;
-        my $now = time();
-        while (my ($nonce, $time) = each %$actions) {
-            if ($time < $now) {
+        my $now    = time();
+        while ( my ( $nonce, $time ) = each %$actions ) {
+            if ( $time < $now ) {
+
                 print STDERR "V: EXPIRE $nonce $time\n" if TRACE;
                 delete $actions->{$nonce};
                 $deaths++;
             }
         }
+
         # If we have more than the permitted number of keys, expire
         # the oldest ones.
-        my $excess = scalar(keys %$actions)
-          - $Foswiki::cfg{Validation}{MaxKeysPerSession};
-        if ($excess > 0) {
+        my $excess =
+          scalar( keys %$actions ) -
+          $Foswiki::cfg{Validation}{MaxKeysPerSession};
+        if ( $excess > 0 ) {
             print STDERR "V: $excess TOO MANY KEYS\n" if TRACE;
             my @keys = sort { $actions->{$a} <=> $actions->{$b} }
               keys %$actions;
-            while ($excess-- > 0) {
+            while ( $excess-- > 0 ) {
                 my $key = shift(@keys);
                 print STDERR "V: EXPIRE $key $actions->{$key}\n" if TRACE;
                 delete $actions->{$key};
@@ -203,7 +215,7 @@ sub expireValidationKeys {
             }
         }
         if ($deaths) {
-            $cgis->param('VALID_ACTIONS', $actions);
+            $cgis->param( 'VALID_ACTIONS', $actions );
         }
     }
 }
@@ -219,29 +231,32 @@ response to a ValidationException.
 =cut
 
 sub validate {
-    my ( $session ) = @_;
-    my $query   = $session->{request};
-    my $web     = $session->{webName};
-    my $topic   = $session->{topicName};
-    my $cgis    = $session->getCGISession();
+    my ($session) = @_;
+    my $query     = $session->{request};
+    my $web       = $session->{webName};
+    my $topic     = $session->{topicName};
+    my $cgis      = $session->getCGISession();
 
     my $origurl = $query->param('origurl');
-    $query->delete( 'origurl' );
+    $query->delete('origurl');
 
     my $tmpl =
       $session->templates->readTemplate( 'validate', $session->getSkin() );
 
-    if ($query->param('response')) {
+    if ( $query->param('response') ) {
         my $url;
-        if ($query->param('response') eq 'OK' &&
-              isValidNonce($cgis, $query->param('validation_key'))) {
+        if ( $query->param('response') eq 'OK'
+            && isValidNonce( $cgis, $query->param('validation_key') ) )
+        {
             if ( !$origurl || $origurl eq $query->url() ) {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
                 $url = $origurl;
+
                 # SMELL: do we ever need this?
-                ASSERT($url !~ /#/) if DEBUG;
+                ASSERT( $url !~ /#/ ) if DEBUG;
+
                 # Unpack params encoded in the origurl and restore them
                 # to the query. If they were left in the query string they
                 # would be lost when we redirect with passthrough
@@ -260,21 +275,20 @@ sub validate {
         }
         else {
             print STDERR "V: CONFIRMATION REJECTED\n" if TRACE;
+
             # Validation failed; redirect to view (302)
             $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             $session->redirect( $url, 0 );    # no passthrough
         }
-    } else {
+    }
+    else {
         print STDERR "V: PROMPT FOR CONFIRMATION\n" if TRACE;
+
         # prompt for user verification
         $session->{response}->status(401);
 
-        $session->{prefs}->pushPreferenceValues(
-            'SESSION',
-            {
-                ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ),
-            }
-           );
+        $session->{prefs}->pushPreferenceValues( 'SESSION',
+            { ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ), } );
 
         $tmpl = $session->handleCommonTags( $tmpl, $web, $topic );
         $tmpl = $session->renderer->getRenderedVersion( $tmpl, '' );
@@ -285,12 +299,13 @@ sub validate {
 
 # Get/set the one-strike secret in the CGI::Session
 sub _getSecret {
-    my $cgis = shift;
-    my $secret = $cgis->param('STRIKEONESECRET');
+    my $cgis   = shift;
+    my $secret = $cgis->param( _getSecretCookieName() );
     unless ($secret) {
+
         # Use hex encoding to make it cookie-friendly
-        $secret = Digest::MD5::md5_hex($cgis->id(), rand(time));
-        $cgis->param('STRIKEONESECRET', $secret);
+        $secret = Digest::MD5::md5_hex( $cgis->id(), rand(time) );
+        $cgis->param( _getSecretCookieName(), $secret );
     }
     return $secret;
 }

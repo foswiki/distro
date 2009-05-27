@@ -210,6 +210,9 @@ sub captureWithKey {
     my $this   = shift;
     my $action = shift;
 
+    # Shortcut if user doesn't want validation
+    return $this->capture(@_) if $Foswiki::cfg{Validation}{Method} eq 'none';
+
     # If we pass a Foswiki object to capture, use that
     # otherwise take $Foswiki::Plugins::SESSION
     # and we fallback to the one from the test object
@@ -225,17 +228,32 @@ sub captureWithKey {
     }
     $this->assert( $fatwilly->isa('Foswiki'),
         "Could not find the Foswiki object" );
+
+    # Now we have to manually craft the validation checkings
     require Foswiki::Validation;
-    my $key = Foswiki::Validation::addValidationKey(
-        $fatwilly->getCGISession(), $action);
-    unless( $key =~ qr/^$action<input .*name=['"](\w+)['"].*value=["'](.*)["'].*$/) {
+    my $cgis = $fatwilly->getCGISession;
+    my $strikeone = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+    my $key =
+      Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
+    unless (
+        $key =~ qr/^<input .*name=['"](\w+)['"].*value=["']\??(.*)["'].*$/ )
+    {
         $this->assert( 0, "Could not extract validation key from $key" );
     }
-    my ($k, $v) = ($1, $2);
+    my ( $k, $v ) = ( $1, $2 );
     my $request = $fatwilly->{request};
     $this->assert( $request->isa('Unit::Request'),
         "Could not find the Unit::Request object" );
-    $request->param( -name => $k, -value => $v );
+
+    # As we won't be clicking using javascript, we have to fake that part too
+    if ($strikeone) {
+        require Digest::MD5;
+        $v = Digest::MD5::md5_hex( $v, Foswiki::Validation::_getSecret($cgis) );
+    }
+    $request->param(
+        -name  => $k,
+        -value => $v
+    );
     $request->method('POST');
     $this->capture(@_);
 }
