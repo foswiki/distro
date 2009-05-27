@@ -231,7 +231,7 @@ BLAH
 <strong class="WYSIWYG_TT WYSIWYG_COLOR" style="color:#FF0000;">Code</strong>
 </p>
 BLAH
-		tml => '*%RED% =Code= %ENDCOLOR%*'
+        tml => '*%RED% =Code= %ENDCOLOR%*'
     },
     {
         exec => $HTML2TML,
@@ -875,12 +875,12 @@ EVERYWHERE
  Inside
  </verbatim> Outside',
     },
-	{
-		exec => $TML2HTML | $ROUNDTRIP,
-		name => 'verbatimWithNbsp1554',
-		html => '<p><pre class="TMLverbatim">&amp;nbsp;</pre></p>',
-		tml => "<verbatim>&nbsp;</verbatim>"
-	},
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'verbatimWithNbsp1554',
+        html => '<p><pre class="TMLverbatim">&amp;nbsp;</pre></p>',
+        tml  => "<verbatim>&nbsp;</verbatim>"
+    },
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'nestedPre',
@@ -1612,25 +1612,25 @@ GLUED
 </p>
 '
     },
-	{
-		exec => $HTML2TML,
-		name => 'mergeStickyItem1667',
-		html => <<'BLAH',
+    {
+        exec => $HTML2TML,
+        name => 'mergeStickyItem1667',
+        html => <<'BLAH',
 <div class="WYSIWYG_STICKY">Line 1</div>
 <div class="WYSIWYG_STICKY">Line 2</div>
 BLAH
-		tml => "<sticky>Line 1\nLine 2</sticky>"
-	},
-	{
-		exec => $HTML2TML | $ROUNDTRIP,
-		name => 'separateStickyRegions',
-		html => <<'BLAH',
+        tml => "<sticky>Line 1\nLine 2</sticky>"
+    },
+    {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'separateStickyRegions',
+        html => <<'BLAH',
 <div class="WYSIWYG_STICKY">Oranges</div>
 <p></p>
 <div class="WYSIWYG_STICKY">Apples</div>
 BLAH
-		tml => "<sticky>Oranges</sticky>\n\n<sticky>Apples</sticky>"
-	},
+        tml => "<sticky>Oranges</sticky>\n\n<sticky>Apples</sticky>"
+    },
     {
         exec => $TML2HTML,
         name => 'Item4705_B',
@@ -1755,7 +1755,7 @@ BLAH
 <tr><td class="WYSIWYG_COLOR" style="color:#FF0000;">Red herring</td></tr>
 </table>
 BLAH
-        tml  => <<'BLAH',
+        tml => <<'BLAH',
 | *%RED%Red Heading%ENDCOLOR%* |
 | %RED%Red herring%ENDCOLOR% |
 BLAH
@@ -1769,7 +1769,7 @@ BLAH
 <tr><td class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Red code</td></tr>
 </table>
 BLAH
-        tml  => <<'BLAH',
+        tml => <<'BLAH',
 | *%RED% =Redder code= %ENDCOLOR%* |
 | %RED% =Red code= %ENDCOLOR% |
 BLAH
