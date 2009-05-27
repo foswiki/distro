@@ -241,16 +241,22 @@ sub captureWithKey {
     $this->assert( $fatwilly->isa('Foswiki'),
         "Could not find the Foswiki object" );
     require Foswiki::Validation;
-    my $key = Foswiki::Validation::addValidationKey(
-        $fatwilly->getCGISession(), $action);
-    unless( $key =~ qr/^$action<input .*name=['"](\w+)['"].*value=["'](.*)["'].*$/) {
+    my $cgis = $fatwilly->getCGISession;
+    my $key = Foswiki::Validation::addValidationKey( $cgis, $action, 1 );
+    unless (
+        $key =~ qr/^<input .*name=['"](\w+)['"].*value=["']\??(.*)["'].*$/ )
+    {
         $this->assert( 0, "Could not extract validation key from $key" );
     }
-    my ($k, $v) = ($1, $2);
+    my ( $k, $v ) = ( $1, $2 );
     my $request = $fatwilly->{request};
     $this->assert( $request->isa('Unit::Request'),
         "Could not find the Unit::Request object" );
-    $request->param( -name => $k, -value => $v );
+    require Digest::MD5;
+    $request->param(
+        -name  => $k,
+        -value => Digest::MD5::md5_hex( $v, $cgis->param('STRIKEONESECRET') )
+    );
     $request->method('POST');
     $this->capture(@_);
 }
