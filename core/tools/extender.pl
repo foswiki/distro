@@ -37,6 +37,7 @@ no warnings 'redefine';
 
 my $noconfirm  = 0;
 my $downloadOK = 0;
+my $alreadyUnpacked = 0;
 my $reuseOK    = 0;
 my $inactive   = 0;
 my $session;
@@ -772,17 +773,21 @@ sub _uninstall {
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
-        defined &Foswiki::preuninstall
-          ? &Foswiki::preuninstall
-          : &TWiki::preuninstall;
+        if (defined &Foswiki::preuninstall) {
+            Foswiki::preuninstall();
+        } elsif (defined &TWiki::preuninstall) {
+            TWiki::preuninstall();
+        }
         foreach $file ( keys %$MANIFEST ) {
             if ( -e $file ) {
                 unlink($file);
             }
         }
-        defined &Foswiki::preinstall
-          ? &Foswiki::preinstall
-          : &TWiki::preinstall;
+        if (defined &Foswiki::postuninstall) {
+            Foswiki::postuninstall();
+        } elsif (defined &TWiki::postuninstall) {
+            TWiki::postuninstall();
+        }
         print "### $MODULE uninstalled ###\n";
     }
     return 1;
@@ -871,7 +876,7 @@ DONE
 
 sub usage {
     print STDERR <<DONE;
-Usage: ${MODULE}_installer -a -n -d -r install
+Usage: ${MODULE}_installer -a -n -d -r -u install
        ${MODULE}_installer -a -n uninstall
        ${MODULE}_installer manifest
        ${MODULE}_installer dependencies
@@ -889,6 +894,7 @@ $MODULE even if they have been locally modified.
    dependencies
 -d means auto-download if -a (no effect if not -a)
 -r means reuse packages on disc if -a (no effect if not -a)
+-u means the archive has already been downloaded and unpacked
 -n means don't write any files into my current install, just
    tell me what you would have done
 
@@ -957,24 +963,36 @@ sub _install {
         }
     }
 
-    print "Fetching the archive for $path.\n";
-    my $archive = getArchive($MODULE);
+    if ($alreadyUnpacked) {
+        print "Archive has already been unpacked.\n";
+    } else {
+        print "Fetching the archive for $path.\n";
+        my $archive = getArchive($MODULE);
 
-    unless ($archive) {
-        print STDERR "Unable to locate suitable archive for install";
-        return 0;
+        unless ($archive) {
+            print STDERR "Unable to locate suitable archive for install";
+            return 0;
+        }
+        if (defined &Foswiki::preinstall) {
+            Foswiki::preinstall();
+        } elsif (defined &TWiki::preinstall) {
+            TWiki::preinstall();
+        }
+        my $tmpdir = unpackArchive($archive);
+        print "Archive unpacked\n";
+        return 0 unless $tmpdir;
+        return 0 unless _emplace($tmpdir);
+
+        print "\n### $MODULE installed";
+        print ' with ', $unsatisfied . ' unsatisfied dependencies'
+          if ($unsatisfied);
+        print " ###\n";
     }
-    defined &Foswiki::preinstall ? &Foswiki::preinstall : &TWiki::preinstall;
-    my $tmpdir = unpackArchive($archive);
-    print "Archive unpacked\n";
-    return 0 unless $tmpdir;
-    return 0 unless _emplace($tmpdir);
-
-    print "\n### $MODULE installed";
-    print ' with ', $unsatisfied . ' unsatisfied dependencies'
-      if ($unsatisfied);
-    print " ###\n";
-    defined &Foswiki::postinstall ? &Foswiki::postinstall : &TWiki::postinstall;
+    if ( defined &Foswiki::postinstall ) {
+        Foswiki::postinstall();
+    } elsif( defined &TWiki::postinstall ) {
+        TWiki::postinstall();
+    }
 
     print "\n### Installation finished ###\n";
     return ( $unsatisfied ? 0 : 1 );
@@ -1096,6 +1114,9 @@ DONE
         }
         elsif ( $ARGV[$n] eq '-n' ) {
             $inactive = 1;
+        }
+        elsif ( $ARGV[$n] eq '-u' ) {
+            $alreadyUnpacked = 1;
         }
         elsif ( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
             $action = $1;
