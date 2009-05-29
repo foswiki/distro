@@ -98,7 +98,7 @@ MESS
     unless ( $query->param('confirm') ) {
         foreach my $file (@names) {
             my $ef = $this->_findTarget($file);
-            if ( -e $ef && !-d $ef ) {
+            if ( -e $ef && !-d $ef && $ef !~ /^${extension}_installer(\.pl)?$/) {
                 my $mess = "Note: Existing $file overwritten.";
                 if ( File::Copy::move( $ef, "$ef.bak" ) ) {
                     $mess .= " Backup saved in $ef.bak";
@@ -152,8 +152,9 @@ MESS
         chdir( $this->{root} );
         unshift( @ARGV, '-a' );    # don't prompt
         unshift( @ARGV, '-d' );    # yes, you can download
-             # Note: -r not passed to the script, so it will _not_ try to
-             # re-use existing archives found on disc to resolve dependencies.
+        unshift( @ARGV, '-u' );    # already unpacked
+        # Note: -r not passed to the script, so it will _not_ try to
+        # re-use existing archives found on disc to resolve dependencies.
         print "<pre>\n";
         eval {
             no warnings 'redefine';
