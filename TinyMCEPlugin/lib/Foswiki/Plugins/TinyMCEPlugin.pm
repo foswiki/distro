@@ -226,11 +226,17 @@ sub beforeEditHandler {
 '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>'
         );
     }
+    # URL-encode the version number to include in the .js URLs, so that the browser re-fetches the .js
+    # when this plugin is upgraded.
+    my $encodedVersion = $VERSION;
+    # SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
+    #        but Foswiki::Func.pm does not expose that function, so plugins may not use it
+    $encodedVersion =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
     Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT);
 <meta name="TINYMCEPLUGIN_INIT" content="$metainit" />
-<script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js"></script>
-<script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js"></script>
-<script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js"></script>
+<script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
+<script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
+<script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.
