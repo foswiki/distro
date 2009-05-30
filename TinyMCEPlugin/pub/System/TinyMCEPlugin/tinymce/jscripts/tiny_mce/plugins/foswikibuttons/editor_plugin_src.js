@@ -86,8 +86,10 @@
 			});
 
             ed.addCommand('foswikibuttonsHide', function() {
-                tinyMCE.execCommand("mceToggleEditor", true, ed.id);
-                FoswikiTiny.switchToRaw(ed);
+                if (FoswikiTiny.saveEnabled) {
+                    tinyMCE.execCommand("mceToggleEditor", true, ed.id);
+                    FoswikiTiny.switchToRaw(ed);
+                }
             });
 
 			ed.addButton('hide', {

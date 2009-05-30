@@ -1,6 +1,6 @@
 var FoswikiTiny={foswikiVars:null,metaTags:null,tml2html:new Array(),html2tml:new Array(),getFoswikiVar:function(name){if(FoswikiTiny.foswikiVars==null){var sets=tinyMCE.activeEditor.getParam("foswiki_vars","");FoswikiTiny.foswikiVars=eval(sets);}
 return FoswikiTiny.foswikiVars[name];},expandVariables:function(url){for(var i in FoswikiTiny.foswikiVars){url=url.replace('%'+i+'%',FoswikiTiny.foswikiVars[i],'g');}
-return url;},enableSaveButton:function(enabled){var status=enabled?null:"disabled";var elm=document.getElementById("save");if(elm){elm.disabled=status;}
+return url;},saveEnabled:0,enableSaveButton:function(enabled){var status=enabled?null:"disabled";FoswikiTiny.saveEnabled=enabled?1:0;var elm=document.getElementById("save");if(elm){elm.disabled=status;}
 elm=document.getElementById("quietsave");if(elm){elm.disabled=status;}
 elm=document.getElementById("checkpoint");if(elm){elm.disabled=status;}
 elm=document.getElementById("preview");if(elm){elm.style.display='none';elm.disabled=status;}},transform:function(editor,handler,text,onSuccess,onFail){var url=FoswikiTiny.getFoswikiVar("SCRIPTURL");var suffix=FoswikiTiny.getFoswikiVar("SCRIPTSUFFIX");if(suffix==null)suffix='';url+="/rest"+suffix+"/WysiwygPlugin/"+handler;var path=FoswikiTiny.getFoswikiVar("WEB")+'.'

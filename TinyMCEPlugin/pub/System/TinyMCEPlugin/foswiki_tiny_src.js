@@ -40,8 +40,10 @@ var FoswikiTiny = {
         return url;
     },
 
+    saveEnabled: 0,
     enableSaveButton: function(enabled) {
         var status = enabled ? null : "disabled";
+        FoswikiTiny.saveEnabled = enabled ? 1 : 0;
         var elm = document.getElementById("save");
         if (elm) {
             elm.disabled = status;
