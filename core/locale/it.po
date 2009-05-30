@@ -287,7 +287,7 @@ msgstr "(nome utente) WikiName:"
 msgid "(login)"
 msgstr "(Login)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(in più...)"
 
@@ -320,7 +320,7 @@ msgstr "(cerca altrimenti solo nel Web %1)"
 msgid "(raw view)"
 msgstr "(vista grezza)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(raccomandato)"
 
@@ -468,7 +468,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
 msgstr "<a href='%1' rel='nofollow'>Edit preferenze</a> per questa pagina"
 
@@ -484,11 +484,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "topics, <a href='%7' rel='nofollow'>tutte</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "solo<em>nel web %1</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>in tutti i web pubblici</em>"
 
@@ -762,7 +762,7 @@ msgstr "Modelli disponibili nel Web %1"
 msgid "Back to topic"
 msgstr "Indietro alla pagina"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Backlinks"
@@ -944,7 +944,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Le pagine marcate saranno aggiornate per puntare al nuovo nome web"
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Pagine figlio nel web %1"
 
@@ -982,7 +982,7 @@ msgstr "Commento"
 msgid "Comments:"
 msgstr "Commenti:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Confronta le revisioni"
 
@@ -1018,13 +1018,13 @@ msgstr "Continuo e cerco di rinominare il web?"
 msgid "Continue to create the new page"
 msgstr "Continua per creare la nuova pagina"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 #, fuzzy
 msgid "Copy topic"
 msgstr "Alla pagina:"
@@ -1126,7 +1126,7 @@ msgstr "Crea una pagina opportuna di Definizione Form"
 msgid "Current location:"
 msgstr "Collocazione corrente:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Genitore corrente:"
 
@@ -1142,7 +1142,7 @@ msgstr "Data"
 msgid "Dear %1"
 msgstr "Caro %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Debug"
 
@@ -1164,11 +1164,11 @@ msgstr "Elimina allegato"
 msgid "Delete last row"
 msgstr "Elimina l'ultima riga"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Elimina la pagina"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Elimina la pagina..."
 
@@ -1290,7 +1290,7 @@ msgstr "Edit questa tabella"
 msgid "Edit this topic text"
 msgstr "Edit testo pagina"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Edit dei parametri della pagina"
 
@@ -1381,7 +1381,7 @@ msgstr "Il file è stato caricato con un nome differente"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Trova le pagine collegate a %1 ..."
 
@@ -1848,7 +1848,7 @@ msgstr "Comando mancante"
 msgid "Modify search"
 msgstr "Ricerca modifica"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Manutenzioni della pagina %1"
 
@@ -1906,7 +1906,7 @@ msgstr "Link personali"
 msgid "NEW"
 msgstr "NUOVO"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 #, fuzzy
 msgid "Name of copy:"
 msgstr "Numero delle pagine:"
@@ -1953,11 +1953,11 @@ msgstr "Nuovo nome pagina %1 non è %2"
 msgid "New web name:"
 msgstr "Nuovo nome web:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Ultima revisione:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Nessuna pagina figlia"
 
@@ -1965,7 +1965,7 @@ msgstr "Nessuna pagina figlia"
 msgid "No permission to view %1"
 msgstr "Non hai il permesso di visualizzare %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "Non esiste revisione precedente"
 
@@ -2022,7 +2022,7 @@ msgstr "Numero delle pagine:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Revisione precedente:"
 
@@ -2097,7 +2097,7 @@ msgid "Personal Preferences"
 msgstr "Preferenze personali"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "Scegli dalla lista"
 
@@ -2309,7 +2309,7 @@ msgstr "Rinomina"
 msgid "Rename failed"
 msgstr "Rinomina fallito"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Rinomina o sposta pagina"
 
@@ -2322,7 +2322,7 @@ msgstr "Rinomina, sposta o elimina questo web:"
 msgid "Rename/Move"
 msgstr "Rinomina/Sposta"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Rinomina sposta pagina..."
 
@@ -2342,19 +2342,19 @@ msgstr "Reset Password"
 msgid "Reset password"
 msgstr "Reset password"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "Ripristina"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "Ripristina la pagina"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "Ripristina la pagina alla revisione:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "Ripristina la pagina a questa revisione"
 
@@ -2387,7 +2387,7 @@ msgstr "Rassegna delle variazioni recenti in:"
 msgid "Revision"
 msgstr "Revisione"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "Revisioni"
 
@@ -2440,7 +2440,7 @@ msgid "Search all webs"
 msgstr "Cerca in tutti i webs "
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Cerca in tutti i web collegati qui"
 
@@ -2458,7 +2458,7 @@ msgstr "Cerca le pagine simili in tutti i web pubblici"
 msgid "Search string"
 msgstr "Oggetto ricerca"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Cerca nel web %1 Per gli argomenti collegati qui"
 
@@ -2513,7 +2513,7 @@ msgstr "Selezina un nuovo file locale per aggirnare l'allegato"
 msgid "Select all"
 msgstr "Seleziona tutto"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "Seleziona la pagina genitore:"
 
@@ -2525,7 +2525,7 @@ msgstr "Seleziona copia e incolla la tua firma alla fne di quanto scritto"
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Ti mando una email di conferma della tua registrazione"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sequenziale"
 
@@ -2533,11 +2533,11 @@ msgstr "Sequenziale"
 msgid "Set all"
 msgstr "Definisci tutto"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "Definisci la nuova pagina genitore"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Definisci la nuova pagina genitore"
 
@@ -2555,7 +2555,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Rimpicciolisci il box di edit"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Affianca"
 
@@ -3205,15 +3205,15 @@ msgstr "Storia delle revisioni"
 msgid "Version history of %1"
 msgstr "Storia delle revisioni di %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "Vista"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Mostra la differenza"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Mostra la revisione precedente della pagina"
 
@@ -3221,7 +3221,7 @@ msgstr "Mostra la revisione precedente della pagina"
 msgid "View raw text without formatting"
 msgstr "Visualizza il testo grezzo senza formattazione"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "Mostra la revisione:"
 
@@ -3471,12 +3471,12 @@ msgstr ""
 "trovare una e-mail registrata nel database riservato, lo cercherà nella tua "
 "pagina personale alla linea simile a questa:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 #, fuzzy
 msgid "You will be able to review the copied topic before saving"
 msgstr "Potrai rivedere la pagina prima di salvarla in una nuova revisione"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "Potrai rivedere la pagina prima di salvarla in una nuova revisione"
 
@@ -3654,7 +3654,7 @@ msgstr "aiuto"
 msgid "hints on good style"
 msgstr "suggerimenti di stile"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "in formato testo raw"
 
@@ -3707,11 +3707,11 @@ msgstr "rimettilo come prima"
 msgid "retrieved at %1"
 msgstr "recuperato a %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "cerca riferimenti solo nel _web %1_"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "Cerca i collegamenti  in tutti i web pubblici"
 

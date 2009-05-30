@@ -287,7 +287,7 @@ msgstr "(他の人と区別します) WikiName:"
 msgid "(login)"
 msgstr "(ログイン)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(もっと多く)"
 
@@ -320,7 +320,7 @@ msgstr "(そうしないと、%1 ウェブのみ検索されます)"
 msgid "(raw view)"
 msgstr "(元のビュー)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(提案)"
 
@@ -461,7 +461,7 @@ msgstr ""
 msgid "..."
 msgstr "…"
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "本トピック 設定を編集します"
 
@@ -477,11 +477,11 @@ msgstr ""
 "<a href='%5' rel='nofollow'>500件</a>, <a href='%6' rel='nofollow'>1000件</"
 "a> topics, <a href='%7' rel='nofollow'>全ての更新トピック</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "<em> %1 ウェブ</em> のみにあります"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "全てのパブリックウェブにあります"
 
@@ -747,7 +747,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr "トピックに戻ります"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "バックリンク"
@@ -919,7 +919,7 @@ msgstr "チェックされたトピックが更新され、新しいトピック
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "チェックされたトピックが更新され、新しいウェブ名へリンクされます"
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "%1ウェブの中の子トピック"
 
@@ -956,7 +956,7 @@ msgstr "コメント"
 msgid "Comments:"
 msgstr "コメント:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "バージョン比較"
 
@@ -989,13 +989,13 @@ msgstr "続けてウェブをリネームしますか？"
 msgid "Continue to create the new page"
 msgstr "続けて新しいページを作成します"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 #, fuzzy
 msgid "Copy topic"
 msgstr "トピックへ "
@@ -1097,7 +1097,7 @@ msgstr "適当なフォーム定義トピックを作成します"
 msgid "Current location:"
 msgstr "現在の位置："
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "現在の親トピック："
 
@@ -1113,7 +1113,7 @@ msgstr "日付"
 msgid "Dear %1"
 msgstr "尊敬する %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "デバッグ"
 
@@ -1135,11 +1135,11 @@ msgstr "添付ファイルを削除します"
 msgid "Delete last row"
 msgstr "一番最後の行を削除します"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "トピックを削除します"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "トピックを削除..."
 
@@ -1262,7 +1262,7 @@ msgstr "このテーブルを編集します"
 msgid "Edit this topic text"
 msgstr "このトピックのテキストを編集します"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "属性設定を編集します"
 
@@ -1352,7 +1352,7 @@ msgstr "ファイルは既に他の名称でアップロードされました"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "%1へリンクするトピックを検索します..."
 
@@ -1820,7 +1820,7 @@ msgstr "アクションコマンドが失われました"
 msgid "Modify search"
 msgstr "検索を変更します"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "もっと多くのトピック%1関連アクション"
 
@@ -1878,7 +1878,7 @@ msgstr "マイリンク"
 msgid "NEW"
 msgstr "新"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 #, fuzzy
 msgid "Name of copy:"
 msgstr "トピック数:"
@@ -1925,11 +1925,11 @@ msgstr "新トピック名%1は%2ではありません"
 msgid "New web name:"
 msgstr "新ウェブ名:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "新バージョン："
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "子トピック無し"
 
@@ -1937,7 +1937,7 @@ msgstr "子トピック無し"
 msgid "No permission to view %1"
 msgstr " %1を見る権限がありません"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "前のトピックバージョンが存在しません"
 
@@ -1992,7 +1992,7 @@ msgstr "トピック数:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "古いバージョン"
 
@@ -2067,7 +2067,7 @@ msgid "Personal Preferences"
 msgstr "個人設定"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr ""
 
@@ -2273,7 +2273,7 @@ msgstr "リネーム"
 msgid "Rename failed"
 msgstr "リネームに失敗しました"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "トピックをリネーム又は移動します"
 
@@ -2286,7 +2286,7 @@ msgstr "このウェブをリネーム、移動、削除します:"
 msgid "Rename/Move"
 msgstr "リネーム/移動"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "トピックをリネーム/移動..."
 
@@ -2306,19 +2306,19 @@ msgstr "パスワードリセット:"
 msgid "Reset password"
 msgstr "パスワードリセット:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "回復"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "トピックを回復します"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "トピックを改訂版に回復します"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "トピックをこの改訂版に回復します"
 
@@ -2351,7 +2351,7 @@ msgstr "最新変更されたトピックをレビューします："
 msgid "Revision"
 msgstr "改訂"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "改訂"
 
@@ -2402,7 +2402,7 @@ msgid "Search all webs"
 msgstr "全てのウェブを検索します"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "全てのウェブからここへリンクされるトピックを検索します"
 
@@ -2420,7 +2420,7 @@ msgstr "全てのパブリックウェブから類似のトピックを検索し
 msgid "Search string"
 msgstr "検索する文字列"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "%1ウェブからここへリンクされるトピックを検索します"
 
@@ -2475,7 +2475,7 @@ msgstr "新しいファイルを選択して添付ファイルを更新します
 msgid "Select all"
 msgstr "全て選択"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "親トピックを選択してください："
 
@@ -2488,7 +2488,7 @@ msgstr ""
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "ご登録の確認を電子メールで送信します。"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "シーケンシャル"
 
@@ -2496,11 +2496,11 @@ msgstr "シーケンシャル"
 msgid "Set all"
 msgstr "全て設定"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "新しい親トピックを設定します"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "新しい親トピックを設定します"
 
@@ -2517,7 +2517,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "並列"
 
@@ -3140,15 +3140,15 @@ msgstr "バージョンヒストリー"
 msgid "Version history of %1"
 msgstr "%1 のバージョンヒストリー"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "ビュー"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "差異を確認します"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "前のトピックバージョンを確認します"
 
@@ -3156,7 +3156,7 @@ msgstr "前のトピックバージョンを確認します"
 msgid "View raw text without formatting"
 msgstr "ファーマットされていない元のテキストを確認します"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "改訂を確認します"
 
@@ -3387,11 +3387,11 @@ msgstr ""
 "スを見つけられない場合、あなたのユーザートピックより以下のような行を探しま"
 "す："
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
@@ -3567,7 +3567,7 @@ msgstr "ヘルプ"
 msgid "hints on good style"
 msgstr "スタイルに関するメッセージ"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "元のテキストフォーマット"
 
@@ -3620,11 +3620,11 @@ msgstr "戻る"
 msgid "retrieved at %1"
 msgstr " %1 から探し出します"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "_%1 ウェブ_ の中のリンクのみをスキャンします"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "全てのパブリックウェブの中のリンクを検索します"
 

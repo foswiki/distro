@@ -284,7 +284,7 @@ msgstr "(identifioi sinut toisille) WikiNimi:"
 msgid "(login)"
 msgstr "(kirjaudu sisään)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(lisää...)"
 
@@ -323,8 +323,8 @@ msgstr "(muutoin etsi vain verkosta %1)"
 msgid "(raw view)"
 msgstr "(näytä raaka)"
 
-#: core/templates/oopsmore.tmpl:37
-#: core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37
+#: core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(suositeltu)"
 
@@ -426,7 +426,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "Muokkaa tämän aiheen asetuksia"
 
@@ -434,11 +434,11 @@ msgstr "Muokkaa tämän aiheen asetuksia"
 msgid "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "vain <em>verkossa %1</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>kaikissa julkisissa verkoissa</em>"
 
@@ -670,7 +670,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr "Takaisin aiheeseen"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr ""
@@ -834,7 +834,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr ""
 
@@ -870,7 +870,7 @@ msgstr "Kommentti"
 msgid "Comments:"
 msgstr "Kommentit:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
@@ -905,11 +905,11 @@ msgstr "Jatka ja yritä nimetä verkko uudelleen?"
 msgid "Continue to create the new page"
 msgstr "Jatka uuden sivun luontiin"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid "Copy text and form data to a new topic (no attachments will be copied though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 msgid "Copy topic"
 msgstr "Kopioi aihe"
 
@@ -999,7 +999,7 @@ msgstr ""
 msgid "Current location:"
 msgstr "Nykyinen sijainti:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr ""
 
@@ -1016,7 +1016,7 @@ msgstr "Päiväys"
 msgid "Dear %1"
 msgstr "Hyvä %1,"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Debug"
 
@@ -1039,12 +1039,12 @@ msgstr "Poista liite"
 msgid "Delete last row"
 msgstr "Poista viimeinen rivi"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Poista aihe"
 
-#: core/templates/oopsmore.tmpl:36
-#: core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36
+#: core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Poista aihe..."
 
@@ -1146,7 +1146,7 @@ msgstr "Muokkaa tätä taulukkoa"
 msgid "Edit this topic text"
 msgstr "Muokkaa tämän aiheen tekstiä"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr ""
 
@@ -1226,8 +1226,8 @@ msgstr "Tiedosto on lähetetty eri nimellä"
 msgid "Find similar topics"
 msgstr "Etsi samankaltaisia aiheita"
 
-#: core/templates/oopsmore.tmpl:54
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54
+#: core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
 
@@ -1596,7 +1596,7 @@ msgstr ""
 msgid "Modify search"
 msgstr "Muuta hakua"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr ""
 
@@ -1654,7 +1654,7 @@ msgstr "Minun linkkini"
 msgid "NEW"
 msgstr "UUSI"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "Name of copy:"
 msgstr "Kopion nimi:"
 
@@ -1699,11 +1699,11 @@ msgstr ""
 msgid "New web name:"
 msgstr "Uusi verkon nimi:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr ""
 
@@ -1711,7 +1711,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "Aikaisempaa versiota ei ole olemassa."
 
@@ -1767,7 +1767,7 @@ msgstr "Aiheiden lukumäärä:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Vanhempi versio:"
 
@@ -1841,7 +1841,7 @@ msgid "Personal Preferences"
 msgstr "Henkilökohtaiset asetukset"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "Valitse listalta"
 
@@ -2043,7 +2043,7 @@ msgstr "Nimeä uudelleen"
 msgid "Rename failed"
 msgstr "Uudelleen nimeäminen ei onnistunut"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Nimeä uudelleen tai siirrä aihe"
 
@@ -2057,8 +2057,8 @@ msgstr "Nimeä uudelleen, siirrä tai poista tämä verkko:"
 msgid "Rename/Move"
 msgstr "Nimeä uudelleen/siirrä"
 
-#: core/templates/oopsmore.tmpl:45
-#: core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45
+#: core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Nimeä uudelleen/siirrä aihe..."
 
@@ -2078,19 +2078,19 @@ msgstr "Resetoi salasana"
 msgid "Reset password"
 msgstr "Resetoi salasana"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "Palauta"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "Palauta aihe"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "Palauta aihe versioon:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "Palauta aihe tähän versioon"
 
@@ -2123,7 +2123,7 @@ msgstr ""
 msgid "Revision"
 msgstr "Versio"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "Versiot"
 
@@ -2174,7 +2174,7 @@ msgstr "Etsi kaikki web:t"
 
 #: core/templates/backlinksallwebs.tmpl:7
 #: core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Etsi kaikista verkoista aiheita, jotka linkittävät tänne"
 
@@ -2190,7 +2190,7 @@ msgstr "Luettele lisää samankaltaisia aiheita tässä web:ssä"
 msgid "Search string"
 msgstr "Etsi merkkijonoa"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
 
@@ -2246,7 +2246,7 @@ msgstr ""
 msgid "Select all"
 msgstr "Valitse kaikki"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr ""
 
@@ -2259,7 +2259,7 @@ msgstr ""
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr ""
 
@@ -2267,11 +2267,11 @@ msgstr ""
 msgid "Set all"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr ""
 
@@ -2287,7 +2287,7 @@ msgstr "Näytä työkaluvihjeet hiiren kursorin alla linkeistä %1, päälle tai
 msgid "Shrink edit box"
 msgstr "Pienennä muokkauslaatikkoa"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Vierekkäin"
 
@@ -2820,15 +2820,15 @@ msgstr "Versiohistoria"
 msgid "Version history of %1"
 msgstr "%1:n versiohistoria"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "Näytä"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Näytä eroavaisuudet"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Näytä aiheen edellinen versio"
 
@@ -2836,7 +2836,7 @@ msgstr "Näytä aiheen edellinen versio"
 msgid "View raw text without formatting"
 msgstr "Näytä raaka teksti ilman muotoiluja"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "Näytä versio:"
 
@@ -3012,11 +3012,11 @@ msgstr ""
 msgid "You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr "Sinulla on mahdollisuus tarkistaa kopioitava aihe ennen tallennusta."
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "Sinulla on mahdollisuus tarkistaa aihe ennen uuden version tallennusta"
 
@@ -3164,7 +3164,7 @@ msgstr "ohje"
 msgid "hints on good style"
 msgstr "vinkkejä hyvään tyyliin"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "raa'assa tekstimuodossa"
 
@@ -3222,13 +3222,13 @@ msgstr "laita takaisin"
 msgid "retrieved at %1"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:39
-#: core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39
+#: core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "etsi linkkejä vain _%1 verkosta_"
 
-#: core/templates/oopsmore.tmpl:37
-#: core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37
+#: core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "etsi linkkejä _kaikista julkisista verkoista_"
 

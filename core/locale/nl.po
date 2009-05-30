@@ -280,7 +280,7 @@ msgstr "(zo zien anderen jou) Wiki-naam:"
 msgid "(login)"
 msgstr "(inloggen)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(meer)"
 
@@ -313,7 +313,7 @@ msgstr "(of zoek alleen in %1 web)"
 msgid "(raw view)"
 msgstr "(brontekst)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(aanbevolen)"
 
@@ -456,7 +456,7 @@ msgstr "*site links* gebruik de paginanaam: =%1= of =[<nop>[%1][Onze homepage]]=
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "Bewerk instellingen voor deze pagina"
 
@@ -472,11 +472,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "pagina&#39;s, <a href='%7' rel='nofollow'>alle wijzigingen</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "alleen <em>in %1 web</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>in alle publieke webs</em>"
 
@@ -742,7 +742,7 @@ msgstr "Beschikbare templates in %1 Web:"
 msgid "Back to topic"
 msgstr "Terug naar pagina"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Verwijzingen"
@@ -921,7 +921,7 @@ msgstr ""
 "Aangevinkte pagina&#39;s zullen worden geupdate zodat ze verwijzen naar de "
 "nieuwe webnaam."
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
 
@@ -959,7 +959,7 @@ msgstr "Toelichting"
 msgid "Comments:"
 msgstr "Opmerkingen:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Vergelijk revisies"
 
@@ -994,13 +994,13 @@ msgstr "Doorgaan om het web te hernoemen?"
 msgid "Continue to create the new page"
 msgstr "Ga door en maak het nieuwe %1 web aan"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr "Kopieer tekst en formulier data naar een nieuwe pagina (bijlagen worden niet mee gekopieerd)."
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 msgid "Copy topic"
 msgstr "Kopieer pagina:"
 
@@ -1101,7 +1101,7 @@ msgstr "Een passend formulierdefinitie pagina aanmaken"
 msgid "Current location:"
 msgstr "Huidige locatie:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Huidige bovenliggende pagina:"
 
@@ -1117,7 +1117,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Beste %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Debuggen"
 
@@ -1139,11 +1139,11 @@ msgstr "Bijlage verwijderen"
 msgid "Delete last row"
 msgstr "Laatste rij weg"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Pagina verwijderen"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Verwijder pagina..."
 
@@ -1265,7 +1265,7 @@ msgstr "Bewerk deze tabel"
 msgid "Edit this topic text"
 msgstr "Bewerk de paginatekst"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Paginavoorkeuren"
 
@@ -1356,7 +1356,7 @@ msgstr "Het bestand is geupload met een andere naam"
 msgid "Find similar topics"
 msgstr "Vind soortgelijke pagina's"
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Pagina's die verwijzen naar %1 ..."
 
@@ -1824,7 +1824,7 @@ msgstr "Ontbrekende actieopdracht"
 msgid "Modify search"
 msgstr "Pas zoekactie aan"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Meer pagina-acties voor pagina %1"
 
@@ -1882,7 +1882,7 @@ msgstr "Mijn links"
 msgid "NEW"
 msgstr "NIEUW"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "Name of copy:"
 msgstr "Naam van de kopie:"
 
@@ -1927,11 +1927,11 @@ msgstr "Nieuwe paginanaam %1 is geen %2"
 msgid "New web name:"
 msgstr "Nieuwe webnaam:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Geen onderliggende pagina&#39;s"
 
@@ -1939,7 +1939,7 @@ msgstr "Geen onderliggende pagina&#39;s"
 msgid "No permission to view %1"
 msgstr "Geen permissie om %1 te bekijken"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "Er is geen vorige paginarevisie beschikbaar."
 
@@ -1995,7 +1995,7 @@ msgstr "Aantal pagina&#39;s:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Oudere revisie"
 
@@ -2073,7 +2073,7 @@ msgid "Personal Preferences"
 msgstr "Persoonlijke instellingen"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "Kies uit de lijst"
 
@@ -2280,7 +2280,7 @@ msgstr "Hernoem"
 msgid "Rename failed"
 msgstr "Hernoemen mislukt"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Pagina hernoemen of verplaatsen"
 
@@ -2293,7 +2293,7 @@ msgstr "Hernoem, verplaats of verwijder dit web:"
 msgid "Rename/Move"
 msgstr "Hernoem/Verplaats"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Hernoem/verplaats pagina..."
 
@@ -2313,19 +2313,19 @@ msgstr "Wachtwoord opnieuw instellen"
 msgid "Reset password"
 msgstr "Wachtwoord instellen"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "Herstellen"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "Pagina herstellen"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "Zet pagina terug naar revisie:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "Zet pagina terug naar deze revisie"
 
@@ -2358,7 +2358,7 @@ msgstr "Bekijk recente wijzigingen in:"
 msgid "Revision"
 msgstr "Revisie"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "Revisies"
 
@@ -2409,7 +2409,7 @@ msgid "Search all webs"
 msgstr "Zoek in a&lle webs"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Zoek in alle webs naar pagina&#39;s die hierheen linken"
 
@@ -2425,7 +2425,7 @@ msgstr "Zoek naar vergelijkbare pagina&#39;s in dit web"
 msgid "Search string"
 msgstr "Zoektekst"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Zoek in %1 Web naar pagina&#39;s die hierheen linken"
 
@@ -2480,7 +2480,7 @@ msgstr "Kies een nieuw lokaal bestand om deze bijlage te vernieuwen"
 msgid "Select all"
 msgstr "Vink aan"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "Selecteer bovenliggende pagina:"
 
@@ -2492,7 +2492,7 @@ msgstr "Kopieer en plak je signatuur onderaan je toevoeging"
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Een bevestiging van je registratie versturen per e-mail."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sequentieel"
 
@@ -2500,11 +2500,11 @@ msgstr "Sequentieel"
 msgid "Set all"
 msgstr "Vink aan"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "Stel bovenliggende pagina in"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Bovenliggende pagina instellen"
 
@@ -2520,7 +2520,7 @@ msgstr "Toon tooltip pagina-informatie bij muizen over %1 links, aan of uit:"
 msgid "Shrink edit box"
 msgstr "Tekstvak verkleinen"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Naast elkaar"
 
@@ -3171,15 +3171,15 @@ msgstr "Versiegeschiedenis"
 msgid "Version history of %1"
 msgstr "Versiegeschiedenis van %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "bekijken"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Bekijk verschillen"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Bekijk vorige paginarevisie"
 
@@ -3187,7 +3187,7 @@ msgstr "Bekijk vorige paginarevisie"
 msgid "View raw text without formatting"
 msgstr "Bekijk brontekst zonder opmaak"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "Bekijk revisie:"
 
@@ -3430,11 +3430,11 @@ msgstr ""
 "geen geregistreerd e-mailadres kan vinden in de beveiligde database, zal "
 "het zoeken in je persoonlijke pagina naar een regel als deze:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr "Je kan de pagina bekijken voordat je deze opslaat in een nieuwe revisie"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "Je kan de pagina bekijken voordat je deze opslaat in een nieuwe revisie"
 
@@ -3606,7 +3606,7 @@ msgstr "help"
 msgid "hints on good style"
 msgstr "tips voor een goede stijl"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "brontekst zonder opmaak"
 
@@ -3659,11 +3659,11 @@ msgstr "terugplaatsen"
 msgid "retrieved at %1"
 msgstr "gevonden om %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "zoekt naar verwijzingen alleen in _%1 web_"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "zoekt in _alle publieke webs_"
 

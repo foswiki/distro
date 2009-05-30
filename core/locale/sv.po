@@ -284,7 +284,7 @@ msgstr "(det namn som syns för andra) WikiName:"
 msgid "(login)"
 msgstr "(logga in)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(mer)"
 
@@ -323,8 +323,8 @@ msgstr "(annars begränsas sökningen till avdelning %1)"
 msgid "(raw view)"
 msgstr "(källtext)"
 
-#: core/templates/oopsmore.tmpl:37
-#: core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37
+#: core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(rekommenderas)"
 
@@ -426,7 +426,7 @@ msgstr "*länkar inom webbplatsen* använd sidnamnet: =%1= eller =[<nop>[%1][Vå
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "Ändra inställningarna for denna sida"
 
@@ -434,11 +434,11 @@ msgstr "Ändra inställningarna for denna sida"
 msgid "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr "<a href='%1'>RSS-flöde</a>, senaste ändringar med <a href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> sidor, <a href='%7' rel='nofollow'>alla ändringar</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "<em>i avdelningen %1</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>i alla publika avdelningar</em>"
 
@@ -670,7 +670,7 @@ msgstr "Tillgängliga mallar i avdelning %1:"
 msgid "Back to topic"
 msgstr "Tillbaka till sidan"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Referenser hit"
@@ -834,7 +834,7 @@ msgstr "Markerade sidor uppdateras för att peka på den nya platsen för sidan.
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Markerade sidor uppdateras för att peka på det nya avdelningsnamnet"
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Dottersidor i avdelningen %1"
 
@@ -870,7 +870,7 @@ msgstr "Kommentar"
 msgid "Comments:"
 msgstr "Kommentarer:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Jämför versioner"
 
@@ -905,11 +905,11 @@ msgstr "Fortsätt och försök döpa om avdelningen?"
 msgid "Continue to create the new page"
 msgstr "Fortsätt att skapa den nya sidan"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid "Copy text and form data to a new topic (no attachments will be copied though)."
 msgstr "Kopiera text och formulärdata till en ny sida (med inga bifogade filer kopieras)."
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 msgid "Copy topic"
 msgstr "Kopiera sidan"
 
@@ -999,7 +999,7 @@ msgstr "Skapar en passande sida som definierar formuläret"
 msgid "Current location:"
 msgstr "Nuvarande plats:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Nuvarande förälder:"
 
@@ -1016,7 +1016,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Kära %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Felsökning"
 
@@ -1039,12 +1039,12 @@ msgstr "Radera bifogad fil"
 msgid "Delete last row"
 msgstr "Radera sista raden"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Radera sida"
 
-#: core/templates/oopsmore.tmpl:36
-#: core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36
+#: core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Radera sida..."
 
@@ -1146,7 +1146,7 @@ msgstr "Redigera denna tabell"
 msgid "Edit this topic text"
 msgstr "Redigera sidan"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Redigera inställningar för sidan"
 
@@ -1226,8 +1226,8 @@ msgstr "Filen har laddats upp under annat namn"
 msgid "Find similar topics"
 msgstr "Hitta liknande sidor"
 
-#: core/templates/oopsmore.tmpl:54
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54
+#: core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Hitta sidor som refererar till %1 ..."
 
@@ -1596,7 +1596,7 @@ msgstr "Tangentbordskommandon som saknas"
 msgid "Modify search"
 msgstr "Anpassa sökning"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Fler alternativ för sidan %1"
 
@@ -1654,7 +1654,7 @@ msgstr "Mina länkar"
 msgid "NEW"
 msgstr "NY"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "Name of copy:"
 msgstr "Namn på kopian:"
 
@@ -1699,11 +1699,11 @@ msgstr "Det nya sidnamnet %1 är inte ett %2"
 msgid "New web name:"
 msgstr "Nytt namn på avdelningen:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Ny version:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Inga dottersidor"
 
@@ -1711,7 +1711,7 @@ msgstr "Inga dottersidor"
 msgid "No permission to view %1"
 msgstr "Inga rättigheter att se %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "Ingen tidigare version finns."
 
@@ -1767,7 +1767,7 @@ msgstr "Antal sidor:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Tidligere version:"
 
@@ -1841,7 +1841,7 @@ msgid "Personal Preferences"
 msgstr "Personliga inställningar"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "Välj från lista"
 
@@ -2041,7 +2041,7 @@ msgstr "Döp om"
 msgid "Rename failed"
 msgstr "Omdöpningen misslyckades"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Döp om eller flytta sida"
 
@@ -2055,8 +2055,8 @@ msgstr "Döp om, flytta eller radera denna avdelning:"
 msgid "Rename/Move"
 msgstr "Döp om/flytta"
 
-#: core/templates/oopsmore.tmpl:45
-#: core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45
+#: core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Döp om/flytta sida..."
 
@@ -2076,19 +2076,19 @@ msgstr "Nollställ lösenord"
 msgid "Reset password"
 msgstr "Nollställ lösenord"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "Återställ"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "Återställ sida"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "Återställ sidan till version:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "Återställ sidan till denna version"
 
@@ -2121,7 +2121,7 @@ msgstr "Senast ändrade sidor"
 msgid "Revision"
 msgstr "Version"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "Versioner"
 
@@ -2172,7 +2172,7 @@ msgstr "Sök i alla avdelningar"
 
 #: core/templates/backlinksallwebs.tmpl:7
 #: core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Sök i alla avdelningar efter sidor som länkar till denna"
 
@@ -2188,7 +2188,7 @@ msgstr "Sök efter fler sidor i den här avdelningen"
 msgid "Search string"
 msgstr "Söksträng"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Sök i avdelning %1 efter sidor som länkar till denna"
 
@@ -2244,7 +2244,7 @@ msgstr "Välj en ny lokal fil för att uppdatera den bifogade filen."
 msgid "Select all"
 msgstr "Välj alla"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "Välj sidans förälder:"
 
@@ -2257,7 +2257,7 @@ msgstr "Välj texten i fältet och kopiera in din signatur längst ner i ditt in
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Sänd bekräftelse per e-post om din registrering."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sekvensiell"
 
@@ -2265,11 +2265,11 @@ msgstr "Sekvensiell"
 msgid "Set all"
 msgstr "Välj alla"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "Välj ny förälder"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Välj ny förälder till sidan"
 
@@ -2285,7 +2285,7 @@ msgstr "Visa hjälpinformation när du för musen över %1-länkar, på eller av
 msgid "Shrink edit box"
 msgstr "Minska redigeringsrutan"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Sida vid sida"
 
@@ -2816,15 +2816,15 @@ msgstr "Versionshistorik"
 msgid "Version history of %1"
 msgstr "Versionshistorik för %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "visa"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Visa skillnad"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Visa en tidigare version av sidan"
 
@@ -2832,7 +2832,7 @@ msgstr "Visa en tidigare version av sidan"
 msgid "View raw text without formatting"
 msgstr "Visa källtext utan formatering"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "Visa version:"
 
@@ -3007,11 +3007,11 @@ msgstr "Ny måste du verifiera din e-postadress. Du kan göra så genom att mata
 msgid "You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"
 msgstr "Du bör registrera en giltig e-postadress. Om Foswiki inte kan hitta en registrerad e-postadress i den hemliga databasen, kommer programvaran att leta efter en sådan här rad på din användarsida:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr "Du kommer att kunna granska den kopierade sidan innan du sparar den"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "Du kommer att kunna granska sidan innan du sparar den till en ny version"
 
@@ -3160,7 +3160,7 @@ msgstr "hjälp"
 msgid "hints on good style"
 msgstr "tips på god stil i e-samarbetet"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "i källtext-format"
 
@@ -3218,13 +3218,13 @@ msgstr "flytta tillbaka sidan"
 msgid "retrieved at %1"
 msgstr "hämtades %1"
 
-#: core/templates/oopsmore.tmpl:39
-#: core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39
+#: core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "letar efter referenser enbart i _avdelning <nop/>%1_"
 
-#: core/templates/oopsmore.tmpl:37
-#: core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37
+#: core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "letar efter referenser i _alla publika avdelningar_"
 

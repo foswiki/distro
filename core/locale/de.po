@@ -282,7 +282,7 @@ msgstr "(Identifiziert Sie gegenüber anderen) WikiName:"
 msgid "(login)"
 msgstr "(Einloggen)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(Mehr)"
 
@@ -315,7 +315,7 @@ msgstr "(ansonsten nur %1 Web durchsuchen)"
 msgid "(raw view)"
 msgstr "(Quelltext-Ansicht)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(Empfehlung)"
 
@@ -461,7 +461,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr ""
 "Für dieses Topic Einstellungen bearbeiten"
@@ -478,11 +478,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "Topics, <a href='%7' rel='nofollow'>Alle Änderungen</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "nur <em>im %1 Web</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>in allen öffentlichen Webs</em>"
 
@@ -759,7 +759,7 @@ msgstr "Verfügbare Formularvorlagen im %1 Web:"
 msgid "Back to topic"
 msgstr "Zurück zum Topic"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Querverweise"
@@ -940,7 +940,7 @@ msgstr ""
 "Ausgewählte Topics werden aktualisiert, damit sie auf den neuen Web-Namen "
 "zeigen."
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Unter-Topics im %1 Web"
 
@@ -978,7 +978,7 @@ msgstr "Kommentar"
 msgid "Comments:"
 msgstr "Kommentare:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Vergleiche Revisionen"
 
@@ -1013,7 +1013,7 @@ msgstr "Wollen Sie weitermachen und versuchen, das Web umzubenennen?"
 msgid "Continue to create the new page"
 msgstr "Fahren Sie fort, um die neue Seite anzulegen"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
@@ -1021,7 +1021,7 @@ msgstr ""
 "Den Text und Formular-Daten in ein neues Topic kopieren (Anhänge werden "
 "nicht kopiert)"
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 msgid "Copy topic"
 msgstr "Topic kopieren"
 
@@ -1122,7 +1122,7 @@ msgstr "Legen Sie ein geeignetes Topic für die Formular-Definition an"
 msgid "Current location:"
 msgstr "Aktueller Ort:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Aktuelles Ober-Topic:"
 
@@ -1138,7 +1138,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Hallo %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Fehler beheben"
 
@@ -1160,11 +1160,11 @@ msgstr "Anhang löschen"
 msgid "Delete last row"
 msgstr "Letzte Zeile löschen"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Topic löschen"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Topic löschen..."
 
@@ -1289,7 +1289,7 @@ msgstr "Diese Tabelle bearbeiten"
 msgid "Edit this topic text"
 msgstr "Topic Text editieren"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Topic Einstellungen editieren"
 
@@ -1383,7 +1383,7 @@ msgstr "Die Datei wurde mit einem anderen Namen hochgeladen"
 msgid "Find similar topics"
 msgstr "Ähnliche Topics finden"
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Topics finden die auf %1 verweisen ..."
 
@@ -1858,7 +1858,7 @@ msgstr "Fehlender Aktions-Befehl"
 msgid "Modify search"
 msgstr "Suche verändern"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Weitere Aktionen für Topic %1"
 
@@ -1916,7 +1916,7 @@ msgstr "Meine Verweise"
 msgid "NEW"
 msgstr "NEU"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "Name of copy:"
 msgstr "Name der Kopie:"
 
@@ -1961,11 +1961,11 @@ msgstr "Neuer Topic Name %1 ist kein %2"
 msgid "New web name:"
 msgstr "Neuer Web Name:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Neuere Revision"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Keine Unter-Topics"
 
@@ -1973,7 +1973,7 @@ msgstr "Keine Unter-Topics"
 msgid "No permission to view %1"
 msgstr "Keine Erlaubnis um %1 zu sehen"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "Es existiert keine vorherige Revision."
 
@@ -2029,7 +2029,7 @@ msgstr "Anzahl der Topics:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Ältere Revisionen:"
 
@@ -2108,7 +2108,7 @@ msgid "Personal Preferences"
 msgstr "Persönliche Einstellungen"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "Von der Liste auswählen"
 
@@ -2321,7 +2321,7 @@ msgstr "Umbenennen"
 msgid "Rename failed"
 msgstr "Umbenennen fehlgeschlagen"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Topic umbenennen oder verschieben"
 
@@ -2334,7 +2334,7 @@ msgstr "Dieses Web umbenennen, verschieben oder löschen:"
 msgid "Rename/Move"
 msgstr "Umbenennen/Verschieben"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Topic umbenennen/verschieben..."
 
@@ -2354,19 +2354,19 @@ msgstr "Passwort zurücksetzen"
 msgid "Reset password"
 msgstr "Passwort zurücksetzen"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "Topic wiederherstellen"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "Vorherige Topic Revision wiederherstellen:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "Vorherige Topic Revision wiederherstellen"
 
@@ -2399,7 +2399,7 @@ msgstr "Änderungen ansehen in:"
 msgid "Revision"
 msgstr "Revision"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "Revisionen"
 
@@ -2452,7 +2452,7 @@ msgid "Search all webs"
 msgstr "Alle Webs durchsuchen"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Alle Webs nach Topics durchsuchen, die hierher verweisen"
 
@@ -2468,7 +2468,7 @@ msgstr "Nach mehr Topics in diesem Web suchen"
 msgid "Search string"
 msgstr "Suchausdruck"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Das %1 Web nach Topics durchsuchen, die hierher verweisen"
 
@@ -2524,7 +2524,7 @@ msgstr ""
 msgid "Select all"
 msgstr "Alles auswählen"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "Ober-Topic auswählen:"
 
@@ -2536,7 +2536,7 @@ msgstr "Fügen Sie Ihre Signatur unter dem Text ein, indem Sie sie kopieren."
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Eine Bestätigungs für ihre Registrierung per E-Mail senden."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sequenziell"
 
@@ -2544,11 +2544,11 @@ msgstr "Sequenziell"
 msgid "Set all"
 msgstr "Alles auswählen"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "Neues Ober-Topic zuordnen"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Neues Ober-Topic zuordnen"
 
@@ -2566,7 +2566,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Editier-Box verkleinern"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Seite an Seite"
 
@@ -3227,15 +3227,15 @@ msgstr "Versions-Historie"
 msgid "Version history of %1"
 msgstr "Versions-Historie von %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "Ansehen"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Unterschied anzeigen"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Vorherige Topic Revision ansehen"
 
@@ -3243,7 +3243,7 @@ msgstr "Vorherige Topic Revision ansehen"
 msgid "View raw text without formatting"
 msgstr "Quelltext ohne Formatierung ansehen"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "Revision ansehen:"
 
@@ -3494,11 +3494,11 @@ msgstr ""
 "finden kann, wird das System in ihrem Benutzer-Topic nach einer Zeile wie "
 "folgt Ausschau halten:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr "Bevor Sie das Topic speichern können Sie es überprüfen"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 "Bevor Sie das Topic in einer neuen Revision speichern können Sie es "
@@ -3682,7 +3682,7 @@ msgstr "Hilfe"
 msgid "hints on good style"
 msgstr "Tips für guten Stil"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "im Quelltext Format"
 
@@ -3735,11 +3735,11 @@ msgstr "zurück verschieben"
 msgid "retrieved at %1"
 msgstr "abgefragt um %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "Querverweise nur im _%1 Web_ suchen"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "Querverweise in _allen öffentlichen Webs_ suchen"
 

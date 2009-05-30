@@ -280,7 +280,7 @@ msgstr "(Dit brugernavn) WikiName:"
 msgid "(login)"
 msgstr "(login)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(mere)"
 
@@ -313,7 +313,7 @@ msgstr "(ellers begrænses søgningen til %1-webbet)"
 msgid "(raw view)"
 msgstr "(rå visning)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(anbefalet)"
 
@@ -462,7 +462,7 @@ msgstr "*interne links* brug sidenavnet: =%1= or =[<nop>[%1][Min hjemmeside]]="
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr ""
 "Opdatér side-præferencer for denne side"
@@ -479,11 +479,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "sider, <a href='%7' rel='nofollow'>alle ændringer</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "<em>kun i %1-webbet</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>i alle offentlige webs</em>"
 
@@ -753,7 +753,7 @@ msgstr "Tilgængelige formular-skabeloner i %1-webbet"
 msgid "Back to topic"
 msgstr "Tilbage til siden"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Referencer"
@@ -931,7 +931,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Markedere sider vil blive opdateret til at pege på det nye webnavn"
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Datter-sider i %1-webbet"
 
@@ -969,7 +969,7 @@ msgstr "Kommentar"
 msgid "Comments:"
 msgstr "Kommentarer:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Sammenlign versioner"
 
@@ -1004,7 +1004,7 @@ msgstr "Fortsæt med at omdøbe webbet?"
 msgid "Continue to create the new page"
 msgstr "Fortsæt med at oprette den nye side"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
@@ -1012,7 +1012,7 @@ msgstr ""
 "Kopier tekst og form data til new side (dog vil ingen vedhæftede filer blive "
 "kopierede)"
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 msgid "Copy topic"
 msgstr "Kopier side"
 
@@ -1115,7 +1115,7 @@ msgstr "Opretter en passende side til formular-definition"
 msgid "Current location:"
 msgstr "Nuværende lokation:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Nuværende forælder:"
 
@@ -1131,7 +1131,7 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kære %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Debug"
 
@@ -1153,11 +1153,11 @@ msgstr "Slet vedhæftet fil"
 msgid "Delete last row"
 msgstr "Slet sidste række"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Slet side"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Slet side..."
 
@@ -1281,7 +1281,7 @@ msgstr "Editér denne tabel"
 msgid "Edit this topic text"
 msgstr "Editér denne sides tekst"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Editér præferencer for siden"
 
@@ -1373,7 +1373,7 @@ msgstr "Filen er blevet uploadet under et ændret navn"
 msgid "Find similar topics"
 msgstr "Find lignende sider"
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Find sider der refererer til %1 ..."
 
@@ -1842,7 +1842,7 @@ msgstr "Manglende aktionskommando (action command)"
 msgid "Modify search"
 msgstr "Tilpas søgning"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Flere muligheder med siden %1"
 
@@ -1900,7 +1900,7 @@ msgstr "Mine links"
 msgid "NEW"
 msgstr "NY"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "Name of copy:"
 msgstr "Navnet på kopien:"
 
@@ -1945,11 +1945,11 @@ msgstr "Det nye sidenavn %1 er ikke et %2"
 msgid "New web name:"
 msgstr "Nyt web-navn:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Nyere version:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Ingen dattersider"
 
@@ -1957,7 +1957,7 @@ msgstr "Ingen dattersider"
 msgid "No permission to view %1"
 msgstr "Ingen rettigheder til at se %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "Ingen tidligere version eksisterer"
 
@@ -2014,7 +2014,7 @@ msgstr "Antal sider:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Tidligere version:"
 
@@ -2091,7 +2091,7 @@ msgid "Personal Preferences"
 msgstr "Personlige præferencer"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "Vælg fra en liste"
 
@@ -2302,7 +2302,7 @@ msgstr "Omdøb"
 msgid "Rename failed"
 msgstr "Omdøbning fejlede"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Omdøb eller flyt side"
 
@@ -2315,7 +2315,7 @@ msgstr "Omdøb, flyt eller slet dette web:"
 msgid "Rename/Move"
 msgstr "Omdøb/flyt"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Omdøb/flyt side..."
 
@@ -2335,19 +2335,19 @@ msgstr "Nulstil password"
 msgid "Reset password"
 msgstr "Nulstil password"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "Gendan"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "Gendan side"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "Gendan siden til versionen:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "Gendan siden til denne version"
 
@@ -2380,7 +2380,7 @@ msgstr "Senest ændrede sider i:"
 msgid "Revision"
 msgstr "Version"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "Versioner"
 
@@ -2434,7 +2434,7 @@ msgid "Search all webs"
 msgstr "Søg i alle webs"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Søg i alle webs efter sider der linker til denne side"
 
@@ -2450,7 +2450,7 @@ msgstr "Søg efter flere sider i denne web"
 msgid "Search string"
 msgstr "Søgestreng"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Søg i %1-webbet efter sider der linker til denne side"
 
@@ -2505,7 +2505,7 @@ msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil."
 msgid "Select all"
 msgstr "Vælg alle"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "Vælg side-forælder"
 
@@ -2517,7 +2517,7 @@ msgstr "Markér (triple-klik i feltet), og copy/paste din signatur til siden"
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Sende en bekræftelses-e-mail angående din registrering til dig."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sekventiel"
 
@@ -2525,11 +2525,11 @@ msgstr "Sekventiel"
 msgid "Set all"
 msgstr "Vælg alle"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "Vælg ny forælder"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Vælg ny side-forælder"
 
@@ -2545,7 +2545,7 @@ msgstr "Vis tool-tip ved mouse-over på %1 links, on eller off.)"
 msgid "Shrink edit box"
 msgstr "Formindsk edit boks"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Side ved side"
 
@@ -3189,15 +3189,15 @@ msgstr "Versionshistorik"
 msgid "Version history of %1"
 msgstr "Versionshistorik for %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "Vis"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Vis forskel"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Vis en tidligere version af siden"
 
@@ -3205,7 +3205,7 @@ msgstr "Vis en tidligere version af siden"
 msgid "View raw text without formatting"
 msgstr "Vis rå kildetekst uden formatering"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "Vis version:"
 
@@ -3452,12 +3452,12 @@ msgstr ""
 "kan finde en registreret e-mail-adresse for dig i dens database, vil den "
 "kigge i din personlige sider efter en linie magen til denne:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 "Du kan kontrollere den kopierede side før du gemmer den i en ny version"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "Du kan reviewe siden før du gemmer den i en ny version"
 
@@ -3638,7 +3638,7 @@ msgstr "hjælp"
 msgid "hints on good style"
 msgstr "hints til god stil i e-samarbejdet"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "i kildetekst-format"
 
@@ -3691,11 +3691,11 @@ msgstr "flyt siden tilbage"
 msgid "retrieved at %1"
 msgstr "fremsøgt %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "finder referencer (kun i _<nop/>%1-webbet_)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "søger efter lignende sider i _alle offentlige webs_"
 

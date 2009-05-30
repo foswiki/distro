@@ -294,7 +294,7 @@ msgstr "(как Вас видят другие пользователи) Вик�
 msgid "(login)"
 msgstr "(пусто/ничего)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(больше)"
 
@@ -327,7 +327,7 @@ msgstr "(иначе только в разделе %1)"
 msgid "(raw view)"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(рекомендуется)"
 
@@ -478,7 +478,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "Редактировать настройки этой темы"
 
@@ -494,11 +494,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> темы, "
 "<a href='%7' rel='nofollow'>все изменения</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "только <em>в разделе %1 </em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>во всех общедоступных разделах</em>"
 
@@ -780,7 +780,7 @@ msgstr "Возможные шаблоны формы"
 msgid "Back to topic"
 msgstr "Вернуться к теме"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Обратные ссылки"
@@ -965,7 +965,7 @@ msgstr ""
 "Текст отмеченных тем будет обновлен таким образом, чтобы указывать на новое "
 "имя раздела."
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Дочерние темы в разделе %1"
 
@@ -1003,7 +1003,7 @@ msgstr "Комментарий"
 msgid "Comments:"
 msgstr "Комментарии:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Сравнить редакции"
 
@@ -1037,13 +1037,13 @@ msgstr "Продолжить и попытаться переименовать 
 msgid "Continue to create the new page"
 msgstr "Невозможно создать новый раздел %1"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 #, fuzzy
 msgid "Copy topic"
 msgstr "К теме:"
@@ -1147,7 +1147,7 @@ msgstr "Создания соответствующей страницы Опр�
 msgid "Current location:"
 msgstr "Текущее размещение:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Текущий родитель:"
 
@@ -1163,7 +1163,7 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Дорогой(ая) %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Отладка"
 
@@ -1186,11 +1186,11 @@ msgstr "Удалить файл"
 msgid "Delete last row"
 msgstr "Удалить тему"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Удалить тему"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Удалить тему..."
 
@@ -1317,7 +1317,7 @@ msgstr "Редактировать текст этой страницы"
 msgid "Edit this topic text"
 msgstr "Редактировать текст этой страницы"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Редактировать настройки страницы"
 
@@ -1410,7 +1410,7 @@ msgstr "Файл был загружен с другим именем"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Найти темы, ссылающиеся на %1 ..."
 
@@ -1897,7 +1897,7 @@ msgstr "Не определено действие, связанное с ком
 msgid "Modify search"
 msgstr "Изменить поиск"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Другие действия над темой %1"
 
@@ -1957,7 +1957,7 @@ msgstr "Мои ссылки"
 msgid "NEW"
 msgstr "НОВАЯ"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 #, fuzzy
 msgid "Name of copy:"
 msgstr "Количество тем:"
@@ -2004,11 +2004,11 @@ msgstr "Новое название темы %1 не %2"
 msgid "New web name:"
 msgstr "Новое имя раздела"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Младшая редакция:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Нет дочерних тем"
 
@@ -2016,7 +2016,7 @@ msgstr "Нет дочерних тем"
 msgid "No permission to view %1"
 msgstr "Нет прав для просмотра %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 #, fuzzy
 msgid "No previous revision exists."
 msgstr "Просмотреть предыдущую редакцию"
@@ -2074,7 +2074,7 @@ msgstr "Количество тем:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Старшая редакция:"
 
@@ -2150,7 +2150,7 @@ msgid "Personal Preferences"
 msgstr "Личные Параметры"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr ""
 
@@ -2373,7 +2373,7 @@ msgstr "Переименовать"
 msgid "Rename failed"
 msgstr "Не удалось переименовать"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Переименовать или переместить тему"
 
@@ -2386,7 +2386,7 @@ msgstr "Переименовать, переместить или удалить
 msgid "Rename/Move"
 msgstr "Переименовать/переместить"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Переименовать/переместить тему..."
 
@@ -2406,22 +2406,22 @@ msgstr "Сбросить Пароль"
 msgid "Reset password"
 msgstr "Сбросить пароль"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 #, fuzzy
 msgid "Restore"
 msgstr "Зарегистрироваться"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 #, fuzzy
 msgid "Restore topic"
 msgstr "Удалить тему"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 #, fuzzy
 msgid "Restore topic to revision:"
 msgstr "Просмотреть предыдущую редакцию"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 #, fuzzy
 msgid "Restore topic to this revision"
 msgstr "Просмотреть предыдущую редакцию"
@@ -2455,7 +2455,7 @@ msgstr "Обзор недавних изменений в:"
 msgid "Revision"
 msgstr "Редакция"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 #, fuzzy
 msgid "Revisions"
 msgstr "Редакция"
@@ -2515,7 +2515,7 @@ msgid "Search all webs"
 msgstr "Поиск по всем разделам"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Найти ссылающиеся сюда темы во всех разделах"
 
@@ -2533,7 +2533,7 @@ msgstr "Искать похожие темы во всех открытых ра
 msgid "Search string"
 msgstr "Строку поиска"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Искать в разделе %1 темы, ссылающиеся на эту"
 
@@ -2589,7 +2589,7 @@ msgstr ""
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 #, fuzzy
 msgid "Select topic parent:"
 msgstr "Шаг 1: Выберите родителя темы:"
@@ -2603,7 +2603,7 @@ msgstr ""
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Отправит подтверждение Вашей регистрации по электронной почте."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Последовательно"
 
@@ -2611,12 +2611,12 @@ msgstr "Последовательно"
 msgid "Set all"
 msgstr "Установить все"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 #, fuzzy
 msgid "Set new parent"
 msgstr "Установить нового родителя для темы"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Установить нового родителя для темы"
 
@@ -2632,7 +2632,7 @@ msgstr "Показывать подсказки при наведении мыш
 msgid "Shrink edit box"
 msgstr "Сжать окно редактирования"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "В две колонки"
 
@@ -3276,16 +3276,16 @@ msgstr "История версий"
 msgid "Version history of %1"
 msgstr "История версий %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 #, fuzzy
 msgid "View"
 msgstr "Просмотреть"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Посмотреть различия"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Просмотреть предыдущую редакцию"
 
@@ -3293,7 +3293,7 @@ msgstr "Просмотреть предыдущую редакцию"
 msgid "View raw text without formatting"
 msgstr "Просмотреть исходный текст, без форматирования"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 #, fuzzy
 msgid "View revision:"
 msgstr "Просмотреть редакцию"
@@ -3541,11 +3541,11 @@ msgstr ""
 "почты в секретной базе данных, то будет искать на Вашей персональной "
 "странице строку подобную этой:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
@@ -3728,7 +3728,7 @@ msgstr "помощь"
 msgid "hints on good style"
 msgstr "Руководство по хорошему стилю"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "в виде исходного текста"
 
@@ -3782,12 +3782,12 @@ msgstr "вернуть на место"
 msgid "retrieved at %1"
 msgstr "Найдено в %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 #, fuzzy
 msgid "scans links in _%1 web_ only"
 msgstr "отслеживая ссылки только в _разделе %1_"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 #, fuzzy
 msgid "scans links in _all public webs_"
 msgstr "Искать похожие темы во всех открытых разделах"

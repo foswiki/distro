@@ -289,7 +289,7 @@ msgstr "(służy do identyfikacji) WikiName"
 msgid "(login)"
 msgstr "Zaloguj"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(więcej)"
 
@@ -323,7 +323,7 @@ msgstr "(w przeciwnym razie wyszukaj tylko w dziale %1)"
 msgid "(raw view)"
 msgstr "Kod źródłowy"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(zalecane)"
 
@@ -474,7 +474,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "Edycja ustawień bieżącej strony"
 
@@ -490,11 +490,11 @@ msgstr ""
 "rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> stron, <a "
 "href='%7' rel='nofollow'>wszystkie zmiany</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "tylko w <em>dziale %1</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>we wszystkich działach</em>"
 
@@ -768,7 +768,7 @@ msgstr "Dopuszczalne szablony formularzy"
 msgid "Back to topic"
 msgstr "Wróć do:"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Odwołania"
@@ -947,7 +947,7 @@ msgstr ""
 "Skróty na zaznaczonych stronach zostaną zaktualizowane tak, aby wskazywały "
 "na nową nazwę działu."
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Strony podrzędne w dziale %1"
 
@@ -985,7 +985,7 @@ msgstr "Komentarz"
 msgid "Comments:"
 msgstr "Komentarze:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Porównaj zmiany"
 
@@ -1019,13 +1019,13 @@ msgstr "Czy kontynuować i spróbować zmienić nazwę działu?"
 msgid "Continue to create the new page"
 msgstr "Nie można utworzyć nowego działu: %1"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 #, fuzzy
 msgid "Copy topic"
 msgstr "Nowa nazwa strony:"
@@ -1130,7 +1130,7 @@ msgstr "Tworzenie właściwej strony definicji formularza"
 msgid "Current location:"
 msgstr "Bieżące położenie:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Bieżąca strona nadrzędna:"
 
@@ -1146,7 +1146,7 @@ msgstr "Data"
 msgid "Dear %1"
 msgstr "Drogi %1!"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Wyświetl błędy"
 
@@ -1169,11 +1169,11 @@ msgstr "Usuń załącznik"
 msgid "Delete last row"
 msgstr "Usuń stronę"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Usuń stronę"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Usuń stronę..."
 
@@ -1301,7 +1301,7 @@ msgstr "Edycja strony"
 msgid "Edit this topic text"
 msgstr "Edycja strony"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Edycja ustawień strony"
 
@@ -1394,7 +1394,7 @@ msgstr "Plik załadowano i zapisano pod inną nazwą"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Wyszukaj strony z odwołaniami do %1 ..."
 
@@ -1867,7 +1867,7 @@ msgstr "Nie podano polecenia"
 msgid "Modify search"
 msgstr "Zmień"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Inne operacje dla strony %1"
 
@@ -1927,7 +1927,7 @@ msgstr "Moje skróty"
 msgid "NEW"
 msgstr "NOWA"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 #, fuzzy
 msgid "Name of copy:"
 msgstr "Liczba stron:"
@@ -1974,11 +1974,11 @@ msgstr "Nowa nazwa strony %1 to nie %2"
 msgid "New web name:"
 msgstr "Nowa nazwa działu:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Zmiana:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Brak stron podrzędnych"
 
@@ -1986,7 +1986,7 @@ msgstr "Brak stron podrzędnych"
 msgid "No permission to view %1"
 msgstr "Brak uprawnień do wyświetlenia %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 #, fuzzy
 msgid "No previous revision exists."
 msgstr "Wyświetl kolejną zmianę na stronie"
@@ -2044,7 +2044,7 @@ msgstr "Liczba stron:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Wersja:"
 
@@ -2120,7 +2120,7 @@ msgid "Personal Preferences"
 msgstr "Ustawienia osobiste"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr ""
 
@@ -2327,7 +2327,7 @@ msgstr "Zmień nazwę"
 msgid "Rename failed"
 msgstr "Zmiana nazwy nie powiodła się"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Zmień nazwę lub przenieś stronę"
 
@@ -2340,7 +2340,7 @@ msgstr "Zmień nazwę, przenieś lub usuń dział:"
 msgid "Rename/Move"
 msgstr "Zmień nazwę/przenieś"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Zmień nazwę/przenieś stronę..."
 
@@ -2360,22 +2360,22 @@ msgstr "Resetowanie hasła"
 msgid "Reset password"
 msgstr "Zresetuj hasło"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 #, fuzzy
 msgid "Restore"
 msgstr "Zarejestruj się"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 #, fuzzy
 msgid "Restore topic"
 msgstr "Usuń stronę"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 #, fuzzy
 msgid "Restore topic to revision:"
 msgstr "Wyświetl kolejną zmianę na stronie"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 #, fuzzy
 msgid "Restore topic to this revision"
 msgstr "Wyświetl kolejną zmianę na stronie"
@@ -2409,7 +2409,7 @@ msgstr "Wyświetl ostatnie zmiany w:"
 msgid "Revision"
 msgstr "Zmiana"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 #, fuzzy
 msgid "Revisions"
 msgstr "Zmiana"
@@ -2468,7 +2468,7 @@ msgid "Search all webs"
 msgstr "Wyszukaj we &wszystkich działach"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Wyszukaj wszystkie strony z odwołaniami do bieżącej strony"
 
@@ -2486,7 +2486,7 @@ msgstr "Wyszukaj podobne strony we wszystkich działach publicznych"
 msgid "Search string"
 msgstr "wyszukanego tekstu"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Wyszukaj strony w dziale %1 z odwołaniami do bieżącej strony"
 
@@ -2541,7 +2541,7 @@ msgstr "Wybierz inny plik lokalny w celu zaktualizowania załącznika"
 msgid "Select all"
 msgstr "Zaznacz wszystkie"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 #, fuzzy
 msgid "Select topic parent:"
 msgstr "Krok 1: wybierz stronę nadrzędną"
@@ -2556,7 +2556,7 @@ msgstr ""
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Zostanie wysłany list z potwierdzeniem twojej rejestracji."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sekwencyjnie"
 
@@ -2564,12 +2564,12 @@ msgstr "Sekwencyjnie"
 msgid "Set all"
 msgstr "Ustaw wszystko"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 #, fuzzy
 msgid "Set new parent"
 msgstr "Ustaw nową stronę nadrzędną"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Ustaw nową stronę nadrzędną"
 
@@ -2585,7 +2585,7 @@ msgstr "Włącz wyświetlanie podpowiedzi dla skrótów %1:"
 msgid "Shrink edit box"
 msgstr "Zmniejsz okienko edycyjne"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Obok siebie"
 
@@ -3226,15 +3226,15 @@ msgstr "Historia zmian"
 msgid "Version history of %1"
 msgstr "Historia zmian załącznika %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "Wyświetl"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Wyświetl różnice"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Wyświetl kolejną zmianę na stronie"
 
@@ -3242,7 +3242,7 @@ msgstr "Wyświetl kolejną zmianę na stronie"
 msgid "View raw text without formatting"
 msgstr "Wyświetl kod źródłowy strony"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 #, fuzzy
 msgid "View revision:"
 msgstr "Wyświetl zmianę"
@@ -3486,11 +3486,11 @@ msgstr ""
 "odnaleziony w bazie danych haseł, to będzie poszukiwany na Twojej stronie "
 "domowej wśród linii zapisanych następująco:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
@@ -3672,7 +3672,7 @@ msgstr "pomoc"
 msgid "hints on good style"
 msgstr "w dobrym stylu"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "w postaci kodu źródłowego"
 
@@ -3725,12 +3725,12 @@ msgstr "odłóż"
 msgid "retrieved at %1"
 msgstr "o godzinie: %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 #, fuzzy
 msgid "scans links in _%1 web_ only"
 msgstr "wyszukiwanie odwołań tylko w dziale %1"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 #, fuzzy
 msgid "scans links in _all public webs_"
 msgstr "Wyszukaj we wszystkich działach publicznych"

@@ -29,7 +29,7 @@ Pages should get validated as XHTML 1.0 Transitional.
 | [[%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=text&t=1130355004][edit text]] 											| =editform.pattern.tmpl= Note: user topic must exist (test: name=<nop>%WIKINAME%; topic=[[%USERSWEB%.%WIKINAME%]]) 	| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=text&t=1130355004}%][validate]] 										| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=text&t=1130355004}%" 										pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
 | [[%SCRIPTURL{"login"}%/%SYSTEMWEB%/%HOMETOPIC%][log in]] 																		| =login.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"login"}%/%SYSTEMWEB%/%HOMETOPIC%}%][validate]] 															| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"login"}%/%SYSTEMWEB%/%HOMETOPIC%}%" 																pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> | Try to go to the validation page manually. |
 | [[%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopschangelanguage][change language]] 									| =oopschangelanguage.pattern.tmpl=																					| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopschangelanguage}%][validate]] 								| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopschangelanguage}%" 									pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
-| [[%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopsmore&param1=2&param2=2][more options]]			 					| =oopsmore.pattern.tmpl=																							| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopsmore&param1=2&param2=2}%][validate]]			 				| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopsmore&param1=2&param2=2}%" 							pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?template=more&param1=2&param2=2][more options]]			 					| 
 | TODO: =oopssaveerr.pattern.tmpl= 																							|  																													|  																																								|  |  |
 | TODO: =preview.pattern.tmpl= 																								| Test manually by saving the page html and paste that in the form on http://validator.w3.org						|																							  																	|  |  |
 | [[%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?type=history][rdiff history]]													| =rdiff.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?type=history}%][validate]] 												| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?type=history}%" 												pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
@@ -83,7 +83,6 @@ moveattachment.pattern.tmpl
 oopsaccessdenied.pattern.tmpl
 oopschangelanguage.tmpl
 oopsleaseconflict.pattern.tmpl
-oopsmore.pattern.tmpl
 oopssaveerr.pattern.tmpl
 preview.pattern.tmpl
 rdiff.pattern.tmpl

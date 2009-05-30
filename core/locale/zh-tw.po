@@ -277,7 +277,7 @@ msgstr "(變更身份) WikiName:"
 msgid "(login)"
 msgstr "(登入)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(更多)"
 
@@ -310,7 +310,7 @@ msgstr "(否則只搜尋 %1子網)"
 msgid "(raw view)"
 msgstr "(檢示源碼)"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(建議)"
 
@@ -409,7 +409,7 @@ msgstr "*網站連結* 使用主題名稱: =%1= 或 =[<nop>[%1][首頁]]="
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "編輯本主題的設定"
 
@@ -417,11 +417,11 @@ msgstr "編輯本主題的設定"
 msgid "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr "<a href='%1'>訂閱 RSS</a>，最近更新的<a href='%2'>50</a>個，<a href='%3' rel='nofollow'>100</a>個，<a href='%4' rel='nofollow'>200</a>個，<a href='%5' rel='nofollow'>500</a>個，<a href='%6' rel='nofollow'>1000</a>個主題，<a href='%7' rel='nofollow'>所有主題</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "只<em>在 %1 子網</em>中"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>在所有公開的子網</em>"
 
@@ -646,7 +646,7 @@ msgstr " %1 子網可用的範本"
 msgid "Back to topic"
 msgstr "回到主題"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "反向連結"
@@ -805,7 +805,7 @@ msgstr "選擇的主題，文中連結將更改為新主題。"
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "選定的主題，文中連結將更改為新子網。"
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "在%1子網中的子主題"
 
@@ -839,7 +839,7 @@ msgstr "評論"
 msgid "Comments:"
 msgstr "評論:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "比較版本"
 
@@ -870,11 +870,11 @@ msgstr "繼續為子網改名?"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid "Copy text and form data to a new topic (no attachments will be copied though)."
 msgstr "複製文字和表單資料到新的主題（但不複製附件）。"
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 msgid "Copy topic"
 msgstr "複製主題 "
 
@@ -963,7 +963,7 @@ msgstr "建立適當的表單定義主題"
 msgid "Current location:"
 msgstr "目前位置:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "目前父主題:"
 
@@ -979,7 +979,7 @@ msgstr "日期"
 msgid "Dear %1"
 msgstr "親愛的 %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "除錯"
 
@@ -1001,11 +1001,11 @@ msgstr "刪除附件"
 msgid "Delete last row"
 msgstr "刪除最後一行"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "刪除主題"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "刪除主題..."
 
@@ -1105,7 +1105,7 @@ msgstr "編輯這個表格"
 msgid "Edit this topic text"
 msgstr "編輯這個主題"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "編輯主題屬性設定"
 
@@ -1184,7 +1184,7 @@ msgstr "檔案已用其他名稱上傳"
 msgid "Find similar topics"
 msgstr "尋找相似主題"
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "找連到 %1 的主題..."
 
@@ -1544,7 +1544,7 @@ msgstr "缺少功能命令"
 msgid "Modify search"
 msgstr "修改搜尋:"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "主題 %1 的更多功能"
 
@@ -1602,7 +1602,7 @@ msgstr "我的連結"
 msgid "NEW"
 msgstr "新"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "Name of copy:"
 msgstr "複本名稱:"
 
@@ -1647,11 +1647,11 @@ msgstr "新主題名 %1 不是 %2"
 msgid "New web name:"
 msgstr "新子網名稱:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "新版本:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "無子主題"
 
@@ -1659,7 +1659,7 @@ msgstr "無子主題"
 msgid "No permission to view %1"
 msgstr "無瀏覽 %1 的權限"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 msgid "No previous revision exists."
 msgstr "前一個版本不存在。"
 
@@ -1711,7 +1711,7 @@ msgstr "主題數量:"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "舊版本:"
 
@@ -1783,7 +1783,7 @@ msgid "Personal Preferences"
 msgstr "個人設定"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr "自清單中選擇"
 
@@ -1967,7 +1967,7 @@ msgstr "改名"
 msgid "Rename failed"
 msgstr "改名失敗"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "主題改名或移動"
 
@@ -1980,7 +1980,7 @@ msgstr "改名，移動或刪除子網:"
 msgid "Rename/Move"
 msgstr "改名/移動"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "改名/移動主題..."
 
@@ -2000,19 +2000,19 @@ msgstr "重設密碼"
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore"
 msgstr "還原"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 msgid "Restore topic"
 msgstr "還原主題"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 msgid "Restore topic to revision:"
 msgstr "還原主題至版本:"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "Restore topic to this revision"
 msgstr "還原主題至這個版本"
 
@@ -2045,7 +2045,7 @@ msgstr "檢查最近的更新:"
 msgid "Revision"
 msgstr "修訂版"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 msgid "Revisions"
 msgstr "修訂版"
 
@@ -2094,7 +2094,7 @@ msgid "Search all webs"
 msgstr "搜尋所有子網 "
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "搜尋在所有子網中連結至此的主題"
 
@@ -2110,7 +2110,7 @@ msgstr "搜尋本子網的更多主題"
 msgid "Search string"
 msgstr "搜尋字串"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "在 %1 子網中搜尋連結至此的主題"
 
@@ -2163,7 +2163,7 @@ msgstr "選擇本地的新檔來更新附件"
 msgid "Select all"
 msgstr "全選"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 msgid "Select topic parent:"
 msgstr "選擇父主題:"
 
@@ -2175,7 +2175,7 @@ msgstr "在您輸入的段落底部選擇/複製/貼上您的簽名文字"
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "寄電子郵件確認您的註冊。"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "連續的"
 
@@ -2183,11 +2183,11 @@ msgstr "連續的"
 msgid "Set all"
 msgstr "設定所有"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 msgid "Set new parent"
 msgstr "設定新父主題 "
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "設定新父主題"
 
@@ -2203,7 +2203,7 @@ msgstr "滑鼠移動到連結 %1 上時顯示工具技巧提示，打開或關�
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "並列"
 
@@ -2721,15 +2721,15 @@ msgstr "版本歷史"
 msgid "Version history of %1"
 msgstr "%1 的版本歷史"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "View"
 msgstr "瀏覽"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "檢視差異"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "檢視主題的前一個版本"
 
@@ -2737,7 +2737,7 @@ msgstr "檢視主題的前一個版本"
 msgid "View raw text without formatting"
 msgstr "檢視源碼"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 msgid "View revision:"
 msgstr "檢視修訂版:"
 
@@ -2909,11 +2909,11 @@ msgstr "現在您需要檢查電子郵件位址。當電子郵件寄出後，您
 msgid "You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"
 msgstr "您必須以合法的郵件地址註冊。若系統無法找到您註冊的郵件地址，它將在您的用戶主題中找以下這行:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr "您能在審查複製的主題後再存檔"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "您能在審查主題後再存成新的版本"
 
@@ -3062,7 +3062,7 @@ msgstr "説明"
 msgid "hints on good style"
 msgstr "優良格式的提示"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "源碼模式"
 
@@ -3115,11 +3115,11 @@ msgstr "放回"
 msgid "retrieved at %1"
 msgstr "自 %1 找出"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
 msgstr "只搜尋在 _%1 子網_ 中的連結"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"
 msgstr "搜尋_所有公開子網_ 中的連結"
 

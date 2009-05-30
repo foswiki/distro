@@ -287,7 +287,7 @@ msgstr "(identifikuje Vás ostatním) WikiName:"
 msgid "(login)"
 msgstr "(nic)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(více)"
 
@@ -321,7 +321,7 @@ msgstr "(jinak hledá pouze v %1 webu)"
 msgid "(raw view)"
 msgstr "Nefo&rmátovaně"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "(recommended)"
 msgstr "(doporučené)"
 
@@ -469,7 +469,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
+#: core/templates/more.tmpl:14
 msgid "Edit settings for this topic"
 msgstr "Změnit nastavení pro tento článek"
 
@@ -481,11 +481,11 @@ msgid ""
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/more.tmpl:57
 msgid "<em>in %1 web</em> only"
 msgstr "pouze <em>v %1 webu</em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
 msgstr "<em>ve všech veřejných webech</em>"
 
@@ -762,7 +762,7 @@ msgstr "Možné vzory pro formulář"
 msgid "Back to topic"
 msgstr "Zpět na článek"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/more.tmpl:53
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Zpětné odkazy"
@@ -940,7 +940,7 @@ msgstr "Označené články budou aktualizovány do bodu do nového umístění 
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Označené články budou aktualizovány do bodu do nového jména webu."
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
 msgstr "Podřízené články v %1 webu"
 
@@ -978,7 +978,7 @@ msgstr "Komentář"
 msgid "Comments:"
 msgstr "Komentáře:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/more.tmpl:109
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
@@ -1012,13 +1012,13 @@ msgstr "Pokračujte a zkuste přejmenovat web?"
 msgid "Continue to create the new page"
 msgstr "Nemohu vytvořit nový web %1"
 
-#: core/templates/oopsmore.tmpl:20
+#: core/templates/more.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/more.tmpl:19
 #, fuzzy
 msgid "Copy topic"
 msgstr "K článku:"
@@ -1122,7 +1122,7 @@ msgstr "Vytvořte vhodný Definiční článek formuláře"
 msgid "Current location:"
 msgstr "Nyní jste zde:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/more.tmpl:67
 msgid "Current parent:"
 msgstr "Současný nadřízený:"
 
@@ -1138,7 +1138,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Vážený %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Debug"
 msgstr "Ladění"
 
@@ -1162,11 +1162,11 @@ msgstr "Smazat přílohu"
 msgid "Delete last row"
 msgstr "Vymazat článek"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/more.tmpl:35
 msgid "Delete topic"
 msgstr "Vymazat článek"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
 msgid "Delete topic..."
 msgstr "Vymazat článek..."
 
@@ -1296,7 +1296,7 @@ msgstr "Změňte text tohoto článku"
 msgid "Edit this topic text"
 msgstr "Změňte text tohoto článku"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Změňte nastavení tohoto článku"
 
@@ -1388,7 +1388,7 @@ msgstr "Soubor byl nahrán pod odlišným jménem"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
@@ -1856,7 +1856,7 @@ msgstr "Chybí příkaz akce"
 msgid "Modify search"
 msgstr "Změň hledání"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Další akce s článkem %1"
 
@@ -1917,7 +1917,7 @@ msgstr "Mé odkazy"
 msgid "NEW"
 msgstr "NOVÝ"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 #, fuzzy
 msgid "Name of copy:"
 msgstr "Počet článků"
@@ -1963,11 +1963,11 @@ msgstr "Nové jméno článku %1 není %2"
 msgid "New web name:"
 msgstr "Nové jméno webu:"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Newer revision:"
 msgstr "Novější revize:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/more.tmpl:129
 msgid "No child topics"
 msgstr "Žádné podřízené články"
 
@@ -1975,7 +1975,7 @@ msgstr "Žádné podřízené články"
 msgid "No permission to view %1"
 msgstr "Nemáte právo pro prohlížení %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/more.tmpl:124
 #, fuzzy
 msgid "No previous revision exists."
 msgstr "Prohlédni předchozí revize článku"
@@ -2033,7 +2033,7 @@ msgstr "Počet článků"
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:112
 msgid "Older revision:"
 msgstr "Starší revize"
 
@@ -2107,7 +2107,7 @@ msgid "Personal Preferences"
 msgstr "Osobní preference"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/templates/more.tmpl:71
 msgid "Pick from a list"
 msgstr ""
 
@@ -2319,7 +2319,7 @@ msgstr "Přejmenovat"
 msgid "Rename failed"
 msgstr "Přejmenování selhalo"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/more.tmpl:44
 msgid "Rename or move topic"
 msgstr "Přejmenovat nebo přesunout článek"
 
@@ -2332,7 +2332,7 @@ msgstr "Přejmenovat, přesunout nebo smazat web:"
 msgid "Rename/Move"
 msgstr "Přejmenovat/Přesunout"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
 msgid "Rename/move topic..."
 msgstr "Přejmenovat/přesunout článek..."
 
@@ -2352,22 +2352,22 @@ msgstr "Znovunastav heslo"
 msgid "Reset password"
 msgstr "Znovunastav heslo"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 #, fuzzy
 msgid "Restore"
 msgstr "Registruj"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/more.tmpl:116
 #, fuzzy
 msgid "Restore topic"
 msgstr "Vymazat článek"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/more.tmpl:118
 #, fuzzy
 msgid "Restore topic to revision:"
 msgstr "Prohlédni předchozí revize článku"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 #, fuzzy
 msgid "Restore topic to this revision"
 msgstr "Prohlédni předchozí revize článku"
@@ -2402,7 +2402,7 @@ msgstr "Zkontrolujte poslední změny v:"
 msgid "Revision"
 msgstr "Revize"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:103
 #, fuzzy
 msgid "Revisions"
 msgstr "Revize"
@@ -2458,7 +2458,7 @@ msgid "Search all webs"
 msgstr "H&ledej ve všech webech"
 
 #: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:54
 msgid "Search all webs for topics that link to here"
 msgstr "Prohledej všechny weby pro články, které odkazují sem"
 
@@ -2476,7 +2476,7 @@ msgstr "Hledej podobné články ve všech veřejných webech"
 msgid "Search string"
 msgstr "Hledej řetězec"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Hledej články ve webu %1 které sem odkazují"
 
@@ -2531,7 +2531,7 @@ msgstr "Vyberte nový lokální soubor pro změnu přílohy"
 msgid "Select all"
 msgstr "Vyber vše"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/more.tmpl:70
 #, fuzzy
 msgid "Select topic parent:"
 msgstr "Krok 1: Vyberte nadřízený článek"
@@ -2544,7 +2544,7 @@ msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Odešle Vám potvrzení o Vaší registraci emailem."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Sequential"
 msgstr "Sekvenčně"
 
@@ -2552,12 +2552,12 @@ msgstr "Sekvenčně"
 msgid "Set all"
 msgstr "Nastav vše"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/more.tmpl:74
 #, fuzzy
 msgid "Set new parent"
 msgstr "Nastavit nový nadřízený článek"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/more.tmpl:63
 msgid "Set new topic parent"
 msgstr "Nastavit nový nadřízený článek"
 
@@ -2574,7 +2574,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/more.tmpl:113
 msgid "Side by side"
 msgstr "Vedle sebe"
 
@@ -3207,16 +3207,16 @@ msgstr "Historické verze %1"
 msgid "Version history of %1"
 msgstr "Historické verze %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 #, fuzzy
 msgid "View"
 msgstr "náhled"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/more.tmpl:114
 msgid "View difference"
 msgstr "Zobraz rozdíly"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/more.tmpl:104
 msgid "View previous topic revision"
 msgstr "Prohlédni předchozí revize článku"
 
@@ -3224,7 +3224,7 @@ msgstr "Prohlédni předchozí revize článku"
 msgid "View raw text without formatting"
 msgstr "Prohlédni nepracovaný text (bez formátování)"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:106
 #, fuzzy
 msgid "View revision:"
 msgstr "Ukaž revize"
@@ -3468,11 +3468,11 @@ msgstr ""
 "nebude moci najít registrovaný email pro Vás ve své databázi, podívá se do "
 "Vašeho osobního článku pro ŕádek jako je tento:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/more.tmpl:23
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/more.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
@@ -3651,7 +3651,7 @@ msgstr "nápověda"
 msgid "hints on good style"
 msgstr "nápověda k dobrému stylu"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/more.tmpl:107
 msgid "in raw text format"
 msgstr "v neupraveném textovém formátu"
 
@@ -3705,12 +3705,12 @@ msgstr "vložit zpátky"
 msgid "retrieved at %1"
 msgstr "nalezeno v %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 #, fuzzy
 msgid "scans links in _%1 web_ only"
 msgstr "hledám odkazy pouze v _%1 webu_"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 #, fuzzy
 msgid "scans links in _all public webs_"
 msgstr "Hledej podobné články ve všech veřejných webech"
