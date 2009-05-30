@@ -18,6 +18,7 @@ cpp c
 css css
 dll dll
 doc doc
+docx doc
 else else
 eml eml
 email eml
@@ -71,6 +72,7 @@ pot ppt
 ppa ppt
 pps ppt
 ppt ppt
+pptx ppt
 proj sniff
 ps ps
 psd psd
