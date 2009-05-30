@@ -34,7 +34,7 @@ use Foswiki::Plugins                           ();    # For the API version
 use Foswiki::Plugins::WysiwygPlugin::Constants ();
 
 use vars qw( $html2tml $tml2html $recursionBlock $imgMap );
-use vars qw( %TWikiCompatibility @refs );
+use vars qw( %TWikiCompatibility @refs %xmltag %xmltagPlugin);
 
 our $SHORTDESCRIPTION  = 'Translator framework for Wysiwyg editors';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -433,7 +433,8 @@ sub postConvertURL {
           Foswiki::Func::normalizeWebTopicName( $opts->{web}, $orig );
 
         if ( $web && $web ne $opts->{web} ) {
-            print STDERR "$orig -> $web+$topic$anchor\n";    #debug
+
+            #print STDERR "$orig -> $web+$topic$anchor\n";    #debug
             return $web . '.' . $topic . $anchor;
         }
 
@@ -547,6 +548,57 @@ sub notWysiwygEditable {
     return 0;
 }
 
+=pod
+
+---++ ObjectMethod addXMLTag($tag, \&fn)
+
+Instruct WysiwygPlugin to "lift out" the named tag 
+and pass it to &fn for processing.
+&fn may modify the text of the tag.
+&fn should return 0 is the tag is to be re-embedded immediately,
+or 1 if it is to be re-embedded after all processing is complete.
+The text passed (by reference) to &fn includes the 
+=<tag> ... </tag>= brackets.
+
+A plugin may call this function more than once 
+e.g. to change the processing function for a tag.
+However, only the *original plugin* may change the processing
+for a tag.
+
+=cut
+
+sub addXMLTag {
+    my ( $tag, $fn ) = @_;
+
+    my $plugin = caller;
+    $plugin =~ s/^Foswiki::Plugins:://;
+
+    return if not defined $tag;
+
+    if (   ( not exists $xmltag{$tag} and not exists $xmltagPlugin{$tag} )
+        or ( $xmltagPlugin{$tag} eq $plugin ) )
+    {
+
+        # This is either a plugin adding a new tag
+        # or a plugin adding a tag it had previously added before.
+        # A plugin is allowed to add a tag that it had added before
+        # and the new function replaces the old.
+        #
+        $fn = sub { 1 }
+          unless $fn;    # Default function
+
+        $xmltag{$tag}       = $fn;
+        $xmltagPlugin{$tag} = $plugin;
+    }
+    else {
+
+        # DON'T replace the existing processing for this tag
+        printf STDERR "WysiwygPlugin::addXMLTag: "
+          . "$plugin cannot add XML tag $tag, "
+          . "that tag was already registered by $xmltagPlugin{$tag}\n";
+    }
+}
+
 sub TranslateTML2HTML {
     my ( $text, $web, $topic ) = @_;
 
@@ -562,6 +614,7 @@ sub TranslateTML2HTML {
             topic           => $topic,
             getViewUrl      => \&getViewUrl,
             expandVarsInURL => \&expandVarsInURL,
+            xmltag          => \%xmltag,
         }
     );
 }

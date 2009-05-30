@@ -245,6 +245,8 @@ sub _getRenderedVersion {
 
     $text = $this->_takeOutSets($text);
 
+    $text = $this->_takeOutCustomTags($text);
+
     $text =~ s/\\\n/ /g;
     $text =~ s/\t/   /g;
 
@@ -594,38 +596,71 @@ qr/^((?:\t|   )+\*\s+(?:Set|Local)\s+(?:$Foswiki::regex{tagNameRegex})\s*=)(.*)$
     return join( "\n", @outtext );
 }
 
+sub _takeOutCustomTags {
+    my ( $this, $text ) = @_;
+
+    # Take out custom XML tags
+    sub _takeOutCustomXmlProcess {
+        my ( $this, $state, $scoop ) = @_;
+        return $this->_liftOut( $scoop, 'PROTECTED' );
+    }
+    my $xmltags = $this->{opts}->{xmltag};
+    for my $tag ( sort keys %$xmltags ) {
+        $text = _takeOutXml( $this, $text, $tag, \&_takeOutCustomXmlProcess );
+    }
+
+    # Take out other custom tags here
+
+    return $text;
+}
+
 sub _takeOutBlocks {
-    my ( $this, $intext, $tag ) = @_;
-    die unless $tag;
+    # my ( $this, $intext, $tag ) = @_;
+
+    sub _takeOutBlocksProcess {
+        my ( $this, $state, $scoop ) = @_;
+        my $placeholder = $state->{tag} . $state->{n};
+        $this->{removed}->{$placeholder} = {
+            params => _parseParams( $state->{tagParams} ),
+            text   => $scoop,
+        };
+        return $TT0 . $placeholder . $TT0;
+    }
+
+    return _takeOutXml( @_, \&_takeOutBlocksProcess );
+}
+
+sub _takeOutXml {
+    my ( $this, $intext, $tag, $fn ) = @_;
+    die       unless $tag;
+    die       unless $fn;
     return '' unless $intext;
     return $intext unless ( $intext =~ m/<$tag\b/ );
 
-    my $open  = qr/<$tag\b[^>]*>/i;
-    my $close = qr/<\/$tag>/i;
-    my $out   = '';
-    my $depth = 0;
+    my $openNoCapture    = qr/<$tag\b[^>]*>/i;
+    my $openCaptureAttrs = qr/<$tag\b([^>]*)>/i;
+    my $close            = qr/<\/$tag>/i;
+    my $out              = '';
+    my $depth            = 0;
     my $scoop;
-    my $tagParams;
-    my $n = 0;
 
-    foreach my $chunk ( split /($open|$close)/, $intext ) {
+    # &$fn may rely on the existence of these fields, 
+	# and may add more fields, if needed
+    my %state = ( tag => $tag, n => 0, tagParams => undef );
+
+    foreach my $chunk ( split /($openNoCapture|$close)/, $intext ) {
         next unless defined($chunk);
-        if ( $chunk =~ m/<$tag\b([^>]*)>/ ) {
+        if ( $chunk =~ m/$openCaptureAttrs/ ) {
             unless ( $depth++ ) {
-                $tagParams = $1;
-                $scoop     = '';
+                $state{tagParams} = $1;
+                $scoop = '';
                 next;
             }
         }
         elsif ( $depth && $chunk =~ m/$close/ ) {
             unless ( --$depth ) {
-                my $placeholder = $tag . $n;
-                $this->{removed}->{$placeholder} = {
-                    params => _parseParams($tagParams),
-                    text   => $scoop,
-                };
-                $chunk = $TT0 . $placeholder . $TT0;
-                $n++;
+                $chunk = $fn->( $this, \%state, $scoop );
+                $state{n}++;
             }
         }
         if ($depth) {
@@ -642,16 +677,11 @@ sub _takeOutBlocks {
         # while ( $depth-- ) {
         #     $scoop .= "</$tag>\n";
         # }
-        my $placeholder = $tag . $n;
-        $this->{removed}->{$placeholder} = {
-            params => _parseParams($tagParams),
-            text   => $scoop,
-        };
-        $out .= $TT0 . $placeholder . $TT0;
+        $out .= $fn->( $this, \%state, $scoop );
     }
 
     # Filter spurious tags without matching open/close
-    $out =~ s/$open/&lt;$tag$1&gt;/g;
+    $out =~ s/$openCaptureAttrs/&lt;$tag$1&gt;/g;
     $out =~ s/$close/&lt;\/$tag&gt;/g;
     $out =~ s/<($tag\s+\/)>/&lt;$1&gt;/g;
 
