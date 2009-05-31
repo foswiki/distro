@@ -143,7 +143,6 @@ Change the table style in topic %SYSTEMWEB%.WebTopBar. The default top padding i
 
 ---+++ The search box won't find topics in other webs
 
-
 In %SYSTEMWEB%.WebTopBar you can find the line:
 <verbatim>
 <input type="hidden" name="web" value="%BASEWEB%" />

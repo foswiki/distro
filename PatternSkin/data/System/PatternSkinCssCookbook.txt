@@ -65,7 +65,7 @@ See example at: PatternSkinCssCookbookNoLeftBar
 See example at: PatternSkinCssCookbookFonts
 
 #HeightTopBar
----+++ I want to change the heigth of the top bar
+---+++ I want to change the height of the top bar
 
 The height of the top bar is defined in =theme= CSS files. The default height in =theme_foswiki.css= is 90px, in =theme_twiki.css= it is 64px.
 
