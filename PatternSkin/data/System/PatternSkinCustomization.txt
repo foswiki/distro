@@ -168,31 +168,7 @@ See also: [[%SYSTEMWEB%.VarSEARCH][Search macro]]
 #TopBarChangeHeight
 ---+++ I want to change the height of the top bar
 
-The top bar is 64 pixels high by default.
-
-*Using templates:* %BR%
-Using either a template or a topic template, copy this definition in your custom template:
-
-<blockquote>
-<verbatim>
-%TMPL:DEF{"topbardimensions"}%
-#patternTopBar,
-#patternClearHeaderCenter,
-#patternClearHeaderLeft,
-#patternClearHeaderRight,
-#patternTopBarContentsOuter {
-   height:64px; /* top bar height; make room for header columns */
-   overflow:hidden;
-}
-%TMPL:END%
-</verbatim>
-And change the number from 64px to a different value.
-</blockquote>
-
-*Using style sheets:*
-<blockquote>
-Create a new stylesheet with above definition in it, attach it to a topic and point =USERLAYOUTURL= to that topic attachment. See %SYSTEMWEB%.PatternSkinCssCookbook about creating custom styles.
-</blockquote>
+_This information has moved to [[PatternSkinCssCookBook#HeightTopBar][PatternSkinCssCookBook]]_
 
 ---+++ I want to set or change the top background image
 

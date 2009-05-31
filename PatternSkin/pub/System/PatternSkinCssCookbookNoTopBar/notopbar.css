@@ -3,7 +3,8 @@
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
-#patternTopBarContentsOuter {
+#patternTopBarContentsOuter,
+#patternTopBarContents {
 	height:0;
 }
 #patternTopBar,
