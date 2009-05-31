@@ -93,23 +93,23 @@ This plugin is installed by default with a Foswiki release. You should not need 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="biggrin.gif" attr="h" comment="" date="1071216488" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\biggrin.gif" size="152" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="confused.gif" attr="h" comment="" date="1071216502" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\confused.gif" size="110" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="cool.gif" attr="h" comment="" date="1071216522" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\cool.gif" size="124" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="eek.gif" attr="h" comment="" date="1071216532" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\eek.gif" size="1264" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="frown.gif" attr="h" comment="" date="1071216543" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\frown.gif" size="94" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="indifferent.gif" attr="h" comment="" date="1071216555" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\indifferent.gif" size="132" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="mad.gif" attr="h" comment="" date="1071216566" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\mad.gif" size="154" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="redface.gif" attr="h" comment="" date="1071216576" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\redface.gif" size="136" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="rolleyes.gif" attr="h" comment="" date="1071216591" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\rolleyes.gif" size="1784" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="smile.gif" attr="h" comment="" date="1071216609" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\smile.gif" size="93" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="tongue.gif" attr="h" comment="" date="1071216632" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\tongue.gif" size="338" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="wink.gif" attr="h" comment="" date="1071216641" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\wink.gif" size="135" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="devil.gif" attr="h" comment="" date="1077002192" path="C:\Data\Temp\devil.gif" size="139" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="devilwink.gif" attr="h" comment="" date="1077002138" path="C:\Data\Temp\devilwink.gif" size="141" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="sealed.gif" attr="h" comment="" date="1093124420" path="C:\Data\Temp\1\sealed.gif" size="142" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="thumbs.gif" attr="h" comment="" date="1093124440" path="C:\Data\Temp\1\thumbs.gif" size="166" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="yes.gif" attr="h" comment="" date="1093124449" path="C:\Data\Temp\1\yes.gif" size="262" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="no.gif" attr="h" comment="" date="1093124458" path="C:\Data\Temp\1\no.gif" size="468" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="love.gif" attr="h" comment="" date="1093124471" path="C:\Data\Temp\1\love.gif" size="379" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="skull.gif" attr="h" comment="" date="1093124482" path="C:\Data\Temp\1\skull.gif" size="1006" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="biggrin.gif" attr="h" comment="" date="1071216488" path="biggrin.gif" size="152" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="confused.gif" attr="h" comment="" date="1071216502" path="confused.gif" size="110" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="cool.gif" attr="h" comment="" date="1071216522" path="cool.gif" size="124" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="eek.gif" attr="h" comment="" date="1071216532" path="eek.gif" size="1264" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="frown.gif" attr="h" comment="" date="1071216543" path="frown.gif" size="94" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="indifferent.gif" attr="h" comment="" date="1071216555" path="indifferent.gif" size="132" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="mad.gif" attr="h" comment="" date="1071216566" path="mad.gif" size="154" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="redface.gif" attr="h" comment="" date="1071216576" path="redface.gif" size="136" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="rolleyes.gif" attr="h" comment="" date="1071216591" path="rolleyes.gif" size="1784" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="smile.gif" attr="h" comment="" date="1071216609" path="smile.gif" size="93" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="tongue.gif" attr="h" comment="" date="1071216632" path="tongue.gif" size="338" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="wink.gif" attr="h" comment="" date="1071216641" path="wink.gif" size="135" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="devil.gif" attr="h" comment="" date="1077002192" path="devil.gif" size="139" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="devilwink.gif" attr="h" comment="" date="1077002138" path="devilwink.gif" size="141" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="sealed.gif" attr="h" comment="" date="1093124420" path="sealed.gif" size="142" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="thumbs.gif" attr="h" comment="" date="1093124440" path="thumbs.gif" size="166" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="yes.gif" attr="h" comment="" date="1093124449" path="yes.gif" size="262" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="no.gif" attr="h" comment="" date="1093124458" path="no.gif" size="468" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="love.gif" attr="h" comment="" date="1093124471" path="love.gif" size="379" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="skull.gif" attr="h" comment="" date="1093124482" path="skull.gif" size="1006" user="ProjectContributor" version="1.1"}%

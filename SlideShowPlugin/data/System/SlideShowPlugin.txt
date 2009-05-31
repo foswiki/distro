@@ -172,11 +172,11 @@ The part between the rulers defines the default format of a slide:
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="next.gif" attr="h" comment="Next button" date="1037510613" path="C:\Data\next.gif" size="993" user="ProjectContributor" version="1.2"}%
-%META:FILEATTACHMENT{name="prev.gif" attr="h" comment="Prev button" date="1037510599" path="C:\Data\prev.gif" size="993" user="ProjectContributor" version="1.2"}%
-%META:FILEATTACHMENT{name="clearpixel.gif" attr="h" comment="Clear pixel for spacing" date="1037523452" path="C:\Data\clearpixel.gif" size="807" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="startpres.gif" attr="h" comment="Start Presentation button" date="1037759933" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\startpres.gif" size="2065" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="endpres.gif" attr="h" comment="End Presentation button" date="1037759950" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\endpres.gif" size="2066" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="Logo for slide template" date="1037760048" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\logo.gif" size="2877" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="first.gif" attr="h" comment="First slide button" date="1037951064" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\first.gif" size="1010" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="last.gif" attr="h" comment="Last slide button" date="1037951080" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\last.gif" size="1014" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="next.gif" attr="h" comment="Next button" date="1037510613" path="next.gif" size="993" user="ProjectContributor" version="1.2"}%
+%META:FILEATTACHMENT{name="prev.gif" attr="h" comment="Prev button" date="1037510599" path="prev.gif" size="993" user="ProjectContributor" version="1.2"}%
+%META:FILEATTACHMENT{name="clearpixel.gif" attr="h" comment="Clear pixel for spacing" date="1037523452" path="clearpixel.gif" size="807" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="startpres.gif" attr="h" comment="Start Presentation button" date="1037759933" path="startpres.gif" size="2065" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="endpres.gif" attr="h" comment="End Presentation button" date="1037759950" path="endpres.gif" size="2066" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="Logo for slide template" date="1037760048" path="logo.gif" size="2877" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="first.gif" attr="h" comment="First slide button" date="1037951064" path="first.gif" size="1010" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="last.gif" attr="h" comment="Last slide button" date="1037951080" path="last.gif" size="1014" user="ProjectContributor" version="1.1"}%
