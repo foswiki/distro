@@ -64,6 +64,31 @@ See example at: PatternSkinCssCookbookNoLeftBar
 
 See example at: PatternSkinCssCookbookFonts
 
+#HeightTopBar
+---+++ I want to change the heigth of the top bar
+
+The height of the top bar is defined in =theme= CSS files. The default height in =theme_foswiki.css= is 90px, in =theme_twiki.css= it is 64px.
+
+<blockquote>
+This is the complete style definition to set the height of the top bar:
+<verbatim>
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter,
+#patternTopBarContents {
+	height:64px; /* top bar height; make room for header columns */
+	overflow:hidden;
+}
+</verbatim>
+Change the number from 64px to your value.
+
+   1 Create a new stylesheet (preferably a 'theme' file (see for instance %PUBURL%/%SYSTEMWEB%/PatternSkin/theme_foswiki.css with above definition in it
+   1 Attach the file  to a topic
+   1 Set the value of macro =PATTERNSKIN_THEME= to that topic attachment url using =%<nop>PUBURL%/<nop>YourWebName/<nop>YourTopicName/your_theme_file.css=
+</blockquote>
+
 ---+++ No top bar
 
 See example at: PatternSkinCssCookbookNoTopBar
