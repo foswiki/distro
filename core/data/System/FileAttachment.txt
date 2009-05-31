@@ -140,5 +140,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="964294620" path="C:\DATA\Sample.txt" size="30" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="964294680" path="C:\DATA\Smile.gif" size="94" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="964294620" path="Sample.txt" size="30" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="964294680" path="Smile.gif" size="94" user="ProjectContributor" version=""}%
