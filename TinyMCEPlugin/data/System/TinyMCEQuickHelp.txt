@@ -16,11 +16,12 @@
 <ul>
     <li> ==Normal== - Normal text style </li>
     <li> ==Heading 1-6== - Headings; 1 is largest </li>
-    <li> ==VERBATIM== - Text is shown in monospace with line breaks. Wraps &lt;verbatim&gt; tags around the selected text. No macros are interpreted inside verbatim tags. </li>
-    <li> ==LITERAL== - Styled content is saved exactly as it appears in the editor. Saves the selected content as raw HTML and wraps it in &lt;literal> tags. </li>
-    <li> ==Protect on save== - Prevent any change to the selected text when the edit is saved. Use this to save advanced macros where you do not want the Wysiwyg editor to modify the text during save. </li>
-    <li> ==Protect forever== - Content is saved exactly as it is typed, and the protection is still there in future edit sessions. Content is wrapped in &lt;sticky&gt; tags. </li>
-   </ul>
+    <li>On save, content in this HTML editor is automatically converted to Foswiki TML (Topic Markup Language). The following styles let you apply special Foswiki tags that control that conversion, and how the resulting text is displayed.<ul>
+    <li> ==VERBATIM== - Text is shown in monospace with line breaks. Wraps Foswiki =&lt;verbatim&gt;= tags around the selected text. No macros are interpreted inside verbatim tags. </li>
+    <li> ==LITERAL== - Styled content is saved exactly as it appears in the editor. Saves the selected content as raw HTML and wraps it in foswiki =&lt;literal>= tags. </li>
+    <li> ==Protect on save== - Use this to protect newly-created advanced macros, where you want to prevent conversion of HTML in the macro to TML. When the topic is re-edited, well-formed macros are automatically re-protected.</li>
+    <li> ==Protect forever== - Wrap the selection in Foswiki =&lt;sticky&gt;= tags. Use this to protect content so it always appears _exactly_ as shown in the editor. </li>
+   </ul></li></ul>
 </td>
 <td rowspan="4" class="secondaryTextcolumn">
 *Defining Preference Settings/Macros*
@@ -33,7 +34,7 @@
 *Using a Macro*
 <ul>
 <li> Just type it in. When the topic is saved, what you type will be saved just as you wrote it.  </li>
-<li> If any part of your macro parameters is sensitive to spacing, then select the entire macro and assign the ==PROTECTED== style to it before you save. </li></ul>
+<li> If any part of your macro parameters is sensitive to spacing or contains HTML, then select the entire macro and assign the ==Protect on save== style to it before you save. </li></ul>
 <span class="foswikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
