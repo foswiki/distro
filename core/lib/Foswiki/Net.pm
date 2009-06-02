@@ -19,6 +19,7 @@ use Assert;
 use Error qw( :try );
 
 our $LWPAvailable;
+our $noHTTPResponse; # if set, forces local impl of HTTP::Response
 
 # note that the session is *optional*
 sub new {
@@ -203,7 +204,7 @@ sub getExternalResource {
         # No LWP, but may have HTTP::Response which would make life easier
         # (it has a much more thorough parser)
         eval 'require HTTP::Response';
-        if ($@) {
+        if ($@ || $noHTTPResponse) {
 
             # Nope, no HTTP::Response, have to do things the hard way :-(
             require Foswiki::Net::HTTPResponse;

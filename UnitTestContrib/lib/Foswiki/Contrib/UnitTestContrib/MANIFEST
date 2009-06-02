@@ -49,6 +49,7 @@ test/unit/Logger.pm 0755
 test/unit/ManageDotPmTests.pm 0644
 test/unit/MergeTests.pm 0644
 test/unit/MetaTests.pm 0644
+test/unit/NetTests.pm 0644
 test/unit/PasswordTests.pm 0644
 test/unit/PluginHandlerTests.pm 0644
 test/unit/PrefsTests.pm 0644

@@ -682,31 +682,9 @@ END
 sub test_getExternalResource {
     my $this = shift;
 
-    # Totally pathetic sanity test
-
-    # First check the LWP impl
     # need a known, simple, robust URL to get
     my $response = Foswiki::Func::getExternalResource('http://foswiki.org');
     $this->assert_equals( 200, $response->code() );
-    $Foswiki::Net::HTTPResponseAvailable = 0;
-    $this->assert_str_equals( 'OK', $response->message() );
-    $this->assert_matches( qr/text\/html; charset=(?:utf-?8|iso-8859-1)/is,
-        ~~ $response->header('content-type') ); # ~~ forces scalar context
-    $this->assert_matches(
-        qr/Foswiki - The free and open source enterprise wiki/s,
-        $response->content() );
-    $this->assert( !$response->is_error() );
-    $this->assert( !$response->is_redirect() );
-
-    # Now force the braindead sockets impl
-    $response = Foswiki::Func::getExternalResource('http://foswiki.org');
-    $this->assert_equals( 200, $response->code() );
-
-    # Note: HTTP::Response doesn't clean out \r correctly
-    my $mess = $response->message();
-    $mess =~ s/\r//g;
-    $this->assert_str_equals( 'OK', $mess );
-    $this->assert( $response->header('content-type') =~ m#^text/html# );
     $this->assert_matches(
         qr/Foswiki - The free and open source enterprise wiki/s,
         $response->content() );
