@@ -18,6 +18,9 @@ use strict;
 use Assert;
 use Error qw( :try );
 
+our $LWPAvailable;
+our $noHTTPResponse; # if set, forces local impl of HTTP::Response
+
 # note that the session is *optional*
 sub new {
     my ( $class, $session ) = @_;
@@ -107,8 +110,13 @@ sub getExternalResource {
         return new Foswiki::Net::HTTPResponse("Bad URL: $url");
     }
 
-    eval "use LWP";
-    unless ($@) {
+    # Don't remove $LWPAvailable; it is required to disable LWP when unit
+    # testing
+    unless ( defined $LWPAvailable ) {
+        eval 'use LWP';
+        $LWPAvailable = ($@) ? 0 : 1;
+    }
+    if ($LWPAvailable) {
         return _GETUsingLWP( $this, $url );
     }
 
@@ -196,7 +204,7 @@ sub getExternalResource {
         # No LWP, but may have HTTP::Response which would make life easier
         # (it has a much more thorough parser)
         eval 'require HTTP::Response';
-        if ($@) {
+        if ($@ || $noHTTPResponse) {
 
             # Nope, no HTTP::Response, have to do things the hard way :-(
             require Foswiki::Net::HTTPResponse;

@@ -564,29 +564,14 @@ END
 sub test_getExternalResource {
     my $this = shift;
 
-    # Totally pathetic sanity test
-
-    # First check the LWP impl
     # need a known, simple, robust URL to get
-    my $response = Foswiki::Func::getExternalResource('http://develop.twiki.org');
-    $this->assert_equals(200, $response->code());
-    $this->assert_str_equals('OK', $response->message());
-    $this->assert_matches(qr/text\/html; charset=utf-8/s, 
-                             lc($response->header('content-type')));
-    $this->assert_matches(qr/Welcome to DevelopBranch TWiki/s, $response->content());
-    $this->assert(!$response->is_error());
-    $this->assert(!$response->is_redirect());
-
-    # Now force the braindead sockets impl
-    $Foswiki::Net::LWPAvailable = 0;
-    $response = Foswiki::Func::getExternalResource('http://develop.twiki.org');
-    $this->assert_equals(200, $response->code());
-    $this->assert_str_equals('OK', $response->message());
-    $this->assert_str_equals('text/html; charset=UTF-8',
-                             $response->header('content-type'));
-    $this->assert_matches(qr/Welcome to DevelopBranch TWiki/s, $response->content());
-    $this->assert(!$response->is_error());
-    $this->assert(!$response->is_redirect());
+    my $response = Foswiki::Func::getExternalResource('http://foswiki.org');
+    $this->assert_equals( 200, $response->code() );
+    $this->assert_matches(
+        qr/Foswiki - The free and open source enterprise wiki/s,
+        $response->content() );
+    $this->assert( !$response->is_error() );
+    $this->assert( !$response->is_redirect() );
 }
 
 sub test_isTrue {

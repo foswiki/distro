@@ -43,23 +43,20 @@ sub parse {
     # untaint is OK, checked below
     my $httpHeader = $1;
     $this->{content} = $text;
-    if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\d\d\s(.*)$// ) {
+    if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\s([^\r\n]*)//s ) {
         $this->{code}    = $1;
-        $this->{message} = TAINT($2);
+        $this->{message} = TAINT($2 || '');
     }
-    $httpHeader = "\n$httpHeader\n";
-    foreach my $header ( split( /\n(?=![ \t])/, $httpHeader ) ) {
-        if ( $header =~ /^(.*?): (.*)$/s ) {
-            # implicit untaint is OK for header names,
-            # but values need to be retainted
-            $this->{headers}->{ lc($1) } = TAINT( $2 );
-        }
-        else {
-            $this->{code}    = 400;
-            $this->{message} = "Unparseable header in response: $header";
-        }
-    }
+    while ( $httpHeader =~ s/^(\S*):\s*(.*)$//m ) {
 
+        # implicit untaint is OK for header names,
+        # but values need to be retainted
+        $this->{headers}->{ lc($1) } = TAINT($2);
+    }
+    if ( $httpHeader =~ /\S/) {
+        $this->{code}    = 400;
+        $this->{message} = "Unparseable headers in response: $httpHeader";
+    }
     return $this;
 }
 

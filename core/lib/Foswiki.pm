@@ -55,6 +55,7 @@ use Digest::MD5 (); # For passthru and validation
 use Foswiki::Response ();
 use Foswiki::Request  ();
 use Foswiki::Logger   ();
+use Foswiki::Validation ();
 
 require 5.005;    # For regex objects and internationalisation
 
