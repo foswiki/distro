@@ -252,6 +252,16 @@ sub verify_multiple_and_footer_with_ntopics_and_nhits {
         $result );
 }
 
+sub verify_footer_with_ntopics_empty_format {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
+    );
+
+    $this->assert_str_equals( "Total found: 3", $result );
+}
+
 sub verify_regex_match {
     my $this = shift;
 

@@ -305,7 +305,8 @@ sub searchWeb {
     my $baseWeb       = $params{baseweb} || $session->{webName};
     my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
     my $excludeTopic  = $params{excludetopic} || '';
-    my $format        = defined $params{format} ? $params{format} : '';
+    my $formatDefined = defined $params{format};
+    my $format        = $params{format};
     my $inline        = $params{inline};
     my $doMultiple    = Foswiki::isTrue( $params{multiple} );
     my $nonoise       = Foswiki::isTrue( $params{nonoise} );
@@ -472,7 +473,7 @@ sub searchWeb {
     }    # end of: foreach my $web ( @webs )
     return '' if ( $ttopics == 0 && $zeroResults );
 
-    if ( $format && !$finalTerm ) {
+    if ( $formatDefined && !$finalTerm ) {
         if ($separator) {
             $separator = quotemeta($separator);
             $searchResult =~ s/$separator$//s;    # remove separator at end
@@ -641,6 +642,7 @@ sub formatResults {
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
     my $nonoise       = Foswiki::isTrue( $params->{nonoise} );
     my $noSearch      = Foswiki::isTrue( $params->{nosearch}, $nonoise );
+    my $formatDefined = defined $params->{format};
     my $format        = $params->{format} || '';
     my $header        = $params->{header};
     my $footer        = $params->{footer};
@@ -656,7 +658,7 @@ sub formatResults {
     my $spacedTopic;
 
     my $template = $params->{template} || '';
-    if ($format) {
+    if ( $formatDefined ) {
         $template = 'searchformat';
     }
     elsif ($template) {
@@ -760,11 +762,11 @@ sub formatResults {
     # now deprecated option 'inline' is used combined with 'format'
     my $noHeader =
       !defined($header) && Foswiki::isTrue( $params->{noheader}, $nonoise )
-      || ( !$header && $format && $inline );
+      || ( !$header && $formatDefined && $inline );
 
     my $noFooter =
       !defined($footer) && Foswiki::isTrue( $params->{nofooter}, $nonoise )
-      || ( !$footer && $format && $inline );
+      || ( !$footer && $formatDefined && $inline );
 
     my $noSummary = Foswiki::isTrue( $params->{nosummary}, $nonoise );
     my $zeroResults =
@@ -829,7 +831,7 @@ sub formatResults {
         my ( $meta, $text );
 
         # Special handling for format='...'
-        if ($format) {
+        if ( $formatDefined ) {
             $text = $info->{tom}->text();
 
             if ($doExpandVars) {
@@ -876,7 +878,7 @@ sub formatResults {
             $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
               unless defined $wikiusername;
 
-            if ($format) {
+            if ( $formatDefined ) {
                 $out = $format;
                 $out =~ s/\$web/$web/gs;
                 $out =~ s/\$topic\(([^\)]*)\)/
@@ -945,7 +947,7 @@ sub formatResults {
                 $out =~ s/%TEXTHEAD%/$text/go;
 
             }
-            elsif ($format) {
+            elsif ( $formatDefined ) {
                 $out =~ s/\$summary(?:\(([^\)]*)\))?/
                   $info->{tom}->summariseText( $1, $text )/ges;
                 $out =~ s/\$changes(?:\(([^\)]*)\))?/
@@ -1011,8 +1013,8 @@ sub formatResults {
                 }
             }
 
-            #don't expand if a format is specified - it breaks tables and stuff
-            unless ($format) {
+            # don't expand if a format is specified - it breaks tables and stuff
+            unless ( $formatDefined ) {
                 $out = $webObject->renderTML($out);
             }
 
@@ -1040,7 +1042,7 @@ sub formatResults {
         $afterText =~ s/\$ntopics/$ntopics/gs;
         $afterText =~ s/\$nhits/$nhits/gs;
         $afterText = $webWebObject->expandMacros($afterText);
-        if ( $inline || $format ) {
+        if ( $inline || $formatDefined ) {
             $afterText =~ s/\n$//os;    # remove trailing new line
         }
 
