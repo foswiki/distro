@@ -26,23 +26,25 @@ use strict;
 
 package Foswiki::Plugins::TablePlugin;
 
-use Foswiki::Func ();    # The plugins API
-use Foswiki::Plugins (); # For the API version
+use Foswiki::Func    ();    # The plugins API
+use Foswiki::Plugins ();    # For the API version
 
 use vars qw( $topic $installWeb $initialised );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.038';
-our $SHORTDESCRIPTION = 'Control attributes of tables and sorting of table columns';
+our $RELEASE = '1.039';
+our $SHORTDESCRIPTION =
+  'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
-    my( $web, $user );
+    my ( $web, $user );
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning( 'Version mismatch between TablePlugin and Plugins.pm' );
+    if ( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning(
+            'Version mismatch between TablePlugin and Plugins.pm');
         return 0;
     }
 
@@ -57,14 +59,15 @@ sub initPlugin {
 sub preRenderingHandler {
     ### my ( $text, $removed ) = @_;
 
-    my $sort = Foswiki::Func::getPreferencesValue( 'TABLEPLUGIN_SORT' )
+    my $sort = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT')
       || 'all';
-    return unless ($sort && $sort =~ /^(all|attachments)$/) ||
-      $_[0] =~ /%TABLE{.*?}%/;
+    return
+      unless ( $sort && $sort =~ /^(all|attachments)$/ )
+      || $_[0] =~ /%TABLE{.*?}%/;
 
     # on-demand inclusion
     require Foswiki::Plugins::TablePlugin::Core;
-    Foswiki::Plugins::TablePlugin::Core::handler( @_ );
+    Foswiki::Plugins::TablePlugin::Core::handler(@_);
 }
 
 1;
