@@ -23,7 +23,7 @@ use strict;
 
 package Foswiki::Plugins::TablePlugin::Core;
 
-use Time::Local;
+use Foswiki::Time;
 
 use vars qw( $translationToken
   $insideTABLE $tableCount @curTable $sortCol $maxSortCols $requestedTable $up
@@ -32,10 +32,9 @@ use vars qw( $translationToken
   $tableBorder $tableFrame $tableRules $cellPadding $cellSpacing $cellBorder
   @headerAlign @dataAlign $vAlign $headerVAlign $dataVAlign
   $headerBg $headerBgSorted $headerColor $sortAllTables $twoCol @dataBg @dataBgSorted @dataColor
-  @isoMonth
   $headerRows $footerRows
   $upchar $downchar $diamondchar $url
-  @isoMonth %mon2num $initSort $initDirection $currentSortDirection
+  $initSort $initDirection $currentSortDirection
   @rowspan $pluginAttrs $prefsAttrs $tableId $tableSummary $tableCaption
   $iconUrl $unsortEnabled
   %sortDirection %columnType
@@ -50,14 +49,6 @@ BEGIN {
     $upchar           = '';
     $downchar         = '';
     $diamondchar      = '';
-    @isoMonth         = (
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    );
-    {
-        my $count = 0;
-        %mon2num = map { $_ => $count++ } @isoMonth;
-    }
     %sortDirection = ( 'ASCENDING', 0, 'DESCENDING', 1, 'NONE', 2 );
     %columnType = (
         'TEXT',   'text',   'DATE',      'date',
@@ -511,43 +502,27 @@ sub _convertToNumberAndDate {
 
     $text = _stripHtml($text);
 
-    my $num  = undef;
-    my $date = undef;
     if ( $text =~ /^\s*$/ ) {
-        $num  = 0;
-        $date = 0;
-    }
+      return (0, 0);
+    } 
 
-    if ( $text =~
-m|^\s*([0-9]{1,2})[-\s/]*([A-Z][a-z][a-z])[-\s/]*([0-9]{4})\s*-\s*([0-9][0-9]):([0-9][0-9])|
-      )
-    {
+    my $num;
+    my $date = Foswiki::Time::parseTime($text);
 
-        # "31 Dec 2003 - 23:59", "31-Dec-2003 - 23:59",
-        # "31 Dec 2003 - 23:59 - any suffix"
-        $date = timegm( 0, $5, $4, $1, $mon2num{$2}, $3 - 1900 );
-    }
-    elsif ( $text =~
-        m|^\s*([0-9]{1,2})[-\s/]([A-Z][a-z][a-z])[-\s/]([0-9]{2,4})\s*$| )
-    {
-
-        # "31 Dec 2003", "31 Dec 03", "31-Dec-2003", "31/Dec/2003"
-        my $year = $3;
-        $year += 1900 if ( length($year) == 2 && $year > 80 );
-        $year += 2000 if ( length($year) == 2 );
-        $date = timegm( 0, 0, 0, $1, $mon2num{$2}, $year - 1900 );
-    }
-    elsif ( $text =~ /^\s*([0-9]+)(\.([0-9]))*(.?)*$/ ) {
+    unless ($date) {
+      $date = undef;
+      if ( $text =~ /^\s*([0-9]+)(\.[0-9]+)?/ ) {
 
         # for example for attachment sizes: 1.1 K
         # but also for other strings that start with a number
         my $num1 = $1 || 0;
         my $num2 = $2 || 0;
         $num = scalar("$num1$num2");
-    }
-    elsif ( $text =~ /^\s*[0-9]+(\.[0-9]+)?\s*$/ ) {
+      }
+      elsif ( $text =~ /^\s*[0-9]+(\.[0-9]+)?\s*$/ ) {
 
         $num = $text;
+      }
     }
 
     return ( $num, $date );
@@ -788,6 +763,7 @@ sub _stripHtml {
     my $orgtext =
       $text;    # in case we will remove all contents with stripping html
     $text =~ s/<[^>]+>//go;    # strip HTML
+    $text =~ s/\&nbsp;/ /go;
     $text = _getImageTextForSorting($orgtext) if ( $text eq '' );
     $text =~ s/[\[\]\*\|=_\&\<\>]/ /g;    # remove Wiki formatting chars
     $text =~ s/^ *//go;                   # strip leading space space

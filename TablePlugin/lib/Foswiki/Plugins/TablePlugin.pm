@@ -32,7 +32,7 @@ use Foswiki::Plugins ();    # For the API version
 use vars qw( $topic $installWeb $initialised );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.038';
+our $RELEASE = '1.039';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;

@@ -113,18 +113,19 @@ Information for programmers.
 
 |  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 1.038 (19 Apr 2009) |
+|  Plugin Version: | %$RELEASE% (03 Jun 2009) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  19 Apr 2009 | 1.038 Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Fixed an issue where TablePlugin produced invalid css if no 'px' or '%' is passed in a size parameter. <br />Small refactoring in style attribute handling. |
-|  16 Dec 2008 | 1.037 Foswiki version |
-|  30 Sep 2008 | 1.035 Fix sorting of attachment date column.  |
-|  03 Aug 2008 | 1.034 TWiki 4.2.1 release version |
-|  20 Mar 2008 | 1.033 TWikibug:Item5387: allow rowspanned columns to contain HTML tags; otherwise it is impossible to add an invisible anchor to a rowspanned cell |
+|  03 Jun 2009 | 1.039: Michael Daum: fixed parsing date-time columns |
+|  19 Apr 2009 | 1.038: Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Fixed an issue where TablePlugin produced invalid css if no 'px' or '%' is passed in a size parameter. <br />Small refactoring in style attribute handling. |
+|  16 Dec 2008 | 1.037: Foswiki version |
+|  30 Sep 2008 | 1.035: Fix sorting of attachment date column.  |
+|  03 Aug 2008 | 1.034: TWiki 4.2.1 release version |
+|  20 Mar 2008 | 1.033: TWikibug:Item5387: allow rowspanned columns to contain HTML tags; otherwise it is impossible to add an invisible anchor to a rowspanned cell |
 |  16 Dec 2007 | 1.030: Kenneth Lavrsen: Fixed the problem of tables being sorted by by TablePlugin while the table is being edited by plugins such as EditTablePlugin. This required adding a new attribute =disableallsort= so plugins such as EditTablePlugin can temporarily disable all sorting for a table. Additionally the CGI variable (URL parameter or hidden formfield) =sort= can be set to "off" which disables all header sorting in the topic. This is used by plugins such as EditTablePlugin to disable the sorting by clicking header fields during editing of tables. Ref: TWikibug:Item5135 and TWikibug:Item2690. |
 |  03 Dec 2007 | Arthur Clemens: Fixed rendering and order of html elements =thead=, =tfoot= and =tbody=; corrected =id= parameter. |
 |  24 Nov 2007 | Arthur Clemens: Fixed sorting of columns with only icons; also removed TWiki formatting before sorting. |
 |  06 Oct 2007 | 15180: PTh: Added %SYSTEMWEB%.VarTABLE to have it listed in %SYSTEMWEB%.Macros |
-|  27 Jun 2007 | 1.024 - 1.027 Various small bug fixes. |
+|  27 Jun 2007 | 1.024 - 1.027: Various small bug fixes. |
 |  24 Jun 2007 | 1.023: Arthur Clemens: Inline styles are now written to the head; updated default sort icons (from %SYSTEMWEB%.DocumentGraphics). |
 |  23 Jun 2007 | 1.022: Arthur Clemens: Fixed styling of param =tablerules= on Internet Explorer. |
 |  23 May 2007 | 1.021: Michael Daum: Fixed css attribute priority to cooperate nicely with skin themes. |
