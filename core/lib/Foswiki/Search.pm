@@ -363,7 +363,8 @@ sub searchWeb {
     my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
     my $excludeTopic  = $params{excludetopic} || '';
     my $doExpandVars  = Foswiki::isTrue( $params{expandvariables} );
-    my $format        = defined $params{format} ? $params{format} : '';
+    my $formatDefined = defined $params{format};
+    my $format        = $params{format};
     my $header        = $params{header};
     my $footer        = $params{footer};
     my $inline        = $params{inline};
@@ -377,11 +378,11 @@ sub searchWeb {
     # now deprecated option 'inline' is used combined with 'format'
     my $noHeader = !defined($header)
       && Foswiki::isTrue( $params{noheader}, $nonoise )
-      || ( !$header && $format && $inline );
+      || ( !$header && $formatDefined && $inline );
       
     my $noFooter = !defined($footer)
       && Foswiki::isTrue( $params{nofooter}, $nonoise )
-      || ( !$footer && $format && $inline );
+      || ( !$footer && $formatDefined && $inline );
 
     my $noSearch  = Foswiki::isTrue( $params{nosearch},  $nonoise );
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $nonoise );
@@ -504,14 +505,14 @@ sub searchWeb {
     my $originalSearch = $searchString;
     my $spacedTopic;
 
-    if ($format) {
+    if ( $formatDefined ) {
         $template = 'searchformat';
     }
-    elsif ($template) {
+    elsif ( $template ) {
 
         # template definition overrides book and rename views
     }
-    elsif ($doBookView) {
+    elsif ( $doBookView ) {
         $template = 'searchbookview';
     }
     else {
@@ -807,7 +808,7 @@ sub searchWeb {
             my ( $meta, $text );
 
             # Special handling for format='...'
-            if ($format) {
+            if ( $formatDefined ) {
                 ( $meta, $text ) =
                   _getTextAndMeta( $this, $topicInfo, $web, $topic );
 
@@ -853,7 +854,7 @@ sub searchWeb {
                 $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
                   unless defined $wikiusername;
 
-                if ($format) {
+                if ( $formatDefined ) {
                     $out = $format;
                     $out =~ s/\$web/$web/gs;
                     $out =~ s/\$topic\(([^\)]*)\)/Foswiki::Render::breakName( 
@@ -933,7 +934,7 @@ sub searchWeb {
                     $out =~ s/%TEXTHEAD%/$text/go;
 
                 }
-                elsif ($format) {
+                elsif ( $formatDefined ) {
                     $out =~
 s/\$summary(?:\(([^\)]*)\))?/$renderer->makeTopicSummary( $text, $topic, $web, $1 )/ges;
                     $out =~
@@ -1006,8 +1007,8 @@ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                     }
                 }
 
-             #don't expand if a format is specified - it breaks tables and stuff
-                unless ($format) {
+                # don't expand if a format is specified - it breaks tables and stuff
+                unless ( $formatDefined ) {
                     $out = $renderer->getRenderedVersion( $out, $web, $topic );
                 }
 
@@ -1036,7 +1037,7 @@ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
             $afterText =~ s/\$nhits/$nhits/gs;
             $afterText =
               $session->handleCommonTags( $afterText, $web, $homeTopic );
-            if ( $inline || $format ) {
+            if ( $inline || $formatDefined ) {
                 $afterText =~ s/\n$//os;    # remove trailing new line
             }
 
@@ -1072,7 +1073,7 @@ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
     }    # end of: foreach my $web ( @webs )
     return '' if ( $ttopics == 0 && $zeroResults );
 
-    if ( $format && !$finalTerm ) {
+    if ( $formatDefined && !$finalTerm ) {
         if ($separator) {
             $separator = quotemeta($separator);
             $searchResult =~ s/$separator$//s;    # remove separator at end
