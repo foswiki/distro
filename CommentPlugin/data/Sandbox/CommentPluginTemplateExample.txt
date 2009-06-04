@@ -27,7 +27,7 @@ Example template topic for [[%SYSTEMWEB%.CommentPluginExamples#TemplateTopic][Co
 %GMTIME{"#CommentDate$epoch"}%
 %WIKIUSERNAME% - %DATE%:
 
-%URLPARAM{"comment"}%
+%URLPARAM{"comment" encode="off"}%
 
 --- 
 %TMPL:END%

@@ -12,8 +12,9 @@ require Foswiki::Plugins;
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $NO_PREFS_IN_TOPIC );
 
 our $VERSION = '$Rev$';
-our $RELEASE = 'Foswiki-1.0.1';
-our $SHORTDESCRIPTION = 'Quickly post comments to a page without an edit/preview/save cycle';
+our $RELEASE = '04 Jun 2009';
+our $SHORTDESCRIPTION =
+  'Quickly post comments to a page without an edit/preview/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
@@ -27,14 +28,15 @@ sub commonTagsHandler {
     require Foswiki::Plugins::CommentPlugin::Comment;
 
     my $query = Foswiki::Func::getCgiQuery();
-    return unless( defined( $query ));
+    return unless( defined( $query ) );
 
     return unless $_[0] =~ m/%COMMENT({.*?})?%/o;
 
     # SMELL: Nasty, tacky way to find out where we were invoked from
     my $scriptname = $ENV{'SCRIPT_NAME'} || '';
+
     # SMELL: unreliable
-    my $previewing = ($scriptname =~ /\/(preview|gnusave|rdiff|compare)/);
+    my $previewing = ( $scriptname =~ /\/(preview|gnusave|rdiff|compare)/ );
     Foswiki::Plugins::CommentPlugin::Comment::prompt( $previewing,
                                                     $_[0], $web, $topic );
 }

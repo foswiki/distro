@@ -36,40 +36,53 @@ package Foswiki::Plugins::CommentPlugin::Comment;
 
 # PUBLIC save the given comment.
 sub save {
+
     #my ( $text, $topic, $web ) = @_;
 
     my $wikiName = Foswiki::Func::getWikiName();
-    if( ! Foswiki::Func::checkAccessPermission( 'change', $wikiName, '',
-											  $_[1], $_[2] ) ) {
+    if (
+        !Foswiki::Func::checkAccessPermission(
+            'change', $wikiName, '', $_[1], $_[2]
+        )
+      )
+    {
+
         # user has no permission to change the topic
-        throw Foswiki::OopsException( 'accessdenied',
-                                    def => 'topic_access',
-                                    web => $_[2],
-                                    topic => $_[1] );
-    } else {
-        _buildNewTopic( @_ );
+        throw Foswiki::OopsException(
+            'accessdenied',
+            def   => 'topic_access',
+            web   => $_[2],
+            topic => $_[1]
+        );
+    }
+    else {
+        _buildNewTopic(@_);
     }
 }
 
 # PUBLIC STATIC convert COMMENT statements to form prompts
 sub prompt {
+
     #my ( $previewing, $text, $web, $topic ) = @_;
 
     my $defaultType =
       Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
-          || 'above';
+      || 'above';
 
     my $message = '';
+
     # Is commenting disabled?
     my $disable = '';
     if ( $_[0] ) {
+
         # We are in Preview mode
-        $message  = "(Edit - Preview)";
+        $message = "(Edit - Preview)";
         $disable = 'disabled';
     }
 
     my $idx = 0;
-    $_[1] =~ s/%COMMENT({.*?})?%/_handleInput($1,$_[2],$_[3],\$idx,$message,$disable,$defaultType)/eg;
+    $_[1] =~
+s/%COMMENT({.*?})?%/_handleInput($1,$_[2],$_[3],\$idx,$message,$disable,$defaultType)/eg;
 }
 
 =pod
@@ -83,9 +96,10 @@ sub _getTemplateLocation {
 
     my $templatetopic = '';
     my $templateweb = $web || '';
-    if ( $attrtemplatetopic ) {
-        my ($templocweb, $temploctopic ) =
-          Foswiki::Func::normalizeWebTopicName($templateweb, $attrtemplatetopic);
+    if ($attrtemplatetopic) {
+        my ( $templocweb, $temploctopic ) =
+          Foswiki::Func::normalizeWebTopicName( $templateweb,
+            $attrtemplatetopic );
         $templatetopic = "$templocweb.$temploctopic";
     }
     return $templatetopic;
@@ -93,25 +107,24 @@ sub _getTemplateLocation {
 
 # PRIVATE generate an input form for a %COMMENT tag
 sub _handleInput {
-    my ( $attributes, $web, $topic, $pidx, $message,
-         $disable, $defaultType ) = @_;
+    my ( $attributes, $web, $topic, $pidx, $message, $disable, $defaultType ) =
+      @_;
 
-    $attributes =~ s/^{(.*)}$/$1/ if ( $attributes );
+    $attributes =~ s/^{(.*)}$/$1/ if ($attributes);
 
     my $attrs = new Foswiki::Attrs( $attributes, 1 );
-    my $type =
-      $attrs->remove( 'type' ) || $attrs->remove( 'mode' ) || $defaultType;
-    my $silent = $attrs->remove( 'nonotify' );
-    my $location = $attrs->remove( 'location' );
-    my $remove = $attrs->remove( 'remove' );
-    my $nopost = $attrs->remove( 'nopost' );
-    my $default = $attrs->remove( 'default' );
-    my $attrtemplatetopic = $attrs->remove( 'templatetopic' ) || '';
-    my $templatetopic = _getTemplateLocation( $attrtemplatetopic, $web );
+    my $type = $attrs->remove('type') || $attrs->remove('mode') || $defaultType;
+    my $silent            = $attrs->remove('nonotify');
+    my $location          = $attrs->remove('location');
+    my $remove            = $attrs->remove('remove');
+    my $nopost            = $attrs->remove('nopost');
+    my $default           = $attrs->remove('default');
+    my $attrtemplatetopic = $attrs->remove('templatetopic') || '';
+    my $templatetopic     = _getTemplateLocation( $attrtemplatetopic, $web );
 
     $message ||= $default || '';
     $message ||= $default || '';
-	$disable ||= '';
+    $disable ||= '';
 
     # clean off whitespace
     $type =~ m/(\S*)/;
@@ -119,7 +132,8 @@ sub _handleInput {
 
     # Expand the template in the context of the web where the comment
     # box is (not the target of the comment!)
-    my $input = _getTemplate( "PROMPT:$type", $web, $topic, $templatetopic ) || '';
+    my $input = _getTemplate( "PROMPT:$type", $web, $topic, $templatetopic )
+      || '';
     return $input if $input =~ m/^%RED%/so;
 
     # Expand special attributes as required
@@ -128,8 +142,9 @@ sub _handleInput {
     # see if this comment is targeted at a different topic, and
     # change the url if it is.
     my $anchor = undef;
-    my $target = $attrs->remove( 'target' );
-    if ( $target ) {
+    my $target = $attrs->remove('target');
+    if ($target) {
+
         # extract web and anchor
         if ( $target =~ s/^(\w+)\.// ) {
             $web = $1;
@@ -155,51 +170,64 @@ sub _handleInput {
 
         if ( $disable eq '' ) {
             my $hiddenFields = "";
-            $hiddenFields .= "\n".CGI::hidden(
-                -name=>'comment_action', -value=>'save' );
-            $hiddenFields .= "\n".CGI::hidden(
-                -name=>'comment_type', -value=>$type );
-            if( defined( $silent )) {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_nonotify', value=>1 );
+            $hiddenFields .=
+              "\n" . CGI::hidden( -name => 'comment_action', -value => 'save' );
+            $hiddenFields .=
+              "\n" . CGI::hidden( -name => 'comment_type', -value => $type );
+            if ( defined($silent) ) {
+                $hiddenFields .=
+                  "\n" . CGI::hidden( -name => 'comment_nonotify', value => 1 );
             }
-            if ( $templatetopic ) {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_templatetopic', -value=>$templatetopic );
+            if ($templatetopic) {
+                $hiddenFields .= "\n"
+                  . CGI::hidden(
+                    -name  => 'comment_templatetopic',
+                    -value => $templatetopic
+                  );
             }
-            if ( $location ) {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_location', -value=>$location );
-            } elsif ( $anchor ) {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_anchor', -value=>$anchor );
-            } else {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_index', -value=>$$pidx );
+            if ($location) {
+                $hiddenFields .= "\n"
+                  . CGI::hidden(
+                    -name  => 'comment_location',
+                    -value => $location
+                  );
             }
-            if( $nopost ) {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_nopost', -value=>$nopost );
+            elsif ($anchor) {
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_anchor', -value => $anchor );
             }
-            if( $remove ) {
-                $hiddenFields .= "\n".CGI::hidden(
-                    -name=>'comment_remove', -value=>$$pidx );
+            else {
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_index', -value => $$pidx );
+            }
+            if ($nopost) {
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_nopost', -value => $nopost );
+            }
+            if ($remove) {
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_remove', -value => $$pidx );
             }
             $input .= $hiddenFields;
         }
-        if ( $noform ) {
-            my $form = _getTemplate( "FORM:$type", $topic, $web,
-                                     $templatetopic, 'off' ) || '';
-            if ( $form ) {
+        if ($noform) {
+            my $form =
+              _getTemplate( "FORM:$type", $topic, $web, $templatetopic, 'off' )
+              || '';
+            if ($form) {
                 $form =~ s/%COMMENTPROMPT%/$input/;
                 $input = $form;
             }
         }
-        unless ($noform eq 'on') {
-            $input = CGI::start_form( -name => $type.$n,
-                                      -id => $type.$n,
-                                      -action=>$url,
-                                      -method=>'post' ).$input.CGI::end_form();
+        unless ( $noform eq 'on' ) {
+            $input = CGI::start_form(
+                -name   => $type . $n,
+                -id     => $type . $n,
+                -action => $url,
+                -method => 'post'
+              )
+              . $input
+              . CGI::end_form();
         }
     }
     $$pidx++;
@@ -213,18 +241,19 @@ sub _getTemplate {
     $warn ||= '';
 
     # Get the templates.
-    my $templateFile = $templatetopic
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
-          || 'comments';
+    my $templateFile =
+         $templatetopic
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
+      || 'comments';
 
-    my $templates =
-      Foswiki::Func::loadTemplate( $templateFile );
-    if (! $templates ) {
-        Foswiki::Func::writeWarning("Could not read template file '$templateFile'");
+    my $templates = Foswiki::Func::loadTemplate($templateFile);
+    if ( !$templates ) {
+        Foswiki::Func::writeWarning(
+            "Could not read template file '$templateFile'");
         return;
     }
 
-    my $t = Foswiki::Func::expandTemplate( $name );
+    my $t = Foswiki::Func::expandTemplate($name);
     return "%RED%No such template def TMPL:DEF{$name}%ENDCOLOR%"
       unless ( defined($t) && $t ne '' ) || $warn eq 'off';
 
@@ -236,27 +265,29 @@ sub _expandPromptParams {
     my ( $name, $default, $attrs ) = @_;
 
     my $val = $attrs->{$name};
-    return $val if defined( $val );
+    return $val if defined($val);
     return $default;
 }
 
 # PRIVATE STATIC Performs comment insertion in the topic.
 sub _buildNewTopic {
+
     #my ( $text, $topic, $web ) = @_;
     my ( $topic, $web ) = ( $_[1], $_[2] );
 
     my $query = Foswiki::Func::getCgiQuery();
     return unless $query;
 
-    my $type = $query->param( 'comment_type' ) ||
-      Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE') ||
-          'above';
-    my $index = $query->param( 'comment_index' ) || 0;
-    my $anchor = $query->param( 'comment_anchor' );
-    my $location = $query->param( 'comment_location' );
-    my $remove = $query->param( 'comment_remove' );
-    my $nopost = $query->param( 'comment_nopost' );
-    my $templatetopic = $query->param( 'comment_templatetopic' ) || '';
+    my $type =
+         $query->param('comment_type')
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
+      || 'above';
+    my $index         = $query->param('comment_index') || 0;
+    my $anchor        = $query->param('comment_anchor');
+    my $location      = $query->param('comment_location');
+    my $remove        = $query->param('comment_remove');
+    my $nopost        = $query->param('comment_nopost');
+    my $templatetopic = $query->param('comment_templatetopic') || '';
 
     my $output = _getTemplate( "OUTPUT:$type", $topic, $web, $templatetopic );
     if ( $output =~ m/^%RED%/ ) {
@@ -265,7 +296,7 @@ sub _buildNewTopic {
 
     # Expand the template
     my $position = 'AFTER';
-    if( $output =~ s/%POS:(.*?)%//g ) {
+    if ( $output =~ s/%POS:(.*?)%//g ) {
         $position = $1;
     }
 
@@ -284,68 +315,96 @@ sub _buildNewTopic {
     # the topic. The text is automatically defaulted to the existing topic
     # text if the =text= parameter isn't specified - which for comments,
     # it isn't.
-    my $premeta = '';
+    my $premeta  = '';
     my $postmeta = '';
-    my $inpost = 0;
-    my $text = '';
-    foreach my $line ( split( /\r?\n/, $_[0] )) {
-        if( $line =~ /^%META:[A-Z]+{[^}]*}%/ ) {
-            if ( $inpost) {
-                $postmeta .= $line."\n";
-            } else {
-                $premeta .= $line."\n";
+    my $inpost   = 0;
+    my $text     = '';
+    foreach my $line ( split( /\r?\n/, $_[0] ) ) {
+        if ( $line =~ /^%META:[A-Z]+{[^}]*}%/ ) {
+            if ($inpost) {
+                $postmeta .= $line . "\n";
             }
-        } else {
-            $text .= $line."\n";
+            else {
+                $premeta .= $line . "\n";
+            }
+        }
+        else {
+            $text .= $line . "\n";
             $inpost = 1;
         }
     }
+
     #make sure the anchor or location exits
-    if (defined($location) and not($text =~ /(?<!location\=\")($location)/)) {
+    if ( defined($location) and not( $text =~ /(?<!location\=\")($location)/ ) )
+    {
         undef $location;
     }
-    if (defined($anchor) and not($text =~ /^($anchor\s)/)) {
+    if ( defined($anchor) and not( $text =~ /^($anchor\s)/ ) ) {
         undef $anchor;
     }
 
-    unless( $nopost ) {
-        if( $position eq 'TOP' ) {
-            $text = $output.$text;
-        } elsif ( $position eq 'BOTTOM' ) {
+    unless ($nopost) {
+        if ( $position eq 'TOP' ) {
+            $text = $output . $text;
+        }
+        elsif ( $position eq 'BOTTOM' ) {
+
             # Awkward newlines here, to avoid running into meta-data.
             # This should _not_ be a problem.
             $text =~ s/[\r\n]+$//;
             $text .= "\n" unless $output =~ m/^\n/s;
             $text .= $output;
-            $text .= "\n" unless $text =~ m/\n$/s;
-        } else {
-            if ( $location ) {
+            $text .= "\n" unless $text   =~ m/\n$/s;
+        }
+        else {
+            if ($location) {
                 if ( $position eq 'BEFORE' ) {
-                    $text =~ s/(?<!location\=\")($location)/$output$1/m;
-                } else { # AFTER
-                    $text =~ s/(?<!location\=\")($location)/$1$output/m;
+                    $text .= $output
+                      unless (
+                        $text =~ s/(?<!location\=\")($location)/$output$1/m );
                 }
-            } elsif ( $anchor ) {
+                else {    # AFTER
+                    $text .= $output
+                      unless (
+                        $text =~ s/(?<!location\=\")($location)/$1$output/m );
+
+                }
+                $text .= "\n" unless $text =~ m/\n$/s;
+            }
+            elsif ($anchor) {
+
                 # position relative to anchor
                 if ( $position eq 'BEFORE' ) {
-                    $text =~ s/^($anchor\s)/$output$1/m;
-                } else { # AFTER
-                    $text =~ s/^($anchor\s)/$1$output/m;
+                    $text .= $output
+                      unless ( $text =~ s/^($anchor\s)/$output$1/m );
                 }
-            } else {
+                else {    # AFTER
+                    $text .= $output
+                      unless ( $text =~ s/^($anchor\s)/$1$output/m );
+                }
+                $text .= "\n" unless $text =~ m/\n$/s;
+            }
+            else {
+
                 # Position relative to index'th comment
                 my $idx = 0;
-                unless( $text =~ s((%COMMENT({.*?})?%.*\n))
-                          (&_nth($1,\$idx,$position,$index,$output))eg ) {
+                unless (
+                    $text =~ s((%COMMENT({.*?})?%.*\n))
+                          (&_nth($1,\$idx,$position,$index,$output))eg
+                  )
+                {
+
                     # If there was a problem adding relative to the comment,
                     # add to the end of the topic
                     $text .= $output;
-                };
+                }
+                $text .= "\n" unless $text =~ m/\n$/s;
             }
         }
     }
 
-    if (defined $remove) {
+    if ( defined $remove ) {
+
         # remove the index'th comment box
         my $idx = 0;
         $text =~ s/(%COMMENT({.*?})?%)/_remove_nth($1,\$idx,$remove)/eg;
@@ -358,10 +417,11 @@ sub _buildNewTopic {
 sub _nth {
     my ( $tag, $pidx, $position, $index, $output ) = @_;
 
-    if ( $$pidx == $index) {
+    if ( $$pidx == $index ) {
         if ( $position eq 'BEFORE' ) {
-            $tag = $output.$tag;
-        } else { # AFTER
+            $tag = $output . $tag;
+        }
+        else {    # AFTER
             $tag .= $output;
         }
     }
@@ -371,8 +431,8 @@ sub _nth {
 
 # PRIVATE remove the nth comment box
 sub _remove_nth {
-    my( $tag, $pidx, $index ) = @_;
-    $tag = '' if( $$pidx == $index);
+    my ( $tag, $pidx, $index ) = @_;
+    $tag = '' if ( $$pidx == $index );
     $$pidx++;
     return $tag;
 }
