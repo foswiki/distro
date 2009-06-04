@@ -6,6 +6,8 @@ use strict;
 
 use Foswiki::Attrs;
 
+no strict 'refs';
 *{'TWiki::Attrs::'} = \*{'Foswiki::Attrs::'};
+use strict 'refs';
 
 1;
