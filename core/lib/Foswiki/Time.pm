@@ -185,6 +185,9 @@ sub parseTime {
         #similarly, how would you decide what Jan 02 and 02 Jan are?
         #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
 
+        #TODO: unhappily, this means 09 == 1909 not 2009
+        $year -= 1900 if ( $year > 1900 );
+
         #range checks
         return 0 if (defined($M) && ($M < 1 || $M > 12));
         my $month = ($M || 1)-1;
@@ -192,14 +195,12 @@ sub parseTime {
         return 0 if (defined($h) && ($h < 0 || $h > 24));
         return 0 if (defined($m) && ($m < 0 || $m > 60));
         return 0 if (defined($s) && ($s < 0 || $s > 60));
+        return 0 if ( defined($year) && $year < 60 ); 
 
         my $day = $D || 1;
         my $hour = $h || 0;
         my $min = $m || 0;
         my $sec = $s || 0;
-
-        #TODO: unhappily, this means 09 == 1909 not 2009
-        $year -= 1900 if ( $year > 1900 );
 
         return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) - $tzadj;
     }
