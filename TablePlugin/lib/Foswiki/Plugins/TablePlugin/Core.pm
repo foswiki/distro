@@ -24,6 +24,7 @@ use strict;
 package Foswiki::Plugins::TablePlugin::Core;
 
 use Foswiki::Time;
+use Error qw(:try);
 
 use vars qw( $translationToken
   $insideTABLE $tableCount @curTable $sortCol $maxSortCols $requestedTable $up
@@ -507,7 +508,13 @@ sub _convertToNumberAndDate {
     } 
 
     my $num;
-    my $date = Foswiki::Time::parseTime($text);
+    my $date;
+    
+    try {
+      $date = Foswiki::Time::parseTime($text);
+    } catch Error::Simple with {
+      # nope, wasn't a date
+    };
 
     unless ($date) {
       $date = undef;
