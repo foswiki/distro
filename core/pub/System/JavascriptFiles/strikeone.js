@@ -3,7 +3,7 @@ function foswikiStrikeOne(form) {
     var secret = readCookie('FOSWIKISTRIKEONE');
     //console.debug("Submit "+form.name);
     var input = form.validation_key;
-    if (input && input.value) {
+    if (input && input.value && input.value.charAt(0) == '?') {
         // combine the validation key with the secret in a way
         // that can't easily be reverse-engineered, but can be
         // duplicated on the server (which also knows the secret)

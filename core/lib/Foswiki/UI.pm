@@ -529,8 +529,9 @@ sub checkValidationKey {
 
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted.
-        Foswiki::Validation::expireValidationKeys( $session->getCGISession(),
-            $nonce );
+        Foswiki::Validation::expireValidationKeys(
+            $session->getCGISession(),
+            $Foswiki::cfg{Validation}{ExpireKeyOnSave} ? $nonce : undef );
     }
 }
 
