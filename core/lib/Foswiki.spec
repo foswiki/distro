@@ -346,7 +346,7 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 # forms more than once. If this warning screen is a problem for your users you
 # can disable this setting which enables reuse of validation keys. This
 # however lowers the level of security against cross-site request forgery.
-$Foswiki::cfg{Validation}{ExpireKeyOnSave} = 1;
+$Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 
 #---++ Authentication
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**

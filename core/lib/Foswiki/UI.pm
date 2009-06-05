@@ -533,7 +533,7 @@ sub checkValidationKey {
         # be prompted.
         Foswiki::Validation::expireValidationKeys(
             $session->getCGISession(),
-            $Foswiki::cfg{Validation}{ExpireKeyOnSave} ? $nonce : undef );
+            $Foswiki::cfg{Validation}{ExpireKeyOnUse} ? $nonce : undef );
     }
 }
 
