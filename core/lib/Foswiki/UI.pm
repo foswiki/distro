@@ -521,15 +521,19 @@ sub checkValidationKey {
     # Check the nonce before we do anything else
     my $nonce = $session->{request}->param('validation_key');
     $session->{request}->delete('validation_key');
-    if (!defined($nonce) || !Foswiki::Validation::isValidNonce(
-        $session->getCGISession(), $nonce)) {
+    if ( !defined($nonce)
+        || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
+            $nonce ) )
+    {
         throw Foswiki::ValidationException();
     }
-    if (defined($nonce)) {
+    if ( defined($nonce) ) {
+
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted.
         Foswiki::Validation::expireValidationKeys(
-            $session->getCGISession(), $nonce );
+            $session->getCGISession(),
+            $Foswiki::cfg{Validation}{ExpireKeyOnSave} ? $nonce : undef );
     }
 }
 

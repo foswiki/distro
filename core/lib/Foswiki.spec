@@ -334,6 +334,19 @@ $Foswiki::cfg{Validation}{ValidForTime} = 3600;
 # key stored for each page rendered. If the number of keys exceeds this
 # number, the oldest keys will be force-expired to bring the number down.
 $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
+# **BOOLEAN EXPERT**
+# Expire a validation key immediately when it is used to validate the saving
+# of a page. This protects against an attacker evesdropping the communication
+# between browser and server and exploiting the keys sent from browser to
+# server. This setting means that if a user edits and saves a page and then go
+# back to the edit screen using the browser back button and saves again, the
+# user will be met by a warning screen against "Suspicious request from
+# browser". Same warning will be displayed if you build an application with
+# pages containing multiple forms and the users tries to submit from these
+# forms more than once. If this warning screen is a problem for your users you
+# can disable this setting which enables reuse of validation keys. This
+# however lowers the level of security against cross-site request forgery.
+$Foswiki::cfg{Validation}{ExpireKeyOnSave} = 1;
 
 #---++ Authentication
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
