@@ -82,6 +82,8 @@ sub resetPassword {
         $good = $good
           && _resetUsersPassword( $session, $userName, $introduction,
             \$message );
+        
+        $session->logEvent('resetpasswd', $userName) if $good;
     }
 
     my $action = '';
