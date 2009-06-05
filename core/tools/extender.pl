@@ -217,7 +217,9 @@ sub check_dep {
 
         # Providing 0 as version number as version checking is done below
         # and without it, perl < 5.10 won't trigger the warning
-        my $version = $module->VERSION(0);
+        # The eval there is used to automatically transform strings to numbers
+        # so that things like '2.36_01' become 2.3601 (numeric)
+        my $version = eval $module->VERSION(0);
         $moduleVersion ||= $version;
     }
 
