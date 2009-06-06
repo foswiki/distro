@@ -18,27 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:316
+#: core/lib/Foswiki/Time.pm:450
 msgid "%*(%1,day) "
 msgstr "%*(%1,дн.) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:319
+#: core/lib/Foswiki/Time.pm:453
 msgid "%*(%1,hour) "
 msgstr "%*(%1,час.) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:322
+#: core/lib/Foswiki/Time.pm:456
 msgid "%*(%1,minute) "
 msgstr "%*(%1,мин.) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:325
+#: core/lib/Foswiki/Time.pm:459
 msgid "%*(%1,second) "
 msgstr "%*(%1,сек.) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
-#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:7
+#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
+#: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr ""
 
@@ -103,7 +104,7 @@ msgstr "%1 для смены вашего пароля"
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 содержит список других пользователей TWiki"
 
-#: core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:438
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -137,7 +138,7 @@ msgstr "%1 сейчас на сайте"
 msgid "%1 is currently set to %2"
 msgstr "%1 уже установлено на %2"
 
-#: core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:436
 msgid "%1 is editing %2."
 msgstr "%1 редактирует %2."
 
@@ -154,14 +155,21 @@ msgstr "%1 - страница по умолчанию для удаленных 
 msgid "%1 lists all Foswiki user tools"
 msgstr "%1 список пользовательского инструментария TWiki"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:444
 msgid "%1 may still be editing %2."
 msgstr "%1 возможно всё ещё редактирует %2."
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
-#: core/lib/Foswiki/Render.pm:212
+#: core/lib/Foswiki/Render.pm:221
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "%1 перемещена из %2 в %3 пользователем %4"
+
+#: core/templates/validate.tmpl:14
+msgid ""
+"%1 received a request from your browser which has an expired validation key. "
+"This may be because someone is trying to post using your session. Please "
+"indicate whether you want %1 to process this request."
+msgstr ""
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -175,7 +183,7 @@ msgstr "%1 чтобы настроить параметры для раздел�
 msgid "%1 to start working on the new web"
 msgstr "%1 чтобы начать работать в новом разделе"
 
-#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:521
 msgid "%1 topic does not exist"
 msgstr "тема %1 не существует"
 
@@ -209,6 +217,10 @@ msgstr "Создать новую тему в разделе %1"
 msgid "(%1 login)"
 msgstr ""
 
+#: core/templates/validate.tmpl:6
+msgid "(%1 validation)"
+msgstr ""
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
 msgstr "(%1 в сравнении с %2)"
@@ -219,7 +231,7 @@ msgstr ""
 "(*Подсказка:* Может быть стоит разместить свою фотографию на личной "
 "странице?)"
 
-#: core/data/System/WebSearchAdvanced.txt:76
+#: core/data/System/WebSearchAdvanced.txt:75
 msgid "(=all= to show all topics)"
 msgstr "(введите =all= для вывода без ограничений)"
 
@@ -236,11 +248,11 @@ msgstr "Доступ запрещён"
 msgid "(attach)"
 msgstr "(прикрепить)"
 
-#: core/templates/backlinksweb.tmpl:4
+#: core/templates/backlinksweb.tmpl:3
 msgid "(backlinks in %1 Web)"
 msgstr "(обратные ссылки в разделе %1)"
 
-#: core/templates/backlinksallwebs.tmpl:4
+#: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
 msgstr "(обратные ссылки во всех разделах)"
 
@@ -248,7 +260,7 @@ msgstr "(обратные ссылки во всех разделах)"
 msgid "(book view)"
 msgstr ""
 
-#: core/templates/changeform.tmpl:4
+#: core/templates/changeform.tmpl:3
 msgid "(change form)"
 msgstr "(изменить форму)"
 
@@ -257,7 +269,7 @@ msgstr "(изменить форму)"
 msgid "(change language)"
 msgstr "(cменить язык)"
 
-#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:5
+#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:4
 msgid "(changes)"
 msgstr "(изменения)"
 
@@ -265,7 +277,7 @@ msgstr "(изменения)"
 msgid "(delete attachment)"
 msgstr "(удалить файл)"
 
-#: core/templates/renamedelete.tmpl:4
+#: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
 msgstr "(удалить)"
 
@@ -273,11 +285,11 @@ msgstr "(удалить)"
 msgid "(edit form)"
 msgstr "(редактировать форму)"
 
-#: core/templates/edittext.tmpl:4 core/templates/edittext.tmpl:7
+#: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
 msgid "(edit text)"
 msgstr "(редактировать текст)"
 
-#: core/templates/edit.tmpl:10 core/templates/edit.tmpl:4
+#: core/templates/edit.tmpl:3 core/templates/edit.tmpl:9
 msgid "(edit)"
 msgstr "(редактировать)"
 
@@ -289,7 +301,7 @@ msgstr "(вводится при входе) ИмяПользователя:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(как Вас видят другие пользователи) ВикиИмя:"
 
-#: core/templates/login.tmpl:4
+#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "(login)"
 msgstr "(пусто/ничего)"
@@ -298,28 +310,28 @@ msgstr "(пусто/ничего)"
 msgid "(more)"
 msgstr "(больше)"
 
-#: core/templates/moveattachment.tmpl:4
+#: core/templates/moveattachment.tmpl:3
 msgid "(move attachment)"
 msgstr "(переместить файл)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
 msgid "(no parent, orphaned topic)"
 msgstr "(нет родителя, тема-сирота)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1099 core/lib/Foswiki/UI/Manage.pm:1132
-#: core/lib/Foswiki/UI/Manage.pm:1245 core/lib/Foswiki/UI/Manage.pm:1248
-#: core/lib/Foswiki/UI/Manage.pm:1251 core/lib/Foswiki/UI/Manage.pm:1290
-#: core/lib/Foswiki/UI/Manage.pm:1321 core/lib/Foswiki/UI/Manage.pm:814
-#: core/lib/Foswiki/UI/Manage.pm:818 core/lib/Foswiki/UI/Manage.pm:822
-#: core/lib/Foswiki/UI/Manage.pm:826
+#: core/lib/Foswiki/UI/Manage.pm:1126 core/lib/Foswiki/UI/Manage.pm:1159
+#: core/lib/Foswiki/UI/Manage.pm:1272 core/lib/Foswiki/UI/Manage.pm:1275
+#: core/lib/Foswiki/UI/Manage.pm:1278 core/lib/Foswiki/UI/Manage.pm:1317
+#: core/lib/Foswiki/UI/Manage.pm:1348 core/lib/Foswiki/UI/Manage.pm:847
+#: core/lib/Foswiki/UI/Manage.pm:851 core/lib/Foswiki/UI/Manage.pm:855
+#: core/lib/Foswiki/UI/Manage.pm:859
 msgid "(none)"
 msgstr "(пусто/ничего)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
 msgid "(optional)"
 msgstr "(не обязательно)"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
 msgid "(otherwise search %1 Web only)"
 msgstr "(иначе только в разделе %1)"
 
@@ -327,12 +339,12 @@ msgstr "(иначе только в разделе %1)"
 msgid "(raw view)"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
 msgid "(recommended)"
 msgstr "(рекомендуется)"
 
-#: core/templates/rename.tmpl:4 core/templates/renameconfirm.tmpl:4
-#: core/templates/renameweb.tmpl:4 core/templates/renamewebconfirm.tmpl:4
+#: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
+#: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
 msgid "(rename)"
 msgstr "(переименовать)"
 
@@ -341,7 +353,7 @@ msgstr "(переименовать)"
 msgid "(revision %1)"
 msgstr "Редакция"
 
-#: core/templates/oopssaveerr.tmpl:8
+#: core/templates/oopssaveerr.tmpl:7
 #, fuzzy
 msgid "(save error)"
 msgstr "Ошибка сохранения страницы"
@@ -357,7 +369,7 @@ msgid "(search results)"
 msgstr "(результаты поиска)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:10
-#: core/templates/settings.tmpl:4
+#: core/templates/settings.tmpl:3
 msgid "(set preferences)"
 msgstr "(установить параметры)"
 
@@ -369,7 +381,7 @@ msgstr "(одна буква из имени)"
 msgid "(single character last name)"
 msgstr "(одна буква из фамилии)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1073
+#: core/lib/Foswiki/UI/Manage.pm:1100
 msgid "(skipped)"
 msgstr "(пропущено)"
 
@@ -394,7 +406,7 @@ msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
 "can access the server through the web (though passwords will be encrypted, "
-"and e-mail addresses will be obfusticated to help prevent spamming). Your "
+"and e-mail addresses will be obfuscated to help prevent spamming). Your "
 "country, or the country where the server is hosted, may have Data Protection "
 "laws governing the maintenance of such databases. If you are in doubt, you "
 "should contact %1 for details of the Data Protection Policy of this Foswiki "
@@ -478,10 +490,6 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/oopsmore.tmpl:14
-msgid "Edit settings for this topic"
-msgstr "Редактировать настройки этой темы"
-
 #: core/data/System/WebChanges.txt:8
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
@@ -494,11 +502,11 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> темы, "
 "<a href='%7' rel='nofollow'>все изменения</a>"
 
-#: core/templates/oopsmore.tmpl:57
+#: core/templates/oopsmore.tmpl:56
 msgid "<em>in %1 web</em> only"
 msgstr "только <em>в разделе %1 </em>"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/oopsmore.tmpl:54
 msgid "<em>in all public webs</em>"
 msgstr "<em>во всех общедоступных разделах</em>"
 
@@ -508,7 +516,7 @@ msgstr ""
 "Расширение =.txt= добавлено к некоторым именам файлов из соображений "
 "безопасности"
 
-#: core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:493
 #, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
@@ -526,11 +534,11 @@ msgstr ""
 "шестнадцатиричных цифр, например, =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:875
+#: core/lib/Foswiki/UI/Register.pm:973
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Письмо подтверждения отправлено по электронной почте: %1"
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:497
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -546,7 +554,7 @@ msgstr ""
 "Более расширенный список изменений доступен по ссылке [[%1][Недавние "
 "изменения]] "
 
-#: core/templates/messages.tmpl:464
+#: core/templates/messages.tmpl:469
 msgid ""
 "A new system-generated password for your login name %1 (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -561,7 +569,7 @@ msgstr ""
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:20
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
 
@@ -569,22 +577,22 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Доступ запрещён"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:477
 msgid "Access check on %1 failed"
 msgstr "Проверка доступа для %1 закончилась неудачно"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/preview.pattern.tmpl:20
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "Access keys"
 msgstr "Быстрые клавиши"
 
 #: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
-#: core/templates/changeform.tmpl:10
+#: core/templates/changeform.tmpl:9
 msgid "Action"
 msgstr "Действие"
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:478
 msgid "Action %1: %2."
 msgstr "Действие %1: %2."
 
@@ -592,12 +600,13 @@ msgstr "Действие %1: %2."
 msgid "Add form"
 msgstr "Добавить форму"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:174
+#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:658
 #, fuzzy
 msgid "Add row"
 msgstr "Добавить форму"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "Добавит Ваше имя к списку пользователей темы %1 раздела %2."
 
@@ -642,7 +651,7 @@ msgstr ""
 "*сгенерированным системой* паролем, и ссылку на страницу, где Вы можете "
 "сменить его."
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
 msgid "All public webs"
 msgstr "Во всех общедоступных разделах"
 
@@ -666,7 +675,7 @@ msgstr ""
 "Сообщение электронной почты не может быть доставлено. Пожалуйста, известите "
 "об этом Вашего %1 администратора, %2"
 
-#: core/templates/moveattachment.tmpl:30
+#: core/templates/moveattachment.tmpl:29
 msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
@@ -678,7 +687,7 @@ msgstr ""
 msgid "And populated with topics from the base web"
 msgstr "И показаны вместе с темами из основного раздела"
 
-#: core/templates/changeform.tmpl:28
+#: core/templates/changeform.tmpl:27
 #, fuzzy
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
@@ -699,7 +708,7 @@ msgstr "Прикрепить файл к %1"
 msgid "Attach image or document on %1"
 msgstr "Прикрепить изображение или документ к %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:17
+#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Прикрепить новый файл"
@@ -708,11 +717,11 @@ msgstr "Прикрепить новый файл"
 msgid "Attachment"
 msgstr "Прикрепленный файл"
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:527
 msgid "Attachment '%1' does not exist"
 msgstr "Файл '%1' не существует"
 
-#: core/lib/Foswiki/UI/Manage.pm:373
+#: core/lib/Foswiki/UI/Manage.pm:383
 msgid "Attachment already exists in new topic"
 msgstr "Файл уже на странице новой темы."
 
@@ -720,7 +729,7 @@ msgstr "Файл уже на странице новой темы."
 msgid "Attachment delete failed"
 msgstr "Файл не удален"
 
-#: core/lib/Foswiki/UI/Manage.pm:352
+#: core/lib/Foswiki/UI/Manage.pm:359
 msgid "Attachment does not exist"
 msgstr "Файл не существует"
 
@@ -738,18 +747,18 @@ msgstr "Прикрепленный файл"
 msgid "Attachments help"
 msgstr "Прикрепленный файл"
 
-#: core/templates/attach.tmpl:7
+#: core/templates/attach.tmpl:5
 #, fuzzy
 msgid "Attachments of %1"
 msgstr "Другие файлы, прикрепленные к %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "(Прикрепленные файлы не будут показаны на странице темы)."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
-#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:10
+#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
 msgstr "Внимание"
 
@@ -766,7 +775,7 @@ msgid "Available Information"
 msgstr "Доступная Информация"
 
 #: PatternSkin/templates/changeform.pattern.tmpl:13
-#: core/templates/changeform.tmpl:34
+#: core/templates/changeform.tmpl:33
 #, fuzzy
 msgid "Available form templates"
 msgstr "Возможные шаблоны формы"
@@ -780,16 +789,16 @@ msgstr "Возможные шаблоны формы"
 msgid "Back to topic"
 msgstr "Вернуться к теме"
 
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/oopsmore.tmpl:52
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Обратные ссылки"
 
-#: core/templates/backlinksweb.tmpl:7
+#: core/templates/backlinksweb.tmpl:6
 msgid "Backlinks to %1 in %2 Web"
 msgstr "Обратные ссылки на %1 в разделе %2"
 
-#: core/templates/backlinksallwebs.tmpl:7
+#: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr "Обратные ссылки на %1 во всех разделах"
 
@@ -805,11 +814,11 @@ msgstr "Базовый раздел %1 отсутствует или не сущ
 msgid "Bathing problem"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:40
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
 msgid "Both body and title"
 msgstr "В тексте страницы и в заголовке"
 
-#: core/templates/changeform.tmpl:29
+#: core/templates/changeform.tmpl:28
 msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
@@ -825,17 +834,18 @@ msgstr ""
 "разрешить всем пользователям просмотр этого раздела, удалите ограничение  "
 "=ALLOWWEBVIEW= из [[WebPreferences][Параметров Раздела]]."
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:467
 msgid "Can't find user %1"
 msgstr "Не удалось найти пользователя %1"
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:468
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Не могу получить адрес электронной почты для %1 (нужно для сброса пароля)"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:176
-#: core/templates/foswiki.tmpl:79
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:666
+#: core/templates/foswiki.tmpl:80
 #, fuzzy
 msgid "Cancel"
 msgstr "Отменить"
@@ -856,7 +866,7 @@ msgstr "Невозможно создать раздел %1 т.к. он уже �
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Невозможно переименовать %1 в %2 т.к. %2 уже существует."
 
-#: core/data/System/WebSearchAdvanced.txt:57
+#: core/data/System/WebSearchAdvanced.txt:56
 msgid "Case sensitive"
 msgstr "С учётом регистра"
 
@@ -872,7 +882,7 @@ msgstr "Сменить  пароль"
 msgid "Change comment and properties only"
 msgstr "Изменить только комментарий и свойства"
 
-#: core/templates/renamebase.tmpl:15
+#: core/templates/renamebase.tmpl:14
 msgid "Change from:"
 msgstr "Изменить с:"
 
@@ -883,22 +893,22 @@ msgstr "Изменить с:"
 msgid "Change language"
 msgstr "Сменить язык"
 
-#: core/templates/renamewebbase.tmpl:43
+#: core/templates/renamewebbase.tmpl:42
 msgid "Change links in topics that refer to !%1 in any Web:"
 msgstr ""
 "Изменить ссылки на страницах тем, которые ссылаются на !%1 во всех разделах:"
 
-#: core/templates/renamewebbase.tmpl:40
+#: core/templates/renamewebbase.tmpl:39
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
 msgstr ""
 "Изменить ссылки на страницах тем, которые ссылаются на !%1 в разделе %2:"
 
-#: core/templates/renamebase.tmpl:56
+#: core/templates/renamebase.tmpl:55
 msgid "Change links in topics that refer to %1 in any Web:"
 msgstr ""
 "Изменить ссылки на страницах тем, которые ссылаются на %1 во всех разделах:"
 
-#: core/templates/renamebase.tmpl:53
+#: core/templates/renamebase.tmpl:52
 msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr ""
 "Изменить ссылки на страницах тем, которые ссылаются на %1 в разделе %2:"
@@ -912,7 +922,7 @@ msgstr "Сменить пароль"
 msgid "Change properties only"
 msgstr "Изменить только комментарий и свойства"
 
-#: core/templates/edit.tmpl:7
+#: core/templates/edit.tmpl:6
 msgid "Change topic"
 msgstr "Изменить тему"
 
@@ -953,23 +963,23 @@ msgstr ""
 "проблема не в этом, то, возможно, что установленное Вами свойство %1 "
 "указывает на шаблон, который не существует."
 
-#: core/templates/renamebase.tmpl:43 core/templates/renamedelete.tmpl:31
+#: core/templates/renamebase.tmpl:42 core/templates/renamedelete.tmpl:30
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
 "Текст отмеченных тем будет обновлен таким образом, чтобы указывать на новое "
 "расположение темы."
 
-#: core/templates/renameweb.tmpl:29
+#: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Текст отмеченных тем будет обновлен таким образом, чтобы указывать на новое "
 "имя раздела."
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/oopsmore.tmpl:127
 msgid "Child topics in %1 web"
 msgstr "Дочерние темы в разделе %1"
 
-#: core/templates/changeform.tmpl:7
+#: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr "Выберите новую форму для %1"
 
@@ -978,7 +988,7 @@ msgstr "Выберите новую форму для %1"
 msgid "Clear all"
 msgstr "Очистить всё"
 
-#: core/lib/Foswiki/Render.pm:192
+#: core/lib/Foswiki/Render.pm:201
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -994,20 +1004,20 @@ msgstr "Закрыть"
 msgid "Color %1 has an invalid format"
 msgstr "Цвет %1 имеет неправильный формат"
 
-#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:26
+#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Comment"
 msgstr "Комментарий"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
 msgid "Comments:"
 msgstr "Комментарии:"
 
-#: core/templates/oopsmore.tmpl:109
+#: core/templates/oopsmore.tmpl:108
 msgid "Compare revisions"
 msgstr "Сравнить редакции"
 
-#: core/templates/renameconfirm.tmpl:7 core/templates/renamewebconfirm.tmpl:7
+#: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
 msgstr "Подтвердить переименование или перемещение"
 
@@ -1021,10 +1031,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Конфликт"
 
-#: core/templates/messages.tmpl:475 core/templates/messages.tmpl:481
-#: core/templates/messages.tmpl:502 core/templates/messages.tmpl:513
-#: core/templates/messages.tmpl:519 core/templates/messages.tmpl:525
-#: core/templates/messages.tmpl:534
+#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:486
+#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:518
+#: core/templates/messages.tmpl:524 core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:539
 msgid "Contact %1 if you have any questions."
 msgstr "Свяжитесь с %1 если у Вас есть вопросы."
 
@@ -1043,7 +1053,7 @@ msgid ""
 "though)."
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:19
+#: core/templates/oopsmore.tmpl:19 core/templates/oopsmore.tmpl:22
 #, fuzzy
 msgid "Copy topic"
 msgstr "К теме:"
@@ -1073,7 +1083,7 @@ msgstr "Невозможно создать новый раздел %1"
 msgid "Could not find template"
 msgstr "Невозможно найти шаблон"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:472
 msgid "Could not perform search. Error was: %1"
 msgstr ""
 
@@ -1101,7 +1111,7 @@ msgstr "Создать новую тему"
 msgid "Create New Topic in %1 Web"
 msgstr "Создать новую тему в разделе %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:39
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Создать ссылку на прикреплённый файл."
 
@@ -1117,7 +1127,7 @@ msgstr "Создать новый документ по имени:"
 msgid "Create by Name"
 msgstr "Создать по имени"
 
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:505
 #, fuzzy
 msgid "Create the topic"
 msgstr "Создать эту тему"
@@ -1125,12 +1135,12 @@ msgstr "Создать эту тему"
 #: core/data/System/DefaultPreferences.txt:318
 #: core/data/System/DefaultPreferences.txt:320
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:14
-#: core/data/System/WebCreateNewTopicTemplate.txt:66
-#: core/lib/Foswiki/Render.pm:95
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
+#: core/lib/Foswiki/Render.pm:98
 msgid "Create this topic"
 msgstr "Создать эту тему"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1143,11 +1153,11 @@ msgid "Creating a suitable Form Definition topic"
 msgstr "Создания соответствующей страницы Определения Формы"
 
 #: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
-#: core/templates/renamedelete.tmpl:10
+#: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
 msgstr "Текущее размещение:"
 
-#: core/templates/oopsmore.tmpl:67
+#: core/templates/oopsmore.tmpl:66
 msgid "Current parent:"
 msgstr "Текущий родитель:"
 
@@ -1159,21 +1169,21 @@ msgstr "Текущий пароль"
 msgid "Date"
 msgstr "Дата"
 
-#: core/templates/mailresetpassword.tmpl:5
+#: core/templates/mailresetpassword.tmpl:8
 msgid "Dear %1"
 msgstr "Дорогой(ая) %1"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Debug"
 msgstr "Отладка"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicTemplate.txt:65
 msgid "Default template"
 msgstr "Шаблон по умолчанию"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
 #: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
-#: core/templates/renamedelete.tmpl:34 core/templates/renamedelete.tmpl:7
+#: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1181,16 +1191,17 @@ msgstr "Удалить"
 msgid "Delete attachment"
 msgstr "Удалить файл"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:175
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:662
 #, fuzzy
 msgid "Delete last row"
 msgstr "Удалить тему"
 
-#: core/templates/oopsmore.tmpl:35
+#: core/templates/oopsmore.tmpl:34
 msgid "Delete topic"
 msgstr "Удалить тему"
 
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+#: core/templates/oopsmore.tmpl:35 core/templates/oopsmore.tmpl:37
 msgid "Delete topic..."
 msgstr "Удалить тему..."
 
@@ -1198,7 +1209,7 @@ msgstr "Удалить тему..."
 msgid "Describe the file so other people know what it is."
 msgstr "Опишите файл так, чтобы другие люди поняли что это."
 
-#: core/lib/Foswiki/Form.pm:272
+#: core/lib/Foswiki/Form.pm:286
 #, fuzzy
 msgid "Details in separate window"
 msgstr "Нажмите здесь, чтобы увидеть детали в отдельном окне"
@@ -1222,11 +1233,11 @@ msgstr "Различия:"
 msgid "Do not forget to save your changes"
 msgstr "не забудьте проверить настройки Вашей персональной страницы"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Не показывать список прикрепленных файлов в виде таблицы"
 
-#: core/data/System/WebSearchAdvanced.txt:68
+#: core/data/System/WebSearchAdvanced.txt:67
 msgid "Don't show:"
 msgstr "Не показывать:"
 
@@ -1262,7 +1273,7 @@ msgstr ""
 "Во время переименования раздела %1 в %2 произошла ошибка (%3). Пожалуйста, "
 "известите Вашего администратора %4."
 
-#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:17
+#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1278,7 +1289,7 @@ msgstr "Адрес электронной почты:"
 msgid "E-mail changed successfully!"
 msgstr "Адрес электронной почты успешно изменён!"
 
-#: core/templates/settings.tmpl:27
+#: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr "Каждый параметр имеет синтаксис"
 
@@ -1299,16 +1310,16 @@ msgstr "Редактировать текст"
 msgid "Edit personal data"
 msgstr "Изменить личные данные"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:170
-#, fuzzy
-msgid "Edit table"
-msgstr "Редактировать текст"
+#: core/templates/oopsmore.tmpl:14
+msgid "Edit settings for this topic"
+msgstr "Редактировать настройки этой темы"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
 msgstr "Редактировать текст"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:171
+#: EditTablePlugin/data/System/EditTablePlugin.txt:160
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:646
 #, fuzzy
 msgid "Edit this table"
 msgstr "Редактировать текст этой страницы"
@@ -1337,11 +1348,11 @@ msgstr ""
 "Либо Вы не указали имя файла, либо прикрепляемый файл %1 пуст. Не следует "
 "загружать пустой файл."
 
-#: core/lib/Foswiki/UI/Register.pm:411 core/lib/Foswiki/UI/Register.pm:450
+#: core/lib/Foswiki/UI/Register.pm:422 core/lib/Foswiki/UI/Register.pm:461
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:76
 msgid "Enlarge edit box"
 msgstr "Расширить область редактирования"
 
@@ -1371,11 +1382,11 @@ msgstr "Ошибка сохранения страницы"
 msgid "Error: %1"
 msgstr "Ошибки"
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:458
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Ошибка: Файл в %1,%2 не существует"
 
-#: core/templates/messages.tmpl:456
+#: core/templates/messages.tmpl:460
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1383,7 +1394,7 @@ msgstr ""
 "Ошибка: Не поддерживаемый тип содержимого: %1 (Должно быть =text/html=, "
 "=text/plain= или =text/css=)"
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:459
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Ошибка: Не поддерживаемый протокол. (Должно быть 'http://domain/...')"
 
@@ -1391,7 +1402,7 @@ msgstr "Ошибка: Не поддерживаемый протокол. (До�
 msgid "Errors"
 msgstr "Ошибки"
 
-#: core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:470
 msgid "Failed to include URL %1"
 msgstr "Не удается присоединить URL %1"
 
@@ -1410,11 +1421,11 @@ msgstr "Файл был загружен с другим именем"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+#: core/templates/oopsmore.tmpl:53 core/templates/oopsmore.tmpl:55
 msgid "Find topics that link to %1 ..."
 msgstr "Найти темы, ссылающиеся на %1 ..."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1464,7 +1475,7 @@ msgstr ""
 "противном случае, следуйте по ссылке \"Отменить\", расположенной внизу "
 "текущей страницы, чтобы вернуться к предыдущей теме."
 
-#: core/templates/settings.tmpl:26
+#: core/templates/settings.tmpl:25
 #, fuzzy
 msgid ""
 "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
@@ -1473,7 +1484,7 @@ msgstr ""
 "Получить помощь по вопросу <a target='Macros' onclick=\"return launchWindow"
 "('%1','Macros')\" href='%2' rel='nofollow'>Как установить свойства темы</a>."
 
-#: core/templates/renamebase.tmpl:66
+#: core/templates/renamebase.tmpl:65
 #, fuzzy
 msgid ""
 "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
@@ -1483,7 +1494,7 @@ msgstr ""
 "launchWindow('%1','ManagingTopics')\" href=\"%2\" rel='nofollow'>Как "
 "переименовать или переместить тему</a>."
 
-#: core/templates/renamewebbase.tmpl:50
+#: core/templates/renamewebbase.tmpl:49
 #, fuzzy
 msgid ""
 "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
@@ -1497,7 +1508,7 @@ msgstr ""
 msgid "Get notified on changes on this search"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:81
+#: core/templates/foswiki.tmpl:82
 msgid "Go back"
 msgstr "Вернуться"
 
@@ -1508,7 +1519,7 @@ msgstr ""
 "Вернитесь <a href=\"javascript:history.go(-1)\">назад</a> в Вашем браузере и "
 "заполните все обязательные поля."
 
-#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:21
+#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
 "Вернитесь <a href=\"javascript:history.go(-1)\">на предыдущую страницу</a>, "
@@ -1531,12 +1542,12 @@ msgstr "Привет %1"
 msgid "Hello %1!"
 msgstr "Привет %1"
 
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
 #: core/templates/login.tmpl:50
 msgid "Help"
 msgstr "Помощь"
 
-#: core/templates/attach.tmpl:45
+#: core/templates/attach.tmpl:43
 #, fuzzy
 msgid "Hide file"
 msgstr "Скрыть подсказку"
@@ -1599,7 +1610,7 @@ msgstr ""
 "Если эта тема отсутствует - создайте её,  если существует - проверьте "
 "названия темы на наличие ошибок."
 
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:97
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
 msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
@@ -1607,7 +1618,7 @@ msgstr ""
 "Если Вы уже знаете название темы, на которую хотите перейти, то введите его "
 "в поле  [[%1][Перейти]] вверху страницы"
 
-#: core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:429
 #, fuzzy
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
@@ -1616,7 +1627,7 @@ msgstr ""
 "Если Вы разрабатываете <nop>TWikiApplication, то см. описание "
 "соответствующих параметров в %1."
 
-#: core/templates/messages.tmpl:490
+#: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
 msgstr "Если Вы попали сюда кликнув на знак вопроса"
 
@@ -1638,7 +1649,7 @@ msgstr ""
 "используя Ваш адрес электронной почты: %3. Сообщите, пожалуйста, %4 если это "
 "не Вы."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:303
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:302
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Если у Вас есть вопросы по регистрации, отправьте сообщение по электронной "
@@ -1653,7 +1664,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Если у Вас есть какие-либо вопросы, пожалуйста, пишите %1."
 
 #: core/data/System/VarMAKETEXT.txt:16
-#: core/templates/mailresetpassword.tmpl:14
+#: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Если у Вас есть какие-либо вопросы, пожалуйста, пишите %1."
 
@@ -1663,11 +1674,7 @@ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 "Если Вы не задали пароль или хотите его сбросить, перейдите по ссылке: %1"
 
-#: core/templates/messages.tmpl:420
-msgid "The =%1= script can only be called with POST method."
-msgstr ""
-
-#: core/templates/messages.tmpl:423
+#: core/templates/messages.tmpl:427
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1676,11 +1683,11 @@ msgstr ""
 "просто хотели на нее посмотреть, [[%1][отмените сохранение]] чтобы перейти "
 "к  %2."
 
-#: core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:504
 msgid "If you want to create the topic"
 msgstr "Если Вы хотите создать тему"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:500
 msgid "If you would like to create this web"
 msgstr "Если Вы хотите создать этот раздел"
 
@@ -1703,13 +1710,13 @@ msgstr ""
 "Вы не регистрировали адрес электронной почты при помощи этой формы, то Ваша "
 "учетная запись может быть кем-нибудь взломана."
 
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:39
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "(Изображения будут отображены, для остальных прикрепленных файлов будет "
 "создана ссылка)."
 
-#: core/data/System/WebSearchAdvanced.txt:52
+#: core/data/System/WebSearchAdvanced.txt:51
 msgid "In reversed order"
 msgstr "В обратном порядке"
 
@@ -1734,7 +1741,7 @@ msgstr "Неверные %1.WikiNames:"
 msgid "Incorrect Password"
 msgstr "Неверный пароль"
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:425
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Неверные параметры в скрипте =%1="
 
@@ -1763,7 +1770,7 @@ msgstr "Неверный код активации"
 msgid "Invalid e-mail address"
 msgstr "Неверный адрес электронной почты"
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:440
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1793,7 +1800,7 @@ msgstr ""
 "работать. Символы, недопустимые в названии темы, такие как пробелы, будут "
 "автоматически удалены."
 
-#: core/templates/renameweb.tmpl:17
+#: core/templates/renameweb.tmpl:16
 msgid ""
 "It's usually best to choose a short name for the new web, as it is easier to "
 "link to them later on. Characters not allowed in web names, such as spaces "
@@ -1806,7 +1813,7 @@ msgstr ""
 #: PatternSkin/data/System/WebLeftBarSearch.txt:2
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern.tmpl:37
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:18
 msgid "Jump"
 msgstr "Перейти"
 
@@ -1814,15 +1821,15 @@ msgstr "Перейти"
 msgid "Last Name:"
 msgstr "Фамилия:"
 
-#: core/data/System/WebSearchAdvanced.txt:50
+#: core/data/System/WebSearchAdvanced.txt:49
 msgid "Last editor"
 msgstr "Последнему кто редактировал"
 
-#: core/data/System/WebSearchAdvanced.txt:49
+#: core/data/System/WebSearchAdvanced.txt:48
 msgid "Last modified time"
 msgstr "Времени последнего изменения"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:74
 msgid "Limit results to:"
 msgstr "Ограничить вывод результатов:"
 
@@ -1837,20 +1844,20 @@ msgstr "Строка: %1"
 msgid "Line: %1 to %2"
 msgstr "Строка: с %1 по %2"
 
-#: core/templates/attach.tmpl:37
+#: core/templates/attach.tmpl:35
 #, fuzzy
 msgid "Link"
 msgstr "Мои ссылки"
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "Вывести все темы раздела %1 в алфавитном порядке"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:99
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
 msgid "List topics that start with the letter:"
 msgstr "Показать темы, начинающиеся с буквы:"
 
-#: core/data/System/WebSearchAdvanced.txt:60
+#: core/data/System/WebSearchAdvanced.txt:59
 #, fuzzy
 msgid "Literal search"
 msgstr "Простой поиск"
@@ -1868,11 +1875,11 @@ msgstr "Войти"
 msgid "Log Out"
 msgstr "Выйти"
 
-#: core/templates/mailresetpassword.tmpl:9
+#: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
 msgstr "Имя пользователя %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:200
+#: PatternSkin/data/System/PatternSkinElements.txt:231
 #: core/templates/login.tmpl:71
 msgid "Logon"
 msgstr "Вход"
@@ -1881,7 +1888,7 @@ msgstr "Вход"
 msgid "Mail to"
 msgstr "Написать письмо"
 
-#: core/data/System/WebSearchAdvanced.txt:56
+#: core/data/System/WebSearchAdvanced.txt:55
 msgid "Make search:"
 msgstr "Провести поиск:"
 
@@ -1915,19 +1922,19 @@ msgid "More..."
 msgstr "Больше..."
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: core/templates/moveattachment.tmpl:36
+#: core/templates/moveattachment.tmpl:35
 msgid "Move"
 msgstr "Переместить"
 
-#: core/templates/moveattachment.tmpl:10
+#: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
 msgstr "Переместить файл"
 
-#: core/templates/moveattachment.tmpl:22
+#: core/templates/moveattachment.tmpl:21
 msgid "Move attachment to web:"
 msgstr "Переместить файл в раздел:"
 
-#: core/templates/moveattachment.tmpl:7
+#: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Переместить прикрепленный файл"
 
@@ -1940,11 +1947,11 @@ msgstr "Переместить прикрепленный файл"
 msgid "Move to web:"
 msgstr "Переместить в раздел:"
 
-#: core/templates/renamedelete.tmpl:16
+#: core/templates/renamedelete.tmpl:15
 msgid "Move topic to web:"
 msgstr "Переместить тему в раздел:"
 
-#: core/lib/Foswiki/UI/Manage.pm:1258
+#: core/lib/Foswiki/UI/Manage.pm:1285
 #, fuzzy
 msgid "Move/Rename"
 msgstr "Переименовать"
@@ -1953,11 +1960,11 @@ msgstr "Переименовать"
 msgid "My Links"
 msgstr "Мои ссылки"
 
-#: core/lib/Foswiki/Search.pm:880
+#: core/lib/Foswiki/Search.pm:911
 msgid "NEW"
 msgstr "НОВАЯ"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/oopsmore.tmpl:22
 #, fuzzy
 msgid "Name of copy:"
 msgstr "Количество тем:"
@@ -1988,7 +1995,7 @@ msgstr "Новые адреса электронной почты (список 
 msgid "New or changed topics in %1, since %2:"
 msgstr "Новые или измененные темы в %1, после %2:"
 
-#: core/templates/renamewebbase.tmpl:10
+#: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
 msgstr "Новый родительский раздел:"
 
@@ -2000,23 +2007,23 @@ msgstr "Новый пароль"
 msgid "New topic name %1 is not a %2"
 msgstr "Новое название темы %1 не %2"
 
-#: core/templates/renamewebbase.tmpl:7
+#: core/templates/renamewebbase.tmpl:6
 msgid "New web name:"
 msgstr "Новое имя раздела"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/oopsmore.tmpl:111
 msgid "Newer revision:"
 msgstr "Младшая редакция:"
 
-#: core/templates/oopsmore.tmpl:129
+#: core/templates/oopsmore.tmpl:128
 msgid "No child topics"
 msgstr "Нет дочерних тем"
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:457
 msgid "No permission to view %1"
 msgstr "Нет прав для просмотра %1"
 
-#: core/templates/oopsmore.tmpl:124
+#: core/templates/oopsmore.tmpl:123
 #, fuzzy
 msgid "No previous revision exists."
 msgstr "Просмотреть предыдущую редакцию"
@@ -2025,11 +2032,11 @@ msgstr "Просмотреть предыдущую редакцию"
 msgid "No users to reset passwords for."
 msgstr "Некому сбрасывать пароли."
 
-#: core/templates/renamedelete.tmpl:31
+#: core/templates/renamedelete.tmpl:30
 msgid "Not recommended when deleting a topic."
 msgstr "Не рекомендовано при удалении темы."
 
-#: core/templates/moveattachment.tmpl:31
+#: core/templates/moveattachment.tmpl:30
 msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
@@ -2068,22 +2075,22 @@ msgstr "Уведомления"
 msgid "Number of topics:"
 msgstr "Количество тем:"
 
-#: core/templates/foswiki.tmpl:80 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:14
+#: core/templates/oopssaveerr.tmpl:13
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/oopsmore.tmpl:111
 msgid "Older revision:"
 msgstr "Старшая редакция:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:291
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:290
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 "Однажды зарегистрировавшись, Вы сможете заходить используя Ваши %1 и пароль."
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:484
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Только членам %1 позволено выполнить это действие."
 
@@ -2092,7 +2099,7 @@ msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
 
-#: core/templates/renamedelete.tmpl:19
+#: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr "Измените название темы, если это необходимо:"
 
@@ -2108,11 +2115,11 @@ msgstr "URL организации:"
 msgid "Organisation name:"
 msgstr "Название организации:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:270
 msgid "Other Country"
 msgstr "Другая страна"
 
-#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:95
 msgid "Other search options:"
 msgstr "Другие параметры поиска:"
 
@@ -2122,7 +2129,7 @@ msgstr ""
 "В противном случае, воспользуйтесь этой формой, чтобы получить новый пароль "
 "по электронной почте."
 
-#: PatternSkin/data/System/PatternSkinElements.txt:195
+#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
 #: core/templates/login.tmpl:60
 msgid "Password"
@@ -2149,8 +2156,8 @@ msgstr "Пароли не совпадают"
 msgid "Personal Preferences"
 msgstr "Личные Параметры"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/oopsmore.tmpl:71
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/templates/oopsmore.tmpl:70
 msgid "Pick from a list"
 msgstr ""
 
@@ -2227,7 +2234,7 @@ msgstr ""
 "Пожалуйста, проверьте правильность написания %1 и попробуйте еще раз. Если "
 "Вы в недоумении, пожалуйста, отправьте электронное письмо по адресу %2."
 
-#: core/templates/mailresetpassword.tmpl:12
+#: core/templates/mailresetpassword.tmpl:15
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr ""
@@ -2243,7 +2250,7 @@ msgid "Preferences"
 msgstr "Параметры"
 
 #: PatternSkin/templates/settings.pattern.tmpl:13
-#: core/templates/settings.tmpl:7
+#: core/templates/settings.tmpl:6
 msgid "Preferences for"
 msgstr "Параметры для"
 
@@ -2255,7 +2262,7 @@ msgstr ""
 msgid "Properties"
 msgstr "Свойства"
 
-#: core/data/System/WebSearchAdvanced.txt:62
+#: core/data/System/WebSearchAdvanced.txt:61
 #, fuzzy
 msgid "Query Search"
 msgstr "Поиск в разделе"
@@ -2266,7 +2273,8 @@ msgid ""
 "preferences)"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:173
+#: EditTablePlugin/data/System/EditTablePlugin.txt:162
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:654
 msgid "Quiet save"
 msgstr ""
 
@@ -2301,11 +2309,11 @@ msgid "Read on"
 msgstr "Прочтите"
 
 #: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:46
-#: core/data/System/WebSearchAdvanced.txt:100
+#: core/data/System/WebSearchAdvanced.txt:99
 msgid "Recently changed topics"
 msgstr "Недавно изменённые темы"
 
-#: core/lib/Foswiki/UI/Manage.pm:1257
+#: core/lib/Foswiki/UI/Manage.pm:1284
 msgid "Refresh"
 msgstr ""
 
@@ -2328,7 +2336,7 @@ msgstr "Регистрация"
 msgid "Registration codes can only be used once."
 msgstr "Регистрационные коды могут быть использованы только один раз."
 
-#: core/data/System/WebSearchAdvanced.txt:61
+#: core/data/System/WebSearchAdvanced.txt:60
 msgid "Regular expression search"
 msgstr "С использованием регулярных выражений"
 
@@ -2340,7 +2348,7 @@ msgstr "Связанные темы"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:43
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:489
 msgid "Related topics:"
 msgstr "Связанные темы:"
 
@@ -2365,7 +2373,7 @@ msgstr "Напомнить Ваш пароль?"
 msgid "Remove the user from the group(s) %1 first."
 msgstr "Сначала удалите пользователя из групп(ы) %1."
 
-#: core/templates/rename.tmpl:7 core/templates/renameweb.tmpl:7
+#: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -2373,7 +2381,7 @@ msgstr "Переименовать"
 msgid "Rename failed"
 msgstr "Не удалось переименовать"
 
-#: core/templates/oopsmore.tmpl:44
+#: core/templates/oopsmore.tmpl:43
 msgid "Rename or move topic"
 msgstr "Переименовать или переместить тему"
 
@@ -2381,12 +2389,12 @@ msgstr "Переименовать или переместить тему"
 msgid "Rename, move or delete this web:"
 msgstr "Переименовать, переместить или удалить этот раздел:"
 
-#: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
-#: core/templates/renameweb.tmpl:33
+#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
+#: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Переименовать/переместить"
 
-#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+#: core/templates/oopsmore.tmpl:44 core/templates/oopsmore.tmpl:46
 msgid "Rename/move topic..."
 msgstr "Переименовать/переместить тему..."
 
@@ -2398,6 +2406,11 @@ msgstr "Переименовать/переместить/удалить раз�
 msgid "Replace form..."
 msgstr "Заменить форму...."
 
+#: core/templates/validate.tmpl:3
+#, fuzzy
+msgid "Request Validation"
+msgstr "Регистрация"
+
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
 msgstr "Сбросить Пароль"
@@ -2406,22 +2419,22 @@ msgstr "Сбросить Пароль"
 msgid "Reset password"
 msgstr "Сбросить пароль"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 #, fuzzy
 msgid "Restore"
 msgstr "Зарегистрироваться"
 
-#: core/templates/oopsmore.tmpl:116
+#: core/templates/oopsmore.tmpl:115
 #, fuzzy
 msgid "Restore topic"
 msgstr "Удалить тему"
 
-#: core/templates/oopsmore.tmpl:118
+#: core/templates/oopsmore.tmpl:117
 #, fuzzy
 msgid "Restore topic to revision:"
 msgstr "Просмотреть предыдущую редакцию"
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 #, fuzzy
 msgid "Restore topic to this revision"
 msgstr "Просмотреть предыдущую редакцию"
@@ -2455,7 +2468,7 @@ msgstr "Обзор недавних изменений в:"
 msgid "Revision"
 msgstr "Редакция"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/oopsmore.tmpl:102
 #, fuzzy
 msgid "Revisions"
 msgstr "Редакция"
@@ -2464,7 +2477,7 @@ msgstr "Редакция"
 msgid "S = Save, C = Cancel"
 msgstr ""
 
-#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/preview.pattern.tmpl:20
 #, fuzzy
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr ""
@@ -2479,7 +2492,8 @@ msgstr ""
 "S = Сохранить, Q = Сохранить без уведомления, K = Применить изменения, P = "
 "Предпросмотр, C = Отменить"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:172
+#: EditTablePlugin/data/System/EditTablePlugin.txt:161
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:650
 #, fuzzy
 msgid "Save table"
 msgstr "Сохранено в:"
@@ -2499,45 +2513,45 @@ msgstr "Сохранено в:"
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: PatternSkin/templates/foswiki.pattern.tmpl:38
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "Поиск"
 
-#: core/templates/backlinksallwebs.tmpl:7
+#: core/templates/backlinksallwebs.tmpl:6
 #, fuzzy
 msgid "Search %1 Web only"
 msgstr "Искать только в разделе %1 "
 
-#: core/templates/backlinksweb.tmpl:7
+#: core/templates/backlinksweb.tmpl:6
 #, fuzzy
 msgid "Search all webs"
 msgstr "Поиск по всем разделам"
 
-#: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:6
+#: core/templates/oopsmore.tmpl:53
 msgid "Search all webs for topics that link to here"
 msgstr "Найти ссылающиеся сюда темы во всех разделах"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 #, fuzzy
 msgid "Search in all webs"
 msgstr "Поиск по всем разделам"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 #, fuzzy
 msgid "Search more topics in this web"
 msgstr "Искать похожие темы во всех открытых разделах"
 
-#: core/data/System/WebSearchAdvanced.txt:69
+#: core/data/System/WebSearchAdvanced.txt:68
 msgid "Search string"
 msgstr "Строку поиска"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/oopsmore.tmpl:55
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Искать в разделе %1 темы, ссылающиеся на эту"
 
-#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:36
+#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:35
 msgid "Search where:"
 msgstr "Где искать:"
 
@@ -2572,11 +2586,11 @@ msgstr "Смотрите подробнее %1."
 msgid "See also:"
 msgstr "Смотрите также:"
 
-#: core/templates/edit.tmpl:59
+#: core/templates/edit.tmpl:58
 msgid "See below for help in editing this page."
 msgstr ""
 
-#: core/templates/changeform.tmpl:13
+#: core/templates/changeform.tmpl:12
 msgid "Select"
 msgstr "Выбрать"
 
@@ -2589,21 +2603,21 @@ msgstr ""
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: core/templates/oopsmore.tmpl:70
+#: core/templates/oopsmore.tmpl:69
 #, fuzzy
 msgid "Select topic parent:"
 msgstr "Шаг 1: Выберите родителя темы:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:47
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Выделите, скопируйте и вставьте Вашу подпись под сделанной Вами записью"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:286
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Отправит подтверждение Вашей регистрации по электронной почте."
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Sequential"
 msgstr "Последовательно"
 
@@ -2611,12 +2625,12 @@ msgstr "Последовательно"
 msgid "Set all"
 msgstr "Установить все"
 
-#: core/templates/oopsmore.tmpl:74
+#: core/templates/oopsmore.tmpl:73
 #, fuzzy
 msgid "Set new parent"
 msgstr "Установить нового родителя для темы"
 
-#: core/templates/oopsmore.tmpl:63
+#: core/templates/oopsmore.tmpl:62
 msgid "Set new topic parent"
 msgstr "Установить нового родителя для темы"
 
@@ -2628,15 +2642,15 @@ msgstr "Показать подсказку"
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "Показывать подсказки при наведении мыши на %1 ссылки, вкл. или выкл.:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:76
 msgid "Shrink edit box"
 msgstr "Сжать окно редактирования"
 
-#: core/templates/oopsmore.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Side by side"
 msgstr "В две колонки"
 
-#: core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearchAdvanced.txt:30
 msgid "Simple search"
 msgstr "Простой поиск"
 
@@ -2695,7 +2709,7 @@ msgstr ""
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 
-#: core/data/System/WebSearchAdvanced.txt:46
+#: core/data/System/WebSearchAdvanced.txt:45
 msgid "Sort results by:"
 msgstr "Сортировать результаты по:"
 
@@ -2711,7 +2725,7 @@ msgstr "Пробелы заменены знаками подчёркивани�
 msgid "Statistics"
 msgstr "Статистика"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:297
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:296
 #: core/templates/messages.tmpl:207 core/templates/messages.tmpl:316
 msgid "Submit"
 msgstr "Применить"
@@ -2730,15 +2744,19 @@ msgstr "Предоставленные Вами сведения:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Подписаться / Отписаться от:"
 
-#: core/data/System/WebSearchAdvanced.txt:70
+#: core/data/System/WebSearchAdvanced.txt:69
 msgid "Summaries"
 msgstr "Выводы по результатам поиска"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: core/templates/validate.tmpl:8
+msgid "Suspicious request from browser"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:76
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:32
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2747,7 +2765,7 @@ msgstr ""
 "\"WSDL\"=, а также словосочетание =\"web service\"=, без слова =\"shampoo"
 "\"=, введите:"
 
-#: core/templates/messages.tmpl:510
+#: core/templates/messages.tmpl:515
 #, fuzzy
 msgid "Template %1 does not exist"
 msgstr "Раздел %1 не существует"
@@ -2756,7 +2774,7 @@ msgstr "Раздел %1 не существует"
 msgid "Test Topics"
 msgstr "Пробные темы"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:37
 msgid "Text body"
 msgstr "В тексте страницы"
 
@@ -2781,7 +2799,7 @@ msgstr ""
 "Спасибо, что Вы зарегистрировались на информационном ресурсе %1, платформе "
 "для совместного творчества и работы. Ваш код подтверждения %2."
 
-#: core/templates/messages.tmpl:528
+#: core/templates/messages.tmpl:533
 msgid "That user has already been activated "
 msgstr ""
 
@@ -2802,7 +2820,7 @@ msgstr ""
 msgid "The %1 topic already exists"
 msgstr "Тема %1 уже существует"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:492
 msgid "The %1 web does not exist"
 msgstr "Раздел %1 не существует"
 
@@ -2830,6 +2848,10 @@ msgstr ""
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
 msgstr ""
 
+#: core/templates/messages.tmpl:421
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
 msgstr ""
@@ -2838,18 +2860,18 @@ msgstr ""
 msgid "The activation code %1 is invalid."
 msgstr "%1 - Неверный код активации."
 
-#: core/templates/moveattachment.tmpl:29
+#: core/templates/moveattachment.tmpl:28
 msgid "The attachment and any history will be moved to the new topic."
 msgstr "Прикрепленные файлы и вся история будут перемещены в новую тему."
 
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:448
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
 msgstr ""
 "Вероятнее всего что %1 просто покинул редактирование страницы без сохранения."
 
-#: core/templates/renamebase.tmpl:70
+#: core/templates/renamebase.tmpl:69
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -2861,7 +2883,7 @@ msgstr ""
 msgid "The e-mail address for this account is not valid."
 msgstr "У этой учетной записи неверный адрес электронной почты."
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:466
 msgid "The entry for user %1 was missing in the password system."
 msgstr "В системе доступа отсутствует запись, относящиеся к пользователю %1."
 
@@ -2890,7 +2912,7 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "Форма должна быть определена на странице темы %1"
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:446
 msgid "The lease on this topic expired %1 ago."
 msgstr "Блокировка этой странички устарела %1 тому назад"
 
@@ -2898,7 +2920,7 @@ msgstr "Блокировка этой странички устарела %1 т�
 msgid "The name of the topic must not be empty."
 msgstr ""
 
-#: core/templates/moveattachment.tmpl:16
+#: core/templates/moveattachment.tmpl:15
 msgid "The new topic chosen must already exist."
 msgstr "Выбираемая новая тема должна существовать."
 
@@ -2926,7 +2948,7 @@ msgstr "Тема в старом формате"
 msgid "The two passwords you entered do not match."
 msgstr "Два введенных Вами пароля не совпадают."
 
-#: core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:535
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
@@ -3007,7 +3029,7 @@ msgstr ""
 "Это Свалка. Здесь Вы можете восстановить ранее удаленные темы; удалённые "
 "файлы находятся в TrashAttachment."
 
-#: core/templates/renamedelete.tmpl:25
+#: core/templates/renamedelete.tmpl:24
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
@@ -3018,6 +3040,10 @@ msgstr ""
 #: core/templates/messages.tmpl:348
 msgid "This requires the form definition to be present."
 msgstr "Необходимо, чтобы было представлено определение формы."
+
+#: core/data/System/DefaultPreferences.txt:42
+msgid "This site is powered by Foswiki"
+msgstr ""
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3040,7 +3066,7 @@ msgstr ""
 "страницу, чтобы убедиться, что все в порядке, особенно если Вы вносили любые "
 "изменения в поля форм. "
 
-#: core/data/System/WebSearchAdvanced.txt:85
+#: core/data/System/WebSearchAdvanced.txt:84
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3067,11 +3093,11 @@ msgstr "Для регистрации нового пользователя, п�
 msgid "To see if %1 has finished editing yet, click "
 msgstr "Чтобы увидеть, закончил ли уже %1 редактировать, кликните "
 
-#: core/templates/renamebase.tmpl:30 core/templates/renameconfirm.tmpl:14
+#: core/templates/renamebase.tmpl:29 core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "К теме:"
 
-#: core/templates/renamebase.tmpl:23 core/templates/renameconfirm.tmpl:10
+#: core/templates/renamebase.tmpl:22 core/templates/renameconfirm.tmpl:9
 msgid "To web:"
 msgstr "В раздел:"
 
@@ -3101,8 +3127,8 @@ msgstr "Прикрепленные файлы"
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Тема не может быть обновлена из таблицы категорий старого стиля"
 
-#: core/data/System/WebSearchAdvanced.txt:48
-#: core/data/System/WebSearchAdvanced.txt:59
+#: core/data/System/WebSearchAdvanced.txt:47
+#: core/data/System/WebSearchAdvanced.txt:58
 msgid "Topic name"
 msgstr "Название темы"
 
@@ -3123,7 +3149,7 @@ msgstr "Родительская тема:"
 msgid "Topic revision:"
 msgstr "Родительская тема:"
 
-#: core/templates/oopssaveerr.tmpl:12
+#: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
 msgstr "Ошибка сохранения страницы"
 
@@ -3132,7 +3158,7 @@ msgstr "Ошибка сохранения страницы"
 msgid "Topic templates in %1 Web"
 msgstr "Темы в разделе %1:"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
 msgid "Topic title"
 msgstr "Заголовок темы"
 
@@ -3154,17 +3180,17 @@ msgstr "Темы в разделе %1:"
 msgid "Topics in %1 web:"
 msgstr "Темы в разделе %1:"
 
-#: core/data/System/WebSearchAdvanced.txt:76
+#: core/data/System/WebSearchAdvanced.txt:75
 msgid "Topics per web"
 msgstr "Тем в разделе"
 
-#: core/templates/renamewebbase.tmpl:29
+#: core/templates/renamewebbase.tmpl:28
 msgid "Topics which are currently being edited by other users in the %1 Web:"
 msgstr ""
 "Темы, которые в настоящее время редактируются другими пользователями в "
 "разделе %1:"
 
-#: core/templates/renamewebbase.tmpl:32
+#: core/templates/renamewebbase.tmpl:31
 msgid ""
 "Topics which refer to this web and are are currently being edited by other "
 "users:"
@@ -3172,12 +3198,12 @@ msgstr ""
 "Темы, которые ссылаются на данный раздел, и в настоящее время редактируются "
 "другими пользователями:"
 
-#: core/templates/renamewebbase.tmpl:35
+#: core/templates/renamewebbase.tmpl:34
 msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr "Темы, ссылающиеся на этот раздел который Вы не можете изменять:"
 
-#: core/data/System/WebSearchAdvanced.txt:71
+#: core/data/System/WebSearchAdvanced.txt:70
 msgid "Total matches"
 msgstr "Всего совпадений"
 
@@ -3207,7 +3233,7 @@ msgstr "Неопознанная команда %1"
 msgid "Update attachment %1 on %2"
 msgstr "Обновить файл %1 прикрепленный к %2"
 
-#: core/templates/renamebase.tmpl:50 core/templates/renamewebbase.tmpl:27
+#: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:26
 msgid "Update links"
 msgstr ""
 
@@ -3247,7 +3273,7 @@ msgstr "Учетная запись %1 удалена"
 msgid "User Reference"
 msgstr "Руководство пользователя"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:189
+#: PatternSkin/data/System/PatternSkinElements.txt:220
 #: core/templates/login.tmpl:42
 msgid "Username"
 msgstr "Имя пользователя"
@@ -3276,16 +3302,16 @@ msgstr "История версий"
 msgid "Version history of %1"
 msgstr "История версий %1"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/oopsmore.tmpl:106
 #, fuzzy
 msgid "View"
 msgstr "Просмотреть"
 
-#: core/templates/oopsmore.tmpl:114
+#: core/templates/oopsmore.tmpl:113
 msgid "View difference"
 msgstr "Посмотреть различия"
 
-#: core/templates/oopsmore.tmpl:104
+#: core/templates/oopsmore.tmpl:103
 msgid "View previous topic revision"
 msgstr "Просмотреть предыдущую редакцию"
 
@@ -3293,12 +3319,12 @@ msgstr "Просмотреть предыдущую редакцию"
 msgid "View raw text without formatting"
 msgstr "Просмотреть исходный текст, без форматирования"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/oopsmore.tmpl:105
 #, fuzzy
 msgid "View revision:"
 msgstr "Просмотреть редакцию"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicTemplate.txt:65
 msgid "View templates"
 msgstr "Просмотреть шаблоны"
 
@@ -3316,38 +3342,48 @@ msgstr "Просмотреть полную историю изменений с
 msgid "Warning"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:179
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #, fuzzy
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Примечание: Эта тема не существует"
 
-#: core/templates/messages.tmpl:458
+#: core/templates/messages.tmpl:463
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "Внимание: Невозможно ВЛОЖИТЬ %1 несколько раз, тема уже вложена. %2"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:464
 #, fuzzy
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr "Внимание: Невозможно ВЛОЖИТЬ %1 несколько раз, тема уже вложена. %2"
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:462
+#, fuzzy
+msgid "Warning: Can't find named section %3 in topic %1.%2"
+msgstr "Внимание: Не могу найти тему %1.%2"
+
+#: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Внимание: Не могу найти тему %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:868
+#: core/lib/Foswiki/UI/Register.pm:966
 msgid "Warning: Could not send confirmation email"
 msgstr "Внимание: Не удалось послать подтверждение по электронной почте"
 
-#: core/lib/Foswiki/UI/Register.pm:880
+#: core/lib/Foswiki/UI/Register.pm:978
 #, fuzzy
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Внимание: Не удалось послать подтверждение по электронной почте"
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:471
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Внимание: Этот сайт не позволяет использовать %<nop>INCLUDE% для URL адресов"
+
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
+#, fuzzy
+msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "Примечание: Эта тема не существует"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -3361,7 +3397,7 @@ msgstr "Разделы"
 msgid "Welcome to the %1 web"
 msgstr "Добро пожаловать в раздел %1"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:281
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3397,7 +3433,7 @@ msgstr "Вы также перечислены на странице %1"
 msgid "You are denied access to the following topics in the web:"
 msgstr "Вы не имеете доступа к следующим темам этого раздела:"
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:450
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3431,28 +3467,28 @@ msgstr ""
 "имя, начинающееся с символа подчеркивания и не содержащие иных символов, "
 "кроме букв и цифр."
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:528
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Вы пытаетесь %1 несуществующий файл."
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:516
 #, fuzzy
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Вы пытаетесь %1 тему, которая(ой) не существует."
 
-#: core/templates/messages.tmpl:506
+#: core/templates/messages.tmpl:511
 #, fuzzy
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr "Вы пытаетесь %1 тему, которая(ой) не существует."
 
-#: core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:522
 #, fuzzy
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Вы пытаетесь %1 тему, которая(ой) не существует."
 
-#: core/templates/messages.tmpl:496
+#: core/templates/messages.tmpl:501
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -3475,7 +3511,7 @@ msgstr ""
 msgid "You can change your password at via %1"
 msgstr "Вы можете изменить свой пароль при помощи %1"
 
-#: core/templates/renameweb.tmpl:21
+#: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Вы можете дать этому разделу другое имя."
 
@@ -3504,7 +3540,7 @@ msgstr ""
 "Вы можете попробовать попросить Вашего администратора Wiki изменить "
 "настройки если они не подходят Вашему окружению."
 
-#: core/templates/messages.tmpl:532
+#: core/templates/messages.tmpl:537
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -3541,11 +3577,11 @@ msgstr ""
 "почты в секретной базе данных, то будет искать на Вашей персональной "
 "странице строку подобную этой:"
 
-#: core/templates/oopsmore.tmpl:23
+#: core/templates/oopsmore.tmpl:22
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 
-#: core/templates/oopsmore.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
@@ -3579,7 +3615,7 @@ msgstr ""
 "перенаправлены туда. Если этого не произойдёт или Вы не хотите ждать, [[%2]"
 "[жмите сюда]]."
 
-#: core/templates/mailresetpassword.tmpl:10
+#: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
 msgstr "Ваш пароль изменен на %1."
 
@@ -3618,7 +3654,7 @@ msgstr ""
 msgid "Your signature to copy/paste"
 msgstr "Ваша подпись для копирования/вставки:"
 
-#: core/templates/edit.tmpl:48
+#: core/templates/edit.tmpl:47
 msgid "Your signature to copy/paste:"
 msgstr "Ваша подпись для копирования/вставки:"
 
@@ -3646,7 +3682,7 @@ msgstr ""
 msgid "[[%1][Debug topic text]]."
 msgstr "Нажмите на [[%1][Текст темы в отладке]]."
 
-#: core/templates/settings.tmpl:28
+#: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
@@ -3705,7 +3741,8 @@ msgstr "переключатели ссылающихся страниц"
 msgid "don't forget to check your Topic Settings"
 msgstr "не забудьте проверить настройки Вашей персональной страницы"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:28
+#: PatternSkin/templates/formtables.pattern.tmpl:30
+#: core/templates/formtables.tmpl:21
 #, fuzzy
 msgid "edit"
 msgstr "(редактировать)"
@@ -3714,7 +3751,7 @@ msgstr "(редактировать)"
 msgid "fields are required."
 msgstr " - эти поля необходимо заполнить."
 
-#: core/templates/attach.tmpl:5
+#: core/templates/attach.tmpl:3
 #, fuzzy
 msgid "has more information about attaching files."
 msgstr "Смотрите %1 для информации об Определениях Форм"
@@ -3728,7 +3765,7 @@ msgstr "помощь"
 msgid "hints on good style"
 msgstr "Руководство по хорошему стилю"
 
-#: core/templates/oopsmore.tmpl:107
+#: core/templates/oopsmore.tmpl:106
 msgid "in raw text format"
 msgstr "в виде исходного текста"
 
@@ -3757,14 +3794,14 @@ msgstr "сейчас %1"
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:11
+#: PatternSkin/templates/preview.pattern.tmpl:16
 #: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
 #: PatternSkin/templates/settings.pattern.tmpl:22
-#: core/templates/changeform.tmpl:13 core/templates/foswiki.tmpl:105
-#: core/templates/moveattachment.tmpl:36 core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
-#: core/templates/renamedelete.tmpl:34 core/templates/renameweb.tmpl:33
-#: core/templates/renamewebconfirm.tmpl:16
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
+#: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
+#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
+#: core/templates/renamedelete.tmpl:33 core/templates/renameweb.tmpl:32
+#: core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "или"
 
@@ -3773,7 +3810,7 @@ msgstr "или"
 msgid "preview"
 msgstr "Предварительный просмотр"
 
-#: core/lib/Foswiki/Render.pm:204
+#: core/lib/Foswiki/Render.pm:213
 msgid "put it back"
 msgstr "вернуть на место"
 
@@ -3782,12 +3819,12 @@ msgstr "вернуть на место"
 msgid "retrieved at %1"
 msgstr "Найдено в %1"
 
-#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#: core/templates/oopsmore.tmpl:38 core/templates/oopsmore.tmpl:47
 #, fuzzy
 msgid "scans links in _%1 web_ only"
 msgstr "отслеживая ссылки только в _разделе %1_"
 
-#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
 #, fuzzy
 msgid "scans links in _all public webs_"
 msgstr "Искать похожие темы во всех открытых разделах"
@@ -3861,7 +3898,7 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr ""
 "title='Просмотреть полную историю изменений страницы' accesskey='h'>История"
 
-#: core/lib/Foswiki.pm:4269
+#: core/lib/Foswiki.pm:4370
 msgid "user list truncated"
 msgstr ""
 
@@ -3869,7 +3906,7 @@ msgstr ""
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Отменить' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:13
+#: PatternSkin/templates/preview.pattern.tmpl:18
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Отказаться' accesskey='d'"
 
@@ -3904,6 +3941,10 @@ msgstr ""
 "электронной почты, чтобы можно было сбросить Ваш пароль. Если ни один из "
 "зарегистрированных Вами адресов электронной почты не правилен и Вы забыли "
 "свой пароль, пишите %1."
+
+#, fuzzy
+#~ msgid "Edit table"
+#~ msgstr "Редактировать текст"
 
 #~ msgid "%1 Web Home"
 #~ msgstr "%1 Главная страница раздела"
