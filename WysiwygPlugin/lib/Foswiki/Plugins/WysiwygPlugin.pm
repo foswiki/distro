@@ -550,7 +550,7 @@ sub notWysiwygEditable {
 
 =pod
 
----++ ObjectMethod addXMLTag($tag, \&fn)
+---++ Function addXMLTag($tag, \&fn)
 
 Instruct WysiwygPlugin to "lift out" the named tag 
 and pass it to &fn for processing.
