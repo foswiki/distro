@@ -10,56 +10,93 @@ Part of QueryAcceleratorPlugin.
 =cut
 
 package Foswiki::Store::QueryAlgorithms::DBCache;
-
 use strict;
+#@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
+
 use Assert;
 use Error ( ':try' );
 
 use Foswiki::Query::Node ();
 
 # 1 for debug
-sub MONITOR_EVAL { 0 }
+sub MONITOR_EVAL { Foswiki::Query::Node::MONITOR_EVAL() }
 
+# See Foswiki::Query::QueryAlgorithms in Foswiki 1.1 or later for details
 sub query {
-    my ( $query, $web, $topics, $store ) = @_;
+    my ( $query, $web, $topics, $store, $options ) = @_;
 
     my $db = Foswiki::Plugins::QueryAcceleratorPlugin::getDB( $web );
     ASSERT($db) if DEBUG;
 
-    # Monkey-patch
-    my @saved = ( \&Foswiki::Query::Node::evaluate,
-                  \&Foswiki::Query::OP_ref::evaluate );
-    no warnings 'redefine';
-    *Foswiki::Query::Node::evaluate = \&_nodeEvaluate;
-    *Foswiki::Query::OP_ref::evaluate = \&_op_refEvaluate;
-    use warnings 'redefine';
+    my $is10 = (ref($topics) eq 'ARRAY'); # 1.0.x
+    my @monkeys;
+
+    if ($is10) {
+        # Monkey-patch
+        @monkeys = ( \&Foswiki::Query::Node::evaluate,
+                     \&Foswiki::Query::OP_ref::evaluate );
+        no warnings 'redefine';
+        *Foswiki::Query::Node::evaluate = \&_nodeEvaluate;
+        *Foswiki::Query::OP_ref::evaluate = \&_op_refEvaluate;
+        use warnings 'redefine';
+    }
 
     my %matches;
-    local $/;
-    foreach my $topic (@$topics) {
-        my $meta = $db->fastget( $topic );
-        next unless $meta;
-        print STDERR "TEST $topic\n" if MONITOR_EVAL;
-        my $match = $query->evaluate( tom => $meta, data => $meta );
-        if ($match) {
-            $matches{$topic} = $match;
+    if ($is10) {
+        foreach my $topic (@$topics) {
+            my $meta = $db->fastget( $topic );
+            next unless $meta;
+            print STDERR "Processing $topic\n" if MONITOR_EVAL;
+            my $match = $query->evaluate( tom => $meta, data => $meta );
+            if ($match) {
+                $matches{$topic} = $match;
+            }
+        }
+    } else {
+        # 1.1 and later
+        while ($topics->hasNext()) {
+            my $topic = $topics->next();
+            my $meta = $db->fastget( $topic );
+            next unless $meta;
+            print STDERR "Processing $topic\n" if MONITOR_EVAL;
+            my $match = $query->evaluate( tom => $meta, data => $meta );
+            if ($match) {
+                $matches{$topic} = $match;
+            }
         }
     }
 
-    # Remove the monkey patches
-    no warnings 'redefine';
-    *Foswiki::Query::Node::evaluate = $saved[0];
-    *Foswiki::Query::OP_ref::evaluate = $saved[1];
-    use warnings 'redefine';
+    if ($is10) {
+        # Remove the monkey patches
+        no warnings 'redefine';
+        *Foswiki::Query::Node::evaluate = $monkeys[0];
+        *Foswiki::Query::OP_ref::evaluate = $monkeys[1];
+        use warnings 'redefine';
 
-    return \%matches;
+        # 1.0.x and earlier
+        return \%matches;
+    } else {
+        require Foswiki::Search::InfoCache;
+
+        my @topics = keys(%matches);
+        my $resultTopicSet =
+          new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
+                                          \@topics );
+        return $resultTopicSet;
+    }
 }
 
-sub _getField {
-    my ( $node, $data, $field ) = @_;
+# See Foswiki::Query::QueryAlgorithms in Foswiki 1.1 or later for details
+sub getField {
+    my ( $class, $node, $data, $field ) = @_;
 
     my $result = undef;
 
+    # The query evaluation process can return either DBCacheContrib maps
+    # and arrays (when data in the store is matched) and also standard
+    # perl arrays and hashes (when data is filtered, for example). To simplify
+    # the following code, we map them all to perl objects, using the fact that
+    # DBCacheContrib objects are designed to be tied to.
     if ( UNIVERSAL::isa(
         $data, 'Foswiki::Contrib::DBCacheContrib::Map' )) {
         my %hash;
@@ -87,7 +124,7 @@ sub _getField {
             # Get all array entries that match the field
             for( my $i = 0; $i < scalar(@$data); $i++) {
                 my $f = $data->[$i];
-                my $val = _getField( $node, $f, $field );
+                my $val = getField( undef, $node, $f, $field );
                 push( @res, $val ) if defined($val);
             }
             if ( scalar( @res ) ) {
@@ -159,9 +196,23 @@ sub _getField {
     return $result;
 }
 
+# See Foswiki::Query::QueryAlgorithms in Foswiki 1.1 or later for details
+sub getRefTopic {
+    my ($class, $relativeTo, $w, $t) = @_;
+    return Foswiki::Plugins::QueryAcceleratorPlugin::getDB(
+        $w)->fastget( $t );
+}
+
+###########################################################################
+# The following monkey-patching functions are only required for Foswiki 1.0
+# Later versions do not need them as the core functions have been generalised
+# to the versions given here
+###########################################################################
+
 my $ind = 0;
 
-# Override of Foswiki::Query::Node
+# This should be identical to Foswiki::Query::Node::evaluate in
+# Foswiki 1.1. It is provided here for use in monkey-patching Foswiki 1.0.
 sub _nodeEvaluate {
     my $node = shift;
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
@@ -174,8 +225,9 @@ sub _nodeEvaluate {
         if ( $node->{op} == $Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-            # a name; look it up in clientData
-            $result = _getField( $node, $domain{data}, $node->{params}[0] );
+            # a name; look it up in $domain{data}
+            $result = $Foswiki::cfg{RCS}{QueryAlgorithm}->getField(
+                $node, $domain{data}, $node->{params}[0] );
         }
         else {
             $result = $node->{params}[0];
@@ -193,7 +245,8 @@ sub _nodeEvaluate {
     return $result;
 }
 
-# Override of Foswiki::Query::OP_ref
+# This should be identical to Foswiki::Query::OP_ref::evaluate in
+# Foswiki 1.1. It is provided here for use in monkey-patching Foswiki 1.0.
 sub _op_refEvaluate {
     my $this   = shift;
     my $pnode  = shift;
@@ -217,8 +270,8 @@ sub _op_refEvaluate {
               $Foswiki::Plugins::SESSION->{webName}, $v );
         my $result = undef;
         try {
-            my $submeta = Foswiki::Plugins::QueryAcceleratorPlugin::getDB(
-                $w)->fastget( $t );
+            my $submeta = $Foswiki::cfg{RCS}{QueryAlgorithm}->getRefTopic(
+                $domain{tom}, $w, $t );
             my $b       = $pnode->{params}[1];
             my $res     = $b->evaluate( tom => $submeta, data => $submeta );
             if ( ref($res) eq 'ARRAY' ) {
