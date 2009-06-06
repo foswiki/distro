@@ -504,8 +504,6 @@ sub resetPassword {
         $good = $good
           && _resetUsersPassword( $session, $userName, $introduction,
             \$message );
-
-        $session->logEvent('resetpasswd', $userName) if $good;
     }
 
     my $action = '';
@@ -566,6 +564,9 @@ sub _resetUsersPassword {
         $$pMess .= $session->inlineAlert( 'alertsnohtml', 'reset_bad', $user );
         return 0;
     }
+
+    # Now that we have successfully reset the password we log the event
+    $session->logEvent('resetpasswd', $login);
 
     # absolute URL context for email generation
     $session->enterContext('absolute_urls');
