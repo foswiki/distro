@@ -28,6 +28,7 @@ use base 'Foswiki::UserMapping';
 use strict;
 use Assert;
 use Error qw( :try );
+require Foswiki::ListIterator;
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
@@ -560,7 +561,6 @@ sub eachUser {
 
     $this->_loadMapping();
     my @list = keys( %{ $this->{U2W} } );
-    require Foswiki::ListIterator;
     my $iter = new Foswiki::ListIterator( \@list );
     $iter->{filter} = sub {
 
@@ -610,7 +610,6 @@ sub eachGroupMember {
     }
     $this->{eachGroupMember}->{$group} = $members;
 
-    require Foswiki::ListIterator;
     return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
 }
 
@@ -642,7 +641,6 @@ See baseclass for documentation
 sub eachGroup {
     my ($this) = @_;
     _getListOfGroups($this);
-    require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@{ $this->{groupsList} } );
 }
 
@@ -658,7 +656,6 @@ sub eachMembership {
     my ( $this, $user ) = @_;
 
     _getListOfGroups($this);
-    require Foswiki::ListIterator;
     my $it = new Foswiki::ListIterator( \@{ $this->{groupsList} } );
     $it->{filter} = sub {
         $this->isInGroup( $user, $_[0] );
