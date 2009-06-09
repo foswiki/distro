@@ -473,7 +473,7 @@ sub sysCommand {
             close $handle;
             $exit = ( $? >> 8 );
             if ( $exit == $key && $data =~ /$key: (.*)/ ) {
-                throw Error::Simple( 'exec failed: ' . $1 );
+                throw Error::Simple( "exec of $template failed: $1" );
             }
         }
         else {
