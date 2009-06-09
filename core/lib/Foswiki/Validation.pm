@@ -286,7 +286,7 @@ sub validate {
         print STDERR "V: PROMPT FOR CONFIRMATION\n" if TRACE;
 
         # prompt for user verification
-        $session->{response}->status(401);
+        $session->{response}->status(200);
 
         $session->{prefs}->setSessionPreferences(
             ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ), );
