@@ -1008,6 +1008,14 @@ $Foswiki::cfg{UsersWebName} = 'Main';
 # **BOOLEAN**
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
+#---++ Compress data
+# Enable gzip/deflate page compression. Modern browsers can uncompress content
+# encoded using gzip compression. You will safe a lot of bandwidth by compressing
+# pages. This makes most sense when enabling page caching as well as these are
+# stored in compressed format already. Note that only pages without any 'dirty areas'
+# will be compressed. Any other pages will be transmitted uncompressed.
+$Foswiki::cfg{Cache}{Compress} = $TRUE;
+
 #---++ Cache namespace
 # Specify the namespace used by this site in a store shared with other systems.
 # Leave this empty to use the <code>DefaultUrlHost</code> as a default.
