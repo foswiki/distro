@@ -999,6 +999,56 @@ $Foswiki::cfg{TrashWebName} = 'Trash';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
+#---+ Cache settings
+
+#---++ Enable page caching
+# This setting will switch on/off caching of html pages rendered by a view action.
+# This can dramatically increase performance, i.e. if there are a lot more
+# page views than changes.
+# **BOOLEAN**
+$Foswiki::cfg{Cache}{Enabled} = $FALSE;
+
+#---++ Cache namespace
+# Specify the namespace used by this site in a store shared with other systems.
+# Leave this empty to use the <code>DefaultUrlHost</code> as a default.
+$Foswiki::cfg{Cache}{NameSpace} = '';
+
+#---++ CacheManager for PageCache
+# Select the default caching mechanism. Note, that individual subsystems might
+# chose a different backend for their own purposes. Some recommendations:
+# <ul>
+#   <li>Use <code>Foswiki::Cache::FileCache</code> for long term
+#     caching. Cached pages will be stored on disk.</li>
+#   <li>Use <code>Foswiki::Cache::Memcached</code> for distributed caching
+#     on high end sites</li>
+#   <li>Use <code>Foswiki::Cache::MemoryLRU</code> for an in-memory LRU cache.
+#     Note that this CacheManager will only keep pages during one call or for
+#     the time of a perl persistent backend.</li>
+# </ul>
+# **SELECTCLASS none,Foswiki::Cache::***
+$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
+
+#---++ CacheRoot directory
+# Specify the root directory for CacheManagers with a file-system based storage
+# **PATH**
+$Foswiki::cfg{Cache}{RootDir} = '/tmp/cache';
+
+#---++ DB_File
+# Specify the database file for the <code>Foswiki::Cache::DB_File</code>
+# CacheManager
+$Foswiki::cfg{Cache}{DBFile} = '/tmp/foswiki_db';
+
+#---++ MaxSize
+# Specify the maximum number of cache entries for size-aware CacheManagers like
+# <code>MemoryLRU</code>. This won't have any effect on other CacheManagers.
+$Foswiki::cfg{Cache}{MaxSize} = 1000;
+
+#---++ Cache Servers
+# Specify a comma separated list of servers for distributed CacheManagers like
+# <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
+# **STRING 30**
+$Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
+
 #---+ Mail and Proxies
 # **BOOLEAN**
 # Enable email globally.

@@ -314,6 +314,10 @@ true if the corresponding web or topic really exists in the store.
 sub existsInStore {
     my $this = shift;
     if ( defined $this->{_topic} ) {
+
+        # only checking for a topic existence already establishes a dependency
+        $this->addDependency();
+
         return $this->{_session}->{store}
           ->topicExists( $this->{_web}, $this->{_topic} );
     }
@@ -344,6 +348,39 @@ sub stringify {
     }
     return $s;
 }
+
+=begin TML
+
+---++ ObjectMethod addDependency() -> $this
+
+This establishes a dependency between $this and the
+base topic this session is currently rendering. The dependency
+will be asserted during Foswiki::PageCache::cachePage().
+See Foswiki::PageCache::addDependency().
+
+=cut
+
+sub addDependency {
+    my $cache = $_[0]->{_session}->{cache};
+    return unless $cache;
+    return $cache->addDependency(
+        $_[0]->{_web}, $_[0]->{_topic});
+}
+
+=begin TML
+
+---++ ObjectMethod fireDependency() -> $this
+
+Invalidates the cache bucked of the current meta object
+within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
+
+=cut
+
+sub fireDependency {
+    return $_[0]->{_session}->{cache}->fireDependency(
+        $_[0]->{_web}, $_[0]->{_topic});
+}
+
 
 ############# WEB METHODS #############
 
@@ -606,6 +643,8 @@ sub reload {
 #SMELL: removed see getLoadedRevision - should remove any non-numeric rev's (like the $rev stuff from svn)
     $this->{_preferences}->finish() if defined $this->{_preferences};
     $this->{_preferences} = undef;
+
+    $this->addDependency();
 }
 
 =begin TML
@@ -880,6 +919,7 @@ sub copyFrom {
     ASSERT( $other->isa('Foswiki::Meta') ) if DEBUG;
 
     if ($type) {
+        return if $type =~ /^_/;
         my @data;
         foreach my $item ( @{ $other->{$type} } ) {
             if ( !$filter
@@ -1450,6 +1490,7 @@ sub saveAs {
     }
     finally {
         $this->_atomicUnlock($cUID);
+        $this->fireDependency();
     };
 }
 
@@ -1543,6 +1584,8 @@ sub move {
         finally {
             $this->_atomicUnlock($cUID);
             $to->_atomicUnlock($cUID);
+            $this->fireDependency();
+            $to->fireDependency();
         };
 
     }
@@ -1957,6 +2000,9 @@ sub attach {
         catch Error with {
             $error = shift;
         };
+        finally {
+            $this->fireDependency();
+        };
 
         my $fileVersion = $this->getMaxRevNo( $opts{name} );
         $attrs->{version} = $fileVersion;
@@ -2047,6 +2093,8 @@ Errors will be signalled by an Error::Simple exception.
 sub testAttachment {
     my ( $this, $attachment, $test ) = @_;
 
+    $this->addDependency();
+
     $test =~ /(\w)/;
     $test = $1;
     if ( $test eq 'r' ) {
@@ -2124,6 +2172,8 @@ sub moveAttachment {
     finally {
         $to->_atomicUnlock($cUID);
         $this->_atomicUnlock($cUID);
+        $this->fireDependency();
+        $to->fireDependency();
     };
 
     # alert plugins of attachment move
@@ -2422,6 +2472,7 @@ sub _writeTypes {
     }
 
     foreach my $type (@types) {
+        next if $type eq '_session';
         my $data = $this->{$type};
         foreach my $item (@$data) {
             my $sep = '';

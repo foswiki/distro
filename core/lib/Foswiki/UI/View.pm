@@ -47,6 +47,38 @@ sub view {
     my $web   = $session->{webName};
     my $topic = $session->{topicName};
 
+    my $fire = $query->param('firedependency') || '';
+    my $cachedPage;
+    my $cache = $session->{cache};
+    if ($cache) {
+      if ($fire eq 'on') {
+        $cache->fireDependency($web, $topic);
+      } else {
+        $cachedPage = $cache->getPage($web, $topic);
+      }
+    }
+    if ($cachedPage) {
+        print STDERR "found $web.$topic in cache\n" if $Foswiki::cfg{Cache}{Debug};
+        Monitor::MARK("found page in cache");
+
+        # render uncacheable areas
+        my $text = $cachedPage->{text};
+        $session->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
+
+        # compute headers
+        my $contentType = $cachedPage->{contentType};
+        $session->generateHTTPHeaders('view', $contentType, $text, $cachedPage);
+        $session->{response}->print($text);
+
+        Monitor::MARK('Wrote HTML');
+        if ($Foswiki::cfg{Log}{view}) {
+            $session->logEvent('view', $web . '.' . $topic, '(cached)' );
+        }
+        return;
+    }
+
+    print STDERR "computing page for $web.$topic\n" if $Foswiki::cfg{Cache}{Debug};
+
     my $raw = $query->param('raw') || '';
     my $contentType = $query->param('contenttype');
 
@@ -397,7 +429,6 @@ sub _prepare {
 
     $text = $topicObject->expandMacros($text);
     $text = $topicObject->renderTML($text);
-    $text =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
 
     if ($minimalist) {
         $text =~ s/<img [^>]*>//gi;    # remove image tags

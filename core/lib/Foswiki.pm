@@ -62,6 +62,7 @@ use Foswiki::Prefs           ();
 use Foswiki::Plugins         ();
 use Foswiki::Store           ();
 use Foswiki::Users           ();
+use Foswiki::PageCache       ();
 
 require 5.005;    # For regex objects and internationalisation
 
@@ -207,7 +208,6 @@ BEGIN {
         REMOTE_ADDR       => \&REMOTE_ADDR_deprecated,
         REMOTE_PORT       => \&REMOTE_PORT_deprecated,
         REMOTE_USER       => \&REMOTE_USER_deprecated,
-        RENDERHEAD        => \&RENDERHEAD,
         REVINFO           => \&REVINFO,
         REVTITLE          => \&REVTITLE,
         REVARG            => \&REVARG,
@@ -231,6 +231,7 @@ BEGIN {
         WEBLIST           => \&WEBLIST,
         WIKINAME          => \&WIKINAME_deprecated,
         WIKIUSERNAME      => \&WIKIUSERNAME_deprecated,
+        DISPLAYDEPENDENCIES => \&DISPLAYDEPENDENCIES,
 
         # Constant tag strings _not_ dependent on config. These get nicely
         # optimised by the compiler.
@@ -638,86 +639,102 @@ sub writeCompletePage {
     my ( $this, $text, $pageType, $contentType ) = @_;
     $contentType ||= 'text/html';
 
-    if ( $contentType ne 'text/plain' ) {
+    my $cgis = $this->getCGISession();
+    if ( $cgis && $contentType eq 'text/html'
+           && $Foswiki::cfg{Validation}{Method} ne 'none') {
 
-        # Remove <nop> and <noautolink> tags
-        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
-        $text .= "\n" unless $text =~ /\n$/s;
+        # Don't expire the validation key through login, or when
+        # endpoint is an error.
+        Foswiki::Validation::expireValidationKeys($cgis)
+          unless ( $this->{request}->action() eq 'login'
+            or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
 
-        my $cgis = $this->getCGISession();
-        if ( $cgis && $contentType eq 'text/html'
-               && $Foswiki::cfg{Validation}{Method} ne 'none') {
+        my $usingStrikeOne = 0;
+        if ($Foswiki::cfg{Validation}{Method} eq 'strikeone'
+              # Add the onsubmit handler to the form
+              && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+                Foswiki::Validation::addOnSubmit($1)/gei) {
 
-            # Don't expire the validation key through login, or when
-            # endpoint is an error.
-            Foswiki::Validation::expireValidationKeys($cgis)
-              unless ( $this->{request}->action() eq 'login'
-                or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
-
-            my $usingStrikeOne = 0;
-            if ($Foswiki::cfg{Validation}{Method} eq 'strikeone'
-                  # Add the onsubmit handler to the form
-                  && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-                    Foswiki::Validation::addOnSubmit($1)/gei) {
-                # At least one form has been touched; add the validation
-                # cookie
-                $this->{users}->{loginManager}->addCookie(
-                    Foswiki::Validation::getCookie(
-                        $cgis, $this->{response}));
-                # Add the JS module to the page. Note that this is *not*
-                # incorporated into the foswikilib.js because that module
-                # is conditionally loaded under the control of the
-                # templates, and we have to be *sure* it gets loaded.
-                $this->addToHEAD( 'FOSWIKI STRIKE ONE',
-                                  <<STRIKEONE);
+            # At least one form has been touched; add the validation
+            # cookie
+            $this->{users}->{loginManager}->addCookie(
+                Foswiki::Validation::getCookie(
+                    $cgis, $this->{response}));
+            # Add the JS module to the page. Note that this is *not*
+            # incorporated into the foswikilib.js because that module
+            # is conditionally loaded under the control of the
+            # templates, and we have to be *sure* it gets loaded.
+            $this->addToHEAD( 'FOSWIKI STRIKE ONE',
+                              <<STRIKEONE);
 <script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone.js"></script>
 STRIKEONE
-                $usingStrikeOne = 1;
-            }
-            # Inject validation key in HTML forms
-            my $context =
-              $this->{request}->url( -full => 1, -path => 1, -query => 1 )
-                . time();
-            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-              $1 . Foswiki::Validation::addValidationKey(
-                  $cgis, $context, $usingStrikeOne )/gei;
+            $usingStrikeOne = 1;
         }
-        my $htmlHeader = join( "\n",
-            map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
-              keys %{ $this->{_HTMLHEADERS} } );
-        $text =~ s!(</head>)!$htmlHeader$1!i if $htmlHeader;
-        chomp($text);
+
+        # Inject validation key in HTML forms
+        my $context =
+          $this->{request}->url( -full => 1, -path => 1, -query => 1 )
+            . time();
+        $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+          $1 . Foswiki::Validation::addValidationKey(
+              $cgis, $context, $usingStrikeOne )/gei;
     }
 
-    $this->generateHTTPHeaders( $pageType, $contentType );
-    my $hdr = $this->{response}->printHeaders;
+    my $htmlHeader = _genHeaders($this);
+    unless ($text =~ s/%RENDERHEAD%/$htmlHeader/g) {
+      # fallback if there's no RENDERHEAD in the skin
+      $text =~ s!(</head>)!$htmlHeader$1!i if $htmlHeader;
+    }
+    chomp($text);
+
+    # SMELL: can't compute; faking content-type for backwards compatibility;
+    # any other information might become bogus later anyway
+    my $hdr = "Content-type: ".$contentType."\r\n";
 
     # Call final handler
-    $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
+    $this->{plugins}->dispatch('completePageHandler', $text, $hdr);
+
+    # cache final page, but only view
+    my $cachedPage;
+    if ($this->inContext('view') && $Foswiki::cfg{Cache}{Enabled}) {
+        $cachedPage = $this->{cache}->cachePage($contentType, $text);
+        $this->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
+    } else {
+      # remove <dirtyarea> tags
+      $text =~ s/<\/?dirtyarea[^>]*>//go;
+    }
+
+    # Remove <nop> and <noautolink> tags
+    $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
+
+    $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
+
+    # SMELL: null operation. the http headers are written out during Foswiki::Engine::finalize
+    #$hdr = $this->{response}->printHeaders;
 
     $this->{response}->print($text);
 }
 
 =begin TML
 
----++ ObjectMethod generateHTTPHeaders( $pageType, $contentType ) -> $header
+---++ ObjectMethod generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage )
 
 All parameters are optional.
 
    * =$pageType= - May be "edit", which will cause headers to be generated that force caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused data loss with IE5 and IE6.
    * =$contentType= - page content type | text/html
+   * =$text= - page content
+   * =$cachedPage= - a pointer to the page container as fetched from the page cache
 
 =cut
 
 sub generateHTTPHeaders {
-    my ( $this, $pageType, $contentType ) = @_;
-
-    # Handle Edit pages - future versions will extend to caching
-    # of other types of page, with expiry time driven by page type.
-    my ( $pluginHeaders, $coreHeaders );
+    my( $this, $pageType, $contentType, $text, $cachedPage ) = @_;
 
     my $hopts = {};
 
+    # Handle Edit pages - future versions will extend to caching
+    # of other types of page, with expiry time driven by page type.
     if ( $pageType && $pageType eq 'edit' ) {
 
         # Get time now in HTTP header format
@@ -742,7 +759,7 @@ sub generateHTTPHeaders {
 
     # DEPRECATED plugins header handler. Plugins should use
     # modifyHeaderHandler instead.
-    $pluginHeaders =
+    my $pluginHeaders =
       $this->{plugins}->dispatch( 'writeHeaderHandler', $this->{request} )
       || '';
     if ($pluginHeaders) {
@@ -769,6 +786,92 @@ sub generateHTTPHeaders {
 
     # add cookie(s)
     $this->{users}->{loginManager}->modifyHeader($hopts);
+
+    # add http compression and conditional cache controls
+    if (!$this->inContext('command_line') && $text) {
+
+        my $contentEncodingHdr = '';
+        if ($Foswiki::cfg{Cache}{Enabled} &&
+            $Foswiki::cfg{Cache}{Compress}) {
+          # compress
+          if ($ENV{'HTTP_ACCEPT_ENCODING'} &&
+              $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i) {
+            my $encoding = $1;
+
+            # check if we take the compressed version from the cache
+            if ($cachedPage && !$cachedPage->{isDirty}) {
+              $text = $cachedPage->{text}; 
+            } else {
+
+              # well, then compress it now
+              if (!$cachedPage || $cachedPage->{isDirty}) {
+                require Compress::Zlib;
+                $text = Compress::Zlib::memGzip($text);
+                #print STDERR "compressing\n";
+              }
+            }
+
+            $hopts->{'Content-Encoding'} = $encoding;
+            $hopts->{'Vary'} = 'Accept-Encoding';
+
+          } else {
+            if ($cachedPage && !$cachedPage->{isDirty}) {
+
+              # sorry, we need to uncompressed pages from cache again
+              require Compress::Zlib;
+              $text = Compress::Zlib::memGunzip($text);
+              #print STDERR "uncompressing\n";
+            }
+          }
+        } else {
+          if ($cachedPage && !$cachedPage->{isDirty}) {
+            $text = $cachedPage->{text} 
+          }
+        }
+
+        # we need to force the browser into a check on every
+        # request; let the server decide on an 304 as below
+        $hopts->{'Cache-Control'} = 'max-age=0';
+
+        # check etag and last modification time
+        # if we have a cached page on the server side
+        if ($cachedPage) {
+          my $etag = $cachedPage->{etag};
+          my $lastModified = $cachedPage->{lastModified};
+
+          $hopts->{'ETag'} = $etag;
+          $hopts->{'Last-Modified'} = $lastModified;
+
+          # only send a 304 if both criteria are true
+          my $etagFlag = 1;
+          my $lastModifiedFlag = 1;
+
+          # check etag
+          unless ($ENV{'HTTP_IF_NONE_MATCH'} &&
+              $etag eq $ENV{'HTTP_IF_NONE_MATCH'}) {
+            $etagFlag = 0;
+          }
+
+          # check last-modified
+          unless ($ENV{'HTTP_IF_MODIFIED_SINCE'} &&
+              $lastModified eq $ENV{'HTTP_IF_MODIFIED_SINCE'}) {
+            $lastModifiedFlag = 0;
+          } 
+
+          # finally decide on a 304 reply
+          if ($etagFlag && $lastModified) {
+            $hopts->{'Status'} = '304 Not Modified';
+            $text = '';
+            #print STDERR "NOT modified\n";
+          }
+        }
+
+        # write back to text
+        $_[3] = $text;
+    }
+
+    $hopts->{"X-FoswikiAction"} = $this->{request}->action;
+    $hopts->{"X-FoswikiURI"} = $this->{request}->uri;
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there
@@ -1434,6 +1537,7 @@ sub new {
     $this->{_HTMLHEADERS} = {};
     $this->{context}      = $initialContext;
 
+    $this->{cache} = new Foswiki::PageCache( $this );
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);
@@ -1796,6 +1900,7 @@ sub finish {
     undef $this->{security};
     $this->{i18n}->finish() if $this->{i18n};
     undef $this->{i18n};
+    $this->{cache}->finish() if $this->{cache};
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};
@@ -1851,8 +1956,12 @@ sub logEvent {
         if ($cgiQuery) {
             my $agent = $cgiQuery->user_agent();
             if ($agent) {
-                if ( $agent =~ m/([\w]+)/ ) {
-                    $extra .= ' ' . $1;
+                $extra .= ' ' if $extra;
+                if ( $agent =~ /(MSIE 6|MSIE 7|Firefox|Opera|Konqueror|Safari)/ ) {
+                  $extra .= $1;
+                } else {
+                  $agent =~ m/([\w]+)/;
+                  $extra .= $1;
                 }
             }
         }
@@ -2560,7 +2669,13 @@ sub _processMacros {
     }
 
     my $verbatim = {};
-    $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
+    $text = $this->renderer->takeOutBlocks( $text, 'verbatim',
+                                               $verbatim);
+
+    my $dirtyAreas = {};
+    $text = $this->renderer->takeOutBlocks( $text, 'dirtyarea', $dirtyAreas) 
+      if $Foswiki::cfg{Cache}{Enabled};
+
 
     # See Item1442
     #my $percent = ($TranslationToken x 3).'%'.($TranslationToken x 3);
@@ -2676,6 +2791,8 @@ sub _processMacros {
 
     #$stackTop =~ s/$percent/%/go;
 
+    $this->renderer->putBackBlocks( \$stackTop, $dirtyAreas, 'dirtyarea' )
+      if $Foswiki::cfg{Cache}{Enabled};
     $this->renderer->putBackBlocks( \$stackTop, $verbatim, 'verbatim' );
 
     #print STDERR "FINAL $stackTop\n";
@@ -2811,7 +2928,7 @@ sub registerTagHandler {
 
 =begin TML
 
----++ ObjectMethod handleCommonTags( $text, $topicObject ) -> $text
+---++ ObjectMethod expandMacros( $text, $topicObject ) -> $text
 
 Processes %<nop>VARIABLE%, and %<nop>TOC% syntax; also includes
 'commonTagsHandler' plugin hook.
@@ -2830,7 +2947,6 @@ sub expandMacros {
     my ( $this, $text, $topicObject ) = @_;
 
     return $text unless $text;
-    my $verbatim = {};
 
     # Plugin Hook (for cache Plugins only)
     $this->{plugins}
@@ -2839,7 +2955,15 @@ sub expandMacros {
 
     #use a "global var", so included topics can extract and putback
     #their verbatim blocks safetly.
-    $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
+    my $verbatim={};
+    $text = $this->renderer->takeOutBlocks( $text, 'verbatim',
+                                              $verbatim);
+
+    # take out dirty areas
+    my $dirtyAreas = {};
+    $text = $this->renderer->takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
+      if $Foswiki::cfg{Cache}{Enabled};
+
 
     # Require defaults for plugin handlers :-(
     my $webContext   = $topicObject->web   || $this->{webName};
@@ -2880,6 +3004,11 @@ sub expandMacros {
     # table rows properly
     $text =~ s/^<nop>\r?\n//gm;
 
+    # restore dirty areas
+    $this->renderer->putBackBlocks( \$text, $dirtyAreas, 'dirtyarea' )
+      if $Foswiki::cfg{Cache}{Enabled};
+
+
     $this->renderer->putBackBlocks( \$text, $verbatim, 'verbatim' );
 
     # Foswiki Plugin Hook (for cache Plugins only)
@@ -2903,10 +3032,12 @@ Programmatic interface to ADDTOHEAD
 sub addToHEAD {
     my ( $this, $tag, $header, $requires, $topicObject ) = @_;
 
+    return unless $header; # don't add empty or even undef stuff
+
     # Expand macros in the header
     $header = $topicObject->expandMacros($header) if $topicObject;
 
-    $this->{_SORTEDHEADS} ||= {};
+    $this->{_HTMLHEADERS} ||= {};
     $tag ||= '';
 
     $requires ||= '';
@@ -2915,26 +3046,22 @@ sub addToHEAD {
     # Resolve to references to build DAG
     my @requires;
     foreach my $req ( split( /,\s*/, $requires ) ) {
-        unless ( $this->{_SORTEDHEADS}->{$req} ) {
-            $this->{_SORTEDHEADS}->{$req} = {
+        unless ( $this->{_HTMLHEADERS}->{$req} ) {
+            $this->{_HTMLHEADERS}->{$req} = {
                 tag      => $req,
                 requires => [],
                 header   => '',
             };
         }
-        push( @requires, $this->{_SORTEDHEADS}->{$req} );
+        push( @requires, $this->{_HTMLHEADERS}->{$req} );
     }
-    my $record = $this->{_SORTEDHEADS}->{$tag};
+    my $record = $this->{_HTMLHEADERS}->{$tag};
     unless ($record) {
         $record = { tag => $tag };
-        $this->{_SORTEDHEADS}->{$tag} = $record;
+        $this->{_HTMLHEADERS}->{$tag} = $record;
     }
     $record->{requires} = \@requires;
     $record->{header}   = $header;
-
-    # Temporary, for compatibility until %RENDERHEAD% is embedded
-    # in the skins
-    $this->{_HTMLHEADERS}{GENERATED_HEADERS} = _genHeaders($this);
 }
 
 sub _visit {
@@ -2949,7 +3076,7 @@ sub _visit {
 
 sub _genHeaders {
     my ($this) = @_;
-    return '' unless $this->{_SORTEDHEADS};
+    return '' unless $this->{_HTMLHEADERS};
 
     # Loop through the vertices of the graph, in any order, initiating
     # a depth-first search for any vertex that has not already been
@@ -2962,28 +3089,11 @@ sub _genHeaders {
     # algorithm runs in linear time.
     my %visited;
     my @total;
-    foreach my $v ( values %{ $this->{_SORTEDHEADS} } ) {
+    foreach my $v ( values %{ $this->{_HTMLHEADERS} } ) {
         _visit( $v, \%visited, \@total );
     }
 
     return join( "\n", map { "<!-- $_->{tag} --> $_->{header}" } @total );
-}
-
-=begin TML
-
----+++ %<nop}RENDERHEAD%
-=%RENDERHEAD%= should be written where you want the sorted head tags to be generated. This will normally be in a template. The variable expands to a sorted list of the head blocks added up to the point the RENDERHEAD variable is expanded. Each expanded head block is preceded by an HTML comment that records the ID of the head block.
-
-Head blocks are sorted to satisfy all their =requires= constraints.
-The output order of blocks with no =requires= value is undefined. If cycles
-exist in the dependency order, the cycles will be broken but the resulting
-order of blocks in the cycle is undefined.
-
-=cut
-
-sub RENDERHEAD {
-    my $this = shift;
-    return _genHeaders($this);
 }
 
 =begin TML
@@ -3316,7 +3426,7 @@ sub INCLUDE {
     # Push the topic context to the included topic, so we can create
     # local (SESSION) macro definitions without polluting the including
     # topic namespace.
-    $this->{prefs}->pushTopicContext( $includedWeb, $includedTopic );
+    $this->{prefs}->pushTopicContext( $this->{webName}, $this->{topicName} );
 
     $this->{_INCLUDES}->{$key} = 1;
 
@@ -3332,6 +3442,7 @@ sub INCLUDE {
     my $memWeb   = $this->{prefs}->getPreference('INCLUDINGWEB');
     my $memTopic = $this->{prefs}->getPreference('INCLUDINGTOPIC');
 
+    my $dirtyAreas = {};
     try {
 
         # Copy params into session level preferences. That way finalisation
@@ -3358,6 +3469,10 @@ sub INCLUDE {
             $text =~ s/.*?%STARTINCLUDE%//s;
             $text =~ s/%STOPINCLUDE%.*//s;
         }
+
+        # prevent dirty areas in included topics from being parsed 
+        $text = $this->renderer->takeOutBlocks( $text, 'dirtyarea', $dirtyAreas) 
+          if $Foswiki::cfg{Cache}{Enabled};
 
         # handle sections
         my ( $ntext, $sections ) = parseSections($text);
@@ -3446,6 +3561,10 @@ sub INCLUDE {
             INCLUDINGWEB   => $memWeb,
             INCLUDINGTOPIC => $memTopic
         );
+
+        # restoring dirty areas
+        $this->renderer->putBackBlocks( \$text, $dirtyAreas, 'dirtyarea' )
+          if $Foswiki::cfg{Cache}{Enabled};
 
         ( $this->{webName}, $this->{topicName} ) =
           $this->{prefs}->popTopicContext();
@@ -4133,6 +4252,8 @@ sub ALLVARIABLES {
 # Poor-man's content access.
 sub META {
     my ( $this, $params, $topicObject ) = @_;
+    
+    $topicObject->reload() unless $topicObject->getLoadedRev();
 
     my $option = $params->{_DEFAULT} || '';
 
@@ -4311,6 +4432,37 @@ sub GROUPS {
     }
 
     return '| *Group* | *Members* |' . "\n" . join( "\n", sort @table );
+}
+
+sub DISPLAYDEPENDENCIES {
+    my ( $this, $params ) = @_;
+
+    my $web = $params->{web} || $this->{webName};
+    my $topic = $params->{topic} || $this->{topicName};
+    my $header = $params->{header} || '';
+    my $footer = $params->{footer} || '';
+    my $format = $params->{format} || '   1 [[$web.$topic]]';
+    my $separator = $params->{sep} || $params->{separator} || "\n";
+    my $exclude = $params->{exclude};
+
+    ($web, $topic) = $this->normalizeWebTopicName($web, $topic);
+
+    my $deps = $this->{cache}->getDependencies($web, $topic);
+    my @lines;
+    my $thisWeb;
+    my $thisTopic;
+    foreach my $dep (sort @$deps) {
+      next if $exclude && $dep =~ /$exclude/;
+      $dep =~ /^(.*)[\.\/](.*?)$/;
+      $thisWeb = $1;
+      $thisTopic = $2;
+      my $text = $format;
+      $text =~ s/\$web/$thisWeb/g;
+      $text =~ s/\$topic/$thisTopic/g;
+      push @lines, $text;
+    }
+    return '' unless @lines;
+    return expandStandardEscapes($header.join($separator, @lines).$footer);
 }
 
 sub SHOWPREFERENCE {

@@ -464,6 +464,15 @@ sub searchWeb {
 
         my $infoCache = $webObject->query( $query, $inputTopicSet, $options );
         $this->sortResults( $web, $infoCache, %params );
+
+        # add dependencies
+        my $cache = $session->{cache};
+        if ($cache) {
+          foreach my $topic ( $infoCache->{list} ) {
+              $cache->addDependency($web, $topic);
+          }
+        }
+
         my ( $web_ttopics, $web_searchResult );
         ( $web_ttopics, $web_searchResult, $tmplTail ) =
           $this->formatResults( $webObject, $query, $searchString, $infoCache,

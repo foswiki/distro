@@ -457,14 +457,27 @@ sub _makeAnchorName {
 
     # $anchorName is a *byte* string. If it contains any wide characters
     # the encoding algorithm will not work.
+    #ASSERT($text !~ /[^\x00-\xFF]/) if DEBUG;
+    $text =~ s/[^\x00-\xFF]//g;
     ASSERT( $text !~ /[^\x00-\xFF]/ ) if DEBUG;
+
+    # remove HTML tags and entities
+    $text =~ s/<\/?[a-zA-Z][^>]*>//gi;
+    $text =~ s/&#?[a-zA-Z0-9]+;//g;
+
+    # remove spaces
+    $text =~ s/\s+/_/g;
 
     # use _ as an escape character to escape any byte outside the
     # range specified by http://www.w3.org/TR/html401/struct/links.html
-    $text =~ s/([^A-Za-z0-9:.])/'_'.sprintf('%02d', ord($1))/ge;
+    $text =~ s/([^A-Za-z0-9:._])/'_'.sprintf('%02d', ord($1))/ge;
+
+    # clean up a bit
+    $text =~ s/__/_/g;
+    $text =~ s/^_*(.*?)_*$/$1/;
 
     # Ensure the anchor always starts with an [A-Za-z]
-    $text = 'A' . $text;
+    $text = 'A_'.$text unless $text =~ /^[A-Za-z]/;
 
     return $text;
 }
@@ -610,6 +623,11 @@ sub _renderWikiWord {
     }
 
     if ($topicExists) {
+        # add a dependency so that the page gets invalidated as soon as the
+        # topic is deleted
+        $this->{session}->{cache}->addDependency($web, $topic) 
+          if $Foswiki::cfg{Cache}{Enabled};
+
         return _renderExistingWikiWord( $this, $web, $topic, $linkText,
             $anchor );
     }
@@ -619,6 +637,12 @@ sub _renderWikiWord {
         # if ($singular && $singular ne $topic) {
         #     #unshift( @topics, $singular);
         # }
+
+        # add a dependency so that the page gets invalidated as soon as the
+        # WikiWord comes into existance
+        $this->{session}->{cache}->addDependency($web, $topic)
+          if $Foswiki::cfg{Cache}{Enabled};
+
         return _renderNonExistingWikiWord( $this, $web, $topic, $linkText );
     }
     if ($keepWebPrefix) {
@@ -973,6 +997,8 @@ sub getRenderedVersion {
     # verbatim before literal - see Item3431
     $text = $this->takeOutBlocks( $text, 'verbatim', $removed );
     $text = $this->takeOutBlocks( $text, 'literal',  $removed );
+    $text = $this->takeOutBlocks( $text, 'dirtyarea', $removed )
+      if $Foswiki::cfg{Cache}{Enabled};
 
     $text =
       $this->_takeOutProtected( $text, qr/<\?([^?]*)\?>/s, 'comment',
@@ -1267,8 +1293,9 @@ s/$STARTWW(?:($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|
 
     $this->_putBackProtected( \$text, 'script', $removed, \&_filterScript );
     $this->putBackBlocks( \$text, $removed, 'literal', '', \&_filterLiteral );
-
     $this->_putBackProtected( \$text, 'literal',  $removed );
+    $this->putBackBlocks( \$text, $removed, 'dirtyarea' )
+      if $Foswiki::cfg{Cache}{Enabled};
     $this->_putBackProtected( \$text, 'comment',  $removed );
     $this->_putBackProtected( \$text, 'head',     $removed );
     $this->_putBackProtected( \$text, 'textarea', $removed );

@@ -297,9 +297,6 @@ sub _execute {
     my $session = new Foswiki( undef, $req, \%initialContext );
     my $res = $session->{response};
 
-    $res->pushHeader( 'X-FoswikiAction' => $req->action() );
-    $res->pushHeader( 'X-FoswikiURI'    => $req->uri() );
-
     unless ( defined $session->{response}->status()
         && $session->{response}->status() =~ /^\s*3\d\d/ )
     {
