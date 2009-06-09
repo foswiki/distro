@@ -1025,7 +1025,7 @@ $Foswiki::cfg{Cache}{NameSpace} = '';
 #     Note that this CacheManager will only keep pages during one call or for
 #     the time of a perl persistent backend.</li>
 # </ul>
-# **SELECTCLASS none,Foswiki::Cache::***
+# **SELECTCLASS Foswiki::Cache::***
 $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
 #---++ CacheRoot directory
@@ -1036,6 +1036,7 @@ $Foswiki::cfg{Cache}{RootDir} = '/tmp/cache';
 #---++ DB_File
 # Specify the database file for the <code>Foswiki::Cache::DB_File</code>
 # CacheManager
+# **STRING 30**
 $Foswiki::cfg{Cache}{DBFile} = '/tmp/foswiki_db';
 
 #---++ MaxSize
