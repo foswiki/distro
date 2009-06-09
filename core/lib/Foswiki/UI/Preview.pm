@@ -55,6 +55,7 @@ sub preview {
     # revert to 'preview' template (same code as View.pm)
     if ( !$tmpl && $template ne 'preview' ) {
         $tmpl = $session->templates->readTemplate( 'preview', $skin );
+        $template = 'preview';
     }
 
     my $content = '';
