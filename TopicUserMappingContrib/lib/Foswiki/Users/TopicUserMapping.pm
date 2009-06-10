@@ -28,7 +28,7 @@ use base 'Foswiki::UserMapping';
 use strict;
 use Assert;
 use Error qw( :try );
-require Foswiki::ListIterator;
+use Foswiki::ListIterator ();
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
