@@ -119,8 +119,14 @@ var FoswikiTiny = {
         var text = editor.getContent();
 
         // Make the raw-edit help visible (still subject to toggle)
-        document.getElementById("foswikiTinyMcePluginWysiwygEditHelp").style.display = 'none';
-        document.getElementById("foswikiTinyMcePluginRawEditHelp").style.display = 'block';
+        var el = document.getElementById("foswikiTinyMcePluginWysiwygEditHelp");
+		if (1) {
+			el.style.display = 'none';
+		}
+        el = document.getElementById("foswikiTinyMcePluginRawEditHelp");
+		if (el) {
+			el.style.display = 'block';
+		}
 
         // Evaluate post-processors attached from plugins
         for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
@@ -159,8 +165,14 @@ var FoswikiTiny = {
             el.className = "foswikiButton";
             el.onclick = function () {
                 // Make the wysiwyg help visible (still subject to toggle)
-                document.getElementById("foswikiTinyMcePluginWysiwygEditHelp").style.display = 'block';
-                document.getElementById("foswikiTinyMcePluginRawEditHelp").style.display = 'none';
+                var el = document.getElementById("foswikiTinyMcePluginWysiwygEditHelp");
+                if (el) {
+                    el.style.display = 'block';
+                }
+                el = document.getElementById("foswikiTinyMcePluginRawEditHelp");
+                if (el) {
+                    el.style.display = 'none';
+                }
                 tinyMCE.execCommand("mceToggleEditor", null, eid);
                 FoswikiTiny.switchToWYSIWYG(editor);
                 return false;
