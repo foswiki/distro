@@ -474,7 +474,8 @@ sub _makeAnchorName {
 
     # clean up a bit
     $text =~ s/__/_/g;
-    $text =~ s/^_*(.*?)_*$/$1/;
+    $text =~ s/^_*//;
+    $text =~ s/_*$//;
 
     # Ensure the anchor always starts with an [A-Za-z]
     $text = 'A_'.$text unless $text =~ /^[A-Za-z]/;
@@ -2120,7 +2121,8 @@ sub renderTOC {
 
                 # c.f. _makeAnchorHeading
                 my ( $level, $text ) = ( $1, $2 );
-                $text =~ s/^\s*(.*?)\s*$/$1/;
+                $text =~ s/^\s*//;
+                $text =~ s/\s*$//;
 
                 my $atext = $text;
                 $text =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.*//o;

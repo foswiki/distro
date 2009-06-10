@@ -28,8 +28,8 @@ Designed by: Crawford Currie
 ---++ Headings
 ---+++ Expected
 <!-- expected HEADS -->
-<h2><a name="ASushi"></a>Sushi</h2>
-<h3><a name="AMaguro"></a>Maguro</h3>
+<h2><a name="Sushi_AN1"></a>Sushi</h2>
+<h3><a name="Maguro_AN1"></a>Maguro</h3>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->

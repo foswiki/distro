@@ -10,7 +10,7 @@ Designed by: Crawford Currie
 ---+ Existing attachment
 ---++ Expected
 <!-- expected -->
-<h1><a name="Aheading_321"></a>heading 1</h1>
+<h1><a name="heading_1_AN1"></a>heading 1</h1>
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
