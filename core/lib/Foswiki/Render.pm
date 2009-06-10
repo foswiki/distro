@@ -552,27 +552,25 @@ sub _linkToolTipInfo {
     my $users = $this->{session}->{users};
 
     # SMELL: we ought not to have to fake this. Topic object model, please!!
-    require Foswiki::Meta;
-    my $meta = new Foswiki::Meta( $this->{session}, $theWeb, $theTopic );
-    my ( $date, $user, $rev ) = $meta->getRevisionInfo();
-    my $text = $this->{LINKTOOLTIPINFO};
-    $text =~ s/\$web/<nop>$theWeb/g;
-    $text =~ s/\$topic/<nop>$theTopic/g;
-    $text =~ s/\$rev/1.$rev/g;
-    $text =~ s/\$date/Foswiki::Time::formatTime( $date )/ge;
-    $text =~ s/\$username/$users->getLoginName($user)/ge;    # 'jsmith'
-    $text =~ s/\$wikiname/$users->getWikiName($user)/ge;     # 'JohnSmith'
-    $text =~
+    my ( $meta, $text ) = $store->readTopic( undef, $theWeb, $theTopic );
+    my ( $date, $user, $rev, $comment ) = $meta->getRevisionInfo();
+    my $tooltip = $this->{LINKTOOLTIPINFO};
+    $tooltip =~ s/\$web/<nop>$theWeb/g;
+    $tooltip =~ s/\$topic/<nop>$theTopic/g;
+    $tooltip =~ s/\$rev/1.$rev/g;
+    $tooltip =~ s/\$date/Foswiki::Time::formatTime( $date )/ge;
+    $tooltip =~ s/\$username/$users->getLoginName($user)/ge;    # 'jsmith'
+    $tooltip =~ s/\$wikiname/$users->getWikiName($user)/ge;     # 'JohnSmith'
+    $tooltip =~
       s/\$wikiusername/$users->webDotWikiName($user)/ge;     # 'Main.JohnSmith'
 
-    if ( $text =~ /\$summary/ ) {
-        my $summary = $store->readTopicRaw( undef, $theWeb, $theTopic, undef );
-        $summary = $this->makeTopicSummary( $summary, $theTopic, $theWeb );
+    if ( $tooltip =~ /\$summary/ ) {
+        my $summary = $this->makeTopicSummary( $text, $theTopic, $theWeb );
         $summary =~
           s/[\"\']//g;    # remove quotes (not allowed in title attribute)
-        $text =~ s/\$summary/$summary/g;
+        $tooltip =~ s/\$summary/$summary/g;
     }
-    return $text;
+    return $tooltip;
 }
 
 =begin TML
