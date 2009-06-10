@@ -1048,6 +1048,7 @@ templates/registernotifyadmin.tmpl 0444
 templates/rename.tmpl 0444
 templates/renamebase.tmpl 0444
 templates/renameconfirm.tmpl 0444
+templates/renameattachmentdelete.tmpl 0444
 templates/renamedelete.tmpl 0444
 templates/renameweb.tmpl 0444
 templates/renamewebbase.tmpl 0444
