@@ -757,6 +757,9 @@ $nop embed$nopembed$nop()embed
 $quot embed$quotembed$quot()embed
 $percnt embed$percntembed$percnt()embed
 $dollar embed$dollarembed$dollar()embed
+$lt embed$ltembed$lt()embed
+$gt embed$gtembed$gt()embed
+$amp embed$ampembed$amp()embed
 TEST
     my $expected = <<'TEST';
 
@@ -766,6 +769,9 @@ embed
 " embed"embed"embed
 % embed%embed%embed
 $ embed$embed$embed
+< embed<embed<embed
+> embed>embed>embed
+& embed&embed&embed
 TEST
     my $output = Foswiki::Func::decodeFormatTokens($input);
     $this->assert_str_equals( $expected, $output );

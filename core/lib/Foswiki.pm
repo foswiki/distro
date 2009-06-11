@@ -3144,6 +3144,9 @@ sub expandStandardEscapes {
     $text =~ s/\$quot(\(\))?/\"/gos;   # expand double quote
     $text =~ s/\$percnt(\(\))?/\%/gos; # expand percent
     $text =~ s/\$dollar(\(\))?/\$/gos; # expand dollar
+    $text =~ s/\$lt(\(\))?/\</gos;     # expand less than
+    $text =~ s/\$gt(\(\))?/\>/gos;     # expand greater than
+    $text =~ s/\$amp(\(\))?/\&/gos;    # expand ampersand
     return $text;
 }
 
