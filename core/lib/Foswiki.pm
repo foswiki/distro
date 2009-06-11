@@ -1001,7 +1001,7 @@ sub redirect {
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
             if ($cache) {
-                $url .= "?$cache";
+                $url .= $cache;
             }
         }
         else {
@@ -1090,7 +1090,8 @@ sub cacheQuery {
       . $!;
     $query->save($F);
     close($F);
-    return 'foswiki_redirect_cache=' . $uid;
+
+    return '/foswiki_redirect_cache/' . $uid;
 }
 
 =begin TML

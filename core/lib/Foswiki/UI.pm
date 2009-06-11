@@ -214,12 +214,15 @@ sub handleRequest {
     $sub = $dispatcher->{package} . '::' if $dispatcher->{package};
     $sub .= $dispatcher->{function};
 
-    my $cache = $req->param('foswiki_redirect_cache');
-
-    # Never trust input data from a query. We will only accept
-    # an MD5 32 character string
-    if ( $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
+    # Get the params cache from the path
+    my $cache;
+    my $path_info = $req->path_info();
+    if ($path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})$##) {
         $cache = $1;
+        $req->path_info( $path_info );
+    }
+
+    if ( $cache ) {
 
         # Read cached post parameters
         my $passthruFilename =
