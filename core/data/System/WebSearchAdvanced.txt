@@ -9,6 +9,7 @@
 type="%URLPARAM{"type" default="word"}%"
 scope="%URLPARAM{"scope" encode="quote"}%"
 web="%URLPARAM{"web" encode="quote"}%"
+excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
 nosearch="%URLPARAM{"nosearch" encode="quote"}%"
 casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
 nosummary="%URLPARAM{"nosummary" encode="quote"}%"

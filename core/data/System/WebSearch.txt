@@ -4,12 +4,13 @@
 
 %IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
 
-%SEARCH{ 
-"%URLPARAM{"search" encode="quote"}%" 
-type="%URLPARAM{"type" encode="quote" default="word"}%" 
-scope="%URLPARAM{"scope" encode="quote"}%" 
-web="%URLPARAM{"web" encode="quote"}%" 
-nosearch="%URLPARAM{"nosearch" encode="quote"}%" 
+%SEARCH{
+"%URLPARAM{"search" encode="quote"}%"
+type="%URLPARAM{"type" encode="quote" default="word"}%"
+scope="%URLPARAM{"scope" encode="quote"}%"
+web="%URLPARAM{"web" encode="quote"}%"
+nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
 zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 
