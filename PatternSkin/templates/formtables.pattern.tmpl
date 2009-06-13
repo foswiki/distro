@@ -10,9 +10,7 @@
 
 
 %{ Each row }%
-%TMPL:DEF{FORM:display:row}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> %A_TITLE% </td><td>
-%A_VALUE%
-</td></tr>%IF{"context preview" then="</noautolink>"}%%TMPL:END%
+%TMPL:DEF{FORM:display:row}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> %A_TITLE% </td><td> %A_VALUE% </td></tr>%IF{"context preview" then="</noautolink>"}%%TMPL:END%
 
 
 %TMPL:DEF{FORM:display:rowcontents}%%TMPL:END%
