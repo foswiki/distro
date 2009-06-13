@@ -9,7 +9,8 @@
 type="%URLPARAM{"type" encode="quote" default="word"}%" 
 scope="%URLPARAM{"scope" encode="quote"}%" 
 web="%URLPARAM{"web" encode="quote"}%" 
-nosearch="%URLPARAM{"nosearch" encode="quote"}%" 
+nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
 zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 
