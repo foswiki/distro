@@ -2,10 +2,10 @@
 %TMPL:INCLUDE{"view"}%
 
 
-%TMPL:DEF{"content"}%
+%TMPL:DEF{"content"}%<div class="foswikiTopicText">
 ---+ %MAKETEXT{"Create New Topic in [_1] Web" args="<nop>%BASEWEB%"}%
 %TMPL:P{"createform"}%
-%TMPL:END%
+</div>%TMPL:END%
 
 
 %{ do not show the following elements }%

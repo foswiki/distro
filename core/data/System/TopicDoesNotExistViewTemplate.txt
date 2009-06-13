@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 1643 $"}%
 %TMPL:INCLUDE{"WebCreateNewTopic"}%
 
-%TMPL:DEF{"content"}%
+%TMPL:DEF{"content"}%<div class="foswikiTopicText">
 ---+ %MAKETEXT{"Topic [_1] does not exist" args="'%BASETOPIC%'"}%
 %TMPL:P{"searchMoved"}% %MAKETEXT{"Did you spell the topic name correctly? Remember, a topic name is case sensitive."}%
 
@@ -13,7 +13,7 @@
 
 ---++ %MAKETEXT{"Create this topic"}%
 %TMPL:P{"createform"}% 
-%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"jumpForm"}%<form method="get" action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%" name="jumpForm"><input type="text" class="foswikiInputField" name="topic" size="36" value="%BASETOPIC%" /> <input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Jump"}%" /></form>%TMPL:END%
 
