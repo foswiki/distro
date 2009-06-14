@@ -116,7 +116,7 @@ onsubmit in the form tag.
 sub addOnSubmit {
     my ($form) = @_;
     unless ( $form =~
-        s/\bonsubmit=(["'])(.*)\1/onsubmit=${1}foswikiStrikeOne(this);$2$1/i )
+        s/\bonsubmit=(["'])(\s*javascript:)?(.*)\1/onsubmit=${1}${2}foswikiStrikeOne(this);$3$1/i )
     {
         $form =~ s/>$/ onsubmit="foswikiStrikeOne(this)">/;
     }
