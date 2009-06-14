@@ -3,6 +3,7 @@ package Foswiki::Plugins::EditTablePlugin::Data;
 use strict;
 use warnings;
 use Assert;
+use Foswiki::Plugins::EditTablePlugin::EditTableData;
 
 =begin TML
 
@@ -49,17 +50,23 @@ in the array represents the second table found on the topic page, etc.
 sub parseText {
     my ( $this, $inText ) = @_;
 
+    if ($Foswiki::Plugins::EditTablePlugin::debug) {
+        Foswiki::Func::writeDebug(
+            "- EditTablePlugin::Data::parseText; inText=$inText");
+    }
+
     my $tableNum = 1;    # Table number (only count tables with EDITTABLE tag)
     my @tableMatrix;     # Currently parsed table.
 
     my $isInEditTable = 0;     # Flag to keep track if in an EDITTABLE table
     my $isInsidePRE   = 0;
     my @tableLines    = ();    # list of table lines inside edit table
-    my $editTableData
-      ;    # holds data for each edit table: pretag, tag, posttag, text
+    my $editTableData = Foswiki::Plugins::EditTablePlugin::EditTableData->new();
+
+    # holds data for each edit table
 
     my $tablesTakenOutText = '';
-    my $editTableObjects;
+    my $editTableDataList;
     my $rowWithTABLEtag = '';
 
     # appended stuff is a hack to handle EDITTABLE correctly if at end
@@ -106,7 +113,7 @@ sub parseText {
                 # with the current EDITTABLE tag
                 $editTableData->{'pretag'} ||= '';
                 $editTableData->{'pretag'} =
-                  $rowWithTABLEtag . "\n" . $editTableData->{'pretag'};
+                  $rowWithTABLEtag . $editTableData->{'pretag'};
                 $rowWithTABLEtag = '';
             }
         }
@@ -168,7 +175,10 @@ sub parseText {
                     $doCopyLine    = 1;
                     $isInEditTable = 0;
                 }
-                $editTableData->{'text'} = join( "\n", @tableLines );
+                $editTableData->{'rowCount'} = scalar @tableLines;
+                my @copyOfTableLines = @tableLines;
+                @tableLines = ();
+                $editTableData->{'lines'} = \@copyOfTableLines;
 
                # also store everything in one variable so we can deal with TABLE
                 $editTableData->{'pretag'}  ||= '';
@@ -180,11 +190,12 @@ sub parseText {
                   . $editTableData->{'tag'}
                   . $editTableData->{'posttag'};
                 delete $editTableData->{'tag'};
-                push( @{$editTableObjects}, $editTableData );
+
+                push( @{$editTableDataList}, $editTableData );
                 $tableNum++;
 
-                @tableLines = ();
-                undef $editTableData;
+                $editTableData =
+                  Foswiki::Plugins::EditTablePlugin::EditTableData->new();
             }
         }
 
@@ -194,11 +205,11 @@ sub parseText {
     if ($Foswiki::Plugins::EditTablePlugin::debug) {
         use Data::Dumper;
         Foswiki::Func::writeDebug(
-            "- EditTablePlugin::Data::parseText; editTableObjects="
-              . Dumper($editTableObjects) );
+            "- EditTablePlugin::Data::parseText; editTableDataList="
+              . Dumper($editTableDataList) );
     }
 
-    $this->{editTableObjects} = $editTableObjects;
+    $this->{editTableDataList} = $editTableDataList;
 
     my $text = $tablesTakenOutText;
 
@@ -279,6 +290,13 @@ sub getTable {
     my $table = $$this{"TABLE_$tableNumber"};
     return @$table if defined($table);
     return ();
+}
+
+sub _debug {
+    my ($inText) = @_;
+
+    Foswiki::Func::writeDebug($inText)
+      if $Foswiki::Plugins::EditTablePlugin::debug;
 }
 
 1;

@@ -3,6 +3,7 @@ data/System/VarEDITTABLE.txt 0644
 lib/Foswiki/Plugins/EditTablePlugin.pm 0444
 lib/Foswiki/Plugins/EditTablePlugin/Core.pm 0444
 lib/Foswiki/Plugins/EditTablePlugin/Data.pm 0444
+lib/Foswiki/Plugins/EditTablePlugin/EditTableData.pm 0444
 pub/System/EditTablePlugin/btn_delete_disabled.gif 0644
 pub/System/EditTablePlugin/btn_delete_over.gif 0644
 pub/System/EditTablePlugin/btn_delete.gif 0644
@@ -14,6 +15,7 @@ pub/System/EditTablePlugin/edittable.gif 0644
 pub/System/EditTablePlugin/edittable.js 0644
 pub/System/EditTablePlugin/EditTablePluginCalendarExample.gif 0644
 pub/System/EditTablePlugin/img.gif 0644
+pub/System/EditTablePlugin/move_done_bg_anim.gif 0644
 pub/System/EditTablePlugin/menuarrow.gif 0644
 pub/System/EditTablePlugin/ScreenshotEditCell1.gif 0644
 pub/System/EditTablePlugin/ScreenshotEditCell2.gif 0644

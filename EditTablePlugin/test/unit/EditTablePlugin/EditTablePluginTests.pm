@@ -11,6 +11,7 @@ use Foswiki::UI::Save;
 use Error qw( :try );
 use Foswiki::Plugins::EditTablePlugin;
 use Foswiki::Plugins::EditTablePlugin::Core;
+use Foswiki::Plugins::EditTablePlugin::EditTableData;
 
 sub new {
     my $self = shift()->SUPER::new( 'EditTableFunctions', @_ );
@@ -102,7 +103,9 @@ BEFORE AFTER<a name="edittable1"></a>
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
@@ -141,7 +144,9 @@ sub test_render_simple_pre {
 <input type="hidden" name="etedit" value="on" />
    | ABCDEF |
    | QWERTY |
-<input type="hidden" name="etrows" value="2" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
@@ -176,7 +181,9 @@ sub test_render_simple {
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
@@ -289,7 +296,9 @@ sub test_param_editbutton {
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="foswikiButton editTableEditButton" type="submit" value="Edit me" />
 </form>
 </div><!-- /editTable -->
@@ -339,7 +348,9 @@ INPUT
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
@@ -390,8 +401,11 @@ INPUT
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
-|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="foswikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<nobr><input type="text" name="etcell1x8"  size="11" class="foswikiInputField editTableInput" id="idetcell1x8" /><span class="foswikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span></nobr> |
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="etedit" value="on" />
+| <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> | <textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> | <select class="foswikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> | <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x5" value="A" /> A <br /><input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"><input type="radio" name="etcell1x5" value="C" /> C <br /><input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"><input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> | <table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table><input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> | LABEL <input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> | <nobr><input type="text" name="etcell1x8"  size="11" class="foswikiInputField editTableInput" id="idetcell1x8" /><span class="foswikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span></nobr> |
+<input type="hidden" name="ettablechanges" value="1=1" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
@@ -439,18 +453,22 @@ INPUT
     my $fatwilly = new Foswiki( undef, $query );
     $Foswiki::Plugins::SESSION = $fatwilly;
 
+	my $expected = '';
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
         $this->{test_web}, undef );
 
-    my $expected = <<EXPECTED;
+    $expected = <<EXPECTED;
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
-|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="etedit" value="on" />
+| <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |
+<input type="hidden" name="ettablechanges" value="1=0" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
@@ -462,16 +480,14 @@ EXPECTED
 
     $this->do_testHtmlOutput( $expected, $result, 0 );
 
-    # Add 2 rows
+    # Add 1 row
     $query = new Unit::Request(
         {
             etedit    => ['on'],
             etaddrow  => ['1'],
-            etrows    => ['3'],
             ettablenr => ['1'],
             etcell1x2 => ['test1'],
             etcell2x2 => ['test2'],
-            etcell3x2 => ['test3'],
         }
     );
 
@@ -490,8 +506,7 @@ EXPECTED
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
-<nop>
-<nop>
+<input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
 <table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
@@ -501,20 +516,13 @@ EXPECTED
 			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
-			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
-		</tr>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x2" size="10" value="test3" /> </td>
-		</tr>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">3<input type="hidden" name="etcell4x1" value="3" /></span> </td>
-			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell4x2" size="10" value="init" /> </td>
+			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
+			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
 		</tr>
 	</tbody></table>
-<input type="hidden" name="etrows" value="4" />
-<input type="hidden" name="etaddedrows" value="1" />
+<input type="hidden" name="ettablechanges" value="1=0,2=1" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
@@ -526,52 +534,104 @@ EXPECTED
 
     $this->do_testHtmlOutput( $expected, $result, 1 );
 
+    $fatwilly->finish();
+}
+
+sub test_delete_last_row {
+	my $this = shift;
+	
+	    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+        Foswiki::Func::getUrlHost()
+      . Foswiki::Func::getPubUrlPath() . '/'
+      . $Foswiki::cfg{SystemWebName};
+
+    my $input = <<INPUT;
+%TABLE{headerrows="1" footerrows="1"}%
+%EDITTABLE{header="| *HEADER* |"}%
+| *HEADER* |
+| do |
+| re |
+| mi |
+| *FOOTER* |
+INPUT
+
+    my $query = new Unit::Request(
+        {
+            etedit    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    # delete row
     $query = new Unit::Request(
         {
-            etsave    => ['on'],
-            etrows    => ['3'],
-            ettablenr => ['1'],
-            etcell1x2 => ['test1'],
-            etcell2x2 => ['test2'],
-            etcell3x2 => ['test3'],
+            etedit       => ['on'],
+            etdelrow     => ['1'],
+            ettablenr    => ['1'],
         }
     );
+
     $query->path_info("/$webName/$topicName");
-    $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
-        $input );
-
-    $fatwilly = new Foswiki( undef, $query );
-    my $response = new Unit::Response;
+    my $fatwilly = new Foswiki( undef, $query );
     $Foswiki::Plugins::SESSION = $fatwilly;
 
-    my ( $saveResult, $ecode ) = $this->capture(
-        sub {
-            $response->print(
-                Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
-                )
-            );
-            $Foswiki::engine->finalize( $fatwilly->{response},
-                $fatwilly->{request} );
-        }
-    );
-    $this->assert_matches( qr/Status: 302/, $saveResult );
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
+        $this->{test_web}, undef );
 
-    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
+    my $expected = <<EXPECTED;
+<nop>
+<noautolink>
+<a name="edittable1"></a>
+<div class="editTable editTableEdit">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<nop>
+<nop>
+<nop>
+<nop>
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <font color="#ffffff">HEADER</font> </th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th  valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> <font color="#ffffff">FOOTER</font> </th>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="do" /> </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x1" size="16" value="re" /> </td>
+		</tr>
+	</tbody></table>
+<input type="hidden" name="ettablechanges" value="1=0,2=0,3=0,4=-1,5=0" />
+<input type="hidden" name="etheaderrows" value="1" />
+<input type="hidden" name="etfooterrows" value="1" />
+<input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
+</form>
+</div><!-- /editTable --></noautolink>
+EXPECTED
 
-    $expected = <<NEWEXPECTED;
-%EDITTABLE{format="| row, -1 | text, 10, init|"}%
-| 0 | test1 |
-| | test2 |
-| | test3 |
-NEWEXPECTED
-
-    $this->assert_str_equals( $expected, $newtext, 0 );
+    $this->do_testHtmlOutput( $expected, $result, 1 );
 
     $fatwilly->finish();
 }
+
 
 =pod
 
@@ -616,6 +676,7 @@ INPUT
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
 <nop>
 <table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
 	<tbody>
@@ -627,7 +688,9 @@ INPUT
 		</tr>
 	</tbody>
 </table>
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="1=0" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
@@ -678,10 +741,10 @@ INPUT
     my $expected = <<END;
 <noautolink>
 <a name="edittable1"></a>
-
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
 <nop>
 <table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
 	<tbody>
@@ -691,7 +754,9 @@ INPUT
 		</tr>
 	</tbody>
 </table>
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="1=1" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
@@ -753,7 +818,9 @@ INPUT
 		</tr>
 	</tbody>
 </table>
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /></form>
 </div><!-- /editTable -->
 END
@@ -807,6 +874,7 @@ INPUT
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
 <nop>
 <table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
 	<tbody>
@@ -816,7 +884,9 @@ INPUT
 		</tr>
 	</tbody>	
 </table>
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="1=1" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
@@ -909,9 +979,11 @@ NEWEXPECTED
 
 Saving a table with params headerrows and footerrows.
 
+DEPRECATED: saving a table with changes through params will be changed
+
 =cut
 
-sub test_param_headerrows_and_footerrows_save {
+sub _DEPRECATED_test_param_headerrows_and_footerrows_save {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -947,7 +1019,7 @@ INPUT
     $query = new Unit::Request(
         {
             etsave    => ['on'],
-            etrows    => ['5'],
+            etaddrow  => ['1'],
             ettablenr => ['1'],
         }
     );
@@ -995,9 +1067,11 @@ NEWEXPECTED
 
 Saving a table with params headerrows and footerrows, with TABLE above EDITTABLE
 
+DEPRECATED: saving a table with changes through params will be changed
+
 =cut
 
-sub test_param_headerrows_and_footerrows_save_table_above {
+sub _DEPRECATED_test_param_headerrows_and_footerrows_save_table_above {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -1312,7 +1386,9 @@ INPUT
 			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
 		</tr>
 	</tbody></table>
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 NEWEXPECTED
@@ -1360,7 +1436,9 @@ INPUT
 			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
 		</tr>
 	</tbody></table>
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 NEWEXPECTED
@@ -1514,7 +1592,9 @@ sub test_param_buttonrow_top {
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 </form>
 </div><!-- /editTable -->
 END
@@ -1565,8 +1645,11 @@ INPUT
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
 <input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 <input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
 | <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="16" value="" /> |
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="1=1" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -1772,7 +1855,9 @@ THIS
 <form name="edittable1" action="$viewUrlAuthTestTopic#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 
@@ -1786,7 +1871,9 @@ THIS
 | 2 | *Sliced* yoghourt | not started | :-) , :-I , :-( | 1 Jun 2002 |
 | 3 | Cubical turkeys | not started | :-I | 1 Oct 2007 |
 | 4 | Self-eating burritos | completed | :-I | 1 Apr 2008 |
-<input type="hidden" name="etrows" value="5" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 
@@ -1796,7 +1883,9 @@ THIS
 <form name="edittable2" action="$viewUrlAuthTestTopic#edittable2" method="post">
 <input type="hidden" name="ettablenr" value="2" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 END
@@ -1849,7 +1938,9 @@ THIS
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 |*Section*|*Description*|*Severity*|*Status*|*Originator & Date*|
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 END
@@ -1993,7 +2084,9 @@ sub test_CALC_in_table_other_than_EDITTABLE {
 | *Key* | *Value* |
 | Gender: | F  |
 | DOB: | 8 February 2009  |
-<input type="hidden" name="etrows" value="3" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="'
       . $pubUrlSystemWeb
       . '/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
@@ -2070,7 +2163,9 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 			<td  rowspan="1" valign="top" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
 		</tr>
 	</tbody></table>
-<input type="hidden" name="etrows" value="2" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="foswikiButton editTableEditButton" type="submit" value="Update table" /> </form>
 </div><!-- /editTable -->
 EXPECTED
@@ -2142,7 +2237,9 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 			<td  rowspan="1" valign="top" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
 		</tr>
 	</tbody></table>
-<input type="hidden" name="etrows" value="2" />
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="foswikiButton editTableEditButton" type="submit" value="Update table" /> </form>
 </div><!-- /editTable -->
 EXPECTED
@@ -2192,8 +2289,11 @@ INPUT
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
 | <input class="foswikiinputfield edittableinput" type="text" name="etcell1x1" size="16" value="" /> |
-<input type="hidden" name="etrows" value="1" />
+<input type="hidden" name="ettablechanges" value="1=1" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input type="submit" name="etsave" id="etsave" value="save table" class="foswikisubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="quiet save" class="foswikibutton" />
 <input type="submit" name="etcancel" id="etcancel" value="cancel" class="foswikibuttoncancel" />
@@ -2206,7 +2306,7 @@ EXPECTED
 
 =pod
 
-Test if saving is keeping <verbatim> tags outside of tables.
+Test if saving is keeping ENCODE parameters
 
 =cut
 
@@ -2244,7 +2344,7 @@ INPUT
     $query = new Unit::Request(
         {
             etsave    => ['on'],
-            etrows    => ['2'],
+            etaddrow  => ['1'],
             ettablenr => ['1'],
         }
     );
@@ -2276,7 +2376,6 @@ INPUT
 %EDITTABLE{}%
 | *Customer* | *Pass* |
 | A | B |
-| | |
 | *Customer* | *Pass* |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
@@ -2312,17 +2411,104 @@ z </verbatim> |';
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-<input type="hidden" name="etrows" value="0" />
+| x | <verbatim> y
+z </verbatim> |
+<input type="hidden" name="ettablechanges" value="" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
-| x | <verbatim> y
-z </verbatim> |
 END
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
+
+
+# EditTableData tests
+
+=pod
+
+=cut
+
+sub test_createTableChangesMap {
+    my $this = shift;
+
+	my $map = Foswiki::Plugins::EditTablePlugin::EditTableData::createTableChangesMap(' 0 = 0 , 1 = 1 , 3 = -1 ');
+	$this->assert_equals($map->{0}, 0);
+	$this->assert_equals($map->{1}, 1);
+	$this->assert_equals($map->{3}, -1);
+}
+
+=pod
+
+=cut
+
+sub test_tableChangesMapToParamString {
+    my $this = shift;
+
+	my $map = {
+		'0' => '0',
+		'1' => '-1',
+		'5' => '1',
+	};
+	
+	my $paramString = Foswiki::Plugins::EditTablePlugin::EditTableData::tableChangesMapToParamString($map);
+	$this->assert_equals($paramString, '0=0,1=-1,5=1');
+}
+
+=pod
+
+=cut
+
+sub test_getTableStatistics {
+    my $this = shift;
+
+	my $editTableData = Foswiki::Plugins::EditTablePlugin::EditTableData->new();
+	$editTableData->{rowCount} = 3;
+	$editTableData->{headerRowCount} = 1;
+	$editTableData->{footerRowCount} = 0;
+		
+	my $changesMap = {
+		'0' => '0',
+		'5' => '1',
+	};
+	
+	my $stats = $editTableData->getTableStatistics( $changesMap );
+	
+	$this->assert_equals($stats->{rowCount}, 4);
+	$this->assert_equals($stats->{added}, 1);
+	$this->assert_equals($stats->{deleted}, 0);
+	$this->assert_equals($stats->{bodyRowCount}, 3);
+}
+
+=pod
+
+=cut
+
+sub test_applyChangesToChangesMap {
+    my $this = shift;
+
+	my $editTableData = Foswiki::Plugins::EditTablePlugin::EditTableData->new();
+	
+	my $changesMap = {};
+	my $newChangesMap = {
+		'0' => '1',
+		'1' => '1',
+	};
+	
+	$changesMap = Foswiki::Plugins::EditTablePlugin::EditTableData::applyChangesToChangesMap( $changesMap, $newChangesMap );
+	
+	my $stats = $editTableData->getTableStatistics( $changesMap );
+	
+	$this->assert_equals($stats->{rowCount}, 2);
+	$this->assert_equals($stats->{added}, 2);
+	$this->assert_equals($stats->{deleted}, 0);
+	$this->assert_equals($stats->{bodyRowCount}, 2);
+}
+
+
 
 =pod
 
@@ -2340,6 +2526,17 @@ test_SETTING_INCLUDED_TOPIC_DOES_NOT_EXIST
 
 test_param_javascriptinterface_off
 test_spreadsheet_formula_in_label (code not yet complete)
+
+%EDITTABLE{}%
+| *Title* |
+| Static entry |
+%SEARCH{
+"name~'*Web*'"
+type="query"
+format="| $topic |"
+nonoise="on"
+limit="5"
+}%
 
 =cut
 

@@ -23,14 +23,15 @@ package Foswiki::Plugins::EditTablePlugin;
 use strict;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '4.23';
+our $RELEASE = '4.3';
 
-our $pluginName   = 'EditTablePlugin';
-our $ENCODE_START = '--EditTableEncodeStart--';
-our $ENCODE_END   = '--EditTableEncodeEnd--';
-our $ASSET_URL    = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
+our $pluginName        = 'EditTablePlugin';
+our $ENCODE_START      = '--EditTableEncodeStart--';
+our $ENCODE_END        = '--EditTableEncodeEnd--';
+our $ASSET_URL         = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
 our $NO_PREFS_IN_TOPIC = 1;
-our $SHORTDESCRIPTION = 'Edit tables using edit fields, date pickers and drop down boxes';
+our $SHORTDESCRIPTION =
+  'Edit tables using edit fields, date pickers and drop down boxes';
 our $web;
 our $topic;
 our $user;
@@ -39,6 +40,10 @@ our $usesJavascriptInterface;
 our $viewModeHeaderDone;
 our $editModeHeaderDone;
 our $recursionBlock;
+
+=pod
+
+=cut
 
 sub initPlugin {
     ( $topic, $web, $user ) = @_;
@@ -59,7 +64,7 @@ sub initPlugin {
     $debug = Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_DEBUG');
     $usesJavascriptInterface =
       Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_JAVASCRIPTINTERFACE')
-          || 1;
+      || 1;
     $viewModeHeaderDone = 0;
     $editModeHeaderDone = 0;
 
@@ -86,9 +91,17 @@ sub beforeCommonTagsHandler {
         "EditTablePlugin::beforeCommonTagsHandler( $web.$topic )")
       if $debug;
 
+    my $query     = Foswiki::Func::getCgiQuery();
+    my $tableNr   = $query->param('ettablenr');
+    my $isEditing = defined $query->param('etedit')
+      && defined $tableNr;
+
     require Foswiki::Plugins::EditTablePlugin::Core;
     Foswiki::Plugins::EditTablePlugin::Core::init();
-    Foswiki::Plugins::EditTablePlugin::Core::parseTables( $_[0], $_[1], $_[2] );
+    if ($isEditing) {
+        Foswiki::Plugins::EditTablePlugin::Core::parseTables( $_[0], $_[1],
+            $_[2] );
+    }
 }
 
 =pod
@@ -116,12 +129,20 @@ sub commonTagsHandler {
     $recursionBlock = 0;
 }
 
+=pod
+
+=cut
+
 sub postRenderingHandler {
     Foswiki::Func::writeDebug(
         "EditTablePlugin::postRenderingHandler( $web.$topic )")
       if $debug;
     $_[0] =~ s/$ENCODE_START(.*?)$ENCODE_END/decodeValue($1)/geos;
 }
+
+=pod
+
+=cut
 
 sub encodeValue {
 
@@ -135,6 +156,10 @@ sub encodeValue {
     $_[0] = $ENCODE_START . $_[0] . $ENCODE_END;
 }
 
+=pod
+
+=cut
+
 sub decodeValue {
     my ($theText) = @_;
 
@@ -146,6 +171,10 @@ sub decodeValue {
     $theText =~ s/\"/\&quot;/go;             # change " to entity
     return $theText;
 }
+
+=pod
+
+=cut
 
 sub decodeFormatTokens {
     return if ( !$_[0] );
@@ -228,24 +257,6 @@ sub addJavaScriptInterfaceDisabledToHead {
     $header .= "\n";
     Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE',
         $header );
-}
-
-=begin TML
-
-Adds number of header rows and footer rows to html meta fields.
-
-=cut
-
-sub addHeaderAndFooterCountToHead {
-    my ( $headerCount, $footerCount ) = @_;
-    my $header = "";
-    $header .= '<meta name="EDITTABLEPLUGIN_headerRows" content="'
-      . $headerCount . '" />';
-    $header .= "\n";
-    $header .= '<meta name="EDITTABLEPLUGIN_footerRows" content="'
-      . $footerCount . '" />';
-    $header .= "\n";
-    Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN_HEADERFOOTERCOUNT', $header );
 }
 
 1;
