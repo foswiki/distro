@@ -1,0 +1,73 @@
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+---+ !EditTablePlugin and javascript interface
+
+Description: Manual test textareas in %SYSTEMWEB%.EditTablePlugin. Tests that the javascript interface works correctly in saving all changes that are done on the screen.
+
+---++ Testing
+Testing perl code in conjunction with the javascript interface, you may use this table:
+<verbatim>
+%TABLE{headerrows="1" footerrows="1"}%
+%EDITTABLE{header="| *HEADER* |"}%
+| *HEADER* |
+| do |
+| re |
+| mi |
+| *FOOTER* |
+</verbatim>
+
+%TABLE{headerrows="1" footerrows="1"}%
+%EDITTABLE{header="| *HEADER* |"}%
+| *HEADER* |
+| do |
+| re |
+| mi |
+| *FOOTER* |
+
+
+---+++ Test case 1
+   1 Click "Delete last row"
+   1 Click the X button at row 1
+   1 Save the table
+   1 The only body row should be 're'
+
+---+++ Test case 2
+The reverse order of test case 1:
+   1 Click the X button at row 1
+   1 Click "Delete last row"
+   1 Save the table
+   1 The only body row should be "re"
+
+---+++ Test case 3
+   1 Click the X button at rows 1, 2 and 3
+   1 Click the button "Add row"
+   1 In the text field, enter "fa"
+   1 Save the table
+   1 The only body row should be "fa"
+
+---+++ Test case 4
+The reverse order of test case 3:
+   1 Click the button "Add row"
+   1 In the text field, enter "fa"
+   1 Click the X button at rows 1, 2 and 3
+   1 Save the table
+   1 The only body row should be "fa"
+
+---+++ Test case 5
+Add and delete
+   1 Click the button "Add row"
+   1 In the text field, enter "fa"
+   1 Click the button "Add row"
+   1 Click the X button at the last (just created) row
+   1 Save the table
+   1 The body rowa should be: do, re, mi, fa
+   
+---+++ Test case 6
+Add and move...
+   1 Click the button "Add row"
+   1 In the text field, enter "fa"
+   1 Move the 'fa' row to position 1
+   1 Save the table
+   1 The body rows should be: fa, do, re, mi
+
+
+
