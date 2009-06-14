@@ -46,7 +46,7 @@ my $PLACEHOLDER_SEPARATOR_SEARCH_RESULTS =
 my $HTML_TAGS =
 qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
 
-#my $inited = 0;
+my $inited = 0; # state to prevent recursion
 my $prefCHANGEROWS;
 my $prefEDIT_BUTTON;
 my $prefSAVE_BUTTON;
@@ -90,8 +90,8 @@ Resets variables.
 
 sub init {
 
-    #return if !$inited;
-    #$inited                     = 1;
+    return if !$inited;
+    $inited                     = 1;
     $preSp                      = '';
     %params                     = ();
     @format                     = ();
@@ -444,7 +444,11 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
         # render variables (only in view mode)
         $resultText = Foswiki::Func::expandCommonVariables($resultText)
           if ( $mode & $MODE->{READ} );
-        $topicText =~ s/<!--%EDITTABLESTUB\{$tableNr\}%-->/$resultText/;
+
+        _debug("After parsing, resultText=$resultText");
+        _debug("After parsing, tableNr=$tableNr");
+        
+        $topicText =~ s/<!--%EDITTABLESTUB\{$tableNr\}%-->/$resultText/g;
 
         # END BUTTON ROWS
         # ========================================
@@ -475,6 +479,8 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
 
     # update the text
     $_[2] = $topicText;
+    
+    _debug("After parsing, topic text=$_[2]");
 }
 
 =begin TML
