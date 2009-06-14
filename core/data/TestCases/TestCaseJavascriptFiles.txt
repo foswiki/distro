@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 7490 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 1340 $"}%
 
 ---+!! Unit tests for !JavascriptFiles
 
 These tests require Foswiki:Extensions.JSUnitContrib to run.
 
-*[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%][Run tests]]*
+<a class="foswikiSubmit" href="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%">Run tests</a>
 
 <script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
 <script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js"></script>
@@ -1042,20 +1042,26 @@ foswiki.Event.addLoadEvent("createTextNode");
     	
     	foswiki.StringConstants.getInstance().init();
 
-    	text = "éfg";
-    	expected = "Éfg";
+    	text = "abc";
+    	expected = "Abc";
     	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
-    	text = "å word";
-    	expected = "ÅWord";
+    	text = "wiki word";
+    	expected = "WikiWord";
     	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
-    	text = "überal";
-    	expected = "Überal";
+    	text = "abc !@#$%&*()_+-={}[]:;\"'|\<,>.?/123";
+    	expected = "Abc123";
     	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
+    	
+    	/*
+    	TESTS (OR CODE) NOT FINISHED YET
+    	NEEDS REAL LIFE CODE
+    	*/
+
     }
     function testMakeWikiWord_UniCode_WithInvalidArgs() {
     	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(null));
