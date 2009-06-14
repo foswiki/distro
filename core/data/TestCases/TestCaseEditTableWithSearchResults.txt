@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="BaseUserMapping_333" date="1244998601" format="1.1" version="1.2"}%
+---+ Edit table with search results
+
+Description: Manual test of the combinations of EDITTABLE and SEARCH macros.
+
+---++ Test Steps
+
+   * Check that the first body row has "1 2 3" and table has 3 adjacent rows below "X Y Z"
+   * Edit the table, and verify that the table only has 2 editable rows - the search results table is separate, below the edit table.
+   * Add a new row, and enter whatever values.
+   * Save the table
+   * The new row should be above the search result rows "X Y Z"
+   * Edit the table a second time. Verify that the search result rows again are separate.
+
+
+%EDITTABLE{}%
+| *One* | *Two* | *Three* |
+| 1 | 2 | 3 |
+%SEARCH{
+"1"
+type="query"
+format="| X | Y | Z |"
+nonoise="on"
+limit="3"
+}%
