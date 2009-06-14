@@ -11,10 +11,13 @@
 // Global variables
 
 var sEditTable;
+var sET_TABLE_CHANGES_PARAM = 'ettablechanges'; // name of hidden input field
 // array of edittables
 var sRowSelection;
 var sAlternatingColors = [];
 var LAST_ROW_NR = -1;
+var PERFORM_UNIT_TESTS = 0; // only a couple, see bottom
+var DEBUG = 0;
 
 // workaround for non-Firebug:
 var console;
@@ -38,10 +41,6 @@ if (!console) {
 	}
 	console = new Console();
 }
-
-// Global settings:
-var PERFORM_UNIT_TESTS = 0; // only a couple, see bottom
-var DEBUG = 0;
 
 /**
 
@@ -99,11 +98,10 @@ function edittableInit(form_name, asset_url, headerRows, footerRows) {
     
     // The form we want is actually the second thing in the
     // document that has the form_name.
-    var forms = document.getElementsByName(form_name);
-    var tableform = forms[1];
+    var tableform = document.forms[form_name];
     
     if (tableform == null) {
-        alert("Something went wrong: EditTable javascript features cannot be enabled.\n");
+        alert("Problem loading JavaScript for EditTablePlugin: JavaScript features cannot be used.\n");
         return;
     }
     attachEvent(tableform, 'submit', submitTable);
@@ -124,26 +122,42 @@ function edittableInit(form_name, asset_url, headerRows, footerRows) {
 }
 
 /**
+Saves all data.
 Create the etrow_id# inputs to tell the server about row changes we made.
 We will create new hidden fields with name etrow_id{n} where n is the key to existing etcell{n}x{m} fields.
 */
 function submitTable(evt) {
 
-	var ilen = sEditTable.revidx.length;
 
 	var DEBUG_TXT = "";
+
+	var ilen = sEditTable.revidx.length;
     for (var rowpos = 0; rowpos < ilen; rowpos++) {
         var inpname = 'etrow_id' + (rowpos + 1);
         var row_id = sEditTable.revidx[rowpos] + 1;
-
+		
+		var row = sEditTable.rows[ sEditTable.revidx[rowpos] ];
+		var inputElems = row.getElementsByTagName('INPUT');
+		
+		// try to match ids to the etcell notation in the input names
+		if (inputElems && inputElems[0]) {
+			var re = new RegExp("etcell([0-9]+)x[0-9]+");
+			var inputString = inputElems[0].name;
+			var matches = inputString.match(re);
+			if (matches) {
+				row_id = matches[1];
+			}
+		}
+		
 		DEBUG_TXT += "\n" + rowpos + " => name=" + inpname + " => value=" + row_id;
-
+		
         var inp = document.createElement('INPUT');
         inp.setAttribute('type', 'hidden');
         inp.setAttribute('name', inpname);
         inp.setAttribute('value', '' + row_id);
         sEditTable.tableform.appendChild(inp);
     }
+
 	if (DEBUG) {
 		console.debug(DEBUG_TXT);
 	}
@@ -237,6 +251,8 @@ function insertActionButtonsMove(asset_url) {
 function createActionButtonMove (asset_url, rownr) {
 	var action_butt = document.createElement('IMG');
 	action_butt.setAttribute('title', 'Move row');
+	action_butt.setAttribute('width', '16');
+	action_butt.setAttribute('height', '16');
 	action_butt.enableButtonSrc = asset_url + '/btn_move.gif';
 	action_butt.disableButtonSrc = asset_url + '/btn_move_disabled.gif';
 	action_butt.hoverButtonSrc = asset_url + '/btn_move_over.gif';
@@ -293,6 +309,8 @@ function createActionButtonDelete (asset_url, rownr) {
 	
 	var action_butt = document.createElement('IMG');
 	action_butt.setAttribute('title', 'Delete row');
+	action_butt.setAttribute('width', '16');
+	action_butt.setAttribute('height', '16');
 	action_butt.enableButtonSrc = asset_url + '/btn_delete.gif';
 	action_butt.disableButtonSrc = asset_url + '/btn_delete_disabled.gif';
 	action_butt.hoverButtonSrc = asset_url + '/btn_delete_over.gif';
@@ -414,9 +432,10 @@ function selectRow(rownr) {
     for (var i = 0; i < tableCells.length;++i) {
         if (rownr != null) {
             addClass(tableCells[i], 'editTableActionSelectedCell');
+            removeClass(tableCells[i], 'editTableActionSelectedCellDone');
         } else {
             removeClass(tableCells[i], 'editTableActionSelectedCell');
-            // wish: fade out color
+            addClass(tableCells[i], 'editTableActionSelectedCellDone');
         }
     }
     
@@ -559,12 +578,12 @@ function deleteHandler(evt) {
     	console.debug("deleteHandler rownr:" + rownr + "; from_row_pos=" + from_row_pos);
     }
     
-    // Remove the from_row from the table.
+    // Remove the from_row from the table HTML
     
     var from_row_elem = sEditTable.rows[rownr];
     from_row_elem.parentNode.removeChild(from_row_elem.previousSibling);
     from_row_elem.parentNode.removeChild(from_row_elem);
-        
+    
     // Update all rows after from_row
     for (var rowpos = from_row_pos + 1; rowpos < sEditTable.numrows; rowpos++) {
         var rownum = sEditTable.revidx[rowpos];
@@ -582,9 +601,133 @@ function deleteHandler(evt) {
     }
 
     sEditTable.numrows--;
-    sEditTable.tableform.etrows.value = sEditTable.numrows - (sEditTable.headerRows + sEditTable.footerRows);
+    updateTableChangesList(sEditTable, 0);
     
     fixStyling();
+}
+
+/**
+Array Remove - By John Resig (MIT Licensed)
+*/
+Array.prototype.remove = function(from, to) {
+	var rest = this.slice((to || from) + 1 || this.length);
+	this.length = from < 0 ? this.length + from : from;
+	return this.push.apply(this, rest);
+};
+
+/**
+		// added row at end (this is where the page gets loaded)
+		// then js-removed first body row
+		// still totalling 5 rows, including header and footer
+		// so 3 body rows
+		initChangeMap = [0, 0,0,0, 1,0];
+		revidx =        [0, 2,3,4, 5];
+		expected  =     '0, 0,0,0, 0,0';
+		console.assert(getChangesListValues(initChangeMap, revidx, headerRows, footerRows).join(',') == expected, "getChangesListValues 2");
+		
+		
+		
+When calculating, preserve the header and footer rows.
+
+For instance, with 1 header row, 1 footer row and 3 body rows:
+
+	H | B B B | F
+
+... we set the header and footer rows aside.
+
+
+*/
+function getChangesListValues(inInitChangeList, inRevIdx, inHeaderRows, inFooterRows) {
+	
+	var changesList = new Array();
+
+	// make the changes list as long as inInitChangeList 
+	// set all values to zero
+	// this must be done to set values of elements outside the range
+	// of inRevIdx
+	var ilen;
+	ilen = inInitChangeList.length;
+	for (var i=0; i<ilen; ++i) {
+		changesList[i] = 0;
+	}
+	
+	// now set the real values
+	
+	if (inRevIdx.length < inInitChangeList.length) {
+		var rowNum = inInitChangeList.length;
+		while (rowNum--) {
+			var isFooter = isFooterRowArrayOrder(inHeaderRows, inFooterRows, rowNum, inInitChangeList.length);
+			var isHeader = isHeaderRowArrayOrder(inHeaderRows, inFooterRows, rowNum, inInitChangeList.length);
+					
+			if (isHeader || isFooter) {
+				changesList[rowNum] = 0;
+			} else if (inRevIdx[rowNum + inFooterRows /* for newly added rows */] == undefined) {
+				if (inInitChangeList[rowNum] == 1) {
+					// previously set as added, now reset
+					changesList[rowNum] = 0;
+				} else {
+					changesList[rowNum] = -1;
+				}
+			} else {
+				changesList[rowNum] = inInitChangeList[rowNum];
+			}
+		}
+	}
+
+	return changesList;
+}
+
+/**
+
+*/
+
+function updateTableChangesList(inTable, inDidMoveChange) {
+	
+	if (inDidMoveChange) return; // this is a hack actually; the code below _should_ be able to handle move changes. but since we really don't need to pass a change, this would also be vain effort    
+    	
+	var changesList = getChangesListValues(inTable.initChangesList, inTable.revidx, inTable.headerRows, inTable.footerRows);
+	console.debug("changesList F=" + changesList);
+	
+	// make string
+	// first add keys and make one-index based
+	var changesMapKeyValues = new Array();
+	for (var i=0; i<changesList.length; ++i) {
+		var value = changesList[i];
+		//if (value == 0) continue;
+		var key = i+1;
+		changesMapKeyValues.push(key + "=" + value);
+	}
+	var changesMapString = changesMapKeyValues.join(",");
+	inTable.tableform[sET_TABLE_CHANGES_PARAM].value = changesMapString;
+	if (DEBUG) {
+		console.debug("changesMapString=" + changesMapString);
+	}
+}
+
+
+function createInitialChangesList(inTableForm, inCount) {
+	
+	var changesList = new Array();
+	for (var i=0; i<inCount; ++i) {
+		changesList[i] = 0;
+	}
+	if (inTableForm[sET_TABLE_CHANGES_PARAM]) {
+		var tableChangesString = inTableForm[sET_TABLE_CHANGES_PARAM].value;
+		if (tableChangesString) {
+			// create hash from values
+			var kvx = tableChangesString.split(",");
+			var ilen = kvx.length;
+			for (var i=0; i<ilen; ++i ) {
+				var kv = kvx[i].split("=");
+				var pos = kv[0] - 1; // we use a zero-index array
+				changesList[pos] = kv[1];
+			}
+		}
+	}
+	if (DEBUG) {
+		console.debug("createInitialChangesList:" + changesList);
+	}
+	return changesList;
 }
 
 /**
@@ -704,6 +847,7 @@ function moveRow(from_row, to_row) {
     sEditTable.positions[from_row] = to_row_pos;
     sEditTable.revidx[to_row_pos] = from_row;
     updateRowLabels(from_row, to_row_pos - from_row_pos);
+    updateTableChangesList(sEditTable, 1);
     fixStyling();
 }
 
@@ -762,9 +906,10 @@ reverse).
 
 function EditTable(tableform, inRowContainer, headerRows, footerRows) {
     this.tableform = tableform;
-    this.rows = new Array();
-    this.positions = new Array();
-    this.revidx = new Array();
+    this.rows = new Array(); // list of HtmlElements of type TR
+    this.positions = new Array();  // row positions
+    this.revidx = new Array(); // row ids
+    this.initChangesList = new Array(); // used to compare updates against
     this.numrows = 0;
     this.headerRows = headerRows;
     this.footerRows = footerRows;
@@ -786,7 +931,6 @@ function EditTable(tableform, inRowContainer, headerRows, footerRows) {
     
     // now store everything in arrays
     row_container = inRowContainer;
-    var bodyAndHeaderRows = this.numrows - this.footerRows;
     
     var rowCounter = 0;
     while (row_container != null) {
@@ -804,6 +948,14 @@ function EditTable(tableform, inRowContainer, headerRows, footerRows) {
         }
         row_container = row_container.nextSibling;
     }
+    // the changes list will contain the change states we want to apply
+    // to the table when saving.
+    // Values:
+    // 0: no change
+    // 1: add
+    // -1: remove
+    // 2: reset (nothing)
+    this.initChangesList = createInitialChangesList(tableform, this.positions.length);
     
 	if (DEBUG) {
 		console.dir(this);
@@ -852,8 +1004,15 @@ function init() {
 	if (noJavascript) return;
     var currentFormName = foswiki.getMetaTag('EDITTABLEPLUGIN_FormName');
     var url = foswiki.getMetaTag('EDITTABLEPLUGIN_EditTableUrl');
-    var headerRows = parseInt(foswiki.getMetaTag('EDITTABLEPLUGIN_headerRows'));
-    var footerRows = parseInt(foswiki.getMetaTag('EDITTABLEPLUGIN_footerRows'));
+    var headerRows = 0;
+    
+    if (document.forms[currentFormName].etheaderrows) {
+    	headerRows = parseInt(document.forms[currentFormName].etheaderrows.value);
+    }
+    var footerRows = 0;
+    if (document.forms[currentFormName].etfooterrows) {
+    	footerRows = parseInt(document.forms[currentFormName].etfooterrows.value);
+    }
     edittableInit(currentFormName, url, headerRows, footerRows);
 }
 
@@ -921,15 +1080,6 @@ function getRowId(inHeaderRows, inFooterRows, inRowNumber, inRowCount) {
 	// else: body row
 	return inRowNumber - inFooterRows;
 }
-
-/**
-Array Remove - By John Resig (MIT Licensed)
-*/
-Array.prototype.remove = function(from, to) {
-	var rest = this.slice((to || from) + 1 || this.length);
-	this.length = from < 0 ? this.length + from : from;
-	return this.push.apply(this, rest);
-};
 
 /**
 Copied from foswikiEvent.js.

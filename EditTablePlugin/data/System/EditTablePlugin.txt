@@ -192,8 +192,9 @@ Test if the Plugin is correctly installed:
 
 |  Copyright: | &copy; 2008-2009, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.22 (18 Apr 2009) |
+|  Plugin Version: | 4.3 (14 Jun 2009) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  14 Jun 2009: | 4.3: Arthur Clemens: Major code refactoring to let !EditTablePlugin work together with !SpreadSheetPlugin. |
 |  18 Apr 2009: | 4.22: Ignore all saving unless it happened by saving a form using POST method. <br />Fixed including edit parameters from subwebs. <br />Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. |
 |  26 Mar 2009: | 4.21: Fixed a problem with plugin going into deep recursive orbit when a table is followed by text containing vertical bars but not valid table row. |
 |  17 Mar 2009: | 4.20: Fixed several bugs related to use of macros in EDITTABLE and TABLE tags |
@@ -258,3 +259,4 @@ Test if the Plugin is correctly installed:
 %META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="Javascript button: delete (disabled)" date="1077933805" path="btn_delete_disabled.gif" size="298" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="edittable.css" attr="h" comment="Plugin Style Sheet" date="1077933805" path="edittable.css" size="298" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="edittable.js" attr="h" comment="Javascript for table editing without page refresh" date="1077933805" path="edittable.js" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="Background animation to show a row move has been completed" date="1077933805" path="move_done_bg_anim.gif" size="298" user="ProjectContributor" version="1.1"}%
