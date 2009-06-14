@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1244998583" format="1.1" version="1.2"}%
 ---+ Table followed by Editable table with lots of CALC
 
 Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macros and manual test of adding rows with TABLE and EDITTABLE containing other macros
@@ -30,8 +30,7 @@ Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macro
 
 ---++ Cost of Items
 
-%TABLE{columnwidths="%ENCODE{"80"}%,50,150,50,50,50,50,50,70,70,50" dataalign="left,center,left,center,center,center,center,center,center,center,right,center" headeralign="left,center,left,center,center,center,center,center,center,center,right,center" headerrows="1"  footerrows="1"}% 
-%EDITTABLE{format="|text,10|text,%ENCODE{"3"}%|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,3|label,0,$percntCALC{$quot$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )$quot}$percnt|text,5|"}%
+%TABLE{columnwidths="%ENCODE{"80"}%,50,150,50,50,50,50,50,70,70,50" dataalign="left,center,left,center,center,center,center,center,center,center,right,center" headeralign="left,center,left,center,center,center,center,center,center,center,right,center" headerrows="1"  footerrows="1"}% %EDITTABLE{format="|text,10|text,%ENCODE{"3"}%|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,3|label,0,$percntCALC{$quot$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )$quot}$percnt|text,5|"}%
 | *Customer* | *Pass* | *Purpose* | *Qty* | *Mech Parts* | *Main bd* | *Control bd* | *PSU* | *Filter* | *Package* | *Cost (USD)* | *When (Q)* |
 | Eng A | P1 | Proto test | 3 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |
 | Eng B | P1 | Proto test | 2 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1244998482" format="1.1" version="1.2"}%
 ---+ !EditTablePlugin with a combination of all field types
 
 Description: Manual test of cell types and macro expansion in %SYSTEMWEB%.EditTablePlugin
@@ -19,7 +19,8 @@ Description: Manual test of cell types and macro expansion in %SYSTEMWEB%.EditTa
 %EDITTABLE{ format="| row, -1 | text, 20, init | textarea,4x20, $percntSERVERTIME{$quot$day $mon $year $hour:$min$quot}$percnt | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | checkbox, 2, A, B, C, D | label, 0, %SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%
 | *No* | *Text field* | *Text area* | *Drop down* | *Mood* | *Check* | *Timestamp* |
 | 1 | init | %SERVERTIME{"$day $mon $year $hour:$min"}% | two | :-I | A | 08 Mar 2009 15:56 |
-| 2 | Hello | %SERVERTIME{"$day $mon $year $hour:$min"}% | two | :-( | A , C , D | 08 Mar 2009 15:57 |
+| 2 | Hello | %SERVERTIME{"$day $mon $year $hour:$min"}% | one | :-( | A , C , D | 08 Mar 2009 15:57 |
+| 3 | init | %SERVERTIME{"$day $mon $year $hour:$min"}% | one | | A , B , C , D | 14 Jun 2009 18:54 |
 
 
 -- end of test

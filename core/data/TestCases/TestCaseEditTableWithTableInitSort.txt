@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1244998601" format="1.1" version="1.2"}%
 ---+ Tables with initsort and EDITTABLE
 
 Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macros and manual test of adding rows with TABLE and EDITTABLE containing other macros
@@ -39,8 +39,8 @@ It is by default sorted by the 2nd column (the planned date).
 | D | 10 Jan 2007 | | 30 Jan 2007 |
 | E | 12 Oct 2007 | | 12 Oct 2007 |
 | F | 17 Oct 2007 | 13 Dec 2007 | |
-| G | 12 Dec 2007 | 12 Dec 2007 | |
 | H | 11 Jan 2008 | 11 Jan 2008 | |
+| G | 12 Dec 2007 | 12 Dec 2007 | |
 
 
 
