@@ -120,7 +120,7 @@ var FoswikiTiny = {
 
         // Make the raw-edit help visible (still subject to toggle)
         var el = document.getElementById("foswikiTinyMcePluginWysiwygEditHelp");
-		if (1) {
+		if (el) {
 			el.style.display = 'none';
 		}
         el = document.getElementById("foswikiTinyMcePluginRawEditHelp");
