@@ -44,9 +44,8 @@ my $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
 my $PLACEHOLDER_SEPARATOR_SEARCH_RESULTS =
   'PLACEHOLDER_SEPARATOR_SEARCH_RESULTS';
 my $HTML_TAGS =
-qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
+qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a'o;
 
-#my $inited = 0; # state to prevent recursion
 my $prefCHANGEROWS;
 my $prefEDIT_BUTTON;
 my $prefSAVE_BUTTON;
@@ -70,7 +69,8 @@ my $PATTERN_TABLEPLUGIN =
 my $PATTERN_EDITCELL               = qr'%EDITCELL{(.*?)}%'o;
 my $PATTERN_TABLE_ROW_FULL         = qr'^(\s*)\|.*\|\s*$'o;
 my $PATTERN_TABLE_ROW              = qr'^(\s*)\|(.*)'o;
-my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:{(.*)})?%'o;
+my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:{(.*?)})?%'o;
+my $SPREADSHEETPLUGIN_CALC_SUBSTITUTION = "<span class='editTableCalc'>CALC</span>";
 my $MODE                           = {
     READ           => ( 1 << 1 ),
     EDIT           => ( 1 << 2 ),
@@ -84,14 +84,11 @@ my $query;
 
 =begin TML
 
-Resets variables.
+Initializes variables.
 
 =cut
 
 sub init {
-
-#    return if !$inited;
-#    $inited                     = 1;
     $preSp                      = '';
     %params                     = ();
     @format                     = ();
@@ -749,6 +746,7 @@ sub processTableData {
 
 		# a header row will not be edited, so do not render table row with handleTableRow
 
+		_handleSpreadsheetFormula($_);
         _debug("RENDER ROW: HEADER:rowNr=$rowNr; id=$rowId=$_");
         push( @headerRows, $_ );
     }
@@ -764,7 +762,8 @@ sub processTableData {
         my $isNewRow = 0;
         
         # a footer row will not be edited, so do not render table row with handleTableRow
-
+		
+		_handleSpreadsheetFormula($_);
         _debug("RENDER ROW: FOOTER:rowNr=$rowNr; id=$rowId=$_");
         push( @footerRows, $_ );
     }
@@ -1548,9 +1547,7 @@ sub inputElement {
 
         # Replace CALC in labels with the fixed string CALC to avoid errors
         # when editing.
-        $text =~ s/$PATTERN_SPREADSHEETPLUGIN_CALC/CALC/go;
-        # Line below was an experiment. Kept for future possible use.
-        # $text =~ s/($PATTERN_SPREADSHEETPLUGIN_CALC)/handleSpreadsheetFormula($1)/geox;
+        _handleSpreadsheetFormula($text);
 
         # To optimize things, only in the case where a read-only column is
         # being processed (inside of this unless() statement) do we actually
@@ -1933,28 +1930,17 @@ sub stripCommentsFromRegex {
 
 =begin TML
 
-StaticMethod _handleSpreadsheetFormula( $text ) -> $htmlTextfield
+StaticMethod _handleSpreadsheetFormula( $text ) -> $text
 
-Puts a SpreadSheetPlugin formula inside a read-only textfield to limit the screen size and keep it visible.
-Should be done only for label fields because the text is otherwise not editable.
+Replaces a SpreadSheetPlugin formula by a static text.
 
 =cut
 
-# unused until bug free
-
-sub handleSpreadsheetFormula {
-    my ($inFormula) = @_;
-
-    my $textfield = CGI::textfield(
-        {
-            class    => 'foswikiInputFieldReadOnly',
-            size     => 12,
-            value    => $inFormula,
-            readonly => 'readonly',
-            style    => 'font-weight:bold;',
-        }
-    );
-    return $textfield;
+sub _handleSpreadsheetFormula {
+    
+    return if !$_[0];
+    $_[0] =~ s/$PATTERN_SPREADSHEETPLUGIN_CALC/$SPREADSHEETPLUGIN_CALC_SUBSTITUTION/go;
+    
 }
 
 =begin TML
