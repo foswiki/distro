@@ -115,6 +115,7 @@ xlm xls
 xls xls
 xlt xls
 xlw xls
+xlsx xls
 xml xml
 xsl xsl
 z zip
