@@ -8,8 +8,8 @@
      | ="fieldname"= | The name of a [[DataForms][Data form]] field | required |
      | =topic="..."= | Topic where form data is located. May be of the form =Web.<nop>TopicName= | Current topic |
      | =format="..."= | Format string. =$value= expands to the field value, and =$name= expands to the field name, =$title= to the field title, =$form= to the name of the form the field is in. The [[FormatTokens][standard format tokens]] are also expanded. | ="$value"= |
-     | =default="..."= | Text shown when a field is defined in the form of a topic, but the field is empty (noone typed anything in the field or deleted the content). | =""= |
-     | =alttext="..."= | Text shown when field is not found in the form of a topic (even if it exists in the topic that defines the form). | =""= | 
+     | =default="..."= | Text shown if the field is defined in the topic, but the field value is empty. For example, a text field for which all the content has been deleted. | =""= |
+     | =alttext="..."= | Text shown if the field is not defined in the topic (even if it is specified in the form definition). For example, this is used when a field exists in the form definition, but the referring topic hasn't been edited since it was added. | =""= |
    * Example: =%<nop>FORMFIELD{"<nop>ProjectName" topic="Projects.<nop>SushiProject" default="(no project name given)" alttext="<nop>ProjectName field not found in form"}%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 
