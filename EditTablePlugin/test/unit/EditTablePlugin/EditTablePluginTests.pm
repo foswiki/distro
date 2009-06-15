@@ -2249,6 +2249,67 @@ EXPECTED
 
 =pod
 
+Tests the substitution of SpreadSheetPlugin formulas by 'CALC' in edit mode.
+
+=cut
+
+sub test_CALC_substitution {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+      Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+
+    my $input = <<INPUT;
+%EDITTABLE{}%
+| Project A | SW | P1 | CT5 | SW Dev | 2 | 4 | 2 || 2 || 6345 | %CALC{"\$EVAL(\$T(R\$ROW():C6) * \$T(R\$ROW():C\$COLUMN(-1)))"}% | Q4 |
+| Total ||||| *%CALC{"\$SUM(\$ABOVE())"}%* | *%CALC{"\$SUMPRODUCT(R2:C6..R\$ROW(-1):C6, R2:C\$COLUMN(0)..R\$ROW(-1):C\$COLUMN(0))"}%* | *%CALC{"\$SUMPRODUCT(R2:C6..R\$ROW(-1):C6, R2:C\$COLUMN(0)..R\$ROW(-1):C\$COLUMN(0))"}%* | *%CALC{"\$SUMPRODUCT(R2:C6..R\$ROW(-1):C6, R2:C\$COLUMN(0)..R\$ROW(-1):C\$COLUMN(0))"}%* | *%CALC{"\$SUMPRODUCT(R2:C6..R\$ROW(-1):C6, R2:C\$COLUMN(0)..R\$ROW(-1):C\$COLUMN(0))"}%* | *%CALC{"\$SUMPRODUCT(R2:C6..R\$ROW(-1):C6, R2:C\$COLUMN(0)..R\$ROW(-1):C\$COLUMN(0))"}%* || *%CALC{"\$SUM(\$ABOVE())"}%* ||
+INPUT
+
+    my $query = new Unit::Request(
+        {
+            etedit    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
+        $this->{test_web}, undef );
+
+    my $expected = '<noautolink>
+<a name="edittable1"></a>
+<div class="editTable editTableEdit">
+<form name="edittable1" action="'  .$viewUrlAuth . '#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+| <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="16" value="--EditTableEncodeStart--.P.r.o.j.e.c.t. .A--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="16" value="--EditTableEncodeStart--.S.W--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x3" size="16" value="--EditTableEncodeStart--.P.1--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x4" size="16" value="--EditTableEncodeStart--.C.T.5--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x5" size="16" value="--EditTableEncodeStart--.S.W. .D.e.v--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x6" size="16" value="--EditTableEncodeStart--.2--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x7" size="16" value="--EditTableEncodeStart--.4--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x8" size="16" value="--EditTableEncodeStart--.2--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x9" size="16" value="" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x10" size="16" value="--EditTableEncodeStart--.2--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x11" size="16" value="" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x12" size="16" value="--EditTableEncodeStart--.6.3.4.5--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x13" size="16" value="--EditTableEncodeStart--.%.C.A.L.C.{.".$.E.V.A.L.(.$.T.(.R.$.R.O.W.(.).:.C.6.). .*. .$.T.(.R.$.R.O.W.(.).:.C.$.C.O.L.U.M.N.(.-.1.).).).".}.%--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell1x14" size="16" value="--EditTableEncodeStart--.Q.4--EditTableEncodeEnd--" /> |
+| <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="--EditTableEncodeStart--.T.o.t.a.l--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="16" value="" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell2x3" size="16" value="" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell2x4" size="16" value="" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell2x5" size="16" value="" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x6" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.(.$.A.B.O.V.E.(.).).".}.%.*--EditTableEncodeEnd--" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x7" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.P.R.O.D.U.C.T.(.R.2.:.C.6.%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.6.,. .R.2.:.C.$.C.O.L.U.M.N.(.0.).%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.$.C.O.L.U.M.N.(.0.).).".}.%.*--EditTableEncodeEnd--" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x8" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.P.R.O.D.U.C.T.(.R.2.:.C.6.%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.6.,. .R.2.:.C.$.C.O.L.U.M.N.(.0.).%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.$.C.O.L.U.M.N.(.0.).).".}.%.*--EditTableEncodeEnd--" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x9" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.P.R.O.D.U.C.T.(.R.2.:.C.6.%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.6.,. .R.2.:.C.$.C.O.L.U.M.N.(.0.).%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.$.C.O.L.U.M.N.(.0.).).".}.%.*--EditTableEncodeEnd--" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x10" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.P.R.O.D.U.C.T.(.R.2.:.C.6.%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.6.,. .R.2.:.C.$.C.O.L.U.M.N.(.0.).%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.$.C.O.L.U.M.N.(.0.).).".}.%.*--EditTableEncodeEnd--" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x11" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.P.R.O.D.U.C.T.(.R.2.:.C.6.%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.6.,. .R.2.:.C.$.C.O.L.U.M.N.(.0.).%.d.o.t.%.%.d.o.t.%.R.$.R.O.W.(.-.1.).:.C.$.C.O.L.U.M.N.(.0.).).".}.%.*--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell2x12" size="16" value="" /> | *<span class=\'editTableCalc\'>CALC</span>* <input type="hidden" name="etcell2x13" value="--EditTableEncodeStart--.*.%.C.A.L.C.{.".$.S.U.M.(.$.A.B.O.V.E.(.).).".}.%.*--EditTableEncodeEnd--" /> | <input class="foswikiInputField editTableInput" type="text" name="etcell2x14" size="16" value="" /> |
+<input type="hidden" name="ettablechanges" value="1=0,2=0" />
+<input type="hidden" name="etheaderrows" value="0" />
+<input type="hidden" name="etfooterrows" value="0" />
+<input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
+</form>
+</div><!-- /editTable --></noautolink>';
+
+    $this->do_testHtmlOutput( lc $expected, lc $result, 0 );
+    $fatwilly->finish();
+}
+
+=pod
+
 Parameter changerows
 
 =cut
