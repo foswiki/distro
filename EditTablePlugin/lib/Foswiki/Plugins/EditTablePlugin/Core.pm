@@ -1546,7 +1546,12 @@ sub inputElement {
         $isHeader = 1 if ( $inValue =~ s/^\s*\*(.*)\*\s*$/$1/o );
         $text = $inValue;
 
-#        $text =~ s/($PATTERN_SPREADSHEETPLUGIN_CALC)/handleSpreadsheetFormula($1)/geox;
+
+        # Replace CALC in labels with the fixed string CALC to avoid errors
+        # when editing.
+        $text =~ s/$PATTERN_SPREADSHEETPLUGIN_CALC/CALC/go;
+        # Line below was an experiment. Kept for future possible use.
+        # $text =~ s/($PATTERN_SPREADSHEETPLUGIN_CALC)/handleSpreadsheetFormula($1)/geox;
 
         # To optimize things, only in the case where a read-only column is
         # being processed (inside of this unless() statement) do we actually
