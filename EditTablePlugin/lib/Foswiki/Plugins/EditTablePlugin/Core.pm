@@ -46,7 +46,7 @@ my $PLACEHOLDER_SEPARATOR_SEARCH_RESULTS =
 my $HTML_TAGS =
 qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
 
-my $inited = 0; # state to prevent recursion
+#my $inited = 0; # state to prevent recursion
 my $prefCHANGEROWS;
 my $prefEDIT_BUTTON;
 my $prefSAVE_BUTTON;
@@ -90,8 +90,8 @@ Resets variables.
 
 sub init {
 
-    return if !$inited;
-    $inited                     = 1;
+#    return if !$inited;
+#    $inited                     = 1;
     $preSp                      = '';
     %params                     = ();
     @format                     = ();
