@@ -284,8 +284,8 @@ sub validate {
     else {
         print STDERR "V: PROMPT FOR CONFIRMATION\n" if TRACE;
 
-        # prompt for user verification
-        $session->{response}->status(200);
+        # prompt for user verification - code 419 chosen by foswiki devs
+        $session->{response}->status(419);
 
         $session->{prefs}->pushPreferenceValues( 'SESSION',
             { ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ), } );
