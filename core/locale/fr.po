@@ -2072,7 +2072,7 @@ msgstr "Seuls les membres du %1 sont autorisés à faire ça."
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
-"Argh: nous n'avons pu vous authentifier. Réessayez, ou [[%1][réinitialiser "
+"Argh: nous n\\'avons pu vous authentifier. Réessayez, ou [[%1][réinitialiser "
 "votre mot de passe]]."
 
 #: core/templates/renamedelete.tmpl:18
@@ -3059,12 +3059,11 @@ msgstr ""
 "collez le code suivant :"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
-#, fuzzy
 msgid ""
 "To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
-"Pour modifier des pages sur ce site Foswiki (FoswikiSite), vous devez vous "
+"Pour modifier des pages sur ce site Foswiki, vous devez vous "
 "inscrire pour obtenir un nom de connexion et un mot de passe."
 
 #: core/templates/oopsleaseconflict.tmpl:20
