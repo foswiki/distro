@@ -1779,7 +1779,7 @@ msgstr "Seuls les membres du %1 sont autorisés à faire ça."
 
 #: ../core/templates/login.tmpl:8
 msgid "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
-msgstr "Argh: nous n'avons pu vous authentifier. Réessayez, ou [[%1][réinitialiser votre mot de passe]]."
+msgstr "Argh: nous n\\'avons pu vous authentifier. Réessayez, ou [[%1][réinitialiser votre mot de passe]]."
 
 #: ../core/templates/renamedelete.tmpl:19
 msgid "Optionally change topic name:"
