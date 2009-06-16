@@ -21,7 +21,7 @@
 /* GENERAL HTML ELEMENTS */
 
 html body {
-	font-size:104%; /* to change the site's font size, change #patternPage below */
+	font-size:104%; /* to change the site's font size, change .foswikiPage below */
 	voice-family:"\"}\""; 
 	voice-family:inherit;
 	font-size:small;
@@ -604,11 +604,14 @@ a:hover .foswikiAccessKey {
 /* LAYOUT ELEMENTS */
 /* for specific layout sub-elements see further down */
 
-#patternPage {
+.foswikiPage {
 	font-family:arial, verdana, sans-serif;
 	line-height:1.5em; /*S1*/
 	/* change font size here */
 	font-size:105%;
+}
+.foswikiPage font {
+	line-height:135%;
 }
 .patternNoViewPage #patternOuter {
 	margin-left:0;

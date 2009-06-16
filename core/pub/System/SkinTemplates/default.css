@@ -88,6 +88,9 @@ blockquote {
 	padding:1em;
 	background:#fff;
 }
+.foswikiPage font {
+	line-height:135%;
+}
 .foswikiNewLink font {
 	color:inherit;
 }

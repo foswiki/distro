@@ -55,7 +55,7 @@
 %TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%">
 #PageTop%TMPL:END%
 
-%TMPL:DEF{"main"}%<div id="patternScreen">
+%TMPL:DEF{"main"}%<div class="foswikiPage"><div id="patternScreen">
 <div id="patternPageShadow">
 <div id="patternPage">
 %TMPL:P{"startsidebarwrapper"}%<div id="patternOuter">
@@ -69,7 +69,8 @@
 </div><!-- /patternOuter-->%TMPL:P{"endsidebarwrapper"}%%TMPL:P{"topbar"}%%TMPL:P{"bottombar"}%
 </div><!-- /patternPage-->
 </div><!-- /patternPageShadow-->
-</div><!-- /patternScreen-->%TMPL:END%
+</div><!-- /patternScreen-->
+</div><!-- /foswikiPage-->%TMPL:END%
 
 %TMPL:DEF{"bodyend"}%</body></html>%TMPL:END%
 
