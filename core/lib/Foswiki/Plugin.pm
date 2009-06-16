@@ -232,7 +232,7 @@ sub registerHandlers {
         $Foswiki::Plugins::SESSION->{topicName},
         $Foswiki::Plugins::SESSION->{webName},
         $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
-        $this->{topicWeb}
+        $this->topicWeb()
     );
     use strict 'refs';
 
