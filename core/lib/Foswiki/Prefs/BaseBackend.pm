@@ -112,6 +112,8 @@ Utility method that cleans $$vaue_ref for later use in insert().
 sub cleanupInsertValue {
     my ( $this, $value_ref ) = @_;
 
+    return unless defined $$value_ref;
+
     $$value_ref =~ tr/\r//d;                  # Delete \r
     $$value_ref =~ tr/\t/ /;                  # replace TAB by space
     $$value_ref =~ s/([^\\])\\n/$1\n/g;       # replace \n by new line
