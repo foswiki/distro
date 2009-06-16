@@ -59,7 +59,7 @@ sub commonTagsHandler {
 sub _addHeader {
 
     return if $addedHead;
-    $header .= <<'EOF';
+    my $header = <<'EOF';
 <style type="text/css" media="all">
 @import url("%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css");
 </style>
