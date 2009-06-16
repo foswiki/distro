@@ -44,13 +44,21 @@ sub _getListOfExtensions {
         $this->{list}   = {};
         $this->{errors} = [];
         foreach my $place ( @{ $this->{repositories} } ) {
+            next unless defined $place->{data};
             $place->{data} =~ s#/*$#/#;
             print CGI::div("Consulting $place->{name}...");
             my $url      = $place->{data} . 'FastReport?skin=text';
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
                 my $page = $response->content();
-                $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
+                if (defined $page) {
+                    $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
+                } else {
+                    push(
+                        @{ $this->{errors} },
+                        "Error accessing $place->{name}: no content"
+                       );
+                }
             }
             else {
                 push(
@@ -63,7 +71,7 @@ sub _getListOfExtensions {
                 if ($@) {
                     push(
                         @{ $this->{errors} },
-"This is most likely because the LWP CPAN module isn't installed."
+"This may be because the LWP CPAN module isn't installed."
                     );
                 }
             }
@@ -75,6 +83,7 @@ sub _getListOfExtensions {
 sub _parseRow {
     my ( $this, $row, $place ) = @_;
     my %data;
+    return '' unless defined $row;
     return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
     ( $data{installedVersion}, $data{namespace} ) =
       $this->_getInstalledVersion( $data{topic} );
@@ -140,8 +149,8 @@ sub ui {
                         my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~ /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
-                        {
+                        if ( $ext->{version} =~
+                               /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ ) {
 
                             # Compatible version number
                             my $arev = ( $1 * 1000 + $2 ) * 1000 + ($3 || 0);
@@ -157,7 +166,8 @@ sub ui {
                         my $gotrev = $1;
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~ /^\s*(\d+)\s/ ) {
+                        if ( defined $ext->{version} &&
+                               $ext->{version} =~ /^\s*(\d+)\s/ ) {
                             my $availrev = $1;
                             if ( $availrev > $gotrev ) {
                                 $text = 'Upgrade';
@@ -171,7 +181,8 @@ sub ui {
                         my $idate = d2n( $3, $2, $1 );
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
+                        if ( defined $ext->{version} &&
+                               $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
                             my $adate = d2n( $3, $2, $1 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
@@ -186,8 +197,9 @@ sub ui {
                         my $idate = d2n( $1, $N2M{lc($2)}, $3 );
                         $text = 'Re-install';
                         $ext->{cssclass} = 'reinstall';
-                        if ( $ext->{version} =~
-                               /(\d{1,2}) ($MNAME) (\d{4})/ ) {
+                        if ( defined $ext->{version} &&
+                               $ext->{version} =~
+                                 /(\d{1,2}) ($MNAME) (\d{4})/ ) {
                             my $adate = d2n( $1, $N2M{lc($2)}, $3 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
@@ -293,7 +305,7 @@ sub _getInstalledVersion {
             local $/;
             if ( -e $path && open( $fh, '<', $path ) ) {
                 my $text = <$fh>;
-                if ( $text =~ /$VERSION_LINE/s ) {
+                if ( defined $ text && $text =~ /$VERSION_LINE/s ) {
                     $release = $+;
                     $release = 'HEAD' if $release =~ /%\$VERSION%/;
                 }
