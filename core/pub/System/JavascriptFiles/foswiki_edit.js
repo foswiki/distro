@@ -83,7 +83,10 @@ Sets the height of the exit box text area.
 param inRowCount: the number of rows
 */
 function setEditBoxHeight(inRowCount) {
-	document.getElementById(EDITBOX_ID).rows = inRowCount;
+	var el = document.getElementById(EDITBOX_ID);
+	if (el) {
+		el.rows = inRowCount;
+	}
 }
 
 /**
