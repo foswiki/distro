@@ -3166,7 +3166,7 @@ msgstr "vinkkejä hyvään tyyliin"
 
 #: core/templates/more.tmpl:107
 msgid "in raw text format"
-msgstr "raa'assa tekstimuodossa"
+msgstr "raa\\'assa tekstimuodossa"
 
 #: core/templates/form.tmpl:3
 msgid "indicates mandatory fields"

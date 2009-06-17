@@ -106,8 +106,8 @@ msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
 msgstr ""
-"%1 è stato editato l'argomento per %2 e il lease è ancora attivo per "
-"un'altro %3."
+"%1 è stato editato l\\'argomento per %2 e il lease è ancora attivo per "
+"un\\'altro %3."
 
 #: core/templates/registerfailednotremoved.tmpl:12
 #: core/templates/registernotifyadmin.tmpl:10
@@ -150,7 +150,7 @@ msgstr "%1 è la pagina di default per gli allegati cancellati."
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
 #, fuzzy
 msgid "%1 lists all Foswiki user tools"
-msgstr "%1 lista tutti gli strumenti dell'utente TWiki "
+msgstr "%1 lista tutti gli strumenti dell\\'utente TWiki "
 
 #: core/templates/messages.tmpl:440
 msgid "%1 may still be editing %2."
@@ -163,7 +163,7 @@ msgstr "%1 spostato da %2 a %3 via %4"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
-msgstr "%1 per creare un'altro web"
+msgstr "%1 per creare un\\'altro web"
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to customize the web specific preferences"
@@ -212,7 +212,7 @@ msgstr "(%1 vs. %2)"
 
 #: core/templates/messages.tmpl:164
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
-msgstr "(*Suggerimento:* Come caricare l'immagine sulla pagina?)"
+msgstr "(*Suggerimento:* Come caricare l\\'immagine sulla pagina?)"
 
 #: core/data/System/WebSearchAdvanced.txt:76
 msgid "(=all= to show all topics)"
@@ -371,7 +371,7 @@ msgid ""
 msgstr ""
 "*Cambia commento:* Se usi _Cambia Proprietà_ per cambiare un commento, il "
 "commento mostrato nella pagina cambierà ma quello che accompagna la storia "
-"dell'allegato resterà quello che era al momento del caricamento del file."
+"dell\\'allegato resterà quello che era al momento del caricamento del file."
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -495,7 +495,7 @@ msgstr "<em>in tutti i web pubblici</em>"
 #: core/templates/messages.tmpl:365
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"L'estensione =.txt= è stata aggiunta a qualche nome di file per ragioni di "
+"L\\'estensione =.txt= è stata aggiunta a qualche nome di file per ragioni di "
 "sicurezza"
 
 #: core/templates/messages.tmpl:488
@@ -504,7 +504,7 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Un %1 è diviso in web; ognuno rappresentante un soggetto, un'area di "
+"Un %1 è diviso in web; ognuno rappresentante un soggetto, un\\'area di "
 "collaborazione . Stai cercando di %2 in un web che non esiste."
 
 #: core/templates/messages.tmpl:131
@@ -543,7 +543,7 @@ msgid ""
 "longer valid, please contact %3"
 msgstr ""
 "Una nuova password generata dal sistema per il tuo login name %1 (!WikiName %"
-"2) è stata inviata al to indirizzo email registrato. Se l'indirizzo "
+"2) è stata inviata al to indirizzo email registrato. Se l\\'indirizzo "
 "utilizzato non fosse più valido, contatta %3"
 
 #: core/data/System/WebTemplateTopics.txt:4
@@ -616,7 +616,7 @@ msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
-"L'invio di questa form provocherà la variazione del tuo indirizzo e-mail e "
+"L\\'invio di questa form provocherà la variazione del tuo indirizzo e-mail e "
 "poi ti ritroverai ancora qui"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:12
@@ -684,7 +684,7 @@ msgstr "Allega il file a %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:11
 msgid "Attach image or document on %1"
-msgstr "Allega un'immagine o un documento a %1"
+msgstr "Allega un\\'immagine o un documento a %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:17
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
@@ -701,7 +701,7 @@ msgstr "L'allegato '%1' non esiste"
 
 #: core/lib/Foswiki/UI/Manage.pm:373
 msgid "Attachment already exists in new topic"
-msgstr "Nella nuova pagina l'allegato esiste già"
+msgstr "Nella nuova pagina l\\'allegato esiste già"
 
 #: core/templates/messages.tmpl:62
 msgid "Attachment delete failed"
@@ -729,7 +729,7 @@ msgstr "Allegati di %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
 msgid "Attachments will not be shown in topic view page."
-msgstr "L'allegato non verrà mostrato nella visualizzazione della pagina."
+msgstr "L\\'allegato non verrà mostrato nella visualizzazione della pagina."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
@@ -1162,7 +1162,7 @@ msgstr "Elimina allegato"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:175
 msgid "Delete last row"
-msgstr "Elimina l'ultima riga"
+msgstr "Elimina l\\'ultima riga"
 
 #: core/templates/more.tmpl:35
 msgid "Delete topic"
@@ -1174,7 +1174,7 @@ msgstr "Elimina la pagina..."
 
 #: PatternSkin/templates/attach.pattern.tmpl:47
 msgid "Describe the file so other people know what it is."
-msgstr "Descrivi il file in modo che si sappia cos'è."
+msgstr "Descrivi il file in modo che si sappia cos\\'è."
 
 #: core/lib/Foswiki/Form.pm:272
 msgid "Details in separate window"
@@ -1200,7 +1200,7 @@ msgstr "Non dimenticare di salvare i cambiamenti"
 
 #: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
 msgid "Do not show attachment in table"
-msgstr "Non mostrare l'allegato nella tabella"
+msgstr "Non mostrare l\\'allegato nella tabella"
 
 #: core/data/System/WebSearchAdvanced.txt:68
 msgid "Don't show:"
@@ -1211,7 +1211,7 @@ msgid ""
 "During deletion of attachment =%1= an error was found. Please notify your %2 "
 "administrator."
 msgstr ""
-"Durante l'eliminazione dell'allegato =%1= si è verificato un errore. "
+"Durante l\\'eliminazione dell\\'allegato =%1= si è verificato un errore. "
 "Notificalo al tuo %2 amministratore."
 
 #: core/templates/messages.tmpl:55
@@ -1219,7 +1219,7 @@ msgid ""
 "During move of attachment %1 to %2 an error was found. Please notify your %3 "
 "administrator."
 msgstr ""
-"Durante lo spostamento dell'allegato %1 in %2 si è verificato un errore. "
+"Durante lo spostamento dell\\'allegato %1 in %2 si è verificato un errore. "
 "Notificalo al tuo %3 amministratore."
 
 #: core/templates/messages.tmpl:99
@@ -1299,20 +1299,20 @@ msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
 msgstr ""
-"O il codice non è valido o l'hai già usato confermando la registrazione."
+"O il codice non è valido o l\\'hai già usato confermando la registrazione."
 
 #: core/templates/messages.tmpl:373
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
 msgstr ""
-"Non hai specificato un filename oppure il file di cui stai tentando l'upload "
+"Non hai specificato un filename oppure il file di cui stai tentando l\\'upload "
 "è vuoto. Non puoi fare lúpload di un file vuoto."
 
 #: core/lib/Foswiki/UI/Register.pm:411 core/lib/Foswiki/UI/Register.pm:450
 #, fuzzy
 msgid "Email has been disabled for this Foswiki installation"
-msgstr "L'email è stata disabilitata in questa installazione TWiki"
+msgstr "L\\'email è stata disabilitata in questa installazione TWiki"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:75
 msgid "Enlarge edit box"
@@ -1324,7 +1324,7 @@ msgstr "Per cambiare identità, inserisci nuovi username e password"
 
 #: core/templates/login.sudo.tmpl:18
 msgid "Enter the Wiki Administrator user or login as set in %1"
-msgstr "Inserisci l'utente Amministratore o effettua il login come in %1"
+msgstr "Inserisci l\\'utente Amministratore o effettua il login come in %1"
 
 #: core/templates/messages.tmpl:241
 msgid "Error registering new user"
@@ -1332,7 +1332,7 @@ msgstr "Errore durante la refistrazione del nuovo utente"
 
 #: core/templates/messages.tmpl:232
 msgid "Error registering user %1"
-msgstr "Errore durante la refistrazione dell'utente %1"
+msgstr "Errore durante la refistrazione dell\\'utente %1"
 
 #: core/templates/messages.tmpl:381
 msgid "Error saving topic"
@@ -1364,7 +1364,7 @@ msgstr "Errori"
 
 #: core/templates/messages.tmpl:465
 msgid "Failed to include URL %1"
-msgstr "Inclusione dell'URL %1 fallita"
+msgstr "Inclusione dell\\'URL %1 fallita"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:21
@@ -1559,7 +1559,7 @@ msgstr "Se questa riga è presente vedi  la sezione _aggiorna_  sottostante"
 #: core/templates/messages.tmpl:338
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr ""
-"Se questa pagina non c'è, creala; altrimenti controlla se ci sono errori"
+"Se questa pagina non c\\'è, creala; altrimenti controlla se ci sono errori"
 
 #: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:97
 msgid ""
@@ -1597,7 +1597,7 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 "Se hai ricevuto questa e-mail per errore: Qualcuno (%1) si è registrato sul "
-"sito %2  usando l'indirizzo e-mail %3. Contatta %4 se si tratta di un errore."
+"sito %2  usando l\\'indirizzo e-mail %3. Contatta %4 se si tratta di un errore."
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
@@ -1726,7 +1726,7 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"Andare avanti e procedere con l'edit è probabilmente giusto - a meno che tu "
+"Andare avanti e procedere con l\\'edit è probabilmente giusto - a meno che tu "
 "non voglia cambiare i dati in un form allegato alla pagina. Se %1 realmente "
 "_salva_ la pagina mentre tu la stai modificando, i tuoi cambiamenti verranno "
 "inseriti e niente andrà perso. I dati nel Form non possono essere facilmente "
@@ -1876,7 +1876,7 @@ msgstr "Sposta allegato"
 
 #: core/templates/moveattachment.tmpl:22
 msgid "Move attachment to web:"
-msgstr "Sposta l'allegato al web:"
+msgstr "Sposta l\\'allegato al web:"
 
 #: core/templates/moveattachment.tmpl:7
 msgid "Move file attachment"
@@ -1983,7 +1983,7 @@ msgid ""
 "move."
 msgstr ""
 "Tieni presente che dopo questo spostamento ogni URL che fa riferimento "
-"all'allegato risulterà interrotto.."
+"all\\'allegato risulterà interrotto.."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:144
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:13
@@ -2051,11 +2051,11 @@ msgstr "Opzionalmente inserisci un nome diverso per la pagina:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:122
 msgid "Organisation URL:"
-msgstr "URL dell'organizzazione:"
+msgstr "URL dell\\'organizzazione:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:119
 msgid "Organisation name:"
-msgstr "Nome dell'organizzazione:"
+msgstr "Nome dell\\'organizzazione:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:271
 msgid "Other Country"
@@ -2120,7 +2120,7 @@ msgstr "Per favore contatta %1."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
-msgstr "Inserire la password dell'Amministratore"
+msgstr "Inserire la password dell\\'Amministratore"
 
 #: core/templates/login.tmpl:14
 msgid "Please enter your username and password"
@@ -2231,7 +2231,7 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:30
 msgid "Read new revision help text in new window"
-msgstr "Leggi l'aiuto sulla nuova revisione in una nuova finestra"
+msgstr "Leggi l\\'aiuto sulla nuova revisione in una nuova finestra"
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -2291,7 +2291,7 @@ msgid ""
 "reflected there as well."
 msgstr ""
 "Ricordati di agggiornare la tua pagina personale se vuoi che la variazione "
-"dell'indirizzo e-mail venga riportata anche qui"
+"dell\\'indirizzo e-mail venga riportata anche qui"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:5
 msgid "Remember your password?"
@@ -2299,7 +2299,7 @@ msgstr "Ti ricordi la password?"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
-msgstr "Prima rimuovi l'utente dal gruppo(i) %1."
+msgstr "Prima rimuovi l\\'utente dal gruppo(i) %1."
 
 #: core/templates/rename.tmpl:7 core/templates/renameweb.tmpl:7
 msgid "Rename"
@@ -2499,7 +2499,7 @@ msgstr "Vedi anche:"
 
 #: core/templates/edit.tmpl:59
 msgid "See below for help in editing this page."
-msgstr "Guarda in basso per l'aiuto su come editare questa pagina."
+msgstr "Guarda in basso per l\\'aiuto su come editare questa pagina."
 
 #: core/templates/changeform.tmpl:13
 msgid "Select"
@@ -2507,7 +2507,7 @@ msgstr "Seleziona"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:20
 msgid "Select a new local file to update attachment"
-msgstr "Selezina un nuovo file locale per aggirnare l'allegato"
+msgstr "Selezina un nuovo file locale per aggirnare l\\'allegato"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:33
 msgid "Select all"
@@ -2543,7 +2543,7 @@ msgstr "Definisci la nuova pagina genitore"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 msgid "Show help"
-msgstr "Mostra l'aiuto"
+msgstr "Mostra l\\'aiuto"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:78
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
@@ -2710,7 +2710,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:528
 msgid "That user has already been activated "
-msgstr "L'utente è già stato attivato"
+msgstr "L\\'utente è già stato attivato"
 
 #: core/templates/messages.tmpl:280
 msgid ""
@@ -2766,7 +2766,7 @@ msgstr "Il codice di attivazione %1 non è valido."
 
 #: core/templates/moveattachment.tmpl:29
 msgid "The attachment and any history will be moved to the new topic."
-msgstr "L'allegato e ogni revisione sarà spostato nella nuova pagina"
+msgstr "L\\'allegato e ogni revisione sarà spostato nella nuova pagina"
 
 #: core/templates/messages.tmpl:444
 msgid ""
@@ -2781,16 +2781,16 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"La pagina marcata verrà aggiornata (un'altra form apparirà permettendoti di "
+"La pagina marcata verrà aggiornata (un\\'altra form apparirà permettendoti di "
 "rinominare, eventualmente, ogni pagina che fosse bloccata)"
 
 #: core/templates/messages.tmpl:298
 msgid "The e-mail address for this account is not valid."
-msgstr "L'indirizzo email di questo account non è valido."
+msgstr "L\\'indirizzo email di questo account non è valido."
 
 #: core/templates/messages.tmpl:461
 msgid "The entry for user %1 was missing in the password system."
-msgstr "Il sistema delle password non conosce l'utente %1."
+msgstr "Il sistema delle password non conosce l\\'utente %1."
 
 #: core/templates/messages.tmpl:359
 msgid "The file has been uploaded and attached properly to the %1 topic."
@@ -2798,7 +2798,7 @@ msgstr "Il file è stato caricato e correttamente allegato alla pagina %1."
 
 #: core/templates/messages.tmpl:395
 msgid "The following topics are locked for edit, and cannot be moved:"
-msgstr "La pagina seguente è bloccata per l'edit e non può essere spostata:"
+msgstr "La pagina seguente è bloccata per l\\'edit e non può essere spostata:"
 
 #: core/templates/messages.tmpl:401
 msgid "The following topics refer to topics in this web, but are being edited:"
@@ -2858,7 +2858,7 @@ msgstr "Le due password inserite non corrispondono."
 #: core/templates/messages.tmpl:530
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
-"L'utente %1 è già stato attivato, e dovrebbe essere in grado di effettuare "
+"L\\'utente %1 è già stato attivato, e dovrebbe essere in grado di effettuare "
 "il login"
 
 #: core/templates/messages.tmpl:391
@@ -3278,7 +3278,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:466
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
-msgstr "Attenzione: questo sito non permette l'%<nop>INCLUDE% degli URL"
+msgstr "Attenzione: questo sito non permette l\\'%<nop>INCLUDE% degli URL"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -3299,10 +3299,10 @@ msgid ""
 "screen, or follow the link in the e-mail, to activate your account. Once "
 "your account is activated, %1 will:"
 msgstr ""
-"Quando %1 riceve il form, invierà un codice di attivazione dell'account "
-"all'indirizzo email che ha dato sopra. Inserisci quel codice di attivazione "
+"Quando %1 riceve il form, invierà un codice di attivazione dell\\'account "
+"all\\'indirizzo email che ha dato sopra. Inserisci quel codice di attivazione "
 "nella schermata seguente o segui il link contenuto nella email per attivare "
-"l'account. Ad attivazione effettuata, %1 sarà:"
+"l\\'account. Ad attivazione effettuata, %1 sarà:"
 
 #: core/templates/messages.tmpl:243
 msgid "While attempting to email <noautolink>%1</noautolink>."
@@ -3326,7 +3326,7 @@ msgstr "Sei anche elencato nella pagina %1"
 
 #: core/templates/messages.tmpl:392
 msgid "You are denied access to the following topics in the web:"
-msgstr "Ti è stato vietato l'accesso alle pagine seguenti nel web:"
+msgstr "Ti è stato vietato l\\'accesso alle pagine seguenti nel web:"
 
 #: core/templates/messages.tmpl:446
 msgid ""
@@ -3336,7 +3336,7 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
-"Vai pure avanti con l'edit ameno che tu non voglia modificare i dati "
+"Vai pure avanti con l\\'edit ameno che tu non voglia modificare i dati "
 "contenuti nel form allegato alla pagina. Se %1 ha realmente _salvato_ mentre "
 "stavi editando, i tuoi cambiamenti verranno comunque inclusi e niente verrà "
 "perso. I dati del form invece non possono essere facilmente mantenuti. così "
@@ -3430,7 +3430,7 @@ msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Puoi chiedere all'amministratore Wiki dicambiare il valore dei parametri "
+"Puoi chiedere all\\'amministratore Wiki dicambiare il valore dei parametri "
 "relativi se pensi che siano inappropriati per il tuo ambiente."
 
 #: core/templates/messages.tmpl:532
@@ -3456,7 +3456,7 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Adesso devi verificare l'indirizzo e-mail. Puoi farlo inserendo %1 nel form "
+"Adesso devi verificare l\\'indirizzo e-mail. Puoi farlo inserendo %1 nel form "
 "che ti è stato presentato quando questa e-mail ti è stata inviata o "
 "visitando %2."
 
@@ -3482,7 +3482,7 @@ msgstr "Potrai rivedere la pagina prima di salvarla in una nuova revisione"
 
 #: core/templates/messages.tmpl:355
 msgid "You will probably have to ask your administrator, %1, to do this."
-msgstr "Per fare questo, probabilmente devi rivolgerti all'amministratore %1."
+msgstr "Per fare questo, probabilmente devi rivolgerti all\\'amministratore %1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:33
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:22
@@ -3534,7 +3534,7 @@ msgstr "La tua pagina personale %1 è stata creata"
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
-msgstr "L'indirizzo e-mail registrato è stato aggiornato %1."
+msgstr "L\\'indirizzo e-mail registrato è stato aggiornato %1."
 
 #: core/templates/messages.tmpl:245
 msgid ""
@@ -3558,7 +3558,7 @@ msgid ""
 "your Wiki administrator."
 msgstr ""
 "Il tuo sistema può non supportare il cambio password via TWiki. Chiedi "
-"all'amministratore."
+"all\\'amministratore."
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."

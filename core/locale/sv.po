@@ -1392,7 +1392,7 @@ msgstr "Om du matar in ett annat namn, se till att det inte redan finns."
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
 msgid "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site using your mail address %3. Contact %4 if this is in error."
-msgstr "Om du fått detta brev av misstag: En person (%1) har försökt registrera sig på '%2' med din e-postadress, %3. Kontakta %4 om detta är fel."
+msgstr "Om du fått detta brev av misstag: En person (%1) har försökt registrera sig på \\'%2\\' med din e-postadress, %3. Kontakta %4 om detta är fel."
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
@@ -2400,11 +2400,11 @@ msgstr "Tack för att du registrerade dig"
 
 #: core/templates/registernotify.tmpl:8
 msgid "Thank you for registering in the %1 collaboration platform. Please save this e-mail for future reference."
-msgstr "Tack för att du registrerade dig på samarbetsplattformen '%1. Spara detta brev för framtida referens."
+msgstr "Tack för att du registrerade dig på samarbetsplattformen \\'%1. Spara detta brev för framtida referens."
 
 #: core/templates/registerconfirm.tmpl:9
 msgid "Thank you for registering in the %1 collaboration platform. Your verification code is %2."
-msgstr "Tack för att du registrerade dig på samarbetsplattformen '%1. Din aktiveringskod är %2."
+msgstr "Tack för att du registrerade dig på samarbetsplattformen \\'%1. Din aktiveringskod är %2."
 
 #: core/templates/messages.tmpl:528
 msgid "That user has already been activated "

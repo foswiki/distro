@@ -233,7 +233,7 @@ msgstr "(teruglinks in alle Webs)"
 
 #: core/templates/searchbookview.tmpl:3
 msgid "(book view)"
-msgstr "('book view')"
+msgstr "(\\'book view\\')"
 
 #: core/templates/changeform.tmpl:4
 msgid "(change form)"
@@ -442,7 +442,7 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
-msgstr "*machineschrift* zet woord/zin tussen '=' tekens: =<nop>=jouw woorden=="
+msgstr "*machineschrift* zet woord/zin tussen \\'=\\' tekens: =<nop>=jouw woorden=="
 
 #: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*paragraphs* separate with blank line"
@@ -1354,11 +1354,11 @@ msgstr "Het bestand is geupload met een andere naam"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:11
 msgid "Find similar topics"
-msgstr "Vind soortgelijke pagina's"
+msgstr "Vind soortgelijke pagina\\'s"
 
 #: core/templates/more.tmpl:54 core/templates/more.tmpl:56
 msgid "Find topics that link to %1 ..."
-msgstr "Pagina's die verwijzen naar %1 ..."
+msgstr "Pagina\\'s die verwijzen naar %1 ..."
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:283
 msgid ""
@@ -1538,7 +1538,7 @@ msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
 msgstr ""
-"Als je de paginanaam al weet, voer de naam in in het [[%1]['Spring' veld]] "
+"Als je de paginanaam al weet, voer de naam in in het [[%1][\\'Spring\\' veld]] "
 "bovenaan"
 
 #: core/templates/messages.tmpl:425
@@ -2117,7 +2117,7 @@ msgid ""
 "or check the allow non-Wiki Word box"
 msgstr ""
 "Ga terug met je browser en kies een paginanaam dat een %1.WikiWord is of "
-"vink de checkbox 'niet-<nop>WikiWoord mag gebruikt worden' aan"
+"vink de checkbox \\'niet-<nop>WikiWoord mag gebruikt worden\\' aan"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:123
@@ -2549,7 +2549,7 @@ msgstr "Grootte"
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:137
 #: core/templates/registernotify.tmpl:15
 msgid "Some add schedule information and vacation notice."
-msgstr "Sommige voegen afwezigheidsberichten en vakantieschema's toe."
+msgstr "Sommige voegen afwezigheidsberichten en vakantieschema\\'s toe."
 
 #: core/templates/messages.tmpl:366
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
@@ -2645,7 +2645,7 @@ msgstr "Template %1 bestaat niet"
 
 #: core/data/Sandbox/WebHome.txt:6
 msgid "Test Topics"
-msgstr "Testpagina's"
+msgstr "Testpagina\\'s"
 
 #: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
@@ -2715,11 +2715,11 @@ msgstr ""
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr "Het %1 web van Foswiki, de 'Free and Open Source Wiki'"
+msgstr "Het %1 web van Foswiki, de \\'Free and Open Source Wiki\\'"
 
 #: core/data/Sandbox/WebRss.txt:5
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
-msgstr "Het %1 web van Foswiki. Foswiki is de 'Free and Open Source Wiki'."
+msgstr "Het %1 web van Foswiki. Foswiki is de \\'Free and Open Source Wiki\\'."
 
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -3043,21 +3043,21 @@ msgstr "Pagina krijgt de naam:"
 
 #: core/templates/search.tmpl:14
 msgid "Topics in %1 web"
-msgstr "Pagina's in %1 web"
+msgstr "Pagina\\'s in %1 web"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 #: core/templates/search.text.tmpl:4
 msgid "Topics in %1 web:"
-msgstr "Pagina's in %1 web"
+msgstr "Pagina\\'s in %1 web"
 
 #: core/data/System/WebSearchAdvanced.txt:76
 msgid "Topics per web"
-msgstr "Pagina's per web"
+msgstr "Pagina\\'s per web"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
 msgstr ""
-"Pagina's die op dit moment worden bewerkt door andere gebruikers in het !%1 "
+"Pagina\\'s die op dit moment worden bewerkt door andere gebruikers in het !%1 "
 "Web:"
 
 #: core/templates/renamewebbase.tmpl:32
@@ -3065,13 +3065,13 @@ msgid ""
 "Topics which refer to this web and are are currently being edited by other "
 "users:"
 msgstr ""
-"Pagina's die verwijzen naar dit web en die op dit moment worden bewerkt door "
+"Pagina\\'s die verwijzen naar dit web en die op dit moment worden bewerkt door "
 "andere gebruikers:"
 
 #: core/templates/renamewebbase.tmpl:35
 msgid "Topics which refer to this web that you do not have permission to change:"
 msgstr ""
-"Pagina's die verwijzen naar dit web waarvan je geen toestemming hebt om te "
+"Pagina\\'s die verwijzen naar dit web waarvan je geen toestemming hebt om te "
 "wijzigen:"
 
 #: core/data/System/WebSearchAdvanced.txt:71
@@ -3539,7 +3539,7 @@ msgstr "Nederlands"
 
 #: core/lib/Foswiki/Access.pm:207
 msgid "access denied on root"
-msgstr "toegang tot 'root' niet toegestaan"
+msgstr "toegang tot \\'root\\' niet toegestaan"
 
 #: core/lib/Foswiki/Access.pm:148
 msgid "access denied on topic"
@@ -3551,7 +3551,7 @@ msgstr "toegang tot web niet toegestaan"
 
 #: core/lib/Foswiki/Access.pm:219
 msgid "access not allowed on root"
-msgstr "toegang tot 'root' niet toegestaan"
+msgstr "toegang tot \\'root\\' niet toegestaan"
 
 #: core/lib/Foswiki/Access.pm:168
 msgid "access not allowed on topic"

@@ -421,8 +421,8 @@ msgstr ""
 "*Właściwości:* Komentarz oraz wyświetlanie załącznika w tabeli załączników "
 "mogą zostać zmienione bez ponownego ładowania pliku. Należy w tym celu "
 "kliknąć \"Zmień tylko komentarz i właściwości\"; więcej: <a target="
-"\"HiddenAttachment\" onclick=\"return launchWindow('%1','HiddenAttachment')"
-"\" href=\"%2\" rel='nofollow'>HiddenAttachment</a>."
+"\"HiddenAttachment\" onclick=\"return launchWindow(\\'%1\\',\\'HiddenAttachment\\')"
+"\" href=\"%2\" rel=\\'nofollow\\'>HiddenAttachment</a>."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -459,7 +459,7 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
-"*tekst o stałej szerokości znaków* tekst między znakami równości: '=': "
+"*tekst o stałej szerokości znaków* tekst między znakami równości: \\'=\\': "
 "=<nop>=tekst o stałej szerokości znaków=="
 
 #: core/data/System/WikiSyntaxSummary.txt:16
@@ -3010,8 +3010,8 @@ msgstr "Wypełnij poniższy formularz, aby się zarejestrować:"
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
 msgstr ""
-"Aby sprawdzić, czy użytkownik %1 zakończył już edycję, kliknij 'Spróbuj "
-"ponownie'."
+"Aby sprawdzić, czy użytkownik %1 zakończył już edycję, kliknij \\'Spróbuj "
+"ponownie\\'."
 
 #: core/templates/renamebase.tmpl:30 core/templates/renameconfirm.tmpl:14
 msgid "To topic:"

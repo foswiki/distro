@@ -406,7 +406,7 @@ msgid ""
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
 "ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
-"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"; veja '%1"
+"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"; veja \\'%1"
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -496,7 +496,7 @@ msgid ""
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
 "Um site Foswiki é dividido em webs; cada uma representa um assunto, uma área "
-"de colaboração. Você está tentando realizar a ação '%1' numa web que não existe."
+"de colaboração. Você está tentando realizar a ação \\'%1\\' numa web que não existe."
 
 #: core/templates/messages.tmpl:131
 msgid ""
