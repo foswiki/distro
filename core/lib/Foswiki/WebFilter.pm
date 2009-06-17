@@ -3,6 +3,9 @@ package Foswiki::WebFilter;
 
 use strict;
 
+#TODO: documentme
+#TODO: should this be converted to a FilterIterator?
+
 # spec in the $filter,
 # which may include one of:
 #    1 'user' (for only user webs)

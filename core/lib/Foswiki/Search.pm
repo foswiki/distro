@@ -15,7 +15,6 @@ use Error qw( :try );
 
 use Foswiki                           ();
 use Foswiki::Sandbox                  ();
-use Foswiki::Render                   ();    # SMELL: expensive
 use Foswiki::Search::InfoCache        ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
@@ -298,38 +297,38 @@ sub searchWeb {
     my $this    = shift;
     my $session = $this->{session};
     ASSERT( defined $session->{webName} ) if DEBUG;
-    my %params        = @_;
-    my $callback      = $params{_callback};
-    my $cbdata        = $params{_cbdata};
-    my $baseTopic     = $params{basetopic} || $session->{topicName};
-    my $baseWeb       = $params{baseweb} || $session->{webName};
-    my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
-    my $excludeTopic  = $params{excludetopic} || '';
+    my %params    = @_;
+    my $callback  = $params{_callback};
+    my $cbdata    = $params{_cbdata};
+    my $baseTopic = $params{basetopic} || $session->{topicName};
+    my $baseWeb   = $params{baseweb} || $session->{webName};
+    $params{casesensitive} = Foswiki::isTrue( $params{casesensitive} );
+    $params{excludeTopics} = $params{excludetopic} || '';
     my $formatDefined = defined $params{format};
     my $format        = $params{format};
     my $inline        = $params{inline};
-    my $doMultiple    = Foswiki::isTrue( $params{multiple} );
-    my $nonoise       = Foswiki::isTrue( $params{nonoise} );
-    my $noEmpty       = Foswiki::isTrue( $params{noempty}, $nonoise );
-    my $zeroResults =
-      1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $nonoise );
+    $params{multiple} = Foswiki::isTrue( $params{multiple} );
+    $params{nonoise}  = Foswiki::isTrue( $params{nonoise} );
+    $params{noempty}  = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
+    $params{zeroresults} =
+      1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
     my $newLine   = $params{newline} || '';
     my $sortOrder = $params{order}   || '';
     my $revSort   = Foswiki::isTrue( $params{reverse} );
-    my $scope     = $params{scope}   || '';
+    $params{scope} = $params{scope} || '';
     my $searchString = defined $params{search} ? $params{search} : '';
-    my $separator    = $params{separator};
-    my $topic        = $params{topic} || '';
-    my $type         = $params{type} || '';
+    my $separator = $params{separator};
+    $params{includeTopics} = $params{topic} || '';
+    $params{type}          = $params{type}  || '';
 
-    my $wordBoundaries = 0;
-    if ( $type eq 'word' ) {
+    $params{wordboundaries} = 0;
+    if ( $params{type} eq 'word' ) {
 
         # 'word' is exactly the same as 'keyword', except we will be searching
         # with word boundaries
-        $type           = 'keyword';
-        $wordBoundaries = 1;
+        $params{type}           = 'keyword';
+        $params{wordboundaries} = 1;
     }
 
     my $webName = $params{web}       || '';
@@ -339,9 +338,7 @@ sub searchWeb {
 
     $baseWeb =~ s/\./\//go;
 
-    my $renderer = $session->renderer;
-
-    $type = 'regex' if ( $params{regex} );
+    $params{type} = 'regex' if ( $params{regex} );
 
     my $mixedAlpha = $Foswiki::regex{mixedAlpha};
     if ( defined($separator) ) {
@@ -375,16 +372,6 @@ sub searchWeb {
 
     my $query;
 
-#TODO: actually want to pass the entire SEARCH params - so that each search backend can optimise if it suites its impl
-    my $options = {
-        casesensitive  => $caseSensitive,
-        wordboundaries => $wordBoundaries,
-        includeTopics  => $topic,
-        excludeTopics  => $excludeTopic,
-        scope          => $scope,
-        type           => $type,
-    };
-
     if ( length($searchString) == 0 ) {
 
         #default search should return no results
@@ -396,7 +383,7 @@ sub searchWeb {
     }
 
     my $theParser;
-    if ( $type eq 'query' ) {
+    if ( $params{type} eq 'query' ) {
         unless ( defined($queryParser) ) {
             require Foswiki::Query::Parser;
             $queryParser = new Foswiki::Query::Parser();
@@ -412,7 +399,7 @@ sub searchWeb {
     }
     my $error = '';
     try {
-        $query = $theParser->parse( $searchString, $options );
+        $query = $theParser->parse( $searchString, \%params );
     }
     catch Foswiki::Infix::Error with {
 
@@ -421,11 +408,11 @@ sub searchWeb {
     };
     return $error unless $query;
 
-    #TODO: redo with a $query->isEmpty() or something generic, and then push into the foreach?
-    unless ( $type eq 'query' ) {
+#TODO: redo with a $query->isEmpty() or something generic, and then push into the foreach?
+    unless ( $params{type} eq 'query' ) {
 
-        #shorcircuit the search foreach below for a zero result search
-        #FIXME: this breaks the per-web summary output that is hidden in the foreach
+    #shorcircuit the search foreach below for a zero result search
+    #FIXME: this breaks the per-web summary output that is hidden in the foreach
         @webs = () unless scalar( @{ $query->{tokens} } );    #default
     }
 
@@ -456,21 +443,21 @@ sub searchWeb {
             && $web ne $session->{webName} );
 
         # Run the search on topics in this web
-        my $inputTopicSet = _getTopicList( $this, $webObject, $options );
+        my $inputTopicSet = _getTopicList( $this, $webObject, \%params );
 
         next
-          if ( $noEmpty && !$inputTopicSet->hasNext() )
+          if ( $params{noempty} && !$inputTopicSet->hasNext() )
           ;    # Nothing to show for this web
 
-        my $infoCache = $webObject->query( $query, $inputTopicSet, $options );
+        my $infoCache = $webObject->query( $query, $inputTopicSet, \%params );
         $this->sortResults( $web, $infoCache, %params );
 
         # add dependencies
         my $cache = $session->{cache};
         if ($cache) {
-          foreach my $topic ( $infoCache->{list} ) {
-              $cache->addDependency($web, $topic);
-          }
+            foreach my $topic ( $infoCache->{list} ) {
+                $cache->addDependency( $web, $topic );
+            }
         }
 
         my ( $web_ttopics, $web_searchResult );
@@ -480,7 +467,7 @@ sub searchWeb {
         $ttopics += $web_ttopics;
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
-    return '' if ( $ttopics == 0 && $zeroResults );
+    return '' if ( $ttopics == 0 && $params{zeroresults} );
 
     if ( $formatDefined && !$finalTerm ) {
         if ($separator) {
@@ -667,7 +654,7 @@ sub formatResults {
     my $spacedTopic;
 
     my $template = $params->{template} || '';
-    if ( $formatDefined ) {
+    if ($formatDefined) {
         $template = 'searchformat';
     }
     elsif ($template) {
@@ -812,7 +799,7 @@ sub formatResults {
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
     while ( $infoCache->hasNext() ) {
-        my $topic          = $infoCache->next();
+        my $topic = $infoCache->next();
 
         my $forceRendering = 0;
         my $info           = $infoCache->get($topic);
@@ -840,7 +827,7 @@ sub formatResults {
         my ( $meta, $text );
 
         # Special handling for format='...'
-        if ( $formatDefined ) {
+        if ($formatDefined) {
             $text = $info->{tom}->text();
 
             if ($doExpandVars) {
@@ -887,7 +874,7 @@ sub formatResults {
             $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
               unless defined $wikiusername;
 
-            if ( $formatDefined ) {
+            if ($formatDefined) {
                 $out = $format;
                 $out =~ s/\$web/$web/gs;
                 $out =~ s/\$topic\(([^\)]*)\)/
@@ -956,7 +943,7 @@ sub formatResults {
                 $out =~ s/%TEXTHEAD%/$text/go;
 
             }
-            elsif ( $formatDefined ) {
+            elsif ($formatDefined) {
                 $out =~ s/\$summary(?:\(([^\)]*)\))?/
                   $info->{tom}->summariseText( $1, $text )/ges;
                 $out =~ s/\$changes(?:\(([^\)]*)\))?/
@@ -1023,7 +1010,7 @@ sub formatResults {
             }
 
             # don't expand if a format is specified - it breaks tables and stuff
-            unless ( $formatDefined ) {
+            unless ($formatDefined) {
                 $out = $webObject->renderTML($out);
             }
 
