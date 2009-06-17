@@ -100,8 +100,8 @@ For example, the =example= template file will be searched for in the following p
    I. =%SYSTEMWEB%.ExampleTemplate=
 
 Template names are usually derived from the name of the currently executing script; however it is also possible to override these settings in the =view= and =edit= scripts, for example when a topic-specific template is required. Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] can be used to override the skin templates used:
-   * =VIEW_TEMPLATE= sets the template to be used for viewing a topic
-   * =EDIT_TEMPLATE= sets the template for editing a topic.
+   * =VIEW_TEMPLATE= sets the template to be used for viewing a topic. (full qualified link with web needed: =Web.TopicName=)
+   * =EDIT_TEMPLATE= sets the template for editing a topic. (full qualified link with web needed: =Web.TopicName=)
 If these preferences are set locally (using _Local_ instead of _Set_) for a topic, in WebPreferences, in [[%LOCALSITEPREFS%]], or [[%SYSTEMWEB%.DefaultPreferences]] (using _Set_), the indicated templates will be chosen for =view= and =edit= respectively. The template search order is as specified above.
 
 ---++ TMPL:INCLUDE recursion for piecewise customisation, or mixing in new features
