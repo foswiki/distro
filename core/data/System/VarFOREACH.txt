@@ -1,9 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 3096 $"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarFORMAT
----+++ FORMAT{"list" format="" header="" footer="" separator=""} -- renders a comma separated list
+#VarFOREACH
+---+++ FOREACH{"list" format="" header="" footer="" separator=""} -- renders a comma separated list
 __WARNING:__ the syntax is developing. eg. =$topic= is a legacy of the original code, and will change
-   * Syntax: =%<nop>FORMAT{"list"}%=
+   * Syntax: =%<nop>FOREACH{"list"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | a text list to be expanded into the format | required |
@@ -12,6 +12,6 @@ __WARNING:__ the syntax is developing. eg. =$topic= is a legacy of the original 
      | =footer="..."= | Text to come after the formated output | =""= |
      | =separator="n"= | separator between formatted elements | ="$n"= |
    * Examples:
-      * =%<nop>FORMAT{"one,two,three" format="   * $topic"}%=
-      * =%<nop>FORMAT{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
+      * =%<nop>FOREACH{"one,two,three" format="   * $topic"}%=
+      * =%<nop>FOREACH{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
