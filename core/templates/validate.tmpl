@@ -5,13 +5,13 @@
 %TMPL:DEF{"pagetitle"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] validation)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%---++ %MAKETEXT{"Suspicious request from browser"}%
+%TMPL:DEF{"title"}%---++ %MAKETEXT{"User validation required to save"}%
 %TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 %TMPL:P{"title"}%
 <div style="display:block">
-%MAKETEXT{"[_1] received a request from your browser which has an expired validation key. This may be because someone is trying to post using your session. Please indicate whether you want [_1] to process this request." args="<nop>%WIKITOOLNAME%"}%</div></div><!-- /foswikiFormStep-->%TMPL:END%
+%MAKETEXT{"[_1] has detected a suspicious request to save a page. This can be caused by an attacker trying to use your browser to save data on [_1]. It can also occur if you use the back button of the browser after saving a page and try to save the same page again. Press OK if you intended to save a [_1] page. Otherwise press Cancel." args="<nop>%WIKITOOLNAME%"}%</div></div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
 
@@ -19,7 +19,7 @@
 %QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%
 </literal><input type="hidden" name="origurl" value="%ORIGURL%" /></form>%TMPL:END%
 
-%TMPL:DEF{"submit"}%<input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='OK' /><input name="response" tabindex='5' type='submit' class='foswikiSubmit' value='Cancel' />%TMPL:END%
+%TMPL:DEF{"submit"}%<input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='OK' /> <input name="response" tabindex='5' type='submit' class='foswikiSubmit' value='Cancel' />%TMPL:END%
 
 %TMPL:DEF{"form"}%<div id="foswikiLogin">
 <div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
