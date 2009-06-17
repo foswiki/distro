@@ -1,7 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2008-2009 Foswiki Contributors
+# Copyright (C) 2008-2009 Eugen Mayer, Arthur Clemens, Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -131,11 +131,15 @@ sub handler {
                     $theWeb, $theTopic, $slideNum, $slideMax, "n", $queryParams )/geo;
                 $slideText =~ s/%SLIDENAVLAST%/renderSlideNav(
                     $theWeb, $theTopic, $slideNum, $slideMax, "l", $queryParams )/geo;
-                $text .= "\n#GoSlide$slideNum\n$slideText";
+                $slideText =
+                    "<div class='slideshowPane' id='GoSlide"
+                  . $slideNum
+                  . "'>$slideText</div>";
+                $text .= "\n#AGoSlide$slideNum\n$slideText";
 
-                unless ( $text =~ s/%SLIDECOMMENT%/\n$slideComment\n/go ) {
-                    $text .= "\n$slideComment\n" if ($slideComment);
-                }
+                $slideComment = $slideComment ? "\n$slideComment\n" : '';
+                $text =~ s/%SLIDECOMMENT%/$slideComment/gs;
+
                 $slideNum++;
             }
             $text =~
