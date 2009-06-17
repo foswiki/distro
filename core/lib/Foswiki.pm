@@ -1842,7 +1842,6 @@ sub search {
 
     unless ( $this->{search} ) {
         require Foswiki::Search;
-#Monitor::MonitorMethod('Foswiki::Search');
         $this->{search} = new Foswiki::Search($this);
     }
     return $this->{search};
@@ -3790,9 +3789,6 @@ sub ENV {
 sub SEARCH {
     my ( $this, $params, $topicObject ) = @_;
 
-use Benchmark ':hireswallclock';
-	my $startTime = new Benchmark();
-
     # pass on all attrs, and add some more
     #$params->{_callback} = undef;
     $params->{inline}    = 1;
@@ -3813,11 +3809,6 @@ use Benchmark ':hireswallclock';
         $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
         $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
     };
-
-	my $stopTime = new Benchmark();
-	my $elapsed = timediff($stopTime, $startTime);
-
-	print STDERR "SEARCH ".$params->{search}." took ",timestr($elapsed),"\n";
 
     return $s;
 }
