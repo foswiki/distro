@@ -5,13 +5,21 @@
 %TMPL:DEF{"pagetitle"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] validation)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%---++ %MAKETEXT{"User validation required to save"}%
+%TMPL:DEF{"title"}%---++ %MAKETEXT{"Confirmation required"}%
 %TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 %TMPL:P{"title"}%
 <div style="display:block">
-%MAKETEXT{"[_1] has detected a suspicious request to save a page. This can be caused by an attacker trying to use your browser to save data on [_1]. It can also occur if you use the back button of the browser after saving a page and try to save the same page again. Press OK if you intended to save a [_1] page. Otherwise press Cancel." args="<nop>%WIKITOOLNAME%"}%</div></div><!-- /foswikiFormStep-->%TMPL:END%
+%MAKETEXT{"[_1] has detected a suspicious request to change a page." args="<nop>%WIKITOOLNAME%"}%
+
+%MAKETEXT{"It can occur if you use the back button of the browser after saving a page and try to save the same page again."}%
+
+%MAKETEXT{"It can also be caused by someone trying to use your identity to change content on [_1] without your knowledge." args="<nop>%WIKITOOLNAME%"}%
+
+%MAKETEXT{"Press OK to confirm that this change was intentional - e.g you had clicked a button on a [_1] page just before this message came up." args="<nop>%WIKITOOLNAME%"}%
+
+%MAKETEXT{"Press Cancel otherwise."}%</div></div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
 
