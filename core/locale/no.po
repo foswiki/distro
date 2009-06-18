@@ -468,7 +468,7 @@ msgstr "<em> kun i %1 web </em>"
 
 #: core/templates/more.tmpl:55
 msgid "<em>in all public webs</em>"
-msgstr "<em> i alle offentlige web\\'er</em>"
+msgstr "<em> i alle offentlige web'er</em>"
 
 #: core/templates/messages.tmpl:365
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -564,7 +564,7 @@ msgstr "Ny rad"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
-msgstr "Legg ditt navn til listen over brukere i siden %1 i %2 web\\'en"
+msgstr "Legg ditt navn til listen over brukere i siden %1 i %2 web'en"
 
 #: core/templates/messages.tmpl:353
 msgid "Adding a %1 variable in WebPreferences"
@@ -619,7 +619,7 @@ msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr ""
-"Alternativt velg \\'Tilbake\\' for å gå tilbake til %SYSTEMWEB%.UserRegistration "
+"Alternativt velg 'Tilbake' for å gå tilbake til %SYSTEMWEB%.UserRegistration "
 "og velg et annet brukernavn."
 
 #: core/templates/messages.tmpl:254
@@ -636,7 +636,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
-msgstr "Og består av sider fra mal-web\\'en"
+msgstr "Og består av sider fra mal-web'en"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
@@ -727,7 +727,7 @@ msgstr "Tilgjengelige skjema-maler"
 
 #: core/data/System/WebTemplateTopics.txt:6
 msgid "Available templates in %1 Web:"
-msgstr "Tilgjenglige maler i %1 web\\'en"
+msgstr "Tilgjenglige maler i %1 web'en"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "Back to topic"
@@ -740,7 +740,7 @@ msgstr "Referanser"
 
 #: core/templates/backlinksweb.tmpl:7
 msgid "Backlinks to %1 in %2 Web"
-msgstr "Referanser til %1 i %2 web\\'en"
+msgstr "Referanser til %1 i %2 web'en"
 
 #: core/templates/backlinksallwebs.tmpl:7
 msgid "Backlinks to %1 in all Webs"
@@ -776,8 +776,8 @@ msgid ""
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
 "in WebPreferences."
 msgstr ""
-"Som standard er visning av Trash web\\'en tilgjengelig kun for %1. Hvis du "
-"ønsker at alle skal kunne se Trash web\\'en så fjern =ALLOWWEBVIEW= i "
+"Som standard er visning av Trash web'en tilgjengelig kun for %1. Hvis du "
+"ønsker at alle skal kunne se Trash web'en så fjern =ALLOWWEBVIEW= i "
 "WebPreferences."
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:462
@@ -803,7 +803,7 @@ msgstr "Kan ikke lage %1 fordi den allerede eksisterer."
 
 #: core/templates/messages.tmpl:122
 msgid "Cannot create web %1 because it already exists"
-msgstr "Kan ikke lage web\\'en %1 fordi den allerede eksisterer"
+msgstr "Kan ikke lage web'en %1 fordi den allerede eksisterer"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
@@ -842,7 +842,7 @@ msgstr "Endre linker i sider som refererer til !%1 i alle webs:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "Endre linker i sider som refererer til !%1 i %2 web\\'en:"
+msgstr "Endre linker i sider som refererer til !%1 i %2 web'en:"
 
 #: core/templates/renamebase.tmpl:56
 msgid "Change links in topics that refer to %1 in any Web:"
@@ -850,7 +850,7 @@ msgstr "Endre linker til sider som refererer til %1 i alle web:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "Endre linker i sider som refererer til %1 in %2 web\\'en:"
+msgstr "Endre linker i sider som refererer til %1 in %2 web'en:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:30
 msgid "Change password"
@@ -911,7 +911,7 @@ msgstr "Valgte sider vil bli oppdatert til å referere til det nye web navnet."
 
 #: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
-msgstr "Undersider i %1 web\\'en"
+msgstr "Undersider i %1 web'en"
 
 #: core/templates/changeform.tmpl:7
 msgid "Choose a new form for %1"
@@ -1603,7 +1603,7 @@ msgstr "Dersom du ønsker å lage siden"
 
 #: core/templates/messages.tmpl:495
 msgid "If you would like to create this web"
-msgstr "Dersom du ønsker å lage denne web\\'en"
+msgstr "Dersom du ønsker å lage denne web'en"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:13
 msgid ""
@@ -1757,7 +1757,7 @@ msgstr "Link"
 
 #: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:98
 msgid "List all topics in the %1 web in alphabetical order"
-msgstr "List alle sider i %1 web\\'en i alfabetisk rekkefølge"
+msgstr "List alle sider i %1 web'en i alfabetisk rekkefølge"
 
 #: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:99
 msgid "List topics that start with the letter:"
@@ -1940,7 +1940,7 @@ msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
 msgstr ""
-"Merk at eventuelle URL\\'er som refererer til vedlegget ikke fungerer lenger "
+"Merk at eventuelle URL'er som refererer til vedlegget ikke fungerer lenger "
 "etter denne flyttingen."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:144
@@ -2266,7 +2266,7 @@ msgstr "Navngi eller flytt side"
 
 #: core/data/System/RenameWeb.txt:1
 msgid "Rename, move or delete this web:"
-msgstr "Navngi, flytt eller slett denne web\\'en:"
+msgstr "Navngi, flytt eller slett denne web'en:"
 
 #: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
 #: core/templates/renameweb.tmpl:33
@@ -2311,7 +2311,7 @@ msgstr "Gjenopprett side til denne versjonen"
 
 #: PatternSkin/templates/searchbase.pattern.tmpl:12
 msgid "Results from %1 web"
-msgstr "Resultater fra %1 web\\'en"
+msgstr "Resultater fra %1 web'en"
 
 #: core/templates/messages.tmpl:197
 msgid "Return to %1."
@@ -2383,7 +2383,7 @@ msgstr "Søk"
 
 #: core/templates/backlinksallwebs.tmpl:7
 msgid "Search %1 Web only"
-msgstr "Søk kun i %1 web\\'en"
+msgstr "Søk kun i %1 web'en"
 
 #: core/templates/backlinksweb.tmpl:7
 msgid "Search all webs"
@@ -2400,7 +2400,7 @@ msgstr "Søk i alle web"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:25
 msgid "Search more topics in this web"
-msgstr "Søk flere sider i denne web\\'en"
+msgstr "Søk flere sider i denne web'en"
 
 #: core/data/System/WebSearchAdvanced.txt:69
 msgid "Search string"
@@ -2675,7 +2675,7 @@ msgstr "Siden %1 finnes allerede"
 
 #: core/templates/messages.tmpl:487
 msgid "The %1 web does not exist"
-msgstr "Web\\'en %1 finnes ikke"
+msgstr "Web'en %1 finnes ikke"
 
 #: core/data/Sandbox/WebHome.txt:4
 msgid ""
@@ -2684,7 +2684,7 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"Web\\'en %1 er sandkassa du kan bruke for testing. Alle er velkommen til å "
+"Web'en %1 er sandkassa du kan bruke for testing. Alle er velkommen til å "
 "legge til eller fjerne innhold. Det er anbefalt å ta en gjennomgang av %2 "
 "for å få en hurtigstart med %3 verktøyet. En god tommelfinger regel er å "
 "legge til tekst på slutten av en side og signere med din %4."
@@ -2695,13 +2695,13 @@ msgstr ""
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr ""
-"%1 web\\'en til Foswiki, den gratis og åpen kildekode Wiki\\'en (Free Open "
+"%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
 "Source Wiki = Foswiki)"
 
 #: core/data/Sandbox/WebRss.txt:5
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
 msgstr ""
-"%1 web\\'en til Foswiki. Foswiki er en gratis og åpen kildekode Wiki (Free "
+"%1 web'en til Foswiki. Foswiki er en gratis og åpen kildekode Wiki (Free "
 "Open Source Wiki = Foswiki)"
 
 #: core/templates/messages.tmpl:155
@@ -2751,14 +2751,14 @@ msgstr "De følgende sidene er låst for redigering og kan ikke flyttes:"
 #: core/templates/messages.tmpl:401
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
-"De følgende sidene refererer til sider i denne web\\'en, men blir redigert:"
+"De følgende sidene refererer til sider i denne web'en, men blir redigert:"
 
 #: core/templates/messages.tmpl:398
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
 msgstr ""
-"De følgende sidene refererer til siden i denne web\\'en, men du har ikke "
+"De følgende sidene refererer til siden i denne web'en, men du har ikke "
 "tilgang til dem:"
 
 #: core/templates/messages.tmpl:337
@@ -2779,7 +2779,7 @@ msgstr "Den nye siden som er valgt må finnes fra før"
 
 #: core/templates/messages.tmpl:16
 msgid "The new web has been created"
-msgstr "Den nye web\\'en er nå lagd."
+msgstr "Den nye web'en er nå lagd."
 
 #: core/templates/messages.tmpl:106
 msgid "The password you entered in the *old password* field is incorrect."
@@ -2807,7 +2807,7 @@ msgstr "Brukeren %1 er allerede aktivert og burde kunne logge inn."
 
 #: core/templates/messages.tmpl:391
 msgid "There are problems with renaming this web:"
-msgstr "Det er problemer med å navngi denne web\\'en:"
+msgstr "Det er problemer med å navngi denne web'en:"
 
 #: core/templates/messages.tmpl:234
 msgid "There has been a problem adding your user id to the Password system."
@@ -2854,7 +2854,7 @@ msgid ""
 "list:"
 msgstr ""
 "Dette er en abbonneringstjeneste som automatisk varsler via epost når sider "
-"endres i denne %1 web\\'en. Dette er en praktisk tjeneste slik at du trenger å "
+"endres i denne %1 web'en. Dette er en praktisk tjeneste slik at du trenger å "
 "komme igjen og sjekke etter endringer hele tiden. For å abbonnere, legg til "
 "et punkt med din %2 i alfabetisk rekkefølge til denne listen:"
 
@@ -2883,7 +2883,7 @@ msgid ""
 "already in the %1 web."
 msgstr ""
 "Dette navnet har blitt valgt slik at det ikke er i konflikt med andre sider "
-"som finnes i %1 web\\'en."
+"som finnes i %1 web'en."
 
 #: core/templates/messages.tmpl:348
 msgid "This requires the form definition to be present."
@@ -2997,7 +2997,7 @@ msgstr "Lagre side feil"
 
 #: core/data/System/WebTemplateTopics.txt:2
 msgid "Topic templates in %1 Web"
-msgstr "Side maler i %1 web\\'en"
+msgstr "Side maler i %1 web'en"
 
 #: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
@@ -3013,12 +3013,12 @@ msgstr "Siden får navnet:"
 
 #: core/templates/search.tmpl:14
 msgid "Topics in %1 web"
-msgstr "Sider i %1 web\\'en"
+msgstr "Sider i %1 web'en"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 #: core/templates/search.text.tmpl:4
 msgid "Topics in %1 web:"
-msgstr "Sider i %1 web\\'en:"
+msgstr "Sider i %1 web'en:"
 
 #: core/data/System/WebSearchAdvanced.txt:76
 msgid "Topics per web"
@@ -3026,21 +3026,21 @@ msgstr "Sider pr web"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
-msgstr "Sider som for øyeblikker blir redigert av andre brukere i %1 web\\'en:"
+msgstr "Sider som for øyeblikker blir redigert av andre brukere i %1 web'en:"
 
 #: core/templates/renamewebbase.tmpl:32
 msgid ""
 "Topics which refer to this web and are are currently being edited by other "
 "users:"
 msgstr ""
-"Sider som refererer til denne web\\'en og som for øyeblikket blir rediger av "
+"Sider som refererer til denne web'en og som for øyeblikket blir rediger av "
 "andre brukere:"
 
 #: core/templates/renamewebbase.tmpl:35
 msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr ""
-"Sider som refererer til denne web\\'en og som du ikke har rettigheter til å "
+"Sider som refererer til denne web'en og som du ikke har rettigheter til å "
 "endre:"
 
 #: core/data/System/WebSearchAdvanced.txt:71
@@ -3220,7 +3220,7 @@ msgstr "Web"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
-msgstr "Welkommen til %1 web\\'en"
+msgstr "Welkommen til %1 web'en"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:282
 msgid ""
@@ -3256,7 +3256,7 @@ msgstr "Du er også listet på %1 siden"
 
 #: core/templates/messages.tmpl:392
 msgid "You are denied access to the following topics in the web:"
-msgstr "Du er nektet tilgang til følgende sider i web\\'en:"
+msgstr "Du er nektet tilgang til følgende sider i web'en:"
 
 #: core/templates/messages.tmpl:446
 msgid ""
@@ -3332,7 +3332,7 @@ msgstr "Du kan endre ditt passord via %1"
 
 #: core/templates/renameweb.tmpl:21
 msgid "You can give this web a different name."
-msgstr "Du kan gi denne web\\'en et annet navn."
+msgstr "Du kan gi denne web'en et annet navn."
 
 #: core/templates/oopschangelanguage.tmpl:7
 msgid ""
@@ -3631,7 +3631,7 @@ msgstr "hentet %1"
 
 #: core/templates/more.tmpl:39 core/templates/more.tmpl:48
 msgid "scans links in _%1 web_ only"
-msgstr "søker lenker kun i _%1 web\\'en_"
+msgstr "søker lenker kun i _%1 web'en_"
 
 #: core/templates/more.tmpl:37 core/templates/more.tmpl:46
 msgid "scans links in _all public webs_"

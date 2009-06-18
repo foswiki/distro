@@ -796,7 +796,7 @@ msgid ""
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
 "in WebPreferences."
 msgstr ""
-"Pr default er browsning af Trash-web\\'et begrænset til %1. Hvis du gerne vil "
+"Pr default er browsning af Trash-web'et begrænset til %1. Hvis du gerne vil "
 "give alle dine brugere adgang til at browse Trash-webbet, fjern da "
 "=ALLOWWEBVIEW= begrænsningen i WebPreferences"
 
@@ -1590,7 +1590,7 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 "Hvis du er blevet tilsendt denne e-mail ved en fejl: En person (%1) har "
-"forsøgt at registrere sig på sitet \\'%2\\' ved at bruge din e-mail-adresse, %3. "
+"forsøgt at registrere sig på sitet '%2' ved at bruge din e-mail-adresse, %3. "
 "Kontakt venligst %4 hvis dette er en fejl."
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:303
@@ -3018,7 +3018,7 @@ msgstr "Vedhæftede filer"
 
 #: core/templates/messages.tmpl:346
 msgid "Topic can not be upgraded from old style category table"
-msgstr "Siden kan ikke opgraderes fra den gamle \\'category table\\'-stil"
+msgstr "Siden kan ikke opgraderes fra den gamle 'category table'-stil"
 
 #: core/data/System/WebSearchAdvanced.txt:48
 #: core/data/System/WebSearchAdvanced.txt:59
@@ -3260,7 +3260,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Advarsel: Dette websted tillader ikke brug af %<nop>INCLUDE% til inkludering "
-"af URL\\'er"
+"af URL'er"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"

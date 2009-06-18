@@ -127,7 +127,7 @@ msgstr "%1 - список користувацької документації 
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
-msgstr "%1 - неправильне ім\\'я для нового розділу"
+msgstr "%1 - неправильне ім'я для нового розділу"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -223,7 +223,7 @@ msgstr "(введіть =all= для виводу без обмежень)"
 
 #: core/data/Sandbox/WebHome.txt:9
 msgid "(Use a topic name in System.WikiNotation)"
-msgstr "(Використовуйте ім\\'я теми у System.WikiNotation)"
+msgstr "(Використовуйте ім'я теми у System.WikiNotation)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -280,11 +280,11 @@ msgstr "(редагувати)"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:105
 msgid "(how you log in) LoginName:"
-msgstr "(вводиться на вході) Ім\\'яКористувача:"
+msgstr "(вводиться на вході) Ім'яКористувача:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
-msgstr "(як Вас бачать інші користувачі) ВікіІм\\'я:"
+msgstr "(як Вас бачать інші користувачі) ВікіІм'я:"
 
 #: core/templates/login.tmpl:4
 msgid "(login)"
@@ -313,7 +313,7 @@ msgstr "(порожньо/нічого)"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:276
 msgid "(optional)"
-msgstr "(не обов\\'язково)"
+msgstr "(не обов'язково)"
 
 #: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
@@ -399,7 +399,7 @@ msgstr ""
 "буде трохи змінена для захисту від спаму). У Вашій країні або країні, де "
 "розташований сервер, можуть діяти закони про захист інформації, що "
 "регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, то "
-"перш ніж реєструватися, Вам слід зв\\'язатися з %1 для консультацій по "
+"перш ніж реєструватися, Вам слід зв'язатися з %1 для консультацій по "
 "питаннях політики конфіденційності і захисту даних на цьому сервері."
 
 #: core/templates/attachagain.tmpl:19
@@ -540,7 +540,7 @@ msgid ""
 "longer valid, please contact %3"
 msgstr ""
 "Новий пароль автоматично згенерований для Вашого ІменіКористувача %1 (!"
-"ВікіІм\\'я %2) висланий на введений Вами при реєстрації адреса електронної "
+"ВікіІм'я %2) висланий на введений Вами при реєстрації адреса електронної "
 "пошти. Якщо ця адреса більше не дійсна, то зверніться, будь ласка, до %3"
 
 #: core/data/System/WebTemplateTopics.txt:4
@@ -584,7 +584,7 @@ msgstr "Додати рядок"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
-msgstr "Додасть Ваше ім\\'я до списку користувачів теми %1 розділу %2."
+msgstr "Додасть Ваше ім'я до списку користувачів теми %1 розділу %2."
 
 #: core/templates/messages.tmpl:353
 msgid "Adding a %1 variable in WebPreferences"
@@ -642,7 +642,7 @@ msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr ""
-"Ви також можете повернутися до System.UserRegistration і вибрати інше ім\\'я "
+"Ви також можете повернутися до System.UserRegistration і вибрати інше ім'я "
 "користувача "
 
 #: core/templates/messages.tmpl:254
@@ -938,7 +938,7 @@ msgstr ""
 #: core/templates/renameweb.tmpl:29
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
-"Текст відмічених тем буде оновлений так, щоб вказувати на нове ім\\'я розділу."
+"Текст відмічених тем буде оновлений так, щоб вказувати на нове ім'я розділу."
 
 #: core/templates/more.tmpl:128
 msgid "Child topics in %1 web"
@@ -1001,7 +1001,7 @@ msgstr "Конфлікт"
 #: core/templates/messages.tmpl:519 core/templates/messages.tmpl:525
 #: core/templates/messages.tmpl:534
 msgid "Contact %1 if you have any questions."
-msgstr "Зв\\'яжіться з %1 якщо у Вас є питання."
+msgstr "Зв'яжіться з %1 якщо у Вас є питання."
 
 #: core/templates/messages.tmpl:405
 msgid "Continue and try to rename web?"
@@ -1108,8 +1108,8 @@ msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
 msgstr ""
-"Створить Вашу особисту сторінку %1 використовуючи [[WikiName][ВікіІм\\'я]] як "
-"її ім\\'я та додасть на неї, введені Вами при реєстрації, дані."
+"Створить Вашу особисту сторінку %1 використовуючи [[WikiName][ВікіІм'я]] як "
+"її ім'я та додасть на неї, введені Вами при реєстрації, дані."
 
 #: core/templates/messages.tmpl:352
 msgid "Creating a suitable Form Definition topic"
@@ -1301,7 +1301,7 @@ msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
 msgstr ""
-"Або Ви не вказали ім\\'я файлу, або прикріплюваний файл %1 порожній. Не слід "
+"Або Ви не вказали ім'я файлу, або прикріплюваний файл %1 порожній. Не слід "
 "завантажувати порожній файл."
 
 #: core/lib/Foswiki/UI/Register.pm:411 core/lib/Foswiki/UI/Register.pm:450
@@ -1365,11 +1365,11 @@ msgstr "Не вдається приєднати URL %1"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:26
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
-msgstr "Помічені %1 поля обов\\'язкові для заповнення"
+msgstr "Помічені %1 поля обов'язкові для заповнення"
 
 #: core/templates/messages.tmpl:358
 msgid "File has been uploaded with different name"
-msgstr "Файл був завантажений з іншим ім\\'ям"
+msgstr "Файл був завантажений з іншим ім'ям"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:11
 msgid "Find similar topics"
@@ -1385,11 +1385,11 @@ msgid ""
 "using your WikiName."
 msgstr ""
 "Завершить створення облікового запису, після чого Ви зможете редагувати "
-"сторінки, використовуючи своє [[WikiName][ВікіІм\\'я]]."
+"сторінки, використовуючи своє [[WikiName][ВікіІм'я]]."
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:93
 msgid "First Name:"
-msgstr "Ім\\'я:"
+msgstr "Ім'я:"
 
 #: PatternSkin/templates/edit.pattern.tmpl:30
 msgid "Force new revision"
@@ -1473,7 +1473,7 @@ msgid ""
 "Go back in your browser and insert information for all mandatory fields."
 msgstr ""
 "Поверніться <a href=\"javascript:history.go(-1)\">назад</a> у Вашому "
-"браузері та заповніть усі обов\\'язкові поля."
+"браузері та заповніть усі обов'язкові поля."
 
 #: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:21
 msgid "Go back in your browser and save your changes locally."
@@ -1540,7 +1540,7 @@ msgstr ""
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
-msgstr "Зверніть увагу, що ім\\'я файлу змінилося з %1 на %2."
+msgstr "Зверніть увагу, що ім'я файлу змінилося з %1 на %2."
 
 #: core/templates/login.tmpl:65
 msgid "I forgot my password"
@@ -1590,7 +1590,7 @@ msgstr ""
 
 #: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
-msgstr "Якщо Ви ввели інше ім\\'я, переконаєтеся, що сторінка існує."
+msgstr "Якщо Ви ввели інше ім'я, переконаєтеся, що сторінка існує."
 
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
@@ -1681,7 +1681,7 @@ msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
 msgstr ""
-"В деяких випадках TWiki змінює ім\\'я завантажуваного файлу, роблячи його "
+"В деяких випадках TWiki змінює ім'я завантажуваного файлу, роблячи його "
 "безпечнішим та допустимим для всіх платформ:"
 
 #: core/templates/messages.tmpl:272 core/templates/messages.tmpl:279
@@ -1829,7 +1829,7 @@ msgstr "Вийти"
 
 #: core/templates/mailresetpassword.tmpl:9
 msgid "Login name %1"
-msgstr "Ім\\'я користувача %1"
+msgstr "Ім'я користувача %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:200
 #: core/templates/login.tmpl:71
@@ -1850,7 +1850,7 @@ msgstr "Відсутні поля"
 
 #: core/templates/messages.tmpl:36
 msgid "Missing action command"
-msgstr "Не визначена дія, пов\\'язана з командою"
+msgstr "Не визначена дія, пов'язана з командою"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:40
 msgid "Modify search"
@@ -1921,7 +1921,7 @@ msgstr "Кількість тем:"
 
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
-msgstr "Відсутнє ім\\'я нового розділу"
+msgstr "Відсутнє ім'я нового розділу"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:8
 #, fuzzy
@@ -1959,7 +1959,7 @@ msgstr "Нова назва теми %1 не %2"
 
 #: core/templates/renamewebbase.tmpl:7
 msgid "New web name:"
-msgstr "Нове ім\\'я розділу:"
+msgstr "Нове ім'я розділу:"
 
 #: core/templates/more.tmpl:112
 msgid "Newer revision:"
@@ -2120,12 +2120,12 @@ msgstr "Місце для вилучених файлів"
 
 #: core/templates/messages.tmpl:269 core/templates/messages.tmpl:319
 msgid "Please contact %1 if you have any questions."
-msgstr "Якщо у Вас є питання, зв\\'яжіться з %1."
+msgstr "Якщо у Вас є питання, зв'яжіться з %1."
 
 #: core/templates/messages.tmpl:148 core/templates/messages.tmpl:157
 #: core/templates/messages.tmpl:236 core/templates/messages.tmpl:248
 msgid "Please contact %1."
-msgstr "Будь ласка, зв\\'яжіться з %1."
+msgstr "Будь ласка, зв'яжіться з %1."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
@@ -2141,7 +2141,7 @@ msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
 "Будь ласка, поверніться <a href=\"javascript:history.go(-1)\">на попередню "
 "сторінку</a>, використовуючи стандартні засоби навігації Вашого браузера, і "
-"спробуйте ввести інше ім\\'я."
+"спробуйте ввести інше ім'я."
 
 #: core/templates/messages.tmpl:374
 msgid "Please go back in your browser and check again."
@@ -2157,7 +2157,7 @@ msgid ""
 msgstr ""
 "Будь ласка, поверніться <a href=\"javascript:history.go(-1)\">на попередню "
 "сторінку</a>, використовуючи стандартні засоби навігації Вашого браузера, і "
-"виберіть таку назву теми, яка була б %1.ВікіІм\\'я або переконаєтеся в тому, "
+"виберіть таку назву теми, яка була б %1.ВікіІм'я або переконаєтеся в тому, "
 "що Ви вирішили використовувати не-ВікіІмена"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
@@ -2185,7 +2185,7 @@ msgstr ""
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr ""
-"Щоб змінити Ваш пароль на щось більш пам\\'ятне, будь ласка, перейдіть за "
+"Щоб змінити Ваш пароль на щось більш пам'ятне, будь ласка, перейдіть за "
 "посиланням %1."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -2288,7 +2288,7 @@ msgstr "З використанням регулярних виразів"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:81
 msgid "Related Topics"
-msgstr "Зв\\'язані теми"
+msgstr "Зв'язані теми"
 
 #: TopicUserMappingContrib/data/Main/GroupTemplate.txt:9
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
@@ -2296,18 +2296,18 @@ msgstr "Зв\\'язані теми"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/templates/messages.tmpl:477 core/templates/messages.tmpl:484
 msgid "Related topics:"
-msgstr "Зв\\'язані теми:"
+msgstr "Зв'язані теми:"
 
 #: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
-msgstr "Пам\\'ятати мене на цьому комп\\'ютері"
+msgstr "Пам'ятати мене на цьому комп'ютері"
 
 #: core/templates/messages.tmpl:193
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
 msgstr ""
-"Пам\\'ятаєте, що Вам також слід поновити інформацію на своїй персональній "
+"Пам'ятаєте, що Вам також слід поновити інформацію на своїй персональній "
 "сторінці, якщо Ви хочете, щоб іншим користувачам сталі доступні зведення про "
 "зміни адреси Вашої електронної пошти."
 
@@ -2527,7 +2527,7 @@ msgstr "Вибрати"
 #: PatternSkin/templates/attachagain.pattern.tmpl:20
 msgid "Select a new local file to update attachment"
 msgstr ""
-"Виберіть новий файл на своєму комп\\'ютері, щоб поновити прикріплений файл"
+"Виберіть новий файл на своєму комп'ютері, щоб поновити прикріплений файл"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:33
 msgid "Select all"
@@ -2732,8 +2732,8 @@ msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
 msgstr ""
-"У полі %1 обов\\'язково вкажіть Ваше ім\\'я та прізвище в %2, тобто "
-"Ім\\'яПрізвище, з великої букви і без пропусків. "
+"У полі %1 обов'язково вкажіть Ваше ім'я та прізвище в %2, тобто "
+"Ім'яПрізвище, з великої букви і без пропусків. "
 
 #: core/templates/messages.tmpl:274
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
@@ -2796,7 +2796,7 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"Відмічені теми будуть оновлені (з\\'явиться інша форма, яка _у результаті_ "
+"Відмічені теми будуть оновлені (з'явиться інша форма, яка _у результаті_ "
 "дасть можливість перейменувати будь-яку раніше заблоковану тему)"
 
 #: core/templates/messages.tmpl:298
@@ -2855,7 +2855,7 @@ msgstr "Введений пароль у полі *старий пароль* н
 
 #: core/templates/messages.tmpl:325
 msgid "The required field %1 was not filled in."
-msgstr "Обов\\'язкове поле %1 не було заповнено."
+msgstr "Обов'язкове поле %1 не було заповнено."
 
 #: core/templates/messages.tmpl:146
 msgid "The selected User System does not support new user registration."
@@ -2927,8 +2927,8 @@ msgid ""
 msgstr ""
 "Це сервіс підписки, який автоматично повідомить Вас по електронній пошті при "
 "зміні вмісту всіх тем у розділі %1. Цей сервіс зручний тим, що у Вас немає "
-"необхідності кожного разу перевіряти, чи з\\'явилися нові зміни. Щоб "
-"підписатися просто додайте своє ВікіІм\\'я %2 до цього списку (в алфавітному "
+"необхідності кожного разу перевіряти, чи з'явилися нові зміни. Щоб "
+"підписатися просто додайте своє ВікіІм'я %2 до цього списку (в алфавітному "
 "порядку):"
 
 #: MailerContrib/templates/mailnotify.tmpl:7
@@ -2955,7 +2955,7 @@ msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
 msgstr ""
-"Це ім\\'я було вибране оскільки воно не конфліктує ні з однією з інших назв "
+"Це ім'я було вибране оскільки воно не конфліктує ні з однією з інших назв "
 "тем вже розміщених у розділі %1 ."
 
 #: core/templates/messages.tmpl:348
@@ -3186,7 +3186,7 @@ msgstr "Керівництво користувача"
 #: PatternSkin/data/System/PatternSkinElements.txt:189
 #: core/templates/login.tmpl:42
 msgid "Username"
-msgstr "Ім\\'я користувача"
+msgstr "Ім'я користувача"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:5
 msgid "Users"
@@ -3198,7 +3198,7 @@ msgid ""
 "[[%1][change password]] to change their password to something memorable."
 msgstr ""
 "Користувачі з автоматично згенерованими паролями повинні негайно [[%1]"
-"[змінити пароль]] на той що краще запам\\'ятовується."
+"[змінити пароль]] на той що краще запам'ятовується."
 
 #: core/templates/attachtables.tmpl:37
 msgid "Version"
@@ -3361,7 +3361,7 @@ msgstr ""
 "починаються із заголовної букви і не містять інших символів, окрім букв і "
 "цифр. Якщо Ви маєте намір створити шаблон розділу (спеціальний розділ, який "
 "використовується тільки для створення на його основі нових розділів) "
-"вибирайте ім\\'я, що починається з символу підкреслення і не містить інших "
+"вибирайте ім'я, що починається з символу підкреслення і не містить інших "
 "символів, окрім букв та цифр."
 
 #: core/templates/messages.tmpl:523
@@ -3390,7 +3390,7 @@ msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
-"Ви можете [[%1][створити новий розділ]] якщо у Вас є на це права. Зв\\'яжіться "
+"Ви можете [[%1][створити новий розділ]] якщо у Вас є на це права. Зв'яжіться "
 "з %2 якщо є питання."
 
 #: core/templates/messages.tmpl:135
@@ -3410,7 +3410,7 @@ msgstr "Ви можете змінити свій пароль при допом
 
 #: core/templates/renameweb.tmpl:21
 msgid "You can give this web a different name."
-msgstr "Ви можете дати цьому розділу інше ім\\'я."
+msgstr "Ви можете дати цьому розділу інше ім'я."
 
 #: core/templates/oopschangelanguage.tmpl:7
 msgid ""
@@ -3422,7 +3422,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:263
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr "Ви не можете реєструватися двічі, ім\\'я %1 вже зареєстровано."
+msgstr "Ви не можете реєструватися двічі, ім'я %1 вже зареєстровано."
 
 #: core/templates/messages.tmpl:150 core/templates/messages.tmpl:159
 #: core/templates/messages.tmpl:238
@@ -3490,7 +3490,7 @@ msgstr "Можливо Ви повинні попросити адміністр
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:22
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:27
 msgid "Your %1.LoginName"
-msgstr "Ваше [[%1.LoginName][Ім\\'яКористувача]]"
+msgstr "Ваше [[%1.LoginName][Ім'яКористувача]]"
 
 #: core/templates/messages.tmpl:202
 msgid ""
@@ -3500,7 +3500,7 @@ msgid ""
 msgstr ""
 "Ваш код підтвердження реєстрації висланий за адресою %1.  Відкрийте "
 "посилання в отриманому Вами листі або введіть код в текстове поле нижче щоб "
-"підтвердити Вашу реєстрацію. (Цей код має вигляд: \"ВашеІм\\'я.xxxxxxxxxx\")"
+"підтвердити Вашу реєстрацію. (Цей код має вигляд: \"ВашеІм'я.xxxxxxxxxx\")"
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -3556,12 +3556,12 @@ msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
-"Ваша система можливо не підтримує зміну паролів через Wiki. Зв\\'яжіться з "
+"Ваша система можливо не підтримує зміну паролів через Wiki. Зв'яжіться з "
 "адміністратором TWiki."
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
-msgstr "Ваше ім\\'я користувача було вилучене з системи аутентифікації."
+msgstr "Ваше ім'я користувача було вилучене з системи аутентифікації."
 
 #: core/templates/messages.tmpl:13
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
@@ -3660,7 +3660,7 @@ msgstr "у вигляді початкового тексту"
 
 #: core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
-msgstr "указує обов\\'язкові поля"
+msgstr "указує обов'язкові поля"
 
 #: core/data/System/RenameWeb.txt:3
 msgid "looking for references in _all public webs_"
