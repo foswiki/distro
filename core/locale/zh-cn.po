@@ -174,8 +174,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:14
 msgid ""
-"Press OK to confirm that this change was intentional - e.g you had "
-"clicked a button on a %1 page just before this message came up."
+"Press OK to confirm that this change was intentional."
 msgstr ""
 
 #: core/templates/validate.tmpl:14
