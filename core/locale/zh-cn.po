@@ -160,30 +160,34 @@ msgstr "%1 由 %4 从 %2 移到 %3"
 
 #: core/templates/validate.tmpl:14
 msgid ""
-"%1 has detected a suspicious request to change a page."
-msgstr "%1 已侦测到一个疑似的请求要求修改一个主题。"
+"%1 has received a suspicious change request from your browser."
+msgstr ""
 
 #: core/templates/validate.tmpl:14
 msgid ""
-"It can occur if you use the back button of the browser after saving a page "
-"and try to save the same page again."
-msgstr "储存网页后，若您再按浏览器的后退键，并尝试储存同一页面就会发生。"
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"It can also be caused by someone trying to use your identity to change "
-"content on %1 without your knowledge."
-msgstr "这也可能起因于他人在您不知情时，利用您的帐号修改 ％1 的内容。"
+"There is a risk that someone may be trying to use your identity to "
+"change content on %1 without your knowledge."
+msgstr ""
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press OK to confirm that this change was intentional."
-msgstr "按 OK 以确认，这是您要的修改。"
+msgstr ""
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press Cancel otherwise."
-msgstr "其它请按取消。"
+msgstr ""
+
+#: core/templates/validate.tmpl:14
+msgid ""
+"If you are unsure what this means, read:"
+msgstr ""
+
+#: core/templates/validate.tmpl:14
+msgid ""
+"why you are being asked to confirm"
+msgstr ""
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -2549,7 +2553,7 @@ msgid "Summaries"
 msgstr "摘要"
 
 #: core/templates/validate.tmpl:8
-msgid "Confirmation required"
+msgid "Warning! Confirmation required"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:76
