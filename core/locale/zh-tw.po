@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-18 17:57+0200\n"
+"PO-Revision-Date: 2009-06-18 18:37+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -2233,9 +2233,8 @@ msgid "Replace form..."
 msgstr "取代表單..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "註冊"
+msgstr "請求驗證"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2554,7 +2553,7 @@ msgstr "摘要"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "要求確認"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:76
 msgid "Switch to monotype or propotional font"
@@ -2641,7 +2640,7 @@ msgstr "Foswiki 的 %1 子網，Foswiki 是自由且開放源碼的 Wiki。"
 
 #: core/templates/messages.tmpl:421
 msgid "The =%1= script can only be called with POST method."
-msgstr ""
+msgstr "=％1= 的程式只以 POST 的方式呼叫。"
 
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -2816,7 +2815,7 @@ msgstr "這兒需要表單定義。"
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "本站使用 Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3107,9 +3106,8 @@ msgid ""
 msgstr "警告: 無法包含 %1，路徑空白或包含非法字元。"
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "警告: 找不到主題%1. %2"
+msgstr "警告: 主題 %1. %2 內找不到命名的段落 %3"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3128,9 +3126,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "警告:  \"包含\" 的主題不存在！"
+msgstr "警告: \\'include\\' 的主題不存在！"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
