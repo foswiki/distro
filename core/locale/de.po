@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-04-01 21:13+0200\n"
+"PO-Revision-Date: 2009-06-18 09:28+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -162,28 +162,37 @@ msgstr "%1 wurde durch %4 von %2 am %3 hierher verschoben"
 msgid ""
 "%1 has detected a suspicious request to change a page."
 msgstr ""
+"%1 hat von ihrem Browser eine Anfrage mit einer abgelaufenen "
+"Bestätigungsnummer bekommen. Möglicherweise benutzt jemand anders ihre "
+"Sitzung um etwas zu veröffentlichen. Wollen Sie die Anfrage von %1 "
+"durchführen?"
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "It can occur if you use the back button of the browser after saving a page "
 "and try to save the same page again."
 msgstr ""
+"Dies kann passieren, wenn Sie die \"Zurück\"-Taste im Browser gedrückt haben "
+"nachdem Sie eine Seite gespeichert haben und nun versuchen dieselbe Seite "
+"noch einmal zu speichern."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "It can also be caused by someone trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Dies kann auch passieren wenn jemand versucht ihre Identität zu benutzen, um "
+"Änderungen ohne ihre Wissen auf %1 durchzuführen."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Drücken Sie OK, um die Änderung zu bestätigen."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press Cancel otherwise."
-msgstr ""
+msgstr "Ansonsten drücken Sie abbrechen."
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -230,9 +239,8 @@ msgid "(%1 login)"
 msgstr "(%1 Login)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(%1 Login)"
+msgstr "(%1 Bestätigung)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -407,7 +415,6 @@ msgid "*Formatting help:*"
 msgstr "*Formatierungshilfe:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -424,7 +431,7 @@ msgstr ""
 "Passwörter verschlüsselt und die E-Mail Adressen sind verfremdet, um Spam "
 "abzuwenden. Ihr Land, oder das Land in dem sich der Server befindet hat "
 "möglicherweise Datenschutzrechte, die den Betrieb einer solchen Datenbank "
-"regeln. Wenn Sie Fragen zu den Datenschutzregeln auf diesem TWiki Server "
+"regeln. Wenn Sie Fragen zu den Datenschutzregeln auf diesem Foswiki Server "
 "haben kontaktieren Sie bitte %1 bevor Sie sich registrieren."
 
 #: core/templates/attachagain.tmpl:19
@@ -2377,9 +2384,8 @@ msgid "Replace form..."
 msgstr "Formular auswechseln..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registrierung"
+msgstr "Anfrage Bestätigung"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2713,7 +2719,7 @@ msgstr "Zusammenfassungen"
 
 #: core/templates/validate.tmpl:8
 msgid "Confirmation required"
-msgstr ""
+msgstr "Verdächtige Anfrage vom Browser"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:76
 msgid "Switch to monotype or propotional font"
@@ -3018,7 +3024,7 @@ msgstr "Dazu wird die Forumalr Definition benötigt."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Diese Seite läuft auf Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3331,9 +3337,8 @@ msgstr ""
 "beinhaltet unerlaubte Zeichen."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Warnung: Konnte Topic %1.%2 nicht finden"
+msgstr "Warnung: Konnte die benannte Sektion %3 im Topic %1.%2 nicht finden"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3354,9 +3359,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Warnung: Diese Seite erlaubt kein %<nop>INCLUDE% von URLs"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Warnung: 'Include' Topic existiert nicht!"
+msgstr "Warnung: \\'Include\\' Topic existiert nicht!"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
