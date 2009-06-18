@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2007-12-04 12:22-0300\n"
-"Last-Translator: max\n"
-"Language-Team:  <it@li.org>\n"
+"PO-Revision-Date: 2009-06-18 16:50+0200\n"
+"Last-Translator: Antenore Gatta <antenore@gmail.com>\n"
+"Language-Team: <it@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:450
@@ -68,9 +70,8 @@ msgid "%1 - starting points on Foswiki"
 msgstr "%1 - punti di partenza TWiki"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:69
-#, fuzzy
 msgid "%1 - try out Foswiki on your own"
-msgstr "%1 - prova da te"
+msgstr "%1 - prova te stesso Foswiki"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:66
 #, fuzzy
@@ -98,9 +99,8 @@ msgstr "%1 per cambiare la tua password"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:37
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:38
-#, fuzzy
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 ha una lista di altri utenti TWiki"
+msgstr "%1 ha una lista di altri utenti Foswiki"
 
 #: core/templates/messages.tmpl:438
 msgid ""
@@ -120,9 +120,8 @@ msgid "%1 home"
 msgstr "%1 home"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:86
-#, fuzzy
 msgid "%1 is a list of Foswiki user documentation"
-msgstr "%1 è una lista della documentazione utente per TWiki"
+msgstr "%1 è una lista della documentazione utente per Foswiki"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
@@ -149,9 +148,8 @@ msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 è la pagina di default per gli allegati cancellati."
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
-#, fuzzy
 msgid "%1 lists all Foswiki user tools"
-msgstr "%1 lista tutti gli strumenti dell'utente TWiki "
+msgstr "%1 mostra tutti gli strumenti degli utenti Foswiki "
 
 #: core/templates/messages.tmpl:444
 msgid "%1 may still be editing %2."

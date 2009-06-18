@@ -7,12 +7,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-02-27 23:03台北標準時間\n"
-"Last-Translator: Ch Yang <dr3939 AT gmail.com>\n"
+"PO-Revision-Date: 2009-06-18 17:57+0200\n"
+"Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -158,29 +161,29 @@ msgstr "%1 由 %4 從 %2 移到 %3"
 #: core/templates/validate.tmpl:14
 msgid ""
 "%1 has detected a suspicious request to change a page."
-msgstr ""
+msgstr "%1 已偵測到一個疑似的請求要求修改一個主題。"
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "It can occur if you use the back button of the browser after saving a page "
 "and try to save the same page again."
-msgstr ""
+msgstr "儲存網頁後，若您再按瀏覽器的後退鍵，並嘗試儲存同一頁面就會發生。"
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "It can also be caused by someone trying to use your identity to change "
 "content on %1 without your knowledge."
-msgstr ""
+msgstr "這也可能起因於他人在您不知情時，利用您的帳號修改 ％1 的內容。"
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "按 OK 以確認，這是您要的修改。"
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press Cancel otherwise."
-msgstr ""
+msgstr "其它請按取消。"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -227,9 +230,8 @@ msgid "(%1 login)"
 msgstr "(%1 登入)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(%1 登入)"
+msgstr "(%1 驗證)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -402,7 +404,6 @@ msgid "*Formatting help:*"
 msgstr "*格式説明:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
