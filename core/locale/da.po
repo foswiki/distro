@@ -159,33 +159,35 @@ msgstr "%1 blev flyttet fra %2 den %3 af %4"
 #: core/templates/validate.tmpl:14
 msgid ""
 "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 har modtaget en mistænkelig forespørgsel fra din browser."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "There is a risk that someone may be trying to use your identity to "
 "change content on %1 without your knowledge."
 msgstr ""
+"Der er en risiko for at nogen prøver at bruge din identitet til at "
+"ændre indhold på %1 uden din viden."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Vælg OK for at bekræfte at denne ændring var tilsigtet."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "Press Cancel otherwise."
-msgstr ""
+msgstr "Ellers vælg Fortryd."
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "If you are unsure what this means, read:"
-msgstr ""
+msgstr "If du er usikker på hvad dette betyder, læs:"
 
 #: core/templates/validate.tmpl:14
 msgid ""
 "why you are being asked to confirm"
-msgstr ""
+msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -232,9 +234,8 @@ msgid "(%1 login)"
 msgstr "(%1 login)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(%1 login)"
+msgstr "(%1 bekræftelse)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -409,7 +410,6 @@ msgid "*Formatting help:*"
 msgstr "*Hjælp til formattering af teksten*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -2362,9 +2362,8 @@ msgid "Replace form..."
 msgstr "Udskift formular..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registrering"
+msgstr "Bed om bekræftelse"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2694,7 +2693,7 @@ msgstr "Sammendrag"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Advarsel! Bekræftelse krævet"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:76
 msgid "Switch to monotype or propotional font"
@@ -2988,7 +2987,7 @@ msgstr "Dette kræver at formular-definitionen er tilgængelig."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Dette site er drevet af Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3296,9 +3295,8 @@ msgstr ""
 "Advarsel: Kan ikke INCLUDE %1, navnet er tomt eller indeholder ugyldige tegn."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Advarsel: Kan ikke finde siden %1.%2"
+msgstr "Advarsel: Kan ikke finde sektion %3 i siden %1.%2"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3320,9 +3318,8 @@ msgstr ""
 "af URL'er"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "BEMÆRK: 'incluce'-siden er ikke oprettet endnu"
+msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
