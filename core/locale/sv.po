@@ -106,6 +106,10 @@ msgstr "%1 har nu redigerat sidan i %2 och låset är aktivt i ytterligare %3."
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 är nu registrerad med e-postadressen %2"
 
+#: core/templates/validate.tmpl:14
+msgid "%1 has received a suspicious change request from your browser."
+msgstr ""
+
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
 msgstr "användarsida för %1"
@@ -134,7 +138,7 @@ msgstr "%1 redigerar %2 just nu."
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 är medlem av minst en grupp och kan inte tas bort"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 är standardsidan för borttagna bifogade filer."
 
@@ -153,37 +157,6 @@ msgstr "%1 redigerar eventuellt fortfarande %2."
 #: core/lib/Foswiki/Render.pm:221
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "%1 flyttades från %2 %3 av %4"
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"%1 has received a suspicious change request from your browser."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"There is a risk that someone may be trying to use your identity to "
-"change content on %1 without your knowledge."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"Press OK to confirm that this change was intentional."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"Press Cancel otherwise."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"If you are unsure what this means, read:"
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"why you are being asked to confirm"
-msgstr ""
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -242,7 +215,7 @@ msgstr "(%1 jämfört med %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Förslag:* Varför inte ladda upp en bild av dig själv till din sida?)"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:76
 msgid "(=all= to show all topics)"
 msgstr "(=alla= för att visa alla sidor)"
 
@@ -283,7 +256,7 @@ msgstr "(byt språk)"
 msgid "(changes)"
 msgstr "(ändringar)"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:5
+#: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
 msgstr "(ta bort bifogad fil)"
 
@@ -340,7 +313,7 @@ msgstr "(ingen)"
 msgid "(optional)"
 msgstr "(frivilligt)"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
 msgstr "(annars begränsas sökningen till avdelning %1)"
 
@@ -535,7 +508,7 @@ msgstr ""
 "En färg börjar med #-tecknet, följt av 6 hexadecimala tal, t ex =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:973
+#: core/lib/Foswiki/UI/Register.pm:974
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Ett e-postmeddelande med bekräftelse har sänts till %1"
 
@@ -582,7 +555,7 @@ msgid "Access check on %1 failed"
 msgstr "Åtkomstkontroll till %1 misslyckades"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:22
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "Access keys"
 msgstr "Tangentbordsgenvägar"
@@ -601,7 +574,7 @@ msgid "Add form"
 msgstr "Lägg till formulär"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:163
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:658
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
 msgid "Add row"
 msgstr "Lägg till rad"
 
@@ -626,7 +599,7 @@ msgstr "För administratörer"
 msgid "Advanced Search"
 msgstr "Avancerad sökning"
 
-#: core/data/System/WebSearch.txt:24
+#: core/data/System/WebSearch.txt:25
 msgid "Advanced search"
 msgstr "Avancerad sökning"
 
@@ -650,7 +623,7 @@ msgstr ""
 "När du skickar in detta formulär kommer du att få e-post med ditt nya "
 "*systemgenererade* lösenord och en länk till en sida för att ändra det."
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
 msgstr "Alla publika avdelningar"
 
@@ -803,7 +776,7 @@ msgstr "Bas-avdelningen %1 finns inte"
 msgid "Bathing problem"
 msgstr "Badproblem"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
 msgstr "Både innehåll och titel"
 
@@ -835,7 +808,7 @@ msgstr ""
 "Hittar inte e-postadressen för %1 (nödvändig för lösenordsnollställning)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:666
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
 #: core/templates/foswiki.tmpl:80
 msgid "Cancel"
 msgstr "Avbryt"
@@ -856,7 +829,7 @@ msgstr "Kan inte skapa avdelningen %1 eftersom den redan finns"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Kan inte döpa om %1 till %2 eftersom den redan finns"
 
-#: core/data/System/WebSearchAdvanced.txt:56
+#: core/data/System/WebSearchAdvanced.txt:57
 msgid "Case sensitive"
 msgstr "Skiftlägeskänslig (gör skillnad VERSALER och gemener)"
 
@@ -1112,8 +1085,8 @@ msgstr "Skapa med namn"
 msgid "Create the topic"
 msgstr "Skapa sidan"
 
-#: core/data/System/DefaultPreferences.txt:318
 #: core/data/System/DefaultPreferences.txt:320
+#: core/data/System/DefaultPreferences.txt:322
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:14
 #: core/data/System/WebCreateNewTopicTemplate.txt:67
 #: core/lib/Foswiki/Render.pm:98
@@ -1132,7 +1105,7 @@ msgstr ""
 msgid "Creating a suitable Form Definition topic"
 msgstr "Skapar en passande sida som definierar formuläret"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
+#: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
 msgstr "Nuvarande plats:"
@@ -1162,17 +1135,17 @@ msgid "Default template"
 msgstr "Förvald mall"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Radera"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:28
+#: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment"
 msgstr "Radera bifogad fil"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:662
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
 msgid "Delete last row"
 msgstr "Radera sista raden"
 
@@ -1216,7 +1189,7 @@ msgstr "Glöm inte att spara dina ändringar"
 msgid "Do not show attachment in table"
 msgstr "Visa inte i tabellen över bifogade filer"
 
-#: core/data/System/WebSearchAdvanced.txt:67
+#: core/data/System/WebSearchAdvanced.txt:68
 msgid "Don't show:"
 msgstr "Visa inte:"
 
@@ -1297,7 +1270,7 @@ msgid "Edit text"
 msgstr "Redigera text"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:646
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
 msgid "Edit this table"
 msgstr "Redigera denna tabell"
 
@@ -1329,7 +1302,7 @@ msgstr ""
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-post avstängt för den här Foswiki-installationen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Enlarge edit box"
 msgstr "Förstora redigeringsruta"
 
@@ -1505,7 +1478,7 @@ msgstr "Hej %1"
 msgid "Hello %1!"
 msgstr "Hej %1!"
 
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/templates/login.tmpl:50
 msgid "Help"
 msgstr "Hjälp"
@@ -1576,7 +1549,7 @@ msgstr "Om denna rad inte syns, se _uppgraderingsavsnittet_ nedanför"
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Skapa sidan om den inte finns, eller kontrollera det finns fel på den."
 
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
 msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
@@ -1592,6 +1565,10 @@ msgstr ""
 "Om du utvecklar en Foswiki-applikation, se %1 för beskrivning av korrekta "
 "parametrar."
 
+#: core/templates/validate.tmpl:21
+msgid "If you are unsure what this means, read:"
+msgstr ""
+
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
 msgstr "Om du kom hit genom att klicka på en frågetecken-länk"
@@ -1600,7 +1577,7 @@ msgstr "Om du kom hit genom att klicka på en frågetecken-länk"
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "Om du inte får en bekräftelse per e-post inom den närmaste timmen,"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
 msgstr "Om du matar in ett annat namn, se till att det inte redan finns."
 
@@ -1673,7 +1650,7 @@ msgstr ""
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "Bilder visas direkt på sidan. För andra bifogade filer skapas en länk."
 
-#: core/data/System/WebSearchAdvanced.txt:51
+#: core/data/System/WebSearchAdvanced.txt:52
 msgid "In reversed order"
 msgstr "I omvänd ordning"
 
@@ -1773,15 +1750,15 @@ msgstr "Hoppa"
 msgid "Last Name:"
 msgstr "Efternamn:"
 
-#: core/data/System/WebSearchAdvanced.txt:49
+#: core/data/System/WebSearchAdvanced.txt:50
 msgid "Last editor"
 msgstr "Senast ändrat av"
 
-#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:49
 msgid "Last modified time"
 msgstr "Senast ändrad"
 
-#: core/data/System/WebSearchAdvanced.txt:74
+#: core/data/System/WebSearchAdvanced.txt:75
 msgid "Limit results to:"
 msgstr "Begränsa resultatet till:"
 
@@ -1800,15 +1777,15 @@ msgstr "Rad: %1 till %2"
 msgid "Link"
 msgstr "Länk"
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "Visa alla sidor i avdelning %1 i alfabetisk ordning"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
 msgid "List topics that start with the letter:"
 msgstr "Visa alla sidor som börjar med bokstaven: "
 
-#: core/data/System/WebSearchAdvanced.txt:59
+#: core/data/System/WebSearchAdvanced.txt:60
 msgid "Literal search"
 msgstr "Sök efter hela den angivna texten"
 
@@ -1837,7 +1814,7 @@ msgstr "Logga in"
 msgid "Mail to"
 msgstr "Skicka e-post till"
 
-#: core/data/System/WebSearchAdvanced.txt:55
+#: core/data/System/WebSearchAdvanced.txt:56
 msgid "Make search:"
 msgstr "Sökmetod:"
 
@@ -1891,7 +1868,7 @@ msgstr "Flytta bifogad fil"
 msgid "Move or delete attachment"
 msgstr "Flytta eller radera bifogad fil"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:21
+#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
 msgstr "Flytta till avdelning:"
 
@@ -2047,7 +2024,7 @@ msgstr ""
 msgid "Optionally change topic name:"
 msgstr "Nytt namn på sidan (frivilligt):"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:32
+#: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Mata in ett nytt namn på sidan (frivilligt):"
 
@@ -2063,7 +2040,7 @@ msgstr "Organisationsnamn:"
 msgid "Other Country"
 msgstr "Annat land"
 
-#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:95
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
 msgid "Other search options:"
 msgstr "Ytterligare sökmöjligheter:"
 
@@ -2185,6 +2162,14 @@ msgstr "Inställningar"
 msgid "Preferences for"
 msgstr "Inställningar för"
 
+#: core/templates/validate.tmpl:19
+msgid "Press Cancel otherwise."
+msgstr ""
+
+#: core/templates/validate.tmpl:18
+msgid "Press OK to confirm that this change was intentional."
+msgstr ""
+
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
 msgstr "Problem att fylla badet"
@@ -2193,7 +2178,7 @@ msgstr "Problem att fylla badet"
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: core/data/System/WebSearchAdvanced.txt:61
+#: core/data/System/WebSearchAdvanced.txt:62
 msgid "Query Search"
 msgstr "Strukturerat sökspråk"
 
@@ -2206,7 +2191,7 @@ msgstr ""
 "göra nya inställningar)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:654
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
 msgid "Quiet save"
 msgstr "Spara i tysthet"
 
@@ -2238,8 +2223,8 @@ msgstr "Läs hjälpen om ny version i nytt fönster"
 msgid "Read on"
 msgstr "Läs mer"
 
-#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:46
-#: core/data/System/WebSearchAdvanced.txt:99
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
+#: core/data/System/WebSearchAdvanced.txt:100
 msgid "Recently changed topics"
 msgstr "Senast ändrade sidor"
 
@@ -2265,7 +2250,7 @@ msgstr "Registrering"
 msgid "Registration codes can only be used once."
 msgstr "Registreringskoder kan bara användas en gång."
 
-#: core/data/System/WebSearchAdvanced.txt:60
+#: core/data/System/WebSearchAdvanced.txt:61
 msgid "Regular expression search"
 msgstr "Sök med reguljära uttryck"
 
@@ -2400,7 +2385,7 @@ msgstr "Versioner"
 msgid "S = Save, C = Cancel"
 msgstr "S = Spara, C = Avbryt"
 
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:22
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr ""
 "S = Spara, Q = Spara i tysthet, K = Spara och fortsätt, D = Ångra ändringar"
@@ -2413,7 +2398,7 @@ msgstr ""
 "C = Avbryt"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:650
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
 msgid "Save table"
 msgstr "Spara tabell"
 
@@ -2432,7 +2417,7 @@ msgstr "Sparat i:"
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: PatternSkin/templates/foswiki.pattern.tmpl:38
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "Sök"
@@ -2458,7 +2443,7 @@ msgstr "Sök i alla avdelningar"
 msgid "Search more topics in this web"
 msgstr "Sök efter fler sidor i den här avdelningen"
 
-#: core/data/System/WebSearchAdvanced.txt:68
+#: core/data/System/WebSearchAdvanced.txt:69
 msgid "Search string"
 msgstr "Söksträng"
 
@@ -2466,7 +2451,7 @@ msgstr "Söksträng"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Sök i avdelning %1 efter sidor som länkar till denna"
 
-#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:35
+#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
 msgstr "Sök var:"
 
@@ -2554,7 +2539,7 @@ msgstr "Visa hjälp"
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "Visa hjälpinformation när du för musen över %1-länkar, på eller av:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Shrink edit box"
 msgstr "Minska redigeringsrutan"
 
@@ -2562,7 +2547,7 @@ msgstr "Minska redigeringsrutan"
 msgid "Side by side"
 msgstr "Sida vid sida"
 
-#: core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearchAdvanced.txt:31
 msgid "Simple search"
 msgstr "Enkel sökning"
 
@@ -2626,7 +2611,7 @@ msgstr ""
 "Tyvärr, det går för närvarande inte att skriva information till "
 "lösenordssystemet. Kontakta %1"
 
-#: core/data/System/WebSearchAdvanced.txt:45
+#: core/data/System/WebSearchAdvanced.txt:46
 msgid "Sort results by:"
 msgstr "Sortera resultat efter:"
 
@@ -2661,19 +2646,15 @@ msgstr "Inskickat innehåll:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Prenumerera / avprenumerera i:"
 
-#: core/data/System/WebSearchAdvanced.txt:69
+#: core/data/System/WebSearchAdvanced.txt:70
 msgid "Summaries"
 msgstr "Sammanställningar"
 
-#: core/templates/validate.tmpl:8
-msgid "Warning! Confirmation required"
-msgstr ""
-
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Switch to monotype or propotional font"
 msgstr "Ändra till typsnitt med fast eller proportionell bredd"
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2689,7 +2670,7 @@ msgstr "Mallen %1 finns inte"
 msgid "Test Topics"
 msgstr "Testsidor"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:37
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
 msgstr "Innehåll"
 
@@ -2876,6 +2857,12 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Det uppstod problem med att lägga in ditt användarnamn i lösenordsystemet."
 
+#: core/templates/validate.tmpl:16
+msgid ""
+"There is a risk that someone may be trying to use your identity to change "
+"content on %1 without your knowledge."
+msgstr ""
+
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Det bör finnas en rad som innehåller %1, se efter %2 (eller %3)"
@@ -2974,7 +2961,7 @@ msgstr ""
 "slogs samman, men annan data som formulärfält kan ha skrivits över. "
 "Kontrollera att sidan är korrekt, speciellt om du ändrade formulärfält."
 
-#: core/data/System/WebSearchAdvanced.txt:84
+#: core/data/System/WebSearchAdvanced.txt:85
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3035,8 +3022,8 @@ msgstr "Filer bifogade till sidan"
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Sidan kan inte uppdateras från den gamla kategoritabellstilen"
 
-#: core/data/System/WebSearchAdvanced.txt:47
-#: core/data/System/WebSearchAdvanced.txt:58
+#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:59
 msgid "Topic name"
 msgstr "Enbart sidnamn"
 
@@ -3064,7 +3051,7 @@ msgstr "Fel vid försök att spara sidan"
 msgid "Topic templates in %1 Web"
 msgstr "Sidmallar i avdelning %1"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
 msgstr "Sidnamn"
 
@@ -3085,7 +3072,7 @@ msgstr "Sidor i avdelning %1"
 msgid "Topics in %1 web:"
 msgstr "Sidor i avdelning %1:"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:76
 msgid "Topics per web"
 msgstr "Sidor per avdelning"
 
@@ -3107,7 +3094,7 @@ msgid ""
 msgstr ""
 "Sidor som refererar till denna avdelning och som du inte har rätt att ändra:"
 
-#: core/data/System/WebSearchAdvanced.txt:70
+#: core/data/System/WebSearchAdvanced.txt:71
 msgid "Total matches"
 msgstr "Antal träffar"
 
@@ -3242,6 +3229,10 @@ msgstr "Visa komplett historik för sidan"
 msgid "Warning"
 msgstr "Varning"
 
+#: core/templates/validate.tmpl:8
+msgid "Warning! Confirmation required"
+msgstr ""
+
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Obs: Denna 'include'-sida finns inte"
@@ -3268,11 +3259,11 @@ msgstr "Varning: Kan inte hitta sidan %1.%2"
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Varning: Kan inte hitta sidan %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:966
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "Warning: Could not send confirmation email"
 msgstr "Varning: Kunde inte skicka bekräftelse med e-post"
 
-#: core/lib/Foswiki/UI/Register.pm:978
+#: core/lib/Foswiki/UI/Register.pm:979
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Varning: Kunde inte skicka bekräftelse med e-post eftersom e-postfunktionen "
@@ -3283,7 +3274,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Varning: Denna webbplats tillåter inte %<nop>INCLUDE% för att inkludera URLer"
 
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
 #, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Obs: Denna 'include'-sida finns inte"
@@ -3635,7 +3626,7 @@ msgstr "kryssrutor för sidor med referenser"
 msgid "don't forget to check your Topic Settings"
 msgstr "glöm inte att kontrollera dina sidinställningar"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
 msgstr "redigera"
@@ -3686,14 +3677,13 @@ msgstr "nu %1"
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:16
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: PatternSkin/templates/preview.pattern.tmpl:18
 #: PatternSkin/templates/settings.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
 #: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
-#: core/templates/renamedelete.tmpl:33 core/templates/renameweb.tmpl:32
-#: core/templates/renamewebconfirm.tmpl:15
+#: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
+#: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "eller"
 
@@ -3786,7 +3776,7 @@ msgstr "title='Visa sida' accesskey='v'>&Visa sida"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Visa komplett historik för sidan' accesskey='h'>&Historik"
 
-#: core/lib/Foswiki.pm:4370
+#: core/lib/Foswiki.pm:4374
 msgid "user list truncated"
 msgstr "användarlistan avkortad"
 
@@ -3794,7 +3784,7 @@ msgstr "användarlistan avkortad"
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Avbryt' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:18
+#: PatternSkin/templates/preview.pattern.tmpl:20
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Ångra ändringar' accesskey='d'"
 
@@ -3817,6 +3807,10 @@ msgstr "value='Spara' accesskey='s'"
 #: core/templates/attachtables.tmpl:42
 msgid "view"
 msgstr "visa"
+
+#: core/templates/validate.tmpl:23
+msgid "why you are being asked to confirm"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""

@@ -111,6 +111,10 @@ msgstr "%1 editoval článek %2 a pravděpodobně na něm stále pracuje jiný %
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 byl zaregistrován s e-mailem %2"
 
+#: core/templates/validate.tmpl:14
+msgid "%1 has received a suspicious change request from your browser."
+msgstr ""
+
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
 msgstr "%1 Domů"
@@ -140,7 +144,7 @@ msgstr "%1 edituje %2."
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 je nejméně v jedné skupině a nemůže být smazán"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 je přednastaveným článkem pro smazané přílohy."
 
@@ -157,37 +161,6 @@ msgstr "%1 stále může editovat %2."
 #: core/lib/Foswiki/Render.pm:221
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "uživatel  %4 přesunul %1 z %2 do %3"
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"%1 has received a suspicious change request from your browser."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"There is a risk that someone may be trying to use your identity to "
-"change content on %1 without your knowledge."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"Press OK to confirm that this change was intentional."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"Press Cancel otherwise."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"If you are unsure what this means, read:"
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"why you are being asked to confirm"
-msgstr ""
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -247,7 +220,7 @@ msgstr "(%1 oproti %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Doporučení:* Nechtěl by jste nahrát svojí fotografii ?)"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:76
 msgid "(=all= to show all topics)"
 msgstr "(=all= pro všechny články)"
 
@@ -290,7 +263,7 @@ msgstr "(změň jazyk)"
 msgid "(changes)"
 msgstr "(změny)"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:5
+#: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
 msgstr "(smazat přílohu)"
 
@@ -348,7 +321,7 @@ msgstr "(nic)"
 msgid "(optional)"
 msgstr "(volitelně)"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
 msgstr "(jinak hledá pouze v %1 webu)"
 
@@ -543,7 +516,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:973
+#: core/lib/Foswiki/UI/Register.pm:974
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Potvrzovací e-mail byl odeslán %1"
 
@@ -591,7 +564,7 @@ msgid "Access check on %1 failed"
 msgstr "Přístup k %1 byl odepřen"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:22
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "Access keys"
 msgstr "Přístupový klíč"
@@ -610,7 +583,7 @@ msgid "Add form"
 msgstr "Přidej formulář"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:163
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:658
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
 #, fuzzy
 msgid "Add row"
 msgstr "Přidej formulář"
@@ -635,7 +608,7 @@ msgstr "Administrátorská údržba"
 msgid "Advanced Search"
 msgstr "Rozšířené hledání"
 
-#: core/data/System/WebSearch.txt:24
+#: core/data/System/WebSearch.txt:25
 msgid "Advanced search"
 msgstr "Rozšířené hledání"
 
@@ -659,7 +632,7 @@ msgstr ""
 "Po odeslání tohoto formuláře obdržíte email s Vaším novým, *systémem "
 "vygenerovaným* heslem a odkazem na stránku, kde ho můžete změnit."
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
 msgstr "Všechny veřejné weby"
 
@@ -821,7 +794,7 @@ msgstr "Základní web %1 není dostupný nebo neexistuje"
 msgid "Bathing problem"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
 msgstr "Tělo článku i nadpis"
 
@@ -851,7 +824,7 @@ msgstr ""
 "Nemohu zjistit emailovou adresu pro %1 (požadovaná pro nové nastavení hesla)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:666
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
 #: core/templates/foswiki.tmpl:80
 #, fuzzy
 msgid "Cancel"
@@ -873,7 +846,7 @@ msgstr "Web %1 nelze vytvoŕít, protože už existuje"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Nelze přejmenovat %1 do %2 protože už existuje."
 
-#: core/data/System/WebSearchAdvanced.txt:56
+#: core/data/System/WebSearchAdvanced.txt:57
 msgid "Case sensitive"
 msgstr "Citlivé na velikost"
 
@@ -1131,8 +1104,8 @@ msgstr "Vytvořit pod jménem"
 msgid "Create the topic"
 msgstr "Vytvořit tento článek"
 
-#: core/data/System/DefaultPreferences.txt:318
 #: core/data/System/DefaultPreferences.txt:320
+#: core/data/System/DefaultPreferences.txt:322
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:14
 #: core/data/System/WebCreateNewTopicTemplate.txt:67
 #: core/lib/Foswiki/Render.pm:98
@@ -1151,7 +1124,7 @@ msgstr ""
 msgid "Creating a suitable Form Definition topic"
 msgstr "Vytvořte vhodný Definiční článek formuláře"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
+#: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
 msgstr "Nyní jste zde:"
@@ -1182,17 +1155,17 @@ msgid "Default template"
 msgstr "Nemohu nalézt šablonu"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Smazat"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:28
+#: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment"
 msgstr "Smazat přílohu"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:662
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
 #, fuzzy
 msgid "Delete last row"
 msgstr "Vymazat článek"
@@ -1240,7 +1213,7 @@ msgstr "<span class='twikiAlert'><b>Nezapomeňte</b></span> uložit Vaše změny
 msgid "Do not show attachment in table"
 msgstr "Neukazovat přílohu v tabulce"
 
-#: core/data/System/WebSearchAdvanced.txt:67
+#: core/data/System/WebSearchAdvanced.txt:68
 msgid "Don't show:"
 msgstr "Neukazuj:"
 
@@ -1322,7 +1295,7 @@ msgid "Edit text"
 msgstr "Změňte text"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:646
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
 #, fuzzy
 msgid "Edit this table"
 msgstr "Změňte text tohoto článku"
@@ -1353,7 +1326,7 @@ msgstr ""
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Enlarge edit box"
 msgstr "Zvětšit editovací prostor"
 
@@ -1540,7 +1513,7 @@ msgstr "Vítejte %1"
 msgid "Hello %1!"
 msgstr "Vítejte %1"
 
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/templates/login.tmpl:50
 msgid "Help"
 msgstr "Nápověda"
@@ -1606,7 +1579,7 @@ msgstr "Pokud se tato řádka neukazuje, zkontroluj _upgrade_ sekci dole"
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Pokud tento článek chybí, vytvořte ho, jinak ho zkontrolujte na chyby."
 
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
 msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
@@ -1622,6 +1595,10 @@ msgstr ""
 "Pokud vytváříte <nop>TWikiApplication, podívejte se na  %1 pro popis "
 "správných parametrů."
 
+#: core/templates/validate.tmpl:21
+msgid "If you are unsure what this means, read:"
+msgstr ""
+
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
 msgstr "Pokud jste sem přišel stiskem otazníku"
@@ -1630,7 +1607,7 @@ msgstr "Pokud jste sem přišel stiskem otazníku"
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
 msgstr "Pokud vložíte rozdílné jméno, ujistěte se, že článek existuje."
 
@@ -1704,7 +1681,7 @@ msgstr ""
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "Obrázky budou zobrazeny, pro ostatní přílohy bude vytvořen odkaz."
 
-#: core/data/System/WebSearchAdvanced.txt:51
+#: core/data/System/WebSearchAdvanced.txt:52
 msgid "In reversed order"
 msgstr "V obráceném pořadí"
 
@@ -1804,15 +1781,15 @@ msgstr "Přejdi na"
 msgid "Last Name:"
 msgstr "Poslední jméno"
 
-#: core/data/System/WebSearchAdvanced.txt:49
+#: core/data/System/WebSearchAdvanced.txt:50
 msgid "Last editor"
 msgstr "Poslední editor"
 
-#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:49
 msgid "Last modified time"
 msgstr "Naposledy změněno"
 
-#: core/data/System/WebSearchAdvanced.txt:74
+#: core/data/System/WebSearchAdvanced.txt:75
 msgid "Limit results to:"
 msgstr "Omezit výsledky na:"
 
@@ -1832,15 +1809,15 @@ msgstr "Řádek: %1 až %2"
 msgid "Link"
 msgstr "Mé odkazy"
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "Všechny články v %1 podle abecedy"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
 msgid "List topics that start with the letter:"
 msgstr "Články, které začínají písmenem:"
 
-#: core/data/System/WebSearchAdvanced.txt:59
+#: core/data/System/WebSearchAdvanced.txt:60
 #, fuzzy
 msgid "Literal search"
 msgstr "Hledej"
@@ -1871,7 +1848,7 @@ msgstr "Přihlásit"
 msgid "Mail to"
 msgstr "Odeslat mail"
 
-#: core/data/System/WebSearchAdvanced.txt:55
+#: core/data/System/WebSearchAdvanced.txt:56
 msgid "Make search:"
 msgstr "Hledání:"
 
@@ -1927,7 +1904,7 @@ msgstr "Přesun přílohy"
 msgid "Move or delete attachment"
 msgstr "Přesun přílohy"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:21
+#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
 msgstr "Přesun do:"
 
@@ -2085,7 +2062,7 @@ msgstr ""
 msgid "Optionally change topic name:"
 msgstr "Volitelně změní jméno článku:"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:32
+#: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Volitelně vložte odlišné jméno článku:"
 
@@ -2101,7 +2078,7 @@ msgstr "Jméno organizace:"
 msgid "Other Country"
 msgstr "Ostatní země"
 
-#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:95
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
 msgid "Other search options:"
 msgstr "Ostatní možnosti při hledání:"
 
@@ -2225,6 +2202,14 @@ msgstr "Preference"
 msgid "Preferences for"
 msgstr "Preference pro"
 
+#: core/templates/validate.tmpl:19
+msgid "Press Cancel otherwise."
+msgstr ""
+
+#: core/templates/validate.tmpl:18
+msgid "Press OK to confirm that this change was intentional."
+msgstr ""
+
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
 msgstr ""
@@ -2233,7 +2218,7 @@ msgstr ""
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: core/data/System/WebSearchAdvanced.txt:61
+#: core/data/System/WebSearchAdvanced.txt:62
 #, fuzzy
 msgid "Query Search"
 msgstr "Hledání ve webu"
@@ -2245,7 +2230,7 @@ msgid ""
 msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:654
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
 msgid "Quiet save"
 msgstr ""
 
@@ -2279,8 +2264,8 @@ msgstr "Přečtěte si nápovědu k nové revizi v novém okně"
 msgid "Read on"
 msgstr "Pročtěte si"
 
-#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:46
-#: core/data/System/WebSearchAdvanced.txt:99
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
+#: core/data/System/WebSearchAdvanced.txt:100
 msgid "Recently changed topics"
 msgstr "Naposledy změněné články"
 
@@ -2307,7 +2292,7 @@ msgstr "Registrace"
 msgid "Registration codes can only be used once."
 msgstr ""
 
-#: core/data/System/WebSearchAdvanced.txt:60
+#: core/data/System/WebSearchAdvanced.txt:61
 msgid "Regular expression search"
 msgstr "Hledání pomocí regulárních výrazů"
 
@@ -2448,7 +2433,7 @@ msgstr "Revize"
 msgid "S = Save, C = Cancel"
 msgstr ""
 
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:22
 #, fuzzy
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr "S = Ulož, Q = Ulož potichu, K = Bod návratu, D = Neukládat"
@@ -2460,7 +2445,7 @@ msgid ""
 msgstr "S = Ulož, Q = Ulož potichu, K = Bod návratu, P = Ukázka, C = Přerušit"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:650
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
 #, fuzzy
 msgid "Save table"
 msgstr "Uloženo do:"
@@ -2480,7 +2465,7 @@ msgstr "Uloženo do:"
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: PatternSkin/templates/foswiki.pattern.tmpl:38
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "Hledej"
@@ -2510,7 +2495,7 @@ msgstr "H&ledej ve všech webech"
 msgid "Search more topics in this web"
 msgstr "Hledej podobné články ve všech veřejných webech"
 
-#: core/data/System/WebSearchAdvanced.txt:68
+#: core/data/System/WebSearchAdvanced.txt:69
 msgid "Search string"
 msgstr "Hledej řetězec"
 
@@ -2518,7 +2503,7 @@ msgstr "Hledej řetězec"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Hledej články ve webu %1 které sem odkazují"
 
-#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:35
+#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
 msgstr "Kde hledat:"
 
@@ -2608,7 +2593,7 @@ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr ""
 "Ukazovat krátký popis při přejetí myší přes odkaz %1, zapnout nebo vypnout:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
@@ -2616,7 +2601,7 @@ msgstr "Zmenšit editovací oblast"
 msgid "Side by side"
 msgstr "Vedle sebe"
 
-#: core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearchAdvanced.txt:31
 msgid "Simple search"
 msgstr "Hledej"
 
@@ -2670,7 +2655,7 @@ msgstr ""
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 
-#: core/data/System/WebSearchAdvanced.txt:45
+#: core/data/System/WebSearchAdvanced.txt:46
 msgid "Sort results by:"
 msgstr "Seřaď výsledky podle:"
 
@@ -2705,19 +2690,15 @@ msgstr "Potvrzený obsah:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Příhlásit/ Odhlásit z:"
 
-#: core/data/System/WebSearchAdvanced.txt:69
+#: core/data/System/WebSearchAdvanced.txt:70
 msgid "Summaries"
 msgstr "Shrnutí"
 
-#: core/templates/validate.tmpl:8
-msgid "Warning! Confirmation required"
-msgstr ""
-
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2734,7 +2715,7 @@ msgstr "Web %1 neexistuje"
 msgid "Test Topics"
 msgstr "Testovací články"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:37
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
 msgstr "Tělo článku"
 
@@ -2918,6 +2899,12 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Objevil se problém v přidání Vašeho účtu do systému. Prosím kontaktujte %1."
 
+#: core/templates/validate.tmpl:16
+msgid ""
+"There is a risk that someone may be trying to use your identity to change "
+"content on %1 without your knowledge."
+msgstr ""
+
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
@@ -3018,7 +3005,7 @@ msgstr ""
 "ujistili, že je vše v pořádku, obzvláště pokud jste udělal změny do polí "
 "formulářů."
 
-#: core/data/System/WebSearchAdvanced.txt:84
+#: core/data/System/WebSearchAdvanced.txt:85
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3080,8 +3067,8 @@ msgstr "Přílohy článku"
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Článek nemůže být upgradován ze starého stylu tabulky kategorií"
 
-#: core/data/System/WebSearchAdvanced.txt:47
-#: core/data/System/WebSearchAdvanced.txt:58
+#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:59
 msgid "Topic name"
 msgstr "Jméno článku"
 
@@ -3111,7 +3098,7 @@ msgstr "Chyba uložení článku"
 msgid "Topic templates in %1 Web"
 msgstr "Články ve webu %1"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
 msgstr "Název článku"
 
@@ -3134,7 +3121,7 @@ msgstr "Články ve webu %1"
 msgid "Topics in %1 web:"
 msgstr "Články ve webu %1"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:76
 msgid "Topics per web"
 msgstr "Články na web"
 
@@ -3156,7 +3143,7 @@ msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr "Články, které odkazují na tento web, u kterých nemáte právo je změnit:"
 
-#: core/data/System/WebSearchAdvanced.txt:70
+#: core/data/System/WebSearchAdvanced.txt:71
 msgid "Total matches"
 msgstr "Celkem vyhovuje"
 
@@ -3298,6 +3285,10 @@ msgstr "Ukaž celou historii článku"
 msgid "Warning"
 msgstr ""
 
+#: core/templates/validate.tmpl:8
+msgid "Warning! Confirmation required"
+msgstr ""
+
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #, fuzzy
 msgid "Warning: 'include' topic does not exist!"
@@ -3323,11 +3314,11 @@ msgstr "Varování: Nemohu najít článek %1"
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Varování: Nemohu najít článek %1"
 
-#: core/lib/Foswiki/UI/Register.pm:966
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "Warning: Could not send confirmation email"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:978
+#: core/lib/Foswiki/UI/Register.pm:979
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
@@ -3335,7 +3326,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
 #, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "POZNÁMKA: Tento článek ještě neexistuje"
@@ -3688,7 +3679,7 @@ msgstr "zatržení u odkazovaných článků"
 msgid "don't forget to check your Topic Settings"
 msgstr ""
 
-#: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 #, fuzzy
 msgid "edit"
@@ -3741,14 +3732,13 @@ msgstr "nyní je %1"
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:16
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: PatternSkin/templates/preview.pattern.tmpl:18
 #: PatternSkin/templates/settings.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
 #: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
-#: core/templates/renamedelete.tmpl:33 core/templates/renameweb.tmpl:32
-#: core/templates/renamewebconfirm.tmpl:15
+#: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
+#: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "nebo"
 
@@ -3843,7 +3833,7 @@ msgstr ""
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "Ukaž celou historii článku"
 
-#: core/lib/Foswiki.pm:4370
+#: core/lib/Foswiki.pm:4374
 msgid "user list truncated"
 msgstr ""
 
@@ -3851,7 +3841,7 @@ msgstr ""
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Přerušit' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:18
+#: PatternSkin/templates/preview.pattern.tmpl:20
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Zruš' accesskey='d'"
 
@@ -3875,6 +3865,10 @@ msgstr "value='Ulož' accesskey='s'"
 #: core/templates/attachtables.tmpl:42
 msgid "view"
 msgstr "náhled"
+
+#: core/templates/validate.tmpl:23
+msgid "why you are being asked to confirm"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""

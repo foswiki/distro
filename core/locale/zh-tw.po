@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-18 18:37+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
-"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: Taiwan\n"
@@ -110,6 +110,10 @@ msgstr "%1 正被 %2 編輯中，限制將在 %3 後釋放。"
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 已使用電子郵件地址 %2 註冊"
 
+#: core/templates/validate.tmpl:14
+msgid "%1 has received a suspicious change request from your browser."
+msgstr ""
+
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
 msgstr "%1 首頁"
@@ -138,7 +142,7 @@ msgstr "%1 正在編輯 %2."
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 至少需加入一個群組，無法刪除"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 是附件刪除後的預設主題。"
 
@@ -157,37 +161,6 @@ msgstr "%1 可能仍在編輯 %2 。"
 #: core/lib/Foswiki/Render.pm:221
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "%1 由 %4 從 %2 移到 %3"
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"%1 has received a suspicious change request from your browser."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"There is a risk that someone may be trying to use your identity to "
-"change content on %1 without your knowledge."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"Press OK to confirm that this change was intentional."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"Press Cancel otherwise."
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"If you are unsure what this means, read:"
-msgstr ""
-
-#: core/templates/validate.tmpl:14
-msgid ""
-"why you are being asked to confirm"
-msgstr ""
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -245,7 +218,7 @@ msgstr "(%1 比上 %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*建議：*上傳您的圖片?)"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:76
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
@@ -286,7 +259,7 @@ msgstr "(變更語言)"
 msgid "(changes)"
 msgstr "(變更)"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:5
+#: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
 msgstr "(刪除附件)"
 
@@ -343,7 +316,7 @@ msgstr "(無)"
 msgid "(optional)"
 msgstr "(非必須)"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
 msgstr "(否則只搜尋 %1子網)"
 
@@ -518,7 +491,7 @@ msgid ""
 msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:973
+#: core/lib/Foswiki/UI/Register.pm:974
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認的電子郵件已寄往 %1 "
 
@@ -560,7 +533,7 @@ msgid "Access check on %1 failed"
 msgstr "訪問檢查%1失敗"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:22
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "Access keys"
 msgstr "快捷鍵"
@@ -579,7 +552,7 @@ msgid "Add form"
 msgstr "增加表單"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:163
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:658
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
 msgid "Add row"
 msgstr "加一列"
 
@@ -603,7 +576,7 @@ msgstr "管理員維護"
 msgid "Advanced Search"
 msgstr "進階搜尋"
 
-#: core/data/System/WebSearch.txt:24
+#: core/data/System/WebSearch.txt:25
 msgid "Advanced search"
 msgstr "進階搜尋"
 
@@ -625,7 +598,7 @@ msgstr ""
 "表單提交後，您將收到一封郵件內有一個*系統自動產生*的新密碼，及密碼修改網頁的"
 "連結。"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:41
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
 msgstr "所有公開的子網"
 
@@ -773,7 +746,7 @@ msgstr "基本子網 %1 遺失或不存在"
 msgid "Bathing problem"
 msgstr "洗澡套件有問題"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
 msgstr "內容和標題"
 
@@ -801,7 +774,7 @@ msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時） "
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:666
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
 #: core/templates/foswiki.tmpl:80
 msgid "Cancel"
 msgstr "取消"
@@ -822,7 +795,7 @@ msgstr "%1 子網已存在，無法建立"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "無法將 %1 改名為 %2，因 %2 已經存在。"
 
-#: core/data/System/WebSearchAdvanced.txt:56
+#: core/data/System/WebSearchAdvanced.txt:57
 msgid "Case sensitive"
 msgstr "區分字母大小寫"
 
@@ -1067,8 +1040,8 @@ msgstr "根據名稱建立"
 msgid "Create the topic"
 msgstr "建立主題"
 
-#: core/data/System/DefaultPreferences.txt:318
 #: core/data/System/DefaultPreferences.txt:320
+#: core/data/System/DefaultPreferences.txt:322
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:14
 #: core/data/System/WebCreateNewTopicTemplate.txt:67
 #: core/lib/Foswiki/Render.pm:98
@@ -1085,7 +1058,7 @@ msgstr "依您的 WikiName 建立個人%1主題，並為主題增加內容。"
 msgid "Creating a suitable Form Definition topic"
 msgstr "建立適當的表單定義主題"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
+#: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
 msgstr "目前位置:"
@@ -1115,17 +1088,17 @@ msgid "Default template"
 msgstr "預設範本"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "刪除"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:28
+#: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment"
 msgstr "刪除附件"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:662
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
 msgid "Delete last row"
 msgstr "刪除最後一行"
 
@@ -1167,7 +1140,7 @@ msgstr "別忘記儲存變更"
 msgid "Do not show attachment in table"
 msgstr "表格內不顯示附件"
 
-#: core/data/System/WebSearchAdvanced.txt:67
+#: core/data/System/WebSearchAdvanced.txt:68
 msgid "Don't show:"
 msgstr "不顯示:"
 
@@ -1238,7 +1211,7 @@ msgid "Edit text"
 msgstr "編輯文本"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:646
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
 msgid "Edit this table"
 msgstr "編輯這個表格"
 
@@ -1266,7 +1239,7 @@ msgstr "未指定檔名，或上傳的檔案 %1 沒有內容。不能上傳空�
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本網站不開放電子郵件使用。"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Enlarge edit box"
 msgstr "放大編輯框"
 
@@ -1437,7 +1410,7 @@ msgstr "您好 %1"
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/templates/login.tmpl:50
 msgid "Help"
 msgstr "説明"
@@ -1502,7 +1475,7 @@ msgstr "如果未顯示這行，請看下面 _升級_ 的段落"
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "若此主題不存在，請建立它。否則請檢查錯誤。"
 
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
 msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
@@ -1514,6 +1487,10 @@ msgid ""
 "correct parameters."
 msgstr "若您將開發 Foswiki 應用程式，請參考 %1 內正確的參數說明。"
 
+#: core/templates/validate.tmpl:21
+msgid "If you are unsure what this means, read:"
+msgstr ""
+
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
 msgstr "若您是點問號連結才來這裏"
@@ -1522,7 +1499,7 @@ msgstr "若您是點問號連結才來這裏"
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "若您未在一小時內收到確認的電子郵件，"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
 msgstr "如果您輸入不同的名稱，請確認該主題不存在。"
 
@@ -1593,7 +1570,7 @@ msgstr ""
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "將顯示圖片，或建立其他附件的連結。"
 
-#: core/data/System/WebSearchAdvanced.txt:51
+#: core/data/System/WebSearchAdvanced.txt:52
 msgid "In reversed order"
 msgstr "反向排序"
 
@@ -1685,15 +1662,15 @@ msgstr "到"
 msgid "Last Name:"
 msgstr "姓:"
 
-#: core/data/System/WebSearchAdvanced.txt:49
+#: core/data/System/WebSearchAdvanced.txt:50
 msgid "Last editor"
 msgstr "最後編輯者"
 
-#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:49
 msgid "Last modified time"
 msgstr "最後修改時間"
 
-#: core/data/System/WebSearchAdvanced.txt:74
+#: core/data/System/WebSearchAdvanced.txt:75
 msgid "Limit results to:"
 msgstr "限制結果於:"
 
@@ -1712,15 +1689,15 @@ msgstr "行: %1 到 %2"
 msgid "Link"
 msgstr "連結 "
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "依字母順序列出%1子網的所有主題"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
 msgid "List topics that start with the letter:"
 msgstr "列出所有以某字母開頭的主題:"
 
-#: core/data/System/WebSearchAdvanced.txt:59
+#: core/data/System/WebSearchAdvanced.txt:60
 msgid "Literal search"
 msgstr "簡單搜尋"
 
@@ -1749,7 +1726,7 @@ msgstr "登入"
 msgid "Mail to"
 msgstr "郵寄給"
 
-#: core/data/System/WebSearchAdvanced.txt:55
+#: core/data/System/WebSearchAdvanced.txt:56
 msgid "Make search:"
 msgstr "搜尋:"
 
@@ -1803,7 +1780,7 @@ msgstr "移動附件"
 msgid "Move or delete attachment"
 msgstr "移動或刪除附件"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:21
+#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
 msgstr "移動到子網:"
 
@@ -1955,7 +1932,7 @@ msgstr "抱歉：無法辨識您，請再試一次或 [[%1][重設密碼]] 。"
 msgid "Optionally change topic name:"
 msgstr "主題改名（非必要）:"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:32
+#: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "輸入不同的主題名稱（非必要）:"
 
@@ -1971,7 +1948,7 @@ msgstr "組織名稱:"
 msgid "Other Country"
 msgstr "其他國家"
 
-#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:95
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
 msgid "Other search options:"
 msgstr "其他搜尋選項:"
 
@@ -2088,6 +2065,14 @@ msgstr "設定"
 msgid "Preferences for"
 msgstr "設定"
 
+#: core/templates/validate.tmpl:19
+msgid "Press Cancel otherwise."
+msgstr ""
+
+#: core/templates/validate.tmpl:18
+msgid "Press OK to confirm that this change was intentional."
+msgstr ""
+
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
 msgstr "充填澡盆有問題"
@@ -2096,7 +2081,7 @@ msgstr "充填澡盆有問題"
 msgid "Properties"
 msgstr "屬性"
 
-#: core/data/System/WebSearchAdvanced.txt:61
+#: core/data/System/WebSearchAdvanced.txt:62
 msgid "Query Search"
 msgstr "查詢式檢索"
 
@@ -2107,7 +2092,7 @@ msgid ""
 msgstr "快速編輯現有屬性（編輯主題並設定新屬性）"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:654
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
 msgid "Quiet save"
 msgstr "快速存檔"
 
@@ -2139,8 +2124,8 @@ msgstr "在新視窗瀏覽新修訂版說明"
 msgid "Read on"
 msgstr "閱讀"
 
-#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:46
-#: core/data/System/WebSearchAdvanced.txt:99
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
+#: core/data/System/WebSearchAdvanced.txt:100
 msgid "Recently changed topics"
 msgstr "最近更新的主題"
 
@@ -2165,7 +2150,7 @@ msgstr "註冊"
 msgid "Registration codes can only be used once."
 msgstr "註冊碼只能使用一次。"
 
-#: core/data/System/WebSearchAdvanced.txt:60
+#: core/data/System/WebSearchAdvanced.txt:61
 msgid "Regular expression search"
 msgstr "正則運算式搜尋"
 
@@ -2297,7 +2282,7 @@ msgstr "修訂版"
 msgid "S = Save, C = Cancel"
 msgstr "S = 存檔，C = 取消"
 
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:22
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr "S = 存檔，Q = 快速存檔，K = 存檔並繼續編輯，D = 放棄"
 
@@ -2307,7 +2292,7 @@ msgid ""
 msgstr "S = 存檔，Q = 快速存檔，K = 存檔並繼續編輯，P = 預覽，C = 取消"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:650
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
 msgid "Save table"
 msgstr "儲存表格"
 
@@ -2326,7 +2311,7 @@ msgstr "存到:"
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: PatternSkin/templates/foswiki.pattern.tmpl:38
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "搜尋"
@@ -2352,7 +2337,7 @@ msgstr "搜尋所有子網"
 msgid "Search more topics in this web"
 msgstr "搜尋本子網的更多主題"
 
-#: core/data/System/WebSearchAdvanced.txt:68
+#: core/data/System/WebSearchAdvanced.txt:69
 msgid "Search string"
 msgstr "搜尋字串"
 
@@ -2360,7 +2345,7 @@ msgstr "搜尋字串"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "在 %1 子網中搜尋連結至此的主題"
 
-#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:35
+#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
 msgstr "搜尋哪里:"
 
@@ -2445,7 +2430,7 @@ msgstr "顯示說明"
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "滑鼠移動到連結 %1 上時顯示工具技巧提示，打開或關閉:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
@@ -2453,7 +2438,7 @@ msgstr "縮小編輯框"
 msgid "Side by side"
 msgstr "並列"
 
-#: core/data/System/WebSearchAdvanced.txt:30
+#: core/data/System/WebSearchAdvanced.txt:31
 msgid "Simple search"
 msgstr "簡單搜尋"
 
@@ -2512,7 +2497,7 @@ msgstr "抱歉，暫時禁用註冊。"
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr "抱歉，目前密碼系統是唯讀，請聯繫 %1"
 
-#: core/data/System/WebSearchAdvanced.txt:45
+#: core/data/System/WebSearchAdvanced.txt:46
 msgid "Sort results by:"
 msgstr "對結果排序:"
 
@@ -2547,19 +2532,15 @@ msgstr "提交內容:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "訂閱/退訂:"
 
-#: core/data/System/WebSearchAdvanced.txt:69
+#: core/data/System/WebSearchAdvanced.txt:70
 msgid "Summaries"
 msgstr "摘要"
 
-#: core/templates/validate.tmpl:8
-msgid "Warning! Confirmation required"
-msgstr "要求確認"
-
-#: PatternSkin/templates/foswiki.pattern.tmpl:76
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Switch to monotype or propotional font"
 msgstr "切換到等寬或等比的字體"
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2575,7 +2556,7 @@ msgstr "範本 %1 不存在"
 msgid "Test Topics"
 msgstr "測試主題"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:37
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
 msgstr "內容"
 
@@ -2744,6 +2725,12 @@ msgstr "此子網改名時出現錯誤:"
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的用戶資料到密碼系統時出現錯誤。"
 
+#: core/templates/validate.tmpl:16
+msgid ""
+"There is a risk that someone may be trying to use your identity to change "
+"content on %1 without your knowledge."
+msgstr ""
+
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必須包含一行包含 %1，參考 %2 (或 %3)"
@@ -2835,7 +2822,7 @@ msgstr ""
 "您的修改已經和版本 %1 合併。內文欄位已合併，但其他資料，如表單內的資料可能被"
 "其他用戶覆蓋。若您修改表單內容，請檢查表單資料。"
 
-#: core/data/System/WebSearchAdvanced.txt:84
+#: core/data/System/WebSearchAdvanced.txt:85
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -2892,8 +2879,8 @@ msgstr "主題附件"
 msgid "Topic can not be upgraded from old style category table"
 msgstr "主題無法由舊風格的類別表格升級"
 
-#: core/data/System/WebSearchAdvanced.txt:47
-#: core/data/System/WebSearchAdvanced.txt:58
+#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:59
 msgid "Topic name"
 msgstr "主題名稱"
 
@@ -2921,7 +2908,7 @@ msgstr "主題存檔錯誤"
 msgid "Topic templates in %1 Web"
 msgstr "在 %1 子網中的主題範本"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
 msgstr "主題標題"
 
@@ -2942,7 +2929,7 @@ msgstr "子網 %1 內的主題"
 msgid "Topics in %1 web:"
 msgstr "子網 %1 內的主題:"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:76
 msgid "Topics per web"
 msgstr "每個子網的主題"
 
@@ -2961,7 +2948,7 @@ msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr "您無權變更被引用子網的主題:"
 
-#: core/data/System/WebSearchAdvanced.txt:70
+#: core/data/System/WebSearchAdvanced.txt:71
 msgid "Total matches"
 msgstr "完全符合"
 
@@ -3092,6 +3079,10 @@ msgstr "檢視主題完整修訂史"
 msgid "Warning"
 msgstr "警告"
 
+#: core/templates/validate.tmpl:8
+msgid "Warning! Confirmation required"
+msgstr "要求確認"
+
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
 msgstr "警告:  \"包含\" 的主題不存在！"
@@ -3113,11 +3104,11 @@ msgstr "警告: 主題 %1. %2 內找不到命名的段落 %3"
 msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: 找不到主題%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:966
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 無法寄送確認郵件"
 
-#: core/lib/Foswiki/UI/Register.pm:978
+#: core/lib/Foswiki/UI/Register.pm:979
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 無法寄送確認郵件，郵件已禁用。"
 
@@ -3125,7 +3116,7 @@ msgstr "警告: 無法寄送確認郵件，郵件已禁用。"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:671
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告: \\'include\\' 的主題不存在！"
 
@@ -3445,7 +3436,7 @@ msgstr "勾選參考主題"
 msgid "don't forget to check your Topic Settings"
 msgstr "別忘了檢查您的主題設定"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
 msgstr "編輯"
@@ -3496,14 +3487,13 @@ msgstr "現在 %1"
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:16
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: PatternSkin/templates/preview.pattern.tmpl:18
 #: PatternSkin/templates/settings.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
 #: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
-#: core/templates/renamedelete.tmpl:33 core/templates/renameweb.tmpl:32
-#: core/templates/renamewebconfirm.tmpl:15
+#: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
+#: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "或"
 
@@ -3585,7 +3575,7 @@ msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='瀏覽主題歷史' accesskey='h'>歷史(&H)"
 
-#: core/lib/Foswiki.pm:4370
+#: core/lib/Foswiki.pm:4374
 msgid "user list truncated"
 msgstr "用戶列表被刪節"
 
@@ -3593,7 +3583,7 @@ msgstr "用戶列表被刪節"
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='取消' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:18
+#: PatternSkin/templates/preview.pattern.tmpl:20
 msgid "value='Discard' accesskey='d'"
 msgstr "value='放棄' accesskey='d'"
 
@@ -3616,6 +3606,10 @@ msgstr "value='存檔' accesskey='s'"
 #: core/templates/attachtables.tmpl:42
 msgid "view"
 msgstr "瀏覽"
+
+#: core/templates/validate.tmpl:23
+msgid "why you are being asked to confirm"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
