@@ -1,5 +1,5 @@
 # translation of nl.po to Dutch
-# Foswiki:Main/ArthurClemens, 2006, 2007.
+# Foswiki:Main/ArthurClemens, 2006, 2007, 2009.
 # Foswiki:Main/BenBeijer, 2008.
 # translation of nl.po to
 # Foswiki translation for Dutch
@@ -113,7 +113,8 @@ msgstr "%1 is geregistreerd met e-mail %2"
 
 #: core/templates/validate.tmpl:14
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 heeft een verdacht verzoek van je browser ontvangen om een "
+"wijziging aan te brengen."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -205,9 +206,8 @@ msgid "(%1 login)"
 msgstr "(inloggen op %1)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(inloggen op %1)"
+msgstr "(%1 validatie)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -382,7 +382,6 @@ msgid "*Formatting help:*"
 msgstr "*Opmaakhulp:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -409,7 +408,7 @@ msgid ""
 "that will be updated or added."
 msgstr ""
 "*Lokaal bestand:* Als je een nieuw of ander bestand kiest bij _Lokaal "
-"bestand:_, dan is het deze bijlage die wordt vernieuwd of toegevoegd."
+"bestand:_, dan is het deze bijlage die wordt bijgewerkt of toegevoegd."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
@@ -544,8 +543,8 @@ msgstr ""
 #: core/data/System/WebTemplateTopics.txt:4
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
-"Een paginatemplate definieert de initiële inhoud van een nieuw aangemaakte "
-"pagina."
+"Een paginatemplate definieert de initi&&euml;le inhoud van een nieuw "
+"aangemaakte pagina."
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:20
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
@@ -843,7 +842,7 @@ msgstr "Hoofdlettergevoelig"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:34
 msgid "Categories"
-msgstr "Categorieën"
+msgstr "Categorie&&euml;n"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:2
 msgid "Change Password"
@@ -1030,16 +1029,16 @@ msgid ""
 "Copyright &&copy; by the contributing authors. All material on this "
 "collaboration platform is the property of the contributing authors."
 msgstr ""
-"Copyright &&copy; de contribuerende auteurs. Al het materiaal op dit "
-"samenwerkingsplatform is eigendom van de contribuerende auteurs."
+"Copyright &&copy; de meewerkende auteurs. Al het materiaal op dit "
+"samenwerkingsplatform is eigendom van de meewerkende auteurs."
 
 #: core/data/System/WebPreferences.txt:34
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
-"Copyright &&copy; de contribueren-de auteurs. Al het materiaal op dit "
-"samenwerkingsplatform is eigendom van de contribueren-de auteurs."
+"Copyright &&copy; de meewerkende auteurs. Al het materiaal op dit "
+"samenwerkingsplatform is eigendom van de meewerkende auteurs."
 
 #: core/templates/messages.tmpl:140
 msgid "Could not create the new web %1"
@@ -1511,7 +1510,7 @@ msgstr "Verberg help"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
-"Hiërarchische Webs zijn niet geactiveerd; je kunt geen genest web aanmaken."
+"Hi&&euml;rarchische Webs zijn niet geactiveerd; je kunt geen genest web aanmaken."
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1556,7 +1555,7 @@ msgstr "Wachtwoord vergeten?"
 #: core/data/System/WebPreferences.txt:34
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Ideeën, verzoeken of problemen aangaande %1? <a href='%2'>Stuur feedback</a>"
+"Idee&&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%2'>Stuur feedback</a>"
 
 #: core/templates/messages.tmpl:344
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1586,7 +1585,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:21
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Als je wil weten wat dit betekent, lees eerst "
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2196,11 +2195,11 @@ msgstr "Instellingen voor"
 
 #: core/templates/validate.tmpl:19
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Anders klik je op Afbreken."
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Klik op OK om te bevestigen dat jij deze wijziging wil maken."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2309,7 +2308,7 @@ msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
 msgstr ""
-"Vergeet niet je persoonlijke pagina te vernieuwen als je je nieuwe e-"
+"Vergeet niet je persoonlijke pagina te bijwerken als je je nieuwe e-"
 "mailadres ook daar wilt tonen."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:5
@@ -2354,9 +2353,8 @@ msgid "Replace form..."
 msgstr "Vervang formulier..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registreren"
+msgstr "Verzoek om bevestiging"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2530,7 +2528,7 @@ msgstr "Selecteer"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:20
 msgid "Select a new local file to update attachment"
-msgstr "Kies een nieuw lokaal bestand om deze bijlage te vernieuwen"
+msgstr "Kies een nieuw lokaal bestand om deze bijlage bij te werken"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:33
 msgid "Select all"
@@ -2808,7 +2806,7 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"De aangevinkte pagina&#39;s zullen worden vernieuwd (je zal een ander "
+"De aangevinkte pagina&#39;s zullen worden bijgewerkt (je zal een ander "
 "formulier te zien krijgen waarin je pagina&#39;s kunt hernoemen die zijn "
 "vergendeld)."
 
@@ -2905,6 +2903,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Het zou kunnen zijn dat iemand zich voordoet als jou, om buiten je "
+"medeweten inhoud op %1 te veranderen."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3173,7 +3173,7 @@ msgstr "Actieopdracht %1 niet bekend"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:4
 msgid "Update attachment %1 on %2"
-msgstr "Vernieuw bijlage %1 van %2"
+msgstr "Werk bijlage %1 van %2 bij"
 
 #: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:26
 msgid "Update links"
@@ -3284,7 +3284,7 @@ msgstr "Waarschuwing"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Waarschuwing! Bevestiging is nodig"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
@@ -3303,9 +3303,8 @@ msgstr ""
 "karakters."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Waarschuwing: Kan pagina %1.%2 niet vinden"
+msgstr "Waarschuwing: Kan sectie %3 in pagina %1.%2 niet vinden"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3328,7 +3327,6 @@ msgstr ""
 "te gebruiken"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Let op: ingevoegde pagina bestaat niet!"
 
@@ -3507,7 +3505,7 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifiëren. Dit kan je doen door %1 in te vullen "
+"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te vullen "
 "in het formulier dat je hebt gekregen toen je deze e-mail werd gestuurd, of "
 "door %2 te bezoeken."
 
@@ -3584,7 +3582,7 @@ msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
-"Je geregistreerde e-mailadres(sen) zijn vernieuwd naar: <noautolink>%1</"
+"Je geregistreerde e-mailadres(sen) zijn bijgewerkt naar: <noautolink>%1</"
 "noautolink>."
 
 #: core/templates/messages.tmpl:245
@@ -3597,11 +3595,11 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:70
 msgid "Your signature to copy/paste"
-msgstr "Je handtekening om te kopiëren/plakken:"
+msgstr "Je handtekening om te kopi&&euml;ren/plakken:"
 
 #: core/templates/edit.tmpl:47
 msgid "Your signature to copy/paste:"
-msgstr "Je signatuur om te kopiëren/plakken:"
+msgstr "Je signatuur om te kopi&&euml;ren/plakken:"
 
 #: core/templates/messages.tmpl:186
 msgid ""
@@ -3673,7 +3671,7 @@ msgstr "en"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
-msgstr "veranderen, vernieuwen, voorgaande versies, verplaaten, verwijderen..."
+msgstr "veranderen, bijwerken, voorgaande versies, verplaaten, verwijderen..."
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:33
 msgid "checkboxes of referenced topics"
@@ -3864,7 +3862,7 @@ msgstr "bekijken"
 
 #: core/templates/validate.tmpl:23
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "waarom wordt mij om een bevestiging gevraagd"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
