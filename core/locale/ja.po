@@ -6,12 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-01-05 11:35+0100\n"
-"Last-Translator: Ken <ken.yuminaga at gmail.com>;\n"
+"PO-Revision-Date: 2009-06-19 14:22+0200\n"
+"Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: TWiki Japanese &lt;<ken.yuminaga at gmail.com>&gt;\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -209,11 +212,11 @@ msgstr "'新規トピックス作成'ページが移動されました"
 
 #: core/templates/login.tmpl:12
 msgid "(%1 login)"
-msgstr ""
+msgstr "(%1 ログイン)"
 
 #: core/templates/validate.tmpl:6
 msgid "(%1 validation)"
-msgstr ""
+msgstr "(%1 検認)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -4942,7 +4945,8 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid "Note__:"
+#~ msgid ""
+#~ "Note__:"
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"
