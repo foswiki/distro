@@ -4,6 +4,12 @@
 
 %TOC%
 
+---++ Foswiki Release 1.0.6 - 21 Jun 2009
+
+More than 40 bugs fixed and several small enhancements.
+
+Major security enhancement against Cross-Site Request Forgery
+
 ---++ Foswiki Release 1.0.5 - 25 Apr 2009
 
 Additional 20 bugs fixed.
