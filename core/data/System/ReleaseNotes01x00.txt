@@ -34,34 +34,33 @@ Foswiki 1.0 is shipped with the following:
 
 ---++ What's new &mdash; highlights
 
-   * Foswiki 1.0 is built on a new platform called [[Foswiki:Development.FoswikiStandAlone][Foswiki Stand Alone]] which adds support for [[Foswiki:Extensions.FastCGIEngineContrib][FastCGI]] and enables more optimized functionality in mod_perl and other similar runtime environments. Foswiki Stand Alone also enables future features such as running Foswiki by itself without a separate web server (for example, from a stand alone memory key). You can ensure your applications and plugins will work properly on the new platform (and thus with any future capabilities dependent on the new architecture) by testing them out now with Foswiki 1.0.
+   * Foswiki 1.0 is built on a new platform called [[Foswiki:Development.FoswikiStandAlone][Foswiki Stand Alone]] which adds support for [[Foswiki:Extensions.FastCGIEngineContrib][FastCGI]] and enables more optimized functionality in =mod_perl= and other similar runtime environments. Foswiki Stand Alone also enables future features such as running Foswiki by itself without a separate web server (for example, from a memory stick). You can ensure your applications and plugins will work properly on the new platform (and thus with any future capabilities dependent on the new architecture) by testing them out now with Foswiki 1.0.
    * A !TWikiCompatibilityPlugin has been created that enables most extensions made for TWiki to work under Foswiki, and to support seamless migrations from TWiki to Foswiki.
    * The !PatternSkin has been given a facelift: The !PatternSkin topic offers a choice of multiple themes, the sidebar can be placed either on the left or right, a frame can be added around the main content area, and a TWiki theme is available to make it easier for those upgrading from TWiki (dimensions such as the top bar size match the dimensions in the TWiki !PatternSkin).
    * The "Advanced Search" page now supports a query-based search.
    * A new section type, "expandvariables", adds better control over macro expansion in topic templates. You can now create template topics with sections where all macros contained within the sections are expanded.
    * A "Copy topic" feature is now present in the "More topic actions" tools.
-   * IF conditions has been expanded with an "isempty" test condition.
+   * IF conditions have been expanded with an "isempty" test condition.
    * =viewfile= script can be used as a webserver _ErrorDocument_ enabling both more secure attachments and user focused error dialogs.
    * The Foswiki tgz / zip distribution file now has a top-level directory &mdash; Foswiki-x.y.z (x.y.z representing the version) &mdash; in which all of its files and subdirectories are contained.
 
 ---+++ Security Updates
 
-Foswiki is much more secure than TWiki 4.2.4 and even TWiki 4.3.
-
-   * Foswiki 1.0 has secured by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
+   * Foswiki 1.0 has secured the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
    * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS, like URLPARAM, is now encoded with the new, safe encoding.
    * The print preview link is no longer vulnerable to XSS attacks.
    * Additional security fixes have been made, based on security audits performed by the Foswiki team. Sensitive data from the topic text and web client requests are validated for safety.
    * From Foswiki 1.0.5 an additional security feature has been added so that saving data now requires the http method POST.
-   * Foswiki 1.0.6 introduces a major security enhancement against Cross-Site Request Forgery. Foswiki now has an advanced security system where saving data requires a secret, user-specific token in all form submissions. The extra safe "double submit" principle has been implemented that uses Javascript's strict cross-domain rules to ensure that the secret token is being submitted from a form on the Foswiki and not from another server that belongs to an attacker. Note that the CSRF protection requires that users have Javascript enabled. The protection against CSRF in Foswiki 1.0.6 can be configured to different security levels and can be disabled (not recommended). Foswiki 1.0.6 ships with the security settings at maximum.
+   * Foswiki 1.0.6 introduces a major security enhancement, protecting against Cross-Site Request Forgery. The extra safe "double submit" algorithm, as recommended by the [[http://www.owasp.org][Open Web Application Security Project (OWASP)]] project has been used. This is the same algorithm used by several major banks and other security-conscious institutions, and requires that users have Javascript enabled. 
+See Foswiki:Support.SecurityFeatures for more information on these, and other, Foswiki security features. This is recommended reading for all Foswiki administrators.
 
----+++ Upgrading From TWiki 4.2
+---+++ Upgrading From TWiki
 
-Foswiki is compatible with content of TWiki releases up to and including 4.2, as part of its design.
+Foswiki is compatible with content generated using TWiki releases up to and including 4.3.1, as part of its design. This compatibility is at the disk file level, and means that upgrading from TWiki is easy and reliable.
 
 As part of the creation of the Foswiki project, the Foswiki community is evaluating all of the hundreds of extensions that are available for TWiki. All that are working are ported over to the Foswiki name space. Many of them are being enhanced through the removal of bugs and security vulnerabilities, resulting in better, more functional plugins for Foswiki. The most popular plugins are already ported and more are added every day.
 
----++ Terminology changes in Foswiki
+---++ Terminology changes from TWiki
 
 As part of the first Foswiki product release, various topics and terms were changed to avoid using the TWiki brand name and to more accurately reflect their purpose, including the following:
 
