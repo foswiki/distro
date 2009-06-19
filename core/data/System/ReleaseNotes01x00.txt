@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.5 - 25 Apr 2009
+---+!! Foswiki Release 1.0.6 - 21 Jun 2009
 
 %TOC%
 
@@ -21,6 +21,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.3 was built 28 Feb 2009. We decided to stop the publishing because of a severe bug in !EditTablePlugin introduced in 1.0.1 when fixing another bug. 
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 100 bug fixes relative to 1.0.0 and only very few minor enhancements.
    * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
+   * Foswiki 1.0.6 was built 21 Jun 2009. It is a patch release with more than 160 bug fixes relative to 1.0.0 and some enhancements. This version introduces a major enhancement in security against Cross-Site Request Forgery.
 
 ---++ Pre-installed Extensions
 
@@ -45,13 +46,14 @@ Foswiki 1.0 is shipped with the following:
 
 ---+++ Security Updates
 
-Foswiki is much more secure than TWiki 4.2.4.
+Foswiki is much more secure than TWiki 4.2.4 and even TWiki 4.3.
 
    * Foswiki 1.0 has secured by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
    * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS, like URLPARAM, is now encoded with the new, safe encoding.
    * The print preview link is no longer vulnerable to XSS attacks.
    * Additional security fixes have been made, based on security audits performed by the Foswiki team. Sensitive data from the topic text and web client requests are validated for safety.
    * From Foswiki 1.0.5 an additional security feature has been added so that saving data now requires the http method POST.
+   * Foswiki 1.0.6 introduces a major security enhancement against Cross-Site Request Forgery. Foswiki now has an advanced security system where saving data requires a secret, user-specific token in all form submissions. The extra safe "double submit" principle has been implemented that uses Javascript's strict cross-domain rules to ensure that the secret token is being submitted from a form on the Foswiki and not from another server that belongs to an attacker. Note that the CSRF protection requires that users have Javascript enabled. The protection against CSRF in Foswiki 1.0.6 can be configured to different security levels and can be disabled (not recommended). Foswiki 1.0.6 ships with the security settings at maximum.
 
 ---+++ Upgrading From TWiki 4.2
 
@@ -150,6 +152,18 @@ These changes have the following consequences when upgrading from TWiki to Foswi
    * Your site preference settings from Main.<nop>TWikiPreferences must be copied to the [[%USERSWEB%.SitePreferences]] topic.
 
 Please see %SYSTEMWEB%.UpgradeGuide#CopyUsersAndCustomizations for more information.
+
+---++ Important Changes since Foswiki 1.0.5
+
+A major security enhancement against Cross-Site Request Forgery has been added. See Security Updates above.
+
+EditTablePlugin has been through a major rewrite fixing many bugs and making it work much better with SpreadSheetPlugin.
+
+Three new standard escapes $lt, $gt and $amp have been introduced to be used in formatted searches and other places that supports escapes in a format parameter.
+
+A new footer parameter has been added to SEARCH
+
+Two new parameters $ntopics and $nhits can be used in formatted searches to show the number of found items.
 
 ---++ Important Changes since Foswiki 1.0.4
 
@@ -573,6 +587,69 @@ None
 | [[%BUGS%/Item1381][Item1381]] | Add depth parameter to META |
 | [[%BUGS%/Item1474][Item1474]] | DocumentGraphics new images |
 | [[%BUGS%/Item4163][Item4163]] | Bulgarian translation |
+</noautolink>
+
+---++ Foswiki Patch Release 1.0.6 Details
+
+---+++ Fixes
+
+<noautolink>
+| [[%BUGS%/Item1013][Item1013]] | WysywigPlugin requires HTML::Parser but does not ship with it and does not give dependency in Configure |
+| [[%BUGS%/Item1341][Item1341]] | TinyMCE converts TML lettered & roman numeral lists back to numbered lists. |
+| [[%BUGS%/Item1397][Item1397]] | Typewriter-Formatting does not work in tables |
+| [[%BUGS%/Item1406][Item1406]] | SpreadSheetPlugin and EditTablePlugin cannot coexist |
+| [[%BUGS%/Item1528][Item1528]] | SpreadSheetPlugin's WORKINGDAYS calculates incorrectly |
+| [[%BUGS%/Item1535][Item1535]] | "Typewriter" applied to bold text does not work |
+| [[%BUGS%/Item1538][Item1538]] | Topics in Main web and new webs do not validate as clean xhtml |
+| [[%BUGS%/Item1544][Item1544]] | EditTablePlugin no longer disables sort when editing |
+| [[%BUGS%/Item1553][Item1553]] | PatternSkin top bar height documentation |
+| [[%BUGS%/Item1556][Item1556]] | installer installing files twice |
+| [[%BUGS%/Item1567][Item1567]] | configure links to non-existent anti-spam plugin |
+| [[%BUGS%/Item1588][Item1588]] | Not clear that limit parameter in SEARCH works at topic level and cannot be used to limit _multiple_ results |
+| [[%BUGS%/Item1593][Item1593]] | Installing plugins from vanilla Foswiki 1.0.5 does not work |
+| [[%BUGS%/Item1605][Item1605]] | Correct the code docco in Func.pm |
+| [[%BUGS%/Item1634][Item1634]] | VarFAILEDPLUGINS links need fixing |
+| [[%BUGS%/Item1640][Item1640]] | CommentPlugin writes "%" as html-code, which prevents the use of Macros |
+| [[%BUGS%/Item1644][Item1644]] | RSS and ATOM will not display correct if cover is set globally |
+| [[%BUGS%/Item1668][Item1668]] | The action template in CommentPlugin creates actions on one long line |
+| [[%BUGS%/Item1671][Item1671]] | Pathnames of Attachments inappropriate in default Plugins |
+| [[%BUGS%/Item1673][Item1673]] | Mising Content-Type in mailresetpassword.tmpl  |
+| [[%BUGS%/Item1675][Item1675]] | Add pptx, docx and xlsx to icon type list |
+| [[%BUGS%/Item1678][Item1678]] | socket implementation of Net.pm is broken |
+| [[%BUGS%/Item1682][Item1682]] | SEARCH does not work well with format being blank |
+| [[%BUGS%/Item1688][Item1688]] | Left over enableTWikiMandatoryChecks in edit template causes warnings in JS debuggers |
+| [[%BUGS%/Item1689][Item1689]] | JS error in preview |
+| [[%BUGS%/Item1690][Item1690]] | Call to the resetpasswd script is not logged |
+| [[%BUGS%/Item1703][Item1703]] | preview fails when an unknown view_template is used |
+| [[%BUGS%/Item1707][Item1707]] | Deleting attachments in NAT and QUICKMENU do not work |
+| [[%BUGS%/Item1711][Item1711]] | Some authentication services do not pass on parameters |
+| [[%BUGS%/Item1712][Item1712]] | Warning in !TopicUserMapping when Registration is disabled |
+| [[%BUGS%/Item1713][Item1713]] | !WebSearch does not pass excludetopic parameter |
+| [[%BUGS%/Item1714][Item1714]] | Remove (tm)wiki from search results |
+| [[%BUGS%/Item1717][Item1717]] | class foswikiTopicText missing in WebCreateNewTopicTemplate and TopicDoesNotExistViewTemplate |
+| [[%BUGS%/Item1718][Item1718]] | Hex values in topic form fields are misread as anchors |
+| [[%BUGS%/Item1722][Item1722]] | FORMFIELD documentation is difficult to understand and there is an error in the example |
+| [[%BUGS%/Item1725][Item1725]] | Oops: we could not recognize you truncated in French language |
+| [[%BUGS%/Item1726][Item1726]] | CALC in EditTablePlugin causes errors during editing  |
+| [[%BUGS%/Item1730][Item1730]] | initPlugin does not get the $installWeb if $NO_PREFS_IN_TOPIC = 1 |
+| [[%BUGS%/Item1732][Item1732]] | EXTENSIONS.pm uses {version} without checking if it's undef |
+| [[%BUGS%/Item1738][Item1738]] | Better line heights when font tag is used |
+| [[%BUGS%/Item1739][Item1739]] | Prevent js error in edit screen |
+| [[%BUGS%/Item3212][Item3212]] | Rcs Lite can't recover from damaged version histories |
+| [[%BUGS%/Item5391][Item5391]] | Dragging corners of table removes TML markup |
+| [[%BUGS%/Item8141][Item8141]] | Variables/classes called old name in doc typo |
+| [[%BUGS%/Item8173][Item8173]] | TablePlugin does not understand standard date formats |
+</noautolink>
+
+---+++ Enhancements
+
+<noautolink>
+| [[%BUGS%/Item886][Item886]] | Add footer parameter to SEARCH |
+| [[%BUGS%/Item1095][Item1095]] | EditTablePlugin: Hide ugly long CALC when editing replaced by static text CALC |
+| [[%BUGS%/Item1568][Item1568]] | Synchronise form submits with sessions to enhance further security against CSRF |
+| [[%BUGS%/Item1595][Item1595]] | Add feature !AddNumberOfTopicsToFormattedSearch to 1.0.6 and 1.1.0 |
+| [[%BUGS%/Item1710][Item1710]] | New standard escapes $lt, $gt and $amp to be used in SEARCH |
+| [[%BUGS%/Item5628][Item5628]] | it would be useful if there was a version check in the wysiwyg JS |
 </noautolink>
 
 ---
