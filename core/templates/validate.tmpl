@@ -1,7 +1,7 @@
 %{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
 
 %TMPL:DEF{"webaction"}%%MAKETEXT{"Request Validation"}%%TMPL:END%
-%TMPL:DEF{"titleaction"}%%MAKETEXT{"(login)"}% %TMPL:END%
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"Request Validation"}% %TMPL:END%
 %TMPL:DEF{"pagetitle"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] validation)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
@@ -9,20 +9,24 @@
 %TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
-%TMPL:P{"title"}%
-<div style="display:block">
-%MAKETEXT{"[_1] has received a suspicious change request from your browser." args="<nop>%WIKITOOLNAME%"}%
+%TMPL:P{"title"}%</div><!-- /foswikiFormStep-->%TMPL:END%
 
+%TMPL:DEF{"notestep"}%<div class="foswikiFormStep">
+<p>
+%MAKETEXT{"[_1] has received a suspicious change request from your browser." args="<nop>%WIKITOOLNAME%"}%
+</p>
+<p>
 %MAKETEXT{"There is a risk that someone may be trying to use your identity to change content on [_1] without your knowledge." args="<nop>%WIKITOOLNAME%"}%
+</p>
 
    * %MAKETEXT{"Press OK to confirm that this change was intentional."}%
    * %MAKETEXT{"Press Cancel otherwise."}%
-
+<p>
 %MAKETEXT{"If you are unsure what this means, read:"}%
-<a href="http://foswiki.org/Support/WhyYouAreAskedToConfirm" target="_blank">
-%MAKETEXT{"why you are being asked to confirm"}%
-</a>.
-</div></div><!-- /foswikiFormStep-->%TMPL:END%
+<a href="http://foswiki.org/Support/WhyYouAreAskedToConfirm" class="foswikiPopUp">
+%MAKETEXT{"why you are being asked to confirm"}%</a>.
+</p>
+</div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
 
@@ -30,11 +34,13 @@
 %QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%
 </literal><input type="hidden" name="origurl" value="%ORIGURL%" /></form>%TMPL:END%
 
-%TMPL:DEF{"submit"}%<input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='OK' /> <input name="response" tabindex='5' type='submit' class='foswikiSubmit' value='Cancel' />%TMPL:END%
+%TMPL:DEF{"actionstep"}%<div class="foswikiFormStep"><input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"OK"}%' /> <input name="response" tabindex='5' type='submit' class='foswikiButtonCancel' value='%MAKETEXT{"Cancel"}%' /></div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"form"}%<div id="foswikiLogin">
-<div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
-%TMPL:P{"submit"}%
+<div class="foswikiFormSteps">%TMPL:P{"formstart"}%
+%TMPL:P{"titlestep"}%
+%TMPL:P{"notestep"}%
+%TMPL:P{"actionstep"}%
 %TMPL:P{"formend"}%
 </div><!-- /foswikiFormSteps-->
 </div><!-- /foswikiLogin-->%TMPL:END%
