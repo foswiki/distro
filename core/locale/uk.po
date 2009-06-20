@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-20 10:08+0200\n"
+"PO-Revision-Date: 2009-06-20 13:18+0200\n"
 "Last-Translator: Anjey Lobas <anjey.lobas@gmail.com>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -302,7 +302,7 @@ msgstr ""
 
 #: core/templates/oopsmore.tmpl:3
 msgid "(more)"
-msgstr "(больше)"
+msgstr "(більше)"
 
 #: core/templates/moveattachment.tmpl:3
 msgid "(move attachment)"
@@ -352,7 +352,7 @@ msgstr "(помилка збереження)"
 
 #: core/templates/searchformat.tmpl:3
 msgid "(search result)"
-msgstr "(результати пошуку)"
+msgstr "(результат пошуку)"
 
 #: PatternSkin/templates/search.pattern.tmpl:9 core/templates/search.tmpl:3
 #: core/templates/search.tmpl:6
@@ -2212,8 +2212,9 @@ msgid "Preferences for"
 msgstr "Параметри для"
 
 #: core/templates/validate.tmpl:19
+#, fuzzy
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Інакше натисніть Відмінити."
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
