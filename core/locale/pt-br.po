@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-18 15:11+0200\n"
+"PO-Revision-Date: 2009-06-20 23:59+0200\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -113,7 +113,7 @@ msgstr "%1 foi registrado com o e-mail %2"
 
 #: core/templates/validate.tmpl:14
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 recebeu um pedido suspeito de mudança pelo seu navegador."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -381,7 +381,6 @@ msgid "*Formatting help:*"
 msgstr "*Ajuda com formatação:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -1596,7 +1595,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:21
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Se você não faz ideia do que isso significa, leia:"
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2012,7 +2011,7 @@ msgstr "Avisos:"
 
 #: core/data/System/WebChangesAlert.txt:2
 msgid "Notification help"
-msgstr "Notificações de ajudaa"
+msgstr "Notificações de ajuda"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:9
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
@@ -2199,11 +2198,11 @@ msgstr "Preferências para"
 
 #: core/templates/validate.tmpl:19
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Do contrário, clique 'Cancelar'"
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Clique OK para confirmar que esta mudança foi intencional."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2356,9 +2355,8 @@ msgid "Replace form..."
 msgstr "Trocar formulário..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registro"
+msgstr "Validação solicitada"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2903,6 +2901,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Existe um risco de que alguém talvez estaja usando sua identidade para "
+"editar o conteúdo em 1% sem o seu conhecimento."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
