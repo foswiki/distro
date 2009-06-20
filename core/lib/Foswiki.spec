@@ -26,7 +26,7 @@ my $OS = $Foswiki::cfg{OS} || '';
 
 #---+ General path settings
 # If you are a first-time installer; once you have set up the next
-# six paths below, your wiki should work - try it. You can always come
+# eight paths below, your wiki should work - try it. You can always come
 # back and tweak other settings later.<p />
 # <b>Security Note:</b> Only the URL paths listed below should
 # be browseable from the web. If you expose any other directories (such as
@@ -89,7 +89,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # of Foswiki, but are not required to be browsed from the web.
 # A number of subdirectories will be created automatically under this
 # directory:
-# <ul><li>{WorkingDir}<tt>/tmp/</tt> - used for security-related temporary
+# <ul><li>{WorkingDir}<tt>/tmp</tt> - used for security-related temporary
 # files (these files can be deleted at any time without permanent damage)
 # <ul><li>
 # <i>Passthrough files</i> are used by Foswiki to work around the limitations
@@ -141,7 +141,7 @@ $Foswiki::cfg{Password} = '';
 # 		</ul>
 # 	</li>
 # 	<li>
-# 		Windows <span class="foswikiNewLink"> ActiveState<a href="/~arthur/foswiki/core/bin/edit/Sandbox/ActiveState?topicparent=Sandbox.HtmlCreator" rel="nofollow" title="Create this topic">?</a> </span> Perl, using DOS shell 
+# 		Windows ActiveState Perl, using DOS shell 
 # 		<ul>
 # 			<li>
 # 				path separator is ; 
@@ -237,7 +237,7 @@ $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 # This gives a small increase in security. Public web sites can easily be
 # accessed by different users from the same IP address when they access
 # through the same proxy gateway, meaning that the protection is limited.
-# Additionally people get more and more mobile using a mix of LAN, WLAN, 
+# Additionally, people get more and more mobile using a mix of LAN, WLAN, 
 # and 3G modems and they will often change IP address several times per day.
 # For these users IP matching causes the need to re-authenticate all the time.
 # IP matching is therefore disabled by default and should only be enabled if
@@ -346,13 +346,13 @@ $Foswiki::cfg{AdminUserLogin} = 'admin';
 
 # **STRING 20 EXPERT**
 # An admin user WikiName what is displayed for actions done by the AdminUserLogin
-# You should normally not need to change this. (you will need to move the
-# %USERSWEB%.AdminUser topic to match)
+# You should normally not need to change this. (You will need to move the
+# %USERSWEB%.AdminUser topic to match.)
 $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
 
 # **STRING 20 EXPERT**
 # Group of users that can use special action=repRev and action=delRev
-# on =save= and ALWAYS have edit powers. See %SYSTEMWEB%.CompleteDocumentation
+# on <code>save</code> and ALWAYS have edit powers. See %SYSTEMWEB%.CompleteDocumentation
 # for an explanation of wiki groups. This user will also run all the
 # standard cron jobs, such as statistics and mail notification.
 # The default value "AdminGroup" is used everywhere in Foswiki to
@@ -494,6 +494,9 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 # to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
 # URLs. Only enable it if you are in an environment where a DoS attack is not
 # a high risk.
+# <br /> You may also need to configure the proxy settings ({PROXY}{HOST} and
+# {PROXY}{PORT}) if your server is behind a firewall and you allow %INCLUDE of
+# external webpages.
 $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 
 # **BOOLEAN EXPERT**
@@ -520,7 +523,7 @@ $Foswiki::cfg{UploadFilter} = qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]h
 $Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
 
 # **BOOLEAN EXPERT**
-# If this is set, the the search module will use more relaxed
+# If this is set, then the search module will use more relaxed
 # rules governing regular expressions searches.
 $Foswiki::cfg{ForceUnsafeRegexes} = $FALSE;
 
@@ -806,7 +809,7 @@ $Foswiki::cfg{LowerNational} = '';
 $Foswiki::cfg{Site}{CharSet} = undef;
 
 # **BOOLEAN EXPERT**
-# Change non-existant plural topic name to singular,
+# Change non-existent plural topic name to singular,
 # e.g. TestPolicies to TestPolicy. Only works in English.
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
@@ -835,14 +838,14 @@ $Foswiki::cfg{RCS}{ExtOption} = "";
 # **OCTAL**
 # File security for new directories. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
-# to directories that Foswiki creates. This is an *octal* number
+# to directories that Foswiki creates. This is an <b>octal</b> number
 # representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
 $Foswiki::cfg{RCS}{dirPermission}= 0755;
 
 # **OCTAL**
 # File security for new files. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
-# to files that Foswiki creates.  This is an *octal* number
+# to files that Foswiki creates.  This is an <b>octal</b> number
 # representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
 $Foswiki::cfg{RCS}{filePermission}= 0644;
 
@@ -948,7 +951,8 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 # if you find searches run very slowly, you may want to try a different
 # algorithm, which may work better on your configuration.
 # Note that there is an alternative algorithm available from
-# http://foswiki.org/Extensions/NativeSearchContrib, that often
+# <a href="http://foswiki.org/Extensions/NativeSearchContrib">
+# http://foswiki.org/Extensions/NativeSearchContrib </a>, that often
 # gives better performance with mod_perl and Speedy CGI.
 $Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
@@ -1010,7 +1014,7 @@ $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
 #---++ Compress data
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
-# encoded using gzip compression. You will safe a lot of bandwidth by compressing
+# encoded using gzip compression. You will save a lot of bandwidth by compressing
 # pages. This makes most sense when enabling page caching as well as these are
 # stored in compressed format already. Note that only pages without any 'dirty areas'
 # will be compressed. Any other pages will be transmitted uncompressed.
@@ -1130,7 +1134,7 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 
 # **STRING 30 EXPERT**
 # Some environments require outbound HTTP traffic to go through a proxy
-# server. (e.g. proxy.your.company).
+# server. (e.g. http://proxy.your.company).
 # <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
 # in SitePreferences. Make sure you delete the setting from there if
 # you are using a SitePreferences topic from a previous release of Foswiki.
