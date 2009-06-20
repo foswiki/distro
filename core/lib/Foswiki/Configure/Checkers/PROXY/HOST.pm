@@ -12,7 +12,7 @@ sub check {
 
     my $e;
     if ($Foswiki::cfg{PROXY}{HOST}) {
-        $e = $this->WARN("{PROXY}{HOST} does not include a scheme (e.g. http://)") 
+        $e = $this->WARN("{PROXY}{HOST} should include a scheme (e.g. http://)") 
           unless $Foswiki::cfg{PROXY}{HOST} =~ m[^\w+://];
     }
 
