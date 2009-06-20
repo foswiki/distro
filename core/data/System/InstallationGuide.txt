@@ -53,9 +53,8 @@ If you do not have shell access to your web server host, see the section "[[#Upl
 ---+++ Set the file and directory permissions for the installation
 
 *Set up access file and directory rights*, as well as file ownership, as required by your web server configuration so that the web server user (the user used by the web server to run CGI programs) can read and write within the =foswiki= directory tree.
-<!-- to be included once the supplemental document is available
+
 Note: for more information on the appropriate permissions to ensure security for your Foswiki data, see Foswiki:Support.SecuringYourSite.
--->
 
 The default file and directory access permissions as set by the distribution define a reasonable security level that will work for many types of installations, including shared hosting. Nonetheless, you should verify that the web server user has read access to all files and directories beneath the =foswiki= directory, and execute access for all directories. Also verify that the =data= and =pub= directories and all the subdirectories and files beneath them allow write access for the web server user.
    * *Warning:* Do not just run a =chmod -R 770 foswiki=. Providing execute access to all files is potentially dangerous. This is a common mistake made by Foswiki installers. See Foswiki:Support.SettingFileAccessRightsLinuxUnix for a sample set of Unix commands to set the file and directory permissions.
@@ -235,6 +234,14 @@ To simplify your upgrades, do not modify =%SYSTEMWEB%.DefaultPreferences=. Inste
 To see the available preferences that can be set, look through =[[%SYSTEMWEB%.DefaultPreferences]]=.
 
 If, for some reason, you wish to pick up default preferences from a different topic, you can set the location in the =Miscellaneous settings= pane of the =configure= page, in the ={SitePrefsTopicName}= setting (visible when Expert mode is enabled). It is recommended that you leave this setting to its default value, =<nop>Default<nop>Preferences=.
+
+---++++ Select the desired security level
+
+Foswiki has a many security features that can be enabled/disabled and adjusted to suit your needs.
+
+In many cases enabling a security feature prevents other features. It is a balance that the administrator has to choose depending on the purpose of the Foswiki installation (confidential vs public knowledge), the type of installation (intranet vs internet), and your type of business.
+
+A new administrator is encouraged to read Foswiki:Support.SecurityFeatures which gives a walkthrough of the different security aspects and how to set the appropriate configuration settings. Note that that some security settings are only visible in configure in "expert mode" which you enter by clicking the "Yes, I've read all the documentation" button at the top of the configure screen.
 
 ---++++ Enable Email Notification
 
