@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
-Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a topic. The whole content or only parts of a page can be included. If needed, set a proxy server in %WIKIPREFSTOPIC%.
+Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a topic. The whole content or only parts of a page can be included. If needed, set a proxy server with the {PROXY}{HOST} and {PROXY}{PORT} settings in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
 %TOC%
 
@@ -26,18 +26,27 @@ VarINCLUDE explains the other parameters.
   &lt;/pre&gt;
 </pre>
 
----+++ 2. Display Google's robot.txt file
-
-<pre>
-  %<nop>INCLUDE{"http://www.google.com/robots.txt"}%
-</pre>
-
----+++ 3. Display the current time in Tokyo
+---+++ 2. Display foswiki.org's frequently asked questions
 
    * You type:
-      * ==Tokyo: %<nop>INCLUDE{"http://TWiki.org/cgi-bin/xtra/tzdate?tz=Asia/Tokyo" pattern="^.*&lt;\!--tzdate:date--&gt;(.*?)&lt;\!--/tzdate:date--&gt;.*"}%==
+<pre>
+  %<nop>INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+</pre>
+
    * You get:
-      * Tokyo: %INCLUDE{"http://TWiki.org/cgi-bin/xtra/tzdate?tz=Asia/Tokyo" pattern="^.*<\!--tzdate:date-->(.*?)<\!--/tzdate:date-->.*"}%
+%INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+
+*Note:* Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.
+
+---+++ 3. Include a topic
+
+   * You type:
+<pre>
+  %<nop>INCLUDE{%<nop>SYSTEMWEB%.TipsOfTheDayInclude}%
+</pre>
+
+   * You get:
+%INCLUDE{%SYSTEMWEB%.TipsOfTheDayInclude}%
 
 ---+++ 4. Include a topic !MyTopic with two parameters
 

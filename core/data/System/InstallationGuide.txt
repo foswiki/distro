@@ -135,6 +135,7 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
    * Continue configuring Foswiki. Resolve any errors or warnings highlighted on the configure page.
    * If your web server can be accessed by more than one domain name make sure to add the additional alternative URLs to ={PermittedRedirectHostUrls}=
    * Setup the _Mail and Proxies_ section. The ={WebMasterEmail}= and ={SMTP}{MAILHOST}= settings must be defined so Foswiki can send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=.
+     If your server is behind a firewall with a proxy, and you wish to install extensions via =configure=, you may have to set ={PROXY}{HOST}= and ={PROXY}{PORT}=.
 
 If there is a problem with your setup that prevents you from accessing the =configure= page, you can [[#ConfiguringFoswikiManually][configure Foswiki manually]].
 
