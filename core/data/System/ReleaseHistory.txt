@@ -10,6 +10,8 @@ More than 40 bugs fixed and several small enhancements.
 
 Major security enhancement against Cross-Site Request Forgery
 
+A central translation framework got introduced. Foswiki is already available in 20 major languages and dialects. The new translation framework will ease the translation process by allowing contributions from users.
+
 ---++ Foswiki Release 1.0.5 - 25 Apr 2009
 
 Additional 20 bugs fixed.
@@ -313,7 +315,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | Polish translation | [[TWiki:Main.ZbigniewKulesza][ZbigniewKulesza]] |
 | Portuguese translation | [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[TWiki:Main.CarlinhosCecconi][CarlinhosCecconi]] |
 | Spanish translation | [[Foswiki:Main.WillNorris][WillNorris]], [[TWiki:Main.MiguelABayona][MiguelABayona]] |
-| Swedish translation | [[TWiki:Main.ErikAman][Erik Åman]] |
+| Swedish translation | [[TWiki:Main.ErikAman][Erik ï¿½man]] |
 | *New features for users*  ||
 | Edit conflict resolution with automatic merge | [[http://c-dot.co.uk][Crawford Currie]] |
 | Fine grained change notification on page level and parent/child relationship | [[http://c-dot.co.uk][Crawford Currie]] |
