@@ -17,5 +17,6 @@ sub TWiki::new {
 
 *TWiki::regex = \%Foswiki::regex;
 *TWiki::cfg   = \%Foswiki::cfg;
+*TWiki::isTrue = \&Foswiki::isTrue;
 
 1;
