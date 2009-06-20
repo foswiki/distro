@@ -2777,7 +2777,7 @@ msgstr "Het %1 web van Foswiki. Foswiki is de 'Free and Open Source Wiki'."
 
 #: core/templates/messages.tmpl:421
 msgid "The =%1= script can only be called with POST method."
-msgstr ""
+msgstr "Het =%1= script kan alleen worden aangeroepen met een POST."
 
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -2986,7 +2986,7 @@ msgstr "Dit vereist dat formulierdefinities bestaan."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Deze site is powered by Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
