@@ -417,6 +417,7 @@ lib/Foswiki/Configure/Checkers/MimeTypesFileName.pm 0444
 lib/Foswiki/Configure/Checkers/MinPasswordLength.pm 0444
 lib/Foswiki/Configure/Checkers/NameFilter.pm 0444
 lib/Foswiki/Configure/Checkers/OS.pm 0444
+lib/Foswiki/Configure/Checkers/PROXY/HOST.pm 0444
 lib/Foswiki/Configure/Checkers/PubDir.pm 0444
 lib/Foswiki/Configure/Checkers/PubUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/EgrepCmd.pm 0444
