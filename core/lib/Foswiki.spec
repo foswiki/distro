@@ -307,7 +307,7 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 # <i>off</i>.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
-# **STRING EXPERT**
+# **SELECT strikeone,embedded,none EXPERT **
 # By default Foswiki uses Javascript to perform "double submission" validation
 # of browser requests. This technique, called "strikeone", is highly
 # recommended for the prevention of cross-site request forgery (CSRF).
@@ -317,23 +317,26 @@ $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 # is less secure, but still offers some protection against CSRF. Both
 # validation techniques rely on user verification of "suspicious"
 # transactions.
-# This option allows you to select which validation technique will be used.
+# This option allows you to select which validation technique will be
+# used.<br />
 # If it is set to "strikeone", or is undefined, 0, or the empty string, then
-# double-submission using Javascript will be used.
-# If it is set to "embedded", then embedded validation keys will be used.
+# double-submission using Javascript will be used.<br />
+# If it is set to "embedded", then embedded validation keys will be used.<br/>
 # If it is set to "none", then no validation of posted requests will
 # be performed.
-# If the option is not set, Foswiki will default to 'strikeone'.
 $Foswiki::cfg{Validation}{Method} = 'strikeone';
+
 # **NUMBER EXPERT**
 # Validation keys are stored for a maximum of this amount of time before
 # they are invalidated. Time in seconds.
 $Foswiki::cfg{Validation}{ValidForTime} = 3600;
+
 # **NUMBER EXPERT**
 # The maximum number of validation keys to store in a session. There is one
 # key stored for each page rendered. If the number of keys exceeds this
 # number, the oldest keys will be force-expired to bring the number down.
 $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
+
 # **BOOLEAN EXPERT**
 # Expire a validation key immediately when it is used to validate the saving
 # of a page. This protects against an attacker evesdropping the communication
