@@ -309,6 +309,6 @@ Post to a different topic and return to here. The comment =target= is set in the
 
 ---++ Include !UserComments
 
-Including UserComments:
+Including UserCommentsTemplate ("Template" gets automatically appended to the name):
 
 %TMPL:INCLUDE{"UserComments"}%
