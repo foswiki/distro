@@ -9,13 +9,15 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2008-12-23 17:12-0600\n"
-"Last-Translator: Sebastian Klus\n"
+"PO-Revision-Date: 2009-06-21 01:30+0200\n"
+"Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: gedit 2.20.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:450
@@ -617,7 +619,7 @@ msgid ""
 "returned to this form."
 msgstr ""
 "Después de enviar este formulario su correo electrónico será cambiado, y "
-"usted regresará a este formulario"
+"usted regresará a este formulario."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:12
 msgid "After submitting this form your password will be changed."
@@ -942,7 +944,7 @@ msgstr ""
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
-"Temas marcados serán actualizados para señalar al nuevo nombre de la web"
+"Temas marcados serán actualizados para señalar al nuevo nombre de la web."
 
 #: core/templates/oopsmore.tmpl:127
 msgid "Child topics in %1 web"

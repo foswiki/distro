@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-20 23:59+0200\n"
+"PO-Revision-Date: 2009-06-21 00:09+0200\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt_BR\n"
@@ -2984,11 +2984,11 @@ msgstr "Isto necessita que a definição do formulário esteja presente."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Este site é desenvolvido em Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
-msgstr "Este sítio exige caracteres %1 para senhas"
+msgstr "Este site exige caracteres %1 para senhas"
 
 #: core/templates/viewprint.tmpl:13
 msgid "This topic:"
@@ -3280,7 +3280,7 @@ msgstr "Atenção"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Atenção! Confirmação solicitada"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
@@ -3300,9 +3300,8 @@ msgstr ""
 "contem caracteres ilegais."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Aviso: tópico %1.%2 não encontrado"
+msgstr "Aviso: Não é possível nomear a seção %3 no tópico %1.%2"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3323,9 +3322,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Aviso: Esse sítio não permite %<nop>INCLUDE% de URLs"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "AVISO: o tópico para inclusão não existe"
+msgstr "Atenção: o tópico em \\'include\\' não existe!"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -3864,7 +3862,7 @@ msgstr "ver"
 
 #: core/templates/validate.tmpl:23
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "porque você é solicitado a confirmar"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
