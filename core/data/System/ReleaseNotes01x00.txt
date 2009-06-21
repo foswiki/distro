@@ -639,7 +639,7 @@ None
 | [[%BUGS%/Item5391][Item5391]] | Dragging corners of table removes TML markup |
 | [[%BUGS%/Item8141][Item8141]] | Variables/classes called old name in doc typo |
 | [[%BUGS%/Item8173][Item8173]] | TablePlugin does not understand standard date formats |
-
+| [[%BUGS%/Item8184][Item8184]] | Fix link to UserCommentsTemplate |
 </noautolink>
 
 ---+++ Enhancements
