@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-19 14:22+0200\n"
+"PO-Revision-Date: 2009-06-21 07:33+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
 "Language: ja\n"
@@ -42,13 +42,12 @@ msgstr "%*(%1,秒)"
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
-msgstr ""
+msgstr "%1 "
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
-#, fuzzy
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - %2 (%3) の登録"
+msgstr "%1 - %2 (%3) の登録にエラーが発生しました。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
 #: core/templates/registernotify.tmpl:3
@@ -56,33 +55,32 @@ msgstr "%1 - %2 (%3) の登録"
 msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - %2 (%3) の登録"
 
+# "Quick start" points to the documentation?
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
 #, fuzzy
 msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
-msgstr "%1 - 全てのTWikiドキュメント、クイックレファレンス"
+msgstr "%1 - Foswikiの完全に集まった書類へのクイックレファレンス"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:70
 msgid "%1 - just for me"
-msgstr "%1 - 私です"
+msgstr "%1 - 私のです。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:67
-#, fuzzy
 msgid "%1 - starting points on Foswiki"
-msgstr "%1 - TWiki上で仕事を始めます"
+msgstr "%1 - Foswikiでの開始点です。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:69
-#, fuzzy
 msgid "%1 - try out Foswiki on your own"
-msgstr " %1 ウェブ上でTWikiを試してみます"
+msgstr " %1 - Foswikiをご遠慮なく試してください。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:66
-#, fuzzy
 msgid "%1 - view a short introductory presentation on Foswiki for beginners"
-msgstr "%1 - 新TWikiユーザーの為に作った簡単な紹介を見ます"
+msgstr "%1 - 初心者に対するFoswiki概要のプレゼンテーションを一覧します。"
 
+# %1 are the recently made changes in %2 web.
 #: core/data/System/WebChanges.txt:2
 msgid "%1 Recent Changes in %2 Web"
-msgstr "%2 ウェブより最近更新された%1を検索します"
+msgstr "%1 は %2 ウェブで最近に更新されたのです。"
 
 #: PatternSkin/templates/view.pattern.tmpl:43
 msgid "%1 Web"
@@ -100,37 +98,35 @@ msgstr "%1を通じてパスワードを変更することが出来ます"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:37
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:38
-#, fuzzy
 msgid "%1 has a list of other Foswiki users"
-msgstr "他のTwikiユーザーのリストは %1にあります"
+msgstr "%1 は他のFoswikiユーザーがあるリストを持っています。"
 
 #: core/templates/messages.tmpl:438
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
-msgstr "%1 は %2が編集されています。 %3 の後にリリースされます"
+msgstr "%1 は %2 で編集され、後%3 までリースが認められます。"
 
 #: core/templates/registerfailednotremoved.tmpl:12
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 は既にE-Mail %2で登録されました"
+msgstr "%1 は既に電子メールアドレスの %2に登録されました"
 
 #: core/templates/validate.tmpl:14
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 は不審なリクエストをご使用の方のブラウザーから受け取りました。"
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
 msgstr "%1トップ"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:86
-#, fuzzy
 msgid "%1 is a list of Foswiki user documentation"
-msgstr "%1 にはTwikiユーザードキュメントのリストがあります"
+msgstr "%1 にはFoswikiユーザーに関する書類が出ます。"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
-msgstr "%1 は無効な新ウェブ名です"
+msgstr "%1 は新ウェブ名にとして無効なのです"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -138,24 +134,23 @@ msgstr "%1 は既にログインしています"
 
 #: core/templates/messages.tmpl:415
 msgid "%1 is currently set to %2"
-msgstr "%1 は %2にセットされました"
+msgstr "%1 は現在 %2に設定された状況です。"
 
 #: core/templates/messages.tmpl:436
 msgid "%1 is editing %2."
-msgstr "%1 は %2を編集しています"
+msgstr "%1 は %2を編集しているところです。"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
-msgstr "%1 は最新のグループにありますので、削除できません"
+msgstr "%1 はまだ一つのグループにも入っていますので、削除できません"
 
 #: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 は削除された添付ファイルの関連トピックです"
+msgstr "%1 は削除された添付ファイルに対してデフォルトトピックとなっております。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
-#, fuzzy
 msgid "%1 lists all Foswiki user tools"
-msgstr "%1 には全てのTwikiユーザーツールのリストがあります"
+msgstr "%1 にはFoswikiユーザーツールが全てでます。"
 
 #: core/templates/messages.tmpl:444
 msgid "%1 may still be editing %2."
@@ -204,7 +199,7 @@ msgstr "履歴"
 
 #: core/templates/messages.tmpl:273
 msgid "'%1' is not a valid %2 "
-msgstr "'%1' は有効なな %2 です"
+msgstr "'%1' は有効な %2 ではありません。"
 
 #: core/data/System/WebTopicCreator.txt:2
 msgid "'Create New Topic' page has moved"
@@ -4947,6 +4942,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Note__:"
+#~ ""
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"
