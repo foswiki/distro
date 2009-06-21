@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-21 07:33+0200\n"
+"PO-Revision-Date: 2009-06-21 10:45+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
 "Language: ja\n"
@@ -180,10 +180,10 @@ msgstr "%1 は新ウェブ上で仕事を始めます"
 msgid "%1 topic does not exist"
 msgstr "%1 トピックは存在しません"
 
+# tried but failed?
 #: core/templates/registerfailedremoved.tmpl:12
-#, fuzzy
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 は既にE-Mail %2で登録されました"
+msgstr "%1 は電子メールアドレスの %2 に登録しようとしました。"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "&Cancel"
@@ -247,7 +247,7 @@ msgstr "(全てのウェブの中のバックリンク)"
 
 #: core/templates/searchbookview.tmpl:3
 msgid "(book view)"
-msgstr ""
+msgstr "印刷用ビュー"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
@@ -385,7 +385,6 @@ msgid "*Formatting help:*"
 msgstr "*フォーマットヘルプ：*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -396,13 +395,10 @@ msgid ""
 "should contact %1 for details of the Data Protection Policy of this Foswiki "
 "server before registering."
 msgstr ""
-"*重要なインフォメーション:* 本フォームに提供される情報はTwikiファーバーのデー"
-"タベースに保存されます。当該データベースはウェブ経由で当該サーバーにアクセス"
-"できる全てのユーザーにアクセスされることが出来ます（迷惑メールを防ぐ為パス"
-"ワードが暗号化されても、又はメールアドレスが変形されても構いません）。お国/又"
-"はサーバーが所在する国では当該データベースが関連の法律より保護されている可能"
-"性があります。何か疑問がございましたら、登録する前に %1 にアクセスして、Twiki"
-"に関するデータ保護ポリシーの詳細情報を求めてください。"
+"*注意:* このフォームに提出された情報はFoswikiサーバのデータベースに記憶します。このデータベースへの接続においては、スパムメールを防ぐように電"
+"子メールアドレスがあいまいにしたり、パスワードが暗証化されたりするところが、サーバへの接続できる人はデータベースにも接続することができます。サーバがホス"
+"トされている国によってはプライヴァシー守護の法律がこんなデータベースの管理に適用する可能性がありますので、もっと詳しい説明を確認したい場合には、登録する"
+"前にFoswikiのデータ守護の方針をご一覧ください。"
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -4941,7 +4937,7 @@ msgstr ""
 #~ msgstr "画像又はファイル%1を更新します"
 
 #~ msgid ""
-#~ "Note__:"
+#~ "_:Note__:"
 #~ ""
 #~ msgstr "注意__:"
 

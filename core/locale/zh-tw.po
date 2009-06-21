@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-18 18:37+0200\n"
+"PO-Revision-Date: 2009-06-21 11:02+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: Taiwan\n"
@@ -112,7 +112,7 @@ msgstr "%1 已使用電子郵件地址 %2 註冊"
 
 #: core/templates/validate.tmpl:14
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "％1 已收到來自您瀏覽器發出的可疑修改要求。"
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -184,7 +184,7 @@ msgstr "%1 試著以電子郵件 %2 註冊"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "&Cancel"
-msgstr "放棄(&C)"
+msgstr "取消(&C)"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
 msgid "&Edit text"
@@ -1489,7 +1489,7 @@ msgstr "若您將開發 Foswiki 應用程式，請參考 %1 內正確的參數�
 
 #: core/templates/validate.tmpl:21
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "若您不清楚這是什麼意思，請讀："
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2067,11 +2067,11 @@ msgstr "設定"
 
 #: core/templates/validate.tmpl:19
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "其他，按「取消」。"
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "按「OK」確認此修改是故意的。"
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2729,7 +2729,7 @@ msgstr "新增您的用戶資料到密碼系統時出現錯誤。"
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
-msgstr ""
+msgstr "有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3609,7 +3609,7 @@ msgstr "瀏覽"
 
 #: core/templates/validate.tmpl:23
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "為何您被要求確認"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
