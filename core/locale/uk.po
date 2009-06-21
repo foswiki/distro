@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-20 20:41+0200\n"
+"PO-Revision-Date: 2009-06-21 22:03+0200\n"
 "Last-Translator: Anjey Lobas <anjey.lobas@gmail.com>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -58,7 +58,6 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Реєстрація для %2 (%3)"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
-#, fuzzy
 msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
 msgstr ""
 "%1 - повна документація по Foswiki, швидкий перехід до довідкової інформації"
@@ -84,6 +83,7 @@ msgid "%1 Recent Changes in %2 Web"
 msgstr "%1 недавні зміни в розділі %2"
 
 #: PatternSkin/templates/view.pattern.tmpl:43
+#, fuzzy
 msgid "%1 Web"
 msgstr "Розділ %1"
 
@@ -208,16 +208,19 @@ msgid "'Create New Topic' page has moved"
 msgstr "Сторінку 'Створення Нової Теми' було переміщено"
 
 #: core/templates/login.tmpl:12
+#, fuzzy
 msgid "(%1 login)"
-msgstr ""
+msgstr "(%1 Ім'я)"
 
 #: core/templates/validate.tmpl:6
+#, fuzzy
 msgid "(%1 validation)"
-msgstr ""
+msgstr "(%1 перевірка)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
+#, fuzzy
 msgid "(%1 vs. %2)"
-msgstr "(%1 порівняно з %2)"
+msgstr "(%1 у порівнянні з %2)"
 
 #: core/templates/messages.tmpl:164
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
