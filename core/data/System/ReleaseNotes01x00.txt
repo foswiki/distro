@@ -634,10 +634,12 @@ None
 | [[%BUGS%/Item1732][Item1732]] | EXTENSIONS.pm uses {version} without checking if it's undef |
 | [[%BUGS%/Item1738][Item1738]] | Better line heights when font tag is used |
 | [[%BUGS%/Item1739][Item1739]] | Prevent js error in edit screen |
+| [[%BUGS%/Item1752][Item1752]] | PROXY is inadequately documented |
 | [[%BUGS%/Item3212][Item3212]] | Rcs Lite can't recover from damaged version histories |
 | [[%BUGS%/Item5391][Item5391]] | Dragging corners of table removes TML markup |
 | [[%BUGS%/Item8141][Item8141]] | Variables/classes called old name in doc typo |
 | [[%BUGS%/Item8173][Item8173]] | TablePlugin does not understand standard date formats |
+
 </noautolink>
 
 ---+++ Enhancements
