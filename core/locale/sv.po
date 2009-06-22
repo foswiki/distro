@@ -6,12 +6,15 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2008-12-27 21:55+0100\n"
-"Last-Translator: Erik Aman <er-boktid@aman.se>\n"
+"PO-Revision-Date: 2009-06-22 23:08+0200\n"
+"Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:450
@@ -109,6 +112,7 @@ msgstr "%1 är nu registrerad med e-postadressen %2"
 #: core/templates/validate.tmpl:14
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
+"%1 har tagit emot en misstänkt begäran om förändringar från din webbläsare."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -203,9 +207,8 @@ msgid "(%1 login)"
 msgstr "(inloggning %1)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(inloggning %1)"
+msgstr "(bekräftelse %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -380,7 +383,6 @@ msgid "*Formatting help:*"
 msgstr "*Hjälp om textformatering*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -394,7 +396,7 @@ msgstr ""
 "*Viktigt:* Informationen du uppger i detta formulär sparas på Foswiki-"
 "servern. Informationen blir tillgänglig alla som kan nå serveren via webben "
 "(ditt lösenord kryperas dock och din e-postadress förvanskas för att undvika "
-"spam). Dit hemland (eller det land där serveren befinner sig) kan ha en "
+"spam). Ditt hemland eller det land där serveren befinner sig kan ha en "
 "data- eller personuppgiftslag som omfattar denna typ av information. Om du "
 "är tveksam kan du kontakta %1 för mer detaljer angående dataskyddsreglerna "
 "för denna Foswiki-server innan du registrerar dig."
@@ -1567,7 +1569,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:21
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Om du är osäker på vad detta betyder, läs:"
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2164,11 +2166,11 @@ msgstr "Inställningar för"
 
 #: core/templates/validate.tmpl:19
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Klicka annars på Avbryt."
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Klicka på OK för att bekräfta att denna förändring var avsiktlig."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2320,9 +2322,8 @@ msgid "Replace form..."
 msgstr "Ersätt formulär..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registrering"
+msgstr "Begär bekräftelse"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2862,6 +2863,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Det finns en risk att någon försöker använda din identitet för att ändra "
+"innehållet på %1 utan din vetskap."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -2940,7 +2943,7 @@ msgstr "Detta kräver att formulärdeminition finns."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Denna webbplats är baserad på Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3231,7 +3234,7 @@ msgstr "Varning"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Varning! Bekräftelse nödvändig"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
@@ -3251,9 +3254,8 @@ msgstr ""
 "tecken."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Varning: Kan inte hitta sidan %1.%2"
+msgstr "Varning: Kan inte hitta avsnitt med namnet %3 på sidan %1.%2"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3275,9 +3277,8 @@ msgstr ""
 "Varning: Denna webbplats tillåter inte %<nop>INCLUDE% för att inkludera URLer"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Obs: Denna 'include'-sida finns inte"
+msgstr "Varning: Denna \\'include\\'-sida finns inte!"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -3810,7 +3811,7 @@ msgstr "visa"
 
 #: core/templates/validate.tmpl:23
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "varför du blir ombedd att bekräfta"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
