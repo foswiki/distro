@@ -64,7 +64,7 @@
 %TMPL:DEF{"flashnote"}%%IF{"defined FLASHNOTE and $FLASHNOTE != ''" then="$percntTMPL:P{$quotflashnote:contents$quot}$percnt"}%%TMPL:END%
 %TMPL:DEF{"flashnote:contents"}%<div class="foswikiNotification"> %FLASHNOTE% </div>%TMPL:END%
 
-%TMPL:DEF{"content"}%%TMPL:P{"simpleheader"}% %TEXT% %IF{"$raw='on'" then='%TMPL:P{"sig_textareabuttons"}%'}%%TMPL:END%
+%TMPL:DEF{"content"}%%TMPL:P{"simpleheader"}%%TEXT% %IF{"$raw='on'" then='%TMPL:P{"sig_textareabuttons"}%'}%%TMPL:END%
 
 %TMPL:DEF{"printaction"}%%TMPL:P{"activatable_printable"}%%TMPL:END%
 
