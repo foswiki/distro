@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-18 13:08+0200\n"
+"PO-Revision-Date: 2009-06-23 13:55+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -113,6 +113,7 @@ msgstr "%1 s'est inscrit·e avec l'adresse e-mail %2"
 #: core/templates/validate.tmpl:14
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
+"%1 a reçu une demande de changement suspecte provenant de votre navigateur."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -1603,7 +1604,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:21
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez :"
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2222,11 +2223,11 @@ msgstr "Options pour"
 
 #: core/templates/validate.tmpl:19
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Autrement, pressez Annuler."
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Pressez OK pour confirmer que ce changement était intentionnel."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2245,7 +2246,8 @@ msgid ""
 "Quick edit of existing preferences (edit the topic text to set new "
 "preferences)"
 msgstr ""
-"Modification des préférences existantes (pour en ajouter, modifier la page)"
+"Modification rapide des préférences existantes (pour en ajouter, modifier la "
+"page)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
@@ -2954,6 +2956,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Il y a un risque que quelqu'un tente d'utiliser votre identité pour changer "
+"le contenu sur %1 à votre insu."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3923,7 +3927,7 @@ msgstr "visualiser"
 
 #: core/templates/validate.tmpl:23
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "pourquoi il vous est demandé de confirmer"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""

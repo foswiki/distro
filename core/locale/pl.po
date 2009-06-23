@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-19 12:31+0200\n"
+"PO-Revision-Date: 2009-06-23 14:35+0200\n"
 "Last-Translator: Daniel Kownacki <d.kownacki@gmail.com>\n"
 "Language-Team: Polish <kuleszbi@@pb.bialystok.pl>\n"
 "Language: pl\n"
@@ -383,7 +383,6 @@ msgid "*Formatting help:*"
 msgstr "*Pomoc do zasad formatowania:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -395,11 +394,12 @@ msgid ""
 "server before registering."
 msgstr ""
 "*Uwaga:* informacje podane w formularzu zostaną zapisane w bazie danych i "
-"będą widoczne dla wszystkich korzystających z Foswiki. Nie dotyczy to hasła "
-"oraz adresu email, które zostaną zabezpieczone przez zaszyfrowanie. "
-"Dodatkowo przed dostępem osób niepowołanych może zostać zabezpieczony kraj "
-"pochodzenia. Skontaktuj się z administratorem: %1 w razie pytań i/lub "
-"zastrzeżeń dotyczących zabezpieczenia danych osobowych w Foswiki."
+"będą widoczne dla wszystkich korzystających z Foswiki (oczywiście Twoje "
+"hasło zostanie zaszyfrowane, a adres email \"zaciemniony\" aby chronić Cię "
+"przed spamem). Twój kraj, lub kraj w którym znajduje się ten serwer mogą "
+"posiadać odpowiednie regulacje prawne odnośnie utrzymania takich baz danych. "
+"Gdy masz wątpliwości i/lub zastrzeżenia dotyczące zabezpieczenia danych "
+"osobowych w Foswiki skontaktuj się z %1 przed dokonaniem rejestracji."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -1573,7 +1573,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:21
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Jeśli nie jesteś pewny co to oznacza - przeczytaj:"
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2175,11 +2175,11 @@ msgstr "Preferencje dla:"
 
 #: core/templates/validate.tmpl:19
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "W innym przypadku naciśnij anuluj."
 
 #: core/templates/validate.tmpl:18
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Naciśnij OK aby potwierdzić że ta zmiana była celowa."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2330,9 +2330,8 @@ msgid "Replace form..."
 msgstr "Zmień formularz..."
 
 #: core/templates/validate.tmpl:3
-#, fuzzy
 msgid "Request Validation"
-msgstr "Rejestracja"
+msgstr "Poproś o aktywację"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2870,6 +2869,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Istnieje ryzyko że ktoś może używać Twoich danych do zmiany treści na %1 bez "
+"Twojej wiedzy."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -2951,7 +2952,7 @@ msgstr "Wymaga to wcześniejszego zdefiniowania formularza."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Ten serwis wykorzystuje Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3246,9 +3247,8 @@ msgid "Warning"
 msgstr "Uwaga"
 
 #: core/templates/validate.tmpl:8
-#, fuzzy
 msgid "Warning! Confirmation required"
-msgstr "Uwaga: Nie można wysłać listu z potwierdzeniem."
+msgstr "Uwaga: Wymagane potwierdzenie"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
@@ -3267,9 +3267,8 @@ msgstr ""
 "zawiera niedozwolone znaki."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Uwaga: nie można odnaleźć strony %1.%2"
+msgstr "Uwaga: nie można odnaleźć sekcji %3 w temacie %1.%2"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3288,9 +3287,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Uwaga: dołączanie (INCLUDE) stron jest zabronione"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Uwaga: temat 'zawarty' nie istnieje"
+msgstr "Uwaga: \\'zawierany\\' temat nie istnieje!"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
