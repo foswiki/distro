@@ -6,7 +6,7 @@
         track:true,
         showURL:false,
         showBody:':',
-        extraClass:'foswiki',
+        extraClass:'foswiki'
       };
       $.extend(options, $(this).metadata());
       $(this).tooltip(options);

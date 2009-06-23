@@ -409,4 +409,5 @@ if(p==this){return false;}
 var ev=jQuery.extend({},e);var ob=this;if(ob.hoverIntent_t){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);}
 if(e.type=="mouseover"){pX=ev.pageX;pY=ev.pageY;$(ob).bind("mousemove",track);if(ob.hoverIntent_s!=1){ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}}else{$(ob).unbind("mousemove",track);if(ob.hoverIntent_s==1){ob.hoverIntent_t=setTimeout(function(){delay(ev,ob);},cfg.timeout);}}};return this.mouseover(handleHover).mouseout(handleHover);};})(jQuery);;;
 var foswiki;if(typeof(foswiki)=="undefined"){foswiki={};}
-(function($){$("head meta[name^='foswiki.']").each(function(){foswiki[this.name.substr(8)]=this.content;});$.log=function(message){};$.fn.debug=function(){};})(jQuery);;;
+(function($){$("head meta[name^='foswiki.']").each(function(){var val=this.content;if(val=="false"){val=false;}else if(val=="true"){val=true;}
+foswiki[this.name.substr(8)]=val;});$.log=function(message){};$.fn.debug=function(){};})(jQuery);;;

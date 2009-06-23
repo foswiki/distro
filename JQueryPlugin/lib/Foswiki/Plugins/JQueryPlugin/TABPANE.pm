@@ -47,6 +47,7 @@ sub new {
     tags => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
     css => ['jquery.tabpane.css'],
     javascript => ['jquery.tabpane.js'],
+    #dependencies => ['debug'], # DEBUG
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -82,18 +83,22 @@ sub handleTabPane {
   my $tpId = 'jqTabPane'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
   my $select = $params->{select} || 1;
   my $autoMaxExpand = $params->{automaxexpand} || 'off';
+  my $minHeight = $params->{minheight} || 230;
+  my $animate = $params->{animate} || 'off';
 
   $autoMaxExpand = ($autoMaxExpand eq 'on')?'true':'false';
+  $animate = ($animate eq 'on')?'true':'false';
+
 
   my $script = <<"EOS";
 <script type="text/javascript">
-jQuery(function(\$) {
-  \$("#$tpId").tabpane({select:'$select', autoMaxExpand:$autoMaxExpand});
+jQuery(document).ready(function() {
+  jQuery("#$tpId").tabpane({select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight});
 });
 </script>
 EOS
 
-  return $script."<div class='jqTabPane' id='$tpId'>";
+  return "<!-- TABPANE -->".$script."<div class='jqTabPane' id='$tpId'>";
 }
 
 =begin TML
@@ -114,20 +119,22 @@ sub handleTab {
   my $url = $params->{url} || '';
   my $container = $params->{container} || '';
   my $tabId = $params->{id};
+  my $height = $params->{height};
+  my $width = $params->{width};
   $tabId = 'jqTab'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
   my @metaData = ();
   if ($beforeHandler) {
-    $beforeHandler =~ s/'/\\'/go;
-    push @metaData,  "beforeHandler: '$beforeHandler'";
+#    $beforeHandler =~ s/'/\\'/go;
+    push @metaData,  "beforeHandler: function() {$beforeHandler}";
   }
   if ($afterHandler) {
-    $afterHandler =~ s/'/\\'/go;
-    push @metaData,  "afterHandler: '$afterHandler'";
+#    $afterHandler =~ s/'/\\'/go;
+    push @metaData,  "afterHandler: function() {$afterHandler}";
   }
   if ($afterLoadHandler) {
-    $afterLoadHandler =~ s/'/\\'/go;
-    push @metaData,  "afterLoadHandler: '$afterLoadHandler'";
+#    $afterLoadHandler =~ s/'/\\'/go;
+    push @metaData,  "afterLoadHandler: function() {$afterLoadHandler}";
   }
   if ($url) {
     push @metaData , "url: '$url'";
@@ -137,7 +144,13 @@ sub handleTab {
   }
   my $metaData = scalar(@metaData)?' {'.join(',', @metaData).'}':'';
 
-  return "<div id='$tabId' class=\"jqTab$metaData\">\n<h2 >$theName</h2><div class='jqTabContents'>";
+  my $style = '';
+  $style .= "height:$height;" if defined $height;
+  $style .= "width:$width;" if defined $width;
+  $style = "style='$style'" if $style;
+ 
+
+  return "<!-- TAB --><div id='$tabId' class=\"jqTab$metaData\">\n<h2 >$theName</h2>\n<div class='jqTabContents' $style>";
 }
 
 =begin TML
@@ -149,7 +162,7 @@ Tag handler for =%<nop>ENDTAB%=.
 =cut
 
 sub handleEndTab {
-  return '</div></div>';
+  return "</div></div><!-- //ENDTAB -->";
 }
 
 =begin TML
@@ -161,7 +174,7 @@ Tag handler for =%<nop>ENDTABPANE%=.
 =cut
 
 sub handleEndTabPane {
-  return '</div>';
+  return "</div><!-- //ENDTABPANE -->";
 }
 
 1;

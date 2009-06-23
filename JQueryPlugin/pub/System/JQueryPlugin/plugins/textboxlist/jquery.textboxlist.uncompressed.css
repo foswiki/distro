@@ -1,0 +1,35 @@
+/* css definitions for jquery.textboxlist plugin */
+
+.jqTextboxListContainer {
+  font-size:13px;
+}
+.jqTextboxListContainer input {
+  float:left;
+  margin:3px 0px 2px;
+}
+.jqTextboxListValue {
+  padding:0px 15px 2px 5px;
+  border:1px solid #CAD8F3;
+  margin:2px 5px 2px 0px;
+  background:#DEE7F8;
+  float:left;
+  position:relative;
+}
+a.jqTextboxListClose:hover,
+a.jqTextboxListClose {
+  background-color:transparent;
+  background-image:url(close.gif);
+  background-repeat:no-repeat;
+}
+a.jqTextboxListClose {
+  background-position:0px 50%;
+  margin:0px;
+  height:100%;
+  width:7px;
+  position:absolute;
+  top:0px;
+  right:4px;
+}
+a.jqTextboxListClose:hover {
+  background-position:-21px 50%;
+}

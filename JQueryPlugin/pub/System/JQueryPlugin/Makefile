@@ -6,7 +6,7 @@ JS_SOURCES=\
   plugins/easing/jquery.easing.js \
   plugins/metadata/jquery.metadata.js \
   plugins/bgiframe/jquery.bgiframe.js \
-  plugins/hoverIntent/jquery.hoverIntent.js \
+  plugins/hoverintent/jquery.hoverIntent.js \
   plugins/foswiki/jquery.foswiki.js
 
 -include Makefile.include

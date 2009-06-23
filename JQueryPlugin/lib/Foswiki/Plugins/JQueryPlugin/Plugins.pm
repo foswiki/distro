@@ -46,24 +46,25 @@ sub init () {
   $debug = $Foswiki::cfg{JQueryPlugin}{Debug} || 0;
 
   foreach my $pluginName (sort keys %{$Foswiki::cfg{JQueryPlugin}{Plugins}}) {
-    $plugins{lc($pluginName)} = {
-      'instance' => undef,
-      'class' => undef,
-      'name' => $pluginName,
-    };
+    registerPlugin($pluginName);
   }
 
   # load jquery
   my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || 'jquery-1.3.2';
   $jQuery .= '.uncompressed' if $debug;
 
-  my $header = '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/'.$jQuery.'.js"></script>';
+  my $header = <<"HERE";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+HERE
 
   # switch on noconflict mode
   if ($Foswiki::cfg{JQueryPlugin}{NoConflict}) {
-    $header .= "\n".'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js"></script>'
+    $header .= <<"HERE";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>
+HERE
   }
-  Foswiki::Func::addToHEAD('JQUERYPLUGIN', $header);
+
+  Foswiki::Func::addToHEAD('JQUERYPLUGIN', "\n".$header);
 
   # initial plugins
   createPlugin('Foswiki'); # this one is needed anyway
@@ -74,11 +75,13 @@ sub init () {
     }
   }
 
+  # initial theme
+  createTheme($Foswiki::cfg{JQueryPlugin}{JQueryTheme});
 }
 
 =begin TML
 
----++ ObjectMethod createPlugin( $pluginName ) -> $plugin 
+---++ ObjectMethod createPlugin( $pluginName, ... ) -> $plugin 
 
 Helper method to establish plugin dependencies. See =load()=.
 
@@ -88,6 +91,47 @@ sub createPlugin {
   my $plugin = load(@_);
   $plugin->init() if $plugin;
   return $plugin;
+}
+
+=begin TML
+
+---++ ObjectMethd createTheme ($themeName)
+
+Helper method to switch on the given theme (default =base=).
+
+=cut
+
+sub createTheme {
+  my $themeName = shift;
+
+  $themeName ||= 'base';
+
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::THEME::$themeName", <<"HERE", "JQUERYPLUGIN::FOSWIKI");
+<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/ui.all.css" type="text/css" media="all" />
+HERE
+
+  return $themeName;
+}
+
+
+=begin TML
+
+---++ ObjectMethod registerPlugin( $pluginName, $class ) -> $descriptor
+
+Helper method to register a plugin.
+
+=cut
+
+sub registerPlugin {
+  my ($pluginName, $class) = @_;
+
+  $class ||= 'Foswiki::Plugins::JQueryPlugin::'.uc($pluginName);
+
+  return $plugins{lc($pluginName)} = {
+    'class' => $class,
+    'name' => $pluginName,
+    'instance' => undef,
+  };
 }
 
 =begin TML
@@ -137,8 +181,9 @@ sub load {
   return undef unless $pluginDesc;
 
   unless (defined $pluginDesc->{instance}) {
-    $pluginDesc->{class} = 'Foswiki::Plugins::JQueryPlugin::'.uc($pluginName);
+
     eval "use $pluginDesc->{class};";
+
     if ($@) {
       print STDERR "ERROR: can't load jQuery plugin $pluginName: $@\n";
       $pluginDesc->{instance} = 0;

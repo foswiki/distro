@@ -1,6 +1,6 @@
 // $Id: farbtastic.js,v 1.2 2007/01/08 22:53:01 unconed Exp $
 // Farbtastic 1.2
-
+;(function($) {
 jQuery.fn.farbtastic = function (callback) {
   $.farbtastic(this, callback);
   return this;
@@ -327,3 +327,4 @@ jQuery._farbtastic = function (container, callback) {
     fb.linkTo(callback);
   }
 }
+})(jQuery);

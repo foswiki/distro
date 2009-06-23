@@ -13,7 +13,13 @@ if (typeof(foswiki) == "undefined") {
    * populate foswiki obj with meta data
    */
   $("head meta[name^='foswiki.']").each(function() {
-    foswiki[this.name.substr(8)]=this.content;
+    var val = this.content;
+    if (val == "false") {
+      val = false;
+    } else if (val == "true") {
+      val = true;
+    }
+    foswiki[this.name.substr(8)]=val;
   });
 
   /********************************************************

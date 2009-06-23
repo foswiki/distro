@@ -170,8 +170,13 @@ for v3.0
 |  Plugin Author(s): | Michael Daum |
 |  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.99 |
+|  Plugin Version: | v2.00 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  23 Jun 2009: | added jquery.focus, jquery.textboxlist, jquery.farbtastic; jquery.gradient; \
+                  added =color= and =textboxlist= formfield types; \
+                  made !JQueryPlugin pluggable itself; \
+                  added animation switching tabs; \
+                  improved automaxexpand feature in tabs |
 |  28 Apr 2009: | added jquery.media, jquery.simplemodal, shell highlightning for chilli |
 |  03 Feb 2009: | fixed tabpane not being rendered using a rest handler; \
                   added id to tabs that can be used to init the first active one; \

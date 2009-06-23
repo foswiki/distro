@@ -44,7 +44,7 @@ sub new {
     author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
     css => ['jquery.autocomplete.css'],
-    javascript => ['jquery.autocomplete.js'],
+    javascript => ['jquery.autocomplete.js', 'jquery.autocomplete.init.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';

@@ -64,15 +64,15 @@
                 }
                 , tml_tag: {
                   _match: /((?:%|\$percnt)[a-zA-Z][a-zA-Z0-9_:]*{|}(?:%|\$percnt))/,
-                  _replace: "<span class='tml_variable'>$1</span>",
+                  _replace: "<span class='tml_variable'>$1</span>"
                 }
                 , tml_glue_tag_start: {
                   _match: /\n(%~~)( *[a-zA-Z][a-zA-Z0-9_:]*{)?/,
-                  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>",
+                  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>"
                 }
                 , tml_glue_tag_end: {
                   _match: /\n(~~~)( *}%)/,
-                  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>",
+                  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>"
                 }
                 // glue
                 , tml_glue: {

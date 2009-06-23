@@ -79,9 +79,9 @@ sub init {
     $header .= <<"HERE";
 <script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$messagePath"></script>
 HERE
+    Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
   }
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
 }
 
 1;

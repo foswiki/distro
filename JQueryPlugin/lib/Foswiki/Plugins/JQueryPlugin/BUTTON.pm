@@ -109,7 +109,9 @@ sub handleButton {
   if ($theType eq 'submit') {
     $theOnClick="jQuery(this).parents('form:first').submit();";
   }
-
+  if ($theType eq 'save') {
+    $theOnClick="var form = jQuery(this).parents('form:first'); if(typeof(foswikiStrikeOne) == 'function') foswikiStrikeOne(form[0]); form.submit();";
+  }
   if ($theType eq 'reset') {
     $theOnClick="jQuery(this).parents('form:first').resetForm();";
     Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');

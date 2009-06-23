@@ -81,6 +81,8 @@ sub init {
   return unless $this->SUPER::init();
 
   my $header= <<'HERE';
+<meta name="foswiki.web" content="%WEB%" />
+<meta name="foswiki.topic" content="%TOPIC%" />
 <meta name="foswiki.scriptUrl" content="%SCRIPTURL%" />
 <meta name="foswiki.scriptUrlPath" content="%SCRIPTURLPATH%" />
 <meta name="foswiki.pubUrl" content="%PUBURL%" />
@@ -103,7 +105,7 @@ HERE
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>
 HEADER
 
-  Foswiki::Func::addToHEAD('JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
+  Foswiki::Func::addToHEAD('JQUERYPLUGIN::FOSWIKI', "\n".$header, 'JQUERYPLUGIN');
 
 }
 

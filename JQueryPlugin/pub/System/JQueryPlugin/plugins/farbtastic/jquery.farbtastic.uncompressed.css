@@ -31,3 +31,6 @@
   background: url(marker.png) no-repeat;
 }
 
+#colorpicker {
+  position:absolute;
+}

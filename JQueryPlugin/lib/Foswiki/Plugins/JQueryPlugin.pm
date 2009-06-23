@@ -100,6 +100,24 @@ sub createPlugin {
 
 =begin TML
 
+---++ registerPlugin($pluginName, $class) -> $plugin
+
+API to register a jQuery plugin. this is of use for other Foswiki plugins
+to register their javascript modules as a jQuery plugin. Registering a plugin 'foobar'
+will make it available via =%<nop>JQREQUIRE{"foobar"}%=.
+
+Class will default to 'Foswiki::Plugins::JQueryPlugin::FOOBAR,
+
+The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::PLUGIN class.
+
+=cut
+
+sub registerPlugin {
+  return Foswiki::Plugins::JQueryPlugin::Plugins::registerPlugin(@_);
+}
+
+=begin TML
+
 ---++ handleButton($session, $params, $topic, $web) -> $result
 
 Handles the =%<nop>BUTTON% tag. 
@@ -234,12 +252,8 @@ Handles the =%<nop>JQTHEME% tag.
 sub handleJQueryTheme {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
-  my $themeName = $params->{_DEFAULT};
-  return '' unless $themeName;
-
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::THEME::$themeName", <<"HERE", "JQUERYPLUGIN::FOSWIKI");
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/theme/$themeName/ui.all.css" type="text/css" media="all" />
-HERE
+  my $themeName = $params->{_DEFAULT} || $Foswiki::cfg{JQueryPlugin}{JQueryTheme} || 'base';
+  Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
 
   return '';
 }

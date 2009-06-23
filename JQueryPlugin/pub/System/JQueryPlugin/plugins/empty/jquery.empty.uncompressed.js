@@ -19,45 +19,46 @@
  * plugin definition 
  */
 ;(function($) {
-$.empty = {
 
-    
-  /***********************************************************************
-   * constructor
-   */
-  build: function(options) {
-    $.log("called empty()");
-   
-    // build main options before element iteration
-    var opts = $.extend({}, $.fn.empty.defaults, options);
-   
-    // iterate and reformat each matched element
-    return this.each(function() {
-      $this = $(this);
+  $.empty = {
+
       
-      // build element specific options. 
-      // note you may want to install the Metadata plugin
-      var thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
+    /***********************************************************************
+     * constructor
+     */
+    build: function(options) {
+      $.log("called empty()");
+     
+      // build main options before element iteration
+      var opts = $.extend({}, $.empty.defaults, options);
+     
+      // iterate and reformat each matched element
+      return this.each(function() {
+        var $this = $(this);
+        
+        // build element specific options. 
+        // note you may want to install the Metadata plugin
+        var thisOpts = $.extend(opts, $this.metadata());
 
-      // do it ...
-    });
-  },
+        // do it ...
+      });
+    },
 
-  /***************************************************************************
-   * helper function
-   */
-  helper: function() {
-  },
+    /***************************************************************************
+     * helper function
+     */
+    helper: function() {
+    },
 
-  /***************************************************************************
-   * plugin defaults
-   */
-  defaults: {
-    //key: 'value'
-  };
-}
+    /***************************************************************************
+     * plugin defaults
+     */
+    defaults: {
+      //key: 'value'
+    }
+  }
 
-/* register by extending jquery */
-$.fn.empty = $.empty.build;
+  /* register by extending jquery */
+  $.fn.empty = $.empty.build;
 
 })(jQuery);

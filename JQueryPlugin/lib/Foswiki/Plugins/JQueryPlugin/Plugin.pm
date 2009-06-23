@@ -55,12 +55,19 @@ sub new {
     version => 'unknown',
     summary => 'unknown',
     homepage => 'unknown',
+    puburl => '',
     css => [],
     javascript => [],
     dependencies => [],
     tags => '',
     @_
   }, $class);
+
+  unless ($this->{puburl}) {
+    $this->{puburl} = 
+      '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/'.
+      lc($this->{name});
+  }
 
   return $this;
 }
@@ -80,16 +87,14 @@ sub init {
   return 0 if $this->{isInit};
   $this->{isInit} = 1;
 
-
   my $header = '';
-  my $name = lc($this->{name});
 
   # load all css
   foreach my $css (@{$this->{css}}) {
     $css =~ s/\.css$/.uncompressed.css/ if $this->{debug};
     $css .= '?version='.$this->{version};
     $header .= <<"HERE";
-<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/$name/$css' type='text/css' media='all' />
+<link rel='stylesheet' href='$this->{puburl}/$css' type='text/css' media='all' />
 HERE
   }
 
@@ -98,7 +103,7 @@ HERE
     $js =~ s/\.js$/.uncompressed.js/ if $this->{debug};
     $js .= '?version='.$this->{version};
     $header .= <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/$name/$js'></script>
+<script type='text/javascript' src='$this->{puburl}/$js'></script>
 HERE
   }
 
@@ -109,11 +114,11 @@ HERE
       push @headerDependency, $dep;
     } else {
       Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
-      push @headerDependency, 'JQUERYPLUGIN::'.uc($name);
+      push @headerDependency, 'JQUERYPLUGIN::'.uc($this->{name});
     }
   }
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::".uc($name), $header, join(', ', @headerDependency));
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::".uc($this->{name}), "\n".$header, join(', ', @headerDependency));
 
   return 1;
 }

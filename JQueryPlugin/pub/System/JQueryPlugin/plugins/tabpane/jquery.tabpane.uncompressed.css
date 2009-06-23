@@ -15,8 +15,10 @@
 }
 .jqTabContents {
   padding:8px;
+  /*
   overflow-x:hidden;
   overflow-y:auto;
+  */
 }
 ul.jqTabGroup {
   margin:0px !important;

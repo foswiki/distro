@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1241797759" format="1.1" reprev="1.5" version="1.5"}%
+%META:TOPICINFO{author="micha" date="1243603985" format="1.1" reprev="1.7" version="1.7"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
@@ -78,7 +78,7 @@ nisi. Mauris est urna, fermentum vel, luctus sed, luctus eu, elit. In nulla.
 
 All elements with a <i title="I've got a title">title attribute</i> in here get a tooltip. Options can be given using metadata inside the class attribute like this:
 
-<verbatim title="Help: How to pass arguments to the jquery.tooltip plugin" class="html {extraClass:'bubble', fade:'true', track:false}">
+<verbatim title="Help: How to pass arguments to the jquery.tooltip plugin" class="html {extraClass:'bubble', fade:'true'}">
 <span title="Hello World: This is my first tooltip!!!" class="{extraClass:'bubble'}">
   Hover me
 </span>
@@ -121,7 +121,6 @@ All elements with a <i title="I've got a title">title attribute</i> in here get 
 ---++ Tabpane
 %TABPANE%
 %TAB{"Tab 1"}%
-
 %TABPANE%
 %TAB{"Tab 1.1"}%
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sit amet
@@ -138,8 +137,8 @@ Aenean urna. Morbi eros. Quisque mauris magna, rhoncus vitae, ullamcorper ac,
 volutpat quis, nibh. 
 %RED%end of tab 1%ENDCOLOR%
 %ENDTAB%
-%ENDTABPANE%
-
+%ENDTABPANE% 
+%CLEAR%
 %ENDTAB%
 %TAB{"Tab 2"}%
 Donec ultrices mollis velit. Integer sed eros. Nulla venenatis laoreet leo.
@@ -174,11 +173,11 @@ sit amet sapien.  Intege
 %RED%end of tab 4%ENDCOLOR%
 %ENDTAB%
 %ENDTABPANE%
-
+%CLEAR%
 ---++ Load tabs asynchronously
 %STARTSECTION{"foo"}%
 ---+++!! Foo
-%TABPANE%
+%TABPANE{animate="on"}%
 %TAB{"Later"}%
 tristique ligula suscipit suscipit. Donec et tortor. Integer eros eros, commodo
 in, aliquam sit amet, facilisis et, magna. Sed nisl. Pellentesque mattis, quam
@@ -378,6 +377,24 @@ $(function() {
 </html>
 </verbatim>
 
+---++ Gradients
+
+%JQREQUIRE{"gradient"}%
+<div class="jqGradient {from: '00088', to: '0088ff', direction: 'horizontal'}" style="width:300px;padding:10px;border:1px solid #08f;color:white;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare fringilla est, eget condimentum quam auctor quis. Curabitur vitae nibh eu nisl scelerisque facilisis. Vestibulum posuere pretium magna, eu pulvinar libero cursus in. Phasellus tortor dui, viverra vitae molestie a, aliquam quis risus. Mauris fringilla mattis ligula, et laoreet dui rhoncus vel. Aliquam bibendum, nisi nec pellentesque convallis, augue elit rutrum sapien, nec molestie augue mauris et tellus. 
+</div>
+
+<div class="jqGradient {from: 'ffcccc', to: 'FFFD00', direction: 'horizontal'}" style="width:300px;padding:10px;border:1px solid #ddd">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare fringilla est, eget condimentum quam auctor quis. Curabitur vitae nibh eu nisl scelerisque facilisis. Vestibulum posuere pretium magna, eu pulvinar libero cursus in. Phasellus tortor dui, viverra vitae molestie a, aliquam quis risus. Mauris fringilla mattis ligula, et laoreet dui rhoncus vel. Aliquam bibendum, nisi nec pellentesque convallis, augue elit rutrum sapien, nec molestie augue mauris et tellus. 
+</div>
+
+<div class="jqGradient {from: '000088', to: 'FF0000', direction: 'vertical'}" style="width:300px;padding:10px;border:1px solid #ddd;color:white">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare fringilla est, eget condimentum quam auctor quis. Curabitur vitae nibh eu nisl scelerisque facilisis. Vestibulum posuere pretium magna, eu pulvinar libero cursus in. Phasellus tortor dui, viverra vitae molestie a, aliquam quis risus. Mauris fringilla mattis ligula, et laoreet dui rhoncus vel. Aliquam bibendum, nisi nec pellentesque convallis, augue elit rutrum sapien, nec molestie augue mauris et tellus. 
+</div>
+
+<div class="jqGradient {from: 'f9f9f9', to: 'dddddd', length:10, position:'bottom'}" style="width:300px;padding:10px 10px 20px 10px;border:1px solid #aaa; background:f9f9f9">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare fringilla est, eget condimentum quam auctor quis. Curabitur vitae nibh eu nisl scelerisque facilisis. Vestibulum posuere pretium magna, eu pulvinar libero cursus in. Phasellus tortor dui, viverra vitae molestie a, aliquam quis risus. Mauris fringilla mattis ligula, et laoreet dui rhoncus vel. Aliquam bibendum, nisi nec pellentesque convallis, augue elit rutrum sapien, nec molestie augue mauris et tellus. 
+</div>
 
 %META:FILEATTACHMENT{name="beach1.jpg" attachment="beach1.jpg" attr="" comment="" date="1224090781" path="beach1.jpg" size="20327" stream="IO::File=GLOB(0x8e9d47c)" tmpFilename="/var/tmp/CGItemp27605" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="beach2.jpg" attachment="beach2.jpg" attr="" comment="" date="1224090795" path="beach2.jpg" size="21480" stream="IO::File=GLOB(0x8e9f36c)" tmpFilename="/var/tmp/CGItemp30447" user="ProjectContributor" version="1"}%

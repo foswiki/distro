@@ -1,17 +1,19 @@
 SUBDIRS=\
   autocomplete \
   bgiframe \
-  blockUI \
+  blockui \
   button \
   chili \
   cookie \
   cycle \
   debug \
   easing \
-  empty \
+  farbtastic \
+  focus \
   form \
   foswiki \
-  hoverIntent \
+  gradient \
+  hoverintent \
   ifixpng \
   innerfade \
   maskedinput \
@@ -25,6 +27,7 @@ SUBDIRS=\
   spinner \
   superfish \
   tabpane \
+  textboxlist \
   tooltip \
   treeview \
   validate \
