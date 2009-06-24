@@ -599,13 +599,21 @@ qr/^((?:\t|   )+\*\s+(?:Set|Local)\s+(?:$Foswiki::regex{tagNameRegex})\s*=)(.*)$
 sub _takeOutCustomTags {
     my ( $this, $text ) = @_;
 
+    my $xmltags = $this->{opts}->{xmltag};
     # Take out custom XML tags
     sub _takeOutCustomXmlProcess {
         my ( $this, $state, $scoop ) = @_;
-        return $this->_liftOut( $scoop, 'PROTECTED' );
+        my $params = $state->{tagParams};
+        my $tag = $state->{tag};
+        my $markup = "<$tag$params>$scoop</$tag>";
+        if ($this->{opts}->{xmltag}->{$tag}->($markup)) {
+            return $this->_liftOut( $markup, 'PROTECTED' );
+        }
+        else {
+            return $this->_liftOut( "<$tag$params>", 'PROTECTED' ) . $scoop . $this->_liftOut( "</$tag>", 'PROTECTED' );
+        }
     }
-    my $xmltags = $this->{opts}->{xmltag};
-    for my $tag ( sort keys %$xmltags ) {
+    for my $tag ( sort keys %{ $this->{opts}->{xmltag} } ) {
         $text = _takeOutXml( $this, $text, $tag, \&_takeOutCustomXmlProcess );
     }
 
@@ -645,7 +653,7 @@ sub _takeOutXml {
     my $scoop;
 
     # &$fn may rely on the existence of these fields, 
-	# and may add more fields, if needed
+    # and may add more fields, if needed
     my %state = ( tag => $tag, n => 0, tagParams => undef );
 
     foreach my $chunk ( split /($openNoCapture|$close)/, $intext ) {
