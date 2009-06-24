@@ -81,31 +81,60 @@ my $data = [
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'UnspecifiedCustomXmlTag',
-        html => '<p>' . $protecton . '&lt;customtag&gt;' . $protectoff . 'some &gt; text' . $protecton . '&lt;/customtag&gt;' . $protectoff . '</p>',
-        tml  => '<customtag>some >  text</customtag>',
-        finaltml  => '<customtag>some &gt; text</customtag>',
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&gt;'
+          . $protectoff
+          . 'some &gt; text'
+          . $protecton
+          . '&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml      => '<customtag>some >  text</customtag>',
+        finaltml => '<customtag>some &gt; text</customtag>',
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'DisabledCustomXmlTag',
-        setup => sub { Foswiki::Plugins::WysiwygPlugin::addXMLTag('customtag', sub { 0 } ); },
-        html => '<p>' . $protecton . '&lt;customtag&gt;' . $protectoff . 'some &gt; text' . $protecton . '&lt;/customtag&gt;' . $protectoff . '</p>',
-        tml  => '<customtag>some >  text</customtag>',
-        finaltml  => '<customtag>some &gt; text</customtag>',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'DisabledCustomXmlTag',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 0 } );
+        },
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&gt;'
+          . $protectoff
+          . 'some &gt; text'
+          . $protecton
+          . '&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml      => '<customtag>some >  text</customtag>',
+        finaltml => '<customtag>some &gt; text</customtag>',
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'CustomXmlTag',
-        setup => sub { Foswiki::Plugins::WysiwygPlugin::addXMLTag('customtag', sub { 1 } ); },
-        html => '<p>' . $protecton . '&lt;customtag&gt;some&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;' . $protectoff . '</p>',
-        tml  => '<customtag>some >  text</customtag>',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'CustomXmlTag',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&gt;some&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml => '<customtag>some >  text</customtag>',
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'CustomXmlTagWithAttributes',
-        setup => sub { Foswiki::Plugins::WysiwygPlugin::addXMLTag('customtag', sub { 1 } ); },
-        html => '<p>' . $protecton . '&lt;customtag&nbsp;with="attributes"&gt;<br />&nbsp;&nbsp;formatting&nbsp;&gt;&nbsp;&nbsp;preserved<br />&lt;/customtag&gt;' . $protectoff . '</p>',
-        tml  => <<BLAH,
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'CustomXmlTagWithAttributes',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&nbsp;with="attributes"&gt;<br />&nbsp;&nbsp;formatting&nbsp;&gt;&nbsp;&nbsp;preserved<br />&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml => <<BLAH,
 <customtag with="attributes">
   formatting >  preserved
 </customtag>
@@ -182,11 +211,11 @@ sub compareTML_HTML {
     $tml =~ s/%!page!%/$page/g;
 
     # Reset the extendable parts of WysiwygPlugin
-    %Foswiki::Plugins::WysiwygPlugin::xmltag = ();
+    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
     %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
 
     # Test-specific setup
-    if (exists $args->{setup}) {
+    if ( exists $args->{setup} ) {
         $args->{setup}->();
     }
 
@@ -200,12 +229,12 @@ sub compareTML_HTML {
             getViewUrl => \&Foswiki::Plugins::WysiwygPlugin::getViewUrl,
             expandVarsInURL =>
               \&Foswiki::Plugins::WysiwygPlugin::expandVarsInURL,
-            xmltag     => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
+            xmltag => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
         }
     );
 
     # Test-specific cleanup
-    if (exists $args->{cleanup}) {
+    if ( exists $args->{cleanup} ) {
         $args->{cleanup}->();
     }
 
@@ -222,11 +251,11 @@ sub compareRoundTrip {
     $tml =~ s/%!page!%/$page/g;
 
     # Reset the extendable parts of WysiwygPlugin
-    %Foswiki::Plugins::WysiwygPlugin::xmltag = ();
+    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
     %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
 
     # Test-specific setup
-    if (exists $args->{setup}) {
+    if ( exists $args->{setup} ) {
         $args->{setup}->();
     }
 
@@ -240,7 +269,7 @@ sub compareRoundTrip {
             getViewUrl => \&Foswiki::Plugins::WysiwygPlugin::getViewUrl,
             expandVarsInURL =>
               \&Foswiki::Plugins::WysiwygPlugin::expandVarsInURL,
-            xmltag     => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
+            xmltag => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
         }
     );
 
@@ -257,7 +286,7 @@ sub compareRoundTrip {
     );
 
     # Test-specific cleanup
-    if (exists $args->{cleanup}) {
+    if ( exists $args->{cleanup} ) {
         $args->{cleanup}->();
     }
 
@@ -280,11 +309,11 @@ sub compareHTML_TML {
     $finaltml =~ s/%!page!%/$page/g;
 
     # Reset the extendable parts of WysiwygPlugin
-    %Foswiki::Plugins::WysiwygPlugin::xmltag = ();
+    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
     %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
 
     # Test-specific setup
-    if (exists $args->{setup}) {
+    if ( exists $args->{setup} ) {
         $args->{setup}->();
     }
 
@@ -301,7 +330,7 @@ sub compareHTML_TML {
     );
 
     # Test-specific cleanup
-    if (exists $args->{cleanup}) {
+    if ( exists $args->{cleanup} ) {
         $args->{cleanup}->();
     }
 
