@@ -125,6 +125,32 @@ my $data = [
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'CustomXmlTagCallbackChangesText',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { $_[0] =~ s/some/different/; return 1; } );
+        },
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&gt;different&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml      => '<customtag>some >  text</customtag>',
+        finaltml => '<customtag>different >  text</customtag>',
+    },
+    {
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'CustomXmlTagDefaultCallback',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag' );
+        },
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&gt;some&nbsp;&gt;&nbsp;&nbsp;text&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml => '<customtag>some >  text</customtag>',
+    },
+    {
+        exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagWithAttributes',
         setup => sub {
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',

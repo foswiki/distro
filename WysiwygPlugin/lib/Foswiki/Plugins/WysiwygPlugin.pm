@@ -550,20 +550,31 @@ sub notWysiwygEditable {
 
 =pod
 
----++ Function addXMLTag($tag, \&fn)
+---++ StaticMethod addXMLTag($tag, \&fn)
 
 Instruct WysiwygPlugin to "lift out" the named tag 
 and pass it to &fn for processing.
 &fn may modify the text of the tag.
-&fn should return 0 is the tag is to be re-embedded immediately,
+&fn should return 0 if the tag is to be re-embedded immediately,
 or 1 if it is to be re-embedded after all processing is complete.
 The text passed (by reference) to &fn includes the 
 =<tag> ... </tag>= brackets.
+
+The simplest use of this function is something like this:
+=Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'mytag', sub { 1 } );=
 
 A plugin may call this function more than once 
 e.g. to change the processing function for a tag.
 However, only the *original plugin* may change the processing
 for a tag.
+
+Plugins should call this function from their =initPlugin=
+handlers so that WysiwygPlugin will protect the XML-like tags
+for all conversions, including REST conversions.
+Plugins that are intended to be used with older versions of Foswiki
+(e.g. 1.0.6) should check that this function is defined before calling it,
+so that they degrade gracefully if an older version of WysiwygPlugin
+(e.g. that shipped with 1.0.6) is installed.
 
 =cut
 
