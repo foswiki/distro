@@ -6,45 +6,48 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-01-05 11:35+0100\n"
-"Last-Translator: Ken <ken.yuminaga at gmail.com>;\n"
-"Language-Team: TWiki Japanese &lt;<ken.yuminaga at gmail.com>&gt;\n"
+"PO-Revision-Date: 2009-06-21 10:45+0200\n"
+"Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
+"Language-Team: Foswiki Japanese team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:316
+#: core/lib/Foswiki/Time.pm:450
 msgid "%*(%1,day) "
 msgstr "%*(%1,日) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:319
+#: core/lib/Foswiki/Time.pm:453
 msgid "%*(%1,hour) "
 msgstr "%*(%1,時間) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:322
+#: core/lib/Foswiki/Time.pm:456
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:325
+#: core/lib/Foswiki/Time.pm:459
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
-#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:7
+#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
+#: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
-msgstr ""
+msgstr "%1 "
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
-#, fuzzy
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - %2 (%3) の登録"
+msgstr "%1 - %2 (%3) の登録にエラーが発生しました。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
 #: core/templates/registernotify.tmpl:3
@@ -52,33 +55,32 @@ msgstr "%1 - %2 (%3) の登録"
 msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - %2 (%3) の登録"
 
+# "Quick start" points to the documentation?
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
 #, fuzzy
 msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
-msgstr "%1 - 全てのTWikiドキュメント、クイックレファレンス"
+msgstr "%1 - Foswikiの完全に集まった書類へのクイックレファレンス"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:70
 msgid "%1 - just for me"
-msgstr "%1 - 私です"
+msgstr "%1 - 私のです。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:67
-#, fuzzy
 msgid "%1 - starting points on Foswiki"
-msgstr "%1 - TWiki上で仕事を始めます"
+msgstr "%1 - Foswikiでの開始点です。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:69
-#, fuzzy
 msgid "%1 - try out Foswiki on your own"
-msgstr " %1 ウェブ上でTWikiを試してみます"
+msgstr " %1 - Foswikiをご遠慮なく試してください。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:66
-#, fuzzy
 msgid "%1 - view a short introductory presentation on Foswiki for beginners"
-msgstr "%1 - 新TWikiユーザーの為に作った簡単な紹介を見ます"
+msgstr "%1 - 初心者に対するFoswiki概要のプレゼンテーションを一覧します。"
 
+# %1 are the recently made changes in %2 web.
 #: core/data/System/WebChanges.txt:2
 msgid "%1 Recent Changes in %2 Web"
-msgstr "%2 ウェブより最近更新された%1を検索します"
+msgstr "%1 は %2 ウェブで最近に更新されたのです。"
 
 #: PatternSkin/templates/view.pattern.tmpl:43
 msgid "%1 Web"
@@ -96,33 +98,35 @@ msgstr "%1を通じてパスワードを変更することが出来ます"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:37
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:38
-#, fuzzy
 msgid "%1 has a list of other Foswiki users"
-msgstr "他のTwikiユーザーのリストは %1にあります"
+msgstr "%1 は他のFoswikiユーザーがあるリストを持っています。"
 
-#: core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:438
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
-msgstr "%1 は %2が編集されています。 %3 の後にリリースされます"
+msgstr "%1 は %2 で編集され、後%3 までリースが認められます。"
 
 #: core/templates/registerfailednotremoved.tmpl:12
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 は既にE-Mail %2で登録されました"
+msgstr "%1 は既に電子メールアドレスの %2に登録されました"
+
+#: core/templates/validate.tmpl:16
+msgid "%1 has received a suspicious change request from your browser."
+msgstr "%1 は不審なリクエストをご使用の方のブラウザーから受け取りました。"
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
 msgstr "%1トップ"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:86
-#, fuzzy
 msgid "%1 is a list of Foswiki user documentation"
-msgstr "%1 にはTwikiユーザードキュメントのリストがあります"
+msgstr "%1 にはFoswikiユーザーに関する書類が出ます。"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
-msgstr "%1 は無効な新ウェブ名です"
+msgstr "%1 は新ウェブ名にとして無効なのです"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -130,26 +134,26 @@ msgstr "%1 は既にログインしています"
 
 #: core/templates/messages.tmpl:415
 msgid "%1 is currently set to %2"
-msgstr "%1 は %2にセットされました"
+msgstr "%1 は現在 %2に設定された状況です。"
 
-#: core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:436
 msgid "%1 is editing %2."
-msgstr "%1 は %2を編集しています"
+msgstr "%1 は %2を編集しているところです。"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
-msgstr "%1 は最新のグループにありますので、削除できません"
+msgstr "%1 はまだ一つのグループにも入っていますので、削除できません"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 は削除された添付ファイルの関連トピックです"
+msgstr ""
+"%1 は削除された添付ファイルに対してデフォルトトピックとなっております。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
-#, fuzzy
 msgid "%1 lists all Foswiki user tools"
-msgstr "%1 には全てのTwikiユーザーツールのリストがあります"
+msgstr "%1 にはFoswikiユーザーツールが全てでます。"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:444
 msgid "%1 may still be editing %2."
 msgstr "%1 はまだ %2を変更している可能性があります 。"
 
@@ -157,7 +161,7 @@ msgstr "%1 はまだ %2を変更している可能性があります 。"
 #   $date,
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
-#: core/lib/Foswiki/Render.pm:212
+#: core/lib/Foswiki/Render.pm:221
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "%1 は %4 で %2 から %3 に移動します"
 
@@ -173,14 +177,14 @@ msgstr "%1 ウェブプロパティをカスタマイズします"
 msgid "%1 to start working on the new web"
 msgstr "%1 は新ウェブ上で仕事を始めます"
 
-#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:521
 msgid "%1 topic does not exist"
 msgstr "%1 トピックは存在しません"
 
+# tried but failed?
 #: core/templates/registerfailedremoved.tmpl:12
-#, fuzzy
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 は既にE-Mail %2で登録されました"
+msgstr "%1 は電子メールアドレスの %2 に登録しようとしました。"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "&Cancel"
@@ -196,7 +200,7 @@ msgstr "履歴"
 
 #: core/templates/messages.tmpl:273
 msgid "'%1' is not a valid %2 "
-msgstr "'%1' は有効なな %2 です"
+msgstr "'%1' は有効な %2 ではありません。"
 
 #: core/data/System/WebTopicCreator.txt:2
 msgid "'Create New Topic' page has moved"
@@ -204,7 +208,11 @@ msgstr "'新規トピックス作成'ページが移動されました"
 
 #: core/templates/login.tmpl:12
 msgid "(%1 login)"
-msgstr ""
+msgstr "(%1 ログイン)"
+
+#: core/templates/validate.tmpl:6
+msgid "(%1 validation)"
+msgstr "(%1 検認)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -230,19 +238,19 @@ msgstr "(アクセスが拒否されました)"
 msgid "(attach)"
 msgstr "(ファイルを添付します)"
 
-#: core/templates/backlinksweb.tmpl:4
+#: core/templates/backlinksweb.tmpl:3
 msgid "(backlinks in %1 Web)"
 msgstr "( %1 ウェッブの中のバックリンク)"
 
-#: core/templates/backlinksallwebs.tmpl:4
+#: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
 msgstr "(全てのウェブの中のバックリンク)"
 
 #: core/templates/searchbookview.tmpl:3
 msgid "(book view)"
-msgstr ""
+msgstr "印刷用ビュー"
 
-#: core/templates/changeform.tmpl:4
+#: core/templates/changeform.tmpl:3
 msgid "(change form)"
 msgstr "(フォームを変更します)"
 
@@ -251,15 +259,15 @@ msgstr "(フォームを変更します)"
 msgid "(change language)"
 msgstr "(言語を変更します)"
 
-#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:5
+#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:4
 msgid "(changes)"
 msgstr "(変更)"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:5
+#: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
 msgstr "(添付ファイルを削除します)"
 
-#: core/templates/renamedelete.tmpl:4
+#: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
 msgstr "(削除)"
 
@@ -267,11 +275,11 @@ msgstr "(削除)"
 msgid "(edit form)"
 msgstr "(フォームを編集します)"
 
-#: core/templates/edittext.tmpl:4 core/templates/edittext.tmpl:7
+#: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
 msgid "(edit text)"
 msgstr "(テキストを編集します)"
 
-#: core/templates/edit.tmpl:10 core/templates/edit.tmpl:4
+#: core/templates/edit.tmpl:3 core/templates/edit.tmpl:9
 msgid "(edit)"
 msgstr "(編集)"
 
@@ -287,32 +295,32 @@ msgstr "(他の人と区別します) WikiName:"
 msgid "(login)"
 msgstr "(ログイン)"
 
-#: core/templates/more.tmpl:3
+#: core/templates/oopsmore.tmpl:3
 msgid "(more)"
 msgstr "(もっと多く)"
 
-#: core/templates/moveattachment.tmpl:4
+#: core/templates/moveattachment.tmpl:3
 msgid "(move attachment)"
 msgstr "(添付ファイルを移動します)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
 msgid "(no parent, orphaned topic)"
 msgstr "(親トピックのない独立のトピック)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1099 core/lib/Foswiki/UI/Manage.pm:1132
-#: core/lib/Foswiki/UI/Manage.pm:1245 core/lib/Foswiki/UI/Manage.pm:1248
-#: core/lib/Foswiki/UI/Manage.pm:1251 core/lib/Foswiki/UI/Manage.pm:1290
-#: core/lib/Foswiki/UI/Manage.pm:1321 core/lib/Foswiki/UI/Manage.pm:814
-#: core/lib/Foswiki/UI/Manage.pm:818 core/lib/Foswiki/UI/Manage.pm:822
-#: core/lib/Foswiki/UI/Manage.pm:826
+#: core/lib/Foswiki/UI/Manage.pm:1126 core/lib/Foswiki/UI/Manage.pm:1159
+#: core/lib/Foswiki/UI/Manage.pm:1272 core/lib/Foswiki/UI/Manage.pm:1275
+#: core/lib/Foswiki/UI/Manage.pm:1278 core/lib/Foswiki/UI/Manage.pm:1317
+#: core/lib/Foswiki/UI/Manage.pm:1348 core/lib/Foswiki/UI/Manage.pm:847
+#: core/lib/Foswiki/UI/Manage.pm:851 core/lib/Foswiki/UI/Manage.pm:855
+#: core/lib/Foswiki/UI/Manage.pm:859
 msgid "(none)"
 msgstr "(無)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
 msgid "(optional)"
 msgstr "（オプショナル）"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
 msgstr "(そうしないと、%1 ウェブのみ検索されます)"
 
@@ -320,12 +328,12 @@ msgstr "(そうしないと、%1 ウェブのみ検索されます)"
 msgid "(raw view)"
 msgstr "(元のビュー)"
 
-#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
 msgid "(recommended)"
 msgstr "(提案)"
 
-#: core/templates/rename.tmpl:4 core/templates/renameconfirm.tmpl:4
-#: core/templates/renameweb.tmpl:4 core/templates/renamewebconfirm.tmpl:4
+#: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
+#: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
 msgid "(rename)"
 msgstr "(リネーム)"
 
@@ -333,7 +341,7 @@ msgstr "(リネーム)"
 msgid "(revision %1)"
 msgstr "(改訂 %1)"
 
-#: core/templates/oopssaveerr.tmpl:8
+#: core/templates/oopssaveerr.tmpl:7
 msgid "(save error)"
 msgstr "(保存エラー)"
 
@@ -347,7 +355,7 @@ msgid "(search results)"
 msgstr "(検索結果)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:10
-#: core/templates/settings.tmpl:4
+#: core/templates/settings.tmpl:3
 msgid "(set preferences)"
 msgstr "(プロパティ設定)"
 
@@ -359,7 +367,7 @@ msgstr "(シングルキャラクター名前)"
 msgid "(single character last name)"
 msgstr "(シングルキャラクター名字)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1073
+#: core/lib/Foswiki/UI/Manage.pm:1100
 msgid "(skipped)"
 msgstr "(スキップ)"
 
@@ -378,24 +386,23 @@ msgid "*Formatting help:*"
 msgstr "*フォーマットヘルプ：*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
 "can access the server through the web (though passwords will be encrypted, "
-"and e-mail addresses will be obfusticated to help prevent spamming). Your "
+"and e-mail addresses will be obfuscated to help prevent spamming). Your "
 "country, or the country where the server is hosted, may have Data Protection "
 "laws governing the maintenance of such databases. If you are in doubt, you "
 "should contact %1 for details of the Data Protection Policy of this Foswiki "
 "server before registering."
 msgstr ""
-"*重要なインフォメーション:* 本フォームに提供される情報はTwikiファーバーのデー"
-"タベースに保存されます。当該データベースはウェブ経由で当該サーバーにアクセス"
-"できる全てのユーザーにアクセスされることが出来ます（迷惑メールを防ぐ為パス"
-"ワードが暗号化されても、又はメールアドレスが変形されても構いません）。お国/又"
-"はサーバーが所在する国では当該データベースが関連の法律より保護されている可能"
-"性があります。何か疑問がございましたら、登録する前に %1 にアクセスして、Twiki"
-"に関するデータ保護ポリシーの詳細情報を求めてください。"
+"*注意:* このフォームに提出された情報はFoswikiサーバのデータベースに記憶しま"
+"す。このデータベースへの接続においては、スパムメールを防ぐように電子メールア"
+"ドレスがあいまいにしたり、パスワードが暗証化されたりするところが、サーバへの"
+"接続できる人はデータベースにも接続することができます。サーバがホストされてい"
+"る国によってはプライヴァシー守護の法律がこんなデータベースの管理に適用する可"
+"能性がありますので、もっと詳しい説明を確認したい場合には、登録する前にFoswiki"
+"のデータ守護の方針をご一覧ください。"
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -461,10 +468,6 @@ msgstr ""
 msgid "..."
 msgstr "…"
 
-#: core/templates/more.tmpl:14
-msgid "Edit settings for this topic"
-msgstr "本トピック 設定を編集します"
-
 #: core/data/System/WebChanges.txt:8
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
@@ -477,11 +480,11 @@ msgstr ""
 "<a href='%5' rel='nofollow'>500件</a>, <a href='%6' rel='nofollow'>1000件</"
 "a> topics, <a href='%7' rel='nofollow'>全ての更新トピック</a>"
 
-#: core/templates/more.tmpl:57
+#: core/templates/oopsmore.tmpl:56
 msgid "<em>in %1 web</em> only"
 msgstr "<em> %1 ウェブ</em> のみにあります"
 
-#: core/templates/more.tmpl:55
+#: core/templates/oopsmore.tmpl:54
 msgid "<em>in all public webs</em>"
 msgstr "全てのパブリックウェブにあります"
 
@@ -489,7 +492,7 @@ msgstr "全てのパブリックウェブにあります"
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "安全のため、複数のファイルに=.txt=拡張子をつけました"
 
-#: core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:493
 #, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
@@ -507,11 +510,11 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:875
+#: core/lib/Foswiki/UI/Register.pm:974
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認のメールが %1 に送信されました"
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:497
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -524,7 +527,7 @@ msgstr ""
 msgid "A more extensive changes list is available via [[%1][Recent Changes]]."
 msgstr "もっと多くの拡張変更リストがメニューの [[%1][最新変更]] にあります"
 
-#: core/templates/messages.tmpl:464
+#: core/templates/messages.tmpl:469
 msgid ""
 "A new system-generated password for your login name %1 (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -538,7 +541,7 @@ msgstr ""
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:20
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
 
@@ -546,22 +549,22 @@ msgstr ""
 msgid "Access Denied"
 msgstr "アクセスが拒否されました"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:477
 msgid "Access check on %1 failed"
 msgstr "%1のアクセスチェックに失敗しました"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/preview.pattern.tmpl:22
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "Access keys"
 msgstr "アクセスキー"
 
 #: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
-#: core/templates/changeform.tmpl:10
+#: core/templates/changeform.tmpl:9
 msgid "Action"
 msgstr "変更"
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:478
 msgid "Action %1: %2."
 msgstr "変更 %1: %2."
 
@@ -569,11 +572,12 @@ msgstr "変更 %1: %2."
 msgid "Add form"
 msgstr "フォームを追加します"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:174
+#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
 msgid "Add row"
 msgstr "行を追加します"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "お名前を%2ウェブの%1トピックのユーザーリストに追加します。"
 
@@ -594,7 +598,7 @@ msgstr "管理者メンテナンス"
 msgid "Advanced Search"
 msgstr "高度な検索"
 
-#: core/data/System/WebSearch.txt:24
+#: core/data/System/WebSearch.txt:25
 msgid "Advanced search"
 msgstr "高度な検索"
 
@@ -618,7 +622,7 @@ msgstr ""
 "フォームをサブミットした後、システムより自動的に生成された新しいパスワードや"
 "パスワード変更するページへのリンクがあなた宛にメールで送信されます。"
 
-#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
 msgstr "全てのパブリックウェブ"
 
@@ -641,7 +645,7 @@ msgid ""
 msgstr ""
 "一通の電子メールが送信できませんでした。 %1 管理者へご連絡ください。 %2"
 
-#: core/templates/moveattachment.tmpl:30
+#: core/templates/moveattachment.tmpl:29
 msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
@@ -653,7 +657,7 @@ msgstr ""
 msgid "And populated with topics from the base web"
 msgstr "また、ベースウェブより構成されました"
 
-#: core/templates/changeform.tmpl:28
+#: core/templates/changeform.tmpl:27
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "このページに移動する前にトピックへのすべての変更を保存しました。"
@@ -671,7 +675,7 @@ msgstr "ファイルを %1に添付します"
 msgid "Attach image or document on %1"
 msgstr "画像を%1に添付します"
 
-#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:17
+#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "新しいファイルを添付します"
@@ -680,11 +684,11 @@ msgstr "新しいファイルを添付します"
 msgid "Attachment"
 msgstr "添付ファイル"
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:527
 msgid "Attachment '%1' does not exist"
 msgstr "添付ファイル'%1'が存在しません"
 
-#: core/lib/Foswiki/UI/Manage.pm:373
+#: core/lib/Foswiki/UI/Manage.pm:383
 msgid "Attachment already exists in new topic"
 msgstr "添付ファイルは既に新トピックに存在しています"
 
@@ -692,7 +696,7 @@ msgstr "添付ファイルは既に新トピックに存在しています"
 msgid "Attachment delete failed"
 msgstr "添付ファイルの削除に失敗しました"
 
-#: core/lib/Foswiki/UI/Manage.pm:352
+#: core/lib/Foswiki/UI/Manage.pm:359
 msgid "Attachment does not exist"
 msgstr "添付ファイルが存在しません"
 
@@ -708,17 +712,17 @@ msgstr "添付ファイル"
 msgid "Attachments help"
 msgstr "ヘルプファイルの添付"
 
-#: core/templates/attach.tmpl:7
+#: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "%1 の添付ファイル "
 
-#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "添付ファイルがトピックのビューページに表示されません"
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
-#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:10
+#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
 msgstr "注意"
 
@@ -735,7 +739,7 @@ msgid "Available Information"
 msgstr "利用可能な情報"
 
 #: PatternSkin/templates/changeform.pattern.tmpl:13
-#: core/templates/changeform.tmpl:34
+#: core/templates/changeform.tmpl:33
 msgid "Available form templates"
 msgstr "可能なフォームテンプレート"
 
@@ -747,16 +751,16 @@ msgstr ""
 msgid "Back to topic"
 msgstr "トピックに戻ります"
 
-#: core/templates/more.tmpl:53
+#: core/templates/oopsmore.tmpl:52
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "バックリンク"
 
-#: core/templates/backlinksweb.tmpl:7
+#: core/templates/backlinksweb.tmpl:6
 msgid "Backlinks to %1 in %2 Web"
 msgstr "%2ウェブの中の%1へのバックリンク"
 
-#: core/templates/backlinksallwebs.tmpl:7
+#: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr "全てのウェブの中の%1へのバックリンク"
 
@@ -772,11 +776,11 @@ msgstr "ベースウェブ%1が失われたか又は存在しません。"
 msgid "Bathing problem"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:40
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
 msgstr "内容とタイトル"
 
-#: core/templates/changeform.tmpl:29
+#: core/templates/changeform.tmpl:28
 msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
@@ -792,16 +796,17 @@ msgstr ""
 "ユーザーにアクセス権限を与えるには、ごみ箱ウェブの中の WebPreferences の中の "
 "=ALLOWWEBVIEW= の関係制限を削除してください"
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:467
 msgid "Can't find user %1"
 msgstr "ユーザー%1が見つかりません"
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:468
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr " %1 のメールアドレスが確認できません(パスワードのリセットが必要です) "
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:176
-#: core/templates/foswiki.tmpl:79
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -837,7 +842,7 @@ msgstr "パスワードを変更します"
 msgid "Change comment and properties only"
 msgstr "プロパティのみ変更します"
 
-#: core/templates/renamebase.tmpl:15
+#: core/templates/renamebase.tmpl:14
 msgid "Change from:"
 msgstr "変更元："
 
@@ -848,19 +853,19 @@ msgstr "変更元："
 msgid "Change language"
 msgstr "言語を変更します"
 
-#: core/templates/renamewebbase.tmpl:43
+#: core/templates/renamewebbase.tmpl:42
 msgid "Change links in topics that refer to !%1 in any Web:"
 msgstr "全てのウェブの中の、全ての!%1トピックへのリンクを変更します"
 
-#: core/templates/renamewebbase.tmpl:40
+#: core/templates/renamewebbase.tmpl:39
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
 msgstr " %2 ウェブの中の全ての!%1トピックへのリンクを変更します"
 
-#: core/templates/renamebase.tmpl:56
+#: core/templates/renamebase.tmpl:55
 msgid "Change links in topics that refer to %1 in any Web:"
 msgstr "全てのウェブの中の全ての%1トピックへのリンクを変更します"
 
-#: core/templates/renamebase.tmpl:53
+#: core/templates/renamebase.tmpl:52
 msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr " %2 ウェブの中の全ての%1トピックへのリンクを変更します"
 
@@ -872,7 +877,7 @@ msgstr "パスワードを変更します"
 msgid "Change properties only"
 msgstr "プロパティのみ変更"
 
-#: core/templates/edit.tmpl:7
+#: core/templates/edit.tmpl:6
 msgid "Change topic"
 msgstr "トピックを変更します"
 
@@ -911,19 +916,19 @@ msgstr ""
 "{TemplateDir}と{TemplatePath}の設定をチェックします。ここが問題の原因でなけれ"
 "ば、 %1 のリンク先のテンプレートが存在しない可能性があります。"
 
-#: core/templates/renamebase.tmpl:43 core/templates/renamedelete.tmpl:31
+#: core/templates/renamebase.tmpl:42 core/templates/renamedelete.tmpl:30
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr "チェックされたトピックが更新され、新しいトピックへリンクされます。"
 
-#: core/templates/renameweb.tmpl:29
+#: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "チェックされたトピックが更新され、新しいウェブ名へリンクされます"
 
-#: core/templates/more.tmpl:128
+#: core/templates/oopsmore.tmpl:127
 msgid "Child topics in %1 web"
 msgstr "%1ウェブの中の子トピック"
 
-#: core/templates/changeform.tmpl:7
+#: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr " %1 のために新しいフォームを選択します"
 
@@ -932,7 +937,7 @@ msgstr " %1 のために新しいフォームを選択します"
 msgid "Clear all"
 msgstr "全てクリアします"
 
-#: core/lib/Foswiki/Render.pm:192
+#: core/lib/Foswiki/Render.pm:201
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -947,20 +952,20 @@ msgstr "閉じる"
 msgid "Color %1 has an invalid format"
 msgstr "色 %1に無効なフォーマットが含まれています"
 
-#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:26
+#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Comment"
 msgstr "コメント"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
 msgid "Comments:"
 msgstr "コメント:"
 
-#: core/templates/more.tmpl:109
+#: core/templates/oopsmore.tmpl:108
 msgid "Compare revisions"
 msgstr "バージョン比較"
 
-#: core/templates/renameconfirm.tmpl:7 core/templates/renamewebconfirm.tmpl:7
+#: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
 msgstr "リネームや移動を確定します"
 
@@ -974,10 +979,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "一致しません"
 
-#: core/templates/messages.tmpl:475 core/templates/messages.tmpl:481
-#: core/templates/messages.tmpl:502 core/templates/messages.tmpl:513
-#: core/templates/messages.tmpl:519 core/templates/messages.tmpl:525
-#: core/templates/messages.tmpl:534
+#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:486
+#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:518
+#: core/templates/messages.tmpl:524 core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:539
 msgid "Contact %1 if you have any questions."
 msgstr "何か疑問がございましたら、 %1までご連絡ください"
 
@@ -989,13 +994,13 @@ msgstr "続けてウェブをリネームしますか？"
 msgid "Continue to create the new page"
 msgstr "続けて新しいページを作成します"
 
-#: core/templates/more.tmpl:20
+#: core/templates/oopsmore.tmpl:20
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
 
-#: core/templates/more.tmpl:19
+#: core/templates/oopsmore.tmpl:19 core/templates/oopsmore.tmpl:22
 #, fuzzy
 msgid "Copy topic"
 msgstr "トピックへ "
@@ -1025,7 +1030,7 @@ msgstr "新ウェブ%1を作成できませんでした"
 msgid "Could not find template"
 msgstr "テンプレートが見つかりませんでした"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:472
 msgid "Could not perform search. Error was: %1"
 msgstr ""
 
@@ -1053,7 +1058,7 @@ msgstr "新トピックを作成します"
 msgid "Create New Topic in %1 Web"
 msgstr "Neues Topic im %1 Web anlegen"
 
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:39
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "添付ファイルへのリンクを作成します"
 
@@ -1069,19 +1074,19 @@ msgstr "新ドキュメントを作成します: 名称"
 msgid "Create by Name"
 msgstr "名称より作成します"
 
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:505
 msgid "Create the topic"
 msgstr "トピックを作成します"
 
-#: core/data/System/DefaultPreferences.txt:318
 #: core/data/System/DefaultPreferences.txt:320
+#: core/data/System/DefaultPreferences.txt:322
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:14
-#: core/data/System/WebCreateNewTopicTemplate.txt:66
-#: core/lib/Foswiki/Render.pm:95
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
+#: core/lib/Foswiki/Render.pm:98
 msgid "Create this topic"
 msgstr "このトピックを作成します"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1092,12 +1097,12 @@ msgstr ""
 msgid "Creating a suitable Form Definition topic"
 msgstr "適当なフォーム定義トピックを作成します"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
-#: core/templates/renamedelete.tmpl:10
+#: core/templates/renameattachmentdelete.tmpl:9
+#: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
 msgstr "現在の位置："
 
-#: core/templates/more.tmpl:67
+#: core/templates/oopsmore.tmpl:66
 msgid "Current parent:"
 msgstr "現在の親トピック："
 
@@ -1109,37 +1114,38 @@ msgstr "現在のパスワード"
 msgid "Date"
 msgstr "日付"
 
-#: core/templates/mailresetpassword.tmpl:5
+#: core/templates/mailresetpassword.tmpl:8
 msgid "Dear %1"
 msgstr "尊敬する %1"
 
-#: core/templates/more.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Debug"
 msgstr "デバッグ"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicTemplate.txt:65
 msgid "Default template"
 msgstr "デフォルトテンプレート"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
-#: core/templates/renamedelete.tmpl:34 core/templates/renamedelete.tmpl:7
+#: core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "削除"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:28
+#: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment"
 msgstr "添付ファイルを削除します"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:175
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
 msgid "Delete last row"
 msgstr "一番最後の行を削除します"
 
-#: core/templates/more.tmpl:35
+#: core/templates/oopsmore.tmpl:34
 msgid "Delete topic"
 msgstr "トピックを削除します"
 
-#: core/templates/more.tmpl:36 core/templates/more.tmpl:38
+#: core/templates/oopsmore.tmpl:35 core/templates/oopsmore.tmpl:37
 msgid "Delete topic..."
 msgstr "トピックを削除..."
 
@@ -1147,7 +1153,7 @@ msgstr "トピックを削除..."
 msgid "Describe the file so other people know what it is."
 msgstr "他の人に理解してもらうためにファイルの内容を説明します。"
 
-#: core/lib/Foswiki/Form.pm:272
+#: core/lib/Foswiki/Form.pm:286
 msgid "Details in separate window"
 msgstr "クリックしてほかのウィンドウで詳細を確認します"
 
@@ -1172,7 +1178,7 @@ msgstr "差異："
 msgid "Do not forget to save your changes"
 msgstr "変更を保存することを忘れないでください"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "添付ファイルをテーブルに表示しません"
 
@@ -1210,7 +1216,7 @@ msgid ""
 msgstr ""
 "%1を%2にリネームする時にエラー(%3)が発生しました。%4管理者までご連絡ください"
 
-#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:17
+#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1226,7 +1232,7 @@ msgstr "メールアドレス："
 msgid "E-mail changed successfully!"
 msgstr "電子メールの変更に成功しました!"
 
-#: core/templates/settings.tmpl:27
+#: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr "それぞれの属性には文法上の問題がありません"
 
@@ -1246,15 +1252,16 @@ msgstr "ヘルプを編集します"
 msgid "Edit personal data"
 msgstr "個人データを編集します"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:170
-msgid "Edit table"
-msgstr "テーブルを編集します"
+#: core/templates/oopsmore.tmpl:14
+msgid "Edit settings for this topic"
+msgstr "本トピック 設定を編集します"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
 msgstr "テキストを編集します"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:171
+#: EditTablePlugin/data/System/EditTablePlugin.txt:160
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
 msgid "Edit this table"
 msgstr "このテーブルを編集します"
 
@@ -1262,7 +1269,7 @@ msgstr "このテーブルを編集します"
 msgid "Edit this topic text"
 msgstr "このトピックのテキストを編集します"
 
-#: core/templates/more.tmpl:13
+#: core/templates/oopsmore.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "属性設定を編集します"
 
@@ -1281,11 +1288,11 @@ msgstr ""
 "ファイル名がないか、又はアップロードしようとするファイル %1 に内容がありませ"
 "ん。空のファイルをアップロードできません。"
 
-#: core/lib/Foswiki/UI/Register.pm:411 core/lib/Foswiki/UI/Register.pm:450
+#: core/lib/Foswiki/UI/Register.pm:422 core/lib/Foswiki/UI/Register.pm:461
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Enlarge edit box"
 msgstr "編集枠を拡大します"
 
@@ -1313,11 +1320,11 @@ msgstr "トピックの保存に失敗しました"
 msgid "Error: %1"
 msgstr "エラー: %1"
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:458
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "エラー： 添付ファイルは%1, %2に存在しません"
 
-#: core/templates/messages.tmpl:456
+#: core/templates/messages.tmpl:460
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1325,7 +1332,7 @@ msgstr ""
 "エラー: 支持されないコンテントタイプ: %1 ( =text/html=, =text/plain= 又は "
 "=text/css=でなければなりません)"
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:459
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "エラー: 支持されない協議 ('http://domain/..'でなければなりません)"
 
@@ -1333,7 +1340,7 @@ msgstr "エラー: 支持されない協議 ('http://domain/..'でなければ�
 msgid "Errors"
 msgstr "エラー"
 
-#: core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:470
 msgid "Failed to include URL %1"
 msgstr "URL %1 をインクルードするのに失敗しました"
 
@@ -1352,11 +1359,11 @@ msgstr "ファイルは既に他の名称でアップロードされました"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/more.tmpl:54 core/templates/more.tmpl:56
+#: core/templates/oopsmore.tmpl:53 core/templates/oopsmore.tmpl:55
 msgid "Find topics that link to %1 ..."
 msgstr "%1へリンクするトピックを検索します..."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1407,7 +1414,7 @@ msgstr ""
 "さい。それ以外の場合は \"キャンセル\" をクリックして前のトピックに戻ってくだ"
 "さい。"
 
-#: core/templates/settings.tmpl:26
+#: core/templates/settings.tmpl:25
 #, fuzzy
 msgid ""
 "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
@@ -1416,7 +1423,7 @@ msgstr ""
 "<a target='Macros' class='twikiPopUp' href='%1' rel='nofollow'>トピックの構成"
 "設定</a>に関するヘルプを獲得します。"
 
-#: core/templates/renamebase.tmpl:66
+#: core/templates/renamebase.tmpl:65
 #, fuzzy
 msgid ""
 "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
@@ -1425,7 +1432,7 @@ msgstr ""
 "<a target='ManagingTopics' class='twikiPopUp' href='%1' rel='nofollow'>トピッ"
 "クのリネームと移動</a>に関するヘルプを獲得します。"
 
-#: core/templates/renamewebbase.tmpl:50
+#: core/templates/renamewebbase.tmpl:49
 #, fuzzy
 msgid ""
 "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
@@ -1438,7 +1445,7 @@ msgstr ""
 msgid "Get notified on changes on this search"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:81
+#: core/templates/foswiki.tmpl:82
 msgid "Go back"
 msgstr "戻る"
 
@@ -1447,7 +1454,7 @@ msgid ""
 "Go back in your browser and insert information for all mandatory fields."
 msgstr "前のページに戻って全ての必須項目を入力します"
 
-#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:21
+#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "前のページに戻って全ての変更をローカルに保存します"
 
@@ -1467,12 +1474,12 @@ msgstr "こんにちは %1"
 msgid "Hello %1!"
 msgstr "こんにちは %1"
 
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/templates/login.tmpl:50
 msgid "Help"
 msgstr "ヘルプ"
 
-#: core/templates/attach.tmpl:45
+#: core/templates/attach.tmpl:43
 msgid "Hide file"
 msgstr "ファイルを隠します"
 
@@ -1533,7 +1540,7 @@ msgstr ""
 "このトピックが作成されていない場合は作成してください。それ以外、エラーチェッ"
 "クを行ってください"
 
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:97
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
 msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
@@ -1541,7 +1548,7 @@ msgstr ""
 "既にトピック名が分かっている場合、トップの[[%1][ジャンプボックス]]にトピック"
 "名をご入力ください"
 
-#: core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:429
 #, fuzzy
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
@@ -1550,7 +1557,11 @@ msgstr ""
 "TWikiApplicationを開発している場合、%1を参考に適当なパラメーター説明をご覧く"
 "ださい。"
 
-#: core/templates/messages.tmpl:490
+#: core/templates/validate.tmpl:25
+msgid "If you are unsure what this means, read:"
+msgstr ""
+
+#: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
 msgstr "クエスチョンマークをクリックしてここに来た場合"
 
@@ -1558,7 +1569,7 @@ msgstr "クエスチョンマークをクリックしてここに来た場合"
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
 msgstr ""
 "違うトピック名を入力した場合、そのトピック名が存在するかどうかをご確認くださ"
@@ -1573,7 +1584,7 @@ msgstr ""
 "間違ってこのメールが届いた場合：だれか( %1 )がすでにウェブサイト %2 でお使い"
 "のメールアドレス %3 で登録しました。  %4 に連絡して、ご説明ください。"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:303
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:302
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "登録に対して何か疑問がございましたら %1宛てにメールを送ってください。"
 
@@ -1585,7 +1596,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
 #: core/data/System/VarMAKETEXT.txt:16
-#: core/templates/mailresetpassword.tmpl:14
+#: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
@@ -1596,11 +1607,7 @@ msgstr ""
 "パスワードを設定していない場合、又はパスワードを変更したい場合は、 %1へ行って"
 "してください"
 
-#: core/templates/messages.tmpl:420
-msgid "The =%1= script can only be called with POST method."
-msgstr ""
-
-#: core/templates/messages.tmpl:423
+#: core/templates/messages.tmpl:427
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1608,11 +1615,11 @@ msgstr ""
 "このトピックへのリンクがメールで届いた場合、又は只このトピックを見たいだけの"
 "場合は、[[%1][保存を取り消し]]  %2へ行ってください"
 
-#: core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:504
 msgid "If you want to create the topic"
 msgstr "トピックを作成したい場合"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:500
 msgid "If you would like to create this web"
 msgstr "このウェブを作成したい場合"
 
@@ -1634,7 +1641,7 @@ msgstr ""
 "た、このフォームでメールアドレスを登録していない場合は、お使いのアカウントが"
 "他の人に不正利用される可能性があります。"
 
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:39
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "画像が表示されます。他の添付ファイルのリンクが作成されます"
 
@@ -1663,7 +1670,7 @@ msgstr "無効な %1.WikiNames"
 msgid "Incorrect Password"
 msgstr "不正なパスワード"
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:425
 msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1=スクリプトの中の不正なパラメーター"
 
@@ -1692,7 +1699,7 @@ msgstr "無効なアクティブコード"
 msgid "Invalid e-mail address"
 msgstr "無効なメールアドレス"
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:440
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1714,11 +1721,11 @@ msgid ""
 "as spaces will automatically be removed."
 msgstr ""
 "新トピックを作成する時、<a target='WikiWord' class='twikiPopUp' href='%1' "
-"rel='nofollow'>WikiWord</a>を½¿用したほうがいいです。そうしないと、オーリン"
-"クの生成が無効になる可能性があります。他に、トピック名として認められないキャ"
-"ラクター、例えばスペースは自動的に削除されます。"
+"rel='nofollow'>WikiWord</a>を½¿用したほうがいいです。そうしないと、オーリンク"
+"の生成が無効になる可能性があります。他に、トピック名として認められないキャラ"
+"クター、例えばスペースは自動的に削除されます。"
 
-#: core/templates/renameweb.tmpl:17
+#: core/templates/renameweb.tmpl:16
 msgid ""
 "It's usually best to choose a short name for the new web, as it is easier to "
 "link to them later on. Characters not allowed in web names, such as spaces "
@@ -1731,7 +1738,7 @@ msgstr ""
 #: PatternSkin/data/System/WebLeftBarSearch.txt:2
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern.tmpl:37
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:18
 msgid "Jump"
 msgstr "ジャンプ"
 
@@ -1762,15 +1769,15 @@ msgstr "行: %1"
 msgid "Line: %1 to %2"
 msgstr "行: %1 to%2"
 
-#: core/templates/attach.tmpl:37
+#: core/templates/attach.tmpl:35
 msgid "Link"
 msgstr "リンク"
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "アルファベット順で%1ウェブの全てのトピックを一覧表示します"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:99
+#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
 msgid "List topics that start with the letter:"
 msgstr "あるアルファベットで始まるトピックを全て一覧表示します:"
 
@@ -1791,11 +1798,11 @@ msgstr "ログイン"
 msgid "Log Out"
 msgstr "ログアウト"
 
-#: core/templates/mailresetpassword.tmpl:9
+#: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
 msgstr "ログイン名 %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:200
+#: PatternSkin/data/System/PatternSkinElements.txt:231
 #: core/templates/login.tmpl:71
 msgid "Logon"
 msgstr "ログオン"
@@ -1820,7 +1827,7 @@ msgstr "アクションコマンドが失われました"
 msgid "Modify search"
 msgstr "検索を変更します"
 
-#: core/templates/more.tmpl:7
+#: core/templates/oopsmore.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "もっと多くのトピック%1関連アクション"
 
@@ -1838,19 +1845,19 @@ msgid "More..."
 msgstr "もっと多く…"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: core/templates/moveattachment.tmpl:36
+#: core/templates/moveattachment.tmpl:35
 msgid "Move"
 msgstr "移動"
 
-#: core/templates/moveattachment.tmpl:10
+#: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
 msgstr "添付ファイルを移動します"
 
-#: core/templates/moveattachment.tmpl:22
+#: core/templates/moveattachment.tmpl:21
 msgid "Move attachment to web:"
 msgstr "添付ファイルをウェブに移動します："
 
-#: core/templates/moveattachment.tmpl:7
+#: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "添付ファイルを移動します"
 
@@ -1858,15 +1865,15 @@ msgstr "添付ファイルを移動します"
 msgid "Move or delete attachment"
 msgstr "添付ファイルを移動又は削除します"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:21
+#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
 msgstr "ウェブに移動します:"
 
-#: core/templates/renamedelete.tmpl:16
+#: core/templates/renamedelete.tmpl:15
 msgid "Move topic to web:"
 msgstr "トピックをウェブに移動します："
 
-#: core/lib/Foswiki/UI/Manage.pm:1258
+#: core/lib/Foswiki/UI/Manage.pm:1285
 msgid "Move/Rename"
 msgstr "移動/リネーム"
 
@@ -1874,11 +1881,11 @@ msgstr "移動/リネーム"
 msgid "My Links"
 msgstr "マイリンク"
 
-#: core/lib/Foswiki/Search.pm:880
+#: core/lib/Foswiki/Search.pm:911
 msgid "NEW"
 msgstr "新"
 
-#: core/templates/more.tmpl:23
+#: core/templates/oopsmore.tmpl:22
 #, fuzzy
 msgid "Name of copy:"
 msgstr "トピック数:"
@@ -1909,7 +1916,7 @@ msgstr "新メールアドレス(スペースで区切るリスト)"
 msgid "New or changed topics in %1, since %2:"
 msgstr "%2後、%1にある新規作成又は変更のトピック"
 
-#: core/templates/renamewebbase.tmpl:10
+#: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
 msgstr "新親ウェブ:"
 
@@ -1921,23 +1928,23 @@ msgstr "新パスワード"
 msgid "New topic name %1 is not a %2"
 msgstr "新トピック名%1は%2ではありません"
 
-#: core/templates/renamewebbase.tmpl:7
+#: core/templates/renamewebbase.tmpl:6
 msgid "New web name:"
 msgstr "新ウェブ名:"
 
-#: core/templates/more.tmpl:112
+#: core/templates/oopsmore.tmpl:111
 msgid "Newer revision:"
 msgstr "新バージョン："
 
-#: core/templates/more.tmpl:129
+#: core/templates/oopsmore.tmpl:128
 msgid "No child topics"
 msgstr "子トピック無し"
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:457
 msgid "No permission to view %1"
 msgstr " %1を見る権限がありません"
 
-#: core/templates/more.tmpl:124
+#: core/templates/oopsmore.tmpl:123
 msgid "No previous revision exists."
 msgstr "前のトピックバージョンが存在しません"
 
@@ -1945,11 +1952,11 @@ msgstr "前のトピックバージョンが存在しません"
 msgid "No users to reset passwords for."
 msgstr "パスワードをリセットするユーザーがありません。"
 
-#: core/templates/renamedelete.tmpl:31
+#: core/templates/renamedelete.tmpl:30
 msgid "Not recommended when deleting a topic."
 msgstr "トピックを削除する時に推薦しません。"
 
-#: core/templates/moveattachment.tmpl:31
+#: core/templates/moveattachment.tmpl:30
 msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
@@ -1986,21 +1993,21 @@ msgstr "公告"
 msgid "Number of topics:"
 msgstr "トピック数:"
 
-#: core/templates/foswiki.tmpl:80 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:14
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/more.tmpl:112
+#: core/templates/oopsmore.tmpl:111
 msgid "Older revision:"
 msgstr "古いバージョン"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:291
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:290
 msgid "Once registered you can login using your %1 and password."
 msgstr "登録した後、%1とパスワードでログインできます"
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:484
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "%1のメンバーのみこの操作を行うことが許可されます"
 
@@ -2009,11 +2016,11 @@ msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
 
-#: core/templates/renamedelete.tmpl:19
+#: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr "変更するトピック名"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:32
+#: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "又は違うトピック名をご入力ください："
 
@@ -2025,11 +2032,11 @@ msgstr "組織URL："
 msgid "Organisation name:"
 msgstr "組織名："
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:270
 msgid "Other Country"
 msgstr "他の国"
 
-#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
 msgid "Other search options:"
 msgstr "他の検索オプション:"
 
@@ -2039,7 +2046,7 @@ msgstr ""
 "そうしなければ、このフォームを使ってあなた宛に新しいメールを送信してくださ"
 "い。"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:195
+#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
 #: core/templates/login.tmpl:60
 msgid "Password"
@@ -2066,8 +2073,8 @@ msgstr "パスワードが違います"
 msgid "Personal Preferences"
 msgstr "個人設定"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/more.tmpl:71
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/templates/oopsmore.tmpl:70
 msgid "Pick from a list"
 msgstr ""
 
@@ -2132,7 +2139,7 @@ msgstr ""
 "%1が正確にスペルされていることをご確認してもう一度試してください。それでもだ"
 "めな場合は、%2にメールしてください。"
 
-#: core/templates/mailresetpassword.tmpl:12
+#: core/templates/mailresetpassword.tmpl:15
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "%1にアクセスしてお使いのパスワードを覚えやすいのに変更してください。"
@@ -2146,9 +2153,17 @@ msgid "Preferences"
 msgstr "設定"
 
 #: PatternSkin/templates/settings.pattern.tmpl:13
-#: core/templates/settings.tmpl:7
+#: core/templates/settings.tmpl:6
 msgid "Preferences for"
 msgstr "設定"
+
+#: core/templates/validate.tmpl:23
+msgid "Press Cancel otherwise."
+msgstr ""
+
+#: core/templates/validate.tmpl:22
+msgid "Press OK to confirm that this change was intentional."
+msgstr ""
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2169,7 +2184,8 @@ msgid ""
 "preferences)"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:173
+#: EditTablePlugin/data/System/EditTablePlugin.txt:162
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
 msgid "Quiet save"
 msgstr ""
 
@@ -2201,12 +2217,12 @@ msgstr "新しいウィンドウで改訂ヘルプを見ます"
 msgid "Read on"
 msgstr "読みます"
 
-#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:46
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
 #: core/data/System/WebSearchAdvanced.txt:100
 msgid "Recently changed topics"
 msgstr "最新変更されたトピック"
 
-#: core/lib/Foswiki/UI/Manage.pm:1257
+#: core/lib/Foswiki/UI/Manage.pm:1284
 msgid "Refresh"
 msgstr ""
 
@@ -2241,7 +2257,7 @@ msgstr "関連トピック："
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:43
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:489
 msgid "Related topics:"
 msgstr "関連トピック：:"
 
@@ -2265,7 +2281,7 @@ msgstr "パスワードを保存しますか？"
 msgid "Remove the user from the group(s) %1 first."
 msgstr "まず、ユーザーをグループ %1から削除してください"
 
-#: core/templates/rename.tmpl:7 core/templates/renameweb.tmpl:7
+#: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
 msgstr "リネーム"
 
@@ -2273,7 +2289,7 @@ msgstr "リネーム"
 msgid "Rename failed"
 msgstr "リネームに失敗しました"
 
-#: core/templates/more.tmpl:44
+#: core/templates/oopsmore.tmpl:43
 msgid "Rename or move topic"
 msgstr "トピックをリネーム又は移動します"
 
@@ -2281,12 +2297,12 @@ msgstr "トピックをリネーム又は移動します"
 msgid "Rename, move or delete this web:"
 msgstr "このウェブをリネーム、移動、削除します:"
 
-#: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
-#: core/templates/renameweb.tmpl:33
+#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
+#: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "リネーム/移動"
 
-#: core/templates/more.tmpl:45 core/templates/more.tmpl:47
+#: core/templates/oopsmore.tmpl:44 core/templates/oopsmore.tmpl:46
 msgid "Rename/move topic..."
 msgstr "トピックをリネーム/移動..."
 
@@ -2298,6 +2314,11 @@ msgstr "ウェブをリネーム/移動/削除..."
 msgid "Replace form..."
 msgstr "フォームを置換..."
 
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
+#, fuzzy
+msgid "Request Validation"
+msgstr "登録"
+
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
 msgstr "パスワードリセット:"
@@ -2306,19 +2327,19 @@ msgstr "パスワードリセット:"
 msgid "Reset password"
 msgstr "パスワードリセット:"
 
-#: core/templates/more.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "Restore"
 msgstr "回復"
 
-#: core/templates/more.tmpl:116
+#: core/templates/oopsmore.tmpl:115
 msgid "Restore topic"
 msgstr "トピックを回復します"
 
-#: core/templates/more.tmpl:118
+#: core/templates/oopsmore.tmpl:117
 msgid "Restore topic to revision:"
 msgstr "トピックを改訂版に回復します"
 
-#: core/templates/more.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "Restore topic to this revision"
 msgstr "トピックをこの改訂版に回復します"
 
@@ -2351,7 +2372,7 @@ msgstr "最新変更されたトピックをレビューします："
 msgid "Revision"
 msgstr "改訂"
 
-#: core/templates/more.tmpl:103
+#: core/templates/oopsmore.tmpl:102
 msgid "Revisions"
 msgstr "改訂"
 
@@ -2359,7 +2380,7 @@ msgstr "改訂"
 msgid "S = Save, C = Cancel"
 msgstr ""
 
-#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/preview.pattern.tmpl:22
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr "S = 保存, Q = 静的保存, K = 保存して続けます, D =破棄する"
 
@@ -2369,7 +2390,8 @@ msgid ""
 msgstr ""
 "S = 保存, Q = 静的保存, K = 保存して続けます, P = プレビュー, C = キャンセル"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:172
+#: EditTablePlugin/data/System/EditTablePlugin.txt:161
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
 msgid "Save table"
 msgstr "テーブルを保存します"
 
@@ -2388,30 +2410,30 @@ msgstr "保存先:"
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: PatternSkin/templates/foswiki.pattern.tmpl:38
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "検索"
 
-#: core/templates/backlinksallwebs.tmpl:7
+#: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
 msgstr "%1ウェブのみを検索します"
 
-#: core/templates/backlinksweb.tmpl:7
+#: core/templates/backlinksweb.tmpl:6
 msgid "Search all webs"
 msgstr "全てのウェブを検索します"
 
-#: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
-#: core/templates/more.tmpl:54
+#: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:6
+#: core/templates/oopsmore.tmpl:53
 msgid "Search all webs for topics that link to here"
 msgstr "全てのウェブからここへリンクされるトピックを検索します"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 #, fuzzy
 msgid "Search in all webs"
 msgstr "全てのウェブを検索します"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 #, fuzzy
 msgid "Search more topics in this web"
 msgstr "全てのパブリックウェブから類似のトピックを検索します"
@@ -2420,11 +2442,11 @@ msgstr "全てのパブリックウェブから類似のトピックを検索し
 msgid "Search string"
 msgstr "検索する文字列"
 
-#: core/templates/more.tmpl:56
+#: core/templates/oopsmore.tmpl:55
 msgid "Search the %1 Web for topics that link to here"
 msgstr "%1ウェブからここへリンクされるトピックを検索します"
 
-#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:36
+#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
 msgstr "検索先:"
 
@@ -2459,11 +2481,11 @@ msgstr "もっと完全な%1を見ます."
 msgid "See also:"
 msgstr "これを見ることもできます:"
 
-#: core/templates/edit.tmpl:59
+#: core/templates/edit.tmpl:58
 msgid "See below for help in editing this page."
 msgstr ""
 
-#: core/templates/changeform.tmpl:13
+#: core/templates/changeform.tmpl:12
 msgid "Select"
 msgstr "選択"
 
@@ -2475,20 +2497,20 @@ msgstr "新しいファイルを選択して添付ファイルを更新します
 msgid "Select all"
 msgstr "全て選択"
 
-#: core/templates/more.tmpl:70
+#: core/templates/oopsmore.tmpl:69
 msgid "Select topic parent:"
 msgstr "親トピックを選択してください："
 
-#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:47
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "シグネチャ-のテキストをエントリの最下部に選択/コピー/貼り付けしてください"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:286
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "ご登録の確認を電子メールで送信します。"
 
-#: core/templates/more.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Sequential"
 msgstr "シーケンシャル"
 
@@ -2496,11 +2518,11 @@ msgstr "シーケンシャル"
 msgid "Set all"
 msgstr "全て設定"
 
-#: core/templates/more.tmpl:74
+#: core/templates/oopsmore.tmpl:73
 msgid "Set new parent"
 msgstr "新しい親トピックを設定します"
 
-#: core/templates/more.tmpl:63
+#: core/templates/oopsmore.tmpl:62
 msgid "Set new topic parent"
 msgstr "新しい親トピックを設定します"
 
@@ -2513,11 +2535,11 @@ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr ""
 "フォーカスが %1 リンクに当たる時、メッセージを表示します：開く又は閉じる"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
-#: core/templates/more.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Side by side"
 msgstr "並列"
 
@@ -2594,7 +2616,7 @@ msgstr "スペースをアンダースコアで置き換えました"
 msgid "Statistics"
 msgstr "統計"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:297
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:296
 #: core/templates/messages.tmpl:207 core/templates/messages.tmpl:316
 msgid "Submit"
 msgstr "確定"
@@ -2617,11 +2639,11 @@ msgstr "購読/購読の取消"
 msgid "Summaries"
 msgstr "概要"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:32
+#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2629,7 +2651,7 @@ msgstr ""
 "TIP:  =\"SOAP\"=, =\"WSDL\"= =\"web service\"= を含む、但し =\"shampoo\"=, "
 "write:を含まない全てのトピックを検索します"
 
-#: core/templates/messages.tmpl:510
+#: core/templates/messages.tmpl:515
 msgid "Template %1 does not exist"
 msgstr "テンプレート%1は存在しません"
 
@@ -2637,7 +2659,7 @@ msgstr "テンプレート%1は存在しません"
 msgid "Test Topics"
 msgstr "トピックテスト"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
 msgstr "テキスト内容"
 
@@ -2661,7 +2683,7 @@ msgstr ""
 " %1 コラボレーションプラットフォームをご登録してありがとうございました。あな"
 "たの検証コードは%2です。"
 
-#: core/templates/messages.tmpl:528
+#: core/templates/messages.tmpl:533
 msgid "That user has already been activated "
 msgstr ""
 
@@ -2683,7 +2705,7 @@ msgstr ""
 msgid "The %1 topic already exists"
 msgstr "トピック%1は既に存在しています"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:492
 msgid "The %1 web does not exist"
 msgstr "%1ウェブは存在しません"
 
@@ -2710,6 +2732,10 @@ msgstr ""
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
 msgstr ""
 
+#: core/templates/messages.tmpl:421
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
 msgstr ""
@@ -2718,17 +2744,17 @@ msgstr ""
 msgid "The activation code %1 is invalid."
 msgstr "アクティブコード%1が無効です。"
 
-#: core/templates/moveattachment.tmpl:29
+#: core/templates/moveattachment.tmpl:28
 msgid "The attachment and any history will be moved to the new topic."
 msgstr "添付ファイルと全てのヒストリーは新トピックに移動されます。"
 
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:448
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
 msgstr " %1 が編集ページを参照しただけで保存をしなかった場合は問題ありません。"
 
-#: core/templates/renamebase.tmpl:70
+#: core/templates/renamebase.tmpl:69
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -2740,7 +2766,7 @@ msgstr ""
 msgid "The e-mail address for this account is not valid."
 msgstr "このアカウントのメールアドレスが無効です。"
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:466
 msgid "The entry for user %1 was missing in the password system."
 msgstr "ユーザー%1はパスワードシステムの中で失われました"
 
@@ -2768,7 +2794,7 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "フォームはトピック%1の中に定義されます"
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:446
 msgid "The lease on this topic expired %1 ago."
 msgstr "このトピックは既に %1 にて期限が切れました。"
 
@@ -2776,7 +2802,7 @@ msgstr "このトピックは既に %1 にて期限が切れました。"
 msgid "The name of the topic must not be empty."
 msgstr ""
 
-#: core/templates/moveattachment.tmpl:16
+#: core/templates/moveattachment.tmpl:15
 msgid "The new topic chosen must already exist."
 msgstr "選択された新トピックは既存でなければなりません。"
 
@@ -2804,7 +2830,7 @@ msgstr "トピックは古いフォーマットです"
 msgid "The two passwords you entered do not match."
 msgstr "二つのパスワードが一致しません。"
 
-#: core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:535
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
@@ -2815,6 +2841,12 @@ msgstr "このウェブをリネームする時にエラーが発生しました
 #: core/templates/messages.tmpl:234
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "ユーザー名をパスワードシステムに追加する時に、エラーが発生しました。"
+
+#: core/templates/validate.tmpl:19
+msgid ""
+"There is a risk that someone may be trying to use your identity to change "
+"content on %1 without your knowledge."
+msgstr ""
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -2880,7 +2912,7 @@ msgstr ""
 "これはごみ箱です。ここでトピックをオンデリートすることができます。削除された"
 "添付ファイルは TrashAttachment にあります"
 
-#: core/templates/renamedelete.tmpl:25
+#: core/templates/renamedelete.tmpl:24
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
@@ -2891,6 +2923,10 @@ msgstr ""
 #: core/templates/messages.tmpl:348
 msgid "This requires the form definition to be present."
 msgstr "フォームを定義する必要があります。"
+
+#: core/data/System/DefaultPreferences.txt:42
+msgid "This site is powered by Foswiki"
+msgstr ""
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -2939,11 +2975,11 @@ msgid "To see if %1 has finished editing yet, click "
 msgstr ""
 " %1 の編集が完了したかどうかを確認したい場合、ここをクリックしてください"
 
-#: core/templates/renamebase.tmpl:30 core/templates/renameconfirm.tmpl:14
+#: core/templates/renamebase.tmpl:29 core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "トピックへ "
 
-#: core/templates/renamebase.tmpl:23 core/templates/renameconfirm.tmpl:10
+#: core/templates/renamebase.tmpl:22 core/templates/renameconfirm.tmpl:9
 msgid "To web:"
 msgstr "ウェブへ:"
 
@@ -2994,7 +3030,7 @@ msgstr "親トピック:"
 msgid "Topic revision:"
 msgstr "トピック改訂:"
 
-#: core/templates/oopssaveerr.tmpl:12
+#: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
 msgstr "トピック保存エラー"
 
@@ -3002,7 +3038,7 @@ msgstr "トピック保存エラー"
 msgid "Topic templates in %1 Web"
 msgstr " %1 ウェブにあるトピックテンプレート"
 
-#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
 msgstr "トピックタイトル"
 
@@ -3027,17 +3063,17 @@ msgstr " %1 ウェブにあるトピック："
 msgid "Topics per web"
 msgstr "それぞれのウェブにあるトピック"
 
-#: core/templates/renamewebbase.tmpl:29
+#: core/templates/renamewebbase.tmpl:28
 msgid "Topics which are currently being edited by other users in the %1 Web:"
 msgstr "トピックは %1ウェブの中で他のユーザーより編集されています："
 
-#: core/templates/renamewebbase.tmpl:32
+#: core/templates/renamewebbase.tmpl:31
 msgid ""
 "Topics which refer to this web and are are currently being edited by other "
 "users:"
 msgstr "このウェブを参照する、他のユーザーより編集されているトピック:"
 
-#: core/templates/renamewebbase.tmpl:35
+#: core/templates/renamewebbase.tmpl:34
 msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr "このウェブを参照する、変更する権限がないトピック:"
@@ -3071,7 +3107,7 @@ msgstr "認識できないアクションコマンド%1"
 msgid "Update attachment %1 on %2"
 msgstr " %2 で添付ファイル %1を更新します"
 
-#: core/templates/renamebase.tmpl:50 core/templates/renamewebbase.tmpl:27
+#: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:26
 msgid "Update links"
 msgstr "リンクを更新します"
 
@@ -3111,7 +3147,7 @@ msgstr "ユーザーアカウント %1 が削除されました"
 msgid "User Reference"
 msgstr "ユーザープロパティ"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:189
+#: PatternSkin/data/System/PatternSkinElements.txt:220
 #: core/templates/login.tmpl:42
 msgid "Username"
 msgstr "ユーザー名"
@@ -3140,15 +3176,15 @@ msgstr "バージョンヒストリー"
 msgid "Version history of %1"
 msgstr "%1 のバージョンヒストリー"
 
-#: core/templates/more.tmpl:107
+#: core/templates/oopsmore.tmpl:106
 msgid "View"
 msgstr "ビュー"
 
-#: core/templates/more.tmpl:114
+#: core/templates/oopsmore.tmpl:113
 msgid "View difference"
 msgstr "差異を確認します"
 
-#: core/templates/more.tmpl:104
+#: core/templates/oopsmore.tmpl:103
 msgid "View previous topic revision"
 msgstr "前のトピックバージョンを確認します"
 
@@ -3156,11 +3192,11 @@ msgstr "前のトピックバージョンを確認します"
 msgid "View raw text without formatting"
 msgstr "ファーマットされていない元のテキストを確認します"
 
-#: core/templates/more.tmpl:106
+#: core/templates/oopsmore.tmpl:105
 msgid "View revision:"
 msgstr "改訂を確認します"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicTemplate.txt:65
 msgid "View templates"
 msgstr "テンプレートを確認します"
 
@@ -3178,36 +3214,51 @@ msgstr "トータルトピックヒストリーを確認します"
 msgid "Warning"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:179
+#: core/templates/validate.tmpl:8
+#, fuzzy
+msgid "Warning! Confirmation required"
+msgstr "警告： 確認のメールが送信できません"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
 
-#: core/templates/messages.tmpl:458
+#: core/templates/messages.tmpl:463
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "警告: %1のインクルードは重複です。 トピックには既に%2が含まれています"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:464
 #, fuzzy
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr "警告: %1のインクルードは重複です。 トピックには既に%2が含まれています"
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:462
+#, fuzzy
+msgid "Warning: Can't find named section %3 in topic %1.%2"
+msgstr "警告: トピック%1.%2が見つかりません"
+
+#: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: トピック%1.%2が見つかりません"
 
-#: core/lib/Foswiki/UI/Register.pm:868
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "Warning: Could not send confirmation email"
 msgstr "警告： 確認のメールが送信できません"
 
-#: core/lib/Foswiki/UI/Register.pm:880
+#: core/lib/Foswiki/UI/Register.pm:979
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "警告： 確認のメールが送信できませんでした。メールは利用不可になっています。"
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:471
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告： このウェブサイトでは %<nop>INCLUDE% リンクは使用できません"
+
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
+#, fuzzy
+msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "警告：'include'トピックは存在しません！"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -3221,7 +3272,7 @@ msgstr "ウェブ"
 msgid "Welcome to the %1 web"
 msgstr " %1ウェブへようこそ"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:281
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3256,7 +3307,7 @@ msgstr "あなたも%1トピックにリストされました"
 msgid "You are denied access to the following topics in the web:"
 msgstr "あなたはこのウェブの以下のトピックにはアクセスできません:"
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:450
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3285,25 +3336,25 @@ msgstr ""
 "テンプレートウェブ(新しいウェブを作成するためのウェブ)をお使いになりたい場合"
 "は、アンダースコアで始まる英数字のみからなる名称を選んでください"
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:528
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "%1しようとする添付ファイルは存在しません。"
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:516
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "作成しようとするトピックのテンプレートは存在しません。"
 
-#: core/templates/messages.tmpl:506
+#: core/templates/messages.tmpl:511
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr "トピックが存在したいため、操作できない (操作: %1)"
 
-#: core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:522
 msgid "You are trying to rename a topic that does not exist."
 msgstr "リネームしようとするトピックは存在しません。"
 
-#: core/templates/messages.tmpl:496
+#: core/templates/messages.tmpl:501
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -3326,7 +3377,7 @@ msgstr ""
 msgid "You can change your password at via %1"
 msgstr "%1を通じてパスワードを変更することができます"
 
-#: core/templates/renameweb.tmpl:21
+#: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "このウェブをほかの名前に変更することができます。"
 
@@ -3354,7 +3405,7 @@ msgid ""
 msgstr ""
 "環境設定に不具合がある場合は、Wikiの管理者に変更してもらうことができます。"
 
-#: core/templates/messages.tmpl:532
+#: core/templates/messages.tmpl:537
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -3374,7 +3425,7 @@ msgid ""
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
 "あなたのメールアドレスをチェックする必要があります。これは、送信後現在フォー"
-"ムの %1又は %2を経由して行うことができます"
+"ムの %1又は %2を経由して行ことができます"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:7
 #, fuzzy
@@ -3387,11 +3438,11 @@ msgstr ""
 "スを見つけられない場合、あなたのユーザートピックより以下のような行を探しま"
 "す："
 
-#: core/templates/more.tmpl:23
+#: core/templates/oopsmore.tmpl:22
 msgid "You will be able to review the copied topic before saving"
 msgstr ""
 
-#: core/templates/more.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
@@ -3423,7 +3474,7 @@ msgstr ""
 "次のスクリーンからあなたの言語は%1 に変更されます。今すぐそこに移動します。移"
 "動しなかった場合は、[[%2][ここをクリック]]して、移動してください。"
 
-#: core/templates/mailresetpassword.tmpl:10
+#: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
 msgstr "あなたのパスワードは %1に変更されました"
 
@@ -3459,7 +3510,7 @@ msgstr ""
 msgid "Your signature to copy/paste"
 msgstr "あなたの複製/貼り付けのためのシグネチャー"
 
-#: core/templates/edit.tmpl:48
+#: core/templates/edit.tmpl:47
 msgid "Your signature to copy/paste:"
 msgstr "あなたの複製/貼り付けのためのシグネチャー"
 
@@ -3486,7 +3537,7 @@ msgstr ""
 msgid "[[%1][Debug topic text]]."
 msgstr " [[%1][デバッグトピックテキスト]]。"
 
-#: core/templates/settings.tmpl:28
+#: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
@@ -3546,6 +3597,7 @@ msgid "don't forget to check your Topic Settings"
 msgstr "トピック設定のチェックを忘れないでください"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
+#: core/templates/formtables.tmpl:21
 #, fuzzy
 msgid "edit"
 msgstr "(編集)"
@@ -3554,7 +3606,7 @@ msgstr "(編集)"
 msgid "fields are required."
 msgstr "フィールドは必須入力です"
 
-#: core/templates/attach.tmpl:5
+#: core/templates/attach.tmpl:3
 msgid "has more information about attaching files."
 msgstr "もっと多くの添付ファイル情報があります。"
 
@@ -3567,7 +3619,7 @@ msgstr "ヘルプ"
 msgid "hints on good style"
 msgstr "スタイルに関するメッセージ"
 
-#: core/templates/more.tmpl:107
+#: core/templates/oopsmore.tmpl:106
 msgid "in raw text format"
 msgstr "元のテキストフォーマット"
 
@@ -3596,14 +3648,13 @@ msgstr "現在 %1"
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:11
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: PatternSkin/templates/preview.pattern.tmpl:18
 #: PatternSkin/templates/settings.pattern.tmpl:22
-#: core/templates/changeform.tmpl:13 core/templates/foswiki.tmpl:105
-#: core/templates/moveattachment.tmpl:36 core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
-#: core/templates/renamedelete.tmpl:34 core/templates/renameweb.tmpl:33
-#: core/templates/renamewebconfirm.tmpl:16
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
+#: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
+#: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
+#: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "又は"
 
@@ -3611,7 +3662,7 @@ msgstr "又は"
 msgid "preview"
 msgstr "(プレビュー)"
 
-#: core/lib/Foswiki/Render.pm:204
+#: core/lib/Foswiki/Render.pm:213
 msgid "put it back"
 msgstr "戻る"
 
@@ -3620,18 +3671,17 @@ msgstr "戻る"
 msgid "retrieved at %1"
 msgstr " %1 から探し出します"
 
-#: core/templates/more.tmpl:39 core/templates/more.tmpl:48
+#: core/templates/oopsmore.tmpl:38 core/templates/oopsmore.tmpl:47
 msgid "scans links in _%1 web_ only"
 msgstr "_%1 ウェブ_ の中のリンクのみをスキャンします"
 
-#: core/templates/more.tmpl:37 core/templates/more.tmpl:46
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
 msgid "scans links in _all public webs_"
 msgstr "全てのパブリックウェブの中のリンクを検索します"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
-msgstr ""
-"title='画像又はファイルをこのトピックに添付します' accesskey='a'>添付"
+msgstr "title='画像又はファイルをこのトピックに添付します' accesskey='a'>添付"
 
 #: core/templates/viewtopicactionbuttons.tmpl:4
 msgid "title='Create new topic' accesskey='c'>&Create"
@@ -3651,8 +3701,7 @@ msgstr "title='このトピックを編集します' accesskey='e'>編集"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr ""
-"title='このトピックの印刷用バージョン' accesskey='p'>印刷用バージョン"
+msgstr "title='このトピックの印刷用バージョン' accesskey='p'>印刷用バージョン"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
@@ -3662,29 +3711,27 @@ msgstr "title='このトピックソースを編集します' accesskey='w'>編�
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
-"title='全てのウェブからここにリンクするトピックを検索します' "
-"accesskey='l'>全てのウェブ"
+"title='全てのウェブからここにリンクするトピックを検索します' accesskey='l'>全"
+"てのウェブ"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='%1ウェブからここにリンクするトピックを検索します' accesskey='b'>"
-"バックリンク"
+"title='%1ウェブからここにリンクするトピックを検索します' accesskey='b'>バック"
+"リンク"
 
 #: core/templates/viewtopicactionbuttons.tmpl:26
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
-"title='%1ウェブからここにリンクするトピックを検索します' accesskey='b'>"
-"ウェブ"
+"title='%1ウェブからここにリンクするトピックを検索します' accesskey='b'>ウェブ"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 msgid "title='View raw text without formatting' accesskey='r'>&Raw View"
 msgstr ""
-"title='フォーマットされていない元のテキストを確認します' accesskey='r'>確"
-"認"
+"title='フォーマットされていない元のテキストを確認します' accesskey='r'>確認"
 
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
@@ -3695,7 +3742,7 @@ msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='トピックの履歴を確認します' accesskey='h'>履歴"
 
-#: core/lib/Foswiki.pm:4269
+#: core/lib/Foswiki.pm:4374
 msgid "user list truncated"
 msgstr ""
 
@@ -3703,7 +3750,7 @@ msgstr ""
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='キャンセル' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:13
+#: PatternSkin/templates/preview.pattern.tmpl:20
 msgid "value='Discard' accesskey='d'"
 msgstr "value='破棄' accesskey='d'"
 
@@ -3727,6 +3774,10 @@ msgstr "value='保存' accesskey='s'"
 msgid "view"
 msgstr "ビュー"
 
+#: core/templates/validate.tmpl:27
+msgid "why you are being asked to confirm"
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
 "you *must* have at least one valid registered e-mail to be able to reset "
@@ -3736,6 +3787,9 @@ msgstr ""
 "パスワードをリセットするには有効なメールアドレスが*なければなりません*。有効"
 "なメールアドレスが一つでもない場合、又はパスワードを忘れた場合は、 %1までご連"
 "絡ください。"
+
+#~ msgid "Edit table"
+#~ msgstr "テーブルを編集します"
 
 #~ msgid "%1 Web Home"
 #~ msgstr "%1 トップページ"
@@ -3846,8 +3900,7 @@ msgstr ""
 #~ msgstr "title='このトピックを作成します' accesskey='w'>作成(&WYSIWYG)"
 
 #~ msgid "title='Edit this topic text' accesskey='w'>&WYSIWYG"
-#~ msgstr ""
-#~ "title='このトピックのテキストを編集します' accesskey='w'>WYSIWYG "
+#~ msgstr "title='このトピックのテキストを編集します' accesskey='w'>WYSIWYG "
 
 #~ msgid "value='Checkpoint' accesskey='k'"
 #~ msgstr "value='チェックポイント' accesskey='k'"
@@ -4887,7 +4940,7 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid "Note__:"
+#~ msgid "_:Note__:"
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"

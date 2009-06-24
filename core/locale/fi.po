@@ -16,28 +16,27 @@ msgstr ""
 "X-Poedit-Language: Finnish\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:316
+#: core/lib/Foswiki/Time.pm:450
 msgid "%*(%1,day) "
 msgstr "%*(%1,päivä) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:319
+#: core/lib/Foswiki/Time.pm:453
 msgid "%*(%1,hour) "
 msgstr "%*(%1,tunti) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:322
+#: core/lib/Foswiki/Time.pm:456
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuutti) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:325
+#: core/lib/Foswiki/Time.pm:459
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekunti) "
 
-#: core/templates/oopsgeneric.tmpl:12
-#: core/templates/oopsgeneric.tmpl:14
-#: core/templates/oopsgeneric.tmpl:16
+#: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
+#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:18
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr "%1"
@@ -97,14 +96,22 @@ msgstr "%1 vaihtaaksesi salasanaasi"
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 sisältää listan muista Foswikin käyttäjistä"
 
-#: core/templates/messages.tmpl:434
-msgid "%1 has been editing the topic for %2 and the lease is still active for another %3."
-msgstr "%1 on muokannut aihetta %2 ja muokkaustila on yhä aktiivinen seuraavien %3 ajan"
+#: core/templates/messages.tmpl:438
+msgid ""
+"%1 has been editing the topic for %2 and the lease is still active for "
+"another %3."
+msgstr ""
+"%1 on muokannut aihetta %2 ja muokkaustila on yhä aktiivinen seuraavien %3 "
+"ajan"
 
 #: core/templates/registerfailednotremoved.tmpl:12
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 on rekisteröitynyt sähköpostiosoitteella %2"
+
+#: core/templates/validate.tmpl:16
+msgid "%1 has received a suspicious change request from your browser."
+msgstr ""
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -118,8 +125,7 @@ msgstr "%1 sisältää listan Foswikin käyttäjädokumentoinnista"
 msgid "%1 is an invalid name for a new web"
 msgstr "%1 ei ole sallittu nimi uudelle verkolle"
 
-#: core/templates/login.sudo.tmpl:4
-#: core/templates/login.tmpl:6
+#: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
 msgstr "%1 on kirjautuneena"
 
@@ -127,7 +133,7 @@ msgstr "%1 on kirjautuneena"
 msgid "%1 is currently set to %2"
 msgstr "%1 on tällähetkellä asetettu arvoon %2"
 
-#: core/templates/messages.tmpl:432
+#: core/templates/messages.tmpl:436
 msgid "%1 is editing %2."
 msgstr "%1 muokkaa aihetta %2"
 
@@ -135,7 +141,7 @@ msgstr "%1 muokkaa aihetta %2"
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 on vähintään yhdessä ryhmässä eikä täten voida poistaa"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 on oletusaihe poistetuille liitteille"
 
@@ -143,12 +149,12 @@ msgstr "%1 on oletusaihe poistetuille liitteille"
 msgid "%1 lists all Foswiki user tools"
 msgstr "%1 listaa kaikki Foswiki käyttäjän työkalut"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:444
 msgid "%1 may still be editing %2."
 msgstr "%1 saattaa edelleen muokata aihetta %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
-#: core/lib/Foswiki/Render.pm:212
+#: core/lib/Foswiki/Render.pm:221
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
 
@@ -164,8 +170,7 @@ msgstr ""
 msgid "%1 to start working on the new web"
 msgstr "%1 aloittaaksesi työskentelyn uuden webin kanssa"
 
-#: core/templates/messages.tmpl:505
-#: core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:521
 msgid "%1 topic does not exist"
 msgstr "%1 aihetta ei ole olemassa"
 
@@ -197,8 +202,12 @@ msgstr "'Luo uusi aihe' sivu on siirretty"
 msgid "(%1 login)"
 msgstr "(%1 kirjaudu sisään)"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:6
-#: core/templates/rdiff.tmpl:4
+#: core/templates/validate.tmpl:6
+#, fuzzy
+msgid "(%1 validation)"
+msgstr "(%1 kirjaudu sisään)"
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
 msgstr "(%1 vs. %2)"
 
@@ -218,16 +227,15 @@ msgstr ""
 msgid "(access denied)"
 msgstr "(pääsy kielletty)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:8
-#: core/templates/attachnew.tmpl:2
+#: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
 msgstr "(liitä)"
 
-#: core/templates/backlinksweb.tmpl:4
+#: core/templates/backlinksweb.tmpl:3
 msgid "(backlinks in %1 Web)"
 msgstr ""
 
-#: core/templates/backlinksallwebs.tmpl:4
+#: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
 msgstr ""
 
@@ -235,7 +243,7 @@ msgstr ""
 msgid "(book view)"
 msgstr ""
 
-#: core/templates/changeform.tmpl:4
+#: core/templates/changeform.tmpl:3
 msgid "(change form)"
 msgstr "(vaihda lomake)"
 
@@ -244,31 +252,27 @@ msgstr "(vaihda lomake)"
 msgid "(change language)"
 msgstr "(vaihda kieli)"
 
-#: PatternSkin/templates/changes.pattern.tmpl:4
-#: core/templates/changes.tmpl:5
+#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:4
 msgid "(changes)"
 msgstr "(muutokset)"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:5
+#: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
 msgstr "(poista liite)"
 
-#: core/templates/renamedelete.tmpl:4
+#: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
 msgstr "(poista)"
 
-#: core/templates/editform.tmpl:4
-#: core/templates/editform.tmpl:5
+#: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
 msgstr "(muokkaa lomaketta)"
 
-#: core/templates/edittext.tmpl:4
-#: core/templates/edittext.tmpl:7
+#: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
 msgid "(edit text)"
 msgstr "(muokkaa tekstiä)"
 
-#: core/templates/edit.tmpl:10
-#: core/templates/edit.tmpl:4
+#: core/templates/edit.tmpl:3 core/templates/edit.tmpl:9
 msgid "(edit)"
 msgstr "(muokkaa)"
 
@@ -284,38 +288,32 @@ msgstr "(identifioi sinut toisille) WikiNimi:"
 msgid "(login)"
 msgstr "(kirjaudu sisään)"
 
-#: core/templates/more.tmpl:3
+#: core/templates/oopsmore.tmpl:3
 msgid "(more)"
 msgstr "(lisää...)"
 
-#: core/templates/moveattachment.tmpl:4
+#: core/templates/moveattachment.tmpl:3
 msgid "(move attachment)"
 msgstr "(siirrä liite)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
 msgid "(no parent, orphaned topic)"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Manage.pm:1099
-#: core/lib/Foswiki/UI/Manage.pm:1132
-#: core/lib/Foswiki/UI/Manage.pm:1245
-#: core/lib/Foswiki/UI/Manage.pm:1248
-#: core/lib/Foswiki/UI/Manage.pm:1251
-#: core/lib/Foswiki/UI/Manage.pm:1290
-#: core/lib/Foswiki/UI/Manage.pm:1321
-#: core/lib/Foswiki/UI/Manage.pm:814
-#: core/lib/Foswiki/UI/Manage.pm:818
-#: core/lib/Foswiki/UI/Manage.pm:822
-#: core/lib/Foswiki/UI/Manage.pm:826
+#: core/lib/Foswiki/UI/Manage.pm:1126 core/lib/Foswiki/UI/Manage.pm:1159
+#: core/lib/Foswiki/UI/Manage.pm:1272 core/lib/Foswiki/UI/Manage.pm:1275
+#: core/lib/Foswiki/UI/Manage.pm:1278 core/lib/Foswiki/UI/Manage.pm:1317
+#: core/lib/Foswiki/UI/Manage.pm:1348 core/lib/Foswiki/UI/Manage.pm:847
+#: core/lib/Foswiki/UI/Manage.pm:851 core/lib/Foswiki/UI/Manage.pm:855
+#: core/lib/Foswiki/UI/Manage.pm:859
 msgid "(none)"
 msgstr "(tyhjä)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
 msgid "(optional)"
 msgstr "(valinnainen)"
 
-#: core/data/System/WebSearch.txt:33
-#: core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
 msgstr "(muutoin etsi vain verkosta %1)"
 
@@ -323,15 +321,12 @@ msgstr "(muutoin etsi vain verkosta %1)"
 msgid "(raw view)"
 msgstr "(näytä raaka)"
 
-#: core/templates/more.tmpl:37
-#: core/templates/more.tmpl:46
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
 msgid "(recommended)"
 msgstr "(suositeltu)"
 
-#: core/templates/rename.tmpl:4
-#: core/templates/renameconfirm.tmpl:4
-#: core/templates/renameweb.tmpl:4
-#: core/templates/renamewebconfirm.tmpl:4
+#: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
+#: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
 msgid "(rename)"
 msgstr "(nimeä uudelleen)"
 
@@ -339,7 +334,7 @@ msgstr "(nimeä uudelleen)"
 msgid "(revision %1)"
 msgstr "(versio %1)"
 
-#: core/templates/oopssaveerr.tmpl:8
+#: core/templates/oopssaveerr.tmpl:7
 msgid "(save error)"
 msgstr "(tallenna virhe)"
 
@@ -347,14 +342,13 @@ msgstr "(tallenna virhe)"
 msgid "(search result)"
 msgstr "(haun tulos)"
 
-#: PatternSkin/templates/search.pattern.tmpl:9
-#: core/templates/search.tmpl:3
+#: PatternSkin/templates/search.pattern.tmpl:9 core/templates/search.tmpl:3
 #: core/templates/search.tmpl:6
 msgid "(search results)"
 msgstr "(haun tulokset)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:10
-#: core/templates/settings.tmpl:4
+#: core/templates/settings.tmpl:3
 msgid "(set preferences)"
 msgstr ""
 
@@ -366,12 +360,15 @@ msgstr "(yhden merkin etunimi)"
 msgid "(single character last name)"
 msgstr "(yhden merkin sukunimi)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1073
+#: core/lib/Foswiki/UI/Manage.pm:1100
 msgid "(skipped)"
 msgstr "(hypätty yli)"
 
 #: core/templates/attachagain.tmpl:18
-msgid "*Change comment:* If you use _Change Properties_ to change a comment, the comment shown in the topic will change, but the comment shown against the attachment history will be the comment when the file was uploaded."
+msgid ""
+"*Change comment:* If you use _Change Properties_ to change a comment, the "
+"comment shown in the topic will change, but the comment shown against the "
+"attachment history will be the comment when the file was uploaded."
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:8
@@ -379,15 +376,28 @@ msgid "*Formatting help:*"
 msgstr "*Apua muotoiluun:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-msgid "*Important:* the information provided in this form will be stored in a database on the Foswiki server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfusticated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact %1 for details of the Data Protection Policy of this Foswiki server before registering."
+msgid ""
+"*Important:* the information provided in this form will be stored in a "
+"database on the Foswiki server. This database is accessible to anyone who "
+"can access the server through the web (though passwords will be encrypted, "
+"and e-mail addresses will be obfuscated to help prevent spamming). Your "
+"country, or the country where the server is hosted, may have Data Protection "
+"laws governing the maintenance of such databases. If you are in doubt, you "
+"should contact %1 for details of the Data Protection Policy of this Foswiki "
+"server before registering."
 msgstr ""
 
 #: core/templates/attachagain.tmpl:19
-msgid "*Local file:* If you select a different file in _Local file:_, it is this that will be updated or added."
+msgid ""
+"*Local file:* If you select a different file in _Local file:_, it is this "
+"that will be updated or added."
 msgstr ""
 
 #: core/templates/attachagain.tmpl:17
-msgid "*Properties:* The comment and visibility (i.e. is attachment hidden) can be changed without uploading a file by pressing \"Change Properties only\"; see %1."
+msgid ""
+"*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
+"changed without uploading a file by pressing \"Change Properties only\"; see "
+"%1."
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
@@ -395,11 +405,15 @@ msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:10
-msgid "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;your text="
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:14
-msgid "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to Yahoo]]="
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
 msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:11
@@ -426,80 +440,100 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/templates/more.tmpl:14
-msgid "Edit settings for this topic"
-msgstr "Muokkaa tämän aiheen asetuksia"
-
 #: core/data/System/WebChanges.txt:8
-msgid "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> topics, <a href='%7' rel='nofollow'>all changes</a>"
+msgid ""
+"<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+"href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+"href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+"topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
 
-#: core/templates/more.tmpl:57
+#: core/templates/oopsmore.tmpl:56
 msgid "<em>in %1 web</em> only"
 msgstr "vain <em>verkossa %1</em>"
 
-#: core/templates/more.tmpl:55
+#: core/templates/oopsmore.tmpl:54
 msgid "<em>in all public webs</em>"
 msgstr "<em>kaikissa julkisissa verkoissa</em>"
 
 #: core/templates/messages.tmpl:365
 msgid "A =.txt= extension is appended to some filenames for security reasons"
-msgstr "Tiedostotarkenne =.txt= liitetään joihinkin tiedostoihin automaattisesti tietoturvasyistä"
+msgstr ""
+"Tiedostotarkenne =.txt= liitetään joihinkin tiedostoihin automaattisesti "
+"tietoturvasyistä"
 
-#: core/templates/messages.tmpl:488
-msgid "A Foswiki site is divided into webs; each one represents one subject, one area of collaboration. You are trying to %1 in a web that does not exist."
-msgstr "Foswiki sivusto on jaettu verkkoihin. Jokainen verkko edustaa yhtä aihealuetta. Yrität suorittaa %1 verkossa, jota ei ole olemassa"
+#: core/templates/messages.tmpl:493
+msgid ""
+"A Foswiki site is divided into webs; each one represents one subject, one "
+"area of collaboration. You are trying to %1 in a web that does not exist."
+msgstr ""
+"Foswiki sivusto on jaettu verkkoihin. Jokainen verkko edustaa yhtä "
+"aihealuetta. Yrität suorittaa %1 verkossa, jota ei ole olemassa"
 
 #: core/templates/messages.tmpl:131
-msgid "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. =#FFFF00=."
-msgstr "Värimäärittely alkaa # -merkillä, jonka jälkeen tulee 6 heksadesimaalista numeroa, esimerkiksi =#FFFF00="
+msgid ""
+"A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+"=#FFFF00=."
+msgstr ""
+"Värimäärittely alkaa # -merkillä, jonka jälkeen tulee 6 heksadesimaalista "
+"numeroa, esimerkiksi =#FFFF00="
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:875
+#: core/lib/Foswiki/UI/Register.pm:974
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Varmistussähköposti lähetetty osoitteeseen %1"
 
-#: core/templates/messages.tmpl:492
-msgid "A link to a topic located in another web is written like %1. Make sure that the name of the web is not spelt wrongly on the previous page; fix the link if necessary."
+#: core/templates/messages.tmpl:497
+msgid ""
+"A link to a topic located in another web is written like %1. Make sure that "
+"the name of the web is not spelt wrongly on the previous page; fix the link "
+"if necessary."
 msgstr ""
 
 #: core/data/Sandbox/WebHome.txt:25
 msgid "A more extensive changes list is available via [[%1][Recent Changes]]."
 msgstr ""
 
-#: core/templates/messages.tmpl:464
-msgid "A new system-generated password for your login name %1 (!WikiName %2) has been sent to your registered e-mail address. If your e-mail address is no longer valid, please contact %3"
-msgstr "Uusi, automaattisesti generoitu, salasanasi tunnukselle %1 (!WikiNimi %2) on lähetetty rekisteröimääsi sähköpostiosoitteeseen. Mikäli tämä osoite ei ole enää voimassa ota yhteyttä ylläpitäjään: %3"
+#: core/templates/messages.tmpl:469
+msgid ""
+"A new system-generated password for your login name %1 (!WikiName %2) has "
+"been sent to your registered e-mail address. If your e-mail address is no "
+"longer valid, please contact %3"
+msgstr ""
+"Uusi, automaattisesti generoitu, salasanasi tunnukselle %1 (!WikiNimi %2) on "
+"lähetetty rekisteröimääsi sähköpostiosoitteeseen. Mikäli tämä osoite ei ole "
+"enää voimassa ota yhteyttä ylläpitäjään: %3"
 
 #: core/data/System/WebTemplateTopics.txt:4
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:20
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
-msgstr "Aihe tällä nimellä on ollut olemassa, mutta se on joko poistettu tai siirretty sijaintiin %1."
+msgstr ""
+"Aihe tällä nimellä on ollut olemassa, mutta se on joko poistettu tai "
+"siirretty sijaintiin %1."
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
 msgstr "Pääsy estetty"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:477
 msgid "Access check on %1 failed"
 msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/preview.pattern.tmpl:22
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "Access keys"
 msgstr ""
 
-#: core/templates/attachtables.tmpl:37
-#: core/templates/attachtables.tmpl:4
-#: core/templates/changeform.tmpl:10
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+#: core/templates/changeform.tmpl:9
 msgid "Action"
 msgstr "Toiminto"
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:478
 msgid "Action %1: %2."
 msgstr "Toiminto %1: %2."
 
@@ -507,11 +541,12 @@ msgstr "Toiminto %1: %2."
 msgid "Add form"
 msgstr "Lisää lomake"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:174
+#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
 msgid "Add row"
 msgstr "Lisää rivi"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "Lisää nimesi käyttäjälistaan webissä %2 aiheessa %1 ."
 
@@ -531,24 +566,31 @@ msgstr ""
 msgid "Advanced Search"
 msgstr "Tarkennettu haku"
 
-#: core/data/System/WebSearch.txt:24
+#: core/data/System/WebSearch.txt:25
 msgid "Advanced search"
 msgstr "Tarkennettu haku"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
-msgid "After submitting this form your e-mail will be changed, and you will be returned to this form."
-msgstr "Lomakkeen lähettämisen jälkeen sähköpostiosoitteesi vaihdetaan ja palaat takaisin lomakkeelle."
+msgid ""
+"After submitting this form your e-mail will be changed, and you will be "
+"returned to this form."
+msgstr ""
+"Lomakkeen lähettämisen jälkeen sähköpostiosoitteesi vaihdetaan ja palaat "
+"takaisin lomakkeelle."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:12
 msgid "After submitting this form your password will be changed."
 msgstr "Lomakkeen lähettämisen jälkeen salasanasi vaihtuu."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:15
-msgid "After submitting this form, you will receive an e-mail with your new, *system-generated* password, and a link to a page where you can change it."
-msgstr "Lomakkeen lähettämisen jälkeen saat sähköpostitse uuden, *automaattisesti generoidun*, salasanasi ja linkin sivulle, jossa voit vaihtaa sen."
+msgid ""
+"After submitting this form, you will receive an e-mail with your new, "
+"*system-generated* password, and a link to a page where you can change it."
+msgstr ""
+"Lomakkeen lähettämisen jälkeen saat sähköpostitse uuden, *automaattisesti "
+"generoidun*, salasanasi ja linkin sivulle, jossa voit vaihtaa sen."
 
-#: core/data/System/WebSearch.txt:33
-#: core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
 msgstr "Kaikki julkiset verkot"
 
@@ -557,24 +599,36 @@ msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Salli ei- <nop>WikiSana uuden aiheen nimeksi"
 
 #: core/templates/messages.tmpl:267
-msgid "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose a different username."
-msgstr "Vaihtoehtoisesti klikkaa paluuta palataksesi [[%SYSTEMWEB%.UserRegistration][rekisteröitymislomakkeelle]] ja valitse toinen käyttäjätunnus."
+msgid ""
+"Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
+"a different username."
+msgstr ""
+"Vaihtoehtoisesti klikkaa paluuta palataksesi [[%SYSTEMWEB%.UserRegistration]"
+"[rekisteröitymislomakkeelle]] ja valitse toinen käyttäjätunnus."
 
 #: core/templates/messages.tmpl:254
-msgid "An e-mail could not be delivered. Please notify your %1 administrator, %2"
+msgid ""
+"An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr "Sähköpostia ei voitu lähettää. Ilmoita asiasta %1 ylläpitäjällesi, %2"
 
-#: core/templates/moveattachment.tmpl:30
-msgid "An error page will be shown if either of the topics are locked by another user."
-msgstr "Jos aiheet ovat lukittu toisen käyttäjän toimesta sinulle näytetään virheilmoitus."
+#: core/templates/moveattachment.tmpl:29
+msgid ""
+"An error page will be shown if either of the topics are locked by another "
+"user."
+msgstr ""
+"Jos aiheet ovat lukittu toisen käyttäjän toimesta sinulle näytetään "
+"virheilmoitus."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
 msgstr ""
 
-#: core/templates/changeform.tmpl:28
-msgid "Any changes you made to the topic before coming to this page are preserved."
-msgstr "Kaikki muutokset, jotka olet tehnyt aiheeseen ennen saapumistasi tälle sivulle on säilytetty."
+#: core/templates/changeform.tmpl:27
+msgid ""
+"Any changes you made to the topic before coming to this page are preserved."
+msgstr ""
+"Kaikki muutokset, jotka olet tehnyt aiheeseen ennen saapumistasi tälle "
+"sivulle on säilytetty."
 
 #: core/templates/viewtopicactionbuttons.tmpl:66
 msgid "Attach"
@@ -589,10 +643,8 @@ msgstr "Liitä tiedosto sijaintiin %1"
 msgid "Attach image or document on %1"
 msgstr "Liitä kuva tai dokumentti sijaintiin %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:36
-#: core/templates/attach.tmpl:17
-#: core/templates/attachnew.tmpl:6
-#: core/templates/attachnew.tmpl:8
+#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:15
+#: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Liitä uusi tiedosto"
 
@@ -600,11 +652,11 @@ msgstr "Liitä uusi tiedosto"
 msgid "Attachment"
 msgstr "Liite"
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:527
 msgid "Attachment '%1' does not exist"
 msgstr "Liitettä '%1' ei ole olemassa"
 
-#: core/lib/Foswiki/UI/Manage.pm:373
+#: core/lib/Foswiki/UI/Manage.pm:383
 msgid "Attachment already exists in new topic"
 msgstr "Liite on jo olemassa uudessa aiheessa"
 
@@ -612,7 +664,7 @@ msgstr "Liite on jo olemassa uudessa aiheessa"
 msgid "Attachment delete failed"
 msgstr "Liitteen poisto ei onnistunut"
 
-#: core/lib/Foswiki/UI/Manage.pm:352
+#: core/lib/Foswiki/UI/Manage.pm:359
 msgid "Attachment does not exist"
 msgstr "Liitettä ei ole olemassa"
 
@@ -628,20 +680,17 @@ msgstr "Liitteet"
 msgid "Attachments help"
 msgstr "Liitteiden ohjeet"
 
-#: core/templates/attach.tmpl:7
+#: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
 msgstr "Liitteet kohteessa %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
-#: core/templates/attach.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Liitteitä ei näytetä aiheiden sivulla."
 
-#: core/templates/oopsaccessdenied.tmpl:5
-#: core/templates/oopsattention.tmpl:5
+#: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
-#: core/templates/oopsleaseconflict.tmpl:4
-#: core/templates/oopssaveerr.tmpl:10
+#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
 msgstr "Huomio"
 
@@ -658,7 +707,7 @@ msgid "Available Information"
 msgstr "Käytössäoleva tieto"
 
 #: PatternSkin/templates/changeform.pattern.tmpl:13
-#: core/templates/changeform.tmpl:34
+#: core/templates/changeform.tmpl:33
 msgid "Available form templates"
 msgstr ""
 
@@ -670,16 +719,16 @@ msgstr ""
 msgid "Back to topic"
 msgstr "Takaisin aiheeseen"
 
-#: core/templates/more.tmpl:53
+#: core/templates/oopsmore.tmpl:52
 #: core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr ""
 
-#: core/templates/backlinksweb.tmpl:7
+#: core/templates/backlinksweb.tmpl:6
 msgid "Backlinks to %1 in %2 Web"
 msgstr ""
 
-#: core/templates/backlinksallwebs.tmpl:7
+#: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
 msgstr ""
 
@@ -695,30 +744,35 @@ msgstr "Perusverkko %1 puuttuu tai ei ole olemassa"
 msgid "Bathing problem"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:31
-#: core/data/System/WebSearchAdvanced.txt:40
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
 msgstr ""
 
-#: core/templates/changeform.tmpl:29
-msgid "But existing form data will be lost (you can always retrieve this data through the topic history)"
+#: core/templates/changeform.tmpl:28
+msgid ""
+"But existing form data will be lost (you can always retrieve this data "
+"through the topic history)"
 msgstr ""
 
 #: core/data/Trash/WebHome.txt:7
-msgid "By default, viewing the Trash web is restricted to %1. If you would like to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction in WebPreferences."
+msgid ""
+"By default, viewing the Trash web is restricted to %1. If you would like to "
+"allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
+"in WebPreferences."
 msgstr ""
 
-#: core/templates/messages.tmpl:44
-#: core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:467
 msgid "Can't find user %1"
 msgstr "Käyttäjää %1 ei löydy"
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:468
 msgid "Can't get an e-mail address for %1 (required for password reset)"
-msgstr "Sähköpostiosoitetta tilille %1 ei löydy (vaaditaan salasanan resetointiin)"
+msgstr ""
+"Sähköpostiosoitetta tilille %1 ei löydy (vaaditaan salasanan resetointiin)"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:176
-#: core/templates/foswiki.tmpl:79
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Peru"
 
@@ -734,10 +788,10 @@ msgstr "Ei voi luoda %1 koska se on jo olemassa."
 msgid "Cannot create web %1 because it already exists"
 msgstr "Ei voida luoda verkkoa %1 koska se on jo olemassa"
 
-#: core/templates/messages.tmpl:75
-#: core/templates/messages.tmpl:81
+#: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "%1: nimeäminen uudelleen nimelle %2 ei onnistu, koska kohde on jo olemassa."
+msgstr ""
+"%1: nimeäminen uudelleen nimelle %2 ei onnistu, koska kohde on jo olemassa."
 
 #: core/data/System/WebSearchAdvanced.txt:57
 msgid "Case sensitive"
@@ -755,7 +809,7 @@ msgstr "Muuta salasana"
 msgid "Change comment and properties only"
 msgstr ""
 
-#: core/templates/renamebase.tmpl:15
+#: core/templates/renamebase.tmpl:14
 msgid "Change from:"
 msgstr ""
 
@@ -766,19 +820,19 @@ msgstr ""
 msgid "Change language"
 msgstr "Vaihda kieli"
 
-#: core/templates/renamewebbase.tmpl:43
+#: core/templates/renamewebbase.tmpl:42
 msgid "Change links in topics that refer to !%1 in any Web:"
 msgstr ""
 
-#: core/templates/renamewebbase.tmpl:40
+#: core/templates/renamewebbase.tmpl:39
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
 msgstr ""
 
-#: core/templates/renamebase.tmpl:56
+#: core/templates/renamebase.tmpl:55
 msgid "Change links in topics that refer to %1 in any Web:"
 msgstr ""
 
-#: core/templates/renamebase.tmpl:53
+#: core/templates/renamebase.tmpl:52
 msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr ""
 
@@ -790,7 +844,7 @@ msgstr "Muuta salasana"
 msgid "Change properties only"
 msgstr ""
 
-#: core/templates/edit.tmpl:7
+#: core/templates/edit.tmpl:6
 msgid "Change topic"
 msgstr "Muuta aihetta"
 
@@ -798,8 +852,7 @@ msgstr "Muuta aihetta"
 msgid "Changed"
 msgstr "Muutettu"
 
-#: MailerContrib/templates/mailnotify.tmpl:18
-#: core/templates/search.tmpl:16
+#: MailerContrib/templates/mailnotify.tmpl:18 core/templates/search.tmpl:16
 msgid "Changed by"
 msgstr "Muuttanut"
 
@@ -822,23 +875,25 @@ msgid "Changes from r%1 to r%2"
 msgstr "Muutokset v%1 - v%2"
 
 #: core/templates/messages.tmpl:413
-msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}. If that's not the problem, it may be because you have a setting of %1 that is pointing to a template that doesn't exist."
+msgid ""
+"Check your configuration settings for {TemplateDir} and {TemplatePath}. If "
+"that's not the problem, it may be because you have a setting of %1 that is "
+"pointing to a template that doesn't exist."
 msgstr ""
 
-#: core/templates/renamebase.tmpl:43
-#: core/templates/renamedelete.tmpl:31
+#: core/templates/renamebase.tmpl:42 core/templates/renamedelete.tmpl:30
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
 
-#: core/templates/renameweb.tmpl:29
+#: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 
-#: core/templates/more.tmpl:128
+#: core/templates/oopsmore.tmpl:127
 msgid "Child topics in %1 web"
 msgstr ""
 
-#: core/templates/changeform.tmpl:7
+#: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
 msgstr ""
 
@@ -847,8 +902,10 @@ msgstr ""
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
-#: core/lib/Foswiki/Render.pm:192
-msgid "Click to move topic back to previous location, with option to change references."
+#: core/lib/Foswiki/Render.pm:201
+msgid ""
+"Click to move topic back to previous location, with option to change "
+"references."
 msgstr ""
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:576
@@ -859,41 +916,37 @@ msgstr "Sulje"
 msgid "Color %1 has an invalid format"
 msgstr "Värikoodi %1 ei ole oikein määritelty"
 
-#: PatternSkin/templates/attach.pattern.tmpl:45
-#: core/templates/attach.tmpl:26
-#: core/templates/attachtables.tmpl:37
-#: core/templates/attachtables.tmpl:4
+#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:24
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Comment"
 msgstr "Kommentti"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
 msgid "Comments:"
 msgstr "Kommentit:"
 
-#: core/templates/more.tmpl:109
+#: core/templates/oopsmore.tmpl:108
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
-#: core/templates/renameconfirm.tmpl:7
-#: core/templates/renamewebconfirm.tmpl:7
+#: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
 msgstr "Varmista uudelleennimeäminen tai siirto"
 
 #: core/templates/messages.tmpl:31
-msgid "Confirm your changes using Foswiki's [[%1][topic history comparison tool (diff)]]."
+msgid ""
+"Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+"(diff)]]."
 msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
 msgstr "Ristiriita"
 
-#: core/templates/messages.tmpl:475
-#: core/templates/messages.tmpl:481
-#: core/templates/messages.tmpl:502
-#: core/templates/messages.tmpl:513
-#: core/templates/messages.tmpl:519
-#: core/templates/messages.tmpl:525
-#: core/templates/messages.tmpl:534
+#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:486
+#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:518
+#: core/templates/messages.tmpl:524 core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:539
 msgid "Contact %1 if you have any questions."
 msgstr "Ota yhteyttä %1 jos sinulla on kysyttävää"
 
@@ -905,20 +958,26 @@ msgstr "Jatka ja yritä nimetä verkko uudelleen?"
 msgid "Continue to create the new page"
 msgstr "Jatka uuden sivun luontiin"
 
-#: core/templates/more.tmpl:20
-msgid "Copy text and form data to a new topic (no attachments will be copied though)."
+#: core/templates/oopsmore.tmpl:20
+msgid ""
+"Copy text and form data to a new topic (no attachments will be copied "
+"though)."
 msgstr ""
 
-#: core/templates/more.tmpl:19
+#: core/templates/oopsmore.tmpl:19 core/templates/oopsmore.tmpl:22
 msgid "Copy topic"
 msgstr "Kopioi aihe"
 
 #: core/data/System/DefaultPreferences.txt:42
-msgid "Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors."
+msgid ""
+"Copyright &&copy; by the contributing authors. All material on this "
+"collaboration platform is the property of the contributing authors."
 msgstr ""
 
 #: core/data/System/WebPreferences.txt:34
-msgid "Copyright &&copy; by the contributing authors. All material on this site is the property of the contributing authors."
+msgid ""
+"Copyright &&copy; by the contributing authors. All material on this site is "
+"the property of the contributing authors."
 msgstr ""
 
 #: core/templates/messages.tmpl:140
@@ -929,7 +988,7 @@ msgstr "Ei voitu luoda uutta verkkoa %1"
 msgid "Could not find template"
 msgstr ""
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:472
 msgid "Could not perform search. Error was: %1"
 msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
 
@@ -957,8 +1016,7 @@ msgstr "Luo uusi aihe"
 msgid "Create New Topic in %1 Web"
 msgstr "Luo uusi aihe verkossa %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:55
-#: core/templates/attach.tmpl:39
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Luo linkki liitettyyn tiedostoon"
 
@@ -974,32 +1032,34 @@ msgstr "Luo uusi asiakirja nimellä:"
 msgid "Create by Name"
 msgstr ""
 
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:505
 msgid "Create the topic"
 msgstr "Luo aihe"
 
-#: core/data/System/DefaultPreferences.txt:318
 #: core/data/System/DefaultPreferences.txt:320
+#: core/data/System/DefaultPreferences.txt:322
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:14
-#: core/data/System/WebCreateNewTopicTemplate.txt:66
-#: core/lib/Foswiki/Render.pm:95
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
+#: core/lib/Foswiki/Render.pm:98
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
-msgid "Create your personal %1 topic using your WikiName as topic name, and add the data you submitted to the topic."
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
+msgid ""
+"Create your personal %1 topic using your WikiName as topic name, and add the "
+"data you submitted to the topic."
 msgstr ""
 
 #: core/templates/messages.tmpl:352
 msgid "Creating a suitable Form Definition topic"
 msgstr ""
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
-#: core/templates/renamedelete.tmpl:10
+#: core/templates/renameattachmentdelete.tmpl:9
+#: core/templates/renamedelete.tmpl:9
 msgid "Current location:"
 msgstr "Nykyinen sijainti:"
 
-#: core/templates/more.tmpl:67
+#: core/templates/oopsmore.tmpl:66
 msgid "Current parent:"
 msgstr ""
 
@@ -1007,57 +1067,58 @@ msgstr ""
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
-#: core/templates/attachtables.tmpl:37
-#: core/templates/attachtables.tmpl:4
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Date"
 msgstr "Päiväys"
 
-#: core/templates/mailresetpassword.tmpl:5
+#: core/templates/mailresetpassword.tmpl:8
 msgid "Dear %1"
 msgstr "Hyvä %1,"
 
-#: core/templates/more.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Debug"
 msgstr "Debug"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicTemplate.txt:65
 msgid "Default template"
 msgstr ""
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
-#: core/templates/renamedelete.tmpl:34
-#: core/templates/renamedelete.tmpl:7
+#: core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Poista"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:28
+#: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment"
 msgstr "Poista liite"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:175
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
 msgid "Delete last row"
 msgstr "Poista viimeinen rivi"
 
-#: core/templates/more.tmpl:35
+#: core/templates/oopsmore.tmpl:34
 msgid "Delete topic"
 msgstr "Poista aihe"
 
-#: core/templates/more.tmpl:36
-#: core/templates/more.tmpl:38
+#: core/templates/oopsmore.tmpl:35 core/templates/oopsmore.tmpl:37
 msgid "Delete topic..."
 msgstr "Poista aihe..."
 
 #: PatternSkin/templates/attach.pattern.tmpl:47
 msgid "Describe the file so other people know what it is."
-msgstr "Anna tiedostolle kuvaus, jotta muut tietävät mikä tiedosto on kyseessä."
+msgstr ""
+"Anna tiedostolle kuvaus, jotta muut tietävät mikä tiedosto on kyseessä."
 
-#: core/lib/Foswiki/Form.pm:272
+#: core/lib/Foswiki/Form.pm:286
 msgid "Details in separate window"
 msgstr "Yksityiskohdat erillisessä ikkunassa"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
-msgid "Did you spell the topic name correctly? Remember, a topic name is case sensitive."
+msgid ""
+"Did you spell the topic name correctly? Remember, a topic name is case "
+"sensitive."
 msgstr ""
 
 #: core/data/System/VarMAKETEXT.txt:19
@@ -1072,8 +1133,7 @@ msgstr "Eroavaisuudet:"
 msgid "Do not forget to save your changes"
 msgstr "Älä unohda tallentaa muutoksia"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57
-#: core/templates/attach.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Älä näytä liitettä taulukossa"
 
@@ -1082,24 +1142,33 @@ msgid "Don't show:"
 msgstr "Älä näytä:"
 
 #: core/templates/messages.tmpl:63
-msgid "During deletion of attachment =%1= an error was found. Please notify your %2 administrator."
+msgid ""
+"During deletion of attachment =%1= an error was found. Please notify your %2 "
+"administrator."
 msgstr ""
 
 #: core/templates/messages.tmpl:55
-msgid "During move of attachment %1 to %2 an error was found. Please notify your %3 administrator."
+msgid ""
+"During move of attachment %1 to %2 an error was found. Please notify your %3 "
+"administrator."
 msgstr ""
 
 #: core/templates/messages.tmpl:99
-msgid "During rename of topic %1 to %2 an error (%3) was found. Please notify your %4 administrator."
+msgid ""
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
+"4 administrator."
 msgstr ""
 
 #: core/templates/messages.tmpl:102
-msgid "During rename of web %1 to %2 an error (%3) was found. Please notify your %4 administrator."
+msgid ""
+"During rename of web %1 to %2 an error (%3) was found. Please notify your %4 "
+"administrator."
 msgstr ""
 
-#: core/templates/messages.tmpl:382
-#: core/templates/oopssaveerr.tmpl:17
-msgid "During save of %1 an error was found by the version control system. Please notify your %2 administrator."
+#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:16
+msgid ""
+"During save of %1 an error was found by the version control system. Please "
+"notify your %2 administrator."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:109
@@ -1110,7 +1179,7 @@ msgstr "Sähköpostiosoite:"
 msgid "E-mail changed successfully!"
 msgstr "Sähköpostiosoitteen muutos onnistui!"
 
-#: core/templates/settings.tmpl:27
+#: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
 msgstr ""
 
@@ -1130,15 +1199,16 @@ msgstr "Muokkauksen ohje"
 msgid "Edit personal data"
 msgstr "Muokkaa henkilökohtaisia tietoja"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:170
-msgid "Edit table"
-msgstr "Muokkaa taulukkoa"
+#: core/templates/oopsmore.tmpl:14
+msgid "Edit settings for this topic"
+msgstr "Muokkaa tämän aiheen asetuksia"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
 msgstr "Muokkaa tekstiä"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:171
+#: EditTablePlugin/data/System/EditTablePlugin.txt:160
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
 msgid "Edit this table"
 msgstr "Muokkaa tätä taulukkoa"
 
@@ -1146,24 +1216,27 @@ msgstr "Muokkaa tätä taulukkoa"
 msgid "Edit this topic text"
 msgstr "Muokkaa tämän aiheen tekstiä"
 
-#: core/templates/more.tmpl:13
+#: core/templates/oopsmore.tmpl:13
 msgid "Edit topic preference settings"
 msgstr ""
 
 #: core/templates/messages.tmpl:308
-msgid "Either the code is not valid, or you have already confirmed your registration using it."
+msgid ""
+"Either the code is not valid, or you have already confirmed your "
+"registration using it."
 msgstr ""
 
 #: core/templates/messages.tmpl:373
-msgid "Either you did not specify a file name, or the file you are trying to upload %1 has no content. You may not upload an empty file."
+msgid ""
+"Either you did not specify a file name, or the file you are trying to upload "
+"%1 has no content. You may not upload an empty file."
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:411
-#: core/lib/Foswiki/UI/Register.pm:450
+#: core/lib/Foswiki/UI/Register.pm:422 core/lib/Foswiki/UI/Register.pm:461
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Enlarge edit box"
 msgstr "Suurenna muokkauslaatikkoa"
 
@@ -1191,15 +1264,17 @@ msgstr "Virhe aiheen tallennuksessa"
 msgid "Error: %1"
 msgstr "Virhe: %1"
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:458
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr ""
 
-#: core/templates/messages.tmpl:456
-msgid "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or =text/css=)"
+#: core/templates/messages.tmpl:460
+msgid ""
+"Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+"=text/css=)"
 msgstr ""
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:459
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr ""
 
@@ -1207,7 +1282,7 @@ msgstr ""
 msgid "Errors"
 msgstr "Virheet"
 
-#: core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:470
 msgid "Failed to include URL %1"
 msgstr ""
 
@@ -1226,13 +1301,14 @@ msgstr "Tiedosto on lähetetty eri nimellä"
 msgid "Find similar topics"
 msgstr "Etsi samankaltaisia aiheita"
 
-#: core/templates/more.tmpl:54
-#: core/templates/more.tmpl:56
+#: core/templates/oopsmore.tmpl:53 core/templates/oopsmore.tmpl:55
 msgid "Find topics that link to %1 ..."
 msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
-msgid "Finish creating an account for you, so that you can start editing pages using your WikiName."
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
+msgid ""
+"Finish creating an account for you, so that you can start editing pages "
+"using your WikiName."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:93
@@ -1264,36 +1340,49 @@ msgid "Foswiki password reset for %1"
 msgstr "Foswiki salasanan uudistaminen %1:lle"
 
 #: core/templates/oopschangelanguage.tmpl:12
-msgid "Foswiki's user interface is available in several languages. If you want to change the language for this session, choose one of the following and hit \"Change language\". Otherwise, follow the \"Cancel\" link on the bottom of the page to return to the previous topic."
-msgstr "Foswikin käyttöliittymä on saatavissa useilla eri kielillä. Jos haluat vaihtaa nykyisen istunnon kieltä valitse listalta yksi ja klikkaa \"Vaihda kieli\" -nappia. Muutoin klikkaa \"Peruuta\" -linkkiä sivun alareunassa palataksesi edelliseen aiheesen"
+msgid ""
+"Foswiki's user interface is available in several languages. If you want to "
+"change the language for this session, choose one of the following and hit "
+"\"Change language\". Otherwise, follow the \"Cancel\" link on the bottom of "
+"the page to return to the previous topic."
+msgstr ""
+"Foswikin käyttöliittymä on saatavissa useilla eri kielillä. Jos haluat "
+"vaihtaa nykyisen istunnon kieltä valitse listalta yksi ja klikkaa \"Vaihda "
+"kieli\" -nappia. Muutoin klikkaa \"Peruuta\" -linkkiä sivun alareunassa "
+"palataksesi edelliseen aiheesen"
 
-#: core/templates/settings.tmpl:26
-msgid "Get help on <a target='Macros' class='foswikiPopUp' href='%1' rel='nofollow'>Setting topic preferences</a>."
+#: core/templates/settings.tmpl:25
+msgid ""
+"Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
 
-#: core/templates/renamebase.tmpl:66
-msgid "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' rel='nofollow'>Renaming and moving topics</a>."
+#: core/templates/renamebase.tmpl:65
+msgid ""
+"Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>Renaming and moving topics</a>."
 msgstr ""
 
-#: core/templates/renamewebbase.tmpl:50
-msgid "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' rel='nofollow'>Renaming and moving webs</a>."
+#: core/templates/renamewebbase.tmpl:49
+msgid ""
+"Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>Renaming and moving webs</a>."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:5
-#: core/data/System/WebSearchAdvanced.txt:5
+#: core/data/System/WebSearch.txt:5 core/data/System/WebSearchAdvanced.txt:5
 msgid "Get notified on changes on this search"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:81
+#: core/templates/foswiki.tmpl:82
 msgid "Go back"
 msgstr "Takaisin"
 
 #: core/templates/messages.tmpl:327
-msgid "Go back in your browser and insert information for all mandatory fields."
+msgid ""
+"Go back in your browser and insert information for all mandatory fields."
 msgstr ""
 
-#: core/templates/messages.tmpl:388
-#: core/templates/oopssaveerr.tmpl:21
+#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
 
@@ -1313,13 +1402,12 @@ msgstr "Hei %1"
 msgid "Hello %1!"
 msgstr "Hei %1!"
 
-#: core/data/System/WebSearch.txt:24
-#: core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/templates/login.tmpl:50
 msgid "Help"
 msgstr "Ohje"
 
-#: core/templates/attach.tmpl:45
+#: core/templates/attach.tmpl:43
 msgid "Hide file"
 msgstr "Piilota tiedosto"
 
@@ -1340,15 +1428,23 @@ msgid "How to activate your %1 registration"
 msgstr ""
 
 #: core/templates/registerfailednotremoved.tmpl:14
-msgid "However, sending a confirmation e-mail to %2 failed, suggesting that this may be a fraudulent registration.  The user '%1' could not be removed automatically."
+msgid ""
+"However, sending a confirmation e-mail to %2 failed, suggesting that this "
+"may be a fraudulent registration.  The user '%1' could not be removed "
+"automatically."
 msgstr ""
 
 #: core/templates/registerfailedremoved.tmpl:14
-msgid "However, sending a confirmation e-mail to %2 failed, suggesting that this maye be a fraudulent registration.  The user '%1' was removed automatically. However you may have to remove the user's personal topic manually."
+msgid ""
+"However, sending a confirmation e-mail to %2 failed, suggesting that this "
+"maye be a fraudulent registration.  The user '%1' was removed automatically. "
+"However you may have to remove the user's personal topic manually."
 msgstr ""
 
 #: core/templates/messages.tmpl:360
-msgid "However, the filename has been changed from %1 to %2. Please make a note of it."
+msgid ""
+"However, the filename has been changed from %1 to %2. Please make a note of "
+"it."
 msgstr ""
 
 #: core/templates/login.tmpl:65
@@ -1358,7 +1454,9 @@ msgstr "Unohdin salasanani"
 #: core/data/System/DefaultPreferences.txt:42
 #: core/data/System/WebPreferences.txt:34
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
-msgstr "Ideoita, pyyntöjä tai ongelmia koskien %1:tä? <a href='%2'>Lähetä palautetta</a>"
+msgstr ""
+"Ideoita, pyyntöjä tai ongelmia koskien %1:tä? <a href='%2'>Lähetä "
+"palautetta</a>"
 
 #: core/templates/messages.tmpl:344
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1368,16 +1466,23 @@ msgstr ""
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:43
-#: core/data/System/WebSearchAdvanced.txt:97
-msgid "If you already know the name of the topic, enter the name of the topic into the [[%1][Jump box]] at the top"
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
+msgid ""
+"If you already know the name of the topic, enter the name of the topic into "
+"the [[%1][Jump box]] at the top"
 msgstr ""
 
-#: core/templates/messages.tmpl:425
-msgid "If you are developing a Foswiki application, see %1 for a description of the correct parameters."
+#: core/templates/messages.tmpl:429
+msgid ""
+"If you are developing a Foswiki application, see %1 for a description of the "
+"correct parameters."
 msgstr ""
 
-#: core/templates/messages.tmpl:490
+#: core/templates/validate.tmpl:25
+msgid "If you are unsure what this means, read:"
+msgstr ""
+
+#: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
 msgstr ""
 
@@ -1385,16 +1490,18 @@ msgstr ""
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+#: core/templates/renameattachmentdelete.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
 msgstr ""
 
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
-msgid "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site using your mail address %3. Contact %4 if this is in error."
+msgid ""
+"If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
+"using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:303
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:302
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 
@@ -1406,7 +1513,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Kysymyksiisi vastaa %1"
 
 #: core/data/System/VarMAKETEXT.txt:16
-#: core/templates/mailresetpassword.tmpl:14
+#: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Kysymyksiisi vastaa %1."
 
@@ -1415,32 +1522,34 @@ msgstr "Kysymyksiisi vastaa %1."
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:420
-msgid "The =%1= script can only be called with POST method."
+#: core/templates/messages.tmpl:427
+msgid ""
+"If you received a link to this topic in an e-mail or just want to look at "
+"the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:423
-msgid "If you received a link to this topic in an e-mail or just want to look at the topic, [[%1][cancel save]] to go to %2."
-msgstr ""
-
-#: core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:504
 msgid "If you want to create the topic"
 msgstr "Jos haluat luoda aiheen"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:500
 msgid "If you would like to create this web"
 msgstr "Jos haluat luoda tämän verkon"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:13
-msgid "If your old e-mail addresses are all invalid (you can't receive mail there any more) and you have forgotten your password, please contact %1 for help."
+msgid ""
+"If your old e-mail addresses are all invalid (you can't receive mail there "
+"any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:11
-msgid "If your user topic is not protected from changes by other people, and you don't register an e-mail address using this form, then your user account could be hijacked by someone else."
+msgid ""
+"If your user topic is not protected from changes by other people, and you "
+"don't register an e-mail address using this form, then your user account "
+"could be hijacked by someone else."
 msgstr ""
 
-#: PatternSkin/templates/attach.pattern.tmpl:55
-#: core/templates/attach.tmpl:39
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 
@@ -1449,11 +1558,12 @@ msgid "In reversed order"
 msgstr "Päinvastaisessa järjestyksessä"
 
 #: core/templates/messages.tmpl:363
-msgid "In some cases, Foswiki changes the name of the uploaded file to make it safe and accessible across all platforms:"
+msgid ""
+"In some cases, Foswiki changes the name of the uploaded file to make it safe "
+"and accessible across all platforms:"
 msgstr ""
 
-#: core/templates/messages.tmpl:272
-#: core/templates/messages.tmpl:279
+#: core/templates/messages.tmpl:272 core/templates/messages.tmpl:279
 msgid "Incorrect %1"
 msgstr "Väärä %1"
 
@@ -1465,7 +1575,7 @@ msgstr ""
 msgid "Incorrect Password"
 msgstr "Väärä salasana"
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:425
 msgid "Incorrect parameters to the =%1= script"
 msgstr ""
 
@@ -1479,7 +1589,9 @@ msgid "Index"
 msgstr "Hakemisto"
 
 #: core/templates/messages.tmpl:367
-msgid "International (8-bit) characters are removed (replaced by US-ASCII equivalents for Latin-1)"
+msgid ""
+"International (8-bit) characters are removed (replaced by US-ASCII "
+"equivalents for Latin-1)"
 msgstr ""
 
 #: core/templates/messages.tmpl:305
@@ -1490,22 +1602,34 @@ msgstr "Virheellinen aktivointikoodi"
 msgid "Invalid e-mail address"
 msgstr "Virheellinen sähköpostiosoite"
 
-#: core/templates/messages.tmpl:436
-msgid "It is probably OK to go ahead and edit - unless you intend to change data in a form attached to the topic. If %1 actually _does_ save the topic while you are editing, your changes will be merged, and nothing will be lost. Form data cannot easily be merged though, so in this case you are recommended to check with %1 first."
+#: core/templates/messages.tmpl:440
+msgid ""
+"It is probably OK to go ahead and edit - unless you intend to change data in "
+"a form attached to the topic. If %1 actually _does_ save the topic while you "
+"are editing, your changes will be merged, and nothing will be lost. Form "
+"data cannot easily be merged though, so in this case you are recommended to "
+"check with %1 first."
 msgstr ""
 
 #: core/templates/foswiki.tmpl:9
-msgid "It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' href='%1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed."
+msgid ""
+"It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' "
+"href='%1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise "
+"automatic linking may not work. Characters not allowed in topic names, such "
+"as spaces will automatically be removed."
 msgstr ""
 
-#: core/templates/renameweb.tmpl:17
-msgid "It's usually best to choose a short name for the new web, as it is easier to link to them later on. Characters not allowed in web names, such as spaces will automatically be removed."
+#: core/templates/renameweb.tmpl:16
+msgid ""
+"It's usually best to choose a short name for the new web, as it is easier to "
+"link to them later on. Characters not allowed in web names, such as spaces "
+"will automatically be removed."
 msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:2
 #: PatternSkin/data/System/WebTopBarExample.txt:7
 #: PatternSkin/templates/foswiki.pattern.tmpl:37
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:18
 msgid "Jump"
 msgstr "Hyppää"
 
@@ -1527,8 +1651,7 @@ msgstr ""
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:157
-#: core/lib/Foswiki/UI/RDiff.pm:160
+#: core/lib/Foswiki/UI/RDiff.pm:157 core/lib/Foswiki/UI/RDiff.pm:160
 msgid "Line: %1"
 msgstr "Rivi: %1"
 
@@ -1537,17 +1660,15 @@ msgstr "Rivi: %1"
 msgid "Line: %1 to %2"
 msgstr "Rivi: %1 - %2"
 
-#: core/templates/attach.tmpl:37
+#: core/templates/attach.tmpl:35
 msgid "Link"
 msgstr "Linkki"
 
-#: core/data/System/WebSearch.txt:44
-#: core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "Luettele kaikki aiheet verkossa %1 aakkosjärjestyksessä"
 
-#: core/data/System/WebSearch.txt:45
-#: core/data/System/WebSearchAdvanced.txt:99
+#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
 msgid "List topics that start with the letter:"
 msgstr "Luettele aiheet jotka alkavat kirjaimella:"
 
@@ -1567,11 +1688,11 @@ msgstr "Kirjaudu sisään"
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
-#: core/templates/mailresetpassword.tmpl:9
+#: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
 msgstr "Käyttäjätunnus %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:200
+#: PatternSkin/data/System/PatternSkinElements.txt:231
 #: core/templates/login.tmpl:71
 msgid "Logon"
 msgstr "Kirjaudu sisään"
@@ -1596,7 +1717,7 @@ msgstr ""
 msgid "Modify search"
 msgstr "Muuta hakua"
 
-#: core/templates/more.tmpl:7
+#: core/templates/oopsmore.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr ""
 
@@ -1614,19 +1735,19 @@ msgid "More..."
 msgstr "Lisää..."
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: core/templates/moveattachment.tmpl:36
+#: core/templates/moveattachment.tmpl:35
 msgid "Move"
 msgstr "Siirrä"
 
-#: core/templates/moveattachment.tmpl:10
+#: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
 msgstr "Siirrä liite"
 
-#: core/templates/moveattachment.tmpl:22
+#: core/templates/moveattachment.tmpl:21
 msgid "Move attachment to web:"
 msgstr "Siirrä liite verkkoon:"
 
-#: core/templates/moveattachment.tmpl:7
+#: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
 msgstr "Siirrä tiedostoliite"
 
@@ -1634,15 +1755,15 @@ msgstr "Siirrä tiedostoliite"
 msgid "Move or delete attachment"
 msgstr "Siirrä tai poista liite"
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:21
+#: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
 msgstr "Siirrä verkkoon:"
 
-#: core/templates/renamedelete.tmpl:16
+#: core/templates/renamedelete.tmpl:15
 msgid "Move topic to web:"
 msgstr "Siirrä aihe verkkoon:"
 
-#: core/lib/Foswiki/UI/Manage.pm:1258
+#: core/lib/Foswiki/UI/Manage.pm:1285
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
@@ -1650,11 +1771,11 @@ msgstr "Siirrä/nimeä uudelleen"
 msgid "My Links"
 msgstr "Minun linkkini"
 
-#: core/lib/Foswiki/Search.pm:880
+#: core/lib/Foswiki/Search.pm:911
 msgid "NEW"
 msgstr "UUSI"
 
-#: core/templates/more.tmpl:23
+#: core/templates/oopsmore.tmpl:22
 msgid "Name of copy:"
 msgstr "Kopion nimi:"
 
@@ -1683,7 +1804,7 @@ msgstr "Uudet sähköpostiosoitteet (välilyönneillä eroteltu lista)"
 msgid "New or changed topics in %1, since %2:"
 msgstr ""
 
-#: core/templates/renamewebbase.tmpl:10
+#: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
 msgstr ""
 
@@ -1695,23 +1816,23 @@ msgstr "Uusi salasana"
 msgid "New topic name %1 is not a %2"
 msgstr ""
 
-#: core/templates/renamewebbase.tmpl:7
+#: core/templates/renamewebbase.tmpl:6
 msgid "New web name:"
 msgstr "Uusi verkon nimi:"
 
-#: core/templates/more.tmpl:112
+#: core/templates/oopsmore.tmpl:111
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
-#: core/templates/more.tmpl:129
+#: core/templates/oopsmore.tmpl:128
 msgid "No child topics"
 msgstr ""
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:457
 msgid "No permission to view %1"
 msgstr ""
 
-#: core/templates/more.tmpl:124
+#: core/templates/oopsmore.tmpl:123
 msgid "No previous revision exists."
 msgstr "Aikaisempaa versiota ei ole olemassa."
 
@@ -1719,18 +1840,19 @@ msgstr "Aikaisempaa versiota ei ole olemassa."
 msgid "No users to reset passwords for."
 msgstr "Ei käyttäjiä, joiden salasana voitaisiin resetoida."
 
-#: core/templates/renamedelete.tmpl:31
+#: core/templates/renamedelete.tmpl:30
 msgid "Not recommended when deleting a topic."
 msgstr "Ei suositeltu poistettaessa aihetta"
 
-#: core/templates/moveattachment.tmpl:31
-msgid "Note that any URLs that refer to the attachment will be broken after this move."
+#: core/templates/moveattachment.tmpl:30
+msgid ""
+"Note that any URLs that refer to the attachment will be broken after this "
+"move."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:144
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:13
-#: core/templates/messages.tmpl:310
-#: core/templates/messages.tmpl:362
+#: core/templates/messages.tmpl:310 core/templates/messages.tmpl:362
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -1754,40 +1876,38 @@ msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:39
 #: PatternSkin/templates/searchbase.pattern.tmpl:5
-#: core/templates/search.text.tmpl:15
-#: core/templates/searchformat.tmpl:10
+#: core/templates/search.text.tmpl:15 core/templates/searchformat.tmpl:10
 msgid "Number of topics:"
 msgstr "Aiheiden lukumäärä:"
 
-#: core/templates/foswiki.tmpl:80
-#: core/templates/messages.tmpl:181
-#: core/templates/messages.tmpl:188
-#: core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:14
+#: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
+#: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/more.tmpl:112
+#: core/templates/oopsmore.tmpl:111
 msgid "Older revision:"
 msgstr "Vanhempi versio:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:291
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:290
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 
-#: core/templates/messages.tmpl:479
+#: core/templates/messages.tmpl:484
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr ""
 
 #: core/templates/login.tmpl:8
-msgid "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
+msgid ""
+"Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
 
-#: core/templates/renamedelete.tmpl:19
+#: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr ""
 
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:32
+#: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr ""
 
@@ -1799,12 +1919,11 @@ msgstr "Organisaation URL:"
 msgid "Organisation name:"
 msgstr "Organisaation nimi:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:270
 msgid "Other Country"
 msgstr "Toinen maa"
 
-#: core/data/System/WebSearch.txt:42
-#: core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
 msgid "Other search options:"
 msgstr "Muut hakuoptiot"
 
@@ -1812,7 +1931,7 @@ msgstr "Muut hakuoptiot"
 msgid "Otherwise, use this form to get a new one e-mailed to you."
 msgstr "Muutoin käytä tätä lomaketta ja lähetämme uuden sinulle sähköpostilla."
 
-#: PatternSkin/data/System/PatternSkinElements.txt:195
+#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
 #: core/templates/login.tmpl:60
 msgid "Password"
@@ -1826,8 +1945,7 @@ msgstr "Salasana muutos onnistui!"
 msgid "Password could not be changed"
 msgstr "Salasanaa ei voitu muuttaa"
 
-#: core/templates/messages.tmpl:212
-#: core/templates/messages.tmpl:216
+#: core/templates/messages.tmpl:212 core/templates/messages.tmpl:216
 msgid "Password reset failed"
 msgstr "Salasanan resetointi epäonnistui."
 
@@ -1840,8 +1958,8 @@ msgstr "Salasanat eivät täsmää"
 msgid "Personal Preferences"
 msgstr "Henkilökohtaiset asetukset"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
-#: core/templates/more.tmpl:71
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/templates/oopsmore.tmpl:70
 msgid "Pick from a list"
 msgstr "Valitse listalta"
 
@@ -1853,15 +1971,12 @@ msgstr ""
 msgid "Placeholder for trashed attachments"
 msgstr ""
 
-#: core/templates/messages.tmpl:269
-#: core/templates/messages.tmpl:319
+#: core/templates/messages.tmpl:269 core/templates/messages.tmpl:319
 msgid "Please contact %1 if you have any questions."
 msgstr ""
 
-#: core/templates/messages.tmpl:148
-#: core/templates/messages.tmpl:157
-#: core/templates/messages.tmpl:236
-#: core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:148 core/templates/messages.tmpl:157
+#: core/templates/messages.tmpl:236 core/templates/messages.tmpl:248
 msgid "Please contact %1."
 msgstr ""
 
@@ -1874,8 +1989,7 @@ msgstr "Kirjoita käyttäjätunnus ja salasana"
 msgid "Please enter your username and password"
 msgstr "Kirjoita käyttäjätunnus ja salasana"
 
-#: core/templates/messages.tmpl:71
-#: core/templates/messages.tmpl:77
+#: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
 #: core/templates/messages.tmpl:83
 msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
@@ -1885,34 +1999,31 @@ msgid "Please go back in your browser and check again."
 msgstr ""
 
 #: core/templates/messages.tmpl:88
-msgid "Please go back in your browser and choose a topic name that is a %1.WikiWord or check the allow non-Wiki Word box"
+msgid ""
+"Please go back in your browser and choose a topic name that is a %1.WikiWord "
+"or check the allow non-Wiki Word box"
 msgstr ""
 
-#: core/templates/messages.tmpl:108
-#: core/templates/messages.tmpl:112
-#: core/templates/messages.tmpl:119
-#: core/templates/messages.tmpl:123
-#: core/templates/messages.tmpl:127
-#: core/templates/messages.tmpl:137
-#: core/templates/messages.tmpl:223
-#: core/templates/messages.tmpl:229
-#: core/templates/messages.tmpl:276
-#: core/templates/messages.tmpl:288
-#: core/templates/messages.tmpl:294
-#: core/templates/messages.tmpl:302
-#: core/templates/messages.tmpl:37
-#: core/templates/messages.tmpl:41
-#: core/templates/messages.tmpl:59
-#: core/templates/messages.tmpl:95
+#: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
+#: core/templates/messages.tmpl:119 core/templates/messages.tmpl:123
+#: core/templates/messages.tmpl:127 core/templates/messages.tmpl:137
+#: core/templates/messages.tmpl:223 core/templates/messages.tmpl:229
+#: core/templates/messages.tmpl:276 core/templates/messages.tmpl:288
+#: core/templates/messages.tmpl:294 core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
+#: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
 msgstr ""
 
 #: core/templates/messages.tmpl:45
-msgid "Please make sure you spelled the %1 correctly and try again. If you get stuck, please mail %2."
+msgid ""
+"Please make sure you spelled the %1 correctly and try again. If you get "
+"stuck, please mail %2."
 msgstr ""
 
-#: core/templates/mailresetpassword.tmpl:12
-msgid "Please visit %1 to change your password to something more memorable for you."
+#: core/templates/mailresetpassword.tmpl:15
+msgid ""
+"Please visit %1 to change your password to something more memorable for you."
 msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
@@ -1924,8 +2035,16 @@ msgid "Preferences"
 msgstr ""
 
 #: PatternSkin/templates/settings.pattern.tmpl:13
-#: core/templates/settings.tmpl:7
+#: core/templates/settings.tmpl:6
 msgid "Preferences for"
+msgstr ""
+
+#: core/templates/validate.tmpl:23
+msgid "Press Cancel otherwise."
+msgstr ""
+
+#: core/templates/validate.tmpl:22
+msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
 #: core/lib/Foswiki/OopsException.pm:42
@@ -1942,10 +2061,13 @@ msgid "Query Search"
 msgstr "Verkkohaku"
 
 #: core/data/Main/SitePreferences.txt:7
-msgid "Quick edit of existing preferences (edit the topic text to set new preferences)"
+msgid ""
+"Quick edit of existing preferences (edit the topic text to set new "
+"preferences)"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:173
+#: EditTablePlugin/data/System/EditTablePlugin.txt:162
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
 msgid "Quiet save"
 msgstr ""
 
@@ -1962,7 +2084,9 @@ msgid "Raw edit"
 msgstr "Raaka muokkaus"
 
 #: core/templates/registernotify.tmpl:10
-msgid "Read %1 to get a quick overview of this collaboration platform. To learn more, study the TwentyMinuteTutorial, which is accessible from the same link."
+msgid ""
+"Read %1 to get a quick overview of this collaboration platform. To learn "
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:30
@@ -1973,13 +2097,12 @@ msgstr ""
 msgid "Read on"
 msgstr ""
 
-#: core/data/Sandbox/WebHome.txt:21
-#: core/data/System/WebSearch.txt:46
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
 #: core/data/System/WebSearchAdvanced.txt:100
 msgid "Recently changed topics"
 msgstr "Vastikään muuttuneet aiheet"
 
-#: core/lib/Foswiki/UI/Manage.pm:1257
+#: core/lib/Foswiki/UI/Manage.pm:1284
 msgid "Refresh"
 msgstr "Päivitä"
 
@@ -2012,8 +2135,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:43
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/templates/messages.tmpl:477
-#: core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:489
 msgid "Related topics:"
 msgstr ""
 
@@ -2022,7 +2144,9 @@ msgid "Remember me on this computer"
 msgstr "Muista minut tällä tietokoneella"
 
 #: core/templates/messages.tmpl:193
-msgid "Remember to update your user topic if you want your e-mail change to be reflected there as well."
+msgid ""
+"Remember to update your user topic if you want your e-mail change to be "
+"reflected there as well."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:5
@@ -2033,17 +2157,15 @@ msgstr "Muista salasana?"
 msgid "Remove the user from the group(s) %1 first."
 msgstr ""
 
-#: core/templates/rename.tmpl:7
-#: core/templates/renameweb.tmpl:7
+#: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
-#: core/templates/messages.tmpl:74
-#: core/templates/messages.tmpl:80
+#: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
 msgstr "Uudelleen nimeäminen ei onnistunut"
 
-#: core/templates/more.tmpl:44
+#: core/templates/oopsmore.tmpl:43
 msgid "Rename or move topic"
 msgstr "Nimeä uudelleen tai siirrä aihe"
 
@@ -2051,14 +2173,12 @@ msgstr "Nimeä uudelleen tai siirrä aihe"
 msgid "Rename, move or delete this web:"
 msgstr "Nimeä uudelleen, siirrä tai poista tämä verkko:"
 
-#: core/templates/rename.tmpl:20
-#: core/templates/renameconfirm.tmpl:29
-#: core/templates/renameweb.tmpl:33
+#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
+#: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Nimeä uudelleen/siirrä"
 
-#: core/templates/more.tmpl:45
-#: core/templates/more.tmpl:47
+#: core/templates/oopsmore.tmpl:44 core/templates/oopsmore.tmpl:46
 msgid "Rename/move topic..."
 msgstr "Nimeä uudelleen/siirrä aihe..."
 
@@ -2070,6 +2190,11 @@ msgstr "Nimeä uudelleen/siirrä/poista verkko..."
 msgid "Replace form..."
 msgstr "Korvaa lomake..."
 
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
+#, fuzzy
+msgid "Request Validation"
+msgstr "Rekisteröinti"
+
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
 msgstr "Resetoi salasana"
@@ -2078,19 +2203,19 @@ msgstr "Resetoi salasana"
 msgid "Reset password"
 msgstr "Resetoi salasana"
 
-#: core/templates/more.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "Restore"
 msgstr "Palauta"
 
-#: core/templates/more.tmpl:116
+#: core/templates/oopsmore.tmpl:115
 msgid "Restore topic"
 msgstr "Palauta aihe"
 
-#: core/templates/more.tmpl:118
+#: core/templates/oopsmore.tmpl:117
 msgid "Restore topic to revision:"
 msgstr "Palauta aihe versioon:"
 
-#: core/templates/more.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "Restore topic to this revision"
 msgstr "Palauta aihe tähän versioon"
 
@@ -2123,7 +2248,7 @@ msgstr ""
 msgid "Revision"
 msgstr "Versio"
 
-#: core/templates/more.tmpl:103
+#: core/templates/oopsmore.tmpl:102
 msgid "Revisions"
 msgstr "Versiot"
 
@@ -2131,15 +2256,17 @@ msgstr "Versiot"
 msgid "S = Save, C = Cancel"
 msgstr "S = Tallenna, C = Peruuta"
 
-#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/preview.pattern.tmpl:22
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
-msgid "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+msgid ""
+"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:172
+#: EditTablePlugin/data/System/EditTablePlugin.txt:161
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
 msgid "Save table"
 msgstr "Tallenna taulu"
 
@@ -2158,31 +2285,29 @@ msgstr ""
 #: PatternSkin/data/_default/WebLeftBar.txt:6
 #: PatternSkin/templates/foswiki.pattern.tmpl:38
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:24
-#: core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "Etsi"
 
-#: core/templates/backlinksallwebs.tmpl:7
+#: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
 msgstr "Etsi vain verkosta %1"
 
-#: core/templates/backlinksweb.tmpl:7
+#: core/templates/backlinksweb.tmpl:6
 msgid "Search all webs"
 msgstr "Etsi kaikki web:t"
 
-#: core/templates/backlinksallwebs.tmpl:7
-#: core/templates/backlinksweb.tmpl:7
-#: core/templates/more.tmpl:54
+#: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:6
+#: core/templates/oopsmore.tmpl:53
 msgid "Search all webs for topics that link to here"
 msgstr "Etsi kaikista verkoista aiheita, jotka linkittävät tänne"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 msgid "Search in all webs"
 msgstr "Etsi kaikista verkoista"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 msgid "Search more topics in this web"
 msgstr "Luettele lisää samankaltaisia aiheita tässä web:ssä"
 
@@ -2190,18 +2315,16 @@ msgstr "Luettele lisää samankaltaisia aiheita tässä web:ssä"
 msgid "Search string"
 msgstr "Etsi merkkijonoa"
 
-#: core/templates/more.tmpl:56
+#: core/templates/oopsmore.tmpl:55
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
 
-#: core/data/System/WebSearch.txt:29
-#: core/data/System/WebSearchAdvanced.txt:36
+#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
 msgstr ""
 
 #: PatternSkin/templates/searchbase.pattern.tmpl:1
-#: core/templates/search.tmpl:10
-#: core/templates/searchformat.tmpl:9
+#: core/templates/search.tmpl:10 core/templates/searchformat.tmpl:9
 msgid "Searched:"
 msgstr ""
 
@@ -2225,16 +2348,15 @@ msgstr ""
 msgid "See also the verbose %1."
 msgstr ""
 
-#: core/data/System/RenameWeb.txt:3
-#: core/data/System/WebChanges.txt:6
+#: core/data/System/RenameWeb.txt:3 core/data/System/WebChanges.txt:6
 msgid "See also:"
 msgstr "Katso myös:"
 
-#: core/templates/edit.tmpl:59
+#: core/templates/edit.tmpl:58
 msgid "See below for help in editing this page."
 msgstr "Katso ohjeet alempaa sivun muokkaamiseksi."
 
-#: core/templates/changeform.tmpl:13
+#: core/templates/changeform.tmpl:12
 msgid "Select"
 msgstr "Valitse"
 
@@ -2246,20 +2368,19 @@ msgstr ""
 msgid "Select all"
 msgstr "Valitse kaikki"
 
-#: core/templates/more.tmpl:70
+#: core/templates/oopsmore.tmpl:69
 msgid "Select topic parent:"
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:70
-#: core/templates/edit.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:47
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:286
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr ""
 
-#: core/templates/more.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Sequential"
 msgstr ""
 
@@ -2267,11 +2388,11 @@ msgstr ""
 msgid "Set all"
 msgstr ""
 
-#: core/templates/more.tmpl:74
+#: core/templates/oopsmore.tmpl:73
 msgid "Set new parent"
 msgstr ""
 
-#: core/templates/more.tmpl:63
+#: core/templates/oopsmore.tmpl:62
 msgid "Set new topic parent"
 msgstr ""
 
@@ -2281,13 +2402,14 @@ msgstr "Näytä ohje"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:78
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
-msgstr "Näytä työkaluvihjeet hiiren kursorin alla linkeistä %1, päälle tai pois"
+msgstr ""
+"Näytä työkaluvihjeet hiiren kursorin alla linkeistä %1, päälle tai pois"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Shrink edit box"
 msgstr "Pienennä muokkauslaatikkoa"
 
-#: core/templates/more.tmpl:113
+#: core/templates/oopsmore.tmpl:112
 msgid "Side by side"
 msgstr "Vierekkäin"
 
@@ -2296,8 +2418,19 @@ msgid "Simple search"
 msgstr "Yksinkertainen haku"
 
 #: core/data/Main/SitePreferences.txt:4
-msgid "Site-level preferences are located in %1, however this %2 prefs topic has override priority and should be used for local customisations. This allows for easier upgrades as you don't need to worry about the shipped preferences clobbering yours. It's easier to keep a handle on if you only copy over the settings you actually change."
-msgstr "Sivustonlaajuiset asetukset sijaitsevat sivulla %1, kuitenkin tällä %2 asetussivulla on korkeampi prioriteetti ja tätä tulisi käyttää paikallisiin räätälöinteihin. Tämä helpottaa järjestelmän päivitystä, koska sinun ei tarvitse huolehtia oletusasetusten ylikirjoittavan tekemiäsi muutoksia. Asetukset ovat helpompia käsitellä, kun kopioit tälle sivulle vain määritykset joita muutat."
+msgid ""
+"Site-level preferences are located in %1, however this %2 prefs topic has "
+"override priority and should be used for local customisations. This allows "
+"for easier upgrades as you don't need to worry about the shipped preferences "
+"clobbering yours. It's easier to keep a handle on if you only copy over the "
+"settings you actually change."
+msgstr ""
+"Sivustonlaajuiset asetukset sijaitsevat sivulla %1, kuitenkin tällä %2 "
+"asetussivulla on korkeampi prioriteetti ja tätä tulisi käyttää paikallisiin "
+"räätälöinteihin. Tämä helpottaa järjestelmän päivitystä, koska sinun ei "
+"tarvitse huolehtia oletusasetusten ylikirjoittavan tekemiäsi muutoksia. "
+"Asetukset ovat helpompia käsitellä, kun kopioit tälle sivulle vain "
+"määritykset joita muutat."
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2313,12 +2446,17 @@ msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "Jotkin merkit, kuten =&#126;=, =$=, =@= ja =%= on poistettu"
 
 #: core/templates/messages.tmpl:311
-msgid "Some mail tools have an error that causes them to send the same request twice when you click on a link. It you did this, it is possible that you actually *have* registered successfully."
+msgid ""
+"Some mail tools have an error that causes them to send the same request "
+"twice when you click on a link. It you did this, it is possible that you "
+"actually *have* registered successfully."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:136
 #: core/templates/registernotify.tmpl:14
-msgid "Some people turn it into a personal portal with favorite links, what they work on, what help they'd like, etc."
+msgid ""
+"Some people turn it into a personal portal with favorite links, what they "
+"work on, what help they'd like, etc."
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
@@ -2331,7 +2469,9 @@ msgstr "Pahoittelen, rekisteröinti on väliaikaisesti poistettu käytöstä"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:13
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:16
 msgid "Sorry, the password system is currently read only, please contact %1"
-msgstr "Pahoittelen, järjestelmä on tällähetkellä vain-luku tilassa. Ota yhteyttä osoitteeseen %1"
+msgstr ""
+"Pahoittelen, järjestelmä on tällähetkellä vain-luku tilassa. Ota yhteyttä "
+"osoitteeseen %1"
 
 #: core/data/System/WebSearchAdvanced.txt:46
 msgid "Sort results by:"
@@ -2349,9 +2489,8 @@ msgstr "Välilyönnit korvataan alaviivoilla"
 msgid "Statistics"
 msgstr "Tilastot"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:297
-#: core/templates/messages.tmpl:207
-#: core/templates/messages.tmpl:316
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:296
+#: core/templates/messages.tmpl:207 core/templates/messages.tmpl:316
 msgid "Submit"
 msgstr "Lähetä"
 
@@ -2373,16 +2512,17 @@ msgstr ""
 msgid "Summaries"
 msgstr "Yhteenvedot"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:75
+#: PatternSkin/templates/foswiki.pattern.tmpl:77
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:25
-#: core/data/System/WebSearchAdvanced.txt:32
-msgid "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"
+#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
+msgid ""
+"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
+"=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
 
-#: core/templates/messages.tmpl:510
+#: core/templates/messages.tmpl:515
 #, fuzzy
 msgid "Template %1 does not exist"
 msgstr "Verkkoa %1 ei ole olemassa"
@@ -2391,30 +2531,34 @@ msgstr "Verkkoa %1 ei ole olemassa"
 msgid "Test Topics"
 msgstr "Testiaiheet"
 
-#: core/data/System/WebSearch.txt:31
-#: core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
 msgstr "Leipäteksti"
 
-#: core/templates/messages.tmpl:162
-#: core/templates/messages.tmpl:200
+#: core/templates/messages.tmpl:162 core/templates/messages.tmpl:200
 msgid "Thank you for registering"
 msgstr "Kiitos rekisteröitymisestä"
 
 #: core/templates/registernotify.tmpl:8
-msgid "Thank you for registering in the %1 collaboration platform. Please save this e-mail for future reference."
+msgid ""
+"Thank you for registering in the %1 collaboration platform. Please save this "
+"e-mail for future reference."
 msgstr ""
 
 #: core/templates/registerconfirm.tmpl:9
-msgid "Thank you for registering in the %1 collaboration platform. Your verification code is %2."
+msgid ""
+"Thank you for registering in the %1 collaboration platform. Your "
+"verification code is %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:528
+#: core/templates/messages.tmpl:533
 msgid "That user has already been activated "
 msgstr "Käyttäjätili on jo aktivoitu"
 
 #: core/templates/messages.tmpl:280
-msgid "The %1 field must be your first and last name in %2, e.g. your capitalized first and last name with spaces removed."
+msgid ""
+"The %1 field must be your first and last name in %2, e.g. your capitalized "
+"first and last name with spaces removed."
 msgstr ""
 
 #: core/templates/messages.tmpl:274
@@ -2425,18 +2569,21 @@ msgstr ""
 msgid "The %1 topic already exists"
 msgstr "Aihe %1 on jo olemassa"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:492
 msgid "The %1 web does not exist"
 msgstr "Verkkoa %1 ei ole olemassa"
 
 #: core/data/Sandbox/WebHome.txt:4
-msgid "The %1 web is the sandbox you can use for testing. Everybody is welcome to add or delete some stuff. It is recommended to walk through the %2 to get a jumpstart on the %3 tool. A good rule of thumb is to add at the end of the page and sign and date it with your %4."
+msgid ""
+"The %1 web is the sandbox you can use for testing. Everybody is welcome to "
+"add or delete some stuff. It is recommended to walk through the %2 to get a "
+"jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
+"page and sign and date it with your %4."
 msgstr ""
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:3
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:5
-#: core/data/Trash/WebRss.txt:5
-#: core/data/_default/WebAtom.txt:3
+#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "%1 verkko Foswikissä, Vapaassa ja Avoimen lähdekoodin Wikissä."
@@ -2444,6 +2591,10 @@ msgstr "%1 verkko Foswikissä, Vapaassa ja Avoimen lähdekoodin Wikissä."
 #: core/data/Sandbox/WebRss.txt:5
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
 msgstr "%1 verkko Foswikissä. Foswiki on Vapaa ja Avoimen lähdekoodin Wiki."
+
+#: core/templates/messages.tmpl:421
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
 
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -2453,23 +2604,27 @@ msgstr "Ylläpito on poistanut uusien käyttäjien rekisteröitymisen käytöst�
 msgid "The activation code %1 is invalid."
 msgstr "Aktivointikoodi %1 on virheellinen."
 
-#: core/templates/moveattachment.tmpl:29
+#: core/templates/moveattachment.tmpl:28
 msgid "The attachment and any history will be moved to the new topic."
 msgstr "Liite ja sen historiatiedot siirretään uuteen aiheeseen."
 
-#: core/templates/messages.tmpl:444
-msgid "The chances are good that %1 has simply navigated away from the edit page without saving."
+#: core/templates/messages.tmpl:448
+msgid ""
+"The chances are good that %1 has simply navigated away from the edit page "
+"without saving."
 msgstr ""
 
-#: core/templates/renamebase.tmpl:70
-msgid "The checkmarked topics will be updated (another form will appear which will _eventually_ allow you to rename any topics that were locked)"
+#: core/templates/renamebase.tmpl:69
+msgid ""
+"The checkmarked topics will be updated (another form will appear which will "
+"_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
 
 #: core/templates/messages.tmpl:298
 msgid "The e-mail address for this account is not valid."
 msgstr "Käyttäjätilin sähköpostiosoite ei ole validi."
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:466
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Tietue käyttäjälle %1 puuttuu salasanajärjestelmästä."
 
@@ -2486,14 +2641,16 @@ msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 
 #: core/templates/messages.tmpl:398
-msgid "The following topics refer to topics in this web, but you are denied access to them:"
+msgid ""
+"The following topics refer to topics in this web, but you are denied access "
+"to them:"
 msgstr ""
 
 #: core/templates/messages.tmpl:337
 msgid "The form should be defined in the topic %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:446
 msgid "The lease on this topic expired %1 ago."
 msgstr "Aiheen lukitus umpeutui %1 sitten."
 
@@ -2501,7 +2658,7 @@ msgstr "Aiheen lukitus umpeutui %1 sitten."
 msgid "The name of the topic must not be empty."
 msgstr "Aiheen nimi ei voi olla tyhjä."
 
-#: core/templates/moveattachment.tmpl:16
+#: core/templates/moveattachment.tmpl:15
 msgid "The new topic chosen must already exist."
 msgstr "Valitun uuden aiheen täytyy olla olemassa."
 
@@ -2529,9 +2686,10 @@ msgstr "Aihe on vanhassa formaatissa."
 msgid "The two passwords you entered do not match."
 msgstr "Syöttämäsi salasanat eivät täsmää."
 
-#: core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:535
 msgid "The user %1 has already been activated, and should be able to log in."
-msgstr "Käyttäjätili %1 on jo aktivoitu ja tunnuksella pitäisi pystyä kirjautumaan."
+msgstr ""
+"Käyttäjätili %1 on jo aktivoitu ja tunnuksella pitäisi pystyä kirjautumaan."
 
 #: core/templates/messages.tmpl:391
 msgid "There are problems with renaming this web:"
@@ -2539,6 +2697,12 @@ msgstr "Ongelmia verkon uudelleen nimeämisessä:"
 
 #: core/templates/messages.tmpl:234
 msgid "There has been a problem adding your user id to the Password system."
+msgstr ""
+
+#: core/templates/validate.tmpl:19
+msgid ""
+"There is a risk that someone may be trying to use your identity to change "
+"content on %1 without your knowledge."
 msgstr ""
 
 #: core/templates/messages.tmpl:343
@@ -2558,16 +2722,23 @@ msgid "This could be for several reasons:"
 msgstr "Tämä voi johtua useasta syystä:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:5
-msgid "This form is used to change your registered e-mail addresses. Your registered e-mails are used by Foswiki for sending you e-mails, include notifications of password changes. The addresses you register via this form are kept secret and will *not* be published anywhere on this site."
+msgid ""
+"This form is used to change your registered e-mail addresses. Your "
+"registered e-mails are used by Foswiki for sending you e-mails, include "
+"notifications of password changes. The addresses you register via this form "
+"are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:2
-#: core/data/Main/WebNotify.txt:2
-#: core/data/Sandbox/WebNotify.txt:2
-#: core/data/System/WebNotify.txt:2
-#: core/data/Trash/WebNotify.txt:2
+#: core/data/Main/WebNotify.txt:2 core/data/Sandbox/WebNotify.txt:2
+#: core/data/System/WebNotify.txt:2 core/data/Trash/WebNotify.txt:2
 #: core/data/_default/WebNotify.txt:2
-msgid "This is a subscription service to be automatically notified by e-mail when topics change in this %1 web. This is a convenient service, so you do not have to come back and check all the time if something has changed. To subscribe, please add a bullet with your %2 in alphabetical order to this list:"
+msgid ""
+"This is a subscription service to be automatically notified by e-mail when "
+"topics change in this %1 web. This is a convenient service, so you do not "
+"have to come back and check all the time if something has changed. To "
+"subscribe, please add a bullet with your %2 in alphabetical order to this "
+"list:"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
@@ -2579,18 +2750,28 @@ msgstr "Tämä on automaattinen sähköposti lähettäjältä %1"
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:8
 msgid "This is an automated e-mail notification of user registration in %1."
-msgstr "Tämä on automaattinen sähköposti-ilmoitus käyttäjän rekisteröitymisestä palveluun %1."
+msgstr ""
+"Tämä on automaattinen sähköposti-ilmoitus käyttäjän rekisteröitymisestä "
+"palveluun %1."
 
 #: core/data/Trash/WebHome.txt:2
-msgid "This is the Trash. Here you can undelete topics; deleted attachments are in TrashAttachment."
+msgid ""
+"This is the Trash. Here you can undelete topics; deleted attachments are in "
+"TrashAttachment."
 msgstr ""
 
-#: core/templates/renamedelete.tmpl:25
-msgid "This name has been chosen so it doesn't conflict with any other topics already in the %1 web."
+#: core/templates/renamedelete.tmpl:24
+msgid ""
+"This name has been chosen so it doesn't conflict with any other topics "
+"already in the %1 web."
 msgstr ""
 
 #: core/templates/messages.tmpl:348
 msgid "This requires the form definition to be present."
+msgstr ""
+
+#: core/data/System/DefaultPreferences.txt:42
+msgid "This site is powered by Foswiki"
 msgstr ""
 
 #: core/templates/messages.tmpl:292
@@ -2602,16 +2783,28 @@ msgid "This topic:"
 msgstr "Tämä aihe:"
 
 #: core/templates/messages.tmpl:29
-msgid "Those changes have been merged with yours to create Rev %1. Text fields will have been merged, but other data such as form fields may have overwritten the other users changes. Please inspect the topic to make sure it is OK, especially if you made any changes to form fields."
+msgid ""
+"Those changes have been merged with yours to create Rev %1. Text fields will "
+"have been merged, but other data such as form fields may have overwritten "
+"the other users changes. Please inspect the topic to make sure it is OK, "
+"especially if you made any changes to form fields."
 msgstr ""
 
 #: core/data/System/WebSearchAdvanced.txt:85
-msgid "To display the above search results in a topic, copy-paste the following markup:"
-msgstr "Näyttääksesi hakutulokset yläpuolelta aiheessa, kopioi-liitä seuraava merkintä:"
+msgid ""
+"To display the above search results in a topic, copy-paste the following "
+"markup:"
+msgstr ""
+"Näyttääksesi hakutulokset yläpuolelta aiheessa, kopioi-liitä seuraava "
+"merkintä:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
-msgid "To edit pages on this Foswiki site, you must have a registered user name and password."
-msgstr "Muokataksesi sivuja tällä Foswiki -sivustolla sinulla täytyy olla rekisteröity käyttäjätunnus ja salasana."
+msgid ""
+"To edit pages on this Foswiki site, you must have a registered user name and "
+"password."
+msgstr ""
+"Muokataksesi sivuja tällä Foswiki -sivustolla sinulla täytyy olla "
+"rekisteröity käyttäjätunnus ja salasana."
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
@@ -2625,13 +2818,11 @@ msgstr "Kirjautuaksesi uudeksi käyttäjäksi täytä vain tämä lomake:"
 msgid "To see if %1 has finished editing yet, click "
 msgstr "Tarkistaaksesi onko %1 lopettanut muokkauksen, klikkaa"
 
-#: core/templates/renamebase.tmpl:30
-#: core/templates/renameconfirm.tmpl:14
+#: core/templates/renamebase.tmpl:29 core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "Aiheeseen:"
 
-#: core/templates/renamebase.tmpl:23
-#: core/templates/renameconfirm.tmpl:10
+#: core/templates/renamebase.tmpl:22 core/templates/renameconfirm.tmpl:9
 msgid "To web:"
 msgstr "Verkkoon:"
 
@@ -2678,12 +2869,11 @@ msgstr ""
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:19
 #: PatternSkin/templates/view.pattern.tmpl:47
-#: PatternSkin/templates/view.pattern.tmpl:72
-#: core/templates/viewprint.tmpl:14
+#: PatternSkin/templates/view.pattern.tmpl:72 core/templates/viewprint.tmpl:14
 msgid "Topic revision:"
 msgstr "Aiheen versio:"
 
-#: core/templates/oopssaveerr.tmpl:12
+#: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
 msgstr "Aiheen tallennusvirhe"
 
@@ -2691,8 +2881,7 @@ msgstr "Aiheen tallennusvirhe"
 msgid "Topic templates in %1 Web"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:31
-#: core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
 msgstr "Aiheen otsikko"
 
@@ -2717,16 +2906,19 @@ msgstr "Aiheita verkossa %1:"
 msgid "Topics per web"
 msgstr "Aiheet per verkko"
 
-#: core/templates/renamewebbase.tmpl:29
+#: core/templates/renamewebbase.tmpl:28
 msgid "Topics which are currently being edited by other users in the %1 Web:"
 msgstr ""
 
-#: core/templates/renamewebbase.tmpl:32
-msgid "Topics which refer to this web and are are currently being edited by other users:"
+#: core/templates/renamewebbase.tmpl:31
+msgid ""
+"Topics which refer to this web and are are currently being edited by other "
+"users:"
 msgstr ""
 
-#: core/templates/renamewebbase.tmpl:35
-msgid "Topics which refer to this web that you do not have permission to change:"
+#: core/templates/renamewebbase.tmpl:34
+msgid ""
+"Topics which refer to this web that you do not have permission to change:"
 msgstr ""
 
 #: core/data/System/WebSearchAdvanced.txt:71
@@ -2738,7 +2930,9 @@ msgid "Try Again"
 msgstr "Yritä uudelleen"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:76
-msgid "Uncomment preference settings to activate them (remove the #-sign). Help and details on preference settings are available in %1."
+msgid ""
+"Uncomment preference settings to activate them (remove the #-sign). Help and "
+"details on preference settings are available in %1."
 msgstr ""
 
 #: core/templates/login.sudo.tmpl:5
@@ -2753,15 +2947,13 @@ msgstr ""
 msgid "Update attachment %1 on %2"
 msgstr ""
 
-#: core/templates/renamebase.tmpl:50
-#: core/templates/renamewebbase.tmpl:27
+#: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:26
 msgid "Update links"
 msgstr "Päivitä linkit"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
-#: core/templates/attachagain.tmpl:21
-#: core/templates/attachnew.tmpl:9
+#: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Lähetä tiedosto"
 
@@ -2795,7 +2987,7 @@ msgstr "Käyttäjätili %1 poistettu"
 msgid "User Reference"
 msgstr ""
 
-#: PatternSkin/data/System/PatternSkinElements.txt:189
+#: PatternSkin/data/System/PatternSkinElements.txt:220
 #: core/templates/login.tmpl:42
 msgid "Username"
 msgstr "Käyttäjätunnus"
@@ -2805,8 +2997,12 @@ msgid "Users"
 msgstr "Käyttäjät"
 
 #: core/templates/messages.tmpl:171
-msgid "Users with automatically generated passwords should proceed immediately to [[%1][change password]] to change their password to something memorable."
-msgstr "Käyttäjät, joiden salasana on generoitu automaattisesti tulisi siirtyä välittömästi [[%1][vaihtamaan salasanansa]] johonkin muistettavaan arvoon."
+msgid ""
+"Users with automatically generated passwords should proceed immediately to "
+"[[%1][change password]] to change their password to something memorable."
+msgstr ""
+"Käyttäjät, joiden salasana on generoitu automaattisesti tulisi siirtyä "
+"välittömästi [[%1][vaihtamaan salasanansa]] johonkin muistettavaan arvoon."
 
 #: core/templates/attachtables.tmpl:37
 msgid "Version"
@@ -2820,15 +3016,15 @@ msgstr "Versiohistoria"
 msgid "Version history of %1"
 msgstr "%1:n versiohistoria"
 
-#: core/templates/more.tmpl:107
+#: core/templates/oopsmore.tmpl:106
 msgid "View"
 msgstr "Näytä"
 
-#: core/templates/more.tmpl:114
+#: core/templates/oopsmore.tmpl:113
 msgid "View difference"
 msgstr "Näytä eroavaisuudet"
 
-#: core/templates/more.tmpl:104
+#: core/templates/oopsmore.tmpl:103
 msgid "View previous topic revision"
 msgstr "Näytä aiheen edellinen versio"
 
@@ -2836,11 +3032,11 @@ msgstr "Näytä aiheen edellinen versio"
 msgid "View raw text without formatting"
 msgstr "Näytä raaka teksti ilman muotoiluja"
 
-#: core/templates/more.tmpl:106
+#: core/templates/oopsmore.tmpl:105
 msgid "View revision:"
 msgstr "Näytä versio:"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicTemplate.txt:65
 msgid "View templates"
 msgstr ""
 
@@ -2858,34 +3054,48 @@ msgstr "Näytä aiheen täysi historia"
 msgid "Warning"
 msgstr "Varoitus"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:179
+#: core/templates/validate.tmpl:8
+msgid "Warning! Confirmation required"
+msgstr ""
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #, fuzzy
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Huomaa: Aihetta ei ole olemassa"
 
-#: core/templates/messages.tmpl:458
+#: core/templates/messages.tmpl:463
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:459
-msgid "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+#: core/templates/messages.tmpl:464
+msgid ""
+"Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:462
+msgid "Warning: Can't find named section %3 in topic %1.%2"
+msgstr ""
+
+#: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:868
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "Warning: Could not send confirmation email"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:880
+#: core/lib/Foswiki/UI/Register.pm:979
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:471
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
+
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
+#, fuzzy
+msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "Huomaa: Aihetta ei ole olemassa"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -2895,21 +3105,23 @@ msgstr "Verkkohaku"
 msgid "Webs"
 msgstr "Verkot"
 
-#: core/data/Sandbox/WebHome.txt:2
-#: core/data/_default/WebHome.txt:2
+#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
-msgid "When %1 receives the form, it will mail an account activation code to the e-mail address you gave above. Enter that activation code in the following screen, or follow the link in the e-mail, to activate your account. Once your account is activated, %1 will:"
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:281
+msgid ""
+"When %1 receives the form, it will mail an account activation code to the e-"
+"mail address you gave above. Enter that activation code in the following "
+"screen, or follow the link in the e-mail, to activate your account. Once "
+"your account is activated, %1 will:"
 msgstr ""
 
 #: core/templates/messages.tmpl:243
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr ""
 
-#: core/templates/attachtables.tmpl:37
-#: core/templates/attachtables.tmpl:4
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Who"
 msgstr "Kuka"
 
@@ -2929,8 +3141,13 @@ msgstr ""
 msgid "You are denied access to the following topics in the web:"
 msgstr ""
 
-#: core/templates/messages.tmpl:446
-msgid "You are encouraged to go ahead and edit - unless you intend to change data in a form attached to the topic. If %1 actually _does_ save while you are editing, your changes will be merged, and nothing will be lost. Form data cannot easily be merged though, so in this case you are recommended to check with %1 first."
+#: core/templates/messages.tmpl:450
+msgid ""
+"You are encouraged to go ahead and edit - unless you intend to change data "
+"in a form attached to the topic. If %1 actually _does_ save while you are "
+"editing, your changes will be merged, and nothing will be lost. Form data "
+"cannot easily be merged though, so in this case you are recommended to check "
+"with %1 first."
 msgstr ""
 
 #: PatternSkin/templates/view.pattern.tmpl:39
@@ -2938,31 +3155,44 @@ msgid "You are here:"
 msgstr "Olet täällä:"
 
 #: core/templates/messages.tmpl:115
-msgid "You are recommended to choose short names, preferably less than 10 characters, starting with an upper-case alphabetic character and using only alphanumeric characters. If you want to create a template web (a web just used as a base to create new webs) choose a name that starts with an underscore and has only alphanumeric characters."
+msgid ""
+"You are recommended to choose short names, preferably less than 10 "
+"characters, starting with an upper-case alphabetic character and using only "
+"alphanumeric characters. If you want to create a template web (a web just "
+"used as a base to create new webs) choose a name that starts with an "
+"underscore and has only alphanumeric characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:528
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Yrität toimintoa %1 liitteelle, jota ei ole olemassa."
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:516
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:506
-msgid "You are trying to perform an action on a topic that does not exist (action '%1')."
-msgstr "Yrität suorittaa toiminnon aiheelle, jota ei ole olemassa (toiminto '%1')."
+#: core/templates/messages.tmpl:511
+msgid ""
+"You are trying to perform an action on a topic that does not exist (action '%"
+"1')."
+msgstr ""
+"Yrität suorittaa toiminnon aiheelle, jota ei ole olemassa (toiminto '%1')."
 
-#: core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:522
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Yrität uudelleennimetä aiheen, jota ei ole olemassa"
 
-#: core/templates/messages.tmpl:496
-msgid "You can [[%1][create a new web]] if you have permission. Contact %2 if you have any questions."
+#: core/templates/messages.tmpl:501
+msgid ""
+"You can [[%1][create a new web]] if you have permission. Contact %2 if you "
+"have any questions."
 msgstr ""
 
 #: core/templates/messages.tmpl:135
-msgid "You can also use the names of the standard HTML colors (black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, or aqua)"
+msgid ""
+"You can also use the names of the standard HTML colors (black, silver, gray, "
+"white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
+"teal, or aqua)"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:145
@@ -2970,30 +3200,37 @@ msgstr ""
 msgid "You can change your password at via %1"
 msgstr "Voit vaihtaa salasanaasi myös sivun %1 kautta"
 
-#: core/templates/renameweb.tmpl:21
+#: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Voit antaa tälle verkolle toisen nimen."
 
 #: core/templates/oopschangelanguage.tmpl:7
-msgid "You can set your favorite language permanently by setting the %1 variable in your user topic."
-msgstr "Voit vaihtaa kielen pysyvästi haluamaksesi asettamalla muuttujan %1 käyttäjäsivullesi"
+msgid ""
+"You can set your favorite language permanently by setting the %1 variable in "
+"your user topic."
+msgstr ""
+"Voit vaihtaa kielen pysyvästi haluamaksesi asettamalla muuttujan %1 "
+"käyttäjäsivullesi"
 
 #: core/templates/messages.tmpl:263
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Et voi rekisteröityä kahdesti, nimi %1 on jo rekisteröity."
 
-#: core/templates/messages.tmpl:150
-#: core/templates/messages.tmpl:159
+#: core/templates/messages.tmpl:150 core/templates/messages.tmpl:159
 #: core/templates/messages.tmpl:238
 msgid "You have *not* been registered."
 msgstr "*Et* ole rekisteröitynyt."
 
 #: core/templates/messages.tmpl:368
-msgid "You may be able to get your Wiki administrator to change the settings if they are inappropriate for your environment."
+msgid ""
+"You may be able to get your Wiki administrator to change the settings if "
+"they are inappropriate for your environment."
 msgstr ""
 
-#: core/templates/messages.tmpl:532
-msgid "You may have clicked a registration verification link that you had already visited."
+#: core/templates/messages.tmpl:537
+msgid ""
+"You may have clicked a registration verification link that you had already "
+"visited."
 msgstr ""
 
 #: core/templates/messages.tmpl:178
@@ -3005,24 +3242,30 @@ msgid "You must pass a topic name."
 msgstr "Sinun on syötettävä aiheen nimi."
 
 #: core/templates/registerconfirm.tmpl:11
-msgid "You now need to verify your e-mail address. You can do so by entering %1 in the form presented to you when this e-mail was sent, or by visiting %2"
+msgid ""
+"You now need to verify your e-mail address. You can do so by entering %1 in "
+"the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:7
-msgid "You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"
+msgid ""
+"You really ought to register a valid e-mail address. If Foswiki can't find a "
+"registered e-mail for you in the secret database, it will look in your user "
+"topic for a line like this:"
 msgstr ""
 
-#: core/templates/more.tmpl:23
+#: core/templates/oopsmore.tmpl:22
 msgid "You will be able to review the copied topic before saving"
 msgstr "Sinulla on mahdollisuus tarkistaa kopioitava aihe ennen tallennusta."
 
-#: core/templates/more.tmpl:121
+#: core/templates/oopsmore.tmpl:120
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr "Sinulla on mahdollisuus tarkistaa aihe ennen uuden version tallennusta"
 
 #: core/templates/messages.tmpl:355
 msgid "You will probably have to ask your administrator, %1, to do this."
-msgstr "Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään tämä."
+msgstr ""
+"Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään tämä."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:33
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:22
@@ -3031,14 +3274,26 @@ msgid "Your %1.LoginName"
 msgstr ""
 
 #: core/templates/messages.tmpl:202
-msgid "Your activation code has been sent to %1.  Either click on the link in your e-mail or enter the code in the box below to activate your membership. (This code is of the form \"YourName.xxxxxxxxxx\")"
-msgstr "Aktivointisähköpostisi on lähetetty osoitteeseen %1. Aktivoidaksesi tunnuksesi voit joko klikata linkkiä sähköpostissa tai kirjoittaa aktivointikoodin allaolevaan kenttään. (Koodi on muotoa \"SinunNimesi.xxxxxxxxxx\")"
+msgid ""
+"Your activation code has been sent to %1.  Either click on the link in your "
+"e-mail or enter the code in the box below to activate your membership. (This "
+"code is of the form \"YourName.xxxxxxxxxx\")"
+msgstr ""
+"Aktivointisähköpostisi on lähetetty osoitteeseen %1. Aktivoidaksesi "
+"tunnuksesi voit joko klikata linkkiä sähköpostissa tai kirjoittaa "
+"aktivointikoodin allaolevaan kenttään. (Koodi on muotoa \"SinunNimesi."
+"xxxxxxxxxx\")"
 
 #: core/templates/oopslanguagechanged.tmpl:16
-msgid "Your language will be changed to %1 from the next screen. You will be redirected to there right now. If you aren't, [[%2][click to proceed]]."
-msgstr "Kieliasetus muutetaan arvoon %1 seuraavasta sivusta lähtien. Sinut uudelleenohjataan seuraavalle sivulle automaattisesti, mutta voit myös [[%2][klikata tästä jatkaaksesi]]"
+msgid ""
+"Your language will be changed to %1 from the next screen. You will be "
+"redirected to there right now. If you aren't, [[%2][click to proceed]]."
+msgstr ""
+"Kieliasetus muutetaan arvoon %1 seuraavasta sivusta lähtien. Sinut "
+"uudelleenohjataan seuraavalle sivulle automaattisesti, mutta voit myös [[%2]"
+"[klikata tästä jatkaaksesi]]"
 
-#: core/templates/mailresetpassword.tmpl:10
+#: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
 msgstr "Salasanasi on vaihdettu arvoon %1."
 
@@ -3048,32 +3303,47 @@ msgstr "Salasanasi:"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:134
 #: core/templates/registernotify.tmpl:12
-msgid "Your personal %1 topic is located at %2. You can customize it as you like:"
-msgstr "Henkilökohtainen aiheesi, %1, on sijainnissa %2. Voit muokata sitä haluamallasi tavalla:"
+msgid ""
+"Your personal %1 topic is located at %2. You can customize it as you like:"
+msgstr ""
+"Henkilökohtainen aiheesi, %1, on sijainnissa %2. Voit muokata sitä "
+"haluamallasi tavalla:"
 
 #: core/templates/messages.tmpl:163
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "Henkilökohtainen Foswiki aiheesi %1 on luotu"
 
 #: core/templates/messages.tmpl:195
-msgid "Your registered e-mail address(es) are updated to: <noautolink>%1</noautolink>."
-msgstr "Rekisteröidyt sähköpostiosoitteesi on päivitetty seuraavasti: <noautolink>%1</noautolink>"
+msgid ""
+"Your registered e-mail address(es) are updated to: <noautolink>%1</"
+"noautolink>."
+msgstr ""
+"Rekisteröidyt sähköpostiosoitteesi on päivitetty seuraavasti: <noautolink>%"
+"1</noautolink>"
 
 #: core/templates/messages.tmpl:245
-msgid "Your registration verification email has either failed, or is queued in the mail system."
-msgstr "Rekisteröitymisen tarkistussähköposti on joko jäänyt saapumatta perille tai se on edelleen jonossa postijärjestelmässä."
+msgid ""
+"Your registration verification email has either failed, or is queued in the "
+"mail system."
+msgstr ""
+"Rekisteröitymisen tarkistussähköposti on joko jäänyt saapumatta perille tai "
+"se on edelleen jonossa postijärjestelmässä."
 
 #: PatternSkin/templates/edit.pattern.tmpl:70
 msgid "Your signature to copy/paste"
 msgstr "Allekirjoituksesi kopioitavaksi"
 
-#: core/templates/edit.tmpl:48
+#: core/templates/edit.tmpl:47
 msgid "Your signature to copy/paste:"
 msgstr "Allekirjoituksesi kopioitavaksi:"
 
 #: core/templates/messages.tmpl:186
-msgid "Your system may not support changing passwords through Foswiki. Check with your Wiki administrator."
-msgstr "Järjestelmäsi ei välttämättä tue salasanojen vaihtamista Foswikin kautta. Varmista tieto Wiki -ylläpitäjältäsi."
+msgid ""
+"Your system may not support changing passwords through Foswiki. Check with "
+"your Wiki administrator."
+msgstr ""
+"Järjestelmäsi ei välttämättä tue salasanojen vaihtamista Foswikin kautta. "
+"Varmista tieto Wiki -ylläpitäjältäsi."
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
@@ -3081,14 +3351,17 @@ msgstr "Käyttäjätunnuksesi on poistettu autentikointijärjestelmästä"
 
 #: core/templates/messages.tmpl:13
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
-msgstr "Käyttäjätunnuksesi otsikkoa ei ole uudelleennimetty. Lähetä pyyntö sähköpostilla osoitteeseen %1"
+msgstr ""
+"Käyttäjätunnuksesi otsikkoa ei ole uudelleennimetty. Lähetä pyyntö "
+"sähköpostilla osoitteeseen %1"
 
 #: core/templates/messages.tmpl:342
 msgid "[[%1][Debug topic text]]."
 msgstr ""
 
-#: core/templates/settings.tmpl:28
-msgid "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+#: core/templates/settings.tmpl:27
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
 
 #: core/lib/Foswiki/I18N.pm:313
@@ -3144,6 +3417,7 @@ msgid "don't forget to check your Topic Settings"
 msgstr "älä unohda tarkistaa Aiheesi asetuksia"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
+#: core/templates/formtables.tmpl:21
 msgid "edit"
 msgstr "muokkaa"
 
@@ -3151,7 +3425,7 @@ msgstr "muokkaa"
 msgid "fields are required."
 msgstr "kentät ovat vaadittuja"
 
-#: core/templates/attach.tmpl:5
+#: core/templates/attach.tmpl:3
 msgid "has more information about attaching files."
 msgstr "sisältää tarkempaa tietoa liitetyistä tiedostoista"
 
@@ -3164,7 +3438,7 @@ msgstr "ohje"
 msgid "hints on good style"
 msgstr "vinkkejä hyvään tyyliin"
 
-#: core/templates/more.tmpl:107
+#: core/templates/oopsmore.tmpl:106
 msgid "in raw text format"
 msgstr "raa'assa tekstimuodossa"
 
@@ -3193,27 +3467,21 @@ msgstr "nyt %1"
 #: PatternSkin/templates/attachagain.pattern.tmpl:28
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:11
-#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: PatternSkin/templates/preview.pattern.tmpl:18
 #: PatternSkin/templates/settings.pattern.tmpl:22
-#: core/templates/changeform.tmpl:13
-#: core/templates/foswiki.tmpl:105
-#: core/templates/moveattachment.tmpl:36
-#: core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:20
-#: core/templates/renameconfirm.tmpl:29
-#: core/templates/renamedelete.tmpl:34
-#: core/templates/renameweb.tmpl:33
-#: core/templates/renamewebconfirm.tmpl:16
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
+#: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
+#: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
+#: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "tai"
 
-#: core/templates/preview.tmpl:13
-#: core/templates/preview.tmpl:9
+#: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
 msgid "preview"
 msgstr "esikatselu"
 
-#: core/lib/Foswiki/Render.pm:204
+#: core/lib/Foswiki/Render.pm:213
 msgid "put it back"
 msgstr "laita takaisin"
 
@@ -3222,13 +3490,11 @@ msgstr "laita takaisin"
 msgid "retrieved at %1"
 msgstr ""
 
-#: core/templates/more.tmpl:39
-#: core/templates/more.tmpl:48
+#: core/templates/oopsmore.tmpl:38 core/templates/oopsmore.tmpl:47
 msgid "scans links in _%1 web_ only"
 msgstr "etsi linkkejä vain _%1 verkosta_"
 
-#: core/templates/more.tmpl:37
-#: core/templates/more.tmpl:46
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
 msgid "scans links in _all public webs_"
 msgstr "etsi linkkejä _kaikista julkisista verkoista_"
 
@@ -3241,7 +3507,9 @@ msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Luo uusi aihe' accesskey='c'>Uusi"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-msgid "title='Delete or rename this topic; set parent topic; view and compare revisions' accesskey='m'>&More topic actions"
+msgid ""
+"title='Delete or rename this topic; set parent topic; view and compare "
+"revisions' accesskey='m'>&More topic actions"
 msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
@@ -3257,16 +3525,24 @@ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
 msgstr "title='Muokkaa tekstiä ilman muotoiluja' accesskey='w'>Raaka muokkaus"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
-msgid "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
-msgstr "title='Etsi kaikista verkoista aiheita jotka linkittävät tänne' accesskey='l'>Kaikki verkot"
+msgid ""
+"title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
+msgstr ""
+"title='Etsi kaikista verkoista aiheita jotka linkittävät tänne' "
+"accesskey='l'>Kaikki verkot"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
-msgid "title='Search the %1 Web for topics that link to here' accesskey='b'>&Backlinks"
+msgid ""
+"title='Search the %1 Web for topics that link to here' "
+"accesskey='b'>&Backlinks"
 msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:26
-msgid "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
-msgstr "title='Etsi verkosta %1 aiheita, jotka linkittävät tänne' accesskey='b'>Verkko"
+msgid ""
+"title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+msgstr ""
+"title='Etsi verkosta %1 aiheita, jotka linkittävät tänne' "
+"accesskey='b'>Verkko"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 msgid "title='View raw text without formatting' accesskey='r'>&Raw View"
@@ -3281,7 +3557,7 @@ msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Näytä täydellinen historia' accesskey='h'>&Historia"
 
-#: core/lib/Foswiki.pm:4269
+#: core/lib/Foswiki.pm:4374
 msgid "user list truncated"
 msgstr "käyttäjälista nollattu"
 
@@ -3289,7 +3565,7 @@ msgstr "käyttäjälista nollattu"
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Peruuta' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:13
+#: PatternSkin/templates/preview.pattern.tmpl:20
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Hylkää' accesskey='d'"
 
@@ -3313,35 +3589,58 @@ msgstr "value='Tallenna' accesskey='s'"
 msgid "view"
 msgstr "näytä"
 
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:22
-msgid "you *must* have at least one valid registered e-mail to be able to reset your password. If none of your registered e-mail addresses is valid, and you have forgotten your password, contact %1."
+#: core/templates/validate.tmpl:27
+msgid "why you are being asked to confirm"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:22
+msgid ""
+"you *must* have at least one valid registered e-mail to be able to reset "
+"your password. If none of your registered e-mail addresses is valid, and you "
+"have forgotten your password, contact %1."
+msgstr ""
+
+#~ msgid "Edit table"
+#~ msgstr "Muokkaa taulukkoa"
 
 #~ msgid "%1 Web Home"
 #~ msgstr "%1 Verkkokoti"
+
 #~ msgid "(oops)"
 #~ msgstr "(oho)"
+
 #~ msgid "Create '%1'"
 #~ msgstr "Luo '%1'"
+
 #~ msgid "Create personal sidebar"
 #~ msgstr "Luo henkilökohtainen sivupaneeli"
+
 #~ msgid "Do show:"
 #~ msgstr "Näytä:"
+
 #~ msgid "Do you wish to create the topic %1?"
 #~ msgstr "Haluatko luoda aiheen %1?"
+
 #~ msgid "Note: This topic does not exist"
 #~ msgstr "Huomaa: Aihetta ei ole olemassa"
+
 #~ msgid "Opens page in new window"
 #~ msgstr "Avaa sivun uudessa ikkunassa"
+
 #~ msgid "Remember me"
 #~ msgstr "Muista minut"
+
 #~ msgid "Similar topics in this web (if any):"
 #~ msgstr "Vastaavanlaisia aiheita tässä verkossa (jos yhtään):"
+
 #~ msgid "WARNING:"
 #~ msgstr "VAROITUS:"
+
 #~ msgid "&WYSIWYG"
 #~ msgstr "&WYSIWYG"
+
 #~ msgid "WYSIWYG"
 #~ msgstr "WYSIWYG"
+
 #~ msgid "You can see the differences [[%1][here]]."
 #~ msgstr "Voit nähdä eroavaisuudet [[%1][täällä]]."
