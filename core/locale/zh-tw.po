@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-21 11:02+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
-"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: Taiwan\n"
@@ -110,7 +110,7 @@ msgstr "%1 正被 %2 編輯中，限制將在 %3 後釋放。"
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 已使用電子郵件地址 %2 註冊"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr "％1 已收到來自您瀏覽器發出的可疑修改要求。"
 
@@ -287,7 +287,7 @@ msgstr "(如何登入) LoginName:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(變更身份) WikiName:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(登入)"
 
@@ -775,7 +775,7 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時） "
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "取消"
 
@@ -1487,7 +1487,7 @@ msgid ""
 "correct parameters."
 msgstr "若您將開發 Foswiki 應用程式，請參考 %1 內正確的參數說明。"
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr "若您不清楚這是什麼意思，請讀："
 
@@ -1907,7 +1907,7 @@ msgstr "主題數量:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2065,11 +2065,11 @@ msgstr "設定"
 msgid "Preferences for"
 msgstr "設定"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr "其他，按「取消」。"
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr "按「OK」確認此修改是故意的。"
 
@@ -2217,7 +2217,7 @@ msgstr "改名/移動/刪除子網..."
 msgid "Replace form..."
 msgstr "取代表單..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "請求驗證"
 
@@ -2725,11 +2725,12 @@ msgstr "此子網改名時出現錯誤:"
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的用戶資料到密碼系統時出現錯誤。"
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
-msgstr "有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
+msgstr ""
+"有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3607,7 +3608,7 @@ msgstr "value='存檔' accesskey='s'"
 msgid "view"
 msgstr "瀏覽"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
 

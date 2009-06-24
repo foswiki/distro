@@ -111,10 +111,11 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 is geregistreerd met e-mail %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
-msgstr "%1 heeft een verdacht verzoek van je browser ontvangen om een "
-"wijziging aan te brengen."
+msgstr ""
+"%1 heeft een verdacht verzoek van je browser ontvangen om een wijziging aan "
+"te brengen."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -286,7 +287,7 @@ msgstr "(hoe je inlogt) Login-naam:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(zo zien anderen jou) Wiki-naam:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(inloggen)"
 
@@ -816,7 +817,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Afbreken"
 
@@ -1510,7 +1511,8 @@ msgstr "Verberg help"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
-"Hi&&euml;rarchische Webs zijn niet geactiveerd; je kunt geen genest web aanmaken."
+"Hi&&euml;rarchische Webs zijn niet geactiveerd; je kunt geen genest web "
+"aanmaken."
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1555,7 +1557,8 @@ msgstr "Wachtwoord vergeten?"
 #: core/data/System/WebPreferences.txt:34
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Idee&&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%2'>Stuur feedback</a>"
+"Idee&&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%"
+"2'>Stuur feedback</a>"
 
 #: core/templates/messages.tmpl:344
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1583,7 +1586,7 @@ msgstr ""
 "Als je een Foswiki applicatie ontwikkelt, zie %1 voor een beschrijving van "
 "de juiste parameters."
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr "Als je wil weten wat dit betekent, lees eerst "
 
@@ -2025,7 +2028,7 @@ msgstr "Aantal pagina&#39;s:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2193,11 +2196,11 @@ msgstr "Instellingen"
 msgid "Preferences for"
 msgstr "Instellingen voor"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr "Anders klik je op Afbreken."
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Klik op OK om te bevestigen dat jij deze wijziging wil maken."
 
@@ -2352,7 +2355,7 @@ msgstr "Hernoem/verplaats/verwijder web..."
 msgid "Replace form..."
 msgstr "Vervang formulier..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "Verzoek om bevestiging"
 
@@ -2898,13 +2901,13 @@ msgstr ""
 "Er was een probleem met het toevoegen van je gebruikers-ID aan het "
 "wachtwoordsysteem."
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
-"Het zou kunnen zijn dat iemand zich voordoet als jou, om buiten je "
-"medeweten inhoud op %1 te veranderen."
+"Het zou kunnen zijn dat iemand zich voordoet als jou, om buiten je medeweten "
+"inhoud op %1 te veranderen."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3505,9 +3508,9 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te vullen "
-"in het formulier dat je hebt gekregen toen je deze e-mail werd gestuurd, of "
-"door %2 te bezoeken."
+"Je moet nu je e-mailadres verifi&&euml;ren. Dit kan je doen door %1 in te "
+"vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
+"gestuurd, of door %2 te bezoeken."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:7
 msgid ""
@@ -3860,7 +3863,7 @@ msgstr "value='Bewaren' accesskey='b'"
 msgid "view"
 msgstr "bekijken"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
 

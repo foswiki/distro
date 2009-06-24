@@ -109,7 +109,7 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 foi registrado com o e-mail %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 
@@ -285,7 +285,7 @@ msgstr "(como você se autentica) [[%SYSTEMWEB%.LoginName][Nome de Usuário]]:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(identifica você aos outros) [[%SYSTEMWEB%.WikiName][NomeWiki]]:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(login)"
 
@@ -829,7 +829,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -1593,7 +1593,7 @@ msgstr ""
 "Se você estiver desenvolvendo uma aplicação Foswiki, consulte %1 para uma "
 "descrição correta dos parâmetros."
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr ""
 
@@ -2029,7 +2029,7 @@ msgstr "Número de tópicos:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2196,11 +2196,11 @@ msgstr "Preferências"
 msgid "Preferences for"
 msgstr "Preferências para"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr ""
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
@@ -2354,7 +2354,7 @@ msgstr "Renomear/mover/remover web..."
 msgid "Replace form..."
 msgstr "Trocar formulário..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "Request Validation"
 msgstr "Registro"
@@ -2897,7 +2897,7 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Houve um problema ao incluir a identificação do usuário ao sistema de senha. "
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3861,7 +3861,7 @@ msgstr "value='Salvar' accesskey='s'"
 msgid "view"
 msgstr "ver"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr ""
 

@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-21 10:45+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
-"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: JAPAN\n"
@@ -112,7 +112,7 @@ msgstr "%1 は %2 で編集され、後%3 までリースが認められます�
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 は既に電子メールアドレスの %2に登録されました"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr "%1 は不審なリクエストをご使用の方のブラウザーから受け取りました。"
 
@@ -146,7 +146,8 @@ msgstr "%1 はまだ一つのグループにも入っていますので、削除
 
 #: core/templates/renameattachmentdelete.tmpl:40
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 は削除された添付ファイルに対してデフォルトトピックとなっております。"
+msgstr ""
+"%1 は削除された添付ファイルに対してデフォルトトピックとなっております。"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
 msgid "%1 lists all Foswiki user tools"
@@ -290,7 +291,7 @@ msgstr "(どうのようログインしますか) LoginName:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(他の人と区別します) WikiName:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(ログイン)"
 
@@ -395,10 +396,13 @@ msgid ""
 "should contact %1 for details of the Data Protection Policy of this Foswiki "
 "server before registering."
 msgstr ""
-"*注意:* このフォームに提出された情報はFoswikiサーバのデータベースに記憶します。このデータベースへの接続においては、スパムメールを防ぐように電"
-"子メールアドレスがあいまいにしたり、パスワードが暗証化されたりするところが、サーバへの接続できる人はデータベースにも接続することができます。サーバがホス"
-"トされている国によってはプライヴァシー守護の法律がこんなデータベースの管理に適用する可能性がありますので、もっと詳しい説明を確認したい場合には、登録する"
-"前にFoswikiのデータ守護の方針をご一覧ください。"
+"*注意:* このフォームに提出された情報はFoswikiサーバのデータベースに記憶しま"
+"す。このデータベースへの接続においては、スパムメールを防ぐように電子メールア"
+"ドレスがあいまいにしたり、パスワードが暗証化されたりするところが、サーバへの"
+"接続できる人はデータベースにも接続することができます。サーバがホストされてい"
+"る国によってはプライヴァシー守護の法律がこんなデータベースの管理に適用する可"
+"能性がありますので、もっと詳しい説明を確認したい場合には、登録する前にFoswiki"
+"のデータ守護の方針をご一覧ください。"
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -802,7 +806,7 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -1553,7 +1557,7 @@ msgstr ""
 "TWikiApplicationを開発している場合、%1を参考に適当なパラメーター説明をご覧く"
 "ださい。"
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr ""
 
@@ -1991,7 +1995,7 @@ msgstr "トピック数:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2153,11 +2157,11 @@ msgstr "設定"
 msgid "Preferences for"
 msgstr "設定"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr ""
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
@@ -2310,7 +2314,7 @@ msgstr "ウェブをリネーム/移動/削除..."
 msgid "Replace form..."
 msgstr "フォームを置換..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "Request Validation"
 msgstr "登録"
@@ -2838,7 +2842,7 @@ msgstr "このウェブをリネームする時にエラーが発生しました
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "ユーザー名をパスワードシステムに追加する時に、エラーが発生しました。"
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3770,7 +3774,7 @@ msgstr "value='保存' accesskey='s'"
 msgid "view"
 msgstr "ビュー"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr ""
 
@@ -4936,9 +4940,7 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid ""
-#~ "_:Note__:"
-#~ ""
+#~ msgid "_:Note__:"
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"

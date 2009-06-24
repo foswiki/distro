@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-21 01:30+0200\n"
 "Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -114,7 +114,7 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 fue registrado con el correo electrónico %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 
@@ -289,7 +289,7 @@ msgstr "(como inicia su sesión) LoginName:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(le identifica ante otras personas) WikiName:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(iniciar sesión)"
 
@@ -825,7 +825,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -1593,7 +1593,7 @@ msgstr ""
 "Si está desarrollando una aplicación para Foswiki, vea %1 para la "
 "descripción de los parámetros correctos."
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr ""
 
@@ -2030,7 +2030,7 @@ msgstr "Número de temas:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2198,11 +2198,11 @@ msgstr "Preferencias"
 msgid "Preferences for"
 msgstr "Preferencias para"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr ""
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
@@ -2357,7 +2357,7 @@ msgstr "Renombrar/mover/borrar web..."
 msgid "Replace form..."
 msgstr "Reemplazar formulario..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "Request Validation"
 msgstr "Registro"
@@ -2908,7 +2908,7 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Hubo un problema añadiendo su nombre de usuario al sistema de contraseñas."
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3877,7 +3877,7 @@ msgstr "value='Guardar' accesskey='s'"
 msgid "view"
 msgstr "vista"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr ""
 

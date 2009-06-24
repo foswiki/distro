@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-22 23:08+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -109,7 +109,7 @@ msgstr "%1 har nu redigerat sidan i %2 och låset är aktivt i ytterligare %3."
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 är nu registrerad med e-postadressen %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 "%1 har tagit emot en misstänkt begäran om förändringar från din webbläsare."
@@ -287,7 +287,7 @@ msgstr "(Ditt inloggingsnamn) LoginName:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(det namn som syns för andra) WikiName:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(logga in)"
 
@@ -396,10 +396,10 @@ msgstr ""
 "*Viktigt:* Informationen du uppger i detta formulär sparas på Foswiki-"
 "servern. Informationen blir tillgänglig alla som kan nå serveren via webben "
 "(ditt lösenord kryperas dock och din e-postadress förvanskas för att undvika "
-"spam). Ditt hemland eller det land där serveren befinner sig kan ha en "
-"data- eller personuppgiftslag som omfattar denna typ av information. Om du "
-"är tveksam kan du kontakta %1 för mer detaljer angående dataskyddsreglerna "
-"för denna Foswiki-server innan du registrerar dig."
+"spam). Ditt hemland eller det land där serveren befinner sig kan ha en data- "
+"eller personuppgiftslag som omfattar denna typ av information. Om du är "
+"tveksam kan du kontakta %1 för mer detaljer angående dataskyddsreglerna för "
+"denna Foswiki-server innan du registrerar dig."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -811,7 +811,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -1567,7 +1567,7 @@ msgstr ""
 "Om du utvecklar en Foswiki-applikation, se %1 för beskrivning av korrekta "
 "parametrar."
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr "Om du är osäker på vad detta betyder, läs:"
 
@@ -1999,7 +1999,7 @@ msgstr "Antal sidor:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2164,11 +2164,11 @@ msgstr "Inställningar"
 msgid "Preferences for"
 msgstr "Inställningar för"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr "Klicka annars på Avbryt."
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Klicka på OK för att bekräfta att denna förändring var avsiktlig."
 
@@ -2321,7 +2321,7 @@ msgstr "Döp om/flytta denan avdelning"
 msgid "Replace form..."
 msgstr "Ersätt formulär..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "Begär bekräftelse"
 
@@ -2858,7 +2858,7 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Det uppstod problem med att lägga in ditt användarnamn i lösenordsystemet."
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3809,7 +3809,7 @@ msgstr "value='Spara' accesskey='s'"
 msgid "view"
 msgstr "visa"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
 

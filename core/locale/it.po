@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-22 07:41+0200\n"
 "Last-Translator: Antenore Gatta <antenore@gmail.com>\n"
 "Language-Team: <it@li.org>\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -112,7 +112,7 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 è stato registrato con e-mail %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr "ha ricevuto una richiesta di modifica sospetta dal tuo browser."
 
@@ -289,7 +289,7 @@ msgstr "(come connettersi) LoginName:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(ti identifica agli altri) WikiName:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(login)"
 
@@ -418,8 +418,8 @@ msgid ""
 "%1."
 msgstr ""
 "*Proprietà:* Commento e visibilità (es. allegato nascosto) possono essere "
-"cambiati senza ricaricare il file premendo \"Cambia solo le proprietà \"; vedi "
-" %1."
+"cambiati senza ricaricare il file premendo \"Cambia solo le proprietà \"; "
+"vedi  %1."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -512,8 +512,8 @@ msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
 msgstr ""
-"Un codice colore inizia con un # , seguito da 6 cifre esadecimali, "
-"es.=#FFFF00=."
+"Un codice colore inizia con un # , seguito da 6 cifre esadecimali, es."
+"=#FFFF00=."
 
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:974
@@ -822,7 +822,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Rinuncia"
 
@@ -1584,7 +1584,7 @@ msgstr ""
 "se stai sviluppando una Applicazione TWiki, vedi %1 per la descrizione dei "
 "parametri corretti."
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr ""
 
@@ -2024,7 +2024,7 @@ msgstr "Numero delle pagine:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2188,11 +2188,11 @@ msgstr "Preferenze"
 msgid "Preferences for"
 msgstr "Preferenze per"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr ""
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
@@ -2349,7 +2349,7 @@ msgstr "Rinomina/sposta/elimina web..."
 msgid "Replace form..."
 msgstr "Sostituisci form"
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "Request Validation"
 msgstr "Registrazione"
@@ -2896,7 +2896,7 @@ msgstr ""
 "Si è verificato un problema aggiungento il tuo userID al sistema delle "
 "password."
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3859,7 +3859,7 @@ msgstr "value='Salva' accesskey='s'"
 msgid "view"
 msgstr "vista"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr ""
 

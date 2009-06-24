@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2009-06-23 13:55+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -110,7 +110,7 @@ msgstr "%1 modifie la page depuis %2, et son verrou est encore valide pour %3."
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 s'est inscrit·e avec l'adresse e-mail %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 "%1 a reçu une demande de changement suspecte provenant de votre navigateur."
@@ -287,7 +287,7 @@ msgstr "(nom utilisé pour la connexion) NomDeConnexion :"
 msgid "(identifies you to others) WikiName:"
 msgstr "(nom qui sera visible sur le site) NomWiki :"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(connexion)"
 
@@ -827,7 +827,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1602,7 +1602,7 @@ msgstr ""
 "Si vous programmez une application Foswiki, voyez %1 pour une description "
 "des paramètres corrects."
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez :"
 
@@ -2052,7 +2052,7 @@ msgstr "Nombre de pages :"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2221,11 +2221,11 @@ msgstr "Options"
 msgid "Preferences for"
 msgstr "Options pour"
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr "Autrement, pressez Annuler."
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Pressez OK pour confirmer que ce changement était intentionnel."
 
@@ -2380,7 +2380,7 @@ msgstr "Renommer/déplacer le web..."
 msgid "Replace form..."
 msgstr "Remplacer le formulaire..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
 msgstr "Demande validation"
 
@@ -2951,7 +2951,7 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "L'enregistrement de votre compte dans le système de mots de passe a échoué."
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3925,7 +3925,7 @@ msgstr "value='Enregistrer' accesskey='s'"
 msgid "view"
 msgstr "visualiser"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
 

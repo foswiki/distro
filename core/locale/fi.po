@@ -109,7 +109,7 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 on rekisteröitynyt sähköpostiosoitteella %2"
 
-#: core/templates/validate.tmpl:14
+#: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr "(kuinka kirjaudut sisään) Käyttäjätunnus:"
 msgid "(identifies you to others) WikiName:"
 msgstr "(identifioi sinut toisille) WikiNimi:"
 
-#: core/templates/login.tmpl:4 core/templates/validate.tmpl:4
+#: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(kirjaudu sisään)"
 
@@ -772,7 +772,7 @@ msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80
+#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
 msgid "Cancel"
 msgstr "Peru"
 
@@ -1478,7 +1478,7 @@ msgid ""
 "correct parameters."
 msgstr ""
 
-#: core/templates/validate.tmpl:21
+#: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
 msgstr ""
 
@@ -1882,7 +1882,7 @@ msgstr "Aiheiden lukumäärä:"
 
 #: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13
+#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
 msgid "OK"
 msgstr "OK"
 
@@ -2039,11 +2039,11 @@ msgstr ""
 msgid "Preferences for"
 msgstr ""
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
 msgstr ""
 
-#: core/templates/validate.tmpl:18
+#: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
@@ -2190,7 +2190,7 @@ msgstr "Nimeä uudelleen/siirrä/poista verkko..."
 msgid "Replace form..."
 msgstr "Korvaa lomake..."
 
-#: core/templates/validate.tmpl:3
+#: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "Request Validation"
 msgstr "Rekisteröinti"
@@ -2699,7 +2699,7 @@ msgstr "Ongelmia verkon uudelleen nimeämisessä:"
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:19
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3589,7 +3589,7 @@ msgstr "value='Tallenna' accesskey='s'"
 msgid "view"
 msgstr "näytä"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
 msgstr ""
 
