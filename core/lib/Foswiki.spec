@@ -1046,13 +1046,13 @@ $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 #---++ CacheRoot directory
 # Specify the root directory for CacheManagers with a file-system based storage
 # **PATH**
-$Foswiki::cfg{Cache}{RootDir} = '/tmp/cache';
+$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
 
 #---++ DB_File
 # Specify the database file for the <code>Foswiki::Cache::DB_File</code>
 # CacheManager
 # **STRING 30**
-$Foswiki::cfg{Cache}{DBFile} = '/tmp/foswiki_db';
+$Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/foswiki_db';
 
 #---++ MaxSize
 # Specify the maximum number of cache entries for size-aware CacheManagers like
