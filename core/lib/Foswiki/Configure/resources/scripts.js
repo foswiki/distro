@@ -1,109 +1,3 @@
-package Foswiki::Configure::JS;
-
-use strict;
-
-sub js1 {
-    local $/ = undef;
-    return <DATA>;
-}
-
-sub js2 {
-    return <<'HERE';
-//<!--
-document.write("<style type='text/css'>");
-document.write(".foldableBlockClosed {display:none;}");
-document.write("<\/style>");
-//-->
-HERE
-}
-
-1;
-__DATA__
-//<!--
-
-var lastOpenBlock = null;
-var lastOpenBlockLink = null;
-var allBlocks = null; // array of all foldable blocks
-var allBlockLinks = null; // array of all foldable block links (headers)
-
-function foldBlock(id) {
-    var shouldClose = false;
-    var block = null;
-    if (lastOpenBlock == null) {
-        block = document.getElementById(id);
-        if (block.open) {
-            shouldClose = true;
-        }
-    }
-    if (shouldClose) {
-        closeBlock(id);
-    } else {
-        var o = openBlock(id);
-        if (lastOpenBlock != null) {
-            closeBlockElement(lastOpenBlock, lastOpenBlockLink);
-        }
-    }
-    window.location.hash = id + "link";
-    
-    if (o && o.block) {
-        lastOpenBlock = (lastOpenBlock == o.block) ? null : o.block;
-    }
-    if (o && o.blockLink) {
-        lastOpenBlockLink = (lastOpenBlockLink == o.blockLink) ? null : o.blockLink;
-    }
-}
-
-function openBlock(id) {
-    var block = document.getElementById(id);
-    var blockLink = document.getElementById('blockLink' + id);
-    openBlockElement(block, blockLink);
-    return {block:block, blockLink:blockLink};
-}
-
-function openBlockElement(block, blockLink) {
-	var indicator = getElementsByClassName(blockLink, 'blockLinkIndicator')[0];
-	indicator.innerHTML = '&#9660;';
-    block.className = 'foldableBlock foldableBlockOpen';
-    block.open = true;
-    blockLink.className = 'blockLink blockLinkOn';
-}
-
-function closeBlock(id) {
-    var block = document.getElementById(id);
-    var blockLink = document.getElementById('blockLink' + id);
-    closeBlockElement(block, blockLink);
-    return {block:block, blockLink:blockLink};
-}
-
-function closeBlockElement(block, blockLink) {
-	var indicator = getElementsByClassName(blockLink, 'blockLinkIndicator')[0];
-	indicator.innerHTML = '&#9658;';
-    block.className = 'foldableBlock foldableBlockClosed';
-    block.open = false;
-    blockLink.className = 'blockLink blockLinkOff';
-}
-
-function toggleAllOptions(open) {
-    if (allBlocks == null) {
-        allBlocks = getElementsByClassName(document, 'foldableBlock');
-    }
-    if (allBlockLinks == null) {
-        allBlockLinks = getElementsByClassName(document, 'blockLink');
-    }
-    var i, ilen=allBlocks.length;
-    if (open) {
-        for (i=0; i<ilen; ++i) {
-            openBlockElement(allBlocks[i], allBlockLinks[i]);
-        }
-    } else {
-        for (i=0; i<ilen; ++i) {
-            closeBlockElement(allBlocks[i], allBlockLinks[i]);
-        }
-    }
-    lastOpenBlock = null;
-    lastOpenBlockLink = null;
-}
-
 function getElementsByClassName(inRootElem, inClassName, inTag) {
 	var rootElem = inRootElem || document;
 	var tag = inTag || '*';
@@ -121,24 +15,20 @@ function getElementsByClassName(inRootElem, inClassName, inTag) {
 	return hits;
 }
 
-function addLoadEvent (inFunction, inDoPrepend) {
-	if (typeof(inFunction) != "function") {
-		return;
-	}
+function addLoadEvent (fn, prepend) {
 	var oldonload = window.onload;
-	if (typeof window.onload != 'function') {
+	if (typeof oldonload != 'function')
 		window.onload = function() {
-			inFunction();
+			fn();
 		};
-	} else {
-		var prependFunc = function() {
-			inFunction(); oldonload();
-		};
-		var appendFunc = function() {
-			oldonload(); inFunction();
-		};
-		window.onload = inDoPrepend ? prependFunc : appendFunc;
-	}
+	else if (prepend)
+        window.onload = function() {
+            fn(); oldonload();
+        };
+    else
+        window.onload = function() {
+            oldonload(); fn();
+        };
 }
 
 function initDeltaIndicators() {
@@ -185,7 +75,8 @@ function initDefaultLink(inLink) {
 	inLink.undoDefaultLinkText = 'undo';
 	
 	// set defaults
-	inLink.title = formatLinkValueInTitle(inLink.type, inLink.setDefaultTitle, inLink.defaultValue);
+	inLink.title = formatLinkValueInTitle(
+        inLink.type, inLink.setDefaultTitle, inLink.defaultValue);
 	inLink.innerHTML = inLink.setDefaultLinkText;
 }
 
@@ -198,7 +89,7 @@ function formatLinkValueInTitle (inType, inString, inValue) {
 
 /**
 Called from "reset to default" link.
-Values are set in Value.pm
+Values are set in UIs/Value.pm
 */
 function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 
@@ -247,7 +138,7 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 		inLink.oldValue = null;
 		inLink.title = formatLinkValueInTitle(inLink.type, inLink.setDefaultTitle, value);
 	}
-	
+	return false;
 }
 
 /**
@@ -312,9 +203,41 @@ function replaceStubChars(v) {
 	return v;
 }
 
-addLoadEvent(toggleAllOptions, 0);
+var expertsMode = 'block';
+
+function toggleExpertsMode() {
+    var antimode = expertsMode;
+    expertsMode = (antimode == 'block' ? 'none' : 'block');
+    var els = getElementsByClassName(document, 'expert');
+    for (var i = 0; i < els.length; i++) {
+        els[i].style.display = expertsMode;
+    }
+    els = getElementsByClassName(document, 'notExpert');
+    for (var i = 0; i < els.length; i++) {
+        els[i].style.display = antimode;
+    }
+}
+
+function tab(newTab) {
+    var body = document.getElementsByTagName('body')[0];
+    var curTab = body.className;
+    if (!newTab) newTab = curTab;
+    body.className = newTab;
+    var tab = document.getElementById(curTab + '_body');
+    tab.className = 'tabBodyHidden';
+    tab = document.getElementById(newTab + '_body');
+    tab.className = 'tabBodyVisible';
+}
+
+function getTip(idx) {
+    var div = document.getElementById('tt' + idx);
+    if (div)
+        return div.innerHTML;
+    else
+        return "LOST TIP "+idx;
+}
+
 addLoadEvent(initDeltaIndicators);
 addLoadEvent(initDefaultLinks);
-
-//-->
+addLoadEvent(function () { tab(); toggleExpertsMode() });
 

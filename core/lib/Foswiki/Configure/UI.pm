@@ -114,44 +114,6 @@ sub setting {
       . "\n";
 }
 
-# Generate a foldable block (twisty). This is a DIV with a table in it
-# that contains the settings and doc rows.
-sub foldableBlock {
-    my ( $this, $head, $attr, $body ) = @_;
-    my $headText =
-      $head . CGI::span( { class => 'blockLinkAttribute' }, $attr );
-    $body = CGI::start_table(
-        { width => '100%', -border => 0, -cellspacing => 0, -cellpadding => 0 }
-      )
-      . $body
-      . CGI::end_table();
-    my $mess = $this->collectMessages( $this->{item} );
-
-    my $anchor     = $this->_makeAnchor($head);
-    my $id         = $anchor;
-    my $blockId    = $id;
-    my $linkId     = 'blockLink' . $id;
-    my $linkAnchor = $anchor . 'link';
-    return CGI::a( { name => $linkAnchor } )
-      . CGI::a(
-        {
-            id      => $linkId,
-            class   => 'blockLink blockLinkOff',
-            href    => '#' . $linkAnchor,
-            rel     => 'nofollow',
-            onclick => 'foldBlock("' . $id . '"); return false;'
-        },
-        '<span class="blockLinkIndicator"></span>' . $headText . $mess
-      )
-      . CGI::div(
-        {
-            id    => $blockId,
-            class => 'foldableBlock foldableBlockClosed'
-        },
-        $body
-      ) . "\n";
-}
-
 # encode a string to make an HTML anchor
 sub _makeAnchor {
     my ( $this, $str ) = @_;

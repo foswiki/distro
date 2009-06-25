@@ -25,9 +25,9 @@ my $OS = $Foswiki::cfg{OS} || '';
 # This is because they *must* be defined in LocalSite.cfg, and *not* here.
 
 #---+ General path settings
-# If you are a first-time installer; once you have set up the next
-# eight paths below, your wiki should work - try it. You can always come
-# back and tweak other settings later.<p />
+# <strong>If you are a first-time installer</strong>; once you have set
+# up the eight paths below, your wiki should work - try it. You can
+# always come back and tweak other settings later.<p />
 # <b>Security Note:</b> Only the URL paths listed below should
 # be browseable from the web. If you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.
@@ -113,7 +113,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# ---+ Security setup
+# ---+ Security
 
 # **STRING H**
 # Configuration password (not prompted)
@@ -571,7 +571,7 @@ $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
 
-#---+ Anti-spam measures
+#---+ Anti-spam
 
 # Standard Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
@@ -816,7 +816,7 @@ $Foswiki::cfg{Site}{CharSet} = undef;
 # e.g. TestPolicies to TestPolicy. Only works in English.
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
-#---+ Store settings
+#---+ Store
 
 # **SELECT RcsWrap,RcsLite**
 # Default store implementation.
@@ -841,14 +841,14 @@ $Foswiki::cfg{RCS}{ExtOption} = "";
 # **OCTAL**
 # File security for new directories. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
-# to directories that Foswiki creates. This is an <b>octal</b> number
+# to directories that Foswiki creates. This is an <strong>octal</strong> number
 # representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
 $Foswiki::cfg{RCS}{dirPermission}= 0755;
 
 # **OCTAL**
 # File security for new files. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
-# to files that Foswiki creates.  This is an <b>octal</b> number
+# to files that Foswiki creates.  This is an <strong>octal</strong> number
 # representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
 $Foswiki::cfg{RCS}{filePermission}= 0644;
 
@@ -1006,16 +1006,15 @@ $Foswiki::cfg{TrashWebName} = 'Trash';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-#---+ Cache settings
+#---+ Cache
 
-#---++ Enable page caching
+# **BOOLEAN**
 # This setting will switch on/off caching of html pages rendered by a view action.
 # This can dramatically increase performance, i.e. if there are a lot more
 # page views than changes.
-# **BOOLEAN**
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
-#---++ Compress data
+# **BOOLEAN**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
 # encoded using gzip compression. You will save a lot of bandwidth by compressing
 # pages. This makes most sense when enabling page caching as well as these are
@@ -1023,12 +1022,12 @@ $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 # will be compressed. Any other pages will be transmitted uncompressed.
 $Foswiki::cfg{Cache}{Compress} = $TRUE;
 
-#---++ Cache namespace
+# **STRING**
 # Specify the namespace used by this site in a store shared with other systems.
 # Leave this empty to use the <code>DefaultUrlHost</code> as a default.
 $Foswiki::cfg{Cache}{NameSpace} = '';
 
-#---++ CacheManager for PageCache
+# **SELECTCLASS Foswiki::Cache::***
 # Select the default caching mechanism. Note, that individual subsystems might
 # chose a different backend for their own purposes. Some recommendations:
 # <ul>
@@ -1040,29 +1039,25 @@ $Foswiki::cfg{Cache}{NameSpace} = '';
 #     Note that this CacheManager will only keep pages during one call or for
 #     the time of a perl persistent backend.</li>
 # </ul>
-# **SELECTCLASS Foswiki::Cache::***
 $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
-#---++ CacheRoot directory
-# Specify the root directory for CacheManagers with a file-system based storage
 # **PATH**
+# Specify the root directory for CacheManagers with a file-system based storage
 $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
 
-#---++ DB_File
+# **STRING 30**
 # Specify the database file for the <code>Foswiki::Cache::DB_File</code>
 # CacheManager
-# **STRING 30**
 $Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/foswiki_db';
 
-#---++ MaxSize
+# **NUMBER**
 # Specify the maximum number of cache entries for size-aware CacheManagers like
 # <code>MemoryLRU</code>. This won't have any effect on other CacheManagers.
 $Foswiki::cfg{Cache}{MaxSize} = 1000;
 
-#---++ Cache Servers
+# **STRING 30**
 # Specify a comma separated list of servers for distributed CacheManagers like
 # <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
-# **STRING 30**
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 
 #---+ Mail and Proxies

@@ -17,95 +17,60 @@ our @ISA = ('Foswiki::Configure::UI');
 # depth == 2 are twisty sections
 # depth > 2 are subsections
 sub open_html {
-    my ( $this, $section, $valuer, $expert ) = @_;
+    my ( $this, $section, $root ) = @_;
 
     my $depth = $section->getDepth();
+    my $class = $section->isExpertsOnly() ? 'expert' : 'newbie';
+    my $id = $this->_makeAnchor( $section->{headline} );
+    my $guts = "<!-- $depth $section->{headline} -->\n";
+    if ($depth == 2) {
+        # Major section == a tab
 
-    if ( $depth > 2 ) {
+        # A tab has no heading and is initially invisible
+        $guts .= $root->{controls}->openTab($id, $section->{headline});
+        $guts .= $section->{desc} if $section->{desc};
 
-        # A running section has no subtable, just a header row
-        if ( !$expert && $section->isExpertsOnly() ) {
-            return '';
+        my $mess = $this->collectMessages($section);
+        if ($mess) {
+            $guts .= "<div class='foswikiAlert'>$mess</div>\n";
         }
-        else {
-            my $fn = 'CGI::h' . $depth;
-            no strict 'refs';
-            my $head = &$fn( $section->{headline} );
-            use strict 'refs';
-            $head .= $section->{desc} if $section->{desc};
-            return '<tr><td colspan="2">' . $head . '</td></tr>';
-        }
+        # Open subtable
+        $guts .= "<table class='foswikiTable' width='100%'>\n";
+    } elsif ( $depth > 2 ) {
+        # A running section has no tab, just a header row
+        $guts .= "<tr><td colspan='2'><h$depth>$section->{headline}</h$depth></td>\n";
+        # if subtables under running sections
+        #   $guts .= "<table style='foswikiTable' width='100%'>"
+        # fi
     }
 
-    my $id         = $this->_makeAnchor( $section->{headline} );
-    my $linkId     = 'blockLink' . $id;
-    my $linkAnchor = $id . 'link';
-
-    my $mess = $this->collectMessages($section);
-
-    my $guts = "<!-- $depth $section->{headline} -->";
-    if ( $depth == 2 ) {
-
-        # Open row
-        $guts .= '<tr><td colspan="2">';
-        $guts .= CGI::a( { name => $linkAnchor } );
-
-        # Open twisty div
-        $guts .= CGI::a(
-            {
-                id      => $linkId,
-                class   => 'blockLink blockLinkOff',
-                href    => '#' . $linkAnchor,
-                rel     => 'nofollow',
-                onclick => 'foldBlock("' . $id . '"); return false;'
-            },
-            '<span class="blockLinkIndicator"></span>'
-              . $section->{headline}
-              . $mess
-        );
-
-        $guts .= "<div id='$id' class='foldableBlock foldableBlockClosed'>";
-    }
-
-    # Open subtable
-    $guts .= CGI::start_table(
-        {
-            width        => '100%',
-            -border      => 0,
-            -cellspacing => 0,
-            -cellpadding => 0,
-        }
-    ) . "\n";
-
-    # Put info text inside table row for visual consistency
-    if ( $depth == 2 ) {
+    if ( $depth > 2 && $section->{desc} ) {
+        # Put info text inside table row for visual consistency
         $guts .= CGI::Tr(
             CGI::td(
                 { colspan => "2", class => 'docdata firstInfo' },
                 $section->{desc}
             )
-        ) if $section->{desc};
+        );
     }
 
     return $guts;
 }
 
 sub close_html {
-    my ( $this, $section, $expert ) = @_;
+    my ( $this, $section ) = @_;
     my $depth = $section->getDepth();
     my $end   = '';
-    if ( $depth <= 2 ) {
-
-        # Close subtable
-        $end = "</table>";
-        if ( $depth == 2 ) {
-
-            # Close twisty div
-            $end .= '</div>';
-
-            # Close row
-            $end .= '</td></tr>';
-        }
+    # if subtables under running sections
+    #    my $d = $depth;
+    #    while ($d-- >= 2) {
+    # else with no subtables under running sections
+    if ($depth == 2) {
+    # fi
+        $end .= "</table>";
+    }
+    if ( $depth == 2 ) {
+        $end .= "</div>"; # close the tab
     }
     return "$end<!-- /$depth $section->{headline} -->\n";
 }

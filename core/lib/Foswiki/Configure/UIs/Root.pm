@@ -9,24 +9,37 @@ use Foswiki::Configure::UI ();
 use Foswiki::Configure::UIs::Section ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
 
+sub new {
+    my $class = shift;
+
+    my $this = $class->SUPER::new(@_);
+    $this->{tabs} = [];
+    return $this;
+}
+
 # Visit the nodes in a tree of configuration items, and generate
 # their UIs.
 sub ui {
-    my ( $this, $tree, $valuer ) = @_;
+    my ( $this, $tree, $valuer, $controls ) = @_;
+
     $this->{valuer} = $valuer;
+    $this->{controls} = $controls;
     $this->{output} = '';
     @{ $this->{stack} } = ();
     $tree->visit($this);
     return $this->{output};
 }
 
+# Called on each node in the tree as a visit starts
 sub startVisit {
     my ( $this, $item ) = @_;
+    # Stack the output from previously visited nodes
     push( @{ $this->{stack} }, $this->{output} );
     $this->{output} = '';
     return 1;
 }
 
+# Called on each node in the tree as a visit ends
 sub endVisit {
     my ( $this, $item ) = @_;
     my $class = ref($item);
@@ -35,10 +48,10 @@ sub endVisit {
     die "Fatal Error - Could not load UI for $class - $@" unless $ui;
     $this->{output} =
         pop( @{ $this->{stack} } )
-      . $ui->open_html( $item, $this->{valuer}, $this->{experts} )
+      . $ui->open_html( $item, $this )
       . $this->{output}
       .    # only used for sections
-      $ui->close_html( $item, $this->{valuer}, $this->{experts} );
+      $ui->close_html( $item );
     return 1;
 }
 

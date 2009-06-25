@@ -12,10 +12,6 @@ bin/configure 0555
 bin/edit 0555
 bin/login 0555
 bin/logon 0555
-bin/logos/favicon.ico 0444
-bin/logos/foswiki-logo-slogan.png 0444
-bin/logos/info.gif 0444
-bin/logos/warning.gif 0444
 bin/manage 0555
 bin/oops 0555
 bin/preview 0555
@@ -402,6 +398,18 @@ lib/Foswiki/Cache/MemoryHash.pm 0444
 lib/Foswiki/Cache/MemoryLRU.pm 0444
 lib/Foswiki/Cache.pm 0444
 lib/Foswiki/Compatibility.pm 0444
+lib/Foswiki/Configure/resources/favicon.ico 0444
+lib/Foswiki/Configure/resources/foswiki-logo-slogan.png 0444
+lib/Foswiki/Configure/resources/info.gif 0444
+lib/Foswiki/Configure/resources/warning.gif 0444
+lib/Foswiki/Configure/resources/tabs.css
+lib/Foswiki/Configure/resources/footer.html
+lib/Foswiki/Configure/resources/scripts.js
+lib/Foswiki/Configure/resources/oh_dear.html
+lib/Foswiki/Configure/resources/wz_tooltip.js
+lib/Foswiki/Configure/resources/styles.css
+lib/Foswiki/Configure/resources/header.html
+lib/Foswiki/Configure/resources/intro.html
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
@@ -413,6 +421,7 @@ lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/Environment.pm 0444
+lib/Foswiki/Configure/Checkers/Help.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
 lib/Foswiki/Configure/Checkers/LocalesDir.pm 0444
@@ -468,6 +477,7 @@ lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/CSS.pm 0444
 lib/Foswiki/Configure/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
+lib/Foswiki/Configure/GlobalControls.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
 lib/Foswiki/Configure/JS.pm 0444
 lib/Foswiki/Configure/LANGUAGES.pm 0444

@@ -18,7 +18,7 @@ sub untaintUnchecked {
 }
 
 sub ui {
-    my $this  = shift;
+    my ($this, $controls) = @_;
     my $block = '';
 
     # Detect whether mod_perl was loaded into Apache
@@ -229,7 +229,8 @@ HERE
         )
     );
 
-    return $this->foldableBlock( CGI::em('CGI Setup (read only)'), '', $block );
+    return $controls->openTab( 'cgisetup', 'CGI').
+      "<table class='foswikiTable'>" . $block . "</table></div>";
 }
 
 sub _checkBinDir {

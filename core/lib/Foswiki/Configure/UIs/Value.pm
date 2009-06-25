@@ -10,29 +10,26 @@ our @ISA = ('Foswiki::Configure::UI');
 # Generates the appropriate HTML for getting a value to configure the
 # entry. The actual input field is decided by the type.
 sub open_html {
-    my ( $this, $value, $valuer, $expert ) = @_;
+    my ( $this, $value, $root ) = @_;
 
     my $type = $value->getType();
     return '' if $value->{hidden};
 
-    my $info     = '';
-    my $isExpert = 0;    # true if this is an EXPERT setting
-    if ( $value->isExpertsOnly() ) {
-        $isExpert = 1;
-        $info     = CGI::h6('EXPERT') . $info;
-    }
+    my $isExpert = $value->isExpertsOnly();
+    my $info = '';
+
     $info .= $value->{desc};
     my $keys = $value->getKeys();
 
     my $checker  = Foswiki::Configure::UI::loadChecker( $keys, $value );
     my $isUnused = 0;
     my $isBroken = 0;
+    my $check = '';
     if ($checker) {
-        my $check = $checker->check($value);
+        $check = $checker->check($value);
         if ($check) {
 
             # something wrong
-            $info .= $check;
             $isBroken = 1;
         }
         if ( $check && $check eq 'NOT USED IN THIS CONFIGURATION' ) {
@@ -42,104 +39,73 @@ sub open_html {
 
     # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-    my $hiddenClass = '';
-    if ( $isUnused
-        || !$isBroken && ( $isExpert && !$expert || $value->{hidden} ) )
-    {
-        $hiddenClass = 'foswikiHidden';
+    my $class = $isExpert ? 'expert' : 'newbie';
+    if ( $isUnused || !$isBroken && $value->{hidden} ) {
+        $class = 'foswikiHidden';
     }
 
-    # Generate the documentation row
+    # Hidden type information used when passing to 'save'
     my $hiddenTypeOf = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
-    my $row1 = $hiddenTypeOf . $info;
 
-    # Generate col1 of the prompter row
-    my $row2col1 = $keys;
-    $row2col1 = CGI::span( { class => 'mandatory' }, $row2col1 )
-      if $value->{mandatory};
-    if ( $value->needsSaving($valuer) ) {
-        my $defaultValue = $valuer->defaultValue($value) || '';
+    my $index = $keys;
+    $index = "<span class='mandatory'>$index</span>" if $value->{mandatory};
 
-      # special case are Perl data structures
-      # in order to edit this in the browser, it must get translated to a string
+    my $details = '';
+    if ( $value->needsSaving($root->{valuer}) ) {
+        my $defaultValue = $root->{valuer}->defaultValue($value) || '';
+
+        # special case are Perl data structures
+        # in order to edit this in the browser, it must get translated
+        # to a string
         if ( $value->{typename} eq 'PERL' || $value->{typename} eq 'HASH' ) {
             use Data::Dumper;
             $Data::Dumper::Terse = 1;
             $defaultValue        = Dumper($defaultValue);
 
             # create stubs for special characters, put them back with javascript
-            $defaultValue =~ s/'/#26;/go;
-            $defaultValue =~ s/"/#22;/go;
-            $defaultValue =~ s/\n/#13;/go;
+            $defaultValue =~ s/'/#26;/g;
+            $defaultValue =~ s/"/#22;/g;
+            $defaultValue =~ s/\n/#13;/g;
         }
 
-        $row2col1 .= CGI::span(
-            {
-                title => $defaultValue,
-                class => $value->{typename} . ' delta foswikiAlert'
-            },
-            ' &delta;'
-        );
-
-        # prepare javascript call
-        ( my $safeKeys = $keys ) =~ s/'/#26;/go;
-        my @onClickParams = (
-            'this',          "\'$value->{typename}\'",
-            "\'$safeKeys\'", "\'$defaultValue\'"
-        );
-        my $onClickParamsString = join( ", ", @onClickParams );
-
-        # first link CSS class name must be type
-        # a bit of a hack but we need to pass the type of the field the link
-        # will be changing
-
-        $row2col1 .= ' '
-          . CGI::a(
-            {
-                title => $defaultValue,
-                class => $value->{typename} . ' defaultValueLink foswikiSmall',
-                href  => '#',
-                onclick => 'resetToDefaultValue('
-                  . $onClickParamsString
-                  . '); return false;',
-            },
-            ''
-          );
+        my $safeKeys = $keys;
+        $safeKeys =~ s/'/#26;/g;
+        $details .= <<HERE;
+<a onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">&delta;</a>
+HERE
     }
 
-    # Generate col2 of the prompter row
-    my $row2col2;
-    if ( !$isUnused && ( $isBroken || !$isExpert || $expert ) ) {
+    my $control;
+    if ( $isUnused && !$isBroken ) {
+        # Unused and not broken - just pass the value through a hidden
+        $control = CGI::hidden( $keys, $root->{valuer}->currentValue($value) );
+    } else {
 
         # Generate a prompter for the value.
-        my $class = $value->{typename};
-        $class .= ' mandatory' if ( $value->{mandatory} );
-        $row2col2 = CGI::span(
-            { class => $class },
+        my $promptclass = $value->{typename};
+        $promptclass .= ' mandatory' if ( $value->{mandatory} );
+        $control = CGI::span(
+            { class => $promptclass },
             $type->prompt(
-                $keys, $value->{opts}, $valuer->currentValue($value)
+                $keys, $value->{opts}, $root->{valuer}->currentValue($value)
             )
         );
     }
-    else {
 
-        # Non-expert - just pass the value through a hidden
-        $row2col2 = CGI::hidden( $keys, $valuer->currentValue($value) );
+    my ($tipo, $tipc) = ('', '');
+    if ($info) {
+        my $tip = $root->{controls}->addTooltip($info);
+        $tipo = "<a onmouseover='Tip(getTip($tip))' onmouseout='UnTip()'>";
+        $tipc = "</a>";
     }
-
-    return CGI::Tr(
-        { class => $hiddenClass },
-        CGI::td( { class => 'firstCol' }, $row2col1 ) . "\n"
-          . CGI::td( { class => 'secondCol' }, $row2col2 )
-      )
-      . "\n"
-      . CGI::Tr( { class => $hiddenClass },
-        CGI::td( { colspan => "2", class => 'docdata info' }, $row1 ) )
-      . "\n";
+    return
+      "<tr class='$class'>"
+        ."<td class='firstCol'>$hiddenTypeOf$tipo$index$tipc</td>\n"
+          ."<td class='secondCol'>$tipo$control$tipc&nbsp;$details$check</td></tr>\n";
 }
 
 sub close_html {
-    my $this = shift;
+    my ( $this, $value ) = @_;
     return '';
 }
 

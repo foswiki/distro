@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Environment;
+package Foswiki::Configure::Checkers::Help;
 
 use strict;
 
@@ -8,13 +8,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub ui {
     my ($this, $controls) = @_;
-    my $id = 'environment';
-    my $block = $controls->openTab( $id, 'Environment' )
-      ."<table class='foswikiTable'>";
-    for my $key ( sort keys %ENV ) {
-        $block .= $this->setting( $key, $ENV{$key} );
-    }
-    return $block."</table></div>";
+    my $id = 'help';
+    my $block = $controls->openTab( $id, 'Help' );
+    $block .= Foswiki::getResource(
+        'intro.html',
+        SYSTEMWEB => $Foswiki::cfg{SystemWebName},
+        USERSWEB => $Foswiki::cfg{UsersWebName},
+        SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
+        SCRIPTSUFFIX => $Foswiki::cfg{ScriptSuffix},
+        ADMINGROUP => $Foswiki::cfg{SuperAdminGroup});
+    return $block."</div>";
 }
 
 1;
@@ -22,15 +25,8 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or

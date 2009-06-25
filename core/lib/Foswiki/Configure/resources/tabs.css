@@ -1,0 +1,63 @@
+ul.tabnav {
+  text-align: left; /* set to left, right or center */
+  margin: 1em 0 1em 0; /* set margins as desired */
+/*  font: bold 11px verdana, arial, sans-serif; /* set font as desired */
+  font-weight: bold;
+  border-bottom: 1px solid #6c6; /* set border COLOR as desired */
+  list-style-type: none;
+  padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
+  line-height: 25px;
+}
+
+ul.tabnav li {
+  display: inline;
+}
+
+/* basic settings for all tab links */
+ul.tabnav li a {
+  padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
+  border: 1px solid #ddd; /* set border COLOR as desired; usually matches border color specified in #tabnav */
+  background-color: #ddd; /* unselected tab background */
+  color: #999; /* unselected tab text */
+  margin-right: 5px; /* set additional spacing between tabs as desired */
+  text-decoration: none;
+ /* border-bottom: none;*/
+  border-style: outset;
+}
+
+/* selected LI */
+%TABLI% {
+/*  border-bottom: 4px solid #ccc; /* set border color to page background color */
+  background-color: #fff; /* set background color to match above border color */
+}
+
+/* selected LI A */
+%TABLIA% {
+  background-color: #fff; /* set selected tab background color as desired */
+  color: #000; /* set selected tab link color as desired */
+  position: relative;
+  top: 0px; /* offset from the others */
+  padding-top: 4px; /* must change with respect to padding (X) above and below */
+  border-style: inset;
+}
+
+ul.tabnav a:hover { /* settings for hover effect */
+  background: #fff; /* set desired hover color */
+}
+
+/* An individual LI for a tab */
+.tabli { 
+  /*Adjust left and right margins as required */
+}
+
+div.tooltip {
+  display: none;
+}
+
+.tabBodyVisible { 
+  display: block;
+}
+
+.tabBodyHidden { 
+  display: none;
+}

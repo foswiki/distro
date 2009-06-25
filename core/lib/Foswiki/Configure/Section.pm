@@ -1,5 +1,7 @@
 # See bottom of file for license and copyright information
-
+#
+# A 'Section' is a collection of configuration options and subsections.
+#
 package Foswiki::Configure::Section;
 
 use strict;
