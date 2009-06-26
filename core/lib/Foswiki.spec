@@ -1068,7 +1068,7 @@ $Foswiki::cfg{WebMasterEmail} = '';
 
 # **STRING 30**
 # Wiki administrator's name address, for use in mails (first name and
-# last name, e.g. =Fred Smith=) (used in %WIKIWEBMASTERNAME%)
+# last name, e.g. <tt>Fred Smith</tt>) (used in %WIKIWEBMASTERNAME%)
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **COMMAND**
@@ -1089,16 +1089,15 @@ $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 # SitePreferences topic from a previous release of Foswiki. To disable all
 # outgoing mail from Foswiki leave both this field and the MailProgram field
 # above blank. If the smtp server uses a different port than the default 25
-# use the syntax mail.your.company:portnumber.
+# use the syntax <tt>mail.your.company:portnumber</tt>
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30**
-# Mail domain sending mail, required if you are using Net::SMTP. SMTP
+# Mail domain sending mail, required if you are using <tt>Net::SMTP</tt>. SMTP
 # requires that you identify the server sending mail. If not set,
-# Net::SMTP will guess it for you. Example: foswiki.your.company.
-# <b>CAUTION</b> This setting can be overridden by a setting of SMTPSENDERHOST
-# in SitePreferences. Make sure you delete that setting if you are using a
-# SitePreferences topic from a previous release of Foswiki.
+# <tt>Net::SMTP</tt> will guess it for you. Example: foswiki.your.company.
+# <b>CAUTION</b> This setting can be overridden by a setting of %SMTPSENDERHOST%
+# in SitePreferences. Make sure you delete that setting.
 $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 # **STRING 30**
@@ -1113,17 +1112,15 @@ $Foswiki::cfg{SMTP}{Password} = '';
 # **STRING 30**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. (e.g. http://proxy.your.company).
-# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
-# in SitePreferences. Make sure you delete the setting from there if
-# you are using a SitePreferences topic from a previous release of Foswiki.
+# <b>CAUTION</b> This setting can be overridden by a %PROXYHOST% setting
+# in SitePreferences. Make sure you delete the setting from there.
 $Foswiki::cfg{PROXY}{HOST} = '';
 
 # **STRING 30**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. Set the port number here (e.g: 8080).
-# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
-# in SitePreferences. Make sure you delete the setting from there if you
-# are using a SitePreferences topic from a previous release of Foswiki.
+# <b>CAUTION</b> This setting can be overridden by a %PROXYPORT% setting
+# in SitePreferences. Make sure you delete the setting from there.
 $Foswiki::cfg{PROXY}{PORT} = '';
 
 # **BOOLEAN EXPERT**
