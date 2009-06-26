@@ -582,6 +582,7 @@ GOTOGPS
       ."<div class='row'>$tabs</div>"
         .$controls->generateTooltips();
 
+    print "<div class='row'>";
     if (   $Foswiki::Configure::UI::toterrors
         || $Foswiki::Configure::UI::totwarnings )
     {
@@ -593,11 +594,9 @@ GOTOGPS
           . $Foswiki::Configure::UI::totwarnings
           . ' warning'
           . ( $Foswiki::Configure::UI::totwarnings == 1 ? '' : 's' );
-        print CGI::div($mess);
+        print $mess;
     }
-
     print <<EOP;
- <div class='row'>
   <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N'>
  </div>
  <div>

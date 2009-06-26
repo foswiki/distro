@@ -19,6 +19,7 @@ sub untaintUnchecked {
 
 sub ui {
     my ($this, $controls) = @_;
+    my $erk = 0;
     my $block = <<INFO;
 <div class='foswikiHelp'>This tab contains read-only information about the environment variables
 set by your web server. It is mainly useful for debugging your server setup.
@@ -45,6 +46,7 @@ is risky because mod_perl will remember old values of configuration
 variables. You are *highly* recommended not to run configure under
 mod_perl (though the rest of Foswiki can be run with mod_perl, of course)
 HERE
+        $erk++;
     }
 
 # Check for potential CGI.pm module upgrade
@@ -59,6 +61,7 @@ HERE
 Perl CGI version 3.11 or higher is recommended to avoid problems with
 attachment uploads on Cygwin Perl.
 HERE
+            $erk++;
         }
         elsif ($Foswiki::cfg{DETECTED}{ModPerlVersion}
             && $Foswiki::cfg{DETECTED}{ModPerlVersion} >= 1.99 )
@@ -70,6 +73,7 @@ HERE
 Perl CGI version 3.11 or higher is recommended to avoid problems with
 mod_perl.
 HERE
+            $erk++;
         }
     }
 
@@ -95,6 +99,7 @@ and there have been reports that it does not run on 5.5.
 You will need to upgrade Perl libraries and tweak the Foswiki
 code to make Foswiki work on older versions of Perl
 HERE
+        $erk++;
     }
 
     $block .= $this->setting( 'Perl version', $n );
@@ -106,7 +111,8 @@ This is the Perl library path, used to load Foswiki modules,
 third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
-    $block .= $this->setting( 'CGI bin directory', $this->_checkBinDir() );
+    $block .= $this->setting(
+        'CGI bin directory', $this->_checkBinDir(\$erk) );
 
     # Turn off fatalsToBrowser while checking module loads, to avoid
     # load errors in browser in some environments.
@@ -126,6 +132,7 @@ HERE
 Check path to <code>twiki/lib</code> and check that LocalSite.cfg is
 present and readable
 HERE
+        $erk++;
     }
     else {
         $mess =
@@ -144,6 +151,7 @@ HERE
     }
     else {
         $set = $this->ERROR($perlModules);
+        $erk++;
     }
 
     $block .=
@@ -199,6 +207,7 @@ HERE
 Version $Foswiki::cfg{DETECTED}{ModPerlVersion} of mod_perl is known to have major bugs that prevent
 its use with Foswiki. 1.99_12 or higher is recommended.
 HERE
+        $erk++;
     }
     $block .= $this->setting( 'mod_perl', $n );
 
@@ -234,19 +243,21 @@ HERE
     );
 
     my $id = 'cgisetup';
-    return $controls->openTab( $id, 'CGI') . $block . $controls->closeTab($id);
+    return $controls->openTab( $id, 'CGI', $erk) . $block . $controls->closeTab($id);
 }
 
 sub _checkBinDir {
-    my $this = shift;
+    my ($this, $rerk) = @_;
     my $dir = $ENV{SCRIPT_FILENAME} || '.';
     $dir =~ s(/+configure[^/]*$)();
     my $ext = $Foswiki::cfg{ScriptSuffix} || '';
     my $errs = '';
-    opendir( D, $dir )
-      || return $this->ERROR(<<HERE);
+    unless( opendir( D, $dir ) ) {
+        $$rerk++;
+        return $this->ERROR(<<HERE);
 Cannot open '$dir' for read ($!) - check it exists, and that permissions are correct.
 HERE
+    }
     foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
         next if ( $ext && $script !~ /\.$ext$/ );
         if (   $Foswiki::cfg{OS} !~ /^Windows$/i
@@ -257,6 +268,7 @@ HERE
 $script might not be an executable script - please check it (and its
 permissions) manually.
 HERE
+            $$rerk++;
         }
     }
     closedir(D);
