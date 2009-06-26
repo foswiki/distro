@@ -19,7 +19,11 @@ sub untaintUnchecked {
 
 sub ui {
     my ($this, $controls) = @_;
-    my $block = '';
+    my $block = <<INFO;
+<div class='foswikiHelp'>This tab contains read-only information about the environment variables
+set by your web server. It is mainly useful for debugging your server setup.
+</div>
+INFO
 
     # Detect whether mod_perl was loaded into Apache
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
@@ -229,8 +233,8 @@ HERE
         )
     );
 
-    return $controls->openTab( 'cgisetup', 'CGI').
-      "<table class='foswikiTable'>" . $block . "</table></div>";
+    my $id = 'cgisetup';
+    return $controls->openTab( $id, 'CGI') . $block . $controls->closeTab($id);
 }
 
 sub _checkBinDir {

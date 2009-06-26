@@ -51,7 +51,7 @@ sub endVisit {
       . $ui->open_html( $item, $this )
       . $this->{output}
       .    # only used for sections
-      $ui->close_html( $item );
+      $ui->close_html( $item, $this );
     return 1;
 }
 

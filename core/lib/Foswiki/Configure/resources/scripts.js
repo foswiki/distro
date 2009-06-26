@@ -1,3 +1,4 @@
+/* Don't use // style comments, or you'll break the stupid minifier  */
 function getElementsByClassName(inRootElem, inClassName, inTag) {
 	var rootElem = inRootElem || document;
 	var tag = inTag || '*';
@@ -61,20 +62,20 @@ State 2: undo restore
 */
 function initDefaultLink(inLink) {
 
-	// extract type
+	/* extract type */
 	var type = inLink.className.split(" ")[0];
 	inLink.type = type;
 	
-	// retrieve value from title tag
+	/* retrieve value from title tag */
 	inLink.defaultValue = replaceStubChars(inLink.title);
-	// set title states
+	/* set title states */
 	inLink.setDefaultTitle = 'Set to default value:';
 	inLink.undoDefaultTitle = 'Undo default and use previous value:';
-	// set link label states
+	/* set link label states */
 	inLink.setDefaultLinkText = 'use&nbsp;default';
 	inLink.undoDefaultLinkText = 'undo';
 	
-	// set defaults
+	/* set defaults */
 	inLink.title = formatLinkValueInTitle(
         inLink.type, inLink.setDefaultTitle, inLink.defaultValue);
 	inLink.innerHTML = inLink.setDefaultLinkText;
@@ -107,7 +108,7 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 		oldValue = elem.checked;
 		elem.checked = value;
 	} else if (type == 'select-one') {
-		// find selected element
+		/* find selected element */
 		var index;
 		for (var i=0; i<elem.options.length; ++i) {
 			if (elem.options[i].value == value) {
@@ -121,19 +122,19 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 		oldValue = elem.checked;
 		elem.checked = value;
 	} else {
-		// including type='text' 
+		/* including type='text'  */
 		oldValue = elem.value;
 		elem.value = value;
 	}
 	
 	if (inLink.oldValue == null) {
-		// we have just set the default value
-		// prepare undo link
+		/* we have just set the default value */
+		/* prepare undo link */
 		inLink.innerHTML = inLink.undoDefaultLinkText;
 		inLink.oldValue = oldValue;
 		inLink.title = formatLinkValueInTitle(inLink.type, inLink.undoDefaultTitle, oldValue);
 	} else {
-		// we have just set the old value
+		/* we have just set the old value */
 		inLink.innerHTML = inLink.setDefaultLinkText;
 		inLink.oldValue = null;
 		inLink.title = formatLinkValueInTitle(inLink.type, inLink.setDefaultTitle, value);
@@ -162,7 +163,7 @@ PERL (?)
 */
 function createHumanReadableValueString (inType, inValue) {
 	if (inType == 'NUMBER') {
-		// do not convert numbers
+		/* do not convert numbers */
 		return inValue;
 	}
 	if (inType == 'BOOLEAN') {
@@ -175,7 +176,7 @@ function createHumanReadableValueString (inType, inValue) {
 	if (inValue.length == 0) {
 		return '""';
 	}
-	// all other cases
+	/* all other cases */
 	return inValue;
 }
 
@@ -183,7 +184,8 @@ function createHumanReadableValueString (inType, inValue) {
 Checks if a value can be considered true.
 */
 function isTrue (v) {
-	if (v == 1 || v == '1' || v == 'on' || v == 'true') return 1;
+	if (v == 1 || v == '1' || v == 'on' || v == 'true')
+        return 1;
 	return 0;
 }
 
@@ -191,11 +193,9 @@ function isTrue (v) {
 Replaces stubs for single and double quotes and newlines with the real characters.
 */
 function replaceStubChars(v) {
-	// replace &#26;
 	var re
 	re = new RegExp(/#26;/g);
 	v = v.replace(re, "'");
-	// replace &#22;
 	re = new RegExp(/#22;/g);
 	v = v.replace(re, '"');
 	re = new RegExp(/#13;/g);

@@ -78,7 +78,6 @@ sub check {
     else {
         $n .= $this->checkPerlModules( \@perl56 );
     }
-
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
 
         # Warn re known broken locale setup
@@ -132,7 +131,7 @@ used to support internationalisation.
 HERE
         );
     }
-    return $n;
+    return "<div class='foswikiHelp'>$n</div>";
 }
 
 1;

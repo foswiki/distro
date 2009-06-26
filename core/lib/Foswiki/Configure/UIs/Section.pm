@@ -21,58 +21,44 @@ sub open_html {
 
     my $depth = $section->getDepth();
     my $class = $section->isExpertsOnly() ? 'expert' : 'newbie';
-    my $id = $this->_makeAnchor( $section->{headline} );
+    my $id = $this->makeID( $section->{headline} );
     my $guts = "<!-- $depth $section->{headline} -->\n";
     if ($depth == 2) {
         # Major section == a tab
-
-        # A tab has no heading and is initially invisible
-        $guts .= $root->{controls}->openTab($id, $section->{headline});
-        $guts .= $section->{desc} if $section->{desc};
-
         my $mess = $this->collectMessages($section);
+
+        # This opens a div
+        $guts .= $root->{controls}->openTab(
+            $id, $section->{headline}, $mess ? 1 : 0);
+
+        $guts .= $section->{desc} if $section->{desc};
         if ($mess) {
-            $guts .= "<div class='foswikiAlert'>$mess</div>\n";
+            $guts .= "<div class='foswikiAlert row'>$mess</div>\n";
         }
-        # Open subtable
-        $guts .= "<table class='foswikiTable' width='100%'>\n";
     } elsif ( $depth > 2 ) {
         # A running section has no tab, just a header row
-        $guts .= "<tr><td colspan='2'><h$depth>$section->{headline}</h$depth></td>\n";
-        # if subtables under running sections
-        #   $guts .= "<table style='foswikiTable' width='100%'>"
-        # fi
+        $guts .= "<h$depth class='row'>$section->{headline}</h$depth>\n";
     }
 
     if ( $depth > 2 && $section->{desc} ) {
         # Put info text inside table row for visual consistency
-        $guts .= CGI::Tr(
-            CGI::td(
-                { colspan => "2", class => 'docdata firstInfo' },
-                $section->{desc}
-            )
-        );
+        $guts .= "<div class='docdata foswikiHelp row'>$section->{desc}</div>";
     }
 
     return $guts;
 }
 
 sub close_html {
-    my ( $this, $section ) = @_;
+    my ( $this, $section, $root ) = @_;
     my $depth = $section->getDepth();
-    my $end   = '';
-    # if subtables under running sections
-    #    my $d = $depth;
-    #    while ($d-- >= 2) {
-    # else with no subtables under running sections
-    if ($depth == 2) {
-    # fi
-        $end .= "</table>";
-    }
+    my $end;
     if ( $depth == 2 ) {
-        $end .= "</div>"; # close the tab
+        my $id = $this->makeID( $section->{headline} );
+        $end = $root->{controls}->closeTab($id);
+    } else {
+        $end = "<!-- /$depth $section->{headline} -->\n";
     }
-    return "$end<!-- /$depth $section->{headline} -->\n";
+    return $end;
 }
 
 1;

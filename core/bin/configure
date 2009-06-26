@@ -361,6 +361,15 @@ sub getResource {
         local $/;
         $text = <$F>;
         close($F);
+        if ($resource =~ /\.(js|css)$/) {
+            $text =~ s#/\*.*?\*/##g;
+            $text =~ s#\s*//.*$##gm if ($resource =~ /\.js$/);
+            $text =~ s/\t/ /g;
+            $text =~ s/[ ]+$//gm;
+            $text =~ s/^\s+//gm;
+            $text =~ s/ +/ /g;
+            $text =~ s/\s*\n/\n/gs;
+        }
         $text =~ s/%INCLUDE{(.*?)}%/getResource($1)/ges;
         while (my ($k, $v) = each %vars) {
             $text =~ s/\%$k%/$v/gs;
@@ -569,7 +578,9 @@ GOTOGPS
     return 1 unless $ui;
     $tabs .= $ui->ui( $root, $valuer, $controls );
 
-    print $controls->generateTabs().$tabs.$controls->generateTooltips();
+    print $controls->generateTabs()
+      ."<div class='row'>$tabs</div>"
+        .$controls->generateTooltips();
 
     if (   $Foswiki::Configure::UI::toterrors
         || $Foswiki::Configure::UI::totwarnings )
@@ -585,19 +596,17 @@ GOTOGPS
         print CGI::div($mess);
     }
 
-    print CGI::p(
-        CGI::submit(
-            -class     => 'foswikiSubmit',
-            -name      => 'action',
-            -value     => 'Next',
-            -accesskey => 'N'
-        )
-    );
-    print
-"<p><a href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome\">Cancel and return to Foswiki WebHome</a></p>";
-
-    print CGI::end_form();
-
+    print <<EOP;
+ <div class='row'>
+  <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N'>
+ </div>
+ <div>
+  <a href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">
+   Cancel and return to Foswiki Site Preferences
+  </a>
+ </div>
+</form>
+EOP
     return 0;
 }
 

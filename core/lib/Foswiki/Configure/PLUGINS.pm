@@ -42,7 +42,8 @@ sub new {
             new Foswiki::Configure::Value(
                 parent   => $this,
                 keys     => '{Plugins}{' . $module . '}{Module}',
-                typename => 'STRING'
+                typename => 'STRING',
+                expertsOnly => 1
             )
         );
         $Foswiki::cfg{Plugins}{$module}{Module} ||= $modules{$module};

@@ -3,10 +3,9 @@ ul.tabnav {
   margin: 1em 0 1em 0; /* set margins as desired */
 /*  font: bold 11px verdana, arial, sans-serif; /* set font as desired */
   font-weight: bold;
-  border-bottom: 1px solid #6c6; /* set border COLOR as desired */
   list-style-type: none;
   padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
-  line-height: 25px;
+  line-height: 28px;
 }
 
 ul.tabnav li {
@@ -23,6 +22,11 @@ ul.tabnav li a {
   text-decoration: none;
  /* border-bottom: none;*/
   border-style: outset;
+}
+
+/* Unselected but problem */
+ul.tabnav li a.warn {
+  color: #f88; /* pink */
 }
 
 /* selected LI */
@@ -56,8 +60,10 @@ div.tooltip {
 
 .tabBodyVisible { 
   display: block;
+  width: 100%;
 }
 
 .tabBodyHidden { 
   display: none;
+  width: 100%;
 }

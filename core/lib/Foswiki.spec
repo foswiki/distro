@@ -113,18 +113,18 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# ---+ Security
+# ---+ Security setup
 
 # **STRING H**
 # Configuration password (not prompted)
 $Foswiki::cfg{Password} = '';
 
-#---++ Paths
-# **PATH M**
-# Path control. Overrides the default PATH setting to control
+#---++ Path
+# You can overrides the default PATH setting to control
 # where Foswiki looks for external programs, such as grep and rcs.
 # By restricting this path to just a few key
 # directories, you increase the security of your Foswiki.
+# **PATH M**
 # <ol>
 # 	<li>
 # 		Unix or Linux 
@@ -178,16 +178,18 @@ $Foswiki::cfg{Password} = '';
 $Foswiki::cfg{SafeEnvPath} = '';
 
 #---++ Sessions
-
-# **BOOLEAN**
-# You can use persistent CGI session tracking even if you are not using login.
+# <em>Sessions</em> are how Foswiki tracks a user across multiple requests.
+# A user's session id is stored in a cookie, and this is used to identify
+# the user for each request they make to the server.
+# You can use sessions even if you are not using login.
 # This allows you to have persistent session variables - for example, skins.
 # Client sessions are not required for logins to work, but Foswiki will not
 # be able to remember logged-in users consistently.
-#
 # See UserAuthentication for a full discussion of the pros and
-# cons of using persistent sessions. Session files are stored in the
-# <tt>{WorkingDir}/tmp</tt> directory.
+# cons of using persistent sessions.
+
+# **BOOLEAN**
+# Control whether Foswiki will use persistent sessions.
 $Foswiki::cfg{UseClientSessions} = 1;
 
 # **STRING 20 EXPERT**
@@ -203,6 +205,7 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # up expired sessions using CGI processes. Instead you should use a cron
 # job to clean up expired sessions. The standard maintenance cron script
 # <tt>tools/tick_foswiki.pl</tt> includes this function.
+# <p /> Session files are stored in the <tt>{WorkingDir}/tmp</tt> directory.
 $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 
 # **NUMBER EXPERT**
@@ -301,10 +304,9 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 
 #---++ Authentication
+# Foswiki supports different ways of handling how a user asks, or is asked,
+# to log in.
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
-# Foswiki supports different ways of responding when the user asks to log
-# in (or is asked to log in as the result of an access control fault).
-# They are:
 # <ol><li>
 # none - Don't support logging in, all users have access to everything.
 # </li><li>
@@ -387,9 +389,10 @@ $Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdi
 $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit $Foswiki::cfg{SystemWebName}.UserRegistration if you do not have one.';
 
 #---++ User Mapping
-# **SELECTCLASS Foswiki::Users::*UserMapping**
 # The user mapping is used to equate login names, used with external
-# authentication systems, with Foswiki user identities. By default only
+# authentication systems, with Foswiki user identities. 
+# **SELECTCLASS Foswiki::Users::*UserMapping**
+# By default only
 # two mappings are available, though other mappings *may* be installed to
 # support authentication providers.
 # <ol><li>
@@ -404,6 +407,8 @@ $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
 #---++ Registration
+# Registration is the process by which new users register themselves with
+# Foswiki.
 # **BOOLEAN**
 # If you want users to be able to use a login ID other than their
 # wikiname, you need to turn this on. It controls whether the 'LoginName'
@@ -412,14 +417,8 @@ $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 # (if it supports mappings, that is).
 $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 
-# **BOOLEAN EXPERT**
-# If a login name (or an internal user id) cannot be mapped to a wikiname,
-# then the user is unknown. By default the user will be displayed using
-# whatever identity is stored for them. For security reasons you may want
-# to obscure this stored id by setting this option to true.
-$Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
-
 #---++ Passwords
+# You can choose how passwords are handled by Foswiki.
 # **SELECTCLASS none,Foswiki::Users::*User**
 # Name of the password handler implementation. The password handler manages
 # the passwords database, and provides password lookup, and optionally
@@ -456,7 +455,7 @@ $Foswiki::cfg{MinPasswordLength} = 1;
 # password file with the right encoding.
 $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 
-# **SELECT crypt,sha1,md5,plain,crypt-md5**
+# **SELECT crypt,sha1,md5,plain,crypt-md5 EXPERT**
 # Password encryption, for the Foswiki::Users::HtPasswdUser password manager.
 # You can use the <tt>htpasswd</tt> Apache program to create a new
 # password file with the right encoding.
@@ -476,6 +475,29 @@ $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 
 #---++ Miscellaneous
 
+# **BOOLEAN**
+# Allow %INCLUDE of URLs. This is disabled by default, because it is possible
+# to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
+# URLs. Only enable it if you are in an environment where a DoS attack is not
+# a high risk.
+# <p /> You may also need to configure the proxy settings ({PROXY}{HOST} and
+# {PROXY}{PORT}) if your server is behind a firewall and you allow %INCLUDE of
+# external webpages (see Mail and Proxies).
+$Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
+
+# **BOOLEAN**
+# Allow the use of SCRIPT and LITERAL tags in topics. If this is disabled,
+# all SCRIPT and LITERAL sections will be removed from the body of topics.
+# Note that this may prevent some plugins from functioning correctly.
+$Foswiki::cfg{AllowInlineScript} = $TRUE;
+
+# **BOOLEAN EXPERT**
+# If a login name (or an internal user id) cannot be mapped to a wikiname,
+# then the user is unknown. By default the user will be displayed using
+# whatever identity is stored for them. For security reasons you may want
+# to obscure this stored id by setting this option to true.
+$Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
+
 # **STRING 20 EXPERT**
 # {OS} and {DetailedOS} are calculated in the Foswiki code. <b>You
 # should only need to override if there is something badly wrong with
@@ -490,24 +512,6 @@ $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 # Remove .. from %INCLUDE{filename}%, to stop includes
 # of relative paths.
 $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
-
-# **BOOLEAN EXPERT**
-#
-# Allow %INCLUDE of URLs. This is disabled by default, because it is possible
-# to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
-# URLs. Only enable it if you are in an environment where a DoS attack is not
-# a high risk.
-# <br /> You may also need to configure the proxy settings ({PROXY}{HOST} and
-# {PROXY}{PORT}) if your server is behind a firewall and you allow %INCLUDE of
-# external webpages.
-$Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
-
-# **BOOLEAN EXPERT**
-# Allow the use of SCRIPT and LITERAL tags in content. If this is set false,
-# all SCRIPT and LITERAL sections will be removed from the body of topics.
-# SCRIPT can still be used in the HEAD section, though. Note that this may
-# prevent some plugins from functioning correctly.
-$Foswiki::cfg{AllowInlineScript} = $TRUE;
 
 # **REGEX EXPERT**
 # Filter-in regex for uploaded (attached) file names. This is a filter
@@ -572,8 +576,7 @@ $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
 
 #---+ Anti-spam
-
-# Standard Foswiki incorporates some simple anti-spam measures to protect
+# Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
 # public (internet) sites are strongly recommended to install
@@ -611,6 +614,34 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
 #---+ Log files
 
+# Paths to the various log files. You can use %DATE% (which gets expanded
+# to YYYYMM e.g. 200501) in the pathnames to cause the file to be renewed
+# every month e.g. /var/log/Foswiki/log.%DATE%.
+
+# **PATH**
+# File for configuration messages generated by the configure script.
+# (usually very very low volume).
+$Foswiki::cfg{ConfigurationLogName} = '$Foswiki::cfg{DataDir}/configurationlog.txt';
+
+# **PATH**
+# Log file for debug messages when using the PlainFile logger (the default).
+# Usually very low volume. %DATE% gets expanded
+# to YYYYMM (year, month), allowing you to rotate logs.
+$Foswiki::cfg{DebugFileName} = '$Foswiki::cfg{DataDir}/debug%DATE%.txt';
+
+# **PATH**
+# Log file for Warnings when using the PlainFile logger (the default).
+# Low volume, hopefully! %DATE% gets expanded
+# to YYYYMM (year, month), allowing you to rotate logs.
+$Foswiki::cfg{WarningFileName} = '$Foswiki::cfg{DataDir}/warn%DATE%.txt';
+
+# **PATH**
+# Log file for logging script runs when using the PlainFile logger (the
+# default). High volume. %DATE% gets expanded to YYYYMM (year, month),
+# allowing you to rotate logs. You can control what script runs are logged
+# using EXPERT options.
+$Foswiki::cfg{LogFileName} = '$Foswiki::cfg{DataDir}/log%DATE%.txt';
+
 # **SELECTCLASS none,Foswiki::Logger::* EXPERT **
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
@@ -644,67 +675,29 @@ $Foswiki::cfg{Log}{rename}   = $TRUE; # when a topic or attachment is renamed
 # **BOOLEAN EXPERT**
 $Foswiki::cfg{Log}{register} = $TRUE; # rare, when a new user registers
 
-# Names of the various log files. You can use %DATE% (which gets expanded
-# to YYYYMM e.g. 200501) in the pathnames to cause the file to be renewed
-# every month e.g. /var/log/Foswiki/log.%DATE%.
-# It defaults to the data dir
-
-# **PATH**
-# File for configuration messages generated by the configure script.
-# (usually very very low volume).
-$Foswiki::cfg{ConfigurationLogName} = '$Foswiki::cfg{DataDir}/configurationlog.txt';
-
-# **PATH**
-# Log file for debug messages when using the PlainFile logger (the default).
-# Usually very low volume. %DATE% gets expanded
-# to YYYYMM (year, month), allowing you to rotate logs.
-$Foswiki::cfg{DebugFileName} = '$Foswiki::cfg{DataDir}/debug.txt';
-
-# **PATH**
-# Log file for Warnings when using the PlainFile logger (the default).
-# Low volume, hopefully! %DATE% gets expanded
-# to YYYYMM (year, month), allowing you to rotate logs.
-$Foswiki::cfg{WarningFileName} = '$Foswiki::cfg{DataDir}/warn%DATE%.txt';
-
-# **PATH**
-# Log file for logging script runs when using the PlainFile logger (the
-# default). High volume. %DATE% gets expanded to YYYYMM (year, month),
-# allowing you to rotate logs. You can control what script runs are logged
-# using EXPERT options.
-$Foswiki::cfg{LogFileName} = '$Foswiki::cfg{DataDir}/log%DATE%.txt';
-
 #---+ Localisation
 
 # <p>
-# Configuration items in this section control two things: recognition of
-# national (non-ascii) characters and the system locale used by Foswiki, which
-# influences how programs Foswiki and external programa called by it behave
-# regarding internationalization.
+# Settings in this section control (1) the language to be used for the
+# user interface (2) recognition of national (non-ascii) characters and
+# (3) the system locale used by Foswiki, which influences how Foswiki <em>and
+# external programs called by it</em> behave regarding internationalization.
 # </p>
 # <p>
-# <b>Note:</b> for user interface internationalization, the only settings that
-# matter are {UserInterfaceInternationalisation}, which enables user interface
-# internationalisation, and {Site}{CharSet}, which controls which charset Foswiki
-# will use for storing topics and displaying content for the users. As soon as
-# {UserInterfaceInternationalisation} is set and the required
-# (<code>Locale::Maketext::Lexicon</code> and <code>Encode</code>/MapUTF8 Perl
-# modules) are installed (see the <em>CGI Setup</em> section above), the
-# multi-language user interface will <em>just</em> work.
+# <b>Note:</b> if you just want to select a language for the user interface,
+# the only settings that matter are {UserInterfaceInternationalisation}
+# and {Site}{CharSet}. Some languages require the
+# <code>Locale::Maketext::Lexicon</code> and <code>Encode</code>/MapUTF8 Perl
+# modules to be installed (see the table below).
 # </p>
 
 # **BOOLEAN**
 # Enable user interface internationalisation, i.e. presenting the user
-# interface in the users own language.
+# interface in the users own language(s). Check every language that you
+# want your site to support.
 # <p />
-# Under {UserInterfaceInternationalisation}, check every language that you want
-# your site to support. This setting is only used when
-# {UserInterfaceInternationalisation} is enabled. If you disable all languages,
-# internationalisation will also be disabled, even if
-# {UserInterfaceInternationalisation} is enabled: internationalisation support
-# for no languages doesn't make any sense.
-# <p />
-# Allowing all languages is the best for <em>really</em> international sites.
-# But for best performance you should enable only the languages you really
+# Allowing all languages is the best for <em>really</em> international sites,
+# but for best performance you should enable only the languages you really
 # need. English is the default language, and is always enabled.
 # <p />
 # {LocalesDir} is used to find the languages supported in your installation,
@@ -729,22 +722,11 @@ $Foswiki::cfg{Languages}{sv}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-cn'}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 
-# **SELECT gmtime,servertime**
-# Set the timezone (this only effects the display of times,
-# all internal storage is still in GMT). May be gmtime or servertime
-$Foswiki::cfg{DisplayTimeValues} = 'gmtime';
-
-# **SELECT $day $month $year, $year-$mo-$day, $year/$mo/$day, $year.$mo.$day**
-# Set the default format for dates. The traditional Foswiki format is
-# '$day $month $year' (31 Dec 2007). The ISO format '$year-$mo-$day'
-# (2007-12-31) is recommended for non English language Foswikis. Note that $mo
-# is the month as a two digit number. $month is the three first letters of
-# English name of the month
-$Foswiki::cfg{DefaultDateFormat} = '$day $month $year';
-
 # **BOOLEAN**
 # Locale - set to enable operating system level locales and
-# internationalisation support for 8-bit character sets
+# internationalisation support for 8-bit character sets. This may be required
+# for correct functioning of the programs that Foswiki calls with international
+# character sets.
 $Foswiki::cfg{UseLocale} = $FALSE;
 
 # **STRING 50**
@@ -775,6 +757,29 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # UTF-8 locale like en_US.utf8 is still considered experimental
 $Foswiki::cfg{Site}{Locale} = 'en_US.ISO-8859-1';
 
+# **STRING 50 **
+# Set this to match your chosen {Site}{Locale} (from 'locale -a')
+# whose character set is not supported by your available perl conversion module
+# (i.e. Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl
+# versions).  For example, if the locale 'ja_JP.eucjp' exists on your system
+# but only 'euc-jp' is supported by Unicode::MapUTF8, set this to 'euc-jp'.
+# If you don't define it, it will automatically be defaulted to iso-8859-1<br />
+# UTF-8 support is still considered experimental. Use the value 'utf-8' to try it.
+$Foswiki::cfg{Site}{CharSet} = undef;
+
+# **SELECT gmtime,servertime**
+# Set the timezone (this only effects the display of times,
+# all internal storage is still in GMT). May be gmtime or servertime
+$Foswiki::cfg{DisplayTimeValues} = 'gmtime';
+
+# **SELECT $day $month $year, $year-$mo-$day, $year/$mo/$day, $year.$mo.$day**
+# Set the default format for dates. The traditional Foswiki format is
+# '$day $month $year' (31 Dec 2007). The ISO format '$year-$mo-$day'
+# (2007-12-31) is recommended for non English language Foswikis. Note that $mo
+# is the month as a two digit number. $month is the three first letters of
+# English name of the month
+$Foswiki::cfg{DefaultDateFormat} = '$day $month $year';
+
 # **BOOLEAN EXPERT**
 # Disable to force explicit listing of national chars in
 # regexes, rather than relying on locale-based regexes. Intended
@@ -801,16 +806,6 @@ $Foswiki::cfg{UpperNational} = '';
 #
 $Foswiki::cfg{LowerNational} = '';
 
-# **STRING 50 **
-# Set this to match your chosen {Site}{Locale} (from 'locale -a')
-# whose character set is not supported by your available perl conversion module
-# (i.e. Encode for Perl 5.8 or higher, or Unicode::MapUTF8 for other Perl
-# versions).  For example, if the locale 'ja_JP.eucjp' exists on your system
-# but only 'euc-jp' is supported by Unicode::MapUTF8, set this to 'euc-jp'.
-# If you don't define it, it will automatically be defaulted to iso-8859-1<br />
-# UTF-8 support is still considered experimental. Use the value 'utf-8' to try it.
-$Foswiki::cfg{Site}{CharSet} = undef;
-
 # **BOOLEAN EXPERT**
 # Change non-existent plural topic name to singular,
 # e.g. TestPolicies to TestPolicy. Only works in English.
@@ -833,11 +828,6 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # Subversion version control system as a data store.
 $Foswiki::cfg{StoreImpl} = 'RcsWrap';
 
-# **STRING 20 EXPERT**
-# Specifies the extension to use on RCS files. Set to -x,v on windows, leave
-# blank on other platforms.
-$Foswiki::cfg{RCS}{ExtOption} = "";
-
 # **OCTAL**
 # File security for new directories. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
@@ -852,7 +842,7 @@ $Foswiki::cfg{RCS}{dirPermission}= 0755;
 # representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
 $Foswiki::cfg{RCS}{filePermission}= 0644;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN**
 # Some file-based Store implementations (RcsWrap and RcsLite for
 # example) store attachment meta-data separately from the actual attachments.
 # This means that it is possible to have a file in an attachment directory
@@ -862,6 +852,12 @@ $Foswiki::cfg{RCS}{filePermission}= 0644;
 # Considered experimental.
 $Foswiki::cfg{AutoAttachPubFiles} = $FALSE;
 
+# **BOOLEAN**
+# Set to enable hierarchical webs. Without this setting, Foswiki will only
+# allow a single level of webs. If you set this, you can use
+# multiple levels, like a directory tree, i.e. webs within webs.
+$Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
 # **NUMBER EXPERT**
 # Number of seconds to remember changes for. This doesn't affect revision
 # histories, which always remember the date a file change. It only affects
@@ -870,6 +866,11 @@ $Foswiki::cfg{AutoAttachPubFiles} = $FALSE;
 # notification mailer. It should be no shorter than the interval between runs
 # of these scripts.
 $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
+
+# **STRING 20 EXPERT**
+# Specifies the extension to use on RCS files. Set to -x,v on windows, leave
+# blank on other platforms.
+$Foswiki::cfg{RCS}{ExtOption} = "";
 
 # **REGEX EXPERT**
 # Perl regular expression matching suffixes valid on plain text files
@@ -980,12 +981,6 @@ $Foswiki::cfg{RCS}{EgrepCmd} = '/bin/grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 $Foswiki::cfg{RCS}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
-# **BOOLEAN**
-# Set to enable hierarchical webs. Without this setting, Foswiki will only
-# allow a single level of webs. If you set this, you can use
-# multiple levels, like a directory tree, i.e. webs within webs.
-$Foswiki::cfg{EnableHierarchicalWebs} = 1;
-
 # **STRING 20 EXPERT**
 # Name of the web where documentation and default preferences are held. If you
 # change this setting, you must make sure the web exists and contains
@@ -1014,7 +1009,7 @@ $Foswiki::cfg{UsersWebName} = 'Main';
 # page views than changes.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
-# **BOOLEAN**
+# **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
 # encoded using gzip compression. You will save a lot of bandwidth by compressing
 # pages. This makes most sense when enabling page caching as well as these are
@@ -1022,12 +1017,21 @@ $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 # will be compressed. Any other pages will be transmitted uncompressed.
 $Foswiki::cfg{Cache}{Compress} = $TRUE;
 
-# **STRING**
+# **PATH EXPERT**
+# Specify the root directory for CacheManagers with a file-system based storage
+$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/tmp/cache';
+
+# **STRING 30 EXPERT**
+# Specify the database file for the <code>Foswiki::Cache::DB_File</code>
+# CacheManager
+$Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/tmp/foswiki_db';
+
+# **STRING EXPERT**
 # Specify the namespace used by this site in a store shared with other systems.
 # Leave this empty to use the <code>DefaultUrlHost</code> as a default.
 $Foswiki::cfg{Cache}{NameSpace} = '';
 
-# **SELECTCLASS Foswiki::Cache::***
+# **SELECTCLASS Foswiki::Cache::* EXPERT**
 # Select the default caching mechanism. Note, that individual subsystems might
 # chose a different backend for their own purposes. Some recommendations:
 # <ul>
@@ -1041,21 +1045,12 @@ $Foswiki::cfg{Cache}{NameSpace} = '';
 # </ul>
 $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
-# **PATH**
-# Specify the root directory for CacheManagers with a file-system based storage
-$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
-
-# **STRING 30**
-# Specify the database file for the <code>Foswiki::Cache::DB_File</code>
-# CacheManager
-$Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/foswiki_db';
-
-# **NUMBER**
+# **NUMBER EXPERT**
 # Specify the maximum number of cache entries for size-aware CacheManagers like
 # <code>MemoryLRU</code>. This won't have any effect on other CacheManagers.
 $Foswiki::cfg{Cache}{MaxSize} = 1000;
 
-# **STRING 30**
+# **STRING 30 EXPERT**
 # Specify a comma separated list of servers for distributed CacheManagers like
 # <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
@@ -1115,6 +1110,22 @@ $Foswiki::cfg{SMTP}{Username} = '';
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
+# **STRING 30**
+# Some environments require outbound HTTP traffic to go through a proxy
+# server. (e.g. http://proxy.your.company).
+# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
+# in SitePreferences. Make sure you delete the setting from there if
+# you are using a SitePreferences topic from a previous release of Foswiki.
+$Foswiki::cfg{PROXY}{HOST} = '';
+
+# **STRING 30**
+# Some environments require outbound HTTP traffic to go through a proxy
+# server. Set the port number here (e.g: 8080).
+# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
+# in SitePreferences. Make sure you delete the setting from there if you
+# are using a SitePreferences topic from a previous release of Foswiki.
+$Foswiki::cfg{PROXY}{PORT} = '';
+
 # **BOOLEAN EXPERT**
 # Remove IMG tags in notification mails.
 $Foswiki::cfg{RemoveImgInMailnotify} = $TRUE;
@@ -1130,34 +1141,7 @@ $Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-# **STRING 30 EXPERT**
-# Some environments require outbound HTTP traffic to go through a proxy
-# server. (e.g. http://proxy.your.company).
-# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
-# in SitePreferences. Make sure you delete the setting from there if
-# you are using a SitePreferences topic from a previous release of Foswiki.
-$Foswiki::cfg{PROXY}{HOST} = '';
-
-# **STRING 30 EXPERT**
-# Some environments require outbound HTTP traffic to go through a proxy
-# server. Set the port number here (e.g: 8080).
-# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
-# in SitePreferences. Make sure you delete the setting from there if you
-# are using a SitePreferences topic from a previous release of Foswiki.
-$Foswiki::cfg{PROXY}{PORT} = '';
-
 #---+ Miscellaneous settings
-
-# **BOOLEAN**
-# 'Anchors' are positions within a Foswiki page that can be targeted in
-# a URL using the <tt>#anchor</tt> syntax. The format of these anchors has
-# changed several times. If this option is set, Foswiki will generate extra
-# redundant anchors that are compatible with the old formats. If it is not
-# set, the links will still work but will go to the head of the target page.
-# There is a small performance cost for enabling this option. Set it if
-# your site has been around for a long time, and you want existing external
-# links to the internals of pages to continue to work.
-$Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
 # **NUMBER**
 # Number of top viewed topics to show in statistics topic
@@ -1228,6 +1212,17 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # (i.e. don't change it unless you are <b>certain</b> that you know what
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
+
+# **BOOLEAN EXPERT**
+# 'Anchors' are positions within a Foswiki page that can be targeted in
+# a URL using the <tt>#anchor</tt> syntax. The format of these anchors has
+# changed several times. If this option is set, Foswiki will generate extra
+# redundant anchors that are compatible with the old formats. If it is not
+# set, the links will still work but will go to the head of the target page.
+# There is a small performance cost for enabling this option. Set it if
+# your site has been around for a long time, and you want existing external
+# links to the internals of pages to continue to work.
+$Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
 # **NUMBER EXPERT**
 # How many links to other revisions to show in the bottom bar. 0 for all

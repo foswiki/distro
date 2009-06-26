@@ -26,13 +26,13 @@ sub open_html {
     my $isBroken = 0;
     my $check = '';
     if ($checker) {
-        $check = $checker->check($value);
+        $check = $checker->check($value) || '';
         if ($check) {
 
             # something wrong
             $isBroken = 1;
         }
-        if ( $check && $check eq 'NOT USED IN THIS CONFIGURATION' ) {
+        if ( $check eq 'NOT USED IN THIS CONFIGURATION' ) {
             $isUnused = 1;
         }
     }
@@ -99,13 +99,14 @@ HERE
         $tipc = "</a>";
     }
     return
-      "<tr class='$class'>"
-        ."<td class='firstCol'>$hiddenTypeOf$tipo$index$tipc</td>\n"
-          ."<td class='secondCol'>$tipo$control$tipc&nbsp;$details$check</td></tr>\n";
+      "<div class='row $class'>\n"
+        ."<div class='firstCol keys $class'>$hiddenTypeOf$tipo$index$tipc</div>\n"
+          ."<div class='secondCol'>$tipo$control$tipc&nbsp;$details$check"
+            ."</div></div>\n";
 }
 
 sub close_html {
-    my ( $this, $value ) = @_;
+    my ( $this, $value, $root ) = @_;
     return '';
 }
 

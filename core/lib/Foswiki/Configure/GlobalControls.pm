@@ -16,10 +16,14 @@ sub new {
 }
 
 sub openTab {
-    my ($this, $id, $text, $open) = @_;
-    push(@{$this->{tabs}}, { id => $id, text => $text });
-    my $class = 'tabBody'.($open ? 'Visible' : 'Hidden');
-    return "<div id='${id}_body' class='$class'><a name='${id}'></a>\n";
+    my ($this, $id, $text, $alert) = @_;
+    push(@{$this->{tabs}}, { id => $id, text => $text, alert => $alert });
+    return "<div id='${id}_body' class='tabBodyHidden'><a name='${id}'></a>\n";
+}
+
+sub closeTab {
+    my ($this, $id) = @_;
+    return "</div><!--/$id tab-->\n";
 }
 
 sub _nbsp {
@@ -37,12 +41,14 @@ sub generateTabs {
         TABLI  => join(',', @tabLi),
         TABLIA => join(',', map { "$_ a" } @tabLi))
       .'</style>';
-    my $tabs = "<ul class='tabnav'>\n"
-      .join(' ',
-            map { "<li class='".$_->{id}." tabli'><a onclick='tab(\"".
-                    $_->{id}."\")'>"
-                      ._nbsp($_->{text})."</a></li>" }
-              @{$this->{tabs}}) . "</ul>";
+    my $tabs = "<ul class='tabnav'>\n";
+    foreach my $tab ( @{$this->{tabs}} ) {
+        my $alertClass = $tab->{alert} ? " class='warn'" : '';
+        $tabs .= "<li class='tabli $tab->{id}'>"
+          . "<a$alertClass onclick='tab(\"$tab->{id}\")'>"
+            . _nbsp($tab->{text}) . "</a></li>\n";
+    }
+    $tabs .= "</ul>\n";
     return $css.$tabs;
 }
 

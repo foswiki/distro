@@ -9,12 +9,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub ui {
     my ($this, $controls) = @_;
     my $id = 'environment';
-    my $block = $controls->openTab( $id, 'Environment' )
-      ."<table class='foswikiTable'>";
+    my $block = $controls->openTab( $id, 'Environment' );
+    $block .= <<INFO;
+<div class='foswikiHelp'>This tab contains read-only information about the environment variables
+set by your web server. It is mainly useful for debugging your server setup.
+</div>
+INFO
     for my $key ( sort keys %ENV ) {
         $block .= $this->setting( $key, $ENV{$key} );
     }
-    return $block."</table></div>";
+    return $block.$controls->closeTab($id);
 }
 
 1;

@@ -105,17 +105,22 @@ sub getUrl {
 }
 
 # STATIC Used by a whole bunch of things that just need to show a key-value row
-# (called as a method, i.e. with class as first parameter)
+# in a table (called as a method, i.e. with class as first parameter)
 sub setting {
     my $this = shift;
     my $key  = shift;
-    return CGI::Tr( CGI::td( { class => 'firstCol' }, $key )
-          . CGI::td( { class => 'secondCol' }, join( ' ', @_ ) ) )
-      . "\n";
+    my $data = join( ' ', @_ );
+    return <<SETTING;
+<div class='row'>
+ <div class='firstCol'>$key</div>
+ <div class='secondCol'>$data</div>
+</div>
+SETTING
 }
 
-# encode a string to make an HTML anchor
-sub _makeAnchor {
+# encode a string to make a simplified unique ID useable
+# as an HTML id or anchor
+sub makeID {
     my ( $this, $str ) = @_;
 
     $str =~ s/\s(\w)/uc($1)/ge;

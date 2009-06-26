@@ -15,6 +15,8 @@ a.error {
     background-color:#FFD9D9; /* pink */
     border-bottom:1px solid #f00;
 }
+.keys { 
+}
 .mandatory,
 .mandatory input {
     color:green;
@@ -22,7 +24,7 @@ a.error {
     font-weight: bold;
 }
 .mandatory {
-    border-bottom:1px solid green;
+    /*border-bottom:1px solid green;*/
 }
 .mandatory input {
     font-weight:normal;
@@ -73,9 +75,31 @@ table.extensionsTable .installed a:visited {
 	background:#ffffd6;
 }
 
+/* Settings and other stuff only shown in expert mode */
 .expert {
-  background-color: #eED0CC;
+  background-color: #edc;
 }
 
+/* Stuff *not* shown in expert mode */
+.notExpert {
+  background-color: #edc;
+}
+
+/* Settings shown to everyone */
 .newbie { 
+}
+
+.row {
+  width: 99;
+  clear: both;
+}
+.firstCol {
+  position: relative;
+  clear: both;
+  float:left;
+  width: 25%;
+}
+.secondCol { 
+  width: 75%;
+  float: right;
 }

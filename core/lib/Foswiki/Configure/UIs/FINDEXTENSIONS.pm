@@ -9,12 +9,7 @@ our @ISA = ('Foswiki::Configure::UIs::Section');
 use Foswiki::Configure::Type ();
 
 sub close_html {
-    my ( $this, $section ) = @_;
-
-    my $button = <<HERE;
-Consult online extensions repositories for
-new extensions. <strong>If you made any changes, save them first!</strong>
-HERE
+    my ( $this, $section, $root ) = @_;
 
     # Check that the extensions UI is loadable
     my $bad = 0;
@@ -52,8 +47,13 @@ Check 'Perl Modules' in the 'CGI Setup' section above, and install any
 missing modules required for the Extensions Installer.
 MESSAGE
     }
-    return CGI::Tr( CGI::td($button), CGI::td($actor) )
-      . $this->SUPER::close_html($section);
+    return <<INFO . $this->SUPER::close_html($section, $root);
+<div class="row foswikiHelp">
+Click to consult online extensions repositories for
+new extensions. <strong>If you made any changes, save them first!</strong>
+<br />$actor
+</div>
+INFO
 }
 
 1;
