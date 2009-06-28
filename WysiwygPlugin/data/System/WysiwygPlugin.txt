@@ -167,6 +167,7 @@ Many thanks to the following sponsors for supporting this work:
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | |
+|  28 Jun 2009 | Foswikitask:Item1770: Protect XML tags registered by plugins, and not just the content between them (Michael Tempest) |
 |  6 Jun 2009 | Foswikitask:Item1013: Correct dependency on HTML::Parser (Will Norris) Foswikitask:Item1397: Foswikitask:Item1535: Fosikitask:Item1666: Correct processing of colour and typewriter-text in several situations, include application to bold text and table cells (Michael Tempest) Foswikitask:Item1667: Remove unwanted extra &lt;sticky&gt; tags (Michael Tempest) Foswikitask:Item1674: Let plugins register XML tags that should be protected like macros |
 |  10 Apr 2009 | Foswikitask:Item1394: fixed colour handling |
 |  03 Dec 2008 | Foswikitask:Item6041: fixed empty bullet list problem. Foswiki version |
