@@ -1,4 +1,5 @@
-/* Don't use // style comments, or you'll break the stupid minifier  */
+/* Javascript for =configure= */
+
 function getElementsByClassName(inRootElem, inClassName, inTag) {
 	var rootElem = inRootElem || document;
 	var tag = inTag || '*';
@@ -33,18 +34,15 @@ function addLoadEvent (fn, prepend) {
 }
 
 function initDeltaIndicators() {
-	var elems = getElementsByClassName(document.forms.update, 'delta' , 'SPAN');	
+	var elems = getElementsByClassName(document.forms.update, 'delta' , 'A');	
 	var i, ilen = elems.length;
-	for (i=0; i<ilen; ++i) {
-		initDelta(elems[i]);
-	}
-}
-
-function initDelta(inElem) {
-	var value = replaceStubChars(inElem.title);
-	var type = inElem.className.split(" ")[0];
-	var title = formatLinkValueInTitle(type, "default=", value);
-	inElem.title = title;
+	for (i = 0; i < ilen; ++i) {
+        var inElem = elems[i];
+        var value = decode(inElem.title);
+        var type = inElem.className.split(" ")[0];
+        var title = formatLinkValueInTitle(type, "default=", value);
+        inElem.title = title;
+    }
 }
 
 function initDefaultLinks() {
@@ -67,7 +65,7 @@ function initDefaultLink(inLink) {
 	inLink.type = type;
 	
 	/* retrieve value from title tag */
-	inLink.defaultValue = replaceStubChars(inLink.title);
+	inLink.defaultValue = decode(inLink.title);
 	/* set title states */
 	inLink.setDefaultTitle = 'Set to default value:';
 	inLink.undoDefaultTitle = 'Undo default and use previous value:';
@@ -94,11 +92,11 @@ Values are set in UIs/Value.pm
 */
 function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 
-	var name = replaceStubChars(inName);
+	var name = decode(inName);
 	var elem = document.forms.update[name];
 	if (!elem) return;
 	
-	var value = replaceStubChars(inValue);
+	var value = decode(inValue);
 	if (inLink.oldValue != null) value = inLink.oldValue;
 
 	var oldValue;
@@ -190,17 +188,14 @@ function isTrue (v) {
 }
 
 /**
-Replaces stubs for single and double quotes and newlines with the real characters.
+Replaces encoded characters with the real characters.
 */
-function replaceStubChars(v) {
-	var re
-	re = new RegExp(/#26;/g);
-	v = v.replace(re, "'");
-	re = new RegExp(/#22;/g);
-	v = v.replace(re, '"');
-	re = new RegExp(/#13;/g);
-	v = v.replace(re, "\r");
-	return v;
+function decode(v) {
+	var re = new RegExp(/#(\d\d)/g);
+	return v.replace(re,
+                     function (str, p1) {
+                         return String.fromCharCode(parseInt(p1));
+                     });
 }
 
 var expertsMode = 'block';
@@ -208,11 +203,11 @@ var expertsMode = 'block';
 function toggleExpertsMode() {
     var antimode = expertsMode;
     expertsMode = (antimode == 'block' ? 'none' : 'block');
-    var els = getElementsByClassName(document, 'expert');
+    var els = getElementsByClassName(document, 'configureExpert');
     for (var i = 0; i < els.length; i++) {
         els[i].style.display = expertsMode;
     }
-    els = getElementsByClassName(document, 'notExpert');
+    els = getElementsByClassName(document, 'configureNotExpert');
     for (var i = 0; i < els.length; i++) {
         els[i].style.display = antimode;
     }
@@ -224,9 +219,9 @@ function tab(newTab) {
     if (!newTab) newTab = curTab;
     body.className = newTab;
     var tab = document.getElementById(curTab + '_body');
-    tab.className = 'tabBodyHidden';
+    tab.className = 'configureTabBodyHidden';
     tab = document.getElementById(newTab + '_body');
-    tab.className = 'tabBodyVisible';
+    tab.className = 'configureTabBodyVisible';
 }
 
 function getTip(idx) {
@@ -237,7 +232,7 @@ function getTip(idx) {
         return "LOST TIP "+idx;
 }
 
-addLoadEvent(initDeltaIndicators);
-addLoadEvent(initDefaultLinks);
 addLoadEvent(function () { tab(); toggleExpertsMode() });
+addLoadEvent(initDefaultLinks);
+addLoadEvent(initDeltaIndicators);
 

@@ -579,30 +579,24 @@ GOTOGPS
     $tabs .= $ui->ui( $root, $valuer, $controls );
 
     print $controls->generateTabs()
-      ."<div class='row'>$tabs</div>"
+      ."<div class='configureRow'>$tabs</div>"
         .$controls->generateTooltips();
 
-    print "<div class='row'>";
+    print "<br class='foswikiClear' />";
     if (   $Foswiki::Configure::UI::toterrors
         || $Foswiki::Configure::UI::totwarnings )
     {
         my $mess =
-            'Total: '
-          . $Foswiki::Configure::UI::toterrors
+          $Foswiki::Configure::UI::toterrors
           . ' error'
           . ( $Foswiki::Configure::UI::toterrors == 1 ? '' : 's' ) . ', '
           . $Foswiki::Configure::UI::totwarnings
           . ' warning'
           . ( $Foswiki::Configure::UI::totwarnings == 1 ? '' : 's' );
-        print $mess;
+        print "$mess.";
     }
     print <<EOP;
-  <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N'>
- </div>
- <div>
-  <a href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">
-   Cancel and return to Foswiki Site Preferences
-  </a>
+  Click <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N'> to save, or <a class='foswikiSubmit' href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">Cancel</a> to return to Foswiki Site Preferences
  </div>
 </form>
 EOP

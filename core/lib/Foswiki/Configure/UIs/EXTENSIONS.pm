@@ -105,7 +105,7 @@ sub ui {
     my $installed = 0;
     my $exts      = $this->_getListOfExtensions();
     foreach my $error ( @{ $this->{errors} } ) {
-        $table .= CGI::Tr( { class => 'foswikiAlert' },
+        $table .= CGI::Tr( { class => 'configureError' },
             CGI::td( { colspan => "7" }, $error ) );
     }
 
@@ -139,7 +139,7 @@ sub ui {
                         # Unexpanded, assume pseudo-installed
                         $link            = '';
                         $text            = 'pseudo-installed';
-                        $ext->{cssclass} = 'pseudoinstalled';
+                        $ext->{cssclass} = 'configurePseudoInstalled';
                     }
                     elsif ( $ext->{installedVersion} =~
                         /^\s*v?(\d+)\.(\d+)(?:\.(\d+))/ )
@@ -150,7 +150,7 @@ sub ui {
                         # revs in each field
                         my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'reinstall';
+                        $ext->{cssclass} = 'configureReinstall';
                         if ( $ext->{version} =~
                             /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
                         {
@@ -159,7 +159,7 @@ sub ui {
                             my $arev = ( $1 * 1000 + $2 ) * 1000 + ( $3 || 0 );
                             if ( $arev > $irev ) {
                                 $text = 'Upgrade';
-                                $ext->{cssclass} = 'upgrade';
+                                $ext->{cssclass} = 'configureUpgrade';
                             }
                         }
                     }
@@ -168,13 +168,13 @@ sub ui {
                         # SVN rev number
                         my $gotrev = $1;
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'reinstall';
+                        $ext->{cssclass} = 'configureReinstall';
                         if ( defined $ext->{version} &&
                                $ext->{version} =~ /^\s*(\d+)\s/ ) {
                             my $availrev = $1;
                             if ( $availrev > $gotrev ) {
                                 $text = 'Upgrade';
-                                $ext->{cssclass} = 'upgrade';
+                                $ext->{cssclass} = 'configureUpgrade';
                             }
                         }
                     }
@@ -185,13 +185,13 @@ sub ui {
                         # ISO date
                         my $idate = d2n( $3, $2, $1 );
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'reinstall';
+                        $ext->{cssclass} = 'configureReinstall';
                         if ( defined $ext->{version} &&
                                $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
                             my $adate = d2n( $3, $2, $1 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
-                                $ext->{cssclass} = 'upgrade';
+                                $ext->{cssclass} = 'configureUpgrade';
                             }
                         }
                     }
@@ -202,14 +202,14 @@ sub ui {
                         # dd Mmm yyyy date
                         my $idate = d2n( $1, $N2M{ lc($2) }, $3 );
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'reinstall';
+                        $ext->{cssclass} = 'configureReinstall';
                         if ( defined $ext->{version} &&
                                $ext->{version} =~
                                  /(\d{1,2}) ($MNAME) (\d{4})/ ) {
                             my $adate = d2n( $1, $N2M{lc($2)}, $3 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
-                                $ext->{cssclass} = 'upgrade';
+                                $ext->{cssclass} = 'configureUpgrade';
                             }
                         }
                     }
@@ -245,16 +245,16 @@ sub ui {
         }
         my @classes = ( $rows % 2 ? 'odd' : 'even' );
         if ( $ext->{installedVersion} ) {
-            push @classes, 'installed';
+            push @classes, 'configureInstalled';
             push( @classes, $ext->{cssclass} ) if ( $ext->{cssclass} );
-            push @classes, 'twikiExtension'
+            push @classes, 'configureAlienExtension'
               if $ext->{installedVersion} =~ /\(TWiki\)/;
         }
         $table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
         $rows++;
     }
     $table .= CGI::Tr(
-        { class => 'patternAccessKeyInfo' },
+        { class => 'foswikiHelp' },
         CGI::td(
             { colspan => "7" },
             $installed
@@ -270,7 +270,7 @@ sub ui {
 write files everywhere in your Foswiki installation. Otherwise you may see
 'No permission to write' errors during extension installation.</div>
 INTRO
-    $page .= CGI::table( { class => 'foswikiTable extensionsTable' }, $table );
+    $page .= CGI::table( { class => 'foswikiTable configureExtensionsTable' }, $table );
     return $page;
 }
 

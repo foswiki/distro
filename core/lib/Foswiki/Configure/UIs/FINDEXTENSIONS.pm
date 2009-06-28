@@ -48,7 +48,7 @@ missing modules required for the Extensions Installer.
 MESSAGE
     }
     return <<INFO . $this->SUPER::close_html($section, $root);
-<div class="row foswikiHelp">
+<div class="configureRow foswikiHelp">
 Click to consult online extensions repositories for
 new extensions. <strong>If you made any changes, save them first!</strong>
 <br />$actor

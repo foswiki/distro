@@ -39,7 +39,7 @@ sub open_html {
 
     # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-    my $class = $isExpert ? 'expert' : 'newbie';
+    my $class = $isExpert ? 'configureExpert' : '';
     if ( $isUnused || !$isBroken && $value->{hidden} ) {
         $class = 'foswikiHidden';
     }
@@ -62,16 +62,14 @@ sub open_html {
             $Data::Dumper::Terse = 1;
             $defaultValue        = Dumper($defaultValue);
 
-            # create stubs for special characters, put them back with javascript
-            $defaultValue =~ s/'/#26;/g;
-            $defaultValue =~ s/"/#22;/g;
-            $defaultValue =~ s/\n/#13;/g;
+            # encode special characters, put them back in javascript
+            $defaultValue =~ s/(['"\n])/'#'.ord($1)/ge;
         }
 
         my $safeKeys = $keys;
-        $safeKeys =~ s/'/#26;/g;
+        $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
         $details .= <<HERE;
-<a onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">&delta;</a>
+<a onmouseover='Tip(getTip("Delta")+"$defaultValue")' onmouseout='UnTip()' class='$value->{typename} configureDefaultValue delta' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">reset</a>
 HERE
     }
 
@@ -83,7 +81,7 @@ HERE
 
         # Generate a prompter for the value.
         my $promptclass = $value->{typename};
-        $promptclass .= ' mandatory' if ( $value->{mandatory} );
+        $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
         $control = CGI::span(
             { class => $promptclass },
             $type->prompt(
@@ -99,9 +97,9 @@ HERE
         $tipc = "</a>";
     }
     return
-      "<div class='row $class'>\n"
-        ."<div class='firstCol keys $class'>$hiddenTypeOf$tipo$index$tipc</div>\n"
-          ."<div class='secondCol'>$tipo$control$tipc&nbsp;$details$check"
+      "<div class='configureRow $class'>\n"
+        ."<div class='configureFirstCol configureKeys $class'>$hiddenTypeOf$tipo$index$tipc</div>\n"
+          ."<div class='configureSecondCol'>$tipo$control$tipc&nbsp;$details$check"
             ."</div></div>\n";
 }
 

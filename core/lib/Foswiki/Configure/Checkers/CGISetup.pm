@@ -20,11 +20,7 @@ sub untaintUnchecked {
 sub ui {
     my ($this, $controls) = @_;
     my $erk = 0;
-    my $block = <<INFO;
-<div class='foswikiHelp'>This tab contains read-only information about the environment variables
-set by your web server. It is mainly useful for debugging your server setup.
-</div>
-INFO
+    my $block = Foswiki::getResource('readonlytab.html');
 
     # Detect whether mod_perl was loaded into Apache
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
@@ -180,10 +176,10 @@ HERE
 
     # mod_perl
     if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
-        $n = "Used for this script";
+        $n = $this->WARN("Used for this script - it should not be");
     }
     else {
-        $n = "Not used for this script";
+        $n = "Not used for this script (correct). mod_perl may be enabled for the other scripts. You can check this by visiting System.WebHome in your wiki.";
     }
     $n .= $this->NOTE(
         'mod_perl is ',

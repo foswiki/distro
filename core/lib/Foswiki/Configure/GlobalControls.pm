@@ -18,7 +18,7 @@ sub new {
 sub openTab {
     my ($this, $id, $text, $alert) = @_;
     push(@{$this->{tabs}}, { id => $id, text => $text, alert => $alert });
-    return "<div id='${id}_body' class='tabBodyHidden'><a name='${id}'></a>\n";
+    return "<div id='${id}_body' class='configureTabBodyHidden'><a name='${id}'></a>\n";
 }
 
 sub closeTab {
@@ -41,10 +41,10 @@ sub generateTabs {
         TABLI  => join(',', @tabLi),
         TABLIA => join(',', map { "$_ a" } @tabLi))
       .'</style>';
-    my $tabs = "<ul class='tabnav'>\n";
+    my $tabs = "<ul class='configureTab'>\n";
     foreach my $tab ( @{$this->{tabs}} ) {
-        my $alertClass = $tab->{alert} ? " class='warn'" : '';
-        $tabs .= "<li class='tabli $tab->{id}'>"
+        my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
+        $tabs .= "<li class='$tab->{id}'>"
           . "<a$alertClass onclick='tab(\"$tab->{id}\")'>"
             . _nbsp($tab->{text}) . "</a></li>\n";
     }

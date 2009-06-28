@@ -111,9 +111,9 @@ sub setting {
     my $key  = shift;
     my $data = join( ' ', @_ );
     return <<SETTING;
-<div class='row'>
- <div class='firstCol'>$key</div>
- <div class='secondCol'>$data</div>
+<div class='configureRow'>
+ <div class='configureFirstCol'>$key</div>
+ <div class='configureSecondCol'>$data</div>
 </div>
 SETTING
 }
@@ -140,7 +140,7 @@ sub WARN {
     $totwarnings++;
     return CGI::div(
         CGI::span(
-            { class => 'warn' },
+            { class => 'configureWarn' },
             CGI::strong('Warning: ') . join( "\n", @_ )
         )
     );
@@ -153,7 +153,7 @@ sub ERROR {
     $toterrors++;
     return CGI::div(
         CGI::span(
-            { class => 'error' },
+            { class => 'configureError' },
             CGI::strong('Error: ') . join( "\n", @_ )
         )
     );
@@ -191,7 +191,7 @@ sub authorised {
     if ( !$Foswiki::cfg{Password} && !$Foswiki::query->param('confCfgP') ) {
 
         # No password passed in, and Foswiki::cfg doesn't contain a password
-        print CGI::div( { class => 'error' }, <<'HERE');
+        print CGI::div( { class => 'configureError' }, <<'HERE');
 WARNING: You have not defined a password. You must define a password before
 you can save.
 HERE
@@ -202,7 +202,7 @@ HERE
     if ( $Foswiki::cfg{Password}
         && crypt( $pass, $Foswiki::cfg{Password} ) ne $Foswiki::cfg{Password} )
     {
-        print CGI::div( { class => 'error' }, "Password incorrect" );
+        print CGI::div( { class => 'configureError' }, "Password incorrect" );
         return 0;
     }
 
@@ -213,12 +213,12 @@ HERE
     if ($newPass) {
         my $confPass = $Foswiki::query->param('confCfgP') || '';
         if ( $newPass ne $confPass ) {
-            print CGI::div( { class => 'error' },
+            print CGI::div( { class => 'configureError' },
                 'New password and confirmation do not match' );
             return 0;
         }
         $Foswiki::cfg{Password} = _encode($newPass);
-        print CGI::div( { class => 'error' }, 'Password changed' );
+        print CGI::div( { class => 'configureError' }, 'Password changed' );
     }
 
     return 1;
@@ -233,8 +233,10 @@ sub collectMessages {
     my $errorsMess   = "$errors error" .     ( ( $errors > 1 )   ? 's' : '' );
     my $warningsMess = "$warnings warning" . ( ( $warnings > 1 ) ? 's' : '' );
     my $mess         = '';
-    $mess .= ' ' . CGI::span( { class => 'error' }, $errorsMess ) if $errors;
-    $mess .= ' ' . CGI::span( { class => 'warn' }, $warningsMess ) if $warnings;
+    $mess .= ' ' . CGI::span( { class => 'configureError' }, $errorsMess )
+      if $errors;
+    $mess .= ' ' . CGI::span( { class => 'configureWarn' }, $warningsMess )
+      if $warnings;
 
     return $mess;
 }

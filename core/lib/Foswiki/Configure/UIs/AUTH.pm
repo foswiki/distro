@@ -33,7 +33,7 @@ sub ui {
     }
 
     # and add a few more
-    $output .= "<div id ='twikiPassword'><div class='foswikiFormSteps'>\n";
+    $output .= "<div id ='password'><div class='foswikiFormSteps'>\n";
 
     $output .= CGI::div( { class => 'foswikiFormStep' },
         CGI::h3('Enter the configuration password') );
@@ -67,11 +67,11 @@ To reset the password, log in to the server and delete the
 HERE
     }
 
-    $output .= '</div><!--/foswikiFormSteps--></div><!--/twikiPassword-->';
+    $output .= '</div><!--/foswikiFormSteps--></div><!--/#password-->';
 
     if ($canChangePW) {
         $output .=
-          "<div id='twikiPasswordChange'><div class='foswikiFormSteps'>\n";
+          "<div id='passwordChange'><div class='foswikiFormSteps'>\n";
         $output .= '<div class="foswikiNotification" style="margin:1em;">';
         $output .= CGI::img(
             {
@@ -138,7 +138,7 @@ HERE
         $output .= CGI::div( { class => 'foswikiFormStep foswikiLast' },
             CGI::submit( -class => 'foswikiSubmit', -value => $submitStr ) );
         $output .=
-          "</div><!--/foswikiFormSteps--></div><!--/twikiPasswordChange-->";
+          "</div><!--/.foswikiFormSteps--></div><!--/#passwordChange-->";
     }
 
     return $output . CGI::end_form();

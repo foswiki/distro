@@ -20,7 +20,7 @@ sub open_html {
     my ( $this, $section, $root ) = @_;
 
     my $depth = $section->getDepth();
-    my $class = $section->isExpertsOnly() ? 'expert' : 'newbie';
+    my $class = $section->isExpertsOnly() ? 'configureExpert' : '';
     my $id = $this->makeID( $section->{headline} );
     my $guts = "<!-- $depth $section->{headline} -->\n";
     if ($depth == 2) {
@@ -33,16 +33,16 @@ sub open_html {
 
         $guts .= $section->{desc} if $section->{desc};
         if ($mess) {
-            $guts .= "<div class='foswikiAlert row'>$mess</div>\n";
+            $guts .= "<div class='foswikiAlert configureRow'>$mess</div>\n";
         }
     } elsif ( $depth > 2 ) {
         # A running section has no tab, just a header row
-        $guts .= "<h$depth class='row'>$section->{headline}</h$depth>\n";
+        $guts .= "<h$depth class='configureRow configureInlineHeading'>$section->{headline}</h$depth>\n";
     }
 
     if ( $depth > 2 && $section->{desc} ) {
         # Put info text inside table row for visual consistency
-        $guts .= "<div class='docdata foswikiHelp row'>$section->{desc}</div>";
+        $guts .= "<div class='docdata foswikiHelp configureRow'>$section->{desc}</div>";
     }
 
     return $guts;
