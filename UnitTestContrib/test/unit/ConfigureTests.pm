@@ -7,10 +7,11 @@ use base qw(FoswikiTestCase);
 use Error qw( :try );
 use File::Temp;
 
-use Foswiki::Configure::FoswikiCfg;
-use Foswiki::Configure::Root;
-use Foswiki::Configure::Valuer;
-use Foswiki::Configure::UI;
+use Foswiki::Configure::FoswikiCfg ();
+use Foswiki::Configure::Root ();
+use Foswiki::Configure::Valuer ();
+use Foswiki::Configure::UI ();
+use Foswiki::Configure::GlobalControls ();
 
 # Parse a cfg; change some values; save the changes
 sub test_parseSave {
@@ -262,7 +263,8 @@ EXAMPLE
     $defaultCfg{One} = "Eno";
 
     my $ui = Foswiki::Configure::UI::loadUI( 'Root', $root );
-    my $result = $ui->ui( $root, $valuer );
+    my $controls = new Foswiki::Configure::GlobalControls();
+    my $result = $ui->ui( $root, $valuer, $controls );
 
     # visual check
     #print $result;
