@@ -211,15 +211,11 @@ sub verify_separator {
 sub verify_separator_with_header {
     my $this = shift;
 
-    # word
-
     my $result =
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"name~\'*Topic\'" type="query" header="RESULT:" nonoise="on" format="$topic" separator=","}%'
       );
 
-    # FIXME: The first , shouldn't be there, but Arthur knows why
-    # waiting for him to fix, and as I can't put this test into TODO...
     $this->assert_str_equals(
         "RESULT:
 OkATopic,OkBTopic,OkTopic", $result

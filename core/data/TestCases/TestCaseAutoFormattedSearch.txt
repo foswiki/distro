@@ -154,7 +154,18 @@ Found 4
 ---++ Actual
 
 <!-- actual -->
-%SEARCH{"option1" topic="FormattedSearch1" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="$text$n"}%
+%SEARCH{
+    "option1"
+    topic="FormattedSearch1"
+    type="regex"
+    multiple="on"
+    casesensitive="on"
+    nosummary="on"
+    nosearch="on"
+    noheader="on"
+    nototal="on"
+    format="$text$n"
+}%
 <!-- /actual -->
 
 ---+ Formatted search with $summary
@@ -188,7 +199,16 @@ Formatted search result <nop>FormattedSearch3
 
 ---++ Actual
 <!-- actual -->
-%SEARCH{"^FormattedSearch.$" type="regex" scope="topic" nototal="on" nosummary="on" nosearch="on" header="The header contains <nop>$web $quotHey$quot <nop>$percntWEB$percnt $dollarsummary $n" format="Formatted search result <nop>$topic$n" }%
+%SEARCH{
+    "^FormattedSearch.$"
+    type="regex"
+    scope="topic"
+    nototal="on"
+    nosummary="on"
+    nosearch="on"
+    header="The header contains <nop>$web $quotHey$quot <nop>$percntWEB$percnt $dollarsummary $n"
+    format="Formatted search result <nop>$topic$n"
+}%
 <!-- /actual -->
 
 ---+ Formatted singled level search with escaped characters

@@ -13,28 +13,28 @@ The major risk is the default formatting where web's are separated - for paging 
 ---+++ Expected
 <!-- expected expand rex old Tmwiki default multi-weboutput 4 webs -->
 <span class="patternSearched">Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/TestCases/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div><!--/foswikiSummary-->
+<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/TestCases/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><span class="patternSearched">Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/System/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/System/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Come to foswiki.org. Welcome to the System Web The place to learn about Foswiki features, and perform Foswiki system maintenance. This site is running Foswiki ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Come to foswiki.org. Welcome to the System Web The place to learn about Foswiki features, and perform Foswiki system maintenance. This site is running Foswiki ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/System/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/System/WebPreferences" rel='nofollow'>09 Jan 2009 - 12:00</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences The following settings are web preferences of the System web. These preferences override the site level preferences in . and ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/System/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/System/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebPreferences" rel='nofollow'>09 Jan 2009 - 12:00</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences The following settings are web preferences of the System web. These preferences override the site level preferences in . and ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><span class="patternSearched">Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:#FFEFA6"><span class="foswikiLeft"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/Main/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/Main/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFEFA6"><span class="foswikiLeft"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/Main/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Main Web Preferences The following settings are web preferences of the Main web. These preferences overwrite the site level preferences in . and , ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/Main/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Main Web Preferences The following settings are web preferences of the Main web. These preferences overwrite the site level preferences in . and , ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><span class="patternSearched">Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:#B9DAFF"><span class="foswikiLeft"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/Sandbox/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Utilities advanced search WebTopicList all topics in alphabetical order WebChanges recent topic changes in this web WebNotify ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<h4 class="patternSearchResultsHeader" style="background-color:#B9DAFF"><span class="foswikiLeft"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Utilities advanced search WebTopicList all topics in alphabetical order WebChanges recent topic changes in this web WebNotify ...</div><!--/foswikiSummary-->
 
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/Sandbox/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/trunk/bin/rdiff/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Preferences The following settings are web preferences of the Sandbox web. These preferences overwrite the site level preferences in . and ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="/trunk/bin/view/Sandbox/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class=foswikiNew>NEW</span> - <a href="/trunk/bin/rdiff/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Preferences The following settings are web preferences of the Sandbox web. These preferences overwrite the site level preferences in . and ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class=foswikiNew>NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
 <!-- /expected -->
 ---++ Actual
@@ -49,4 +49,170 @@ The major risk is the default formatting where web's are separated - for paging 
 
 
 ---++ default search formatting, separator="-"
+(shows separator is ignored if format isn't set)
 ---+++ Expected
+<!-- DISABLE expected expand rex old Tmwiki format, and sep multi-weboutput 4 webs -->
+<span class="patternSearched">Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Come to foswiki.org. Welcome to the System Web The place to learn about Foswiki features, and perform Foswiki system maintenance. This site is running Foswiki ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebPreferences" rel='nofollow'>09 Jan 2009 - 12:00</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences The following settings are web preferences of the System web. These preferences override the site level preferences in . and ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFEFA6"><span class="foswikiLeft"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Main Web Preferences The following settings are web preferences of the Main web. These preferences overwrite the site level preferences in . and , ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<h4 class="patternSearchResultsHeader" style="background-color:#B9DAFF"><span class="foswikiLeft"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Utilities advanced search WebTopicList all topics in alphabetical order WebChanges recent topic changes in this web WebNotify ...</div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Preferences The following settings are web preferences of the Sandbox web. These preferences overwrite the site level preferences in . and ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class=foswikiNew>NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount-->
+<!-- /DISABLE expected -->
+---++ Actual
+<!-- DISABLE actual -->
+%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    separator="-"
+}%
+<!-- /DISABLE actual -->
+
+
+
+---++ simple format="   * !$web.!$topic"
+---+++ Expected
+<!-- expected expand rex simple format="   * !$web.!$topic" -->
+ <ul>
+<li> TestCases.!WebHome
+</li> <li> TestCases.!WebPreferences
+</li> <li> TestCases.!WebStatistics
+
+</li></ul> 
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+<ul>
+<li> System.!WebHome
+</li> <li> System.!WebPreferences
+</li> <li> System.!WebStatistics
+</li></ul> 
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+<ul>
+<li> Main.!WebHome
+</li> <li> Main.!WebPreferences
+</li> <li> Main.!WebStatistics
+</li></ul> 
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+<ul>
+<li> Sandbox.!WebHome
+</li> <li> Sandbox.!WebPreferences
+</li> <li> Sandbox.!WebStatistics
+</li></ul> 
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="   * !$web.!$topic"
+    nosearch="on"
+}%
+<!-- /actual -->
+
+
+
+
+
+---++ format="   * !$web.!$topic" separator="-"
+This shows the odd way the separator is used - it separates not just results, but also the default footer, but not the header
+__i think this is a BUG__
+---+++ Expected
+<!-- expected  format="   * !$web.!$topic" separator="-" -->
+<ul>
+<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li>
+<li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li>
+<li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li>
+<li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li></ul>
+<p />
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="   * !$web.$topic"
+    separator="-"
+    nosearch="on"
+}%
+<!-- /actual -->
+
+
+
+
+
+---++ format="   * !$web.!$topic" separator="-" header="---++ header !$web" footer="---++ footer !$web"
+This shows the odd way the separator is used - it separates not just results, but also the default footer, but not the header
+__i think this is a BUG__
+---+++ Expected
+<!-- expected  format="   * !$web.!$topic" separator="-" header="---++ header !$web" footer="---++ footer !$web" -->
+<h2><a name=header_TestCases_AN1></a>header TestCases</h2>
+<ul>
+<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics----++ footer TestCases
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li>
+</ul>
+<h2><a name=header_System_AN1></a>header System</h2>
+<ul>
+<li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics----++ footer System
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li>
+</ul>
+<h2><a name=header_Main_AN1></a>header Main</h2>
+<ul>
+<li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics----++ footer Main
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li>
+</ul>
+<h2><a name=header_Sandbox_AN1></a>header Sandbox</h2>
+<ul>
+<li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics----++ footer Sandbox
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+</li></ul>
+<p />
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="   * !$web.$topic"
+    separator="-"
+    header="---++ header !$web"
+    footer="---++ footer !$web"
+    nosearch="on"
+}%
+<!-- /actual -->
