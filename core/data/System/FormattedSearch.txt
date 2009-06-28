@@ -11,7 +11,7 @@ The default output format of a =[[VarSEARCH][%<nop>SEARCH{...}%]]= is a table co
 
 ---++ Syntax
 
-Two parameters can be used to specify a customized search result:
+Three parameters can be used to specify a customized search result:
 
 ---+++ 1. =header="..."= parameter
 
