@@ -7,7 +7,7 @@ __WARNING:__ the syntax is developing. eg. =$topic= is a legacy of the original 
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | a text list to be expanded into the format | required |
-     | =format="..."= | Format string. =$topic= expands to the value | ="$topic"= |
+     | =format="..."= | Format string. =$topic= expands to the value see FormattedSearch for more details | ="$topic"= |
      | =header="..."= | Text to come before the formated output | =""= |
      | =footer="..."= | Text to come after the formated output | =""= |
      | =separator="n"= | separator between formatted elements | ="$n"= |
