@@ -75,6 +75,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | <img src="%ATTACHURLPATH%/target-orange.gif" alt="Target - orange" title="Target - orange" />  | =target-orange.gif= | Target - orange | =%<nop>ICON{target-orange}%= |
 | <img src="%ATTACHURLPATH%/target-red.gif" alt="Target - red" title="Target - red" />  | =target-red.gif= | Target - red | =%<nop>ICON{target-red}%= |
 | <img src="%ATTACHURLPATH%/tip.gif" alt="Tip, idea" title="Tip, idea" />  | =tip.gif= | Tip, idea | =%<nop>T%=, =%<nop>ICON{tip}%= |
+| <img src="%ATTACHURLPATH%/twitter.gif" alt="Twitter" title="Twitter" />  | =twitter.gif= | Twitter | =%<nop>ICON{twitter}%= |
 | <img src="%ATTACHURLPATH%/video.gif" alt="Video" title="Video" />  | =video.gif= | Video, 13x10 | =&lt;img src="%<nop>ICONURL{video}%" width="13" height="10" alt="Video" border="0" /&gt;= |
 | <img src="%ATTACHURLPATH%/warning.gif" alt="Warning, important" title="Warning, important" />  | =warning.gif= | Warning, important | =%<nop>X%=, =%<nop>ICON{warning}%= |
 | <img src="%ATTACHURLPATH%/watch.gif" alt="Watch" title="Watch" />  | =watch.gif= | Watch | =%<nop>ICON{watch}%= |
@@ -615,6 +616,7 @@ and that will get rendered as: %ICONURL{"toggleopen"}%
 %META:FILEATTACHMENT{name="target-orange.gif" comment="" date="1222843419" path="target-orange.gif" size="963" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="target-red.gif" attr="" comment="" date="1169565034" path="target-red.gif" size="261" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="tip.gif" attr="" comment="" date="1169565034" path="tip.gif" size="233" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="twitter.gif" attr="" comment="" date="1246047029" path="twitter.gif" size="987" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="todo.gif" attr="" comment="" date="1169565034" path="todo.gif" size="318" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="toggleclose-mini.gif" attr="" comment="" date="1169565034" path="toggleclose-mini.gif" size="51" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="toggleclose-small.gif" attr="" comment="" date="1169565034" path="toggleclose-small.gif" size="135" user="ProjectContributor" version=""}%
