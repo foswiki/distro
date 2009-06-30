@@ -536,8 +536,6 @@ GOTOGPS
     my $stub = new Foswiki::Configure::Item();
     my $intro_checker = Foswiki::Configure::UI::loadChecker(
         'Introduction', $stub );
-    my $env_checker = Foswiki::Configure::UI::loadChecker(
-        'Environment', $stub );
 
     # See if this platform has special detection or checking requirements
     # (most don't)
@@ -570,7 +568,6 @@ GOTOGPS
 
     my $tabs = $intro_checker->ui($controls);
     $tabs .= $os_checker->ui()  if $os_checker;
-    $tabs .= $env_checker->ui($controls);
     $tabs .= $cgi_checker->ui($controls) if $cgi_checker;
 
     # Load the UI for the configuration and whack it out
