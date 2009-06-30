@@ -30,7 +30,6 @@ use IO::File       ();
 use File::Copy     ();
 use File::Spec     ();
 use File::Path     ();
-use File::Basename ();
 
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
@@ -134,7 +133,10 @@ sub mkPathTo {
     my $file = shift;
 
     $file = Foswiki::Sandbox::untaintUnchecked($file);
-    my $path = File::Basename::dirname($file);
+
+    my ( $volume, $path, undef ) = File::Spec->splitpath( $file );
+    $path = File::Spec->catpath( $volume, $path, '' );
+
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
         throw Error::Simple("VCHandler: failed to create ${path}: $!");
