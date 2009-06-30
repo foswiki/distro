@@ -476,6 +476,7 @@ lib/Foswiki/Configure/Checkers/UploadFilter.pm 0444
 lib/Foswiki/Configure/Checkers/UpperNational.pm 0444
 lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
 lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
+lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
