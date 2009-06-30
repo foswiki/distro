@@ -30,21 +30,24 @@ sub open_html {
         # This opens a div
         $guts .= $root->{controls}->openTab(
             $id, $section->{headline}, $mess ? 1 : 0);
-
+        $guts .= '<h2 class="firstHeader">' . $section->{headline} . '</h2>';
         if ($section->{desc}) {
-            $guts .= "<div class='foswikiHelp'>$section->{desc}</div>";
+            $guts .= $section->{desc};
         }
         if ($mess) {
-            $guts .= "<div class='foswikiAlert configureRow'>$mess</div>\n";
+            $guts .= "<div class='foswikiAlert'>$mess</div>\n";
         }
+        # sections only
+        $guts .=  CGI::start_table( { class => 'configureSectionContents' } );
+
     } elsif ( $depth > 2 ) {
         # A running section has no tab, just a header row
-        $guts .= "<br class='foswikiClear' /><h$depth class='configureRow configureInlineHeading'>$section->{headline}</h$depth>\n";
+        $guts .= "<br class='foswikiClear' /><h$depth class='configureInlineHeading'>$section->{headline}</h$depth>\n";
     }
 
     if ( $depth > 2 && $section->{desc} ) {
         # Put info text inside table row for visual consistency
-        $guts .= "<div class='docdata foswikiHelp configureRow'>$section->{desc}</div>";
+        $guts .= $section->{desc};
     }
 
     return $guts;
@@ -53,11 +56,12 @@ sub open_html {
 sub close_html {
     my ( $this, $section, $root ) = @_;
     my $depth = $section->getDepth();
-    my $end;
+    my $end = '';
     my $id = $this->makeID( $section->{headline} );
     if ( $depth == 2 ) {
+    	$end .= CGI::end_table();
         my $id = $this->makeID( $section->{headline} );
-        $end = $root->{controls}->closeTab($id);
+        $end .= $root->{controls}->closeTab($id);
     } else {
         $end = "<!-- /$depth $id -->\n";
     }

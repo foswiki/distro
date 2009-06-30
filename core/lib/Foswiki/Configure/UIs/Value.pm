@@ -39,7 +39,7 @@ sub open_html {
 
     # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-    my $class = $isExpert ? 'configureExpert' : '';
+    my $class = $isExpert ? 'expert' : 'newbie';
     if ( $isUnused || !$isBroken && $value->{hidden} ) {
         $class = 'foswikiHidden';
     }
@@ -48,7 +48,7 @@ sub open_html {
     my $hiddenTypeOf = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
 
     my $index = $keys;
-    $index = "<span class='mandatory'>$index</span>" if $value->{mandatory};
+    $index = "<span class='foswikiMandatory'>$index</span>" if $value->{mandatory};
 
     my $details = '';
     if ( $value->needsSaving($root->{valuer}) ) {
@@ -62,14 +62,16 @@ sub open_html {
             $Data::Dumper::Terse = 1;
             $defaultValue        = Dumper($defaultValue);
 
-            # encode special characters, put them back in javascript
-            $defaultValue =~ s/(['"\n])/'#'.ord($1)/ge;
+            # create stubs for special characters, put them back with javascript
+            $defaultValue =~ s/'/#26;/g;
+            $defaultValue =~ s/"/#22;/g;
+            $defaultValue =~ s/\n/#13;/g;
         }
 
         my $safeKeys = $keys;
-        $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
+        $safeKeys =~ s/'/#26;/g;
         $details .= <<HERE;
-<a onmouseover='Tip(getTip("Delta")+"$defaultValue")' onmouseout='UnTip()' class='$value->{typename} configureDefaultValue delta' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">reset</a>
+<a onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">&delta;</a>
 HERE
     }
 
@@ -81,7 +83,7 @@ HERE
 
         # Generate a prompter for the value.
         my $promptclass = $value->{typename};
-        $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
+        $promptclass .= ' foswikiMandatory' if ( $value->{mandatory} );
         $control = CGI::span(
             { class => $promptclass },
             $type->prompt(
@@ -96,11 +98,8 @@ HERE
         $tipo = "<a onmouseover='Tip(getTip($tip))' onmouseout='UnTip()'>";
         $tipc = "</a>";
     }
-    return
-      "<div class='configureRow $class'>\n"
-        ."<div class='configureFirstCol configureKeys $class'>$hiddenTypeOf$tipo$index$tipc</div>\n"
-          ."<div class='configureSecondCol'>$tipo$control$tipc&nbsp;$details$check"
-            ."</div></div>\n";
+    
+    return CGI::Tr( { class => $class }, CGI::th( { class => "$keys $class" }, "$hiddenTypeOf$tipo$index$tipc" ) . CGI::td( "$tipo$control$tipc&nbsp;$details$check" ) );
 }
 
 sub close_html {

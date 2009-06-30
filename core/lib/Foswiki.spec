@@ -115,7 +115,7 @@ $Foswiki::cfg{ScriptSuffix} = '';
 
 #---+ Authentication
 #---++ Sessions
-# <em>Sessions</em> are how Foswiki tracks a user across multiple requests.
+# Sessions are how Foswiki tracks a user across multiple requests.
 # A user's session id is stored in a cookie, and this is used to identify
 # the user for each request they make to the server.
 # You can use sessions even if you are not using login.
@@ -133,7 +133,7 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # Set the session timeout, in seconds. The session will be cleared after this
 # amount of time without the session being accessed. The default is 6 hours
 # (21600 seconds).<p />
-# <b>Note</b>By default, session expiry is done "on the fly" by the same
+# <b>Note</b> By default, session expiry is done "on the fly" by the same
 # processes used to
 # serve Foswiki requests. As such it imposes a load on the server. When
 # there are very large numbers of session files, this load can become

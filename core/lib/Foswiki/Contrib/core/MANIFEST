@@ -412,7 +412,7 @@ lib/Foswiki/Configure/resources/header.html
 lib/Foswiki/Configure/resources/intro.html
 lib/Foswiki/Configure/resources/foswikiStyles.js
 lib/Foswiki/Configure/resources/behaviour.js
-lib/Foswiki/Configure/resources/skin.css
+lib/Foswiki/Configure/resources/pattern.css
 lib/Foswiki/Configure/resources/default.css
 lib/Foswiki/Configure/resources/base.css
 lib/Foswiki/Configure/Checker.pm 0444

@@ -317,7 +317,15 @@ function toggleExpertsMode() {
 function tab(newTab) {
     var body = document.getElementsByTagName('body')[0];
     var curTab = body.className;    
-    if (!newTab) newTab = curTab;
+    if (!newTab) {
+    	var anchorPattern = new RegExp(/#(.*)$/);
+		var matches = window.location.href.match(anchorPattern);
+		if (matches[1]) {
+			newTab = matches[1];
+		} else {
+	    	newTab = curTab;
+	    }
+    }
     body.className = newTab;
     var currentTabBody = document.getElementById(curTab + '_body');    
     foswiki.CSS.addClass(currentTabBody, 'foswikiMakeHidden');

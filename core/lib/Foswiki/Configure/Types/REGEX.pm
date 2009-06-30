@@ -16,7 +16,7 @@ sub prompt {
     my $res =
         '<input name="' 
       . $id
-      . '" type="text" size="55%" value="'
+      . '" type="text" size="55%" class="foswikiInputField" value="'
       . $value . '" />';
     return $res;
 }

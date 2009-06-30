@@ -1,7 +1,6 @@
 /* -- STANDARD (skin independent) STYLES -- */
 %INCLUDE{base.css}%
 %INCLUDE{default.css}%
-%INCLUDE{skin.css}%
 
 /* --- VISUAL CUES --- */
 
@@ -40,24 +39,47 @@
   background-color:#edc;
 }
 
+/* --- SECTION --- */
+.configureSection {
+	float:right;
+	width:78%;
+	margin:0 0 1em 1%;
+}
+.configureSection p {
+	margin:0 0 1em 0;
+}
 /* --- TABLE ROWS & COLUMNS --- */
-.configureRow {
+table.configureSectionContents,
+table.configureNestedTable {
+	margin:1em 0;
+	border-collapse:collapse;
+	border-bottom:1px solid #d4e7f1;
 }
-
-.configureFirstCol {
-  float:left;
-  width:25%;
+table.configureSectionContents {
+	width:100%;
 }
-
-.configureSecondCol { 
-  width:75%;
-  float:right;
-  margin:0;
+table.configureSectionContents,
+table.configureSectionContents th,
+table.configureSectionContents td {
+	border-width:1px;
+	vertical-align:top;
 }
-
+table.configureSectionContents th {
+	font-weight:normal;
+	background:#e9f3f8;
+}
+table.configureSectionContents td {
+	background:#f5f9fc;
+}
+table.configureSectionContents td,
+table.configureSectionContents th {
+	overflow:scroll;
+	padding:.25em 2em .25em 1em;
+	line-height:1.5em;
+	border-top:1px solid #d4e7f1;
+}
 .configureInlineHeading {
-  padding-top:4pt;
-  border-top:1pt dotted black;
+	
 }
 
 /* --- TABS --- */
@@ -69,40 +91,6 @@
   display:block;
   width:100%;
   margin:0;
-}
-
-ul.configureTab {
-  text-align:left;
-  margin:1em 0 1em 0;
-  font-weight:bold;
-  list-style-type:none;
-  padding:3px 10px 3px 10px;
-  line-height:28px;
-}
-
-ul.configureTab li {
-  display:inline;
-}
-
-/* basic settings for all tab links */
-ul.configureTab li a {
-  padding:3px 4px;
-  border:1px solid #ddd;
-  background-color:#ddd; /* unselected tab background */
-  color:#999;            /* unselected tab text */
-  margin-right:5px;      /* additional spacing between tabs */
-  text-decoration:none;
-  border-style:outset;
-}
-
-/* Unselected but there are errors or warnings */
-ul.configureTab li a.configureWarn {
-  color:#f88; /* pink */
-}
-
-/* Hover effect */
-ul.configureTab a:hover {
-  background:#fff; /* set desired hover color */
 }
 
 /* WARN and ERROR */
@@ -162,69 +150,18 @@ table.configureExtensionsTable .configureInstalled a:visited {
 
 /* Settings and other stuff only shown in expert mode */
 .expert {
-  background-color:#edc;
+	background-color:#edc;
 }
 
 /* Stuff *not* shown in expert mode */
 .notExpert {
-  background-color:#edc;
+	background-color:#edc;
 }
 
 /* Settings shown to everyone */
 .newbie { 
 }
-.configureFirstCol {
-	position:relative;
-	clear:both;
-	float:left;
-	width:29%;
-}
-.configureSecondCol { 
-	width:69%;
-	float:right;
-}
-.section {
-	float:right;
-	width:78%;
-	margin:0 0 1em 1%;
-}
-.sectionContents {
-	margin:1em 0;
-	background:#e9f3f8;
-	border-bottom:1px solid #d4e7f1;
-}
-.sectionContents .configureRow .configureFirstCol,
-.sectionContents .configureRow .configureSecondCol {
-	padding:.25em 0;
-	background:#e9f3f8;
-	border-top:1px solid #d4e7f1;
-}
-.sectionContents .configureRow .configureSecondCol {
-	background:#f5f9fc;
-}
-.sectionContents .configureColContents {
-	padding:0 .5em;
-}
-/* handle nesting */
-.sectionContents .configureColContents .configureSecondCol .configureColContents {
-	padding:0;
-}
-.sectionContents .configureRow .configureSecondCol .configureRow {
-	padding:.5em 0;
-}
-.sectionContents .configureRow .configureSecondCol .configureFirstCol,
-.sectionContents .configureRow .configureSecondCol .configureSecondCol {
-	background:none;
-}
-.sectionContents .configureRow .configureSecondCol .configureFirstCol {
-	width:40%;
-}
-.sectionContents .configureRow .configureSecondCol .configureSecondCol {
-	width:60%;
-}
-.sectionContents p.info {
-	margin:0;
-}
+
 
 h1.firstHeader,
 h2.firstHeader,

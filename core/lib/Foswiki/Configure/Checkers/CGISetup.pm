@@ -20,13 +20,12 @@ sub untaintUnchecked {
 sub ui {
     my ($this, $controls) = @_;
     my $erk = 0;
-    my $header = "<div class='sectionContents'>"
-      . Foswiki::getResource('readonlytab.html')
-        ."</div>";
+    my $header = '<h2 class="firstHeader">Webserver Environment</h2>' . Foswiki::getResource('readonlytab.html');
 
-    my $block = '';
+    my $contents = '';
     for my $key ( sort keys %ENV ) {
-        $block .= $this->setting( $key, $ENV{$key} );
+    	
+        $contents .= $this->setting( $key, $ENV{$key} );
     }
 
     # Detect whether mod_perl was loaded into Apache
@@ -43,7 +42,7 @@ sub ui {
 
     # Get the version of mod_perl if it's being used
     if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
-        $block .= $this->setting( '', $this->WARN(<<HERE) );
+        $contents .= $this->setting( '', $this->WARN(<<HERE) );
 You are running <tt>configure</tt> with <tt>mod_perl</tt>. This
 is risky because mod_perl will remember old values of configuration
 variables. You are *highly* recommended not to run configure under
@@ -60,7 +59,7 @@ HERE
         if ( $Config::Config{osname} eq 'cygwin' && $] >= 5.008 ) {
 
             # Recommend CGI.pm upgrade if using Cygwin Perl 5.8.0
-            $block .= $this->setting( '', $this->WARN( <<HERE ) );
+            $contents .= $this->setting( '', $this->WARN( <<HERE ) );
 Perl CGI version 3.11 or higher is recommended to avoid problems with
 attachment uploads on Cygwin Perl.
 HERE
@@ -72,7 +71,7 @@ HERE
 
             # Recommend CGI.pm upgrade if using mod_perl 2.0, which
             # is reported as version 1.99 and implies Apache 2.0
-            $block .= $this->setting( '', $this->WARN( <<HERE ) );
+            $contents .= $this->setting( '', $this->WARN( <<HERE ) );
 Perl CGI version 3.11 or higher is recommended to avoid problems with
 mod_perl.
 HERE
@@ -85,7 +84,7 @@ HERE
         ucfirst( lc( $Config::Config{osname} ) ) . ' '
       . $Config::Config{osvers} . ' ('
       . $Config::Config{archname} . ')';
-    $block .= $this->setting( "Operating system", $n );
+    $contents .= $this->setting( "Operating system", $n );
 
     # Perl version and type
     $n = $];
@@ -105,16 +104,16 @@ HERE
         $erk++;
     }
 
-    $block .= $this->setting( 'Perl version', $n );
+    $contents .= $this->setting( 'Perl version', $n );
 
     # Perl @INC (lib path)
-    $block .= $this->setting( '@INC library path',
+    $contents .= $this->setting( '@INC library path',
         join( CGI::br(), @INC ) . $this->NOTE(<<HERE) );
 This is the Perl library path, used to load Foswiki modules,
 third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
-    $block .= $this->setting(
+    $contents .= $this->setting(
         'CGI bin directory', $this->_checkBinDir(\$erk) );
 
     # Turn off fatalsToBrowser while checking module loads, to avoid
@@ -143,7 +142,7 @@ HERE
           . $Foswiki::VERSION
           . '</strong>) found';
     }
-    $block .= $this->setting( 'Foswiki module in @INC path', $mess );
+    $contents .= $this->setting( 'Foswiki module in @INC path', $mess );
 
     # Check that each of the required Perl modules can be loaded, and
     # print its version number.
@@ -157,16 +156,16 @@ HERE
         $erk++;
     }
 
-    $block .=
+    $contents .=
       $this->setting( "Perl modules",
-        CGI::start_table( { width => '100%' } ) . $set . CGI::end_table() );
+        CGI::start_table( { class => 'configureNestedTable' } ) . $set . CGI::end_table() );
 
     # All module checks done, OK to enable fatalsToBrowser
     import CGI::Carp qw( fatalsToBrowser );
 
     # PATH_INFO
     my $url = $Foswiki::query->url();
-    $block .= $this->setting(
+    $contents .= $this->setting(
         CGI::a( { name => 'PATH_INFO' }, 'PATH_INFO' ),
         $Foswiki::query->path_info() . $this->NOTE(
             <<HERE
@@ -212,9 +211,9 @@ its use with Foswiki. 1.99_12 or higher is recommended.
 HERE
         $erk++;
     }
-    $block .= $this->setting( 'mod_perl', $n );
+    $contents .= $this->setting( 'mod_perl', $n );
 
-    $block .= $this->setting(
+    $contents .= $this->setting(
         'CGI user',
         'userid = <strong>'
           . $::WebServer_uid
@@ -224,7 +223,7 @@ HERE
           . $this->NOTE('Your CGI scripts are executing as this user.')
     );
 
-    $block .= $this->setting( 'Original PATH',
+    $contents .= $this->setting( 'Original PATH',
         $Foswiki::cfg{DETECTED}{originalPath} . $this->NOTE(<<HERE) );
 This is the PATH value passed in from the web server to this
 script - it is reset by Foswiki scripts to the PATH below, and
@@ -232,7 +231,7 @@ is provided here for comparison purposes only.
 HERE
 
     my $currentPath = $ENV{PATH} || '';    # As re-set earlier in this routine
-    $block .= $this->setting(
+    $contents .= $this->setting(
         "Current PATH",
         $currentPath,
         $this->NOTE(
@@ -245,11 +244,10 @@ HERE
         )
     );
 
-    $block = "<div class='sectionContents'>$block</div>";
+    my $table = CGI::start_table( { class => 'configureSectionContents' } ) . $contents . CGI::end_table();
+
     my $id = 'cgisetup';
-    return $controls->openTab( $id, '<em>Webserver Environment</em>', $erk)
-      . $header . "<div class='foswikiHelp'>$block</div>"
-        . $controls->closeTab($id);
+    return $controls->openTab( $id, '<em>Webserver Environment</em>', $erk) . $header . $table . $controls->closeTab($id);
 }
 
 sub _checkBinDir {
