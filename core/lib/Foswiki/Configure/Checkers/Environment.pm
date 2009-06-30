@@ -10,10 +10,16 @@ sub ui {
     my ($this, $controls) = @_;
     my $id = 'environment';
     my $block = $controls->openTab( $id, 'Environment' );
-    $block .= Foswiki::getResource('readonlytab.html');
+    my $header = <<INFO;
+<h2 class="firstHeader">Environment</h2>
+This section contains read-only information about the environment variables
+set by your web server. It is mainly useful for debugging your server setup.
+INFO
+    my $contents = '';
     for my $key ( sort keys %ENV ) {
-        $block .= $this->setting( $key, $ENV{$key} );
+        $contents .= $this->setting( $key, $ENV{$key} );
     }
+    $block .= "$header\n<div class='sectionContents'>$contents</div>";
     return $block.$controls->closeTab($id);
 }
 

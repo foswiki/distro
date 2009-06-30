@@ -534,8 +534,8 @@ GOTOGPS
 
     # The first three sections go without a root
     my $stub = new Foswiki::Configure::Item();
-    my $help_checker = Foswiki::Configure::UI::loadChecker(
-        'Help', $stub );
+    my $intro_checker = Foswiki::Configure::UI::loadChecker(
+        'Introduction', $stub );
     my $env_checker = Foswiki::Configure::UI::loadChecker(
         'Environment', $stub );
 
@@ -568,7 +568,7 @@ GOTOGPS
     print CGI::hidden( 'time', $time );
     print '<br class="foswikiClear" />' . "\n";
 
-    my $tabs = $help_checker->ui($controls);
+    my $tabs = $intro_checker->ui($controls);
     $tabs .= $os_checker->ui()  if $os_checker;
     $tabs .= $env_checker->ui($controls);
     $tabs .= $cgi_checker->ui($controls) if $cgi_checker;

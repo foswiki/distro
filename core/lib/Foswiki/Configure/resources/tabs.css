@@ -1,17 +1,30 @@
-
-/* Runtime-configured tab styles, generated when the page is built */
-
-/* selected LI */
-%TABLI% {
-  background-color: #fff;
+ul.tabnav {
+	float:left;
+	list-style-type: none;
+	margin:0 0 2em 0;
+	padding:0;
+	width:20%;
+	border-top:1px solid #d4e7f1;
+	border-bottom:1px solid #d4e7f1;
+}
+ul.tabnav li {
+}
+ul.tabnav li a {
+	display:block;
+	padding:.25em 1em;
+	text-decoration:none;
+	border-right:1px solid #d4e7f1;
+	border-left:1px solid #d4e7f1;
+}
+ul.tabnav li a:hover {
+	background-color:#d4e7f1;
+	color:#1869a2;
 }
 
-/* selected LI A */
-%TABLIA% {
-  background-color: #fff;
-  color: #000; /* set selected tab link color as desired */
-  position: relative;
-  top: 0px;
-  padding-top: 4px;
-  border-style: inset;
+/* selected LI */
+%TABLI% a {
+	background-color:#2989bb;
+	color:#fff;
+	font-weight:bold;
+	border:none;
 }

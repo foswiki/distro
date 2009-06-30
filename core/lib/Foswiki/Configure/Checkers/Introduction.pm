@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Help;
+package Foswiki::Configure::Checkers::Introduction;
 
 use strict;
 
@@ -8,8 +8,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub ui {
     my ($this, $controls) = @_;
-    my $id = 'help';
-    my $block = $controls->openTab( $id, 'Help' );
+    my $id = 'introduction';
+    my $block = $controls->openTab( $id, 'Introduction' );
     $block .= Foswiki::getResource(
         'intro.html',
         SYSTEMWEB => $Foswiki::cfg{SystemWebName},

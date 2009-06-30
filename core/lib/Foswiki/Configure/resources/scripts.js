@@ -1,4 +1,105 @@
-/* Javascript for =configure= */
+/* Don't use // style comments, or you'll break the stupid minifier  */
+
+var foswiki; if (foswiki == undefined) foswiki = {};
+foswiki.CSS = {
+
+	/**
+	Remove the given class from an element, if it is there.
+	@param el : (HTMLElement) element to remove the class of
+	@param inClassName : (String) CSS class name to remove
+	*/
+	removeClass:function(el, inClassName) {
+		if (!el) return;
+		var classes = foswiki.CSS.getClassList(el);
+		if (!classes) return;
+		var index = foswiki.CSS._indexOf(classes, inClassName);
+		if (index >= 0) {
+			classes.splice(index,1);
+			foswiki.CSS.setClassList(el, classes);
+		}
+	},
+	
+	/**
+	Add the given class to the element, unless it is already there.
+	@param el : (HTMLElement) element to add the class to
+	@param inClassName : (String) CSS class name to add
+	*/
+	addClass:function(el, inClassName) {
+		if (!el) return;
+		var classes = foswiki.CSS.getClassList(el);
+		if (!classes) return;
+		if (foswiki.CSS._indexOf(classes, inClassName) < 0) {
+			classes[classes.length] = inClassName;
+			foswiki.CSS.setClassList(el,classes);
+		}
+	},
+	
+	/**
+	Replace the given class with a different class on the element.
+	The new class is added even if the old class is not present.
+	@param el : (HTMLElement) element to replace the class of
+	@param inOldClass : (String) CSS class name to remove
+	@param inNewClass : (String) CSS class name to add
+	*/
+	replaceClass:function(el, inOldClass, inNewClass) {
+		if (!el) return;
+		foswiki.CSS.removeClass(el, inOldClass);
+		foswiki.CSS.addClass(el, inNewClass);
+	},
+	
+	/**
+	Get an array of the classes on the object.
+	@param el : (HTMLElement) element to get the class list from
+	*/
+	getClassList:function(el) {
+		if (!el) return;
+		if (el.className && el.className != "") {
+			return el.className.split(' ');
+		}
+		return [];
+	},
+	
+	/**
+	Set the classes on an element from an array of class names.
+	@param el : (HTMLElement) element to set the class list to
+	@param inClassList : (Array) list of CSS class names
+	*/
+	setClassList:function(el, inClassList) {
+		if (!el) return;
+		el.className = inClassList.join(' ');
+	},
+	
+	/**
+	Determine if the element has the given class string somewhere in it's
+	className attribute.
+	@param el : (HTMLElement) element to check the class occurrence of
+	@param inClassName : (String) CSS class name
+	*/
+	hasClass:function(el, inClassName) {
+		if (!el) return;
+		if (el.className) {
+			var classes = foswiki.CSS.getClassList(el);
+			if (classes) return (foswiki.CSS._indexOf(classes, inClassName) >= 0);
+			return false;
+		}
+	},
+	
+	/* PRIVILIGED METHODS */
+	
+	/**
+	See: foswiki.Array.indexOf
+	Function copied here to prevent extra dependency on foswiki.Array.
+	*/
+	_indexOf:function(inArray, el) {
+		if (!inArray || inArray.length == undefined) return null;
+		var i, ilen = inArray.length;
+		for (i=0; i<ilen; ++i) {
+			if (inArray[i] == el) return i;
+		}
+		return -1;
+	}
+
+}
 
 function getElementsByClassName(inRootElem, inClassName, inTag) {
 	var rootElem = inRootElem || document;
@@ -215,13 +316,13 @@ function toggleExpertsMode() {
 
 function tab(newTab) {
     var body = document.getElementsByTagName('body')[0];
-    var curTab = body.className;
+    var curTab = body.className;    
     if (!newTab) newTab = curTab;
     body.className = newTab;
-    var tab = document.getElementById(curTab + '_body');
-    tab.className = 'configureTabBodyHidden';
-    tab = document.getElementById(newTab + '_body');
-    tab.className = 'configureTabBodyVisible';
+    var currentTabBody = document.getElementById(curTab + '_body');    
+    foswiki.CSS.addClass(currentTabBody, 'foswikiMakeHidden');
+    var newTabBody = document.getElementById(newTab + '_body');
+    foswiki.CSS.removeClass(newTabBody, 'foswikiMakeHidden');
 }
 
 function getTip(idx) {
@@ -232,7 +333,34 @@ function getTip(idx) {
         return "LOST TIP "+idx;
 }
 
-addLoadEvent(function () { tab(); toggleExpertsMode() });
-addLoadEvent(initDefaultLinks);
+var tabIdPattern = new RegExp(/\btabId_(.*?)\b/);
+
+var rules = {
+	'.tabli' : function(el) {
+
+		/*
+		Get the id the link is pointing to; this is encrypted in the classname:
+		
+		tabId_Introduction
+		
+		... points to id Introduction.
+		The new property 'pointer' is set to that id.
+		*/
+		var matches = el.className.match(tabIdPattern);
+		if (matches[1]) {
+			el.pointer = matches[1];
+		}
+		
+		el.onclick = function() {
+			tab(el.pointer);
+		}
+	}
+};
+Behaviour.register(rules);
+
+addLoadEvent(tab);
+addLoadEvent(toggleExpertsMode);
 addLoadEvent(initDeltaIndicators);
+addLoadEvent(initDefaultLinks);
+
 

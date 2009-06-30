@@ -109,11 +109,12 @@ sub getUrl {
 sub setting {
     my $this = shift;
     my $key  = shift;
-    my $data = join( ' ', @_ );
+    my $data = join( ' ', @_ ) || '&nbsp;';
     return <<SETTING;
 <div class='configureRow'>
  <div class='configureFirstCol'>$key</div>
  <div class='configureSecondCol'>$data</div>
+ <br class='foswikiClear' />
 </div>
 SETTING
 }

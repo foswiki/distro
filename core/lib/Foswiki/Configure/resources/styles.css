@@ -1,14 +1,15 @@
 /* -- STANDARD (skin independent) STYLES -- */
 %INCLUDE{base.css}%
 %INCLUDE{default.css}%
+%INCLUDE{skin.css}%
 
 /* --- VISUAL CUES --- */
 
 /* Mandatory value */
 .configureMandatory {
-    color: green;
-    background-color: #ECFADC;
-    font-weight: bold;
+    color:green;
+    background-color:#ECFADC;
+    font-weight:bold;
 }
 
 .configureMandatory input {
@@ -17,94 +18,91 @@
 
 /* Format of the 'changed from default' indicator */
 .configureDefaultValue {
-  font-size: 86%;
-  line-height: 1.5em;
+  font-size:86%;
+  line-height:1.5em;
 }
 
 /* Format of a tooltip div (see wz_tooltip.js for additional tooltip
    controls) */
 .configureTooltip {
-  display: none;
+  display:none;
 }
 
 /* --- EXPERT ---*/
 
 /* Settings and other stuff only shown in expert mode */
 .configureExpert {
-  background-color: #edc;
+  background-color:#edc;
 }
 
 /* Stuff *not* shown in expert mode */
 .configureNotExpert {
-  background-color: #edc;
+  background-color:#edc;
 }
 
 /* --- TABLE ROWS & COLUMNS --- */
 .configureRow {
-  clear: both;
-  margin: 0;
 }
 
 .configureFirstCol {
-  float: left;
-  margin: 0;
-  width: 25%;
+  float:left;
+  width:25%;
 }
 
 .configureSecondCol { 
-  width: 75%;
-  float: right;
-  margin: 0;
+  width:75%;
+  float:right;
+  margin:0;
 }
 
 .configureInlineHeading {
-  padding-top: 4pt;
-  border-top: 1pt dotted black;
+  padding-top:4pt;
+  border-top:1pt dotted black;
 }
 
 /* --- TABS --- */
 .configureTabBodyHidden { 
-  display: none;
+  display:none;
 }
 
 .configureTabBodyVisible { 
-  display: block;
-  width: 100%;
-  margin: 0;
+  display:block;
+  width:100%;
+  margin:0;
 }
 
 ul.configureTab {
-  text-align: left;
-  margin: 1em 0 1em 0;
-  font-weight: bold;
-  list-style-type: none;
-  padding: 3px 10px 3px 10px;
-  line-height: 28px;
+  text-align:left;
+  margin:1em 0 1em 0;
+  font-weight:bold;
+  list-style-type:none;
+  padding:3px 10px 3px 10px;
+  line-height:28px;
 }
 
 ul.configureTab li {
-  display: inline;
+  display:inline;
 }
 
 /* basic settings for all tab links */
 ul.configureTab li a {
-  padding: 3px 4px;
-  border: 1px solid #ddd;
-  background-color: #ddd; /* unselected tab background */
-  color: #999;            /* unselected tab text */
-  margin-right: 5px;      /* additional spacing between tabs */
-  text-decoration: none;
-  border-style: outset;
+  padding:3px 4px;
+  border:1px solid #ddd;
+  background-color:#ddd; /* unselected tab background */
+  color:#999;            /* unselected tab text */
+  margin-right:5px;      /* additional spacing between tabs */
+  text-decoration:none;
+  border-style:outset;
 }
 
 /* Unselected but there are errors or warnings */
 ul.configureTab li a.configureWarn {
-  color: #f88; /* pink */
+  color:#f88; /* pink */
 }
 
 /* Hover effect */
 ul.configureTab a:hover {
-  background: #fff; /* set desired hover color */
+  background:#fff; /* set desired hover color */
 }
 
 /* WARN and ERROR */
@@ -120,9 +118,9 @@ a.configureError {
 }
 
 .configureError {
-    color: #f00; /*T9*/ /*red*/
-    background-color: #FFD9D9; /* pink */
-    border-bottom: 1px solid #f00;
+    color:#f00; /*T9*/ /*red*/
+    background-color:#FFD9D9; /* pink */
+    border-bottom:1px solid #f00;
 }
 
 /* --- EXTENSIONS --- */
@@ -162,3 +160,56 @@ table.configureExtensionsTable .configureInstalled a:visited {
 	background:#ffffd6;
 }
 
+/* Settings and other stuff only shown in expert mode */
+.expert {
+  background-color:#edc;
+}
+
+/* Stuff *not* shown in expert mode */
+.notExpert {
+  background-color:#edc;
+}
+
+/* Settings shown to everyone */
+.newbie { 
+}
+.configureFirstCol {
+	position:relative;
+	clear:both;
+	float:left;
+	width:25%;
+}
+.secondCol { 
+	width:75%;
+	float:right;
+}
+.section {
+	float:right;
+	width:78%;
+	margin:0 0 1em 1%;
+}
+.sectionContents {
+	margin:1em 0;
+	background:#e9f3f8;
+	border-bottom:1px solid #d4e7f1;
+}
+.sectionContents .configureRow .configureFirstCol,
+.sectionContents .configureRow .configureSecondCol {
+	padding:.25em 0;
+	background:#e9f3f8;
+	border-top:1px solid #d4e7f1;
+}
+.sectionContents .configureRow .configureSecondCol {
+	background:#f5f9fc;
+}
+h1.firstHeader,
+h2.firstHeader,
+h3.firstHeader,
+h4.firstHeader,
+h5.firstHeader,
+h6.firstHeader {
+	margin-top:0;
+}
+strong {
+	color:#D1400E;
+}

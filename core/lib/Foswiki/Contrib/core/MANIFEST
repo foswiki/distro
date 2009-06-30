@@ -410,6 +410,11 @@ lib/Foswiki/Configure/resources/wz_tooltip.js
 lib/Foswiki/Configure/resources/styles.css
 lib/Foswiki/Configure/resources/header.html
 lib/Foswiki/Configure/resources/intro.html
+lib/Foswiki/Configure/resources/foswikiStyles.js
+lib/Foswiki/Configure/resources/behaviour.js
+lib/Foswiki/Configure/resources/skin.css
+lib/Foswiki/Configure/resources/default.css
+lib/Foswiki/Configure/resources/base.css
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
@@ -421,7 +426,7 @@ lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/Environment.pm 0444
-lib/Foswiki/Configure/Checkers/Help.pm 0444
+lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
 lib/Foswiki/Configure/Checkers/LocalesDir.pm 0444

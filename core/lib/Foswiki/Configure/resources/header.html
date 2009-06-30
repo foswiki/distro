@@ -15,10 +15,12 @@
   %INCLUDE{styles.css}%
  </style>
  <script language="JavaScript" type="text/javascript">//<!--
+  %INCLUDE{foswikiStyles.js}%
+  %INCLUDE{behaviour.js}%
   %INCLUDE{scripts.js}%
   //-->
  </script>
-<body class="help">
+<body class="introduction">
  <script language="JavaScript" type="text/javascript">//<!--
   %INCLUDE{wz_tooltip.js}%
   //-->
@@ -34,13 +36,9 @@
          <div id="patternTopic">
           <img src="%SCRIPTNAME%?action=resource;resource=foswiki-logo-slogan.png" class="logo" alt="Foswiki logo" />
 <h1>Configuration</h1>
-<div class="expert" style="float:right;display:none">
+<div class="expert foswikiRight" style="display:none">
  <input type="button" class="expert" value="Hide EXPERT options" onclick="toggleExpertsMode()"/>
 </div>
-<div class="notExpert" style="float:right">
+<div class="notExpert foswikiRight">
  <input type="button" class="notExpert" value="Show EXPERT options" onclick="toggleExpertsMode()"/>
 </div>
-<strong>Use this page to set the configuration options for Foswiki.
-Select the sections using the buttons below and fill in the settings.
-<br />Then  press 'Next' to save.</strong><br>Hover the mouse over any
-setting to get help.
