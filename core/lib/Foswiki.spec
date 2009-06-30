@@ -1276,7 +1276,6 @@ $Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_and', 'Foswiki::Query::O
 $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defined', 'Foswiki::If::OP_isempty','Foswiki::If::OP_ingroup', 'Foswiki::If::OP_isweb', 'Foswiki::If::OP_context', 'Foswiki::If::OP_dollar', 'Foswiki::If::OP_istopic' ];
 
 #---+ Extensions
-#---++ Plugins
 # *PLUGINS* Marker used by bin/configure script - do not remove!
 # The plugins listed below were discovered by searching the @INC path for
 # modules that match the Foswiki standard e.g. Foswiki/Plugins/MyPlugin.pm

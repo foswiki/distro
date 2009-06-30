@@ -20,10 +20,14 @@ sub untaintUnchecked {
 sub ui {
     my ($this, $controls) = @_;
     my $erk = 0;
-    my $block = '';
     my $header = "<div class='sectionContents'>"
       . Foswiki::getResource('readonlytab.html')
         ."</div>";
+
+    my $block = '';
+    for my $key ( sort keys %ENV ) {
+        $block .= $this->setting( $key, $ENV{$key} );
+    }
 
     # Detect whether mod_perl was loaded into Apache
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
@@ -243,7 +247,7 @@ HERE
 
     $block = "<div class='sectionContents'>$block</div>";
     my $id = 'cgisetup';
-    return $controls->openTab( $id, 'CGI', $erk)
+    return $controls->openTab( $id, '<em>Webserver Environment</em>', $erk)
       . $header . "<div class='foswikiHelp'>$block</div>"
         . $controls->closeTab($id);
 }

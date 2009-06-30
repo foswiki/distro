@@ -425,7 +425,6 @@ lib/Foswiki/Configure/Checkers/DataDir.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
-lib/Foswiki/Configure/Checkers/Environment.pm 0444
 lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
