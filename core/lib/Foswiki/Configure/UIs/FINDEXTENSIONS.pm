@@ -13,10 +13,9 @@ sub close_html {
 
     # Check that the extensions UI is loadable
     my $bad = 0;
-    foreach my $module
-      qw(Foswiki::Configure::UIs::EXTEND Foswiki::Configure::UIs::FINDEXTENSIONS)
+    foreach my $module qw(Foswiki::Configure::UIs::EXTEND)
     {
-        eval "require $module";
+        eval "use $module ()";
         if ($@) {
             $bad = 1;
             last;

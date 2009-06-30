@@ -177,10 +177,10 @@ table.configureExtensionsTable .configureInstalled a:visited {
 	position:relative;
 	clear:both;
 	float:left;
-	width:25%;
+	width:29%;
 }
-.secondCol { 
-	width:75%;
+.configureSecondCol { 
+	width:69%;
 	float:right;
 }
 .section {

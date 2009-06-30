@@ -39,7 +39,7 @@ sub open_html {
         }
     } elsif ( $depth > 2 ) {
         # A running section has no tab, just a header row
-        $guts .= "<h$depth class='configureRow configureInlineHeading'>$section->{headline}</h$depth>\n";
+        $guts .= "<br class='foswikiClear' /><h$depth class='configureRow configureInlineHeading'>$section->{headline}</h$depth>\n";
     }
 
     if ( $depth > 2 && $section->{desc} ) {
