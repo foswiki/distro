@@ -202,6 +202,30 @@ table.configureExtensionsTable .configureInstalled a:visited {
 .sectionContents .configureRow .configureSecondCol {
 	background:#f5f9fc;
 }
+.sectionContents .configureColContents {
+	padding:0 .5em;
+}
+/* handle nesting */
+.sectionContents .configureColContents .configureSecondCol .configureColContents {
+	padding:0;
+}
+.sectionContents .configureRow .configureSecondCol .configureRow {
+	padding:.5em 0;
+}
+.sectionContents .configureRow .configureSecondCol .configureFirstCol,
+.sectionContents .configureRow .configureSecondCol .configureSecondCol {
+	background:none;
+}
+.sectionContents .configureRow .configureSecondCol .configureFirstCol {
+	width:40%;
+}
+.sectionContents .configureRow .configureSecondCol .configureSecondCol {
+	width:60%;
+}
+.sectionContents p.info {
+	margin:0;
+}
+
 h1.firstHeader,
 h2.firstHeader,
 h3.firstHeader,

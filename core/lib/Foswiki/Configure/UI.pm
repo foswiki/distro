@@ -112,8 +112,8 @@ sub setting {
     my $data = join( ' ', @_ ) || '&nbsp;';
     return <<SETTING;
 <div class='configureRow'>
- <div class='configureFirstCol'>$key</div>
- <div class='configureSecondCol'>$data</div>
+ <div class='configureFirstCol'><div class='configureColContents'>$key</div></div>
+ <div class='configureSecondCol'><div class='configureColContents'>$data</div></div>
  <br class='foswikiClear' />
 </div>
 SETTING
