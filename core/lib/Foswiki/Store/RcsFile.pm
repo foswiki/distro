@@ -24,7 +24,6 @@ use Assert;
 require File::Copy;
 require File::Spec;
 require File::Path;
-require File::Basename;
 
 require Foswiki::Store;
 require Foswiki::Sandbox;
@@ -116,14 +115,14 @@ sub init {
 }
 
 # Make any missing paths on the way to this file
-# SMELL: duplicates CPAN File::Tree::mkpath
 sub mkPathTo {
 
     my $file = shift;
-
     ASSERT(UNTAINTED($file)) if DEBUG;
 
-    my $path = File::Basename::dirname($file);
+    my ( $volume, $path, undef ) = File::Spec->splitpath( $file );
+    $path = File::Spec->catpath( $volume, $path, '' );
+
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
         throw Error::Simple("RCS: failed to create ${path}: $!");
