@@ -18,7 +18,7 @@ sub check {
         return $this->guessed(0);
     }
     return
-        'This is not set correctly if the link below is broken:'
+        '<br />This is not set correctly if the link below is broken:'
       . CGI::br()
       . '<a rel="nofollow" href="'
       . $Foswiki::cfg{PubUrlPath}

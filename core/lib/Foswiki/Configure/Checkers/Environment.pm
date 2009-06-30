@@ -9,17 +9,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub ui {
     my ($this, $controls) = @_;
     my $id = 'environment';
-    my $header = <<INFO;
-<h2 class="firstHeader">Environment</h2>
-This section contains read-only information about the environment variables
-set by your web server. It is mainly useful for debugging your server setup.
-INFO
-    my $block = '';
+    my $block = "<div class='sectionContents'>"
+      .Foswiki::getResource('readonlytab.html')
+        ."</div>";
+    $block .= "<div class='foswikiHelp'>";
     for my $key ( sort keys %ENV ) {
         $block .= $this->setting( $key, $ENV{$key} );
     }
-    $block = "<div class='sectionContents'>$block</div>";
-    return $controls->openTab( $id, 'Environment' ) . $header . $block . $controls->closeTab($id);
+    $block .= "</div>";
+    return $controls->openTab( $id, 'Environment' )
+      . $block . $controls->closeTab($id);
 }
 
 1;

@@ -21,10 +21,9 @@ sub ui {
     my ($this, $controls) = @_;
     my $erk = 0;
     my $block = '';
-    my $header = <<INFO;
-<h2 class="firstHeader">CGI Setup</h2>
-INFO
-    $header .= Foswiki::getResource('readonlytab.html');
+    my $header = "<div class='sectionContents'>"
+      . Foswiki::getResource('readonlytab.html')
+        ."</div>";
 
     # Detect whether mod_perl was loaded into Apache
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
@@ -244,7 +243,9 @@ HERE
 
     $block = "<div class='sectionContents'>$block</div>";
     my $id = 'cgisetup';
-    return $controls->openTab( $id, 'CGI', $erk) . $header . $block . $controls->closeTab($id);
+    return $controls->openTab( $id, 'CGI', $erk)
+      . $header . "<div class='foswikiHelp'>$block</div>"
+        . $controls->closeTab($id);
 }
 
 sub _checkBinDir {

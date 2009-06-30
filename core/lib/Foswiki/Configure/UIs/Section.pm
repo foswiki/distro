@@ -22,7 +22,7 @@ sub open_html {
     my $depth = $section->getDepth();
     my $class = $section->isExpertsOnly() ? 'configureExpert' : '';
     my $id = $this->makeID( $section->{headline} );
-    my $guts = "<!-- $depth $section->{headline} -->\n";
+    my $guts = "<!-- $depth $id -->\n";
     if ($depth == 2) {
         # Major section == a tab
         my $mess = $this->collectMessages($section);
@@ -31,7 +31,9 @@ sub open_html {
         $guts .= $root->{controls}->openTab(
             $id, $section->{headline}, $mess ? 1 : 0);
 
-        $guts .= $section->{desc} if $section->{desc};
+        if ($section->{desc}) {
+            $guts .= "<div class='foswikiHelp'>$section->{desc}</div>";
+        }
         if ($mess) {
             $guts .= "<div class='foswikiAlert configureRow'>$mess</div>\n";
         }
@@ -52,11 +54,12 @@ sub close_html {
     my ( $this, $section, $root ) = @_;
     my $depth = $section->getDepth();
     my $end;
+    my $id = $this->makeID( $section->{headline} );
     if ( $depth == 2 ) {
         my $id = $this->makeID( $section->{headline} );
         $end = $root->{controls}->closeTab($id);
     } else {
-        $end = "<!-- /$depth $section->{headline} -->\n";
+        $end = "<!-- /$depth $id -->\n";
     }
     return $end;
 }

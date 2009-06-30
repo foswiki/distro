@@ -9,7 +9,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    return '' if ( !$Twiki::cfg{EnableEmail} );
+    return '' if ( !$Foswiki::cfg{EnableEmail} );
 
     eval "use Net::SMTP";
     my $n;

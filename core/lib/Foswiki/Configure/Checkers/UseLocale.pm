@@ -8,10 +8,6 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 my @required = (
     {
-        name  => 'Locale::Maketext::Lexicon',
-        usage => 'I18N translations',
-    },
-    {
         name            => 'locale',
         usage           => "Standard Perl locales module",
         requiredVersion => 1,
@@ -24,39 +20,9 @@ my @required = (
 );
 
 my @perl56 = (
-    {
-        name            => 'Unicode::String',
-        usage           => 'I18N conversions',
-        requiredVersion => 1,
-    },
-    {
-        name            => 'Unicode::MapUTF8',
-        usage           => "I18N conversions",
-        requiredVersion => 1,
-    },
-    {
-        name            => 'Unicode::Map',
-        usage           => "I18N conversions",
-        requiredVersion => 1,
-    },
-    {
-        name            => 'Unicode::Map8',
-        usage           => "I18N conversions",
-        requiredVersion => 1,
-    },
-    {
-        name            => 'Jcode',
-        usage           => "I18N conversions",
-        requiredVersion => 1,
-    },
 );
 
 my @perl58 = (
-    {
-        name            => 'Encode',
-        usage           => "I18N conversions (core module in Perl 5.8)",
-        requiredVersion => 1,
-    },
     {
         name => 'Unicode::Normalize',
         usage =>

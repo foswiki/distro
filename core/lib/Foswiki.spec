@@ -113,70 +113,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# ---+ Security setup
-
-# **STRING H**
-# Configuration password (not prompted)
-$Foswiki::cfg{Password} = '';
-
-#---++ Path
-# You can overrides the default PATH setting to control
-# where Foswiki looks for external programs, such as grep and rcs.
-# By restricting this path to just a few key
-# directories, you increase the security of your Foswiki.
-# **PATH M**
-# <ol>
-# 	<li>
-# 		Unix or Linux 
-# 		<ul>
-# 			<li>
-# 				Path separator is : 
-# 			</li>
-# 			<li>
-# 				Make sure diff and shell (Bourne or bash type) are found on path. 
-# 			</li>
-# 			<li>
-# 				Typical setting is /bin:/usr/bin 
-# 			</li>
-# 		</ul>
-# 	</li>
-# 	<li>
-# 		Windows ActiveState Perl, using DOS shell 
-# 		<ul>
-# 			<li>
-# 				path separator is ; 
-# 			</li>
-# 			<li>
-# 				The Windows system directory is required. 
-# 			</li>
-# 			<li>
-# 				Use '\' not '/' in pathnames. 
-# 			</li>
-# 			<li>
-# 				Typical setting is C:\windows\system32 
-# 			</li>
-# 		</ul>
-# 	</li>
-# 	<li>
-# 		Windows Cygwin Perl 
-# 		<ul>
-# 			<li>
-# 				path separator is : 
-# 			</li>
-# 			<li>
-# 				The Windows system directory is required. 
-# 			</li>
-# 			<li>
-# 				Use '/' not '\' in pathnames. 
-# 			</li>
-# 			<li>
-# 				Typical setting is /cygdrive/c/windows/system32 
-# 			</li>
-# 		</ul>
-# 	</li>
-# </ol>
-$Foswiki::cfg{SafeEnvPath} = '';
-
+#---+ Authentication
 #---++ Sessions
 # <em>Sessions</em> are how Foswiki tracks a user across multiple requests.
 # A user's session id is stored in a cookie, and this is used to identify
@@ -192,7 +129,7 @@ $Foswiki::cfg{SafeEnvPath} = '';
 # Control whether Foswiki will use persistent sessions.
 $Foswiki::cfg{UseClientSessions} = 1;
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Set the session timeout, in seconds. The session will be cleared after this
 # amount of time without the session being accessed. The default is 6 hours
 # (21600 seconds).<p />
@@ -303,7 +240,7 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 # however lowers the level of security against cross-site request forgery.
 $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 
-#---++ Authentication
+#---++ Login
 # Foswiki supports different ways of handling how a user asks, or is asked,
 # to log in.
 # **SELECTCLASS none,Foswiki::LoginManager::*Login**
@@ -320,10 +257,19 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 # </li></ol>
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
+# **STRING 100**
+# Comma-separated list of scripts in the bin directory that require the user to
+# authenticate. This setting is used with TemplateLogin; any time an
+# unauthenticated user attempts to access one of these scripts, they will be
+# required to authenticate. With ApacheLogin, the web server must be configured
+# to require a valid user for access to these scripts.
+$Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiffauth,rest';
+
 # **BOOLEAN EXPERT**
 # Browsers typically remember your login and passwords to make authentication
-# more convenient for users. If your Foswiki is used on public terminals, or other
-# you can prevent this, forcing the user to enter the login and password every time.
+# more convenient for users. If your Foswiki is used on public terminals,
+# you can prevent this, forcing the user to enter the login and password
+# every time.
 $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
 
 # **REGEX EXPERT**
@@ -372,26 +318,15 @@ $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 # use Foswiki to manually rename the existing topic</b>
 $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 
-# **STRING 100 EXPERT**
-# Comma-separated list of scripts in the bin directory that require the user to
-# authenticate. Any time an unauthenticated user attempts to access one of these
-# scripts, they will be required to authenticate. With TemplateLogin, they are
-# redirected to the login script. With ApacheLogin the web server directly asks
-# the browser to authenticate without redirecting to a login page and for this
-# reason the bin scripts must be configured for authentication in the webserver
-# configuration.
-$Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiffauth,rest';
-
 # **STRING 80 EXPERT**
 # Authentication realm. This is
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
 $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit $Foswiki::cfg{SystemWebName}.UserRegistration if you do not have one.';
 
-#---++ User Mapping
+# **SELECTCLASS Foswiki::Users::*UserMapping**
 # The user mapping is used to equate login names, used with external
 # authentication systems, with Foswiki user identities. 
-# **SELECTCLASS Foswiki::Users::*UserMapping**
 # By default only
 # two mappings are available, though other mappings *may* be installed to
 # support authentication providers.
@@ -406,19 +341,6 @@ $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (
 # </li></ol>
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
-#---++ Registration
-# Registration is the process by which new users register themselves with
-# Foswiki.
-# **BOOLEAN**
-# If you want users to be able to use a login ID other than their
-# wikiname, you need to turn this on. It controls whether the 'LoginName'
-# box appears during the user registration process, and is used to tell
-# the User Mapping module whether to map login names to wikinames or not
-# (if it supports mappings, that is).
-$Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
-
-#---++ Passwords
-# You can choose how passwords are handled by Foswiki.
 # **SELECTCLASS none,Foswiki::Users::*User**
 # Name of the password handler implementation. The password handler manages
 # the passwords database, and provides password lookup, and optionally
@@ -473,8 +395,80 @@ $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 # </dl>
 $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 
-#---++ Miscellaneous
+# ---+ Security options
+#---++ Registration
+# Registration is the process by which new users register themselves with
+# Foswiki.
+# **BOOLEAN**
+# If you want users to be able to use a login ID other than their
+# wikiname, you need to turn this on. It controls whether the 'LoginName'
+# box appears during the user registration process, and is used to tell
+# the User Mapping module whether to map login names to wikinames or not
+# (if it supports mappings, that is).
+$Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
+#---++ Path
+# You can override the default PATH setting to control
+# where Foswiki looks for external programs, such as grep and rcs.
+# **PATH M**
+# By restricting this path to just a few key
+# directories, you increase the security of your Foswiki.
+# <ol>
+# 	<li>
+# 		Unix or Linux 
+# 		<ul>
+# 			<li>
+# 				Path separator is : 
+# 			</li>
+# 			<li>
+# 				Make sure diff and shell (Bourne or bash type) are found on path. 
+# 			</li>
+# 			<li>
+# 				Typical setting is /bin:/usr/bin 
+# 			</li>
+# 		</ul>
+# 	</li>
+# 	<li>
+# 		Windows ActiveState Perl, using DOS shell 
+# 		<ul>
+# 			<li>
+# 				path separator is ; 
+# 			</li>
+# 			<li>
+# 				The Windows system directory is required. 
+# 			</li>
+# 			<li>
+# 				Use '\' not '/' in pathnames. 
+# 			</li>
+# 			<li>
+# 				Typical setting is C:\windows\system32 
+# 			</li>
+# 		</ul>
+# 	</li>
+# 	<li>
+# 		Windows Cygwin Perl 
+# 		<ul>
+# 			<li>
+# 				path separator is : 
+# 			</li>
+# 			<li>
+# 				The Windows system directory is required. 
+# 			</li>
+# 			<li>
+# 				Use '/' not '\' in pathnames. 
+# 			</li>
+# 			<li>
+# 				Typical setting is /cygdrive/c/windows/system32 
+# 			</li>
+# 		</ul>
+# 	</li>
+# </ol>
+$Foswiki::cfg{SafeEnvPath} = '';
 
+# **STRING H**
+# Configuration password (not prompted)
+$Foswiki::cfg{Password} = '';
+
+#---++ Other security options
 # **BOOLEAN**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
 # to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
@@ -575,7 +569,6 @@ $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
 
-#---+ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
@@ -612,7 +605,7 @@ $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 # (there is an example in the root of your Foswiki installation).
 $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
-#---+ Log files
+#---+ Logging &amp; Statistics
 
 # Paths to the various log files. You can use %DATE% (which gets expanded
 # to YYYYMM e.g. 200501) in the pathnames to cause the file to be renewed
@@ -675,27 +668,25 @@ $Foswiki::cfg{Log}{rename}   = $TRUE; # when a topic or attachment is renamed
 # **BOOLEAN EXPERT**
 $Foswiki::cfg{Log}{register} = $TRUE; # rare, when a new user registers
 
-#---+ Localisation
+# **NUMBER**
+# Number of top viewed topics to show in statistics topic
+$Foswiki::cfg{Stats}{TopViews} = 10;
 
-# <p>
-# Settings in this section control (1) the language to be used for the
-# user interface (2) recognition of national (non-ascii) characters and
-# (3) the system locale used by Foswiki, which influences how Foswiki <em>and
-# external programs called by it</em> behave regarding internationalization.
-# </p>
-# <p>
-# <b>Note:</b> if you just want to select a language for the user interface,
-# the only settings that matter are {UserInterfaceInternationalisation}
-# and {Site}{CharSet}. Some languages require the
+# **NUMBER**
+# Number of top contributors to show in statistics topic
+$Foswiki::cfg{Stats}{TopContrib} = 10;
+
+# **STRING 20 EXPERT**
+# Name of statistics topic
+$Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
+
+#---+ Languages
+# Enable user interface internationalisation, i.e. presenting the user
+# interface in the users own language(s). Some languages require the
 # <code>Locale::Maketext::Lexicon</code> and <code>Encode</code>/MapUTF8 Perl
-# modules to be installed (see the table below).
-# </p>
+# modules to be installed.
 
 # **BOOLEAN**
-# Enable user interface internationalisation, i.e. presenting the user
-# interface in the users own language(s). Check every language that you
-# want your site to support.
-# <p />
 # Allowing all languages is the best for <em>really</em> international sites,
 # but for best performance you should enable only the languages you really
 # need. English is the default language, and is always enabled.
@@ -706,6 +697,9 @@ $Foswiki::cfg{Log}{register} = $TRUE; # rare, when a new user registers
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
 # *LANGUAGES* Marker used by bin/configure script - do not remove!
+# These settings control the languages that are available for the
+# user interface.  Check every language that you
+# want your site to support.
 $Foswiki::cfg{Languages}{bg}{Enabled} = 1;
 $Foswiki::cfg{Languages}{cs}{Enabled} = 1;
 $Foswiki::cfg{Languages}{da}{Enabled} = 1;
@@ -722,11 +716,15 @@ $Foswiki::cfg{Languages}{sv}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-cn'}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 
+#---+ I18N
+
+# Enable operating system level locales and internationalisation support
+# for 8-bit character sets. This may be required for correct functioning
+# of the programs that Foswiki calls when your wiki content uses
+# international character sets.
+
 # **BOOLEAN**
-# Locale - set to enable operating system level locales and
-# internationalisation support for 8-bit character sets. This may be required
-# for correct functioning of the programs that Foswiki calls with international
-# character sets.
+# Enable the used of {Site}{Locale}
 $Foswiki::cfg{UseLocale} = $FALSE;
 
 # **STRING 50**
@@ -812,7 +810,7 @@ $Foswiki::cfg{LowerNational} = '';
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 #---+ Store
-
+# Foswiki supports different back-end store implementations.
 # **SELECT RcsWrap,RcsLite**
 # Default store implementation.
 # <ul><li>RcsWrap uses normal RCS executables.</li>
@@ -1001,12 +999,13 @@ $Foswiki::cfg{TrashWebName} = 'Trash';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-#---+ Cache
+#---++ Cache
+# Foswiki includes built-in support for caching HTML pages. This can
+# dramatically increase performance, especially if there are a lot more page
+# views than changes.
 
 # **BOOLEAN**
-# This setting will switch on/off caching of html pages rendered by a view action.
-# This can dramatically increase performance, i.e. if there are a lot more
-# page views than changes.
+# This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
 # **BOOLEAN EXPERT**
@@ -1056,6 +1055,9 @@ $Foswiki::cfg{Cache}{MaxSize} = 1000;
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 
 #---+ Mail and Proxies
+# Settings controlling if and how Foswiki sends email, and the proxies used to
+# access external web pages.
+
 # **BOOLEAN**
 # Enable email globally.
 $Foswiki::cfg{EnableEmail} = $TRUE;
@@ -1138,19 +1140,9 @@ $Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-#---+ Miscellaneous settings
-
-# **NUMBER**
-# Number of top viewed topics to show in statistics topic
-$Foswiki::cfg{Stats}{TopViews} = 10;
-
-# **NUMBER**
-# Number of top contributors to show in statistics topic
-$Foswiki::cfg{Stats}{TopContrib} = 10;
-
-# **STRING 20 EXPERT**
-# Name of statistics topic
-$Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
+#---+ Miscellaneous
+# Miscellaneous expert options; select "Show EXPERT Options" to see the
+# available settings.
 
 # **STRING 120 EXPERT**
 # Template path. A comma-separated list of generic file names, containing
