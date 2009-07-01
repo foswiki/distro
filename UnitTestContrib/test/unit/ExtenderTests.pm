@@ -149,7 +149,7 @@ sub test_check_dep_version_with_rev {
     my ($this) = @_;
 
     # Check a normal installed dependency with a $Rev$ version number
-    # 1, Foswiki::Contrib::JSCalendarContrib v999999 loaded
+    # 1, Foswiki::Contrib::JSCalendarContrib v1234 loaded
     my ( $ok, $message ) = Foswiki::Extender::check_dep(
         {
             type    => "perl",
@@ -160,7 +160,123 @@ sub test_check_dep_version_with_rev {
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/Foswiki::Contrib::JSCalendarContrib v.* loaded/,
         $message );
+    $this->assert($message =~ /v(\d+) /, $message);
+    my $revision = $1;
+    $this->assert($revision ne '999999');
+}
 
+sub test_check_dep_version_with_multi_part_number {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a 1.23.4 version number
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1.23.4 loaded
+    my ( $ok, $message ) = Foswiki::Extender::check_dep(
+        {
+            type    => "perl",
+            name    => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
+            version => ">=1.5.6"
+        }
+    );
+    $this->assert_equals( 1, $ok );
+    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1\.23\.4 loaded/,
+        $message );
+}
+
+sub test_check_dep_version_with_underscore {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a version number that includes _
+    # 1, Algorithm::Diff v1.19_01 loaded
+    my ( $ok, $message ) = Foswiki::Extender::check_dep(
+        {
+            type    => "perl",
+            name    => "Algorithm::Diff",
+            version => ">=1.18_45"
+        }
+    );
+    $this->assert_equals( 1, $ok );
+    $this->assert_matches( qr/Algorithm::Diff v\d+\.\d+(?:_\d+)? loaded/,
+        $message );
+
+}
+
+sub test_compare_versions {
+    my ($this) = @_;
+
+    my @comparisons = (
+        [1, 2, '<',  10],
+        [1, 2, '<=', 10],
+        [0, 2, '>',  10],
+        [0, 2, '>=', 10],
+        [0, 2, '=',  10],
+
+        [0, 10, '<',  2],
+        [0, 10, '<=', 2],
+        [1, 10, '>',  2],
+        [1, 10, '>=', 2],
+        [0, 10, '=',  2],
+
+        [0, 2, '<',  2],
+        [1, 2, '<=', 2],
+        [0, 2, '>',  2],
+        [1, 2, '>=', 2],
+        [1, 2, '=',  2],
+
+        [1, '$Rev: 2 $', '<',  10],
+        [1, '$Rev: 2 $', '<=', 10],
+        [0, '$Rev: 2 $', '>',  10],
+        [0, '$Rev: 2 $', '>=', 10],
+        [0, '$Rev: 2 $', '=',  10],
+
+        [0, '$Rev: 10 $', '<',  2],
+        [0, '$Rev: 10 $', '<=', 2],
+        [1, '$Rev: 10 $', '>',  2],
+        [1, '$Rev: 10 $', '>=', 2],
+        [0, '$Rev: 10 $', '=',  2],
+
+        [0, '$Rev: 2 $', '<',  2],
+        [1, '$Rev: 2 $', '<=', 2],
+        [0, '$Rev: 2 $', '>',  2],
+        [1, '$Rev: 2 $', '>=', 2],
+        [1, '$Rev: 2 $', '=',  2],
+
+        [1, 1.1, '<',  2],
+        [1, 1.1, '<=', 2],
+        [0, 1.1, '>',  2],
+        [0, 1.1, '>=', 2],
+        [0, 1.1, '=',  2],
+
+        [1, 1.1, '<',  '1.2.1'],
+        [1, 1.1, '<=', '1.2.1'],
+        [0, 1.1, '>',  '1.2.1'],
+        [0, 1.1, '>=', '1.2.1'],
+        [0, 1.1, '=',  '1.2.1'],
+
+        [1, '2.36_04', '<',  '2.36_10'],
+        [1, '2.36_04', '<=', '2.36_10'],
+        [0, '2.36_04', '>',  '2.36_10'],
+        [0, '2.36_04', '>=', '2.36_10'],
+        [0, '2.36_04', '=',  '2.36_10'],
+
+        [1, '1.2.4.5-beta1', '<',  '1.2.4.5-beta2'],
+        [1, '1.2.4.5-beta1', '<=', '1.2.4.5-beta2'],
+        [0, '1.2.4.5-beta1', '>',  '1.2.4.5-beta2'],
+        [0, '1.2.4.5-beta1', '>=', '1.2.4.5-beta2'],
+        [0, '1.2.4.5-beta1', '=',  '1.2.4.5-beta2'],
+
+        [1, '1.2.5', '<',  '1.2.5a'],
+        [1, '1.2.5', '<=', '1.2.5a'],
+        [0, '1.2.5', '>',  '1.2.5a'],
+        [0, '1.2.5', '>=', '1.2.5a'],
+        [0, '1.2.5', '=',  '1.2.5a'],
+    );
+    foreach my $set (@comparisons) {
+        my $expected = shift @$set;
+        my $actual = Foswiki::Extender::compare_versions(@$set) ? 1 : 0;
+        $this->assert_equals( $expected, 
+                              $actual, 
+                              join(' ', '[', @$set, '] should give', $expected) );
+    }
 }
 
 1;

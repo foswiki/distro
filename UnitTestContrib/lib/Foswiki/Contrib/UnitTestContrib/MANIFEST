@@ -1,5 +1,6 @@
 bin/test 0755
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
+lib/Foswiki/Contrib/UnitTestContrib/MultiDottedVersion.pm 0644
 lib/Foswiki/UI/Test.pm 0644
 lib/Unit/Eavesdrop.pm 0644
 lib/Unit/CGIEngine.pm 0644
