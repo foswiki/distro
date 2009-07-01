@@ -256,7 +256,8 @@ sub check_dep {
 
     # try to load the module
     my $module = $dep->{name};
-    if ( not eval "require $module" ) {
+    eval "require $module";
+    if ( $@ ) {
         $ok = 0;
         ( $msg = $@ ) =~ s/ in .*$/\n/s;
         return ( $ok, $msg );
@@ -662,7 +663,8 @@ sub unpackArchive {
 sub unzip {
     my $archive = shift;
 
-    if ( not eval 'require Archive::Zip' ) {
+    eval 'require Archive::Zip';
+    if ( $@ ) {
         my $zip           = Archive::Zip->new();
         my $err = $zip->read($archive);
         if ( $err ) {
@@ -704,7 +706,8 @@ sub untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    if ( not eval 'require Archive::Tar' ) {
+    eval 'require Archive::Tar';
+    if ( $@ ) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
         unless ( $numberOfFiles > 0 ) {
