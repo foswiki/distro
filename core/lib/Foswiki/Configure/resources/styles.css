@@ -67,7 +67,7 @@ table.configureSectionContents td {
 }
 table.configureSectionContents th {
 	font-weight:normal;
-	background:#e3f0f6;
+	background:#eaf4f8;
 	border-left:5px solid #fff;
 	width:25%;
 	white-space:nowrap;
@@ -78,7 +78,7 @@ table.configureSectionContents td {
 table.configureSectionContents td,
 table.configureSectionContents th {
 	overflow:scroll;
-	padding:.25em 2em .25em .75em;
+	padding:.25em 2em .25em 1em;
 	line-height:1.5em;
 	border-top:1px solid #d4e7f1;
 }
@@ -143,6 +143,10 @@ table.configureExtensionsTable .configurePseudoinstalled {
 table.configureExtensionsTable .configureInstalled a:link,
 table.configureExtensionsTable .configureInstalled a:visited {
 	font-weight:bold;
+}
+
+.configureDefaultValueLink {
+	font-size:86%;
 }
 
 /* Used when a non-foswiki extension is found */

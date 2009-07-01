@@ -147,7 +147,7 @@ function initDeltaIndicators() {
 }
 
 function initDefaultLinks() {
-	var elems = getElementsByClassName(document.forms.update, 'defaultValueLink' , 'A');	
+	var elems = getElementsByClassName(document.forms.update, 'configureDefaultValueLink' , 'A');	
 	var i, ilen = elems.length;
 	for (i=0; i<ilen; ++i) {
 		initDefaultLink(elems[i]);

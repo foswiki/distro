@@ -70,8 +70,9 @@ sub open_html {
 
         my $safeKeys = $keys;
         $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
+        my $defaultDisplayValue = $defaultValue || '\"\"';
         $details .= <<HERE;
-<a href="#" onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
+<a href="#" onmouseover='Tip(getTip("Delta")+"<code>$defaultDisplayValue</code><br />(of type $value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
 HERE
     }
 
