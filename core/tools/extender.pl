@@ -27,6 +27,7 @@
 #
 package Foswiki::Extender;
 use strict;
+use warnings;
 
 use Cwd;
 use File::Temp;
@@ -165,26 +166,79 @@ sub remap {
       } return $file;
 }
 
-# Handles warnings when the VERSION string of a module
-# isn't numeric, like perl wants it to be
-my $moduleVersion;    # Global so that this handler can set it
-
-sub check_non_perl_versions {
-    my ($msg) = @_;
-    if ( $msg !~ /Version string '(.+)' contains invalid data; ignoring: '/ ) {
-        print STDERR $msg;
+sub max_field_length {
+    my $max_length = 1;
+    for my $number (@_) {
+        next unless defined $number;
+        foreach my $field ($number =~ /(\d+|\D+)/g) {
+            $max_length = length($field) if $max_length < length($field);
+        }
     }
-    elsif ( $1 eq '$Rev$' ) {
+    return $max_length;
+}
 
-        # Setting version to an arbitary high number
-        # if it's supposed to be some subversion revision
-        $moduleVersion = 999999;
-    }
-    elsif ( $1 =~ /(\d+)/ ) {
 
-        # If the text contains a number, use the first one
-        $moduleVersion = $1;
+# Convert a version number into a form that may be compared using a string comparison
+sub string_comparable_version {
+    my ($version_string, $field_length) = @_;
+    # version numbers have many possible forms. Here are some examples:
+    #    * 2.36_01        (Digest::MD5)
+    #    * 6.3.7          (Image::Magick)
+    #    * 6.2.4.5        (Image::Magick)
+    #    * $Rev: 4315 $   (WysiwygPlugin)
+    #    * 1.2.5a
+    #    * 1.2.4.5-beta1
+    #    * r123
+    #
+    # SMELL
+    # This function makes 1.2.4.5-beta1 compare larger than 1.2.4.5
+
+    $version_string = ' ' if not defined $version_string;
+
+    # set version to an arbitary high number if it's supposed to be some subversion revision
+    $version_string = 999999 if $version_string eq '$Rev$';
+
+    # remove the SVN marker text from the version number, if it is there
+    $version_string =~ s/^\$Rev: (\d+) \$$/$1/;
+    
+    # convert all multi-part version numbers to use the same separator .
+    # All non-letters and non-digits are considered separators
+    $version_string =~ s/(?:\W|_)/./g;
+
+    my $comparable = '';
+    foreach my $part (split /(\d+)/, $version_string)
+    {
+        if ($part =~ /^\d/) {
+            # Numbers are right-justified so that a string comparison produces the correct result
+            # e.g. 062 compares less than 103
+            $comparable .= sprintf('%0'.$field_length.'d', $part);
+        }
+        elsif ($part =~ /^\D/) {
+            # non-digit sequences are left-justified, and made uppercase
+            # so that "alpha" compares less than "beta ", and "cairo" less than "Dakar"
+            $comparable .= sprintf('%-'.$field_length.'s', uc($part));
+        }
     }
+    return $comparable;
+}
+
+sub compare_versions {
+    my ($a, $op, $b) = @_;
+    my $string_op = {
+        '='  => 'eq',
+        '<'  => 'lt',
+        '>'  => 'gt',
+        '<=' => 'le',
+        '>=' => 'ge'
+    }->{$op};
+    #print "|$a$op$b|=>";
+    my $field_length = max_field_length($a, $b);
+    $a = string_comparable_version($a, $field_length);
+    $b = string_comparable_version($b, $field_length);
+    my $comparison = "'$a' $string_op '$b'";
+    my $result = eval $comparison;
+    #print "[$comparison]->$result\n";
+    return $result;
 }
 
 sub check_dep {
@@ -208,33 +262,23 @@ sub check_dep {
         return ( $ok, $msg );
     }
 
-    # if the VERSION string isn't perl compatible (\d+\.\d+(\.\d+)?)
-    # perl will print out some message and test will fail
-    # Try to catch those until all VERSION are correct
-    $moduleVersion = 0;
+    my $moduleVersion = 0;
     {
-        local $SIG{__WARN__} = \&check_non_perl_versions;
-
-        # Providing 0 as version number as version checking is done below
-        # and without it, perl < 5.10 won't trigger the warning
-        # The eval there is used to automatically transform strings to numbers
-        # so that things like '2.36_01' become 2.3601 (numeric)
-        my $version = eval $module->VERSION(0);
-        $moduleVersion ||= $version;
+        no strict 'refs';
+        $moduleVersion = ${"${module}::VERSION"};
+        # remove the SVN marker text from the version number, if it is there
+        $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
     }
 
     # check if the version satisfies the prerequisite
     if ( defined $dep->{version} ) {
 
         # the version field is in fact a condition
-        if ( $dep->{version} =~ /^\s*(?:>=?)?\s*([0-9.]+)/ ) {
+        if ( $dep->{version} =~ /^\s*(?:>=?)?\s*([0-9a-z._-]+)/ ) {
 
             # Condition is >0 or >= 1.3
             my $requiredVersion = $1;
-
-            # SMELL: Once all modules have proper version, this should be:
-            # if ( not eval { $module->VERSION( $requiredVersion ) } )
-            if ( $moduleVersion < $requiredVersion ) {
+            if ( compare_versions($moduleVersion, '<', $requiredVersion) ) {
 
                 # But module doesn't meet this condition
                 $msg = "$module version $requiredVersion required"
@@ -243,10 +287,12 @@ sub check_dep {
                 return ( $ok, $msg );
             }
         }
-        elsif ( $dep->{version} =~ /<\s*([0-9.]+)/ ) {
+        elsif ( $dep->{version} =~ /<\s*([0-9a-z._-]+)/ ) {
 
             # Condition is < 2.7
-            if ( $moduleVersion >= $1 ) {
+            my $requiredVersion = $1;
+
+            if ( compare_versions($moduleVersion, '>=', $requiredVersion) ) {
 
                 # But module doesn't meet this condition
                 $ok = 0;
@@ -943,18 +989,12 @@ sub _install {
         # Module is already installed
         # XXX SMELL: Could be more user-friendly:
         # test that current version isn't newest
-        $moduleVersion = 0;
-
-        # if the VERSION string isn't perl compatible (\d+\.\d+(\.\d+)?)
-        # perl will print out some message and test will fail
-        # Try to catch those until all VERSION are correct
+        my $moduleVersion = 0;
         {
-            local $SIG{__WARN__} = \&check_non_perl_versions;
-
-            # Providing 0 as version number as version checking is done below
-            # and without it, perl < 5.10 won't trigger the warning
-            my $version = $path->VERSION(0);
-            $moduleVersion ||= $version;
+            no strict 'refs';
+            $moduleVersion = ${"${path}::VERSION"};
+            # remove the SVN marker text from the version number, if it is there
+            $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
         }
 
         if ($moduleVersion) {
