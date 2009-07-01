@@ -72,7 +72,7 @@ sub open_html {
         $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
         my $defaultDisplayValue = $defaultValue || '\"\"';
         $details .= <<HERE;
-<a href="#" onmouseover='Tip(getTip("Delta")+"<code>$defaultDisplayValue</code><br />(of type $value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
+<a href="#" onmouseover='Tip(getTip("Delta")+"<code>$defaultDisplayValue</code><br />of type $value->{typename}<br /><small>(You can always undo this reset)</small>")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
 HERE
     }
 

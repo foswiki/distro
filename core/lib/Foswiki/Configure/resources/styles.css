@@ -178,3 +178,6 @@ h6.firstHeader {
 strong {
 	color:#D1400E;
 }
+.foswikiAlert strong {
+	color:#f00;
+}
