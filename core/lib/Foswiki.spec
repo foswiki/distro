@@ -1278,9 +1278,10 @@ $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defi
 
 #---+ Extensions
 # *PLUGINS* Marker used by bin/configure script - do not remove!
-# The plugins listed below were discovered by searching the @INC path for
-# modules that match the Foswiki standard e.g. Foswiki/Plugins/MyPlugin.pm
-# or the TWiki standard i.e. TWiki/Plugins/YourPlugin.pm
+# The plugins listed below were discovered by searching the <code>@INC</code>
+# path for modules that match the Foswiki standard e.g. 
+# <code>Foswiki/Plugins/MyPlugin.pm</code> or the TWiki standard i.e. 
+# <code>TWiki/Plugins/YourPlugin.pm</code>
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
 $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;

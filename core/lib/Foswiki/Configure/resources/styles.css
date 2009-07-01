@@ -45,9 +45,6 @@ table.configureSectionContents th.configureExpert {
 	width:78%;
 	margin:0 0 1em 1%;
 }
-.configureSection p {
-	margin:0 0 1em 0;
-}
 
 /* --- TABLE ROWS & COLUMNS --- */
 table.configureSectionContents,
@@ -82,9 +79,11 @@ table.configureSectionContents th {
 	line-height:1.5em;
 	border-top:1px solid #d4e7f1;
 }
-.configureInlineHeading {
-	
+.configureInlineHeading {}
+table.configureSectionContents p {
+	margin:0 0 1em 0;
 }
+
 
 /* --- TABS --- */
 .configureTabBodyHidden { 
@@ -108,11 +107,13 @@ a.configureWarn,
 a.configureError {
 	text-decoration:none;
 }
-
 .configureError {
     color:#f00; /*T9*/ /*red*/
     background-color:#FFD9D9; /* pink */
     border-bottom:1px solid #f00;
+}
+.configureInfo {
+	color:green;
 }
 
 /* --- EXTENSIONS --- */

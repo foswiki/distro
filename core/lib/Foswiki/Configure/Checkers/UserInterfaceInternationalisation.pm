@@ -60,7 +60,7 @@ sub check {
     else {
         $n .= $this->checkPerlModules( \@perl56 );
     }
-    return "<div class='foswikiHelp'>$n</div>";
+    return $n;
 }
 
 1;
