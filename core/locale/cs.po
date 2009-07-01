@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-30 17:11+0200\n"
+"PO-Revision-Date: 2009-07-01 20:06+0200\n"
 "Last-Translator: Milan Mašek <milan.m.masek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -2420,13 +2420,12 @@ msgid "Revision"
 msgstr "Revize"
 
 #: core/templates/oopsmore.tmpl:102
-#, fuzzy
 msgid "Revisions"
-msgstr "Revize"
+msgstr "Verze"
 
 #: PatternSkin/templates/settings.pattern.tmpl:25
 msgid "S = Save, C = Cancel"
-msgstr ""
+msgstr "S = Ulož, C = Ponechej beze změny"
 
 #: PatternSkin/templates/preview.pattern.tmpl:22
 #, fuzzy
@@ -2441,9 +2440,8 @@ msgstr "S = Ulož, Q = Ulož potichu, K = Bod návratu, P = Ukázka, C = Přeru�
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
-#, fuzzy
 msgid "Save table"
-msgstr "Uloženo do:"
+msgstr "Ulož tabulku"
 
 #: core/templates/registerfailednotremoved.tmpl:20
 #: core/templates/registerfailedremoved.tmpl:21
@@ -2466,14 +2464,12 @@ msgid "Search"
 msgstr "Hledej"
 
 #: core/templates/backlinksallwebs.tmpl:6
-#, fuzzy
 msgid "Search %1 Web only"
-msgstr "Hledej pouze v %1"
+msgstr "Hledej pouze v rámci webu %1"
 
 #: core/templates/backlinksweb.tmpl:6
-#, fuzzy
 msgid "Search all webs"
-msgstr "H&ledej ve všech webech"
+msgstr "Prohledej všechny weby"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:6
 #: core/templates/oopsmore.tmpl:53
@@ -2481,9 +2477,8 @@ msgid "Search all webs for topics that link to here"
 msgstr "Prohledej všechny weby pro články, které odkazují sem"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:22
-#, fuzzy
 msgid "Search in all webs"
-msgstr "H&ledej ve všech webech"
+msgstr "Hledej ve všech webech"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:22
 #, fuzzy
@@ -2535,7 +2530,7 @@ msgstr "Také:"
 
 #: core/templates/edit.tmpl:58
 msgid "See below for help in editing this page."
-msgstr ""
+msgstr "Viz nápověda níže pro editaci této stránky."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -2550,9 +2545,8 @@ msgid "Select all"
 msgstr "Vyber vše"
 
 #: core/templates/oopsmore.tmpl:69
-#, fuzzy
 msgid "Select topic parent:"
-msgstr "Krok 1: Vyberte nadřízený článek"
+msgstr "Vyberte nadřízený článek:"
 
 #: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:47
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -2608,6 +2602,11 @@ msgid ""
 "clobbering yours. It's easier to keep a handle on if you only copy over the "
 "settings you actually change."
 msgstr ""
+"Nastavení na úrovni site-level jsou umístěny v %1, avšak tento %2 "
+"konfigurační článek přepisuje tato nastavení a měl by být použit pro lokální "
+"uživatelská nastavení. Toto dovoluje snadněji upgradovat a nemusíte se tak "
+"obávat o přepsání vašich nastavení. Je snazší používat tento přístup a "
+"přepisovat pouze nastavení která potřebujete změnit. "
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2628,6 +2627,9 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
+"Některé nástroje pro elektronickou poštu obsahují chybu, která zapříčiňuje "
+"že zašlou ten samý požadavek dvakrát když kliknete na odkaz. Jestliže se vám "
+"toto přihodí, je možné že jste se již úspěšně *zaregistrovali*."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:136
 #: core/templates/registernotify.tmpl:14
