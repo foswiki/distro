@@ -30,23 +30,21 @@
 /* --- EXPERT ---*/
 
 /* Settings and other stuff only shown in expert mode */
-.configureExpert {
-  background: #edc;
-  border-left: 5pt solid #edc
+table.configureSectionContents th.configureExpert {
+	border-left:5px solid #bb9a29;
+	color:#7a6210;
 }
 
 /* Stuff *not* shown in expert mode */
-.configureNotExpert {
-  background: #edc;
-}
+.configureNotExpert {}
 
 /* --- SECTION --- */
+.configureSections {}
 .configureSection {
 	float:right;
 	width:78%;
 	margin:0 0 1em 1%;
 }
-
 .configureSection p {
 	margin:0 0 1em 0;
 }
@@ -54,9 +52,9 @@
 /* --- TABLE ROWS & COLUMNS --- */
 table.configureSectionContents,
 table.configureNestedTable {
-	margin: 1em 0;
-	border-collapse: collapse;
-	border-bottom: 1px solid #d4e7f1;
+	margin:1em 0;
+	border-collapse:collapse;
+	border-bottom:1px solid #d4e7f1;
 }
 table.configureSectionContents {
 	width:100%;
@@ -64,22 +62,25 @@ table.configureSectionContents {
 table.configureSectionContents,
 table.configureSectionContents th,
 table.configureSectionContents td {
-	border-width: 1px;
-	vertical-align: top;
+	border-width:1px;
+	vertical-align:top;
 }
 table.configureSectionContents th {
-	font-weight: normal;
-	background: #e9f3f8;
+	font-weight:normal;
+	background:#e3f0f6;
+	border-left:5px solid #fff;
+	width:25%;
+	white-space:nowrap;
 }
 table.configureSectionContents td {
-	background: #f5f9fc;
+	background:#f5f9fc;
 }
 table.configureSectionContents td,
 table.configureSectionContents th {
-	overflow: scroll;
-	padding: .25em 2em .25em 1em;
-	line-height: 1.5em;
-	border-top: 1px solid #d4e7f1;
+	overflow:scroll;
+	padding:.25em 2em .25em .75em;
+	line-height:1.5em;
+	border-top:1px solid #d4e7f1;
 }
 .configureInlineHeading {
 	
@@ -128,8 +129,6 @@ table.configureExtensionsTable td {
 	padding:.5em;
 	line-height:1.2em;
 }
-table.configureExtensionsTable .odd {
-}
 table.configureExtensionsTable .even {
 }
 table.configureExtensionsTable .configureReinstall {
@@ -153,13 +152,11 @@ table.configureExtensionsTable .configureInstalled a:visited {
 
 /* Settings and other stuff only shown in expert mode */
 .expert {
-	background-color:#edc;
+	background-color:#bb9a29;
+	color:#fff;
 }
 
 /* Stuff *not* shown in expert mode */
-.notExpert {
-	background-color:#edc;
-}
 
 /* Settings shown to everyone */
 .newbie { 

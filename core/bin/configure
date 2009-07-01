@@ -576,7 +576,7 @@ GOTOGPS
     $tabs .= $ui->ui( $root, $valuer, $controls );
 
     print $controls->generateTabs()
-      ."<div class='configureRow'>$tabs</div>"
+      ."<div class='configureSections'>$tabs</div>"
         .$controls->generateTooltips();
 
     print "<br class='foswikiClear' />";

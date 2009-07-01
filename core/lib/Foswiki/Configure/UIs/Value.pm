@@ -12,6 +12,8 @@ our @ISA = ('Foswiki::Configure::UI');
 sub open_html {
     my ( $this, $value, $root ) = @_;
 
+    my $output = '';
+
     my $type = $value->getType();
     return '' if $value->{hidden};
 
@@ -69,7 +71,7 @@ sub open_html {
         my $safeKeys = $keys;
         $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
         $details .= <<HERE;
-<a onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">&delta;</a>
+<a href="#" onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
 HERE
     }
 
@@ -80,7 +82,7 @@ HERE
     } else {
 
         # Generate a prompter for the value.
-        my $promptclass = $value->{typename};
+        my $promptclass = $value->{typename} || '';
         $promptclass .= ' foswikiMandatory' if ( $value->{mandatory} );
         $control = "<span class='$promptclass'>"
           . $type->prompt(
@@ -96,14 +98,16 @@ HERE
     }
 
     $class = " class='$class'" if ($class);
-    return "<tr$class>"
+    $output .= "<tr$class>"
       ."<th$class>$hiddenTypeOf$tipo$index$tipc</th>"
         ."<td>$tipo$control$tipc&nbsp;$details$check</td>"
           ."</tr>";
+    return $output;
 }
 
 sub close_html {
     my ( $this, $value, $root ) = @_;
+    
     return '';
 }
 

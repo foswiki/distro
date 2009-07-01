@@ -109,7 +109,7 @@ sub getUrl {
 sub setting {
     my $this = shift;
     my $key  = shift;
-    my $data = join( ' ', @_ ) || '&nbsp;';
+    my $data = join( ' ', @_ ) || ' ';
     
     return CGI::Tr( CGI::th( $key) . CGI::td( $data) );
 }

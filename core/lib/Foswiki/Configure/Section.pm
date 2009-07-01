@@ -70,6 +70,20 @@ sub getDepth {
     return $depth;
 }
 
+sub hasValues {
+    my ( $this ) = @_;
+    
+    return 0 if !(length @{ $this->{children} });
+    my $hasValues = 0;
+    foreach my $kid ( @{ $this->{children} } ) {
+        if ( $kid->isa('Foswiki::Configure::Value') ) {
+            $hasValues = 1;
+        }
+        last;
+    }
+    return $hasValues;
+}
+
 # Get the section object associated with the given headline and depth
 sub getSectionObject {
     my ( $this, $head, $depth ) = @_;

@@ -171,7 +171,7 @@ function initDefaultLink(inLink) {
 	inLink.setDefaultTitle = 'Set to default value:';
 	inLink.undoDefaultTitle = 'Undo default and use previous value:';
 	/* set link label states */
-	inLink.setDefaultLinkText = 'use&nbsp;default';
+	inLink.setDefaultLinkText = 'use default';
 	inLink.undoDefaultLinkText = 'undo';
 	
 	/* set defaults */
@@ -320,7 +320,7 @@ function tab(newTab) {
     if (!newTab) {
     	var anchorPattern = new RegExp(/#(.*)$/);
 		var matches = window.location.href.match(anchorPattern);
-		if (matches[1]) {
+		if (matches && matches[1]) {
 			newTab = matches[1];
 		} else {
 	    	newTab = curTab;
@@ -361,6 +361,16 @@ var rules = {
 		
 		el.onclick = function() {
 			tab(el.pointer);
+		}
+	},
+	'.configureExpert input' : function(el) {
+		el.onclick = function() {
+			toggleExpertsMode();
+		}
+	},
+	'.configureNotExpert input' : function(el) {
+		el.onclick = function() {
+			toggleExpertsMode();
 		}
 	}
 };

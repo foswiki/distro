@@ -22,55 +22,62 @@ sub open_html {
     my $depth = $section->getDepth();
     my $class = $section->isExpertsOnly() ? 'configureExpert' : '';
     my $id = $this->makeID( $section->{headline} );
-    my $guts = "<!-- $depth $id -->\n";
+    my $output = "<!-- $depth $id -->\n";
+
     if ($depth == 2) {
         # Major section == a tab
         my $mess = $this->collectMessages($section);
 
         # This opens a div
-        $guts .= $root->{controls}->openTab(
+        $output .= $root->{controls}->openTab(
             $id, $section->{headline}, $mess ? 1 : 0);
 
-        # Open a table
-        $guts .= "<table class='configureSectionContents' cols='2'>";
-
-        $guts .= "<tr><td colspan='2'><h2 class='firstHeader'>"
+        $output .= "<h2 class='firstHeader'>"
           . $section->{headline}
-            . "</h2></td></tr>\n";
+            . "</h2>\n";
+
         if ($section->{desc}) {
-            $guts .= "<tr><td colspan='2'>$section->{desc}</td></tr>";
+            $output .= $section->{desc} . "\n";
         }
         if ($mess) {
-            $guts .= "<tr><td colspan='2' class='foswikiAlert'>"
+            $output .= "<div class='foswikiAlert'>"
               .$mess
-                ."</td></tr>\n";
+                ."</div>\n";
         }
 
     } elsif ( $depth > 2 ) {
-        # A running section has no tab, just a header row
-        $guts .= "<tr><td colspan='2'><h$depth class='configureInlineHeading'>$section->{headline}</h$depth></td></tr>\n";
+        # A running section has no tab, just a header
+        $output .= "<h$depth class='configureInlineHeading'>$section->{headline}</h$depth>\n";
+        
+        if ($section->{desc}) {
+            $output .= $section->{desc} . "\n";
+        }
     }
+    $output .= startValues() if $section->hasValues();
 
-    if ( $depth > 2 && $section->{desc} ) {
-        # Put info text inside table row for visual consistency
-        $guts .= "<tr><td colspan='2'>$section->{desc}</td></tr>";
-    }
-
-    return $guts;
+    return $output;
 }
 
 sub close_html {
     my ( $this, $section, $root ) = @_;
     my $depth = $section->getDepth();
-    my $end = '';
+    my $output = '';
+    $output .= endValues() if $section->hasValues();
     my $id = $this->makeID( $section->{headline} );
     if ( $depth == 2 ) {
-    	$end .= "</table>";
         my $id = $this->makeID( $section->{headline} );
-        $end .= $root->{controls}->closeTab($id);
+        $output .= $root->{controls}->closeTab($id);
     }
-    $end .= "<!-- /$depth $id -->\n";
-    return $end;
+    $output .= "<!-- /$depth $id -->\n";
+    return $output;
+}
+
+sub startValues {
+    return "<table class='configureSectionContents' cols='2'>";
+}
+
+sub endValues {
+    return "</table>";
 }
 
 1;
