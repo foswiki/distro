@@ -303,7 +303,7 @@ var expertsMode = '';
 
 function toggleExpertsMode() {
     var antimode = expertsMode;
-    expertsMode = (antimode == '' ? 'none' : '');
+    expertsMode = (antimode == 'none' ? '' : 'none');
     var els = getElementsByClassName(document, 'configureExpert');
     for (var i = 0; i < els.length; i++) {
         els[i].style.display = expertsMode;

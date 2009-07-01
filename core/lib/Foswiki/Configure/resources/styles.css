@@ -31,12 +31,13 @@
 
 /* Settings and other stuff only shown in expert mode */
 .configureExpert {
-  background-color:#edc;
+  background: #edc;
+  border-left: 5pt solid #edc
 }
 
 /* Stuff *not* shown in expert mode */
 .configureNotExpert {
-  background-color:#edc;
+  background: #edc;
 }
 
 /* --- SECTION --- */
@@ -45,15 +46,17 @@
 	width:78%;
 	margin:0 0 1em 1%;
 }
+
 .configureSection p {
 	margin:0 0 1em 0;
 }
+
 /* --- TABLE ROWS & COLUMNS --- */
 table.configureSectionContents,
 table.configureNestedTable {
-	margin:1em 0;
-	border-collapse:collapse;
-	border-bottom:1px solid #d4e7f1;
+	margin: 1em 0;
+	border-collapse: collapse;
+	border-bottom: 1px solid #d4e7f1;
 }
 table.configureSectionContents {
 	width:100%;
@@ -61,22 +64,22 @@ table.configureSectionContents {
 table.configureSectionContents,
 table.configureSectionContents th,
 table.configureSectionContents td {
-	border-width:1px;
-	vertical-align:top;
+	border-width: 1px;
+	vertical-align: top;
 }
 table.configureSectionContents th {
-	font-weight:normal;
-	background:#e9f3f8;
+	font-weight: normal;
+	background: #e9f3f8;
 }
 table.configureSectionContents td {
-	background:#f5f9fc;
+	background: #f5f9fc;
 }
 table.configureSectionContents td,
 table.configureSectionContents th {
-	overflow:scroll;
-	padding:.25em 2em .25em 1em;
-	line-height:1.5em;
-	border-top:1px solid #d4e7f1;
+	overflow: scroll;
+	padding: .25em 2em .25em 1em;
+	line-height: 1.5em;
+	border-top: 1px solid #d4e7f1;
 }
 .configureInlineHeading {
 	
