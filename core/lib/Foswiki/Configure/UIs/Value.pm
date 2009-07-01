@@ -39,7 +39,7 @@ sub open_html {
 
     # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-    my $class = $isExpert ? 'expert' : 'newbie';
+    my $class = $isExpert ? 'configureExpert' : '';
     if ( $isUnused || !$isBroken && $value->{hidden} ) {
         $class = 'foswikiHidden';
     }
@@ -62,14 +62,12 @@ sub open_html {
             $Data::Dumper::Terse = 1;
             $defaultValue        = Dumper($defaultValue);
 
-            # create stubs for special characters, put them back with javascript
-            $defaultValue =~ s/'/#26;/g;
-            $defaultValue =~ s/"/#22;/g;
-            $defaultValue =~ s/\n/#13;/g;
+            # encode special characters, put them back in javascript
+            $defaultValue =~ s/(['"\n])/'#'.ord($1)/ge;
         }
 
         my $safeKeys = $keys;
-        $safeKeys =~ s/'/#26;/g;
+        $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
         $details .= <<HERE;
 <a onmouseover='Tip(getTip("Delta")+"$defaultValue ($value->{typename})")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} defaultValueLink foswikiSmall' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')">&delta;</a>
 HERE
@@ -84,12 +82,10 @@ HERE
         # Generate a prompter for the value.
         my $promptclass = $value->{typename};
         $promptclass .= ' foswikiMandatory' if ( $value->{mandatory} );
-        $control = CGI::span(
-            { class => $promptclass },
-            $type->prompt(
-                $keys, $value->{opts}, $root->{valuer}->currentValue($value)
-            )
-        );
+        $control = "<span class='$promptclass'>"
+          . $type->prompt(
+              $keys, $value->{opts}, $root->{valuer}->currentValue($value))
+                ."</span>";
     }
 
     my ($tipo, $tipc) = ('', '');
@@ -98,8 +94,12 @@ HERE
         $tipo = "<a onmouseover='Tip(getTip($tip))' onmouseout='UnTip()'>";
         $tipc = "</a>";
     }
-    
-    return CGI::Tr( { class => $class }, CGI::th( { class => "$keys $class" }, "$hiddenTypeOf$tipo$index$tipc" ) . CGI::td( "$tipo$control$tipc&nbsp;$details$check" ) );
+
+    $class = " class='$class'" if ($class);
+    return "<tr$class>"
+      ."<th$class>$hiddenTypeOf$tipo$index$tipc</th>"
+        ."<td>$tipo$control$tipc&nbsp;$details$check</td>"
+          ."</tr>";
 }
 
 sub close_html {

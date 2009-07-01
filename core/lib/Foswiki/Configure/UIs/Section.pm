@@ -30,24 +30,30 @@ sub open_html {
         # This opens a div
         $guts .= $root->{controls}->openTab(
             $id, $section->{headline}, $mess ? 1 : 0);
-        $guts .= '<h2 class="firstHeader">' . $section->{headline} . '</h2>';
+
+        # Open a table
+        $guts .= "<table class='configureSectionContents' cols='2'>";
+
+        $guts .= "<tr><td colspan='2'><h2 class='firstHeader'>"
+          . $section->{headline}
+            . "</h2></td></tr>\n";
         if ($section->{desc}) {
-            $guts .= $section->{desc};
+            $guts .= "<tr><td colspan='2'>$section->{desc}</td></tr>";
         }
         if ($mess) {
-            $guts .= "<div class='foswikiAlert'>$mess</div>\n";
+            $guts .= "<tr><td colspan='2' class='foswikiAlert'>"
+              .$mess
+                ."</td></tr>\n";
         }
-        # sections only
-        $guts .=  CGI::start_table( { class => 'configureSectionContents' } );
 
     } elsif ( $depth > 2 ) {
         # A running section has no tab, just a header row
-        $guts .= "<br class='foswikiClear' /><h$depth class='configureInlineHeading'>$section->{headline}</h$depth>\n";
+        $guts .= "<tr><td colspan='2'><h$depth class='configureInlineHeading'>$section->{headline}</h$depth></td></tr>\n";
     }
 
     if ( $depth > 2 && $section->{desc} ) {
         # Put info text inside table row for visual consistency
-        $guts .= $section->{desc};
+        $guts .= "<tr><td colspan='2'>$section->{desc}</td></tr>";
     }
 
     return $guts;
@@ -59,12 +65,11 @@ sub close_html {
     my $end = '';
     my $id = $this->makeID( $section->{headline} );
     if ( $depth == 2 ) {
-    	$end .= CGI::end_table();
+    	$end .= "</table>";
         my $id = $this->makeID( $section->{headline} );
         $end .= $root->{controls}->closeTab($id);
-    } else {
-        $end = "<!-- /$depth $id -->\n";
     }
+    $end .= "<!-- /$depth $id -->\n";
     return $end;
 }
 
