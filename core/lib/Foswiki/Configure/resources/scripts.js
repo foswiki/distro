@@ -299,11 +299,11 @@ function decode(v) {
                      });
 }
 
-var expertsMode = 'block';
+var expertsMode = '';
 
 function toggleExpertsMode() {
     var antimode = expertsMode;
-    expertsMode = (antimode == 'block' ? 'none' : 'block');
+    expertsMode = (antimode == '' ? 'none' : '');
     var els = getElementsByClassName(document, 'configureExpert');
     for (var i = 0; i < els.length; i++) {
         els[i].style.display = expertsMode;
