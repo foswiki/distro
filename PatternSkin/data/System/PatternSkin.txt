@@ -180,7 +180,7 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 |  History: | <!-- specify latest version first -->&nbsp; |
 |  18 Jan 2009: | v.4.0.2 - Fix printing with theme =theme_foswiki= and =column_right=. |
 |  17 Jan 2009: | v.4.0.1 - Fix reading of WEBHEADERART variable. |
-|  30 Nov 2008: | v.4.0.0 - Fosiki 1.0.0 RELEASE VERSION |
+|  30 Nov 2008: | v.4.0.0 - Foswiki 1.0.0 RELEASE VERSION |
 |  03 Aug 2008: | v.3.0.1 - TWiki 4.2.1 (Edinburgh) RELEASE VERSION |
 |  13 Jul 2007: | v.3.0.0 - TWiki 4.2.0 (Edinburgh) RELEASE VERSION |
 |  15 Jan 2006: | v.2.0.6 - TWiki 4.1.0 (Edinburgh) RELEASE VERSION |
