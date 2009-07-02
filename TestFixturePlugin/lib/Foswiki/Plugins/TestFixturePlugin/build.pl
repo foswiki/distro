@@ -8,7 +8,7 @@ BEGIN {
   }
 }
 
-use Fosiki::Contrib::Build;
+use Foswiki::Contrib::Build;
 
 # Create the build object
 $build = new Foswiki::Contrib::Build( 'TestFixturePlugin' );
