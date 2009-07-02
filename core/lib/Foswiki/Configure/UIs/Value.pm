@@ -76,9 +76,12 @@ sub open_html {
         } else {
             $defaultDisplayValue ||= '\"\"';
         }
-
+        $defaultValue =~ s/\'/\\'/go;
+        $defaultValue =~ s/\"/&quot;/go;
+        $defaultDisplayValue =~ s/'/\&amp;apos;/go;
+        $defaultDisplayValue =~ s/"/\&amp;quot;/go;
         $details .= <<HERE;
-<a href="#" onmouseover='Tip(getTip("Delta")+"<code>$defaultDisplayValue</code><br />of type $value->{typename}<br /><small>(after clicking you may undo this reset)</small>")' onmouseout='UnTip()' title='$defaultValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
+<a href="#" onmouseover='Tip(getTip("Delta")+"<code>$defaultDisplayValue</code><br />of type $value->{typename}<br /><small>(after clicking you may undo this reset)</small>")' onmouseout='UnTip()' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
 HERE
     }
 

@@ -134,26 +134,6 @@ function addLoadEvent (fn, prepend) {
         };
 }
 
-function initDeltaIndicators() {
-	var elems = getElementsByClassName(document.forms.update, 'delta' , 'A');	
-	var i, ilen = elems.length;
-	for (i = 0; i < ilen; ++i) {
-        var inElem = elems[i];
-        var value = decode(inElem.title);
-        var type = inElem.className.split(" ")[0];
-        var title = formatLinkValueInTitle(type, "default=", value);
-        inElem.title = title;
-    }
-}
-
-function initDefaultLinks() {
-	var elems = getElementsByClassName(document.forms.update, 'configureDefaultValueLink' , 'A');	
-	var i, ilen = elems.length;
-	for (i=0; i<ilen; ++i) {
-		initDefaultLink(elems[i]);
-	}
-}
-
 /**
 Initializes the 2 states of "reset to default" links.
 State 1: restore to default
@@ -372,13 +352,14 @@ var rules = {
 		el.onclick = function() {
 			toggleExpertsMode();
 		}
+	},
+	'a.configureDefaultValueLink' : function(el) {
+		initDefaultLink(el);
 	}
 };
 Behaviour.register(rules);
 
-addLoadEvent(tab);
 addLoadEvent(toggleExpertsMode);
-addLoadEvent(initDeltaIndicators);
-addLoadEvent(initDefaultLinks);
+addLoadEvent(tab);
 
 
