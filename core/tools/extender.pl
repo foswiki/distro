@@ -36,11 +36,11 @@ use File::Path;
 
 no warnings 'redefine';
 
-my $noconfirm  = 0;
-my $downloadOK = 0;
+my $noconfirm       = 0;
+my $downloadOK      = 0;
 my $alreadyUnpacked = 0;
-my $reuseOK    = 0;
-my $inactive   = 0;
+my $reuseOK         = 0;
+my $inactive        = 0;
 my $session;
 my %available;
 my $lwp;
@@ -189,16 +189,14 @@ sub remap {
 }
 
 sub compare_versions {
-    my ($a, $op, $b) = @_;
+    my ( $a, $op, $b ) = @_;
 
-	return 0 if not defined $op or not exists $STRINGOPMAP{$op};
+    return 0 if not defined $op or not exists $STRINGOPMAP{$op};
     my $string_op = $STRINGOPMAP{$op};
-	#print "|$a$op$b|=>";
-    #my $field_length = max_field_length($a, $b);
-    #$a = string_comparable_version($a, $field_length);
-    #$b = string_comparable_version($b, $field_length);
-	
-	my $largest_char = chr(255);
+
+    #print "|$a$op$b|=>";
+
+    my $largest_char = chr(255);
 
     # remove leading and trailing whitespace
     # because ' X' should compare equal to 'X'
@@ -207,22 +205,22 @@ sub compare_versions {
     $b =~ s/^\s+//;
     $b =~ s/\s+$//;
 
-	# $Rev$ without a number should compare higher than anything else
-	$a =~ s/^\$Rev:?\s*\$$/$largest_char/;
-	$b =~ s/^\$Rev:?\s*\$$/$largest_char/;
+    # $Rev$ without a number should compare higher than anything else
+    $a =~ s/^\$Rev:?\s*\$$/$largest_char/;
+    $b =~ s/^\$Rev:?\s*\$$/$largest_char/;
 
     # remove the SVN marker text from the version number, if it is there
     $a =~ s/^\$Rev: (\d+) \$$/$1/;
     $b =~ s/^\$Rev: (\d+) \$$/$1/;
 
-	# swap the day-of-month and year around for ISO dates
-	my $isoDatePattern = qr/^\d{1,2}-\d{1,2}-\d{4}$/;
-	if ($a =~ $isoDatePattern and $b =~ $isoDatePattern) {
-		$a =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
-		$b =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
-	}
-    
-    # Change separator characters to be the same, 
+    # swap the day-of-month and year around for ISO dates
+    my $isoDatePattern = qr/^\d{1,2}-\d{1,2}-\d{4}$/;
+    if ( $a =~ $isoDatePattern and $b =~ $isoDatePattern ) {
+        $a =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
+        $b =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
+    }
+
+    # Change separator characters to be the same,
     # because X-Y-Z should compare equal to X.Y.Z
     # and combine adjacent separators,
     # because '6  jun 2009' should compare equal to '6 jun 2009'
@@ -231,12 +229,14 @@ sub compare_versions {
     $b =~ s([ ./_-]+)($separator)g;
 
     # Replace month-names with numbers and swap day-of-month and year
-	# around to make them sortable as strings
+    # around to make them sortable as strings
     # but only do this if both versions look like a date
     my $datePattern = qr(\b\d{1,2}$separator$MNAME$separator\d{4}\b);
     if ( $a =~ $datePattern and $b =~ $datePattern ) {
-        $a =~ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
-        $b =~ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
+        $a =~
+s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
+        $b =~
+s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
     }
 
     # convert to lowercase
@@ -254,16 +254,15 @@ sub compare_versions {
 
     # work out how many characters there are in the longest sequence
     # of digits between the two versions
-    my ($maxDigits) = reverse sort(
-      map { length($_) }
-         ($a =~ /(\d+)/g),
-         ($b =~ /(\d+)/g),
-    );
+    my ($maxDigits) =
+      reverse
+      sort( map { length($_) } ( $a =~ /(\d+)/g ), ( $b =~ /(\d+)/g ), );
 
     # justify digit sequences so that they compare correctly.
     # E.g. '063' lt '103'
     $a =~ s/(\d+)/sprintf('%0'.$maxDigits.'u', $1)/ge;
     $b =~ s/(\d+)/sprintf('%0'.$maxDigits.'u', $1)/ge;
+
     # there is no need to justify non-digit sequences
     # because 'alpha' compares less than 'beta'
 
@@ -271,20 +270,23 @@ sub compare_versions {
     # so append a high-value character to the
     # non-beta version if one version looks like
     # a beta and the other does not
-    if ($a =~ /^$b$separator?beta/) {
+    if ( $a =~ /^$b$separator?beta/ ) {
+
         # $a is beta of $b
         # $b should compare greater than $a
         $b .= $largest_char;
     }
-    elsif ($b =~ /^$a$separator?beta/) {
+    elsif ( $b =~ /^$a$separator?beta/ ) {
+
         # $b is beta of $a
         # $a should compare greater than $b
         $a .= $largest_char;
     }
 
     my $comparison = "'$a' $string_op '$b'";
-    my $result = eval $comparison;
-	#print "[$comparison]->$result\n";
+    my $result     = eval $comparison;
+
+    #print "[$comparison]->$result\n";
     return $result;
 }
 
@@ -304,7 +306,7 @@ sub check_dep {
     # try to load the module
     my $module = $dep->{name};
     eval "require $module";
-    if ( $@ ) {
+    if ($@) {
         $ok = 0;
         ( $msg = $@ ) =~ s/ in .*$/\n/s;
         return ( $ok, $msg );
@@ -314,19 +316,20 @@ sub check_dep {
     {
         no strict 'refs';
         $moduleVersion = ${"${module}::VERSION"};
+
         # remove the SVN marker text from the version number, if it is there
         $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
     }
 
     # check if the version satisfies the prerequisite
-    if ( defined $dep->{version} and $dep->{version} ne '') {
+    if ( defined $dep->{version} and $dep->{version} ne '' ) {
 
         # the version field is in fact a condition
         if ( $dep->{version} =~ /^\s*(?:>=?)?\s*([0-9a-z._-]+)/ ) {
 
             # Condition is >0 or >= 1.3
             my $requiredVersion = $1;
-            if ( compare_versions($moduleVersion, '<', $requiredVersion) ) {
+            if ( compare_versions( $moduleVersion, '<', $requiredVersion ) ) {
 
                 # But module doesn't meet this condition
                 $msg = "$module version $requiredVersion required"
@@ -340,7 +343,7 @@ sub check_dep {
             # Condition is < 2.7
             my $requiredVersion = $1;
 
-            if ( compare_versions($moduleVersion, '>=', $requiredVersion) ) {
+            if ( compare_versions( $moduleVersion, '>=', $requiredVersion ) ) {
 
                 # But module doesn't meet this condition
                 $ok = 0;
@@ -711,12 +714,11 @@ sub unzip {
     my $archive = shift;
 
     eval 'require Archive::Zip';
-    if ( $@ ) {
-        my $zip           = Archive::Zip->new();
+    if ($@) {
+        my $zip = Archive::Zip->new();
         my $err = $zip->read($archive);
-        if ( $err ) {
-            print STDERR "Could not openzip file $archive ("
-              . $err . "\n";
+        if ($err) {
+            print STDERR "Could not openzip file $archive (" . $err . "\n";
             return 0;
         }
 
@@ -754,7 +756,7 @@ sub untar {
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
     eval 'require Archive::Tar';
-    if ( $@ ) {
+    if ($@) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
         unless ( $numberOfFiles > 0 ) {
@@ -871,9 +873,10 @@ sub _uninstall {
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
-        if (defined &Foswiki::preuninstall) {
+        if ( defined &Foswiki::preuninstall ) {
             Foswiki::preuninstall();
-        } elsif (defined &TWiki::preuninstall) {
+        }
+        elsif ( defined &TWiki::preuninstall ) {
             TWiki::preuninstall();
         }
         foreach $file ( keys %$MANIFEST ) {
@@ -881,9 +884,10 @@ sub _uninstall {
                 unlink($file);
             }
         }
-        if (defined &Foswiki::postuninstall) {
+        if ( defined &Foswiki::postuninstall ) {
             Foswiki::postuninstall();
-        } elsif (defined &TWiki::postuninstall) {
+        }
+        elsif ( defined &TWiki::postuninstall ) {
             TWiki::postuninstall();
         }
         print "### $MODULE uninstalled ###\n";
@@ -910,14 +914,16 @@ sub _emplace {
         print "Install $target, permissions $MANIFEST->{$file}->{perms}\n";
         unless ($inactive) {
             if ( -e $target ) {
-                # Save current permissions, remove write protect for Windows sake,  
-                # Back up the file and then restore the original permissions
-                my $mode = (stat($file))[2];
-                chmod( oct(600), "$target");
-                chmod( oct(600), "$target.bak") if ( -e "$target.bak");
+
+              # Save current permissions, remove write protect for Windows sake,
+              # Back up the file and then restore the original permissions
+                my $mode = ( stat($file) )[2];
+                chmod( oct(600), "$target" );
+                chmod( oct(600), "$target.bak" ) if ( -e "$target.bak" );
                 if ( File::Copy::move( $target, "$target.bak" ) ) {
-                    chmod( $mode, "$target.bak");
-                } else {
+                    chmod( $mode, "$target.bak" );
+                }
+                else {
                     print STDERR "Could not create $target.bak: $!\n";
                 }
             }
@@ -1043,21 +1049,25 @@ sub _install {
         {
             no strict 'refs';
             $moduleVersion = ${"${path}::VERSION"};
+
             # remove the SVN marker text from the version number, if it is there
             $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
         }
 
         if ($moduleVersion) {
             return 0
-              unless ask( "$MODULE version $moduleVersion is already installed."
-                  . " Are you sure you want to re-install this module?" );
+              unless ask(
+                          "$MODULE version $moduleVersion is already installed."
+                        . " Are you sure you want to re-install this module?"
+              );
             print "I will keep a backup of any files I overwrite.";
         }
     }
 
     if ($alreadyUnpacked) {
         print "Archive has already been unpacked.\n";
-    } else {
+    }
+    else {
         print "Fetching the archive for $path.\n";
         my $archive = getArchive($MODULE);
 
@@ -1065,9 +1075,10 @@ sub _install {
             print STDERR "Unable to locate suitable archive for install";
             return 0;
         }
-        if (defined &Foswiki::preinstall) {
+        if ( defined &Foswiki::preinstall ) {
             Foswiki::preinstall();
-        } elsif (defined &TWiki::preinstall) {
+        }
+        elsif ( defined &TWiki::preinstall ) {
             TWiki::preinstall();
         }
         my $tmpdir = unpackArchive($archive);
@@ -1082,7 +1093,8 @@ sub _install {
     }
     if ( defined &Foswiki::postinstall ) {
         Foswiki::postinstall();
-    } elsif( defined &TWiki::postinstall ) {
+    }
+    elsif ( defined &TWiki::postinstall ) {
         TWiki::postinstall();
     }
 
