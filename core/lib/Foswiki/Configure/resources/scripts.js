@@ -299,7 +299,7 @@ function tab(newTab) {
     var curTab = body.className;    
     if (!newTab) {
     	var anchorPattern = new RegExp(/#(.*)$/);
-		var matches = window.location.href.match(anchorPattern);
+		var matches = window.location.hash.match(anchorPattern);
 		if (matches && matches[1]) {
 			newTab = matches[1];
 		} else {
