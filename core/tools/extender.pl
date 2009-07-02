@@ -50,6 +50,28 @@ my $MODULE;
 my $PACKAGES_URL;
 my $MANIFEST;
 
+my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
+my $mnamess = join( '|', @MNAMES );
+my $MNAME   = qr/$mnamess/i;
+my %N2M;
+foreach ( 0 .. $#MNAMES ) { $N2M{ $MNAMES[$_] } = $_; }
+
+my %STRINGOPMAP = (
+    'eq' => 'eq',
+    'ne' => 'ne',
+    'lt' => 'lt',
+    'gt' => 'gt',
+    'le' => 'le',
+    'ge' => 'ge',
+    '='  => 'eq',
+    '==' => 'eq',
+    '!=' => 'ne',
+    '<'  => 'lt',
+    '>'  => 'gt',
+    '<=' => 'le',
+    '>=' => 'ge'
+);
+
 BEGIN {
     $installationRoot = Cwd::getcwd();
 
@@ -166,78 +188,103 @@ sub remap {
       } return $file;
 }
 
-sub max_field_length {
-    my $max_length = 1;
-    for my $number (@_) {
-        next unless defined $number;
-        foreach my $field ($number =~ /(\d+|\D+)/g) {
-            $max_length = length($field) if $max_length < length($field);
-        }
-    }
-    return $max_length;
-}
-
-
-# Convert a version number into a form that may be compared using a string comparison
-sub string_comparable_version {
-    my ($version_string, $field_length) = @_;
-    # version numbers have many possible forms. Here are some examples:
-    #    * 2.36_01        (Digest::MD5)
-    #    * 6.3.7          (Image::Magick)
-    #    * 6.2.4.5        (Image::Magick)
-    #    * $Rev: 4315 $   (WysiwygPlugin)
-    #    * 1.2.5a
-    #    * 1.2.4.5-beta1
-    #    * r123
-    #
-    # SMELL
-    # This function makes 1.2.4.5-beta1 compare larger than 1.2.4.5
-
-    $version_string = ' ' if not defined $version_string;
-
-    # set version to an arbitary high number if it's supposed to be some subversion revision
-    $version_string = 999999 if $version_string eq '$Rev$';
-
-    # remove the SVN marker text from the version number, if it is there
-    $version_string =~ s/^\$Rev: (\d+) \$$/$1/;
-    
-    # convert all multi-part version numbers to use the same separator .
-    # All non-letters and non-digits are considered separators
-    $version_string =~ s/(?:\W|_)/./g;
-
-    my $comparable = '';
-    foreach my $part (split /(\d+)/, $version_string)
-    {
-        if ($part =~ /^\d/) {
-            # Numbers are right-justified so that a string comparison produces the correct result
-            # e.g. 062 compares less than 103
-            $comparable .= sprintf('%0'.$field_length.'d', $part);
-        }
-        elsif ($part =~ /^\D/) {
-            # non-digit sequences are left-justified, and made uppercase
-            # so that "alpha" compares less than "beta ", and "cairo" less than "Dakar"
-            $comparable .= sprintf('%-'.$field_length.'s', uc($part));
-        }
-    }
-    return $comparable;
-}
-
 sub compare_versions {
     my ($a, $op, $b) = @_;
-    my $string_op = {
-        '='  => 'eq',
-        '<'  => 'lt',
-        '>'  => 'gt',
-        '<=' => 'le',
-        '>=' => 'ge'
-    }->{$op};
-    #print "|$a$op$b|=>";
-    my $field_length = max_field_length($a, $b);
-    $a = string_comparable_version($a, $field_length);
-    $b = string_comparable_version($b, $field_length);
+
+	return 0 if not defined $op or not exists $STRINGOPMAP{$op};
+    my $string_op = $STRINGOPMAP{$op};
+	#print "|$a$op$b|=>";
+    #my $field_length = max_field_length($a, $b);
+    #$a = string_comparable_version($a, $field_length);
+    #$b = string_comparable_version($b, $field_length);
+	
+	my $largest_char = chr(255);
+
+    # remove leading and trailing whitespace
+    # because ' X' should compare equal to 'X'
+    $a =~ s/^\s+//;
+    $a =~ s/\s+$//;
+    $b =~ s/^\s+//;
+    $b =~ s/\s+$//;
+
+	# $Rev$ without a number should compare higher than anything else
+	$a =~ s/^\$Rev:?\s*\$$/$largest_char/;
+	$b =~ s/^\$Rev:?\s*\$$/$largest_char/;
+
+    # remove the SVN marker text from the version number, if it is there
+    $a =~ s/^\$Rev: (\d+) \$$/$1/;
+    $b =~ s/^\$Rev: (\d+) \$$/$1/;
+
+	# swap the day-of-month and year around for ISO dates
+	my $isoDatePattern = qr/^\d{1,2}-\d{1,2}-\d{4}$/;
+	if ($a =~ $isoDatePattern and $b =~ $isoDatePattern) {
+		$a =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
+		$b =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
+	}
+    
+    # Change separator characters to be the same, 
+    # because X-Y-Z should compare equal to X.Y.Z
+    # and combine adjacent separators,
+    # because '6  jun 2009' should compare equal to '6 jun 2009'
+    my $separator = '.';
+    $a =~ s([ ./_-]+)($separator)g;
+    $b =~ s([ ./_-]+)($separator)g;
+
+    # Replace month-names with numbers and swap day-of-month and year
+	# around to make them sortable as strings
+    # but only do this if both versions look like a date
+    my $datePattern = qr(\b\d{1,2}$separator$MNAME$separator\d{4}\b);
+    if ( $a =~ $datePattern and $b =~ $datePattern ) {
+        $a =~ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
+        $b =~ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
+    }
+
+    # convert to lowercase
+    # because 'cairo' should compare less than 'Dakar'
+    $a = lc($a);
+    $b = lc($b);
+
+    # remove a leading 'v' if both are of the form X.Y
+    # because vX.Y should compare equal to X.Y
+    my $xDotYPattern = qr/^v?\s*\d+(?:$separator\d+)+/;
+    if ( $a =~ $xDotYPattern and $b =~ $xDotYPattern ) {
+        $a =~ s/^v\s*//;
+        $b =~ s/^v\s*//;
+    }
+
+    # work out how many characters there are in the longest sequence
+    # of digits between the two versions
+    my ($maxDigits) = reverse sort(
+      map { length($_) }
+         ($a =~ /(\d+)/g),
+         ($b =~ /(\d+)/g),
+    );
+
+    # justify digit sequences so that they compare correctly.
+    # E.g. '063' lt '103'
+    $a =~ s/(\d+)/sprintf('%0'.$maxDigits.'u', $1)/ge;
+    $b =~ s/(\d+)/sprintf('%0'.$maxDigits.'u', $1)/ge;
+    # there is no need to justify non-digit sequences
+    # because 'alpha' compares less than 'beta'
+
+    # X should compare greater than X-beta1
+    # so append a high-value character to the
+    # non-beta version if one version looks like
+    # a beta and the other does not
+    if ($a =~ /^$b$separator?beta/) {
+        # $a is beta of $b
+        # $b should compare greater than $a
+        $b .= $largest_char;
+    }
+    elsif ($b =~ /^$a$separator?beta/) {
+        # $b is beta of $a
+        # $a should compare greater than $b
+        $a .= $largest_char;
+    }
+
     my $comparison = "'$a' $string_op '$b'";
     my $result = eval $comparison;
-    #print "[$comparison]->$result\n";
+	#print "[$comparison]->$result\n";
     return $result;
 }
 
