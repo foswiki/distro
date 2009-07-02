@@ -3,21 +3,12 @@ package Foswiki::Configure::Checkers::Introduction;
 
 use strict;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Section ();
+our @ISA = ('Foswiki::Configure::Section');
 
-sub ui {
-    my ($this, $controls) = @_;
-    my $id = 'introduction';
-    my $block = $controls->openTab( $id, 'Introduction' );
-    $block .= Foswiki::getResource(
-        'intro.html',
-        SYSTEMWEB => $Foswiki::cfg{SystemWebName},
-        USERSWEB => $Foswiki::cfg{UsersWebName},
-        SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
-        SCRIPTSUFFIX => $Foswiki::cfg{ScriptSuffix},
-        ADMINGROUP => $Foswiki::cfg{SuperAdminGroup});
-    return $block."</div>";
+sub new {
+    my $class = shift;
+    return $class->SUPER::new('Introduction', 'NOLAYOUT');
 }
 
 1;

@@ -6,24 +6,26 @@ package Foswiki::Configure::GlobalControls;
 use strict;
 
 sub new {
-    my $class = shift;
+    my ($class, $groupid) = @_;
 
     my $this = bless( {
         tabs => [],
         tips => [],
+        groupid => $groupid,
     }, $class );
     return $this;
 }
 
 sub openTab {
-    my ($this, $id, $text, $alert) = @_;
-    push(@{$this->{tabs}}, { id => $id, text => $text, alert => $alert });
+    my ($this, $id, $opts, $text, $alert) = @_;
+    push(@{$this->{tabs}}, {
+        id => $id, opts => $opts || '', text => $text, alert => $alert });
     return "<div id='${id}_body' class='foswikiMakeHidden configureSection'><a name='${id}'></a>\n";
 }
 
 sub closeTab {
     my ($this, $id) = @_;
-    return "</div><!--/$id tab-->\n";
+    return "</div><!--/#${id}_body-->\n";
 }
 
 sub _nbsp {
@@ -33,21 +35,25 @@ sub _nbsp {
 }
 
 sub generateTabs {
-    my $this = shift;
-    
+    my ($this, $depth) = @_;
+
     # Load the CSS from resources, embedding the expansion of the tabs
-    my @tabLi = map { "body.$_->{id} li.tabId_$_->{id} a" } @{$this->{tabs}};
+    my $controllerType = $depth > 1 ? 'div' : 'body';
+    my @tabLi = map { "$controllerType.$_->{id} li.tabId_$_->{id} a" } @{$this->{tabs}};
     my $css = "<style type='text/css'>".Foswiki::getResource(
         'tabs.css',
         TABLI  => join(',', @tabLi),
         TABLIA => join(',', map { "$_ a" } @tabLi))
       .'</style>';
-      
-    my $tabs = "<ul class='configureNavigation'>\n";
+
+    my $ulClass = $depth > 1 ? 'configureSubTab' : 'configureRootTab';
+    my $tabs = "<ul class='$ulClass'>\n";
     foreach my $tab ( @{$this->{tabs}} ) {
+        my $href = $depth > 1 ? '' : " href='#$tab->{id}'";
+        my $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : '');
         my $alertClass = $tab->{alert} ? " class='warn'" : '';
-        $tabs .= "<li class='tabli tabId_$tab->{id}'>"
-          . "<a$alertClass href='#$tab->{id}'>"
+        $tabs .= "<li class='tabli tabGroup_$this->{groupid} tabId_$tab->{id}$expertClass'>"
+          . "<a$alertClass$href>"
             . _nbsp($tab->{text}) . "</a></li>\n";
     }
     $tabs .= "</ul>\n";

@@ -23,7 +23,6 @@ sub new {
     Carp::confess unless $item;
 
     my $this = bless( { item => $item }, $class );
-    $this->{item} = $item;
 
     $FindBin::Bin =~ /(.*)/;
     $this->{bin} = $1;
@@ -67,7 +66,7 @@ sub loadUI {
     $id = 'Foswiki::Configure::UIs::' . $id;
     my $ui;
 
-    eval "use $id; \$ui = new $id(\$item);";
+    eval "use $id (); \$ui = new $id(\$item);";
 
     return if ( !$ui && $@ );
 
@@ -244,6 +243,73 @@ sub _encode {
         $saltchars[ int( rand( $#saltchars + 1 ) ) ]
       . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
     return crypt( $pass, $salt );
+}
+
+# Return a string of settingBlocks giving the status of various
+# required modules.
+# Either takes an array of hashes, or parameters in a hash.
+# Each module hash needs:
+# name - e.g. Car::Wreck
+# usage - description of what it's for
+# dispostion - 'required', 'recommended'
+# minimumVersion - lowest acceptable $Module::VERSION
+#
+sub checkPerlModules {
+    my $this = shift;
+    my $mods;
+    if ( ref( $_[0] ) eq 'ARRAY' ) {
+        $mods = $_[0];
+    }
+    else {
+        $mods = [ {@_} ];
+    }
+
+    my $e = '';
+    foreach my $mod (@$mods) {
+        $mod->{minimumVersion} ||= 0;
+        $mod->{disposition}    ||= '';
+        my $n = '';
+        my $mod_version;
+
+        # require instead of use = see Bugs:Item4585
+        eval 'require ' . $mod->{name};
+        if ($@) {
+            $n = 'Not installed. ' . $mod->{usage};
+        }
+        else {
+            no strict 'refs';
+            eval '$mod_version = $' . $mod->{name} . '::VERSION';
+            $mod_version ||= 0;
+            $mod_version =~ s/(\d+(\.\d*)?).*/$1/;    # keep 99.99 style only
+            use strict 'refs';
+            if ( $mod_version < $mod->{minimumVersion} ) {
+                $n = $mod_version || 'Unknown version';
+                $n .=
+                    ' installed. Version '
+                  . $mod->{minimumVersion} . ' '
+                  . $mod->{disposition};
+                $n .= ' ' . $mod->{usage} if $mod->{usage};
+            }
+        }
+        if ($n) {
+            if ( $mod->{disposition} eq 'required' ) {
+                $n = $this->ERROR($n);
+            }
+            elsif ( $mod->{disposition} eq 'recommended' ) {
+                $n = $this->WARN($n);
+            }
+            else {
+                $n = $this->NOTE($n);
+            }
+        }
+        else {
+            $mod_version ||= 'Unknown version';
+            $n = $this->NOTE( $mod_version . ' installed' );
+            $n .= ' Desc: ' . $mod->{usage} if $mod->{usage};
+        }
+        $e .= $this->setting( $mod->{name}, $n );
+    }
+    return $e;
 }
 
 1;

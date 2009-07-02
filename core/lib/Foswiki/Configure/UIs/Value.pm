@@ -116,9 +116,8 @@ HERE
 }
 
 sub close_html {
-    my ( $this, $value, $root ) = @_;
-    
-    return '';
+    my ( $this, $value, $root, $output ) = @_;
+    return $output;
 }
 
 1;

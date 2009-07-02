@@ -294,10 +294,9 @@ function toggleExpertsMode() {
     }
 }
 
-function tab(newTab) {
-    var body = document.getElementsByTagName('body')[0];
-    var curTab = body.className;    
+function tab(group, newTab) {
     if (!newTab) {
+        group = 'Root';
     	var anchorPattern = new RegExp(/#(.*)$/);
 		var matches = window.location.hash.match(anchorPattern);
 		if (matches && matches[1]) {
@@ -306,7 +305,9 @@ function tab(newTab) {
 	    	newTab = curTab;
 	    }
     }
-    body.className = newTab;
+    var controller = document.getElementById(group);
+    var curTab = controller.className;    
+    controller.className = newTab;
     var currentTabBody = document.getElementById(curTab + '_body');    
     foswiki.CSS.addClass(currentTabBody, 'foswikiMakeHidden');
     var newTabBody = document.getElementById(newTab + '_body');
@@ -321,7 +322,8 @@ function getTip(idx) {
         return "LOST TIP "+idx;
 }
 
-var tabIdPattern = new RegExp(/\btabId_(.*?)\b/);
+var tabIdPattern = new RegExp(/\btabId_(\S+)/);
+var tabGroupPattern = new RegExp(/\btabGroup_(\S+)/);
 
 var rules = {
 	'.tabli' : function(el) {
@@ -332,15 +334,19 @@ var rules = {
 		tabId_Introduction
 		
 		... points to id Introduction.
-		The new property 'pointer' is set to that id.
+		The property 'tab_id' is set to that id.
 		*/
 		var matches = el.className.match(tabIdPattern);
-		if (matches[1]) {
-			el.pointer = matches[1];
+		if (matches && matches[1]) {
+			el.tab_id = matches[1];
+		}
+        matches = el.className.match(tabGroupPattern);
+		if (matches && matches[1]) {
+			el.tab_group = matches[1];
 		}
 		
 		el.onclick = function() {
-			tab(el.pointer);
+			tab(el.tab_group, el.tab_id);
 		}
 	},
 	'.configureExpert input' : function(el) {

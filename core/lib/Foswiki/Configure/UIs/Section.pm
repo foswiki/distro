@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 #
-# A UI for a collection object, designed so the objects can be twisted.
-# The UI is implemented by visiting the nodes of the configuration and
-# invoking the open-html and close_html methods for each node. The
-# layout of a configuration page is depth-sensitive, so we have slightly
-# different behaviours for each of level 0 (the root), level 1 (twisty
+# A UI for a collection object.
+# The layout of a configuration page is depth-sensitive, so we have slightly
+# different behaviours for each of level 0 (the root), level 1 (tab
 # sections) and level > 1 (subsection).
 package Foswiki::Configure::UIs::Section;
 
@@ -13,9 +11,9 @@ use strict;
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 
-# depth == 1 is the root
-# depth == 2 are twisty sections
-# depth > 2 are subsections
+# Sections are of two types; "plain" and "tabbed". A plain section formats
+# all its subsections inline, in a table. A tabbed section formats all its
+# subsections as tabs.
 sub open_html {
     my ( $this, $section, $root ) = @_;
 
@@ -24,60 +22,95 @@ sub open_html {
     my $id = $this->makeID( $section->{headline} );
     my $output = "<!-- $depth $id -->\n";
 
-    if ($depth == 2) {
-        # Major section == a tab
-        my $mess = $this->collectMessages($section);
+    if ($section->{parent}) {
+        if ($section->{parent}->{opts} =~ /TABS/) {
+            # this is a tab within a tabbed page
 
-        # This opens a div
-        $output .= $root->{controls}->openTab(
-            $id, $section->{headline}, $mess ? 1 : 0);
+            # See what errors and warnings exist in the tab
+            my $mess = $this->collectMessages($section);
 
-        $output .= "<h2 class='firstHeader'>"
-          . $section->{headline}
-            . "</h2>\n";
+            $section->{parent}->{controls} ||=
+              new Foswiki::Configure::GlobalControls(
+                  $this->makeID( $section->{parent}->{headline} || 'Root' ));
 
-        if ($section->{desc}) {
-            $output .= $section->{desc} . "\n";
-        }
-        if ($mess) {
-            $output .= "<div class='foswikiAlert'>"
-              .$mess
-                ."</div>\n";
-        }
+            $output .= $section->{parent}->{controls}->openTab(
+                $id, $section->{opts}, $section->{headline}, $mess ? 1 : 0);
 
-    } elsif ( $depth > 2 ) {
-        # A running section has no tab, just a header
-        $output .= "<h$depth class='configureInlineHeading'>$section->{headline}</h$depth>\n";
-        
-        if ($section->{desc}) {
-            $output .= $section->{desc} . "\n";
+            $output .= "<h2 class='firstHeader'>"
+              . $section->{headline}
+                . "</h2>\n";
+
+            if ($mess) {
+                $output .= "<div class='foswikiAlert'>"
+                  .$mess
+                    ."</div>\n";
+            }
+
+            if ($section->{desc}) {
+                $output .= $section->{desc} . "\n";
+            }
+        } elsif ($section->{parent}->{opts} =~ /NOLAYOUT/) {
+            $output .= "<h2 class='firstHeader'>"
+              . "NOLAYOUT ". $section->{headline}
+                . "</h2>\n";
+        } else {
+            # This is a new sub section within a running head section.
+            $output .=
+              "<tr><td colspan='2'><h$depth class='configureInlineHeading'>"
+                . $section->{headline} . "</h$depth>\n";
+
+            if ($section->{desc}) {
+                $output .= $section->{desc};
+            }
+
+            $output .= "</td></tr>\n";
         }
     }
-    $output .= startValues() if $section->hasValues();
+
+    if ($section->{opts} =~ /TABS/) {
+        ; # Start a new tabbed section
+    } elsif ($section->{opts} =~ /NOLAYOUT/) {
+        ; # Start a new tabbed section
+    } else {
+        # plain section; open values table
+        $output .= "<table class='configureSectionContents' cols='2'>";
+    }
 
     return $output;
 }
 
 sub close_html {
-    my ( $this, $section, $root ) = @_;
+    my ( $this, $section, $root, $output ) = @_;
+
     my $depth = $section->getDepth();
-    my $output = '';
-    $output .= endValues() if $section->hasValues();
     my $id = $this->makeID( $section->{headline} );
-    if ( $depth == 2 ) {
-        my $id = $this->makeID( $section->{headline} );
-        $output .= $root->{controls}->closeTab($id);
+
+    if ($section->{opts} =~ /TABS/) {
+        # Generate the tab controls at this level (the tabs themselves
+        # have already been generated as hidden divs). We have to put the
+        # generated tabs at the *top* of the section
+        $output = "<div class='' id='$id'>"
+          . $section->{controls}->generateTabs($depth)
+            . $output
+              ."</div>";
+    } elsif ($section->{opts} =~ /NOLAYOUT/) {
+        ; # Nothing to do
+    } else {
+        # Close plain section
+        $output .= "</table>";
+    }
+
+    return $output unless $section->{parent}; # root
+
+    if ( $section->{parent}->{opts} =~ /TABS/ ) {
+        # close a tab, ready for the next one
+        $output .= $section->{parent}->{controls}->closeTab($id);
+    } else {
+        ; # nothing special to do if the parent was plain or NOLAYOUT
     }
     $output .= "<!-- /$depth $id -->\n";
+
     return $output;
-}
-
-sub startValues {
-    return "<table class='configureSectionContents' cols='2'>";
-}
-
-sub endValues {
-    return "</table>";
 }
 
 1;

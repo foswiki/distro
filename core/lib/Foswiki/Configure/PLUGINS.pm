@@ -17,7 +17,7 @@ my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
 sub new {
     my ($class) = @_;
 
-    my $this = $class->SUPER::new('Installed Plugins');
+    my $this = $class->SUPER::new('Enable Plugins');
     my %modules;
     my $classes      = $scanner->findClasses('Foswiki::Plugins::*Plugin');
     my $twikiclasses = $scanner->findClasses('TWiki::Plugins::*Plugin');

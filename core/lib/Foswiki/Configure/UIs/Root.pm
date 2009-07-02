@@ -20,10 +20,9 @@ sub new {
 # Visit the nodes in a tree of configuration items, and generate
 # their UIs.
 sub ui {
-    my ( $this, $tree, $valuer, $controls ) = @_;
+    my ( $this, $tree, $valuer ) = @_;
 
     $this->{valuer} = $valuer;
-    $this->{controls} = $controls;
     $this->{output} = '';
     @{ $this->{stack} } = ();
     $tree->visit($this);
@@ -49,9 +48,7 @@ sub endVisit {
     $this->{output} =
         pop( @{ $this->{stack} } )
       . $ui->open_html( $item, $this )
-      . $this->{output}
-      .    # only used for sections
-      $ui->close_html( $item, $this );
+      . $ui->close_html( $item, $this, $this->{output} );
     return 1;
 }
 

@@ -10,12 +10,12 @@ use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');
 
 sub new {
-    my ( $class, $head ) = @_;
+    my ( $class, $head, $opts ) = @_;
 
-    # SMELL: What is the base object supposed to do with the UI class?
-    my $this = $class->SUPER::new('Foswiki::Configure::UIs::Section');
-
+    my $this = $class->SUPER::new();
     $this->{headline} = $head;
+    $this->{opts} = $opts || '';
+
     @{ $this->{children} } = ();
 
     return $this;
@@ -54,6 +54,7 @@ sub visit {
         }
         $visited{$child} = 1;
         return 0 unless $child->visit($visitor);
+
     }
     return 0 unless $visitor->endVisit($this);
     return 1;
@@ -72,26 +73,27 @@ sub getDepth {
 
 sub hasValues {
     my ( $this ) = @_;
-    
-    return 0 if !(length @{ $this->{children} });
-    my $hasValues = 0;
+
     foreach my $kid ( @{ $this->{children} } ) {
-        if ( $kid->isa('Foswiki::Configure::Value') ) {
-            $hasValues = 1;
+        if ( $kid->isa( 'Foswiki::Configure::Value' )) {
+            return 1;
+        } elsif ( $kid->can( 'hasValues' )) {
+            ;#return 1 if $kid->hasValues();
+        } else {
+            die $kid; # WTF?
         }
-        last;
     }
-    return $hasValues;
+    return 0;
 }
 
 # Get the section object associated with the given headline and depth
 sub getSectionObject {
-    my ( $this, $head, $depth ) = @_;
+    my ( $this, $head, $depth, $opts ) = @_;
     if ( $this->{headline} eq $head && $this->getDepth() == $depth ) {
         return $this;
     }
     foreach my $child ( @{ $this->{children} } ) {
-        my $cvo = $child->getSectionObject( $head, $depth );
+        my $cvo = $child->getSectionObject( $head, $depth, $opts );
         return $cvo if $cvo;
     }
     return;

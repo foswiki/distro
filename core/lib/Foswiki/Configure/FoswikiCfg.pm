@@ -8,19 +8,21 @@
 #
 # cfg ::= ( setting | section | extension )* ;
 # setting ::= BOL typespec EOL comment* BOL def ;
-# typespec ::= "# **" id options "**" ;
+# typespec ::= "# **" typeid options "**" ;
 # def ::= "$" ["Foswiki::"] "cfg" keys "=" value ";" ;
 # keys ::= ( "{" id "}" )+ ;
 # value is any perl value not including ";"
 # comment ::= BOL "#" string EOL ;
-# section ::= BOL "#--++" string EOL comment* ;
+# section ::= BOL "#--+" string ( "--" options )? EOL comment* ;
 # extension ::= BOL " *" id "*"
 # EOL ::= end of line
 # BOL ::= beginning of line
+# typeid ::= id ;
 # id ::= a \w+ word (legal Perl bareword)
 #
-# * A *section* is simply a divider used to create foldable blocks. It can
-#   have varying depth depending on the number of + signs
+# * A *section* is simply a divider used to create blocks. It can
+#   have varying depth depending on the number of + signs and may have
+#   options after -- e.g. #---+ Section -- TABS EXPERT
 # * A *setting* is the sugar required for the setting of a single
 #   configuration value.
 # * An *extension* is a pluggable UI extension that supports some extra UI
@@ -34,17 +36,18 @@
 # subclass of Foswiki::Configure::Type - see that class for more details of
 # what is supported.
 #
-# A *def* is a specification of a field in the $Foswiki::cfg hash, together with
-# a perl value for that hash. Each field can have an associated *Checker*
-# which is loaded from the Foswiki::Configure::Checkers hierarchy. Checkers
-# are responsible for specific checks on the value of that variable. For
-# example, the checker for $Foswiki::cfg{Banana}{Republic} will be expected
-# to be found in Foswiki::Configure::Checkers::Banana::Republic.
+# A *def* is a specification of a field in the $Foswiki::cfg hash,
+# together with a perl value for that hash. Each field can have an
+# associated *Checker* which is loaded from the Foswiki::Configure::Checkers
+# hierarchy. Checkers are responsible for specific checks on the value of
+# that variable. For example, the checker for $Foswiki::cfg{Banana}{Republic}
+# will be expected to be found in
+# Foswiki::Configure::Checkers::Banana::Republic.
 # Checkers are subclasses of Foswiki::Configure::Checker. See that class for
 # more details.
 #
-# An *extension* is a placeholder for a pluggable UI module.
-#
+# An *extension* is a placeholder for a pluggable UI module (a class in
+# Foswiki::Configure::Checkers::UIs)
 package Foswiki::Configure::FoswikiCfg;
 
 use strict;
@@ -134,8 +137,12 @@ sub _extractSections {
 
     foreach my $item (@$settings) {
         if ( $item->isa('SectionMarker') ) {
-            my $ns =
-              $root->getSectionObject( $item->{head}, $item->{depth} + 1 );
+            my $opts = '';
+            if ($item->{head} =~ s/^(.*?)\s*--\s*(.*?)\s*$/$1/) {
+                $opts = $2;
+            }
+            my $ns = $root->getSectionObject(
+                $item->{head}, $item->{depth} + 1, $opts );
             if ($ns) {
                 $depth = $item->{depth};
             }
@@ -150,7 +157,7 @@ sub _extractSections {
                     $section = $ns;
                     $depth++;
                 }
-                $ns = new Foswiki::Configure::Section( $item->{head} );
+                $ns = new Foswiki::Configure::Section( $item->{head}, $opts );
                 $ns->{desc} = $item->{desc};
                 $section->addChild($ns);
                 $depth++;

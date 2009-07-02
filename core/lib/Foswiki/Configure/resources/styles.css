@@ -35,10 +35,16 @@ table.configureSectionContents th.configureExpert {
 	color:#7a6210;
 }
 
+li.configureExpert { /* menu item */
+  border-left:5px solid #bb9a29;
+  color:#7a6210;
+}
+
 /* Stuff *not* shown in expert mode */
 .configureNotExpert {}
 
 /* --- SECTION --- */
+
 .configureSections {}
 .configureSection {
 	float:right;
@@ -47,6 +53,11 @@ table.configureSectionContents th.configureExpert {
 }
 
 /* --- TABLE ROWS & COLUMNS --- */
+/*
+.configureSectionContents is the contents of the table in a tab.
+A th under it is the first column (keys) and a td is the second column
+(value)
+*/
 table.configureSectionContents,
 table.configureNestedTable {
 	margin:1em 0;
@@ -79,11 +90,11 @@ table.configureSectionContents th {
 	line-height:1.5em;
 	border-top:1px solid #d4e7f1;
 }
+
 .configureInlineHeading {}
 table.configureSectionContents p {
 	margin:0 0 1em 0;
 }
-
 
 /* --- TABS --- */
 .configureTabBodyHidden { 
@@ -94,6 +105,67 @@ table.configureSectionContents p {
   display:block;
   width:100%;
   margin:0;
+}
+
+ul.configureRootTab {
+	float:left;
+	list-style-type: none;
+	margin:0 0 2em 0;
+	padding:0;
+	width:20%;
+	border-top:1px solid #d4e7f1;
+	border-bottom:1px solid #d4e7f1;
+}
+
+ul.configureRootTab li a {
+	display:block;
+	padding:.25em 1em;
+	text-decoration:none;
+	border-right:1px solid #d4e7f1;
+	border-left:1px solid #d4e7f1;
+}
+
+ul.configureRootTab li a:hover {
+	background-color:#d4e7f1;
+	color:#1869a2;
+}
+
+ul.configureRootTab li a em {
+	font-style:normal;
+}
+
+ul.configureSubTab {
+  text-align: left;
+  margin: 1em 0 1em 0;
+  font-weight: bold;
+  list-style-type: none;
+  padding: 3px 10px 3px 10px;
+  line-height: 28px;
+}
+
+ul.configureSubTab li {
+  display: inline;
+}
+
+/* basic settings for all tab links */
+ul.configureSubTab li a {
+  padding: 3px 4px;
+  border: 1px solid #ddd;
+  background-color: #ddd; /* unselected tab background */
+  color: #999;            /* unselected tab text */
+  margin-right: 5px;      /* additional spacing between tabs */
+  text-decoration: none;
+  border-style: outset;
+}
+
+/* Unselected but there are errors or warnings */
+ul.configureSubTab li a.configureWarn {
+  color: #f88; /* pink */
+}
+
+/* Hover effect */
+ul.configureSubTab a:hover {
+  background: #fff; /* set desired hover color */
 }
 
 /* WARN and ERROR */

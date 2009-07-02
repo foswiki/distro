@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::ScriptDir;
+package Foswiki::Configure::Checkers::ToolsDir;
 
 use strict;
 
