@@ -51,7 +51,7 @@ my $OS = $Foswiki::cfg{OS} || '';
 # port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
-# **PATH M**
+# **URLPATH M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
@@ -59,6 +59,11 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # See http://foswiki.org/Support.ShorterUrlCookbook for more information on setting up
 # Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
+
+# **PATH M**
+# This is the file system path used to access the Foswiki bin
+# directory.
+# $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
 # **URLPATH M**
 # Attachments URL path e.g. /foswiki/pub
@@ -73,12 +78,16 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
 # **PATH M**
-# Template directory e.g. /usr/local/foswiki/templates
-# $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
-
-# **PATH M**
 # Topic files store (file path, not URL) e.g. /usr/local/foswiki/data
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
+
+# **PATH M**
+# Tools directory e.g. /usr/local/foswiki/tools
+# $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
+
+# **PATH M**
+# Template directory e.g. /usr/local/foswiki/templates
+# $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
 # **PATH M**
 # Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locale
@@ -406,6 +415,7 @@ $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 # the User Mapping module whether to map login names to wikinames or not
 # (if it supports mappings, that is).
 $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
+
 #---++ Path
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep and rcs.
@@ -1141,7 +1151,7 @@ $Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-#---+ Miscellaneous
+#---+ Miscellaneous -- EXPERT
 # Miscellaneous expert options; select "Show EXPERT Options" to see the
 # available settings.
 
@@ -1276,7 +1286,7 @@ $Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_and', 'Foswiki::Query::O
 # configure UI.
 $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defined', 'Foswiki::If::OP_isempty','Foswiki::If::OP_ingroup', 'Foswiki::If::OP_isweb', 'Foswiki::If::OP_context', 'Foswiki::If::OP_dollar', 'Foswiki::If::OP_istopic' ];
 
-#---+ Extensions
+#---+ Extensions -- TABS
 # *PLUGINS* Marker used by bin/configure script - do not remove!
 # The plugins listed below were discovered by searching the <code>@INC</code>
 # path for modules that match the Foswiki standard e.g. 
@@ -1307,11 +1317,6 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
 
-# **PERL H**
-# Search path (web names) for plugin topics. Note that the session web
-# is always searched last.
-$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
-
 # **STRING 80**
 # Plugins evaluation order. If set to a comma-separated list of plugin names,
 # will change the execution order of plugins so the listed subset of plugins
@@ -1319,7 +1324,13 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # name.
 $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 
+# **STRING 80 EXPERT**
+# Search path (web names) for plugin topics. Note that the session web
+# is searched last, after this list.
+$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
+
 # *FINDEXTENSIONS*
+
 # **STRING 80 EXPERT**
 # <b>Extensions Repositories Search List</b><br />
 # Foswiki extension repositories are just Foswiki webs that are organised in the
