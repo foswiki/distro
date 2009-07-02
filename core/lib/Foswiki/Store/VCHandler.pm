@@ -134,6 +134,8 @@ sub mkPathTo {
 
     $file = Foswiki::Sandbox::untaintUnchecked($file);
 
+    ASSERT(File::Spec->file_name_is_absolute($file)) if DEBUG;
+
     my ( $volume, $path, undef ) = File::Spec->splitpath( $file );
     $path = File::Spec->catpath( $volume, $path, '' );
 
