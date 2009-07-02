@@ -319,7 +319,7 @@ sub check_dep {
     }
 
     # check if the version satisfies the prerequisite
-    if ( defined $dep->{version} ) {
+    if ( defined $dep->{version} and $dep->{version} ne '') {
 
         # the version field is in fact a condition
         if ( $dep->{version} =~ /^\s*(?:>=?)?\s*([0-9a-z._-]+)/ ) {
