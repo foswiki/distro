@@ -203,7 +203,12 @@ sub test_check_dep_version_with_underscore {
 sub test_compare_versions {
     my ($this) = @_;
 
+    # Each tuple describes one version comparison and the expected result
+    # The first value is the expected result. 1 means "true" and 0 means "false.
+    # The second and fourth values are the versions to compare.
+    # The third value is the comparison operator as a string.
     my @comparisons = (
+        # Plain integer versions
         [1, 2, '<',  10],
         [1, 2, '<=', 10],
         [0, 2, '>',  10],
@@ -234,6 +239,8 @@ sub test_compare_versions {
         [1, 2, '>=', 2],
         [1, 2, '=',  2],
 
+        # trailing and leading spaces should not affect 
+        # the value of a version nuumber
         [1, ' 2',  '=',  2],
         [1, '2 ',  '=',  2],
         [1, ' 2 ', '=',  2],
@@ -247,6 +254,7 @@ sub test_compare_versions {
         [1, '2 ',  '=',  ' 2 '],
         [1, ' 2 ', '=',  ' 2 '],
 
+        # SVN-style revision numbers should be treated like integers
         [1, '$Rev: 2 $', '<',  10],
         [1, '$Rev: 2 $', '<=', 10],
         [0, '$Rev: 2 $', '>',  10],
@@ -265,54 +273,64 @@ sub test_compare_versions {
         [1, '$Rev: 2 $', '>=', 2],
         [1, '$Rev: 2 $', '=',  2],
 
+        # compare X.Y and X
         [1, 1.1, '<',  2],
         [1, 1.1, '<=', 2],
         [0, 1.1, '>',  2],
         [0, 1.1, '>=', 2],
         [0, 1.1, '=',  2],
 
+        # compare X.Y and X.Y.Z
         [1, 1.1, '<',  '1.2.1'],
         [1, 1.1, '<=', '1.2.1'],
         [0, 1.1, '>',  '1.2.1'],
         [0, 1.1, '>=', '1.2.1'],
         [0, 1.1, '=',  '1.2.1'],
 
+        # Versions with _ 
         [1, '2.36_04', '<',  '2.36_10'],
         [1, '2.36_04', '<=', '2.36_10'],
         [0, '2.36_04', '>',  '2.36_10'],
         [0, '2.36_04', '>=', '2.36_10'],
         [0, '2.36_04', '=',  '2.36_10'],
 
+        # Letters in the version number
         [1, '1.2.4.5-beta1', '<',  '1.2.4.5-beta2'],
         [1, '1.2.4.5-beta1', '<=', '1.2.4.5-beta2'],
         [0, '1.2.4.5-beta1', '>',  '1.2.4.5-beta2'],
         [0, '1.2.4.5-beta1', '>=', '1.2.4.5-beta2'],
         [0, '1.2.4.5-beta1', '=',  '1.2.4.5-beta2'],
 
+        # Special case: beta versions are less than non-beta versions
         [1, '1.2.4.5-beta1', '<',  '1.2.4.5'],
         [1, '1.2.4.5-beta1', '<=', '1.2.4.5'],
         [0, '1.2.4.5-beta1', '>',  '1.2.4.5'],
         [0, '1.2.4.5-beta1', '>=', '1.2.4.5'],
         [0, '1.2.4.5-beta1', '=',  '1.2.4.5'],
 
+        # Letters in the version number
         [1, '1.2.5', '<',  '1.2.5a'],
         [1, '1.2.5', '<=', '1.2.5a'],
         [0, '1.2.5', '>',  '1.2.5a'],
         [0, '1.2.5', '>=', '1.2.5a'],
         [0, '1.2.5', '=',  '1.2.5a'],
 
+        # compare vX.Y with X.Y
         [1, 'v1.2', '<',  '2.2'],
         [1, 'v1.2', '<=', '2.2'],
         [0, 'v1.2', '>',  '2.2'],
         [0, 'v1.2', '>=', '2.2'],
         [0, 'v1.2', '=',  '2.2'],
         
+        # Presence or absence of leading v
+        # makes no difference to the value of X.Y version numbers
         [0, 'v1.2', '<',  '1.2'],
         [1, 'v1.2', '<=', '1.2'],
         [0, 'v1.2', '>',  '1.2'],
         [1, 'v1.2', '>=', '1.2'],
         [1, 'v1.2', '=',  '1.2'],
 
+        # dd Mmm yyyy dates
         [1, '1 Jan 2009',  '<', '2 Jan 2009'],
         [1, '2 Jan 2009',  '=', ' 2 Jan 2009'],
         [1, '2 Jan 2009',  '=', '02 Jan 2009'],
@@ -328,6 +346,7 @@ sub test_compare_versions {
         [1, '2 Feb 2009',  '>', '10 Jan 2009'],
         [1, '2 Feb 2009',  '<', '10 Jan 2010'],
 
+        # ordering of months
         [1, '31 Jan 2000', '<', '1 Feb 2000'],
         [1, '29 Feb 2000', '<', '1 Mar 2000'],
         [1, '31 Mar 2000', '<', '1 Jun 2000'],
@@ -339,6 +358,7 @@ sub test_compare_versions {
         [1, '30 Nov 2000', '<', '1 Dec 2000'],
         [1, '31 Dec 2000', '<', '1 Jan 2001'],
 
+        # ISO dd-mm-yyyy dates
         [1, '1-2-2000',  '=', '01-2-2000'],
         [1, '1-2-2000',  '=', '01-02-2000'],
         [1, '1-2-2000',  '=', '1-02-2000'],
@@ -347,6 +367,7 @@ sub test_compare_versions {
         [1, '10-4-2000', '>', '11-3-2000'],
         [1, '10-3-2001', '>', '11-4-2000'],
 
+        # yyyymmdd dates
         [1, '20090414', '>', '20090413'],
         [1, '20090414', '=', '20090414'],
         [1, '20090414', '<', '20090415'],
@@ -355,6 +376,7 @@ sub test_compare_versions {
         [1, '20090414', '<', '20091114'],
         [1, '20100414', '>', '20090414'],
 
+        # Various versions that must be greater than 0
         [1, '0.00_01',    '>', 0],
         [1, '0.1',        '>', 0],
         [1, '0.0.0.1',    '>', 0],
@@ -364,6 +386,9 @@ sub test_compare_versions {
         [1, '1-1-1990',   '>', 0],
         [1, '19900101',   '>', 0],
 
+        # An SVN-style version number
+        # is not affected by the spacing
+        # and is greater than 0
         [1, '$Rev:   $', '=',  '$Rev$'],
         [1, '$Rev:  $',  '=',  '$Rev$'],
         [1, '$Rev: $',   '=',  '$Rev$'],
@@ -372,12 +397,15 @@ sub test_compare_versions {
         [1, '$Rev$',     '>',  0],
         [1, '$Rev$',     '>=', 1],
 
+        # Blank version number is less than 1
         [1, '', '<',  1],
         [1, '', '<=', 1],
         [0, '', '>',  1],
         [0, '', '>=', 1],
         [0, '', '=',  1],
 
+        # Blank comparator operator always gives false result
+        # And undef inputs generate no warnings
         [0, 1,     '', 1],
         [0, 1,     '', 0],
         [0, 1,     '', undef],
