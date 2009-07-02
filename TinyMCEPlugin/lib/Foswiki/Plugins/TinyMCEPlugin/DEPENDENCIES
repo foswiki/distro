@@ -1,2 +1,2 @@
-Foswiki::Plugins::BehaviourContrib,>=15357,perl,Javascript module
-Foswiki::Plugins::WysiwygPlugin,>=16650,perl,Translator module
+Foswiki::Contrib::BehaviourContrib,>=0,perl,Javascript module
+Foswiki::Plugins::WysiwygPlugin,>=4315,perl,Translator module
