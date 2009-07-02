@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1245064876" format="1.1" reprev="1.6" version="1.6"}%
+%META:TOPICINFO{author="ProjectContributor" date="1245064876" format="1.1" reprev="1.6" version="1.6"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %TOC%

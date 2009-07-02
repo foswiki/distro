@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1243603985" format="1.1" reprev="1.7" version="1.7"}%
+%META:TOPICINFO{author="ProjectContributor" date="1243603985" format="1.1" reprev="1.7" version="1.7"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin

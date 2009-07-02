@@ -10,10 +10,14 @@
   width:auto;
 }
 #simplemodal-overlay {
+  /** for those that don't have support for opacity via css
   background-color:transparent;
   background-image:url(opacity40.png);
-  cursor:wait;
   opacity:1.0 !important;
+  */
+  cursor:wait;
+  background:#000;
+  opacity:0.4;
 }
 a.simplemodal-close {
   width:25px;

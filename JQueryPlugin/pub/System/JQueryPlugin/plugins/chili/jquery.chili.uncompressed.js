@@ -688,13 +688,4 @@ $.fn.chili = function( options ) {
 //-----------------------------------------------------------------------------
 };
 
-//main
-$( function() {
-
-	if( ChiliBook.automatic ) {
-		$( ChiliBook.automaticSelector ).chili();
-	}
-
-} );
-
 } ) ( jQuery );
