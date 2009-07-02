@@ -8,41 +8,45 @@
 %TMPL:P{"formbutton"}%<!-- formbutton -->
 %TMPL:P{"changeform"}%<!-- changeform -->
 %TMPL:P{"cancelbutton"}%<!-- cancelbutton -->
+%TMPL:P{"wysiwygbutton"}%<!-- forcenewrevision -->
 %TMPL:P{"forcenewrevision"}%<!-- forcenewrevision -->
 </ul>
 </div>
 <!-- //bottomtopicactions -->%TMPL:END%
-%TMPL:DEF{"restorebutton"}%%BUTTON{
+%TMPL:DEF{"wysiwygbutton"}%%BUTTON{
+  "%MAKETEXT{"Wysiwyg"}%"
+  title="%MAKETEXT{"Switch to WYSIWYG"}%"
+  icon="arrow_switch"
+  id="wysiwyg"
+}%%TMPL:END%
+%TMPL:DEF{"restorebutton"}%<li>%BUTTON{
   "%MAKETEXT{"Restore"}%" 
   title="%MAKETEXT{"Restore and exit"}%" 
   icon="tick" 
   id="save" 
   accesskey="r" 
-  onclick="submitEditForm('save', 'save')"
-}%%TMPL:END%
-%TMPL:DEF{"savebutton"}%%BUTTON{
+}%</li>%TMPL:END%
+%TMPL:DEF{"savebutton"}%<li>%BUTTON{
   "%MAKETEXT{"Save"}%" 
   title="%MAKETEXT{"Save and exit"}%" 
   icon="tick" 
   id="save" 
   accesskey="s" 
-  onclick="submitEditForm('save', 'save')"
-}%%TMPL:END%
-%TMPL:DEF{"restoreandcontinuebutton"}%%BUTTON{
+}%</li>%TMPL:END%
+%TMPL:DEF{"restoreandcontinuebutton"}%<li>%BUTTON{
   "%MAKETEXT{"Restore and Continue"}%" 
   title="%MAKETEXT{"Restore and continue editing"}%" 
   icon="disk" 
   id="checkpoint" 
   accesskey="w" 
-  onclick="submitEditForm('save', 'checkpoint')"
-}%%TMPL:END%
-%TMPL:DEF{"saveandcontinuebutton"}%%BUTTON{
+}%</li>%TMPL:END%
+%TMPL:DEF{"saveandcontinuebutton"}%<li>%BUTTON{
   "%MAKETEXT{"Save and Continue"}%" 
   title="%MAKETEXT{"Save and continue editing"}%" 
   icon="disk"
-  id="checkpoint" accesskey="w" 
-  onclick="submitEditForm('save', 'checkpoint')"
-}%%TMPL:END%
+  id="checkpoint" 
+  accesskey="w" 
+}%</li>%TMPL:END%
 %TMPL:DEF{"checkpointbutton"}%<li class="natEditCheckpointButton">%IF{"defined 'rev'"
   then="$percntTMPL:P{\"restoreandcontinuebutton\"}$percnt"
   else="$percntTMPL:P{\"saveandcontinuebutton\"}$percnt"
@@ -57,7 +61,6 @@
   icon="eye" 
   id="preview" 
   accesskey="p" 
-  onclick="submitEditForm('preview', 'preview')"
 }%</li>%TMPL:END%
 %TMPL:DEF{"cancelbutton"}%<li class="natEditCancelButton">%BUTTON{
   "%MAKETEXT{"Cancel"}%" 
@@ -65,9 +68,8 @@
   icon="cross" 
   id="cancel" 
   accesskey="c" 
-  onclick="submitEditForm('save', 'cancel')"
 }% </li>%TMPL:END%
 %TMPL:DEF{"formbutton"}%<li class="natEditFormButton">%FORMBUTTON{
-  "$percntBUTTON{\"$action\" accesskey=\"f\" title=\"$title\" icon=\"application_form\" onclick=\"$script\"}$percnt"
+  "$percntBUTTON{\"$action\" accesskey=\"f\" title=\"$title\" icon=\"application_form\" id=\"$id\"}$percnt"
 }%</li>%TMPL:END%
 %TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="%MAKETEXT{"Creates a new topic revision when saving"}%" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% />%MAKETEXT{"Force new revision"}%</label></li>%TMPL:END%

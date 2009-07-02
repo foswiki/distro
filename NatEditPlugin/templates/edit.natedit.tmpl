@@ -1,7 +1,9 @@
 %TMPL:INCLUDE{"edit"}%<!-- template: edit.natedit.tmpl -->
-%TMPL:INCLUDE{"editjavascript"}%<!-- editjavascript// -->
+%TMPL:INCLUDE{"editjavascript"}%<!-- edittoolbar// -->
 %TMPL:INCLUDE{"edittoolbar"}%<!-- edittoolbar// -->
 %TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
+%TMPL:INCLUDE{"editdialog"}%<!-- editdialog// -->
+%TMPL:INCLUDE{"uploadplugin"}%<!-- uploadplugin// -->
 
 %TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%MAKETEXT{"edit"}%"}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
@@ -14,15 +16,17 @@
 %TMPL:DEF{"content"}%<!-- content -->
 %TMPL:P{"contenttitle"}%<!-- contenttitle// -->
 %TMPL:P{"formstart"}%<!-- formstart// -->
-%TMPL:P{"formattop"}%<!-- formatop// -->
+%TMPL:P{"formattop"}%<!-- formattop// -->
 %TMPL:P{"tabpane"}%<!-- tabpane// -->
 %TMPL:P{"bottomtopicactions"}%<!-- bottomtopicactions// -->
 %TMPL:P{"formend"}%<!-- formend //-->
+%TMPL:P{"dialogs"}%
 <!-- //content -->%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<!-- formstart -->
-<div class="natEdit">
+<div class="natEditContainer">
 <form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">
+<input type="submit" style="display:none" />
 <input type="hidden" name="action_addform" value="" />
 <input type="hidden" name="action_cancel" value="" />
 <input type="hidden" name="action_checkpoint" value="" />
@@ -31,7 +35,6 @@
 <input type="hidden" name="action_save" value="" />
 <input type="hidden" name="cmd" value="%CMD%" /> 
 <input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
-<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
 <input type="hidden" name="newtopic" value="%NEWTOPIC%" />
 <input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />
 <input type="hidden" name="originalrev" value="%ORIGINALREV%" />
@@ -47,11 +50,14 @@
 <!-- //formstart -->%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<!-- textarea -->
-<textarea id="topic" class="twikiTextarea foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
+<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
 <!-- //textarea -->%TMPL:END%
 
 
-%TMPL:DEF{"formend"}%</form></div>%TMPL:END%
+%TMPL:DEF{"formend"}%<!-- formend -->
+<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
+</form></div>
+<!-- //formend -->%TMPL:END%
 
 %TMPL:DEF{"help"}%%TMPL:P{"edithelp"}%%TMPL:END%
 %TMPL:DEF{"pagehelp"}%<!-- pagehelp-->
@@ -59,10 +65,11 @@
 <!-- //pagehelp -->%TMPL:END%
 
 %TMPL:DEF{"tabpane"}%<!-- tabpane -->
-%TABPANE{automaxexpand="on"}%
+%TABPANE{automaxexpand="on" minheight="300" animate="on"}%
 %TMPL:P{"firsttab"}%<!-- firstab// -->
 %TMPL:P{"formfields"}%<!-- formfields// -->
 %TMPL:P{"settingstab"}%<!-- settingstab// -->
+%TMPL:P{"moretabs"}%<!-- moretabs// -->
 %TMPL:P{"helptab"}%<!-- helptab //-->
 %ENDTABPANE%
 <!-- //tabpane -->%TMPL:END%
@@ -72,9 +79,9 @@
 %TMPL:DEF{"topicmeta"}%<!-- topicmeta -->
 <div class="natEditTopicInfo"><literal>
   <table>
-  <tr class="natEditTopicTitle">
+  <tr>
     <th>Title:</th>
-    <td><input class="twikiInputField" type="text" name="TopicTitle" size="80" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"gettopictitle"}%"}%" /></td>
+    <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"gettopictitle"}%" encode="quote"}%" /></td>
   </tr>
   </table>
 </literal></div>
@@ -82,49 +89,36 @@
 
 
 %TMPL:DEF{"firsttab"}%<!-- firsttab -->
-%TAB{"%MAKETEXT{"Text"}%" after="$.natedit.autoMaxExpand('#topic')"}%
+%TAB{"%MAKETEXT{"Text"}%" DISafter="$.natedit.fixHeight('#topic');"}%
 %TMPL:P{"topicmeta"}%<!-- topicmeta// -->
 %TMPL:P{"textarea"}%<!-- textarea// -->
 %ENDTAB%
 <!-- //firsttab -->%TMPL:END%
 
 %TMPL:DEF{"settingstab"}%<!-- settingstab -->
-%TAB{"Settings" after="fixHeightOfPane()"}% %TMPL:P{"settings"}% %ENDTAB%
+%TAB{"Settings"}% %TMPL:P{"settings"}% %ENDTAB%
 <!-- //settingstab -->%TMPL:END%
 
 
 %TMPL:DEF{"helptab"}%<!-- helptab -->
-%TAB{"%MAKETEXT{"Help"}%" after="fixHeightOfPane()"}% %TMPL:P{"edithelp"}% %ENDTAB%
+%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"edithelp"}% %ENDTAB%
 <!-- //helptab -->%TMPL:END%
 
 %TMPL:DEF{"settings"}%<!-- settings -->
-<div class="twikiFormSteps foswikiFormSteps">
-  <h2>Topic preferences:</h2>
-  <div class="twikiFormStep foswikiFormStep twikiFormLast">
+<div class="foswikiFormSteps">
+  <h2>%MAKETEXT{"Topic preferences"}%</h2>
+  <div class="foswikiFormStep foswikiFormLast">
     <h3>%MAKETEXT{"Parent topic"}%:</h3>
-    <input class="twikiInputField" type="text" name="topicparent" size="40" value="%TOPICPARENT%" />
+    <input class="foswikiInputField" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" />
   </div>
 </div>
-<div class="twikiFormSteps foswikiFormSteps">
-  <h2>Show on screen:</h2>
-  <div class="twikiFormStep foswikiFormStep twikiFormLast">
-    <label><input type="checkbox" class="twikiRadio foswikiRadio" name="Local+DISPLAYFORM" value="%IF{"'%VAR{"DISPLAYFORM"}%'='off'" then="on"}%" %IF{"$'DISPLAYFORM'='on' OR NOT defined 'DISPLAYFORM'" then="checked"}% />%MAKETEXT{"Data form"}%</label>
-    <input type="hidden" name="Local+DISPLAYFORM" value="%IF{"'%VAR{"DISPLAYFORM"}%'='off'" else="off"}%" />
-
-    <label><input type="checkbox" class="twikiRadio foswikiRadio" name="Local+DISPLAYATTACHMENTS" value="%IF{"'%VAR{"DISPLAYATTACHMENTS"}%'='off'" then="on"}%" %IF{"$'DISPLAYATTACHMENTS'='on' OR NOT defined 'DISPLAYATTACHMENTS'" then="checked"}% />%MAKETEXT{"Attachments"}%</label>
-    <input type="hidden" name="Local+DISPLAYATTACHMENTS" value="%IF{"'%VAR{"DISPLAYATTACHMENTS"}%'='off'" else="off"}%" />
-
-    <label><input type="checkbox" class="twikiRadio foswikiRadio" name="Local+DISPLAYCOMMENTS" value="%IF{"'%VAR{"DISPLAYCOMMENTS"}%'='off'" then="on"}%" %IF{"$'DISPLAYCOMMENTS'='on' OR NOT defined 'DISPLAYCOMMENTS'" then="checked"}% />%MAKETEXT{"Comments"}%</label>
-    <input type="hidden" name="Local+DISPLAYCOMMENTS" value="%IF{"'%VAR{"DISPLAYCOMMENTS"}%'='off'" else="off"}%" />
-  </div>
-</div>
-
+%TMPL:P{"moresettings"}%<!-- moresettings// -->
 <!-- //settings -->%TMPL:END%
 
 %TMPL:DEF{"revCommentPluginOptions"}%<!--revCommentPluginOptions -->
 %IF{ 
   "context RevCommentPluginEnabled" 
-  then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='twikiEditComment twikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" 
+  then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='foswikiEditComment foswikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" 
   else=""
 }%
 <!-- //revCommentPluginOptions -->%TMPL:END%

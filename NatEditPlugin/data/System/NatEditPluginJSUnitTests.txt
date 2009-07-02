@@ -217,4 +217,4 @@ txtarea = areas[0];
 <a href="javascript:testLineLineNumberedBullet2()" ><span>testLineLineNumberedBullet2</span></a>
 
 
-<textarea class="twikiEditboxStyleProportional" id="topic" name="text" rows="22" cols="70" style='width: 99%' onkeydown='handleKeyDown(event)'></textarea>
+<textarea class="foswikiEditboxStyleProportional" id="topic" name="text" rows="22" cols="70" style='width: 99%' onkeydown='handleKeyDown(event)'></textarea>

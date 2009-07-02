@@ -1,22 +1,22 @@
 <!-- template: form.natedit.tmpl -->
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
 
-%TMPL:DEF{"mandatory"}%<div class='twikiFormLegend' id="twikiFormMandatory"><span class="foswikiAlert twikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% </div>%TMPL:END%
+%TMPL:DEF{"mandatory"}%<div class='foswikiFormLegend' id="foswikiFormMandatory"><span class="foswikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% </div>%TMPL:END%
 
 %TMPL:DEF{"repeatedformrows"}% %REPEAT%
-<div class="twikiFormStep">
+<div class="foswikiFormStep">
 <h3 >%ROWTITLE%%ROWEXTRA%:</h3>
 %ROWVALUE%
 </div>
 %REPEAT%
-<div class="twikiFormStep">
+<div class="foswikiFormStep">
 %ROWVALUE%
 </div>
 %REPEAT%%TMPL:END%
 
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
-%TAB{"Form" after="fixHeightOfPane()"}%
-<div class="twikiFormSteps twikiEditForm">
+%TAB{"Form"}%
+<div class="foswikiFormSteps foswikiEditForm">
 <h2 >%FORMTITLE%%TMPL:P{"changeform"}%</h2>
 %TMPL:P{"repeatedformrows"}%
 %TMPL:P{"formtail"}%

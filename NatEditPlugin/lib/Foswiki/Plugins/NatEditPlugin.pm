@@ -10,39 +10,31 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-package TWiki::Plugins::NatEditPlugin;
+package Foswiki::Plugins::NatEditPlugin;
 
 use strict;
-use TWiki::Func;
+use Foswiki::Func;
 
 
 use vars qw( 
   $VERSION $RELEASE $SHORTDESCRIPTION $NO_PREFS_IN_TOPIC
-  $baseWeb $baseTopic $doneHeader $header
+  $baseWeb $baseTopic 
 );
 
 $VERSION = '$Rev$';
-$RELEASE = 'v3.32';
+$RELEASE = 'v4.00';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
 
 use constant DEBUG => 0; # toggle me
-
-$header = <<'HERE';
-<style type="text/css" media="all">
-  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/styles.css");
-  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
-</style>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/edit.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/jquery.natedit.js"></script>
-HERE
+use Foswiki::Plugins::JQueryPlugin ();
 
 ###############################################################################
 sub writeDebug {
   return unless DEBUG;
   print STDERR "- NatEditPlugin - " . $_[0] . "\n";
-  #TWiki::Func::writeDebug("- NatEditPlugin - $_[0]");
+  #Foswiki::Func::writeDebug("- NatEditPlugin - $_[0]");
 }
 
 
@@ -50,21 +42,21 @@ sub writeDebug {
 sub initPlugin {
   ($baseTopic, $baseWeb) = @_;
 
-  TWiki::Func::registerTagHandler('FORMBUTTON', \&handleFORMBUTTON);
-  TWiki::Func::registerTagHandler('NATFORMLIST', \&handleNATFORMLIST);
+  Foswiki::Func::registerTagHandler('FORMBUTTON', \&handleFORMBUTTON);
+  Foswiki::Func::registerTagHandler('NATFORMLIST', \&handleNATFORMLIST);
 
-
-  my $skin = TWiki::Func::getPreferencesValue('SKIN');
-  # not using TWiki::Func::getSkin() to prevent 
+  my $skin = Foswiki::Func::getPreferencesValue('SKIN');
+  # not using Foswiki::Func::getSkin() to prevent 
   # getting the cover as well
 
   unless ($skin =~ /\b(natedit)\b/) {
     $skin = "natedit,$skin";
-    my $prefs = $TWiki::Plugins::SESSION->{prefs} || $Foswiki::Plugins::SESSION->{prefs};
-    $prefs->pushPreferenceValues('SESSION', { SKIN => $skin } );      	
+    Foswiki::Func::setPreferencesValue('SKIN', $skin);
   }
 
-  TWiki::Func::addToHEAD("natedit", $header);
+  # register the natedit jquery plugin
+  Foswiki::Plugins::JQueryPlugin::registerPlugin("NatEdit",
+    'Foswiki::Plugins::NatEditPlugin::NATEDIT');
 
   return 1;
 }
@@ -82,15 +74,17 @@ sub initPlugin {
 sub handleFORMBUTTON {
   my ($session, $params, $theTopic, $theWeb) = @_;
 
+  Foswiki::Plugins::JQueryPlugin::createPlugin("natedit");
+
   my $saveCmd = '';
-  my $request = TWiki::Func::getCgiQuery();
+  my $request = Foswiki::Func::getCgiQuery();
   $saveCmd = $request->param('cmd') || '' if $request;
   return '' if $saveCmd eq 'repRev';
 
   my $form = $request->param('formtemplate') || '';
 
   unless ($form) {
-    my ($meta, $dumy) = TWiki::Func::readTopic($theWeb, $theTopic);
+    my ($meta, $dumy) = Foswiki::Func::readTopic($theWeb, $theTopic);
     my $formMeta = $meta->get('FORM'); 
     $form = $formMeta->{"name"} if $formMeta;
   }
@@ -110,7 +104,7 @@ sub handleFORMBUTTON {
   if ($form) {
     $actionText = $session->{i18n}->maketext("Change form");
     $actionTitle = $session->{i18n}->maketext("Change the current form of <nop>[_1]", "$theWeb.$theTopic");
-  } elsif (TWiki::Func::getPreferencesValue('WEBFORMS', $theWeb)) {
+  } elsif (Foswiki::Func::getPreferencesValue('WEBFORMS', $theWeb)) {
     $actionText = $session->{i18n}->maketext("Add form");
     $actionTitle = $session->{i18n}->maketext("Add a new form to <nop>[_1]", "$theWeb.$theTopic");
   } else {
@@ -123,7 +117,8 @@ sub handleFORMBUTTON {
   $theFormat =~ s/\$script/submitEditForm('save', '$action');/g;
   $theFormat =~ s/\$title/$actionTitle/g;
   $theFormat =~ s/\$action/$actionText/g;
-  $theFormat = TWiki::Func::expandCommonVariables($theFormat, $theTopic, $theWeb)
+  $theFormat =~ s/\$id/$action/g;
+  $theFormat = Foswiki::Func::expandCommonVariables($theFormat, $theTopic, $theWeb)
     if escapeParameter($theFormat);
 
   return $theFormat;
@@ -131,14 +126,14 @@ sub handleFORMBUTTON {
 
 ###############################################################################
 # This function will store the TopicTitle in a preference variable if it isn't
-# part of the TWikiForm of this topic. In a way, we do the reverse of
+# part of the DataForm of this topic. In a way, we do the reverse of
 # WebDB::onReload() where the TopicTitle is extracted and put into the cache.
 sub beforeSaveHandler {
   my ($text, $topic, $web, $meta) = @_;
 
   #writeDebug("called beforeSaveHandler");
   # find out if we received a TopicTitle 
-  my $request = TWiki::Func::getCgiQuery();
+  my $request = Foswiki::Func::getCgiQuery();
   my $topicTitle = $request->param('TopicTitle');
 
   unless (defined $topicTitle) {
@@ -197,7 +192,7 @@ sub beforeSaveHandler {
   #writeDebug("no TopicTitle stored anywhere. creating a new preference setting");
 
   if ($topicTitle) { # but only if we don't set it to the empty string
-    $meta->put('PREFERENCE', {
+    $meta->putKeyed('PREFERENCE', {
       name=>'TOPICTITLE', 
       title=>'TOPICTITLE', 
       type=>'Local', 
@@ -208,7 +203,7 @@ sub beforeSaveHandler {
 }
 
 ###############################################################################
-# taken from TWiki::UI::ChangeForm and leveraged to normal formatting standards
+# taken from Foswiki::UI::ChangeForm and leveraged to normal formatting standards
 sub handleNATFORMLIST {
   my ($session, $params, $theTopic, $theWeb) = @_;
 
@@ -223,18 +218,18 @@ sub handleNATFORMLIST {
   my $theFooter = $params->{footer} || '';
   my $theSelected = $params->{selected};
   
-  my $request = TWiki::Func::getCgiQuery();
+  my $request = Foswiki::Func::getCgiQuery();
   $theSelected = $request->param('formtemplate') unless defined $theSelected;
   $theSeparator = '<br />' unless defined $theSeparator;
 
   unless ($theSelected) {
-    my ($meta) = TWiki::Func::readTopic($theWeb, $theTopic);
+    my ($meta) = Foswiki::Func::readTopic($theWeb, $theTopic);
     my $form = $meta->get( 'FORM' );
     $theSelected = $form->{name} if $form;
   }
   $theSelected = 'none' unless $theSelected;
 
-  my $legalForms = TWiki::Func::getPreferencesValue('WEBFORMS', $theWeb);
+  my $legalForms = Foswiki::Func::getPreferencesValue('WEBFORMS', $theWeb);
   $legalForms =~ s/^\s*//;
   $legalForms =~ s/\s*$//;
   my %forms = map {$_ => 1} split( /[,\s]+/, $legalForms );
@@ -262,7 +257,7 @@ sub handleNATFORMLIST {
   $result =~ s/\$count/$index/g;
   $result =~ s/\$web/$theWeb/g;
   $result =~ s/\$topic/$theTopic/g;
-  $result = TWiki::Func::expandCommonVariables($result, $theTopic, $theWeb)
+  $result = Foswiki::Func::expandCommonVariables($result, $theTopic, $theWeb)
     if escapeParameter($result);
 
   return $result;

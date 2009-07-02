@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1209484064" format="1.1" reprev="1.2" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1233664112" format="1.1"  version="1.2"}%
 ---+!! Natural Edit Plugin
 <!--
 
@@ -42,7 +42,7 @@ same button layout for now.
 jquery.natedit docu
 
 ---++ Screenshot
-<img src="%ATTACHURLPATH%/screenshot1.png" alt="screenshot1.png" />
+<a href="%ATTACHURLPATH%/screenshot1.png" title="screenshot"><img src="%ATTACHURLPATH%/screenshot1.png" alt="screenshot" border="0" /></a>
 
 ---++ Configuration
 *PatternSkin:* %BR%
@@ -84,8 +84,14 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v3.32 |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
 |  Change History: | |
+|  23 Jun 2009 | converted to foswiki, lots of feature enhancements |
+|  03 Feb 2009 | fixed preview+save on Foswiki/<nop>PatternSkin; \
+                 fixed force new revision; \
+                 added a workaround to bind the submit event to the return key in input fields \
+                 (gets hijacked by jscalendar popup otherwise) |
 |  15 Jan 2009 | fixed buttons in preview screen |
 |  07 Jan 2009 | support for <nop>TinyMCEPlugin wysiwyg editor; \
                  removed non-maintained "word" style; \
@@ -113,10 +119,10 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
                  fixed initialization not to use Behaviour anymore, \
                  fixed autohide/showing of word toolbar together with tinymce |
 |  08 Oct 2007 | fixed word toolbar together with <nop>TinyMCEPlugin; \
-                 fixed launching a popup by not relying on twiki's javascript; \
+                 fixed launching a popup by not relying on standard javascript; \
                  using css sprites instead of individual buttons |
 |  02 Oct 2007 | be compatible with <nop>TinyMCEPlugin |
-|  23 Aug 2007 | bug fixes for IE6&7 - [[http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item4430][Item4430]] |
+|  23 Aug 2007 | bug fixes for IE6&7 - Item4430 |
 |  04 Aug 2007 | added Word theme \
                  added bullet and numbered lists buttons & Javascript \
                  added create Table button and Javascript \
@@ -136,7 +142,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
                    minor refactoring of the javascript; \
                    removed non-standard tags FORMATLIST and IFDEFINED |
 |  03 Apr 2007 | added NATEDIT_HELPTEXT variable; \
-                  be backwards compatible to <nop>PatternSkin (TWiki-4.1.2) |
+                  be backwards compatible to <nop>PatternSkin |
 |  31 Mar 2007 | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | - |

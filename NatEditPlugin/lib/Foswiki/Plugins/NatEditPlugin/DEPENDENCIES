@@ -1,0 +1,3 @@
+Foswiki::Plugins::JQueryPlugin,>=1.00,perl,Required.
+Foswiki::Plugins::SetVariablePlugin,>=1.00,perl,Required.
+Foswiki::Plugins::UploadPlugin,>=1.00,perl,Required.

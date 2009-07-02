@@ -1,13 +1,9 @@
 /* natedit base styles */
-#addform,
-#changeform {
-  display:none;
-}
 .natEdit {
   font-size:12px;
   line-height:normal;
 }
-.natEdit .jqTabContents {
+.natEditBody .jqTabContents {
   overflow-x:hidden;
   overflow-y:auto;
 }
@@ -44,6 +40,9 @@ ul.natEditHelpTools {
   list-style:none;
   background:inherit;
 }
+.natEditBottomBar #wysiwyg {
+  display:none;
+}
 .natEditToolBar ul li a span {
   display:none;
 }
@@ -72,8 +71,7 @@ ul.natEditHelpTools {
   float:right;
 }
 
-.foswikiForm,
-.twikiForm {
+.foswikiForm {
   clear:both;
 }
 
@@ -93,40 +91,68 @@ ul.natEditHelpTools {
 }
 
 /* pattern skin tweaks */
-.patternPreviewPage .patternTopic,
-.patternPreviewPage .foswikiTopic,
-.patternEditPage .patternTopic,
-.patternEditPage .foswikiTopic {
-  margin:0px;
-}
-.patternEditPage .foswikiForm,
-.patternEditPage .twikiForm {
+.patternEditPage .foswikiForm {
   margin:0px;
 }
 .jqTabContents h3 {
   margin-top:0px;
 }
 
-#patternPage .twikiFormTable {
+#patternPage .foswikiFormTable {
   width:99%;
 }
 #patternPage .jqTab {
   background:white;
 }
 
-/* debug window */
-/*
-#natExtraDiv4 {
-  position:absolute;
-  top:0px;
-  right:0px;
-  width:400px;
-  height:400px;
-  border:1px solid red;
-  overflow-x:hidden;
-  overflow-y:auto;
-  text-align:left;
-  font-family:"Bitstream Vera Sans Mono", "Andale Mono", Courier, monospace;
-  background:white;
+.patternEditPage .foswikiFormSteps h2 {
+  margin-left:10px;
 }
-*/
+
+/* dialogs */
+#natEditInsertLink .jqTabContents {
+  width:400px;
+  height:150px;
+}
+#natEditInsertLink .foswikiFormStep hr {
+  margin:1em 0em;
+}
+#natEditInsertLinki .jqTabContents {
+  overflow:visible;
+}
+#natEditInsertAttachment .jqTabContents {
+  width:570px;
+}
+#natEditInsertAttachments {
+  overflow:auto;
+  height:205px;
+}
+#natEditInsertAttachment label {
+  float:left;
+  border:1px solid #aaa;
+  background:#fff;
+  margin:0px 10px 10px 0px;
+  padding:5px;
+  width:70px;
+  height:85px;
+  overflow:hidden;
+}
+#natEditInsertAttachment .imgContainer {
+  width:70px;
+  height:70px;
+  overflow:hidden;
+  display:block;
+}
+#natEditInsertAttachment img {
+  width:70px;
+}
+#natEditInsertAttachment label.selected {
+  border:1px solid red;
+}
+#natEditInsertAttachments label span {
+  text-align:center;
+  display:block;
+}
+#natEditInsertAttachments input {
+  display:none;
+}
