@@ -5,11 +5,11 @@
 </div>
 ---+!! Welcome to the %WEB% Web
 
-_The place to learn about Foswiki features, and perform Foswiki system maintenance._
-
-This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
-
 Foswiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use Foswiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
+
+---++ Foswiki Installation Information
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+   * mod_perl: %IF{"'%ENV{MOD_PERL}%'='not set'" then="not used" else="%ENV{MOD_PERL}%"}%
 
 ---++ Foswiki Documentation and Configuration
 <div style="float:right;width:255px;padding:1em;">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
