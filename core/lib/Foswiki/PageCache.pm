@@ -97,7 +97,9 @@ sub genVariationKey {
   $variationKey =~ s/;$//o;
 
   # add server name and port by which the user has accessed the site
-  $variationKey .= $ENV{SERVER_NAME}.':'.$ENV{SERVER_PORT};
+  my $serverName = $ENV{SERVER_NAME} || 'localhost';
+  my $serverPort = $ENV{SERVER_PORT} || 80;
+  $variationKey .= $serverName.':'.$serverPort;
 
   # add language tag
   my $language = $this->{session}->i18n->language();
@@ -157,19 +159,20 @@ sub cachePage {
     $this->_deletePage($webTopic);
   }
 
-  # remove old reverse dependencies
+  # remove old dependencies
   $this->_deleteDependency($webTopic);
 
   # assert autotetected dependencies
-  $this->{metaHandler}->set('Foswiki::PageCache::Deps'.$webTopic, $this->{deps});
+  #writeDebug("setting dependencies Foswiki::PageCache::Deps::.$webTopic");
+  $this->{metaHandler}->set('Foswiki::PageCache::Deps::'.$webTopic, $this->{deps});
 
   # assert autodetected dependencies in reverse logic
   foreach my $depWebTopic (keys %{$this->{deps}}) {
     next if $depWebTopic eq $webTopic;
-    my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps'.$depWebTopic);
+    my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$depWebTopic);
     $topicDeps->{$webTopic} = 1;
     #writeDebug("adding rev dependency $webTopic <- $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
-    $this->{metaHandler}->set('Foswiki::PageCache::RevDeps'.$depWebTopic, $topicDeps);
+    $this->{metaHandler}->set('Foswiki::PageCache::RevDeps::'.$depWebTopic, $topicDeps);
   }
 
   # store page
@@ -333,6 +336,8 @@ TODO: don't use a separate web and topic argument, use a topicObject instead
 sub addDependency {
   my ($this, $depWeb, $depTopic) = @_;
 
+  #die "illegal call to addDependency" unless $depWeb && $depTopic;
+
   return if $this->{session}->inContext('dirtyarea');
 
   $depWeb =~ s/\//\./go;
@@ -369,7 +374,7 @@ sub _getDependencies {
 
   #writeDebug("_getDependencies($webTopic)");
 
-  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps'.$webTopic);
+  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps::'.$webTopic);
   my @result = ();
   @result = keys %{$topicDeps} if $topicDeps;
 
@@ -388,7 +393,7 @@ sub deleteDependencies {
   my ($this, $web, $topic) = @_;
 
   $web =~ s/\//./go;
-  return $this->_deleteDependencies($web.'.'.$topic);
+  return $this->_deleteDependency($web.'.'.$topic);
 }
 
 =pod 
@@ -400,15 +405,15 @@ private implementation of deleteDependencies
 sub _deleteDependency {
   my ($this, $webTopic) = @_;
   
-  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps'.$webTopic);
+  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps::'.$webTopic);
   return unless $topicDeps;
 
   foreach my $depWebTopic (keys %$topicDeps) {
     #writeDebug("deleting dependency $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
-    $this->{metaHandler}->delete('Foswiki::PageCache::RevDeps'.$depWebTopic);
+    $this->{metaHandler}->delete('Foswiki::PageCache::RevDeps::'.$depWebTopic);
   }
 
-  $this->{metaHandler}->delete('Foswiki::PageCache::Deps'.$webTopic);
+  $this->{metaHandler}->delete('Foswiki::PageCache::Deps::'.$webTopic);
 }
 
 
@@ -438,7 +443,7 @@ sub _getRevDependencies {
 
   #writeDebug("_getRevDependencies($webTopic)");
 
-  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps'.$webTopic);
+  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$webTopic);
   my @result = ();
   @result = keys %{$topicDeps} if $topicDeps;
 
@@ -487,7 +492,7 @@ sub fireDependency {
   $web =~ s/\//./go;
   my $webTopic = $web.'.'.$topic;
 
-  writeDebug("FIRING $webTopic");
+  #writeDebug("FIRING $webTopic");
 
   # delete pages in WEBDEPENDENCIES
   foreach my $dep (@{$this->getWebDependencies()}) {
