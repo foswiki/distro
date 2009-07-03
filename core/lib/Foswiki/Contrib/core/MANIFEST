@@ -465,12 +465,14 @@ lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SafeEnvPath.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
+lib/Foswiki/Configure/Checkers/ScriptDir.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/ExpireAfter.pm 0444
 lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
 lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
 lib/Foswiki/Configure/Checkers/StoreImpl.pm 0444
 lib/Foswiki/Configure/Checkers/TemplateDir.pm 0444
+lib/Foswiki/Configure/Checkers/ToolsDir.pm 0444
 lib/Foswiki/Configure/Checkers/UploadFilter.pm 0444
 lib/Foswiki/Configure/Checkers/UpperNational.pm 0444
 lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
