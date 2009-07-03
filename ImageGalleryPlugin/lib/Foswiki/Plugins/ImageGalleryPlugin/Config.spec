@@ -1,4 +1,5 @@
-# ---+ ImageGalleryPlugin settings
+# ---+ Extensions
+# ---++ ImageGalleryPlugin
 # This is the configuration used by the <b>ImageGalleryPlugin</b>.
 
 # **PERL**

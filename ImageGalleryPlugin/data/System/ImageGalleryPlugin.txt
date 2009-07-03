@@ -156,13 +156,13 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 <!--
    * Set SHORTDESCRIPTION = Displays image gallery with auto-generated thumbnails from attachments.
 -->
-
-
 |  Plugin Author: | Michael Daum, Will Norris |
 |  Copyright &copy;: | 2002-2009, Will Norris; 2005-2009, Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | v5.00 |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Jul 2009 | shipping minified and compressed css files now |
 |  24 Apr 2009 | converted to foswiki plugin |
 |  12 Feb 2009 | interface improvements; creating more accurate thumbnails |
 |  31 Jan 2009 | added VarIMAGEGALLERY and VarNRIMAGES documentation topics |

@@ -18,16 +18,14 @@ use strict;
 
 # =========================
 use vars qw(
-        $VERSION $RELEASE $isInitialized $igpId $doneHeader
-        $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION $header
+        $VERSION $RELEASE $isInitialized $igpId
+        $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION 
     );
 
 $VERSION = '$Rev$';
-$RELEASE = '5.00';
+$RELEASE = '5.01';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';
-
-$header = '<link rel="stylesheet" href="%PUBURL%/%SYSTEMWEB%/ImageGalleryPlugin/style.css" type="text/css" media="all" />';
 
 # =========================
 sub initPlugin {
@@ -38,7 +36,7 @@ sub initPlugin {
     return 0;
   }
   $igpId = 1;
-  $doneHeader = 0;
+  $isInitialized = 0;
 
   Foswiki::Func::registerTagHandler('IMAGEGALLERY', \&renderImageGallery);
   Foswiki::Func::registerTagHandler('NRIMAGES', \&renderNrImages);
@@ -47,17 +45,13 @@ sub initPlugin {
 }
 
 # =========================
-# add css definitions, deliberately NOT using addToHEAD()
-sub commonTagsHandler {
-
-  return if $doneHeader;
-  $doneHeader = 1 if $_[0] =~ s/<head>(.*?[\r\n]+)/<head>$1$header\n/o;
-}
-
-# =========================
 sub doInit {
   return if $isInitialized;
   $isInitialized = 1;
+
+  Foswiki::Func::addToHEAD("IMAGEGALLERYPLUGIN", <<'HERE');
+<link rel="stylesheet" href="%PUBURL%/%SYSTEMWEB%/ImageGalleryPlugin/style.css" type="text/css" media="all" />
+HERE
 
   require Foswiki::Plugins::ImageGalleryPlugin::Core;
 }

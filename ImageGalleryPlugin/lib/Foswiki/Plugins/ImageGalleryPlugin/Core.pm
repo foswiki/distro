@@ -53,16 +53,16 @@ sub new {
   $this->{pubUrlPath} = Foswiki::Func::getPubUrlPath();
   $this->{foswikiWebName} = $Foswiki::cfg{SystemWebName};
 
-  my $defaultThumbSizes = $Foswiki::cfg{ImageGalleryPlugin}{ThumbSizes};
+  my $defaultThumbSizes = $Foswiki::cfg{ImageGalleryPlugin}{ThumbSizes} || {};
   # get predefined thumbnail sizes
-  %{$this->{thumbSizes}} = (
+  $this->{thumbSizes} = {
     thin => '25x25',
     small => '50x50',
     medium => '95x95',
     large => '150x150',
     huge => '350x350',
     %$defaultThumbSizes,
-  );
+  };
 
   # get style url
   my $hostUrl = $Foswiki::cfg{DefaultUrlHost};
