@@ -201,6 +201,7 @@ sub _parse {
     my $sectionNum = 0;
 
     foreach my $l (<F>) {
+        last if ($l =~ /^1;|^__\w+__/);
         if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
             pusht( \@settings, $open ) if $open;
             $open = new Foswiki::Configure::Value( typename => $1, opts => $2 );

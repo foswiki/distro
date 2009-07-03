@@ -17,10 +17,12 @@ sub new {
 }
 
 sub openTab {
-    my ($this, $id, $opts, $text, $alert) = @_;
+    my ($this, $id, $depth, $opts, $text, $alert) = @_;
+    my $bodyClass =
+      $depth > 2 ? 'configureSubSection' : 'configureRootSection';
     push(@{$this->{tabs}}, {
         id => $id, opts => $opts || '', text => $text, alert => $alert });
-    return "<div id='${id}_body' class='foswikiMakeHidden configureSection'><a name='${id}'></a>\n";
+    return "<div id='${id}_body' class='foswikiMakeHidden $bodyClass'><a name='${id}'></a>\n";
 }
 
 sub closeTab {

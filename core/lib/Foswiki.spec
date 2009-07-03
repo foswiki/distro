@@ -122,7 +122,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-#---+ Authentication
+#---+ User Logins -- TABS
 #---++ Sessions
 # Sessions are how Foswiki tracks a user across multiple requests.
 # A user's session id is stored in a cookie, and this is used to identify
@@ -350,6 +350,7 @@ $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (
 # </li></ol>
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
+#---++ Passwords
 # **SELECTCLASS none,Foswiki::Users::*User**
 # Name of the password handler implementation. The password handler manages
 # the passwords database, and provides password lookup, and optionally
@@ -404,7 +405,6 @@ $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 # </dl>
 $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 
-# ---+ Security options
 #---++ Registration
 # Registration is the process by which new users register themselves with
 # Foswiki.
@@ -416,10 +416,51 @@ $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 # (if it supports mappings, that is).
 $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 
-#---++ Path
+# **STRING H**
+# Configuration password (not prompted)
+$Foswiki::cfg{Password} = '';
+
+#---++ Anti-Spam
+# Foswiki incorporates some simple anti-spam measures to protect
+# e-mail addresses and control the activities of benign robots. These
+# should be enough to handle intranet requirements. Administrators of
+# public (internet) sites are strongly recommended to install
+# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin">
+# AntiWikiSpamPlugin </a>
+
+# **STRING 50**
+# Text added to email addresses to prevent spambots from grabbing
+# addresses e.g. set to 'NOSPAM' to get fred@user.co.ru
+# rendered as fred@user.co.NOSPAM.ru
+$Foswiki::cfg{AntiSpam}{EmailPadding} = '';
+
+# **BOOLEAN**
+# Normally Foswiki stores the user's sensitive information (such as their e-mail
+# address) in a database out of public view. It also obfuscates e-mail
+# addresses displayed in the browser. This is to help prevent e-mail
+# spam and identity fraud.<br />
+# If that is not a risk for you (e.g. you are behind a firewall) and you
+# are happy for e-mails to be made public to all Foswiki users,
+# then you can set this option.<br />
+# Note that if this option is set, then the <code>user</code> parameter to
+# <code>%USERINFO</code> is ignored.
+$Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
+
+# **BOOLEAN**
+# By default, Foswiki doesn't do anything to stop robots, such as those used
+# by search engines, from visiting "normal view" pages.
+# If you disable this option, Foswiki will generate a META tag to tell robots
+# not to index pages.<br />
+# Inappropriate pages (like the raw and edit views) are always protected from
+# being indexed.<br />
+# Note that for full protection from robots you should also use robots.txt
+# (there is an example in the root of your Foswiki installation).
+$Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
+
+#---+ Security
+# **PATH M**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep and rcs.
-# **PATH M**
 # By restricting this path to just a few key
 # directories, you increase the security of your Foswiki.
 # <ol>
@@ -474,11 +515,6 @@ $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 # </ol>
 $Foswiki::cfg{SafeEnvPath} = '';
 
-# **STRING H**
-# Configuration password (not prompted)
-$Foswiki::cfg{Password} = '';
-
-#---++ Other security options
 # **BOOLEAN**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
 # to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
@@ -579,42 +615,6 @@ $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
 
-# Foswiki incorporates some simple anti-spam measures to protect
-# e-mail addresses and control the activities of benign robots. These
-# should be enough to handle intranet requirements. Administrators of
-# public (internet) sites are strongly recommended to install
-# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin">
-# AntiWikiSpamPlugin </a>
-
-# **STRING 50**
-# Text added to email addresses to prevent spambots from grabbing
-# addresses e.g. set to 'NOSPAM' to get fred@user.co.ru
-# rendered as fred@user.co.NOSPAM.ru
-$Foswiki::cfg{AntiSpam}{EmailPadding} = '';
-
-# **BOOLEAN**
-# Normally Foswiki stores the user's sensitive information (such as their e-mail
-# address) in a database out of public view. It also obfuscates e-mail
-# addresses displayed in the browser. This is to help prevent e-mail
-# spam and identity fraud.<br />
-# If that is not a risk for you (e.g. you are behind a firewall) and you
-# are happy for e-mails to be made public to all Foswiki users,
-# then you can set this option.<br />
-# Note that if this option is set, then the <code>user</code> parameter to
-# <code>%USERINFO</code> is ignored.
-$Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
-
-# **BOOLEAN**
-# By default, Foswiki doesn't do anything to stop robots, such as those used
-# by search engines, from visiting "normal view" pages.
-# If you disable this option, Foswiki will generate a META tag to tell robots
-# not to index pages.<br />
-# Inappropriate pages (like the raw and edit views) are always protected from
-# being indexed.<br />
-# Note that for full protection from robots you should also use robots.txt
-# (there is an example in the root of your Foswiki installation).
-$Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
-
 #---+ Logging &amp; Statistics
 
 # Paths to the various log files. You can use <code>%DATE%</code> (which 
@@ -691,7 +691,8 @@ $Foswiki::cfg{Stats}{TopContrib} = 10;
 # Name of statistics topic
 $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 
-#---+ Languages
+#---+ Internationalisation -- TABS
+#---++ Languages
 # Enable user interface internationalisation, i.e. presenting the user
 # interface in the users own language(s). Some languages require the
 # <code>Locale::Maketext::Lexicon</code> and <code>Encode</code>/MapUTF8 Perl
@@ -727,7 +728,7 @@ $Foswiki::cfg{Languages}{sv}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-cn'}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 
-#---+ I18N
+#---++ Locale
 
 # Enable operating system level locales and internationalisation support
 # for 8-bit character sets. This may be required for correct functioning
@@ -1152,8 +1153,9 @@ $Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
 #---+ Miscellaneous -- EXPERT
-# Miscellaneous expert options; select "Show EXPERT Options" to see the
-# available settings.
+# Miscellaneous expert options.
+# <div class='configureNotExpert'>Select "Show EXPERT Options" to see the
+# available settings.</div>
 
 # **STRING 120 EXPERT**
 # Template path. A comma-separated list of generic file names, containing
@@ -1172,13 +1174,6 @@ $Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl,
 # if you have a softphone setup that supports links using this URI scheme. A list of popular URI schemes can be
 # found at <a href="http://en.wikipedia.org/wiki/URI_scheme">http://en.wikipedia.org/wiki/URI_scheme</a>.
 $Foswiki::cfg{LinkProtocolPattern} = '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
-
-# **STRING 50 EXPERT**
-# Set to enable experimental mirror-site support. If this name is
-# different to MIRRORSITENAME, then this Foswiki is assumed to be a
-# mirror of another. You are <b>highly</b> recommended not
-# to dabble with this experimental, undocumented, untested feature!
-$Foswiki::cfg{SiteWebTopicName} = '';
 
 # **STRING 20 EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
@@ -1288,6 +1283,19 @@ $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defi
 
 #---+ Extensions -- TABS
 
+#---++ Plugins
+# **STRING 80 EXPERT**
+# Search path (web names) for plugin topics. Note that the session web
+# is searched last, after this list.
+$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
+
+# **STRING 80**
+# Plugins evaluation order. If set to a comma-separated list of plugin names,
+# will change the execution order of plugins so the listed subset of plugins
+# are executed first. The default execution order is alphabetical on plugin
+# name.
+$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
+
 # *PLUGINS* Marker used by bin/configure script - do not remove!
 # The plugins listed below were discovered by searching the <code>@INC</code>
 # path for modules that match the Foswiki standard e.g. 
@@ -1318,21 +1326,7 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
 
-#---++ Plugins Options
-# **STRING 80**
-# Plugins evaluation order. If set to a comma-separated list of plugin names,
-# will change the execution order of plugins so the listed subset of plugins
-# are executed first. The default execution order is alphabetical on plugin
-# name.
-$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
-
-# **STRING 80 EXPERT**
-# Search path (web names) for plugin topics. Note that the session web
-# is searched last, after this list.
-$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
-
-# *FINDEXTENSIONS*
-
+#---++ Install New Extensions
 # **STRING 80 EXPERT**
 # <b>Extensions Repositories Search List</b><br />
 # Foswiki extension repositories are just Foswiki webs that are organised in the
@@ -1359,6 +1353,12 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
 # For Extensions with the same name in more than one repository, the <strong>last</strong> matching repository in the list will be chosen, so Foswiki.org should always be last in the list for maximum compatibility.
 $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
+
+# *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
+# Click 'Find More Extensions' to consult online extensions repositories
+# for new extensions.
+# <strong>If you made any changes, save them first!</strong>
+
 1;
 __END__
 #

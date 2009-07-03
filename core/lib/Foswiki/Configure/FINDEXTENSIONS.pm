@@ -9,14 +9,9 @@ use strict;
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');
 
-use Foswiki::Configure::Type  ();
-use Foswiki::Configure::Value ();
-
 sub new {
     my ($class) = @_;
-
-    my $this = $class->SUPER::new('Find New Extensions');
-
+    my $this = $class->SUPER::new('');
     return $this;
 }
 

@@ -6,7 +6,6 @@ use strict;
 
 use Foswiki::Configure::UIs::Section ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
-use Foswiki::Configure::Type ();
 
 sub close_html {
     my ( $this, $section, $root, $output ) = @_;
@@ -46,13 +45,8 @@ Check 'Perl Modules' in the 'CGI Setup' section above, and install any
 missing modules required for the Extensions Installer.
 MESSAGE
     }
-    return <<INFO . $this->SUPER::close_html($section, $root, $output);
-<div class="configureRow foswikiHelp">
-Click to consult online extensions repositories for
-new extensions. <strong>If you made any changes, save them first!</strong>
-<br />$actor
-</div>
-INFO
+    $output .= $actor;
+    return $this->SUPER::close_html($section, $root, $output);
 }
 
 1;

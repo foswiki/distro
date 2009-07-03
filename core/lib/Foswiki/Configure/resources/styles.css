@@ -46,8 +46,14 @@ li.configureExpert { /* menu item */
 /* --- SECTION --- */
 
 .configureSections {}
-.configureSection {
+.configureRootSection {
 	float:right;
+	width:78%;
+	margin:0 0 1em 1%;
+}
+
+.configureSubSection {
+/*	float:right;*/!
 	width:78%;
 	margin:0 0 1em 1%;
 }
@@ -125,6 +131,10 @@ ul.configureRootTab li a {
 	border-left:1px solid #d4e7f1;
 }
 
+ul.configureRootTab li a.configureWarn {
+  color: #f88; /* pink */
+}
+
 ul.configureRootTab li a:hover {
 	background-color:#d4e7f1;
 	color:#1869a2;
@@ -135,27 +145,25 @@ ul.configureRootTab li a em {
 }
 
 ul.configureSubTab {
-  text-align: left;
-  margin: 1em 0 1em 0;
-  font-weight: bold;
   list-style-type: none;
+  text-align: center;
+  margin: 1em 0 1em 0;
   padding: 3px 10px 3px 10px;
   line-height: 28px;
+  border:1px solid #d4e7f1;
 }
 
 ul.configureSubTab li {
   display: inline;
+  color: #06c;
 }
 
 /* basic settings for all tab links */
 ul.configureSubTab li a {
-  padding: 3px 4px;
-  border: 1px solid #ddd;
-  background-color: #ddd; /* unselected tab background */
-  color: #999;            /* unselected tab text */
-  margin-right: 5px;      /* additional spacing between tabs */
+  padding: .25em 1em;
   text-decoration: none;
-  border-style: outset;
+  border:1px solid #d4e7f1;
+  margin-right: 5px;      /* additional spacing between tabs */
 }
 
 /* Unselected but there are errors or warnings */
@@ -165,7 +173,8 @@ ul.configureSubTab li a.configureWarn {
 
 /* Hover effect */
 ul.configureSubTab a:hover {
-  background: #fff; /* set desired hover color */
+  background-color:#d4e7f1;
+  color:#1869a2;
 }
 
 /* WARN and ERROR */
@@ -227,19 +236,6 @@ table.configureExtensionsTable .configureInstalled a:visited {
 	background:#ffffd6;
 }
 
-/* Settings and other stuff only shown in expert mode */
-.expert {
-	background-color:#bb9a29;
-	color:#fff;
-}
-
-/* Stuff *not* shown in expert mode */
-
-/* Settings shown to everyone */
-.newbie { 
-}
-
-
 h1.firstHeader,
 h2.firstHeader,
 h3.firstHeader,
@@ -249,8 +245,8 @@ h6.firstHeader {
 	margin-top:0;
 }
 strong {
-	color:#D1400E;
+  color:#D1400E;
 }
 .foswikiAlert strong {
-	color:#f00;
+  color:#f00;
 }

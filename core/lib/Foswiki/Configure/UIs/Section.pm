@@ -34,7 +34,8 @@ sub open_html {
                   $this->makeID( $section->{parent}->{headline} || 'Root' ));
 
             $output .= $section->{parent}->{controls}->openTab(
-                $id, $section->{opts}, $section->{headline}, $mess ? 1 : 0);
+                $id, $depth, $section->{opts}, $section->{headline},
+                $mess ? 1 : 0);
 
             $output .= "<h2 class='firstHeader'>"
               . $section->{headline}

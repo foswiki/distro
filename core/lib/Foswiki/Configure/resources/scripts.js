@@ -295,16 +295,6 @@ function toggleExpertsMode() {
 }
 
 function tab(group, newTab) {
-    if (!newTab) {
-        group = 'Root';
-    	var anchorPattern = new RegExp(/#(.*)$/);
-		var matches = window.location.hash.match(anchorPattern);
-		if (matches && matches[1]) {
-			newTab = matches[1];
-		} else {
-	    	newTab = curTab;
-	    }
-    }
     var controller = document.getElementById(group);
     var curTab = controller.className;    
     controller.className = newTab;
@@ -312,6 +302,19 @@ function tab(group, newTab) {
     foswiki.CSS.addClass(currentTabBody, 'foswikiMakeHidden');
     var newTabBody = document.getElementById(newTab + '_body');
     foswiki.CSS.removeClass(newTabBody, 'foswikiMakeHidden');
+}
+
+// Open the first root tab by inspecting the anchor. If there is no
+// anchor, open the 'Introduction' root tab.
+function initTab() {
+    var anchorPattern = new RegExp(/#(.*)$/);
+    var matches = window.location.hash.match(anchorPattern);
+    if (matches && matches[1]) {
+        newTab = matches[1];
+    } else {
+        newTab = 'Introduction';
+    }
+    tab('Root', newTab);
 }
 
 function getTip(idx) {
@@ -366,6 +369,6 @@ var rules = {
 Behaviour.register(rules);
 
 addLoadEvent(toggleExpertsMode);
-addLoadEvent(tab);
+addLoadEvent(initTab);
 
 
