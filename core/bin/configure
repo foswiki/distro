@@ -530,26 +530,25 @@ tab('GeneralPathSettings');
 </script>
 GOTOGPS
     }
-    my $controls = new Foswiki::Configure::GlobalControls();
 
-    # The first three sections go without a root
-    my $stub = new Foswiki::Configure::Item();
-    my $intro_checker = Foswiki::Configure::UI::loadChecker(
-        'Introduction', $stub );
+    my $valuer =
+      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+
+    # This is the root of the model
+    my $root = new Foswiki::Configure::Root();
+
+    my $intro_checker =
+      Foswiki::Configure::UI::loadChecker( 'Introduction', $root );
+    $root->addChild($intro_checker);
 
     # See if this platform has special detection or checking requirements
     # (most don't)
-    $stub = new Foswiki::Configure::Item();
     my $os_checker =
-      Foswiki::Configure::UI::loadChecker( $Config::Config{osname}, $stub );
+      Foswiki::Configure::UI::loadChecker( $Config::Config{osname}, $root );
+    $root->addChild($os_checker) if $os_checker;
 
-    $stub = new Foswiki::Configure::Item();
-    my $cgi_checker = Foswiki::Configure::UI::loadChecker( 'CGISetup', $stub );
-
-    # Use a separate root for the _saveable_ sections
-    my $root = new Foswiki::Configure::Root();
-    my $valuer =
-      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+    my $cgi_checker = Foswiki::Configure::UI::loadChecker( 'CGISetup', $root );
+    $root->addChild($cgi_checker);
 
     # Load the config structures.
     Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
@@ -564,20 +563,18 @@ GOTOGPS
 
     # use time to make sure we never allow cacheing
     print CGI::hidden( 'time', $time );
-    print '<br class="foswikiClear" />' . "\n";
 
-    my $tabs = $intro_checker->ui($controls);
-    $tabs .= $os_checker->ui()  if $os_checker;
-    $tabs .= $cgi_checker->ui($controls) if $cgi_checker;
+    # Now generate the UI
 
-    # Load the UI for the configuration and whack it out
+    # Load the UI for the root; this is simply a visitor over
+    # the model
     my $ui = _checkLoadUI( 'Root', $root );
     return 1 unless $ui;
-    $tabs .= $ui->ui( $root, $valuer, $controls );
 
-    print $controls->generateTabs()
-      ."<div class='configureSections'>$tabs</div>"
-        .$controls->generateTooltips();
+    # Visit the model and generate
+    $ui->{controls} = new Foswiki::Configure::GlobalControls();
+    print $ui->ui( $root, $valuer );
+    print $ui->{controls}->generateTooltips();
 
     print "<br class='foswikiClear' />";
     if (   $Foswiki::Configure::UI::toterrors
