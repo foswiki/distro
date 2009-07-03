@@ -889,7 +889,7 @@ sub formatResults {
         }
 
         my @multipleHitLines = ();
-        if ($doMultiple) {
+        if ($doMultiple && $query->{tokens}) {
 
             #TODO: i wonder if this shoudl be a HoistRE..
             my @tokens  = @{ $query->{tokens} };

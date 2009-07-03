@@ -24,9 +24,6 @@ sub evaluate {
     my $pnode  = shift;
     my %domain = @_;
 
-    my $session = $domain{tom}->session;
-    my $topic   = $domain{tom}->topic;
-
     my $a    = $pnode->{params}[0];
     my $node = $a->evaluate(@_);
     return unless defined $node;
@@ -41,10 +38,12 @@ sub evaluate {
 
         # Has to be relative to the web of the topic we are querying
         my ( $w, $t ) =
-          $session->normalizeWebTopicName( $session->{webName}, $v );
+          $Foswiki::Plugins::SESSION->normalizeWebTopicName(
+              $Foswiki::Plugins::SESSION->{webName}, $v );
         my $result = undef;
         try {
-            my $submeta = Foswiki::Meta->load( $domain{tom}->session, $w, $t );
+            my $submeta = $Foswiki::cfg{RCS}{QueryAlgorithm}->getRefTopic(
+                $domain{tom}, $w, $t );
             my $b       = $pnode->{params}[1];
             my $res     = $b->evaluate( tom => $submeta, data => $submeta );
             if ( ref($res) eq 'ARRAY' ) {

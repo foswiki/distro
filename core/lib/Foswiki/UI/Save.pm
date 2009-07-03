@@ -441,7 +441,6 @@ WARN
 
     my $editaction = lc( $query->param('editaction') ) || '';
     my $edit       = $query->param('edit')             || 'edit';
-    my $editparams = $query->param('editparams')       || '';
 
     ## SMELL: The form affecting actions do not preserve edit and editparams
     if (   $saveaction eq 'addform'
@@ -462,25 +461,20 @@ WARN
     if ( $saveaction eq 'checkpoint' ) {
         $query->param( -name => 'dontnotify', -value => 'checked' );
         my $edittemplate = $query->param('template');
-        my $editURL = $session->getScriptUrl( 1, $edit, $web, $topic );
-        $redirecturl = $editURL . '?t=' . time();
-        $redirecturl .= '&redirectto=' . $query->param('redirectto')
-          if $query->param('redirectto');
+        my %p = ( t => time() );
+        # map editaction -> action and edittemplat -> template
+        $p{action} = $editaction if $editaction;
+        $p{template} = $edittemplate if $edittemplate;
+        # Pass through selected parameters
+        foreach my $pthru qw(redirectto skin cover nowysiwyg) {
+            $p{$pthru} = $query->param($pthru);
+        }
 
-        # select the appropriate edit template
-        $redirecturl .= '&action=' . $editaction     if $editaction;
-        $redirecturl .= '&template=' . $edittemplate if $edittemplate;
+        $redirecturl = $session->getScriptUrl( 1, $edit, $web, $topic, %p );
 
-        $redirecturl .= '&skin=' . $query->param('skin')
-          if $query->param('skin');
-        $redirecturl .= '&cover=' . $query->param('cover')
-          if $query->param('cover');
-        $redirecturl .= '&nowysiwyg=' . $query->param('nowysiwyg')
-          if $query->param('nowysiwyg');
-        $redirecturl .= '&action=' . $query->param('action')
-          if $query->param('action');
-        $redirecturl .= $editparams
-          if $editparams;    # May contain anchor
+        $redirecturl .= $query->param('editparams')
+          if $query->param('editparams');    # May contain anchor
+
         my $lease = $topicObject->getLease();
 
         if ( $lease && $lease->{user} eq $session->{user} ) {
