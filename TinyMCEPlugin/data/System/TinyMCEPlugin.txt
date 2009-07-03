@@ -130,12 +130,13 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2009 Crawford Currie http://c-dot.co.uk |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |             | This package also includes the complete sources for version 3.2.2 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
-|  Plugin Version: | %$VERSION% |
+|  Plugin Version: | 03 Jul 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  6 Jun 2009 | Foswikitask:Item5628: Make browser reload the javascript when this plugin is upgraded (Michael Tempest, Colas Nahaboo) Foswikitask:Item1529: Disable "Wiki text" button until editor has loaded topic text (Michael Tempest) |
+|  03 Jul 2009 | Foswikitask:Item8178: Check that the help elements are present before hiding or showing them, as they are not present in all skins. |
+|  06 Jun 2009 | Foswikitask:Item5628: Make browser reload the javascript when this plugin is upgraded (Michael Tempest, Colas Nahaboo) Foswikitask:Item1529: Disable "Wiki text" button until editor has loaded topic text (Michael Tempest) |
 |  24 May 2009 | Foswikitask:Item1205: add support for global NOWYSIWYG flag Foswikitask:Item1341: keep TML lettered & roman numeral lists (Michael Tempest) Foswikitask:Item1534: fix typewriter text (Michael Tempest) Foswikitask:Item1548: fix data-loss warning when saving from wiki-text (Michael Tempest) |
 |  10 Apr 2009 | Foswikitask:Item1394: fixed colour handling Foswikitask:Item8108: added safari,inlinepopups,fullscreen plugins, fixed some minor bugs on IE |
-|  3 Apr 2009 | Foswikitask:Item1383: Optimised the preferences Foswikitask:Item8094: fixed the pickaxe |
+|  03 Apr 2009 | Foswikitask:Item1383: Optimised the preferences Foswikitask:Item8094: fixed the pickaxe |
 |  15 Mar 2009 | Foswikitask:Item930: Crawford Currie upgraded to Tiny MCE 3.2.2 and recoded all the standard plugins that had to be recoded |
 |  21 Jan 2009 | Foswikitask:Item833: added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) - Eugen Mayer |
 |  06 Dec 2008 | Foswikitask:Item5859: removed XHR headers that were banjaxing NTLM - Eugen Mayer |
@@ -153,9 +154,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  13 Sep 2007 | TWikibug:Item4613 fixed navigate-away prompt when unchanged TWikibug:Item4583 TWikibug:Item4604 TWikibug:Item4614 TWikibug:Item4616 A clutch of issues caused by use of the wrong encoding function when passing UTF8 parameters to REST using XMLHttpRequest. |
 |  12 Sep 2007 | TWikibug:Item4604 Converted to REST call for content conversion, to provide safe callback if JS is disabled in the browser TWikibug:Item4583 relaxed regex to try and make it work for UTF-8 topic names |
 |  11 Sep 2007 | TWikibug:Item4535 refinements to link handling to improve topic name recognition |
-|  7 Sep 2007 | TWikibug:Item4503 excess empty lines TWikibug:Item4486 no toc headers with unofficial syntax TWikibug:Item4560: empty lines lost TWikibug:Item4566: corrupted table on save |
-|  6 Sep 2007 | TWikibug:Item4557 added missing files to package |
-|  4 Sep 2007 | TWikibug:Item4534 TWikibug:Item4535 fixed |
+|  07 Sep 2007 | TWikibug:Item4503 excess empty lines TWikibug:Item4486 no toc headers with unofficial syntax TWikibug:Item4560: empty lines lost TWikibug:Item4566: corrupted table on save |
+|  06 Sep 2007 | TWikibug:Item4557 added missing files to package |
+|  04 Sep 2007 | TWikibug:Item4534 TWikibug:Item4535 fixed |
 |  14679 | TWikibug:Item4481 TWikibug:Item4524 fixed |
 |  14668 | Bugfixes and refinements done as part of 4.2 release |
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
