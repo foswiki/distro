@@ -1,3 +1,10 @@
+foswiki (1.0.6-1) unstable; urgency=high
+
+  * Upgrade to foswiki 1.0.6 - resolves Security Alert CVE-2009-1434
+    This version introduces a major enhancement in security against Cross-Site Request Forgery
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 5 Jul 2009 09:53:40 +0100
+
 foswiki (1.0.5-2) unstable; urgency=low
 
   *  Item1601: make /usr/lib/cgi-bin/foswiki/LocalLib.cfg a config file 
