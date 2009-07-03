@@ -169,6 +169,8 @@ sub finish {
     undef $this->{session};
     undef $this->{cUID2WikiName};
     undef $this->{cUID2Login};
+    undef $this->{wikiName2cUID};
+    undef $this->{login2cUID};
     undef $this->{isAdmin};
 
 }
@@ -476,6 +478,7 @@ sub findUserByWikiName {
     # Trim the (pointless) userweb, if present
     $wn =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
     my $mapping = $this->_getMapping( undef, undef, $wn );
+    #my $mapping = $this->_getMapping( $wn, $wn, $wn ); # why not?
     return $mapping->findUserByWikiName($wn);
 }
 
