@@ -62,7 +62,7 @@ view, using templates for the header, footer and each row.
 sub renderMetaData {
     my ( $this, $topicObject, $attrs ) = @_;
 
-    my $showAll  = $attrs->{all};
+    my $showAll  = $attrs->{all} || '';
     my $showAttr = $showAll ? 'h' : '';
     my $A        = ($showAttr) ? ':A' : '';
     my $title    = $attrs->{title} || '';
