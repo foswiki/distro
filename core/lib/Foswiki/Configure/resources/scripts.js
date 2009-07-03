@@ -304,6 +304,26 @@ function tab(group, newTab) {
     foswiki.CSS.removeClass(newTabBody, 'foswikiMakeHidden');
 }
 
+/* When searching for options it may be necessary to open all hidden divs so
+you can use the in-page search */
+ <input type="button" class="foswikiButton" value="Expand All" onclick='openAllHiddenDivs()' />
+
+function toggleHiddenDivs() {
+    var els = getElementsByClassName(document, 'temporarilyOpened'); 
+    if (els.length) {
+        for (var i = 0; i < els.length; i++) {
+            foswiki.CSS.removeClass(els[i], 'temporarilyOpened');
+            foswiki.CSS.addClass(els[i], 'foswikiMakeHidden');
+        }
+    } else {
+        els = getElementsByClassName(document, 'foswikiMakeHidden'); 
+        for (var i = 0; i < els.length; i++) {
+            foswiki.CSS.removeClass(els[i], 'foswikiMakeHidden');
+            foswiki.CSS.addClass(els[i], 'temporarilyOpened');
+        }
+    }
+}
+
 // Open the first root tab by inspecting the anchor. If there is no
 // anchor, open the 'Introduction' root tab.
 function initTab() {
