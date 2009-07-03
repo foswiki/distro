@@ -6,13 +6,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-21 10:45+0200\n"
+"PO-Revision-Date: 2009-07-03 15:41+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: JAPAN\n"
@@ -57,9 +57,8 @@ msgstr "%1 - %2 (%3) の登録"
 
 # "Quick start" points to the documentation?
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
-#, fuzzy
 msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
-msgstr "%1 - Foswikiの完全に集まった書類へのクイックレファレンス"
+msgstr "%1 - Foswikiの完成に集まった書類へのクイックレファレンス"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:70
 msgid "%1 - just for me"
@@ -462,7 +461,7 @@ msgstr "*段落* 空行で区切ります"
 
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-msgstr ""
+msgstr "*サイトリンク*が活用するトピック名とは: =%1= or =[<nop>[%1][ホームページ]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:88
 msgid "..."
@@ -493,13 +492,10 @@ msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "安全のため、複数のファイルに=.txt=拡張子をつけました"
 
 #: core/templates/messages.tmpl:493
-#, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
-msgstr ""
-"%1を複数のウェブに分けます。それぞれのウェブに一つのサブジェクト/協力エリアが"
-"含まれます。アクセスしようとする %2ウェブが存在しません"
+msgstr "Foswikiサイトが分ける複数のウェブとは、特異な課題をコラボレーションと働く部分です。編集してみているウェブは存在していません。"
 
 #: core/templates/messages.tmpl:131
 msgid ""
@@ -540,10 +536,13 @@ msgstr ""
 #: core/data/System/WebTemplateTopics.txt:4
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
+"A topic template defines the initial content of a newly created "
+"topic.トピックテンプレートとは、新規生成のトピックの内容を書き込むことです。"
 
+# renamed and moved is the same?
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:20
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
-msgstr ""
+msgstr "この名と呼ばれるトピックは、存在したのに、%1に移動させました。"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -586,9 +585,8 @@ msgid "Adding a %1 variable in WebPreferences"
 msgstr " %1 変数をWebPreferencesに追加します"
 
 #: core/templates/login.sudo.tmpl:3
-#, fuzzy
 msgid "Admin Foswiki User Authentication"
-msgstr "Admin TWiki ユーザー認証"
+msgstr "Admin Foswiki ユーザー認証"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:25
 msgid "Admin Maintenance"
@@ -630,14 +628,12 @@ msgstr "全てのパブリックウェブ"
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "新しいトピック名はWikiWordでない名前を許可します"
 
+# it sounds like a request, not a possible option.
 #: core/templates/messages.tmpl:267
-#, fuzzy
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
-msgstr ""
-"また、“戻る”をクリックして System.UserRegistration に戻って他のユーザー名を選"
-"択することも出来ます "
+msgstr "また、“戻る”をクリックして System.UserRegistration に戻って他のユーザー名を選択してください。"
 
 #: core/templates/messages.tmpl:254
 msgid ""
@@ -745,7 +741,7 @@ msgstr "可能なフォームテンプレート"
 
 #: core/data/System/WebTemplateTopics.txt:6
 msgid "Available templates in %1 Web:"
-msgstr ""
+msgstr "%1にある使用可のテンプレート"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "Back to topic"
@@ -772,6 +768,7 @@ msgstr "パスワードが違います"
 msgid "Base web %1 is missing or does not exist"
 msgstr "ベースウェブ%1が失われたか又は存在しません。"
 
+# ??? What is a bathing problem???
 #: core/lib/Foswiki/OopsException.pm:41
 msgid "Bathing problem"
 msgstr ""
@@ -784,7 +781,7 @@ msgstr "内容とタイトル"
 msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
-msgstr ""
+msgstr "既にフォームに書き入れたデータが削除されることになります。というのにトピック履歴から削除したデータを取り出せます。"
 
 #: core/data/Trash/WebHome.txt:7
 msgid ""
@@ -973,7 +970,7 @@ msgstr "リネームや移動を確定します"
 msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
-msgstr ""
+msgstr "[[%1][トピック履歴比較ツール (diff)]]を使って変更を確認してください。"
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -998,12 +995,11 @@ msgstr "続けて新しいページを作成します"
 msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
-msgstr ""
+msgstr "添付を除いてフォームデータとテキストを新規生成のトピックにコピーします。"
 
 #: core/templates/oopsmore.tmpl:19 core/templates/oopsmore.tmpl:22
-#, fuzzy
 msgid "Copy topic"
-msgstr "トピックへ "
+msgstr "トピックをコピーします。"
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid ""
@@ -4940,7 +4936,9 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid "_:Note__:"
+#~ msgid ""
+#~ "_:Note__:"
+#~ ""
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"
