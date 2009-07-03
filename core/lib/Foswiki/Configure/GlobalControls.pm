@@ -22,7 +22,7 @@ sub openTab {
       $depth > 2 ? 'configureSubSection' : 'configureRootSection';
     push(@{$this->{tabs}}, {
         id => $id, opts => $opts || '', text => $text, alert => $alert });
-    return "<div id='${id}_body' class='foswikiMakeHidden $bodyClass'><a name='${id}'></a>\n";
+    return "<div id='${id}_body' class='foswikiMakeHidden $bodyClass'><a name='${id}'><!--//--></a>\n";
 }
 
 sub closeTab {
@@ -42,24 +42,21 @@ sub generateTabs {
     # Load the CSS from resources, embedding the expansion of the tabs
     my $controllerType = $depth > 1 ? 'div' : 'body';
     my @tabLi = map { "$controllerType.$_->{id} li.tabId_$_->{id} a" } @{$this->{tabs}};
-    my $css = "<style type='text/css'>".Foswiki::getResource(
-        'tabs.css',
-        TABLI  => join(',', @tabLi),
-        TABLIA => join(',', map { "$_ a" } @tabLi))
-      .'</style>';
-
+    
     my $ulClass = $depth > 1 ? 'configureSubTab' : 'configureRootTab';
     my $tabs = "<ul class='$ulClass'>\n";
     foreach my $tab ( @{$this->{tabs}} ) {
         my $href = $depth > 1 ? '' : " href='#$tab->{id}'";
-        my $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : '');
+        my $expertClass = '';
+        # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # do not hide menu items if they are expert
         my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
         $tabs .= "<li class='tabli tabGroup_$this->{groupid} tabId_$tab->{id}$expertClass'>"
           . "<a$alertClass$href>"
             . _nbsp($tab->{text}) . "</a></li>\n";
     }
     $tabs .= "</ul>\n";
-    return $css.$tabs;
+
+    return $tabs;
 }
 
 sub addTooltip {

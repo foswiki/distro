@@ -294,14 +294,23 @@ function toggleExpertsMode() {
     }
 }
 
+var tabLinks = {};
+
 function tab(group, newTab) {
     var controller = document.getElementById(group);
-    var curTab = controller.className;    
+    var curTab = controller.className;
+    if (tabLinks[curTab]) {
+	    foswiki.CSS.removeClass(tabLinks[curTab], 'configureMenuSelected');
+    }
     controller.className = newTab;
     var currentTabBody = document.getElementById(curTab + '_body');    
     foswiki.CSS.addClass(currentTabBody, 'foswikiMakeHidden');
     var newTabBody = document.getElementById(newTab + '_body');
     foswiki.CSS.removeClass(newTabBody, 'foswikiMakeHidden');
+    /* highlight tab */
+    if (tabLinks[newTab]) {
+	    foswiki.CSS.addClass(tabLinks[newTab], 'configureMenuSelected');
+    }
 }
 
 // Support for the Expand/Close All button
@@ -364,6 +373,7 @@ var rules = {
 		if (matches && matches[1]) {
 			el.tab_group = matches[1];
 		}
+		tabLinks[el.tab_id] = el;
 		
 		el.onclick = function() {
 			tab(el.tab_group, el.tab_id);

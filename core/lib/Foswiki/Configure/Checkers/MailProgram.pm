@@ -20,7 +20,7 @@ sub check {
     }
     elsif ( !$Foswiki::cfg{SMTP}{MAILHOST} ) {
         $n = $this->WARN(
-'Net::SMTP is installed in this environment, but {SMTP}{MAILHOST} is not defined, so the {MailProgram} <b>will</b> be used..'
+'Net::SMTP is installed in this environment, but {SMTP}{MAILHOST} is not defined, so the {MailProgram} will be use..'
         );
         $useprog = 1;
     }

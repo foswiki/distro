@@ -134,8 +134,8 @@ sub WARN {
     $this->{item}->inc('warnings');
     $totwarnings++;
     return CGI::div(
+        { class => 'configureWarn' },
         CGI::span(
-            { class => 'configureWarn' },
             CGI::strong('Warning: ') . join( "\n", @_ )
         )
     );
@@ -228,9 +228,9 @@ sub collectMessages {
     my $errorsMess   = "$errors error" .     ( ( $errors > 1 )   ? 's' : '' );
     my $warningsMess = "$warnings warning" . ( ( $warnings > 1 ) ? 's' : '' );
     my $mess         = '';
-    $mess .= ' ' . CGI::span( { class => 'configureError' }, $errorsMess )
+    $mess .= ' ' . CGI::div( { class => 'configureError' }, $errorsMess )
       if $errors;
-    $mess .= ' ' . CGI::span( { class => 'configureWarn' }, $warningsMess )
+    $mess .= ' ' . CGI::div( { class => 'configureWarn' }, $warningsMess )
       if $warnings;
 
     return $mess;

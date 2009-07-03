@@ -402,7 +402,8 @@ lib/Foswiki/Configure/resources/favicon.ico 0444
 lib/Foswiki/Configure/resources/foswiki-logo-slogan.png 0444
 lib/Foswiki/Configure/resources/info.gif 0444
 lib/Foswiki/Configure/resources/warning.gif 0444
-lib/Foswiki/Configure/resources/tabs.css
+lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
+lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
 lib/Foswiki/Configure/resources/footer.html
 lib/Foswiki/Configure/resources/scripts.js
 lib/Foswiki/Configure/resources/oh_dear.html
