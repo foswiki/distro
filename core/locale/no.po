@@ -9,6 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2009-06-20 22:13+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -376,7 +377,6 @@ msgid "*Formatting help:*"
 msgstr "*Formateringshjelp:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -542,7 +542,7 @@ msgstr ""
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
-msgstr "Tilgang nektes"
+msgstr "Ingen Tilgang"
 
 #: core/templates/messages.tmpl:477
 msgid "Access check on %1 failed"
@@ -1558,7 +1558,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Hvis du er usikker på hva dette betyr, les:"
 
 #: core/templates/messages.tmpl:495
 msgid "If you came here by clicking on a question mark link"
@@ -2153,11 +2153,11 @@ msgstr "Preferanser for"
 
 #: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Eller velg Avbryt"
 
 #: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Velg OK for å bekrefte denne endringen."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2309,9 +2309,8 @@ msgid "Replace form..."
 msgstr "Erstatt skjema..."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registrering"
+msgstr "Bekreft Forespørsel"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2364,7 +2363,7 @@ msgstr "Gjennomse nylige endringer i:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:19
 msgid "Revision"
-msgstr "Verjon"
+msgstr "Versjon"
 
 #: core/templates/oopsmore.tmpl:102
 msgid "Revisions"
@@ -2930,7 +2929,7 @@ msgstr "Dette krever at skjemadefinisjonen er tilstede."
 
 #: core/data/System/DefaultPreferences.txt:42
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Dette nettstedet bruker Foswiki"
 
 #: core/templates/messages.tmpl:292
 msgid "This site requires at least %1 character passwords"
@@ -3223,7 +3222,7 @@ msgstr "Advarsel"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Advarsel! Bekreftelse påbudt"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
@@ -3242,9 +3241,8 @@ msgstr ""
 "ulovlige tegn."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Advarsel: Kan ikke finne siden %1.%2"
+msgstr "Advarsel: Kan ikke finne navngitt seksjon %3 på side %1.%2"
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
@@ -3263,9 +3261,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advarsel: Denne webløsningen tillater ikke %<nop>INCLUDE% av URLs"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Advarsel: 'include' siden finnes ikke!"
+msgstr "Advarsel: \\'include\\' siden finnes ikke!"
 
 #: core/data/System/WebSearch.txt:3
 msgid "Web Search"
@@ -3789,7 +3786,7 @@ msgstr "vis"
 
 #: core/templates/validate.tmpl:27
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "hvorfor du blir bedt om å bekrefte"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:22
 msgid ""
