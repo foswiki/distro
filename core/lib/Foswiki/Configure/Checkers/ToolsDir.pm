@@ -9,9 +9,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $e = $this->guessMajorDir( 'ScriptDir', 'bin' );
-    $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ScriptDir} );
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{ScriptDir}, 'r' );
+    my $e = $this->guessMajorDir( 'ToolsDir', 'bin' );
+    $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ToolsDir} );
+    my $e2 = $this->checkTreePerms( $Foswiki::cfg{ToolsDir}, 'r' );
     $e .= $this->WARN($e2) if $e2;
     return $e;
 }
