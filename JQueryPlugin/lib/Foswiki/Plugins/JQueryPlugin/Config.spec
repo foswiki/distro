@@ -1,5 +1,6 @@
-# ---+ JQueryPlugin
-
+# ---+ Extensions
+# ---++ JQueryPlugin
+# ---+++ General settings 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Debug} = 0;
 
@@ -7,7 +8,7 @@ $Foswiki::cfg{JQueryPlugin}{Debug} = 0;
 $Foswiki::cfg{JQueryPlugin}{MemoryCache} = 1;
 
 # **BOOLEAN**
-# Enable this switch to prevent name conflicts with other javascrit frameworks that
+# Enable this switch to prevent name conflicts with other javascript frameworks that
 # use <code>$</code>. If enabled <code>$</code> will be renamed to <code>$j</code>.
 # To jQuery plugin authors: in any case try to wrap your plugins into a
 # <pre>(function($) { ... })(jQuery);</pre> construct to make use of <code>$</code> locally.
@@ -22,7 +23,7 @@ $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.3.2';
 # **SELECT base, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'redmond';
 
-# ---++ jQuery plugins
+# ---+++ jQuery plugins -- EXPERT
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 1;
 

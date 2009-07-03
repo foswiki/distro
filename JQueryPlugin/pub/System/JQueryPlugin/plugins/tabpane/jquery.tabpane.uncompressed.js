@@ -33,6 +33,9 @@ $.tabpane = {
 
       var $thisPane = $(this);
       var thisOpts = $.extend({}, opts, $thisPane.metadata());
+      if ($.browser.msie) {
+        thisOpts.animate = false; // force animation off on all msies because that fucks up font aliasing
+      }
 
       if (!$thisPane.is(".jqTabPaneInitialized")) {
 
@@ -46,9 +49,10 @@ $.tabpane = {
         // get all headings and create tabs
         var index = 1;
         $thisPane.find("> .jqTab").each(function() {
-          var title = $(this).find('h2:first').remove().text();
+          var $this = $(this);
+          var title = $this.find('h2:first').remove().text();
           $tabGroup.append('<li><a href="#" data="'+this.id+'">'+title+'</a></li>');
-          if (index == thisOpts.select || this.id == thisOpts.select) {
+          if (index == thisOpts.select || $this.hasClass(thisOpts.select)) {
             thisOpts.currentTabId = this.id;
           }
           index++;

@@ -155,7 +155,7 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Plugin Roadmap
 for v2.1:
-   * create formfield types for colors, user, topic, web
+   * create formfield types for user, topic, web
    * replace jquery.nifty with [[http://www.malsup.com/jquery/corner/][jquery.corner]]
 
 for v2.2:

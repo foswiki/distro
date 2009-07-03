@@ -30,7 +30,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 3740 $';
-$RELEASE = '2.01'; 
+$RELEASE = '2.02'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 

@@ -9,27 +9,37 @@
   display:none; /* switched on by plugin */
   border:1px solid #BDBEC5;
   clear:both;
+  padding:0px;
+  margin:0px;
 }
 .jqTab.current {
   display:block;
 }
 .jqTabContents {
   padding:8px;
-  /*
-  overflow-x:hidden;
-  overflow-y:auto;
-  */
 }
 ul.jqTabGroup {
   margin:0px !important;
   padding:0px !important;
   list-style:none;
-  padding-top:1px !important; /* IE6+IE7 fix */
+  display:block;
+  _padding-top:1px !important; /* IE6 fix */
+}
+*:first-child+html 
+ul.jqTabGroup { /* IE7 fix */
+  padding-top:2px !important; 
+}
+*:first-child+html 
+.jqTabPane .foswikiClear { /* IE7 fix to draw the borders */
+  display:none;
+}
+.jqTabPane .foswikiClear {
+  _display:none; /* IE6 Fix */
 }
 ul.jqTabGroup li {
   background-color: transparent;
   background-image: url('tab_right.png') !important;
-  _background-image: url('tab_right.gif') !important; /* IE 6 */
+  _background-image: url('tab_right.gif') !important; /* IE6 */
   background-repeat: no-repeat !important;
   background-position: right top !important;
   float:left;
@@ -47,7 +57,7 @@ ul.jqTabGroup a {
   white-space:nowrap;
   background-color:transparent !important;
   background-image: url('tab_left.png') !important;
-  _background-image: url('tab_left.gif') !important; /* IE 6 */
+  _background-image: url('tab_left.gif') !important; /* IE6 */
   background-repeat:no-repeat !important;
   background-position:left top !important; 
   color:black;

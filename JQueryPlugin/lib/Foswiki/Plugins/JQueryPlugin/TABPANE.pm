@@ -118,10 +118,10 @@ sub handleTab {
   my $afterLoadHandler = $params->{afterload} || '';
   my $url = $params->{url} || '';
   my $container = $params->{container} || '';
-  my $tabId = $params->{id};
+  my $tabClass = $params->{id} || '';
   my $height = $params->{height};
   my $width = $params->{width};
-  $tabId = 'jqTab'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
+  my $tabId = 'jqTab'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
   my @metaData = ();
   if ($beforeHandler) {
@@ -150,7 +150,7 @@ sub handleTab {
   $style = "style='$style'" if $style;
  
 
-  return "<!-- TAB --><div id='$tabId' class=\"jqTab$metaData\">\n<h2 >$theName</h2>\n<div class='jqTabContents' $style>";
+  return "<!-- TAB --><div id='$tabId' class=\"$tabClass jqTab$metaData\">\n<h2 >$theName</h2>\n<div class='jqTabContents' $style>";
 }
 
 =begin TML

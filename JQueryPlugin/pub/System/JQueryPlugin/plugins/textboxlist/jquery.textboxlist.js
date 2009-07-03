@@ -18,4 +18,4 @@ for(i=0;i<self.currentValues.length;i++){var currentVal=self.currentValues[i];if
 continue;var found=false;for(j=0;j<values.length;j++){var val=values[j];if(val&&currentVal==val){found=true;break;}}
 if(!found){newValues.push(currentVal);}}
 self.currentValues=newValues;if(typeof(self.opts.onDeselect)=='function'){$.log("calling onDeselect handler");self.opts.onDeselect(self);}
-self.select(newValues);};$.TextboxLister.defaults={containerClass:'jqTextboxListContainer',listValueClass:'jqTextboxListValue',closeClass:'jqTextboxListClose',doSort:false,inputName:undefined,resetControl:undefined,clearControl:undefined,autocomplete:undefined,onClear:undefined,onReset:undefined,onSelect:undefined,onDeselect:undefined,};})(jQuery);;
+self.select(newValues);};$.TextboxLister.defaults={containerClass:'jqTextboxListContainer',listValueClass:'jqTextboxListValue',closeClass:'jqTextboxListClose',doSort:false,inputName:undefined,resetControl:undefined,clearControl:undefined,autocomplete:undefined,onClear:undefined,onReset:undefined,onSelect:undefined,onDeselect:undefined};})(jQuery);;

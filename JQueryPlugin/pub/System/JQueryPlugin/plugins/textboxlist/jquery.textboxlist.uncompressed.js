@@ -252,7 +252,7 @@
     onClear: undefined,
     onReset: undefined,
     onSelect: undefined,
-    onDeselect: undefined,
+    onDeselect: undefined
   };
  
 })(jQuery);
