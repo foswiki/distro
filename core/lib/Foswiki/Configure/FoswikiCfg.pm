@@ -201,6 +201,7 @@ sub _parse {
     my $sectionNum = 0;
 
     foreach my $l (<F>) {
+        $l =~ s/\r//g;
         last if ($l =~ /^1;|^__\w+__/);
         if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
             pusht( \@settings, $open ) if $open;

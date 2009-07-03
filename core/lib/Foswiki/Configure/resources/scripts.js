@@ -151,7 +151,7 @@ function initDefaultLink(inLink) {
 	inLink.setDefaultTitle = 'Set to default value:';
 	inLink.undoDefaultTitle = 'Undo default and use previous value:';
 	/* set link label states */
-	inLink.setDefaultLinkText = 'use default';
+	inLink.setDefaultLinkText = 'use&nbsp;default';
 	inLink.undoDefaultLinkText = 'undo';
 	
 	/* set defaults */

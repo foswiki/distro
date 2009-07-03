@@ -146,7 +146,7 @@ ul.configureRootTab li a em {
 
 ul.configureSubTab {
   list-style-type: none;
-  text-align: center;
+  text-align: left;
   margin: 1em 0 1em 0;
   padding: 3px 10px 3px 10px;
   line-height: 28px;
