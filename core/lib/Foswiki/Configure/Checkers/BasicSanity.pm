@@ -97,7 +97,7 @@ HERE
         else {
             $result .= <<HERE;
 Could not find existing configuration file <code>$this->{LocalSiteDotCfg}</code>.
-<h3>Do you run configure for the first time?</h3>
+<h3>Are you running configure for the first time?</h3>
 Please fill in the required paths in the
 'General path settings' section and click 'Next' to save before returning to configure to complete configuration.
 <h3>Did you save the configuration before?</h3>
