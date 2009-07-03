@@ -109,23 +109,24 @@ ul.natEditHelpTools {
   margin-left:10px;
 }
 
-/* dialogs */
+/* table dialog */
+#natEditInsertTable {
+  width:200px;
+}
+
+/* link dialog */
 #natEditInsertLink .jqTabContents {
-  width:400px;
+  width:480px;
   height:150px;
 }
 #natEditInsertLink .foswikiFormStep hr {
   margin:1em 0em;
 }
-#natEditInsertLinki .jqTabContents {
-  overflow:visible;
-}
+
+/* attachment dialog */
 #natEditInsertAttachment .jqTabContents {
   width:570px;
-}
-#natEditInsertAttachments {
-  overflow:auto;
-  height:205px;
+  height:410px;
 }
 #natEditInsertAttachment label {
   float:left;
@@ -148,6 +149,10 @@ ul.natEditHelpTools {
 }
 #natEditInsertAttachment label.selected {
   border:1px solid red;
+}
+#natEditInsertAttachments {
+  overflow:auto;
+  height:205px;
 }
 #natEditInsertAttachments label span {
   text-align:center;

@@ -31,8 +31,8 @@
       }
       output.push(line);
     }
-    $.modal.close();
-    nateditor.insert(output.join("\n")+"\n");
+    nateditor.remove();
+    nateditor.insertTag(['', output.join("\n")+"\n", '']);
   };
 
 })(jQuery);

@@ -33,18 +33,17 @@
       var web = $("#natEditInsertLinkWeb").val();
       var topic = $("#natEditInsertLinkTopic").val();
       var linktext = $("#natEditInsertLinkTextTopic").val() || topic;
-      markup = ["[["+web+"."+topic+"][",linktext,"]]"];
+      markup = "[["+web+"."+topic+"]["+linktext+"]]";
     } else {
       var url = $("#natEditInsertLinkUrl").val();
       var linktext = $("#natEditInsertLinkTextExternal").val();
       if (linktext) {
-	markup = ["[["+url+"][",linktext,"]]"];
+	markup = "[["+url+"]["+linktext+"]]";
       } else {
-	markup = ["[[",url,"]]"];
+	markup = "[["+url+"]]";
       }
     }
-    $.modal.close();
     nateditor.remove();
-    nateditor.insertTag(markup);
+    nateditor.insertTag(['', markup, '']);
   };
 })(jQuery);

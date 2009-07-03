@@ -135,11 +135,10 @@
    * handles the submit action for the insert attachment dialog
    */
   $.natedit.handleInsertAttachment = function(nateditor) {
-    $.modal.close();
     var markup;
     var web = $("#natEditInsertAttachmentWeb").val();
     var topic = $("#natEditInsertAttachmentTopic").val();
-    var fileName = $("#natEditInsertAttachment input:checked").val();
+    var fileName = $("#natEditInsertAttachmentFile").val();
     if (!fileName) {
       return;
     }

@@ -87,6 +87,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  03 Jul 2009 | IE fixes, !PatternSkin related fixes |
 |  23 Jun 2009 | converted to foswiki, lots of feature enhancements |
 |  03 Feb 2009 | fixed preview+save on Foswiki/<nop>PatternSkin; \
                  fixed force new revision; \

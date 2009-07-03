@@ -9,9 +9,9 @@
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
 %TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{"defined 'rev'" then="[[%WEB%.%TOPIC%][%TOPIC%]] (%MAKETEXT{"restore"}%)" else="%IF{"istopic '%WEB%.%TOPIC%'" then="[[%WEB%.%TOPIC%][%TOPIC%]] (%MAKETEXT{"edit"}%)" else="<nop>%TOPIC% (%MAKETEXT{"new"}%)"}%"}%</h1>%TMPL:END%
 
-%TMPL:DEF{"gettopictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="gettopictitle_dbcache" else="gettopictitle_default"}%%TMPL:END%
-%TMPL:DEF{"gettopictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else=""}%%TMPL:END%
-%TMPL:DEF{"gettopictitle_dbcache"}%%GETTOPICTITLE{encode="entity" default=""}%%TMPL:END%
+%TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default"}%%TMPL:END%
+%TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{encode="entity"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%<!-- content -->
 %TMPL:P{"contenttitle"}%<!-- contenttitle// -->
@@ -81,7 +81,7 @@
   <table>
   <tr>
     <th>Title:</th>
-    <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"gettopictitle"}%" encode="quote"}%" /></td>
+    <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%" encode="quote"}%" /></td>
   </tr>
   </table>
 </literal></div>

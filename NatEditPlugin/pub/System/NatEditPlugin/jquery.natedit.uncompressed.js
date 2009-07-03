@@ -293,9 +293,7 @@ $.NatEditor.prototype.initGui = function() {
 $.NatEditor.prototype.insert = function(newText) {
   //$.log("called insert("+newText+")");
   var self = this;
-  var $txtarea = $(self.txtarea);
 
-  $txtarea.focus();
   self.getSelectionRange();
   var startPos = self.txtarea.selectionStart;
   var text = self.txtarea.value;
@@ -307,7 +305,7 @@ $.NatEditor.prototype.insert = function(newText) {
   //$.log("prefix='+"+prefix+"'");
   //$.log("postfix='"+postfix+"'");
   self.setCaretPosition(startPos);
-  $txtarea.trigger("keypress");
+  $(self.txtarea).trigger("keypress");
 };
 
 /*************************************************************************
@@ -396,8 +394,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
    
     range.moveStart("character", -1);
     range.text = selection;
-   
-   
+
     if (pos < 0) {
       pos = text.length;
       selection = "";
@@ -558,9 +555,13 @@ $.NatEditor.prototype.openDialog = function(opts) {
 
 $.NatEditor.prototype._openDialog = function(opts) {
   var self = this;
+
   var selection = self.getSelection() || '';
+  opts._startPos = self.txtarea.selectionStart;
+  opts._endPos = self.txtarea.selectionEnd;
   var $dialog = $(opts.dialog);
-  $dialog.modal({ 
+
+  $dialog.modal({
     persist: true,
     close:false,
     onShow: function(dialog) {
@@ -574,10 +575,12 @@ $.NatEditor.prototype._openDialog = function(opts) {
   });
   if (!opts._doneInit) {
     $dialog.find(".submit").click(function() {
+      $.modal.close();
+      if ($.browser.msie) { // restore lost position
+        self.setSelectionRange(opts._startPos, opts._endPos);
+      }
       if (typeof(opts.onSubmit) != 'undefined') {
         opts.onSubmit.call(this, self);
-      } else {
-        $.modal.close();
       }
       return false;
     });
