@@ -53,7 +53,7 @@ sub generateTabs {
     foreach my $tab ( @{$this->{tabs}} ) {
         my $href = $depth > 1 ? '' : " href='#$tab->{id}'";
         my $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : '');
-        my $alertClass = $tab->{alert} ? " class='warn'" : '';
+        my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
         $tabs .= "<li class='tabli tabGroup_$this->{groupid} tabId_$tab->{id}$expertClass'>"
           . "<a$alertClass$href>"
             . _nbsp($tab->{text}) . "</a></li>\n";

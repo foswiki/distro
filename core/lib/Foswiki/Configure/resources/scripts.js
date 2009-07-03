@@ -304,10 +304,7 @@ function tab(group, newTab) {
     foswiki.CSS.removeClass(newTabBody, 'foswikiMakeHidden');
 }
 
-/* When searching for options it may be necessary to open all hidden divs so
-you can use the in-page search */
- <input type="button" class="foswikiButton" value="Expand All" onclick='openAllHiddenDivs()' />
-
+// Support for the Expand/Close All button
 function toggleHiddenDivs() {
     var els = getElementsByClassName(document, 'temporarilyOpened'); 
     if (els.length) {

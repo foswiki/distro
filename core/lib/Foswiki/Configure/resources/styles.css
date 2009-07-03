@@ -180,8 +180,6 @@ ul.configureSubTab a:hover {
 /* WARN and ERROR */
 .configureWarn {
     color:#f60; /* orange */
-    background-color:#FFE8D9; /* light orange */
-    border-bottom:1px solid #f60;
 }
 
 a.configureWarn,
