@@ -378,17 +378,18 @@ sub verify_GetBinaryRevision {
     my $atttext2   = "\003test test test\000\n";
     my $attachment = "file.binary";
     my $rcs        = $class->new( $fatwilly, $testWeb, $topic, $attachment );
-    $rcs->saveFile( "tmp.tmp", $atttext1 ) && die;
+    my $fn = "$Foswiki::cfg{WorkingDir}/tmp/tmp.tmp";
+    $rcs->saveFile( $fn, $atttext1 ) && die;
     my $fh;
-    open( $fh, "<tmp.tmp" );
+    $this->assert(open($fh, "<", $fn), $!);
     $rcs->addRevisionFromStream( $fh, "comment attachment", "UserForRev" );
     close($fh);
-    unlink("tmp.tmp");
-    $rcs->saveFile( "tmp.tmp", $atttext2 ) && die;
-    open( $fh, "<tmp.tmp" );
+    unlink($fn);
+    $rcs->saveFile( $fn, $atttext2 ) && die;
+    $this->assert(open($fh, "<", $fn), $!);
     $rcs->addRevisionFromStream( $fh, "comment attachment", "UserForRev" );
     close($fh);
-    unlink("tmp.tmp");
+    unlink($fn);
 
     $rcs = $class->new( $fatwilly, $testWeb, $topic, $attachment );
 
