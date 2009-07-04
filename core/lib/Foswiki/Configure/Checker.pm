@@ -281,7 +281,7 @@ sub getValueObject { return; }
 
 sub getSectionObject { return; }
 
-sub visit { print "FUCK ALL TO DO "; return 1; }
+sub visit { return 1; }
 
 1;
 __DATA__

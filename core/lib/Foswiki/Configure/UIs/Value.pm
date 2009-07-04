@@ -81,8 +81,11 @@ sub open_html {
         $defaultDisplayValue =~ s/'/\&amp;apos;/go;
         $defaultDisplayValue =~ s/"/\&amp;quot;/go;
         $details .= <<HERE;
-<a href="#" onmouseover='Tip(getTip("Delta")+"<code>$defaultDisplayValue</code><br />of type $value->{typename}<br /><small>(after clicking you may undo this reset)</small>")' onmouseout='UnTip()' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
+<a href="#" onmouseover='Tip(getTip("Delta")+"&lt;code&gt;$defaultDisplayValue&lt;/code&gt;&lt;br /&gt;of type $value->{typename}&lt;br /&gt;&lt;small&gt;(after clicking you may undo this reset)&lt;/small&gt;")' onmouseout='UnTip()' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
 HERE
+
+         $details =~ s/^[[:space:]]+//s;    # trim at start
+         $details =~ s/[[:space:]]+$//s;    # trim at end
     }
 
     my $control;
@@ -108,10 +111,11 @@ HERE
     }
 
     $class = " class='$class'" if ($class);
+
     $output .= "<tr$class>"
-      ."<th$class>$hiddenTypeOf$tipo$index$tipc</th>"
-        ."<td>$tipo$control$tipc&nbsp;$details$check</td>"
-          ."</tr>";
+      . "<th$class>$hiddenTypeOf$tipo$index$tipc</th>"
+      . "<td>$tipo$control$tipc&nbsp;$details$check</td>"
+      . "</tr>";
     return $output;
 }
 

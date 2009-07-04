@@ -12,7 +12,7 @@ sub open_html {
 
     # This is a running head
 
-    my $guts = "<br class='foswikiClear' /><!-- $depth $id --><p>"
+    my $guts = "<!-- $depth $id --><p>"
       .( $section->{desc} || '&nbsp;')
         ."</p>\n";
 

@@ -125,7 +125,12 @@ sub makeID {
 
 sub NOTE {
     my $this = shift;
-    return CGI::p( { class => "info" }, join( "\n", @_ ) );
+    return CGI::div(
+        { class => 'configureInfo' },
+        CGI::span(
+            join( "\n", @_ )
+        )
+    );    
 }
 
 # a warning
@@ -163,10 +168,7 @@ sub hidden {
     $value =~
       s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
     return
-        '<input type="hidden" name="' 
-      . $name
-      . '" value="'
-      . $value . '" />';
+        "<input type='hidden' name='$name' value='$value' />";
 }
 
 # Invoked to confirm authorisation, and handle password changes. The password
@@ -305,7 +307,7 @@ sub checkPerlModules {
         else {
             $mod_version ||= 'Unknown version';
             $n = $this->NOTE( $mod_version . ' installed' );
-            $n .= ' Desc: ' . $mod->{usage} if $mod->{usage};
+            $n .= ' Description: ' . $mod->{usage} if $mod->{usage};
         }
         $e .= $this->setting( $mod->{name}, $n );
     }

@@ -18,11 +18,11 @@ sub check {
         return $this->guessed(0);
     }
     return
-        '<br />This is not set correctly if the link below is broken:'
+        '<br />Test the correctness of this path with this link:'
       . CGI::br()
-      . '<a rel="nofollow" href="'
+      . '<a rel="nofollow" target="_new" href="'
       . $Foswiki::cfg{PubUrlPath}
-      . '">Go to &quot;pub&quot; directory</a>';
+      . '">My &quot;pub&quot; directory</a>';
 }
 
 1;

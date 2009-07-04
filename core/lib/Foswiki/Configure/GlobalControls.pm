@@ -39,19 +39,18 @@ sub _nbsp {
 sub generateTabs {
     my ($this, $depth) = @_;
 
-    # Load the CSS from resources, embedding the expansion of the tabs
     my $controllerType = $depth > 1 ? 'div' : 'body';
     my @tabLi = map { "$controllerType.$_->{id} li.tabId_$_->{id} a" } @{$this->{tabs}};
     
     my $ulClass = $depth > 1 ? 'configureSubTab' : 'configureRootTab';
     my $tabs = "<ul class='$ulClass'>\n";
     foreach my $tab ( @{$this->{tabs}} ) {
-        my $href = $depth > 1 ? '' : " href='#$tab->{id}'";
+        my $href = $depth > 1 ? '#' : "#$tab->{id}";
         my $expertClass = '';
         # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # do not hide menu items if they are expert
         my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
         $tabs .= "<li class='tabli tabGroup_$this->{groupid} tabId_$tab->{id}$expertClass'>"
-          . "<a$alertClass$href>"
+          . "<a$alertClass href='$href'>"
             . _nbsp($tab->{text}) . "</a></li>\n";
     }
     $tabs .= "</ul>\n";

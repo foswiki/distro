@@ -590,7 +590,7 @@ GOTOGPS
         print "$mess.";
     }
     print <<EOP;
-  Click <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N'> to save, or <a class='foswikiSubmit' href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">Cancel</a> to return to Foswiki Site Preferences
+  Click <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N' /> to save, or <a class='foswikiSubmit' href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">Cancel</a> to return to Foswiki Site Preferences
  </div>
 </form>
 EOP

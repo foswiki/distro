@@ -15,18 +15,20 @@
   %INCLUDE{styles.css}%
   %INCLUDE{pattern.css}%
  </style>
- <script language="JavaScript" type="text/javascript">//<!--
+ <script language="JavaScript" type="text/javascript">
+//<![CDATA[
   %INCLUDE{foswikiStyles.js}%
   %INCLUDE{behaviour.js}%
   %INCLUDE{scripts.js}%
-  //-->
+//]]>
  </script>
+</head>
 <body class="Introduction" id="Root">
- <script language="JavaScript" type="text/javascript">//<!--
+ <script language="JavaScript" type="text/javascript">
+//<![CDATA[
   %INCLUDE{wz_tooltip.js}%
-  //-->
+//]]>
  </script>
- <div class="patternNoViewPage">
   <div id="patternScreen">
    <div id="patternPageShadow">
     <div id="patternPage">
@@ -34,16 +36,14 @@
       <div id="patternOuter">
        <div id="patternFloatWrap">
         <div id="patternMain">
-         <div id="patternSideBar"><div id="patternClearHeaderLeft"></div><div id="patternSideBarContents"><!--SIDEBAR--></div><!-- /patternSideBarContents--></div><!-- /patternSideBar-->
+         <div id="patternSideBar"><!-- <div id="patternClearHeaderLeft"></div><div id="patternSideBarContents">SIDEBAR</div> --></div><!-- /patternSideBar-->
           <div id="patternMainContents">
-           <div id="patternTopic">
-            <img src="%SCRIPTNAME%?action=resource;resource=foswiki-logo-slogan.png" class="logo" alt="Foswiki logo" />
+           <img src="%SCRIPTNAME%?action=resource;resource=foswiki-logo-slogan.png" class="logo" alt="Foswiki logo" />
+            <div id="patternTopic">
 <div class="foswikiRight">
- <input type="button" class="foswikiButton" value="Expand/Close All" title="Toggle display of all options; useful for searching" onclick='toggleHiddenDivs()' /></div>
+<input type="button" class="foswikiButton" value="Expand/Close All" title="Toggle display of all options; useful for searching" onclick='toggleHiddenDivs()' /></div>
 <h1>Configuration</h1>
-<div class="configureExpert foswikiRight" style="display:none">
- <input type="button" class="foswikiButton" value="Hide EXPERT options" />
-</div>
-<div class="configureNotExpert foswikiRight" style="display:none" class="foswikiMakeVisible">
- <input type="button" class="foswikiButton" value="Show EXPERT options" />
+<div class="configureExpert foswikiRight" style="display:none"><input type="button" class="foswikiButton" value="Hide EXPERT options" /></div>
+<div class="configureNotExpert foswikiRight foswikiMakeVisible" style="display:none"><input type="button" class="foswikiButton" value="Show EXPERT options" /></div>
+<br class="foswikiClear" />
 </div>

@@ -56,15 +56,14 @@ sub open_html {
                 . "</h2>\n";
         } else {
             # This is a new sub section within a running head section.
+            $output .= "</table>";
             $output .=
-              "<tr><td colspan='2'><h$depth class='configureInlineHeading'>"
+              "<h$depth class='configureInlineHeading'>"
                 . $section->{headline} . "</h$depth>\n";
 
             if ($section->{desc}) {
                 $output .= $section->{desc};
             }
-
-            $output .= "</td></tr>\n";
         }
     }
 
@@ -74,7 +73,7 @@ sub open_html {
         ; # Start a new tabbed section
     } else {
         # plain section; open values table
-        $output .= "<table class='configureSectionContents' cols='2'>";
+        $output .= "<table class='configureSectionContents'>";
     }
 
     return $output;
@@ -84,13 +83,13 @@ sub close_html {
     my ( $this, $section, $root, $output ) = @_;
 
     my $depth = $section->getDepth();
-    my $id = $this->makeID( $section->{headline} );
+    my $id = $this->makeID( $section->{headline} ) || 'configureSections';
 
     if ($section->{opts} =~ /TABS/) {
         # Generate the tab controls at this level (the tabs themselves
         # have already been generated as hidden divs). We have to put the
         # generated tabs at the *top* of the section
-        $output = "<div class='' id='$id'>"
+        $output = "<div id='$id'>"
           . $section->{controls}->generateTabs($depth)
             . $output
               ."</div>";
