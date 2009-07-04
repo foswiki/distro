@@ -1700,6 +1700,20 @@ HERE
 THERE
     },
     {
+        name => 'Item1798',
+        exec => $ROUNDTRIP | $TML2HTML,
+        tml  => <<HERE,
+| [[LegacyTopic1]] | Main.SomeGuy |
+%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+HERE
+        html => <<THERE,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td>Main.SomeGuy</td></tr>
+</table>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+THERE
+    },
+    {
         name => 'Item4871',
         exec => $TML2HTML,
         tml  => <<'BLAH',
