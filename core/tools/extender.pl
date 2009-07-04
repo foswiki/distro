@@ -190,10 +190,13 @@ sub _comparableVersion {
             $version = 0;
         }
     }
-    elsif ( $version =~ /^v?(\d+\.)(\d+(?:\.\d+)*)$/ ) {
-        # convert versions like 6.4, 6.10, 6.4.2 and 6.4.1.15 to a standard form
-        # i.e. 6.004, 6.010, 6.004002 and 6.004001015
-        # Note that 3.2501 stays as 3.2501
+    elsif ( $version =~ /^v?\d+\.\d+$/ ) {
+        # 6.4 stays as 6.4 and 6.10 stays as 6.10
+        # SMELL: 6.10 ends up "greater than" 6.11.1
+    }
+    elsif ( $version =~ /^v?(\d+\.)(\d+(?:\.\d+)+)$/ ) {
+        # convert versions like 6.4.2 and 6.4.1.15 to a standard form
+        # i.e. 6.004002 and 6.004001015
         my $major = $1;
         my $minor = $2;
         $minor =~ s/(\d+)\.?/sprintf('%03d',$1)/ge;
