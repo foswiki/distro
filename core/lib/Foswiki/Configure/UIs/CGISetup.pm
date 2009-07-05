@@ -140,7 +140,7 @@ HERE
     my $set;
     my $perlModules = $this->_loadDEPENDENCIES();
     if ( ref($perlModules) ) {
-        $set = $this->checkPerlModules($perlModules);
+        $set = $this->checkPerlModules(1, $perlModules);
     }
     else {
         $set = $this->ERROR($perlModules);
@@ -158,8 +158,7 @@ HERE
     my $url = $Foswiki::query->url();
     $out .= $this->setting(
         CGI::a( { name => 'PATH_INFO' }, 'PATH_INFO' ),
-        $Foswiki::query->path_info() . $this->NOTE(
-            <<HERE
+        $Foswiki::query->path_info() . $this->NOTE(<<HERE) );
 For a URL such as <strong>$url/foo/bar</strong>,
 the correct PATH_INFO is <strong>/foo/bar</strong>, without any prefixed path
 components. <a rel="nofollow" href="$url/foo/bar#PATH_INFO">
@@ -168,8 +167,6 @@ components. <a rel="nofollow" href="$url/foo/bar#PATH_INFO">
 a web hosting provider.
 Look at the new path info here. It should be <strong>/foo/bar</strong>.
 HERE
-        )
-    );
 
     # mod_perl
     if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
@@ -211,7 +208,7 @@ HERE
           . '</strong> groups = <strong>'
           . $::WebServer_gid
           . '</strong>'
-          . $this->NOTE('Your CGI scripts are executing as this user.')
+          . $this->NOTE('Your CGI scripts are executing as this user.' )
     );
 
     $out .= $this->setting( 'Original PATH',
@@ -225,15 +222,12 @@ HERE
     $out .= $this->setting(
         "Current PATH",
         $currentPath,
-        $this->NOTE(
-            <<HERE
+        $this->NOTE(<<HERE) );
 This is the actual PATH setting that will be used by Perl to run
 programs. It is normally identical to {SafeEnvPath}, unless
 that variable is empty, in which case this will be the webserver user's
 standard path..
 HERE
-        )
-    );
 
     return $out;
 }

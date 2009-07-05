@@ -52,13 +52,13 @@ my @perl58 = (
 sub check {
     my $this = shift;
 
-    my $n = $this->checkPerlModules( \@required );
+    my $n = $this->checkPerlModules( 0, \@required );
 
     if ( $] >= 5.008 ) {
-        $n .= $this->checkPerlModules( \@perl58 );
+        $n .= $this->checkPerlModules( 0, \@perl58 );
     }
     else {
-        $n .= $this->checkPerlModules( \@perl56 );
+        $n .= $this->checkPerlModules( 0, \@perl56 );
     }
     return $n;
 }

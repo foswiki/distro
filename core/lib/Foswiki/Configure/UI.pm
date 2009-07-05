@@ -108,8 +108,9 @@ sub getUrl {
 sub setting {
     my $this = shift;
     my $key  = shift;
+
     my $data = join( ' ', @_ ) || ' ';
-    
+
     return CGI::Tr( CGI::th( $key) . CGI::td( $data) );
 }
 
@@ -257,14 +258,7 @@ sub _encode {
 # minimumVersion - lowest acceptable $Module::VERSION
 #
 sub checkPerlModules {
-    my $this = shift;
-    my $mods;
-    if ( ref( $_[0] ) eq 'ARRAY' ) {
-        $mods = $_[0];
-    }
-    else {
-        $mods = [ {@_} ];
-    }
+    my ( $this, $useTR, $mods) = @_;
 
     my $e = '';
     foreach my $mod (@$mods) {
@@ -309,7 +303,11 @@ sub checkPerlModules {
             $n = $this->NOTE( $mod_version . ' installed' );
             $n .= ' Description: ' . $mod->{usage} if $mod->{usage};
         }
-        $e .= $this->setting( $mod->{name}, $n );
+        if ($useTR) {
+            $e .= $this->setting( $mod->{name}, $n );
+        } else {
+            $e .= "<strong><code>$mod->{name}:</code></strong> $n<br />";
+        }
     }
     return $e;
 }

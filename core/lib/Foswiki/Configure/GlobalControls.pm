@@ -47,7 +47,7 @@ sub generateTabs {
     foreach my $tab ( @{$this->{tabs}} ) {
         my $href = $depth > 1 ? '#' : "#$tab->{id}";
         my $expertClass = '';
-        # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # do not hide menu items if they are expert
+        # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # uncomment to hide menu items if they are expert
         my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
         $tabs .= "<li class='tabli tabGroup_$this->{groupid} tabId_$tab->{id}$expertClass'>"
           . "<a$alertClass href='$href'>"

@@ -36,13 +36,13 @@ sub check {
 
     return '' unless $Foswiki::cfg{UseLocale};
 
-    my $n = $this->checkPerlModules( \@required );
+    my $n = $this->checkPerlModules( 0, \@required );
 
     if ( $] >= 5.008 ) {
-        $n .= $this->checkPerlModules( \@perl58 );
+        $n .= $this->checkPerlModules( 0, \@perl58 );
     }
     else {
-        $n .= $this->checkPerlModules( \@perl56 );
+        $n .= $this->checkPerlModules( 0, \@perl56 );
     }
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
 

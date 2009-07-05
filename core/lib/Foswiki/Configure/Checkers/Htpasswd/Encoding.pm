@@ -14,18 +14,24 @@ sub check {
 
     if ( $enc eq 'digest' ) {
         $e .= $this->checkPerlModules(
-            name           => 'Digest::MD5',
-            usage          => "MD5 encoded passwords",
-            minimumVersion => 1,
-            disposition    => 'required'
+            1,
+            {
+                name           => 'Digest::MD5',
+                usage          => "MD5 encoded passwords",
+                minimumVersion => 1,
+                disposition    => 'required',
+            }
         );
     }
     elsif ( $enc eq 'sha1' ) {
         $e .= $this->checkPerlModules(
-            name           => 'MIME::Base64',
-            usage          => "SHA1 password encoding",
-            minimumVersion => 1,
-            disposition    => 'required'
+            1,
+            {
+                name           => 'MIME::Base64',
+                usage          => "SHA1 password encoding",
+                minimumVersion => 1,
+                disposition    => 'required',
+            }
         );
     }
     my $pe = $this->checkTreePerms( $Foswiki::cfg{Htpasswd}{FileName}, 'r' );
