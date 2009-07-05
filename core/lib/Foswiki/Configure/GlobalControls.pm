@@ -22,7 +22,9 @@ sub openTab {
       $depth > 2 ? 'configureSubSection' : 'configureRootSection';
     push(@{$this->{tabs}}, {
         id => $id, opts => $opts || '', text => $text, alert => $alert });
-    return "<div id='${id}_body' class='foswikiMakeHidden $bodyClass'><a name='${id}'><!--//--></a>\n";
+    my $fullId = $id;
+    $fullId .= "\$$this->{groupid}" if $this->{groupid} ne ''; # syntax: sub$main
+    return "<div id='${fullId}_body' class='foswikiMakeHidden $bodyClass'><a name='${fullId}'><!--//--></a>\n";
 }
 
 sub closeTab {
@@ -45,7 +47,7 @@ sub generateTabs {
     my $ulClass = $depth > 1 ? 'configureSubTab' : 'configureRootTab';
     my $tabs = "<ul class='$ulClass'>\n";
     foreach my $tab ( @{$this->{tabs}} ) {
-        my $href = $depth > 1 ? "#$this->{groupid}" : "#$tab->{id}";
+        my $href = $depth > 1 ? "#$tab->{id}\$$this->{groupid}" : "#$tab->{id}";
         my $expertClass = '';
         # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # uncomment to hide menu items if they are expert
         my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';

@@ -47,7 +47,7 @@ li.configureExpert { /* menu item */
 .configureRootSection {
 	float:right;
 	width:78%;
-	margin:0 0 1em 1%;
+	margin:0 0 2em 1em;
 }
 
 .configureSubSection {
@@ -128,32 +128,29 @@ ul.configureRootTab li a {
 	border-bottom:1px solid #d4e7f1;
 }
 
-ul.configureRootTab li a.configureWarn {
+#configureSections li a.configureWarn {
 	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
 	background-position:95% 50%;
 	background-repeat:no-repeat;
 }
-ul.configureRootTab li.configureMenuSelected a,
-ul.configureRootTab li.configureMenuSelected a:hover {
+#configureSections li.configureMenuSelected a,
+#configureSections li.configureMenuSelected a:hover {
 	background-color:#2989bb;
 	color:#fff;
-	/*font-weight:bold;*/
 	border-left:none;
-	border-bottom:none;
+	text-decoration:none;
 }
-ul.configureRootTab li.configureMenuSelected a.configureWarn {
+#configureSections li.configureMenuSelected a.configureWarn {
 	background-image:url(configure?action=resource;resource=icon_warn_blue.gif);
 }
-ul.configureRootTab li a:hover {
+#configureSections li a:hover {
 	background-color:#eaf3f8;
 	color:#1869a2;
 	text-decoration:underline;
 }
-
-ul.configureRootTab li a em {
-	font-style:normal;
+#configureSections li a em {
+	/*font-style:normal;*/
 }
-
 ul.configureSubTab {
 	list-style-type:none;
 	height:1%;
@@ -162,7 +159,7 @@ ul.configureSubTab {
 ul.configureSubTab li {
 	display:block;
 	float:left;
-	margin:0 .5em .75em 0;
+	margin:0 5px .75em 0;
 	padding:0;
 }
 
@@ -173,11 +170,6 @@ ul.configureSubTab li a {
 	border:1px solid #d4e7f1;
 }
 
-/* Unselected but there are errors or warnings */
-ul.configureSubTab li a.configureWarn {
-	color:#f88; /* pink */
-}
-
 /* Hover effect */
 ul.configureSubTab a:hover {
 	background-color:#d4e7f1;
@@ -186,7 +178,10 @@ ul.configureSubTab a:hover {
 
 /* WARN and ERROR */
 .configureWarn {
-	  color:#f90; /* orange */
+	  color:#f80; /* orange */
+}
+div.configureWarn {
+	  font-weight:bold;
 }
 .configureRootSection div.configureWarn {
 	border:1px solid #e6e6e6;
@@ -269,4 +264,7 @@ strong {
 .expert {
 	background-color:#bb9a29;
 	color:#fff;
+}
+.configureEllipsis a {
+	text-decoration:none;
 }

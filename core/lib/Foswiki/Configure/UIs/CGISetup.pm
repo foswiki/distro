@@ -15,8 +15,18 @@ sub open_html {
     my $out = $this->SUPER::open_html($section, $root);
 
     my $erk = 0;
-    for my $key ( sort keys %ENV ) {	
-        $out .= $this->setting( $key, $ENV{$key} );
+    my $num = 0;
+    for my $key ( sort keys %ENV ) {
+    	my $value = $ENV{$key};
+    	my $limit = 50;
+    	if (length $value > $limit) {
+            my $partFirst = substr($value, 0, $limit);
+            my $partLast = substr($value, $limit);
+            my $id = "configureEllipsis_$num";
+            $value = $partFirst . "<span class='configureEllipsis'><span class='configureEllipsisDots'>... </span><a href='#$id'>more</a></span><span class='foswikiMakeHidden' id='$id'>$partLast</span>";
+    	}
+        $out .= $this->setting( $key, $value );
+        $num++;
     }
 
     # Detect whether mod_perl was loaded into Apache

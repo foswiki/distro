@@ -31,7 +31,7 @@ sub open_html {
 
             $section->{parent}->{controls} ||=
               new Foswiki::Configure::GlobalControls(
-                  $this->makeID( $section->{parent}->{headline} || 'Root' ));
+                  $this->makeID( $section->{parent}->{headline} || '' ));
 
             $output .= $section->{parent}->{controls}->openTab(
                 $id, $depth, $section->{opts}, $section->{headline},
@@ -51,7 +51,7 @@ sub open_html {
                 $output .= $section->{desc} . "\n";
             }
         } elsif ($section->{parent}->{opts} =~ /NOLAYOUT/) {
-            $output .= "<h$depth class='firstHeader'>"
+            $output .= "<h$depth>"
               . "NOLAYOUT ". $headline
                 . "</h$depth>\n";
         } else {

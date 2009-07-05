@@ -294,26 +294,122 @@ function toggleExpertsMode() {
     }
 }
 
-var tabLinks = {};
+/* ----------------------------- MENU ----------------------------- */
 
-function tab(group, newTab) {
-    var controller = document.getElementById(group);
-    var curTab = controller.className;
-    if (tabLinks[curTab]) {
-	    foswiki.CSS.removeClass(tabLinks[curTab], 'configureMenuSelected');
-    }
-    controller.className = newTab;
-    var currentTabBody = document.getElementById(curTab + '_body');    
-    foswiki.CSS.addClass(currentTabBody, 'foswikiMakeHidden');
-    var newTabBody = document.getElementById(newTab + '_body');
-    foswiki.CSS.removeClass(newTabBody, 'foswikiMakeHidden');
-    /* highlight tab */
-    if (tabLinks[newTab]) {
-	    foswiki.CSS.addClass(tabLinks[newTab], 'configureMenuSelected');
-    }
+var tabLinks = {};
+var subSectionId;
+
+var menuState = {};
+menuState.main = undefined;
+menuState.defaultSub = {};
+
+function setMain(inId) {
+	menuState.main = inId;
+}
+function getMain() {
+	return menuState.main;
+}
+function setSub(inMainId, inSubId) {
+	menuState[inMainId] = inSubId;
+}
+function getSub(inMainId) {
+	return menuState[inMainId];
+}
+function setDefaultSub(inMainId, inSubId) {
+	if (menuState.defaultSub[inMainId]) return;
+	menuState.defaultSub[inMainId] = inSubId;
+}
+function getDefaultSub(inMainId) {
+	return menuState.defaultSub[inMainId];
 }
 
-// Support for the Expand/Close All button
+/*
+sub states are stored like this:
+var sub = 'Language';
+menuState[menuState.main].sub = sub;
+*/
+function initSection() {
+	if (document.location.hash) {
+		showSection(document.location.hash);
+	} else {
+		showSection('Introduction');
+	}
+}
+
+/**
+Returns an object with properties:
+	main: main section id
+	sub: sub section id (if any)
+*/
+function getSectionParts(inAnchor) {
+	
+	var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/);
+    var matches = inAnchor.match(anchorPattern);
+
+	var main = '';
+    var sub = '';
+    if (matches && matches[1]) {
+        main = matches[1];
+        if (matches[3]) {
+        	main = matches[3];
+        	sub = matches[1] + '$' + main;
+        }
+    }
+    return {main:main, sub:sub};
+}
+
+function showSection(inAnchor) {
+
+	var sectionParts = getSectionParts(inAnchor);
+	var mainId = sectionParts.main;
+	var subId = sectionParts.sub || getSub(mainId) || getDefaultSub(mainId);
+	
+	var oldMainId = getMain();
+	
+	if (oldMainId != mainId) {	
+		/* hide current main section */
+		var currentMainElement = document.getElementById(oldMainId + '_body');
+		foswiki.CSS.addClass(currentMainElement, 'foswikiMakeHidden');
+	
+		/* show new main section */
+		var newMainElement = document.getElementById(mainId + '_body');	
+		foswiki.CSS.removeClass(newMainElement, 'foswikiMakeHidden');
+		
+		/* set main menu highlight */	
+		if (tabLinks[oldMainId]) {
+			foswiki.CSS.removeClass(tabLinks[oldMainId], 'configureMenuSelected');
+		}
+		if (tabLinks[mainId]) {
+			foswiki.CSS.addClass(tabLinks[mainId], 'configureMenuSelected');
+		}
+	}
+		
+	/* hide current sub section */
+	var oldSubId = getSub(oldMainId);
+	var currentSubElement = document.getElementById(oldSubId + '_body');
+	foswiki.CSS.addClass(currentSubElement, 'foswikiMakeHidden');
+
+	/* show new sub section */
+	var newSubElement = document.getElementById(subId + '_body');	
+	foswiki.CSS.removeClass(newSubElement, 'foswikiMakeHidden');
+	
+	/* set sub menu highlight */
+	if (tabLinks[oldSubId]) {
+		foswiki.CSS.removeClass(tabLinks[oldSubId], 'configureMenuSelected');
+	}
+	if (tabLinks[subId]) {
+		foswiki.CSS.addClass(tabLinks[subId], 'configureMenuSelected');
+	}
+    
+	setMain(mainId);
+	setSub(mainId, subId);
+
+	return true;
+}
+
+/**
+Support for the Expand/Close All button
+*/
 function toggleHiddenDivs() {
     var els = getElementsByClassName(document, 'temporarilyOpened'); 
     if (els.length) {
@@ -330,19 +426,6 @@ function toggleHiddenDivs() {
     }
 }
 
-// Open the first root tab by inspecting the anchor. If there is no
-// anchor, open the 'Introduction' root tab.
-function initTab() {
-    var anchorPattern = new RegExp(/#(.*)$/);
-    var matches = window.location.hash.match(anchorPattern);
-    if (matches && matches[1]) {
-        newTab = matches[1];
-    } else {
-        newTab = 'Introduction';
-    }
-    tab('Root', newTab);
-}
-
 function getTip(idx) {
     var div = document.getElementById('tt' + idx);
     if (div)
@@ -351,34 +434,21 @@ function getTip(idx) {
         return "LOST TIP "+idx;
 }
 
-var tabIdPattern = new RegExp(/\btabId_(\S+)/);
-var tabGroupPattern = new RegExp(/\btabGroup_(\S+)/);
-
 var rules = {
-	'.tabli' : function(el) {
+	'#configureSections .tabli a' : function(el) {
 
-		/*
-		Get the id the link is pointing to; this is encrypted in the classname:
-		
-		tabId_Introduction
-		
-		... points to id Introduction.
-		The property 'tab_id' is set to that id.
-		*/
-		var matches = el.className.match(tabIdPattern);
-		if (matches && matches[1]) {
-			el.tab_id = matches[1];
+		var sectionParts = getSectionParts(el.hash);
+		var id = sectionParts.main;
+		if (sectionParts.sub) {
+			id = sectionParts.sub;
+			setDefaultSub(sectionParts.main, sectionParts.sub);
 		}
-        matches = el.className.match(tabGroupPattern);
-		if (matches && matches[1]) {
-			el.tab_group = matches[1];
-		}
-		tabLinks[el.tab_id] = el;
-		
+		tabLinks[id] = el.parentNode;
 		el.onclick = function() {
-			tab(el.tab_group, el.tab_id);
+			return showSection(id);
 		}
-	},
+	}
+	,
 	'.configureExpert input' : function(el) {
 		el.onclick = function() {
 			toggleExpertsMode();
@@ -389,13 +459,25 @@ var rules = {
 			toggleExpertsMode();
 		}
 	},
-	'a.configureDefaultValueLink' : function(el) {
+	'#configureSections a.configureDefaultValueLink' : function(el) {
 		initDefaultLink(el);
+	},
+	'.configureToggleAll' : function(el) {
+		el.onclick = function() {
+			toggleHiddenDivs();
+		}
+	},
+	'#configureSections .configureEllipsis a' : function(el) {
+		el.onclick = function() {
+			var ellipsis = el.parentNode;
+			foswiki.CSS.addClass(ellipsis, 'foswikiMakeHidden');
+			var id = getSectionParts(el.hash).main;
+			foswiki.CSS.removeClass(document.getElementById(id), 'foswikiMakeHidden');
+			return false;
+		}
 	}
 };
 Behaviour.register(rules);
 
 addLoadEvent(toggleExpertsMode);
-addLoadEvent(initTab);
-
-
+addLoadEvent(initSection);
