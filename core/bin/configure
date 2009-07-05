@@ -448,7 +448,7 @@ HERE
 }
 
 # Action invoked by 'Next' button on the main screen
-sub _actionNext {
+sub _actionSavechanges {
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
     my %updated;
@@ -577,6 +577,7 @@ GOTOGPS
     print $ui->{controls}->generateTooltips();
 
     print "<br class='foswikiClear' />";
+    print "<div class='configureActions'>";
     if (   $Foswiki::Configure::UI::toterrors
         || $Foswiki::Configure::UI::totwarnings )
     {
@@ -587,11 +588,11 @@ GOTOGPS
           . $Foswiki::Configure::UI::totwarnings
           . ' warning'
           . ( $Foswiki::Configure::UI::totwarnings == 1 ? '' : 's' );
-        print "$mess.";
+        print "<p>Status: $mess</p>";
     }
     print <<EOP;
-  Click <input type='submit' class='foswikiSubmit' name='action' value='Next' accesskey='N' /> to save, or <a class='foswikiSubmit' href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">Cancel</a> to return to Foswiki Site Preferences
- </div>
+  <input type='submit' class='foswikiSubmit' name='action' value='Save changes' accesskey='N' /> or <a class='foswikiButtonCancel' href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">Discard changes</a>
+ </div><!--/configureActions-->
 </form>
 EOP
     return 0;

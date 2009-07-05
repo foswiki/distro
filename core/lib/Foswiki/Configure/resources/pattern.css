@@ -1618,17 +1618,12 @@ tr.foswikiDiffDebug .foswikiDiffUnchangedText {
 #patternTopBar {
 	/* image is defined as WEBHEADERART in System/DefaultPreferences */
 }
-.foswikiToc li {
-   background-image:url(bullet-toc.gif);
-   background-repeat:no-repeat;
-   background-position:0 .4em;
-}
 .patternPrintPage #patternOuter {
    background:#fff; /* white - do not change */
 }
 .foswikiSubmit,
 .foswikiSubmitDisabled {
-   background-image:url(bg_submit_gradient.gif);
+   background-image:url(configure?action=resource;resource=bg_submit_gradient.gif);
    background-repeat:repeat-x;
 }
 .foswikiSubmit,
@@ -1664,7 +1659,7 @@ a.foswikiSubmit:active {
 .foswikiButton,
 a.foswikiButton:link,
 a.foswikiButton:visited {
-   background-image:url(bg_button_gradient.gif);
+   background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px 0px;
    border-color:#fff #94cce2 #94cce2 #fff;
@@ -1683,7 +1678,7 @@ a.foswikiButton:active {
 .foswikiButtonDisabled,
 .foswikiButtonDisabled:hover,
 .foswikiButtonDisabled:active {
-   background-image:url(bg_button_gradient.gif);
+   background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px -240px;
    border-color:#ccc #ccc #ccc #ccc;
@@ -1691,7 +1686,7 @@ a.foswikiButton:active {
    color:#bbb;
 }
 .foswikiButtonCancel {
-   background-image:url(bg_buttoncancel_gradient.gif);
+   background-image:url(configure?action=resource;resource=bg_buttoncancel_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px 0px;
    border-color:#f3ddd7 #ce5232 #ce5232 #f3ddd7;
@@ -1714,7 +1709,7 @@ a.foswikiButton:active {
 .patternToolBar span a:visited,
 .patternToolBar span s,
 .patternToolBar span strike {
-   background-image:url(bg_button_gradient.gif);
+   background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
    background-repeat:repeat-x;
 }
 .patternToolBar span a:link,
@@ -1747,22 +1742,11 @@ a.foswikiButton:active {
    border-color:#fffefd #b8b6ad #b8b6ad #fffefd;
    overflow:hidden;
 }
-.patternButtonFontSelector {
-   background-image:url(button_font_selector.gif);
-   width:33px;
-   height:16px;
-}
 .patternButtonFontSelectorProportional {
    background-position:0 0;
 }
 .patternButtonFontSelectorMonospace {
    background-position:0 -16px;
-}
-.patternButtonEnlarge,
-.patternButtonShrink {
-   background-image:url(button_arrow.gif);
-   width:16px;
-   height:16px;
 }
 .patternButtonEnlarge {
    background-position:0 0;
@@ -1781,26 +1765,4 @@ a.foswikiButton:active {
 }
 .patternButtonShrink:active {
    background-position:16px -84px;
-}
-.foswikiBroadcastMessage {
-   background-image:url(background_alert.gif);
-   background-repeat:repeat-x;
-}
-
-/* common settings */
-.patternLeftBarPersonal li,
-li.patternLogOut,
-li.patternLogIn {
-   padding-left:13px;
-   background-position:0 .4em;
-   background-repeat:no-repeat;
-}
-.patternLeftBarPersonal li {
-   background-image:url(bullet-personal_sidebar.gif);
-}
-.patternLeftBarPersonal li.patternLogOut {
-   background-image:url(bullet-lock.gif);
-}
-.patternLeftBarPersonal li.patternLogIn {
-   background-image:url(bullet-lock.gif);
 }

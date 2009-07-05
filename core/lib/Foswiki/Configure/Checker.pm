@@ -15,7 +15,7 @@ sub guessed {
 
     my $mess = <<'HERE';
 I guessed this setting. You are advised to confirm this setting (and any
-other guessed settings) and hit 'Next' to save before changing any other
+other guessed settings) and hit 'Save changes' to save before changing any other
 settings.
 HERE
 

@@ -21,7 +21,7 @@ sub open_html {
     my $class = $section->isExpertsOnly() ? 'configureExpert' : '';
     my $id = $this->makeID( $section->{headline} );
     my $output = "<!-- $depth $id -->\n";
-
+    my $headline = $section->{headline} || 'MISSING HEADLINE';
     if ($section->{parent}) {
         if ($section->{parent}->{opts} =~ /TABS/) {
             # this is a tab within a tabbed page
@@ -37,9 +37,9 @@ sub open_html {
                 $id, $depth, $section->{opts}, $section->{headline},
                 $mess ? 1 : 0);
 
-            $output .= "<h2 class='firstHeader'>"
-              . $section->{headline}
-                . "</h2>\n";
+            $output .= "<h$depth class='firstHeader'>"
+              . $headline
+                . "</h$depth>\n";
 
             if ($mess) {
                 $output .= "<div class='foswikiAlert'>"
@@ -51,15 +51,15 @@ sub open_html {
                 $output .= $section->{desc} . "\n";
             }
         } elsif ($section->{parent}->{opts} =~ /NOLAYOUT/) {
-            $output .= "<h2 class='firstHeader'>"
-              . "NOLAYOUT ". $section->{headline}
-                . "</h2>\n";
+            $output .= "<h$depth class='firstHeader'>"
+              . "NOLAYOUT ". $headline
+                . "</h$depth>\n";
         } else {
             # This is a new sub section within a running head section.
             $output .= "</table>";
             $output .=
               "<h$depth class='configureInlineHeading'>"
-                . $section->{headline} . "</h$depth>\n";
+                . $headline . "</h$depth>\n";
 
             if ($section->{desc}) {
                 $output .= $section->{desc};

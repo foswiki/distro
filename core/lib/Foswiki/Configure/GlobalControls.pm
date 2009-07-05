@@ -45,7 +45,7 @@ sub generateTabs {
     my $ulClass = $depth > 1 ? 'configureSubTab' : 'configureRootTab';
     my $tabs = "<ul class='$ulClass'>\n";
     foreach my $tab ( @{$this->{tabs}} ) {
-        my $href = $depth > 1 ? '#' : "#$tab->{id}";
+        my $href = $depth > 1 ? "#$this->{groupid}" : "#$tab->{id}";
         my $expertClass = '';
         # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # uncomment to hide menu items if they are expert
         my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
@@ -54,6 +54,7 @@ sub generateTabs {
             . _nbsp($tab->{text}) . "</a></li>\n";
     }
     $tabs .= "</ul>\n";
+    $tabs .= "<br class='foswikiClear' />\n" if $depth > 1;
 
     return $tabs;
 }

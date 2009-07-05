@@ -51,10 +51,7 @@ li.configureExpert { /* menu item */
 }
 
 .configureSubSection {
-	margin:0 0 1em 0;
-}
-.configureSubSection h2 {
-	font-size:133%;
+	margin:1em 0;
 }
 
 /* --- TABLE ROWS & COLUMNS --- */
@@ -84,6 +81,9 @@ table.configureSectionContents th {
 	border-left:5px solid #fff;
 	width:25%;
 	white-space:nowrap;
+}
+table.configureNestedTable th {
+	border-left:5px solid #F5F9FC;
 }
 table.configureSectionContents td {
 	background:#f5f9fc;
@@ -156,12 +156,13 @@ ul.configureRootTab li a em {
 
 ul.configureSubTab {
 	list-style-type:none;
-	margin:1em 0;
+	height:1%;
 	padding:0;
 }
 ul.configureSubTab li {
-	display:inline;
-	margin:0;
+	display:block;
+	float:left;
+	margin:0 .5em .75em 0;
 	padding:0;
 }
 
@@ -170,7 +171,6 @@ ul.configureSubTab li a {
 	padding:.25em 1em;
 	text-decoration:none;
 	border:1px solid #d4e7f1;
-	margin-right:5px;      /* additional spacing between tabs */
 }
 
 /* Unselected but there are errors or warnings */
@@ -190,11 +190,11 @@ ul.configureSubTab a:hover {
 }
 .configureRootSection div.configureWarn {
 	border:1px solid #e6e6e6;
-	padding:5px 1em .7em 3em;
+	padding:5px 1em 5px 3em;
 	margin:.5em 0 .7em 0;
 	background:#fff;
 	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
-	background-position:1em .5em;
+	background-position:1em 5px;
 	background-repeat:no-repeat;
 }
 
@@ -219,7 +219,7 @@ table.configureExtensionsTable {
 	margin:1em 0;
 }
 table.configureExtensionsTable th {
-	background:#687684;
+	background:#e5f4f8;
 	color:#fff;
 	border:none;
 }

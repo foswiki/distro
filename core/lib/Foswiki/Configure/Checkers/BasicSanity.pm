@@ -99,7 +99,7 @@ HERE
 Could not find existing configuration file <code>$this->{LocalSiteDotCfg}</code>.
 <h3>Are you running configure for the first time?</h3>
 Please fill in the required paths in the
-'General path settings' section and click 'Next' to save before returning to configure to complete configuration.
+'General path settings' section and click 'Save changes' to save before returning to configure to complete configuration.
 <h3>Did you save the configuration before?</h3>
 Please check for the existence of <code>lib/LocalSite.cfg</code>, and make sure the webserver user can read it.
 HERE
