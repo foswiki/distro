@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-07-03 12:34+0200\n"
+"PO-Revision-Date: 2009-07-05 02:07+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -3856,7 +3856,8 @@ msgstr "title='Version imprimable de cette page' accesskey='p'>Im&primer"
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
 msgstr ""
-"title='Modifier le code source de cette page' accesskey='w'>Modifier (&w)"
+"title='Modifier le code source de cette page' accesskey='w'>Modifier source "
+"(&w)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
