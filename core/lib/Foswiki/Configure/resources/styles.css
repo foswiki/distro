@@ -210,6 +210,9 @@ a.configureError {
 .configureInfo {
 	color:green;
 }
+.configureSetting {
+	margin:.5em 0;
+}
 
 /* --- EXTENSIONS --- */
 table.configureExtensionsTable {

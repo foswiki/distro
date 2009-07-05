@@ -306,7 +306,7 @@ sub checkPerlModules {
         if ($useTR) {
             $e .= $this->setting( $mod->{name}, $n );
         } else {
-            $e .= "<strong><code>$mod->{name}:</code></strong> $n<br />";
+            $e .= "<div class='configureSetting'><code>$mod->{name}:</code> $n</div>";
         }
     }
     return $e;

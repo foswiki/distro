@@ -18,7 +18,7 @@ sub check {
         return $this->guessed(0);
     }
     return
-        '<br />Test the correctness of this path with this link:'
+        "<div class='configureSetting'>Test the correctness of this path with this link:"
       . CGI::br()
       . '<a rel="nofollow" target="_new" href="'
       . $Foswiki::cfg{PubUrlPath}

@@ -25,7 +25,7 @@ my $OS = $Foswiki::cfg{OS} || '';
 # This is because they *must* be defined in LocalSite.cfg, and *not* here.
 
 #---+ General path settings
-# <strong>If you are a first-time installer</strong>; once you have set
+# <strong>If you are a first-time installer:</strong> once you have set
 # up the eight paths below, your wiki should work - try it. You can
 # always come back and tweak other settings later.<p />
 # <b>Security Note:</b> Only the URL paths listed below should
@@ -695,7 +695,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 #---++ Languages
 # Enable user interface internationalisation, i.e. presenting the user
 # interface in the users own language(s). Some languages require the
-# <code>Locale::Maketext::Lexicon</code> and <code>Encode</code>/MapUTF8 Perl
+# <code>Locale::Maketext::Lexicon</code> and <code>Encode/MapUTF8</code> Perl
 # modules to be installed.
 
 # **BOOLEAN**
@@ -1154,8 +1154,8 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 
 #---+ Miscellaneous -- EXPERT
 # Miscellaneous expert options.
-# <div class='configureNotExpert'>Select "Show EXPERT Options" to see the
-# available settings.</div>
+# <p class='configureNotExpert'>Select "Show EXPERT Options" to see the
+# available settings.</p>
 
 # **STRING 120 EXPERT**
 # Template path. A comma-separated list of generic file names, containing
