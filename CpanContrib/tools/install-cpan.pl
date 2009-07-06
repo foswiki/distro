@@ -284,7 +284,7 @@ perl install-cpan.pl --installdir=~/lib/CPAN/ Scalar::Util Test::Exception Param
 
 Whereas this will do all of the magic for you:
 
-perl install-cpan.pl --installdir=~/lib/CPAN `perl calc-cpan-deps.pl Net::Twitter`
+perl install-cpan.pl --installdir=~/lib/CPAN/ `perl calc-cpan-deps.pl Net::Twitter`
 
 
 =head2 CAVEATS
