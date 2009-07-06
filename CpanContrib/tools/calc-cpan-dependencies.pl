@@ -59,7 +59,7 @@ sub calc_cpan_dependencies_webservice {
     if ( my $deps_xml = LWP::Simple::get( $uri ) ) {
 	my $ref = XML::Simple::XMLin( $deps_xml );
 	my @modules = reverse sort { $a->{depth} <=> $b->{depth} } @{$ref->{dependency}} if $ref->{dependency};
-	push @deps, $_->{module} foreach @modules;
+	@deps = map { $_->{module} } @modules;
     } else {
     }
 
