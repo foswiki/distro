@@ -1,6 +1,7 @@
 data/System/JSCalendarContrib.txt 0644
 data/System/JSCalendarContribInline.txt 0644
 lib/Foswiki/Contrib/JSCalendarContrib.pm 0444
+lib/Foswiki/Contrib/JSCalendarContrib/Config.spec 0444
 lib/Foswiki/Form/Date.pm 0444 Perl module that implements the =date= type
 pub/System/JSCalendarContrib/foswiki.js 0644
 pub/System/JSCalendarContrib/wikiringlogo20x20.png 0644

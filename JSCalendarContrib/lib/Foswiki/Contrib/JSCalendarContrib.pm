@@ -14,7 +14,7 @@ package Foswiki::Contrib::JSCalendarContrib;
 
 use strict;
 
-require Foswiki::Func;    # The plugins API
+use Foswiki::Func ();    # The plugins API
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
@@ -69,7 +69,7 @@ This is the simplest way to use calendars from a plugin.
      the textfield.
 Example:
 <verbatim>
-use Foswiki::Contrib::JSCalendarContrib;
+use Foswiki::Contrib::JSCalendarContrib ();
 ...
 my $fromDate = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
    'from', '1 April 1999');
@@ -125,7 +125,7 @@ text field. For example, say we wanted to display the date with the calendar
 icon _before_ the text field, using the format =%Y %b %e=
 <verbatim>
 # Add styles and javascript for the calendar
-use Foswiki::Contrib::JSCalendarContrib;
+use Foswiki::Contrib::JSCalendarContrib ();
 ...
 
 sub commonTagsHandler {

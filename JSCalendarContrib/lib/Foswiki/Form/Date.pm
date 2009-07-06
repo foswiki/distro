@@ -3,11 +3,12 @@
 # the =date= type
 
 package Foswiki::Form::Date;
-use base 'Foswiki::Form::FieldDefinition';
+use Foswiki::Form::FieldDefinition ();
+@ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 use strict;
 
-use Foswiki::Contrib::JSCalendarContrib;
+use Foswiki::Contrib::JSCalendarContrib ();
 
 sub new {
     my $class = shift;

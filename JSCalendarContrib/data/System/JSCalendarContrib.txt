@@ -43,11 +43,7 @@ If the contrib is installed, you will see such a field here:
 
 ---+++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
-   * An administrator can customize the appearance of the calendar by setting the following in =<nop>LocalSite.cfg=
-     | *Setting* | *Default* |
-     | =$Foswiki::cfg{JSCalendarContrib}{style}= | ='blue'= |
-     | =$Foswiki::cfg{JSCalendarContrib}{lang}= | ='en'= |
-     | =$Foswiki::cfg{JSCalendarContrib}{format}= | ='%e %b %Y'= |
+   * An administrator can customize the appearance of the calendar using the =configure= interface to set the style, language and time format options.
 
 ---+++ Contrib Info
 
