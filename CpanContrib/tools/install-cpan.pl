@@ -286,6 +286,14 @@ Whereas this will do all of the magic for you:
 
 perl install-cpan.pl --installdir=~/lib/CPAN `perl calc-cpan-deps.pl Net::Twitter`
 
+
+=head2 CAVEATS
+
+*PREFER YOUR PACAKGE MANAGER!*  Whether it be apt-get, yum, ports, or anything else.  
+
+the =calc-cpan-deps.pl= script includes *all* CPAN module dependencies and as such, some of the lower-level library files will actually cause a perl upgrade itself!  Use its output with cautioin.
+
+
 =head2 SEE ALSO
 
         http://foswiki.org/Extensions/CpanContrib
