@@ -402,11 +402,6 @@ lib/Foswiki/Configure/resources/favicon.ico 0444
 lib/Foswiki/Configure/resources/foswiki-logo-slogan.png 0444
 lib/Foswiki/Configure/resources/info.gif 0444
 lib/Foswiki/Configure/resources/warning.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
-lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
-lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
-lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
 lib/Foswiki/Configure/resources/footer.html
 lib/Foswiki/Configure/resources/scripts.js
 lib/Foswiki/Configure/resources/oh_dear.html
@@ -485,12 +480,10 @@ lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
-lib/Foswiki/Configure/CSS.pm 0444
 lib/Foswiki/Configure/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
 lib/Foswiki/Configure/GlobalControls.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
-lib/Foswiki/Configure/JS.pm 0444
 lib/Foswiki/Configure/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
