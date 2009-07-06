@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # $Id: install-cpan.pl 13664 2007-05-08 12:58:03Z WillNorris $
-# Copyright 2004,2005 Will Norris.  All Rights Reserved.
+# Copyright 2004,2005,2009 Will Norris.  All Rights Reserved.
 # License: GPL
 ################################################################################
 
@@ -17,12 +17,11 @@ use FindBin;
 use Config;
 use Pod::Usage;
 use Cwd qw( cwd );
-sub mychomp { chomp $_[0]; $_[0] }
 
 my $dirMirror = "$FindBin::Bin/MIRROR/MINICPAN/";
 my $optsConfig = {
 #
-    baselibdir => $FindBin::Bin . "/../cgi-bin/lib/CPAN",
+    installdir => $FindBin::Bin . "/../cgi-bin/lib/CPAN",
 # SMELL: change into list   
     mirror => -d $dirMirror && "file:$dirMirror" || 'http://cpan.org',
 #
@@ -36,7 +35,7 @@ my $optsConfig = {
 };
 
 GetOptions( $optsConfig,
-	    'baselibdir=s', 'mirror=s', 'config=s',
+	    'installdir=s', 'mirror=s', 'config=s',
 	    'force|f',
 	    'status',
 # miscellaneous/generic options
@@ -47,7 +46,7 @@ pod2usage({ -exitval => 1, -verbose => 2 }) if $optsConfig->{man};
 print STDERR Dumper( $optsConfig ) if $optsConfig->{debug};
 
 # fix up relative paths
-foreach my $path qw( baselibdir mirror config ) {
+foreach my $path qw( installdir mirror config ) {
     $optsConfig->{$path} = absolutePath( $optsConfig->{$path} );
 
     if ( $path eq 'mirror' ) {
@@ -56,7 +55,7 @@ foreach my $path qw( baselibdir mirror config ) {
     }
 }
 
-my @localLibs = ( "$optsConfig->{baselibdir}/lib", "$optsConfig->{baselibdir}/lib/arch" );
+my @localLibs = ( "$optsConfig->{installdir}/lib", "$optsConfig->{installdir}/lib/arch" );
 unshift @INC, @localLibs;
 $ENV{PERL5LIB} = join( ':', @localLibs );
 print STDERR Dumper( \@INC ) if $optsConfig->{debug};
@@ -68,7 +67,7 @@ if ( $optsConfig->{status} ) {
 
 ################################################################################
 
--d $optsConfig->{baselibdir} or mkpath $optsConfig->{baselibdir};
+-d $optsConfig->{installdir} or mkpath $optsConfig->{installdir};
 
 # eg
 #installLocalModules({
@@ -82,7 +81,7 @@ if ( $optsConfig->{status} ) {
 #});
 
 installLocalModules({
-    dir => $optsConfig->{baselibdir},
+    dir => $optsConfig->{installdir},
     config => {
 	'HTML::Parser' => [ qw( no ) ],
 	'XML::SAX' => [ qw( Y ) ],
@@ -223,18 +222,18 @@ sub createMyConfigDotPm
 __DATA__
 =head1 NAME
 
-install-cpan.pl - ...
+install-cpan.pl - install local version of CPAN modules
 
 =head1 SYNOPSIS
 
-install-cpan.pl [options] [-baselibdir] [-mirror]
+install-cpan.pl [options] [-installdir] [-mirror]
 
-Copyright 2004, 2005 Will Norris.  All Rights Reserved.
+Copyright 2004, 2005, 2009 Will Norris.  All Rights Reserved.
 
   Options:
-   -baselibdir         where to install the CPAN modules
-   -mirror             location of the (mini) CPAN mirror
-   -config             filename (~/.cpan/CPAN/MyConfig.pm)
+   -installdir         where to install the CPAN modules and documentation
+   -mirror             location of the (mini) CPAN mirror [http://cpan.org]
+   -config             specify CPAN configuration [~/.cpan/CPAN/MyConfig.pm]
    -status             show configuration
    -verbose
    -debug
@@ -245,7 +244,7 @@ Copyright 2004, 2005 Will Norris.  All Rights Reserved.
 
 =over 8
 
-=item B<-baselibdir>
+=item B<-installdir>
 
 =item B<-mirror>
 
@@ -257,7 +256,35 @@ Copyright 2004, 2005 Will Norris.  All Rights Reserved.
 
 =head1 DESCRIPTION
 
-B<install-cpan.pl> will ...
+B<install-cpan.pl> is designed to easily install CPAN modules and their accompanying
+documentation and support files to a local (not system-wide) location that you specify.
+
+You don't need to configure CPAN installation manually nor will this script clobber any existing CPAN =MyConfig.pm=
+
+Note that the =installdir= is the root of the locally-installed CPAN libraries *and* documentation.
+Directories such as =lib= and =man= (and sometimes =bin=) will be created below =installdir=.
+This means that when you specificy this additional library path, you have to specify the base directory *plus* =/lib=.
+
+(There might also be library files installed in the computer architecture-specific directory =arch=)
+
+Examples:
+
+export PERL5LIB=~/lib/CPAN/lib/:~/lib/CPAN/lib/arch
+
+use lib qw( /path/to/foswiki/lib/CPAN/lib /path/to/foswiki/lib/CPAN/lib/arch );
+
+
+
+=head2 EXAMPLES
+
+This was determined through time-consuming incremental installation attempts:
+
+perl install-cpan.pl --installdir=~/lib/CPAN/ Scalar::Util Test::Exception Params::Util Sub::Install Sub::Exporter Data::OptList Sub::Uplevel Test::Exception Scope::Guard Devel::GlobalDestruction Algorithm::C3 Class::C3 MRO::Compat Class::MOP ExtUtils::MakeMaker Sub::Exporter Sub::Name Data::OptList Test::More Task::Weaken Moose MooseX::MultiInitArg Variable::Magic B::Hooks::EndOfScope namespace::clean namespace::autoclean Digest::HMAC_SHA1 Net::OAuth Net::Twitter
+
+
+Whereas this will do all of the magic for you:
+
+perl install-cpan.pl --installdir=~/lib/CPAN `perl calc-cpan-deps.pl Net::Twitter`
 
 =head2 SEE ALSO
 
