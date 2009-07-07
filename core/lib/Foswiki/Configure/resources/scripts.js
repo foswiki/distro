@@ -404,7 +404,7 @@ function showSection(inAnchor) {
 	setMain(mainId);
 	setSub(mainId, subId);
 
-	return true;
+	return false;
 }
 
 /**
