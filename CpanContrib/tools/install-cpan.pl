@@ -289,9 +289,13 @@ perl install-cpan.pl --installdir=~/lib/CPAN/ `perl calc-cpan-deps.pl Net::Twitt
 
 =head2 CAVEATS
 
-*PREFER YOUR PACAKGE MANAGER!*  Whether it be apt-get, yum, ports, or anything else.  
+This script is designed to be used when you can't (or don't want to) install CPAN modules system-wide.
 
-the =calc-cpan-deps.pl= script includes *all* CPAN module dependencies and as such, some of the lower-level library files will actually cause a perl upgrade itself!  Use its output with cautioin.
+*PREFER YOUR PACAKGE MANAGER!*  Whether it be apt-get, yum, ports, or anything else.  
+   * The problem often is that certain modules aren't in the distributions' repositories.  Consider using programs like =cpan2rpm= or debian's =cpan-libcpanplus-dist-deb=
+   * Corrolary: use those pacakge builders with =calc-cpan-deps.pl= instead of this script
+
+the =calc-cpan-deps.pl= script includes *all* CPAN module dependencies and as such, some of the lower-level library files will actually cause a perl upgrade itself!  Use its output with caution.
 
 
 =head2 SEE ALSO
