@@ -17,15 +17,16 @@ _Description: Email address of the webmaster for this Foswiki:
 Template: foswiki/samplefiles
 Type: boolean
 Default: true
-_Description: Perform install of default wiki Topic Set?
+_Description: Perform install or upgrade of default wiki Topic Set?
  Foswiki includes a complete "starter kit" which includes user
  registration pages, documentation, and tutorials.
  .
- Accept this option unless you want to use an existing Foswiki data set
- (for instance, one left over from a previous installation).
+ Deselect this option ONLY if you know what will break, and know how to 
+ update the distributed files manually. Upgrading will only update 
+ topics that have not been  modified through the wiki. 
+ (it looks for rcs history files, and skips those files).
  .
- If data/Main/WebHome.txt is present, the starter kit will not be
- unpacked. The starter kit files can be found in
+ The starter kit files can be found in
  /usr/share/foswiki/foswiki-data.tar.gz (and foswiki-pub.tar.gz) if you
  want to install it manually or compare the topics with the new
  version.

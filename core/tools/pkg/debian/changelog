@@ -1,5 +1,7 @@
 foswiki (1.0.6-1) unstable; urgency=high
 
+  * package now upgrades distributed topics and attachments, by looking for
+    ,v files and skipping those. (no merging)
   * Upgrade to foswiki 1.0.6 - resolves Security Alert CVE-2009-1434
     This version introduces a major enhancement in security against Cross-Site Request Forgery
 

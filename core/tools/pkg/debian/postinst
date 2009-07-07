@@ -31,29 +31,21 @@ set -e
 
 db_get foswiki/samplefiles
 if [ "$RET" = true ]; then
-#check for the existance of _any_ of the default webs
-#TODO: later this will be replaced by the upgrade script
-    if [ ! -e /var/lib/foswiki/data/Main/WebHome.txt ]; then
-        if [ ! -e /var/lib/foswiki/data/System/WebHome.txt ]; then
-	if [ ! -e /var/lib/foswiki/data/Sandbox/WebHome.txt ]; then
-	if [ ! -e /var/lib/foswiki/data/Trash/WebHome.txt ]; then
-	if [ ! -e /var/lib/foswiki/data/_default/WebHome.txt ]; then
-		    # only extract if they say so and there's no home there
-		    # and even then, fail on overwrite so we don't stomp.
-		    tar -zxk -C / -f /usr/share/foswiki/foswiki-data.tar.gz
-		    # clean up the .mailnotify timestamps.
-		    webs="Main Sandbox System Trash _default";
-		    for web in $webs; do
-		    	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
-    		    done
-			if [ ! -e /var/lib/foswiki/pub/wikiHome.gif ]; then
-				tar -zxk -C / -f /usr/share/foswiki/foswiki-pub.tar.gz
-			fi
-       	fi
-       	fi
-       	fi
-        fi
-    fi
+	#upgrade topics - because we don't ship ,v files, I can use find&sed to make a list of all files that have no ,v, 
+	#and then exclude them from the un-tar
+
+	find /var/lib/foswiki/data -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/lib/foswiki/log/exclude-topics.lst
+
+	tar -zx -C / --exclude-from=/var/lib/foswiki/log/exclude-topics.lst -f /usr/share/foswiki/foswiki-data.tar.gz
+
+	find /var/lib/foswiki/pub -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/lib/foswiki/log/exclude-attachments.lst
+	tar -zx -C / --exclude-from=/var/lib/foswiki/log/exclude-attachments.lst -f /usr/share/foswiki/foswiki-pub.tar.gz
+	
+	# clean up the .mailnotify timestamps.
+	webs="Main Sandbox System Trash _default";
+	for web in $webs; do
+	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
+	done
 fi
 
 db_get foswiki/defaultUrlHost
