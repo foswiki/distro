@@ -1,1768 +1,428 @@
-/* 
-Basic layout derived from http://www.positioniseverything.net/articles/pie-maker/pagemaker_form.php.
-I've changed many so things that I won't put a full copyright notice. However all hacks (and comments!) are far beyond my knowledge and this deserves full credits:
-
-Original copyright notice:
-Parts of these notes are
-(c) Big John @ www.positioniseverything.net and (c) Paul O'Brien @ www.pmob.co.uk, all of whom contributed significantly to the design of
-the css and html code.
-
-Reworked for Foswiki: (c) Arthur Clemens @ visiblearea.com
-*/
-
-html, body {
-	margin:0; /*** Do NOT set anything other than a left margin for the page
-as this will break the design ***/
+html,body
+{
+	margin:1em 2% 2em;
 	padding:0;
-	border:0;
-/* \*/
-	height:100%;
-/* Last height declaration hidden from Mac IE 5.x */
-}
-body {
-	min-width:100%; /*** This is needed for moz. Otherwise, the header and patternBottomBar will
-slide off the left side of the page if the screen width is narrower than the design.
-Not seen by IE. Left Col + Right Col + Center Col + Both Inner Borders + Both Outer Borders ***/
-	text-align:center; /*** IE/Win (not IE/MAC) alignment of page ***/
-}
-.clear {
-	clear:both;
-	/*** these next attributes are designed to keep the div
-	height to 0 pixels high, critical for Safari and Netscape 7 ***/
-	height:0px;
-	overflow:hidden;
-	line-height:1%;
-	font-size:0px;
 }
 
-#patternWrapper {
-	height:100%; /*** moz uses this to make full height design. As this #patternWrapper is inside the #patternPage which is 100% height, moz will not inherit heights further into the design inside this container, which you should be able to do with use of the min-height style. Instead, Mozilla ignores the height:100% or min-height:100% from this point inwards to the center of the design - a nasty bug.
-If you change this to height:100% moz won't expand the design if content grows.
-Aaaghhh. I pulled my hair out over this for days. ***/
-/* \*/
-	height:100%;
-/* Last height declaration hidden from Mac IE 5.x */
-/*** Fixes height for non moz browsers, to full height ***/
-}
-#patternWrapp\65	r{ /*** for Opera and Moz (and some others will see it, but NOT Safari) ***/
-	height:auto; /*** For moz to stop it fixing height to 100% ***/
-}
-/* \*/
-* html #patternWrapper{
-	height:100%;
-}
-
-#patternPage {
-	margin-left:auto; /*** Mozilla/Opera/Mac IE 5.x alignment of page ***/
-	margin-right:auto; /*** Mozilla/Opera/Mac IE 5.x alignment of page ***/
-	text-align:left; /*** IE Win re-alignment of page if page is centered ***/
-	position:relative;
-	width:100%; /*** Needed for Moz/Opera to keep page from sliding to left side of
-page when it calculates auto margins above. Can't use min-width. Note that putting
-width in #patternPage shows it to IE and causes problems, so IE needs a hack
-to remove this width. Left Col + Right Col + Center Col + Both Inner Border + Both Outer Borders ***/
-/* \*/
-
-/* Last height declaration hidden from Mac IE 5.x */
-/*** Needed for Moz to give full height design if page content is
-too small to fill the page ***/
-}
-/* Last style with height declaration hidden from Mac IE 5.x */
-/*** Fixes height for IE, back to full height,
-from esc tab hack moz min-height solution ***/
-#patternOuter {
-	z-index:1; /*** Critical value for Moz/Opera Background Column colors fudge to work ***/
-	position:relative; /*** IE needs this or the contents won't show outside the parent container. ***/
-
-	height:100%;
-/* Last height declaration hidden from Mac IE 5.x */
-/*** Needed for full height inner borders in Win IE ***/
-}
-
-#patternFloatWrap {
-	width:100%;
-	float:left;
-	display:inline;
-}
-
-#patternSideBar {
-	float:left;
-	display:inline;
-	overflow:hidden;
-}
-#patternSideBarContents {
-	position:relative;
-}
-#patternMain {
-	width:100%;
-	float:right;
-	display:inline;
-}
-#patternTopBar {
-	z-index:1; /*** Critical value for Moz/Opera Background Column colors fudge to work ***/
-	position:absolute;
-	top:0px;
-	width:100%;
-}
-#patternBottomBar {
-	z-index:1; /* Critical value for Moz/Opera Background Column colors fudge to work */
-	clear:both;
-	width:100%;
-}
-/*	-----------------------------------------------------------
-	STYLE
-	Appearance: margins, padding, fonts, borders
-	-----------------------------------------------------------	*/
-	
-
-/*	----------------------------------------------------------------------------
-	CONSTANTS
-	
-	Sizes
-	----------------------------------------
-	S1 line-height											1.5em
-	S2 somewhat smaller font size							94%
-	S3 small font size, foswikiSmall							font-size:86%; line-height:110%;
-	S4 horizontal bar padding (h2, patternTop)				5px
-	S5 form and attachment padding							20px
-	S6 left margin left bar									1em
-
-	------------------------------------------------------------------------- */
-
-/* GENERAL HTML ELEMENTS */
-
-html body {
-	font-size:104%; /* to change the site's font size, change .foswikiPage below */
-	voice-family:"\"}\""; 
-	voice-family:inherit;
+html>body
+{
 	font-size:small;
 }
-html>body { /* Mozilla */
-	font-size:small;	
+
+label
+{
+	padding:.15em .3em .15em 0;
 }
-th {
-	line-height:1.15em;
-}
-p {
-	margin:1em 0 0 0;
-}
-label {
-	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
-}
-hr {
+
+hr
+{
 	height:1px;
 	border:none;
-}
-/* put overflow pre in a scroll area */
-pre {
-    width:auto;
-	height:1%; /* for IE */
-    margin:1em 0; /* Win IE tries to make this bigger otherwise */
-    border-style:solid;
-    border-width:1px;
-    padding:1em;
-}
-pre, code, tt {
-    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
-    font-size:86%;
+	color:#e2e2e2;
+	background-color:#e2e2e2;
 }
 
-/* IE behavior for pre is defined in css.pattern.tmpl in conditional comment */
-html>body pre { /* hide from IE */
-	/*\*/ overflow:auto !important; /* */ overflow:scroll; width:auto; /* for Mac Safari */
+pre
+{
+	width:auto;
+	height:1%;
+	background:#f5f5f5;
+	border-color:#ddd;
+	border-style:solid;
+	border-width:1px;
+	margin:1em 0;
+	padding:1em;
 }
-ol, ul {
+
+pre,code,tt
+{
+	font-family:"Bitstream Vera Sans Mono", "Andale Mono", Courier, monospace;
+	font-size:86%;
+	color:#333;
+}
+
+html>body pre
+{
+	overflow:auto !important;
+	width:auto;
+}
+
+ol,ul
+{
 	margin-top:0;
 }
-blockquote {
-	padding:.5em 1.25em;
+
+blockquote
+{
+	background-color:#f5f5f5;
+	border-color:#ddd;
 	border-style:solid;
 	border-width:1px 1px 1px 5px;
+	padding:.5em 1.25em;
 }
 
-/* Text */
-h1 {
-	margin:0 0 .5em 0;
+h1
+{
+	font-size:190%;
+	color:#2989bb;
+	margin:0;
 }
-h1, h2, h3, h4, h5, h6 {
-	font-weight:normal;
+
+h1,h2,h3,h4,h5,h6
+{
+	font-weight:400;
 	line-height:1em;
 }
-h1 { font-size:190%; }
-h2 { font-size:153%; }
-h3 { font-size:133%; }
-h4 { font-size:122%; font-weight:bold; }
-h5 { font-size:110%; font-weight:bold; }
-h6 { font-size:95%; font-weight:bold; }
-h2, h3, h4, h5, h6 {
-	display:block;
-	/* give header a background color for easy scanning:*/
-	padding:.25em 10px;
-	margin:1em -10px .35em -10px;
-	height:auto;	
-}
-/*
-h2 {
-	border-width:0 0 1px 0;
-	border-style:solid;
-}
-*/
-h1.patternTemplateTitle {
-	font-size:170%;
-	text-align:center;
-}
-h2.patternTemplateTitle {
-	text-align:center;
-	margin-top:.5em;
-	background:none;
-	border:none;
-}
-/* Links */
-/* somehow the foswikiNewLink style have to be before the general link styles */
-.foswikiNewLink {
-	border-width:0 0 1px 0;
-	border-style:solid;
-}
-.foswikiNewLink a {
-	text-decoration:none;
-	margin-left:1px;
-}
-.foswikiNewLink a sup {
-	text-align:center;
-	padding:0 2px;
-	vertical-align:baseline;
-	font-size:100%;
-	text-decoration:none;
-}
-.foswikiNewLink a:link sup,
-.foswikiNewLink a:visited sup {
-	border-width:1px;
-	border-style:solid;
-	text-decoration:none;
-}
-.foswikiNewLink a:hover sup {
-	text-decoration:none;
+
+h2
+{
+	font-size:153%;
 }
 
-:link:focus,
-:visited:focus,
-:link,
-:visited,
-:link:active,
-:visited:active {
+h3
+{
+	font-size:133%;
+}
+
+h4
+{
+	font-size:122%;
+	font-weight:700;
+}
+
+h5
+{
+	font-size:110%;
+	font-weight:700;
+}
+
+h6
+{
+	font-size:95%;
+	font-weight:700;
+}
+
+h2,h3,h4,h5,h6
+{
+	display:block;
+	height:auto;
+	color:#333;
+	margin:0;
+	padding:0;
+}
+
+:link:focus,:visited:focus,:link,:visited,:link:active,:visited:active
+{
 	text-decoration:underline;
+	color:#4571d0;
+	background-color:transparent;
 }
-:link:hover,
-:visited:hover {
+
+:link:hover,:visited:hover
+{
 	text-decoration:none;
+	color:#fff;
+	background-color:#0055b5;
+	background-image:none;
 }
-img {
+
+img
+{
 	vertical-align:text-bottom;
 	border:0;
 }
 
-/* Form elements */
-form { 
+form
+{
 	display:inline;
 	margin:0;
 	padding:0;
 }
-textarea,
-input,
-select {
+
+textarea,input,select
+{
 	vertical-align:middle;
 	font-family:arial, verdana, sans-serif;
 	font-size:100%;
 }
-.foswikiTextarea {
+
+.foswikiTextarea
+{
 	padding:1px 4px;
 }
-.foswikiSubmit,
-.foswikiSubmitDisabled,
-.foswikiButton,
-.foswikiButtonDisabled,
-.foswikiButtonCancel,
-a.foswikiButton,
-a.foswikiSubmit,
-a.foswikiButtonCancel,
-.foswikiCheckbox {
-	border-width:1px;
-	border-style:solid;
-	padding:.1em .2em;
-	font-weight:bold;
+
+.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,a.foswikiButton,a.foswikiSubmit,a.foswikiButtonCancel,.foswikiCheckbox
+{
+	font-weight:700;
 	vertical-align:middle;
 	text-align:center;
+	border-style:solid;
+	border-width:1px;
+	padding:.1em .2em;
 }
-.foswikiSubmit,
-.foswikiSubmitDisabled,
-.foswikiButton,
-.foswikiButtonDisabled,
-.foswikiButtonCancel,
-.foswikiSubmit:hover,
-.foswikiSubmitDisabled:hover,
-.foswikiButton:hover,
-.foswikiSubmit:active,
-.foswikiSubmitDisabled:active,
-.foswikiButton:active {
+
+.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,.foswikiSubmit:hover,.foswikiSubmitDisabled:hover,.foswikiButton:hover,.foswikiSubmit:active,.foswikiSubmitDisabled:active,.foswikiButton:active
+{
 	cursor:default;
 	outline:none;
 }
-a.foswikiButton,
-a.foswikiButton:hover,
-a.foswikiButton:link:active,
-a.foswikiButton:visited:active,
-a.foswikiButtonCancel,
-a.foswikiButtonCancel:hover,
-a.foswikiButtonCancel:link:active,
-a.foswikiButtonCancel:visited:active,
-a.foswikiSubmit,
-a.foswikiSubmit:hover,
-a.foswikiSubmit:link:active,
-a.foswikiSubmit:visited:active {
+
+a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButton:visited:active,a.foswikiButtonCancel,a.foswikiButtonCancel:hover,a.foswikiButtonCancel:link:active,a.foswikiButtonCancel:visited:active,a.foswikiSubmit,a.foswikiSubmit:hover,a.foswikiSubmit:link:active,a.foswikiSubmit:visited:active
+{
 	text-decoration:none;
 }
 
-.foswikiCheckbox,
-.foswikiRadioButton {
-	margin:1px .25em 1px .1em;
-	padding:0 0 0 .5em;
-	border:0;
-}
-.foswikiTextarea,
-.foswikiInputField,
-.foswikiInputFieldDisabled,
-.foswikiInputFieldReadOnly,
-.foswikiSelect {
-	border-width:2px;
+.foswikiTextarea,.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly,.foswikiSelect
+{
+	border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
 	border-style:solid;
+	border-width:2px;
 }
-.foswikiTextarea,
-.foswikiInputField,
-.foswikiInputFieldDisabled,
-.foswikiInputFieldReadOnly {
+
+.foswikiTextarea,.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly
+{
 	font-size:100%;
 }
-.foswikiInputField,
-.foswikiInputFieldDisabled,
-.foswikiInputFieldReadOnly {
+
+.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly
+{
 	padding:.1em .2em;
 }
 
-/*	-----------------------------------------------------------
-	Plugin elements
-	-----------------------------------------------------------	*/
-
-/* TagMePlugin */
-.tagMePlugin select {
+.tagMePlugin select
+{
 	margin:0 .25em 0 0;
 }
-.tagMePlugin input { 
-	border:0px;
-}
 
-/* RevCommentPlugin */
-.patternEditPage .revComment {
-	padding:1em 0 2em 0;
-}
-
-/* EditTablePlugin */
-.editTable .foswikiTable {
-	margin:0 0 2px 0;
-}
-.editTableEditImageButton {
-	border:none;
-}
-
-/* TablePlugin */
-.foswikiTable,
-.foswikiTable td,
-.foswikiTable th {
-	border-width:1px;
-}
-.foswikiTable {
-	border-style:solid;
-	margin:2px 0;
-	border-collapse:collapse;
-}
-.foswikiTable td {
-	padding:3px 6px;
-	border-top-style:solid;
-	border-bottom-style:solid;	
-}
-.foswikiTable th {
-	border-left-style:solid;
-	border-right-style:solid;
-	padding:4px 6px;
-}
-.foswikiTable .tableSortIcon {
-	margin:0 0 0 5px;
-}
-
-/*
-.foswikiTable th.foswikiFirstCol {
-	border-left-style:none;
-}
-*/
-.foswikiTable a:link,
-.foswikiTable a:visited {
-	text-decoration:underline;
-}
-.foswikiTable a:hover {
-	text-decoration:underline;
-}
-
-/* TwistyContrib */
-.twistyTrigger a:link,
-.twistyTrigger a:visited {
-	text-decoration:none;
-}
-.twistyTrigger a:link .foswikiLinkLabel,
-.twistyTrigger a:visited .foswikiLinkLabel {
-	text-decoration:none;
-}
-
-/*tipsOfTheDay*/
-.tipsOfTheDay {
-	padding:10px;
-}
-
-/*	-----------------------------------------------------------
-	TWiki styles
-	-----------------------------------------------------------	*/
-
-#foswikiLogin {
-	width:44em;
-	margin:0 auto;
-	text-align:center;
-}
-#foswikiLogin .foswikiFormSteps {
+#foswikiLogin .foswikiFormSteps
+{
 	border-width:5px;
 }
-#foswikiLogin .patternLoginNotification {
-	padding-left:.5em;
-	padding-right:.5em;
-	border-style:solid;
-	border-width:2px;
-}
-.foswikiAttachments,
-.foswikiForm {
-	margin:1em 0;
-	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
-	height:1%; /* for IE */
-}
-.foswikiTable h2, .foswikiFormTable h2,
-.foswikiTable h3, .foswikiFormTable h3,
-.foswikiTable h4, .foswikiFormTable h4,
-.foswikiTable h5, .foswikiFormTable h5,
-.foswikiTable h6, .foswikiFormTable h6 {
-	border:0;
-	margin:0;
-	padding-left:0;
-	padding-right:0;
-}
-.foswikiFormTable th {
-	font-weight:normal;
-}
-.foswikiFormTable .foswikiTable th {
-	font-weight:bold;
-}
-.patternEditPage .foswikiFormTable td,
-.patternEditPage .foswikiFormTable th {
-	padding:.3em .4em;
-	border-style:solid;
-	border-width:0 0 1px 0;
-	vertical-align:middle;
-}
-.patternContent .foswikiAttachments,
-.patternContent .foswikiForm {
-	/* form or attachment table inside topic area */
-	font-size:94%; /*S2*/
-	padding:1em 20px; /*S5*/ /* top:use less padding for the toggle link; bottom:use less space in case the table is folded in  */
-	margin:0;
-	border-width:2px 0 0 0;
-	border-style:solid;
-}
-.foswikiAttachments .foswikiTable,
-table.foswikiFormTable {
-	margin:10px 0 5px 0;
-	border-collapse:collapse;
-	padding:0px;
-	border-spacing:0px;
-	empty-cells:show;
-	border-style:solid;
-	border-width:1px;
-}
-.foswikiAttachments table {
-	line-height:1.5em; /*S1*/
-	width:auto;
-	width:100%;
-}
-.foswikiAttachments .foswikiTable th {
-	border-style:none none solid solid;
-	border-width:1px;
-}
-.foswikiAttachments .foswikiTable th,
-table.foswikiFormTable th.foswikiFormTableHRow {
-	padding:3px 6px;
-	height:2.5em;
-	vertical-align:middle;
-}
-table.foswikiFormTable th.foswikiFormTableHRow {
-	text-align:center;
-}
-.foswikiFormTableFooter {}
-.foswikiAttachments .foswikiTable td,
-table.foswikiFormTable td {
-	padding:3px 2em 3px 1em;
-	height:1.5em; /*S1*/
+
+.foswikiFormSteps
+{
 	text-align:left;
-	vertical-align:top;
-}
-.foswikiAttachments .foswikiTable th.foswikiFirstCol,
-.foswikiAttachments .foswikiTable td.foswikiFirstCol {
-	/* make more width for the icon column */
-	width:26px;
-	text-align:center;
-}
-.foswikiAttachments .foswikiTable caption {
-	display:none;
-}
-table.foswikiFormTable th.foswikiFormTableHRow a:link,
-table.foswikiFormTable th.foswikiFormTableHRow a:visited {
-	text-decoration:none;
-}
-.foswikiAttachments h3,
-.foswikiForm h3,
-.patternTwistyButton h3 {
-	font-size:1.1em;
-	font-weight:bold;
-	display:inline;
-	margin:0;
-	padding:0;
-}
-.patternTwistyButton h3 {
-	/* always add class foswikiButton as well */
-	padding:.1em .2em;
-}
-.patternAttachmentHeader {
-	/* behaviour class */
-}
-.foswikiForm h3 a:link,
-.foswikiForm h3 a:visited {
-	text-decoration:none;
-}
-.foswikiForm h3 .foswikiSmall {
-	font-weight:normal;
-	font-size:86%;
-	margin:0 0 0 .15em;
-}
-.foswikiFormSteps {
-	text-align:left;
-	border-width:1px 0 0 0;
+	background-color:#eef7fa;
+	border-color:#e2e2e2;
 	border-style:solid;
+	border-width:1px 0 0;
 }
-.foswikiFormStep {
+
+.foswikiFormStep
+{
 	line-height:140%;
-	padding:1em 40px;
-	border-width:0 0 1px 0;
+	border-color:#e2e2e2;
 	border-style:solid;
+	border-width:0 0 1px;
+	padding:1em 40px;
 }
-.foswikiFormStep h2,
-.foswikiFormStep h3,
-.foswikiFormStep h4 {
+
+.foswikiFormStep h2,.foswikiFormStep h3,.foswikiFormStep h4
+{
 	border:none;
-	margin:0 0 .1em 0;
-	padding:0;
 	background:none;
+	margin:0 0 .1em;
+	padding:0;
 }
-.foswikiFormStep h2 {
+
+.foswikiFormStep h2
+{
 	font-size:130%;
-	font-weight:bold;
+	font-weight:700;
+	color:#2989bb;
 }
-.foswikiFormStep h3 {
+
+.foswikiFormStep h3
+{
 	font-size:115%;
-	font-weight:bold;
+	font-weight:700;
 }
-.foswikiFormStep h4 {
+
+.foswikiFormStep h4
+{
 	font-size:104%;
-	font-weight:bold;
+	font-weight:700;
 }
-.foswikiFormStep p {
+
+.foswikiFormStep p
+{
 	margin:.5em 0;
 }
-.foswikiFormStep blockquote {
+
+.foswikiFormStep blockquote
+{
 	margin-left:1em;
 	padding-top:.25em;
 	padding-bottom:.25em;
 }
-.foswikiActionFormStepSign {
-	position:absolute;
-	font-size:104%;
-	margin-left:-20px; /* half of S5 */
-	margin-top:-.15em;
+
+.foswikiBroadcastMessage,.foswikiNotification
+{
+	background-color:#fff7e1;
+	padding:1em 20px;
 }
-.foswikiToc {
-	margin:1em 0;
-	padding:.3em 0 .6em 0;
-}
-.foswikiToc ul {
-	list-style:none;
-	padding:0 0 0 .5em;
-	margin:0;
-}
-.foswikiToc li {
-	margin-left:1em;
-	padding-left:1em;
-	background-repeat:no-repeat;
-	background-position:0 .5em;
-}
-.foswikiToc .foswikiTocTitle {
-	margin:0;
-	padding:0;
-	font-weight:bold;
-}
-.foswikiSmall {
-	font-size:86%; /*S3*/
-	line-height:1.5em; /*S1*/
-}
-.foswikiSmallish {
-	font-size:94%; /*S2*/
-	line-height:1.5em; /*S1*/
-}
-.foswikiNew {}
-.foswikiSummary {
-	font-size:86%; /*S3*/
-}
-.foswikiEmulatedLink {
-	text-decoration:underline;
-}
-.foswikiPageForm table {
-	border-width:1px;
-	border-style:solid;
-}
-.foswikiPageForm table {
-	width:100%;
-}
-.foswikiPageForm th,
-.foswikiPageForm td {
-	border:0;
-	padding:.5em 1em;
-}
-.foswikiPageForm td {}
-.foswikiPageForm td.first {
-	padding-top:1em;
-}
-.foswikiBroadcastMessage,
-.foswikiNotification {
-	padding:1em 20px; /*S5*/
-}
-.foswikiNotification {
-	margin:1em 0;
+
+.foswikiNotification
+{
+	border:1px solid #ffdf4c;
 	border-style:solid;
 	border-width:2px;
+	margin:1em 0;
 }
-.foswikiBroadcastMessage {
-	margin:0 0 1.25em 0;
-}
-.foswikiHelp {
-	height:1%; /* for IE */
+
+.foswikiHelp
+{
+	height:1%;
+	background-color:#fff;
+	border-color:#e2e2e2;
+	border-style:solid;
+	border-width:1px;
+	margin:.25em 0 0;
 	padding:1em;
-	margin:.25em 0 0 0;
-	border-style:solid;
-	border-width:2px;
 }
-.foswikiHelp ul {
-	margin:0;
+
+.foswikiHelp ul
+{
 	padding-left:20px;
+	margin:0;
 }
-.foswikiAccessKey {
-	border:none;
-}
-a:hover .foswikiAccessKey {
-	text-decoration:none;
-	border-width:0 0 1px 0;
-	border-style:solid;
-}
-.foswikiWebIndent {
-	margin:0 0 0 1em;
-}
-.foswikiLinkLabel {}
-.foswikiImage img {
-	padding:3px;
-	border-width:1px;
-	border-style:solid;
-}
-.foswikiImage a:link,
-.foswikiImage a:visited {
+
+blockquote h2
+{
 	background:none;
 }
-#foswikiLogo img {
-	margin:0;
-	padding:0;
-    border:0px;
-}
-.foswikiNoBreak {
-	white-space:nowrap;
-}
-.foswikiSearchResultCount {
-	font-weight:bold;
-}
 
-/*	-----------------------------------------------------------
-	Pattern skin specific elements
-	-----------------------------------------------------------	*/
-
-/* LAYOUT ELEMENTS */
-/* for specific layout sub-elements see further down */
-
-.foswikiPage {
-	font-family:arial, verdana, sans-serif;
-	line-height:1.5em; /*S1*/
-	/* change font size here */
-	font-size:105%;
-}
-.foswikiPage font {
-	line-height:135%;
-}
-.patternNoViewPage #patternOuter {
-	margin-left:0;
-	margin-right:0;
-}
-#patternTopBar {
-	border-width:1px;
-	border-style:none none solid none;
-}
-#patternBottomBar {
-	border-width:1px 0 0 0;
-	border-style:solid;
-}
-#patternWebBottomBar {
-	font-size:94%; /*S2*/
-	line-height:125%;
-	text-align:left;
-}
-#patternSideBarContents {
-	margin:0 0 1em 0;
-	padding-right:.5em;
-	padding-left:1em;
-}
-#patternMainContents,
-#patternBottomBarContents,
-#patternSideBarContents,
-#patternTopBarContents {
-	padding-right:2em;
-	padding-left:2em;
-}
-#patternSideBarContents,
-#patternMainContents {
-	padding-top:2em;
-}
-#patternSideBarContents {
-	padding-bottom:2em;
-}
-#patternTopBarContents {
-	padding-top:1em;
-}
-#patternBottomBarContents {
-	padding-top:1em;
-}
-.patternNoViewPage .foswikiTopic {
-	margin-top:2em;
-}
-
-/* bottom paddings */
-#patternMainContents {
-	padding-bottom:4em;
-}
-#patternBottomBarContents {
-	padding-bottom:2em;
-}
-.foswikiTopic {
-	margin:0 0 2em 0;
-}
-.patternNoViewPage #patternMainContents,
-.patternNoViewPage #patternBottomBarContents {
-	margin-left:4%;
-	margin-right:4%;
-}
-.patternEditPage #patternMainContents,
-.patternEditPage #patternBottomBarContents {
-	margin-left:2%;
-	margin-right:2%;
-}
-
-.patternTop {
-	margin:0 0 .5em 0;
-}
-.patternNoViewPage .patternTop {
-	font-size:94%;
-}
-#patternSideBarContents img {
-	margin:0 3px 0 0;
-	vertical-align:text-bottom;
-}
-#patternSideBarContents a:link,
-#patternSideBarContents a:visited {
-	text-decoration:none;
-}
-/*
-#patternSideBarContents .patternLeftBarPersonal a:link,
-#patternSideBarContents .patternLeftBarPersonal a:visited {
-	text-decoration:underline;
-}
-#patternSideBarContents .patternLeftBarPersonal ul a:link,
-#patternSideBarContents .patternLeftBarPersonal ul a:visited {
-	text-decoration:none;
-}
-#patternSideBarContents .patternLeftBarPersonal ul a:hover {
-	text-decoration:underline;
-}
-*/
-#patternSideBarContents ul {
-	padding:0;
-	margin:0;
-	list-style:none;
-}
-#patternSideBarContents,
-#patternSideBarContents ul,
-#patternSideBarContents li {
-	line-height:1.35em;
-}
-#patternSideBarContents h2 {
-	border:none;
+:link:hover img,:visited:hover img
+{
 	background-color:transparent;
 }
-#patternSideBarContents .patternLeftBarPersonal,
-#patternSideBarContents .patternWebIndicator {
-	height:1%; /* for IE */
-	width:100%; /* for IE */
-	padding:0 1em .75em 1em;
-	margin:0 -1em .75em -1em; /*S6*/
-	border-style:none none solid none;
-	border-width:1px;
-}
-/*
-#patternSideBarContents ul li a:link,
-#patternSideBarContents ul li a:visited {
-	display:block;
-	margin:0 -1em 0 -1em;
-	padding:.2em 1em;
-}
-*/
-.patternWebIndicator a {
-	font-size:1.1em;
-	font-weight:bold;
-}
-.patternLeftBarPersonalContent {
-	padding:1em 0 0 0;
-}
-#patternSideBarContents li {
-	overflow:hidden;
-}
-html>body #patternSideBarContents li { /* Mozilla */
-	overflow:visible;
+
+.foswikiSubmit,.foswikiButton
+{
+	border-color:#fff #888 #888 #fff;
 }
 
-/* form options in top bar */
-.patternMetaMenu {}
-.patternMetaMenu input,
-.patternMetaMenu select,
-.patternMetaMenu select option {
-	margin:0;
-}
-.patternMetaMenu select option {
-	padding:1px 0 0 0;
-}
-.patternMetaMenu ul {
-    padding:0;
-    margin:0;
-   	list-style:none;
-}
-.patternMetaMenu ul li {
-    padding:0;
-	display:inline;
-}
-.patternMetaMenu ul li .foswikiInputField,
-.patternMetaMenu ul li .foswikiSelect {
-	margin:0 0 0 .5em;
-}
-.patternHomePath .foswikiSeparator {
-	padding:0 .5em;
-}
-.patternHomePath a:link,
-.patternHomePath a:visited {
-	text-decoration:none;
-	border-style:none none solid none;
-	border-width:1px;
+.foswikiSubmit
+{
+	color:#fff;
+	background-color:#06c;
 }
 
-.patternToolBar {
-}
-.patternToolBar span {
-	float:left;
-}
-.patternToolBar span s,
-.patternToolBar span strike,
-.patternToolBar span a:link,
-.patternToolBar span a:visited {
-	display:block;
-	border-width:1px;
-	border-style:solid;
-	padding:.1em .35em;
-	margin:0 0 .2em .25em;
-	font-weight:bold;
-}
-.patternToolBar span a:link,
-.patternToolBar span a:visited {
-	text-decoration:none;
-	outline:none;
-}
-.patternToolBar span a:hover,
-.patternToolBar span a:hover {
-	border-width:1px;
-	border-style:solid;
-}
-.patternToolBar span a:active {
-	outline:none;
-}
-.patternToolBar span.foswikiAccessKey { 
-	float:none; 
-}
-.patternToolBar span s,
-.patternToolBar span strike {
-	text-decoration:none;
+.foswikiButton
+{
+	color:#000;
+	background-color:#e2e3e3;
 }
 
-.patternTopicActions {
-	border:none;
+.foswikiButtonCancel
+{
+	background-image:url(configure?action=resource;resource=bg_buttoncancel_gradient.gif);
+	background-repeat:repeat-x;
+	background-position:0 0;
+	background-color:#dd724d;
+	color:#fff;
+	border-color:#f3ddd7 #ce5232 #ce5232 #f3ddd7;
 }
-.patternTopicAction {
-	line-height:1.5em;
-	padding:.4em 20px; /*S5*/
-	border-width:1px 0 0 0;
-	border-style:solid;
-	height:1%; /* for IE */
+
+.foswikiTextarea,.foswikiInputField,.foswikiSelect
+{
+	color:#000;
+	background-color:#fff;
 }
-.patternOopsPage .patternTopicActions,
-.patternEditPage .patternTopicActions {
-	margin:2em 0 0 0;
+
+.foswikiInputField:active,.foswikiInputField:focus,.foswikiInputFieldFocus
+{
+	background-color:#ffffe0;
 }
-.patternAttachPage .patternTopicAction,
-.patternRenamePage .patternTopicAction {
-	padding-left:40px;
+
+.foswikiSelect
+{
+	color:#000;
+	background-color:#fff;
+	border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
 }
-.patternActionButtons a:link,
-.patternActionButtons a:visited {
-	padding:1px 1px 2px 1px;
+
+.foswikiFormStep h3,.foswikiFormStep h4
+{
+	color:#d1400e;
+	background-color:transparent;
 }
-.patternTopicAction .patternActionButtons a:link,
-.patternTopicAction .patternActionButtons a:visited {
-	text-decoration:none;
-}
-.patternTopicAction .patternActionButtons span s,
-.patternTopicAction .patternActionButtons span strike {
-	text-decoration:none;
-}
-.patternActionButtons a.foswikiButton,
-.patternActionButtons a.foswikiSubmit,
-.patternActionButtons a.foswikiButtonCancel {
-	padding:.1em .2em;
-}
-.patternNoViewPage .patternTopicAction {
-	margin-top:-1px;
-}
-.patternInfo {
-	margin:1.5em 0 0 0;
-}
-.patternHomePath .patternRevInfo {
-	font-size:94%;
-	white-space:nowrap;
-}
-.patternMoved {
+
+.foswikiAlert
+{
 	margin:1em 0;
 }
-.patternMoved i,
-.patternMoved em {
-	font-style:normal;
-}
-.patternTopicFooter {
-	margin:1em 0 0 0;
-}
-.patternSimpleLogo {
-	margin:1em 0 0 0;
-}
-#patternTopic {
-	padding:1em 0;
+
+.foswikiAlert,.foswikiAlert code
+{
+	color:red;
 }
 
-/* PatternSkin colors */
-/* Generated by AttachContentPlugin from System.PatternSkin */
-
-/* LAYOUT ELEMENTS */
-
-#patternScreen {
-	background:#fff;
-}
-#patternPage {
-	border-color:#ccc;
-}
-#patternTopBar {
-   border-color:#e2e2e2;
-	/* color is defined as WEBHEADERBGCOLOR in System/DefaultPreferences */
-}
-#patternMain { /* don't set a background here; use patternOuter */ }
-#patternOuter {
-   background:none;
-   border-color:#dadada;
-}
-#patternSideBar,
-#patternWrapper {
-   background:#fff;
-}
-#patternBottomBar {
-   border-color:#ccc;
-   background-color:#f5f5f5;
-}
-#patternBottomBarContents,
-#patternBottomBarContents a:link,
-#patternBottomBarContents a:visited {
-   color:#777;
-}
-#patternBottomBarContents a:hover {
-   color:#fff;
+.foswikiSubmit,.foswikiSubmitDisabled
+{
+	background-image:url(configure?action=resource;resource=bg_submit_gradient.gif);
+	background-repeat:repeat-x;
 }
 
-/* GENERAL HTML ELEMENTS */
-
-html body {
-   background-color:#fff;
-   color:#000;
-}
-html body.patternEditPage,
-.mceContentBody {
-   background-color:#fff;
-}
-/* be kind to netscape 4 that doesn't understand inheritance */
-body, p, li, ul, ol, dl, dt, dd, acronym, h1, h2, h3, h4, h5, h6 {
-   background-color:transparent;
-}
-hr {
-   color:#e2e2e2;
-   background-color:#e2e2e2;
-}
-pre, code, tt {
-   color:#333;
-}
-pre {
-   background:#f5f5f5;
-   border-color:#ddd;
-}
-blockquote {
-   background-color:#f5f5f5;
-   border-color:#ddd;
-}
-blockquote h2 {
-   background:none;
-}
-h1 {
-   color:#2989bb;
-}
-h2, h3, h4, h5, h6 {
-   color:#333;
+.foswikiSubmit,a.foswikiSubmit:link,a.foswikiSubmit:visited
+{
+	background-position:0 0;
+	background-color:#06c;
+	color:#fff;
+	border-color:#94cce2 #0e66a2 #0e66a2 #94cce2;
 }
 
-/* to override old Render.pm coded font color style */
-.foswikiNewLink font {
-   color:inherit;
-}
-.foswikiNewLink a:link sup,
-.foswikiNewLink a:visited sup {
-   color:#777;
-   border-color:#ddd;
-}
-.foswikiNewLink a:hover sup {
-   background-color:#0055b5;
-   color:#fff;
-   border-color:#0055b5;
-}
-.foswikiNewLink {
-   border-color:#ddd;
-}
-:link:focus,
-:visited:focus,
-:link,
-:visited,
-:link:active,
-:visited:active {
-   color:#4571d0;
-   background-color:transparent;
-}
-:link:hover,
-:visited:hover {
-   color:#fff;
-   background-color:#0055b5;
-   background-image:none;
-}
-:link:hover img,
-:visited:hover img {
-   background-color:transparent;
-}
-.foswikiTopic a:visited {
-   color:#666;
-}
-.foswikiTopic a:hover {
-   color:#fff;
-}
-#patternMainContents h1 a:link, #patternMainContents h1 a:visited {
-   color:#2989bb;
-}
-#patternMainContents h2 a:link, #patternMainContents h2 a:visited,
-#patternMainContents h3 a:link, #patternMainContents h3 a:visited,
-#patternMainContents h4 a:link, #patternMainContents h4 a:visited,
-#patternMainContents h5 a:link, #patternMainContents h5 a:visited,
-#patternMainContents h6 a:link, #patternMainContents h6 a:visited {
-   color:#d1400e;
-}
-#patternMainContents h1 a:hover,
-#patternMainContents h2 a:hover,
-#patternMainContents h3 a:hover,
-#patternMainContents h4 a:hover,
-#patternMainContents h5 a:hover,
-#patternMainContents h6 a:hover {
-   color:#fff;
-}
-.foswikiTopic .foswikiUnvisited a:visited {
-   color:#4571d0;
-}
-.foswikiTopic .foswikiUnvisited a:hover {
-   color:#fff;
+.foswikiSubmit:hover,a.foswikiSubmit:hover
+{
+	background-position:0 -80px;
+	background-color:#0047b7;
+	color:#fff;
+	border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
 }
 
-/* Form elements */
-
-textarea,
-input,
-select {
-   border-color:#aaa;
-   color:#000;
-   background-color:#fff;
-}
-.foswikiSubmit,
-.foswikiButton {
-   border-color:#fff #888 #888 #fff;
-}
-.foswikiSubmit {
-   color:#fff;
-   background-color:#06c;
-}
-.foswikiButton {
-   color:#000;
-   background-color:#e2e3e3;
-}
-.foswikiButtonCancel {
-   color:#000;
-   background-color:#f2d5d0;
-}
-.foswikiSubmitDisabled,
-.foswikiSubmitDisabled:active {
-   border-color:#fff #ccc #ccc #fff;
-   color:#aaa;
-   background-color:#eef7fa;
-}
-.foswikiTextarea,
-.foswikiInputField,
-.foswikiInputFieldDisabled,
-.foswikiInputFieldReadOnly,
-.foswikiSelect {
-   border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
-}
-.foswikiTextarea,
-.foswikiInputField,
-.foswikiSelect {
-   color:#000;
-   background-color:#fff;
-}
-.foswikiInputField:active,
-.foswikiInputField:focus,
-.foswikiInputFieldFocus {
-   background-color:#ffffe0;
+.foswikiSubmit:active,a.foswikiSubmit:active
+{
+	background-position:0 -160px;
+	background-color:#73ace6;
+	color:#fff;
+	border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
 }
 
-.foswikiTextareaRawView {
-   color:#000;
-}
-.foswikiInputFieldDisabled {
-   color:#aaa;
-   background-color:#fafaf8;
-}
-.foswikiInputFieldReadOnly {
-   color:#777;
-}
-.foswikiSelect {
-   border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
-   color:#000;
-   background-color:#fff;
-}
-.foswikiInputFieldDisabled,
-.foswikiSelectDisabled {
-   color:#aaa;
-   border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
-   background-color:#fafaf8;
-}
-.foswikiInputFieldBeforeFocus {
-   color:#777;
+.foswikiButton,a.foswikiButton:link,a.foswikiButton:visited
+{
+	background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
+	background-repeat:repeat-x;
+	background-position:0 0;
+	background-color:#cce7f1;
+	color:#333;
+	border-color:#fff #94cce2 #94cce2 #fff;
 }
 
-/*   -----------------------------------------------------------
-   Plugin elements
-   -----------------------------------------------------------   */
-
-/* TablePlugin */
-.foswikiTable,
-.foswikiTable td,
-.foswikiTable th {
-   border-color:#e2e2e2;
-}
-.foswikiTable th a:link,
-.foswikiTable th a:visited,
-.foswikiTable th a font {
-   color:#fff;
+.foswikiButton:hover,.foswikiButton:active,a.foswikiButton:hover,a.foswikiButton:active
+{
+	background-position:0 -160px;
+	background-color:#cce7f1;
+	color:#333;
+	border-color:#94cce2;
 }
 
-/* TwistyContrib */
-.twistyPlaceholder {
-   color:#777;
-}
-a:hover.twistyTrigger {
-   color:#fff;
-}
-
-/* TipsContrib */
-.tipsOfTheDay {
+.foswikiButtonCancel:hover
+{
+	background-position:0 -80px;
+	background-color:#dd724d;
+	color:#fff;
+	border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
 }
 
-/* RevCommentPlugin */
-.revComment .patternTopicAction {
-   background-color:#eef7fa;
+.foswikiButtonCancel:active
+{
+	background-position:0 -160px;
+	background-color:#dd724d;
+	color:#fff;
+	border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
 }
 
-/*   -----------------------------------------------------------
-   Foswiki styles
-   -----------------------------------------------------------   */
-
-.foswikiGrayText {
-   color:#777;
-}
-.foswikiGrayText a:link,
-.foswikiGrayText a:visited {
-   color:#777;
-}
-.foswikiGrayText a:hover {
-   color:#fff;
-}
-
-table.foswikiFormTable th.foswikiFormTableHRow,
-table.foswikiFormTable td.foswikiFormTableRow {
-   color:#777;
-}
-.foswikiEditForm {
-   color:#000;
-}
-.foswikiEditForm .foswikiFormTable,
-.foswikiEditForm .foswikiFormTable th,
-.foswikiEditForm .foswikiFormTable td {
-   border-color:#e2e2e2;
-}
-/* use a different table background color mix: no odd/even rows, no white background */
-.foswikiEditForm .foswikiFormTable td  {
-   background-color:#f7fafc;
-}
-.foswikiEditForm .foswikiFormTable th {
-   background-color:#f0f6fb;
-}
-.patternContent .foswikiAttachments,
-.patternContent .foswikiForm {
-   background-color:#eef7fa;
-   border-color:#fff;
-}
-.patternTwistyButton h3 {
-	color:#d1400e;
-}
-.foswikiAttachments table,
-table.foswikiFormTable {
-   border-color:#e2e2e2;
-   background-color:#fff;
-}
-.foswikiAttachments table {
-   background-color:#fff;
-}
-.foswikiForm td,
-.foswikiForm th,
-.foswikiAttachments td, 
-.foswikiAttachments th {
-   border-color:#e2e2e2;
-}
-.foswikiAttachments .foswikiTable th font,
-table.foswikiFormTable th.foswikiFormTableHRow font {
-   color:#4571d0;
-}
-
-.foswikiFormSteps {
-   background-color:#eef7fa;
-   border-color:#e2e2e2;
-}
-.foswikiFormStep {
-   border-color:#e2e2e2;
-}
-.foswikiFormStep h2 {
-   color:#2989bb;
-}
-.foswikiFormStep h3,
-.foswikiFormStep h4 {
-   color:#d1400e;
-}
-.foswikiFormStep h3,
-.foswikiFormStep h4 {
-   background-color:transparent;
-}
-.foswikiActionFormStepSign {
-   color:#d1400e;
-}
-.foswikiToc .foswikiTocTitle {
-   color:#777;
-}
-.foswikiBroadcastMessage,
-.foswikiNotification {
-   background-color:#fff7e1;
-}
-.foswikiNotification {
-   border:1px solid #ffdf4c;
-}
-#foswikiLogin .patternLoginNotification {
-   background-color:#fff;
-   border-color:#f00;
-}
-.foswikiHelp {
-   background-color:#edf5fa;
-   border-color:#e2e2e2;
-}
-.foswikiBroadcastMessage b,
-.foswikiBroadcastMessage strong {
-   color:#f00;
-}
-.foswikiAlert,
-.foswikiAlert code {
-   color:#f00;
-}
-.foswikiEmulatedLink {
-   color:#4571d0;
-}
-.foswikiPageForm table {
-   border-color:#e2e2e2;
-   background:#fff;
-}
-.foswikiPageForm hr {
-   border-color:#cfcfcf;
-   background-color:#cfcfcf;
-   color:#cfcfcf;
-}
-.foswikiAccessKey {
-   color:inherit;
-   border-color:#777;
-}
-a:link .foswikiAccessKey,
-a:visited .foswikiAccessKey {
-   color:inherit;
-}
-a:hover .foswikiAccessKey {
-   color:inherit;
-}
-.foswikiImage img {
-   border-color:#eee;
-   background-color:#fff;
-}
-#patternTopBar .foswikiImage img {
-   background-color:transparent;
-}
-.foswikiImage a:hover img {
-   border-color:#0055b5;
-}
-
-/*   -----------------------------------------------------------
-   Pattern skin specific elements
-   -----------------------------------------------------------   */
-#patternPage {
-   background-color:#fff;
-}
-.patternHomePath a:link,
-.patternHomePath a:visited {
-   border-color:#ddd;
-   color:#666;
-}
-.patternTop a:hover {
-   border:none;
-   color:#fff;
-}
-.patternHomePath .patternRevInfo,
-.patternHomePath .patternRevInfo a:link,
-.patternHomePath .patternRevInfo a:visited {
-   color:#777;
-}
-.patternHomePath .patternRevInfo a:hover {
-   color:#fff;
-}
-
-/* Left bar */
-#patternSideBarContents {
-   color:#000;
-}
-#patternSideBarContents hr {
-   color:#e2e2e2;
-   background-color:#e2e2e2;
-}
-#patternSideBarContents a:link,
-#patternSideBarContents a:visited {
-   color:#444;
-}
-#patternSideBarContents a:hover {
-   color:#fff;
-}
-#patternSideBarContents .patternLeftBarPersonal,
-#patternSideBarContents .patternWebIndicator {
-	border-color:#dadada;
-}
-#patternSideBarContents b,
-#patternSideBarContents strong {
-	color:#d1400e;
-}
-
-.patternTopicActions {
-   background-color:#2989bb;
-   color:#bbb;
-}
-.patternTopicAction {
-   border-color:#fff;
-}
-.patternTopicAction s,
-.patternTopicAction strike {
-   color:#aaa;
-}
-.patternTopicAction .foswikiSeparator {
-   color:#e2e2e2;
-}
-.patternActionButtons a:link,
-.patternActionButtons a:visited {
-   color:#fff;
-}
-.patternActionButtons a:hover {
-   color:#fff;
-}
-.patternTopicAction a:link .foswikiAccessKey,
-.patternTopicAction a:visited .foswikiAccessKey {
-   color:#fff;
-   border-color:#fff;
-}
-.patternTopicAction a:hover .foswikiAccessKey {
-   color:#fff;
-}
-.patternTopicAction label {
-   color:#000;
-}
-.patternHelpCol {
-   color:#777;
-}
-.patternSigLine {
-   color:#777;	
-}
-.patternEditTopic {
-	background:#eef7fa;
-}
-.patternToolBar a:link .foswikiAccessKey,
-.patternToolBar a:visited .foswikiAccessKey {
-   color:inherit;
-   border-color:#666;
-}
-.patternToolBar a:hover .foswikiAccessKey {
-   background-color:transparent;
-   color:inherit;
-   border-color:#666;
-}
-
-/* WebSearch, WebSearchAdvanced */
-table#foswikiSearchTable {
-   border-color:#e2e2e2;
-}
-table#foswikiSearchTable th,
-table#foswikiSearchTable td {
-   background-color:#fff;
-   border-color:#e2e2e2;
-}
-table#foswikiSearchTable hr {
-   border-color:#e2e2e2;
-   background-color:#e2e2e2;
-}
-table#foswikiSearchTable th {
-   color:#000;
-}
-
-/*   -----------------------------------------------------------
-   Search results
-   styles and overridden styles used in search.pattern.tmpl
-   -----------------------------------------------------------   */
-
-h3.patternSearchResultsHeader,
-h4.patternSearchResultsHeader {
-   background-color:#eef7fa;
-   border-color:#e2e2e2;
-}
-h4.patternSearchResultsHeader {
-   color:#000;
-}
-.patternNoViewPage h4.patternSearchResultsHeader {
-   color:#d1400e;
-}
-.patternSearchResult .foswikiBottomRow {
-   border-color:#e2e2e2;
-}
-.patternSearchResult .foswikiAlert {
-   color:#f00;
-}
-.patternSearchResult .foswikiSummary .foswikiAlert {
-   color:#900;
-}
-.patternSearchResult .foswikiNew {
-   background-color:#ECFADC;
-   border-color:#049804;
-   color:#049804;
-}
-.patternViewPage .patternSearchResultsBegin {
-   border-color:#e2e2e2;
-}
-
-/* Search results in book view format */
-
-.patternBookView .foswikiTopRow {
-   background-color:transparent; /* set to WEBBGCOLOR in css.pattern.tmpl */
-   color:#777;
-}
-.patternBookView .foswikiBottomRow {
-   border-color:#e2e2e2;
-}
-.patternBookView .patternSearchResultCount {
-   color:#777;
-}
-
-/* edit.pattern.tmpl */
-
-/* preview.pattern.tmpl */
-
-.foswikiPreviewArea,
-.patternPreviewPage .foswikiForm {
-   border-color:#f00;
-   background-color:#fff;
-}
-.patternPreviewPage .foswikiForm {
-   border-color:#ccc;
-   background-color:#fff;
-}
-
-/* rdiff.pattern.tmpl */
-
-.patternDiff {
-   border-color:#6b7f93;
-}
-#patternMainContents .patternDiff h4.patternSearchResultsHeader {
-   background-color:#6b7f93;
-   color:#fff;
-}
-#patternMainContents .patternDiff h4.patternSearchResultsHeader a:link,
-#patternMainContents .patternDiff h4.patternSearchResultsHeader a:visited {
-   color:#fff;
-}
-tr.foswikiDiffDebug td {
-   border-color:#e2e2e2;
-}
-.patternDiffPage .foswikiDiffTable th {
-   background-color:#ccc;
-}
-/* Changed */
-.foswikiDiffChangedHeader,
-tr.foswikiDiffDebug .foswikiDiffChangedText,
-tr.foswikiDiffDebug .foswikiDiffChangedText {
-   background:#9f9; /* green - do not change */
-}
-/* Deleted */
-tr.foswikiDiffDebug .foswikiDiffDeletedMarker,
-tr.foswikiDiffDebug .foswikiDiffDeletedText {
-   background-color:#f99; /* red - do not change */
-}
-/* Added */
-.foswikiDiffAddedHeader,
-tr.foswikiDiffDebug .foswikiDiffAddedMarker,
-tr.foswikiDiffDebug .foswikiDiffAddedText {
-   background-color:#ccf; /* violet - do not change */
-}
-/* Unchanged */
-tr.foswikiDiffDebug .foswikiDiffUnchangedText {
-   color:#777;
-}
-.foswikiDiffUnchangedTextContents { }
-.foswikiDiffLineNumberHeader {
-   background-color:#ccc;
-}
-
-
-/* IMAGES */
-/* image positions are set here as well as these are dependent on the image */
-
-#patternTopBar {
-	/* image is defined as WEBHEADERART in System/DefaultPreferences */
-}
-.patternPrintPage #patternOuter {
-   background:#fff; /* white - do not change */
-}
-.foswikiSubmit,
-.foswikiSubmitDisabled {
-   background-image:url(configure?action=resource;resource=bg_submit_gradient.gif);
-   background-repeat:repeat-x;
-}
-.foswikiSubmit,
-a.foswikiSubmit:link,
-a.foswikiSubmit:visited {
-   background-position:0px 0px;
-   background-color:#06c;
-   border-color:#94cce2 #0e66a2 #0e66a2 #94cce2;
-   color:#fff;
-}
-.foswikiSubmit:hover,
-a.foswikiSubmit:hover {
-   background-position:0px -80px;
-   background-color:#0047b7;
-   border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
-   color:#fff;
-}
-.foswikiSubmit:active,
-a.foswikiSubmit:active {
-   background-position:0px -160px;
-   background-color:#73ace6;
-   border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
-   color:#fff;
-}
-.foswikiSubmitDisabled,
-.foswikiSubmitDisabled:hover,
-.foswikiSubmitDisabled:active {
-   background-position:0px -240px;
-   background-color:#d9e8f7;
-   border-color:#ccc #ccc #ccc #ccc;
-   color:#ccc;
-}
-.foswikiButton,
-a.foswikiButton:link,
-a.foswikiButton:visited {
-   background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
-   background-repeat:repeat-x;
-   background-position:0px 0px;
-   border-color:#fff #94cce2 #94cce2 #fff;
-   background-color:#cce7f1;
-   color:#333;
-}
-.foswikiButton:hover,
-.foswikiButton:active,
-a.foswikiButton:hover,
-a.foswikiButton:active {
-   background-position:0px -160px;
-   border-color:#94cce2 #94cce2 #94cce2 #94cce2;
-   background-color:#cce7f1;
-   color:#333;
-}
-.foswikiButtonDisabled,
-.foswikiButtonDisabled:hover,
-.foswikiButtonDisabled:active {
-   background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
-   background-repeat:repeat-x;
-   background-position:0px -240px;
-   border-color:#ccc #ccc #ccc #ccc;
-   background-color:#edece6;
-   color:#bbb;
-}
-.foswikiButtonCancel {
-   background-image:url(configure?action=resource;resource=bg_buttoncancel_gradient.gif);
-   background-repeat:repeat-x;
-   background-position:0px 0px;
-   border-color:#f3ddd7 #ce5232 #ce5232 #f3ddd7;
-   background-color:#dd724d;
-   color:#fff;
-}
-.foswikiButtonCancel:hover {
-   background-position:0px -80px;
-   border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
-   background-color:#dd724d;
-   color:#fff;
-}
-.foswikiButtonCancel:active {
-   background-position:0px -160px;
-   border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
-   background-color:#dd724d;
-   color:#fff;
-}
-.patternToolBar span a:link,
-.patternToolBar span a:visited,
-.patternToolBar span s,
-.patternToolBar span strike {
-   background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
-   background-repeat:repeat-x;
-}
-.patternToolBar span a:link,
-.patternToolBar span a:visited {
-   background-position:0px 0px;
-   border-color:#fff #94cce2 #94cce2 #fff;
-   background-color:#cce7f1;
-   color:#333;
-}
-.patternToolBar span a:hover {
-   background-position:0px -80px;
-   border-color:#94cce2 #94cce2 #94cce2 #94cce2;
-   background-color:#cce7f1;
-   color:#222;
-}
-.patternToolBar span a:active {
-   background-position:0px -160px;
-   border-color:#94cce2 #94cce2 #94cce2 #94cce2;
-   background-color:#e8e5d7;
-   color:#222;
-}
-.patternToolBar span s,
-.patternToolBar span strike {
-   background-position:0px -240px;
-   border-color:#eae9e7 #eae9e7 #eae9e7 #eae9e7;
-   background-color:#edece6;
-   color:#bbb;
-}
-.patternTextareaButton {
-   border-color:#fffefd #b8b6ad #b8b6ad #fffefd;
-   overflow:hidden;
-}
-.patternButtonFontSelectorProportional {
-   background-position:0 0;
-}
-.patternButtonFontSelectorMonospace {
-   background-position:0 -16px;
-}
-.patternButtonEnlarge {
-   background-position:0 0;
-}
-.patternButtonEnlarge:hover {
-   background-position:0 -42px;
-}
-.patternButtonEnlarge:active {
-   background-position:0 -84px;
-}
-.patternButtonShrink {
-   background-position:16px 0;
-}
-.patternButtonShrink:hover {
-   background-position:16px -42px;
-}
-.patternButtonShrink:active {
-   background-position:16px -84px;
+p,h3,h4,h5,h6
+{
+	margin:1em 0 0;
 }

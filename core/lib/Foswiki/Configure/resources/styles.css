@@ -127,7 +127,9 @@ ul.configureRootTab li a {
 	border-left:1px solid #d4e7f1;
 	border-bottom:1px solid #d4e7f1;
 }
-
+#configureSections {
+	margin:1em 0 0 0;
+}
 #configureSections li a.configureWarn {
 	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
 	background-position:95% 50%;
@@ -155,6 +157,7 @@ ul.configureSubTab {
 	list-style-type:none;
 	height:1%;
 	padding:0;
+	margin:1em 0 3em 0;
 }
 ul.configureSubTab li {
 	display:block;
@@ -247,14 +250,6 @@ table.configureExtensionsTable .configureInstalled a:visited {
 	background:#ffffd6;
 }
 
-h1.firstHeader,
-h2.firstHeader,
-h3.firstHeader,
-h4.firstHeader,
-h5.firstHeader,
-h6.firstHeader {
-	margin-top:0;
-}
 strong {
 	color:#D1400E;
 }
