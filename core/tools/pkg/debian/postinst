@@ -34,6 +34,11 @@ if [ "$RET" = true ]; then
 	#upgrade topics - because we don't ship ,v files, I can use find&sed to make a list of all files that have no ,v, 
 	#and then exclude them from the un-tar
 
+	echo
+	echo Upgrading distriuted topics and attachments - skipping files changed via the Foswiki
+	echo    see /var/lib/foswiki/log/exclude-topics.lst and /var/lib/foswiki/log/exclude-attachments.lst
+	echo
+
 	find /var/lib/foswiki/data -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/lib/foswiki/log/exclude-topics.lst
 
 	tar -zx -C / --exclude-from=/var/lib/foswiki/log/exclude-topics.lst -f /usr/share/foswiki/foswiki-data.tar.gz
