@@ -1,6 +1,5 @@
 
-#http://foswiki.org/Support/KnownIssuesOfFoswiki01x00
-#Item597-CPAN-modules-with-number
-
 #http://foswiki.org/Tasks/Item8011
 00_More_Extensions_warning
+
+01_configure_logo.dpatch
