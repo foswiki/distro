@@ -192,8 +192,8 @@ data/System/VarENDCOLOR.txt 0644
 data/System/VarENDSECTION.txt 0644
 data/System/VarENV.txt 0644
 data/System/VarFAILEDPLUGINS.txt 0644
+data/System/VarFOREACH.txt 0644
 data/System/VarFORMFIELD.txt 0644
-data/System/VarFORMAT.txt 0644
 data/System/VarGMTIME.txt 0644
 data/System/VarGRAY.txt 0644
 data/System/VarGREEN.txt 0644
@@ -485,12 +485,10 @@ lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
-lib/Foswiki/Configure/CSS.pm 0444
 lib/Foswiki/Configure/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
 lib/Foswiki/Configure/GlobalControls.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
-lib/Foswiki/Configure/JS.pm 0444
 lib/Foswiki/Configure/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
