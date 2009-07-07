@@ -6,10 +6,10 @@
 
 @DPATCH@
 
-Index: bin/configure
+Index: foswiki/bin/configure
 ===================================================================
---- bin/configure	(revision 4462)
-+++ bin/configure	(working copy)
+--- foswiki/bin/configure	(revision 4462)
++++ foswiki/bin/configure	(working copy)
 @@ -463,8 +463,7 @@
  HERE
      $contents .= CGI::img(
