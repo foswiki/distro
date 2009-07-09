@@ -119,7 +119,7 @@ FastCgiServer %ROOT%/bin/foswiki.fcgi -processes 3
 &lt;/Directory&gt;
 </pre>
 
-Refer to [[%TOPIC%#Tunning][tunning]] section bellow for a little discussion about the number of !FastCGI processes.
+Refer to [[%TOPIC%#Tuning][tuning]] section below for a little discussion about the number of !FastCGI processes.
 
 <pre>
 # External server: could be running at another machine and/or a different user from the webserver
@@ -231,7 +231,7 @@ $HTTP["url"] =~ "^%URL%/" {
 }
 </pre>
 
----++ Tunning
+---++ Tuning
 
 Except from Apache using only =.htaccess= file, it's possible to adjust the number of !FastCGI processes. There is no _magic number_: it depends on some variables, like the hardware resources and access load. If you set this number too low, users may experience high latencies and you'll not use all hardware potential, on the other hand if this setting is adjusted too high then the server can be forced to use swap, what degrades performance a lot.
 
