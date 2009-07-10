@@ -11,7 +11,8 @@ sub evalUnary {
     my $node = shift;
     my $sub  = shift;
     my $a    = $node->{params}[0];
-    my $val  = $a->evaluate(@_) || '';
+    my $val  = $a->evaluate(@_);
+    $val     = '' unless defined $val;
     if ( ref($val) eq 'ARRAY' ) {
         my @res = map { &$sub($_) } @$val;
         return \@res;
