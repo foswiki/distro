@@ -34,8 +34,10 @@ sub evalTest {
     my $sub        = shift;
     my $a          = $node->{params}[0];
     my $b          = $node->{params}[1];
-    my $ea         = $a->evaluate( @{$clientData} ) || '';
-    my $eb         = $b->evaluate( @{$clientData} ) || '';
+    my $ea         = $a->evaluate( @{$clientData} );
+    my $eb         = $b->evaluate( @{$clientData} );
+    $ea            = '' unless defined $ea;
+    $eb            = '' unless defined $eb;
     if ( ref($ea) eq 'ARRAY' ) {
         my @res;
         foreach my $lhs (@$ea) {
