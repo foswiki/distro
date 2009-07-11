@@ -81,7 +81,9 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
    * Show tool-tip topic info on mouse-over of WikiWord links. Setting can be on, off, or customized. An empty setting or off setting disables the tool-tips (for better performance). The setting can contain $summary to show the topic summary, $date for the last change date, $rev for the revision, $username for the login name of the last editor, $wikiname for the <nop>WikiName, $wikiusername for <nop>%USERSWEB%.WikiName, $topic for the topic name, and $web for the web name
       * Set LINKTOOLTIPINFO = off
-      * #Set LINKTOOLTIPINFO = $username - $date - $rev: $summary
+      * #Set LINKTOOLTIPINFO = $username - $date - r$rev: $summary
+         * This is exactly equivalent to:
+      * #Set LINKTOOLTIPINFO = on
 
    * Horizontal size of text edit box: (can be overwritten by user preferences)
       * Set EDITBOXWIDTH = 70

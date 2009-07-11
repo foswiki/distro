@@ -502,21 +502,19 @@ sub _linkToolTipInfo {
     my $users = $this->{session}->{users};
 
     # SMELL: we ought not to have to fake this. Topic object model, please!!
-    require Foswiki::Meta;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    my $info = $meta->getRevisionInfo();
-    my $text = $this->{LINKTOOLTIPINFO};
-    $text =~ s/\$web/<nop>$web/g;
-    $text =~ s/\$topic/<nop>$topic/g;
-    $text =~ s/\$rev/1.$info->{version}/g;
-    $text =~ s/\$date/Foswiki::Time::formatTime( $info->{date} )/ge;
-    $text =~ s/\$username/$users->getLoginName($info->{author})/ge;
-    $text =~ s/\$wikiname/$users->getWikiName($info->{author})/ge;
-    $text =~ s/\$wikiusername/$users->webDotWikiName($info->{author})/ge;
+    my $topicObject = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $info = $topicObject->getRevisionInfo();
+    my $tooltip = $this->{LINKTOOLTIPINFO};
+    $tooltip =~ s/\$web/<nop>$web/g;
+    $tooltip =~ s/\$topic/<nop>$topic/g;
+    $tooltip =~ s/\$rev/1.$info->{version}/g;
+    $tooltip =~ s/\$date/Foswiki::Time::formatTime( $info->{date} )/ge;
+    $tooltip =~ s/\$username/$users->getLoginName($info->{author})/ge;
+    $tooltip =~ s/\$wikiname/$users->getWikiName($info->{author})/ge;
+    $tooltip =~ s/\$wikiusername/$users->webDotWikiName($info->{author})/ge;
 
-    if ( $text =~ /\$summary/ ) {
+    if ( $tooltip =~ /\$summary/ ) {
         my $summary;
-        my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
         if ( $topicObject->haveAccess('VIEW') ) {
             $summary = $topicObject->text || '';
         }
@@ -525,12 +523,12 @@ sub _linkToolTipInfo {
               $this->{session}
               ->inlineAlert( 'alerts', 'access_denied', "$web.$topic" );
         }
-        $summary = $topicObject->summarise();
+        $summary = $topicObject->summariseText();
         $summary =~
           s/[\"\']//g;    # remove quotes (not allowed in title attribute)
-        $text =~ s/\$summary/$summary/g;
+        $tooltip =~ s/\$summary/$summary/g;
     }
-    return $text;
+    return $tooltip;
 }
 
 =begin TML
