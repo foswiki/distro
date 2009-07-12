@@ -157,7 +157,7 @@ The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses 
 
 The crontab command is used to schedule commands to be executed periodically.
 
-   * Wikipedia.org:Crontab - crontab documentation
+   * Wikipedia:Crontab - crontab documentation
    * [[http://www.kalab.com/freeware/pycron/pycron.htm][pycron]] - crontab for Windows
 
 ---
