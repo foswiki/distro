@@ -407,18 +407,20 @@ lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
 lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
 lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
 lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
-lib/Foswiki/Configure/resources/footer.html
-lib/Foswiki/Configure/resources/scripts.js
-lib/Foswiki/Configure/resources/oh_dear.html
-lib/Foswiki/Configure/resources/wz_tooltip.js
-lib/Foswiki/Configure/resources/styles.css
-lib/Foswiki/Configure/resources/header.html
-lib/Foswiki/Configure/resources/intro.html
-lib/Foswiki/Configure/resources/foswikiStyles.js
-lib/Foswiki/Configure/resources/behaviour.js
-lib/Foswiki/Configure/resources/pattern.css
-lib/Foswiki/Configure/resources/default.css
-lib/Foswiki/Configure/resources/base.css
+lib/Foswiki/Configure/resources/footer.html 0444
+lib/Foswiki/Configure/resources/scripts.js 0444
+lib/Foswiki/Configure/resources/oh_dear.html 0444
+lib/Foswiki/Configure/resources/wz_tooltip.js 0444
+lib/Foswiki/Configure/resources/styles.css 0444
+lib/Foswiki/Configure/resources/header.html 0444
+lib/Foswiki/Configure/resources/intro.html 0444
+lib/Foswiki/Configure/resources/foswikiStyles.js 0444
+lib/Foswiki/Configure/resources/behaviour.js 0444
+lib/Foswiki/Configure/resources/pattern.css 0444
+lib/Foswiki/Configure/resources/default.css 0444
+lib/Foswiki/Configure/resources/base.css 0444
+lib/Foswiki/Configure/resources/password.html 0444
+lib/Foswiki/Configure/resources/passwordWarning.html 0444
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
@@ -517,7 +519,6 @@ lib/Foswiki/Configure/UIs/EXTEND.pm 0444
 lib/Foswiki/Configure/UIs/EXTENSIONS.pm 0444
 lib/Foswiki/Configure/UIs/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/UIs/LANGUAGES.pm 0444
-lib/Foswiki/Configure/UIs/PasswordProtected.pm 0444
 lib/Foswiki/Configure/UIs/PLUGINS.pm 0444
 lib/Foswiki/Configure/UIs/Root.pm 0444
 lib/Foswiki/Configure/UIs/Section.pm 0444

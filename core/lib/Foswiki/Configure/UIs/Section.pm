@@ -21,7 +21,8 @@ sub open_html {
     my $class = $section->isExpertsOnly() ? 'configureExpert' : '';
     my $id = $this->makeID( $section->{headline} );
     my $output = "<!-- $depth $id -->\n";
-    my $headline = $section->{headline} || 'MISSING HEADLINE';
+    my $headline = defined $section->{headline} ?
+      $section->{headline} : 'MISSING HEADLINE';
     if ($section->{parent}) {
         if ($section->{parent}->{opts} =~ /TABS/) {
             # this is a tab within a tabbed page

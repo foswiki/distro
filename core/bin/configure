@@ -354,6 +354,16 @@ if ( $action eq 'resource' ) {
     exit 0;
 }
 
+print "Content-type: text/html\n\n";
+print getResource('header.html', SCRIPTNAME => $scriptName);
+print _dispatchContents();
+print getResource('footer.html');
+
+###########################################################
+# End of the main program; the rest is all subs
+
+# Get a resource from the resource dir on the server. Resources are
+# stored in the code tree.
 sub getResource {
     my ($resource, %vars) = @_;
     my $text = '';
@@ -377,14 +387,6 @@ sub getResource {
     }
     return $text;
 }
-
-print "Content-type: text/html\n\n";
-print getResource('header.html', SCRIPTNAME => $scriptName);
-print _dispatchContents();
-print getResource('footer.html');
-
-###########################################################
-# End of the main program; the rest is all subs
 
 sub _dispatchContents {
     my $message = '';
@@ -447,7 +449,7 @@ HERE
     return $ui;
 }
 
-# Action invoked by 'Next' button on the main screen
+# Action invoked by 'Save changes' button on the main screen
 sub _actionSavechanges {
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
@@ -468,7 +470,7 @@ sub _actionSavechanges {
         }
         $ui = _checkLoadUI( 'AUTH', $root );
         return 1 unless $ui;
-        print $ui->ui( 1, 'Save' );
+        print $ui->ui( 'Save' );
     }
     else {
 

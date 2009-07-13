@@ -14,7 +14,7 @@ my %nonos = (
 );
 
 sub ui {
-    my ( $this, $canChangePW, $actionMess ) = @_;
+    my ( $this, $actionMess ) = @_;
     my $output = '';
 
     my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
@@ -32,114 +32,13 @@ sub ui {
         $output .= "\n";
     }
 
-    # and add a few more
-    $output .= "<div id ='password'><div class='foswikiFormSteps'>\n";
+    my $warn = $Foswiki::cfg{Password} ? '' :
+      Foswiki::getResource('passwordWarning.html',
+                           SCRIPTNAME => $scriptName);
 
-    $output .= CGI::div( { class => 'foswikiFormStep' },
-        CGI::h3('Enter the configuration password') );
-
-    $output .= CGI::div(
-        { class => 'foswikiFormStep' },
-        CGI::h3( CGI::strong("Your Password:") )
-          . CGI::p(
-            CGI::password_field(
-                -name      => 'cfgAccess',
-                -size      => 20,
-                -maxlength => 80,
-                -class     => 'foswikiInputField'
-              )
-              . '&nbsp;'
-              . CGI::submit(
-                -class => 'foswikiSubmit',
-                -value => $actionMess
-              )
-          )
-    );
-
-    if ( $Foswiki::cfg{Password} ne '' ) {
-        $output .= CGI::div(
-            { class => 'foswikiFormStep' },
-            CGI::p( CGI::strong('Forgotten your password?') )
-              . CGI::p(<<'HERE') );
-To reset the password, log in to the server and delete the
-<code>$Foswiki::cfg{Password} = '...';</code> line from
-<code>lib/LocalSite.cfg</code>
-HERE
-    }
-
-    $output .= '</div><!--/foswikiFormSteps--></div><!--/#password-->';
-
-    if ($canChangePW) {
-        $output .=
-          "<div id='passwordChange'><div class='foswikiFormSteps'>\n";
-        $output .= '<div class="foswikiNotification" style="margin:1em;">';
-        $output .= CGI::img(
-            {
-                width  => '16',
-                height => '16',
-                src    => $scriptName
-                  . '?action=image;image=warning.gif;type=image/gif',
-                alt => ''
-            }
-        );
-        $output .= '&nbsp;'
-          . CGI::span( { class => 'foswikiAlert' },
-            CGI::strong('Notes on Security') );
-        $output .= <<HERE;
-<ul>
- <li>
-  If you don't set a password, or the password is cracked, then
-  <code>configure</code> could be used to do <strong>very</strong> nasty
-  things to your server.
- </li>
- <li>
-  If you are running Foswiki on a public website, you are
-  <strong>strongly</strong> advised to totally disable saving from
-  <code>configure</code> by making <code>lib/LocalSite.cfg</code> readonly once
-  you are happy with your configuration.
- </li>
-</ul>
-</div><!--expanation-->
-HERE
-
-        my $submitStr = $actionMess;
-        $output .= CGI::div(
-            { class => 'foswikiFormStep' },
-            CGI::h3(
-                { class => 'foswikiFormStep' },
-                'You may set a new password here:'
-            )
-        );
-        $output .= CGI::div(
-            { class => 'foswikiFormStep' },
-            CGI::strong('New Password:')
-              . CGI::p(
-                CGI::password_field(
-                    -name      => 'newCfgP',
-                    -size      => 20,
-                    -maxlength => 80,
-                    -class     => 'foswikiInputField'
-                )
-              )
-        );
-        $output .= CGI::div(
-            { class => 'foswikiFormStep' },
-            CGI::strong('Confirm Password:')
-              . CGI::p(
-                CGI::password_field(
-                    -name      => 'confCfgP',
-                    size       => 20,
-                    -maxlength => 80,
-                    -class     => 'foswikiInputField'
-                )
-              )
-        );
-        $submitStr = 'Change Password and ' . $submitStr;
-        $output .= CGI::div( { class => 'foswikiFormStep foswikiLast' },
-            CGI::submit( -class => 'foswikiSubmit', -value => $submitStr ) );
-        $output .=
-          "</div><!--/.foswikiFormSteps--></div><!--/#passwordChange-->";
-    }
+    $output .= Foswiki::getResource('password.html',
+                                    SCRIPTNAME => $scriptName,
+                                    WARN => $warn);
 
     return $output . CGI::end_form();
 }
