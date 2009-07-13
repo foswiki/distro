@@ -163,9 +163,9 @@ Return false if not.
 
 sub isValidNonce {
     my ( $cgis, $nonce ) = @_;
-    print STDERR "V: CHECK: $nonce\n" if TRACE;
     return 1 if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
     return 0 unless defined $nonce;
+    print STDERR "V: CHECK: $nonce\n" if TRACE;
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     return $actions->{$nonce};

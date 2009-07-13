@@ -516,6 +516,9 @@ See Foswiki::Validation for more information.
 sub checkValidationKey {
     my ($session) = @_;
 
+    # If validation is disabled, do nothing
+    return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
+
     # Check the nonce before we do anything else
     my $nonce = $session->{request}->param('validation_key');
     $session->{request}->delete('validation_key');
