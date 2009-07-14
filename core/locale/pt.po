@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2008-12-28 15:21-0200\n"
-"Last-Translator: carlinhos cecconi <carlinux@terra.com.br>\n"
+"PO-Revision-Date: 2009-07-14 15:18+0200\n"
+"Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:450
@@ -45,13 +47,13 @@ msgstr "%1"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Falha ao registrar %2 (%3)"
+msgstr "%1 - Falha ao registar %2 (%3)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
-msgstr "%1 - Registro de %2 (%3)"
+msgstr "%1 - Registo de %2 (%3)"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
 msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
@@ -67,7 +69,7 @@ msgstr "%1 - introdução ao Foswiki"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:69
 msgid "%1 - try out Foswiki on your own"
-msgstr "%1 - experimente o Foswiki em seu próprio ambiente"
+msgstr "%1 - experimente você mesmo o Foswiki"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:66
 msgid "%1 - view a short introductory presentation on Foswiki for beginners"
@@ -94,24 +96,24 @@ msgstr "%1 para mudar sua senha"
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:38
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 tem uma lista dos outros usuários do Foswiki."
+msgstr "%1 tem uma lista de outros utilizadores do Foswiki."
 
 #: core/templates/messages.tmpl:438
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
 msgstr ""
-"%1 está editando por %2 e seu tempo de edição preferencial ainda está ativo "
-"para outros %3."
+"%1 editou/alterou o tópico %2, e ainda faltam %3 para terminar o tempo de "
+"edição alocado"
 
 #: core/templates/registerfailednotremoved.tmpl:12
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 foi registrado com o e-mail %2"
+msgstr "%1 foi registado com o e-mail %2"
 
 #: core/templates/validate.tmpl:16
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 recebeu um pedido suspeito do seu browser."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -380,7 +382,6 @@ msgid "*Formatting help:*"
 msgstr "*Ajuda com formatação:*"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the Foswiki server. This database is accessible to anyone who "
@@ -392,12 +393,12 @@ msgid ""
 "server before registering."
 msgstr ""
 "*Importante:* as informações fornecidas nesse formulário serão armazenadas "
-"num banco de dados no servidor do Foswiki. Este banco de dados é acessível "
+"numa base de dados no servidor do Foswiki. Esta base de dados é acessível "
 "por qualquer pessoa que tenha permissão de administrar o servidor pela web "
 "(porém as senhas serão criptografadas e os endereços de e-mail ofuscados "
 "para evitar SPAM). Seu país, ou o país onde o servidor está hospedado, pode "
-"ter Leis de Proteção de Dados disciplinando as formas de manutenção desse "
-"tipo de banco de dados. Se tiver dúvida e quiser obter detalhes sobre a "
+"ter Leis de Protecção de Dados disciplinando as formas de manutenção desse "
+"tipo de base de dados. Se tiver dúvida e quiser obter detalhes sobre a "
 "Política de Proteção de Dados desse servidor Foswiki,  contate %1 antes de "
 "se registrar."
 
@@ -1590,14 +1591,15 @@ msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
 msgstr ""
-"Se você estiver desenvolvendo uma aplicação Foswiki, consulte %1 para uma "
-"descrição correta dos parâmetros."
+"Se estiver a desenvolver uma aplicação Foswiki, consulte %1 para uma "
+"descrição correcta dos parâmetros."
 
 #: core/templates/validate.tmpl:25
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Se não tem a certeza do que isto quer dizer, leia:"
 
 #: core/templates/messages.tmpl:495
+#, fuzzy
 msgid "If you came here by clicking on a question mark link"
 msgstr "Se você chegou aqui clicando num link com uma interrogação"
 
@@ -2198,11 +2200,11 @@ msgstr "Preferências para"
 
 #: core/templates/validate.tmpl:23
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Caso contrário seleccione Cancel."
 
 #: core/templates/validate.tmpl:22
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Seleccione OK para confirmar que esta alteração é intencional."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2357,7 +2359,7 @@ msgstr "Trocar formulário..."
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 #, fuzzy
 msgid "Request Validation"
-msgstr "Registro"
+msgstr "Pedido de Validação"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2782,7 +2784,7 @@ msgstr "A %1 web do Foswiki. Foswiki é Free and Open Source Wiki."
 
 #: core/templates/messages.tmpl:421
 msgid "The =%1= script can only be called with POST method."
-msgstr ""
+msgstr "O script =%1= só pode ser chamado com o método POST"
 
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -2902,6 +2904,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Existe o risco de alguém estar a a usar a sua identidade para mudar o "
+"conteúdo de %1 sem o seu conhecimento."
 
 #: core/templates/messages.tmpl:343
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3279,7 +3283,7 @@ msgstr "Atenção"
 
 #: core/templates/validate.tmpl:8
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Aviso! Confirmação necessária "
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
@@ -3299,9 +3303,8 @@ msgstr ""
 "contem caracteres ilegais."
 
 #: core/templates/messages.tmpl:462
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Aviso: tópico %1.%2 não encontrado"
+msgstr "Aviso: Secção %3 não foi encontrada no tópico %1.%2 "
 
 #: core/templates/messages.tmpl:461
 msgid "Warning: Can't find topic %1.%2"
