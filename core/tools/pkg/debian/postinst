@@ -36,15 +36,15 @@ if [ "$RET" = true ]; then
 
 	echo
 	echo Upgrading distriuted topics and attachments - skipping files changed via the Foswiki
-	echo    see /var/lib/foswiki/log/exclude-topics.lst and /var/lib/foswiki/log/exclude-attachments.lst
+	echo    see /var/log/foswiki/exclude-topics.lst and /var/log/foswiki/exclude-attachments.lst
 	echo
 
-	find /var/lib/foswiki/data -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/lib/foswiki/log/exclude-topics.lst
+	find /var/lib/foswiki/data -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/log/foswiki/exclude-topics.lst
 
-	tar -zx -C / --exclude-from=/var/lib/foswiki/log/exclude-topics.lst -f /usr/share/foswiki/foswiki-data.tar.gz
+	tar -zx -C / --exclude-from=/var/log/foswiki/exclude-topics.lst -f /usr/share/foswiki/foswiki-data.tar.gz
 
-	find /var/lib/foswiki/pub -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/lib/foswiki/log/exclude-attachments.lst
-	tar -zx -C / --exclude-from=/var/lib/foswiki/log/exclude-attachments.lst -f /usr/share/foswiki/foswiki-pub.tar.gz
+	find /var/lib/foswiki/pub -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/log/foswiki/exclude-attachments.lst
+	tar -zx -C / --exclude-from=/var/log/foswiki/exclude-attachments.lst -f /usr/share/foswiki/foswiki-pub.tar.gz
 	
 	# clean up the .mailnotify timestamps.
 	webs="Main Sandbox System Trash _default";

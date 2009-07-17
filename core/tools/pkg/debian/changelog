@@ -1,3 +1,9 @@
+foswiki (1.0.6-2) unstable; urgency=high
+
+  * fix fresh installation :/
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sat, 18 Jun 2009 09:53:40 +0100
+
 foswiki (1.0.6-1) unstable; urgency=high
 
   * package now upgrades distributed topics and attachments, by looking for
