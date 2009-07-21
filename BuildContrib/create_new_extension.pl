@@ -275,13 +275,25 @@ package Foswiki::%$STUBS%::%$MODULE%;
 
 use strict;
 
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
+# $VERSION is referred to by Foswiki, and is the only global variable that
+# *must* exist in this package. This should always be in the format
+# $Rev: 3193 $ so that Foswiki can determine the checked-in status of the
+# extension.
+our $VERSION = '$Rev$'; # version of *this file*.
 
-$VERSION = '$Rev$'; # version of *this file*.
-# This is *not* the version of the package, which should be set in the
-# | Version: | line in the extension topic.
+# $RELEASE is used in the "Find More Extensions" automation in configure.
+# It is a manually maintained string used to identify functionality steps.
+# You can use any of the following formats:
+# tuple   - a sequence of integers separated by . e.g. 1.2.3. The numbers
+#           usually refer to major.minor.patch release or similar. You can
+#           use as many numbers as you like e.g. '1' or '1.2.3.4.5'.
+# isodate - a date in ISO8601 format e.g. 2009-08-07
+# date    - a date in 1 Jun 2009 format. Three letter English month names only.
+# Note: it's important that this string is exactly the same in the extension
+# topic - if you use %$RELEASE% with BuildContrib this is done automatically.
+our $RELEASE = '1.1.1';
 
-$SHORTDESCRIPTION = '%$SHORTDESCRIPTION%';
+our $SHORTDESCRIPTION = '%$SHORTDESCRIPTION%';
 
 <<<< TXT >>>>
 ---+!! !%$MODULE%
@@ -309,6 +321,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Author(s): | |
 |  Copyright: | &copy; |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |

@@ -43,12 +43,8 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
+our $RELEASE = "21 Jul 2009";
 our $VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = 'Foswiki-1';
 
 our $SHORTDESCRIPTION =
   'Automate build process for Plugins, Add-ons and Contrib modules';
@@ -1723,13 +1719,16 @@ sub _postForm {
         $response = $userAgent->post(
             "$this->{UPLOADTARGETSCRIPT}/login",
             { username => $user, password => $pass }
-        );
+           );
 
-        #print STDERR "Fallthrough login attempt returned ".
-        #  $response->request->uri,' -- ', $response->status_line, "\n",
-        #   $response->headers->header('Location')."\n".
-        #      $response->content()."\n",
-        #        $response->headers->header('Set-Cookie')."\n";
+        if ( $response->is_redirect()
+                 && $response->headers->header('Location') =~ /oopsaccessdenied|login/ ) {
+            die "Fallthrough login attempt failed: returned ".
+              $response->request->uri,' -- ', $response->status_line, "\n",
+                $response->headers->header('Location')."\n".
+                  $response->content()."\n";
+        }
+
         # Post the upload again; we should be logged in
         $response = $userAgent->post( $url, $form );
     }

@@ -487,65 +487,15 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Authors: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright &copy;: | 2004-2009, Foswiki Contributors |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
+|  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  21 Jul 2009 | Foswikitask:Item1840: check result of login attemt during perl build.pl upload |
 |  20 Mar 2009 | Foswikitask:Item1338: added SHA1 checksum generation; Foswikitask:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
 |  5 Mar 2009 | Foswikitask:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
 |  15 Feb 2009 | Foswikitask:Item1079: Added twiki target |
 |  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
-|  31 Aug 2008 | TWikibug:Item5971 BuildContrib broken upload on 4.2.2 with template login. Also adding query to optionally skip topic attachment upload. |
-|  22 Apr 2008 | TWikibug:Item5556 BuildContrib defaults all unspecified permissions to 664 && TWikibug:Item5455  	 BuildContrib doesn't cope with larger numbers of files - TWiki:Main.SvenDowideit|
-|  31 Jan 2008 | TWikibug:Item4751 support spaces in MANIFEST TWikibug:Item4990 removed dependency on external md5sum program TWikibug:Item5309 added tidy target |
-|  10 Sep 2007 | TWikibug:Item4600 upload !VarXXX topics to Plugins web, to support pluggable documentation architecture. Minor doc improvements. TWikibug:Item3839 add build script at the root to help with building several plugins in one session TWikibug:Item4601 remove duplicate installer script (.pl) |
-|  13599 | TWikibug:Item2006 fixed default permissions to allow group write, and rewrote the main (this) doc to be more useful. TWikibug:Item3624 added a pause between uploads (20s) |
-|  12953 | TWikibug:Item3118 Remember last upload target for each extension you upload. Handle upload to sites that use Template login. TWikibug:Item3445 Carry attributes over for files that are uploaded with the topic, so they remain hidden. Also added date to default version string. |
-|  12821 | TWikibug:Item3597 Duplicated _installer in _installer.pl, so that 4.1 extensions installer can use it |
-|  11505 | Added =twikiplugins/create_new_extension.pl= script |
-|  11492 | Fixed attachment upload. Will now upload attachments attached to the main topic |
-|  11478 | Install made easier to use for developers and end users; will now download an archive if it can't find one locally. Added dependencies target. |
-|  8947 | TWikibug:Item1718   discovered that svn log doesn't work recursively, so more code required to find changes. Added new inline tokens for various URLs. Updated history to 8894. |
-|  8894 | TWikibug:Item1718   added rel=nofollow to generated links to ~develop |
-|  8892 | TWikibug:Item1718   Added =history= target to support extraction of history from SVN logs. |
-|  8585 | TWikibug:Item1527   BuildContrib: Remember original filedates for pub files |
-|  8584 | TWikibug:Item1527   BuildContrib: Oops, some (very few) plugins are not ActionTrackerPlugin :-) |
-|  8583 | TWikibug:Item1527   Generated install scripts now really attaches files in pub to topics (means less of these couldn't update history error messages) |
-|  8581 | TWikibug:Item1527   BuildContrib: Execute topic saves in the TWiki web as AdminGroup by default |
-|  8365 | TWikibug:Item1347   made build.pl tidy up it's mess; and switched buildcontrib over to using push and pop on dirs instead of cd, so we don;t get lost so easily. Oh, and corrected the permissions on the generated viewauth and rdiffauth files |
-|  8359 | TWikibug:Item1393   For release topic name, removed upper case change of suffix. E.g. 'TWiki-4.0.0-beta6' becomes 'TWikiRelease04x00x00beta06' |
-|  8346 | TWikibug:Item1393   added final parameter to build.pl (release name) and added processing to derive topic name from release id. |
-|  8263 | TWikibug:Item663   fixing typos, etc |
-|  8217 | TWikibug:Item1374   BuildContrib wasn't deleting its temporary files staging area |
-|  8216 | TWikibug:Item663   fixing formatting/typos |
-|  8209 | TWikibug:Item1347   changes to support arbitrary release naming, to better support TWiki builds. Should not affect extension builds. |
-|  8061 | TWikibug:Item1285   Removed TWiki_installer.pl from release package |
-|  7531 | TWikibug:Item956   skins have their MANIFEST in lib/TWiki/Contrib/...Skin/ |
-|  7215 | TWikibug:Item437   Build.pm reverted - sorry people, it seems this broke the build :( |
-|  7207 | TWikibug:Item437   Revised BuildContrib to build MD5s. Crawford - feel free to ditch anything you don't like. (I sent you email about this a couple of days ago). MD5 files are generated for each package and then aggregated during a hands-off install to collect all dependent MD5s into package/DEPS.md5 |
-|  6827 | TWikibug:Item569   added default RELEASE to everything that had a version, and removed a load of dead code that was getting in the way |
-|  6791 | TWikibug:Item598   removed comment that was getting added to txt files outside data |
-|  6759 | TWikibug:Item569   computed version numbers for plugins from the repository rev they were built from. |
-|  6757 | TWikibug:Item559   fixed permissions |
-|  6743 | TWikibug:Item562   added ability to update VERSIOn number to current repository head |
-|  6742 | TWikibug:Item561   added a script to build and upload all the plugins, so we can have releases of them from SVN. Presently uploaded to the same topic as the beta releases. |
-|  6515 | TWikibug:Item432   applied the final polish (I hope) before beta release |
-|  6512 | TWikibug:Item437   generated md5 sums for packages built using build.pl, and added them to the upload |
-|  6504 | TWikibug:Item436   incremented vernos of all changed plugins |
-|  6470 | TWikibug:Item421   polishing up installation, trying to catch gotchas, improving docs |
-|  6450 | TWikibug:Item143   more apache warnings; and a silly error in comment plugin tests eliminated |
-|  6426 | TWikibug:Item404   removed CHANGELOG from MANIFEST and added build scripts for all plugins and contribs, so they can be used with the main build. |
-|  6369 | TWikibug:Item384   As excellent as Antonio's solution is, it breaks all the save script tests and is incompatible with previous releases. Need to fall back on the old 'action' parameter if the new parameters are not available - even though it is really bad news (it blocks the use of 'action' as a form-field name :-(. Also updated the script documentation for Antonio's changes. |
-|  6353 | TWikibug:Item380   do as the man says; make all $/ local |
-|  6240 | TWikibug:Item196   Extracted the Manifest File processing from Build.pm to a module that can be used by other Build implementations. Needed for a CommandSet of TWikiShellContrib |
-|  6092 | TWikibug:Item196   more plugin and contrib fixes for develop; mainly just moving tests around and making sure they all pass. |
-|  6077 | TWikibug:Item243   simplified gendocs to stop it generating ,v files, since Sven is going to solve that. Coorected MANIFEST for source code documents. |
-|  6076 | TWikibug:Item243   added build scripts for all plugins shipped with TWikiForGenericUse |
-|  6068 | TWikibug:Item244   extracted target_stage and target_archive from target_release to allow me to add functionality to target_stage |
-|  6051 | TWikibug:Item237   removed requirement to set TWIKI_LIBS for core build |
-|  6040 | TWikibug:Item237   now supports automatic instantiation of plugins and contribs in the release tree. Install scripts are _not_ run. |
-|  6039 | TWikibug:Item237   MANIFEST build based on BuildContrib. Very few extensions to BuildContrib were required to do it. Things that are missing are: 1. generation of ,v files 2. packaging up and inclusion of plugins. |
-|  6026 | TWikibug:Item229   added support for sub-headings in =configure=. Added support for adding comments to LocalSite.cfg to BuildContrib. Can now create sections in =configure= for individual plugins. |
-|  5960 | TWikibug:Item181   new version, supports DEVELOP and Cairo, and adds support for attachments (you can now mail attachments to topics) |
 
 %META:FILEATTACHMENT{name="logo.gif" comment="logo" attr="h" path="logo.gif"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
