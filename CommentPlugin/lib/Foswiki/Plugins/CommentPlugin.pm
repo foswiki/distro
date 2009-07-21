@@ -6,10 +6,8 @@ package Foswiki::Plugins::CommentPlugin;
 
 use strict;
 
-require Foswiki::Func;
-require Foswiki::Plugins;
-
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $NO_PREFS_IN_TOPIC );
+use Foswiki::Func ();
+use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
 our $RELEASE = '04 Jun 2009';
