@@ -50,28 +50,6 @@ my $MODULE;
 my $PACKAGES_URL;
 my $MANIFEST;
 
-my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
-my $mnamess = join( '|', @MNAMES );
-my $MNAME   = qr/$mnamess/i;
-my %N2M;
-foreach ( 0 .. $#MNAMES ) { $N2M{ $MNAMES[$_] } = $_; }
-
-my %STRINGOPMAP = (
-    'eq' => 'eq',
-    'ne' => 'ne',
-    'lt' => 'lt',
-    'gt' => 'gt',
-    'le' => 'le',
-    'ge' => 'ge',
-    '='  => 'eq',
-    '==' => 'eq',
-    '!=' => 'ne',
-    '<'  => 'lt',
-    '>'  => 'gt',
-    '<=' => 'le',
-    '>=' => 'ge'
-);
-
 BEGIN {
     $installationRoot = Cwd::getcwd();
 
@@ -145,6 +123,9 @@ BEGIN {
         $lwp->env_proxy();
     }
     &$check_perl_module('CPAN');
+
+    # Can't do this until we have setlib.cfg
+    require Foswiki::Configure::Dependency;
 }
 
 sub remap {
@@ -188,190 +169,6 @@ sub remap {
       } return $file;
 }
 
-sub compare_versions {
-    my ( $a, $op, $b ) = @_;
-
-    return 0 if not defined $op or not exists $STRINGOPMAP{$op};
-    my $string_op = $STRINGOPMAP{$op};
-
-    #print "|$a$op$b|=>";
-
-    my $largest_char = chr(255);
-
-    # remove leading and trailing whitespace
-    # because ' X' should compare equal to 'X'
-    $a =~ s/^\s+//;
-    $a =~ s/\s+$//;
-    $b =~ s/^\s+//;
-    $b =~ s/\s+$//;
-
-    # $Rev$ without a number should compare higher than anything else
-    $a =~ s/^\$Rev:?\s*\$$/$largest_char/;
-    $b =~ s/^\$Rev:?\s*\$$/$largest_char/;
-
-    # remove the SVN marker text from the version number, if it is there
-    $a =~ s/^\$Rev: (\d+) \$$/$1/;
-    $b =~ s/^\$Rev: (\d+) \$$/$1/;
-
-    # swap the day-of-month and year around for ISO dates
-    my $isoDatePattern = qr/^\d{1,2}-\d{1,2}-\d{4}$/;
-    if ( $a =~ $isoDatePattern and $b =~ $isoDatePattern ) {
-        $a =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
-        $b =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
-    }
-
-    # Change separator characters to be the same,
-    # because X-Y-Z should compare equal to X.Y.Z
-    # and combine adjacent separators,
-    # because '6  jun 2009' should compare equal to '6 jun 2009'
-    my $separator = '.';
-    $a =~ s([ ./_-]+)($separator)g;
-    $b =~ s([ ./_-]+)($separator)g;
-
-    # Replace month-names with numbers and swap day-of-month and year
-    # around to make them sortable as strings
-    # but only do this if both versions look like a date
-    my $datePattern = qr(\b\d{1,2}$separator$MNAME$separator\d{4}\b);
-    if ( $a =~ $datePattern and $b =~ $datePattern ) {
-        $a =~
-s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
-        $b =~
-s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$N2M{ lc($2) }.$separator.$1/ge;
-    }
-
-    # convert to lowercase
-    # because 'cairo' should compare less than 'Dakar'
-    $a = lc($a);
-    $b = lc($b);
-
-    # remove a leading 'v' if both are of the form X.Y
-    # because vX.Y should compare equal to X.Y
-    my $xDotYPattern = qr/^v?\s*\d+(?:$separator\d+)+/;
-    if ( $a =~ $xDotYPattern and $b =~ $xDotYPattern ) {
-        $a =~ s/^v\s*//;
-        $b =~ s/^v\s*//;
-    }
-
-    # work out how many characters there are in the longest sequence
-    # of digits between the two versions
-    my ($maxDigits) =
-      reverse
-      sort( map { length($_) } ( $a =~ /(\d+)/g ), ( $b =~ /(\d+)/g ), );
-
-    # justify digit sequences so that they compare correctly.
-    # E.g. '063' lt '103'
-    $a =~ s/(\d+)/sprintf('%0'.$maxDigits.'u', $1)/ge;
-    $b =~ s/(\d+)/sprintf('%0'.$maxDigits.'u', $1)/ge;
-
-    # there is no need to justify non-digit sequences
-    # because 'alpha' compares less than 'beta'
-
-    # X should compare greater than X-beta1
-    # so append a high-value character to the
-    # non-beta version if one version looks like
-    # a beta and the other does not
-    if ( $a =~ /^$b$separator?beta/ ) {
-
-        # $a is beta of $b
-        # $b should compare greater than $a
-        $b .= $largest_char;
-    }
-    elsif ( $b =~ /^$a$separator?beta/ ) {
-
-        # $b is beta of $a
-        # $a should compare greater than $b
-        $a .= $largest_char;
-    }
-
-    my $comparison = "'$a' $string_op '$b'";
-    my $result     = eval $comparison;
-
-    #print "[$comparison]->$result\n";
-    return $result;
-}
-
-sub check_dep {
-    my ($dep) = @_;
-    my ( $ok, $msg ) = ( 1, "" );
-
-    # reject non-Perl dependencies
-    if ( $dep->{type} !~ /^(?:perl|cpan)$/i ) {
-        $ok = 0;
-        $msg =
-          "Module is type $dep->{type}, and cannot be automatically checked.\n"
-          . "Please check it manually and install if necessary.\n";
-        return ( $ok, $msg );
-    }
-
-    # try to load the module
-    my $module = $dep->{name};
-    eval "require $module";
-    if ($@) {
-        $ok = 0;
-        ( $msg = $@ ) =~ s/ in .*$/\n/s;
-        return ( $ok, $msg );
-    }
-
-    my $moduleVersion = 0;
-    {
-        no strict 'refs';
-        $moduleVersion = ${"${module}::VERSION"};
-
-        # remove the SVN marker text from the version number, if it is there
-        $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
-    }
-
-    # check if the version satisfies the prerequisite
-    if ( defined $dep->{version} and $dep->{version} ne '' ) {
-
-        # the version field is in fact a condition
-        if ( $dep->{version} =~ /^\s*(?:>=?)?\s*([0-9a-z._-]+)/ ) {
-
-            # Condition is >0 or >= 1.3
-            my $requiredVersion = $1;
-            if ( compare_versions( $moduleVersion, '<', $requiredVersion ) ) {
-
-                # But module doesn't meet this condition
-                $msg = "$module version $requiredVersion required"
-                  . "--this is only version $moduleVersion";
-                $ok = 0;
-                return ( $ok, $msg );
-            }
-        }
-        elsif ( $dep->{version} =~ /<\s*([0-9a-z._-]+)/ ) {
-
-            # Condition is < 2.7
-            my $requiredVersion = $1;
-
-            if ( compare_versions( $moduleVersion, '>=', $requiredVersion ) ) {
-
-                # But module doesn't meet this condition
-                $ok = 0;
-                $msg =
-                    "Module $module is version v"
-                  . $moduleVersion
-                  . " and the dependency wants "
-                  . $dep->{version};
-                return ( $ok, $msg );
-            }
-        }
-        else {
-            $ok = 0;
-            $msg =
-                "Module $module is version v"
-              . $moduleVersion
-              . " and the dependency wants "
-              . $dep->{version};
-            return ( $ok, $msg );
-        }
-
-    }
-
-    $msg = "$module v$moduleVersion loaded\n";
-
-    return ( $ok, $msg );
-}
-
 # Satisfy dependencies on modules, by checking:
 # 1. If the module is a perl module, then:
 #    1. If the module is loadable in the current environment
@@ -389,9 +186,9 @@ sub satisfy {
 
     print <<DONE;
 ##########################################################
-Checking dependency on $dep->{name}....
+Checking dependency on $dep->{module}....
 DONE
-    my ( $ok, $msg ) = check_dep($dep);
+    my ( $ok, $msg ) = $dep->check();
 
     if ($ok) {
         print $msg;
@@ -399,18 +196,19 @@ DONE
     }
 
     print <<DONE;
-*** $MODULE depends on $dep->{type} package $dep->{name} $dep->{version}
+*** $MODULE depends on $dep->{type} package $dep->{module} $dep->{version}
 which is described as "$dep->{description}"
 But when I tried to find it I got this error:
 
 $msg
 DONE
 
-    if ( $dep->{name} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
+    if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
         my $type     = $1;
         my $pack     = $2;
         my $packname = $3;
         $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
+        $dep->{name} = $packname;
         if ( !$noconfirm || ( $noconfirm && $downloadOK ) ) {
             my $reply =
               ask(  'Would you like me to try to download '
@@ -434,18 +232,18 @@ DONE
         my $reply =
           ask(  'Would you like me to try to download '
               . 'and install the latest version of '
-              . $dep->{name}
+              . $dep->{module}
               . ' from cpan.org?' );
         return 0 unless $reply;
 
-        my $mod = CPAN::Shell->expand( 'Module', $dep->{name} );
+        my $mod = CPAN::Shell->expand( 'Module', $dep->{module} );
         my $info = $mod->dslip_status();
         if ( $info->{D} eq 'S' ) {
 
             # Standard perl module!
             print STDERR <<DONE;
 #########################################################################
-# WARNING: $dep->{name} is a standard perl module
+# WARNING: $dep->{module} is a standard perl module
 #
 # I cannot install it without upgrading your version of perl, something
 # I'm not willing to do. Please either install the module manually (from
@@ -462,8 +260,8 @@ DONE
         else {
             $CPAN::Config->{prerequisites_policy} = 'ask';
         }
-        CPAN::install( $dep->{name} );
-        ( $ok, $msg ) = check_dep($dep);
+        CPAN::install( $dep->{module} );
+        ( $ok, $msg ) = $dep->check();
         return 1 if $ok;
 
         my $e = 'it';
@@ -472,7 +270,7 @@ DONE
         }
         print STDERR <<DONE;
 #########################################################################
-# WARNING: I still can't find the module $dep->{name}
+# WARNING: I still can't find the module $dep->{module}
 #
 # If you installed the module in a non-standard directory, make sure you
 # have followed the instructions in bin/setlib.cfg and added $e
@@ -1140,16 +938,16 @@ sub install {
         $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
         if ( $trigger eq '1' ) {
 
-            # ONLYIF usually isn't used, and is dangerous
+            # ONLYIF is rare and dangerous
             push(
                 @deps,
-                {
-                    name        => $module,
+                new Foswiki::Configure::Dependency(
+                    module      => $module,
                     type        => $type,
                     version     => $condition,    # version condition
                     trigger     => 1,             # ONLYIF condition
-                    description => $desc,
-                }
+                    description => $desc
+                )
             );
         }
         else {
@@ -1163,13 +961,13 @@ sub install {
                 # It looks more or less safe
                 push(
                     @deps,
-                    {
-                        name        => $module,
+                    new Foswiki::Configure::Dependency(
+                        module      => $module,
                         type        => $type,
                         version     => $condition,    # version condition
                         trigger     => $1,            # ONLYIF condition
-                        description => $desc,
-                    }
+                        description => $desc
+                    )
                 );
             }
             else {
@@ -1186,15 +984,15 @@ DONE
                         print 'OK...';
                         push(
                             @deps,
-                            {
-                                name    => $module,
+                            new Foswiki::Configure::Dependency(
+                                module  => $module,
                                 type    => $type,
                                 version => $condition,    # version condition
                                 trigger =>
                                   Foswiki::Sandbox::untaintUnchecked($1)
                                 ,                         # ONLYIF condition
-                                description => $desc,
-                            }
+                                description => $desc
+                            )
                         );
                     }
                 }
@@ -1252,7 +1050,7 @@ DONE
                 print "ONLYIF $dep->{trigger}\n";
             }
             print
-              "$dep->{name},$dep->{version},$dep->{type},$dep->{description}\n";
+              "$dep->{module},$dep->{version},$dep->{type},$dep->{description}\n";
         }
         exit 0;
     }
