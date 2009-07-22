@@ -63,8 +63,9 @@ Some notes about the comparison process:
 
 ---+ Plugin Info
 
-|  Plugin Author: | Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk |
-|  Plugin Version: | 1.000 |
+|  Author: | Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 | Change History: <!-- Most recent first --> ||
 | 7 Nov 2004 | 1.000 Initial version. |
 |  Dependencies: | Algorithm::Diff |

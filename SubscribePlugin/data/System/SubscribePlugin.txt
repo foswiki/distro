@@ -2,7 +2,7 @@
 ---+ Subscribe Plugin
 
 <!--
-   * Set SHORTDESCRIPTION = This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 %SHORTDESCRIPTION%
 
@@ -28,7 +28,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2008, Crawford Currie |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | %$VERSION% |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Dec 2008 | Re-released for Foswiki |

@@ -6,11 +6,10 @@ require Foswiki::Func;
 
 use vars qw( $UID $WEB $TOPIC);
 
-our $VERSION = '$Rev: 13787 (18 May 2007) $';
+our $VERSION = '$Rev$';
 our $RELEASE = '03 Dec 2008';
-our $SHORTDESCRIPTION = 'Subscribe to web notification';
+our $SHORTDESCRIPTION = 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
-my $pluginName = 'SubscribePlugin';
 
 our $UID;
 our $WEB;
@@ -35,11 +34,14 @@ sub _SUBSCRIBE {
 
     my $cur_user = Foswiki::Func::getWikiName();
 
-#SMELL: this means that subscription changes can only happen from a url to a topic
-#that contains a %SUBCRIBE% tag, rather than the url params meaning something
-#it also leads to incorrect display to the user if subscription data is rendered prior to the processing (like subing while displaying the webNotify topic)
+    # SMELL: this means that subscription changes can only happen from a
+    # url to a topic that contains a %SUBCRIBE% tag, rather than the url
+    # params meaning something. It also leads to incorrect display to the
+    # user if subscription data is rendered prior to the processing (like
+    # subing while displaying the webNotify topic)
     if ($suid && $suid == $UID) {
-	$query->delete( 'subscribe_uid');	#make sure we're not doing this twice..
+        # make sure we're not doing this twice..
+        $query->delete( 'subscribe_uid');
         # We have been asked to subscribe
         my $topics = $query->param('subscribe_topic');
         $topics =~ /^(.*)$/;
