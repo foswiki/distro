@@ -1,3 +1,5 @@
+# Tests for the Foswiki::Configure::Dependency class
+# Author: Michael Tempest
 package ExtenderTests;
 
 use strict;
@@ -6,49 +8,43 @@ use base qw(FoswikiTestCase);
 
 use Error qw( :try );
 use File::Temp;
+use Foswiki::Configure::Dependency;
 
-# Establish where we are
-my @path = ( 'tools', 'extender.pl' );
-my $wd = Cwd::cwd();
-$wd =~ /^(.*)test.unit$/;    # untaint
-unshift( @path, $1 ) if $1;
-my $script = File::Spec->catfile(@path);
-chdir $1;                    # extender.pl needs this
+sub new {
+    my $class = shift;
+    my $this = $class->SUPER::new(@_);
 
-unless ( my $return = do $script ) {
-    my $message = <<MESSAGE;
-************************************************************
-Could not load $script
-MESSAGE
+    # Establish where we are
+    my $wd = Cwd::cwd();
 
-    if ($@) {
-        $message .= "There was a compile error: $@\n";
+    chdir "$Foswiki::cfg{ToolsDir}/..";             # extender.pl needs this
+
+    unless ( my $return = do "tools/extender.pl" ) {
+        my $message = "Could not load extender.pl: ";
+
+        if ($@) {
+            $message .= "There was a compile error: $@\n";
+        }
+        elsif ( defined $return ) {
+            $message .= "There was a file error: $!\n";
+        }
+        else {
+            $message .= "An unspecified error occurred\n";
+        }
+        die $message;    # Propagate
     }
-    elsif ( defined $return ) {
-        $message .= "There was a file error: $!\n";
-    }
-    else {
-        $message .= "An unspecified error occurred\n";
-    }
-    $message .= <<MESSAGE;
-(if this is a TWiki release prior to 4.2, you can download this
- file from: http://twiki.org/cgi-bin/view/Codev/ExtenderScript
- and place it in
- $wd/tools
- Create the directory if necessary).
-************************************************************
-MESSAGE
-    die $message;    # Propagate
+    chdir $wd;           # Return after loading extender.pl
+    return $this;
 }
-chdir $wd;           # Return after loading extender.pl
 
 sub test_check_dep_not_perl {
     my ($this) = @_;
 
     # Check an external dependency
     # 0, Module is type external, and cannot be automatically checked.
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        { type => "external", name => "libpcap", version => "1.0.0" } );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "external", module => "libpcap", version => "1.0.0" );
+    my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 0, $ok );
     $this->assert_matches( qr/cannot be automatically checked/, $message );
 }
@@ -58,10 +54,11 @@ sub test_check_dep_not_module {
 
     # Check a non-existing module
     # 0,
-    my ( $ok, $message ) =
-      Foswiki::Extender::check_dep( { type => "perl", name => "Non::Existing::Module" } );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "perl", module => "Non::Existing::Module" );
+    my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 0, $ok );
-    $this->assert_matches( qr/Can't locate Non.*Existing.*Module/, $message );
+    $this->assert_matches( qr/Non::Existing::Module version >=0 required\s*--\s*module is not installed/, $message );
 
 }
 
@@ -70,10 +67,11 @@ sub test_check_dep_carp {
 
     # Check a normally installed dependency
     # 1, Carp v1.03 loaded
-    my ( $ok, $message ) =
-      Foswiki::Extender::check_dep( { type => "perl", name => "Carp" } );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "perl", module => "Carp" );
+    my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Carp v.* loaded/, $message );
+    $this->assert_matches( qr/Carp version .* loaded/, $message );
 
 }
 
@@ -82,10 +80,12 @@ sub test_check_dep_carp_with_version {
 
     # Check a normally installed dependency
     # 1, Carp v1.03 loaded
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "perl", module => "Carp", version => 0.1 );
     my ( $ok, $message ) =
-      Foswiki::Extender::check_dep( { type => "perl", name => "Carp", version => 0.1 } );
+      $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Carp v.* loaded/, $message );
+    $this->assert_matches( qr/Carp version .* loaded/, $message );
 
 }
 
@@ -94,11 +94,13 @@ sub test_check_dep_version_too_high {
 
     # Check a normal installed dependency with an absurd high version number
     # 0, HTML::Parser version 21.1 required--this is only version 1.05
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        { type => "cpan", name => "HTML::Parser", version => "21.1" } );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "cpan", module => "HTML::Parser", version => "21.1" );
+    my ( $ok, $message ) = $dep->check(
+       );
     $this->assert_equals( 0, $ok );
     $this->assert_matches(
-        qr/HTML::Parser version 21\.1 required--this is only version/,
+        qr/HTML::Parser version >= 21.1 required\s*--\s*installed version is [\d.]+/,
         $message );
 
 }
@@ -108,11 +110,13 @@ sub test_check_dep_version_with_superior {
 
     # Check a normal installed dependency with a superior sign
     # 1, HTML::Parser v1.05 loaded
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        { type => "cpan", name => "HTML::Parser", version => ">=0.9" } );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "cpan", module => "HTML::Parser", version => ">=0.9" );
+    my ( $ok, $message ) = $dep->check(
+       );
     $this->assert_equals( 1, $ok );
     $this->assert_matches(
-        qr/HTML::Parser v\d+\.\d+ loaded/,
+        qr/HTML::Parser version \d+\.\d+ loaded/,
         $message );
 
 }
@@ -122,11 +126,12 @@ sub test_check_dep_version_with_inferior {
 
     # Check a normal installed dependency with an inferior
     # 1, HTML::Parser v1.05 loaded
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        { type => "cpan", name => "HTML::Parser", version => "<21.1" } );
-    $this->assert_equals( 1, $ok );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "cpan", module => "HTML::Parser", version => "<21.1" );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok, $HTML::Parser::VERSION );
     $this->assert_matches(
-        qr/HTML::Parser v\d+\.\d+ loaded/,
+        qr/HTML::Parser version \d+\.\d+ loaded/,
         $message );
 
 }
@@ -136,11 +141,12 @@ sub test_check_dep_version_with_inferior_failed {
 
     # Check a normal installed dependency with an inferior too low
     # 0, Module HTML::Parser is version v3.60 and the dependency wants <1
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        { type => "cpan", name => "HTML::Parser", version => "<1" } );
+    my $dep = new Foswiki::Configure::Dependency(
+        type => "cpan", module => "HTML::Parser", version => "<1" );
+    my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 0, $ok );
     $this->assert_matches(
-        qr/HTML::Parser is version v\d+\.\d+ and the dependency wants <1/,
+        qr/HTML::Parser version < 1 required\s*--\s*installed version is [\d.]+/,
         $message );
 
 }
@@ -150,17 +156,16 @@ sub test_check_dep_version_with_rev {
 
     # Check a normal installed dependency with a $Rev$ version number
     # 1, Foswiki::Contrib::JSCalendarContrib v1234 loaded
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        {
+    my $dep = new Foswiki::Configure::Dependency(
             type    => "perl",
-            name    => "Foswiki::Contrib::JSCalendarContrib",
-            version => ">=0.961"
-        }
-    );
-    $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Foswiki::Contrib::JSCalendarContrib v.* loaded/,
+            module  => "Foswiki::Contrib::JSCalendarContrib",
+            version => ">=21 Jun 2000"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok, $message );
+    $this->assert_matches( qr/Foswiki::Contrib::JSCalendarContrib version .* loaded/,
         $message );
-    $this->assert($message =~ /v(\d+) /, $message);
+    $this->assert($message =~ /version (\d+) /, $message);
     my $revision = $1;
     $this->assert($revision ne '999999');
 }
@@ -170,15 +175,14 @@ sub test_check_dep_version_with_multi_part_number {
 
     # Check a normal installed dependency with a 1.23.4 version number
     # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1.23.4 loaded
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        {
+    my $dep = new Foswiki::Configure::Dependency(
             type    => "perl",
-            name    => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
+            module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
             version => ">=1.5.6"
-        }
-    );
-    $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1\.23\.4 loaded/,
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok, $message );
+    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version 1\.23\.4 loaded/,
         $message );
 }
 
@@ -187,20 +191,243 @@ sub test_check_dep_version_with_underscore {
 
     # Check a normal installed dependency with a version number that includes _
     # 1, Algorithm::Diff v1.19_01 loaded
-    my ( $ok, $message ) = Foswiki::Extender::check_dep(
-        {
+    my $dep = new Foswiki::Configure::Dependency(
             type    => "perl",
-            name    => "Algorithm::Diff",
+            module  => "Algorithm::Diff",
             version => ">=1.18_45"
-        }
-    );
+           );
+    my ( $ok, $message ) = $dep->check( );
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Algorithm::Diff v\d+\.\d+(?:_\d+)? loaded/,
+    $this->assert_matches( qr/Algorithm::Diff version \d+\.\d+(?:_\d+)? loaded/,
         $message );
 
 }
 
-sub test_compare_versions {
+sub test_compare_extension_versions {
+    my ($this) = @_;
+
+    # Each tuple describes one version comparison and the expected result
+    # The first value is the expected result. 1 means "true" and 0 means "false.
+    # The second and fourth values are the versions to compare.
+    # The third value is the comparison operator as a string.
+    my @comparisons = (
+        # Plain integer versions
+        [1, 2, undef, '<',  10],
+        [1, 2, undef, '<=', 10],
+        [0, 2, undef, '>',  10],
+        [0, 2, undef, '>=', 10],
+        [0, 2, undef, '=',  10],
+
+        [0, 10, undef, '<',  2],
+        [0, 10, undef, '<=', 2],
+        [1, 10, undef, '>',  2],
+        [1, 10, undef, '>=', 2],
+        [0, 10, undef, '=',  2],
+
+        [0, ' 10', undef, '<',  2],
+        [0, ' 10', undef, '<=', 2],
+        [1, ' 10', undef, '>',  2],
+        [1, ' 10', undef, '>=', 2],
+        [0, ' 10', undef, '=',  2],
+
+        [0, '10 ', undef, '<',  2],
+        [0, '10 ', undef, '<=', 2],
+        [1, '10 ', undef, '>',  2],
+        [1, '10 ', undef, '>=', 2],
+        [0, '10 ', undef, '=',  2],
+
+        [0, 2, undef, '<',  2],
+        [1, 2, undef, '<=', 2],
+        [0, 2, undef, '>',  2],
+        [1, 2, undef, '>=', 2],
+        [1, 2, undef, '=',  2],
+
+        # trailing and leading spaces should not affect 
+        # the value of a version nuumber
+        [1, ' 2', undef,  '=',  2],
+        [1, '2 ', undef,  '=',  2],
+        [1, ' 2 ', undef, '=',  2],
+        [1, ' 2', undef,  '=',  ' 2'],
+        [1, '2 ', undef,  '=',  ' 2'],
+        [1, ' 2 ', undef, '=',  ' 2'],
+        [1, ' 2', undef,  '=',  '2 '],
+        [1, '2 ', undef,  '=',  '2 '],
+        [1, ' 2 ', undef, '=',  '2 '],
+        [1, ' 2', undef,  '=',  ' 2 '],
+        [1, '2 ', undef,  '=',  ' 2 '],
+        [1, ' 2 ', undef, '=',  ' 2 '],
+
+        # SVN-style revision numbers should be treated like integers
+        [1, undef, '$Rev: 2 $', '<',  10],
+        [1, undef, '$Rev: 2 $', '<=', 10],
+        [0, undef, '$Rev: 2 $', '>',  10],
+        [0, undef, '$Rev: 2 $', '>=', 10],
+        [0, undef, '$Rev: 2 $', '=',  10],
+
+        [0, undef, '$Rev: 10 $', '<',  2],
+        [0, undef, '$Rev: 10 $', '<=', 2],
+        [1, undef, '$Rev: 10 $', '>',  2],
+        [1, undef, '$Rev: 10 $', '>=', 2],
+        [0, undef, '$Rev: 10 $', '=',  2],
+
+        [0, undef, '$Rev: 2 $', '<',  2],
+        [1, undef, '$Rev: 2 $', '<=', 2],
+        [0, undef, '$Rev: 2 $', '>',  2],
+        [1, undef, '$Rev: 2 $', '>=', 2],
+        [1, undef, '$Rev: 2 $', '=',  2],
+
+        # compare X.Y and X
+        [1, 1.1, undef, '<',  2],
+        [1, 1.1, undef, '<=', 2],
+        [0, 1.1, undef, '>',  2],
+        [0, 1.1, undef, '>=', 2],
+        [0, 1.1, undef, '=',  2],
+
+        # compare X.Y and X.Y.Z
+        [1, 1.1, undef, '<',  '1.2.1'],
+        [1, 1.1, undef, '<=', '1.2.1'],
+        [0, 1.1, undef, '>',  '1.2.1'],
+        [0, 1.1, undef, '>=', '1.2.1'],
+        [0, 1.1, undef, '=',  '1.2.1'],
+
+        # Versions with _ 
+        [1, '2.36_04', undef, '<',  '2.36_10'],
+        [1, '2.36_04', undef, '<=', '2.36_10'],
+        [0, '2.36_04', undef, '>',  '2.36_10'],
+        [0, '2.36_04', undef, '>=', '2.36_10'],
+        [0, '2.36_04', undef, '=',  '2.36_10'],
+
+        # Letters in the version number
+        [1, '1.2.5', undef, '=',  '1.2.5a'],
+
+        # compare vX.Y with X.Y
+        [1, 'v1.2', undef, '<',  '2.2'],
+        [1, 'v1.2', undef, '<=', '2.2'],
+        [0, 'v1.2', undef, '>',  '2.2'],
+        [0, 'v1.2', undef, '>=', '2.2'],
+        [0, 'v1.2', undef, '=',  '2.2'],
+
+        # Presence or absence of leading v
+        # makes no difference to the value of X.Y version numbers
+        [0, 'v1.2', undef, '<',  '1.2'],
+        [1, 'v1.2', undef, '<=', '1.2'],
+        [0, 'v1.2', undef, '>',  '1.2'],
+        [1, 'v1.2', undef, '>=', '1.2'],
+        [1, 'v1.2', undef, '=',  '1.2'],
+
+        # dd Mmm yyyy dates
+        [1, '1 Jan 2009', undef,  '<', '2 Jan 2009'],
+        [1, '2 Jan 2009', undef,  '=', ' 2 Jan 2009'],
+        [1, '2 Jan 2009', undef,  '=', '02 Jan 2009'],
+        [1, '2 Jan 2009', undef,  '<', '20 Jan 2009'],
+        [1, '21 Jan 2009', undef, '<', '22 Jan 2009'],
+        [0, '2 Jan 2009', undef,  '=', '20 Jan 2009'],
+        [0, '2 Jan 2009', undef,  '=', ' 3 Jan 2009'],
+        [0, '2 Jan 2009', undef,  '=', '03 Jan 2009'],
+        [0, '2 Jan 2009', undef,  '=', '2 Feb 2009'],
+        [0, '2 Jan 2009', undef,  '=', '2 Jan 2010'],
+        [1, '2 Jan 2009', undef,  '<', '10 Jan 2009'],
+        [1, '2 Feb 2009', undef,  '>', '10 Jan 2009'],
+        [1, '2 Feb 2009', undef,  '<', '10 Jan 2010'],
+
+        # ordering of months
+        [1, '31 Jan 2000', undef, '<', '1 Feb 2000'],
+        [1, '29 Feb 2000', undef, '<', '1 Mar 2000'],
+        [1, '31 Mar 2000', undef, '<', '1 Jun 2000'],
+        [1, '30 Jun 2000', undef, '<', '1 Jul 2000'],
+        [1, '31 Jul 2000', undef, '<', '1 Aug 2000'],
+        [1, '31 Aug 2000', undef, '<', '1 Sep 2000'],
+        [1, '30 Sep 2000', undef, '<', '1 Oct 2000'],
+        [1, '31 Oct 2000', undef, '<', '1 Nov 2000'],
+        [1, '30 Nov 2000', undef, '<', '1 Dec 2000'],
+        [1, '31 Dec 2000', undef, '<', '1 Jan 2001'],
+
+        # ISO8601  dates
+        [1, '2009-04-14', undef, '>', '2009-04-13'],
+        [1, '2009-04-14', undef, '=', '2009-04-14'],
+        [1, '2009-04-14', undef, '<', '2009-04-15'],
+        [1, '2009-04-14', undef, '>', '2009-03-14'],
+        [1, '2009-04-14', undef, '<', '2009-05-14'],
+        [1, '2009-04-14', undef, '<', '2009-11-14'],
+        [1, '2010-04-14', undef, '>', '2009-04-14'],
+
+        # Various versions that must be greater than 0
+        [1, '0.1', undef,        '>', 0],
+        [1, '0.0.0.1', undef,    '>', 0],
+        [1, 'v0.1', undef,       '>', 0],
+        [1, 'v0.0.0.1', undef,   '>', 0],
+        [1, '1 Jan 1990', undef, '>', 0],
+        [1, '1990-01-01', undef,   '>', 0],
+        [1, '0.00_01', undef,    '>', 0],
+
+        # An SVN-style version number
+        # is not affected by the spacing
+        # and is greater than 0
+        [1, undef, '$Rev:   $', '=',  '$Rev$'],
+        [1, undef, '$Rev:  $',  '=',  '$Rev$'],
+        [1, undef, '$Rev: $',   '=',  '$Rev$'],
+        [1, undef, '$Rev:$',    '=',  '$Rev$'],
+        [1, undef, '$Rev $',    '=',  '$Rev$'],
+        [1, undef, '$Rev$',     '>',  0],
+        [1, undef, '$Rev$',     '>=', 1],
+
+        # Blank version number is less than 1
+        [1, undef, '', '<',  1],
+        [1, undef, '', '<=', 1],
+        [0, undef, '', '>',  1],
+        [0, undef, '', '>=', 1],
+        [0, undef, '', '=',  1],
+
+        # Blank comparator operator always gives false result
+        # And undef inputs generate no warnings
+        [0, 1, undef,     '', 1],
+        [0, 1, undef,     '', 0],
+        [0, 1, undef,     '', undef],
+        [0, 0, undef,     '', 1],
+        [0, 0, undef,     '', 0],
+        [0, 0, undef,     '', undef],
+        [0, undef, undef, '', 1],
+        [0, undef, undef, '', 0],
+        [0, undef, undef, '', undef],
+
+        [0, 1, undef,     'x', 1],
+        [0, 1, undef,     'x', 0],
+        [0, 1, undef,     'x', undef],
+        [0, 0, undef,     'x', 1],
+        [0, 0, undef,     'x', 0],
+        [0, 0, undef,     'x', undef],
+        [0, undef, undef, 'x', 1],
+        [0, undef, undef, 'x', 0],
+        [0, undef, undef, 'x', undef],
+
+        [0, 1, undef,     undef, 1],
+        [0, 1, undef,     undef, 0],
+        [0, 1, undef,     undef, undef],
+        [0, 0, undef,     undef, 1],
+        [0, 0, undef,     undef, 0],
+        [0, 0, undef,     undef, undef],
+        [0, undef, undef, undef, 1],
+        [0, undef, undef, undef, 0],
+        [0, undef, undef, undef, undef],
+
+    );
+    foreach my $set (@comparisons) {
+        my $expected = $set->[0];
+        my $dep = new Foswiki::Configure::Dependency(
+            name => "Test",
+            type => 'perl',
+            installedRelease => $set->[1],
+            installedVersion => $set->[2]);
+        my $actual = $dep->compare_versions($set->[3], $set->[4]) ? 1 : 0;
+        $this->assert_equals(
+            $expected, 
+            $actual,
+            join(' ', '[', map({ defined($_) ? $_ : 'undef' } @$set),
+                 '] should give', $expected) );
+    }
+}
+
+sub test_compare_cpan_versions {
     my ($this) = @_;
 
     # Each tuple describes one version comparison and the expected result
@@ -321,7 +548,7 @@ sub test_compare_versions {
         [0, 'v1.2', '>',  '2.2'],
         [0, 'v1.2', '>=', '2.2'],
         [0, 'v1.2', '=',  '2.2'],
-        
+
         # Presence or absence of leading v
         # makes no difference to the value of X.Y version numbers
         [0, 'v1.2', '<',  '1.2'],
@@ -438,11 +665,17 @@ sub test_compare_versions {
 
     );
     foreach my $set (@comparisons) {
-        my $expected = shift @$set;
-        my $actual = Foswiki::Extender::compare_versions(@$set) ? 1 : 0;
-        $this->assert_equals( $expected, 
-                              $actual, 
-                              join(' ', '[', map({ defined($_) ? $_ : 'undef' } @$set), '] should give', $expected) );
+        my $expected = $set->[0];
+        my $dep = new Foswiki::Configure::Dependency(
+            module => "Test",
+            type => 'cpan',
+            installedVersion => $set->[1]);
+        my $actual = $dep->compare_versions($set->[2], $set->[3]) ? 1 : 0;
+        $this->assert_equals(
+            $expected, 
+            $actual, 
+            join(' ', '[', map({ defined($_) ? $_ : 'undef' } @$set),
+                 '] should give', $expected) );
     }
 }
 

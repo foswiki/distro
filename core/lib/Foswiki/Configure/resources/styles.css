@@ -212,6 +212,10 @@ a.configureError {
 	margin:.5em 0;
 }
 
+.configureDefaultValueLink {
+	font-size:86%;
+}
+
 /* --- EXTENSIONS --- */
 table.configureExtensionsTable {
 	margin:1em 0;
@@ -220,12 +224,6 @@ table.configureExtensionsTable th {
 	background:#e5f4f8;
 	color:#fff;
 	border:none;
-}
-table.configureExtensionsTable th,
-table.configureExtensionsTable td {
-	padding:.5em;
-}
-table.configureExtensionsTable .even {
 }
 table.configureExtensionsTable .configureReinstall {
 	background:#e8f9e8;
@@ -236,18 +234,27 @@ table.configureExtensionsTable .configureUpgrade {
 table.configureExtensionsTable .configurePseudoinstalled {
 	background:#f2f2f2;
 }
+/*
 table.configureExtensionsTable .configureInstalled a:link,
 table.configureExtensionsTable .configureInstalled a:visited {
 	font-weight:bold;
-}
-
-.configureDefaultValueLink {
-	font-size:86%;
-}
+}*/
 
 /* Used when a non-foswiki extension is found */
-.configureAlienExtension {
+table.configureExtensionsTable .configureAlienExtension {
 	background:#ffffd6;
+}
+
+table.configureExtensionsTable td.configureExtensionTitle { 
+  border: 0;
+  margin: 0;
+  padding: 2em 1em 1em 1em;
+}
+
+table.configureExtensionsTable td.configureExtensionData {
+  margin: 0;
+  padding: 1em 1em 2em 1em;
+  border: 0;
 }
 
 strong {

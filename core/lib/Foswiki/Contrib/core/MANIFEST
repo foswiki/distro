@@ -487,6 +487,7 @@ lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
+lib/Foswiki/Configure/Dependency.pm 0444
 lib/Foswiki/Configure/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
 lib/Foswiki/Configure/GlobalControls.pm 0444

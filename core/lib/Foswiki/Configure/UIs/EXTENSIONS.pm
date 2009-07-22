@@ -6,20 +6,26 @@ use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 
 use Foswiki::Configure::Type ();
+use Foswiki::Configure::Dependency ();
 
 # THE FOLLOWING MUST BE MAINTAINED CONSISTENT WITH Extensions.FastReport
 # They describe the format of an extension topic.
-my @tableHeads =
-  qw( topic classification description version installedVersion compatibility install );
-my $VERSION_LINE = qr/\n\|[\s\w-]*\s[Vv]ersion:\s*\|([^|]+)\|/;
 
+# Ordered list of field names to column headings
+my @tableHeads =
+  qw( description compatibility release installedRelease );
+
+# Mapping to column heading string
 my %headNames = (
+    release          => 'Most Recent Release',
+    description      => 'Description',
+    compatibility    => 'Compatible with',
+    installedRelease => 'Installed Release',
+    # Not used; just here for completeness
     topic            => 'Extension',
     classification   => 'Classification',
-    description      => 'Description',
     version          => 'Most Recent Version',
     installedVersion => 'Installed Version',
-    compatibility    => 'Compatible with',
     install          => 'Action',
 );
 
@@ -48,7 +54,7 @@ sub _getListOfExtensions {
         foreach my $place ( @{ $this->{repositories} } ) {
             next unless defined $place->{data};
             $place->{data} =~ s#/*$#/#;
-            print CGI::div("Consulting $place->{name}...");
+            print "<div>Consulting $place->{name}...</div>";
             my $url      = $place->{data} . 'FastReport?skin=text';
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
@@ -73,7 +79,7 @@ sub _getListOfExtensions {
                 if ($@) {
                     push(
                         @{ $this->{errors} },
-"This may be because the LWP CPAN module isn't installed."
+"This may be because the CPAN 'LWP' module isn't installed."
                     );
                 }
             }
@@ -87,13 +93,29 @@ sub _parseRow {
     my %data;
     return '' unless defined $row;
     return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
-    ( $data{installedVersion}, $data{namespace} ) =
-      $this->_getInstalledVersion( $data{topic} );
+
+    die "$row: " . Data::Dumper->Dump( [ \%data ] ) unless $data{topic};
+
+    $data{name}       = $data{topic};
     $data{repository} = $place->{name};
     $data{data}       = $place->{data};
     $data{pub}        = $place->{pub};
-    die "$row: " . Data::Dumper->Dump( [ \%data ] ) unless $data{topic};
-    $this->{list}->{ $data{topic} } = \%data;
+
+    my $dep = new Foswiki::Configure::Dependency(%data);
+    $dep->studyInstallation();
+
+    # If release isn't specified, then use the version string
+    if (!$dep->{release} && $dep->{version}) {
+        # See if we can pull the release ID from the generated %$VERSION%
+        if ($dep->{version} =~ /^\d+ \((.+)\)$/) {
+            $dep->{release} = $1;
+        } else {
+            # Can't make sense of it; use the whole string
+            $dep->{release} = $dep->{version};
+        }
+    }
+
+    $this->{list}->{ $dep->{name} } = $dep;
     return '';
 }
 
@@ -104,153 +126,106 @@ sub ui {
     my $rows      = 0;
     my $installed = 0;
     my $exts      = $this->_getListOfExtensions();
+
+    # Bung out errors
     foreach my $error ( @{ $this->{errors} } ) {
         $table .= CGI::Tr( { class => 'configureError' },
             CGI::td( { colspan => "7" }, $error ) );
     }
 
+    # Table heads
     $table .= CGI::Tr(
         join( '',
             map { CGI::th( { valign => 'bottom' }, $headNames{$_} ) }
               @tableHeads )
     );
+
+    # Each extension has two rows
     foreach my $key ( sort keys %$exts ) {
         my $ext = $exts->{$key};
-        my $row = '';
 
-        foreach my $f (@tableHeads) {
-            my $text;
-            if ( $f eq 'install' ) {
-                my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
-                my $scriptName = pop(@script);
-                $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
+        next if $ext->{topic} eq 'EmptyPlugin'; # special case
 
-                my $link =
-                    $scriptName
-                  . '?action=InstallExtension'
-                  . ';repository='
-                  . $ext->{repository}
+        # $ext is type Foswiki::Configure::Dependency, and studyInstallation
+        # has already been called, so {installedRelease} and {installedVersion}
+        # are known to be populated. Note that {version} in this dependency
+        # is the version number read from FastReport, and {release} will be
+        # the latest release from there.
+
+        # Work out the control button
+        my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
+        my $scriptName = pop(@script);
+        $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
+
+        my $link =
+          $scriptName
+            . '?action=InstallExtension'
+              . ';repository='
+                . $ext->{repository}
                   . ';extension='
-                  . $ext->{topic};
-                $text = 'Install';
-                if ( $ext->{installedVersion} ) {
-                    if ( $ext->{installedVersion} eq 'HEAD' ) {
+                    . $ext->{topic};
 
-                        # Unexpanded, assume pseudo-installed
-                        $link            = '';
-                        $text            = 'pseudo-installed';
-                        $ext->{cssclass} = 'configurePseudoInstalled';
-                    }
-                    elsif ( $ext->{installedVersion} =~
-                        /^\s*v?(\d+)\.(\d+)(?:\.(\d+))/ )
-                    {
+        my $install = CGI::a( {
+            href => $link,
+            class => 'foswikiSubmit' }, 'Install' );
+        my $classes = 'configureInstall';
+        if ( $ext->{installedRelease} ) {
+            # The module is installed; check the version
+            if ( $ext->{installedVersion} eq 'HEAD' ) {
 
-                        # X.Y, X.Y.Z, vX.Y, vX.Y.Z
-                        # Combine into one number; allows up to 1000
-                        # revs in each field
-                        my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
-                        $text = 'Re-install';
-                        $ext->{cssclass} = 'configureReinstall';
-                        if ( $ext->{version} =~
-                            /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
-                        {
-
-                            # Compatible version number
-                            my $arev = ( $1 * 1000 + $2 ) * 1000 + ( $3 || 0 );
-                            if ( $arev > $irev ) {
-                                $text = 'Upgrade';
-                                $ext->{cssclass} = 'configureUpgrade';
-                            }
-                        }
-                    }
-                    elsif ( $ext->{installedVersion} =~ /^\s*(\d+)\s/ ) {
-
-                        # SVN rev number
-                        my $gotrev = $1;
-                        $text = 'Re-install';
-                        $ext->{cssclass} = 'configureReinstall';
-                        if ( defined $ext->{version} &&
-                               $ext->{version} =~ /^\s*(\d+)\s/ ) {
-                            my $availrev = $1;
-                            if ( $availrev > $gotrev ) {
-                                $text = 'Upgrade';
-                                $ext->{cssclass} = 'configureUpgrade';
-                            }
-                        }
-                    }
-                    elsif (
-                        $ext->{installedVersion} =~ /(\d{4})-(\d\d)-(\d\d)/ )
-                    {
-
-                        # ISO date
-                        my $idate = d2n( $3, $2, $1 );
-                        $text = 'Re-install';
-                        $ext->{cssclass} = 'configureReinstall';
-                        if ( defined $ext->{version} &&
-                               $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
-                            my $adate = d2n( $3, $2, $1 );
-                            if ( $adate > $idate ) {
-                                $text = 'Upgrade';
-                                $ext->{cssclass} = 'configureUpgrade';
-                            }
-                        }
-                    }
-                    elsif ( $ext->{installedVersion} =~
-                        /(\d{1,2}) ($MNAME) (\d{4})/ )
-                    {
-
-                        # dd Mmm yyyy date
-                        my $idate = d2n( $1, $N2M{ lc($2) }, $3 );
-                        $text = 'Re-install';
-                        $ext->{cssclass} = 'configureReinstall';
-                        if ( defined $ext->{version} &&
-                               $ext->{version} =~
-                                 /(\d{1,2}) ($MNAME) (\d{4})/ ) {
-                            my $adate = d2n( $1, $N2M{lc($2)}, $3 );
-                            if ( $adate > $idate ) {
-                                $text = 'Upgrade';
-                                $ext->{cssclass} = 'configureUpgrade';
-                            }
-                        }
-                    }
-                    $installed++;
-                }
-                if ($link) {
-                    $text = CGI::a( { href => $link }, $text );
-                }
+                # pseudo-installed
+                $install = 'pseudo-installed';
+                $classes = 'configurePseudoInstalled';
             }
-            else {
-                $text = $ext->{$f} || '-';
-                $text =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-                if ( $f eq 'topic' ) {
-                    my $link = $ext->{data} . $ext->{topic};
-                    $text = CGI::a( { href => $link }, $text );
-                }
+            elsif ( $ext->compare_versions( '<', $ext->{release} )) {
 
-=pod
-                elsif ($f eq 'image'
-                    && $ext->{namespace}
-                    && $ext->{namespace} ne 'Foswiki' )
-                {
-                    $text = "$text ($ext->{namespace})";
-                }
-=cut
+                # Installed version is < available version
 
+                $install = CGI::a( {
+                    href => $link,
+                    class => 'foswikiSubmit' }, 'Upgrade' );
+                $classes = 'configureUpgrade';
+            } else {
+                # Installed version is current version
+
+                $install = CGI::a( {
+                    href => $link,
+                    class => 'foswikiSubmit' }, 'Re-install' );
+                $classes = 'configureReInstall';
             }
-            my %opts = ( valign => 'top' );
-            if ( $ext->{namespace} && $ext->{namespace} ne 'Foswiki' ) {
-                $opts{class} = 'alienExtension';
-            }
-            $row .= CGI::td( \%opts, $text );
+            $installed++;
         }
-        my @classes = ( $rows % 2 ? 'odd' : 'even' );
-        if ( $ext->{installedVersion} ) {
-            push @classes, 'configureInstalled';
-            push( @classes, $ext->{cssclass} ) if ( $ext->{cssclass} );
-            push @classes, 'configureAlienExtension'
-              if $ext->{installedVersion} =~ /\(TWiki\)/;
+
+        $classes .= ' configureAlienExtension'
+          if ( $ext->{module} && $ext->{module} !~ /^Foswiki::/ );
+
+        my $td;
+
+        # Do the title row
+        $td = $ext->{topic} || 'Unknown';
+        $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+        $td = CGI::a( { href => $ext->{data} . $ext->{topic} }, $td );
+        $table .= CGI::Tr(
+            CGI::td( { colspan => $#tableHeads,
+                       valign => 'top',
+                       class => "$classes configureExtensionTitle" },
+                     $td ),
+            CGI::td( { class => "$classes configureExtensionTitle" },
+                     $install));
+
+        # Do the data row
+        my $row = '';
+        foreach my $f (@tableHeads) {
+            $td = $ext->{$f} || '';
+            $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+            $row .= CGI::td( { valign => 'top',
+                               class => "$classes configureExtensionData" },
+                             $td );
         }
-        $table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
+
+        $table .= CGI::Tr(
+            $row );
+
         $rows++;
     }
     $table .= CGI::Tr(
@@ -270,60 +245,10 @@ sub ui {
 write files everywhere in your Foswiki installation. Otherwise you may see
 'No permission to write' errors during extension installation.</div>
 INTRO
-    $page .= CGI::table( { class => 'foswikiTable configureExtensionsTable' }, $table );
+    $page .= CGI::table( {
+        class => 'foswikiTable configureExtensionsTable',
+        border => 0, cellspacing => 0 }, $table );
     return $page;
-}
-
-sub _getInstalledVersion {
-    my ( $this, $module ) = @_;
-    my $lib;
-
-    return unless $module;
-
-    if ( $module =~ /Plugin$/ ) {
-        $lib = 'Plugins';
-    }
-    else {
-        $lib = 'Contrib';
-    }
-
-    # See if we have a compileable module
-    my $compileable = 0;
-    my $from;
-    foreach $from qw(Foswiki TWiki) {
-        my $path = $from . '::' . $lib . '::' . $module;
-        eval "require $path";
-        unless ($@) {
-            $compileable = 1;    # found the module
-            last;
-        }
-    }
-
-    # Now scrape the version information from the .txt
-    my $release = '';
-    if ($compileable) {
-        foreach
-          my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ) )
-        {
-
-            # SMELL: can't use Foswiki store to do this lookup; relying on
-            # directories. Not a problem right now, but in the future.....
-            my $path = "$Foswiki::cfg{DataDir}/$web/$module.txt";
-            my $fh;
-            local $/;
-            if ( -e $path && open( $fh, '<', $path ) ) {
-                my $text = <$fh>;
-                if ( defined $ text && $text =~ /$VERSION_LINE/s ) {
-                    $release = $+;
-                    $release = 'HEAD' if $release =~ /%\$VERSION%/;
-                }
-                close($fh);
-            }
-            last;
-        }
-    }
-
-    return ( $release, $from );
 }
 
 1;

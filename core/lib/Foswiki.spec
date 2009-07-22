@@ -123,6 +123,9 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 $Foswiki::cfg{ScriptSuffix} = '';
 
 #---+ User Logins -- TABS
+# In order to support tracking who changed what, and apply access controls,
+# Foswiki is normally configured to use logins. The tabs below control
+# various aspects of logins.
 #---++ Sessions
 # <p>Sessions are how Foswiki tracks a user across multiple requests.
 # A user's session id is stored in a cookie, and this is used to identify
@@ -351,10 +354,11 @@ $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
 #---++ Passwords
+# The password manager handles the passwords database, and provides
+# password lookup, and optionally password change, services to the rest of
+# Foswiki. 
 # **SELECTCLASS none,Foswiki::Users::*User**
-# Name of the password handler implementation. The password handler manages
-# the passwords database, and provides password lookup, and optionally
-# password change, services. Foswiki ships with two alternative implementations:
+# Name of the password handler implementation. Foswiki ships with two alternative implementations:
 # <ol><li>
 # Foswiki::Users::HtPasswdUser - handles 'htpasswd' format files, with
 #   passwords encoded as per the HtpasswdEncoding
@@ -419,43 +423,6 @@ $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 # **STRING H**
 # Configuration password (not prompted)
 $Foswiki::cfg{Password} = '';
-
-#---++ Anti-Spam
-# <p>Foswiki incorporates some simple anti-spam measures to protect
-# e-mail addresses and control the activities of benign robots. These
-# should be enough to handle intranet requirements. Administrators of
-# public (internet) sites are strongly recommended to install
-# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin">
-# AntiWikiSpamPlugin </a></p>
-
-# **STRING 50**
-# Text added to email addresses to prevent spambots from grabbing
-# addresses e.g. set to 'NOSPAM' to get fred@user.co.ru
-# rendered as fred@user.co.NOSPAM.ru
-$Foswiki::cfg{AntiSpam}{EmailPadding} = '';
-
-# **BOOLEAN**
-# Normally Foswiki stores the user's sensitive information (such as their e-mail
-# address) in a database out of public view. It also obfuscates e-mail
-# addresses displayed in the browser. This is to help prevent e-mail
-# spam and identity fraud.<br />
-# If that is not a risk for you (e.g. you are behind a firewall) and you
-# are happy for e-mails to be made public to all Foswiki users,
-# then you can set this option.<br />
-# Note that if this option is set, then the <code>user</code> parameter to
-# <code>%USERINFO</code> is ignored.
-$Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
-
-# **BOOLEAN**
-# By default, Foswiki doesn't do anything to stop robots, such as those used
-# by search engines, from visiting "normal view" pages.
-# If you disable this option, Foswiki will generate a META tag to tell robots
-# not to index pages.<br />
-# Inappropriate pages (like the raw and edit views) are always protected from
-# being indexed.<br />
-# Note that for full protection from robots you should also use robots.txt
-# (there is an example in the root of your Foswiki installation).
-$Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
 #---+ Security
 # **PATH M**
@@ -614,6 +581,43 @@ $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 # variables that can be seen using the %ENV{}% Foswiki variable. Set it to
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
+
+#---++ Anti-Spam
+# Foswiki incorporates some simple anti-spam measures to protect
+# e-mail addresses and control the activities of benign robots. These
+# should be enough to handle intranet requirements. Administrators of
+# public (internet) sites are strongly recommended to install
+# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin">
+# AntiWikiSpamPlugin </a>
+
+# **STRING 50**
+# Text added to email addresses to prevent spambots from grabbing
+# addresses e.g. set to 'NOSPAM' to get fred@user.co.ru
+# rendered as fred@user.co.NOSPAM.ru
+$Foswiki::cfg{AntiSpam}{EmailPadding} = '';
+
+# **BOOLEAN**
+# Normally Foswiki stores the user's sensitive information (such as their e-mail
+# address) in a database out of public view. It also obfuscates e-mail
+# addresses displayed in the browser. This is to help prevent e-mail
+# spam and identity fraud.<br />
+# If that is not a risk for you (e.g. you are behind a firewall) and you
+# are happy for e-mails to be made public to all Foswiki users,
+# then you can set this option.<br />
+# Note that if this option is set, then the <code>user</code> parameter to
+# <code>%USERINFO</code> is ignored.
+$Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
+
+# **BOOLEAN**
+# By default, Foswiki doesn't do anything to stop robots, such as those used
+# by search engines, from visiting "normal view" pages.
+# If you disable this option, Foswiki will generate a META tag to tell robots
+# not to index pages.<br />
+# Inappropriate pages (like the raw and edit views) are always protected from
+# being indexed.<br />
+# Note that for full protection from robots you should also use robots.txt
+# (there is an example in the root of your Foswiki installation).
+$Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
 #---+ Logging &amp; Statistics
 # <p>Paths to the various log files. You can use <code>%DATE%</code> (which 
@@ -990,26 +994,6 @@ $Foswiki::cfg{RCS}{EgrepCmd} = '/bin/grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 $Foswiki::cfg{RCS}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
-# **STRING 20 EXPERT**
-# Name of the web where documentation and default preferences are held. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content, and upgrade scripts may no longer work (i.e. don't
-# change it unless you are certain that you know what you are doing!)
-$Foswiki::cfg{SystemWebName} = 'System';
-
-# **STRING 20 EXPERT**
-# Name of the web used as a trashcan (where deleted topics are moved)
-# If you change this setting, you must make sure the web exists.
-$Foswiki::cfg{TrashWebName} = 'Trash';
-
-# **STRING 20 EXPERT**
-# Name of the web where usertopics are stored. If you
-# change this setting, you must make sure the web exists and contains
-# appropriate content, and upgrade scripts may no longer work
-# (i.e. don't change it unless you are <b>certain</b> that you know what
-# you are doing!)
-$Foswiki::cfg{UsersWebName} = 'Main';
-
 #---++ Cache
 # <p>Foswiki includes built-in support for caching HTML pages. This can
 # dramatically increase performance, especially if there are a lot more page
@@ -1156,23 +1140,17 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 # <p class='configureNotExpert'>Select "Show EXPERT Options" to see the
 # available settings.</p>
 
-# **STRING 120 EXPERT**
-# Template path. A comma-separated list of generic file names, containing
-# variables standing for part of the file name. When a template $name in $web
-# with $skin is requested, this path is instantiated into a sequence of file
-# names. The first file on this list that is found considered to be the
-# requested template file. The file names can either be absolute file names
-# ending in ".tmpl" or a topic file in a Foswiki web.
-$Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
+# **STRING 20 EXPERT**
+# Name of the web where documentation and default preferences are held. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content, and upgrade scripts may no longer work (i.e. don't
+# change it unless you are certain that you know what you are doing!)
+$Foswiki::cfg{SystemWebName} = 'System';
 
-# **STRING 120 EXPERT**
-# List of protocols (URI schemes) that Foswiki will
-# automatically recognize and activate if found in absolute links.
-# Additions you might find useful in your environment could be 'imap' or 'pop'
-# (if you are using shared mailboxes accessible through your browser), or 'tel'
-# if you have a softphone setup that supports links using this URI scheme. A list of popular URI schemes can be
-# found at <a href="http://en.wikipedia.org/wiki/URI_scheme">http://en.wikipedia.org/wiki/URI_scheme</a>.
-$Foswiki::cfg{LinkProtocolPattern} = '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
+# **STRING 20 EXPERT**
+# Name of the web used as a trashcan (where deleted topics are moved)
+# If you change this setting, you must make sure the web exists.
+$Foswiki::cfg{TrashWebName} = 'Trash';
 
 # **STRING 20 EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
@@ -1206,6 +1184,34 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # (i.e. don't change it unless you are <b>certain</b> that you know what
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
+
+# **STRING 20 EXPERT**
+# Name of the web where usertopics are stored. If you
+# change this setting, you must make sure the web exists and contains
+# appropriate content, and upgrade scripts may no longer work
+# (i.e. don't change it unless you are <b>certain</b> that you know what
+# you are doing!)
+$Foswiki::cfg{UsersWebName} = 'Main';
+
+# **STRING 120 EXPERT**
+# A comma-separated list of generic file name templates, containing
+# placeholders <code>$name</code> (the template name), <code>$web</code>
+# (the web), and <code>$skin</code> (the skin(s))
+# standing in for part of the file name. This path is expanded to a sequence
+# of file names. The first file on this list that is found is taken to be the
+# requested template file. The file names can either be absolute file names
+# ending in ".tmpl" or a topic name in a Foswiki web.
+$Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
+
+# **STRING 120 EXPERT**
+# List of protocols (URI schemes) that Foswiki will
+# automatically recognize in absolute links.
+# Add any extra protocols specific to your environment (for example, you might
+# add 'imap' or 'pop' if you are using shared mailboxes accessible through
+# your browser, or 'tel' if you have a softphone setup that supports links
+# using this URI scheme). A list of popular URI schemes can be
+# found at <a href="http://en.wikipedia.org/wiki/URI_scheme">http://en.wikipedia.org/wiki/URI_scheme</a>.
+$Foswiki::cfg{LinkProtocolPattern} = '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
 # **BOOLEAN EXPERT**
 # 'Anchors' are positions within a Foswiki page that can be targeted in
