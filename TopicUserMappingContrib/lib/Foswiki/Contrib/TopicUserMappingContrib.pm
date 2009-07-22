@@ -15,9 +15,7 @@ package Foswiki::Contrib::TopicUserMappingContrib;
 
 use strict;
 
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
-
-$VERSION          = '$Rev$';
-$RELEASE          = '';
-$SHORTDESCRIPTION = '';
+our $VERSION          = '$Rev$';
+our $RELEASE          = '4.2.2';
+our $SHORTDESCRIPTION = 'User management using data stored in topics';
 

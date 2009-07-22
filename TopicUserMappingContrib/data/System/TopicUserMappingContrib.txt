@@ -1,7 +1,7 @@
 ---+!! !TopicUserMappingContrib
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = User management using data stored in topics
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 %SHORTDESCRIPTION%
 
@@ -67,7 +67,8 @@ It's a part of the default distribution of the Foswiki Core.
 
 |  Contrib Author(s): | Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Contrib Version: | 4.2.2 (16 Dec 2008) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  4.2.2 | 16 Dec 2008 - Foswiki version |
 |  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |

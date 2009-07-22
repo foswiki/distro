@@ -9,13 +9,16 @@ Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
 
 ---++ Plugin Preferences
 
-Settings specific to your plugin can be stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. Default values for these preferences can be set in plugin topics; for example:
-   * One line description, used by other tools:
-      * Set SHORTDESCRIPTION = Empty Plugin used as a template for new Plugins
-This is then referenced using ==%<nop>EMPTYPLUGIN_SHORTDESCRIPTION%==.
+You are advised to use the name of the plugin as a prefix to any
+[[%SYSTEMWEB%.PreferenceSettings][preference settings]] you define for the
+extension. This avoids the risk of namespace clashes with other extensions that
+may try to use the same name. For example:
+   * Set EMPTYPLUGIN_EXAMPLE = Example setting
 
-If you want to redefine a preference setting, for example in %USERSWEB%.SitePreferences, or in a web preferences or in your personal preferences, you must define the 'long form' e.g.
-      * <nop>Set EMPTYPLUGIN_MYPREFERENCE = my preference
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -25,6 +28,7 @@ If you want to redefine a preference setting, for example in %USERSWEB%.SitePref
 |  Author: | Foswiki:Main.PluginAuthor|
 |  Copyright: | &copy; 2008, Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Home: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Support: | http://foswiki.org/Support/%TOPIC% |

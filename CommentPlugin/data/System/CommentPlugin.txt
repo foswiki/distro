@@ -2,18 +2,6 @@
 
 ---+!! Comment Plugin
 
-<!--
-
-   PLEASE DO NOT EDIT THIS TOPIC
-
-   It is automatically generated from the subversion repository, and any changes
-   you make will simply be overwritten the next time a release is generated.
-
-   Instead, you could check your fix in, raise a bug in the Bugs web, or mail thge author.
--->
-
-RELEASE %$RELEASE%
-
 *Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.*
 
 %TOC{title="On this page:"}%
@@ -217,7 +205,7 @@ All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in 
 
 ---++ Settings
 <!-- Not used by the plugin
-   * Set SHORTDESCRIPTION = Quickly post comments to a page without an edit/preview/save cycle.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |

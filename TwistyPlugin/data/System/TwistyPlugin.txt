@@ -576,7 +576,7 @@ You can override some default settings in the plugin by setting the following [[
 | =TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
 
 <!--
-   * Set SHORTDESCRIPTION = Twisty section !JavaScript library to open/close content dynamically
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
    
 ---++ Plugin Installation Instructions
@@ -587,7 +587,8 @@ You can override some default settings in the plugin by setting the following [[
 |  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
 |  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
-|  Plugin&nbsp;Version: | 29 Jan 2009 (version 1.5.2) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |

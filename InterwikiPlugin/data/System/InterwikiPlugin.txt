@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="PeterThoeny" date="1186881349" format="1.1" version="$Rev$"}%
 ---+!! Interwiki Plugin
 <!--
-   * Set SHORTDESCRIPTION = Link ==ExternalSite:Page== text to external sites based on aliases defined in a rules topic
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on aliases defined in the %SYSTEMWEB%.InterWikis topic. This plugin is inspired by <nop>UseMod Wiki's inter-wiki links, http://www.usemod.com/cgi-bin/wiki.pl?InterWiki.
@@ -44,10 +44,11 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 
 ---++ Plugin Info
 
-|  Plugin Author: | Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny |
+|  Author: | Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny |
 |  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), %SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | %$VERSION% |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  15 Apr 2009: | Foswiki:Main.CrawfordCurrie - removed plugin preferences from this topic |
 |  16 Dec 2008: | Foswiki:Main.KennethLavrsen - Foswiki version - no features changed |
@@ -71,13 +72,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  12 Jun 2001: | Added optional tool tips (IE only); added the link rules topic name variable; added flexible link patterns; optional ==$page== in URL |
 |  10 Jun 2001: | Changed rules topic to table-based syntax |
 |  20 Feb 2001: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny - Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.0 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
----
-*Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %USERSWEB%.SitePreferences, %SYSTEMWEB%.InterWikis
 
--- TWiki:Main.PeterThoeny - 25 Nov 2007

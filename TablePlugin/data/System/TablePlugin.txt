@@ -43,7 +43,7 @@ Table cells with a single caret indicate follow-up rows of multi-row spans. For 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 
 <!--
-      * Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns
+      * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 | *Preference* | *Meaning* | *Default* |
 | TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | all |
@@ -113,7 +113,8 @@ Information for programmers.
 
 |  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | %$RELEASE% (03 Jun 2009) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  03 Jun 2009 | 1.039: Michael Daum: fixed parsing date-time columns |
 |  19 Apr 2009 | 1.038: Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Fixed an issue where TablePlugin produced invalid css if no 'px' or '%' is passed in a size parameter. <br />Small refactoring in style attribute handling. |

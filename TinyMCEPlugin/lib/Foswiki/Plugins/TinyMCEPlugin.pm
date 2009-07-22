@@ -19,7 +19,7 @@ use Assert;
 
 our $VERSION           = '$Rev$';
 our $RELEASE           = '03 Jul 2009';
-our $SHORTDESCRIPTION  = 'Integration of the !TinyMCE WYSIWYG Editor';
+our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
 # Defaults for TINYMCEPLUGIN_INIT and INIT_browser. Defined as our vars to

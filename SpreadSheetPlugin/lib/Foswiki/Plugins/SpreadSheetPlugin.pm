@@ -31,7 +31,7 @@ use vars qw(
   $web $topic $user $installWeb $debug $skipInclude $doInit
 );
 
-our $VERSION           = '$Rev: 13748 $';
+our $VERSION           = '$Rev$';
 our $RELEASE           = '11 May 2009';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =

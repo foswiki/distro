@@ -31,7 +31,7 @@ use Foswiki::Contrib::Build;
 
   sub new {
     my $class = shift;
-    return bless( $class->SUPER::new( "MailerContrib", "Mailer" ), $class );
+    return bless( $class->SUPER::new( "MailerContrib" ), $class );
   }
 
   # Example: Override the build target

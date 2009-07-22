@@ -1,7 +1,7 @@
 ---+!! !TinyMCEPlugin
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = Integration of the !TinyMCE WYSIWYG Editor
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 %SHORTDESCRIPTION%
 
@@ -130,7 +130,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2009 Crawford Currie http://c-dot.co.uk |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |             | This package also includes the complete sources for version 3.2.2 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
-|  Plugin Version: | %$VERSION% |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Jul 2009 | Foswikitask:Item8178: Check that the help elements are present before hiding or showing them, as they are not present in all skins. |
 |  06 Jun 2009 | Foswikitask:Item5628: Make browser reload the javascript when this plugin is upgraded (Michael Tempest, Colas Nahaboo) Foswikitask:Item1529: Disable "Wiki text" button until editor has loaded topic text (Michael Tempest) |

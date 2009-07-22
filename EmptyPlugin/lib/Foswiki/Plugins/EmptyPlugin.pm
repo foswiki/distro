@@ -52,20 +52,26 @@ package Foswiki::Plugins::EmptyPlugin;
 # Always use strict to enforce variable scoping
 use strict;
 
-require Foswiki::Func;       # The plugins API
-require Foswiki::Plugins;    # For the API version
+use Foswiki::Func ();       # The plugins API
+use Foswiki::Plugins ();    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
-# *must* exist in this package.
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
+# *must* exist in this package. This should always be in the format
+# $Rev$ so that Foswiki can determine the checked-in status of the
+# extension.
 our $VERSION = '$Rev$';
 
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = '$Date$';
+# $RELEASE is used in the "Find More Extensions" automation in configure.
+# It is a manually maintained string used to identify functionality steps.
+# You can use any of the following formats:
+# tuple   - a sequence of integers separated by . e.g. 1.2.3. The numbers
+#           usually refer to major.minor.patch release or similar. You can
+#           use as many numbers as you like e.g. '1' or '1.2.3.4.5'.
+# isodate - a date in ISO8601 format e.g. 2009-08-07
+# date    - a date in 1 Jun 2009 format. Three letter English month names only.
+# Note: it's important that this string is exactly the same in the extension
+# topic - if you use %$RELEASE% with BuildContrib this is done automatically.
+our $RELEASE = '1.1.1';
 
 # Short description of this plugin
 # One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:

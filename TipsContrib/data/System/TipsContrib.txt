@@ -13,12 +13,9 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
    * See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
    * See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
 
----++ Settings
-
-This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for administration details.
-
-   * One line description:
-   * Set SHORTDESCRIPTION = Displays rotating list of "Tip-of-the-day"
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
 
 ---++ CSS used by !TipsContrib
 
@@ -41,7 +38,8 @@ This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for admi
 
 |  Copyright  | Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | 16 Dec 2008 |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  16 Dec 2008: | Foswiki version | 
 |  04 Jan 2007: | Performance improvement |

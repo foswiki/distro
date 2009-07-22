@@ -27,6 +27,8 @@ use Foswiki::Contrib::MailerContrib::UpData    ();
 
 our $VERSION = '$Rev$';
 our $RELEASE = '23 Apr 2009';
+our $SHORTDESCRIPTION = 'Supports e-mail notification of changes';
+
 our $verbose = 0;
 
 # PROTECTED STATIC ensure the contrib is initernally initialised

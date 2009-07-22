@@ -3,16 +3,6 @@
 
 %SHORTDESCRIPTION%
 
-<!--
-
-   PLEASE DO NOT EDIT THIS TOPIC
-
-   It is automatically generated from the subversion repository, and any changes
-   you make will simply be overwritten the next time a release is generated.
-
-   Instead, you could check your fix in, raise a bug in the Bugs web, or mail thge author.
--->
-
 %TOC%
 
 ---++ Summary of Contents
@@ -38,7 +28,7 @@ If the contrib is installed, you will see such a field here:
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 
 <!--
-   * Set SHORTDESCRIPTION = [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 ---+++ Installation Instructions

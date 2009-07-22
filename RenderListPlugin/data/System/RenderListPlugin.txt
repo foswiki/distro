@@ -2,7 +2,7 @@
 ---+ Render List Plugin
 
 <!--
-   * Set SHORTDESCRIPTION = Render bullet lists in a variety of formats
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 %SHORTDESCRIPTION%
 
@@ -341,7 +341,8 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 
 |  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 16 Dec 2008 (2.1) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  15 Apr 2009: | 2.2: Crawford Currie. Moved default themes out of plugin topic for efficiency. |
 |  16 Dec 2008: | 2.1: Kenneth Lavrsen. Foswiki version |

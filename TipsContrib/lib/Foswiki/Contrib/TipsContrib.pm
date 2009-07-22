@@ -1,6 +1,8 @@
 package Foswiki::Contrib::TipsContrib;
 use strict;
 
-use vars qw( $VERSION );
-$VERSION = '$Rev$';
+our $VERSION = '$Rev$';
+our $RELEASE = '16 Dec 2008';
+our $SHORTDESCRIPTION = 'Displays rotating list of "Tip-of-the-day"';
+
 1;

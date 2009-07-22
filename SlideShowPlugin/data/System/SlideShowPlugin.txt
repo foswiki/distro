@@ -90,7 +90,7 @@ This text is not part of the slideshow
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 <!--
-      * Set SHORTDESCRIPTION = Create web based presentations based on topics with headings.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 | *Preference* | *Meaning* | *Default* |
@@ -124,7 +124,8 @@ The part between the rulers defines the default format of a slide:
 |  Author: | Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens |
 |  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 17 Jun 2009 |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  17 Jun 2009: | 2.0 Arthur Clemens: optimize to default template and CSS to make the plugin work with older templates. |
 |  31 Mar 2009: | [[Foswiki:Main.GilmarSantosJr][GilmarSantosJr]]: [[Foswiki:Tasks/Item1401]] - Make it work in persistent environments |

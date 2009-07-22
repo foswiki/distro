@@ -38,7 +38,7 @@ Here is the list of smilies supported by this plugin. To add others, attach new 
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 <!--
-   * Set SHORTDESCRIPTION = Render smilies as icons, like :-) for =&nbsp;:-)= or :eek: for =&nbsp;:eek:=
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 | *Preference* | *Meaning* | *Default* |
 | =SMILIESPLUGIN_TOPIC= | The name of the topic containing your Smilies. Use format =web.topic=. | %SYSTEMWEB%.SmiliesPlugin |
@@ -53,7 +53,8 @@ You can override the default settings for the plugin by defining the following [
 
 |  Copyright: | Copyright (C) 2001-2007 Andrea Sterbini, Peter Thoeny, peter@thoeny.org and TWiki Contributors. Copyright (C) 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 04 Jan 2009 |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  13 Jan 2009: | Removed default preferences from this topic |
 |  04 Jan 2009: | Foswiki version - Fixed the use of SMILIESPLUGIN_TOPIC so you can create your own smily collection that does not get overwritten when upgrading Foswiki |

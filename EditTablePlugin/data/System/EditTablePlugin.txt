@@ -150,7 +150,7 @@ Table in edit mode:
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 <!--
-      * Set SHORTDESCRIPTION = Edit tables using edit fields, date pickers and drop down boxes
+      * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 Note: Texts inside =%<nop>MAKETEXT{}%= are translated into other languages.
 | *Preference* | *Meaning* | *Default* |
@@ -192,7 +192,8 @@ Test if the Plugin is correctly installed:
 
 |  Copyright: | &copy; 2008-2009, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.3 (14 Jun 2009) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  14 Jun 2009: | 4.3: Arthur Clemens: Major code refactoring to let !EditTablePlugin work together with !SpreadSheetPlugin. |
 |  18 Apr 2009: | 4.22: Ignore all saving unless it happened by saving a form using POST method. <br />Fixed including edit parameters from subwebs. <br />Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. |

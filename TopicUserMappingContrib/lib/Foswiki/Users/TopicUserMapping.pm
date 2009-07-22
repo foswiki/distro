@@ -23,7 +23,8 @@ Subclasses should be named 'XxxxUserMapping' so that configure can find them.
 =cut
 
 package Foswiki::Users::TopicUserMapping;
-use base 'Foswiki::UserMapping';
+use Foswiki::UserMapping ();
+@ISA = ( 'Foswiki::UserMapping' );
 
 use strict;
 use Assert;
