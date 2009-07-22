@@ -12,7 +12,7 @@
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details, published at 
+# GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 #
 package Foswiki::Plugins::HistoryPlugin;
@@ -47,7 +47,7 @@ sub handleHistory {
     my $web = $params->{web} || $theWeb;
     my $topic = $params->{topic} || $theTopic;
     my $format = $params->{format} ||
-                 $params->{_DEFAULT} || 
+                 $params->{_DEFAULT} ||
                  'r$rev - $date - $wikiusername%BR%';
     my $header = $params->{header} ;
     $header = "\$next{'...'}%BR%" unless defined($header);
@@ -55,7 +55,7 @@ sub handleHistory {
     $footer = "\$previous{'...'}" unless defined($footer);
 
     unless ( Foswiki::Func::topicExists( $web, $topic) ) {
-	return "Topic $web.$topic does not exist";
+    return "Topic $web.$topic does not exist";
     }
 
     # Get revisions
@@ -76,12 +76,10 @@ sub handleHistory {
     $rev2 = $maxrev if $rev2 > $maxrev;
     $rev2 = 1 if $rev2 < 1;
 
-    $Foswiki::Plugins::SESSION->{prefs}->pushPreferenceValues( 'SESSION', { 
-      HISTORY_MAXREV => $maxrev,
-      HISTORY_REV1 => $rev1,
-      HISTORY_REV2 => $rev2,
-      HISTORY_NREV => $nrev,
-    });      	
+    Foswiki::Func::setPreferencesValue( "HISTORY_MAXREV", $maxrev );
+    Foswiki::Func::setPreferencesValue( "HISTORY_REV1", $rev1 );
+    Foswiki::Func::setPreferencesValue( "HISTORY_REV2", $rev2 );
+    Foswiki::Func::setPreferencesValue( "HISTORY_NREV", $nrev );
 
     # Start the output
     my $out = handleHeadFoot($header, $rev1, $rev2, $nrev, $maxrev);
@@ -98,7 +96,7 @@ sub handleHistory {
 
     foreach my $rev (@revs) {
 
-        my ($date, $user, $revout, $comment) = 
+        my ($date, $user, $revout, $comment) =
             Foswiki::Func::getRevisionInfo($web, $topic, $rev);
 
 
