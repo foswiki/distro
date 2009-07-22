@@ -147,7 +147,7 @@ sub load {
     else {
         push(
             @{ $this->{errors} },
-"$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} is not defined - re-run configure\n---"
+"$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} defined - re-run configure\n---"
         );
         $this->{disabled} = 1;
         return;
