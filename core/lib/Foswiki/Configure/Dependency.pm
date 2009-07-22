@@ -96,7 +96,7 @@ LALA
     }
 
     # Examine the current install of the module
-    if ( $this->studyInstallation() ) {
+    if ( ! $this->studyInstallation() ) {
         return ( 0, <<LALA );
 $this->{module} version $this->{version} required
  -- module is not installed
