@@ -4,7 +4,7 @@
 %TMPL:DEF{"bottombar"}%%TMPL:END%
 
 
-%TMPL:DEF{"script:skintemplate"}%%IF{"not context %WYSIWYG_EDITOR%PluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
+%TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
 
 %TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
@@ -64,7 +64,7 @@ foswiki.Event.addLoadEvent(initForm);
 %TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div><!--/patternEditTopic-->%TMPL:END%
 
 
-%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context %WYSIWYG_EDITOR%PluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
+%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
 
 
 %TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span><!--/patternSig-->%TMPL:END%
