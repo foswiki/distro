@@ -256,7 +256,12 @@ sub pushTopicContext {
     my ( $this, $web, $topic ) = @_;
 
     my $stack = $this->{main};
-    push @{ $this->{contexts} }, $stack->size() - 1;
+    my %internals;
+    while (my ($k, $v) = each %{$this->{internals}}) {
+        $internals{$k} = $v;
+    }
+    push( @{ $this->{contexts} },
+          { internals => \%internals, level => $stack->size() - 1 });
     my @webPath = split( /[\/\.]+/, $web );
     my $subWeb = '';
     my $back;
@@ -269,6 +274,11 @@ sub pushTopicContext {
     $back = $this->_getBackend( $web, $topic );
     $stack->newLevel($back);
     $stack->newLevel( Foswiki::Prefs::HASH->new() );
+
+    while ( my ( $k, $v ) = each %{$this->{internals}} ) {
+        $stack->insert( 'Set', $k, $v );
+    }
+
 }
 
 =begin TML
@@ -283,7 +293,11 @@ Returns the context to the state it was in before the
 sub popTopicContext {
     my $this  = shift;
     my $stack = $this->{main};
-    my $level = pop @{ $this->{contexts} };
+    my $context = pop( @{ $this->{contexts} });
+    my $level = $context->{level};
+    while (my ($k, $v) = each %{$context->{internals}}) {
+        $this->{internals}{$k} = $v;
+    }
     $stack->restore($level);
     splice @{ $this->{prefix} }, $level + 1 if @{ $this->{prefix} } > $level;
     return (

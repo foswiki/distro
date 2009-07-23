@@ -1050,4 +1050,74 @@ sub test_searchInWebContent {
     my $this = shift;
 }
 
+sub test_pushPopContext {
+    my $this = shift;
+    my $topic1 = "DanTien";
+    my $topic2 = "SandWich";
+
+    Foswiki::Func::saveTopicText(
+        $this->{test_web}, $topic1, <<SETS );
+   * Set ICE = COLD
+SETS
+
+    # Force re-read of prefs
+    $Foswiki::Plugins::SESSION = $this->{session} =
+      new Foswiki( undef,
+        new Unit::Request( { topic => "$this->{test_web}.$topic1" } ) );
+
+    Foswiki::Func::saveTopicText(
+        $this->{test_web}, $topic2, <<SETS );
+   * Set ICE = SLIPPERY
+SETS
+
+    $this->assert_equals($this->{test_web},
+                         $this->{session}->{webName});
+    $this->assert_equals($topic1,
+                         $this->{session}->{topicName});
+    $this->assert_equals($this->{test_web},
+                         Foswiki::Func::getPreferencesValue('BASEWEB'));
+    $this->assert_equals($topic1,
+                         Foswiki::Func::getPreferencesValue('BASETOPIC'));
+    $this->assert_equals($this->{test_web},
+                         Foswiki::Func::getPreferencesValue('INCLUDINGWEB'));
+    $this->assert_equals($topic1,
+                         Foswiki::Func::getPreferencesValue('INCLUDINGTOPIC'));
+    $this->assert_equals("COLD",
+                         Foswiki::Func::getPreferencesValue('ICE'));
+
+    Foswiki::Func::pushTopicContext($this->{test_web}, $topic2);
+
+    $this->assert_equals($this->{test_web},
+                         $this->{session}->{webName});
+    $this->assert_equals($topic2,
+                         $this->{session}->{topicName});
+    $this->assert_equals(
+        $this->{test_web}, Foswiki::Func::getPreferencesValue('BASEWEB'));
+    $this->assert_equals(
+        $topic2, Foswiki::Func::getPreferencesValue('BASETOPIC'));
+    $this->assert_equals(
+        $this->{test_web}, Foswiki::Func::getPreferencesValue('INCLUDINGWEB'));
+    $this->assert_equals(
+        $topic2, Foswiki::Func::getPreferencesValue('INCLUDINGTOPIC'));
+    $this->assert_equals("SLIPPERY",
+                         Foswiki::Func::getPreferencesValue('ICE'));
+
+    Foswiki::Func::popTopicContext();
+
+    $this->assert_equals($this->{test_web},
+                         $this->{session}->{webName});
+    $this->assert_equals($topic1,
+                         $this->{session}->{topicName});
+    $this->assert_equals($this->{test_web},
+                         Foswiki::Func::getPreferencesValue('BASEWEB'));
+    $this->assert_equals($topic1,
+                         Foswiki::Func::getPreferencesValue('BASETOPIC'));
+    $this->assert_equals($this->{test_web},
+                         Foswiki::Func::getPreferencesValue('INCLUDINGWEB'));
+    $this->assert_equals($topic1,
+                         Foswiki::Func::getPreferencesValue('INCLUDINGTOPIC'));
+    $this->assert_equals("COLD",
+                         Foswiki::Func::getPreferencesValue('ICE'));
+}
+
 1;

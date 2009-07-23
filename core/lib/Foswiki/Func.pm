@@ -378,6 +378,11 @@ sub pushTopicContext {
     $session->{prefs}->pushTopicContext( $web, $topic );
     $session->{webName}   = $web;
     $session->{topicName} = $topic;
+    $session->{prefs}->setInternalPreferences(
+        BASEWEB => $web,
+        BASETOPIC => $topic,
+        INCLUDINGWEB => $web,
+        INCLUDINGTOPIC => $topic);
 }
 
 =begin TML
