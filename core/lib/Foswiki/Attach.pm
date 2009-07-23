@@ -312,8 +312,10 @@ sub getAttachmentLink {
 
     # I18N: Site specified %ATTACHEDIMAGEFORMAT% or %ATTACHEDFILELINKFORMAT%,
     # ensure that filename is URL encoded - first $name must be URL.
-    $fileLink =~ s/\$name/$fileURL/;
-    $fileLink =~ s/\$name/$attName/;
+    $fileLink =~ s/\$name/$fileURL/; # deprecated
+    $fileLink =~ s/\$name/$attName/; # deprecated, see Item1814
+    $fileLink =~ s/\$filename/$attName/g;
+    $fileLink =~ s/\$fileurl/$fileURL/g;
 
     # Expand \t and \n early (only in the format, not
     # in the comment) - TWikibug:Item4581

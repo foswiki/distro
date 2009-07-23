@@ -2,7 +2,7 @@
 %STARTINCLUDE%
 ---+ File Attachments
 
-_Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved._ 
+_Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved._
 
 %TOC%
 
@@ -36,7 +36,15 @@ Through your web browser, you can easily upload graphics (or sound files, or any
       * When enabled, all files in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an =[Attach]= link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
       * To enable this feature, set the {AutoAttachPubFiles} configuration option.
       * %H% The automatic attachment feature can only be used by an administrator who has access to the server's file system.
-   
+   * Linking to the attached file in the topic:
+      * Checking the "Create a link to the attached file" appends a link at the end of the topic. The format can be modified with the =%<nop>ATTACHEDFILELINKFORMAT%= [[%SYSTEMWEB%.PreferenceSettings][preference setting]]. Images (files ending in gif, jpg, jpeg or png) are handled by =%<nop>ATTACHEDIMAGEFORMAT%=.
+      * The two named preference settings may use the following variables:
+         * =$filename=: the name of the file
+         * =$fileurl=: URL encoded version of the filename
+         * =$comment=: the file comment from the upload dialog
+         * =$size=: the filesize (=%<nop>ATTACHEDIMAGEFORMAT%= only)
+         * =$name=: (deprecated, should no longer be used)
+
 ---++ Downloading files
 
    * Click on the file in the [[#FileAttachmentTable][File Attachment table]].
@@ -46,7 +54,7 @@ Through your web browser, you can easily upload graphics (or sound files, or any
 
 ---++ Moving attachment files
 
-An attachment can be moved between topics. 
+An attachment can be moved between topics.
    * Click ==[Manage]== on the Attachment to be moved.
    * On the control screen, select the new web and/or topic.
    * Click ==[Move]==. The attachment and its version history are moved. The original location is stored as [[CompleteDocumentation#Meta_Data_Definition][topic meta data]].
@@ -83,7 +91,7 @@ Following you will find some examples of screens and tables related to this topi
 #FileAttachmentTable
 ---+++ File attachment table
 
-Files attached to a topic are displayed in a directory table, showing the different file names and attributes. An =h= means the attachment is hidden and not listed when viewing a topic in normal mode. 
+Files attached to a topic are displayed in a directory table, showing the different file names and attributes. An =h= means the attachment is hidden and not listed when viewing a topic in normal mode.
 
 The file attachment table is normally displayed at the bottom of the page, or optionally, hidden and accessed when you click =[Attach]=.
 
@@ -96,11 +104,11 @@ The file attachment table is normally displayed at the bottom of the page, or op
 #FileAttachmentControls
 ---+++ File attachment controls
 
-Clicking on a ==[Manage]== link takes you to a new page that looks a bit like this (depending on what [[Skins][skin]] is selected). 
+Clicking on a ==[Manage]== link takes you to a new page that looks a bit like this (depending on what [[Skins][skin]] is selected).
 
 Here, you have different options:
    * *To update an existing file*, choose the updated file on your local drive and click ==[Update file]==. The filename of the original attachment will preserved; the filename of the local file you chose will *not* be used.
-   * *To change the comment* on an attachment, enter a new comment and then click ==[Change comment and properties only]==.  Note that the comment listed against the specific version will not change, however the comment displayed when viewing the topic does change.  
+   * *To change the comment* on an attachment, enter a new comment and then click ==[Change comment and properties only]==.  Note that the comment listed against the specific version will not change, however the comment displayed when viewing the topic does change.
    * *To hide/unhide* an attachment, enable the ==Do not show attachment in table== checkbox, then click ==[Change comment and properties only]==.
 
 <div class="foswikiFormSteps">

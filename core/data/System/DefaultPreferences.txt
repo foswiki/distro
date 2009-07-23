@@ -104,16 +104,16 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ATTACHLINKBOX =
 
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
-      * %H% *NOTE:* Keyword ==$name== gets expanded to filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).
+      * %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).
 <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
 <verbatim>
-      * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$name][$name]]: $comment
+      * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
-      * %H% *NOTE:* Keyword ==$name== gets expanded to filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).
+      * %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).
 <verbatim>
-      * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$name" alt="$name" $size />
+      * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
 </verbatim>
 
 ---++ Platform Settings
@@ -233,7 +233,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Rendering Shortcuts Settings
 
    * Line break: Note that the setting has an intentional trailing space
-      * Set BR = <br /> 
+      * Set BR = <br />
 
    * Bullet sign:
       * Set BULLET = &#8226;
