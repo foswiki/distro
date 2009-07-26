@@ -129,7 +129,7 @@ Edit this topic, and change the color as you like.
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
    * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
-   * Local NOTIFICATION_BACKGROUND = #fff7e1
+   * Local NOTIFICATION_BACKGROUND = #ffe67b
 ---++++ INFO_BACKGROUND
    * Local INFO_BACKGROUND = #edf5fa
 
