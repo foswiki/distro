@@ -433,7 +433,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	/* always add class foswikiButton as well */
 	padding:.1em .2em;
 }
-.patternAtachmentHeader {
+.patternAttachmentHeader {
 	/* behaviour class */
 }
 .foswikiForm h3 a:link,

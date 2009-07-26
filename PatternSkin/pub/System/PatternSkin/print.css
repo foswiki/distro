@@ -56,7 +56,7 @@ body.patternPrintPage,
 }
 .patternPrintPage #patternBottomBarContents,
 .patternPrintPage #patternTopBarContents {
-	padding:0 0 0 2em; /* bigger side margin for binding */
+	padding:0 2em 0 2em; /* bigger side margin for binding */
 	margin:0;
 }
 .patternPrintPage #patternBottomBar {
