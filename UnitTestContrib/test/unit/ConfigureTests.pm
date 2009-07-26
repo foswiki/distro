@@ -7,6 +7,7 @@ use base qw(FoswikiTestCase);
 use Error qw( :try );
 use File::Temp;
 
+use Foswiki::Configure::Util ();
 use Foswiki::Configure::FoswikiCfg ();
 use Foswiki::Configure::Root ();
 use Foswiki::Configure::Valuer ();
