@@ -1538,7 +1538,7 @@ sub new {
     $this->{_HTMLHEADERS} = {};
     $this->{context}      = $initialContext;
 
-    $this->{cache} = new Foswiki::PageCache( $this );
+    $this->{cache} = new Foswiki::PageCache( $this ) if ($Foswiki::cfg{Cache}{Enabled});
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);
