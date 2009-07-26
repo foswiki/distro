@@ -4,6 +4,7 @@ package Foswiki::Configure::Checkers::BasicSanity;
 use strict;
 
 use Foswiki::Configure::Checker ();
+use Foswiki::Configure::Util ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub new {
@@ -26,9 +27,9 @@ sub ui {
     my $result = '';
     my $badLSC = 0;
 
-    $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('LocalSite.cfg');
+    $this->{LocalSiteDotCfg} = Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
     unless ( $this->{LocalSiteDotCfg} ) {
-        $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('Foswiki.spec')
+        $this->{LocalSiteDotCfg} = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec')
           || '';
         $this->{LocalSiteDotCfg} =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
@@ -200,7 +201,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

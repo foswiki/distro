@@ -98,7 +98,8 @@ MESS
     unless ( $query->param('confirm') ) {
         foreach my $file (@names) {
             my $ef = $this->_findTarget($file);
-            if ( -e $ef && !-d $ef && $ef !~ /^${extension}_installer(\.pl)?$/) {
+            if ( -e $ef && !-d $ef && $ef !~ /^${extension}_installer(\.pl)?$/ )
+            {
                 my $mess = "Note: Existing $file overwritten.";
                 if ( File::Copy::move( $ef, "$ef.bak" ) ) {
                     $mess .= " Backup saved in $ef.bak";
@@ -153,8 +154,8 @@ MESS
         unshift( @ARGV, '-a' );    # don't prompt
         unshift( @ARGV, '-d' );    # yes, you can download
         unshift( @ARGV, '-u' );    # already unpacked
-        # Note: -r not passed to the script, so it will _not_ try to
-        # re-use existing archives found on disc to resolve dependencies.
+             # Note: -r not passed to the script, so it will _not_ try to
+             # re-use existing archives found on disc to resolve dependencies.
         print "<pre>\n";
         eval {
             no warnings 'redefine';
@@ -383,7 +384,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

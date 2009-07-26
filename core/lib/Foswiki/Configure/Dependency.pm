@@ -52,11 +52,11 @@ my %STRINGOPMAP = (
 # trigger     => ONLYIF condition
 # description => text
 sub new {
-    my ($class, %opts) = @_;
-    my $this = bless(\%opts, $class);
+    my ( $class, %opts ) = @_;
+    my $this = bless( \%opts, $class );
 
     # If {module} is defined but not {name}, we can usually work it out
-    if ($this->{module} && !$this->{name}) {
+    if ( $this->{module} && !$this->{name} ) {
         $this->{name} = $this->{module};
         $this->{name} =~ s/^.*:://;
     }
@@ -67,11 +67,11 @@ sub new {
 
     # If no version condition is given, assume we will just test that the
     # module is installed (any version)
-    $this->{version}     ||= '>=0';
+    $this->{version} ||= '>=0';
 
     # Other defaults
     $this->{trigger}     ||= 1;
-    $this->{type}        ||= 'perl'; # assume Foswiki module
+    $this->{type}        ||= 'perl';                 # assume Foswiki module
     $this->{description} ||= 'Nondescript module';
 
     return $this;
@@ -96,19 +96,21 @@ LALA
     }
 
     # Examine the current install of the module
-    if ( ! $this->studyInstallation() ) {
+    if ( !$this->studyInstallation() ) {
         return ( 0, <<LALA );
 $this->{module} version $this->{version} required
  -- module is not installed
 LALA
-    } elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
+    }
+    elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
+
         # the version field is a condition
         my $op = $1 || '>=';
         my $requiredVersion = $2;
         unless ( $this->compare_versions( $op, $requiredVersion ) ) {
 
             # module doesn't meet this condition
-            return (0, <<LALA);
+            return ( 0, <<LALA);
 $this->{module} version $op $requiredVersion required
  -- installed version is $this->{installedRelease}
 LALA
@@ -124,8 +126,8 @@ LALA
 sub studyInstallation {
     my $this = shift;
 
-    if (!$this->{module}) {
-        my $lib = ($this->{name} =~ /Plugin$/) ? 'Plugins' : 'Contrib';
+    if ( !$this->{module} ) {
+        my $lib = ( $this->{name} =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
         foreach my $namespace qw(Foswiki TWiki) {
             my $path = $namespace . '::' . $lib . '::' . $this->{name};
             eval "require $path";
@@ -142,8 +144,8 @@ sub studyInstallation {
     }
     no strict 'refs';
     $this->{installedVersion} = ${"$this->{module}::VERSION"} || 0;
-    $this->{installedRelease} = ${"$this->{module}::RELEASE"} ||
-      $this->{installedVersion};
+    $this->{installedRelease} = ${"$this->{module}::RELEASE"}
+      || $this->{installedVersion};
     use strict 'refs';
 
     # Check if it's pseudo installed. Only works on platforms that
@@ -152,8 +154,9 @@ sub studyInstallation {
     $path =~ s#::#/#g;
     $path .= '.pm';
     foreach my $dir (@INC) {
-        if (-e "$dir/$path") {
-            if (-l "$dir/$path") {
+        if ( -e "$dir/$path" ) {
+            if ( -l "$dir/$path" ) {
+
                 # Assume pseudo-installed
                 $this->{installedVersion} = 'HEAD';
             }
@@ -167,9 +170,10 @@ sub studyInstallation {
 # Compare versions (provided as $RELEASE, $VERSION) with a release specifier
 sub compare_versions {
     my $this = shift;
-    if ($this->{type} eq 'perl') {
+    if ( $this->{type} eq 'perl' ) {
         return $this->_compare_extension_versions(@_);
-    } else {
+    }
+    else {
         return $this->_compare_cpan_versions(@_);
     }
 }
@@ -273,20 +277,24 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     }
 
     my $comparison;
-    if ($a =~ /^(\d+)(\.\d*)?$/ && $b =~ /^(\d+)(\.\d*)?$/) {
+    if ( $a =~ /^(\d+)(\.\d*)?$/ && $b =~ /^(\d+)(\.\d*)?$/ ) {
         $op = '==' if $op eq '=';
-        $a += 0; $b += 0;
+        $a += 0;
+        $b += 0;
         $comparison = "$a $op $b";
-    } else {
+    }
+    else {
         $comparison = "'$a' $string_op '$b'";
     }
     my $result = eval $comparison;
+
     #print STDERR "[$comparison]->$result;\n";
     return $result;
 }
 
 # Compare foswiki extension versions using more rigorous rules
 sub _compare_extension_versions {
+
     # $aRELEASE, $aVERSION - module release and svn version
     # $b - what we are comparing to (from DEPENDENCIES)
     my ( $this, $op, $b ) = @_;
@@ -296,7 +304,7 @@ sub _compare_extension_versions {
 
     return 0 if not defined $op or not exists $STRINGOPMAP{$op};
     my $string_op = $STRINGOPMAP{$op};
-    my $e = $b;
+    my $e         = $b;
 
     # remove leading and trailing whitespace
     # because ' X' should compare equal to 'X'
@@ -319,25 +327,34 @@ sub _compare_extension_versions {
     if ( defined $aRELEASE ) {
         $aRELEASE =~ s/^\s+//;
         $aRELEASE =~ s/\s+$//;
-        if( $aRELEASE =~ /^(\d{4})-(\d{2})-(\d{2}).*$/) {
+        if ( $aRELEASE =~ /^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
+
             # ISO date
-            @atuple = ($1, $2, $3);
+            @atuple = ( $1, $2, $3 );
             $expect = 'date';
-        } elsif( $aRELEASE =~ /^(\d+)\s+($MNAME)\s+(\d+).*$/io) {
+        }
+        elsif ( $aRELEASE =~ /^(\d+)\s+($MNAME)\s+(\d+).*$/io ) {
+
             # dd Mmm YYY date
-            @atuple = ($3, $M2N{lc $2}, $1);
+            @atuple = ( $3, $M2N{ lc $2 }, $1 );
             $expect = 'date';
-        } elsif ($aRELEASE =~ s/^V?(\d+([-_.]\d+)*).*?$/$1/i) {
+        }
+        elsif ( $aRELEASE =~ s/^V?(\d+([-_.]\d+)*).*?$/$1/i ) {
+
             # tuple e.g. 1.23.4
-            @atuple = split(/[-_.]/, $aRELEASE);
+            @atuple = split( /[-_.]/, $aRELEASE );
             $expect = 'tuple';
-        } else {
-            print STDERR "Warning: $this->{name} has badly formatted RELEASE: $aRELEASE\n";
+        }
+        else {
+            print STDERR
+              "Warning: $this->{name} has badly formatted RELEASE: $aRELEASE\n";
+
             # otherwise format not recognised; fall through to using $aVERSION
         }
     }
 
-    if ($expect eq 'svn') {
+    if ( $expect eq 'svn' ) {
+
         # Didn't get a good RELEASE; fall back to subversion
         return 0 unless defined $aVERSION;
         $aVERSION =~ s/^\s+//;
@@ -348,39 +365,52 @@ sub _compare_extension_versions {
 
         # $Rev$
         $b =~ s/^\$Rev:?\s*\$.*$/$maxInt/;
+
         # $Rev: 1234$
         $b =~ s/^\$Rev: (\d+) \$.*$/$1/;
+
         # 1234 (7 Aug 2009)
         # 1234 (2009-08-07)
         $b =~ s/^(\d+)\s*\(.*\)$/$1/;
 
-        unless ($b =~ /^\d+$/) {
-            print STDERR "Warning: $this->{name} has badly formatted svn id in DEPENDENCIES: $e\n";
+        unless ( $b =~ /^\d+$/ ) {
+            print STDERR
+"Warning: $this->{name} has badly formatted svn id in DEPENDENCIES: $e\n";
             return 0;
         }
-        @btuple = ( $b );
-    } elsif ($expect eq 'date') {
-        if( $b =~ /^(\d{4})-(\d{2})-(\d{2}).*$/) {
+        @btuple = ($b);
+    }
+    elsif ( $expect eq 'date' ) {
+        if ( $b =~ /^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
+
             # ISO date
-            @btuple = ($1, $2, $3);
-        } elsif ( $b =~ /^(\d+)\s+($mnamess)\s+(\d+).*$/io) {
-            # dd Mmm YYY date
-            @btuple = ($3, $M2N{lc $2}, $1);
-        } elsif ($b =~ /^\d+$/) {
-            @btuple = ( $b ); # special case
-        } else {
-            print STDERR "Warning: $this->{name} has badly formatted date in DEPENDENCIES: $e\n";
-            return 0;
+            @btuple = ( $1, $2, $3 );
         }
-    } elsif ($expect eq 'tuple') {
-        if ($b =~ s/^[Vv]?(\d+([-._]\d+)*).*?$/$1/) {
-            @btuple = split(/[-._]/, $b);
-        } else {
-            print STDERR "Warning: $this->{name} has badly formatted tuple in DEPENDENCIES: $e\n";
+        elsif ( $b =~ /^(\d+)\s+($mnamess)\s+(\d+).*$/io ) {
+
+            # dd Mmm YYY date
+            @btuple = ( $3, $M2N{ lc $2 }, $1 );
+        }
+        elsif ( $b =~ /^\d+$/ ) {
+            @btuple = ($b);    # special case
+        }
+        else {
+            print STDERR
+"Warning: $this->{name} has badly formatted date in DEPENDENCIES: $e\n";
             return 0;
         }
     }
-    (my $a, $b) = _digitise_tuples(\@atuple, \@btuple);
+    elsif ( $expect eq 'tuple' ) {
+        if ( $b =~ s/^[Vv]?(\d+([-._]\d+)*).*?$/$1/ ) {
+            @btuple = split( /[-._]/, $b );
+        }
+        else {
+            print STDERR
+"Warning: $this->{name} has badly formatted tuple in DEPENDENCIES: $e\n";
+            return 0;
+        }
+    }
+    ( my $a, $b ) = _digitise_tuples( \@atuple, \@btuple );
     my $comparison = "'$a' $string_op '$b'";
     my $result     = eval $comparison;
 
@@ -391,18 +421,20 @@ sub _compare_extension_versions {
 # Given two tuples, convert them both into number strings, padding with
 # zeroes as necessary.
 sub _digitise_tuples {
-    my ($a, $b) = @_;
+    my ( $a, $b ) = @_;
 
-    my ($maxDigits) = reverse sort (map { length($_) } ( @$a, @$b ) );
-    $a = join( '', map { sprintf('%0'.$maxDigits.'u', $_); } @$a );
-    $b = join( '', map { sprintf('%0'.$maxDigits.'u', $_); } @$b );
+    my ($maxDigits) = reverse sort ( map { length($_) } ( @$a, @$b ) );
+    $a = join( '', map { sprintf( '%0' . $maxDigits . 'u', $_ ); } @$a );
+    $b = join( '', map { sprintf( '%0' . $maxDigits . 'u', $_ ); } @$b );
+
     # Pad with zeroes to equal length
-    if (length($b) > length($a)) {
-        $a .= '0' x (length($b) - length($a));
-    } elsif (length($a) > length($b)) {
-        $b .= '0' x (length($a) - length($b));
+    if ( length($b) > length($a) ) {
+        $a .= '0' x ( length($b) - length($a) );
     }
-    return ($a, $b);
+    elsif ( length($a) > length($b) ) {
+        $b .= '0' x ( length($a) - length($b) );
+    }
+    return ( $a, $b );
 }
 
 1;

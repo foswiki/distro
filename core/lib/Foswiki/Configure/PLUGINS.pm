@@ -40,9 +40,9 @@ sub new {
         );
         $this->addChild(
             new Foswiki::Configure::Value(
-                parent   => $this,
-                keys     => '{Plugins}{' . $module . '}{Module}',
-                typename => 'STRING',
+                parent      => $this,
+                keys        => '{Plugins}{' . $module . '}{Module}',
+                typename    => 'STRING',
                 expertsOnly => 1
             )
         );
@@ -56,7 +56,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

@@ -8,7 +8,7 @@ our @ISA = ('Foswiki::Configure::Section');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new('Introduction', 'NOLAYOUT');
+    return $class->SUPER::new( 'Introduction', 'NOLAYOUT' );
 }
 
 1;

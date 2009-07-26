@@ -18,7 +18,7 @@ sub check {
         return $this->guessed(0);
     }
     return
-        "<div class='configureSetting'>Test the correctness of this path with this link:"
+"<div class='configureSetting'>Test the correctness of this path with this link:"
       . CGI::br()
       . '<a rel="nofollow" target="_new" href="'
       . $Foswiki::cfg{PubUrlPath}
@@ -30,7 +30,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #
