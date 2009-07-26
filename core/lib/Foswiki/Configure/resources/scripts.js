@@ -134,6 +134,183 @@ function addLoadEvent (fn, prepend) {
         };
 }
 
+/* EXPERT MODE */
+
+var expertsMode = '';
+
+function toggleExpertsMode() {
+    var antimode = expertsMode;
+    expertsMode = (antimode == 'none' ? '' : 'none');
+    var els = getElementsByClassName(document, 'configureExpert');
+    for (var i = 0; i < els.length; i++) {
+        els[i].style.display = expertsMode;
+    }
+    els = getElementsByClassName(document, 'configureNotExpert');
+    for (var i = 0; i < els.length; i++) {
+        els[i].style.display = antimode;
+    }
+}
+
+/* ----------------------------- MENU ----------------------------- */
+
+var tabLinks = {};
+var subSectionId;
+
+var menuState = {};
+menuState.main = undefined;
+menuState.defaultSub = {};
+menuState.allOpened = -1;
+
+function setMain(inId) {
+	menuState.main = inId;
+}
+function getMain() {
+	return menuState.main;
+}
+function setSub(inMainId, inSubId) {
+	menuState[inMainId] = inSubId;
+}
+function getSub(inMainId) {
+	return menuState[inMainId];
+}
+function setDefaultSub(inMainId, inSubId) {
+	if (menuState.defaultSub[inMainId]) return;
+	menuState.defaultSub[inMainId] = inSubId;
+}
+function getDefaultSub(inMainId) {
+	return menuState.defaultSub[inMainId];
+}
+
+/*
+sub states are stored like this:
+var sub = 'Language';
+menuState[menuState.main].sub = sub;
+*/
+function initSection() {
+
+	if (document.location.hash && document.location.hash != '#') {
+		showSection(document.location.hash);
+	} else {
+		if (document.getElementById('WelcomeBody')) {
+			showSection('Welcome');
+		} else {
+			showSection('Introduction');
+		}
+	}
+}
+
+/**
+Returns an object with properties:
+	main: main section id
+	sub: sub section id (if any)
+*/
+function getSectionParts(inAnchor) {
+	
+	var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/);
+    var matches = inAnchor.match(anchorPattern);
+
+	var main = '';
+    var sub = '';
+    if (matches && matches[1]) {
+        main = matches[1];
+        if (matches[3]) {
+        	main = matches[3];
+        	sub = matches[1] + '$' + main;
+        }
+    }
+    return {main:main, sub:sub};
+}
+
+function showSection(inAnchor) {
+
+	var sectionParts = getSectionParts(inAnchor);
+	var mainId = sectionParts.main;
+	var subId = sectionParts.sub || getSub(mainId) || getDefaultSub(mainId);
+	
+	var oldMainId = getMain();
+	
+	if (oldMainId != mainId) {	
+		/* hide current main section */
+		var currentMainElement = document.getElementById(oldMainId + 'Body');
+		foswiki.CSS.removeClass(currentMainElement, 'configureShowSection');
+	
+		/* show new main section */
+		var newMainElement = document.getElementById(mainId + 'Body');	
+		foswiki.CSS.addClass(newMainElement, 'configureShowSection');
+		
+		/* set main menu highlight */	
+		if (tabLinks[oldMainId]) {
+			foswiki.CSS.removeClass(tabLinks[oldMainId], 'configureMenuSelected');
+		}
+		if (tabLinks[mainId]) {
+			foswiki.CSS.addClass(tabLinks[mainId], 'configureMenuSelected');
+		}
+	}
+		
+	/* hide current sub section */
+	var oldSubId = getSub(oldMainId);
+	var currentSubElement = document.getElementById(oldSubId + 'Body');
+	foswiki.CSS.removeClass(currentSubElement, 'configureShowSection');
+
+	/* show new sub section */
+	var newSubElement = document.getElementById(subId + 'Body');	
+	foswiki.CSS.addClass(newSubElement, 'configureShowSection');
+	
+	/* set sub menu highlight */
+	if (tabLinks[oldSubId]) {
+		foswiki.CSS.removeClass(tabLinks[oldSubId], 'configureMenuSelected');
+	}
+	if (tabLinks[subId]) {
+		foswiki.CSS.addClass(tabLinks[subId], 'configureMenuSelected');
+	}
+    
+	setMain(mainId);
+	setSub(mainId, subId);
+
+	if (menuState.allOpened == 1) {
+		/* we want to use anchors to jump down */
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+Support for the Expand/Close All button
+
+This is the preferred way to toggle elements. Should be done for Expert settings and Info blocks as well.
+
+*/
+function toggleSections() {
+
+    var body = document.getElementsByTagName('BODY')[0];
+    if (menuState.allOpened == -1) {
+    	/* open all sections */
+		foswiki.CSS.removeClass(body, 'configureShowOneSection');
+	} else {
+		/* hide all sections */
+		foswiki.CSS.addClass(body, 'configureShowOneSection');
+		/* open current section */
+		var newMain = menuState.main;
+		menuState.main = '';
+		showSection(newMain);
+	}
+	
+	menuState.allOpened = -menuState.allOpened;
+}
+
+/* TOOLTIPS */
+
+function getTip(idx) {
+    var div = document.getElementById('tt' + idx);
+    if (div)
+        return div.innerHTML;
+    else
+        return "Reset to the default value, which is:<br />";
+}
+
+/* DEFAULT LINKS */
+
 /**
 Initializes the 2 states of "reset to default" links.
 State 1: restore to default
@@ -147,17 +324,32 @@ function initDefaultLink(inLink) {
 	
 	/* retrieve value from title tag */
 	inLink.defaultValue = decode(inLink.title);
-	/* set title states */
-	inLink.setDefaultTitle = 'Set to default value:';
-	inLink.undoDefaultTitle = 'Undo default and use previous value:';
+
 	/* set link label states */
-	inLink.setDefaultLinkText = 'use&nbsp;default';
+	inLink.setDefaultLinkText = 'use default';
 	inLink.undoDefaultLinkText = 'undo';
 	
 	/* set defaults */
+	inLink.title = '';
+	/*
 	inLink.title = formatLinkValueInTitle(
         inLink.type, inLink.setDefaultTitle, inLink.defaultValue);
-	inLink.innerHTML = inLink.setDefaultLinkText;
+    */
+    var label = getElementsByClassName(inLink, 'configureDefaultValueLinkLabel')[0];
+    if (label) {
+		label.innerHTML = inLink.setDefaultLinkText;
+	}
+}
+
+function showDefaultLinkToolTip(inLink) {
+
+	var template = document.getElementById('configureToolTipTemplate').innerHTML;
+	
+	template = template.replace(/VALUE/g, createHumanReadableValueString(inLink.type, inLink.defaultValue));
+	template = template.replace(/TYPE/g, inLink.type);
+	
+	var contents = getElementsByClassName(inLink, 'configureDefaultValueLinkValue')[0];
+	contents.innerHTML = template;
 }
 
 /**
@@ -206,18 +398,18 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 		elem.value = value;
 	}
 	
+	var label = getElementsByClassName(inLink, 'configureDefaultValueLinkLabel')[0];
 	if (inLink.oldValue == null) {
 		/* we have just set the default value */
 		/* prepare undo link */
-		inLink.innerHTML = inLink.undoDefaultLinkText;
+		label.innerHTML = inLink.undoDefaultLinkText;
 		inLink.oldValue = oldValue;
-		inLink.title = formatLinkValueInTitle(inLink.type, inLink.undoDefaultTitle, oldValue);
 	} else {
 		/* we have just set the old value */
-		inLink.innerHTML = inLink.setDefaultLinkText;
+		label.innerHTML = inLink.setDefaultLinkText;
 		inLink.oldValue = null;
-		inLink.title = formatLinkValueInTitle(inLink.type, inLink.setDefaultTitle, value);
 	}
+
 	return false;
 }
 
@@ -256,7 +448,9 @@ function createHumanReadableValueString (inType, inValue) {
 		return '""';
 	}
 	/* all other cases */
-	return inValue;
+	var value = inValue;
+	value = value.replace(/\\&quot;/g, '');
+	return value;
 }
 
 /**
@@ -279,164 +473,53 @@ function decode(v) {
                      });
 }
 
-var expertsMode = '';
+/* INFO TEXTS */
 
-function toggleExpertsMode() {
-    var antimode = expertsMode;
-    expertsMode = (antimode == 'none' ? '' : 'none');
-    var els = getElementsByClassName(document, 'configureExpert');
+var infoMode = '';
+
+function toggleInfoMode() {
+    var antimode = infoMode;
+    infoMode = (antimode == 'none' ? '' : 'none');
+    var els = getElementsByClassName(document, 'configureInfoText');
     for (var i = 0; i < els.length; i++) {
-        els[i].style.display = expertsMode;
-    }
-    els = getElementsByClassName(document, 'configureNotExpert');
-    for (var i = 0; i < els.length; i++) {
-        els[i].style.display = antimode;
-    }
-}
-
-/* ----------------------------- MENU ----------------------------- */
-
-var tabLinks = {};
-var subSectionId;
-
-var menuState = {};
-menuState.main = undefined;
-menuState.defaultSub = {};
-
-function setMain(inId) {
-	menuState.main = inId;
-}
-function getMain() {
-	return menuState.main;
-}
-function setSub(inMainId, inSubId) {
-	menuState[inMainId] = inSubId;
-}
-function getSub(inMainId) {
-	return menuState[inMainId];
-}
-function setDefaultSub(inMainId, inSubId) {
-	if (menuState.defaultSub[inMainId]) return;
-	menuState.defaultSub[inMainId] = inSubId;
-}
-function getDefaultSub(inMainId) {
-	return menuState.defaultSub[inMainId];
-}
-
-/*
-sub states are stored like this:
-var sub = 'Language';
-menuState[menuState.main].sub = sub;
-*/
-function initSection() {
-	if (document.location.hash) {
-		showSection(document.location.hash);
-	} else {
-		showSection('Introduction');
-	}
-}
-
-/**
-Returns an object with properties:
-	main: main section id
-	sub: sub section id (if any)
-*/
-function getSectionParts(inAnchor) {
-	
-	var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/);
-    var matches = inAnchor.match(anchorPattern);
-
-	var main = '';
-    var sub = '';
-    if (matches && matches[1]) {
-        main = matches[1];
-        if (matches[3]) {
-        	main = matches[3];
-        	sub = matches[1] + '$' + main;
+        /*els[i].style.display = infoMode;*/
+        if (infoMode == 'none') {
+        	foswiki.CSS.addClass(els[i], 'foswikiMakeHidden');
+        } else {
+        	foswiki.CSS.removeClass(els[i], 'foswikiMakeHidden');
         }
     }
-    return {main:main, sub:sub};
+    els = getElementsByClassName(document, 'configureNotInfoText');
+    for (var i = 0; i < els.length; i++) {
+        /*els[i].style.display = antimode;*/
+        if (antimode == 'none') {
+        	foswiki.CSS.addClass(els[i], 'foswikiMakeHidden');
+        } else {
+        	foswiki.CSS.removeClass(els[i], 'foswikiMakeHidden');
+        }
+    }
 }
 
-function showSection(inAnchor) {
 
-	var sectionParts = getSectionParts(inAnchor);
-	var mainId = sectionParts.main;
-	var subId = sectionParts.sub || getSub(mainId) || getDefaultSub(mainId);
-	
-	var oldMainId = getMain();
-	
-	if (oldMainId != mainId) {	
-		/* hide current main section */
-		var currentMainElement = document.getElementById(oldMainId + '_body');
-		foswiki.CSS.addClass(currentMainElement, 'foswikiMakeHidden');
-	
-		/* show new main section */
-		var newMainElement = document.getElementById(mainId + '_body');	
-		foswiki.CSS.removeClass(newMainElement, 'foswikiMakeHidden');
-		
-		/* set main menu highlight */	
-		if (tabLinks[oldMainId]) {
-			foswiki.CSS.removeClass(tabLinks[oldMainId], 'configureMenuSelected');
-		}
-		if (tabLinks[mainId]) {
-			foswiki.CSS.addClass(tabLinks[mainId], 'configureMenuSelected');
+/**
+Opens/closes all info blocks.
+*/
+function toggleInfo(inId) {
+	var twistyElement = document.getElementById('info_' + inId);
+	if (twistyElement) {
+		if (foswiki.CSS.hasClass(twistyElement, 'foswikiMakeHidden')) {
+			foswiki.CSS.removeClass(twistyElement, 'foswikiMakeHidden');
+		} else {
+			foswiki.CSS.addClass(twistyElement, 'foswikiMakeHidden');
 		}
 	}
-		
-	/* hide current sub section */
-	var oldSubId = getSub(oldMainId);
-	var currentSubElement = document.getElementById(oldSubId + '_body');
-	foswiki.CSS.addClass(currentSubElement, 'foswikiMakeHidden');
-
-	/* show new sub section */
-	var newSubElement = document.getElementById(subId + '_body');	
-	foswiki.CSS.removeClass(newSubElement, 'foswikiMakeHidden');
-	
-	/* set sub menu highlight */
-	if (tabLinks[oldSubId]) {
-		foswiki.CSS.removeClass(tabLinks[oldSubId], 'configureMenuSelected');
-	}
-	if (tabLinks[subId]) {
-		foswiki.CSS.addClass(tabLinks[subId], 'configureMenuSelected');
-	}
-    
-	setMain(mainId);
-	setSub(mainId, subId);
-
 	return false;
 }
 
-/**
-Support for the Expand/Close All button
-*/
-function toggleHiddenDivs() {
-    var els = getElementsByClassName(document, 'temporarilyOpened'); 
-    if (els.length) {
-        for (var i = 0; i < els.length; i++) {
-            foswiki.CSS.removeClass(els[i], 'temporarilyOpened');
-            foswiki.CSS.addClass(els[i], 'foswikiMakeHidden');
-        }
-    } else {
-        els = getElementsByClassName(document, 'foswikiMakeHidden'); 
-        for (var i = 0; i < els.length; i++) {
-            foswiki.CSS.removeClass(els[i], 'foswikiMakeHidden');
-            foswiki.CSS.addClass(els[i], 'temporarilyOpened');
-        }
-    }
-}
-
-function getTip(idx) {
-    var div = document.getElementById('tt' + idx);
-    if (div)
-        return div.innerHTML;
-    else
-        return "LOST TIP "+idx;
-}
+/* SELECTORS */
 
 var rules = {
-	'#configureSections .tabli a' : function(el) {
-
+	'.tabli a' : function(el) {
 		var sectionParts = getSectionParts(el.hash);
 		var id = sectionParts.main;
 		if (sectionParts.sub) {
@@ -447,27 +530,38 @@ var rules = {
 		el.onclick = function() {
 			return showSection(id);
 		}
-	}
-	,
-	'.configureExpert input' : function(el) {
+	},
+	'a.configureExpert' : function(el) {
 		el.onclick = function() {
 			toggleExpertsMode();
+			return false;
 		}
 	},
-	'.configureNotExpert input' : function(el) {
+	'a.configureNotExpert' : function(el) {
 		el.onclick = function() {
 			toggleExpertsMode();
+			return false;
 		}
 	},
-	'#configureSections a.configureDefaultValueLink' : function(el) {
+	'a.configureInfoText' : function(el) {
+		el.onclick = function() {
+			toggleInfoMode();
+			return false;
+		}
+	},
+	'a.configureNotInfoText' : function(el) {
+		el.onclick = function() {
+			toggleInfoMode();
+			return false;
+		}
+	},
+	'a.configureDefaultValueLink' : function(el) {
 		initDefaultLink(el);
-	},
-	'.configureToggleAll' : function(el) {
-		el.onclick = function() {
-			toggleHiddenDivs();
+		el.onmouseover = function() {
+			showDefaultLinkToolTip(el);
 		}
 	},
-	'#configureSections .configureEllipsis a' : function(el) {
+	'.configureEllipsis a' : function(el) {
 		el.onclick = function() {
 			var ellipsis = el.parentNode;
 			foswiki.CSS.addClass(ellipsis, 'foswikiMakeHidden');
@@ -475,9 +569,32 @@ var rules = {
 			foswiki.CSS.removeClass(document.getElementById(id), 'foswikiMakeHidden');
 			return false;
 		}
+	},
+	'.configureToggleSections a' : function(el) {
+		el.onclick = function() {
+			toggleSections();
+		}
+	},
+	/* open the 'Set password' section on the authorization screen */
+	'#twisty_setPassword' : function(el) {
+		el.onclick = function() {
+			var re = new RegExp("^twisty\_(.*)$");
+			var match = el.id.match(re)[1];
+			var twistyElement = document.getElementById(match);
+			if (twistyElement) {				
+				if (foswiki.CSS.hasClass(twistyElement, 'foswikiHidden')) {
+					foswiki.CSS.removeClass(twistyElement, 'foswikiHidden');
+				} else {
+					foswiki.CSS.addClass(twistyElement, 'foswikiHidden');
+				}
+				return false;
+			}
+			return true;
+		}
 	}
 };
 Behaviour.register(rules);
 
 addLoadEvent(toggleExpertsMode);
+addLoadEvent(toggleInfoMode);
 addLoadEvent(initSection);

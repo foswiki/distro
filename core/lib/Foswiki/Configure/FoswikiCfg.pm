@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-# This is a both parser for configuration declaration files, such as
+# This is both a parser for configuration declaration files, such as
 # FoswikiCfg.spec, and a serialisation visitor for writing out changes
 # to LocalSite.cfg
 #
@@ -53,6 +53,7 @@ package Foswiki::Configure::FoswikiCfg;
 use strict;
 use Data::Dumper ();
 
+use Foswiki::Configure::Util      ();
 use Foswiki::Configure::Section   ();
 use Foswiki::Configure::Value     ();
 use Foswiki::Configure::Pluggable ();
@@ -76,7 +77,7 @@ sub new {
 sub load {
     my ( $root, $haveLSC ) = @_;
 
-    my $file = Foswiki::findFileOnPath('Foswiki.spec');
+    my $file = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec');
     if ($file) {
         _parse( $file, $root, $haveLSC );
     }
@@ -138,11 +139,12 @@ sub _extractSections {
     foreach my $item (@$settings) {
         if ( $item->isa('SectionMarker') ) {
             my $opts = '';
-            if ($item->{head} =~ s/^(.*?)\s*--\s*(.*?)\s*$/$1/) {
+            if ( $item->{head} =~ s/^(.*?)\s*--\s*(.*?)\s*$/$1/ ) {
                 $opts = $2;
             }
-            my $ns = $root->getSectionObject(
-                $item->{head}, $item->{depth} + 1, $opts );
+            my $ns =
+              $root->getSectionObject( $item->{head}, $item->{depth} + 1,
+                $opts );
             if ($ns) {
                 $depth = $item->{depth};
             }
@@ -202,7 +204,7 @@ sub _parse {
 
     foreach my $l (<F>) {
         $l =~ s/\r//g;
-        last if ($l =~ /^1;|^__\w+__/);
+        last if ( $l =~ /^1;|^__\w+__/ );
         if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
             pusht( \@settings, $open ) if $open;
             $open = new Foswiki::Configure::Value( typename => $1, opts => $2 );
@@ -285,11 +287,11 @@ sub save {
     $this->{root}    = $root;
     $this->{content} = '';
 
-    my $lsc = Foswiki::findFileOnPath('LocalSite.cfg');
+    my $lsc = Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
     unless ($lsc) {
 
         # If not found on the path, park it beside Foswiki.spec
-        $lsc = Foswiki::findFileOnPath('Foswiki.spec') || '';
+        $lsc = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec') || '';
         $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
 
@@ -333,13 +335,15 @@ sub startVisit {
         my $warble = $this->{valuer}->currentValue($visitee);
         return 1 unless defined $warble;
 
+        if ( $this->{logger} ) {
+            my $logValue = $visitee->asString( $this->{valuer} );
+            $this->{logger}->logChange( $visitee->getKeys(), $logValue );
+        }
+
         # For some reason Data::Dumper ignores the second parameter sometimes
         # when -T is enabled, so have to do a substitution
         my $txt = Data::Dumper->Dump( [$warble] );
         $txt =~ s/VAR1/Foswiki::cfg$keys/;
-        if ( $this->{logger} ) {
-            $this->{logger}->logChange( $visitee->getKeys(), $txt );
-        }
 
         # Substitute any existing value, or append if not there
         unless ( $this->{content} =~ s/\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/s )
@@ -361,7 +365,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

@@ -398,29 +398,6 @@ lib/Foswiki/Cache/MemoryHash.pm 0444
 lib/Foswiki/Cache/MemoryLRU.pm 0444
 lib/Foswiki/Cache.pm 0444
 lib/Foswiki/Compatibility.pm 0444
-lib/Foswiki/Configure/resources/favicon.ico 0444
-lib/Foswiki/Configure/resources/foswiki-logo-slogan.png 0444
-lib/Foswiki/Configure/resources/info.gif 0444
-lib/Foswiki/Configure/resources/warning.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
-lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
-lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
-lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
-lib/Foswiki/Configure/resources/footer.html 0444
-lib/Foswiki/Configure/resources/scripts.js 0444
-lib/Foswiki/Configure/resources/oh_dear.html 0444
-lib/Foswiki/Configure/resources/wz_tooltip.js 0444
-lib/Foswiki/Configure/resources/styles.css 0444
-lib/Foswiki/Configure/resources/header.html 0444
-lib/Foswiki/Configure/resources/intro.html 0444
-lib/Foswiki/Configure/resources/foswikiStyles.js 0444
-lib/Foswiki/Configure/resources/behaviour.js 0444
-lib/Foswiki/Configure/resources/pattern.css 0444
-lib/Foswiki/Configure/resources/default.css 0444
-lib/Foswiki/Configure/resources/base.css 0444
-lib/Foswiki/Configure/resources/password.html 0444
-lib/Foswiki/Configure/resources/passwordWarning.html 0444
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
@@ -431,9 +408,9 @@ lib/Foswiki/Configure/Checkers/DataDir.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
-lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
+lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/LocalesDir.pm 0444
 lib/Foswiki/Configure/Checkers/LogFileName.pm 0444
 lib/Foswiki/Configure/Checkers/LoginManager.pm 0444
@@ -470,8 +447,8 @@ lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
 lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SafeEnvPath.pm 0444
-lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptDir.pm 0444
+lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/ExpireAfter.pm 0444
 lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
@@ -486,6 +463,7 @@ lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
+lib/Foswiki/Configure/Checkers/Welcome.pm
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444
 lib/Foswiki/Configure/FINDEXTENSIONS.pm 0444
@@ -496,8 +474,50 @@ lib/Foswiki/Configure/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
 lib/Foswiki/Configure/PLUGINS.pm 0444
+lib/Foswiki/Configure/resources/base.css 0444
+lib/Foswiki/Configure/resources/behaviour.js 0444
+lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
+lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
+lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
+lib/Foswiki/Configure/resources/favicon.ico 0444
+lib/Foswiki/Configure/resources/foswikiStyles.js 0444
+lib/Foswiki/Configure/resources/icon_arrows.psd
+lib/Foswiki/Configure/resources/icon_down.gif 0444
+lib/Foswiki/Configure/resources/icon_error_blue.gif 0444
+lib/Foswiki/Configure/resources/icon_error_white.gif 0444
+lib/Foswiki/Configure/resources/icon_error.psd
+lib/Foswiki/Configure/resources/icon_info.gif 0444
+lib/Foswiki/Configure/resources/icon_info.psd
+lib/Foswiki/Configure/resources/icon_up.gif 0444
+lib/Foswiki/Configure/resources/icon_warn_and_error_blue.gif 0444
+lib/Foswiki/Configure/resources/icon_warn_and_error_white.gif 0444
+lib/Foswiki/Configure/resources/icon_warn_and_error.psd
+lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
+lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
+lib/Foswiki/Configure/resources/icon_warning.psd
+lib/Foswiki/Configure/resources/intro.html 0444
+lib/Foswiki/Configure/resources/legend.html 0444
+lib/Foswiki/Configure/resources/logo.gif 0444
+lib/Foswiki/Configure/resources/logo.psd
+lib/Foswiki/Configure/resources/pattern.css 0444
+lib/Foswiki/Configure/resources/scripts.js 0444
+lib/Foswiki/Configure/resources/styles.css 0444
+lib/Foswiki/Configure/resources/template_main.tmpl 0444
+lib/Foswiki/Configure/resources/template_section.tmpl 0444
+lib/Foswiki/Configure/resources/warning.gif 0444
+lib/Foswiki/Configure/resources/welcome.html 0444
+lib/Foswiki/Configure/resources/yui.css 0444
 lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
+lib/Foswiki/Configure/TemplateParser.pm
+lib/Foswiki/Configure/TemplateParser/SimpleFreeMarker.pm
+lib/Foswiki/Configure/templates/authorize.tmpl 0444
+lib/Foswiki/Configure/templates/extensions.tmpl 0444
+lib/Foswiki/Configure/templates/feedback.tmpl 0444
+lib/Foswiki/Configure/templates/findextensionsintro.tmpl 0444
+lib/Foswiki/Configure/templates/main.tmpl 0444
+lib/Foswiki/Configure/templates/page.tmpl 0444
+lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/Type.pm 0444
 lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
 lib/Foswiki/Configure/Types/COMMAND.pm 0444
@@ -508,12 +528,13 @@ lib/Foswiki/Configure/Types/PASSWORD.pm 0444
 lib/Foswiki/Configure/Types/PATH.pm 0444
 lib/Foswiki/Configure/Types/PERL.pm 0444
 lib/Foswiki/Configure/Types/REGEX.pm 0444
-lib/Foswiki/Configure/Types/SELECTCLASS.pm 0444
 lib/Foswiki/Configure/Types/SELECT.pm 0444
+lib/Foswiki/Configure/Types/SELECTCLASS.pm 0444
 lib/Foswiki/Configure/Types/STRING.pm 0444
 lib/Foswiki/Configure/Types/UNKNOWN.pm 0444
-lib/Foswiki/Configure/Types/URLPATH.pm 0444
 lib/Foswiki/Configure/Types/URL.pm 0444
+lib/Foswiki/Configure/Types/URLPATH.pm 0444
+lib/Foswiki/Configure/Util.pm 0444
 lib/Foswiki/Configure/UI.pm 0444
 lib/Foswiki/Configure/UIs/AUTH.pm 0444
 lib/Foswiki/Configure/UIs/EXTEND.pm 0444
@@ -526,6 +547,7 @@ lib/Foswiki/Configure/UIs/Section.pm 0444
 lib/Foswiki/Configure/UIs/TAGS.pm 0444
 lib/Foswiki/Configure/UIs/UPDATE.pm 0444
 lib/Foswiki/Configure/UIs/Value.pm 0444
+lib/Foswiki/Configure/UIs/Welcome.pm
 lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Valuer.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444

@@ -20,13 +20,13 @@ sub check {
     }
     elsif ( !$Foswiki::cfg{SMTP}{MAILHOST} ) {
         $n = $this->WARN(
-'Net::SMTP is installed in this environment, but {SMTP}{MAILHOST} is not defined, so the {MailProgram} will be used.'
+'Net::SMTP is installed in this environment, but {SMTP}{MAILHOST} is not defined, therefore the program listed at {MailProgram} will be used.'
         );
         $useprog = 1;
     }
     else {
         $n = $this->NOTE(
-'<em>Net::SMTP is installed in this environment, so this setting will <b>not</b> be used.</em>'
+'<code>Net::SMTP</code> is installed in this environment, so this setting will <strong>not</strong> be used.'
         );
         $useprog = 0;
     }
@@ -45,7 +45,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

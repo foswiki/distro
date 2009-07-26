@@ -7,18 +7,25 @@ use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');
 
 sub prompt {
-    my ( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value, $class ) = @_;
+
     $value = '' unless defined($value);
     $value = "$value";
-    while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
-    $value =~
-      s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
-    my $res =
-        '<input name="' 
-      . $id
-      . '" type="text" size="55%" class="foswikiInputField" value="'
-      . $value . '" />';
-    return $res;
+
+# disabling these lines because the value appears changed on the authorise screen
+# while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+# $value =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
+
+    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+
+    # percentage size should be set in CSS
+
+    return CGI::textfield(
+        -name    => $id,
+        -size    => $size,
+        -default => $value,
+        -class   => "foswikiInputField $class",
+    );
 }
 
 sub string2value {
@@ -48,7 +55,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

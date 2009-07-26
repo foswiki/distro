@@ -7,18 +7,21 @@ use strict;
 use Foswiki::Configure::UIs::Section ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
 
-sub open_html {
-    my ($this, $section, $root) = @_;
+sub renderHtml {
+    my ( $this, $section, $root ) = @_;
 
-    my $out = $this->SUPER::open_html($section, $root);
-    $out .= Foswiki::getResource(
+    my $contents = Foswiki::getResource(
         'intro.html',
-        SYSTEMWEB => $Foswiki::cfg{SystemWebName},
-        USERSWEB => $Foswiki::cfg{UsersWebName},
+        SYSTEMWEB     => $Foswiki::cfg{SystemWebName},
+        USERSWEB      => $Foswiki::cfg{UsersWebName},
         SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
-        SCRIPTSUFFIX => $Foswiki::cfg{ScriptSuffix},
-        ADMINGROUP => $Foswiki::cfg{SuperAdminGroup});
-    return $out;
+        SCRIPTSUFFIX  => $Foswiki::cfg{ScriptSuffix},
+        ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup}
+    );
+
+    # do not simply return the contents as we want to have
+    # this formatted inside a html container
+    return $this->SUPER::renderHtml( $section, $root, $contents );
 }
 
 1;

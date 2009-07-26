@@ -1,29 +1,26 @@
-html,body
-{
-	margin:1em 2% 2em;
+html,body {
+	margin:1em 3% 2em;
 	padding:0;
 }
 
-html>body
-{
+html>body {
 	font-size:small;
 }
 
-label
-{
+label {
 	padding:.15em .3em .15em 0;
 }
 
-hr
-{
+hr {
 	height:1px;
 	border:none;
 	color:#e2e2e2;
 	background-color:#e2e2e2;
 }
-
-pre
-{
+p {
+	margin:.5em 0;
+}
+pre {
 	width:auto;
 	height:1%;
 	background:#f5f5f5;
@@ -34,26 +31,23 @@ pre
 	padding:1em;
 }
 
-pre,code,tt
-{
+pre,code,tt {
 	font-family:"Bitstream Vera Sans Mono", "Andale Mono", Courier, monospace;
 	font-size:86%;
 	color:#333;
 }
 
-html>body pre
-{
+html>body pre {
 	overflow:auto !important;
 	width:auto;
 }
 
-ol,ul
-{
+ol,ul {
 	margin-top:0;
+	margin-bottom:0;
 }
 
-blockquote
-{
+blockquote {
 	background-color:#f5f5f5;
 	border-color:#ddd;
 	border-style:solid;
@@ -61,98 +55,84 @@ blockquote
 	padding:.5em 1.25em;
 }
 
-h1
-{
+h1 {
 	font-size:190%;
-	color:#2989bb;
+	color:#333;
 	margin:0;
 }
 
-h1,h2,h3,h4,h5,h6
-{
+h1,h2,h3,h4,h5,h6 {
 	font-weight:400;
 	line-height:1em;
+	margin:.5em 0;
 }
 
-h2
-{
-	font-size:153%;
+h3,h4,h5,h6 {
+	font-weight:500;
+	color:#090;
+	padding:0;
 }
 
-h3
-{
+h2 {
+	font-size:160%;
+	color:#333;
+	padding:0;
+}
+
+h3 {
 	font-size:133%;
+	margin:1em 0 .5em 0;
 }
 
-h4
-{
+h4 {
 	font-size:122%;
 	font-weight:700;
 }
 
-h5
-{
+h5 {
 	font-size:110%;
 	font-weight:700;
 }
 
-h6
-{
+h6 {
 	font-size:95%;
 	font-weight:700;
 }
 
-h2,h3,h4,h5,h6
-{
-	display:block;
-	height:auto;
-	color:#333;
-	margin:0;
-	padding:0;
-}
-
-:link:focus,:visited:focus,:link,:visited,:link:active,:visited:active
-{
-	text-decoration:underline;
-	color:#4571d0;
-	background-color:transparent;
-}
-
-:link:hover,:visited:hover
-{
+:link:focus,:visited:focus,:link,:visited,:link:active,:visited:active {
 	text-decoration:none;
-	color:#fff;
-	background-color:#0055b5;
-	background-image:none;
+	color:#06c;
+	background:none;
 }
 
-img
-{
+:link:hover,:visited:hover {
+	text-decoration:underline;
+	color:#06c;
+	background:none;
+}
+
+img {
 	vertical-align:text-bottom;
 	border:0;
 }
 
-form
-{
+form {
 	display:inline;
 	margin:0;
 	padding:0;
 }
 
-textarea,input,select
-{
+textarea,input,select {
 	vertical-align:middle;
 	font-family:arial, verdana, sans-serif;
 	font-size:100%;
 }
 
-.foswikiTextarea
-{
+.foswikiTextarea {
 	padding:1px 4px;
 }
 
-.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,a.foswikiButton,a.foswikiSubmit,a.foswikiButtonCancel,.foswikiCheckbox
-{
+.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,a.foswikiButton,a.foswikiSubmit,a.foswikiButtonCancel,.foswikiCheckbox {
 	font-weight:700;
 	vertical-align:middle;
 	text-align:center;
@@ -161,161 +141,132 @@ textarea,input,select
 	padding:.1em .2em;
 }
 
-.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,.foswikiSubmit:hover,.foswikiSubmitDisabled:hover,.foswikiButton:hover,.foswikiSubmit:active,.foswikiSubmitDisabled:active,.foswikiButton:active
-{
+.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,.foswikiSubmit:hover,.foswikiSubmitDisabled:hover,.foswikiButton:hover,.foswikiSubmit:active,.foswikiSubmitDisabled:active,.foswikiButton:active {
 	cursor:default;
 	outline:none;
 }
 
-a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButton:visited:active,a.foswikiButtonCancel,a.foswikiButtonCancel:hover,a.foswikiButtonCancel:link:active,a.foswikiButtonCancel:visited:active,a.foswikiSubmit,a.foswikiSubmit:hover,a.foswikiSubmit:link:active,a.foswikiSubmit:visited:active
-{
+a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButton:visited:active,a.foswikiButtonCancel,a.foswikiButtonCancel:hover,a.foswikiButtonCancel:link:active,a.foswikiButtonCancel:visited:active,a.foswikiSubmit,a.foswikiSubmit:hover,a.foswikiSubmit:link:active,a.foswikiSubmit:visited:active {
 	text-decoration:none;
 }
 
-.foswikiTextarea,.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly,.foswikiSelect
-{
+.foswikiTextarea,.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly,.foswikiSelect {
 	border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
 	border-style:solid;
 	border-width:2px;
 }
 
-.foswikiTextarea,.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly
-{
+.foswikiTextarea,.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly {
 	font-size:100%;
 }
 
-.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly
-{
+.foswikiInputField,.foswikiInputFieldDisabled,.foswikiInputFieldReadOnly {
 	padding:.1em .2em;
 }
 
-.tagMePlugin select
-{
+.tagMePlugin select {
 	margin:0 .25em 0 0;
 }
 
-#foswikiLogin .foswikiFormSteps
-{
-	border-width:5px;
-}
-
-.foswikiFormSteps
-{
-	text-align:left;
-	background-color:#eef7fa;
+.foswikiFormSteps {
+	margin:1em 0;
+	background-color:#edf5fc;
 	border-color:#e2e2e2;
 	border-style:solid;
 	border-width:1px 0 0;
 }
 
-.foswikiFormStep
-{
+.foswikiFormStep {
 	line-height:140%;
 	border-color:#e2e2e2;
 	border-style:solid;
 	border-width:0 0 1px;
-	padding:1em 40px;
+	padding:1em;
 }
 
-.foswikiFormStep h2,.foswikiFormStep h3,.foswikiFormStep h4
-{
+.foswikiFormStep h2,.foswikiFormStep h3,.foswikiFormStep h4 {
 	border:none;
 	background:none;
 	margin:0 0 .1em;
 	padding:0;
 }
 
-.foswikiFormStep h2
-{
-	font-size:130%;
-	font-weight:700;
-	color:#2989bb;
+.foswikiFormStep h2 {
+	font-weight:normal;
+	color:#090;
 }
-
-.foswikiFormStep h3
-{
-	font-size:115%;
-	font-weight:700;
+.foswikiFormStep h3,
+.foswikiFormStep h4 {
+	font-weight:bold;
+	color:#090;
 }
-
-.foswikiFormStep h4
-{
-	font-size:104%;
-	font-weight:700;
-}
-
-.foswikiFormStep p
-{
+.foswikiFormStep p {
 	margin:.5em 0;
 }
 
-.foswikiFormStep blockquote
-{
+.foswikiFormStep blockquote {
 	margin-left:1em;
 	padding-top:.25em;
 	padding-bottom:.25em;
 }
 
-.foswikiBroadcastMessage,.foswikiNotification
-{
-	background-color:#fff7e1;
-	padding:1em 20px;
+.foswikiNotification {
+	background-color:#fff7e7;
+	padding:1em;
+	border:1px solid #fbad17;
+	margin:1em 0;
+}
+.foswikiNotification,
+.foswikiAlert,
+.foswikiNotification h2,
+.foswikiNotification h3 {
+	color:#000;
 }
 
-.foswikiNotification
-{
-	border:1px solid #ffdf4c;
-	border-style:solid;
-	border-width:2px;
+.foswikiAlert {
 	margin:1em 0;
 }
 
-.foswikiHelp
-{
+.foswikiHelp {
 	height:1%;
 	background-color:#fff;
 	border-color:#e2e2e2;
 	border-style:solid;
 	border-width:1px;
-	margin:.25em 0 0;
+	margin:1em 0;
 	padding:1em;
 }
-
-.foswikiHelp ul
-{
-	padding-left:20px;
+table .foswikiHelp {
+	margin:.25em 0 0 0;
+}
+.foswikiHelp ul {
+	padding-left:1em;
 	margin:0;
 }
 
-blockquote h2
-{
+blockquote h2 {
 	background:none;
 }
 
-:link:hover img,:visited:hover img
-{
+:link:hover img,:visited:hover img {
 	background-color:transparent;
 }
 
-.foswikiSubmit,.foswikiButton
-{
+.foswikiSubmit,.foswikiButton {
 	border-color:#fff #888 #888 #fff;
 }
 
-.foswikiSubmit
-{
+.foswikiSubmit {
 	color:#fff;
 	background-color:#06c;
 }
 
-.foswikiButton
-{
+.foswikiButton {
 	color:#000;
 	background-color:#e2e3e3;
 }
 
-.foswikiButtonCancel
-{
+.foswikiButtonCancel {
 	background-image:url(configure?action=resource;resource=bg_buttoncancel_gradient.gif);
 	background-repeat:repeat-x;
 	background-position:0 0;
@@ -324,72 +275,53 @@ blockquote h2
 	border-color:#f3ddd7 #ce5232 #ce5232 #f3ddd7;
 }
 
-.foswikiTextarea,.foswikiInputField,.foswikiSelect
-{
+.foswikiTextarea,.foswikiInputField,.foswikiSelect {
 	color:#000;
 	background-color:#fff;
 }
 
-.foswikiInputField:active,.foswikiInputField:focus,.foswikiInputFieldFocus
-{
+.foswikiInputField:active,.foswikiInputField:focus,.foswikiInputFieldFocus {
 	background-color:#ffffe0;
 }
 
-.foswikiSelect
-{
+.foswikiSelect {
 	color:#000;
 	background-color:#fff;
 	border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
 }
 
-.foswikiFormStep h3,.foswikiFormStep h4
-{
-	color:#d1400e;
+.foswikiFormStep h3,.foswikiFormStep h4 {
+	color:#093;
 	background-color:transparent;
 }
 
-.foswikiAlert
-{
-	margin:1em 0;
-}
-
-.foswikiAlert,.foswikiAlert code
-{
-	color:red;
-}
-
-.foswikiSubmit,.foswikiSubmitDisabled
-{
+.foswikiSubmit,.foswikiSubmitDisabled {
 	background-image:url(configure?action=resource;resource=bg_submit_gradient.gif);
 	background-repeat:repeat-x;
 }
 
-.foswikiSubmit,a.foswikiSubmit:link,a.foswikiSubmit:visited
-{
+.foswikiSubmit,a.foswikiSubmit:link,a.foswikiSubmit:visited {
 	background-position:0 0;
 	background-color:#06c;
 	color:#fff;
 	border-color:#94cce2 #0e66a2 #0e66a2 #94cce2;
 }
 
-.foswikiSubmit:hover,a.foswikiSubmit:hover
-{
+.foswikiSubmit:hover,a.foswikiSubmit:hover {
 	background-position:0 -80px;
 	background-color:#0047b7;
 	color:#fff;
 	border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
 }
 
-.foswikiSubmit:active,a.foswikiSubmit:active
-{
+.foswikiSubmit:active,a.foswikiSubmit:active {
 	background-position:0 -160px;
 	background-color:#73ace6;
 	color:#fff;
 	border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
 }
 
-.foswikiButton,a.foswikiButton:link,a.foswikiButton:visited
-{
+.foswikiButton,a.foswikiButton:link,a.foswikiButton:visited {
 	background-image:url(configure?action=resource;resource=bg_button_gradient.gif);
 	background-repeat:repeat-x;
 	background-position:0 0;
@@ -398,31 +330,23 @@ blockquote h2
 	border-color:#fff #94cce2 #94cce2 #fff;
 }
 
-.foswikiButton:hover,.foswikiButton:active,a.foswikiButton:hover,a.foswikiButton:active
-{
+.foswikiButton:hover,.foswikiButton:active,a.foswikiButton:hover,a.foswikiButton:active {
 	background-position:0 -160px;
 	background-color:#cce7f1;
 	color:#333;
 	border-color:#94cce2;
 }
 
-.foswikiButtonCancel:hover
-{
+.foswikiButtonCancel:hover {
 	background-position:0 -80px;
 	background-color:#dd724d;
 	color:#fff;
 	border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
 }
 
-.foswikiButtonCancel:active
-{
+.foswikiButtonCancel:active {
 	background-position:0 -160px;
 	background-color:#dd724d;
 	color:#fff;
 	border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
-}
-
-p,h3,h4,h5,h6
-{
-	margin:1em 0 0;
 }

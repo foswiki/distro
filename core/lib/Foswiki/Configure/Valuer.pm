@@ -82,7 +82,7 @@ sub loadCGIParams {
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
 
-            #print "<br>$typename $keys '$newval' != '$curval'\n";
+       #Foswiki::log("loadCGIParams $typename $keys\n'$newval' != \n'$curval'");
             eval $xpr . ' = $newval';
             $changed++;
             $updated->{$keys} = 1;
@@ -96,7 +96,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

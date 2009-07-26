@@ -8,7 +8,7 @@ use Foswiki::Configure::Type ();
 our @ISA = ('Foswiki::Configure::Type');
 
 sub prompt {
-    my ( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value, $class ) = @_;
     $opts =~ s/^\s+//;
     $opts =~ s/\s+$//;
     $opts =~ s/(\b|^)EXPERT(\b|$)//i;
@@ -21,8 +21,8 @@ sub prompt {
             $sopts .= '<option>' . $opt . '</option>';
         }
     }
-    return CGI::Select( { name => $id, size => 1, class => 'foswikiSelect' },
-        $sopts );
+    return CGI::Select(
+        { name => $id, size => 1, class => "foswikiSelect $class" }, $sopts );
 }
 
 1;
@@ -30,7 +30,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

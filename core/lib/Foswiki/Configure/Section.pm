@@ -17,6 +17,7 @@ sub new {
     $this->{opts} = $opts || '';
 
     @{ $this->{children} } = ();
+    @{ $this->{values} }   = ();
 
     return $this;
 }
@@ -27,7 +28,13 @@ sub addChild {
         Carp::confess if $child eq $kid;
     }
     $child->{parent} = $this;
+
+    if ( $child->isa('Foswiki::Configure::Value') ) {
+        push( @{ $this->{values} }, $child );
+    }
+
     push( @{ $this->{children} }, $child );
+
 }
 
 sub isExpertsOnly {
@@ -71,21 +78,6 @@ sub getDepth {
     return $depth;
 }
 
-sub hasValues {
-    my ( $this ) = @_;
-
-    foreach my $kid ( @{ $this->{children} } ) {
-        if ( $kid->isa( 'Foswiki::Configure::Value' )) {
-            return 1;
-        } elsif ( $kid->can( 'hasValues' )) {
-            ;#return 1 if $kid->hasValues();
-        } else {
-            die $kid; # WTF?
-        }
-    }
-    return 0;
-}
-
 # Get the section object associated with the given headline and depth
 sub getSectionObject {
     my ( $this, $head, $depth, $opts ) = @_;
@@ -125,7 +117,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

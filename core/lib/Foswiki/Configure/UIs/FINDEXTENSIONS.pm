@@ -7,46 +7,31 @@ use strict;
 use Foswiki::Configure::UIs::Section ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
 
-sub close_html {
+sub renderHtml {
     my ( $this, $section, $root, $output ) = @_;
 
     # Check that the extensions UI is loadable
     my $bad = 0;
-    foreach my $module qw(Foswiki::Configure::UIs::EXTEND)
-    {
+    foreach my $module qw(Foswiki::Configure::UIs::EXTEND) {
         eval "use $module ()";
         if ($@) {
             $bad = 1;
             last;
         }
     }
-    my $actor;
-    if ( !$bad ) {
 
-        # Can't use a submit here, because if we do, it is invoked when
-        # the user presses Enter in a text field.
-        my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );
-        my $scriptName = pop(@script);
-        $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
-
-        $actor = CGI::a(
-            {
-                href      => $scriptName . '?action=FindMoreExtensions',
-                class     => 'foswikiSubmit',
-                accesskey => 'P'
-            },
-            'Find More Extensions'
-        );
-    }
-    else {
-        $actor = $this->WARN(<<MESSAGE);
-Cannot load the extensions installer.
-Check 'Perl Modules' in the 'CGI Setup' section above, and install any
-missing modules required for the Extensions Installer.
-MESSAGE
-    }
-    $output .= $actor;
-    return $this->SUPER::close_html($section, $root, $output);
+    my $template =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('findextensionsintro');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $template,
+        {
+            'hasError'   => $bad,
+            'scriptName' => Foswiki::Configure::Util::getScriptName(),
+        }
+    );
+    $output .= $template;
+    $output = $this->SUPER::renderHtml( $section, $root, $output );
+    return $output;
 }
 
 1;
@@ -54,7 +39,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

@@ -1,0 +1,31 @@
+<#-- EXTENSIONS UPDATE SCREEN TEMPLATE -->
+
+<h2>Install and Update Extensions</h2>
+
+<div class="foswikiHelp">
+	<strong>If you are installing extensions</strong><br />
+	Note that the webserver user has to be able to write files everywhere in your Foswiki installation. Otherwise you may see 'No permission to write' errors during extension installation.
+</div>
+
+<#if consultedLocations??>
+	Consulted locations: ${consultedLocations??join(", ")}
+</#if>
+
+<#-- errors -->
+<#if errors??>
+	<#list errors as i>
+		<div class='configureError'>${i}</div>
+	</#list>
+</#if>
+
+<#-- table contents -->
+<#if table??>
+	<table class='configureExtensionsTable' border='0' cellspacing='0'>
+		${table}
+		<tr> 
+			<td colspan='999' class='configureTableOutside'>
+				Installed: ${installedCount} out of ${allCount}
+			</td>
+		</tr>
+	</table>
+</#if>

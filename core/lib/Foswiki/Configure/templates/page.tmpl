@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Foswiki Configuration</title>
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta content="noindex" name="robots" />
+	<link type="image/x-icon" rel="icon" href="configure?action=resource;resource=favicon.ico" />
+	<link type="image/x-icon" rel="shortcut icon" href="configure?action=resource;resource=favicon.ico" />
+	<style type="text/css">
+	%INCLUDE{yui.css}%
+	%INCLUDE{base.css}%
+	%INCLUDE{styles.css}%
+	%INCLUDE{pattern.css}%
+	</style>
+	<script language="JavaScript" type="text/javascript">
+	//<![CDATA[
+	%INCLUDE{foswikiStyles.js}%
+	var styleText = '<style type="text/css" media="all">/* toggling visibility of blocks; show all blocks by removing the style configureShowOneSection from the body tag */ body.configureShowOneSection .configureToggleSection { display:none; } body.configureShowOneSection .configureShowSection { display:block; }<\/style>';
+	document.write(styleText);
+	%INCLUDE{behaviour.js}%
+	%INCLUDE{scripts.js}%
+	//]]>
+	</script>
+</head>
+<body class="configureShowOneSection">
+<div class="configureLogo">
+<img src="%SCRIPTNAME%?action=resource;resource=logo.gif" alt="Foswiki configuration" style="width:235px; height:28px;" />
+</div>
+
+<form method="post" action="${formAction}" enctype="multipart/form-data" name="update">
+<input type="hidden" name="time" value="${time}"  />
+<#if showSanityStatement??><div class='foswikiNotification foswikiAlert noAuthWarning'>
+<strong>BIG, BIG WARNING!</strong> This screen was accessed without requiring authentication. <b>This is a
+high security risk!</b>
+<p />You should always make sure the configuration
+interface requires authentication, or it may be used by a hacker
+to modify your Foswiki configuration. <br />
+See <a href="http://foswiki.org/Support/ProtectingYourConfiguration">
+Protecting Your Configuration</a> for more information on
+limiting access to configuration.
+</div></#if>
+${main}
+</form>
+</body>
+</html>

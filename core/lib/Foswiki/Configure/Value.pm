@@ -9,6 +9,11 @@ our @ISA = ('Foswiki::Configure::Item');
 
 use Foswiki::Configure::Type ();
 
+our $VALUE_TYPE = {
+    CURRENT => ( 1 << 0 ),    # 1
+    DEFAULT => ( 1 << 1 ),    # 2
+};
+
 # The opts are additional parameters, and by convention may
 # be a number (for a string length), a comma separated list of values
 # (for a select) and may also have an M for mandatory, or a H for hidden.
@@ -71,13 +76,47 @@ sub getValueObject {
 sub needsSaving {
     my ( $this, $valuer ) = @_;
 
-    my $curval = $valuer->currentValue($this);
-    my $defval = $valuer->defaultValue($this);
+    my $currentValue = $valuer->currentValue($this);
+    my $defaultValue = $valuer->defaultValue($this);
 
-    return 0 if $this->getType()->equals( $curval, $defval );
+    my $isEqual = $this->getType()->equals( $currentValue, $defaultValue );
 
-#print STDERR "TEST $this->{keys} D'",($defval||'undef'),"' C'",($curval||'undef'),"'\n";
-    return 1;
+#print STDERR "TEST $this->{keys} D'",($defaultValue||'undef'),"' C'",($currentValue||'undef'),"'\n";
+
+    return !$isEqual;
+}
+
+=pod
+
+asString( $valuer, $valueType) -> $value
+
+- $valueType: (int) value of VALUE_TYPE, either 'CURRENT' or 'DEFAULT'
+
+=cut
+
+sub asString {
+    my ( $this, $valuer, $type ) = @_;
+
+    $type = $VALUE_TYPE->{CURRENT} if !defined $type;
+    my $value;
+    $value = $valuer->currentValue($this) if $type == $VALUE_TYPE->{CURRENT};
+    $value = $valuer->defaultValue($this) if $type == $VALUE_TYPE->{DEFAULT};
+
+    $value ||= '';
+
+    return $value if !defined $this->{typename};
+
+    if (   $this->{typename} eq 'PERL'
+        || $this->{typename} eq 'HASH'
+        || $this->{typename} eq 'ARRAY' )
+    {
+        use Data::Dumper;
+        my $setting = $Data::Dumper::Terse;
+        $Data::Dumper::Terse = 1;
+        $value               = Dumper($value);
+        $Data::Dumper::Terse = $setting;
+    }
+    return $value;
 }
 
 1;
@@ -85,7 +124,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

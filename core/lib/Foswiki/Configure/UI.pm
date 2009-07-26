@@ -16,6 +16,27 @@ use FindBin    ();
 
 our $totwarnings;
 our $toterrors;
+our $firsttime;
+
+our $MESSAGE_TYPE = {
+    NONE                      => ( 1 << 0 ),    # 1
+    OK                        => ( 1 << 1 ),    # 2
+    PASSWORD_CHANGED          => ( 1 << 2 ),    # 4
+    PASSWORD_NOT_SET          => ( 1 << 3 ),    # 8
+    PASSWORD_INCORRECT        => ( 1 << 4 ),    # 16
+    PASSWORD_CONFIRM_NO_MATCH => ( 1 << 5 ),    # 32
+    PASSWORD_EMPTY            => ( 1 << 6 ),    # 64
+};
+my $DEFAULT_TEMPLATE_PARSER = 'SimpleFreeMarker';
+my $templateParser;
+
+sub reset {
+    my ($isFirstTime) = @_;
+
+    $firsttime   = $isFirstTime;
+    $toterrors   = 0;
+    $totwarnings = 0;
+}
 
 sub new {
     my ( $class, $item ) = @_;
@@ -111,7 +132,7 @@ sub setting {
 
     my $data = join( ' ', @_ ) || ' ';
 
-    return CGI::Tr( CGI::th( $key) . CGI::td( $data) );
+    return CGI::Tr( CGI::th($key) . CGI::td($data) );
 }
 
 # encode a string to make a simplified unique ID useable
@@ -126,12 +147,8 @@ sub makeID {
 
 sub NOTE {
     my $this = shift;
-    return CGI::div(
-        { class => 'configureInfo' },
-        CGI::span(
-            join( "\n", @_ )
-        )
-    );    
+    return CGI::div( { class => 'configureInfo' },
+        CGI::span( join( "\n", @_ ) ) );
 }
 
 # a warning
@@ -139,12 +156,8 @@ sub WARN {
     my $this = shift;
     $this->{item}->inc('warnings');
     $totwarnings++;
-    return CGI::div(
-        { class => 'configureWarn' },
-        CGI::span(
-            CGI::strong('Warning: ') . join( "\n", @_ )
-        )
-    );
+    return CGI::div( { class => 'foswikiAlert configureWarn' },
+        CGI::span( CGI::strong('Warning: ') . join( "\n", @_ ) ) );
 }
 
 # an error
@@ -153,10 +166,8 @@ sub ERROR {
     $this->{item}->inc('errors');
     $toterrors++;
     return CGI::div(
-        CGI::span(
-            { class => 'configureError' },
-            CGI::strong('Error: ') . join( "\n", @_ )
-        )
+        { class => 'foswikiAlert configureError' },
+        CGI::span( CGI::strong('Error: ') . join( "\n", @_ ) )
     );
 }
 
@@ -168,75 +179,89 @@ sub hidden {
     $value ||= '';
     $value =~
       s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
-    return
-        "<input type='hidden' name='$name' value='$value' />";
+    return "<input type='hidden' name='$name' value='$value' />";
 }
 
-# Invoked to confirm authorisation, and handle password changes. The password
-# is changed in $Foswiki::cfg, a change which is then detected and written when
-# the configuration file is actually saved.
+=pod
+
+StaticMethod authorised () -> ($isAuthorized, $messageType)
+
+Invoked to confirm authorisation, and handle password changes. The password
+is changed in $Foswiki::cfg, a change which is then detected and written when
+the configuration file is actually saved.
+
+=cut
+
 sub authorised {
-    my $pass = $Foswiki::query->param('cfgAccess');
+
+    my $pass    = $Foswiki::query->param('cfgAccess');
+    my $newPass = $Foswiki::query->param('newCfgP');
+
+    # Change the password if so requested
+    if ( $Foswiki::query->param('changePassword') ) {
+        my $confPass = $Foswiki::query->param('confCfgP') || '';
+        if ( !$newPass ) {
+            return ( 0, $MESSAGE_TYPE->{PASSWORD_EMPTY} );
+        }
+        if ( $newPass ne $confPass ) {
+            return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
+        }
+        $Foswiki::cfg{Password} = _encode($newPass);
+        return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
+    }
+
+    if ( !defined($pass) && $Foswiki::query->param('checkCfpP') ) {
+
+        # first time, but using reload a password has been passed at least once
+
+        my $confPass = $Foswiki::query->param('confCfgP');
+        if ( $newPass ne $confPass ) {
+            return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
+        }
+        if ( !$newPass || !$confPass ) {
+            return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
+        }
+        $Foswiki::cfg{Password} = _encode($newPass);
+        return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
+    }
 
     # The first time we get here is after the "next" button is hit. A password
     # won't have been defined yet; so the authorisation must fail to force
     # a prompt.
     if ( !defined($pass) ) {
-        return 0;
+        return ( 0, $MESSAGE_TYPE->{NONE} );
     }
 
     # If we get this far, a password has been given. Check it.
     if ( !$Foswiki::cfg{Password} && !$Foswiki::query->param('confCfgP') ) {
 
-        # No password passed in, and Foswiki::cfg doesn't contain a password
-        print CGI::div( { class => 'configureError' }, <<'HERE');
-WARNING: You have not defined a password. You must define a password before
-you can save.
-HERE
-        return 0;
+        return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
     }
 
     # If a password has been defined, check that it has been used
-    if ( $Foswiki::cfg{Password}
-        && crypt( $pass, $Foswiki::cfg{Password} ) ne $Foswiki::cfg{Password} )
+    if (
+        !$pass
+        || ( $Foswiki::cfg{Password}
+            && crypt( $pass, $Foswiki::cfg{Password} ) ne
+            $Foswiki::cfg{Password} )
+      )
     {
-        print CGI::div( { class => 'configureError' }, "Password incorrect" );
-        return 0;
+        return ( 0, $MESSAGE_TYPE->{PASSWORD_INCORRECT} );
     }
 
     # Password is correct, or no password defined
-    # Change the password if so requested
-    my $newPass = $Foswiki::query->param('newCfgP');
 
-    if ($newPass) {
-        my $confPass = $Foswiki::query->param('confCfgP') || '';
-        if ( $newPass ne $confPass ) {
-            print CGI::div( { class => 'configureError' },
-                'New password and confirmation do not match' );
-            return 0;
-        }
-        $Foswiki::cfg{Password} = _encode($newPass);
-        print CGI::div( { class => 'configureError' }, 'Password changed' );
-    }
-
-    return 1;
+    return ( 1, $MESSAGE_TYPE->{OK} );
 }
 
 sub collectMessages {
     my $this = shift;
     my ($item) = @_;
 
-    my $warnings = $item->{warnings} || 0;
     my $errors   = $item->{errors}   || 0;
-    my $errorsMess   = "$errors error" .     ( ( $errors > 1 )   ? 's' : '' );
-    my $warningsMess = "$warnings warning" . ( ( $warnings > 1 ) ? 's' : '' );
-    my $mess         = '';
-    $mess .= ' ' . CGI::div( { class => 'configureError' }, $errorsMess )
-      if $errors;
-    $mess .= ' ' . CGI::div( { class => 'configureWarn' }, $warningsMess )
-      if $warnings;
+    my $warnings = $item->{warnings} || 0;
 
-    return $mess;
+    return ( $errors, $warnings );
 }
 
 sub _encode {
@@ -258,7 +283,7 @@ sub _encode {
 # minimumVersion - lowest acceptable $Module::VERSION
 #
 sub checkPerlModules {
-    my ( $this, $useTR, $mods) = @_;
+    my ( $this, $useTR, $mods ) = @_;
 
     my $e = '';
     foreach my $mod (@$mods) {
@@ -305,11 +330,32 @@ sub checkPerlModules {
         }
         if ($useTR) {
             $e .= $this->setting( $mod->{name}, $n );
-        } else {
-            $e .= "<div class='configureSetting'><code>$mod->{name}:</code> $n</div>";
+        }
+        else {
+            $e .=
+"<div class='configureSetting'><code>$mod->{name}:</code> $n</div>";
         }
     }
     return $e;
+}
+
+sub getTemplateParser {
+    if ( !$templateParser ) {
+
+        # get the template parser
+        eval "use Foswiki::Configure::TemplateParser";
+        if ($@) {
+            die "TemplateParser could not be loaded:" . join( " ", $@ );
+        }
+
+        $templateParser = Foswiki::Configure::TemplateParser::getParser(
+            $DEFAULT_TEMPLATE_PARSER);
+
+        # skin can be set using url parameter 'skin'
+        my $skin = $Foswiki::query->param('skin') if $Foswiki::query;
+        $templateParser->setSkin( $skin ) if $skin;
+    }
+    return $templateParser;
 }
 
 1;
@@ -317,7 +363,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

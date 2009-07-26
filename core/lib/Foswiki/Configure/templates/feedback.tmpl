@@ -1,0 +1,21 @@
+<#-- FEEDABCK TEMPLATE  -->
+
+<#if messageType == 4><div class="foswikiNotification"> Password changed </div></#if>
+
+<h2>Your updates...</h2>          
+
+<#if changesList??>
+	<div class='configureChangeList'>
+		<table>
+			<#list changesList as i>
+				<tr><th>${i.key}</th><td>${i.value}</td></tr>
+			</#list>
+		</table>
+	</div>
+</#if>
+
+<h2>Update done!</h2>
+<ul>
+	<li><a href='${frontpageUrl}'>Go to your Foswiki front page</a></li>
+	<li><a href='${configureUrl}'>Return to configuration </a></li>
+</ul>

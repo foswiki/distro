@@ -32,7 +32,15 @@ sub ui {
 # Called on each node in the tree as a visit starts
 sub startVisit {
     my ( $this, $item ) = @_;
+
     # Stack the output from previously visited nodes
+
+    my $class = ref($item);
+    $class =~ s/.*:://;
+    return 1
+      if ( $class eq 'Value' )
+      ;    # rendering of values - en groupe - is done in Section object
+
     push( @{ $this->{stack} }, $this->{output} );
     $this->{output} = '';
     return 1;
@@ -41,14 +49,19 @@ sub startVisit {
 # Called on each node in the tree as a visit ends
 sub endVisit {
     my ( $this, $item ) = @_;
+
     my $class = ref($item);
     $class =~ s/.*:://;
+    return 1
+      if ( $class eq 'Value' )
+      ;    # rendering of values - en groupe - is done in Section object
+
     my $ui = Foswiki::Configure::UI::loadUI( $class, $item );
     die "Fatal Error - Could not load UI for $class - $@" unless $ui;
     $this->{output} =
-        pop( @{ $this->{stack} } )
-      . $ui->open_html( $item, $this )
-      . $ui->close_html( $item, $this, $this->{output} );
+      pop( @{ $this->{stack} } )
+      . $ui->renderHtml( $item, $this, $this->{output} );
+
     return 1;
 }
 
@@ -57,7 +70,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

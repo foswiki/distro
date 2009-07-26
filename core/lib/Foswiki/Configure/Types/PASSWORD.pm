@@ -8,23 +8,18 @@ use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');
 
 sub prompt {
-    my ( $this, $id, $opts, $value ) = @_;
-    my $size = '55%';
-    if ( $opts =~ /\s(\d+)\s/ ) {
-        $size = $1;
+    my ( $this, $id, $opts, $value, $class ) = @_;
 
-        # These numbers are somewhat arbitrary..
-        if ( $size > 25 ) {
-            $size = '55%';
-        }
-    }
+    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+
+    # percentage size should be set in CSS
 
     return CGI::password_field(
         -name         => $id,
         -size         => $size,
         -default      => $value,
         -autocomplete => 'off',
-        -class        => 'foswikiInputField',
+        -class        => "foswikiInputField $class",
     );
 }
 
@@ -33,7 +28,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

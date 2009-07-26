@@ -1,0 +1,22 @@
+<#-- FIND EXTENSIONS INTRO SCREEN TEMPLATE  -->
+
+<#assign localErrorMessage>
+	<div class='foswikiAlert configureWarn'>
+		Cannot load the extensions installer.<br />
+		Check 'Perl Modules' in the 'CGI Setup' section above, and install any
+		missing modules required for the Extensions Installer.
+	</div>
+</#assign>
+
+<#assign localOkMessage>
+	<div class='foswikiNotification'>
+		<strong>If you made any changes, save them first!</strong>
+		Otherwise <a href='${scriptName}?action=FindMoreExtensions' class='foswikiButton'>Continue to the Extensions overview</a>
+	</div>
+</#assign>
+
+<#if hasError == 1>
+${localErrorMessage}
+<#else>
+${localOkMessage}
+</#if>

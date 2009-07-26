@@ -14,7 +14,7 @@ our @ISA = ('Foswiki::Configure::Types::SELECT');
 # * is the only wildcard supported
 # Finds all classes that match in @INC
 sub prompt {
-    my ( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value, $class ) = @_;
     my @ropts;
     $opts =~ s/\s.*$//;    # remove e.g. EXPERT
     foreach my $opt ( split( /,/, $opts ) ) {
@@ -25,7 +25,7 @@ sub prompt {
             push( @ropts, @{ $this->findClasses($opt) } );
         }
     }
-    return $this->SUPER::prompt( $id, join( ',', @ropts ), $value );
+    return $this->SUPER::prompt( $id, join( ',', @ropts ), $value, $class );
 }
 
 # $pattern is a wildcard expression that matches classes e.g.
@@ -87,7 +87,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

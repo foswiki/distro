@@ -1,0 +1,25 @@
+<#-- SECTION TEMPLATE -->
+
+<div id='${id}Body' class='${bodyClass}'><a name='${id}'><!--//--></a>
+
+<#-- any header -->
+<#if headline??><h${depth}>${headline}</h${depth}></#if>
+
+<#-- any warning or error message -->
+<#-- suppress blocks for level 3 to not clutter the interface too much -->
+<#-- work around not having nested if statements -->
+<#if depth < 3 && warnings?? || errors??><div class='foswikiAlert'></#if>
+<#if depth < 3 && errors??><span class='configureStatusErrors'>${errors}</span></#if>
+<#if depth < 3 && warnings??><span class='configureStatusWarnings'>${warnings}</span></#if>
+<#if depth < 3 && warnings?? || errors??></div></#if>
+
+<#-- any navigation -->
+<#if navigation??>${navigation}</#if>
+
+<#-- any description -->
+<#if description??>${description}</#if>
+
+<#-- any contents (table) -->
+<#if contents??>${contents?replace("CONFIGURE_EXPERT_LINK", "<span><a class='configureExpert' style='display:none' href='#'>Hide expert options</a><a class='configureNotExpert foswikiMakeVisible' style='display:none' href='#'>Show expert options</a></span>")?replace("CONFIGURE_INFO_LINK", "<span><a class='configureInfoText foswikiMakeVisible' href='#'>Hide info texts</a><a class='configureNotInfoText foswikiMakeVisible' href='#'>Show info texts</a></span>")}</#if>
+
+</div><!--/${id}Body-->

@@ -7,18 +7,26 @@ use strict;
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 
-# Generates the appropriate HTML for getting a value to configure the
-# entry. The actual input field is decided by the type.
-sub open_html {
+=pod
+
+renderHtml($value, $root) -> ($html, \%properties)
+
+Generates the appropriate HTML for getting a value to configure the
+entry. The actual input field is decided by the type.
+
+=cut
+
+sub renderHtml {
     my ( $this, $value, $root ) = @_;
 
     my $output = '';
 
     my $type = $value->getType();
+
     return '' if $value->{hidden};
 
     my $isExpert = $value->isExpertsOnly();
-    my $info = '';
+    my $info     = '';
 
     $info .= $value->{desc};
     my $keys = $value->getKeys();
@@ -26,7 +34,7 @@ sub open_html {
     my $checker  = Foswiki::Configure::UI::loadChecker( $keys, $value );
     my $isUnused = 0;
     my $isBroken = 0;
-    my $check = '';
+    my $check    = '';
     if ($checker) {
         $check = $checker->check($value) || '';
         if ($check) {
@@ -41,87 +49,112 @@ sub open_html {
 
     # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-    my $class = $isExpert ? 'configureExpert' : '';
+    my @cssClasses = ();
+    push @cssClasses, 'configureExpert' if $isExpert;
     if ( $isUnused || !$isBroken && $value->{hidden} ) {
-        $class = 'foswikiHidden';
+        push @cssClasses, 'foswikiHidden';
     }
 
     # Hidden type information used when passing to 'save'
     my $hiddenTypeOf = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
 
     my $index = $keys;
-    $index = "<span class='foswikiMandatory'>$index</span>" if $value->{mandatory};
+    $index = "$index <span class='configureMandatory'>required</span>"
+      if $value->{mandatory};
 
-    my $details = '';
-    if ( $value->needsSaving($root->{valuer}) ) {
-        my $defaultValue = $root->{valuer}->defaultValue($value) || '';
+    my $resetToDefaultLinkText = '';
+    if ( $value->needsSaving( $root->{valuer} ) ) {
 
-        # special case are Perl data structures
-        # in order to edit this in the browser, it must get translated
-        # to a string
-        if ( $value->{typename} eq 'PERL' || $value->{typename} eq 'HASH' ) {
-            use Data::Dumper;
-            $Data::Dumper::Terse = 1;
-            $defaultValue        = Dumper($defaultValue);
+        my $valueString =
+          $value->asString( $root->{valuer},
+            $Foswiki::Configure::Value::VALUE_TYPE->{DEFAULT} );
 
-            # encode special characters, put them back in javascript
-            $defaultValue =~ s/(['"\n])/'#'.ord($1)/ge;
-        }
+        # encode special characters
+        $valueString =~ s/(['"\n])/'#'.ord($1)/ge;
 
         my $safeKeys = $keys;
         $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
-        my $defaultDisplayValue = $defaultValue;
-        if ($value->{typename} eq 'BOOLEAN' || $value->{typename} eq 'NUMBER' || $value->{typename} eq 'OCTAL') {
+        my $defaultDisplayValue = $valueString;
+
+        if (   $value->{typename} eq 'BOOLEAN'
+            || $value->{typename} eq 'NUMBER'
+            || $value->{typename} eq 'OCTAL' )
+        {
             $defaultDisplayValue ||= '0';
-        } else {
-            $defaultDisplayValue ||= '\"\"';
         }
-        $defaultValue =~ s/\'/\\'/go;
-        $defaultValue =~ s/\"/&quot;/go;
-        $defaultDisplayValue =~ s/'/\&amp;apos;/go;
-        $defaultDisplayValue =~ s/"/\&amp;quot;/go;
-        $details .= <<HERE;
-<a href="#" onmouseover='Tip(getTip("Delta")+"&lt;code&gt;$defaultDisplayValue&lt;/code&gt;&lt;br /&gt;of type $value->{typename}&lt;br /&gt;&lt;small&gt;(after clicking you may undo this reset)&lt;/small&gt;")' onmouseout='UnTip()' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$defaultValue')"></a>
+        $valueString =~ s/\'/\\'/go;
+        $valueString =~ s/\"/&quot;/go;
+        $resetToDefaultLinkText .= <<HERE;
+<a href='#' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$valueString')"><span class="configureDefaultValueLinkLabel">&nbsp;</span><span class='configureDefaultValueLinkValue'>$defaultDisplayValue</span></a>
 HERE
 
-         $details =~ s/^[[:space:]]+//s;    # trim at start
-         $details =~ s/[[:space:]]+$//s;    # trim at end
+        $resetToDefaultLinkText =~ s/^[[:space:]]+//s;    # trim at start
+        $resetToDefaultLinkText =~ s/[[:space:]]+$//s;    # trim at end
     }
 
     my $control;
     if ( $isUnused && !$isBroken ) {
+
         # Unused and not broken - just pass the value through a hidden
         $control = CGI::hidden( $keys, $root->{valuer}->currentValue($value) );
-    } else {
+    }
+    else {
 
         # Generate a prompter for the value.
         my $promptclass = $value->{typename} || '';
-        $promptclass .= ' foswikiMandatory' if ( $value->{mandatory} );
-        $control = "<span class='$promptclass'>"
-          . $type->prompt(
-              $keys, $value->{opts}, $root->{valuer}->currentValue($value))
-                ."</span>";
+        $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
+        $control =
+          $type->prompt( $keys, $value->{opts},
+            $root->{valuer}->currentValue($value), $promptclass );
     }
 
-    my ($tipo, $tipc) = ('', '');
+    my $helpTextLink = '';
+    my $helpText     = '';
     if ($info) {
-        my $tip = $root->{controls}->addTooltip($info);
-        $tipo = "<a onmouseover='Tip(getTip($tip))' onmouseout='UnTip()'>";
-        $tipc = "</a>";
+        my $tip        = $root->{controls}->addTooltip($info);
+        my $scriptName = Foswiki::Configure::Util::getScriptName();
+        my $image =
+"<img src='$scriptName?action=resource;resource=icon_info.gif' alt='Show info' title='Show info' />";
+        $helpTextLink =
+"<span class='foswikiMakeVisible'><a href='#' onclick='return toggleInfo($tip);'>$image</a></span>";
+        $helpText =
+"<div id='info_$tip' class='configureInfoText foswikiMakeHidden'>$info</div>";
     }
 
-    $class = " class='$class'" if ($class);
+    my $class = join( ' ', @cssClasses );
 
-    $output .= "<tr$class>"
-      . "<th$class>$hiddenTypeOf$tipo$index$tipc</th>"
-      . "<td>$tipo$control$tipc&nbsp;$details$check</td>"
-      . "</tr>";
-    return $output;
+    $output .=
+      getRowHtml( $class, "$index$hiddenTypeOf", $helpTextLink,
+        "$control&nbsp;$resetToDefaultLinkText$check$helpText" )
+      . "\n";
+
+    return (
+        $output,
+        {
+            expert => $isExpert,
+            info   => ( $info ne '' ),
+            broken => $isBroken,
+            unused => $isUnused,
+            hidden => $value->{hidden}
+        }
+    );
 }
 
-sub close_html {
-    my ( $this, $value, $root, $output ) = @_;
-    return $output;
+sub getRowHtml {
+    my ( $class, $header, $info, $data ) = @_;
+
+    my $classProp = $class ? { class => $class } : undef;
+    return CGI::Tr( $classProp,
+            CGI::th( $classProp, $header )
+          . CGI::td($data)
+          . CGI::td( { class => "$class configureHelp" }, $info ) );
+}
+
+sub getOutsideRowHtml {
+    my ( $class, $title, $data ) = @_;
+
+    return CGI::Tr(
+        CGI::td( { class => $class, colspan => "3" }, "$title $data" ) );
 }
 
 1;
@@ -129,7 +162,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

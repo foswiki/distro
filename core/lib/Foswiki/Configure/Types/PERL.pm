@@ -20,16 +20,21 @@ our @ISA = ('Foswiki::Configure::Type');
 use Data::Dumper ();
 
 sub prompt {
-    my ( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value, $class ) = @_;
+
     my $v = Data::Dumper->Dump( [$value], ['x'] );
     $v =~ s/^\$x = (.*);\s*$/$1/s;
     $v =~ s/^     //gm;
+    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+
+    # percentage size should be set in CSS
+
     return CGI::textarea(
         -name    => $id,
         -value   => $v,
         -rows    => 10,
-        -columns => 55,
-        -class   => 'foswikiTextarea',
+        -columns => $size,
+        -class   => "foswikiTextarea $class",
     );
 }
 
@@ -116,7 +121,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

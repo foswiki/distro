@@ -1,0 +1,139 @@
+<#-- AUTHORIZE TEMPLATE  -->
+
+<#assign localSecurityWarning>
+	<div class='foswikiNotification foswikiAlert'>
+		<h3 style="margin-top:0;">Security tips</h3>
+		<ol>
+			<li>Always use a strong password that can't be guessed easily.</li>
+			<li>Always configure the web server so that Configure is only accessible to the people who should use it.</li>
+			<li>If you are running Foswiki on a public website, you can totally disable saving from Configure by making <code>lib/LocalSite.cfg</code> read-only once you are happy with your configuration.</li>
+		</ol>
+	</div>
+</#assign>
+
+<#assign localFormNewPassword>
+	<div class='foswikiFormStep'>
+		<p>
+		<#if hasPassword = 1>
+			New password:
+		<#else>
+			Create password:
+		</#if>
+		<br />
+		<input type='password' name='newCfgP' size='30' maxlength='80' class='foswikiInputField' />
+		<input type='hidden' name='checkCfpP' value='1' />
+		</p>
+		<p>
+		To verify, repeat password:<br />
+		<input type='password' name='confCfgP' size='30' maxlength='80' class='foswikiInputField' />
+		</p>
+	</div>
+</#assign>
+
+<#assign localSetPassword>
+	<div class='foswikiFormSteps'>
+		<div class='foswikiFormStep'>
+			<#if hasPassword = 1>
+				<h2>Set your Configure password</h2>
+			<#else>
+				<h2>Save your settings by creating your Configure password</h2>
+			</#if>
+		</div>
+		${localFormNewPassword}
+		<div class='foswikiFormStep'>
+			<input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+		</div>
+	</div>
+</#assign>
+
+<#assign localEnterPassword>
+	<div class='foswikiFormSteps'>
+		<div class='foswikiFormStep'>
+			<h2>In order to save your changes, Configure requires that you type your password.</h2>
+		</div>
+		<div class='foswikiFormStep'>
+			<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField' />
+			&nbsp; <input type="submit" class='foswikiSubmit' value='Save changes' /></p>
+		</div>
+		<div class='foswikiFormStep configureFormStepOutside'>
+			${localNotePasswordForgotten}
+		</div>
+		<div class='foswikiFormStep configureFormStepOutside'>
+			<p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
+		</div>   
+	</div>
+</#assign>
+
+<#assign localNotePasswordForgotten>
+	<p>Password forgotten? To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>. Then reload this page and create a new password.</p>
+</#assign>
+
+<#assign localChangePassword>
+	<div class='foswikiFormSteps'>
+		<div class='foswikiFormStep'>
+			<h2>Change your Configure password</h2>
+		</div>
+		<div class='foswikiFormStep'>
+			<p>Current password:<br />
+			<input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField' /></p>
+			${localNotePasswordForgotten}
+		</div>
+		${localFormNewPassword}
+		<div class='foswikiFormStep'>
+			<input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+		</div>
+	</div>
+</#assign>
+
+<#assign localUpdate>
+	<h2>You are about to update 
+		<#if modifiedCount == 1>
+			${modifiedCount} setting
+		<#else>
+			${modifiedCount} settings
+		</#if>
+		<#if changePassword??>
+			- and to change your password...
+		</#if>
+	</h2>
+	<#if changesList??>
+		<div class='configureChangeList'>
+			<table>
+				<#list changesList as i>
+					<tr><th>${i.key}</th><td>${i.value}</td></tr>
+				</#list>
+			</table>
+			<p>Go back in your browser if you want to make any changes.</p>
+		</div>
+	</#if>
+	<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
+		<#if params??>${params}</#if>
+		<#if hasPassword == 0>
+			${localSecurityWarning}
+			${localSetPassword}
+		</#if>
+		<#if hasPassword == 1 && changePassword??>
+			${localChangePassword}
+		</#if>
+		<#if hasPassword == 1 && !changePassword??>
+			${localEnterPassword}
+		</#if>
+	</form>
+</#assign>
+
+<#assign localNoUpdate>
+	<h2>You did not make any changes!</h2>
+	<p>Go back in your browser to continue.</p>
+</#assign>
+
+<#if messageType == 4><div class="foswikiNotification"> Password changed </div></#if>
+<#if messageType == 8><div class="foswikiNotification foswikiAlert"> Password not set. Try again below.</div></#if>
+<#if messageType == 16><div class="foswikiNotification foswikiAlert"> Password incorrect. Try again below.</div></#if>
+<#if messageType == 32><div class="foswikiNotification foswikiAlert"> New and repeated passwords do not match. Try again below.</div></#if>
+<#if messageType == 64><div class="foswikiNotification foswikiAlert"> Please enter a new password.</div></#if>
+
+<#if modifiedCount == 0>
+${localNoUpdate}
+<#else>
+${localUpdate}
+</#if>

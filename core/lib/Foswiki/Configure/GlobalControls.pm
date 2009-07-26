@@ -6,30 +6,41 @@ package Foswiki::Configure::GlobalControls;
 use strict;
 
 sub new {
-    my ($class, $groupid) = @_;
+    my ( $class, $groupid ) = @_;
 
-    my $this = bless( {
-        tabs => [],
-        tips => [],
-        groupid => $groupid,
-    }, $class );
+    my $this = bless(
+        {
+            tabs    => [],
+            tips    => [],
+            groupid => $groupid,
+        },
+        $class
+    );
     return $this;
 }
 
 sub openTab {
-    my ($this, $id, $depth, $opts, $text, $alert) = @_;
-    my $bodyClass =
-      $depth > 2 ? 'configureSubSection' : 'configureRootSection';
-    push(@{$this->{tabs}}, {
-        id => $id, opts => $opts || '', text => $text, alert => $alert });
-    my $fullId = $id;
-    $fullId .= "\$$this->{groupid}" if $this->{groupid} ne ''; # syntax: sub$main
-    return "<div id='${fullId}_body' class='foswikiMakeHidden $bodyClass'><a name='${fullId}'><!--//--></a>\n";
+    my ( $this, $id, $depth, $opts, $text, $errors, $warnings ) = @_;
+
+    push(
+        @{ $this->{tabs} },
+        {
+            id       => $id,
+            opts     => $opts || '',
+            text     => $text,
+            errors   => $errors,
+            warnings => $warnings
+        }
+    );
 }
 
-sub closeTab {
-    my ($this, $id) = @_;
-    return "</div><!--/#${id}_body-->\n";
+sub sectionId {
+    my ( $this, $id ) = @_;
+
+    my $sectionId = $id;
+    $sectionId .= "\$$this->{groupid}"
+      if $this->{groupid} ne '';    # syntax: sub$main
+    return $sectionId;
 }
 
 sub _nbsp {
@@ -39,43 +50,49 @@ sub _nbsp {
 }
 
 sub generateTabs {
-    my ($this, $depth) = @_;
+    my ( $this, $depth ) = @_;
+
+    return '' if !scalar @{ $this->{tabs} };
+    my $tabs = '';
 
     my $controllerType = $depth > 1 ? 'div' : 'body';
-    my @tabLi = map { "$controllerType.$_->{id} li.tabId_$_->{id} a" } @{$this->{tabs}};
-    
+    my @tabLi =
+      map { "$controllerType.$_->{id} li.tabId_$_->{id} a" } @{ $this->{tabs} };
+
     my $ulClass = $depth > 1 ? 'configureSubTab' : 'configureRootTab';
-    my $tabs = "<ul class='$ulClass'>\n";
-    foreach my $tab ( @{$this->{tabs}} ) {
+    $tabs .= "<ul class='$ulClass'>";
+    foreach my $tab ( @{ $this->{tabs} } ) {
         my $href = $depth > 1 ? "#$tab->{id}\$$this->{groupid}" : "#$tab->{id}";
         my $expertClass = '';
-        # $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # uncomment to hide menu items if they are expert
-        my $alertClass = $tab->{alert} ? " class='configureWarn'" : '';
-        $tabs .= "<li class='tabli tabGroup_$this->{groupid} tabId_$tab->{id}$expertClass'>"
-          . "<a$alertClass href='$href'>"
-            . _nbsp($tab->{text}) . "</a></li>\n";
+
+# $expertClass = ($tab->{opts} =~ /EXPERT/ ? ' configureExpert' : ''); # uncomment to hide menu items if they are expert
+        my $alertClass = '';
+        if ( $tab->{errors} && $tab->{warnings} ) {
+            $alertClass = 'configureWarnAndError';
+        }
+        elsif ( $tab->{errors} ) {
+            $alertClass = 'configureError';
+        }
+        elsif ( $tab->{warnings} ) {
+            $alertClass = 'configureWarn';
+        }
+        $alertClass = "class='$alertClass'" if $alertClass;
+        $tabs .=
+            "<li class='tabli$expertClass'>"
+          . "<a $alertClass href='$href'>"
+          . _nbsp( $tab->{text} )
+          . "</a></li>"
+          ;    # do not append a newline because IE makes this a whitespace
     }
-    $tabs .= "</ul>\n";
-    $tabs .= "<br class='foswikiClear' />\n" if $depth > 1;
+    $tabs .= "</ul><br class='foswikiClear' />";
 
     return $tabs;
 }
 
 sub addTooltip {
-    my ($this, $tip) = @_;
-    push(@{$this->{tips}}, $tip);
-    return $#{$this->{tips}};
-}
-
-sub generateTooltips {
-    my $this = shift;
-    my $tips = '';
-    my $n = 0;
-    foreach my $tip (@{$this->{tips}}) {
-        $tips .= "<div id='tt$n' style='display:none'>$tip</div>";
-        $n++;
-    }
-    return $tips;
+    my ( $this, $tip ) = @_;
+    push( @{ $this->{tips} }, $tip );
+    return $#{ $this->{tips} };
 }
 
 1;

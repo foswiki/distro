@@ -56,7 +56,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # directory e.g. <code>/foswiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
 # <p />
-# See http://foswiki.org/Support.ShorterUrlCookbook for more information on setting up
+# See <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">ShorterUrlCookbook</a> for more information on setting up
 # Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
@@ -123,9 +123,9 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 $Foswiki::cfg{ScriptSuffix} = '';
 
 #---+ User Logins -- TABS
-# In order to support tracking who changed what, and apply access controls,
+# <p>In order to support tracking who changed what, and apply access controls,
 # Foswiki is normally configured to use logins. The tabs below control
-# various aspects of logins.
+# various aspects of logins.</p>
 #---++ Sessions
 # <p>Sessions are how Foswiki tracks a user across multiple requests.
 # A user's session id is stored in a cookie, and this is used to identify
@@ -134,7 +134,8 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # This allows you to have persistent session variables - for example, skins.
 # Client sessions are not required for logins to work, but Foswiki will not
 # be able to remember logged-in users consistently.
-# See UserAuthentication for a full discussion of the pros and
+# See <a href="http://foswiki.org/System/UserAuthentication" target="_new">User 
+# Authentication</a> for a full discussion of the pros and
 # cons of using persistent sessions.</p>
 
 # **BOOLEAN**
@@ -354,9 +355,9 @@ $Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
 #---++ Passwords
-# The password manager handles the passwords database, and provides
+# <p>The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of
-# Foswiki. 
+# Foswiki.</p>
 # **SELECTCLASS none,Foswiki::Users::*User**
 # Name of the password handler implementation. Foswiki ships with two alternative implementations:
 # <ol><li>
@@ -583,12 +584,12 @@ $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
 
 #---++ Anti-Spam
-# Foswiki incorporates some simple anti-spam measures to protect
+# <p>Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
 # public (internet) sites are strongly recommended to install
-# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin">
-# AntiWikiSpamPlugin </a>
+# <a href="http://foswiki.org/Extensions/AntiWikiSpamPlugin" target="_new">
+# AntiWikiSpamPlugin</a></p>
 
 # **STRING 50**
 # Text added to email addresses to prevent spambots from grabbing
@@ -702,9 +703,9 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # modules to be installed.</p>
 
 # **BOOLEAN**
-# Allowing all languages is the best for <em>really</em> international sites,
-# but for best performance you should enable only the languages you really
-# need. English is the default language, and is always enabled.
+# Allowing all languages is the best for <strong>really</Strong> international 
+# sites, but for best performance you should enable only the languages you 
+# really need. English is the default language, and is always enabled.
 # <p />
 # {LocalesDir} is used to find the languages supported in your installation,
 # so if the list below is empty, it's probably because {LocalesDir} is pointing
@@ -732,7 +733,6 @@ $Foswiki::cfg{Languages}{'zh-cn'}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 
 #---++ Locale
-
 # <p>Enable operating system level locales and internationalisation support
 # for 8-bit character sets. This may be required for correct functioning
 # of the programs that Foswiki calls when your wiki content uses
@@ -968,8 +968,8 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 # if you find searches run very slowly, you may want to try a different
 # algorithm, which may work better on your configuration.
 # Note that there is an alternative algorithm available from
-# <a href="http://foswiki.org/Extensions/NativeSearchContrib">
-# http://foswiki.org/Extensions/NativeSearchContrib </a>, that often
+# <a href="http://foswiki.org/Extensions/NativeSearchContrib" target="_new">
+# NativeSearchContrib</a>, that often
 # gives better performance with mod_perl and Speedy CGI.
 $Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
@@ -1137,8 +1137,6 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 
 #---+ Miscellaneous -- EXPERT
 # <p>Miscellaneous expert options.</p>
-# <p class='configureNotExpert'>Select "Show EXPERT Options" to see the
-# available settings.</p>
 
 # **STRING 20 EXPERT**
 # Name of the web where documentation and default preferences are held. If you
@@ -1331,7 +1329,9 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
 
-#---++ Install New Extensions
+#---++ Install and Update Extensions
+# <p>Consult online extensions repositories for new extensions, or check and manage updates.</p>
+#
 # **STRING 80 EXPERT**
 # <b>Extensions Repositories Search List</b><br />
 # Foswiki extension repositories are just Foswiki webs that are organised in the
@@ -1340,7 +1340,7 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TW
 # extensions repository:
 # <ol>
 # <li>Create a Foswiki web to contain the repository</li>
-# <li>Copy the <tt>FastReport</tt> page from <a href="http://foswiki.org/Extensions/FastReport?raw=on">Foswiki:Extensions.FastReport</a> to your new web</li>
+# <li>Copy the <tt>FastReport</tt> page from <a href="http://foswiki.org/Extensions/FastReport?raw=on" target="_new">Foswiki:Extensions.FastReport</a> to your new web</li>
 # <li> Set the <tt>WEBFORMS</tt> variable in WebPreferences to <tt>PackageForm</tt></li>
 # </ol>
 # The page for each extension must have the <tt>PackageForm</tt> (copy from Foswiki.org),
@@ -1350,9 +1350,9 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TW
 # The search list is a semicolon-separated list of repository specifications, each in the format: <i>name=(listurl,puburl)</i>
 # where:
 # <ul>
-# <li><em>name</em> is the symbolic name of the repository e.g. Foswiki.org</li>
-# <li><em>listurl</em> is the root of a view URL</li>
-# <li><em>puburl</em> is the root of a download URL</li>
+# <li><code>name</code> is the symbolic name of the repository e.g. Foswiki.org</li>
+# <li><code>listurl</code> is the root of a view URL</li>
+# <li><code>puburl</code> is the root of a download URL</li>
 # </ul>
 # For example,<code>
 # twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
@@ -1360,9 +1360,6 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TW
 $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
 
 # *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
-# Click 'Find More Extensions' to consult online extensions repositories
-# for new extensions.
-# <strong>If you made any changes, save them first!</strong>
 
 1;
 __END__

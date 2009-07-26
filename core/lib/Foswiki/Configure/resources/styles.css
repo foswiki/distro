@@ -1,272 +1,530 @@
-/* -- STANDARD (skin independent) STYLES -- */
-%INCLUDE{base.css}%
-%INCLUDE{default.css}%
+/* STYLES.CSS */
 
-/* --- VISUAL CUES --- */
+/* --- SECTIONS --- */
 
-/* Mandatory value */
-.configureMandatory {
-	  color:green;
-	  background-color:#ECFADC;
-	  font-weight:bold;
+.configureMain {
+	border:1px solid #6aadd0;
+}
+.configureMainContents {
+	background:#fff;
+	padding:1em;
+}
+.configureRootSection {
+	padding:0 .5em 1em 1em;
+	background-color:#fff;
+}
+.configureSubSection {
+	margin:1em 0;
 }
 
-.configureMandatory input {
-	  font-weight:normal;
+/* toggling visibility of blocks */
+body.configureShowOneSection .configureToggleSection {
+	/* reserved */
+}
+body.configureShowOneSection .configureShowSection {
+	/* reserved */
 }
 
-/* Format of the 'changed from default' indicator */
-.configureDefaultValue {
-	font-size:86%;
+.configureNotShowSection {
+	display:none;	
+}
+body.configureShowOneSection .configureNotShowSection {
+	display:block;	
 }
 
-/* Format of a tooltip div (see wz_tooltip.js for additional tooltip
-	 controls) */
-.configureTooltip {
-	display:none;
+.configureTools,
+.configureActions {
+	padding:.7em 1.5em .7em 1em;
+	background-color:#edf5fc;
+	border-width:1px;
+	border-color:#d2e6f1;
 }
+.configureTools {
+	border-style:none none solid none;
+	text-align:left;
+}
+.configureTools span {
+	margin:0 0 0 .3em;
+}
+.configureStatusWarnings,
+.configureStatusErrors {
+	padding:7px .5em 7px 22px;
+	background-position:0 45%;
+	background-repeat:no-repeat;
+}
+.configureStatusWarnings {
+	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
+}
+.configureStatusErrors {
+	background-image:url(configure?action=resource;resource=icon_error_white.gif);
+}
+.configureActions {
+	text-align:right;
+	border-style:solid none none none;
+}
+
+/* --- MENUS --- */
+
+/* PRIMARY NAVIGATION */
+ul.configureRootTab {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	border-top:1px solid #d2e6f1;
+	width:200px;
+}
+ul.configureRootTab li {
+	margin:0;
+	padding:0;
+}
+ul.configureRootTab li a:link,
+ul.configureRootTab li a:visited {
+	display:block;
+	width:100%; /* needs to have a width or IE won't rollover over the background */
+	padding:.3em 1em;
+	margin:-1px 0 0 0;
+	text-decoration:none;
+	background-color:#edf5fc;
+	border:1px solid #d2e6f1;
+}
+ul.configureRootTab li a:hover {
+	background-color:#d2e6f1;
+	border-color:#d2e6f1;
+	color:#004cb2;
+}
+
+/* SECONDARY NAVIGATION */
+ul.configureSubTab {
+	list-style-type:none;
+	padding:0 0 2em 0;
+	margin:1em 0 0 0;
+}
+ul.configureSubTab li {
+	display:block;
+	float:left;
+	margin:0;
+	padding:0;
+}
+ul.configureSubTab li a:link,
+ul.configureSubTab li a:visited {
+	display:block;
+	padding:.25em 1em;
+	margin:0 5px 5px 0;
+	background-color:#edf5fc;
+	border:1px solid #d2e6f1;
+	text-decoration:none;
+}
+ul.configureSubTab li a:hover {
+	background-color:#d2e6f1;
+	border-color:#d2e6f1;
+	color:#004cb2;
+}
+
+ul li.configureMenuSelected a:link,
+ul li.configureMenuSelected a:visited,
+ul li.configureMenuSelected a:hover {
+	background-color:#2989bb;
+	border-color:#2989bb;
+	color:#fff;
+	text-decoration:none;
+	cursor:default;
+}
+ul.configureSubTab li a.configureWarnAndError:link,
+ul.configureSubTab li a.configureWarnAndError:visited {
+	padding-right:57px; /* width of icon 33 + 24 extra spacing */
+}
+ul.configureSubTab li a.configureError:link,
+ul.configureSubTab li a.configureError:visited,
+ul.configureSubTab li a.configureWarn:link,
+ul.configureSubTab li a.configureWarn:visited {
+	padding-right:30px; /* width of icon 16 + 24 extra spacing */
+}
+
+ul li a.configureWarnAndError:link, 
+ul li a.configureWarnAndError:visited,
+ul li a.configureWarnAndError:hover,
+ul li a.configureError:link,
+ul li a.configureError:visited,
+ul li a.configureError:hover,
+ul li a.configureWarn:link, 
+ul li a.configureWarn:visited,
+ul li a.configureWarn:hover {
+	background-position:96% 45%;
+	background-repeat:no-repeat;
+}
+ul li a.configureWarnAndError:link, 
+ul li a.configureWarnAndError:visited,
+ul li a.configureWarnAndError:hover {
+	background-image:url(configure?action=resource;resource=icon_warn_and_error_white.gif);
+}
+ul li a.configureError:link, 
+ul li a.configureError:visited,
+ul li a.configureError:hover {
+	background-image:url(configure?action=resource;resource=icon_error_white.gif);
+}
+ul li a.configureWarn:link, 
+ul li a.configureWarn:visited,
+ul li a.configureWarn:hover {
+	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
+}
+ul li.configureMenuSelected a.configureWarnAndError:link,
+ul li.configureMenuSelected a.configureWarnAndError:visited,
+ul li.configureMenuSelected a.configureError:link,
+ul li.configureMenuSelected a.configureError:visited,
+ul li.configureMenuSelected a.configureWarn:link,
+ul li.configureMenuSelected a.configureWarn:visited {
+	background-position:96% 45%;
+	background-repeat:no-repeat;
+}
+ul li.configureMenuSelected a.configureWarnAndError:link,
+ul li.configureMenuSelected a.configureWarnAndError:visited {
+	background-image:url(configure?action=resource;resource=icon_warn_and_error_blue.gif);
+}
+ul li.configureMenuSelected a.configureError:link,
+ul li.configureMenuSelected a.configureError:visited {
+	background-image:url(configure?action=resource;resource=icon_error_blue.gif);
+}
+ul li.configureMenuSelected a.configureWarn:link,
+ul li.configureMenuSelected a.configureWarn:visited {
+	background-image:url(configure?action=resource;resource=icon_warn_blue.gif);
+}
+/* --- TABLE ROWS & COLUMNS --- */
+/*
+.configureSectionValues is the contents of the table in a tab.
+A th under it is the first column (keys) and a td is the second column
+(value)
+*/
+table {
+	margin:.5em 0;
+	border-collapse:collapse;
+	border-bottom:1px solid #dfdfdf;
+}
+table.configureSectionValues,
+table.configureNestedTable {
+	width:100%;
+}
+table,
+th,
+td {
+	border-width:1px;
+	vertical-align:top;
+}
+th {
+	font-weight:normal;
+	background-color:#f1f1f1;
+	white-space:nowrap;
+}
+td {
+	background:#f7f9f9;
+}
+td,
+th {
+	padding:.4em 1em;
+	border-top:1px solid #dfdfdf;
+}
+td.configureHelp {
+	width:1%;
+}
+td.configureHelp img {
+	width:16px;
+	height:16px;
+}	
+table.configureSectionValues th,
+table.configureNestedTable th {
+	width:25%;
+}
+table p {
+	margin:0 0 1em 0;
+}
+table.configureSectionValues .foswikiInputField,
+table.configureSectionValues .foswikiTextarea {
+	width:55%;
+}
+
+/* WARN and ERROR */
+.configureWarn {
+	  color:#333;
+}
+
+.configureRootSection .foswikiAlert {
+	background-color:#fff;
+	border:1px solid #e6e6e6;
+	margin:.5em 0 .7em 0;
+	padding:7px 1em;
+}
+table.configureSectionValues .foswikiAlert {
+	padding-left:3em;
+}
+div.configureInfoText {
+	border:1px solid #e6e6e6;
+	margin:.5em 0 .7em 0;
+	padding:7px 1em;
+	color:green;
+}
+div.configureError,
+div.configureWarn {
+	padding:7px 1em 7px 3em;
+	background-position:1em 7px;
+	background-repeat:no-repeat;
+}
+div.configureError {
+	background-image:url(configure?action=resource;resource=icon_error_white.gif);
+}
+div.configureWarn {
+	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
+}
+
+a.configureWarn:link,
+a.configureWarn:visited,
+a.configureError:link,
+a.configureError:visited {
+	text-decoration:none;
+}
+.configureInfo {
+	color:green;
+}
+div.configureInfo {
+	margin:.5em 0;
+}
+.configureSetting {
+	margin:.5em 0;
+}
+
+/* --- EXTENSIONS --- */
+table.configureExtensionsTable {
+	margin:2em 0;
+	border:none;
+}
+table.configureExtensionsTable td,
+table.configureExtensionsTable th {
+	padding:.4em 1em;
+}
+table.configureExtensionsTable td {
+	background:#fff;
+}
+table.configureExtensionsTable th {
+	font-weight:bold;
+}
+table.configureExtensionsTable td.configureExtensionTitle {
+	padding-top:.5em;
+	padding-bottom:0;
+}
+table.configureExtensionsTable td.configureExtensionTitle a {
+	font-weight:bold;
+}
+table.configureExtensionsTable td.configureExtensionData {
+	border-top:none;
+	padding-top:0;
+	padding-bottom:.7em;
+}
+table.configureExtensionsTable td.configureExtensionDataFirst {
+	padding-left:4em;
+}
+table.configureExtensionsTable td.configureExtensionAction {
+	width:9em;	
+	border-left:1px dashed #dfdfdf;
+}
+table.configureExtensionsTable .configureReInstall {
+	background:#e8feea;
+}
+table.configureExtensionsTable .configureUpgrade {
+	background:#fff7f0;
+}
+table.configureExtensionsTable .configurePseudoInstalled {
+	background:#f2f2f2;
+}
+table.configureExtensionsTable .configureAlienExtension {}
 
 /* --- EXPERT ---*/
 
 /* Settings and other stuff only shown in expert mode */
-table.configureSectionContents th.configureExpert {
-	border-left:5px solid #bb9a29;
+table.configureSectionValues th.configureExpert {
+	border-left:5px solid #c3a13f;
 	color:#7a6210;
 }
 
 li.configureExpert { /* menu item */
-	border-left:5px solid #bb9a29;
+	border-left:5px solid #c3a13f;
 	color:#7a6210;
 }
 
 /* Stuff *not* shown in expert mode */
 .configureNotExpert {}
 
-/* --- SECTION --- */
+/* --- VISUAL CUES --- */
 
-.configureRootSection {
-	float:right;
-	width:78%;
-	margin:0 0 2em 1em;
+/* Mandatory value */
+/* input */
+.configureMandatory {}
+/* note */
+span.configureMandatory {
+	font-size:80%;
+	color:#9933cc;
 }
 
-.configureSubSection {
-	margin:1em 0;
-}
-
-/* --- TABLE ROWS & COLUMNS --- */
-/*
-.configureSectionContents is the contents of the table in a tab.
-A th under it is the first column (keys) and a td is the second column
-(value)
-*/
-table.configureSectionContents,
-table.configureNestedTable {
-	margin:1em 0;
-	border-collapse:collapse;
-	border-bottom:1px solid #d4e7f1;
-}
-table.configureSectionContents {
-	width:100%;
-}
-table.configureSectionContents,
-table.configureSectionContents th,
-table.configureSectionContents td {
-	border-width:1px;
-	vertical-align:top;
-}
-table.configureSectionContents th {
+.configureMandatory input {
 	font-weight:normal;
-	background:#eaf4f8;
-	border-left:5px solid #fff;
-	width:25%;
-	white-space:nowrap;
-}
-table.configureNestedTable th {
-	border-left:5px solid #F5F9FC;
-}
-table.configureSectionContents td {
-	background:#f5f9fc;
-}
-table.configureSectionContents td,
-table.configureSectionContents th {
-	padding:.35em 1em;
-	border-top:1px solid #d4e7f1;
 }
 
-.configureInlineHeading {}
-table.configureSectionContents p {
-	margin:0 0 1em 0;
-}
-
-/* --- TABS --- */
-.configureTabBodyHidden { 
+/* Format of a tooltip div (see wz_tooltip.js for additional tooltip controls) */
+.configureTooltip {
 	display:none;
 }
-
-.configureTabBodyVisible { 
-	display:block;
-	width:100%;
-	margin:0;
-}
-
-ul.configureRootTab {
-	float:left;
-	list-style-type:none;
-	margin:0 0 2em 0;
-	padding:0;
-	width:20%;
-	border-top:1px solid #d4e7f1;
-}
-
-ul.configureRootTab li a {
-	display:block;
-	padding:.25em 1em;
-	text-decoration:none;
-	border-right:1px solid #d4e7f1;
-	border-left:1px solid #d4e7f1;
-	border-bottom:1px solid #d4e7f1;
-}
-#configureSections {
-	margin:1em 0 0 0;
-}
-#configureSections li a.configureWarn {
-	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
-	background-position:95% 50%;
-	background-repeat:no-repeat;
-}
-#configureSections li.configureMenuSelected a,
-#configureSections li.configureMenuSelected a:hover {
-	background-color:#2989bb;
-	color:#fff;
-	border-left:none;
-	text-decoration:none;
-}
-#configureSections li.configureMenuSelected a.configureWarn {
-	background-image:url(configure?action=resource;resource=icon_warn_blue.gif);
-}
-#configureSections li a:hover {
-	background-color:#eaf3f8;
-	color:#1869a2;
-	text-decoration:underline;
-}
-#configureSections li a em {
-	/*font-style:normal;*/
-}
-ul.configureSubTab {
-	list-style-type:none;
-	height:1%;
-	padding:0;
-	margin:1em 0 3em 0;
-}
-ul.configureSubTab li {
-	display:block;
-	float:left;
-	margin:0 5px .75em 0;
-	padding:0;
-}
-
-/* basic settings for all tab links */
-ul.configureSubTab li a {
-	padding:.25em 1em;
-	text-decoration:none;
-	border:1px solid #d4e7f1;
-}
-
-/* Hover effect */
-ul.configureSubTab a:hover {
-	background-color:#d4e7f1;
-	color:#1869a2;
-}
-
-/* WARN and ERROR */
-.configureWarn {
-	  color:#f80; /* orange */
-}
-div.configureWarn {
-	  font-weight:bold;
-}
-.configureRootSection div.configureWarn {
-	border:1px solid #e6e6e6;
-	padding:5px 1em 5px 3em;
-	margin:.5em 0 .7em 0;
-	background:#fff;
-	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
-	background-position:1em 5px;
-	background-repeat:no-repeat;
-}
-
-a.configureWarn,
-a.configureError {
-	text-decoration:none;
-}
-.configureError {
-	  color:#f00; /*T9*/ /*red*/
-	  background-color:#FFD9D9; /* pink */
-	  border-bottom:1px solid #f00;
-}
-.configureInfo {
-	color:green;
-}
-.configureSetting {
-	margin:.5em 0;
-}
-
-.configureDefaultValueLink {
-	font-size:86%;
-}
-
-/* --- EXTENSIONS --- */
-table.configureExtensionsTable {
-	margin:1em 0;
-}
-table.configureExtensionsTable th {
-	background:#e5f4f8;
-	color:#fff;
-	border:none;
-}
-table.configureExtensionsTable .configureReinstall {
-	background:#e8f9e8;
-}
-table.configureExtensionsTable .configureUpgrade {
-	background:#fff0f2;
-}
-table.configureExtensionsTable .configurePseudoinstalled {
-	background:#f2f2f2;
-}
-/*
-table.configureExtensionsTable .configureInstalled a:link,
-table.configureExtensionsTable .configureInstalled a:visited {
-	font-weight:bold;
-}*/
-
 /* Used when a non-foswiki extension is found */
-table.configureExtensionsTable .configureAlienExtension {
+.configureAlienExtension {
 	background:#ffffd6;
 }
 
-table.configureExtensionsTable td.configureExtensionTitle { 
-  border: 0;
-  margin: 0;
-  padding: 2em 1em 1em 1em;
-}
-
-table.configureExtensionsTable td.configureExtensionData {
-  margin: 0;
-  padding: 1em 1em 2em 1em;
-  border: 0;
-}
-
-strong {
-	color:#D1400E;
-}
-.foswikiAlert strong {
-	color:#f00;
-}
 .expert {
-	background-color:#bb9a29;
+	background-color:#c3a13f;
 	color:#fff;
 }
 .configureEllipsis a {
 	text-decoration:none;
+}
+
+/* Format of the 'changed from default' indicator */
+.configureDefaultValue {
+	font-size:94%;
+}
+
+.configureLogo {
+	margin:1em 0 2em 0;
+}
+.configureChangeList {;
+	margin:1em 0 3em 0;
+}
+.configureFormStepOutside {
+	background-color:#fff;
+	padding-top:.25em !important;
+	padding-bottom:.25em !important;
+}
+.configureTableOutside {
+	background-color:#fff;
+	text-align:right;
+}
+.configureTableExpertTitle {
+	text-align:left;
+	color:#888;
+}
+a.configureExpert:link,
+a.configureExpert:visited,
+a.configureExpert:hover,
+a.configureNotExpert:link,
+a.configureNotExpert:visited,
+a.configureNotExpert:hover,
+a.configureInfoText:link,
+a.configureInfoText:visited,
+a.configureInfoText:hover,
+a.configureNotInfoText:link,
+a.configureNotInfoText:visited,
+a.configureNotInfoText:hover {
+	margin:0 0 0 .7em;
+	padding:7px 0 7px 18px;
+	background-position:0 45%;
+	background-repeat:no-repeat;
+}
+a.configureExpert:link,
+a.configureExpert:visited,
+a.configureExpert:hover,
+a.configureInfoText:link,
+a.configureInfoText:visited,
+a.configureInfoText:hover {
+	background-image:url(configure?action=resource;resource=icon_up.gif);
+}
+a.configureNotExpert:link,
+a.configureNotExpert:visited,
+a.configureNotExpert:hover,
+a.configureNotInfoText:link,
+a.configureNotInfoText:visited,
+a.configureNotInfoText:hover {
+	background-image:url(configure?action=resource;resource=icon_down.gif);
+}
+.configureRootSection h2 {
+	margin-top:0.25em;
+}
+
+
+.configureToggleSections {
+	padding:.6em 1em;
+}
+
+/* TOOLTIP */
+a.configureDefaultValueLink:link,
+a.configureDefaultValueLink:visited {
+	font-size:94%;
+}
+a.configureDefaultValueLink:link,
+a.configureDefaultValueLink:visited {
+    position:relative; /*this is the key*/
+}
+a.configureDefaultValueLink:hover {
+	z-index:25;
+}
+a.configureDefaultValueLink:link span.configureDefaultValueLinkValue,
+a.configureDefaultValueLink:visited span.configureDefaultValueLinkValue {
+	display:none;
+}
+a.configureDefaultValueLink:hover span.configureDefaultValueLinkValue {
+	/*the span will display just on :hover state */
+    display:block;
+    position:absolute;
+    top:-4em;
+    left:4em;
+    width:17em;
+	background-color:#fff7e7;
+	padding:8px;
+	border:1px solid #fbad17;
+	color:#000;
+	text-decoration:none;
+}
+
+/* LEGEND TABLE */
+.configureLegend {
+	float:right;
+	width:50%;
+	margin:0 0 0 2em;
+	padding:0 1em;
+	border-left:1px dashed #ccc;
+}
+	
+.configureLegend table {
+	margin:0;
+	border:none;
+	border-bottom:1px solid #f0f0f0;
+}
+.configureLegend table th {
+	border:none;
+	font-weight:bold;
+	color:#090;
+}
+.configureLegend table th,
+.configureLegend table td {
+	padding:.5em;
+	background:none;
+	vertical-align:top;
+	width:50%;
+}
+.configureLegend table td {
+	border-color:#f0f0f0;
+}
+.configureLegend table div.configureExample {
+	border:1px solid #dfdfdf;
+	padding:.5em 1em;
+	width:auto;
+	vertical-align:middle;
+	background-color:#fff;
+}
+.configureLegend table div.foswikiAlert {
+	margin:0;
+	padding-left:3em;
+}
+.configureLegend table div.configureExpertExample {
+	border-left:5px solid #c3a13f;
+	padding-left:.5em;
+	color:#7a6210;
+	display:block;
+}
+.configureLegend table strong {
+	display:block;
 }

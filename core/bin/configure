@@ -196,9 +196,7 @@ use warnings;
 chdir($1);
 my @root = File::Spec->splitdir($1);
 pop(@root);
-my @script     = File::Spec->splitdir($0);
-my $scriptName = pop(@script);
-$scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
+my $scriptName = Foswiki::getScriptName();
 
 # Try to load the LocalLib.cfg optional overload
 
@@ -219,8 +217,9 @@ if ($@) {
     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
 }
 
-our $extrasDir = "$foswikiLibPath/Foswiki/Configure/resources/";
-our $time = time();
+our $extrasDir    = "$foswikiLibPath/Foswiki/Configure/resources/";
+our $templatesDir = "$foswikiLibPath/Foswiki/Configure/templates/";
+our $time         = time();
 
 # Load all the bits of the configure module that we explicitly use
 # The loadBasicModule does some extra analysis on errors.
@@ -233,9 +232,9 @@ foreach my $module (
     'Foswiki::Configure::Type',          'Foswiki::Configure::Types::BOOLEAN',
     'Foswiki::Configure::Types::NUMBER', 'Foswiki::Configure::Types::SELECT',
     'Foswiki::Configure::Types::STRING', 'Foswiki::Configure::FoswikiCfg',
-    'Foswiki::Configure::UI',            'Foswiki::Configure::UIs::Section',
-    'Foswiki::Configure::Value',         'Foswiki::Configure::Valuer',
-    'Foswiki::Configure::GlobalControls',
+    'Foswiki::Configure::Util',          'Foswiki::Configure::UI',
+    'Foswiki::Configure::UIs::Section',  'Foswiki::Configure::Value',
+    'Foswiki::Configure::Valuer',        'Foswiki::Configure::GlobalControls',
   )
 {
     _loadBasicModule($module);
@@ -261,7 +260,6 @@ use vars qw( $query );
 use vars qw( $TRUE $FALSE );
 $TRUE  = 1;
 $FALSE = 0;
-our $sanityStatement;
 our $badLSC;
 
 # Remember what we detected previously, for use by Checkers
@@ -269,18 +267,12 @@ if ( $scriptName =~ /(\.\w+)$/ ) {
     $Foswiki::cfg{DETECTED}{ScriptExtension} = $1;
 }
 
-# very basic tool
-sub findFileOnPath {
-    my $file = shift;
-
-    $file =~ s(::)(/)g;
-
-    foreach my $dir (@INC) {
-        if ( -e "$dir/$file" ) {
-            return "$dir/$file";
-        }
-    }
-    return;
+# duplicated here, should use the one in Util.pm
+sub getScriptName {
+    my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );
+    my $scriptName = pop(@script);
+    $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
+    return $scriptName;
 }
 
 ###########################################################
@@ -322,10 +314,12 @@ unless ( $Foswiki::cfg{OS} ) {
     }
 }
 
-$query = new CGI;
+our $query = new CGI;
 
-my $url         = $query->url();
-my $action      = $query->param('action') || 'Configure';
+my $url = $query->url();
+my $action = $query->param('action') || 'Configure';
+
+our $DEFAULT_FIELD_WIDTH_NO_CSS = '40';
 
 # Handle serving an resource embedded in the configure page, before generating
 # any other output
@@ -339,7 +333,8 @@ if ( $action eq 'resource' ) {
         my $type = 'image/gif';
         if ( $resource =~ /\.ico$/ ) {
             $type = 'resource/x-icon';
-        } elsif ( $resource =~ /\.js$/ ) {
+        }
+        elsif ( $resource =~ /\.js$/ ) {
             $type = 'text/javascript';
         }
         my $text = getResource($resource);
@@ -354,26 +349,28 @@ if ( $action eq 'resource' ) {
     exit 0;
 }
 
-print "Content-type: text/html\n\n";
-print getResource('header.html', SCRIPTNAME => $scriptName);
-print _dispatchContents();
-print getResource('footer.html');
-
-###########################################################
-# End of the main program; the rest is all subs
-
-# Get a resource from the resource dir on the server. Resources are
-# stored in the code tree.
 sub getResource {
-    my ($resource, %vars) = @_;
+    my ( $resource, %vars ) = @_;
+
+    return getFile( $extrasDir, $resource, %vars );
+}
+
+sub getTemplate {
+    my ( $resource, %vars ) = @_;
+
+    return getFile( $templatesDir, $resource, %vars );
+}
+
+sub getFile {
+    my ( $dir, $resource, %vars ) = @_;
     my $text = '';
-    if ( open( my $F, '<', $extrasDir . $resource ) ) {
+    if ( open( my $F, '<', $dir . $resource ) ) {
         local $/;
         $text = <$F>;
         close($F);
-        if ($resource =~ /\.(js|css)$/) {
+        if ( $resource =~ /\.(js|css)$/ ) {
             $text =~ s#/\*.*?\*/##g;
-            $text =~ s#\s*//.*$##gm if ($resource =~ /\.js$/);
+            $text =~ s#\s*//.*$##gm if ( $resource =~ /\.js$/ );
             $text =~ s/\t/ /g;
             $text =~ s/[ ]+$//gm;
             $text =~ s/^\s+//gm;
@@ -381,12 +378,32 @@ sub getResource {
             $text =~ s/\s*\n/\n/gs;
         }
         $text =~ s/%INCLUDE{(.*?)}%/getResource($1)/ges;
-        while (my ($k, $v) = each %vars) {
+        while ( my ( $k, $v ) = each %vars ) {
             $text =~ s/\%$k%/$v/gs;
         }
     }
     return $text;
 }
+
+sub log {
+    my ($message) = @_;
+
+    $message ||= '';
+    my $log = $Foswiki::cfg{DebugFileName};
+    my $file;
+    if ( open( $file, '>>', $log ) ) {
+        print $file "$message\n";
+        close($file);
+    }
+}
+
+my $html = _dispatchContents();
+Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+print "Content-type: text/html\n\n";
+print $html;
+
+###########################################################
+# End of the main program; the rest is all subs
 
 sub _dispatchContents {
     my $message = '';
@@ -396,10 +413,7 @@ sub _dispatchContents {
     my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
     # set globals
-    ( $sanityStatement, $badLSC ) = $sanityUI->ui();
-    $sanityStatement =
-      "<div class='foswikiNotification foswikiAlert'>$sanityStatement</div>"
-      if $sanityStatement;
+    ( my $sanityStatement, $badLSC ) = $sanityUI->ui();
 
     # This is the dispatcher; $action is the name of the action to perform,
     # this is concatenated to _action to determine the name of the procedure.
@@ -416,21 +430,10 @@ sub _dispatchContents {
         die "Undefined action $action" unless defined(&$method);
 
         no strict 'refs';
-        my $reroute = &$method();
+        my $result = &$method();
         use strict 'refs';
 
-        if ($reroute) {
-            $message = CGI::div(
-                CGI::a(
-                    {
-                        href => "$scriptName?t=$time",
-                        rel  => 'nofollow'
-                    },
-                    'Return to configuration'
-                ),
-                CGI::br()
-            );
-        }
+        $message .= $result if $result;
     }
     return $message;
 }
@@ -449,8 +452,85 @@ HERE
     return $ui;
 }
 
-# Action invoked by 'Save changes' button on the main screen
+# Action invoked by 'Next' button on the main screen
 sub _actionSavechanges {
+
+    my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
+    if ( !$authorised ) {
+        return _screenAuthorize($messageType);
+    }
+    else {
+        return _screenFeedback($messageType);
+    }
+}
+
+sub _screenAuthorize {
+    my ($messageType) = @_;
+    my $contents = '';
+    my $valuer =
+      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+    my %updated;
+    my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
+    my $changesList = ();
+    foreach my $key ( sort keys %updated ) {
+        my $valueString = $query->param($key);
+        push( @{$changesList}, { key => $key, value => $valueString } );
+    }
+
+    # create the root of the UI
+    my $root = new Foswiki::Configure::Root();
+    my $ui;
+    my @items       = ();
+    my $params      = '';
+    my $hasPassword = ( $Foswiki::cfg{Password} ne '' ) || 0;
+
+    @items = sort keys %updated if $modified;
+
+    $ui = _checkLoadUI( 'AUTH', $root );
+    return '' unless $ui;
+    $params = join( "\n", $ui->params() );
+
+    my $contentTemplate =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('authorize');
+    my $changePassword = $Foswiki::query->param('changePassword') || undef;
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $contentTemplate,
+        {
+            'main'           => $contents,
+            'hasPassword'    => $hasPassword,
+            'modifiedCount'  => $modified,
+            'items'          => \@items,
+            'changesList'    => $changesList,
+            'params'         => $params,
+            'messageType'    => $messageType,
+            'formAction'     => $scriptName,
+            'configureUrl'   => $url,
+            'changePassword' => $changePassword,
+        }
+    );
+
+    my $outText =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $outText,
+        {
+            'main'       => $contentTemplate,
+            'time'       => $time,
+            'formAction' => $scriptName,
+        }
+    );
+
+    return $outText;
+}
+
+=pod
+
+After authentication, the screen that shows the changes.
+
+=cut
+
+sub _screenFeedback {
+    my ($messageType) = @_;
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
     my %updated;
@@ -458,46 +538,90 @@ sub _actionSavechanges {
 
     # create the root of the UI
     my $root = new Foswiki::Configure::Root();
-    my $ui;
-    if ( !Foswiki::Configure::UI::authorised() ) {
-        print CGI::h2('Authorisation is required to save.');
-        print CGI::div( $modified
-              . ' configuration item'
-              . ( $modified == 1 ? ' was' : 's were' )
-              . ' changed' );
-        if ($modified) {
-            print CGI::div( join( ' ', keys %updated ) );
+
+    # Load the specs from the .spec files and generate the UI template
+    Foswiki::Configure::FoswikiCfg::load( $root, 1 );
+
+    my $ui = _checkLoadUI( 'UPDATE', $root );
+    return '' unless $ui;
+
+    $ui->ui( $root, $valuer, \%updated );
+    my $changesList = ();
+    foreach my $key ( sort keys %updated ) {
+        my $valueString = $query->param($key);
+        push( @{$changesList}, { key => $key, value => $valueString } );
+    }
+
+    my $frontpageUrl =
+"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
+
+    my $contentTemplate =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('feedback');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $contentTemplate,
+        {
+            'modifiedCount' => scalar keys %updated,
+            'frontpageUrl'  => $frontpageUrl,
+            'configureUrl'  => $url,
+            'changesList'   => $changesList,
+            'formAction'    => $scriptName,
+            'messageType'   => $messageType,
         }
-        $ui = _checkLoadUI( 'AUTH', $root );
-        return 1 unless $ui;
-        print $ui->ui( 'Save' );
-    }
-    else {
+    );
 
-        # Load the specs from the .spec files and generate the UI template
-        Foswiki::Configure::FoswikiCfg::load( $root, 1 );
-
-        $ui = _checkLoadUI( 'UPDATE', $root );
-        return 1 unless $ui;
-        print $ui->ui( $root, $valuer, \%updated );
-    }
-    return 1;
+    my $outText =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $outText,
+        {
+            'main'       => $contentTemplate,
+            'time'       => '',
+            'formAction' => $scriptName,
+        }
+    );
+    return $outText;
 }
 
 # Invoked by "find more extensions" button in the Extensions section
 sub _actionFindMoreExtensions {
     my $root = new Foswiki::Configure::Root();
-    print CGI::h1('Find Foswiki Extensions');
 
     my $ui = _checkLoadUI( 'EXTENSIONS', $root );
-    return 1 unless $ui;
+    return '' unless $ui;
 
-    print $ui->ui();
-    return 1;
+    my ( $consultedLocations, $table, $errors, $installedCount, $allCount ) =
+      $ui->ui();
+
+    my $contentTemplate =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('extensions');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $contentTemplate,
+        {
+            'table'              => $table,
+            'errors'             => $errors,
+            'consultedLocations' => $consultedLocations,
+            'installedCount'     => $installedCount,
+            'allCount'           => $allCount,
+        }
+    );
+
+    my $outText =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $outText,
+        {
+            'main'       => $contentTemplate,
+            'time'       => '',
+            'formAction' => $scriptName,
+        }
+    );
+
+    return $outText;
 }
 
 # Invoked when an extension is to be installed
 sub _actionInstallExtension {
+
     my $root = new Foswiki::Configure::Root();
     my $ui;
     if ( !Foswiki::Configure::UI::authorised() ) {
@@ -516,22 +640,10 @@ sub _actionInstallExtension {
 # This is the default screen
 sub _actionConfigure {
 
-    $Foswiki::Configure::UI::toterrors   = 0;
-    $Foswiki::Configure::UI::totwarnings = 0;
+    my $contents    = '';
+    my $isFirstTime = $badLSC;
 
-    if ( !$query->auth_type() ) {
-        print getResource('oh_dear.html');
-    }
-    print $sanityStatement;
-
-    if ($badLSC) {
-        print <<GOTOGPS;
-<script>//<!--
-tab('GeneralPathSettings');
-//-->
-</script>
-GOTOGPS
-    }
+    Foswiki::Configure::UI::reset($isFirstTime);
 
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
@@ -539,8 +651,8 @@ GOTOGPS
     # This is the root of the model
     my $root = new Foswiki::Configure::Root();
 
-    my $intro_checker =
-      Foswiki::Configure::UI::loadChecker( 'Introduction', $root );
+    my $intro = $isFirstTime ? 'Welcome' : 'Introduction';
+    my $intro_checker = Foswiki::Configure::UI::loadChecker( $intro, $root );
     $root->addChild($intro_checker);
 
     # See if this platform has special detection or checking requirements
@@ -552,52 +664,37 @@ GOTOGPS
     my $cgi_checker = Foswiki::Configure::UI::loadChecker( 'CGISetup', $root );
     $root->addChild($cgi_checker);
 
-    # Load the config structures.
+# Load the config structures.
+# if $badLSC is true, the start screen will be shown (and limited sections in the left menu
     Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
-
-    print CGI::start_form(
-        {
-            name   => 'update',
-            action => $scriptName,
-            method => "post"
-        }
-    );
-
-    # use time to make sure we never allow cacheing
-    print CGI::hidden( 'time', $time );
 
     # Now generate the UI
 
     # Load the UI for the root; this is simply a visitor over
     # the model
     my $ui = _checkLoadUI( 'Root', $root );
-    return 1 unless $ui;
+    return '' unless $ui;
 
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
-    print $ui->ui( $root, $valuer );
-    print $ui->{controls}->generateTooltips();
+    $contents .= $ui->ui( $root, $valuer );
 
-    print "<br class='foswikiClear' />";
-    print "<div class='configureActions'>";
-    if (   $Foswiki::Configure::UI::toterrors
-        || $Foswiki::Configure::UI::totwarnings )
-    {
-        my $mess =
-          $Foswiki::Configure::UI::toterrors
-          . ' error'
-          . ( $Foswiki::Configure::UI::toterrors == 1 ? '' : 's' ) . ', '
-          . $Foswiki::Configure::UI::totwarnings
-          . ' warning'
-          . ( $Foswiki::Configure::UI::totwarnings == 1 ? '' : 's' );
-        print "<p>Status: $mess</p>";
-    }
-    print <<EOP;
-  <input type='submit' class='foswikiSubmit' name='action' value='Save changes' accesskey='N' /> or <a class='foswikiButtonCancel' href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/SitePreferences\">Discard changes</a>
- </div><!--/configureActions-->
-</form>
-EOP
-    return 0;
+    my $showSanityStatement =
+      ( !$isFirstTime && !$Foswiki::query->auth_type() ) ? 1 : undef;
+
+    my $outText =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $outText,
+        {
+            'main' => $contents,
+            'time' => $time,     # use time to make sure we never allow cacheing
+            'formAction'          => $scriptName,
+            'showSanityStatement' => $showSanityStatement,
+        }
+    );
+
+    return $outText;
 }
 
 1;

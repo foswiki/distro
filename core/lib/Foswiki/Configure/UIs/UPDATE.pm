@@ -15,7 +15,8 @@ sub ui {
     $this->{changed} = 0;
     $this->{updated} = $updated;
 
-    $this->{output} = CGI::h2('Updating configuration');
+    my @changesList = ();
+    $this->{changesList} = \@changesList;
 
     my $logfile;
     $this->{log}  = '';
@@ -41,19 +42,7 @@ sub ui {
         }
     }
 
-    # Put in a link to the front page of the Foswiki
-    my $url =
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-    return
-        $this->{output}
-      . CGI::p()
-      . CGI::strong( 'Setting '
-          . $this->{changed}
-          . ' configuration item'
-          . ( ( $this->{changed} == 1 ) ? '' : 's' )
-          . '.' )
-      . CGI::p()
-      . CGI::a( { href => $url }, "Go to the Foswiki front page" ) . " or ";
+    return $this->{changesList};
 }
 
 # Listener for when a saved configuration item is changed.
@@ -61,7 +50,7 @@ sub logChange {
     my ( $this, $keys, $value ) = @_;
 
     if ( $this->{updated}->{$keys} ) {
-        $this->{output} .= CGI::h3($keys) . CGI::code($value);
+        push( @{ $this->{changesList} }, { key => $keys, value => $value } );
         $this->{changed}++;
         $this->{log} .= '| '
           . gmtime() . ' | '
@@ -76,7 +65,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

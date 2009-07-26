@@ -7,111 +7,175 @@
 package Foswiki::Configure::UIs::Section;
 
 use strict;
-
-use Foswiki::Configure::UI ();
+use Foswiki::Configure::UIs::Value ();
+use Foswiki::Configure::UI         ();
 our @ISA = ('Foswiki::Configure::UI');
 
 # Sections are of two types; "plain" and "tabbed". A plain section formats
 # all its subsections inline, in a table. A tabbed section formats all its
 # subsections as tabs.
-sub open_html {
-    my ( $this, $section, $root ) = @_;
+#
+# =$contents= are table rows
+#
+sub renderHtml {
+    my ( $this, $section, $root, $contents ) = @_;
 
+    $contents ||= '';
     my $depth = $section->getDepth();
     my $class = $section->isExpertsOnly() ? 'configureExpert' : '';
-    my $id = $this->makeID( $section->{headline} );
-    my $output = "<!-- $depth $id -->\n";
-    my $headline = defined $section->{headline} ?
-      $section->{headline} : 'MISSING HEADLINE';
-    if ($section->{parent}) {
-        if ($section->{parent}->{opts} =~ /TABS/) {
+    my $id    = $this->makeID( $section->{headline} )
+      || ( 'randomId' . int( rand(1000) ) );
+
+    my $headline    = $section->{headline};
+    my $navigation  = '';
+    my $description = $section->{desc} || '';
+
+    my $fullId    = $id;
+    my $bodyClass = '';
+    $bodyClass = 'configureRootSection' if $depth == 2;
+    $bodyClass = 'configureSubSection'  if $depth > 2;
+
+    # render values within this section
+    # note that has to happen before creating tab sections
+    # because field checks are done while rendering
+    # these may update the WARN and ERROR messages
+    my $values = $this->renderValues( $section, $root );
+    if ($values) {
+        $contents = $this->renderValueBlock($values) . $contents;
+    }
+
+    my $sectionErrors   = 0;
+    my $sectionWarnings = 0;
+
+    if ( $section->{parent} ) {
+        if ( $section->{parent}->{opts} =~ /TABS/ ) {
+
             # this is a tab within a tabbed page
 
             # See what errors and warnings exist in the tab
-            my $mess = $this->collectMessages($section);
+            ( $sectionErrors, $sectionWarnings ) =
+              $this->collectMessages($section);
 
             $section->{parent}->{controls} ||=
               new Foswiki::Configure::GlobalControls(
-                  $this->makeID( $section->{parent}->{headline} || '' ));
+                $this->makeID( $section->{parent}->{headline} || '' ) );
 
-            $output .= $section->{parent}->{controls}->openTab(
-                $id, $depth, $section->{opts}, $section->{headline},
-                $mess ? 1 : 0);
+            $section->{parent}->{controls}
+              ->openTab( $id, $depth, $section->{opts}, $section->{headline},
+                $sectionErrors, $sectionWarnings );
 
-            $output .= "<h$depth class='firstHeader'>"
-              . $headline
-                . "</h$depth>\n";
+            $id = $section->{parent}->{controls}->sectionId($id);
 
-            if ($mess) {
-                $output .= "<div class='foswikiAlert'>"
-                  .$mess
-                    ."</div>\n";
-            }
-
-            if ($section->{desc}) {
-                $output .= $section->{desc} . "\n";
-            }
-        } elsif ($section->{parent}->{opts} =~ /NOLAYOUT/) {
-            $output .= "<h$depth>"
-              . "NOLAYOUT ". $headline
-                . "</h$depth>\n";
-        } else {
-            # This is a new sub section within a running head section.
-            $output .= "</table>";
-            $output .=
-              "<h$depth class='configureInlineHeading'>"
-                . $headline . "</h$depth>\n";
-
-            if ($section->{desc}) {
-                $output .= $section->{desc};
-            }
+            $bodyClass .= ' configureToggleSection';
         }
     }
 
-    if ($section->{opts} =~ /TABS/) {
-        ; # Start a new tabbed section
-    } elsif ($section->{opts} =~ /NOLAYOUT/) {
-        ; # Start a new tabbed section
-    } else {
-        # plain section; open values table
-        $output .= "<table class='configureSectionContents'>";
+    if ( $section->{opts} =~ /TABS/ ) {
+        $navigation = $section->{controls}->generateTabs($depth);
     }
 
-    return $output;
+    my $outText = '';
+    if ( $depth == 1 ) {
+        my $totalWarningsText;
+        if ($Foswiki::Configure::UI::totwarnings) {
+            $totalWarningsText =
+              $Foswiki::Configure::UI::totwarnings . ' '
+              . ( $Foswiki::Configure::UI::totwarnings == 1
+                ? 'warning'
+                : 'warnings' );
+        }
+        my $totalErrorsText;
+        if ($Foswiki::Configure::UI::toterrors) {
+            $totalErrorsText =
+              $Foswiki::Configure::UI::toterrors . ' '
+              . (
+                $Foswiki::Configure::UI::toterrors == 1 ? 'error' : 'errors' );
+        }
+        my $isFirstTime = $Foswiki::Configure::UI::firsttime || 0;
+
+        $outText = Foswiki::Configure::UI::getTemplateParser()->readTemplate('main');
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $outText,
+            {
+                'navigation'    => $navigation,
+                'contents'      => $contents,
+                'totalWarnings' => $totalWarningsText,
+                'totalErrors'   => $totalErrorsText,
+                'firstTime'     => $isFirstTime,
+            }
+        );
+    }
+    else {
+        my $errorText;
+        $errorText =
+          ( $sectionErrors == 1 ) ? '1 error' : "$sectionErrors errors"
+          if $sectionErrors > 0;
+        my $warningText;
+        $warningText =
+          ( $sectionWarnings == 1 ) ? '1 warning' : "$sectionWarnings warnings"
+          if $sectionWarnings;
+
+        $outText = Foswiki::Configure::UI::getTemplateParser()->readTemplate('section');
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $outText,
+            {
+                'id'          => $id,
+                'bodyClass'   => $bodyClass,
+                'depth'       => $depth,
+                'headline'    => $headline,
+                'errors'      => $errorText,
+                'warnings'    => $warningText,
+                'navigation'  => $navigation,
+                'description' => $description,
+                'contents'    => $contents,
+            }
+        );
+    }
+    return $outText;
 }
 
-sub close_html {
-    my ( $this, $section, $root, $output ) = @_;
+sub renderValues {
+    my ( $this, $section, $root ) = @_;
 
-    my $depth = $section->getDepth();
-    my $id = $this->makeID( $section->{headline} ) || 'configureSections';
+    my $out         = '';
+    my $expertCount = 0;
+    my $infoCount   = 0;
+    foreach my Foswiki::Configure::Value $item ( @{ $section->{values} } ) {
+        my $class = ref($item);
+        $class =~ s/.*:://;
+        my $ui = Foswiki::Configure::UI::loadUI( $class, $item );
+        die "Fatal Error - Could not load UI for $class - $@" unless $ui;
 
-    if ($section->{opts} =~ /TABS/) {
-        # Generate the tab controls at this level (the tabs themselves
-        # have already been generated as hidden divs). We have to put the
-        # generated tabs at the *top* of the section
-        $output = "<div id='$id'>"
-          . $section->{controls}->generateTabs($depth)
-            . $output
-              ."</div>";
-    } elsif ($section->{opts} =~ /NOLAYOUT/) {
-        ; # Nothing to do
-    } else {
-        # Close plain section
-        $output .= "</table>";
+        my ( $rowHtml, $properties ) = $ui->renderHtml( $item, $root );
+        $out .= $rowHtml;
+        $expertCount++ if $properties->{expert};
+        $infoCount++   if $properties->{info};
     }
 
-    return $output unless $section->{parent}; # root
+    if ( $expertCount > 0 || $infoCount > 0 ) {
+        my @placeholders = ();
+        push( @placeholders, 'CONFIGURE_EXPERT_LINK' ) if $expertCount > 0;
+        push( @placeholders, 'CONFIGURE_INFO_LINK' )   if $infoCount > 0;
 
-    if ( $section->{parent}->{opts} =~ /TABS/ ) {
-        # close a tab, ready for the next one
-        $output .= $section->{parent}->{controls}->closeTab($id);
-    } else {
-        ; # nothing special to do if the parent was plain or NOLAYOUT
+        my $expertTitle = '';
+
+# title unfinished:
+# - should be in template
+# - should be left-aligned
+# - language should cater for 1 option or multiple
+#		$expertTitle = "<span class='configureTableExpertTitle'>$expertCount expert options</span>" if $expertCount > 0;
+
+        $out .= Foswiki::Configure::UIs::Value::getOutsideRowHtml(
+            'configureTableOutside', $expertTitle, join( ' ', @placeholders ) );
     }
-    $output .= "<!-- /$depth $id -->\n";
 
-    return $output;
+    return $out;
+}
+
+sub renderValueBlock {
+    my ( $this, $values ) = @_;
+
+    return "<table class='configureSectionValues'>$values</table>";
 }
 
 1;
@@ -120,7 +184,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

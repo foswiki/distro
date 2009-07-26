@@ -13,34 +13,17 @@ my %nonos = (
     confCfgP  => 1,
 );
 
-sub ui {
-    my ( $this, $actionMess ) = @_;
-    my $output = '';
+sub params {
+    my ($this) = @_;
 
-    my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
-    my $scriptName = pop(@script);
-    $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
-
-    $output .= CGI::start_form(
-        { name => 'twiki_configure', action => $scriptName, method => 'post' }
-    );
+    my @params = ();
 
     # Pass URL params through, except those below
     foreach my $param ( $Foswiki::query->param ) {
         next if ( $nonos{$param} );
-        $output .= $this->hidden( $param, $Foswiki::query->param($param) );
-        $output .= "\n";
+        push @params, $this->hidden( $param, $Foswiki::query->param($param) );
     }
-
-    my $warn = $Foswiki::cfg{Password} ? '' :
-      Foswiki::getResource('passwordWarning.html',
-                           SCRIPTNAME => $scriptName);
-
-    $output .= Foswiki::getResource('password.html',
-                                    SCRIPTNAME => $scriptName,
-                                    WARN => $warn);
-
-    return $output . CGI::end_form();
+    return @params;
 }
 
 1;
@@ -48,7 +31,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

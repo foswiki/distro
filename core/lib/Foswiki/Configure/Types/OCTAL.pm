@@ -8,12 +8,12 @@ use Foswiki::Configure::Types::NUMBER ();
 our @ISA = ('Foswiki::Configure::Types::NUMBER');
 
 sub prompt {
-    my ( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value, $class ) = @_;
     return CGI::textfield(
         -name    => $id,
         -size    => 20,
         -default => sprintf( '0%o', $value ),
-        -class   => 'foswikiInputField',
+        -class   => "foswikiInputField $class",
     );
 }
 
@@ -33,7 +33,7 @@ __DATA__
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #
