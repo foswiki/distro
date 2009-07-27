@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/perldoc?Catalyst
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ use base 'Foswiki::Engine::Apache';
 sub finalizeHeaders {
     my ( $this, @p ) = @_;
 
-    $this->SUPER::finalizeHeaders( @p );
+    $this->SUPER::finalizeHeaders(@p);
 
     # This handles the case where Apache2 will remove the Content-Length
     # header on a HEAD request.

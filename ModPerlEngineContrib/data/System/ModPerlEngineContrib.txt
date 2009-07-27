@@ -39,12 +39,20 @@ button and you'll get your config file.
 or else Apache will not start, reporting an error about missing
 lib/LocalSite.cfg %ENDCOLOR%
 
----+++ Foswiki configuration tunning
+In the web server configuraiton you will need to load mod_perl but also make sure to load the
+[[http://httpd.apache.org/apreq/][Apache HTTP Request Library]] (module apreq).
+If apreq is not loaded the following error may be encountered in certain situations e.g. during login:
+<verbatim>
+apache2: symbol lookup error: /usr/lib/perl5/auto/APR/Request/Apache2/Apache2.so: undefined symbol: apreq_handle_apache2
+</verbatim>
+
+---+++ Foswiki configuration tuning
 
 Fork new processes under =mod_perl= can be very slow, so some configuration
 changes are recommended.
 
-Access the [[%SCRIPTURL{"configure"}%][configure]] script and click the =Yes, I've read all the documentation= button.
+Access the [[%SCRIPTURL{"configure"}%][configure]] script and click the =Yes, I've read all the documentation=
+button to show the expert settings.
 Go to =Store Settings=:
    * ={StoreImpl}=: adjust to =RcsLite=
    * ={RCS}{SearchAlgorithm}=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib

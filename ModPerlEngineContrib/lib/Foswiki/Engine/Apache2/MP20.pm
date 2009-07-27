@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/perldoc?Catalyst
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or

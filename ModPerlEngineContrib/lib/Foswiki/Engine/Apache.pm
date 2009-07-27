@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/perldoc?Catalyst
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -66,7 +66,7 @@ BEGIN {
             $ENV{MOD_PERL_API_VERSION} = 1;
         }
     }
-    
+
     require Carp;
     $SIG{__DIE__} = \&Carp::confess;
 }
@@ -82,7 +82,7 @@ sub run {
     my $this = $Foswiki::engine;
     $this->{r} = shift;
     my $req = $this->prepare();
-    
+
     if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
         my $res = Foswiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
@@ -113,9 +113,9 @@ sub prepareQueryParameters {
 sub prepareHeaders {
     my ( $this, $req ) = @_;
 
-    my %headers = %{$this->{r}->headers_in()};
-    while ( my ($header, $value) = each %headers ) {
-        $req->header($header => $value);
+    my %headers = %{ $this->{r}->headers_in() };
+    while ( my ( $header, $value ) = each %headers ) {
+        $req->header( $header => $value );
     }
     $req->remoteUser( $this->{r}->user );
     if ( $Foswiki::cfg{BehindProxy} ) {
