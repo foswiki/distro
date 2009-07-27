@@ -432,7 +432,27 @@ sub _sendNewsletterMail {
     if ( !defined(&Foswiki::Func::pushTopicContext) ) {
         require Foswiki::Contrib::MailerContrib::TopicContext;
     }
+
+    # SMELL: Have to hack into the core to set internal preferences :-(
+    my %old = map { $_ => undef } qw(BASEWEB BASETOPIC INCLUDINGWEB INCLUDINGTOPIC);
+    if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}) {
+
+        # In 1.0.6 and earlier, have to handle some session tags ourselves
+        # because pushTopicContext doesn't do it. **
+        foreach my $macro (keys %old) {
+            $old{$macro} = Foswiki::Func::getPreferencesValue($macro);
+        }
+    }
     Foswiki::Func::pushTopicContext( $web, $topic );
+
+    # See ** above
+    if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}) {
+        my $stags = $Foswiki::Plugins::SESSION->{SESSION_TAGS};
+        $stags->{BASEWEB} = $web;
+        $stags->{BASETOPIC} = $topic;
+        $stags->{INCLUDINGWEB} = $web;
+        $stags->{INCLUDINGTOPIC} = $topic;
+    }
 
     $twiki->enterContext( 'can_render_meta', $meta );
 
@@ -526,6 +546,17 @@ sub _sendNewsletterMail {
     $report .= "\t$sentMails newsletters from $web\n";
 
     Foswiki::Func::popTopicContext();
+
+    # SMELL: See ** above
+    if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}) {
+
+	    # In 1.0.6 and earlier, have to handle some session tags ourselves
+	    # because pushTopicContext doesn't do it. **
+        foreach my $macro (keys %old) {
+            $Foswiki::Plugins::SESSION->{SESSION_TAGS}{$macro} =
+            $old{$macro};
+        }
+    }
 
     return $report;
 }
