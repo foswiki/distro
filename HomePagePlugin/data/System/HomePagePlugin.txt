@@ -38,8 +38,8 @@ or
 </verbatim>
 
 ---++ !TemplateLogin configurable !HomePage on login
-The Admin can also =configure= ={HomePagePlugin}{GotoHomePageOnLogin}= so Foswiki Always show user's 
-HomePage (from the UserForm field in their User topic.) when they log in (makes sense if users have personalised home pages.) 
+The Admin can also =configure= ={HomePagePlugin}{GotoHomePageOnLogin}= so Foswiki shows user's 
+!HomePage (from the UserForm field in their User topic. (%WIKIUSERNAME% is set to : %FORMFIELD{"HomePage" alttext="nothing" efault="nothing" topic="%WIKIUSERNAME%"}%)) when they log in (makes sense if users have personalised home pages.) 
 __Note__ that this means that any URL's emailed to them will only be useful after login.
 
 
@@ -53,7 +53,7 @@ Many thanks to the following sponsors for supporting this work:
    * Created for Blackfin inc.
 
 |  Author(s): | Foswiki:Main.SvenDowideit|
-|  Copyright: | &copy; 2009 SvenDowideit@fosiki.com |
+|  Copyright: | &copy; 2009 SvenDowideit@fosiki.com - http://fosiki.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]] |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
