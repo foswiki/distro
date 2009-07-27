@@ -11,14 +11,17 @@ use Assert;
 
 Object that interfaces to whatever records Foswiki log files.
 
-This is a pure virtual base class which must be implemented by a
-subclass in the Logger subdirectory and selected by $Foswiki::cfg{Log}{Implementation}
+This is a base class which will be subclassed by a class in the
+Logger subdirectory and selected by $Foswiki::cfg{Log}{Implementation}
 
 Note that the implementation has to provide a way for the log to be replayed.
-Unfortunately this means that the simpler CPAN loggers are not suitable,
-nor is 
+Unfortunately this means that the simpler CPAN loggers are not suitable.
 
 =cut
+
+sub new {
+    return bless({}, shift);
+}
 
 =begin TML
 
@@ -36,8 +39,8 @@ The levels are chosen to be compatible with Log::Dispatch.
 
 =cut
 
+# Default behaviour is a NOP
 sub log {
-    ASSERT('Pure virtual method called') if DEBUG;
 }
 
 =begin TML
@@ -61,8 +64,9 @@ requested level will be returned if any of the collapsed levels is selected.
 
 =cut
 
+# Default behaviour is an empty iteration
 sub eachEventSince {
-    ASSERT('Pure virtual method called') if DEBUG;
+    return new Foswiki::ListIterator([]);
 }
 
 1;

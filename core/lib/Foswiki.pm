@@ -1822,9 +1822,17 @@ sub logger {
     my $this = shift;
 
     unless ( $this->{logger} ) {
-        eval "require $Foswiki::cfg{Log}{Implementation}";
-        die $@ if $@;
-        $this->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
+        if ( $Foswiki::cfg{Log}{Implementation} eq 'none' ) {
+            $this->{logger} = Foswiki::Logger->new();
+        } else {
+            eval "require $Foswiki::cfg{Log}{Implementation}";
+            if ( $@ ) {
+                print STDERR "Logger load failed: $@";
+                $this->{logger} = Foswiki::Logger->new();
+            } else {
+                $this->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
+            }
+        }
     }
     return $this->{logger};
 }
