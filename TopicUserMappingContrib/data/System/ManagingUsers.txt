@@ -119,7 +119,7 @@ Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
 
 %INCLUDE{
-    "Main.RegistrationNotification"
+    "%USERSWEB%.RegisterNotifyEmail"
     WIKINAME="%WIKINAME%"
     FIRSTLASTNAME="%FIRSTLASTNAME%"
     EMAILADDRESS="%EMAILADDRESS%"
