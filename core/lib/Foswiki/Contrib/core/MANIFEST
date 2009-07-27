@@ -474,50 +474,50 @@ lib/Foswiki/Configure/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
 lib/Foswiki/Configure/PLUGINS.pm 0444
-lib/Foswiki/Configure/resources/base.css 0444
-lib/Foswiki/Configure/resources/behaviour.js 0444
-lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
-lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
-lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
-lib/Foswiki/Configure/resources/favicon.ico 0444
-lib/Foswiki/Configure/resources/foswikiStyles.js 0444
-lib/Foswiki/Configure/resources/icon_arrows.psd
-lib/Foswiki/Configure/resources/icon_down.gif 0444
-lib/Foswiki/Configure/resources/icon_error_blue.gif 0444
-lib/Foswiki/Configure/resources/icon_error_white.gif 0444
-lib/Foswiki/Configure/resources/icon_error.psd
-lib/Foswiki/Configure/resources/icon_info.gif 0444
-lib/Foswiki/Configure/resources/icon_info.psd
-lib/Foswiki/Configure/resources/icon_up.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_and_error_blue.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_and_error_white.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_and_error.psd
-lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
-lib/Foswiki/Configure/resources/icon_warning.psd
-lib/Foswiki/Configure/resources/intro.html 0444
-lib/Foswiki/Configure/resources/legend.html 0444
-lib/Foswiki/Configure/resources/logo.gif 0444
-lib/Foswiki/Configure/resources/logo.psd
-lib/Foswiki/Configure/resources/pattern.css 0444
-lib/Foswiki/Configure/resources/scripts.js 0444
-lib/Foswiki/Configure/resources/styles.css 0444
-lib/Foswiki/Configure/resources/template_main.tmpl 0444
-lib/Foswiki/Configure/resources/template_section.tmpl 0444
-lib/Foswiki/Configure/resources/warning.gif 0444
-lib/Foswiki/Configure/resources/welcome.html 0444
-lib/Foswiki/Configure/resources/yui.css 0444
+pub/System/ConfigureResources/base.css 0444
+pub/System/ConfigureResources/behaviour.js 0444
+pub/System/ConfigureResources/bg_button_gradient.gif 0444
+pub/System/ConfigureResources/bg_buttoncancel_gradient.gif 0444
+pub/System/ConfigureResources/bg_submit_gradient.gif 0444
+pub/System/ConfigureResources/favicon.ico 0444
+pub/System/ConfigureResources/foswikiStyles.js 0444
+pub/System/ConfigureResources/icon_arrows.psd
+pub/System/ConfigureResources/icon_down.gif 0444
+pub/System/ConfigureResources/icon_error_blue.gif 0444
+pub/System/ConfigureResources/icon_error_white.gif 0444
+pub/System/ConfigureResources/icon_error.psd
+pub/System/ConfigureResources/icon_info.gif 0444
+pub/System/ConfigureResources/icon_info.psd
+pub/System/ConfigureResources/icon_up.gif 0444
+pub/System/ConfigureResources/icon_warn_and_error_blue.gif 0444
+pub/System/ConfigureResources/icon_warn_and_error_white.gif 0444
+pub/System/ConfigureResources/icon_warn_and_error.psd
+pub/System/ConfigureResources/icon_warn_blue.gif 0444
+pub/System/ConfigureResources/icon_warn_white.gif 0444
+pub/System/ConfigureResources/icon_warning.psd
+pub/System/ConfigureResources/intro.html 0444
+pub/System/ConfigureResources/legend.html 0444
+pub/System/ConfigureResources/logo.gif 0444
+pub/System/ConfigureResources/logo.psd
+pub/System/ConfigureResources/pattern.css 0444
+pub/System/ConfigureResources/scripts.js 0444
+pub/System/ConfigureResources/styles.css 0444
+pub/System/ConfigureResources/template_main.tmpl 0444
+pub/System/ConfigureResources/template_section.tmpl 0444
+pub/System/ConfigureResources/warning.gif 0444
+pub/System/ConfigureResources/welcome.html 0444
+pub/System/ConfigureResources/yui.css 0444
 lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
 lib/Foswiki/Configure/TemplateParser.pm
 lib/Foswiki/Configure/TemplateParser/SimpleFreeMarker.pm
-lib/Foswiki/Configure/templates/authorize.tmpl 0444
-lib/Foswiki/Configure/templates/extensions.tmpl 0444
-lib/Foswiki/Configure/templates/feedback.tmpl 0444
-lib/Foswiki/Configure/templates/findextensionsintro.tmpl 0444
-lib/Foswiki/Configure/templates/main.tmpl 0444
-lib/Foswiki/Configure/templates/page.tmpl 0444
-lib/Foswiki/Configure/templates/section.tmpl 0444
+pub/System/ConfigureTemplates/authorize.tmpl 0444
+pub/System/ConfigureTemplates/extensions.tmpl 0444
+pub/System/ConfigureTemplates/feedback.tmpl 0444
+pub/System/ConfigureTemplates/findextensionsintro.tmpl 0444
+pub/System/ConfigureTemplates/main.tmpl 0444
+pub/System/ConfigureTemplates/page.tmpl 0444
+pub/System/ConfigureTemplates/section.tmpl 0444
 lib/Foswiki/Configure/Type.pm 0444
 lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
 lib/Foswiki/Configure/Types/COMMAND.pm 0444

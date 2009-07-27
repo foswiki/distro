@@ -132,8 +132,7 @@ sub _getTemplate {
 
     my $templateName = $this->_getTemplateFileName( $name, $skin );
 
-    my $template =
-      Foswiki::getTemplate( $templateName,
+    my $template = $this->getTemplate( $templateName,
         SCRIPTNAME => Foswiki::Configure::Util::getScriptName() );
 
     return $template;
@@ -150,13 +149,21 @@ sub _getTemplateFileName {
 sub getResource {
     my ( $this, $resource, %vars ) = @_;
 
-    return $this->getFile( $extrasDir, $resource, %vars );
+    unless( $this->isa( 'Foswiki::Configure::TemplateParser' ) ) {
+        require Carp;
+        Carp::confess "$this called getTemplate not in OO";
+    }
+    return $this->getFile( "$Foswiki::cfg{PubDir}/System/ConfigureResources/", $resource, %vars );
 }
 
 sub getTemplate {
     my ( $this, $resource, %vars ) = @_;
 
-    return $this->getFile( $templatesDir, $resource, %vars );
+    unless( $this->isa( 'Foswiki::Configure::TemplateParser' ) ) {
+        require Carp;
+        Carp::confess "$this called getTemplate not in OO";
+    }
+    return $this->getFile( "$Foswiki::cfg{PubDir}/System/ConfigureTemplates/", $resource, %vars );
 }
 
 sub getFile {
@@ -175,10 +182,13 @@ sub getFile {
             $text =~ s/ +/ /g;
             $text =~ s/\s*\n/\n/gs;
         }
-        $text =~ s/%INCLUDE{(.*?)}%/getResource($1)/ges;
+        $text =~ s/%INCLUDE{(.*?)}%/$this->getResource($1)/ges;
         while ( my ( $k, $v ) = each %vars ) {
             $text =~ s/\%$k%/$v/gs;
         }
+    }
+    else {
+        print STDERR "Error loading resource $dir$resource: $!\n";
     }
     return $text;
 }
