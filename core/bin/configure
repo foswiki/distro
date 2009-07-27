@@ -235,6 +235,7 @@ foreach my $module (
     'Foswiki::Configure::Util',          'Foswiki::Configure::UI',
     'Foswiki::Configure::UIs::Section',  'Foswiki::Configure::Value',
     'Foswiki::Configure::Valuer',        'Foswiki::Configure::GlobalControls',
+    'Foswiki::Configure::TemplateParser',
   )
 {
     _loadBasicModule($module);
@@ -337,6 +338,9 @@ if ( $action eq 'resource' ) {
         elsif ( $resource =~ /\.js$/ ) {
             $type = 'text/javascript';
         }
+
+        # This is probably slow, but we need to know where the templates are
+        Foswiki::Configure::Load::readConfig();
         my $parser = Foswiki::Configure::TemplateParser->new;
         my $text = $parser->getResource($resource);
 
