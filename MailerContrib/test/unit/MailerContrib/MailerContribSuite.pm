@@ -19,8 +19,8 @@ my %expectedRevs = (
     TestTopic121  => "r1->r2",
     TestTopic122  => "r1->r2",
     TestTopic1221 => "r1->r2",
-    'TestTopic2'    => "r2->r3",
-    'TestTopic21'   => "r1->r2",
+    TestTopic2    => "r2->r3",
+    TestTopic21   => "r1->r2",
 );
 
 my %finalText = (
@@ -33,8 +33,8 @@ my %finalText = (
     TestTopic121  => "Where did I put my silver jumpsuit?",
     TestTopic122  => "That danged robot",
     TestTopic1221 => "What's up, Buck?",
-    'TestTopic2'    => "roast my nipple-nuts",
-    'TestTopic21'   => "smoke me a kipper, I'll be back for breakfast",
+    TestTopic2    => "roast my nipple-nuts",
+    TestTopic21   => "smoke me a kipper, I'll be back for breakfast",
 
     # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
     # encoding. No tests for multibyte encodings :-(
@@ -70,7 +70,7 @@ sub set_up {
     Foswiki::Func::saveTopic( $this->{users_web}, "TestGroup", undef,
         "   * Set GROUP = TestUser3\n" );
 
-    # Must create a new twiki to force re-registration of users
+    # Must create a new wiki object to force re-registration of users
     $Foswiki::cfg{EnableEmail} = 1;
     $this->{session} = new Foswiki();
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
@@ -212,54 +212,16 @@ sub set_up {
             $meta, "Before\n${s}After"
         );
 
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic1" );
-        $meta->put( "TOPICPARENT", { name => "WebHome" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic1", $meta,
-            "This is TestTopic1 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic11" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic1" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic11", $meta,
-            "This is TestTopic11 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic111" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic11" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic111", $meta,
-            "This is TestTopic111 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic112" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic11" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic112", $meta,
-            "This is TestTopic112 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic12" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic1" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic12", $meta,
-            "This is TestTopic12 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic121" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic12" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic121", $meta,
-            "This is TestTopic121 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic122" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic12" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic122", $meta,
-            "This is TestTopic122 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic1221" );
-        $meta->put( "TOPICPARENT", { name => "TestTopic122" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic1221", $meta,
-            "This is TestTopic1221 so there" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic2" );
-        $meta->put( "TOPICPARENT", { name => "WebHome" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic2", $meta, "Dylsexia rules" );
-
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic21" );
-        $meta->put( "TOPICPARENT", { name => "$web.TestTopic2" } );
-        Foswiki::Func::saveTopic( $web, "TestTopic21", $meta,
-            "This is TestTopic21 so there" );
+        for my $testTopic ( keys %expectedRevs ) {
+            my $parent = 'WebHome';
+            if( $testTopic =~ /^TestTopic(\d+)\d$/ ) {
+                $parent = 'TestTopic' . $1;
+            }
+            $meta = Foswiki::Meta->new( $this->{session}, $web, $testTopic );
+            $meta->put( "TOPICPARENT", { name => $parent } );
+            Foswiki::Func::saveTopic( $web, $testTopic, $meta,
+                "This is $testTopic so there" );
+        }
 
         $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopicDenied" );
         Foswiki::Func::saveTopic( $web, "TestTopicDenied", $meta,
@@ -292,65 +254,18 @@ sub set_up {
             { forcenewrevision => 1 }
         );
 
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic11" );
-        Foswiki::Func::saveTopic( $web, "TestTopic11", $meta,
-            $finalText{TestTopic11}, { forcenewrevision => 1 } );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic111" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic111", $meta,
-            $finalText{TestTopic111},
-            { forcenewrevision => 1 }
-        );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic112" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic112", $meta,
-            $finalText{TestTopic112},
-            { forcenewrevision => 1 }
-        );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic12" );
-        Foswiki::Func::saveTopic( $web, "TestTopic12", $meta,
-            $finalText{TestTopic12}, { forcenewrevision => 1 } );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic121" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic121", $meta,
-            $finalText{TestTopic121},
-            { forcenewrevision => 1 }
-        );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic122" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic122", $meta,
-            $finalText{TestTopic122},
-            { forcenewrevision => 1 }
-        );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic1221" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic1221", $meta,
-            $finalText{TestTopic1221},
-            { forcenewrevision => 1 }
-        );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic2" );
-        Foswiki::Func::saveTopic( $web, "TestTopic2", $meta,
-            $finalText{'TestTopic2'}, { forcenewrevision => 1 } );
-
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic21" );
-        Foswiki::Func::saveTopic( $web, "TestTopic21", $meta,
-            $finalText{'TestTopic21'}, { forcenewrevision => 1 } );
-
         # wait a wee bit more for the clock to tick over again
-        sleep(1);
-
         # TestTopic1 should now have two change records in the period, so
         # should be going from rev 1 to rev 3
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic1" );
-        Foswiki::Func::saveTopic( $web, "TestTopic1", $meta,
-            $finalText{TestTopic1}, { forcenewrevision => 1 } );
+        # which is why 1 should be last in the list
+        sleep(1);
+
+        for my $testTopic ( reverse sort keys %expectedRevs ) {
+            ( $meta, $text ) = Foswiki::Func::readTopic( $web, $testTopic );
+            Foswiki::Func::saveTopic( $web, $testTopic, $meta,
+                $finalText{$testTopic}, { forcenewrevision => 1 } );
+        }
+
     }
 
     # OK, we should have a bunch of changes
@@ -376,8 +291,7 @@ sub testSimple {
                 $matched{$mailto} = 1;
                 my $xpect = $spec->{topicsout};
                 if ( $xpect eq '*' ) {
-                    $xpect =
-"TestTopic1 TestTopic11 TestTopic111 TestTopic112 TestTopic12 TestTopic121 TestTopic122 TestTopic1221 TestTopic2 TestTopic21";
+                    $xpect = join ' ', keys %expectedRevs;
                 }
                 foreach my $x ( split( /\s+/, $xpect ) ) {
                     $this->assert_matches( qr/^- $x \(.*\) $expectedRevs{$x}/m,
@@ -433,8 +347,7 @@ sub testSubweb {
                 $matched{$mailto} = 1;
                 my $xpect = $spec->{topicsout};
                 if ( $xpect eq '*' ) {
-                    $xpect =
-"TestTopic1 TestTopic11 TestTopic111 TestTopic112 TestTopic12 TestTopic121 TestTopic122 TestTopic1221 TestTopic2 TestTopic21";
+                    $xpect = join ' ', keys %expectedRevs;
                 }
                 foreach my $x ( split( /\s+/, $xpect ) ) {
                     $this->assert_matches( qr/^- $x \(.*\) $expectedRevs{$x}/m,
@@ -585,6 +498,72 @@ HERE
     }
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
+}
+
+# See Foswikitask:1847
+sub testExpansion_1847 {
+    my $this = shift;
+
+    my $testTopic = 'TestTopicWebExpansion';
+    my $testEmail = 'email1847@example.com';
+    my %shouldMatch = (
+        WEB => $this->{test_web},
+        BASEWEB => $this->{test_web},
+        INCLUDINGWEB => $this->{test_web},
+        TOPIC => $testTopic,
+        BASETOPIC => $testTopic,
+        INCLUDINGTOPIC => $testTopic,
+    );
+    my @token = map {
+        my $type = $_;
+        map { $_ . $type } ( '', BASE => 'INCLUDING' );
+        } qw( WEB TOPIC );
+    my $testContent = join "\n", map { "$_: \%$_\%" } @token;
+
+    # Create a WebNotify matching our topic
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName} );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
+        $meta, "   * $testEmail: $testTopic!", $meta );
+
+    # Fill our topic with our test data
+    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $testTopic );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    Foswiki::Func::saveTopic( $this->{test_web}, $testTopic,
+        $meta, "This is $testTopic so there", $meta );
+
+    # stamp the baseline
+    my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
+    my $dirpath = $this->{test_web};
+    $dirpath =~ s#/#.#g;
+    $this->assert( open( F, '>', "$metadir/$dirpath" ),
+        "$metadir/$dirpath: $!" );
+    print F time();
+    close(F);
+
+    # wait a wee bit for the clock to tick over
+    sleep(1);
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $testTopic,
+        $meta, "<noautolink>$testContent\n</noautolink>", { forcenewrevision => 1 } );
+
+    # Launch mailNotify
+    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
+        $this->{session}, 0 );
+
+    for my $message (@FoswikiFnTestCase::mails) {
+        next unless $message;
+        $message =~ /^To: (.*?)$/m;
+        my $mailto = $1;
+        $this->assert( $mailto, $message );
+        $this->assert_str_equals( $testEmail, $mailto, $mailto );
+        while( my( $key, $value ) = each %shouldMatch ) {
+            $this->assert_matches( qr/^$key: $value$/m, $message );
+        }
+    }
 }
 
 sub test_5949 {
