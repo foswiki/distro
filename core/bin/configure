@@ -337,7 +337,8 @@ if ( $action eq 'resource' ) {
         elsif ( $resource =~ /\.js$/ ) {
             $type = 'text/javascript';
         }
-        my $text = getResource($resource);
+        my $parser = Foswiki::Configure::TemplateParser->new;
+        my $text = $parser->getResource($resource);
 
         # SMELL: this call is correct, but causes a perl error
         # on some versions of CGI.pm
@@ -347,42 +348,6 @@ if ( $action eq 'resource' ) {
         print $text;
     }
     exit 0;
-}
-
-sub getResource {
-    my ( $resource, %vars ) = @_;
-
-    return getFile( $extrasDir, $resource, %vars );
-}
-
-sub getTemplate {
-    my ( $resource, %vars ) = @_;
-
-    return getFile( $templatesDir, $resource, %vars );
-}
-
-sub getFile {
-    my ( $dir, $resource, %vars ) = @_;
-    my $text = '';
-    if ( open( my $F, '<', $dir . $resource ) ) {
-        local $/;
-        $text = <$F>;
-        close($F);
-        if ( $resource =~ /\.(js|css)$/ ) {
-            $text =~ s#/\*.*?\*/##g;
-            $text =~ s#\s*//.*$##gm if ( $resource =~ /\.js$/ );
-            $text =~ s/\t/ /g;
-            $text =~ s/[ ]+$//gm;
-            $text =~ s/^\s+//gm;
-            $text =~ s/ +/ /g;
-            $text =~ s/\s*\n/\n/gs;
-        }
-        $text =~ s/%INCLUDE{(.*?)}%/getResource($1)/ges;
-        while ( my ( $k, $v ) = each %vars ) {
-            $text =~ s/\%$k%/$v/gs;
-        }
-    }
-    return $text;
 }
 
 sub log {

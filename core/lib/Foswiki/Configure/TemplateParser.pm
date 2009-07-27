@@ -147,6 +147,42 @@ sub _getTemplateFileName {
 
 }
 
+sub getResource {
+    my ( $this, $resource, %vars ) = @_;
+
+    return $this->getFile( $extrasDir, $resource, %vars );
+}
+
+sub getTemplate {
+    my ( $this, $resource, %vars ) = @_;
+
+    return $this->getFile( $templatesDir, $resource, %vars );
+}
+
+sub getFile {
+    my ( $this, $dir, $resource, %vars ) = @_;
+    my $text = '';
+    if ( open( my $F, '<', $dir . $resource ) ) {
+        local $/;
+        $text = <$F>;
+        close($F);
+        if ( $resource =~ /\.(js|css)$/ ) {
+            $text =~ s#/\*.*?\*/##g;
+            $text =~ s#\s*//.*$##gm if ( $resource =~ /\.js$/ ); #
+            $text =~ s/\t/ /g;
+            $text =~ s/[ ]+$//gm;
+            $text =~ s/^\s+//gm;
+            $text =~ s/ +/ /g;
+            $text =~ s/\s*\n/\n/gs;
+        }
+        $text =~ s/%INCLUDE{(.*?)}%/getResource($1)/ges;
+        while ( my ( $k, $v ) = each %vars ) {
+            $text =~ s/\%$k%/$v/gs;
+        }
+    }
+    return $text;
+}
+
 1;
 __DATA__
 #
