@@ -1,4 +1,5 @@
 !include ../BehaviourContrib/lib/Foswiki/Contrib/BehaviourContrib
+!include ../CompareRevisionsAddOn/lib/Foswiki/Contrib/CompareRevisionsAddOn
 !include ../CommentPlugin/lib/Foswiki/Plugins/CommentPlugin
 !include ../EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin
 !include ../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
