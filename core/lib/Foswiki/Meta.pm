@@ -377,7 +377,9 @@ within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 =cut
 
 sub fireDependency {
-    return $_[0]->{_session}->{cache}->fireDependency(
+    my $cache = $_[0]->{_session}->{cache};
+    return unless $cache;
+    return $cache->fireDependency(
         $_[0]->{_web}, $_[0]->{_topic});
 }
 
