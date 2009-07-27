@@ -1,7 +1,7 @@
 ---+!! !HomePagePlugin
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = Allow User specified home pages - on login
+   * Set SHORTDESCRIPTION = Allow sitewide, user or hostname specified default pages
 -->
 %SHORTDESCRIPTION%
 
@@ -9,11 +9,35 @@ One line description, required for extensions repository catalog.
 
 ---++ Usage
 
-This plugin makes the Default frontpage configurable - any time a user goes to %SCRIPTURL{view}% they will be shown the topic =configured= 
+This plugin makes the Default frontpage configurable -
+   1 any time a user goes to %SCRIPTURL{view}% they will be shown the topic =configured= 
 by the Foswiki administrator in ={HomePagePlugin}{SiteDefaultTopic}= in the Extensions section of =configure=.
+   2 if =GotoHomePageOnLogin= is set, when a user logs in, they will be shown the topic specificed in their UserForm
 
+Additionally, there is now an __EXPERT__ setting that allows you to set different frontpages for each domain or protocol,
+which means you _could_ define a hostname per web
 
----++ TemplateLogin configurable HomePage on login
+eg
+<verbatim>
+    'http://home.org.au' => 'HomeOrgAu',
+    'http://www.home.org.au' => 'HomeOrgAu',
+    'http://dowideit.org' => 'Blog',
+    'http://www.dowideit.org' => 'Blog',
+    'https://dowideit.org' => 'Secure',
+</verbatim>
+
+or
+<verbatim>
+    'http://download.foswiki.org' => 'Download',
+    'http://tasks.foswiki.org' => 'Tasks',
+    'http://development.foswiki.org' => 'Development',
+    'http://extensions.foswiki.org' => 'Extensions',
+    'http://community.foswiki.org' => 'Community',
+    'http://support.foswiki.org' => 'Support',
+    'http://Sven.foswiki.org' => 'Main.SvenDowideit',
+</verbatim>
+
+---++ !TemplateLogin configurable !HomePage on login
 The Admin can also =configure= ={HomePagePlugin}{GotoHomePageOnLogin}= so Foswiki Always show user's 
 HomePage (from the UserForm field in their User topic.) when they log in (makes sense if users have personalised home pages.) 
 __Note__ that this means that any URL's emailed to them will only be useful after login.
@@ -29,10 +53,11 @@ Many thanks to the following sponsors for supporting this work:
    * Created for Blackfin inc.
 
 |  Author(s): | Foswiki:Main.SvenDowideit|
-|  Copyright: | &copy; 2009 SvenDowideit@fosiki.com|
+|  Copyright: | &copy; 2009 SvenDowideit@fosiki.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]] |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| July 2009 | add Expert hash allowing domain name based frontpage setting |
 | Feb 2009 | initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/bin/view/Extensions/HomePagePlugin |

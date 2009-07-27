@@ -1,5 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
+# (c) 2009: Sven Dowideit, SvenDowideit@fosiki.com
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 3
@@ -73,6 +75,11 @@ sub initializeUserHandler {
     if (($path_info eq '' or $path_info eq '/') or 
         ($gotoOnLogin) ) {
         my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
+        #$Foswiki::cfg{HomePagePlugin}{HostnameMapping}
+        my $hostName = lc(Foswiki::Func::getUrlHost());
+        if (defined($Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName})) {
+            $siteDefault = $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
+        }
         
         if (Foswiki::Func::topicExists($Foswiki::cfg{UsersWebName}, 
                 Foswiki::Func::getWikiName($loginName)) ) {
