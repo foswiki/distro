@@ -19,8 +19,8 @@ which means you _could_ define a hostname per web
 
 eg
 <verbatim>
-    'http://home.org.au' => 'HomeOrgAu',
-    'http://www.home.org.au' => 'HomeOrgAu',
+    'http://home.org.au' => 'Homeorgau',
+    'http://www.home.org.au' => 'Homeorgau',
     'http://dowideit.org' => 'Blog',
     'http://www.dowideit.org' => 'Blog',
     'https://dowideit.org' => 'Secure',

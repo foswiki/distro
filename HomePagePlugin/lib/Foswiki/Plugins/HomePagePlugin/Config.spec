@@ -16,8 +16,8 @@ $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin} = $FALSE;
 # (so http://home.org.au and http://dowideit.org can use the same foswiki, but show different webs)
 # defaults to {SiteDefaultTopic} above. *make sure the domain portion is specified in lower case*
 $Foswiki::cfg{HomePagePlugin}{HostnameMapping} = {
-    'http://home.org.au' => 'HomeOrgAu',
-    'http://www.home.org.au' => 'HomeOrgAu',
+    'http://home.org.au' => 'Homeorgau',
+    'http://www.home.org.au' => 'Homeorgau',
     'http://dowideit.org' => 'Blog',
     'http://www.dowideit.org' => 'Blog',
     };
