@@ -39,7 +39,7 @@ button and you'll get your config file.
 or else Apache will not start, reporting an error about missing
 lib/LocalSite.cfg %ENDCOLOR%
 
-In the web server configuraiton you will need to load mod_perl but also make sure to load the
+In the web server configuraiton you will need to load mod_perl but it is also recommended to load the
 [[http://httpd.apache.org/apreq/][Apache HTTP Request Library]] (module apreq).
 If apreq is not loaded the following error may be encountered in certain situations e.g. during login:
 <verbatim>
