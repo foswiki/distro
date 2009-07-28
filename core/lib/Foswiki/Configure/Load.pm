@@ -42,26 +42,33 @@ provide defaults, and it would be silly to have them in two places anyway.
 sub readConfig {
     return if $Foswiki::cfg{ConfigurationFinished};
 
-    # Read LocalSite.cfg
-    unless ( do 'Foswiki.spec' ) {
-        die <<GOLLYGOSH;
+    # Read Foswiki.spec and LocalSite.cfg
+    for my $file (qw( Foswiki.spec LocalSite.cfg)) {
+        unless ( my $return = do $file ) {
+            my $errorMessage;
+            if ($@) {
+                $errorMessage = "Could not parse $file: $@";
+            }
+            elsif ( not defined $return ) {
+                unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
+
+                    # LocalSite.cfg doesn't exist, which is OK
+                    $errorMessage = "Could not do $file: $!";
+                }
+            }
+            elsif ( not $return ) {
+                $errorMessage = "Could not run $file" unless $return;
+            }
+            if ($errorMessage) {
+                die <<GOLLYGOSH;
 Content-type: text/plain
 
-Perl error when reading Foswiki.spec: $@
+$errorMessage
 Please inform the site admin.
 GOLLYGOSH
-        exit 1;
-    }
-
-    # Read LocalSite.cfg
-    unless ( do 'LocalSite.cfg' ) {
-        die <<GOLLYGOSH;
-Content-type: text/plain
-
-Perl error when reading LocalSite.cfg: $@
-Please inform the site admin.
-GOLLYGOSH
-        exit 1;
+                exit 1;
+            }
+        }
     }
 
     # If we got this far without definitions for key variables, then
