@@ -502,8 +502,6 @@ lib/Foswiki/Configure/resources/logo.psd
 lib/Foswiki/Configure/resources/pattern.css 0444
 lib/Foswiki/Configure/resources/scripts.js 0444
 lib/Foswiki/Configure/resources/styles.css 0444
-lib/Foswiki/Configure/resources/template_main.tmpl 0444
-lib/Foswiki/Configure/resources/template_section.tmpl 0444
 lib/Foswiki/Configure/resources/warning.gif 0444
 lib/Foswiki/Configure/resources/welcome.html 0444
 lib/Foswiki/Configure/resources/yui.css 0444
