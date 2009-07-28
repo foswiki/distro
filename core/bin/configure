@@ -200,9 +200,6 @@ my $scriptName = Foswiki::getScriptName();
 
 # Try to load the LocalLib.cfg optional overload
 
-# Paths from LocalLib.cfg (preferred)
-use vars qw( $foswikiLibPath @localPerlLibPath );
-
 use lib '.';
 eval 'require "setlib.cfg"';
 
@@ -217,8 +214,6 @@ if ($@) {
     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
 }
 
-our $extrasDir    = "$foswikiLibPath/Foswiki/Configure/resources/";
-our $templatesDir = "$foswikiLibPath/Foswiki/Configure/templates/";
 our $time         = time();
 
 # Load all the bits of the configure module that we explicitly use
@@ -339,8 +334,6 @@ if ( $action eq 'resource' ) {
             $type = 'text/javascript';
         }
 
-        # This is probably slow, but we need to know where the templates are
-        Foswiki::Configure::Load::readConfig();
         my $parser = Foswiki::Configure::TemplateParser->new;
         my $text = $parser->getResource($resource);
 

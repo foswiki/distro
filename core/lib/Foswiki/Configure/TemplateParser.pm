@@ -31,6 +31,9 @@ package Foswiki::Configure::TemplateParser;
 use strict;
 use Foswiki::Configure::Util ();
 
+# Where to look for templates and resources
+my $foswikiConfigureFilesDir;
+
 =pod
 
 parser ($parserId) -> $parser
@@ -59,6 +62,15 @@ sub new {
 
     my $this = bless( {}, $class );
     $this->{skin} = undef;
+
+    # This is probably slow, but we need to know where the templates are
+    our $foswikiLibPath;
+    unless( defined $foswikiLibPath ) {
+        delete $INC{'setlib.cfg'};
+        eval { require 'setlib.cfg'; };
+    }
+    $foswikiConfigureFilesDir = "$foswikiLibPath/Foswiki/Configure";
+
     return $this;
 }
 
@@ -149,21 +161,13 @@ sub _getTemplateFileName {
 sub getResource {
     my ( $this, $resource, %vars ) = @_;
 
-    unless( $this->isa( 'Foswiki::Configure::TemplateParser' ) ) {
-        require Carp;
-        Carp::confess "$this called getTemplate not in OO";
-    }
-    return $this->getFile( "$Foswiki::cfg{PubDir}/System/ConfigureResources/", $resource, %vars );
+    return $this->getFile( "$foswikiConfigureFilesDir/resources/", $resource, %vars );
 }
 
 sub getTemplate {
     my ( $this, $resource, %vars ) = @_;
 
-    unless( $this->isa( 'Foswiki::Configure::TemplateParser' ) ) {
-        require Carp;
-        Carp::confess "$this called getTemplate not in OO";
-    }
-    return $this->getFile( "$Foswiki::cfg{PubDir}/System/ConfigureTemplates/", $resource, %vars );
+    return $this->getFile( "$foswikiConfigureFilesDir/templates/", $resource, %vars );
 }
 
 sub getFile {
@@ -190,6 +194,7 @@ sub getFile {
     else {
         print STDERR "Error loading resource $dir$resource: $!\n";
     }
+
     return $text;
 }
 

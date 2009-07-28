@@ -5,13 +5,13 @@ package Foswiki::Configure::UIs::Introduction;
 use strict;
 
 use Foswiki::Configure::TemplateParser ();
-use Foswiki::Configure::UIs::Section ();
+use Foswiki::Configure::UIs::Section   ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
 
 sub renderHtml {
     my ( $this, $section, $root ) = @_;
 
-    my $parser = Foswiki::Configure::TemplateParser->new;
+    my $parser   = Foswiki::Configure::TemplateParser->new;
     my $contents = $parser->getResource(
         'intro.html',
         SYSTEMWEB     => $Foswiki::cfg{SystemWebName},
