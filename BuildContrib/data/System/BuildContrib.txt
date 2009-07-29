@@ -2,17 +2,8 @@
 <div style="float:right">
 <a href="http://wikiring.com"><img src="%ATTACHURLPATH%/logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
 </div>
-<!--
 
-   PLEASE DO NOT EDIT THIS TOPIC
-
-   It is automatically generated from the subversion repository, and any changes
-   you make will simply be overwritten the next time a release is generated.
-
-   Instead, you could check your fix in, raise a bug in the Bugs web, or mail thge author.
--->
-
-Automates build and packaging process, including installer generation, for extension modules.
+%SHORTDESCRIPTION%
 
 %TOC%
 
@@ -182,6 +173,18 @@ The results of the =release= target are:
 The archives will each contain the following:
    1 All the files listed in the =MANIFEST=
    1 Another copy of the install/uninstall scripts
+
+---+++ The =tracked= target
+The =tracked= target is a special case of the =release= target. Given the
+name of a customer, it will calculate a ciphered ID and replace
+=%<nop>$TRACKINGCODE%= in the sources and documentation with the calculated
+code. It will then make a release for that specific customer that
+includes the tracking code. This is useful where you want
+to be able to trace the code back to that customer without revealing any
+details about them.
+
+To use this target, you must manually add %$TRACKINGCODE% into your
+sources and documentation.
 
 ---+++ The =upload= target
 This target builds a release, and then tries to upload it to a target repository. The target uploads all the files in the release, and also tries to upload any attachments to the extension topic (as found by scanning the topic for META:FILEATTACHMENT).
@@ -473,7 +476,7 @@ histories are preserved.
 If you want your installer to do anything else then you will need to write a [[#InstallScripts][POSTINSTALL script]].
 
 <!--
-   * Set SHORTDESCRIPTION = Automate build process for Plugins, Add-ons and Contrib modules
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 ---++ Installation Instructions

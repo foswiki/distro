@@ -188,8 +188,10 @@ sub writeFile {
     unless ( -d $path ) {
         File::Path::mkpath("./$path") || die "Failed to mkdir $path: $!";
     }
+    $content = expandVars($content);
+    $content =~ s/%$NOP%//g;
     open( F, ">$path/$file" ) || die "Failed to create $path/$file: $!";
-    print F expandVars($content);
+    print F $content;
     close(F);
 }
 
@@ -299,7 +301,10 @@ our $SHORTDESCRIPTION = '%$SHORTDESCRIPTION%';
 ---+!! !%$MODULE%
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+BuildContrib will fill in the SHORTDESCRIPTION with the value of
+$SHORTDESCRIPTION from the .pm module, or you can redefine it here if you
+prefer.
+   * Set SHORTDESCRIPTION = %$SHORT%$NOP%DESCRIPTION%
 -->
 %SHORTDESCRIPTION%
 

@@ -18,7 +18,7 @@ use Foswiki::Contrib::BuildContrib::BaseBuild;
 use Error qw(:try);
 use CGI qw(:any);
 
-=begin foswiki
+=begin TML
 
 ---++ Package Foswiki::Contrib::Build
 
@@ -43,17 +43,17 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "21 Jul 2009";
+our $RELEASE = "29 Jul 2009";
 our $VERSION = '$Rev$';
 
-our $SHORTDESCRIPTION =
-  'Automate build process for Plugins, Add-ons and Contrib modules';
+our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
 
 my $UPLOADSITEPUB           = 'http://foswiki.org/pub';
 my $UPLOADSITESCRIPT        = 'http://foswiki.org/bin';
 my $UPLOADSITESUFFIX        = '';
 my $UPLOADSITEBUGS          = 'http://foswiki.org/Tasks';
 my $UPLOADSITEEXTENSIONSWEB = "Extensions";
+my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
@@ -139,7 +139,7 @@ BEGIN {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ new($project)
 | $project | Name of plugin, addon, contrib or skin |
@@ -206,16 +206,32 @@ sub new {
     $stubpath =~ s/.*[\\\/]($targetProject[\\\/].*)\.pm/$1/;
     $stubpath =~ s/[\\\/]/::/g;
 
-    # Get %$RELEASE%
+    # Get $VERSION, $RELEASE and $SHORTDESCRIPTION
     if ( -e $this->{pm} ) {
         my $fh;
         if ( open( $fh, "<", $this->{pm} ) ) {
             local $/;
             my $text = <$fh>;
-            if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/ ) {
+            if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/s ) {
                 $this->{RELEASE} = $2;
             }
+            if ( $text =~ /\$VERSION\s*=\s*(['"])(.*?)\1/s ) {
+                my $ver = $2;
+                # Flatten out SVN $Rev$
+                $ver =~ s/^\s*\$Rev:\s*(\d+)(.*?)\s*\$\s*$/$1/;
+                $this->{VERSION} = $ver;
+                if ($2 && !$this->{RELEASE}) {
+                    $ver = $2;
+                    $ver =~ s/\((.*)\)/$1/;
+                    $this->{RELEASE} = $ver;
+                }
+            }
+            if ( $text =~ /\$SHORTDESCRIPTION\s*=\s*(['"])(.*?)\1/s ) {
+                $this->{SHORTDESCRIPTION} = $2;
+            }
         }
+    } else {
+        die "NO $this->{pm} - aborting";
     }
 
     # where data files live
@@ -665,7 +681,7 @@ sub prompt {
     return $reply;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ pushd($dir)
   Change to the given directory
@@ -684,7 +700,7 @@ sub pushd {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ popd()
   Pop a dir level, previously pushed by pushd
@@ -705,7 +721,7 @@ sub popd {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ rm($file)
 Remove the given file (or directory)
@@ -728,7 +744,7 @@ sub rm {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ makepath($to)
 Make a directory and all directories leading to it.
@@ -741,7 +757,7 @@ sub makepath {
     File::Path::mkpath( $to, { verbose => $this->{-v} } );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ cp($from, $to)
 Copy a single file from - to. Will automatically make intervening
@@ -778,7 +794,7 @@ sub cp {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ prot($perms, $file)
 Set permissions on a file. Permissions should be expressed using POSIX
@@ -793,7 +809,7 @@ sub prot {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ sys_action(@params)
 Perform a "system" command.
@@ -817,7 +833,7 @@ sub sys_action {
     return $output;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ perl_action($cmd)
 Perform a "perl" command.
@@ -836,7 +852,7 @@ sub perl_action {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_build
 Basic build target.
@@ -847,7 +863,7 @@ sub target_build {
     my $this = shift;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_compress
 Compress Javascript and CSS files
@@ -873,7 +889,7 @@ sub target_compress {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_tidy
 Reformat .pm and .pl files using perltidy default options
@@ -920,7 +936,7 @@ sub _isPerl {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_test
 Basic CPAN:Test::Unit test target, runs <project>Suite.
@@ -968,7 +984,7 @@ MESSY
     $this->popd();
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ filter_txt
 Expands tokens.
@@ -1010,7 +1026,7 @@ sub _expand {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ build_js
 Uses JavaScript::Minifier to optimise javascripts
@@ -1052,7 +1068,7 @@ sub build_js {
     return 1;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ build_css
 Uses CSS::Minifier to optimise CSS files
@@ -1094,7 +1110,7 @@ sub build_css {
     return 1;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ filter_pm($from, $to)
 Filters expanding SVN rev number with correct version from repository
@@ -1115,7 +1131,7 @@ sub filter_pm {
     );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_release
 Release target, builds release zip by creating a full release directory
@@ -1128,8 +1144,10 @@ in the MANIFEST.
 sub target_release {
     my $this = shift;
 
-    print "Building a release for ";
-    print "Version $this->{VERSION} of $this->{project}\n";
+    print <<GUNK;
+
+Building release $this->{RELEASE} of $this->{project}, from version $this->{VERSION}
+GUNK
     if ( $this->{-v} ) {
         print 'Package name will be ', $this->{project}, "\n";
         print 'Topic name will be ', $this->_getTopicName(), "\n";
@@ -1141,7 +1159,72 @@ sub target_release {
     $this->build('archive');
 }
 
-=begin foswiki
+sub filter_tracked_pm {
+    my ( $this, $from, $to ) = @_;
+    $this->_filter_file(
+        $from, $to,
+        sub {
+            my ( $this, $text ) = @_;
+            $text =~ s/%\$TRACKINGCODE%/$this->{TRACKINGCODE}/gm;
+            return $text;
+        }
+       );
+}
+
+sub target_tracked {
+    my $this = shift;
+    local $/ = "\n";
+    my %customers;
+    my @cuss;
+    my $db = prompt("Location of customer database", $DEFAULTCUSTOMERDB);
+    if (open(F, '<', $db)) {
+        while (my $customer = <F>) {
+            chomp($customer);
+            if ($customer =~ /^(.+)\s(\S+)\s*$/) {
+                $customers{$1} = $2;
+            }
+        }
+        close(F);
+        @cuss = sort keys %customers;
+        my $i = 0;
+        print join("\n", map { $i++; "$i. $_" } @cuss)."\n";
+    } else {
+        print "$db not found: $@\n";
+        print "Creating new customer DB\n";
+    }
+
+    my $customer = prompt("Number (or name) of customer");
+    if ($customer =~ /^\d+$/ && $customer < scalar(@cuss)) {
+        $customer = $cuss[$customer];
+    }
+
+    if ($customers{$customer}) {
+        $this->{TRACKINGCODE} = $customers{$customer};
+    } else {
+        print "Customer '$customer' not known\n";
+        exit 0 unless ask("Would you like to add a new customer?");
+
+        $this->{TRACKINGCODE} = crypt($customer, $db);
+        $this->{TRACKINGCODE} =
+          join('', map { sprintf('%02X', $_) }
+                 unpack('c*', $this->{TRACKINGCODE}));
+        print "New cypher is $this->{TRACKINGCODE}\n";
+        $customers{$customer} = $this->{TRACKINGCODE};
+
+        open(F, '>', $db) || die $@;
+        print F join("\n", )."\n";
+        close(F);
+    }
+
+    print STDERR "Tracking code is $this->{TRACKINGCODE}\n";
+
+    push(@stageFilters,
+         { RE => qr/\.pm$/, filter => 'filter_tracked_pm' });
+
+    $this->build('release');
+}
+
+=begin TML
 
 ---++++ target_stage
 stages all the files to be in the release in a tmpDir, ready for target_archive
@@ -1195,7 +1278,7 @@ sub target_stage {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_archive
 Makes zip and tgz archives of the files in tmpDir. Also copies the installer.
@@ -1308,7 +1391,7 @@ HERE
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ copy_fileset
 Copy all files in a file set from on directory root to another.
@@ -1335,7 +1418,7 @@ sub copy_fileset {
     die 'Files left uncopied' if ($uncopied);
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ apply_perms
 Apply perms to a fileset
@@ -1353,7 +1436,7 @@ sub apply_perms {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_handsoff_install
 Install target, installs to local install pointed at by FOSWIKI_HOME.
@@ -1377,7 +1460,7 @@ sub target_handsoff_install {
     $this->popd();
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_install
 Install target, installs to local twiki pointed at by FOSWIKI_HOME.
@@ -1392,7 +1475,7 @@ sub target_install {
     $this->sys_action( 'perl', $this->{project} . '_installer', 'install' );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_uninstall
 Uninstall target, uninstall from local twiki pointed at by FOSWIKI_HOME.
@@ -1488,7 +1571,7 @@ sub _getTopicName {
     return $topicname;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_upload
 Upload to a repository. Prompts for username and password. Uploads the zip and
@@ -1799,7 +1882,7 @@ sub target_POD {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_POD
 
@@ -1819,7 +1902,7 @@ sub target_pod {
     print $this->{POD} . "\n";
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_installer
 
@@ -1927,7 +2010,7 @@ sub target_installer {
     $this->cp( $installScript, "$installScript.pl" );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ build($target)
 Build the given target
@@ -1953,7 +2036,7 @@ sub build {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_manifest
 Generate and print to STDOUT a rough guess at the MANIFEST listing
@@ -2013,7 +2096,7 @@ sub _manicollect {
     }
 }
 
-=begin foswiki
+=begin TML
 
 #HistoryTarget
 Updates the history in the plugin/contrib topic from the subversion checkin history.
@@ -2162,7 +2245,7 @@ sub target_history {
     print join( "\n", map { "|  $_->[0] | $_->[1] |" } @history );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_dependencies
 
