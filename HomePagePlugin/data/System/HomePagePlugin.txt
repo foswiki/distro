@@ -57,6 +57,7 @@ Many thanks to the following sponsors for supporting this work:
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]] |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1 Aug 2009 | fix bug in login screen usage |
 | July 2009 | add Expert hash allowing domain name based frontpage setting |
 | Feb 2009 | initial version |
 |  Dependencies: | %$DEPENDENCIES% |

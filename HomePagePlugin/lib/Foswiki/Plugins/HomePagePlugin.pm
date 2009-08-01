@@ -19,15 +19,14 @@
 
 =cut
 
-
 package Foswiki::Plugins::HomePagePlugin;
 
 use strict;
-require Foswiki::Func;    # The plugins API
-require Foswiki::Plugins; # For the API version
+require Foswiki::Func;       # The plugins API
+require Foswiki::Plugins;    # For the API version
 
-our $VERSION = '$Rev: 1340 $';
-our $RELEASE = '$Date: 2008-12-15 04:49:56 +1100 (Mon, 15 Dec 2008) $';
+our $VERSION          = '$Rev: 1340 $';
+our $RELEASE          = '$Date: 2008-12-15 04:49:56 +1100 (Mon, 15 Dec 2008) $';
 our $SHORTDESCRIPTION = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -43,12 +42,12 @@ our $NO_PREFS_IN_TOPIC = 1;
 =cut
 
 sub initPlugin {
-    my( $topic, $web, $user, $installWeb ) = @_;
+    my ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 2.0 ) {
+    if ( $Foswiki::Plugins::VERSION < 2.0 ) {
         Foswiki::Func::writeWarning( 'Version mismatch between ',
-                                     __PACKAGE__, ' and Plugins.pm' );
+            __PACKAGE__, ' and Plugins.pm' );
         return 0;
     }
 
@@ -58,50 +57,73 @@ sub initPlugin {
 sub initializeUserHandler {
     my ( $loginName, $url, $pathInfo ) = @_;
 
-    return if ($Foswiki::Plugins::SESSION->inContext('viewfile'));
-    
-    my $gotoOnLogin = ($Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin} and 
-                                        $Foswiki::Plugins::SESSION->inContext('login'));
+    return if ( $Foswiki::Plugins::SESSION->inContext('viewfile') );
+
+    my $gotoOnLogin =
+      (       $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin}
+          and $Foswiki::Plugins::SESSION->inContext('login') );
     if ($gotoOnLogin) {
-        $loginName = $Foswiki::Plugins::SESSION->{request}->param('username');
-        #pre-load the origurl with the 'login' url which forces templatelogin to use the requested web&topic
-        $Foswiki::Plugins::SESSION->{request}->param( -name => 'origurl', 
-                                            -value => $Foswiki::Plugins::SESSION->{request}->url());
+        my $test = $Foswiki::Plugins::SESSION->{request}->param('username');
+        $loginName = $test if defined($test);
+
+#pre-load the origurl with the 'login' url which forces templatelogin to use the requested web&topic
+        $Foswiki::Plugins::SESSION->{request}->param(
+            -name  => 'origurl',
+            -value => $Foswiki::Plugins::SESSION->{request}->url()
+        );
     }
 
-    #we don't know the user at this point so can only set up the site wide default
+  #we don't know the user at this point so can only set up the site wide default
     my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
-    
-    if (($path_info eq '' or $path_info eq '/') or 
-        ($gotoOnLogin) ) {
+
+    if (   ( $path_info eq '' or $path_info eq '/' )
+        or ($gotoOnLogin) )
+    {
         my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
+
         #$Foswiki::cfg{HomePagePlugin}{HostnameMapping}
-        my $hostName = lc(Foswiki::Func::getUrlHost());
-        if (defined($Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName})) {
-            $siteDefault = $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
+        my $hostName = lc( Foswiki::Func::getUrlHost() );
+        if (
+            defined(
+                $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName}
+            )
+          )
+        {
+            $siteDefault =
+              $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
         }
-        
-        if (Foswiki::Func::topicExists($Foswiki::cfg{UsersWebName}, 
-                Foswiki::Func::getWikiName($loginName)) ) {
-                    my( $meta, $text ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, 
+
+        my $wikiName = Foswiki::Func::getWikiName($loginName);
+        if (
+            ( defined $wikiName )
+            and Foswiki::Func::topicExists(
+                $Foswiki::cfg{UsersWebName}, $wikiName
+            )
+          )
+        {
+            my ( $meta, $text ) =
+              Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
                 Foswiki::Func::getWikiName($loginName) );
-                    #TODO: make fieldname a setting.
-                    my $field = $meta->get( 'FIELD', 'HomePage' );
-                    my $userHomePage = $field->{value} if (defined($field));
-                    $siteDefault = $userHomePage if ($userHomePage and ($userHomePage ne ''));
-                }
-        
-        if (Foswiki::Func::webExists($siteDefault)) {
+
+            #TODO: make fieldname a setting.
+            my $field = $meta->get( 'FIELD', 'HomePage' );
+            my $userHomePage = $field->{value} if ( defined($field) );
+            $siteDefault = $userHomePage
+              if ( $userHomePage and ( $userHomePage ne '' ) );
+        }
+
+        if ( Foswiki::Func::webExists($siteDefault) ) {
+
             #if they only set a webname, dwim
-            $siteDefault .= '.'.$Foswiki::cfg{HomeTopicName};
+            $siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
         }
         my ( $web, $topic ) =
           $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
-        $Foswiki::Plugins::SESSION->{webName} = $web;
+        $Foswiki::Plugins::SESSION->{webName}   = $web;
         $Foswiki::Plugins::SESSION->{topicName} = $topic;
 
-    return undef;
-}
+        return undef;
+    }
 
 }
 
