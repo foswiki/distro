@@ -2204,6 +2204,12 @@ sub registerTagHandler {
     my ( $tag, $function, $syntax ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
+    # $pluginContext is undefined if a contrib registers a tag handler.
+    my $pluginContext;
+    if ( caller =~ m/^Foswiki::Plugins::(\w+)/ ) {
+        $pluginContext = $1 . 'Enabled';
+    }
+
     # Use an anonymous function so it gets inlined at compile time.
     # Make sure we don't mangle the session reference.
     Foswiki::registerTagHandler(
@@ -2212,6 +2218,20 @@ sub registerTagHandler {
             my ( $session, $params, $topicObject ) = @_;
             my $record = $Foswiki::Plugins::SESSION;
             $Foswiki::Plugins::SESSION = $_[0];
+
+            # $pluginContext is defined for all plugins
+            # but never defined for contribs.
+            # This is convenient, because contribs cannot be disabled
+            # at run-time, either.
+            if ( defined $pluginContext ) {
+
+                # Registered tag handlers should only be called if the plugin
+                # is enabled. Disabled plugins can still have tag handlers
+                # registered in persistent environments (e.g. modperl)
+                # and also for rest handlers that disable plugins.
+                # See Item1871
+                return unless $session->inContext($pluginContext);
+            }
 
             # Compatibility; expand $topicObject to the topic and web
             my $result =
