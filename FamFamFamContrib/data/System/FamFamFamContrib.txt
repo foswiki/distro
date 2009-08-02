@@ -16,6 +16,14 @@ be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
 
 At this point, the only way to access these Icons is using the url - see below.
 
+---+++ Topic action icons.
+To replace the _Edit_, _Attach_ topic action buttons with icons, pre-pend your =SKIN= setting with =famfamfam=.
+
+eg
+<verbatim>
+   * Set SKIN=famfamfam,pattern
+</verbatim>
+
 ---++ TODO: DocumentGraphics themeing
 You can aso use %SYSTEMWEB%.FamFamFamGraphics as a replacement for the Foswiki DocumentGraphics, 
 by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the DocumentGraphicsPlugin.
