@@ -31,11 +31,13 @@
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_more"}%<span>
-	<a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=more" title="More actions">
+	<a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=oopsmore" title="More actions">
 		<img alt="more" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
-%TMPL:DEF{"top:toolbarbuttons_notauthenticated"}% %INCLUDE{"%TMPL:P{widgetstext}%" section="widget-login" warn="off"}% %TMPL:END%
+%TMPL:DEF{"top:toolbarbuttons_notauthenticated"}% %LOGIN% %TMPL:END%
+
+%{ TODO: add a conditional SubScribePlugin icon }%
 
 %TMPL:DEF{"top:toolbarbuttons_authenticated"}%		%TMPL:P{
 			"top:toolbarbutton_edit"
