@@ -1,7 +1,7 @@
 # Release manifest for FamFamFamContrib
 data/System/FamFamFamContrib.txt 0644 Documentation
 lib/Foswiki/Contrib/FamFamFamContrib.pm 0644 Perl module
-lib/Foswiki/Plugins/DocumentGraphicsPlugin.pm 0644 replacement for built in ICON macro
+#lib/Foswiki/Plugins/DocumentGraphicsPlugin.pm 0644 replacement for built in ICON macro
 
 templates/view.famfamfam.tmpl
 
