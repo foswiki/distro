@@ -60,6 +60,7 @@ by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the Docu
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
 |  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
 |  26 Nov 2008: | compatibility Foswiki |
 |  Dependencies: | %$DEPENDENCIES% |
