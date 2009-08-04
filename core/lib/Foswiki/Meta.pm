@@ -1938,6 +1938,10 @@ sub getAttachmentRevisionInfo {
       * =tmpFilename= - Pathname of the server file the stream is
         attached to. Required if =stream= is set.
       * =author= - cUID of author of change
+      * =notopicchange= - if the topic is *not* to be modified. This may result
+        in incorrect meta-data stored in the topic, so must be used with care.
+        Only has a meaning if the store implementation stores meta-data in
+        topics.
 
 Saves a new revision of the attachment, invoking plugin handlers as
 appropriate.
@@ -1982,9 +1986,10 @@ sub attach {
             # upload and then reopen the stream on the resultant file.
             close( $opts{stream} );
             if ( !defined( $attrs->{tmpFilename} ) ) {
+                # CGI (or the caller) did not provide a temporary file
+                # SMELL: could stream the data to a temporary file.
                 throw Error::Simple(
-"Cannot call beforeAttachmentSaveHandler; CGI did not provide a temporary file name"
-                );
+                    "Cannot call beforeAttachmentSaveHandler; caller did not provide a temporary file name");
             }
             $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
                 $this->{_topic}, $this->{_web} );
@@ -2038,7 +2043,7 @@ sub attach {
         $this->text($text);
     }
 
-    $this->saveAs();
+    $this->saveAs() unless $opts{notopicchange};
 
     if ( !$opts{dontlog} ) {
         $this->{_session}->logEvent(

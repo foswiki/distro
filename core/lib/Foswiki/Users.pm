@@ -93,17 +93,6 @@ sub new {
         import locale();
     }
 
-    $this->{loginManager} = Foswiki::LoginManager::makeLoginManager($session);
-
-    # setup the cgi session, from a cookie or the url. this may return
-    # the login, but even if it does, plugins will get the chance to
-    # override (in Foswiki.pm)
-    $this->{remoteUser} =
-      $this->{loginManager}->loadSession( $session->{remoteUser} );
-
-    $this->{remoteUser} = $Foswiki::cfg{DefaultUserLogin}
-      unless ( defined( $this->{remoteUser} ) );
-
     # making basemapping
     my $implBaseUserMappingManager = $Foswiki::cfg{BaseUserMappingManager}
       || 'Foswiki::Users::BaseUserMapping';
@@ -123,6 +112,19 @@ sub new {
         die $@ if $@;
         $this->{mapping} = $implUserMappingManager->new($session);
     }
+
+    $this->{loginManager} = Foswiki::LoginManager::makeLoginManager($session);
+
+    # setup the cgi session, from a cookie or the url. this may return
+    # the login, but even if it does, plugins will get the chance to
+    # override (in Foswiki.pm)
+    # Must do this *after* the user mapping is defined, as it may check
+    # passwords.
+    $this->{remoteUser} =
+      $this->{loginManager}->loadSession( $this, $session->{remoteUser} );
+
+    $this->{remoteUser} = $Foswiki::cfg{DefaultUserLogin}
+      unless ( defined( $this->{remoteUser} ) );
 
     # the UI for rego supported/not is different from rego temporarily
     # turned off

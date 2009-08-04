@@ -1050,7 +1050,7 @@ sub getListOfWebs {
     my $web    = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     require Foswiki::WebFilter;
-    my $f = new Foswiki::WebFilter($filter);
+    my $f = new Foswiki::WebFilter($filter || '');
     return $Foswiki::Plugins::SESSION->deepWebList( $f, $web );
 }
 
@@ -1610,7 +1610,7 @@ sub readTopicText {
     if (
         $topicObject->haveAccess( 'VIEW', $Foswiki::Plugins::SESSION->{user} ) )
     {
-        $text = $topicObject->text();
+        $text = $topicObject->getEmbeddedStoreForm();
     }
     else {
         $text = getScriptUrl(
@@ -1736,7 +1736,8 @@ Create an attachment on the given topic.
 | =filepath= | Client path to file |
 | =filesize= | Size of uploaded data |
 | =filedate= | Date |
-
+| =createlink= | Set true to create a link at the end of the topic |
+| =notopicchange= | Set to true to *prevent* this upload being recorded in the meta-data of the topic. |
 Save an attachment to the store for a topic. On success, returns undef. If there is an error, an exception will be thrown.
 
 <verbatim>
@@ -1760,7 +1761,6 @@ sub saveAttachment {
     my ( $web, $topic, $name, $data ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $result = undef;
-
     my $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
 
     # SMELL: check access controls?

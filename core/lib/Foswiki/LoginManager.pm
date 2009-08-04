@@ -142,6 +142,7 @@ sub new {
         {
             session => $session,
             twiki   => $session,    # backwards compatibility
+            _haveCookie => 0,
         },
         $class
     );
@@ -194,9 +195,9 @@ Construct the user management object
 
 sub _real_trace {
     my ( $this, $mess ) = @_;
-    my $id = 'Session'
+    my $id = 'Session '
       . ( $this->{_cgisession} ? $this->{_cgisession}->id() : 'unknown' );
-    $id .= '(c)' if $this->{_haveCookie};
+    $id .= '(cookied)' if $this->{_haveCookie};
     print STDERR "$id: $mess\n";
 }
 
@@ -249,11 +250,13 @@ sub _IP2SID {
 
 =begin TML
 
----++ ObjectMethod loadSession($defaultUser) -> $login
+---++ ObjectMethod loadSession($pwchecker, $defaultUser) -> $login
 
 Get the client session data, using the cookie and/or the request URL.
 Set up appropriate session variables in the twiki object and return
 the login name.
+
+$pwchecker is a pointer to an object that implements checkPassword
 
 $defaultUser is a username to use if one is not available from other
 sources. The username passed when you create a Foswiki instance is
@@ -262,11 +265,12 @@ passed in here.
 =cut
 
 sub loadSession {
-    my ( $this, $defaultUser ) = @_;
+    my ( $this, $pwchecker, $defaultUser ) = @_;
     my $session = $this->{session};
 
     # Try and get the user from the webserver
-    my $authUser = $this->getUser($this) || $defaultUser;
+    my $authUser = $this->getUser($this);
+    _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
     #this allows the session to over-ride apache_auth (useful for sudo)
     unless ( $Foswiki::cfg{UseClientSessions} ) {
@@ -274,7 +278,7 @@ sub loadSession {
         return $authUser;
     }
 
-    return $authUser if $session->inContext('command_line');
+    return ($authUser || $defaultUser) if $session->inContext('command_line');
 
     my $query = $session->{request};
 
@@ -328,31 +332,23 @@ sub loadSession {
     }
 
     die Foswiki::LoginManager::Session->errstr() unless $this->{_cgisession};
-    _trace( $this, "Opened session" );
 
-    _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
+    _trace( $this, "Opened session");
 
     # SMELL: is there any way to get evil data into the CGI session such
     # that this untaint is less than safe?
     my $sessionUser = Foswiki::Sandbox::untaintUnchecked(
         $this->{_cgisession}->param('AUTHUSER') );
-    _trace( $this, "session says user is " . ( $sessionUser || 'undef' ) );
+
     if (   ( !defined($authUser) )
         || ( $sessionUser && $sessionUser eq $Foswiki::cfg{AdminUserLogin} ) )
     {
         $authUser = $sessionUser;
-
-        #_trace($this, "session set to $authUser");
     }
 
-    # if we couldn't get the login manager or the http session to tell
-    # us who the user is, then let's use the CGI "remote user"
-    # variable (which may have been set manually by a unit test,
-    # or it might have come from Apache).
     if ($authUser) {
 
-        # SMELL: is there any way to get evil data into the CGI session such
-        # that this untaint is less than safe?
+        # Debug
         my $cUID = Foswiki::Sandbox::untaintUnchecked(
             $this->{_cgisession}->param('cUID') )
           || '';
@@ -360,10 +356,33 @@ sub loadSession {
     }
     else {
 
-        # Use remote user provided from "new Foswiki" call. This is mainly
-        # for testing.
-        $authUser = $defaultUser;
-        _trace( $this, "Foswiki object says user is $authUser" ) if $authUser;
+        # if we couldn't get the login manager or the http session to tell
+        # us who the user is, then check the username and password URI params.
+        # We can't do this before the mapping is set up, because we need the
+        # mapping to check the password, and we want the URI credentials to
+        # override the session credentials.
+        my $login = $query->param('username');
+        if ($login && $pwchecker) {
+            my $pass = $query->param('password');
+            my $validation = $pwchecker->checkPassword( $login, $pass );
+            unless ($validation) {
+                my $res = $session->{response};
+                $res->header( -type => 'text/html', -status => '401' );
+                my $err = "ERROR: (401) Can't login as $login";
+                $res->print($err);
+                throw Foswiki::EngineException( 401, $err, $res );
+            }
+            _trace($this, "URI params say user is ".($login||'UNKNOWN'));
+            $authUser = $login;
+        } else {
+
+            # Last ditch attempt; if a user was passed in to this function,
+            # then use it (it is normally {remoteUser} from the session
+            # object)
+            $authUser = $defaultUser;
+            _trace( $this, "Foswiki object says user is $authUser" ) if $authUser;
+
+        }
     }
 
     $authUser ||= $defaultUser;
@@ -414,12 +433,18 @@ sub loadSession {
         }
     }
     $query->delete('logout');
+
     $this->userLoggedIn($authUser);
 
     $session->{prefs}->setInternalPreferences(
         SESSIONID  => $this->{_cgisession}->id(),
         SESSIONVAR => $CGI::Session::NAME
     );
+
+    # May end up doing this several times; but this is the only place
+    # if should really need to be done, unless someone allocates a
+    # new response object.
+    $this->_addSessionCookieToResponse();
 
     return $authUser;
 }
@@ -748,15 +773,7 @@ s/(<form[^>]*(?<=\s)(?:action)=(["']))(.*?)(\2[^>]*>)/$1._rewriteFORM( $this,$3,
     $_[0] =~ s/%SKINSELECT%/_skinSelect( $this )/geo;
 }
 
-=begin TML
-
----++ ObjectMethod _pushCookie ($thisl)
-
-
-=cut
-
-# Push the standard cookie
-sub _pushCookie {
+sub _addSessionCookieToResponse {
     my $this = shift;
 
     my $cookie = CGI::Cookie->new(
@@ -782,47 +799,7 @@ sub _pushCookie {
 
         $cookie->expires($exp);
     }
-
-    $this->addCookie($cookie);
-}
-
-=begin TML
-
----++ ObjectMethod addCookie($c)
-
-Add a cookie to the list of cookies for this session.
-   * =$c= - a CGI::Cookie
-
-=cut
-
-sub addCookie {
-    return unless ( $Foswiki::cfg{UseClientSessions} );
-
-    my ( $this, $c ) = @_;
-    return if $this->{session}->inContext('command_line');
-    ASSERT( $c->isa('CGI::Cookie') ) if DEBUG;
-
-    push( @{ $this->{_cookies} }, $c );
-}
-
-=begin TML
-
----++ ObjectMethod modifyHeader( \%header )
-
-Modify a HTTP header
-   * =\%header= - header entries
-
-=cut
-
-sub modifyHeader {
-    my ( $this, $hopts ) = @_;
-
-    return unless $this->{_cgisession};
-    return if $Foswiki::cfg{Sessions}{MapIP2SID};
-
-    my $response = $this->{session}->{response};
-    _pushCookie($this);
-    $response->cookies( $this->{_cookies} );
+    $this->{session}->{response}->cookies([ $cookie ]);
 }
 
 =begin TML
@@ -851,10 +828,7 @@ sub redirectCgiQuery {
         # people go across a redirect without a ?CGISESSID= in it... But
         # EVEN in that case, they should be redirecting to a URL that
         # already *HAS* a sessionID in it... Maybe...)
-        #
-        # So this is just a big fat precaution, just like the rest of this
-        # whole handler.
-        _pushCookie($this);
+        $this->_addSessionCookieToResponse();
     }
 
     if ( $Foswiki::cfg{Sessions}{MapIP2SID} ) {
@@ -983,11 +957,14 @@ sub loginUrl {
 
 ---++ ObjectMethod getUser()
 
-*VIRTUAL METHOD* implemented by subclasses
+Should be implemented by subclasses
 
 If there is some other means of getting a username - for example,
 Apache has remote_user() - then return it. Otherwise, return undef and
 the username stored in the session will be used.
+
+This method of getting the user *assumes* that the identified user
+has been authenticated in some way (for example, by the web server)
 
 =cut
 

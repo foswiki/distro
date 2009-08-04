@@ -261,8 +261,8 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 
 sub getTopicNames {
     my $this = shift;
-
-    opendir DIR, $Foswiki::cfg{DataDir} . '/' . $this->{web}
+    my $dh;
+    opendir( $dh, "$Foswiki::cfg{DataDir}/$this->{web}")
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -270,8 +270,8 @@ sub getTopicNames {
     my @topicList =
       sort
       map { /^(.*)\.txt$/; $1; }
-      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir(DIR);
-    closedir(DIR);
+      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
+    closedir($dh);
     return @topicList;
 }
 
@@ -288,12 +288,13 @@ sub getWebNames {
     my $dir  = $Foswiki::cfg{DataDir};
     $dir .= '/' . $this->{web} if defined $this->{web};
     my @tmpList;
-    if ( opendir( DIR, $dir ) ) {
+    my $dh;
+    if ( opendir( $dh, $dir ) ) {
         @tmpList =
           map { Foswiki::Sandbox::untaintUnchecked($_) }
           grep { !/\./ && !/$Foswiki::cfg{NameFilter}/ && -d $dir . '/' . $_ }
-          readdir(DIR);
-        closedir(DIR);
+          readdir($dh);
+        closedir($dh);
     }
     return @tmpList;
 }
@@ -574,13 +575,9 @@ sub copyTopic {
         _copyFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 
-    if (
-        opendir( DIR,
-            $Foswiki::cfg{PubDir} . '/' . $this->{web} . '/' . $this->{topic}
-        )
-      )
-    {
-        for my $att ( grep { !/^\./ } readdir DIR ) {
+    my $dh;
+    if (opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" )) {
+        for my $att ( grep { !/^\./ } readdir $dh ) {
             $att = Foswiki::Sandbox::untaintUnchecked($att);
             my $oldAtt =
               new Foswiki::Store::VCHandler( $this->{session}, $this->{web},
@@ -588,7 +585,7 @@ sub copyTopic {
             $oldAtt->copyAttachment( $newWeb, $newTopic );
         }
 
-        closedir DIR;
+        closedir $dh;
     }
 }
 
@@ -813,7 +810,7 @@ sub _copyFile {
 
 sub _moveFile {
     my ( $from, $to ) = @_;
-
+    ASSERT(-e $from) if DEBUG;
     mkPathTo($to);
     unless ( File::Copy::move( $from, $to ) ) {
         throw Error::Simple(
@@ -1131,9 +1128,10 @@ Get list of attachment names actually stored for topic.
 sub getAttachmentList {
     my $this = shift;
     my $dir  = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
-    opendir DIR, $dir || return ();
-    my @files = grep { !/^[.*_]/ && !/,v$/ } readdir(DIR);
-    closedir(DIR);
+    my $dh;
+    opendir($dh, $dir) || return ();
+    my @files = grep { !/^[.*_]/ && !/,v$/ } readdir($dh);
+    closedir($dh);
     return @files;
 }
 

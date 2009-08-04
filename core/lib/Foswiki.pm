@@ -657,9 +657,9 @@ sub writeCompletePage {
 
             # At least one form has been touched; add the validation
             # cookie
-            $this->{users}->{loginManager}->addCookie(
-                Foswiki::Validation::getCookie(
-                    $cgis, $this->{response}));
+            $this->{response}->cookies(
+                [ Foswiki::Validation::getCookie( $cgis ) ]);
+
             # Add the JS module to the page. Note that this is *not*
             # incorporated into the foswikilib.js because that module
             # is conditionally loaded under the control of the
@@ -732,7 +732,6 @@ sub generateHTTPHeaders {
     my( $this, $pageType, $contentType, $text, $cachedPage ) = @_;
 
     my $hopts = {};
-
     # Handle Edit pages - future versions will extend to caching
     # of other types of page, with expiry time driven by page type.
     if ( $pageType && $pageType eq 'edit' ) {
@@ -783,9 +782,6 @@ sub generateHTTPHeaders {
     # New (since 1.026)
     $this->{plugins}
       ->dispatch( 'modifyHeaderHandler', $hopts, $this->{request} );
-
-    # add cookie(s)
-    $this->{users}->{loginManager}->modifyHeader($hopts);
 
     # add http compression and conditional cache controls
     if (!$this->inContext('command_line') && $text) {
@@ -1538,7 +1534,8 @@ sub new {
     $this->{_HTMLHEADERS} = {};
     $this->{context}      = $initialContext;
 
-    $this->{cache} = new Foswiki::PageCache( $this ) if ($Foswiki::cfg{Cache}{Enabled});
+    $this->{cache} = new Foswiki::PageCache( $this )
+      if ($Foswiki::cfg{Cache}{Enabled});
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);
