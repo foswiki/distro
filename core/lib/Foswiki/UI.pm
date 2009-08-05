@@ -519,6 +519,9 @@ sub checkValidationKey {
     # If validation is disabled, do nothing
     return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
 
+    # No point in command-line mode
+    return if $session->inContext('command_line');
+
     # Check the nonce before we do anything else
     my $nonce = $session->{request}->param('validation_key');
     $session->{request}->delete('validation_key');
