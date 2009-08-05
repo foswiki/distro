@@ -105,6 +105,7 @@ sub evaluate {
 
             # a name; look it up in $domain{data}
             eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
+            die $@ if $@;
             $result = $Foswiki::cfg{RCS}{QueryAlgorithm}->getField(
                 $this, $domain{data}, $this->{params}[0] );
         }

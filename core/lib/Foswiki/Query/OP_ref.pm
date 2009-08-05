@@ -9,10 +9,11 @@
 package Foswiki::Query::OP_ref;
 
 use strict;
-use Error qw( :try );
-
 use Foswiki::Query::BinaryOP ();
 our @ISA = ('Foswiki::Query::BinaryOP');
+
+use Error qw( :try );
+use Assert;
 
 sub new {
     my $class = shift;
@@ -23,6 +24,9 @@ sub evaluate {
     my $this   = shift;
     my $pnode  = shift;
     my %domain = @_;
+
+    eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
+    die $@ if $@;
 
     my $a    = $pnode->{params}[0];
     my $node = $a->evaluate(@_);
@@ -40,7 +44,6 @@ sub evaluate {
         my ( $w, $t ) =
           $Foswiki::Plugins::SESSION->normalizeWebTopicName(
               $Foswiki::Plugins::SESSION->{webName}, $v );
-        my $result = undef;
         try {
             my $submeta = $Foswiki::cfg{RCS}{QueryAlgorithm}->getRefTopic(
                 $domain{tom}, $w, $t );
@@ -53,7 +56,9 @@ sub evaluate {
                 push( @result, $res );
             }
         }
-        catch Error::Simple with {};
+        catch Error::Simple with {
+            print STDERR "ERROR IN OP_ref: $_[0]->{-text}" if DEBUG;
+        };
     }
     return unless scalar(@result);
     return $result[0] if scalar(@result) == 1;
