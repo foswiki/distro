@@ -6,12 +6,12 @@
 
 Implementation of =Foswiki::Store= for stores that use the RCS version
 control system to manage disk files. This class inherits most of its
-functionality from =Foswiki::Store::VCStore=, which it shares with
+functionality from =Foswiki::Store::VC::Store=, which it shares with
 =Foswiki::Store::RcsWrap=.
 
 For readers who are familiar with Foswiki version 1.0, this class
 has no equivalent in Foswiki 1.0. The equivalent of the old
-=Foswiki::Store::RcsLite= is the new =Foswiki::Store::RcsLiteHandler=.
+=Foswiki::Store::RcsLite= is the new =Foswiki::Store::VC::RcsLiteHandler=.
 
 =cut
 
@@ -19,15 +19,15 @@ package Foswiki::Store::RcsLite;
 
 use strict;
 
-use Foswiki::Store::VCStore ();
-our @ISA = ('Foswiki::Store::VCStore');
+use Foswiki::Store::VC::Store ();
+our @ISA = ('Foswiki::Store::VC::Store');
 
-# This constructor is required to hide the =Foswiki::Store::RcsLiteHandler=
+# This constructor is required to hide the =Foswiki::Store::VC::RcsLiteHandler=
 # class during construction, so that the core can simply say "give me a new
 # XXX store" without having to pass additional parameters.
 sub new {
     my ( $class, $session ) = @_;
-    return $class->SUPER::new( $session, 'Foswiki::Store::RcsLiteHandler' );
+    return $class->SUPER::new( $session, 'Foswiki::Store::VC::RcsLiteHandler' );
 }
 
 1;

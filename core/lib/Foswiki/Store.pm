@@ -22,7 +22,7 @@ types of error.
 
 Reference implementations of this base class are =Foswiki::Store::RcsWrap=
 and =Foswiki::Store::RcsLite= (these are both implemented in terms of
-VCStore, which is an abstract implementation of a store based on a
+VC::Store, which is an abstract implementation of a store based on a
 version control system).
 
 Methods of this class and all subclasses should *only* be called from
@@ -61,26 +61,6 @@ BEGIN {
         require locale;
         import locale();
     }
-}
-
-=begin TML
-
----++ StaticMethod createNewStore($session, $impl)
-
-Construct a Store module, using the chosen
-implementation class.
-
-=$impl= is the class name of the actual store implementation.
-
-=cut
-
-sub createNewStore {
-    my ( $session, $impl ) = @_;
-
-    eval "require $impl";
-    ASSERT( !$@, $@ ) if DEBUG;
-
-    return $impl->new($session);
 }
 
 =begin TML

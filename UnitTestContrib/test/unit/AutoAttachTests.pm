@@ -98,10 +98,7 @@ sub test_no_autoattach {
 
 sub test_autoattach {
 
-   #   print "Default AutoAttachPubFiles = $Foswiki::cfg{AutoAttachPubFiles}\n";
-    $Foswiki::cfg{AutoAttachPubFiles} = 1;
-
-    #   print "AutoAttachPubFiles now = $Foswiki::cfg{AutoAttachPubFiles}\n";
+    $Foswiki::cfg{RCS}{AutoAttachPubFiles} = 1;
 
     my $this  = shift;
     my $topic = "UnitTest1";

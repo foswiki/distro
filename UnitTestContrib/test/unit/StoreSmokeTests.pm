@@ -16,13 +16,13 @@ my $UI_FN;
 
 sub RcsLite {
     my $this = shift;
-    $Foswiki::cfg{StoreImpl} = 'RcsLite';
+    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
     $this->set_up_for_verify();
 }
 
 sub RcsWrap {
     my $this = shift;
-    $Foswiki::cfg{StoreImpl} = 'RcsWrap';
+    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
     $this->set_up_for_verify();
 }
 

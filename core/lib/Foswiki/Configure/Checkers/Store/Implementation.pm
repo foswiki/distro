@@ -1,15 +1,37 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::RCS::FgrepCmd;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+package Foswiki::Configure::Checkers::Store::Implementation;
 
 use strict;
+
+use Foswiki::Configure::Checker ();
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
 
-    return '' unless $Foswiki::cfg{RCS}{SearchAlgorithm} =~ /Forking$/;
-    return $this->checkGnuProgram( $Foswiki::cfg{RCS}{FgrepCmd} );
+    my $mess = '';
+    if ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) {
+
+        # Check that GNU diff is found in PATH; used by rcsdiff
+        $mess .= $this->checkGnuProgram('diff');
+
+        # Check all the RCS programs
+        $mess .= $this->checkRCSProgram('initBinaryCmd');
+        $mess .= $this->checkRCSProgram('initTextCmd');
+        $mess .= $this->checkRCSProgram('tmpBinaryCmd');
+        $mess .= $this->checkRCSProgram('ciCmd');
+        $mess .= $this->checkRCSProgram('ciDateCmd');
+        $mess .= $this->checkRCSProgram('coCmd');
+        $mess .= $this->checkRCSProgram('histCmd');
+        $mess .= $this->checkRCSProgram('infoCmd');
+        $mess .= $this->checkRCSProgram('histCmd');
+        $mess .= $this->checkRCSProgram('diffCmd');
+        $mess .= $this->checkRCSProgram('lockCmd');
+        $mess .= $this->checkRCSProgram('unlockCmd');
+        $mess .= $this->checkRCSProgram('delRevCmd');
+    }
+
+    return $mess;
 }
 
 1;

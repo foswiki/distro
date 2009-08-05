@@ -1,37 +1,15 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::StoreImpl;
-
-use strict;
-
+package Foswiki::Configure::Checkers::Store::EgrepCmd;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
+
+use strict;
 
 sub check {
     my $this = shift;
 
-    my $mess = '';
-    if ( $Foswiki::cfg{StoreImpl} eq 'RcsWrap' ) {
-
-        # Check that GNU diff is found in PATH; used by rcsdiff
-        $mess .= $this->checkGnuProgram('diff');
-
-        # Check all the RCS programs
-        $mess .= $this->checkRCSProgram('initBinaryCmd');
-        $mess .= $this->checkRCSProgram('initTextCmd');
-        $mess .= $this->checkRCSProgram('tmpBinaryCmd');
-        $mess .= $this->checkRCSProgram('ciCmd');
-        $mess .= $this->checkRCSProgram('ciDateCmd');
-        $mess .= $this->checkRCSProgram('coCmd');
-        $mess .= $this->checkRCSProgram('histCmd');
-        $mess .= $this->checkRCSProgram('infoCmd');
-        $mess .= $this->checkRCSProgram('histCmd');
-        $mess .= $this->checkRCSProgram('diffCmd');
-        $mess .= $this->checkRCSProgram('lockCmd');
-        $mess .= $this->checkRCSProgram('unlockCmd');
-        $mess .= $this->checkRCSProgram('delRevCmd');
-    }
-
-    return $mess;
+    return '' unless $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking$/;
+    return $this->checkGnuProgram( $Foswiki::cfg{Store}{EgrepCmd} );
 }
 
 1;

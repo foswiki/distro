@@ -8,11 +8,6 @@ A singleton object of this class is used to deal with attachments to topics.
 
 =cut
 
-# Note: Meta-data is stored in topics fo performance. You need to use the
-# official API to manipulate attachments. Dropping files into the
-# attachments directory works only if the {AutoAttachPubFiles} configure
-# setting is enabled.
-
 package Foswiki::Attach;
 
 use strict;

@@ -32,10 +32,10 @@ sub search {
     if ( $options->{type}
         && ( $options->{type} eq 'regex' || $options->{wordboundaries} ) )
     {
-        $program = $Foswiki::cfg{RCS}{EgrepCmd};
+        $program = $Foswiki::cfg{Store}{EgrepCmd};
     }
     else {
-        $program = $Foswiki::cfg{RCS}{FgrepCmd};
+        $program = $Foswiki::cfg{Store}{FgrepCmd};
     }
 
     if ( $options->{casesensitive} ) {

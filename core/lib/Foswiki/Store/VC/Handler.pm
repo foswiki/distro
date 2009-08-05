@@ -2,9 +2,9 @@
 
 =begin TML
 
----+ package Foswiki::Store::VCHandler
+---+ package Foswiki::Store::VC::Handler
 
-This class is PACKAGE PRIVATE to Store, and should never be
+This class is PACKAGE PRIVATE to Store::VC, and should never be
 used from anywhere else. It is the base class of implementations of
 individual file handler objects used with stores that manipulate
 files stored in a version control system (phew!).
@@ -21,7 +21,7 @@ is analagous to =Foswiki::Store::RcsFile=.
 
 =cut
 
-package Foswiki::Store::VCHandler;
+package Foswiki::Store::VC::Handler;
 
 use strict;
 use Assert;
@@ -141,7 +141,7 @@ sub mkPathTo {
 
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
-        throw Error::Simple("VCHandler: failed to create ${path}: $!");
+        throw Error::Simple("VC::Handler: failed to create ${path}: $!");
     }
 }
 
@@ -329,11 +329,11 @@ sub searchInWebContent {
     ASSERT( defined $options ) if DEBUG;
 
     unless ( $this->{searchFn} ) {
-        eval "require $Foswiki::cfg{RCS}{SearchAlgorithm}";
+        eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
         die
-"Bad {RCS}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+"Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
           if $@;
-        $this->{searchFn} = $Foswiki::cfg{RCS}{SearchAlgorithm} . '::search';
+        $this->{searchFn} = $Foswiki::cfg{Store}{SearchAlgorithm} . '::search';
     }
 
     no strict 'refs';
@@ -365,22 +365,22 @@ sub searchInWebMetaData {
     my $engine;
     if ( $options->{type} eq 'query' ) {
         unless ( $this->{queryFn} ) {
-            eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
+            eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
             die
-"Bad {RCS}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+"Bad {Store}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->{queryFn} = $Foswiki::cfg{RCS}{QueryAlgorithm} . '::query';
+            $this->{queryFn} = $Foswiki::cfg{Store}{QueryAlgorithm} . '::query';
         }
         $engine = $this->{queryFn};
     }
     else {
         unless ( $this->{searchQueryFn} ) {
-            eval "require $Foswiki::cfg{RCS}{SearchAlgorithm}";
+            eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
             die
-"Bad {RCS}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+"Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
             $this->{searchQueryFn} =
-              $Foswiki::cfg{RCS}{SearchAlgorithm} . '::query';
+              $Foswiki::cfg{Store}{SearchAlgorithm} . '::query';
         }
         $engine = $this->{searchQueryFn};
     }
@@ -535,7 +535,7 @@ sub moveTopic {
 
     # Move data file
     my $new =
-      new Foswiki::Store::VCHandler( $this->{session}, $newWeb, $newTopic, '' );
+      new Foswiki::Store::VC::Handler( $this->{session}, $newWeb, $newTopic, '' );
     _moveFile( $this->{file}, $new->{file} );
 
     # Move history
@@ -568,7 +568,7 @@ sub copyTopic {
     my $oldTopic = $this->{topic};
 
     my $new =
-      new Foswiki::Store::VCHandler( $this->{session}, $newWeb, $newTopic, '' );
+      new Foswiki::Store::VC::Handler( $this->{session}, $newWeb, $newTopic, '' );
 
     _copyFile( $this->{file}, $new->{file} );
     if ( -e $this->{rcsFile} ) {
@@ -580,7 +580,7 @@ sub copyTopic {
         for my $att ( grep { !/^\./ } readdir $dh ) {
             $att = Foswiki::Sandbox::untaintUnchecked($att);
             my $oldAtt =
-              new Foswiki::Store::VCHandler( $this->{session}, $this->{web},
+              new Foswiki::Store::VC::Handler( $this->{session}, $this->{web},
                 $this->{topic}, $att );
             $oldAtt->copyAttachment( $newWeb, $newTopic );
         }
@@ -602,7 +602,7 @@ sub moveAttachment {
 
     # FIXME might want to delete old directories if empty
     my $new =
-      Foswiki::Store::VCHandler->new( $this->{session}, $newWeb, $newTopic,
+      Foswiki::Store::VC::Handler->new( $this->{session}, $newWeb, $newTopic,
         $newAttachment );
 
     _moveFile( $this->{file}, $new->{file} );
@@ -628,7 +628,7 @@ sub copyAttachment {
     my $attachment = $this->{attachment};
 
     my $new =
-      Foswiki::Store::VCHandler->new( $this->{session}, $newWeb, $newTopic,
+      Foswiki::Store::VC::Handler->new( $this->{session}, $newWeb, $newTopic,
         $attachment );
 
     _copyFile( $this->{file}, $new->{file} );
@@ -677,7 +677,7 @@ sub setLock {
     else {
         unlink $filename
           || throw Error::Simple(
-            'VCHandler: failed to delete ' . $filename . ': ' . $! );
+            'VC::Handler: failed to delete ' . $filename . ': ' . $! );
     }
 }
 
@@ -720,7 +720,7 @@ sub setLease {
     elsif ( -e $filename ) {
         unlink $filename
           || throw Error::Simple(
-            'VCHandler: failed to delete ' . $filename . ': ' . $! );
+            'VC::Handler: failed to delete ' . $filename . ': ' . $! );
     }
 }
 
@@ -783,17 +783,17 @@ sub saveStream {
     my $F;
     open( $F, '>', $this->{file} )
       || throw Error::Simple(
-        'VCHandler: open ' . $this->{file} . ' failed: ' . $! );
+        'VC::Handler: open ' . $this->{file} . ' failed: ' . $! );
     binmode($F)
       || throw Error::Simple(
-        'VCHandler: failed to binmode ' . $this->{file} . ': ' . $! );
+        'VC::Handler: failed to binmode ' . $this->{file} . ': ' . $! );
     my $text;
     while ( read( $fh, $text, 1024 ) ) {
         print $F $text;
     }
     close($F)
       || throw Error::Simple(
-        'VCHandler: close ' . $this->{file} . ' failed: ' . $! );
+        'VC::Handler: close ' . $this->{file} . ' failed: ' . $! );
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
@@ -804,7 +804,7 @@ sub _copyFile {
     mkPathTo($to);
     unless ( File::Copy::copy( $from, $to ) ) {
         throw Error::Simple(
-            'VCHandler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
+            'VC::Handler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
 }
 
@@ -814,7 +814,7 @@ sub _moveFile {
     mkPathTo($to);
     unless ( File::Copy::move( $from, $to ) ) {
         throw Error::Simple(
-            'VCHandler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
+            'VC::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
 }
 
@@ -826,14 +826,14 @@ sub saveFile {
     my $FILE;
     open( $FILE, '>', $name )
       || throw Error::Simple(
-        'VCHandler: failed to create file ' . $name . ': ' . $! );
+        'VC::Handler: failed to create file ' . $name . ': ' . $! );
     binmode($FILE)
       || throw Error::Simple(
-        'VCHandler: failed to binmode ' . $name . ': ' . $! );
+        'VC::Handler: failed to binmode ' . $name . ': ' . $! );
     print $FILE $text;
     close($FILE)
       || throw Error::Simple(
-        'VCHandler: failed to create file ' . $name . ': ' . $! );
+        'VC::Handler: failed to create file ' . $name . ': ' . $! );
     return;
 }
 
@@ -921,7 +921,7 @@ sub _rmtree {
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple( 'VCHandler: Failed to delete file ' 
+                    throw Error::Simple( 'VC::Handler: Failed to delete file ' 
                           . $entry . ': '
                           . $! );
                 }
@@ -940,7 +940,7 @@ sub _rmtree {
         if ( !rmdir($root) ) {
             if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
                 throw Error::Simple(
-                    'VCHandler: Failed to delete ' . $root . ': ' . $! );
+                    'VC::Handler: Failed to delete ' . $root . ': ' . $! );
             }
             else {
                 print STDERR 'WARNING: Failed to delete ' . $root . ': ' . $!,
@@ -1031,7 +1031,7 @@ sub openStream {
         }
         unless ( open( $stream, $mode, $this->{file} ) ) {
             throw Error::Simple(
-                'VCHandler: stream open ' . $this->{file} . ' failed: ' . $! );
+                'VC::Handler: stream open ' . $this->{file} . ' failed: ' . $! );
         }
     }
     return $stream;
@@ -1071,7 +1071,7 @@ Synchronise the attachment list from meta-data with what's actually
 stored in the DB. Returns an ARRAY of FILEATTACHMENTs. These can be
 put in the new tom.
 
-This function is only called when the {AutoAttachPubFiles} configuration
+This function is only called when the {RCS}{AutoAttachPubFiles} configuration
 option is set.
 
 =cut

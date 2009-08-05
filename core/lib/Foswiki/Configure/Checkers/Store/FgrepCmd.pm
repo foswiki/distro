@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::RCS::EgrepCmd;
+package Foswiki::Configure::Checkers::Store::FgrepCmd;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -8,8 +8,8 @@ use strict;
 sub check {
     my $this = shift;
 
-    return '' unless $Foswiki::cfg{RCS}{SearchAlgorithm} =~ /Forking$/;
-    return $this->checkGnuProgram( $Foswiki::cfg{RCS}{EgrepCmd} );
+    return '' unless $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking$/;
+    return $this->checkGnuProgram( $Foswiki::cfg{Store}{FgrepCmd} );
 }
 
 1;

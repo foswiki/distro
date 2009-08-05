@@ -1539,8 +1539,10 @@ sub new {
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);
-    $this->{store}   = Foswiki::Store::createNewStore( $this,
-        "Foswiki::Store::$Foswiki::cfg{StoreImpl}" );
+
+    eval "require $Foswiki::cfg{Store}{Implementation}";
+    ASSERT( !$@, $@ ) if DEBUG;
+    $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new( $this );
 
     # use login as a default (set when running from cmd line)
     $this->{remoteUser} = $login;

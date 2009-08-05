@@ -2,9 +2,9 @@
 
 =begin TML
 
----+ package Foswiki::Store::RcsLiteHandler
+---+ package Foswiki::Store::VC::RcsLiteHandler
 
-This class implements the pure methods of the Foswiki::Store::VCHandler
+This class implements the pure methods of the Foswiki::Store::VC::Handler
 superclass. See the superclass for detailed documentation of the methods.
 
 For readers who are familiar with Foswiki version 1.0, this class
@@ -83,11 +83,11 @@ yyyyyy   is the new line 5
 
 =cut
 
-package Foswiki::Store::RcsLiteHandler;
+package Foswiki::Store::VC::RcsLiteHandler;
 use strict;
 
-use Foswiki::Store::VCHandler ();
-our @ISA = ('Foswiki::Store::VCHandler');
+use Foswiki::Store::VC::Handler ();
+our @ISA = ('Foswiki::Store::VC::Handler');
 
 use Assert;
 use Error qw( :try );
@@ -97,7 +97,7 @@ use Foswiki::Store   ();
 use Foswiki::Sandbox ();
 
 #
-# As well as the field inherited from VCHandler, the object for each file
+# As well as the field inherited from VC::Handler, the object for each file
 # read consists of the following fields:
 # head    - version number of head
 # access  - the access field from the file
@@ -114,7 +114,7 @@ use Foswiki::Sandbox ();
 #           If the parse was successful this will be 'parsed'.
 #
 
-# implements VCHandler
+# implements VC::Handler
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
@@ -390,7 +390,7 @@ HERE
     # most recent rev first
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
         my $d       = $this->{revs}[$i]->{date};
-        my $rcsDate = Foswiki::Store::VCHandler::_epochToRcsDateTime($d);
+        my $rcsDate = Foswiki::Store::VC::Handler::_epochToRcsDateTime($d);
         print $file <<HERE;
 
 1.$i
@@ -414,7 +414,7 @@ HERE
     $this->{state} = 'parsed';    # now known clean
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub initBinary {
     my ($this) = @_;
 
@@ -422,7 +422,7 @@ sub initBinary {
     $this->{expand} = 'b';
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub initText {
     my ($this) = @_;
 
@@ -430,7 +430,7 @@ sub initText {
     $this->{expand} = 'o';
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub numRevisions {
     my ($this) = @_;
     _ensureProcessed($this);
@@ -443,12 +443,12 @@ sub numRevisions {
     return $this->{head};
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub addRevisionFromText {
     _addRevision( shift, 0, @_ );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub addRevisionFromStream {
     _addRevision( shift, 1, @_ );
 }
@@ -463,7 +463,7 @@ sub _addRevision {
         # save the file on disc
         $this->{head} = 1;
         $this->{revs}[1]->{text} =
-          Foswiki::Store::VCHandler::readFile( $this, $this->{file} );
+          Foswiki::Store::VC::Handler::readFile( $this, $this->{file} );
         $this->{revs}[1]->{log}    = $log;
         $this->{revs}[1]->{author} = $author;
         $this->{revs}[1]->{date}   = ( defined $date ? $date : time() );
@@ -471,13 +471,13 @@ sub _addRevision {
     }
 
     if ($isStream) {
-        Foswiki::Store::VCHandler::saveStream( $this, $data );
+        Foswiki::Store::VC::Handler::saveStream( $this, $data );
 
         # SMELL: for big attachments, this is a dog
-        $data = Foswiki::Store::VCHandler::readFile( $this, $this->{file} );
+        $data = Foswiki::Store::VC::Handler::readFile( $this, $this->{file} );
     }
     else {
-        Foswiki::Store::VCHandler::saveFile( $this, $this->{file}, $data );
+        Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $data );
     }
 
     my $head = $this->{head};
@@ -522,7 +522,7 @@ sub _writeMe {
     return $dataError;
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub replaceRevision {
     my ( $this, $text, $comment, $user, $date ) = @_;
     _ensureProcessed($this);
@@ -530,7 +530,7 @@ sub replaceRevision {
     return _addRevision( $this, 0, $text, $comment, $user, $date );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub deleteRevision {
     my ($this) = @_;
     _ensureProcessed($this);
@@ -549,10 +549,10 @@ sub _delLastRevision {
     my $lastText = $this->getRevision($numRevisions);
     $this->{revs}[$numRevisions]->{text} = $lastText;
     $this->{head} = $numRevisions;
-    Foswiki::Store::VCHandler::saveFile( $this, $this->{file}, $lastText );
+    Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $lastText );
 }
 
-# implements VCHandler
+# implements VC::Handler
 # Recovers the two revisions and uses sdiff on them. Simplest way to do
 # this operation.
 # rev1 is the lower, rev2 is the higher revision
@@ -574,7 +574,7 @@ sub revisionDiff {
     return \@list;
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub getRevisionInfo {
     my ( $this, $version ) = @_;
 
@@ -652,7 +652,7 @@ HERE
     }
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub getRevision {
     my ( $this, $version ) = @_;
 
@@ -774,7 +774,7 @@ sub _addChunk {
     return $nLines;
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 

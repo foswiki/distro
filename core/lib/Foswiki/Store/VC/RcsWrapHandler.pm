@@ -2,9 +2,9 @@
 
 =begin TML
 
----+ package Foswiki::Store::RcsWrapHandler
+---+ package Foswiki::Store::VC::RcsWrapHandler
 
-This class implements the pure methods of the Foswiki::Store::VCHandler
+This class implements the pure methods of the Foswiki::Store::VC::Handler
 superclass. See the superclass for detailed documentation of the methods.
 
 Wrapper around the RCS commands required by Foswiki.
@@ -15,11 +15,11 @@ is analagous to the old =Foswiki::Store::RcsWrap=.
 
 =cut
 
-package Foswiki::Store::RcsWrapHandler;
+package Foswiki::Store::VC::RcsWrapHandler;
 use strict;
 
-use Foswiki::Store::VCHandler ();
-our @ISA = ('Foswiki::Store::VCHandler');
+use Foswiki::Store::VC::Handler ();
+our @ISA = ('Foswiki::Store::VC::Handler');
 
 use File::Copy ();
 
@@ -46,13 +46,13 @@ sub finish {
     undef $this->{binary};
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub initBinary {
     my ($this) = @_;
 
     $this->{binary} = 1;
 
-    Foswiki::Store::VCHandler::mkPathTo( $this->{file} );
+    Foswiki::Store::VC::Handler::mkPathTo( $this->{file} );
 
     return if -e $this->{rcsFile};
 
@@ -74,13 +74,13 @@ sub initBinary {
     }
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub initText {
     my ($this) = @_;
 
     $this->{binary} = 0;
 
-    Foswiki::Store::VCHandler::mkPathTo( $this->{file} );
+    Foswiki::Store::VC::Handler::mkPathTo( $this->{file} );
 
     return if -e $this->{rcsFile};
 
@@ -103,7 +103,7 @@ sub initText {
     }
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub addRevisionFromText {
     my ( $this, $text, $comment, $user, $date ) = @_;
     $this->init();
@@ -115,22 +115,22 @@ sub addRevisionFromText {
         _lock($this);
         _ci( $this, $comment, $user, $date );
     }
-    Foswiki::Store::VCHandler::saveFile( $this, $this->{file}, $text );
+    Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $text );
     _lock($this);
     _ci( $this, $comment, $user, $date );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub addRevisionFromStream {
     my ( $this, $stream, $comment, $user, $date ) = @_;
     $this->init();
 
     _lock($this);
-    Foswiki::Store::VCHandler::saveStream( $this, $stream );
+    Foswiki::Store::VC::Handler::saveStream( $this, $stream );
     _ci( $this, $comment, $user, $date );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub replaceRevision {
     my ( $this, $text, $comment, $user, $date ) = @_;
 
@@ -148,7 +148,7 @@ sub replaceRevision {
         _deleteRevision( $this, $rev );
     }
 
-    Foswiki::Store::VCHandler::saveFile( $this, $this->{file}, $text );
+    Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $text );
     require Foswiki::Time;
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
 
@@ -167,7 +167,7 @@ sub replaceRevision {
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub deleteRevision {
     my ($this) = @_;
     my $rev = $this->numRevisions();
@@ -212,10 +212,10 @@ sub _deleteRevision {
               . ' failed: '
               . $rcsOut );
     }
-    Foswiki::Store::VCHandler::saveFile( $this, $this->{file}, $rcsOut );
+    Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $rcsOut );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub getRevision {
     my ( $this, $version ) = @_;
 
@@ -235,7 +235,7 @@ sub getRevision {
         # stdout to avoid early file read termination
         # See http://twiki.org/cgi-bin/view/Codev/DakarRcsWrapProblem
         # for evidence that this code is needed.
-        $tmpfile    = Foswiki::Store::VCHandler::mkTmpFilename($this);
+        $tmpfile    = Foswiki::Store::VC::Handler::mkTmpFilename($this);
         $tmpRevFile = $tmpfile . ',v';
         File::Copy::copy( $this->{rcsFile}, $tmpRevFile );
         my ( $tmp, $status ) =
@@ -251,7 +251,7 @@ sub getRevision {
     );
 
     if ($tmpfile) {
-        $text = Foswiki::Store::VCHandler::readFile( $this, $tmpfile );
+        $text = Foswiki::Store::VC::Handler::readFile( $this, $tmpfile );
         unlink Foswiki::Sandbox->untaintUnchecked($tmpfile);
         unlink Foswiki::Sandbox->untaintUnchecked($tmpRevFile);
     }
@@ -259,7 +259,7 @@ sub getRevision {
     return $text;
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub numRevisions {
     my ($this) = @_;
 
@@ -287,7 +287,7 @@ sub numRevisions {
     return 1;
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub getRevisionInfo {
     my ( $this, $version ) = @_;
 
@@ -321,7 +321,7 @@ sub getRevisionInfo {
     return $this->SUPER::getRevisionInfo($version);
 }
 
-# implements VCHandler
+# implements VC::Handler
 # rev1 is the lower, rev2 is the higher revision
 sub revisionDiff {
     my ( $this, $rev1, $rev2, $contextLines ) = @_;
@@ -362,7 +362,7 @@ sub revisionDiff {
 | #Description: | unlike Algorithm::Diff I concatinate lines of the same diffType that are sqential (this might be something that should be left up to the renderer) |
 | Parameter: =$text= | currently unified or rcsdiff format |
 | Return: =\@diffArray= | reference to an array of [ diffType, $right, $left ] |
-| TODO: | move into VCHandler and add indirection in Store |
+| TODO: | move into VC::Handler and add indirection in Store |
 
 =cut
 
@@ -499,7 +499,7 @@ sub _lock {
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
 
-# implements VCHandler
+# implements VC::Handler
 sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 

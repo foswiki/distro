@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::Store::VCStore
+---+ package Foswiki::Store::VC::Store
 
 Almost-complete implementation of =Foswiki::Store=. The methods
 of this class implement the =Foswiki::Store= interface.
@@ -12,7 +12,7 @@ actual version control system (and via it with the actual file system).
 A "handler" is created for each individual file in the file system, and
 this handler then brokers all requests to open, read, write etc the file.
 The handler object must implement the interface specified by
-=Foswiki::Store::VCHandler=.
+=Foswiki::Store::VC::Handler=.
 
 The main additional responsibilities of _this_ class are to support storing
 Foswiki meta-data in plain text files, and to ensure that the =Foswiki::Meta=
@@ -27,7 +27,7 @@ in this class _previously_ resided in =Foswiki::Store=.
 
 =cut
 
-package Foswiki::Store::VCStore;
+package Foswiki::Store::VC::Store;
 use strict;
 
 use Foswiki::Store ();
@@ -53,9 +53,9 @@ BEGIN {
 
 ---++ ClassMethod new($session, $impl)
 
-Construct a VCStore module, using the chosen handler ($impl) class.
+Construct a VC::Store module, using the chosen handler ($impl) class.
 
-Do not construct a VCStore directly; instead construct a subclass,
+Do not construct a VC::Store directly; instead construct a subclass,
 such as Foswiki::Store::RcsWrap, which hides the handler implementation.
 
 =cut
@@ -130,7 +130,7 @@ sub readTopic {
 
     # Add attachments that are new from reading the pub directory.
     # Only check the currently requested topic.
-    if (   $Foswiki::cfg{AutoAttachPubFiles}
+    if (   $Foswiki::cfg{RCS}{AutoAttachPubFiles}
         && $topicObject->web   eq $this->{session}->{webName}
         && $topicObject->topic eq $this->{session}->{topicName} )
     {

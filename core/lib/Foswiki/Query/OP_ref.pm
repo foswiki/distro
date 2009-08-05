@@ -25,7 +25,7 @@ sub evaluate {
     my $pnode  = shift;
     my %domain = @_;
 
-    eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
+    eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
     die $@ if $@;
 
     my $a    = $pnode->{params}[0];
@@ -45,7 +45,7 @@ sub evaluate {
           $Foswiki::Plugins::SESSION->normalizeWebTopicName(
               $Foswiki::Plugins::SESSION->{webName}, $v );
         try {
-            my $submeta = $Foswiki::cfg{RCS}{QueryAlgorithm}->getRefTopic(
+            my $submeta = $Foswiki::cfg{Store}{QueryAlgorithm}->getRefTopic(
                 $domain{tom}, $w, $t );
             my $b       = $pnode->{params}[1];
             my $res     = $b->evaluate( tom => $submeta, data => $submeta );

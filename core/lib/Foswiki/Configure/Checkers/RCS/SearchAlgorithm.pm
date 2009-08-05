@@ -9,7 +9,7 @@ sub check {
     my $this = shift;
 
     my $mess = '';
-    if ( $Foswiki::cfg{RCS}{SearchAlgorithm} =~ /Native$/ ) {
+    if ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Native$/ ) {
         eval 'use Native';
         if ($@) {
             $mess .= $this->ERROR(<<EOF);

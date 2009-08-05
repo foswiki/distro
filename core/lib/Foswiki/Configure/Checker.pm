@@ -227,7 +227,7 @@ sub checkRCSProgram {
     my ( $this, $key ) = @_;
 
     return 'NOT USED IN THIS CONFIGURATION'
-      unless $Foswiki::cfg{StoreImpl} eq 'RcsWrap';
+      unless $Foswiki::cfg{Store}{Implementation} eq 'Foswiki::Store::RcsWrap';
 
     my $mess = '';
     my $err  = '';
@@ -270,7 +270,7 @@ sub checkRCSProgram {
             $err . <<HERE
 Foswiki will probably not work with this RCS setup. Either correct the setup, or
 switch to RcsLite. To enable RCSLite you need to change the setting of
-{StoreImpl} to 'RcsLite'.
+{Store}{Implementation} to 'Foswiki::Store::RcsLite'.
 HERE
         );
     }

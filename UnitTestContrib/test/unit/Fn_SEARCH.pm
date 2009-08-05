@@ -64,7 +64,7 @@ sub fixture_groups {
         eval <<SUB;
 sub $fn {
 require Foswiki::Store::SearchAlgorithms::$alg;
-\$Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::$alg'; }
+\$Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::$alg'; }
 SUB
         die $@ if $@;
     }
@@ -75,7 +75,7 @@ SUB
         eval <<SUB;
 sub $fn {
 require Foswiki::Store::QueryAlgorithms::$alg;
-\$Foswiki::cfg{RCS}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::$alg'; }
+\$Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::$alg'; }
 SUB
         die $@ if $@;
     }

@@ -308,6 +308,12 @@ sub save {
 HERE
     }
 
+    # Clean out deprecated settings, so they don't occlude the
+    # replacements
+    foreach my $key (keys %Foswiki::Configure::Load::remap) {
+        $this->{content} =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
+    }
+
     my $out = $this->_save();
     open( F, '>', $lsc )
       || die "Could not open $lsc for write: $!";

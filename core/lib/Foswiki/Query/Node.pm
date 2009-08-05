@@ -17,7 +17,7 @@ of the parser tree. Of course, smarter Store implementations should be
 able to do it better....
 
 The "hard work" evaluation uses the =getField= method in the
-{RCS}{QueryAlgorithm} to get data from the store. This decouples the query
+{Store}{QueryAlgorithm} to get data from the store. This decouples the query
 object from the detail of the store.
 
 See Foswiki::Store::QueryAlgorithms for a full spec of the interface to
@@ -104,9 +104,9 @@ sub evaluate {
         {
 
             # a name; look it up in $domain{data}
-            eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
+            eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
             die $@ if $@;
-            $result = $Foswiki::cfg{RCS}{QueryAlgorithm}->getField(
+            $result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
                 $this, $domain{data}, $this->{params}[0] );
         }
         else {

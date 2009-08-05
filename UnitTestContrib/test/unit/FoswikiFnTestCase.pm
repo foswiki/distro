@@ -36,8 +36,8 @@ sub new {
 
 sub loadExtraConfig {
     my $this = shift;
-    $Foswiki::cfg{StoreImpl}                = "RcsLite";
-    $Foswiki::cfg{AutoAttachPubFiles}       = 0;
+    $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::RcsLite";
+    $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
     $Foswiki::cfg{PasswordManager}    = 'Foswiki::Users::HtPasswdUser';

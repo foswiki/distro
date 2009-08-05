@@ -209,7 +209,7 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 # <i>off</i>.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
-# **SELECT strikeone,embedded,none EXPERT **
+# **SELECT strikeone,embedded,none **
 # By default Foswiki uses Javascript to perform "double submission" validation
 # of browser requests. This technique, called "strikeone", is highly
 # recommended for the prevention of cross-site request forgery (CSRF).
@@ -243,14 +243,15 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 # Expire a validation key immediately when it is used to validate the saving
 # of a page. This protects against an attacker evesdropping the communication
 # between browser and server and exploiting the keys sent from browser to
-# server. This setting means that if a user edits and saves a page and then go
-# back to the edit screen using the browser back button and saves again, the
-# user will be met by a warning screen against "Suspicious request from
-# browser". Same warning will be displayed if you build an application with
-# pages containing multiple forms and the users tries to submit from these
-# forms more than once. If this warning screen is a problem for your users you
-# can disable this setting which enables reuse of validation keys. This
-# however lowers the level of security against cross-site request forgery.
+# server. If this is enabled and a user edits and saves a page, and then goes
+# back to the edit screen using the browser back button and saves again, they
+# will be met by a warning screen against "Suspicious request from
+# browser". The same warning will be displayed if you build an application with
+# pages containing multiple forms and users try to submit from these
+# forms more than once. If this warning screen is a problem for your users, you
+# can disable this setting which enables reuse of validation keys.
+# However this will lower the level of security against cross-site request
+# forgery.
 $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 
 #---++ Login
@@ -826,44 +827,14 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 #---+ Store
 # <p>Foswiki supports different back-end store implementations.</p>
-# **SELECT RcsWrap,RcsLite**
-# Default store implementation.
+# **SELECTCLASS Foswiki::Store::* **
+# Store implementation.
 # <ul><li>RcsWrap uses normal RCS executables.</li>
 # <li>RcsLite uses a 100% Perl simplified implementation of RCS.
 # RcsLite is useful if you don't have, and can't install, RCS - for
 # example, on a hosted platform. It will work, and is compatible with
 # RCS, but is not quite as fast.</li></ul>
-# You can manually add options to LocalSite.cfg to select a
-# different store for each web. If $Foswiki::cfg{Store}{Fred} is defined, it will
-# be taken as the name of a perl class (which must implement the methods of
-# Foswiki::Store::RcsFile).
-# The Foswiki::Store::Subversive class is an example implementation using the
-# Subversion version control system as a data store.
-$Foswiki::cfg{StoreImpl} = 'RcsWrap';
-
-# **OCTAL**
-# File security for new directories. You may have to adjust these
-# permissions to allow (or deny) users other than the webserver user access
-# to directories that Foswiki creates. This is an <strong>octal</strong> number
-# representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
-$Foswiki::cfg{RCS}{dirPermission}= 0755;
-
-# **OCTAL**
-# File security for new files. You may have to adjust these
-# permissions to allow (or deny) users other than the webserver user access
-# to files that Foswiki creates.  This is an <strong>octal</strong> number
-# representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
-$Foswiki::cfg{RCS}{filePermission}= 0644;
-
-# **BOOLEAN**
-# Some file-based Store implementations (RcsWrap and RcsLite for
-# example) store attachment meta-data separately from the actual attachments.
-# This means that it is possible to have a file in an attachment directory
-# that is not seen as an attachment by Foswiki. Sometimes it is desirable to
-# be able to simply copy files into a directory and have them appear as
-# attachments, and that's what this feature allows you to do.
-# Considered experimental.
-$Foswiki::cfg{AutoAttachPubFiles} = $FALSE;
+$Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
 
 # **BOOLEAN**
 # Set to enable hierarchical webs. Without this setting, Foswiki will only
@@ -873,12 +844,74 @@ $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
 # **NUMBER EXPERT**
 # Number of seconds to remember changes for. This doesn't affect revision
-# histories, which always remember the date a file change. It only affects
+# histories, which always remember when a file changed. It only affects
 # the number of changes that are cached for fast access by the 'changes' and
 # 'statistics' scripts, and for use by extensions such as the change
 # notification mailer. It should be no shorter than the interval between runs
 # of these scripts.
 $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
+
+# **SELECTCLASS Foswiki::Store::SearchAlgorithms::* EXPERT**
+# Foswiki has two built-in plain-text search algorithms, both designed for
+# use with the RCS store.
+# <ol><li> The default 'Forking' algorithm, which forks a subprocess that
+# runs a 'grep' command,
+# </li><li> the 'PurePerl' implementation, which is written in Perl and
+# usually only used as a last resort.</li></ol>
+# Normally you will be just fine with the 'Forking' implementation. However
+# if you find searches run very slowly, you may want to try a different
+# algorithm, which may work better on your configuration.
+# Note that there is an alternative algorithm available from
+# <a href="http://foswiki.org/Extensions/NativeSearchContrib" target="_new">
+# NativeSearchContrib</a>, that often
+# gives better performance with mod_perl and Speedy CGI.
+$Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
+
+# **COMMAND EXPERT**
+# Full path to GNU-compatible egrep program. This is used for searching when
+# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
+# %CS{|-i}% will be expanded
+# to -i for case-sensitive search or to the empty string otherwise.
+# Similarly for %DET, which controls whether matching lines are required.
+# (see the documentation on these options with GNU grep for details).
+$Foswiki::cfg{Store}{EgrepCmd} = '/bin/grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+
+# **COMMAND EXPERT**
+# Full path to GNU-compatible fgrep program. This is used for searching when
+# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
+$Foswiki::cfg{Store}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+
+# **SELECTCLASS Foswiki::Store::QueryAlgorithms::* EXPERT**
+# The standard Foswiki algorithm for performing queries is not particularly
+# fast (it is based on plain-text searching). You may be able to select
+# a different algorithm here, depending on what alternative implementations
+# may have been installed.
+$Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
+
+# **OCTAL EXPERT**
+# File security for new directories created by RCS stores. You may have
+# to adjust these
+# permissions to allow (or deny) users other than the webserver user access
+# to directories that Foswiki creates. This is an <strong>octal</strong> number
+# representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
+$Foswiki::cfg{RCS}{dirPermission}= 0755;
+
+# **OCTAL EXPERT**
+# File security for new files created by RCS stores. You may have to adjust these
+# permissions to allow (or deny) users other than the webserver user access
+# to files that Foswiki creates.  This is an <strong>octal</strong> number
+# representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
+$Foswiki::cfg{RCS}{filePermission}= 0644;
+
+# **BOOLEAN EXPERT**
+# Some file-based Store implementations (RcsWrap and RcsLite) store
+# attachment meta-data separately from the actual attachments.
+# This means that it is possible to have a file in an attachment directory
+# that is not seen as an attachment by Foswiki. Sometimes it is desirable to
+# be able to simply copy files into a directory and have them appear as
+# attachments, and that's what this feature allows you to do.
+# Considered experimental.
+$Foswiki::cfg{RCS}{AutoAttachPubFiles} = $FALSE;
 
 # **STRING 20 EXPERT**
 # Specifies the extension to use on RCS files. Set to -x,v on windows, leave
@@ -958,42 +991,6 @@ $Foswiki::cfg{RCS}{breaklockCmd} =
 $Foswiki::cfg{RCS}{delRevCmd} =
     "/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%";
 
-# **SELECTCLASS Foswiki::Store::SearchAlgorithms::* EXPERT**
-# Foswiki RCS has two built-in search algorithms
-# <ol><li> The default 'Forking' algorithm, which forks a subprocess that
-# runs a 'grep' command,
-# </li><li> the 'PurePerl' implementation, which is written in Perl and
-# usually only used as a last resort.</li></ol>
-# Normally you will be just fine with the 'Forking' implementation. However
-# if you find searches run very slowly, you may want to try a different
-# algorithm, which may work better on your configuration.
-# Note that there is an alternative algorithm available from
-# <a href="http://foswiki.org/Extensions/NativeSearchContrib" target="_new">
-# NativeSearchContrib</a>, that often
-# gives better performance with mod_perl and Speedy CGI.
-$Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
-
-# **SELECTCLASS Foswiki::Store::QueryAlgorithms::* EXPERT**
-# The standard Foswiki algorithm for performing queries is not particularly
-# fast (it is based on plain-text searching). You may be able to select
-# a different algorithm here, depending on what alternative implementations
-# may have been installed.
-$Foswiki::cfg{RCS}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
-
-# **COMMAND EXPERT**
-# Full path to GNU-compatible egrep program. This is used for searching when
-# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
-# %CS{|-i}% will be expanded
-# to -i for case-sensitive search or to the empty string otherwise.
-# Similarly for %DET, which controls whether matching lines are required.
-# (see the documentation on these options with GNU grep for details).
-$Foswiki::cfg{RCS}{EgrepCmd} = '/bin/grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
-
-# **COMMAND EXPERT**
-# Full path to GNU-compatible fgrep program. This is used for searching when
-# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
-$Foswiki::cfg{RCS}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
-
 #---++ Cache
 # <p>Foswiki includes built-in support for caching HTML pages. This can
 # dramatically increase performance, especially if there are a lot more page
@@ -1002,6 +999,20 @@ $Foswiki::cfg{RCS}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U
 # **BOOLEAN**
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
+
+# **SELECTCLASS Foswiki::Cache::* EXPERT**
+# Select the default caching mechanism. Note, that individual subsystems might
+# chose a different backend for their own purposes. Some recommendations:
+# <ul>
+#   <li>Use <code>Foswiki::Cache::FileCache</code> for long term
+#     caching. Cached pages will be stored on disk.</li>
+#   <li>Use <code>Foswiki::Cache::Memcached</code> for distributed caching
+#     on high end sites</li>
+#   <li>Use <code>Foswiki::Cache::MemoryLRU</code> for an in-memory LRU cache.
+#     Note that this CacheManager will only keep pages during one call or for
+#     the time of a perl persistent backend.</li>
+# </ul>
+$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
 # **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
@@ -1024,20 +1035,6 @@ $Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/tmp/foswiki_db';
 # Specify the namespace used by this site in a store shared with other systems.
 # Leave this empty to use the <code>DefaultUrlHost</code> as a default.
 $Foswiki::cfg{Cache}{NameSpace} = '';
-
-# **SELECTCLASS Foswiki::Cache::* EXPERT**
-# Select the default caching mechanism. Note, that individual subsystems might
-# chose a different backend for their own purposes. Some recommendations:
-# <ul>
-#   <li>Use <code>Foswiki::Cache::FileCache</code> for long term
-#     caching. Cached pages will be stored on disk.</li>
-#   <li>Use <code>Foswiki::Cache::Memcached</code> for distributed caching
-#     on high end sites</li>
-#   <li>Use <code>Foswiki::Cache::MemoryLRU</code> for an in-memory LRU cache.
-#     Note that this CacheManager will only keep pages during one call or for
-#     the time of a perl persistent backend.</li>
-# </ul>
-$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
 # **NUMBER EXPERT**
 # Specify the maximum number of cache entries for size-aware CacheManagers like

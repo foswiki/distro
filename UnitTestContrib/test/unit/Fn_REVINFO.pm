@@ -168,8 +168,7 @@ sub test_compatibility1 {
     # The wikiname must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if (   $Foswiki::cfg{StoreImpl} ne 'RcsLite'
-        && $Foswiki::cfg{StoreImpl} ne 'RcsWrap' )
+    if (   $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ )
     {
         return;
     }
@@ -197,8 +196,7 @@ sub test_compatibility2 {
     # The login must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if (   $Foswiki::cfg{StoreImpl} ne 'RcsLite'
-        && $Foswiki::cfg{StoreImpl} ne 'RcsWrap' )
+    if (   $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ )
     {
         return;
     }
@@ -226,8 +224,7 @@ sub test_5873 {
     # The login must be for a user who does not exist.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if (   $Foswiki::cfg{StoreImpl} ne 'RcsLite'
-        && $Foswiki::cfg{StoreImpl} ne 'RcsWrap' )
+    if (   $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$ / )
     {
         return;
     }

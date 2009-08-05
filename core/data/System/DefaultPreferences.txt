@@ -116,6 +116,10 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
 </verbatim>
 
+   * Name of the default WYSIWYG editor, depends on which plugins
+     are installed.
+      * Set WYSIWYG_EDITOR = TinyMCE
+
 ---++ Platform Settings
 
    * Site name:

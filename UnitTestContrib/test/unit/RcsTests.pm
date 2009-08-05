@@ -12,8 +12,8 @@ sub new {
 
 use Foswiki;
 use Foswiki::Store;
-use Foswiki::Store::RcsLiteHandler;
-use Foswiki::Store::RcsWrapHandler;
+use Foswiki::Store::VC::RcsLiteHandler;
+use Foswiki::Store::VC::RcsWrapHandler;
 use File::Path;
 
 my $testWeb = "TestRcsWebTests";
@@ -35,14 +35,14 @@ my @rcsTypes = qw/Lite Wrap/;    # SMELL: can't skip if no RCS installed
 
 sub RcsLite {
     my $this = shift;
-    $Foswiki::cfg{StoreImpl} = 'RcsLite';
-    $class = 'Foswiki::Store::RcsLiteHandler';
+    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
+    $class = 'Foswiki::Store::VC::RcsLiteHandler';
 }
 
 sub RcsWrap {
     my $this = shift;
-    $Foswiki::cfg{StoreImpl} = 'RcsWrap';
-    $class = 'Foswiki::Store::RcsWrapHandler';
+    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
+    $class = 'Foswiki::Store::VC::RcsWrapHandler';
 }
 
 sub fixture_groups {
@@ -103,7 +103,7 @@ sub test_mktmp {
 
     # this is only used on WINDOWS so needs a special test
     my $this    = shift;
-    my $tmpfile = Foswiki::Store::VCHandler::mkTmpFilename();
+    my $tmpfile = Foswiki::Store::VC::Handler::mkTmpFilename();
     $this->assert( !-e $tmpfile );
 }
 
@@ -167,7 +167,7 @@ sub verify_RcsWrapOnly_ciLocked {
 
     # create the fixture
     my $rcs =
-      Foswiki::Store::RcsWrapHandler->new( $fatwilly, $testWeb, $topic, "" );
+      Foswiki::Store::VC::RcsWrapHandler->new( $fatwilly, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "Shooby Dooby", "original", "BungditDin" );
 
     # hack the lock
@@ -428,7 +428,7 @@ sub checkDifferences {
     my $diff = $rcs->revisionDiff( 1, 2 );
 
     # apply the differences to the text of topic 1
-    my $data = Foswiki::Store::RcsLiteHandler::_split($from);
+    my $data = Foswiki::Store::VC::RcsLiteHandler::_split($from);
     my $l    = 0;
 
     #print "\nStart: ",join('\n',@$data),"\n";
@@ -730,7 +730,7 @@ sub test_Item945 {
     my $testTopic = "TestItem945";
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( $rcsType, @params ) = @{ $historyItem945[$depth] };
-        my $rcs = "Foswiki::Store::Rcs${rcsType}Handler"
+        my $rcs = "Foswiki::Store::VC::Rcs${rcsType}Handler"
           ->new( $fatwilly, $testWeb, $testTopic );
         $rcs->addRevisionFromText(@params);
         $rcs->finish();
@@ -742,7 +742,7 @@ sub test_Item945 {
 sub item945_checkHistory {
     my ( $this, $depth, $fatwilly, $testWeb, $testTopic ) = @_;
     for my $rcsType (@rcsTypes) {
-        my $rcs = "Foswiki::Store::Rcs${rcsType}Handler"
+        my $rcs = "Foswiki::Store::VC::Rcs${rcsType}Handler"
           ->new( $fatwilly, $testWeb, $testTopic );
         $this->item945_checkHistoryRcs( $rcs, $depth );
         $rcs->finish();
@@ -784,7 +784,7 @@ sub test_Item945_diff {
     my %content;
     my $testTopic = "TestItem945";
     for my $rcsType (@rcsTypes) {
-        my $rcs = "Foswiki::Store::Rcs${rcsType}Handler"
+        my $rcs = "Foswiki::Store::VC::Rcs${rcsType}Handler"
           ->new( $fatwilly, $testWeb, $testTopic . "Rcs$rcsType" );
         $this->item945_fillTopic( $rcs, $time, $fatwilly, $testWeb,
             $testTopic . "Rcs$rcsType" );
