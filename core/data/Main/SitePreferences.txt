@@ -15,9 +15,3 @@
    * Set ALLOWTOPICCHANGE = AdminGroup
    * Set ALLOWTOPICRENAME = AdminGroup
 -->
-   * Set SKIN = pattern
-
-   * Name of the preferred WYSIWYG editor
-      * Set WYSIWYG_EDITOR = FCKeditor
-
-   * Set SKILLSPLUGIN_SKILLSTOPIC = Sandbox.SkillsList
