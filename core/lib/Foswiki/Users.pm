@@ -115,13 +115,21 @@ sub new {
 
     $this->{loginManager} = Foswiki::LoginManager::makeLoginManager($session);
 
+    # caches - not only used for speedup, but also for authenticated but
+    # unregistered users
+    # SMELL: this is basically a user object, something we had previously
+    # but dropped for efficiency reasons
+    $this->{cUID2WikiName} = {};
+    $this->{cUID2Login}    = {};
+    $this->{isAdmin}       = {};
+
     # setup the cgi session, from a cookie or the url. this may return
     # the login, but even if it does, plugins will get the chance to
     # override (in Foswiki.pm)
     # Must do this *after* the user mapping is defined, as it may check
     # passwords.
     $this->{remoteUser} =
-      $this->{loginManager}->loadSession( $this, $session->{remoteUser} );
+      $this->{loginManager}->loadSession( $session->{remoteUser}, $this );
 
     $this->{remoteUser} = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined( $this->{remoteUser} ) );
@@ -133,14 +141,6 @@ sub new {
         $session->enterContext('registration_enabled')
           if $Foswiki::cfg{Register}{EnableNewUserRegistration};
     }
-
-    # caches - not only used for speedup, but also for authenticated but
-    # unregistered users
-    # SMELL: this is basically a user object, something we had previously
-    # but dropped for efficiency reasons
-    $this->{cUID2WikiName} = {};
-    $this->{cUID2Login}    = {};
-    $this->{isAdmin}       = {};
 
     return $this;
 }

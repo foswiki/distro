@@ -250,7 +250,7 @@ sub _IP2SID {
 
 =begin TML
 
----++ ObjectMethod loadSession($pwchecker, $defaultUser) -> $login
+---++ ObjectMethod loadSession($defaultUser, $pwchecker) -> $login
 
 Get the client session data, using the cookie and/or the request URL.
 Set up appropriate session variables in the twiki object and return
@@ -265,7 +265,7 @@ passed in here.
 =cut
 
 sub loadSession {
-    my ( $this, $pwchecker, $defaultUser ) = @_;
+    my ( $this, $defaultUser, $pwchecker ) = @_;
     my $session = $this->{session};
 
     # Try and get the user from the webserver
@@ -362,8 +362,8 @@ sub loadSession {
         # mapping to check the password, and we want the URI credentials to
         # override the session credentials.
         my $login = $query->param('username');
-        if ($login && $pwchecker) {
-            my $pass = $query->param('password');
+        my $pass = $query->param('password');
+        if ($login && defined $pass && $pwchecker) {
             my $validation = $pwchecker->checkPassword( $login, $pass );
             unless ($validation) {
                 my $res = $session->{response};
