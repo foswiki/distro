@@ -156,6 +156,58 @@ sub test_leases {
     $this->assert_equals( 0, $time );
 }
 
+# As much as I'd like to remove this dumb function, make sure it's still
+# compatible
+sub test_saveTopicText {
+    my $this = shift;
+    my $topic = 'SaveTopicText';
+    Foswiki::Func::saveTopicText(
+        $this->{test_web}, $topic, <<NONNY );
+   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
+NONNY
+    $this->assert(!
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        Foswiki::Func::getWikiName(), undef, $topic, $this->{test_web} ));
+
+    # This should fail and return an oopsUrl (FFS, what a shit spec)
+    my $oopsURL = Foswiki::Func::saveTopicText(
+        $this->{test_web}, $topic, 'Gasp' );
+    $this->assert($oopsURL);
+    my @ri = Foswiki::Func::getRevisionInfo($this->{test_web}, $topic);
+    $this->assert_matches(qr/1$/, $ri[2]);
+
+    # This should succeed and return undef
+    $oopsURL = Foswiki::Func::saveTopicText(
+        $this->{test_web}, $topic, 'Beam', 1 );
+    $this->assert(!$oopsURL, $oopsURL);
+}
+
+sub test_saveTopic {
+    my $this = shift;
+    my $topic = 'SaveTopic';
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, $topic, undef, <<NONNY );
+%META:PREFERENCE{name="Bird" value="Kakapo"}%
+   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
+NONNY
+    $this->assert(!
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        Foswiki::Func::getWikiName(), undef, $topic, $this->{test_web} ));
+    my @ri = Foswiki::Func::getRevisionInfo($this->{test_web}, $topic);
+    $this->assert_matches(qr/1$/, $ri[2]);
+
+    # Make sure the meta got into the topic
+    my ($m, $t) = Foswiki::Func::readTopic($this->{test_web}, $topic);
+    my $el = $m->get('PREFERENCE', 'Bird');
+    $this->assert_equals('Kakapo', $el->{value});
+
+    # This should succeed
+    Foswiki::Func::saveTopic($this->{test_web}, $topic, undef, 'Gasp',
+                            { forcenewrevision => 1 });
+    @ri = Foswiki::Func::getRevisionInfo($this->{test_web}, $topic);
+    $this->assert_matches(qr/2$/, $ri[2]);
+}
+
 sub test_attachments {
     my $this = shift;
 

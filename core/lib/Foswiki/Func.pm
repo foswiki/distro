@@ -1353,12 +1353,13 @@ $text =~ s/APPLE/ORANGE/g;
 Foswiki::Func::saveTopic( $web, $topic, $meta, $text, { forcenewrevision => 1 } );
 </verbatim>
 
-__Note:__ Plugins handlers ( e.g. =beforeSaveHandler= ) will be called as
-appropriate.
+__Note:__ Access controls are *not* checked by this function. You should
+always call =checkAccessPermission= beforehand. Plugins handlers ( e.g.
+=beforeSaveHandler= ) will be called as appropriate.
 
 In the event of an error an exception will be thrown. Callers can elect
 to trap the exceptions thrown, or allow them to propagate to the calling
-environment. May throw Foswiki::OopsException, Foswiki::AccessControlException or Error::Simple.
+environment. May throw Foswiki::OopsException or Error::Simple.
 
 =cut
 
@@ -1369,76 +1370,6 @@ sub saveTopic {
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
     $topicObject->copyFrom($smeta) if $smeta;
     return $topicObject->save(%$options);
-}
-
-=begin TML
-
----+++ saveTopicText( $web, $topic, $text, $ignorePermissions, $dontNotify ) -> $oopsUrl
-
-Save topic text, typically obtained by readTopicText(). Topic data usually includes meta data; the file attachment meta data is replaced by the meta data from the topic file if it exists.
-   * =$web=                - Web name, e.g. ='Main'=, or empty
-   * =$topic=              - Topic name, e.g. ='MyTopic'=, or ="Main.MyTopic"=
-   * =$text=               - Topic text to save, assumed to include meta data
-   * =$ignorePermissions=  - Set to ="1"= if checkAccessPermission() is already performed and OK
-   * =$dontNotify=         - Set to ="1"= if not to notify users of the change
-Return: =$oopsUrl=               Empty string if OK; the =$oopsUrl= for calling redirectCgiQuery() in case of error
-
-This method is a lot less efficient and much more dangerous than =saveTopic=.
-
-<verbatim>
-my $text = Foswiki::Func::readTopicText( $web, $topic );
-
-# check for oops URL in case of error:
-if( $text =~ /^http.*?\/oops/ ) {
-    Foswiki::Func::redirectCgiQuery( $query, $text );
-    return;
-}
-# do topic text manipulation like:
-$text =~ s/old/new/g;
-# do meta data manipulation like:
-$text =~ s/(META\:FIELD.*?name\=\"TopicClassification\".*?value\=\")[^\"]*/$1BugResolved/;
-$oopsUrl = Foswiki::Func::saveTopicText( $web, $topic, $text ); # save topic text
-</verbatim>
-
-=cut
-
-sub saveTopicText {
-    my ( $web, $topic, $text, $ignorePermissions, $dontNotify ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    my $session = $Foswiki::Plugins::SESSION;
-
-    # extract meta data and merge old attachment meta data
-    require Foswiki::Meta;
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic, $text );
-    $topicObject->remove('FILEATTACHMENT');
-
-    my $oldMeta = Foswiki::Meta->load( $session, $web, $topic );
-    $topicObject->copyFrom( $oldMeta, 'FILEATTACHMENT' );
-
-    my $outcome = '';
-    unless ( $ignorePermissions || $topicObject->haveAccess('CHANGE') ) {
-        my @caller = caller();
-        return getScriptUrl(
-            $web, $topic, 'oops',
-            template => 'oopsattention',
-            def      => 'topic_access',
-            param1   => ( $caller[0] || 'unknown' )
-        );
-    }
-
-    try {
-        $topicObject->save( notify => $dontNotify );
-    }
-    catch Error::Simple with {
-        $outcome = getScriptUrl(
-            $web, $topic, 'oops',
-            template => 'oopsattention',
-            def      => 'save_error',
-            param1   => shift->{-text}
-        );
-    };
-    return $outcome;
 }
 
 =begin TML
@@ -1579,50 +1510,6 @@ sub readTopic {
 
     my $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, @_ );
     return ( $meta, $meta->text() );
-}
-
-=begin TML
-
----+++ readTopicText( $web, $topic, $rev, $ignorePermissions ) -> $text
-
-Read topic text, including meta data
-   * =$web=                - Web name, e.g. ='Main'=, or empty
-   * =$topic=              - Topic name, e.g. ='MyTopic'=, or ="Main.MyTopic"=
-   * =$rev=                - Topic revision to read, optional. Specify the minor part of the revision, e.g. ="5"=, not ="1.5"=; the top revision is returned if omitted or empty.
-   * =$ignorePermissions=  - Set to ="1"= if checkAccessPermission() is already performed and OK; an oops URL is returned if user has no permission
-Return: =$text=                  Topic text with embedded meta data; an oops URL for calling redirectCgiQuery() is returned in case of an error
-
-This method is more efficient than =readTopic=, but returns meta-data embedded in the text. Plugins authors must be very careful to avoid damaging meta-data. You are recommended to use readTopic instead, which is a lot safer.
-
-=cut
-
-sub readTopicText {
-    my ( $web, $topic, $rev, $ignorePermissions ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    my $user;
-    $user = $Foswiki::Plugins::SESSION->{user}
-      unless defined($ignorePermissions);
-
-    my $topicObject =
-      Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
-    my $text;
-    if (
-        $topicObject->haveAccess( 'VIEW', $Foswiki::Plugins::SESSION->{user} ) )
-    {
-        $text = $topicObject->getEmbeddedStoreForm();
-    }
-    else {
-        $text = getScriptUrl(
-            $web, $topic, 'oops',
-            template => 'oopsaccessdenied',
-            def      => 'topic_access',
-            param1   => 'VIEW',
-            param2   => $Foswiki::Meta::reason
-        );
-    }
-
-    return $text;
 }
 
 =begin TML
@@ -2981,7 +2868,8 @@ sub formatGmTime {
 
 ---+++ getDataDir( ) -> $dir
 
-*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions to manipulate topics instead
+*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions
+to manipulate topics instead
 
 =cut
 
@@ -2993,7 +2881,8 @@ sub getDataDir {
 
 ---+++ getPubDir( ) -> $dir
 
-*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions to manipulateattachments instead
+*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions
+to manipulate attachments instead
 
 =cut
 
@@ -3003,7 +2892,7 @@ sub getPubDir { return $Foswiki::cfg{PubDir}; }
 
 ---+++ getCgiQuery( ) -> $query
 
-*Deprecated* 31 Mar 2009 - use getRequestObject instead.
+*Deprecated* 31 Mar 2009 - use =getRequestObject= instead.
 
 =cut
 
@@ -3013,6 +2902,128 @@ sub getCgiQuery { return getRequestObject(); }
 sub checkDependencies {
     die
 "checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
+}
+
+
+=begin TML
+
+---+++ readTopicText( $web, $topic, $rev, $ignorePermissions ) -> $text
+
+Read topic text, including meta data
+   * =$web=                - Web name, e.g. ='Main'=, or empty
+   * =$topic=              - Topic name, e.g. ='MyTopic'=, or ="Main.MyTopic"=
+   * =$rev=                - Topic revision to read, optional. Specify the minor part of the revision, e.g. ="5"=, not ="1.5"=; the top revision is returned if omitted or empty.
+   * =$ignorePermissions=  - Set to ="1"= if checkAccessPermission() is already performed and OK; an oops URL is returned if user has no permission
+
+Return: =$text=                  Topic text with embedded meta data; an oops URL for calling redirectCgiQuery() is returned in case of an error
+
+*Deprecated: 6 Aug 2009. Use =readTopic= instead.
+This method returns meta-data embedded in the text. Plugins authors must be very careful to avoid damaging meta-data. Use readTopic instead, which is a lot safer and supports the full set of read options.
+
+=cut
+
+sub readTopicText {
+    my ( $web, $topic, $rev, $ignorePermissions ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    my $user;
+    $user = $Foswiki::Plugins::SESSION->{user}
+      unless defined($ignorePermissions);
+
+    my $topicObject =
+      Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
+
+    my $text;
+    if ( $ignorePermissions ||
+         $topicObject->haveAccess(
+             'VIEW', $Foswiki::Plugins::SESSION->{user} ) ) {
+        $text = $topicObject->getEmbeddedStoreForm();
+    }
+    else {
+        $text = getScriptUrl(
+            $web, $topic, 'oops',
+            template => 'oopsaccessdenied',
+            def      => 'topic_access',
+            param1   => 'VIEW',
+            param2   => $Foswiki::Meta::reason
+        );
+    }
+
+    return $text;
+}
+
+=begin TML
+
+---+++ saveTopicText( $web, $topic, $text, \%options ) -> $oopsUrl
+
+Save topic text, typically obtained by readTopicText(). Topic data usually includes meta data; the file attachment meta data is replaced by the meta data from the topic file if it exists.
+   * =$web=                - Web name, e.g. ='Main'=, or empty
+   * =$topic=              - Topic name, e.g. ='MyTopic'=, or ="Main.MyTopic"=
+   * =$text=               - Topic text to save, assumed to include meta data
+   * =$ignorePermissions=  - Set to ="1"= if checkAccessPermission() is already performed and OK
+   * =$dontNotify=         - Set to ="1"= if not to notify users of the change
+
+*Deprecated* 6 Aug 2009 - use saveTopic instead.
+=saveTopic= supports embedded meta-data in the saved text, and also
+supports the full set of save options.
+
+Return: =$oopsUrl=               Empty string if OK; the =$oopsUrl= for calling redirectCgiQuery() in case of error
+
+<verbatim>
+my $text = Foswiki::Func::readTopicText( $web, $topic );
+
+# check for oops URL in case of error:
+if( $text =~ /^http.*?\/oops/ ) {
+    Foswiki::Func::redirectCgiQuery( $query, $text );
+    return;
+}
+# do topic text manipulation like:
+$text =~ s/old/new/g;
+# do meta data manipulation like:
+$text =~ s/(META\:FIELD.*?name\=\"TopicClassification\".*?value\=\")[^\"]*/$1BugResolved/;
+$oopsUrl = Foswiki::Func::saveTopicText( $web, $topic, $text ); # save topic text
+</verbatim>
+
+=cut
+
+sub saveTopicText {
+    my ( $web, $topic, $text, $ignorePermissions, $dontNotify ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    my $session = $Foswiki::Plugins::SESSION;
+
+    # extract meta data and merge old attachment meta data
+    require Foswiki::Meta;
+    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    $topicObject->remove('FILEATTACHMENT');
+
+    my $oldMeta = Foswiki::Meta->load( $session, $web, $topic );
+    $topicObject->copyFrom( $oldMeta, 'FILEATTACHMENT' );
+
+    my $outcome = '';
+    unless ( $ignorePermissions || $topicObject->haveAccess('CHANGE') ) {
+        my @caller = caller();
+        return getScriptUrl(
+            $web, $topic, 'oops',
+            template => 'oopsattention',
+            def      => 'topic_access',
+            param1   => ( $caller[0] || 'unknown' )
+        );
+    }
+    $topicObject->text($text);
+
+    try {
+        $topicObject->save( minor => $dontNotify );
+    }
+    catch Error::Simple with {
+        $outcome = getScriptUrl(
+            $web, $topic, 'oops',
+            template => 'oopsattention',
+            def      => 'save_error',
+            param1   => shift->{-text}
+        );
+    };
+    return $outcome;
 }
 
 1;
