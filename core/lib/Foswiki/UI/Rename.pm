@@ -473,7 +473,6 @@ sub _renameWeb {
                 $info->{modifyingLockedTopics}++
                   if ( defined( $info->{modify}{$ref}{leaseuser} )
                     && $info->{modify}{$ref}{leaseuser} ne $cUID );
-                $info->{modify}{$ref}{summary} = $refs{$ref};
                 $info->{modify}{$ref}{access} =
                   $topicObject->haveAccess('CHANGE');
                 if ( !$info->{modify}{$ref}{access} ) {
@@ -1041,13 +1040,13 @@ sub _newTopicOrAttachmentScreen {
                 $toattachment = $base . $n . $ext;
                 $n++;
             }
-
         }
         else {
 
             # Trashing a topic; look for a non-conflicting name in the
             # trash web
             my $renamedTopic = $from->web . $to->topic;
+            $renamedTopic    =~ s/\///g;
             my $n            = 1;
             my $base         = $to->topic;
             while ( $session->topicExists( $to->web, $renamedTopic ) ) {
@@ -1073,31 +1072,22 @@ sub _newTopicOrAttachmentScreen {
         else {
             $refs = _getReferringTopics( $session, $from, 1 );
             foreach my $entry ( sort keys %$refs ) {
-                $search .= CGI::Tr(
-                    CGI::td(
-                        { class => 'twikiTopRow' },
+                $search .= CGI::div(
+                        { class => 'foswikiTopRow' },
                         CGI::input(
                             {
                                 type    => 'checkbox',
-                                class   => 'twikiCheckBox',
+                                class   => 'foswikiCheckBox',
                                 name    => 'referring_topics',
                                 value   => $entry,
                                 checked => 'checked'
                             }
                           )
                           . " [[$entry]] "
-                      )
-                      . CGI::td(
-                        { class => 'twikiSummary twikiGrayText' },
-                        $refs->{$entry}
-                      )
                 );
             }
             unless ($search) {
                 $search = ( $session->i18n->maketext('(none)') );
-            }
-            else {
-                $search = CGI::start_table() . $search . CGI::end_table();
             }
         }
         $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
@@ -1106,31 +1096,22 @@ sub _newTopicOrAttachmentScreen {
 
         $search = '';
         foreach my $entry ( sort keys %$refs ) {
-            $search .= CGI::Tr(
-                CGI::td(
-                    { class => 'twikiTopRow' },
+            $search .= CGI::div(
+                    { class => 'foswikiTopRow' },
                     CGI::input(
                         {
                             type    => 'checkbox',
-                            class   => 'twikiCheckBox',
+                            class   => 'foswikiCheckBox',
                             name    => 'referring_topics',
                             value   => $entry,
                             checked => 'checked'
                         }
                       )
                       . " [[$entry]] "
-                  )
-                  . CGI::td(
-                    { class => 'twikiSummary twikiGrayText' },
-                    $refs->{$entry}
-                  )
             );
         }
         unless ($search) {
             $search = ( $session->i18n->maketext('(none)') );
-        }
-        else {
-            $search = CGI::start_table() . $search . CGI::end_table();
         }
         $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
     }
@@ -1208,62 +1189,44 @@ sub _newWebScreen {
 
     $refs = ${$infoRef}{referring}{refs1};
     foreach my $entry ( sort keys %$refs ) {
-        $search .= CGI::Tr(
-            CGI::td(
-                { class => 'twikiTopRow' },
+        $search .= CGI::div(
+                { class => 'foswikiTopRow' },
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'twikiCheckBox',
+                        class   => 'foswikiCheckBox',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'
                     }
                   )
                   . " [[$entry]] "
-              )
-              . CGI::td(
-                { class => 'twikiSummary twikiGrayText' },
-                $refs->{$entry}
-              )
         );
     }
     unless ($search) {
         $search = ( $session->i18n->maketext('(none)') );
-    }
-    else {
-        $search = CGI::start_table() . $search . CGI::end_table();
     }
     $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
 
     $refs   = $infoRef->{referring}{refs0};
     $search = '';
     foreach my $entry ( sort keys %$refs ) {
-        $search .= CGI::Tr(
-            CGI::td(
-                { class => 'twikiTopRow' },
+        $search .= CGI::div(
+                { class => 'foswikiTopRow' },
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'twikiCheckBox',
+                        class   => 'foswikiCheckBox',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'
                     }
                   )
                   . " [[$entry]] "
-              )
-              . CGI::td(
-                { class => 'twikiSummary twikiGrayText' },
-                $refs->{$entry}
-              )
         );
     }
     unless ($search) {
         $search = ( $session->i18n->maketext('(none)') );
-    }
-    else {
-        $search = CGI::start_table() . $search . CGI::end_table();
     }
     $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
 
@@ -1304,7 +1267,7 @@ sub _getReferringTopicsListFromURL {
 #   * =$om= - web or topic to search for
 #   * =$allWebs= - 0 to search $web only. 1 to search all webs
 # _except_ $web.
-# Returns a hash that maps the web.topic name to a summary of the lines that matched. Will _not_ return $web.$topic in the list
+# Returns a hash of web.topic names. Will _not_ return $web.$topic in the list
 # SMELL: this will only work as long as searchInText searches meta-data
 # as well. It sould really do a query over the meta-data as well, but at the
 # moment that is just duplication and it's too slow already.
@@ -1327,7 +1290,7 @@ sub _getReferringTopics {
         my $interWeb = ( $searchWeb ne $om->web() );
         next if ( $allWebs && !$interWeb );
 
-        # Search for both the twiki form and the URL form
+        # Search for both the foswiki form and the URL form
         my $searchString = Foswiki::Render::getReferenceRE(
             $om->web(), $om->topic(),
             grep     => 1,
@@ -1358,16 +1321,7 @@ sub _getReferringTopics {
                 && $om->topic
                 && $searchTopic eq $om->topic );
 
-            my $t = join( '...', @{ $matches->{$searchTopic} } );
-            my $topicObject =
-              Foswiki::Meta->new( $session, $searchWeb, $searchTopic );
-            $t =
-              $renderer->TML2PlainText( $t, $topicObject, "showvar;showmeta" );
-            $t =~ s/^\s+//;
-            if ( length($t) > 100 ) {
-                $t =~ s/^(.{100}).*$/$1/;
-            }
-            $results{ $searchWeb . '.' . $searchTopic } = $t;
+            $results{ $searchWeb . '.' . $searchTopic } = 1;
         }
     }
     return \%results;
