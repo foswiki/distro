@@ -90,16 +90,15 @@ sub genVariationKey {
   return $variationKey if defined $variationKey;
 
   my $session = $this->{session};
-  $variationKey = $session->{request}->query_string() || '';
-  
-  # filter out some params that are not relevant
-  $variationKey =~ s/(refresh|foswiki_redirect_cache|logout|style.*|switch.*|keywords)=[^&]*$//go;
-  $variationKey =~ s/;$//o;
-
-  # add server name and port by which the user has accessed the site
-  my $serverName = $ENV{SERVER_NAME} || 'localhost';
-  my $serverPort = $ENV{SERVER_PORT} || 80;
-  $variationKey .= $serverName.':'.$serverPort;
+  my $request = $session->{request};
+  $variationKey = '';
+  foreach my $key ($request->param()) {
+    # filter out some params that are not relevant
+    # SMELL: needs docu
+    next if $key =~ /^(_.*|refresh|foswiki_redirect_cache|logout|style.*|switch.*|topic)$/;
+    $variationKey .= ':'.$key.'='.$request->param($key);
+    #writeDebug("adding urlparam key=$key");
+  }
 
   # add language tag
   my $language = $this->{session}->i18n->language();
@@ -108,13 +107,8 @@ sub genVariationKey {
   # get information from the session object 
   my $sessionValues  = $session->{users}->{loginManager}->getSessionValues();
   foreach my $key (keys %$sessionValues) {
-    next if $key =~ /^BREADCRUMB_TRAIL$/o; # SMELL: this is a list of stuff that gets stored
-    next if $key =~ /^VALIDATION$/o;       # in the session object that shall not distinguish
-    next if $key =~ /^_SESSION_/o;         # pages in cache ... we need a standardized way to
-    next if $key =~ /^REMEMBER$/o;         # filter that out
-    next if $key =~ /^FOSWIKISTRIKEONE/o;  # secret key
-    next if $key =~ /^VALID_ACTIONS/o;     # whatdat
-
+    # SMELL: docu this
+    next if $key =~ /^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL)$/o;
     #writeDebug("adding session key=$key");
 
     $sessionValues->{$key} = 'undef' unless defined $sessionValues->{$key};
@@ -164,15 +158,22 @@ sub cachePage {
 
   # assert autotetected dependencies
   #writeDebug("setting dependencies Foswiki::PageCache::Deps::.$webTopic");
-  $this->{metaHandler}->set('Foswiki::PageCache::Deps::'.$webTopic, $this->{deps});
+  my @topicDeps = keys %{$this->{deps}};
+  $this->{metaHandler}->set('Foswiki::PageCache::Deps::'.$webTopic, join(',', @topicDeps));
 
   # assert autodetected dependencies in reverse logic
-  foreach my $depWebTopic (keys %{$this->{deps}}) {
+  foreach my $depWebTopic (@topicDeps) {
     next if $depWebTopic eq $webTopic;
-    my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$depWebTopic);
-    $topicDeps->{$webTopic} = 1;
+    my $revTopicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$depWebTopic);
+    my %revTopicDeps;
+    if ($revTopicDeps) {
+      %revTopicDeps = map {$_ => 1} split(/,/, $revTopicDeps);
+      next if $revTopicDeps{$webTopic};
+    }
+    $revTopicDeps{$webTopic} = 1;
     #writeDebug("adding rev dependency $webTopic <- $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
-    $this->{metaHandler}->set('Foswiki::PageCache::RevDeps::'.$depWebTopic, $topicDeps);
+    $revTopicDeps = join(',', keys %revTopicDeps);
+    $this->{metaHandler}->set('Foswiki::PageCache::RevDeps::'.$depWebTopic, $revTopicDeps);
   }
 
   # store page
@@ -232,7 +233,7 @@ sub getPage {
     $this->{handler}->clear; # SMELL: restrict this to admins
     return undef;
   }
-  if ($refresh eq 'on') {
+  if ($refresh =~ /on|cache/) {
     return undef;
   }
 
@@ -244,8 +245,7 @@ sub getPage {
   # check availability
   my $variationKey = $this->genVariationKey();
   my $webTopic = $web.'.'.$topic;
-  my $cachedPage = $this->{handler}->get('Foswiki::PageCache::'.$webTopic.'::'.$variationKey);
-  return undef unless $cachedPage;
+  return $this->{handler}->get('Foswiki::PageCache::'.$webTopic.'::'.$variationKey);
 }
 
 =pod 
@@ -280,6 +280,7 @@ sub _deletePage {
   return 0 unless $variations;
 
   foreach my $variationKey (keys %{$variations}) {
+    #writeDebug("deleting variation $variationKey");
     $this->{handler}->delete('Foswiki::PageCache::'.$webTopic.'::'.$variationKey);
   }
 
@@ -329,8 +330,6 @@ sub isCacheable {
 
 add a web.topic to the dependencies of the current page
 
-TODO: don't use a separate web and topic argument, use a topicObject instead
-
 =cut
 
 sub addDependency {
@@ -376,7 +375,7 @@ sub _getDependencies {
 
   my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps::'.$webTopic);
   my @result = ();
-  @result = keys %{$topicDeps} if $topicDeps;
+  @result = split(',', $topicDeps) if $topicDeps;
 
   #writeDebug("topicDeps=".join(',',@result));
 
@@ -408,7 +407,7 @@ sub _deleteDependency {
   my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps::'.$webTopic);
   return unless $topicDeps;
 
-  foreach my $depWebTopic (keys %$topicDeps) {
+  foreach my $depWebTopic (split(/,/, $topicDeps)) {
     #writeDebug("deleting dependency $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
     $this->{metaHandler}->delete('Foswiki::PageCache::RevDeps::'.$depWebTopic);
   }
@@ -445,9 +444,9 @@ sub _getRevDependencies {
 
   my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$webTopic);
   my @result = ();
-  @result = keys %{$topicDeps} if $topicDeps;
+  @result = split(/,/, $topicDeps) if $topicDeps;
 
-  #writeDebug("topicDeps=".join(',',@result));
+  #writeDebug("topicDeps=$topicDeps");
 
   return \@result;
 }
@@ -581,8 +580,15 @@ finish the cache impl
 
 sub finish {
   my $this = shift;
-  $this->{metaHandler}->finish(@_);
-  $this->{handler}->finish(@_);
+
+  $this->{metaHandler}->finish(@_) 
+    if $this->{metaHandler};
+
+  $this->{handler}->finish(@_) 
+    if $this->{handler};
+
+  undef $this->{metaHandler};
+  undef $this->{handler};
 }
 
 1;

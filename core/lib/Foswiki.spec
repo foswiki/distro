@@ -683,6 +683,8 @@ $Foswiki::cfg{Log}{attach}   = $TRUE;
 $Foswiki::cfg{Log}{rename}   = $TRUE; # when a topic or attachment is renamed
 # **BOOLEAN EXPERT**
 $Foswiki::cfg{Log}{register} = $TRUE; # rare, when a new user registers
+# **BOOLEAN EXPERT**
+$Foswiki::cfg{Log}{rest} = $TRUE; # REST web services
 
 # **NUMBER**
 # Number of top viewed topics to show in statistics topic

@@ -90,6 +90,33 @@ sub rest {
         $session->{topicName} = $Foswiki::cfg{HomeTopicName};
     }
 
+    my $cachedPage;
+    my $cache = $session->{cache};
+    if ($cache) {
+      $cachedPage = $cache->getPage($session->{webName}, $session->{topicName});
+    }
+    if ($cachedPage) {
+        print STDERR "found REST for $session->{webName}.$session->{topicName} in cache\n" 
+	  if $Foswiki::cfg{Cache}{Debug};
+
+        # render uncacheable areas
+        my $text = $cachedPage->{text};
+        $cache->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
+
+        # compute headers
+        my $contentType = $cachedPage->{contentType};
+        $session->generateHTTPHeaders('rest', $contentType, $text, $cachedPage);
+        $session->{response}->body($text);
+
+        if ($Foswiki::cfg{Log}{rest}) {
+            $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
+        }
+        return;
+    }
+
+    print STDERR "computing REST for $session->{webName}.$session->{topicName}\n" 
+      if $Foswiki::cfg{Cache}{Debug};
+
     # If there's login info, try and apply it
     my $login = $req->param('username');
     if ($login) {
@@ -193,6 +220,10 @@ sub rest {
         # then subsequent requests using the same code would have to be
         # interactively confirmed, which isn't really an option with
         # an XHR.
+    }
+
+    if ($Foswiki::cfg{Log}{rest}) {
+        $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
     }
 
     no strict 'refs';

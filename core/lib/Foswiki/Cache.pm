@@ -145,9 +145,9 @@ implementations during the constructor already.
 sub genKey {
   my ($this, $key) = @_;
   my $pageKey = $this->{namespace};
-  $pageKey .= '::'.$key if $key;
+  $pageKey .= ':'.$key if $key;
   $pageKey =~ s/[\s\/]+/_/go;
-  return $key;
+  return $pageKey;
 }
 
 =pod
@@ -167,13 +167,14 @@ sub set {
   my $obj = shift;
 
   return 0 unless $this->{handler};
+  return 0 unless defined($key) && defined($obj);
 
   my $pageKey = $this->genKey($key);
   $this->{writeBuffer}{$pageKey} = $obj;
   $this->{readBuffer}{$pageKey} = $obj;
 
   if ($this->{delBuffer}) {
-    undef $this->{delBuffer}{$pageKey} 
+    delete $this->{delBuffer}{$pageKey} 
   }
 
   return 1;
@@ -223,8 +224,8 @@ sub delete {
 
   my $pageKey = $this->genKey($key);
   
-  undef $this->{writeBuffer}{$pageKey};
-  undef $this->{readBuffer}{$pageKey};
+  delete $this->{writeBuffer}{$pageKey};
+  delete $this->{readBuffer}{$pageKey};
   $this->{delBuffer}{$pageKey} = 1;
 
   return 1;

@@ -696,7 +696,8 @@ STRIKEONE
 
     # cache final page, but only view
     my $cachedPage;
-    if ($this->inContext('view') && $Foswiki::cfg{Cache}{Enabled}) {
+    if ($Foswiki::cfg{Cache}{Enabled} && 
+        ($this->inContext('view') || $this->inContext('rest')) ) {
         $cachedPage = $this->{cache}->cachePage($contentType, $text);
         $this->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
     } else {
@@ -772,9 +773,11 @@ sub generateHTTPHeaders {
     }
 
     $contentType = 'text/html' unless $contentType;
-    if ( defined( $Foswiki::cfg{Site}{CharSet} ) ) {
-        $contentType .= '; charset=' . $Foswiki::cfg{Site}{CharSet};
-    }
+    $contentType .= '; charset=' . $Foswiki::cfg{Site}{CharSet}
+      if $contentType ne '' &&
+        $contentType =~ m!^text/! &&
+        $contentType !~ /\bcharset\b/ &&
+        $Foswiki::cfg{Site}{CharSet};
 
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
@@ -1909,6 +1912,7 @@ sub finish {
     $this->{i18n}->finish() if $this->{i18n};
     undef $this->{i18n};
     $this->{cache}->finish() if $this->{cache};
+    undef $this->{cache};
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};

@@ -33,9 +33,11 @@ package Foswiki::Cache::DB_File;
 
 use strict;
 use DB_File;
-use Storable qw(freeze thaw);
+use Storable ();
 use Foswiki::Cache;
 use Fcntl qw( :flock O_RDONLY O_RDWR O_CREAT );
+
+use constant F_STORABLE => 1;
 
 @Foswiki::Cache::DB_File::ISA = ( 'Foswiki::Cache' );
 
@@ -99,15 +101,40 @@ sub get {
   }
 
   my $obj = $this->{readBuffer}{$pageKey};
-  return $obj if $obj;
+  if ($obj) {
+    return undef if $obj eq '_UNKNOWN_';
+    return $obj; 
+  }
+
+  $obj = '_UNKNOWN_';
 
   my $value = $this->{tie}->{$pageKey};
   if ($value) {
-    $obj = thaw($value);
-    $obj = ${$obj} if $obj;
+    if ($value =~ /^(\d+)::(.*)$/) {
+      my $flags = $1;
+      $obj = $2;
+      if ($flags & F_STORABLE) {
+	#Foswiki::Func::writeWarning("reading $pageKey is a storable image");
+	eval {
+	  $obj = Storable::thaw($obj);
+          $obj = ${$obj} if $obj;
+	};
+	if ($@) {
+	  print STDERR "WARNING: found a corrupt storable image for pageKey='$pageKey' ... deleting\n";
+	  delete $this->{tie}->{$pageKey}; # corrupt storable image
+          $obj = '_UNKNOWN_';
+	}
+      } else {
+	#Foswiki::Func::writeWarning("reading $pageKey is a scalar");
+      }
+    } else {
+      Foswiki::Func::writeWarning("WARNING: reading $pageKey does not match format: $value");
+    }
   }
 
   $this->{readBuffer}{$pageKey} = $obj;
+
+  return undef if $obj eq '_UNKNOWN_';
 
   return $obj;
 }
@@ -138,14 +165,23 @@ sub finish {
       if ($this->{delBuffer}) {
         foreach my $key (keys %{$this->{delBuffer}}) {
           next unless $this->{delBuffer}{$key};
-          undef $this->{tie}->{$key};
+          delete $this->{tie}->{$key};
         }
       }
 
       if ($this->{writeBuffer}) {
         foreach my $key (keys %{$this->{writeBuffer}}) {
           my $obj = $this->{writeBuffer}{$key};
-          my $value = freeze(\$obj);
+	  my $value;
+	  my $flags = 0;
+	  if (ref $obj) {
+	    $flags |= F_STORABLE;
+	    $value = sprintf("%03d::", $flags).Storable::freeze($obj);
+	    #Foswiki::Func::writeWarning("writing $key as a storable image");
+	  } else {
+	    $value = sprintf("%03d::", $flags).$obj;
+	    #Foswiki::Func::writeWarning("writing $key is a scalar");
+	  }
           $this->{tie}->{$key} = $value;
         }
       }

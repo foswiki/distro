@@ -63,7 +63,7 @@ sub view {
 
         # render uncacheable areas
         my $text = $cachedPage->{text};
-        $session->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
+        $cache->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
 
         # compute headers
         my $contentType = $cachedPage->{contentType};
