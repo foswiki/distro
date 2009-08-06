@@ -655,12 +655,12 @@ sub _renderExistingWikiWord {
     my ( $this, $web, $topic, $text, $anchor ) = @_;
 
     my $currentWebHome = '';
-    $currentWebHome = 'foswikiCurrentWebHomeLink  '
+    $currentWebHome = 'foswikiCurrentWebHomeLink '
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $Foswiki::cfg{HomeTopicName} ) );
 
     my $currentTopic = '';
-    $currentTopic = 'foswikiCurrentTopicLink'
+    $currentTopic = 'foswikiCurrentTopicLink '
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $this->{session}->{topicName} ) );
 
@@ -674,7 +674,6 @@ sub _renderExistingWikiWord {
         $href = $href . '#' . Foswiki::urlEncode($anchor);
     }
     my $cssClassName = "$currentTopic$currentWebHome";
-    $cssClassName =~ s/^(.*?)\s*$/$1/ if $cssClassName;
     push( @attrs, class => $cssClassName ) if $cssClassName;
     push( @attrs, href => $href );
     my $tooltip = _linkToolTipInfo( $this, $web, $topic );
