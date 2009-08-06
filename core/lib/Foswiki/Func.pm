@@ -2228,6 +2228,56 @@ sub registerRESTHandler {
 
 =begin TML
 
+---++ StaticMethod registerMETA($name, $check)
+
+When topic text is parsed, for example during =readTopic=, then =%META= tags
+are automatically extracted from the text. To reduce the risk of accidental
+inclusion of invalid meta-data (which could cause havoc) then %META tags
+are validated during this process. A tag is only interpreted if it
+passed validation, otherwise it is ignored.
+
+You can register a new META tag =$name= with the defined checker =$check=.
+=$check= can be a reference to a function =\&fn=. In this case the
+function will be called when the embedded tag is encountered, passing
+in the name of the macro and the argument hash. For example,
+<verbatim>
+registerMeta('BOOK', sub {
+    my ($name, $args) = @_;
+    # $name will be BOOK
+    return 0 unless defined $args->{title};
+}
+</verbatim>
+can be used to check that =%META:BOOKS{}= contains a title.
+
+Alternatively =$check= can be a reference to a list of valid parameter names.
+<verbatim>
+registerMeta('BOOK', [ 'author', 'title' ])
+</verbatim>
+In this case these parameters will be assumed to be required.
+
+You can also specify exclusions be prepending a '-' to the parameter name:
+<verbatim>
+registerMeta('BOOK', [ 'author', 'title', '-isbn' ])
+</verbatim>
+will result in the validation failing if the =isbn= parameter is present in
+the tag.
+
+If no checker exists for a META tag, then it will automatically be accepted
+into the topic meta-data.
+
+Normally you should use the validator to ensure that the META is sufficient,
+but not necessarily complete i.e. in many cases your code will be able
+to tolerate a missing parameter or two.
+
+=cut
+
+sub registerMETA {
+    my ($macro, $spec) = @_;
+    Foswiki::Meta::registerMETA($macro, $spec);
+}
+
+=begin TML
+
 ---+++ decodeFormatTokens($str) -> $unencodedString
 
 Foswiki has an informal standard set of tokens used in =format=

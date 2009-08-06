@@ -430,4 +430,53 @@ sub test_testAttachment {
     $this->assert($t, $this->{test_topicObject}->testAttachment('dat.dis', 'A'));
 }
 
+# Make sure that badly-formed meta tags in text are validated on save
+sub test_validateMetaTagsInText {
+    my $this = shift;
+    my $gunk = <<GUNK;
+%META{"form"}%
+%META{"formfield" name="bad"}%
+%META{"attachments"}%
+%META{"parent"}%
+%META{"moved"}%
+GUNK
+    my $text = <<EVIL;
+%META:TOPICINFO{bad="bad"}%
+%META:TOPICPARENT{bad="bad"}%
+%META:FORM{bad="bad"}%
+%META:FIELD{bad="bad"}%
+%META:FILEATTACHMENT{bad="bad"}%
+%META:TOPICMOVED{bad="bad"}%
+$gunk
+EVIL
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, "BadMeta", $text );
+    $topicObject->save();
+    # All meta should have found its way into text
+    $this->assert_equals($text, $topicObject->text()."\n");
+    $topicObject->expandMacros($topicObject->text());
+    $topicObject->expandNewTopic($topicObject->text());
+    $topicObject->renderTML($topicObject->text());
+    $topicObject->renderFormForDisplay();
+    $text = <<GOOD;
+%META:TOPICINFO{version="1" date="9876543210" author="AlbertCamus" format="1.1"}%
+%META:TOPICPARENT{name="System.UserForm"}%
+%META:FORM{name="System.UserForm"}%
+%META:FIELD{name="Profession" value="Saint"}%
+%META:FILEATTACHMENT{name="sausage.gif"}%
+%META:TOPICMOVED{from="here" to="there" by="her" date="1234567890"}%
+$gunk
+GOOD
+    $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, "GoodMeta", $text );
+    $topicObject->save();
+    $this->assert_equals($gunk, $topicObject->text());
+    $topicObject->expandMacros($topicObject->text());
+    $topicObject->expandNewTopic($topicObject->text());
+    $topicObject->renderTML($topicObject->text());
+    $topicObject->renderFormForDisplay();
+}
+
 1;

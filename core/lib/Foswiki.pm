@@ -4272,7 +4272,7 @@ sub META {
     if ( $option eq 'form' ) {
 
         # META:FORM and META:FIELD
-        return $topicObject->renderFormForDisplay( $this->templates );
+        return $topicObject->renderFormForDisplay();
     }
     elsif ( $option eq 'formfield' ) {
 

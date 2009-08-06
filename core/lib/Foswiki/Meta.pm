@@ -116,6 +116,63 @@ our $MINTRUNC   = 16;
 # max number of lines in a summary (best to keep it even)
 our $SUMMARYLINES = 6;
 
+# Map META:x to either the address of a validation function, or to a list
+# of required (or -excluded) parameter names.
+our %VALIDATE = (
+    TOPICINFO      => [ qw( author ) ],
+    TOPICMOVED     => [ qw( from to by date ) ],
+    TOPICPARENT    => [ qw( name ) ],
+    FILEATTACHMENT => [ qw( name ) ],
+    FORM           => [ qw( name ) ],
+    FIELD          => [ qw( name value ) ],
+);
+
+=begin TML
+
+---++ StaticMethod registerMETA($name, $check)
+
+When topic text is parsed, for example during =readTopic=, then =%META= tags
+are automatically extracted from the text. To reduce the risk of accidental
+inclusion of invalid meta-data (which could cause havoc) then %META tags
+are validated during this process. A tag is only taken into meta-data if it
+passed validation, otherwise it is ignored.
+
+You can register a new META tag =$name= with the defined checker =$check=.
+=$check= can be a reference to a function =\&fn=. In this case the
+function will be called when the embedded tag is encountered, passing
+in the name of the macro and the argument hash. For example,
+<verbatim>
+registerMeta('BOOK', sub {
+    my ($name, $args) = @_;
+    # $name will be BOOK
+    return 0 unless defined $args->{title};
+}
+</verbatim>
+can be used to check that =%META:BOOKS{}= contains a title.
+
+Alternatively =$check= can be a reference to a list of valid parameter names.
+<verbatim>
+registerMeta('BOOK', [ 'author', 'title' ])
+</verbatim>
+In this case these parameters will be assumed to be required.
+
+You can also specify exclusions be prepending a '-' to the parameter name:
+<verbatim>
+registerMeta('BOOK', [ 'author', 'title', '-isbn' ])
+</verbatim>
+will result in the validation failing if the =isbn= parameter is present in
+the tag.
+
+If no checker exists for a META tag, then it will automatically be accepted
+into the topic meta-data.
+
+=cut
+
+sub registerMETA {
+    my ($name, $check) = @_;
+    $VALIDATE{$name} = $check;
+}
+
 ############# GENERIC METHODS #############
 
 =begin TML
@@ -1162,16 +1219,14 @@ sub getFormName {
 
 =begin TML
 
----++ ObjectMethod renderFormForDisplay( $templates ) -> $html
+---++ ObjectMethod renderFormForDisplay() -> $html
 
 Render the form contained in the meta for display.
 
 =cut
 
 sub renderFormForDisplay {
-    my ( $this, $templates ) = @_;
-
-    # NOTE: param $templates is not used
+    my ( $this ) = @_;
 
     my $fname = $this->getFormName();
 
@@ -2523,8 +2578,8 @@ sub setEmbeddedStoreForm {
     my $format = $EMBEDDING_FORMAT_VERSION;
 
     # head meta-data
-    $text =~ s/^%META:TOPICINFO{(.*)}%\n/
-      $this->put( 'TOPICINFO', _readKeyValues( $1 ));''/gem;
+    $text =~ s/^(%META:(TOPICINFO){(.*)}%\n)/
+      $this->_readMETA($1, $2, $3)/gem;
 
     my $ti = $this->get('TOPICINFO');
     if ($ti) {
@@ -2558,8 +2613,8 @@ sub setEmbeddedStoreForm {
     }
     else {
         if (
-            $text =~ s/^%META:([^{]+){(.*)}%\n/
-              $this->_readMETA($1, $2, $format); ''/gem
+            $text =~ s/^(%META:([^{]+){(.*)}%\n)/
+              $this->_readMETA($1, $2, $3)/gem
           )
         {
             $endMeta = 1;
@@ -2610,19 +2665,62 @@ sub setEmbeddedStoreForm {
     $this->{_text} = $text;
 }
 
+=begin TML
+
+---++ ObjectMethod isValidEmbedding($macro, \%args) -> $boolean
+
+Test that the arguments defined in =\%args= are sufficient to satisfy the
+requirements of the embeddable meta-data given by =$macro=. For example,
+=isValidEmbedding('FILEATTACHMENT', $args)= will only succeed if $args contains
+at least =name=, =date=, =user= and =attr= fields. Note that extra fields are
+simply ignored (unless they are explicitly excluded).
+
+If the macro is not registered for validation, then it will be ignored.
+
+If the embedding is not valid, then $Foswiki::Meta::reason is set with a
+message explaining why.
+
+=cut
+
+sub isValidEmbedding {
+    my ($this, $macro, $args) = @_;
+
+    my $validate = $VALIDATE{$macro};
+    return 1 unless $validate; # not validated
+    if (ref($validate) eq 'ARRAY') {
+        foreach my $p (@$validate ) {
+            if ($p =~ /^-(.*)/) {
+                if (defined $args->{$1}) {
+                    $reason = "$p was present in \%META:$macro";
+                    return 0;
+                }
+            } elsif (!defined $args->{$p}) {
+                $reason = "$p was missing from \%META:$macro";
+                return 0;
+            }
+        }
+    } elsif( ! &$validate($macro, $args) ) {
+        $reason = "\%META:$macro validation failed";
+        return 0;
+    }
+    return 1
+}
+
 sub _readMETA {
-    my ( $this, $type, $args, $format ) = @_;
-
-    my $keys = _readKeyValues($args);
-    if ( defined( $keys->{name} ) ) {
-
-        # save it keyed if it has a name
-        $this->putKeyed( $type, $keys );
+    my ( $this, $expr, $type, $args ) = @_;
+    my $keys = _readKeyValues( $args );
+    if ($this->isValidEmbedding($type, $keys)) {
+        if ( defined( $keys->{name} ) ) {
+            # save it keyed if it has a name
+            $this->putKeyed( $type, $keys );
+        }
+        else {
+            $this->put( $type, $keys );
+        }
+        return '';
+    } else {
+        return $expr;
     }
-    else {
-        $this->put( $type, $keys );
-    }
-    return 1;
 }
 
 # STATIC Build a hash by parsing name=value comma separated pairs
