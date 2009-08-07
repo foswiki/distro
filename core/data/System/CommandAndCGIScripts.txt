@@ -244,9 +244,12 @@ where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plug
 
 =&lt;subject&gt;= and =&lt;verb&gt;= are checked for illegal characters exactly in the same way as the web and topic names.
 
-As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. Click below to see the =rest= script in action (run as guest).
+As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. 
 
-[[%SCRIPTURL{rest}%/EmptyPlugin/example?debugenableplugin=EmptyPlugin][Call the Plugin]]
+The URL to call this function from a browser would be:
+   * =%SCRIPTURL{rest}%/EmptyPlugin/example?debugenableplugin=EmptyPlugin=
+alternatively, to run it from the commandline:
+   * =cd foswiki/bin ; ./rest /EmptyPlugin/example debugenableplugin=EmptyPlugin=
 
 Note that for Plugins to register REST handlers, they must be enabled in =configure=.
 
