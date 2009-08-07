@@ -64,13 +64,58 @@ sub test_template {
     $this->assert_str_equals( join( "\n", @templateWebs ), $text );
 }
 
-sub test_separator {
+sub test_no_format_no_separator {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{}%');
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+}
+
+sub test_no_format_with_separator {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text =
       $this->{test_topicObject}->expandMacros('%WEBLIST{separator=";"}%');
     $this->assert_str_equals( join( ';', @allWebs ), $text );
+}
+
+sub test_no_format_empty_separator {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{separator=""}%');
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+}
+
+sub test_with_format_no_separator {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{"$name"}%');
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+}
+
+sub test_with_format_with_separator {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{"$name" separator=";"}%');
+    $this->assert_str_equals( join( ';', @allWebs ), $text );
+}
+
+sub test_with_format_empty_separator {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{"$name" separator=""}%');
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
 sub test_format {

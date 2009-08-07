@@ -105,7 +105,71 @@ sub test_format {
 
 }
 
-sub test_seperator {
+sub test_no_format_no_separator {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
+    $this->{request}->param( -name => 'fee', -value => 'free' );
+    $str =
+      $this->{test_topicObject}->expandMacros(
+        '%QUERYPARAMS{}%');
+    $this->assert_str_equals(
+"foo=&#60;evil script&#62;&#39;&#34;&#37;\nfee=free",
+        "$str"
+    );
+}
+
+sub test_no_format_with_separator {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
+    $this->{request}->param( -name => 'fee', -value => 'free' );
+    $str =
+      $this->{test_topicObject}->expandMacros(
+        '%QUERYPARAMS{separator="NEXT"}%');
+    $this->assert_str_equals(
+"foo=&#60;evil script&#62;&#39;&#34;&#37;NEXTfee=free",
+        "$str"
+    );
+}
+
+sub test_no_format_empty_separator {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
+    $this->{request}->param( -name => 'fee', -value => 'free' );
+    $str =
+      $this->{test_topicObject}->expandMacros(
+        '%QUERYPARAMS{separator=""}%');
+    $this->assert_str_equals(
+"foo=&#60;evil script&#62;&#39;&#34;&#37;fee=free",
+        "$str"
+    );
+}
+
+sub test_with_format_no_separator {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
+    $this->{request}->param( -name => 'fee', -value => 'free' );
+    $str =
+      $this->{test_topicObject}->expandMacros(
+        '%QUERYPARAMS{format="$name is equal to $value"}%');
+    $this->assert_str_equals(
+"foo is equal to &#60;evil script&#62;&#39;&#34;&#37;\nfee is equal to free",
+        "$str"
+    );
+}
+
+sub test_with_format_with_separator {
     my $this = shift;
 
     my $str;
@@ -117,6 +181,22 @@ sub test_seperator {
         '%QUERYPARAMS{format="$name is equal to $value" separator="NEXT"}%');
     $this->assert_str_equals(
 "foo is equal to &#60;evil script&#62;&#39;&#34;&#37;NEXTfee is equal to free",
+        "$str"
+    );
+}
+
+sub test_with_format_empty_separator {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
+    $this->{request}->param( -name => 'fee', -value => 'free' );
+    $str =
+      $this->{test_topicObject}->expandMacros(
+        '%QUERYPARAMS{format="$name is equal to $value" separator=""}%');
+    $this->assert_str_equals(
+"foo is equal to &#60;evil script&#62;&#39;&#34;&#37;fee is equal to free",
         "$str"
     );
 }

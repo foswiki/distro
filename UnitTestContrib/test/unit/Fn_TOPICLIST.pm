@@ -29,14 +29,35 @@ sub set_up {
     @allSubwebTopics = Foswiki::Func::getTopicList("$this->{test_web}/SubWeb");
 }
 
-# separator=", " 	line separator 	"$n" (new line)
-sub test_separator {
+sub test_no_format_no_separator {
     my $this = shift;
 
-    my $text = $this->{test_topicObject}->expandMacros('%TOPICLIST%');
+    my $text = $this->{test_topicObject}->expandMacros(
+        '%TOPICLIST{}%');
     $this->assert_str_equals( join( "\n", @allTopics ), $text );
-    $text =
-      $this->{test_topicObject}->expandMacros('%TOPICLIST{separator=";"}%');
+}
+
+sub test_no_format_with_separator {
+    my $this = shift;
+
+    my $text = $this->{test_topicObject}->expandMacros(
+        '%TOPICLIST{separator=";"}%');
+    $this->assert_str_equals( join( ';', @allTopics ), $text );
+}
+
+sub test_with_format_no_separator {
+    my $this = shift;
+
+    my $text = $this->{test_topicObject}->expandMacros(
+        '%TOPICLIST{"$topic"}%');
+    $this->assert_str_equals( join( "\n", @allTopics ), $text );
+}
+
+sub test_with_format_with_separator {
+    my $this = shift;
+
+    my $text = $this->{test_topicObject}->expandMacros(
+        '%TOPICLIST{"$topic" separator=";"}%');
     $this->assert_str_equals( join( ';', @allTopics ), $text );
 }
 
