@@ -44,9 +44,11 @@ sub fixture_groups {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
                 $salgs{$alg} = 1;
+last;
             }
             closedir(D);
         }
+next;
         if ( opendir( D, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
             foreach my $alg ( readdir D ) {
                 next unless $alg =~ /^(.*)\.pm$/;
@@ -195,32 +197,194 @@ sub verify_word {
     $this->assert_does_not_match( qr/OkBTopic/, $result, $result );
 }
 
-sub verify_separator {
-    my $this = shift;
-
-    # word
-
+#####################
+sub _septic {
+    my ($this, $head, $foot, $sep, $results, $expected) = @_;
+    my $str = $results ? '*Topic' : 'Septic';
+    $head = $head ? 'header="HEAD"' : '';
+    $foot = $foot ? 'footer="FOOT"' : '';
+    $sep = defined $sep ? "separator=\"$sep\"" : '';
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'*Topic\'" type="query" nonoise="on" format="$topic" separator=","}%'
-      );
-
-    $this->assert_str_equals( "OkATopic,OkBTopic,OkTopic", $result );
+          "%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%" );
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_separator_with_header {
+#####################
+
+sub verify_no_header_no_footer_no_separator_with_results {
     my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'*Topic\'" type="query" header="RESULT:" nonoise="on" format="$topic" separator=","}%'
-      );
-
-    $this->assert_str_equals(
-        "RESULT:
-OkATopic,OkBTopic,OkTopic", $result
-    );
+    $this->_septic(0, 0, undef, 1, <<EXPECT);
+OkATopic
+OkBTopic
+OkTopic
+EXPECT
 }
+
+sub verify_no_header_no_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_septic(0, 0, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_no_header_no_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_septic(0, 0, "", 1, <<EXPECT);
+OkATopicOkBTopicOkTopic
+EXPECT
+}
+
+sub verify_no_header_no_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_septic(0, 0, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_no_header_no_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_septic(0, 0, ",", 1, <<EXPECT);
+OkATopic,OkBTopic,OkTopic
+EXPECT
+}
+
+sub verify_no_header_no_footer_with_separator_no_results {
+    my $this = shift;
+    $this->_septic(0, 0, ",", 0, <<EXPECT);
+EXPECT
+}
+#####################
+
+sub verify_no_header_with_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_septic(0, 1, undef, 1, <<EXPECT);
+OkATopic
+OkBTopic
+OkTopic
+FOOT
+EXPECT
+}
+
+sub verify_no_header_with_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_septic(0, 1, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_no_header_with_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_septic(0, 1, "", 1, <<EXPECT);
+OkATopicOkBTopicOkTopicFOOT
+EXPECT
+}
+
+sub verify_no_header_with_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_septic(0, 1, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_no_header_with_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_septic(0, 1, ",", 1, <<EXPECT);
+OkATopic,OkBTopic,OkTopic,FOOT
+EXPECT
+}
+
+#####################
+
+sub verify_with_header_with_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_septic(1, 1, undef, 1, <<EXPECT);
+HEAD
+OkATopic
+OkBTopic
+OkTopic
+FOOT
+EXPECT
+}
+
+sub verify_with_header_with_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_septic(1, 1, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_with_header_with_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_septic(1, 1, "", 1, <<EXPECT);
+HEAD
+OkATopicOkBTopicOkTopicFOOT
+EXPECT
+}
+
+sub verify_with_header_with_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_septic(1, 1, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_with_header_with_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_septic(1, 1, ",", 1, <<EXPECT);
+HEAD
+OkATopic,OkBTopic,OkTopic,FOOT
+EXPECT
+}
+
+sub verify_with_header_with_footer_with_separator_no_results {
+    my $this = shift;
+    $this->_septic(1, 1, ",", 0, <<EXPECT);
+EXPECT
+}
+
+#####################
+
+sub verify_with_header_no_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_septic(1, 0, undef, 1, <<EXPECT);
+HEAD
+OkATopic
+OkBTopic
+OkTopic
+EXPECT
+}
+
+sub verify_with_header_no_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_septic(1, 0, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_with_header_no_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_septic(1, 0, "", 1, <<EXPECT);
+HEAD
+OkATopicOkBTopicOkTopic
+EXPECT
+}
+
+sub verify_with_header_no_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_septic(1, 0, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_with_header_no_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_septic(1, 0, ",", 1, <<EXPECT);
+HEAD
+OkATopic,OkBTopic,OkTopic
+EXPECT
+}
+
+sub verify_with_header_no_footer_with_separator_no_results {
+    my $this = shift;
+    $this->_septic(1, 0, ",", 0, <<EXPECT);
+EXPECT
+}
+
+#####################
 
 sub verify_footer_with_ntopics {
     my $this = shift;
