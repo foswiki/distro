@@ -44,11 +44,9 @@ sub fixture_groups {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
                 $salgs{$alg} = 1;
-last;
             }
             closedir(D);
         }
-next;
         if ( opendir( D, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
             foreach my $alg ( readdir D ) {
                 next unless $alg =~ /^(.*)\.pm$/;
