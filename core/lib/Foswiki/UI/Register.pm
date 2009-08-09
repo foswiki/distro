@@ -691,9 +691,9 @@ sub _complete {
 sub _createUserTopic {
     my ( $session, $row ) = @_;
     my $template = 'NewUserTemplate';
-    my $fromWeb  = $TWiki::cfg{UsersWebName};
+    my $fromWeb  = $Foswiki::cfg{UsersWebName};
 
-    if ( !$session->topicExists( $Foswiki::cfg{UsersWebName}, $template ) ) {
+    if ( !$session->topicExists( $fromWeb, $template ) ) {
 
         # Use the default version
         $fromWeb = $Foswiki::cfg{SystemWebName};

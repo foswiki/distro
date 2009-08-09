@@ -1730,7 +1730,7 @@ sub replaceMostRecentRevision {
     finally {
         $this->_atomicUnlock($cUID);
     };
-    if ( $TWiki::cfg{Log}{save} && !$opts{dontlog} ) {
+    if ( $Foswiki::cfg{Log}{save} && !$opts{dontlog} ) {
         my $info = $this->getRevisionInfo();
 
         # write log entry

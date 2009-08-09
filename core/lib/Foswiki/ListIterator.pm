@@ -119,7 +119,7 @@ sub next {
     return $n;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod all() -> @list
 

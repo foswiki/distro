@@ -92,7 +92,7 @@ sub new {
         $session->{forms}->{"$web.$form"} = $this;
 
         unless ( $def || $this->haveAccess('VIEW') ) {
-            throw TWiki::AccessControlException( 'VIEW', $session->{user}, $web,
+            throw Foswiki::AccessControlException( 'VIEW', $session->{user}, $web,
                 $form, $Foswiki::Meta::reason );
         }
 

@@ -1166,7 +1166,7 @@ sub _collate {
     $$ref .= join( ' ', @_ );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod searchMetaData($params) -> $text
 
