@@ -393,7 +393,7 @@ $Foswiki::cfg{MinPasswordLength} = 1;
 # password file with the right encoding.
 $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 
-# **SELECT crypt,sha1,md5,plain,crypt-md5 EXPERT**
+# **SELECT crypt,sha1,md5,plain,crypt-md5**
 # Password encryption, for the Foswiki::Users::HtPasswdUser password manager.
 # You can use the <tt>htpasswd</tt> Apache program to create a new
 # password file with the right encoding.
