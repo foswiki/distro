@@ -6,16 +6,6 @@
 # the differences broken down to the word-by-word level if necessary.
 # The output can be formatted by templates and skins.
 #
-# See the documentation in Foswiki/CompareRevisionsAddOn
-#
-# History:
-#
-# 20 Jan 2005 - JChristophFuchs - new
-#  3 Feb 2005 - JChristophFuchs - remove blank paragraphs before comparing
-#  2 Mar 2005 = JChristophFuchs - corrected bug in _compareText with
-#                                 uninitialized elements from sdiff
-# 14 Sep 2005 - JChristophFuchs - Fix for Codev.SecurityAlertExecuteCommandsWithRev
-# 26 Feb 2006 - JChristophFuchs - Updated for Dakar
 ########################################################################
 package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 
