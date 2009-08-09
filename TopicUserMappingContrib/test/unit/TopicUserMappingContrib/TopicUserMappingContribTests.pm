@@ -57,7 +57,11 @@ sub set_up_for_verify {
     $this->SUPER::set_up();
 
     $this->assert(
-        $Foswiki::cfg{StoreImpl} =~ /^Rcs/,
+        defined($Foswiki::cfg{Store}{Implementation}),
+        "Test requires store setting"
+    );
+    $this->assert(
+        $Foswiki::cfg{Store}{Implementation} =~ /^Rcs/,
         "Test does not run with non-RCS store"
     );
 
