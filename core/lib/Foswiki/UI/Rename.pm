@@ -255,8 +255,8 @@ sub _renameTopicOrAttachment {
     my $refs;
     unless ($attachment) {
         $refs =
-          _getReferringTopicsListFromURL( $session, $oldWeb, $oldTopic, $newWeb,
-            $newTopic );
+          _getReferringTopicsListFromURL(
+              $session, $oldWeb, $oldTopic, $newWeb, $newTopic );
     }
 
     _moveTopicOrAttachment( $session, $old, $new, $attachment, $newAttachment,
@@ -486,7 +486,7 @@ sub _renameWeb {
 
         # Lease topics and build
         # up a hash containing permissions and lock info.
-        my $it = $oldWebObject->eachWeb();
+        my $it = $oldWebObject->eachWeb(1);
         _leaseContents( $session, $info, $oldWebObject->web, $confirm );
         while ( $it->hasNext() ) {
             my $subweb = $it->next();
@@ -626,7 +626,7 @@ sub _renameWeb {
 
     # now remove leases on all topics inside $newWeb.
     my $nwom = Foswiki::Meta->new( $session, $newWeb );
-    my $it = $nwom->eachWeb();
+    my $it = $nwom->eachWeb(1);
     _releaseContents( $session, $newWeb );
     while ( $it->hasNext() ) {
         my $subweb = $it->next();
@@ -1271,6 +1271,7 @@ sub _getReferringTopicsListFromURL {
 # SMELL: this will only work as long as searchInText searches meta-data
 # as well. It sould really do a query over the meta-data as well, but at the
 # moment that is just duplication and it's too slow already.
+# Calling user *must* have view access on the topics.
 sub _getReferringTopics {
     my ( $session, $om, $allWebs ) = @_;
     my $renderer = $session->renderer;
@@ -1280,7 +1281,7 @@ sub _getReferringTopics {
 
     if ($allWebs) {
         my $root = Foswiki::Meta->new($session);
-        my $it   = $root->eachWeb();
+        my $it   = $root->eachWeb(1);
         while ( $it->hasNext() ) {
             push( @webs, $it->next() );
         }
@@ -1289,6 +1290,10 @@ sub _getReferringTopics {
     foreach my $searchWeb (@webs) {
         my $interWeb = ( $searchWeb ne $om->web() );
         next if ( $allWebs && !$interWeb );
+
+        my $webObject = Foswiki::Meta->new( $session, $searchWeb );
+
+        next unless $webObject->haveAccess('VIEW');
 
         # Search for both the foswiki form and the URL form
         my $searchString = Foswiki::Render::getReferenceRE(
@@ -1303,8 +1308,6 @@ sub _getReferringTopics {
             interweb => $interWeb,
             url      => 1
           );
-        my @topicList = ();
-        my $webObject = Foswiki::Meta->new( $session, $searchWeb );
 
         #print STDERR "SEARCH $searchString in $searchWeb\n";
         my $matches = $webObject->searchInText(
@@ -1314,12 +1317,15 @@ sub _getReferringTopics {
         );
 
         foreach my $searchTopic ( keys %$matches ) {
-
-            #print STDERR "Found $searchTopic\n";
             next
               if ( $searchWeb eq $om->web
                 && $om->topic
                 && $searchTopic eq $om->topic );
+
+            # Individual topics may be view restricted. Only return
+            # those we can see.
+            my $m = Foswiki::Meta->new( $session, $searchWeb, $searchTopic );
+            next unless $m->haveAccess('VIEW');
 
             $results{ $searchWeb . '.' . $searchTopic } = 1;
         }

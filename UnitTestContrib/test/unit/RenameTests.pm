@@ -183,12 +183,16 @@ sub check {
     }
 }
 
+# Check the results of _getReferringTopics. $all means all webs. $expected
+# is an array of topic names that should be seen. $forgiving means that
+# the actual set may contain other topics besides those expected.
 sub checkReferringTopics {
     my ( $this, $web, $topic, $all, $expected, $forgiving ) = @_;
 
     my $m = Foswiki::Meta->new( $this->{session}, $web, $topic );
     my $refs =
       Foswiki::UI::Rename::_getReferringTopics( $this->{session}, $m, $all );
+
     $this->assert_str_equals( 'HASH', ref($refs) );
     if ($forgiving) {
         foreach my $k ( keys %$refs ) {
@@ -198,6 +202,7 @@ sub checkReferringTopics {
         }
     }
 
+    # Check that all expected topics were seen
     my %expected_but_unseen;
     my %e = map { $_ => 1 } @$expected;
     foreach my $r ( keys %e ) {
@@ -205,6 +210,8 @@ sub checkReferringTopics {
             $expected_but_unseen{$r} = 1;
         }
     }
+
+    # Check that no unexpected topics were seen
     my %not_expected;
     foreach my $r ( keys %$refs ) {
         $this->assert_not_null($r);
@@ -435,6 +442,90 @@ THIS
             "$this->{test_web}.MatchMeSeven", "$this->{test_web}.OldTopic",
             "$this->{test_web}.OtherTopic",   "$this->{test_web}.random",
             "$this->{test_web}.ranDom"
+        ]
+    );
+}
+
+# There's a reference in a topic in a web which doesn't allow
+# read access for the current user [[Foswiki:Tasks.Item1879]]
+sub test_rename_topic_reference_in_denied_web {
+    my $this = shift;
+
+    # Make sure the reference can't exist outside the text fixture
+    my $fnord = "FnordMustNotBeFound".time;
+
+    # Create the referred-to topic that we're renaming
+    my $m =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $fnord );
+    $m->text("");
+    $m->save();
+
+    # Create a subweb
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp" );
+    $m->populateNewWeb();
+
+    # Create a topic in the subweb that refers to the topic we're renaming
+    $m = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/Swamp", 'TopSecret' );
+    $m->text("[[$this->{test_web}.$fnord]]");
+    $m->save();
+
+    # Make sure the subweb is unprotected (readable)
+    $m = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/Swamp", 'WebPreferences' );
+    $m->text("   * Set ALLOWWEBCHANGE = \n   * Set ALLOWWEBVIEW = \n");
+    $m->save();
+
+    # Have to restart to clear prefs cache
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login},
+        new Unit::Request( ) );
+
+    $this->checkReferringTopics(
+        $this->{test_web}, $fnord,
+        1,
+        [
+            "$this->{test_web}/Swamp.TopSecret"
+        ]
+    );
+
+    # Protect the web we made (deny view access)
+    $m = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/Swamp", 'WebPreferences' );
+    $m->text("   * Set ALLOWWEBVIEW = PickMeOhPickMe");
+    $m->save();
+
+    # Have to restart to clear prefs cache
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login},
+        new Unit::Request( ) );
+
+    $this->checkReferringTopics(
+        $this->{test_web}, $fnord,
+        1,
+        [
+            # Should be empty
+        ]
+    );
+
+    # Protect the web we made (deny change access)
+    # We need to be able to see these references.
+    $m = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/Swamp", 'WebPreferences' );
+    $m->text("   * Set ALLOWWEBCHANGE = PickMeOhPickMe");
+    $m->save();
+
+    # Have to restart to clear prefs cache
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login},
+        new Unit::Request( ) );
+
+    $this->checkReferringTopics(
+        $this->{test_web}, $fnord,
+        1,
+        [
+            "$this->{test_web}/Swamp.TopSecret"
         ]
     );
 }
