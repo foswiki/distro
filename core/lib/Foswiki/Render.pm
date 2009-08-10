@@ -501,7 +501,6 @@ sub _linkToolTipInfo {
  # FIXME: This is slow, it can be improved by caching topic rev info and summary
     my $users = $this->{session}->{users};
 
-    # SMELL: we ought not to have to fake this. Topic object model, please!!
     my $topicObject = Foswiki::Meta->new( $this->{session}, $web, $topic );
     my $info = $topicObject->getRevisionInfo();
     my $tooltip = $this->{LINKTOOLTIPINFO};
@@ -509,9 +508,12 @@ sub _linkToolTipInfo {
     $tooltip =~ s/\$topic/<nop>$topic/g;
     $tooltip =~ s/\$rev/1.$info->{version}/g;
     $tooltip =~ s/\$date/Foswiki::Time::formatTime( $info->{date} )/ge;
-    $tooltip =~ s/\$username/$users->getLoginName($info->{author})/ge;
-    $tooltip =~ s/\$wikiname/$users->getWikiName($info->{author})/ge;
-    $tooltip =~ s/\$wikiusername/$users->webDotWikiName($info->{author})/ge;
+    $tooltip =~ s/\$username/
+      $users->getLoginName($info->{author}) || ''/ge;
+    $tooltip =~ s/\$wikiname/
+      $users->getWikiName($info->{author}) || ''/ge;
+    $tooltip =~ s/\$wikiusername/
+      $users->webDotWikiName($info->{author}) || ''/ge;
 
     if ( $tooltip =~ /\$summary/ ) {
         my $summary;
