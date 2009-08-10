@@ -166,6 +166,32 @@ my $data = [
 </customtag>
 BLAH
     },
+    {
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'NestedCustomXmlTagWithAttributes',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        html => '<p>'
+          . $protecton
+          . '&lt;customtag&gt;<br />&nbsp;&nbsp;formatting&nbsp;&gt;&nbsp;&nbsp;preserved<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;&lt;customtag&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;banana&nbsp;&lt;&nbsp;cheese&nbsp;&lt;&lt;&nbsp;Elephant;<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&amp;that<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;&lt;/customtag&gt;<br />'
+          . '&lt;/customtag&gt;'
+          . $protectoff . '</p>',
+        tml => <<BLAH,
+<customtag>
+  formatting >  preserved
+    <customtag>
+        banana < cheese << Elephant;
+        this&that
+    </customtag>
+</customtag>
+BLAH
+    },
 ];
 
 sub gen_compare_tests {
