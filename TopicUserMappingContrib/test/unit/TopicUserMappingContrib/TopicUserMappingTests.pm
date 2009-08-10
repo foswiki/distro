@@ -30,7 +30,7 @@ sub fixture_groups {
 
 sub NormalTopicUserMapping {
     my $this = shift;
-    $Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
+    $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
 }
 
@@ -38,7 +38,7 @@ sub NamedTopicUserMapping {
     my $this = shift;
 
     # Set a mapping ID for purposes of testing named mappings
-    $Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
+    $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
 }
 
