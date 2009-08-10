@@ -268,6 +268,9 @@ sub loadSession {
     my ( $this, $defaultUser, $pwchecker ) = @_;
     my $session = $this->{session};
 
+    $defaultUser = $Foswiki::cfg{DefaultUserLogin}
+      unless ( defined( $defaultUser ) );
+
     # Try and get the user from the webserver
     my $authUser = $this->getUser($this);
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
@@ -429,7 +432,7 @@ sub loadSession {
 
             $query->delete('logout');    #lets avoid infinite loops
             $this->redirectCgiQuery( $query, $redirectUrl );
-            $authUser = undef;
+            $authUser = $defaultUser;
         }
     }
     $query->delete('logout');
@@ -862,6 +865,18 @@ sub getSessionValues {
 
 =begin TML
 
+---++ ObjectMethod getCGISession()
+Get the currect CGI session object
+
+=cut
+
+sub getCGISession {
+    my $this = shift;
+    return $this->{_cgisession};
+}
+
+=begin TML
+
 ---++ ObjectMethod getSessionValue( $name ) -> $value
 
 Get the value of a session variable.
@@ -1001,7 +1016,7 @@ sub _LOGIN {
 
     #my( $session, $params, $topic, $web ) = @_;
     my $session = shift;
-    my $this    = $session->{users}->{loginManager};
+    my $this    = $session->getLoginManager();
 
     return '' if $session->inContext('authenticated');
 
@@ -1022,7 +1037,7 @@ sub _LOGIN {
 
 sub _LOGOUTURL {
     my ( $session, $params, $topic, $web ) = @_;
-    my $this = $session->{users}->{loginManager};
+    my $this = $session->getLoginManager();
 
     return $session->getScriptUrl(
         0, 'view',
@@ -1041,7 +1056,7 @@ sub _LOGOUTURL {
 
 sub _LOGOUT {
     my ( $session, $params, $topic, $web ) = @_;
-    my $this = $session->{users}->{loginManager};
+    my $this = $session->getLoginManager();
 
     return '' unless $session->inContext('authenticated');
 
@@ -1062,7 +1077,7 @@ sub _LOGOUT {
 
 sub _AUTHENTICATED {
     my ( $session, $params ) = @_;
-    my $this = $session->{users}->{loginManager};
+    my $this = $session->getLoginManager();
 
     if ( $session->inContext('authenticated') ) {
         return $params->{then} || 1;
@@ -1080,7 +1095,7 @@ sub _AUTHENTICATED {
 
 sub _CANLOGIN {
     my ( $session, $params ) = @_;
-    my $this = $session->{users}->{loginManager};
+    my $this = $session->getLoginManager();
     if ( $session->inContext('can_login') ) {
         return $params->{then} || 1;
     }
@@ -1097,7 +1112,7 @@ sub _CANLOGIN {
 
 sub _SESSION_VARIABLE {
     my ( $session, $params ) = @_;
-    my $this = $session->{users}->{loginManager};
+    my $this = $session->getLoginManager();
     my $name = $params->{_DEFAULT};
 
     if (defined $name) {
@@ -1127,7 +1142,7 @@ sub _SESSION_VARIABLE {
 
 sub _LOGINURL {
     my ( $session, $params ) = @_;
-    my $this = $session->{users}->{loginManager};
+    my $this = $session->{users}->getLoginManager();
     return $this->loginUrl();
 }
 

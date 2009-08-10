@@ -131,13 +131,14 @@ sub rest {
 
         my $cUID     = $session->{users}->getCanonicalUserID($login);
         my $WikiName = $session->{users}->getWikiName($cUID);
-        $session->{users}->{loginManager}->userLoggedIn( $login, $WikiName );
+        $session->{users}->getLoginManager()->userLoggedIn(
+            $login, $WikiName );
     }
 
     # Check that the REST script is authorised under the standard
     # {AuthScripts} contract
     try {
-        $session->{users}->{loginManager}->checkAccess();
+        $session->getLoginManager()->checkAccess();
     }
     catch Error with {
         my $e = shift;

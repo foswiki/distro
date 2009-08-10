@@ -1298,7 +1298,7 @@ s/$STARTWW(?:($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|
     $this->_putBackProtected( \$text, 'head',     $removed );
     $this->_putBackProtected( \$text, 'textarea', $removed );
 
-    $this->{session}->{users}->{loginManager}->endRenderingHandler($text);
+    $this->{session}->getLoginManager()->endRenderingHandler($text);
 
     $plugins->dispatch( 'postRenderingHandler', $text );
     return $text;

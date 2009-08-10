@@ -944,7 +944,7 @@ sub _validateRegistration {
     }
 
     # Check if login name matches expectations
-    unless ( $session->{users}->{loginManager}
+    unless ( $session->{users}->getLoginManager()
         ->isValidLoginName( $data->{LoginName} ) )
     {
         throw Foswiki::OopsException(

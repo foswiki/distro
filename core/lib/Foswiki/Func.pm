@@ -239,7 +239,7 @@ Session keys are stored and retrieved using =setSessionValue= and
 sub getSessionKeys {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $hash =
-      $Foswiki::Plugins::SESSION->{users}->{loginManager}->getSessionValues();
+      $Foswiki::Plugins::SESSION->getLoginManager()->getSessionValues();
     return keys %{$hash};
 }
 
@@ -258,7 +258,7 @@ sub getSessionValue {
     #   my( $key ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->{users}->{loginManager}
+    return $Foswiki::Plugins::SESSION->getLoginManager()
       ->getSessionValue(@_);
 }
 
@@ -278,7 +278,7 @@ sub setSessionValue {
     #   my( $key, $value ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    $Foswiki::Plugins::SESSION->{users}->{loginManager}->setSessionValue(@_);
+    $Foswiki::Plugins::SESSION->getLoginManager()->setSessionValue(@_);
 }
 
 =begin TML
@@ -295,7 +295,7 @@ Return: true if the session value was cleared
 sub clearSessionValue {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->{users}->{loginManager}
+    return $Foswiki::Plugins::SESSION->getLoginManager()
       ->clearSessionValue(@_);
 }
 

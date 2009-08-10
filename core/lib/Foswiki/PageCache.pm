@@ -105,7 +105,7 @@ sub genVariationKey {
   $variationKey .= ":language=$language" if $language;
 
   # get information from the session object 
-  my $sessionValues  = $session->{users}->{loginManager}->getSessionValues();
+  my $sessionValues  = $session->getLoginManager()->getSessionValues();
   foreach my $key (keys %$sessionValues) {
     # SMELL: docu this
     next if $key =~ /^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL)$/o;

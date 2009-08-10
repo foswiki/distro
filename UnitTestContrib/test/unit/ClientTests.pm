@@ -104,7 +104,7 @@ sub set_up_user {
 sub capture {
     my $this = shift;
     my ( $proc, $session ) = @_;
-    $session->{users}->{loginManager}->checkAccess();
+    $session->getLoginManager()->checkAccess();
     $this->SUPER::capture(@_);
 }
 
@@ -170,7 +170,7 @@ sub verify_edit {
 sub verify_sudo_login {
     my $this = shift;
 
-    unless ( $this->{session}->{users}->{loginManager}->can("login") ) {
+    unless ( $this->{session}->getLoginManager()->can("login") ) {
         return;
     }
     $this->{session}->finish();
@@ -189,7 +189,7 @@ sub verify_sudo_login {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
     $this->{session} = new Foswiki( undef, $query );
-    $this->{session}->{users}->{loginManager}
+    $this->{session}->getLoginManager()
       ->login( $query, $this->{session} );
     my $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
     my $surly =

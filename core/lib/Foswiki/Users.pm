@@ -123,17 +123,6 @@ sub new {
     $this->{cUID2Login}    = {};
     $this->{isAdmin}       = {};
 
-    # setup the cgi session, from a cookie or the url. this may return
-    # the login, but even if it does, plugins will get the chance to
-    # override (in Foswiki.pm)
-    # Must do this *after* the user mapping is defined, as it may check
-    # passwords.
-    $this->{remoteUser} =
-      $this->{loginManager}->loadSession( $session->{remoteUser}, $this );
-
-    $this->{remoteUser} = $Foswiki::cfg{DefaultUserLogin}
-      unless ( defined( $this->{remoteUser} ) );
-
     # the UI for rego supported/not is different from rego temporarily
     # turned off
     if ( $this->supportsRegistration() ) {
@@ -143,6 +132,28 @@ sub new {
     }
 
     return $this;
+}
+
+=begin TML
+
+---++ ObjectMethod loadSession()
+
+Setup the cgi session, from a cookie or the url. this may return
+the login, but even if it does, plugins will get the chance to
+override (in Foswiki.pm)
+
+=cut
+
+sub loadSession {
+    my ($this, $defaultUser) = @_;
+
+    # $this is passed in because it will be used to password check
+    # a command-line login. The {remoteUser} in the session will be
+    # whatever was passed in to the new Foswiki() call.
+    my $remoteUser =
+      $this->{loginManager}->loadSession( $defaultUser, $this );
+
+    return $remoteUser;
 }
 
 =begin TML
@@ -389,6 +400,32 @@ sub mapLogin2cUID {
 
 =begin TML
 
+---++ ObjectMethod getCGISession()
+Get the currect CGI session object
+
+=cut
+
+sub getCGISession {
+    my $this = shift;
+    return $this->{loginManager}->getCGISession();
+}
+
+=begin TML
+
+---++ ObjectMethod getLoginManager() -> $loginManager
+
+Get the Foswiki::LoginManager object associated with this session, if there is
+one. May return undef.
+
+=cut
+
+sub getLoginManager {
+    my $this = shift;
+    return $this->{loginManager};
+}
+
+=begin TML
+
 ---++ ObjectMethod getCanonicalUserID( $identifier ) -> $cUID
 
 Works out the Foswiki canonical user identifier for the user who either
@@ -413,6 +450,8 @@ Returns undef if the user does not exist.
 sub getCanonicalUserID {
     my ( $this, $identifier ) = @_;
     my $cUID;
+
+    ASSERT(defined $identifier) if DEBUG;
 
     # Someone we already know?
 

@@ -18,7 +18,6 @@ with CGI accelerators such as mod_perl.
    * =request=          Pointer to the Foswiki::Request
    * =response=         Pointer to the Foswiki::Respose
    * =context=          Hash of context ids
-   * moved: =loginManager=     Foswiki::LoginManager singleton (moved to Foswiki::Users)
    * =plugins=          Foswiki::Plugins singleton
    * =prefs=            Foswiki::Prefs singleton
    * =remoteUser=       Login ID when using ApacheLogin. Maintained for
@@ -1046,7 +1045,7 @@ sub redirect {
 
     # SMELL: this is a bad breaking of encapsulation: the loginManager
     # should just modify the url, then the redirect should only happen here.
-    return !$this->{users}->{loginManager}
+    return !$this->getLoginManager()
       ->redirectCgiQuery( $this->{request}, $url );
 }
 
@@ -1104,7 +1103,22 @@ one. May return undef.
 
 sub getCGISession {
     my $this = shift;
-    return $this->{users}->{loginManager}->{_cgisession};
+    return $this->{users}->getCGISession();
+}
+
+=begin TML
+
+---++ ObjectMethod getLoginManager() -> $loginManager
+
+Get the Foswiki::LoginManager object associated with this session, if there is
+one. May return undef.
+
+=cut
+
+sub getLoginManager {
+    my $this = shift;
+    ASSERT($this->{users}) if DEBUG;
+    return $this->{users}->getLoginManager();
 }
 
 =begin TML
@@ -1547,11 +1561,11 @@ sub new {
     ASSERT( !$@, $@ ) if DEBUG;
     $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new( $this );
 
-    # use login as a default (set when running from cmd line)
-    $this->{remoteUser} = $login;
-
     $this->{users}      = new Foswiki::Users($this);
-    $this->{remoteUser} = $this->{users}->{remoteUser};
+
+    # Load (or create) the CGI session
+    # use login as a default (set when running from cmd line)
+    $this->{remoteUser} = $this->{users}->loadSession($login);
 
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.

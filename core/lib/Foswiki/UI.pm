@@ -304,7 +304,7 @@ sub _execute {
         && $session->{response}->status() =~ /^\s*3\d\d/ )
     {
         try {
-            $session->{users}->{loginManager}->checkAccess();
+            $session->getLoginManager()->checkAccess();
             &$sub($session);
         }
         catch Foswiki::ValidationException with {
@@ -329,7 +329,7 @@ sub _execute {
         }
         catch Foswiki::AccessControlException with {
             my $e = shift;
-            unless ( $session->{users}->{loginManager}->forceAuthentication() )
+            unless ( $session->getLoginManager()->forceAuthentication() )
             {
 
                 # Login manager did not want to authenticate, perhaps because
@@ -422,7 +422,7 @@ sub logon {
         Foswiki::Validation::validate($session);
     }
     else {
-        $session->{users}->{loginManager}
+        $session->getLoginManager()
           ->login( $session->{request}, $session );
     }
 }
