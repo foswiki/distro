@@ -337,12 +337,10 @@ sub searchWeb {
     
 #END TODO
 
-    my $newLine   = $params{newline} || '';
     my $sortOrder = $params{order}   || '';
     my $revSort   = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
     my $searchString = defined $params{search} ? $params{search} : '';
-    my $separator = $params{separator};
     $params{includeTopics} = $params{topic} || '';
     $params{type}          = $params{type}  || '';
 
@@ -363,16 +361,6 @@ sub searchWeb {
     $baseWeb =~ s/\./\//go;
 
     $params{type} = 'regex' if ( $params{regex} );
-
-    my $mixedAlpha = $Foswiki::regex{mixedAlpha};
-    if ( defined($separator) ) {
-        $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
-        $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
-    }
-    if ($newLine) {
-        $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
-        $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
-    }
 
     my $searchResult = '';
 
@@ -613,13 +601,9 @@ sub searchWeb {
     return '' if ( $ttopics == 0 && $params{zeroresults} );
 
     if ( $formatDefined && !$finalTerm ) {
-        if ($separator) {
+	my $separator = $params{separator} || '';
             $separator = quotemeta($separator);
             $searchResult =~ s/$separator$//s;    # remove separator at end
-        }
-        else {
-            $searchResult =~ s/\n$//os;           # remove trailing new line
-        }
     }
 
     unless ($inline) {
@@ -785,6 +769,21 @@ sub formatResults {
     my $inline        = $params->{inline};
     my $limit         = $params->{limit} || '';
 
+    my $mixedAlpha = $Foswiki::regex{mixedAlpha};
+    my $newLine   = $params->{newline} || '';
+    if ($newLine) {
+        $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
+        $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
+    }
+    my $defaultSeparator = (not defined $params->{separator});
+    if ($defaultSeparator) {
+        $params->{separator} = "\n";
+    } else {
+        $params->{separator} =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
+        $params->{separator} =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
+    }
+
+
     my $searchResult = '';
 
     # Limit search results
@@ -820,11 +819,9 @@ sub formatResults {
     my $zeroResults =
       1 - Foswiki::isTrue( ( $params->{zeroresults} || 'on' ), $nonoise );
     my $noTotal = Foswiki::isTrue( $params->{nototal}, $nonoise );
-    my $newLine   = $params->{newline} || '';
     my $sortOrder = $params->{order}   || '';
     my $revSort   = Foswiki::isTrue( $params->{reverse} );
     my $scope     = $params->{scope}   || '';
-    my $separator = $params->{separator};
     my $topic     = $params->{topic}   || '';
     my $type      = $params->{type}    || '';
 
@@ -1013,15 +1010,14 @@ sub formatResults {
                 $out =~
                   s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                 $out =~ s/\r?\n/$newLine/gos if ($newLine);
-                if ( defined($separator) ) {
-                    $out .= $separator;
+                if ( not $defaultSeparator ) {
+                    $out .= $params->{separator};
                 }
                 else {
-
                     # add new line at end if needed
                     # SMELL: why?
                     #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
-                    unless ($noTotal && !$params->{formatdefined}) {
+                    unless ($noTotal && !$formatDefined) {
                         $out =~ s/([^\n])$/$1\n/s;
                     }
                 }

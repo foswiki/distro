@@ -23,6 +23,7 @@ test/unit/ExampleTests.pm 0644
 test/unit/ExceptionTests.pm 0644
 test/unit/ExtenderTests.pm 0644
 test/unit/Fn_ENCODE.pm 0644
+test/unit/Fn_FOREACH.pm 0644
 test/unit/Fn_FORMFIELD.pm 0644
 test/unit/Fn_GROUPS.pm 0644
 test/unit/Fn_IF.pm 0644
