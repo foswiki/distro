@@ -217,7 +217,7 @@ sub _getMapping {
     # The base user mapper users must always override those defined in
     # custom mappings, even though that makes it impossible to maintain 100%
     # compatibility with earlier releases (guest user edits will get saved as
-    # edits by BaseMapping_666).
+    # edits by $DEFAULT_USER_CUID).
     return $this->{basemapping}
       if ( $this->{basemapping}->handlesUser( $cUID, $login, $wikiname ) );
 

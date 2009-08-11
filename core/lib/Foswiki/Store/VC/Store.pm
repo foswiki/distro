@@ -41,7 +41,6 @@ use Foswiki::Meta    ();
 use Foswiki::Sandbox ();
 
 BEGIN {
-
     # Do a dynamic 'use locale' for this module
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -49,51 +48,19 @@ BEGIN {
     }
 }
 
-=begin TML
-
----++ ClassMethod new($session, $impl)
-
-Construct a VC::Store module, using the chosen handler ($impl) class.
-
-Do not construct a VC::Store directly; instead construct a subclass,
-such as Foswiki::Store::RcsWrap, which hides the handler implementation.
-
-=cut
-
-sub new {
-    my ( $class, $session, $impl ) = @_;
-    ASSERT($session) if DEBUG;
-    ASSERT($impl)    if DEBUG;
-
-    my $this = $class->SUPER::new($session);
-
-    $this->{IMPL} = $impl;
-    eval 'use ' . $this->{IMPL} . ' ()';
-    if ($@) {
-        die "$this->{IMPL} compile failed $@";
-    }
-
-    ASSERT( $this->{session} ) if DEBUG;
-    ASSERT( $this->{IMPL} )    if DEBUG;
-
-    return $this;
-}
-
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{IMPL};
     $this->SUPER::finish();
 }
 
-# PRIVATE
+# PACKAGE PRIVATE
 # Get a handler for the given object in the store.
 sub getHandler {
-    my ( $this, $web, $topic, $attachment ) = @_;
-    ASSERT( $this->{IMPL} ) if DEBUG;
-    return $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
+    #my ( $this, $web, $topic, $attachment ) = @_;
+    ASSERT( 0, "Must be implemented by subclasses") if DEBUG;
 }
 
 # Documented in Foswiki::Store
@@ -131,8 +98,7 @@ sub readTopic {
     # Add attachments that are new from reading the pub directory.
     # Only check the currently requested topic.
     if (   $Foswiki::cfg{RCS}{AutoAttachPubFiles}
-        && $topicObject->web   eq $this->{session}->{webName}
-        && $topicObject->topic eq $this->{session}->{topicName} )
+        && $topicObject->isSessionTopic() )
     {
 
         my @knownAttachments = $topicObject->find('FILEATTACHMENT');
@@ -148,7 +114,7 @@ sub readTopic {
                 $foundAttachment->{name} );
 
             if ( $fileName ne $origName ) {
-                $this->{session}->logger->log( 'warning',
+                $this->{logger}->log( 'warning',
                         'AutoAttachPubFiles ignoring '
                       . $origName . ' in '
                       . $topicObject->web . '.'
@@ -233,6 +199,7 @@ sub attachmentExists {
 # Documented in Foswiki::Store
 sub moveTopic {
     my ( $this, $oldTopicObject, $newTopicObject, $cUID ) = @_;
+    ASSERT($cUID) if DEBUG;
 
     my $handler =
       $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic, '' );
@@ -254,6 +221,7 @@ sub moveTopic {
 # Documented in Foswiki::Store
 sub moveWeb {
     my ( $this, $oldWebObject, $newWebObject, $cUID ) = @_;
+    ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler( $oldWebObject->web );
     $handler->moveWeb( $newWebObject->web );
@@ -289,7 +257,7 @@ sub getRevisionNumber {
 sub getWorkArea {
     my ( $this, $key ) = @_;
 
-    return $this->{IMPL}->getWorkArea($key);
+    return $this->getHandler()->getWorkArea($key);
 }
 
 # Documented in Foswiki::Store
@@ -459,7 +427,7 @@ sub lockTopic {
     while (1) {
         my ( $user, $time ) = $handler->isLocked();
         last if ( !$user || $cUID eq $user );
-        $this->{session}->logger->log( 'warning',
+        $this->{logger}->log( 'warning',
                 'Lock on '
               . $topicObject->web . '.'
               . $topicObject->topic . ' for '
@@ -470,7 +438,7 @@ sub lockTopic {
         # break it anyway. Locks are atomic, and should never be
         # held that long, by _any_ process.
         if ( time() - $time > 2 * 60 ) {
-            $this->{session}->logger->log( 'warning',
+            $this->{logger}->log( 'warning',
                     $cUID
                   . " broke ${user}s lock on "
                   . $topicObject->web . '.'
@@ -597,25 +565,25 @@ sub copyTopic {
 
 # Documented in Foswiki::Store
 sub searchInWebMetaData {
-    my ( $this, $query, $web, $inputTopicSet, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT($query);
     ASSERT(  UNIVERSAL::isa( $query, 'Foswiki::Query::Node' )
           || UNIVERSAL::isa( $query, 'Foswiki::Search::Node' ) );
 
     my $handler = $this->getHandler($web);
-    return $handler->searchInWebMetaData( $query, $web, $inputTopicSet, $this,
-        $options );
+    return $handler->searchInWebMetaData(
+        $query, $web, $inputTopicSet, $session, $options );
 }
 
 # Documented in Foswiki::Store
 sub searchInWebContent {
-    my ( $this, $searchString, $web, $topics, $options ) = @_;
+    my ( $this, $searchString, $web, $topics, $session, $options ) = @_;
 
     my $handler       = $this->getHandler($web);
     my $inputTopicSet = new Foswiki::ListIterator($topics);
 
-    return $handler->searchInWebContent( $searchString, $web, $inputTopicSet,
-        $this, $options );
+    return $handler->searchInWebContent(
+        $searchString, $web, $inputTopicSet, $session, $options );
 }
 
 # Documented in Foswiki::Store

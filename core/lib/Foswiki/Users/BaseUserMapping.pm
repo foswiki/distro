@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Users::BaseUserMapping
 
-User mapping is the process by which Foswiki maps from a username (a login name)
+User mapping is the process by which Foswiki maps from a username
+(a login name)
 to a display name and back. It is also where groups are maintained.
 
 The BaseMapper provides support for a small number of predefined users.
@@ -12,11 +13,12 @@ No registration - this is a read only usermapper. It uses the mapper
 prefix 'BaseUserMapping_'.
 
 ---++ Users
-   * $Foswiki::cfg{AdminUserLogin} - WikiAdmin - uses the password that was set in Configure (IF its not null)
+   * $Foswiki::cfg{AdminUserLogin} - uses the password that
+     was set in Configure (IF its not null)
    * $Foswiki::cfg{DefaultUserLogin} - WikiGuest
    * UnknownUser
-   * ProjectContributor - 1 Jan 2005
-   * $Foswiki::cfg{Register}{RegistrationAgentWikiName} - RegistrationAgent - 1 Jan 2005
+   * ProjectContributor
+   * $Foswiki::cfg{Register}{RegistrationAgentWikiName}
 
 ---+++ Groups
    * $Foswiki::cfg{SuperAdminGroup}
@@ -33,6 +35,11 @@ our @ISA = ('Foswiki::UserMapping');
 use Assert;
 use Error ();
 
+our $DEFAULT_USER_CUID = 'BaseUserMapping_666';
+our $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
+our %BASE_USERS;
+our %BASE_GROUPS;
+
 =begin TML
 
 ---++ ClassMethod new ($session)
@@ -46,60 +53,75 @@ Construct the BaseUserMapping object
 sub new {
     my ( $class, $session ) = @_;
 
+    # $DEFAULT_USER_CUID , $UNKNOWN_USER_CUID, %BASE_USERS and %BASE_GROUPS
+    # could be initialised statically, but tests have been written that rely
+    # on being able to override the $Foswiki::cfg settings that are part of
+    # them. Since it's a low cost op to re-initialise them each time this
+    # singleton is built, we will contiue to do so (at least until those
+    # tests have been revisited)
+    $DEFAULT_USER_CUID = 'BaseUserMapping_666';
+    $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
+    %BASE_USERS = (
+        BaseUserMapping_111 => {
+            login    => 'ProjectContributor',
+            wikiname => 'ProjectContributor',
+        },
+        BaseUserMapping_222 => {
+            login    => $Foswiki::cfg{Register}{RegistrationAgentWikiName},
+            wikiname => $Foswiki::cfg{Register}{RegistrationAgentWikiName},
+        },
+        BaseUserMapping_333 => {
+            login    => $Foswiki::cfg{AdminUserLogin},
+            wikiname => $Foswiki::cfg{AdminUserWikiName},
+            email    => $Foswiki::cfg{WebMasterEmail},
+            password => $Foswiki::cfg{Password},
+        },
+        $DEFAULT_USER_CUID => {
+            login    => $Foswiki::cfg{DefaultUserLogin},
+            wikiname => $Foswiki::cfg{DefaultUserWikiName},
+        },
+        $UNKNOWN_USER_CUID => {
+            login    => 'unknown',
+            wikiname => 'UnknownUser',
+        }
+       );
+    %BASE_GROUPS = (
+        $Foswiki::cfg{SuperAdminGroup} => [
+            # Registration agent is there so registration can still take
+            # place on an otherwise locked down USERSWEB
+            'BaseUserMapping_333', 'BaseUserMapping_222'
+           ],
+        BaseGroup => [
+            'BaseUserMapping_333',
+            $DEFAULT_USER_CUID,
+            $UNKNOWN_USER_CUID,
+            'BaseUserMapping_111',
+            'BaseUserMapping_222',  ]
+       );
+
     my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );
-    $Foswiki::cfg{Register}{RegistrationAgentWikiName} |= 'RegistrationAgent';
+    $Foswiki::cfg{Register}{RegistrationAgentWikiName} ||= 'RegistrationAgent';
 
     # set up our users
-    $this->{L2U} = {
-        $Foswiki::cfg{AdminUserLogin}   => $this->{mapping_id} . '333',
-        $Foswiki::cfg{DefaultUserLogin} => $this->{mapping_id} . '666',
-        unknown                         => $this->{mapping_id} . '999',
-        ProjectContributor              => $this->{mapping_id} . '111',
-        $Foswiki::cfg{Register}{RegistrationAgentWikiName} =>
-          $this->{mapping_id} . '222'
-    };
-    $this->{U2L} = {
-        $this->{mapping_id} . '333' => $Foswiki::cfg{AdminUserLogin},
-        $this->{mapping_id} . '666' => $Foswiki::cfg{DefaultUserLogin},
-        $this->{mapping_id} . '999' => 'unknown',
-        $this->{mapping_id} . '111' => 'ProjectContributor',
-        $this->{mapping_id}
-          . '222' => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
-    };
-    $this->{U2W} = {
-        $this->{mapping_id} . '333' => $Foswiki::cfg{AdminUserWikiName},
-        $this->{mapping_id} . '666' => $Foswiki::cfg{DefaultUserWikiName},
-        $this->{mapping_id} . '999' => 'UnknownUser',
-        $this->{mapping_id} . '111' => 'ProjectContributor',
-        $this->{mapping_id}
-          . '222' => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
-    };
-    $this->{W2U} = {
-        $Foswiki::cfg{AdminUserWikiName}   => $this->{mapping_id} . '333',
-        $Foswiki::cfg{DefaultUserWikiName} => $this->{mapping_id} . '666',
-        UnknownUser                        => $this->{mapping_id} . '999',
-        ProjectContributor                 => $this->{mapping_id} . '111',
-        $Foswiki::cfg{Register}{RegistrationAgentWikiName} =>
-          $this->{mapping_id} . '222'
-    };
-    $this->{U2E} =
-      { $this->{mapping_id} . '333' => $Foswiki::cfg{WebMasterEmail} };
-    $this->{L2P} = { $Foswiki::cfg{AdminUserLogin} => $Foswiki::cfg{Password} };
+    $this->{L2U} = {}; # login 2 cUID
+    $this->{U2L} = {}; # cUID 2 login
+    $this->{W2U} = {}; # wikiname 2 cUID
+    $this->{U2W} = {}; # cUID 2 wikiname
+    $this->{U2E} = {}; # cUID 2 email
+    $this->{L2P} = {}; # login 2 password
 
-    $this->{GROUPS} = {
-        $Foswiki::cfg{SuperAdminGroup} => [
-            $this->{mapping_id} . '333',
-            $this->{mapping_id}
-              . '222' #so registration can still take place on an otherwise locked down USERSWEB
-        ],
-        BaseGroup => [
-            $this->{mapping_id} . '333',
-            $this->{mapping_id} . '666',
-            $this->{mapping_id} . '999',
-            $this->{mapping_id} . '111',
-            $this->{mapping_id} . '222'
-        ],
+    while (my ($k, $v) = each %BASE_USERS) {
+        $this->{U2L}->{$k} = $v->{login};
+        $this->{U2W}->{$k} = $v->{wikiname};
+        $this->{U2E}->{$k} = $v->{email} if defined $v->{email};
+
+        $this->{L2U}->{$v->{login}} = $k;
+        $this->{L2P}->{$v->{login}} = $v->{password} if defined $v->{password};
+
+        $this->{W2U}->{$v->{wikiname}} = $k;
     };
+
+    %{$this->{GROUPS}} = %BASE_GROUPS;
 
     return $this;
 }

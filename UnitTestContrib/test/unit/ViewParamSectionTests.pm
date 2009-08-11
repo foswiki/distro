@@ -48,7 +48,7 @@ sub _viewSection {
     $this->{request}->path_info('TestCases/IncludeFixtures');
 
     $this->{request}->param( '-name' => 'section', '-value' => $section );
-    my ( $text, $result ) = $this->capture( $UI_FN, $fatwilly );
+    my ($text) = $this->capture( $UI_FN, $fatwilly );
     $text =~ s/(.*?)\r?\n\r?\n//s;
 
     return ($text);

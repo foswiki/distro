@@ -808,7 +808,7 @@ THIS
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $result ) =
+    my ($text) =
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/s, $text );
@@ -983,9 +983,8 @@ CONTENT
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $exit ) =
+    my ($text) =
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
-    $this->assert( !$exit );
     $this->assert(
         Foswiki::Func::webExists("$this->{test_web}/Notrenamedweb/Renamedweb")
     );
@@ -1059,9 +1058,8 @@ EOF
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $exit ) =
+    my ($text) =
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
-    $this->assert( !$exit );
     $this->assert(
         Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}")
     );
@@ -1119,7 +1117,7 @@ sub test_rename_attachment {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $result ) =
+    my ($text) =
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
@@ -1164,7 +1162,7 @@ sub test_rename_attachment_not_in_meta {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $result ) =
+    my ($text) =
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
@@ -1205,9 +1203,9 @@ sub test_rename_attachment_no_dest_topic {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     try {
-        my ( $text, $result ) =
+        my ($text) =
           $this->captureWithKey( rename => $UI_FN, $this->{session} );
-        $this->assert( 0, "$result $text" );
+        $this->assert( 0, $text );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
@@ -1263,7 +1261,7 @@ sub test_rename_attachment_not_on_disc {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ( $text, $result ) =
+    my ($text) =
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );

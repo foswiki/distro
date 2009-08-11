@@ -73,6 +73,7 @@ our %deprecated = (
     insidePREHandler      => 1,
     endRenderingHandler   => 1,
     writeHeaderHandler    => 1,
+    redirectCgiQueryHandler => 1,
 );
 
 =begin TML

@@ -160,6 +160,8 @@ sub registerUser {
 }
 
 # Look up the switchboard to get the function for a specific script
+# NOTE: there is NO POINT in checking the exit status from a capture
+# of one of these functions. It will just be some random string.
 sub getUIFn {
     my $this   = shift;
     my $script = shift;

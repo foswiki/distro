@@ -22,12 +22,11 @@ use strict;
 use Foswiki::Store::VC::Store ();
 our @ISA = ('Foswiki::Store::VC::Store');
 
-# This constructor is required to hide the =Foswiki::Store::RcsWrapHandler=
-# class during construction, so that the core can simply say "give me a new
-# XXX store" without having to pass additional parameters.
-sub new {
-    my ( $class, $session ) = @_;
-    return $class->SUPER::new( $session, 'Foswiki::Store::VC::RcsWrapHandler' );
+use Foswiki::Store::VC::RcsWrapHandler ();
+
+sub getHandler {
+    my ( $this, $web, $topic, $attachment ) = @_;
+    return new Foswiki::Store::VC::RcsWrapHandler( $web, $topic, $attachment );
 }
 
 1;

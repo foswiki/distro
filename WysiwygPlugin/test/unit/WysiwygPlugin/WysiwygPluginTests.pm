@@ -100,20 +100,18 @@ sub save_test {
     $Foswiki::Plugins::SESSION->{response}->charset($charset) if $charset;
 
     require Foswiki::UI::Save;
-    my ( $dummy, $result ) = $this->captureWithKey(
+    $this->captureWithKey(
         save => sub {
             no strict 'refs';
-            my $ok = &$UI_FN($Foswiki::Plugins::SESSION);
+            &$UI_FN($Foswiki::Plugins::SESSION);
             use strict 'refs';
             $Foswiki::engine->finalize(
                 $Foswiki::Plugins::SESSION->{response},
                 $Foswiki::Plugins::SESSION->{request}
             );
-            return $ok;
         }
     );
 
-    $this->assert( !$result, $result );
     my ( $meta, $out ) =
       Foswiki::Func::readTopic( $this->{test_web}, 'WysiwygPluginTest' );
 

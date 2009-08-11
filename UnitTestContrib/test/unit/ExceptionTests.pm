@@ -85,7 +85,7 @@ sub upchuck {
 sub deprecated_test_redirectOopsException {
     my $this = shift;
     my $t    = new Foswiki();
-    my ( $output, $result ) = $this->capture( \&upchuck, $t );
+    my ($output) = $this->capture( \&upchuck, $t );
     $t->finish();
     $this->assert_matches( qr/^Status: 302.*$/m, $output );
     $this->assert_matches(
@@ -120,7 +120,7 @@ sub test_oopsScript {
         }
     );
     my $session = new Foswiki( undef, $query );
-    my ( $output, $result ) =
+    my ($output) =
       $this->capture( $UI_FN, $session, "Flum", "DeDum", $query, 0 );
     $this->assert_matches( qr/^phlegm$/m,           $output );
     $this->assert_matches( qr/^&#60;pus&#62;$/m,    $output );

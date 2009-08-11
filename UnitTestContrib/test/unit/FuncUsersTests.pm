@@ -48,8 +48,8 @@ sub DontAllowLoginName {
     $loginname{UserB}                       = 'UserB';
     $loginname{UserC}                       = 'UserC';
     $loginname{NonExistantuser}             = 'NonExistantuser';
-    $loginname{ScumBag}                     = 'scum'
-      ;   #the scum user was registered _before_ these options in the base class
+    $loginname{ScumBag}                     = 'scum';
+    #the scum user was registered _before_ these options in the base class
     $loginname{UserZ} = 'UserZ';
 
     $loginname{DotLogin}   = 'DotLogin';
@@ -127,6 +127,7 @@ sub set_up_for_verify {
     try {
         $this->registerUser( $loginname{UserA}, 'User', 'A',
             'user@example.com' );
+
         $this->registerUser( $loginname{UserA86}, 'User', 'A86',
             'user86@example.com' );
         $this->registerUser( $loginname{User86A}, 'User86', 'A',
@@ -906,7 +907,7 @@ sub verify_getWikiUserName_extended {
 #            $this->registerUser('user862a', 'User', '86A', 'user862a@example.com');
 #            $this->registerUser('86usera', '86User', 'A', 'user86a@example.com');
 
-#TODO: consider how to render unkown user's
+#TODO: consider how to render unknown users
 #my $AandBGroup_cUID = $this->{session}->{users}->getCanonicalUserID('AandBGroup');
 #$this->annotate($AandBGroup_cUID);
 #$this->assert_str_equals($Foswiki::cfg{UsersWebName}.'.'.'AandBGroup', Foswiki::Func::getWikiUserName($AandBGroup_cUID));
@@ -970,7 +971,6 @@ sub verify_wikiToUserName_extended {
     );
 
     return if ( $this->noUsersRegistered() );
-
     my $usera_cUID =
       $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
     $this->assert_str_equals( $loginname{UserA},

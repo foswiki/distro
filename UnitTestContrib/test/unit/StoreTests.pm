@@ -209,7 +209,8 @@ sub test_moveTopic {
 
     $this->{session}->{store}->moveTopic(
         Foswiki::Meta->new( $this->{session}, $web, $topic ),
-        Foswiki::Meta->new( $this->{session}, $web, 'TopicMovedToHere' )
+        Foswiki::Meta->new( $this->{session}, $web, 'TopicMovedToHere' ),
+        $this->{test_user_cuid}
     );
 
     #compare number of refering topics?

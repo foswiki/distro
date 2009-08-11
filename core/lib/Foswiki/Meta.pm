@@ -313,6 +313,23 @@ sub getPath {
 
 =begin TML
 
+---++ ObjectMethod isSessionTopic() -> $boolean
+Return true if this object refers to the session topic
+
+=cut
+
+sub isSessionTopic {
+    my $this = shift;
+    return 0 unless defined $this->{_web}
+      && defined $this->{_topic}
+        && defined $this->{_session}->{webName}
+          && defined $this->{_session}->{topicName};
+    return $this->{_web} eq $this->{_session}->{webName}
+      && $this->{_topic} eq $this->{_session}->{topicName};
+}
+
+=begin TML
+
 ---++ ObjectMethod getPreference( $key ) -> $value
 
 Get a preferences value for a preference defined in the object. Note that
@@ -546,8 +563,8 @@ sub searchInText {
         my @list = $it->all();
         $topics = \@list;
     }
-    return $this->{_session}->{store}
-      ->searchInWebContent( $searchString, $this->{_web}, $topics, $options );
+    return $this->{_session}->{store}->searchInWebContent(
+        $searchString, $this->{_web}, $topics, $this->{_session}, $options );
 }
 
 =begin TML
@@ -563,8 +580,8 @@ Returns an Foswiki::Search::InfoCache iterator
 
 sub query {
     my ( $this, $query, $inputTopicSet, $options ) = @_;
-    return $this->{_session}->{store}
-      ->searchInWebMetaData( $query, $this->{_web}, $inputTopicSet, $options );
+    return $this->{_session}->{store}->searchInWebMetaData(
+        $query, $this->{_web}, $inputTopicSet, $this->{_session}, $options );
 }
 
 =begin TML
@@ -699,7 +716,8 @@ sub reload {
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
 
-#SMELL: removed see getLoadedRevision - should remove any non-numeric rev's (like the $rev stuff from svn)
+    # SMELL: removed see getLoadedRevision - should remove any
+    # non-numeric rev's (like the $rev stuff from svn)
     $this->{_preferences}->finish() if defined $this->{_preferences};
     $this->{_preferences} = undef;
 
@@ -2019,6 +2037,7 @@ sub attach {
         $opts{tmpFilename} = $opts{file};
     }
 
+    $this->reload();
     my $attrs;
     if ( $opts{stream} ) {
         $action = 'upload';
@@ -2542,7 +2561,8 @@ sub _writeTypes {
             my $name = $item->{name};
             if ($name) {
 
-      # If there's a name field, put first to make regexp based searching easier
+                # If there's a name field, put first to make regexp
+                # based searching easier
                 $text .= _writeKeyValue( 'name', $item->{name} );
                 $sep = ' ';
             }

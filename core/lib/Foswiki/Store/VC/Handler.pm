@@ -36,7 +36,7 @@ use Foswiki::Sandbox ();
 
 =begin TML
 
----++ ClassMethod new($session, $web, $topic, $attachment)
+---++ ClassMethod new($web, $topic, $attachment)
 
 Constructor. There is one object per stored file.
 
@@ -45,26 +45,21 @@ Note that $web, $topic and $attachment must be untainted!
 =cut
 
 sub new {
-    my ( $class, $session, $web, $topic, $attachment ) = @_;
-    my $this = bless( { session => $session }, $class );
-
-    $this->{web} = $web;
+    my ( $class, $web, $topic, $attachment ) = @_;
+    my $this = bless( {
+        web => $web, topic => $topic, attachment => $attachment }, $class );
 
     if ( $web && $topic ) {
         my $rcsSubDir = ( $Foswiki::cfg{RCS}{useSubDir} ? '/RCS' : '' );
 
-        $this->{topic} = $topic;
-
         if ($attachment) {
-            $this->{attachment} = $attachment;
-
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/' 
+                $Foswiki::cfg{PubDir} . '/'
               . $web . '/'
               . $this->{topic} . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/' 
+                $Foswiki::cfg{PubDir} . '/'
               . $web . '/' 
               . $topic
               . $rcsSubDir . '/'
@@ -75,7 +70,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/' 
+                $Foswiki::cfg{DataDir} . '/'
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -107,7 +102,6 @@ sub finish {
     undef $this->{topic};
     undef $this->{attachment};
     undef $this->{searchFn};
-    undef $this->{session};
 }
 
 # Used in subclasses for late initialisation during object creation
@@ -181,12 +175,11 @@ if file-based rev info is required.
 
 sub getRevisionInfo {
     my ($this) = @_;
-
+    require Foswiki::Users::BaseUserMapping;
     return {
         version => 1,
         date    => $this->getTimestamp(),
-        author  => $this->{session}->{users}
-          ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} ),
+        author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
         comment => 'Default revision information',
     };
 }
@@ -221,7 +214,7 @@ sub getLatestRevisionTime {
 
 =begin TML
 
----+++ ClassMethod getWorkArea( $key ) -> $directorypath
+---+++ ObjectMethod getWorkArea( $key ) -> $directorypath
 
 Gets a private directory uniquely identified by $key. The directory is
 intended as a work area for plugins.
@@ -232,7 +225,7 @@ $Foswiki::cfg{WorkingDir}/work_areas
 =cut
 
 sub getWorkArea {
-    my ( $class, $key ) = @_;
+    my ( $this, $key ) = @_;
 
     # untaint and detect nasties
     $key = Foswiki::Sandbox::normalizeFileName($key);
@@ -301,7 +294,7 @@ sub getWebNames {
 
 =begin TML
 
----++ ObjectMethod searchInWebContent($searchString, $web, $inputTopicSet, \%options ) -> \%map
+---++ ObjectMethod searchInWebContent($searchString, $web, $inputTopicSet, $session, \%options ) -> \%map
 
 Search for a string in the content of a web. The search must be over all
 content and all formatted meta-data, though the latter search type is
@@ -310,6 +303,8 @@ deprecated (use queries instead).
    * =$searchString= - the search string, in egrep format if regex
    * =$web= - The web to search in
    * =\@topics= - reference to a list of topics to search
+   * =$session= - the Foswiki session object that provides the context of this
+     search
    * =\%options= - reference to an options hash
 The =\%options= hash may contain the following options:
    * =type= - if =regex= will perform a egrep-syntax RE search (default '')
@@ -325,27 +320,32 @@ match per topic, and will not return matching lines).
 =cut
 
 sub searchInWebContent {
-    my ( $this, $searchString, $web, $inputTopicSet, $store, $options ) = @_;
+    my ( $this, $searchString, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT( defined $options ) if DEBUG;
 
     unless ( $this->{searchFn} ) {
         eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
-        die
-"Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
-          if $@;
+        die <<BADALG if $@;
+Bad {Store}{SearchAlgorithm}; suggest you run configure and select
+a different algorithm
+$@
+BADALG
         $this->{searchFn} = $Foswiki::cfg{Store}{SearchAlgorithm} . '::search';
+        die <<NOQUERY unless eval "defined &$this->{searchFn}";
+Bad {Store}{SearchAlgorithm}; no search method. Suggest you run
+configure and select a different algorithm
+NOQUERY
     }
 
     no strict 'refs';
     return &{ $this->{searchFn} }(
-        $searchString, $web, $inputTopicSet, $store, $options, $Foswiki::sandbox
-    );
+        $searchString, $web, $inputTopicSet, $session, $options );
     use strict 'refs';
 }
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, $inputTopicSet, $store) -> $outputTopicSet
+---++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, $session, \%options) -> $outputTopicSet
 
 Search for a meta-data expression in the content of a web. =$query= must
 be a =Foswiki::*::Node= object.
@@ -360,7 +360,7 @@ TODO: needs a rename.
 =cut
 
 sub searchInWebMetaData {
-    my ( $this, $query, $web, $inputTopicSet, $store, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
 
     my $engine;
     if ( $options->{type} eq 'query' ) {
@@ -386,7 +386,7 @@ sub searchInWebMetaData {
     }
 
     no strict 'refs';
-    return &{$engine}( $query, $web, $inputTopicSet, $store, $options );
+    return &{$engine}( $query, $web, $inputTopicSet, $session, $options );
     use strict 'refs';
 }
 
@@ -535,7 +535,7 @@ sub moveTopic {
 
     # Move data file
     my $new =
-      new Foswiki::Store::VC::Handler( $this->{session}, $newWeb, $newTopic, '' );
+      new Foswiki::Store::VC::Handler( $newWeb, $newTopic, '' );
     _moveFile( $this->{file}, $new->{file} );
 
     # Move history
@@ -568,7 +568,7 @@ sub copyTopic {
     my $oldTopic = $this->{topic};
 
     my $new =
-      new Foswiki::Store::VC::Handler( $this->{session}, $newWeb, $newTopic, '' );
+      new Foswiki::Store::VC::Handler( $newWeb, $newTopic, '' );
 
     _copyFile( $this->{file}, $new->{file} );
     if ( -e $this->{rcsFile} ) {
@@ -580,8 +580,8 @@ sub copyTopic {
         for my $att ( grep { !/^\./ } readdir $dh ) {
             $att = Foswiki::Sandbox::untaintUnchecked($att);
             my $oldAtt =
-              new Foswiki::Store::VC::Handler( $this->{session}, $this->{web},
-                $this->{topic}, $att );
+              new Foswiki::Store::VC::Handler(
+                  $this->{web}, $this->{topic}, $att );
             $oldAtt->copyAttachment( $newWeb, $newTopic );
         }
 
@@ -602,8 +602,7 @@ sub moveAttachment {
 
     # FIXME might want to delete old directories if empty
     my $new =
-      Foswiki::Store::VC::Handler->new( $this->{session}, $newWeb, $newTopic,
-        $newAttachment );
+      Foswiki::Store::VC::Handler->new( $newWeb, $newTopic, $newAttachment );
 
     _moveFile( $this->{file}, $new->{file} );
 
@@ -628,8 +627,7 @@ sub copyAttachment {
     my $attachment = $this->{attachment};
 
     my $new =
-      Foswiki::Store::VC::Handler->new( $this->{session}, $newWeb, $newTopic,
-        $attachment );
+      Foswiki::Store::VC::Handler->new( $newWeb, $newTopic, $attachment );
 
     _copyFile( $this->{file}, $new->{file} );
 
@@ -1183,13 +1181,14 @@ sub hidePath {
 =begin TML
 
 ---++ ObjectMethod recordChange($cUID, $rev, $more)
-Record that the file changed
+Record that the file changed, and who changed it
 
 =cut
 
 sub recordChange {
     my ( $this, $cUID, $rev, $more ) = @_;
     $more ||= '';
+    ASSERT($cUID) if DEBUG;
 
     my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
     return unless ( !-e $file || -w $file );    # no point if we can't write it
@@ -1208,9 +1207,7 @@ sub recordChange {
     }
 
     # Add the new change to the end of the file
-    # SMELL: this ought to store the cUID
-    my $wikiname = $this->{session}->{users}->getWikiName($cUID);
-    push( @changes, [ $this->{topic}, $wikiname, time(), $rev, $more ] );
+    push( @changes, [ $this->{topic}, $cUID, time(), $rev, $more ] );
     my $text = join( "\n", map { join( "\t", @$_ ); } @changes );
 
     saveFile( $this, $file, $text );

@@ -997,9 +997,8 @@ sub test_addform {
     $query->method('POST');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
-        my ( $text, $result ) =
+        my ($text) =
           $this->captureWithKey( save => $UI_FN, $this->{session} );
-        $this->assert( !$result, $result );
         $this->assert_matches( qr/input value="TestForm1" name="formtemplate"/,
             $text );
         $this->assert_matches( qr/value="TestForm2" name="formtemplate"/,
@@ -1028,7 +1027,7 @@ sub test_get {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
 
     try {
-        my ( $text, $result ) =
+        my ($text) =
           $this->captureWithKey( save => $UI_FN, $this->{session} );
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
     }

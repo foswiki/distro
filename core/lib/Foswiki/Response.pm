@@ -340,6 +340,8 @@ Gets/Sets response cookies. Parameter, if passed, *must* be an arrayref.
 
 Elements may be CGI::Cookie objects or raw cookie strings.
 
+WARNING: cookies set this way are *not* passed in redirects.
+
 =cut
 
 sub cookies {

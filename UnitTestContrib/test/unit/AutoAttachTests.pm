@@ -35,7 +35,6 @@ sub set_up_topic {
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic, $text );
     $topicObject->save();
-
 }
 
 # We create a topic with a missing attachment
@@ -105,6 +104,7 @@ sub test_autoattach {
     $this->set_up_topic($topic);
     $this->verify_normal_attachment( $topic, "afile.txt" );
     $this->verify_normal_attachment( $topic, "bfile.txt" );
+
     $this->addMissingAttachment( $topic, 'bogusAttachment.txt',
         "I'm a figment of Foswiki's imagination" );
     $this->addMissingAttachment( $topic, 'ressurectedComment.txt',

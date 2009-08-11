@@ -59,7 +59,7 @@ sub test_endPoint {
     $this->{session}->finish();
     $query->method('post');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
-    my ($text, $result) = $this->capture( $UI_FN, $this->{session} );
+    my ($text) = $this->capture( $UI_FN, $this->{session} );
     $this->assert_matches(qr#^Status: 302#m, $text);
     $this->assert_matches(qr#^Location:.*/this/that\s*$#m, $text);
 }

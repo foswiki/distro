@@ -65,15 +65,17 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new($session)
+---++ ClassMethod new($logger)
 
 Construct a Store module.
+
+$logger is an object that implements Foswiki::Logger.
 
 =cut
 
 sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
+    my ( $class, $logger ) = @_;
+    my $this = bless( { logger => $logger }, $class );
     return $this;
 }
 
@@ -89,7 +91,7 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{session};
+    undef $this->{logger};
 }
 
 =begin TML
@@ -618,7 +620,7 @@ sub copyTopic {
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, \%options) -> $outputTopicSet
+---++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, $session, \%options) -> $outputTopicSet
 
 Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
 
@@ -627,13 +629,13 @@ Returns an Foswiki::Search::InfoCache iterator
 =cut
 
 sub searchInWebMetaData {
-    my( $this, $query, $web, $inputTopicSet, $options ) = @_;
+    my( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
     die "Abstract base class";
 }
 
 =begin TML
 
----++ ObjectMethod searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
+---++ ObjectMethod searchInWebContent($searchString, $web, \@topics, $session, \%options ) -> \%map
 
 Search for a string in the content of a web. The search must be over all
 content and all formatted meta-data, though the latter search type is
@@ -642,6 +644,8 @@ deprecated (use queries instead).
    * =$searchString= - the search string, in egrep format if regex
    * =$web= - The web to search in
    * =\@topics= - reference to a list of topics to search
+   * =$session= - the session object that provides the context of this
+     search.
    * =\%options= - reference to an options hash
 The =\%options= hash may contain the following options:
    * =type= - if =regex= will perform a egrep-syntax RE search (default '')
@@ -656,10 +660,12 @@ match per topic, and will not return matching lines).
 
 DEPRECATED: this is the old way to search, and should not be used in new code.
 
+SMELL: it's all very well saying that, but what else are you supposed to use?
+
 =cut
 
 sub searchInWebContent {
-    my( $this, $searchString, $web, $topics, $options ) = @_;
+    my( $this, $searchString, $web, $topics, $session, $options ) = @_;
     die "Abstract base class";
 }
 

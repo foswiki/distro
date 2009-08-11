@@ -67,14 +67,14 @@ sub run_testcase {
       Foswiki::Meta->new( $this->{session}, $this->{users_web},
         'ProjectContributor', 'none' );
     $topicObject->save();
-    my ( $text, $result ) = $this->capture( $VIEW_UI_FN, $wiki );
+    my ($text) = $this->capture( $VIEW_UI_FN, $wiki );
 
     unless ( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
         open( F, ">${testcase}_run.html" );
         print F $text;
         close F;
         $query->delete('test');
-        ( $text, $result ) = $this->capture( $VIEW_UI_FN, $wiki );
+        ($text) = $this->capture( $VIEW_UI_FN, $wiki );
         open( F, ">${testcase}.html" );
         print F $text;
         close F;

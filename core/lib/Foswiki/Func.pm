@@ -1179,7 +1179,22 @@ sub eachChangeSince {
     ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
 
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-    return $webObject->eachChange($time);
+
+    # eachChange returns changes with cUIDs. these have to be mapped
+    # to wikinames per the Foswiki::Func 'spec' (changes used to be stored
+    # with wikinames)
+    require Foswiki::Iterator::ProcessIterator;
+    require Foswiki::Users::BaseUserMapping;
+    return new Foswiki::Iterator::ProcessIterator(
+        $webObject->eachChange($time),
+        sub {
+            my $n = shift;
+            $n->{user} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
+              unless defined $n->{user};
+            $n->{user} = $Foswiki::Plugins::SESSION->{users}->getWikiName(
+                $n->{user} );
+            return $n;
+        });
 }
 
 =begin TML
@@ -2347,6 +2362,9 @@ foreach my $topic (keys %$result ) {
 
 =cut
 
+# Note: this function used to be a direct caller of Store::searchInWebContent,
+# which is no longer the case, but this explains the naming overlap even
+# though the function definitions are quite different.
 sub searchInWebContent {
 
     my ( $searchString, $web, $topics, $options ) = @_;

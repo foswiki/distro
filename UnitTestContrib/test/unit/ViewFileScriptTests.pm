@@ -135,7 +135,7 @@ sub viewfile {
     $fatwilly = new Foswiki( $this->{test_user_login}, $query );
     $this->{request}  = $query;
     $this->{response} = new Unit::Response();
-    my ( $text, $result ) = $this->capture(
+    my ($text) = $this->capture(
         sub {
             try {
                 no strict 'refs';
@@ -150,11 +150,9 @@ sub viewfile {
         }
     );
 
-    #print STDERR "HUH $fatwilly->{response}->{body}\n>$text<>$result<\n";
     $fatwilly->finish();
-    1 if $UI_FN;
-
-    return $result;
+    $text =~ s/^.*\r\n//s;
+    return $text;
 }
 
 sub test_simpleUrl {

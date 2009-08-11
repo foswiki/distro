@@ -423,9 +423,10 @@ sub loadSession {
                 $redirectUrl = $session->{request}->referer();
             }
 
-            $session->{request}->delete('logout');    #lets avoid infinite loops
-            $this->redirectCgiQuery( $session->{request}, $redirectUrl );
+            #lets avoid infinite loops
+            $session->{request}->delete('logout');
             $authUser = $defaultUser;
+            $session->redirect($redirectUrl, 0);
         }
     }
     $session->{request}->delete('logout');

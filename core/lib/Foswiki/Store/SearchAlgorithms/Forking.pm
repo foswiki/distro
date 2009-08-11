@@ -12,7 +12,7 @@ use Foswiki::Search::InfoCache;
 
 Forking implementation of the RCS cache search.
 
----++ search($searchString, $inputTopicSet, $options, $sDir) -> \%seen
+---++ search($searchString, $inputTopicSet, $session, $options) -> \%seen
 Search .txt files in $dir for $searchString. See RcsFile::searchInWebContent
 for details.
 
@@ -21,7 +21,7 @@ DEPRECATED
 =cut
 
 sub search {
-    my ( $searchString, $web, $inputTopicSet, $store, $options ) = @_;
+    my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
 
     # Default (Forking) search
 
@@ -121,12 +121,14 @@ sub search {
     return \%seen;
 }
 
-=TML
+=begin TML
+
 this is the new way -
+
 =cut
 
 sub query {
-    my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
+    my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
 
     # default scope is 'text'
@@ -179,7 +181,8 @@ sub query {
         # scope='text', e.g. grep search on topic text:
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
-            $textMatches = search( $token, $web, $topicSet, $store, $options );
+            $textMatches = search(
+                $token, $web, $topicSet, $session, $options );
         }
 
         #bring the text matches into the topicMatch hash

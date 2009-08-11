@@ -45,7 +45,7 @@ sub new {
 
 =begin TML
 
----++ ObjectMethod forceAuthentication () -> boolean
+---++ ObjectMethod forceAuthentication () -> $boolean
 
 method called when authentication is required - redirects to (...|view)auth
 Triggered on auth fail
@@ -64,11 +64,12 @@ sub forceAuthentication {
         my $topic   = $session->{topicName};
         my $web     = $session->{webName};
         my $url     = $session->getScriptUrl( 0, 'login', $web, $topic );
-        $query->param( -name => 'origurl', -value => $session->{request}->uri );
+        $query->param( -name => 'origurl',
+                       -value => $session->{request}->uri );
         $session->redirect( $url, 1 );    # with passthrough
         return 1;
     }
-    return;
+    return 0;
 }
 
 =begin TML
@@ -153,7 +154,11 @@ sub login {
 
         if ($validation) {
 
-            # SUCCESS our user is authenticated..
+            # SUCCESS our user is authenticated. Note that we may already
+            # have been logged in by the userLoggedIn call in loadSession,
+            # becuase the username-password URL params are the same as
+            # the params passed to this script, and they will be used
+            # in loadSession if no other user info is available.
             $this->userLoggedIn($loginName);
 
             # remove the sudo param - its only to tell TemplateLogin

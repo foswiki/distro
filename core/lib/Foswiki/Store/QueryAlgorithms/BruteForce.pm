@@ -25,9 +25,9 @@ use Foswiki::Search::Node ();
 use Foswiki::Meta         ();
 use Foswiki::Search::InfoCache;
 
-# See Foswiki::Store::QueryAlgorithms.pm for details
+# See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
-    my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
+    my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
     my $topicSet = $inputTopicSet;
 
@@ -45,8 +45,8 @@ sub query {
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
         $topicSet =
-          $store->searchInWebMetaData( $searchQuery, $web, $topicSet,
-            $searchOptions );
+          $session->{store}->searchInWebMetaData(
+              $searchQuery, $web, $topicSet, $session, $searchOptions );
     }
     else {
 
@@ -59,8 +59,7 @@ sub query {
     local $/;
     while ( $topicSet->hasNext() ) {
         my $topic = $topicSet->next();
-        my $meta =
-          Foswiki::Meta->new( $store->{session}, $web, $topic );
+        my $meta = Foswiki::Meta->new( $session, $web, $topic );
         # this 'lazy load' will become useful when @$topics becomes
         # an infoCache
         $meta->reload() unless ( $meta->getLoadedRev() );

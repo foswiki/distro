@@ -66,7 +66,7 @@ sub do_upload {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
 
-    my ( $text, $result ) = $this->capture(
+    my ($text) = $this->capture(
         sub {
             no strict 'refs';
             &$UI_FN( $this->{session} );

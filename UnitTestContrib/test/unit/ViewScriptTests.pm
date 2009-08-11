@@ -161,7 +161,7 @@ sub setup_view {
     $query->path_info("/$web/$topic");
     $query->method('POST');
     $fatwilly = new Foswiki( $this->{test_user_login}, $query );
-    my ( $text, $result ) = $this->capture(
+    my ($text) = $this->capture(
         sub {
             no strict 'refs';
             &$UI_FN($fatwilly);
