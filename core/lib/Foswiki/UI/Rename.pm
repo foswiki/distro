@@ -65,6 +65,7 @@ sub rename {
         $new_url = _renameTopicOrAttachment( $session, $oldWeb, $oldTopic );
     }
     $session->redirect( $new_url, undef, 1 ) if $new_url;
+    return 0;
 }
 
 # Rename a topic

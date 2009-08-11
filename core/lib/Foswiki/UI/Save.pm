@@ -433,7 +433,7 @@ WARN
         my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
         $session->redirect( $session->redirectto($viewURL), undef, 1 );
 
-        return;
+        return 0;
     }
 
     # Do this *before* we do any query parameter rewriting
@@ -538,7 +538,7 @@ WARN
         };
 
         $session->redirect($redirecturl);
-        return;
+        return 0;
     }
 
     if ( $adminCmd eq 'repRev' ) {
@@ -562,7 +562,7 @@ WARN
         };
 
         $session->redirect($redirecturl);
-        return;
+        return 0;
     }
 
     my ( $saveOpts, $merged ) = buildNewTopic( $session, $topicObject, 'save' );
@@ -607,6 +607,7 @@ WARN
     }
 
     $session->redirect($redirecturl);
+    return 0;
 }
 
 1;

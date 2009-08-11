@@ -1043,10 +1043,13 @@ sub redirect {
       if ( $this->{plugins}
         ->dispatch( 'redirectCgiQueryHandler', $this->{response}, $url ) );
 
-    # SMELL: this is a bad breaking of encapsulation: the loginManager
-    # should just modify the url, then the redirect should only happen here.
-    return !$this->getLoginManager()
-      ->redirectCgiQuery( $this->{request}, $url );
+    $url = $this->getLoginManager()->rewriteRedirectUrl( $url );
+
+    # Foswiki::Response::redirect doesn't automatically pass on the cookies
+    # for us, so we have to do it explicitly; otherwise the session cookie
+    # won't get passed on.
+    $this->{response}->redirect(
+        -url => $url, -cookies => $this->{response}->cookies() );
 }
 
 =begin TML
@@ -1508,22 +1511,26 @@ sub normalizeWebTopicName {
 
 =begin TML
 
----++ ClassMethod new( $loginName, $query, \%initialContext )
+---++ ClassMethod new( $defaultUser, $query, \%initialContext )
 
-Constructs a new Foswiki object. Parameters are taken from the query object.
+Constructs a new Foswiki session object. A unique session object exists for
+ever transaction with Foswiki, for example every browser request, or every
+script run. Session objects do not persist between mod_perl runs.
 
-   * =$loginName= is the login username (*not* the wikiname) of the user you
-     want to be logged-in if none is available from a session or browser.
-     Used mainly for side scripts and debugging.
-   * =$query= the Foswiki::Request query (may be undef, in which case an empty query
-     is used)
+   * =$defaultUser= is the username (*not* the wikiname) of the default
+     user you want to be logged-in, if none is available from a session
+     or browser. Used mainly for unit tests and debugging, it is typically
+     undef, in which case the default user is taken from
+     $Foswiki::cfg{DefaultUserName}.
+   * =$query= the Foswiki::Request query (may be undef, in which case an
+     empty query is used)
    * =\%initialContext= - reference to a hash containing context
-     name=value pairs to be pre-installed in the context hash
+     name=value pairs to be pre-installed in the context hash. May be undef.
 
 =cut
 
 sub new {
-    my ( $class, $login, $query, $initialContext ) = @_;
+    my ( $class, $defaultUser, $query, $initialContext ) = @_;
     ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) );
     Monitor::MARK("Static compilation complete");
 
@@ -1559,13 +1566,13 @@ sub new {
 
     eval "require $Foswiki::cfg{Store}{Implementation}";
     ASSERT( !$@, $@ ) if DEBUG;
-    $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new( $this );
+    $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new(
+        $this->logger() );
 
-    $this->{users}      = new Foswiki::Users($this);
+    $this->{users}   = new Foswiki::Users($this);
 
     # Load (or create) the CGI session
-    # use login as a default (set when running from cmd line)
-    $this->{remoteUser} = $this->{users}->loadSession($login);
+    $this->{remoteUser} = $this->{users}->loadSession( $defaultUser );
 
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
