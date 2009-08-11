@@ -333,7 +333,6 @@ sub searchWeb {
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $params{nonoise} );
     my $zeroResults =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
-#    my $noTotal = Foswiki::isTrue( $params{nototal}, $params{nonoise} );
     
 #END TODO
 
@@ -787,7 +786,8 @@ sub formatResults {
     my $inline        = $params->{inline};
     my $limit         = $params->{limit} || '';
 
-    my $searchResult = '';
+#    my $searchResult = '';
+my @searchResults;
 
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
@@ -1059,7 +1059,7 @@ sub formatResults {
                     &$callback( $cbdata, $header );
                 }
                 else {
-                    $searchResult .= $header;
+#                    $searchResult .= $header;
                 }
             }
 
@@ -1074,7 +1074,8 @@ sub formatResults {
                 &$callback( $cbdata, $out );
             }
             else {
-                $searchResult .= $out;
+#                $searchResult .= $out;
+push(@searchResults, $out);
             }
 
         } while (@multipleHitLines);    # multiple=on loop
@@ -1105,7 +1106,7 @@ sub formatResults {
             &$callback( $cbdata, $footer );
         }
         else {
-            $searchResult .= $footer;
+#            $searchResult .= $footer;
         }
     }
 
@@ -1126,7 +1127,8 @@ sub formatResults {
 #            }
 #        }
 #    }
-    return ( $ttopics, $searchResult );
+#    return ( $ttopics, $searchResult );
+    return ( $ttopics, ((not defined($callback)) and ($#searchResults >= 0)) ? $header.join('', @searchResults).$footer : '');
 }
 
 =begin TML
