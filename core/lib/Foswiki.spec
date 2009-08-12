@@ -1002,6 +1002,22 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
+# **STRING 80 EXPERT**
+# This is a list of those topics that have a manual dependency on every topic
+# in a web. That is, whenever a topic is saved the cached versions of the listed
+# topics are removed from the page cache as well. For instance, each update in a web
+# will result in the WebRss topic to be recomputed when it is requested again.
+# Web dependencies can also be specified using the WEBDEPENDENCIES in the WebPreferences.
+$Foswiki::cfg{Cache}{WebDependencies} = 'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
+
+# **REGEX EXPERT**
+# Exclude topics from the dependency tracker. All topics that match the
+# pattern will not take part in the automatic cache invalidation. This helps
+# to reduce the amount of topics a page depends on. Note also, that the more topics
+# match the expression below, the higher the probability is that you experience
+# unwanted caching effects where an otherwise outdated page is delivered.
+$Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|.*Template$|TWiki\..*';
+
 # **SELECTCLASS Foswiki::Cache::* EXPERT**
 # Select the default caching mechanism. Note, that individual subsystems might
 # chose a different backend for their own purposes. Some recommendations:
@@ -1015,6 +1031,14 @@ $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 #     the time of a perl persistent backend.</li>
 # </ul>
 $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
+
+# **SELECT Foswiki::Cache::DB_File,Foswiki::Cache::BDB EXPERT**
+# Select the database backend use to store meta data for the page cache.
+# This may be set to a different CacheManager than the one chosen above. While the
+# cached pages might be displaced in an LRU (least recently used) page cache,
+# meta data about page dependencies shall be stored reliably. That's why
+# only DB_File and BDB are selectable.
+$Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
 
 # **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
@@ -1035,8 +1059,7 @@ $Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/tmp/foswiki_db';
 
 # **STRING EXPERT**
 # Specify the namespace used by this site in a store shared with other systems.
-# Leave this empty to use the <code>DefaultUrlHost</code> as a default.
-$Foswiki::cfg{Cache}{NameSpace} = '';
+$Foswiki::cfg{Cache}{NameSpace} = '$Foswiki::cfg{DefaultUrlHost}';
 
 # **NUMBER EXPERT**
 # Specify the maximum number of cache entries for size-aware CacheManagers like

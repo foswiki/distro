@@ -32,7 +32,11 @@ use Foswiki::Cache;
 use Foswiki::Time;
 use Foswiki::Attrs;
 use Error qw( :try );
-use Foswiki::Cache::DB_File;
+
+use constant PAGECACHE_PAGE_KEY => 'Foswiki::PageCache::';
+use constant PAGECACHE_VARS_KEY => 'Foswiki::PageCache::Vars::';
+use constant PAGECACHE_DEPS_KEY => 'Foswiki::PageCache::Deps::';
+use constant PAGECACHE_REVDEPS_KEY => 'Foswiki::PageCache::RevDeps::';
 
 # static poor man's debugging tools
 sub writeDebug {
@@ -67,9 +71,17 @@ sub new {
     # store holding the main workload
     handler => $impl->new($session),
     
-    # store metadata in a separate store, i.e. one without size constraints
-    metaHandler => new Foswiki::Cache::DB_File($session), 
   };
+
+  # store metadata in a separate store, i.e. one without size constraints
+  my $metaImpl = $Foswiki::cfg{MetaCacheManager} || 'Foswiki::Cache::DB_File';
+  if ($metaImpl ne $impl) {
+    eval "use $metaImpl";
+    die $@ if $@;
+    $this->{metaHandler} = $metaImpl->new($session), 
+  } else {
+    $this->{metaHandler} = $this->{handler};
+  }
 
   return bless($this, $class);
 }
@@ -149,32 +161,19 @@ sub cachePage {
   # delete page and all variations if we ask for a refresh copy
   my $refresh = $session->{request}->param('refresh') || '';
   my $webTopic = $web.'.'.$topic;
+  my $variationKey = $this->genVariationKey();
+
   if ($refresh =~ /^(all|on|cache)$/o) {
     $this->_deletePage($webTopic);
+  } else {
+    # remove old dependencies
+    # SMELL: deletes _all_ dependencies, even if other variations establish more 
+    # that we will do next
+    $this->_deleteDependency($webTopic);
   }
-
-  # remove old dependencies
-  $this->_deleteDependency($webTopic);
 
   # assert autotetected dependencies
-  #writeDebug("setting dependencies Foswiki::PageCache::Deps::.$webTopic");
-  my @topicDeps = keys %{$this->{deps}};
-  $this->{metaHandler}->set('Foswiki::PageCache::Deps::'.$webTopic, join(',', @topicDeps));
-
-  # assert autodetected dependencies in reverse logic
-  foreach my $depWebTopic (@topicDeps) {
-    next if $depWebTopic eq $webTopic;
-    my $revTopicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$depWebTopic);
-    my %revTopicDeps;
-    if ($revTopicDeps) {
-      %revTopicDeps = map {$_ => 1} split(/,/, $revTopicDeps);
-      next if $revTopicDeps{$webTopic};
-    }
-    $revTopicDeps{$webTopic} = 1;
-    #writeDebug("adding rev dependency $webTopic <- $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
-    $revTopicDeps = join(',', keys %revTopicDeps);
-    $this->{metaHandler}->set('Foswiki::PageCache::RevDeps::'.$depWebTopic, $revTopicDeps);
-  }
+  $this->_setDependencies($webTopic);
 
   # store page
   my $isDirty = ($text =~ /<dirtyarea[^>]*?>/)?1:0;
@@ -202,13 +201,15 @@ sub cachePage {
   };
 
   # store variation of this topic
-  my $variationKey = $this->genVariationKey();
-  $this->{handler}->set('Foswiki::PageCache::'.$webTopic.'::'.$variationKey, $variation);
+  $this->{handler}->set(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey, $variation);
 
   # remember this topic's variation key
-  my $variations = $this->{handler}->get('Foswiki::PageCache::'.$webTopic);
-  $variations->{$variationKey} = 1;
-  $this->{handler}->set('Foswiki::PageCache::'.$webTopic, $variations);
+  my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
+  my %variations = ();
+  %variations = map {$_ => 1} split(/,/, $variations) if $variations;
+  $variations{$variationKey} = 1;
+  $variations = join(',', keys %variations);
+  $this->{handler}->set(PAGECACHE_VARS_KEY.$webTopic, $variations);
 
   return $variation;
 }
@@ -245,13 +246,14 @@ sub getPage {
   # check availability
   my $variationKey = $this->genVariationKey();
   my $webTopic = $web.'.'.$topic;
-  return $this->{handler}->get('Foswiki::PageCache::'.$webTopic.'::'.$variationKey);
+
+  return $this->{handler}->get(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey);
 }
 
 =pod 
 
 remove a page from the cache; this removes all of the information
-that we have about this page stored in its bucket
+that we have about this page 
 
 =cut
 
@@ -275,16 +277,20 @@ sub _deletePage {
 
   #writeDebug("DELETE page $webTopic");
 
-  # delete all variations
-  my $variations = $this->{handler}->get('Foswiki::PageCache::'.$webTopic);
+  # get variation keys
+  my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
   return 0 unless $variations;
 
-  foreach my $variationKey (keys %{$variations}) {
-    #writeDebug("deleting variation $variationKey");
-    $this->{handler}->delete('Foswiki::PageCache::'.$webTopic.'::'.$variationKey);
+  # delete all variations
+  foreach my $variationKey (split(/,/, $variations)) {
+    $this->{handler}->delete(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey);
   }
 
-  $this->{handler}->delete('Foswiki::PageCache::'.$webTopic);
+  # delete variation keys themselves
+  $this->{handler}->delete(PAGECACHE_VARS_KEY.$webTopic);
+
+  # delete all dependency records
+  $this->_deleteDependency();
 }
 
 =pod 
@@ -335,15 +341,17 @@ add a web.topic to the dependencies of the current page
 sub addDependency {
   my ($this, $depWeb, $depTopic) = @_;
 
-  #die "illegal call to addDependency" unless $depWeb && $depTopic;
+  # exclude invalid topic names
+  return unless $depTopic =~ /^[$Foswiki::regex{upperAlpha}]/o;
 
+  # omit dependencies triggered from inside a dirtyarea
   return if $this->{session}->inContext('dirtyarea');
 
   $depWeb =~ s/\//\./go;
   my $depWebTopic = $depWeb.'.'.$depTopic;
-  return if $this->{deps}{$depWebTopic}; # cosmetic
 
-  #writeDebug("addDependency($depWebTopic)") unless $depWebTopic =~ /(Preferences|Plugin)$/;
+  # exclude unwanted dependencies
+  return if $depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o;
 
   # collect them; defer writing them to the database til we cache this page
   $this->{deps}{$depWebTopic} = 1;
@@ -359,7 +367,12 @@ sub getDependencies {
   my ($this, $web, $topic) = @_;
 
   $web =~ s/\//./go;
-  return $this->_getDependencies($web.'.'.$topic);
+  my $deps = $this->_getDependencies($web.'.'.$topic);
+
+  my @result = ();
+  @result = split(/,/, $deps) if $deps;
+
+  return \@result;
 }
 
 =pod
@@ -369,17 +382,57 @@ private implementation of getDependencies
 =cut
 
 sub _getDependencies {
-  my ($this, $webTopic) = @_;
+  return $_[0]->{metaHandler}->get(PAGECACHE_DEPS_KEY.$_[1]);
+}
 
-  #writeDebug("_getDependencies($webTopic)");
 
-  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps::'.$webTopic);
-  my @result = ();
-  @result = split(',', $topicDeps) if $topicDeps;
+=pod 
 
-  #writeDebug("topicDeps=".join(',',@result));
+set the dependencies for the given web.topic topic
 
-  return \@result;
+=cut
+
+sub setDependencies {
+  my $this = shift;
+  my $web = shift;
+  my $topic = shift;
+
+  $web =~ s/\//./go;
+  return $this->_setDependencies($web.'.'.$topic, @_);
+}
+
+=pod
+
+private implementation of getDependencies
+
+=cut
+
+sub _setDependencies {
+  my ($this, $webTopic, @topicDeps) = @_;
+
+  @topicDeps = keys %{$this->{deps}} unless @topicDeps;
+  #writeDebug("setting ".scalar(@topicDeps)." dependencies $webTopic");
+  #writeDebug(join("\n", @topicDeps));
+
+  $this->{metaHandler}->set(PAGECACHE_DEPS_KEY.$webTopic, join(',', @topicDeps));
+
+  # assert autodetected dependencies in reverse logic
+  foreach my $depWebTopic (@topicDeps) {
+    next if $depWebTopic eq $webTopic;
+
+    my $revTopicDeps = $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$depWebTopic);
+    my %revTopicDeps;
+    if ($revTopicDeps) {
+      %revTopicDeps = map {$_ => 1} split(/,/, $revTopicDeps);
+      next if $revTopicDeps{$webTopic};
+    }
+
+    $revTopicDeps{$webTopic} = 1;
+
+    #writeDebug("adding rev dependency $webTopic <- $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
+    $revTopicDeps = join(',', keys %revTopicDeps);
+    $this->{metaHandler}->set(PAGECACHE_REVDEPS_KEY.$depWebTopic, $revTopicDeps);
+  }
 }
 
 =pod 
@@ -404,15 +457,14 @@ private implementation of deleteDependencies
 sub _deleteDependency {
   my ($this, $webTopic) = @_;
   
-  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::Deps::'.$webTopic);
+  my $topicDeps = $this->{metaHandler}->get(PAGECACHE_DEPS_KEY.$webTopic);
   return unless $topicDeps;
 
   foreach my $depWebTopic (split(/,/, $topicDeps)) {
-    #writeDebug("deleting dependency $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
-    $this->{metaHandler}->delete('Foswiki::PageCache::RevDeps::'.$depWebTopic);
+    $this->{metaHandler}->delete(PAGECACHE_REVDEPS_KEY.$depWebTopic);
   }
 
-  $this->{metaHandler}->delete('Foswiki::PageCache::Deps::'.$webTopic);
+  $this->{metaHandler}->delete(PAGECACHE_DEPS_KEY.$webTopic);
 }
 
 
@@ -427,7 +479,12 @@ sub getRevDependencies {
   my ($this, $web, $topic) = @_;
 
   $web =~ s/\//./go;
-  return $this->_getRevDependencies($web.'.'.$topic);
+  my $revDeps = $this->_getRevDependencies($web.'.'.$topic);
+
+  my @result = ();
+  @result = split(/,/, $revDeps) if $revDeps;
+
+  return \@result;
 }
 
 
@@ -438,17 +495,7 @@ private implementation of getRevDependencies
 =cut
 
 sub _getRevDependencies {
-  my ($this, $webTopic) = @_;
-
-  #writeDebug("_getRevDependencies($webTopic)");
-
-  my $topicDeps = $this->{metaHandler}->get('Foswiki::PageCache::RevDeps::'.$webTopic);
-  my @result = ();
-  @result = split(/,/, $topicDeps) if $topicDeps;
-
-  #writeDebug("topicDeps=$topicDeps");
-
-  return \@result;
+  return $_[0]->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$_[1]);
 }
 
 =pod 
@@ -458,24 +505,24 @@ returns dependencies that hold for all topics in a web.
 =cut
 
 sub getWebDependencies {
-  my $this = shift;
+  my ($this, $web) = @_;
 
   unless (defined $this->{webDeps}) {
-    my $webDeps = $this->{session}->{prefs}->getPreference(
-      'WEBDEPENDENCIES', $this->{session}->{webName}) || '';
+    my $webDeps = $this->{session}->{prefs}->getPreference('WEBDEPENDENCIES', $web)
+      || $Foswiki::cfg{Cache}{WebDependencies}
+      || '';
 
     $this->{webDeps} = ();
 
     # normalize topics
     foreach my $dep (split(/\s*,\s*/, $webDeps)) {
-      my ($depWeb, $depTopic) = 
-        $this->{session}->normalizeWebTopicName($this->{session}->{webName}, $dep);
+      my ($depWeb, $depTopic) = $this->{session}->normalizeWebTopicName($web, $dep);
+
       #writeDebug("found webdep $depWeb.$depTopic");
-      $this->{webDeps}{$depWeb.'.'.$depTopic} = 1;
+      $this->{webDeps}{ $depWeb . '.' . $depTopic } = 1;
     }
-    
   }
-  my @result = keys %{$this->{webDeps}};
+  my @result = keys %{ $this->{webDeps} };
   return \@result;
 }
 
@@ -489,12 +536,12 @@ sub fireDependency {
   my ($this, $web, $topic) = @_;
 
   $web =~ s/\//./go;
-  my $webTopic = $web.'.'.$topic;
+  my $webTopic = $web . '.' . $topic;
 
   #writeDebug("FIRING $webTopic");
 
   # delete pages in WEBDEPENDENCIES
-  foreach my $dep (@{$this->getWebDependencies()}) {
+  foreach my $dep (@{ $this->getWebDependencies($web) }) {
     $this->_deletePage($dep);
   }
 
@@ -502,9 +549,9 @@ sub fireDependency {
   $this->_deletePage($webTopic);
 
   # delete all pages we are an ingredient of
-  my $deps = $this->_getRevDependencies($webTopic);
-  foreach my $dep (@$deps) {
-    $this->_deletePage($dep); 
+  my $revDeps = $this->_getRevDependencies($webTopic);
+  foreach my $dep (split(/,/, $revDeps)) {
+    $this->_deletePage($dep);
   }
 }
 
@@ -538,6 +585,7 @@ sub renderDirtyAreas {
   $$text =~ s/<\/?dirtyarea>//go;
 
   $this->{session}->leaveContext('dirtyarea');
+
   #writeDebug("done renderDirtyAreas");
 }
 

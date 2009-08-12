@@ -97,7 +97,7 @@ sub finish {
   # by implementing the write action
   if ($this->{handler}) {
 
-    # begin transaction / aquire lock
+    # begin transaction
 
     if ($this->{delBuffer}) {
       foreach my $key (keys %{$this->{delBuffer}}) {
@@ -114,7 +114,7 @@ sub finish {
       }
     }
 
-    # commit transaction / release lock
+    # commit transaction
 
     undef $this->{handler};
   }
@@ -162,14 +162,13 @@ returns true if it was stored sucessfully
 =cut
 
 sub set {
-  my $this = shift;
-  my $key = shift;
-  my $obj = shift;
+  my ($this, $key, $obj) = @_;
 
   return 0 unless $this->{handler};
   return 0 unless defined($key) && defined($obj);
 
   my $pageKey = $this->genKey($key);
+
   $this->{writeBuffer}{$pageKey} = $obj;
   $this->{readBuffer}{$pageKey} = $obj;
 
@@ -219,6 +218,8 @@ returns true if the key was found and deleted, and false otherwise
 
 sub delete {
   my ($this, $key) = @_;
+
+#print STDERR "called Cache::delete($key)\n";
 
   return 0 unless $this->{handler};
 

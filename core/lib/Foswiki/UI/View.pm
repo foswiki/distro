@@ -47,16 +47,9 @@ sub view {
     my $web   = $session->{webName};
     my $topic = $session->{topicName};
 
-    my $fire = $query->param('firedependency') || '';
-    my $cachedPage;
     my $cache = $session->{cache};
-    if ($cache) {
-      if ($fire eq 'on') {
-        $cache->fireDependency($web, $topic);
-      } else {
-        $cachedPage = $cache->getPage($web, $topic);
-      }
-    }
+    my $cachedPage;
+    $cachedPage = $cache->getPage($web, $topic) if $cache;
     if ($cachedPage) {
         print STDERR "found $web.$topic in cache\n" if $Foswiki::cfg{Cache}{Debug};
         Monitor::MARK("found page in cache");

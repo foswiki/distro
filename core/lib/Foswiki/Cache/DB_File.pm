@@ -34,7 +34,7 @@ package Foswiki::Cache::DB_File;
 use strict;
 use DB_File;
 use Storable ();
-use Foswiki::Cache;
+use Foswiki::Cache ();
 use Fcntl qw( :flock O_RDONLY O_RDWR O_CREAT );
 
 use constant F_STORABLE => 1;
@@ -68,18 +68,10 @@ sub init {
   my ($this, $session) = @_;
 
   $this->SUPER::init($session);
-  unless($this->{handler}) {
-    my $filename = $Foswiki::cfg{Cache}{DBFile} || '/tmp/foswiki_db';
+  $this->{filename} = $Foswiki::cfg{Cache}{DBFile} 
+    || $Foswiki::cfg{WorkingDir}.'/foswiki_db';
 
-    $this->{handler} = tie %{$this->{tie}}, 
-      'DB_File',
-      $filename,
-      O_CREAT|O_RDWR, 
-      0664, 
-      $DB_HASH
-      or die "Cannot open file $filename: $!";
-    $this->{fd} = $this->{handler}->fd;
-  }
+  $this->tie('ro'); # first we are in read-only mode - we retie for writing 
 }
 
 =pod 
@@ -93,11 +85,12 @@ retrieve a cached object, returns undef if it does not exist
 sub get {
   my ($this, $key) = @_;
 
-  return 0 unless $this->{handler};
+  return undef unless $this->{handler};
 
   my $pageKey = $this->genKey($key);
-  if ($this->{delBuffer}) {
-    return undef if $this->{delBuffer}{$pageKey};
+
+  if ($this->{delBuffer} && $this->{delBuffer}{$pageKey}) {
+    return undef;
   }
 
   my $obj = $this->{readBuffer}{$pageKey};
@@ -108,32 +101,27 @@ sub get {
 
   $obj = '_UNKNOWN_';
 
-  my $value = $this->{tie}->{$pageKey};
+  my $value = $this->{tie}->{$pageKey} || '';
   if ($value) {
-    if ($value =~ /^(\d+)::(.*)$/) {
-      my $flags = $1;
-      $obj = $2;
-      if ($flags & F_STORABLE) {
-	#Foswiki::Func::writeWarning("reading $pageKey is a storable image");
-	eval {
-	  $obj = Storable::thaw($obj);
-          $obj = ${$obj} if $obj;
-	};
-	if ($@) {
-	  print STDERR "WARNING: found a corrupt storable image for pageKey='$pageKey' ... deleting\n";
-	  delete $this->{tie}->{$pageKey}; # corrupt storable image
-          $obj = '_UNKNOWN_';
-	}
-      } else {
-	#Foswiki::Func::writeWarning("reading $pageKey is a scalar");
+    my $flags = int(substr($value, 0, 3));
+    $obj = substr($value, 5);
+    if ($flags & F_STORABLE) {
+      #Foswiki::Func::writeWarning("reading $pageKey is a storable image");
+      eval {
+        $obj = Storable::thaw($obj);
+      };
+      if ($@) {
+        print STDERR "WARNING: found a corrupt storable image for pageKey='$pageKey' ... deleting\n";
+        print STDERR $@."\n";
+        delete $this->{tie}->{$pageKey}; # corrupt storable image
+        $obj = '_UNKNOWN_';
       }
     } else {
-      Foswiki::Func::writeWarning("WARNING: reading $pageKey does not match format: $value");
+      #Foswiki::Func::writeWarning("reading $pageKey is a scalar");
     }
   }
 
   $this->{readBuffer}{$pageKey} = $obj;
-
   return undef if $obj eq '_UNKNOWN_';
 
   return $obj;
@@ -149,18 +137,10 @@ sub finish {
   my $this = shift;
 
   if ($this->{handler}) {
-
-
     if ($this->{delBuffer} || $this->{writeBuffer}) {
 
-      # aquire lock
-      my $fh = do { local *FH; *FH; };
-
-      open $fh, '<&=' . $this->{fd}
-        or die "can't dup file descriptor: $!";
-
-      flock ($fh, LOCK_EX) 
-        or die "can't lock cache db: $!";
+      # retie the database
+      $this->tie('rw');
 
       if ($this->{delBuffer}) {
         foreach my $key (keys %{$this->{delBuffer}}) {
@@ -172,6 +152,7 @@ sub finish {
       if ($this->{writeBuffer}) {
         foreach my $key (keys %{$this->{writeBuffer}}) {
           my $obj = $this->{writeBuffer}{$key};
+          next unless $obj;
 	  my $value;
 	  my $flags = 0;
 	  if (ref $obj) {
@@ -183,23 +164,91 @@ sub finish {
 	    #Foswiki::Func::writeWarning("writing $key is a scalar");
 	  }
           $this->{tie}->{$key} = $value;
+#my $test = $this->{tie}->{$key} || '';
+#if ($value ne $test) {
+#  print STDERR "WARNING: key=$key - test does not match value\n";
+#  print STDERR "value=$value\n";
+#  print STDERR "test=$test\n";
+#}
         }
       }
 
-      # release lock
-      flock( $fh, LOCK_UN )
-        or die "unable to unlock: $!";
-      undef $this->{handler};
-      untie %{$this->{tie}};
-      close $fh;
-    } else {
-      undef $this->{handler};
-      untie %{$this->{tie}};
+      $this->untie();
     }
   }
 
-  $this->SUPER::finish();
+  undef $this->{session};
+  undef $this->{readBuffer};
+  undef $this->{writeBuffer};
+  undef $this->{delBuffer};
 }
+
+=pod
+
+---++ ObjectMethod tie($mode)
+
+(re)ties the cache db using the given $mode 'ro' or 'rw'
+
+a file lock is aquired depending on the intended tie mode.
+
+=cut
+
+sub tie {
+  my ($this, $mode) = @_;
+
+  # untie first
+  if($this->{handler}) {
+    $this->untie();
+  }
+
+  # aquire a file lock
+  my $lockfile = "$this->{filename}.lock";
+  open($this->{lock}, ">$lockfile") 
+    or die "can't create lockfile $lockfile";
+
+  if ($mode eq 'rw') {
+    $mode = O_CREAT|O_RDWR;
+    flock ($this->{lock}, LOCK_EX) 
+      or die "can't lock cache db: $!";
+  } elsif ($mode eq 'ro') {
+    $mode = O_CREAT|O_RDONLY;
+    flock ($this->{lock}, LOCK_SH) 
+      or die "can't lock cache db: $!";
+  } else {
+    die "unknown mode $mode in Cache::DB_File"; # never reach
+  }
+
+  $this->{handler} = tie %{$this->{tie}}, 
+    'DB_File',
+    $this->{filename},
+    $mode, 
+    0664, 
+    $DB_HASH
+    or die "Cannot open file $this->{filename}: $!";
+}
+
+=pod 
+
+unties this module using the given $mode 'ro' or 'rw'
+
+a file lock is aquired depending on the intended tie mode.
+
+=cut
+
+sub untie {
+  my ($this) = @_;
+
+  if ($this->{handler}) {
+    undef $this->{handler};
+    untie %{$this->{tie}};
+
+    flock($this->{lock}, LOCK_UN)
+      or die "unable to unlock: $!";
+
+    close $this->{lock};
+  }
+}
+
 
 =pod 
 
@@ -213,7 +262,9 @@ sub clear {
   my $this = shift;
 
   return unless $this->{handler};
+  $this->tie('rw');
   %{$this->{tie}} = ();
+  $this->tie('ro');
 
   undef $this->{writeBuffer};
   undef $this->{delBuffer};

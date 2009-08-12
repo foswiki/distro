@@ -67,8 +67,7 @@ sub init {
   unless($this->{handler}) {
     $this->{handler} = new Cache::FileCache({
         'namespace' => $this->{namespace}, # also encoded into object keys, see Foswiki::Cache::genKey()
-        'auto_purge_on_set' => 1,
-        'cache_root' => $Foswiki::cfg{Cache}{RootDir} || '/tmp/foswiki_cache',
+        'cache_root' => $Foswiki::cfg{Cache}{RootDir} || $Foswiki::cfg{WorkingDir}.'/cache/',
         'cache_depth' => $Foswiki::cfg{Cache}{SubDirs} || 3,
         'directory_umask' => $Foswiki::cfg{Cache}{Umask} || 077,
     });

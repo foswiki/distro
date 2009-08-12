@@ -33,8 +33,10 @@ package Foswiki::Cache::BDB;
 
 use strict;
 use BerkeleyDB;
-use Storable;
-use Foswiki::Cache;
+use Storable ();
+use Foswiki::Cache ();
+
+use constant F_STORABLE => 1;
 
 @Foswiki::Cache::BDB::ISA = ( 'Foswiki::Cache' );
 
@@ -66,7 +68,8 @@ sub init {
 
   $this->SUPER::init($session);
   unless($this->{handler}) {
-    my $cache_root = $Foswiki::cfg{Cache}{RootDir} || '/tmp/foswiki_cache';
+    my $cache_root = $Foswiki::cfg{Cache}{RootDir}
+      || $Foswiki::cfg{WorkingDir}.'/foswiki_bdb';
     unless (-d $cache_root) {
       unless (mkdir $cache_root) {
         die "Could not create $cache_root for Foswiki::Cache::BDB";
@@ -78,7 +81,6 @@ sub init {
       -Flags => (DB_CREATE | DB_INIT_LOCK | DB_INIT_LOG | DB_INIT_MPOOL | DB_INIT_TXN), # DB_DIRECT_DB,
       -SetFlags => DB_TXN_NOSYNC,
       -ErrPrefix => 'Foswiki::Cache:BDB',
-      -Cachesize => 32*1024*1024,
       -ErrFile => *STDERR,
       #-Verbose => 1,
     ) or die "Foswiki::Cache:BDB: Unable to create env: $BerkeleyDB::Error";
@@ -86,20 +88,69 @@ sub init {
     my $fname =  $this->{namespace}.'.db';
     $fname =~ s/[\/\\:_]//go;
 
-    my $db = BerkeleyDB::Btree->new(
+    my $db = BerkeleyDB::Hash->new(
       -Env => $env,
       -Subname => $this->{namespace},
       -Filename => $fname,
-      -Pagesize => 32*1024,
       -Flags => DB_CREATE,
     ) or die "Foswiki::Cache:BDB: Unable to open db: $BerkeleyDB::Error";
-
-    $db->filter_store_value( sub { $_ = Storable::freeze($_) });
-    $db->filter_fetch_value( sub { $_ = Storable::thaw($_) });
 
     $this->{handler} = $db;
     $this->{env} = $env;
   }
+}
+
+=pod 
+
+---++ ObjectMethod get($key) -> $object
+
+retrieve a cached object, returns undef if it does not exist
+
+=cut
+
+sub get {
+  my ($this, $key) = @_;
+
+  return 0 unless $this->{handler};
+
+  my $pageKey = $this->genKey($key);
+
+  if ($this->{delBuffer}) {
+    return undef if $this->{delBuffer}{$pageKey};
+  }
+
+  my $obj = $this->{readBuffer}{$pageKey};
+  if ($obj) {
+    return undef if $obj eq '_UNKNOWN_';
+    return $obj; 
+  }
+
+  $obj = '_UNKNOWN_';
+
+  my $value;
+  if ($this->{handler}->db_get($pageKey, $value) == 0) {
+    my $flags = int(substr($value, 0, 3));
+    $obj = substr($value, 5);
+    if ($flags & F_STORABLE) {
+      #Foswiki::Func::writeWarning("reading $pageKey is a storable image");
+      eval {
+        $obj = Storable::thaw($obj);
+      };
+      if ($@) {
+        print STDERR "WARNING: found a corrupt storable image for pageKey='$pageKey' ... deleting\n";
+        print STDERR $@."\n";
+        delete $this->{tie}->{$pageKey}; # corrupt storable image
+        $obj = '_UNKNOWN_';
+      }
+    } else {
+      #Foswiki::Func::writeWarning("reading $pageKey is a scalar");
+    }
+  }
+
+  $this->{readBuffer}{$pageKey} = $obj;
+  return undef if $obj eq '_UNKNOWN_';
+
+  return $obj;
 }
 
 =pod 
@@ -131,14 +182,33 @@ sub finish {
       foreach my $key (keys %{$this->{writeBuffer}}) {
         my $obj = $this->{writeBuffer}{$key};
         next unless $obj;
-        $this->{handler}->db_put($key, $obj);
         #Foswiki::Cache::writeDebug("flushing $key");
+        my $value;
+        my $flags = 0;
+        if (ref $obj) {
+          $flags |= F_STORABLE;
+          $value = sprintf("%03d::", $flags).Storable::freeze($obj);
+          #Foswiki::Func::writeWarning("writing $key as a storable image");
+        } else {
+          $value = sprintf("%03d::", $flags).$obj;
+          #Foswiki::Func::writeWarning("writing $key is a scalar");
+        }
+        $this->{handler}->db_put($key, $value);
+
+#my $test;
+#if ($this->{handler}->db_get($key, $test) != 0 || $value ne $test) {
+#  print STDERR "WARNING: key=$key - test does not match value\n";
+#  print STDERR "value=$value\n";
+#  print STDERR "test=$test\n";
+#} else {
+#  print STDERR "INFO: storing $key is okay\n";
+#}
       }
     }
 
     $txn->txn_commit() if $doTxn;
 
-    #$this->{handler}->db_close();
+    $this->{handler}->db_close();
     undef $this->{env};
     undef $this->{handler};
   }
@@ -146,32 +216,6 @@ sub finish {
   $this->SUPER::finish();
 } 
 
-=pod 
-
----++ ObjectMethod get($key) -> $object
-
-retrieve a cached object, returns undef if it does not exist
-
-=cut
-
-sub get {
-  my ($this, $key) = @_;
-
-  return 0 unless $this->{handler};
-
-  my $pageKey = $this->genKey($key);
-  if ($this->{delBuffer}) {
-    return undef if $this->{delBuffer}{$pageKey};
-  }
-
-  my $obj = $this->{readBuffer}{$pageKey};
-  return $obj if $obj;
-
-  $this->{handler}->db_get($pageKey, $obj);
-  $this->{readBuffer}{$pageKey} = $obj;
-
-  return $obj;
-}
 
 =pod 
 
