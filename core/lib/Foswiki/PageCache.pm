@@ -290,7 +290,7 @@ sub _deletePage {
   $this->{handler}->delete(PAGECACHE_VARS_KEY.$webTopic);
 
   # delete all dependency records
-  $this->_deleteDependency();
+  $this->_deleteDependency($webTopic);
 }
 
 =pod 
