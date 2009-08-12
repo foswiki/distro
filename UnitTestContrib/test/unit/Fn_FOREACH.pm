@@ -26,7 +26,7 @@ sub test_separator {
 '%FOREACH{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator=","}%'
       );
 
-    $this->assert_str_equals( "OkATopic,OkBTopic,OkTopic,", $result );
+    $this->assert_str_equals( "OkATopic,OkBTopic,OkTopic", $result );
 }
 
 sub test_separator_with_header {
@@ -39,11 +39,9 @@ sub test_separator_with_header {
 '%FOREACH{"OkATopic,OkBTopic,OkTopic" header="RESULT:" nonoise="on" format="$topic" separator=","}%'
       );
 
-    # FIXME: The first , shouldn't be there, but Arthur knows why
-    # waiting for him to fix, and as I can't put this test into TODO...
     $this->assert_str_equals(
         "RESULT:
-OkATopic,OkBTopic,OkTopic,", $result
+OkATopic,OkBTopic,OkTopic", $result
     );
 }
 
@@ -76,12 +74,12 @@ sub test_SEARCH_3860 {
 %FOREACH{"OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
     my $wn = $this->{session}->{users}->getWikiName( $this->{session}->{user} );
-    $this->assert_str_equals( "$wn $this->{users_web}.$wn\n\n", $result );
+    $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
     $result = $this->{test_topicObject}->expandMacros( <<'HERE');
 %FOREACH{"OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
 HERE
-    $this->assert_str_equals( "$wn $this->{users_web}.$wn\n\n", $result );
+    $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 }
 
 
@@ -222,8 +220,7 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
       $this->{test_topicObject}->expandMacros(
         '%FOREACH{"Item977" format="$summary"}%');
 
-#TODO: this is different from SEARCH..
-    $this->assert_str_equals( 'Apache Apache is the well known web server.'."\n",
+    $this->assert_str_equals( 'Apache Apache is the well known web server.',
         $result );
 
 #TODO: these test should move to a proper testing of Render.pm - will happen during
@@ -276,8 +273,7 @@ sub _septic {
 }
 
 #####################
-#BROKENtest - is due to the very broken $separator code - which we want to fix before release
-sub BROKENtest_no_header_no_footer_no_separator_with_results {
+sub test_no_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(0, 0, undef, 1, <<EXPECT);
 OkATopic
@@ -305,7 +301,7 @@ sub test_no_header_no_footer_empty_separator_no_results {
 EXPECT
 }
 
-sub BROKENtest_no_header_no_footer_with_separator_with_results {
+sub test_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(0, 0, ",", 1, <<EXPECT);
 OkATopic,OkBTopic,OkTopic
@@ -319,7 +315,7 @@ EXPECT
 }
 #####################
 
-sub BROKENtest_no_header_with_footer_no_separator_with_results {
+sub test_no_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(0, 1, undef, 1, <<EXPECT);
 OkATopic
@@ -404,7 +400,7 @@ EXPECT
 
 #####################
 
-sub BROKENtesttest_with_header_no_footer_no_separator_with_results {
+sub testtest_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, undef, 1, <<EXPECT);
 HEAD
@@ -434,7 +430,7 @@ sub test_with_header_no_footer_empty_separator_no_results {
 EXPECT
 }
 
-sub BROKENtest_with_header_no_footer_with_separator_with_results {
+sub test_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, ",", 1, <<EXPECT);
 HEAD

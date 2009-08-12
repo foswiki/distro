@@ -1025,7 +1025,7 @@ sub formatResults {
                   s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                 $out =~ s/\r?\n/$newLine/gos if ($newLine);
                 if ( defined($separator) ) {
-                    $out .= $separator;
+#                    $out .= $separator;
                 }
                 else {
 
@@ -1069,7 +1069,7 @@ sub formatResults {
                 }
                 else {
 
-                    #                    $searchResult .= $header;
+#                    $searchResult .= $header;
                 }
             }
 
@@ -1085,7 +1085,7 @@ sub formatResults {
             }
             else {
 
-                #                $searchResult .= $out;
+#                $searchResult .= $out;
                 push( @searchResults, $out );
             }
 
@@ -1141,10 +1141,22 @@ sub formatResults {
     #        }
     #    }
     #    return ( $ttopics, $searchResult );
+    
+    if ( defined($separator) ) {
+        #	$header = $header.$separator if (defined($params->{header}));
+        #TODO: I think this is a bug - see Item1773 for discussion
+    	$footer = $separator.$footer if (defined($params->{footer}));
+    } else {
+        #TODO: legacy from SEARCH - we want to remove this oddness
+#    	$footer = $separator.$footer if (defined($params->{footer}) && $footer ne '<nop>');
+    }
+
     return ( $ttopics,
         ( ( not defined($callback) ) and ( $#searchResults >= 0 ) )
-        ? $header . join( '', @searchResults ) . $footer
-        : '' );
+            ? $header . join( defined($separator)
+                ? $separator
+                :'' , @searchResults ) . $footer
+            : '' );
 }
 
 =begin TML

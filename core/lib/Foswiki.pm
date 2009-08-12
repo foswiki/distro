@@ -3857,9 +3857,10 @@ sub FOREACH {
     $params->{type}      = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
 #    $params->{format}      = '$topic'  unless ( defined($params->{format}) );
-    $params->{separator}      = '$n'  unless ( defined($params->{separator}) );
-    $params->{header}      = '<nop>'  unless ( $params->{header} );
-    $params->{footer}      = '<nop>'  unless ( $params->{footer} );
+#TODO: change to $n some time.
+    $params->{separator}      = "\n"  unless ( defined($params->{separator}) );
+#    $params->{header}      = ''  unless ( $params->{header} );
+#    $params->{footer}      = ''  unless ( $params->{footer} );
     $params->{nonoise} = 1;
     my $s;
     try {
