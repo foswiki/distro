@@ -1649,4 +1649,206 @@ HERE
     $this->assert_str_equals( $expected, $actual );
 }
 
+
+#####################
+#and again for multiple webs. :(
+sub _multiWebSeptic {
+    my ($this, $head, $foot, $sep, $results, $expected) = @_;
+    my $str = $results ? '*Preferences' : 'Septic';
+    $head = $head ? 'header="HEAD"' : '';
+    $foot = $foot ? 'footer="FOOT"' : '';
+    $sep = defined $sep ? "separator=\"$sep\"" : '';
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+          "%SEARCH{\"name~'$str'\" web=\"System,Main\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%" );
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
+#####################
+
+sub verify_multiWeb_no_header_no_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 0, undef, 1, <<EXPECT);
+DefaultPreferences
+WebPreferences
+SitePreferences
+WebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_no_header_no_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 0, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_no_header_no_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 0, "", 1, <<EXPECT);
+DefaultPreferencesWebPreferencesSitePreferencesWebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_no_header_no_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 0, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_no_header_no_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 0, ",", 1, <<EXPECT);
+DefaultPreferences,WebPreferencesSitePreferences,WebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_no_header_no_footer_with_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 0, ",", 0, <<EXPECT);
+EXPECT
+}
+#####################
+
+sub verify_multiWeb_no_header_with_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 1, undef, 1, <<EXPECT);
+DefaultPreferences
+WebPreferences
+FOOTSitePreferences
+WebPreferences
+FOOT
+EXPECT
+}
+
+sub verify_multiWeb_no_header_with_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 1, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_no_header_with_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 1, "", 1, <<EXPECT);
+DefaultPreferencesWebPreferencesFOOTSitePreferencesWebPreferencesFOOT
+EXPECT
+}
+
+sub verify_multiWeb_no_header_with_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 1, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(0, 1, ",", 1, <<EXPECT);
+DefaultPreferences,WebPreferences,FOOTSitePreferences,WebPreferences,FOOT
+EXPECT
+}
+
+#####################
+
+sub verify_multiWeb_with_header_with_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 1, undef, 1, <<EXPECT);
+HEAD
+DefaultPreferences
+WebPreferences
+FOOTHEAD
+SitePreferences
+WebPreferences
+FOOT
+EXPECT
+}
+
+sub verify_multiWeb_with_header_with_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 1, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 1, "", 1, <<EXPECT);
+HEAD
+DefaultPreferencesWebPreferencesFOOTHEAD
+SitePreferencesWebPreferencesFOOT
+EXPECT
+}
+
+sub verify_multiWeb_with_header_with_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 1, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 1, ",", 1, <<EXPECT);
+HEAD
+DefaultPreferences,WebPreferences,FOOTHEAD
+SitePreferences,WebPreferences,FOOT
+EXPECT
+}
+
+sub verify_multiWeb_with_header_with_footer_with_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 1, ",", 0, <<EXPECT);
+EXPECT
+}
+
+#####################
+
+sub verify_multiWeb_with_header_no_footer_no_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 0, undef, 1, <<EXPECT);
+HEAD
+DefaultPreferences
+WebPreferences
+HEAD
+SitePreferences
+WebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_with_header_no_footer_no_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 0, undef, 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 0, "", 1, <<EXPECT);
+HEAD
+DefaultPreferencesWebPreferencesHEAD
+SitePreferencesWebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_with_header_no_footer_empty_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 0, "", 0, <<EXPECT);
+EXPECT
+}
+
+sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 0, ",", 1, <<EXPECT);
+HEAD
+DefaultPreferences,WebPreferencesHEAD
+SitePreferences,WebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_with_header_no_footer_with_separator_no_results {
+    my $this = shift;
+    $this->_multiWebSeptic(1, 0, ",", 0, <<EXPECT);
+EXPECT
+}
+
+#####################
+
+
 1;
