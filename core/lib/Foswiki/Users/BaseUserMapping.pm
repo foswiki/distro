@@ -67,18 +67,18 @@ sub new {
             wikiname => 'ProjectContributor',
         },
         BaseUserMapping_222 => {
-            login    => $Foswiki::cfg{Register}{RegistrationAgentWikiName},
-            wikiname => $Foswiki::cfg{Register}{RegistrationAgentWikiName},
+            login    => $Foswiki::cfg{Register}{RegistrationAgentWikiName} || 'RegistrationAgent',
+            wikiname => $Foswiki::cfg{Register}{RegistrationAgentWikiName} || 'RegistrationAgent',
         },
         BaseUserMapping_333 => {
-            login    => $Foswiki::cfg{AdminUserLogin},
-            wikiname => $Foswiki::cfg{AdminUserWikiName},
-            email    => $Foswiki::cfg{WebMasterEmail},
+            login    => $Foswiki::cfg{AdminUserLogin} || 'admin',
+            wikiname => $Foswiki::cfg{AdminUserWikiName} || 'AdminUser',
+            email    => $Foswiki::cfg{WebMasterEmail} || 'email not set',
             password => $Foswiki::cfg{Password},
         },
         $DEFAULT_USER_CUID => {
-            login    => $Foswiki::cfg{DefaultUserLogin},
-            wikiname => $Foswiki::cfg{DefaultUserWikiName},
+            login    => $Foswiki::cfg{DefaultUserLogin} || 'guest',
+            wikiname => $Foswiki::cfg{DefaultUserWikiName} || 'WikiGuest',
         },
         $UNKNOWN_USER_CUID => {
             login    => 'unknown',
