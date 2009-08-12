@@ -1652,11 +1652,13 @@ HERE
 
 #####################
 #and again for multiple webs. :(
+#TODO: rewrite using named params for more flexibility
+#need summary, and multiple
 sub _multiWebSeptic {
     my ($this, $head, $foot, $sep, $results, $expected) = @_;
     my $str = $results ? '*Preferences' : 'Septic';
-    $head = $head ? 'header="HEAD"' : '';
-    $foot = $foot ? 'footer="FOOT"' : '';
+    $head = $head ? 'header="HEAD($web)"' : '';
+    $foot = $foot ? 'footer="FOOT($ntopics,$nhits)"' : '';
     $sep = defined $sep ? "separator=\"$sep\"" : '';
     my $result =
       $this->{test_topicObject}->expandMacros(
@@ -1715,9 +1717,9 @@ sub verify_multiWeb_no_header_with_footer_no_separator_with_results {
     $this->_multiWebSeptic(0, 1, undef, 1, <<EXPECT);
 DefaultPreferences
 WebPreferences
-FOOTSitePreferences
+FOOT(2,2)SitePreferences
 WebPreferences
-FOOT
+FOOT(2,2)
 EXPECT
 }
 
@@ -1730,7 +1732,7 @@ EXPECT
 sub verify_multiWeb_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, "", 1, <<EXPECT);
-DefaultPreferencesWebPreferencesFOOTSitePreferencesWebPreferencesFOOT
+DefaultPreferencesWebPreferencesFOOT(2,2)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -1743,7 +1745,7 @@ EXPECT
 sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, ",", 1, <<EXPECT);
-DefaultPreferences,WebPreferences,FOOTSitePreferences,WebPreferences,FOOT
+DefaultPreferences,WebPreferences,FOOT(2,2)SitePreferences,WebPreferences,FOOT(2,2)
 EXPECT
 }
 
@@ -1752,13 +1754,13 @@ EXPECT
 sub verify_multiWeb_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, undef, 1, <<EXPECT);
-HEAD
+HEAD(System)
 DefaultPreferences
 WebPreferences
-FOOTHEAD
+FOOT(2,2)HEAD(Main)
 SitePreferences
 WebPreferences
-FOOT
+FOOT(2,2)
 EXPECT
 }
 
@@ -1771,9 +1773,9 @@ EXPECT
 sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, "", 1, <<EXPECT);
-HEAD
-DefaultPreferencesWebPreferencesFOOTHEAD
-SitePreferencesWebPreferencesFOOT
+HEAD(System)
+DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)
+SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -1786,9 +1788,9 @@ EXPECT
 sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, ",", 1, <<EXPECT);
-HEAD
-DefaultPreferences,WebPreferences,FOOTHEAD
-SitePreferences,WebPreferences,FOOT
+HEAD(System)
+DefaultPreferences,WebPreferences,FOOT(2,2)HEAD(Main)
+SitePreferences,WebPreferences,FOOT(2,2)
 EXPECT
 }
 
@@ -1803,10 +1805,10 @@ EXPECT
 sub verify_multiWeb_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, undef, 1, <<EXPECT);
-HEAD
+HEAD(System)
 DefaultPreferences
 WebPreferences
-HEAD
+HEAD(Main)
 SitePreferences
 WebPreferences
 EXPECT
@@ -1821,8 +1823,8 @@ EXPECT
 sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, "", 1, <<EXPECT);
-HEAD
-DefaultPreferencesWebPreferencesHEAD
+HEAD(System)
+DefaultPreferencesWebPreferencesHEAD(Main)
 SitePreferencesWebPreferences
 EXPECT
 }
@@ -1836,8 +1838,8 @@ EXPECT
 sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, ",", 1, <<EXPECT);
-HEAD
-DefaultPreferences,WebPreferencesHEAD
+HEAD(System)
+DefaultPreferences,WebPreferencesHEAD(Main)
 SitePreferences,WebPreferences
 EXPECT
 }
