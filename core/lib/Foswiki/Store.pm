@@ -117,6 +117,36 @@ sub cleanUpRevID {
     return Foswiki::Sandbox::untaintUnchecked($rev);
 }
 
+=begin TML
+
+---+++ ObjectMethod getWorkArea( $key ) -> $directorypath
+
+Gets a private directory uniquely identified by $key. The directory is
+intended as a work area for plugins.
+
+The standard is a directory named the same as "key" under
+$Foswiki::cfg{WorkingDir}/work_areas
+
+=cut
+
+sub getWorkArea {
+    my ( $this, $key ) = @_;
+
+    # untaint and detect nasties
+    $key = Foswiki::Sandbox::normalizeFileName($key);
+    throw Error::Simple("Bad work area name $key") unless ($key);
+
+    my $dir = "$Foswiki::cfg{WorkingDir}/work_areas/$key";
+
+    unless ( -d $dir ) {
+        mkdir($dir) || throw Error::Simple(<<ERROR);
+Failed to create $key work area. Check your setting of {WorkingDir}
+in =configure=.
+ERROR
+    }
+    return $dir;
+}
+
 1;
 __END__
 # Comment out the above two lines (1; __DATA__) during development of a
@@ -276,20 +306,6 @@ MUST WORK FOR ATTACHMENTS AS WELL AS TOPICS
 
 sub getRevisionNumber {
     my( $this, $topicObject, $attachment ) = @_;
-    die "Abstract base class";
-}
-
-=begin TML
-
----+++ StaticMethod getWorkArea( $key ) -> $directorypath
-
-Gets a private directory uniquely identified by $key. The directory is
-intended as a work area for plugins. The directory will exist.
-
-=cut
-
-sub getWorkArea {
-    my( $this, $key ) = @_;
     die "Abstract base class";
 }
 

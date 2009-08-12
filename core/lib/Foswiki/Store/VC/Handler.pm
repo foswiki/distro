@@ -214,36 +214,6 @@ sub getLatestRevisionTime {
 
 =begin TML
 
----+++ ObjectMethod getWorkArea( $key ) -> $directorypath
-
-Gets a private directory uniquely identified by $key. The directory is
-intended as a work area for plugins.
-
-The standard is a directory named the same as "key" under
-$Foswiki::cfg{WorkingDir}/work_areas
-
-=cut
-
-sub getWorkArea {
-    my ( $this, $key ) = @_;
-
-    # untaint and detect nasties
-    $key = Foswiki::Sandbox::normalizeFileName($key);
-    throw Error::Simple("Bad work area name $key") unless ($key);
-
-    my $dir = "$Foswiki::cfg{WorkingDir}/work_areas/$key";
-
-    unless ( -d $dir ) {
-        mkdir($dir) || throw Error::Simple(<<ERROR);
-Failed to create $key work area. Check your setting of {RCS}{WorkAreaDir}
-in =configure=.
-ERROR
-    }
-    return $dir;
-}
-
-=begin TML
-
 ---++ ObjectMethod getTopicNames() -> @topics
 
 Get list of all topics in a web

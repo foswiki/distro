@@ -254,13 +254,6 @@ sub getRevisionNumber {
 }
 
 # Documented in Foswiki::Store
-sub getWorkArea {
-    my ( $this, $key ) = @_;
-
-    return $this->getHandler()->getWorkArea($key);
-}
-
-# Documented in Foswiki::Store
 # topicObject1 is the lower revision, topicObject2 is the higher revision
 sub getRevisionDiff {
     my ( $this, $topicObject1, $topicObject2, $contextLines ) = @_;
