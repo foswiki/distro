@@ -313,32 +313,34 @@ sub searchWeb {
     $params{zeroresults} =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
-#TODO: refactorme
-    my $header        = $params{header};
-    my $footer        = $params{footer};
+    #TODO: refactorme
+    my $header  = $params{header};
+    my $footer  = $params{footer};
     my $noTotal = Foswiki::isTrue( $params{nototal}, $params{nonoise} );
-    
+
     my $noEmpty = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
+
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
     # now deprecated option 'inline' is used combined with 'format'
     my $noHeader =
-      !defined($header) && Foswiki::isTrue( $params{noheader}, $params{nonoise} )
+      !defined($header)
+      && Foswiki::isTrue( $params{noheader}, $params{nonoise} )
       || ( !$header && $formatDefined && $inline );
 
     my $noFooter =
-      !defined($footer) && Foswiki::isTrue( $params{nofooter}, $params{nonoise} )
+      !defined($footer)
+      && Foswiki::isTrue( $params{nofooter}, $params{nonoise} )
       || ( !$footer && $formatDefined && $inline );
 
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $params{nonoise} );
     my $zeroResults =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
-    
-#END TODO
 
+    #END TODO
 
-    my $sortOrder = $params{order}   || '';
-    my $revSort   = Foswiki::isTrue( $params{reverse} );
+    my $sortOrder = $params{order} || '';
+    my $revSort = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
     my $searchString = defined $params{search} ? $params{search} : '';
 
@@ -364,12 +366,12 @@ sub searchWeb {
     $params{type} = 'regex' if ( $params{regex} );
 
     my $mixedAlpha = $Foswiki::regex{mixedAlpha};
-    my $separator = $params{separator};
+    my $separator  = $params{separator};
     if ( defined($separator) ) {
         $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
         $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
-    my $newLine   = $params{newline} || '';
+    my $newLine = $params{newline} || '';
     if ($newLine) {
         $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
         $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
@@ -442,9 +444,9 @@ sub searchWeb {
     }
 
 ########### SEARCH specific Template
-    my $doBookView    = Foswiki::isTrue( $params{bookview} );
-    my $nonoise       = Foswiki::isTrue( $params{nonoise} );
-    my $noSearch      = Foswiki::isTrue( $params{nosearch}, $nonoise );
+    my $doBookView = Foswiki::isTrue( $params{bookview} );
+    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
+    my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
 
     #tmpl loading code.
     my $tmpl = '';
@@ -495,32 +497,38 @@ sub searchWeb {
     # Expand tags in template sections
     my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
     $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
-#TODO: huh? why here?
+
+    #TODO: huh? why here?
     $tmplNumber = $baseWebObject->expandMacros($tmplNumber);
-    
+
     {
+
         # header and footer of $web
         my ( $beforeText, $repeatText, $afterText ) =
           split( /%REPEAT%/, $tmplTable );
 
         unless ($noHeader) {
-            $params{header} |=  $beforeText;
+            $params{header} |= $beforeText;
         }
-#nosummary="on" nosearch="on" noheader="on" nototal="on"
+
+        #nosummary="on" nosearch="on" noheader="on" nototal="on"
         if ($noSummary) {
             $repeatText =~ s/%TEXTHEAD%//go;
             $repeatText =~ s/&nbsp;//go;
-        } else {
+        }
+        else {
             $repeatText =~ s/%TEXTHEAD%/\$summary/go;
         }
-        $params{format} |=  $repeatText;
+        $params{format} |= $repeatText;
         unless ($noFooter) {
-            $params{footer} |=  $afterText;
+            $params{footer} |= $afterText;
         }
         unless ($noTotal) {
-            $params{footercounter} |=  $tmplNumber;
+            $params{footercounter} |= $tmplNumber;
             $params{footer} .= $params{footercounter};
-        } else {
+        }
+        else {
+
             #print STDERR "}}}".$params{format}."{{{";
         }
     }
@@ -786,8 +794,8 @@ sub formatResults {
     my $inline        = $params->{inline};
     my $limit         = $params->{limit} || '';
 
-#    my $searchResult = '';
-my @searchResults;
+    #    my $searchResult = '';
+    my @searchResults;
 
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
@@ -840,8 +848,8 @@ my @searchResults;
 
     if ( defined $footer ) {
         $footer = Foswiki::expandStandardEscapes($footer);
-        $footer =~ s/\$web/$web/gos;       # expand name of web
-        $footer =~ s/([^\n])$/$1\n/os;     # add new line at end
+        $footer =~ s/\$web/$web/gos;      # expand name of web
+        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
     }
 
     # output the list of topics in $web
@@ -891,7 +899,7 @@ my @searchResults;
         }
 
         my @multipleHitLines = ();
-        if ($doMultiple && $query->{tokens}) {
+        if ( $doMultiple && $query->{tokens} ) {
 
             #TODO: i wonder if this shoudl be a HoistRE..
             my @tokens  = @{ $query->{tokens} };
@@ -963,6 +971,7 @@ my @searchResults;
             }
             else {
                 die "no such thing? ($format)";
+
                 #$out = $repeatText;
             }
             $out =~ s/%WEB%/$web/go;
@@ -1020,10 +1029,10 @@ my @searchResults;
                 }
                 else {
 
-                    # add new line at end if needed
-                    # SMELL: why?
-                    #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
-                    unless ($noTotal && !$params->{formatdefined}) {
+# add new line at end if needed
+# SMELL: why?
+#TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
+                    unless ( $noTotal && !$params->{formatdefined} ) {
                         $out =~ s/([^\n])$/$1\n/s;
                     }
                 }
@@ -1059,7 +1068,8 @@ my @searchResults;
                     &$callback( $cbdata, $header );
                 }
                 else {
-#                    $searchResult .= $header;
+
+                    #                    $searchResult .= $header;
                 }
             }
 
@@ -1074,8 +1084,9 @@ my @searchResults;
                 &$callback( $cbdata, $out );
             }
             else {
-#                $searchResult .= $out;
-push(@searchResults, $out);
+
+                #                $searchResult .= $out;
+                push( @searchResults, $out );
             }
 
         } while (@multipleHitLines);    # multiple=on loop
@@ -1092,6 +1103,7 @@ push(@searchResults, $out);
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
         $footer =~ s/\$nhits/$nhits/gs;
+
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
@@ -1106,29 +1118,33 @@ push(@searchResults, $out);
             &$callback( $cbdata, $footer );
         }
         else {
-#            $searchResult .= $footer;
+
+            #            $searchResult .= $footer;
         }
     }
 
-#TODO: now wrapped in footer?
+    #TODO: now wrapped in footer?
     # output number of topics (only if hits in web or if
     # only searching one web)
-#    if ( $ntopics || $params->{numberOfWebs} < 2 ) {
-#        unless ($noTotal) {
-#            my $thisNumber = $params->{footercounter};
-#            $thisNumber =~ s/%NTOPICS%/$ntopics/go;
-#            if ( defined $callback ) {
-#                $thisNumber = $webWebObject->renderTML($thisNumber);
-#                $thisNumber =~ s|</*nop/*>||goi;    # remove <nop> tag
-#                &$callback( $cbdata, $thisNumber );
-#            }
-#            else {
-#                $searchResult .= $thisNumber;
-#            }
-#        }
-#    }
-#    return ( $ttopics, $searchResult );
-    return ( $ttopics, ((not defined($callback)) and ($#searchResults >= 0)) ? $header.join('', @searchResults).$footer : '');
+    #    if ( $ntopics || $params->{numberOfWebs} < 2 ) {
+    #        unless ($noTotal) {
+    #            my $thisNumber = $params->{footercounter};
+    #            $thisNumber =~ s/%NTOPICS%/$ntopics/go;
+    #            if ( defined $callback ) {
+    #                $thisNumber = $webWebObject->renderTML($thisNumber);
+    #                $thisNumber =~ s|</*nop/*>||goi;    # remove <nop> tag
+    #                &$callback( $cbdata, $thisNumber );
+    #            }
+    #            else {
+    #                $searchResult .= $thisNumber;
+    #            }
+    #        }
+    #    }
+    #    return ( $ttopics, $searchResult );
+    return ( $ttopics,
+        ( ( not defined($callback) ) and ( $#searchResults >= 0 ) )
+        ? $header . join( '', @searchResults ) . $footer
+        : '' );
 }
 
 =begin TML
