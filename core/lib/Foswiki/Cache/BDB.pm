@@ -88,7 +88,7 @@ sub init {
     my $fname =  $this->{namespace}.'.db';
     $fname =~ s/[\/\\:_]//go;
 
-    my $db = BerkeleyDB::Hash->new(
+    my $db = BerkeleyDB::Btree->new(
       -Env => $env,
       -Subname => $this->{namespace},
       -Filename => $fname,

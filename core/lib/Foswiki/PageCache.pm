@@ -153,6 +153,7 @@ sub cachePage {
   my $session = $this->{session};
   my $web = $session->{webName};
   my $topic = $session->{topicName};
+  my $headers = $session->{response}->headers();
 
   $web =~ s/\//./go;
 
@@ -191,14 +192,16 @@ sub cachePage {
     $lastModified = Foswiki::Time::formatTime($time, 'http', 'gmtime');
   }
 
-
+  my $status = $headers->{Status} || 200;
   my $variation = {
     contentType=>$contentType,
     lastModified=>$lastModified,
     text=>$text,
     etag=>$etag,
     isDirty=>$isDirty,
+    status=>$status,
   };
+  $variation->{location} = $headers->{Location} if $status == 302;
 
   # store variation of this topic
   $this->{handler}->set(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey, $variation);
@@ -550,8 +553,10 @@ sub fireDependency {
 
   # delete all pages we are an ingredient of
   my $revDeps = $this->_getRevDependencies($webTopic);
-  foreach my $dep (split(/,/, $revDeps)) {
-    $this->_deletePage($dep);
+  if ($revDeps) {
+    foreach my $dep (split(/,/, $revDeps)) {
+      $this->_deletePage($dep);
+    }
   }
 }
 

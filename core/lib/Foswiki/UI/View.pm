@@ -58,9 +58,18 @@ sub view {
         my $text = $cachedPage->{text};
         $cache->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
 
-        # compute headers
-        my $contentType = $cachedPage->{contentType};
-        $session->generateHTTPHeaders('view', $contentType, $text, $cachedPage);
+        # set status
+        my $status = $cachedPage->{status};
+        if ($status == 302) {
+          $session->{response}->redirect($cachedPage->{location});
+        } else {
+          $session->{response}->status($status);
+        }
+
+        # set headers
+        $session->generateHTTPHeaders('view', $cachedPage->{contentType}, $text, $cachedPage);
+
+        # send it out
         $session->{response}->print($text);
 
         Monitor::MARK('Wrote HTML');

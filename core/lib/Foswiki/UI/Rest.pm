@@ -90,11 +90,11 @@ sub rest {
         $session->{topicName} = $Foswiki::cfg{HomeTopicName};
     }
 
-    my $cachedPage;
     my $cache = $session->{cache};
-    if ($cache) {
-      $cachedPage = $cache->getPage($session->{webName}, $session->{topicName});
-    }
+    my $cachedPage;
+    $cachedPage = $cache->getPage($session->{webName}, $session->{topicName})
+      if $cache;
+
     if ($cachedPage) {
         print STDERR "found REST for $session->{webName}.$session->{topicName} in cache\n" 
 	  if $Foswiki::cfg{Cache}{Debug};
@@ -103,10 +103,19 @@ sub rest {
         my $text = $cachedPage->{text};
         $cache->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
 
-        # compute headers
-        my $contentType = $cachedPage->{contentType};
-        $session->generateHTTPHeaders('rest', $contentType, $text, $cachedPage);
-        $session->{response}->body($text);
+        # set status
+        my $status = $cachedPage->{status};
+        if ($status == 302) {
+            $session->{response}->redirect($cachedPage->{location});
+        } else {
+            $session->{response}->status($status);
+        }
+
+        # set headers
+        $session->generateHTTPHeaders('rest', $cachedPage->{contentType}, $text, $cachedPage);
+
+        # send it out
+        $session->{response}->print($text);
 
         if ($Foswiki::cfg{Log}{rest}) {
             $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
