@@ -2243,7 +2243,7 @@ sub registerRESTHandler {
 
 =begin TML
 
----++ StaticMethod registerMETA($name, $check)
+---++ StaticMethod registerMETA($name, %syntax)
 
 When topic text is parsed, for example during =readTopic=, then =%META= tags
 are automatically extracted from the text. To reduce the risk of accidental
@@ -2251,38 +2251,52 @@ inclusion of invalid meta-data (which could cause havoc) then %META tags
 are validated during this process. A tag is only interpreted if it
 passed validation, otherwise it is ignored.
 
-You can register a new META tag =$name= with the defined checker =$check=.
-=$check= can be a reference to a function =\&fn=. In this case the
-function will be called when the embedded tag is encountered, passing
-in the name of the macro and the argument hash. For example,
+You register a new META tag passing the name in =$name=. =%syntax= is a
+set of optional parameters that describe how to check the fields of the tag.
+Only tags that pass the check will be read into topic meta-data. The following
+optional parameters are supported:
+
+=function=>\&fn= In this case the function =fn= will be called when the
+embedded tag is encountered, passing in the name of the macro and the
+argument hash. The function must return a non-zero/undef value if the tag
+is acceptable, or 0 otherwise. For example:
 <verbatim>
-registerMeta('BOOK', sub {
+registerMETA('BOOK', function => sub {
     my ($name, $args) = @_;
     # $name will be BOOK
-    return 0 unless defined $args->{title};
+    return defined $args->{title};
 }
 </verbatim>
-can be used to check that =%META:BOOKS{}= contains a title.
+can be used to check that =%META:BOOK{}= contains a title.
 
-Alternatively =$check= can be a reference to a list of valid parameter names.
+=require=>[]= is used to check that a list of named parameters are present on
+the tag. For example,
 <verbatim>
-registerMeta('BOOK', [ 'author', 'title' ])
+registerMETA('BOOK', require => [ 'title', 'author' ]);
 </verbatim>
-In this case these parameters will be assumed to be required.
+can be used to check that both =title= and =author= are present.
 
-You can also specify exclusions be prepending a '-' to the parameter name:
+=allow=>[]= lets you specify other optional parameters that are allowed
+on the tag. If you specify =allow= then the validation will fail if the
+tag contains any parameters that are _not_ in the =allow= or =require= lists.
+If you don't specify =allow= then all parameters will be allowed.
+
+Checks are cumulative, so if you:
 <verbatim>
-registerMeta('BOOK', [ 'author', 'title', '-isbn' ])
+registerMETA('BOOK',
+    function => \&checkParameters,
+    require => [ 'title' ],
+    allow => [ 'author', 'isbn' ]);
 </verbatim>
-will result in the validation failing if the =isbn= parameter is present in
-the tag.
+then all these conditions will be tested. Note that =require= and =allow=
+are tested _after_ =function= is called, to give the function a chance to
+rewrite the parameter list.
 
-If no checker exists for a META tag, then it will automatically be accepted
-into the topic meta-data.
+If no checker is registered for a META tag, then it will automatically
+be accepted into the topic meta-data.
 
-Normally you should use the validator to ensure that the META is sufficient,
-but not necessarily complete i.e. in many cases your code will be able
-to tolerate a missing parameter or two.
+Note that the checker only verifies the *presence* of parameters, and
+not their *values*.
 
 =cut
 

@@ -116,61 +116,34 @@ our $MINTRUNC   = 16;
 # max number of lines in a summary (best to keep it even)
 our $SUMMARYLINES = 6;
 
-# Map META:x to either the address of a validation function, or to a list
-# of required (or -excluded) parameter names.
+# META:x validation. See Foswiki::Func::registerMETA for more information.
+# Note that 'other' is *not* the same as 'allow'; it doesn't imply any
+# exclusion of tags that contain unaccepted params. It's really just for
+# documentation (and DB schema initialisation).
 our %VALIDATE = (
-    TOPICINFO      => [ qw( author ) ],
-    TOPICMOVED     => [ qw( from to by date ) ],
-    TOPICPARENT    => [ qw( name ) ],
-    FILEATTACHMENT => [ qw( name ) ],
-    FORM           => [ qw( name ) ],
-    FIELD          => [ qw( name value ) ],
-);
+    TOPICINFO      => { require => [ qw( author ) ],
+                        other   => [ qw( version date format reprev ) ] },
+    TOPICMOVED     => { require => [ qw( from to by date ) ] },
+    TOPICPARENT    => { require => [ qw( name ) ] },
+    FILEATTACHMENT => { require => [ qw( name ) ],
+                        other   => [ qw( version path size date user
+                                         comment attr ) ] },
+    FORM           => { require => [ qw( name ) ] },
+    FIELD          => { require => [ qw( name value ) ],
+                        other   => [ qw( title )] }
+   );
 
 =begin TML
 
 ---++ StaticMethod registerMETA($name, $check)
 
-When topic text is parsed, for example during =readTopic=, then =%META= tags
-are automatically extracted from the text. To reduce the risk of accidental
-inclusion of invalid meta-data (which could cause havoc) then %META tags
-are validated during this process. A tag is only taken into meta-data if it
-passed validation, otherwise it is ignored.
-
-You can register a new META tag =$name= with the defined checker =$check=.
-=$check= can be a reference to a function =\&fn=. In this case the
-function will be called when the embedded tag is encountered, passing
-in the name of the macro and the argument hash. For example,
-<verbatim>
-registerMeta('BOOK', sub {
-    my ($name, $args) = @_;
-    # $name will be BOOK
-    return 0 unless defined $args->{title};
-}
-</verbatim>
-can be used to check that =%META:BOOKS{}= contains a title.
-
-Alternatively =$check= can be a reference to a list of valid parameter names.
-<verbatim>
-registerMeta('BOOK', [ 'author', 'title' ])
-</verbatim>
-In this case these parameters will be assumed to be required.
-
-You can also specify exclusions be prepending a '-' to the parameter name:
-<verbatim>
-registerMeta('BOOK', [ 'author', 'title', '-isbn' ])
-</verbatim>
-will result in the validation failing if the =isbn= parameter is present in
-the tag.
-
-If no checker exists for a META tag, then it will automatically be accepted
-into the topic meta-data.
+See Foswiki::Func::registerMETA for full doc of this function.
 
 =cut
 
 sub registerMETA {
-    my ($name, $check) = @_;
-    $VALIDATE{$name} = $check;
+    my ($name, %check) = @_;
+    $VALIDATE{$name} = \%check;
 }
 
 ############# GENERIC METHODS #############
@@ -2707,22 +2680,36 @@ sub isValidEmbedding {
 
     my $validate = $VALIDATE{$macro};
     return 1 unless $validate; # not validated
-    if (ref($validate) eq 'ARRAY') {
-        foreach my $p (@$validate ) {
-            if ($p =~ /^-(.*)/) {
-                if (defined $args->{$1}) {
-                    $reason = "$p was present in \%META:$macro";
-                    return 0;
-                }
-            } elsif (!defined $args->{$p}) {
+
+    if( defined $validate->{function} ) {
+        unless (&{$validate->{function}}($macro, $args) ) {
+            $reason = "\%META:$macro validation failed";
+            return 0;
+        }
+        # Fall through to check other constraints
+    }
+
+    my %allowed;
+    if (defined $validate->{require}) {
+        map { $allowed{$_} = 1 } @{$validate->{require}};
+        foreach my $p (@{$validate->{require}}) {
+            if (!defined $args->{$p}) {
                 $reason = "$p was missing from \%META:$macro";
                 return 0;
             }
         }
-    } elsif( ! &$validate($macro, $args) ) {
-        $reason = "\%META:$macro validation failed";
-        return 0;
     }
+
+    if (defined $validate->{allow}) {
+        map { $allowed{$_} = 1 } @{$validate->{allow}};
+        foreach my $arg (keys %$args) {
+            if (!$allowed{$arg}) {
+                $reason = "$arg was present in \%META:$macro";
+                return 0;
+            }
+        }
+    }
+
     return 1
 }
 
