@@ -280,9 +280,6 @@ sub loadSession {
     if ( $Foswiki::cfg{UseClientSessions}
            && !$session->inContext('command_line')) {
 
-        # See if we have a session; create one if not
-        my $session->{request} = $session->{request};
-
         $this->{_haveCookie} = $session->{request}->header('Cookie');
 
         _trace( $this, $this->{_haveCookie} ?
