@@ -288,7 +288,7 @@ sub numRevisions {
 }
 
 # implements VC::Handler
-sub getRevisionInfo {
+sub getInfo {
     my ( $this, $version ) = @_;
 
     if ( -e $this->{rcsFile} ) {
@@ -318,7 +318,7 @@ sub getRevisionInfo {
             }
         }
     }
-    return $this->SUPER::getRevisionInfo($version);
+    return $this->SUPER::getInfo($version);
 }
 
 # implements VC::Handler

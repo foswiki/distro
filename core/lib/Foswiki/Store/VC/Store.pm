@@ -139,12 +139,6 @@ sub moveAttachment {
         $newAttachment, $cUID )
       = @_;
 
-    ASSERT( $oldTopicObject->isa('Foswiki::Meta') ) if DEBUG;
-    ASSERT( $newTopicObject->isa('Foswiki::Meta') ) if DEBUG;
-    ASSERT($oldAttachment)                          if DEBUG;
-    ASSERT($newAttachment)                          if DEBUG;
-    ASSERT($cUID)                                   if DEBUG;
-
     my $handler =
       $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic,
         $oldAttachment );
@@ -152,48 +146,13 @@ sub moveAttachment {
         $handler->moveAttachment( $newTopicObject->web, $newTopicObject->topic,
             $newAttachment );
     }
-
-    # Modify the cache of the old topic
-    my $fileAttachment =
-      $oldTopicObject->get( 'FILEATTACHMENT', $oldAttachment );
-    $oldTopicObject->remove( 'FILEATTACHMENT', $oldAttachment );
-    $oldTopicObject->saveAs(
-        undef, undef,
-        dontlog => 1,
-        comment => 'lost ' . $oldAttachment
-    );
-
-    # Add file attachment to new topic
-    $fileAttachment->{name} = $newAttachment;
-    $fileAttachment->{movefrom} =
-        $oldTopicObject->web . '.'
-      . $oldTopicObject->topic . '.'
-      . $oldAttachment;
-    $fileAttachment->{moveby} = $cUID;
-    $fileAttachment->{movedto} =
-        $newTopicObject->web . '.'
-      . $newTopicObject->topic . '.'
-      . $newAttachment;
-    $fileAttachment->{movedwhen} = time();
-    $newTopicObject->putKeyed( 'FILEATTACHMENT', $fileAttachment );
-
-    $newTopicObject->saveAs(
-        undef, undef,
-        dontlog => 1,
-        comment => 'gained' . $newAttachment
-    );
 }
 
 # Documented in Foswiki::Store
 sub attachmentExists {
-    my ( $this, $topicObject, $att ) = @_;
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $att );
-    return 1 if $handler->storedDataExists();
-
-    # Filestore denies knowledge of it; check the meta
-    $topicObject->reload() unless $topicObject->getLoadedRev();
-    return defined $topicObject->get( 'FILEATTACHMENT', $att );
+    my ( $this, $web, $topic, $att ) = @_;
+    my $handler = $this->getHandler( $web, $topic, $att );
+    return $handler->storedDataExists();
 }
 
 # Documented in Foswiki::Store
@@ -268,7 +227,7 @@ sub getRevisionDiff {
 }
 
 # Documented in Foswiki::Store
-sub getRevisionInfo {
+sub getVersionInfo {
     my ( $this, $topicObject, $rev, $attachment ) = @_;
 
     $rev ||= 0;
@@ -276,15 +235,7 @@ sub getRevisionInfo {
     my $handler =
       $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
 
-    my $info = $handler->getRevisionInfo($rev);
-
-    if ( !$attachment ) {
-
-        # cache the result
-        $topicObject->setRevisionInfo($info);
-    }
-
-    return $info;
+    return $handler->getInfo($rev);
 }
 
 # Documented in Foswiki::Store
@@ -309,41 +260,12 @@ sub saveTopic {
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
-    my $currentRev = $handler->numRevisions() || 0;
-    my $nextRev = $currentRev + 1;
-    if ( $currentRev && !$options->{forcenewrevision} ) {
-
-        # See if we want to replace the existing top revision
-        my $mtime1 = $handler->getTimestamp();
-        my $mtime2 = time();
-
-        if (
-            abs( $mtime2 - $mtime1 ) <
-            $Foswiki::cfg{ReplaceIfEditedAgainWithin} )
-        {
-
-            my $info = $handler->getRevisionInfo($currentRev);
-
-            # same user?
-            if ( $info->{author} eq $cUID ) {
-                $this->repRev( $topicObject, $cUID, %$options );
-                return;
-            }
-        }
-    }
-    $topicObject->setRevisionInfo(
-        {
-            date => $options->{forcedate} || time(),
-            author  => $cUID,
-            version => $nextRev
-        }
-    );
 
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
 
     # just in case they are not sequential
-    $nextRev = $handler->numRevisions();
+    my $nextRev = $handler->numRevisions();
 
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
@@ -358,30 +280,6 @@ sub repRev {
     ASSERT($cUID) if DEBUG;
 
     my $info = $topicObject->getRevisionInfo();
-
-    if ( $options{forcedate} ) {
-
-        # We are trying to force the rev to be saved with the same date
-        # and user as the prior rev. However, exactly the same date may
-        # cause some revision control systems to barf, so to avoid this we
-        # add 1 minute to the rev time. Note that this mode of operation
-        # will normally require sysadmin privilege, as it can result in
-        # confused rev dates if abused.
-        $info->{date} += 60;
-    }
-    else {
-
-        # use defaults (current time, current user)
-        $info->{date}   = time();
-        $info->{author} = $cUID;
-    }
-
-    # repRev is required so we can tell when a merge is based on something
-    # that is *not* the original rev where another users' edit started.
-    # See Bugs:Item1897.
-    $info->{reprev} = "1.$info->{version}";
-    $topicObject->setRevisionInfo($info);
-
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
         'reprev', $info->{author}, $info->{date} );

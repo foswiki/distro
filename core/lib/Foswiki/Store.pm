@@ -192,14 +192,14 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod attachmentExists( $topicObject, $att ) -> $boolean
+---++ ObjectMethod attachmentExists( $web, $topic, $att ) -> $boolean
 
 Determine if the attachment already exists on the given topic
 
 =cut
 
 sub attachmentExists {
-    my( $this, $topicObject, $att ) = @_;
+    my( $this, $web, $topic, $att ) = @_;
     die "Abstract base class";
 }
 
@@ -328,7 +328,7 @@ sub getRevisionDiff {
 
 =begin TML
 
----++ ObjectMethod getRevisionInfo($topicObject, $rev, $attachment) -> \%info
+---++ ObjectMethod getVersionInfo($topicObject, $rev, $attachment) -> \%info
 
 Get revision info of a topic or attachment.
    * =$topicObject= Topic object, required
@@ -342,7 +342,8 @@ Return %info with at least:
 
 =cut
 
-sub getRevisionInfo {
+# Formerly know as getRevisionInfo.
+sub getVersionInfo {
     my( $this, $topicObject, $rev, $attachment ) = @_;
     die "Abstract base class";
 }

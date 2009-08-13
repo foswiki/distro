@@ -1070,7 +1070,9 @@ sub getRevisionInfo {
     else {
 
         # Delegate to the store
-        $info = $this->{_session}->{store}->getRevisionInfo($this);
+        $info = $this->{_session}->{store}->getVersionInfo($this);
+        # cache the result
+        $this->setRevisionInfo($info);
     }
     return $info;
 }
@@ -1531,8 +1533,43 @@ sub saveAs {
     $this->{_topic} = $newTopic if $newTopic;
     ASSERT( $this->{_web} && $this->{_topic} ) if DEBUG;
     $this->_atomicLock($cUID);
-    my $error;
+
+    my $currentRev = $this->{_session}->{store}->getRevisionNumber($this) || 0;
+    my $nextRev = $currentRev + 1;
     try {
+        if ( $currentRev && !$opts{forcenewrevision} ) {
+
+            # See if we want to replace the existing top revision
+            my $mtime1 = $this->{_session}->{store}->getApproxRevTime(
+                $this->{_web}, $this->{_topic});
+            my $mtime2 = time();
+            my $dt = abs( $mtime2 - $mtime1 );
+            if ( $dt < $Foswiki::cfg{ReplaceIfEditedAgainWithin} ) {
+                my $info = $this->{_session}->{store}->getVersionInfo(
+                    $this, $currentRev);
+
+                # same user?
+                if ( $info->{author} eq $cUID ) {
+                    # reprev is required so we can tell when a merge is
+                    # based on something that is *not* the original rev
+                    # where another users' edit started.
+                    $info->{reprev} = '1.'.$info->{version};
+                    $info->{date} = $opts{forcedate} || time();
+                    $this->setRevisionInfo($info);
+                    $this->{_session}->{store}->repRev( $this, $cUID, %opts );
+                    $this->{_loadedRev} = $currentRev;
+                    return;
+                }
+            }
+        }
+        $this->setRevisionInfo(
+            {
+                date => $opts{forcedate} || time(),
+                author  => $cUID,
+                version => $nextRev
+               }
+           );
+
         $this->{_loadedRev} =
           $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
     }
@@ -1715,6 +1752,30 @@ sub replaceMostRecentRevision {
 
     $this->_atomicLock($cUID);
 
+    my $info = $this->getRevisionInfo();
+
+    if ( $opts{forcedate} ) {
+
+        # We are trying to force the rev to be saved with the same date
+        # and user as the prior rev. However, exactly the same date may
+        # cause some revision control systems to barf, so to avoid this we
+        # add 1 minute to the rev time. Note that this mode of operation
+        # will normally require sysadmin privilege, as it can result in
+        # confused rev dates if abused.
+        $info->{date} += 60;
+    }
+    else {
+
+        # use defaults (current time, current user)
+        $info->{date}   = time();
+        $info->{author} = $cUID;
+    }
+
+    # repRev is required so we can tell when a merge is based on something
+    # that is *not* the original rev where another users' edit started.
+    $info->{reprev} = '1.'.$info->{version};
+    $this->setRevisionInfo($info);
+
     try {
         $this->{_session}->{store}->repRev( $this, $cUID, @_ );
     }
@@ -1799,9 +1860,7 @@ sub removeFromStore {
             'No such topic ' . $this->{_web} . '.' . $this->{_topic} );
     }
 
-    if ( $attachment
-        && !$store->attachmentExists( $this, $attachment ) )
-    {
+    if ( $attachment && !$this->hasAttachment( $attachment ) ) {
         throw Error::Simple( 'No such attachment '
               . $this->{_web} . '.'
               . $this->{_topic} . '.'
@@ -1963,7 +2022,7 @@ sub getAttachmentRevisionInfo {
     my ( $this, $attachment, $fromrev ) = @_;
 
     return $this->{_session}->{store}
-      ->getRevisionInfo( $this, $fromrev, $attachment );
+      ->getVersionInfo( $this, $fromrev, $attachment );
 }
 
 =begin TML
@@ -2109,7 +2168,14 @@ Test if the named attachment exists. Only valid on topics.
 
 sub hasAttachment {
     my ( $this, $name ) = @_;
-    return $this->{_session}->{store}->attachmentExists( $this, $name );
+    return 1 if $this->{_session}->{store}->attachmentExists(
+        $this->web, $this->topic, $name );
+
+    # Store denies knowledge of it; check the meta, just in case it's
+    # been added to meta but not saved yet
+    $this->reload() unless $this->getLoadedRev();
+    return defined $this->get( 'FILEATTACHMENT', $name );
+
 }
 
 =begin TML
@@ -2220,6 +2286,32 @@ sub moveAttachment {
     try {
         $this->{_session}->{store}
           ->moveAttachment( $this, $name, $to, $newName, $cUID );
+
+        # Modify the cache of the old topic
+        my $fileAttachment = $this->get( 'FILEATTACHMENT', $name );
+        $this->remove( 'FILEATTACHMENT', $name );
+        $this->saveAs(
+            undef, undef,
+            dontlog => 1,
+            comment => 'lost ' . $name
+           );
+
+        # Add file attachment to new topic
+        $fileAttachment->{name} = $newName;
+        $fileAttachment->{movefrom} =
+          $this->getPath() . '.' . $name;
+        $fileAttachment->{moveby} = $cUID;
+        $fileAttachment->{movedto} =
+          $to->getPath() . '.' . $newName;
+        $fileAttachment->{movedwhen} = time();
+        $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
+
+        $to->saveAs(
+            undef, undef,
+            dontlog => 1,
+            comment => 'gained' . $newName
+           );
+
         $this->reload();
         $to->reload();
     }
@@ -2237,13 +2329,8 @@ sub moveAttachment {
 
     $this->{_session}->logEvent(
         'move',
-        $this->{_web} . '.'
-          . $this->{_topic} . '.'
-          . $name
-          . ' moved to '
-          . $to->{_web} . '.'
-          . $to->{_topic} . '.'
-          . $newName,
+        $this->getPath() . '.' . $name . ' moved to '
+          . $to->getPath() . '.' . $newName,
         $cUID
     );
 }

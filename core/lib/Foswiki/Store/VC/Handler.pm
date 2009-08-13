@@ -162,7 +162,7 @@ sub _controlFileName {
 
 =begin TML
 
----++ ObjectMethod getRevisionInfo($version) -> \%info
+---++ ObjectMethod getInfo($version) -> \%info
 
    * =$version= if 0 or undef, or out of range (version number > number of revs) will return info about the latest revision.
 
@@ -173,8 +173,9 @@ if file-based rev info is required.
 
 =cut
 
-sub getRevisionInfo {
+sub getInfo {
     my ($this) = @_;
+    # SMELL: this is only required for the constant
     require Foswiki::Users::BaseUserMapping;
     return {
         version => 1,

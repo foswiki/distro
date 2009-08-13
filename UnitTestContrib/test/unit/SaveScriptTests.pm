@@ -920,10 +920,11 @@ sub test_1897 {
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
     $text = $meta->text();
     $info = $meta->getRevisionInfo();
-    ( $orgDate, $orgAuth, $orgRev ) =
+    my ( $repRevDate, $repRevAuth, $repRevRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
-    $this->assert_equals( 1, $orgRev );
+    $this->assert_equals( 1, $repRevRev );
     $this->assert_str_equals( "Sweaty\ncat\n", $text );
+    $this->assert( $repRevDate != $orgDate );
 
     # User B saves; make sure we get a merge notice.
     $query = new Unit::Request(
@@ -952,9 +953,9 @@ sub test_1897 {
     $text = $meta->text();
 
     $info = $meta->getRevisionInfo();
-    ( $orgDate, $orgAuth, $orgRev ) =
+    my ( $mergeDate, $mergeAuth, $mergeRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
-    $this->assert_equals( 2, $orgRev );
+    $this->assert_equals( 2, $mergeRev );
     $this->assert_str_equals(
 "<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>",
         $text

@@ -575,7 +575,7 @@ sub revisionDiff {
 }
 
 # implements VC::Handler
-sub getRevisionInfo {
+sub getInfo {
     my ( $this, $version ) = @_;
 
     _ensureProcessed($this);
@@ -593,7 +593,7 @@ sub getRevisionInfo {
         };
     }
     else {
-        $info = $this->SUPER::getRevisionInfo($version);
+        $info = $this->SUPER::getInfo($version);
     }
     return $info;
 }

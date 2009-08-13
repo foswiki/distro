@@ -492,31 +492,31 @@ sub verify_RevInfo {
 
     $rcs = $class->new( $testWeb, 'RevInfo', "" );
 
-    my $info = $rcs->getRevisionInfo(1);
+    my $info = $rcs->getInfo(1);
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 0, $info->{date} );
     $this->assert_str_equals( 'FirstUser',    $info->{author} );
     $this->assert_str_equals( 'FirstComment', $info->{comment} );
 
-    $info = $rcs->getRevisionInfo(2);
+    $info = $rcs->getInfo(2);
     $this->assert_equals( 2,    $info->{version} );
     $this->assert_equals( 1000, $info->{date} );
     $this->assert_str_equals( 'SecondUser',    $info->{author} );
     $this->assert_str_equals( 'SecondComment', $info->{comment} );
 
-    $info = $rcs->getRevisionInfo(3);
+    $info = $rcs->getInfo(3);
     $this->assert_equals( 3,    $info->{version} );
     $this->assert_equals( 2000, $info->{date} );
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
-    $info = $rcs->getRevisionInfo(0);
+    $info = $rcs->getInfo(0);
     $this->assert_equals( 3,    $info->{version} );
     $this->assert_equals( 2000, $info->{date} );
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
-    $info = $rcs->getRevisionInfo(4);
+    $info = $rcs->getInfo(4);
     $this->assert_equals( 3,    $info->{version} );
     $this->assert_equals( 2000, $info->{date} );
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
@@ -526,7 +526,7 @@ sub verify_RevInfo {
 
     $rcs = $class->new( $testWeb, 'RevInfo', "" );
 
-    $info = $rcs->getRevisionInfo(3);
+    $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
 
     $this->assert_str_equals(
@@ -549,7 +549,7 @@ sub verify_MissingVrestoreRev {
     close(F);
 
     my $rcs = $class->new( $testWeb, 'MissingV', "" );
-    my $info = $rcs->getRevisionInfo(3);
+    my $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 1, $rcs->numRevisions() );
 
@@ -582,7 +582,7 @@ sub verify_MissingVrepRev {
     close(F);
 
     my $rcs = $class->new( $testWeb, 'MissingV', "" );
-    my $info = $rcs->getRevisionInfo(3);
+    my $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 1, $rcs->numRevisions() );
 
@@ -613,7 +613,7 @@ sub verify_MissingVdelRev {
     close(F);
 
     my $rcs = $class->new( $testWeb, 'MissingV', "" );
-    my $info = $rcs->getRevisionInfo(3);
+    my $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 1, $rcs->numRevisions() );
 
@@ -751,7 +751,7 @@ sub item945_checkHistoryRcs {
     $this->assert_equals( $depth, $rcs->numRevisions() );
     for my $digger ( 1 .. $depth ) {
         my $info  = $historyItem945[ $digger - 1 ];
-        my $rinfo = $rcs->getRevisionInfo($digger);
+        my $rinfo = $rcs->getInfo($digger);
         $this->assert_deep_equals(
             {
                 version => $digger,
