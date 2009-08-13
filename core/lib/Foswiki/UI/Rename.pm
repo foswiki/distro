@@ -1057,6 +1057,9 @@ sub _newTopicOrAttachmentScreen {
         }
     }
 
+    $attachment = ''   if not defined $attachment;
+    $toattachment = '' if not defined $toattachment;
+
     $tmpl =~ s/%FILENAME%/$attachment/g;
     $tmpl =~ s/%NEW_FILENAME%/$toattachment/g;
     $tmpl =~ s/%NEW_WEB%/$to->web()/ge;
