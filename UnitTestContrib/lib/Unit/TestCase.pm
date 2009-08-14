@@ -84,9 +84,7 @@ sub list_tests {
     my @setups = ();
     push(
         @tests,
-        _gen_verification_functions(
-            \@setups, $suite, \@verifies, $this->fixture_groups()
-        )
+        _gen_verification_functions( \@setups, $suite, \@verifies, $fg )
     );
     return @tests;
 }

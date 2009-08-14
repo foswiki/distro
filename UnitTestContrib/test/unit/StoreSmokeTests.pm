@@ -14,32 +14,38 @@ my $testUser1;
 my $testUser2;
 my $UI_FN;
 
-sub RcsLite {
-    my $this = shift;
-    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
-    $this->set_up_for_verify();
-}
-
-sub RcsWrap {
-    my $this = shift;
-    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
-    $this->set_up_for_verify();
-}
-
 sub fixture_groups {
-
-    # SMELL: can populate this from @INC
-    my $groups = ['RcsLite'];
-    eval {
-        `co -V`;    # Check to see if we have co
-    };
-    if ( $@ || $? ) {
-        print STDERR "*** CANNOT RUN RcsWrap TESTS - NO COMPATIBLE co: $@\n";
+    my @groups;
+    foreach my $dir (@INC) {
+        if ( opendir( D, "$dir/Foswiki/Store" ) ) {
+            foreach my $alg ( readdir D ) {
+                next unless $alg =~ s/^(.*)\.pm$/$1/;
+                next if defined &$alg;
+                if ($alg =~ /RcsWrap/) {
+                    eval {
+                        `co -V`;    # Check to see if we have co
+                    };
+                    if ( $@ || $? ) {
+                        print STDERR "*** CANNOT RUN RcsWrap TESTS - NO COMPATIBLE co: $@\n";
+                        next;
+                    }
+                }
+                eval "require Foswiki::Store::$alg";
+                die $@ if $@;
+                no strict 'refs';
+                *$alg = sub {
+                    my $this = shift;
+                    $Foswiki::cfg{Store}{Implementation} =
+                      'Foswiki::Store::'.$alg;
+                    $this->set_up_for_verify();
+                };
+                use strict 'refs';
+                push(@groups, $alg);
+            }
+            closedir(D);
+        }
     }
-    else {
-        push( @$groups, 'RcsWrap' );
-    }
-    return ($groups);
+    return \@groups;
 }
 
 # Set up the test fixture
