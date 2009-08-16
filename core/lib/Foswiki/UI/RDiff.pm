@@ -589,13 +589,11 @@ sub diff {
             }
         }
         else {
-            $rd =
-              $topicObject{$rLow}
-              ->getDifferences( $topicObject{$rHigh}, $contextLines );
+            $rd = $topicObject{$rLow}->getDifferences( $rHigh, $contextLines );
         }
 
-        $text =
-          _renderRevisionDiff( $session, $topicObject, $rd, $renderStyle );
+        $text = _renderRevisionDiff(
+            $session, $topicObject, $rd, $renderStyle );
 
         $diff =~ s/%REVINFO1%/$rInfo/go;
         $diff =~ s/%REVINFO2%/$rInfo2/go;

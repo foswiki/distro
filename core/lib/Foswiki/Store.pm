@@ -54,28 +54,17 @@ use Foswiki::AccessControlException ();
 
 our $STORE_FORMAT_VERSION = '1.1';
 
-BEGIN {
-
-    # Do a dynamic 'use locale' for this module
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
----++ ClassMethod new($logger)
+---++ ClassMethod new()
 
 Construct a Store module.
-
-$logger is an object that implements Foswiki::Logger.
 
 =cut
 
 sub new {
-    my ( $class, $logger ) = @_;
-    my $this = bless( { logger => $logger }, $class );
+    my ( $class ) = @_;
+    my $this = bless( { }, $class );
     return $this;
 }
 
@@ -91,7 +80,6 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{logger};
 }
 
 =begin TML
@@ -192,14 +180,14 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod attachmentExists( $web, $topic, $att ) -> $boolean
+---++ ObjectMethod attachmentExists( $topicObject, $att ) -> $boolean
 
 Determine if the attachment already exists on the given topic
 
 =cut
 
 sub attachmentExists {
-    my( $this, $web, $topic, $att ) = @_;
+    my( $this, $topicObject, $att ) = @_;
     die "Abstract base class";
 }
 
@@ -311,18 +299,28 @@ sub getRevisionNumber {
 
 =begin TML
 
----++ ObjectMethod getRevisionDiff ( $topicObject, $rev1, $rev2, $contextLines  ) -> \@diffArray
+---++ ObjectMethod getRevisionDiff ( $topicObject, $rev2, $contextLines  ) -> \@diffArray
 
-Return reference to an array of [ diffType, $right, $left ]
-   * =$topicObject= - the topic
-   * =$rev1= Integer revision number, lower revision
-   * =$rev2= Integer revision number, higher revision
+Get difference between two versions of the same topic. The differences are
+computed over the embedded store form.
+
+Return reference to an array of differences
+   * =$topicObject= - topic, first revision loaded
+   * =$rev2= - second revision
    * =$contextLines= - number of lines of context required
+
+Each difference is of the form [ $type, $right, $left ] where
+| *type* | *Means* |
+| =+= | Added |
+| =-= | Deleted |
+| =c= | Changed |
+| =u= | Unchanged |
+| =l= | Line Number |
 
 =cut
 
 sub getRevisionDiff {
-    my( $this, $topicObject1, $topicObject2, $contextLines ) = @_;
+    my( $this, $topicObject, $rev2, $contextLines ) = @_;
     die "Abstract base class";
 }
 
@@ -448,32 +446,34 @@ sub delRev {
 
 =begin TML
 
----++ ObjectMethod lockTopic( $topicObject, $cUID )
-
-   * =$topicObject= - Foswiki::Meta topic object
-   * =$cUID= cUID of user doing the locking
-Grab a topic lock on the given topic. A topic lock will cause other
-processes that also try to claim a lock to block. A lock has a
-maximum lifetime of 2 minutes, so operations on a locked topic
-must be completed within that time. You cannot rely on the
-lock timeout clearing the lock, though; that should always
-be done by calling unlockTopic. The best thing to do is to guard
-the locked section with a try..finally clause. See man Error for more info.
-
-Topic locks are used to make store operations atomic. They are
-_not_ the locks used when a topic is edited; those are Leases
-(see =getLease=)
+---++ ObjectMethod atomicLockInfo( $topicObject ) -> ($cUID, $time)
+If there is a lock on the topic, return it.
 
 =cut
 
-sub lockTopic {
+sub atomicLockInfo {
+    my ( $this, $topicObject ) = @_;
+    die "Abstract base class";
+}
+
+=begin TML
+
+---++ ObjectMethod atomicLock( $topicObject, $cUID )
+
+   * =$topicObject= - Foswiki::Meta topic object
+   * =$cUID= cUID of user doing the locking
+Grab a topic lock on the given topic.
+
+=cut
+
+sub atomicLock {
     my ( $this, $topicObject, $cUID ) = @_;
     die "Abstract base class";
 }
 
 =begin TML
 
----++ ObjectMethod unlockTopic( $topicObject, $cUID )
+---++ ObjectMethod atomicUnlock( $topicObject )
 
    * =$topicObject= - Foswiki::Meta topic object
 Release the topic lock on the given topic. A topic lock will cause other
@@ -487,8 +487,8 @@ _note_ the locks used when a topic is edited; those are Leases
 
 =cut
 
-sub unlockTopic {
-    my ( $this, $topicObject, $cUID ) = @_;
+sub atomicUnlock {
+    my ( $this, $topicObject ) = @_;
     die "Abstract base class";
 }
 
@@ -498,8 +498,6 @@ sub unlockTopic {
 
 Test if web exists
    * =$web= - Web name, required, e.g. ='Sandbox'=
-
-A web _has_ to have a preferences topic to be a web.
 
 =cut
 
@@ -578,7 +576,6 @@ sub eachAttachment {
 ---++ ObjectMethod eachTopic( $webObject ) -> $iterator
 
 Get list of all topics in a web as an iterator
-   * =$web= - Web name, required, e.g. ='Sandbox'=
 
 =cut
 
@@ -589,7 +586,7 @@ sub eachTopic {
 
 =begin TML
 
----++ ObjectMethod eachWeb($web, $all ) -> $iterator
+---++ ObjectMethod eachWeb($webObject, $all ) -> $iterator
 
 Return an iterator over each subweb. If $all is set, will return a list of all
 web names *under* $web. The iterator returns web pathnames relative to $web.
@@ -619,19 +616,6 @@ Destroy a thing, utterly.
 
 sub remove {
     my( $this, $topicObject, $attachment ) = @_;
-    die "Abstract base class";
-}
-
-=begin TML
-
----++ ObjectMethod copyTopic( $fromWeb, $fromTopic, $toWeb, $toTopic)
-
-Fast-copy a topic and all its attendant data from one place to another.
-
-=cut
-
-sub copyTopic {
-    my ( $this, $fromWeb, $fromTopic, $toWeb, $toTopic ) = @_;
     die "Abstract base class";
 }
 
@@ -688,10 +672,9 @@ sub searchInWebContent {
 
 =begin TML
 
----++ ObjectMethod getRevisionAtTime( $web, $topic, $time ) -> $rev
+---++ ObjectMethod getRevisionAtTime( $topicObject, $time ) -> $rev
 
-   * =$web= - web for topic
-   * =$topic= - topic
+   * =$topicObject= - topic
    * =$time= - time (in epoch secs) for the rev
 
 Get the revision number of a topic at a specific time.
@@ -701,7 +684,7 @@ Returns a single-digit rev number or undef if it couldn't be determined
 =cut
 
 sub getRevisionAtTime {
-    my ( $this, $web, $topic, $time ) = @_;
+    my ( $this, $topicObject, $time ) = @_;
     die "Abstract base class";
 }
 

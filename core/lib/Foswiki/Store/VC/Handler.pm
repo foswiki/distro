@@ -42,10 +42,19 @@ Constructor. There is one object per stored file.
 
 Note that $web, $topic and $attachment must be untainted!
 
+Can also be called on
+a =Foswiki::Meta object=, =new($metaObject, $attachment)=
+
 =cut
 
 sub new {
     my ( $class, $web, $topic, $attachment ) = @_;
+    if (UNIVERSAL::isa($web, 'Foswiki::Meta')) {
+        # $web refers to a meta object
+        $attachment = $topic;
+        $topic = $web->topic();
+        $web = $web->web();
+    }
     my $this = bless( {
         web => $web, topic => $topic, attachment => $attachment }, $class );
 

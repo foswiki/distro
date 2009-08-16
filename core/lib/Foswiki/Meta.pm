@@ -1545,8 +1545,7 @@ sub saveAs {
             my $mtime2 = time();
             my $dt = abs( $mtime2 - $mtime1 );
             if ( $dt < $Foswiki::cfg{ReplaceIfEditedAgainWithin} ) {
-                my $info = $this->{_session}->{store}->getVersionInfo(
-                    $this, $currentRev);
+                my $info = $this->{_session}->{store}->getVersionInfo($this);
 
                 # same user?
                 if ( $info->{author} eq $cUID ) {
@@ -1579,12 +1578,49 @@ sub saveAs {
     };
 }
 
+# An atomic lock will cause other
+# processes that also try to claim a lock to block. A lock has a
+# maximum lifetime of 2 minutes, so operations on a locked topic
+# must be completed within that time. You cannot rely on the
+# lock timeout clearing the lock, though; that should always
+# be done by calling _atomicUnlock. The best thing to do is to guard
+# the locked section with a try..finally clause. See man Error for more info.
+#
+# Atomic locks are  _not_ the locks used when a topic is edited; those are
+# Leases.
+
 sub _atomicLock {
     my ( $this, $cUID ) = @_;
     if ( $this->{_topic} ) {
+        my $logger = $this->{_session}->logger();
+        while (1) {
+            my ( $user, $time ) =
+              $this->{_session}->{store}->atomicLockInfo( $this );
+            last if ( !$user || $cUID eq $user );
+            $logger->log( 'warning',
+                          'Lock on '
+                            . $this->getPath() . ' for '
+                              . $cUID
+                                . " denied by $user" );
+
+            # see how old the lock is. If it's older than 2 minutes,
+            # break it anyway. Locks are atomic, and should never be
+            # held that long, by _any_ process.
+            if ( time() - $time > 2 * 60 ) {
+                $logger->log( 'warning',
+                              $cUID
+                                . " broke ${user}s lock on "
+                                  . $this->getPath() );
+                $this->{_session}->{store}->atomicUnlock( $this, $cUID );
+                last;
+            }
+
+            # wait a couple of seconds before trying again
+            sleep(2);
+        }
 
         # Topic
-        $this->{_session}->{store}->lockTopic( $this, $cUID );
+        $this->{_session}->{store}->atomicLock( $this, $cUID );
     }
     else {
 
@@ -1608,7 +1644,7 @@ sub _atomicLock {
 sub _atomicUnlock {
     my ( $this, $cUID ) = @_;
     if ( $this->{_topic} ) {
-        $this->{_session}->{store}->unlockTopic( $this, $cUID );
+        $this->{_session}->{store}->atomicUnlock( $this );
     }
     else {
         my $it = $this->eachWeb();
@@ -1872,25 +1908,27 @@ sub removeFromStore {
 
 =begin TML
 
----++ ObjectMethod getDifferences( $topicObject, $contextLines ) -> \@diffArray
+---++ ObjectMethod getDifferences( $rev2, $contextLines ) -> \@diffArray
 
-Return reference to an array of [ diffType, $right, $left ]
-   * =$topicObject2= - the higher revision tom to diff against (must be the same topic)
+Get the differences between the rev loaded into this object, and another
+rev of the same topic. Return reference to an array of differences.
+   * =$rev2= - the other revision to diff against
    * =$contextLines= - number of lines of context required
-Both $this and $topicObject2 must contain loaded revisions of the same topic
-with $this being the lower and $topicObject2 the higher revision
+
+Each difference is of the form [ $type, $right, $left ] where
+| *type* | *Means* |
+| =+= | Added |
+| =-= | Deleted |
+| =c= | Changed |
+| =u= | Unchanged |
+| =l= | Line Number |
 
 =cut
 
 sub getDifferences {
-    my ( $this, $topicObject2, $contextLines ) = @_;
-    ASSERT(  $topicObject2->{_web} eq $this->{_web}
-          && $topicObject2->{_topic} eq $this->{_topic} )
-      if DEBUG;
-    ASSERT( $this->{_loadedRev} )         if DEBUG;
-    ASSERT( $topicObject2->{_loadedRev} ) if DEBUG;
+    my ( $this, $rev2, $contextLines ) = @_;
     return $this->{_session}->{store}
-      ->getRevisionDiff( $this, $topicObject2, $contextLines );
+      ->getRevisionDiff( $this, $rev2, $contextLines );
 }
 
 =begin TML
@@ -2022,7 +2060,7 @@ sub getAttachmentRevisionInfo {
     my ( $this, $attachment, $fromrev ) = @_;
 
     return $this->{_session}->{store}
-      ->getVersionInfo( $this, $fromrev, $attachment );
+      ->getAttachmentVersionInfo( $this, $fromrev, $attachment );
 }
 
 =begin TML
@@ -2168,8 +2206,7 @@ Test if the named attachment exists. Only valid on topics.
 
 sub hasAttachment {
     my ( $this, $name ) = @_;
-    return 1 if $this->{_session}->{store}->attachmentExists(
-        $this->web, $this->topic, $name );
+    return 1 if $this->{_session}->{store}->attachmentExists( $this, $name );
 
     # Store denies knowledge of it; check the meta, just in case it's
     # been added to meta but not saved yet

@@ -68,7 +68,7 @@ sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     my $text;
     if ($version) {
         $text = $handler->getRevision($version);
@@ -114,12 +114,10 @@ sub readTopic {
                 $foundAttachment->{name} );
 
             if ( $fileName ne $origName ) {
-                $this->{logger}->log( 'warning',
-                        'AutoAttachPubFiles ignoring '
-                      . $origName . ' in '
-                      . $topicObject->web . '.'
-                      . $topicObject->topic
-                      . ' - not a valid Foswiki Attachment filename' );
+                print STDERR 'AutoAttachPubFiles ignoring '
+                  . $origName . ' in '
+                    . $topicObject->getPath()
+                      . ' - not a valid Foswiki Attachment filename' ;
             }
             else {
                 push @validAttachmentsFound, $foundAttachment;
@@ -140,8 +138,7 @@ sub moveAttachment {
       = @_;
 
     my $handler =
-      $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic,
-        $oldAttachment );
+      $this->getHandler( $oldTopicObject, $oldAttachment );
     if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $newTopicObject->web, $newTopicObject->topic,
             $newAttachment );
@@ -150,8 +147,8 @@ sub moveAttachment {
 
 # Documented in Foswiki::Store
 sub attachmentExists {
-    my ( $this, $web, $topic, $att ) = @_;
-    my $handler = $this->getHandler( $web, $topic, $att );
+    my ( $this, $topicObject, $att ) = @_;
+    my $handler = $this->getHandler( $topicObject, $att );
     return $handler->storedDataExists();
 }
 
@@ -161,7 +158,7 @@ sub moveTopic {
     ASSERT($cUID) if DEBUG;
 
     my $handler =
-      $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic, '' );
+      $this->getHandler( $oldTopicObject, '' );
     my $rev = $handler->numRevisions();
 
     $handler->moveTopic( $newTopicObject->web, $newTopicObject->topic );
@@ -172,8 +169,7 @@ sub moveTopic {
         $handler->recordChange( $cUID, $rev );
     }
 
-    $handler =
-      $this->getHandler( $newTopicObject->web, $newTopicObject->topic, '' );
+    $handler = $this->getHandler( $newTopicObject, '' );
     $handler->recordChange( $cUID, $rev );
 }
 
@@ -182,15 +178,14 @@ sub moveWeb {
     my ( $this, $oldWebObject, $newWebObject, $cUID ) = @_;
     ASSERT($cUID) if DEBUG;
 
-    my $handler = $this->getHandler( $oldWebObject->web );
+    my $handler = $this->getHandler( $oldWebObject );
     $handler->moveWeb( $newWebObject->web );
 }
 
 # Documented in Foswiki::Store
 sub testAttachment {
     my ( $this, $topicObject, $attachment, $test ) = @_;
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
+    my $handler = $this->getHandler( $topicObject, $attachment );
     return $handler->test($test);
 }
 
@@ -198,8 +193,7 @@ sub testAttachment {
 sub openAttachment {
     my ( $this, $topicObject, $att, $mode, @opts ) = @_;
 
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $att );
+    my $handler = $this->getHandler( $topicObject, $att );
     return $handler->openStream( $mode, @opts );
 }
 
@@ -207,46 +201,41 @@ sub openAttachment {
 sub getRevisionNumber {
     my ( $this, $topicObject, $attachment ) = @_;
 
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
+    my $handler = $this->getHandler( $topicObject, $attachment );
     return $handler->numRevisions();
 }
 
 # Documented in Foswiki::Store
-# topicObject1 is the lower revision, topicObject2 is the higher revision
 sub getRevisionDiff {
-    my ( $this, $topicObject1, $topicObject2, $contextLines ) = @_;
+    my ( $this, $topicObject, $rev2, $contextLines ) = @_;
     ASSERT( defined($contextLines) ) if DEBUG;
 
-    my $rcs = $this->getHandler( $topicObject1->web, $topicObject1->topic );
+    my $rcs = $this->getHandler( $topicObject );
     return $rcs->revisionDiff(
-        $topicObject1->getLoadedRev(),
-        $topicObject2->getLoadedRev(),
+        $topicObject->getLoadedRev(),
+        $rev2,
         $contextLines
     );
 }
 
 # Documented in Foswiki::Store
-sub getVersionInfo {
+sub getAttachmentVersionInfo {
     my ( $this, $topicObject, $rev, $attachment ) = @_;
+    my $handler = $this->getHandler( $topicObject, $attachment );
+    return $handler->getInfo($rev || 0);
+}
 
-    $rev ||= 0;
-
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
-
-    return $handler->getInfo($rev);
+# Documented in Foswiki::Store
+sub getVersionInfo {
+    my ( $this, $topicObject ) = @_;
+    my $handler = $this->getHandler( $topicObject );
+    return $handler->getInfo();
 }
 
 # Documented in Foswiki::Store
 sub saveAttachment {
     my ( $this, $topicObject, $name, $stream, $author ) = @_;
-    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
-    ASSERT( defined $name )                      if DEBUG;
-    ASSERT( defined $stream )                    if DEBUG;
-    ASSERT( defined $author )                    if DEBUG;
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $name );
+    my $handler = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->numRevisions() || 0;
     my $nextRev = $currentRev + 1;
     $handler->addRevisionFromStream( $stream, 'save attachment', $author );
@@ -259,7 +248,7 @@ sub saveTopic {
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
 
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
@@ -280,7 +269,7 @@ sub repRev {
     ASSERT($cUID) if DEBUG;
 
     my $info = $topicObject->getRevisionInfo();
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
         'reprev', $info->{author}, $info->{date} );
 }
@@ -291,7 +280,7 @@ sub delRev {
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     my $rev = $handler->numRevisions();
     if ( $rev <= 1 ) {
         throw Error::Simple( 'Cannot delete initial revision of '
@@ -307,52 +296,31 @@ sub delRev {
 }
 
 # Documented in Foswiki::Store
+sub atomicLockInfo {
+    my ( $this, $topicObject ) = @_;
+    my $handler = $this->getHandler( $topicObject );
+    return $handler->isLocked();
+}
+
+# Documented in Foswiki::Store
 # It would be nice to use flock to do this, but the API is unreliable
 # (doesn't work on all platforms)
-sub lockTopic {
+sub atomicLock {
     my ( $this, $topicObject, $cUID ) = @_;
-    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
-    ASSERT($cUID) if DEBUG;
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
-
-    while (1) {
-        my ( $user, $time ) = $handler->isLocked();
-        last if ( !$user || $cUID eq $user );
-        $this->{logger}->log( 'warning',
-                'Lock on '
-              . $topicObject->web . '.'
-              . $topicObject->topic . ' for '
-              . $cUID
-              . " denied by $user" );
-
-        # see how old the lock is. If it's older than 2 minutes,
-        # break it anyway. Locks are atomic, and should never be
-        # held that long, by _any_ process.
-        if ( time() - $time > 2 * 60 ) {
-            $this->{logger}->log( 'warning',
-                    $cUID
-                  . " broke ${user}s lock on "
-                  . $topicObject->web . '.'
-                  . $topicObject->topic );
-            $handler->setLock( 0, $cUID );
-            last;
-        }
-
-        # wait a couple of seconds before trying again
-        sleep(2);
-    }
+    my $handler = $this->getHandler( $topicObject );
     $handler->setLock( 1, $cUID );
 }
 
 # Documented in Foswiki::Store
-sub unlockTopic {
+sub atomicUnlock {
     my ( $this, $topicObject, $cUID ) = @_;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     $handler->setLock( 0, $cUID );
 }
 
 # Documented in Foswiki::Store
+# A web _has_ to have a preferences topic to be a web.
 sub webExists {
     my ( $this, $web ) = @_;
 
@@ -386,7 +354,7 @@ sub getApproxRevTime {
 sub eachChange {
     my ( $this, $webObject, $time ) = @_;
 
-    my $handler = $this->getHandler( $webObject->web );
+    my $handler = $this->getHandler( $webObject );
     return $handler->eachChange($time);
 }
 
@@ -394,7 +362,7 @@ sub eachChange {
 sub eachAttachment {
     my ( $this, $topicObject ) = @_;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     my @list = $handler->getAttachmentList();
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@list );
@@ -404,7 +372,7 @@ sub eachAttachment {
 sub eachTopic {
     my ( $this, $webObject ) = @_;
 
-    my $handler = $this->getHandler( $webObject->web );
+    my $handler = $this->getHandler( $webObject );
     my @list    = $handler->getTopicNames();
 
     require Foswiki::ListIterator;
@@ -442,16 +410,8 @@ sub remove {
     ASSERT( $topicObject->web ) if DEBUG;
 
     my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
+      $this->getHandler( $topicObject, $attachment );
     $handler->remove();
-}
-
-# Documented in Foswiki::Store
-sub copyTopic {
-    my ( $this, $fromWeb, $fromTopic, $toWeb, $toTopic ) = @_;
-
-    my $handler = $this->getHandler( $fromWeb, $fromTopic );
-    $handler->copyTopic( $toWeb, $toTopic );
 }
 
 # Documented in Foswiki::Store
@@ -481,7 +441,7 @@ sub searchInWebContent {
 sub getRevisionAtTime {
     my ( $this, $topicObject, $time ) = @_;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     return $handler->getRevisionAtTime($time);
 }
 
@@ -489,7 +449,7 @@ sub getRevisionAtTime {
 sub getLease {
     my ( $this, $topicObject ) = @_;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     my $lease = $handler->getLease();
     return $lease;
 }
@@ -498,7 +458,7 @@ sub getLease {
 sub setLease {
     my ( $this, $topicObject, $lease ) = @_;
 
-    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my $handler = $this->getHandler( $topicObject );
     $handler->setLease($lease);
 }
 

@@ -25,8 +25,8 @@ our @ISA = ('Foswiki::Store::VC::Store');
 use Foswiki::Store::VC::RcsWrapHandler ();
 
 sub getHandler {
-    my ( $this, $web, $topic, $attachment ) = @_;
-    return new Foswiki::Store::VC::RcsWrapHandler( $web, $topic, $attachment );
+    my $this = shift;
+    return new Foswiki::Store::VC::RcsWrapHandler( @_ );
 }
 
 1;
