@@ -77,14 +77,13 @@ sub list_tests {
             push( @verifies, $1 );
         }
     }
-    my $fg = $this->fixture_groups();
-
+    my @fgs = $this->fixture_groups();
     # Generate a verify method for each combination of the different
     # fixture methods
     my @setups = ();
     push(
         @tests,
-        _gen_verification_functions( \@setups, $suite, \@verifies, $fg )
+        _gen_verification_functions( \@setups, $suite, \@verifies, @fgs )
     );
     return @tests;
 }
@@ -113,7 +112,7 @@ sub _gen_verification_functions {
 }
 SUB
                 eval $code;
-                die $@ if $@;
+                die "Couldn't make $code: $@" if $@;
                 push( @tests, $fn );
             }
         }
