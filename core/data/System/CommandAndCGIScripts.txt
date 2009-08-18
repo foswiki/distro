@@ -254,7 +254,7 @@ alternatively, to run it from the commandline:
 Note that for Plugins to register REST handlers, they must be enabled in =configure=.
 
 ---++++ Retrieving passed values
-Additional parameters can be recovered via de query object in the =$session=, for example with the url:
+Additional parameters can be recovered via the query object in the =$session=, for example with the url:
 <verbatim>
 http://my.host/bin/rest/MyPlugin/update?web=foo
 </verbatim>

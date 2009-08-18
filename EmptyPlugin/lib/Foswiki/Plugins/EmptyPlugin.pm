@@ -790,7 +790,7 @@ cache and security plugins.
 This is an example of a sub to be called by the =rest= script. The parameter is:
    * =$session= - The Foswiki object associated to this session.
 
-Additional parameters can be recovered via de query object in the $session, for example:
+Additional parameters can be recovered via the query object in the $session, for example:
 
 my $query = $session->{request};
 my $web = $query->{param}->{web}[0];
