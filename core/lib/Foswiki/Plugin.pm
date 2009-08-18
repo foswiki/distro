@@ -179,16 +179,23 @@ sub load {
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
 
-    my $sub = $p . '::earlyInitPlugin';
+    my $sub = $p . "::initPlugin";
+    if ( !defined(&$sub) ) {
+        push( @{ $this->{errors} }, $sub . ' is not defined' );
+        $this->{disabled} = 1;
+        return;
+    }
+
+    $sub = $p . '::earlyInitPlugin';
     if ( defined(&$sub) ) {
         no strict 'refs';
         my $error = &$sub();
+        use strict 'refs';
         if ($error) {
             push( @{ $this->{errors} }, $sub . ' failed: ' . $error );
             $this->{disabled} = 1;
             return;
         }
-        use strict 'refs';
     }
 
     my $user;
@@ -214,12 +221,6 @@ sub registerSettings {
 
     return if $this->{disabled};
 
-    my $sub = $this->{module} . "::initPlugin";
-    if ( !defined(&$sub) ) {
-        push( @{ $this->{errors} }, $sub . ' is not defined' );
-        $this->{disabled} = 1;
-        return;
-    }
     my $prefs = $this->{session}->{prefs};
     if ( !$this->{no_topic} ) {
         $prefs->setPluginPreferences( $this->topicWeb(), $this->{name} );
