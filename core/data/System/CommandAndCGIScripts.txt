@@ -214,6 +214,7 @@ Rename a topic or an attachment.
 | =newweb= | new web name | |
 | =newtopic= | new topic name | |
 | =attachment= | Attachment to move | =none= |
+| =newattachment= | (Optional) new name for attachment | =none= |
 | =template= | template for error when an attachment doesn't exist, =deleteattachment= for when deleting an attachment | |
 | =currentwebonly= | if defined, searches current web only for links to this topic | |
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |
@@ -248,6 +249,18 @@ As an example, the EmptyPlugin has registered a function to be used with the =re
 [[%SCRIPTURL{rest}%/EmptyPlugin/example?debugenableplugin=EmptyPlugin][Call the Plugin]]
 
 Note that for Plugins to register REST handlers, they must be enabled in =configure=.
+
+---++++ Retrieving passed values
+Additional parameters can be recovered via de query object in the =$session=, for example with the url:
+<verbatim>
+http://my.host/bin/rest/MyPlugin/update?web=foo
+</verbatim>
+
+The url parameters can be processed using:
+<verbatim>
+my $query = $session->{request};
+my $web = $query->{param}->{web}[0];
+</verbatim>
 
 ---+++ =save=
 The =save= script performs a range of save-related functions, as selected by the =action= parameter.
