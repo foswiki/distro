@@ -790,7 +790,10 @@ cache and security plugins.
 This is an example of a sub to be called by the =rest= script. The parameter is:
    * =$session= - The Foswiki object associated to this session.
 
-Additional parameters can be recovered via de query object in the $session.
+Additional parameters can be recovered via de query object in the $session, for example:
+
+my $query = $session->{request};
+my $web = $query->{param}->{web}[0];
 
 For more information, check %SYSTEMWEB%.CommandAndCGIScripts#rest
 
@@ -812,16 +815,19 @@ This copyright information applies to the EmptyPlugin:
 
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# EmptyPlugin is Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
+# EmptyPlugin is Copyright (C) 2009 Foswiki Contributors.
+# 
+# Foswiki Contributors are listed in the AUTHORS file in the root
+# of this distribution. NOTE: Please extend that file, not this notice.
+#
 # Additional copyrights apply to some or all of the code as follows:
 # Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
 # Copyright (C) 2001-2006 Peter Thoeny, peter@thoeny.org
-# and TWiki Contributors. All Rights Reserved. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
+# and TWiki Contributors. All Rights Reserved.
+# Foswiki Contributors are listed in the AUTHORS file in the root of this
+# distribution.
 #
-# This license applies to EmptyPlugin *and also to any derivatives*
+# This license applies to EmptyPlugin and to any derivatives.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -833,4 +839,4 @@ This copyright information applies to the EmptyPlugin:
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# For licensing info read LICENSE file in the Foswiki root.
+# For licensing info read LICENSE file in the root of this distribution.

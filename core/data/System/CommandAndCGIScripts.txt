@@ -253,6 +253,18 @@ alternatively, to run it from the commandline:
 
 Note that for Plugins to register REST handlers, they must be enabled in =configure=.
 
+---++++ Retrieving passed values
+Additional parameters can be recovered via de query object in the =$session=, for example with the url:
+<verbatim>
+http://my.host/bin/rest/MyPlugin/update?web=foo
+</verbatim>
+
+The url parameters can be processed using:
+<verbatim>
+my $query = $session->{request};
+my $web = $query->{param}->{web}[0];
+</verbatim>
+
 ---+++ =save=
 The =save= script performs a range of save-related functions, as selected by the =action= parameter.
 
