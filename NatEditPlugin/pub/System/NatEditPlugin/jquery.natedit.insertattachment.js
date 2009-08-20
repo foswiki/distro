@@ -21,6 +21,8 @@
       }
     });
 
+    $inserter.find("#natEditInsertAttachmentFile").val("");
+
     $("#natEditInsertAttachmentWeb").autocomplete(
       foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text", {
         matchCase: true
@@ -41,7 +43,7 @@
       }
     });
 
-    $("#natEditInsertAttachmentFile").keyup(function(e) {
+    $inserter.find("#natEditInsertAttachmentFile").keyup(function(e) {
       var fileName = $(this).val();
       var foundFileName;
       var $foundLabel;
@@ -139,20 +141,30 @@
     var web = $("#natEditInsertAttachmentWeb").val();
     var topic = $("#natEditInsertAttachmentTopic").val();
     var fileName = $("#natEditInsertAttachmentFile").val();
+
     if (!fileName) {
       return;
     }
-    var url;
+
+    var linktext = $("#natEditInsertAttachmentText").val();
+    var url = "%PUBURL%/"+web+"/"+topic+"/"+fileName;
     if (web == foswiki.web && topic == foswiki.topic) {
       url = "%ATTACHURL%/"+fileName;
-    } else {
-      url = "%PUBURL%/"+web+"/"+topic+"/"+fileName;
     }
-    var linktext = $("#natEditInsertAttachmentText").val();
-    if (linktext) {
-      markup = "[["+url+"]["+linktext+"]]";
+
+    if (foswiki.ImagePluginEnabled && fileName.match(/jpe?g|gif|png|bmp/i) && !linktext) {
+      if (web == foswiki.web && topic == foswiki.topic) {
+        markup = '%IMAGE{"'+fileName+'"';
+      } else {
+        markup = '%IMAGE{"'+web+"/"+topic+"/"+fileName+'"';
+      }
+      markup += "}%";
     } else {
-      markup = "[["+url+"]]";
+      if (linktext) {
+        markup = "[["+url+"]["+linktext+"]]";
+      } else {
+        markup = "[["+url+"]]";
+      }
     }
     nateditor.remove();
     nateditor.insertTag(['', markup, '']);

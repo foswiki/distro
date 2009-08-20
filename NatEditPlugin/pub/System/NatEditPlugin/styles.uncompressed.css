@@ -135,7 +135,7 @@ ul.natEditHelpTools {
   margin:0px 10px 10px 0px;
   padding:5px;
   width:70px;
-  height:85px;
+  height:82px;
   overflow:hidden;
 }
 #natEditInsertAttachment .imgContainer {
@@ -152,7 +152,7 @@ ul.natEditHelpTools {
 }
 #natEditInsertAttachments {
   overflow:auto;
-  height:205px;
+  height:200px;
 }
 #natEditInsertAttachments label span {
   text-align:center;
@@ -160,4 +160,20 @@ ul.natEditHelpTools {
 }
 #natEditInsertAttachments input {
   display:none;
+}
+#natEditInsertAttachment .jqTabContents {
+  position:relative;
+}
+#natEditInsertAttachment hr {
+  margin-top:5px;
+  margin-bottom:5px;
+}
+#natEditInsertAttachment .uploadContainer {
+  overflow:auto;
+  height:350px;
+}
+#natEditInsertAttachment .foswikiFormButtons {
+  position:absolute;
+  bottom:0px;
+  width:100%;
 }
