@@ -110,6 +110,8 @@ sub handleFORMBUTTON {
   } else {
     return '';
   }
+  $actionText =~ s/&&/\&/g;
+  $actionTitle =~ s/&&/\&/g;
   
   my $theFormat = $params->{_DEFAULT} || $params->{format} || '$link';
   $theFormat =~ s/\$link/<a href='\$url' accesskey='f' title='\$title'><span>\$acton<\/span><\/a>/g;
@@ -131,45 +133,42 @@ sub handleFORMBUTTON {
 sub beforeSaveHandler {
   my ($text, $topic, $web, $meta) = @_;
 
-  #writeDebug("called beforeSaveHandler");
+  writeDebug("called beforeSaveHandler");
   # find out if we received a TopicTitle 
   my $request = Foswiki::Func::getCgiQuery();
   my $topicTitle = $request->param('TopicTitle');
 
   unless (defined $topicTitle) {
-    #writeDebug("didn't get a TopicTitle, nothing do here");
+    writeDebug("didn't get a TopicTitle, nothing do here");
     return;
   }
-
-  # is it different from the normal topic name? if not then there's no point
-  # in storing it here again
-  if ($topicTitle eq $topic) {
-    #writeDebug("same as topic name");
-    return;
-  }
-
-  #writeDebug("new TopicTitle: $topicTitle");
 
   # find out if this topic can store the TopicTitle in its metadata
   if (defined($meta->get('FIELD', 'TopicTitle'))) {
-    #writeDebug("can deal with TopicTitles by itself");
+    writeDebug("can deal with TopicTitles by itself");
 
     # however, check if we've got a TOPICTITLE preference setting
     # if so remove it. this happens if we stored a topic title but
     # then added a form that now takes the topic title instead
     if (defined $meta->get('PREFERENCE', 'TOPICTITLE')) {
-      #writeDebug("removing redundant TopicTitles in preferences");
+      writeDebug("removing redundant TopicTitles in preferences");
       $meta->remove('PREFERENCE', 'TOPICTITLE');
     }
     return;
   } 
 
-  #writeDebug("we need to store the TopicTitle in the preferences");
+  writeDebug("we need to store the TopicTitle in the preferences");
+
+  if ($topicTitle eq $topic) {
+    writeDebug("same as topic name");
+    $topicTitle = '';
+  }
+
 
   # if it is a topic setting, override it.
   my $topicTitleHash = $meta->get('PREFERENCE', 'TOPICTITLE');
   if (defined $topicTitleHash) {
-    #writeDebug("found old TopicTitle in preference settings: $topicTitleHash->{value}");
+    writeDebug("found old TopicTitle in preference settings: $topicTitleHash->{value}");
     if ($topicTitle) {
       # set the new value
       $topicTitleHash->{value} = $topicTitle; 
@@ -180,16 +179,16 @@ sub beforeSaveHandler {
     return;
   } 
 
-  #writeDebug("no TopicTitle in preference settings");
+  writeDebug("no TopicTitle in preference settings");
 
   # if it is a bullet setting, replace it.
   if ($text =~ s/((?:^|[\n\r])(?:\t|   )+\*\s+(?:Set|Local)\s+TOPICTITLE\s*=\s*)(.*)((?:$|[\r\n]))/$1$topicTitle$3/o) {
-    #writeDebug("found old TopicTitle defined as a bullet setting: $2");
+    writeDebug("found old TopicTitle defined as a bullet setting: $2");
     $_[0] = $text;
     return;
   }
 
-  #writeDebug("no TopicTitle stored anywhere. creating a new preference setting");
+  writeDebug("no TopicTitle stored anywhere. creating a new preference setting");
 
   if ($topicTitle) { # but only if we don't set it to the empty string
     $meta->putKeyed('PREFERENCE', {
@@ -199,7 +198,6 @@ sub beforeSaveHandler {
       value=>$topicTitle
     });
   }
-
 }
 
 ###############################################################################

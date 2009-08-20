@@ -1,6 +1,5 @@
 %TMPL:DEF{"edithelp"}%<!-- edithelp -->
-<div class="foswikiFormSteps natEditHelp">
 <h2>%MAKETEXT{"Help"}%</h2>
-%INCLUDE{"%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%"}%
+<div class="natEditHelp">%INCLUDE{"%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%"}%
 </div>
 <!-- //edithelp -->%TMPL:END%

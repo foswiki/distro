@@ -50,7 +50,7 @@
 <!-- //formstart -->%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<!-- textarea -->
-<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
+<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" name="text" rows="22" cols="70" wrap="virtual">%TEXT%</textarea>
 <!-- //textarea -->%TMPL:END%
 
 
@@ -87,7 +87,6 @@
 </literal></div>
 <!-- //topicmeta -->%TMPL:END%
 
-
 %TMPL:DEF{"firsttab"}%<!-- firsttab -->
 %TAB{"%MAKETEXT{"Text"}%" DISafter="$.natedit.fixHeight('#topic');"}%
 %TMPL:P{"topicmeta"}%<!-- topicmeta// -->
@@ -96,20 +95,19 @@
 <!-- //firsttab -->%TMPL:END%
 
 %TMPL:DEF{"settingstab"}%<!-- settingstab -->
-%TAB{"Settings"}% %TMPL:P{"settings"}% %ENDTAB%
+%TAB{"%MAKETEXT{"Settings"}%"}% %TMPL:P{"settings"}% %ENDTAB%
 <!-- //settingstab -->%TMPL:END%
-
 
 %TMPL:DEF{"helptab"}%<!-- helptab -->
 %TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"edithelp"}% %ENDTAB%
 <!-- //helptab -->%TMPL:END%
 
 %TMPL:DEF{"settings"}%<!-- settings -->
+<h2>%MAKETEXT{"Topic preferences"}%</h2>
 <div class="foswikiFormSteps">
-  <h2>%MAKETEXT{"Topic preferences"}%</h2>
   <div class="foswikiFormStep foswikiFormLast">
     <h3>%MAKETEXT{"Parent topic"}%:</h3>
-    <input class="foswikiInputField" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" />
+    <input class="foswikiInputField" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%" autocomplete="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" />
   </div>
 </div>
 %TMPL:P{"moresettings"}%<!-- moresettings// -->

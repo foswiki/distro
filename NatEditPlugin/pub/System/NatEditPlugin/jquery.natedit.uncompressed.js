@@ -238,7 +238,7 @@ $.NatEditor.prototype.initGui = function() {
     append($listTools).
     append($paragraphTools).
     append($objectTools).
-    append('<span class="foswikiClear></span>');
+    append('<span class="foswikiClear"></span>');
 
   if (width) {
     $toolbar.width(width);
@@ -615,7 +615,7 @@ $.NatEditor.prototype.fixHeight = function() {
     //$.log("natedit textarea not visible ... skipping fixHeight");
     return;
   }
-  $.log("called natedit::fixHeight("+self.txtarea+")");
+  //$.log("called natedit::fixHeight("+self.txtarea+")");
 
   // get new window height
   var windowHeight = $(window).height();
@@ -630,10 +630,10 @@ $.NatEditor.prototype.fixHeight = function() {
     newHeight -= $debug.height();
   }
 
-  $.log("natedit: windowHeight="+windowHeight+" bottomHeight="+bottomHeight+" top offset="+offset.top+" newHeight="+newHeight+" minHeight="+self.opts.minHeight);
+  //$.log("natedit: windowHeight="+windowHeight+" bottomHeight="+bottomHeight+" top offset="+offset.top+" newHeight="+newHeight+" minHeight="+self.opts.minHeight);
 
   if (self.opts.minHeight && newHeight < self.opts.minHeight) {
-    $.log("natedit: minHeight reached");
+    //$.log("natedit: minHeight reached");
     newHeight = self.opts.minHeight;
   }
 
@@ -777,10 +777,10 @@ $.natedit = {
     monoMarkup: ['=', 'Monospace text', '='],
     underlineMarkup: ['<u>', 'Underlined text', '</u>'],
     strikeMarkup: ['<strike>', 'Strike through text', '</strike>'],
-    leftMarkup: ['<div style="text-align:left">\n','Align left','\n</div>\n'],
-    centerMarkup: ['<div style="text-align:center">\n','Center text','\n</div>\n'],
-    rightMarkup: ['<div style="text-align:right">\n','Align right','\n</div>\n'],
-    justifyMarkup: ['<div style="text-align:justify">\n','Justify text','\n</div>\n'],
+    leftMarkup: ['<p style="text-align:left">\n','Align left','\n</p>\n'],
+    centerMarkup: ['<p style="text-align:center">\n','Center text','\n</p>\n'],
+    rightMarkup: ['<p style="text-align:right">\n','Align right','\n</p>\n'],
+    justifyMarkup: ['<p style="text-align:justify">\n','Justify text','\n</p>\n'],
     numberedListMarkup: ['   1 ','enumerated item',''],
     bulletListMarkup: ['   * ','bullet item',''],
     indentMarkup: ['   ','',''],

@@ -6,12 +6,12 @@
     $("#natEditInsertLink input[type=text]").not(".selection").val('');
 
     $("#natEditInsertLinkWeb").autocomplete(
-      foswiki.scriptUrl+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text", {
+      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text", {
         matchCase: true
     });
 
     $("#natEditInsertLinkTopic").autocomplete(
-      foswiki.scriptUrl+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text", {
+      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text", {
         matchCase: true,
         extraParams: {
           baseweb: function() { 

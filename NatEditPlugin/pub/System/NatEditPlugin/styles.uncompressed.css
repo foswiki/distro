@@ -9,7 +9,7 @@
 }
 .natEdit textarea,
 .natEditTextArea {
-  _width:99% !important; /* bloddy IE */
+  width:99%;
   font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;
 }

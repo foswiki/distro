@@ -69,11 +69,8 @@ sub init {
 
   return unless $this->SUPER::init();
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::NATEDIT::THEME", <<'HERE', 'JQUERYPLUGIN::NATEDIT');
-<style type="text/css" media="all">
-  @import url("%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/styles.css");
-  @import url("%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
-</style>
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::NATEDIT::THEME", <<"HERE", 'JQUERYPLUGIN::NATEDIT');
+<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/%IF{\"defined NATEDIT_THEME\" then=\"%NATEDIT_THEME%\" else=\"default\"}%/styles.css?version=$this->{version}' type='text/css' media='all' />
 HERE
 
 }
