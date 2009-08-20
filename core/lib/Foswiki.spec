@@ -1030,7 +1030,7 @@ $Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Fosw
 #     Note that this CacheManager will only keep pages during one call or for
 #     the time of a perl persistent backend.</li>
 # </ul>
-$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
+$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::BDB';
 
 # **SELECT Foswiki::Cache::DB_File,Foswiki::Cache::BDB EXPERT**
 # Select the database backend use to store meta data for the page cache.
@@ -1038,7 +1038,7 @@ $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 # cached pages might be displaced in an LRU (least recently used) page cache,
 # meta data about page dependencies shall be stored reliably. That's why
 # only DB_File and BDB are selectable.
-$Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
+$Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::BDB';
 
 # **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content

@@ -55,11 +55,7 @@ sub new {
   my ($class, $session) = @_;
 
   #writeDebug("new PageCache");
-  my $impl = $Foswiki::cfg{CacheManager} || 'Foswiki::Cache';
-  if ($impl eq 'Foswiki::Cache' || $impl eq 'none' || !$Foswiki::cfg{Cache}{Enabled}) {
-    $impl = 'Foswiki::Cache'; # dummy
-    $Foswiki::cfg{Cache}{Enabled} = 0;
-  }
+  my $impl = $Foswiki::cfg{CacheManager} || 'Foswiki::Cache::BDB';
 
   # try to get a shared instance of this class
   eval "use $impl";
@@ -67,14 +63,12 @@ sub new {
 
   my $this = {
     session => $session,
-
-    # store holding the main workload
     handler => $impl->new($session),
-    
   };
 
   # store metadata in a separate store, i.e. one without size constraints
-  my $metaImpl = $Foswiki::cfg{MetaCacheManager} || 'Foswiki::Cache::DB_File';
+  my $metaImpl = $Foswiki::cfg{MetaCacheManager} || 'Foswiki::Cache::BDB';
+
   if ($metaImpl ne $impl) {
     eval "use $metaImpl";
     die $@ if $@;
@@ -103,18 +97,20 @@ sub genVariationKey {
 
   my $session = $this->{session};
   my $request = $session->{request};
-  $variationKey = '';
+  my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
+  my $serverPort = $request->server_port || 80;
+  $variationKey = '::'.$serverName.'::'.$serverPort;
   foreach my $key ($request->param()) {
     # filter out some params that are not relevant
     # SMELL: needs docu
     next if $key =~ /^(_.*|refresh|foswiki_redirect_cache|logout|style.*|switch.*|topic)$/;
-    $variationKey .= ':'.$key.'='.$request->param($key);
+    $variationKey .= '::'.$key.'='.$request->param($key);
     #writeDebug("adding urlparam key=$key");
   }
 
   # add language tag
   my $language = $this->{session}->i18n->language();
-  $variationKey .= ":language=$language" if $language;
+  $variationKey .= "::language=$language" if $language;
 
   # get information from the session object 
   my $sessionValues  = $session->getLoginManager()->getSessionValues();
@@ -124,11 +120,12 @@ sub genVariationKey {
     #writeDebug("adding session key=$key");
 
     $sessionValues->{$key} = 'undef' unless defined $sessionValues->{$key};
-    $variationKey .= ":$key=$sessionValues->{$key}";
+    $variationKey .= "::$key=$sessionValues->{$key}";
   }
 
   #writeDebug("variation key = '$variationKey'");
 
+  # cache it
   $this->{variationKey} = $variationKey;
   return $variationKey;
 }
@@ -147,36 +144,31 @@ have to notify this page if they changed.
 =cut
 
 sub cachePage {
-  return 0 unless $Foswiki::cfg{Cache}{Enabled};
 
   my ($this, $contentType, $text) = @_;
   my $session = $this->{session};
   my $web = $session->{webName};
   my $topic = $session->{topicName};
-  my $headers = $session->{response}->headers();
-
   $web =~ s/\//./go;
+  my $webTopic = $web.'.'.$topic;
 
   #writeDebug("cachePage($web, $topic)");
 
   # delete page and all variations if we ask for a refresh copy
   my $refresh = $session->{request}->param('refresh') || '';
-  my $webTopic = $web.'.'.$topic;
   my $variationKey = $this->genVariationKey();
 
+  # remove old dependencies
   if ($refresh =~ /^(all|on|cache)$/o) {
-    $this->_deletePage($webTopic);
+    $this->_deletePage($webTopic); # removes all variations 
   } else {
-    # remove old dependencies
-    # SMELL: deletes _all_ dependencies, even if other variations establish more 
-    # that we will do next
-    $this->_deleteDependency($webTopic);
+    $this->_deleteDependency($webTopic, $variationKey);
   }
 
-  # assert autotetected dependencies
-  $this->_setDependencies($webTopic);
+  # assert newly autotetected dependencies
+  $this->_setDependencies($webTopic, $variationKey);
 
-  # store page
+  # prepair page variation
   my $isDirty = ($text =~ /<dirtyarea[^>]*?>/)?1:0;
   my $etag = '';
   my $lastModified = '';
@@ -192,6 +184,7 @@ sub cachePage {
     $lastModified = Foswiki::Time::formatTime($time, 'http', 'gmtime');
   }
 
+  my $headers = $session->{response}->headers();
   my $status = $headers->{Status} || 200;
   my $variation = {
     contentType=>$contentType,
@@ -203,8 +196,8 @@ sub cachePage {
   };
   $variation->{location} = $headers->{Location} if $status == 302;
 
-  # store variation of this topic
-  $this->{handler}->set(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey, $variation);
+  # store page variation 
+  $this->{handler}->set(PAGECACHE_PAGE_KEY.$webTopic.$variationKey, $variation);
 
   # remember this topic's variation key
   my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
@@ -225,75 +218,31 @@ retrieve a html page for the current session from cache
 =cut
 
 sub getPage {
-
-  return undef unless $Foswiki::cfg{Cache}{Enabled};
   my ($this, $web, $topic) = @_;
+
   $web =~ s/\//./go;
+  my $webTopic = $web.'.'.$topic;
 
   # check url param
   my $session = $this->{session};
   my $refresh = $session->{request}->param('refresh') || '';
   if ($refresh eq 'all') {
-    $this->{handler}->clear; # SMELL: restrict this to admins
+    $this->{handler}->clear; # SMELL: restrict this to admins; put this somewhere else
     return undef;
   }
-  if ($refresh =~ /on|cache/) {
+  if ($refresh =~ /on|cache|all/) {
     return undef;
   }
 
   # check cacheability
-  return undef unless $this->isCacheable($web, $topic);
+  return undef unless $this->_isCacheable($webTopic);
 
   #writeDebug("getPage($web.$topic)");
 
   # check availability
   my $variationKey = $this->genVariationKey();
-  my $webTopic = $web.'.'.$topic;
 
-  return $this->{handler}->get(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey);
-}
-
-=pod 
-
-remove a page from the cache; this removes all of the information
-that we have about this page 
-
-=cut
-
-sub deletePage {
-  my ($this, $web, $topic) = @_;
-
-  $web =~ s/\//./go;
-  return $this->_deletePage($web.'.'.$topic);
-}
-
-=pod
-
-internal implementation of deletePage()
-
-=cut
-
-sub _deletePage {
-  my ($this, $webTopic) = @_;
-
-  return 0 unless $Foswiki::cfg{Cache}{Enabled};
-
-  #writeDebug("DELETE page $webTopic");
-
-  # get variation keys
-  my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
-  return 0 unless $variations;
-
-  # delete all variations
-  foreach my $variationKey (split(/,/, $variations)) {
-    $this->{handler}->delete(PAGECACHE_PAGE_KEY.$webTopic.'::'.$variationKey);
-  }
-
-  # delete variation keys themselves
-  $this->{handler}->delete(PAGECACHE_VARS_KEY.$webTopic);
-
-  # delete all dependency records
-  $this->_deleteDependency($webTopic);
+  return $this->{handler}->get(PAGECACHE_PAGE_KEY.$webTopic.$variationKey);
 }
 
 =pod 
@@ -307,15 +256,11 @@ check if the current page is cacheable
 
 =cut
 
-sub isCacheable {
-  my ($this, $web, $topic) = @_;
+sub _isCacheable {
+  my ($this, $webTopic) = @_;
 
-  return 0 unless $Foswiki::cfg{Cache}{Enabled};
+  #writeDebug("isCacheable($webTopic)");
 
-  #writeDebug("isCacheable($web, $topic)");
-
-  $web =~ s/\//./go;
-  my $webTopic = $web.'.'.$topic;
   my $isCacheable = $this->{isCacheable}{$webTopic};
   return $isCacheable if defined $isCacheable;
 
@@ -367,13 +312,33 @@ return dependencies for a given web.topic
 =cut
 
 sub getDependencies {
-  my ($this, $web, $topic) = @_;
-
-  $web =~ s/\//./go;
-  my $deps = $this->_getDependencies($web.'.'.$topic);
+  my ($this, $web, $topic, $variationKey) = @_;
 
   my @result = ();
-  @result = split(/,/, $deps) if $deps;
+
+  $web =~ s/\//./go;
+  my $webTopic = $web.'.'.$topic;
+
+  if (defined $variationKey) {
+    # get only these
+
+    my $deps = $this->_getDependencies($webTopic, $variationKey);
+
+    @result = split(/,/, $deps) if $deps;
+
+  } else  {
+    # get them all
+
+    my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
+    my %result = ();
+    foreach my $variationKey (split(/,/, $variations)) {
+      my $deps = $this->_getDependencies($webTopic, $variationKey);
+      foreach my $dep (split(/,/, $deps)) {
+        $result{$dep} = 1;
+      }
+    }
+    @result = keys %result;
+  }
 
   return \@result;
 }
@@ -385,92 +350,10 @@ private implementation of getDependencies
 =cut
 
 sub _getDependencies {
-  return $_[0]->{metaHandler}->get(PAGECACHE_DEPS_KEY.$_[1]);
+  my ($this, $webTopic, $variationKey) = @_;
+
+  return $this->{metaHandler}->get(PAGECACHE_DEPS_KEY.$webTopic.$variationKey);
 }
-
-
-=pod 
-
-set the dependencies for the given web.topic topic
-
-=cut
-
-sub setDependencies {
-  my $this = shift;
-  my $web = shift;
-  my $topic = shift;
-
-  $web =~ s/\//./go;
-  return $this->_setDependencies($web.'.'.$topic, @_);
-}
-
-=pod
-
-private implementation of getDependencies
-
-=cut
-
-sub _setDependencies {
-  my ($this, $webTopic, @topicDeps) = @_;
-
-  @topicDeps = keys %{$this->{deps}} unless @topicDeps;
-  #writeDebug("setting ".scalar(@topicDeps)." dependencies $webTopic");
-  #writeDebug(join("\n", @topicDeps));
-
-  $this->{metaHandler}->set(PAGECACHE_DEPS_KEY.$webTopic, join(',', @topicDeps));
-
-  # assert autodetected dependencies in reverse logic
-  foreach my $depWebTopic (@topicDeps) {
-    next if $depWebTopic eq $webTopic;
-
-    my $revTopicDeps = $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$depWebTopic);
-    my %revTopicDeps;
-    if ($revTopicDeps) {
-      %revTopicDeps = map {$_ => 1} split(/,/, $revTopicDeps);
-      next if $revTopicDeps{$webTopic};
-    }
-
-    $revTopicDeps{$webTopic} = 1;
-
-    #writeDebug("adding rev dependency $webTopic <- $depWebTopic") unless $depWebTopic =~ /(Preferences|Plugin)$/;
-    $revTopicDeps = join(',', keys %revTopicDeps);
-    $this->{metaHandler}->set(PAGECACHE_REVDEPS_KEY.$depWebTopic, $revTopicDeps);
-  }
-}
-
-=pod 
-
-remove a web.topic dependency, i.e. the reverse ones
-
-=cut
-
-sub deleteDependencies {
-  my ($this, $web, $topic) = @_;
-
-  $web =~ s/\//./go;
-  return $this->_deleteDependency($web.'.'.$topic);
-}
-
-=pod 
-
-private implementation of deleteDependencies
-
-=cut
-
-sub _deleteDependency {
-  my ($this, $webTopic) = @_;
-  
-  my $topicDeps = $this->{metaHandler}->get(PAGECACHE_DEPS_KEY.$webTopic);
-  return unless $topicDeps;
-
-  foreach my $depWebTopic (split(/,/, $topicDeps)) {
-    $this->{metaHandler}->delete(PAGECACHE_REVDEPS_KEY.$depWebTopic);
-  }
-
-  $this->{metaHandler}->delete(PAGECACHE_DEPS_KEY.$webTopic);
-}
-
-
 
 =pod 
 
@@ -482,7 +365,10 @@ sub getRevDependencies {
   my ($this, $web, $topic) = @_;
 
   $web =~ s/\//./go;
-  my $revDeps = $this->_getRevDependencies($web.'.'.$topic);
+  my $webTopic = $web.'.'.$topic;
+
+  # get only these
+  my $revDeps = $this->_getRevDependencies($webTopic);
 
   my @result = ();
   @result = split(/,/, $revDeps) if $revDeps;
@@ -498,7 +384,9 @@ private implementation of getRevDependencies
 =cut
 
 sub _getRevDependencies {
-  return $_[0]->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$_[1]);
+  my ($this, $webTopic, ) = @_;
+
+  return $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$webTopic);
 }
 
 =pod 
@@ -529,6 +417,123 @@ sub getWebDependencies {
   return \@result;
 }
 
+
+
+=pod
+
+set the dependencies for the given web.topic topic
+
+=cut
+
+sub _setDependencies {
+  my ($this, $webTopic, $variationKey, @topicDeps) = @_;
+
+  @topicDeps = keys %{$this->{deps}} unless @topicDeps;
+  #writeDebug("setting ".scalar(@topicDeps)." dependencies $webTopic");
+  #writeDebug(join("\n", @topicDeps));
+
+  $this->{metaHandler}->set(PAGECACHE_DEPS_KEY.$webTopic.$variationKey, join(',', @topicDeps));
+
+  # assert autodetected dependencies in reverse logic
+  foreach my $depWebTopic (@topicDeps) {
+    next if $depWebTopic eq $webTopic;
+
+    # merge 
+    my $revTopicDeps = $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$depWebTopic);
+    my %revTopicDeps;
+    if ($revTopicDeps) {
+      %revTopicDeps = map {$_ => 1} split(/,/, $revTopicDeps);
+      next if $revTopicDeps{$webTopic};
+    }
+    $revTopicDeps{$webTopic.$variationKey} = 1;
+    $revTopicDeps = join(',', keys %revTopicDeps);
+
+    $this->{metaHandler}->set(PAGECACHE_REVDEPS_KEY.$depWebTopic, $revTopicDeps);
+  }
+}
+
+=pod 
+
+remove all dependencies of a web.topic/variation 
+
+=cut
+
+sub _deleteDependency {
+  my ($this, $webTopic, $variationKey) = @_;
+  
+  my $topicDeps = $this->{metaHandler}->get(PAGECACHE_DEPS_KEY.$webTopic.$variationKey);
+  return unless $topicDeps;
+
+  foreach my $depWebTopic (split(/,/, $topicDeps)) {
+    my $revTopicDeps = $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$depWebTopic);
+    next unless $revTopicDeps;
+
+    # unmerge
+    my %revTopicDeps= map {$_ => 1} split(/,/, $revTopicDeps);
+    delete $revTopicDeps{$webTopic};
+    $revTopicDeps = join(',', keys %revTopicDeps);
+
+    $this->{metaHandler}->set(PAGECACHE_REVDEPS_KEY.$depWebTopic, $revTopicDeps);
+  }
+
+  $this->{metaHandler}->delete(PAGECACHE_DEPS_KEY.$webTopic.$variationKey);
+}
+
+=pod 
+
+remove a page from the cache; this removes all of the information
+that we have about this page 
+
+=cut
+
+sub deletePage {
+  my ($this, $web, $topic) = @_;
+
+  $web =~ s/\//./go;
+  return $this->_deletePage($web.'.'.$topic);
+}
+
+=pod
+
+internal implementation of deletePage()
+
+deletes all page variations and dependencies
+
+=cut
+
+sub _deletePage {
+  my ($this, $webTopic) = @_;
+
+  writeDebug("DELETE page $webTopic");
+
+  # get variation keys
+  my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
+  return 0 unless $variations;
+
+  # delete all variations
+  foreach my $variationKey (split(/,/, $variations)) {
+    $this->_deletePageVariation($webTopic, $variationKey);
+  }
+
+  # delete registration entry for all variation keys 
+  $this->{handler}->delete(PAGECACHE_VARS_KEY.$webTopic);
+}
+
+=pod
+
+delete a dedicated page variation
+
+=cut
+
+sub _deletePageVariation {
+  my ($this, $webTopic, $variationKey) = @_;
+
+  writeDebug("deleting variation $webTopic$variationKey");
+
+  $this->{handler}->delete(PAGECACHE_PAGE_KEY.$webTopic.$variationKey);
+  $this->_deleteDependency($webTopic, $variationKey);
+}
+
 =pod 
 
 fire a dependency invalidating the related cache entries
@@ -541,7 +546,18 @@ sub fireDependency {
   $web =~ s/\//./go;
   my $webTopic = $web . '.' . $topic;
 
-  #writeDebug("FIRING $webTopic");
+  writeDebug("FIRING $webTopic");
+
+  # delete all page variations the reverse dependencies point to
+  my $revDeps = $this->_getRevDependencies($webTopic);
+  if ($revDeps) {
+    foreach my $revDep (split(/,/, $revDeps)) {
+      $revDep =~ s/^(.*?)(::.*)$/$1/g;
+      $this->_deletePageVariation($1, $2);
+    }
+  } else {
+    writeDebug("no rev deps found");
+  }
 
   # delete pages in WEBDEPENDENCIES
   foreach my $dep (@{ $this->getWebDependencies($web) }) {
@@ -550,14 +566,6 @@ sub fireDependency {
 
   # delete this page
   $this->_deletePage($webTopic);
-
-  # delete all pages we are an ingredient of
-  my $revDeps = $this->_getRevDependencies($webTopic);
-  if ($revDeps) {
-    foreach my $dep (split(/,/, $revDeps)) {
-      $this->_deletePage($dep);
-    }
-  }
 }
 
 =pod
