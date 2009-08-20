@@ -171,6 +171,7 @@ for v2.3:
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  20 Aug 2009: | made <nop>JQueryPlugin <nop>SafeWikiPlugin compatible |
 |  02 Jul 2009: | improved parsing of foswiki meta tags in html header; \
                   fixed jqTreeview initialisation for jquery-1.3.x; \
                   fixed chili initialisation; \
