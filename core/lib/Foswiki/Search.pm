@@ -371,6 +371,7 @@ sub searchWeb {
         $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
         $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
+    $params{separator} = $separator;
     my $newLine = $params{newline} || '';
     if ($newLine) {
         $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
