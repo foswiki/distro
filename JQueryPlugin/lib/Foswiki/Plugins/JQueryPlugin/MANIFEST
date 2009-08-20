@@ -105,8 +105,6 @@ pub/System/JQueryPlugin/jquery-1.3.2p1.js 0644
 pub/System/JQueryPlugin/jquery-1.3.2p1.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.3.2p1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.3.2.uncompressed.js 0644
-pub/System/JQueryPlugin/jquery-all.js 0644
-pub/System/JQueryPlugin/jquery-all.js.gz 0644
 pub/System/JQueryPlugin/jquery.js 0644
 pub/System/JQueryPlugin/jquery.js.gz 0644
 pub/System/JQueryPlugin/jquery.noconflict.js 0644
@@ -143,6 +141,9 @@ pub/System/JQueryPlugin/plugins/button/btn_red_right.gif 0644
 pub/System/JQueryPlugin/plugins/button/btn_right.gif 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.css 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.css.gz 0644
+pub/System/JQueryPlugin/plugins/button/jquery.button.init.js 0644
+pub/System/JQueryPlugin/plugins/button/jquery.button.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/button/jquery.button.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/button/Makefile 0644
 pub/System/JQueryPlugin/plugins/chili/jquery.chili.init.js 0644
@@ -318,6 +319,9 @@ pub/System/JQueryPlugin/plugins/superfish/Makefile 0644
 pub/System/JQueryPlugin/plugins/superfish/MenuArrow.gif 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.css 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.css.gz 0644
+pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.init.js 0644
+pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js.gz 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.uncompressed.css 0644
@@ -345,6 +349,10 @@ pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.js.gz 0644
 pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/textboxlist/Makefile 0644
+pub/System/JQueryPlugin/plugins/toggle/jquery.toggle.init.js 0644
+pub/System/JQueryPlugin/plugins/toggle/jquery.toggle.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/toggle/jquery.toggle.init.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/toggle/Makefile 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css.gz 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.init.js 0644
@@ -367,8 +375,10 @@ pub/System/JQueryPlugin/plugins/treeview/images/treeview-default.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-default-line.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-famfamfam.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-famfamfam-line.gif 0644
+pub/System/JQueryPlugin/plugins/treeview/images/treeview-grayarrows.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-gray.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-gray-line.gif 0644
+pub/System/JQueryPlugin/plugins/treeview/images/treeview-orangearrows.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-red.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/treeview-red-line.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.async.js 0644

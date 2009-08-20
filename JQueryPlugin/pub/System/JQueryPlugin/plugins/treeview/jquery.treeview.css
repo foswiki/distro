@@ -18,5 +18,9 @@
 .jqTreeview.gray li.lastCollapsable,
 .jqTreeview.gray li.lastExpandable{background-image:url(images/treeview-gray.gif);}.jqTreeview.famfamfam li{background-image:url(images/treeview-famfamfam-line.gif);}.jqTreeview.famfamfam .hitarea,
 .jqTreeview.famfamfam li.lastCollapsable,
-.jqTreeview.famfamfam li.lastExpandable{background-image:url(images/treeview-famfamfam.gif);}.jqAjaxLoader,
+.jqTreeview.famfamfam li.lastExpandable{background-image:url(images/treeview-famfamfam.gif);}.jqTreeview.orangearrows li{background-image:url(images/treeview-famfamfam-line.gif) !important;}.jqTreeview.orangearrows .hitarea,
+.jqTreeview.orangearrows li.lastCollapsable,
+.jqTreeview.orangearrows li.lastExpandable{background-image:url(images/treeview-orangearrows.gif) !important;}.jqTreeview.grayarrows li{background-image:url(images/treeview-famfamfam-line.gif) !important;}.jqTreeview.grayarrows .hitarea,
+.jqTreeview.grayarrows li.lastCollapsable,
+.jqTreeview.grayarrows li.lastExpandable{background-image:url(images/treeview-orangearrows.gif) !important;}.jqAjaxLoader,
 .treeview .placeholder{background:url(images/spinner.gif) 0 0 no-repeat;height:16px;width:16px;display:block;}

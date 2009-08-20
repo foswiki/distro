@@ -89,7 +89,7 @@ $.tabpane = {
 
     var oldTabId = thisOpts.currentTabId;
 
-    $.log("switching from "+oldTabId+" to "+newTabId);
+    //$.log("switching from "+oldTabId+" to "+newTabId);
 
     var $newTab  = jQuery("#"+newTabId);
     var $oldTab = jQuery("#"+oldTabId);
@@ -198,7 +198,7 @@ $.tabpane = {
    */
   fixHeight: function($thisPane, opts) {
 
-    jQuery.log("tabpane: called fixHeight()");
+    //jQuery.log("tabpane: called fixHeight()");
 
     var $container = $thisPane.find("> .jqTab.current .jqTabContents");
     var paneOffset = $container.offset();
@@ -223,10 +223,10 @@ $.tabpane = {
       height -= $debug.outerHeight({margin:true, padding:true});
     }
 
-    jQuery.log("tabpane: container="+$container.parent().attr('id')+" paneTop="+paneTop+" bottomBarHeight="+bottomBarHeight+" height="+height+" minHeight="+opts.minHeight);
+    //jQuery.log("tabpane: container="+$container.parent().attr('id')+" paneTop="+paneTop+" bottomBarHeight="+bottomBarHeight+" height="+height+" minHeight="+opts.minHeight);
 
     if (opts && opts.minHeight && height < opts.minHeight) {
-      jQuery.log("tabpane: minHeight reached");
+      //jQuery.log("tabpane: minHeight reached");
       height = opts.minHeight;
     }
 

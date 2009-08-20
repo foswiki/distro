@@ -230,5 +230,3 @@ This one returns an =&lt;img...>= to a user's photo. See the User selector examp
 </verbatim>
 
 
-%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value=""}%
-%META:PREFERENCE{name="PERMSET_VIEW" title="PERMSET_VIEW" type="Local" value="details"}%

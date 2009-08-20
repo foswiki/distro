@@ -41,7 +41,7 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'Empty',
-    version => '$Rev$',
+    version => '$Rev: 20090710 (2009-07-10) $',
     author => 'First Last',
     homepage => 'http://...',
     tags => 'EMPTY',

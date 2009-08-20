@@ -29,7 +29,7 @@ use vars qw(
 );
 
 
-$VERSION = '$Rev: 3740 $';
+$VERSION = '$Rev: 20090710 (2009-07-10) $';
 $RELEASE = '2.02'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
@@ -299,6 +299,7 @@ sub handleJQueryIcon {
   $img =~ s/\$iconClass/$iconClass/g;
   $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
   $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
+  $img =~ s/\$(iconAlt|iconTitle)//go;
 
   return $img;
 }

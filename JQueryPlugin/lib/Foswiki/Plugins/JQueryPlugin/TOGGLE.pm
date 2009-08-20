@@ -40,10 +40,11 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'Toggle',
-    version => '0.5',
+    version => '0.6',
     author => 'Michael Daum',
     homepage => 'http://michaeldaumconsulting.com',
     tags => 'TOGGLE',
+    javascript => ['jquery.toggle.init.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -98,12 +99,16 @@ sub handleToggle {
   } else {
     $showEffect = $hideEffect = "toggle()";
   }
-  my $cmd = "jQuery('$theTarget').each(function() {jQuery(this).is(':visible')?jQuery(this).$showEffect:jQuery(this).$hideEffect;})";
-
+  my $cmd = "function() {\$('$theTarget').each(function() {\$(this).is(':visible')?\$(this).$showEffect:\$(this).$hideEffect;});return false;}";
   my $toggleId = "jqToggle".Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::TOGGLE::$toggleId", <<"HERE", 'JQUERYPLUGIN::TOGGLE');
+
+<meta name="foswiki.jquery.toggle.$toggleId" content="{id:'$toggleId', onclick:$cmd}" />
+HERE
+
   return
-   "<a id='$toggleId' href='#' onclick=\"$cmd; return false;\" title='".$theTitle."' ".$style.'>'.
+   "<a id='$toggleId' href='#' title='".$theTitle."' ".$style.'>'.
    "<span>".
    Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theText).'</span></a>';
 }

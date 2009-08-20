@@ -40,11 +40,12 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'Button',
-    version => '1.0',
+    version => '1.1',
     author => 'Michael Daum',
     homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
     tags => 'BUTTON',
     css => ['jquery.button.css'],
+    javascript => ['jquery.button.init.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -74,7 +75,6 @@ sub handleButton {
   my $theOnClick = $params->{onclick};
   my $theOnMouseOver = $params->{onmouseover};
   my $theOnMouseOut = $params->{onmouseout};
-  my $theOnFocus = $params->{onfocus};
   my $theTitle = $params->{title};
   my $theIconName = $params->{icon} || '';
   my $theAccessKey = $params->{accesskey};
@@ -84,6 +84,8 @@ sub handleButton {
   my $theStyle = $params->{style} || '';
   my $theTarget = $params->{target};
   my $theType = $params->{type} || 'button';
+
+  $theId = 'jqButton'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom() unless defined $theId;
 
   my $theIcon;
   $theIcon = Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($theIconName) if $theIconName;
@@ -107,30 +109,43 @@ sub handleButton {
   }
 
   if ($theType eq 'submit') {
-    $theOnClick="jQuery(this).parents('form:first').submit();";
+    $theOnClick .= ";jQuery(this).parents('form:first').submit();";
   }
   if ($theType eq 'save') {
-    $theOnClick="var form = jQuery(this).parents('form:first'); if(typeof(foswikiStrikeOne) == 'function') foswikiStrikeOne(form[0]); form.submit();";
+    $theOnClick .= ";var form = jQuery(this).parents('form:first'); if(typeof(foswikiStrikeOne) == 'function') foswikiStrikeOne(form[0]); form.submit();";
   }
   if ($theType eq 'reset') {
-    $theOnClick="jQuery(this).parents('form:first').resetForm();";
+    $theOnClick .= ";jQuery(this).parents('form:first').resetForm();";
     Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
   if ($theType eq 'clear') {
-    $theOnClick="jQuery(this).parents('form:first').clearForm();";
+    $theOnClick .= ";jQuery(this).parents('form:first').clearForm();";
     Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
-  $theOnClick .= ';return false;' if $theOnClick;
+  $theOnClick =~ s/;$//;
+  $theOnClick .= ';return false;';
 
-  my $result = "<a class='jqButton $theBg $theClass' href='$theHref'";
+  my $result = "<a id='$theId' class='jqButton $theBg $theClass' href='$theHref'";
   $result .= " accesskey='$theAccessKey' " if $theAccessKey;
-  $result .= " id='$theId' " if $theId;
   $result .= " title='$theTitle' " if $theTitle;
-  $result .= " onclick=\"$theOnClick\" " if $theOnClick;
-  $result .= " onmouseover=\"$theOnMouseOver\" " if $theOnMouseOver;
-  $result .= " onmouseout=\"$theOnMouseOut\" " if $theOnMouseOut;
-  $result .= " onfocus=\"$theOnFocus\" " if $theOnFocus;
   $result .= " style='$theStyle' " if $theStyle;
+
+  my @callbacks = ();
+  push @callbacks, "onclick:function(){$theOnClick}";
+  if ($theOnMouseOver) {
+    push @callbacks, "onmouseover:function(){$theOnMouseOver}";
+  }
+  if ($theOnMouseOut) {
+    push @callbacks, "onmouseout:function(){$theOnMouseOut}";
+  }
+  my $callbacks = join(', ', @callbacks);
+
+  if ($callbacks) {
+    Foswiki::Func::addToHEAD("JQUERYPLUGIN::BUTTON::$theId", <<"HERE", 'JQUERYPLUGIN::BUTTON');
+
+<meta name="foswiki.jquery.button.$theId" content="{id:'$theId', $callbacks}" />
+HERE
+  }
 
   $result .= ">$theText</a>";
   $result .= "<input type='submit' style='display:none' />" if

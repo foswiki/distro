@@ -80,7 +80,6 @@
 .treeview-famfamfam li.lastCollapsable, 
 .treeview-famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif) !important; } 
 
-
 .filetree li { padding: 1px 0 2px 16px; }
 .filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; }
 .filetree span.folder { background: url(images/folder.gif) 0 0 no-repeat; }
@@ -110,6 +109,16 @@
 .jqTreeview.famfamfam .hitarea, 
 .jqTreeview.famfamfam li.lastCollapsable, 
 .jqTreeview.famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif); } 
+
+.jqTreeview.orangearrows li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
+.jqTreeview.orangearrows .hitarea, 
+.jqTreeview.orangearrows li.lastCollapsable, 
+.jqTreeview.orangearrows li.lastExpandable { background-image: url(images/treeview-orangearrows.gif) !important; } 
+
+.jqTreeview.grayarrows li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
+.jqTreeview.grayarrows .hitarea, 
+.jqTreeview.grayarrows li.lastCollapsable, 
+.jqTreeview.grayarrows li.lastExpandable { background-image: url(images/treeview-orangearrows.gif) !important; } 
 
 .jqAjaxLoader,
 .treeview .placeholder {

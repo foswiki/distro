@@ -15,10 +15,15 @@
   float:left;
   height:23px;
   padding:0px;
-  margin:0px 8px 0px 0px;
   color:black;
   font-size:13px;
 }
+.foswikiTopic a.jqButton,
+.patternTopic a.jqButton,
+.jqButton {
+  margin:0px 8px 0px 0px;
+}
+
 .foswikiTopic a.jqButton:link:hover,
 .foswikiTopic a.jqButton:hover,
 .patternTopic a.jqButton:link:hover,
@@ -52,6 +57,13 @@
 .jqButton.red span { background-image:url(btn_red_left.gif); }
 .jqButton.green { background-image:url(btn_green_right.gif); }
 .jqButton.green span { background-image:url(btn_green_left.gif); }
+.jqButton.simple,
+.jqButton.simple span { background-image:none; }
+.jqButton.right,
+.jqButton.right:hover {
+  float:right;
+}
+
 
 /* rounded cornders */
 .jqRounded div {

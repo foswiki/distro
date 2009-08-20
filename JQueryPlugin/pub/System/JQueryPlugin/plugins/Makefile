@@ -27,6 +27,7 @@ SUBDIRS=\
   spinner \
   superfish \
   tabpane \
+  toggle \
   textboxlist \
   tooltip \
   treeview \

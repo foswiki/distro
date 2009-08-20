@@ -41,12 +41,12 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'Tabpane',
-    version => '1.0',
+    version => '1.1',
     author => 'Michael Daum',
     homepage => 'http://michaeldaumconsutling.com',
     tags => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
     css => ['jquery.tabpane.css'],
-    javascript => ['jquery.tabpane.js'],
+    javascript => ['jquery.tabpane.init.js', 'jquery.tabpane.js'],
     #dependencies => ['debug'], # DEBUG
   ), $class);
 
@@ -89,16 +89,12 @@ sub handleTabPane {
   $autoMaxExpand = ($autoMaxExpand eq 'on')?'true':'false';
   $animate = ($animate eq 'on')?'true':'false';
 
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::TABPANE::$tpId", <<"HERE", 'JQUERYPLUGIN::TABPANE');
 
-  my $script = <<"EOS";
-<script type="text/javascript">
-jQuery(document).ready(function() {
-  jQuery("#$tpId").tabpane({select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight});
-});
-</script>
-EOS
+<meta name="foswiki.jquery.tabpane.$tpId" content="{id:'$tpId', select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}" />
+HERE
 
-  return "<!-- TABPANE -->".$script."<div class='jqTabPane' id='$tpId'>";
+  return "<div class='jqTabPane' id='$tpId'>";
 }
 
 =begin TML

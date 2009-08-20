@@ -43,6 +43,8 @@ if (typeof(foswiki) == "undefined") {
         val = false; // convert to Boolean
       } else if (val == "true") {
         val = true; // convert to Boolean
+      } else if (val.match(/^{.*}$/)) {
+        val = eval("("+val+")"); // convert to object
       } else if (val.match(/^function/)) {
         val = eval("("+val+")"); // convert to Function
       }

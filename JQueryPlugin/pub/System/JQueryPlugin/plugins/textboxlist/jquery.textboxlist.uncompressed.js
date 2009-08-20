@@ -75,20 +75,20 @@
           }, self.opts.autocompleteOpts);
       self.input.attr('autocomplete', 'off').autocomplete(self.opts.autocomplete, autocompleteOpts).
       result(function(event, data, value) {
-        //$.log("result data="+data+" formatted="+formatted);
+        //$.log("TEXTBOXLIST: result data="+data+" formatted="+formatted);
         self.select(value);
       });
     } else {
-      $.log("no autocomplete");
+      $.log("TEXTBOXLIST: no autocomplete");
     }
 
     // autocomplete does not fire the result event on new items
     self.input.bind(($.browser.opera ? "keypress" : "keydown") + ".textboxlist", function(event) {
       // track last key pressed
       if(event.keyCode == 13) {
-        var value = self.input.val();
-        if (value) {
-          self.select([value]);
+        var val = self.input.val();
+        if (val) {
+          self.select([val]);
           event.preventDefault();
           return false;
         }
@@ -98,42 +98,42 @@
     // init
     self.currentValues = [];
     if (self.input.val()) {
-      self.select(self.input.val().split(/\s*,\s*/));
+      self.select(self.input.val().split(/\s*,\s*/), true);
     }
     self.initialValues = self.currentValues.slice();
   }
  
   // clear selection *****************************************************
   $.TextboxLister.prototype.clear = function() {
-    $.log("called clear");
+    $.log("TEXTBOXLIST: called clear");
     var self = this;
     self.container.find("."+self.opts.listValueClass).remove();
     self.currentValues = [];
 
     // onClear callback
     if (typeof(self.opts.onClear) == 'function') {
-      $.log("calling onClear handler");
+      $.log("TEXTBOXLIST: calling onClear handler");
       self.opts.onClear(self);
     }
   };
 
   // reset selection *****************************************************
   $.TextboxLister.prototype.reset = function() {
-    $.log("called reset");
+    $.log("TEXTBOXLIST: called reset");
     var self = this;
     self.clear();
     self.select(self.initialValues);
 
     // onReset callback
     if (typeof(self.opts.onReset) == 'function') {
-      $.log("calling onReseet handler");
+      $.log("TEXTBOXLIST: calling onReseet handler");
       self.opts.onReset(self);
     }
   };
 
   // add values to the selection ******************************************
-  $.TextboxLister.prototype.select = function(values) {
-    $.log("called select("+values+") "+typeof(values));
+  $.TextboxLister.prototype.select = function(values, suppressCallback) {
+    $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
     var self = this;
 
     if (typeof(values) == 'object') {
@@ -143,12 +143,13 @@
 
     // only set values not already there
     if (self.currentValues.length > 0) {
-      for (i = 0; i < values.length; i++) {
+      for (var i = 0; i < values.length; i++) {
         var val = values[i];
         var found = false;
         if (!val) {
           continue;
         }
+        $.log("val='"+val+"'");
         for (j = 0; j < self.currentValues.length; j++) {
           var currentVal = self.currentValues[j];
           if (currentVal == val) {
@@ -161,22 +162,28 @@
         }
       }
     } else {
-      self.currentValues = values.slice();
+      self.currentValues = new Array();
+      for (var i = 0; i < values.length; i++) {
+        var val = values[i];
+        if (val) {
+          self.currentValues.push(val);
+        }
+      }
     }
 
     if (self.opts.doSort) {
       self.currentValues = self.currentValues.sort();
     }
 
-    $.log("self.currentValues="+self.currentValues+"("+self.currentValues.length+")");
+    $.log("TEXTBOXLIST: self.currentValues="+self.currentValues+"("+self.currentValues.length+")");
 
     self.container.find("."+self.opts.listValueClass).remove();
     for (var i = self.currentValues.length-1; i >= 0; i--) {
-      var value = self.currentValues[i];
-      if (!value) 
+      var val = self.currentValues[i];
+      if (!val) 
         continue;
-      var input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+value+"' />";
-      var close = $("<a href='#' title='remove "+value+"'></a>").
+      var input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' />";
+      var close = $("<a href='#' title='remove "+val+"'></a>").
         addClass(self.opts.closeClass).
         click(function() {
           self.deselect.call(self, $(this).parent().find("input").val());
@@ -185,21 +192,21 @@
       $("<span></span>").addClass(self.opts.listValueClass).
         append(input).
         append(close).
-        append(value).
+        append(val).
         prependTo(self.container);
     }
     self.input.val('');
 
     // onSelect callback
-    if (typeof(self.opts.onSelect) == 'function') {
-      $.log("calling onSelect handler");
+    if (!suppressCallback && typeof(self.opts.onSelect) == 'function') {
+      $.log("TEXTBOXLIST: calling onSelect handler");
       self.opts.onSelect(self);
     }
   };
 
   // remove values from the selection *************************************
   $.TextboxLister.prototype.deselect = function(values) {
-    $.log("called deselect("+values+")");
+    $.log("TEXTBOXLIST: called deselect("+values+")");
 
     var self = this;
     var newValues = new Array();
@@ -212,7 +219,7 @@
       return;
     }
 
-    for (i = 0; i < self.currentValues.length; i++) {
+    for (var i = 0; i < self.currentValues.length; i++) {
       var currentVal = self.currentValues[i];
       if (!currentVal) 
         continue;
@@ -224,7 +231,7 @@
           break;
         }
       }
-      if (!found) {
+      if (!found && currentVal) {
         newValues.push(currentVal);
       }
     }
@@ -232,7 +239,7 @@
 
     // onDeselect callback
     if (typeof(self.opts.onDeselect) == 'function') {
-      $.log("calling onDeselect handler");
+      $.log("TEXTBOXLIST: calling onDeselect handler");
       self.opts.onDeselect(self);
     }
 

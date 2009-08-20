@@ -1,11 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1243603985" format="1.1" reprev="1.7" version="1.7"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1250761838" format="1.1" reprev="1.7" version="1.7"}%
 ---+!! %TOPIC%
+%JQREQUIRE{"debug"}%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
 
 %TOC%
 ---++ Buttons
-%BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert(jQuery(this).text());"}%
+%BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%
 %BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross"}%
 %BUTTON{"%MAKETEXT{"Info"}%" icon="information"}%
 %BUTTON{"%MAKETEXT{"Add"}%" icon="add"}%
@@ -16,7 +17,7 @@ Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
 
 ---++ Shake
 %JQREQUIRE{"shake"}%
-%BUTTON{"Shake it, baby" icon="bomb" onclick="jQuery('#lorem').shake(3, 10, 180)"}%
+%BUTTON{"Shake it, baby" icon="bomb" onclick="$('#lorem').shake(3, 10, 180)"}%
 %CLEAR%
 
 <div id="lorem" style="width:300px;">
