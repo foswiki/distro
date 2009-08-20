@@ -1,4 +1,5 @@
-# ---+ AutoViewTemplate settings
+# ---+ Extensions
+# ---++ AutoViewTemplate settings
 # This is the configuration used by the <b>AutoViewTemplatePlugin</b>.
 
 # **BOOLEAN**

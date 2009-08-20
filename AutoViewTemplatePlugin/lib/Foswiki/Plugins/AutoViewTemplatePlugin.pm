@@ -17,7 +17,7 @@ use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION
   $pluginName $NO_PREFS_IN_TOPIC );
 
 $VERSION = '$Rev$';
-$RELEASE = '2008-12-27';
+$RELEASE = '2009-08-20';
 $SHORTDESCRIPTION = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -99,7 +99,11 @@ sub initPlugin {
         Foswiki::Func::writeDebug("- ${pluginName}: $templateVar set to: $templateName");
       }
     }
-    $Foswiki::Plugins::SESSION->{prefs}->pushPreferenceValues( 'SESSION', { $templateVar => $templateName } );
+    if ($Foswiki::Plugins::VERSION >= 2.1 ) {
+      Foswiki::Func::setPreferencesValue($templateVar, $templateName);
+    } else {
+      $Foswiki::Plugins::SESSION->{prefs}->pushPreferenceValues( 'SESSION', { $templateVar => $templateName } );
+    }
 
     # Plugin correctly initialized
     return 1;
