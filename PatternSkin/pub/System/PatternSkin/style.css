@@ -50,8 +50,9 @@ pre {
     border-width:1px;
     padding:1em;
 }
-pre, code, tt {
+pre, code, tt, .foswikiDiffDebug {
     font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    white-space:pre;
     font-size:86%;
 }
 
