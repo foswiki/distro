@@ -1717,7 +1717,7 @@ sub new {
     # Push global preferences from %SYSTEMWEB%.DefaultPreferences
     $prefs->loadDefaultPreferences();
 
-    # SMELL: what happens if we move this into the Foswiki::User::new?
+    # SMELL: what happens if we move this into the Foswiki::Users::new?
     $this->{user} = $this->{users}->initialiseUser( $this->{remoteUser} );
 
     # Static session variables that can be expanded in topics when they
@@ -4014,7 +4014,7 @@ sub QUERYPARAMS {
         $entry =~ s/\$value/$value/;
         push( @list, $entry );
     }
-    return expandStandardEscapes( join( $separator, @list ) );
+    return join( $separator, @list );
 }
 
 sub URLPARAM {
