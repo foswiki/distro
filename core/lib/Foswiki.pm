@@ -3914,7 +3914,7 @@ sub QUERYPARAMS {
         $entry =~ s/\$value/$value/;
         push( @list, $entry );
     }
-    return expandStandardEscapes( join( $separator, @list ) );
+    return join( $separator, @list );
 }
 
 sub URLPARAM {
