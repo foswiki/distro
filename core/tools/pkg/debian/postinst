@@ -100,7 +100,7 @@ case "$1" in
 			fi
 			ln -s $includefile /etc/$server/conf.d/foswiki.conf
 			if [ $server = "apache2" ]; then
-				a2enmod  authn_file
+				a2enmod authn_file || a2enmod auth_plain || true
 				a2enmod  rewrite
 			else
 				apache-modconf $server enable authn_file
