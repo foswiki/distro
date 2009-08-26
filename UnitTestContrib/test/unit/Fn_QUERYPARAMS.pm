@@ -100,4 +100,16 @@ sub test_seperator {
     $this->assert_str_equals("foo is equal to &#60;evil script&#62;&#39;&#34;&#37;NEXTfee is equal to free", "$str");
 }
 
+sub test_stdescapes_not_expanded {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'percent', -value => '$percnt' );
+    $str = $this->{twiki}->handleCommonTags(
+        '%QUERYPARAMS{format="$name is equal to $value"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals('percent is equal to $percnt', "$str");
+
+}
+
 1;
