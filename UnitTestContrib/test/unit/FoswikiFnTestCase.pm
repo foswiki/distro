@@ -167,9 +167,11 @@ sub getUIFn {
     my $script = shift;
     require Foswiki::UI;
     $this->assert( $Foswiki::cfg{SwitchBoard}{$script}, $script );
+    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{package}, "$script package not set");
     my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
     eval "require $fn";
-    die $@ if $@;
+    die "DIED during (require $fn)\n".$@ if $@;
+    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{function}, "$script function not set");
     $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};
     return \&$fn;
 }

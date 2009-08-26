@@ -4,6 +4,7 @@ use base qw(FoswikiFnTestCase);
 
 use strict;
 use Foswiki;
+use Foswiki::UI;
 use Foswiki::UI::Viewfile;
 use Unit::Request;
 use Error qw( :try );
@@ -24,8 +25,6 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-
-    $UI_FN ||= $this->getUIFn('viewfile');
 
     $fatwilly = $this->{session};
     my $topic = 'TestTopic1';
@@ -133,6 +132,7 @@ sub viewfile {
     $query->setUrl($url);
     $query->method('GET');
     $fatwilly = new Foswiki( $this->{test_user_login}, $query );
+    $UI_FN ||= $this->getUIFn('viewfile');
     $this->{request}  = $query;
     $this->{response} = new Unit::Response();
     my ($text) = $this->capture(
