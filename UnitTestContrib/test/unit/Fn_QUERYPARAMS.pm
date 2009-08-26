@@ -201,4 +201,19 @@ sub test_with_format_empty_separator {
     );
 }
 
+sub test_stdescapes_not_expanded {
+    my $this = shift;
+
+    my $str;
+
+    $this->{request}->param( -name => 'percent', -value => '$percnt' );
+    $str =
+      $this->{test_topicObject}
+      ->expandMacros('%QUERYPARAMS{format="$name is equal to $value"}%');
+    $this->assert_str_equals('percent is equal to $percnt',
+        "$str"
+    );
+
+}
+
 1;
