@@ -71,6 +71,113 @@ sub addTopics {
     }
 }
 
+=begin TML
+---++ sortResults
+
+the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
+
+it should be possible for the search engine to pre-sort, making this a nop, or to
+delay evaluated, partially evaluated, or even delegated to the DB/SQL 
+
+=cut
+
+sub sortResults {
+    my ( $infoCache, $web, %params ) = @_;
+    my $session = $infoCache->{_session};
+
+    my $sortOrder = $params{order} || '';
+    my $revSort   = Foswiki::isTrue( $params{reverse} );
+    my $date      = $params{date} || '';
+    my $limit     = $params{limit} || '';
+
+    #SMELL: duplicated code - removeme
+    # Limit search results
+    if ( $limit =~ /(^\d+$)/o ) {
+
+        # only digits, all else is the same as
+        # an empty string.  "+10" won't work.
+        $limit = $1;
+    }
+    else {
+
+        # change 'all' to 0, then to big number
+        $limit = 0;
+    }
+    $limit = 32000 unless ($limit);
+
+    # sort the topic list by date, author or topic name, and cache the
+    # info extracted to do the sorting
+    if ( $sortOrder eq 'modified' ) {
+
+        # For performance:
+        #   * sort by approx time (to get a rough list)
+        #   * shorten list to the limit + some slack
+        #   * sort by rev date on shortened list to get the accurate list
+        # SMELL: Cairo had efficient two stage handling of modified sort.
+        # SMELL: In Dakar this seems to be pointless since latest rev
+        # time is taken from topic instead of dir list.
+        my $slack = 10;
+        if ( $limit + 2 * $slack < scalar( @{ $infoCache->{list} } ) ) {
+
+            # sort by approx latest rev time
+            my @tmpList =
+              map  { $_->[1] }
+              sort { $a->[0] <=> $b->[0] }
+              map  { [ $session->getApproxRevTime( $web, $_ ), $_ ] }
+              @{ $infoCache->{list} };
+            @tmpList = reverse(@tmpList) if ($revSort);
+
+            # then shorten list and build the hashes for date and author
+            my $idx = $limit + $slack;
+            @{ $infoCache->{list} } = ();
+            foreach (@tmpList) {
+                push( @{ $infoCache->{list} }, $_ );
+                $idx -= 1;
+                last if $idx <= 0;
+            }
+        }
+
+        $infoCache->sortTopics( $sortOrder, !$revSort );
+    }
+    elsif (
+        $sortOrder =~ /^creat/ ||    # topic creation time
+        $sortOrder eq 'editby' ||    # author
+        $sortOrder =~ s/^formfield\((.*)\)$/$1/    # form field
+      )
+    {
+        $infoCache->sortTopics( $sortOrder, !$revSort );
+    }
+    else {
+
+        # simple sort, see Codev.SchwartzianTransformMisused
+        # note no extraction of topic info here, as not needed
+        # for the sort. Instead it will be read lazily, later on.
+        if ($revSort) {
+            @{ $infoCache->{list} } =
+              sort { $b cmp $a } @{ $infoCache->{list} };
+        }
+        else {
+            @{ $infoCache->{list} } =
+              sort { $a cmp $b } @{ $infoCache->{list} };
+        }
+    }
+
+    if ($date) {
+        require Foswiki::Time;
+        my @ends       = Foswiki::Time::parseInterval($date);
+        my @resultList = ();
+        foreach my $topic ( @{ $infoCache->{list} } ) {
+
+            # if date falls out of interval: exclude topic from result
+            my $topicdate = $session->getApproxRevTime( $web, $topic );
+            push( @resultList, $topic )
+              unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
+        }
+        @{ $infoCache->{list} } = @resultList;
+    }
+}
+
+
 ######OLD methods
 sub get {
     my ( $this, $topic ) = @_;

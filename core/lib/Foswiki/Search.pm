@@ -603,11 +603,14 @@ sub searchWeb {
           ;    # Nothing to show for this web
 
         my $infoCache = $webObject->query( $query, $inputTopicSet, \%params );
-        $this->sortResults( $web, $infoCache, %params );
+        $infoCache->sortResults( $web, %params );
 
         # add dependencies
         my $cache = $session->{cache};
         if ($cache) {
+            #TODO: ouch - this forces pre-evaluation of results, 
+            # and assumes we need or acre to evaluate all of them :/
+            # I wonder if this makes paging head processing heavy
             foreach my $topic ( $infoCache->{list} ) {
                 $cache->addDependency( $web, $topic );
             }
@@ -654,112 +657,6 @@ sub searchWeb {
     $searchResult = $baseWebObject->renderTML($searchResult);
 
     return $searchResult;
-}
-
-=begin TML
----++ sortResults
-
-the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
-
-this should move into the result set / search algo so that it can be 
-delay evaluated, partially evaluated, or even delegated to the DB/SQL 
-
-=cut
-
-sub sortResults {
-    my ( $this, $web, $infoCache, %params ) = @_;
-    my $session = $this->{session};
-
-    my $sortOrder = $params{order} || '';
-    my $revSort   = Foswiki::isTrue( $params{reverse} );
-    my $date      = $params{date} || '';
-    my $limit     = $params{limit} || '';
-
-    #SMELL: duplicated code - removeme
-    # Limit search results
-    if ( $limit =~ /(^\d+$)/o ) {
-
-        # only digits, all else is the same as
-        # an empty string.  "+10" won't work.
-        $limit = $1;
-    }
-    else {
-
-        # change 'all' to 0, then to big number
-        $limit = 0;
-    }
-    $limit = 32000 unless ($limit);
-
-    # sort the topic list by date, author or topic name, and cache the
-    # info extracted to do the sorting
-    if ( $sortOrder eq 'modified' ) {
-
-        # For performance:
-        #   * sort by approx time (to get a rough list)
-        #   * shorten list to the limit + some slack
-        #   * sort by rev date on shortened list to get the accurate list
-        # SMELL: Cairo had efficient two stage handling of modified sort.
-        # SMELL: In Dakar this seems to be pointless since latest rev
-        # time is taken from topic instead of dir list.
-        my $slack = 10;
-        if ( $limit + 2 * $slack < scalar( @{ $infoCache->{list} } ) ) {
-
-            # sort by approx latest rev time
-            my @tmpList =
-              map  { $_->[1] }
-              sort { $a->[0] <=> $b->[0] }
-              map  { [ $session->getApproxRevTime( $web, $_ ), $_ ] }
-              @{ $infoCache->{list} };
-            @tmpList = reverse(@tmpList) if ($revSort);
-
-            # then shorten list and build the hashes for date and author
-            my $idx = $limit + $slack;
-            @{ $infoCache->{list} } = ();
-            foreach (@tmpList) {
-                push( @{ $infoCache->{list} }, $_ );
-                $idx -= 1;
-                last if $idx <= 0;
-            }
-        }
-
-        $infoCache->sortTopics( $sortOrder, !$revSort );
-    }
-    elsif (
-        $sortOrder =~ /^creat/ ||    # topic creation time
-        $sortOrder eq 'editby' ||    # author
-        $sortOrder =~ s/^formfield\((.*)\)$/$1/    # form field
-      )
-    {
-        $infoCache->sortTopics( $sortOrder, !$revSort );
-    }
-    else {
-
-        # simple sort, see Codev.SchwartzianTransformMisused
-        # note no extraction of topic info here, as not needed
-        # for the sort. Instead it will be read lazily, later on.
-        if ($revSort) {
-            @{ $infoCache->{list} } =
-              sort { $b cmp $a } @{ $infoCache->{list} };
-        }
-        else {
-            @{ $infoCache->{list} } =
-              sort { $a cmp $b } @{ $infoCache->{list} };
-        }
-    }
-
-    if ($date) {
-        require Foswiki::Time;
-        my @ends       = Foswiki::Time::parseInterval($date);
-        my @resultList = ();
-        foreach my $topic ( @{ $infoCache->{list} } ) {
-
-            # if date falls out of interval: exclude topic from result
-            my $topicdate = $session->getApproxRevTime( $web, $topic );
-            push( @resultList, $topic )
-              unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
-        }
-        @{ $infoCache->{list} } = @resultList;
-    }
 }
 
 =begin TML
@@ -1018,11 +915,7 @@ sub formatResults {
                 $out =~
                   s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                 $out =~ s/\r?\n/$newLine/gos if ($newLine);
-                if ( defined($separator) ) {
-#                    $out .= $separator;
-                }
-                else {
-
+                if ( !defined($separator) ) {
 # add new line at end if needed
 # SMELL: why?
 #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
@@ -1063,10 +956,6 @@ sub formatResults {
                     $header =~ s|</*nop/*>||goi;    # remove <nop> tag
                     &$callback( $cbdata, $header );
                 }
-                else {
-
-#                    $searchResult .= $header;
-                }
             }
 
             # don't expand if a format is specified - it breaks tables and stuff
@@ -1080,8 +969,6 @@ sub formatResults {
                 &$callback( $cbdata, $out );
             }
             else {
-
-#                $searchResult .= $out;
                 push( @searchResults, $out );
             }
 
