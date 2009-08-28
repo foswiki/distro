@@ -622,7 +622,7 @@ sub searchWeb {
             \%params );
         $ttopics += $web_ttopics;
         # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-        $web_searchResult .= $separator if (($web_ttopics>0) and $noFooter and $separator);
+        $web_searchResult .= $separator if (($web_ttopics>0) and $noFooter and $noSummary and $separator);
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
     return '' if ( $ttopics == 0 && $params{zeroresults} );
