@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 # tests for the correct expansion of SEARCH
 # SMELL: this test is pathetic, becase SEARCH has dozens of untested modes
@@ -1701,7 +1702,7 @@ EXPECT
 sub verify_multiWeb_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, ",", 1, <<EXPECT);
-DefaultPreferences,WebPreferencesSitePreferences,WebPreferences
+DefaultPreferences,WebPreferences,SitePreferences,WebPreferences
 EXPECT
 }
 
@@ -1839,7 +1840,7 @@ sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, ",", 1, <<EXPECT);
 HEAD(System)
-DefaultPreferences,WebPreferencesHEAD(Main)
+DefaultPreferences,WebPreferences,HEAD(Main)
 SitePreferences,WebPreferences
 EXPECT
 }

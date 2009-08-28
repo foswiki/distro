@@ -618,6 +618,8 @@ sub searchWeb {
           $this->formatResults( $webObject, $query, $searchString, $infoCache,
             \%params );
         $ttopics += $web_ttopics;
+        # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
+        $web_searchResult .= $separator if (($web_ttopics>0) and $noFooter and $separator);
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
     return '' if ( $ttopics == 0 && $params{zeroresults} );
@@ -658,6 +660,9 @@ sub searchWeb {
 ---++ sortResults
 
 the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
+
+this should move into the result set / search algo so that it can be 
+delay evaluated, partially evaluated, or even delegated to the DB/SQL 
 
 =cut
 
@@ -795,9 +800,6 @@ sub formatResults {
     my $inline        = $params->{inline};
     my $limit         = $params->{limit} || '';
 
-    #    my $searchResult = '';
-    my @searchResults;
-
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
 
@@ -832,14 +834,8 @@ sub formatResults {
       1 - Foswiki::isTrue( ( $params->{zeroresults} || 'on' ), $nonoise );
     my $noTotal = Foswiki::isTrue( $params->{nototal}, $nonoise );
     my $newLine   = $params->{newline} || '';
-    my $sortOrder = $params->{order}   || '';
-    my $revSort   = Foswiki::isTrue( $params->{reverse} );
-    my $scope     = $params->{scope}   || '';
     my $separator = $params->{separator};
-    my $topic     = $params->{topic}   || '';
     my $type      = $params->{type}    || '';
-
-    my $ttopics = 0;
 
     if ( defined $header ) {
         $header = Foswiki::expandStandardEscapes($header);
@@ -857,33 +853,16 @@ sub formatResults {
     my $ntopics    = 0;         # number of topics in current web
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
+    my @searchResults;
+
     while ( $infoCache->hasNext() ) {
         my $topic = $infoCache->next();
 
-        my $forceRendering = 0;
         my $info           = $infoCache->get($topic);
-
-        my $epochSecs = $info->{modified};
-        require Foswiki::Time;
-        my $revDate = Foswiki::Time::formatTime($epochSecs);
-        my $isoDate = Foswiki::Time::formatTime( $epochSecs, '$iso', 'gmtime' );
-
-        my $ru     = $info->{editby} || 'UnknownUser';
-        my $revNum = $info->{revNum} || 0;
-
-        my $cUID = $users->getCanonicalUserID($ru);
-        if ( !$cUID ) {
-
-            # Not a login name or a wiki name. Is it a valid cUID?
-            my $ln = $users->getLoginName($ru);
-            $cUID = $ru if defined $ln && $ln ne 'unknown';
-        }
-
-        # Check security
-        my $allowView = $info->{allowView};
-        next unless $allowView;
-
-        my ( $meta, $text );
+        my $text;   #current hits' text
+        
+        # Check security (don't show topics the current user does not have permission to view)
+        next unless $info->{allowView};
 
         # Special handling for format='...'
         if ($formatDefined) {
@@ -899,6 +878,7 @@ sub formatResults {
             }
         }
 
+#TODO: should extract this somehow?
         my @multipleHitLines = ();
         if ( $doMultiple && $query->{tokens} ) {
 
@@ -919,9 +899,23 @@ sub formatResults {
             }
         }
 
-        $ntopics += 1;
-        $ttopics += 1;
+        my $epochSecs = $info->{modified};
+        require Foswiki::Time;
+        my $revDate = Foswiki::Time::formatTime($epochSecs);
+        my $isoDate = Foswiki::Time::formatTime( $epochSecs, '$iso', 'gmtime' );
 
+        my $ru     = $info->{editby} || 'UnknownUser';
+        my $revNum = $info->{revNum} || 0;
+
+        my $cUID = $users->getCanonicalUserID($ru);
+        if ( !$cUID ) {
+
+            # Not a login name or a wiki name. Is it a valid cUID?
+            my $ln = $users->getLoginName($ru);
+            $cUID = $ru if defined $ln && $ln ne 'unknown';
+        }
+
+        $ntopics += 1;
         do {    # multiple=on loop
 
             $nhits += 1;
@@ -967,7 +961,6 @@ sub formatResults {
                         $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
                     }
                     $out =~ s/\$text/$text/gos;
-                    $forceRendering = 1 unless ($doMultiple);
                 }
             }
             else {
@@ -1033,6 +1026,7 @@ sub formatResults {
 # add new line at end if needed
 # SMELL: why?
 #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
+#SMELL: I wonder if this can't be wrapped into the summarizeText code
                     unless ( $noTotal && !$params->{formatdefined} ) {
                         $out =~ s/([^\n])$/$1\n/s;
                     }
@@ -1042,12 +1036,13 @@ sub formatResults {
 
             }
             elsif ($noSummary) {
+                die "no such thing? (noSummary)";
                 $out =~ s/%TEXTHEAD%//go;
                 $out =~ s/&nbsp;//go;
 
             }
             else {
-
+                die "no such thing? (ke)";
                 # regular search view
                 $text = $info->{tom}->summariseText( '', $text );
                 $out =~ s/%TEXTHEAD%/$text/go;
@@ -1095,12 +1090,8 @@ sub formatResults {
         last if ( $ntopics >= $limit );
     }    # end topic loop
 
-    #TODO: SMELL: huh, why do we need another webObject?
-    my $webWebObject = Foswiki::Meta->new( $session, $web );
-
     # output footer only if hits in web
     if ($ntopics) {
-
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
         $footer =~ s/\$nhits/$nhits/gs;
@@ -1108,13 +1099,13 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        $footer = $webWebObject->expandMacros($footer);
+        $footer = $webObject->expandMacros($footer);
         if ( $inline || $formatDefined ) {
             $footer =~ s/\n$//os;    # remove trailing new line
         }
 
         if ( defined $callback ) {
-            $footer = $webWebObject->renderTML($footer);
+            $footer = $webObject->renderTML($footer);
             $footer =~ s|</*nop/*>||goi;    # remove <nop> tag
             &$callback( $cbdata, $footer );
         }
@@ -1132,7 +1123,7 @@ sub formatResults {
     #            my $thisNumber = $params->{footercounter};
     #            $thisNumber =~ s/%NTOPICS%/$ntopics/go;
     #            if ( defined $callback ) {
-    #                $thisNumber = $webWebObject->renderTML($thisNumber);
+    #                $thisNumber = $webObject->renderTML($thisNumber);
     #                $thisNumber =~ s|</*nop/*>||goi;    # remove <nop> tag
     #                &$callback( $cbdata, $thisNumber );
     #            }
@@ -1141,18 +1132,18 @@ sub formatResults {
     #            }
     #        }
     #    }
-    #    return ( $ttopics, $searchResult );
+    #    return ( $ntopics, $searchResult );
     
     if ( defined($separator) ) {
         #	$header = $header.$separator if (defined($params->{header}));
-        #TODO: I think this is a bug - see Item1773 for discussion
+        #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
     	$footer = $separator.$footer if (defined($params->{footer}));
     } else {
         #TODO: legacy from SEARCH - we want to remove this oddness
 #    	$footer = $separator.$footer if (defined($params->{footer}) && $footer ne '<nop>');
     }
 
-    return ( $ttopics,
+    return ( $ntopics,
         ( ( not defined($callback) ) and ( $#searchResults >= 0 ) )
             ? $header . join( defined($separator)
                 ? $separator
