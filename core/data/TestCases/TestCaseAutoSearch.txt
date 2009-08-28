@@ -56,7 +56,7 @@ Same as last test
 
 
 
----+ Topic search with two webs specified, all summary fields disabled
+---+ Topic search with two webs specified, all summary fields disabled (expand rex TWOWEBS)
 ---++ Expected
 <!-- expected expand rex TWOWEBS -->
 <div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
