@@ -53,7 +53,7 @@ sub test_footer_with_ntopics {
     );
 
     $this->assert_str_equals(
-        join( "\n", sort qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
+        join( "\n", qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
         $result );
 }
 
@@ -106,6 +106,23 @@ HERE
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         'FormattedSearchTopic1', $text );
     $topicObject->save();
+}
+
+sub test_same_topic_listed_twice {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%FOREACH{
+    "OkATopic,OkBTopic,OkTopic,OkATopic"  
+    nonoise="on" 
+    footer="Total found: $ntopics" 
+    format="$topic"
+}%'
+    );
+
+    $this->assert_str_equals(
+        join( "\n", qw(OkATopic OkBTopic OkTopic OkATopic) ) . "\nTotal found: 4",
+        $result );
 }
 
 #TODO: ?? sumarizeText fails?
