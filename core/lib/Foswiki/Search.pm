@@ -724,7 +724,8 @@ sub formatResults {
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
-    if ($params->{pager_show_results_to} > 0) {
+    if (defined($params->{pager_show_results_to}) and
+        $params->{pager_show_results_to} > 0) {
         $limit = $params->{pager_show_results_to};
     }
 
@@ -772,7 +773,8 @@ sub formatResults {
     while ( $infoCache->hasNext() ) {
         my $topic = $infoCache->next();
         #pager..
-        if ($params->{pager_skip_results_from} > 0) {
+        if (defined($params->{pager_skip_results_from}) and
+            $params->{pager_skip_results_from} > 0) {
             $params->{pager_skip_results_from}--;
             next;
         }
