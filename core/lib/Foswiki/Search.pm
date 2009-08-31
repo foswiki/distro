@@ -313,6 +313,14 @@ sub searchWeb {
     $params{zeroresults} =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
+    #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
+    my $pagesize      = $params{pagesize} || $Foswiki::cfg{Search}{DefaultPageSize} || 25;
+    my $showpage      = $params{showpage} || undef;                # 1-based system; 0 is not a valid page number
+    if (defined($showpage)) {
+        $params{pager_skip_results_from}   = $pagesize * ($showpage-1);
+        $params{pager_show_results_to}   = $pagesize;
+    }
+
     #TODO: refactorme
     my $header  = $params{header};
     my $footer  = $params{footer};
@@ -503,7 +511,6 @@ sub searchWeb {
     $tmplNumber = $baseWebObject->expandMacros($tmplNumber);
 
     {
-
         # header and footer of $web
         my ( $beforeText, $repeatText, $afterText ) =
           split( /%REPEAT%/, $tmplTable );
@@ -603,13 +610,13 @@ sub searchWeb {
           ;    # Nothing to show for this web
 
         my $infoCache = $webObject->query( $query, $inputTopicSet, \%params );
-        $infoCache->sortResults( $web, %params );
+        $infoCache->sortResults( $web, \%params );
 
         # add dependencies
         my $cache = $session->{cache};
         if ($cache) {
             #TODO: ouch - this forces pre-evaluation of results, 
-            # and assumes we need or acre to evaluate all of them :/
+            # and assumes we need or care to evaluate all of them :/
             # I wonder if this makes paging head processing heavy
             foreach my $topic ( $infoCache->{list} ) {
                 $cache->addDependency( $web, $topic );
@@ -620,10 +627,17 @@ sub searchWeb {
         ( $web_ttopics, $web_searchResult ) =
           $this->formatResults( $webObject, $query, $searchString, $infoCache,
             \%params );
+
         $ttopics += $web_ttopics;
         # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
         $web_searchResult .= $separator if (($web_ttopics>0) and $noFooter and $noSummary and $separator);
         $searchResult .= $web_searchResult;
+
+        #paging
+        if (defined($showpage) and $params{pager_show_results_to} > 0) {
+            $params{pager_show_results_to} -= $web_ttopics;
+            last if ($params{pager_show_results_to} <= 0);
+        }
     }    # end of: foreach my $web ( @webs )
     return '' if ( $ttopics == 0 && $params{zeroresults} );
 
@@ -710,6 +724,9 @@ sub formatResults {
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
+    if ($params->{pager_show_results_to} > 0) {
+        $limit = $params->{pager_show_results_to};
+    }
 
     #TODO: multiple is an attribute of the ResultSet
     my $doMultiple = Foswiki::isTrue( $params->{multiple} );
@@ -754,6 +771,11 @@ sub formatResults {
 
     while ( $infoCache->hasNext() ) {
         my $topic = $infoCache->next();
+        #pager..
+        if ($params->{pager_skip_results_from} > 0) {
+            $params->{pager_skip_results_from}--;
+            next;
+        }
 
         my $info           = $infoCache->get($topic);
         my $text;   #current hits' text
@@ -775,7 +797,7 @@ sub formatResults {
             }
         }
 
-#TODO: should extract this somehow?
+#TODO: should extract this somehow
         my @multipleHitLines = ();
         if ( $doMultiple && $query->{tokens} ) {
 

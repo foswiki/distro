@@ -1852,6 +1852,131 @@ EXPECT
 }
 
 #####################
+# PAGING
+sub verify_paging_one_web_first_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "one" 
+    web="%SYSTEMWEB%"
+    type="keyword" 
+    scope="text" 
+    nonoise="on" 
+    format="$topic"
+    showpage="1"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+AccessControl
+AdminSkillsAssumptions
+AdminToolsCategory
+AnApplicationWithWikiForm
+AppendixEncodeURLsWithUTF8
+FOOT(5,5)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_one_web_second_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "one" 
+    web="%SYSTEMWEB%"
+    type="keyword" 
+    scope="text" 
+    nonoise="on" 
+    format="$topic"
+    showpage="2"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+BeginnersStartHere
+BuildContrib
+BulkRegistration
+ChangeEmailAddress
+CommandAndCGIScripts
+FOOT(5,5)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+
+sub verify_paging_two_webs_first_seven {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "WebHome" 
+    type="text"
+    web="Main,System,TestCases"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    pagesize="7"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+Main.WebHome
+Main.WebPreferences
+Main.WebStatistics
+FOOT(3,3)System.AdminToolsCategory
+System.BeginnersStartHere
+System.CascadingStyleSheets
+System.CommandAndCGIScripts
+FOOT(4,4)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_two_webs_another_seven {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "WebHome" 
+    type="text"
+    web="Main,System,TestCases"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="6"
+    pagesize="7"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+System.WikiCulture
+System.WikiWord
+FOOT(2,2)TestCases.TestCaseAmISane
+TestCases.TestCaseAutoFormattedSearch
+TestCases.TestCaseAutoFormattedSearchDetails
+TestCases.TestCaseAutoInternalTags
+TestCases.TestCaseAutoSpreadSheetPlugin
+FOOT(5,5)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
 
 
 1;

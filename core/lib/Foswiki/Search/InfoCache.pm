@@ -82,13 +82,13 @@ delay evaluated, partially evaluated, or even delegated to the DB/SQL
 =cut
 
 sub sortResults {
-    my ( $infoCache, $web, %params ) = @_;
+    my ( $infoCache, $web, $params ) = @_;
     my $session = $infoCache->{_session};
 
-    my $sortOrder = $params{order} || '';
-    my $revSort   = Foswiki::isTrue( $params{reverse} );
-    my $date      = $params{date} || '';
-    my $limit     = $params{limit} || '';
+    my $sortOrder = $params->{order} || '';
+    my $revSort   = Foswiki::isTrue( $params->{reverse} );
+    my $date      = $params->{date} || '';
+    my $limit     = $params->{limit} || '';
 
     #SMELL: duplicated code - removeme
     # Limit search results
