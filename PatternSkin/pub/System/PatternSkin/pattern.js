@@ -2,12 +2,11 @@ var Pattern = {
 
 	metaTags:[],
 	
-	createTwikiActionFormStepSign:function(el) {
-		var sign = '&#9658;';
+	createActionFormStepSign:function(el) {
 		var newEl = foswiki.HTML.insertBeforeElement(
 			el,
 			'span',
-			sign
+			'&#9658;'
 		);
 		newEl.className = 'foswikiActionFormStepSign';
 	},
@@ -15,21 +14,17 @@ var Pattern = {
 	/**
 	Creates a attachment counter in the attachment table twisty.
 	*/
-	setAttachmentCount:function(inTableElement) {		
-		var count = inTableElement.getElementsByTagName("tr").length - 1;
-		var countStr = " " + "<span class='patternSmallLinkToHeader'>" + ' '  + count + "<\/span>";
-		var showElem = document.getElementById('topicattachmentslistshow');
-		if (showElem != undefined) {
-			var elems = foswiki.getElementsByClassName(showElem, 'patternAttachmentHeader');
-			if (elems && elems[0]) {
-				elems[0].innerHTML += countStr;
+	setAttachmentCount:function(inAttachmentContainer) {		
+		
+		var headers = foswiki.getElementsByClassName(inAttachmentContainer, 'patternAttachmentHeader', 'h3');
+		if (headers != undefined) {
+			var count = inAttachmentContainer.getElementsByTagName("tr").length - 1;
+			var countStr = " " + "<span class='patternSmallLinkToHeader'>" + ' '  + count + "<\/span>";
+			if (headers[0]) {
+				headers[0].innerHTML += countStr;
 			}
-		}
-		var hideElem = document.getElementById('topicattachmentslisthide');
-		if (hideElem != undefined) {
-			var elems = foswiki.getElementsByClassName(hideElem, 'patternAttachmentHeader');
-			if (elems && elems[0]) {
-				elems[0].innerHTML += countStr;
+			if (headers[1]) {
+				headers[1].innerHTML += countStr;
 			}
 		}
 	},
@@ -62,7 +57,7 @@ var Pattern = {
 
 var patternRules = {
 	'.foswikiFormStep h3' : function(el) {
-		Pattern.createTwikiActionFormStepSign(el);
+		Pattern.createActionFormStepSign(el);
 	},
 	'#jumpFormField' : function(el) {
 		foswiki.Form.initBeforeFocusText(el,TEXT_JUMP);
@@ -82,7 +77,7 @@ var patternRules = {
 			foswiki.Form.restoreBeforeFocusText(this);
 		}
 	},
-	'#foswikiAttachmentsTable' : function(el) {
+	'.foswikiAttachments' : function(el) {
 		Pattern.setAttachmentCount(el);
 	},
 	'body.patternEditPage' : function(el) {

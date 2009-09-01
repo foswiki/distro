@@ -45,14 +45,14 @@ hr {
 /* put overflow pre in a scroll area */
 pre {
     width:auto;
-	height:1%; /* for IE */
     margin:1em 0; /* Win IE tries to make this bigger otherwise */
     border-style:solid;
     border-width:1px;
     padding:1em;
 }
-pre, code, tt {
+pre, code, tt, .foswikiDiffDebug {
     font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    white-space:pre;
     font-size:86%;
 }
 
@@ -86,16 +86,13 @@ h6 { font-size:95%; font-weight:bold; }
 h2, h3, h4, h5, h6 {
 	display:block;
 	/* give header a background color for easy scanning:*/
-	padding:.25em 10px;
+	padding:.15em 10px;
 	margin:1em -10px .35em -10px;
 	height:auto;	
 }
-/*
 h2 {
-	border-width:0 0 1px 0;
-	border-style:solid;
+	padding:1em 10px .15em 10px;
 }
-*/
 h1.patternTemplateTitle {
 	font-size:170%;
 	text-align:center;
@@ -451,6 +448,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	border-style:solid;
 }
 .foswikiFormStep {
+	height:100%; /* for IE */
 	line-height:140%;
 	padding:1em 40px;
 	border-width:0 0 1px 0;
@@ -485,10 +483,11 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	padding-bottom:.25em;
 }
 .foswikiActionFormStepSign {
-	position:absolute;
-	font-size:104%;
+	float:left;
+	font-size:100%;
 	margin-left:-20px; /* half of S5 */
-	margin-top:-.15em;
+	vertical-align:text-top;
+	line-height:1em;
 }
 .foswikiToc {
 	margin:1em 0;

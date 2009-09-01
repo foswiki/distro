@@ -209,14 +209,14 @@ Do not change the text below this line unless you know what you are doing!
 /* LAYOUT ELEMENTS */
 
 #patternScreen {
-   background:%PAGE_BACKGROUND%;
+    background:%PAGE_BACKGROUND%;
 }
 #patternPage {
-   border-color:%STRONG_BORDER%;
+    border-color:%STRONG_BORDER%;
 }
 #patternTopBar {
    border-color:%SEPARATOR_BORDER%;
-   /* color is defined as WEBHEADERBGCOLOR in System/DefaultPreferences */
+    /* color is defined as WEBHEADERBGCOLOR in System/DefaultPreferences */
 }
 #patternMain { /* don't set a background here; use patternOuter */ }
 #patternOuter {
@@ -501,7 +501,7 @@ table.foswikiFormTable td.foswikiFormTableRow {
 }
 .foswikiAttachments .foswikiButton h3,
 .foswikiForm .foswikiButton h3 {
-   color:%HEADER_TEXT%;
+    color:%HEADER_TEXT%;
 }
 .foswikiAttachments table,
 table.foswikiFormTable {
@@ -542,6 +542,9 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
 }
 .foswikiActionFormStepSign {
    color:%FORM_HEADER_TEXT%;
+}
+.foswikiFormStep .foswikiHelp {
+	background:%MAIN_TEXT_BACKGROUND%;
 }
 .foswikiToc .foswikiTocTitle {
    color:%MUTED_TEXT%;
@@ -644,11 +647,11 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents .patternLeftBarPersonal,
 #patternSideBarContents .patternWebIndicator {
-   border-color:#dadada;
+    border-color:#dadada;
 }
 #patternSideBarContents b,
 #patternSideBarContents strong {
-   color:%HEADER_TEXT%;
+    color:%HEADER_TEXT%;
 }
 
 .patternTopicActions {
@@ -689,7 +692,7 @@ a:hover .foswikiAccessKey {
    color:%MUTED_TEXT%;
 }
 .patternEditTopic {
-   background:%ATTACHMENT_AND_FORM_BACKGROUND%;
+    background:%ATTACHMENT_AND_FORM_BACKGROUND%;
 }
 .patternToolBar a:link .foswikiAccessKey,
 .patternToolBar a:visited .foswikiAccessKey {
@@ -830,7 +833,7 @@ tr.foswikiDiffDebug .foswikiDiffUnchangedText {
 /* image positions are set here as well as these are dependent on the image */
 
 #patternTopBar {
-   /* image is defined as WEBHEADERART in System/DefaultPreferences */
+    /* image is defined as WEBHEADERART in System/DefaultPreferences */
 }
 .foswikiToc li {
    background-image:url(bullet-toc.gif);
