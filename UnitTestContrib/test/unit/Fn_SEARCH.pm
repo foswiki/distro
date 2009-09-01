@@ -1946,20 +1946,21 @@ EXPECT
     $this->assert_str_equals( $expected,  $result );
 }
 
-sub verify_paging_two_webs_another_seven {
+sub DISABLED_Item1992_verify_paging_two_webs_another_seven {
     my $this = shift;
 
     my $result =
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{
-    "WebHome" 
+    "web" 
     type="text"
-    web="Main,System,TestCases"
+    web="System,Main,TestCases"
+    topic="WebHome,WebPreferences"
     scope="text" 
     nonoise="on" 
     format="$web.$topic"
-    showpage="6"
-    pagesize="7"
+    dshowpage="1"
+    dpagesize="4"
     footer="FOOT($ntopics,$nhits)"
 }%'
       );
