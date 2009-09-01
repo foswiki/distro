@@ -543,6 +543,9 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
 .foswikiActionFormStepSign {
    color:%FORM_HEADER_TEXT%;
 }
+.foswikiFormStep .foswikiHelp {
+	background:%MAIN_TEXT_BACKGROUND%;
+}
 .foswikiToc .foswikiTocTitle {
    color:%MUTED_TEXT%;
 }

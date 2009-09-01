@@ -2,12 +2,11 @@ var Pattern = {
 
 	metaTags:[],
 	
-	createTwikiActionFormStepSign:function(el) {
-		var sign = '&#9658;';
+	createActionFormStepSign:function(el) {
 		var newEl = foswiki.HTML.insertBeforeElement(
 			el,
 			'span',
-			sign
+			'&#9658;'
 		);
 		newEl.className = 'foswikiActionFormStepSign';
 	},
@@ -58,7 +57,7 @@ var Pattern = {
 
 var patternRules = {
 	'.foswikiFormStep h3' : function(el) {
-		Pattern.createTwikiActionFormStepSign(el);
+		Pattern.createActionFormStepSign(el);
 	},
 	'#jumpFormField' : function(el) {
 		foswiki.Form.initBeforeFocusText(el,TEXT_JUMP);
