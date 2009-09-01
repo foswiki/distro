@@ -1,10 +1,52 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ <nop>%WIKITOOLNAME% Site Map
-%STARTINCLUDE%
-| *Web* | *Description of Web* | *Used to...* | *Links* |
-%SEARCH{ "\* Set SITEMAPLIST \= on" type="regex" web="%USERSWEB%, %SYSTEMWEB%, all" topic="%WEBPREFSTOPIC%" nototal="on" nosearch="on" format="| <div style=\"white-space: nowrap\"><span style=\"background-color:$pattern(.*?\* Set WEBBGCOLOR\s*=\s*([^\s]*).*)\"><img src=\"%ICONURL{blank-bg}%\" alt=\"Web color\" width=\"16\" height=\"16\" border=\"0\" /></span> <b>[[$web.%HOMETOPIC%][$web]]</b></div> |$pattern(.*?\* Set SITEMAPWHAT\s*=([^\n\r]*).*)  |$pattern(.*?\* Set SITEMAPUSETO\s*=([^\n\r]*).*)  | <div style=\"white-space: nowrap\">[[$web.%HOMETOPIC%][<img src=\"%ICONURL{home}%\" alt=\"Home of $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.WebSearch][<img src=\"%ICONURL{searchtopic}%\" alt=\"Search $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.WebChanges][<img src=\"%ICONURL{recentchanges}%\" alt=\"Recent changes in the $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.%NOTIFYTOPIC%][<img src=\"%ICONURL{notify}%\" alt=\"Get notified of changes to the $web web\" width=\"16\" height=\"16\" border=\"0\" />]]</div> |" }%
-| You can use color coding by web for identification and reference. This table is updated automatically based on <nop>WebPreferences settings of the individual webs. Contact %WIKIWEBMASTER% if you need a separate collaboration web for your team. See also %SYSTEMWEB%.AdminToolsCategory. ||||
 
-| Legend: | %ICON{home}% Go to the home of the web | %ICON{recentchanges}% See recent changes in the web |
-|^| %ICON{searchtopic}% Search the web | %ICON{notify}% Subscribe to get notified of changes by e-mail |
+%STARTINCLUDE%
+%ADDTOHEAD{
+<style type='text/css'>
+#sitemap .foswikiFormSteps {background:#fff;}
+#sitemap .foswikiFormStep {padding:0;}
+#sitemap .foswikiFormSteps ul {list-style:none; margin-bottom:0;}
+#sitemap .siteMapWebColor {margin:4px;}
+#sitemap .sitemapWebInfo {margin:0 0 0 15px; padding:.5em 1em .5em 25px; background:#fff;}
+</style>
+}%
+
+<noautolink>
+<div id="sitemap">
+<div class="foswikiFormSteps">
+%SEARCH{
+"\* Set SITEMAPLIST \= on"
+type="regex"
+web="%USERSWEB%,%SYSTEMWEB%,all"
+topic="%WEBPREFSTOPIC%"
+nototal="on"
+nosearch="on"
+format="\
+<div class=\"foswikiFormStep\">\
+<div class=\"siteMapWebColor\" style=\"background-color:$pattern(.*?\* Set WEBBGCOLOR\s*=\s*([^\s]*).*)\">\
+<div class=\"sitemapWebInfo\">\
+<strong>[[$web.%HOMETOPIC%][$web]]</strong>\
+<ul>\
+<li>$pattern(.*?\* Set SITEMAPWHAT\s*=([^\n\r]*).*) </li>\
+<li>Used to: $pattern(.*?\* Set SITEMAPUSETO\s*=([^\n\r]*).*)</li>\
+<li>[[$web.%HOMETOPIC%][<img src=\"%ICONURL{home}%\" alt=\"Home of $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.WebSearch][<img src=\"%ICONURL{searchtopic}%\" alt=\"Search $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.WebChanges][<img src=\"%ICONURL{recentchanges}%\" alt=\"Recent changes in the $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.%NOTIFYTOPIC%][<img src=\"%ICONURL{notify}%\" alt=\"Get notified of changes to the $web web\" width=\"16\" height=\"16\" border=\"0\" />]]</li>\
+</ul>\
+</div>\
+</div><!--//siteMapWebColor-->\
+</div><!--//foswikiFormStep-->\
+"}%</div><!--//foswikiFormSteps-->
+</div><!--//#sitemap-->
+</noautolink>
+
+This table is updated automatically based on <nop>WebPreferences settings of the individual webs. Topic home: [[%SYSTEMWEB%.SiteMap]].
+
+Legend: %BR%
+%ICON{home}% Go to the home of the web %BR%
+%ICON{recentchanges}% See recent changes in the web %BR%
+%ICON{searchtopic}% Search the web %BR%
+%ICON{notify}% Subscribe to get notified of changes by e-mail
 %STOPINCLUDE%
+
+---
+Related admin pages: %SYSTEMWEB%.AdminToolsCategory

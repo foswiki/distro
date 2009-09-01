@@ -1,104 +1,208 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Managing Webs
-
-_Adding, renaming and deleting webs are all web-based operations._
-
 %TOC%
 
----++ Overview
+%ADDTOHEAD{"
+<style type='text/css'>
+#createWeb .foswikiFormStep {padding:20px 40px;}
+#createWeb .col1 {float:left; width:30%; margin:0 3% 0 0;}
+#createWeb .col2 {float:left; width:66%;}
+#createWeb .col1 .foswikiInputField,
+#createWeb .col1 .foswikiSelect {width:90%;}
+#createWeb .required {font-size:80%; color:#aaa; text-transform:uppercase;}
+#createWeb .foswikiHelp {margin:1em 0;}
+#createWeb .additionalSettings {margin:1em -20px 0 -20px;}
+#createWeb .additionalSettings .foswikiActionFormStepSign {display:none;}
+#createWeb .additionalSettings .foswikiFormSteps {background:#fff;}
+#createWeb .additionalSettings .foswikiFormStep {padding:1em 20px;}
+.twistyTrigger {font-weight:bold;}
+</style>
+"}%
 
-A site is divided into webs; each one represents one subject, one area of collaboration. Administrators can add/rename/delete webs.
+---++ What are Webs?
+A Foswiki site is divided into "Webs", or groups or topics - each one represents one subject, one area of collaboration. Administrators can add, rename or delete webs.%BR%
+At file level, a Web is a directory located inside the =data= directory, with text files as topics. %BR%
+A number of Webs are fixed: =%SYSTEMWEB%= for documentation, =%USERSWEB%= to store user pages and site-wide preferences, =%TRASHWEB%= for the topic recycle bin. %BR%
+Other webs can be created as needed.
 
-#WebTemplate
----++ Choose Web Template
-
-There are two methods used to create a new web.  First you can use a specially designed TemplateWeb.  This is an invisible web that begins with an underscore &quot;_&quot; character (for example =_default=).  All topics in the template web will be copied into your new web.
-
-The second method is to use an existing web as a template web.  This may be useful if you already have a web that you would like to use as a starting point.  Only topics that have names beginning with *Web...* (like "%HOMETOPIC%", "%NOTIFYTOPIC%", etc.) are copied.
-
-In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. Any [[macros]] defined in the form below will automatically be set in the !WebPreferences of the new web.
+#SiteMap
+---++ Webs on this site 
+%TWISTY{showlink="&#43; Show sitemap" hidelink="&#8722; Hide sitemap" remember="on" mode="div"}%
+%INCLUDE{"SiteMap"}%
+%ENDTWISTY%
 
 #CreateNewWeb
----++ Adding a New Web
+---++ Create a new web
+To use this form you must be administrator.
 
-<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
-Create a new web by filling out this form.%BR%
-*%X% Note:* *Keep the number of webs to a minimum!* Don't create a new web for each little project. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
-|  *Name of new web:* | <input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="16" /> | The name must start with an upper case letter, followed by upper or lower case letters or numbers. Specify a short name to avoid long URLs. |
-|  *Based on web:* | <select name="baseweb" class="foswikiSelect"> %WEBLIST{ "<option $marker>$name</option>" webs="webtemplate,public" selection="_default" separator=" "}% </select> | Select a TemplateWeb |
-|  *Web color:* | <input name="WEBBGCOLOR" class="foswikiInputField" type="text" value="#D0D0D0" size="16" /> | Enter a StandardColors code for the web |
-|  *Site Map:* | <input type="radio" name="SITEMAPLIST" value="on" checked="checked" /> Yes &nbsp; <input type="radio" name="SITEMAPLIST" value="" /> No | Include this web in the site map |
-|  *Description:<br /> &nbsp;<br /> &nbsp;* | <input type="text" class="foswikiInputField" name="SITEMAPWHAT" value="" size="60" /><br /> Enter a short description of the web. Write =Web.TopicName= instead of just =TopicName= if you include links. This description will be used in the %SYSTEMWEB%.SiteMap ||
-|  *Use to...<br /> &nbsp;* | <input type="text" class="foswikiInputField" name="SITEMAPUSETO" value="...collaborate on" size="60" /><br /> Continue the sentence describing the intended use. This is also for the %SYSTEMWEB%.SiteMap ||
-|  *Hidden:* | <input type="radio" name="NOSEARCHALL" value="on" /> Yes &nbsp; <input type="radio" name="NOSEARCHALL" value="" checked="checked" /> No | Specify if you want to exclude the web from a "search all webs" search. *This will not prevent users accessing the web*. It will simply hide it from searches. |
-| *&nbsp;* | <input type="submit" class="foswikiSubmit" value="Create new web" /> ||
-<input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" />
-<input name="action" type="hidden" value="createweb" />
-</form>
+Before you begin: consider that less webs are better than more webs. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
 
+<noautolink>
+<div id="createWeb" class="foswikiFormSteps">
+	<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
+		<input name="newtopic" type="hidden" value="%URLPARAM{" newtopic"}%" /> <input name="action" type="hidden" value="createweb" />
+		<div class="foswikiFormStep">
+			<h3>Name of the new Web <span class="required">Required</span></h3>
+			<div class="col1">
+				<p>
+					<input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{" newweb"}%" size="40" />
+				</p>
+			</div><!--//col1-->
+			<div class="col2">
+				<p>
+					Naming rule: the name must start with an upper case letter, followed by upper or lower case letters or numbers. Examples: =Learn=, =<nop>SupDocs=, =KNow3=
+				</p>
+				<p>
+					If you are creating a nested web (a web inside a web), use the notation =Existingweb.Newweb=. %BR% %TWISTYBUTTON{id="infoOnNestedWebs" mode="span" showlink="&#43; More info about nested webs ..." hidelink="&#8722; Close info" remember="on"}%
+				</p>
+				%TWISTYTOGGLE{id="infoOnNestedWebs"}%<div class="foswikiHelp">
+					<h4>About hierarchical webs</h4>
+					<p>
+						You can only create hierarchical webs if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%#Store][configure]] is enabled.  %IF{"{EnableHierarchicalWebs}" then='%GREEN% Hierarchical webs are currently enabled %ENDCOLOR%.' else='%RED Hierarchical webs are currently disabled %ENDCOLOR%. Without this setting, Foswiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs.'}%
+					</p>
+					<p>
+						You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
+					</p>
+				</div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
+			</div><!--//col2-->
+			<br class="foswikiClear" />
+		</div><!--//foswikiFormStep-->
+		<div class="foswikiFormStep">
+			<h3>Description</h3>
+			<div class="col1">
+				<p>
+					<input type="text" class="foswikiInputField" name="SITEMAPWHAT" value="" size="40" /> 
+				</p>
+			</div><!--//col1-->
+			<div class="col2">
+				<p>
+					Enter a short description of the web. This description will be used in the [[%SYSTEMWEB%.SiteMap][SiteMap]]. If you are using links: write =Web.TopicName= instead of just =TopicName= for correct linking. 
+				</p>
+			</div><!--//col2-->
+			<br class="foswikiClear" />
+		</div><!--//foswikiFormStep-->
+		<div class="foswikiFormStep">
+			%TWISTYBUTTON{ id="additionalSettings" showlink="&#43; Show additional settings..." hidelink="&#8722; Hide additional settings" remember="on"}%
+			%TWISTYTOGGLE{ id="additionalSettings" }%
+			<div class="additionalSettings">
+				<div class="foswikiFormSteps">
+					<div class="foswikiFormStep">
+						<h3>Template web</h3>
+						<div class="col1">
+							<p>
+								<select name="baseweb" class="foswikiSelect"> %WEBLIST{ "
+								<option $marker>
+									$name
+								</option>
+								" webs="webtemplate,public" selection="_default" separator=" "}% </select>
+							</p>
+						</div><!--//col1-->
+						<div class="col2">
+							<p>
+								Base the new web on an existing web. %BR% 
+								%TWISTYBUTTON{id="infoOnTemplates" mode="span" showlink="&#43; More info about template webs ..." hidelink="&#8722; Close info" remember="on"}%
+							</p>
+							%TWISTYTOGGLE{id="infoOnTemplates"}%<div class="foswikiHelp">
+							<h4>About template webs</h4>
+							<p>
+								There are two methods used to create a new web. %BR% First you can use a specially designed TemplateWeb. This is an invisible web that begins with an underscore &quot;_&quot; character (for example =_default=). All topics in the template web will be copied into your new web. %BR%
+								The second method is to use an existing web as a template web. This may be useful *if you already have a web that you would like to use as a starting point.* Only topics that have names beginning with "Web..." (like "WebHome" or "WebNotify") are copied. In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. <!-- Any [[macros]] defined in the form below will automatically be set in the !WebPreferences of the new web. -->
+							</p>
+							<p>
 *Notes:*
    * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)
    * A new web created using the =_default= or =_empty= template webs must have their access controls set before public use
    * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
+							</p>
+						</div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
+					</div><!--//col2-->
+					<br class="foswikiClear" />
+					</div><!--//foswikiFormStep-->
+					<div class="foswikiFormStep">
+						<h3>List on !SiteMap page</h3>
+						<div class="col1">
+							<p>
+								<label><input type="radio" name="SITEMAPLIST" value="on" checked="checked" />show</label> <label><input type="radio" name="SITEMAPLIST" value="" />hide</label>
+							</p>
+						</div><!--//col1-->
+						<div class="col2">
+							<p>
+								Should the new web be listed on !SiteMap (see [[#SiteMap]] above)? Even if hidden, the web will be linkable and accessible to users.
+							</p>
+						</div><!--//col2-->
+						<br class="foswikiClear" />
+					</div><!--//foswikiFormStep-->
+					<div class="foswikiFormStep">
+						<h3>Include in global search</h3>
+						<div class="col1">
+							<p class="formOptions">
+								<label><input type="radio" name="NOSEARCHALL" value="on" checked="checked" />include</label> <label><input type="radio" name="NOSEARCHALL" value="" />exclude</label> 
+							</p>
+						</div><!--//col1-->
+						<div class="col2">
+							<p>
+								Specify if you want to exclude the web from a global search.
+							</p>
+						</div><!--//col2-->
+						<br class="foswikiClear" />					
+					</div><!--//foswikiFormStep-->
+					<div class="foswikiFormStep">
+						<h3>Web color</h3>
+						<div class="col1">
+							<p>
+								<input name="WEBBGCOLOR" class="foswikiInputField" type="text" value="#efefef" size="20" /> 
+							</p>
+						</div><!--//col1-->
+						<div class="col2">
+							<p>
+								Displayed on SiteMap and in the left bar (Pattern Skin).
+							</p>
+						</div><!--//col2-->
+						<br class="foswikiClear" />
+					</div><!--//foswikiFormStep-->
+				</div><!--//foswikiFormSteps-->
+			</div><!--//additionalSettings-->%ENDTWISTYTOGGLE%
+		</div><!--//foswikiFormStep-->
+		<div class="foswikiFormStep">
+			<input type="submit" class="foswikiSubmit" value="Create Web" /> 
+		</div><!--//foswikiFormStep-->
+	</div><!--//foswikiFormSteps-->
+</form>
+</noautolink>
 
----++ Hierarchical Webs
+---++ In-depth info on Webs
+---+++ Subweb preferences are inherited
+The [[preference settings]] of a subweb are inherited from the parent web and overridden locally. Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
 
-You can only create hierarchical webs (webs within webs) if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%][configure]] is enabled. Hierarchical webs are currently %IF{"{EnableHierarchicalWebs}" then="enabled." else="disabled. Without this setting, Foswiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs."}%
-
-*%T% Note:* You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
-
-You can create hierarchical webs via the _Adding a New Web_ form above, by using a slash- or dot-separated path name which is based on an existing web name in the _Name of new web:_ field.
-
-*Example:*
-
-To create a subweb named =Bar= inside a web named =Foo=, use =Foo/Bar= or =Foo.Bar= as the new web name in the form above.
-
----+++ Subweb Preferences are Inherited
-
-The [[preference settings]] of a subweb are inherited from the parent web and overridden locally.  Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
-
-*Example Preference Inheritance for =Sandbox/TestWeb/SubWeb.SubWebTopic= topic:*
-
+*Example Preference Inheritance for =Sandbox/TestWeb/SubWeb.SubWebTopic= topic:*    
    1 =%SYSTEMWEB%.DefaultPreferences= default settings
    1 =%USERSWEB%.SitePreferences= site-wide settings inherits from and overrides settings in =%SYSTEMWEB%.DefaultPreferences=
    1 =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%USERSWEB%.SitePreferences=
    1 =Sandbox/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox.%WEBPREFSTOPIC%=
-   1 =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%= 
+   1 =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%=
    1 =Sandbox/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= 
 
----+++ Navigation
-
+---+++ Subweb navigation
 The Pattern skin (default) indicates Subwebs by indenting them in the sidebar relative to their level in the hierarchy.
 
 #RenameWeb
 ---++ Renaming or Deleting a Web
-
-Rename a web via the Tools section in each %WEBPREFSTOPIC% topic.  You may delete a web by moving it into a Trash web.  
+Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. You may delete a web by moving it into a Trash web.
 
 ---+++ Permissions
-
 You may only rename a web if you have the following permissions
    * You must be allowed to rename and changes topics in the web you want to rename
    * You must be allowed to rename topics in the parent web of the web you want to rename
    * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.SitePreferences]].
-   * If you move the web to another parent web you must be allowed to create and change topics in the new parent web.
-   
-When you rename a web Foswiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the Foswiki installation it is generally best to let an administrator rename webs to avoid too many broken links. 
-
----+++ Edit Conflicts
-
-If anyone is editing a topic which requires updating, or which lives in the web being renamed, a second confirmation screen will come up which will indicate which topics are still locked for edit.  You may continue to hit the refresh button until an edit lease is obtained for each topic which requires updating (the "Refresh" button will change to "Submit"), or hit "Cancel", which will cancel your edit lease on all affected topics.
+   * If you move the web to another parent web you must be allowed to create and change topics in the new parent web. When you rename a web Foswiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the Foswiki installation it is generally best to let an administrator rename webs to avoid too many broken links.
 
 ---+++ Renaming the webs in the distribution
-
-It is possible, though not recommended, to change the names of the webs in the distribution.
-
-If you plan to rename the %USERSWEB% web, remember that Foswiki stores user topics in this web. That means that every WikiName signature - =%USERSWEB%.<nop>SomeUserName= - points to it and would need updating (unless the macro style =%<nop>USERSWEB%.<nop>SomeUserName=, is used throughout). This potentially large change can be performed automatically if you rename the web from the Tools section of %WEBPREFSTOPIC%, as described above.
+It is possible, though not recommended, to change the names of the webs in the distribution. If you plan to rename the %USERSWEB% web, remember that Foswiki stores user topics in this web. That means that every WikiName signature - =%USERSWEB%.<nop>SomeUserName= - points to it and would need updating (unless the macro style =%<nop>USERSWEB%.<nop>SomeUserName=, is used throughout). This potentially large change can be performed automatically if you rename the web from the Tools section of %WEBPREFSTOPIC%, as described above.
 
 %X% If you want to rename the %SYSTEMWEB% or %USERSWEB% webs, remember they are referred to in the Foswiki configuration. You will need to change the ={SystemWebName}=, ={UsersWebName}= and/or ={LocalSitePreferences}= settings in the configuration using the [[%SCRIPTURL{configure}%][configure]] interface.
 
-%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.
+%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated. 
 
 ---
-*Related Topics:* AdminDocumentationCategory, AdminToolsCategory
+*Related Topics:* AdminDocumentationCategory, AdminToolsCategory 
