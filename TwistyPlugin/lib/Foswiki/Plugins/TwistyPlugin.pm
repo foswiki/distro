@@ -24,25 +24,21 @@
 
 package Foswiki::Plugins::TwistyPlugin;
 
-use Foswiki::Func;
-use CGI::Cookie;
+use Foswiki::Func ();
+use CGI::Cookie   ();
 use strict;
 
-use vars
-  qw( $VERSION $RELEASE $pluginName @modes $doneHeader $doneDefaults $twistyCount
+use vars qw( @modes $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
+our $VERSION = '$Rev$';
 
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.5.2';
+our $RELEASE = '1.5.3';
+our $SHORTDESCRIPTION =
+  'Twisty section Javascript library to open/close content dynamically';
+our $NO_PREFS_IN_TOPIC = 1;
 
-$pluginName = 'TwistyPlugin';
+our $pluginName = 'TwistyPlugin';
 
 my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
 my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
@@ -85,11 +81,11 @@ sub _setDefaults {
     $prefShowLink =
          Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
-      || '';
+      || '%MAKETEXT{"More..."}%';
     $prefHideLink =
          Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYHIDELINK')
-      || '';
+      || '%MAKETEXT{"Close"}%';
     $prefRemember =
          Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')
@@ -103,7 +99,7 @@ sub _addHeader {
 
     # Untaint is required if use locale is on
     Foswiki::Func::loadTemplate(
-        Foswiki::Sandbox::untaintUnchecked(lc($pluginName)) );
+        Foswiki::Sandbox::untaintUnchecked( lc($pluginName) ) );
     my $header = Foswiki::Func::expandTemplate('twisty:header');
     Foswiki::Func::addToHEAD( $pluginName, $header );
 }
@@ -145,11 +141,11 @@ sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     _addHeader();
-    $twistyCount++;
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     }
+    $params->{'id'} .= ++$twistyCount;
     return _TWISTYBUTTON(@_) . _TWISTYTOGGLE(@_);
 }
 
@@ -191,7 +187,7 @@ sub _createId {
     my ( $rawId, $theWeb, $theTopic ) = @_;
 
     if ( !defined $rawId || $rawId eq '' ) {
-        return 'twistyId' . $theWeb . $theTopic . $twistyCount;
+        return 'twistyId' . $theWeb . $theTopic;
     }
     return "twistyId$rawId";
 }
@@ -251,11 +247,12 @@ sub _twistyBtn {
       ( $imgleft ne '' )
       ? '<img src="' . $imgleft . '" border="0" alt="" />'
       : '';
-    
+
     my $imgLinkTag =
         '<a href="#">'
       . $imgLeftTag
-      . '<span class="foswikiLinkLabel foswikiUnvisited' . $linkClass . '">'
+      . '<span class="foswikiLinkLabel foswikiUnvisited'
+      . $linkClass . '">'
       . $link
       . '</span>'
       . $imgTag
