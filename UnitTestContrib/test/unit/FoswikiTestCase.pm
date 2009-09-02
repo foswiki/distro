@@ -105,32 +105,9 @@ sub set_up {
         $this->{__EnvSafe}->{$sym} = $ENV{$sym};
     }
 
-    # force a read of $Foswiki::cfg
-    my $query = new Unit::Request();
-    my $tmp = new Foswiki( undef, $query );
-
     # This needs to be a deep copy
     $this->{__FoswikiSafe} =
       Data::Dumper->Dump( [ \%Foswiki::cfg ], ['*Foswiki::cfg'] );
-    $tmp->finish();
-
-    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir( CLEANUP => $cleanup );
-    mkdir("$Foswiki::cfg{WorkingDir}/tmp");
-    mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
-    mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
-
-    # Move logging into a temporary directory
-    $Foswiki::cfg{LogFileName} =
-      "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.log";
-    $Foswiki::cfg{WarningFileName} =
-      "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.warn";
-    $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
-    $Foswiki::cfg{AdminUserLogin}    = 'root';
-    $Foswiki::cfg{SuperAdminGroup}   = 'AdminGroup';
-
-    $this->loadExtraConfig();
-
-    onceOnlyChecks();
 
     # Disable/enable plugins so that only core extensions (those defined
     # in lib/MANIFEST) are enabled, but they are *all* enabled.
@@ -155,6 +132,35 @@ sub set_up {
         }
     }
     close(F);
+
+    # Force completion of %Foswiki::cfg
+    # This must be done before moving the logging.
+    my $query = new Unit::Request();
+    my $tmp = new Foswiki( undef, $query );
+    $tmp->finish();
+
+    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir( CLEANUP => $cleanup );
+    mkdir("$Foswiki::cfg{WorkingDir}/tmp");
+    mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
+    mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
+
+    # Move logging into a temporary directory
+    $Foswiki::cfg{LogFileName} =
+      "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.log";
+    $Foswiki::cfg{WarningFileName} =
+      "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.warn";
+    $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
+    $Foswiki::cfg{AdminUserLogin}    = 'root';
+    $Foswiki::cfg{SuperAdminGroup}   = 'AdminGroup';
+
+    # This must be done *after* disabling/enabling the plugins
+    # so that tests derived from this class can enable additional plugins.
+    # (Core plugins may be disabled, but their initPlugin method will still
+    # have been called when the first Foswiki object was created, above.)
+    $this->loadExtraConfig();
+
+    onceOnlyChecks();
+
 }
 
 # Restores Foswiki::cfg and %ENV from backup
