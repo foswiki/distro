@@ -504,32 +504,34 @@ sub _convertToNumberAndDate {
     $text = _stripHtml($text);
 
     if ( $text =~ /^\s*$/ ) {
-      return (0, 0);
+        return (0, 0);
     } 
 
-    my $num;
-    my $date;
-    
-    try {
-      $date = Foswiki::Time::parseTime($text);
-    } catch Error::Simple with {
-      # nope, wasn't a date
-    };
+    my $num = 0;
+    my $date = 0;
+
+    # Unless the table cell is a pure number
+    # we test if it is a date.    
+    if ( $text =~ /^\s*([0-9]+)(\.[0-9]+)?\s*$/ ) {
+        $num = $text;
+    }
+    else {
+        try {
+            $date = Foswiki::Time::parseTime($text);
+        } catch Error::Simple with {
+            # nope, wasn't a date
+        };
+    }
 
     unless ($date) {
-      $date = undef;
-      if ( $text =~ /^\s*([0-9]+)(\.[0-9]+)?/ ) {
-
-        # for example for attachment sizes: 1.1 K
-        # but also for other strings that start with a number
-        my $num1 = $1 || 0;
-        my $num2 = $2 || 0;
-        $num = scalar("$num1$num2");
-      }
-      elsif ( $text =~ /^\s*[0-9]+(\.[0-9]+)?\s*$/ ) {
-
-        $num = $text;
-      }
+        $date = undef;
+        if ( $text =~ /^\s*([0-9]+)(\.[0-9]+)?/ ) {
+            # for example for attachment sizes: 1.1 K
+            # but also for other strings that start with a number
+            my $num1 = $1 || 0;
+            my $num2 = $2 || 0;
+            $num = scalar("$num1$num2");
+        }
     }
 
     return ( $num, $date );
