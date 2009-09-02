@@ -746,7 +746,7 @@ sub processTableData {
 
 		# a header row will not be edited, so do not render table row with handleTableRow
 
-		_handleSpreadsheetFormula($_);
+		# _handleSpreadsheetFormula($_);
         _debug("RENDER ROW: HEADER:rowNr=$rowNr; id=$rowId=$_");
         push( @headerRows, $_ );
     }
@@ -763,7 +763,7 @@ sub processTableData {
         
         # a footer row will not be edited, so do not render table row with handleTableRow
 		
-		_handleSpreadsheetFormula($_);
+		# _handleSpreadsheetFormula($_);
         _debug("RENDER ROW: FOOTER:rowNr=$rowNr; id=$rowId=$_");
         push( @footerRows, $_ );
     }

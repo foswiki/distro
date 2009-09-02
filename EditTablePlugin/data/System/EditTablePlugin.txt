@@ -195,7 +195,7 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  14 Jun 2009: | 4.3: Arthur Clemens: Major code refactoring to let !EditTablePlugin work together with !SpreadSheetPlugin. |
+|  02 Sep 2009: | 4.31: Kenneth Lavrsen: Disabled the display of SpreadSheetPlugin "CALC" in headers and footers as this caused the string CALC to be saved instead of the real formular. |
 |  18 Apr 2009: | 4.22: Ignore all saving unless it happened by saving a form using POST method. <br />Fixed including edit parameters from subwebs. <br />Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. |
 |  26 Mar 2009: | 4.21: Fixed a problem with plugin going into deep recursive orbit when a table is followed by text containing vertical bars but not valid table row. |
 |  17 Mar 2009: | 4.20: Fixed several bugs related to use of macros in EDITTABLE and TABLE tags |
