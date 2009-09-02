@@ -329,7 +329,7 @@ linkclass="foswikiButton"
 
 
 ---+++ Twisty headers
-To be able to use header tags like =&lt;h2>=, use the properties =prefix= and =suffix=. Because we have identical show and hide links we can use the shorthand property =link=.
+To be able to use header tags like =&lt;h2&lt;=, use the properties =prefix= and =suffix=. Because we have identical show and hide links we can use the shorthand property =link=.
 
 <verbatim>
 %TWISTY{
@@ -353,6 +353,28 @@ link="Twisty Header"
 showimgleft="%ICONURLPATH{toggleopen}%"
 hideimgleft="%ICONURLPATH{toggleclose}%"
 suffix="</h4>"
+}%
+%GREEN% my twisty content %ENDCOLOR%
+%ENDTWISTY%
+
+If you don't use images, there is an easier way to create a twisty header:
+
+<verbatim>
+%TWISTY{
+mode="div"
+showlink="<h4>&#9658; Details</h4>"
+hidelink="<h4>&#9660; Details</h4>"
+}%
+%GREEN% my twisty content %ENDCOLOR%
+%ENDTWISTY%
+</verbatim>
+
+Will create:
+
+%TWISTY{
+mode="div"
+showlink="<h4>&#9658; Details</h4>"
+hidelink="<h4>&#9660; Details</h4>"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -590,12 +612,13 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  26 Aug 2009 | 1.5.2 fix dependencies - jqueryPlugin and DojoToolkit were ported to foswiki a while ago |
-|  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version |
+|  02 Sep 2009 | 1.5.3 Add sequential number to the =TWISTY= =id= to allow more than one instance with that id on the page. |
+|  26 Aug 2009 | 1.5.2 Fix dependencies - jqueryPlugin and DojoToolkit were ported to foswiki a while ago. |
+|  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version. |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
 |  08 Oct 2008 | 1.4.11, 1.4.12 It is now possible to have a twisty on the same line without a linebreak. |
-|  03 Aug 2008 | 1.4.10 TWiki 4.2.1 release version |
-|  13 Dec 2007 | 1.4.9 fix to the loading order of javascript files in head |
+|  03 Aug 2008 | 1.4.10 TWiki 4.2.1 release version. |
+|  13 Dec 2007 | 1.4.9 fix to the loading order of javascript files in head. |
 |  24 Nov 2007 | 1.4.6 - 1.4.8 Arthur Clemens - Added format tokens. |
 |  07 Oct 2007 | 1.4.5 Arthur Clemens - Fix html tag with show/hide controls. |
 |  25 Sep 2007 | 1.4.4 Arthur Clemens - Fix rendering of headers when =prefix= is used. |
@@ -605,7 +628,7 @@ You can override some default settings in the plugin by setting the following [[
 |  19 Jun 2006 | 1.3 Arthur Clemens - Updated with TWiki 4 !JavaScript files. |
 |  25 Oct 2006 | 1.2 New variables to set default values: =TWISTYSHOWLINK=, =TWISTYHIDELINK=, =TWISTYMODE=, =TWISTYREMEMBER=; property =id= is no longer required as this is automatically set (still recommended in some cases with =remember="on"=); property value =remember="off"= will clear a previously stored cookie; new properties =prefix= and =suffix=; !JavaScript to collapse or expand all Twisties on the page.  |
 |  27 Sep 2006 | 1.101 Fixes !JavaScript handling when !AllowInlineScript in configure is not set |
-|  11 June 2006 | 1.100 Added parameters =start=, =firststart=, =noscript= and =class=; complete !JavaScript rewrite for speed |
+|  11 Jun 2006 | 1.100 Added parameters =start=, =firststart=, =noscript= and =class=; complete !JavaScript rewrite for speed |
 |  12 Sep 2005 | 1.000 First Version |
 |  Dependencies: | None |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |

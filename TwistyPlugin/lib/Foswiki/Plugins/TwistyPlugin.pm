@@ -33,7 +33,7 @@ use vars qw( @modes $doneHeader $doneDefaults $twistyCount
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.5.2';
+our $RELEASE = '1.5.3';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -141,11 +141,11 @@ sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     _addHeader();
-    $twistyCount++;
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     }
+    $params->{'id'} .= ++$twistyCount;
     return _TWISTYBUTTON(@_) . _TWISTYTOGGLE(@_);
 }
 
@@ -187,7 +187,7 @@ sub _createId {
     my ( $rawId, $theWeb, $theTopic ) = @_;
 
     if ( !defined $rawId || $rawId eq '' ) {
-        return 'twistyId' . $theWeb . $theTopic . $twistyCount;
+        return 'twistyId' . $theWeb . $theTopic;
     }
     return "twistyId$rawId";
 }
