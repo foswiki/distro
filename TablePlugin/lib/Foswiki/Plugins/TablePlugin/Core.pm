@@ -507,12 +507,12 @@ sub _convertToNumberAndDate {
         return (0, 0);
     } 
 
-    my $num = 0;
-    my $date = 0;
+    my $num = undef;
+    my $date = undef;
 
     # Unless the table cell is a pure number
     # we test if it is a date.    
-    if ( $text =~ /^\s*([0-9]+)(\.[0-9]+)?\s*$/ ) {
+    if ( $text =~ /^\s*-?[0-9]+(\.[0-9]+)?\s*$/ ) {
         $num = $text;
     }
     else {
@@ -525,7 +525,7 @@ sub _convertToNumberAndDate {
 
     unless ($date) {
         $date = undef;
-        if ( $text =~ /^\s*([0-9]+)(\.[0-9]+)?/ ) {
+        if ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
             # for example for attachment sizes: 1.1 K
             # but also for other strings that start with a number
             my $num1 = $1 || 0;
@@ -739,7 +739,7 @@ sub _guessColumnType {
     my $date          = '';
     my $columnIsValid = 0;
     foreach my $row (@curTable) {
-        next if ( !$row->[$col]->{text} );
+        next if ( $row->[$col]->{text} =~ /^\s*$/ );
 
         # else
         $columnIsValid = 1;
