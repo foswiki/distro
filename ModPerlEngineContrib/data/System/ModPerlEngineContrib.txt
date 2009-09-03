@@ -39,7 +39,7 @@ button and you'll get your config file.
 or else Apache will not start, reporting an error about missing
 lib/LocalSite.cfg %ENDCOLOR%
 
-In the web server configuraiton you will need to load mod_perl but it is also recommended to load the
+In the web server configuration you will need to load mod_perl but it is also recommended to load the
 [[http://httpd.apache.org/apreq/][Apache HTTP Request Library]] (module apreq).
 If apreq is not loaded the following error may be encountered in certain situations e.g. during login:
 <verbatim>
@@ -78,8 +78,9 @@ Go to =Store Settings=:
 |  Author(s): | Foswiki:Main.GilmarSantosJr |
 |  Copyright: | &copy; 2009 Gilmar Santos Jr and Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Version: | %$RELEASE% (12 Apr 2009) |
+|  Version: | %$RELEASE% (03 Sep 2009) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Sep 2009 (0.9.2) | Improved documentation regarding module apreq |
 |  12 Apr 2009 (0.9.1) | Improved documentation |
 |  12 Jan 2009 (0.9.0) | Initial Release |
 |  Dependencies: | %$DEPENDENCIES% |
