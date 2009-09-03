@@ -999,6 +999,9 @@ sub redirect {
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
             if ($cache) {
+                if ($url eq '/') {
+                    $url = $this->getScriptUrl(1, 'view');
+                }
                 $url .= $cache;
             }
         }
