@@ -37,6 +37,7 @@ use constant PAGECACHE_PAGE_KEY => 'Foswiki::PageCache::';
 use constant PAGECACHE_VARS_KEY => 'Foswiki::PageCache::Vars::';
 use constant PAGECACHE_DEPS_KEY => 'Foswiki::PageCache::Deps::';
 use constant PAGECACHE_REVDEPS_KEY => 'Foswiki::PageCache::RevDeps::';
+use constant PAGECACHE_KEYSEP => "\0";
 
 # static poor man's debugging tools
 sub writeDebug {
@@ -100,13 +101,6 @@ sub genVariationKey {
   my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
   my $serverPort = $request->server_port || 80;
   $variationKey = '::'.$serverName.'::'.$serverPort;
-  foreach my $key ($request->param()) {
-    # filter out some params that are not relevant
-    # SMELL: needs docu
-    next if $key =~ /^(_.*|refresh|foswiki_redirect_cache|logout|style.*|switch.*|topic)$/;
-    $variationKey .= '::'.$key.'='.$request->param($key);
-    #writeDebug("adding urlparam key=$key");
-  }
 
   # add language tag
   my $language = $this->{session}->i18n->language();
@@ -121,6 +115,17 @@ sub genVariationKey {
 
     $sessionValues->{$key} = 'undef' unless defined $sessionValues->{$key};
     $variationKey .= "::$key=$sessionValues->{$key}";
+  }
+
+  foreach my $key ($request->param()) {
+    # filter out some params that are not relevant
+    # SMELL: needs docu
+    next if $key =~ /^(_.*|refresh|foswiki_redirect_cache|logout|style.*|switch.*|topic)$/;
+    my $val = $request->param($key);
+    next unless $val;
+    #$val =~ s/PAGECACHE_KEYSEP//g;
+    $variationKey .= '::'.$key.'='.$val;
+    #writeDebug("adding urlparam key=$key");
   }
 
   #writeDebug("variation key = '$variationKey'");
@@ -152,11 +157,11 @@ sub cachePage {
   $web =~ s/\//./go;
   my $webTopic = $web.'.'.$topic;
 
-  #writeDebug("cachePage($web, $topic)");
-
   # delete page and all variations if we ask for a refresh copy
   my $refresh = $session->{request}->param('refresh') || '';
   my $variationKey = $this->genVariationKey();
+  
+  writeDebug("cachePage($web, $topic), variationKey='$variationKey'");
 
   # remove old dependencies
   if ($refresh =~ /^(all|on|cache)$/o) {
@@ -202,9 +207,9 @@ sub cachePage {
   # remember this topic's variation key
   my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
   my %variations = ();
-  %variations = map {$_ => 1} split(/,/, $variations) if $variations;
+  %variations = map {$_ => 1} split(PAGECACHE_KEYSEP, $variations) if $variations;
   $variations{$variationKey} = 1;
-  $variations = join(',', keys %variations);
+  $variations = join(PAGECACHE_KEYSEP, keys %variations);
   $this->{handler}->set(PAGECACHE_VARS_KEY.$webTopic, $variations);
 
   return $variation;
@@ -324,16 +329,16 @@ sub getDependencies {
 
     my $deps = $this->_getDependencies($webTopic, $variationKey);
 
-    @result = split(/,/, $deps) if $deps;
+    @result = split(PAGECACHE_KEYSEP, $deps) if $deps;
 
   } else  {
     # get them all
 
     my $variations = $this->{handler}->get(PAGECACHE_VARS_KEY.$webTopic);
     my %result = ();
-    foreach my $variationKey (split(/,/, $variations)) {
+    foreach my $variationKey (split(PAGECACHE_KEYSEP, $variations)) {
       my $deps = $this->_getDependencies($webTopic, $variationKey);
-      foreach my $dep (split(/,/, $deps)) {
+      foreach my $dep (split(PAGECACHE_KEYSEP, $deps)) {
         $result{$dep} = 1;
       }
     }
@@ -371,7 +376,7 @@ sub getRevDependencies {
   my $revDeps = $this->_getRevDependencies($webTopic);
 
   my @result = ();
-  @result = split(/,/, $revDeps) if $revDeps;
+  @result = split(PAGECACHE_KEYSEP, $revDeps) if $revDeps;
 
   return \@result;
 }
@@ -432,7 +437,7 @@ sub _setDependencies {
   #writeDebug("setting ".scalar(@topicDeps)." dependencies $webTopic");
   #writeDebug(join("\n", @topicDeps));
 
-  $this->{metaHandler}->set(PAGECACHE_DEPS_KEY.$webTopic.$variationKey, join(',', @topicDeps));
+  $this->{metaHandler}->set(PAGECACHE_DEPS_KEY.$webTopic.$variationKey, join(PAGECACHE_KEYSEP, @topicDeps));
 
   # assert autodetected dependencies in reverse logic
   foreach my $depWebTopic (@topicDeps) {
@@ -442,11 +447,11 @@ sub _setDependencies {
     my $revTopicDeps = $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$depWebTopic);
     my %revTopicDeps;
     if ($revTopicDeps) {
-      %revTopicDeps = map {$_ => 1} split(/,/, $revTopicDeps);
-      next if $revTopicDeps{$webTopic};
+      %revTopicDeps = map {$_ => 1} split(PAGECACHE_KEYSEP, $revTopicDeps);
+      next if $revTopicDeps{$webTopic.$variationKey};
     }
     $revTopicDeps{$webTopic.$variationKey} = 1;
-    $revTopicDeps = join(',', keys %revTopicDeps);
+    $revTopicDeps = join(PAGECACHE_KEYSEP, keys %revTopicDeps);
 
     $this->{metaHandler}->set(PAGECACHE_REVDEPS_KEY.$depWebTopic, $revTopicDeps);
   }
@@ -460,18 +465,18 @@ remove all dependencies of a web.topic/variation
 
 sub _deleteDependency {
   my ($this, $webTopic, $variationKey) = @_;
-  
+
   my $topicDeps = $this->{metaHandler}->get(PAGECACHE_DEPS_KEY.$webTopic.$variationKey);
   return unless $topicDeps;
 
-  foreach my $depWebTopic (split(/,/, $topicDeps)) {
+  foreach my $depWebTopic (split(PAGECACHE_KEYSEP, $topicDeps)) {
     my $revTopicDeps = $this->{metaHandler}->get(PAGECACHE_REVDEPS_KEY.$depWebTopic);
     next unless $revTopicDeps;
 
     # unmerge
-    my %revTopicDeps= map {$_ => 1} split(/,/, $revTopicDeps);
+    my %revTopicDeps= map {$_ => 1} split(PAGECACHE_KEYSEP, $revTopicDeps);
     delete $revTopicDeps{$webTopic};
-    $revTopicDeps = join(',', keys %revTopicDeps);
+    $revTopicDeps = join(PAGECACHE_KEYSEP, keys %revTopicDeps);
 
     $this->{metaHandler}->set(PAGECACHE_REVDEPS_KEY.$depWebTopic, $revTopicDeps);
   }
@@ -511,7 +516,7 @@ sub _deletePage {
   return 0 unless $variations;
 
   # delete all variations
-  foreach my $variationKey (split(/,/, $variations)) {
+  foreach my $variationKey (split(PAGECACHE_KEYSEP, $variations)) {
     $this->_deletePageVariation($webTopic, $variationKey);
   }
 
@@ -528,7 +533,7 @@ delete a dedicated page variation
 sub _deletePageVariation {
   my ($this, $webTopic, $variationKey) = @_;
 
-  writeDebug("deleting variation $webTopic$variationKey");
+  writeDebug("deleting $webTopic variation '$variationKey'");
 
   $this->{handler}->delete(PAGECACHE_PAGE_KEY.$webTopic.$variationKey);
   $this->_deleteDependency($webTopic, $variationKey);
@@ -551,12 +556,15 @@ sub fireDependency {
   # delete all page variations the reverse dependencies point to
   my $revDeps = $this->_getRevDependencies($webTopic);
   if ($revDeps) {
-    foreach my $revDep (split(/,/, $revDeps)) {
-      $revDep =~ s/^(.*?)(::.*)$/$1/g;
-      $this->_deletePageVariation($1, $2);
+    foreach my $revDep (split(PAGECACHE_KEYSEP, $revDeps)) {
+      if ($revDep =~ /^(.*?)(::.*)$/) {
+        $this->_deletePageVariation($1, $2);
+      } else {
+        #die "illegal format revDep=$revDep of $webTopic";
+      }
     }
   } else {
-    writeDebug("no rev deps found");
+    #writeDebug("no rev deps found");
   }
 
   # delete pages in WEBDEPENDENCIES
