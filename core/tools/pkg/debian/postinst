@@ -161,12 +161,6 @@ case "$1" in
 	#mmmm, mailnotify etc may be running _not_ as www-data
 	#and for some reason create a session
 	#use 1777 to prevent third parties replacing the file with a doctored one
-	#put into /tmp/foswiki so that the open dir can't be used by others to fill up /var, thus crashing all logging
-	if [ ! -e /tmp/foswiki ]; then
-		mkdir /tmp/foswiki
-	fi
-	chmod 1777 /tmp/foswiki
-	chown $WIKI_OWNER.www-data /tmp/foswiki
 
 	if [ ! -e /var/lib/foswiki/log ]; then
 		ln -s /var/log/foswiki /var/lib/foswiki/log
