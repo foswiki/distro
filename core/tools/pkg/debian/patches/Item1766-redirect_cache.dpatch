@@ -1,0 +1,23 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## Item1766-redirect_cache.dpatch by  <root@quad.home.org.au>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: fixes root login redirect issues in 1.0.6
+
+@DPATCH@
+
+Index: lib/Foswiki.pm
+===================================================================
+--- lib/Foswiki.pm   (revision 4728)
++++ lib/Foswiki.pm   (working copy)
+@@ -899,6 +899,9 @@
+             # Redirecting from a post to a get
+             my $cache = $this->cacheQuery();
+             if ($cache) {
++                if ($url eq '/') {
++                    $url = $this->getScriptUrl(1, 'view');
++                }
+                 $url .= $cache;
+             }
+         }
+
