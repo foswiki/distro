@@ -191,7 +191,11 @@ case "$1" in
 	for server in $servers; do
 		if [ -e /etc/init.d/$server ]; then
 			echo reloading $server config
-                	/etc/init.d/$server reload
+			if which invoke-rc.d >/dev/null 2>&1 ; then
+				invoke-rc.d $server reload
+			else
+				/etc/init.d/$server reload
+			fi
 		fi
 	done
 

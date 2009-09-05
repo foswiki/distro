@@ -32,7 +32,11 @@ if [ "$1" = "remove" ]; then
 	# reload apache configs
 	for server in $servers; do
 		if [ -e /etc/init.d/$server ]; then
-                	/etc/init.d/$server reload
+			if which invoke-rc.d >/dev/null 2>&1 ; then
+	                	invoke-rc.d $server reload
+			else
+	                	/etc/init.d/$server reload
+	                fi
 		fi
 	done
 fi
