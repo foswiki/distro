@@ -987,7 +987,11 @@ sub cacheQuery {
     $query->save( \*F );
     close(F);
 
-    return '/foswiki_redirect_cache/' . $uid;
+    if ($Foswiki::cfg{UsePathForRedirectCache}) {
+        return '/foswiki_redirect_cache/' . $uid;
+    } else {
+        return '?foswiki_redirect_cache=' . $uid;
+    }
 }
 
 =begin TML
