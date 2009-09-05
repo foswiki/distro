@@ -6,10 +6,10 @@
 
 @DPATCH@
 
-Index: lib/Foswiki.pm
+Index: foswiki/lib/Foswiki.pm
 ===================================================================
---- lib/Foswiki.pm   (revision 4728)
-+++ lib/Foswiki.pm   (working copy)
+--- foswiki/lib/Foswiki.pm   (revision 4728)
++++ foswiki/lib/Foswiki.pm   (working copy)
 @@ -899,6 +899,9 @@
              # Redirecting from a post to a get
              my $cache = $this->cacheQuery();

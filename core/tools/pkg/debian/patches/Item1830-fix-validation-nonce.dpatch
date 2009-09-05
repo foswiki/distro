@@ -8,10 +8,10 @@
 
 @DPATCH@
 
-Index: /branches/Release01x00/core/lib/Foswiki/Validation.pm
+Index: foswiki/lib/Foswiki/Validation.pm
 ===================================================================
---- /branches/Release01x00/core/lib/Foswiki/Validation.pm (revision 4494)
-+++ /branches/Release01x00/core/lib/Foswiki/Validation.pm (revision 4507)
+--- foswiki/lib/Foswiki/Validation.pm (revision 4494)
++++ foswiki/lib/Foswiki/Validation.pm (revision 4507)
 @@ -166,4 +166,5 @@
      return 1 if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
      return 0 unless defined $nonce;
