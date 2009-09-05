@@ -269,6 +269,18 @@ sub test_attachments {
     $this->assert_str_equals( $data, $x );
     $x = Foswiki::Func::readAttachment( $this->{test_web}, $topic, $name2 );
     $this->assert_str_equals( $data, $x );
+
+    # This should succeed - attachment exists
+    $this->assert(
+        Foswiki::Func::attachmentExists( $this->{test_web}, $topic, $name1 ) );
+
+    # This should fail - attachment is not present
+    $this->assert(
+        !(Foswiki::Func::attachmentExists( $this->{test_web}, $topic, "NotExists" )) );
+
+    # This should fail - attachment is not present
+    $this->assert( 
+        !Foswiki::Func::readAttachment( $this->{test_web}, $topic, "NotExists" ));
 }
 
 sub test_getrevinfo {
