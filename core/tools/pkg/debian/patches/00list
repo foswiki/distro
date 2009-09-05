@@ -2,5 +2,6 @@
 #http://foswiki.org/Tasks/Item8011
 00_More_Extensions_warning
 
-01_configure_logo.dpatch
-Item1766-redirect_cache.dpatch
+01_configure_logo
+Item1766-redirect_cache
+Item1830-fix-validation-nonce

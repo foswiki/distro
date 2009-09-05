@@ -1,6 +1,7 @@
 foswiki (1.0.6-3) unstable; urgency=high
 
-  * fix bad URL generation when logging on from / and using ShorterUrls
+  * fix bad URL generation when logging on from / and using ShorterUrls Item1766
+  * fix for problems with validation - Item1830
 
  -- Sven Dowideit <SvenDowideit@fosiki.com>  Sat, 11 Sep 2009 09:53:40 +0100
 
