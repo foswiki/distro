@@ -359,10 +359,11 @@ sub loadSession {
             my $validation = $pwchecker->checkPassword( $login, $pass );
             unless ($validation) {
                 my $res = $session->{response};
-                $res->header( -type => 'text/html', -status => '401' );
+#                $res->header( -type => 'text/html', -status => '401' );
                 my $err = "ERROR: (401) Can't login as $login";
-                $res->print($err);
-                throw Foswiki::EngineException( 401, $err, $res );
+#                $res->print($err);
+#                throw Foswiki::EngineException( 401, $err, $res );
+                undef $login;
             }
             $authUser = $login || $defaultUser;
             _trace($this, "URI params say user is $authUser");
