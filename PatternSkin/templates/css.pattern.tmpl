@@ -38,6 +38,7 @@
 
 %TMPL:DEF{"styles:iespecific"}%<!--[if IE]><style type="text/css" media="screen">
 pre {
+	height:1%;
 	overflow-x:auto;
 }
 </style>
@@ -49,12 +50,12 @@ pre {
 
 
 %TMPL:DEF{"styles:deprecated"}%%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:no-repeat;}'}%
-	%IF{ '$ WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
-	.patternBookView {
-		border-color:%WEBBGCOLOR%;
-	}
-	.patternPreviewPage #patternMain {
-		/* uncomment to set the preview image */
-		/*background-image:url("%PREVIEWBGIMAGE%");*/
-	}%IF{ "defined PAGEBGCOLOR and $ PAGEBGCOLOR != ''" then='html body, #patternPage, #patternBottomBar, .foswikiPreviewArea, #patternOuter, #patternTopBar { background-color:%PAGEBGCOLOR%;}
-	#patternOuter {background-image:none;}'}%%TMPL:END%
+%IF{ '$ WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
+.patternBookView {
+	border-color:%WEBBGCOLOR%;
+}
+.patternPreviewPage #patternMain {
+	/* uncomment to set the preview image */
+	/*background-image:url("%PREVIEWBGIMAGE%");*/
+}%IF{ "defined PAGEBGCOLOR and $ PAGEBGCOLOR != ''" then='html body, #patternPage, #patternBottomBar, .foswikiPreviewArea, #patternOuter, #patternTopBar { background-color:%PAGEBGCOLOR%;}
+#patternOuter {background-image:none;}'}%%TMPL:END%

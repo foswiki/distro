@@ -11,4 +11,4 @@ You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePre
 </div>
 
 
-%META:FILEATTACHMENT{name="hideleftbar.css" attr="" autoattached="1" comment="css to hide the left bar" date="1129323328" path="hideleftbar_Dakar.css" size="112" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="hideleftbar.css" attr="" comment="css to hide the left bar" date="1129323328" }%
