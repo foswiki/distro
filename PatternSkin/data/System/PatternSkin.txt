@@ -1,11 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1227973233" format="1.1" version="1.1"}%
-%STARTINCLUDE%
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%STARTINCLUDE%<!--
+   * Set SHORTDESCRIPTION = Pattern skin provides a CSS based default look and feel - flexible and W3C-compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment.
 -->
 ---+!! Pattern skin
-
-%$SHORTDESCRIPTION%
+Pattern skin provides a CSS based default look and feel - flexible and W3C-compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment.
 
 Select a theme to change the look, or tune the entire appearance with CSS or templates.
 
