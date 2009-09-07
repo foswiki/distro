@@ -5,7 +5,7 @@
 -->
 ---+!! Pattern skin
 
-%SHORTDESCRIPTION%
+%$SHORTDESCRIPTION%
 
 Select a theme to change the look, or tune the entire appearance with CSS or templates.
 
@@ -143,7 +143,7 @@ If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to no
 
 If this still does not work, contact the administrator who installs skins.
 
-For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDev. Report bugs in the [[Foswiki:Tasks.WebHome][Foswiki Tasks web]].
+For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPIC%.
 
 ---+++ All !PatternSkin topics
 
@@ -179,6 +179,8 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  07 Sep 2009: | v.4.0.4 - Consolidated versions in trunk and release branch. Version for Foswiki 1.0.7. |
+|  26 Jul 2009: | v.4.0.3 - Fixes a couple of minor template/css bugs. |
 |  18 Jan 2009: | v.4.0.2 - Fix printing with theme =theme_foswiki= and =column_right=. |
 |  17 Jan 2009: | v.4.0.1 - Fix reading of WEBHEADERART variable. |
 |  30 Nov 2008: | v.4.0.0 - Foswiki 1.0.0 RELEASE VERSION |
@@ -191,15 +193,14 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 |  31 Jan 2006: | v.2.0.0 - TWiki 4.0.0 (Dakar) RELEASE VERSION |
 |  28 Aug 2004: | v.1.0.9 - TWiki 3.0 (Cairo) RELEASE VERSION |
 |  08 Aug 2004: | Initial version (v1.0.0) |
-|  Dependencies: | Foswiki:Extensions/TwistyContrib (automatically supported by Dakar) |
+|  Dependencies: | Foswiki:Extensions/TwistyPlugin (automatically provided with Foswiki) |
 |  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% | %STOPINCLUDE%
-|  Download: | http://foswiki.org/Extensions/%TOPIC% |
 
 
 ---++ Feedback
 
-Leave remarks, suggestions and other feedback in Foswiki:Extensions.PatternSkinDev.
+Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOPIC%.
 
 <verbatim class="foswikiHidden">
 Iterators for theme and column file
