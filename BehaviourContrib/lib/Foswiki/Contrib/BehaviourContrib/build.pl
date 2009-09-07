@@ -2,8 +2,6 @@
 #
 # Build for BehaviourContrib
 #
-use strict;
-
 BEGIN {
   foreach my $pc (split(/:/, $ENV{FOSWIKI_LIBS})) {
     unshift @INC, $pc;
@@ -13,7 +11,7 @@ BEGIN {
 use Foswiki::Contrib::Build;
 
 # Create the build object
-my $build = new Foswiki::Contrib::Build( 'BehaviourContrib' );
+$build = new Foswiki::Contrib::Build( 'BehaviourContrib' );
 
 # Build the target on the command line, or the default target
 $build->build($build->{target});

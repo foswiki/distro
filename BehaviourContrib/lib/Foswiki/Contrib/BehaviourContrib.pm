@@ -1,10 +1,7 @@
 package Foswiki::Contrib::BehaviourContrib;
-
-use strict;
-
-our $VERSION = '$Rev$';
-our $RELEASE = '1.4';
-our $SHORTDESCRIPTION = "'Behaviour' Javascript event library to create javascript based interactions that degrade well when javascript is not available";
+use vars qw( $VERSION );
+$VERSION = '$Rev$';
+$RELEASE = '1.4';
 
 =begin TML
 
@@ -27,9 +24,8 @@ sub commonTagsHandler {
 sub addHEAD {
     my $base = '%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib';
     my $USE_SRC =
-      Foswiki::Func::getPreferencesValue('BEHAVIOURCONTRIB_DEBUG')
-      ? '_src'
-      : '';
+      Foswiki::Func::getPreferencesValue('BEHAVIOURCONTRIB_DEBUG') ?
+          '_src' : '';
     my $head = <<HERE;
 <script type='text/javascript' src='$base/behaviour$USE_SRC.js'></script>
 HERE
