@@ -445,7 +445,7 @@ sub test_moveAttachment {
         )
     );
 
-    # Verify that the source topic still contains the string "Wibble"
+    # Verify that the source topic still contains the string "Wibble" following attachment move
     ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
     $this->assert( $text =~ m/Wibble/o );
 
@@ -468,7 +468,7 @@ sub test_moveAttachment {
         )
     );
 
-    # Verify that the target topic still contains the string "Wibble"
+    # Verify that the target topic contains the string "Wibble"
     ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
     $this->assert( $text =~ m/Wibble/o );
 
@@ -485,7 +485,7 @@ sub test_moveAttachment {
         )
     );
 
-    # Verify that the target topic still contains the string "Wibble"
+    # Verify that the target topic still contains the string "Wibble" following attachment move
     ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
     $this->assert( $text =~ m/Wibble/o );
 
