@@ -849,12 +849,12 @@ $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
     $this->{twiki}->enterContext('can_render_meta', $readMeta);
     my $metainfo = $this->{twiki}->META( {_DEFAULT=>'attachments'}, $topic, $web );
 #Task:Item6000
-    $this->assert_str_equals($metainfo, '<div class="foswikiAttachments">
-%TABLE{valign="middle" dataalign="center,left,left,right,left,left,left,center" datavalign="top" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" tablerules="rows" id="foswikiAttachmentsTable" summary="%MAKETEXT{"Topic attachments"}%" caption="%MAKETEXT{"Topic attachments"}%"}%
+    $this->assert_str_equals('<div class="foswikiAttachments">
+%TABLE{valign="middle" dataalign="center,left,left,right,left,left,left,center" datavalign="top" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" tablerules="rows" summary="%MAKETEXT{"Topic attachments"}%" caption="%MAKETEXT{"Topic attachments"}%"}%
 %TWISTY{id="topicattachmentslist" mode="div" remember="on" showlink="<h3 class=\'patternAttachmentHeader\'>&#9658; %MAKETEXT{"Attachments"}%</h3>" hidelink="<h3 class=\'patternAttachmentHeader\'>&#9660; %MAKETEXT{"Attachments"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%
 | *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
 | <img width="16" alt="gif" align="top" src="' . $Foswiki::cfg{PubUrlPath} . '/System/DocumentGraphics/gif.gif" height="16" border="0" /><span class="foswikiHidden">gif</span> | <a href="%ATTACHURLPATH%/%ENCODE{testfile.gif}%"><noautolink>testfile.gif</noautolink></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"testfile.gif"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  0.1&nbsp;K|<span class="foswikiNoBreak">01 Jan 1970 - 00:00</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
-%ENDTWISTY%</div><!--//foswikiAttachments-->');
+%ENDTWISTY%</div><!--//foswikiAttachments-->', $metainfo);
 	
     $Foswiki::cfg{LoginNameFilterIn} = $oldCfg;
 }
