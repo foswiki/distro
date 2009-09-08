@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WikiUsers"}%
 ---+ The <nop>WikiGuest User
 
 A guest of this web, not unlike yourself. You can leave your trace behind you, just add your name in [[%SYSTEMWEB%.UserRegistration][UserRegistration]] and create your own page.
