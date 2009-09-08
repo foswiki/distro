@@ -25,7 +25,7 @@ sub load {
     my $this = shift;
     # SMELL: This breaks mod_perl Foswikibug:Item691
 #    local %ENV = %ENV;
-    $ENV{REMOTE_ADDR} = @_ == 1 ? $_[0]->remote_addr : $_[1]->remote_addr;
+    $ENV{REMOTE_ADDR} = @_ == 1 ? $_[0]->remoteAddress : $_[1]->remoteAddress;
     $this->SUPER::load(@_);
 }
 
@@ -40,7 +40,7 @@ sub query {
 
 sub _ip_matches {
     return ( $_[0]->{_DATA}->{_SESSION_REMOTE_ADDR} eq
-          $_[0]->query->remote_addr );
+          $_[0]->query->remoteAddress );
 }
 
 1;
