@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
 <title>%WIKITOOLNAME%'s <nop>%WEB% web</title>
 <subtitle>The Documentation Web of Foswiki. Foswiki is the Free and Open Source Wiki.</subtitle>
 %INCLUDE{"%SYSTEMWEB%.WebAtomBase"}% <!--
