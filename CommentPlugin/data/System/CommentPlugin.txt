@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1170597947" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Plugins"}%
 
 ---+!! Comment Plugin
 

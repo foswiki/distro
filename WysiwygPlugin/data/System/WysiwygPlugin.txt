@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="Plugins"}%
 ---+!! Wysiwyg Plugin
 <!--
    * Set SHORTDESCRIPTION = Translator framework for Wysiwyg editors

@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1217665619" format="1.1" version="$Rev: 15746 $"}%
+%META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
 This plugin converts a topic with headings into a slideshow.
