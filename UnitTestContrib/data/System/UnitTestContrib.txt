@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="Contribs"}%
 ---+!! !UnitTestContrib
 <!--
 One line description, required for extensions repository catalog.
