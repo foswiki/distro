@@ -504,11 +504,11 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiSmallish {
 	font-size:94%; /*S2*/
 }
-.foswikiNew { }
-.foswikiSummary {
-	font-size:86%;
-	line-height:110%; /*S3*/
+.foswikiSearchResult {
+	margin:0 0 1em 0;
 }
+.foswikiNew { }
+.foswikiSummary {}
 .foswikiEmulatedLink {
 	text-decoration:underline;
 }

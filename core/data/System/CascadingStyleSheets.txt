@@ -24,7 +24,6 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTable=                 | Tables, for instance used by TablePlugin  |
 |=.foswikiForm=                  | Container for data form in topic, including header; see also [[%TOPIC%#DataForms][Data Forms]] below |
 |=.foswikiAttachments=           | Container for attachments table, including header |
-|=table#foswikiAttachmentsTable= | Identifier for the attachment table  |
 |=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
 |=.foswikiFormStep=              | Form step row |
 |=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |

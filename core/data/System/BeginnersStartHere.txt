@@ -253,7 +253,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
 
 #FileAttachmentTable
 <div class="foswikiAttachments">
-<table style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable">
+<table style="border-width:1px;" cellspacing="0" cellpadding="0" class="foswikiTable">
    <tr class="foswikiTableEven">
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
       <a href="#FileAttachmentTable" style="color:#0066cc">I</a>
