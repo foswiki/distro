@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1158277691" format="1.1" version="$Rev: 17703 $"}%
+%META:TOPICPARENT{name="WikiUsers"}%
 %STARTINCLUDE%
 ---+ Manage Users
 

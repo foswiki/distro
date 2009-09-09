@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107567082" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsContrib"}%
 ---+ Tips Of The Day
 
 These are all tips of the day. They are located in the %SYSTEMWEB% web (official distribution tips) and %USERSWEB% web (custom tips).

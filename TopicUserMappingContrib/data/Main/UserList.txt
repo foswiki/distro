@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.1" version="$Rev: 15206 $"}%
+%META:TOPICPARENT{name="WikiUsers"}%
 ---+ User List sorted by name
 
 %INCLUDE{"UserListHeader"}%

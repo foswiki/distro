@@ -1,1 +1,2 @@
+%META:TOPICPARENT{name="WysiwygPlugin"}%
 %TOPICLIST{format="<nop>$name" web="%URLPARAM{web}%"}%

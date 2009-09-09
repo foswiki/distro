@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1112002813" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICPARENT{name="WebHome"}%
 <channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
 %IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
   <link>%SCRIPTURL{"view"}%/%WEB%</link>

@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1119349748" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsContrib"}%
 ---+ Tips
 
 Tips are tips and hints contributed by users. Use this form to search for tips. You can contribute new tips [[TipsOfTheDayAddNew][here]].

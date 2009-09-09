@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="TinyMCEPlugin"}%
 ---+!! !TinyMCE Editor Help Summary 
 %STARTINCLUDE%
 <style>
