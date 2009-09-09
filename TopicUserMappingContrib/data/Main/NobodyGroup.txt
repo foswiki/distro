@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 16686 $"}%
+%META:TOPICPARENT{name="WikiGroups"}%
 ---+ Nobody Group
 
    * Member list:

@@ -189,7 +189,7 @@ sub writeFile {
         File::Path::mkpath("./$path") || die "Failed to mkdir $path: $!";
     }
     $content = expandVars($content);
-    $content =~ s/%$NOP%//g;
+    $content =~ s/%\$NOP%//g;
     open( F, ">$path/$file" ) || die "Failed to create $path/$file: $!";
     print F $content;
     close(F);

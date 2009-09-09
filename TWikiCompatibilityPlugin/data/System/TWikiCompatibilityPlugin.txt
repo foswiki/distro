@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="Plugins"}%
 ---+!! !TWikiCompatibilityPlugin
 <!--
 One line description, required for extensions repository catalog.

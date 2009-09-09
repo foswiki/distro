@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
 One line description, required for extensions repository catalog.

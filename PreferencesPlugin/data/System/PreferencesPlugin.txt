@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
 Allows editing of preferences using fields predefined in a %SYSTEMWEB%.DataForms. However, the edit fields are inlined in the text, similar to how tables are edited in Foswiki:Extensions/EditTablePlugin.
