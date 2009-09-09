@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167969723" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Contribs"}%
 ---+!! Tips Contrib Package
 
 Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki features. Includes an application for creating custom tips for local installation.
