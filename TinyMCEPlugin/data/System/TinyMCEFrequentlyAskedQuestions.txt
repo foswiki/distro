@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1227770072" format="1.1" version="1.1"}%
+%META:TOPICPARENT{name="TinyMCEPlugin"}%
 ---++!! !TinyMCE FAQs
 
 Frequently Asked Questions of the TinyMCEPlugin integration.

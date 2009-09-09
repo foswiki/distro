@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="PreferencesPlugin"}%
 |*Name*|*Type*|*Size*|*Value*|*Tooltip message* |*Attributes*|
 | WEBBGCOLOR | text | 20 | #FFD8AA | HTML Color | S |
 | FAVICON | text | 30 | %PUBURL%/%WEB%/WebPreferences/favicon.ico | URL of an icon image | S |
