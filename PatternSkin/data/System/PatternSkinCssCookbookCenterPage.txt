@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1129333294" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 
 ---+!! PatternSkinCssCookbook Recipe: Center the page
 
