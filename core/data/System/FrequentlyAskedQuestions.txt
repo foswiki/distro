@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="StartingPoints"}%
 ---+ Frequently Asked Questions
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. To see how it's done, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][view the source of this topic]].

@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="StartingPoints"}%
 ---+ Main Features
 
    * *Any web browser:* Edit existing pages or create new pages by using any web browser. There is no need to upload pages.
