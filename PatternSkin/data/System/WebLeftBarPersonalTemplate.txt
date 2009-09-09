@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="WebLeftBar"}%
 <!--
 Customise this topic; samples and ideas available at %SYSTEMWEB%.WebLeftBarCookbook.
 -->

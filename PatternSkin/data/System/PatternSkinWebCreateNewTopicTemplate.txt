@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1131431859" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 %TMPL:INCLUDE{"WebCreateNewTopic"}%
 
 %{"hide page top controls"}%
@@ -22,7 +23,7 @@ function openTemplateWindow () {
     return false;
 }
 function getQueryUrl() {
-	return "%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?%QUERYSTRING%;pickparent=1"
+    return "%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?%QUERYSTRING%;pickparent=1"
 }
 /* Localized texts */
 var TEXT_FEEDBACK_HEADER = "%MAKETEXT{"Topic will be named: "}%";

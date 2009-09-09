@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="0" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebLeftBar"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 %IF{"context authenticated" then='%MAKETEXT{"Hello [_1]" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%'}%%IF{"$ LOGOUT != ''" then='%BR%<ul><li class="patternLogOut">%LOGOUT%</li></ul>'}%%IF{"$ LOGIN != '' and not context authenticated" then='<ul><li class="patternLogIn">%LOGIN% %IF{"context registration_supported AND context registration_enabled" then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"}%</li></ul>'}%
 %IF{"'%USERNAME%'!='guest'" then="<div class=\"patternLeftBarPersonalContent\">

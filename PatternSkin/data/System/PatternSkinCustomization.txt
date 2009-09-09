@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1130019100" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 
 ---+!! %SYSTEMWEB%.PatternSkin Customization
 
@@ -143,6 +144,7 @@ Change the table style in topic %SYSTEMWEB%.WebTopBar. The default top padding i
 
 ---+++ The search box won't find topics in other webs
 
+
 In %SYSTEMWEB%.WebTopBar you can find the line:
 <verbatim>
 <input type="hidden" name="web" value="%BASEWEB%" />
@@ -225,7 +227,7 @@ and add:
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
 #patternTopBarContentsOuter {
-   height:0px;
+    height:0px;
 }%TMPL:END%
 </verbatim></blockquote>
 

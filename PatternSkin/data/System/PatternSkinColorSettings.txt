@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1228050988" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Color scheme settings for %SYSTEMWEB%.PatternSkin
 Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When this topic is saved, the attachment =my_colors.css= will be updated with new color values. This method relies on Foswiki:Extensions.AttachContentPlugin to work.
 

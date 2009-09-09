@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1138738574" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{}%
+%META:TOPICPARENT{name="PatternSkin"}%
 <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
 <tr><td valign="middle"><span id="foswikiLogo" class="foswikiImage"><a href="%WEBLOGOURL%"><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" style="border:none;" /></a></span></td>
 <td align="right" valign="top" class="patternMetaMenu">

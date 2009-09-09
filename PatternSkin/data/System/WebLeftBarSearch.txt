@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="WebLeftBar"}%
 <div class="patternMetaMenu"><ul>
 <li><form name="jumpForm" action="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%"><input id="jumpFormField" type="text" class="foswikiInputField" name="topic" size="14" value="%MAKETEXT{"Jump"}%" /></form></li>
 <li><form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch"><input id="quickSearchBox" type="text" class="foswikiInputField" name="search" value="%MAKETEXT{"Search"}%" size="14"  /></form></li>

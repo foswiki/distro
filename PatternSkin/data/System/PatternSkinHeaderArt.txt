@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1136467361" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 
 %IMAGEGALLERY%
 
