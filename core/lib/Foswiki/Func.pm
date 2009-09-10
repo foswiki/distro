@@ -1616,9 +1616,16 @@ sub readAttachment {
             $Foswiki::Plugins::SESSION->{user},
             $web, $topic, $Foswiki::Meta::reason );
     }
-    my $fh = $topicObject->openAttachment( $name, '<', version => $rev );
+    my $fh;
+    try {
+        $fh = $topicObject->openAttachment( $name, '<', version => $rev );
+    } catch Error::Simple with {
+        $fh = undef;
+    };
+    return undef unless $fh;
     local $/;
-    return <$fh>;
+    my $data = <$fh>;
+    return $data;
 }
 
 =begin TML
