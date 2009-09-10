@@ -25,8 +25,8 @@ our %remap = (
     '{AutoAttachPubFiles}' => '{RCS}{AutoAttachPubFiles}',
     '{QueryAlgorithm}' => '{Store}{QueryAlgorithm}',
     '{SearchAlgorithm}' => '{Store}{SearchAlgorithm}',
-    '{FgrepCmd}' => '{Store}{FgrepCmd}',
-    '{EgrepCmd}' => '{Store}{EgrepCmd}',
+    '{RCS}{FgrepCmd}' => '{Store}{FgrepCmd}',
+    '{RCS}{EgrepCmd}' => '{Store}{EgrepCmd}',
 );
 
 =begin TML
