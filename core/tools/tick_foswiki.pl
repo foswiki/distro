@@ -7,7 +7,7 @@
 # the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
-# For licensing info read license.txt file in the TWiki root.
+# For licensing info read license.txt file in the Foswiki root.
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -19,14 +19,14 @@
 # GNU General Public License for more details, published at 
 # http://www.gnu.org/copyleft/gpl.html
 #
-# The TWiki 'bin' directory must be on your include path when you run
-# this script. This is so it can pick up the right TWiki environment
+# The Foswiki 'bin' directory must be on your include path when you run
+# this script. This is so it can pick up the right Foswiki environment
 # from setlib.cfg.
 # You can add a directory to your include path using the -I option
 # to the perl command e.g. perl -I /usr/local/foswiki/bin tick_foswiki.pl
 #
 # It executes a number of non-essential regular administration
-# tasks that will help keep your TWiki healthy and happy.
+# tasks that will help keep your Foswiki healthy and happy.
 #
 # It is intended to be run as a cron job (remember it has to be run
 # by a user who can write files created by the webserver user!)

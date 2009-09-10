@@ -7,7 +7,7 @@
 # the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
-# For licensing info read license.txt file in the TWiki root.
+# For licensing info read license.txt file in the Foswiki root.
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -25,7 +25,7 @@ Change the "shebang" lines of all perl scripts found in the current
 directory.
 
 "shebang" lines tell the shell what interpreter to use for running
-scripts. By default the TWiki bin scripts are set to user the
+scripts. By default the Foswiki bin scripts are set to user the
 "/usr/bin/perl" interpreter, which is where perl lives on most
 UNIX-like platforms. On some platforms you will need to change this line
 to run a different interpreter e.g. "D:\indigoperl\bin\perl"
