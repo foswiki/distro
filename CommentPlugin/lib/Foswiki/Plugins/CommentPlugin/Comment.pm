@@ -339,7 +339,7 @@ sub _buildNewTopic {
     {
         undef $location;
     }
-    if ( defined($anchor) and $text !~ /$anchor/ ) {
+    if ( defined($anchor) and $text !~ /^$anchor\s*$/m ) {
         undef $anchor;
     }
 
