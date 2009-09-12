@@ -29,14 +29,19 @@ package Foswiki::Plugins::TablePlugin;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-use vars qw( $topic $installWeb $initialised );
-
 our $VERSION = '$Rev$';
 our $RELEASE = '1.100';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
 our %pluginAttributes;
+
+my $topic;
+my $web;
+my $user;
+my $installWeb;
+my $initialised;
+my $DEFAULT_TABLE_SETTINGS = 'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
 
 sub initPlugin {
     my ( $web, $user );
@@ -122,6 +127,13 @@ sub _readPluginSettings {
     debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
     debug("\t prefsAttrStr=$prefsAttrStr")         if $prefsAttrStr;
 
+	debug("no configureAttrStr found; using default values") if !$configureAttrStr;
+	$configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
+	
+	$configureAttrStr = Foswiki::Func::expandCommonVariables($configureAttrStr, $topic, $web, undef) if $configureAttrStr;
+	$pluginAttrStr = Foswiki::Func::expandCommonVariables($pluginAttrStr, $topic, $web, undef) if $pluginAttrStr;
+	$prefsAttrStr = Foswiki::Func::expandCommonVariables($prefsAttrStr, $topic, $web, undef) if $prefsAttrStr;
+	
     my %configureParams = Foswiki::Func::extractParameters($configureAttrStr);
     my %pluginParams    = Foswiki::Func::extractParameters($pluginAttrStr);
     my %prefsParams     = Foswiki::Func::extractParameters($prefsAttrStr);

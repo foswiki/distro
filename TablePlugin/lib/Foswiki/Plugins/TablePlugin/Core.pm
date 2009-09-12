@@ -120,6 +120,7 @@ BEGIN {
 
 sub _setDefaults {
     _debug("_setDefaults");
+    $tableCount                 = 0;
     $initDirection              = $SORT_DIRECTION->{'ASCENDING'};
     $sortAllTables              = $sortTablesInText;
     $currTablePre               = '';
