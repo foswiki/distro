@@ -27,8 +27,10 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 22 Mar 2009  |
+|  Plugin Version: | 12 Sep 2009  |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  12 Sep 2009 | Kenneth Lavrsen: Fixed problem with tables always showing up as changed even when they were not |
+|  09 Aug 2009 | Plugin is now a default plugin shipped with Foswiki. It will later have its function integrated in core in a future Foswiki version so its life as default plugin is temporary. Changed its switchboard setting to EXPERT so it is hidden in configure. You should never need to change this anyway. |
 |  22 Mar 2009 | Gilmar Santos Jr: ported to [[Foswiki:Development/FoswikiStandAlone][FSA architecture]] (Foswiki:Tasks/Item1352) |
 |  09 Jan 2009 | Gilmar Santos Jr: fixed ambigous print (Foswiki:Tasks.Item716) |
 |  08 Dec 2008 | Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0. Policy is now feel free to modify but please do not break compatibility. | 
