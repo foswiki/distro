@@ -315,9 +315,9 @@ sub _convertToNumberAndDate {
     my ($text) = @_;
 
     $text = _stripHtml($text);
-
+	_debug("_convertToNumberAndDate:$text");
     if ( $text =~ /^\s*$/ ) {
-        return ( 0, 0 );
+        return ( undef, undef );
     }
 
     my $num  = undef;
@@ -326,22 +326,24 @@ sub _convertToNumberAndDate {
     # Unless the table cell is a pure number
     # we test if it is a date.
     if ( $text =~ /^\s*-?[0-9]+(\.[0-9]+)?\s*$/ ) {
+    	_debug("\t this is a number");
         $num = $text;
     }
     else {
         try {
-            $date = Foswiki::Time::parseTime($text);
+            $date = _parseTime($text);
         }
         catch Error::Simple with {
 
             # nope, wasn't a date
+            _debug("\t this is not a date");
         };
     }
+	_debug("\t this is a date") if defined $date;
+    if (!defined $date) {
 
-    unless ($date) {
-        $date = undef;
         if ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
-
+			_debug("\t this is a number with decimal");
             # for example for attachment sizes: 1.1 K
             # but also for other strings that start with a number
             my $num1 = $1 || 0;
@@ -509,23 +511,27 @@ sub _shouldISortThisTable {
 # Guess if column is a date, number or plain text
 sub _guessColumnType {
     my ($col)         = @_;
-    my $isDate        = 1;
-    my $isNum         = 1;
-    my $num           = '';
-    my $date          = '';
+    my $isDate        = 0;
+    my $isNum         = 0;
     my $columnIsValid = 0;
     foreach my $row (@curTable) {
         next if ( $row->[$col]->{text} =~ /^\s*$/ );
 
         # else
         $columnIsValid = 1;
-        ( $num, $date ) = _convertToNumberAndDate( $row->[$col]->{text} );
-
-        $isDate = 0 if ( !defined($date) );
-        $isNum  = 0 if ( !defined($num) );
-        last if ( !$isDate && !$isNum );
-        $row->[$col]->{date}   = $date;
-        $row->[$col]->{number} = $num;
+        my ( $num, $date ) = _convertToNumberAndDate( $row->[$col]->{text} );
+		
+		_debug("_guessColumnType for cell:$row->[$col]->{text}; num=$num, date=$date");
+		
+		if (defined $date) {
+			$isDate = 1;
+			$row->[$col]->{date}   = $date;
+		} elsif (defined $num) {
+			$isNum = 1;
+			$row->[$col]->{number} = $num;
+		} else {
+			last;
+		}
     }
     return $COLUMN_TYPE->{'UNDEFINED'} if ( !$columnIsValid );
     my $type = $COLUMN_TYPE->{'TEXT'};
@@ -1094,6 +1100,8 @@ sub emitTable {
             $stype = _guessColumnType($sortCol);
         }
 
+		_debug("Sort by:$stype");
+		
         # invalidate sorting if no valid column
         if ( $stype eq $COLUMN_TYPE->{'UNDEFINED'} ) {
             delete $combinedTableAttrs->{initSort};
@@ -1463,6 +1471,179 @@ s/%TABLE(?:{(.*?)})?%/_parseTableSpecificTableAttributes(Foswiki::Func::extractP
     if ($insideTABLE) {
         $_[0] .= emitTable();
     }
+}
+
+
+# SMELL: does not account for leap years
+our @MONTHLENS = ( 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
+
+our %MON2NUM = (
+    jan => 0,
+    feb => 1,
+    mar => 2,
+    apr => 3,
+    may => 4,
+    jun => 5,
+    jul => 6,
+    aug => 7,
+    sep => 8,
+    oct => 9,
+    nov => 10,
+    dec => 11
+);
+
+=begin TML
+
+Copied from Foswiki::Time and changed the unresolved return value from 0 to undef.
+Can be removed when Foswiki::Time::parseTime is fixed (http://foswiki.org/Tasks/Item2043).
+
+---++ StaticMethod _parseTime( $szDate, $defaultLocal ) -> $iSecs
+
+Convert string date/time string to seconds since epoch (1970-01-01T00:00:00Z).
+   * =$sDate= - date/time string
+
+Handles the following formats:
+
+Default Foswiki format
+   * 31 Dec 2001 - 23:59
+
+Foswiki format without time (defaults to 00:00)
+   * 31 Dec 2001
+
+Date separated by '/', '.' or '-', time with '.' or ':'
+Date and time separated by ' ', '.' and/or '-'
+   * 2001/12/31 23:59:59
+   * 2001.12.31.23.59.59
+   * 2001/12/31 23:59
+   * 2001.12.31.23.59
+   * 2001-12-31 23:59
+   * 2001-12-31 - 23:59
+   * 2009-1-12
+   * 2009-1
+   * 2009
+
+ISO format
+   * 2001-12-31T23:59:59
+   * 2001-12-31T
+
+ISO dates may have a timezone specifier, either Z or a signed difference
+in hh:mm format. For example:
+   * 2001-12-31T23:59:59+01:00
+   * 2001-12-31T23:59Z
+The default timezone is Z, unless $defaultLocal is true in which case
+the local timezone will be assumed.
+
+If the date format was not recognised, will return 0.
+
+=cut
+
+sub _parseTime {
+    my ( $date, $defaultLocal ) = @_;
+
+    $date =~ s/^\s*//;    #remove leading spaces without de-tainting.
+    $date =~ s/\s*$//;
+
+    require Time::Local;
+
+    # NOTE: This routine *will break* if input is not one of below formats!
+    my $tzadj = 0;        # Zulu
+    if ($defaultLocal) {
+
+        # Local time at midnight on the epoch gives us minus the
+        # local difference. e.g. CST is GMT + 1, so midnight Jan 1 1970 CST
+        # is -01:00Z
+        $tzadj = -Time::Local::timelocal( 0, 0, 0, 1, 0, 70 );
+    }
+
+    # try "31 Dec 2001 - 23:59"  (Foswiki date)
+    # or "31 Dec 2001"
+    #TODO: allow /.: too
+    if ( $date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
+        my $year = $3;
+        $year -= 1900 if ( $year > 1900 );
+
+        #TODO: %MON2NUM needs to be updated to use i8n
+        #TODO: and should really work for long form of the month name too.
+        return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $MON2NUM{ lc($2) },
+            $year ) - $tzadj;
+    }
+
+    # ISO date 2001-12-31T23:59:59+01:00
+    # Sven is going to presume that _all_ ISO dated must have a 'T' in them.
+    if (
+        ( $date =~ /T/ )
+        && ( $date =~
+/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
+        )
+      )
+    {
+        my ( $Y, $M, $D, $h, $m, $s, $tz ) =
+          ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
+        $M--;
+        $Y -= 1900 if ( $Y > 1900 );
+        if ( $tz eq 'Z' ) {
+            $tzadj = 0;    # Zulu
+        }
+        elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
+            $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
+            $tzadj -= 0;
+        }
+        return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
+    }
+
+    #any date that leads with a year (2 digit years too)
+    if (
+        $date =~ m|^
+                    (\d\d+)                                 #year
+                    (?:\s*[/\s.-]\s*                        #datesep
+                        (\d\d?)                             #month
+                        (?:\s*[/\s.-]\s*                    #datesep
+                            (\d\d?)                         #day
+                            (?:\s*[/\s.-]\s*                #datetimesep
+                                (\d\d?)                     #hour
+                                (?:\s*[:.]\s*               #timesep
+                                    (\d\d?)                 #min
+                                    (?:\s*[:.]\s*           #timesep
+                                        (\d\d?)
+                                    )?
+                                )?
+                            )?
+                        )?
+                    )?
+                    $|x
+      )
+    {
+
+        #no defaulting yet so we can detect the 2009--12 error
+        my ( $year, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
+
+#without range checking on the 12 Jan 2009 case above, there is abmiguity - what is 14 Jan 12 ?
+#similarly, how would you decide what Jan 02 and 02 Jan are?
+#$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
+
+        #TODO: unhappily, this means 09 == 1909 not 2009
+        $year -= 1900 if ( $year > 1900 );
+
+        #range checks
+        return undef if ( defined($M) && ( $M < 1 || $M > 12 ) );
+        my $month = ( $M || 1 ) - 1;
+        return undef if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
+        return undef if ( defined($h) && ( $h < 0 || $h > 24 ) );
+        return undef if ( defined($m) && ( $m < 0 || $m > 60 ) );
+        return undef if ( defined($s) && ( $s < 0 || $s > 60 ) );
+        return undef if ( defined($year) && $year < 60 ); 
+
+        my $day  = $D || 1;
+        my $hour = $h || 0;
+        my $min  = $m || 0;
+        my $sec  = $s || 0;
+
+        return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) -
+          $tzadj;
+    }
+
+    # give up
+    return undef;
 }
 
 =pod

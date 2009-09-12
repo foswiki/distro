@@ -39,16 +39,9 @@ Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cells
 | 5 |   | Abc | John | | |
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
 
----+++ Table with 4 digit year dates and no use of %<nop>TABLE{...}%
-
-| *When* |
-| 1-Jan-2004 |
-| 1-Jan-2003 |
-| 2-Jan-2005 |
 
 
 ---+++ Sorting
-
 Click on column heading text to sort by a column. Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
 
    * date if format is:
@@ -56,6 +49,13 @@ Click on column heading text to sort by a column. Initial column will be sorted 
       * dd-MMM-YY or dd-MMM-YYYY (can be / or space in place of -) (MMM is Jan, Feb, etc)
    * number is digits, with optional decimal point
    * otherwise treated as text
+
+---++++ Sorting example
+%TABLE{databg="#ffffcc" databgsorted="#ffcc33" headerbg="#990033" headerbgsorted="#660000" initsort="1"}%
+| *Number* | *Decimal* | *Alpha* | *Date* |
+| 1 | 9.9 | vwx | 01 Jan 1990 |
+| 2 | 9.91 | stu | 31 Dec 1999 |
+| 3 | 9.09 | pqr | 15 Jan 2006 |
 
 ---+++ Row spans
 
@@ -146,7 +146,8 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  12 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
 %BB% Fixed a bug that ignored =cellspacing= (Item8270). \
-%BB% Sorting is now possible with multiple header rows (Item8122) |
+%BB% Sorting is now possible with multiple header rows (Item8122). \
+%BB% Fixed sorting of dates prior to 1970. |
 |  12 Sep 2009 | 1.042: Kenneth Lavrsen: Added a new API call initialiseWhenRender which plugins like !CompareRevisionsAddOn can use to reset the table counters between two renderings of the same topic |
 |  03 Sep 2009 | 1.041: Kenneth Lavrsen: Fix for crash when cell contains the number 0. Allow sorting of negative numbers even when suffixed with unit. Treat whitespace as zero if pure numerical context. |
 |  02 Sep 2009 | 1.040: Kenneth Lavrsen: Fixed the fix of parsing date-time columns so that plain numbers are not interpreted as dates causing wrong sorting |
