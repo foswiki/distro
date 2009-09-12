@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1252755214" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! <nop>%TOPIC%
+
+Tests %SYSTEMWEB%.TablePlugin with a specific TABLEATTRIBUTES.
+
+   * Set TABLEPLUGIN_TABLEATTRIBUTES = columnwidths="%ENCODE{"80"}%,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"
+
+%TABLE{}%
+| *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
+| Project A | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project B | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project C | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project D | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |

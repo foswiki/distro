@@ -7,6 +7,8 @@ Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
    * Set SECTION_URL = %SCRIPTURL{view}%/%WEB%/%TOPIC%?template=viewprint
 -->
 
+See also: TestCaseTablePluginTableAttributes
+
 %TOC%
 
 ---++ Basic layout
