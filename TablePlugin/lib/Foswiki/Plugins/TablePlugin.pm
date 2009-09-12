@@ -36,11 +36,11 @@ our $SHORTDESCRIPTION =
 our $NO_PREFS_IN_TOPIC = 1;
 our %pluginAttributes;
 
-my $topic;
-my $web;
-my $user;
-my $installWeb;
-my $initialised;
+our $topic;
+our $web;
+our $user;
+our $installWeb;
+our $initialised;
 my $DEFAULT_TABLE_SETTINGS = 'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
 
 sub initPlugin {
