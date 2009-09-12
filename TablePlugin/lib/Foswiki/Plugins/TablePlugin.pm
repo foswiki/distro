@@ -123,22 +123,30 @@ Read in plugin settings from TABLEPLUGIN_TABLEATTRIBUTES
 TABLEATTRIBUTES are no longer supported (NO_PREFS_IN_TOPIC).
 If no settings are found, use the default settings from configure.
 And if these cannot be read, use the default values defined here in this plugin.
-    
+
+Settings are applied by the principle of 'filling in the gaps'  
 =cut
 
 sub _readPluginSettings {
     debug("TablePlugin _readPluginSettings");
+    my $configureAttrStr =
+      $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes};
+    my $pluginAttrStr =
+      Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
 
-    my $settings =
-         Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES')
-      || $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes}
-      || $DEFAULT_TABLE_SETTINGS;
+    debug("\t configureAttrStr=$configureAttrStr") if $configureAttrStr;
+    debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
 
-    debug("\t settings=$settings");
+	debug("no settings from configure could be read; using default values") if !$configureAttrStr;
+	$configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
+	
+	$configureAttrStr = Foswiki::Func::expandCommonVariables($configureAttrStr, $topic, $web, undef) if $configureAttrStr;
+	$pluginAttrStr = Foswiki::Func::expandCommonVariables($pluginAttrStr, $topic, $web, undef) if $pluginAttrStr;
+	
+    my %configureParams = Foswiki::Func::extractParameters($configureAttrStr);
+    my %pluginParams    = Foswiki::Func::extractParameters($pluginAttrStr);
 
-    $settings =
-      Foswiki::Func::expandCommonVariables( $settings, $topic, $web, undef );
-    %pluginAttributes = Foswiki::Func::extractParameters($settings);
+    %pluginAttributes = ( %configureParams, %pluginParams );
 }
 
 =pod
