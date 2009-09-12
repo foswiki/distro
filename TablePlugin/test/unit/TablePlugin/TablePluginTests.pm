@@ -9,22 +9,18 @@ use base qw( FoswikiFnTestCase );
 use Foswiki;
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebTableFormatting';
+my $tableCount = 0;
 
 sub new {
     my $self = shift()->SUPER::new( 'TableFormatting', @_ );
     return $self;
 }
 
-sub set_up {
+sub loadExtraConfig {
     my $this = shift;
+    $this->SUPER::loadExtraConfig();
 
-    $this->SUPER::set_up();
-
-    #    $this->{sup} = $this->{session}->getScriptUrl(0, 'view');
-    $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
-    $Foswiki::cfg{AntiSpam}{EmailPadding}     = 'STUFFED';
-    $Foswiki::cfg{AllowInlineScript}          = 1;
-    $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
+    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
@@ -48,11 +44,12 @@ sub do_test {
 
 sub test_simpleTableusing {
     my $this     = shift;
+    $tableCount++;
     my $expected = <<EXPECTED;
 <nop>
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="rows" border="1">
+<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
@@ -83,7 +80,7 @@ ACTUAL
 
 sub test_simpleTheadTableUsingTablePlugin {
     my $this = shift;
-
+    $tableCount++;
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -91,11 +88,11 @@ sub test_simpleTheadTableUsingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="rows" border="1">
+<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
-			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">b</a> </th>
 		</tr>
 	</thead>
 	<tbody>
@@ -124,6 +121,7 @@ ACTUAL
 
 sub test_simpleTfootTableusingTablePlugin {
     my $this     = shift;
+	$tableCount++;
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
     my $expected = <<EXPECTED;
@@ -131,11 +129,11 @@ sub test_simpleTfootTableusingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="rows" border="1">
+<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
 	<tfoot>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">ok</a> </th>
-			<th class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">bad</a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">ok</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">bad</a> </th>
 		</tr>
 	</tfoot>
 	<tbody>
@@ -165,7 +163,7 @@ ACTUAL
 
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
-
+    $tableCount++;
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -174,11 +172,11 @@ sub test_doubleTheadTableUsingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="rows" border="1">
+<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
-			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">b</a> </th>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol"> c </th>
@@ -212,7 +210,7 @@ ACTUAL
 
 sub test_doubleTheadandTfootTableusingTablePlugin {
     my $this = shift;
-
+    $tableCount++;
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -222,11 +220,11 @@ sub test_doubleTheadandTfootTableusingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="rows" border="1">
+<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-				<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
-				<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
+				<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
+				<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">b</a> </th>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 				<th class="foswikiTableCol0 foswikiFirstCol"> c </th>
@@ -265,7 +263,7 @@ Test sorting of Size column (format: '1.1 K')
 
 sub test_sort_size {
     my $this = shift;
-
+    $tableCount++;
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -288,13 +286,13 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table rules="rows" border="1" class="foswikiTable" id="table1">
+<table rules="rows" border="1" class="foswikiTable" id="table$tableCount">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
-			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" rel="nofollow">Date</a> </th>
-			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
-			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" rel="nofollow">Span date</a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=$tableCount;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
+			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=$tableCount;up=0#sorted_table" rel="nofollow">Span date</a> </th>
 		</tr>
 	</thead>
 	<tbody>
@@ -342,7 +340,7 @@ Test sorting of a numbers column
 
 sub test_sort_numbers {
     my $this = shift;
-
+    $tableCount++;
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -365,13 +363,13 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table rules="rows" border="1" class="foswikiTable" id="table1">
+<table rules="rows" border="1" class="foswikiTable" id="table$tableCount">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
-			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" rel="nofollow">Date</a> </th>
-			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
-			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" rel="nofollow">Span date</a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=$tableCount;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
+			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=$tableCount;up=0#sorted_table" rel="nofollow">Span date</a> </th>
 		</tr>
 	</thead>
 	<tbody>
@@ -419,7 +417,7 @@ Test sorting of Date column with HTML tags before the date
 
 sub test_sort_dateWithHtml {
     my $this = shift;
-
+    $tableCount++;
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -442,13 +440,13 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table rules="rows" border="1" class="foswikiTable" id="table1">
+<table rules="rows" border="1" class="foswikiTable" id="table$tableCount">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
-			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" rel="nofollow">Date</a> </th>
-			<th class="foswikiTableCol2"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=0#sorted_table" rel="nofollow">Size</a> </th>
-			<th class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=1#sorted_table" rel="nofollow">Span date</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=$tableCount;up=0#sorted_table" rel="nofollow">Size</a> </th>
+			<th class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=$tableCount;up=1#sorted_table" rel="nofollow">Span date</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
 		</tr>
 	</thead>
 	<tbody>

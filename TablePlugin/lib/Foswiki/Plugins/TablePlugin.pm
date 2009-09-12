@@ -47,6 +47,8 @@ sub initPlugin {
     my ( $web, $user );
     ( $topic, $web, $user, $installWeb ) = @_;
 
+    debug("TablePlugin initPlugin");
+    
     # check for Plugins.pm versions
     if ( $Foswiki::Plugins::VERSION < 1.026 ) {
         Foswiki::Func::writeWarning(
@@ -64,7 +66,7 @@ sub initPlugin {
 
 sub preRenderingHandler {
     ### my ( $text, $removed ) = @_;
-
+    debug("TablePlugin preRenderingHandler");
     my $sort = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT')
       || 'all';
     return
@@ -116,18 +118,18 @@ sub initialiseWhenRender {
 }
 
 sub _readPluginSettings {
+    debug("TablePlugin _readPluginSettings");
     my $configureAttrStr =
       $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes};
     my $pluginAttrStr =
       Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
     my $prefsAttrStr = Foswiki::Func::getPreferencesValue('TABLEATTRIBUTES');
 
-    debug("_readPluginSettings");
     debug("\t configureAttrStr=$configureAttrStr") if $configureAttrStr;
     debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
     debug("\t prefsAttrStr=$prefsAttrStr")         if $prefsAttrStr;
 
-	debug("no configureAttrStr found; using default values") if !$configureAttrStr;
+	debug("no settings from configure could be read; using default values") if !$configureAttrStr;
 	$configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
 	
 	$configureAttrStr = Foswiki::Func::expandCommonVariables($configureAttrStr, $topic, $web, undef) if $configureAttrStr;

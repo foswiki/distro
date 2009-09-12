@@ -29,7 +29,6 @@ use Error qw(:try);
 my @curTable;
 my $translationToken;
 my $insideTABLE;
-my $tableCount;
 my $currTablePre;
 my $didWriteDefaultStyle;
 my $defaultAttrs;          # to write generic table CSS
@@ -37,6 +36,7 @@ my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
 
 # not yet refactored:
+my $tableCount;
 my $sortCol;
 my $maxSortCols;
 my $requestedTable;
@@ -48,7 +48,6 @@ my $sortAllTables;
 my $url;
 my $currentSortDirection;
 my @rowspan;
-my $unsortEnabled;    # SMELL: is always true
 my $initDirection;
 
 my $URL_ICON =
@@ -114,13 +113,12 @@ BEGIN {
 
     # the maximum number of columns we will handle
     $maxSortCols          = 10000;
-    $unsortEnabled        = 1;       # if true, table columns can be unsorted
     $didWriteDefaultStyle = 0;
+    $tableCount = 0;
 }
 
 sub _setDefaults {
     _debug("_setDefaults");
-    $tableCount                 = 0;
     $initDirection              = $SORT_DIRECTION->{'ASCENDING'};
     $sortAllTables              = $sortTablesInText;
     $currTablePre               = '';
