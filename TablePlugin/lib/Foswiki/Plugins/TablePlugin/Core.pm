@@ -520,9 +520,7 @@ sub _guessColumnType {
         # else
         $columnIsValid = 1;
         my ( $num, $date ) = _convertToNumberAndDate( $row->[$col]->{text} );
-		
-		_debug("_guessColumnType for cell:$row->[$col]->{text}; num=$num, date=$date");
-		
+				
 		if (defined $date) {
 			$isDate = 1;
 			$row->[$col]->{date}   = $date;

@@ -9,7 +9,7 @@ use base qw( FoswikiFnTestCase );
 use Foswiki;
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebTableFormatting';
-my $tableCount = 0;
+my $tableCount = 1;
 
 sub new {
     my $self = shift()->SUPER::new( 'TableFormatting', @_ );
@@ -44,7 +44,7 @@ sub do_test {
 
 sub test_simpleTableusing {
     my $this     = shift;
-    $tableCount++;
+    
     my $expected = <<EXPECTED;
 <nop>
 <nop>
@@ -80,7 +80,7 @@ ACTUAL
 
 sub test_simpleTheadTableUsingTablePlugin {
     my $this = shift;
-    $tableCount++;
+    
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -121,7 +121,7 @@ ACTUAL
 
 sub test_simpleTfootTableusingTablePlugin {
     my $this     = shift;
-	$tableCount++;
+	
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
     my $expected = <<EXPECTED;
@@ -163,7 +163,7 @@ ACTUAL
 
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
-    $tableCount++;
+    
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -210,7 +210,7 @@ ACTUAL
 
 sub test_doubleTheadandTfootTableusingTablePlugin {
     my $this = shift;
-    $tableCount++;
+    
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -263,7 +263,7 @@ Test sorting of Size column (format: '1.1 K')
 
 sub test_sort_size {
     my $this = shift;
-    $tableCount++;
+    
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -340,7 +340,7 @@ Test sorting of a numbers column
 
 sub test_sort_numbers {
     my $this = shift;
-    $tableCount++;
+    
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -417,7 +417,7 @@ Test sorting of Date column with HTML tags before the date
 
 sub test_sort_dateWithHtml {
     my $this = shift;
-    $tableCount++;
+    
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
