@@ -41,13 +41,14 @@ our $web;
 our $user;
 our $installWeb;
 our $initialised;
-my $DEFAULT_TABLE_SETTINGS = 'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
+my $DEFAULT_TABLE_SETTINGS =
+'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
 
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     debug("TablePlugin initPlugin");
-    
+
     # check for Plugins.pm versions
     if ( $Foswiki::Plugins::VERSION < 1.026 ) {
         Foswiki::Func::writeWarning(
@@ -110,9 +111,9 @@ Otherwise using a "mother of hacks" to get to the same result.
 =cut
 
 sub initialiseWhenRender {
-    
+
     $initialised = 0;
-    
+
     return 1;
 }
 
@@ -127,12 +128,16 @@ And if these cannot be read, use the default values defined here in this plugin.
 
 sub _readPluginSettings {
     debug("TablePlugin _readPluginSettings");
-    
-    my $settings = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES') || $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} || $DEFAULT_TABLE_SETTINGS;
 
-	debug("\t settings=$settings");
+    my $settings =
+         Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES')
+      || $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes}
+      || $DEFAULT_TABLE_SETTINGS;
 
-	$settings = Foswiki::Func::expandCommonVariables($settings, $topic, $web, undef);
+    debug("\t settings=$settings");
+
+    $settings =
+      Foswiki::Func::expandCommonVariables( $settings, $topic, $web, undef );
     %pluginAttributes = Foswiki::Func::extractParameters($settings);
 }
 

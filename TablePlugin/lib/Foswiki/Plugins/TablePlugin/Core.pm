@@ -112,19 +112,19 @@ BEGIN {
     # the maximum number of columns we will handle
     $maxSortCols          = 10000;
     $didWriteDefaultStyle = 0;
-    $tableCount = 0;
+    $tableCount           = 0;
 }
 
 sub _setDefaults {
-    _debug("_setDefaults");          
-    $currTablePre               = '';
-    $combinedTableAttrs         = {};
-    $defaultAttrs               = {};
-    $tableSpecificAttrs         = {};
-    $defaultAttrs->{headerrows} = 1;
-    $defaultAttrs->{footerrows} = 0;
-    $defaultAttrs->{class}      = 'foswikiTable';
-	$defaultAttrs->{sortAllTables} = $sortTablesInText;
+    _debug("_setDefaults");
+    $currTablePre                  = '';
+    $combinedTableAttrs            = {};
+    $defaultAttrs                  = {};
+    $tableSpecificAttrs            = {};
+    $defaultAttrs->{headerrows}    = 1;
+    $defaultAttrs->{footerrows}    = 0;
+    $defaultAttrs->{class}         = 'foswikiTable';
+    $defaultAttrs->{sortAllTables} = $sortTablesInText;
 
     _parseDefaultAttributes(
         %{Foswiki::Plugins::TablePlugin::pluginAttributes} );
@@ -137,10 +137,10 @@ sub _setDefaults {
 sub _storeAttribute {
     my ( $inAttrName, $inValue, $inCollection ) = @_;
 
-	if (!$inCollection) {
-		_debug("_storeAttribute -- missing inCollection!");
-		return;
-	}
+    if ( !$inCollection ) {
+        _debug("_storeAttribute -- missing inCollection!");
+        return;
+    }
     return if !defined $inValue;
     return if !defined $inAttrName || $inAttrName eq '';
     $inCollection->{$inAttrName} = $inValue;
@@ -218,14 +218,16 @@ sub _parseAttributes {
 
     # sort
     if ($modeSpecific) {
-    	my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
+        my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
         _storeAttribute( 'sort', $sort, $inCollection );
-		_storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
-		_storeAttribute( 'sortAllTables', $sort, $inCollection );
-        if ($inParams->{initdirection}) {
-            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'}, $inCollection )
+        _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
+        _storeAttribute( 'sortAllTables', $sort, $inCollection );
+        if ( $inParams->{initdirection} ) {
+            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
+                $inCollection )
               if $inParams->{initdirection} =~ /^down$/i;
-            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'DESCENDING'}, $inCollection )
+            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'DESCENDING'},
+                $inCollection )
               if $inParams->{initdirection} =~ /^up$/i;
         }
 
@@ -241,7 +243,7 @@ sub _parseAttributes {
       # 'disableallsort' TABLE parameter is added to disable initsort and header
       # sorting in the table that is being edited. (Item5135)
         if ( Foswiki::Func::isTrue( $inParams->{disableallsort} ) ) {
-            delete $inCollection->{sortAllTables};
+            $inCollection->{sortAllTables} = 0;
             delete $inCollection->{initSort};
         }
     }
@@ -312,7 +314,7 @@ sub _convertToNumberAndDate {
     my ($text) = @_;
 
     $text = _stripHtml($text);
-	_debug("_convertToNumberAndDate:$text");
+    _debug("_convertToNumberAndDate:$text");
     if ( $text =~ /^\s*$/ ) {
         return ( undef, undef );
     }
@@ -323,7 +325,7 @@ sub _convertToNumberAndDate {
     # Unless the table cell is a pure number
     # we test if it is a date.
     if ( $text =~ /^\s*-?[0-9]+(\.[0-9]+)?\s*$/ ) {
-    	_debug("\t this is a number");
+        _debug("\t this is a number");
         $num = $text;
     }
     else {
@@ -336,11 +338,12 @@ sub _convertToNumberAndDate {
             _debug("\t this is not a date");
         };
     }
-	_debug("\t this is a date") if defined $date;
-    if (!defined $date) {
+    _debug("\t this is a date") if defined $date;
+    if ( !defined $date ) {
 
         if ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
-			_debug("\t this is a number with decimal");
+            _debug("\t this is a number with decimal");
+
             # for example for attachment sizes: 1.1 K
             # but also for other strings that start with a number
             my $num1 = $1 || 0;
@@ -376,9 +379,10 @@ sub _processTableRow {
             $currentSortDirection = _getCurrentSortDirection($up);
         }
         elsif ( defined $combinedTableAttrs->{initSort} ) {
-            $sortCol              = $combinedTableAttrs->{initSort} - 1;
-            $sortCol              = $maxSortCols if ( $sortCol > $maxSortCols );
-            $currentSortDirection = _getCurrentSortDirection($combinedTableAttrs->{initDirection});
+            $sortCol = $combinedTableAttrs->{initSort} - 1;
+            $sortCol = $maxSortCols if ( $sortCol > $maxSortCols );
+            $currentSortDirection =
+              _getCurrentSortDirection( $combinedTableAttrs->{initDirection} );
         }
 
     }
@@ -517,16 +521,18 @@ sub _guessColumnType {
         # else
         $columnIsValid = 1;
         my ( $num, $date ) = _convertToNumberAndDate( $row->[$col]->{text} );
-				
-		if (defined $date) {
-			$isDate = 1;
-			$row->[$col]->{date}   = $date;
-		} elsif (defined $num) {
-			$isNum = 1;
-			$row->[$col]->{number} = $num;
-		} else {
-			last;
-		}
+
+        if ( defined $date ) {
+            $isDate = 1;
+            $row->[$col]->{date} = $date;
+        }
+        elsif ( defined $num ) {
+            $isNum = 1;
+            $row->[$col]->{number} = $num;
+        }
+        else {
+            last;
+        }
     }
     return $COLUMN_TYPE->{'UNDEFINED'} if ( !$columnIsValid );
     my $type = $COLUMN_TYPE->{'TEXT'};
@@ -1095,8 +1101,8 @@ sub emitTable {
             $stype = _guessColumnType($sortCol);
         }
 
-		_debug("Sort by:$stype");
-		
+        _debug("Sort by:$stype");
+
         # invalidate sorting if no valid column
         if ( $stype eq $COLUMN_TYPE->{'UNDEFINED'} ) {
             delete $combinedTableAttrs->{initSort};
@@ -1390,11 +1396,11 @@ sub handler {
 
     unless ($Foswiki::Plugins::TablePlugin::initialised) {
         $insideTABLE = 0;
-        
+
         # Even if $tableCount is initialized already at plugin init
         # we need to reset it again each time preRenderingHandler
         # calls this handler sub. Important for initialiseWhenRender API
-        $tableCount  = 0;
+        $tableCount = 0;
 
         my $cgi = Foswiki::Func::getCgiQuery();
         return unless $cgi;
@@ -1458,7 +1464,7 @@ s/%TABLE(?:{(.*?)})?%/_parseTableSpecificTableAttributes(Foswiki::Func::extractP
 
             #            delete $combinedTableAttrs->{initSort};
             $combinedTableAttrs->{sortAllTables} = $defaultSort;
-            $acceptable    = $defaultSort;
+            $acceptable = $defaultSort;
         }
     }
     $_[0] = join( "\n", @lines );
@@ -1467,7 +1473,6 @@ s/%TABLE(?:{(.*?)})?%/_parseTableSpecificTableAttributes(Foswiki::Func::extractP
         $_[0] .= emitTable();
     }
 }
-
 
 # SMELL: does not account for leap years
 our @MONTHLENS = ( 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
@@ -1622,11 +1627,12 @@ sub _parseTime {
         #range checks
         return undef if ( defined($M) && ( $M < 1 || $M > 12 ) );
         my $month = ( $M || 1 ) - 1;
-        return undef if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
+        return undef
+          if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
         return undef if ( defined($h) && ( $h < 0 || $h > 24 ) );
         return undef if ( defined($m) && ( $m < 0 || $m > 60 ) );
         return undef if ( defined($s) && ( $s < 0 || $s > 60 ) );
-        return undef if ( defined($year) && $year < 60 ); 
+        return undef if ( defined($year) && $year < 60 );
 
         my $day  = $D || 1;
         my $hour = $h || 0;

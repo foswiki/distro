@@ -21,6 +21,7 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} = 'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we

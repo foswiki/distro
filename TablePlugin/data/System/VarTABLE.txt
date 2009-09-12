@@ -11,11 +11,11 @@
      | =tableborder=    | Table border width (pixels). | ="1"= | =tableborder="2"= |
      | =tableframe=     | Table frame, set to ="void"= (no sides), ="above"= (the top side only), ="below"= (the bottom side only), ="hsides"= (the top and bottom sides only), ="lhs"= (the left-hand side only), ="rhs"= (the right-hand side only), ="vsides"= (the right and left sides only), ="box"= (all four sides), ="border"= (all four sides). | <span class="foswikiGrayText">unspecified</span> | =tableframe="hsides"= |
      | =tablerules=     | Table rules, set to ="none"= (no rules), ="groups"= (rules will appear between row groups and column groups only), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). | <span class="foswikiGrayText">unspecified</span>  | =tablerules="rows"= |
-     | =tablewidth=     | Table width: Percentage of window width, or absolute pixel value. | <span class="foswikiGrayText">unspecified</span>  | =tablewidth="100%"= |
+     | =tablewidth=     | Table width: percentage of window width, or absolute pixel value. | <span class="foswikiGrayText">unspecified</span>  | =tablewidth="100%"= |
      | =headerrows=     | Number of header rows to exclude from sort. (will be rendered in a HTML =thead= section) | ="1"= | =headerrows="1"= |
      | =footerrows=     | Number of footer rows to exclude from sort. (will be rendered in a HTML =tfoot= section) | ="0"= | =footerrows="1"= |
      | =id=             | Unique table identifier string, used for targeting a table with CSS. | =tableN= (where N is the table order number on the page)  | =id="userTable"= |
-     | =summary=        | Table summary used by screenreaders: A summary of what the table presents. It should provide an orientation for someone who listens to the table. | <span class="foswikiGrayText">unspecified</span> | =summary="List of subscribed users"= |
+     | =summary=        | Table summary used by screen readers: A summary of what the table presents. It should provide an orientation for someone who listens to the table. | <span class="foswikiGrayText">unspecified</span> | =summary="List of subscribed users"= |
      | =caption=        | Table caption: A title that will be displayed just above the table.| <span class="foswikiGrayText">unspecified</span> | =caption="Users"= |
 
 ---++++ Attributes for table sorting
