@@ -32,7 +32,7 @@ use Foswiki::Plugins ();    # For the API version
 use vars qw( $topic $installWeb $initialised );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.1';
+our $RELEASE = '1.100';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -71,6 +71,43 @@ sub preRenderingHandler {
     # on-demand inclusion
     use Foswiki::Plugins::TablePlugin::Core;
     Foswiki::Plugins::TablePlugin::Core::handler(@_);
+}
+
+=begin TML
+---++ StaticMethod initialiseWhenRender() -> 1
+
+Official API call for TablePlugin. Other plugins can reinitialise the plugin
+which will reset all table counters etc next time the preRenderingHandler
+is run. The preRenderingHandler is called again when a plugin uses the
+Foswiki::Func::renderText method.
+A plugin like !CompareRevisionsAddOn uses initialiseWhenRender between the
+rendering of two revisions of the same topic to avoid table numbers to
+continue counting up when rendering the topic the second time.
+
+Example of use in a plugin taking care to check for TablePlugin being
+installed and being of a version that contains this method.
+Otherwise using a "mother of hacks" to get to the same result.
+
+    if ( defined &Foswiki::Plugins::TablePlugin::initPlugin ) {
+        if ( defined &Foswiki::Plugins::TablePlugin::initialiseWhenRender ) {
+            Foswiki::Plugins::TablePlugin::initialiseWhenRender();
+        }
+        else {
+            # If TablePlugin does not have the reinitialise API
+            # we use try a shameless hack instead
+            if ( defined $Foswiki::Plugins::TablePlugin::initialised ) {
+                $Foswiki::Plugins::TablePlugin::initialised = 0;
+            }
+        }
+    }
+
+=cut
+
+sub initialiseWhenRender {
+    
+    $initialised = 0;
+    
+    return 1;
 }
 
 sub _readPluginSettings {
