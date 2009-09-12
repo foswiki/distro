@@ -1387,6 +1387,10 @@ sub handler {
 
     unless ($Foswiki::Plugins::TablePlugin::initialised) {
         $insideTABLE = 0;
+        
+        # Even if $tableCount is initialized already at plugin init
+        # we need to reset it again each time preRenderingHandler
+        # calls this handler sub. Important for initialiseWhenRender API
         $tableCount  = 0;
 
         my $cgi = Foswiki::Func::getCgiQuery();
