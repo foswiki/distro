@@ -3,11 +3,16 @@
 ---+!! %SYSTEMWEB%.TablePlugin tests
 
 Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
+<!--
+   * Set SECTION_URL = %SCRIPTURL{view}%/%WEB%/%TOPIC%?template=viewprint
+-->
 
 %TOC%
 
 ---++ Basic layout
+[[%SECTION_URL%;section=layout][View this section only]]
 
+%STARTSECTION{"layout"}%
 ---+++ Table with top headers
 | *Item* | *Text* |
 | Item1  | Lorem ipsum dolor sit amet, consectetur, adipisci velit.  |
@@ -87,16 +92,20 @@ Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
 | *Web* | *Sitemap* | *VIEW* || *CHANGE* || *RENAME* ||
 | ^ | *Listed* | *DENY* | *ALLOW* | *DENY* | *ALLOW* | *DENY* | *ALLOW* |
 
-
----++ Sorting
-
 ---+++ Table with mixed data
 | *One* | *Two* | *Three* | *Four* |
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"layout"}%
 
----+++ Table with mixed data, no databg
+
+
+---++ databg
+[[%SECTION_URL%;section=databg][View this section only]]
+
+%STARTSECTION{"databg"}%
+---+++ databg="none"
 <verbatim>
 %TABLE{databg="none"}%
 </verbatim>
@@ -106,7 +115,7 @@ Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
 
----+++ Table with mixed data, specified databg and headerbg
+---+++ databg="#ffcc33"
 <verbatim>
 %TABLE{databg="#ffcc33" headerbg="#990033"}%
 </verbatim>
@@ -116,7 +125,24 @@ Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
 
----++ headerbgsorted
+---+++ databg="#ffcc33, #99ff33"
+<verbatim>
+%TABLE{databg="#ffcc33, #99ff33"}%
+</verbatim>
+%TABLE{databg="#ffcc33, #99ff33"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"databg"}%
+
+
+
+---++ Sorting
+[[%SECTION_URL%;section=sort][View this section only]]
+
+%STARTSECTION{"sort"}%
+---+++ headerbgsorted
 %TABLE{databg="#ffffcc" databgsorted="#ffcc33" headerbg="#990033" headerbgsorted="#660000" initsort="1"}%
 | *One* | *Two* | *Three* | *Four* |
 | 1 | abc | vwx | 01 Jan 1900 |
@@ -135,7 +161,7 @@ Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
 | %I% |
 | %Y% |
 
----++ initsort
+---+++ initsort
 
 initdirection="up", column 1
 %TABLE{sort="on" initsort="1" initdirection="up"}%
@@ -158,7 +184,7 @@ no initdirection specified, column 3
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
 
----++ no sort
+---+++ no sort
 
 sort="off"
 %TABLE{sort="off"}%
@@ -180,8 +206,25 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"sort"}%
 
----++ headercolor
+
+---+++ disableallsort
+[[%SECTION_URL%;section=disableallsort;disable=1][View this section only]]
+
+%STARTSECTION{"disableallsort"}%
+%TABLE{sort="on" initsort="3" %IF{"$'URLPARAM{disable}'='1'" then="disableallsort=\"on\""}%}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"disableallsort"}%
+
+---++ Colors
+[[%SECTION_URL%;section=colors][View this section only]]
+
+%STARTSECTION{"colors"}%
+---+++ headercolor
 <verbatim>
 %TABLE{headercolor="#990000" headerbg="#eeeeee" headerbgsorted="#dddddd"}%
 </verbatim>
@@ -199,7 +242,7 @@ sort="off", headerrows=1", footerrows="1"
 | *Header 2* | Morel iptul domor tis ales, duit ausel vem eul iriure domor eu, feugias numma.  |
 | *Header 3* | Neque porro quisquam est qui dolorem ipsum dolor sit amet, consectetur, adipisci velit.  |
 
----++ datacolor
+---+++ datacolor
 <verbatim>
 %TABLE{datacolor="#ff0000,#ff9933"}%
 </verbatim>
@@ -208,8 +251,12 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"colors"}%
 
 ---++ tableborder
+[[%SECTION_URL%;section=tableborder][View this section only]]
+
+%STARTSECTION{"tableborder"}%
 ---+++ tableborder="5"
 <verbatim>
 %TABLE{tableborder="5"}%
@@ -230,7 +277,32 @@ sort="off", headerrows=1", footerrows="1"
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
 
+---+++ tableborder="0", cellborder="0"
+<verbatim>
+%TABLE{tableborder="0" cellborder="0"}%
+</verbatim>
+%TABLE{tableborder="0" cellborder="0"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"tableborder"}%
+
 ---++ cellpadding
+[[%SECTION_URL%;section=cellpadding][View this section only]]
+
+%STARTSECTION{"cellpadding"}%
+---+++ cellpadding=0
+<verbatim>
+%TABLE{cellpadding="0"}%
+</verbatim>
+%TABLE{cellpadding="0"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ cellpadding=15
 <verbatim>
 %TABLE{cellpadding="15"}%
 </verbatim>
@@ -239,8 +311,12 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"cellpadding"}%
 
 ---++ cellspacing
+[[%SECTION_URL%;section=cellspacing][View this section only]]
+
+%STARTSECTION{"cellspacing"}%
 <verbatim>
 %TABLE{cellspacing="15"}%
 </verbatim>
@@ -249,13 +325,17 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"cellspacing"}%
 
 ---++ cellborder
----+++ cellborder="0"
+[[%SECTION_URL%;section=cellborder][View this section only]]
+
+%STARTSECTION{"cellborder"}%
+---+++ cellborder="0", tableborder="1"
 <verbatim>
-%TABLE{cellborder="0" tableborder="0"}%
+%TABLE{cellborder="0" tableborder="1"}%
 </verbatim>
-%TABLE{cellborder="0" tableborder="0"}%
+%TABLE{cellborder="0" tableborder="1"}%
 | *One* | *Two* | *Three* | *Four* |
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
@@ -263,6 +343,17 @@ sort="off", headerrows=1", footerrows="1"
 
 ---+++ cellborder="3"
 <verbatim>
+%TABLE{cellborder="3"}%
+</verbatim>
+%TABLE{cellborder="3"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ cellborder="3", tableborder="3"
+On IE 6 and 7: works only in section-only view.
+<verbatim>
 %TABLE{cellborder="3" tableborder="3"}%
 </verbatim>
 %TABLE{cellborder="3" tableborder="3"}%
@@ -270,9 +361,12 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
-
+%ENDSECTION{"cellborder"}%
 
 ---++ Alignment
+[[%SECTION_URL%;section=align][View this section only]]
+
+%STARTSECTION{"align"}%
 ---+++ Cell alignment using spaces
 |*Left aligned*  |*Not sure*|  *Middle*  |  *Right aligned*|
 |1  |abc|  vwxxxxxxxxx  |  01 Jan 1900|
@@ -496,8 +590,14 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc def ghi jkl | vwx | 01 Jan 1900 |
 | 2222 | defdefdefdefdefdefdefdef | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
 | 33333333 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"align"}%
+
+
 
 ---++ tablerules
+[[%SECTION_URL%;section=tablerules][View this section only]]
+
+%STARTSECTION{"tablerules"}%
 ---+++ none
 <verbatim>
 %TABLE{tablerules="none" headerbg="#ffffff" headercolor="#ff0000"}%
@@ -559,8 +659,12 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"tablerules"}%
 
 ---++ tableframe
+[[%SECTION_URL%;section=tableframe][View this section only]]
+
+%STARTSECTION{"tableframe"}%
 ---+++ void
 <verbatim>
 %TABLE{tableframe="void" tablerules="none" tableborder="4"}%
@@ -650,7 +754,7 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
-
+%ENDSECTION{"tableframe"}%
 
 ---++ tablewidth
 ---+++ in percentages
@@ -727,6 +831,9 @@ sort="off", headerrows=1", footerrows="1"
 | 3 | ghi | pqr | 15 Jan 2006 |
 
 ---++ summary
+[[%SECTION_URL%;section=summary][View this section only]]
+
+%STARTSECTION{"summary"}%
 <verbatim>
 %TABLE{summary="This is a summary"}%
 </verbatim>
@@ -735,8 +842,12 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
+%ENDSECTION{"summary"}%
 
 ---++ caption
+[[%SECTION_URL%;section=caption][View this section only]]
+
+%STARTSECTION{"caption"}%
 <verbatim>
 %TABLE{caption="This is a caption"}%
 </verbatim>
@@ -745,6 +856,4 @@ sort="off", headerrows=1", footerrows="1"
 | 1 | abc | vwx | 01 Jan 1900 |
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
-
-
-
+%ENDSECTION{"caption"}%
