@@ -264,7 +264,7 @@ sub _parseAttributes {
     # table rules and cellspacing cannot be used at the same time
     _storeAttribute( 'rules', $inParams->{tablerules}, $inCollection )
       if !( defined $inCollection->{cellspacing} );
-    _storeAttribute( 'width', $inParams->{tableswidth}, $inCollection );
+    _storeAttribute( 'width', $inParams->{tablewidth}, $inCollection );
 
     # css attributes
     _storeAttribute( 'headerColor', $inParams->{headercolor}, $inCollection );
