@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
 # Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
 # Copyright (C) 2005-2007 TWiki Contributors
-# Copyright (C) 2008 Foswiki Contributors.
+# Copyright (C) 2008-2009 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,10 +32,11 @@ use Foswiki::Plugins ();    # For the API version
 use vars qw( $topic $installWeb $initialised );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.041';
+our $RELEASE = '1.1';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
+our %pluginAttributes;
 
 sub initPlugin {
     my ( $web, $user );
@@ -65,9 +66,57 @@ sub preRenderingHandler {
       unless ( $sort && $sort =~ /^(all|attachments)$/ )
       || $_[0] =~ /%TABLE{.*?}%/;
 
+    _readPluginSettings() if !%pluginAttributes;
+
     # on-demand inclusion
-    require Foswiki::Plugins::TablePlugin::Core;
+    use Foswiki::Plugins::TablePlugin::Core;
     Foswiki::Plugins::TablePlugin::Core::handler(@_);
+}
+
+sub _readPluginSettings {
+    my $configureAttrStr =
+      $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes};
+    my $pluginAttrStr =
+      Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
+    my $prefsAttrStr = Foswiki::Func::getPreferencesValue('TABLEATTRIBUTES');
+
+    debug("_readPluginSettings");
+    debug("\t configureAttrStr=$configureAttrStr") if $configureAttrStr;
+    debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
+    debug("\t prefsAttrStr=$prefsAttrStr")         if $prefsAttrStr;
+
+    my %configureParams = Foswiki::Func::extractParameters($configureAttrStr);
+    my %pluginParams    = Foswiki::Func::extractParameters($pluginAttrStr);
+    my %prefsParams     = Foswiki::Func::extractParameters($prefsAttrStr);
+
+    %pluginAttributes = ( %configureParams, %pluginParams, %prefsParams );
+}
+
+=pod
+
+Shorthand debugging call.
+
+=cut
+
+sub debug {
+    my ($text) = @_;
+    return if !$Foswiki::cfg{Plugins}{TablePlugin}{Debug};
+
+    $text = "TablePlugin: $text";
+
+    #print STDERR $text . "\n";
+    Foswiki::Func::writeDebug("$text");
+}
+
+sub debugData {
+    my ( $text, $data ) = @_;
+
+    return if !$Foswiki::cfg{Plugins}{TablePlugin}{Debug};
+    Foswiki::Func::writeDebug("TablePlugin; $text:");
+    if ($data) {
+        eval
+'use Data::Dumper; local $Data::Dumper::Terse = 1; local $Data::Dumper::Indent = 1; Foswiki::Func::writeDebug(Dumper($data));';
+    }
 }
 
 1;

@@ -42,25 +42,29 @@ sub do_test {
     $this->assert_html_equals( $expected, $actual );
 }
 
+=pod
+
+=cut
+
 sub test_simpleTableusing {
     my $this     = shift;
     my $expected = <<EXPECTED;
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table id="table1" class="foswikiTable" rules="rows" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> a </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> b </td>
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1 foswikiLastCol"> 3 </td>
+			<td class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> 3 </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
 		</tr>
 	</tbody>
 </table>
@@ -73,6 +77,10 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+=pod
+
+=cut
+
 sub test_simpleTheadTableUsingTablePlugin {
     my $this = shift;
 
@@ -83,21 +91,21 @@ sub test_simpleTheadTableUsingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table id="table1" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">a</font></a> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">b</font></a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> 3 </td>
+			<td class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> 3 </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
 		</tr>
 	</tbody>
 </table>
@@ -110,28 +118,34 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+=pod
+
+=cut
+
 sub test_simpleTfootTableusingTablePlugin {
     my $this     = shift;
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
     my $expected = <<EXPECTED;
 <nop>
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table id="table1" class="foswikiTable" rules="rows" border="1">
 	<tfoot>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <font color="#ffffff">ok</font> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <font color="#ffffff">bad</font> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">ok</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">bad</a> </th>
 		</tr>
 	</tfoot>
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> a </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> b </td>
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1 foswikiLastCol"> 3 </td>
+			<td class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> 3 </td>
 		</tr>
 	</tbody>
 </table>
@@ -145,6 +159,10 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+=pod
+
+=cut
+
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
 
@@ -156,25 +174,25 @@ sub test_doubleTheadTableUsingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table id="table1" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">a</font></a> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">b</font></a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <font color="#ffffff">c</font> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol"> <font color="#ffffff">c</font> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> c </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> c </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> 3 </td>
+			<td class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> 3 </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
 		</tr>
 	</tbody>
 </table>
@@ -188,6 +206,10 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+=pod
+
+=cut
+
 sub test_doubleTheadandTfootTableusingTablePlugin {
     my $this = shift;
 
@@ -200,27 +222,27 @@ sub test_doubleTheadandTfootTableusingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table id="table1" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-				<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <font color="#ffffff">a</font> </th>
-				<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol"> <font color="#ffffff">b</font> </th>
+				<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
+				<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-				<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">c</font></a> </th>
-				<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">c</font></a> </th>
+				<th class="foswikiTableCol0 foswikiFirstCol"> c </th>
+				<th class="foswikiTableCol1 foswikiLastCol"> c </th>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-				<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <font color="#ffffff">ok</font> </th>
-				<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <font color="#ffffff">bad</font> </th>
+				<th class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </th>
+				<th class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </th>
 		</tr>
 	</tfoot>
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-				<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
-				<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> 3 </td>
+				<td class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
+				<td class="foswikiTableCol1 foswikiLastCol"> 3 </td>
 		</tr>
 	</tbody>
 </table>
@@ -266,53 +288,51 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table rules="rows" border="1" class="foswikiTable" id="table1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Title</font></a> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Date</font></a> </th>
-			<th bgcolor="#334455" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Size</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol3 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Span date</font></a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
+			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" rel="nofollow">Span date</a> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> jkl </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1"> 16 Sep 2008 - 09:48 </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 10.2 K </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
+			<td rowspan="1" class="foswikiTableCol0 foswikiFirstCol"> GHI </td>
+			<td rowspan="1" class="foswikiTableCol1"> 26 Jul 2007 - 13:23 </td>
+			<td rowspan="1" class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> -0.2 K </td>
+			<td rowspan="1" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> ABC </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol1"> 26 May 2007 - 22:36 </td>
-			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 5.6 K </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
+			<td rowspan="1" class="foswikiTableCol0 foswikiFirstCol"> def </td>
+			<td rowspan="1" class="foswikiTableCol1"> 07 Feb 2006 - 13:23 </td>
+			<td rowspan="1" class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> 0.2 K </td>
+			<td rowspan="1" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> MNO </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1"> 06 Feb 2006 - 19:02 </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 3.4 K </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
+			<td rowspan="1" class="foswikiTableCol0 foswikiFirstCol"> MNO </td>
+			<td rowspan="1" class="foswikiTableCol1"> 06 Feb 2006 - 19:02 </td>
+			<td rowspan="1" class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> 3.4 K </td>
+			<td rowspan="1" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> def </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol1"> 07 Feb 2006 - 13:23 </td>
-			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 0.2 K </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
+			<td rowspan="1" class="foswikiTableCol0 foswikiFirstCol"> ABC </td>
+			<td rowspan="1" class="foswikiTableCol1"> 26 May 2007 - 22:36 </td>
+			<td rowspan="1" class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> 5.6 K </td>
+			<td rowspan="1" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> GHI </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 26 Jul 2007 - 13:23 </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol foswikiLast"> -0.2 K </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
+			<td rowspan="1" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> jkl </td>
+			<td rowspan="1" class="foswikiTableCol1 foswikiLast"> 16 Sep 2008 - 09:48 </td>
+			<td rowspan="1" class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol foswikiLast"> 10.2 K </td>
+			<td rowspan="1" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
 		</tr>
-	</tbody>
-</table>
+	</tbody></table>
 EXPECTED
 
     $this->do_test( $expected, $actual );
 }
-
 
 =pod
 
@@ -345,48 +365,47 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table rules="rows" border="1" class="foswikiTable" id="table1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Title</font></a> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Date</font></a> </th>
-			<th bgcolor="#334455" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Size</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol3 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Span date</font></a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
+			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" rel="nofollow">Span date</a> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> jkl </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1"> 16 Sep 2008 - 09:48 </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 100 </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> GHI </td>
+			<td class="foswikiTableCol1" rowspan="1"> 26 Jul 2007 - 13:23 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> -2 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> ABC </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol1"> 26 May 2007 - 22:36 </td>
-			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 70 </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> def </td>
+			<td class="foswikiTableCol1" rowspan="1"> 07 Feb 2006 - 13:23 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 0 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> MNO </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1"> 06 Feb 2006 - 19:02 </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 1.5 </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> MNO </td>
+			<td class="foswikiTableCol1" rowspan="1"> 06 Feb 2006 - 19:02 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 1.5 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> def </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol1"> 07 Feb 2006 - 13:23 </td>
-			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol"> 0 </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> ABC </td>
+			<td class="foswikiTableCol1" rowspan="1"> 26 May 2007 - 22:36 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 70 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> GHI </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 26 Jul 2007 - 13:23 </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol2 foswikiSortedDescendingCol foswikiSortedCol foswikiLast"> -2 </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast" rowspan="1"> jkl </td>
+			<td class="foswikiTableCol1 foswikiLast" rowspan="1"> 16 Sep 2008 - 09:48 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol foswikiLast" rowspan="1"> 100 </td>
+			<td class="foswikiTableCol3 foswikiLastCol foswikiLast" rowspan="1"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
 		</tr>
-	</tbody>
-</table>
+	</tbody></table>
 EXPECTED
 
     $this->do_test( $expected, $actual );
@@ -423,54 +442,47 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table rules="rows" border="1" class="foswikiTable" id="table1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Title</font></a> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Date</font></a> </th>
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Size</font></a> </th>
-			<th bgcolor="#334455" valign="top" class="foswikiTableCol3 foswikiSortedDescendingCol foswikiSortedCol foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Span date</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=0#sorted_table" rel="nofollow">Size</a> </th>
+			<th class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=1#sorted_table" rel="nofollow">Span date</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> jkl </td>
-
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1"> 16 Sep 2008 - 09:48 </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol2"> 10.2 K </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol3 foswikiSortedDescendingCol foswikiSortedCol foswikiLastCol"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> MNO </td>
+			<td class="foswikiTableCol1" rowspan="1"> 06 Feb 2006 - 19:02 </td>
+			<td class="foswikiTableCol2" rowspan="1"> 3.4 K </td>
+			<td class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> GHI </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol1"> 26 Jul 2007 - 13:23 </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol2"> 0.2 K </td>
-			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol3 foswikiSortedDescendingCol foswikiSortedCol foswikiLastCol"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
-
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> def </td>
+			<td class="foswikiTableCol1" rowspan="1"> 07 Feb 2006 - 13:23 </td>
+			<td class="foswikiTableCol2" rowspan="1"> 0.2 K </td>
+			<td class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> ABC </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1"> 26 May 2007 - 22:36 </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol2"> 5.6 K </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol3 foswikiSortedDescendingCol foswikiSortedCol foswikiLastCol"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
-
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> ABC </td>
+			<td class="foswikiTableCol1" rowspan="1"> 26 May 2007 - 22:36 </td>
+			<td class="foswikiTableCol2" rowspan="1"> 5.6 K </td>
+			<td class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol"> def </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol1"> 07 Feb 2006 - 13:23 </td>
-			<td bgcolor="#edf4f9" rowspan="1" valign="top" class="foswikiTableCol2"> 0.2 K </td>
-			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol3 foswikiSortedDescendingCol foswikiSortedCol foswikiLastCol"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
-
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> GHI </td>
+			<td class="foswikiTableCol1" rowspan="1"> 26 Jul 2007 - 13:23 </td>
+			<td class="foswikiTableCol2" rowspan="1"> 0.2 K </td>
+			<td class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> MNO </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 06 Feb 2006 - 19:02 </td>
-			<td bgcolor="#ffffff" rowspan="1" valign="top" class="foswikiTableCol2 foswikiLast"> 3.4 K </td>
-			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol3 foswikiSortedDescendingCol foswikiSortedCol foswikiLastCol foswikiLast"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
-
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast" rowspan="1"> jkl </td>
+			<td class="foswikiTableCol1 foswikiLast" rowspan="1"> 16 Sep 2008 - 09:48 </td>
+			<td class="foswikiTableCol2 foswikiLast" rowspan="1"> 10.2 K </td>
+			<td class="foswikiTableCol3 foswikiSortedAscendingCol foswikiSortedCol foswikiLastCol foswikiLast" rowspan="1"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
 		</tr>
-	</tbody>
-</table>
+	</tbody></table>
 EXPECTED
 
     $this->do_test( $expected, $actual );

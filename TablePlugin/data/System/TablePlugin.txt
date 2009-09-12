@@ -14,42 +14,6 @@ Gives extra control of table display:
       * Before a table using =%<nop>TABLE{...}%=
    * Row spans
 
----++ Sorting
-
-Click on column heading text to sort by a column.  Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
-
-   * date if format is:
-      * dd MMM YYYY - hh:mm (MMM is Jan, Feb, etc.)
-      * dd-MMM-YY or dd-MMM-YYYY (can be / or space in place of -) (MMM is Jan, Feb, etc)
-   * number is digits, with optional decimal point
-   * otherwise treated as text
-
----++ Row spans
-
-Table cells with a single caret indicate follow-up rows of multi-row spans. For example,
-<table width="100%"><tr><td>
-<verbatim>
-| One One | One Two | One Three |
-| ^ | Two Two | Two Three |
-| Three One | ^ | Three Three |
-</verbatim>
-</td><td align="right">
-| One One | One Two | One Three |
-| ^ | Two Two | Two Three |
-| Three One | ^ | Three Three |
-</td></tr></table>
-
----++ <nop>%TOPIC% Global Settings
-
-You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
-
-<!--
-      * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-| *Preference* | *Meaning* | *Default* |
-| TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | all |
-| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes | tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" |
-
 ---++ Table Attributes
 
 Attributes are defined as a =TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][preference]], or on the line before the table using =%<nop>TABLE{...}%=:
@@ -83,6 +47,63 @@ Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cells
 | 2-Jan-2005 |
 
 
+---+++ Sorting
+
+Click on column heading text to sort by a column. Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
+
+   * date if format is:
+      * dd MMM YYYY - hh:mm (MMM is Jan, Feb, etc.)
+      * dd-MMM-YY or dd-MMM-YYYY (can be / or space in place of -) (MMM is Jan, Feb, etc)
+   * number is digits, with optional decimal point
+   * otherwise treated as text
+
+---+++ Row spans
+
+Table cells with a single caret indicate follow-up rows of multi-row spans. For example,
+
+<verbatim>
+| One One | One Two | One Three |
+| ^ | Two Two | Two Three |
+| Three One | ^ | Three Three |
+</verbatim>
+
+Results in:
+| One One | One Two | One Three |
+| ^ | Two Two | Two Three |
+| Three One | ^ | Three Three |
+
+---+++ Col spans
+Col spans can be achieved by writing table cell separators without contents or spacing:
+<verbatim>
+%TABLE{tablerules="cols"}%
+| *Mammals* ||
+| Monotremes | Echidna, Platypus |
+| Marsupials | Kangaroo, Koala |
+| Placentals ||
+| Fish (to write) ||
+</verbatim>
+
+Results in:
+%TABLE{tablerules="cols"}%
+| *Mammals* ||
+| Monotremes | Echidna, Platypus |
+| Marsupials | Kangaroo, Koala |
+| Placentals ||
+| Fish (to write) ||
+
+
+---++ <nop>%TOPIC% Global Settings
+
+You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+
+<!--
+      * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+| *Preference* | *Meaning* | *Default* |
+| TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | all |
+| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]]: | tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" |
+
+
 ---++ !TablePlugin and CSS
 Information for programmers.
 
@@ -103,6 +124,11 @@ Information for programmers.
 |=.foswikiTableCol= + column number  | Unique column identifier, for instance: =foswikiTableCol0= |
 |=.foswikiTableRow= + type + row number | Unique row identifier, for instance: =foswikiTableRowdataBg0= |
 
+---+++ Images used by !TablePlugin
+Sort icons in the header are read from System.DocumentGraphics.
+| <img src="%ICONURL{tablesortup}%" width="11" height="13" alt="Sort table ascending" border="0" />  | Sort ascending | 
+| <img src="%ICONURL{tablesortdown}%" width="11" height="13" alt="Sort table descending" border="0" />  | Sort descending | 
+| <img src="%ICONURL{tablesortdiamond}%" width="11" height="13" alt="Sort table" border="0" />  | Generic sort button if header label is a link, not a sort link |
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -112,11 +138,15 @@ Information for programmers.
 
 ---++ Plugin Info
 
+%TABLE{columnwidths="10%,90%"}%
 |  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  11 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
+%BB% Fixed a bug that ignored =cellspacing= (Item8270). \
+%BB% Sorting is now possible with multiple header rows (Item8122) |
 |  03 Sep 2009 | 1.041: Kenneth Lavrsen: Fix for crash when cell contains the number 0. Allow sorting of negative numbers even when suffixed with unit. Treat whitespace as zero if pure numerical context. |
 |  02 Sep 2009 | 1.040: Kenneth Lavrsen: Fixed the fix of parsing date-time columns so that plain numbers are not interpreted as dates causing wrong sorting |
 |  03 Jun 2009 | 1.039: Michael Daum: fixed parsing date-time columns |
