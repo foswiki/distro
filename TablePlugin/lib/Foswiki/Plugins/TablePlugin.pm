@@ -44,7 +44,6 @@ our $initialised;
 my $DEFAULT_TABLE_SETTINGS = 'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
 
 sub initPlugin {
-    my ( $web, $user );
     ( $topic, $web, $user, $installWeb ) = @_;
 
     debug("TablePlugin initPlugin");
