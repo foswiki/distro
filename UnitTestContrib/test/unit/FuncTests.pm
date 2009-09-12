@@ -19,6 +19,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     $this->{tmpdatafile} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp.gif';
+    $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp2.gif';
     $this->{test_web2}   = $this->{test_web} . 'Extra';
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
     $webObject->populateNewWeb();
@@ -27,6 +28,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
     unlink $this->{tmpdatafile};
+    unlink $this->{tmpdatafile2};
     $this->removeWebFixture( $this->{session}, $this->{test_web2} );
     $this->SUPER::tear_down();
 }
@@ -212,6 +214,7 @@ sub test_attachments {
     my $this = shift;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
     my $attnm = 'blahblahblah.gif';
     my $name1 = 'blahblahblah.gif';
     my $name2 = 'bleagh.sniff';
@@ -225,6 +228,15 @@ sub test_attachments {
 
     $this->assert( open( $stream, "<$this->{tmpdatafile}" ) );
     binmode($stream);
+
+    my $stream2;
+    $this->assert( open( $stream2, ">$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+    print $stream2 $data2;
+    close($stream2);
+
+    $this->assert( open( $stream2, "<$this->{tmpdatafile2}" ) );
+    binmode($stream2);
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
 
@@ -281,6 +293,28 @@ sub test_attachments {
     # This should fail - attachment is not present
     $this->assert( 
         !Foswiki::Func::readAttachment( $this->{test_web}, $topic, "NotExists" ));
+
+    # Update the attachment and check that the data is updated.
+    $e = Foswiki::Func::saveAttachment(
+        $this->{test_web},
+        $topic, $name2,
+        {
+            dontlog  => 1,
+            comment  => 'Ciamar a tha u',
+            file     => $this->{tmpdatafile2},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+    $x = Foswiki::Func::readAttachment( $this->{test_web}, $topic, $name2 );
+    $this->assert_str_equals( $data2, $x );
+
+    # Verify that the prior revision contains the old data
+    $x = Foswiki::Func::readAttachment( $this->{test_web}, $topic, $name2, "1");
+    $this->assert_str_equals( $data, $x );
+
 }
 
 sub test_getrevinfo {
@@ -341,6 +375,33 @@ sub test_moveTopic {
     $this->assert(
         !Foswiki::Func::topicExists( $this->{test_web2}, "TargetTopic" ) );
 
+    # TEST:  Attach a file and make sure it exists.  It should follow the topic through moves.
+    my $stream;
+    my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
+    binmode($stream);
+    print $stream $data;
+    close($stream);
+    Foswiki::Func::saveAttachment(
+        $this->{test_web},
+        "SourceTopic",
+        "Name1",
+        {
+            dontlog  => 1,
+            comment  => 'Feasgar Bha',
+            file     => $this->{tmpdatafile},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name1"
+        )
+    );
+
+
     # TEST: move within the test web.
     Foswiki::Func::moveTopic( $this->{test_web}, "SourceTopic",
         $this->{test_web}, "TargetTopic" );
@@ -348,6 +409,11 @@ sub test_moveTopic {
         !Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic" ) );
     $this->assert(
         Foswiki::Func::topicExists( $this->{test_web}, "TargetTopic" ) );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "TargetTopic", "Name1"
+        ) );
+
 
     # TEST: Move with undefined destination web; should stay in test_web.
     Foswiki::Func::moveTopic( $this->{test_web}, "TargetTopic", undef,
@@ -356,6 +422,10 @@ sub test_moveTopic {
         Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic" ) );
     $this->assert(
         !Foswiki::Func::topicExists( $this->{test_web}, "TargetTopic" ) );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name1"
+        ) );
 
     # TEST: Move to test_web2.
     Foswiki::Func::moveTopic( $this->{test_web}, "SourceTopic",
@@ -370,6 +440,10 @@ sub test_moveTopic {
             $this->{test_web2}, "SourceTopic"
         )
     );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web2}, "SourceTopic", "Name1"
+        ) );
 
     # TEST: move with undefined destination topic.
     Foswiki::Func::moveTopic( $this->{test_web2}, "SourceTopic",
@@ -384,6 +458,10 @@ sub test_moveTopic {
             $this->{test_web},  "SourceTopic"
         )
     );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name1"
+        ) );
 
     # TEST: move to test_web2 again.
     Foswiki::Func::moveTopic( $this->{test_web}, "SourceTopic",
@@ -398,6 +476,10 @@ sub test_moveTopic {
             $this->{test_web2}, "TargetTopic"
         )
     );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web2}, "TargetTopic", "Name1"
+        ) );
 }
 
 sub test_moveAttachment {
