@@ -44,11 +44,9 @@ my $up;
 my $sortTablesInText;
 my $sortAttachments;
 my $sortColFromUrl;
-my $sortAllTables;
 my $url;
 my $currentSortDirection;
 my @rowspan;
-my $initDirection;
 
 my $URL_ICON =
     Foswiki::Func::getPubUrlPath() . '/'
@@ -118,9 +116,7 @@ BEGIN {
 }
 
 sub _setDefaults {
-    _debug("_setDefaults");
-    $initDirection              = $SORT_DIRECTION->{'ASCENDING'};
-    $sortAllTables              = $sortTablesInText;
+    _debug("_setDefaults");          
     $currTablePre               = '';
     $combinedTableAttrs         = {};
     $defaultAttrs               = {};
@@ -128,6 +124,7 @@ sub _setDefaults {
     $defaultAttrs->{headerrows} = 1;
     $defaultAttrs->{footerrows} = 0;
     $defaultAttrs->{class}      = 'foswikiTable';
+	$defaultAttrs->{sortAllTables} = $sortTablesInText;
 
     _parseDefaultAttributes(
         %{Foswiki::Plugins::TablePlugin::pluginAttributes} );
@@ -140,6 +137,10 @@ sub _setDefaults {
 sub _storeAttribute {
     my ( $inAttrName, $inValue, $inCollection ) = @_;
 
+	if (!$inCollection) {
+		_debug("_storeAttribute -- missing inCollection!");
+		return;
+	}
     return if !defined $inValue;
     return if !defined $inAttrName || $inAttrName eq '';
     $inCollection->{$inAttrName} = $inValue;
@@ -217,19 +218,15 @@ sub _parseAttributes {
 
     # sort
     if ($modeSpecific) {
-        _storeAttribute( 'sort',
-            Foswiki::Func::isTrue( $inParams->{sort} || 'on' ),
-            $inCollection );
-        if ( $inCollection->{sort} ) {
-            _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
-            _storeAttribute( 'sortAllTables', 1, $inCollection );
-        }
-        my $initDirection = $inParams->{initdirection};
-        if ($initDirection) {
-            _storeAttribute( 'sortAllTables', $SORT_DIRECTION->{'ASCENDING'} )
-              if $initDirection =~ /^down$/i;
-            _storeAttribute( 'sortAllTables', $SORT_DIRECTION->{'DESCENDING'} )
-              if $initDirection =~ /^up$/i;
+    	my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
+        _storeAttribute( 'sort', $sort, $inCollection );
+		_storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
+		_storeAttribute( 'sortAllTables', $sort, $inCollection );
+        if ($inParams->{initdirection}) {
+            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'}, $inCollection )
+              if $inParams->{initdirection} =~ /^down$/i;
+            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'DESCENDING'}, $inCollection )
+              if $inParams->{initdirection} =~ /^up$/i;
         }
 
 # If EditTablePlugin is installed and we are editing a table, the CGI
@@ -381,7 +378,7 @@ sub _processTableRow {
         elsif ( defined $combinedTableAttrs->{initSort} ) {
             $sortCol              = $combinedTableAttrs->{initSort} - 1;
             $sortCol              = $maxSortCols if ( $sortCol > $maxSortCols );
-            $currentSortDirection = _getCurrentSortDirection($initDirection);
+            $currentSortDirection = _getCurrentSortDirection($combinedTableAttrs->{initDirection});
         }
 
     }
@@ -498,7 +495,7 @@ sub _processTableRow {
 sub _shouldISortThisTable {
     my ($header) = @_;
 
-    return 0 unless $sortAllTables;
+    return 0 unless $combinedTableAttrs->{sortAllTables};
 
     # All cells in header are headings?
     #foreach my $cell (@$header) {
@@ -1441,9 +1438,9 @@ sub handler {
     #delete $combinedTableAttrs->{initSort};
     $insideTABLE = 0;
 
-    my $defaultSort = $sortAllTables;
+    my $defaultSort = $combinedTableAttrs->{sortAllTables};
 
-    my $acceptable = $sortAllTables;
+    my $acceptable = $combinedTableAttrs->{sortAllTables};
     my @lines = split( /\r?\n/, $_[0] );
     for (@lines) {
         if (
@@ -1460,7 +1457,7 @@ s/%TABLE(?:{(.*?)})?%/_parseTableSpecificTableAttributes(Foswiki::Func::extractP
             $insideTABLE = 0;
 
             #            delete $combinedTableAttrs->{initSort};
-            $sortAllTables = $defaultSort;
+            $combinedTableAttrs->{sortAllTables} = $defaultSort;
             $acceptable    = $defaultSort;
         }
     }

@@ -116,30 +116,24 @@ sub initialiseWhenRender {
     return 1;
 }
 
+=pod
+
+Read in plugin settings from TABLEPLUGIN_TABLEATTRIBUTES
+TABLEATTRIBUTES are no longer supported (NO_PREFS_IN_TOPIC).
+If no settings are found, use the default settings from configure.
+And if these cannot be read, use the default values defined here in this plugin.
+    
+=cut
+
 sub _readPluginSettings {
     debug("TablePlugin _readPluginSettings");
-    my $configureAttrStr =
-      $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes};
-    my $pluginAttrStr =
-      Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
-    my $prefsAttrStr = Foswiki::Func::getPreferencesValue('TABLEATTRIBUTES');
+    
+    my $settings = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES') || $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} || $DEFAULT_TABLE_SETTINGS;
 
-    debug("\t configureAttrStr=$configureAttrStr") if $configureAttrStr;
-    debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
-    debug("\t prefsAttrStr=$prefsAttrStr")         if $prefsAttrStr;
+	debug("\t settings=$settings");
 
-	debug("no settings from configure could be read; using default values") if !$configureAttrStr;
-	$configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
-	
-	$configureAttrStr = Foswiki::Func::expandCommonVariables($configureAttrStr, $topic, $web, undef) if $configureAttrStr;
-	$pluginAttrStr = Foswiki::Func::expandCommonVariables($pluginAttrStr, $topic, $web, undef) if $pluginAttrStr;
-	$prefsAttrStr = Foswiki::Func::expandCommonVariables($prefsAttrStr, $topic, $web, undef) if $prefsAttrStr;
-	
-    my %configureParams = Foswiki::Func::extractParameters($configureAttrStr);
-    my %pluginParams    = Foswiki::Func::extractParameters($pluginAttrStr);
-    my %prefsParams     = Foswiki::Func::extractParameters($prefsAttrStr);
-
-    %pluginAttributes = ( %configureParams, %pluginParams, %prefsParams );
+	$settings = Foswiki::Func::expandCommonVariables($settings, $topic, $web, undef);
+    %pluginAttributes = Foswiki::Func::extractParameters($settings);
 }
 
 =pod
