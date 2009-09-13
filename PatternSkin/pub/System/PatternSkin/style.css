@@ -50,9 +50,8 @@ pre {
     border-width:1px;
     padding:1em;
 }
-pre, code, tt, .foswikiDiffDebug {
+pre, code, tt {
     font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
-    white-space:pre;
     font-size:86%;
 }
 
@@ -1118,6 +1117,12 @@ h4.patternSearchResultsHeader {
 }
 .patternDiffPage .foswikiDiffTable {
 	margin:2em 0;
+}
+.foswikiDiffDebug {
+    /* same styling as pre and code */
+    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    font-size:86%;
+    white-space:pre;
 }
 tr.foswikiDiffDebug td {
 	border-width:1px;
