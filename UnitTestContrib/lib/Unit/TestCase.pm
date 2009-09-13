@@ -10,6 +10,8 @@ $Carp::Verbose = 1;
 
 use vars qw( $differ );
 
+my $SEPARATOR_STRING = '########################################';
+
 sub new {
     my $class = shift;
     my $this  = bless(
@@ -287,12 +289,12 @@ sub assert_html_equals {
         result   => ''
     };
 
-    $mess ||= "$a\ndoes not equal\n$e";
+    $mess ||= "$SEPARATOR_STRING Got as result:\n$a\n$SEPARATOR_STRING (end of result)\n$SEPARATOR_STRING But expected html equal string:\n$e\n$SEPARATOR_STRING (end of expected)";
     $this->assert( $e, "$filename:$line\n$mess" );
     $this->assert( $a, "$filename:$line\n$mess" );
     $differ ||= new Unit::HTMLDiffer();
     if ( $differ->diff( $e, $a, $opts ) ) {
-        $this->assert( 0, "$filename:$line\n$mess\n$opts->{result}" );
+        $this->assert( 0, "$filename:$line\n$mess\n$SEPARATOR_STRING Diff:\n$opts->{result}\n$SEPARATOR_STRING (end diff)\n" );
     }
 }
 
@@ -303,10 +305,11 @@ sub assert_html_matches {
 
     $differ ||= new Unit::HTMLDiffer();
 
-    $mess ||= "$a\ndoes not match\n$e";
+    $mess ||= "$SEPARATOR_STRING Got as result:\n$a\n$SEPARATOR_STRING (end of result)\n$SEPARATOR_STRING But expected html match string:\n$e\n$SEPARATOR_STRING (end of expected)";
+
     my ( $package, $filename, $line ) = caller(0);
     unless ( $differ->html_matches( $e, $a ) ) {
-        $this->assert( 0, "$filename:$line\n$mess" );
+        $this->assert( 0, "$filename:$line\n$mess\n" );
     }
 }
 
