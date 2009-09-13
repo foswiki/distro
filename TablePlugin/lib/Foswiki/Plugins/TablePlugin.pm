@@ -42,7 +42,7 @@ our $user;
 our $installWeb;
 our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
-'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
+'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
 
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;

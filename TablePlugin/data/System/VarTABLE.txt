@@ -40,16 +40,16 @@
      | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
      | =datavalign=     | Vertical alignment of data cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =datavalign="top"= |
      | =dataalign=      | Data cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =dataalign="center"= |
-     | =databg=         | Data cell background colour, a comma separated list. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | ="#edf4f9,#ffffff"= | =databg="#f2f2f2,#ffffff"= |
+     | =databg=         | Data cell background colour, a comma separated list. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | ="#edf4f9,#fff"= | =databg="#f2f2f2,#fff"= |
      | =databgsorted=   | Data cell background colour of a sorted column; see =databg=. | the values of =databg= | =databgsorted="#d4e8e4, #e5f5ea"= |
-     | =datacolor=      | Data cell text colour, a comma separated list. | <span class="foswikiGrayText">unspecified</span> | =datacolor="#0000CC, #000000"= |
+     | =datacolor=      | Data cell text colour, a comma separated list. | <span class="foswikiGrayText">unspecified</span> | =datacolor="#00c, #000"= |
 
 ---++++ Attributes for headers
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%"}%
      | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
-     | =headerbg=       | Header cell background colour. | ="#6b7f93"= | =headerbg="#999999"= |
+     | =headerbg=       | Header cell background colour. | ="#6b7f93"= | =headerbg="#999"= |
      | =headerbgsorted= | Header cell background colour of a sorted column. | the value of =headerbg= | =headerbgsorted="#32596c"= |
-     | =headercolor=    | Header cell text colour. | ="#ffffff"= | =headercolor="#0000cc"= |
+     | =headercolor=    | Header cell text colour. | ="#fff"= | =headercolor="#00c"= |
      | =headervalign=   | Vertical alignment of header cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =headervalign="top"= |
      | =headeralign=    | Header cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =headeralign="left,right"= |
      | =headerrows=     | See: Attributes for tables |||

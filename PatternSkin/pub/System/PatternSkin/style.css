@@ -263,6 +263,7 @@ a.foswikiSubmit:visited:active {
 .foswikiTable td,
 .foswikiTable th {
 	border-width:1px;
+	border-style:solid;
 }
 .foswikiTable {
 	border-style:solid;
@@ -271,12 +272,8 @@ a.foswikiSubmit:visited:active {
 }
 .foswikiTable td {
 	padding:3px 6px;
-	border-top-style:solid;
-	border-bottom-style:solid;	
 }
 .foswikiTable th {
-	border-left-style:solid;
-	border-right-style:solid;
 	padding:4px 6px;
 }
 .foswikiTable .tableSortIcon {

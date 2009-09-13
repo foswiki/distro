@@ -3,33 +3,44 @@
 ---+ Table Plugin
 
 Gives extra control of table display:
-   * Allows sorting
-   * Changing table properties like border width, cell spacing and cell padding
-   * Changing background color and text color for header cells
-   * Changing background color and text color for data cells - colors can _alternate_
-   * Table attributes can be set and overridden in this order:
-      * Default =TABLEATTRIBUTES= Plugin setting in this topic.
-      * A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences) or web-level (any WebPreferences), e.g.
-         * =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
-      * Before a table using =%<nop>TABLE{...}%=
-   * Row spans
+   * Sorting
+   * Setting visual table properties like border width, cell spacing and cell padding
+   * Setting the background color and text color of header cells
+   * Setting the background color and text color for data cells, for instance to get an alternating zebra pattern
+   * Merging cells (row and col spans)
+
+%TOC%
 
 ---++ Table Attributes
 
 Attributes are defined as a =TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][preference]], or on the line before the table using =%<nop>TABLE{...}%=:
 %INCLUDE{"%SYSTEMWEB%.VarTABLE" section="table_attributes"}%
 
-The =%<nop>TABLE{...}%= settings override =TABLEATTRIBUTES= preferences settings, which override the =TABLEATTRIBUTES= Plugin settings. 
+---+++ Specifying and overriding attributes
+Table attributes can be set in different ways. In top down order:
+   1 As default preference in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]].
+   1 As preference in a topic: =TABLEPLUGIN_TABLEATTRIBUTES=: =Set TABLEPLUGIN_TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
+   1 As parameters to the =TABLE= macro: =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%=
 
+The preference =TABLEPLUGIN_TABLEATTRIBUTES = ...= competely overrides previous preferences (for example in <nop>%MAINWEB%.SitePreferences or Configure):
+<pre>
+   * <nop>Set TABLEPLUGIN_TABLEATTRIBUTES = cellpadding="0" <span class="foswikiGrayText">&lt;&lt;&lt; this will remove previously set preferences and leave only 1 attribute</span>
+</pre>
+If you pass =%<nop>TABLE{...}%= parameters, you partially override previously set preferences:
+<pre>
+   * %<nop>TABLE{datacolor="#f00"}% <span class="foswikiGrayText">&lt;&lt;&lt; this will only change the data color attribute</span>
+</pre>
+
+---+++ Reserved attributes
 The setting =disableallsort= is normally not used as a TABLE or TABLEATTRIBUTES setting. Plugins such as EditTablePlugin dynamically sets =disableallsort= to disable sorting while editing a table. For this to work it is important that EditTablePlugin runs before TablePlugin, which is the default. The setting =sort= can be overwritten by a URL parameter or hidden formfield of the same name. Plugins such as EditTablePlugin can use this to disable table header sorting while in edit mode.
 
 ---++ Examples
 
 ---+++ Use of %<nop>TABLE{...}%
 
-Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%=
+Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%=
 
-%TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%
+%TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%
 | *Table with two Header Rows and Footer Row* ||||||
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
 | 1 | C | Chose new colours | John | 1-Dec-02 | |
@@ -38,8 +49,6 @@ Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cells
 | 12 | C | Spec error handling | Jack | 1-Dec-02 | |
 | 5 |   | Abc | John | | |
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
-
-
 
 ---+++ Sorting
 Click on column heading text to sort by a column. Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
@@ -51,7 +60,7 @@ Click on column heading text to sort by a column. Initial column will be sorted 
    * otherwise treated as text
 
 ---++++ Sorting example
-%TABLE{databg="#ffffcc" databgsorted="#ffcc33" headerbg="#990033" headerbgsorted="#660000" initsort="1"}%
+%TABLE{databg="#ffc" databgsorted="#fc3" headerbg="#903" headerbgsorted="#600" initsort="1"}%
 | *Number* | *Decimal* | *Alpha* | *Date* |
 | 1 | 9.9 | vwx | 01 Jan 1990 |
 | 2 | 9.91 | stu | 31 Dec 1999 |
@@ -91,7 +100,6 @@ Results in:
 | Placentals ||
 | Fish (to write) ||
 
-
 ---++ <nop>%TOPIC% Global Settings
 
 You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
@@ -100,11 +108,11 @@ You can override the default settings for the plugin by defining the following [
       * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 | *Preference* | *Meaning* | *Default* |
-| TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | all |
-| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]]: | tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" |
+| TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | =all= |
+| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]], and can be set on site level in <nop>%MAINWEB%.SitePreferences, on web level in <nop>WebPreferences or on topic level. | =tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"= |
 
 
----++ !TablePlugin and CSS
+---++ <nop>TablePlugin and CSS
 Information for programmers.
 
 !TablePlugin implements the following precedence:
@@ -144,7 +152,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  12 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
+|  13 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
 %BB% Fixed a bug that ignored =cellspacing= (Item8270). \
 %BB% Sorting is now possible with multiple header rows (Item8122). \
 %BB% Fixed sorting of dates prior to 1970. |

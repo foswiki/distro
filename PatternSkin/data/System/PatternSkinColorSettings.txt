@@ -438,9 +438,9 @@ select {
 .foswikiTable th {
    border-color:%TABLE_BORDER%;
 }
+.foswikiTable th,
 .foswikiTable th a:link,
-.foswikiTable th a:visited,
-.foswikiTable th a font {
+.foswikiTable th a:visited {
    color:%LINK_TEXT_NORMAL_TABLE_HEADER%;
 }
 
@@ -518,11 +518,6 @@ table.foswikiFormTable {
 .foswikiAttachments th {
    border-color:%TABLE_BORDER%;
 }
-.foswikiAttachments .foswikiTable th font,
-table.foswikiFormTable th.foswikiFormTableHRow font {
-   color:%LINK_TEXT_NORMAL%;
-}
-
 .foswikiFormSteps {
    background-color:%ACTIVE_FORM_BACKGROUND%;
    border-color:%FORM_STEP_BORDER%;
