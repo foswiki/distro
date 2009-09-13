@@ -387,7 +387,7 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
         if (  !$doSave
             && $isEditingTable ) {
             _debug("editTableTag before changing TABLE tag=$editTableTag");
-            my $TABLE_EDIT_TAGS = 'disableallsort="on" databg="#fff"';
+            my $TABLE_EDIT_TAGS = 'disableallsort="on" databg="#ffffff"';
             if ( $editTableTag !~ /%TABLE{.*?}%/ ) {
                 # no TABLE tag at all
     	        $editTableTag .= "%TABLE{$TABLE_EDIT_TAGS}%";
