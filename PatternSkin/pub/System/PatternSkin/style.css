@@ -1116,6 +1116,9 @@ h4.patternSearchResultsHeader {
 	margin:2em 0;
 }
 .foswikiDiffDebug {
+    /* same styling as pre and code */
+    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    font-size:86%;
     white-space:pre;
 }
 tr.foswikiDiffDebug td {
