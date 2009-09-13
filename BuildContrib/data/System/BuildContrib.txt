@@ -149,11 +149,48 @@ The default target is =test=. The !BuildContrib is designed so that most common 
 Does nothing by default. This is the first target executed, and can be overridden by your build.pl to do something unusual - for example, executing an ANT file to build some Java.
 
 ---+++ The =compress= target
-Usually only used if your extension includes Javascript or CSS, this target looks for =XXX.js= files listed in MANIFEST that have a corresponding =XXX_src.js= in the directory structure. When it finds one, it automatically compresses the =XXX_src.js= file to create/refresh =XXX.js=. If you are using Subversion, the generated file should then by checked in.
+Usually only used if your extension includes Javascript or CSS, this target
+[[http://en.wikipedia.org/wiki/Minification_(programming)][minifies]] a file
+to generate another that is functionally identical, but smaller for faster
+download. It uses CPAN:JavaScript::Minifier and CPAN:CSS::Minifier to perform
+the compression.
 
-Also works on CSS files, for the file extensions =.css=. Compression improves the performance of Javascript and CSS.
+The compression can work with a number of different naming schemes, depending
+on what files you refer to in your MANIFEST. For example, the name mappings
+for javascript are:
+   1 =XXX_src.js= -> =XXX.js=
+   2 =XXX_src.js= -> =XXX.compressed.js=
+   3 =XXX.uncompressed.js= -> =XXX.compressed.js=
+   4 =XXX.uncompressed.js= -> =XXX.js=
+   5 =XXX.js= -> =XXX.compressed.js=
+i.e. if you list =XXX.compressed.js= in MANIFEST, then the build will look
+for =XXX.uncompressed.js= or =XXX.js= in the source tree to generate it from.
+=XXX.compressed.js= will be regenerated even if it exists in the source tree
+itself. If you list =XXX.js= in MANIFEST, then the build will look for a
+=XXX.uncompressed.js= or =XXX_src.js= in the sources to generate it from.
+The new files are generated in the source tree, so can be used for pseudo
+installation and testing. However they are *not* checked in.
 
-Uses CPAN:JavaScript::Minifier and CPAN:CSS::Minifier to perform the compression
+The easiest way to use compressed sources is to select the version your code is
+to use based on a switch when you include the headers. For example, you can
+use the =DEBUG= global from the =Assert= module:
+<verbatim>
+use Assert; # Standard Foswiki ASSERT module
+...
+my $pack = DEBUG > '.uncompressed' : '.compressed';
+Foswiki::Func::addToHEAD(<<SCRIPT);
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/MyPlugin/my$pack.js">
+<link rel="stylesheet" type="text/css" href="%PUBURLPATH%/%SYSTEMWEB%/MyPlugin//my$pack.css" />
+</script>
+SCRIPT
+</verbatim>
+When =DEBUG= is defined (i.e. when ASSERT is enabled), this will include
+=my.uncompressed.js= and =my.uncompressed.css=, which makes debugging easier.
+If =DEBUG= is not defined, it will include =my.compressed.js= and
+=my.compressed.css= instead for best performance.
+
+If you have your own debugging flag in your extension, you could use that
+instead of =DEBUG=.
 
 ---+++ The =tidy= target
 This target runs Perl::Tidy (with default formatting options) over your
@@ -494,11 +531,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
-|  21 Jul 2009 | Foswikitask:Item1840: check result of login attemt during perl build.pl upload |
-|  20 Mar 2009 | Foswikitask:Item1338: added SHA1 checksum generation; Foswikitask:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
-|  5 Mar 2009 | Foswikitask:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
-|  15 Feb 2009 | Foswikitask:Item1079: Added twiki target |
-|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
+|  13 Sep 2009 | Foswiki::Task:Item8272: Improve handling of compression targets |
+|  21 Jul 2009 | Foswiki:Task:Item1840: check result of login attempt during perl build.pl upload |
+|  20 Mar 2009 | Foswiki:Task:Item1338: added SHA1 checksum generation; Foswiki:Task:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
+|  5 Mar 2009 | Foswiki:Task:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
+|  15 Feb 2009 | Foswiki:Task:Item1079: Added twiki target |
+|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswiki:Task:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 
 %META:FILEATTACHMENT{name="logo.gif" comment="logo" attr="h" path="logo.gif"}%

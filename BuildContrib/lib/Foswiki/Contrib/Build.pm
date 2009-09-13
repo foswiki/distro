@@ -866,7 +866,8 @@ sub target_build {
 =begin TML
 
 ---++++ target_compress
-Compress Javascript and CSS files
+Compress Javascript and CSS files. This target is "best efforts" - the build
+won't fail if a source or target isn't missing.
 
 =cut
 
@@ -1026,19 +1027,51 @@ sub _expand {
     }
 }
 
+# Guess the name mapping for .js or .css
+sub _deduceCompressibleSrc {
+    my ( $this, $to, $ext ) = @_;
+    my $from;
+
+    if ($to =~ /^(.*)\.compressed\.$ext$/ ) {
+        if ( -e "$1.uncompressed.$ext") {
+            $from = "$1.uncompressed.$ext";
+        } elsif (-e "$1_src\.$ext") {
+            $from = "$1_src.$ext";
+        } else {
+            $from = "$1.$ext";
+        }
+    } elsif ($to =~ /^(.*)\.$ext$/) {
+        if (-e "$1.uncompressed.$ext") {
+            $from = "$1.uncompressed.$ext";
+        } else {
+            $from = "$1_src.$ext";
+        }
+    }
+    return $from;
+}
+
 =begin TML
 
 ---++++ build_js
 Uses JavaScript::Minifier to optimise javascripts
+
+Several different name mappings are supported:
+   * XXX.uncompressed.js -> XXX.js
+   * XXX_src.js -> XXX.js
+   * XXX.uncompressed.js -> XXX.compressed.js
+
+These are selected between depending on which exist on disk.
 
 =cut
 
 sub build_js {
     my ( $this, $to ) = @_;
 
-    my $from = $to;
-    $from =~ s/.js$/_src.js/;
+    unless ( eval { require JavaScript::Minifier } ) {
+        print STDERR "Cannot squish $to: $@\n";
+    }
 
+    my $from = $this->_deduceCompressibleSrc($to, 'js');
     return 0 unless -e $from;
 
     open( IF, '<', $from ) || die $!;
@@ -1046,24 +1079,22 @@ sub build_js {
     my $text = <IF>;
     close(IF);
 
-    if ( eval { require JavaScript::Minifier } ) {
-        $text = JavaScript::Minifier::minify( input => $text );
+    $text = JavaScript::Minifier::minify( input => $text );
 
+    unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
             my $ot = <IF>;
             close($ot);
-            return 1 if $text eq $ot;    # no changes?
+            if ($text eq $ot) {
+                print STDERR "$to is up to date w.r.t $from\n";
+                return 1; # no changes
+            }
         }
 
-        unless ( $this->{-n} ) {
-            open( OF, '>', $to ) || die "$to: $!";
-        }
-        print OF $text unless ( $this->{-n} );
-        close(OF) unless ( $this->{-n} );
+        open( OF, '>', $to ) || die "$to: $!";
+        print OF $text;
+        close(OF);
         print STDERR "Generated $to from $from\n";
-    }
-    else {
-        print STDERR "Cannot squish: no JavaScript::Minifier found\n";
     }
     return 1;
 }
@@ -1073,14 +1104,21 @@ sub build_js {
 ---++++ build_css
 Uses CSS::Minifier to optimise CSS files
 
+Several different name mappings are supported:
+   * XXX.uncompressed.css -> XXX.css
+   * XXX_src.css -> XXX.css
+   * XXX.uncompressed.css -> XXX.compressed.css
+
 =cut
 
 sub build_css {
     my ( $this, $to ) = @_;
 
-    my $from = $to;
-    $from =~ s/\.css$/_src.css/;
+    unless ( eval { require CSS::Minifier } ) {
+        print STDERR "Cannot squish $to: $@\n";
+    }
 
+    my $from = $this->_deduceCompressibleSrc($to, 'css');
     return 0 unless -e $from;
 
     open( IF, '<', $from ) || die $!;
@@ -1088,24 +1126,18 @@ sub build_css {
     my $text = <IF>;
     close(IF);
 
-    if ( eval { require CSS::Minifier } ) {
-        $text = CSS::Minifier::minify( input => $text );
+    $text = CSS::Minifier::minify( input => $text );
 
+    unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
             my $ot = <IF>;
             close($ot);
             return 1 if $text eq $ot;    # no changes?
         }
-
-        unless ( $this->{-n} ) {
-            open( OF, '>', $to ) || die "$to: $!";
-        }
-        print OF $text unless ( $this->{-n} );
-        close(OF) unless ( $this->{-n} );
+        open( OF, '>', $to ) || die "$to: $!";
+        print OF $text;
+        close(OF);
         print STDERR "Generated $to from $from\n";
-    }
-    else {
-        print STDERR "Cannot squish: no CSS::Minifier found\n";
     }
     return 1;
 }
@@ -1153,6 +1185,7 @@ GUNK
         print 'Topic name will be ', $this->_getTopicName(), "\n";
     }
 
+    $this->build('compress');
     $this->build('build');
     $this->build('installer');
     $this->build('stage');
