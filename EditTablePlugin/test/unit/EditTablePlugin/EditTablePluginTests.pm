@@ -27,7 +27,7 @@ sub set_up {
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AllowInlineScript} = 0;
     $Foswiki::cfg{TablePlugin}{Attributes} =
-'tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
+'tableborder="1" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
 
     $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
 }
@@ -402,7 +402,7 @@ INPUT
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
-| <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> | <textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> | <select class="foswikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> | <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x5" value="A" /> A <br /><input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"><input type="radio" name="etcell1x5" value="C" /> C <br /><input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"><input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> | <table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table><input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> | LABEL <input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> | <nobr><input type="text" name="etcell1x8"  size="11" class="foswikiInputField editTableInput" id="idetcell1x8" /><span class="foswikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span></nobr> |
+| <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> | <textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> | <select class="foswikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> | <table class="editTableInnerTable"><tr><td valign=top><input type="radio" name="etcell1x5" value="A" /> A <br /><input type="radio" name="etcell1x5" value="B" /> B </td><td valign=top><input type="radio" name="etcell1x5" value="C" /> C <br /><input type="radio" name="etcell1x5" value="D" /> D </td><td valign=top><input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> | <table class="editTableInnerTable"><tr><td valign=top><input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign=top> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign=top> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table><input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> | LABEL <input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> | <nobr><input type="text" name="etcell1x8"  size="11" class="foswikiInputField editTableInput" id="idetcell1x8" /><span class="foswikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span></nobr> |
 <input type="hidden" name="ettablechanges" value="1=1" />
 <input type="hidden" name="etheaderrows" value="0" />
 <input type="hidden" name="etfooterrows" value="0" />
@@ -509,15 +509,15 @@ EXPECTED
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table id="table1" class="foswikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
-			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
+			<td bgcolor="#f2f3f6" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
+			<td bgcolor="#f2f3f6" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="ettablechanges" value="1=0,2=1" />
@@ -596,23 +596,23 @@ INPUT
 <nop>
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+<table id="table1" class="foswikiTable" rules="rows" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <font color="#ffffff">HEADER</font> </th>
+			<th bgcolor="#687684" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">HEADER </th>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th  valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> <font color="#ffffff">FOOTER</font> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast">FOOTER</th>
 		</tr>
 	</tfoot>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="do" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="do" /> </td>
 		</tr>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x1" size="16" value="re" /> </td>
+			<td bgcolor="#edf4f9" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x1" size="16" value="re" /> </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="ettablechanges" value="1=0,2=0,3=0,4=-1,5=0" />
@@ -678,13 +678,13 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table id="table1" class="foswikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <select class="foswikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLast"> <select class="foswikiSelect" name="etcell1x2" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2 foswikiLast"> <select class="foswikiSelect" name="etcell1x3" size="1 "> <option>a </option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <select class="foswikiSelect" name="etcell1x4" size="1 "> <option>a </option> <option>b </option> <option selected="selected">c </option> <option>d</option></select> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <select class="foswikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLast"> <select class="foswikiSelect" name="etcell1x2" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol2 foswikiLast"> <select class="foswikiSelect" name="etcell1x3" size="1 "> <option>a </option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <select class="foswikiSelect" name="etcell1x4" size="1 "> <option>a </option> <option>b </option> <option selected="selected">c </option> <option>d</option></select> </td>
 		</tr>
 	</tbody>
 </table>
@@ -746,11 +746,11 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table id="table1" class="foswikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
 		</tr>
 	</tbody>
 </table>
@@ -810,11 +810,11 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table border="1" class="foswikiTable" id="table1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.gif" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a href="$viewUrl" class="foswikiCurrentTopicLink">$topicName</a> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.gif" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a href="$viewUrl" class="foswikiCurrentTopicLink">$topicName</a> </td>
 		</tr>
 	</tbody>
 </table>
@@ -876,11 +876,11 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table id="table1" class="foswikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="30" value="%TOPIC%" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="30" value="%TOPIC%" /> </td>
 		</tr>
 	</tbody>	
 </table>
@@ -1380,10 +1380,10 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table border="1" class="foswikiTable" id="table1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
@@ -1430,10 +1430,10 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+<table id="table1" class="foswikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
@@ -2142,25 +2142,25 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable"  border="1">
+<table id="table1" class="foswikiTable"  border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th  valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column"><font color="#ffffff">Startdate</font></a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
-			<th  valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Stopdate</font></a> </th>
-			<th  valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Who</font></a> </th>
-			<th  valign="top" class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">What/Where</font></a> </th>
-			<th  valign="top" class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Icon</font></a> </th>
-			<th  valign="top" class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Details</font></a> </th>
+			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+			<th class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">Stopdate</a> </th>
+			<th class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column">Who</a> </th>
+			<th class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column">What/Where</a> </th>
+			<th class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column">Icon</a> </th>
+			<th class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column">Details</a> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td  rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol2 foswikiLast"> Benny </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol3 foswikiLast"> Vacation </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
+			<td  rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
+			<td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
+			<td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
+			<td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
+			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
+			<td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
@@ -2216,25 +2216,25 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable"  border="1">
+<table id="table1" class="foswikiTable"  border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th  valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column"><font color="#ffffff">Startdate</font></a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
-			<th  valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Stopdate</font></a> </th>
-			<th  valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Who</font></a> </th>
-			<th  valign="top" class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">What/Where</font></a> </th>
-			<th  valign="top" class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Icon</font></a> </th>
-			<th  valign="top" class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Details</font></a> </th>
+			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+			<th class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">Stopdate</a> </th>
+			<th class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column">Who</a> </th>
+			<th class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column">What/Where</a> </th>
+			<th class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column">Icon</a> </th>
+			<th class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column">Details</a> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td  rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol2 foswikiLast"> Benny </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol3 foswikiLast"> Vacation </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
-			<td  rowspan="1" valign="top" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
+			<td  rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
+			<td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
+			<td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
+			<td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
+			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
+			<td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
