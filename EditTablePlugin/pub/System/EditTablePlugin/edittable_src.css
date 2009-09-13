@@ -8,11 +8,14 @@
 .editTableEdit td, 
 .editTableEdit th {
 	border-color:#eee;
+	padding:.5em;
 }
 .editTableInnerTable table,
 .editTableInnerTable th,
 .editTableInnerTable td {
 	border:none;
+	border-style:none;
+	border-width:0;
 	padding-top:0;
 }
 .editTableEditImageButton {
@@ -56,8 +59,8 @@
 .editTableRowSeparator td {
 	margin:0;
 	padding:0;
-	background-color:#eee;
-	height:6px;
+	background-color:#fafafa;
+	height:5px;
 	cursor:default;
 }
 .editTableMoveMode .editTableRowSeparator td {

@@ -385,11 +385,17 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
         # to TABLE for exactly this purpose. Please do not remove this
         # feature again.
         if (  !$doSave
-            && $isEditingTable
-            && ( $editTableTag !~ /%TABLE{.*?disableallsort="on".*?}%/ ) )
-        {
-            $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 disableallsort="on"$2/;
-        }
+            && $isEditingTable ) {
+            _debug("editTableTag before changing TABLE tag=$editTableTag");
+            my $TABLE_EDIT_TAGS = 'disableallsort="on" databg="#fff"';
+            if ( $editTableTag !~ /%TABLE{.*?}%/ ) {
+                # no TABLE tag at all
+    	        $editTableTag .= "%TABLE{$TABLE_EDIT_TAGS}%";
+            } elsif ( $editTableTag !~ /%TABLE{.*?$TABLE_EDIT_TAGS.*?}%/ ) {
+	            $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 $TABLE_EDIT_TAGS$2/;
+            }
+			_debug("editTableTag after changing TABLE tag=$editTableTag");
+    	}
 
         # The Data::parseText merges a TABLE and EDITTABLE to one line
         # We split it again to make editing easier for the user
