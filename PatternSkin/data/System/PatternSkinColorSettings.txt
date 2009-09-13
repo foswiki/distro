@@ -328,24 +328,6 @@ h3, h4, h5, h6 {
 .foswikiTopic a:hover {
    color:%LINK_TEXT_HOVER%;
 }
-#patternMainContents h1 a:link, #patternMainContents h1 a:visited {
-   color:%H1_HEADER_TEXT%;
-}
-#patternMainContents h2 a:link, #patternMainContents h2 a:visited,
-#patternMainContents h3 a:link, #patternMainContents h3 a:visited,
-#patternMainContents h4 a:link, #patternMainContents h4 a:visited,
-#patternMainContents h5 a:link, #patternMainContents h5 a:visited,
-#patternMainContents h6 a:link, #patternMainContents h6 a:visited {
-   color:%HEADER_TEXT%;
-}
-#patternMainContents h1 a:hover,
-#patternMainContents h2 a:hover,
-#patternMainContents h3 a:hover,
-#patternMainContents h4 a:hover,
-#patternMainContents h5 a:hover,
-#patternMainContents h6 a:hover {
-   color:%LINK_TEXT_HOVER%;
-}
 .foswikiTopic .foswikiUnvisited a:visited {
    color:%LINK_TEXT_NORMAL%;
 }
