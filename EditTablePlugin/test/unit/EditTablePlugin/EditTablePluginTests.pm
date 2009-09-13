@@ -396,6 +396,7 @@ INPUT
         $this->{test_web}, undef );
 
     my $expected = <<EXPECTED;
+%TABLE{disableallsort="on" databg="#ffffff"}%
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -459,6 +460,7 @@ INPUT
         $this->{test_web}, undef );
 
     $expected = <<EXPECTED;
+%TABLE{disableallsort="on" databg="#ffffff"}%
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -501,6 +503,7 @@ EXPECTED
         $this->{test_web}, undef );
 
     $expected = <<EXPECTED;
+<nop>
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -515,7 +518,7 @@ EXPECTED
 			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
 			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
 		</tr>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
 			<td bgcolor="#f2f3f6" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
 		</tr>
@@ -611,7 +614,7 @@ INPUT
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="do" /> </td>
 		</tr>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x1" size="16" value="re" /> </td>
 		</tr>
 	</tbody></table>
@@ -671,6 +674,7 @@ INPUT
         undef );
 
     my $expected = <<END;
+<nop>
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -739,6 +743,7 @@ INPUT
         undef );
 
     my $expected = <<END;
+<nop>
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -869,6 +874,7 @@ INPUT
         undef );
 
     my $expected = <<END;
+<nop>
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -1635,6 +1641,7 @@ INPUT
         undef );
 
     my $expected = <<EXPECTED;
+%TABLE{disableallsort="on" databg="#ffffff"}%
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
@@ -2285,7 +2292,9 @@ INPUT
       Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
         $this->{test_web}, undef );
 
-    my $expected = '<noautolink>
+    my $expected = '
+%TABLE{disableallsort="on" databg="#ffffff"}%
+<noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
 <form name="edittable1" action="'  .$viewUrlAuth . '#edittable1" method="post">
@@ -2345,6 +2354,7 @@ INPUT
         $this->{test_web}, undef );
 
     my $expected = <<EXPECTED;
+%TABLE{disableallsort="on" databg="#ffffff"}%
 <noautolink>
 <a name="edittable1"></a>
 <div class="editTable editTableEdit">
