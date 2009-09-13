@@ -1,20 +1,25 @@
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Empty Plugin
 
-This Plugin does nothing.
-
-This is an empty Plugin topic you can use as a template for your own Plugin
-documentation topic.
+%SHORTDESCRIPTION%
 
 Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
 
 ---++ Plugin Preferences
 
-You are advised to use the name of the plugin as a prefix to any
-[[%SYSTEMWEB%.PreferenceSettings][preference settings]] you define for the
-extension. This avoids the risk of namespace clashes with other extensions that
-may try to use the same name. For example:
+Plugin preferences should be set using =configure=, as described in
+%SYSTEMWEB%.DevelopingPlugins. You can also use
+[[%SYSTEMWEB%.PreferenceSettings][preference settings]] to define any
+user-controllable configuration. You are strongly advised
+to use the name of the plugin as a prefix, to avoid the risk of namespace
+clashes with other extensions that may try to use the same name.
+
+*BAD*
+   * Set EXAMPLE = Example setting
+   * Set FORMAT  = %d-%m-%y
+*Good*
    * Set EMPTYPLUGIN_EXAMPLE = Example setting
+   * Set EMPTYPLUGIN_FORMAT  = %d-%m-%y
 
 <!--
 One line description, required for extensions repository catalog.
@@ -27,7 +32,7 @@ One line description, required for extensions repository catalog.
 ---++ Plugin Info
 
 |  Author: | Foswiki:Main.PluginAuthor|
-|  Copyright: | &copy; 2008, Foswiki Contributors |
+|  Copyright: | &copy; 2009, Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |

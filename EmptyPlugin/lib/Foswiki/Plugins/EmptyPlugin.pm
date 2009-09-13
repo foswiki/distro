@@ -81,10 +81,13 @@ our $SHORTDESCRIPTION = 'Empty Plugin used as a template for new Plugins';
 # preferences set in the plugin topic. This is required for compatibility
 # with older plugins, but imposes a significant performance penalty, and
 # is not recommended. Instead, leave $NO_PREFS_IN_TOPIC at 1 and use
-# =$Foswiki::cfg= entries set in =LocalSite.cfg=, or if you want the users
+# =$Foswiki::cfg= entries, or if you want the users
 # to be able to change settings, then use standard Foswiki preferences that
 # can be defined in your %USERSWEB%.SitePreferences and overridden at the web
 # and topic level.
+#
+# %SYSTEMWEB%.DevelopingPlugins has details of how to define =$Foswiki::cfg=
+# entries so they can be used with =configure=.
 our $NO_PREFS_IN_TOPIC = 1;
 
 =begin TML
@@ -129,7 +132,7 @@ sub initPlugin {
     # Set your per-installation plugin configuration in LocalSite.cfg,
     # like this:
     # $Foswiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} = 1;
-    # Optional: See %SYSTEMWEB%.DevelopingPlugins#ConfigSpec for information
+    # See %SYSTEMWEB%.DevelopingPlugins#ConfigSpec for information
     # on integrating your plugin configuration with =configure=.
 
     # Always provide a default in case the setting is not defined in
