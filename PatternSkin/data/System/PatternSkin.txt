@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1227973233" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1227973233" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--

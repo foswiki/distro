@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 8235 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252719430" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ Change E-mail Address
 %STARTINCLUDE%
 

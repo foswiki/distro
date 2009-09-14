@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1186881349" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="InterWikiPlugin"}%
+%META:TOPICPARENT{name="InterwikiPlugin"}%
 ---++ <nop>Inter-Wiki Link Rules (or Links to other Sites)
 
 This topic lists all aliases needed to map Inter-Site links to external wikis/sites.

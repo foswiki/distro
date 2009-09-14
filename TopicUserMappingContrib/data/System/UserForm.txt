@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev: 15569 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721409" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ User Form
 
 This is a maintenance topic, used by the Wiki administrator.
@@ -54,4 +54,3 @@ To use your new user form for new (registering) users, create a copy of %IF{"ist
 
 ---
 *Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.PatternSkinUserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
-

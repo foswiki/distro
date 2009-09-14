@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1158277691" format="1.1" version="$Rev: 17703 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252718378" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
 %STARTINCLUDE%
 ---+ Manage Users
 
@@ -149,9 +149,9 @@ Your Wiki Admin
 %MAKETEXT{"Submitted content:"}%
 %FORMDATA%
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%
 </verbatim>
    * *remember to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.*
 
 ---
 *Related Topics:* AdminDocumentationCategory
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%

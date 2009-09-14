@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1216489724" format="1.0" version="$Rev: 17064 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252720972" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ %MAKETEXT{"Registration"}%
 
 %IF{"context registration_supported" 
@@ -347,4 +347,3 @@ return sOut;
 <div class="foswikiHelp">
    * %ICON{info}% %MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
 </div>
-

@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1167346194" format="1.0" version="$Rev: 16686 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721413" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
 %SPLIT%
    * %KEY%: %VALUE%%SPLIT%
 
@@ -88,7 +88,7 @@ Text for multilingual wiki community, copy from here to %<nop>ENDSECTION{type="t
    * %MAKETEXT{"[_1] lists all Foswiki user tools" args="[[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]]"}%
 
 %ENDSECTION{type="templateonly"}%
-%META:FORM{name="%SYSTEMWEB%.UserForm"}%
+%META:FORM{name="%25SYSTEMWEB%25.UserForm"}%
 %META:FIELD{name="FirstName" attributes="" title="<nop>FirstName" value=""}%
 %META:FIELD{name="LastName" attributes="" title="<nop>LastName" value=""}%
 %META:FIELD{name="OrganisationName" attributes="" title="<nop>OrganisationName" value=""}%

@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15508 $"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1252580598" format="1.1" version="1.2"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 ---+ Administrator Group
 
 
    * Member list (comma-separated list):
-      * Set GROUP = 
+      * Set GROUP = WikiGuest,SvenDowideit
    * Persons/group who can change the list:
       * Set ALLOWTOPICCHANGE = AdminGroup
 
@@ -28,5 +28,3 @@ If you haven't previously set up an administrator, follow these steps:
 
 ---
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
-
-
