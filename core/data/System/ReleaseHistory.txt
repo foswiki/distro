@@ -5,6 +5,22 @@
 
 %TOC%
 
+---++ Foswiki Release 1.0.7 - 20 Sep 2009
+
+More than 30 new bug fixes and some enhancements.
+
+The Wysiwyg editor has been upgraded to using Tiny MCE editor version 3.2.2 which solves many editor related bugs. The pickaxe icon has been replaced by a "Wiki Text" button as the pickaxe was hard to guess the function of.
+
+Several bugs fixed related to the Cross-Site Request Forgery feature.
+
+TablePlugin sorts numbers and dates better
+
+EditTablePlugin handles SpreadSheetPlugin in footer rows correctly
+
+Fixed a problem where Windows installations of Foswiki would create new users with non-working passwords
+
+"Managing webs" feature redesigned for better usability
+
 ---++ Foswiki Release 1.0.6 - 21 Jun 2009
 
 More than 40 bugs fixed and several small enhancements.
