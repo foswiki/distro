@@ -24,6 +24,16 @@
   margin:0px 8px 0px 0px;
 }
 
+.foswikiTopic a.jqButton.foswikiRight,
+.foswikiTopic a.jqButton.foswikiRight:hover,
+.patternTopic a.jqButton.foswikiRight,
+.patternTopic a.jqButton.foswikiRight:hover,
+.jqButton.foswikiRight:hover,
+.jqButton.foswikiRight {
+  float:right;
+  margin:0px 0px 0px 8px;
+}
+
 .foswikiTopic a.jqButton:link:hover,
 .foswikiTopic a.jqButton:hover,
 .patternTopic a.jqButton:link:hover,

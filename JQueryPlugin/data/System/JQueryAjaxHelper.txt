@@ -78,7 +78,7 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 </div>
 </form>
 
----+++ User selector
+---+++ User selector 
 ---++++ Parameters
    * =INPUT_NAME=: name of text input field
    * =INPUT_VALUE=: preselected user
@@ -164,12 +164,12 @@ Needs Foswik:Extensions/FlexWebListPlugin
   exclude="%TRASHWEB%.*"
   limit="%URLPARAM{"limit" default="10"}%"
   format="<nop>$web"
-  separator="$n"
+  SHOULDBE_separator="$n"
   subheader="$n"
 }%%ENDSECTION{"web"}%
 </verbatim>
 
----+++ User selector
+---+++ User and Group selector
 ---++++ Url parameters
    * =q=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10

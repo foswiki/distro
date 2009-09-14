@@ -75,8 +75,6 @@ HERE
     }
   }
 
-  # initial theme
-  createTheme($Foswiki::cfg{JQueryPlugin}{JQueryTheme});
 }
 
 =begin TML
@@ -106,7 +104,7 @@ sub createTheme {
 
   $themeName ||= 'base';
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::THEME::$themeName", <<"HERE", "JQUERYPLUGIN::FOSWIKI");
+  Foswiki::Func::addToHEAD("JQUERYPLUGIN::THEME", <<"HERE", "JQUERYPLUGIN::FOSWIKI");
 <link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/ui.all.css" type="text/css" media="all" />
 HERE
 

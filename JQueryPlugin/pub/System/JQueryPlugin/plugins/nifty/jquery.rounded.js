@@ -19,4 +19,4 @@ if(cls.match(/\bbig\b/)){h2args+=" big";divargs+=" big";foundsize=true;}
 if(!foundsize){h2args+=" big";divargs+=" big";}
 if(!foundcorner){if(foundh2){h2args+=" top";divargs+=" bottom";}}
 if(foundh2){$("h2",this).nifty(h2args);}
-$(this).nifty(divargs);});return this;}});$(function(){$(".jqRounded").roundedCorners();};})(jQuery);;
+$(this).nifty(divargs);});return this;}});$(function(){$(".jqRounded").roundedCorners();});})(jQuery);;

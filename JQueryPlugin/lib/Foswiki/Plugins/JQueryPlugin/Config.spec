@@ -82,6 +82,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 1;
 
 # **BOOLEAN**
@@ -110,6 +113,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Treeview}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{UI}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Validate}{Enabled} = 1;

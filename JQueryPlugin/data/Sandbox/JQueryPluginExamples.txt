@@ -1,17 +1,17 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1250761838" format="1.1" reprev="1.7" version="1.7"}%
+%META:TOPICINFO{author="micha" date="1251318986" format="1.1" version="1.9"}%
 ---+!! %TOPIC%
-%JQREQUIRE{"debug"}%
+%<nop>JQREQUIRE{"debug"}%
 
 Demo of the <nop>FoswikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
 
 %TOC%
 ---++ Buttons
 %BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross"}%
-%BUTTON{"%MAKETEXT{"Info"}%" icon="information"}%
-%BUTTON{"%MAKETEXT{"Add"}%" icon="add"}%
-%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete"}%
-%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key"}%
+%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Info"}%" icon="information" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Add"}%" icon="add" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key" onclick="return false"}%
 %CLEAR%
 %BR%
 

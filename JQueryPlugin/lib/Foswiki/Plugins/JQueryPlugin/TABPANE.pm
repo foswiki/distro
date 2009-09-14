@@ -46,8 +46,8 @@ sub new {
     homepage => 'http://michaeldaumconsutling.com',
     tags => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
     css => ['jquery.tabpane.css'],
-    javascript => ['jquery.tabpane.init.js', 'jquery.tabpane.js'],
-    #dependencies => ['debug'], # DEBUG
+    javascript => ['jquery.tabpane.js', 'jquery.tabpane.init.js'],
+    dependencies => ['metadata'], 
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -80,7 +80,6 @@ Tag handler for =%<nop>TABPANE%=.
 sub handleTabPane {
   my ($this, $params, $theTopic, $theWeb) = @_;
 
-  my $tpId = 'jqTabPane'.Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
   my $select = $params->{select} || 1;
   my $autoMaxExpand = $params->{automaxexpand} || 'off';
   my $minHeight = $params->{minheight} || 230;
@@ -89,12 +88,7 @@ sub handleTabPane {
   $autoMaxExpand = ($autoMaxExpand eq 'on')?'true':'false';
   $animate = ($animate eq 'on')?'true':'false';
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::TABPANE::$tpId", <<"HERE", 'JQUERYPLUGIN::TABPANE');
-
-<meta name="foswiki.jquery.tabpane.$tpId" content="{id:'$tpId', select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}" />
-HERE
-
-  return "<div class='jqTabPane' id='$tpId'>";
+  return "<div class=\"jqTabPane {select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}\">";
 }
 
 =begin TML

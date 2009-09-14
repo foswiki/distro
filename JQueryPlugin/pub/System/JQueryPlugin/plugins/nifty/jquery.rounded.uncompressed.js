@@ -126,10 +126,9 @@ $.fn.extend({
   }
 });
 
-
 /* init */
 $(function()  {
   $(".jqRounded").roundedCorners();
-};
+});
 
 })(jQuery);

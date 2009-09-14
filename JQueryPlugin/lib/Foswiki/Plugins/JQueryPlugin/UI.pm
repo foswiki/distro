@@ -13,16 +13,18 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package Foswiki::Plugins::JQueryPlugin::FARBTASTIC;
+package Foswiki::Plugins::JQueryPlugin::UI;
 use strict;
+use Foswiki::Plugins ();
+use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::FARBTASTIC
+---+ package Foswiki::Plugins::JQueryPlugin::UI
 
-This is the perl stub for the jquery.empty plugin.
+This is the perl stub for the jquery.ui
 
 =cut
 
@@ -40,32 +42,36 @@ sub new {
 
   my $this = bless($class->SUPER::new( 
     $session,
-    name => 'Farbtastic',
-    version => '1.2',
-    author => 'Steven Wittens',
-    homepage => 'http://acko.net/dev/farbtastic',
-    css => ['jquery.farbtastic.css'],
-    javascript => ['jquery.farbtastic.js', 'jquery.farbtastic.init.js'],
-    dependencies => ['metadata', 'ui'], 
+    name => 'UI',
+    version => '1.7.1',
+    puburl => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+    author => 'see http://jqueryui.com/about',
+    homepage => 'http://docs.jquery.com/UI',
+    javascript => ['jquery-ui.js'],
   ), $class);
 
   $this->{summary} = <<'HERE';
-Farbtastic is a jQuery plug-in that can add one or more color picker widgets
-into a page. Each widget is then linked to an existing element (e.g. a text
-field) and will update the element's value when a color is selected.
-Farbtastic uses layered transparent PNGs to render a saturation/luminance
-gradient inside of a hue circle. No Flash or pixel-sized divs are used.
-
-Basic usage:
-<verbatim>
-<input type="text" id="color" name="color" value="#123456" class="jqFarbtastic" />
-</verbatim>
-
-There's a =color= formfield for easy integration into Foswiki !DataForms.
+Userinterface for jQuery
 HERE
 
   return $this;
 }
 
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the html header
+
+=cut
+
+sub init {
+  my $this = shift;
+
+  return unless $this->SUPER::init();
+
+  my $themeName = $Foswiki::cfg{JQueryPlugin}{JQueryTheme} || 'base';
+  Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
+}
 1;
 

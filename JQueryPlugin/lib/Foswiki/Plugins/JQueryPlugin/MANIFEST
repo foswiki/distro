@@ -1,5 +1,4 @@
 data/Sandbox/JQueryPluginExamples.txt 0644
-data/Sandbox/PluginTestJQueryPlugin.txt 0644
 data/System/JQueryAjaxHelper.txt 0644
 data/System/JQueryPlugin.txt 0644
 lib/CPAN/lib/CSS/Minifier.pm 0644
@@ -28,6 +27,7 @@ lib/Foswiki/Plugins/JQueryPlugin/INNERFADE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASKEDINPUT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MEDIA.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/METADATA.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/NIFTY.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugin.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugins.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin.pm 0644
@@ -41,6 +41,7 @@ lib/Foswiki/Plugins/JQueryPlugin/TEXTBOXLIST.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TOGGLE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TOOLTIP.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TREEVIEW.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/UI.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/VALIDATE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/WIKIWORD.pm 0644
 pub/Sandbox/JQueryPluginExamples/beach1.jpg 0644
@@ -268,8 +269,11 @@ pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.js 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.js.gz 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.nifty.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.css 0644
+pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.css.gz 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.js 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.js.gz 0644
+pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/nifty/Makefile 0644
 pub/System/JQueryPlugin/plugins/rating/delete.gif 0644

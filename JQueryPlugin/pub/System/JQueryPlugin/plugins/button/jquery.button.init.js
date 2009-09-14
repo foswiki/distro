@@ -1,1 +1,2 @@
-(function($){$(function(){$.each(foswiki.jquery.button,function(){var options=this;var $this=$("#"+options.id);if(options.onclick){$this.click(function(){return options.onclick.call(this);});}});});})(jQuery);;
+(function($){$(function(){$(".jqButton").each(function(){var $this=$(this);var options=$.extend({},$this.metadata({type:'attr',name:'data'}));if(options.onclick){$this.click(function(){return options.onclick.call(this);});}
+});});})(jQuery);;

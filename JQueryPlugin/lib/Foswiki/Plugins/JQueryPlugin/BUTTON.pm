@@ -46,6 +46,7 @@ sub new {
     tags => 'BUTTON',
     css => ['jquery.button.css'],
     javascript => ['jquery.button.init.js'],
+    dependencies => ['metadata'], 
   ), $class);
 
   $this->{summary} = <<'HERE';
@@ -122,30 +123,23 @@ sub handleButton {
     $theOnClick .= ";jQuery(this).parents('form:first').clearForm();";
     Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
   }
-  $theOnClick =~ s/;$//;
-  $theOnClick .= ';return false;';
 
-  my $result = "<a id='$theId' class='jqButton $theBg $theClass' href='$theHref'";
+  my @callbacks = ();
+  if ($theOnClick) {
+    $theOnClick =~ s/;$//;
+    $theOnClick .= ";return false;" unless $theOnClick =~ /return false;?$/;
+    push @callbacks, "onclick:function(){$theOnClick}";
+  }
+  push @callbacks, "onmouseover:function(){$theOnMouseOver}" if $theOnMouseOver;
+  push @callbacks, "onmouseout:function(){$theOnMouseOut}" if $theOnMouseOut;
+  
+  my $callbacks = join(', ', @callbacks);
+  $callbacks = 'data="{'.$callbacks.'}"' if $callbacks;
+
+  my $result = "<a id='$theId' class='jqButton $theBg $theClass' $callbacks href='$theHref'";
   $result .= " accesskey='$theAccessKey' " if $theAccessKey;
   $result .= " title='$theTitle' " if $theTitle;
   $result .= " style='$theStyle' " if $theStyle;
-
-  my @callbacks = ();
-  push @callbacks, "onclick:function(){$theOnClick}";
-  if ($theOnMouseOver) {
-    push @callbacks, "onmouseover:function(){$theOnMouseOver}";
-  }
-  if ($theOnMouseOut) {
-    push @callbacks, "onmouseout:function(){$theOnMouseOut}";
-  }
-  my $callbacks = join(', ', @callbacks);
-
-  if ($callbacks) {
-    Foswiki::Func::addToHEAD("JQUERYPLUGIN::BUTTON::$theId", <<"HERE", 'JQUERYPLUGIN::BUTTON');
-
-<meta name="foswiki.jquery.button.$theId" content="{id:'$theId', $callbacks}" />
-HERE
-  }
 
   $result .= ">$theText</a>";
   $result .= "<input type='submit' style='display:none' />" if

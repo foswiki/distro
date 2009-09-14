@@ -1,13 +1,14 @@
 (function($) {
   $(function() {
-    $.each(foswiki.jquery.button, function() {
-      var options = this;
-      var $this = $("#"+options.id);
+    $(".jqButton").each(function() {
+      var $this = $(this);
+      var options = $.extend({}, $this.metadata({type:'attr', name:'data'}));
       if (options.onclick) {
-        $this.click(function() {
-          return options.onclick.call(this);
-        });
+	$this.click(function() {
+	  return options.onclick.call(this);
+	});
       }
+      // TODO hover
     });
  });
 })(jQuery);
