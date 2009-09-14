@@ -1853,7 +1853,7 @@ EXPECT
 
 #####################
 # PAGING
-sub verify_paging_one_web_first_five {
+sub DISABLEverify_paging_one_web_first_five {
     my $this = shift;
 
     my $result =
@@ -1883,7 +1883,7 @@ EXPECT
     $this->assert_str_equals( $expected,  $result );
 }
 
-sub verify_paging_one_web_second_five {
+sub DISABLEverify_paging_one_web_second_five {
     my $this = shift;
 
     my $result =
