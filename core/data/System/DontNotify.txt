@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721129" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 Use the "Minor changes, don't notify" checkbox in preview in case you only make a minor change to a topic and you do not want to inform everybody who is on the WebNotify list of the current web of this change.
 
 *Note:* No new revision is created in case you save the same topic again within a certain time frame (default is one hour). You only need to checkmark the "Minor change, don't notify" checkbox once within this time frame, because subsequent save operations do not notify users.

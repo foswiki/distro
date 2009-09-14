@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721192" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
 Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a topic. The whole content or only parts of a page can be included. If needed, set a proxy server with the {PROXY}{HOST} and {PROXY}{PORT} settings in [[%SCRIPTURLPATH{"configure"}%][configure]].

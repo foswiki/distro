@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721110" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 ManagingTopics can be used to move a topic from one Web to another.  One specialised use of this is DeleteWeb.
 
 *Related Topics:* UserDocumentationCategory
