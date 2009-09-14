@@ -64,6 +64,7 @@ function fixHeightOfPane () { }
         var doneInit = false;
         FoswikiTiny.switchToRaw = function(inst) {
           oldSwitchToRaw(inst);
+          $(window).trigger("resize"); /* to let natedit fix the textarea height */
           var oldWysiwygButton = $("#topic_2WYSIWYG");
           var newWysiwygButton = $("#wysiwyg");
           $(".natEditToolBar").show();
