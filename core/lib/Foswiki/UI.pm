@@ -215,14 +215,19 @@ sub handleRequest {
     $sub .= $dispatcher->{function};
 
     # Get the params cache from the path
-    my $cache;
+    my $cache = $req->param('foswiki_redirect_cache');
+
+    # If the path specifies a cache path, use that. It's arbitrary
+    # as to which takes precedence (param or path) because we should
+    # never have both at once.
     my $path_info = $req->path_info();
-    if ($path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})$##) {
+    if ($path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})##) {
         $cache = $1;
         $req->path_info( $path_info );
     }
 
-    if ( $cache ) {
+    if (  defined $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
+        $cache = $1; # untaint;
 
         # Read cached post parameters
         my $passthruFilename =
