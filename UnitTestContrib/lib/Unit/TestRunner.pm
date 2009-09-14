@@ -106,6 +106,9 @@ sub start {
                 try {
                     $tester->$test();
                     $passes++;
+                    if ( $tester->{expect_failure} ) {
+                        $this->{unexpected_passes}++;
+                    }
                 }
                 catch Error with {
                     my $e = shift;
@@ -120,11 +123,6 @@ sub start {
                         @{ $this->{failures} },
                         $test . "\n" . $e->stringify()
                     );
-                }
-                otherwise {
-                    if ( $tester->{expect_failure} ) {
-                        $this->{unexpected_passes}++;
-                    }
                 };
                 $tester->tear_down();
             }
@@ -138,6 +136,7 @@ sub start {
           if $this->{unexpected_passes};
         print join( "\n---------------------------\n", @{ $this->{failures} } ),
           "\n";
+        $this->{unexpected_failures} ||= 0;
         print "$passes of ", $passes + $this->{unexpected_failures},
           " test cases passed\n";
         return scalar( @{ $this->{failures} } );
