@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1252580598" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252580598" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 ---+ Administrator Group
 
 
    * Member list (comma-separated list):
-      * Set GROUP = WikiGuest,SvenDowideit
+      * Set GROUP = WikiGuest
    * Persons/group who can change the list:
       * Set ALLOWTOPICCHANGE = AdminGroup
 
