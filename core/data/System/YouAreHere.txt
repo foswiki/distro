@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252718431" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
    * <span style='background : %VAR{"WEBBGCOLOR" web="%BASEWEB%"}%'>You are currently in the <nop>%BASEWEB% web. The color code for this web is this background, so you know where you are.</span>
    * If you are not familiar with the <nop>%WIKITOOLNAME% collaboration platform, please visit %SYSTEMWEB%.WelcomeGuest first.
@@ -9,4 +10,3 @@
      =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.YouAreHere"}%=
 
    * [[%SCRIPTURLPATH{"search"}%/%WEB%?scope=text&amp;regex=on&amp;web=all&amp;search=INCLUDE.*YouAreHere&amp;casesensitive=on&amp;nosummary=on&amp;nototal=on][List]] all topics which include this topic.
-

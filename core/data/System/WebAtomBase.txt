@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721309" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
 ---+ ATOM News Feeds
 
 ---++ Find out What's New
@@ -47,4 +48,3 @@ Below part is included by each <nop>WebAtom topic:
 -----
 
 *See also*: WebRssBase
-

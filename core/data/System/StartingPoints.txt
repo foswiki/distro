@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721284" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 Welcome to <nop>%WIKITOOLNAME%. This page assumes that you are a new user to <nop>%WIKITOOLNAME%, and that you've never heard of Wiki before. Here are the most important pages you should know about to get you up to speed on what Wiki is, and how to use it. Follow any of the links below that interest you and use your browser's back button to return to this page if you need to. 
 
 Don't let the reams of documentation fool you, it all boils down to: wiki means "quick" in Hawaiian, and you can contribute to any page by clicking on the *edit* link. That's all, really. :) 

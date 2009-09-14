@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 3096 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarFOREACH
 ---+++ FOREACH{"list" format="" header="" footer="" separator=""} -- renders a comma separated list

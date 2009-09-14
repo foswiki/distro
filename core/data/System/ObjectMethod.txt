@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252718679" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 An ObjectMethod is a method that must be called relative to a previous constructed object of the class type. For example:
 
 ---+ package Telecoms
@@ -18,4 +19,3 @@ Telecoms::phone( $mobile, "home" );
 
 ---
 *Related Topics:* ClassMethod, StaticMethod
-

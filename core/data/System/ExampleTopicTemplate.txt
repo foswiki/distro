@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252721229" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 (just an example illustrating how to create a new topic based on a specific template topic. TemplateTopics has more)
 
 -- %WIKIUSERNAME% - %DATE%

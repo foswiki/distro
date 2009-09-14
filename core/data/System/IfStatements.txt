@@ -1,4 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252718830" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ IF Statements
 
 The =%<nop>IF%= construct gives Foswiki the power to include content in topics based on the value of simple expressions.
@@ -159,4 +160,3 @@ Test if a topic text contains a certain word:
 <verbatim>
 %IF{"'%SYSTEMWEB%.WebHome'/lc(text)~'*welcome*'" then="contains 'welcome'"}%
 </verbatim>
-
