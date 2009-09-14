@@ -49,9 +49,11 @@ function fixHeightOfPane () { }
     $("#replaceform").click(function() {return submitEditForm('save', 'replaceform')});
     $("#addform").click(function() {return submitEditForm('save', 'addform')});
 
+
     window.setTimeout(function() {
-      if ($("#topic_ifr").length) {
+      if ($("#topic_ifr").length) { 
         $(".natEditToolBar").hide(); /* switch off natedit toolbar */
+        $("#topic_fullscreen").parent().remove(); /* remove full-screen feature ... til fixed */
 
         var oldSwitchToWYSIWYG = FoswikiTiny.switchToWYSIWYG;
         FoswikiTiny.switchToWYSIWYG = function(inst) {
