@@ -1,7 +1,0 @@
-A simple Foswiki table:
-|  *A*  | *B*  |  *C* |
-| Et 1 | Et 2 | Et 3 |
-A Foswiki table with a colspan:
-|  A  | B  |  C |
-| Et 1 | Et 2 | Et 3 |
-| La ligne de 3 cases. |||

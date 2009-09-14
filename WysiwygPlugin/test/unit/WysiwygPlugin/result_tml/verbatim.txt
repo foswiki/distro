@@ -1,9 +1,0 @@
-
-<verbatim>
-    Hello first Line
-<HR/>
-coucou    second line
-bold: here.
-Last line.       
-</verbatim>
-

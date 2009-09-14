@@ -1,7 +1,0 @@
-=Code code : minuscule=
-=Code code : capital=
-=Code code + test space before the text: minuscule=
-=Code code + test space after the text: minuscule=
-=Code code + test space before and after the text: minuscule=
----+ Test
-=Code code + *test* space before and after the text: minuscule=

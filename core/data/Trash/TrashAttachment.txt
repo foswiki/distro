@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1092762941" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="KennethLavrsen" date="1252714481" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"Placeholder for trashed attachments"}%
 
 
+%META:FILEATTACHMENT{name="danish.png" attachment="danish.png" attr="" comment="" date="1246350901" moveby="KennethLavrsen" movedto="Trash.TrashAttachment.danish.png" movedwhen="1252714481" movefrom="Sandbox.TestTopic55.danish.png" path="danish.png" size="28844" stream="IO::File=GLOB(0xa8ef2a8)" tmpFilename="/tmp/tltPCsnzuO" user="KennethLavrsen" version="1"}%
