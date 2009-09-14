@@ -1095,7 +1095,11 @@ sub cacheQuery {
     $query->save($F);
     close($F);
 
-    return '/foswiki_redirect_cache/' . $uid;
+    if ($Foswiki::cfg{UsePathForRedirectCache}) {
+        return '/foswiki_redirect_cache/' . $uid;
+    } else {
+        return '?foswiki_redirect_cache=' . $uid;
+    }
 }
 
 =begin TML
@@ -1569,8 +1573,7 @@ sub new {
 
     eval "require $Foswiki::cfg{Store}{Implementation}";
     ASSERT( !$@, $@ ) if DEBUG;
-    $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new(
-        $this->logger() );
+    $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new();
 
     $this->{users}   = new Foswiki::Users($this);
 

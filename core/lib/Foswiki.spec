@@ -578,6 +578,14 @@ $Foswiki::cfg{RemovePortNumber}  = $FALSE;
 # disabled and set the {PermittedRedirectHostUrls}.
 $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
 
+# **BOOLEAN EXPERT**
+# Some authentication systems do not allow parameters to be passed in
+# the target URL to be redirected to after authentication. In this case,
+# Foswiki can be configured to encode the address of the parameter cache
+# in the path information of the URL. Note that if you are using Apache
+# rewriting rules, this may not work.
+$Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
+
 # **REGEX EXPERT**
 # Defines the filter-in regexp that must match the names of environment
 # variables that can be seen using the %ENV{}% Foswiki variable. Set it to
