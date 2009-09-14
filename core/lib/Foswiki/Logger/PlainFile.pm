@@ -57,7 +57,7 @@ sub log {
     # to the date; Foswiki::Time::ParseTime can handle it, and it looks
     # OK too.
     unshift(@fields, "$time $level");
-    my $message = join(' | ', map { s/\|/&vbar;/; $_ } @fields);
+    my $message = join(' | ', map { s/\|/&vbar;/g; $_ } @fields);
     my $file;
     if ( open( $file, '>>', $log ) ) {
         print $file "| $message |\n";
