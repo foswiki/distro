@@ -1733,14 +1733,22 @@ sub moveAttachment {
         && $newTopic eq $topic
         && $newAttachment eq $attachment );
 
-    my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    my $to =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+    my $from = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
     my @opts;
     push( @opts, new_name => $newAttachment ) if defined $newAttachment;
 
-    # SMELL: check access permissions
-    $from->moveAttachment( $attachment, $to, @opts );
+    if ($web eq $newWeb
+        && $topic eq $newTopic
+        && defined $newAttachment)
+        {
+        $from->moveAttachment( $attachment, $from, @opts );
+    } else {
+    my $to =
+        Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+
+        # SMELL: check access permissions
+        $from->moveAttachment( $attachment, $to, @opts );
+    }
 }
 
 =begin TML
