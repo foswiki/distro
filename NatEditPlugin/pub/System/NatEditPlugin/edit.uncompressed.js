@@ -28,6 +28,9 @@ function fixHeightOfPane () { }
     if (typeof(foswikiStrikeOne) != 'undefined') {
       foswikiStrikeOne(editForm[0]);
     }
+    if (typeof(tinyMCE) !== 'undefined' && typeof(tinyMCE.activeEditor) !== 'undefined') {
+      tinyMCE.activeEditor.onSubmit.dispatch();
+    }
     editForm.submit();
     return false;
   }

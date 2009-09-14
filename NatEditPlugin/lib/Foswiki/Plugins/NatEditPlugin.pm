@@ -22,7 +22,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = 'v4.10';
+$RELEASE = 'v4.11';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
@@ -44,15 +44,6 @@ sub initPlugin {
 
   Foswiki::Func::registerTagHandler('FORMBUTTON', \&handleFORMBUTTON);
   Foswiki::Func::registerTagHandler('NATFORMLIST', \&handleNATFORMLIST);
-
-  my $skin = Foswiki::Func::getPreferencesValue('SKIN');
-  # not using Foswiki::Func::getSkin() to prevent 
-  # getting the cover as well
-
-  unless ($skin =~ /\b(natedit)\b/) {
-    $skin = "natedit,$skin";
-    Foswiki::Func::setPreferencesValue('SKIN', $skin);
-  }
 
   # register the natedit jquery plugin
   Foswiki::Plugins::JQueryPlugin::registerPlugin("NatEdit",

@@ -87,6 +87,9 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  14 Sep 2009 | yet another attempt to support <nop>TinyMCEPlugin; \
+                 don't take over raw edit automatically; \
+                 added <nop>PatternSkin css fixes for edit dialogs |
 |  20 Aug 2009 | added support for !ImagePlugin when inserting attachments |
 |  03 Jul 2009 | IE fixes, !PatternSkin related fixes |
 |  23 Jun 2009 | converted to foswiki, lots of feature enhancements |

@@ -1,3 +1,5 @@
 Foswiki::Plugins::JQueryPlugin,>=3740,perl,Required.
 Foswiki::Plugins::SetVariablePlugin,>=4287,perl,Required.
 Foswiki::Plugins::UploadPlugin,>=1340,perl,Required.
+Foswiki::Plugins::RenderPlugin,>=3644,perl,Required.
+Foswiki::Plugins::DBCachePlugin,>=4358,perl,Required.

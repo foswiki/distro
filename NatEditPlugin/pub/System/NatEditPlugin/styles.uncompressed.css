@@ -90,30 +90,6 @@ ul.natEditHelpTools {
   border:0px;
 }
 
-/* pattern skin tweaks */
-.patternEditPage .foswikiForm {
-  margin:0px;
-}
-.jqTabContents h3 {
-  margin-top:0px;
-}
-
-#patternPage .foswikiFormTable {
-  width:99%;
-}
-#patternPage .jqTab {
-  background:white;
-}
-
-.patternEditPage .foswikiFormSteps h2 {
-  margin-left:10px;
-}
-
-/* table dialog */
-#natEditInsertTable {
-  width:200px;
-}
-
 /* link dialog */
 #natEditInsertLink .jqTabContents {
   width:480px;
@@ -168,12 +144,36 @@ ul.natEditHelpTools {
   margin-top:5px;
   margin-bottom:5px;
 }
-#natEditInsertAttachment .uploadContainer {
-  overflow:auto;
-  height:350px;
-}
 #natEditInsertAttachment .foswikiFormButtons {
   position:absolute;
   bottom:0px;
   width:100%;
+}
+
+/* pattern skin tweaks */
+.patternEditPage .foswikiForm {
+  margin:0px;
+}
+.jqTabContents h3 {
+  margin-top:0px;
+}
+
+#patternPage .foswikiFormTable {
+  width:99%;
+}
+#patternPage .jqTab {
+  background:white;
+}
+
+.patternEditPage .foswikiFormStep {
+  height:auto;
+}
+.patternEditPage .foswikiFormSteps hr {
+  display:none;
+}
+.patternEditPage .foswikiFormLast {
+  border-bottom:0px;
+}
+.patternEditPage .foswikiFormSteps h2 {
+  margin-bottom:1em;
 }

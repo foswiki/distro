@@ -7,7 +7,7 @@
 
 %TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%MAKETEXT{"edit"}%"}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
-%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{"defined 'rev'" then="[[%WEB%.%TOPIC%][%TOPIC%]] (%MAKETEXT{"restore"}%)" else="%IF{"istopic '%WEB%.%TOPIC%'" then="[[%WEB%.%TOPIC%][%TOPIC%]] (%MAKETEXT{"edit"}%)" else="<nop>%TOPIC% (%MAKETEXT{"new"}%)"}%"}%</h1>%TMPL:END%
+%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{"defined 'rev'" then="[[%WEB%.%TOPIC%][%TMPL:P{"topictitle"}%]] (%MAKETEXT{"restore"}%)" else="%IF{"istopic '%WEB%.%TOPIC%'" then="[[%WEB%.%TOPIC%][%TMPL:P{"topictitle"}%]] (%MAKETEXT{"edit"}%)" else="%TMPL:P{"topictitle"}% (%MAKETEXT{"new"}%)"}%"}%</h1>%TMPL:END%
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
