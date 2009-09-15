@@ -24,11 +24,12 @@ use Unit::Request;
 use Unit::Response;
 use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin;
+use Foswiki::UI::Save;
 
 use strict;
 use Carp;
 
-my $UI_FN;
+my $UI_FN = \&Foswiki::UI::Save::save;
 
 sub new {
     my $self = shift()->SUPER::new(@_);
@@ -39,7 +40,6 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-    $UI_FN ||= $this->getUIFn('save');
 
     $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
     $WC::encoding                                  = undef;
