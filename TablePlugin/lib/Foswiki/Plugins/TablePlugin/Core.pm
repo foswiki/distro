@@ -106,6 +106,33 @@ my $COLUMN_TYPE = {
 
 my $PATTERN_ATTRIBUTE_SIZE = qr'([0-9]+)(px|%)*'o;
 
+my $TABLE_RULES = {};
+$TABLE_RULES->{all}->{TD}        = $TABLE_RULES->{all}->{TH} =
+  $TABLE_RULES->{data_all}->{TD} = $TABLE_RULES->{header_all}->{TH} =
+  'border-style:solid';
+$TABLE_RULES->{none}->{TD}        = $TABLE_RULES->{none}->{TH} =
+  $TABLE_RULES->{data_none}->{TD} = $TABLE_RULES->{header_none}->{TH} =
+  'border-style:none';
+$TABLE_RULES->{cols}->{TD}        = $TABLE_RULES->{cols}->{TH} =
+  $TABLE_RULES->{data_cols}->{TD} = $TABLE_RULES->{header_cols}->{TH} =
+  'border-style:none solid';
+$TABLE_RULES->{rows}->{TD}        = $TABLE_RULES->{rows}->{TH} =
+  $TABLE_RULES->{data_rows}->{TD} = $TABLE_RULES->{header_rows}->{TH} =
+  'border-style:solid none';
+$TABLE_RULES->{groups}->{TD} = 'border-style:none';
+$TABLE_RULES->{groups}->{TH} = 'border-style:solid none';
+
+my $TABLE_FRAME = {};
+$TABLE_FRAME->{void}   = 'border-style:none';
+$TABLE_FRAME->{above}  = 'border-style:solid none none none';
+$TABLE_FRAME->{below}  = 'border-style:none none solid none';
+$TABLE_FRAME->{lhs}    = 'border-style:none none none solid';
+$TABLE_FRAME->{rhs}    = 'border-style:none solid none none';
+$TABLE_FRAME->{hsides} = 'border-style:solid none solid none';
+$TABLE_FRAME->{vsides} = 'border-style:none solid none solid';
+$TABLE_FRAME->{box}    = 'border-style:solid';
+$TABLE_FRAME->{border} = 'border-style:solid';
+
 BEGIN {
     $translationToken = "\0";
 
@@ -113,14 +140,14 @@ BEGIN {
     $maxSortCols          = 10000;
     $didWriteDefaultStyle = 0;
     $tableCount           = 0;
+    $currTablePre         = '';
+    $combinedTableAttrs   = {};
+    $tableSpecificAttrs   = {};
 }
 
-sub _setDefaults {
-    _debug("_setDefaults");
-    $currTablePre                  = '';
-    $combinedTableAttrs            = {};
+sub _initDefaults {
+    _debug( 'TablePlugin::Core', '_initDefaults' );
     $defaultAttrs                  = {};
-    $tableSpecificAttrs            = {};
     $defaultAttrs->{headerrows}    = 1;
     $defaultAttrs->{footerrows}    = 0;
     $defaultAttrs->{class}         = 'foswikiTable';
@@ -128,6 +155,19 @@ sub _setDefaults {
 
     _parseDefaultAttributes(
         %{Foswiki::Plugins::TablePlugin::pluginAttributes} );
+
+    $combinedTableAttrs = _mergeHashes( {}, $defaultAttrs );
+
+    # create CSS styles tables in general
+    my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );
+    _writeStyleToHead( $id, @styles ) if scalar @styles;
+}
+
+sub _resetReusedVariables {
+    _debug( 'TablePlugin::Core', '_resetReusedVariables' );
+    $currTablePre       = '';
+    $combinedTableAttrs = _mergeHashes( {}, $defaultAttrs );
+    $tableSpecificAttrs = {};
 }
 
 =pod
@@ -138,7 +178,8 @@ sub _storeAttribute {
     my ( $inAttrName, $inValue, $inCollection ) = @_;
 
     if ( !$inCollection ) {
-        _debug("_storeAttribute -- missing inCollection!");
+        _debug( 'TablePlugin::Core',
+            '_storeAttribute -- missing inCollection!' );
         return;
     }
     return if !defined $inValue;
@@ -153,15 +194,9 @@ sub _storeAttribute {
 sub _parseDefaultAttributes {
     my (%params) = @_;
 
-    _debugData("_parseDefaultTableAttributes");
+    _debug( 'TablePlugin::Core', '_parseDefaultAttributes' );
 
     _parseAttributes( 0, $defaultAttrs, \%params );
-    $combinedTableAttrs = _mergeHashes( $combinedTableAttrs, $defaultAttrs );
-
-    # create CSS styles tables in general
-    my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );
-    _debugData( "after _createCssStyles, id=$id; styles=", \@styles );
-    _writeStyleToHead( $id, @styles ) if scalar @styles;
 }
 
 =pod
@@ -171,7 +206,7 @@ sub _parseDefaultAttributes {
 sub _parseTableSpecificTableAttributes {
     my (%params) = @_;
 
-    _debugData("_parseTableSpecificTableAttributes");
+    _debug( 'TablePlugin::Core', '_parseTableSpecificTableAttributes' );
 
     _parseAttributes( 1, $tableSpecificAttrs, \%params );
 
@@ -182,14 +217,30 @@ sub _parseTableSpecificTableAttributes {
     }
     $combinedTableAttrs =
       _mergeHashes( $combinedTableAttrs, $tableSpecificAttrs );
-    _debugData( "combinedTableAttrs", $combinedTableAttrs );
+    _debugData( 'TablePlugin::Core', 'combinedTableAttrs',
+        $combinedTableAttrs );
 
     # create CSS styles for this table only
     my ( $id, @styles ) = _createCssStyles( 0, $tableSpecificAttrs );
-    _debugData( "after _createCssStyles, id=$id; styles=", \@styles );
+    _debugData( 'TablePlugin::Core', "after _createCssStyles, id=$id; styles",
+        \@styles );
+
     _writeStyleToHead( $id, @styles ) if scalar @styles;
 
     return $currTablePre . '<nop>';
+}
+
+=pod
+
+=cut
+
+sub _cleanParamValue {
+    my ($inValue) = @_;
+
+    return undef if !$inValue;
+
+    $inValue =~ s/ //go;    # remove spaces
+    return $inValue;
 }
 
 =pod
@@ -213,6 +264,9 @@ sub _arrayRefFromParam {
 sub _parseAttributes {
     my ( $modeSpecific, $inCollection, $inParams ) = @_;
 
+    _debugData( 'TablePlugin::Core',
+        "modeSpecific=$modeSpecific; _parseAttributes=", $inParams );
+
     # table attributes
     # some will be used for css styling as well
 
@@ -231,8 +285,9 @@ sub _parseAttributes {
               if $inParams->{initdirection} =~ /^up$/i;
         }
 
-# If EditTablePlugin is installed and we are editing a table, the CGI
-# parameter 'sort' is defined as "off" to disable all header sorting ((Item5135)
+        # If EditTablePlugin is installed and we are editing a table,
+        # the CGI parameter 'sort' is defined as "off" to disable all
+        # header sorting ((Item5135)
         my $cgi          = Foswiki::Func::getCgiQuery();
         my $urlParamSort = $cgi->param('sort');
         if ( $urlParamSort && $urlParamSort =~ /^off$/oi ) {
@@ -250,19 +305,56 @@ sub _parseAttributes {
 
     if ($modeSpecific) {
         _storeAttribute( 'summary', $inParams->{summary}, $inCollection );
-        my $id = $inParams->{id} || 'table' . ( $tableCount + 1 );
+        my $id = $inParams->{id}
+          || 'table'
+          . $Foswiki::Plugins::TablePlugin::topic
+          . ( $tableCount + 1 );
         _storeAttribute( 'id',         $id,                     $inCollection );
         _storeAttribute( 'headerrows', $inParams->{headerrows}, $inCollection );
         _storeAttribute( 'footerrows', $inParams->{footerrows}, $inCollection );
     }
-    _storeAttribute( 'border',      $inParams->{tableborder}, $inCollection );
+    _storeAttribute( 'border', $inParams->{tableborder}, $inCollection );
+    _storeAttribute( 'tableBorderColor', $inParams->{tablebordercolor},
+        $inCollection );
     _storeAttribute( 'cellpadding', $inParams->{cellpadding}, $inCollection );
     _storeAttribute( 'cellspacing', $inParams->{cellspacing}, $inCollection );
     _storeAttribute( 'frame',       $inParams->{tableframe},  $inCollection );
 
-    # table rules and cellspacing cannot be used at the same time
-    _storeAttribute( 'rules', $inParams->{tablerules}, $inCollection )
-      if !( defined $inCollection->{cellspacing} );
+    # tablerules css settings
+    my @tableRulesList = ();
+    if ( $inParams->{tablerules} ) {
+
+        # store tablerules as array, so that headerrules and datarules
+        # can be appended to that list
+        my $param = _cleanParamValue( $inParams->{tablerules} );
+        if ($param) {
+            push( @tableRulesList, $param );
+        }
+    }
+    if ( $inParams->{headerrules} ) {
+        my $param = _cleanParamValue( $inParams->{headerrules} );
+        if ($param) {
+            $param = "header_$param";
+            push( @tableRulesList, $param );
+        }
+    }
+    if ( $inParams->{datarules} ) {
+        my $param = _cleanParamValue( $inParams->{datarules} );
+        if ($param) {
+            $param = "data_$param";
+            push( @tableRulesList, $param );
+        }
+    }
+    $inCollection->{tableRules} = \@tableRulesList if scalar @tableRulesList;
+
+    # use 'rules' as table attribute only (not to define css styles)
+    # but set to
+    my $rules =
+      ( defined $inParams->{headerrules} || defined $inParams->{datarules} )
+      ? 'none'
+      : $inParams->{tablerules};
+    _storeAttribute( 'rules', $rules, $inCollection );
+
     _storeAttribute( 'width', $inParams->{tablewidth}, $inCollection );
 
     # css attributes
@@ -301,7 +393,8 @@ sub _parseAttributes {
         delete $inCollection->{$key} if !defined $value || $value eq '';
     }
 
-    _debugData( "_parseAttributes result:", $inCollection );
+    _debugData( 'TablePlugin::Core', '_parseAttributes result:',
+        $inCollection );
 }
 
 =pod
@@ -314,7 +407,7 @@ sub _convertToNumberAndDate {
     my ($text) = @_;
 
     $text = _stripHtml($text);
-    _debug("_convertToNumberAndDate:$text");
+    _debug( 'TablePlugin::Core', "_convertToNumberAndDate:$text" );
     if ( $text =~ /^\s*$/ ) {
         return ( undef, undef );
     }
@@ -325,7 +418,7 @@ sub _convertToNumberAndDate {
     # Unless the table cell is a pure number
     # we test if it is a date.
     if ( $text =~ /^\s*-?[0-9]+(\.[0-9]+)?\s*$/ ) {
-        _debug("\t this is a number");
+        _debug( 'TablePlugin::Core', "\t this is a number" );
         $num = $text;
     }
     else {
@@ -335,14 +428,14 @@ sub _convertToNumberAndDate {
         catch Error::Simple with {
 
             # nope, wasn't a date
-            _debug("\t this is not a date");
+            _debug( 'TablePlugin::Core', "\t this is not a date" );
         };
     }
-    _debug("\t this is a date") if defined $date;
+    _debug( 'TablePlugin::Core', "\t this is a date" ) if defined $date;
     if ( !defined $date ) {
 
         if ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
-            _debug("\t this is a number with decimal");
+            _debug( 'TablePlugin::Core', "\t this is a number with decimal" );
 
             # for example for attachment sizes: 1.1 K
             # but also for other strings that start with a number
@@ -701,20 +794,34 @@ Explicitly set styles override html styling (in this file marked with comment '#
 sub _createCssStyles {
     my ( $writeDefaults, $inAttrs ) = @_;
 
-    _debug("_createCssStyles; writeDefaults=$writeDefaults");
+    _debug( 'TablePlugin::Core',
+        "_createCssStyles; writeDefaults=$writeDefaults" );
 
-    my @styles = ();
+    my $_styles      = {};
+    my $setAttribute = sub {
+        my ( $tableSelector, $type, $rule ) = @_;
+
+        return if !$rule;
+        $type ||= '#';    # for table selector only, if no type
+        my $storedType = $_styles->{$tableSelector}->{$type} || '';
+        if ( !defined $storedType ) {
+            @{ $_styles->{$tableSelector}->{$type} } = ();
+        }
+        if ( $rule ne $storedType ) {
+            push @{ $_styles->{$tableSelector}->{$type} }, $rule;
+        }
+    };
 
     if ( $writeDefaults && !$didWriteDefaultStyle ) {
         my $tableSelector = '.foswikiTable';
-        my $attr          = 'padding-left:.3em; vertical-align:text-bottom;';
-        push( @styles, ".tableSortIcon img {$attr}" );
+        my $attr          = 'padding-left:.3em; vertical-align:text-bottom';
+        &$setAttribute( $tableSelector, '.tableSortIcon img', $attr );
 
         if ( $inAttrs->{cellpadding} ) {
             my $attr =
-              'padding:' . addDefaultSizeUnit( $inAttrs->{cellpadding} ) . ';';
-            push( @styles, "$tableSelector td {$attr}" );
-            push( @styles, "$tableSelector th {$attr}" );
+              'padding:' . addDefaultSizeUnit( $inAttrs->{cellpadding} );
+            &$setAttribute( $tableSelector, 'td', $attr );
+            &$setAttribute( $tableSelector, 'th', $attr );
         }
         $didWriteDefaultStyle = 1;
     }
@@ -731,118 +838,126 @@ sub _createCssStyles {
     }
 
     # tablerules
-    if ( $inAttrs->{rules} ) {
-        my $attr_table = {};
-        $attr_table->{all}->{td} = $attr_table->{all}->{th} =
-          'border-style:solid;';
-        $attr_table->{none}->{td} = $attr_table->{none}->{th} =
-          'border-style:none;';
-        $attr_table->{cols}->{td} = $attr_table->{cols}->{th} =
-          'border-style:none solid;';
-        $attr_table->{rows}->{td} = $attr_table->{rows}->{th} =
-          'border-style:solid none;';
-        $attr_table->{groups}->{td} = 'border-style:none;';
-        $attr_table->{groups}->{th} = 'border-style:solid none;';
-        my $attr_td = $attr_table->{ $inAttrs->{rules} }->{td};
-        my $attr_th = $attr_table->{ $inAttrs->{rules} }->{th};
-        push( @styles, "$tableSelector th {$attr_th}" );
-        push( @styles, "$tableSelector td {$attr_td}" );
+    if ( $inAttrs->{tableRules} ) {
+        my @rules = @{ $inAttrs->{tableRules} };
+
+        my $attr_td;
+        my $attr_th;
+        foreach my $rule (@rules) {
+            $attr_td = $TABLE_RULES->{$rule}->{TD}
+              if $TABLE_RULES->{$rule}->{TD};
+            $attr_th = $TABLE_RULES->{$rule}->{TH}
+              if $TABLE_RULES->{$rule}->{TH};
+        }
+        &$setAttribute( $tableSelector, 'th', $attr_th );
+        &$setAttribute( $tableSelector, 'td', $attr_td );
     }
 
     # tableframe
     if ( $inAttrs->{frame} ) {
-
-        my $attr_table = {};
-        $attr_table->{void}   = 'border-style:none;';
-        $attr_table->{above}  = 'border-style:solid none none none;';
-        $attr_table->{below}  = 'border-style:none none solid none;';
-        $attr_table->{lhs}    = 'border-style:none none none solid;';
-        $attr_table->{rhs}    = 'border-style:none solid none none;';
-        $attr_table->{hsides} = 'border-style:solid none solid none;';
-        $attr_table->{vsides} = 'border-style:none solid none solid;';
-        $attr_table->{box}    = 'border-style:solid;';
-        $attr_table->{border} = 'border-style:solid;';
-        my $attr = $attr_table->{ $inAttrs->{frame} };
-        push( @styles, "$tableSelector {$attr}" );
+        my $attr = $TABLE_FRAME->{ $inAttrs->{frame} };
+        &$setAttribute( $tableSelector, '', $attr );
     }
 
     # tableborder
     if ( defined $inAttrs->{border} ) {
         my $tableBorderWidth = $inAttrs->{border} || 0;
-        my $attr =
-          'border-width:' . addDefaultSizeUnit($tableBorderWidth) . ';';
-        push( @styles, "$tableSelector {$attr}" );
+        my $attr = 'border-width:' . addDefaultSizeUnit($tableBorderWidth);
+        &$setAttribute( $tableSelector, '', $attr );
+    }
+
+    # tableBorderColor
+    if ( defined $inAttrs->{tableBorderColor} ) {
+        my $attr;
+        $attr = 'border-color:' . $inAttrs->{tableBorderColor};
+        &$setAttribute( $tableSelector, '', $attr );
+        $attr = 'border-top-color:' . $inAttrs->{tableBorderColor};
+        &$setAttribute( $tableSelector, '', $attr );
+        $attr = 'border-bottom-color:' . $inAttrs->{tableBorderColor};
+        &$setAttribute( $tableSelector, '', $attr );
+        $attr = 'border-left-color:' . $inAttrs->{tableBorderColor};
+        &$setAttribute( $tableSelector, '', $attr );
+        $attr = 'border-right-color:' . $inAttrs->{tableBorderColor};
+        &$setAttribute( $tableSelector, '', $attr );
     }
 
     # cellSpacing
     if ( defined $inAttrs->{cellspacing} ) {
 
         # do not use border-collapse:collapse
-        my $attr = 'border-collapse:separate;';
-        push( @styles, "$tableSelector {$attr}" );
+        my $attr = 'border-collapse:separate';
+        &$setAttribute( $tableSelector, '', $attr );
+    }
+
+    # cellpadding
+    if ( defined $inAttrs->{cellpadding} ) {
+        my $attr = 'padding:' . addDefaultSizeUnit( $inAttrs->{cellpadding} );
+        &$setAttribute( $tableSelector, 'td', $attr );
+        &$setAttribute( $tableSelector, 'th', $attr );
     }
 
     # cellborder
     if ( defined $inAttrs->{cellBorder} ) {
         my $cellBorderWidth = $inAttrs->{cellBorder} || 0;
-        my $attr = 'border-width:' . addDefaultSizeUnit($cellBorderWidth) . ';';
-        push( @styles, "$tableSelector td {$attr}" );
-        push( @styles, "$tableSelector th {$attr}" );
+        my $attr = 'border-width:' . addDefaultSizeUnit($cellBorderWidth);
+        &$setAttribute( $tableSelector, 'td', $attr );
+        &$setAttribute( $tableSelector, 'th', $attr );
     }
 
     # tablewidth
     if ( defined $inAttrs->{width} ) {
         my $width = addDefaultSizeUnit( $inAttrs->{width} );
-        my $attr  = 'width:' . $width . ';';
-        push( @styles, "$tableSelector {$attr}" );
+        my $attr  = 'width:' . $width;
+        &$setAttribute( $tableSelector, '', $attr );
     }
 
     # valign
     if ( defined $inAttrs->{vAlign} ) {
-        my $attr = 'vertical-align:' . $inAttrs->{vAlign} . ';';
-        push( @styles, "$tableSelector td {$attr}" );
-        push( @styles, "$tableSelector th {$attr}" );
+        my $attr = 'vertical-align:' . $inAttrs->{vAlign};
+        &$setAttribute( $tableSelector, 'td', $attr );
+        &$setAttribute( $tableSelector, 'th', $attr );
     }
 
     # headerVAlign
     if ( defined $inAttrs->{headerVAlign} ) {
-        my $attr = 'vertical-align:' . $inAttrs->{headerVAlign} . ';';
-        push( @styles, "$tableSelector th {$attr}" );
+        my $attr = 'vertical-align:' . $inAttrs->{headerVAlign};
+        &$setAttribute( $tableSelector, 'th', $attr );
     }
 
     # dataVAlign
     if ( defined $inAttrs->{dataVAlign} ) {
-        my $attr = 'vertical-align:' . $inAttrs->{dataVAlign} . ';';
-        push( @styles, "$tableSelector td {$attr}" );
+        my $attr = 'vertical-align:' . $inAttrs->{dataVAlign};
+        &$setAttribute( $tableSelector, 'td', $attr );
     }
 
     # headerbg
     if ( defined $inAttrs->{headerBg} ) {
         unless ( $inAttrs->{headerBg} =~ /none/i ) {
-            my $attr = 'background-color:' . $inAttrs->{headerBg} . ';';
-            push( @styles, "$tableSelector th {$attr}" );
+            my $attr = 'background-color:' . $inAttrs->{headerBg};
+            &$setAttribute( $tableSelector, 'th', $attr );
         }
     }
 
     # headerbgsorted
     if ( defined $inAttrs->{headerBgSorted} ) {
         unless ( $inAttrs->{headerBgSorted} =~ /none/i ) {
-            my $attr = 'background-color:' . $inAttrs->{headerBgSorted} . ';';
-            push( @styles, "$tableSelector th.foswikiSortedCol {$attr}" );
+            my $attr = 'background-color:' . $inAttrs->{headerBgSorted};
+            &$setAttribute( $tableSelector, 'th.foswikiSortedCol', $attr );
         }
     }
 
     # headercolor
     if ( defined $inAttrs->{headerColor} ) {
-        my $attr = 'color:' . $inAttrs->{headerColor} . ';';
-        push( @styles, "$tableSelector th {$attr}" );
-        push( @styles,
-"$tableSelector th a:link, $tableSelector th a:visited, $tableSelector th a:hover {$attr}"
-        );
+        my $attr = 'color:' . $inAttrs->{headerColor};
+        &$setAttribute( $tableSelector, 'th',           $attr );
+        &$setAttribute( $tableSelector, 'th a:link',    $attr );
+        &$setAttribute( $tableSelector, 'th a:visited', $attr );
+        &$setAttribute( $tableSelector, 'th a:xhover',  $attr )
+          ; # just to make sorting work: hover should be last. below we will remove the x again.
         if ( defined $inAttrs->{headerBg} ) {
             my $hoverBackgroundColor = $inAttrs->{headerBg};
-            $attr = 'background-color:' . $hoverBackgroundColor . ';';
-            push( @styles, "$tableSelector th a:hover {$attr}" );
+            $attr = 'background-color:' . $hoverBackgroundColor;
+            &$setAttribute( $tableSelector, 'th a:xhover', $attr );
         }
     }
 
@@ -854,8 +969,8 @@ sub _createCssStyles {
             foreach my $color (@dataBg) {
                 next if !$color;
                 my $rowSelector = 'foswikiTableRow' . 'dataBg' . $count;
-                my $attr        = "background-color:$color;";
-                push( @styles, "$tableSelector tr.$rowSelector td {$attr}" );
+                my $attr        = "background-color:$color";
+                &$setAttribute( $tableSelector, "tr.$rowSelector td", $attr );
                 $count++;
             }
         }
@@ -869,10 +984,9 @@ sub _createCssStyles {
             foreach my $color (@dataBgSorted) {
                 next if !$color;
                 my $rowSelector = 'foswikiTableRow' . 'dataBg' . $count;
-                my $attr        = "background-color:$color;";
-                push( @styles,
-                    "$tableSelector tr.$rowSelector td.foswikiSortedCol {$attr}"
-                );
+                my $attr        = "background-color:$color";
+                &$setAttribute( $tableSelector,
+                    "tr.$rowSelector td.foswikiSortedCol", $attr );
                 $count++;
             }
         }
@@ -886,8 +1000,8 @@ sub _createCssStyles {
             foreach my $color (@dataColor) {
                 next if !$color;
                 my $rowSelector = 'foswikiTableRow' . 'dataColor' . $count;
-                my $attr        = "color:$color;";
-                push( @styles, "$tableSelector tr.$rowSelector td {$attr}" );
+                my $attr        = "color:$color";
+                &$setAttribute( $tableSelector, "tr.$rowSelector td", $attr );
                 $count++;
             }
         }
@@ -902,9 +1016,9 @@ sub _createCssStyles {
             $width = addDefaultSizeUnit($width);
             my $colSelector = 'foswikiTableCol';
             $colSelector .= $count;
-            my $attr = 'width:' . $width . ';';
-            push( @styles, "$tableSelector td.$colSelector {$attr}" );
-            push( @styles, "$tableSelector th.$colSelector {$attr}" );
+            my $attr = 'width:' . $width;
+            &$setAttribute( $tableSelector, "td.$colSelector", $attr );
+            &$setAttribute( $tableSelector, "th.$colSelector", $attr );
             $count++;
         }
     }
@@ -914,8 +1028,8 @@ sub _createCssStyles {
         my @headerAlign = @{ $inAttrs->{headerAlignListRef} };
         if ( scalar @headerAlign == 1 ) {
             my $align = $headerAlign[0];
-            my $attr  = 'text-align:' . $align . ';';
-            push( @styles, "$tableSelector th {$attr}" );
+            my $attr  = 'text-align:' . $align;
+            &$setAttribute( $tableSelector, 'th', $attr );
         }
         else {
             my $count = 0;
@@ -923,8 +1037,8 @@ sub _createCssStyles {
                 next if !$align;
                 my $colSelector = 'foswikiTableCol';
                 $colSelector .= $count;
-                my $attr = 'text-align:' . $align . ';';
-                push( @styles, "$tableSelector th.$colSelector {$attr}" );
+                my $attr = 'text-align:' . $align;
+                &$setAttribute( $tableSelector, "th.$colSelector", $attr );
                 $count++;
             }
         }
@@ -935,8 +1049,8 @@ sub _createCssStyles {
         my @dataAlign = @{ $inAttrs->{dataAlignListRef} };
         if ( scalar @dataAlign == 1 ) {
             my $align = $dataAlign[0];
-            my $attr  = 'text-align:' . $align . ';';
-            push( @styles, "$tableSelector td {$attr}" );
+            my $attr  = 'text-align:' . $align;
+            &$setAttribute( $tableSelector, 'td', $attr );
         }
         else {
             my $count = 0;
@@ -944,34 +1058,36 @@ sub _createCssStyles {
                 next if !$align;
                 my $colSelector = 'foswikiTableCol';
                 $colSelector .= $count;
-                my $attr = 'text-align:' . $align . ';';
-                push( @styles, "$tableSelector td.$colSelector {$attr}" );
+                my $attr = 'text-align:' . $align;
+                &$setAttribute( $tableSelector, "td.$colSelector", $attr );
                 $count++;
             }
         }
     }
 
-    # cellspacing : no good css equivalent; use table tag attribute
-
-    # cellpadding
-    if ( defined $inAttrs->{cellpadding} ) {
-        my $attr =
-          'padding:' . addDefaultSizeUnit( $inAttrs->{cellpadding} ) . ';';
-        push( @styles, "$tableSelector td {$attr}" );
-        push( @styles, "$tableSelector th {$attr}" );
+    my @styles = ();
+    foreach my $tableSelector ( sort keys %{$_styles} ) {
+        foreach my $selector ( sort keys %{ $_styles->{$tableSelector} } ) {
+            my $selectors =
+              join( '; ', @{ $_styles->{$tableSelector}->{$selector} } );
+            $selector =~ s/xhover/hover/go;    # remove sorting hack
+                 # TODO: optimize by combining identical rules
+            if ( $selector eq '#' ) {
+                push @styles, "$tableSelector {$selectors}";
+            }
+            else {
+                push @styles, "$tableSelector $selector {$selectors}";
+            }
+        }
     }
 
     return ( $id, @styles );
 }
 
 sub _writeStyleToHead {
-    my ( $id, @styles ) = @_;
+    my ( $inId, @inStyles ) = @_;
 
-    my $style = join( "\n", @styles );
-    my $header =
-      '<style type="text/css" media="all">' . "\n" . $style . "\n" . '</style>';
-    _debug("_writeStyleToHead; header=$header");
-    Foswiki::Func::addToHEAD( 'TABLEPLUGIN_' . $id, $header );
+    Foswiki::Plugins::TablePlugin::addHeadStyles( $inId, \@inStyles );
 }
 
 =pod
@@ -994,7 +1110,7 @@ sub addDefaultSizeUnit {
 
 sub emitTable {
 
-    _debug("emitTable");
+    _debug( 'TablePlugin::Core', 'emitTable' );
 
     #Validate headerrows/footerrows and modify if out of range
     if ( $combinedTableAttrs->{headerrows} > scalar @curTable ) {
@@ -1017,7 +1133,7 @@ sub emitTable {
     $tableTagAttributes->{cellspacing} = $combinedTableAttrs->{cellspacing};
     $tableTagAttributes->{cellpadding} = $combinedTableAttrs->{cellpadding};
     $tableTagAttributes->{id}          = $combinedTableAttrs->{id}
-      || 'table' . $tableCount;
+      || undef;
     $tableTagAttributes->{summary} = $combinedTableAttrs->{summary};
     $tableTagAttributes->{frame}   = $combinedTableAttrs->{frame};
     $tableTagAttributes->{rules}   = $combinedTableAttrs->{rules};
@@ -1101,7 +1217,7 @@ sub emitTable {
             $stype = _guessColumnType($sortCol);
         }
 
-        _debug("Sort by:$stype");
+        _debug( 'TablePlugin::Core', "Sort by:$stype" );
 
         # invalidate sorting if no valid column
         if ( $stype eq $COLUMN_TYPE->{'UNDEFINED'} ) {
@@ -1384,7 +1500,7 @@ sub emitTable {
     $text .= $currTablePre . CGI::end_table() . "\n";
 
     # prepare for next table
-    _setDefaults();
+    _resetReusedVariables();
 
     return $text;
 }
@@ -1392,7 +1508,7 @@ sub emitTable {
 sub handler {
     ### my ( $text, $removed ) = @_;
 
-    _debug("handler");
+    _debug( 'TablePlugin::Core', 'handler' );
 
     unless ($Foswiki::Plugins::TablePlugin::initialised) {
         $insideTABLE = 0;
@@ -1437,11 +1553,10 @@ sub handler {
             $sortAttachments = 1;
         }
 
-        _setDefaults();    # first time
+        _initDefaults();    # first time
         $Foswiki::Plugins::TablePlugin::initialised = 1;
     }
 
-    #delete $combinedTableAttrs->{initSort};
     $insideTABLE = 0;
 
     my $defaultSort = $combinedTableAttrs->{sortAllTables};

@@ -30,7 +30,7 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.100';
+our $RELEASE = '1.110';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -42,12 +42,13 @@ our $user;
 our $installWeb;
 our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
-'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
+'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
+my $styles        = {};    # hash to keep track of web.topic
 
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
-    debug("TablePlugin initPlugin");
+    debug( 'TablePlugin', "initPlugin:$web.$topic" );
 
     # check for Plugins.pm versions
     if ( $Foswiki::Plugins::VERSION < 1.026 ) {
@@ -66,7 +67,7 @@ sub initPlugin {
 
 sub preRenderingHandler {
     ### my ( $text, $removed ) = @_;
-    debug("TablePlugin preRenderingHandler");
+    debug( 'TablePlugin', 'preRenderingHandler' );
     my $sort = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT')
       || 'all';
     return
@@ -128,7 +129,7 @@ Settings are applied by the principle of 'filling in the gaps'
 =cut
 
 sub _readPluginSettings {
-    debug("TablePlugin _readPluginSettings");
+    debug( 'TablePlugin', '_readPluginSettings' );
     my $configureAttrStr =
       $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes};
     my $pluginAttrStr =
@@ -136,17 +137,60 @@ sub _readPluginSettings {
 
     debug("\t configureAttrStr=$configureAttrStr") if $configureAttrStr;
     debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
+    debug("\t no settings from configure could be read; using default values")
+      if !$configureAttrStr;
+    $configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
 
-	debug("no settings from configure could be read; using default values") if !$configureAttrStr;
-	$configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
-	
-	$configureAttrStr = Foswiki::Func::expandCommonVariables($configureAttrStr, $topic, $web, undef) if $configureAttrStr;
-	$pluginAttrStr = Foswiki::Func::expandCommonVariables($pluginAttrStr, $topic, $web, undef) if $pluginAttrStr;
-	
+    $configureAttrStr = Foswiki::Func::expandCommonVariables( $configureAttrStr,
+        $topic, $web, undef )
+      if $configureAttrStr;
+    $pluginAttrStr = Foswiki::Func::expandCommonVariables( $pluginAttrStr,
+        $topic, $web, undef )
+      if $pluginAttrStr;
+
     my %configureParams = Foswiki::Func::extractParameters($configureAttrStr);
     my %pluginParams    = Foswiki::Func::extractParameters($pluginAttrStr);
 
     %pluginAttributes = ( %configureParams, %pluginParams );
+}
+
+sub afterCommonTagsHandler {
+
+    debug( '', 'afterCommonTagsHandler' );
+    _writeStyleToHead();
+}
+
+=pod
+
+addHeadStyles( $id, \@styles ) 
+
+Store list of CSS lines to be written.
+
+=cut
+
+sub addHeadStyles {
+    my ( $inId, $inStyles ) = @_;
+
+    $styles->{$web}->{$topic}->{$inId} = $inStyles;
+}
+
+sub _writeStyleToHead {
+
+    return if !$styles->{$web}->{$topic};
+
+    my @allStyles = ();
+    foreach my $id ( sort keys %{ $styles->{$web}->{$topic} } ) {
+        push @allStyles, @{ $styles->{$web}->{$topic}->{$id} };
+    }
+    my $styleText = join( "\n", @allStyles );
+    debug( 'TablePlugin', "_writeStyleToHead; styleText=$styleText" );
+
+    my $header = <<EOS;
+<style type="text/css" media="all">
+$styleText
+</style>
+EOS
+    Foswiki::Func::addToHEAD( "TABLEPLUGIN_${web}_${topic}", $header );
 }
 
 =pod
@@ -156,20 +200,23 @@ Shorthand debugging call.
 =cut
 
 sub debug {
-    my ($text) = @_;
+    my ( $origin, $text ) = @_;
     return if !$Foswiki::cfg{Plugins}{TablePlugin}{Debug};
+    return if !$text;
 
-    $text = "TablePlugin: $text";
+    $origin ||= 'TablePlugin';
+    $text = "$origin: $text";
 
     #print STDERR $text . "\n";
     Foswiki::Func::writeDebug("$text");
 }
 
 sub debugData {
-    my ( $text, $data ) = @_;
+    my ( $origin, $text, $data ) = @_;
 
     return if !$Foswiki::cfg{Plugins}{TablePlugin}{Debug};
-    Foswiki::Func::writeDebug("TablePlugin; $text:");
+    $origin ||= 'TablePlugin';
+    Foswiki::Func::writeDebug("$origin: $text:");
     if ($data) {
         eval
 'use Data::Dumper; local $Data::Dumper::Terse = 1; local $Data::Dumper::Indent = 1; Foswiki::Func::writeDebug(Dumper($data));';

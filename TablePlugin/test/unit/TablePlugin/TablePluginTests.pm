@@ -21,7 +21,7 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
-    $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} = 'tableborder="1" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
+    $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} = 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
@@ -50,7 +50,7 @@ sub test_simpleTableusing {
 <nop>
 <nop>
 <nop>
-<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
+<table class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
@@ -89,7 +89,7 @@ sub test_simpleTheadTableUsingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
+<table class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
@@ -130,7 +130,7 @@ sub test_simpleTfootTableusingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
+<table id="table$this->{test_topic}$tableCount" class="foswikiTable" rules="none" border="1">
 	<tfoot>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">ok</a> </th>
@@ -173,7 +173,7 @@ sub test_doubleTheadTableUsingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
+<table class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
@@ -221,7 +221,7 @@ sub test_doubleTheadandTfootTableusingTablePlugin {
 <nop>
 <nop>
 <nop>
-<table id="table$tableCount" class="foswikiTable" rules="rows" border="1">
+<table id="table$this->{test_topic}$tableCount" class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 				<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
@@ -287,7 +287,7 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table rules="rows" border="1" class="foswikiTable" id="table1">
+<table rules="none" border="1" class="foswikiTable" id="table$this->{test_topic}$tableCount">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" rel="nofollow">Title</a> </th>
@@ -364,7 +364,7 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table rules="rows" border="1" class="foswikiTable" id="table$tableCount">
+<table rules="none" border="1" class="foswikiTable" id="table$this->{test_topic}$tableCount">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" rel="nofollow">Title</a> </th>
@@ -441,7 +441,7 @@ ACTUAL
 <nop>
 <nop>
 <nop>
-<table rules="rows" border="1" class="foswikiTable" id="table$tableCount">
+<table rules="none" border="1" class="foswikiTable" id="table$this->{test_topic}$tableCount">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" rel="nofollow">Title</a> </th>

@@ -109,7 +109,7 @@ You can override the default settings for the plugin by defining the following [
 -->
 | *Preference* | *Meaning* | *Default* |
 | TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | =all= |
-| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]], and can be set on site level in <nop>%MAINWEB%.SitePreferences, on web level in <nop>WebPreferences or on topic level. | =tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"= |
+| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]], and can be set on site level in <nop>%MAINWEB%.SitePreferences, on web level in <nop>WebPreferences or on topic level. | =tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"= |
 
 
 ---++ <nop>TablePlugin and CSS
@@ -152,6 +152,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Sep 2009 | 1.110: Arthur Clemens: Added attributes =headerrules= and =datarules=. Fixed potential bug where Explorer won't render more than 20 table CSS tags. |
 |  13 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
 %BB% Fixed a bug that ignored =cellspacing= (Item8270). \
 %BB% Sorting is now possible with multiple header rows (Item8122). \
