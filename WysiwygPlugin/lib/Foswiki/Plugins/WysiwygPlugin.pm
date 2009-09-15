@@ -509,42 +509,93 @@ sub notWysiwygEditable {
         $exclusions = Foswiki::Func::getPreferencesValue('WYSIWYG_EXCLUDE')
           || '';
     }
-    return 0 unless $exclusions;
 
-    my $calls_ok = Foswiki::Func::getPreferencesValue('WYSIWYG_EDITABLE_CALLS')
-      || '---';
-    $calls_ok =~ s/\s//g;
+    # Check for explicit exclusions before generic, non-configurable 
+    # purely content-related reasons for exclusion
+    if ($exclusions) {
+        my $calls_ok = Foswiki::Func::getPreferencesValue('WYSIWYG_EDITABLE_CALLS')
+          || '---';
+        $calls_ok =~ s/\s//g;
 
-    my $ok = 1;
-    if (   $exclusions =~ /calls/
-        && $_[0] =~ /%((?!($calls_ok){)[A-Z_]+{.*?})%/s )
-    {
-        print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n"
-          if (WHY);
-        return "Text contains calls";
+        my $ok = 1;
+        if (   $exclusions =~ /calls/
+            && $_[0] =~ /%((?!($calls_ok){)[A-Z_]+{.*?})%/s )
+        {
+            print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n"
+              if (WHY);
+            return "Text contains calls";
+        }
+        if ( $exclusions =~ /(macros|variables)/ && $_[0] =~ /%([A-Z_]+)%/s ) {
+            print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n"
+              if (WHY);
+            return "Text contains macros";
+        }
+        if (   $exclusions =~ /html/
+            && $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/ )
+        {
+            print STDERR "WYSIWYG_DEBUG: has html: $1\n"
+              if (WHY);
+            return "Text contains HTML";
+        }
+        if ( $exclusions =~ /comments/ && $_[0] =~ /<[!]--/ ) {
+            print STDERR "WYSIWYG_DEBUG: has comments\n"
+              if (WHY);
+            return "Text contains comments";
+        }
+        if ( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/ ) {
+            print STDERR "WYSIWYG_DEBUG: has pre\n"
+              if (WHY);
+            return "Text contains PRE";
+        }
     }
-    if ( $exclusions =~ /(macros|variables)/ && $_[0] =~ /%([A-Z_]+)%/s ) {
-        print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n"
-          if (WHY);
-        return "Text contains macros";
+
+    # Copy the content. 
+    # Then crunch verbatim blocks, because verbatim blocks may contain *anything*.
+    my $text = $_[0];
+
+    # Look for combinations of sticky and other markup that cause problems together
+    for my $tag ('verbatim', 'literal', keys %xmltag) {
+        while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
+            my $inner = $1;
+            if ($inner =~ /<sticky\b[^>]*>/i) {
+                print STDERR "WYSIWYG_DEBUG: <sticky> inside <$tag>\n"
+                  if (WHY);
+                return "<sticky> inside <$tag>";
+            }
+        }
     }
-    if (   $exclusions =~ /html/
-        && $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/ )
-    {
-        print STDERR "WYSIWYG_DEBUG: has html: $1\n"
-          if (WHY);
-        return "Text contains HTML";
+
+    my $wasAVerbatimTag = "\000verbatim\001";
+    while ($text =~ s/<verbatim\b[^>]*>(.*?)<\/verbatim>/$wasAVerbatimTag/i) {
+        #my $content = $1;
+        # If there is any content that breaks conversion if it is inside a verbatim block, 
+        # check for it here:
     }
-    if ( $exclusions =~ /comments/ && $_[0] =~ /<[!]--/ ) {
-        print STDERR "WYSIWYG_DEBUG: has comments\n"
-          if (WHY);
-        return "Text contains comments";
+
+    # Look for combinations of verbatim and other markup that cause problems together
+    for my $tag ('literal', keys %xmltag) {
+        while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
+            my $inner = $1;
+            if ($inner =~ /$wasAVerbatimTag/i) {
+                print STDERR "WYSIWYG_DEBUG: <verbatim> inside <$tag>\n"
+                  if (WHY);
+                return "<verbatim> inside <$tag>";
+            }
+        }
     }
-    if ( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/ ) {
-        print STDERR "WYSIWYG_DEBUG: has pre\n"
-          if (WHY);
-        return "Text contains PRE";
+
+    # Look for combinations of literal and other markup that cause problems together
+    for my $tag (keys %xmltag) {
+        while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
+            my $inner = $1;
+            if ($inner =~ /<literal\b[^>]*>/i) {
+                print STDERR "WYSIWYG_DEBUG: <literal> inside <$tag>\n"
+                  if (WHY);
+                return "<literal> inside <$tag>";
+            }
+        }
     }
+
     return 0;
 }
 
