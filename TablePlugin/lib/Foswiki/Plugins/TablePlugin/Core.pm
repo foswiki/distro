@@ -38,7 +38,7 @@ my $combinedTableAttrs;    # default and specific table attributes
 # not yet refactored:
 my $tableCount;
 my $sortCol;
-my $maxSortCols;
+my $MAX_SORT_COLS;
 my $requestedTable;
 my $up;
 my $sortTablesInText;
@@ -137,7 +137,7 @@ BEGIN {
     $translationToken = "\0";
 
     # the maximum number of columns we will handle
-    $maxSortCols          = 10000;
+    $MAX_SORT_COLS        = 10000;
     $didWriteDefaultStyle = 0;
     $tableCount           = 0;
     $currTablePre         = '';
@@ -168,6 +168,7 @@ sub _resetReusedVariables {
     $currTablePre       = '';
     $combinedTableAttrs = _mergeHashes( {}, $defaultAttrs );
     $tableSpecificAttrs = {};
+    $sortCol            = 0;
 }
 
 =pod
@@ -432,13 +433,25 @@ sub _convertToNumberAndDate {
         };
     }
     _debug( 'TablePlugin::Core', "\t this is a date" ) if defined $date;
-    if ( !defined $date ) {
+    if ( !defined $num && !defined $date ) {
 
-        if ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
+        # very course testing on IP (could in fact be anything with n.n. syntax
+        if ( $text =~ /^\s*\b\d{1,}\.\d{1,}\.(?:.*?)$/ ) {
+            _debug( 'TablePlugin::Core',
+                "\t this looks like an IP address, or something similar" );
+
+            # should be sorted by text
+
+        }
+        elsif ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
+
+            # test for:
+            # 8 - whole numbers
+            # 8.1 - decimal numbers
+            # 8K - strings that start with a number
+            # 8.1K - idem
+
             _debug( 'TablePlugin::Core', "\t this is a number with decimal" );
-
-            # for example for attachment sizes: 1.1 K
-            # but also for other strings that start with a number
             my $num1 = $1 || 0;
             my $num2 = $2 || 0;
             $num = scalar("$num1$num2");
@@ -467,13 +480,13 @@ sub _processTableRow {
             && $requestedTable == $tableCount
             && defined $sortColFromUrl )
         {
-            $sortCol              = $sortColFromUrl;
-            $sortCol              = $maxSortCols if ( $sortCol > $maxSortCols );
+            $sortCol = $sortColFromUrl;
+            $sortCol = $MAX_SORT_COLS if ( $sortCol > $MAX_SORT_COLS );
             $currentSortDirection = _getCurrentSortDirection($up);
         }
         elsif ( defined $combinedTableAttrs->{initSort} ) {
             $sortCol = $combinedTableAttrs->{initSort} - 1;
-            $sortCol = $maxSortCols if ( $sortCol > $maxSortCols );
+            $sortCol = $MAX_SORT_COLS if ( $sortCol > $MAX_SORT_COLS );
             $currentSortDirection =
               _getCurrentSortDirection( $combinedTableAttrs->{initDirection} );
         }
@@ -1218,6 +1231,8 @@ sub emitTable {
         }
 
         _debug( 'TablePlugin::Core', "Sort by:$stype" );
+        _debug( 'TablePlugin::Core',
+            "currentSortDirection:$currentSortDirection" );
 
         # invalidate sorting if no valid column
         if ( $stype eq $COLUMN_TYPE->{'UNDEFINED'} ) {
