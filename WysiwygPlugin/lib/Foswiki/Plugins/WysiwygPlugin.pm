@@ -554,7 +554,7 @@ sub notWysiwygEditable {
     my $text = $_[0];
 
     # Look for combinations of sticky and other markup that cause problems together
-    for my $tag ('verbatim', 'literal', keys %xmltag) {
+    for my $tag ('literal', keys %xmltag) {
         while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
             my $inner = $1;
             if ($inner =~ /<sticky\b[^>]*>/i) {

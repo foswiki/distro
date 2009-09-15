@@ -35,6 +35,7 @@ TML syntax is not supported.
 package Foswiki::Plugins::WysiwygPlugin::TML2HTML;
 
 use CGI qw( -any );
+use Error qw( :try );
 
 use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin::Constants;
@@ -100,6 +101,19 @@ sub convert {
 
     # Substitute back in protected elements
     $content = $this->_dropBack($content);
+
+    if ($content =~ /[$TT0$TT1$TT2]/o) {
+        # There should never be any of these in the text at this point.
+        # If there are, then the conversion failed. 
+        # Encode the original TML as verbatim-style HTML and include it
+        # in an error log, so that the user at least has a chance to save
+        # his/her work.
+        my $originalContent = $_[1];
+        $originalContent =~ s/[$TT0$TT1$TT2]/?/go;
+        $originalContent = _protectVerbatimChars($originalContent);
+        $originalContent =~ s{/}{'&#'.ord('/').';'}ge; # </tag> looks like a path, but it isn't
+        throw Error::Simple( 'Conversion to HTML failed. TML:<br />'.$originalContent );
+    }
 
     # DEBUG
     #print STDERR "TML2HTML = '$content'\n";
@@ -537,7 +551,9 @@ sub _addClass {
 # Encode special chars in verbatim as entities to prevent misinterpretation
 sub _protectVerbatimChars {
     my $text = shift;
-    $text =~ s/([\000-\011\013-\037<&>'"])/'&#'.ord($1).';'/ges;
+    # $TT0, $TT1 and $TT2 are chr(0), chr(1) and chr(2), respectively. 
+    # They are handled specially, elsewhere
+    $text =~ s/([\003-\011\013-\037<&>'"])/'&#'.ord($1).';'/ges;
     $text =~ s/ /&nbsp;/g;
     $text =~ s/\n/<br \/>/gs;
     return $text;
