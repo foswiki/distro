@@ -26,8 +26,7 @@ sub set_up {
     #    $this->{sup} = $this->{session}->getScriptUrl(0, 'view');
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AllowInlineScript} = 0;
-    $Foswiki::cfg{TablePlugin}{Attributes} =
-'tableborder="1" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
+    $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} = 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 
     $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
 }
@@ -512,7 +511,7 @@ EXPECTED
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="cols" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
@@ -599,7 +598,7 @@ INPUT
 <nop>
 <nop>
 <nop>
-<table id="table1" class="foswikiTable" rules="rows" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th bgcolor="#687684" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">HEADER </th>
@@ -682,7 +681,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table1" class="foswikiTable" rules="cols" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <select class="foswikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
@@ -751,7 +750,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table1" class="foswikiTable" rules="cols" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
@@ -815,7 +814,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table border="1" class="foswikiTable" id="table1">
+<table border="1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.gif" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
@@ -882,7 +881,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table1" class="foswikiTable" rules="cols" border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
@@ -1386,7 +1385,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table border="1" class="foswikiTable" id="table1">
+<table border="1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
@@ -1436,7 +1435,7 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table1" class="foswikiTable" rules="cols" border="1">
+<table class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
@@ -2149,7 +2148,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table1" class="foswikiTable"  border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" border="1" rules="none">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
@@ -2223,7 +2222,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table1" class="foswikiTable"  border="1">
+<table id="table$this->{test_topic}1" class="foswikiTable" border="1" rules="none">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
