@@ -1651,7 +1651,7 @@ BLAH
         tml => "<sticky>Oranges</sticky>\n\n<sticky>Apples</sticky>"
     },
     {
-        exec => $ROUNDTRIP | $CANNOTWYSIWYG, # SMELL: Fix this case
+        exec => $HTML2TML | $ROUNDTRIP,
         name => 'stickyInsideVerbatimItem1980',
         tml  => <<'GLUED',
 <verbatim><sticky>banana</sticky></verbatim>
@@ -2157,10 +2157,15 @@ sub compareRoundTrip {
     $tml =~ s/%!page!%/$page/g;
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    my $html = $txer->convert(
-        $tml,
-        $this->TML_HTMLconverterOptions()
-    );
+    # This conversion can throw an exception. 
+    # This might be expected if $args->{exec} also has $CANNOTWYSIWYG set
+    my $html = eval {
+        $txer->convert(
+            $tml,
+            $this->TML_HTMLconverterOptions()
+        );
+    };
+    $html = $@ if $@;
 
     $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     my $tx = $txer->convert(
