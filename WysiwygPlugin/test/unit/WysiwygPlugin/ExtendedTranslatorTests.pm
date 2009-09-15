@@ -25,7 +25,7 @@
 # of Foswiki it needs to include.
 #
 package ExtendedTranslatorTests;
-use base qw(FoswikiTestCase);
+use base qw(TranslatorTests);
 
 use strict;
 
@@ -35,9 +35,11 @@ require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
 # Bits for test type
 # Fields in test records:
-my $TML2HTML  = 1 << 0;    # test tml => html
-my $HTML2TML  = 1 << 1;    # test html => finaltml (default tml)
-my $ROUNDTRIP = 1 << 2;    # test tml => => finaltml
+my $TML2HTML  = 1 << 0;        # test tml => html
+my $HTML2TML  = 1 << 1;        # test html => finaltml (default tml)
+my $ROUNDTRIP = 1 << 2;        # test tml => => finaltml
+my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
+                               #   and make the ROUNDTRIP test expect failure
 
 # Note: ROUNDTRIP is *not* the same as the combination of
 # HTML2TML and TML2HTML. The HTML and TML comparisons are both
@@ -46,9 +48,25 @@ my $ROUNDTRIP = 1 << 2;    # test tml => => finaltml
 # ROUNDTRIP tests are intended to isolate gradual degradation
 # of the TML, where TML -> HTML -> not quite TML -> HTML
 # -> even worse TML, ad nauseum
+#
+# CANNOTWYSIWYG should normally be used in conjunction with ROUNDTRIP
+# to ensure that notWysiwygEditable is consistent with this plugin's
+# ROUNDTRIP capabilities.
+#
+# CANNOTWYSIWYG and ROUNDTRIP used together document the failure cases,
+# i.e. they indicate TML that WysiwygPlugin cannot properly translate
+# to HTML and back. When WysiwygPlugin is modified to support these
+# cases, CANNOTWYSIWYG should be removed from each corresponding
+# test case and nonWysiwygEditable should be updated so that the TML
+# is "WysiwygEditable".
+#
+# Use CANNOTWYSIWYG without ROUNDTRIP *only* with an appropriate 
+# explanation. For example: 
+#   Can't ROUNDTRIP this TML because perl on the SMURF platform
+#   automagically replaces all instances of 'blue' with 'beautiful'.
 
 # Bit mask for selected test types
-my $mask = $TML2HTML | $HTML2TML | $ROUNDTRIP;
+my $mask = $TML2HTML | $HTML2TML | $ROUNDTRIP | $CANNOTWYSIWYG;
 
 my $protecton  = '<span class="WYSIWYG_PROTECTED">';
 my $linkon     = '<span class="WYSIWYG_LINK">';
@@ -63,7 +81,8 @@ my $nop        = "$protecton<nop>$protectoff";
 
 # Each testcase is a subhash with fields as follows:
 # exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML,
-#   $ROUNDTRIP to test TML-> ->TML, all other bits are ignored.
+#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test 
+#   notWysiwygEditable, all other bits are ignored.
 #   They may be OR'd togoether to perform multiple tests.
 #   For example: $TML2HTML | $HTML2TML to test both
 #   TML -> HTML and HTML -> TML
@@ -160,7 +179,7 @@ my $data = [
           . $protecton
           . '&lt;customtag&nbsp;with="attributes"&gt;<br />&nbsp;&nbsp;formatting&nbsp;&gt;&nbsp;&nbsp;preserved<br />&lt;/customtag&gt;'
           . $protectoff . '</p>',
-        tml => <<BLAH,
+        tml => <<'BLAH',
 <customtag with="attributes">
   formatting >  preserved
 </customtag>
@@ -182,7 +201,7 @@ BLAH
           . '&nbsp;&nbsp;&nbsp;&nbsp;&lt;/customtag&gt;<br />'
           . '&lt;/customtag&gt;'
           . $protectoff . '</p>',
-        tml => <<BLAH,
+        tml => <<'BLAH',
 <customtag>
   formatting >  preserved
     <customtag>
@@ -192,6 +211,152 @@ BLAH
 </customtag>
 BLAH
     },
+    {
+        exec => $CANNOTWYSIWYG,
+        # Do not perform ROUNDTRIP on this TML, because ROUNDTRIP passes.
+        # The problem with this TML is that the special handling of 
+        # <verbatim> in the conversion to HTML messes up the contents 
+        # of this custom XML  tag, so that the HTML is not representative 
+        # of the TML in terms of intellectual content.
+        name => 'VerbatimInsideDot',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'dot',
+                sub { 1 } );
+        },
+        tml => <<'DOT',
+<dot>
+digraph G {
+    open [label="<verbatim>"];
+    content [label="Put arbitrary content here"];
+    close [label="</verbatim>"];
+    open -> content -> close;
+}
+</dot>
+DOT
+    },
+	{
+		exec => $TML2HTML | $ROUNDTRIP,
+		name => 'CustomtagInsideSticky',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        tml => "<sticky><customtag>this & that\n >   the other </customtag></sticky>",
+		html => '<p>'
+		  . '<div class="WYSIWYG_STICKY">'
+		  . '&lt;customtag&gt;'
+		  . 'this&nbsp;&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the&nbsp;other&nbsp;'
+		  . '&lt;/customtag&gt;'
+		  . '</div>'
+		  . '</p>'
+	},
+	{
+		exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: fix this case
+		name => 'StickyInsideCustomtag',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        tml => "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
+		html => '<p>'
+          . $protecton
+		  . '&lt;customtag&gt;'
+		  . 'this&nbsp;'
+		  . '<div class="WYSIWYG_STICKY">'
+		  . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
+		  . '</div>'
+		  . '&nbsp;other&nbsp;'
+		  . '&lt;/customtag&gt;'
+		  . $protectoff
+		  . '</p>'
+	},
+	{
+		exec => $TML2HTML | $ROUNDTRIP,
+		name => 'StickyInsideUnspecifiedCustomtag',
+        setup => sub {
+        },
+        tml => "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
+		html => '<p>'
+          . $protecton
+		  . '&lt;customtag&gt;'
+		  . $protectoff
+		  . 'this'
+		  . '<div class="WYSIWYG_STICKY">'
+		  . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
+		  . '</div>'
+		  . 'other'
+          . $protecton
+		  . '&lt;/customtag&gt;'
+		  . $protectoff
+		  . '</p>'
+	},
+	{
+		exec => $ROUNDTRIP,
+		name => 'UnspecifiedCustomtagInsideSticky',
+        setup => sub {
+        },
+        tml => "<sticky><customtag>this & that\n >   the other </customtag></sticky>"
+	},
+	{
+		exec => $TML2HTML | $ROUNDTRIP,
+		name => 'CustomtagInsideLiteral',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        tml => '<literal><customtag>this & that >   the other </customtag></literal>',
+		html => '<p>'
+		  . '<div class="WYSIWYG_LITERAL">'
+		  . '<customtag>this & that >   the other </customtag>'
+		  . '</div>'
+		  . '</p>'
+	},
+	{
+		exec => $TML2HTML | $ROUNDTRIP,
+		name => 'UnspecifiedCustomtagInsideLiteral',
+        setup => sub {
+        },
+        tml => '<literal><customtag>this & that >   the other </customtag></literal>',
+		html => '<p>'
+		  . '<div class="WYSIWYG_LITERAL">'
+		  . '<customtag>this & that >   the other </customtag>'
+		  . '</div>'
+		  . '</p>'
+	},
+	{
+		exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: Fix this case
+		name => 'LiteralInsideCustomtag',
+        setup => sub {
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+                sub { 1 } );
+        },
+        tml => '<customtag>this <literal>& that > the</literal> other </customtag>',
+		html => '<p>'
+		  . '<div class="WYSIWYG_LITERAL">'
+		  . '<customtag>this & that > the other </customtag>'
+		  . '</div>'
+		  . '</p>'
+	},
+	{
+		exec => $TML2HTML | $ROUNDTRIP,
+		name => 'LiteralInsideUnspecifiedCustomtag',
+        setup => sub {
+        },
+        tml => '<customtag>this <literal>& that > the</literal> other </customtag>',
+		html => '<p>'
+          . $protecton
+		  . '&lt;customtag&gt;'
+		  . $protectoff
+		  . 'this'
+		  . '<div class="WYSIWYG_LITERAL">'
+		  . '& that > the'
+		  . '</div>'
+		  .'other'
+          . $protecton
+		  . '&lt;/customtag&gt;'
+		  . $protectoff
+		  . '</p>'
+	},
 ];
 
 sub gen_compare_tests {
@@ -204,234 +369,75 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
             my $fn = 'ExtendedTranslatorTests::testTML2HTML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareTML_HTML($datum) };
+            *$fn = sub { 
+                my $this = shift; 
+                $this->testSpecificSetup($datum); 
+                $this->compareTML_HTML($datum); 
+                $this->testSpecificCleanup($datum);
+            };
             use strict 'refs';
         }
         if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
             my $fn = 'ExtendedTranslatorTests::testHTML2TML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareHTML_TML($datum) };
+            *$fn = sub { 
+                my $this = shift;
+                $this->testSpecificSetup($datum); 
+                $this->compareHTML_TML($datum);
+                $this->testSpecificCleanup($datum);
+            };
             use strict 'refs';
         }
         if ( ( $mask & $datum->{exec} ) & $ROUNDTRIP ) {
             my $fn = 'ExtendedTranslatorTests::testROUNDTRIP_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareRoundTrip($datum) };
+            *$fn = sub {
+                my $this = shift;
+                $this->testSpecificSetup($datum); 
+                $this->compareRoundTrip($datum);
+                $this->testSpecificCleanup($datum);
+            };
+            use strict 'refs';
+        }
+        if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
+            my $fn = 'TranslatorTests::testCANNOTWYSIWYG_' . $datum->{name};
+            no strict 'refs';
+            *$fn = sub { 
+                my $this = shift;
+                $this->testSpecificSetup($datum); 
+                $this->compareNotWysiwygEditable($datum);
+                $this->testSpecificCleanup($datum);
+            };
             use strict 'refs';
         }
     }
 }
 
-sub set_up {
+sub testSpecificSetup {
+    my ( $this, $args ) = @_;
+    # Reset the extendable parts of WysiwygPlugin
+    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
+    %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
+
+    # Test-specific setup
+    if ( exists $args->{setup} ) {
+        $args->{setup}->($this);
+    }
+}
+
+sub testSpecificCleanup {
+    my ( $this, $args ) = @_;
+    if ( exists $args->{cleanup} ) {
+        $args->{cleanup}->($this);
+    }
+}
+
+sub TML_HTMLconverterOptions
+{
     my $this = shift;
-    $this->SUPER::set_up(@_);
-    $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
-
-    my $query;
-    eval {
-        require Unit::Request;
-        require Unit::Response;
-        $query = new Unit::Request("");
-    };
-    if ($@) {
-        $query = new CGI("");
-    }
-    $query->path_info("/Current/TestTopic");
-    $this->{session} = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $this->{session};
-}
-
-sub normaliseEntities {
-    my $text = shift;
-
-    # Convert text entities to &# representation
-    $text =~ s/(&\w+;)/'&#'.ord(HTML::Entities::decode_entities($1)).';'/ge;
-    return $text;
-}
-
-sub compareTML_HTML {
-    my ( $this, $args ) = @_;
-
-    my $page =
-      $this->{session}->getScriptUrl( 1, 'view', 'Current', 'TestTopic' );
-    $page =~ s/\/Current\/TestTopic.*$//;
-    my $html = $args->{html} || '';
-    $html =~ s/%!page!%/$page/g;
-    my $finaltml = $args->{finaltml} || '';
-    $finaltml =~ s/%!page!%/$page/g;
-    my $tml = $args->{tml} || '';
-    $tml =~ s/%!page!%/$page/g;
-
-    # Reset the extendable parts of WysiwygPlugin
-    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
-    %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
-
-    # Test-specific setup
-    if ( exists $args->{setup} ) {
-        $args->{setup}->();
-    }
-
-    # convert to HTML
-    my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    my $tx   = $txer->convert(
-        $tml,
-        {
-            web        => 'Current',
-            topic      => 'TestTopic',
-            getViewUrl => \&Foswiki::Plugins::WysiwygPlugin::getViewUrl,
-            expandVarsInURL =>
-              \&Foswiki::Plugins::WysiwygPlugin::expandVarsInURL,
-            xmltag => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
-        }
-    );
-
-    # Test-specific cleanup
-    if ( exists $args->{cleanup} ) {
-        $args->{cleanup}->();
-    }
-
-    $this->assert_html_equals( $html, $tx );
-}
-
-sub compareRoundTrip {
-    my ( $this, $args ) = @_;
-    my $page =
-      $this->{session}->getScriptUrl( 1, 'view', 'Current', 'TestTopic' );
-    $page =~ s/\/Current\/TestTopic.*$//;
-
-    my $tml = $args->{tml} || '';
-    $tml =~ s/%!page!%/$page/g;
-
-    # Reset the extendable parts of WysiwygPlugin
-    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
-    %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
-
-    # Test-specific setup
-    if ( exists $args->{setup} ) {
-        $args->{setup}->();
-    }
-
-    # convert to HTML
-    my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    my $html = $txer->convert(
-        $tml,
-        {
-            web        => 'Current',
-            topic      => 'TestTopic',
-            getViewUrl => \&Foswiki::Plugins::WysiwygPlugin::getViewUrl,
-            expandVarsInURL =>
-              \&Foswiki::Plugins::WysiwygPlugin::expandVarsInURL,
-            xmltag => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
-        }
-    );
-
-    # convert back to TML
-    $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx = $txer->convert(
-        $html,
-        {
-            web          => 'Current',
-            topic        => 'TestTopic',
-            convertImage => \&convertImage,
-            rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
-        }
-    );
-
-    # Test-specific cleanup
-    if ( exists $args->{cleanup} ) {
-        $args->{cleanup}->();
-    }
-
-    my $finaltml = $args->{finaltml} || $tml;
-    $finaltml =~ s/%!page!%/$page/g;
-    $this->_assert_tml_equals( $finaltml, $tx, $args->{name} );
-}
-
-sub compareHTML_TML {
-    my ( $this, $args ) = @_;
-
-    my $page =
-      $this->{session}->getScriptUrl( 1, 'view', 'Current', 'TestTopic' );
-    $page =~ s/\/Current\/TestTopic.*$//;
-    my $html = $args->{html} || '';
-    $html =~ s/%!page!%/$page/g;
-    my $tml = $args->{tml} || '';
-    $tml =~ s/%!page!%/$page/g;
-    my $finaltml = $args->{finaltml} || $tml;
-    $finaltml =~ s/%!page!%/$page/g;
-
-    # Reset the extendable parts of WysiwygPlugin
-    %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
-    %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
-
-    # Test-specific setup
-    if ( exists $args->{setup} ) {
-        $args->{setup}->();
-    }
-
-    # convert to TML
-    my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx   = $txer->convert(
-        $html,
-        {
-            web          => 'Current',
-            topic        => 'TestTopic',
-            convertImage => \&convertImage,
-            rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
-        }
-    );
-
-    # Test-specific cleanup
-    if ( exists $args->{cleanup} ) {
-        $args->{cleanup}->();
-    }
-
-    $this->_assert_tml_equals( $finaltml, $tx, $args->{name} );
-}
-
-sub encode {
-    my $s = shift;
-
-    # used for debugging odd chars
-    #    $s =~ s/([\000-\037])/'#'.ord($1)/ge;
-    return $s;
-}
-
-sub _assert_tml_equals {
-    my ( $this, $expected, $actual, $name ) = @_;
-    $expected ||= '';
-    $actual   ||= '';
-    $actual   =~ s/\n$//s;
-    $expected =~ s/\n$//s;
-    unless ( $expected eq $actual ) {
-        my $expl =
-            "==$name== Expected TML:\n"
-          . encode($expected)
-          . "\n==$name== Actual TML:\n"
-          . encode($actual)
-          . "\n==$name==\n";
-        my $i = 0;
-        while ( $i < length($expected) && $i < length($actual) ) {
-            my $e = substr( $expected, $i, 1 );
-            my $a = substr( $actual,   $i, 1 );
-            if ( $a ne $e ) {
-                $expl .= "<<==== HERE actual ";
-                $expl .= ord($a) . " != expected " . ord($e) . "\n";
-                last;
-            }
-            $expl .= $a;
-            $i++;
-        }
-        $this->assert( 0, $expl . "\n" );
-    }
-}
-
-sub convertImage {
-    my $url = shift;
-
-    if ( $url eq "test_image" ) {
-        return '%TRANSLATEDIMAGE%';
-    }
+    my $options = $this->SUPER::TML_HTMLconverterOptions(@_);
+    $options->{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+    return $options;
 }
 
 gen_compare_tests();
