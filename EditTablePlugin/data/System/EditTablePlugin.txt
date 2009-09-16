@@ -196,6 +196,7 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Sep 2009: | 4.33: Kenneth Lavrsen: Removed debug alert when deleting rows |
 |  13 Sep 2009: | 4.32: Arthur Clemens: Fix possible sorting issue on edit screen when no TABLE tag is present. |
 |  02 Sep 2009: | 4.31: Kenneth Lavrsen: Disabled the display of SpreadSheetPlugin "CALC" in headers and footers as this caused the string CALC to be saved instead of the real formular. |
 |  14 Jun 2009: | 4.30: Arthur Clemens: Major code refactoring to let !EditTablePlugin work together with !SpreadSheetPlugin. |
