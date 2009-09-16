@@ -785,7 +785,7 @@ sub putKeyed {
     my ( $this, $type, $args ) = @_;
     ASSERT($type) if DEBUG;
     my $keyName = $args->{name};
-    ASSERT($keyName) if DEBUG;
+    ASSERT($keyName, join(',', keys %$args)) if DEBUG;
 
     unless ( $this->{$type} ) {
         $this->{$type} = [];
@@ -1236,10 +1236,12 @@ sub renderFormForDisplay {
         # Make pseudo-form from field data
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
-        return CGI::span(
+        my $mess = CGI::span(
             { class => 'foswikiAlert' },
             "%MAKETEXT{\"Form definition '[_1]' not found\" args=\"$fname\"}%"
-        ) . $form->renderForDisplay($this);
+           );
+        $mess .= $form->renderForDisplay($this) if $form;
+        return $mess;
     }
 }
 
@@ -2717,7 +2719,7 @@ sub setEmbeddedStoreForm {
 
     # Other meta-data
     my $endMeta = 0;
-    if ( $format < 1.1 ) {
+    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
         require Foswiki::Compatibility;
         if (
             $text =~ s/^%META:([^{]+){(.*)}%\n/
@@ -2772,7 +2774,7 @@ sub setEmbeddedStoreForm {
         }
     }
 
-    if ( $format < 1.1 ) {
+    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
 
         # compatibility; topics version 1.0 and earlier equivalenced tab
         # with three spaces. Respect that.
