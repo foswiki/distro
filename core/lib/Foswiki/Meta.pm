@@ -662,10 +662,12 @@ sub renderFormForDisplay {
         # Make pseudo-form from field data
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
-        return CGI::span(
+        my $mess = CGI::span(
             { class => 'foswikiAlert' },
             "%MAKETEXT{\"Form definition '[_1]' not found\" args=\"$fname\"}%"
-        ) . $form->renderForDisplay($this);
+           );
+        $mess .= $form->renderForDisplay($this) if $form;
+        return $mess;
     }
 }
 
