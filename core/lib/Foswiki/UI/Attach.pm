@@ -85,6 +85,9 @@ sub attach {
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/%HIDEFILE%/$isHideChecked/g;
+
+    my $filePath = $args->{path} || $fileName;
+    $tmpl =~ s/%FILEPATH%/$filePath/g;
     $tmpl =~ s/%FILEPATH%/$args->{path}/g;
     $args->{comment} = Foswiki::entityEncode( $args->{comment} );
     $tmpl =~ s/%FILECOMMENT%/$args->{comment}/g;
