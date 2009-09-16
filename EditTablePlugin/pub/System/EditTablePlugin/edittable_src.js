@@ -686,7 +686,6 @@ function updateTableChangesList(inTable, inDidMoveChange) {
 	if (inDidMoveChange) return; // this is a hack actually; the code below _should_ be able to handle move changes. but since we really don't need to pass a change, this would also be vain effort    
     	
 	var changesList = getChangesListValues(inTable.initChangesList, inTable.revidx, inTable.headerRows, inTable.footerRows);
-	console.debug("changesList F=" + changesList);
 	
 	// make string
 	// first add keys and make one-index based
