@@ -31,29 +31,26 @@ set -e
 
 db_get foswiki/samplefiles
 if [ "$RET" = true ]; then
-#check for the existance of _any_ of the default webs
-#TODO: later this will be replaced by the upgrade script
-    if [ ! -e /var/lib/foswiki/data/Main/WebHome.txt ]; then
-        if [ ! -e /var/lib/foswiki/data/System/WebHome.txt ]; then
-	if [ ! -e /var/lib/foswiki/data/Sandbox/WebHome.txt ]; then
-	if [ ! -e /var/lib/foswiki/data/Trash/WebHome.txt ]; then
-	if [ ! -e /var/lib/foswiki/data/_default/WebHome.txt ]; then
-		    # only extract if they say so and there's no home there
-		    # and even then, fail on overwrite so we don't stomp.
-		    tar -zxk -C / -f /usr/share/foswiki/foswiki-data.tar.gz
-		    # clean up the .mailnotify timestamps.
-		    webs="Main Sandbox System Trash _default";
-		    for web in $webs; do
-		    	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
-    		    done
-			if [ ! -e /var/lib/foswiki/pub/wikiHome.gif ]; then
-				tar -zxk -C / -f /usr/share/foswiki/foswiki-pub.tar.gz
-			fi
-       	fi
-       	fi
-       	fi
-        fi
-    fi
+	#upgrade topics - because we don't ship ,v files, I can use find&sed to make a list of all files that have no ,v, 
+	#and then exclude them from the un-tar
+
+	echo
+	echo Upgrading distriuted topics and attachments - skipping files changed via the Foswiki
+	echo    see /var/log/foswiki/exclude-topics.lst and /var/log/foswiki/exclude-attachments.lst
+	echo
+
+	find /var/lib/foswiki/data -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/log/foswiki/exclude-topics.lst
+
+	tar -zx -C / --exclude-from=/var/log/foswiki/exclude-topics.lst -f /usr/share/foswiki/foswiki-data.tar.gz
+
+	find /var/lib/foswiki/pub -name '*,v' | sed 's/^\///g' | sed 's/,v$//g' > /var/log/foswiki/exclude-attachments.lst
+	tar -zx -C / --exclude-from=/var/log/foswiki/exclude-attachments.lst -f /usr/share/foswiki/foswiki-pub.tar.gz
+	
+	# clean up the .mailnotify timestamps.
+	webs="Main Sandbox System Trash _default";
+	for web in $webs; do
+	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
+	done
 fi
 
 db_get foswiki/defaultUrlHost
@@ -66,13 +63,7 @@ perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/foswiki/apache.conf
 rm /etc/foswiki/*~
 
 db_get foswiki/wikiwebmaster
-# do rcs checkout first?
-#TODO: these settings should move to Main.SitePreferences
-if [ ! -e /var/lib/foswiki/data/System/DefaultPreferences.txt ]; then
-	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
-	#force default to use sendmail by setting SMTPMAILHOST to blank
-	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
-fi
+perl -pi~ -e '$U=q{'"$RET"'}; s{WEBMASTEREMAIL}{$U}g;' /etc/foswiki/LocalSite.cfg
 
 # user + password authorized to run configure script
 db_get foswiki/adminuser
@@ -97,8 +88,10 @@ case "$1" in
 #	    fi
 #	done
 
+	#note that only apache2 really seems to exist in Etch etc, but the others I've left for historical reasons
 	servers="apache apache-perl apache-ssl apache2"
 	for server in $servers; do
+		if [ `which $server` ]; then
 		if [ -e /etc/$server/conf.d ]; then
 			includefile=/etc/foswiki/apache.conf
 			if [ -e /etc/$server/conf.d/foswiki.conf ]; then
@@ -107,12 +100,13 @@ case "$1" in
 			fi
 			ln -s $includefile /etc/$server/conf.d/foswiki.conf
 			if [ $server = "apache2" ]; then
-				a2enmod  authn_file
+				a2enmod authn_file || a2enmod auth_plain || true
 				a2enmod  rewrite
 			else
 				apache-modconf $server enable authn_file
 				apache-modconf $server enable rewrite
 			fi
+		fi
 		fi
 	done
 
@@ -140,6 +134,9 @@ case "$1" in
 			fi
 		       	$HTPASSWDCMD -b /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
 			chown $WIKI_OWNER.www-data /var/lib/foswiki/data/.htpasswd
+			#add the same password into the LocalLib.cfg
+			passwordhash=`grep "$configuser" /var/lib/foswiki/data/.htpasswd | sed "s/$configuser://"`
+			perl -pi~ -e '$U=q{'"$passwordhash"'}; s{PASSWORD}{$U}g;' /etc/foswiki/LocalSite.cfg
 		fi
 	fi
 
@@ -164,12 +161,6 @@ case "$1" in
 	#mmmm, mailnotify etc may be running _not_ as www-data
 	#and for some reason create a session
 	#use 1777 to prevent third parties replacing the file with a doctored one
-	#put into /tmp/foswiki so that the open dir can't be used by others to fill up /var, thus crashing all logging
-	if [ ! -e /tmp/foswiki ]; then
-		mkdir /tmp/foswiki
-	fi
-	chmod 1777 /tmp/foswiki
-	chown $WIKI_OWNER.www-data /tmp/foswiki
 
 	if [ ! -e /var/lib/foswiki/log ]; then
 		ln -s /var/log/foswiki /var/lib/foswiki/log
@@ -194,7 +185,11 @@ case "$1" in
 	for server in $servers; do
 		if [ -e /etc/init.d/$server ]; then
 			echo reloading $server config
-                	/etc/init.d/$server reload
+			if which invoke-rc.d >/dev/null 2>&1 ; then
+				invoke-rc.d $server reload
+			else
+				/etc/init.d/$server reload
+			fi
 		fi
 	done
 

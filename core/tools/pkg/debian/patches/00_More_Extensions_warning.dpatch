@@ -1,0 +1,25 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 00_More_Extensions_warning.dpatch by  <sven@quad.home.org.au>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: warns the admin that they should avoid using the configure extension 
+## DP: installer
+
+@DPATCH@
+
+Index: foswiki-1.0.4/lib/Foswiki/Configure/UIs/FINDEXTENSIONS.pm
+===================================================================
+--- foswiki-1.0.4/lib/Foswiki/Configure/UIs/FINDEXTENSIONS.pm (revision 3206)
++++ foswiki-1.0.4/lib/Foswiki/Configure/UIs/FINDEXTENSIONS.pm (working copy)
+@@ -49,6 +49,11 @@
+ missing modules required for the Extensions Installer.
+ MESSAGE
+     }
++
++    $actor .= $this->WARN(<<MESSAGE);
++This Foswiki was installed using debian packages. You are strongly advised to use the same http://fosiki.com/Foswiki_debian repository packages to install Extensions. If you use this 'Find More Extenstions' button, your Foswiki system may break.
++MESSAGE
++
+     return CGI::Tr( CGI::td($button), CGI::td($actor) )
+       . $this->SUPER::close_html($section);
+ }
