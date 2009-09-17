@@ -678,7 +678,8 @@ None
 | [[%BUGS%/Item1509][Item1509]] | version comparison fails given x.y.z format |
 | [[%BUGS%/Item1687][Item1687]] | Documentation bug in !ManagingUsers, customizing registration emails  |
 | [[%BUGS%/Item1729][Item1729]] | Have more flexibility in Twisty's remember setting |
-| [[%BUGS%/Item1768][Item1768]] | Help Icon Macro mistake |
+| [[%BUGS%/Item1766][Item1766]] | Redirecting to http://foswiki_redirect_cache... on first login of a browser session |
+| [[%BUGS%/Item1768][Item1768]] | <img src="/pub/System/DocumentGraphics/help.gif" alt="QUESTION?" title="QUESTION?" width="16" height="16" border="0" /> Macro mistake |
 | [[%BUGS%/Item1776][Item1776]] | Command line save gets stopped by validation |
 | [[%BUGS%/Item1780][Item1780]] | Under Windows using sha1 passwords new registrations create non working password |
 | [[%BUGS%/Item1781][Item1781]] | Uploading files can trigger taint errors if certain plugins are installed |
@@ -691,6 +692,7 @@ None
 | [[%BUGS%/Item1878][Item1878]] | Numerical Sort in table columns broken |
 | [[%BUGS%/Item1921][Item1921]] | CSRF: ={Validation}{Method} = 'strikeone'= Confirmation Dialog messes up retarded execution macros |
 | [[%BUGS%/Item1941][Item1941]] | Small improvement to rest example |
+| [[%BUGS%/Item1980][Item1980]] | Sticky tags within Verbatim Tags results in data loss |
 | [[%BUGS%/Item2001][Item2001]] | TablePlugin: Numbers with suffix do not sort if negative |
 | [[%BUGS%/Item2011][Item2011]] | Small syle improvements for !PatternSkin merged in from trunk; version for Foswiki 1.0.7 |
 | [[%BUGS%/Item2034][Item2034]] | Missed some tmwiki rebranding in =tools/= |
@@ -699,9 +701,9 @@ None
 | [[%BUGS%/Item2058][Item2058]] | Usability: links in headers should be visible as links |
 | [[%BUGS%/Item2061][Item2061]] | vbar not escaped properly in logger |
 | [[%BUGS%/Item2070][Item2070]] | Include the !TinyMCE editor upgrade in 1.0.7 |
+| [[%BUGS%/Item2078][Item2078]] | Bum macro in form def name causes death by exception |
 | [[%BUGS%/Item8230][Item8230]] | Edittable is replacing SpreadSheetPlugin-formulas with the text "CALC" in headers and footers |
 | [[%BUGS%/Item8269][Item8269]] | CommentPlugin: broken anchor target |
-| [[%BUGS%/Item8274][Item8274]] | wysiwyg merges two consecutive lists |
 </noautolink>
 
 ---+++ Enhancements
