@@ -31,7 +31,7 @@ use vars qw(
     );
 
 our $VERSION = '$Rev: 13748 $';
-our $RELEASE = '11 May 2009';
+our $RELEASE = '17 Sep 2009';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
 
