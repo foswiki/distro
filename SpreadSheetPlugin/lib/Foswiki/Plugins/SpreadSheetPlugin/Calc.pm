@@ -242,6 +242,8 @@ sub doFunc {
         $format =~ s/^\s*(.*?)\s*$/$1/;    #Strip leading and trailing spaces
         $res    =~ s/^\s*(.*?)\s*$/$1/;
         $value  =~ s/^\s*(.*?)\s*$/$1/;
+        $res =~ m/^(.*)$/; # SMELL why do we need to untaint
+        $res = $1;
         if ( $format eq "DOLLAR" ) {
             my $neg = 1 if $value < 0;
             $value = abs($value);
@@ -1303,7 +1305,8 @@ sub getListAsFloat {
     my @list = getList($theAttr);
     ( my $baz = "foo" ) =~ s/foo//;    # reset search vars. defensive coding
     for my $i ( 0 .. $#list ) {
-        $val = $list[$i] || "";
+        $val = $list[$i];
+        $val = "" unless defined $val;
 
         # search first float pattern, skip over HTML tags
         if ( $val =~ /^\s*(?:<[^>]*>)*\$?([\-\+]*[0-9\.]+).*/o ) {
