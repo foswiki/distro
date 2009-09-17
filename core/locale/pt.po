@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-07-14 15:18+0200\n"
+"PO-Revision-Date: 2009-09-17 20:26+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt\n"
@@ -121,7 +121,7 @@ msgstr "Tópico inicial de %1"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:86
 msgid "%1 is a list of Foswiki user documentation"
-msgstr "%1 é uma lista com documentação de usuário do Foswiki"
+msgstr "%1 é uma lista com documentação de utilizador do Foswiki"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
@@ -133,11 +133,11 @@ msgstr "%1 está autenticado nesse momento"
 
 #: core/templates/messages.tmpl:415
 msgid "%1 is currently set to %2"
-msgstr "%1 atualmente tem o valor %2"
+msgstr "%1 actualmente tem o valor %2"
 
 #: core/templates/messages.tmpl:436
 msgid "%1 is editing %2."
-msgstr "%1 está editando %2."
+msgstr "%1 está a editar %2."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
@@ -149,11 +149,11 @@ msgstr "%1 é o tópico padrão para remover anexos"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
 msgid "%1 lists all Foswiki user tools"
-msgstr "%1 lista todas as ferramentas de usuários do Foswiki."
+msgstr "%1 lista todas as ferramentas de utilizadores do Foswiki."
 
 #: core/templates/messages.tmpl:444
 msgid "%1 may still be editing %2."
-msgstr "%1 pode ainda estar editando %2."
+msgstr "%1 pode ainda estar a editar %2."
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:221
