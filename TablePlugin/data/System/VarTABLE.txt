@@ -56,6 +56,12 @@
      | =headervalign=   | Vertical alignment of header cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =headervalign="top"= |
      | =headeralign=    | Header cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =headeralign="left,right"= |
      | =headerrows=     | See: Attributes for tables |||
+     
+---++++ Other attributes
+%TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="Main.WebHome"= |
+
 %ENDSECTION{"table_attributes"}%
    * Example:%BR%
      =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%= %BR%

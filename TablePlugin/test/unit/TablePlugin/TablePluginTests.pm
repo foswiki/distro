@@ -487,4 +487,69 @@ EXPECTED
     $this->do_test( $expected, $actual );
 }
 
+=pod
+
+Includes a topic that has an EDITTABLE with param 'include' set: the table definition is in a third topic.
+
+=cut
+
+sub test_INCLUDE_include {
+    my $this = shift;
+
+    # Create topic with table definition
+    my $tableDefTopic = "QmsCommentTable";
+    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef, <<THIS);
+%TABLE{ tablerules="all" datacolor="#f00" tableborder="5" }%
+THIS
+
+    my $includeTopic = "ProcedureSysarch000Comments";
+    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef, <<THIS);
+%TABLE{ include="QmsCommentTable" }%
+|*A*|*B*|
+| a | b |
+THIS
+
+    # include this in our test topic
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $input = '%INCLUDE{"ProcedureSysarch000Comments"}%';
+
+    my $expected = <<END;
+<nop>
+<nop>
+<nop>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="all" border="5">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0 foswikiTableRowdataColor0">
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">A</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">B</a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0 foswikiTableRowdataColor0">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> b </td>
+		</tr>
+	</tbody></table>
+END
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
+    _trimSpaces( $expected );
+    _trimSpaces( $result );
+    $this->do_test( $expected, $result );
+}
+
+sub _trimSpaces {
+
+    #my $text = $_[0]
+
+    $_[0] =~ s/^[[:space:]]+//s;    # trim at start
+    $_[0] =~ s/[[:space:]]+$//s;    # trim at end
+}
+
 1;

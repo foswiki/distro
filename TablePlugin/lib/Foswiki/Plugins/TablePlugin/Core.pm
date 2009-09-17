@@ -271,6 +271,10 @@ sub _parseAttributes {
 
     _debugData( "modeSpecific=$modeSpecific; _parseAttributes=", $inParams );
 
+    # include topic to read definitions
+    my $includeTopicParam = $inParams->{include};
+    $inParams = _getIncludeParams($includeTopicParam) if $includeTopicParam;
+    
     # table attributes
     # some will be used for css styling as well
 
@@ -398,6 +402,52 @@ sub _parseAttributes {
     }
 
     _debugData( '_parseAttributes result:', $inCollection );
+}
+
+=pod
+
+_getIncludeParams( $includeTopic ) -> \%params
+
+From $includeTopic read the first TABLE tag and return its parameters.
+
+=cut
+
+sub _getIncludeParams {
+    my ($inIncludeTopic) = @_;
+
+    my ( $includeWeb, $includeTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::Plugins::TablePlugin::web,
+        $inIncludeTopic );
+
+    _debug("_getIncludeParams:$inIncludeTopic");
+    _debug("\t includeTopic=$includeTopic") if $includeTopic;
+    
+    if ( !Foswiki::Func::topicExists( $includeWeb, $includeTopic ) ) {
+        _debug("TablePlugin: included topic $inIncludeTopic does not exist.");
+        die("TablePlugin: included topic $inIncludeTopic does not exist.");
+    }
+    else {
+
+        my $text = Foswiki::Func::readTopicText( $includeWeb, $includeTopic );
+
+        $text =~ /$PATTERN_TABLE/os;
+        if ($1) {
+            my $paramString = $1;
+
+            if (   $includeWeb ne $Foswiki::Plugins::TablePlugin::web
+                || $includeTopic ne $Foswiki::Plugins::TablePlugin::topic )
+            {
+
+                # expand common vars, except oneself to prevent recursion
+                $paramString =
+                  Foswiki::Func::expandCommonVariables( $paramString,
+                    $includeTopic, $includeWeb );
+            }
+            my %params = Foswiki::Func::extractParameters($paramString);
+            return \%params;
+        }
+    }
+    return undef;
 }
 
 =pod

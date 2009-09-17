@@ -152,6 +152,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  17 Sep 2009 | 1.120: Arthur Clemens: Added =include= parameter. |
 |  16 Sep 2009 | 1.110: Arthur Clemens: Added attributes =headerrules= and =datarules=. Fixed potential bug where Explorer won't render more than 20 table CSS tags. Fix sorting on IP addresses. |
 |  13 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
 %BB% Fixed a bug that ignored =cellspacing= (Item8270). \
