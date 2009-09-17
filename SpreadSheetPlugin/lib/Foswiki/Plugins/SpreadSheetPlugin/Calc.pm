@@ -1117,7 +1117,8 @@ sub getListAsFloat
     my @list = getList( $theAttr );
     (my $baz = "foo") =~ s/foo//;  # reset search vars. defensive coding
     for my $i (0 .. $#list ) {
-        $val = $list[$i] || "";
+        $val = $list[$i];
+        $val = "" unless defined $val;
         # search first float pattern, skip over HTML tags
         if( $val =~ /^\s*(?:<[^>]*>)*\$?([\-\+]*[0-9\.]+).*/o ) {
             $list[$i] = $1;  # untainted variable, possibly undef
