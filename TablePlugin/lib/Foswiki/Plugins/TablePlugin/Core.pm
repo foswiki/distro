@@ -34,6 +34,7 @@ my $didWriteDefaultStyle;
 my $defaultAttrs;          # to write generic table CSS
 my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
+my $styles = {};           # hash of default and specific styles
 
 # not yet refactored:
 my $tableCount;
@@ -48,6 +49,12 @@ my $url;
 my $currentSortDirection;
 my @rowspan;
 
+my $HEAD_ID_DEFAULT_STYLE =
+  'TABLEPLUGIN_default';    # this name is part of the API, do not change
+my $HEAD_ID_SPECIFIC_STYLE =
+  'TABLEPLUGIN_specific';    # this name is part of the API, do not change
+
+my $PATTERN_TABLE = qr/%TABLE(?:{(.*?)})?%/;
 my $URL_ICON =
     Foswiki::Func::getPubUrlPath() . '/'
   . $Foswiki::cfg{SystemWebName}
@@ -146,7 +153,7 @@ BEGIN {
 }
 
 sub _initDefaults {
-    _debug( 'TablePlugin::Core', '_initDefaults' );
+    _debug('_initDefaults');
     $defaultAttrs                  = {};
     $defaultAttrs->{headerrows}    = 1;
     $defaultAttrs->{footerrows}    = 0;
@@ -160,11 +167,11 @@ sub _initDefaults {
 
     # create CSS styles tables in general
     my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );
-    _writeStyleToHead( $id, @styles ) if scalar @styles;
+    _addHeadStyles( $HEAD_ID_DEFAULT_STYLE, @styles ) if scalar @styles;
 }
 
 sub _resetReusedVariables {
-    _debug( 'TablePlugin::Core', '_resetReusedVariables' );
+    _debug('_resetReusedVariables');
     $currTablePre       = '';
     $combinedTableAttrs = _mergeHashes( {}, $defaultAttrs );
     $tableSpecificAttrs = {};
@@ -179,8 +186,7 @@ sub _storeAttribute {
     my ( $inAttrName, $inValue, $inCollection ) = @_;
 
     if ( !$inCollection ) {
-        _debug( 'TablePlugin::Core',
-            '_storeAttribute -- missing inCollection!' );
+        _debug('_storeAttribute -- missing inCollection!');
         return;
     }
     return if !defined $inValue;
@@ -195,7 +201,7 @@ sub _storeAttribute {
 sub _parseDefaultAttributes {
     my (%params) = @_;
 
-    _debug( 'TablePlugin::Core', '_parseDefaultAttributes' );
+    _debug('_parseDefaultAttributes');
 
     _parseAttributes( 0, $defaultAttrs, \%params );
 }
@@ -207,7 +213,7 @@ sub _parseDefaultAttributes {
 sub _parseTableSpecificTableAttributes {
     my (%params) = @_;
 
-    _debug( 'TablePlugin::Core', '_parseTableSpecificTableAttributes' );
+    _debug('_parseTableSpecificTableAttributes');
 
     _parseAttributes( 1, $tableSpecificAttrs, \%params );
 
@@ -218,15 +224,13 @@ sub _parseTableSpecificTableAttributes {
     }
     $combinedTableAttrs =
       _mergeHashes( $combinedTableAttrs, $tableSpecificAttrs );
-    _debugData( 'TablePlugin::Core', 'combinedTableAttrs',
-        $combinedTableAttrs );
+    _debugData( 'combinedTableAttrs', $combinedTableAttrs );
 
     # create CSS styles for this table only
     my ( $id, @styles ) = _createCssStyles( 0, $tableSpecificAttrs );
-    _debugData( 'TablePlugin::Core', "after _createCssStyles, id=$id; styles",
-        \@styles );
+    _debugData( "after _createCssStyles, id=$id; styles", \@styles );
 
-    _writeStyleToHead( $id, @styles ) if scalar @styles;
+    _addHeadStyles( $id, @styles ) if scalar @styles;
 
     return $currTablePre . '<nop>';
 }
@@ -265,8 +269,7 @@ sub _arrayRefFromParam {
 sub _parseAttributes {
     my ( $modeSpecific, $inCollection, $inParams ) = @_;
 
-    _debugData( 'TablePlugin::Core',
-        "modeSpecific=$modeSpecific; _parseAttributes=", $inParams );
+    _debugData( "modeSpecific=$modeSpecific; _parseAttributes=", $inParams );
 
     # table attributes
     # some will be used for css styling as well
@@ -394,8 +397,7 @@ sub _parseAttributes {
         delete $inCollection->{$key} if !defined $value || $value eq '';
     }
 
-    _debugData( 'TablePlugin::Core', '_parseAttributes result:',
-        $inCollection );
+    _debugData( '_parseAttributes result:', $inCollection );
 }
 
 =pod
@@ -408,7 +410,7 @@ sub _convertToNumberAndDate {
     my ($text) = @_;
 
     $text = _stripHtml($text);
-    _debug( 'TablePlugin::Core', "_convertToNumberAndDate:$text" );
+    _debug("_convertToNumberAndDate:$text");
     if ( $text =~ /^\s*$/ ) {
         return ( undef, undef );
     }
@@ -419,7 +421,7 @@ sub _convertToNumberAndDate {
     # Unless the table cell is a pure number
     # we test if it is a date.
     if ( $text =~ /^\s*-?[0-9]+(\.[0-9]+)?\s*$/ ) {
-        _debug( 'TablePlugin::Core', "\t this is a number" );
+        _debug("\t this is a number");
         $num = $text;
     }
     else {
@@ -429,16 +431,15 @@ sub _convertToNumberAndDate {
         catch Error::Simple with {
 
             # nope, wasn't a date
-            _debug( 'TablePlugin::Core', "\t this is not a date" );
+            _debug("\t this is not a date");
         };
     }
-    _debug( 'TablePlugin::Core', "\t this is a date" ) if defined $date;
+    _debug("\t this is a date") if defined $date;
     if ( !defined $num && !defined $date ) {
 
         # very course testing on IP (could in fact be anything with n.n. syntax
         if ( $text =~ /^\s*\b\d{1,}\.\d{1,}\.(?:.*?)$/ ) {
-            _debug( 'TablePlugin::Core',
-                "\t this looks like an IP address, or something similar" );
+            _debug("\t this looks like an IP address, or something similar");
 
             # should be sorted by text
 
@@ -451,7 +452,7 @@ sub _convertToNumberAndDate {
             # 8K - strings that start with a number
             # 8.1K - idem
 
-            _debug( 'TablePlugin::Core', "\t this is a number with decimal" );
+            _debug("\t this is a number with decimal");
             my $num1 = $1 || 0;
             my $num2 = $2 || 0;
             $num = scalar("$num1$num2");
@@ -807,8 +808,7 @@ Explicitly set styles override html styling (in this file marked with comment '#
 sub _createCssStyles {
     my ( $writeDefaults, $inAttrs ) = @_;
 
-    _debug( 'TablePlugin::Core',
-        "_createCssStyles; writeDefaults=$writeDefaults" );
+    _debug("_createCssStyles; writeDefaults=$writeDefaults");
 
     my $_styles      = {};
     my $setAttribute = sub {
@@ -836,7 +836,6 @@ sub _createCssStyles {
             &$setAttribute( $tableSelector, 'td', $attr );
             &$setAttribute( $tableSelector, 'th', $attr );
         }
-        $didWriteDefaultStyle = 1;
     }
 
     my $tableSelector;
@@ -1097,10 +1096,40 @@ sub _createCssStyles {
     return ( $id, @styles );
 }
 
-sub _writeStyleToHead {
+sub _addHeadStyles {
     my ( $inId, @inStyles ) = @_;
 
-    Foswiki::Plugins::TablePlugin::addHeadStyles( $inId, \@inStyles );
+    return if !scalar @inStyles;
+
+    $styles->{seendIds}->{$inId} = 1;
+    if ( $inId eq $HEAD_ID_DEFAULT_STYLE ) {
+        $styles->{$HEAD_ID_DEFAULT_STYLE}->{'default'} = \@inStyles;
+        _writeStyleToHead( $HEAD_ID_DEFAULT_STYLE,
+            $styles->{$HEAD_ID_DEFAULT_STYLE} );
+    }
+    else {
+        $styles->{$HEAD_ID_SPECIFIC_STYLE}->{$inId} = \@inStyles;
+        _writeStyleToHead( $HEAD_ID_SPECIFIC_STYLE,
+            $styles->{$HEAD_ID_SPECIFIC_STYLE} );
+    }
+}
+
+sub _writeStyleToHead {
+    my ( $inId, $inStyles ) = @_;
+
+    my @allStyles = ();
+    foreach my $id ( sort keys %{$inStyles} ) {
+        push @allStyles, @{ $inStyles->{$id} };
+    }
+    my $styleText = join( "\n", @allStyles );
+
+    my $header = <<EOS;
+<style type="text/css" media="all">
+$styleText
+</style>
+EOS
+    $header =~ s/(.*?)\s*$/$1/;    # remove last newline
+    Foswiki::Func::addToHEAD( $inId, $header, $HEAD_ID_DEFAULT_STYLE );
 }
 
 =pod
@@ -1123,7 +1152,7 @@ sub addDefaultSizeUnit {
 
 sub emitTable {
 
-    _debug( 'TablePlugin::Core', 'emitTable' );
+    _debug('emitTable');
 
     #Validate headerrows/footerrows and modify if out of range
     if ( $combinedTableAttrs->{headerrows} > scalar @curTable ) {
@@ -1230,9 +1259,8 @@ sub emitTable {
             $stype = _guessColumnType($sortCol);
         }
 
-        _debug( 'TablePlugin::Core', "Sort by:$stype" );
-        _debug( 'TablePlugin::Core',
-            "currentSortDirection:$currentSortDirection" );
+        _debug("Sort by:$stype");
+        _debug("currentSortDirection:$currentSortDirection");
 
         # invalidate sorting if no valid column
         if ( $stype eq $COLUMN_TYPE->{'UNDEFINED'} ) {
@@ -1523,7 +1551,7 @@ sub emitTable {
 sub handler {
     ### my ( $text, $removed ) = @_;
 
-    _debug( 'TablePlugin::Core', 'handler' );
+    _debug('handler');
 
     unless ($Foswiki::Plugins::TablePlugin::initialised) {
         $insideTABLE = 0;
@@ -1580,7 +1608,7 @@ sub handler {
     my @lines = split( /\r?\n/, $_[0] );
     for (@lines) {
         if (
-s/%TABLE(?:{(.*?)})?%/_parseTableSpecificTableAttributes(Foswiki::Func::extractParameters($1))/se
+s/$PATTERN_TABLE/_parseTableSpecificTableAttributes(Foswiki::Func::extractParameters($1))/se
           )
         {
             $acceptable = 1;
@@ -1805,11 +1833,11 @@ Shorthand debugging call.
 =cut
 
 sub _debug {
-    return Foswiki::Plugins::TablePlugin::debug(@_);
+    return Foswiki::Plugins::TablePlugin::debug( 'TablePlugin::Core', @_ );
 }
 
 sub _debugData {
-    return Foswiki::Plugins::TablePlugin::debugData(@_);
+    return Foswiki::Plugins::TablePlugin::debugData( 'TablePlugin::Core', @_ );
 }
 
 1;

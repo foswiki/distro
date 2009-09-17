@@ -43,7 +43,8 @@ our $installWeb;
 our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#345" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
-my $styles        = {};    # hash to keep track of web.topic
+my $styles        = {};    # hash to keep track of web->topic
+my $writtenToHead = 0;
 
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
