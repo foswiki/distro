@@ -230,8 +230,6 @@ sub new {
                 $this->{SHORTDESCRIPTION} = $2;
             }
         }
-    } else {
-        die "NO $this->{pm} - aborting";
     }
 
     # where data files live
