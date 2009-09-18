@@ -14,6 +14,7 @@ use Assert;
 use Error qw(:try);
 
 require Foswiki::Time;
+use Foswiki::Sandbox ();
 
 # Used to generate unique placeholders for when we lift blocks out of the
 # text during rendering.
@@ -551,6 +552,11 @@ sub _linkToolTipInfo {
     my $store = $this->{session}->{store};
     my $users = $this->{session}->{users};
 
+    # These are safe to untaint blindly because this method is only
+    # called when a regex matches a valid wikiword
+    $theWeb = Foswiki::Sandbox::untaintUnchecked($theWeb);
+    $theTopic = Foswiki::Sandbox::untaintUnchecked($theTopic);
+
     # SMELL: we ought not to have to fake this. Topic object model, please!!
     my ( $meta, $text ) = $store->readTopic( undef, $theWeb, $theTopic );
     my ( $date, $user, $rev, $comment ) = $meta->getRevisionInfo();
@@ -559,10 +565,9 @@ sub _linkToolTipInfo {
     $tooltip =~ s/\$topic/<nop>$theTopic/g;
     $tooltip =~ s/\$rev/1.$rev/g;
     $tooltip =~ s/\$date/Foswiki::Time::formatTime( $date )/ge;
-    $tooltip =~ s/\$username/$users->getLoginName($user)/ge;    # 'jsmith'
-    $tooltip =~ s/\$wikiname/$users->getWikiName($user)/ge;     # 'JohnSmith'
-    $tooltip =~
-      s/\$wikiusername/$users->webDotWikiName($user)/ge;     # 'Main.JohnSmith'
+    $tooltip =~ s/\$username/$users->getLoginName($user)||$user/ge;
+    $tooltip =~ s/\$wikiname/$users->getWikiName($user)||$user/ge;
+    $tooltip =~ s/\$wikiusername/$users->webDotWikiName($user)||$user/ge;
 
     if ( $tooltip =~ /\$summary/ ) {
         my $summary = $this->makeTopicSummary( $text, $theTopic, $theWeb );
@@ -635,8 +640,12 @@ sub internalLink {
     # Turn spaced-out names into WikiWords - upper case first letter of
     # whole link, and first of each word. TODO: Try to turn this off,
     # avoiding spaces being stripped elsewhere
+
     $theTopic =~ s/^(.)/\U$1/;
     $theTopic =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/go;
+    # If locales are in effect, the above conversions will taint the topic
+    # name (Foswiki:Tasks:Item2091)
+    $theTopic = Foswiki::Sandbox::untaintUnchecked($theTopic);
 
     # Add <nop> before WikiWord inside link text to prevent double links
     $theLinkText =~ s/(?<=[\s\(])([$Foswiki::regex{upperAlpha}])/<nop>$1/go;
@@ -864,6 +873,10 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
 
     # Get rid of remaining spaces, i.e. spaces in front of -'s and ('s
     $link =~ s/\s//go;
+
+    # The link is used in the topic name, and if locales are in effect,
+    # the above conversions will taint the name (Foswiki:Tasks:Item2091)
+    $link = Foswiki::Sandbox::untaintUnchecked($link);
 
     $topic = $link if ($link);
 
