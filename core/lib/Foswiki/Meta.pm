@@ -2119,7 +2119,7 @@ sub attach {
             attachment  => $opts{name},
             stream      => $opts{stream},
             tmpFilename => $opts{tmpFilename},
-            author      => $this->{_session}->{user},
+            user        => $this->{_session}->{user},
             comment     => $opts{comment} || '',
         };
 
