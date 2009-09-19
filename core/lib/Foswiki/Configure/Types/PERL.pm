@@ -19,11 +19,18 @@ use Data::Dumper;
 
 use base 'Foswiki::Configure::Type';
 
+sub _stringifyValue {
+    my $perl = shift;
+    return $perl unless ref($perl);
+    my $v = Data::Dumper->Dump( [$perl], ['x'] );
+    $v =~ s/^\$x = (.*);\s*$/$1/s;
+    $v =~ s/^\s*//gm;
+    return $v;
+}
+
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;
-    my $v = Data::Dumper->Dump( [$value], ['x'] );
-    $v =~ s/^\$x = (.*);\s*$/$1/s;
-    $v =~ s/^     //gm;
+    my $v = _stringifyValue($value);
     return CGI::textarea(
         -name    => $id,
         -value   => $v,
@@ -31,6 +38,12 @@ sub prompt {
         -columns => 80,
         -class   => 'foswikiTextarea',
     );
+}
+
+sub hiddenInput {
+    my ( $this, $id, $value ) = @_;
+    my $v = _stringifyValue($value);
+    return CGI::hidden($id, $v);
 }
 
 # verify that the string is a legal rvalue according to the grammar
@@ -63,13 +76,12 @@ sub _rvalue {
 
 sub string2value {
     my ( $this, $val ) = @_;
-    
+
     $val =~ s/^[[:space:]]+(.*?)$/$1/s; # strip at start
     $val =~ s/^(.*?)[[:space:]]+$/$1/s; # strip at end
-    
+
     my $s;
     if ( $s = _rvalue($val) ) {
-
         # Parse failed, return as a string.
         die
 "Could not parse text to a data structure (at: $s)\nPlease go back and check if the text has the correct syntax.";

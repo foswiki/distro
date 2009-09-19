@@ -58,14 +58,16 @@ sub open_html {
     if ( $value->needsSaving($valuer) ) {
         my $defaultValue = $valuer->defaultValue($value) || '';
 
-      # special case are Perl data structures
-      # in order to edit this in the browser, it must get translated to a string
+        # special case of Perl data structures
+        # in order to edit this in the browser, it must get translated
+        # to a string
         if ( $value->{typename} eq 'PERL' || $value->{typename} eq 'HASH' ) {
             use Data::Dumper;
             $Data::Dumper::Terse = 1;
             $defaultValue        = Dumper($defaultValue);
 
-            # create stubs for special characters, put them back with javascript
+            # create stubs for special characters, put them back
+            # with javascript
             $defaultValue =~ s/'/#26;/go;
             $defaultValue =~ s/"/#22;/go;
             $defaultValue =~ s/\n/#13;/go;
@@ -122,7 +124,7 @@ sub open_html {
     else {
 
         # Non-expert - just pass the value through a hidden
-        $row2col2 = CGI::hidden( $keys, $valuer->currentValue($value) );
+        $row2col2 = $type->hiddenInput( $keys, $valuer->currentValue($value) );
     }
 
     return CGI::Tr(

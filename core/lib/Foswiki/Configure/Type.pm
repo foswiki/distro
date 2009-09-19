@@ -7,6 +7,7 @@
 package Foswiki::Configure::Type;
 
 use strict;
+use Assert;
 
 use CGI qw( :any );
 
@@ -26,7 +27,7 @@ sub load {
         my $typeClass = 'Foswiki::Configure::Types::' . $id;
         $typer =
           eval 'use ' . $typeClass . '; new ' . $typeClass . '("' . $id . '")';
-
+        ASSERT(!$@, "Failed to load type $id: $@") if DEBUG;
         # unknown type - give it default string behaviours
         $typer = new Foswiki::Configure::Type($id) unless $typer;
         $knownTypes{$id} = $typer;
@@ -54,6 +55,12 @@ sub prompt {
         -default => $value,
         -class   => 'foswikiInputField'
     );
+}
+
+# Generates a hidden input for a value
+sub hiddenInput {
+    my ( $this, $id, $value ) = @_;
+    return CGI::hidden($id, $value);
 }
 
 # Test to determine if two values of this type are equal.
