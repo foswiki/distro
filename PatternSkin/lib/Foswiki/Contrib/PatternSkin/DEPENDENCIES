@@ -1,2 +1,2 @@
-TWiki::Plugins::TwistyPlugin,>=1.000,perl,Required
-TWiki::Plugins::TablePlugin,,perl,Required
+Foswiki::Plugins::TwistyPlugin,>=1.000,perl,Required
+Foswiki::Plugins::TablePlugin,,perl,Required
