@@ -109,3 +109,6 @@ from esc tab hack moz min-height solution ***/
 	clear:both;
 	width:100%;
 }
+.foswikiContentFooter { 
+        clear:both; 
+} 
