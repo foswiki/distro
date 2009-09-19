@@ -1,12 +1,12 @@
 var webtopiccreatorrules = {
-	'#newtopicform' : function(el) {
+	'form#newtopicform' : function(el) {
 		// start with a check
 		canSubmit(el,false);
 		el.onsubmit = function () {
 			return canSubmit(this,true);
 		}
 	},
-	'#topic' : function(el) {
+	'input#topic' : function(el) {
 		// focus input field
 		el.focus();
 		el.onkeyup = function() {
@@ -20,7 +20,7 @@ var webtopiccreatorrules = {
 			canSubmit(this.form,true);
 		}
 	},
-	'#nonwikiword' : function(el) {
+	'input#nonwikiword' : function(el) {
 		el.onchange = function() {
 			canSubmit(this.form,false);
 		}
@@ -28,12 +28,12 @@ var webtopiccreatorrules = {
 			canSubmit(this.form,false);
 		}
 	},
-	'#pickparent' : function(el) {
+	'a#pickparent' : function(el) {
 		el.onclick = function() {
 			return passFormValuesToNewLocation(getQueryUrl());
 		}
 	},
-	'#viewtemplates' : function(el) {
+	'a#viewtemplates' : function(el) {
 		el.onclick = function() {
 			openTemplateWindow();
 			return false;
