@@ -68,7 +68,7 @@ Pattern.Edit = {
 }
 
 var patternEditPageRules = {
-	'.patternButtonFontSelector' : function(el) {
+	'span.patternButtonFontSelector' : function(el) {
 		el.style.display = 'none';
 		Pattern.Edit.buttons["font"] = el;
 		Pattern.Edit.setFontStyleState(el, false, 'out');
@@ -82,14 +82,14 @@ var patternEditPageRules = {
 			return Pattern.Edit.setFontStyleState(el, false, 'out');
 		}
 	},
-	'.patternButtonEnlarge' : function(el) {
+	'span.patternButtonEnlarge' : function(el) {
 		el.style.display = 'none';
 		Pattern.Edit.buttons["enlarge"] = el;
 		el.onclick = function(){
 			return changeEditBox(1);
 		}
 	},
-	'.patternButtonShrink' : function(el) {
+	'span.patternButtonShrink' : function(el) {
 		el.style.display = 'none';
 		Pattern.Edit.buttons["shrink"] = el;
 		el.onclick = function(){
