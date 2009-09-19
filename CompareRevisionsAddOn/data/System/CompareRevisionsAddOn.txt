@@ -162,8 +162,10 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 18 Sep 2009 |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  19 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Using the hidden (H) setting instead which is much better anyway as this is not a setting to be altered by a user. |
 |  18 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Settings therefore un-experted again |
 |  12 Sep 2009 | Kenneth Lavrsen: Fixed problem with tables always showing up as changed even when they were not |
 |  09 Aug 2009 | Plugin is now a default plugin shipped with Foswiki. It will later have its function integrated in core in a future Foswiki version so its life as default plugin is temporary. Changed its switchboard setting to EXPERT so it is hidden in configure. You should never need to change this anyway. |
