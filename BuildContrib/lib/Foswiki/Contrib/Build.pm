@@ -215,17 +215,18 @@ sub new {
             if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/s ) {
                 $this->{RELEASE} = $2;
             }
-            if ( $text =~ /\$VERSION\s*=\s*(['"])(.*?)\1/s ) {
-                my $ver = $2;
-                # Flatten out SVN $Rev$
-                $ver =~ s/^\s*\$Rev:\s*(\d+)(.*?)\s*\$\s*$/$1/;
-                $this->{VERSION} = $ver;
-                if ($2 && !$this->{RELEASE}) {
-                    $ver = $2;
-                    $ver =~ s/\((.*)\)/$1/;
-                    $this->{RELEASE} = $ver;
-                }
-            }
+
+            # If an extension has a .pm file with same name as
+            # the extension we will set the VERSION to be
+            # the SVN checkin number and date of this checkin
+            # For this we populate $this->{files} with this one filename
+            # Note we do not actually use the VERSION text from the .pm file
+            # Instead you update the RELEASE text which will cause SVN
+            # to update the SVN number and check in date when you commit
+            # The commit then updates the RELEASE in the .pm file
+            $this->{files}[0]->{name} = $this->{pm};
+            $this->{VERSION} = $this->_get_svn_version();
+
             if ( $text =~ /\$SHORTDESCRIPTION\s*=\s*(['"])(.*?)\1/s ) {
                 $this->{SHORTDESCRIPTION} = $2;
             }
@@ -323,7 +324,14 @@ sub new {
             CGI::Tr($cells) . $deptable );
     }
 
-    $this->{VERSION} = $this->_get_svn_version();
+    $this->{VERSION} = $this->_get_svn_version() unless $this->{VERSION};
+
+    # If there is no RELEASE defined in the extension .pm
+    # set the RELEASE = the date part of VERSION
+    if ( !$this->{RELEASE} && $this->{VERSION} ) {
+        $this->{VERSION} =~ /^(\d+)\s*\((.*?)\)\s*$/;
+        $this->{RELEASE} = $2;
+    }
 
     # If not checked in, or we can't get to SVN, use the current time.
     $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );
@@ -505,109 +513,107 @@ sub _findPathToDotGitDir {
 sub _get_svn_version {
     my $this = shift;
 
-    unless ( $this->{VERSION} ) {
-        my $max  = 0;    # max SVN rev no
-        my $maxd = 0;    # max date
+    my $max  = 0;    # max SVN rev no
+    my $maxd = 0;    # max date
 
-        #Shelling out with a large number of files dies, killing the build.
-        my $idx = 0;
-        while ( $idx < scalar( @{ $this->{files} } ) ) {
-            my @files;
-
-            my $limit = $idx + 1000;
-            $limit = scalar( @{ $this->{files} } )
-              if $limit > scalar( @{ $this->{files} } );
-            while ( $idx < $limit ) {
-                if ( ${ $this->{files} }[$idx]->{name} ) {
-                    my $file =
-                      $this->{basedir} . '/'
-                      . ${ $this->{files} }[$idx]->{name};
-                    if ( -f $file ) {
-                        push @files, $file;
-                    }
-                    elsif ( $file =~ /\/$/ )
-                    {    # Directory, create if it does not exist
-                        File::Path::mkpath($file);
-                    }
-                    elsif ( !-d $file ) {    # Ignore directories
-                        print STDERR
-"WARNING: $file is in MANIFEST, but it doesn't exist\n";
-                    }
+    #Shelling out with a large number of files dies, killing the build.
+    my $idx = 0;
+    while ( $idx < scalar( @{ $this->{files} } ) ) {
+        my @files;
+        my $limit = $idx + 1000;
+        $limit = scalar( @{ $this->{files} } )
+          if $limit > scalar( @{ $this->{files} } );
+        while ( $idx < $limit ) {
+            if ( ${ $this->{files} }[$idx]->{name} ) {
+                my $file =
+                  $this->{basedir} . '/'
+                  . ${ $this->{files} }[$idx]->{name};
+                if ( -f $file ) {
+                    push @files, $file;
                 }
-                $idx++;
+                elsif ( $file =~ /\/$/ )
+                {    # Directory, create if it does not exist
+                    File::Path::mkpath($file);
+                }
+                elsif ( !-d $file ) {    # Ignore directories
+                    print STDERR
+"WARNING: $file is in MANIFEST, but it doesn't exist\n";
+                }
             }
+            $idx++;
+        }
 
-            # Get revision info all the files in the manifest
-            # To find the latest one
-            unless (
-                eval {
-                    local $SIG{__DIE__};
-                    my @command;
-                    if ( -d ".svn" ) {
-                        @command = qw(svn info);
-                        my $log = $this->sys_action( @command, @files );
-                        my $getDate = 0;
-                        foreach my $line ( split( "\n", $log ) ) {
-                            if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
-                                $getDate = 0;
-                                if ( $1 > $max ) {
-                                    $max     = $1;
-                                    $getDate = 1;
-                                }
+        # Get revision info all the files in the manifest
+        # To find the latest one
+        unless (
+            eval {
+                local $SIG{__DIE__};
+                my @command;
+                if ( -d ".svn" ) {
+                    @command = qw(svn info);
+                    my $log = $this->sys_action( @command, @files );
+                    my $getDate = 0;
+                    foreach my $line ( split( "\n", $log ) ) {
+                        if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
+                            $getDate = 0;
+                            if ( $1 > $max ) {
+                                $max     = $1;
+                                $getDate = 1;
                             }
-                            elsif ($getDate
-                                && $line =~
+                        }
+                        elsif ($getDate
+                            && $line =~
 /(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
                               )
-                            {
-                                $maxd = Foswiki::Time::parseTime(
-                                    "$1T$2" . ( $3 || '' ) );
-                                $getDate = 0;
-                            }
+                        {
+                            $maxd = Foswiki::Time::parseTime(
+                                "$1T$2" . ( $3 || '' ) );
+                            $getDate = 0;
                         }
                     }
-                    elsif ( my ( $gitdir, $gitsvn ) =
-                        $this->_findPathToDotGitDir() )
-                    {
-                        @command = qw(git log -1 --pretty=medium --date=iso --);
-                        my $log = $this->sys_action( @command, @files );
-                        if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
-                            $max = $1 if $1 > $max;
-                        }
-                        else {
-                            die 'You have un-published changes.'
-                              . ' Please "git svn dcommit"';
-                        }
-                        if ( $log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m )
-                        {
-                            $maxd = Foswiki::Time::parseTime("$1T$2$3");
-                        }
+                }
+                elsif ( my ( $gitdir, $gitsvn ) =
+                    $this->_findPathToDotGitDir() )
+                {
+                    @command = qw(git log -1 --pretty=medium --date=iso --);
+                    my $log = $this->sys_action( @command, @files );
+                    if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
+                        $max = $1 if $1 > $max;
                     }
                     else {
-                        die "Cannot find a proper command to search history.";
+                        die 'You have un-published changes.'
+                          . ' Please "git svn dcommit"';
                     }
-                    1;
+                    if ( $log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                    {
+                        $maxd = Foswiki::Time::parseTime("$1T$2$3");
+                    }
                 }
-              )
-            {
-
-                # This is commented out because it's annoying
-                # when auto-porting extensions
-                # print STDERR "WARNING: $@";
-                $maxd = time() unless $maxd;
-                $max =
-                  Foswiki::Time::formatTime( $maxd, '$year$mo$day', 'gmtime' )
-                  unless $max;
-
-                # People shouldn't test $@ for that reason, but they do...
-                $@ = undef;
+                else {
+                    die "Cannot find a proper command to search history.";
+                }
+                1;
             }
+          )
+        {
+
+            # This is commented out because it's annoying
+            # when auto-porting extensions
+            # print STDERR "WARNING: $@";
+            $maxd = time() unless $maxd;
+            $max =
+              Foswiki::Time::formatTime( $maxd, '$year$mo$day', 'gmtime' )
+              unless $max;
+             # People shouldn't test $@ for that reason, but they do...
+            $@ = undef;
         }
-        $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
-        my $day = $this->{DATE};
-        $day =~ s/T.*//;
-        $this->{VERSION} = "$max ($day)";
     }
+
+    $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
+    my $day = $this->{DATE};
+    $day =~ s/T.*//;
+    $this->{VERSION} = "$max ($day)";
+
     return $this->{VERSION};
 }
 
