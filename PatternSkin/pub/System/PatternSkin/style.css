@@ -85,12 +85,9 @@ h6 { font-size:95%; font-weight:bold; }
 h2, h3, h4, h5, h6 {
 	display:block;
 	/* give header a background color for easy scanning:*/
-	padding:.15em 10px;
+	padding:.25em 10px;
 	margin:1em -10px .35em -10px;
 	height:auto;	
-}
-h2 {
-	padding:1em 10px .15em 10px;
 }
 h1.patternTemplateTitle {
 	font-size:170%;

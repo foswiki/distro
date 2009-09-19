@@ -6,17 +6,17 @@
 
 %ADDTOHEAD{"
 <style type='text/css'>
-#createWeb .foswikiFormStep {padding:20px 40px;}
+#createWeb .foswikiFormStep {padding:15px 40px;}
 #createWeb .col1 {float:left; width:30%; margin:0 3% 0 0;}
 #createWeb .col2 {float:left; width:66%;}
 #createWeb .col1 .foswikiInputField,
 #createWeb .col1 .foswikiSelect {width:90%;}
 #createWeb .required {font-size:80%; color:#aaa; text-transform:uppercase;}
-#createWeb .foswikiHelp {margin:1em 0;}
+#createWeb .foswikiHelp {margin:.5em 0;}
 #createWeb .additionalSettings {margin:1em -20px 0 -20px;}
 #createWeb .additionalSettings .foswikiActionFormStepSign {display:none;}
 #createWeb .additionalSettings .foswikiFormSteps {background:#fff;}
-#createWeb .additionalSettings .foswikiFormStep {padding:1em 20px;}
+#createWeb .additionalSettings .foswikiFormStep {padding:5px 20px;}
 .twistyTrigger {font-weight:bold;}
 </style>
 "}%
