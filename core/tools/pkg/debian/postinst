@@ -174,10 +174,6 @@ case "$1" in
 	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/templates
 	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/tools
 
-	# erase configuser password
-        db_reset "foswiki/adminpassword"
-	db_fset  "foswiki/adminpassword" "seen" "false" || true
-
 	db_stop
 
 
