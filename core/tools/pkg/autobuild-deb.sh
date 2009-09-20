@@ -74,7 +74,7 @@ tar zxf Foswiki-${tarversion}.tgz -C ${tmpdir}
 cp -r debian ${tmpdir}/Foswiki-${tarversion}/debian
 cd ${tmpdir}/Foswiki-${tarversion}
 #clean out svn dirs
-find debian -type d -name .svn -exec rm -rf {} \;
+find . -name .svn -exec rm -rf '{}' \;
 
 DEBFULLNAME="Foswiki Autobuilder" \
 DEBEMAIL="foswiki-discuss@lists.sourceforge.net" \
