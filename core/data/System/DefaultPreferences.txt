@@ -163,7 +163,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set MAILTHISTOPICTEXT = Send a link to this page
 
    * URL for current topic
-      * Set TOPICURL = %SCRIPTURL{"view"}%/%WEB%/%BASETOPIC%
+      * Set TOPICURL = %SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%
 
 
 ---+++ HTTP-<nop>EQUIV Settings
