@@ -183,6 +183,8 @@ sub _upload {
     my $topic   = $session->{topicName};
     my $user    = $session->{user};
 
+    Foswiki::UI::checkValidationKey( $session, 'upload', $webName, $topic );
+
     my $hideFile    = $query->param('hidefile')    || '';
     my $fileComment = $query->param('filecomment') || '';
     my $createLink  = $query->param('createlink')  || '';
