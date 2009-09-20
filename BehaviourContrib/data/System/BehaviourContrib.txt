@@ -272,6 +272,7 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- specify latest version first -->&nbsp; |
+|  20 Sep 2009 | 1.5 Minor documentation updates for Foswiki 1.0.7. No functional changes |
 |  03 Dec 2008 | 1.4 Foswiki release version. |
 |  17 Oct 2007 | 1.3 Replaced "faster code" by other code from Dean Edwards, [[ packed by http://groups.google.com/group/behaviour/browse_thread/thread/85137977bedf5ed/3cf3ba8065d41a8c#3cf3ba8065d41a8c][Raymond Irving]]. |
 |  02 Jul 2007 | 1.2 Integrated other faster code by Dean Edwards: [[http://dean.edwards.name/weblog/2006/06/again/][faster onload (again)]]. |

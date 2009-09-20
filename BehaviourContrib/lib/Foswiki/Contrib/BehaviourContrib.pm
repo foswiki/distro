@@ -3,7 +3,7 @@ package Foswiki::Contrib::BehaviourContrib;
 use strict;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.4';
+our $RELEASE = '1.5';
 our $SHORTDESCRIPTION = "'Behaviour' Javascript event library to create javascript based interactions that degrade well when javascript is not available";
 
 =begin TML
