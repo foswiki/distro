@@ -225,6 +225,7 @@ sub new {
             # to update the SVN number and check in date when you commit
             # The commit then updates the RELEASE in the .pm file
             $this->{files}[0]->{name} = $this->{pm};
+            $this->{files}[0]->{name} =~ s/^$basedir\/(.*)/$1/;
             $this->{VERSION} = $this->_get_svn_version();
 
             if ( $text =~ /\$SHORTDESCRIPTION\s*=\s*(['"])(.*?)\1/s ) {
