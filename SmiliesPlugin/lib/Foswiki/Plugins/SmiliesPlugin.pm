@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2000-2001 Andrea Sterbini, a.sterbini@flashnet.it
 # Copyright (C) 2002-2006 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2008-2009 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,7 +31,7 @@ use vars qw(
   $smiliesPubUrl $allPattern $smiliesFormat );
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '03 Apr 2009';
+our $RELEASE           = '20 Sep 2009';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Render smilies like :-) as icons';
 

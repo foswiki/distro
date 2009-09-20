@@ -57,6 +57,7 @@ You can override the default settings for the plugin by defining the following [
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  20 Sep 2009: | Small documentation update. Included with Foswiki 1.0.7 |
 |  13 Jan 2009: | Removed default preferences from this topic |
 |  04 Jan 2009: | Foswiki version - Fixed the use of SMILIESPLUGIN_TOPIC so you can create your own smily collection that does not get overwritten when upgrading Foswiki |
 |  21 Nov 2007: | Doc improvements |
