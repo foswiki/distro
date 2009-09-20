@@ -71,6 +71,7 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.2.3 | 20 Sep 2009 - Foswiki 1.0.7 version |
 |  4.2.2 | 16 Dec 2008 - Foswiki version |
 |  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
 |  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
