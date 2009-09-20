@@ -340,7 +340,7 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
