@@ -162,7 +162,9 @@ Many thanks to the following sponsors for supporting this work:
 |  Copyright &copy;: | 2004, Wind River Systems; 2008, http://WikiRing.com |
 |  License: | GPL |
 |  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | |
+|  20 Sep 2009 | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
 |  23 Apr 2009 | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  03 Dec 2008 | Re-released for the Foswiki project |
 |  15 Oct 2008 | TWikibug:Item: generalised code to enable Foswiki:Extensions.SubscribePlugin to delegate parsing to %TOPIC% - Foswiki:Main.SvenDowideit |
