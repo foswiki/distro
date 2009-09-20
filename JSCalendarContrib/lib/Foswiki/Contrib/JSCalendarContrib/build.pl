@@ -18,6 +18,8 @@
 #
 
 # Standard preamble
+use strict;
+
 BEGIN {
   foreach my $pc (split(/:/, $ENV{FOSWIKI_LIBS})) {
     unshift @INC, $pc;
@@ -35,6 +37,6 @@ sub new {
   return bless( $class->SUPER::new( "JSCalendarContrib" ), $class );
 }
 
-$build = new JSCalendarBuild();
+my $build = new JSCalendarBuild();
 
 $build->build($build->{target});

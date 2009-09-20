@@ -58,7 +58,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright &copy;: | See [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 | Change History: | |
+|  20 Sep 2009 | Small documentation update in connection with release of Foswiki 1.0.7 |
 |  16 Dec 2008 | Foswiki version |
 |  10 Sep 2008 | Bugs:Item5991 Applied patch to fix rendering on IE7 .|
 |  06 Sep 2007 | Bugs:Item4030 Added doc for using the calendar in user forms |
