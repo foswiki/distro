@@ -39,7 +39,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 
 ---++ Plugin Installation Instructions
 
-%$INSTALLATION_INSTRUCTIONS%
+%$INSTALL_INSTRUCTIONS%
 
    * *Test:* If the Plugin is correctly installed, this Wiki:InterWiki link should point to http://c2.com/cgi/wiki?InterWiki topic - try it out.
 
