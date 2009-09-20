@@ -120,13 +120,13 @@ var FoswikiTiny = {
 
         // Make the raw-edit help visible (still subject to toggle)
         var el = document.getElementById("foswikiTinyMcePluginWysiwygEditHelp");
-		if (el) {
-			el.style.display = 'none';
-		}
+        if (el) {
+            el.style.display = 'none';
+        }
         el = document.getElementById("foswikiTinyMcePluginRawEditHelp");
-		if (el) {
-			el.style.display = 'block';
-		}
+        if (el) {
+            el.style.display = 'block';
+        }
 
         // Evaluate post-processors attached from plugins
         for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
