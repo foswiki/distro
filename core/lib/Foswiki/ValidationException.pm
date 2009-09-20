@@ -9,10 +9,21 @@ Exception used raise a validation error. See also Foswiki::Validation.
 =cut
 
 package Foswiki::ValidationException;
-use Error ();
-@ISA = ( 'Error' ); # base class
-
 use strict;
+use Error ();
+our @ISA = ( 'Error' ); # base class
+
+=begin TML
+
+---++ ClassMethod new( $action )
+Constructor
+
+=cut
+
+sub new {
+    my ($class, $action ) = @_;
+    return bless( { action => $action }, $class );
+}
 
 =begin TML
 
@@ -24,7 +35,7 @@ Generate a summary string. This is mainly for debugging.
 
 sub stringify {
     my $this = shift;
-    return "ValidationException: Key is invalid or has expired";
+    return "ValidationException ($this->{action}): Key is invalid or has expired";
 }
 
 1;

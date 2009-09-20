@@ -304,6 +304,7 @@ sub _execute {
             &$sub($session);
         }
         catch Foswiki::ValidationException with {
+            my $e = shift;
             my $query = $session->{request};
             # Redirect with passthrough so we don't lose the
             # original query params. We use the login script for
@@ -315,6 +316,10 @@ sub _execute {
                            -value => 'validate' );
             $query->param( -name => 'origurl',
                            -value => $session->{request}->uri );
+            # Pass the action that was invoked to get here so that an
+            # appropriate message can be generated
+            $query->param( -name => 'context',
+                           -value => $e->{action} );
             $session->redirect( $url, 1 );    # with passthrough
         }
         catch Foswiki::AccessControlException with {
@@ -539,7 +544,7 @@ sub checkValidationKey {
         || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
             $nonce ) )
     {
-        throw Foswiki::ValidationException();
+        throw Foswiki::ValidationException( $session->{request}->action() );
     }
     if ( defined($nonce) ) {
 
