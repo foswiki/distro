@@ -18,7 +18,7 @@ use Foswiki::Contrib::BuildContrib::BaseBuild;
 use Error qw(:try);
 use CGI qw(:any);
 
-=begin foswiki
+=begin TML
 
 ---++ Package Foswiki::Contrib::Build
 
@@ -36,29 +36,24 @@ use File::Find ();
 use File::Path ();
 use File::Temp ();
 use POSIX      ();
-use diagnostics;
-use Carp ();
+use warnings;
 use Foswiki::Time;
 
 our $basedir;
 our $buildpldir;
 our $libpath;
 
+our $RELEASE = "29 Jul 2009";
 our $VERSION = '$Rev$';
 
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = 'Foswiki-1';
-
-our $SHORTDESCRIPTION =
-  'Automate build process for Plugins, Add-ons and Contrib modules';
+our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
 
 my $UPLOADSITEPUB           = 'http://foswiki.org/pub';
 my $UPLOADSITESCRIPT        = 'http://foswiki.org/bin';
 my $UPLOADSITESUFFIX        = '';
 my $UPLOADSITEBUGS          = 'http://foswiki.org/Tasks';
 my $UPLOADSITEEXTENSIONSWEB = "Extensions";
+my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
@@ -67,7 +62,9 @@ my $targetProject;       # Foswiki or TWiki
 
 my $collector;           # general purpose handle for collecting stuff
 
-$SIG{__DIE__} = sub { Carp::confess $_[0] };
+# use diagnostics;
+# use Carp ();
+# $SIG{__DIE__} = sub { Carp::confess $_[0] };
 
 my @stageFilters = (
     { RE => qr/\.txt$/, filter => 'filter_txt' },
@@ -142,7 +139,7 @@ BEGIN {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ new($project)
 | $project | Name of plugin, addon, contrib or skin |
@@ -209,17 +206,34 @@ sub new {
     $stubpath =~ s/.*[\\\/]($targetProject[\\\/].*)\.pm/$1/;
     $stubpath =~ s/[\\\/]/::/g;
 
-    # Get %$RELEASE%
-    if (-e $this->{pm}) {
+    # Get $VERSION, $RELEASE and $SHORTDESCRIPTION
+    if ( -e $this->{pm} ) {
         my $fh;
-        if (open($fh, "<", $this->{pm})) {
+        if ( open( $fh, "<", $this->{pm} ) ) {
             local $/;
             my $text = <$fh>;
-            if ($text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/) {
+            if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/s ) {
                 $this->{RELEASE} = $2;
+            }
+
+            # If an extension has a .pm file with same name as
+            # the extension we will set the VERSION to be
+            # the SVN checkin number and date of this checkin
+            # For this we populate $this->{files} with this one filename
+            # Note we do not actually use the VERSION text from the .pm file
+            # Instead you update the RELEASE text which will cause SVN
+            # to update the SVN number and check in date when you commit
+            # The commit then updates the RELEASE in the .pm file
+            $this->{files}[0]->{name} = $this->{pm};
+            $this->{files}[0]->{name} =~ s/^$basedir\/(.*)/$1/;
+            $this->{VERSION} = $this->_get_svn_version();
+
+            if ( $text =~ /\$SHORTDESCRIPTION\s*=\s*(['"])(.*?)\1/s ) {
+                $this->{SHORTDESCRIPTION} = $2;
             }
         }
     }
+
     # where data files live
     $this->{data_systemdir} =
       'data/' . ( ( $targetProject eq 'TWiki' ) ? 'TWiki' : 'System' );
@@ -307,10 +321,18 @@ sub new {
         my $cells =
           CGI::th('Name') . CGI::th('Version') . CGI::th('Description');
         $this->{DEPENDENCIES} =
-          CGI::table( { border => 1 }, CGI::Tr($cells) . $deptable );
+          CGI::table( { border => 1, class => 'foswikiTable' },
+            CGI::Tr($cells) . $deptable );
     }
 
-    $this->{VERSION} = $this->_get_svn_version();
+    $this->{VERSION} = $this->_get_svn_version() unless $this->{VERSION};
+
+    # If there is no RELEASE defined in the extension .pm
+    # set the RELEASE = the date part of VERSION
+    if ( !$this->{RELEASE} && $this->{VERSION} ) {
+        $this->{VERSION} =~ /^(\d+)\s*\((.*?)\)\s*$/;
+        $this->{RELEASE} = $2;
+    }
 
     # If not checked in, or we can't get to SVN, use the current time.
     $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );
@@ -468,67 +490,131 @@ sub _loadDependenciesFrom {
     close(PF);
 }
 
+# Search the current working directory and its parents
+# for a directory called git
+# Also checks if this directory contains a svn subdir
+# which indicates the use of git-svn
+sub _findPathToDotGitDir {
+    my $this = shift;
+
+    require File::Spec;
+    require Cwd;
+    my @dirlist = File::Spec->splitdir( Cwd::getcwd() );
+    do {
+        my $gitdir = File::Spec->catdir( @dirlist, ".git", "svn" );
+        return wantarray ? ( $gitdir, 1 ) : $gitdir if -d $gitdir;
+        $gitdir = File::Spec->catdir( @dirlist, ".git" );
+        return $gitdir if -d $gitdir;
+    } while ( pop @dirlist );
+    return;
+}
+
 # SMELL: Would be good to change this to use SVN::Client, but Sven warns us
 # that SVN::Client doesn't work in most places :-(. Maybe some day.
 sub _get_svn_version {
     my $this = shift;
 
-    unless ( $this->{VERSION} ) {
-        my $max  = 0; # max SVN rev no
-        my $maxd = 0; # max date
+    my $max  = 0;    # max SVN rev no
+    my $maxd = 0;    # max date
 
-        #Shelling out with a large number of files dies, killing the build.
-        my $idx = 0;
-        while ( $idx < scalar( @{ $this->{files} } ) ) {
-            my @files;
-
-            my $limit = $idx + 1000;
-            $limit = scalar( @{ $this->{files} } )
-              if $limit > scalar( @{ $this->{files} } );
-            while ( $idx < $limit ) {
+    #Shelling out with a large number of files dies, killing the build.
+    my $idx = 0;
+    while ( $idx < scalar( @{ $this->{files} } ) ) {
+        my @files;
+        my $limit = $idx + 1000;
+        $limit = scalar( @{ $this->{files} } )
+          if $limit > scalar( @{ $this->{files} } );
+        while ( $idx < $limit ) {
+            if ( ${ $this->{files} }[$idx]->{name} ) {
                 my $file =
-                  ${ $this->{files} }[ $idx++ ]
-                  ;    #accessing ->{name} directly creats it.
-                push( @files,
-                    $this->{basedir} . '/' . ( $file->{name} || '' ) );
+                  $this->{basedir} . '/'
+                  . ${ $this->{files} }[$idx]->{name};
+                if ( -f $file ) {
+                    push @files, $file;
+                }
+                elsif ( $file =~ /\/$/ )
+                {    # Directory, create if it does not exist
+                    File::Path::mkpath($file);
+                }
+                elsif ( !-d $file ) {    # Ignore directories
+                    print STDERR
+"WARNING: $file is in MANIFEST, but it doesn't exist\n";
+                }
             }
+            $idx++;
+        }
 
-            # svn info all the files in the manifest
+        # Get revision info all the files in the manifest
+        # To find the latest one
+        unless (
             eval {
-                my $log = $this->sys_action( 'svn', 'info', @files );
-                my $getDate = 0;
-                foreach my $line ( split( "\n", $log ) ) {
-                    if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
-                        $getDate = 0;
-                        if ( $1 > $max ) {
-                            $max     = $1;
-                            $getDate = 1;
+                local $SIG{__DIE__};
+                my @command;
+                if ( -d ".svn" ) {
+                    @command = qw(svn info);
+                    my $log = $this->sys_action( @command, @files );
+                    my $getDate = 0;
+                    foreach my $line ( split( "\n", $log ) ) {
+                        if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
+                            $getDate = 0;
+                            if ( $1 > $max ) {
+                                $max     = $1;
+                                $getDate = 1;
+                            }
+                        }
+                        elsif ($getDate
+                            && $line =~
+/(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
+                              )
+                        {
+                            $maxd = Foswiki::Time::parseTime(
+                                "$1T$2" . ( $3 || '' ) );
+                            $getDate = 0;
                         }
                     }
-                    elsif ($getDate
-                        && $line =~ /^Text Last Updated: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
-                    {
-                        $maxd    = Foswiki::Time::parseTime("$1T$2".($3||''));
-                        $getDate = 0;
+                }
+                elsif ( my ( $gitdir, $gitsvn ) =
+                    $this->_findPathToDotGitDir() )
+                {
+                    @command = qw(git log -1 --pretty=medium --date=iso --);
+                    my $log = $this->sys_action( @command, @files );
+                    if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
+                        $max = $1 if $1 > $max;
                     }
-                    elsif ($getDate
-                        && $line =~ /Last Changed Date: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                    else {
+                        die 'You have un-published changes.'
+                          . ' Please "git svn dcommit"';
+                    }
+                    if ( $log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m )
                     {
-                        $maxd    = Foswiki::Time::parseTime("$1T$2".($3||''));
-                        $getDate = 0;
+                        $maxd = Foswiki::Time::parseTime("$1T$2$3");
                     }
                 }
-            };
-            if ($@) {
-                print STDERR "WARNING: Failed to shell out to svn: $@";
+                else {
+                    die "Cannot find a proper command to search history.";
+                }
+                1;
             }
+          )
+        {
+
+            # This is commented out because it's annoying
+            # when auto-porting extensions
+            # print STDERR "WARNING: $@";
+            $maxd = time() unless $maxd;
+            $max =
+              Foswiki::Time::formatTime( $maxd, '$year$mo$day', 'gmtime' )
+              unless $max;
+             # People shouldn't test $@ for that reason, but they do...
+            $@ = undef;
         }
-        $this->{DATE} =
-          Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
-        my $day = $this->{DATE};
-        $day =~ s/T.*//;
-        $this->{VERSION} = "$max ($day)";
     }
+
+    $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
+    my $day = $this->{DATE};
+    $day =~ s/T.*//;
+    $this->{VERSION} = "$max ($day)";
+
     return $this->{VERSION};
 }
 
@@ -600,7 +686,7 @@ sub prompt {
     return $reply;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ pushd($dir)
   Change to the given directory
@@ -619,7 +705,7 @@ sub pushd {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ popd()
   Pop a dir level, previously pushed by pushd
@@ -640,7 +726,7 @@ sub popd {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ rm($file)
 Remove the given file (or directory)
@@ -663,7 +749,7 @@ sub rm {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ makepath($to)
 Make a directory and all directories leading to it.
@@ -676,7 +762,7 @@ sub makepath {
     File::Path::mkpath( $to, { verbose => $this->{-v} } );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ cp($from, $to)
 Copy a single file from - to. Will automatically make intervening
@@ -713,7 +799,7 @@ sub cp {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ prot($perms, $file)
 Set permissions on a file. Permissions should be expressed using POSIX
@@ -728,7 +814,7 @@ sub prot {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ sys_action(@params)
 Perform a "system" command.
@@ -748,11 +834,11 @@ sub sys_action {
     }
     return '' if ( $this->{-n} );
     my $output = `$cmd`;
-    die 'Failed to ' . $cmd . ': ' . $? if ($?);
+    die 'Failed to ' . $cmd . ': ' . ( $? >> 8 ) if $? >> 8;
     return $output;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ perl_action($cmd)
 Perform a "perl" command.
@@ -771,7 +857,7 @@ sub perl_action {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_build
 Basic build target.
@@ -782,10 +868,11 @@ sub target_build {
     my $this = shift;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_compress
-Compress Javascript and CSS files
+Compress Javascript and CSS files. This target is "best efforts" - the build
+won't fail if a source or target isn't missing.
 
 =cut
 
@@ -808,7 +895,7 @@ sub target_compress {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_tidy
 Reformat .pm and .pl files using perltidy default options
@@ -855,7 +942,7 @@ sub _isPerl {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_test
 Basic CPAN:Test::Unit test target, runs <project>Suite.
@@ -903,7 +990,7 @@ MESSY
     $this->popd();
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ filter_txt
 Expands tokens.
@@ -945,19 +1032,51 @@ sub _expand {
     }
 }
 
-=begin foswiki
+# Guess the name mapping for .js or .css
+sub _deduceCompressibleSrc {
+    my ( $this, $to, $ext ) = @_;
+    my $from;
+
+    if ($to =~ /^(.*)\.compressed\.$ext$/ ) {
+        if ( -e "$1.uncompressed.$ext") {
+            $from = "$1.uncompressed.$ext";
+        } elsif (-e "$1_src\.$ext") {
+            $from = "$1_src.$ext";
+        } else {
+            $from = "$1.$ext";
+        }
+    } elsif ($to =~ /^(.*)\.$ext$/) {
+        if (-e "$1.uncompressed.$ext") {
+            $from = "$1.uncompressed.$ext";
+        } else {
+            $from = "$1_src.$ext";
+        }
+    }
+    return $from;
+}
+
+=begin TML
 
 ---++++ build_js
 Uses JavaScript::Minifier to optimise javascripts
+
+Several different name mappings are supported:
+   * XXX.uncompressed.js -> XXX.js
+   * XXX_src.js -> XXX.js
+   * XXX.uncompressed.js -> XXX.compressed.js
+
+These are selected between depending on which exist on disk.
 
 =cut
 
 sub build_js {
     my ( $this, $to ) = @_;
 
-    my $from = $to;
-    $from =~ s/.js$/_src.js/;
+    unless ( eval { require JavaScript::Minifier } ) {
+        print STDERR "Cannot squish $to: $@\n";
+    }
 
+    my $from = $this->_deduceCompressibleSrc($to, 'js');
     return 0 unless -e $from;
 
     open( IF, '<', $from ) || die $!;
@@ -965,42 +1084,46 @@ sub build_js {
     my $text = <IF>;
     close(IF);
 
-    eval "require JavaScript::Minifier";
-    if ($@) {
-        print STDERR "Cannot squish: no JavaScript::Minifier found\n";
-    }
-    else {
-        $text = JavaScript::Minifier::minify( input => $text );
+    $text = JavaScript::Minifier::minify( input => $text );
 
+    unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
             my $ot = <IF>;
             close($ot);
-            return 1 if $text eq $ot;    # no changes?
+            if ($text eq $ot) {
+                print STDERR "$to is up to date w.r.t $from\n";
+                return 1; # no changes
+            }
         }
 
-        unless ( $this->{-n} ) {
-            open( OF, '>', $to ) || die "$to: $!";
-        }
-        print OF $text unless ( $this->{-n} );
-        close(OF) unless ( $this->{-n} );
+        open( OF, '>', $to ) || die "$to: $!";
+        print OF $text;
+        close(OF);
         print STDERR "Generated $to from $from\n";
     }
     return 1;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ build_css
 Uses CSS::Minifier to optimise CSS files
+
+Several different name mappings are supported:
+   * XXX.uncompressed.css -> XXX.css
+   * XXX_src.css -> XXX.css
+   * XXX.uncompressed.css -> XXX.compressed.css
 
 =cut
 
 sub build_css {
     my ( $this, $to ) = @_;
 
-    my $from = $to;
-    $from =~ s/\.css$/_src.css/;
+    unless ( eval { require CSS::Minifier } ) {
+        print STDERR "Cannot squish $to: $@\n";
+    }
 
+    my $from = $this->_deduceCompressibleSrc($to, 'css');
     return 0 unless -e $from;
 
     open( IF, '<', $from ) || die $!;
@@ -1008,30 +1131,23 @@ sub build_css {
     my $text = <IF>;
     close(IF);
 
-    eval "require CSS::Minifier";
-    if ($@) {
-        print STDERR "Cannot squish: no CSS::Minifier found\n";
-    }
-    else {
-        $text = CSS::Minifier::minify( input => $text );
+    $text = CSS::Minifier::minify( input => $text );
 
+    unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
             my $ot = <IF>;
             close($ot);
             return 1 if $text eq $ot;    # no changes?
         }
-
-        unless ( $this->{-n} ) {
-            open( OF, '>', $to ) || die "$to: $!";
-        }
-        print OF $text unless ( $this->{-n} );
-        close(OF) unless ( $this->{-n} );
+        open( OF, '>', $to ) || die "$to: $!";
+        print OF $text;
+        close(OF);
         print STDERR "Generated $to from $from\n";
     }
     return 1;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ filter_pm($from, $to)
 Filters expanding SVN rev number with correct version from repository
@@ -1052,7 +1168,7 @@ sub filter_pm {
     );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_release
 Release target, builds release zip by creating a full release directory
@@ -1065,20 +1181,88 @@ in the MANIFEST.
 sub target_release {
     my $this = shift;
 
-    print "Building a release for ";
-    print "Version $this->{VERSION} of $this->{project}\n";
+    print <<GUNK;
+
+Building release $this->{RELEASE} of $this->{project}, from version $this->{VERSION}
+GUNK
     if ( $this->{-v} ) {
         print 'Package name will be ', $this->{project}, "\n";
         print 'Topic name will be ', $this->_getTopicName(), "\n";
     }
 
+    $this->build('compress');
     $this->build('build');
     $this->build('installer');
     $this->build('stage');
     $this->build('archive');
 }
 
-=begin foswiki
+sub filter_tracked_pm {
+    my ( $this, $from, $to ) = @_;
+    $this->_filter_file(
+        $from, $to,
+        sub {
+            my ( $this, $text ) = @_;
+            $text =~ s/%\$TRACKINGCODE%/$this->{TRACKINGCODE}/gm;
+            return $text;
+        }
+       );
+}
+
+sub target_tracked {
+    my $this = shift;
+    local $/ = "\n";
+    my %customers;
+    my @cuss;
+    my $db = prompt("Location of customer database", $DEFAULTCUSTOMERDB);
+    if (open(F, '<', $db)) {
+        while (my $customer = <F>) {
+            chomp($customer);
+            if ($customer =~ /^(.+)\s(\S+)\s*$/) {
+                $customers{$1} = $2;
+            }
+        }
+        close(F);
+        @cuss = sort keys %customers;
+        my $i = 0;
+        print join("\n", map { $i++; "$i. $_" } @cuss)."\n";
+    } else {
+        print "$db not found: $@\n";
+        print "Creating new customer DB\n";
+    }
+
+    my $customer = prompt("Number (or name) of customer");
+    if ($customer =~ /^\d+$/ && $customer < scalar(@cuss)) {
+        $customer = $cuss[$customer];
+    }
+
+    if ($customers{$customer}) {
+        $this->{TRACKINGCODE} = $customers{$customer};
+    } else {
+        print "Customer '$customer' not known\n";
+        exit 0 unless ask("Would you like to add a new customer?");
+
+        $this->{TRACKINGCODE} = crypt($customer, $db);
+        $this->{TRACKINGCODE} =
+          join('', map { sprintf('%02X', $_) }
+                 unpack('c*', $this->{TRACKINGCODE}));
+        print "New cypher is $this->{TRACKINGCODE}\n";
+        $customers{$customer} = $this->{TRACKINGCODE};
+
+        open(F, '>', $db) || die $@;
+        print F join("\n", )."\n";
+        close(F);
+    }
+
+    print STDERR "Tracking code is $this->{TRACKINGCODE}\n";
+
+    push(@stageFilters,
+         { RE => qr/\.pm$/, filter => 'filter_tracked_pm' });
+
+    $this->build('release');
+}
+
+=begin TML
 
 ---++++ target_stage
 stages all the files to be in the release in a tmpDir, ready for target_archive
@@ -1132,7 +1316,7 @@ sub target_stage {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_archive
 Makes zip and tgz archives of the files in tmpDir. Also copies the installer.
@@ -1187,11 +1371,8 @@ sub target_archive {
     foreach my $f qw(.tgz _installer .zip) {
         push( @fs, "$target$f" ) if ( -e "$target$f" );
     }
-    eval "require Digest::MD5";
-    if ($@) {
-        print STDERR "WARNING: Digest::MD5 not installed; cannot checksum\n";
-    }
-    else {
+
+    if ( eval { require Digest::MD5 } ) {
         open( CS, '>', "$target.md5" ) || die $!;
         foreach my $file (@fs) {
             open( F, '<', $file );
@@ -1204,6 +1385,29 @@ sub target_archive {
         close(CS);
         print "MD5 checksums in $this->{basedir}/$target.md5\n";
     }
+    else {
+        print STDERR
+          "WARNING: Digest::MD5 not installed; cannot generate MD5 checksum\n";
+    }
+
+    if ( eval { require Digest::SHA } ) {
+        open( CS, '>', "$target.sha1" ) || die $!;
+        foreach my $file (@fs) {
+            open( F, '<', $file );
+            local $/;
+            my $data = <F>;
+            close(F);
+            my $cs = Digest::SHA::sha1_hex($data);
+            print CS "$cs  $file\n";
+        }
+        close(CS);
+        print "SHA1 checksums in $this->{basedir}/$target.sha1\n";
+    }
+    else {
+        print STDERR
+          "WARNING: Digest::SHA not installed; cannot generate SHA1 checksum\n";
+    }
+
     $this->popd();
     $this->popd();
 
@@ -1225,7 +1429,7 @@ HERE
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ copy_fileset
 Copy all files in a file set from on directory root to another.
@@ -1252,7 +1456,7 @@ sub copy_fileset {
     die 'Files left uncopied' if ($uncopied);
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ apply_perms
 Apply perms to a fileset
@@ -1270,7 +1474,7 @@ sub apply_perms {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_handsoff_install
 Install target, installs to local install pointed at by FOSWIKI_HOME.
@@ -1294,7 +1498,7 @@ sub target_handsoff_install {
     $this->popd();
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_install
 Install target, installs to local twiki pointed at by FOSWIKI_HOME.
@@ -1309,7 +1513,7 @@ sub target_install {
     $this->sys_action( 'perl', $this->{project} . '_installer', 'install' );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_uninstall
 Uninstall target, uninstall from local twiki pointed at by FOSWIKI_HOME.
@@ -1388,21 +1592,24 @@ sub _getTopicName {
     # Example input:  TWiki-4.0.0-beta6
     # Example output: TWikiRelease04x00x00beta06
 
-    # Append 'Release' to first (word) part of name if followed by -
-    $topicname =~ s/^(\w+)\-/${1}Release/;
+    if ( $topicname =~ m{\d+\.\d+\.\d+} ) {
 
-    # Zero-pad numbers to two digits
-    $topicname =~ s/(\d+)/sprintf("%0.2i",$1)/ge;
+        # Append 'Release' to first (word) part of name if followed by -
+        $topicname =~ s/^(\w+)\-/${1}Release/;
 
-    # replace . with x
-    $topicname =~ s/\./x/g;
+        # Zero-pad numbers to two digits
+        $topicname =~ s/(\d+)/sprintf("%0.2i",$1)/ge;
+
+        # replace . with x
+        $topicname =~ s/\./x/g;
+    }
 
     # remove dashes
     $topicname =~ s/\-//g;
     return $topicname;
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_upload
 Upload to a repository. Prompts for username and password. Uploads the zip and
@@ -1414,8 +1621,7 @@ necessary.
 sub target_upload {
     my $this = shift;
 
-    require LWP;
-    if ($@) {
+    unless ( eval { require LWP } ) {
         print STDERR 'LWP is not installed; cannot upload', "\n";
         return 0;
     }
@@ -1550,7 +1756,7 @@ END
             $a =~ /name="([^"]*)"/;
             my $name = $1;
             next if $uploaded{$name};
-            next if $name =~ /^$to(\.zip|\.tgz|_installer|\.md5)$/;
+            next if $name =~ /^$to(\.zip|\.tgz|_installer|\.md5|\.sha1)$/;
             $a =~ /comment="([^"]*)"/;
             my $comment = $1;
             $a =~ /attr="([^"]*)"/;
@@ -1576,7 +1782,7 @@ END
     return unless $doup;
 
     # Upload the standard files
-    foreach my $ext qw(.zip .tgz _installer .md5) {
+    foreach my $ext qw(.zip .tgz _installer .md5 .sha1) {
         my $name = $to . $ext;
         next if $uploaded{$name};
         $this->_uploadAttachment( $userAgent, $user, $pass, $to . $ext,
@@ -1634,13 +1840,16 @@ sub _postForm {
         $response = $userAgent->post(
             "$this->{UPLOADTARGETSCRIPT}/login",
             { username => $user, password => $pass }
-        );
+           );
 
-        #print STDERR "Fallthrough login attempt returned ".
-        #  $response->request->uri,' -- ', $response->status_line, "\n",
-        #   $response->headers->header('Location')."\n".
-        #      $response->content()."\n",
-        #        $response->headers->header('Set-Cookie')."\n";
+        if ( $response->is_redirect()
+                 && $response->headers->header('Location') =~ /oopsaccessdenied|login/ ) {
+            die "Fallthrough login attempt failed: returned ".
+              $response->request->uri,' -- ', $response->status_line, "\n",
+                $response->headers->header('Location')."\n".
+                  $response->content()."\n";
+        }
+
         # Post the upload again; we should be logged in
         $response = $userAgent->post( $url, $form );
     }
@@ -1711,7 +1920,7 @@ sub target_POD {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_POD
 
@@ -1731,7 +1940,7 @@ sub target_pod {
     print $this->{POD} . "\n";
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_installer
 
@@ -1839,7 +2048,7 @@ sub target_installer {
     $this->cp( $installScript, "$installScript.pl" );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ build($target)
 Build the given target
@@ -1865,7 +2074,7 @@ sub build {
     }
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_manifest
 Generate and print to STDOUT a rough guess at the MANIFEST listing
@@ -1914,7 +2123,7 @@ sub _manicollect {
     elsif (!-d 
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
-        && !/$collector->{project}\.(md5|zip|tgz|txt)/ )
+        && !/$collector->{project}\.(md5|zip|tgz|txt|sha1)/ )
     {
         my $n     = $File::Find::name;
         my @a     = stat($n);
@@ -1925,7 +2134,7 @@ sub _manicollect {
     }
 }
 
-=begin foswiki
+=begin TML
 
 #HistoryTarget
 Updates the history in the plugin/contrib topic from the subversion checkin history.
@@ -2074,7 +2283,7 @@ sub target_history {
     print join( "\n", map { "|  $_->[0] | $_->[1] |" } @history );
 }
 
-=begin foswiki
+=begin TML
 
 ---++++ target_dependencies
 
@@ -2090,8 +2299,8 @@ sub target_dependencies {
     my $this = shift;
     local $/ = "\n";
 
-    eval 'use B::PerlReq';
-    die "B::PerlReq is required for 'dependencies': $@" if $@;
+    die "B::PerlReq is required for 'dependencies': $@"
+      unless eval "use B::PerlReq; 1";
 
     foreach my $m (
         'strict',   'vars',     'diagnostics', 'base',
@@ -2177,7 +2386,7 @@ sub _addDep {
     return '';
 }
 
-my @twikiFilters = (
+our @twikiFilters = (
     { RE => qr/\.pm$/,          filter => '_twikify_perl' },
     { RE => qr#/Config.spec$#,  filter => '_twikify_perl' },
     { RE => qr#/MANIFEST$#,     filter => '_twikify_manifest' },
@@ -2231,11 +2440,14 @@ sub _twikify_perl {
         sub {
             my ( $this, $text ) = @_;
             $text =~ s/Foswiki::/TWiki::/g;
-            $text =~ s/new Foswiki\(\);/new TWiki();/g;
-            $text =~ s/(use|require)\s+Foswiki;/$1 TWiki;/g;
+            $text =~ s/new Foswiki\s*\(\s*\);/new TWiki();/g;
+            $text =~ s/\b(use|require)\s+Foswiki/$1 TWiki/g;
             $text =~ s/foswiki\([A-Z][A-Za-z]\+\)/twiki$1/g;
             $text =~ s/'foswiki'/'twiki'/g;
             $text =~ s/FOSWIKI_/TWIKI_/g;
+            $text =~ s/foswikiNewLink/twikiNewLink/g;          # CSS
+            $text =~ s/foswikiAlert/twikiAlert/g;
+            $text =~ s/new Foswiki/new TWiki/g;
             return $text;
         }
     );

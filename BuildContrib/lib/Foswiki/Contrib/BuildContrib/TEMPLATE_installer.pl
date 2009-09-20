@@ -87,14 +87,6 @@ MESSAGE
     else {
         $message .= "An unspecified error occurred\n";
     }
-    $message .= <<MESSAGE;
-(if this is a TWiki release prior to 4.2, you can download this
- file from: http://twiki.org/cgi-bin/view/Codev/ExtenderScript
- and place it in
- $wd/tools
- Create the directory if necessary).
-************************************************************
-MESSAGE
 
     # Try again, using open. This cures some uncooperative platforms.
     if ( open( F, '<', $script ) ) {
