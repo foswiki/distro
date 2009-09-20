@@ -22,7 +22,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
    * =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.DefaultPreferencesForm" }%= 
 
 <!--
-      * Set SHORTDESCRIPTION = Allows editing of preferences using fields predefined in a form
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 ---++ Plugin Installation Instructions
@@ -34,8 +34,10 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 
 |  Copyright: | Copyright (C) Foswiki:Main.ThomasWeigert and Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 19 Apr 2009 |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  20 Sep 2009: | Small documentation update. Code tidied up. No preferences in plugin topic. No other functional changes. |
 |  19 Apr 2009: | Ignore all saving unless it happened by saving a form using POST method. |
 |  15 Dec 2008: | Arthur Clemens added reading of =Local= preferences. Foswiki version |
 |  05 Nov 2007: | Kenneth Lavrsen fixed problem when settings are hidden in html comments. These settings are now ignored. |
