@@ -1,6 +1,9 @@
-%META:TOPICINFO{author="PeterThoeny" date="1186881349" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1186881349" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
 
 The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on aliases defined in the %SYSTEMWEB%.InterWikis topic. This plugin is inspired by <nop>UseMod Wiki's inter-wiki links, http://www.usemod.com/cgi-bin/wiki.pl?InterWiki.
 
@@ -20,23 +23,19 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 
 ---++ <nop>%TOPIC% Settings
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
+You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %USERSWEB%.SitePreferences, or in !WebPreferences, or in individual topics.
 
-   * One-line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
-      * Set SHORTDESCRIPTION = Link ==ExternalSite:Page== text to external sites based on aliases defined in a rules topic
-
-   * Link rules topic name: (default is %SYSTEMWEB%.InterWikis)
-      * Set RULESTOPIC = 
-
-   * Inter-link format, with formatting tokens:
+| *Preference* | *Use to* | *Default* |
+| =INTERWIKIPLUGIN_RULESTOPIC= | Change the link rules topic name | %SYSTEMWEB%.InterWikis |
+| =INTERWIKIPLUGIN_INTERLINKFORMAT= | Set the interlink format | =&lt;a href="$url" title="$tooltip" class="interwikiLink"&gt;&lt;noautolink&gt;$label&lt;/noautolink&gt;&lt;/a&gt;= |
+The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
      | *Token* | *Meaning* |
      | $site | Site alias |
      | $page | Page (part after colon) |
      | $url | Site URL (might contain $page) |
      | $label | Equal to $site:$page |
      | $tooltip | Tooltip message |
-      * Set INTERLINKFORMAT = <a href="$url" title="$tooltip" class="interwikiLink"><noautolink>$label</noautolink></a>
+
 
 ---++ Plugin Installation Instructions
 
@@ -46,11 +45,14 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny |
+|  Author: | Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny |
 |  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), %SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | %$VERSION% |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  20 Sep 2009: | Version from 15 Apr now included with Foswiki 1.0.7. |
+|  15 Apr 2009: | Foswiki:Main.CrawfordCurrie - removed plugin preferences from this topic |
 |  16 Dec 2008: | Foswiki:Main.KennethLavrsen - Foswiki version - no features changed |
 |  03 Aug 2008: | TWiki 4.2.1 release version |
 |  22 Jan 2008: | TWiki 4.2.0 release version |
@@ -72,13 +74,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 |  12 Jun 2001: | Added optional tool tips (IE only); added the link rules topic name variable; added flexible link patterns; optional ==$page== in URL |
 |  10 Jun 2001: | Changed rules topic to table-based syntax |
 |  20 Feb 2001: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny - Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.0 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
----
-*Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %USERSWEB%.SitePreferences, %SYSTEMWEB%.InterWikis
 
--- TWiki:Main.PeterThoeny - 25 Nov 2007
