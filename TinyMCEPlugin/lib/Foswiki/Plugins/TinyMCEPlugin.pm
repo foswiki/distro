@@ -18,7 +18,7 @@ use strict;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '18 Sep 2009';
+our $RELEASE           = '20 Sep 2009';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
