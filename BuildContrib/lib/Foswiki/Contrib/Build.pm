@@ -29,6 +29,7 @@ This is a base class used for making build scripts for Foswiki packages.
 =cut
 
 use strict;
+use Digest::MD5 ();
 use File::Copy ();
 use File::Spec ();
 use FindBin    ();
@@ -1665,9 +1666,11 @@ END
       new Foswiki::Contrib::Build::UserAgent( $this->{UPLOADTARGETSCRIPT},
         $this );
     $userAgent->agent( 'ContribBuild/' . $VERSION . ' ' );
+    $userAgent->cookie_jar( {} );
 
     my $topic = $this->_getTopicName();
     my ( $user, $pass ) = $this->getCredentials( $this->{UPLOADTARGETSCRIPT} );
+    $this->_login($userAgent, $user, $pass);
 
     my $url =
 "$this->{UPLOADTARGETSCRIPT}/view$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic";
@@ -1791,8 +1794,76 @@ END
     }
 }
 
+sub _login {
+    my ( $this, $userAgent, $user, $pass ) = @_;
+    #Send a login request - to get a validation key for strikeone
+    my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/login$this->{UPLOADTARGETSUFFIX}");
+    unless ( $response->code == 400 
+             and $response->header('title') =~ /\(Foswiki login\)/ ) {
+        die 'Failed to GET login form '. $response->request->uri.
+          ' -- '. $response->status_line. "\n";
+    }
+
+    my $validationKey = $this->_strikeone($userAgent, $response);
+
+    $response = $userAgent->post(
+        "$this->{UPLOADTARGETSCRIPT}/login$this->{UPLOADTARGETSUFFIX}",
+        { username => $user, password => $pass, validation_key => $validationKey }
+    );
+
+    die 'Login failed '. $response->request->uri.
+      ' -- '. $response->status_line. "\n". 'Aborting'. "\n"
+      unless $response->is_redirect
+          && $response->headers->header('Location') !~ m{/oops};
+}
+
+sub _strikeone {
+    my ( $this, $userAgent, $response ) = @_;
+
+    my $f = $response->content();
+    $f =~ s/<\/form>.*//sm;
+    $f =~ s/.*<form.*?>//sm;
+    my $validationKey;
+    while ($f =~ /<input([^>]*)>/g) {
+        my $attrs = $1;
+        if ($attrs =~ /\bname=["']validation_key["']/
+                and $attrs =~ /\bvalue=["'](.*?)["']/) {
+            $validationKey = $1;
+            last;
+        }
+    }
+    if (not defined $validationKey) {
+        warn "WARNING: The form does not have a validation_key field\n";
+        return '';
+    }
+
+    my $cookie;
+    $userAgent->cookie_jar()->scan(sub {
+        my ($version, $key, $value) = @_;
+        $cookie = $value if $key eq 'FOSWIKISTRIKEONE';
+    });
+    if (not defined $cookie) {
+        warn "WARNING: Could not find strikeone cookie in cookiejar - disabling strikeone\n";
+        return $validationKey;
+    }
+
+    $validationKey =~ s/^\?//;
+
+    return Digest::MD5::md5_hex( $validationKey.$cookie );
+}
+
 sub _uploadTopic {
     my ( $this, $userAgent, $user, $pass, $topic, $form ) = @_;
+    
+    # send an edit request to get a validation key
+    my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/edit$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic");
+    unless ( $response->is_success ) {
+        die 'Request to edit '.$this->{UPLOADTARGETWEB}.'/'.$topic.' failed '. $response->request->uri.
+          ' -- '. $response->status_line. "\n";
+    }
+
+    $form->{validation_key} = $this->_strikeone($userAgent, $response);
+
     my $url =
 "$this->{UPLOADTARGETSCRIPT}/save$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic";
     $form->{text} = <<EXTRA. $form->{text};
@@ -1813,6 +1884,14 @@ sub _uploadAttachment {
     my ( $this, $userAgent, $user, $pass, $filename, $filepath, $filecomment,
         $hide )
       = @_;
+
+    # send an edit request to get a validation key
+    my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/edit$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$this->{project}");
+    unless ( $response->is_success ) {
+        die 'Failed to edit form '. $response->request->uri.
+          ' -- '. $response->status_line. "\n";
+    }
+
     my $url =
 "$this->{UPLOADTARGETSCRIPT}/upload$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$this->{project}";
     my $form = [
@@ -1820,6 +1899,7 @@ sub _uploadAttachment {
         'filepath'    => [$filepath],
         'filecomment' => $filecomment,
         'hidefile'    => $hide || 0,
+        'validation_key' => $this->_strikeone($userAgent, $response),
     ];
 
     print "Uploading $this->{UPLOADTARGETWEB}/$this->{project}/$filename\n";
@@ -1831,34 +1911,11 @@ sub _postForm {
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
 
-    if (   $response->is_redirect()
-        && $response->headers->header('Location') =~ /oopsaccessdenied|login/ )
-    {
-
-        # Try login if we got access denied despite passing creds
-        # with the user agent
-        $response = $userAgent->post(
-            "$this->{UPLOADTARGETSCRIPT}/login",
-            { username => $user, password => $pass }
-           );
-
-        if ( $response->is_redirect()
-                 && $response->headers->header('Location') =~ /oopsaccessdenied|login/ ) {
-            die "Fallthrough login attempt failed: returned ".
-              $response->request->uri,' -- ', $response->status_line, "\n",
-                $response->headers->header('Location')."\n".
-                  $response->content()."\n";
-        }
-
-        # Post the upload again; we should be logged in
-        $response = $userAgent->post( $url, $form );
-    }
-
     die 'Upload failed ', $response->request->uri,
       ' -- ', $response->status_line, "\n", 'Aborting', "\n",
       $response->as_string
       unless $response->is_redirect
-          && $response->headers->header('Location') !~ /oops/;
+          && $response->headers->header('Location') !~ m{/oops|/login/};
 
     my $sleep = $GLACIERMELT;
     if ( $sleep > 0 ) {
