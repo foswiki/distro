@@ -282,7 +282,8 @@ sub _parseAttributes {
     if ($modeSpecific) {
         my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
         _storeAttribute( 'sort', $sort, $inCollection );
-        _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
+        _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection )
+          if $inParams->{initsort} =~ /\s*[0-9]+\s*/;
         _storeAttribute( 'sortAllTables', $sort, $inCollection );
         if ( $inParams->{initdirection} ) {
             _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
