@@ -650,9 +650,9 @@ deprecated (use queries instead).
    * =\%options= - reference to an options hash
 The =\%options= hash may contain the following options:
    * =type= - if =regex= will perform a egrep-syntax RE search (default '')
-   * =casesensitive= - false to ignore case (defaulkt true)
+   * =casesensitive= - false to ignore case (default true)
    * =files_without_match= - true to return files only (default false)
-
+   * =wordboundaries= - true to limit the ends of the match to word boundaries
 The return value is a reference to a hash which maps each matching topic
 name to a list of the lines in that topic that matched the search,
 as would be returned by 'grep'. If =files_without_match= is specified, it will

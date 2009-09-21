@@ -2119,7 +2119,8 @@ sub attach {
             attachment  => $opts{name},
             stream      => $opts{stream},
             tmpFilename => $opts{tmpFilename},
-            user        => $this->{_session}->{user},
+            user        => $this->{_session}->{users}->getLoginName(
+                $this->{_session}->{user}),
             comment     => $opts{comment} || '',
         };
 
@@ -2339,7 +2340,8 @@ sub moveAttachment {
         $fileAttachment->{name} = $newName;
         $fileAttachment->{movefrom} =
           $this->getPath() . '.' . $name;
-        $fileAttachment->{moveby} = $cUID;
+        $fileAttachment->{moveby} =
+          $this->{_session}->{users}->getLoginName( $cUID );
         $fileAttachment->{movedto} =
           $to->getPath() . '.' . $newName;
         $fileAttachment->{movedwhen} = time();
