@@ -127,7 +127,7 @@ sub _parseParameters {
 
     # Defines which column to initially sort : ShawnBradford 20020221
     $tmp = $params{initsort};
-    $initSort = $tmp if ($tmp);
+    $initSort = $tmp if ($tmp && ( $tmp =~ /\s*[0-9]+\s*/ ) );
 
     # Defines which direction to sort the column set by initsort :
     # ShawnBradford 20020221
