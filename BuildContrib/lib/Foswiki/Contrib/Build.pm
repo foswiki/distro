@@ -1073,7 +1073,13 @@ These are selected between depending on which exist on disk.
 sub build_js {
     my ( $this, $to ) = @_;
 
-    unless ( eval { require JavaScript::Minifier } ) {
+    if ( eval { require JavaScript::Minifier::XS } ) {
+        # all is well
+    }
+    elsif ( eval { require JavaScript::Minifier } ) {
+        # all is well
+    }
+    else {
         print STDERR "Cannot squish $to: $@\n";
     }
 
@@ -1120,7 +1126,13 @@ Several different name mappings are supported:
 sub build_css {
     my ( $this, $to ) = @_;
 
-    unless ( eval { require CSS::Minifier } ) {
+    if ( eval { require CSS::Minifier::XS } ) {
+        # all is well
+    }
+    elsif ( eval { require CSS::Minifier } ) {
+        # all is well
+    }
+    else {
         print STDERR "Cannot squish $to: $@\n";
     }
 
