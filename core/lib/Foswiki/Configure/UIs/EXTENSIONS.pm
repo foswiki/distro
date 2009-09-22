@@ -52,8 +52,7 @@ sub _getListOfExtensions {
             if ( !$response->is_error() ) {
                 my $page = $response->content();
                 if (defined $page) {
-                    $page =~ s/(?:^|\n){(.*?)\n\s*}(\n|$)/
-                      $this->_parseRow($1, $place)/ges;
+                    $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
                 } else {
                     push(
                         @{ $this->{errors} },
