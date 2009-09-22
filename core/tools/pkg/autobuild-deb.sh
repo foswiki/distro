@@ -30,8 +30,8 @@ perl pseudo-install.pl -clean -A developer
 #
 # Run the unit tests.
 #
-cd test/unit
-perl ../bin/TestRunner.pl -clean FoswikiSuite.pm || true
+# cd test/unit
+# perl ../bin/TestRunner.pl -clean FoswikiSuite.pm || true
 
 #
 # Build tarballs of source, with svn revision number embedded
