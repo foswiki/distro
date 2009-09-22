@@ -1073,7 +1073,14 @@ These are selected between depending on which exist on disk.
 sub build_js {
     my ( $this, $to ) = @_;
 
-    unless ( eval { require JavaScript::Minifier } ) {
+    my $minifier;
+    if ( eval { require JavaScript::Minifier::XS } ) {
+        $minifier = \&JavaScript::Minifier::XS::minify;
+    }
+    elsif ( eval { require JavaScript::Minifier } ) {
+        $minifier = \&JavaScript::Minifier::minify;
+    }
+    else {
         print STDERR "Cannot squish $to: $@\n";
     }
 
@@ -1085,7 +1092,7 @@ sub build_js {
     my $text = <IF>;
     close(IF);
 
-    $text = JavaScript::Minifier::minify( input => $text );
+    $text = &{$minifier}( input => $text );
 
     unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
@@ -1120,7 +1127,14 @@ Several different name mappings are supported:
 sub build_css {
     my ( $this, $to ) = @_;
 
-    unless ( eval { require CSS::Minifier } ) {
+    my $minifier;
+    if ( eval { require CSS::Minifier::XS } ) {
+        $minifier = \&CSS::Minifier::XS::minify;
+    }
+    elsif ( eval { require CSS::Minifier } ) {
+        $minifier = \&CSS::Minifier::minify;
+    }
+    else {
         print STDERR "Cannot squish $to: $@\n";
     }
 
@@ -1132,7 +1146,7 @@ sub build_css {
     my $text = <IF>;
     close(IF);
 
-    $text = CSS::Minifier::minify( input => $text );
+    $text = &{$minifier}( input => $text );
 
     unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
