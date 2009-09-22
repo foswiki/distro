@@ -57,7 +57,7 @@ sub verify_getExternalResource {
     $this->assert_matches( qr/$expectedHeader/is,
         ~~ $response->header('content-type') ); # ~~ forces scalar context
     $this->assert_matches(
-        qr/Foswiki - The free and open source enterprise wiki/s,
+        qr/community dedicated to democratic governance, free of commercial influence and trademark issues/s,
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
