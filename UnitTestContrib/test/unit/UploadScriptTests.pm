@@ -63,13 +63,15 @@ sub do_upload {
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
 
-    my ($text, $result) = $this->capture(
+    my ($text, $result) = $this->captureWithKey(
+        'upload',
         sub {
             Foswiki::UI::Upload::upload( $this->{twiki} );
             $Foswiki::engine->finalize(
                 $this->{twiki}->{response},
                 $this->{twiki}->{request});
-        });
+        },
+        $this->{twiki});
     return $text;
 }
 
