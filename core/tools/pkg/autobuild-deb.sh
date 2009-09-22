@@ -36,7 +36,7 @@ perl pseudo-install.pl -clean -A developer
 #
 # Build tarballs of source, with svn revision number embedded
 #
-cd ../../tools
+cd ${FOSWIKI_HOME}/tools
 ./build.pl release -auto || echo build.pl returned $?
 
 #
