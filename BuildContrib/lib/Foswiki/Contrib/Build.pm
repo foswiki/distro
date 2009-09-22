@@ -75,6 +75,7 @@ my @stageFilters = (
 my @compressFilters = (
     { RE => qr/\.js$/,  filter => 'build_js' },
     { RE => qr/\.css$/, filter => 'build_css' },
+    { RE => qr/\.gz$/,  filter => 'build_gz' },
 );
 
 my @tidyFilters = ( { RE => qr/\.pl$/ }, { RE => qr/\.pm$/ }, );
@@ -879,18 +880,17 @@ won't fail if a source or target isn't missing.
 
 sub target_compress {
     my $this = shift;
-  FILE:
-    foreach my $file ( @{ $this->{files} } ) {
+	my %file_ok;
+	foreach my $filter (@compressFilters) {
+	  FILE:
+		foreach my $file ( @{ $this->{files} } ) {
+			next FILE if $file_ok{$file};
 
         # Find files that match the build filter and try to update
         # them
-        foreach my $filter (@compressFilters) {
             if ( $file->{name} =~ /$filter->{RE}/ ) {
                 my $fn = $filter->{filter};
-                my $ok = $this->$fn( $this->{basedir} . '/' . $file->{name} );
-                if ($ok) {
-                    next FILE;
-                }
+                $file_ok{$file} = $this->$fn( $this->{basedir} . '/' . $file->{name} );
             }
         }
     }
@@ -1141,6 +1141,50 @@ sub build_css {
             return 1 if $text eq $ot;    # no changes?
         }
         open( OF, '>', $to ) || die "$to: $!";
+        print OF $text;
+        close(OF);
+        print STDERR "Generated $to from $from\n";
+    }
+    return 1;
+}
+
+=begin TML
+
+---++++ build_gz
+Uses Compress::Zlib to gzip files
+
+   * xxx.yyy -> xxx.yyy.gz
+
+=cut
+
+sub build_gz {
+    my ( $this, $to ) = @_;
+
+    unless ( eval { require Compress::Zlib } ) {
+        print STDERR "Cannot gzip $to: $@\n";
+		return 0;
+    }
+
+	my $from = $to;
+	$from =~ s/\.gz$// or return 0;
+    return 0 unless -e $from;
+
+    open( IF, '<', $from ) || die $!;
+    local $/ = undef;
+    my $text = <IF>;
+    close(IF);
+
+    $text = Compress::Zlib::memGzip( $text );
+
+    unless ( $this->{-n} ) {
+        if ( open( IF, '<', $to ) ) {
+			binmode IF;
+            my $ot = <IF>;
+            close($ot);
+            return 1 if $text eq $ot;    # no changes?
+        }
+        open( OF, '>', $to ) || die "$to: $!";
+		binmode OF;
         print OF $text;
         close(OF);
         print STDERR "Generated $to from $from\n";
