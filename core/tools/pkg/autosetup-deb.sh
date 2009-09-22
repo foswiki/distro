@@ -11,6 +11,7 @@ debdir="$2"
 
 aptitude update
 aptitude install -y subversion libwww-perl zip fakeroot dpkg-dev \
-	debhelper tardy po-debconf dpatch
+	debhelper tardy po-debconf dpatch devscripts build-essential \
+	libcss-minifier-xs-perl libjavascript-minifier-xs-perl
 apt-get clean
 aptitude dist-upgrade -y
