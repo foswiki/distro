@@ -66,14 +66,16 @@ sub do_upload {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
 
-    my ($text) = $this->capture(
+    my ($text) = $this->captureWithKey(
+        'upload',
         sub {
             no strict 'refs';
             &$UI_FN( $this->{session} );
             use strict 'refs';
             $Foswiki::engine->finalize( $this->{session}->{response},
                 $this->{session}->{request} );
-        }
+        },
+        $this->{session}
     );
     return $text;
 }
