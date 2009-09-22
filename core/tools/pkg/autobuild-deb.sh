@@ -28,6 +28,14 @@ perl pseudo-install.pl -clean -u developer
 perl pseudo-install.pl -clean -A developer
 
 #
+# Debian only provides the equivalent and faster *::Minifier:XS modules, so
+# until resolved in BuildContrib, do just enough to allow build.pl to run. 
+# This can't be a dpatch, as the tarballs need to be created before they
+# can be patched.
+#
+sed -i s/Minifier/Minifier::XS/ ${FOSWIKI_HOME}/lib/Foswiki/Contrib/Build.pm
+
+#
 # Run the unit tests.
 #
 # cd test/unit
