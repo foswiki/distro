@@ -75,6 +75,7 @@ my @stageFilters = (
 my @compressFilters = (
     { RE => qr/\.js$/,  filter => 'build_js' },
     { RE => qr/\.css$/, filter => 'build_css' },
+    { RE => qr/\.gz$/,  filter => 'build_gz' },
 );
 
 my @tidyFilters = ( { RE => qr/\.pl$/ }, { RE => qr/\.pm$/ }, );
@@ -879,18 +880,17 @@ won't fail if a source or target isn't missing.
 
 sub target_compress {
     my $this = shift;
-  FILE:
-    foreach my $file ( @{ $this->{files} } ) {
+    my %file_ok;
+    foreach my $filter (@compressFilters) {
+      FILE:
+        foreach my $file ( @{ $this->{files} } ) {
+            next FILE if $file_ok{$file};
 
         # Find files that match the build filter and try to update
         # them
-        foreach my $filter (@compressFilters) {
             if ( $file->{name} =~ /$filter->{RE}/ ) {
                 my $fn = $filter->{filter};
-                my $ok = $this->$fn( $this->{basedir} . '/' . $file->{name} );
-                if ($ok) {
-                    next FILE;
-                }
+                $file_ok{$file} = $this->$fn( $this->{basedir} . '/' . $file->{name} );
             }
         }
     }
@@ -1155,6 +1155,50 @@ sub build_css {
             return 1 if $text eq $ot;    # no changes?
         }
         open( OF, '>', $to ) || die "$to: $!";
+        print OF $text;
+        close(OF);
+        print STDERR "Generated $to from $from\n";
+    }
+    return 1;
+}
+
+=begin TML
+
+---++++ build_gz
+Uses Compress::Zlib to gzip files
+
+   * xxx.yyy -> xxx.yyy.gz
+
+=cut
+
+sub build_gz {
+    my ( $this, $to ) = @_;
+
+    unless ( eval { require Compress::Zlib } ) {
+        print STDERR "Cannot gzip $to: $@\n";
+        return 0;
+    }
+
+    my $from = $to;
+    $from =~ s/\.gz$// or return 0;
+    return 0 unless -e $from;
+
+    open( IF, '<', $from ) || die $!;
+    local $/ = undef;
+    my $text = <IF>;
+    close(IF);
+
+    $text = Compress::Zlib::memGzip( $text );
+
+    unless ( $this->{-n} ) {
+        if ( open( IF, '<', $to ) ) {
+            binmode IF;
+            my $ot = <IF>;
+            close($ot);
+            return 1 if $text eq $ot;    # no changes?
+        }
+        open( OF, '>', $to ) || die "$to: $!";
+        binmode OF;
         print OF $text;
         close(OF);
         print STDERR "Generated $to from $from\n";
@@ -1643,6 +1687,26 @@ sub target_upload {
 
     my $to = $this->{project};
 
+    my $topicText;
+    local $/ = undef;    # set to read to EOF
+    if ( open( IN_FILE, '<', $this->{basedir} . '/' . $to . '.txt' ) ) {
+        print "Basing new topic on "
+          . $this->{basedir} . '/'
+          . $to . '.txt' . "\n";
+        $topicText = <IN_FILE>;
+        close(IN_FILE);
+    }
+    else {
+        print STDERR 'Failed to open base topic: ' . $!;
+        $topicText = <<END;
+Release $to
+END
+        print "Basing new topic on some default text:\n$topicText\n";
+    }
+    my @attachments;
+    $topicText =~ s/%META:FILEATTACHMENT(.*)%/
+      push(@attachments, $1);''/ge;
+
     while (1) {
         print <<END;
 Preparing to upload to:
@@ -1675,7 +1739,6 @@ END
         $this->_saveConfig();
     }
 
-    $this->build('release');
     my $userAgent =
       new Foswiki::Contrib::Build::UserAgent( $this->{UPLOADTARGETSCRIPT},
         $this );
@@ -1683,7 +1746,20 @@ END
     $userAgent->cookie_jar( {} );
 
     my $topic = $this->_getTopicName();
+
+    # Ask for username and password
     my ( $user, $pass ) = $this->getCredentials( $this->{UPLOADTARGETSCRIPT} );
+
+    # Ask what the user wants to upload
+    my $doUploadArchivesAndInstallers = ask( "Do you want to upload the archives and installers?", 1 );
+
+    my $doUploadAttachments = scalar(@attachments)
+      && ask( "Do you want to upload the attachments?", 1 );
+
+    # No more questions after this point
+
+    $this->build('release');
+
     $this->_login($userAgent, $user, $pass);
 
     my $url =
@@ -1724,26 +1800,9 @@ END
             $newform{TopicClassification} ||= $1 . 'Package';
         }
     }
-    local $/ = undef;    # set to read to EOF
-    if ( open( IN_FILE, '<', $this->{basedir} . '/' . $to . '.txt' ) ) {
-        print "Basing new topic on "
-          . $this->{basedir} . '/'
-          . $to . '.txt' . "\n";
-        $newform{'text'} = <IN_FILE>;
-        close(IN_FILE);
-    }
-    else {
-        print STDERR 'Failed to open base topic: ' . $!;
-        $newform{'text'} = <<END;
-Release $to
-END
-        print "Basing new topic on some default text:\n$newform{text}\n";
-    }
+    $newform{text} = $topicText;
 
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
-    my @attachments;
-    $newform{text} =~ s/%META:FILEATTACHMENT(.*)%/
-      push(@attachments, $1);''/ge;
 
     # Upload any 'Var*.txt' topics published by the extension
     my $dataDir = $this->{basedir} . '/data/System';
@@ -1765,10 +1824,7 @@ END
     # attachments to the topic on t.o. will still be there.
     my %uploaded;    # flag already uploaded
 
-    my $doupattachements = scalar(@attachments)
-      && ask( "Do you want to upload the attachments?", 1 );
-
-    if ($doupattachements) {
+    if ($doUploadAttachments) {
         foreach my $a (@attachments) {
             $a =~ /name="([^"]*)"/;
             my $name = $1;
@@ -1795,8 +1851,7 @@ END
         }
     }
 
-    my $doup = ask( "Do you want to upload the archives and installers?", 1 );
-    return unless $doup;
+    return unless $doUploadArchivesAndInstallers;
 
     # Upload the standard files
     foreach my $ext qw(.zip .tgz _installer .md5 .sha1) {
@@ -1902,7 +1957,7 @@ sub _uploadAttachment {
     # send an edit request to get a validation key
     my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/edit$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$this->{project}");
     unless ( $response->is_success ) {
-        die 'Failed to edit form '. $response->request->uri.
+        die 'Request to edit '.$this->{UPLOADTARGETWEB}.'/'.$this->{project}.' failed '. $response->request->uri.
           ' -- '. $response->status_line. "\n";
     }
 
