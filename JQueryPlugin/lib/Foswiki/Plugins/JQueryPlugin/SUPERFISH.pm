@@ -44,7 +44,6 @@ sub new {
     author => 'Joel Birch',
     homepage => 'http://users.tpg.com.au/j_birch/plugins/superfish/',
     javascript => ['jquery.superfish.js'],
-    css => ['jquery.superfish.css'],
     dependencies => ['hoverintent'], 
   ), $class);
 
