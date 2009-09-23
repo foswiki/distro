@@ -516,7 +516,7 @@ sub searchWeb {
           split( /%REPEAT%/, $tmplTable );
 
         unless ($noHeader) {
-            $params{header} |= $beforeText;
+            $params{header} = $beforeText unless defined $params{header};
         }
 
         #nosummary="on" nosearch="on" noheader="on" nototal="on"
