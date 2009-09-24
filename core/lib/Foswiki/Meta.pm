@@ -1013,7 +1013,7 @@ sub count {
 Set TOPICINFO information on the object, as specified by the parameters.
    * =version= - the revision number
    * =time= - the time stamp
-   * =author= - the user id
+   * =author= - the user id (cUID)
    * + additional data fields to save e.g. reprev, comment
 
 =cut
@@ -1043,7 +1043,7 @@ present, kick down to the Store module for the same information.
 
 Return %info with at least:
 | date | in epochSec |
-| user | user *object* |
+| user | canonical user ID |
 | version | the revision number |
 | comment | comment in the VC system, may or may not be the same as the comment in embedded meta-data |
 
@@ -2119,8 +2119,7 @@ sub attach {
             attachment  => $opts{name},
             stream      => $opts{stream},
             tmpFilename => $opts{tmpFilename},
-            user        => $this->{_session}->{users}->getLoginName(
-                $this->{_session}->{user}),
+            user        => $this->{_session}->{user}, # cUID
             comment     => $opts{comment} || '',
         };
 
