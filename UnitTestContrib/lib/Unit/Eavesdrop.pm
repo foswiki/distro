@@ -44,13 +44,21 @@ sub PRINT {
     my $this = shift;
     my $fh;
 
+    my $success;
     if ( $this->{principal} ) {
         $fh = *{ $this->{principal} };
-        print $fh @_;
+        $success = print $fh @_;
     }
     foreach my $tee ( @{ $this->{tees} } ) {
         $fh = *{$tee};
         print $fh @_;
+    }
+
+    if ($success) {
+        return $success;
+    }
+    else {
+        return;
     }
 }
 
