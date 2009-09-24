@@ -196,7 +196,7 @@ sub new {
     if ( $this->{project} =~ /Plugin$/ ) {
         $this->{libdir} .= "/$targetProject/Plugins";
     }
-    elsif ( $this->{project} =~ /(Contrib|Skin)$/ ) {
+    elsif ( $this->{project} =~ /(Contrib|Skin|AddOn)$/ ) {
         $this->{libdir} .= "/$targetProject/Contrib";
     }
 
