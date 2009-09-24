@@ -1368,7 +1368,7 @@ sub verify_topic_meta_usermapping {
     foreach my $a (@attachments) {
 
         #Task:Item6000
-        $this->assert_str_equals( $login, $a->{user} );
+        $this->assert_str_equals( $cUID, $a->{user} );
     }
 
     #META
