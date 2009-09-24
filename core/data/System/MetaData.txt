@@ -30,7 +30,7 @@ To keep eveything together in one place, meta-data (program-generated or from Da
 <blockquote>
 *Example of Format*
 <pre>
-%<nop>META:TOPICINFO{version="1.6" date="976762663" author="LastEditorWikiName" format="1.0"}%
+%<nop>META:TOPICINFO{version="1.6" date="976762663" author="LastEditorCUID" format="1.0"}%
    text of the topic
 %<nop>META:TOPICMOVED{from="Codev.OldName" to="Codev.NewName"
    by="TopicMoverWikiName" date="976762680"}%
@@ -52,7 +52,7 @@ The current version of Meta Data is 1.0, with support for the following syntax.
 |  *Key*  |  *Comment*          |
 | version | Same as SVN version |
 | date    | integer, unix time, seconds since start 1970 |
-| author  | last to change topic, is the REMOTE_USER |
+| author  | Canonical user identifier of last user to change the topic. The exact format of this depends on the user mapping manager. |
 | format  | Format of this topic, will be used for automatic format conversion |
 
 ---+++ META:TOPICMOVED
@@ -64,7 +64,7 @@ This is optional, exists if topic has ever been moved. If a topic is moved more 
 |  *Key*  |  *Comment*          |
 | from | Full name, i.e., web.topic |
 | to   | Full name, i.e., web.topic |
-| by   | Who did it, is the REMOTE_USER, not <nop>WikiName |
+| by   | Canonical user identifier of who moved the topic. The exact format of this depends on the user mapping manager. |
 | date | integer, unix time, seconds since start 1970 |
 
 Notes: 
@@ -84,7 +84,7 @@ Notes:
 | path    | Full path file was loaded from |
 | size    | In bytes |
 | date    | integer, unix time, seconds since start 1970 |
-| user    | the REMOTE_USER, not <nop>WikiName |
+| user    | Canonical user identifier of user who uploaded the attachment. The exact format of this depends on the user mapping manager. |
 | comment | As supplied when file uploaded |
 | attr    | =h= if hidden, optional |
 
@@ -92,7 +92,7 @@ Extra fields that are added if an attachment is moved:
 
 | *Key*   | *Comment* |
 | movedfrom | full topic name - web.topic |
-| movedby   | the REMOTE_USER, not <nop>WikiName |
+| movedby   | Canonical user identifier of user who moved the attachment. The exact format of this depends on the user mapping manager. |
 | movedto   | full topic name - web.topic |
 | moveddate | integer, unix time, seconds since start 1970 |
 
