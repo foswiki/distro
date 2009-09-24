@@ -183,6 +183,7 @@ BEGIN {
         FORMFIELD         => \&FORMFIELD,
         FOREACH           => \&FOREACH,
         GMTIME            => \&GMTIME,
+        GROUPINFO         => \&GROUPINFO,
         GROUPS            => \&GROUPS,
         HTTP_HOST         => \&HTTP_HOST_deprecated,
         HTTP              => \&HTTP,
@@ -4447,6 +4448,48 @@ sub USERINFO {
     return $info;
 }
 
+sub GROUPINFO {
+    my ( $this, $params ) = @_;
+
+    my $group = $params->{_DEFAULT};
+    my $format = $params->{format};
+    my $sep = $params->{separator}; $sep = ', ' unless defined $sep;
+    my $limit = $params->{limit} || 100000000;
+    my $limited = $params->{limited}; $limited = '' unless defined $limited;
+    my $header = $params->{header}; $header = '' unless defined $header;
+    my $footer = $params->{footer}; $footer = '' unless defined $footer;
+
+    my $it;#erator
+    my @rows;
+    if ($group) {
+        $it = $this->{users}->eachGroupMember($group);
+        $format = '$wikiusername' unless defined $format;
+    } else {
+        $it = $this->{users}->eachGroup();
+        $format = '$name' unless defined $format;
+    }
+    while ($it->hasNext()) {
+        my $cUID = $it->next();
+        my $row = $format;
+        if ($group) {
+            my $wname = $this->{users}->getWikiName( $cUID );
+            my $uname = $this->{users}->getLoginName( $cUID );
+            my $wuname = $this->{users}->webDotWikiName( $cUID );
+            $row =~ s/\$wikiname/$wname/g;
+            $row =~ s/\$username/$uname/g;
+            $row =~ s/\$wikiusername/$wuname/g;
+        } else {
+            # all groups
+            $row =~ s/\$name/$cUID/g;
+        }
+        push(@rows, $row);
+        last if (--$limit == 0);
+    }
+    $footer = $limited.$footer if $limit == 0;
+    return expandStandardEscapes($header.join($sep, @rows).$footer);
+}
+
+# Legacy
 sub GROUPS {
     my ( $this, $params ) = @_;
 

@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 1838 $"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarGROUPINFO
+---+++ GROUPINFO{"name"} -- retrieve details about a user
+   * Syntax: =%<nop>GROUPINFO%=
+   * Expands to: comma-separated list of all groups the current user is a member of
+   * Syntax: =%<nop>GROUPINFO{"groupname"}%=
+   * Expands to: comma-separated list of users in that group
+   * Parameters:
+| =format= | Format of a single user or group in the list. Format tokens are =$name= (for groups list), =$wikiname=, =$username= and =$wikiusername= (for users list) and the standard FormatTokens | =$name= for groups list, =$wikiusername= for users list |
+| =separator= | separator between items in the list | =,= |
+| =header= | Header for the list | '' |
+| =footer= | Footer for the list | '' |
+| =limit= | If set, limits the number of results to this | infinity |
+| =limited= | If limit is set, and the list is truncated, this text will be added at the end of the list | '' |
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERINFO][USERINFO]]
