@@ -58,6 +58,7 @@ sub include_tests {
         }
         close(F);
     }
+    push( @list, "UnitTestContrib/UnitTestContribSuite.pm" );
     push( @list, "EngineTests.pm" );
 
     print STDERR "Running tests from ", join( ', ', @list ), "\n";
