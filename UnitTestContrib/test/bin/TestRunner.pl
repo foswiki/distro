@@ -19,7 +19,7 @@ sub _findRelativeTo {
 }
 
 BEGIN {
-	$Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
+    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
     # root the tree
     my $here = Cwd::abs_path;
 
@@ -52,7 +52,7 @@ while (scalar(@ARGV) && $ARGV[0] =~ /^-/) {
 }
 
 my ($stdout, $stderr, $log); # will be destroyed at the end, if created
-if ($options{-log}) {
+if ($options{-log} and not $options{-worker}) {
     require Unit::Eavesdrop;
     my @gmt = gmtime(time());
     $gmt[4]++;
@@ -92,11 +92,19 @@ if ($options{-clean}) {
     File::Path::rmtree([@x]) if scalar(@x);
 }
 
-testForFiles($Foswiki::cfg{DataDir}.'/Temp*');
-testForFiles($Foswiki::cfg{PubDir}.'/Temp*');
+if (not $options{-worker}) {
+    testForFiles($Foswiki::cfg{DataDir}.'/Temp*');
+    testForFiles($Foswiki::cfg{PubDir}.'/Temp*');
+}
 
 my $testrunner = Unit::TestRunner->new();
-my $exit = $testrunner->start(@ARGV);
+my $exit;
+if ($options{-worker}) {
+    $exit = $testrunner->worker(@ARGV);
+}
+else {
+    $exit = $testrunner->start(@ARGV);
+}
 
 print STDERR "Run was logged to $log\n" if $options{-log};
 

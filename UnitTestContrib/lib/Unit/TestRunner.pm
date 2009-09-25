@@ -14,24 +14,28 @@ sub start {
     my $this  = shift;
     my @files = @_;
     @{ $this->{failures} } = ();
+    @{ $this->{initialINC} } = @INC;
     my $passes = 0;
 
     # First use all the tests to get them compiled
     while ( scalar(@files) ) {
-        my $suite = shift @files;
-        $suite =~ s/\/$//;   # Trim final slash, for completion lovers like Sven
+        my $testSuiteModule = shift @files;
+        $testSuiteModule =~ s/\/$//;   # Trim final slash, for completion lovers like Sven
         my $testToRun;
-        if ( $suite =~ s/::(\w+)$// ) {
+        if ( $testSuiteModule =~ s/::(\w+)$// ) {
             $testToRun = $1;
         }
-        if ( $suite =~ s/^(.*?)(\w+)\.pm$/$2/ ) {
+        my $suite = $testSuiteModule;
+        if ( $testSuiteModule =~ /^(.*?)(\w+)\.pm$/ ) {
+            $suite = $2;
             push( @INC, $1 ) if $1 && -d $1;
         }
         eval "use $suite";
         if ($@) {
+            my $useError = $@;
 
             # Try to be clever, look for it
-            if ( $@ =~ /Can't locate \Q$suite\E\.pm in \@INC/ ) {
+            if ( $useError =~ /Can't locate \Q$suite\E\.pm in \@INC/ ) {
                 my $testToFind = $testToRun ? "::$testToRun" : '';
                 print "Looking for $suite$testToFind...\n";
                 require File::Find;
@@ -51,7 +55,7 @@ sub start {
 
                 # Try to be even smarter: favor test suites
                 # unless a specific test was requested
-                my @suite = grep { /Suite.pm/ } @found;
+                my @suite = grep { /Suite\.pm/ } @found;
                 if ( $#found and @suite ) {
                     if ($testToFind) {
                         @found = grep { !/Suite.pm/ } @found;
@@ -72,7 +76,7 @@ sub start {
                 }
                 next if @found;
             }
-            my $m = "*** Failed to use $suite: $@";
+            my $m = "*** Failed to use $suite: $useError";
             print $m;
             push( @{ $this->{failures} }, $m );
             next;
@@ -86,46 +90,17 @@ sub start {
             unshift( @files, @set );
         }
         else {
-
-            # Get a list of the test methods in the class
-            my @tests = $tester->list_tests($suite);
-            if ($testToRun) {
-                @tests = grep { /^${suite}::$testToRun$/ } @tests;
-                if ( !@tests ) {
-                    print "*** No test called $testToRun in $suite\n";
-                    next;
-                }
+            my $completed;
+            my $action;
+            if ( $tester->run_in_new_process() ) {
+                $action = $this->runOneInNewProcess($testSuiteModule, $suite, $testToRun);
             }
-            unless ( scalar(@tests) ) {
-                print "*** No tests in $suite\n";
-                next;
+            else {
+                $action = runOne($tester, $suite, $testToRun);
             }
-            foreach my $test (@tests) {
-                print "\t$test\n";
-                $tester->set_up();
-                try {
-                    $tester->$test();
-                    $passes++;
-                    if ( $tester->{expect_failure} ) {
-                        $this->{unexpected_passes}++;
-                    }
-                }
-                catch Error with {
-                    my $e = shift;
-                    print "*** ", $e->stringify(), "\n";
-                    if ( $tester->{expect_failure} ) {
-                        $this->{expected_failures}++;
-                    }
-                    else {
-                        $this->{unexpected_failures}++;
-                    }
-                    push(
-                        @{ $this->{failures} },
-                        $test . "\n" . $e->stringify()
-                    );
-                };
-                $tester->tear_down();
-            }
+            eval $action;
+            die $@ if $@;
+            die "Test suite $suite aborted\n" unless $completed;
         }
     }
 
@@ -147,6 +122,179 @@ sub start {
         print "All tests passed ($passes)\n";
         return 0;
     }
+}
+
+sub runOneInNewProcess
+{
+    my $this = shift;
+    my $testSuiteModule = shift;
+    my $suite = shift;
+    my $testToRun = shift;
+    $testToRun ||= 'undef';
+
+    my $tempfilename = 'worker_output.' . $$ . '.' . $suite;
+
+    # Assume all new paths were either unshifted or pushed onto @INC
+    my @pushedOntoINC = @INC;
+    my @unshiftedOntoINC = ();
+    while ($this->{initialINC}->[0] ne $pushedOntoINC[0])
+    {
+        push @unshiftedOntoINC, shift @pushedOntoINC;
+    }
+    for my $oneINC (@{ $this->{initialINC} })
+    {
+        shift @pushedOntoINC if $pushedOntoINC[0] eq $oneINC;
+    }
+
+    my $paths = join(' ', map {'-I ' . $_} @unshiftedOntoINC, @pushedOntoINC);
+    my $command = "perl -w $paths $0 -worker $suite $testToRun $tempfilename";
+    print "Running: $command\n";
+    system($command);
+    if ($? == -1) {
+        my $error = $!;
+        unlink $tempfilename;
+        print "*** Could not spawn new process for $suite: $error\n";
+        return 'push( @{ $this->{failures} }, "'
+                     . $suite
+                     . '\n' 
+                     . quotemeta( $error )
+                     . '" );';
+    }
+    else {
+        my $returnCode = $? >> 8;
+        if ($returnCode) {
+            print "*** Error trying to run $suite\n";
+            die;
+            unlink $tempfilename;
+            return 'push( @{ $this->{failures} }, "Process for '
+                         . $suite
+                         . ' returned ' 
+                         . $returnCode
+                         . '" );';
+        }
+        else {
+            open my $testoutputfile, "<", $tempfilename or die "Cannot open '$tempfilename' to read output from $suite: $!";
+            my $action = '';
+            while (<$testoutputfile>) {
+                $action .= $_;
+            }
+            close $testoutputfile or die "Error closing '$tempfilename': $!";
+            unlink $tempfilename;
+            return $action;
+        }
+    }
+}
+
+sub worker
+{
+    my ($this, $testSuiteModule, $testToRun, $tempfilename) = @_;
+    if ($testToRun eq 'undef') {
+        $testToRun = undef;
+    }
+
+    my $suite = $testSuiteModule;
+    eval "use $suite";
+    die $@ if $@;
+
+    my $tester = $suite->new($suite);
+
+    my $log = "stdout.$$.log";
+    require Unit::Eavesdrop;
+    open(my $logfh, ">", $log) || die $!;
+    print STDERR "Logging to $log\n";
+    my $stdout = new Unit::Eavesdrop('STDOUT');
+    $stdout->teeTo($logfh);
+    # Don't need this, all the required info goes to STDOUT. STDERR is
+    # really just treated as a black hole (except when debugging)
+#    my $stderr = new Unit::Eavesdrop('STDERR');
+#    $stderr->teeTo($logfh);
+
+    my $action = runOne($tester, $suite, $testToRun);
+
+    {
+        local $SIG{__WARN__} = sub { die $_[0]; };
+        eval { close $logfh; };
+        if ($@) {
+            if($@ =~ /Bad file descriptor/ and $suite eq 'EngineTests') {
+                # This is expected - ignore it
+            }
+            else {
+                # propagate the error
+                die $@;
+            }
+        }
+    }
+    undef $logfh;
+    $stdout->finish();
+    undef $stdout;
+#    $stderr->finish();
+#    undef $stderr;
+    open($logfh, "<", $log) or die $!;
+    local $/; # slurp in whole file
+    my $logged_stdout = <$logfh>;
+    close $logfh or die $!;
+    unlink $log or die "Could not unlink $log: $!";
+    #escape characters so that it may be printed
+    $logged_stdout =~ s{\\}{\\\\}g;
+    $logged_stdout =~ s{'}{\\'}g;
+    $action .= "print '" . $logged_stdout . "';";
+
+    open my $outputfile, ">", $tempfilename or die "Cannot open output file '$tempfilename': $!";
+    print $outputfile $action."\n";
+    close $outputfile or die "Error closing output file '$tempfilename': $!";
+    exit(0);
+}
+
+sub runOne
+{
+    my $tester = shift;
+    my $suite = shift;
+    my $testToRun = shift;
+    my $action = '$completed = 1;';
+
+    # Get a list of the test methods in the class
+    my @tests = $tester->list_tests($suite);
+    if ($testToRun) {
+        @tests = grep { /^${suite}::$testToRun$/ } @tests;
+        if ( !@tests ) {
+            print "*** No test called $testToRun in $suite\n";
+            return $action;
+        }
+    }
+    unless ( scalar(@tests) ) {
+        print "*** No tests in $suite\n";
+        return $action;
+    }
+    foreach my $test (@tests) {
+        print "\t$test\n";
+        $tester->set_up();
+        try {
+            $tester->$test();
+            $action .= '$passes++;';
+        }
+        catch Error with {
+            my $e = shift;
+            print "*** ", $e->stringify(), "\n";
+            if ( $tester->{expect_failure} ) {
+                $action .= '$this->{expected_failures}++;';
+            }
+            else {
+                $action .= '$this->{unexpected_failures}++;';
+            }
+            $action .= 'push( @{ $this->{failures} }, "'
+                     . $test 
+                     . '\n' 
+                     . quotemeta( $e->stringify() )
+                     . '" );';
+        }
+        otherwise {
+            if ( $tester->{expect_failure} ) {
+                $action .= '$this->{unexpected_passes}++;';
+            }
+        };
+        $tester->tear_down();
+    }
+    return $action;
 }
 
 1;

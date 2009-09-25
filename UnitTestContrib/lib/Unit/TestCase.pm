@@ -30,6 +30,16 @@ sub set_up {
     $this->{expect_failure} = 0;
 }
 
+# Override this method to return true 
+# in test suites that should be run in a separate process.
+# This facility is provided for tests that make non-reversible
+# changes to the system state e.g. tests that enable 
+# non-default plugins, whose initPlugin() handlers
+# could do just about anything
+sub run_in_new_process {
+    return;
+}
+
 sub tear_down {
 }
 

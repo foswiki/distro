@@ -17,7 +17,7 @@ This Contrib replaces the old Test::Unit based framework that we used previously
 
 ---++ Usage
 
-To run the unit tests, =cd= to =test/unit= and type =perl ../bin/TestRunner.pl FoswikiSuite.pm=. The FoswikiSuite package will collect all the other tests in the =test/unit= directory and run them. Any test failures are reported during the test run and again at the end of the run.
+To run the unit tests, =cd= to =test/unit= and type =perl ../bin/TestRunner.pl FoswikiSuite.pm=. The !FoswikiSuite package will collect all the other tests in the =test/unit= directory and run them. Any test failures are reported during the test run and again at the end of the run.
 
 ---+++ Options
 
@@ -31,7 +31,7 @@ The =TestRunner.pl= script accepts a list of the names of test files in the curr
 
 Test files are built by deriving a class from =Unit::TestCase=. This is usually done via =FoswikiTestCase= or =FoswikiFnTestCase=, which are fixture-building classes designed specifically for use when testing Foswiki. =FoswikiTestCase= is used for tests where the Foswiki configuration ($Foswiki::cfg) must be saved and restored; it is also responsible for making sure the default plugins (and only the default plugins) are enabled. =FoswikiFnTestCase= is used where we are already fairly confident that basic Foswiki work, and we need some pre-registered users and pre-created test webs containing data that the test can work on.
 
-FoswikiSuite automatically includes any Plugin tests it can find in subdirectories below =test/unit=. This is helpful when you want to test a plugin in context with all the other core unit tests.
+!FoswikiSuite automatically includes any Plugin tests it can find in subdirectories below =test/unit=. This is helpful when you want to test a plugin in context with all the other core unit tests.
 
 One test file, =SemiAutomaticTestCaseTests.pm=, reads the semi-automatic tests from the !TestCases web stored in subversion. It will not run if it can't find the !TestCases web, or if the Foswiki:Extensions.TestFixturePlugin is not installed.
 
