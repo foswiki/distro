@@ -3,11 +3,11 @@
 #VarGROUPINFO
 ---+++ GROUPINFO{"name"} -- retrieve details about a user
    * Syntax: =%<nop>GROUPINFO%=
-   * Expands to: comma-separated list of all groups the current user is a member of
+   * Expands to: comma-separated list of all groups
    * Syntax: =%<nop>GROUPINFO{"groupname"}%=
    * Expands to: comma-separated list of users in that group
    * Parameters:
-| =format= | Format of a single user or group in the list. Format tokens are =$name= (for groups list), =$wikiname=, =$username= and =$wikiusername= (for users list) and the standard FormatTokens | =$name= for groups list, =$wikiusername= for users list |
+| =format= | Format of a single user or group in the list. =$name= expands to the group name, and (for users list only) =$wikiname=, =$username= and =$wikiusername= to the relevant strings. The standard FormatTokens are also supported. | =$name= for groups list, =$wikiusername= for users list |
 | =separator= | separator between items in the list | =,= |
 | =header= | Header for the list | '' |
 | =footer= | Footer for the list | '' |

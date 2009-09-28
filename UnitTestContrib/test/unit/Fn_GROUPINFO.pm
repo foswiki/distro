@@ -66,6 +66,10 @@ sub test_formatted {
     $this->assert_matches(qr/^<\w+>(;<\w+>)+$/, $ui);
 
     $ui = $this->{test_topicObject}->expandMacros(
+        '%GROUPINFO{"GropeGroup" format="<$name>" separator=";"}%');
+    $this->assert_matches(qr/^<GropeGroup>(;<GropeGroup>)+$/, $ui);
+
+    $ui = $this->{test_topicObject}->expandMacros(
         '%GROUPINFO{"GropeGroup" header="H" footer="F" format="<$username>" separator=";"}%');
     $this->assert_matches(qr/^H<\w+>(;<\w+>)+F$/, $ui);
 

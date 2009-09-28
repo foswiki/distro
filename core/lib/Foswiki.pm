@@ -4478,6 +4478,7 @@ sub GROUPINFO {
             $row =~ s/\$wikiname/$wname/g;
             $row =~ s/\$username/$uname/g;
             $row =~ s/\$wikiusername/$wuname/g;
+            $row =~ s/\$name/$group/g;
         } else {
             # all groups
             $row =~ s/\$name/$cUID/g;
