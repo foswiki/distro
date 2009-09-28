@@ -774,6 +774,74 @@ END
         $meta
     );
     $this->assert( !$access );
+    
+    #I'm not clear from the docco so...
+    #what happens if we check the perms on a topic that doesn't exist.
+    #first up on a web we can write to
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', $this->{test_web} );
+    $this->assert( $access );
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', $this->{test_web} );
+    $this->assert( $access );
+    $access =
+      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
+    $this->assert( $access );
+    #next System, which we shouldn't be able to write to
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
+    $this->assert( $access );
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
+    $this->assert( !$access );
+    $access =
+      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
+    $this->assert( $access );
+    #next _default, which we shouldn't be able to view to
+#TODO: the commented out ones don't work quite the way SvenDowideit expected.
+#    $access =
+#      Foswiki::Func::checkAccessPermission( 'VIEW',
+#        $Foswiki::cfg{DefaultUserWikiName},
+#        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
+#    $this->assert( !$access );
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
+    $this->assert( !$access );
+#    $access =
+#      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
+#        $Foswiki::cfg{DefaultUserWikiName},
+#        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
+#    $this->assert( !$access );
+        #next NonExistantWeb, which doesn't exist
+#    $access =
+#      Foswiki::Func::checkAccessPermission( 'VIEW',
+#        $Foswiki::cfg{DefaultUserWikiName},
+#        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
+#    $this->assert( !$access );
+#    $access =
+#      Foswiki::Func::checkAccessPermission( 'CHANGE',
+#        $Foswiki::cfg{DefaultUserWikiName},
+#        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
+#    $this->assert( !$access );
+#    $access =
+#      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
+#        $Foswiki::cfg{DefaultUserWikiName},
+#        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
+#    $this->assert( !$access );
 }
 
 sub test_checkAccessPermission_login_name {
