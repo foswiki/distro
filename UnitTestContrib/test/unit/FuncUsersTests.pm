@@ -1383,4 +1383,56 @@ sub verify_topic_meta_usermapping {
 HERE
 }
 
+sub verify_addGroup {
+    my $this = shift;
+
+    return if ( $this->noUsersRegistered() );
+
+    my $Zcuid =
+      $Foswiki::Plugins::SESSION->{users}
+      ->getCanonicalUserID( $loginname{UserZ} );
+    $this->assert( $Foswiki::Plugins::SESSION->{user} );
+    
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
+    $this->assert( !Foswiki::Func::addUserToGroup('ZeeGroup', 'UserZ'));
+    # Force a re-read
+    $this->{session}->finish();
+    $this->{session}           = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
+    
+    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup', 'UserZ', 1));
+    
+    # Force a re-read
+    $this->{session}->finish();
+    $this->{session}           = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
+
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
+    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup', 'UserA'));
+    # Force a re-read
+    $this->{session}->finish();
+    $this->{session}           = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
+    
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', $Foswiki::cfg{DefaultUserLogin} ) );
+    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup',$Foswiki::cfg{DefaultUserLogin}));
+    # Force a re-read
+    $this->{session}->finish();
+    $this->{session}           = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', $Foswiki::cfg{DefaultUserLogin} ) );
+
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+    $this->assert( !Foswiki::Func::addUserToGroup('ZeeGroup', 'WiseGuyDoesntExist'));
+    # Force a re-read
+    $this->{session}->finish();
+    $this->{session}           = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+
+}
+
 1;

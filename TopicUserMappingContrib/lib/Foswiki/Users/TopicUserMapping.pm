@@ -629,6 +629,7 @@ sub isGroup {
     # Groups have the same username as wikiname as canonical name
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
 
+#TODO: um, shouldn't this actually test for the existance of this group?
     return $user =~ /Group$/;
 }
 
@@ -663,6 +664,81 @@ sub eachMembership {
         $this->isInGroup( $user, $_[0] );
     };
     return $it;
+}
+
+=begin TML
+
+---++ ObjectMethod addToGroup( $cuid, $group, $create ) -> $boolean
+adds the user specified by the cuid to the group.
+If the group does not exist, it will return false and do nothing, unless the create flag is set.
+
+#TODO: cuid could be a group too?
+
+=cut
+
+sub addUserToGroup {
+    my ($this, $cuid, $groupName, $create) = @_;
+    $groupName = Foswiki::Sandbox::untaint($groupName, \&Foswiki::Sandbox::validateTopicName);
+    my ( $groupWeb, $groupTopic ) = $this->{session}->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
+    
+    my $user = $this->{session}->{user};
+
+    #open Group topic, parse for the GROUPs setting, append new user
+    #find where GROUP is set, use that code if we can, so that when it goes multi-line it copes
+    #TODO: LATER: check for duplicates
+    #TODO: make sure the groupName ends in Group...
+    
+    #run this as calling user, if the registration is being run by an existing user
+    # (often done by admins), else run as registration agent
+    my $usersObj = $this->{session}->{users};
+    #$this->{session}->writeDebug($usersObj->getWikiName($user)."is TRYING to add $cuid to $groupTopic, as ".$usersObj->getWikiName($cuid)) if DEBUG;
+    if (($usersObj->getWikiName($user) eq $Foswiki::cfg{DefaultUserWikiName}) or
+            ($user eq $cuid)) {
+        $user = $usersObj->findUserByWikiName( $Foswiki::cfg{Register}{RegistrationAgentWikiName});
+        #$this->{session}->writeDebug("using $user") if DEBUG;
+    }
+    
+    if ($usersObj->isGroup($groupName) and 
+            ($this->{session}->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ))) {
+        if ($usersObj->isInGroup($cuid, $groupName)) {
+            #TODO: not sure this is the right thing to do - it might make more sense to not expand the nested groups, and add a user if they're not listed here, that way we are able to not worry about subgroups changing.
+            return 1; #user already in group, nothing to do
+        }
+        my $groupTopicObject =
+          Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
+            $groupName );
+        return 0 if (!$groupTopicObject->haveAccess( 'CHANGE', $user ));        #can't change topic.
+
+        my $membersString = $groupTopicObject->getPreference('GROUP').', '.$usersObj->getWikiName($cuid);
+#TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
+        $groupTopicObject->putKeyed( 'PREFERENCE', { name => 'GROUP', title => 'GROUP', value =>$membersString } );
+        $groupTopicObject->save( -author=>$user );
+        return 1;
+     } else {
+        #see if we have permission to add a topic, or to edit the existing topic, etc..
+        return 0 unless ($create);
+        return 0 unless (Foswiki::Func::checkAccessPermission( 'CHANGE',
+                $cuid, '', $groupName, $Foswiki::cfg{UsersWebName} ));
+                
+        my $groupTopicObject =
+          Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
+            'GroupTemplate' );
+        $groupTopicObject->putKeyed( 'PREFERENCE', { name => 'GROUP', title => 'GROUP', value =>$usersObj->getWikiName($cuid) } );
+#TODO: should also consider securing the new topic?
+        $groupTopicObject->saveAs($Foswiki::cfg{UsersWebName}, $groupName, -author=>$user );
+        return 1;
+    }
+    die 'not sure how we got here';
+}
+
+=begin TML
+
+---++ ObjectMethod removeFromGroup( $cuid, $group ) -> $boolean
+
+=cut
+
+sub removeUserFromGroup {
+    return;
 }
 
 =begin TML
@@ -1180,7 +1256,7 @@ __END__
 #
 # Additional copyrights apply to some or all of the code in this file:
 #
-# Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@distributedINFORMATION.com
+# Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@fosiki.com
 # and TWiki Contributors. All Rights Reserved.
 #
 # This program is free software; you can redistribute it and/or

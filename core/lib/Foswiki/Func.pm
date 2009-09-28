@@ -956,6 +956,25 @@ sub eachGroupMember {
     return $it;
 }
 
+
+=begin TML
+
+---+++ addUserToGroup( $group, $id, $create ) -> $boolean
+
+   * $id can be a login name or a WikiName
+
+=cut
+
+sub addUserToGroup {
+    my ( $group, $user, $create ) = @_;
+    my $users = $Foswiki::Plugins::SESSION->{users};
+
+    return () unless $users->isGroup($group);
+    $user = getCanonicalUserID($user);
+    return unless (defined($user) and ($users->userExists($user)));
+    return $users->addUserToGroup( $user, $group, $create );
+}
+
 =begin TML
 
 ---+++ checkAccessPermission( $type, $id, $text, $topic, $web, $meta ) -> $boolean

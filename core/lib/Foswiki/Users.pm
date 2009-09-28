@@ -896,6 +896,32 @@ sub eachMembership {
 
 =begin TML
 
+---++ ObjectMethod addToGroup( $cuid, $group, $create ) -> $boolean
+adds the user specified by the cuid to the group.
+If the group does not exist, it will return false and do nothing, unless the create flag is set.
+
+=cut
+
+sub addUserToGroup {
+    my ( $this, $cuid, $group, $create ) = @_;
+    my $mapping = $this->{mapping};
+    return $mapping->addUserToGroup( $cuid, $group, $create );
+}
+
+=begin TML
+
+---++ ObjectMethod removeFromGroup( $cuid, $group ) -> $boolean
+
+=cut
+
+sub removeUserFromGroup {
+    my ( $this, $cuid, $group ) = @_;
+    my $mapping = $this->{mapping};
+    return $mapping->removeUserFromGroup( $cuid, $group );
+}
+
+=begin TML
+
 ---++ ObjectMethod checkLogin( $login, $passwordU ) -> $boolean
 
 Finds if the password is valid for the given user. This method is

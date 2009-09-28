@@ -308,6 +308,28 @@ sub eachMembership {
 
 =begin TML
 
+---++ ObjectMethod addToGroup( $cuid, $group, $create ) -> $boolean
+adds the user specified by the cuid to the group.
+If the group does not exist, it will return false and do nothing, unless the create flag is set.
+
+=cut
+
+sub addUserToGroup {
+    return 0;
+}
+
+=begin TML
+
+---++ ObjectMethod removeFromGroup( $cuid, $group ) -> $boolean
+
+=cut
+
+sub removeUserFromGroup {
+    return 0;
+}
+
+=begin TML
+
 ---++ ObjectMethod isAdmin( $cUID ) -> $boolean
 
 True if the user is an administrator.
