@@ -230,10 +230,11 @@ e.g. mod_perl.
 
 =begin TML
 
----++ registrationHandler($web, $wikiName, $loginName )
+---++ registrationHandler($web, $wikiName, $loginName, $data )
    * =$web= - the name of the web in the current CGI query
    * =$wikiName= - users wiki name
    * =$loginName= - users login name
+   * =$data= - a hashref containing all the formfields POSTed to the registration script
 
 Called when a new user registers with this Foswiki.
 
@@ -242,7 +243,7 @@ Called when a new user registers with this Foswiki.
 =cut
 
 #sub registrationHandler {
-#    my ( $web, $wikiName, $loginName ) = @_;
+#    my ( $web, $wikiName, $loginName, $data ) = @_;
 #}
 
 =begin TML
