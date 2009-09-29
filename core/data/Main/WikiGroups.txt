@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1254226925" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1254227958" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki Groups
 
@@ -16,7 +16,7 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep ">
     <h3>%MAKETEXT{"Name"}%:</h3>
-    <input type="text" name="groupname" size="20" class="foswikiInputField"/> 
+    <input type="text" name="groupname" size="30" class="foswikiInputField"/> 
     <div class="foswikiFormDescription">
       *Note:* 
       A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. 
@@ -29,34 +29,62 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
     <div class="foswikiFormDescription">Comma separated list</div>
   </div>
   <div class="foswikiFormStep foswikiFormLast">
-    <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add"}%"/>
+    <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%"/>
+    <div class="foswikiFormDescription">
+---
+*IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
+   * There is enough peer pressure to post only appropriate content.
+   * Content does not get lost because topics are under revision control.
+   * A topic revision can be undone by a member of the [[%USERSWEB%.AdminGroup][AdminGroup]] if necesssary.
+    </div>
   </div>
 </div>
 </form>
 %ENDTWISTY%
 
-%TABLE{databg="" cellborder="0" tableborder="0" tablewidth="99%"}%
+
 %GROUPINFO{
-   header="| *%MAKETEXT{"Group"}%* | *%MAKETEXT{"Members"}%* | *%MAKETEXT{"Actions"}%* |$n" 
-   format="| $name | $percntGROUPINFO{$quot$name$quot format=$quot$dollarwikiname$quot separator=$quot $quot}$percnt | $percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quoteditgroup$quot GROUPNAME=$quot$name$quot}$percnt |" 
+   header="<table class='foswikiTable' style='width:99%'>
+             <tr>
+               <th>%MAKETEXT{"Group"}%</th>
+               <th>%MAKETEXT{"Members"}%</th>
+               <th style='width:20em'>%MAKETEXT{"Actions"}%</th>
+             </tr>$n" 
+   format="<tr>
+     <td> $name </td>
+     <td> $percntGROUPINFO{\"$name\"
+         format=\"$dollarwikiname\" 
+         separator=\" \"
+       }$percnt 
+     </td>
+     <td>
+       $percntINCLUDE{\"%WEB%.%TOPIC%\"
+         section=\"editgroup\"
+         GROUPNAME=\"$name\"
+       }$percnt
+     </td>
+   </tr>"
+   footer="</table>"
    separator="$n"
 }%
 
 
-*IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
-   * There is enough peer pressure to post only appropriate content.
-   * Content does not get lost because topics are under revision control.
-   * A topic revision can be undone by a member of the [[%USERSWEB%.AdminGroup][AdminGroup]] if necesssary.
-
 ---
 *Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
 
-<!--
-%STARTSECTION{"editgroup"}%<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> \
+<verbatim style="display:none">
+%STARTSECTION{"editgroup"}%<!-- editgroup -->
+%TWISTY{
+  link=" %MAKETEXT{"Add user"}%"
+  showimgleft="%ICONURLPATH{"person"}%"
+  hideimgleft="%ICONURLPATH{"person"}%"
+}%
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> \
 <input type="text" name="username" value="" size="20" class="foswikiInputField" /> \
-<input class="foswikiSubmit" type="submit" value="add User"/> \
+<input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%" /> \
 <input type="hidden" name="groupname" value="%GROUPNAME%"/> \
 <input type="hidden" name="action" value="addUserToGroup"/> \
-</form>%ENDSECTION{"editgroup"}%
-
--->
+</form>
+%ENDTWISTY%
+<!-- //editgroup -->%ENDSECTION{"editgroup"}%
+</verbatim>
