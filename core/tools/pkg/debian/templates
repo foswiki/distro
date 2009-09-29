@@ -44,7 +44,7 @@ Default: admin
 # Translators, do not translate "'configure'" script's name
 _Description: Apache user allowed access to 'configure' script:
  Please enter the username of the apache user who will be allowed to
- run the configure script at http://localhost/cgi-bin/foswiki/configure.
+ run the configure script at http://localhost/foswiki/bin/configure.
 
 Template: foswiki/adminpassword
 Type: password
@@ -52,7 +52,7 @@ Type: password
 # Translators, do not translate "configuser" in the variable
 _Description: Password for '${configuser}':
  Please enter the password of the apache user who will be allowed to
- run the configure script at http://localhost/cgi-bin/foswiki/configure.
+ run the configure script at http://localhost/foswiki/bin/configure.
 
 Template: foswiki/adminpassword_again
 Type: password

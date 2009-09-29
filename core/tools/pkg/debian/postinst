@@ -81,12 +81,6 @@ configpassword="$RET"
 
 case "$1" in
     configure)
-#	P=/usr/lib/cgi-bin/foswiki
-#	for i in attach changes edit geturl installpasswd mailnotify oops passwd preview rdiff register rename save search statistics testenv upload view viewfile; do
-#	    if ! dpkg-statoverride --list $P/$i >/dev/null; then
-#		dpkg-statoverride --update --add $WIKI_OWNER www-data 4555 $P/$i
-#	    fi
-#	done
 
 	#note that only apache2 really seems to exist in Etch etc, but the others I've left for historical reasons
 	servers="apache apache-perl apache-ssl apache2"
@@ -143,6 +137,9 @@ case "$1" in
 	#remove the  .htaccess file - moved to apache-foswiki.conf
 	if [ -e /usr/lib/cgi-bin/foswiki/.htaccess ]; then
 		rm /usr/lib/cgi-bin/foswiki/.htaccess
+	fi
+	if [ -e /usr/share/foswiki/bin/.htaccess ]; then
+		rm /usr/share/foswiki/bin/.htaccess
 	fi
 	if [ -e /etc/foswiki/.htaccess ]; then
 		rm /etc/foswiki/.htaccess
