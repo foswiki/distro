@@ -566,6 +566,8 @@ sub addUserToGroup {
     my $user    = $session->{user};
 
     my @userNames = $query->param('username');
+    my $groupName = $query->param('groupname');
+    my $create = Foswiki::isTrue( $query->param('create'), 0);
     if (
         (length(@userNames) <= 0) or 
         ($userNames[0] eq '')){
@@ -574,14 +576,13 @@ sub addUserToGroup {
     if (length(@userNames) == 1) {
         @userNames = split(/,\s+/, $userNames[0]);
     }
-    my $groupName = $query->param('groupname');
     if (!$groupName or $groupName eq '') {
         throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_add_to_group' );
     }
     my @failed;
     foreach my $u (@userNames) {
         try {
-            if (!Foswiki::Func::addUserToGroup($u, $groupName)) {
+            if (!Foswiki::Func::addUserToGroup($u, $groupName, $create)) {
                 push(@failed, $u);
                 # Log the error
                 $session->logger->log( 'warning',

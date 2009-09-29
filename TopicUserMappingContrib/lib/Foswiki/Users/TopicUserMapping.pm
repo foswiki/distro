@@ -719,10 +719,10 @@ sub addUserToGroup {
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
+
         return 0
           if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) )
           ;              #can't change topic.
-
         my $membersString =
             $groupTopicObject->getPreference('GROUP') . ', '
           . $usersObj->getWikiName($cuid);

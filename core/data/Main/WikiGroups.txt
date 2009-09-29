@@ -11,18 +11,19 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
    separator="$n"
 }%
 
-<form action="%SCRIPTURLPATH{"edit"}%/%WEB%/" method="get">
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST">
 
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep foswikiLast">
 %TABLE{databg="" cellborder="0" tableborder="0"}%
-| New Group: |<input type="text" name="topic" value="NameGroup" size="40" class="foswikiInputField" />&nbsp;<input class="foswikiSubmit" type="submit" value="Add"/>  |
+| New Group: | <input type="text" name="groupname" size="20" class="foswikiInputField"/> |
+| Users in Group: (Comma separated) | <input type="text" name="username" value="" size="60" class="foswikiInputField" /> |
+| | <input class="foswikiSubmit" type="submit" value="Add"/>  |
 | |%ICON{"warning"}% *Note:* A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. New topics are based on [[GroupTemplate]]  |
 
-<input type="hidden" name="templatetopic" value="GroupTemplate"/>
-<input type="hidden" name="topicparent" value="%TOPIC%"/>
-<input type="hidden" name="onlywikiname" value="on" />
-<input type="hidden" name="onlynewtopic" value="on" />
+<input type="hidden" name="action" value="addUserToGroup"/>
+<input type="hidden" name="create" value="1"/>
+
 </div>
 </div>
 </form>

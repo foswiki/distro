@@ -164,6 +164,7 @@ add a user / list of users to a group
 | *Parameter* | *Description* | *Default* |
 | =username= | *list* of usernames/wikinames to add to group | none - error if not set |
 | =groupname= |groupname to change | none - error if not set |
+| =create= | create the group if it doesn't exist | false |
 
 ---++++ =action=removeUserFromGroup=
 remove a user / list of users to a group
