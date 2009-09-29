@@ -1,13 +1,14 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1254227958" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1254229784" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki Groups
+This is a list of all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%.
 
-These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%:
 
 %TWISTY{
-  link=" %MAKETEXT{"Create a new Group"}%"
+  link=" %MAKETEXT{"Create a new group"}%"
   showimgleft="%ICONURLPATH{"persons"}%"
   hideimgleft="%ICONURLPATH{"persons"}%"
+  mode="div"
 }%
 
 <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST">
@@ -28,20 +29,23 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
     <input type="text" name="username" value="" size="60" class="foswikiInputField" />
     <div class="foswikiFormDescription">Comma separated list</div>
   </div>
-  <div class="foswikiFormStep foswikiFormLast">
+  <div class="foswikiFormStep">
     <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%"/>
-    <div class="foswikiFormDescription">
+  </div>
+  <div class="foswikiFormStep foswikiFormLast">
 ---
+    <div class="foswikiFormDescription">
 *IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
    * There is enough peer pressure to post only appropriate content.
    * Content does not get lost because topics are under revision control.
    * A topic revision can be undone by a member of the [[%USERSWEB%.AdminGroup][AdminGroup]] if necesssary.
+
+*Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
     </div>
   </div>
 </div>
 </form>
 %ENDTWISTY%
-
 
 %GROUPINFO{
    header="<table class='foswikiTable' style='width:99%'>
@@ -51,9 +55,11 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
                <th style='width:20em'>%MAKETEXT{"Actions"}%</th>
              </tr>$n" 
    format="<tr>
-     <td> $name </td>
+     <td> $percntIF{\"not istopic '$name'\" then=\"<nop>\"}$percnt$name </td>
      <td> $percntGROUPINFO{\"$name\"
-         format=\"$dollarwikiname\" 
+         format=\"$dollarpercntIF{\\"not istopic '$dollarwikiname'\\"
+                    then=\\"<nop>\\"
+                  }$dollarpercnt$dollarwikiname\" 
          separator=\" \"
        }$percnt 
      </td>
@@ -69,8 +75,6 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
 }%
 
 
----
-*Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
 
 <verbatim style="display:none">
 %STARTSECTION{"editgroup"}%<!-- editgroup -->
@@ -78,13 +82,16 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
   link=" %MAKETEXT{"Add user"}%"
   showimgleft="%ICONURLPATH{"person"}%"
   hideimgleft="%ICONURLPATH{"person"}%"
-}%
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> \
-<input type="text" name="username" value="" size="20" class="foswikiInputField" /> \
-<input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%" /> \
-<input type="hidden" name="groupname" value="%GROUPNAME%"/> \
-<input type="hidden" name="action" value="addUserToGroup"/> \
+  mode="div"
+}% 
+
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
+<input type="text" name="username" value="" size="20" class="foswikiInputField" /> 
+<input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%" /> 
+<input type="hidden" name="groupname" value="%GROUPNAME%"/> 
+<input type="hidden" name="action" value="addUserToGroup"/>\
 </form>
+
 %ENDTWISTY%
 <!-- //editgroup -->%ENDSECTION{"editgroup"}%
 </verbatim>
