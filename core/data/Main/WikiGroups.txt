@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1254239769" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1254240002" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki Groups
 This is a list of all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%.
@@ -134,7 +134,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
      }%
    * Set MINUSICONURL = %IF{"istopic '%SYSTEMWEB%.FamFamFamSilkIcons'" 
        then="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/delete.png" 
-       else="%ICONURLPATH{"plus"}%"
+       else="%ICONURLPATH{"minus"}%"
      }%
    * Set GROUPICONURL = %IF{"istopic '%SYSTEMWEB%.FamFamFamSilkIcons'" 
        then="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/group.png" 
