@@ -617,6 +617,73 @@ sub addUserToGroup {
     );
 }
 
+=begin TML
+
+---++ StaticMethod removeUserFromGroup($session)
+remoces users from a group
+   * groupname parameter must a a single groupname (group does not have to exist)
+   * username can be a single login/wikiname/(cuid?), a URLParam list, or a comma separated list.
+
+=cut
+
+sub removeUserFromGroup {
+    my $session = shift;
+    my $query   = $session->{request};
+    my $topic   = $session->{topicName};
+    my $web     = $session->{webName};
+    my $user    = $session->{user};
+
+    my @userNames = $query->param('username');
+    my $groupName = $query->param('groupname');
+    if (
+        (length(@userNames) <= 0) or 
+        ($userNames[0] eq '')){
+        throw Foswiki::OopsException( 'attention', def => 'no_users_to_remove_from_group' );
+    }
+    if (length(@userNames) == 1) {
+        @userNames = split(/,\s+/, $userNames[0]);
+    }
+    if (!$groupName or $groupName eq '') {
+        throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_remove_from_group' );
+    }
+    my @failed;
+    foreach my $u (@userNames) {
+        try {
+            if (!Foswiki::Func::removeUserFromGroup($u, $groupName)) {
+                push(@failed, $u);
+                # Log the error
+                $session->logger->log( 'warning',
+                    "'Failed to add $u to $groupName "  );
+            }
+        }
+        catch Error::Simple with {
+            my $e = shift;
+
+            push(@failed, $u);
+            # Log the error
+            $session->logger->log( 'warning',
+                "catch: Failed to add $u to $groupName " . $e->stringify() );
+        };
+    }
+    if (@failed) {
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $web,
+                topic  => $topic,
+                def    => 'problem_removing_from_group',
+                params => [ join(', ', @failed), $groupName ]
+            );
+    }
+    throw Foswiki::OopsException(
+        'attention',
+        status => 200,
+        def    => 'removed_users_from_group',
+        web    => $web,
+        topic  => $topic,
+        params => [ join(', ',@userNames), $groupName ]
+    );
+}
+
 # Complete a registration
 sub _complete {
     my ($session) = @_;

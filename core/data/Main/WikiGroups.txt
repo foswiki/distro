@@ -56,12 +56,11 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
              </tr>$n" 
    format="<tr>
      <td> $percntIF{\"not istopic '$name'\" then=\"<nop>\"}$percnt$name </td>
-     <td> $percntGROUPINFO{\"$name\"
-         format=\"$dollarpercntIF{\\"not istopic '$dollarwikiname'\\"
-                    then=\\"<nop>\\"
-                  }$dollarpercnt$dollarwikiname\" 
-         separator=\" \"
-       }$percnt 
+     <td> $percntINCLUDE{
+                  \"%WEB%.%TOPIC%\" 
+                  section=\"groupmembers\" 
+                  GROUPNAME=\"$name\"
+              }$percnt
      </td>
      <td>
        $percntINCLUDE{\"%WEB%.%TOPIC%\"
@@ -75,7 +74,18 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 }%
 
 
-
+<style>
+.foswikiRemoveSubmit {
+background: url(%ICONURL{person}%) no-repeat;
+color:red; 
+font: bold 110% 'trebuchet ms',helvetica,sans-serif; 
+background-color: transperant; 
+border:0; 
+}
+.foswikiRemoveSubmit :hover {
+   border:2px;
+}
+</style>
 <verbatim style="display:none">
 %STARTSECTION{"editgroup"}%<!-- editgroup -->
 %TWISTY{
@@ -94,4 +104,29 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 
 %ENDTWISTY%
 <!-- //editgroup -->%ENDSECTION{"editgroup"}%
+
+%STARTSECTION{"onemember"}%<!-- onemember -->
+%IF{"not istopic '%WIKINAME%'"
+                    then="<nop>"
+                  }%%WIKINAME%
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> \
+<input type="hidden" name="username" value="%WIKINAME%" /> \
+<input class="foswikiRemoveSubmit" type="image" src="%ICONURL{userinactive}%"  value="-" title="remove" /> \
+<input type="hidden" name="groupname" value="%GROUPNAME%"/> \
+<input type="hidden" name="action" value="removeUserFromGroup"/> \
+</form>
+<!-- onemember -->%ENDSECTION{"onemember"}%
+
+%STARTSECTION{"groupmembers"}%<!-- groupmembers -->
+%GROUPINFO{
+   "%GROUPNAME%" 
+   format="$percntINCLUDE{
+          \"%WEB%.%TOPIC%\" 
+          section=\"onemember\" 
+          WIKINAME=\"$wikiname\" 
+          GROUPNAME=\"%GROUPNAME%\"
+      }$percnt" 
+   separator=" "
+}%
+<!-- groupmembers -->%ENDSECTION{"groupmembers"}%
 </verbatim>

@@ -462,6 +462,38 @@
 
 %MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
 
+%{-----------------------------------}%
+%TMPL:DEF{"no_users_to_remove_from_group"}%
+---+++ %MAKETEXT{"No username specified"}%
+
+%MAKETEXT{"You need to specify a valid user to remove from a Group."}%
+%TMPL:END%
+
+%TMPL:DEF{"no_group_specified_for_remove_from_group"}%
+---+++ %MAKETEXT{"No GroupName specified"}%
+%MAKETEXT{"You need to specify a valid Group name to remove users from a Group."}%
+
+%TMPL:END%
+
+%TMPL:DEF{"problem_removing_from_group"}%
+---+++ %MAKETEXT{"Errors removing Users from Groups"}%
+
+%MAKETEXT{"There were errors removing [_1] from the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+
+%MAKETEXT{"Please check to ensure you have permssion to modify the group."}%
+
+%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
+
+
+%TMPL:END%
+
+%TMPL:DEF{"removed_users_from_group"}%
+---+++ %MAKETEXT{"Success removing Users to Groups"}%
+
+%MAKETEXT{"[_1] removed from the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+
+%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
+
 %{
     Messages for oopsleaseconflict
 }%
