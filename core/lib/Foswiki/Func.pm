@@ -956,7 +956,6 @@ sub eachGroupMember {
     return $it;
 }
 
-
 =begin TML
 
 ---+++ addUserToGroup( $group, $id, $create ) -> $boolean
@@ -970,9 +969,29 @@ sub addUserToGroup {
     my $users = $Foswiki::Plugins::SESSION->{users};
 
     return () unless $users->isGroup($group);
+#    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
+        $user = getCanonicalUserID($user);
+        return unless (defined($user) and ($users->userExists($user)));
+#    }
+    return $users->addUserToGroup( $user, $group, $create );
+}
+
+=begin TML
+
+---+++ removeUserFromGroup( $group, $id ) -> $boolean
+
+   * $id can be a login name or a WikiName
+
+=cut
+
+sub removeUserFromGroup {
+    my ( $group, $user, $create ) = @_;
+    my $users = $Foswiki::Plugins::SESSION->{users};
+
+    return () unless $users->isGroup($group);
     $user = getCanonicalUserID($user);
     return unless (defined($user) and ($users->userExists($user)));
-    return $users->addUserToGroup( $user, $group, $create );
+    return $users->removeUserFromGroup( $user, $group );
 }
 
 =begin TML

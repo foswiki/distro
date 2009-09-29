@@ -672,7 +672,7 @@ sub eachMembership {
 adds the user specified by the cuid to the group.
 If the group does not exist, it will return false and do nothing, unless the create flag is set.
 
-#TODO: cuid could be a group too?
+cuid _cannot_  be a groupname
 
 =cut
 
@@ -690,6 +690,7 @@ sub addUserToGroup {
     
     #run this as calling user, if the registration is being run by an existing user
     # (often done by admins), else run as registration agent
+    #TODO: extract this to the rego code - as we really should only allow magical group adding in specific circumstances? (or is this a pointless oddity, as any user can 'just' register a sock puppet, and then...?
     my $usersObj = $this->{session}->{users};
     #$this->{session}->writeDebug($usersObj->getWikiName($user)."is TRYING to add $cuid to $groupTopic, as ".$usersObj->getWikiName($cuid)) if DEBUG;
     if (($usersObj->getWikiName($user) eq $Foswiki::cfg{DefaultUserWikiName}) or
@@ -738,7 +739,40 @@ sub addUserToGroup {
 =cut
 
 sub removeUserFromGroup {
-    return;
+    my ($this, $cuid, $groupName) = @_;
+    $groupName = Foswiki::Sandbox::untaint($groupName, \&Foswiki::Sandbox::validateTopicName);
+    my ( $groupWeb, $groupTopic ) = $this->{session}->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
+    
+    my $user = $this->{session}->{user};
+    my $usersObj = $this->{session}->{users};
+
+    if ($usersObj->isGroup($groupName) and 
+            ($this->{session}->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ))) {
+        if (!$usersObj->isInGroup($cuid, $groupName)) {
+            return 1; #user not in group - done
+        }
+        my $groupTopicObject =
+          Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
+            $groupName );
+        return 0 if (!$groupTopicObject->haveAccess( 'CHANGE', $user ));        #can't change topic.
+
+        my $WikiName = $usersObj->getWikiName($cuid);
+        my $LoginName = $usersObj->getLoginName($cuid);
+
+        my $membersString = $groupTopicObject->getPreference('GROUP');
+        my @l;
+        foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
+            next if ($ident eq $WikiName);
+            next if ($ident eq $LoginName);
+            push(@l, $ident);
+        }
+        $membersString = join(', ', @l);
+#TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
+        $groupTopicObject->putKeyed( 'PREFERENCE', { name => 'GROUP', title => 'GROUP', value =>$membersString } );
+        $groupTopicObject->save( );
+        return 1;
+     }
+    return 0 ;
 }
 
 =begin TML

@@ -2599,6 +2599,12 @@ Generate the embedded store form of the topic. The embedded store
 form has meta-data values embedded using %META: lines. The text
 stored in the meta is taken as the topic text.
 
+TODO: Soooo.... if we wanted to make a meta->setPreference('VARIABLE', 'Values...'); we would have to change this to
+   1 see if that preference is set in the {_text} using the    * Set syntax, in which case, replace that
+   2 or let the META::PREF.. work as it does now..
+   
+yay :/
+
 =cut
 
 sub getEmbeddedStoreForm {
