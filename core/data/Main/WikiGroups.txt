@@ -4,7 +4,11 @@
 
 These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%:
 
-%GROUPS%
+%GROUPINFO{
+   header="| *Group* | *Members* |$n" 
+   format="| $name | $percntGROUPINFO{$quot$name$quot format=$quot$dollarwikiname$quot separator=$quot $quot}$percnt |" 
+   separator="$n"
+}%
 
 <form action="%SCRIPTURLPATH{"edit"}%/%WEB%/" method="get">
 
