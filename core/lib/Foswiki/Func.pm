@@ -964,15 +964,13 @@ sub eachGroupMember {
 =cut
 
 sub addUserToGroup {
-    my ( $group, $user, $create ) = @_;
+    my ( $user, $group, $create ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
 
     return () unless $users->isGroup($group);
-
 #    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
     $user = getCanonicalUserID($user);
     return unless ( defined($user) and ( $users->userExists($user) ) );
-
     #    }
     return $users->addUserToGroup( $user, $group, $create );
 }
@@ -986,7 +984,7 @@ sub addUserToGroup {
 =cut
 
 sub removeUserFromGroup {
-    my ( $group, $user, $create ) = @_;
+    my ( $user, $group, $create ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
 
     return () unless $users->isGroup($group);

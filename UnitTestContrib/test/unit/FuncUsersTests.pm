@@ -1395,7 +1395,7 @@ sub verify_addToGroup {
     $this->assert( $Foswiki::Plugins::SESSION->{user} );
 
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
-    $this->assert( !Foswiki::Func::addUserToGroup( 'ZeeGroup', 'UserZ' ) );
+    $this->assert( !Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup') );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1405,7 +1405,7 @@ sub verify_addToGroup {
 
     #TODO: need to test who the topic was saved by
 
-    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'UserZ', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1414,7 +1414,7 @@ sub verify_addToGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
 
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'UserA' ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserA' , 'ZeeGroup') );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1429,7 +1429,7 @@ sub verify_addToGroup {
     );
     $this->assert(
         Foswiki::Func::addUserToGroup(
-            'ZeeGroup', $Foswiki::cfg{DefaultUserLogin}
+            $Foswiki::cfg{DefaultUserLogin}, 'ZeeGroup'
         )
     );
 
@@ -1446,14 +1446,14 @@ sub verify_addToGroup {
     $this->assert(
         !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
     $this->assert(
-        !Foswiki::Func::addUserToGroup( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+        !Foswiki::Func::addUserToGroup('WiseGuyDoesntExist', 'ZeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
     $this->{session} = new Foswiki();
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->assert(
-        !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+        !Foswiki::Func::isGroupMember('WiseGuyDoesntExist', 'ZeeGroup') );
 }
 
 sub DISABLEDverify_addGroupToGroup {
@@ -1462,8 +1462,8 @@ sub DISABLEDverify_addGroupToGroup {
     return if ( $this->noUsersRegistered() );
 
     #test nested groups
-    $this->assert( Foswiki::Func::addUserToGroup( 'TeeGroup', 'UserB',    1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'TeeGroup', 'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('UserB', 'TeeGroup',    1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup', 'TeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1482,11 +1482,11 @@ sub verify_removeFromGroup {
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
     $this->assert(
-        !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+        !Foswiki::Func::isGroupMember('WiseGuyDoesntExist' , 'ZeeGroup') );
 
-    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'UserZ', 1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'UserA', 1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'UserB', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('UserA',  'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('UserB', 'ZeeGroup',  1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1496,11 +1496,11 @@ sub verify_removeFromGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
     $this->assert(
-        !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+        !Foswiki::Func::isGroupMember('WiseGuyDoesntExist', 'ZeeGroup' ) );
 
-    $this->assert( Foswiki::Func::removeUserFromGroup( 'ZeeGroup', 'UserA' ) );
+    $this->assert( Foswiki::Func::removeUserFromGroup('UserA', 'ZeeGroup' ) );
     $this->assert(
-        !Foswiki::Func::removeUserFromGroup( 'ZeeGroup', 'WiseGuyDoesntExist' )
+        !Foswiki::Func::removeUserFromGroup( 'WiseGuyDoesntExist', 'ZeeGroup' )
     );
 
     # Force a re-read
@@ -1521,9 +1521,9 @@ sub DISABLEDverify_removeFromGroup {
     return if ( $this->noUsersRegistered() );
 
     #test nested groups
-    $this->assert( Foswiki::Func::addUserToGroup( 'TeeGroup', 'UserB',    1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'TeeGroup', 'UserC',    1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'TeeGroup', 'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserB',   'TeeGroup',  1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserC',    'TeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup', 'TeeGroup',  1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1532,9 +1532,9 @@ sub DISABLEDverify_removeFromGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserB' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserA' ) );
 
-    $this->assert( !Foswiki::Func::removeUserFromGroup( 'TeeGroup', 'UserA' ) )
+    $this->assert( !Foswiki::Func::removeUserFromGroup( 'UserA' , 'TeeGroup') )
       ;    #can't remove user as they come from a subgroup..
-    $this->assert( Foswiki::Func::removeUserFromGroup( 'TeeGroup', 'UserB' ) );
+    $this->assert( Foswiki::Func::removeUserFromGroup( 'UserB', 'TeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1545,7 +1545,7 @@ sub DISABLEDverify_removeFromGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserC' ) );
 
     $this->assert(
-        Foswiki::Func::removeUserFromGroup( 'TeeGroup', 'ZeeGroup' ) );
+        Foswiki::Func::removeUserFromGroup('ZeeGroup' , 'TeeGroup') );
 
     # Force a re-read
     $this->{session}->finish();

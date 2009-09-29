@@ -159,6 +159,19 @@ Unregisters (removes) the currently logged-in user.
 ---++++ =action=restoreRevision=
 Alternative entry point for =edit=, used by screens that support several actions using =manage. Parameters are as for =edit=.
 
+---++++ =action=addUserToGroup=
+add a user / list of users to a group
+| *Parameter* | *Description* | *Default* |
+| =username= | *list* of usernames/wikinames to add to group | none - error if not set |
+| =groupname= |groupname to change | none - error if not set |
+
+---++++ =action=removeUserFromGroup=
+remove a user / list of users to a group
+| *Parameter* | *Description* | *Default* |
+| =username= | *list* of usernames/wikinames to add to group | none - error if not set |
+| =groupname= |groupname to change | none - error if not set |
+
+
 ---+++ =oops=
 This script is mainly used for rendering pages containing error messages, though it is also used for some functional actions such as manage pages (move topic etc).
 

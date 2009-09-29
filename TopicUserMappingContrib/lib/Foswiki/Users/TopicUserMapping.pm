@@ -677,12 +677,12 @@ cuid _cannot_  be a groupname
 =cut
 
 sub addUserToGroup {
-    my ( $this, $cuid, $groupName, $create ) = @_;
-    $groupName = Foswiki::Sandbox::untaint( $groupName,
+    my ( $this, $cuid, $Group, $create ) = @_;
+    $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
-    my ( $groupWeb, $groupTopic ) =
+    my ( $groupWeb, $groupName ) =
       $this->{session}
-      ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
+      ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
     my $user = $this->{session}->{user};
 
@@ -703,8 +703,6 @@ sub addUserToGroup {
         $user =
           $usersObj->findUserByWikiName(
             $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
-
-        #$this->{session}->writeDebug("using $user") if DEBUG;
     }
 
     if (
@@ -736,7 +734,6 @@ sub addUserToGroup {
         return 1;
     }
     else {
-
  #see if we have permission to add a topic, or to edit the existing topic, etc..
         return 0 unless ($create);
         return 0
@@ -757,7 +754,6 @@ sub addUserToGroup {
                 value => $usersObj->getWikiName($cuid)
             }
         );
-
         #TODO: should also consider securing the new topic?
         $groupTopicObject->saveAs( $Foswiki::cfg{UsersWebName},
             $groupName, -author => $user );

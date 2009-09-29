@@ -81,6 +81,20 @@ sub _action_deleteUserAccount {
     Foswiki::UI::Register::deleteUser($session);
 }
 
+sub _action_addUserToGroup {
+    my $session = shift;
+
+    require Foswiki::UI::Register;
+    Foswiki::UI::Register::addUserToGroup($session);
+}
+
+sub _action_removeUserFromGroup {
+    my $session = shift;
+
+    require Foswiki::UI::Register;
+    Foswiki::UI::Register::removeUserFromGroup($session);
+}
+
 sub _isValidHTMLColor {
     my $c = shift;
     return $c =~

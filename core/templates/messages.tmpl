@@ -429,6 +429,36 @@
 %MAKETEXT{"If you are developing a Foswiki application, see [_1] for a description of the correct parameters." args="%SYSTEMWEB%.CommandAndCGIScripts#%PARAM1%"}%
 
 %TMPL:END%
+
+%{-----------------------------------}%
+%TMPL:DEF{"no_users_to_add_to_group"}%
+---+++ %MAKETEXT{"No username specified"}%
+
+%MAKETEXT{"You need to specify a valid user to add to a Group."}%
+%TMPL:END%
+
+%TMPL:DEF{"no_group_specified_for_add_to_group"}%
+---+++ %MAKETEXT{"No GroupName specified"}%
+%MAKETEXT{"You need to specify a valid Group name to add users to a Group."}%
+
+%TMPL:END%
+
+%TMPL:DEF{"problem_adding_to_group"}%
+---+++ %MAKETEXT{"Errors adding Users to Groups"}%
+
+%MAKETEXT{"There were errors adding [_1] to the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+
+%MAKETEXT{"Please check to ensure you have permssion to modify the group."}%
+
+%TMPL:END%
+
+%TMPL:DEF{"added_users_to_group"}%
+---+++ %MAKETEXT{"Success adding Users to Groups"}%
+
+%MAKETEXT{"[_1] added to the [_2] group. " args="%PARAM1%, %PARAM2%"}%
+
+%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
+
 %{
     Messages for oopsleaseconflict
 }%

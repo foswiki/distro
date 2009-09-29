@@ -4,9 +4,10 @@
 
 These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%:
 
+%TABLE{databg="" cellborder="0" tableborder="0" tablewidth="99%"}%
 %GROUPINFO{
-   header="| *Group* | *Members* |$n" 
-   format="| $name | $percntGROUPINFO{$quot$name$quot format=$quot$dollarwikiname$quot separator=$quot $quot}$percnt |" 
+   header="| *Group* | *Members* | *edit* |$n" 
+   format="| $name | $percntGROUPINFO{$quot$name$quot format=$quot$dollarwikiname$quot separator=$quot $quot}$percnt | $percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quoteditgroup$quot GROUPNAME=$quot$name$quot}$percnt |" 
    separator="$n"
 }%
 
@@ -33,3 +34,13 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
 
 ---
 *Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
+
+<!--
+%STARTSECTION{"editgroup"}%<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> \
+<input type="text" name="username" value="" size="20" class="foswikiInputField" /> \
+<input class="foswikiSubmit" type="submit" value="add User"/> \
+<input type="hidden" name="groupname" value="%GROUPNAME%"/> \
+<input type="hidden" name="action" value="addUserToGroup"/> \
+</form>%ENDSECTION{"editgroup"}%
+
+-->
