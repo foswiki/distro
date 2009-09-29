@@ -544,6 +544,137 @@ END
     $this->do_test( $expected, $result );
 }
 
+
+=pod
+
+Tests that two tables have IDs suffixed by 1 and 2
+
+=cut
+
+sub test_tableIdNumbering {
+    my $this     = shift;
+	
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> 3 </td>
+		</tr>
+	</tbody>
+</table>
+<p></p>
+<nop>
+<nop>
+<nop>
+<table id="table$this->{test_topic}2" class="foswikiTable" rules="none" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> 3 </td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+    my $actual = <<ACTUAL;
+%TABLE{headerrows="0" footerrows="0"}%
+| a | b |
+| 2 | 3 |
+
+%TABLE{headerrows="0" footerrows="0"}%
+| a | b |
+| 2 | 3 |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+
+=pod
+
+Tests that two tables have IDs suffixed by 1 and 1 if the 
+initialiseWhenRender is called between two calls to Foswiki::Func::renderText
+(as used by rdiff and CompareRevisionsAddOn) where two revisions of same topic
+is called twice.
+
+This test also tests the initialiseWhenRender API call
+
+=cut
+
+sub test_tableIdNumberingInitialiseWhenRender {
+    my $this     = shift;
+
+    my $webName   = $this->{test_web};
+    my $topicName = $this->{test_topic};
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> 3 </td>
+		</tr>
+	</tbody>
+</table>
+<nop>
+<nop>
+<nop>
+<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> 3 </td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+    my $actual = <<ACTUAL;
+%TABLE{headerrows="0" footerrows="0"}%
+| a | b |
+| 2 | 3 |
+
+ACTUAL
+
+    # We render the same table twice and append the result
+    my $actual1 =
+      Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
+
+    $actual1 = Foswiki::Func::renderText( $actual1, $webName, $topicName );  
+
+    # Resetting the table counter (the objective of this test)
+    Foswiki::Plugins::TablePlugin::initialiseWhenRender();
+   
+    my $actual2 = 
+      Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
+
+    $actual2 = Foswiki::Func::renderText( $actual2, $webName, $topicName );
+
+    $this->assert_html_equals( $expected, $actual1 . $actual2 );
+}
+
+
 sub _trimSpaces {
 
     #my $text = $_[0]
