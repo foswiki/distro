@@ -1,32 +1,47 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1254226925" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki Groups
 
 These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%:
 
+%TWISTY{
+  link=" %MAKETEXT{"Create a new Group"}%"
+  showimgleft="%ICONURLPATH{"persons"}%"
+  hideimgleft="%ICONURLPATH{"persons"}%"
+}%
+
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST">
+<input type="hidden" name="action" value="addUserToGroup"/>
+<input type="hidden" name="create" value="1"/>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep ">
+    <h3>%MAKETEXT{"Name"}%:</h3>
+    <input type="text" name="groupname" size="20" class="foswikiInputField"/> 
+    <div class="foswikiFormDescription">
+      *Note:* 
+      A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. 
+      New topics are based on [[GroupTemplate]]
+    </div>
+  </div>
+  <div class="foswikiFormStep">
+    <h3>%MAKETEXT{"Members"}%:</h3>
+    <input type="text" name="username" value="" size="60" class="foswikiInputField" />
+    <div class="foswikiFormDescription">Comma separated list</div>
+  </div>
+  <div class="foswikiFormStep foswikiFormLast">
+    <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add"}%"/>
+  </div>
+</div>
+</form>
+%ENDTWISTY%
+
 %TABLE{databg="" cellborder="0" tableborder="0" tablewidth="99%"}%
 %GROUPINFO{
-   header="| *Group* | *Members* | *edit* |$n" 
+   header="| *%MAKETEXT{"Group"}%* | *%MAKETEXT{"Members"}%* | *%MAKETEXT{"Actions"}%* |$n" 
    format="| $name | $percntGROUPINFO{$quot$name$quot format=$quot$dollarwikiname$quot separator=$quot $quot}$percnt | $percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quoteditgroup$quot GROUPNAME=$quot$name$quot}$percnt |" 
    separator="$n"
 }%
 
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST">
-
-<div class="foswikiFormSteps">
-<div class="foswikiFormStep foswikiLast">
-%TABLE{databg="" cellborder="0" tableborder="0"}%
-| New Group: | <input type="text" name="groupname" size="20" class="foswikiInputField"/> |
-| Users in Group: (Comma separated) | <input type="text" name="username" value="" size="60" class="foswikiInputField" /> |
-| | <input class="foswikiSubmit" type="submit" value="Add"/>  |
-| |%ICON{"warning"}% *Note:* A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. New topics are based on [[GroupTemplate]]  |
-
-<input type="hidden" name="action" value="addUserToGroup"/>
-<input type="hidden" name="create" value="1"/>
-
-</div>
-</div>
-</form>
 
 *IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
    * There is enough peer pressure to post only appropriate content.
