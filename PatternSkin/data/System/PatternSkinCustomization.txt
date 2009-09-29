@@ -169,7 +169,7 @@ See also: [[%SYSTEMWEB%.VarSEARCH][Search macro]]
 #TopBarChangeHeight
 ---+++ I want to change the height of the top bar
 
-_This information has moved to [[PatternSkinCssCookBook#HeightTopBar][PatternSkinCssCookBook]]_
+_This information has moved to [[PatternSkinCssCookbook#HeightTopBar][PatternSkinCssCookbook]]_
 
 ---+++ I want to set or change the top background image
 
