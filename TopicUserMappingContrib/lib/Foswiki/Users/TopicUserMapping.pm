@@ -24,7 +24,7 @@ Subclasses should be named 'XxxxUserMapping' so that configure can find them.
 
 package Foswiki::Users::TopicUserMapping;
 use Foswiki::UserMapping ();
-@ISA = ( 'Foswiki::UserMapping' );
+@ISA = ('Foswiki::UserMapping');
 
 use strict;
 use Assert;
@@ -61,10 +61,10 @@ sub new {
     die $@ if $@;
     $this->{passwords} = $implPasswordManager->new($session);
 
-    # if password manager says sorry, we're read only today
-    # 'none' is a special case, as it means we're not actually using the password manager for
-    # registration.
-    if ( $this->{passwords}->readOnly()
+# if password manager says sorry, we're read only today
+# 'none' is a special case, as it means we're not actually using the password manager for
+# registration.
+    if (   $this->{passwords}->readOnly()
         && ( $Foswiki::cfg{PasswordManager} ne 'none' )
         && $Foswiki::cfg{Register}{EnableNewUserRegistration} )
     {
@@ -629,7 +629,7 @@ sub isGroup {
     # Groups have the same username as wikiname as canonical name
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
 
-#TODO: um, shouldn't this actually test for the existance of this group?
+    #TODO: um, shouldn't this actually test for the existance of this group?
     return $user =~ /Group$/;
 }
 
@@ -677,56 +677,90 @@ cuid _cannot_  be a groupname
 =cut
 
 sub addUserToGroup {
-    my ($this, $cuid, $groupName, $create) = @_;
-    $groupName = Foswiki::Sandbox::untaint($groupName, \&Foswiki::Sandbox::validateTopicName);
-    my ( $groupWeb, $groupTopic ) = $this->{session}->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
-    
+    my ( $this, $cuid, $groupName, $create ) = @_;
+    $groupName = Foswiki::Sandbox::untaint( $groupName,
+        \&Foswiki::Sandbox::validateTopicName );
+    my ( $groupWeb, $groupTopic ) =
+      $this->{session}
+      ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
+
     my $user = $this->{session}->{user};
 
-    #open Group topic, parse for the GROUPs setting, append new user
-    #find where GROUP is set, use that code if we can, so that when it goes multi-line it copes
-    #TODO: LATER: check for duplicates
-    #TODO: make sure the groupName ends in Group...
-    
-    #run this as calling user, if the registration is being run by an existing user
-    # (often done by admins), else run as registration agent
-    #TODO: extract this to the rego code - as we really should only allow magical group adding in specific circumstances? (or is this a pointless oddity, as any user can 'just' register a sock puppet, and then...?
+#open Group topic, parse for the GROUPs setting, append new user
+#find where GROUP is set, use that code if we can, so that when it goes multi-line it copes
+#TODO: LATER: check for duplicates
+#TODO: make sure the groupName ends in Group...
+
+#run this as calling user, if the registration is being run by an existing user
+# (often done by admins), else run as registration agent
+#TODO: extract this to the rego code - as we really should only allow magical group adding in specific circumstances? (or is this a pointless oddity, as any user can 'just' register a sock puppet, and then...?
     my $usersObj = $this->{session}->{users};
-    #$this->{session}->writeDebug($usersObj->getWikiName($user)."is TRYING to add $cuid to $groupTopic, as ".$usersObj->getWikiName($cuid)) if DEBUG;
-    if (($usersObj->getWikiName($user) eq $Foswiki::cfg{DefaultUserWikiName}) or
-            ($user eq $cuid)) {
-        $user = $usersObj->findUserByWikiName( $Foswiki::cfg{Register}{RegistrationAgentWikiName});
+
+#$this->{session}->writeDebug($usersObj->getWikiName($user)."is TRYING to add $cuid to $groupTopic, as ".$usersObj->getWikiName($cuid)) if DEBUG;
+    if ( ( $usersObj->getWikiName($user) eq $Foswiki::cfg{DefaultUserWikiName} )
+        or ( $user eq $cuid ) )
+    {
+        $user =
+          $usersObj->findUserByWikiName(
+            $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
+
         #$this->{session}->writeDebug("using $user") if DEBUG;
     }
-    
-    if ($usersObj->isGroup($groupName) and 
-            ($this->{session}->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ))) {
-        if ($usersObj->isInGroup($cuid, $groupName)) {
-            #TODO: not sure this is the right thing to do - it might make more sense to not expand the nested groups, and add a user if they're not listed here, that way we are able to not worry about subgroups changing.
-            return 1; #user already in group, nothing to do
+
+    if (
+        $usersObj->isGroup($groupName)
+        and ( $this->{session}
+            ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
+      )
+    {
+        if ( $usersObj->isInGroup( $cuid, $groupName ) ) {
+
+#TODO: not sure this is the right thing to do - it might make more sense to not expand the nested groups, and add a user if they're not listed here, that way we are able to not worry about subgroups changing.
+            return 1;    #user already in group, nothing to do
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
-        return 0 if (!$groupTopicObject->haveAccess( 'CHANGE', $user ));        #can't change topic.
+        return 0
+          if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) )
+          ;              #can't change topic.
 
-        my $membersString = $groupTopicObject->getPreference('GROUP').', '.$usersObj->getWikiName($cuid);
+        my $membersString =
+            $groupTopicObject->getPreference('GROUP') . ', '
+          . $usersObj->getWikiName($cuid);
+
 #TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
-        $groupTopicObject->putKeyed( 'PREFERENCE', { name => 'GROUP', title => 'GROUP', value =>$membersString } );
-        $groupTopicObject->save( -author=>$user );
+        $groupTopicObject->putKeyed( 'PREFERENCE',
+            { name => 'GROUP', title => 'GROUP', value => $membersString } );
+        $groupTopicObject->save( -author => $user );
         return 1;
-     } else {
-        #see if we have permission to add a topic, or to edit the existing topic, etc..
+    }
+    else {
+
+ #see if we have permission to add a topic, or to edit the existing topic, etc..
         return 0 unless ($create);
-        return 0 unless (Foswiki::Func::checkAccessPermission( 'CHANGE',
-                $cuid, '', $groupName, $Foswiki::cfg{UsersWebName} ));
-                
+        return 0
+          unless (
+            Foswiki::Func::checkAccessPermission(
+                'CHANGE', $cuid, '', $groupName, $Foswiki::cfg{UsersWebName}
+            )
+          );
+
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             'GroupTemplate' );
-        $groupTopicObject->putKeyed( 'PREFERENCE', { name => 'GROUP', title => 'GROUP', value =>$usersObj->getWikiName($cuid) } );
-#TODO: should also consider securing the new topic?
-        $groupTopicObject->saveAs($Foswiki::cfg{UsersWebName}, $groupName, -author=>$user );
+        $groupTopicObject->putKeyed(
+            'PREFERENCE',
+            {
+                name  => 'GROUP',
+                title => 'GROUP',
+                value => $usersObj->getWikiName($cuid)
+            }
+        );
+
+        #TODO: should also consider securing the new topic?
+        $groupTopicObject->saveAs( $Foswiki::cfg{UsersWebName},
+            $groupName, -author => $user );
         return 1;
     }
     die 'not sure how we got here';
@@ -739,40 +773,51 @@ sub addUserToGroup {
 =cut
 
 sub removeUserFromGroup {
-    my ($this, $cuid, $groupName) = @_;
-    $groupName = Foswiki::Sandbox::untaint($groupName, \&Foswiki::Sandbox::validateTopicName);
-    my ( $groupWeb, $groupTopic ) = $this->{session}->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
-    
-    my $user = $this->{session}->{user};
+    my ( $this, $cuid, $groupName ) = @_;
+    $groupName = Foswiki::Sandbox::untaint( $groupName,
+        \&Foswiki::Sandbox::validateTopicName );
+    my ( $groupWeb, $groupTopic ) =
+      $this->{session}
+      ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
+
+    my $user     = $this->{session}->{user};
     my $usersObj = $this->{session}->{users};
 
-    if ($usersObj->isGroup($groupName) and 
-            ($this->{session}->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ))) {
-        if (!$usersObj->isInGroup($cuid, $groupName)) {
-            return 1; #user not in group - done
+    if (
+        $usersObj->isGroup($groupName)
+        and ( $this->{session}
+            ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
+      )
+    {
+        if ( !$usersObj->isInGroup( $cuid, $groupName ) ) {
+            return 1;    #user not in group - done
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
-        return 0 if (!$groupTopicObject->haveAccess( 'CHANGE', $user ));        #can't change topic.
+        return 0
+          if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) )
+          ;              #can't change topic.
 
-        my $WikiName = $usersObj->getWikiName($cuid);
+        my $WikiName  = $usersObj->getWikiName($cuid);
         my $LoginName = $usersObj->getLoginName($cuid);
 
         my $membersString = $groupTopicObject->getPreference('GROUP');
         my @l;
         foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
-            next if ($ident eq $WikiName);
-            next if ($ident eq $LoginName);
-            push(@l, $ident);
+            next if ( $ident eq $WikiName );
+            next if ( $ident eq $LoginName );
+            push( @l, $ident );
         }
-        $membersString = join(', ', @l);
+        $membersString = join( ', ', @l );
+
 #TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
-        $groupTopicObject->putKeyed( 'PREFERENCE', { name => 'GROUP', title => 'GROUP', value =>$membersString } );
-        $groupTopicObject->save( );
+        $groupTopicObject->putKeyed( 'PREFERENCE',
+            { name => 'GROUP', title => 'GROUP', value => $membersString } );
+        $groupTopicObject->save();
         return 1;
-     }
-    return 0 ;
+    }
+    return 0;
 }
 
 =begin TML

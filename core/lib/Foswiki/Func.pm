@@ -258,8 +258,7 @@ sub getSessionValue {
     #   my( $key ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getLoginManager()
-      ->getSessionValue(@_);
+    return $Foswiki::Plugins::SESSION->getLoginManager()->getSessionValue(@_);
 }
 
 =begin TML
@@ -295,8 +294,7 @@ Return: true if the session value was cleared
 sub clearSessionValue {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getLoginManager()
-      ->clearSessionValue(@_);
+    return $Foswiki::Plugins::SESSION->getLoginManager()->clearSessionValue(@_);
 }
 
 =begin TML
@@ -379,10 +377,11 @@ sub pushTopicContext {
     $session->{webName}   = $web;
     $session->{topicName} = $topic;
     $session->{prefs}->setInternalPreferences(
-        BASEWEB => $web,
-        BASETOPIC => $topic,
-        INCLUDINGWEB => $web,
-        INCLUDINGTOPIC => $topic);
+        BASEWEB        => $web,
+        BASETOPIC      => $topic,
+        INCLUDINGWEB   => $web,
+        INCLUDINGTOPIC => $topic
+    );
 }
 
 =begin TML
@@ -969,10 +968,12 @@ sub addUserToGroup {
     my $users = $Foswiki::Plugins::SESSION->{users};
 
     return () unless $users->isGroup($group);
+
 #    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user);
-        return unless (defined($user) and ($users->userExists($user)));
-#    }
+    $user = getCanonicalUserID($user);
+    return unless ( defined($user) and ( $users->userExists($user) ) );
+
+    #    }
     return $users->addUserToGroup( $user, $group, $create );
 }
 
@@ -990,7 +991,7 @@ sub removeUserFromGroup {
 
     return () unless $users->isGroup($group);
     $user = getCanonicalUserID($user);
-    return unless (defined($user) and ($users->userExists($user)));
+    return unless ( defined($user) and ( $users->userExists($user) ) );
     return $users->removeUserFromGroup( $user, $group );
 }
 
@@ -1088,7 +1089,7 @@ sub getListOfWebs {
     my $web    = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     require Foswiki::WebFilter;
-    my $f = new Foswiki::WebFilter($filter || '');
+    my $f = new Foswiki::WebFilter( $filter || '' );
     return $Foswiki::Plugins::SESSION->deepWebList( $f, $web );
 }
 
@@ -1229,10 +1230,11 @@ sub eachChangeSince {
             my $n = shift;
             $n->{user} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
               unless defined $n->{user};
-            $n->{user} = $Foswiki::Plugins::SESSION->{users}->getWikiName(
-                $n->{user} );
+            $n->{user} =
+              $Foswiki::Plugins::SESSION->{users}->getWikiName( $n->{user} );
             return $n;
-        });
+        }
+    );
 }
 
 =begin TML
@@ -1657,7 +1659,8 @@ sub readAttachment {
     my $fh;
     try {
         $fh = $topicObject->openAttachment( $name, '<', version => $rev );
-    } catch Error::Simple with {
+    }
+    catch Error::Simple with {
         $fh = undef;
     };
     return undef unless $fh;
@@ -1775,14 +1778,15 @@ sub moveAttachment {
     my @opts;
     push( @opts, new_name => $newAttachment ) if defined $newAttachment;
 
-    if ($web eq $newWeb
+    if (   $web eq $newWeb
         && $topic eq $newTopic
-        && defined $newAttachment)
-        {
+        && defined $newAttachment )
+    {
         $from->moveAttachment( $attachment, $from, @opts );
-    } else {
-    my $to =
-        Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+    }
+    else {
+        my $to =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
 
         # SMELL: check access permissions
         $from->moveAttachment( $attachment, $to, @opts );
@@ -2354,8 +2358,8 @@ not their *values*.
 =cut
 
 sub registerMETA {
-    my ($macro, $spec) = @_;
-    Foswiki::Meta::registerMETA($macro, $spec);
+    my ( $macro, $spec ) = @_;
+    Foswiki::Meta::registerMETA( $macro, $spec );
 }
 
 =begin TML
@@ -3039,7 +3043,6 @@ sub checkDependencies {
 "checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
 }
 
-
 =begin TML
 
 ---+++ readTopicText( $web, $topic, $rev, $ignorePermissions ) -> $text
@@ -3069,9 +3072,10 @@ sub readTopicText {
       Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
 
     my $text;
-    if ( $ignorePermissions ||
-         $topicObject->haveAccess(
-             'VIEW', $Foswiki::Plugins::SESSION->{user} ) ) {
+    if ( $ignorePermissions
+        || $topicObject->haveAccess( 'VIEW',
+            $Foswiki::Plugins::SESSION->{user} ) )
+    {
         $text = $topicObject->getEmbeddedStoreForm();
     }
     else {

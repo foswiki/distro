@@ -121,17 +121,25 @@ our $SUMMARYLINES = 6;
 # exclusion of tags that contain unaccepted params. It's really just for
 # documentation (and DB schema initialisation).
 our %VALIDATE = (
-    TOPICINFO      => { require => [ qw( author ) ],
-                        other   => [ qw( version date format reprev ) ] },
-    TOPICMOVED     => { require => [ qw( from to by date ) ] },
-    TOPICPARENT    => { require => [ qw( name ) ] },
-    FILEATTACHMENT => { require => [ qw( name ) ],
-                        other   => [ qw( version path size date user
-                                         comment attr ) ] },
-    FORM           => { require => [ qw( name ) ] },
-    FIELD          => { require => [ qw( name value ) ],
-                        other   => [ qw( title )] }
-   );
+    TOPICINFO => {
+        require => [qw( author )],
+        other   => [qw( version date format reprev )]
+    },
+    TOPICMOVED     => { require => [qw( from to by date )] },
+    TOPICPARENT    => { require => [qw( name )] },
+    FILEATTACHMENT => {
+        require => [qw( name )],
+        other   => [
+            qw( version path size date user
+              comment attr )
+        ]
+    },
+    FORM  => { require => [qw( name )] },
+    FIELD => {
+        require => [qw( name value )],
+        other   => [qw( title )]
+    }
+);
 
 =begin TML
 
@@ -142,7 +150,7 @@ See Foswiki::Func::registerMETA for full doc of this function.
 =cut
 
 sub registerMETA {
-    my ($name, %check) = @_;
+    my ( $name, %check ) = @_;
     $VALIDATE{$name} = \%check;
 }
 
@@ -168,12 +176,16 @@ existing content of the stored object, use the =load= method instead.
 sub new {
     my ( $class, $session, $web, $topic, $text ) = @_;
 
-    my $this = bless( {
-        _session => $session,
-        # Index keyed on top level type mapping entry names to their
-        # index within the data array.
-        _indices => undef,
-    }, $class );
+    my $this = bless(
+        {
+            _session => $session,
+
+            # Index keyed on top level type mapping entry names to their
+            # index within the data array.
+            _indices => undef,
+        },
+        $class
+    );
 
     # Normalise web path (replace [./]+ with /)
     $web =~ tr#/.#/#s if $web;
@@ -293,9 +305,10 @@ Return true if this object refers to the session topic
 
 sub isSessionTopic {
     my $this = shift;
-    return 0 unless defined $this->{_web}
-      && defined $this->{_topic}
-        && defined $this->{_session}->{webName}
+    return 0
+      unless defined $this->{_web}
+          && defined $this->{_topic}
+          && defined $this->{_session}->{webName}
           && defined $this->{_session}->{topicName};
     return $this->{_web} eq $this->{_session}->{webName}
       && $this->{_topic} eq $this->{_session}->{topicName};
@@ -410,8 +423,7 @@ See Foswiki::PageCache::addDependency().
 sub addDependency {
     my $cache = $_[0]->{_session}->{cache};
     return unless $cache;
-    return $cache->addDependency(
-        $_[0]->{_web}, $_[0]->{_topic});
+    return $cache->addDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
 
 =begin TML
@@ -426,10 +438,8 @@ within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 sub fireDependency {
     my $cache = $_[0]->{_session}->{cache};
     return unless $cache;
-    return $cache->fireDependency(
-        $_[0]->{_web}, $_[0]->{_topic});
+    return $cache->fireDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
-
 
 ############# WEB METHODS #############
 
@@ -536,8 +546,9 @@ sub searchInText {
         my @list = $it->all();
         $topics = \@list;
     }
-    return $this->{_session}->{store}->searchInWebContent(
-        $searchString, $this->{_web}, $topics, $this->{_session}, $options );
+    return $this->{_session}->{store}
+      ->searchInWebContent( $searchString, $this->{_web}, $topics,
+        $this->{_session}, $options );
 }
 
 =begin TML
@@ -553,8 +564,9 @@ Returns an Foswiki::Search::InfoCache iterator
 
 sub query {
     my ( $this, $query, $inputTopicSet, $options ) = @_;
-    return $this->{_session}->{store}->searchInWebMetaData(
-        $query, $this->{_web}, $inputTopicSet, $this->{_session}, $options );
+    return $this->{_session}->{store}
+      ->searchInWebMetaData( $query, $this->{_web}, $inputTopicSet,
+        $this->{_session}, $options );
 }
 
 =begin TML
@@ -740,7 +752,7 @@ $meta->put( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' } );
 
 sub put {
     my ( $this, $type, $args ) = @_;
-    ASSERT(defined $type) if DEBUG;
+    ASSERT( defined $type ) if DEBUG;
 
     unless ( $this->{$type} ) {
         $this->{$type} = [];
@@ -748,20 +760,21 @@ sub put {
     }
 
     my $data = $this->{$type};
-    my $i = 0;
+    my $i    = 0;
     if ($data) {
+
         # overwrite old single value
-        if (scalar(@$data) && defined $data->[0]->{name}) {
-            delete $this->{_indices}->{$type}->{$data->[0]->{name}};
+        if ( scalar(@$data) && defined $data->[0]->{name} ) {
+            delete $this->{_indices}->{$type}->{ $data->[0]->{name} };
         }
         $data->[0] = $args;
     }
     else {
         $i = push( @$data, $args ) - 1;
     }
-    if (defined $args->{name}) {
+    if ( defined $args->{name} ) {
         $this->{_indices}->{$type} ||= {};
-        $this->{_indices}->{$type}->{$args->{name}} = $i;
+        $this->{_indices}->{$type}->{ $args->{name} } = $i;
     }
 }
 
@@ -785,7 +798,7 @@ sub putKeyed {
     my ( $this, $type, $args ) = @_;
     ASSERT($type) if DEBUG;
     my $keyName = $args->{name};
-    ASSERT($keyName, join(',', keys %$args)) if DEBUG;
+    ASSERT( $keyName, join( ',', keys %$args ) ) if DEBUG;
 
     unless ( $this->{$type} ) {
         $this->{$type} = [];
@@ -793,11 +806,13 @@ sub putKeyed {
     }
 
     my $data = $this->{$type};
+
     # The \% shouldn't be necessary, but it is
-    my $indices = \%{$this->{_indices}->{$type}};
-    if (defined $indices->{$keyName}) {
-        $data->[$indices->{$keyName}] = $args;
-    } else {
+    my $indices = \%{ $this->{_indices}->{$type} };
+    if ( defined $indices->{$keyName} ) {
+        $data->[ $indices->{$keyName} ] = $args;
+    }
+    else {
         $indices->{$keyName} = push( @$data, $args ) - 1;
     }
 }
@@ -823,9 +838,9 @@ sub putAll {
     my ( $this, $type, @array ) = @_;
 
     my %indices;
-    for ( my $i = 0; $i < scalar(@array); $i++ ) {
+    for ( my $i = 0 ; $i < scalar(@array) ; $i++ ) {
         if ( defined $array[$i]->{name} ) {
-            $indices{$array[$i]->{name}} = $i;
+            $indices{ $array[$i]->{name} } = $i;
         }
     }
     $this->{$type} = \@array;
@@ -861,7 +876,7 @@ sub get {
             my $indices = $this->{_indices}->{$type};
             return undef unless defined $indices;
             return undef unless defined $indices->{$name};
-            return $data->[$indices->{$name}];
+            return $data->[ $indices->{$name} ];
         }
         else {
             return $data->[0];
@@ -922,12 +937,12 @@ sub remove {
             if ( defined $indices ) {
                 my $i = $indices->{$name};
                 return unless defined $i;
-                splice(@$data, $i, 1);
+                splice( @$data, $i, 1 );
                 delete $indices->{$name};
-                for (my $i = 0; $i < scalar(@$data); $i++) {
+                for ( my $i = 0 ; $i < scalar(@$data) ; $i++ ) {
                     my $item = $data->[$i];
                     next unless exists $item->{name};
-                    $indices->{$item->{name}} = $i;
+                    $indices->{ $item->{name} } = $i;
                 }
             }
         }
@@ -973,7 +988,8 @@ sub copyFrom {
         my @data;
         foreach my $item ( @{ $other->{$type} } ) {
             if ( !$filter
-                   || ( $item->{name} && $item->{name} =~ /$filter/ ) ) {
+                || ( $item->{name} && $item->{name} =~ /$filter/ ) )
+            {
                 my %datum = %$item;
                 push( @data, \%datum );
             }
@@ -1071,6 +1087,7 @@ sub getRevisionInfo {
 
         # Delegate to the store
         $info = $this->{_session}->{store}->getVersionInfo($this);
+
         # cache the result
         $this->setRevisionInfo($info);
     }
@@ -1219,7 +1236,7 @@ Render the form contained in the meta for display.
 =cut
 
 sub renderFormForDisplay {
-    my ( $this ) = @_;
+    my ($this) = @_;
 
     my $fname = $this->getFormName();
 
@@ -1239,7 +1256,7 @@ sub renderFormForDisplay {
         my $mess = CGI::span(
             { class => 'foswikiAlert' },
             "%MAKETEXT{\"Form definition '[_1]' not found\" args=\"$fname\"}%"
-           );
+        );
         $mess .= $form->renderForDisplay($this) if $form;
         return $mess;
     }
@@ -1542,19 +1559,21 @@ sub saveAs {
         if ( $currentRev && !$opts{forcenewrevision} ) {
 
             # See if we want to replace the existing top revision
-            my $mtime1 = $this->{_session}->{store}->getApproxRevTime(
-                $this->{_web}, $this->{_topic});
+            my $mtime1 =
+              $this->{_session}->{store}
+              ->getApproxRevTime( $this->{_web}, $this->{_topic} );
             my $mtime2 = time();
-            my $dt = abs( $mtime2 - $mtime1 );
+            my $dt     = abs( $mtime2 - $mtime1 );
             if ( $dt < $Foswiki::cfg{ReplaceIfEditedAgainWithin} ) {
                 my $info = $this->{_session}->{store}->getVersionInfo($this);
 
                 # same user?
                 if ( $info->{author} eq $cUID ) {
+
                     # reprev is required so we can tell when a merge is
                     # based on something that is *not* the original rev
                     # where another users' edit started.
-                    $info->{reprev} = '1.'.$info->{version};
+                    $info->{reprev} = '1.' . $info->{version};
                     $info->{date} = $opts{forcedate} || time();
                     $this->setRevisionInfo($info);
                     $this->{_session}->{store}->repRev( $this, $cUID, %opts );
@@ -1568,8 +1587,8 @@ sub saveAs {
                 date => $opts{forcedate} || time(),
                 author  => $cUID,
                 version => $nextRev
-               }
-           );
+            }
+        );
 
         $this->{_loadedRev} =
           $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
@@ -1597,22 +1616,20 @@ sub _atomicLock {
         my $logger = $this->{_session}->logger();
         while (1) {
             my ( $user, $time ) =
-              $this->{_session}->{store}->atomicLockInfo( $this );
+              $this->{_session}->{store}->atomicLockInfo($this);
             last if ( !$user || $cUID eq $user );
             $logger->log( 'warning',
-                          'Lock on '
-                            . $this->getPath() . ' for '
-                              . $cUID
-                                . " denied by $user" );
+                    'Lock on '
+                  . $this->getPath() . ' for '
+                  . $cUID
+                  . " denied by $user" );
 
             # see how old the lock is. If it's older than 2 minutes,
             # break it anyway. Locks are atomic, and should never be
             # held that long, by _any_ process.
             if ( time() - $time > 2 * 60 ) {
                 $logger->log( 'warning',
-                              $cUID
-                                . " broke ${user}s lock on "
-                                  . $this->getPath() );
+                    $cUID . " broke ${user}s lock on " . $this->getPath() );
                 $this->{_session}->{store}->atomicUnlock( $this, $cUID );
                 last;
             }
@@ -1646,7 +1663,7 @@ sub _atomicLock {
 sub _atomicUnlock {
     my ( $this, $cUID ) = @_;
     if ( $this->{_topic} ) {
-        $this->{_session}->{store}->atomicUnlock( $this );
+        $this->{_session}->{store}->atomicUnlock($this);
     }
     else {
         my $it = $this->eachWeb();
@@ -1811,7 +1828,7 @@ sub replaceMostRecentRevision {
 
     # repRev is required so we can tell when a merge is based on something
     # that is *not* the original rev where another users' edit started.
-    $info->{reprev} = '1.'.$info->{version};
+    $info->{reprev} = '1.' . $info->{version};
     $this->setRevisionInfo($info);
 
     try {
@@ -1898,7 +1915,7 @@ sub removeFromStore {
             'No such topic ' . $this->{_web} . '.' . $this->{_topic} );
     }
 
-    if ( $attachment && !$this->hasAttachment( $attachment ) ) {
+    if ( $attachment && !$this->hasAttachment($attachment) ) {
         throw Error::Simple( 'No such attachment '
               . $this->{_web} . '.'
               . $this->{_topic} . '.'
@@ -2119,7 +2136,7 @@ sub attach {
             attachment  => $opts{name},
             stream      => $opts{stream},
             tmpFilename => $opts{tmpFilename},
-            user        => $this->{_session}->{user}, # cUID
+            user        => $this->{_session}->{user},    # cUID
             comment     => $opts{comment} || '',
         };
 
@@ -2132,10 +2149,12 @@ sub attach {
             # upload and then reopen the stream on the resultant file.
             close( $opts{stream} );
             if ( !defined( $attrs->{tmpFilename} ) ) {
+
                 # CGI (or the caller) did not provide a temporary file
                 # SMELL: could stream the data to a temporary file.
                 throw Error::Simple(
-                    "Cannot call beforeAttachmentSaveHandler; caller did not provide a temporary file name");
+"Cannot call beforeAttachmentSaveHandler; caller did not provide a temporary file name"
+                );
             }
             $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
                 $this->{_topic}, $this->{_web} );
@@ -2333,16 +2352,14 @@ sub moveAttachment {
             undef, undef,
             dontlog => 1,
             comment => 'lost ' . $name
-           );
+        );
 
         # Add file attachment to new topic
-        $fileAttachment->{name} = $newName;
-        $fileAttachment->{movefrom} =
-          $this->getPath() . '.' . $name;
+        $fileAttachment->{name}     = $newName;
+        $fileAttachment->{movefrom} = $this->getPath() . '.' . $name;
         $fileAttachment->{moveby} =
-          $this->{_session}->{users}->getLoginName( $cUID );
-        $fileAttachment->{movedto} =
-          $to->getPath() . '.' . $newName;
+          $this->{_session}->{users}->getLoginName($cUID);
+        $fileAttachment->{movedto}   = $to->getPath() . '.' . $newName;
         $fileAttachment->{movedwhen} = time();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
 
@@ -2350,7 +2367,7 @@ sub moveAttachment {
             undef, undef,
             dontlog => 1,
             comment => 'gained' . $newName
-           );
+        );
 
         $this->reload();
         $to->reload();
@@ -2369,8 +2386,11 @@ sub moveAttachment {
 
     $this->{_session}->logEvent(
         'move',
-        $this->getPath() . '.' . $name . ' moved to '
-          . $to->getPath() . '.' . $newName,
+        $this->getPath() . '.' 
+          . $name
+          . ' moved to '
+          . $to->getPath() . '.'
+          . $newName,
         $cUID
     );
 }
@@ -2809,48 +2829,50 @@ message explaining why.
 =cut
 
 sub isValidEmbedding {
-    my ($this, $macro, $args) = @_;
+    my ( $this, $macro, $args ) = @_;
 
     my $validate = $VALIDATE{$macro};
-    return 1 unless $validate; # not validated
+    return 1 unless $validate;    # not validated
 
-    if( defined $validate->{function} ) {
-        unless (&{$validate->{function}}($macro, $args) ) {
+    if ( defined $validate->{function} ) {
+        unless ( &{ $validate->{function} }( $macro, $args ) ) {
             $reason = "\%META:$macro validation failed";
             return 0;
         }
+
         # Fall through to check other constraints
     }
 
     my %allowed;
-    if (defined $validate->{require}) {
-        map { $allowed{$_} = 1 } @{$validate->{require}};
-        foreach my $p (@{$validate->{require}}) {
-            if (!defined $args->{$p}) {
+    if ( defined $validate->{require} ) {
+        map { $allowed{$_} = 1 } @{ $validate->{require} };
+        foreach my $p ( @{ $validate->{require} } ) {
+            if ( !defined $args->{$p} ) {
                 $reason = "$p was missing from \%META:$macro";
                 return 0;
             }
         }
     }
 
-    if (defined $validate->{allow}) {
-        map { $allowed{$_} = 1 } @{$validate->{allow}};
-        foreach my $arg (keys %$args) {
-            if (!$allowed{$arg}) {
+    if ( defined $validate->{allow} ) {
+        map { $allowed{$_} = 1 } @{ $validate->{allow} };
+        foreach my $arg ( keys %$args ) {
+            if ( !$allowed{$arg} ) {
                 $reason = "$arg was present in \%META:$macro";
                 return 0;
             }
         }
     }
 
-    return 1
+    return 1;
 }
 
 sub _readMETA {
     my ( $this, $expr, $type, $args ) = @_;
-    my $keys = _readKeyValues( $args );
-    if ($this->isValidEmbedding($type, $keys)) {
+    my $keys = _readKeyValues($args);
+    if ( $this->isValidEmbedding( $type, $keys ) ) {
         if ( defined( $keys->{name} ) ) {
+
             # save it keyed if it has a name
             $this->putKeyed( $type, $keys );
         }
@@ -2858,7 +2880,8 @@ sub _readMETA {
             $this->put( $type, $keys );
         }
         return '';
-    } else {
+    }
+    else {
         return $expr;
     }
 }
