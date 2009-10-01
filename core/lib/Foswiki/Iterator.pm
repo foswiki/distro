@@ -64,6 +64,26 @@ resets the iterator to the begining - returns false if it can't
 
 sub reset { ASSERT('Pure virtual function called') if DEBUG; }
 
+=begin TML
+
+---++ ObjectMethod all() -> @list
+
+Exhaust the iterator. Return all remaining elements in the iteration
+as a list. The returned list should be considered to be immutable.
+
+The default implementation simply runs the iterator to its end.
+
+=cut
+
+sub all {
+    my ($this) = @_;
+    my @remains;
+    while ($this->hasNext()) {
+        push(@remains, $this->next());
+    }
+    return @remains;
+}
+
 1;
 
 __END__

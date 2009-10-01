@@ -470,12 +470,14 @@ sub populateNewWeb {
             throw Error::Simple(
                 'Template web ' . $templateWeb . ' does not exist' );
         }
-
         my $tWebObject = Foswiki::Meta->new( $session, $templateWeb );
+        require Foswiki::WebFilter;
+        my $sys = Foswiki::WebFilter->new('template')
+          ->ok($session, $templateWeb);
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
-            next unless ( $templateWeb =~ /^_/ || $topic =~ /^Web/ );
+            next unless ( $sys || $topic =~ /^Web/ );
             my $topicObject =
               Foswiki::Meta->load( $this->{_session}, $templateWeb, $topic );
             $topicObject->saveAs( $this->{_web}, $topic );

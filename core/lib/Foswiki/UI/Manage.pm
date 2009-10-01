@@ -147,6 +147,7 @@ sub _action_createweb {
     }
 
     my $baseWeb = $query->param('baseweb') || '';
+    $baseWeb =~ s#\.#/#g; # normalizeWebTopicName does this
 
     # Validate the base web name
     $baseWeb = Foswiki::Sandbox::untaint(
