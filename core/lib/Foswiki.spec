@@ -735,19 +735,18 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # modules to be installed.</p>
 
 # **BOOLEAN**
-# Allowing all languages is the best for <strong>really</Strong> international 
-# sites, but for best performance you should enable only the languages you 
-# really need. English is the default language, and is always enabled.
-# <p />
-# {LocalesDir} is used to find the languages supported in your installation,
-# so if the list below is empty, it's probably because {LocalesDir} is pointing
-# to the wrong place.
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
 # *LANGUAGES* Marker used by bin/configure script - do not remove!
 # <p>These settings control the languages that are available for the
-# user interface.  Check every language that you
-# want your site to support.</p>
+# user interface. Check every language that you want your site to support.</p>
+# <p>Allowing all languages is the best for <strong>really</Strong> international 
+# sites, but for best performance you should enable only the languages you 
+# really need. English is the default language, and is always enabled.</p>
+# <p><code>{LocalesDir}</code> is used to find the languages supported in your installation,
+# so if the list of available languages below is empty, it's probably because
+# <code>{LocalesDir}</code> is pointing to the wrong place.</p>
+
 $Foswiki::cfg{Languages}{bg}{Enabled} = 1;
 $Foswiki::cfg{Languages}{cs}{Enabled} = 1;
 $Foswiki::cfg{Languages}{da}{Enabled} = 1;
