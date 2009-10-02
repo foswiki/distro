@@ -38,7 +38,7 @@ install: build
 
 	echo `pwd`
 
-	cp bin/* debian/foswiki/usr/share/foswiki/bin/
+	mv bin/* debian/foswiki/usr/share/foswiki/bin/
 	cp debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg.txt debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg
 
 	chmod 755 debian/foswiki/usr/share/foswiki/bin/*
@@ -57,7 +57,7 @@ install: build
 	cp -pR data debian/foswiki/var/lib/foswiki/
 
     #move configure's logos and css to /var/lib/foswiki/pub/logos
-	mv debian/foswiki/usr/lib/cgi-bin/foswiki/logos debian/foswiki/var/lib/foswiki/pub/
+	mv debian/foswiki/usr/share/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
 
 	#create mailnotify timestamps
 	date +%s > debian/foswiki/var/lib/foswiki/data/System/.mailnotify
