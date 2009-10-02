@@ -44,14 +44,14 @@ cd ${FOSWIKI_HOME}/tools
 #
 cp  ../Foswiki-*.tgz ${FOSWIKI_HOME}/tools/pkg/
 
-
-cd ${FOSWIKI_HOME}/tools/pkg
-
 #
 # Get the last real release number and the version number on the tarball
 #
-tarversion=`echo Foswiki-*.tgz | sed 's/Foswiki-//' | sed 's/.tgz//'`
+tarversion=`echo ../Foswiki-*.tgz | sed 's%../Foswiki-%%' | sed 's/.tgz//'`
 releaseversion=`echo $tarversion | sed s/-.*//`
+
+cd ${FOSWIKI_HOME}/tools/pkg
+
 
 #
 # Do about the same as these, but with modified source and package revisions
