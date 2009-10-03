@@ -34,10 +34,19 @@ the editor does not support a particular tag or attribute and the editor corrupt
 tag, this setting will not be helpful.  It is only used to prevent
 an HTML tag from being converted back to TML.
 
-You can use perl regular expressions to match tag and attribute names, so =.*=id,on.*= will ensure that any tag with an =on*= event handler is kept as HTML.
+Format of the setting is =tag1=attrib,attrib;tag2=attrib=.  Attributes delimited by
+comma, and tags delimited by semicolon.
+   * The left side of the equal sign is the tag. 
+   * The right side of the equal sign is a comma delimited list of attributes to be matched.  
+If a matching tag is found, that matches any of the attributes listed,
+the tag will not be converted back to TML.
+You can use perl regular expressions to match tag and attribute names, so
+=.*=id,on.*= will ensure that any tag with an id or =on*= event handler is kept as
+HTML.   
 
 The default setting for this preference are hard coded in the plugin.  If you
-wish to change the settings, start with:
+wish to change the settings, the following list is the default setting coded
+in the plugin:
 <verbatim>
    * Set WYSIWYGPLUGIN_STICKYBITS = .*=id,lang,title,dir,on.*;
     A=accesskey,coords,shape,target;
