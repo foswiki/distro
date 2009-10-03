@@ -1,6 +1,9 @@
 %META:TOPICPARENT{name="WysiwygPlugin"}%
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
+---++++ WYSIWYG_EXCLUDE - Prevent WYSIWYG editing 
+%X% This is not supported currently by the !TinyMCE Editor.  This setting is not used.
+
 The *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
    * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
    * =macros= - simple macros (e.g. =%<nop>VAR%=) or 
@@ -8,11 +11,11 @@ The *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EXC
    * =pre= blocks (=&lt;pre&gt;=)
    * HTML =comments= (=&lt;!--= ... =--&gt;=)
 If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
-
+---+++++ WYSIWYG_EDITABLE_CALLS - Exceptions to WYSIWYG_EXCLUDE
 If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
 
 You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
-
+---++++ WYSIWYGPLUGIN_STICKYBITS - Protext tags based upon their arguments
 You can define the global preference =WYSIWYGPLUGIN_STICKYBITS= to stop the
 plugin from ever trying to convert specific HTML tags into
 TML when certain specific attributes are present on the tag. This is most
@@ -20,16 +23,23 @@ useful when you have styling or alignment information in tags that must be
 preserved.
 
 This [[%SYSTEMWEB%.PreferenceSettings][preference setting]] is used to tell the translator which attributes, when present
-on a tag, make it "stick" i.e. block conversion. For example, setting it to
+on a tag, make it "stick" i.e. block conversion back to TML. <blockquote>For example, setting it to
 =table=background,lang;tr=valign= will stop the translator from trying to
-handle any =table= tag that has =background= or =lang= attributes, and any
-=tr= tag that has a =valign= attribute.
+convert any =table= tag that has =background= or =lang= attributes, and any
+=tr= tag that has a =valign= attribute back to Foswiki =| table | column |=
+markup.</blockquote>
+
+This setting is used only after the page has been processed by the editor.  If
+the editor does not support a particular tag or attribute and the editor corrupts the
+tag, this setting will not be helpful.  It is only used to prevent
+an HTML tag from being converted back to TML.
 
 You can use perl regular expressions to match tag and attribute names, so =.*=id,on.*= will ensure that any tag with an =on*= event handler is kept as HTML.
 
-The default setting for this preference is:
+The default setting for this preference are hard coded in the plugin.  If you
+wish to change the settings, start with:
 <verbatim>
-    .*=id,lang,title,dir,on.*;
+   * Set WYSIWYGPLUGIN_STICKYBITS = .*=id,lang,title,dir,on.*;
     A=accesskey,coords,shape,target;
     BDO=dir;
     BR=clear;
@@ -39,20 +49,20 @@ The default setting for this preference is:
     DIV=align;
     DL=compact;
     FONT=size,face;
-    H\d=align;
+    H[0-9]=align;
     HR=align,noshade,size,width;
     LEGEND=accesskey,align;
-    LI=type,value;
+    LI=value;
     OL=compact,start,type;
     P=align;
     PARAM=name,type,value,valuetype;
     PRE=width;
     Q=cite;
-    TABLE=align,bgcolor,border,cellpadding,cellspacing,frame,rules,summary,width;
+    TABLE=align,bgcolor,frame,rules,summary,width;
     TBODY=align,char,charoff,valign;
-    TD=abbr,align,axis,bgcolor,char,charoff,colspan,headers,height,nowrap,rowspan,scope,valign,width;
+    TD=abbr,align,axis,bgcolor,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
     TFOOT=align,char,charoff,valign;
-    TH=abbr,align,axis,bgcolor,char,charoff,colspan,height,nowrap,rowspan,scope,valign,width,headers;
+    TH=abbr,align,axis,bgcolor,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
     THEAD=align,char,charoff,valign;
     TR=bgcolor,char,charoff,valign;
     UL=compact,type
