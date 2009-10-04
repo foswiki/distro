@@ -35,7 +35,7 @@ if [ "$RET" = true ]; then
 	#and then exclude them from the un-tar
 
 	echo
-	echo Upgrading distriuted topics and attachments - skipping files changed via the Foswiki
+	echo Upgrading distributed topics and attachments - skipping files changed via the Foswiki
 	echo    see /var/log/foswiki/exclude-topics.lst and /var/log/foswiki/exclude-attachments.lst
 	echo
 
