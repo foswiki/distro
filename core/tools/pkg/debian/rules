@@ -72,7 +72,6 @@ install: build
 	mkdir debian/foswiki/var/lib/foswiki/tools
 	cp -r tools/* debian/foswiki/var/lib/foswiki/tools/
 	chmod -R 777 debian/foswiki/var/lib/foswiki/tools/*
-	cp -p debian/mod_perl_startup.pl debian/foswiki/var/lib/foswiki/tools/
 
 
     #SVEN - you should probably make this a patch file.
