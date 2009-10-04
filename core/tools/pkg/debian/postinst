@@ -57,9 +57,8 @@ db_get foswiki/defaultUrlHost
 # be more robust later:
 perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/LocalSite.cfg
 perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/apache.conf
-#remove the double //cgi-bin caused by putting a / at the end of the hostUrl
-perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/foswiki/apache.conf
-#perl -pi~ -e '$U=q{'"$RET"'}; s{^(Redirect\s+/foswiki/index.html\s+).*(cgi-bin/foswiki/view\n)$}{$1$U$2};' /etc/foswiki/apache.conf
+#remove the double //bin caused by putting a / at the end of the hostUrl
+perl -pi~ -e 's{/(/bin)}{$1}g;' /etc/foswiki/apache.conf
 rm /etc/foswiki/*~
 
 db_get foswiki/wikiwebmaster
@@ -134,15 +133,12 @@ case "$1" in
 		fi
 	fi
 
-	#remove the  .htaccess file - moved to apache-foswiki.conf
-	if [ -e /usr/lib/cgi-bin/foswiki/.htaccess ]; then
-		rm /usr/lib/cgi-bin/foswiki/.htaccess
-	fi
-	if [ -e /usr/share/foswiki/bin/.htaccess ]; then
-		rm /usr/share/foswiki/bin/.htaccess
-	fi
-	if [ -e /etc/foswiki/.htaccess ]; then
-		rm /etc/foswiki/.htaccess
+	#remove the /usr/lib/cgi-bin/foswiki dir and make into softlink?
+	if [ -d /usr/lib/cgi-bin/foswiki/ ]; then
+		echo removing /usr/lib/cgi-bin/foswiki to /tmp/foswiki_DELETE
+		cp -r /usr/lib/cgi-bin/foswiki/* /var/lib/foswiki/bin
+		mv /usr/lib/cgi-bin/foswiki /tmp/foswiki_DELETE
+		ln -s /var/lib/foswiki/bin /usr/lib/cgi-bin/foswiki
 	fi
 
 	#create securer-foswiki session dir

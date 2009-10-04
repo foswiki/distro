@@ -38,18 +38,18 @@ install: build
 
 	echo `pwd`
 
-	mv bin/* debian/foswiki/usr/share/foswiki/bin/
-	cp debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg.txt debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg
+	cp -Rp bin debian/foswiki/var/lib/foswiki/
+	cp debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg.txt debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 
-	chmod 755 debian/foswiki/usr/share/foswiki/bin/*
-	chmod 644 debian/foswiki/usr/share/foswiki/bin/setlib.cfg
-	chmod 644 debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg
-	chmod 644 debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg.txt
+	chmod 755 debian/foswiki/var/lib/foswiki/bin/*
+	chmod 644 debian/foswiki/var/lib/foswiki/bin/setlib.cfg
+	chmod 644 debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	chmod 644 debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg.txt
 
 	# Make dir group WIKI_OWNER, g+rw, +t so extensions may be added
 	# without overwriting existing files
-	chgrp $(WIKI_OWNER) debian/foswiki/usr/share/foswiki/bin
-	chmod 1775 debian/foswiki/usr/share/foswiki/bin
+	chgrp $(WIKI_OWNER) debian/foswiki/var/lib/foswiki/bin
+	chmod 1775 debian/foswiki/var/lib/foswiki/bin
 
 	cp -Rp pub debian/foswiki/var/lib/foswiki/
 	cp -pR templates debian/foswiki/var/lib/foswiki/
@@ -57,7 +57,7 @@ install: build
 	cp -pR data debian/foswiki/var/lib/foswiki/
 
     #move configure's logos and css to /var/lib/foswiki/pub/logos
-	mv debian/foswiki/usr/share/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
+	mv debian/foswiki/var/lib/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
 
 	#create mailnotify timestamps
 	date +%s > debian/foswiki/var/lib/foswiki/data/System/.mailnotify
@@ -107,10 +107,10 @@ install: build
 #move LocalSite.cfg to /etc/foswiki
 	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 
-	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg
+	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
-	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg
-	rm debian/foswiki/usr/share/foswiki/bin/LocalLib.cfg~
+	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	rm debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg~
 
 	chmod -R 644 debian/foswiki/etc/foswiki/*
 

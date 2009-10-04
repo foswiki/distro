@@ -3,6 +3,7 @@ foswiki (1.0.7-1) stable; urgency=high
   * update to foswiki 1.0.7
   * remove mod_perl bits - they're now in foswiki-modperlenginecontrib
   * add localhost and 127.0.0.1 to permitted redirecthosts by default
+  * remove foswiki cgi's from cgi-bin to bring it more into line with foswiki
 
  -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 4 Oct 2009 09:53:40 +0100
 
