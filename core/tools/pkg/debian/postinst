@@ -133,12 +133,11 @@ case "$1" in
 		fi
 	fi
 
-	#remove the /usr/lib/cgi-bin/foswiki dir and make into softlink?
+	#remove the /usr/lib/cgi-bin/foswiki dir 
 	if [ -d /usr/lib/cgi-bin/foswiki/ ]; then
 		echo removing /usr/lib/cgi-bin/foswiki to /tmp/foswiki_DELETE
 		cp -r /usr/lib/cgi-bin/foswiki/* /var/lib/foswiki/bin
 		mv /usr/lib/cgi-bin/foswiki /tmp/foswiki_DELETE
-		ln -s /var/lib/foswiki/bin /usr/lib/cgi-bin/foswiki
 	fi
 
 	#create securer-foswiki session dir
