@@ -599,7 +599,7 @@ sub test_getExternalResource {
     my $response = Foswiki::Func::getExternalResource('http://foswiki.org');
     $this->assert_equals( 200, $response->code() );
     $this->assert_matches(
-        qr/community dedicated to democratic governance, free of commercial influence and trademark issues/s,
+        qr/Foswiki is the open, programmable collaboration platform for the Enterprise/s, 
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
