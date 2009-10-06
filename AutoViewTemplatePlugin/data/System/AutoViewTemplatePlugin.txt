@@ -24,6 +24,11 @@ if they exist. The template name is derived by stripping off the suffix
 then use the template name =MyView= to search for the correct template along
 the template search path, for example using a topic =MyView=.
 
+Examples:
+
+You have a form called =PurchaseRequestForm=. The plugin will now search for 
+=PurchaseRequestViewTemplate=, and =PurchaseRequestEditTemplate=.
+
 ---+++ Mode "section"
 A topic with a =MyForm= will be displayed/editted using the template name
 stored in the named section =viewtemplate/edittemplate= . For example given the
@@ -33,7 +38,30 @@ the content of the =edittemplate= section in =MyForm= will read to find the
 edit template.
 
 By default existing values for VIEW_TEMPLATE and EDIT_TEMPLATE have priority.
-You can override this behaviour in =configure=.
+You can change this behaviour in =configure= so that the form defined templates
+have priority.
+
+Examples:
+
+We have a form called =PurchaseRequestForm= which contains the usual table that defined the form fields.
+
+We want this form to define that the topics are viewed with =ViewFormAtTopTemplate= and edited with =EditPurchaseRequestTemplate=.
+
+Below this we place the two sections that defines the templates to be used. Note that you must ommit the ...Template from the template names.
+
+<verbatim>
+%STARTSECTION{"viewtemplate"}%ViewFormAtTopTemplate%ENDSECTION{"edittemplate"}%
+
+%STARTSECTION{"edittemplate"}%EditPurchaseRequest%ENDSECTION{"edittemplate"}% 
+</verbatim>
+
+---++ Configuration Settings
+The following settings can be defined in configure
+
+| *Setting* | *Description* | *Default* |
+| {Plugins}{AutoViewTemplatePlugin}{Debug} | Turn on debugging by turning this on | Default: On |
+| {Plugins}{AutoViewTemplatePlugin}{Override} | Form defined templates override VIEW_TEMPLATE and EDIT_TEMPLATE settings | Default: Off |
+| {Plugins}{AutoViewTemplatePlugin}{Mode} | The mode the plugin uses for defining templates. <br /> =exist= for deriving the template name from the form name <br /> =section= for defining the template in a section of the form definition topic | Default: =exist= |
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -44,12 +72,13 @@ You can override this behaviour in =configure=.
    * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
 -->
 |  Plugin Author: | Foswiki:Main.OliverKrueger |
-|  Copyright: | &copy; 2008, Oliver Krueger |
+|  Copyright: | &copy; 2008-2009, Oliver Krueger |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Contributors: | Foswiki:Main.MichaelDaum |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  06 Oct 2009: | Item2213: Plugin got better documentation. No change in behaviour. |
 |  20 Aug 2009: | Item8248: added forward-compatibility for newer Foswikis (MD) |
 |  27 Dec 2008: | Item196: moved to Foswiki namespace |
 |  15 Nov 2008: | Item196: minor doc changes |
