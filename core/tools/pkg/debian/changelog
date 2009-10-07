@@ -1,3 +1,9 @@
+foswiki (1.0.7-2) unstable; urgency=high
+
+  * Remove cp of the cgi-bin dir, just package files now - Item2219
+
+ -- Drake Diedrich <dld@google.com>  Wed, 07 Oct 2009 13:22:35 -0700
+
 foswiki (1.0.7-1) stable; urgency=high
 
   * update to foswiki 1.0.7
