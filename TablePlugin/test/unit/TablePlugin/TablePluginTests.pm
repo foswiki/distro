@@ -394,6 +394,111 @@ EXPECTED
 
 =pod
 
+Test sorting of a date (d-mon-year) up
+
+=cut
+
+sub test_sort_date_up {
+    my $this = shift;
+
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $actual = <<ACTUAL;
+%TABLE{initsort="1" initdirection="up"}%
+| *When* |
+| 1-Jan-2004 |
+| 1-Jan-2003 |
+| 2-Jan-2005 |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th bgcolor="#334455" valign="top" class="foswikiTableCol0 foswikiSortedDescendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">When</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedDescendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2-Jan-2005 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedDescendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 1-Jan-2004 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+
+			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedDescendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> 1-Jan-2003 </td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+Test sorting of a date (d-mon-year) down
+
+=cut
+
+# FIXME: this currently fails, so is disabled. See http://foswiki.org/Tasks/Item8302
+sub DISABLED_test_sort_date_down {
+    my $this = shift;
+
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $actual = <<ACTUAL;
+%TABLE{initsort="1" initdirection="down"}%
+| *When* |
+| 1-Jan-2004 |
+| 1-Jan-2003 |
+| 2-Jan-2005 |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th bgcolor="#334455" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column"><font color="#ffffff">When</font></a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 1-Jan-2003 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#ddebf6" rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 1-Jan-2004 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+
+			<td bgcolor="#f1f7fc" rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> 2-Jan-2005 </td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
 Test sorting of Date column with HTML tags before the date
 
 =cut
