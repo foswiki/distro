@@ -18,6 +18,7 @@ use Foswiki::Sandbox                  ();
 use Foswiki::Search::InfoCache        ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
+use Foswiki::WebFilter                ();
 
 #TODO: move these into a more appropriate place - they are function objects so can persist for a _long_ time
 my $queryParser;
@@ -204,7 +205,7 @@ sub _getListOfWebs {
                     }
                     my $it = $webObject->eachWeb(1);
                     while ( $it->hasNext() ) {
-                        my $w = $it->next();
+                        my $w = $web.'/'.$it->next();
                         next
                           unless $Foswiki::WebFilter::user_allowed->ok(
                             $session, $w );
@@ -227,7 +228,7 @@ sub _getListOfWebs {
             my $it =
               $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
             while ( $it->hasNext() ) {
-                my $w = $it->next();
+                my $w = $session->{webName}.'/'.$it->next();
                 next
                   unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
                 push( @tmpWebs, $w );
