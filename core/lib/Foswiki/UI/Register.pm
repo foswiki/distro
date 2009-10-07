@@ -28,6 +28,8 @@ my %SKIPKEYS = (
     'Confirm'   => 1,
     'Email'     => 1
 );
+my @requiredFields = qw(WikiName FirstName LastName Email);
+
 
 =begin TML
 
@@ -187,6 +189,8 @@ sub bulkRegister {
     }
 
     my $log = "---+ Report for Bulk Register\n";
+    #TODO: should check that the header row actually contains the required fields.
+    #TODO: and consider using MAKETEXT to enable translated tables.
 
     #-- Process each row, generate a log as we go
     for ( my $n = 0 ; $n < scalar(@data) ; $n++ ) {
@@ -238,7 +242,6 @@ sub _registerSingleBulkUser {
 
     #-- Ensure every required field exists
     # NB. LoginName is OPTIONAL
-    my @requiredFields = qw(WikiName FirstName LastName Email);
     if ( _missingElements( $fieldNames, \@requiredFields ) ) {
         $log .=
             $b1
