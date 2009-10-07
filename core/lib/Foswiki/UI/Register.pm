@@ -233,6 +233,21 @@ sub _registerSingleBulkUser {
 
     my $log = "---++ Registering $row->{WikiName}\n";
 
+    #-- call to the registrationHandler (to amend fields) should
+    # really happen in here.
+
+    #-- Ensure every required field exists
+    # NB. LoginName is OPTIONAL
+    my @requiredFields = qw(WikiName FirstName LastName Email);
+    if ( _missingElements( $fieldNames, \@requiredFields ) ) {
+        $log .=
+            $b1
+          . join( ' ', map {$_.' : '.$row->{$_}} @$fieldNames )
+          . ' does not contain the full set of required fields '
+          . join( ' ', @requiredFields ) . "\n";
+        return ( undef, $log );
+    }
+
     try {
         _validateRegistration( $session, $row, 0 );
     }
@@ -241,21 +256,6 @@ sub _registerSingleBulkUser {
         $log .= '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
         return $log . "$b1 Registration failed\n";
     };
-
-    #-- call to the registrationHandler (to amend fields) should
-    # really happen in here.
-
-    #-- Ensure every required field exists
-    # NB. LoginName is OPTIONAL
-    my @requiredFields = qw(WikiName FirstName LastName);
-    if ( _missingElements( $fieldNames, \@requiredFields ) ) {
-        $log .=
-            $b1
-          . join( ' ', @{ $settings->{fieldNames} } )
-          . ' does not contain the full set of required fields '
-          . join( ' ', @requiredFields ) . "\n";
-        return ( undef, $log );
-    }
 
     #-- Generation of the page is done from the {form} subhash,
     # so align the two

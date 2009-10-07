@@ -2010,4 +2010,73 @@ sub verify_Default_NameFilter {
 
 }
 
+#in which a user correctly points out that the error checking is a bit minimal
+sub verify_bulkRegister_Item2191 {
+    my $this = shift;
+
+    my $testReg = <<'EOM';
+| Vorname  |	 Nachname  |	 Mailadresse  | WikiName | LoginName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
+| Test | User | Martin.Cleaver@BCS.org.uk |  TestBulkUser1 | a | A | B | C |
+| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | b | A | B | C |
+| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | c | A | B | C |
+EOM
+
+    my $regTopic = 'UnprocessedRegistrations2';
+
+    my $logTopic = 'UnprocessedRegistrations2Log';
+    my $file =
+        $Foswiki::cfg{DataDir} . '/'
+      . $this->{test_web} . '/'
+      . $regTopic . '.txt';
+    my $fh = new FileHandle;
+
+    die "Can't write $file" unless ( $fh->open(">$file") );
+    print $fh $testReg;
+    $fh->close;
+
+    my $query = new Unit::Request(
+        {
+            'LogTopic'              => [$logTopic],
+            'EmailUsersWithDetails' => ['0'],
+            'OverwriteHomeTopics'   => ['1'],
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$regTopic");
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{SuperAdminGroup}, $query );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->{session}->{topicName} = $regTopic;
+    $this->{session}->{webName}   = $this->{test_web};
+    try {
+        my ($text) = $this->capture( \&Foswiki::UI::Register::bulkRegister,
+            $this->{session} );
+         
+        #TODO: um, really need to test what the output was, and 
+        #TODO: test if a user was registered..   
+        #$this->assert( '', $text);
+        #my $readMeta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'TemporaryRegistrationTestWebRegistration/UnprocessedRegistrations2Log' );
+        #$this->assert( '', $readMeta->text());
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify() . " UNEXPECTED" );
+
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+}
+
 1;
