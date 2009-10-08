@@ -34,7 +34,7 @@ use Foswiki::Plugins                           ();    # For the API version
 use Foswiki::Plugins::WysiwygPlugin::Constants ();
 
 use vars qw( $html2tml $tml2html $recursionBlock $imgMap );
-use vars qw( %TWikiCompatibility @refs %xmltag %xmltagPlugin);
+use vars qw( %FoswikiCompatibility @refs %xmltag %xmltagPlugin);
 
 our $SHORTDESCRIPTION  = 'Translator framework for Wysiwyg editors';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -105,6 +105,7 @@ sub _OTOPICTAG {
     return $topic;
 }
 
+$FoswikiCompatibility{startRenderingHandler} = 2.1;
 sub startRenderingHandler {
     $_[0] =~ s#</?sticky>##g;
 }
@@ -298,14 +299,6 @@ sub _JAVASCRIPT_TEXT {
     return _liftOut("'$html'");
 }
 
-# DEPRECATED in Dakar (postRenderingHandler does the job better)
-$TWikiCompatibility{endRenderingHandler} = 1.1;
-
-sub endRenderingHandler {
-    return postRenderingHandler(@_);
-}
-
-# Dakar handler, replaces endRenderingHandler above
 sub postRenderingHandler {
     return if ( $recursionBlock || !$tml2html );
 
