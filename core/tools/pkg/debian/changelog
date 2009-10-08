@@ -1,8 +1,15 @@
+foswiki (1.0.7-3) unstable; urgency=high
+
+  * fis up the legacy redirect from /cgi-bin/foswiki
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Thu, 08 Oct 2009 13:22:35 -0700
+
 foswiki (1.0.7-2) unstable; urgency=high
 
   * Remove cp of the cgi-bin dir, just package files now - Item2219
+  * I can't sign a package for Drake :/ so I've changed the line below
 
- -- Drake Diedrich <dld@google.com>  Wed, 07 Oct 2009 13:22:35 -0700
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Wed, 07 Oct 2009 13:22:35 -0700
 
 foswiki (1.0.7-1) stable; urgency=high
 
