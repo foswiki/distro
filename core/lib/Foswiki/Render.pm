@@ -1029,6 +1029,12 @@ sub getRenderedVersion {
       $this->_takeOutProtected( $text, qr/<script\b.*?<\/script>/si, 'script',
         $removed );
 
+    # Remove the sticky tags (used in WysiwygPlugin's TML2HTML conversion)
+    # since they could potentially break a browser.
+    # They are removed here and not in the plugin because the plugin might
+    # not be installed but the sticky tags are standard markup.
+    $text =~ s#</?sticky>##g;
+
     # DEPRECATED startRenderingHandler before PRE removed
     # SMELL: could parse more efficiently if this wasn't
     # here.
