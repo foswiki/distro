@@ -29,44 +29,10 @@ if [ "$RET" = "false" ]; then
     db_get foswiki/adminuser
     configuser="$RET"
     db_subst "foswiki/adminpassword" "configuser" "$configuser"
-    db_subst "foswiki/adminpassword_again" "configuser" "$configuser"
 
-    pass_ok="false"
-    while [ "$pass_ok" != "true" ]; do
-        # Ask for password
-        # high : password must be typed-in
-	db_input high foswiki/adminpassword || [ $? -eq 30 ]
-
-        # Ask for password again
-	db_input high foswiki/adminpassword_again || [ $? -eq 30 ]
-	db_go
-
-	db_get foswiki/adminpassword
-	password="$RET"
-	db_get foswiki/adminpassword_again
-	password_again="$RET"
-
-        # If password are not equals, loop again
-	if [ "$password" != "$password_again" ]; then
-
-	    # Reset the template used.
-	    db_reset "foswiki/adminpassword" || true
-	    db_fset  "foswiki/adminpassword" "seen" "false" || true
-	    db_reset "foswiki/adminpassword_again" || true
-	    db_fset  "foswiki/adminpassword_again" "seen" "false" || true
-	    # Promt the user.
-	    db_input critical "foswiki/password_mismatch" || true
-
-	    # Loop again
-	    continue
-	fi
-
-	pass_ok="true"
-
-        # attention, password is seen, but reset, so next time, must not compare again
-	db_reset foswiki/adminpassword_again
-    done
-
+    # Ask for password
+    # high : password must be typed-in
+    db_input high foswiki/adminpassword || [ $? -eq 30 ]
 fi
 
 # add info due to 3-4 bug reports

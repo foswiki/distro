@@ -1,7 +1,5 @@
 var/lib/foswiki
 var/log/foswiki
-usr/lib/cgi-bin/foswiki
 etc/foswiki
 usr/share/doc/foswiki
 usr/share/foswiki
-

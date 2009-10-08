@@ -38,24 +38,26 @@ install: build
 
 	echo `pwd`
 
-	cp -r bin/* debian/foswiki/usr/lib/cgi-bin/foswiki
-	cp -r debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg.txt debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
+	cp -Rp bin debian/foswiki/var/lib/foswiki/
+	cp debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg.txt debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 
-	# not needed, with statoverride?
-	chmod 755 debian/foswiki/usr/lib/cgi-bin/foswiki/*
-	chmod 644 debian/foswiki/usr/lib/cgi-bin/foswiki/setlib.cfg
-	#need more libreal perms to allow configure script to work :()
-	chmod 644 debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
-	chmod 644 debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg.txt
+	chmod 755 debian/foswiki/var/lib/foswiki/bin/*
+	chmod 644 debian/foswiki/var/lib/foswiki/bin/setlib.cfg
+	chmod 644 debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	chmod 644 debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg.txt
 
-#	chown $(WIKI_OWNER) debian/foswiki/usr/lib/cgi-bin/foswiki/*
+	# Make dir group WIKI_OWNER, g+rw, +t so extensions may be added
+	# without overwriting existing files
+	chgrp $(WIKI_OWNER) debian/foswiki/var/lib/foswiki/bin
+	chmod 1775 debian/foswiki/var/lib/foswiki/bin
+
 	cp -Rp pub debian/foswiki/var/lib/foswiki/
 	cp -pR templates debian/foswiki/var/lib/foswiki/
 	cp -pR locale debian/foswiki/var/lib/foswiki/
 	cp -pR data debian/foswiki/var/lib/foswiki/
 
     #move configure's logos and css to /var/lib/foswiki/pub/logos
-	mv debian/foswiki/usr/lib/cgi-bin/foswiki/logos debian/foswiki/var/lib/foswiki/pub/
+	mv debian/foswiki/var/lib/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
 
 	#create mailnotify timestamps
 	date +%s > debian/foswiki/var/lib/foswiki/data/System/.mailnotify
@@ -70,7 +72,6 @@ install: build
 	mkdir debian/foswiki/var/lib/foswiki/tools
 	cp -r tools/* debian/foswiki/var/lib/foswiki/tools/
 	chmod -R 777 debian/foswiki/var/lib/foswiki/tools/*
-	cp -p debian/mod_perl_startup.pl debian/foswiki/var/lib/foswiki/tools/
 
 
     #SVEN - you should probably make this a patch file.
@@ -106,15 +107,15 @@ install: build
 #move LocalSite.cfg to /etc/foswiki
 	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 
-	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
+	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
-	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
-	rm debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg~
+	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	rm debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg~
 
 	chmod -R 644 debian/foswiki/etc/foswiki/*
 
 # fix paths for index.html
-	perl -pi~ -e 's|http://your.server.com/your-cgi-bin/view/Main/WebHome|http://localhost/cgi-bin/foswiki/view/Main/WebHome|;' index.html
+	perl -pi~ -e 's|http://your.server.com/your-cgi-bin/view/Main/WebHome|http://localhost/foswiki/bin/view/Main/WebHome|;' index.html
 	perl -pi~ -e 's|license.txt|copyright|g;' index.html
 	rm index.html~
 

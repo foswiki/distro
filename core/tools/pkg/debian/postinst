@@ -35,7 +35,7 @@ if [ "$RET" = true ]; then
 	#and then exclude them from the un-tar
 
 	echo
-	echo Upgrading distriuted topics and attachments - skipping files changed via the Foswiki
+	echo Upgrading distributed topics and attachments - skipping files changed via the Foswiki
 	echo    see /var/log/foswiki/exclude-topics.lst and /var/log/foswiki/exclude-attachments.lst
 	echo
 
@@ -57,9 +57,8 @@ db_get foswiki/defaultUrlHost
 # be more robust later:
 perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/LocalSite.cfg
 perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/apache.conf
-#remove the double //cgi-bin caused by putting a / at the end of the hostUrl
-perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/foswiki/apache.conf
-#perl -pi~ -e '$U=q{'"$RET"'}; s{^(Redirect\s+/foswiki/index.html\s+).*(cgi-bin/foswiki/view\n)$}{$1$U$2};' /etc/foswiki/apache.conf
+#remove the double //bin caused by putting a / at the end of the hostUrl
+perl -pi~ -e 's{/(/bin)}{$1}g;' /etc/foswiki/apache.conf
 rm /etc/foswiki/*~
 
 db_get foswiki/wikiwebmaster
@@ -81,12 +80,6 @@ configpassword="$RET"
 
 case "$1" in
     configure)
-#	P=/usr/lib/cgi-bin/foswiki
-#	for i in attach changes edit geturl installpasswd mailnotify oops passwd preview rdiff register rename save search statistics testenv upload view viewfile; do
-#	    if ! dpkg-statoverride --list $P/$i >/dev/null; then
-#		dpkg-statoverride --update --add $WIKI_OWNER www-data 4555 $P/$i
-#	    fi
-#	done
 
 	#note that only apache2 really seems to exist in Etch etc, but the others I've left for historical reasons
 	servers="apache apache-perl apache-ssl apache2"
@@ -140,14 +133,6 @@ case "$1" in
 		fi
 	fi
 
-	#remove the  .htaccess file - moved to apache-foswiki.conf
-	if [ -e /usr/lib/cgi-bin/foswiki/.htaccess ]; then
-		rm /usr/lib/cgi-bin/foswiki/.htaccess
-	fi
-	if [ -e /etc/foswiki/.htaccess ]; then
-		rm /etc/foswiki/.htaccess
-	fi
-
 	#create securer-foswiki session dir
 	if [ ! -e /var/lib/foswiki/working ]; then
 		mkdir /var/lib/foswiki/working
@@ -173,10 +158,6 @@ case "$1" in
 	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/locale
 	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/templates
 	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/tools
-
-	# erase configuser password
-        db_reset "foswiki/adminpassword"
-	db_fset  "foswiki/adminpassword" "seen" "false" || true
 
 	db_stop
 
