@@ -2003,6 +2003,11 @@ ZIS
 </p>
 ZAT
     },
+    {
+        name => "Item2222",
+        exec => $ROUNDTRIP | $CANNOTWYSIWYG,
+        tml => '<!-- <sticky></sticky> -->',
+    },
 ];
 
 sub gen_compare_tests {
@@ -2101,6 +2106,7 @@ sub TML_HTMLconverterOptions
         topic        => 'TestTopic',
         convertImage => \&convertImage,
         rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
+        dieOnError   => 1,
     };
 }
 

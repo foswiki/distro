@@ -45,7 +45,7 @@ our $RELEASE = '18 Sep 2009';
 our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
 
-sub WHY { 1 }
+sub WHY { 0 }
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
@@ -577,6 +577,16 @@ sub notWysiwygEditable {
         }
     }
 
+    # Check that the topic text can be converted to HTML
+    eval {
+        TranslateTML2HTML( $_[0], 'Fakewebname', 'FakeTopicName', dieOnError => 1 );
+    };
+    if ($@) {
+        print STDERR "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@\n"
+          if (WHY);
+        return "TML2HTML conversion fails";
+    }
+
     return 0;
 }
 
@@ -643,7 +653,7 @@ sub addXMLTag {
 }
 
 sub TranslateTML2HTML {
-    my ( $text, $web, $topic ) = @_;
+    my ( $text, $web, $topic, @extraConvertOptions ) = @_;
 
     # Translate the topic text to pure HTML.
     unless ($tml2html) {
@@ -658,6 +668,7 @@ sub TranslateTML2HTML {
             getViewUrl      => \&getViewUrl,
             expandVarsInURL => \&expandVarsInURL,
             xmltag          => \%xmltag,
+            @extraConvertOptions,
         }
     );
 }
