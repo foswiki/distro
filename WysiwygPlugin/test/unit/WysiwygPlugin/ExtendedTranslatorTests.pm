@@ -75,6 +75,9 @@ my $linkoff    = '</span>';
 my $preoff     = '</span>';
 my $nop        = "$protecton<nop>$protectoff";
 
+# Holds extra options to be passed to the TML2HTML convertor
+my %extraTML2HTMLOptions;
+
 # The following big table contains all the testcases. These are
 # used to add a bunch of functions to the symbol table of this
 # testcase, so they get picked up and run by TestRunner.
@@ -100,6 +103,9 @@ my $data = [
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'UnspecifiedCustomXmlTag',
+        setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+        },
         html => '<p>'
           . $protecton
           . '&lt;customtag&gt;'
@@ -115,6 +121,7 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'DisabledCustomXmlTag',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 0 } );
         },
@@ -133,6 +140,7 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTag',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
@@ -146,6 +154,7 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagCallbackChangesText',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { $_[0] =~ s/some/different/; return 1; } );
         },
@@ -160,6 +169,7 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagDefaultCallback',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag' );
         },
         html => '<p>'
@@ -172,6 +182,7 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagWithAttributes',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
@@ -189,6 +200,7 @@ BLAH
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'NestedCustomXmlTagWithAttributes',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
@@ -220,6 +232,7 @@ BLAH
         # of the TML in terms of intellectual content.
         name => 'VerbatimInsideDot',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'dot',
                 sub { 1 } );
         },
@@ -234,129 +247,155 @@ digraph G {
 </dot>
 DOT
     },
-	{
-		exec => $TML2HTML | $ROUNDTRIP,
-		name => 'CustomtagInsideSticky',
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'CustomtagInsideSticky',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml => "<sticky><customtag>this & that\n >   the other </customtag></sticky>",
-		html => '<p>'
-		  . '<div class="WYSIWYG_STICKY">'
-		  . '&lt;customtag&gt;'
-		  . 'this&nbsp;&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the&nbsp;other&nbsp;'
-		  . '&lt;/customtag&gt;'
-		  . '</div>'
-		  . '</p>'
-	},
-	{
-		exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: fix this case
-		name => 'StickyInsideCustomtag',
+        html => '<p>'
+          . '<div class="WYSIWYG_STICKY">'
+          . '&lt;customtag&gt;'
+          . 'this&nbsp;&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the&nbsp;other&nbsp;'
+          . '&lt;/customtag&gt;'
+          . '</div>'
+          . '</p>'
+    },
+    {
+        exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: fix this case
+        name => 'StickyInsideCustomtag',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml => "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
-		html => '<p>'
+        html => '<p>'
           . $protecton
-		  . '&lt;customtag&gt;'
-		  . 'this&nbsp;'
-		  . '<div class="WYSIWYG_STICKY">'
-		  . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
-		  . '</div>'
-		  . '&nbsp;other&nbsp;'
-		  . '&lt;/customtag&gt;'
-		  . $protectoff
-		  . '</p>'
-	},
-	{
-		exec => $TML2HTML | $ROUNDTRIP,
-		name => 'StickyInsideUnspecifiedCustomtag',
+          . '&lt;customtag&gt;'
+          . 'this&nbsp;'
+          . '<div class="WYSIWYG_STICKY">'
+          . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
+          . '</div>'
+          . '&nbsp;other&nbsp;'
+          . '&lt;/customtag&gt;'
+          . $protectoff
+          . '</p>'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'StickyInsideUnspecifiedCustomtag',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
         tml => "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
-		html => '<p>'
+        html => '<p>'
           . $protecton
-		  . '&lt;customtag&gt;'
-		  . $protectoff
-		  . 'this'
-		  . '<div class="WYSIWYG_STICKY">'
-		  . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
-		  . '</div>'
-		  . 'other'
+          . '&lt;customtag&gt;'
+          . $protectoff
+          . 'this'
+          . '<div class="WYSIWYG_STICKY">'
+          . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
+          . '</div>'
+          . 'other'
           . $protecton
-		  . '&lt;/customtag&gt;'
-		  . $protectoff
-		  . '</p>'
-	},
-	{
-		exec => $ROUNDTRIP,
-		name => 'UnspecifiedCustomtagInsideSticky',
+          . '&lt;/customtag&gt;'
+          . $protectoff
+          . '</p>'
+    },
+    {
+        exec => $ROUNDTRIP,
+        name => 'UnspecifiedCustomtagInsideSticky',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
         tml => "<sticky><customtag>this & that\n >   the other </customtag></sticky>"
-	},
-	{
-		exec => $TML2HTML | $ROUNDTRIP,
-		name => 'CustomtagInsideLiteral',
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'CustomtagInsideLiteral',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml => '<literal><customtag>this & that >   the other </customtag></literal>',
-		html => '<p>'
-		  . '<div class="WYSIWYG_LITERAL">'
-		  . '<customtag>this & that >   the other </customtag>'
-		  . '</div>'
-		  . '</p>'
-	},
-	{
-		exec => $TML2HTML | $ROUNDTRIP,
-		name => 'UnspecifiedCustomtagInsideLiteral',
+        html => '<p>'
+          . '<div class="WYSIWYG_LITERAL">'
+          . '<customtag>this & that >   the other </customtag>'
+          . '</div>'
+          . '</p>'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'UnspecifiedCustomtagInsideLiteral',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
         tml => '<literal><customtag>this & that >   the other </customtag></literal>',
-		html => '<p>'
-		  . '<div class="WYSIWYG_LITERAL">'
-		  . '<customtag>this & that >   the other </customtag>'
-		  . '</div>'
-		  . '</p>'
-	},
-	{
-		exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: Fix this case
-		name => 'LiteralInsideCustomtag',
+        html => '<p>'
+          . '<div class="WYSIWYG_LITERAL">'
+          . '<customtag>this & that >   the other </customtag>'
+          . '</div>'
+          . '</p>'
+    },
+    {
+        exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: Fix this case
+        name => 'LiteralInsideCustomtag',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml => '<customtag>this <literal>& that > the</literal> other </customtag>',
-		html => '<p>'
-		  . '<div class="WYSIWYG_LITERAL">'
-		  . '<customtag>this & that > the other </customtag>'
-		  . '</div>'
-		  . '</p>'
-	},
-	{
-		exec => $TML2HTML | $ROUNDTRIP,
-		name => 'LiteralInsideUnspecifiedCustomtag',
+        html => '<p>'
+          . '<div class="WYSIWYG_LITERAL">'
+          . '<customtag>this & that > the other </customtag>'
+          . '</div>'
+          . '</p>'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'LiteralInsideUnspecifiedCustomtag',
         setup => sub {
+            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
         tml => '<customtag>this <literal>& that > the</literal> other </customtag>',
-		html => '<p>'
+        html => '<p>'
           . $protecton
-		  . '&lt;customtag&gt;'
-		  . $protectoff
-		  . 'this'
-		  . '<div class="WYSIWYG_LITERAL">'
-		  . '& that > the'
-		  . '</div>'
-		  .'other'
+          . '&lt;customtag&gt;'
+          . $protectoff
+          . 'this'
+          . '<div class="WYSIWYG_LITERAL">'
+          . '& that > the'
+          . '</div>'
+          .'other'
           . $protecton
-		  . '&lt;/customtag&gt;'
-		  . $protectoff
-		  . '</p>'
-	},
+          . '&lt;/customtag&gt;'
+          . $protectoff
+          . '</p>'
+    },
+    {
+        # There will probably always be some markup that WysiwygPlugin cannot convert,
+        # but it is not always easy to say what that markup is.
+        # This test case checks the protection of unconvertable text
+        # by using valid markup and forcing the conversion to fail.
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'UnconvertableTextIsProtected',
+        setup => sub {
+            # Disable "dieOnError" to test the "protect unconvertable text" behaviour
+            # which can be exercised via the REST handler
+            $extraTML2HTMLOptions{dieOnError} = 0;
+
+            # Override the standard expansion function to hack in an illegal character to force the conversion to fail
+            $extraTML2HTMLOptions{expandVarsInURL} = sub { return "\0"; };
+        },
+        tml => '<img src="%PUBURLPATH%">',
+        html => '<div class="WYSIWYG_PROTECTED">&lt;img&nbsp;src="%PUBURLPATH%"&gt;</div>'
+    },
 ];
 
 sub gen_compare_tests {
@@ -419,6 +458,8 @@ sub testSpecificSetup {
     %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
     %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
 
+    %extraTML2HTMLOptions = ();
+
     # Test-specific setup
     if ( exists $args->{setup} ) {
         $args->{setup}->($this);
@@ -436,7 +477,9 @@ sub TML_HTMLconverterOptions
 {
     my $this = shift;
     my $options = $this->SUPER::TML_HTMLconverterOptions(@_);
-    $options->{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+    for my $extraOptionName (keys %extraTML2HTMLOptions) {
+        $options->{$extraOptionName} = $extraTML2HTMLOptions{$extraOptionName};
+    }
     return $options;
 }
 
