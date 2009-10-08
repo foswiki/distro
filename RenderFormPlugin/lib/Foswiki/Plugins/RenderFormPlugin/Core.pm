@@ -226,7 +226,7 @@ sub render {
 	$text .= $cgi->hidden(-name=>'onlywikiname', -default=>'on') if $options{onlywikiname};
 	$text .= $cgi->hidden(-name=>'dontnotify', -default=>$options{dontnotify}) if defined $options{dontnotify};
         foreach my $actionParam (keys %actionParams) {
-          $text .= $cgi->hidden(-name=>$actionParam, -default=>$actionParams{$actionParam});
+                $text .= $cgi->hidden(-name=>$actionParam, -default=>$actionParams{$actionParam});
         }
 
 	$text .= _createJavaScript(\@mand, $formName) unless $options{mode} eq 'view';
@@ -466,7 +466,7 @@ sub _createJavaScript {
 	my ($mandRef,$formName) = @_;
 	my $mandatoryFields= '"'.join('","', map(_encode($_),@{$mandRef})).'"';
         if ($mandatoryFields eq '""') {
-          $mandatoryFields = '';
+                $mandatoryFields = '';
         }
 	my $text = qq@<noautolink><script type="text/javascript">\n
                     //<!--[
