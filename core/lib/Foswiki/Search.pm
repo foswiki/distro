@@ -196,8 +196,10 @@ sub _getListOfWebs {
                 {
                     require Foswiki::WebFilter;
                     my $webObject;
+                    my $prefix = "$web/";
                     if ( $web =~ /^(all|on)$/i ) {
                         $webObject = Foswiki::Meta->new($session);
+                        $prefix = '';
                     }
                     else {
                         push( @tmpWebs, $web );
@@ -205,7 +207,7 @@ sub _getListOfWebs {
                     }
                     my $it = $webObject->eachWeb(1);
                     while ( $it->hasNext() ) {
-                        my $w = $web.'/'.$it->next();
+                        my $w = $prefix.$it->next();
                         next
                           unless $Foswiki::WebFilter::user_allowed->ok(
                             $session, $w );
