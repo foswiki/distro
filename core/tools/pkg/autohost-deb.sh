@@ -16,7 +16,7 @@
 set -e
 
 if [ "x$BRANCH" = "x" ] ; then
-  BRANCH=Release01x00
+  BRANCH=trunk
 fi
 
 REPOSITORYHOST=debmarshal.debian.net
