@@ -24,9 +24,10 @@ use vars qw( $VERSION $RELEASE $REVISION $debug $pluginName );
 
 $VERSION = '$Rev$';
 
-$RELEASE = '1.005 (13 Feb 2009)';
+$RELEASE = '1.006 (08 Oct 2009)';
 
-$REVISION = '1.005'; #Daniel Rohde# fixed performance problem
+$REVISION = '1.006'; #Paul Harvey# added actionparam_* attributes to allow Eg. redirectto param on submit 
+#$REVISION = '1.005'; #Daniel Rohde# fixed performance problem
 #$REVISION = '1.004'; #Kenneth Lavrsen# Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar.
 #$REVISION = '1.003'; #Kenneth Lavrsen# Changed to Foswiki name space
 #$REVISION = '1.002'; #dro# added layout feature; fixed date field bug; added missing docs;

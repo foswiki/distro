@@ -109,6 +109,7 @@ Details:
 | =onlywikiname= | disallows the usage of non-[[%SYSTEMWEB%.WikiWords]] for topic names | onlywikiname="on" |
 | =order= | changes the display order of form fields; order value is a comma separated list of field names; if the order list is incomplete all missing and unhidden form fields will be added; there are special values for order: [:alpha:], [:dalpha:], [:num:] and [:dnum:], e.g. order="[:alpha:]" to sort all fields alphanumerical | undefined / order="Field1, Field2" |
 | =script= | changes the behavior of edit/create modes; allowed values: save - saves the form data; edit - edit the resulting topic | script="save" | 
+| =actionparam_*= | additional fields may be passed to the script specified in the update/create form action by setting extra =%<nop>RENDERFORM%= attributes prefixed with =actionparam_=. For instance the example in the next column should include a field named =redirectto= in its HTTP/POST that will take the user back to the original topic which contained the form (after successful submit). | undefined / =actionparam_redirectto&#61;"%<nop>BASETOPIC%"= | 
 | =template= | a template name for predefined attributes | undefined / template="helpdesk" |
 | =templatetopic= | a template topic; useful for the create mode | undefined / templatetopic="MyHelpDeskTopicTemplate" |
 | =text= | the topic text;  text will be ignored if a templatetopic is defined | undefined / text="my small topic text" |
@@ -212,8 +213,9 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Plugin Author: | Foswiki:Main.DanielRohde |
 |  Copyright: | &copy; 2008, Foswiki:Main.DanielRohde |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | V1.004 (31 Jan 2009) |
+|  Plugin Version: | V1.006 (08 Oct 2009) |
 |  Change History: | <!-- versions below in reverse order --> |
+|  V1.006 (08 Oct 2009): | Foswiki:Main.PaulHarvey: add =actionparam_*= attributes to allow eg. =redirectto= param on submit |
 |  V1.005 (13 Feb 2009): | Foswiki:Main.DanielRohde: fixed performance problems |
 |  V1.004 (31 Jan 2009): | Foswiki:Main.KennethLavrsen: Foswikitask:Item907 Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar. |
 |  V1.003 (16 Dec 2008): | Foswiki:Main.KennethLavrsen: Changed to Foswiki name space |
