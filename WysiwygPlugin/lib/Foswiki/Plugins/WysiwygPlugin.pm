@@ -306,18 +306,6 @@ sub postRenderingHandler {
     $_[0] = _dropBack( $_[0] );
 }
 
-# Commented out because of Bugs:Item1176
-# DEPRECATED in Dakar (modifyHeaderHandler does the job better)
-#$TWikiCompatibility{writeHeaderHandler} = 1.1;
-#sub writeHeaderHandler {
-#    my $query = shift;
-#    if( $query->param( 'wysiwyg_edit' )) {
-#        return "Expires: 0\nCache-control: max-age=0, must-revalidate";
-#    }
-#    return '';
-#}
-
-# Dakar modify headers.
 sub modifyHeaderHandler {
     my ( $headers, $query ) = @_;
 
