@@ -24,7 +24,7 @@ package Foswiki::Plugins::RenderFormPlugin::Core;
 
 #use strict;
 
-use vars qw( $pluginName %defaults @requiredOptions @flagOptions %validOptions %options $defaultsInitialized @unknownParams @missingParams @invalidParams %actionParams $formCounter );
+use vars qw( $pluginName %defaults @requiredOptions @flagOptions %validOptions %options $defaultsInitialized @unknownParams @missingParams @invalidParams $formCounter );
 
 $pluginName="RenderFormPlugin";
 
@@ -86,11 +86,7 @@ sub _initOptions {
 
         @unknownParams= ( );
         foreach my $option (keys %params) {
-                if ($option =~ /^actionparam_(.*)/) {
-                        $actionParams{$1} = $params{$option};
-                } else {
-                        push (@unknownParams, $option) unless grep(/^\Q$option\E$/, @allOptions);
-                }
+                push (@unknownParams, $option) unless grep(/^\Q$option\E$/, @allOptions);
         }
         return 0 if $#unknownParams != -1; 
 
@@ -225,9 +221,6 @@ sub render {
 	$text .= $cgi->hidden(-name=>'onlynewtopic', -default=>($options{mode} eq 'edit'?'off':'on')) if(!defined $options{onlynewtopic}) || $options{onlynewtopic};
 	$text .= $cgi->hidden(-name=>'onlywikiname', -default=>'on') if $options{onlywikiname};
 	$text .= $cgi->hidden(-name=>'dontnotify', -default=>$options{dontnotify}) if defined $options{dontnotify};
-        foreach my $actionParam (keys %actionParams) {
-                $text .= $cgi->hidden(-name=>$actionParam, -default=>$actionParams{$actionParam});
-        }
 
 	$text .= _createJavaScript(\@mand, $formName) unless $options{mode} eq 'view';
 
@@ -465,9 +458,6 @@ sub _renderFormField {
 sub _createJavaScript {
 	my ($mandRef,$formName) = @_;
 	my $mandatoryFields= '"'.join('","', map(_encode($_),@{$mandRef})).'"';
-        if ($mandatoryFields eq '""') {
-                $mandatoryFields = '';
-        }
 	my $text = qq@<noautolink><script type="text/javascript">\n
                     //<!--[
 	                function ${formName}CheckAll(name, check) {
