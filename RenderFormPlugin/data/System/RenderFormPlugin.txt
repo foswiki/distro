@@ -108,6 +108,7 @@ Details:
 | =onlynewtopic= | disables overwrite of existing topics | onlynewtopic="on" |
 | =onlywikiname= | disallows the usage of non-[[%SYSTEMWEB%.WikiWords]] for topic names | onlywikiname="on" |
 | =order= | changes the display order of form fields; order value is a comma separated list of field names; if the order list is incomplete all missing and unhidden form fields will be added; there are special values for order: [:alpha:], [:dalpha:], [:num:] and [:dnum:], e.g. order="[:alpha:]" to sort all fields alphanumerical | undefined / order="Field1, Field2" |
+| =redirectto= | used in the action script (Eg. save) to redirect the user to a desired page/URL after successful submit | undefined / redirectto="%<nop>BASETOPIC%" |
 | =script= | changes the behavior of edit/create modes; allowed values: save - saves the form data; edit - edit the resulting topic | script="save" | 
 | =template= | a template name for predefined attributes | undefined / template="helpdesk" |
 | =templatetopic= | a template topic; useful for the create mode | undefined / templatetopic="MyHelpDeskTopicTemplate" |
@@ -214,6 +215,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | V1.004 (31 Jan 2009) |
 |  Change History: | <!-- versions below in reverse order --> |
+|  V1.006 (09 Oct 2009): | Foswiki:Main.PaulHarvey: added redirectto parameter |
 |  V1.005 (13 Feb 2009): | Foswiki:Main.DanielRohde: fixed performance problems |
 |  V1.004 (31 Jan 2009): | Foswiki:Main.KennethLavrsen: Foswikitask:Item907 Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar. |
 |  V1.003 (16 Dec 2008): | Foswiki:Main.KennethLavrsen: Changed to Foswiki name space |

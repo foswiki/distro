@@ -37,6 +37,7 @@ sub _initDefaults {
 			_DEFAULT => undef,		## same as form
 			topic => undef, 		## default %TOPIC%XXXXXXXXXXX
 			script => 'save',
+                        redirectto => undef,            ## passed to script; redirect target after submit
 			templatetopic => undef,
 			topicparent => undef,
 			dontnotify => undef,
@@ -221,6 +222,7 @@ sub render {
 	$text .= $cgi->hidden(-name=>'onlynewtopic', -default=>($options{mode} eq 'edit'?'off':'on')) if(!defined $options{onlynewtopic}) || $options{onlynewtopic};
 	$text .= $cgi->hidden(-name=>'onlywikiname', -default=>'on') if $options{onlywikiname};
 	$text .= $cgi->hidden(-name=>'dontnotify', -default=>$options{dontnotify}) if defined $options{dontnotify};
+	$text .= $cgi->hidden(-name=>'redirectto', -default=>$options{redirectto}) if defined $options{redirectto};
 
 	$text .= _createJavaScript(\@mand, $formName) unless $options{mode} eq 'view';
 
