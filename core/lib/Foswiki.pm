@@ -2950,11 +2950,12 @@ sub inContext {
 
 =begin TML
 
----++ StaticMethod registerTagHandler( $tag, $fnref )
+---++ StaticMethod registerTagHandler( $tag, $fnref, $syntax )
 
 STATIC Add a tag handler to the function tag handlers.
    * =$tag= name of the tag e.g. MYTAG
    * =$fnref= Function to execute. Will be passed ($session, \%params, $web, $topic )
+   * =$syntax= TODO: DOCUMENTME
 
 =cut
 

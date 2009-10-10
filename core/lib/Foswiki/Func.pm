@@ -2115,10 +2115,19 @@ Special handlers can be defined to make functions in plugins behave as if they w
 
 Should only be called from initPlugin.
 
-Register a function to handle a simple variable. Handles both %<nop>VAR% and %<nop>VAR{...}%. Registered variables are treated the same as internal macros, and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
-   * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
+Register a function to handle a simple variable. Handles both %<nop>VAR% and 
+%<nop>VAR{...}%. Registered variables are treated the same as internal macros, 
+and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
+   * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. 
+   The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
    * =\&fn= - Reference to the handler function.
-   * =$syntax= can be 'classic' (the default) or 'context-free'. 'classic' syntax is appropriate where you want the variable to support classic syntax i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. If your variable will only use named parameters, you can use 'context-free' syntax, which supports a more relaxed syntax. For example, %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
+   * =$syntax= can be 'classic' (the default) or 'context-free'. 
+   'classic' syntax is appropriate where you want the variable to support classic syntax 
+   i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, 
+   as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. 
+   If your variable will only use named parameters, you can use 'context-free' syntax, 
+   which supports a more relaxed syntax. For example, 
+   %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
 
 The variable handler function must be of the form:
 <verbatim>
