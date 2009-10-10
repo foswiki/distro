@@ -47,7 +47,7 @@ sub verify_getExternalResource {
     my $this = shift;
 
     # need a known, simple, robust URL to get
-    my $response = $this->{net}->getExternalResource('http://foswiki.org');
+    my $response = $this->{net}->getExternalResource('http://foswiki.org/System/WhatIsWikiWiki');
     $this->assert_equals( 200, $response->code() );
 
     # Note: HTTP::Response doesn't clean out \r correctly
@@ -57,7 +57,7 @@ sub verify_getExternalResource {
     $this->assert_matches( qr/$expectedHeader/is,
         ~~ $response->header('content-type') ); # ~~ forces scalar context
     $this->assert_matches(
-        qr/Foswiki is the open, programmable collaboration platform for the Enterprise/s,
+        qr/A set of pages of information that are open and free for anyone to edit as they wish. They are stored in a server and managed using some software. The system creates cross-reference hyperlinks between pages automatically./s,
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
