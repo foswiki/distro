@@ -1663,7 +1663,14 @@ sub _multiWebSeptic {
     $sep = defined $sep ? "separator=\"$sep\"" : '';
     my $result =
       $this->{test_topicObject}->expandMacros(
-          "%SEARCH{\"name~'$str'\" web=\"System,Main\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%" );
+          "%SEARCH{\"name~'$str'\" 
+            web=\"System,Main\" 
+            type=\"query\" 
+            nosearch=\"on\" 
+            nosummary=\"on\" 
+            nototal=\"on\" 
+            format=\"\$topic\" 
+            $head $foot $sep }%" );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
@@ -1851,102 +1858,37 @@ sub verify_multiWeb_with_header_no_footer_with_separator_no_results {
 EXPECT
 }
 
+#Item1992: calling Foswiki::Search::_makeTopicPattern repeatedly made a big mess.
+sub verify_web_and_topic_expansion {
+    my $this = shift;
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{
+                "web" 
+                type="text"
+                web="System,Main,Sandbox"
+                topic="WebHome,WebPreferences"
+                scope="text" 
+                nonoise="on" 
+                format="$web.$topic"
+                footer="FOOT($ntopics,$nhits)"
+        }%' );
+    my $expected = <<EXPECT;
+System.WebHome
+System.WebPreferences
+FOOT(2,2)Main.WebHome
+Main.WebPreferences
+FOOT(2,2)Sandbox.WebHome
+Sandbox.WebPreferences
+FOOT(2,2)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
 #####################
 # PAGING
-sub DISABLEverify_paging_one_web_first_five {
-    my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
-    "one" 
-    web="%SYSTEMWEB%"
-    type="keyword" 
-    scope="text" 
-    nonoise="on" 
-    format="$topic"
-    showpage="1"
-    pagesize="5"
-    footer="FOOT($ntopics,$nhits)"
-}%'
-      );
-      
-    my $expected = <<EXPECT;
-AccessControl
-AdminSkillsAssumptions
-AdminToolsCategory
-AnApplicationWithWikiForm
-AppendixEncodeURLsWithUTF8
-FOOT(5,5)
-EXPECT
-    $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
-}
-
-sub DISABLEverify_paging_one_web_second_five {
-    my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
-    "one" 
-    web="%SYSTEMWEB%"
-    type="keyword" 
-    scope="text" 
-    nonoise="on" 
-    format="$topic"
-    showpage="2"
-    pagesize="5"
-    footer="FOOT($ntopics,$nhits)"
-}%'
-      );
-      
-    my $expected = <<EXPECT;
-BeginnersStartHere
-BuildContrib
-BulkRegistration
-ChangeEmailAddress
-CommandAndCGIScripts
-FOOT(5,5)
-EXPECT
-    $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
-}
-
-
-sub DISABLE_verify_paging_two_webs_first_seven {
-    my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
-    "WebHome" 
-    type="text"
-    web="Main,System,TestCases"
-    scope="text" 
-    nonoise="on" 
-    format="$web.$topic"
-    showpage="1"
-    pagesize="7"
-    footer="FOOT($ntopics,$nhits)"
-}%'
-      );
-      
-    my $expected = <<EXPECT;
-Main.WebHome
-Main.WebPreferences
-Main.WebStatistics
-FOOT(3,3)System.AdminToolsCategory
-System.BeginnersStartHere
-System.CascadingStyleSheets
-System.CommandAndCGIScripts
-FOOT(4,4)
-EXPECT
-    $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
-}
-
-sub DISABLED_Item1992_verify_paging_two_webs_another_seven {
+sub verify_paging_three_webs_first_five {
     my $this = shift;
 
     my $result =
@@ -1954,30 +1896,136 @@ sub DISABLED_Item1992_verify_paging_two_webs_another_seven {
 '%SEARCH{
     "web" 
     type="text"
-    web="System,Main,TestCases"
-    topic="WebHome,WebPreferences"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
     scope="text" 
     nonoise="on" 
     format="$web.$topic"
-    dshowpage="1"
-    dpagesize="4"
+    showpage="1"
+    pagesize="5"
     footer="FOOT($ntopics,$nhits)"
 }%'
       );
       
     my $expected = <<EXPECT;
-System.WikiCulture
-System.WikiWord
-FOOT(2,2)TestCases.TestCaseAmISane
-TestCases.TestCaseAutoFormattedSearch
-TestCases.TestCaseAutoFormattedSearchDetails
-TestCases.TestCaseAutoInternalTags
-TestCases.TestCaseAutoSpreadSheetPlugin
-FOOT(5,5)
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)Main.WebChanges
+FOOT(1,1)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected,  $result );
 }
 
+sub verify_paging_three_webs_second_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_three_webs_third_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="3"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(2,2)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_three_webs_fourth_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="4"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_three_webs_way_too_far {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="99"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
 
 1;

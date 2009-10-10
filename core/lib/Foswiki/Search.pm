@@ -254,7 +254,7 @@ sub _makeTopicPattern {
     # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
     my @arr =
       map { s/[^\*\_\-\+$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
-      split( /,\s*/, $topic );
+      split( /(?:,\s*|\|)/, $topic );
     return '' unless (@arr);
 
     # ( 'Web.*', 'FooBar' ) ==> "^(Web.*|FooBar)$"
