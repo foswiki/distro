@@ -104,6 +104,11 @@ sub sortResults {
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
+    #TODO: this is really an ugly hack to get around the rather horrible limit 'performance' hack
+    if (defined($params->{pager_show_results_to}) and
+        $params->{pager_show_results_to} > 0) {
+        $limit = $params->{pager_skip_results_from} + $params->{pager_show_results_to};
+    }
 
     # sort the topic list by date, author or topic name, and cache the
     # info extracted to do the sorting

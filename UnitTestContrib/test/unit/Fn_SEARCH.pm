@@ -2028,4 +2028,149 @@ EXPECT
     $this->assert_str_equals( $expected,  $result );
 }
 
+#------------------------------------
+# PAGING with limit= does weird things.
+sub verify_paging_with_limit_first_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    pagesize="3"
+    limit="3"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+System.WebChanges
+System.WebHome
+System.WebIndex
+FOOT(3,3)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_with_limit_second_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    pagesize="3"
+    limit="3"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+FOOT(3,3)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_with_limit_third_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="3"
+    pagesize="3"
+    limit="3"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+Sandbox.WebChanges
+Sandbox.WebHome
+Sandbox.WebIndex
+FOOT(3,3)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_with_limit_fourth_five {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="4"
+    pagesize="3"
+    limit="3"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+sub verify_paging_with_limit_way_too_far {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="5"
+    pagesize="3"
+    limit="3"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+      );
+      
+    my $expected = <<EXPECT;
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected,  $result );
+}
+
+
 1;

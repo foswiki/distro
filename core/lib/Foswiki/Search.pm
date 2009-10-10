@@ -715,6 +715,7 @@ sub formatResults {
     my $limit         = $params->{limit} || '';
 
     # Limit search results
+    #TODO: I _think_ that limit should be able to be deprecated and replaced by pagesize..
     if ( $limit =~ /(^\d+$)/o ) {
 
         # only digits, all else is the same as
