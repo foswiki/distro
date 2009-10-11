@@ -17,67 +17,9 @@ else="*%MAKETEXT{"This Foswiki does _not_ support new User Registration"}%*"
 
 <!-- IMPORTANT NOTE if you want to customize this form: You can delete or add new input fields in this form. The name="" parameter of the input tags must start with: "Twk0..." (if this is an optional entry), "Twk1..." (if this is a required entry). This will ensure that the fields are processed correctly. -->
 
-<script language="javascript">
-<!--
-function capitalise(name)
-{
-var sIn = name;
-var sOut = '';
-var chgUpper = true;
-for ( var i = 0; i < sIn.length; i++ ) {
- var ch = sIn.charAt( i );
- var chVal = ch.charCodeAt(0);
- var ch2 = '';
- if( (chVal==192) || (chVal==193) || (chVal==194) || (chVal==195) ) { ch = 'A'; }
- if( chVal==196) { ch = 'A'; ch2 = 'E'; }
- if( chVal==197) { ch = 'A'; ch2 = 'A'; }
- if( chVal==198) { ch = 'A'; ch2 = 'E'; }
- if( chVal==199) { ch = 'C'; }
- if( (chVal==200) || (chVal==201) || (chVal==202) || (chVal==203) ) { ch = 'E'; }
- if( (chVal==204) || (chVal==205) || (chVal==206) || (chVal==207) ) { ch = 'I'; }
- if( chVal==208) { ch = 'd'; }
- if( chVal==209) { ch = 'N'; }
- if( (chVal==210) || (chVal==211) || (chVal==212) || (chVal==213) ) { ch = 'O'; }
- if( chVal==214) { ch = 'O'; ch2 = 'E'; }
- if( chVal==216) { ch = 'O'; ch2 = 'E'; }
- if( (chVal==217) || (chVal==218) || (chVal==219) ) { ch = 'U'; }
- if( chVal==220) { ch = 'U'; ch2 = 'E'; }
- if( chVal==221) { ch = 'Y'; }
- if( chVal==222) { ch = 'P'; }
- if( chVal==223) { ch = 's'; ch2 = 's'; }
- if( (chVal==224) || (chVal==225) || (chVal==226) || (chVal==227) ) { ch = 'a'; }
- if( chVal==228) { ch = 'a'; ch2 = 'e'; }
- if( chVal==229) { ch = 'a'; ch2 = 'a'; }
- if( chVal==230) { ch = 'a'; ch2 = 'e'; }
- if( chVal==231) { ch = 'c'; }
- if( (chVal==232) || (chVal==233) || (chVal==234) || (chVal==235) ) { ch = 'e'; }
- if( (chVal==236) || (chVal==237) || (chVal==238) || (chVal==239) ) { ch = 'i'; }
- if( chVal==240) { ch = 'd'; }
- if( chVal==241) { ch = 'n'; }
- if( (chVal==242) || (chVal==243) || (chVal==244) || (chVal==245) ) { ch = 'o'; }
- if( chVal==246) { ch = 'o'; ch2 = 'e'; }
- if( chVal==248) { ch = 'o'; ch2 = 'e'; }
- if( (chVal==249) || (chVal==250) || (chVal==251) ) { ch = 'u'; }
- if( chVal==252) { ch = 'u'; ch2 = 'e'; }
- if( chVal==253) { ch = 'y'; }
- if( chVal==254) { ch = 'p'; }
- if( chVal==255) { ch = 'y'; }
- if( ch!=' ' ) {
-  if( chgUpper ) {
-   ch = ch.toUpperCase(); chgUpper = false; 
-  } 
-  sOut+=ch;
-  if( ch2!='') {
-   sOut+=ch2; 
-  }
- } else {
-  chgUpper = true; 
- } 
-}
-return sOut;
-}
-//-->
-</script>
+%ADDTOHEAD{
+ text="<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js'></script>"
+}%
 
 <form action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 <div class="foswikiFormSteps">
@@ -92,11 +34,11 @@ return sOut;
 </tr>
 <tr>
   <td align="right"> %MAKETEXT{"First Name:"}% </td>
-  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.value)+capitalise(this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.capitalize(this.value)+foswiki.String.capitalize(this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
 </tr>
 <tr>
   <td align="right"> %MAKETEXT{"Last Name:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.form.Twk1FirstName.value)+capitalise(this.value)" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.capitalize(this.form.Twk1FirstName.value)+foswiki.String.capitalize(this.value)" /> =<font color="red">**</font>= </td>
 </tr>
   <td align="right"> %MAKETEXT{"(identifies you to others) WikiName:"}% </td>
   <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="foswikiInputField" value="" onblur="" /> =<font color="red">**</font>= </td>
