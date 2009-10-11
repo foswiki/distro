@@ -34,11 +34,11 @@ else="*%MAKETEXT{"This Foswiki does _not_ support new User Registration"}%*"
 </tr>
 <tr>
   <td align="right"> %MAKETEXT{"First Name:"}% </td>
-  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.capitalize(this.value)+foswiki.String.capitalize(this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.value+' '+this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
 </tr>
 <tr>
   <td align="right"> %MAKETEXT{"Last Name:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.capitalize(this.form.Twk1FirstName.value)+foswiki.String.capitalize(this.value)" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.form.Twk1FirstName.value+' '+this.value)" /> =<font color="red">**</font>= </td>
 </tr>
   <td align="right"> %MAKETEXT{"(identifies you to others) WikiName:"}% </td>
   <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="foswikiInputField" value="" onblur="" /> =<font color="red">**</font>= </td>
