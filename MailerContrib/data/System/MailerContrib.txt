@@ -192,7 +192,7 @@ And we create a topic in the web called !WebNotifyCustomTemplate which contains 
 
 ---+++ Contrib Info
 
-Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiring.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
