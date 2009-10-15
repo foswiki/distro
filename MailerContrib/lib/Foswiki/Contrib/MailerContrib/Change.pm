@@ -52,20 +52,24 @@ sub new {
     my $this = bless( {}, $class );
 
     $this->{SESSION} = $session;
-    $this->{WEB} = $web;
-    $this->{TOPIC} = $topic;
+    $this->{WEB}     = $web;
+    $this->{TOPIC}   = $topic;
     my $user;
+
     # SMELL: call to unpublished core function
-    if (defined(&Foswiki::Users::findUser)) {
+    if ( defined(&Foswiki::Users::findUser) ) {
         $user = $session->{users}->findUser( $author, undef, 1 );
         $this->{AUTHOR} = $user ? $user->wikiName() : $author;
-    } else {
+    }
+    else {
         $this->{AUTHOR} = Foswiki::Func::getWikiName($author);
     }
     $this->{TIME} = $time;
     ASSERT($rev) if DEBUG;
+
     # rev at this change
     $this->{CURR_REV} = $rev;
+
     # previous rev
     $this->{BASE_REV} = $rev - 1 || 1;
 
@@ -75,7 +79,8 @@ sub new {
 sub stringify {
     my $this = shift;
 
-    return "$this->{WEB}.$this->{TOPIC} by $this->{AUTHOR} at $this->{TIME} from r$this->{BASE_REV} to r$this->{CURR_REV}";
+    return
+"$this->{WEB}.$this->{TOPIC} by $this->{AUTHOR} at $this->{TIME} from r$this->{BASE_REV} to r$this->{CURR_REV}";
 }
 
 =pod
@@ -88,18 +93,18 @@ record is a reflection of both changes.
 =cut
 
 sub merge {
-    my( $this, $other ) = @_;
-    ASSERT($this->isa( 'Foswiki::Contrib::MailerContrib::Change' )) if DEBUG;
-    ASSERT($other->isa( 'Foswiki::Contrib::MailerContrib::Change' )) if DEBUG;
+    my ( $this, $other ) = @_;
+    ASSERT( $this->isa('Foswiki::Contrib::MailerContrib::Change') )  if DEBUG;
+    ASSERT( $other->isa('Foswiki::Contrib::MailerContrib::Change') ) if DEBUG;
 
-    if( $other->{CURR_REV} > $this->{CURR_REV} ) {
+    if ( $other->{CURR_REV} > $this->{CURR_REV} ) {
         $this->{CURR_REV} = $other->{CURR_REV};
-        $this->{AUTHOR} = $other->{AUTHOR};
-        $this->{TIME} = $other->{TIME};
+        $this->{AUTHOR}   = $other->{AUTHOR};
+        $this->{TIME}     = $other->{TIME};
     }
 
     $this->{BASE_REV} = $other->{BASE_REV}
-      if($other->{BASE_REV} < $this->{BASE_REV});
+      if ( $other->{BASE_REV} < $this->{BASE_REV} );
 }
 
 =pod
@@ -117,40 +122,42 @@ Returns the expanded template.
 sub expandHTML {
     my ( $this, $html ) = @_;
 
-    unless( defined $this->{HTML_SUMMARY} ) {
-        if( defined &Foswiki::Func::summariseChanges ) {
+    unless ( defined $this->{HTML_SUMMARY} ) {
+        if ( defined &Foswiki::Func::summariseChanges ) {
             $this->{HTML_SUMMARY} =
-              Foswiki::Func::summariseChanges(
-                  $this->{WEB}, $this->{TOPIC}, $this->{BASE_REV},
-                  $this->{CURR_REV}, 1 );
-        } else {
+              Foswiki::Func::summariseChanges( $this->{WEB}, $this->{TOPIC},
+                $this->{BASE_REV}, $this->{CURR_REV}, 1 );
+        }
+        else {
             $this->{HTML_SUMMARY} =
-              $this->{SESSION}->{renderer}->summariseChanges
-                ( undef, $this->{WEB}, $this->{TOPIC}, $this->{BASE_REV},
-                  $this->{CURR_REV}, 1 );
+              $this->{SESSION}->{renderer}
+              ->summariseChanges( undef, $this->{WEB}, $this->{TOPIC},
+                $this->{BASE_REV}, $this->{CURR_REV}, 1 );
         }
     }
 
     $html =~ s/%TOPICNAME%/$this->{TOPIC}/g;
     $html =~ s/%AUTHOR%/$this->{AUTHOR}/g;
-    my $tim =  Foswiki::Time::formatTime( $this->{TIME} );
+    my $tim = Foswiki::Time::formatTime( $this->{TIME} );
     $html =~ s/%TIME%/$tim/go;
     $html =~ s/%CUR_REV%/$this->{CURR_REV}/g;
     $html =~ s/%BASE_REV%/$this->{BASE_REV}/g;
     my $frev = '';
-    if( $this->{CURR_REV} ) {
-        if( $this->{CURR_REV} > 1 ) {
-            $frev = 'r'.$this->{BASE_REV}.
-              '-&gt;r'.$this->{CURR_REV};
-        } else {
+    if ( $this->{CURR_REV} ) {
+        if ( $this->{CURR_REV} > 1 ) {
+            $frev = 'r' . $this->{BASE_REV} . '-&gt;r' . $this->{CURR_REV};
+        }
+        else {
+
             # new _since the last notification_
-            $frev = CGI::span( { class=>'foswikiNew' }, 'NEW' );
+            $frev = CGI::span( { class => 'foswikiNew' }, 'NEW' );
         }
     }
     $html =~ s/%REVISION%/$frev/g;
-    $html = Foswiki::Func::expandCommonVariables(
-        $html, $this->{TOPIC}, $this->{WEB} );
-    $html = Foswiki::Func::renderText( $html );
+    $html =
+      Foswiki::Func::expandCommonVariables( $html, $this->{TOPIC},
+        $this->{WEB} );
+    $html = Foswiki::Func::renderText($html);
     $html =~ s/%TEXTHEAD%/$this->{HTML_SUMMARY}/g;
 
     return $html;
@@ -166,23 +173,25 @@ Generate a plaintext version of this change.
 sub expandPlain {
     my ( $this, $template ) = @_;
 
-    unless( defined $this->{TEXT_SUMMARY} ) {
+    unless ( defined $this->{TEXT_SUMMARY} ) {
         my $s;
-        if( defined &Foswiki::Func::summariseChanges ) {
-            $s = Foswiki::Func::summariseChanges(
-                $this->{WEB}, $this->{TOPIC}, $this->{BASE_REV},
-                $this->{CURR_REV}, 0 );
-        } else {
-            $s = $this->{SESSION}->{renderer}->summariseChanges(
-                undef, $this->{WEB}, $this->{TOPIC}, $this->{BASE_REV},
-                $this->{CURR_REV}, 0 );
+        if ( defined &Foswiki::Func::summariseChanges ) {
+            $s =
+              Foswiki::Func::summariseChanges( $this->{WEB}, $this->{TOPIC},
+                $this->{BASE_REV}, $this->{CURR_REV}, 0 );
+        }
+        else {
+            $s =
+              $this->{SESSION}->{renderer}
+              ->summariseChanges( undef, $this->{WEB}, $this->{TOPIC},
+                $this->{BASE_REV}, $this->{CURR_REV}, 0 );
         }
         $s =~ s/\n/\n   /gs;
         $s = "   $s";
         $this->{TEXT_SUMMARY} = $s;
     }
 
-    my $tim =  Foswiki::Time::formatTime( $this->{TIME} );
+    my $tim = Foswiki::Time::formatTime( $this->{TIME} );
 
     # URL-encode topic names for use of I18N topic names in plain text
     # DEPRECATED! DO NOT USE!
@@ -192,14 +201,15 @@ sub expandPlain {
     $template =~ s/%TIME%/$tim/g;
     $template =~ s/%CUR_REV%/$this->{CURR_REV}/g;
     $template =~ s/%BASE_REV%/$this->{BASE_REV}/g;
-    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g; # deprecated DO NOT USE!
+    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;     # deprecated DO NOT USE!
     $template =~ s/%TOPIC%/$this->{TOPIC}/g;
     my $frev = '';
-    if( $this->{CURR_REV} ) {
-        if( $this->{CURR_REV} > 1 ) {
-            $frev = 'r'.$this->{BASE_REV}.
-              '->r'.$this->{CURR_REV};
-        } else {
+    if ( $this->{CURR_REV} ) {
+        if ( $this->{CURR_REV} > 1 ) {
+            $frev = 'r' . $this->{BASE_REV} . '->r' . $this->{CURR_REV};
+        }
+        else {
+
             # new _since the last notification_
             $frev = 'NEW';
         }

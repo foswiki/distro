@@ -1,3 +1,4 @@
+
 =pod
 
 ---+ package MailerConst
@@ -13,8 +14,10 @@ package name short).
 
 package MailerConst;
 
-our $ALWAYS       = 1; # Always send, even if there are no changes
-our $FULL_TOPIC   = 2; # Send the full topic rather than just changes
+use strict;
+
+our $ALWAYS     = 1;    # Always send, even if there are no changes
+our $FULL_TOPIC = 2;    # Send the full topic rather than just changes
 
 # ? = FULL_TOPIC
 # ! = FULL_TOPIC | ALWAYS

@@ -14,6 +14,8 @@
 #
 
 # Standard preamble
+use strict;
+
 BEGIN {
   foreach my $pc (split(/:/, $ENV{FOSWIKI_LIBS})) {
     unshift @INC, $pc;
@@ -29,7 +31,7 @@ use Foswiki::Contrib::Build;
 
   sub new {
     my $class = shift;
-    return bless( $class->SUPER::new( "MailerContrib", "Mailer" ), $class );
+    return bless( $class->SUPER::new( "MailerContrib" ), $class );
   }
 
   # Example: Override the build target
@@ -43,7 +45,7 @@ use Foswiki::Contrib::Build;
 }
 
 # Create the build object
-$build = new MailerBuild();
+my $build = new MailerBuild();
 
 # Mailer the target on the command line, or the default target
 $build->build($build->{target});

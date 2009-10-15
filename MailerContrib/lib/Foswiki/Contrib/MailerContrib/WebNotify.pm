@@ -31,7 +31,7 @@ must be set up before this class is used.
 package Foswiki::Contrib::MailerContrib::WebNotify;
 
 use strict;
-use locale; # required for matching \w with international characters
+use locale;    # required for matching \w with international characters
 
 use Assert;
 
@@ -63,14 +63,14 @@ sub new {
     # Ensure the contrib is initialised
     Foswiki::Contrib::MailerContrib::initContrib();
 
-    $this->{web} = $web;
-    $this->{topic} = $topic || $Foswiki::cfg{NotifyTopicName} || 'WebNotify';
-    $this->{pretext} = '';
+    $this->{web}      = $web;
+    $this->{topic}    = $topic || $Foswiki::cfg{NotifyTopicName} || 'WebNotify';
+    $this->{pretext}  = '';
     $this->{posttext} = '';
-    $this->{session} = $session;
+    $this->{session}  = $session;
     $this->{noexpandgroups} = $noexpandgroups;
 
-    if( Foswiki::Func::topicExists( $web, $topic )) {
+    if ( Foswiki::Func::topicExists( $web, $topic ) ) {
         $this->_load();
     }
 
@@ -88,11 +88,8 @@ the method will throw an exception.
 
 sub writeWebNotify {
     my $this = shift;
-    Foswiki::Func::saveTopicText(
-        $this->{web},
-        $this->{topic},
-        $this->stringify(),
-        1, 1);
+    Foswiki::Func::saveTopicText( $this->{web}, $this->{topic},
+        $this->stringify(), 1, 1 );
 }
 
 =pod
@@ -111,9 +108,8 @@ sub getSubscriber {
     my ( $this, $name, $noAdd ) = @_;
 
     my $subscriber = $this->{subscribers}{$name};
-    unless ( $noAdd || defined( $subscriber )) {
-        $subscriber =
-          new Foswiki::Contrib::MailerContrib::Subscriber( $name );
+    unless ( $noAdd || defined($subscriber) ) {
+        $subscriber = new Foswiki::Contrib::MailerContrib::Subscriber($name);
         $this->{subscribers}{$name} = $subscriber;
     }
     return $subscriber;
@@ -127,9 +123,9 @@ Get a list of all subscriber names (unsorted)
 =cut
 
 sub getSubscribers {
-    my ( $this ) = @_;
+    my ($this) = @_;
 
-    return keys %{$this->{subscribers}};
+    return keys %{ $this->{subscribers} };
 }
 
 =pod
@@ -146,32 +142,34 @@ Add a subscription, adding the subscriber if necessary.
 sub subscribe {
     my ( $this, $name, $topics, $depth, $opts ) = @_;
 
-    ASSERT(defined($opts) && $opts =~ /^\d*$/) if DEBUG;
+    ASSERT( defined($opts) && $opts =~ /^\d*$/ ) if DEBUG;
 
     my @names = ($name);
-    unless ($this->{noexpandgroups}) {
-        if (defined &Foswiki::Func::eachGroupMember) {
-            my $it = Foswiki::Func::eachGroupMember( $name );
-            if( $it ) {
+    unless ( $this->{noexpandgroups} ) {
+        if ( defined &Foswiki::Func::eachGroupMember ) {
+            my $it = Foswiki::Func::eachGroupMember($name);
+            if ($it) {
                 @names = ();
-                while( $it->hasNext() ) {
+                while ( $it->hasNext() ) {
                     my $member = $it->next();
                     push( @names, $member );
                 }
             }
-        } else {
-            my $user = Foswiki::User->new($this->{session}, '', $name);
-            if ($user->isGroup) {
-                @names = map {$_->wikiName} @{$user->groupMembers};
+        }
+        else {
+            my $user = Foswiki::User->new( $this->{session}, '', $name );
+            if ( $user->isGroup ) {
+                @names = map { $_->wikiName } @{ $user->groupMembers };
             }
         }
     }
 
     foreach my $n (@names) {
-        my $subscriber = $this->getSubscriber( $n );
-        my $sub = new Foswiki::Contrib::MailerContrib::Subscription(
-            $topics, $depth, $opts );
-        $subscriber->subscribe( $sub );
+        my $subscriber = $this->getSubscriber($n);
+        my $sub =
+          new Foswiki::Contrib::MailerContrib::Subscription( $topics, $depth,
+            $opts );
+        $subscriber->subscribe($sub);
     }
 }
 
@@ -190,30 +188,32 @@ particular subscriber.
 sub unsubscribe {
     my ( $this, $name, $topics, $depth ) = @_;
 
-    my @names = ( $name );
-    unless ($this->{noexpandgroups}) {
-        if (defined &Foswiki::Func::eachGroupMember) {
-            my $it = Foswiki::Func::eachGroupMember( $name );
-            if( $it ) {
+    my @names = ($name);
+    unless ( $this->{noexpandgroups} ) {
+        if ( defined &Foswiki::Func::eachGroupMember ) {
+            my $it = Foswiki::Func::eachGroupMember($name);
+            if ($it) {
                 @names = ();
-                while( $it->hasNext() ) {
+                while ( $it->hasNext() ) {
                     my $member = $it->next();
                     push( @names, $member );
                 }
             }
-        } else {
-            my $user = Foswiki::User->new($this->{session}, '', $name);
-            if ($user->isGroup) {
-                @names = map {$_->wikiName} @{$user->groupMembers};
+        }
+        else {
+            my $user = Foswiki::User->new( $this->{session}, '', $name );
+            if ( $user->isGroup ) {
+                @names = map { $_->wikiName } @{ $user->groupMembers };
             }
         }
     }
 
     foreach my $n (@names) {
-        my $subscriber = $this->getSubscriber( $n );
-        my $sub = new Foswiki::Contrib::MailerContrib::Subscription(
-            $topics, $depth, 0 );
-        $subscriber->unsubscribe( $sub );
+        my $subscriber = $this->getSubscriber($n);
+        my $sub =
+          new Foswiki::Contrib::MailerContrib::Subscription( $topics, $depth,
+            0 );
+        $subscriber->unsubscribe($sub);
     }
 }
 
@@ -234,12 +234,12 @@ sub stringify {
 
     my $page = '';
 
-    $page .= $this->{pretext} if (!$subscribersOnly);
-    foreach my $name ( sort keys %{$this->{subscribers}} ) {
+    $page .= $this->{pretext} if ( !$subscribersOnly );
+    foreach my $name ( sort keys %{ $this->{subscribers} } ) {
         my $subscriber = $this->{subscribers}{$name};
         $page .= $subscriber->stringify() . "\n";
     }
-    $page .= $this->{posttext} if (!$subscribersOnly);
+    $page .= $this->{posttext} if ( !$subscribersOnly );
 
     return $page;
 }
@@ -261,42 +261,50 @@ method does _not_ change this object.
 sub processChange {
     my ( $this, $change, $db, $changeSet, $seenSet, $allSet ) = @_;
 
-    my $topic = $change->{TOPIC};
-    my $web = $change->{WEB};
-    my %authors = map { $_ => 1 }
-      @{Foswiki::Contrib::MailerContrib::Subscriber::getEmailAddressesForUser(
-          $change->{author})};
+    my $topic   = $change->{TOPIC};
+    my $web     = $change->{WEB};
+    my %authors = map { $_ => 1 } @{
+        Foswiki::Contrib::MailerContrib::Subscriber::getEmailAddressesForUser(
+            $change->{author}
+        )
+      };
 
-    foreach my $name ( keys %{$this->{subscribers}} ) {
+    foreach my $name ( keys %{ $this->{subscribers} } ) {
         my $subscriber = $this->{subscribers}{$name};
         my $subs = $subscriber->isSubscribedTo( $topic, $db );
-        if ($subs && !$subscriber->isUnsubscribedFrom( $topic, $db )) {
+        if ( $subs && !$subscriber->isUnsubscribedFrom( $topic, $db ) ) {
 
-            next unless Foswiki::Func::checkAccessPermission(
-                'VIEW', $name, undef, $topic, $this->{web}, undef );
+            next
+              unless Foswiki::Func::checkAccessPermission( 'VIEW', $name, undef,
+                $topic, $this->{web}, undef );
 
             my $emails = $subscriber->getEmailAddresses();
-            if( $emails && scalar( @$emails )) {
-                foreach my $email ( @$emails ) {
+            if ( $emails && scalar(@$emails) ) {
+                foreach my $email (@$emails) {
+
                     # Skip this change if the subscriber is the author
                     # of the change, and we are not always sending
-                    next if (!($subs->{options} & $MailerConst::ALWAYS)
-                               && $authors{$email});
+                    next
+                      if ( !( $subs->{options} & $MailerConst::ALWAYS )
+                        && $authors{$email} );
 
-                    if ($subs->{options} & $MailerConst::FULL_TOPIC) {
-                        push( @{$allSet->{$topic}}, $email );
-                    } else {
+                    if ( $subs->{options} & $MailerConst::FULL_TOPIC ) {
+                        push( @{ $allSet->{$topic} }, $email );
+                    }
+                    else {
                         my $at = $seenSet->{$email}{$topic};
-                        if ( $at ) {
-                            $changeSet->{$email}[$at - 1]->merge( $change );
-                        } else {
+                        if ($at) {
+                            $changeSet->{$email}[ $at - 1 ]->merge($change);
+                        }
+                        else {
                             $seenSet->{$email}{$topic} =
-                              push( @{$changeSet->{$email}}, $change );
+                              push( @{ $changeSet->{$email} }, $change );
                         }
                     }
                 }
-            } else {
-                $this->_emailWarn($subscriber,$name,$web);
+            }
+            else {
+                $this->_emailWarn( $subscriber, $name, $web );
             }
         }
     }
@@ -312,18 +320,18 @@ sub processChange {
 =cut
 
 sub processCompulsory {
-    my ($this, $topic, $db, $allSet) = @_;
+    my ( $this, $topic, $db, $allSet ) = @_;
 
-    foreach my $name ( keys %{$this->{subscribers}} ) {
+    foreach my $name ( keys %{ $this->{subscribers} } ) {
         my $subscriber = $this->{subscribers}{$name};
         my $subs = $subscriber->isSubscribedTo( $topic, $db );
         next unless $subs;
-        next unless ($subs->{options} & $MailerConst::ALWAYS);
-        unless( $subscriber->isUnsubscribedFrom( $topic, $db )) {
+        next unless ( $subs->{options} & $MailerConst::ALWAYS );
+        unless ( $subscriber->isUnsubscribedFrom( $topic, $db ) ) {
             my $emails = $subscriber->getEmailAddresses();
-            if( $emails ) {
+            if ($emails) {
                 foreach my $address (@$emails) {
-                    push( @{$allSet->{$topic}}, $address );
+                    push( @{ $allSet->{$topic} }, $address );
                 }
             }
         }
@@ -339,52 +347,63 @@ Return true if there are no subscribers
 
 sub isEmpty {
     my $this = shift;
-    return ( scalar( keys %{$this->{subscribers}} ) == 0 );
+    return ( scalar( keys %{ $this->{subscribers} } ) == 0 );
 }
 
 # PRIVATE parse a topic extracting formatted lines
 sub _load {
     my $this = shift;
 
-    my ( $meta, $text ) = Foswiki::Func::readTopic(
-        $this->{web}, $this->{topic} );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{web}, $this->{topic} );
     my $in_pre = 1;
-    $this->{pretext} = '';
+    $this->{pretext}  = '';
     $this->{posttext} = '';
-    $this->{meta} = $meta;
+    $this->{meta}     = $meta;
+
     # join \ terminated lines
     $text =~ s/\\\r?\n//gs;
     my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/o;
-    foreach my $baseline ( split ( /\r?\n/, $text )) {
-        my $line = Foswiki::Func::expandCommonVariables(
-            $baseline, $this->{topic}, $this->{web}, $meta);
-        if( $line =~ /^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex})\s+\-\s+($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)\s*$/o
-              && $1 ne $Foswiki::cfg{DefaultUserWikiName}) {
+    foreach my $baseline ( split( /\r?\n/, $text ) ) {
+        my $line =
+          Foswiki::Func::expandCommonVariables( $baseline, $this->{topic},
+            $this->{web}, $meta );
+        if ( $line =~
+/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex})\s+\-\s+($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)\s*$/o
+            && $1 ne $Foswiki::cfg{DefaultUserWikiName} )
+        {
+
             # Main.WikiName - email@domain (legacy format)
             $this->subscribe( $2, '*', 0, 0 );
             $in_pre = 0;
         }
-        elsif ( $line =~ /^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex}|'.*?'|".*?"|$Foswiki::cfg{MailerContrib}{EmailFilterIn})\s*(:.*)?$/o
-                  && $1 ne $Foswiki::cfg{DefaultUserWikiName}) {
+        elsif ( $line =~
+/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex}|'.*?'|".*?"|$Foswiki::cfg{MailerContrib}{EmailFilterIn})\s*(:.*)?$/o
+            && $1 ne $Foswiki::cfg{DefaultUserWikiName} )
+        {
             my $subscriber = $1;
+
             # Get the topic list from the last bracket matched. Have to do it
             # this awkward way because the email filter may contain braces
             my $topics = $+;
+
             # email addresses can't start with :
-            $topics = undef unless ($topics =~ s/^://);
-            $subscriber =~ s/^(['"])(.*)\1$/$2/; # remove quotes
+            $topics = undef unless ( $topics =~ s/^:// );
+            $subscriber =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
             if ($topics) {
                 $this->parsePageSubscriptions( $subscriber, $topics );
-            } else {
-                $this->subscribe($subscriber, '*', 0, 0 );
+            }
+            else {
+                $this->subscribe( $subscriber, '*', 0, 0 );
             }
             $in_pre = 0;
         }
         else {
-            if( $in_pre ) {
+            if ($in_pre) {
                 $this->{pretext} .= "$baseline\n";
-            } else {
-                $this->{posttext} .=  "$baseline\n";
+            }
+            else {
+                $this->{posttext} .= "$baseline\n";
             }
         }
     }
@@ -394,37 +413,41 @@ sub _load {
 # $unsubscribe is set to '-' by SubscribePlugin to force a '-' operation
 sub parsePageSubscriptions {
     my ( $this, $who, $spec, $unsubscribe ) = @_;
-    
+
     $this->{topicSub} = \&_subscribeTopic;
-    
-    my $ret = Foswiki::Contrib::MailerContrib::parsePageList($this, $who, $spec, $unsubscribe);
+
+    my $ret = Foswiki::Contrib::MailerContrib::parsePageList(
+        $this, $who, $spec, $unsubscribe );
     if ( $ret =~ m/\S/ ) {
         Foswiki::Func::writeWarning(
             "Badly formatted page list at $who: $spec");
-	return -1;
+        return -1;
     }
     return;
 }
 
 sub _subscribeTopic {
     my ( $this, $who, $unsubscribe, $webTopic, $options, $childDepth ) = @_;
-    
-    my ($web, $topic) = Foswiki::Func::normalizeWebTopicName($this->{web}, $webTopic);
-    
-#print STDERR "_subscribeTopic($topic)\n";
+
+    my ( $web, $topic ) =
+      Foswiki::Func::normalizeWebTopicName( $this->{web}, $webTopic );
+
+    #print STDERR "_subscribeTopic($topic)\n";
     my $opts = 0;
     if ($options) {
-	$opts |= $MailerConst::FULL_TOPIC;
-	if ($options =~ /!/) {
-	    $opts |= $MailerConst::ALWAYS;
-	}
+        $opts |= $MailerConst::FULL_TOPIC;
+        if ( $options =~ /!/ ) {
+            $opts |= $MailerConst::ALWAYS;
+        }
     }
     my $kids = $childDepth or 0;
-    if ( $unsubscribe && $unsubscribe eq '-') {
-	$this->unsubscribe( $who, $topic, $kids );
-    } else {
-	$this->subscribe( $who, $topic, $kids, $opts );
+    if ( $unsubscribe && $unsubscribe eq '-' ) {
+        $this->unsubscribe( $who, $topic, $kids );
     }
+    else {
+        $this->subscribe( $who, $topic, $kids, $opts );
+    }
+
     #TODO: howto find & report errors?
     return '';
 }
@@ -432,15 +455,15 @@ sub _subscribeTopic {
 # PRIVATE emailWarn to warn when an email address cannot be found
 # for a subscriber.
 sub _emailWarn {
-    my ($this, $subscriber, $name, $web) = @_;
+    my ( $this, $subscriber, $name, $web ) = @_;
 
     # Make sure we only warn once. Don't want to see this for every
     # Topic we are notifying on.
-    unless (defined $this->{nomail}{$name}) {
+    unless ( defined $this->{nomail}{$name} ) {
         $this->{nomail}{$name} = 1;
-        Foswiki::Func::writeWarning(
-            "Failed to find permitted email for '".
-              $subscriber->stringify()."' when processing web '$web'");
+        Foswiki::Func::writeWarning( "Failed to find permitted email for '"
+              . $subscriber->stringify()
+              . "' when processing web '$web'" );
     }
 }
 
