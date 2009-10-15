@@ -26,7 +26,7 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '23 Apr 2009';
+our $RELEASE = '15 Oct 2009';
 our $SHORTDESCRIPTION = 'Supports e-mail notification of changes';
 
 our $verbose = 0;
@@ -335,8 +335,12 @@ sub _sendChangesMails {
     my ( $twiki, $web, $changeset, $lastTime ) = @_;
     my $report = '';
 
+    # We read the mailnotify template in the context (skin and web) or the
+    # WebNotify topic we are currently processing
+    Foswiki::Func::pushTopicContext( $web, $Foswiki::cfg{NotifyTopicName} );
     my $skin = Foswiki::Func::getSkin();
     my $template = Foswiki::Func::readTemplate( 'mailnotify', $skin );
+    Foswiki::Func::popTopicContext();
 
     my $homeTopic = $Foswiki::cfg{HomeTopicName};
 

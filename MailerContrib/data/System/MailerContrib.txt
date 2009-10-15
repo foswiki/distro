@@ -137,7 +137,7 @@ will generate newsletters from *all* webs every week on midnight Saturday.
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
----++ Developer Notes
+---+++ Tailoring the email format
 The changes mails sent to subscribers are based on a Foswiki template called =mailnotify=. This template must contain the following definitions. 
 | =HTML:before= | Section of a HTML mail before the changes |
 | =HTML:middle= | Repeated in a HTML mail for each change |
@@ -146,9 +146,49 @@ The changes mails sent to subscribers are based on a Foswiki template called =ma
 | =PLAIN:middle= | Repeated in a plain text mail for each changes |
 | =PLAIN:after= | Section of a plain text mail after the changes |
 | =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, and %<nop>PLAIN_TEXT% from the =PLAIN:*= templates. |
-The default template sends multipart mails containing both HTML and plaintext versions. You can easily provide a custom version of this template using a local skin.
+The default template sends multipart mails containing both HTML and plaintext versions.
+
+To tailor the email format please avoid editing the distributed mailnotify.tmpl file as you will regret when it later gets overwritten when you upgrade Foswiki. Instead you should either use a skin setting to choose the template file or use web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
+   
+It is recommended to use the skin method as it is easier to control, and requires less hacking around. Especially if you need to use the same tailoring for many or all webs.
+
+   * Simple global tailoring used in all webs using your normal default skin
+      * Make a copy of =templates/mailnotify.tmpl= called =templates/mailnotify.skiname.tmpl=. For example =templates/mailnotify.pattern.tmpl= and modify this copy to your need. If you use the !NatSkin simply use =templates/mailnotify.nat.tmpl= instead
+
+   * Using a dummy skin name globally
+      * In !%USERSWEB%.SitePreferences define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
+      * Create a =templates/mailnotify.notifyskin.tmpl= with your tailorings
+   
+   * Using a dummy skin name per web
+      * In each web where you want a special mailnotify template add the setting =* Set SKIN = notifywebname,pattern= where the notifywebname is the dummy skin name for this web and the pattern in this example is the real skin.
+      * For each web where you need a special mailnotify template create a =templates/mailnotify.notifywebname.tmpl= with your tailorings
+   
+   * Using the web path in the templates directory
+      * For each web where you want a special mailnotify create subdirectories in =templates= with the same names as the webs and place a =templates/mailnotify.tmpl= in these subdirectories with your tailorings
 
 Newsletters are sent after formatting using the standard =view= template, using whatever skin is selected in the topic being mailed.
+
+---+++ Using a topic defined email template
+
+If you want to use a topic to define the notify email format this is possible with a small workaround. Before you go ahead and do this you need to consider the security implication. Making the email format available to any user from a browser means that spammers can abuse this to create messages where they can spoof the from address. Only use this method if your Foswiki installation is safely behind a firewall and your users can be trusted.
+
+The method can best be shown with an example. In the following we...
+
+   * Define a custom mailnotify template based on a skin setting in !WebNotify
+   * Allow the users to define the mail format in a topic called !WebNotifyCustomTemplate
+
+Here are the steps
+
+First we create a file =templates/mailnotify.customnotify.tmpl= which only contains these two lines
+
+<verbatim>
+%TMPL:INCLUDE{"mailnotify"}%
+%TMPL:INCLUDE{"WebNotifyCustom"}%
+</verbatim>
+
+In the webs where you want the topic defined mail format we add the setting =* Set SKIN = customnotify,pattern= (assuming pattern is the normal skin)
+
+And we create a topic in the web called !WebNotifyCustomTemplate which contains the entire mailnotify template you want to use. Simply copy the content from =templates/mailnotify.tmpl= to this template and do the tailoring.
 
 ---+++ Contrib Info
 
@@ -159,12 +199,13 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://wikigardens.com][WikiGardens]]
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004, Wind River Systems; 2008, http://WikiRing.com |
+|  Copyright &copy;: | 2004, Wind River Systems; 2008, http://WikiRing.com; 2009 Foswiki Contributors |
 |  License: | GPL |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  24 May 2009 | Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
+|  15 Oct 2009 | Foswikitask:Item2260. Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
+|  20 Sep 2009 | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
 |  23 Apr 2009 | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  03 Dec 2008 | Re-released for the Foswiki project |
 |  15 Oct 2008 | TWikibug:Item: generalised code to enable Foswiki:Extensions.SubscribePlugin to delegate parsing to %TOPIC% - Foswiki:Main.SvenDowideit |
