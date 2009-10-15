@@ -6,7 +6,7 @@ Allows users to "subscribe" to regularly scheduled e-mails containing either:
    * A report on changes to all topics that have changed within a particular Foswiki web.
    * A report on changes to a specific topic or set of topics the user can define flexibly.
    * The entire content of a specific topic or set of topics. This is referred to as "news mode."
-   * The companion plugin (Foswiki:Plugins.SubscribePlugin) lets you trivially add a "Subscribe to changes" button to topics
+   * The companion plugin (Foswiki:Extensions.SubscribePlugin) lets you trivially add a "Subscribe to changes" button to topics
 
 <!--
 
