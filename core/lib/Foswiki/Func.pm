@@ -1937,20 +1937,10 @@ sub addToHEAD {
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
 
-    # addToHEAD may be called from a xxxTagsHandler of a plugin and addToHEAD
-    # again calls xxxTagsHandlers via expandMacros causing deep recursion
-    # we use $session->{_InsideFuncAddToHEAD} to block re-entry
-    # (Foswikitask:Item913)
-    return 0
-      if ( defined $session->{_InsideFuncAddToHEAD}
-        && $session->{_InsideFuncAddToHEAD} );
-
-    $session->{_InsideFuncAddToHEAD} = 1;
     my $topicObject =
       Foswiki::Meta->new( $session, $session->{webName},
         $session->{topicName} );
     $session->addToHEAD( $tag, $header, $requires, $topicObject );
-    $session->{_InsideFuncAddToHEAD} = 0;
 }
 
 =begin TML

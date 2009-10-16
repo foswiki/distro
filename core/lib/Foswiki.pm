@@ -839,7 +839,7 @@ sub generateHTTPHeaders {
           my $lastModified = $cachedPage->{lastModified};
 
           $hopts->{'ETag'} = $etag;
-          $hopts->{'Last-Modified'} = $lastModified;
+          $hopts->{'Last-Modified'} = $lastModified if $lastModified;
 
           # only send a 304 if both criteria are true
           my $etagFlag = 1;
@@ -1311,7 +1311,9 @@ sub _make_params {
             $anchor .= '#' . urlEncode( shift(@_) );
         }
         else {
-            $ps .= ';' . urlEncode($p) . '=' . urlEncode( shift(@_) || '' );
+            my $v = shift(@_);
+            $v = '' unless defined $v;
+            $ps .= ';' . urlEncode($p) . '=' . urlEncode( $v );
         }
     }
     if ($ps) {
@@ -1959,7 +1961,7 @@ sub finish {
     undef $this->{_INCLUDES};
     undef $this->{response};
     undef $this->{evaluating_if};
-    undef $this->{_InsideFuncAddToHEAD};
+    undef $this->{_addedToHEAD};
 }
 
 =begin TML
@@ -3292,8 +3294,14 @@ sub ADDTOHEAD {
     if ( defined $args->{topic} ) {
         my ( $web, $topic ) =
           $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
-        my $atom = Foswiki::Meta->new( $this, $web, $topic );
-        $text = $atom->text();
+
+        # prevent deep recursion
+        $web =~ s/\//\./g;
+        unless ($this->{_addedToHEAD}{"$web.$topic"}) {
+          my $atom = Foswiki::Meta->new( $this, $web, $topic );
+          $text = $atom->text();
+          $this->{_addedToHEAD}{"$web.$topic"} = 1;
+        }
     }
     $text = $_DEFAULT unless defined $text;
     $text = ''        unless defined $text;
