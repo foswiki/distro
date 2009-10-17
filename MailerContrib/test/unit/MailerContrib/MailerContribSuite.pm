@@ -275,7 +275,7 @@ sub testSimple {
     my $this = shift;
 
     my @webs = ( $this->{test_web}, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0, undef, 0, 0 );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -331,7 +331,7 @@ sub testSubweb {
     my $this = shift;
 
     my @webs = ( $testWeb2, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0, undef, 0, 0 );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -457,7 +457,7 @@ HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{session}, 0, 0, 0 );
+        $this->{session}, 0, undef, 0, 0 );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -486,7 +486,7 @@ HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{session}, 0, 0, 0 );
+        $this->{session}, 0, undef, 0, 0 );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -552,7 +552,7 @@ sub testExpansion_1847 {
 
     # Launch mailNotify
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{session}, 0, 0, 0 );
+        $this->{session}, 0, undef, 0, 0 );
 
     for my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
