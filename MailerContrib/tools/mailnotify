@@ -34,11 +34,17 @@ my $verbose = 1;
 
 my @webs = ();
 my @exwebs = ();
+my $nonews = 0;
+my $nochanges = 0;
 
 # Called from the command line
 foreach my $arg ( @ARGV ) {
     if( $arg eq "-q" ) {
         $verbose = 0;
+    } elsif ( $arg eq "-nonews" ) {
+        $nonews = 1;
+    } elsif ( $arg eq "-nochanges" ) {
+        $nochanges = 1;
     } elsif ( $arg =~ m/^-(.*)/ ) {
 	push( @exwebs, $1 );
     } else {
@@ -50,6 +56,6 @@ use Foswiki::Contrib::MailerContrib;
 use CGI;
 
 my $report = Foswiki::Contrib::MailerContrib::mailNotify(
-    \@webs, undef, $verbose, \@exwebs );
+    \@webs, undef, $verbose, \@exwebs, $nonews, $nochanges );
 
 print $report."\n" if $verbose;
