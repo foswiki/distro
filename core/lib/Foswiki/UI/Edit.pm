@@ -189,9 +189,9 @@ sub init_edit {
     if ( !$tmpl ) {
         $session->logger->log('warning',
           "Edit template $template does not exist. " .
-          "Falling back to $templateName! ($webName.$topic)" );
+          "Falling back to $templateName! ($web.$topic)" );
 
-        $tmpl = $session->templates->readTemplate( $templateName, $skin );
+        $tmpl = $session->templates->readTemplate( $templateName );
     }
 
     if ( !$tmpl ) {
