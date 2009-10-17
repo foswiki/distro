@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.7 - 20 Sep 2009
+---+!! Foswiki Release 1.0.8 - 18 Oct 2009
 
 %TOC%
 
@@ -23,6 +23,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 100 bug fixes relative to 1.0.0 and only very few minor enhancements.
    * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
    * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 190 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
+   * Foswiki 1.0.8 was built 18 Oct 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevent using efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded to the latest Tine MCE editor release 3.2.7.
 
 ---++ Pre-installed Extensions
 
@@ -228,7 +229,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
 | [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
 | [[%BUGS%/Item109][Item109]] | Rename all topics that have the T-word in them |
-| [[%BUGS%/Item110][Item110]] | Replace all occurences of %<nop>TWIKIWEB% in core, docs and default plugins with %<nop>SYSTEMWEB% |
+| [[%BUGS%/Item110][Item110]] | Replace all occurences of %TWIKIWEB% in core, docs and default plugins with %SYSTEMWEB%  |
 | [[%BUGS%/Item113][Item113]] | Rebrand css classes from twikiXxxxx to foswikiXxxxxx |
 | [[%BUGS%/Item115][Item115]] | Delete ClassicSkin |
 | [[%BUGS%/Item116][Item116]] | Rebrand javascript classes |
@@ -242,7 +243,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item175][Item175]] | Create TWiki compatibility plugin |
 | [[%BUGS%/Item191][Item191]] | remove the stupid kids from pattern skin |
 | [[%BUGS%/Item203][Item203]] | Rebrand the !TipsContrib |
-| [[%BUGS%/Item205][Item205]] | Replace all TWiki webnames to %<nop>SYSTEMWEB% |
+| [[%BUGS%/Item205][Item205]] | Replace all TWiki webnames to %SYSTEMWEB% |
 | [[%BUGS%/Item206][Item206]] | Linking to Supplemental Documents |
 | [[%BUGS%/Item212][Item212]] | stop url(http://... something.png) from being made into a html link, so inline images in css style isn't terminal |
 | [[%BUGS%/Item217][Item217]] | Replace module/plugin of message at the top of source files |
@@ -317,7 +318,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item4868][Item4868]] | Bulk Register fails if Main web is Set ALLOWWEBCHANGE = TWikiAdminGroup |
 | [[%BUGS%/Item4906][Item4906]] | Filename of attachments containing a wikiword inside ( ) messes up the file attachment table and other UI |
 | [[%BUGS%/Item5006][Item5006]] | Interwiki rule: change Bugs: to Foswikitask:, and Rev: to Foswikirev: |
-| [[%BUGS%/Item5176][Item5176]] | %<nop>SCRIPTSUFFIX% is added twice in TOC links |
+| [[%BUGS%/Item5176][Item5176]] | %SCRIPTSUFFIX is added twice in TOC links |
 | [[%BUGS%/Item5213][Item5213]] | SCRIPTNAME not defined when using Sun One Web Server |
 | [[%BUGS%/Item5350][Item5350]] | NONWIKIWORDFLAG is not resolved |
 | [[%BUGS%/Item5351][Item5351]] | !WebCreateNewTopic filters out international characters |
@@ -328,11 +329,11 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item5852][Item5852]] | Split out operators into seperate modules, so that extensions can plug in new operators. |
 | [[%BUGS%/Item5859][Item5859]] | Plugin does not work if using NTLM |
 | [[%BUGS%/Item5900][Item5900]] | !PatternSkinCustomization and WysiwygPlugin still mention kupu and COMPOSER |
-| [[%BUGS%/Item5910][Item5910]] | %<nop>TOC% variable creates links with unnecessary query string |
+| [[%BUGS%/Item5910][Item5910]] | %TOC variable creates links with unnecessary query string |
 | [[%BUGS%/Item5922][Item5922]] | $formfield data not being displayed in formatted searches |
 | [[%BUGS%/Item5926][Item5926]] | Topics with Chinese in UTF8 destroys page view in Internet Explorer |
 | [[%BUGS%/Item5937][Item5937]] | move initialization of SwitchBoard to TWiki.spec |
-| [[%BUGS%/Item5939][Item5939]] | Rogue &lt;p /&gt; below &lt;/html&gt; on every topic in every web |
+| [[%BUGS%/Item5939][Item5939]] | Rogue <p /> below </html> on every topic in every web |
 | [[%BUGS%/Item5943][Item5943]] | TWikiRegistrationAgent should be in the admin group |
 | [[%BUGS%/Item5944][Item5944]] | The padding:1px for textareas makes it hard to place the cursor at the begining of a line |
 | [[%BUGS%/Item5957][Item5957]] | htdigest format password file gets stomped on password or email change/reset |
@@ -423,7 +424,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item913][Item913]] | JSCalendarContrib::addHEAD or Func::addToHEAD used in any xxxTagsHandler causes deep recursion |
 | [[%BUGS%/Item918][Item918]] | Small docu update for JSCalendarContrib |
 | [[%BUGS%/Item923][Item923]] | Adding two new fields to the default response header: Action and URI. |
-| [[%BUGS%/Item926][Item926]] | Foswiki.spec {AccessibleENV} must list FOSWIKI_ACTION instead of TWIKI_ACTION |
+| [[%BUGS%/Item926][Item926]] | Foswiki.spec {AccessibleENV} must list FOSWIKI_ACTION instead of TWIKI_ACTION
 | [[%BUGS%/Item928][Item928]] | Update documentation of Foswiki::Request |
 | [[%BUGS%/Item945][Item945]] | RcsLite corrupts file's history |
 | [[%BUGS%/Item952][Item952]] | email failure for password reset, pwd change and i think rego too oops output broken |
@@ -484,7 +485,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item1132][Item1132]] | Foswiki::Func::getPreferencesValue docco is a little weird |
 | [[%BUGS%/Item1134][Item1134]] | Use of uninitialized value in string eq at .../lib/Foswiki/Meta.pm line 296. |
 | [[%BUGS%/Item1135][Item1135]] | Missing API documentation |
-| [[%BUGS%/Item6018][Item6018]] | %<nop>GMTIME{}% does not return the right value for $week in ISO8601 |
+| [[%BUGS%/Item6018][Item6018]] | GMTIME{}% does not return the right value for $week in ISO8601 |
 </noautolink>
 
 ---+++ Enhancements
@@ -683,9 +684,9 @@ None
 | [[%BUGS%/Item1572][Item1572]] | Error using Configure -> 'Find More Extensions' after installing GaugePlugin |
 | [[%BUGS%/Item1687][Item1687]] | Documentation bug in !ManagingUsers, customizing registration emails  |
 | [[%BUGS%/Item1729][Item1729]] | Have more flexibility in Twisty's remember setting |
-| [[%BUGS%/Item1741][Item1741]] | %<nop>TOPICURL% does not work correctly in %<nop>INCLUDE% |
+| [[%BUGS%/Item1741][Item1741]] | %TOPICURL% does not work correctly in %INCLUDE% |
 | [[%BUGS%/Item1766][Item1766]] | Redirecting to http://foswiki_redirect_cache... on first login of a browser session |
-| [[%BUGS%/Item1768][Item1768]] | %<nop>Q% (info icon) Macro mistake |
+| [[%BUGS%/Item1768][Item1768]] | %Q (info icon) Macro mistake |
 | [[%BUGS%/Item1776][Item1776]] | Command line save gets stopped by validation |
 | [[%BUGS%/Item1780][Item1780]] | Under Windows using sha1 passwords new registrations create non working password |
 | [[%BUGS%/Item1781][Item1781]] | Uploading files can trigger taint errors if certain plugins are installed |
@@ -729,6 +730,21 @@ None
 | [[%BUGS%/Item1793][Item1793]] | remove topic summary in list of backlinks in rename-topic |
 | [[%BUGS%/Item2070][Item2070]] | Upgrade !TinyMCE editor to v 3.2.2 |
 | [[%BUGS%/Item8114][Item8114]] | Replace the pickaxe icon by something more meaningful |
+</noautolink>
+
+
+---++ Foswiki Patch Release 1.0.8 Details
+
+---+++ Fixes
+
+<noautolink>
+
+</noautolink>
+
+---+++ Enhancements
+
+<noautolink>
+
 </noautolink>
 
 ---
