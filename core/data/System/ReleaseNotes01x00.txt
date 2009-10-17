@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.7 - 20 Sep 2009
+---+!! Foswiki Release 1.0.8 - 18 Oct 2009
 
 %TOC%
 
@@ -23,6 +23,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 100 bug fixes relative to 1.0.0 and only very few minor enhancements.
    * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
    * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 190 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
+   * Foswiki 1.0.8 was built 18 Oct 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevent using efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded to the latest Tine MCE editor release 3.2.7.
 
 ---++ Pre-installed Extensions
 
@@ -729,6 +730,21 @@ None
 | [[%BUGS%/Item1793][Item1793]] | remove topic summary in list of backlinks in rename-topic |
 | [[%BUGS%/Item2070][Item2070]] | Upgrade !TinyMCE editor to v 3.2.2 |
 | [[%BUGS%/Item8114][Item8114]] | Replace the pickaxe icon by something more meaningful |
+</noautolink>
+
+
+---++ Foswiki Patch Release 1.0.8 Details
+
+---+++ Fixes
+
+<noautolink>
+
+</noautolink>
+
+---+++ Enhancements
+
+<noautolink>
+
 </noautolink>
 
 ---
