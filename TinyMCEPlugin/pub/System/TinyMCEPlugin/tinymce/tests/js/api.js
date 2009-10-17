@@ -634,6 +634,19 @@ $(window).load(function() {
 			DOM.remove('test');
 		});
 
+		test('tinymce.dom.DOMUtils - is', function() {
+			expect(3);
+
+			DOM.add(document.body, 'div', {id : 'test'});
+			DOM.setHTML('test', '<div id="textX" class="test">test 1</div>');
+
+			ok(DOM.is(DOM.get('textX'), 'div'));
+			ok(DOM.is(DOM.get('textX'), 'div#textX.test'));
+			ok(!DOM.is(DOM.get('textX'), 'div#textX2'));
+
+			DOM.remove('test');
+		});
+
 		test('tinymce.dom.DOMUtils - encode', function() {
 			expect(1);
 
@@ -672,6 +685,35 @@ $(window).load(function() {
 			equals(DOM.getAttrib('test2', 'test1'), '1');
 			equals(DOM.getAttrib('test3', 'test2'), '2');
 			equals(DOM.getAttrib('test4', 'test1'), '1');
+
+			DOM.remove('test');
+		});
+
+		test('tinymce.dom.DOMUtils - getAttribs', function() {
+			var dom;
+
+			function check(obj, val) {
+				var count = 0;
+
+				val = val.split(',');
+
+				$.each(obj, function(i, o) {
+					if ($.inArray(o.nodeName.toLowerCase(), val) != -1 && o.specified)
+						count++;
+				});
+
+				return count == obj.length;
+			};
+
+			expect(2);
+
+			DOM.add(document.body, 'div', {id : 'test'});
+
+			DOM.get('test').innerHTML = '<span id="test2" class="test"></span>';
+			ok(check(DOM.getAttribs('test2'), 'id,class'));
+	
+			DOM.get('test').innerHTML = '<input id="test2" type="checkbox" name="test" value="1" disabled readonly checked></span>';
+			ok(check(DOM.getAttribs('test2'), 'id,type,name,value,disabled,readonly,checked'), 'Expected attributed: type,name,disabled,readonly,checked');
 
 			DOM.remove('test');
 		});
@@ -814,6 +856,40 @@ $(window).load(function() {
 			DOM.remove('test');
 		});
 
+		test('tinymce.dom.DOMUtils - getNext', function() {
+			var r;
+
+			expect(5);
+
+			DOM.add(document.body, 'div', {id : 'test'});
+
+			DOM.get('test').innerHTML = '<strong>A</strong><span>B</span><em>C</em>';
+			equals(DOM.getNext(DOM.get('test').firstChild, '*').nodeName, 'SPAN');
+			equals(DOM.getNext(DOM.get('test').firstChild, 'em').nodeName, 'EM');
+			equals(DOM.getNext(DOM.get('test').firstChild, 'div'), null);
+			equals(DOM.getNext(null, 'div'), null);
+			equals(DOM.getNext(DOM.get('test').firstChild, function(n) {return n.nodeName == 'EM'}).nodeName, 'EM');
+
+			DOM.remove('test');
+		});
+
+		test('tinymce.dom.DOMUtils - getPrev', function() {
+			var r;
+
+			expect(5);
+
+			DOM.add(document.body, 'div', {id : 'test'});
+
+			DOM.get('test').innerHTML = '<strong>A</strong><span>B</span><em>C</em>';
+			equals(DOM.getPrev(DOM.get('test').lastChild, '*').nodeName, 'SPAN');
+			equals(DOM.getPrev(DOM.get('test').lastChild, 'strong').nodeName, 'STRONG');
+			equals(DOM.getPrev(DOM.get('test').lastChild, 'div'), null);
+			equals(DOM.getPrev(null, 'div'), null);
+			equals(DOM.getPrev(DOM.get('test').lastChild, function(n) {return n.nodeName == 'STRONG'}).nodeName, 'STRONG');
+
+			DOM.remove('test');
+		});
+
 		test('tinymce.dom.DOMUtils - loadCSS', function() {
 			var c = 0;
 
@@ -929,7 +1005,7 @@ $(window).load(function() {
 
 			equals(
 				dom.processHTML('<span style="background-image:url(\'http://www.somesite.com\');">test</span>'),
-				'<span style="background-image:url(\'http://www.somesite.com\');" mce_style="background-image:url(\'http://www.somesite.com\');">test</span>'
+				'<span style="background-image:url(\'http://www.somesite.com\');" mce_style="background-image: url(&amp;&lt;&gt;&quot;http://www.somesite.com&amp;&lt;&gt;&quot;);">test</span>'
 			);
 
 			equals(
@@ -983,6 +1059,21 @@ $(window).load(function() {
 
 			equals(DOM.encode('едц&<>"'), 'едц&amp;&lt;&gt;&quot;');
 			equals(DOM.decode('&aring;&auml;&ouml;&amp;&lt;&gt;&quot;'), 'едц&<>"');
+		});
+
+		test('tinymce.dom.DOMUtils - split', function() {
+			var point, parent;
+			//expect(2);
+
+			DOM.add(document.body, 'div', {id : 'test'}, '<p><b>text1<span>inner</span>text2</b></p>');
+
+			parent = DOM.select('p', DOM.get('test'))[0];
+			point = DOM.select('span', DOM.get('test'))[0];
+
+			DOM.split(parent, point);
+			equals(DOM.get('test').innerHTML.toLowerCase().replace(/\s+/g, ''), '<p><b>text1</b></p><span>inner</span><p><b>text2</b></p>');
+
+			DOM.remove('test');
 		});
 
 		DOM.remove('test');
@@ -1042,7 +1133,7 @@ $(window).load(function() {
 		test('tinymce.DOM.Serializer - serialize', function() {
 			var ser = new tinymce.dom.Serializer({dom : DOM}), h, a, b;
 
-			expect(42);
+			expect(78);
 
 			DOM.add(document.body, 'div', {id : 'test'});
 			DOM.counter = 0;
@@ -1059,13 +1150,113 @@ $(window).load(function() {
 			DOM.setHTML('test', '<br /><hr /><input type="text" name="test" value="val" class="no" /><span id="test2" class="no"><b class="no">abc</b><em class="no">123</em></span>123<a href="file.html">link</a><a name="anchor"></a><a>no</a><img src="file.gif" />');
 			equals(ser.serialize(DOM.get('test')), '<div id="test"><br /><hr /><input type="text" name="test" value="val" /><span id="test2"><strong>abc</strong><em>123</em></span>123<a href="file.html">link</a><a name="anchor"></a>no<img src="file.gif" border="0" title="mce_0" /></div>');
 
-			ser.setRules('input[type|name|value|checked|disabled|readonly],select,option[selected]');
-			DOM.setHTML('test', '<input type="radio" checked="1" disabled="1" value="1"><input type="radio" checked="0" disabled="0" value="1"><input type="checkbox" checked="false" disabled="false" value="1"><input type="radio" checked="checked" disabled="disabled" value="1"><input type="text" readonly="true"><select><option selected="1">test1</option><option selected="0">test2</option><option selected="false">test3</option></select>');
-			equals(ser.serialize(DOM.get('test')), '<input type="radio" value="1" checked="checked" disabled="disabled" /><input type="radio" value="1" /><input type="checkbox" value="1" /><input type="radio" value="1" checked="checked" disabled="disabled" /><input type="text" readonly="readonly" /><select><option selected="selected">test1</option><option>test2</option><option>test3</option></select>');
+			ser.setRules('input[type|name|value|checked|disabled|readonly|length|maxlength],select[multiple],option[value|selected],table,tr,td[nowrap],ul[compact]');
+
+			DOM.setHTML('test', '<input type="checkbox" value="1">');
+			equals(ser.serialize(DOM.get('test')), '<input type="checkbox" value="1" />');
+
+			DOM.setHTML('test', '<input type="checkbox" value="1" checked disabled readonly>');
+			equals(ser.serialize(DOM.get('test')), '<input type="checkbox" value="1" checked="checked" disabled="disabled" readonly="readonly" />');
+
+			DOM.setHTML('test', '<input type="checkbox" value="1" checked="1" disabled="1" readonly="1">');
+			equals(ser.serialize(DOM.get('test')), '<input type="checkbox" value="1" checked="checked" disabled="disabled" readonly="readonly" />');
+
+			DOM.setHTML('test', '<input type="checkbox" value="1" checked="true" disabled="true" readonly="true">');
+			equals(ser.serialize(DOM.get('test')), '<input type="checkbox" value="1" checked="checked" disabled="disabled" readonly="readonly" />');
+
+			DOM.setHTML('test', '<input type="checkbox" value="1" checked="false" disabled="false" readonly="false">');
+			equals(ser.serialize(DOM.get('test')), '<input type="checkbox" value="1" />');
+
+			DOM.setHTML('test', '<input type="checkbox" value="1" checked="0" disabled="0" readonly="0">');
+			equals(ser.serialize(DOM.get('test')), '<input type="checkbox" value="1" />');
+
+
+			DOM.setHTML('test', '<select><option value="1">test1</option><option value="2" selected>test2</option></select>');
+			equals(ser.serialize(DOM.get('test')), '<select><option value="1">test1</option><option value="2" selected="selected">test2</option></select>');
+
+			DOM.setHTML('test', '<select><option value="1">test1</option><option selected="1" value="2">test2</option></select>');
+			equals(ser.serialize(DOM.get('test')), '<select><option value="1">test1</option><option value="2" selected="selected">test2</option></select>');
+
+			DOM.setHTML('test', '<select><option value="1">test1</option><option value="2" selected="true">test2</option></select>');
+			equals(ser.serialize(DOM.get('test')), '<select><option value="1">test1</option><option value="2" selected="selected">test2</option></select>');
+
+			DOM.setHTML('test', '<select><option value="1" selected="1">test1</option><option value="2" selected="0">test2</option></select>');
+			equals(ser.serialize(DOM.get('test')), '<select><option value="1" selected="selected">test1</option><option value="2">test2</option></select>');
+
+			DOM.setHTML('test', '<select><option value="1" selected="1">test1</option><option value="2" selected="false">test2</option></select>');
+			equals(ser.serialize(DOM.get('test')), '<select><option value="1" selected="selected">test1</option><option value="2">test2</option></select>');
+
+
+			DOM.setHTML('test', '<select multiple></select>');
+			equals(ser.serialize(DOM.get('test')), '<select multiple="multiple"></select>');
+
+			DOM.setHTML('test', '<select multiple="multiple"></select>');
+			equals(ser.serialize(DOM.get('test')), '<select multiple="multiple"></select>');
+
+			DOM.setHTML('test', '<select multiple="1"></select>');
+			equals(ser.serialize(DOM.get('test')), '<select multiple="multiple"></select>');
+
+			DOM.setHTML('test', '<select multiple="0"></select>');
+			equals(ser.serialize(DOM.get('test')), '<select></select>');
+
+			DOM.setHTML('test', '<select multiple="false"></select>');
+			equals(ser.serialize(DOM.get('test')), '<select></select>');
+
+			DOM.setHTML('test', '<select></select>');
+			equals(ser.serialize(DOM.get('test')), '<select></select>');
+
+
+			DOM.setHTML('test', '<ul compact></ul>');
+			equals(ser.serialize(DOM.get('test')), '<ul compact="compact"></ul>');
+
+			DOM.setHTML('test', '<ul compact="compact"></ul>');
+			equals(ser.serialize(DOM.get('test')), '<ul compact="compact"></ul>');
+
+			DOM.setHTML('test', '<ul compact="1"></ul>');
+			equals(ser.serialize(DOM.get('test')), '<ul compact="compact"></ul>');
+
+			DOM.setHTML('test', '<ul compact="0"></ul>');
+			equals(ser.serialize(DOM.get('test')), '<ul></ul>');
+
+			DOM.setHTML('test', '<ul compact="false"></ul>');
+			equals(ser.serialize(DOM.get('test')), '<ul></ul>');
+
+			DOM.setHTML('test', '<ul></ul>');
+			equals(ser.serialize(DOM.get('test')), '<ul></ul>');
+
+
+
+			DOM.setHTML('test', '<table><tr><td></td></tr></table>');
+			equals(ser.serialize(DOM.get('test')), '<table><tr><td></td></tr></table>');
+
+			DOM.setHTML('test', '<table><tr><td nowrap></td></tr></table>');
+			equals(ser.serialize(DOM.get('test')), '<table><tr><td nowrap="nowrap"></td></tr></table>');
+
+			DOM.setHTML('test', '<table><tr><td nowrap="nowrap"></td></tr></table>');
+			equals(ser.serialize(DOM.get('test')), '<table><tr><td nowrap="nowrap"></td></tr></table>');
+
+			DOM.setHTML('test', '<table><tr><td nowrap="1"></td></tr></table>');
+			equals(ser.serialize(DOM.get('test')), '<table><tr><td nowrap="nowrap"></td></tr></table>');
+
+			DOM.setHTML('test', '<table><tr><td nowrap="false"></td></tr></table>');
+			equals(ser.serialize(DOM.get('test')), '<table><tr><td></td></tr></table>');
+
+			DOM.setHTML('test', '<table><tr><td nowrap="0"></td></tr></table>');
+			equals(ser.serialize(DOM.get('test')), '<table><tr><td></td></tr></table>');
+
+			DOM.setHTML('test', '<input type="text" />');
+			equals(ser.serialize(DOM.get('test')), '<input type="text" />');
+
+			DOM.setHTML('test', '<input type="text" value="text" length="128" maxlength="129" />');
+			equals(ser.serialize(DOM.get('test')), '<input type="text" value="text" length="128" maxlength="129" />');
 
 			ser.setRules('a[href|target<_blank?_top|title:forced value]');
 			DOM.setHTML('test', '<a href="file.htm" target="_blank" title="title">link</a><a href="#" target="test">test2</a>');
 			equals(ser.serialize(DOM.get('test')), '<a href="file.htm" target="_blank" title="forced value">link</a><a href="#" title="forced value">test2</a>');
+
+			ser.setRules('form[method],input[type|name|value]');
+			DOM.setHTML('test', '<form method="post"><input type="hidden" name="method" value="get" /></form>');
+			equals(ser.serialize(DOM.get('test')), '<form method="post"><input type="hidden" name="method" value="get" /></form>');
 
 			ser.setRules('*[*]');
 			DOM.setHTML('test', '<label for="test">label</label>');
@@ -1077,7 +1268,11 @@ $(window).load(function() {
 
 			ser.setRules('*[*]');
 			DOM.setHTML('test', '<span style="border: 1px solid red">test</span>');
-			equals(ser.serialize(DOM.get('test')), '<div id="test"><span style="border: 1px solid red">test</span></div>', null, tinymce.isOldWebKit);
+			equals(ser.serialize(DOM.get('test')), '<div id="test"><span style="border: 1px solid red;">test</span></div>', null, tinymce.isOldWebKit);
+	
+			ser.setRules('*[*]');
+			DOM.setHTML('test', '<span title="test abc">test</span>');
+			equals(ser.serialize(DOM.get('test')), '<div id="test"><span title="test abc">test</span></div>');
 
 			ser.setRules('*[*]');
 			DOM.setHTML('test', '<div mce_name="mytag" class="test">test</div>');
@@ -1164,36 +1359,50 @@ $(window).load(function() {
 			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<style><!--\n   body { background:#fff }\n--></style>');
 
 			ser.setRules('script[type|language|src]');
+
+			DOM.setHTML('test', '<script>// <img src="test"><a href="#"></a></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\n// <img src="test"><a href="#"></a>\n// ]]></script>');
+
 			DOM.setHTML('test', '<script>var a = b < c1;</script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\nvar a = b < c1;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\nvar a = b < c1;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript">var a = b < c2;</script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\nvar a = b < c2;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\nvar a = b < c2;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript">\n\tvar a = b < c22;\n\t if (a < b)\n\t\talert(1);\n</script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\n\tvar a = b < c22;\n\t if (a < b)\n\t\talert(1);\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\n\tvar a = b < c22;\n\t if (a < b)\n\t\talert(1);\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript"><!-- var a = b < c3; // --></script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\n var a = b < c3;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\n var a = b < c3;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript">\n\n<!-- var a = b < c3;\n\n--></script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\n var a = b < c3;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\n var a = b < c3;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript">// <![CDATA[var a = b < c4; // ]]></script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\nvar a = b < c4;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\nvar a = b < c4;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript"><![CDATA[var a = b < c4; ]]></script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\nvar a = b < c4;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\nvar a = b < c4;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript">\n\n<![CDATA[\n\nvar a = b < c4;\n\n]]>\n\n</script>');
-			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript"><!--\nvar a = b < c4;\n// --></script>');
+			equals(ser.serialize(DOM.get('test')).replace(/\r/g, ''), '<script type="text/javascript">// <![CDATA[\nvar a = b < c4;\n// ]]></script>');
 
 			DOM.setHTML('test', '<script type="text/javascript" src="test.js"></script>');
 			equals(ser.serialize(DOM.get('test')), '<script type="text/javascript" src="test.js"></script>');
 
+			ser.setRules('noscript[test]');
+			DOM.setHTML('test', '<noscript test="test"><br></noscript>');
+			equals(ser.serialize(DOM.get('test')), '<noscript test="test"><br></noscript>');
+
+			DOM.setHTML('test', '<noscript><br></noscript>');
+			equals(ser.serialize(DOM.get('test')), '<noscript><br></noscript>');
+
+			DOM.setHTML('test', '<noscript><!-- text --><br></noscript>');
+			equals(ser.serialize(DOM.get('test')), '<noscript><!-- text --><br></noscript>');
+
 			ser.setRules('map[id|name],area[shape|coords|href|target|alt]');
 			DOM.setHTML('test', '<map id="planetmap" name="planetmap"><area shape="rect" coords="0,0,82,126" href="sun.htm" target="_blank" alt="Sun" /></map>');
-			equals(ser.serialize(DOM.get('test')), '<map id="planetmap" name="planetmap"><area shape="rect" coords="0,0,82,126" href="sun.htm" target="_blank" alt="Sun"></area></map>');
+			equals(ser.serialize(DOM.get('test')), '<map id="planetmap" name="planetmap"><area shape="rect" coords="0,0,82,126" href="sun.htm" target="_blank" alt="Sun" /></map>');
 
 			DOM.setHTML('test', '123<![CDATA[<test>]]>abc');
 			equals(ser.serialize(DOM.get('test')), '123<![CDATA[<test>]]>abc');
@@ -1315,7 +1524,7 @@ $(window).load(function() {
 		});
 
 		test('tinymce.util.URI - relativeURLs', function() {
-			expect(24);
+			expect(26);
 
 			equals(new URI('http://www.site.com/dir1/dir2/file.html').toRelative('http://www.site.com/dir1/dir3/file.html'), '../dir3/file.html');
 			equals(new URI('http://www.site.com/dir1/dir2/file.html').toRelative('http://www.site.com/dir3/dir4/file.html'), '../../dir3/dir4/file.html');
@@ -1341,10 +1550,12 @@ $(window).load(function() {
 			equals(new URI('http://www.site.com/dir1/dir2/').toRelative('../@@tinymce'), '../@@tinymce'); // Zope 3 URL
 			equals(new URI('http://www.site.com/').toRelative('dir2/test.htm'), 'dir2/test.htm');
 			equals(new URI('http://www.site.com/').toRelative('./'), './');
+			equals(new URI('http://www.site.com/test/').toRelative('../'), '../');
+			equals(new URI('http://www.site.com/test/test/').toRelative('../'), '../');
 		});
 
 		test('tinymce.util.URI - absoluteURLs', function() {
-			expect(15);
+			expect(17);
 
 			equals(new URI('http://www.site.com/dir1/dir2/').toAbsolute('../dir3'), 'http://www.site.com/dir1/dir3');
 			equals(new URI('http://www.site.com/dir1/dir2/').toAbsolute('../dir3', 1), '/dir1/dir3');
@@ -1361,6 +1572,8 @@ $(window).load(function() {
 			equals(new URI('http://www.site.com/dir1/dir2/').toAbsolute('../@@tinymce'), 'http://www.site.com/dir1/@@tinymce'); // Zope 3 URL
 			equals(new URI('http://www.site.com/dir1/dir2/').getURI(), 'http://www.site.com/dir1/dir2/');
 			equals(new URI('http://www.site.com/dir1/dir2/').toAbsolute('/dir1/dir1/'), 'http://www.site.com/dir1/dir1/');
+			equals(new URI('http://www.site.com/dir1/dir2/').toAbsolute('https://www.site.com/dir1/dir2/', true), 'https://www.site.com/dir1/dir2/');
+			equals(new URI('http://www.site.com/dir1/dir2/').toAbsolute('http://www.site.com/dir1/dir2/', true), '/dir1/dir2/');
 		});
 
 		test('tinymce.util.URI - strangeURLs', function() {

@@ -1,3 +1,131 @@
+Version 3.2.7 (2009-09-22)
+	Fixed bug where uppercase paragraphs could still produce an invalid DOM tree on IE.
+	Fixed bug where split command didn't work on WebKit since the node serializer needs a real document to work with.
+	Fixed bug where it was impossible in Gecko to place the caret before a table if it was the first one.
+	Fixed bug where linking to urls like ../../ would produce an extra traling slash ../..//.
+	Fixed bug where the template cdate functionality was using an old 2.x API call. Patch contributed by vectorjohn.
+	Fixed bug where urls to the same site but different protocol would be converted when relative_urls where set to false. Patch contributed by Ted Rust.
+	Fixed bug where the paste plugin would remove mceItem prefixed classes.
+	Fixed bug where the paste plugin would sometimes add items in a reverse order on WebKit.
+	Fixed bug where the paste buttons would present an error message on Gecko even if you changed user.js. Patch contributed by Todd (teeaykay).
+	Fixed bug where Opera would crash if you had tables incorrectly placed inside paragraphs.
+	Fixed bug where styles elements wasn't properly processed if you had bad input HTML.
+	Fixed bug where style attributes wasn't properly forced into a specific format.
+	Fixed bug and issues with boolean attributes like checked, nowrap etc.
+	Fixed bug where input elements could override attributes on form elements.
+	Fixed bug where script or style elements could get modified by the DOMUtils processHTML method.
+	Fixed bug where the selected attribute could get lost when force root blocks logic got executed on IE. Patch contributed by Attila Mezei-Horvati.
+	Fixed bug where getAttribs method didn't handle boolean attributes correctly on IE.
+	Fixed so the paste from word dialog is presented if you paste content on an IE with to restrictive security settings.
+	Fixed so the paste_strip_class_attributes option is set to none by default in the paste plugin.
+	Removed default border=0 on tables for the default value of valid_elements.
+Version 3.2.6 (2009-08-19)
+	Added new wordcount plugin, this will display the number of typed words as you write. Contributed by Andrew Ozz.
+	Added new getNext and getPrev methods to DOM utils. These will return the first matching sibling.
+	Fixed bug where it was impossible to place the caret after a table on Gecko. It will now add a paragraph after tables.
+	Fixed bug where inline dialogs would fail if used in a window opened using a showModalDialog. Patch contributed by Derek Britt.
+	Fixed bug where IE could sometimes render a unknown runtime error on invalid input HTML.
+	Fixed bug where some incorrectly placed tables wouldn't be moved outside the paragraphs on IE.
+	Fixed bug where uppercase script/style element wouldn't be handled correctly and converted to valid lowercase.
+	Fixed bug where some WebKit versions on Mac OS X would produce issues with hidden select fields.
+	Fixed bug where the media plugin would fail on WebKit since the node wasn't properly imported to the right document.
+	Fixed bug where absolute URLs for the TinyMCE script using a base href element would cause loading problems in IE 6/7.
+	Fixed bug where pasting using the paste plugin wasn't possible on IE with to restrictive security settings.
+	Fixed bug where pasting of whitespace was impossible using the new custom paste method.
+	Fixed bug where pasting on some WebKit browsers would not work if you pasted specific contents due to a WebKit bug.
+	Fixed bug where doctypes with multiple lines would not be parsed correctly by the fullpage plugin. Patch contributed by Colin.
+	Fixed bug where the autoresize plugin would break the fullscreen functionality.
+	Fixed bug where tables would be chopped up running on IE using invalid contents and pasting paragraphs into a cell.
+	Fixed bug where the each method of jQuery build didn't iterate styleSheets. We now use the TinyMCE API one instead.
+	Fixed bug where auto switching to paragraphs after headers some times failed in Gecko.	
+	Fixed so all editor options gets passed to the Serializer class. Patch contributed by Jasper Mattsson.
+	Fixed so script/style blocks isn't wrapped in paragraphs as other inline elements.
+	Fixed so the XHR requests sends the X-Requested-With HTTP header.
+	Fixed so the data url scheme is handled in the tinymce.util.URI class.
+	Changed inline documentation to use moxiedoc style comments.
+	Removed the compat2x plugin people should have upgraded to the 3.x API by now. 3.0 was released more then a year ago.
+	Re-added Gecko specific message for users who doesn't understand the security concept regarding paste.
+Version 3.2.5 (2009-06-29)
+	Added new jQuery plugin for the jQuery specific package. This enables you to more easily load and use TinyMCE.
+	Added new autoresize plugin contributed by Peter Dekkers. This plugin will auto resize the editor to the size of the contents.
+	Fixed so all packages have the same directory structure. Previous releases had a different structure for the production package.
+	Fixed so the paste from word dialog forces the contents to be processed as word contents even if it's not.
+	Fixed so the jQuery build adapter build works. It's currently only excluding Sizzle.
+	Fixed so noscript element contents is retained during the editing process.
+	Fixed bug where the getBookmark method would need a "simple" string input when the documented way is a boolean.
+	Fixed bug where invalid contents could break the fix_table_elements logic.
+	Fixed bug where Sizzle specific attributes would be serialized if the valid_elements was set to *[*].
+	Fixed bug where IE would produce an error if you specified a relative content_css and opened the paste dialog.
+	Fixed bug where pasting images on IE would produce broken images if they came from an external site.
+	Fixed bug where memory was leaked if you add/remove controls dynamically. Some event handlers wasn't removed properly.
+	Fixed bug where domain relaxing wasn't treated correctly if you added it after the TinyMCE script element.
+	Fixed bug where the activeEditor wasn't set to null if the last editor instance was removed.
+	Fixed bug where IE was leaking memory on the onbeforeunload event due to some recently introduced logic. Patch contributed by Options.
+	Fixed bug where inserting tables in Safari 4 didn't work due to a new WebKit bug where some element names are reserved.
+	Fixed bug where URLs having a :// value in the query string would make it absolute regardless of URL settings.
+	Fixed the WebKit specific bug where DOM Ranges would fail if the node wasn't attached to something in a different way.
+	Removed the auto_resize option and the resizeToContent method from the tinymce.Editor class. Use the new autoresize plugin instead.
+Version 3.2.4.1 (2009-05-25)
+	Fixed bug where Gecko browsers would produce an extra space after for example strong when loaded from sub domains.
+	Fixed bug where script elements would be removed if they where placed inside a paragraph element.
+	Fixed bug where IE 8 would produce 1 item remaining when loading CSS files dynamically with an empty cache.
+	Fixed bug where bound events would be removed from other editor instances if a specific one was removed.
+	Fixed various bugs and issues with script and style elements inside the editor.
+	Fixed so all script contents gets wrapped in CDATA sections so that they can be parsed using a XML parser.
+	Fixed so it's impossible for elements marked as closed to have child nodes rendered in output.
+Version 3.2.4 (2009-05-21)
+	Added new paste_remove_styles/paste_remove_styles_if_webkit option to paste plugin concept contributed by Hadrien Gardeur.
+	Added new functionality to paste plugin contributed by Scott Eade aka monkeybrain.
+	Added new paste_block_drop option to the paste plugin this is disabled by default and will block any drag/drop event.
+	Added new bind/unbind methods to DOMUtils these works like Event.add/Event.remove but is easier to access.
+	Added new paste_dialog_width/paste_dialog_height options to paste pluign. Enables you to change the dialog sizes.
+	Fixed bug on IE 8 where it would sometimes produce a "1 item remaining" status message that would never finish.
+	Fixed bug on Safari 4 beta that would produce DOM Range exceptions on the DOMUtils split method since the browser has a bug.
+	Fixed bug where the paste plugin could accidentally think that some word sentences was supposed to be list elements.
+	Fixed bug where paste plugin would produce one extra empty undo level on some browsers.
+	Fixed bug where spans wasn't produced correctly on new line when the keep_styles option was enabled.
+	Fixed bug where the caret would be placed at the beginning of contents in IE 8 if you selected colors from the color pickers.
+	Fixed so the Event class is a normal class instead of a static one. The tinymce.dom.Event is now a global instance of that class.
+	Fixed so internal events for instances gets removed when the DOMUtils instance is removed.
+	Fixed so preventDefault and stopPropagation methods can be used on the event object in all browsers.
+Version 3.2.3.1 (2009-05-05)
+	Fixed bug where paragraphs containing form elements such as input or textarea would be removed.
+	Fixed bug where some IE versions would produce a wrapper function for events attributes.
+	Fixed bug where table cell contents could be removed if you pressed return/enter at the end of the cell contents.
+	Fixed bug where the paste plugin would remove a extra character if the selection range was collapsed.
+	Fixed bug where creating tables with % width wouldn't be handled correctly on WebKit browsers.
+Version 3.2.3 (2009-04-23)
+	Added new paste plugin logic. This new version will autodetect Word contents and clean it up.
+	Added a optional root element argument to getPos so you can tell it where to stop the calculation.
+	Added new DOM ready logic to remove the usage of document.write. We now use basically the same method as jQuery.
+	Fixed bug where WebKit browsers would fail when selecting all contents in the area using Ctrl+A.
+	Fixed bug where IE would produce paragraphs with empty inline style elements.
+	Fixed bug where WebKit browsers would fail when inserting tables with a non pixel width.
+	Fixed bug where block elements could get a redundant br element at the end of the element.
+	Fixed bug where the tabfocus plugin only worked with a single editor instance on page.
+	Fixed bug where IE 8 was loosing caret position if the selection was collapsed and a menu was clicked.
+	Fixed bug with application/xhtml+xml mode where menus wasn't working properly.
+	Fixed bug where the onstop workaround fix for IE would produce errors in an ASP update panel.
+	Fixed bug where the submit function override could produce errors if executed in the wrong scope.
+	Fixed bug where the area element wasn't closed by a short ending.
+	Fixed various number issues in the style plugins properties dialog. Contributed by datpaulchen.
+	Fixed issues with size suffix values in the style plugin dialog.
+	Fixed issue where hasDuplicate variable would leak out to the global space due to a bug in the Sizzle engine.
+	Fixed issue where the paste event would fire a dialog warning on IE since we extracted the text contents.
+	Updated Sizzle engine to the latest version, this version fixes a few bugs that was reported.
+Version 3.2.2.3 (2009-03-26)
+	Fixed regression bug with the getPos method, it would return invalid if the view port was to small.
+Version 3.2.2.2 (2009-03-25)
+	Fixed so the DOMUtils getPos method can be used cross documents if needed.
+	Fixed bug where undo/redo wasn't working correctly in Gecko browsers.
+Version 3.2.2.1 (2009-03-19)
+	Added support for tel: URL prefixes. Even though this doesn't match any official RFC.
+	Fixed so the select method of the Selection class selects the first best suitable contents.
+	Fixed bug where the regexps for www. prefixes for link and advlink dialogs would match wwwX.
+	Fixed bug where the preview dialog would fail to open if the content_css wasn't defined. Patch contributed by David Bildström (ChronoZ).
+	Fixed bug where editors wasn't converted in application/xhtml+xml mode due to an issue with Sizzle.
+	Fixed bug where alignment would fail if multiple lines where selected.
+	Updated Sizzle engine to the latest version, this version fixes a few bugs that was reported.
 Version 3.2.2 (2009-03-05)
 	Added new CSS selector engine. Sizzle the same one that jQuery and other libraries are using.
 	Added new is and getParents methods to the DOMUtils class. These use the new Sizzle engine to select elements.

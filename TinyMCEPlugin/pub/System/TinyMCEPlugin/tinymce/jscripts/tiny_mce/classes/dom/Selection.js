@@ -1,5 +1,5 @@
 /**
- * $Id: Selection.js 1049 2009-03-04 21:12:10Z spocke $
+ * $Id: Selection.js 1217 2009-08-28 18:31:42Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -13,16 +13,17 @@
 	// Shorten names
 	var is = tinymce.is, isIE = tinymce.isIE, each = tinymce.each;
 
-	/**#@+
-	 * @class This class handles text and control selection it's an crossbrowser utility class.
+	/**
+	 * This class handles text and control selection it's an crossbrowser utility class.
 	 * Consult the TinyMCE Wiki API for more details and examples on how to use this class.
-	 * @member tinymce.dom.Selection
+	 * @class tinymce.dom.Selection
 	 */
 	tinymce.create('tinymce.dom.Selection', {
 		/**
 		 * Constructs a new selection instance.
 		 *
 		 * @constructor
+		 * @method Selection
 		 * @param {tinymce.dom.DOMUtils} dom DOMUtils object reference.
 		 * @param {Window} win Window to bind the selection object to.
 		 * @param {tinymce.dom.Serializer} serializer DOM serialization class to use for getContent.
@@ -52,13 +53,10 @@
 			tinymce.addUnload(t.destroy, t);
 		},
 
-		/**#@+
-		 * @method
-		 */
-
 		/**
 		 * Returns the selected contents using the DOM serializer passed in to this class.
 		 *
+		 * @method getContent
 		 * @param {Object} s Optional settings class with for example output format text or html.
 		 * @return {String} Selected contents in for example HTML format.
 		 */
@@ -104,6 +102,7 @@
 		 * with the contents passed in to this function. If there is no selection the contents will be inserted
 		 * where the caret is placed in the editor/page.
 		 *
+		 * @method setContent
 		 * @param {String} h HTML contents to set could also be other formats depending on settings.
 		 * @param {Object} s Optional settings object with for example data format.
 		 */
@@ -160,6 +159,7 @@
 		 * Returns the start element of a selection range. If the start is in a text
 		 * node the parent element will be returned.
 		 *
+		 * @method getStart
 		 * @return {Element} Start element of selection range.
 		 */
 		getStart : function() {
@@ -191,6 +191,7 @@
 		 * Returns the end element of a selection range. If the end is in a text
 		 * node the parent element will be returned.
 		 *
+		 * @method getEnd
 		 * @return {Element} End element of selection range.
 		 */
 		getEnd : function() {
@@ -222,7 +223,8 @@
 		 * Returns a bookmark location for the current selection. This bookmark object
 		 * can then be used to restore the selection after some content modification to the document.
 		 *
-		 * @param {bool} si Optional state if the bookmark should be simple or not. Default is complex.
+		 * @method getBookmark
+		 * @param {Boolean} si Optional state if the bookmark should be simple or not. Default is complex.
 		 * @return {Object} Bookmark object, use moveToBookmark with this object to restore the selection.
 		 */
 		getBookmark : function(si) {
@@ -231,7 +233,7 @@
 			sy = vp.y;
 
 			// Simple bookmark fast but not as persistent
-			if (si == 'simple')
+			if (si)
 				return {rng : r, scrollX : sx, scrollY : sy};
 
 			// Handle IE
@@ -352,8 +354,9 @@
 		/**
 		 * Restores the selection to the specified bookmark.
 		 *
+		 * @method moveToBookmark
 		 * @param {Object} bookmark Bookmark to restore selection from.
-		 * @return {bool} true/false if it was successful or not.
+		 * @return {Boolean} true/false if it was successful or not.
 		 */
 		moveToBookmark : function(b) {
 			var t = this, r = t.getRng(), s = t.getSel(), ro = t.dom.getRoot(), sd, nvl, nv;
@@ -399,6 +402,8 @@
 
 			// Handle explorer
 			if (isIE) {
+				t.tridentSel.destroy();
+
 				// Handle simple
 				if (r = b.rng) {
 					try {
@@ -479,26 +484,32 @@
 		/**
 		 * Selects the specified element. This will place the start and end of the selection range around the element.
 		 *
+		 * @method select
 		 * @param {Element} n HMTL DOM element to select.
-		 * @param {} c Bool state if the contents should be selected or not on non IE browser.
+		 * @param {Boolean} c Bool state if the contents should be selected or not on non IE browser.
 		 * @return {Element} Selected element the same element as the one that got passed in.
 		 */
 		select : function(n, c) {
 			var t = this, r = t.getRng(), s = t.getSel(), b, fn, ln, d = t.win.document;
 
-			function first(n) {
-				return n ? d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false).nextNode() : null;
-			};
+			function find(n, start) {
+				var walker, o;
 
-			function last(n) {
-				var c, o, w;
+				if (n) {
+					walker = d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
 
-				if (!n)
-					return null;
+					// Find first/last non empty text node
+					while (n = walker.nextNode()) {
+						o = n;
 
-				w = d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
-				while (c = w.nextNode())
-					o = c;
+						if (tinymce.trim(n.nodeValue).length != 0) {
+							if (start)
+								return n;
+							else
+								o = n;
+						}
+					}
+				}
 
 				return o;
 			};
@@ -521,8 +532,8 @@
 				}
 			} else {
 				if (c) {
-					fn = first(n) || t.dom.select('br:first', n)[0];
-					ln = last(n) || t.dom.select('br:last', n)[0];
+					fn = find(n, 1) || t.dom.select('br:first', n)[0];
+					ln = find(n, 0) || t.dom.select('br:last', n)[0];
 
 					if (fn && ln) {
 						r = d.createRange();
@@ -550,7 +561,8 @@
 		/**
 		 * Returns true/false if the selection range is collapsed or not. Collapsed means if it's a caret or a larger selection.
 		 *
-		 * @return {bool} true/false state if the selection range is collapsed or not. Collapsed means if it's a caret or a larger selection.
+		 * @method isCollapsed
+		 * @return {Boolean} true/false state if the selection range is collapsed or not. Collapsed means if it's a caret or a larger selection.
 		 */
 		isCollapsed : function() {
 			var t = this, r = t.getRng(), s = t.getSel();
@@ -564,7 +576,8 @@
 		/**
 		 * Collapse the selection to start or end of range.
 		 *
-		 * @param {bool} b Optional boolean state if to collapse to end or not. Defaults to start.
+		 * @method collapse
+		 * @param {Boolean} b Optional boolean state if to collapse to end or not. Defaults to start.
 		 */
 		collapse : function(b) {
 			var t = this, r = t.getRng(), n;
@@ -583,6 +596,7 @@
 		/**
 		 * Returns the browsers internal selection object.
 		 *
+		 * @method getSel
 		 * @return {Selection} Internal browser selection object.
 		 */
 		getSel : function() {
@@ -594,7 +608,8 @@
 		/**
 		 * Returns the browsers internal range object.
 		 *
-		 * @param {bool} w3c Forces a compatible W3C range on IE.
+		 * @method getRng
+		 * @param {Boolean} w3c Forces a compatible W3C range on IE.
 		 * @return {Range} Internal browser range object.
 		 */
 		getRng : function(w3c) {
@@ -623,6 +638,7 @@
 		/**
 		 * Changes the selection to the specified DOM range.
 		 *
+		 * @method setRng
 		 * @param {Range} r Range to select.
 		 */
 		setRng : function(r) {
@@ -654,6 +670,7 @@
 		/**
 		 * Sets the current selection to the specified DOM element.
 		 *
+		 * @method setNode
 		 * @param {Element} n Element to set as the contents of the selection.
 		 * @return {Element} Returns the element that got passed in.
 		 */
@@ -668,6 +685,7 @@
 		/**
 		 * Returns the currently selected element or the common ancestor element for both start and end of the selection.
 		 *
+		 * @method getNode
 		 * @return {Element} Currently selected element or common ancestor element.
 		 */
 		getNode : function() {
@@ -713,7 +731,7 @@
 				n = sb;
 
 				while ((n = n.nextSibling) && n != eb) {
-					if (isBlock(n))
+					if (dom.isBlock(n))
 						bl.push(n);
 				}
 			}
@@ -729,11 +747,12 @@
 
 			t.win = null;
 
+			if (t.tridentSel)
+				t.tridentSel.destroy();
+
 			// Manual destroy then remove unload handler
 			if (!s)
 				tinymce.removeUnload(t.destroy);
 		}
-
-		/**#@-*/
 	});
 })(tinymce);
