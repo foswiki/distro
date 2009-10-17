@@ -450,8 +450,7 @@ Test sorting of a date (d-mon-year) down
 
 =cut
 
-# FIXME: this currently fails, so is disabled. See http://foswiki.org/Tasks/Item8302
-sub DISABLED_test_sort_date_down {
+sub test_sort_date_down {
     my $this = shift;
 
     my $cgi             = $this->{request};
