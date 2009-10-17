@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-09-22 12:31+0200\n"
+"PO-Revision-Date: 2009-10-17 18:05+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt\n"
@@ -178,7 +178,7 @@ msgstr "O tópico %1 não existe"
 
 #: core/templates/registerfailedremoved.tmpl:12
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 tentou registrar com o e-mail %2"
+msgstr "%1 tentou registar com o e-mail %2"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "&Cancel"
