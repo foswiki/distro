@@ -26,10 +26,12 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '15 Oct 2009';
+our $RELEASE = '17 Oct 2009';
 our $SHORTDESCRIPTION = 'Supports e-mail notification of changes';
 
 our $verbose = 0;
+our $nonews = 0;
+our $nochanges = 0;
 
 # PROTECTED STATIC ensure the contrib is initernally initialised
 sub initContrib {
@@ -39,11 +41,13 @@ sub initContrib {
 
 =pod
 
----++ StaticMethod mailNotify($webs, $session, $verbose, $exwebs)
+---++ StaticMethod mailNotify($webs, $session, $verbose, $exwebs, $nonewsmode, $nochangesmode)
    * =$webs= - filter list of names webs to process. Wildcards (*) may be used.
    * =$session= - optional session object. If not given, will use a local object.
    * =$verbose= - true to get verbose (debug) output.
    * =$exwebs = - filter list of webs to exclude.
+   * =$nonewsmode = the notify script was called with the -nonews option so we skip news mode
+   * =$nochangesmode = the notify script was called with the -nochanges option
 
 Main entry point.
 
@@ -54,9 +58,11 @@ only be called by =mailnotify= scripts.
 =cut
 
 sub mailNotify {
-    my ( $webs, $twiki, $noisy, $exwebs ) = @_;
+    my ( $webs, $twiki, $noisy, $exwebs, $nonewsmode, $nochangesmode ) = @_;
 
     $verbose = $noisy;
+    $nonews = $nonewsmode || 0;
+    $nochanges = $nochangesmode || 0;
 
     my $webstr;
     if ( defined($webs) ) {
@@ -207,7 +213,7 @@ sub parsePageList {
 
 # PRIVATE: Read the webnotify, and notify changes
 sub _processWeb {
-    my ( $twiki, $web ) = @_;
+    my ( $twiki, $web, $nonews, $nochanges ) = @_;
 
     if ( !Foswiki::Func::webExists($web) ) {
 
@@ -314,12 +320,17 @@ sub _processSubscriptions {
     }
 
     # Now generate emails for each recipient
-    my $report =
-      _sendChangesMails( $twiki, $web, \%changeset,
-        Foswiki::Time::formatTime($timeOfLastNotify) );
+    my $report = '';
+    
+    if ( !$nochanges ) {
+        $report .= _sendChangesMails( $twiki, $web, \%changeset,
+          Foswiki::Time::formatTime($timeOfLastNotify) );
+    }
 
-    $report .= _sendNewsletterMails( $twiki, $web, \%allSet );
-
+    if ( !$nonews ) {
+        $report .= _sendNewsletterMails( $twiki, $web, \%allSet );
+    }
+    
     if ( $timeOfLastChange != 0 ) {
         if ( open( F, '>', $notmeta ) ) {
             print F $timeOfLastChange;

@@ -49,7 +49,7 @@ Users may further customize the specific content they will receive using the fol
    * *Using wild-card character in topic names* - You can use =*= in a topic name, where it is treated as a [[http://en.wikipedia.org/wiki/Wildcard_character][wildcard character]]. A =*= will match zero or more other characters - so, for example, =Fred*= will match all topic names starting with =Fred=, =*Fred= will match all topic names _ending_ with =Fred=, and =*= will match _all_ topic names.
    * *Unsubscribing to specific topics* - Each topic may optionally be preceded by a '+' or '-' sign. The '+' sign means "subscribe to this topic". The '-' sign means "unsubscribe" or "don't send notifications regarding this particular topic". This allows users to elect to filter out certain topics. Topic filters ('-') take precedence over topic includes ('+') i.e. if you unsubscribe from a topic it will cancel out any subscriptions to that topic.
    * *Including child-topics in subscription* - Each topic may optionally be followed by an integer in parentheses, indicating the depth of the tree of children below that topic. Changes in all these children will be detected and reported along with changes to the topic itself. _Note_ This uses the Foswiki "Topic parent" feature.
-   * *Subscribing to entire topic ("news mode")* - Each topic may optionally be immediately followed by an exclamation mark ! and/or a question mark ? with no intervening spaces, indicating that the topic (and children if there is a tree depth specifier as well) should be mailed out as *complete topics* instead of change summaries. ! causes the full topic to be mailed every time _even if there have been no changes_, and ? will mail the full topic only if there have been changes. One can limit the content of the subscribed topic to send out by inserting %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers within the topic. Note that "news mode" subscriptions require a corresponding cron job that includes the "-news" option (see [[%TOPIC%#Setting_up_your_cron_job_s][details]]).
+   * *Subscribing to entire topic ("news mode")* - Each topic may optionally be immediately followed by an exclamation mark ! and/or a question mark ? with no intervening spaces, indicating that the topic (and children if there is a tree depth specifier as well) should be mailed out as *complete topics* instead of change summaries. ! causes the full topic to be mailed every time _even if there have been no changes_, and ? will mail the full topic only if there have been changes. One can limit the content of the subscribed topic to send out by inserting %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers within the topic. Note that the script mailnotify can be run with the options -nochanges or -nonews so that you can run the two mode on different schedules (see [[%TOPIC%#Setting_up_your_cron_job_s][details]]).
 
 Examples:
 Subscribe Daisy to all changes to topics in this web.
@@ -116,7 +116,8 @@ You need to set up a =cron= (or equivalent) job to run the =tools/mailnotify= pe
 The script is used as follows: <code>perl -I _bin_ mailnotify [-q] [-news] [ <i>web1 web2 ... webN</i> ]</code>
 | _bin_ | path to the Foswiki bin directory, so that the script can find the rest of Foswiki. |
 | =-q= | Don't print progress information |
-| =-news= | Run in "news mode" (process subscriptions that include "!" or "?" following the topic) |
+| =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
+| =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
 | <code><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
 <verbatim>
@@ -128,11 +129,17 @@ will generate change notifications for the =Public= and =Private= webs every nig
 </verbatim>
 will generate change notifications for all webs, except the =Sandbox= web.
 <verbatim>
-0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -news
+0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -nochanges
 </verbatim>
-will generate newsletters from *all* webs every week on midnight Saturday.
+will generate newsletters from *all* webs every week on midnight Saturday but will not process the non-newsletter subscriptions.
+<verbatim>
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -nonews
+</verbatim>
+will generate change notifications for all webs every night at midnight but will not process the newsletter subscriptions.
 
 %X% Note: Multiple instances of mailnotify script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs mailnotify in sequence as described in Foswiki:Support.DuplicateNotificationsFromMailerCon.
+
+%X% Note: Even if you run separate -nonews and -nochanges cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the mailnotify script was run even if it was run with -nonews. Separate newsletter jobs work best with the unconditional "!" mode.
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -204,7 +211,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  15 Oct 2009 | Foswikitask:Item2260. Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
+|  17 Oct 2009 | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
+|  15 Oct 2009 | Foswikitask:Item2260: Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
 |  20 Sep 2009 | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
 |  23 Apr 2009 | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  03 Dec 2008 | Re-released for the Foswiki project |
