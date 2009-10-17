@@ -183,6 +183,17 @@ sub init_edit {
         $tmpl = $session->templates->readTemplate($template);
     }
 
+    # Item2151: We cannot throw exceptions for invalid edit templates
+    # because the user cannot correct it. Instead we fall back to default
+    # and write a warning log entry to aid fault finding for the admin
+    if ( !$tmpl ) {
+        $session->logger->log('warning',
+          "Edit template $template does not exist. " .
+          "Falling back to $templateName! ($webName.$topic)" );
+
+        $tmpl = $session->templates->readTemplate( $templateName, $skin );
+    }
+
     if ( !$tmpl ) {
         throw Foswiki::OopsException(
             'attention',
