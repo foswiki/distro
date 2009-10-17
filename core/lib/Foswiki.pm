@@ -1807,7 +1807,7 @@ sub finish {
     undef $this->{_INCLUDES};
     undef $this->{response};
     undef $this->{evaluating_if};
-    undef $this->{_InsideFuncAddToHEAD};
+    undef $this->{_addedToHEAD};
 }
 
 =begin TML
@@ -3061,9 +3061,15 @@ sub ADDTOHEAD {
     my $requires = $args->{requires};
     if ( defined $topic ) {
         ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-        my $dummy = undef;
-        ( $dummy, $text ) =
-          $this->{store}->readTopic( $this->{user}, $web, $topic );
+
+        # prevent deep recursion
+        $web =~ s/\//\./g;
+        unless ($this->{_addedToHEAD}{"$web.$topic"}) {
+          my $dummy = undef;
+          ( $dummy, $text ) =
+            $this->{store}->readTopic( $this->{user}, $web, $topic );
+          $this->{_addedToHEAD}{"$web.$topic"} = 1;
+        }
     }
     $text = $_DEFAULT unless defined $text;
     $text = ''        unless defined $text;

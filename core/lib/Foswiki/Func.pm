@@ -1905,18 +1905,7 @@ sub addToHEAD {
     my ( $tag, $header, $requires ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-# addToHEAD may be called from a xxxTagsHandler of a plugin and addToHEAD
-# again calls xxxTagsHandlers via handleCommonTags causing deep recursion
-# we use $session->{_InsideFuncAddToHEAD} to block re-entry (Foswikitask:Item913)
-
-    my $session = $Foswiki::Plugins::SESSION;
-    return 0
-      if ( defined $session->{_InsideFuncAddToHEAD}
-        && $session->{_InsideFuncAddToHEAD} );
-
-    $session->{_InsideFuncAddToHEAD} = 1;
-    $session->addToHEAD(@_);
-    $session->{_InsideFuncAddToHEAD} = 0;
+    $Foswiki::Plugins::SESSION->addToHEAD(@_);
 }
 
 =begin TML
