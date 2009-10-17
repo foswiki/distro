@@ -52,6 +52,9 @@ sub test_parseTimeFoswiki {
     my $this = shift;
     $this->checkTime( 0, 1, 18, 10, 12, 2001, "10 Dec 2001 - 18:01" );
     $this->checkTime( 0, 0, 0,  10, 12, 2001, "10 Dec 2001" );
+    
+    $this->checkTime( 0, 1, 18, 10, 12, 2001, "10-Dec-2001 - 18:01" );
+    $this->checkTime( 0, 0, 0,  10, 12, 2001, "10-Dec-2001" );
 }
 
 sub test_parseTimeRCS {
