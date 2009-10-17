@@ -113,17 +113,36 @@ The second part of the module is a code library that provides the services for o
 ---+++ Setting up your cron job(s)
 You need to set up a =cron= (or equivalent) job to run the =tools/mailnotify= perl script.
 
-The script is used as follows: <code>perl -I _bin_ mailnotify [-q] [-news] [ <i>web1 web2 ... webN</i> ]</code>
+The script is used as follows: <code>perl -I _bin_ mailnotify [-q] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
 | _bin_ | path to the Foswiki bin directory, so that the script can find the rest of Foswiki. |
 | =-q= | Don't print progress information |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
 | <code><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+
+Setting up cron can be done in many ways. Below is an ultrashort overview which may be sufficient.
+
+<blockquote>
+Crontab syntax is 5 numbers followed by the command
+
+=A B C D E   command to be executed=
+   * A is minutes (0-59)
+   * B is hour (0-23)
+   * C is day of month (1-31)
+   * D is month (1-12)
+   * E day of week (0-6) (Sunday=0)
+An asterix '*' means any value
+
+If you choose to setup the cron by editing the system wide /etc/crontab file the syntax is =A B C D E username command-to-be-executed=
+
+To learn more about cron and crontab Google for =crontab= for more information. 
+</blockquote>
+
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
 <verbatim>
 0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q Public Private
 </verbatim>
-will generate change notifications for the =Public= and =Private= webs every night at midnight. (Google for =crontab= for more information on what all the =0 0 * * *= fields mean)
+will generate change notifications for the =Public= and =Private= webs every night at midnight.
 <verbatim>
 0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q -Sandbox
 </verbatim>
