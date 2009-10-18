@@ -237,6 +237,16 @@ var FoswikiTiny = {
                     var cb = FoswikiTiny.tml2html[i];
                     text = cb.apply(this, [ this, text ]);
                 }
+                /* SMELL: Work-around for Item2270. In future this plugin may
+                   be updated so that this needs to be changed. TMCE's wordcount
+                   plugin limits itself to a max. of one count per
+                   2 seconds, so users always see a wordcount of 6 (Please
+                   wait... retrieving page from server) when they first edit a
+                   document. So remove lock before setContent() */
+                if (this.plugins.wordcount !== undefined &&
+                  this.plugins.wordcount.blocked !== undefined) {
+                    this.plugins.wordcount.blocked = 0;
+                }
                 this.setContent(text);
                 this.isNotDirty = true;
                 FoswikiTiny.enableSaveButton(true);
