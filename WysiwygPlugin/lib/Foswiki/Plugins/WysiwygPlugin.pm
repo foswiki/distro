@@ -694,7 +694,7 @@ br=clear;
 col=char,charoff,span,valign,width;
 colgroup=align,char,charoff,span,valign,width;
 dir=compact;
-div=align;
+div=align,style; 
 dl=compact;
 font=size,face;
 h\d=align;
@@ -728,7 +728,10 @@ DEFAULT
     }
     foreach my $row (@protectedByAttr) {
         if ( $tag =~ /^$row->{tag}$/i ) {
-            return 1 if ( $attr =~ /^($row->{attrs})$/i );
+	    if ( $attr =~ /^($row->{attrs})$/i ) {
+	        #print STDERR "Protecting  $tag with $attr matches $row->{attrs} \n";    #debug
+                return 1 
+	    }
         }
     }
     return 0;
