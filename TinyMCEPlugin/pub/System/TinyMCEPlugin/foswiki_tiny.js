@@ -21,6 +21,7 @@ editor.getElement().onchange=function(){var editor=tinyMCE.getInstanceById(eid);
 FoswikiTiny.enableSaveButton(false);editor.setContent("<span class='foswikiAlert'>"
 +"Please wait... retrieving page from server."
 +"</span>");FoswikiTiny.transform(editor,"tml2html",text,function(text,req,o){for(var i=0;i<FoswikiTiny.tml2html.length;i++){var cb=FoswikiTiny.tml2html[i];text=cb.apply(this,[this,text]);}
+if(this.plugins.wordcount!==undefined&&this.plugins.wordcount.blocked!==undefined){this.plugins.wordcount.blocked=0;}
 this.setContent(text);this.isNotDirty=true;FoswikiTiny.enableSaveButton(true);},function(type,req,o){this.setContent("<div class='foswikiAlert'>"
 +"There was a problem retrieving "
 +o.url+": "
@@ -35,4 +36,4 @@ return url;},convertPubURL:function(url){url=FoswikiTiny.expandVariables(url);if
 return url;},getMetaTag:function(inKey){if(FoswikiTiny.metaTags==null||FoswikiTiny.metaTags.length==0){var head=document.getElementsByTagName("META");head=head[0].parentNode.childNodes;FoswikiTiny.metaTags=new Array();for(var i=0;i<head.length;i++){if(head[i].tagName!=null&&head[i].tagName.toUpperCase()=='META'){FoswikiTiny.metaTags[head[i].name]=head[i].content;}}}
 return FoswikiTiny.metaTags[inKey];},install:function(){var tmce_init=this.getMetaTag('TINYMCEPLUGIN_INIT');if(tmce_init!=null){eval("tinyMCE.init({"+unescape(tmce_init)+"});");return;}
 alert("Unable to install TinyMCE; <META name='TINYMCEPLUGIN_INIT' is missing");},getTopicPath:function(){return this.getFoswikiVar("WEB")+'.'+this.getFoswikiVar("TOPIC");},getScriptURL:function(script){var scripturl=this.getFoswikiVar("SCRIPTURL");var suffix=this.getFoswikiVar("SCRIPTSUFFIX");if(suffix==null)suffix='';return scripturl+"/"+script+suffix;},getRESTURL:function(fn){return this.getScriptURL('rest')+"/WysiwygPlugin/"+fn;},getListOfAttachments:function(onSuccess){var url=this.getRESTURL('attachments');var path=this.getTopicPath();var params="nocache="+encodeURIComponent((new Date()).getTime())
-+"&topic="+encodeURIComponent(path);tinymce.util.XHR.send({url:url+"?"+params,type:"POST",content_type:"application/x-www-form-urlencoded",data:params,success:function(atts){if(atts!=null){onSuccess(eval(atts));}}});}};
++"&topic="+encodeURIComponent(path);tinymce.util.XHR.send({url:url+"?"+params,type:"POST",content_type:"application/x-www-form-urlencoded",data:params,success:function(atts){if(atts!=null){onSuccess(eval(atts));}}});}};;
