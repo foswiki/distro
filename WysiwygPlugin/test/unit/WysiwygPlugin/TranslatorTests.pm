@@ -398,6 +398,35 @@ HERE
 --
 HERE
     },
+
+    {
+        exec => $ROUNDTRIP,
+        name => 'centering',
+        html => <<'HERE',
+<center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div> 
+
+Not Centered
+
+<div align="center">TEST Centered text.</div>
+HERE
+        tml  => <<'HERE',
+<center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div> 
+
+Not Centered
+
+<div align="center">TEST Centered text.</div>
+HERE
+        finaltml => <<'HERE',
+<center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div>
+
+Not Centered
+
+<div align="center">TEST Centered text.</div>
+HERE
+    },
+
+
+
     {
         exec => $ROUNDTRIP,
         name => 'simpleBullList',
