@@ -135,6 +135,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to TinyMCE 3.2.7, enabled new standard plugin: wordcount|
 |  20 Sep 2009 | Foswikitask:Item2121: Remove 2 MB of developer files that are not used |
 |  19 Sep 2009 | Foswikitask:Item2037: Fix fullscreen-to-WikiText transition |
 |  18 Sep 2009 | Foswikitask:Item1798: Fixed a problem where editor wants to put text elements into blocks causing unwanted new lines. <br /> Foswikitask:Item1341: Fixed a problem so that editor does not convert TML lettered and roman numeral lists back to numbered lists. |
