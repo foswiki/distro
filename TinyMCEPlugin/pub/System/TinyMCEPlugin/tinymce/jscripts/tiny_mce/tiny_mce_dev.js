@@ -1,5 +1,5 @@
 /**
- * $Id: tiny_mce_dev.js 1047 2009-03-04 20:45:44Z spocke $
+ * $Id: tiny_mce_dev.js 1128 2009-05-18 11:58:08Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -65,11 +65,8 @@
 	};
 
 	// Firebug
-	if (query.debug && (!window.console || !console.debug || /WebKit/.test(navigator.userAgent))) {
-		window.console = null; // Force firebug on WebKit
-		document.documentElement.setAttribute("debug", "true");
+	if (query.debug)
 		include('firebug/firebug-lite.js');
-	}
 
 	// Core ns
 	include('tinymce.js');
@@ -90,7 +87,7 @@
 	include('dom/Range.js');
 	include('dom/TridentSelection.js');
 	include('dom/Sizzle.js');
-	include('dom/Event.js');
+	include('dom/EventUtils.js');
 	include('dom/Element.js');
 	include('dom/Selection.js');
 	include('dom/XMLWriter.js');
