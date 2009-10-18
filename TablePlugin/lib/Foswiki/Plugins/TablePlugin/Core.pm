@@ -1716,9 +1716,11 @@ Handles the following formats:
 
 Default Foswiki format
    * 31 Dec 2001 - 23:59
+   * 31-Dec-2001 - 23:59
 
 Foswiki format without time (defaults to 00:00)
    * 31 Dec 2001
+   * 31-Dec-2001
 
 Date separated by '/', '.' or '-', time with '.' or ':'
 Date and time separated by ' ', '.' and/or '-'
@@ -1768,7 +1770,7 @@ sub _parseTime {
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
     #TODO: allow /.: too
-    if ( $date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
+    if ( $date =~ /(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
         my $year = $3;
         $year -= 1900 if ( $year > 1900 );
 
