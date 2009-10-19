@@ -657,6 +657,7 @@ sub getWikiName {
     my $mapping = $this->_getMapping($cUID);
     $wikiname = $mapping->getWikiName($cUID) if $mapping;
 
+    #don't cache unknown users - it really makes a mess later.
     if ( !defined($wikiname) ) {
         if ( $Foswiki::cfg{RenderLoggedInButUnknownUsers} ) {
             $wikiname = "UnknownUser (<nop>$cUID)";
@@ -664,16 +665,15 @@ sub getWikiName {
         else {
             $wikiname = $cUID;
         }
+    } else {
+        # remove the web part
+        # SMELL: is this really needed?
+        $wikiname =~ s/^($Foswiki::cfg{UsersWebName}|%MAINWEB%|%USERSWEB%)\.//;
+
+        $this->{cUID2WikiName}->{$cUID}     = $wikiname;
+        $this->{wikiName2cUID}->{$wikiname} = $cUID;
     }
-
-    # remove the web part
-    # SMELL: is this really needed?
-    $wikiname =~ s/^($Foswiki::cfg{UsersWebName}|%MAINWEB%|%USERSWEB%)\.//;
-
-    $this->{cUID2WikiName}->{$cUID}     = $wikiname;
-    $this->{wikiName2cUID}->{$wikiname} = $cUID;
-
-    return $this->{cUID2WikiName}->{$cUID};
+    return $wikiname;
 }
 
 =begin TML
