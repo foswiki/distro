@@ -244,8 +244,8 @@ var FoswikiTiny = {
                    wait... retrieving page from server) when they first edit a
                    document. So remove lock before setContent() */
                 if (this.plugins.wordcount !== undefined &&
-                  this.plugins.wordcount.blocked !== undefined) {
-                    this.plugins.wordcount.blocked = 0;
+                  this.plugins.wordcount.block !== undefined) {
+                    this.plugins.wordcount.block = 0;
                 }
                 this.setContent(text);
                 this.isNotDirty = true;
