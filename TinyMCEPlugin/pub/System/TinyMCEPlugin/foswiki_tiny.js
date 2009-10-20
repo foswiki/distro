@@ -21,7 +21,7 @@ editor.getElement().onchange=function(){var editor=tinyMCE.getInstanceById(eid);
 FoswikiTiny.enableSaveButton(false);editor.setContent("<span class='foswikiAlert'>"
 +"Please wait... retrieving page from server."
 +"</span>");FoswikiTiny.transform(editor,"tml2html",text,function(text,req,o){for(var i=0;i<FoswikiTiny.tml2html.length;i++){var cb=FoswikiTiny.tml2html[i];text=cb.apply(this,[this,text]);}
-if(this.plugins.wordcount!==undefined&&this.plugins.wordcount.blocked!==undefined){this.plugins.wordcount.blocked=0;}
+if(this.plugins.wordcount!==undefined&&this.plugins.wordcount.block!==undefined){this.plugins.wordcount.block=0;}
 this.setContent(text);this.isNotDirty=true;FoswikiTiny.enableSaveButton(true);},function(type,req,o){this.setContent("<div class='foswikiAlert'>"
 +"There was a problem retrieving "
 +o.url+": "
