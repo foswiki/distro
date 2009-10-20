@@ -58,7 +58,7 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,wordcount,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
+plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
@@ -135,8 +135,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  18 Oct 2009 | Foswikitask:Item2270: Fix incorrect wordcount when user first enters edit mode |
-|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to TinyMCE 3.2.7, enabled new standard plugin: wordcount|
+|  18 Oct 2009 | Foswikitask:Item2270: Fix wordcount plugin to show correct count when user first enters edit mode |
+|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to TinyMCE 3.2.7 |
 |  20 Sep 2009 | Foswikitask:Item2121: Remove 2 MB of developer files that are not used |
 |  19 Sep 2009 | Foswikitask:Item2037: Fix fullscreen-to-WikiText transition |
 |  18 Sep 2009 | Foswikitask:Item1798: Fixed a problem where editor wants to put text elements into blocks causing unwanted new lines. <br /> Foswikitask:Item1341: Fixed a problem so that editor does not convert TML lettered and roman numeral lists back to numbered lists. |
