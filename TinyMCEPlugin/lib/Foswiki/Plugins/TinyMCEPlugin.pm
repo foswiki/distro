@@ -138,7 +138,7 @@ sub _notAvailable {
 
     # Check the client browser to see if it is blacklisted
     my $ua = Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_BAD_BROWSERS')
-      || '(?i-xsm:Konqueror|Opera)';
+      || '(?i-xsm:Konqueror)';
     return 'Unsupported browser: ' . $query->user_agent()
       if $ua && $query->user_agent() && $query->user_agent() =~ /$ua/;
 
