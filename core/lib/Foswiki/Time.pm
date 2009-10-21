@@ -198,13 +198,13 @@ sub parseTime {
         $year -= 1900 if ( $year > 1900 );
 
         #range checks
-        return 0 if ( defined($M) && ( $M < 1 || $M > 12 ) );
+        return undef if ( defined($M) && ( $M < 1 || $M > 12 ) );
         my $month = ( $M || 1 ) - 1;
-        return 0 if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
-        return 0 if ( defined($h) && ( $h < 0 || $h > 24 ) );
-        return 0 if ( defined($m) && ( $m < 0 || $m > 60 ) );
-        return 0 if ( defined($s) && ( $s < 0 || $s > 60 ) );
-        return 0 if ( defined($year) && $year < 60 ); 
+        return undef if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
+        return undef if ( defined($h) && ( $h < 0 || $h > 24 ) );
+        return undef if ( defined($m) && ( $m < 0 || $m > 60 ) );
+        return undef if ( defined($s) && ( $s < 0 || $s > 60 ) );
+        return undef if ( defined($year) && $year < 60 ); 
 
         my $day  = $D || 1;
         my $hour = $h || 0;
@@ -214,10 +214,9 @@ sub parseTime {
         return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) -
           $tzadj;
     }
-
-    #TODO: returning  0 makes it very hard to detect parse errors :(
-    # give up, return start of epoch (01 Jan 1970 GMT)
-    return 0;
+    
+    # give up, return undef
+    return undef;
 }
 
 =begin TML
