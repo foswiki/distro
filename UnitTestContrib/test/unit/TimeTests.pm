@@ -221,14 +221,14 @@ sub test_parseTimeRobustness {
 sub test_parseErrors {
     my $this = shift;
 
-    $this->assert_equals( 0, Foswiki::Time::parseTime('wibble') );
-    $this->assert_equals( 0, Foswiki::Time::parseTime('1234-qwer-3') );
-    $this->assert_equals( 0, Foswiki::Time::parseTime('1234-1234-1234') );
-    $this->assert_equals( 0, Foswiki::Time::parseTime('2008^12^12') );
-    $this->assert_equals( 0, Foswiki::Time::parseTime('2008--12-23') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('wibble') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('1234-qwer-3') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('1234-1234-1234') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('2008^12^12') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('2008--12-23') );
 
-    $this->assert_equals( 0, Foswiki::Time::parseTime('2008-13-23') );
-    $this->assert_equals( 0, Foswiki::Time::parseTime('2008-10-32') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('2008-13-23') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('2008-10-32') );
 }
 
 sub test_week {
