@@ -9,7 +9,7 @@ One line description, required for extensions repository catalog.
 <img src="%ATTACHURL%/screenshot.gif"/>
 
 %TOC%
-This is an integration of the <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. This is great little editor, fast and highly functional, and supporting a wide range of browsers, including Firefox, IE and Safari. At the time of writing it doesn't work with Opera or Konqueror.
+This is an integration of the <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. This is great little editor, fast and highly functional, and supporting a wide range of browsers, including Firefox, IE and Safari. At the time of writing it doesn't work with Konqueror.
 
 The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
@@ -112,7 +112,7 @@ The plugin also respects the global =NOWYSIWYG= setting, which affects all
 WYSIWYG editors.
 
 Some browsers don't support Tiny MCE. You can prevent the editor from
-being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror|Opera)=. For a full list of supported browsers see http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility
+being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror)=. For a full list of supported browsers see http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility
 
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 
@@ -135,8 +135,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  21 Oct 2009 | Foswikitask:Item1558: Tiny MCE project now supports Opera, so remove it from _BAD_BROWSERS |
 |  18 Oct 2009 | Foswikitask:Item2270: Fix wordcount plugin to show correct count when user first enters edit mode |
-|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to TinyMCE 3.2.7 |
+|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to Tiny MCE 3.2.7 |
 |  20 Sep 2009 | Foswikitask:Item2121: Remove 2 MB of developer files that are not used |
 |  19 Sep 2009 | Foswikitask:Item2037: Fix fullscreen-to-WikiText transition |
 |  18 Sep 2009 | Foswikitask:Item1798: Fixed a problem where editor wants to put text elements into blocks causing unwanted new lines. <br /> Foswikitask:Item1341: Fixed a problem so that editor does not convert TML lettered and roman numeral lists back to numbered lists. |

@@ -37,6 +37,7 @@ remove_script_host : false,
 dialog_type: "modal",
 extended_valid_elements : "li[type]",
 forced_root_block : false,
+moz_lists_hack: true,
 setupcontent_callback : FoswikiTiny.setUpContent,
 urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
@@ -138,7 +139,7 @@ sub _notAvailable {
 
     # Check the client browser to see if it is blacklisted
     my $ua = Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_BAD_BROWSERS')
-      || '(?i-xsm:Konqueror|Opera)';
+      || '(?i-xsm:Konqueror)';
     return 'Unsupported browser: ' . $query->user_agent()
       if $ua && $query->user_agent() && $query->user_agent() =~ /$ua/;
 
