@@ -2172,5 +2172,60 @@ EXPECT
     $this->assert_str_equals( $expected,  $result );
 }
 
+# Create three subwebs, and create a topic with the same name in all three
+# which has a form and a field called "Order", which defines an ordering
+# which is not the same as the ordering of the subwebs names. Now search
+# the parent web recursively, with a sort order based on the value of the
+# formfield. The sort should be based on the value of the 'Order' field.
+sub test_sorting_same_topic_in_subwebs {
+    my $this = shift;
+
+    my $webObject = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/A" );
+    $webObject->populateNewWeb();
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, "$this->{test_web}/A", 'TheTopic', <<CRUD);
+%META:FORM{name="TestForm"}%
+%META:FIELD{name="Order" title="Order" value="3"}%
+CRUD
+    $topicObject->save();
+
+    $webObject = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/B" );
+    $webObject->populateNewWeb();
+    $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, "$this->{test_web}/B", 'TheTopic', <<CRUD);
+%META:FORM{name="TestForm"}%
+%META:FIELD{name="Order" title="Order" value="1"}%
+CRUD
+    $topicObject->save();
+
+    $webObject = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}/C" );
+    $webObject->populateNewWeb();
+    $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, "$this->{test_web}/C", 'TheTopic', <<CRUD);
+%META:FORM{name="TestForm"}%
+%META:FIELD{name="Order" title="Order" value="2"}%
+CRUD
+    $topicObject->save();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"Order!=''"
+ type="query"
+ web="$this->{test_web}"
+ topic="TheTopic"
+ recurse="on"
+ nonoise="on"
+ order="formfield(Order)"
+ format="\$web"
+ separator=","}%
+GNURF
+    $this->assert_equals("$this->{test_web}/B,$this->{test_web}/C,$this->{test_web}/A", $result);
+}
 
 1;
