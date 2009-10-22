@@ -131,7 +131,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2007-2009 Crawford Currie http://c-dot.co.uk |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|             | This package also includes the complete sources for version 3.2.2 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
+|             | This package also includes the complete sources for version 3.2.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
