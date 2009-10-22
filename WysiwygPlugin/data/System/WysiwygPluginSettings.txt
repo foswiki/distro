@@ -55,7 +55,7 @@ in the plugin:
     COL=char,charoff,span,valign,width;
     COLGROUP=align,char,charoff,span,valign,width;
     DIR=compact;
-    DIV=align;
+    DIV=align,style;
     DL=compact;
     FONT=size,face;
     H[0-9]=align;
