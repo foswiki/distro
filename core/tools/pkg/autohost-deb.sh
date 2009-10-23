@@ -21,6 +21,7 @@ fi
 
 REPOSITORYHOST=debmarshal.debian.net
 INCOMING=/var/lib/debmarshal/foswiki/incoming
+TIMEOUT='timeout 600'
 
 cd ${HOME}
 
@@ -36,9 +37,9 @@ fi
 # Check whether there have been changes in the release or trunk
 #
 cd $BRANCH
-lastrelease=`svn info | awk '/Last Changed Rev:/ { print $4; }'`
-svn up >/dev/null
-release=`svn info | awk '/Last Changed Rev:/ { print $4; }'`
+lastrelease=`$TIMEOUT svn info | awk '/Last Changed Rev:/ { print $4; }'`
+$TIMEOUT svn up >/dev/null
+release=`$TIMEOUT svn info | awk '/Last Changed Rev:/ { print $4; }'`
 cd ..
 
 if [ "$lastrelease" = "$release" ]
