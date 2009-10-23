@@ -78,7 +78,8 @@ Go to =Store Settings=:
 |  Author(s): | Foswiki:Main.GilmarSantosJr |
 |  Copyright: | &copy; 2009 Gilmar Santos Jr and Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Version: | %$RELEASE% (03 Sep 2009) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Sep 2009 (0.9.2) | Improved documentation regarding module apreq |
 |  12 Apr 2009 (0.9.1) | Improved documentation |
