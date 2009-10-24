@@ -18,7 +18,7 @@
 # As per the GPL, removal of this notice is prohibited.
 
 use strict;
-use Devel::Monitor qw(:all);
+use Devel::Leak::Object qw{ GLOBAL_bless };
 
 
 BEGIN {
@@ -41,19 +41,11 @@ use Foswiki;
 use Foswiki::UI::View;
 
 {
-    my $session = new Foswiki();
-
-    #NOTE that Foswiki::finish() is hiding many circular references by foricbly clearing
-    #them with the %$this = (); its worth uncommenting this line once in a while to 
-    #see if its gettign worse (56 are found as of Jun2006)
-    #*Foswiki::finish = sub {};
-
-    $Foswiki::Plugins::SESSION = $session;
-    monitor('Foswiki' => \$Foswiki::Plugins::SESSION );
-
-    Foswiki::UI::run( \&Foswiki::UI::View::view );
-    
-    print_circular_ref(\$Foswiki::Plugins::SESSION );
+##    $Foswiki::Plugins::SESSION = new Foswiki();
+#    Foswiki::UI::run( \&Foswiki::UI::View::view );
+#    $Foswiki::Plugins::SESSION->finish();
+#    undef $Foswiki::Plugins::SESSION;
+$Foswiki::engine->run();
 }
 
 1;
