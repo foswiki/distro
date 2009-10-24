@@ -793,14 +793,6 @@ sub searchWeb {
             my $ru     = $topicInfo->{$topic}->{editby} || 'UnknownUser';
             my $revNum = $topicInfo->{$topic}->{revNum} || 0;
 
-            my $cUID = $users->getCanonicalUserID($ru);
-            if ( !$cUID ) {
-
-                # Not a login name or a wiki name. Is it a valid cUID?
-                my $ln = $users->getLoginName($ru);
-                $cUID = $ru if defined $ln && $ln ne 'unknown';
-            }
-
             # Check security
             my $allowView = $topicInfo->{$topic}->{allowView};
             next unless $allowView;
@@ -850,10 +842,6 @@ sub searchWeb {
 
                 $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
 
-                my $wikiusername = $users->webDotWikiName($cUID);
-                $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
-                  unless defined $wikiusername;
-
                 if ( $formatDefined ) {
                     $out = $format;
                     $out =~ s/\$web/$web/gs;
@@ -863,17 +851,12 @@ sub searchWeb {
                     $out =~ s/\$date/$revDate/gs;
                     $out =~ s/\$isodate/$isoDate/gs;
                     $out =~ s/\$rev/$revNum/gs;
-                    $out =~ s/\$wikiusername/$wikiusername/ges;
                     $out =~ s/\$ntopics/$ntopics/gs;
                     $out =~ s/\$nhits/$nhits/gs;
 
-                    my $wikiname = $users->getWikiName($cUID);
-                    $wikiname = 'UnknownUser' unless defined $wikiname;
-                    $out =~ s/\$wikiname/$wikiname/ges;
-
-                    my $username = $users->getLoginName($cUID);
-                    $username = 'unknown' unless defined $username;
-                    $out =~ s/\$username/$username/ges;
+                    #TODO: replace this with a single call to renderRevisionInfo
+                    $out =~ s/(\$wikiusername|\$wikiname|\$username)/$session->renderer->renderRevisionInfo( 
+                                                        $web, $topic, $meta, $revNum, $1 )/ges;
 
                     my $r1info = {};
                     $out =~ s/\$createdate/_getRev1Info(
@@ -911,7 +894,8 @@ sub searchWeb {
                         ( $this->{session}->i18n->maketext('NEW') ) );
                 }
                 $out =~ s/%REVISION%/$srev/o;
-                $out =~ s/%AUTHOR%/$wikiusername/e;
+                $out =~ s/%AUTHOR%/$session->renderer->renderRevisionInfo( 
+                                                        $web, $topic, $meta, $revNum, '$wikiusername' )/e;
 
                 if ($doBookView) {
 
@@ -937,8 +921,9 @@ sub searchWeb {
                 elsif ( $formatDefined ) {
                     $out =~
 s/\$summary(?:\(([^\)]*)\))?/$renderer->makeTopicSummary( $text, $topic, $web, $1 )/ges;
+
                     $out =~
-s/\$changes(?:\(([^\)]*)\))?/$renderer->summariseChanges($cUID,$web,$topic,$1,$revNum)/ges;
+s/\$changes(?:\(([^\)]*)\))?/$renderer->summariseChanges($session->{user},$web,$topic,$1,$revNum)/ges;
                     $out =~
 s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $meta, $1 )/ges;
                     $out =~
