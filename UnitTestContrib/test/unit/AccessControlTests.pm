@@ -25,7 +25,6 @@ my $MrYellow;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    $this->{twiki} = new Foswiki();
 
     $currUser = $Foswiki::cfg{DefaultUserLogin};
     $this->{twiki}->{store}->saveTopic($this->{twiki}->{user},

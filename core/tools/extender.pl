@@ -123,6 +123,9 @@ BEGIN {
         $lwp->env_proxy();
     }
     &$check_perl_module('CPAN');
+    
+    $session->finish();
+    undef $session;
 }
 
 sub remap {

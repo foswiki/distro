@@ -4,6 +4,8 @@ package Unit::TestRunner;
 use strict;
 use Devel::Symdump;
 use Error qw(:try);
+#use Devel::Leak::Object qw{ GLOBAL_bless };
+#$Devel::Leak::Object::TRACKSOURCELINES = 1;
 
 sub new {
     my $class = shift;
@@ -100,6 +102,7 @@ sub start {
                 next;
             }
             foreach my $test (@tests) {
+                #Devel::Leak::Object::checkpoint();
                 print "\t$test\n";
                 $tester->set_up();
                 try {
@@ -126,7 +129,7 @@ sub start {
                 $tester->tear_down();
             }
         }
-    }
+   }
 
     if ( $this->{unexpected_failures} || $this->{unexpected_passes} ) {
         print $this->{unexpected_failures} . " failures\n"

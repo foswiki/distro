@@ -2115,6 +2115,7 @@ sub set_up {
         $query = new CGI("");
     }
     $query->path_info("/Current/TestTopic");
+    $this->{session}->finish() if (defined($this->{session}));
     $this->{session} = new Foswiki( undef, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
 }

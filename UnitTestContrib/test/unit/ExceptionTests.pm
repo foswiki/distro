@@ -107,6 +107,8 @@ sub test_oopsScript {
     $this->assert_matches(qr/^sat on$/m, $output);
     $this->assert_matches(qr/^the rat$/m, $output);
     $this->assert_matches(qr/^phlegm$/m, $output);
+    
+    $session->finish();
 }
 
 1;

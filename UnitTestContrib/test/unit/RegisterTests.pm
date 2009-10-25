@@ -788,6 +788,7 @@ sub verify_duplicateActivation {
                           'action'        => ['register'],
                       });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
+    $this->{twiki}->finish();
     $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName}, $query);
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {

@@ -158,6 +158,7 @@ sub tear_down {
             $ENV{$sym} = $this->{__EnvSafe}->{$sym};
         }
     }
+#    undef $this->{twiki};
 }
 
 sub _copy {

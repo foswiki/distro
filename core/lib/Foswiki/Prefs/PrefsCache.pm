@@ -31,6 +31,7 @@ use Assert;
 require Foswiki;
 require Foswiki::Prefs::Parser;
 
+#SMELL: I don't know why this is a global - and where it should be undef'd..
 use vars qw( $parser );
 
 =begin TML
@@ -174,7 +175,7 @@ sub loadPrefsFromText {
         $meta = new Foswiki::Meta( $session, $web, $topic, $text );
     }
 
-    my $parser = new Foswiki::Prefs::Parser();
+    $parser ||= new Foswiki::Prefs::Parser();
     $parser->parseText( $meta->text(), $this, '' );
     $parser->parseMeta( $meta, $this, '' );
 }
