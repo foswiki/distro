@@ -1558,4 +1558,20 @@ sub DISABLEDverify_removeFromGroup {
     #TODO: test what happens if there are no users left in the group
 }
 
+#http://foswiki.org/Tasks/Item1936
+sub verify_topic_meta_usermapping {
+    my $this = shift;
+    
+    my $users = $this->{session}->{users};
+    
+    #this sort of issue is what this setting was supposed to make more obvious
+	#$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
+
+    
+	$this->assert_null(Foswiki::Func::getCanonicalUserID('NonExistantUser'));
+	$users->getWikiName( 'NonExistantUser' );
+	$this->assert_null(Foswiki::Func::getCanonicalUserID('NonExistantUser'));
+    
+}
+
 1;

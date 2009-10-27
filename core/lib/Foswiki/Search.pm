@@ -832,14 +832,6 @@ sub formatResults {
         my $ru     = $info->{editby} || 'UnknownUser';
         my $revNum = $info->{revNum} || 0;
 
-        my $cUID = $users->getCanonicalUserID($ru);
-        if ( !$cUID ) {
-
-            # Not a login name or a wiki name. Is it a valid cUID?
-            my $ln = $users->getLoginName($ru);
-            $cUID = $ru if defined $ln && $ln ne 'unknown';
-        }
-
         $ntopics += 1;
         do {    # multiple=on loop
 
@@ -847,10 +839,6 @@ sub formatResults {
             my $out = '';
 
             $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
-
-            my $wikiusername = $users->webDotWikiName($cUID);
-            $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
-              unless defined $wikiusername;
 
             if ($formatDefined) {
                 $out = $format;
@@ -861,17 +849,12 @@ sub formatResults {
                 $out =~ s/\$date/$revDate/gs;
                 $out =~ s/\$isodate/$isoDate/gs;
                 $out =~ s/\$rev/$revNum/gs;
-                $out =~ s/\$wikiusername/$wikiusername/ges;
                 $out =~ s/\$ntopics/$ntopics/gs;
                 $out =~ s/\$nhits/$nhits/gs;
 
-                my $wikiname = $users->getWikiName($cUID);
-                $wikiname = 'UnknownUser' unless defined $wikiname;
-                $out =~ s/\$wikiname/$wikiname/ges;
-
-                my $username = $users->getLoginName($cUID);
-                $username = 'unknown' unless defined $username;
-                $out =~ s/\$username/$username/ges;
+                #TODO: replace this with a single call to renderRevisionInfo
+                $out =~ s/(\$wikiusername|\$wikiname|\$username)/$session->renderer->renderRevisionInfo( 
+                                                     $info->{tom}, $revNum, $1 )/ges;
 
                 $out =~ s/\$create(date|username|wikiname|wikiusername)/
                   $infoCache->getRev1Info( $topic, "create$1" )/ges;
@@ -903,7 +886,8 @@ sub formatResults {
                     ( $session->i18n->maketext('NEW') ) );
             }
             $out =~ s/%REVISION%/$srev/o;
-            $out =~ s/%AUTHOR%/$wikiusername/e;
+            $out =~ s/%AUTHOR%/$session->renderer->renderRevisionInfo( 
+                                                     $info->{tom}, $revNum, '$wikiusername' )/e;
 
             if ($doBookView) {
 
