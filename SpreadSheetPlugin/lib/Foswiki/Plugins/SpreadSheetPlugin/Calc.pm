@@ -1027,7 +1027,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         my ( $sep, $str ) = _properSplit( $theAttr, 2 );
         $str    = "" unless ( defined($str) );
         $result = _listToDelimitedString( getList($str) );
-        $sep    = ", " unless ($sep);
+        $sep    = ', ' unless defined $sep;
         $sep    =~ s/\$comma/,/go;
         $sep    =~ s/\$sp/ /go;
         $sep    =~ s/\$n/\n/go;
