@@ -609,23 +609,30 @@ $.NatEditor.prototype.autoMaxExpand = function() {
  * adjust height of textarea to window height
  */
 $.NatEditor.prototype.fixHeight = function() {
-  var self = this;
-  var $txtarea = $(self.txtarea);
+  var self = this,
+    $txtarea = $(self.txtarea),
+    windowHeight = $(window).height(),
+    windowWidth = $(window).width(),
+    bottomHeight = $('.natEditBottomBar').outerHeight({margin:true}),
+    offset = $txtarea.offset(),
+    tmceEdContainer, tmceIframe,
+    minWidth, minHeight, newHeight, newHeightExtra = 0, natEditTopicInfoHeight,
+    $debug = $("#DEBUG");
+		
   if ($txtarea.parents(":not(:visible)").length) { // fix for  jquery < 1.3.x
     //$.log("natedit textarea not visible ... skipping fixHeight");
     return;
   }
   //$.log("called natedit::fixHeight("+self.txtarea+")");
 
-  // get new window height
-  var windowHeight = $(window).height();
-  var bottomHeight = $('.natEditBottomBar').outerHeight({margin:true});
+  // get new window height (and width)
   if (!windowHeight) {
     windowHeight = window.innerHeight;
   }
-  var offset = $txtarea.offset();
-  var newHeight = windowHeight-offset.top-bottomHeight*2-12;
-  var $debug = $("#DEBUG");
+  if (!windowWidth) {
+    windowWidth = window.innerWidth;
+  }
+  newHeight = windowHeight-offset.top-bottomHeight*2-12;
   if ($debug) {
     newHeight -= $debug.height();
   }
@@ -642,6 +649,49 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   $txtarea.height(newHeight);
+	
+	
+  /* Resize tinyMCE. Both the iframe and containing table need to be adjusted. 
+   * SMELL: Hard-coded magic numbers : 12px */
+  if (typeof(tinyMCE) === 'object' && typeof(tinyMCE.activeEditor) === 'object' &&
+    !tinyMCE.activeEditor.getParam('fullscreen_is_enabled')) {
+    /* TMCE container = <td>, in a <tr>, <tbody>, <table>, <span> next to original 
+     * <textarea display: none> in a <div .natEdit> in a <div .jqTabContents> :-) */
+    /* SMELL: No "proper" way to get correct instance until Item2297 finished */
+    tmceEdContainer = tinyMCE.activeEditor.contentAreaContainer;
+    tmceIframe = $(tmceEdContainer).children('iframe')[0];
+    tmceTable = tmceEdContainer.parentNode.parentNode.parentNode;
+    /* The NatEdit Title: text sits in the jqTab above TMCE */
+    natEditTopicInfoHeight = $($(tmceTable.parentNode.parentNode).siblings(
+      '.natEditTopicInfo')[0]).outerHeight({margin: true});
+    offset = $(tmceTable).offset().top;
+
+    $(tmceEdContainer.parentNode).siblings().each(	/* Iterate over TMCE layout */
+      function (i, tr) {
+        newHeightExtra = newHeightExtra + $(tr).outerHeight({margin: true});
+      }
+    );
+    /* SMELL: minHeight isn't working on IE7 (but does on IE6 + IE8 */
+    newHeight = windowHeight - offset - bottomHeight*2 - 12;
+    if (self.opts.minHeight && newHeight - newHeightExtra + 
+      natEditTopicInfoHeight < self.opts.minHeight) {
+      newHeight = self.opts.minHeight + natEditTopicInfoHeight - 12;
+    }
+    $(tmceTable).height(newHeight);
+    $(tmceIframe).height(newHeight - newHeightExtra);
+    /* SMELL: We set a width first, then check to see if it's too small
+     * by checking if document is able to accomodate a larger size..
+     * ... and this doesn't work in IE6 or IE8, so minWidth not enforced there. */
+    offset = ($(tmceTable).offset().left * 2) + 4;	/* Assume centred layout */
+    newWidth = windowWidth - offset;
+    $(tmceTable).width(newWidth);
+    $(tmceIframe).width(newWidth);
+    minWidth = $(document).width() - offset;
+    if (newWidth < minWidth) {
+      $(tmceTable).width(minWidth);
+      $(tmceIframe).width(minWidth);
+    }
+  }
 };
 
 /*************************************************************************
