@@ -764,6 +764,10 @@ sub _moveTopicOrAttachment {
             );
         };
 
+        # Force reload of new object, as it's been moved
+        delete $to->{_loadedRev};
+        $to->reload;
+
         if ( $from->web ne $to->web ) {
 
             # If the web changed, replace local refs to the topics
