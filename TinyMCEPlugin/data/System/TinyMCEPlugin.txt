@@ -36,11 +36,10 @@ First follow the installation instructions to install the Plugin:
    * *Click* on edit of any topic.
 
 ---++ Preferences
-If you want to change any of the preferences it is recommended that you copy the examples below and paste them into your own [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. The settings in this topic are just examples and have no effect.
+No preferences are stored in this topic. The example settings here have no effect.  To learn more about setting preference variables, see the %SYSTEMWEB%.PreferenceSettings topic. 
 
 ---+++ =TINYMCEPLUGIN_INIT=
-This variable lets you redefine all the options passed to the !TinyMCE editor on startup. For a full explanation of the available options, and
-guidance on reconfiguring !TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
+This variable holds all the options passed to the !TinyMCE editor on startup. For a full explanation of available !TinyMCE options, and guidance on reconfiguring !TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
 
 The default options are as follows (you will need to remove the newlines for your own =TINYMCEPLUGIN_INIT= string). Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
 
@@ -97,7 +96,7 @@ keep_styles : false,
 content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 </verbatim>
 
----+++ Table of available preferences
+---+++ Other Settings
 | *Variable* | *Default* | *Description* |
 | =TINYMCEPLUGIN_INIT= | As [[%TOPIC%#Preferences][above]] | This variable holds the initialization parameters used to start !TinyMCE |
 | =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for specific browsers |
@@ -118,7 +117,7 @@ The defaults are:
     SAFARI => '',
 </verbatim>
 
----+++ Additional !TinyMCE plugins 
+---+++ Additional !TinyMCE Plugins 
 Documentation for standard plugins shipped with !TinyMCE can be found at [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins]].
 
 Some notable plugins:
@@ -141,6 +140,8 @@ Some notable plugins:
 The topic [[TinyMCEFrequentlyAskedQuestions]] contains more help with things like: "How do I configure the buttons in my skin?", "How do I disable the WYSIWYG?" etc.
 
 ----
+---+++ WysiwygPlugin Settings
+TinyMCEPlugin depends on WysiwygPlugin to do the conversions from HTML to TML (Topic Markup Language) and back again. For more information, see WysiwygPlugin.
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 ----
 
