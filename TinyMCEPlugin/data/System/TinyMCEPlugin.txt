@@ -6,26 +6,26 @@ One line description, required for extensions repository catalog.
 -->
 %SHORTDESCRIPTION%
 
-<img src="%ATTACHURL%/screenshot.gif"/>
+<img src="%ATTACHURLPATH%/screenshot.png"/>
 
 %TOC%
-This is an integration of the <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. This is great little editor, fast and highly functional, and supporting a wide range of browsers, including Firefox, IE and Safari. At the time of writing it doesn't work with Konqueror.
+This is an integration of the fast and highly functional <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. It supports a wide range of browsers, including Firefox, IE, Safari, Opera and Google Chrome (see [[http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility][compatibility chart]]). At the time of writing it doesn't work with Konqueror.
 
 The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
-Unlike the other editor integrations in Foswiki, which install "Word in a Browser" style editors, this plugin is able to swap out the _standard_ text areas in an edit and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
+This plugin is able to swap out _standard_ text areas and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
 
 The editor automatically "switches itself off" (i.e. reverts to the old text-only window) when editing topics that contain Foswiki content it can't handle, such as complex macros.
 
 ---++ Editor Notes
-The editor uses a translator module to convert from Foswiki Topic Markup Language (TML) to HTML and back. The translator converts special macros - such as %<nop>MACROS% - to plain text, and encloses them within HTML spans using a special style called =WYSIWYG_PROTECTED=. In this way the editor can detect text that is not meant to be HTML formatted. This style is _also_ used to protect special text you enter into the editor from being interpreted when the topic is translated back into TML. If you want to add any special features that are sensitive to formatting, such as =Set= statements, then you have to format those regions using 'Protect on save' or 'Protect forever'.
+The editor uses a translator module to convert from Foswiki Topic Markup Language (TML) to HTML and back. The translator converts special macros - such as %<nop>MACROS% - to plain text, and encloses them within HTML spans using a special style called =WYSIWYG_PROTECTED=. In this way the editor can detect text that is not meant to be HTML formatted. This style is _also_ used to protect special text you enter into the editor from being interpreted when the topic is translated back into TML. If you want to add any special features that are sensitive to formatting, such as =Set= statements, then you should format those regions using 'Protect on save' or 'Protect forever'.
 
 ---++ Installation Instructions
 
 *NOTES:*
    * This plugin comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the plugin.
    * It requires the very latest revision of WysiwygPlugin.
-   * When installed, it *replaces* the old "textarea" editor. The default Foswiki skin provides access to the plain text editor by adding a Raw Edit link at the bottom of the page.
+   * When installed, it *replaces* the old "textarea" editor. You may still access the plaintext editor with the "Wiki Text" button provided in the toolbar, however this does not necessarily give you the original raw topic content. To bypass the TML to HTML conversion process entirely, use the Raw Edit link provided by the default Foswiki skin at the bottom of the page.
 
 First follow the installation instructions to install the Plugin:
 
@@ -36,11 +36,14 @@ First follow the installation instructions to install the Plugin:
    * *Click* on edit of any topic.
 
 ---++ Preferences
-If you want to change any of the preferences you are recommended to copy the examples below and paste them into your own [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. The settings in this topic are just examples and have no effect.
+If you want to change any of the preferences it is recommended that you copy the examples below and paste them into your own [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. The settings in this topic are just examples and have no effect.
 
-The [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =TINYMCEPLUGIN_INIT= lets you redefine all the options passed to the Tiny MCE editor on startup. For a full explanation of the available options, and
-guidance on reconfiguring Tiny MCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. The default options are as follows. Note the inclusion of the Pattern Skin standard CSS files in the
-=content_css= setting.
+---+++ =TINYMCEPLUGIN_INIT=
+This variable lets you redefine all the options passed to the !TinyMCE editor on startup. For a full explanation of the available options, and
+guidance on reconfiguring !TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
+
+The default options are as follows (you will need to remove the newlines for your own =TINYMCEPLUGIN_INIT= string). Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
+
 <verbatim>
 mode:"textareas",
 editor_selector : "foswikiWysiwygEdit",
@@ -93,36 +96,53 @@ theme_advanced_statusbar_location : "bottom",
 keep_styles : false,
 content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 </verbatim>
-You can set additional options for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
-<verbatim>   * Set TINYMCEPLUGIN_INIT_MSIE = paste_auto_cleanup_on_paste : true
+
+---+++ Table of available preferences
+| *Variable* | *Default* | *Description* |
+| =TINYMCEPLUGIN_INIT= | As [[%TOPIC%#Preferences][above]] | This variable holds the initialization parameters used to start !TinyMCE |
+| =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for specific browsers |
+| =TINYMCEPLUGIN_DISABLE= | 0 | If set to 1, disables TinyMCEPlugin |
+| =NOWYSIWYG= | 0 | If this global setting is set to 1, TinyMCEPlugin (and all other WYSIWYG editors) will be disabled. |
+| =TINYMCEPLUGIN_BAD_BROWSERS= | =(?i-xsm:Konqueror)= | A regular expression that matches the user-agent string of any browser for which !TinyMCE should not be loaded. |
+| =TINYMCEPLUGIN_DEBUG= | 0 | If set to 1, the uncompressed version of !TinyMCE Javascript and CSS sources will be loaded by the browser. This is very helpful when debugging. |
+
+---+++ Browser Specific Settings
+Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
+<verbatim>   * Set TINYMCEPLUGIN_INIT_MSIE = paste_auto_cleanup_on_paste : false
 </verbatim>
 The defaults are:
 <verbatim>
-    MSIE => 'paste_auto_cleanup_on_paste : true',
+    MSIE => '',
     OPERA => '',
     GECKO => 'gecko_spellcheck : true',
     SAFARI => '',
 </verbatim>
-   * Warning: if you enable =paste_auto_cleanup_on_paste= then it automatically implies =paste_use_dialog= on all non-MSIE browsers.
 
-You can *disable* the plugin in any web or topic, or for any specific user, by setting =TINYMCEPLUGIN_DISABLE= to 1. e.g.
-<verbatim>   * Set TINYMCEPLUGIN_DISABLE = 1
-</verbatim>
-The plugin also respects the global =NOWYSIWYG= setting, which affects all
-WYSIWYG editors.
+---+++ Additional !TinyMCE plugins 
+Documentation for standard plugins shipped with !TinyMCE can be found at [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins]].
 
-Some browsers don't support Tiny MCE. You can prevent the editor from
-being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror)=. For a full list of supported browsers see http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility
+Some notable plugins:
+| *Plugin Name* | *Toolbar buttons* | *Description* | *Notes* |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/autoresize][autoresize]] | - | Automatically resizes the editor to the content inside it | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/emotions][emotions]] | emotions | Insert smiley images into the !TinyMCE editable area | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/iespell][iespell]] | iespell | Provides spell check for Internet Explorers | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/insertdatetime][insertdatetime]] | insertdate, inserttime | Provides buttons to insert customised date and time strings | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media][media]] | media | Handles embedded media such as !QuickTime, !Flash, !ShockWave, !RealPlayer and Windows Media Player | Requires customisation of your edit templates |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste][paste]] | pastetext, pasteword, selectall | *Enabled by default in Foswiki* | Added here to show extra toolbar buttons that are available |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker][spellchecker]] | spellchecker | Adds spellchecker functionality to !TinyMCE by providing a new button that performs a AJAX call to a backend PHP page that uses PSpell/ASpell or Google spellchecker | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/style][style]] | styleprops | Adds CSS style editing support to !TinyMCE, this will enable you to edit almost any CSS style property in a visual way. | Generally it's desirable to keep wiki topics free of HTML/CSS |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/visualchars][visualchars]] | visualchars | Adds the possibility to see invisible characters like &nbsp; | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/wordcount][wordcount]] | - | Display the number of words down in the right corner of the editor. | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/xhtmlxtras][xhtmlxtras]] | cite, ins, del, abbr, acronym | Adds support for some XHTML elements, including cite, ins, del, abbr, and acronym. | Generally XHTML in topics is not desirable. Foswiki plugins exist to provide more friendly TML markup |
 
-%INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
-
-You can use the [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =TINYMCEPLUGIN_DEBUG= to make the editor load uncompressed Javascript and CSS. This is very helpful when debugging. e.g.
-<verbatim>   * Set TINYMCEPLUGIN_DEBUG = 1
-</verbatim>
 
 ---++ Frequently Asked Questions
 
-The topic TinyMCEFrequentlyAskedQuestions contains more help with things like: "How do I configure the buttons in my skin?", "How do I disable the WYSIWYG?" etc.
+The topic [[TinyMCEFrequentlyAskedQuestions]] contains more help with things like: "How do I configure the buttons in my skin?", "How do I disable the WYSIWYG?" etc.
+
+----
+%INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
+----
 
 ---++ Plugin Info
 
@@ -135,9 +155,10 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  21 Oct 2009 | Foswikitask:Item1558: Tiny MCE project now supports Opera, so remove it from _BAD_BROWSERS |
+|  29 Oct 2009 | Foswikitask:Item2245: Updated documentation, removed redundant setting: =paste_auto_cleanup_on_paste : true= for MSIE browsers (!TinyMCE now defaults to =true= for all browsers) |
+|  21 Oct 2009 | Foswikitask:Item1558: !TinyMCE project now supports Opera, so remove it from _BAD_BROWSERS |
 |  18 Oct 2009 | Foswikitask:Item2270: Fix wordcount plugin to show correct count when user first enters edit mode |
-|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to Tiny MCE 3.2.7 |
+|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to !TinyMCE 3.2.7, updated documentation, removed redundant setting: =paste_auto_cleanup_on_paste : true= for MSIE browsers (!TinyMCE now defaults to =true= for all browsers) |
 |  20 Sep 2009 | Foswikitask:Item2121: Remove 2 MB of developer files that are not used |
 |  19 Sep 2009 | Foswikitask:Item2037: Fix fullscreen-to-WikiText transition |
 |  18 Sep 2009 | Foswikitask:Item1798: Fixed a problem where editor wants to put text elements into blocks causing unwanted new lines. <br /> Foswikitask:Item1341: Fixed a problem so that editor does not convert TML lettered and roman numeral lists back to numbered lists. |

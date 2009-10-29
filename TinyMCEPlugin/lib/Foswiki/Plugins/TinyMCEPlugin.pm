@@ -18,7 +18,7 @@ use strict;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '20 Sep 2009';
+our $RELEASE           = '29 Oct 2009';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -78,7 +78,7 @@ keep_styles : false,
 content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 HERE
 our %defaultINIT_BROWSER = (
-    MSIE   => 'paste_auto_cleanup_on_paste : true',
+    MSIE   => '',
     OPERA  => '',
     GECKO  => 'gecko_spellcheck : true',
     SAFARI => '',
