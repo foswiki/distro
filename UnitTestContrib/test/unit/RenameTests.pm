@@ -641,6 +641,42 @@ sub test_accessRenameRestrictedWeb {
     }
 }
 
+# Test rename does not corrupt history, see Foswikibug:2299
+sub test_renameTopic_preserves_history
+{
+    my $this      = shift;
+    my $topicName = 'RenameWithHistory';
+    my $time      = time();
+    my @history   = map { "$_\n" } qw( First Second Third );
+
+    for my $depth ( 0 .. $#history ) {
+        my $meta       =  new Foswiki::Meta(
+            $this->{twiki}, $this->{test_web}, $topicName );
+        $this->{twiki}->{store}->saveTopic(
+            $this->{twiki}->{user}, $this->{test_web},
+            $topicName, $history[$depth], $meta, { forcenewrevision => 1 } );
+    }
+    my $query = new Unit::Request(
+        {
+            action   => 'rename',
+            topic    => $topicName,
+            newweb   => $this->{test_web},
+            newtopic => $topicName . 'Renamed',
+        }
+    );
+
+    $query->path_info("/$this->{test_web}");
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $this->captureWithKey( rename => \&Foswiki::UI::Manage::rename, $this->{twiki} );
+    my ($meta, $text) = $this->{twiki}->{store}->readTopic( $this->{twiki}->{user}, $this->{test_web}, $topicName . 'Renamed' );
+    $this->assert_equals( $history[$#history], $text );
+    my ( $date, $author, $rev, $comment ) = $meta->getRevisionInfo();
+    $this->assert_equals( $#history + 1, $rev ); # rename creates a new revision
+
+}
+
 # Purpose: verify that leases are removed when a topic is renamed
 sub test_leaseReleasemeLetMeGo {
     my $this =  shift;
