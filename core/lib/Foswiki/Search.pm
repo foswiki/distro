@@ -843,6 +843,7 @@ sub formatResults {
             if ($formatDefined) {
                 $out = $format;
                 $out =~ s/\$web/$web/gs;
+                #TODO: move the breakName etc into Render::renderRevisionInfo
                 $out =~ s/\$topic\(([^\)]*)\)/
                   Foswiki::Render::breakName( $topic, $1 )/ges;
                 $out =~ s/\$topic/$topic/gs;
@@ -853,9 +854,12 @@ sub formatResults {
                 $out =~ s/\$nhits/$nhits/gs;
 
                 #TODO: replace this with a single call to renderRevisionInfo
-                $out =~ s/(\$wikiusername|\$wikiname|\$username)/$session->renderer->renderRevisionInfo( 
-                                                     $info->{tom}, $revNum, $1 )/ges;
+                if ($out =~ /\$(wikiusername|wikiname|username)/) {
+                	$out = $session->renderer->renderRevisionInfo($info->{tom}, $revNum, $out );
+               }
 
+				#TODO: move the $create* formats into Render::renderRevisionInfo..
+				#which implies moving the infocache's pre-extracted data into the tom obj too.
                 $out =~ s/\$create(date|username|wikiname|wikiusername)/
                   $infoCache->getRev1Info( $topic, "create$1" )/ges;
 
