@@ -84,6 +84,7 @@ sub init {
 <meta name="foswiki.web" content="%WEB%" />
 <meta name="foswiki.topic" content="%TOPIC%" />
 <meta name="foswiki.scriptUrl" content="%SCRIPTURL%" />
+<meta name="foswiki.scriptSuffix" content="%SCRIPTSUFFIX%" />
 <meta name="foswiki.scriptUrlPath" content="%SCRIPTURLPATH%" />
 <meta name="foswiki.pubUrl" content="%PUBURL%" />
 <meta name="foswiki.pubUrlPath" content="%PUBURLPATH%" />

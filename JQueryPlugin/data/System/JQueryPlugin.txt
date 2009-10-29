@@ -28,6 +28,9 @@ your web pages."
 
 See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by Foswiki.
 
+See also Foswiki:Development.UsingJQueryWithFoswiki for more information on
+using jQuery with Foswiki.
+
 ---++ Installed Plugins
 %JQPLUGINS{
   header=""
@@ -171,6 +174,7 @@ for v2.3:
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  29 Oct 2009: | (CDot) added SCRIPTSUFFIX to foswiki var set |
 |  14 Sep 2009: | added perls tubs for jquery.ui, so that you can pull it in via JQREQUIRE now; \
                   reworked plugin initialization to allow elements to be init'ed when loaded via ajax; \
                   fixed BUTTON to play nicely with !TwistyPlugin; \
