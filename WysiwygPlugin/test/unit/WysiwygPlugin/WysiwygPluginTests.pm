@@ -93,7 +93,9 @@ sub save_test {
     $query->param( text => $t );
     $query->method('GET');
 
-    $Foswiki::Plugins::SESSION = new Foswiki( 'guest', $query );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( 'guest', $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
 
     # charset definition affects output, so it is a response method and
     # can only be adjusted after creating session object.
@@ -173,6 +175,7 @@ sub TML2HTML_test {
 
     $this->assert( $text eq $out,
         "'" . anal($out) . "' !=\n'" . anal($text) . "'" );
+    $foswiki->finish();
 }
 
 sub HTML2TML_test {
@@ -225,6 +228,7 @@ sub HTML2TML_test {
 
     $this->assert_str_equals( $text, $out,
         "'" . anal($out) . "' !=\n'" . anal($text) . "'" );
+    $foswiki->finish();
 }
 
 # tests for various charsets

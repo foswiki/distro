@@ -1553,6 +1553,7 @@ sub new {
 
     $query ||= new Foswiki::Request();
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
+
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
@@ -1907,6 +1908,20 @@ sub net {
 
 =begin TML
 
+---++ ObjectMethod DESTROY()
+
+called by Perl when the Foswiki object goes out of scope
+(maybe should be used kist to ASSERT that finish() was called..
+
+=cut
+
+#sub DESTROY {
+#    my $this = shift;
+#    $this->finish();
+#}
+
+=begin TML
+
 ---++ ObjectMethod finish()
 Break circular references.
 
@@ -1919,30 +1934,33 @@ sub finish {
     my $this = shift;
 
     $_->finish() foreach values %{ $this->{forms} };
-    $this->{plugins}->finish() if $this->{plugins};
+    $this->{plugins}->finish()   if $this->{plugins};
     undef $this->{plugins};
-    $this->{users}->finish() if $this->{users};
+    $this->{users}->finish()     if $this->{users};
     undef $this->{users};
-    $this->{prefs}->finish() if $this->{prefs};
+    $this->{prefs}->finish()     if $this->{prefs};
     undef $this->{prefs};
     $this->{templates}->finish() if $this->{templates};
     undef $this->{templates};
-    $this->{renderer}->finish() if $this->{renderer};
+    $this->{renderer}->finish()  if $this->{renderer};
     undef $this->{renderer};
-    $this->{net}->finish() if $this->{net};
+    $this->{net}->finish()       if $this->{net};
     undef $this->{net};
-    $this->{store}->finish() if $this->{store};
+    $this->{store}->finish()     if $this->{store};
     undef $this->{store};
-    $this->{search}->finish() if $this->{search};
+    $this->{search}->finish()    if $this->{search};
     undef $this->{search};
-    $this->{attach}->finish() if $this->{attach};
+    $this->{attach}->finish()    if $this->{attach};
     undef $this->{attach};
-    $this->{security}->finish() if $this->{security};
+    $this->{security}->finish()  if $this->{security};
     undef $this->{security};
-    $this->{i18n}->finish() if $this->{i18n};
+    $this->{i18n}->finish()      if $this->{i18n};
     undef $this->{i18n};
     $this->{cache}->finish() if $this->{cache};
     undef $this->{cache};
+#TODO: the logger doesn't seem to have a finish...
+#    $this->{logger}->finish()      if $this->{logger};
+    undef $this->{logger};
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};

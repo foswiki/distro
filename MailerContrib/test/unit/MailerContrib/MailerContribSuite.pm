@@ -72,6 +72,7 @@ sub set_up {
 
     # Must create a new wiki object to force re-registration of users
     $Foswiki::cfg{EnableEmail} = 1;
+	$this->{session}->finish();
     $this->{session} = new Foswiki();
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     @FoswikiFnTestCase::mails = ();

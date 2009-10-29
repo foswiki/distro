@@ -20,39 +20,38 @@
 use strict;
 use Devel::Monitor qw(:all);
 
+
 BEGIN {
-    use File::Spec;
-
-    unshift @INC, split(/:/, $ENV{FOSWIKI_LIBS} || '../lib' );
-
-    # designed to be run within a SVN checkout area
-    my @path = split( /\/+/, File::Spec->rel2abs($0) );
-    pop(@path); # the script name
-
-    while (scalar(@path) > 0) {
-        last if -d join( '/', @path).'/twikiplugins/BuildContrib';
-        pop( @path );
+    if ( defined $ENV{GATEWAY_INTERFACE} ) {
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
+        use CGI::Carp qw(fatalsToBrowser);
+        $SIG{__DIE__} = \&CGI::Carp::confess;
     }
-
-    if(scalar(@path)) {
-        unshift @INC, join( '/', @path ).'/lib';
-        unshift @INC, join( '/', @path ).'/twikiplugins/BuildContrib/lib';
+    else {
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+        require Carp;
+        $SIG{__DIE__} = \&Carp::confess;
     }
+    $ENV{FOSWIKI_ACTION} = 'view';
+    @INC = ('../bin', grep { $_ ne '.' } @INC);
+    require 'setlib.cfg';
 }
 
 use Foswiki;
 use Foswiki::UI::View;
 
 {
-    my $twiki = new Foswiki();
-    $Foswiki::Plugins::SESSION = $twiki;
-    monitor('TWiki' => \$Foswiki::Plugins::SESSION );
+    my $session = new Foswiki();
+
+    #NOTE that Foswiki::finish() is hiding many circular references by foricbly clearing
+    #them with the %$this = (); its worth uncommenting this line once in a while to 
+    #see if its gettign worse (56 are found as of Jun2006)
+    #*Foswiki::finish = sub {};
+
+    $Foswiki::Plugins::SESSION = $session;
+    monitor('Foswiki' => \$Foswiki::Plugins::SESSION );
 
     Foswiki::UI::run( \&Foswiki::UI::View::view );
-    
-    #NOTE that Foswiki::finish() is hiding many circular references by foricbly clearing
-    #them with the %$this = (); its worth commenting out this line once in a while to 
-    #see if its gettign worse (56 are found as of Jun2006)
     
     print_circular_ref(\$Foswiki::Plugins::SESSION );
 }

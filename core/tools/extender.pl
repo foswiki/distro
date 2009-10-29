@@ -126,6 +126,9 @@ BEGIN {
 
     # Can't do this until we have setlib.cfg
     require Foswiki::Configure::Dependency;
+    
+    $session->finish();
+    undef $session;
 }
 
 sub remap {

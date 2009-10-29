@@ -19,7 +19,6 @@ my $MrYellow;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    $this->{session} = new Foswiki();
 
     my $topicObject = Foswiki::Meta->new(
         $this->{session},
