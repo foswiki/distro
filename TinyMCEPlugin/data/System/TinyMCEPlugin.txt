@@ -129,10 +129,10 @@ Some notable plugins:
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media][media]] | media | Handles embedded media such as !QuickTime, !Flash, !ShockWave, !RealPlayer and Windows Media Player | Requires customisation of your edit templates |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste][paste]] | pastetext, pasteword, selectall | *Enabled by default in Foswiki* | Added here to show extra toolbar buttons that are available |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker][spellchecker]] | spellchecker | Adds spellchecker functionality to !TinyMCE by providing a new button that performs a AJAX call to a backend PHP page that uses PSpell/ASpell or Google spellchecker | |
-| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/style][style]] | styleprops | Adds CSS style editing support to !TinyMCE, this will enable you to edit almost any CSS style property in a visual way. | Generally it's desirable to keep wiki topics free of HTML/CSS |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/style][style]] | styleprops | Adds CSS style editing support to !TinyMCE, this will enable you to edit almost any CSS style property in a visual way. | Generally, HTML/CSS markup in topics is *not* desirable |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/visualchars][visualchars]] | visualchars | Adds the possibility to see invisible characters like &nbsp; | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/wordcount][wordcount]] | - | Display the number of words down in the right corner of the editor. | |
-| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/xhtmlxtras][xhtmlxtras]] | cite, ins, del, abbr, acronym | Adds support for some XHTML elements, including cite, ins, del, abbr, and acronym. | Generally XHTML in topics is not desirable. Foswiki plugins exist to provide more friendly TML markup |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/xhtmlxtras][xhtmlxtras]] | cite, ins, del, abbr, acronym | Adds support for some XHTML elements, including cite, ins, del, abbr, and acronym. | Generally, XHTML markup in topics is *not* desirable. Foswiki plugins exist to provide similar functions with more friendly TML markup |
 
 
 ---++ Frequently Asked Questions
@@ -205,4 +205,4 @@ Many thanks to the following sponsors for supporting this work:
 
 %META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" version="1"}%
