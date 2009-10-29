@@ -159,7 +159,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  29 Oct 2009 | Foswikitask:Item2245: Updated documentation, removed redundant setting: =paste_auto_cleanup_on_paste : true= for MSIE browsers (!TinyMCE now defaults to =true= for all browsers) |
 |  21 Oct 2009 | Foswikitask:Item1558: !TinyMCE project now supports Opera, so remove it from _BAD_BROWSERS |
 |  18 Oct 2009 | Foswikitask:Item2270: Fix wordcount plugin to show correct count when user first enters edit mode |
-|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to !TinyMCE 3.2.7, updated documentation, removed redundant setting: =paste_auto_cleanup_on_paste : true= for MSIE browsers (!TinyMCE now defaults to =true= for all browsers) |
+|  17 Oct 2009 | Foswikitask:Item2245: Upgrade to !TinyMCE 3.2.7 |
 |  20 Sep 2009 | Foswikitask:Item2121: Remove 2 MB of developer files that are not used |
 |  19 Sep 2009 | Foswikitask:Item2037: Fix fullscreen-to-WikiText transition |
 |  18 Sep 2009 | Foswikitask:Item1798: Fixed a problem where editor wants to put text elements into blocks causing unwanted new lines. <br /> Foswikitask:Item1341: Fixed a problem so that editor does not convert TML lettered and roman numeral lists back to numbered lists. |
