@@ -1736,13 +1736,22 @@ sub renderRevisionInfo {
             $un  = $users->getLoginName($cUID);
         }
 
+		my $user = $info->{author};
         # If we are still unsure, then use whatever is saved in the meta.
         # But obscure it if the RenderLoggedInButUnknownUsers is enabled.
-        $info->{author} = 'unknown'
-          if $Foswiki::cfg{RenderLoggedInButUnknownUsers};
-        $wun ||= $info->{author};
-        $wn  ||= $info->{author};
-        $un  ||= $info->{author};
+        if ($Foswiki::cfg{RenderLoggedInButUnknownUsers}) {
+	        $user = $info->{author} = 'unknown' ;
+        } else {
+        	#cUID's are forced to ascii by escaping other chars..
+    		#$cUID =~ s/([^a-zA-Z0-9])/'_'.sprintf('%02x', ord($1))/ge;
+
+        	use bytes;
+	    	$user =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/ge;
+	    	no bytes;
+        }
+        $wun ||= $user;
+        $wn  ||= $user;
+        $un  ||= $user;
     }
 
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
