@@ -1850,7 +1850,16 @@ sub renderRevisionInfo {
 
         # If we are still unsure, then use whatever is saved in the meta.
         # But obscure it if the RenderLoggedInButUnknownUsers is enabled.
-        $user = 'unknown' if $Foswiki::cfg{RenderLoggedInButUnknownUsers};
+        if ($Foswiki::cfg{RenderLoggedInButUnknownUsers}) {
+	        $user = 'unknown' ;
+        } else {
+        	#cUID's are forced to ascii by escaping other chars..
+    		#$cUID =~ s/([^a-zA-Z0-9])/'_'.sprintf('%02x', ord($1))/ge;
+
+        	use bytes;
+	    	$user =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/ge;
+	    	no bytes;
+        }
         $wun ||= $user;
         $wn  ||= $user;
         $un  ||= $user;
