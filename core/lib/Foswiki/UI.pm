@@ -496,13 +496,8 @@ sub checkAccess {
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
     unless ( $topicObject->haveAccess($mode) ) {
-        throw Foswiki::OopsException(
-            'accessdenied',
-            status => 403,
-            def    => 'topic_access',
-            web    => $topicObject->web,
-            topic  => $topicObject->topic,
-            params => [ $mode, $Foswiki::Meta::reason ]
+        throw Foswiki::AccessControlException(
+        	$mode, $session->{user}, $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason
         );
     }
 }

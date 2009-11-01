@@ -1574,4 +1574,40 @@ sub verify_topic_meta_usermapping {
     
 }
 
+#http://foswiki.org/Tasks/
+sub verify_unregisteredUser_display {
+    my $this = shift;
+    
+    my $users = $this->{session}->{users};
+    
+    #this sort of issue is what this setting was supposed to make more obvious
+	#$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
+
+	$this->assert_equals(
+			$users->getWikiName( 'NonExistantUser' ),
+			'NonExistantUser',
+			'wikiword wikiname');
+	$this->assert_equals(
+			$users->getLoginName( 'NonExistantUser' ),
+			undef,
+			'wikiword wikiname');
+	$this->assert_equals(
+			$users->getCanonicalUserID( 'NonExistantUser' ),
+			undef,
+			'wikiword wikiname');
+    
+	$this->assert_equals(
+			$users->getWikiName( 'user_name' ),
+			'user_name',
+			'wikiword wikiname');
+	$this->assert_equals(
+			$users->getLoginName( 'user_name' ),
+			undef,
+			'wikiword wikiname');
+	$this->assert_equals(
+			$users->getCanonicalUserID( 'user_name' ),
+			undef,
+			'wikiword wikiname');
+}
+
 1;
