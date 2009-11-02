@@ -2,24 +2,26 @@
 package Foswiki::Configure::Checkers::AllowInlineScript;
 
 use strict;
-
+use warnings;
 use Foswiki::Configure::Checker;
 
 use base 'Foswiki::Configure::Checker';
 
 sub check {
     my $this = shift;
-
+    my $valmethod = $Foswiki::cfg{Validation}{Method};
     my $e = '';
-    if (!$Foswiki::cfg{AllowInlineScript} 
-      && $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
-      $e = <<HERE;
+
+    if ( (($valmethod eq 'strikeone') or (!$valmethod)) and
+      (!$Foswiki::cfg{AllowInlineScript}) ) {
+        $e .= $this->ERROR(<<'MESSAGE');
 {AllowInlineScript} must be enabled for your current {Validation}{Method} 
-setting. Please consider <a href="http://foswiki.org/Extensions/SafeWikiPlugin">SafeWikiPlugin</a> as alternative means
-for restricting potentially harmful topic content. 
-HERE
-        $e = $this->ERROR($e);
+setting. Please consider 
+<a href="http://foswiki.org/Extensions/SafeWikiPlugin">SafeWikiPlugin</a> as an
+alternative means for restricting potentially harmful topic content. 
+MESSAGE
     }
+
     return $e;
 }
 

@@ -2,23 +2,23 @@
 package Foswiki::Configure::Checkers::Validation::Method;
 
 use strict;
-
+use warnings;
 use Foswiki::Configure::Checker;
 
 use base 'Foswiki::Configure::Checker';
 
 sub check {
     my $this = shift;
-
-    return '' unless !$Foswiki::cfg{AllowInlineScript};
-
-    my $e = '';
     my $valmethod = $Foswiki::cfg{Validation}{Method};
-    if ( $valmethod eq 'strikeone' or !$valmethod ) {
+    my $e = '';
+
+    if ( (($valmethod eq 'strikeone') or (!$valmethod)) and
+      (!$Foswiki::cfg{AllowInlineScript}) ) {
         $e .= $this->ERROR(<<'MESSAGE');
 Validation method <code>strikeone</code> is not compatible with {AllowInlineScript} set to disabled.
 MESSAGE
     }
+
     return $e;
 }
 
