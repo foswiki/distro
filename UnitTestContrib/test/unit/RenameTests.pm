@@ -847,9 +847,9 @@ sub test_renameTopic_TOPICRENAME_access_denied {
         use strict 'refs';
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
+    catch Foswiki::AccessControlException with {
         $this->assert_str_equals(
-"OopsException(accessdenied/topic_access web=>$this->{test_web} topic=>OldTopic params=>[RENAME,access not allowed on topic])",
+'AccessControlException: Access to RENAME '.$this->{test_web}.'.OldTopic for scum is denied. access not allowed on topic',
             shift->stringify()
         );
     }
@@ -881,9 +881,9 @@ sub test_renameTopic_WEBRENAME_access_denied {
         use strict 'refs';
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
+    catch Foswiki::AccessControlException with {
         $this->assert_str_equals(
-"OopsException(accessdenied/topic_access web=>$this->{test_web} topic=>OldTopic params=>[RENAME,access not allowed on web])",
+'AccessControlException: Access to RENAME '.$this->{test_web}.'.OldTopic for scum is denied. access not allowed on web',
             shift->stringify()
         );
     }

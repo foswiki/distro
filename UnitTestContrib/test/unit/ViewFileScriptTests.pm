@@ -253,29 +253,31 @@ sub test_nested_web_simple_topic_filename_param {
 sub test_simple_web_secured_topic_direct_path {
     my $this = shift;
 
+	my $expectedError = 'AccessControlException: Access to VIEW '.$this->{test_web}.'.SecureTopic for scum is denied. access not allowed on topic';
+
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic/one.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic/two.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic/inc/file.txt")
     );
 
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic//one.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}//SecureTopic/two.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic/inc//file.txt")
     );
 
@@ -283,16 +285,19 @@ sub test_simple_web_secured_topic_direct_path {
 
 sub test_simple_web_secured_topic_filename_param {
     my $this = shift;
+    
+	my $expectedError = 'AccessControlException: Access to VIEW '.$this->{test_web}.'.SecureTopic for scum is denied. access not allowed on topic';
+    
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic?filename=one.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic?filename=two.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic?filename=inc/file.txt")
     );
 
@@ -304,15 +309,15 @@ sub test_simple_web_secured_topic_filename_param {
 #                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=inc/file.txt"));
 
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic?filename=/one.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic?filename=/two.txt")
     );
     $this->assert_equals(
-'OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile(
             "/$this->{test_web}/SecureTopic?filename=/inc/file.txt")
     );
@@ -321,64 +326,51 @@ sub test_simple_web_secured_topic_filename_param {
 
 sub test_nested_web_secured_topic_direct_path {
     my $this = shift;
+    
+	my $expectedError = 'AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic';
 
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic/one.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic/two.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic/inc/file.txt")
     );
 
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic//one.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}//SecureTopic/two.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic/inc//file.txt")
     );
 }
 
 sub test_nested_web_secured_topic_filename_param {
     my $this = shift;
+    
+	my $expectedError = 'AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic';
+    
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic?filename=one.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic?filename=two.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile(
             "/$this->{test_subweb}/SecureTopic?filename=inc/file.txt")
     );
@@ -391,21 +383,15 @@ sub test_nested_web_secured_topic_filename_param {
 #                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=inc/file.txt"));
 
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic?filename=/one.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic?filename=/two.txt")
     );
     $this->assert_equals(
-        'OopsException(accessdenied/topic_access web=>'
-          . $this->{test_subweb}
-          . ' topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+    	$expectedError,
         $this->viewfile(
             "/$this->{test_subweb}/SecureTopic?filename=/inc/file.txt")
     );
