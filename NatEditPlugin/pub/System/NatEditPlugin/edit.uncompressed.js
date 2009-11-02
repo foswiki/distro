@@ -60,6 +60,7 @@ function fixHeightOfPane () { }
           $(".natEditToolBar").hide();
           $("#wysiwyg").hide();
           oldSwitchToWYSIWYG(inst);
+          $(window).trigger('resize.natedit');
         };
 
         var oldSwitchToRaw = FoswikiTiny.switchToRaw;

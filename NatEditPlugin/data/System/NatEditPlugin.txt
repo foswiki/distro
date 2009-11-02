@@ -87,6 +87,8 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  02 Nov 2009 | Foswikitask:Item2281: attempt to make <nop>TinyMCE resize \
+                 automatically as <nop>NatEdit does |
 |  14 Sep 2009 | yet another attempt to support <nop>TinyMCEPlugin; \
                  don't take over raw edit automatically; \
                  added <nop>PatternSkin css fixes for edit dialogs |
