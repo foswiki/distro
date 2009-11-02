@@ -483,12 +483,10 @@ sub checkAccess {
         )
       )
     {
-        throw Foswiki::OopsException(
-            'accessdenied', status => 403,
-            def    => 'topic_access',
-            web    => $web,
-            topic  => $topic,
-            params => [ $mode, $session->security->getReason() ]
+        throw Foswiki::AccessControlException(
+            $mode, $session->{user},
+            $web, $topic,
+            $session->security->getReason()
         );
     }
 }
