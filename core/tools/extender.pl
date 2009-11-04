@@ -1070,8 +1070,8 @@ sub install {
                 {
                     name        => $module,
                     type        => $type,
-                    version     => $condition,    # version condition
-                    trigger     => 1,             # ONLYIF condition
+                    version     => $condition || 0,    # version condition
+                    trigger     => 1,                  # ONLYIF condition
                     description => $desc,
                 }
             );
