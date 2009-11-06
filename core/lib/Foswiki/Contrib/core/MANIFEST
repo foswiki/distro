@@ -515,7 +515,9 @@ lib/Foswiki/Configure/templates/extensions.tmpl 0444
 lib/Foswiki/Configure/templates/feedback.tmpl 0444
 lib/Foswiki/Configure/templates/findextensionsintro.tmpl 0444
 lib/Foswiki/Configure/templates/main.tmpl 0444
-lib/Foswiki/Configure/templates/page.tmpl 0444
+lib/Foswiki/Configure/templates/pagebegin.tmpl 0444
+lib/Foswiki/Configure/templates/pageend.tmpl 0444
+lib/Foswiki/Configure/templates/sanity.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/Type.pm 0444
 lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
