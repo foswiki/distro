@@ -64,7 +64,7 @@ foswiki.Event.addLoadEvent(initForm);
 %TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div><!--/patternEditTopic-->%TMPL:END%
 
 
-%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
+%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1' or $NOWYSIWYG='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
 
 
 %TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span><!--/patternSig-->%TMPL:END%
