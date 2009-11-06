@@ -21,7 +21,8 @@ sub params {
     # Pass URL params through, except those below
     foreach my $param ( $Foswiki::query->param ) {
         next if ( $nonos{$param} );
-        push @params, $this->hidden( $param, $Foswiki::query->param($param) );
+        push( @params, Foswiki::Configure::UI::hidden(
+            $param, $Foswiki::query->param($param) ) );
     }
     return @params;
 }

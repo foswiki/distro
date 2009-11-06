@@ -56,7 +56,8 @@ sub renderHtml {
     }
 
     # Hidden type information used when passing to 'save'
-    my $hiddenTypeOf = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
+    my $hiddenTypeOf = Foswiki::Configure::UI::hidden(
+        'TYPEOF:' . $keys, $value->{typename} );
 
     my $index = $keys;
     $index = "$index <span class='configureMandatory'>required</span>"
@@ -96,7 +97,8 @@ HERE
     if ( $isUnused && !$isBroken ) {
 
         # Unused and not broken - just pass the value through a hidden
-        $control = CGI::hidden( $keys, $root->{valuer}->currentValue($value) );
+        $control = Foswiki::Configure::UI::hidden(
+            $keys, $root->{valuer}->currentValue($value) );
     }
     else {
 

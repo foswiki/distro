@@ -172,13 +172,15 @@ sub ERROR {
 }
 
 # Used in place of CGI::hidden, which is broken in some versions.
-# Assumes $name does not need to be encoded
 # HTML encodes the value
 sub hidden {
-    my ( $this, $name, $value ) = @_;
+    my ( $name, $value ) = @_;
+    $name ||= '';
+    $name =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/
+      '&#'.ord($1).';'/ge;
     $value ||= '';
-    $value =~
-      s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
+    $value =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/
+      '&#'.ord($1).';'/ge;
     return "<input type='hidden' name='$name' value='$value' />";
 }
 
