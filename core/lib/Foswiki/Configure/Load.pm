@@ -31,7 +31,7 @@ our %remap = (
 
 =begin TML
 
----++ StaticMethod readConfig()
+---++ StaticMethod readConfig([$noexpand])
 
 In normal Foswiki operations as a web server this routine is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
@@ -48,9 +48,14 @@ and that will add the config values to LocalSite.cfg, so no defaults are
 needed. Foswiki.spec is still read because so much of the core code doesn't
 provide defaults, and it would be silly to have them in two places anyway.
 
+$noexpand can be set to suppress expansion of $Foswiki vars embedded in
+values.
+
 =cut
 
 sub readConfig {
+    my $noexpand = shift;
+
     return if $Foswiki::cfg{ConfigurationFinished};
 
     # Read Foswiki.spec and LocalSite.cfg
@@ -113,7 +118,7 @@ CODE
 
     # Expand references to $Foswiki::cfg vars embedded in the values of
     # other $Foswiki::cfg vars.
-    expand( \%Foswiki::cfg );
+    expand( \%Foswiki::cfg ) unless $noexpand;
 
     $Foswiki::cfg{ConfigurationFinished} = 1;
 

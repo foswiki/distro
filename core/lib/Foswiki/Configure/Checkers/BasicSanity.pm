@@ -50,7 +50,7 @@ Please correct this error before continuing.
 HERE
     }
     elsif ( -e $this->{LocalSiteDotCfg} ) {
-        eval { Foswiki::Configure::Load::readConfig(); };
+        eval { Foswiki::Configure::Load::readConfig(1); };
         if ($@) {
             $result .= <<HERE;
 Existing configuration file has a problem

@@ -426,6 +426,7 @@ sub _actionSavechanges {
     }
 }
 
+# Screen that prompts for a password
 sub _screenAuthorize {
     my ($messageType) = @_;
     my $contents = '';
@@ -485,12 +486,7 @@ sub _screenAuthorize {
     return $outText;
 }
 
-=pod
-
-After authentication, the screen that shows the changes.
-
-=cut
-
+# After authentication, the screen that shows the changes.
 sub _screenFeedback {
     my ($messageType) = @_;
     my $valuer =
