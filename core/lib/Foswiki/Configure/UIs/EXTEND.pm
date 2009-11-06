@@ -14,24 +14,47 @@ use Cwd        ();
 sub ui {
     my $this  = shift;
     my $query = $Foswiki::query;
-    my $ar;
-    my $extension = $query->param('extension');
-    $extension =~ /(\w+)/;    # filter-in and untaint
-    $extension = $1;
-    die "Bad extension name" unless $extension;
-    my $ext = '.tgz';
 
     $this->findRepositories();
 
-    my $repository = $this->getRepository( $query->param('repository') );
-    if ( !defined($repository) ) {
-        return $this->ERROR( "Repository not found. <pre> "
-              . $query->param('repository')
-              . " </pre>" );
-    }
-    my $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
+    my @remove = $query->param('remove');
+    foreach my $extension (@remove) {
+        $extension =~ /(.*)\/(\w+)$/;
+        my $repositoryPath = $1;
+        my $extensionName = $2;
+        print "Bad extension name" unless $extensionName && $repositoryPath;
 
+        $this->_uninstall($repositoryPath, $extensionName);
+    }
+
+    my @add = $query->param('add');
+    foreach my $extension (@add) {
+        $extension =~ /(.*)\/(\w+)$/;
+        my $repositoryPath = $1;
+        my $extensionName = $2;
+        print "Bad extension name" unless $extensionName && $repositoryPath;
+
+        $this->_install($repositoryPath, $extensionName);
+    }
+    return '';
+}
+
+sub _install {
+    my ($this, $repositoryPath, $extension) = @_;
+
+    my $repository = $this->getRepository( $repositoryPath );
+    if ( !$repository ) {
+        print $this->ERROR( "Repository not found. <pre> "
+                              . $repository."</pre>");
+        return;
+    }
+    
+    my $ext = '.tgz';
+    my $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
+    my $ar;
+    
     print "<br/>Fetching $arf...<br />\n";
+
     my $response = $this->getUrl($arf);
     if ( !$response->is_error() ) {
         eval { $ar = $response->content(); };
@@ -39,13 +62,13 @@ sub ui {
     else {
         $@ = $response->message();
     }
-
+    
     if ($@) {
         print $this->WARN(<<HERE);
 I can't download $arf because of the following error:
 <pre>$@</pre>
 HERE
-        undef $ar;
+        return;
     }
 
     if ( !defined($ar) ) {
@@ -71,35 +94,37 @@ HERE
             undef $ar;
         }
     }
-
+    
     unless ($ar) {
-        return $this->ERROR(<<MESS);
+        print $this->ERROR(<<MESS);
 Please follow the published process for manual installation from the
 command line.
 MESS
+        return;
     }
-
+    
     # Strip HTTP headers if necessary
     $ar =~ s/^HTTP(.*?)\r\n\r\n//sm;
-
+    
     # Save it somewhere it will be cleaned up
     my ( $tmp, $tmpfilename ) =
       File::Temp::tempfile( SUFFIX => $ext, UNLINK => 1 );
     binmode($tmp);
     print $tmp $ar;
     $tmp->close();
+    
     print "Unpacking...<br />\n";
     my $dir = _unpackArchive($tmpfilename);
-
+    
     my @names = _listDir($dir);
-
+    
     # install the contents
     my $installScript = undef;
+    my $query = $Foswiki::query;
     unless ( $query->param('confirm') ) {
         foreach my $file (@names) {
             my $ef = $this->_findTarget($file);
-            if ( -e $ef && !-d $ef && $ef !~ /^${extension}_installer(\.pl)?$/ )
-            {
+            if ( -e $ef && !-d $ef && $ef !~ /^${extension}_installer(\.pl)?$/ ) {
                 my $mess = "Note: Existing $file overwritten.";
                 if ( File::Copy::move( $ef, "$ef.bak" ) ) {
                     $mess .= " Backup saved in $ef.bak";
@@ -117,13 +142,13 @@ MESS
             print $this->WARN("No installer script found in archive");
         }
     }
-
+    
     # foreach file in archive, move it to the correct place
     foreach my $file (@names) {
-
+        
         # The file may already have been moved along with its directory
         next unless -e "$dir/$file";
-
+        
         # Find where it is meant to go
         my $ef = $this->_findTarget($file);
         if ( -e $ef && !-d $ef && !-w $ef ) {
@@ -143,9 +168,9 @@ MESS
             }
         }
     }
-
+    
     if ( $installScript && -e $installScript ) {
-
+        
         # invoke the installer script.
         # SMELL: Not sure yet how to handle
         # interaction if the script ignores -a. At the moment it
@@ -154,15 +179,18 @@ MESS
         unshift( @ARGV, '-a' );    # don't prompt
         unshift( @ARGV, '-d' );    # yes, you can download
         unshift( @ARGV, '-u' );    # already unpacked
-             # Note: -r not passed to the script, so it will _not_ try to
-             # re-use existing archives found on disc to resolve dependencies.
+        # Note: -r not passed to the script, so it will _not_ try to
+        # re-use existing archives found on disc to resolve dependencies.
         print "<pre>\n";
         eval {
             no warnings 'redefine';
             do $installScript;
             use warnings 'redefine';
-            die $@ if $@;    # propagate
         };
+        if ($@) {
+            print $@;
+            return;
+        }
         print "</pre>\n";
         if ($@) {
             print $this->ERROR(<<HERE);
@@ -177,12 +205,12 @@ HERE
         }
         chdir( $this->{bin} );
     }
-
+    
     if ( $this->{warnings} ) {
         print $this->NOTE( "Installation finished with $this->{errors} error"
-              . ( $this->{errors} == 1 ? '' : 's' )
-              . " and $this->{warnings} warning"
-              . ( $this->{warnings} == 1 ? '' : 's' ) );
+                             . ( $this->{errors} == 1 ? '' : 's' )
+                               . " and $this->{warnings} warning"
+                                 . ( $this->{warnings} == 1 ? '' : 's' ) );
     }
     else {
         print 'Installation finished.';
@@ -200,8 +228,68 @@ Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
 HERE
     }
+}
 
-    return '';
+sub _uninstall {
+    my ($this, $repositoryPath, $extension) = @_;
+
+    # find the uninstaller
+    my $query = $Foswiki::query;
+    my $file = "${extension}_installer";
+    my $installScript = $this->_findTarget($file);
+
+    unless ($installScript && -e $installScript) {
+        print $this->WARN("No $installScript found - cannot uninstall");
+        return;
+    }
+  
+    # invoke the installer script.
+    # SMELL: Not sure yet how to handle
+    # interaction if the script ignores -a. At the moment it
+    # will just hang :-(
+    chdir( $this->{root} );
+    unshift( @ARGV, '-a' );    # don't prompt
+    unshift( @ARGV, '-uninstall' );
+    print "<pre>\n";
+    eval {
+        no warnings 'redefine';
+        do $installScript;
+        use warnings 'redefine';
+    };
+    if ($@) {
+        print $@;
+        return;
+    }
+    print "</pre>\n";
+    if ($@) {
+        print $this->ERROR(<<HERE);
+Uninstall returned errors:
+<pre>$@</pre>
+You may be able to resolve these errors and complete the installation
+from the command line, so I will leave the installed files where they are.
+HERE
+    }
+    else {
+        print $this->NOTE("Installer ran without errors");
+    }
+    chdir( $this->{bin} );
+    
+    if ( $this->{warnings} ) {
+        print $this->NOTE( "Installation finished with $this->{errors} error"
+                             . ( $this->{errors} == 1 ? '' : 's' )
+                               . " and $this->{warnings} warning"
+                                 . ( $this->{warnings} == 1 ? '' : 's' ) );
+    }
+    else {
+        print 'Installation finished.';
+    }
+
+    if ( $extension =~ /Plugin$/ ) {
+        print $this->NOTE(<<HERE);
+Note: Don't forget to disable uninstalled plugins in the
+"Plugins" section in the main page.
+HERE
+    }
 }
 
 # Find the installation target of a single file. This involves remapping
@@ -348,7 +436,7 @@ sub _untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    eval 'use Archive::Tar';
+    eval 'use Archive::Tar ()';
     unless ($@) {
         my $tar = Archive::Tar->new( $archive, $compressed );
         unless ($tar) {

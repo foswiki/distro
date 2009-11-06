@@ -359,16 +359,13 @@ sub log {
     }
 }
 
-my $html = _dispatchContents();
-Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
-print "Content-type: text/html\n\n";
-print $html;
+print $query->header('text/html');
+_dispatchContents();
 
 ###########################################################
 # End of the main program; the rest is all subs
 
 sub _dispatchContents {
-    my $message = '';
     my $stub    = new Foswiki::Configure::Item();
 
     # This call will define $Foswiki::defaultCfg by loading .spec files
@@ -382,7 +379,7 @@ sub _dispatchContents {
     # Dispatcher methods return a boolean to indicate whether to generate a
     # link back to the main page at the end.
     if ( $sanityUI->insane() || $query->param('abort') ) {
-        $message = $sanityStatement;
+        print $sanityStatement;
     }
     else {
 
@@ -392,12 +389,9 @@ sub _dispatchContents {
         die "Undefined action $action" unless defined(&$method);
 
         no strict 'refs';
-        my $result = &$method();
+        &$method();
         use strict 'refs';
-
-        $message .= $result if $result;
     }
-    return $message;
 }
 
 sub _checkLoadUI {
@@ -419,10 +413,10 @@ sub _actionSavechanges {
 
     my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
     if ( !$authorised ) {
-        return _screenAuthorize($messageType);
+        _screenAuthorize($messageType);
     }
     else {
-        return _screenFeedback($messageType);
+        _screenFeedback($messageType);
     }
 }
 
@@ -472,18 +466,22 @@ sub _screenAuthorize {
         }
     );
 
-    my $outText =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    my $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    $html .= $contentTemplate;
+    $html .=
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     Foswiki::Configure::UI::getTemplateParser()->parse(
-        $outText,
+        $html,
         {
-            'main'       => $contentTemplate,
             'time'       => $time,
             'formAction' => $scriptName,
         }
     );
 
-    return $outText;
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
+        $html);
+    print $html;
 }
 
 # After authentication, the screen that shows the changes.
@@ -527,17 +525,19 @@ sub _screenFeedback {
         }
     );
 
-    my $outText =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    my $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
     Foswiki::Configure::UI::getTemplateParser()->parse(
-        $outText,
+        $html,
         {
             'main'       => $contentTemplate,
             'time'       => '',
             'formAction' => $scriptName,
         }
     );
-    return $outText;
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
+        $html);
+    print $html;
 }
 
 # Invoked by "find more extensions" button in the Extensions section
@@ -545,16 +545,21 @@ sub _actionFindMoreExtensions {
     my $root = new Foswiki::Configure::Root();
 
     my $ui = _checkLoadUI( 'EXTENSIONS', $root );
-    return '' unless $ui;
+    return unless $ui;
 
     my ( $consultedLocations, $table, $errors, $installedCount, $allCount ) =
       $ui->ui();
+
+    my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
+    my $scriptName = pop(@script);
+    $scriptName =~ s/.*[\/\\]//;               # Fix for Item3511, on Win XP
 
     my $contentTemplate =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('extensions');
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $contentTemplate,
         {
+            'formAction'         => $scriptName,
             'table'              => $table,
             'errors'             => $errors,
             'consultedLocations' => $consultedLocations,
@@ -563,22 +568,33 @@ sub _actionFindMoreExtensions {
         }
     );
 
-    my $outText =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    my $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    $html .= $contentTemplate;
+    $html .=
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
+
     Foswiki::Configure::UI::getTemplateParser()->parse(
-        $outText,
+        $html,
         {
-            'main'       => $contentTemplate,
             'time'       => '',
             'formAction' => $scriptName,
         }
     );
 
-    return $outText;
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
+        $html);
+    print $html;
 }
 
-# Invoked when an extension is to be installed
-sub _actionInstallExtension {
+# Invoked when extensions are to be (un)installed
+sub _actionManageExtensions {
+
+    my $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
+        $html);
+    print $html;
 
     my $root = new Foswiki::Configure::Root();
     my $ui;
@@ -592,7 +608,12 @@ sub _actionInstallExtension {
         return 1 unless $ui;
         print $ui->ui();
     }
-    return 1;
+
+    $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
+        $html);
+    print $html;
 }
 
 # This is the default screen
@@ -622,8 +643,9 @@ sub _actionConfigure {
     my $cgi_checker = Foswiki::Configure::UI::loadChecker( 'CGISetup', $root );
     $root->addChild($cgi_checker);
 
-# Load the config structures.
-# if $badLSC is true, the start screen will be shown (and limited sections in the left menu
+    # Load the config structures.
+    # if $badLSC is true, the start screen will be shown (and limited
+    # sections in the left menu
     Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
 
     # Now generate the UI
@@ -640,19 +662,26 @@ sub _actionConfigure {
     my $showSanityStatement =
       ( !$isFirstTime && !$Foswiki::query->auth_type() ) ? 1 : undef;
 
-    my $outText =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('page');
+    my $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    if ($showSanityStatement) {
+        $html .=
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('sanity');
+    }
+    $html .= $contents;
+    $html .=
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     Foswiki::Configure::UI::getTemplateParser()->parse(
-        $outText,
+        $html,
         {
-            'main' => $contents,
             'time' => $time,     # use time to make sure we never allow cacheing
             'formAction'          => $scriptName,
-            'showSanityStatement' => $showSanityStatement,
         }
     );
 
-    return $outText;
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
+        $html);
+    print $html;
 }
 
 1;

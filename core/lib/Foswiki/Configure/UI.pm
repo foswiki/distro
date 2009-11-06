@@ -105,7 +105,7 @@ sub loadChecker {
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
     my $checker;
 
-    eval "use $checkClass; \$checker = new $checkClass(\$item);";
+    eval "use $checkClass (); \$checker = new $checkClass(\$item);";
 
     # Can't locate errors are OK
     die $@ if ( $@ && $@ !~ /Can't locate / );
@@ -345,7 +345,7 @@ sub getTemplateParser {
     if ( !$templateParser ) {
 
         # get the template parser
-        eval "use Foswiki::Configure::TemplateParser";
+        eval 'use Foswiki::Configure::TemplateParser ()';
         if ($@) {
             die "TemplateParser could not be loaded:" . join( " ", $@ );
         }

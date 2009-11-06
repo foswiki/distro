@@ -33,17 +33,3 @@
 
 <form method="post" action="${formAction}" enctype="multipart/form-data" name="update">
 <input type="hidden" name="time" value="${time}"  />
-<#if showSanityStatement??><div class='foswikiNotification foswikiAlert noAuthWarning'>
-<strong>BIG, BIG WARNING!</strong> This screen was accessed without requiring authentication. <b>This is a
-high security risk!</b>
-<p />You should always make sure the configuration
-interface requires authentication, or it may be used by a hacker
-to modify your Foswiki configuration. <br />
-See <a href="http://foswiki.org/Support/ProtectingYourConfiguration">
-Protecting Your Configuration</a> for more information on
-limiting access to configuration.
-</div></#if>
-${main}
-</form>
-</body>
-</html>

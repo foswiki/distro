@@ -21,13 +21,13 @@ my %headNames = (
     description      => 'Description',
     compatibility    => 'Compatible with',
     installedRelease => 'Installed Release',
+    install          => '',
 
     # Not used; just here for completeness
     topic            => 'Extension',
     classification   => 'Classification',
     version          => 'Most Recent Version',
     installedVersion => 'Installed Version',
-    install          => '',
 );
 
 my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
@@ -143,6 +143,7 @@ sub ui {
       CGI::Tr( join( '', map { CGI::th( $headNames{$_} ) } @tableHeads ) );
 
     # Each extension has two rows
+    
     foreach my $key ( sort keys %$exts ) {
         my $ext = $exts->{$key};
 
@@ -154,26 +155,8 @@ sub ui {
         # is the version number read from FastReport, and {release} will be
         # the latest release from there.
 
-        # Work out the control button
-        my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
-        my $scriptName = pop(@script);
-        $scriptName =~ s/.*[\/\\]//;               # Fix for Item3511, on Win XP
-
-        my $link =
-            $scriptName
-          . '?action=InstallExtension'
-          . ';repository='
-          . $ext->{repository}
-          . ';extension='
-          . $ext->{topic};
-
-        my $install = CGI::a(
-            {
-                href  => $link,
-                class => 'foswikiButton'
-            },
-            'Install'
-        );
+        my $install = 'Install';
+        my $uninstall = '';
         my $classes = 'configureInstall';
         if ( $ext->{installedRelease} ) {
 
@@ -188,29 +171,37 @@ sub ui {
 
                 # Installed version is < available version
 
-                $install = CGI::a(
-                    {
-                        href  => $link,
-                        class => 'foswikiButton'
-                    },
-                    'Upgrade'
-                );
+                $install = 'Upgrade';
+                $uninstall = 'Uninstall';
                 $classes = 'configureUpgrade';
             }
             else {
 
                 # Installed version is current version
 
-                $install = CGI::a(
-                    {
-                        href  => $link,
-                        class => 'foswikiButton'
-                    },
-                    'Re-install'
-                );
+                $install = 'Re-install';
+                $uninstall = 'Uninstall';
                 $classes = 'configureReInstall';
             }
             $installed++;
+        }
+
+        if ($install ne 'pseudo-installed') {
+            $install = CGI::checkbox(
+                -name => 'add',
+                -value => $ext->{repository} . '/' . $ext->{topic},
+                -class => 'foswikiCheckbox',
+                -label => $install,
+               );
+        }
+
+        if ($uninstall) {
+            $uninstall = '<br />'.CGI::checkbox(
+                -name => 'remove',
+                -value => $ext->{repository} . '/' . $ext->{topic},
+                -class => 'foswikiCheckbox',
+                -label => $uninstall,
+               );
         }
 
         $classes .= ' configureAlienExtension'
@@ -235,7 +226,7 @@ sub ui {
                     class =>
 "$classes configureExtensionTitle configureExtensionAction"
                 },
-                $install
+                $install . ' ' . $uninstall
             )
         );
 

@@ -20,12 +20,16 @@
 
 <#-- table contents -->
 <#if table??>
+  <form action="${formAction}" method="POST">
+    <input type="hidden" name="action" value="ManageExtensions" />
 	<table class='configureExtensionsTable' border='0' cellspacing='0'>
 		${table}
 		<tr> 
 			<td colspan='999' class='configureTableOutside'>
-				Installed: ${installedCount} out of ${allCount}
+				Currently Installed: ${installedCount} out of ${allCount}
 			</td>
 		</tr>
 	</table>
+    <input type="submit" name="submit" value="Add/remove selected extensions" />;
+  </form>
 </#if>
