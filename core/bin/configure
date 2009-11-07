@@ -527,10 +527,12 @@ sub _screenFeedback {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    $html .= $contentTemplate;
+    $html .=
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'main'       => $contentTemplate,
             'time'       => '',
             'formAction' => $scriptName,
         }
