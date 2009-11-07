@@ -514,6 +514,7 @@ lib/Foswiki/Configure/templates/authorize.tmpl 0444
 lib/Foswiki/Configure/templates/extensions.tmpl 0444
 lib/Foswiki/Configure/templates/feedback.tmpl 0444
 lib/Foswiki/Configure/templates/findextensionsintro.tmpl 0444
+lib/Foswiki/Configure/templates/installed.tmpl 0444
 lib/Foswiki/Configure/templates/main.tmpl 0444
 lib/Foswiki/Configure/templates/pagebegin.tmpl 0444
 lib/Foswiki/Configure/templates/pageend.tmpl 0444

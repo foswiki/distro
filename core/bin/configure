@@ -610,7 +610,20 @@ sub _actionManageExtensions {
     }
 
     $html =
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
+    $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
+
+    my $frontpageUrl =
+"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $html,
+        {
+            'frontpageUrl'  => $frontpageUrl,
+            'configureUrl'  => $url,
+        }
+    );
+
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
         $html);
     print $html;

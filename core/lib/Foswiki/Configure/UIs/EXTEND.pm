@@ -11,6 +11,8 @@ use File::Copy ();
 use File::Spec ();
 use Cwd        ();
 
+# This UI uses *print* rather than gathering output. This is to give
+# the caller early feedback.
 sub ui {
     my $this  = shift;
     my $query = $Foswiki::query;
@@ -124,18 +126,9 @@ MESS
     unless ( $query->param('confirm') ) {
         foreach my $file (@names) {
             my $ef = $this->_findTarget($file);
-            if ( -e $ef && !-d $ef && $ef !~ /^${extension}_installer(\.pl)?$/ ) {
-                my $mess = "Note: Existing $file overwritten.";
-                if ( File::Copy::move( $ef, "$ef.bak" ) ) {
-                    $mess .= " Backup saved in $ef.bak";
-                }
-                print $this->NOTE("$mess<br />");
-            }
-            else {
-                print "$file<br />";
-            }
+            print "$file<br />";
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
-                $installScript = $this->_findTarget($file);
+                $installScript = $ef;
             }
         }
         unless ($installScript) {
@@ -153,7 +146,8 @@ MESS
         my $ef = $this->_findTarget($file);
         if ( -e $ef && !-d $ef && !-w $ef ) {
             print $this->ERROR("No permission to write to $ef");
-            die "Installation terminated";
+            print "Installation terminated";
+            return 0;
         }
         elsif ( !-d $ef ) {
             if ( -d "$dir/$file" ) {
@@ -164,7 +158,8 @@ MESS
             }
             elsif ( !File::Copy::move( "$dir/$file", $ef ) ) {
                 print $this->ERROR("Failed to move file '$file' to $ef: $!");
-                die "Installation terminated";
+                print "Installation terminated";
+                return 0;
             }
         }
     }
@@ -181,17 +176,14 @@ MESS
         unshift( @ARGV, '-u' );    # already unpacked
         # Note: -r not passed to the script, so it will _not_ try to
         # re-use existing archives found on disc to resolve dependencies.
-        print "<pre>\n";
-        eval {
-            no warnings 'redefine';
-            do $installScript;
-            use warnings 'redefine';
-        };
+        print "<h2>Running $installScript</h2>";
+        no warnings 'redefine';
+        do $installScript;
+        use warnings 'redefine';
         if ($@) {
             print $@;
             return;
         }
-        print "</pre>\n";
         if ($@) {
             print $this->ERROR(<<HERE);
 Installer returned errors:
@@ -250,7 +242,6 @@ sub _uninstall {
     chdir( $this->{root} );
     unshift( @ARGV, '-a' );    # don't prompt
     unshift( @ARGV, '-uninstall' );
-    print "<pre>\n";
     eval {
         no warnings 'redefine';
         do $installScript;
@@ -260,7 +251,6 @@ sub _uninstall {
         print $@;
         return;
     }
-    print "</pre>\n";
     if ($@) {
         print $this->ERROR(<<HERE);
 Uninstall returned errors:
