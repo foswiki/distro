@@ -37,11 +37,12 @@ sub parse {
     my ( $class, $text ) = @_;
     my $this = new( $class, 'Incomplete headers' );
 
-    $text =~ s/\r\n/\n/gs;
-    $text =~ s/\r/\n/gs;
-    $text =~ s/^(.*?)\n\n//s;
+    $text =~ s/^(.*?)\x0d\x0a\x0d\x0a//s;
     # untaint is OK, checked below
     my $httpHeader = $1;
+    $httpHeader =~ s/\r\n/\n/gs;
+    $httpHeader =~ s/\r/\n/gs;
+
     $this->{content} = $text;
     if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\s([^\r\n]*)//s ) {
         $this->{code}    = $1;
