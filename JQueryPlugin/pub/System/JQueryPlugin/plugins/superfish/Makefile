@@ -13,5 +13,4 @@ copyupstream:
 	cp superfish-1.4.8/images/shadow.png MenuShadow.png
 
 patch:
-	patch -p0 < jquery.superfish.uncompressed.js.diff
 	patch -p0 < jquery.superfish.uncompressed.css.diff

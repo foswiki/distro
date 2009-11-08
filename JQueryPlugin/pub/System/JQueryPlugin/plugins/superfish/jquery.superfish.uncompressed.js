@@ -76,7 +76,7 @@
 		};
 	sf.c = {
 		bcClass     : 'sf-breadcrumb',
-		menuClass   : 'sf-menu',
+		menuClass   : 'sf-js-enabled',
 		anchorClass : 'sf-with-ul',
 		arrowClass  : 'sf-sub-indicator',
 		shadowClass : 'sf-shadow'
