@@ -114,7 +114,7 @@ HERE
       push @headerDependency, $dep;
     } else {
       Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
-      push @headerDependency, 'JQUERYPLUGIN::'.uc($this->{name});
+      push @headerDependency, 'JQUERYPLUGIN::'.uc($dep);
     }
   }
 
