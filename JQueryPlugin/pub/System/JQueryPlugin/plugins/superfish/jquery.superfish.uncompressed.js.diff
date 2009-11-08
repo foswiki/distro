@@ -1,0 +1,11 @@
+--- jquery.superfish.uncompressed.js	2009-11-08 13:07:12.867308200 +1100
++++ jquery.superfish.uncompressed.js.patched	2009-11-08 13:10:25.339498816 +1100
+@@ -76,7 +76,7 @@
+ 		};
+ 	sf.c = {
+ 		bcClass     : 'sf-breadcrumb',
+-		menuClass   : 'sf-js-enabled',
++		menuClass   : 'sf-menu',
+ 		anchorClass : 'sf-with-ul',
+ 		arrowClass  : 'sf-sub-indicator',
+ 		shadowClass : 'sf-shadow'

@@ -100,6 +100,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Superfish}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Supersubs}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tabpane}{Enabled} = 1;
 
 # **BOOLEAN**

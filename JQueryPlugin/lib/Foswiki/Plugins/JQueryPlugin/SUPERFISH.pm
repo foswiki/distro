@@ -40,7 +40,7 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'Superfish',
-    version => '1.4.1',
+    version => '1.4.8',
     author => 'Joel Birch',
     homepage => 'http://users.tpg.com.au/j_birch/plugins/superfish/',
     javascript => ['jquery.superfish.js'],
@@ -60,8 +60,8 @@ Features:
    * drop shadows for capable browsers ? degrades gracefully for Internet Explorer 6. Can disable shadows completely via options object.
    * Can show the path to your current page while the menu is idle. The easiest way to understand this is to view the nav-bar example.
    * Optional callback functions. The 'this' keyword within the handlers you attach will refer to the animated ul sub-menu. From version 1.4 there are now three other optional callbacks allowing for further enhancements and functionality to be added without needing to alter the core Superfish code.
+   * See supersubs companion Javascript to automatically resize menus to fit their contents.
 
-TODO: upgrade to 1.4.8 or later
 HERE
 
   return $this;
