@@ -712,6 +712,35 @@ sub verify_formatted_search_summary_with_exclamation_marks {
     $this->assert_str_equals( $expected, $actual );
 }
 
+sub verify_METASEARCH {
+    my $this    = shift;
+    my $session = $this->{twiki};
+
+    $this->set_up_for_formatted_search();
+    my $actual, my $expected;
+
+    $actual =
+      $session->handleCommonTags(
+'%METASEARCH{type="topicmoved" topic="FormattedSearchTopic1" title="This topic used to exist and was moved to: "}%',
+		$this->{test_web}, $this->{test_topic}
+      );
+    $actual = $session->renderer->getRenderedVersion($actual, $this->{test_web},
+        $this->{test_topic} );
+    $expected = 'This topic used to exist and was moved to: ';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $session->handleCommonTags(
+'%METASEARCH{type="parent" topic="TestCaseAutoFormattedSearch" title="Children: "}%',
+		$this->{test_web}, $this->{test_topic}
+      );
+    $actual = $session->renderer->getRenderedVersion($actual, $this->{test_web},
+        $this->{test_topic} );
+    $expected = $session->renderer->getRenderedVersion('Children: FormattedSearchTopic1 ', $this->{test_web},
+        $this->{test_topic} );
+    $this->assert_str_equals( $expected, $actual );
+}
+
 sub set_up_for_queries {
     my $this = shift;
     my $text = <<'HERE';
