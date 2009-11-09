@@ -507,7 +507,8 @@ sub searchWeb {
     }
 
     # Expand tags in template sections
-    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
+    #TODO: SMELL: work out the $inline bit - its set to 0 in the search cgi, see Item2342 (turn on ASSERT..)
+    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName}, $inline?undef:$session->{topicName} );
     $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
 
     #TODO: huh? why here?
