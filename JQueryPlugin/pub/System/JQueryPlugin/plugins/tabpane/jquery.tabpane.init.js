@@ -1,1 +1,1 @@
-(function($){$(function(){$(".jqTabPane").tabpane();});})(jQuery);;
+(function($){$(function(){$(".jqTabPane").tabpane();});})(jQuery);

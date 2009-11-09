@@ -40,4 +40,4 @@ if((!IE||!$.fn.bgiframe)&&tsettings.fade){if(helper.parent.is(':animated'))
 helper.parent.stop().fadeTo(tsettings.fade,0,complete);else
 helper.parent.stop().fadeOut(tsettings.fade,complete);}else
 complete();if(settings(this).fixPNG)
-helper.parent.unfixPNG();}})(jQuery);;
+helper.parent.unfixPNG();}})(jQuery);

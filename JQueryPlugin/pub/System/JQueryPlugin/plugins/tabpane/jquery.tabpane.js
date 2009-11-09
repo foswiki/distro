@@ -19,4 +19,4 @@ var windowHeight=jQuery(window).height();if(!windowHeight){windowHeight=window.i
 var height=windowHeight-paneTop-2*bottomBarHeight-12;var $debug=$("#DEBUG");if($debug){height-=$debug.outerHeight({margin:true,padding:true});}
 if(opts&&opts.minHeight&&height<opts.minHeight){height=opts.minHeight;}
 if(height<0){return;}
-$container.height(height);},defaults:{select:1,animate:false,autoMaxExpand:false,minHeight:230}};$.fn.tabpane=$.tabpane.build;})(jQuery);;
+$container.height(height);},defaults:{select:1,animate:false,autoMaxExpand:false,minHeight:230}};$.fn.tabpane=$.tabpane.build;})(jQuery);

@@ -28,4 +28,4 @@ input.caret(pos);},0);})
 input.change();})
 .bind("keydown.mask",keydownEvent)
 .bind("keypress.mask",keypressEvent)
-.bind(pasteEventName,function(){setTimeout(function(){input.caret(checkVal(true));},0);});checkVal();});}});})(jQuery);;
+.bind(pasteEventName,function(){setTimeout(function(){input.caret(checkVal(true));},0);});checkVal();});}});})(jQuery);

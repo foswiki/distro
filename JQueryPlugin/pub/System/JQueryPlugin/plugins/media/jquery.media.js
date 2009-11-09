@@ -24,4 +24,4 @@ a.push(key+'="'+opts.attrs[key]+'" ');for(var key in o.eAttrs||{})
 a.push(key+'="'+o.eAttrs[key]+'" ');for(var key in opts.params){if(key=='wmode'&&player!='flash')
 continue;a.push(key+'="'+opts.params[key]+'" ');}
 a.push('></em'+'bed'+'>');}
-var id=el.id?(' id="'+el.id+'"'):'';var cls=opts.cls?(' class="'+opts.cls+'"'):'';var $div=$('<div'+id+cls+'>');$el.after($div).remove();($.browser.msie||player=='iframe')?$div.append(o):$div.html(a.join(''));if(opts.caption)$('<div>').appendTo($div).html(opts.caption);return $div;};})(jQuery);;
+var id=el.id?(' id="'+el.id+'"'):'';var cls=opts.cls?(' class="'+opts.cls+'"'):'';var $div=$('<div'+id+cls+'>');$el.after($div).remove();($.browser.msie||player=='iframe')?$div.append(o):$div.html(a.join(''));if(opts.caption)$('<div>').appendTo($div).html(opts.caption);return $div;};})(jQuery);

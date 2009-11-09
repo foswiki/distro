@@ -123,4 +123,4 @@ function revealChars(tmp){return $
 .map(tmp.split(''),function(n,i){return' '+n+' '+n.charCodeAt(0)+' ';})
 .join(' ');}
 this
-.each(function(){var $this=$(this);$this.trigger('chili.before_coloring');askDish(this);$this.trigger('chili.after_coloring');});return this;};})(jQuery);;
+.each(function(){var $this=$(this);$this.trigger('chili.before_coloring');askDish(this);$this.trigger('chili.after_coloring');});return this;};})(jQuery);

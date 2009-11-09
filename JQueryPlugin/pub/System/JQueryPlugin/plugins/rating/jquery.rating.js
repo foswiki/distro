@@ -20,4 +20,4 @@ return $(control.stars[value]).rating('select');if(typeof value=='string')
 $.each(control.stars,function(){if($(this).data('rating.input').val()==value)$(this).rating('select');});}
 else
 control.current=this[0].tagName=='INPUT'?this.data('rating.star'):(this.is('.rater-'+control.serial)?this:null);this.data('rating',control);this.rating('draw');var input=$(control.current?control.current.data('rating.input'):null);if(control.callback)control.callback.apply(input[0],[input.val(),$('a',control.current)[0]]);},readOnly:function(toggle,disable){var control=this.data('rating');if(!control)return this;control.readOnly=toggle||toggle==undefined?true:false;if(disable)$(control.inputs).attr("disabled","disabled");else $(control.inputs).removeAttr("disabled");this.data('rating',control);this.rating('draw');},disable:function(){this.rating('readOnly',true,true);},enable:function(){this.rating('readOnly',false,false);}});$.fn.rating.options={cancel:'Cancel Rating',cancelValue:'',split:0,starWidth:16
-};$(function(){$('input[type=radio].star').rating();});})(jQuery);;
+};$(function(){$('input[type=radio].star').rating();});})(jQuery);

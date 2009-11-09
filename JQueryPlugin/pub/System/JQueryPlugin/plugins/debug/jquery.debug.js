@@ -4,4 +4,4 @@ $.fn.debug=function(){return this.each(function(){$.log(this);});};$.log=functio
 str+='&gt;';}
 else
 {for(var key in message){str+=key+" : "+(message[key])+", ";}}}}}
-console.debug(str);};})(jQuery);;
+console.debug(str);};})(jQuery);

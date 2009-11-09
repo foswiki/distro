@@ -385,4 +385,4 @@ num(this,"padding"+tl)+
 num(this,"padding"+br);};jQuery.fn["outer"+name]=function(margin){return this["inner"+name]()+
 num(this,"border"+tl+"Width")+
 num(this,"border"+br+"Width")+
-(margin?num(this,"margin"+tl)+num(this,"margin"+br):0);};});})();;
+(margin?num(this,"margin"+tl)+num(this,"margin"+br):0);};});})();

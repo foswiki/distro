@@ -64,4 +64,4 @@ this.selectedIndex=-1;});};$.fn.resetForm=function(){return this.each(function()
 this.reset();});};$.fn.enable=function(b){if(b==undefined)b=true;return this.each(function(){this.disabled=!b;});};$.fn.selected=function(select){if(select==undefined)select=true;return this.each(function(){var t=this.type;if(t=='checkbox'||t=='radio')
 this.checked=select;else if(this.tagName.toLowerCase()=='option'){var $sel=$(this).parent('select');if(select&&$sel[0]&&$sel[0].type=='select-one'){$sel.find('option').selected(false);}
 this.selected=select;}});};function log(){if($.fn.ajaxSubmit.debug&&window.console&&window.console.log)
-window.console.log('[jquery.form] '+Array.prototype.join.call(arguments,''));};})(jQuery);;
+window.console.log('[jquery.form] '+Array.prototype.join.call(arguments,''));};})(jQuery);

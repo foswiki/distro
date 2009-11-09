@@ -23,4 +23,4 @@ c="#"+hex;}
 return(c);}
 function _niftyGP(x,side){var p=jQuery(x).css("padding"+side);if(p==null||p.indexOf("px")==-1)return(0);return(parseInt(p));}
 function _niftyMix(c1,c2){var i,step1,step2,x,y,r=new Array(3);c1.length==4?step1=1:step1=2;c2.length==4?step2=1:step2=2;if(c1=='white')c1='#ffffff';if(c2=='white')c2='#ffffff';if(c1=='black')c1='#000000';if(c2=='black')c2='#000000';for(i=0;i<3;i++){x=parseInt(c1.substr(1+step1*i,step1),16);if(step1==1)x=16*x+x;y=parseInt(c2.substr(1+step2*i,step2),16);if(step2==1)y=16*y+y;r[i]=Math.floor((x*50+y*50)/100);r[i]=r[i].toString(16);if(r[i].length==1)r[i]="0"+r[i];}
-return("#"+r[0]+r[1]+r[2]);};
+return("#"+r[0]+r[1]+r[2]);}

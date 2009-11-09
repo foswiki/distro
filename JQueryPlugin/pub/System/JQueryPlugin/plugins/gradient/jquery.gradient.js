@@ -4,4 +4,4 @@ html.push('<div class="gradient" style="position: absolute; '+position+' width: 
 html.push('</div>');if($this.css('position')=='static')
 $this.css('position','relative');$this
 .html('<div style="display:'+$this.css("display")+'; position: relative; z-index: 2;">'+this.innerHTML+'</div>')
-.prepend(html.join(''));});};})(jQuery);;
+.prepend(html.join(''));});};})(jQuery);

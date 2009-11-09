@@ -3,4 +3,4 @@ if(parentClass.match(/\bclosed?\b/)){args['collapsed']=true;}
 if(parentClass.match(/\bunique\b/)){args['unique']=true;}
 if(parentClass.match(/\bprerendered\b/)){args['prerendered']=true;}
 args['animated']='fast';if(parentClass.match(/\bspeed_(fast|slow|normal|none|[\d\.]+)\b/)){var speed=RegExp.$1;if(speed=="none"){delete args['animated'];}else{args['animated']=speed;}}
-$(this).treeview(args);});$this.css('display','block');});});})(jQuery);;
+$(this).treeview(args);});$this.css('display','block');});});})(jQuery);

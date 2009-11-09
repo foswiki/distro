@@ -7,4 +7,4 @@
 'height:'+(s.height=='auto'?'expression(this.parentNode.offsetHeight+\'px\')':prop(s.height))+';'+
 '"/>';return this.each(function(){if($('> iframe.bgiframe',this).length==0)
 this.insertBefore(document.createElement(html),this.firstChild);});}
-return this;};})(jQuery);;
+return this;};})(jQuery);
