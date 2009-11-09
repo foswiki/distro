@@ -13,7 +13,7 @@ This is an integration of the fast and highly functional <a href="http://tinymce
 
 The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
-This plugin is able to swap out _standard_ text areas and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
+This plugin is able to swap out _standard_ text areas and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors.
 
 The editor automatically "switches itself off" (i.e. reverts to the old text-only window) when editing topics that contain Foswiki content it can't handle, such as complex macros.
 
@@ -84,8 +84,8 @@ paste_convert_headers_to_strong : false,
 paste_remove_spans: true,
 paste_remove_styles: true,
 paste_strip_class_attributes: "all",
-theme_advanced_buttons1 : "foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor,separator,attach,image,charmap,hr,separator,undo,redo,separator,search,replace",
-theme_advanced_buttons2: "tablecontrols,separator,code,hide,fullscreen",
+theme_advanced_buttons1 : "foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,blockquote,separator,link,unlink,anchor,separator,undo,redo,separator,search,replace",
+theme_advanced_buttons2: "tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen",
 theme_advanced_buttons3: "",
 theme_advanced_toolbar_location: "top",
 theme_advanced_resize_horizontal : false,
@@ -96,14 +96,14 @@ keep_styles : false,
 content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 </verbatim>
 
----+++ Other Settings
+---+++ Settings
 | *Variable* | *Default* | *Description* |
-| =TINYMCEPLUGIN_INIT= | As [[%TOPIC%#Preferences][above]] | This variable holds the initialization parameters used to start !TinyMCE |
-| =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for specific browsers |
-| =TINYMCEPLUGIN_DISABLE= | 0 | If set to 1, disables TinyMCEPlugin |
+| =TINYMCEPLUGIN_INIT= | As [[%TOPIC%#Preferences][above]] | Holds the initialization parameters used to start !TinyMCE |
+| =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for a specific =_browser= |
+| =TINYMCEPLUGIN_DISABLE= | 0 | If set to 1, disables TinyMCEPlugin. _Please use_ =NOWYSIWYG= _instead_ |
 | =NOWYSIWYG= | 0 | If this global setting is set to 1, TinyMCEPlugin (and all other WYSIWYG editors) will be disabled. |
 | =TINYMCEPLUGIN_BAD_BROWSERS= | =(?i-xsm:Konqueror)= | A regular expression that matches the user-agent string of any browser for which !TinyMCE should not be loaded. |
-| =TINYMCEPLUGIN_DEBUG= | 0 | If set to 1, the uncompressed version of !TinyMCE Javascript and CSS sources will be loaded by the browser. This is very helpful when debugging. |
+| =TINYMCEPLUGIN_DEBUG= | 0 | If set to 1, the uncompressed version of !TinyMCE Javascript and CSS sources will be loaded by the browser. Useful for debugging. |
 
 ---+++ Browser Specific Settings
 Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
@@ -126,11 +126,11 @@ Some notable plugins:
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/emotions][emotions]] | emotions | Insert smiley images into the !TinyMCE editable area | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/iespell][iespell]] | iespell | Provides spell check for Internet Explorers | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/insertdatetime][insertdatetime]] | insertdate, inserttime | Provides buttons to insert customised date and time strings | |
-| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media][media]] | media | Handles embedded media such as !QuickTime, !Flash, !ShockWave, !RealPlayer and Windows Media Player | Requires customisation of your edit templates |
-| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste][paste]] | pastetext, pasteword, selectall | *Enabled by default in Foswiki* | Added here to show extra toolbar buttons that are available |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media][media]] | media | Handles embedded media such as !QuickTime, !Flash, !ShockWave, !RealPlayer and Windows Media Player | Requires customisation of edit templates |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste][paste]] | pastetext, pasteword, selectall | _Enabled by default in Foswiki_ | Added here to show extra toolbar buttons that are available |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker][spellchecker]] | spellchecker | Adds spellchecker functionality to !TinyMCE by providing a new button that performs a AJAX call to a backend PHP page that uses PSpell/ASpell or Google spellchecker | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/style][style]] | styleprops | Adds CSS style editing support to !TinyMCE, this will enable you to edit almost any CSS style property in a visual way. | Generally, HTML/CSS markup in topics is *not* desirable |
-| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/visualchars][visualchars]] | visualchars | Adds the possibility to see invisible characters like &nbsp; | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/visualchars][visualchars]] | visualchars | Adds the possibility to see invisible characters like =&amp;nbsp;= | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/wordcount][wordcount]] | - | Display the number of words down in the right corner of the editor. | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/xhtmlxtras][xhtmlxtras]] | cite, ins, del, abbr, acronym | Adds support for some XHTML elements, including cite, ins, del, abbr, and acronym. | Generally, XHTML markup in topics is *not* desirable. Foswiki plugins exist to provide similar functions with more friendly TML markup |
 
@@ -156,6 +156,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  09 Nov 2009 | Foswikitask:Item2341: Added blockquote button and rearranged toolbars slightly; cleaned up System topic |
 |  29 Oct 2009 | Foswikitask:Item2245: Updated documentation, removed redundant setting: =paste_auto_cleanup_on_paste : true= for MSIE browsers (!TinyMCE now defaults to =true= for all browsers) |
 |  21 Oct 2009 | Foswikitask:Item1558: !TinyMCE project now supports Opera, so remove it from _BAD_BROWSERS |
 |  18 Oct 2009 | Foswikitask:Item2270: Fix wordcount plugin to show correct count when user first enters edit mode |
@@ -193,8 +194,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
+|  Plugin Home: | Foswiki:Extensions.%TOPIC% |
+|  Support: | Foswiki:Support.%TOPIC% |
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
