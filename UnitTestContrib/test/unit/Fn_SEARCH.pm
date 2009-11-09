@@ -880,6 +880,30 @@ sub verify_formatted_search_summary_with_exclamation_marks {
     $this->assert_str_equals( $expected, $actual );
 }
 
+sub verify_METASEARCH {
+    my $this    = shift;
+    my $session = $this->{session};
+
+    $this->set_up_for_formatted_search();
+    my $actual, my $expected;
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%METASEARCH{type="topicmoved" topic="FormattedSearchTopic1" title="This topic used to exist and was moved to: "}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = 'This topic used to exist and was moved to: ';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%METASEARCH{type="parent" topic="TestCaseAutoFormattedSearch" title="Children: "}%'
+      );
+    $actual   = $this->{test_topicObject}->renderTML($actual);
+    $expected = $this->{test_topicObject}->renderTML('Children: FormattedSearchTopic1 ');
+    $this->assert_str_equals( $expected, $actual );
+}
+
 sub set_up_for_queries {
     my $this = shift;
     my $text = <<'HERE';
@@ -2177,7 +2201,9 @@ EXPECT
 # which is not the same as the ordering of the subwebs names. Now search
 # the parent web recursively, with a sort order based on the value of the
 # formfield. The sort should be based on the value of the 'Order' field.
-sub test_sorting_same_topic_in_subwebs {
+#TODO: this is how the code has always worked, as the rendering of SEARCH results is done per web
+#TODO: we hope to remove this (unless a compatibility switch is thrown, because its pretty un-useful.
+sub DISABLEDtest_sorting_same_topic_in_subwebs {
     my $this = shift;
 
     my $webObject = Foswiki::Meta->new(
