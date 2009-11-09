@@ -301,15 +301,44 @@ sub searchWeb {
     my $session = $this->{session};
     ASSERT( defined $session->{webName} ) if DEBUG;
     my %params    = @_;
+
+    my $inline        = $params{inline};
+    #TODO: SMELL: work out the $inline bit - its set to 0 in the search cgi, see Item2342 (turn on ASSERT..)
+    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName}, $inline?undef:$session->{topicName} );
+    my $searchResult = '';
+
     my $callback  = $params{_callback};
-    my $cbdata    = $params{_cbdata};
+    my $cbdata    = $params{_cbdata} || \$searchResult;
+    
+    #TODO: will extract into a _collate that pushes to a list etc..
+    #add in the rendering..
+    if (defined($params{_callback})) {
+    	$callback = sub {
+				my $cbdata = shift;
+				my $text = shift;
+			    my $oldcallback  = $params{_callback};
+
+		        $text = $baseWebObject->renderTML($text);
+		        $text =~ s|</*nop/*>||goi;        # remove <nop> tag
+		        &$oldcallback( $cbdata, $text );
+    		};
+    } else {
+		#TODO: push onto a list and then join at end is faster..
+    	$callback = sub {
+				my $cbdata = shift;
+				my $text = shift;
+
+				$$cbdata .= $text;
+    		};
+    }
+
     my $baseTopic = $params{basetopic} || $session->{topicName};
     my $baseWeb   = $params{baseweb} || $session->{webName};
     $params{casesensitive} = Foswiki::isTrue( $params{casesensitive} );
     $params{excludeTopics} = $params{excludetopic} || '';
     my $formatDefined = $params{formatdefined} = defined $params{format};
     my $format        = $params{format};
-    my $inline        = $params{inline};
+
     $params{multiple} = Foswiki::isTrue( $params{multiple} );
     $params{nonoise}  = Foswiki::isTrue( $params{nonoise} );
     $params{noempty}  = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
@@ -389,8 +418,6 @@ sub searchWeb {
         $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
 
-    my $searchResult = '';
-
     # A value of 'all' or 'on' by itself gets all webs,
     # otherwise ignored (unless there is a web called 'All'.)
     my $searchAllFlag = ( $webName =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
@@ -399,8 +426,6 @@ sub searchWeb {
 
     #to help later processing (formatResults)
     $params{numberOfWebs} = scalar(@webs);
-
-    my $output = '';
 
     # Write log entry
     # FIXME: Move log entry further down to log actual webs searched
@@ -497,22 +522,9 @@ sub searchWeb {
           . 'Incorrect format of '
           . $template
           . ' template (missing sections? There should be 4 %SPLIT% tags)';
-        if ( defined $callback ) {
-            &$callback( $cbdata, $mess );
-            return;
-        }
-        else {
-            return $mess;
-        }
+        &$callback( $cbdata, $mess );
+        return;
     }
-
-    # Expand tags in template sections
-    #TODO: SMELL: work out the $inline bit - its set to 0 in the search cgi, see Item2342 (turn on ASSERT..)
-    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName}, $inline?undef:$session->{topicName} );
-    $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
-
-    #TODO: huh? why here?
-    $tmplNumber = $baseWebObject->expandMacros($tmplNumber);
 
     {
         # header and footer of $web
@@ -536,7 +548,7 @@ sub searchWeb {
             $params{footer} |= $afterText;
         }
         unless ($noTotal) {
-            $params{footercounter} |= $tmplNumber;
+            $params{footercounter} |= $baseWebObject->expandMacros($tmplNumber);
             $params{footer} .= $params{footercounter};
         }
         else {
@@ -549,17 +561,7 @@ sub searchWeb {
     unless ($inline) {
         $tmplHead = $baseWebObject->expandMacros($tmplHead);
 
-        if ( defined $callback ) {
-            $tmplHead = $baseWebObject->renderTML($tmplHead);
-            $tmplHead =~ s|</*nop/*>||goi;    # remove <nop> tags
-            &$callback( $cbdata, $tmplHead );
-        }
-        else {
-
-            # don't render; this will be done by a single
-            # call at the end.
-            $searchResult .= $tmplHead;
-        }
+        &$callback( $cbdata, $tmplHead );
     }
 
     # Generate 'Search:' part showing actual search string used
@@ -569,17 +571,10 @@ sub searchWeb {
         $searchStr  =~ s/</&lt;/go;
         $searchStr  =~ s/>/&gt;/go;
         $searchStr  =~ s/^\.\*$/Index/go;
+		# Expand tags in template sections
+		$tmplSearch = $baseWebObject->expandMacros($tmplSearch);
         $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
-        if ( defined $callback ) {
-            $tmplSearch = $baseWebObject->renderTML($tmplSearch);
-            $tmplSearch =~ s|</*nop/*>||goi;    # remove <nop> tag
-            &$callback( $cbdata, $tmplSearch );
-        }
-        else {
-
-            # don't render; will be done later
-            $searchResult .= $tmplSearch;
-        }
+        &$callback( $cbdata, $tmplSearch );
     }
 ########### END SEARCH specific Template
 
@@ -635,6 +630,7 @@ sub searchWeb {
         $ttopics += $web_ttopics;
         # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
         $web_searchResult .= $separator if (($web_ttopics>0) and $noFooter and $noSummary and $separator);
+        #TODO: surely these string concat's should be done by the callback too - or even more likely, the callback happen magically in the format too..
         $searchResult .= $web_searchResult;
 
         #paging
@@ -658,17 +654,10 @@ sub searchWeb {
     unless ($inline) {
         $tmplTail = $baseWebObject->expandMacros($tmplTail);
 
-        if ( defined $callback ) {
-            $tmplTail = $baseWebObject->renderTML($tmplTail);
-            $tmplTail =~ s|</*nop/*>||goi;        # remove <nop> tag
-            &$callback( $cbdata, $tmplTail );
-        }
-        else {
-            $searchResult .= $tmplTail;
-        }
+        &$callback( $cbdata, $tmplTail );
     }
 
-    return if ( defined $callback );
+    return if ( defined $params{_callback} );
     return $searchResult if $inline;
 
     $searchResult = $baseWebObject->expandMacros($searchResult);
