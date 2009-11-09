@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="micha" date="1251318986" format="1.1" version="1.9"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %<nop>JQREQUIRE{"debug"}%
 
