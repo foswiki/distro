@@ -198,7 +198,7 @@ Conventions for Syntax:
    * The =precision= indicates the the number of digits after the dot
    * Syntax: ==$FORMAT( type, prec, number )==
    * Example: ==%<nop>CALC{"$FORMAT(COMMA, 2, 12345.6789)"}%== returns ==12,345.68==
-   * Example: ==%<nop>CALC{"$FORMAT(DOLLAR, 2, 12345.67)"}%== returns ==$12,345.68==
+   * Example: ==%<nop>CALC{"$FORMAT(DOLLAR, 2, 12345.67)"}%== returns ==$12,345.67==
    * Example: ==%<nop>CALC{"$FORMAT(KB, 2, 1234567)"}%== returns ==1205.63 KB==
    * Example: ==%<nop>CALC{"$FORMAT(MB, 2, 1234567)"}%== returns ==1.18 MB==
    * Example: ==%<nop>CALC{"$FORMAT(KBMB, 2, 1234567)"}%== returns ==1.18 MB==
@@ -771,6 +771,8 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  10 Nov 2009: | Added unit tests |
+|  27 Oct 2009: | Foswikitask:Item2301: Fixed $LISTJOIN() to accept an empty separator |
 |  20 Sep 2009: | Minor documentation update. trunk and release branch code synced (mainly perltidy - all functional changes have been in sync). |
 |  17 Sep 2009: | Foswikitask:Item2087: SpreadSheetPlugin forgets about zeros being floats as well |
 |  11 May 2009: | Fixed the calculation of WORKINGDAYS. Changed the default behavior of TIME back to not converting dates to GMT as this creates surprising effects for users living to the east of Greenwich. Added SPREADSHEETPLUGIN_TIMEISLOCAL so users depending on the old behavior keep the old behavior if TIME. Added the feature 'local' to TIME so conversion behavior can be used on demand. |
