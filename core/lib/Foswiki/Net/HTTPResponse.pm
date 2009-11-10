@@ -37,13 +37,17 @@ sub parse {
     my ( $class, $text ) = @_;
     my $this = new( $class, 'Incomplete headers' );
 
-    $text =~ s/^(.*?)\x0d\x0a\x0d\x0a//s;
+
+    # Separate the headers from the downloaded file.
+    # Headers are delimited from content by \r\n\r\n / Hex \x0d\x0a\x0d\x0a
+    $text =~ s/^(.*?)\r\n\r\n//s;
+
     # untaint is OK, checked below
     my $httpHeader = $1;
+    $this->{content} = $text;
+
     $httpHeader =~ s/\r\n/\n/gs;
     $httpHeader =~ s/\r/\n/gs;
-
-    $this->{content} = $text;
     if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\s([^\r\n]*)//s ) {
         $this->{code}    = $1;
         $this->{message} = TAINT($2 || '');
