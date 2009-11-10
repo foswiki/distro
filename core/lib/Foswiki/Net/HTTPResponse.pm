@@ -38,19 +38,18 @@ sub parse {
     my ( $class, $text ) = @_;
     my $this = new( $class, 'Incomplete headers' );
 
-    # Separate the headers from the downloaded file.  
+    # Separate the headers from the downloaded file.
     # Headers are delimited from content by \r\n\r\n / Hex \x0d\x0a\x0d\x0a
-    $text =~ s/^(.*?)\r\n\r\n//s;
-
-    # untaint is OK, checked below
-    my $httpHeader = $1;
+    my $CRLF = "\015\012";    # "\r\n" is not portable
+    $text =~ s/^(.*?)$CRLF$CRLF//s;
+    my $httpHeader = $1;      # untaint is OK, checked below
     $this->{content} = $text;
 
-    $httpHeader =~ s/\r\n/\n/gs;
+    $httpHeader =~ s/$CRLF/\n/gs;
     $httpHeader =~ s/\r/\n/gs;
-    if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\s([^\r\n]*)//s ) {
-        $this->{code}    = $1;
-        $this->{message} = TAINT($2 || '');
+    if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\s([^$CRLF]*)//s ) {
+        $this->{code} = $1;
+        $this->{message} = TAINT( $2 || '' );
     }
     while ( $httpHeader =~ s/^(\S*):\s*(.*)$//m ) {
 
@@ -58,7 +57,7 @@ sub parse {
         # but values need to be retainted
         $this->{headers}->{ lc($1) } = TAINT($2);
     }
-    if ( $httpHeader =~ /\S/) {
+    if ( $httpHeader =~ /\S/ ) {
         $this->{code}    = 400;
         $this->{message} = "Unparseable headers in response: $httpHeader";
     }
