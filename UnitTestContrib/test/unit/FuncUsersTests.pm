@@ -1559,7 +1559,7 @@ sub DISABLEDverify_removeFromGroup {
 }
 
 #http://foswiki.org/Tasks/Item1936
-sub verify_topic_meta_usermapping {
+sub verify_topic_meta_usermapping_Item1936 {
     my $this = shift;
     
     my $users = $this->{session}->{users};
