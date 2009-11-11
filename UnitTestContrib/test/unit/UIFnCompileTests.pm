@@ -73,7 +73,7 @@ sub call_UI_FN {
     my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
     my ($status, $header, $text);
     try {
-		($text) = $this->capture(
+		($text) = $this->captureWithKey( switchboard =>
 		    sub {
 		        no strict 'refs';
 		        &${UI_FN}($fatwilly);
@@ -90,9 +90,12 @@ sub call_UI_FN {
 		$text = $e->stringify();
 	};
     $fatwilly->finish();
-    $text =~ s/\r//g;
-    $text =~ s/^(.*?)\n\n+//s;    # remove CGI header
-    $header = $1;
+
+    # Remove CGI header
+    my $CRLF = "\015\012";    # "\r\n" is not portable
+    $text =~ s/^(.*?)$CRLF$CRLF//s;
+    $header = $1;      # untaint is OK, it's a test
+
     return ($status, $header, $text);
 }
 
