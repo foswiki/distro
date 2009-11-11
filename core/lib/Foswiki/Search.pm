@@ -199,7 +199,7 @@ sub _getListOfWebs {
                     my $prefix = "$web/";
                     if ( $web =~ /^(all|on)$/i ) {
                         $webObject = Foswiki::Meta->new($session);
-                        $prefix = '';
+                        $prefix    = '';
                     }
                     else {
                         push( @tmpWebs, $web );
@@ -207,7 +207,7 @@ sub _getListOfWebs {
                     }
                     my $it = $webObject->eachWeb(1);
                     while ( $it->hasNext() ) {
-                        my $w = $prefix.$it->next();
+                        my $w = $prefix . $it->next();
                         next
                           unless $Foswiki::WebFilter::user_allowed->ok(
                             $session, $w );
@@ -230,7 +230,7 @@ sub _getListOfWebs {
             my $it =
               $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
             while ( $it->hasNext() ) {
-                my $w = $session->{webName}.'/'.$it->next();
+                my $w = $session->{webName} . '/' . $it->next();
                 next
                   unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
                 push( @tmpWebs, $w );
@@ -300,44 +300,41 @@ sub searchWeb {
     my $this    = shift;
     my $session = $this->{session};
     ASSERT( defined $session->{webName} ) if DEBUG;
-    my %params    = @_;
+    my %params = @_;
 
-    my $inline        = $params{inline};
-    #TODO: SMELL: work out the $inline bit - its set to 0 in the search cgi, see Item2342 (turn on ASSERT..)
-    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName}, $inline?undef:$session->{topicName} );
-    my $searchResult = '';
+    my $inline = $params{inline};
 
-    my $callback  = $params{_callback};
-    my $cbdata    = $params{_cbdata} || \$searchResult;
-    
-    #TODO: will extract into a _collate that pushes to a list etc..
+#TODO: SMELL: work out the $inline bit - its set to 0 in the search cgi, see Item2342 (turn on ASSERT..)
+    my $baseWebObject =
+      Foswiki::Meta->new( $session, $session->{webName},
+        $inline ? undef : $session->{topicName} );
+
+    my $callback = $params{_callback};
+    my $cbdata   = $params{_cbdata};
+
     #add in the rendering..
-    if (defined($params{_callback})) {
-    	$callback = sub {
-				my $cbdata = shift;
-				my $text = shift;
-			    my $oldcallback  = $params{_callback};
+    if ( defined( $params{_callback} ) ) {
+        $callback = sub {
+            my $cbdata      = shift;
+            my $text        = shift;
+            my $oldcallback = $params{_callback};
 
-		        $text = $baseWebObject->renderTML($text);
-		        $text =~ s|</*nop/*>||goi;        # remove <nop> tag
-		        &$oldcallback( $cbdata, $text );
-    		};
-    } else {
-		#TODO: push onto a list and then join at end is faster..
-    	$callback = sub {
-				my $cbdata = shift;
-				my $text = shift;
-
-				$$cbdata .= $text;
-    		};
+            $text = $baseWebObject->renderTML($text);
+            $text =~ s|</*nop/*>||goi;    # remove <nop> tag
+            &$oldcallback( $cbdata, $text );
+        };
+    }
+    else {
+        $cbdata = $params{_cbdata} = [];
+        $callback = \&_collate_to_list;
     }
 
     my $baseTopic = $params{basetopic} || $session->{topicName};
-    my $baseWeb   = $params{baseweb} || $session->{webName};
+    my $baseWeb   = $params{baseweb}   || $session->{webName};
     $params{casesensitive} = Foswiki::isTrue( $params{casesensitive} );
     $params{excludeTopics} = $params{excludetopic} || '';
     my $formatDefined = $params{formatdefined} = defined $params{format};
-    my $format        = $params{format};
+    my $format = $params{format};
 
     $params{multiple} = Foswiki::isTrue( $params{multiple} );
     $params{nonoise}  = Foswiki::isTrue( $params{nonoise} );
@@ -345,12 +342,16 @@ sub searchWeb {
     $params{zeroresults} =
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
-    #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
-    my $pagesize      = $params{pagesize} || $Foswiki::cfg{Search}{DefaultPageSize} || 25;
-    my $showpage      = $params{showpage} || undef;                # 1-based system; 0 is not a valid page number
-    if (defined($showpage)) {
-        $params{pager_skip_results_from}   = $pagesize * ($showpage-1);
-        $params{pager_show_results_to}   = $pagesize;
+#paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
+    my $pagesize =
+         $params{pagesize}
+      || $Foswiki::cfg{Search}{DefaultPageSize}
+      || 25;
+    my $showpage = $params{showpage}
+      || undef;    # 1-based system; 0 is not a valid page number
+    if ( defined($showpage) ) {
+        $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
+        $params{pager_show_results_to} = $pagesize;
     }
 
     #TODO: refactorme
@@ -527,6 +528,7 @@ sub searchWeb {
     }
 
     {
+
         # header and footer of $web
         my ( $beforeText, $repeatText, $afterText ) =
           split( /%REPEAT%/, $tmplTable );
@@ -567,12 +569,13 @@ sub searchWeb {
     # Generate 'Search:' part showing actual search string used
     unless ($noSearch) {
         my $searchStr = $searchString;
-        $searchStr  =~ s/&/&amp;/go;
-        $searchStr  =~ s/</&lt;/go;
-        $searchStr  =~ s/>/&gt;/go;
-        $searchStr  =~ s/^\.\*$/Index/go;
-		# Expand tags in template sections
-		$tmplSearch = $baseWebObject->expandMacros($tmplSearch);
+        $searchStr =~ s/&/&amp;/go;
+        $searchStr =~ s/</&lt;/go;
+        $searchStr =~ s/>/&gt;/go;
+        $searchStr =~ s/^\.\*$/Index/go;
+
+        # Expand tags in template sections
+        $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
         $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
         &$callback( $cbdata, $tmplSearch );
     }
@@ -614,7 +617,8 @@ sub searchWeb {
         # add dependencies
         my $cache = $session->{cache};
         if ($cache) {
-            #TODO: ouch - this forces pre-evaluation of results, 
+
+            #TODO: ouch - this forces pre-evaluation of results,
             # and assumes we need or care to evaluate all of them :/
             # I wonder if this makes paging head processing heavy
             foreach my $topic ( $infoCache->{list} ) {
@@ -622,25 +626,34 @@ sub searchWeb {
             }
         }
 
+     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
+        &$callback( $cbdata, $separator )
+          if ( ( $ttopics > 0 ) and $noFooter and $noSummary and $separator );
+
         my ( $web_ttopics, $web_searchResult );
         ( $web_ttopics, $web_searchResult ) =
           $this->formatResults( $webObject, $query, $searchString, $infoCache,
             \%params );
 
         $ttopics += $web_ttopics;
-        # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-        $web_searchResult .= $separator if (($web_ttopics>0) and $noFooter and $noSummary and $separator);
-        #TODO: surely these string concat's should be done by the callback too - or even more likely, the callback happen magically in the format too..
-        $searchResult .= $web_searchResult;
 
         #paging
-        if (defined($showpage) and $params{pager_show_results_to} > 0) {
+        if ( defined($showpage) and $params{pager_show_results_to} > 0 ) {
             $params{pager_show_results_to} -= $web_ttopics;
-            last if ($params{pager_show_results_to} <= 0);
+            last if ( $params{pager_show_results_to} <= 0 );
         }
     }    # end of: foreach my $web ( @webs )
     return '' if ( $ttopics == 0 && $params{zeroresults} );
 
+    unless ($inline) {
+        $tmplTail = $baseWebObject->expandMacros($tmplTail);
+
+        &$callback( $cbdata, $tmplTail );
+    }
+
+    return if ( defined $params{_callback} );
+
+    my $searchResult = join( '', @{ $params{_cbdata} } );
     if ( $formatDefined && !$finalTerm ) {
         if ($separator) {
             $separator = quotemeta($separator);
@@ -651,13 +664,6 @@ sub searchWeb {
         }
     }
 
-    unless ($inline) {
-        $tmplTail = $baseWebObject->expandMacros($tmplTail);
-
-        &$callback( $cbdata, $tmplTail );
-    }
-
-    return if ( defined $params{_callback} );
     return $searchResult if $inline;
 
     $searchResult = $baseWebObject->expandMacros($searchResult);
@@ -688,10 +694,29 @@ sub formatResults {
     my $web                = $webObject->web;
     my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
-    my $callback      = $params->{_callback};
-    my $cbdata        = $params->{_cbdata};
-    my $baseTopic     = $params->{basetopic} || $session->{topicName};
-    my $baseWeb       = $params->{baseweb} || $session->{webName};
+    my $callback = $params->{_callback};
+    my $cbdata   = $params->{_cbdata};
+
+    #add in the rendering..
+    if ( defined( $params->{_callback} ) ) {
+        $callback = sub {
+            my $cbdata      = shift;
+            my $text        = shift;
+            my $oldcallback = $params->{_callback};
+
+#This causes some things to be rendered too often - but it makes sense for the header&footer elements to be processed in the web context, rather than the requested topic's :/
+#		        $text = $webObject->renderTML($text);
+            $text =~ s|</*nop/*>||goi;    # remove <nop> tag
+            &$oldcallback( $cbdata, $text );
+        };
+    }
+    else {
+        $cbdata = $params->{_cbdata} = [] unless ( defined($cbdata) );
+        $callback = \&_collate_to_list;
+    }
+
+    my $baseTopic = $params->{basetopic} || $session->{topicName};
+    my $baseWeb   = $params->{baseweb}   || $session->{webName};
     my $doBookView    = Foswiki::isTrue( $params->{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
@@ -704,8 +729,8 @@ sub formatResults {
     my $inline        = $params->{inline};
     my $limit         = $params->{limit} || '';
 
-    # Limit search results
-    #TODO: I _think_ that limit should be able to be deprecated and replaced by pagesize..
+# Limit search results
+#TODO: I _think_ that limit should be able to be deprecated and replaced by pagesize..
     if ( $limit =~ /(^\d+$)/o ) {
 
         # only digits, all else is the same as
@@ -718,8 +743,9 @@ sub formatResults {
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
-    if (defined($params->{pager_show_results_to}) and
-        $params->{pager_show_results_to} > 0) {
+    if ( defined( $params->{pager_show_results_to} )
+        and $params->{pager_show_results_to} > 0 )
+    {
         $limit = $params->{pager_show_results_to};
     }
 
@@ -744,7 +770,7 @@ sub formatResults {
     my $noTotal = Foswiki::isTrue( $params->{nototal}, $nonoise );
     my $newLine   = $params->{newline} || '';
     my $separator = $params->{separator};
-    my $type      = $params->{type}    || '';
+    my $type      = $params->{type} || '';
 
     if ( defined $header ) {
         $header = Foswiki::expandStandardEscapes($header);
@@ -762,21 +788,22 @@ sub formatResults {
     my $ntopics    = 0;         # number of topics in current web
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
-    my @searchResults;
 
     while ( $infoCache->hasNext() ) {
         my $topic = $infoCache->next();
+
         #pager..
-        if (defined($params->{pager_skip_results_from}) and
-            $params->{pager_skip_results_from} > 0) {
+        if ( defined( $params->{pager_skip_results_from} )
+            and $params->{pager_skip_results_from} > 0 )
+        {
             $params->{pager_skip_results_from}--;
             next;
         }
 
-        my $info           = $infoCache->get($topic);
-        my $text;   #current hits' text
-        
-        # Check security (don't show topics the current user does not have permission to view)
+        my $info = $infoCache->get($topic);
+        my $text;    #current hits' text
+
+# Check security (don't show topics the current user does not have permission to view)
         next unless $info->{allowView};
 
         # Special handling for format='...'
@@ -793,7 +820,7 @@ sub formatResults {
             }
         }
 
-#TODO: should extract this somehow
+        #TODO: should extract this somehow
         my @multipleHitLines = ();
         if ( $doMultiple && $query->{tokens} ) {
 
@@ -833,6 +860,7 @@ sub formatResults {
             if ($formatDefined) {
                 $out = $format;
                 $out =~ s/\$web/$web/gs;
+
                 #TODO: move the breakName etc into Render::renderRevisionInfo
                 $out =~ s/\$topic\(([^\)]*)\)/
                   Foswiki::Render::breakName( $topic, $1 )/ges;
@@ -844,12 +872,14 @@ sub formatResults {
                 $out =~ s/\$nhits/$nhits/gs;
 
                 #TODO: replace this with a single call to renderRevisionInfo
-                if ($out =~ /\$(wikiusername|wikiname|username)/) {
-                	$out = $session->renderer->renderRevisionInfo($info->{tom}, $revNum, $out );
-               }
+                if ( $out =~ /\$(wikiusername|wikiname|username)/ ) {
+                    $out =
+                      $session->renderer->renderRevisionInfo( $info->{tom},
+                        $revNum, $out );
+                }
 
-				#TODO: move the $create* formats into Render::renderRevisionInfo..
-				#which implies moving the infocache's pre-extracted data into the tom obj too.
+  #TODO: move the $create* formats into Render::renderRevisionInfo..
+  #which implies moving the infocache's pre-extracted data into the tom obj too.
                 $out =~ s/\$create(date|username|wikiname|wikiusername)/
                   $infoCache->getRev1Info( $topic, "create$1" )/ges;
 
@@ -922,6 +952,7 @@ sub formatResults {
                   s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                 $out =~ s/\r?\n/$newLine/gos if ($newLine);
                 if ( !defined($separator) ) {
+
 # add new line at end if needed
 # SMELL: why?
 #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
@@ -942,6 +973,7 @@ sub formatResults {
             }
             else {
                 die "no such thing? (ke)";
+
                 # regular search view
                 $text = $info->{tom}->summariseText( '', $text );
                 $out =~ s/%TEXTHEAD%/$text/go;
@@ -957,11 +989,7 @@ sub formatResults {
                 $header =~ s/\$ntopics/0/gs;
                 $header =~ s/\$nhits/0/gs;
                 $header = $webObject->expandMacros($header);
-                if ( defined $callback ) {
-                    $header = $webObject->renderTML($header);
-                    $header =~ s|</*nop/*>||goi;    # remove <nop> tag
-                    &$callback( $cbdata, $header );
-                }
+                &$callback( $cbdata, $header );
             }
 
             # don't expand if a format is specified - it breaks tables and stuff
@@ -969,15 +997,9 @@ sub formatResults {
                 $out = $webObject->renderTML($out);
             }
 
-            # output topic (or line if multiple=on)
-            if ( defined $callback ) {
-                $out =~ s|</*nop/*>||goi;    # remove <nop> tag
-                &$callback( $cbdata, $out );
-            }
-            else {
-                push( @searchResults, $out );
-            }
-
+            &$callback( $cbdata, $separator )
+              if ( defined($separator) and $nhits > 1 );
+            &$callback( $cbdata, $out );
         } while (@multipleHitLines);    # multiple=on loop
 
         last if ( $ntopics >= $limit );
@@ -985,6 +1007,7 @@ sub formatResults {
 
     # output footer only if hits in web
     if ($ntopics) {
+
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
         $footer =~ s/\$nhits/$nhits/gs;
@@ -997,51 +1020,28 @@ sub formatResults {
             $footer =~ s/\n$//os;    # remove trailing new line
         }
 
-        if ( defined $callback ) {
-            $footer = $webObject->renderTML($footer);
-            $footer =~ s|</*nop/*>||goi;    # remove <nop> tag
-            &$callback( $cbdata, $footer );
+        if ( defined($separator) ) {
+
+ #	$header = $header.$separator if (defined($params->{header}));
+ #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
+            &$callback( $cbdata, $separator )
+              if ( defined( $params->{footer} ) );
         }
         else {
 
-            #            $searchResult .= $footer;
+#TODO: legacy from SEARCH - we want to remove this oddness
+#    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $footer ne '<nop>');
         }
-    }
 
-    #TODO: now wrapped in footer?
-    # output number of topics (only if hits in web or if
-    # only searching one web)
-    #    if ( $ntopics || $params->{numberOfWebs} < 2 ) {
-    #        unless ($noTotal) {
-    #            my $thisNumber = $params->{footercounter};
-    #            $thisNumber =~ s/%NTOPICS%/$ntopics/go;
-    #            if ( defined $callback ) {
-    #                $thisNumber = $webObject->renderTML($thisNumber);
-    #                $thisNumber =~ s|</*nop/*>||goi;    # remove <nop> tag
-    #                &$callback( $cbdata, $thisNumber );
-    #            }
-    #            else {
-    #                $searchResult .= $thisNumber;
-    #            }
-    #        }
-    #    }
-    #    return ( $ntopics, $searchResult );
-    
-    if ( defined($separator) ) {
-        #	$header = $header.$separator if (defined($params->{header}));
-        #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-    	$footer = $separator.$footer if (defined($params->{footer}));
-    } else {
-        #TODO: legacy from SEARCH - we want to remove this oddness
-#    	$footer = $separator.$footer if (defined($params->{footer}) && $footer ne '<nop>');
+        &$callback( $cbdata, $footer );
     }
 
     return ( $ntopics,
-        ( ( not defined($callback) ) and ( $#searchResults >= 0 ) )
-            ? $header . join( defined($separator)
-                ? $separator
-                :'' , @searchResults ) . $footer
-            : '' );
+        ( ( not defined( $params->{_callback} ) ) and ( $nhits >= 0 ) )
+        ? join( '', @$cbdata )
+        : 'here '
+          . ( defined( $params->{_callback} ) ? 'defined' : 'not' ) . ','
+          . $nhits );
 }
 
 =begin TML
@@ -1081,6 +1081,13 @@ sub _collate {
     my $ref = shift;
 
     $$ref .= join( ' ', @_ );
+}
+
+# callback for search function to collate to list
+sub _collate_to_list {
+    my $ref = shift;
+
+    push( @$ref, @_ );
 }
 
 =begin TML
