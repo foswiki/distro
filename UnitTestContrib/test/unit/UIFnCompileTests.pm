@@ -29,7 +29,7 @@ sub fixture_groups {
 	foreach my $script (keys (%{$Foswiki::cfg{SwitchBoard}})) {
         push( @groups, $script );
         next if ( defined(&$script) );
-print STDERR "defining $script\n";
+#print STDERR "defining $script\n";
 	my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
     if ( ref($dispatcher) eq 'ARRAY' ) {
 
@@ -45,7 +45,7 @@ print STDERR "defining $script\n";
     my $package = $dispatcher->{package} || 'Foswiki::UI';
     my $function = $dispatcher->{function};
     my $sub = $package .'::'. $function;
-print STDERR "call $sub\n";
+#print STDERR "call $sub\n";
 
         eval <<SUB;
 sub $script {
