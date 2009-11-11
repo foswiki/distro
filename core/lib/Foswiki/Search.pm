@@ -309,25 +309,7 @@ sub searchWeb {
       Foswiki::Meta->new( $session, $session->{webName},
         $inline ? undef : $session->{topicName} );
 
-    my $callback = $params{_callback};
-    my $cbdata   = $params{_cbdata};
-
-    #add in the rendering..
-    if ( defined( $params{_callback} ) ) {
-        $callback = sub {
-            my $cbdata      = shift;
-            my $text        = shift;
-            my $oldcallback = $params{_callback};
-
-            $text = $baseWebObject->renderTML($text);
-            $text =~ s|</*nop/*>||goi;    # remove <nop> tag
-            &$oldcallback( $cbdata, $text );
-        };
-    }
-    else {
-        $cbdata = $params{_cbdata} = [];
-        $callback = \&_collate_to_list;
-    }
+	my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);
 
     my $baseTopic = $params{basetopic} || $session->{topicName};
     my $baseWeb   = $params{baseweb}   || $session->{webName};
@@ -694,26 +676,8 @@ sub formatResults {
     my $web                = $webObject->web;
     my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
-    my $callback = $params->{_callback};
-    my $cbdata   = $params->{_cbdata};
 
-    #add in the rendering..
-    if ( defined( $params->{_callback} ) ) {
-        $callback = sub {
-            my $cbdata      = shift;
-            my $text        = shift;
-            my $oldcallback = $params->{_callback};
-
-#This causes some things to be rendered too often - but it makes sense for the header&footer elements to be processed in the web context, rather than the requested topic's :/
-#		        $text = $webObject->renderTML($text);
-            $text =~ s|</*nop/*>||goi;    # remove <nop> tag
-            &$oldcallback( $cbdata, $text );
-        };
-    }
-    else {
-        $cbdata = $params->{_cbdata} = [] unless ( defined($cbdata) );
-        $callback = \&_collate_to_list;
-    }
+	my ($callback, $cbdata) = setup_callback($params);
 
     my $baseTopic = $params->{basetopic} || $session->{topicName};
     my $baseWeb   = $params->{baseweb}   || $session->{webName};
@@ -1073,6 +1037,33 @@ sub displayFormField {
 
     return $meta->renderFormFieldForDisplay( $name, '$value',
         { break => $breakArgs, protectdollar => 1, showhidden => 1 } );
+}
+
+
+#my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);
+sub setup_callback {
+	my ($params, $webObj) = @_;
+	
+    my $callback = $params->{_callback};
+    my $cbdata   = $params->{_cbdata};
+
+    #add in the rendering..
+    if ( defined( $params->{_callback} ) ) {
+        $callback = sub {
+            my $cbdata      = shift;
+            my $text        = shift;
+            my $oldcallback = $params->{_callback};
+
+            $text = $webObj->renderTML($text) if defined($webObj);
+            $text =~ s|</*nop/*>||goi;    # remove <nop> tag
+            &$oldcallback( $cbdata, $text );
+        };
+    }
+    else {
+        $cbdata = $params->{_cbdata} = [] unless ( defined($cbdata) );
+        $callback = \&_collate_to_list;
+    }
+    return ($callback, $cbdata);
 }
 
 # callback for search function to collate
