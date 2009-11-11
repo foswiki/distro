@@ -879,7 +879,7 @@ sub verify_topic_meta_usermapping_Item1936 {
 sub verify_unregisteredUser_display {
     my $this = shift;
     
-    my $users = $this->{session}->{users};
+    my $users = $this->{twiki}->{users};
     
     #this sort of issue is what this setting was supposed to make more obvious
 	#$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
