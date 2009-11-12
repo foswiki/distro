@@ -40,7 +40,8 @@ CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resul
 
 sub new {
     my ( $class, $session, $defaultWeb, $topicList ) = @_;
-    my $this = $class->SUPER::new($topicList);
+    
+    my $this = $class->SUPER::new($topicList || []);
     $this->{_session}    = $session;
     $this->{_defaultWeb} = $defaultWeb;
 
@@ -55,7 +56,8 @@ sub isImmutable {
 sub addTopics {
     my ( $this, $defaultWeb, @list ) = @_;
     ASSERT( !$this->isImmutable() )
-      ;    #cannot modify list once its being used as an iterator.
+    if DEBUG  ;    #cannot modify list once its being used as an iterator.
+    ASSERT( defined($defaultWeb) ) if DEBUG;
 
     if ( defined($defaultWeb) && ( $defaultWeb ne $this->{_defaultWeb} ) ) {
         foreach my $t (@list) {
@@ -67,7 +69,23 @@ sub addTopics {
     else {
 
         #TODO: what if the list is an arrayref?
+        #TODO: or even better, another infoCache.
         push( @{ $this->{list} }, @list );
+    }
+}
+sub addTopic {
+    my ( $this, $defaultWeb, $topic ) = @_;
+    ASSERT( !$this->isImmutable() )
+    if DEBUG  ;    #cannot modify list once its being used as an iterator.
+    ASSERT( defined($defaultWeb) ) if DEBUG;
+
+    if ( defined($defaultWeb) && ( $defaultWeb ne $this->{_defaultWeb} ) ) {
+        my ( $web, $t ) =
+          Foswiki::Func::normalizeTopic( $defaultWeb, $topic );
+        push( @{ $this->{list} }, "$web.$t" );
+    }
+    else {
+        push( @{ $this->{list} }, $topic );
     }
 }
 

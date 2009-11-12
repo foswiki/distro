@@ -56,7 +56,8 @@ sub query {
         #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
     }
 
-    my %matches;
+    my $resultTopicSet =
+      new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web);
     local $/;
     while ( $topicSet->hasNext() ) {
         my $topic = $topicSet->next();
@@ -68,14 +69,10 @@ sub query {
         print STDERR "Processing $topic\n" if Foswiki::Query::Node::MONITOR_EVAL();
         my $match = $query->evaluate( tom => $meta, data => $meta );
         if ($match) {
-            $matches{$topic} = $match;
+            $resultTopicSet->addTopics($web, $topic);
         }
     }
 
-    my @topics = keys(%matches);
-    my $resultTopicSet =
-      new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
-        \@topics );
     return $resultTopicSet;
 }
 
