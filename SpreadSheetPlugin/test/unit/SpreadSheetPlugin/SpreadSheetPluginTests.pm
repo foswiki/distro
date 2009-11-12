@@ -254,7 +254,7 @@ sub test_LEFTSTRING {
 sub test_LENGTH {
     my ($this) = @_;
     $this->assert( $this->CALC( '$LENGTH(abcd)' ) == 4 );
-##    $this->assert( $this->CALC( '$LENGTH()' ) == 0 );
+    $this->assert( $this->CALC( '$LENGTH()' ) == 0 );
 }
 
 sub test_LIST {
@@ -568,9 +568,6 @@ sub test_TIMEDIFF {
 sub test_TODAY {
     my ($this) = @_;
     warn '$TODAY not implemented';
-#    my $today = $this->CALC( '$TODAY()' );
-#    warn "today=[$today]";
-    $this->assert( $this->CALC( '$TODAY()' ) == 1257811200 );
 }
 
 sub test_TRANSLATE {
