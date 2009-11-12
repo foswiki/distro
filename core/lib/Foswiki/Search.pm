@@ -361,7 +361,12 @@ sub searchWeb {
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
     #END TODO
-
+	
+    my $doBookView = Foswiki::isTrue( $params{bookview} );
+    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
+    my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
+    
+    
     my $sortOrder = $params{order} || '';
     my $revSort = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
@@ -463,83 +468,9 @@ sub searchWeb {
         @webs = () unless scalar( @{ $query->{tokens} } );    #default
     }
 
-########### SEARCH specific Template
-    my $doBookView = Foswiki::isTrue( $params{bookview} );
-    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
-    my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
+	my ($tmplHead, $tmplSearch, $tmplTail) = $this->loadTemplates(\%params, $baseWebObject, 
+						$formatDefined, $doBookView, $noHeader, $noSummary, $noTotal, $noFooter);
 
-    #tmpl loading code.
-    my $tmpl = '';
-
-    my $originalSearch = $searchString;
-    my $spacedTopic;
-
-    my $template = $params{template} || '';
-    if ($formatDefined) {
-        $template = 'searchformat';
-    }
-    elsif ($template) {
-
-        # template definition overrides book and rename views
-    }
-    elsif ($doBookView) {
-        $template = 'searchbookview';
-    }
-    else {
-        $template = 'search';
-    }
-    $tmpl = $session->templates->readTemplate($template);
-
-    # SMELL: the only META tags in a template will be METASEARCH
-    # Why the heck are they being filtered????
-    $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
-
-    # Split template into 5 sections
-    my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
-      split( /%SPLIT%/, $tmpl );
-
-    # Invalid template?
-    if ( !$tmplTail ) {
-        my $mess =
-            CGI::h1('Foswiki Installation Error')
-          . 'Incorrect format of '
-          . $template
-          . ' template (missing sections? There should be 4 %SPLIT% tags)';
-        &$callback( $cbdata, $mess );
-        return;
-    }
-
-    {
-
-        # header and footer of $web
-        my ( $beforeText, $repeatText, $afterText ) =
-          split( /%REPEAT%/, $tmplTable );
-
-        unless ($noHeader) {
-            $params{header} = $beforeText unless defined $params{header};
-        }
-
-        #nosummary="on" nosearch="on" noheader="on" nototal="on"
-        if ($noSummary) {
-            $repeatText =~ s/%TEXTHEAD%//go;
-            $repeatText =~ s/&nbsp;//go;
-        }
-        else {
-            $repeatText =~ s/%TEXTHEAD%/\$summary/go;
-        }
-        $params{format} |= $repeatText;
-        unless ($noFooter) {
-            $params{footer} |= $afterText;
-        }
-        unless ($noTotal) {
-            $params{footercounter} |= $baseWebObject->expandMacros($tmplNumber);
-            $params{footer} .= $params{footercounter};
-        }
-        else {
-
-            #print STDERR "}}}".$params{format}."{{{";
-        }
-    }
 
     # If not inline search, also expand tags in head and tail sections
     unless ($inline) {
@@ -561,7 +492,6 @@ sub searchWeb {
         $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
         &$callback( $cbdata, $tmplSearch );
     }
-########### END SEARCH specific Template
 
     # Loop through webs
     my $isAdmin = $session->{users}->isAdmin( $session->{user} );
@@ -652,6 +582,83 @@ sub searchWeb {
     $searchResult = $baseWebObject->renderTML($searchResult);
 
     return $searchResult;
+}
+
+sub loadTemplates {
+	my ($this, $params, $baseWebObject, $formatDefined, $doBookView, $noHeader, $noSummary, $noTotal, $noFooter) = @_;
+	
+	my $session            = $this->{session};
+
+    #tmpl loading code.
+    my $tmpl = '';
+
+    my $template = $params->{template} || '';
+    if ($formatDefined) {
+        $template = 'searchformat';
+    }
+    elsif ($template) {
+
+        # template definition overrides book and rename views
+    }
+    elsif ($doBookView) {
+        $template = 'searchbookview';
+    }
+    else {
+        $template = 'search';
+    }
+    $tmpl = $session->templates->readTemplate($template);
+
+    # SMELL: the only META tags in a template will be METASEARCH
+    # Why the heck are they being filtered????
+    $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
+
+    # Split template into 5 sections
+    my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
+      split( /%SPLIT%/, $tmpl );
+
+    # Invalid template?
+    #TODO: replace with an exception.
+    if ( !defined($tmplTail) ) {
+        my $mess =
+            'Foswiki Installation Error: '
+          . 'Incorrect format of '
+          . $template
+          . ' template (missing sections? There should be 4 %SPLIT% tags)';
+        throw Error::Simple( $mess );
+    }
+
+    {
+
+        # header and footer of $web
+        my ( $beforeText, $repeatText, $afterText ) =
+          split( /%REPEAT%/, $tmplTable );
+
+        unless ($noHeader) {
+            $params->{header} = $beforeText unless defined $params->{header};
+        }
+
+        #nosummary="on" nosearch="on" noheader="on" nototal="on"
+        if ($noSummary) {
+            $repeatText =~ s/%TEXTHEAD%//go;
+            $repeatText =~ s/&nbsp;//go;
+        }
+        else {
+            $repeatText =~ s/%TEXTHEAD%/\$summary/go;
+        }
+        $params->{format} |= $repeatText;
+        unless ($noFooter) {
+            $params->{footer} |= $afterText;
+        }
+        unless ($noTotal) {
+            $params->{footercounter} |= $baseWebObject->expandMacros($tmplNumber);
+            $params->{footer} .= $params->{footercounter};
+        }
+        else {
+
+            #print STDERR "}}}".$params{format}."{{{";
+        }
+    }
+    return ($tmplHead, $tmplSearch, $tmplTail);
 }
 
 =begin TML
@@ -1003,9 +1010,7 @@ sub formatResults {
     return ( $ntopics,
         ( ( not defined( $params->{_callback} ) ) and ( $nhits >= 0 ) )
         ? join( '', @$cbdata )
-        : 'here '
-          . ( defined( $params->{_callback} ) ? 'defined' : 'not' ) . ','
-          . $nhits );
+        : '' );
 }
 
 =begin TML
