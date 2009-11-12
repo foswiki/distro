@@ -196,13 +196,13 @@ sub _processTags {
         if ( $token =~ /^\n?%$/s ) {
             if ( $token eq '%' && $stackTop =~ /}$/ ) {
                 while ( scalar(@stack)
-                    && $stackTop !~ /^\n?%([A-Z0-9_:]+){.*}$/os )
+                    && $stackTop !~ /^\n?%($Foswiki::regex{tagNameRegex}){.*}$/os )
                 {
                     $stackTop = pop(@stack) . $stackTop;
                 }
             }
             if (   $token eq '%'
-                && $stackTop =~ m/^(\n?)%([A-Z0-9_:]+)({.*})?$/os )
+                && $stackTop =~ m/^(\n?)%($Foswiki::regex{tagNameRegex})({.*})?$/os )
             {
                 my $nl = $1;
                 my $tag = $2 . ( $3 || '' );

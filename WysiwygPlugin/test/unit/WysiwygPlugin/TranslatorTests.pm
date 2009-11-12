@@ -1316,6 +1316,12 @@ HERE
         html => "<p>fred <b>$protecton%WIKINAME%$protectoff</b> fred</p>",
     },
     {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'Item2352',
+        tml  => '%Foo%',
+        html => "<p>" . $protecton . '%Foo%' . $protectoff . "</p>"
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'brInProtectedRegion',
         html => $protecton
