@@ -1171,7 +1171,6 @@ sub recordChange {
     ASSERT($cUID) if DEBUG;
 
     my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
-    return unless ( !-e $file || -w $file );    # no point if we can't write it
 
     my @changes =
       map {
