@@ -22,7 +22,13 @@ sub new {
 
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
+    my ($web, $topic);
 
+    unless (ref($topicObject)) {
+        # Pre 1.1
+        ( $this, $web, $topic, $value ) = @_;
+        undef $topicObject;
+    }
     $value = CGI::textfield(
         {
             name  => $this->{name},
@@ -30,11 +36,11 @@ sub renderForEdit {
             size  => $this->{size},
             value => $value,
             class => $this->can('cssClasses')
-            ? $this->cssClasses( 'foswikiInputField',
-                'foswikiEditFormDateField' )
-            : 'foswikiInputField foswikiEditFormDateField'
-        }
-    );
+              ? $this->cssClasses( 'foswikiInputField',
+                                   'foswikiEditFormDateField' )
+                : 'foswikiInputField foswikiEditFormDateField'
+               }
+       );
     my $ifFormat = $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
     my $button .= CGI::image_button(
@@ -42,14 +48,20 @@ sub renderForEdit {
         -onclick => "return showCalendar('id$this->{name}','$ifFormat')",
         -src     => $Foswiki::cfg{PubUrlPath} . '/'
           . $Foswiki::cfg{SystemWebName}
-          . '/JSCalendarContrib/img.gif',
+            . '/JSCalendarContrib/img.gif',
         -alt   => 'Calendar',
         -class => 'foswikiButton foswikiEditFormCalendarButton'
-    );
+       );
     $value .=
       CGI::span( { -class => 'foswikiMakeVisible' }, '&nbsp;' . $button );
-    $value = $topicObject->renderTML( $topicObject->expandMacros($value) );
-
+    if ($topicObject) {
+        $value = $topicObject->renderTML( $topicObject->expandMacros($value) );
+    } else {
+        # Pre 1.1
+        my $session = $this->{session};
+        $value = $session->renderer->getRenderedVersion(
+            $session->handleCommonTags( $value, $web, $topic ));
+    }
     return ( '', $value );
 }
 
