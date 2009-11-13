@@ -161,9 +161,6 @@ if ( &$check_perl_module('LWP') ) {
 # Can't do this until we have setlib.cfg
 require Foswiki::Configure::Dependency;
 
-$session->finish();
-undef $session;
-
 sub remap {
     my $file = shift;
 
