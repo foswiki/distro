@@ -69,7 +69,7 @@ sub query {
         print STDERR "Processing $topic\n" if Foswiki::Query::Node::MONITOR_EVAL();
         my $match = $query->evaluate( tom => $meta, data => $meta );
         if ($match) {
-            $resultTopicSet->addTopics($web, $topic);
+            $resultTopicSet->addTopic($meta);
         }
     }
 

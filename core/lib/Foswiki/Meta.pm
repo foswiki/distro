@@ -195,7 +195,7 @@ sub new {
 
     $this->{_web}   = $web;
     $this->{_topic} = $topic;
-
+#print STDERR "--new Meta($web, ".($topic||'undef').")\n";
     #$this->{_text}  = undef;    # topics only
 
     # Preferences cache object. We store a pointer, rather than looking

@@ -73,19 +73,25 @@ sub addTopics {
         push( @{ $this->{list} }, @list );
     }
 }
+
+#TODO: what if it isa Meta obj
+#TODO: or an infoCache obj..
 sub addTopic {
-    my ( $this, $defaultWeb, $topic ) = @_;
+    my ( $this, $meta ) = @_;
     ASSERT( !$this->isImmutable() )
     if DEBUG  ;    #cannot modify list once its being used as an iterator.
-    ASSERT( defined($defaultWeb) ) if DEBUG;
 
-    if ( defined($defaultWeb) && ( $defaultWeb ne $this->{_defaultWeb} ) ) {
-        my ( $web, $t ) =
-          Foswiki::Func::normalizeTopic( $defaultWeb, $topic );
-        push( @{ $this->{list} }, "$web.$t" );
+    my $web = $meta->web();
+    my $topic = $meta->topic();
+
+    if ( defined($web) && ( $web ne $this->{_defaultWeb} ) ) {
+        my ( $w, $t ) =
+          Foswiki::Func::normalizeTopic( $web, $topic );
+        $topic = "$w.$t";
     }
-    else {
-        push( @{ $this->{list} }, $topic );
+    push( @{ $this->{list} }, $topic );
+    if (defined($meta)) {
+        $this->get($topic, $meta);
     }
 }
 
@@ -203,17 +209,15 @@ sub sortResults {
 
 ######OLD methods
 sub get {
-    my ( $this, $topic ) = @_;
+    my ( $this, $topic, $meta ) = @_;
 
     my $info = $this->{$topic};
 
     unless ($info) {
         $this->{$topic} = $info = {};
-
-        $info->{tom} =
+        $info->{tom} = $meta || 
           Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb},
             $topic );
-
         # SMELL: why do this here? Smells of a hack, as AFAICT it is done
         # anyway during output processing. Disable it, and see what happens....
         #my $text = $topicObject->text();
