@@ -17,7 +17,10 @@ sub set_up {
     $this->{target_web} = 'TestSpreadSheet' || "$this->{test_web}Target";
     $this->{target_topic} = 'SpreadSheetTestTopic' || "$this->{test_topic}Target";
 
-    $this->{twiki}->{store}->createWeb( $this->{twiki}->{user}, $this->{target_web} );
+
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
+    $webObject->populateNewWeb();
+    #$this->{session}->{store}->createWeb( $this->{session}->{user}, $this->{target_web} );
 
     my $table = <<'HERE';
 | *Region:* | *Sales:* |
@@ -34,14 +37,18 @@ HERE
 
 sub tear_down {
     my $this = shift;
-    $this->{twiki}->{store}->removeWeb( $this->{twiki}->{user}, $this->{target_web} );
+    #$this->{session}->{store}->removeWeb( $this->{session}->{user}, $this->{target_web} );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
+    $webObject->removeFromStore();
+
     $this->SUPER::tear_down();
 }
 
 sub writeTopic {
     my( $this, $web, $topic, $text ) = @_;
-    my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user}, $web, $topic, $text, $meta );
+    my $meta = new Foswiki::Meta($this->{session}, $web, $topic, $text);
+    $meta->save();
+    #$this->{session}->{store}->saveTopic( $this->{session}->{user}, $web, $topic, $text, $meta );
 }
 
 sub CALC {
