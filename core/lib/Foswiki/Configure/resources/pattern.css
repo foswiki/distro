@@ -132,13 +132,19 @@ textarea,input,select {
 	padding:1px 4px;
 }
 
-.foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,a.foswikiButton,a.foswikiSubmit,a.foswikiButtonCancel,.foswikiCheckbox {
+.foswikiSubmit, .foswikiSubmitDisabled, .foswikiButton, .foswikiButtonDisabled, .foswikiButtonCancel, a.foswikiButton, a.foswikiSubmit, a.foswikiButtonCancel, .foswikiCheckbox {
 	font-weight:700;
 	vertical-align:middle;
 	text-align:center;
 	border-style:solid;
 	border-width:1px;
 	padding:.1em .2em;
+}
+.foswikiCheckbox,
+.foswikiRadioButton {
+	margin:1px .25em 1px .1em;
+	padding:0 0 0 .5em;
+	border:0;
 }
 
 .foswikiSubmit,.foswikiSubmitDisabled,.foswikiButton,.foswikiButtonDisabled,.foswikiButtonCancel,.foswikiSubmit:hover,.foswikiSubmitDisabled:hover,.foswikiButton:hover,.foswikiSubmit:active,.foswikiSubmitDisabled:active,.foswikiButton:active {
@@ -234,7 +240,7 @@ a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButto
 	border-style:solid;
 	border-width:1px;
 	margin:1em 0;
-	padding:1em;
+	padding:1em 1.5em;
 }
 table .foswikiHelp {
 	margin:.25em 0 0 0;

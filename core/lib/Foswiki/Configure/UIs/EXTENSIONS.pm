@@ -139,8 +139,14 @@ sub ui {
       if scalar @{ $this->{errors} };
 
     # Table heads
-    $table .=
-      CGI::Tr( join( '', map { CGI::th( $headNames{$_} ) } @tableHeads ) );
+    my $tableHeads = '';
+    my $colNum = 0;
+    foreach my $headNameKey (@tableHeads) {
+	    $colNum++;
+	    my $cssClass = ($colNum == scalar @tableHeads) ? 'configureExtensionAction' : undef;
+	    $tableHeads .= CGI::th( {class => $cssClass}, $headNames{$headNameKey} );
+	}
+    $table .= CGI::Tr( $tableHeads );
 
     # Each extension has two rows
     
@@ -214,17 +220,18 @@ sub ui {
         $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
         $td = CGI::a( { href => $ext->{data} . $ext->{topic} }, $td );
         $table .= CGI::Tr(
+            { class => $classes }, 
             CGI::td(
                 {
                     colspan => $#tableHeads,
-                    class   => "$classes configureExtensionTitle"
+                    class   => "configureExtensionTitle"
                 },
                 $td
             ),
             CGI::td(
                 {
                     class =>
-"$classes configureExtensionTitle configureExtensionAction"
+"configureExtensionTitle configureExtensionAction"
                 },
                 $install . ' ' . $uninstall
             )
@@ -236,15 +243,15 @@ sub ui {
         foreach my $f (@tableHeads) {
             $td = $ext->{$f} || '&nbsp;';
             $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-            my $class = "$classes configureExtensionData";
-            $class .= ' configureExtensionDataFirst' if $colCount == 0;
-            $class .= ' configureExtensionAction'
+            my $cssClass = "configureExtensionData";
+            $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
+            $cssClass .= ' configureExtensionAction'
               if $colCount == scalar @tableHeads - 1;
-            $row .= CGI::td( { class => $class }, $td );
+            $row .= CGI::td( { class => $cssClass }, $td );
             $colCount++;
         }
 
-        $table .= CGI::Tr($row);
+        $table .= CGI::Tr( { class => $classes }, $row);
 
         $rows++;
     }
