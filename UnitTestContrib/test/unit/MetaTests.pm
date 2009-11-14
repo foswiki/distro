@@ -549,12 +549,15 @@ sub test_registerMETA {
 sub test_BadRevisionInfo {
     my $this = shift;
     
-    my $rev = Foswiki::Store::cleanUpRevID('$Rev$');
+    my $in = '$Rev$';
+    my $rev = Foswiki::Store::cleanUpRevID($in);
     $this->assert(defined($rev));
-    $this->assert_equals('1234567', $rev);
+    $in =~ s/[^\d]//g;
+    $this->assert_equals($in, $rev);
 
 #svn attribute not set - still a valid topic.
-    $rev = Foswiki::Store::cleanUpRevID('$Rev$');
+    my $broken = '$'.'Rev'.'$'; #stop svn from filling in the number..
+    $rev = Foswiki::Store::cleanUpRevID($broken);
     $this->assert(defined($rev));
     $this->assert_equals(1, $rev);
 
