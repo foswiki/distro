@@ -32,6 +32,7 @@ sub query {
     my $topicSet = $inputTopicSet;
 
     #TODO: howto ask iterator for list length?
+    #TODO: once the inputTopicSet isa ResultSet we might have an idea
     #    if ( scalar(@$topics) > 6 ) {
     require Foswiki::Query::HoistREs;
     my @filter = Foswiki::Query::HoistREs::hoist($query);
@@ -76,9 +77,10 @@ sub query {
     return $resultTopicSet;
 }
 
-# See Foswiki::Store::QueryAlgorithms.pm for details
+# The getField function is here to allow for Store specific optimisations
+# such as direct database lookups.
 sub getField {
-    my ( $class, $node, $data, $field ) = @_;
+    my ( $this, $node, $data, $field ) = @_;
 
     my $result;
     if ( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) {
@@ -204,7 +206,7 @@ sub getField {
 # Get a referenced topic
 # See Foswiki::Store::QueryAlgorithms.pm for details
 sub getRefTopic {
-    my ($class, $relativeTo, $w, $t) = @_;
+    my ($this, $relativeTo, $w, $t) = @_;
     return Foswiki::Meta->load( $relativeTo->session, $w, $t );
 }
 

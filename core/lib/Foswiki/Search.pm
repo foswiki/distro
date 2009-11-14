@@ -449,7 +449,6 @@ sub searchWeb {
         }
         $theParser = $searchParser;
     }
-    my $error = '';
     try {
         $query = $theParser->parse( $searchString, \%params );
     }
@@ -458,7 +457,6 @@ sub searchWeb {
         # Pass the error on to the caller
         throw Error::Simple( shift->stringify() );
     };
-    return $error unless $query;
 
 #TODO: redo with a $query->isEmpty() or something generic, and then push into the foreach?
     unless ( $params{type} eq 'query' ) {

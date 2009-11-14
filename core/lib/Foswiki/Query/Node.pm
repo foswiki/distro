@@ -88,8 +88,10 @@ my $ind = 0;
 # Evaluate this node by invoking the operator function named in the 'exec'
 # field of the operator. The return result is either an array ref (for many
 # results) or a scalar (for a single result)
-# SMELL: this function should be a stub to execute a function in the
-# query algorithm. That way the dependency on Foswiki::Meta can be eliminated.
+#
+# this function is a stub to execute the getField function in the
+# query algorithm. It is placed there to allow for Store specific optimisations
+# such as direct database lookups.
 sub evaluate {
     my $this = shift;
     ASSERT( scalar(@_) % 2 == 0 );
