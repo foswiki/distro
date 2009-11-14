@@ -544,4 +544,25 @@ sub test_registerMETA {
         'TREE', { spread => '5', height => '15' }));
 }
 
+#lets see what happens when we use silly TOPICINFO
+#http://foswiki.org/Tasks/Item2274
+sub test_BadRevisionInfo {
+    my $this = shift;
+    
+    my $rev = Foswiki::Store::cleanUpRevID('$Rev$');
+    $this->assert(defined($rev));
+    $this->assert_equals('1234567', $rev);
+
+#svn attribute not set - still a valid topic.
+    $rev = Foswiki::Store::cleanUpRevID('$Rev$');
+    $this->assert(defined($rev));
+    $this->assert_equals(1, $rev);
+
+#we recognise a txt file that has not been written by foswiki as rev=1
+    $rev = Foswiki::Store::cleanUpRevID('');
+    $this->assert(defined($rev));
+    $this->assert_equals(1, $rev);
+
+}
+
 1;

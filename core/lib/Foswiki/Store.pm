@@ -96,11 +96,14 @@ This method should be used to sanitise user-provided revision IDs.
 sub cleanUpRevID {
     my $rev = shift;
 
-    return 0 unless $rev;
+    return 0 unless defined($rev);
 
     $rev =~ s/^r(ev)?//i;
     $rev =~ s/^\d+\.//;     # clean up RCS rev number
     $rev =~ s/[^\d]//g;     # digits only
+    
+    #ill formed rev's are still valid (see MetaTests::test_BadRevisionInfo)
+    $rev = '1' if ($rev eq '');
 
     return Foswiki::Sandbox::untaintUnchecked($rev);
 }
