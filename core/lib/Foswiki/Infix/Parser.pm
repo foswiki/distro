@@ -196,7 +196,7 @@ sub _parse {
     my ( $this, $expr, $input, $term ) = @_;
 
     throw Foswiki::Infix::Error("Empty expression")
-      unless $expr && $expr =~ /\S/;
+      unless defined($expr) && $expr =~ /\S/;
 
     my @opers  = ();
     my @opands = ();
@@ -222,8 +222,8 @@ sub _parse {
                       ->newLeaf( $val, $Foswiki::Infix::Node::STRING ) );
             }
             elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
-                print STDERR "Tok: number '$1'\n" if MONITOR_PARSER;
-                my $val = $1;
+                my $val = 0 + $1;
+                print STDERR "Tok: number '$val'\n" if MONITOR_PARSER;
                 push( @opands,
                     $this->{client_class}
                       ->newLeaf( $val, $Foswiki::Infix::Node::NUMBER ) );
