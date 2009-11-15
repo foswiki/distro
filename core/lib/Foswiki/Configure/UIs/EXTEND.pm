@@ -13,6 +13,7 @@ use Cwd        ();
 
 # This UI uses *print* rather than gathering output. This is to give
 # the caller early feedback.
+# Note: changed this to present information grouped
 sub ui {
     my $this  = shift;
     my $query = $Foswiki::query;
@@ -44,10 +45,14 @@ sub ui {
 sub _install {
     my ($this, $repositoryPath, $extension) = @_;
 
+    my $feedback = '';
+    $feedback .= "<h3 style='margin-top:0'>Installing $extension</h3>";
+    
     my $repository = $this->getRepository( $repositoryPath );
     if ( !$repository ) {
-        print $this->ERROR( "Repository not found. <pre> "
+        $feedback .= $this->ERROR( "Repository not found. <pre> "
                               . $repository."</pre>");
+        _printFeedback($feedback);
         return;
     }
     
@@ -55,7 +60,7 @@ sub _install {
     my $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
     my $ar;
     
-    print "<br/>Fetching $arf...<br />\n";
+    $feedback .= "Fetching <code>$arf</code>...<br />\n";
 
     my $response = $this->getUrl($arf);
     if ( !$response->is_error() ) {
@@ -66,21 +71,22 @@ sub _install {
     }
     
     if ($@) {
-        print $this->WARN(<<HERE);
+        $feedback .= $this->WARN(<<HERE);
 I can't download $arf because of the following error:
 <pre>$@</pre>
 HERE
+        _printFeedback($feedback);
         return;
     }
 
     if ( !defined($ar) ) {
-        print $this->WARN(<<HERE);
+        $feedback .= $this->WARN(<<HERE);
 Extension may not have been packaged correctly.
 Trying for a .zip file instead.
 HERE
         $ext = '.zip';
         $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
-        print "<br/>Fetching $arf...<br />\n";
+        $feedback .= "Fetching $arf...<br />\n";
         $response = $this->getUrl($arf);
         if ( !$response->is_error() ) {
             eval { $ar = $response->content(); };
@@ -89,7 +95,7 @@ HERE
             $@ = $response->message();
         }
         if ($@) {
-            print $this->WARN(<<HERE);
+            $feedback .= $this->WARN(<<HERE);
 I can't download $arf because of the following error:
 <pre>$@</pre>
 HERE
@@ -98,25 +104,27 @@ HERE
     }
     
     unless ($ar) {
-        print $this->ERROR(<<MESS);
+        $feedback .= $this->ERROR(<<MESS);
 Please follow the published process for manual installation from the
 command line.
 MESS
+        _printFeedback($feedback);
         return;
     }
     
     # Strip HTTP headers if necessary
     $ar =~ s/^HTTP(.*?)\r\n\r\n//sm;
-    
+        
     # Save it somewhere it will be cleaned up
-    my ( $tmp, $tmpfilename ) =
+    my ( $fh, $tmpfilename ) =
       File::Temp::tempfile( SUFFIX => $ext, UNLINK => 1 );
-    binmode($tmp);
-    print $tmp $ar;
-    $tmp->close();
-    
-    print "Unpacking...<br />\n";
-    my $dir = _unpackArchive($tmpfilename);
+    binmode($fh);
+    print $fh $ar;
+    $fh->close();
+
+    $feedback .= "Unpacking...<br />\n";
+    my ($dir, $error) = _unpackArchive($tmpfilename);
+    $feedback .= "$error<br />\n" if $error;
     
     my @names = _listDir($dir);
     
@@ -124,15 +132,17 @@ MESS
     my $installScript = undef;
     my $query = $Foswiki::query;
     unless ( $query->param('confirm') ) {
+        my $unpackedFeedback = '';
         foreach my $file (@names) {
             my $ef = $this->_findTarget($file);
-            print "$file<br />";
+            $unpackedFeedback .= "$file\n";
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
                 $installScript = $ef;
             }
         }
+        $feedback .= "<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
         unless ($installScript) {
-            print $this->WARN("No installer script found in archive");
+            $feedback .= $this->WARN("No installer script found in archive");
         }
     }
     
@@ -145,20 +155,24 @@ MESS
         # Find where it is meant to go
         my $ef = $this->_findTarget($file);
         if ( -e $ef && !-d $ef && !-w $ef ) {
-            print $this->ERROR("No permission to write to $ef");
-            print "Installation terminated";
+            $feedback .= $this->ERROR("No permission to write to $ef");
+            $feedback .= "Installation terminated";
+            _printFeedback($feedback);
             return 0;
         }
         elsif ( !-d $ef ) {
             if ( -d "$dir/$file" ) {
                 unless ( mkdir($ef) ) {
-                    print $this->ERROR("Cannot create directory $ef: $!");
-                    die "Installation terminated";
+                    $feedback .= $this->ERROR("Cannot create directory $ef: $!");
+                    $feedback .= "Installation terminated";
+                    _printFeedback($feedback);
+                    die();
                 }
             }
             elsif ( !File::Copy::move( "$dir/$file", $ef ) ) {
-                print $this->ERROR("Failed to move file '$file' to $ef: $!");
-                print "Installation terminated";
+                $feedback .=  $this->ERROR("Failed to move file '$file' to $ef: $!");
+                $feedback .= "Installation terminated";
+                _printFeedback($feedback);
                 return 0;
             }
         }
@@ -176,16 +190,19 @@ MESS
         unshift( @ARGV, '-u' );    # already unpacked
         # Note: -r not passed to the script, so it will _not_ try to
         # re-use existing archives found on disc to resolve dependencies.
-        print "<h2>Running $installScript</h2>";
+        $feedback .= "Running <cpde>$installScript</code>...<br />";
         no warnings 'redefine';
+        print '<!--';
         do $installScript;
+        print '-->';
         use warnings 'redefine';
         if ($@) {
-            print $@;
+            $feedback .=  $this->ERROR( $@ );
+            _printFeedback($feedback);
             return;
         }
         if ($@) {
-            print $this->ERROR(<<HERE);
+            $feedback .= $this->ERROR(<<HERE);
 Installer returned errors:
 <pre>$@</pre>
 You may be able to resolve these errors and complete the installation
@@ -193,45 +210,58 @@ from the command line, so I will leave the installed files where they are.
 HERE
         }
         else {
-            print $this->NOTE("Installer ran without errors");
+            # OK
+            $feedback .= $this->NOTE("Installer ran without errors");
         }
         chdir( $this->{bin} );
     }
     
     if ( $this->{warnings} ) {
-        print $this->NOTE( "Installation finished with $this->{errors} error"
+        $feedback .= $this->NOTE( "Installation finished with $this->{errors} error"
                              . ( $this->{errors} == 1 ? '' : 's' )
                                . " and $this->{warnings} warning"
                                  . ( $this->{warnings} == 1 ? '' : 's' ) );
     }
     else {
-        print 'Installation finished.';
+        # OK
+        $feedback .= $this->NOTE_OK( 'Installation finished' );
     }
     unless ($installScript) {
-        print $this->WARN(<<HERE);
+        $feedback .= $this->WARN(<<HERE);
 You should test this installation very carefully, as there is no installer
 script. This suggests that $arf may have been generated manually, and may
 require further manual configuration.
 HERE
     }
     if ( $extension =~ /Plugin$/ ) {
-        print $this->NOTE(<<HERE);
+        $feedback .= $this->NOTE(<<HERE);
 Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
 HERE
     }
+    _printFeedback($feedback);
+}
+
+sub _printFeedback {
+	my ($feedback) = @_;
+	
+	print "<div class='configureMessageBox foswikiAlert'>$feedback</div>";
 }
 
 sub _uninstall {
     my ($this, $repositoryPath, $extension) = @_;
 
+    my $feedback = '';
+    $feedback .= "<h3 style='margin-top:0'>Uninstalling $extension</h3>";
+    
     # find the uninstaller
     my $query = $Foswiki::query;
     my $file = "${extension}_installer";
     my $installScript = $this->_findTarget($file);
 
     unless ($installScript && -e $installScript) {
-        print $this->WARN("No $installScript found - cannot uninstall");
+        $feedback .= $this->WARN("No $installScript found - cannot uninstall");
+        _printFeedback($feedback);
         return;
     }
   
@@ -244,15 +274,18 @@ sub _uninstall {
     unshift( @ARGV, '-uninstall' );
     eval {
         no warnings 'redefine';
+        print '<!--';
         do $installScript;
+        print '-->';
         use warnings 'redefine';
     };
     if ($@) {
-        print $@;
+        $feedback .= $this->ERROR( $@ );
+        _printFeedback($feedback);
         return;
     }
     if ($@) {
-        print $this->ERROR(<<HERE);
+        $feedback .= $this->ERROR(<<HERE);
 Uninstall returned errors:
 <pre>$@</pre>
 You may be able to resolve these errors and complete the installation
@@ -260,26 +293,29 @@ from the command line, so I will leave the installed files where they are.
 HERE
     }
     else {
-        print $this->NOTE("Installer ran without errors");
+        # OK
+        $feedback .= $this->NOTE("Installer ran without errors");
     }
     chdir( $this->{bin} );
     
     if ( $this->{warnings} ) {
-        print $this->NOTE( "Installation finished with $this->{errors} error"
+        $feedback .= $this->NOTE( "Installation finished with $this->{errors} error"
                              . ( $this->{errors} == 1 ? '' : 's' )
                                . " and $this->{warnings} warning"
                                  . ( $this->{warnings} == 1 ? '' : 's' ) );
     }
     else {
-        print 'Installation finished.';
+        # OK
+        $feedback .= $this->NOTE_OK( 'Uninstallation finished' );
     }
 
     if ( $extension =~ /Plugin$/ ) {
-        print $this->NOTE(<<HERE);
+        $feedback .= $this->NOTE(<<HERE);
 Note: Don't forget to disable uninstalled plugins in the
 "Plugins" section in the main page.
 HERE
     }
+    _printFeedback($feedback);
 }
 
 # Find the installation target of a single file. This involves remapping
@@ -364,15 +400,16 @@ sub _unpackArchive {
     $here =~ /(.*)/;
     $here = $1;    # untaint current dir name
     chdir($dir);
+    my $error;
     unless ( $name =~ /(\.zip)/i && _unzip($name)
         || $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && _untar($name) )
     {
         $dir = undef;
-        print "Failed to unpack archive $name<br />\n";
+        $error = "Failed to unpack archive $name";
     }
     chdir($here);
 
-    return $dir;
+    return ($dir, $error);
 }
 
 sub _unzip {

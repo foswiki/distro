@@ -249,7 +249,7 @@ table.configureSectionValues .foswikiTextarea {
 .configureRootSection .foswikiAlert {
 	background-color:#fff;
 	border:1px solid #e6e6e6;
-	margin:.5em 0 .7em 0;
+	margin:.25em 0 .7em 0;
 	padding:7px 1em;
 }
 table.configureSectionValues .foswikiAlert {
@@ -262,7 +262,8 @@ div.configureInfoText {
 	color:green;
 }
 div.configureError,
-div.configureWarn {
+div.configureWarn,
+div.configureOk {
 	padding:7px 1em 7px 3em;
 	background-position:1em 7px;
 	background-repeat:no-repeat;
@@ -273,11 +274,16 @@ div.configureError {
 div.configureWarn {
 	background-image:url(configure?action=resource;resource=icon_warn_white.gif);
 }
+div.configureOk {
+	background-image:url(configure?action=resource;resource=icon_ok_white.gif);
+}
 
 a.configureWarn:link,
 a.configureWarn:visited,
 a.configureError:link,
-a.configureError:visited {
+a.configureError:visited,
+a.configureOk:link,
+a.configureOk:visited {
 	text-decoration:none;
 }
 .configureInfo {
@@ -292,7 +298,7 @@ div.configureInfo {
 
 /* --- EXTENSIONS --- */
 table.configureExtensionsTable {
-	margin:0;
+	margin:2em 0 0 0;
 	border:none;
 }
 table.configureExtensionsTable td,
@@ -359,7 +365,10 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.configureExtension
 	background:#e1e9ef;
 }
 .configureConsultedLocations {
-	margin:2em 0;
+	margin:2em 0 0 0;
+	padding:7px .5em 7px 37px;
+	background-position:0 45%;
+	background-repeat:no-repeat;	background-image:url(configure?action=resource;resource=icon_world.gif);
 }
 
 /* --- EXPERT ---*/
@@ -535,14 +544,15 @@ a.configureDefaultValueLink:hover span.configureDefaultValueLinkValue {
 .configureLegend table td {
 	border-color:#f0f0f0;
 }
-.configureLegend table div.configureExample {
+div.configureMessageBox {
+	margin:0 0 1em 0;
 	border:1px solid #dfdfdf;
-	padding:.5em 1em;
+	padding:1em;
 	width:auto;
 	vertical-align:middle;
 	background-color:#fff;
 }
-.configureLegend table div.foswikiAlert {
+.configureMessageBox .foswikiAlert {
 	margin:0;
 	padding-left:3em;
 }

@@ -151,6 +151,12 @@ sub NOTE {
         CGI::span( join( "\n", @_ ) ) );
 }
 
+sub NOTE_OK {
+    my $this = shift;
+    return CGI::div( { class => 'configureOk' },
+        CGI::span( join( "\n", @_ ) ) );
+}
+
 # a warning
 sub WARN {
     my $this = shift;
