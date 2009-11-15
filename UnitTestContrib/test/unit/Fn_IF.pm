@@ -1430,5 +1430,27 @@ sub test_d2n {
 
 }
 
+sub test_atomic {
+    my $this = shift;
+    
+    $this->simpleTest( test => "0", then => 0, else => 1 );
+    
+    $this->simpleTest( test => "1", then => 1, else => 0 );
+    $this->simpleTest( test => "9", then => 1, else => 0 );
+
+    $this->simpleTest( test => "-1", then => 1, else => 0 );
+    $this->simpleTest( test => "-0", then => 0, else => 1 );
+
+    $this->simpleTest( test => "0.0", then => 0, else => 1 );
+    
+    ##and again as strings..
+    $this->simpleTest( test => "'1'", then => 1, else => 0 );
+    $this->simpleTest( test => "'9'", then => 1, else => 0 );
+    $this->simpleTest( test => "'-1'", then => 1, else => 0 );
+    $this->simpleTest( test => "'-0'", then => 1, else => 0 );
+
+    $this->simpleTest( test => "'0.0'", then => 1, else => 0 );
+    $this->simpleTest( test => "''", then => 0, else => 1 );
+}
 
 1;
