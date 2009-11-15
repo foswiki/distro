@@ -248,6 +248,8 @@ sub assert_deep_equals {
 
     if ( UNIVERSAL::isa( $expected, 'ARRAY' ) ) {
         $this->assert( UNIVERSAL::isa( $got, 'ARRAY' ) );
+        $this->assert_equals( $#$expected, $#$got, 'Different size arrays: '.($mess||'') );
+
         for ( 0 .. $#$expected ) {
             $this->assert_deep_equals( $expected->[$_], $got->[$_], $mess,
                 $sniffed );
