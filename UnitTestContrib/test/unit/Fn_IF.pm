@@ -1613,19 +1613,19 @@ sub test_d2n {
 
 }
 
-sub test_true {
+sub test_atomic {
     my $this = shift;
     
     #nope, parse failure (empty Expression) :/
-    #$this->simpleTest( test => "0", then => 1, else => 0 );
+    $this->simpleTest( test => "0", then => 0, else => 1 );
     
     $this->simpleTest( test => "1", then => 1, else => 0 );
     $this->simpleTest( test => "9", then => 1, else => 0 );
-    #surprisingly..
-    $this->simpleTest( test => "-1", then => 1, else => 0 );
-    $this->simpleTest( test => "-0", then => 1, else => 0 );
 
-    $this->simpleTest( test => "0.0", then => 1, else => 0 );
+    $this->simpleTest( test => "-1", then => 1, else => 0 );
+    $this->simpleTest( test => "-0", then => 0, else => 1 );
+
+    $this->simpleTest( test => "0.0", then => 0, else => 1 );
     
     ##and again as strings..
     $this->simpleTest( test => "'1'", then => 1, else => 0 );
@@ -1635,16 +1635,7 @@ sub test_true {
     $this->simpleTest( test => "'-0'", then => 1, else => 0 );
 
     $this->simpleTest( test => "'0.0'", then => 1, else => 0 );
-}
-
-sub test_false {
-    my $this = shift;
-    $this->simpleTest( test => "not 1", then => 0, else => 1 );
-    $this->simpleTest( test => "1 = 2", then => 0, else => 1 );
-
-    ##and again as strings..
-    $this->simpleTest( test => "'0'", then => 0, else => 1 );
-
+    $this->simpleTest( test => "''", then => 0, else => 1 );
 }
 
 1;
