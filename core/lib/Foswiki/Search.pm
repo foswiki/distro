@@ -109,6 +109,7 @@ sub _countPattern {
 # spec
 sub _getTopicList {
     my ( $this, $webObject, $options ) = @_;
+    my $casesensitive = defined($options->{casesensitive})?$options->{casesensitive}:1;
 
     # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
     $options->{excludeTopics} = _makeTopicPattern( $options->{excludeTopics} )
@@ -123,8 +124,9 @@ sub _getTopicList {
           _makeTopicPattern( $options->{includeTopics} );
 
         # limit search to topic list
-        if ( $options->{includeTopics} =~
-            /^\^\([\_\-\+$Foswiki::regex{mixedAlphaNum}\|]+\)\$$/ )
+        if ( $casesensitive and
+	    $options->{includeTopics} =~
+		/^\^\([\_\-\+$Foswiki::regex{mixedAlphaNum}\|]+\)\$$/ )
         {
 
             # topic list without wildcards
@@ -135,13 +137,10 @@ sub _getTopicList {
             $topics =~ s/\)\$//o;
 
             # build list from topic pattern
-            #TODO: erm, what about non-case senstive?
-            my @list =
-              grep( $this->{session}->topicExists( $webObject->web, $_ ),
-                split( /\|/, $topics ) );
+            my @list = split( /\|/, $topics );
             $it = new Foswiki::ListIterator( \@list );
         }
-        elsif ( !$options->{casesensitive} ) {
+        elsif ( !$casesensitive ) {
             $topicFilter = qr/$options->{includeTopics}/i;
         }
         else {
@@ -160,13 +159,13 @@ sub _getTopicList {
             return unless !$topicFilter || $item =~ /$topicFilter/;
 
             # exclude topics, Codev.ExcludeWebTopicsFromSearch
-            if ( $options->{casesensitive} && $options->{excludeTopics} ) {
+            if ( !$casesensitive && $options->{excludeTopics} ) {
                 return if $item =~ /$options->{excludeTopics}/i;
             }
             elsif ( $options->{excludeTopics} ) {
                 return if $item =~ /$options->{excludeTopics}/;
             }
-            return 1;
+            return $this->{session}->topicExists( $webObject->web, $item );
         }
     );
     return $filterIter;

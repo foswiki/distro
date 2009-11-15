@@ -1457,6 +1457,7 @@ sub _getTopicList {
     ASSERT(UNIVERSAL::isa( $iter, 'Foswiki::Iterator' )) if DEBUG;
     my @topicList = ();
     while (my $t = $iter->next()) {
+        print STDERR ">>> $t \n";
         push(@topicList, $t);
     }
 
@@ -1518,6 +1519,130 @@ sub test_getTopicList {
 						excludeTopics=> 'WebSearch'
 								}),
                             'no filters, all topics in test_web');
+    
+    #Talk about missing alot of tests
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => '*'
+                                                 }
+                                                 ),
+                            'all topics, using wildcard');
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'Ok*'
+                                                 }
+                                                 ),
+                            'Ok* topics, using wildcard');
+    $this->assert_deep_equals(
+                            [],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'ok*',
+                                                    casesensitive => 1
+                                                 }
+                                                 ),
+                            'case sensitive ok* topics, using wildcard');
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'ok*',
+                                                    casesensitive => 0
+                                                 }
+                                                 ),
+                            'case insensitive ok* topics, using wildcard');
+    $this->assert_deep_equals(
+                            [],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'okatopic',
+                                                    casesensitive => 1
+                                                 }
+                                                 ),
+                            'case sensitive okatopic topic');
+    $this->assert_deep_equals(
+                            ['OkATopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'okatopic',
+                                                    casesensitive => 0
+                                                 }
+                                                 ),
+                            'case insensitive okatopic topic');
+    ##### same again, with excludes.
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => '*',
+                                                    excludeTopics => 'web*'
+                                                 }
+                                                 ),
+                            'all topics, using wildcard');
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'Ok*',
+                                                    excludeTopics => 'okatopic'
+                                                 }
+                                                 ),
+                            'Ok* topics, using wildcard');
+    $this->assert_deep_equals(
+                            [],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'ok*',
+                                                    excludeTopics => 'WebPreferences',
+                                                    casesensitive => 1
+                                                 }
+                                                 ),
+                            'case sensitive ok* topics, using wildcard');
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'ok*',
+                                                    excludeTopics => '',
+                                                    casesensitive => 0
+                                                 }
+                                                 ),
+                            'case insensitive ok* topics, using wildcard');
+    $this->assert_deep_equals(
+                            ['OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'Ok*',
+                                                    excludeTopics => '*ATopic',
+                                                    casesensitive => 1
+                                                 }
+                                                 ),
+                            'case sensitive okatopic topic');
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'Ok*',
+                                                    excludeTopics => '*atopic',
+                                                    casesensitive => 1
+                                                 }
+                                                 ),
+                            'case sensitive okatopic topic');
+    $this->assert_deep_equals(
+                            ['OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web},
+                                                 {
+                                                    includeTopics => 'ok*topic',
+                                                    excludeTopics => 'okatopic',
+                                                    casesensitive => 0
+                                                 }
+                                                 ),
+                            'case insensitive okatopic topic');
+    
 }
 
 sub verify_casesensitivesetting {
