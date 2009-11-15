@@ -482,24 +482,20 @@ lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
 lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
 lib/Foswiki/Configure/resources/favicon.ico 0444
 lib/Foswiki/Configure/resources/foswikiStyles.js 0444
-lib/Foswiki/Configure/resources/icon_arrows.psd
 lib/Foswiki/Configure/resources/icon_down.gif 0444
 lib/Foswiki/Configure/resources/icon_error_blue.gif 0444
 lib/Foswiki/Configure/resources/icon_error_white.gif 0444
-lib/Foswiki/Configure/resources/icon_error.psd
 lib/Foswiki/Configure/resources/icon_info.gif 0444
-lib/Foswiki/Configure/resources/icon_info.psd
+lib/Foswiki/Configure/resources/icon_ok_white.gif 0444
 lib/Foswiki/Configure/resources/icon_up.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_and_error_blue.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_and_error_white.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_and_error.psd
 lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
-lib/Foswiki/Configure/resources/icon_warning.psd
+lib/Foswiki/Configure/resources/icon_world.gif 0444
 lib/Foswiki/Configure/resources/intro.html 0444
 lib/Foswiki/Configure/resources/legend.html 0444
 lib/Foswiki/Configure/resources/logo.gif 0444
-lib/Foswiki/Configure/resources/logo.psd
 lib/Foswiki/Configure/resources/pattern.css 0444
 lib/Foswiki/Configure/resources/scripts.js 0444
 lib/Foswiki/Configure/resources/styles.css 0444
