@@ -92,10 +92,10 @@ sub makeLoginManager {
         if ( $Foswiki::cfg{Sessions}{UseIPMatching} ) {
             $use .= ' qw(-ip_match)';
         }
-        $use .= '; use CGI::Cookie';
+        $use .= '; use CGI::Cookie ()';
         eval $use;
         throw Error::Simple($@) if $@;
-        if ( $Foswiki::LoginManager::Session::VERSION eq "4.10" ) {
+        if ( $Foswiki::LoginManager::Session::VERSION eq '4.10' ) {
 
             # 4.10 is broken; see Item1989
             $Foswiki::LoginManager::Session::NAME = 'FOSWIKISID';

@@ -240,6 +240,12 @@ sub validate {
 
     my $origurl = $query->param('origurl');
     $query->delete('origurl');
+    my $context = $query->param('context');
+    $query->delete('context');
+
+    # If a special context was requested, enter it. This will normally
+    # be the name of the script that invoked the original save operation.
+    $session->enterContext($context, 1) if $context;
 
     my $tmpl =
       $session->templates->readTemplate( 'validate', $session->getSkin() );

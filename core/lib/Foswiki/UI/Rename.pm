@@ -248,8 +248,7 @@ sub _renameTopicOrAttachment {
         && $query->method()
         && uc( $query->method() ) ne 'POST' );
 
-    Foswiki::UI::checkValidationKey( $session, 'rename', $session->{webName},
-        $session->{topicName} );
+    Foswiki::UI::checkValidationKey( $session );
 
     # Update references in referring pages - not applicable to attachments.
     my $refs;
@@ -594,8 +593,7 @@ sub _renameWeb {
         }
     }
 
-    Foswiki::UI::checkValidationKey( $session, 'rename', $session->{webName},
-        $session->{topicName} );
+    Foswiki::UI::checkValidationKey( $session );
 
     my $newWebObject = Foswiki::Meta->new( $session, $newWeb );
 

@@ -101,7 +101,7 @@ sub _upload {
     my $topic = $session->{topicName};
     my $user  = $session->{user};
 
-    Foswiki::UI::checkValidationKey( $session, 'upload', $web, $topic );
+    Foswiki::UI::checkValidationKey( $session );
 
     my $hideFile    = $query->param('hidefile')    || '';
     my $fileComment = $query->param('filecomment') || '';

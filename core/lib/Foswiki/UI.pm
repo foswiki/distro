@@ -313,6 +313,8 @@ sub _execute {
             &$sub($session);
         }
         catch Foswiki::ValidationException with {
+            my $e = shift;
+
             my $query = $session->{request};
 
             # Redirect with passthrough so we don't lose the
@@ -321,15 +323,19 @@ sub _execute {
             # in httpd.conf for Apache login.
             my $url =
               $session->getScriptUrl( 0, 'login', $session->{webName},
-                $session->{topicName} );
+                                      $session->{topicName} );
             $query->param(
                 -name  => 'action',
                 -value => 'validate'
-            );
+               );
             $query->param(
                 -name  => 'origurl',
                 -value => $session->{request}->uri
-            );
+               );
+            # Pass the action that was invoked to get here so that an
+            # appropriate message can be generated
+            $query->param( -name => 'context',
+                           -value => $e->{action} );
             $session->redirect( $url, 1 );    # with passthrough
         }
         catch Foswiki::AccessControlException with {
@@ -508,13 +514,14 @@ sub checkAccess {
 
 Check the validation key for the given action. Throws an exception
 if the validation key isn't valid (handled in _execute(), above)
+   * =$session= - the current session object
 
 See Foswiki::Validation for more information.
 
 =cut
 
 sub checkValidationKey {
-    my ($session) = @_;
+    my ( $session ) = @_;
 
     # If validation is disabled, do nothing
     return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
@@ -529,7 +536,8 @@ sub checkValidationKey {
         || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
             $nonce ) )
     {
-        throw Foswiki::ValidationException();
+        throw Foswiki::ValidationException(
+            $session->{request}->action() );
     }
     if ( defined($nonce) ) {
 

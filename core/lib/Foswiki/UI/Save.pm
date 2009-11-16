@@ -437,7 +437,7 @@ WARN
     }
 
     # Do this *before* we do any query parameter rewriting
-    Foswiki::UI::checkValidationKey( $session, 'save', $web, $topic );
+    Foswiki::UI::checkValidationKey( $session );
 
     my $editaction = lc( $query->param('editaction') ) || '';
     my $edit       = $query->param('edit')             || 'edit';
