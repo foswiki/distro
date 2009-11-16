@@ -1,0 +1,22 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258384876" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"form"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+The jQuery Form Plugin allows you to easily and unobtrusively upgrade HTML
+forms to use AJAX. The main methods, ajaxForm and ajaxSubmit, gather
+information from the form element to determine how to manage the submit
+process. Both of these methods support numerous options which allows you to
+have full control over how the data is submitted. Submitting a form with AJAX
+doesn't get any easier than this!
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%RED%todo%ENDCOLOR%

@@ -30,7 +30,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '2.05'; 
+$RELEASE = '2.10'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -62,6 +62,10 @@ sub initPlugin {
 
   # jquery.toggle
   Foswiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
+
+  # jquery.grid
+  Foswiki::Func::registerTagHandler('GRID', \&handleGrid );
+  Foswiki::Func::registerRESTHandler('gridconnector', \&restGridConnector);
 
   # DEPRECATED
   Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript ); 
@@ -145,6 +149,37 @@ sub handleToggle {
   return $plugin->handleToggle(@_) if $plugin;
   return '';
 }
+
+=begin TML
+
+---++ handleGrid($session, $params, $topic, $web) -> $result
+
+Handles the =%<nop>GRID% tag. 
+
+=cut
+
+sub handleGrid {
+  my $session = shift;
+  my $plugin = createPlugin('Grid', $session);
+  return $plugin->handleGrid(@_) if $plugin;
+  return '';
+}
+
+=begin TML
+
+---++ restGridConnector($session) -> $xml
+
+rest handler for the grid widget
+
+=cut
+
+sub restGridConnector {
+  my $session = shift;
+  my $plugin = createPlugin('Grid', $session);
+  return $plugin->restGridConnector(@_) if $plugin;
+  return '';
+}
+
 
 =begin TML
 
@@ -315,6 +350,7 @@ Handles the =%<nop>JQPLUGINS% tag.
 sub handleJQueryPlugins {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
+  my $thePlugin = $params->{_DEFAULT} || '';
   my $theFormat = $params->{format};
   my $theHeader = $params->{header} || '';
   my $theFooter = $params->{footer} || '';
@@ -328,12 +364,12 @@ sub handleJQueryPlugins {
   $theTagFormat = '[[%SYSTEMWEB%.Var$tag][$tag]]' 
     unless defined $theTagFormat;
 
-  my @plugins = Foswiki::Plugins::JQueryPlugin::Plugins::getPlugins();
+  my @plugins = Foswiki::Plugins::JQueryPlugin::Plugins::getPlugins($thePlugin);
 
   my @result;
   my $counter = 0;
   foreach my $plugin (@plugins) {
-    my $summary = $plugin->{summary};
+    my $summary = $plugin->getSummary();
     $summary =~ s/^\s+//;
     $summary =~ s/\s+$//;
     my $tags = '';
@@ -353,6 +389,7 @@ sub handleJQueryPlugins {
         name => $plugin->{name},
         version => $plugin->{version},
         summary => $summary,
+        documentation => $plugin->{documentation},
         author => $plugin->{author},
         homepage => $plugin->{homepage},
         tags => $tags,

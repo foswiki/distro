@@ -47,15 +47,6 @@ sub new {
     javascript => ['jquery.cycle.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-The jQuery Cycle Plugin is a lightweight slideshow plugin. Its implementation
-is based on the InnerFade Plugin by Torsten Baldes, the Slideshow Plugin by
-Matt Oakes, and the jqShuffle Plugin by Benjamin Sterling. It supports
-pause-on-hover, auto-stop, auto-fit, before/after callbacks, click triggers and
-many transition effects. It also supports, but does not require, the Metadata
-Plugin and the Easing Plugin.
-HERE
-
   return $this;
 }
 

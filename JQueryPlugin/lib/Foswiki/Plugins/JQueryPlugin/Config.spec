@@ -12,7 +12,7 @@ $Foswiki::cfg{JQueryPlugin}{MemoryCache} = 1;
 # use <code>$</code>. If enabled <code>$</code> will be renamed to <code>$j</code>.
 # To jQuery plugin authors: in any case try to wrap your plugins into a
 # <pre>(function($) { ... })(jQuery);</pre> construct to make use of <code>$</code> locally.
-$Foswiki::cfg{JQueryPlugin}{NoConflict} = 1;
+$Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 
 # **STRING**
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, metadata, bgiframe, foswiki';
@@ -21,7 +21,7 @@ $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, metadata, bgiframe, foswi
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.3.2';
 
 # **SELECT base, lightness, redmond, smoothness**
-$Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'redmond';
+$Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'base';
 
 # ---+++ jQuery plugins -- EXPERT
 # **BOOLEAN**
@@ -65,6 +65,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Foswiki}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Grid}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;

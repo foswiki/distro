@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258383640" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"ui"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Widget collection for jQuery. This is the official userinterface library.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"ui"}%
+%RED%todo%ENDCOLOR%
+
+---++ Installed themes
+The following themes are provided:
+   * base  
+   * lightness  
+   * redmond  
+   * smoothness

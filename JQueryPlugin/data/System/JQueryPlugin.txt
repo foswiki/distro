@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1246523556" format="1.1" reprev="1.7" version="1.7"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258381223" format="1.1" reprev="1.9" version="1.9"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -17,93 +17,19 @@
 </tr>
 </table>
 
-This plugin contains the latest version of the [[http://jquery.com][jQuery]]
-<nop>JavaScript library. 
-
 <blockquote>
 "jQuery is a fast, concise, <nop>JavaScript Library that simplifies how you traverse
 HTML documents, handle events, perform animations, and add Ajax interactions to
 your web pages."
 </blockquote>
 
-See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by Foswiki.
+---++ Coding Standards
 
+See [[JQuery Coding Standards]]
+This plugin contains the latest version of the [[http://jquery.com][jQuery]]
+<nop>JavaScript library. 
 See also Foswiki:Development.UsingJQueryWithFoswiki for more information on
 using jQuery with Foswiki.
-
----++ Installed Plugins
-%JQPLUGINS{
-  header=""
-  format="<h3>$index. <nop>$name $active</h3>
-    Homepage: $homepage <br />
-    Author(s): $author <br />
-    Version: $version <br />
-    $percntIF{\"'$tags' != ''\" then=\"Tags: $tags <br />\" else=\"<!-- no tags -->\"}$percnt
-    <noautolink><p>$summary</p></noautolink>$n
-  "
-}%
-
-
----++ Themes
-The following themes are provided:
-   * base  
-   * lightness  
-   * redmond  
-   * smoothness
-
----++ Examples
-   * Sandbox.PluginTestJQueryPlugin	 	
-   * Sandbox.JQueryPluginExamples
-
----++ Chili Syntax Highlighting
-[[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting has been added to the JQueryPlugin.
-
-To enable chili add
-<verbatim>%JQREQUIRE{"chili"}%</verbatim>
-somewhere on the page, or add it to the default jQuery plugins in [[%SCRIPTURL{"configure"}%][configure]].
-%JQREQUIRE{"chili"}%
-
-Syntax can be highlighted using the *&lt;verbatim&gt;* tag and the <u>class</u> attribute:
-
-<verbatim class="html">
-<verbatim class="html">
-
-<html>
-  <head>
-    <title>Hello World</title>
-  </head>
-  <body>
-    <font size="24px">Hello World</font>
-  </body>
-</html>
-
-</verbatim>
-</verbatim>
-
-Available class attributes:
-| =cplusplus= | C++ |
-| =csharp= | C# |
-| =css= | Cascading Style Sheets |
-| =bash= | shell syntax |
-| =delphi= | Delphi |
-| =html= | Hypertext Markup Language |
-| =java= | Java |
-| =js= | !JavaScript |
-| =lotusscript= | !LotusScript |
-| =php-f= | Hypertext Preprocessor -f |
-| =php= | Hypertext Preprocessor |
-| =sql= | Structured Query Language |
-| =tml= | Wiki Markup Language |
-
----++ Passing parameters from perl to javascript
-Among other things the jquery.foswiki plugin reads =&lt;meta name="foswiki..." content="...">= tags
-in the html header and store these properties into the =foswiki= javascript object.
-
-When a parameter is called =foswiki.MyPlugin.parameter= will create a sub-object under =foswiki= and store 
-the parameter there. This works recursively so that even a =foswiki.My.New.Plugin.parameter= will work out and create the appropriate nesting. 
-
-If =content= is "false" or "true" these will be converted to proper Boolean. 
-If =content= starts with =function(= a method of that name will be created inside the =foswiki= object.
 
 ---++ Further references and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
@@ -152,20 +78,21 @@ in the filesystem, then trigger an internal redirect while still enforcing the o
 The browser on the other side will unzip the css and js files automatically. This will drastically
 reduce bandwidth and speed up interactive performance.
 
+---++ Available jQuery plugins
+%JQPLUGINS{
+  header="<ol>"
+  format="<li> $percntIF{\"istopic '$documentation'\" 
+                  then=\"[[$documentation][$name]]\" 
+                  else=\"<nop>$name\"
+               }$percnt $active
+          </li>"
+  footer="</ol>"
+}%
+
 
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
----++ Plugin Roadmap
-for v2.1:
-   * create formfield types for user, topic, web
-   * replace jquery.nifty with [[http://www.malsup.com/jquery/corner/][jquery.corner]]
-
-for v2.2:
-   * replace JSCalendarContrib date formfield with a jquery based one
-
-for v2.3:
-   * add jquery.tablesorter and rewrite serverbased sorting by TablePlugin automatically
 
 ---++ Plugin Info
 |  Author(s): | Michael Daum |
@@ -174,9 +101,10 @@ for v2.3:
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  11 Nov 2009: | added jqGrid library; reorganized documentation |
 |  07 Nov 2009: | updated Superfish to 1.4.8 and added examples topic, added\
                   supersubs plugin, moved JQuery examples from Sandbox to System |
-|  29 Oct 2009: | (CDot) added SCRIPTSUFFIX to foswiki var set |
+|  29 Oct 2009: | added SCRIPTSUFFIX to foswiki var set (CDot) |
 |  14 Sep 2009: | added perls tubs for jquery.ui, so that you can pull it in via JQREQUIRE now; \
                   reworked plugin initialization to allow elements to be init'ed when loaded via ajax; \
                   fixed BUTTON to play nicely with !TwistyPlugin; \

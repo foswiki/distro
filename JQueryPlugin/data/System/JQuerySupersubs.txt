@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258383446" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"supersubs"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This is a companion plugin to superfish. It resizes superfish submenus to fit their contents.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+See JQuerySuperfish

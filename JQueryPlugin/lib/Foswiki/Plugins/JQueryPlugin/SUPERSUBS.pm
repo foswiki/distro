@@ -47,11 +47,6 @@ sub new {
     dependencies => ['superfish'], 
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This is a companion plugin to superfish. It resizes superfish submenus to fit their contents.
-
-HERE
-
   return $this;
 }
 

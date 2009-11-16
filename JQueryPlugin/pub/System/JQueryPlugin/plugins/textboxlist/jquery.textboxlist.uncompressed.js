@@ -70,7 +70,8 @@
         $.extend({},{
             selectFirst:false,
             autoFill:false,
-            matchCase:true,
+            matchCase:false,
+            matchContains:false,
             matchSubset:true
           }, self.opts.autocompleteOpts);
       self.input.attr('autocomplete', 'off').autocomplete(self.opts.autocomplete, autocompleteOpts).
@@ -98,9 +99,10 @@
     // init
     self.currentValues = [];
     if (self.input.val()) {
-      self.select(self.input.val().split(/\s*,\s*/), true);
+      self.select(self.input.val().split(/\s*,\s*/).sort(), true);
     }
     self.initialValues = self.currentValues.slice();
+    self.input.removeClass('foswikiHidden').show();
   }
  
   // clear selection *****************************************************
@@ -139,7 +141,7 @@
     if (typeof(values) == 'object') {
       values = values.join(',');
     }
-    values = values.split(/\s*,\s*/);
+    values = values.split(/\s*,\s*/).sort();
 
     // only set values not already there
     if (self.currentValues.length > 0) {

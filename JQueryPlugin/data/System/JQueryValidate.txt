@@ -1,0 +1,47 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258379359" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"validate"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Very powerful client-side form validation framework
+([[http://bassistance.de/2007/07/04/about-client-side-form-validation-and-frameworks/][article]]).
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"validate"}%
+%JQREQUIRE{"maskedinput"}%
+<script type="text/javascript">
+(function($) {
+  $(function() {
+    $("#validateForm").validate();
+  });
+})(jQuery);
+</script>
+
+
+
+<form id="validateForm">
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>First name:</h3>
+    <input type="text" size="30" class="required foswikiInputField" name="firstname" />
+
+    <h3>Last name:</h3>
+    <input type="text" size="30" class="required foswikiInputField" name="lastname" />
+
+    <h3>Date of birth:</h3>
+    <input type="text" size="10" class="date foswikiInputField" mask="99/99/9999" />
+  </div>
+  <div class="foswikiFormStep foswikiFormButtons foswikiFormLast">
+    %BUTTON{"%MAKETEXT{"Submit"}%" type="submit" icon="tick"}%
+    %CLEAR%
+  </div>
+</div>
+</form>

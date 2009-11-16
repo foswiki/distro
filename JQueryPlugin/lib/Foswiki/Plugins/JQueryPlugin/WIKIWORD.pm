@@ -47,13 +47,6 @@ sub new {
     javascript => ['jquery.wikiword.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This plugin allows to create a <nop>WikiWord on the base of a set of
-input elements. The value of these are concatenated and the result is
-normalized to be a valid <nop>WikiWord. For example, this can be used
-to derive a topic name from a free-form topic title text.
-HERE
-
   return $this;
 }
 

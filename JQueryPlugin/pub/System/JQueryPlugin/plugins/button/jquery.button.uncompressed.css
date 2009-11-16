@@ -17,6 +17,7 @@
   padding:0px;
   color:black;
   font-size:13px;
+  white-space:nowrap;
 }
 .foswikiTopic a.jqButton,
 .patternTopic a.jqButton,

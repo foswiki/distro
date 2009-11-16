@@ -48,11 +48,6 @@ sub new {
     dependencies => ['metadata', 'form'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Very powerful client-side form validation framework 
-([[http://bassistance.de/2007/07/04/about-client-side-form-validation-and-frameworks/][article]]).
-HERE
-
   return $this;
 }
 

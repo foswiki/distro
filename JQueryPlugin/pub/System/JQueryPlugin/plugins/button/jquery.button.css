@@ -3,7 +3,7 @@
 .patternTopic a.jqButton,
 .patternTopic a.jqButton:hover,
 .jqButton:hover,
-.jqButton{background-color:transparent;background-image:url(btn_right.gif);background-position:top right;background-repeat:no-repeat;text-decoration:none;cursor:pointer;display:block;float:left;height:23px;padding:0px;color:black;font-size:13px;}.foswikiTopic a.jqButton,
+.jqButton{background-color:transparent;background-image:url(btn_right.gif);background-position:top right;background-repeat:no-repeat;text-decoration:none;cursor:pointer;display:block;float:left;height:23px;padding:0px;color:black;font-size:13px;white-space:nowrap;}.foswikiTopic a.jqButton,
 .patternTopic a.jqButton,
 .jqButton{margin:0px 8px 0px 0px;}.foswikiTopic a.jqButton.foswikiRight,
 .foswikiTopic a.jqButton.foswikiRight:hover,

@@ -47,22 +47,6 @@ sub new {
     tags=>'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This is plugin takes care of loading the jQuery core and default plugins and
-performs any initialization steps specific to Foswiki, For instance, it reads
-all &lt;meta> tags from the html head as they have been set by Foswiki and
-constructs the =foswiki= javascript object to be used by other javascript
-plugins. 
-
-In addition it adds some basic Foswiki tags to make life easier using jQuery
-plugins, most notably =%<nop>JQREQUIRE{"pluginName"}%= to load a subsequent
-jQuery plugin and all of its dependencies, taking care where and how it
-is added to the html page.
-
-Curent default plugins are: jquery.easing, jquery.metadata, jquery.bgiframe, 
-jquery.hoverIntent
-HERE
-
   return $this;
 }
 

@@ -13,6 +13,7 @@ SUBDIRS=\
   form \
   foswiki \
   gradient \
+  grid \
   hoverintent \
   ifixpng \
   innerfade \
@@ -26,6 +27,7 @@ SUBDIRS=\
   simplemodal \
   spinner \
   superfish \
+  supersubs \
   tabpane \
   toggle \
   textboxlist \

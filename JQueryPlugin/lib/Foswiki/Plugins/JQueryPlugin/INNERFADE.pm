@@ -48,51 +48,6 @@ sub new {
     javascript => ['jquery.innerfade.js', 'jquery.innerfade.init.js' ],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-InnerFade is a small plugin for the jQuery-JavaScript-Library. It's designed to
-fade you any element inside a container in and out.  These elements could be
-anything you want, e.g. images, list-items, divs. Simply produce your own
-slideshow for your portfolio or advertisings. Create a newsticker or do an
-animation.
-
-Example:
-<verbatim class="html">
-<ul id="news">
-    <li>content 1</li>
-    <li>content 2</li>
-    <li>content 3</li>
-</ul>
-
-$('#news').innerfade({
-    animationtype: 
-      Type of animation 'fade' or 'slide' 
-      (Default: 'fade'),
-
-    speed: 
-      Fading-/Sliding-Speed in milliseconds or keywords 
-      (slow, normal or fast) (Default: 'normal'),
-
-    timeout: 
-      Time between the fades in milliseconds (Default: '2000'),
-
-    type: 
-      Type of slideshow: 'sequence', 'random' or 'random_start' 
-      (Default: 'sequence'), 
-
-    containerheight: 
-      Height of the containing element in any css-height-value 
-      (Default: 'auto'),
-
-    runningclass: 
-      CSS-Class which the container get’s applied 
-      (Default: 'innerfade'),
-
-    children: 
-      optional children selector (Default: null)
-});
-</verbatim>
-HERE
-
   return $this;
 }
 

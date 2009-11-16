@@ -2,7 +2,7 @@ SUBDIRS=\
   base \
   smoothness \
   lightness \
-  redmond 
+  redmond
 
 all: $(SUBDIRS)
 

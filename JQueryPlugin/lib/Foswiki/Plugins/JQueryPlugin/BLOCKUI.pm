@@ -47,14 +47,6 @@ sub new {
     javascript => ['jquery.blockUI.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-The jQuery BlockUI Plugin lets you simulate synchronous behavior when using
-AJAX, without locking the browser. When activated, it will prevent user
-activity with the page (or part of the page) until it is deactivated. BlockUI
-adds elements to the DOM to give it both the appearance and behavior of
-blocking user interaction.
-HERE
-
   return $this;
 }
 

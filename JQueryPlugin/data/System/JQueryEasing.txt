@@ -1,0 +1,18 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258385249" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"easing"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Uses the built in easing capabilities added In jQuery 1.1
+to offer multiple "easing" effects.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+See JQueryToggle

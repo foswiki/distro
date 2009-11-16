@@ -47,28 +47,6 @@ sub new {
     javascript => ['jquery.shrinkurls.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Shrinks all urls in a given container whose link text exceeds
-a given size and have no white spaces in it, that is don't
-wrap around nicely. If the text is skrunk, the original text
-is appended to the title attribute of the anchor.
-
-Usage:
-<verbatim class="html">
- $("#container a").shrinkUrls({
-   size:<number>,           // max size (default 25)
-   include:'<regex>'       // regular expression a link text must
-                           // match to be considered
-   exclude:'<regex>'       // regular expression a link text must
-                           // not match to be considered
-   whitespace:<boolean>,   // true: even shrink if there's whitespace
-                           // in the link text (default false)
-   trunc:<head|middle|tail> // position where to insert the ellipsis
- });
-</verbatim>
-
-HERE
-
   return $this;
 }
 

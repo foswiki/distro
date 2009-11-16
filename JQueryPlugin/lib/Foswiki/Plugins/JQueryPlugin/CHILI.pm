@@ -47,22 +47,6 @@ sub new {
     javascript => ['jquery.chili.js', 'jquery.chili.init.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Chili is the jQuery code highlighter plugin. 
-
-Features:
-   * Very fast highlighting, trivial setup, fully customizable, thoroughly documented, and MIT licensed
-   * Renders identically on IE, Firefox, Mozilla, Opera, and Safari
-   * Comes bundled with recipes for C++, C#, CSS, Delphi, Java, JavaScript, LotusScript, MySQL, PHP, and XHTML
-   * Many configuration options: Static, Dynamic, Automatic, Manual, Ad-Hoc, with Metaobjects.
-   * Provides fine control over which elements get highlighted by means of a jQuery selector or the mithical jQuery chainability.
-   * Fully supports javascript regular expressions, including backreferences
-   * The replacement format gives full control on what HTML is used for highlighting
-   * Provides examples which show setups and features
-
-Additional recpipes: bash
-HERE
-
   return $this;
 }
 

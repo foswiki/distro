@@ -1,6 +1,6 @@
 (function($) {
   $(function() {
-    $(".jqTooltip [title]").each(function() {
+    $(".jqTooltip").each(function() {
       var options = {
         delay:350,
         track:true,

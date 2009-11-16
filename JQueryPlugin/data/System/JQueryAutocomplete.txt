@@ -1,0 +1,72 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258378319" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"autocomplete"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+
+%STARTSECTION{"summary"}%
+Autocomplete an input field to enable users quickly finding and selecting some
+value, leveraging searching and filtering.
+By giving an autocompleted field focus or entering something into it, the
+plugin starts searching for matching entries and displays a list of values to
+choose from. By entering more characters, the user can filter down the list to
+better matches.
+This can be used to enter previous selected values, eg. for tags, to complete
+an address, eg. enter a city name and get the zip code, or maybe enter email
+addresses from an addressbook.
+
+See also [[%SYSTEMWEB%.JQueryAjaxHelper][JQueryjaxHelper]] for examples on how to integrate autocompletion
+into Foswiki.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"autocomplete"}%
+
+<literal>
+<script>
+(function($) {
+  $(function(){
+    $("#example").autocomplete(
+      ["admin", 
+       "backup",
+       "bash",
+       "emulation",
+       "games",
+       "irc",
+       "linux",
+       "mercurial",
+       "patches",
+       "perl",
+       "php",
+       "python",
+       "site",
+       "surfing",
+       "tag",
+       "test",
+       "foswiki",
+       "web",
+       "wiki",
+       "windows",
+       "windsurfing",
+       "wine"
+      ], {
+        multiple: true,
+        selectFirst: false,
+        matchCase: false,
+        matchSubset: true,
+        minChars: 1
+      }
+    );
+  });
+})(jQuery);
+</script>
+</literal>
+
+*Enter tags:* 
+<input class="foswikiInputField" id="example" size='42' />

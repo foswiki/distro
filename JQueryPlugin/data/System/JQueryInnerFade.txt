@@ -1,0 +1,73 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258380700" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"innerfade"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+!InnerFade is a small plugin for the jQuery-JavaScript-Library. It's designed to
+fade you any element inside a container in and out.  These elements could be
+anything you want, e.g. images, list-items, divs. Simply produce your own
+slideshow for your portfolio or advertisings. Create a newsticker or do an
+animation.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+<verbatim class="tml">
+<ul id="news">
+    <li>content 1</li>
+    <li>content 2</li>
+    <li>content 3</li>
+</ul>
+
+<script type="text/javascript">
+$('#news').innerfade({
+    animationtype:
+      Type of animation 'fade' or 'slide'
+      (Default: 'fade'),
+
+    speed:
+      Fading-/Sliding-Speed in milliseconds or keywords
+      (slow, normal or fast) (Default: 'normal'),
+
+    timeout:
+      Time between the fades in milliseconds (Default: '2000'),
+
+    type:
+      Type of slideshow: 'sequence', 'random' or 'random_start'
+      (Default: 'sequence'),
+
+    containerheight:
+      Height of the containing element in any css-height-value
+      (Default: 'auto'),
+
+    runningclass:
+      CSS-Class which the container get's applied
+      (Default: 'innerfade'),
+
+    children:
+      optional children selector (Default: null)
+});
+</script>
+</verbatim>
+
+---++ Examples
+%JQREQUIRE{"innerfade"}%
+<div class="jqInnerfade {timeout:5000, type:'random', containerheight:'220px'}">
+<img src="%ATTACHURLPATH%/ggbg.gif" alt="Good Guy bad Guy" />
+<img src="%ATTACHURLPATH%/whizzkids.gif" alt="Whizzkids" />
+<img src="%ATTACHURLPATH%/km.jpg" alt="Königin Mutter" />
+<img src="%ATTACHURLPATH%/rt_arch.jpg" alt="RT Hybride Archivierung" />
+<img src="%ATTACHURLPATH%/tuev.jpg" alt="TÜV SÜD Gruppe" />
+</div>
+
+%META:FILEATTACHMENT{name="km.jpg" attachment="km.jpg" attr="" comment="" date="1258380549" size="13645" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="rt_arch.jpg" attachment="rt_arch.jpg" attr="" comment="" date="1258380549" size="40334" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ggbg.gif" attachment="ggbg.gif" attr="" comment="" date="1258380549" size="4536" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="tuev.jpg" attachment="tuev.jpg" attr="" comment="" date="1258380549" size="37477" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whizzkids.gif" attachment="whizzkids.gif" attr="" comment="" date="1258380687" size="8944" user="ProjectContributor" version="1"}%

@@ -1,0 +1,51 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258379247" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"rating"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+The Star Rating Plugin is a plugin for the jQuery Javascript library that
+creates a non-obstrusive star rating control based on a set of radio input
+boxes.
+
+It turns a collection of radio boxes into a neat star-rating control.  It
+creates the interface based on standard form elements, which means the basic
+functionality will still be available even if Javascript is disabled.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"rating"}%
+<script type="text/javascript">
+(function($) {
+$(function() {
+  $(".rating").rating({
+    focus: function(value, link) {
+      $("#test-tip").html(link.title || link.value);
+    },
+    blur: function(value, link) {
+      $("#test-tip").html('&nbsp;');
+    }
+  });
+});
+})(jQuery);
+</script>
+
+<form>
+<input type="radio" name="test" value="1" class="rating" title="very low"/>
+<input type="radio" name="test" value="2" class="rating" title="low" />
+<input type="radio" name="test" value="3" class="rating" title="substandard" />
+<input type="radio" name="test" value="4" class="rating" title="standard" />
+<input type="radio" name="test" value="5" class="rating" title="superior" />
+<input type="radio" name="test" value="6" class="rating" title="I like it" />
+<input type="radio" name="test" value="7" class="rating" title="quite good" />
+<input type="radio" name="test" value="8" class="rating" title="good" />
+<input type="radio" name="test" value="9" class="rating" title="very good" />
+<input type="radio" name="test" value="10" class="rating" title="excelent" />
+<span id="test-tip" style="margin-left:10px">&nbsp;</span>
+</form>

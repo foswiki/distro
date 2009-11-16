@@ -50,10 +50,6 @@ sub new {
     dependencies => ['metadata'], # just an example
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Template plugin for jQuery plugins integrated to Foswiki.
-HERE
-
   return $this;
 }
 

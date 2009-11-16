@@ -1,0 +1,106 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258379154" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"tabpane"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This implements an alternative tabpane widget. There _is_ already one in
+jquery-ui, however as long as jquery-ui is still in flux, this alternative
+offers a safe substitute well integrated into Foswiki.
+
+Individual tabs can be loaded on demand using a REST call. Installing
+Foswiki:Extensions/RenderPlugin is recommended for that.
+
+Tabpanes can be nested. Tabs can be extended in height automatically.
+Heights can be auto-updated to follow windows resize events. Tabpanes
+can be established as part of reloaded content via ajax.
+
+Note that this widget does _not_ participate in jquery-ui themerolling.
+It does match JQueryButton in terms of look & feel.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%TABPANE%
+%TAB{"Tab 1"}%
+%TABPANE%
+%TAB{"Tab 1.1"}%
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sit amet
+tellus id ante pretium aliquam. Etiam interdum, turpis in varius facilisis,
+nibh neque tincidunt sapien, et viverra libero justo et leo. Pellentesque et mi
+%ENDTAB%
+%TAB{"Tab 1.2"}%
+tristique ligula suscipit suscipit. Donec et tortor. Integer eros eros, commodo
+in, aliquam sit amet, facilisis et, magna. Sed nisl. Pellentesque mattis, quam
+ut nonummy rutrum, sem felis ultrices nunc, sed mollis dolor diam et purus.
+%ENDTAB%
+%TAB{"Tab 1.3"}%
+Aenean urna. Morbi eros. Quisque mauris magna, rhoncus vitae, ullamcorper ac,
+volutpat quis, nibh. 
+%RED%end of tab 1%ENDCOLOR%
+%ENDTAB%
+%ENDTABPANE% 
+%CLEAR%
+%ENDTAB%
+%TAB{"Tab 2"}%
+Donec ultrices mollis velit. Integer sed eros. Nulla venenatis laoreet leo.
+Etiam consectetuer, odio sagittis pharetra ornare, est nulla nonummy nisl, quis
+ultricies nisl elit quis justo. In dictum interdum est. Duis accumsan, nibh
+mollis commodo rhoncus, ante orci dapibus purus, at pharetra est massa et
+velit. Fusce ornare nibh ut magna. Nunc sollicitudin, purus et eleifend
+consectetuer, lectus justo faucibus arcu, et cursus velit felis eu lorem. Nulla
+aliquet, turpis accumsan feugiat congue, mi arcu ultrices ligula, id ultrices
+sem elit sed lectus. Curabitur dignissim, dolor non sodales luctus, mi magna
+tincidunt tellus, at bibendum mauris magna dapibus metus. Donec et libero at
+erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
+nisl. 
+%RED%end of tab 2%ENDCOLOR%
+%ENDTAB%
+%TAB{"Tab 3"}%
+Sed a nisi. Maecenas posuere vehicula orci. Proin purus. Nulla condimentum
+laoreet pede. Morbi sodales, nunc a vestibulum dignissim, lectus felis varius
+nisl, vitae lacinia sapien dui nec massa. Fusce tempus. Vivamus ac mi. Integer
+leo. Proin blandit est et sem. Quisque mi. Class aptent taciti sociosqu ad
+litora torquent per conubia nostra, per inceptos hymenaeos. Nunc imperdiet
+viverra purus. Aenean ut turpis ut nibh varius adipiscing. 
+%RED%end of tab 3%ENDCOLOR%
+%ENDTAB%
+%TAB{"Tab 4"}%
+Sed non ante non nibh pharetra facilisis. Curabitur ut odio. Suspendisse
+potenti. Fusce aliquam. Class aptent taciti sociosqu ad litora torquent per
+conubia nostra, per inceptos hymenaeos. Etiam lacinia, sapien ut volutpat
+lobortis, nisi ante auctor quam, vitae placerat dolor arcu dictum massa. Donec
+dolor. Cras eget dolor. Curabitur id nunc non purus tristique iaculis. Vivamus
+sit amet sapien.  Intege
+%RED%end of tab 4%ENDCOLOR%
+%ENDTAB%
+%ENDTABPANE%
+%CLEAR%
+%STARTSECTION{"foo"}%
+---+++!! Foo
+%TABPANE{animate="on"}%
+%TAB{"Later"}%
+tristique ligula suscipit suscipit. Donec et tortor. Integer eros eros, commodo
+in, aliquam sit amet, facilisis et, magna. Sed nisl. Pellentesque mattis, quam
+ut nonummy rutrum, sem felis ultrices nunc, sed mollis dolor diam et purus.
+%ENDTAB%
+%TAB{"Ajax Foo" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=foo;skin=text"}%
+<span class="jqAjaxLoader">&nbsp;</span>
+%ENDTAB%
+%TAB{"Ajax Bar" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=bar;skin=text"}%
+<span class="jqAjaxLoader">&nbsp;</span>
+%ENDTAB%
+%ENDTABPANE%
+%ENDSECTION{"foo"}%
+
+<verbatim style="display:none">
+%STARTSECTION{"bar"}%
+Aenean urna. Morbi eros. Quisque mauris magna, rhoncus vitae, ullamcorper ac,
+volutpat quis, nibh. 
+%ENDSECTION{"bar"}%
+</verbatim>

@@ -46,15 +46,6 @@ sub new {
     javascript => ['jquery.treeview.js', 'jquery.treeview.async.js', 'jquery.treeview.init.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Lightweight and flexible transformation of an unordered list into an
-expandable and collapsable tree, great for unobtrusive navigation enhancements.
-Supports both location and cookie based persistence.
-
-Subtrees can be loaded on demand using AJAX. See the Foswiki:Extensions/RenderPlugin
-how to implement such REST handlers easily.
-HERE
-
   return $this;
 }
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1245064876" format="1.1" reprev="1.6" version="1.6"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1257417130" format="1.1" reprev="1.7" version="1.7"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %TOC%
@@ -34,6 +34,30 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 </div>
 </form>
 
+---+++ Web selector
+
+---++++ Parameters
+   * =INPUT_NAME=: name of text input field
+   * =INPUT_VALUE=: preselected value
+   * =EXCLUDE=: exclude expression to filter out unwanted topics, see the docu of the =excludetopic= parameter in VarSEARCH
+---++++ Implementation
+<verbatim class="tml">
+%STARTSECTION{"webselector"}%<!-- webselector  -->
+<input type="text" class="foswikiInputField {matchCase:true}" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<!-- //webselector -->%ENDSECTION{"webselector"}%
+</verbatim>
+
+---++++ Test
+<form>
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+<h3 >Select a web:</h3>
+%INCLUDE{"%TOPIC%" section="webselector" INPUT_NAME="newweb" EXCLUDE="TWiki"}%
+</div>
+</div>
+</form>
+
+
 ---+++ Jump box
 
 ---++++ Parameters
@@ -48,7 +72,7 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 (function($){
   $(function(){
     $("#%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%").autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text;%IF{"'%GLOBAL%' = 'on'" then="baseweb=all;format=$web.$topic" else="baseweb=%BASEWEB%;format=$topic"}%"
+      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text;%IF{"'%GLOBAL%' = 'on'" then="baseweb=all;format=$web/$topic" else="baseweb=%BASEWEB%;format=$topic"}%"
     ).result(function(event, item) {
       window.location.href="%SCRIPTURLPATH{"view"}%/%IF{"'%GLOBAL%' != 'on'" then="%BASEWEB%/"}%"+item;
     });
@@ -161,10 +185,10 @@ Needs Foswik:Extensions/FlexWebListPlugin
 <verbatim class="tml">
 %STARTSECTION{"web"}%%FLEXWEBLIST{
   include="%URLPARAM{"q" default="does not exist"}%.*"
-  exclude="%TRASHWEB%.*"
+  exclude="%URLPARAM{"exclude"}%"
   limit="%URLPARAM{"limit" default="10"}%"
   format="<nop>$web"
-  SHOULDBE_separator="$n"
+  separator="$n"
   subheader="$n"
 }%%ENDSECTION{"web"}%
 </verbatim>
@@ -177,7 +201,7 @@ Needs Foswik:Extensions/FlexWebListPlugin
 ---++++ Implementation (SEARCH-based)
 <verbatim class="tml">
 %STARTSECTION{"user"}%%SEARCH{
-   ".*%URLPARAM{"q" default="does not exist"}%.*"
+   "^%URLPARAM{"q" default="does not exist"}%.*"
    type="regex"
    scope="topic"
    format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percntFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\"}$percnt$n\"}$percnt"
@@ -191,7 +215,7 @@ Needs Foswik:Extensions/FlexWebListPlugin
 ---++++ Implementation (DBQUERY-based)
 <verbatim class="tml">
 %STARTSECTION{"user_fast"}%%DBQUERY{
-   "uc(topic) =~ uc('%URLPARAM{"q" default="does not exist"}%')"
+   "uc(topic) =~ uc('^%URLPARAM{"q" default="does not exist"}%')"
    format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif')$n\"}$percnt"
    separator=""
    limit="%URLPARAM{"limit" default="10"}%"
@@ -228,5 +252,3 @@ This one returns an =&lt;img...>= to a user's photo. See the User selector examp
 <verbatim class="tml">
 %STARTSECTION{"userphoto"}%<img src='%FORMFIELD{"Photo" topic="%USERINFO{"%URLPARAM{"name" default="does not exist"}%" format="$wikiusername"}%" default="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif" alttext="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif"}%' alt='%URLPARAM{"name"}%' height='%URLPARAM{"height" default="50"}%' />%ENDSECTION{"userphoto"}%
 </verbatim>
-
-

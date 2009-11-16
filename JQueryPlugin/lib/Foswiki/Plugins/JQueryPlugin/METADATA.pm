@@ -47,11 +47,6 @@ sub new {
     javascript => [ 'jquery.metadata.js' ],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This plugin is capable of extracting metadata from classes, random attributes,
-and child elements.
-HERE
-
   return $this;
 }
 

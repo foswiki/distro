@@ -47,11 +47,6 @@ sub new {
     javascript => ['jquery.easing.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Uses the built in easing capabilities added In jQuery 1.1
-to offer multiple easing options.
-HERE
-
   return $this;
 }
 

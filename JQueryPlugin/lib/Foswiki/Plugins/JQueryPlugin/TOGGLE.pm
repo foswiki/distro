@@ -47,13 +47,6 @@ sub new {
     javascript => ['jquery.toggle.init.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This is a lightweigted widget to add a toggle feature similar to
-the [[Foswiki:Extensions/TwistyPlugin][TwistyPlugin]]. It uses
-the means available in jQuery only, i.e. it selectors to toggle
-the display of all matching elements.
-HERE
-
   return $this;
 }
 
@@ -61,7 +54,7 @@ HERE
 
 ---++ ClassMethod handleToggle( $this, $params, $topic, $web ) -> $result
 
-Tag handler for =%<nop>TOGGLE%=. You might need to add 
+Tag handler for =%<nop>TOGGLE%=. 
 
 =cut
 

@@ -48,28 +48,6 @@ sub new {
     dependencies => ['metadata'], 
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Adds a gradient to the background of an element.
-
-example:
-<verbatim>$('div').gradient({ from: '000000', to: 'CCCCCC' });</verbatim>
-
-options:
-   * from: The hex color code to start the gradient with. By default the value is "000000".
-   * to: The hex color code to end the gradient with. 
-     By default the value is "FFFFFF".
-   * direction: This tells the gradient to be horizontal or vertical. 
-     By default the value is "horizontal".
-   * length: This is used to constrain the gradient to a
-     particular width or height (depending on the direction). By default
-     the length is set to null, which will use the width or height
-     (depending on the direction) of the element.
-   * position: This tells the gradient to be positioned
-     at the top, bottom, left and/or right within the element. The
-     value is just a string that specifices top or bottom and left or right.
-     By default the value is 'top left'.
-HERE
-
   return $this;
 }
 

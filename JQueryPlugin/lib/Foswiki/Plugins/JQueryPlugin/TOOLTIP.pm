@@ -48,18 +48,6 @@ sub new {
     javascript => ['jquery.tooltip.js', 'jquery.tooltip.init.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Display a customized tooltip instead of the default one for every selected
-element. Tooltips can be added automatically to any element that has got
-at =title= attribute thus replacing the standard tooltip as displayed by
-the browsers with a customizable one.
-
-Content can be reloaded using AJAX. For example, this can be used to
-display an image preview in a tooltip. Have a look at the thumbnail REST
-service of Foswiki:Extensions/ImagePlugin how to load the thumnail from the
-backend dynamically.
-HERE
-
   return $this;
 }
 

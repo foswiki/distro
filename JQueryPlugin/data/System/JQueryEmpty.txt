@@ -1,0 +1,18 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258372490" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"empty"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Template plugin for jQuery plugins integrated to Foswiki. 
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"empty"}%
+

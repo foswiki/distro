@@ -1,0 +1,64 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258378821" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"empty"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This is a lightweigted widget to add a toggle feature similar to
+the [[Foswiki:Extensions/TwistyPlugin][TwistyPlugin]]. It uses
+the means available in jQuery only, i.e. it selectors to toggle
+the display of all matching elements.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+
+---++ Toggles
+%TOGGLE{
+  target="#lorem_area" 
+  text="Toggle"
+  effect="toggle"
+}%
+%TOGGLE{
+  target="#lorem_area"
+  text="Fade"
+  effect="fade"
+}%
+%TOGGLE{
+  target="#lorem_area"
+  text="Slide" 
+  effect="slide"
+}%
+%TOGGLE{
+  target="#lorem_area"
+  text="Bounce"
+  effect="bounce"
+}%
+%TOGGLE{
+  target="#lorem_area"
+  text="Ease"
+  effect="ease"
+}%
+%TOGGLE{
+  target="#lorem_area"
+  text="Elastic"
+  effect="elastic"
+}%
+
+<div id="lorem_area" style="border:1px solid #ccc;padding:5px;width:250px;display:none">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla dui turpis,
+convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+lacus dui vestibulum sapien, vel tincidunt nulla lectus a elit. Nullam laoreet,
+nunc ut varius pulvinar, lacus lectus condimentum orci, nec mattis augue erat
+at mauris. Donec sollicitudin, sapien id lobortis vulputate, tellus sem
+dignissim felis, in laoreet massa purus in mauris. Suspendisse tempus leo quis
+massa. Curabitur tortor eros, dictum sed, tincidunt sit amet, tristique nec,
+nisi. Mauris est urna, fermentum vel, luctus sed, luctus eu, elit. In nulla.
+</div>

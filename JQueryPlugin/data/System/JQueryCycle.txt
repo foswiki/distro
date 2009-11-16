@@ -1,0 +1,73 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258379821" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"cycle"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+The jQuery Cycle Plugin is a lightweight slideshow plugin. Its implementation
+is based on the JQueryInnerFade Plugin by Torsten Baldes, the Slideshow Plugin by
+Matt Oakes, and the jqShuffle Plugin by Benjamin Sterling. It supports
+pause-on-hover, auto-stop, auto-fit, before/after callbacks, click triggers and
+many transition effects. It also supports, but does not require, the Metadata
+Plugin and the Easing Plugin.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+<div class="pics">
+<div>
+  <img src="%ATTACHURLPATH%/beach1.jpg" />
+
+  St Andrews State Park
+</div>
+<div>
+  <img src="%ATTACHURLPATH%/beach2.jpg" />
+
+  Located in the Florida panhandle
+</div>
+<div>
+  <img src="%ATTACHURLPATH%/beach3.jpg" />
+  
+  Endless fun.
+</div>
+</div>
+
+%JQREQUIRE{"cycle"}%
+
+<literal>
+<script type="text/javascript">
+(function($) {
+  $(function() {
+    $(".pics").cycle({fx:'scrollLeft'});
+  });
+})(jQuery);
+</script>
+
+<style type="text/css">
+.pics  {  
+ width:232px;
+ height:272px;
+ padding:0;  
+ margin:0;
+ text-align:center;
+}
+.pics img {  
+ padding: 15px;  
+ border:  1px solid #ccc;  
+ background-color: #eee;  
+ width:  200px; 
+ height: 200px; 
+ top:  0; 
+ left: 0 
+} 
+</style>
+</literal>
+
+%META:FILEATTACHMENT{name="beach1.jpg" attachment="beach1.jpg" attr="" comment="" date="1258379674" path="beach1.jpg" size="20327" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach2.jpg" attachment="beach2.jpg" attr="" comment="" date="1258379694" path="beach2.jpg" size="21480" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach3.jpg" attachment="beach3.jpg" attr="" comment="" date="1258379707" path="beach3.jpg" size="22629" user="ProjectContributor" version="1"}%

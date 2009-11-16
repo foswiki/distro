@@ -37,7 +37,8 @@ abstract class for a jQuery plugin
       * =name => 'pluginName'= (default unknown)
       * =author => 'pluginAuthor'= (default unknown)
       * =version => 'pluginVersion'= (default unknown)
-      * =summary => 'pluginSummary'= (default unknown)
+      * =summary => 'pluginSummary'= (default undefined)
+      * =documentation => 'pluginDocumentation'= (default JQuery&lt;Name>)
       * =homepage => 'pluginHomepage'= (default unknown)
       * =debug => 0 or 1= (default =$Foswiki::cfg{JQueryPlugin}{Debug}=)
 
@@ -53,7 +54,8 @@ sub new {
     name => $class,
     author => 'unknown',
     version => 'unknown',
-    summary => 'unknown',
+    summary => undef,
+    documentation => undef,
     homepage => 'unknown',
     puburl => '',
     css => [],
@@ -62,6 +64,9 @@ sub new {
     tags => '',
     @_
   }, $class);
+
+  $this->{documentation} = $Foswiki::cfg{SystemWebName}.'.JQuery'.ucfirst($this->{name})
+    unless defined $this->{documentation};
 
   unless ($this->{puburl}) {
     $this->{puburl} = 
@@ -121,6 +126,32 @@ HERE
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::".uc($this->{name}), "\n".$header, join(', ', @headerDependency));
 
   return 1;
+}
+
+=begin TML
+
+---++ ClassMethod getSummary()
+
+returns the summary text for this plugin. this is either the =summary= property of the class or the
+=summary= section of the plugin's documentation topic. 
+
+=cut
+
+sub getSummary {
+  my $this= shift;
+
+  my $summary = $this->{summary};
+  
+  unless (defined $summary) {
+    $summary = 'n/a';
+    if ($this->{'documentation'}) {
+      $summary = Foswiki::Func::expandCommonVariables('%INCLUDE{"'.$this->{documentation}.'" section="summary"}%');
+    }
+
+    $this->{summary} = $summary;
+  }
+
+  return $summary
 }
 
 1;

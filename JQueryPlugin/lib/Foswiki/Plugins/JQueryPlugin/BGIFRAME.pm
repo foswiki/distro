@@ -47,10 +47,6 @@ sub new {
     javascript => ['jquery.bgiframe.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-A jQuery plugin that helps ease the pain when having to deal with IE z-index issues.
-HERE
-
   return $this;
 }
 

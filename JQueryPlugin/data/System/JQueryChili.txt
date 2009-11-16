@@ -1,0 +1,62 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258385585" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"chili"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Chili is the jQuery code highlighter plugin.
+
+Features:
+   * Very fast highlighting, trivial setup, fully customizable, thoroughly documented, and MIT licensed
+   * Renders identically on IE, Firefox, Mozilla, Opera, and Safari
+   * Comes bundled with recipes for C++, C#, CSS, Delphi, Java, !JavaScript, !LotusScript, !MySQL, PHP, and XHTML
+   * Many configuration options: Static, Dynamic, Automatic, Manual, Ad-Hoc, with Metaobjects.
+   * Provides fine control over which elements get highlighted by means of a jQuery selector or the mithical jQuery chainability.
+   * Fully supports javascript regular expressions, including backreferences
+   * The replacement format gives full control on what HTML is used for highlighting
+   * Provides examples which show setups and features
+%ENDSECTION{"summary"}%
+
+---++ Examples
+To enable chili add
+<verbatim>%JQREQUIRE{"chili"}%</verbatim>
+somewhere on the page, or add it to the default jQuery plugins in [[%SCRIPTURL{"configure"}%][configure]].
+%JQREQUIRE{"chili"}%
+
+Syntax can be highlighted using the *&lt;verbatim&gt;* tag and the <u>class</u> attribute:
+
+<verbatim class="html">
+<verbatim class="html">
+
+<html>
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <font size="24px">Hello World</font>
+  </body>
+</html>
+
+</verbatim>
+</verbatim>
+
+Available class attributes:
+| =cplusplus= | C++ |
+| =csharp= | C# |
+| =css= | Cascading Style Sheets |
+| =bash= | shell syntax |
+| =delphi= | Delphi |
+| =html= | Hypertext Markup Language |
+| =java= | Java |
+| =js= | !JavaScript |
+| =lotusscript= | !LotusScript |
+| =php-f= | Hypertext Preprocessor -f |
+| =php= | Hypertext Preprocessor |
+| =sql= | Structured Query Language |
+| =tml= | Wiki Markup Language |

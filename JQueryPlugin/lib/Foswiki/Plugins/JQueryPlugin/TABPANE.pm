@@ -50,22 +50,6 @@ sub new {
     dependencies => ['metadata'], 
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This implements an alternative tabpane widget. There _is_ already one in
-jquery-ui, however as long as jquery-ui is still in flux, this alternative
-offers a safe substitute well integrated into Foswiki. 
-
-Individual tabs can be loaded on demand using a REST call. Installing
-Foswiki:Extensions/RenderPlugin is recommended for that. 
-
-Tabpanes can be nested. Tabs can be extended in height automatically.
-Heights can be auto-updated to follow windows resize events. Tabpanes
-can be established as part of reloaded content via ajax.
-
-Note that this widget does _not_ participate in jquery-ui themerolling.
-It does match jquery.button in terms of look & feel.
-HERE
-
   return $this;
 }
 

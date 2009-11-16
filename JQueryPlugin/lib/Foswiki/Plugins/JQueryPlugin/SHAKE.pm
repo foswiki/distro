@@ -47,17 +47,6 @@ sub new {
     javascript => ['jquery.shake.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-jQuery plugin to emulate “shake” on login failure in OSX login box.
-
-Example:
-<verbatim class="html">
-$('#btn').click(function() {
-  $(this).shake(3, 6, 180);
-});
-</verbatim>
-HERE
-
   return $this;
 }
 

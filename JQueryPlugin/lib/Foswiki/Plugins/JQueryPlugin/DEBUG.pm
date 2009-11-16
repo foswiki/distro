@@ -48,23 +48,6 @@ sub new {
     javascript => ['jquery.debug.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Simple jQuery logger / debugger using firebug's console or a div of its own of the form
-<verbatim class="html">
-<div id="DEBUG">
-  <ol>
-    <li>...</li>
-    ...
-  </ol>
-</div>
-</verbatim>
-
-Usage:
-   * =$.log("message");=: will send the message to the console
-   * =$.log(object);=: will stringify the object 
-   * =$("<selector>").debug();= will stringify the found objects
-HERE
-
   return $this;
 }
 

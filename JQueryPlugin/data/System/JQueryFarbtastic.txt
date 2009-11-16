@@ -1,0 +1,24 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258385161" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"farbtastic"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Farbtastic is a jQuery plug-in that can add one or more color picker widgets
+into a page. Each widget is then linked to an existing element (e.g. a text
+field) and will update the element's value when a color is selected.
+Farbtastic uses layered transparent PNGs to render a saturation/luminance
+gradient inside of a hue circle. No Flash or pixel-sized divs are used.
+
+There's a =color= formfield for easy integration into Foswiki DataForms.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"farbtastic"}%
+<input type="text" id="color" name="color" value="#123456" class="jqFarbtastic" />

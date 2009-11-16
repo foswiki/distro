@@ -1,0 +1,28 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258378459" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"button"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This is a simple way to render nice buttons in Foswiki.
+It can be used to replace submit and reset buttons of html forms as well.
+FamFamFamContrib is recommended to display nice icons
+on buttons. Note, that this widget does not participate on the jquery
+theme roller. This is independent.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+
+%BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%
+%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Info"}%" icon="information" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Add"}%" icon="add" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key" onclick="return false"}%
+%CLEAR%

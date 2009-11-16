@@ -50,10 +50,6 @@ sub new {
     javascript => ['jquery-ui.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Userinterface for jQuery
-HERE
-
   return $this;
 }
 

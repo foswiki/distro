@@ -47,14 +47,6 @@ sub new {
     javascript => ['jquery.focus.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This plugin sets the focus on a form input field
-or textarea of a form when the page is loaded.
-
-Add the css class =.jqFocus= to the input field you'd like to
-focus.
-HERE
-
   return $this;
 }
 

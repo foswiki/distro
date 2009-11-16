@@ -49,14 +49,6 @@ sub new {
     dependencies => ['metadata'], 
   ), $class);
 
-  $this->{summary} = <<'HERE';
-This is a simple way to render nice buttons in Foswiki.
-It can be used to replace submit and reset buttons of html forms as well.
-Foswiki:Extensions/FamFamFamContrib is recommended to display nice icons
-on buttons. Note, that this widget does not participate on the jquery
-theme roller. This is independent.
-HERE
-
   return $this;
 }
 

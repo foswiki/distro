@@ -18,6 +18,7 @@ our @iconSearchPath;
 our %iconCache;
 our %plugins; # all singletons
 our $debug;
+our $currentTheme;
 
 use Foswiki::Func;
 
@@ -44,6 +45,7 @@ initialize plugin container
 sub init () {
 
   $debug = $Foswiki::cfg{JQueryPlugin}{Debug} || 0;
+  $currentTheme = undef;
 
   foreach my $pluginName (sort keys %{$Foswiki::cfg{JQueryPlugin}{Plugins}}) {
     registerPlugin($pluginName);
@@ -102,7 +104,10 @@ Helper method to switch on the given theme (default =base=).
 sub createTheme {
   my $themeName = shift;
 
+  return $currentTheme if defined $currentTheme;
+
   $themeName ||= 'base';
+  $currentTheme = $themeName;
 
   Foswiki::Func::addToHEAD("JQUERYPLUGIN::THEME", <<"HERE", "JQUERYPLUGIN::FOSWIKI");
 <link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/ui.all.css" type="text/css" media="all" />
@@ -288,17 +293,19 @@ sub getIconUrlPath {
 
 =begin TML
 
----++ ObjectMethod getPlugins () -> @plugins
+---++ ClassMethod getPlugins () -> @plugins
 
 returns a list of all known plugins
 
 =cut
 
 sub getPlugins {
+  my ($include) = @_;
 
   my @plugins = ();
   foreach my $key (sort keys %plugins) {
     next if $key eq 'empty'; # skip this one
+    next if $include && $key !~ /^($include)$/;
     my $pluginDesc = $plugins{$key};
     my $plugin = load($pluginDesc->{name});
     push @plugins, $plugin if $plugin;
@@ -309,7 +316,7 @@ sub getPlugins {
 
 =begin TML
 
----++ ObjectMethd getRandom () -> $integer
+---++ ClassMethod getRandom () -> $integer
 
 returns a random positive integer between 1 and 10000. 
 this can be used to

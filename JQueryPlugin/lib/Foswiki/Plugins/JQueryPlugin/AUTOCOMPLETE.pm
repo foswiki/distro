@@ -47,21 +47,6 @@ sub new {
     javascript => ['jquery.autocomplete.js', 'jquery.autocomplete.init.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Autocomplete an input field to enable users quickly finding and selecting some
-value, leveraging searching and filtering.  
-By giving an autocompleted field focus or entering something into it, the
-plugin starts searching for matching entries and displays a list of values to
-choose from. By entering more characters, the user can filter down the list to
-better matches.  
-This can be used to enter previous selected values, eg. for tags, to complete
-an address, eg. enter a city name and get the zip code, or maybe enter email
-addresses from an addressbook.
-
-See also [[%SYSTEMWEB%.JQueryAjaxHelper][JQueryjaxHelper]] for examples on how to integrate autocompletion
-into Foswiki.
-HERE
-
   return $this;
 }
 

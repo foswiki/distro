@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258383791" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"metadata"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin is capable of extracting metadata from classes, random attributes,
+and child elements.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"metadata"}%
+
+%RED%todo%ENDCOLOR%

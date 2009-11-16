@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258383166" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"shrinkurls"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Shrinks all urls in a given container whose link text exceeds
+a given size and have no white spaces in it, that is don't
+wrap around nicely. If the text is skrunk, the original text
+is appended to the title attribute of the anchor.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+<verbatim class="js">
+ $("#container a").shrinkUrls({
+   size:<number>,           // max size (default 25)
+   include:'<regex>'       // regular expression a link text must
+                           // match to be considered
+   exclude:'<regex>'       // regular expression a link text must
+                           // not match to be considered
+   whitespace:<boolean>,   // true: even shrink if there's whitespace
+                           // in the link text (default false)
+   trunc:<head|middle|tail> // position where to insert the ellipsis
+ });
+</verbatim>
+
+
+---++ Examples
+%RED%todo%ENDCOLOR%

@@ -22,7 +22,7 @@ use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 ---+ package Foswiki::Plugins::JQueryPlugin::FARBTASTIC
 
-This is the perl stub for the jquery.empty plugin.
+This is the perl stub for the jquery.farbtastic plugin.
 
 =cut
 
@@ -48,21 +48,6 @@ sub new {
     javascript => ['jquery.farbtastic.js', 'jquery.farbtastic.init.js'],
     dependencies => ['metadata', 'ui'], 
   ), $class);
-
-  $this->{summary} = <<'HERE';
-Farbtastic is a jQuery plug-in that can add one or more color picker widgets
-into a page. Each widget is then linked to an existing element (e.g. a text
-field) and will update the element's value when a color is selected.
-Farbtastic uses layered transparent PNGs to render a saturation/luminance
-gradient inside of a hue circle. No Flash or pixel-sized divs are used.
-
-Basic usage:
-<verbatim>
-<input type="text" id="color" name="color" value="#123456" class="jqFarbtastic" />
-</verbatim>
-
-There's a =color= formfield for easy integration into Foswiki !DataForms.
-HERE
 
   return $this;
 }

@@ -49,10 +49,6 @@ sub new {
     dependencies => ['metadata', 'autocomplete'], # just an example
   ), $class);
 
-  $this->{summary} = <<'HERE';
-Turns a text input into a Facebook like list widget with autocompletion.
-HERE
-
   return $this;
 }
 

@@ -48,24 +48,6 @@ sub new {
     javascript => ['jquery.media.js', 'jquery.media.init.js'],
   ), $class);
 
-  $this->{summary} = <<'HERE';
-jQuery Media Plugin for converting elements into rich media content.
-
-Supported Media Players:
-   * Flash
-   * Quicktime
-   * Real Player
-   * Silverlight
-   * Windows Media Player
-   * iframe
-
-Supported Media Formats:%BR%
-Any types supported by the above players, such as:
-   * Video: asf, avi, flv, mov, mpg, mpeg, mp4, qt, smil, swf, wmv, 3g2, 3gp
-   * Audio: aif, aac, au, gsm, mid, midi, mov, mp3, m4a, snd, rm, wav, wma
-   * Other: bmp, html, pdf, psd, qif, qtif, qti, tif, tiff, xaml
-HERE
-
   return $this;
 }
 

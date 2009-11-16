@@ -48,17 +48,6 @@ sub new {
     javascript => ['jquery.rating.js'],
   ), $class);
 
-
-  $this->{summary} = <<'HERE';
-The Star Rating Plugin is a plugin for the jQuery Javascript library that
-creates a non-obstrusive star rating control based on a set of radio input
-boxes.
-
-It turns a collection of radio boxes into a neat star-rating control.  It
-creates the interface based on standard form elements, which means the basic
-functionality will still be available even if Javascript is disabled.
-HERE
-
   return $this;
 }
 

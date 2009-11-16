@@ -1,0 +1,22 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258383716" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"wikiword"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin allows to create a <nop>WikiWord on the base of a set of
+input elements. The value of these are concatenated and the result is
+normalized to be a valid <nop>WikiWord. For example, this can be used
+to derive a topic name from a free-form topic title text.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"wikiword"}%
+
+%RED%todo%ENDCOLOR%
