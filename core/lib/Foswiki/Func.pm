@@ -213,9 +213,17 @@ sub getExternalResource {
 
 ---+++ getRequestObject( ) -> $query
 
-Get the request object. This is a subclass of Foswiki::Request. The request
+Get the request object. This is a subclass of =Foswiki::Request=. The request
 object can be used to get the parameters passed to the request, either
 via CGI or on the command ine (depending on how the script was called).
+
+A =Foswiki::Request= object is largely compatible with a CPAN:CGI object.
+Most of the time, documentation for that class applies directly to
+=Foswiki::Request= objects as well.
+
+Note that this method replaces =getCgiQuery= (which is a synonym for this
+method). Code that is expected to run with pre-1.1 versions of Foswiki
+can continue to call =getCgiQuery= for as long as necessary.
 
 *Since:* 31 Mar 2009
 
@@ -2174,7 +2182,6 @@ sub registerTagHandler {
             my ( $session, $params, $topicObject ) = @_;
             my $record = $Foswiki::Plugins::SESSION;
             $Foswiki::Plugins::SESSION = $_[0];
-
             # $pluginContext is defined for all plugins
             # but never defined for contribs.
             # This is convenient, because contribs cannot be disabled
@@ -3028,7 +3035,9 @@ sub getPubDir { return $Foswiki::cfg{PubDir}; }
 
 ---+++ getCgiQuery( ) -> $query
 
-*Deprecated* 31 Mar 2009 - use =getRequestObject= instead.
+*Deprecated* 31 Mar 2009 - use =getRequestObject= instead if you can. Code
+that is expected to run with pre-1.1 versions of Foswiki will still need to
+use this method, as =getRequestObject= will not be available.
 
 =cut
 
