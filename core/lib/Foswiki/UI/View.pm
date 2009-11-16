@@ -92,12 +92,13 @@ sub view {
 
     Foswiki::UI::checkWebExists( $session, $web, 'view' );
 
-    my $rev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+    my $preferredRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
 
     my $topicObject;    # the stub of the topic we are to display
-    my $text
-      ;  # the text to display, *not* necessarily the same as $topicObject->text
-    my $showRev = 0;    # the rev we are displaying ($rev is the requested rev)
+    my $text;           # the text to display, *not* necessarily
+                        # the same as $topicObject->text
+    my $shownRev = 0;   # the rev we are displaying ($preferredRev
+                        # is the requested rev)
 
     if ( $session->topicExists( $web, $topic ) ) {
 
@@ -106,23 +107,23 @@ sub view {
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
         my $info = $topicObject->getRevisionInfo();
 
-        if ( !$rev || $rev > $info->{version} ) {
-            $rev = $info->{version};
+        if ( !$preferredRev || $preferredRev > $info->{version} ) {
+            $preferredRev = $info->{version};
         }
 
-        if ( $rev < $info->{version} ) {
+        if ( $preferredRev < $info->{version} ) {
 
             # Load the old revision instead
-            $topicObject = Foswiki::Meta->load( $session, $web, $topic, $rev );
+            $topicObject = Foswiki::Meta->load( $session, $web, $topic, $preferredRev );
             if ( !$topicObject->haveAccess('VIEW') ) {
                 throw Foswiki::AccessControlException( 'VIEW', $session->{user},
                     $web, $topic, $Foswiki::Meta::reason );
             }
             $info = $topicObject->getRevisionInfo();
-            $logEntry .= 'r' . $rev;
+            $logEntry .= 'r' . $preferredRev;
         }
 
-        $showRev = $info->{version};
+        $shownRev = $topicObject->getMaxRevNo();
 
         if ( my $section = $query->param('section') ) {
 
@@ -151,7 +152,7 @@ sub view {
         $topicObject = Foswiki::Meta->new( $session, $web, $topic );
         $indexableView = 0;
         $session->enterContext('new_topic');
-        $rev          = 1;
+        $preferredRev          = 1;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
         $raw = '';    # There is no raw view of a topic that doesn't exist
@@ -173,12 +174,12 @@ sub view {
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(
     my ( $revTitle, $revArg ) = ( '', '' );
-    if ( $rev < $showRev ) {
+    if ( $preferredRev < $shownRev ) {
         $session->enterContext('inactive');
 
         # disable edit of previous revisions
-        $revTitle = '(r' . $rev . ')';
-        $revArg   = '&rev=' . $rev;
+        $revTitle = '(r' . $preferredRev . ')';
+        $revArg   = '&rev=' . $preferredRev;
     }
 
     my $template =
@@ -220,16 +221,17 @@ sub view {
         $tmpl =~ s/<meta name="robots"[^>]*>//goi;
     }
 
-    # Show revisions around the one being displayed
-    # we start at $showRev then possibly jump near $rev if too distant
+    # Show revisions around the one being displayed.
+    # We start at $shownRev then possibly jump near $preferredRev
+    # if too distant
     my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
-    $revsToShow = $showRev if $showRev < $revsToShow;
-    my $doingRev = $showRev;
+    $revsToShow = $shownRev if $shownRev < $revsToShow;
+    my $doingRev = $shownRev;
     my $revs     = '';
     while ( $revsToShow > 0 ) {
         $revsToShow--;
-        if ( $doingRev == $rev ) {
-            $revs .= 'r' . $rev;
+        if ( $doingRev == $preferredRev ) {
+            $revs .= 'r' . $preferredRev;
         }
         else {
             $revs .= CGI::a(
@@ -244,11 +246,11 @@ sub view {
                 "r$doingRev"
             );
         }
-        if ( $doingRev - $rev >= $Foswiki::cfg{NumberOfRevisions} ) {
+        if ( $doingRev - $preferredRev >= $Foswiki::cfg{NumberOfRevisions} ) {
 
-            # we started too far away, need to jump closer to $rev
+            # we started too far away, need to jump closer to $preferredRev
             use integer;
-            $doingRev = $rev + $revsToShow / 2;
+            $doingRev = $preferredRev + $revsToShow / 2;
             $doingRev = $revsToShow if $revsToShow > $doingRev;
             $revs .= ' | ';
             next;
@@ -354,8 +356,8 @@ sub view {
         $contentType = 'text/html';
     }
     $session->{prefs}->setSessionPreferences(
-        MAXREV  => $showRev,
-        CURRREV => $rev
+        MAXREV  => $shownRev,
+        CURRREV => $preferredRev
     );
 
     # Set page generation mode to RSS if using an RSS skin
