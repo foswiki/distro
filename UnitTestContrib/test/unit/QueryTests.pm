@@ -93,7 +93,7 @@ sub test_atoms {
     $this->check("''", '');
     $this->check("1", 1);
     $this->check("-1", -1);
-    $this->check("-1.1965432e-3", "-1.1965432e-3");
+    $this->check("-1.1965432e-3", -1.1965432e-3);
     $this->check("number", 99);
     $this->check("text", "Green ideas sleep furiously");
     $this->check("string", 'String');
