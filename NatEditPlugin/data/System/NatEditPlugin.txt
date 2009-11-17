@@ -87,7 +87,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
-|  17 Nov 2009 | Foswikitask:Item2368 toolbar not always hidden (PH) \;
+|  17 Nov 2009 | Foswikitask:Item2368 toolbar not always hidden (PH); \
                  improved usability of upload and insert-link dialog |
 |  02 Nov 2009 | Foswikitask:Item2281: attempt to make <nop>TinyMCE resize \
                  automatically as <nop>NatEdit does |
