@@ -3,15 +3,23 @@
    * initializes the insert link dialog
    */
   $.natedit.initInsertLink = function(nateditor) {
-    $("#natEditInsertLink input[type=text]").not(".selection").val('');
+    var $inserter = $("#natEditInsertLink");
+
+    $inserter.find(".empty").val('');
+    $inserter.find(".baseweb").each(function() {
+      var val = $(this).val();
+      if (!val) {
+        $(this).val(foswiki.web);
+      }
+    });
 
     $("#natEditInsertLinkWeb").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text", {
+      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web&contenttype=text/plain&skin=text", {
         matchCase: true
     });
 
     $("#natEditInsertLinkTopic").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text", {
+      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text", {
         matchCase: true,
         extraParams: {
           baseweb: function() { 
@@ -32,8 +40,18 @@
     if (flag == "topic") {
       var web = $("#natEditInsertLinkWeb").val();
       var topic = $("#natEditInsertLinkTopic").val();
-      var linktext = $("#natEditInsertLinkTextTopic").val() || topic;
-      markup = "[["+web+"."+topic+"]["+linktext+"]]";
+      var linktext = $("#natEditInsertLinkTextTopic").val();
+      if (linktext) {
+        if (web == foswiki.web) {
+          markup = "[["+topic+"]["+linktext+"]]";
+        } else {
+          markup = "[["+web+"."+topic+"]["+linktext+"]]";
+        }
+      } else if (web == foswiki.web) {
+        markup = "[["+topic+"]]";
+      } else {
+        markup = "[["+web+"."+topic+"]["+topic+"]]";
+      }
     } else {
       var url = $("#natEditInsertLinkUrl").val();
       var linktext = $("#natEditInsertLinkTextExternal").val();

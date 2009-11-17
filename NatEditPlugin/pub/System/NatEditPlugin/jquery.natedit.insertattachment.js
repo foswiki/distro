@@ -24,12 +24,12 @@
     $inserter.find("#natEditInsertAttachmentFile").val("");
 
     $("#natEditInsertAttachmentWeb").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text", {
+      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web&contenttype=text/plain&skin=text", {
         matchCase: true
     });
 
     $("#natEditInsertAttachmentTopic").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text", {
+      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text", {
         matchCase: true,
 	extraParams: {
 	  baseweb: function() { 

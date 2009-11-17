@@ -137,18 +137,6 @@ ul.natEditHelpTools {
 #natEditInsertAttachments input {
   display:none;
 }
-#natEditInsertAttachment .jqTabContents {
-  position:relative;
-}
-#natEditInsertAttachment hr {
-  margin-top:5px;
-  margin-bottom:5px;
-}
-#natEditInsertAttachment .foswikiFormButtons {
-  position:absolute;
-  bottom:0px;
-  width:100%;
-}
 
 /* pattern skin tweaks */
 .patternEditPage .foswikiForm {

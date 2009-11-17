@@ -46,12 +46,10 @@ sub new {
     homepage => 'http://foswiki.org/Extensions/NatEditPlugin',
     puburl => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
     css => ['styles.css'],
+    documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
     javascript => ['edit.js', 'jquery.natedit.js'],
     dependencies => ['simplemodal', 'textboxlist', 'form'],
   ), $class);
-
-  $this->{summary} = <<'HERE';
-HERE
 
   return $this;
 }

@@ -40,7 +40,7 @@ function fixHeightOfPane () { }
     $("input[name='TopicTitle']:eq(1)").parents(".foswikiFormStep").remove();
     /* remove the second Summary */
     $("input[name='Summary']:eq(1)").parents(".foswikiFormStep").remove();
-
+  
     /* add click handler */
     $("#save").click(function() {return submitEditForm('save', 'save')});
     $("#checkpoint").click(function() {return submitEditForm('save', 'checkpoint')});
@@ -50,11 +50,11 @@ function fixHeightOfPane () { }
     $("#addform").click(function() {return submitEditForm('save', 'addform')});
 
 
-    window.setTimeout(function() {
-      if ($("#topic_ifr").length) { 
+    jQuery(window).load(function() {
+      if ((typeof(tinyMCE) === 'object') && typeof(tinyMCE.activeEditor === 'object')) {
         $(".natEditToolBar").hide(); /* switch off natedit toolbar */
         $("#topic_fullscreen").parent().remove(); /* remove full-screen feature ... til fixed */
-
+  
         var oldSwitchToWYSIWYG = FoswikiTiny.switchToWYSIWYG;
         FoswikiTiny.switchToWYSIWYG = function(inst) {
           $(".natEditToolBar").hide();
@@ -81,9 +81,8 @@ function fixHeightOfPane () { }
             newWysiwygButton.show();
           }
         };
-
       }
-    }, 100);
+    });
   });
 
 })(jQuery);
