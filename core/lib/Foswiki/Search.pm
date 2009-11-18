@@ -846,93 +846,95 @@ sub formatResults {
                         $text = $info->{tom}->text();
                     }
                     if ( $topic eq $session->{topicName} ) {
-			#TODO: extract teh diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
+			#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
                         # defuse SEARCH in current topic to prevent loop
                         $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
                     }
                     $out =~ s/\$text/$text/gos;
                 }
+		$out =~ s/%WEB%/$web/go;
+		$out =~ s/%TOPICNAME%/$topic/go;
+    
+		my $srev = 'r' . $revNum;
+		if ( $revNum eq '0' || $revNum eq '1' ) {
+		    $srev = CGI::span( { class => 'foswikiNew' },
+			( $session->i18n->maketext('NEW') ) );
+		}
+		$out =~ s/%REVISION%/$srev/o;
+		$out =~ s/%AUTHOR%/$session->renderer->renderRevisionInfo( 
+							 $info->{tom}, $revNum, '$wikiusername' )/e;
+    
+		if ($doBookView) {
+    
+		    # BookView
+		    unless ($text) {
+			$text = $info->{tom}->text();
+		    }
+		    if ( $web eq $baseWeb && $topic eq $baseTopic ) {
+    
+			# primitive way to prevent recursion
+			$text =~ s/%SEARCH/%<nop>SEARCH/g;
+		    }
+		    $text = $info->{tom}->expandMacros($text);
+		    $text = $info->{tom}->renderTML($text);
+    
+		    $out =~ s/%TEXTHEAD%/$text/go;
+    
+		}
+		else {
+		    $out =~ s/\$summary(?:\(([^\)]*)\))?/
+		      $info->{tom}->summariseText( $1, $text )/ges;
+		    $out =~ s/\$changes(?:\(([^\)]*)\))?/
+		      $info->{tom}->summariseChanges($1, $revNum)/ges;
+		    $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
+		      displayFormField( $info->{tom}, $1 )/ges;
+		    $out =~ s/\$parent\(([^\)]*)\)/
+		      Foswiki::Render::breakName(
+			  $info->{tom}->getParent(), $1 )/ges;
+		    $out =~ s/\$parent/$info->{tom}->getParent()/ges;
+		    $out =~ s/\$formname/$info->{tom}->getFormName()/ges;
+		    $out =~
+		      s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
+    
+       # FIXME: Allow all regex characters but escape them
+       # Note: The RE requires a .* at the end of a pattern to avoid false positives
+       # in pattern matching
+		    $out =~
+		      s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+		    $out =~ s/\r?\n/$newLine/gos if ($newLine);
+		    if ( !defined($separator) ) {
+    
+    # add new line at end if needed
+    # SMELL: why?
+    #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
+    #SMELL: I wonder if this can't be wrapped into the summarizeText code
+			unless ( $noTotal && !$params->{formatdefined} ) {
+			    $out =~ s/([^\n])$/$1\n/s;
+			}
+		    }
+    
+		    $out = Foswiki::expandStandardEscapes($out);
+    
+		}
+#see http://foswiki.org/Tasks/Item2371 - needs unit test exploration
+#the problem is that when I separated the formating from the searching, I set the format string to what is in the template,
+#and thus here, format is always set.
+#		elsif ($noSummary) {
+#		    #TODO: i think that means I've broken SEARCH{nosummary=on" with no format specified
+#		    $out =~ s/%TEXTHEAD%//go;
+#		    $out =~ s/&nbsp;//go;
+#		}
+#		else {
+#		    #SEARCH with no format and nonoise="off" or nosummary="off"
+#		    #TODO: BROKEN, need to fix the meaning of nosummary and nonoise in SEARCH
+#		    # regular search view
+#		    $text = $info->{tom}->summariseText( '', $text );
+#		    $out =~ s/%TEXTHEAD%/$text/go;
+#		}
             }
             else {
 		$out = '';
-            }
-            $out =~ s/%WEB%/$web/go;
-            $out =~ s/%TOPICNAME%/$topic/go;
-
-            my $srev = 'r' . $revNum;
-            if ( $revNum eq '0' || $revNum eq '1' ) {
-                $srev = CGI::span( { class => 'foswikiNew' },
-                    ( $session->i18n->maketext('NEW') ) );
-            }
-            $out =~ s/%REVISION%/$srev/o;
-            $out =~ s/%AUTHOR%/$session->renderer->renderRevisionInfo( 
-                                                     $info->{tom}, $revNum, '$wikiusername' )/e;
-
-            if ($doBookView) {
-
-                # BookView
-                unless ($text) {
-                    $text = $info->{tom}->text();
-                }
-                if ( $web eq $baseWeb && $topic eq $baseTopic ) {
-
-                    # primitive way to prevent recursion
-                    $text =~ s/%SEARCH/%<nop>SEARCH/g;
-                }
-                $text = $info->{tom}->expandMacros($text);
-                $text = $info->{tom}->renderTML($text);
-
-                $out =~ s/%TEXTHEAD%/$text/go;
-
-            }
-            elsif ($formatDefined) {
-                $out =~ s/\$summary(?:\(([^\)]*)\))?/
-                  $info->{tom}->summariseText( $1, $text )/ges;
-                $out =~ s/\$changes(?:\(([^\)]*)\))?/
-                  $info->{tom}->summariseChanges($1, $revNum)/ges;
-                $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
-                  displayFormField( $info->{tom}, $1 )/ges;
-                $out =~ s/\$parent\(([^\)]*)\)/
-                  Foswiki::Render::breakName(
-                      $info->{tom}->getParent(), $1 )/ges;
-                $out =~ s/\$parent/$info->{tom}->getParent()/ges;
-                $out =~ s/\$formname/$info->{tom}->getFormName()/ges;
-                $out =~
-                  s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
-
-   # FIXME: Allow all regex characters but escape them
-   # Note: The RE requires a .* at the end of a pattern to avoid false positives
-   # in pattern matching
-                $out =~
-                  s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
-                $out =~ s/\r?\n/$newLine/gos if ($newLine);
-                if ( !defined($separator) ) {
-
-# add new line at end if needed
-# SMELL: why?
-#TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
-#SMELL: I wonder if this can't be wrapped into the summarizeText code
-                    unless ( $noTotal && !$params->{formatdefined} ) {
-                        $out =~ s/([^\n])$/$1\n/s;
-                    }
-                }
-
-                $out = Foswiki::expandStandardEscapes($out);
-
-            }
-            elsif ($noSummary) {
-		#FOREACH with no format and nonoise or nosummary - faster
-		#TODO: i think that means I've broken SEARCH{nosummary=on" 
-                $out =~ s/%TEXTHEAD%//go;
-                $out =~ s/&nbsp;//go;
-            }
-            else {
-		#FOREACH with no format and nonoise="off" or nosummary="off"
-		#TODO: pretty pointless until i fix the meaning of nosummary and nonoise in SEARCH
-                # regular search view
-                $text = $info->{tom}->summariseText( '', $text );
-                $out =~ s/%TEXTHEAD%/$text/go;
             }
 
             # lazy output of header (only if needed for the first time)
