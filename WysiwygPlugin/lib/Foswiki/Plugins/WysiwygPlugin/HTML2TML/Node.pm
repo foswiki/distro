@@ -822,7 +822,7 @@ sub _isConvertableListItem {
     return 1;
 }
 
-# probe down into a list type to determine if it
+# probe down into a table to determine if it
 # can be converted to TML.
 sub _isConvertableTable {
     my ( $this, $options, $table ) = @_;
@@ -830,6 +830,9 @@ sub _isConvertableTable {
     if ( $this->_isProtectedByAttrs() ) {
         return 0;
     }
+
+    my $rowspan = undef;
+    $rowspan    = [] if Foswiki::Func::getContext()->{'TablePluginEnabled'};
 
     my $kid = $this->{head};
     while ($kid) {
@@ -842,13 +845,20 @@ sub _isConvertableTable {
             unless ( $kid->{tag} eq 'tr' ) {
                 return 0;
             }
-            my $row = $kid->_isConvertableTableRow($options);
+            my $row = $kid->_isConvertableTableRow( $options, $rowspan );
             unless ($row) {
                 return 0;
             }
             push( @$table, $row );
         }
         $kid = $kid->{next};
+    }
+
+    if ( $rowspan and grep { $_ } @$rowspan ) {
+
+        # One or more cells span rows past the last row in the table.
+        # This is a defect in the HTML table which TML cannot represent.
+        return 0;
     }
     return 1;
 }
@@ -864,10 +874,10 @@ s/(<br \/>|<br>|$WC::NBSP|$WC::NBBR|$WC::CHECKn|$WC::CHECKs|$WC::CHECKw|$WC::CHE
     return $td;
 }
 
-# probe down into a list item to determine if the
+# probe down into a table row to determine if the
 # containing table can be converted to TML.
 sub _isConvertableTableRow {
-    my ( $this, $options ) = @_;
+    my ( $this, $options, $rowspan ) = @_;
 
     return 0 if ( $this->_isProtectedByAttrs() );
 
@@ -875,6 +885,12 @@ sub _isConvertableTableRow {
     my @row;
     my $ignoreCols = 0;
     my $kid        = $this->{head};
+    my $colIdx     = 0;
+    while ( $rowspan and $rowspan->[$colIdx] ) {
+        push @row, $WC::NBSP . '^' . $WC::NBSP;
+        $rowspan->[$colIdx]--;
+        $colIdx++;
+    }
     while ($kid) {
         if ( $kid->{tag} eq 'th' ) {
             $kid->_moveClassToSpan('WYSIWYG_TT');
@@ -912,7 +928,8 @@ sub _isConvertableTableRow {
                 $text .= $WC::NBSP;
             }
             if ( $kid->{attrs}->{rowspan} && $kid->{attrs}->{rowspan} > 1 ) {
-                return 0;
+                return 0 unless $rowspan;
+                $rowspan->[$colIdx] = $kid->{attrs}->{rowspan} - 1;
             }
         }
         $text =~ s/&nbsp;/$WC::NBSP/g;
@@ -936,9 +953,21 @@ sub _isConvertableTableRow {
 
         # Pad to allow wikiwords to work
         push( @row, $text );
+        $colIdx++;
         while ( $ignoreCols > 1 ) {
+            if ( $rowspan and $rowspan->[$colIdx] ) {
+
+                # rowspan and colspan into the same cell
+                return 0;
+            }
             push( @row, '' );
             $ignoreCols--;
+            $colIdx++;
+        }
+        while ( $rowspan and $rowspan->[$colIdx] ) {
+            push @row, $WC::NBSP . '^' . $WC::NBSP;
+            $rowspan->[$colIdx]--;
+            $colIdx++;
         }
         $kid = $kid->{next};
     }
@@ -1564,19 +1593,8 @@ sub _handleTABLE {
       unless $this->_isConvertableTable( $options | $WC::NO_BLOCK_TML,
         \@table );
 
-    my $maxrow = 0;
-    my $row;
-    foreach $row (@table) {
-        my $rw = scalar(@$row);
-        $maxrow = $rw if ( $rw > $maxrow );
-    }
-    foreach $row (@table) {
-        while ( scalar(@$row) < $maxrow ) {
-            push( @$row, '' );
-        }
-    }
     my $text = $WC::CHECKn;
-    foreach $row (@table) {
+    foreach my $row (@table) {
 
         # isConvertableTableRow has already formatted the cell
         $text .= $WC::CHECKn . '|' . join( '|', @$row ) . '|' . $WC::CHECKn;

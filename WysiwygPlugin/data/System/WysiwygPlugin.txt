@@ -140,7 +140,7 @@ Plugins that extend the syntax using macros, such as =%MYMACRO%=, should work fi
 *Implementors note* plugins that use XML-like tags may call [[%SCRIPTURLPATH{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::WysiwygPlugin][Foswiki::Plugins::WysiwygPlugin::addXMLTag()]] from their =initPlugin= handlers to make WysiwygPlugin protect the content between XML-like tags, just like it does for macros. 
 
 ---+++ Overlapping styles
-Because Foswiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formating in the original Foswiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
+Because Foswiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formatting in the original Foswiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
 <verbatim>
 *bold _bold-italic* italic_
 </verbatim>
@@ -153,6 +153,12 @@ which gets translated back to TML as
 *bold _bold-italic_* _italic_
 </verbatim>
 which is correct by construction, but does not render correctly in Foswiki. This problem is unfortunately unavoidable due to the way TML works.
+
+---+++ Rowspan processing needs %SYSTEMWEB%.TablePlugin
+
+WysiwygPlugin is able to convert tables with cells that span rows into TML. This requires syntax provided by the %SYSTEMWEB%.TablePlugin (that is, the =| ^ |= markup). WysiwygPlugin will therefore only perform row-span related conversion if %SYSTEMWEB%.TablePlugin is enabled. %SYSTEMWEB%.TablePlugin is enabled by default and hence WysiwygPlugin converts tables with cells that span rows between TML and HTML by default.
+
+If %SYSTEMWEB%.TablePlugin is *not* enabled, then TML table cells containing only =^= are not converted to rowspans, and HTML tables containing rowspans are not converted to TML.
 
 ---++ Plugin Info
 
@@ -169,6 +175,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  18 Nov 2009 | Foswikitask:Item2369: Convert tables with cells that span rows |
 |  22 Oct 2009 | Foswikitask:Item2183: Protect div style= by default |
 |  18 Sep 2009 | Foswikitask:Item1980: Prevent dataloss when saving a topic in Wysiwyg where there are a pair of sticky tags inside verbatim tags |
 |  28 Jun 2009 | Foswikitask:Item1770: Protect XML tags registered by plugins, and not just the content between them (Michael Tempest) |

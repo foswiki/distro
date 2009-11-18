@@ -35,9 +35,9 @@ require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
 # Bits for test type
 # Fields in test records:
-my $TML2HTML  = 1 << 0;        # test tml => html
-my $HTML2TML  = 1 << 1;        # test html => finaltml (default tml)
-my $ROUNDTRIP = 1 << 2;        # test tml => => finaltml
+my $TML2HTML      = 1 << 0;    # test tml => html
+my $HTML2TML      = 1 << 1;    # test html => finaltml (default tml)
+my $ROUNDTRIP     = 1 << 2;    # test tml => => finaltml
 my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
                                #   and make the ROUNDTRIP test expect failure
 
@@ -60,8 +60,8 @@ my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
 # test case and nonWysiwygEditable should be updated so that the TML
 # is "WysiwygEditable".
 #
-# Use CANNOTWYSIWYG without ROUNDTRIP *only* with an appropriate 
-# explanation. For example: 
+# Use CANNOTWYSIWYG without ROUNDTRIP *only* with an appropriate
+# explanation. For example:
 #   Can't ROUNDTRIP this TML because perl on the SMURF platform
 #   automagically replaces all instances of 'blue' with 'beautiful'.
 
@@ -84,7 +84,7 @@ my %extraTML2HTMLOptions;
 
 # Each testcase is a subhash with fields as follows:
 # exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML,
-#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test 
+#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test
 #   notWysiwygEditable, all other bits are ignored.
 #   They may be OR'd togoether to perform multiple tests.
 #   For example: $TML2HTML | $HTML2TML to test both
@@ -101,10 +101,11 @@ my %extraTML2HTMLOptions;
 #   we are testing deprecated syntax.
 my $data = [
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'UnspecifiedCustomXmlTag',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'UnspecifiedCustomXmlTag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
         html => '<p>'
           . $protecton
@@ -121,7 +122,8 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'DisabledCustomXmlTag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 0 } );
         },
@@ -140,7 +142,8 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
@@ -154,7 +157,8 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagCallbackChangesText',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { $_[0] =~ s/some/different/; return 1; } );
         },
@@ -169,8 +173,9 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagDefaultCallback',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag' );
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag('customtag');
         },
         html => '<p>'
           . $protecton
@@ -182,7 +187,8 @@ my $data = [
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'CustomXmlTagWithAttributes',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
@@ -200,7 +206,8 @@ BLAH
         exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'NestedCustomXmlTagWithAttributes',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
@@ -225,16 +232,17 @@ BLAH
     },
     {
         exec => $CANNOTWYSIWYG,
+
         # Do not perform ROUNDTRIP on this TML, because ROUNDTRIP passes.
-        # The problem with this TML is that the special handling of 
-        # <verbatim> in the conversion to HTML messes up the contents 
-        # of this custom XML  tag, so that the HTML is not representative 
+        # The problem with this TML is that the special handling of
+        # <verbatim> in the conversion to HTML messes up the contents
+        # of this custom XML  tag, so that the HTML is not representative
         # of the TML in terms of intellectual content.
-        name => 'VerbatimInsideDot',
+        name  => 'VerbatimInsideDot',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'dot',
-                sub { 1 } );
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'dot', sub { 1 } );
         },
         tml => <<'DOT',
 <dot>
@@ -248,31 +256,34 @@ digraph G {
 DOT
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'CustomtagInsideSticky',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'CustomtagInsideSticky',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
-        tml => "<sticky><customtag>this & that\n >   the other </customtag></sticky>",
+        tml =>
+"<sticky><customtag>this & that\n >   the other </customtag></sticky>",
         html => '<p>'
           . '<div class="WYSIWYG_STICKY">'
           . '&lt;customtag&gt;'
           . 'this&nbsp;&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the&nbsp;other&nbsp;'
           . '&lt;/customtag&gt;'
-          . '</div>'
-          . '</p>'
+          . '</div>' . '</p>'
     },
     {
-        exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: fix this case
-        name => 'StickyInsideCustomtag',
+        exec  => $ROUNDTRIP | $CANNOTWYSIWYG,    #SMELL: fix this case
+        name  => 'StickyInsideCustomtag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
-        tml => "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
+        tml =>
+"<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
         html => '<p>'
           . $protecton
           . '&lt;customtag&gt;'
@@ -282,119 +293,433 @@ DOT
           . '</div>'
           . '&nbsp;other&nbsp;'
           . '&lt;/customtag&gt;'
-          . $protectoff
-          . '</p>'
+          . $protectoff . '</p>'
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'StickyInsideUnspecifiedCustomtag',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'StickyInsideUnspecifiedCustomtag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
-        tml => "<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
+        tml =>
+"<customtag>this <sticky>& that\n >   the</sticky> other </customtag>",
         html => '<p>'
           . $protecton
           . '&lt;customtag&gt;'
-          . $protectoff
-          . 'this'
+          . $protectoff . 'this'
           . '<div class="WYSIWYG_STICKY">'
           . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
-          . '</div>'
-          . 'other'
+          . '</div>' . 'other'
           . $protecton
           . '&lt;/customtag&gt;'
-          . $protectoff
-          . '</p>'
+          . $protectoff . '</p>'
     },
     {
-        exec => $ROUNDTRIP,
-        name => 'UnspecifiedCustomtagInsideSticky',
+        exec  => $ROUNDTRIP,
+        name  => 'UnspecifiedCustomtagInsideSticky',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
-        tml => "<sticky><customtag>this & that\n >   the other </customtag></sticky>"
+        tml =>
+          "<sticky><customtag>this & that\n >   the other </customtag></sticky>"
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'CustomtagInsideLiteral',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'CustomtagInsideLiteral',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
-        tml => '<literal><customtag>this & that >   the other </customtag></literal>',
+        tml =>
+'<literal><customtag>this & that >   the other </customtag></literal>',
         html => '<p>'
           . '<div class="WYSIWYG_LITERAL">'
           . '<customtag>this & that >   the other </customtag>'
-          . '</div>'
-          . '</p>'
+          . '</div>' . '</p>'
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'UnspecifiedCustomtagInsideLiteral',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'UnspecifiedCustomtagInsideLiteral',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
-        tml => '<literal><customtag>this & that >   the other </customtag></literal>',
+        tml =>
+'<literal><customtag>this & that >   the other </customtag></literal>',
         html => '<p>'
           . '<div class="WYSIWYG_LITERAL">'
           . '<customtag>this & that >   the other </customtag>'
-          . '</div>'
-          . '</p>'
+          . '</div>' . '</p>'
     },
     {
-        exec => $ROUNDTRIP | $CANNOTWYSIWYG, #SMELL: Fix this case
-        name => 'LiteralInsideCustomtag',
+        exec  => $ROUNDTRIP | $CANNOTWYSIWYG,    #SMELL: Fix this case
+        name  => 'LiteralInsideCustomtag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
                 sub { 1 } );
         },
-        tml => '<customtag>this <literal>& that > the</literal> other </customtag>',
+        tml =>
+          '<customtag>this <literal>& that > the</literal> other </customtag>',
         html => '<p>'
           . '<div class="WYSIWYG_LITERAL">'
           . '<customtag>this & that > the other </customtag>'
-          . '</div>'
-          . '</p>'
+          . '</div>' . '</p>'
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'LiteralInsideUnspecifiedCustomtag',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'LiteralInsideUnspecifiedCustomtag',
         setup => sub {
-            $extraTML2HTMLOptions{xmltag} = \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+            $extraTML2HTMLOptions{xmltag} =
+              \%Foswiki::Plugins::WysiwygPlugin::xmltag;
         },
-        tml => '<customtag>this <literal>& that > the</literal> other </customtag>',
+        tml =>
+          '<customtag>this <literal>& that > the</literal> other </customtag>',
         html => '<p>'
           . $protecton
           . '&lt;customtag&gt;'
-          . $protectoff
-          . 'this'
+          . $protectoff . 'this'
           . '<div class="WYSIWYG_LITERAL">'
           . '& that > the'
-          . '</div>'
-          .'other'
+          . '</div>' . 'other'
           . $protecton
           . '&lt;/customtag&gt;'
-          . $protectoff
-          . '</p>'
+          . $protectoff . '</p>'
     },
     {
-        # There will probably always be some markup that WysiwygPlugin cannot convert,
-        # but it is not always easy to say what that markup is.
-        # This test case checks the protection of unconvertable text
-        # by using valid markup and forcing the conversion to fail.
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'UnconvertableTextIsProtected',
+
+  # There will probably always be some markup that WysiwygPlugin cannot convert,
+  # but it is not always easy to say what that markup is.
+  # This test case checks the protection of unconvertable text
+  # by using valid markup and forcing the conversion to fail.
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'UnconvertableTextIsProtected',
         setup => sub {
-            # Disable "dieOnError" to test the "protect unconvertable text" behaviour
-            # which can be exercised via the REST handler
+
+       # Disable "dieOnError" to test the "protect unconvertable text" behaviour
+       # which can be exercised via the REST handler
             $extraTML2HTMLOptions{dieOnError} = 0;
 
-            # Override the standard expansion function to hack in an illegal character to force the conversion to fail
+# Override the standard expansion function to hack in an illegal character to force the conversion to fail
             $extraTML2HTMLOptions{expandVarsInURL} = sub { return "\0"; };
         },
         tml => '<img src="%PUBURLPATH%">',
-        html => '<div class="WYSIWYG_PROTECTED">&lt;img&nbsp;src="%PUBURLPATH%"&gt;</div>'
+        html =>
+'<div class="WYSIWYG_PROTECTED">&lt;img&nbsp;src="%PUBURLPATH%"&gt;</div>'
+    },
+    {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'TableWithRowSpan_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => <<HTML,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
+<tr><td rowspan="2">C</td></tr>
+<tr><td>M</td></tr>
+</table>
+HTML
+        tml => <<TML,
+<table cellspacing="1" cellpadding="0" border="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
+TML
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'simpleTable_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => <<'HERE',
+<p>
+Before
+</p>
+<table border="1" cellpadding="0" cellspacing="1"><tr><th>L</th><th>C</th><th>R</th></tr><tr><td> A2</td><td style="text-align: center" class="align-center"> 2</td><td style="text-align: right" class="align-right"> 2</td></tr><tr><td> A3</td><td style="text-align: center" class="align-center"> 3</td><td style="text-align: left" class="align-left"> 3</td></tr><tr><td> A4-6</td><td> four</td><td> four</td></tr><tr><td>^</td><td> five</td><td> five</td></tr></table><p /><table border="1" cellpadding="0" cellspacing="1"><tr><td>^</td><td> six</td><td> six</td></tr></table>
+After
+HERE
+        tml => <<'HERE',
+Before
+| *L* | *C* | *R* |
+| A2 |  2  |  2 |
+| A3 |  3  | 3  |
+| A4-6 | four | four |
+|^| five | five |
+
+|^| six | six |
+After
+
+HERE
+        finaltml => <<'HERE',
+Before
+| *L* | *C* | *R* |
+| A2 |  2  |  2 |
+| A3 |  3  | 3  |
+| A4-6 | four | four |
+| ^ | five | five |
+
+| ^ | six | six |
+After
+HERE
+    },
+    {
+        exec => $HTML2TML,
+        name => 'ttClassInTable_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => '<table><tr><td class="WYSIWYG_TT">Code</td></tr></table>',
+        tml  => '| =Code= |'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'tmlInTable_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => <<'BLAH',
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td> <span class="WYSIWYG_TT">Code</span> </td></tr>
+<tr><td> <span class="WYSIWYG_TT">code</span> at start</td></tr>
+<tr><td>ends with <span class="WYSIWYG_TT">code</span> </td></tr>
+
+<tr><td> <b><span class="WYSIWYG_TT">Code</span></b> </td></tr>
+<tr><td> <b><span class="WYSIWYG_TT">code</span></b> at start</td></tr>
+<tr><td>ends with <b><span class="WYSIWYG_TT">code</span></b> </td></tr>
+
+<tr><td> <i>Emphasis</i> </td></tr>
+<tr><td> <i>emphasis</i> at start</td></tr>
+<tr><td>ends with <i>emphasis</i> </td></tr>
+
+<tr><td> <b><i>Emphasis</i></b> </td></tr>
+<tr><td> <b><i>emphasis</i></b> at start</td></tr>
+<tr><td>ends with <b><i>emphasis</i></b> </td></tr>
+
+<tr><td> <b>bold</b> at start</td></tr>
+<tr><td>ends with <b>bold</b> </td></tr>
+</table>
+BLAH
+        tml => <<'BLAH',
+| =Code= |
+| =code= at start |
+| ends with =code= |
+| ==Code== |
+| ==code== at start |
+| ends with ==code== |
+| _Emphasis_ |
+| _emphasis_ at start |
+| ends with _emphasis_ |
+| __Emphasis__ |
+| __emphasis__ at start |
+| ends with __emphasis__ |
+| *bold* at start |
+| ends with *bold* |
+BLAH
+    },
+    {
+        exec => $HTML2TML,
+        name => 'kupuTable_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html =>
+'<table cellspacing="0" cellpadding="8" border="1" class="plain" _moz_resizing="true">
+<tbody>
+<tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
+<tr>b0<td colspan="2">b1</td><td>b3</td></tr>
+<tr>c0<td>c1</td><td>c2</td><td>c3</td></tr>
+</tbody>
+</table>',
+        tml => '| a1 | a2 | a3 |
+| b1 || b3 |
+| c1 | c2 | c3 |
+',
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'tableWithColSpans_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => '<p>abcd
+</p>
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td colspan="2">efg</td><td>&nbsp;</td></tr>
+<tr><td colspan="3"></td></tr></table>
+hijk',
+        tml => 'abcd
+| efg || |
+||||
+hijk',
+        finaltml => 'abcd
+| efg || |
+| |||
+hijk',
+    },
+    {
+        exec => $ROUNDTRIP,
+        name => 'Item4410_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        tml => <<'HERE',
+   * x
+| Y |
+HERE
+        html =>
+'<ul><li>x</li></ul><table cellspacing="1" cellpadding="0" border="1"><tr><td>Y</td></tr></table>',
+    },
+    {
+        exec => $HTML2TML,
+        name => 'tableInnaBun_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => <<'JUNK',
+<ul>
+<li> List item</li><li><table><tbody><tr><td>&nbsp;11</td><td>&nbsp;21</td></tr><tr><td>12&nbsp;</td><td>&nbsp;22</td></tr></tbody></table></li><li>crap</li>
+</ul>
+JUNK
+        tml => <<JUNX,
+   * List item
+   * <table><tbody><tr><td> 11</td><td> 21</td></tr><tr><td>12 </td><td> 22</td></tr></tbody></table>
+   * crap
+JUNX
+    },
+    {
+        exec => $TML2HTML | $HTML2TML,
+        name => 'Item4700_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        tml => <<EXPT,
+| ex | per | iment |
+| exper | iment ||
+| expe || riment |
+|| exper | iment |
+EXPT
+        finaltml => <<EXPT,
+| ex | per | iment |
+| exper | iment ||
+| expe || riment |
+| | exper | iment |
+EXPT
+        html => <<HEXPT,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td>ex</td><td>per</td><td>iment</td></tr>
+<tr><td>exper</td><td colspan="2">iment</td></tr>
+<tr><td colspan="2">expe</td><td>riment</td></tr>
+<tr><td></td><td>exper</td><td>iment</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $ROUNDTRIP,
+        name => 'Item4700_2_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        tml => <<EXPT,
+| ex | per | iment |
+| exper | iment ||
+| expe || riment |
+| | exper | iment |
+EXPT
+        html => <<HEXPT,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td>ex</td><td>per</td><td>iment</td></tr>
+<tr><td>exper</td><td colspan="2">iment</td></tr>
+<tr><td colspan="2">expe</td><td>riment</td></tr>
+<tr><td></td><td>exper</td><td>iment</td></tr>
+</table>
+HEXPT
+    },
+    {
+        name => 'Item4855_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        exec => $TML2HTML,
+        tml  => <<HERE,
+| [[LegacyTopic1]] | Main.SomeGuy |
+%TABLESEP%
+%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+HERE
+        html => <<THERE,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+</table>
+<span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+THERE
+    },
+    {
+        name => 'Item1798_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        exec => $ROUNDTRIP | $TML2HTML,
+        tml  => <<HERE,
+| [[LegacyTopic1]] | Main.SomeGuy |
+%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+HERE
+        html => <<THERE,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+</table>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+THERE
+    },
+    {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'colorClassInTable_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => <<'BLAH',
+<table>
+<tr><th class="WYSIWYG_COLOR" style="color:#FF0000;">Red Heading</th></tr>
+<tr><td class="WYSIWYG_COLOR" style="color:#FF0000;">Red herring</td></tr>
+</table>
+BLAH
+        tml => <<'BLAH',
+| *%RED%Red Heading%ENDCOLOR%* |
+| %RED%Red herring%ENDCOLOR% |
+BLAH
+    },
+    {
+        exec => $HTML2TML | $ROUNDTRIP,
+        name => 'colorAndTtClassInTable_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        html => <<'BLAH',
+<table>
+<tr><th class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Redder code</th></tr>
+<tr><td class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Red code</td></tr>
+</table>
+BLAH
+        tml => <<'BLAH',
+| *%RED% =Redder code= %ENDCOLOR%* |
+| %RED% =Red code= %ENDCOLOR% |
+BLAH
+    },
+    {
+        name => 'Item4969_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        exec => $HTML2TML,
+        html => <<HERE,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td>table element with a <hr /> horizontal rule</td></tr>
+</table>
+Mad Fish
+HERE
+        tml => '| table element with a <hr /> horizontal rule |
+Mad Fish',
+    },
+    {
+        name => 'Item5076_NoTablePlugin',
+        setup =>
+          sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
+        exec => $HTML2TML,
+        html => <<HERE,
+<table border="0"><tbody><tr><td><h2>Argh</h2><ul><li>Ergh&nbsp;</li></ul></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table>
+HERE
+        tml => '<table border="0"><tbody><tr><td>
+---++ Argh
+   * Ergh 
+</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>',
     },
 ];
 
@@ -408,10 +733,10 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
             my $fn = 'ExtendedTranslatorTests::testTML2HTML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { 
-                my $this = shift; 
-                $this->testSpecificSetup($datum); 
-                $this->compareTML_HTML($datum); 
+            *$fn = sub {
+                my $this = shift;
+                $this->testSpecificSetup($datum);
+                $this->compareTML_HTML($datum);
                 $this->testSpecificCleanup($datum);
             };
             use strict 'refs';
@@ -419,9 +744,9 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
             my $fn = 'ExtendedTranslatorTests::testHTML2TML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { 
+            *$fn = sub {
                 my $this = shift;
-                $this->testSpecificSetup($datum); 
+                $this->testSpecificSetup($datum);
                 $this->compareHTML_TML($datum);
                 $this->testSpecificCleanup($datum);
             };
@@ -432,7 +757,7 @@ sub gen_compare_tests {
             no strict 'refs';
             *$fn = sub {
                 my $this = shift;
-                $this->testSpecificSetup($datum); 
+                $this->testSpecificSetup($datum);
                 $this->compareRoundTrip($datum);
                 $this->testSpecificCleanup($datum);
             };
@@ -441,9 +766,9 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
             my $fn = 'TranslatorTests::testCANNOTWYSIWYG_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { 
+            *$fn = sub {
                 my $this = shift;
-                $this->testSpecificSetup($datum); 
+                $this->testSpecificSetup($datum);
                 $this->compareNotWysiwygEditable($datum);
                 $this->testSpecificCleanup($datum);
             };
@@ -454,6 +779,7 @@ sub gen_compare_tests {
 
 sub testSpecificSetup {
     my ( $this, $args ) = @_;
+
     # Reset the extendable parts of WysiwygPlugin
     %Foswiki::Plugins::WysiwygPlugin::xmltag       = ();
     %Foswiki::Plugins::WysiwygPlugin::xmltagPlugin = ();
@@ -473,11 +799,10 @@ sub testSpecificCleanup {
     }
 }
 
-sub TML_HTMLconverterOptions
-{
-    my $this = shift;
+sub TML_HTMLconverterOptions {
+    my $this    = shift;
     my $options = $this->SUPER::TML_HTMLconverterOptions(@_);
-    for my $extraOptionName (keys %extraTML2HTMLOptions) {
+    for my $extraOptionName ( keys %extraTML2HTMLOptions ) {
         $options->{$extraOptionName} = $extraTML2HTMLOptions{$extraOptionName};
     }
     return $options;

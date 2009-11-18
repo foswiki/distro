@@ -35,9 +35,9 @@ require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
 # Bits for test type
 # Fields in test records:
-my $TML2HTML  = 1 << 0;        # test tml => html
-my $HTML2TML  = 1 << 1;        # test html => finaltml (default tml)
-my $ROUNDTRIP = 1 << 2;        # test tml => => finaltml
+my $TML2HTML      = 1 << 0;    # test tml => html
+my $HTML2TML      = 1 << 1;    # test html => finaltml (default tml)
+my $ROUNDTRIP     = 1 << 2;    # test tml => => finaltml
 my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
                                #   and make the ROUNDTRIP test expect failure
 
@@ -60,8 +60,8 @@ my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
 # test case and nonWysiwygEditable should be updated so that the TML
 # is "WysiwygEditable".
 #
-# Use CANNOTWYSIWYG without ROUNDTRIP *only* with an appropriate 
-# explanation. For example: 
+# Use CANNOTWYSIWYG without ROUNDTRIP *only* with an appropriate
+# explanation. For example:
 #   Can't ROUNDTRIP this TML because perl on the SMURF platform
 #   automagically replaces all instances of 'blue' with 'beautiful'.
 
@@ -81,7 +81,7 @@ my $nop        = "$protecton<nop>$protectoff";
 
 # Each testcase is a subhash with fields as follows:
 # exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML,
-#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test 
+#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test
 #   notWysiwygEditable, all other bits are ignored.
 #   They may be OR'd togoether to perform multiple tests.
 #   For example: $TML2HTML | $HTML2TML to test both
@@ -409,7 +409,7 @@ Not Centered
 
 <div align="center">TEST Centered text.</div>
 HERE
-        tml  => <<'HERE',
+        tml => <<'HERE',
 <center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div> 
 
 Not Centered
@@ -424,8 +424,6 @@ Not Centered
 <div align="center">TEST Centered text.</div>
 HERE
     },
-
-
 
     {
         exec => $ROUNDTRIP,
@@ -1622,6 +1620,181 @@ EXPT
 HEXPT
     },
     {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'RowSpan1',
+        tml  => <<EXPT,
+| A | B |
+| C | ^ |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td>A</td><td rowspan="2">B</td></tr>
+<tr><td>C</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'RowSpan2',
+        tml  => <<EXPT,
+| A | B |
+| ^ | C |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td rowspan="2">A</td><td>B</td></tr>
+<tr><td>C</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'RowSpan3',
+        tml  => <<EXPT,
+| A | B | X |
+| ^ | ^ | C |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td rowspan="2">A</td><td rowspan="2">B</td><td>X</td></tr>
+<tr><td>C</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'RowSpan4',
+        tml  => <<EXPT,
+| A | B | X |
+| ^ | ^ | C |
+| M | ^ | ^ |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
+<tr><td rowspan="2">C</td></tr>
+<tr><td>M</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'RowSpan5',
+        tml  => <<EXPT,
+| A | B | X |
+| ^ | ^ | C |
+| M | ^ |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
+<tr><td>C</td></tr>
+<tr><td>M</td></tr>
+</table>
+HEXPT
+        DISABLEDfinaltml => <<FEXPT,
+| A | B | X |
+| ^ | ^ | C |
+| M | ^ | |
+FEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'mergedRowsAndColumnsCentre',
+        tml  => <<EXPT,
+| A1 | A2 | A3 | A4 |
+| B1 | X || B4 |
+| C1 | ^ | C4 |
+| D1 | D2 | D3 | D4 |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td>A1</td><td>A2</td><td>A3</td><td>A4</td></tr>
+<tr><td>B1</td><td rowspan="2" colspan="2">X</td><td>B4</td></tr>
+<tr><td>C1</td><td>C4</td></tr>
+<tr><td>D1</td><td>D2</td><td>D3</td><td>D4</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'mergedRowsAndColumnsTopLeft',
+        tml  => <<EXPT,
+| X || A3 |
+| ^ | B3 |
+| C1 | C2 | C3 |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td rowspan="2" colspan="2">X</td><td>A3</td></tr>
+<tr><td>B3</td></tr>
+<tr><td>C1</td><td>C2</td><td>C3</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'mergedRowsAndColumnsTopRight',
+        tml  => <<EXPT,
+| A1 | X ||
+| B1 | ^ |
+| C1 | C2 | C3 |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td>A1</td><td rowspan="2" colspan="2">X</td></tr>
+<tr><td>B1</td></tr>
+<tr><td>C1</td><td>C2</td><td>C3</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'mergedRowsAndColumnsBottomLeft',
+        tml  => <<EXPT,
+| A1 | A2 | A3 |
+| X || B3 |
+| ^ | C3 |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td>A1</td><td>A2</td><td>A3</td></tr>
+<tr><td rowspan="2" colspan="2">X</td><td>B3</td></tr>
+<tr><td>C3</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'mergedRowsAndColumnsBottomRight',
+        tml  => <<EXPT,
+| A1 | A2 | A3 |
+| B1 | X ||
+| C1 | ^ |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td>A1</td><td>A2</td><td>A3</td></tr>
+<tr><td>B1</td><td rowspan="2" colspan="2">X</td></tr>
+<tr><td>C1</td></tr>
+</table>
+HEXPT
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'notAlwaysRowSpan',
+        tml  => <<EXPT,
+| ^ | B |
+| ^ | <nop>^ |
+EXPT
+        html => <<HEXPT,
+<table border="1" cellpadding="0" cellspacing="1">
+<tr><td rowspan="2">^</td><td>B</td></tr>
+<tr><td>$protecton&lt;nop&gt;$protectoff^</td></tr>
+</table>
+HEXPT
+    },
+    {
         exec => $HTML2TML | $ROUNDTRIP,
         name => 'collapse',
         html => <<COLLAPSE,
@@ -1804,7 +1977,7 @@ DECAPS
 HERE
         html => <<THERE,
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td>Main.SomeGuy</td></tr>
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
@@ -1819,9 +1992,25 @@ THERE
 HERE
         html => <<THERE,
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td>Main.SomeGuy</td></tr>
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+THERE
+    },
+    {
+        name => 'linkInTable',
+        exec => $ROUNDTRIP | $TML2HTML,
+        tml  => <<HERE,
+| Main.SomeGuy |
+| - Main.SomeGuy - |
+Main.SomeGuy
+HERE
+        html => <<THERE,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td> - <span class="WYSIWYG_LINK">Main.SomeGuy</span> - </td></tr>
+</table>
+<span class="WYSIWYG_LINK">Main.SomeGuy</span>
 THERE
     },
     {
@@ -2041,7 +2230,7 @@ ZAT
     {
         name => "Item2222",
         exec => $ROUNDTRIP | $CANNOTWYSIWYG,
-        tml => '<!-- <sticky></sticky> -->',
+        tml  => '<!-- <sticky></sticky> -->',
     },
 ];
 
@@ -2073,7 +2262,8 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
             my $fn = 'TranslatorTests::testCANNOTWYSIWYG_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareNotWysiwygEditable($datum) };
+            *$fn =
+              sub { my $this = shift; $this->compareNotWysiwygEditable($datum) };
             use strict 'refs';
         }
     }
@@ -2121,7 +2311,7 @@ sub set_up {
         $query = new CGI("");
     }
     $query->path_info("/Current/TestTopic");
-    $this->{session}->finish() if (defined($this->{session}));
+    $this->{session}->finish() if ( defined( $this->{session} ) );
     $this->{session} = new Foswiki( undef, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
 }
@@ -2134,8 +2324,7 @@ sub normaliseEntities {
     return $text;
 }
 
-sub TML_HTMLconverterOptions
-{
+sub TML_HTMLconverterOptions {
     my $this = shift;
     return {
         web          => 'Current',
@@ -2159,14 +2348,11 @@ sub compareTML_HTML {
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
 
-    my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable( $tml );
-    $this->assert(!$notEditable, $notEditable);
+    my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($tml);
+    $this->assert( !$notEditable, $notEditable );
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    my $tx   = $txer->convert(
-        $tml,
-        $this->TML_HTMLconverterOptions()
-    );
+    my $tx = $txer->convert( $tml, $this->TML_HTMLconverterOptions() );
 
     $this->assert_html_equals( $html, $tx );
 }
@@ -2184,8 +2370,10 @@ sub compareNotWysiwygEditable {
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
 
-    my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable( $tml, '' );
-    $this->assert($notEditable, "This TML should not be wysiwyg-editable: $tml");
+    my $notEditable =
+      Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable( $tml, '' );
+    $this->assert( $notEditable,
+        "This TML should not be wysiwyg-editable: $tml" );
 }
 
 sub compareRoundTrip {
@@ -2199,41 +2387,39 @@ sub compareRoundTrip {
     $tml =~ s/%!page!%/$page/g;
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    # This conversion can throw an exception. 
+
+    # This conversion can throw an exception.
     # This might be expected if $args->{exec} also has $CANNOTWYSIWYG set
-    my $html = eval {
-        $txer->convert(
-            $tml,
-            $this->TML_HTMLconverterOptions()
-        );
-    };
+    my $html =
+      eval { $txer->convert( $tml, $this->TML_HTMLconverterOptions() ); };
     $html = $@ if $@;
 
     $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx = $txer->convert(
-        $html,
-        $this->HTML_TMLconverterOptions()
-    );
+    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions() );
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
 
-    my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable( $tml, '' );
+    my $notEditable =
+      Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable( $tml, '' );
     if ( ( $mask & $args->{exec} ) & $CANNOTWYSIWYG ) {
-        $this->assert($notEditable, "This TML should not be wysiwyg-editable: $tml");
-        # Expect that roundtrip is not possible if notWysiwygEditable returns true.
-        # notWysiwygEditable should not return false for anything that *can* be
-        # roundtripped.
+        $this->assert( $notEditable,
+            "This TML should not be wysiwyg-editable: $tml" );
+
+     # Expect that roundtrip is not possible if notWysiwygEditable returns true.
+     # notWysiwygEditable should not return false for anything that *can* be
+     # roundtripped.
         $this->_assert_tml_not_equals( $finaltml, $tx, $args->{name} );
     }
     else {
         $this->_assert_tml_equals( $finaltml, $tx, $args->{name} );
-        $this->assert(!$notEditable, "$args->{name} TML is wysiwyg-editable, but notWysiwygEditable() reports: $notEditable");
+        $this->assert( !$notEditable,
+"$args->{name} TML is wysiwyg-editable, but notWysiwygEditable() reports: $notEditable"
+        );
     }
 
 }
 
-sub HTML_TMLconverterOptions
-{
+sub HTML_TMLconverterOptions {
     my $this = shift;
     return {
         web          => 'Current',
@@ -2257,10 +2443,7 @@ sub compareHTML_TML {
     $finaltml =~ s/%!page!%/$page/g;
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx   = $txer->convert(
-        $html,
-        $this->HTML_TMLconverterOptions()
-    );
+    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions() );
     $this->_assert_tml_equals( $finaltml, $tx, $args->{name} );
 }
 
@@ -2309,7 +2492,7 @@ sub _assert_tml_not_equals {
     $expected =~ s/\n$//s;
     if ( $expected eq $actual ) {
         my $expl =
-            "==$name== Actual TML unexpectedly correct, remove \$CANNOTWYSIWYG flag:\n"
+"==$name== Actual TML unexpectedly correct, remove \$CANNOTWYSIWYG flag:\n"
           . encode($actual)
           . "\n==$name==\n";
         $this->assert( 0, $expl . "\n" );

@@ -114,9 +114,10 @@ sub convert {
 
     if ($content =~ /[$TT0$TT1$TT2]/o) {
         # There should never be any of these in the text at this point.
-        # If there are, then the conversion failed. 
+        # If there are, then the conversion failed.
         die("Invalid characters in HTML after conversion") if $options->{dieOnError};
-        # Encode the original TML as verbatim-style HTML, 
+
+        # Encode the original TML as verbatim-style HTML,
         # so that the user has uncorrupted TML, at least.
         my $originalContent = $_[1];
         $originalContent =~ s/[$TT0$TT1$TT2]/?/go;
@@ -244,6 +245,7 @@ sub _expandURL {
 }
 
 # Lifted straight out of DevelopBranch Render.pm
+# Then modified to include TablePlugin's approach to table rendering
 sub _getRenderedVersion {
     my ( $this, $text, $refs ) = @_;
 
@@ -341,6 +343,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     # line-oriented stuff.
     my $inList      = 0;         # True when within a list type
     my $inTable     = 0;         # True when within a table type
+    my %table       = ();
     my $inParagraph = 1;         # True when within a P
     my @result      = ('<p>');
 
@@ -353,21 +356,13 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $inParagraph = 0;
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
-            unless ($inTable) {
-                push(
-                    @result,
-                    CGI::start_table(
-                        { border => 1, cellpadding => 0, cellspacing => 1 }
-                    )
-                );
-            }
-            push( @result, _emitTR($1) );
+            push( @result, _processTableRow( $1, $inTable, \%table ) );
             $inTable = 1;
             next;
         }
 
         if ($inTable) {
-            push( @result, CGI::end_table() );
+            push( @result, _emitTable( \%table ) );
             $inTable = 0;
         }
 
@@ -467,7 +462,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     }
 
     if ($inTable) {
-        push( @result, '</table>' );
+        push( @result, _emitTable( \%table ) );
     }
     elsif ($inList) {
         $this->_addListItem( \@result, '', '', '' );
@@ -530,6 +525,208 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
     return $text;
 }
 
+sub _processTableRow {
+
+    my ( $theRow, $inTable, $state ) = @_;
+    my @result;
+    my $firstRow = 0;
+    if ( !$inTable ) {
+
+        %$state = ( curTable => [], rowspan => [] );
+        $firstRow = 1;
+    }
+
+    $theRow =~ s/\t/   /go;     # change tabs to space
+    $theRow =~ s/\s*$//o;       # remove trailing spaces
+    $theRow =~ s/^(\s*)\|//;    # Remove leading junk
+    my $pre = $1;
+
+    $theRow =~
+      s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1)."\|"/geo
+      ;                         # calc COLSPAN
+    my $colCount = 0;
+    my @row      = ();
+    my $span     = 0;
+    my $value    = '';
+
+    my $rowspanEnabled = Foswiki::Func::getContext()->{'TablePluginEnabled'};
+
+    foreach ( split( /\|/, $theRow ) ) {
+        my $attr = {};
+        $span = 1;
+        if (s/colspan$Foswiki::TranslationToken([0-9]+)//) {
+            $span = $1;
+            $attr->{colspan} = $span;
+        }
+        s/^\s+$/ &nbsp; /o;
+        my ( $left, $right ) = ( 0, 0 );
+        if (/^(\s*)(.*?)(\s*)$/) {
+            $left  = length($1);
+            $_     = $2;
+            $right = length($3);
+        }
+        if ( $left == 1 && $right < 2 ) {
+
+            # Treat left=1 and right=0 like 1 and 1 - Item5220
+        }
+        elsif ( $left > $right ) {
+            $attr->{class} = 'align-right';
+            $attr->{style} = 'text-align: right';
+        }
+        elsif ( $left < $right ) {
+            $attr->{class} = 'align-left';
+            $attr->{style} = 'text-align: left';
+        }
+        elsif ( $left > 1 ) {
+            $attr->{class} = 'align-center';
+            $attr->{style} = 'text-align: center';
+        }
+
+        if (    $rowspanEnabled
+            and !$firstRow
+            and /^(\s|<[^>]*>)*\^(\s|<[^>]*>)*$/ )
+        {    # row span above
+            $state->{rowspan}->[$colCount]++;
+            push @row, { text => $value, type => 'Y' };
+        }
+        else {
+            for ( my $col = $colCount ; $col < ( $colCount + $span ) ; $col++ )
+            {
+                if ( defined( $state->{rowspan}->[$col] )
+                    && $state->{rowspan}->[$col] )
+                {
+                    my $nRows = scalar( @{ $state->{curTable} } );
+                    my $rspan = $state->{rowspan}->[$col] + 1;
+                    if ( $rspan > 1 ) {
+                        $state->{curTable}->[ $nRows - $rspan ][$col]->{attrs}
+                          ->{rowspan} = $rspan;
+                    }
+                    undef( $state->{rowspan}->[$col] );
+                }
+            }
+
+            my $type = '';
+            if (/^\s*\*(.*)\*\s*$/) {
+                $value = $1;
+                $type  = 'th';
+            }
+            else {
+                if (/^\s*(.*?)\s*$/) {    # strip white spaces
+                    $_ = $1;
+                }
+                $value = $_;
+                $type  = 'td';
+            }
+
+            $value = ' ' . $value if $value =~ /^(?:\*|==?|__?)[^\s]/;
+            $value = $value . ' ' if $value =~ /[^\s](?:\*|==?|__?)$/;
+
+            push @row, { text => $value, attrs => $attr, type => $type };
+        }
+
+        while ( $span > 1 ) {
+            push @row, { text => $value, type => 'X' };
+            $colCount++;
+            $span--;
+        }
+        $colCount++;
+    }
+    push @{ $state->{curTable} }, \@row;
+    push @{ $state->{pre} },      $pre;
+    return;
+}
+
+sub _emitTable {
+    my ($state) = @_;
+
+    my @result;
+    push( @result,
+        CGI::start_table( { border => 1, cellpadding => 0, cellspacing => 1 } )
+    );
+
+    #Flush out any remaining rowspans
+    for ( my $i = 0 ; $i < scalar( @{ $state->{rowspan} } ) ; $i++ ) {
+        if ( defined( $state->{rowspan}->[$i] ) && $state->{rowspan}->[$i] ) {
+            my $nRows = scalar( @{ $state->{curTable} } );
+            my $rspan = $state->{rowspan}->[$i] + 1;
+            my $r     = $nRows - $rspan;
+            $state->{curTable}->[$r][$i]->{attrs} ||= {};
+            if ( $rspan > 1 ) {
+                $state->{curTable}->[$r][$i]->{attrs}->{rowspan} = $rspan;
+            }
+        }
+    }
+
+    my $rowCount     = 0;
+    my $numberOfRows = scalar( @{ $state->{curTable} } );
+
+    my @headerRowList = ();
+    my @bodyRowList   = ();
+
+    my $isPastHeaderRows = 0;
+
+    foreach my $row ( @{ $state->{curTable} } ) {
+        my $rowtext  = '';
+        my $colCount = 0;
+
+        # keep track of header cells: if all cells are header cells,
+        # put the row in the thead section
+        my $headerCellCount = 0;
+        my $numberOfCols    = scalar(@$row);
+
+        foreach my $fcell (@$row) {
+
+            # check if cell exists
+            next if ( !$fcell || !$fcell->{type} );
+
+            my $tableAnchor = '';
+            next
+              if ( $fcell->{type} eq 'X' )
+              ;    # data was there so sort could work with col spanning
+            my $type = $fcell->{type};
+            my $cell = $fcell->{text};
+            my $attr = $fcell->{attrs} || {};
+
+            if ( $type eq 'th' ) {
+                $headerCellCount++;
+            }
+            else {
+                $type = 'td' unless $type eq 'Y';
+            }      ###if( $type eq 'th' )
+
+            $colCount++;
+            next if ( $type eq 'Y' );
+            my $fn = 'CGI::' . $type;
+            no strict 'refs';
+            $rowtext .= &$fn( $attr, " $cell " );
+            use strict 'refs';
+        }    # foreach my $fcell ( @$row )
+
+        my $rowHTML = $state->{pre}->[$rowCount] . CGI::Tr($rowtext);
+
+        my $isHeaderRow = ( $headerCellCount == $colCount );
+        if ( !$isHeaderRow ) {
+
+        # don't include non-adjacent header rows to the top block of header rows
+            $isPastHeaderRows = 1;
+        }
+
+        if ( $isHeaderRow && !$isPastHeaderRows ) {
+            push( @headerRowList, $rowHTML );
+        }
+        else {
+            push @bodyRowList, $rowHTML;
+        }
+
+        $rowCount++;
+    }    # foreach my $row ( @curTable )
+
+    push @result, @headerRowList, @bodyRowList;
+
+    push @result, CGI::end_table();
+    return @result;
+}
+
 sub _getNamedColour {
     my ( $name, $t ) = @_;
     my $epr = Foswiki::Func::getPreferencesValue($name);
@@ -560,7 +757,8 @@ sub _addClass {
 # Encode special chars in verbatim as entities to prevent misinterpretation
 sub _protectVerbatimChars {
     my $text = shift;
-    # $TT0, $TT1 and $TT2 are chr(0), chr(1) and chr(2), respectively. 
+
+    # $TT0, $TT1 and $TT2 are chr(0), chr(1) and chr(2), respectively.
     # They are handled specially, elsewhere
     $text =~ s/([\003-\011\013-\037<&>'"])/'&#'.ord($1).';'/ges;
     $text =~ s/ /&nbsp;/g;
