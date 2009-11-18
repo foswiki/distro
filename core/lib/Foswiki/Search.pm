@@ -821,117 +821,42 @@ sub formatResults {
             $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
 
             if ($formatDefined and ($format ne '')) {
-                $out = $format;
-
-                $out =~ s/\$ntopics/$ntopics/gs;
-                $out =~ s/\$nhits/$nhits/gs;
-
+#TODO: hack to convert a bad SEARCH format to the one used by getRevInfo..
+		$format =~ s/\$createdate/\$createlongdate/gs;
 		#it looks like $isodate in format is equive to $iso in renderRevisionInfo
 		#TODO: clean these 3 hacks up
-		$out =~ s/\$isodate/\$iso/gs;
-		$out =~ s/\%TIME\%/\$date/gs;
-		$out =~ s/\$date/\$longdate/gs;
-		$out =
-		  $session->renderer->renderRevisionInfo( $info->{tom},
-		    $revNum, $out );
-
-  #TODO: move the $create* formats into Render::renderRevisionInfo..
-  #which implies moving the infocache's pre-extracted data into the tom obj too.
-		$out =~ s/\$createdate/\$createlongdate/gs;
-                $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
-                  $infoCache->getRev1Info( $topic, "create$1" )/ges;
-
-                if ( $out =~ m/\$text/ ) {
-                    unless ($text) {
-                        $text = $info->{tom}->text();
-                    }
-                    if ( $topic eq $session->{topicName} ) {
-			#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
-
-                        # defuse SEARCH in current topic to prevent loop
-                        $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
-                    }
-                    $out =~ s/\$text/$text/gos;
-                }
-		$out =~ s/%WEB%/$web/go;
-		$out =~ s/%TOPICNAME%/$topic/go;
+		$format =~ s/\$isodate/\$iso/gs;
+		$format =~ s/\%TIME\%/\$date/gs;
+		$format =~ s/\$date/\$longdate/gs;
+#other tmpl based renderings
+		$format =~ s/%WEB%/\$web/go;
+		$format =~ s/%TOPICNAME%/\$topic/go;
+		$format =~ s/%AUTHOR%/\$wikiusername/g;
     
-		my $srev = 'r' . $revNum;
-		if ( $revNum eq '0' || $revNum eq '1' ) {
-		    $srev = CGI::span( { class => 'foswikiNew' },
-			( $session->i18n->maketext('NEW') ) );
-		}
-		$out =~ s/%REVISION%/$srev/o;
-		$out =~ s/%AUTHOR%/$session->renderer->renderRevisionInfo( 
-							 $info->{tom}, $revNum, '$wikiusername' )/e;
-    
-		if ($doBookView) {
-    
-		    # BookView
-		    unless ($text) {
-			$text = $info->{tom}->text();
-		    }
-		    if ( $web eq $baseWeb && $topic eq $baseTopic ) {
-    
-			# primitive way to prevent recursion
-			$text =~ s/%SEARCH/%<nop>SEARCH/g;
-		    }
-		    $text = $info->{tom}->expandMacros($text);
-		    $text = $info->{tom}->renderTML($text);
-    
-		    $out =~ s/%TEXTHEAD%/$text/go;
-    
-		}
-		else {
-		    $out =~ s/\$summary(?:\(([^\)]*)\))?/
-		      $info->{tom}->summariseText( $1, $text )/ges;
-		    $out =~ s/\$changes(?:\(([^\)]*)\))?/
-		      $info->{tom}->summariseChanges($1, $revNum)/ges;
-		    $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
-		      displayFormField( $info->{tom}, $1 )/ges;
-		    $out =~ s/\$parent\(([^\)]*)\)/
-		      Foswiki::Render::breakName(
-			  $info->{tom}->getParent(), $1 )/ges;
-		    $out =~ s/\$parent/$info->{tom}->getParent()/ges;
-		    $out =~ s/\$formname/$info->{tom}->getFormName()/ges;
-		    $out =~
-		      s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
-    
-       # FIXME: Allow all regex characters but escape them
-       # Note: The RE requires a .* at the end of a pattern to avoid false positives
-       # in pattern matching
-		    $out =~
-		      s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
-		    $out =~ s/\r?\n/$newLine/gos if ($newLine);
-		    if ( !defined($separator) ) {
-    
-    # add new line at end if needed
-    # SMELL: why?
-    #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
-    #SMELL: I wonder if this can't be wrapped into the summarizeText code
-			unless ( $noTotal && !$params->{formatdefined} ) {
-			    $out =~ s/([^\n])$/$1\n/s;
-			}
-		    }
-    
-		    $out = Foswiki::expandStandardEscapes($out);
-    
-		}
-#see http://foswiki.org/Tasks/Item2371 - needs unit test exploration
-#the problem is that when I separated the formating from the searching, I set the format string to what is in the template,
-#and thus here, format is always set.
-#		elsif ($noSummary) {
-#		    #TODO: i think that means I've broken SEARCH{nosummary=on" with no format specified
-#		    $out =~ s/%TEXTHEAD%//go;
-#		    $out =~ s/&nbsp;//go;
-#		}
-#		else {
-#		    #SEARCH with no format and nonoise="off" or nosummary="off"
-#		    #TODO: BROKEN, need to fix the meaning of nosummary and nonoise in SEARCH
-#		    # regular search view
-#		    $text = $info->{tom}->summariseText( '', $text );
-#		    $out =~ s/%TEXTHEAD%/$text/go;
-#		}
+		$out = $this->formatResult($format, $info->{tom}, $text,
+					   {
+						'\$ntopics' => sub {return $ntopics},
+						'\$nhits' => sub {return $nhits},
+    #rev1 info
+    #TODO: move the $create* formats into Render::renderRevisionInfo..
+    #which implies moving the infocache's pre-extracted data into the tom obj too.
+    #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
+    #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
+						'\$createlongdate' => sub {return $infoCache->getRev1Info( $topic, "createlongdate" )},
+						'\$createusername' => sub {return $infoCache->getRev1Info( $topic, "createusername" )},
+						'\$createwikiname' => sub {return $infoCache->getRev1Info( $topic, "createwikiname" )},
+						'\$createwikiusername' => sub {return $infoCache->getRev1Info( $topic, "createwikiusername" )},
+#TODO: hacky bits that need to be moved out of formatResult()
+						'$revNum'	=> sub {return $revNum;},
+						'$doBookView'	=> sub {return $doBookView;},
+						'$baseWeb'	=> sub {return $baseWeb;},
+						'$baseTopic'	=> sub {return $baseTopic;},
+						'$newLine'	=> sub {return $newLine;},
+						'$separator'	=> sub {return $separator;},
+						'$noTotal'	=> sub {return $noTotal;},
+						'$paramsHash'	=> sub {return $params;},
+					    }
+					   );
             }
             else {
 		$out = '';
@@ -993,6 +918,140 @@ sub formatResults {
         ( ( not defined( $params->{_callback} ) ) and ( $nhits >= 0 ) )
         ? join( '', @$cbdata )
         : '' );
+}
+
+=begin TML
+
+---++ ObjectMethod formatResult
+   * $text can be undefined.
+   * customKeys is a hash of {'$key' => sub {my $item = shift; return value;} }
+     where $item is a tom object (initially a Foswiki::Meta, but I'd like to be more generic)
+     
+TODO: i don't really know what we'll need to do about order of processing.
+TODO: at minimum, the keys need to be sorted by length so that $datatime is processed before $date
+TODO: need to cater for $summary(params) style too
+
+=cut
+
+sub formatResult {
+    my ($this, $out, $topicObject, $text, $customKeys) = @_;
+
+
+    my $session            = $this->{session};
+    
+    my $web = $topicObject->web();
+    my $topic = $topicObject->topic();
+
+#TODO: these need to go away.
+    my $revNum = &{$customKeys->{'$revNum'}}();
+    my $doBookView = &{$customKeys->{'$doBookView'}}();
+    my $baseWeb = &{$customKeys->{'$baseWeb'}}();
+    my $baseTopic = &{$customKeys->{'$baseTopic'}}();
+    my $newLine = &{$customKeys->{'$newLine'}}();
+    my $separator = &{$customKeys->{'$separator'}}();
+    my $noTotal = &{$customKeys->{'$noTotal'}}();
+    my $params = &{$customKeys->{'$paramsHash'}}();
+    foreach my $key ('$revNum','$doBookView','$baseWeb','$baseTopic','$newLine','$separator','$noTotal','$paramsHash') {
+	delete $customKeys->{$key};
+    }
+    
+    foreach my $key (keys (%$customKeys)) {
+        $out =~ s/$key/&{$customKeys->{$key}}()/ges;
+    }
+
+    $out =
+      $session->renderer->renderRevisionInfo( $topicObject,
+	$revNum, $out );
+
+    if ( $out =~ m/\$text/ ) {
+	unless ($text) {
+	    $text = $topicObject->text();
+	}
+	if ( $topic eq $session->{topicName} ) {
+	    #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
+
+	    # defuse SEARCH in current topic to prevent loop
+	    $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
+	}
+	$out =~ s/\$text/$text/gos;
+    }
+#TODO: extract the rev
+    my $srev = 'r' . $revNum;
+    if ( $revNum eq '0' || $revNum eq '1' ) {
+	$srev = CGI::span( { class => 'foswikiNew' },
+	    ( $session->i18n->maketext('NEW') ) );
+    }
+    $out =~ s/%REVISION%/$srev/o;
+
+
+    if ($doBookView) {
+
+	# BookView
+	unless ($text) {
+	    $text = $topicObject->text();
+	}
+	if ( $web eq $baseWeb && $topic eq $baseTopic ) {
+
+	    # primitive way to prevent recursion
+	    $text =~ s/%SEARCH/%<nop>SEARCH/g;
+	}
+	$text = $topicObject->expandMacros($text);
+	$text = $topicObject->renderTML($text);
+
+	$out =~ s/%TEXTHEAD%/$text/go;
+
+    }
+    else {
+	$out =~ s/\$summary(?:\(([^\)]*)\))?/
+	  $topicObject->summariseText( $1, $text )/ges;
+	$out =~ s/\$changes(?:\(([^\)]*)\))?/
+	  $topicObject->summariseChanges($1, $revNum)/ges;
+	$out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
+	  displayFormField( $topicObject, $1 )/ges;
+	$out =~ s/\$parent\(([^\)]*)\)/
+	  Foswiki::Render::breakName(
+	      $topicObject->getParent(), $1 )/ges;
+	$out =~ s/\$parent/$topicObject->getParent()/ges;
+	$out =~ s/\$formname/$topicObject->getFormName()/ges;
+	$out =~
+	  s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
+
+# FIXME: Allow all regex characters but escape them
+# Note: The RE requires a .* at the end of a pattern to avoid false positives
+# in pattern matching
+	$out =~
+	  s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+	$out =~ s/\r?\n/$newLine/gos if ($newLine);
+	if ( !defined($separator) ) {
+
+# add new line at end if needed
+# SMELL: why?
+#TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
+#SMELL: I wonder if this can't be wrapped into the summarizeText code
+	    unless ( $noTotal && !$params->{formatdefined} ) {
+		$out =~ s/([^\n])$/$1\n/s;
+	    }
+	}
+
+	$out = Foswiki::expandStandardEscapes($out);
+
+    }
+#see http://foswiki.org/Tasks/Item2371 - needs unit test exploration
+#the problem is that when I separated the formating from the searching, I set the format string to what is in the template,
+#and thus here, format is always set.
+#		elsif ($noSummary) {
+#		    #TODO: i think that means I've broken SEARCH{nosummary=on" with no format specified
+#		    $out =~ s/%TEXTHEAD%//go;
+#		    $out =~ s/&nbsp;//go;
+#		}
+#		else {
+#		    #SEARCH with no format and nonoise="off" or nosummary="off"
+#		    #TODO: BROKEN, need to fix the meaning of nosummary and nonoise in SEARCH
+#		    # regular search view
+#		    $text = $info->{tom}->summariseText( '', $text );
+#		    $out =~ s/%TEXTHEAD%/$text/go;
+#		}
+    return $out;
 }
 
 =begin TML
