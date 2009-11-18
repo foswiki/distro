@@ -87,6 +87,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  18 Nov 2009 | Foswikitask:Item2373: improve XHTML validation |
 |  17 Nov 2009 | Foswikitask:Item2368 toolbar not always hidden (PH); \
                  improved usability of upload and insert-link dialog |
 |  02 Nov 2009 | Foswikitask:Item2281: attempt to make <nop>TinyMCE resize \

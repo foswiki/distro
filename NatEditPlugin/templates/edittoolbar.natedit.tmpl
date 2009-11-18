@@ -13,40 +13,40 @@
 </ul>
 </div>
 <!-- //bottomtopicactions -->%TMPL:END%
-%TMPL:DEF{"wysiwygbutton"}%%BUTTON{
+%TMPL:DEF{"wysiwygbutton"}%<li>%BUTTON{
   "%MAKETEXT{"Wysiwyg"}%"
   title="%MAKETEXT{"Switch to WYSIWYG"}%"
   icon="arrow_switch"
   id="wysiwyg"
-}%%TMPL:END%
-%TMPL:DEF{"restorebutton"}%<li>%BUTTON{
+}%</li>%TMPL:END%
+%TMPL:DEF{"restorebutton"}%%BUTTON{
   "%MAKETEXT{"Restore"}%" 
   title="%MAKETEXT{"Restore and exit"}%" 
   icon="tick" 
   id="save" 
   accesskey="r" 
-}%</li>%TMPL:END%
-%TMPL:DEF{"savebutton"}%<li>%BUTTON{
+}%%TMPL:END%
+%TMPL:DEF{"savebutton"}%%BUTTON{
   "%MAKETEXT{"Save"}%" 
   title="%MAKETEXT{"Save and exit"}%" 
   icon="tick" 
   id="save" 
   accesskey="s" 
-}%</li>%TMPL:END%
-%TMPL:DEF{"restoreandcontinuebutton"}%<li>%BUTTON{
+}%%TMPL:END%
+%TMPL:DEF{"restoreandcontinuebutton"}%%BUTTON{
   "%MAKETEXT{"Restore and Continue"}%" 
   title="%MAKETEXT{"Restore and continue editing"}%" 
   icon="disk" 
   id="checkpoint" 
   accesskey="w" 
-}%</li>%TMPL:END%
-%TMPL:DEF{"saveandcontinuebutton"}%<li>%BUTTON{
+}%%TMPL:END%
+%TMPL:DEF{"saveandcontinuebutton"}%%BUTTON{
   "%MAKETEXT{"Save and Continue"}%" 
   title="%MAKETEXT{"Save and continue editing"}%" 
   icon="disk"
   id="checkpoint" 
   accesskey="w" 
-}%</li>%TMPL:END%
+}%%TMPL:END%
 %TMPL:DEF{"checkpointbutton"}%<li class="natEditCheckpointButton">%IF{"defined 'rev'"
   then="$percntTMPL:P{\"restoreandcontinuebutton\"}$percnt"
   else="$percntTMPL:P{\"saveandcontinuebutton\"}$percnt"
