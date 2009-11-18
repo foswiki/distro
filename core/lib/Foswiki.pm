@@ -3895,7 +3895,6 @@ sub FOREACH {
     $params->{separator}      = "\n"  unless ( defined($params->{separator}) );
 #    $params->{header}      = ''  unless ( $params->{header} );
 #    $params->{footer}      = ''  unless ( $params->{footer} );
-    $params->{nonoise} = 1;
     my $s;
     try {
         my $webObject = Foswiki::Meta->new( $this, $params->{baseweb} );

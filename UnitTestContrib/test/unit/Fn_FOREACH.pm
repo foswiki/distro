@@ -57,6 +57,45 @@ sub test_footer_with_ntopics {
         $result );
 }
 
+sub test_footer_with_ntopics_no_format {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="Total found: $ntopics" separator=""}%'
+    );
+
+    $this->assert_str_equals( "Total found: 3", $result );
+}
+
+sub test_footer_with_ntopics_no_format_nonooise {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic"  nonoise="off" footer="Total found: $ntopics" separator=""}%'
+    );
+
+    $this->assert_str_equals( "Total found: 3", $result );
+}
+sub test_footer_with_ntopics_no_format_nonosummary_nononoise {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic"   nosummary="off" nonoise="off" footer="Total found: $ntopics" separator=""}%'
+    );
+
+    $this->assert_str_equals( "Total found: 3", $result );
+}
+sub test_footer_with_ntopics_no_format_nonosummary_nonoise {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic"   nosummary="off" nonoise="on" footer="Total found: $ntopics" separator=""}%'
+    );
+
+    $this->assert_str_equals( "Total found: 3", $result );
+}
+
+
 sub test_footer_with_ntopics_empty_format {
     my $this = shift;
 

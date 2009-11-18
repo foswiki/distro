@@ -1708,6 +1708,8 @@ Obtain and render revision info for a topic.
    | =$time= | the time of the rev |
    | =$min=, =$sec=, etc. | Same date format qualifiers as GMTIME |
 
+#TODO: detect if there are no relevant $keys and return as a nop
+
 =cut
 
 sub renderRevisionInfo {
@@ -1756,6 +1758,8 @@ sub renderRevisionInfo {
 
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
     $value =~ s/\$web/$topicObject->web() || ''/gei;
+    $value =~ s/\$topic\(([^\)]*)\)/
+      Foswiki::Render::breakName( $topicObject->topic(), $1 )/gei;
     $value =~ s/\$topic/$topicObject->topic() || ''/gei;
     $value =~ s/\$rev/$info->{version}/gi;
     $value =~ s/\$time/
@@ -1763,7 +1767,7 @@ sub renderRevisionInfo {
     $value =~ s/\$date/
       Foswiki::Time::formatTime(
           $info->{date}, $Foswiki::cfg{DefaultDateFormat} )/gei;
-    $value =~ s/(\$(rcs|http|email|iso))/
+    $value =~ s/(\$(rcs|http|email|iso|longdate))/
       Foswiki::Time::formatTime($info->{date}, $1 )/gei;
 
     if ( $value =~ /\$(sec|min|hou|day|wday|dow|week|mo|ye|epoch|tz)/ ) {

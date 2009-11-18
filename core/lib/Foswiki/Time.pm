@@ -255,7 +255,7 @@ sub formatTime {
     my $value = $epochSeconds;
 
     # use default Foswiki format "31 Dec 1999 - 23:59" unless specified
-    $formatString   ||= $Foswiki::cfg{DefaultDateFormat} . ' - $hour:$min';
+    $formatString   ||= 'longdate';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
 
     if ( $formatString =~ /http|email/i ) {
@@ -289,6 +289,9 @@ sub formatTime {
         # ISO Format, see spec at http://www.w3.org/TR/NOTE-datetime
         # e.g. "2002-12-31T19:30:12Z"
         $formatString = '$year-$mo-$dayT$hour:$min:$sec$isotz';
+    }
+    elsif ($formatString =~ /longdate/i ) {
+        $formatString = $Foswiki::cfg{DefaultDateFormat} . ' - $hour:$min';
     }
 
     $value = $formatString;

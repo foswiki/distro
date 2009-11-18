@@ -809,11 +809,6 @@ sub formatResults {
             }
         }
 
-        my $epochSecs = $info->{modified};
-        require Foswiki::Time;
-        my $revDate = Foswiki::Time::formatTime($epochSecs);
-        my $isoDate = Foswiki::Time::formatTime( $epochSecs, '$iso', 'gmtime' );
-
         my $ru     = $info->{editby} || 'UnknownUser';
         my $revNum = $info->{revNum} || 0;
 
@@ -825,30 +820,25 @@ sub formatResults {
 
             $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
 
-            if ($formatDefined) {
+            if ($formatDefined and ($format ne '')) {
                 $out = $format;
-                $out =~ s/\$web/$web/gs;
 
-                #TODO: move the breakName etc into Render::renderRevisionInfo
-                $out =~ s/\$topic\(([^\)]*)\)/
-                  Foswiki::Render::breakName( $topic, $1 )/ges;
-                $out =~ s/\$topic/$topic/gs;
-                $out =~ s/\$date/$revDate/gs;
-                $out =~ s/\$isodate/$isoDate/gs;
-                $out =~ s/\$rev/$revNum/gs;
                 $out =~ s/\$ntopics/$ntopics/gs;
                 $out =~ s/\$nhits/$nhits/gs;
 
-                #TODO: replace this with a single call to renderRevisionInfo
-                if ( $out =~ /\$(wikiusername|wikiname|username)/ ) {
-                    $out =
-                      $session->renderer->renderRevisionInfo( $info->{tom},
-                        $revNum, $out );
-                }
+		#it looks like $isodate in format is equive to $iso in renderRevisionInfo
+		#TODO: clean these 3 hacks up
+		$out =~ s/\$isodate/\$iso/gs;
+		$out =~ s/\%TIME\%/\$date/gs;
+		$out =~ s/\$date/\$longdate/gs;
+		$out =
+		  $session->renderer->renderRevisionInfo( $info->{tom},
+		    $revNum, $out );
 
   #TODO: move the $create* formats into Render::renderRevisionInfo..
   #which implies moving the infocache's pre-extracted data into the tom obj too.
-                $out =~ s/\$create(date|username|wikiname|wikiusername)/
+		$out =~ s/\$createdate/\$createlongdate/gs;
+                $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
                   $infoCache->getRev1Info( $topic, "create$1" )/ges;
 
                 if ( $out =~ m/\$text/ ) {
@@ -856,6 +846,7 @@ sub formatResults {
                         $text = $info->{tom}->text();
                     }
                     if ( $topic eq $session->{topicName} ) {
+			#TODO: extract teh diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
                         # defuse SEARCH in current topic to prevent loop
                         $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
@@ -864,13 +855,10 @@ sub formatResults {
                 }
             }
             else {
-                die "no such thing? ($format)";
-
-                #$out = $repeatText;
+		$out = '';
             }
             $out =~ s/%WEB%/$web/go;
             $out =~ s/%TOPICNAME%/$topic/go;
-            $out =~ s/%TIME%/$revDate/o;
 
             my $srev = 'r' . $revNum;
             if ( $revNum eq '0' || $revNum eq '1' ) {
@@ -934,14 +922,14 @@ sub formatResults {
 
             }
             elsif ($noSummary) {
-                die "no such thing? (noSummary)";
+		#FOREACH with no format and nonoise or nosummary - faster
+		#TODO: i think that means I've broken SEARCH{nosummary=on" 
                 $out =~ s/%TEXTHEAD%//go;
                 $out =~ s/&nbsp;//go;
-
             }
             else {
-                die "no such thing? (ke)";
-
+		#FOREACH with no format and nonoise="off" or nosummary="off"
+		#TODO: pretty pointless until i fix the meaning of nosummary and nonoise in SEARCH
                 # regular search view
                 $text = $info->{tom}->summariseText( '', $text );
                 $out =~ s/%TEXTHEAD%/$text/go;
@@ -958,11 +946,6 @@ sub formatResults {
                 $header =~ s/\$nhits/0/gs;
                 $header = $webObject->expandMacros($header);
                 &$callback( $cbdata, $header );
-            }
-
-            # don't expand if a format is specified - it breaks tables and stuff
-            unless ($formatDefined) {
-                $out = $webObject->renderTML($out);
             }
 
             &$callback( $cbdata, $separator )

@@ -1457,7 +1457,6 @@ sub _getTopicList {
     ASSERT(UNIVERSAL::isa( $iter, 'Foswiki::Iterator' )) if DEBUG;
     my @topicList = ();
     while (my $t = $iter->next()) {
-        print STDERR ">>> $t \n";
         push(@topicList, $t);
     }
 

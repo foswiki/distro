@@ -211,11 +211,9 @@ sub sortResults {
 sub get {
     my ( $this, $topic, $meta ) = @_;
 
-    my $info = $this->{$topic};
-
-    unless ($info) {
-        $this->{$topic} = $info = {};
-        $info->{tom} = $meta || 
+    unless ($this->{$topic}) {
+        $this->{$topic} = {};
+        $this->{$topic}->{tom} = $meta || 
           Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb},
             $topic );
         # SMELL: why do this here? Smells of a hack, as AFAICT it is done
@@ -226,17 +224,17 @@ sub get {
         #$topicObject->text($text);
 
         # Extract sort fields
-        my $ri = $info->{tom}->getRevisionInfo();
+        my $ri = $this->{$topic}->{tom}->getRevisionInfo();
 
         # Rename fields to match sorting criteria
-        $info->{editby}   = $ri->{author} || '';
-        $info->{modified} = $ri->{date};
-        $info->{revNum}   = $ri->{version};
+        $this->{$topic}->{editby}   = $ri->{author} || '';
+        $this->{$topic}->{modified} = $ri->{date};
+        $this->{$topic}->{revNum}   = $ri->{version};
 
-        $info->{allowView} = $info->{tom}->haveAccess('VIEW');
+        $this->{$topic}->{allowView} = $this->{$topic}->{tom}->haveAccess('VIEW');
     }
 
-    return $info;
+    return $this->{$topic};
 }
 
 # Determins, and caches, the topic revision info of the base version,
@@ -265,10 +263,14 @@ sub getRev1Info {
             $info->{createwikiusername} =
               $this->{_session}->{users}->webDotWikiName( $ri->{author} );
         }
-        elsif ( $attr =~ /^created/ ) {
+        elsif ( $attr eq 'createdate' or
+               $attr eq 'createlongdate' or
+               $attr eq 'created' ) {
             $info->{created} = $ri->{date};
             require Foswiki::Time;
             $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
+            #TODO: wow thats disgusting.
+            $info->{created} = $info->{createlongdate} = $info->{createdate};
         }
     }
     return $info->{$attr};
