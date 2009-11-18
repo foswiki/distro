@@ -35,9 +35,6 @@ use Assert;
 use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
-use Data::Dumper ();
-
-our $uploads;
 
 =begin TML
 
@@ -551,7 +548,8 @@ sub save {
     print $fh "=\n";
 
     # Serialize uploads, if there are any
-    if ($this->{uploads}) {
+    if (%{ $this->{uploads} }) {
+        require Data::Dumper;
         my $ser = Data::Dumper->new([$this->{uploads}], ['uploads']);
         $ser->Indent(0);
         $ser->Freezer('freeze');
@@ -595,7 +593,7 @@ sub load {
     $/ = undef;
     my $data = <$file>;
     if (defined $data && $data =~ /^(.*)$/s) {
-        $uploads = undef;
+        my $uploads = undef;
         eval $1;
         $this->{uploads} = $uploads;
     }
