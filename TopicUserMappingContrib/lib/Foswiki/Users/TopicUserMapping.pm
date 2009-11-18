@@ -1203,7 +1203,7 @@ sub _collateGroups {
 # get a list of groups defined in this Wiki
 sub _getListOfGroups {
     my $this = shift;
-    ASSERT( ref($this) eq 'Foswiki::Users::TopicUserMapping' ) if DEBUG;
+    ASSERT( $this->isa('Foswiki::Users::TopicUserMapping') ) if DEBUG;
 
     unless ( $this->{groupsList} ) {
         my $users = $this->{session}->{users};
