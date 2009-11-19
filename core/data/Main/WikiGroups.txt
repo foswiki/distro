@@ -51,12 +51,13 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
                <th>%MAKETEXT{"Members"}%**</th>
              </tr>$n" 
    format="<tr>
-     <td> $percntIF{\"not istopic '$name'\" then=\"<nop>\"}$percnt$name </td>
+     <td> $percntIF{\"not istopic '$name'\" then=\"<nop>\"}$percnt$name</td>
      <td> 
        $percntINCLUDE{\"%WEB%.%TOPIC%\"
          section=\"rendergroup\"
          groupname=\"$name\"
          username=\"$wikiname\"
+         allowschange=\"$allowschange\"
        }$percnt 
      </td>
    </tr>"
@@ -67,19 +68,13 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 
 <verbatim style="display:none">
 <!--
-  parameters: username, groupname
+  parameters: username, groupname, allowschange
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
-<div class='foswikiRight'>
-%TWISTYBUTTON{
-  id="%groupname%_add"
-  link="<img src='%PLUSICONURL%' />"
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="%IF{"%allowschange%" then="changegroup" else="nochange"}%"
+  groupname="%groupname%"
 }%
-%TWISTYBUTTON{
-  id="%groupname%_remove"
-  link="<img src='%MINUSICONURL%' />"
-}%
-</div>
 %GROUPINFO{"%groupname%"
   format="$percntIF{\"not istopic '%username%'\" then=\"<nop>\"}$percnt%username%" 
   separator=", "
@@ -126,6 +121,33 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 <div class='foswikiClear'></div>
 <!-- //rendergroup -->%ENDSECTION{"rendergroup"}%
 </verbatim>
+
+<verbatim style="display:none">
+<!--
+  parameters: username, groupname
+-->
+%STARTSECTION{"nochange"}%<!-- nochange // -->%ENDSECTION{"nochange"}%
+</verbatim>
+
+<verbatim style="display:none">
+<!--
+  parameters: groupname
+-->
+%STARTSECTION{"changegroup"}%<!-- changegroup -->
+<div class='foswikiRight'>
+%TWISTYBUTTON{
+  id="%groupname%_add"
+  link="<img src='%PLUSICONURL%' />"
+}%
+%TWISTYBUTTON{
+  id="%groupname%_remove"
+  link="<img src='%MINUSICONURL%' />"
+}%
+</div>
+<!-- //changegroup -->%ENDSECTION{"changegroup"}%
+</verbatim>
+
+
 
 <!--
    * Set PLUSICONURL = %IF{"istopic '%SYSTEMWEB%.FamFamFamSilkIcons'" 

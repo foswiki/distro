@@ -665,6 +665,33 @@ sub eachMembership {
     };
     return $it;
 }
+=begin TML
+
+---++ ObjectMethod groupAllowsChange($group) -> boolean
+
+returns 1 if the group is able to be modified by the current logged in user
+
+=cut
+
+sub groupAllowsChange {
+    my $this = shift;
+    my $Group = shift;
+    
+    my $user = $this->{session}->{user};
+
+
+    $Group = Foswiki::Sandbox::untaint( $Group,
+        \&Foswiki::Sandbox::validateTopicName );
+    my ( $groupWeb, $groupName ) =
+      $this->{session}
+      ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+      
+    $groupName = undef
+        if (not $this->{session}->topicExists( $groupWeb, $groupName ));
+
+    return Foswiki::Func::checkAccessPermission(
+            'CHANGE', $user, undef, $groupName, $groupWeb);
+}
 
 =begin TML
 
@@ -708,7 +735,7 @@ sub addUserToGroup {
     if (
         $usersObj->isGroup($groupName)
         and ( $this->{session}
-            ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
+            ->topicExists( $groupWeb, $groupName ) )
       )
     {
         if ( $usersObj->isInGroup( $cuid, $groupName ) ) {
@@ -717,7 +744,7 @@ sub addUserToGroup {
             return 1;    #user already in group, nothing to do
         }
         my $groupTopicObject =
-          Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
+          Foswiki::Meta->load( $this->{session}, $groupWeb,
             $groupName );
 
         return 0
@@ -739,12 +766,12 @@ sub addUserToGroup {
         return 0
           unless (
             Foswiki::Func::checkAccessPermission(
-                'CHANGE', $cuid, '', $groupName, $Foswiki::cfg{UsersWebName}
+                'CHANGE', $user, '', $groupName, $groupWeb
             )
           );
 
         my $groupTopicObject =
-          Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
+          Foswiki::Meta->load( $this->{session}, $groupWeb,
             'GroupTemplate' );
         $groupTopicObject->putKeyed(
             'PREFERENCE',
@@ -755,7 +782,7 @@ sub addUserToGroup {
             }
         );
         #TODO: should also consider securing the new topic?
-        $groupTopicObject->saveAs( $Foswiki::cfg{UsersWebName},
+        $groupTopicObject->saveAs( $groupWeb,
             $groupName, -author => $user );
         return 1;
     }

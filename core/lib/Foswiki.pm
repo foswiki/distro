@@ -4501,13 +4501,19 @@ sub GROUPINFO {
             my $wname = $this->{users}->getWikiName( $cUID );
             my $uname = $this->{users}->getLoginName( $cUID );
             my $wuname = $this->{users}->webDotWikiName( $cUID );
-            $row =~ s/\$wikiname/$wname/g;
-            $row =~ s/\$username/$uname/g;
-            $row =~ s/\$wikiusername/$wuname/g;
+            my $change = $this->{users}->groupAllowsChange( $group );
+
+            $row =~ s/\$wikiname/$wname/ge;
+            $row =~ s/\$username/$uname/ge;
+            $row =~ s/\$wikiusername/$wuname/ge;
             $row =~ s/\$name/$group/g;
+            $row =~ s/\$allowschange/$change/ge;
         } else {
             # all groups
+            my $change = $this->{users}->groupAllowsChange( $cUID );
+            
             $row =~ s/\$name/$cUID/g;
+            $row =~ s/\$allowschange/$change/ge;
         }
         push(@rows, $row);
         last if (--$limit == 0);

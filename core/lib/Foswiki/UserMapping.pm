@@ -308,6 +308,18 @@ sub eachMembership {
 
 =begin TML
 
+---++ ObjectMethod groupAllowsChange($group) -> boolean
+
+returns 1 if the group is able to be modified by the current logged in user
+
+=cut
+
+sub groupAllowsChange {
+    return 0;
+}
+
+=begin TML
+
 ---++ ObjectMethod addToGroup( $cuid, $group, $create ) -> $boolean
 adds the user specified by the cuid to the group.
 If the group does not exist, it will return false and do nothing, unless the create flag is set.
