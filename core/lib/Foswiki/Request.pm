@@ -36,6 +36,12 @@ use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
 
+sub TRACE_CACHE {
+
+    # Change to a 1 to trace cache usage
+    0;
+}
+
 =begin TML
 
 ---++ ClassMethod new([$initializer])
@@ -192,7 +198,7 @@ sub queryString {
 
 Returns many url info. 
    * If called without parameters or with -full => 1 returns full url, e.g. 
-     http://twiki.org/cgi-bin/view
+     http://mysite.net/view
    * If called with -base => 1 returns base url, e.g. http://twiki.org
    * -absolute => 1 returns absolute action path, e.g. /cgi-bin/view
    * -relative => 1 returns relative action path, e.g. view
@@ -546,16 +552,6 @@ sub save {
         }
     }
     print $fh "=\n";
-
-    # Serialize uploads, if there are any
-    if (%{ $this->{uploads} }) {
-        require Data::Dumper;
-        my $ser = Data::Dumper->new([$this->{uploads}], ['uploads']);
-        $ser->Indent(0);
-        $ser->Freezer('freeze');
-        $ser->Toaster('thaw');
-        print $fh $ser->Dump();
-    }
 }
 
 =begin TML
@@ -587,15 +583,6 @@ sub load {
     }
     foreach my $key (@plist) {
         $this->param( -name => $key, -value => $param{$key} );
-    }
-
-    # Deserialize uploads
-    $/ = undef;
-    my $data = <$file>;
-    if (defined $data && $data =~ /^(.*)$/s) {
-        my $uploads = undef;
-        eval $1;
-        $this->{uploads} = $uploads;
     }
 }
 

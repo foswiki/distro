@@ -11,6 +11,8 @@ Class to encapsulate uploaded file info.
 package Foswiki::Request::Upload;
 
 use strict;
+use Assert;
+
 use IO::File ();
 
 =begin TML
@@ -93,28 +95,6 @@ Returns the names of temporarly created file.
 
 sub tmpFileName {
     return $_[0]->{tmpname};
-}
-
-# Package-private method used by Data::Dumper serialisation to serialise
-# uploaded files
-sub freeze {
-    my $this = shift;
-    my $fh = $this->handle();
-    local $/;
-    my $data = <$fh>;
-    $this->{data} = $data;
-}
-
-# Package-private method used by Data::Dumper serialisation
-sub thaw {
-    my $this = shift;
-    require File::Temp;
-    # Temp file will be unlinked when this object is destroyed
-    my $fh = new File::Temp( UNLINK => 0 );
-    print $fh $this->{data};
-    undef $this->{data};
-    $this->{tmpname} = $fh->filename();
-    $fh->close();
 }
 
 1;

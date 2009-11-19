@@ -63,6 +63,7 @@ test/unit/RegisterTests.pm 0644
 test/unit/RenameTests.pm 0755
 test/unit/RenderFormTests.pm 0644
 test/unit/RequestTests.pm 0644
+test/unit/RequestCacheTests.pm 0644
 test/unit/ResponseTests.pm 0644
 test/unit/RobustnessTests.pm 0644
 test/unit/SaveScriptTests.pm 0644

@@ -635,6 +635,7 @@ lib/Foswiki/Query/Parser.pm 0444
 lib/Foswiki/Query/UnaryOP.pm 0444
 lib/Foswiki/Render.pm 0444
 lib/Foswiki/Request.pm 0444
+lib/Foswiki/Request/Cache.pm 0444
 lib/Foswiki/Request/Upload.pm 0444
 lib/Foswiki/Response.pm 0444
 lib/Foswiki/Sandbox.pm 0444

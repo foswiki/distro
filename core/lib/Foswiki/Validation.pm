@@ -86,10 +86,10 @@ sub addValidationKey {
         # This has to be consistent with the algorithm in strikeone.js
         my $secret = _getSecret($cgis);
         $action = Digest::MD5::md5_hex( $nonce, $secret );
-        print STDERR "V: STRIKEONE $nonce + $secret = $action\n" if TRACE;
+        #print STDERR "V: STRIKEONE $nonce + $secret = $action\n" if TRACE;
     }
     my $timeout = time() + $Foswiki::cfg{Validation}{ValidForTime};
-    print STDERR "V: ADD $action"
+    print STDERR "V: ADD KEY $action"
       . ( $nonce ne $action ? "($nonce)" : '' ) . ' = '
       . $timeout . "\n"
       if TRACE && !defined $actions->{$action};
@@ -166,9 +166,10 @@ sub isValidNonce {
     return 1 if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
     return 0 unless defined $nonce;
     $nonce =~ s/^\?// if ( $Foswiki::cfg{Validation}{Method} ne 'strikeone' );
-    print STDERR "V: CHECK: $nonce\n" if TRACE;
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
+    print STDERR "V: CHECK $nonce -> ".($actions->{$nonce} ? 1 : 0)."\n"
+      if TRACE;
     return $actions->{$nonce};
 }
 
@@ -238,45 +239,30 @@ sub validate {
     my $topic     = $session->{topicName};
     my $cgis      = $session->getCGISession();
 
-    my $origurl = $query->param('origurl');
-    $query->delete('origurl');
-    my $context = $query->param('context');
-    $query->delete('context');
-
-    # If a special context was requested, enter it. This will normally
-    # be the name of the script that invoked the original save operation.
-    $session->enterContext($context, 1) if $context;
-
     my $tmpl =
       $session->templates->readTemplate( 'validate', $session->getSkin() );
 
     if ( $query->param('response') ) {
+        my $cacheUID = $query->param('originalquery');
+        $query->delete('foswikioriginalquery');
         my $url;
         if ( $query->param('response') eq 'OK'
             && isValidNonce( $cgis, $query->param('validation_key') ) )
         {
-            if ( !$origurl || $origurl eq $query->url() ) {
+            if ( !$cacheUID ) {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
-                $url = $origurl;
-
-                # SMELL: do we ever need this?
-                ASSERT( $url !~ /#/ ) if DEBUG;
-
-                # Unpack params encoded in the origurl and restore them
-                # to the query. If they were left in the query string they
-                # would be lost when we redirect with passthrough
-                if ( $url =~ s/\?(.*)$// ) {
-                    foreach my $pair ( split( /[&;]/, $1 ) ) {
-                        if ( $pair =~ /(.*?)=(.*)/ ) {
-                            $query->param( $1, TAINT($2) );
-                        }
-                    }
-                }
+                # Reload the cached original query over the current query.
+                # When the redirect is validated it should pass, because
+                # it will now be using the validation code from the
+                # confirmation screen that brought us here.
+                require Foswiki::Request::Cache;
+                Foswiki::Cache->new()->load($cacheUID, $query);
             }
 
-            # Redirect with passthrough (302)
+            # Complete the query by passing the query on
+            # dispatcher
             print STDERR "WV: CONFIRMED; POST to $url\n" if TRACE;
             $session->redirect( $url, 1 );
         }
@@ -290,18 +276,17 @@ sub validate {
     }
     else {
 
-        print STDERR "V: PROMPT FOR CONFIRMATION\n" if TRACE;
+        print STDERR "V: PROMPTING FOR CONFIRMATION ".$query->uri()
+          ."\n" if TRACE;
 
         # prompt for user verification - code 419 chosen by foswiki devs
         $session->{response}->status(419);
-
-        $session->{prefs}->setSessionPreferences(
-            ORIGURL => Foswiki::_encode( 'entity', $origurl || '' ), );
 
         my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
         $tmpl = $topicObject->expandMacros($tmpl);
         $tmpl = $topicObject->renderTML($tmpl);
         $tmpl =~ s/<nop>//g;
+
         $session->writeCompletePage($tmpl);
     }
 }
@@ -321,20 +306,20 @@ sub _getSecret {
 
 1;
 __END__
-# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2009 Foswiki Contributors. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2009 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

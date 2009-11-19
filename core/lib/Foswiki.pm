@@ -45,7 +45,6 @@ use strict;
 use Assert;
 use Error qw( :try );
 use Monitor ();
-use Fcntl;    # File control constants e.g. O_EXCL
 use CGI         ();    # Always required to get html generation tags;
 use Digest::MD5 ();    # For passthru and validation
 
@@ -1079,23 +1078,8 @@ sub cacheQuery {
     # Don't double-cache
     return '' if ( $query->param('foswiki_redirect_cache') );
 
-    # get a hex-encoded session-specific unguessable key for the passthrough
-    $this->{digester}->add( $$, rand(time) );
-    my $uid              = $this->{digester}->hexdigest();
-    my $passthruFilename = "$Foswiki::cfg{WorkingDir}/tmp/passthru_$uid";
-
-    # passthrough file is only written to once, so if it already exists,
-    # suspect a security hack (O_EXCL)
-    my $F;
-    sysopen( $F, "$passthruFilename", O_RDWR | O_EXCL | O_CREAT, 0600 )
-      || die 'Unable to open '
-      . $Foswiki::cfg{WorkingDir}
-      . '/tmp for write; check the setting of {WorkingDir} in configure,'
-      . ' and check file permissions: '
-      . $!;
-    $query->save($F);
-    close($F);
-
+    require Foswiki::Request::Cache;
+    my $uid = Foswiki::Request::Cache->new()->save($query);
     if ($Foswiki::cfg{UsePathForRedirectCache}) {
         return '/foswiki_redirect_cache/' . $uid;
     } else {

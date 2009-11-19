@@ -37,10 +37,15 @@ use Foswiki ();
 use Foswiki::LoginManager ();
 Foswiki::LoginManager::expireDeadSessions();
 
+# This will expire the caches that are used to store query parameters through
+# a validation confirmation process. By default these are expired if they
+# are older than 5 minutes, or you can pass a different timeout (in seconds).
+use Foswiki::Request::Cache ();
+Foswiki::Request::Cache::cleanup();
+
 # This will remove topic leases that have expired. Topic leases may also be
 # left behind when a user edits a topic and then navigates away without
 # cancelling the edit.
-
 use Foswiki::Meta ();
 my $root = new Foswiki::Meta(new Foswiki());
 $root->onTick(time());

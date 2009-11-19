@@ -160,11 +160,7 @@ use Foswiki::Validation             ();
 # Used to lazily load UI handler modules
 our %isInitialized = ();
 
-sub TRACE_PASSTHRU {
-
-    # Change to a 1 to trace passthrough
-    0;
-}
+sub TRACE_REQUEST { 0 };
 
 =begin TML
 
@@ -216,6 +212,9 @@ sub handleRequest {
 
     # Get the params cache from the path
     my $cache = $req->param('foswiki_redirect_cache');
+    if (defined $cache) {
+        $req->delete('foswiki_redirect_cache');
+    }
 
     # If the path specifies a cache path, use that. It's arbitrary
     # as to which takes precedence (param or path) because we should
@@ -226,41 +225,23 @@ sub handleRequest {
         $req->path_info( $path_info );
     }
 
-    if (  defined $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
-        $cache = $1; # untaint;
-
-        # Read cached post parameters
-        my $passthruFilename =
-          $Foswiki::cfg{WorkingDir} . '/tmp/passthru_' . $cache;
-        my $F;
-        if ( open( $F, '<', $passthruFilename ) ) {
-            local $/;
-            if (TRACE_PASSTHRU) {
-                print STDERR "Passthru: Loading cache for ", $req->url(),
-                  '?', $req->query_string(), "\n";
-                print STDERR <F>, "\n";
-                close($F);
-                open( $F, '<', $passthruFilename );
-            }
-            $req->load($F);
-            close(F);
-            unlink($passthruFilename);
-            $req->delete('foswiki_redirect_cache');
-            print STDERR "Passthru: Loaded and unlinked $passthruFilename\n"
-              if TRACE_PASSTHRU;
-
-            $req->method('POST');
-        }
-        else {
-            print STDERR "Passthru: Could not find $passthruFilename\n"
-              if TRACE_PASSTHRU;
-        }
+    if ( defined $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
+        require Foswiki::Request::Cache;
+        # implicit untaint required, because $cache may be used in a filename.
+        # Note that the cache serialises the method and path_info, which
+        # will be restored.
+        Foswiki::Request::Cache->new()->load($1, $req);
     }
 
-    #print STDERR "INCOMING ".$req->method()." ".$req->url." -> ".$sub."\n";
-    #print STDERR "Validation: ".($req->param('validation_key')||'no key')."\n";
-    #require Data::Dumper;
-    #print STDERR Data::Dumper->Dump([$req]);
+    if (TRACE_REQUEST) {
+        print STDERR "INCOMING ".$req->method()." ".$req->url
+          ." -> ".$sub."\n";
+        print STDERR "validation_key: ".
+          ($req->param('validation_key')||'no key')."\n";
+        #require Data::Dumper;
+        #print STDERR Data::Dumper->Dump([$req]);
+    }
+
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
         $dispatcher->{context}->{command_line} = 1;
     }
@@ -317,26 +298,23 @@ sub _execute {
 
             my $query = $session->{request};
 
-            # Redirect with passthrough so we don't lose the
-            # original query params. We use the login script for
+            # Cache the original query, so we can complete if if it is
+            # confirmed
+            require Foswiki::Request::Cache;
+            my $uid = Foswiki::Request::Cache->new()->save($query);
+
+            print STDERR "ValidationException: redirect with $uid\n";
+
+            # We use the login script for
             # validation because it already has the correct criteria
             # in httpd.conf for Apache login.
-            my $url =
-              $session->getScriptUrl( 0, 'login', $session->{webName},
-                                      $session->{topicName} );
-            $query->param(
-                -name  => 'action',
-                -value => 'validate'
-               );
-            $query->param(
-                -name  => 'origurl',
-                -value => $session->{request}->uri
-               );
-            # Pass the action that was invoked to get here so that an
-            # appropriate message can be generated
-            $query->param( -name => 'context',
-                           -value => $e->{action} );
-            $session->redirect( $url, 1 );    # with passthrough
+            my $url = $session->getScriptUrl(
+                0, 'login',
+                $session->{webName}, $session->{topicName},
+                foswikiloginaction => 'validate',
+                foswikioriginalquery => $uid);
+
+            $session->redirect( $url );    # no passthrough
         }
         catch Foswiki::AccessControlException with {
             my $e = shift;
@@ -423,13 +401,12 @@ Handler to "logon" action.
 
 sub logon {
     my $session = shift;
-    if (
-        ( $session->{request}->param('action') || '' ) eq 'validate'
+    my $action = $session->{request}->param('foswikiloginaction');
+    $session->{request}->delete('foswikiloginaction');
 
-        # Force login if not recognisably authenticated
-        && $session->inContext('authenticated')
-      )
-    {
+    # Force login if not recognisably authenticated when validating
+    if ( $action && $action eq 'validate'
+           && $session->inContext('authenticated')) {
         Foswiki::Validation::validate($session);
     }
     else {
