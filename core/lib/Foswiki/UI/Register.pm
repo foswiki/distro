@@ -577,7 +577,7 @@ sub addUserToGroup {
         throw Foswiki::OopsException( 'attention', def => 'no_users_to_add_to_group' );
     }
     if (length(@userNames) == 1) {
-        @userNames = split(/,\s+/, $userNames[0]);
+        @userNames = split(/,\s*/, $userNames[0]);
     }
     if (!$groupName or $groupName eq '') {
         throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_add_to_group' );

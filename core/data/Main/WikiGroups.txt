@@ -159,7 +159,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
        else="%ICONURLPATH{"minus"}%"
      }%
    * Set GROUPICONURL = %IF{"istopic '%SYSTEMWEB%.FamFamFamSilkIcons'" 
-       then="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/group.png" 
+       then="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/group_add.png" 
        else="%ICONURLPATH{"persons"}%"
      }%
 
