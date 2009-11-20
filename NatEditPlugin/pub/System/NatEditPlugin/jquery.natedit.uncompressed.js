@@ -600,7 +600,7 @@ $.NatEditor.prototype.autoMaxExpand = function() {
   window.setTimeout(function() {
     self.fixHeight();
     $(window).one("resize.natedit", function() {
-      self.autoMaxExpand()
+      self.autoMaxExpand();
     });
   }, 100); 
 };

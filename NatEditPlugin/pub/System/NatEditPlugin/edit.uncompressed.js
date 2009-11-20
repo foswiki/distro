@@ -54,6 +54,10 @@ function fixHeightOfPane () { }
       if ((typeof(tinyMCE) === 'object') && typeof(tinyMCE.activeEditor === 'object')) {
         $(".natEditToolBar").hide(); /* switch off natedit toolbar */
         $("#topic_fullscreen").parent().remove(); /* remove full-screen feature ... til fixed */
+        /* Thanks to window.load event, TinyMCEPlugin has already done 
+        ** switchToWYSIWYG(); our new switchToWYSIWYG() routine below wasn't 
+        ** called. So force a TMCE resize. */
+        $(window).trigger('resize.natedit');
   
         var oldSwitchToWYSIWYG = FoswikiTiny.switchToWYSIWYG;
         FoswikiTiny.switchToWYSIWYG = function(inst) {
