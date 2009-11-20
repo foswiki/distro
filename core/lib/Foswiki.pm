@@ -1266,7 +1266,7 @@ sub getIconUrl {
         $iconName =~ s/^.*\.(.*?)$/$1/;
         return $this->getPubUrl( $absolute, $web, $topic, $iconName . '.gif' );
     }
-    ele {
+    else {
         return '';
     }
 }
