@@ -308,6 +308,18 @@ sub eachMembership {
 
 =begin TML
 
+---++ ObjectMethod groupAllowsView($group) -> boolean
+
+returns 1 if the group is able to be viewed by the current logged in user
+
+=cut
+
+sub groupAllowsView {
+    return 1;
+}
+
+=begin TML
+
 ---++ ObjectMethod groupAllowsChange($group) -> boolean
 
 returns 1 if the group is able to be modified by the current logged in user

@@ -896,6 +896,21 @@ sub eachMembership {
 
 =begin TML
 
+---++ ObjectMethod groupAllowsView($group) -> boolean
+
+returns 1 if the group is able to be modified by the current logged in user
+
+=cut
+
+sub groupAllowsView {
+    my $this = shift;
+    my $group = shift;
+    my $mapping = $this->{mapping};
+    return $mapping->groupAllowsView( $group );
+}
+
+=begin TML
+
 ---++ ObjectMethod groupAllowsChange($group) -> boolean
 
 returns 1 if the group is able to be modified by the current logged in user

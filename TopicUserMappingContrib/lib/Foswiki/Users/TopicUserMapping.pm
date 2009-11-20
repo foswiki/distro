@@ -665,11 +665,44 @@ sub eachMembership {
     };
     return $it;
 }
+
+=begin TML
+
+---++ ObjectMethod groupAllowsView($group) -> boolean
+
+returns 1 if the group is able to be viewed by the current logged in user
+
+implemented using topic VIEW permissions
+
+=cut
+
+sub groupAllowsView {
+    my $this = shift;
+    my $Group = shift;
+    
+    my $user = $this->{session}->{user};
+    return 1 if $this->{session}->{users}->isAdmin($user);
+
+    $Group = Foswiki::Sandbox::untaint( $Group,
+        \&Foswiki::Sandbox::validateTopicName );
+    my ( $groupWeb, $groupName ) =
+      $this->{session}
+      ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+      
+    $groupName = undef
+        if (not $this->{session}->topicExists( $groupWeb, $groupName ));
+
+    return Foswiki::Func::checkAccessPermission(
+            'VIEW', $user, undef, $groupName, $groupWeb);
+}
+
 =begin TML
 
 ---++ ObjectMethod groupAllowsChange($group) -> boolean
 
 returns 1 if the group is able to be modified by the current logged in user
+
+implemented using topic CHANGE permissions
 
 =cut
 
@@ -678,6 +711,7 @@ sub groupAllowsChange {
     my $Group = shift;
     
     my $user = $this->{session}->{user};
+    return 1 if $this->{session}->{users}->isAdmin($user);
 
 
     $Group = Foswiki::Sandbox::untaint( $Group,

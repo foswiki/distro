@@ -4482,6 +4482,7 @@ sub GROUPINFO {
         my $cUID = $it->next();
         my $row = $format;
         if ($group) {
+            next unless($this->{users}->groupAllowsView( $group ));
             my $wname = $this->{users}->getWikiName( $cUID );
             my $uname = $this->{users}->getLoginName( $cUID );
             my $wuname = $this->{users}->webDotWikiName( $cUID );
@@ -4494,6 +4495,7 @@ sub GROUPINFO {
             $row =~ s/\$allowschange/$change/ge;
         } else {
             # all groups
+            next unless($this->{users}->groupAllowsView( $cUID ));
             my $change = $this->{users}->groupAllowsChange( $cUID );
             
             $row =~ s/\$name/$cUID/g;
