@@ -2,7 +2,7 @@ Foswiki Collaboration Platform
 ==============================
 
 What is Foswiki?
---------------
+----------------
 
 Foswiki is a flexible and powerful web-based collaboration 
 platform that allows you to run a dynamic intranet site, a 
@@ -23,16 +23,16 @@ pages, revision control of pages and attachments, and
 more. The server-side Foswiki Plugins API provides developers 
 with a simple way to build new groupware applications. 
 
-The GPLed Foswiki software and over hundreds of Plugins can be 
+The GPLed Foswiki software and hundreds of Plugins can be 
 downloaded from the Foswiki.org web site, http://foswiki.org/.
 
 
 Foswiki Distribution and License
-------------------------------
+--------------------------------
 
 Foswiki is open source software and is distributed under the 
 terms of the GNU General Public License. You can request 
-the latest version of Foswiki from http://foswiki.org/ .
+the latest version of Foswiki from http://foswiki.org/.
 
 The LICENSE file, located in the root of the Foswiki 
 distribution package, shows your rights and duties on how to 
@@ -44,27 +44,27 @@ contributors put into creating this product.
 
 
 Foswiki Installation, Support
----------------------------
+-----------------------------
 
 It is important to follow the installation instructions in
-INSTALL.html located in the distribution
+INSTALL.html located in the distribution.
 
-Foswiki is free software and does not include any support. There
-is a site support questions, run by Foswiki users for
-Foswiki users. Visit http://foswiki.org/Support/WebHome
-if you have any installation questions or questions about Foswiki
+Foswiki is free software and does not include any support. 
+There is a site support questions, run by Foswiki users for
+Foswiki users. Visit http://foswiki.org/Support if you have 
+any installation questions or questions about Foswiki 
 deployment; please do not contact the developers directly. You
 can also get support from fellow users on the IRC channel #foswiki
 
 
 Foswiki News, Development and Deployment
---------------------------------------
+----------------------------------------
 
 You can always find out the latest news at the Foswiki home 
-page at http://foswiki.org/ .
+page at http://foswiki.org/.
 
 The place to collaborate on further Foswiki development is at
-http://foswiki.org .
+http://foswiki.org/.
 
 Good luck with your collaboration effort and with Foswiki.
 
