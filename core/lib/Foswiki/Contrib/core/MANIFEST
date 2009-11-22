@@ -751,6 +751,7 @@ pub/System/DocumentGraphics/as.gif 0644
 pub/System/DocumentGraphics/attachfile.gif 0644
 pub/System/DocumentGraphics/award.gif 0644
 pub/System/DocumentGraphics/bat.gif 0644
+pub/System/DocumentGraphics/barcode.gif 0644
 pub/System/DocumentGraphics/bed.gif 0644
 pub/System/DocumentGraphics/blank-bg.gif 0644
 pub/System/DocumentGraphics/blank.gif 0644
@@ -770,6 +771,7 @@ pub/System/DocumentGraphics/choice-no.gif 0644
 pub/System/DocumentGraphics/choice-yes.gif 0644
 pub/System/DocumentGraphics/closed.gif 0644
 pub/System/DocumentGraphics/code.gif 0644
+pub/System/DocumentGraphics/comments.gif 0644
 pub/System/DocumentGraphics/connections.gif 0644
 pub/System/DocumentGraphics/css.gif 0644
 pub/System/DocumentGraphics/database.gif 0644
@@ -798,6 +800,7 @@ pub/System/DocumentGraphics/eml.gif 0644
 pub/System/DocumentGraphics/empty.gif 0644
 pub/System/DocumentGraphics/exe.gif 0644
 pub/System/DocumentGraphics/external.gif 0644
+pub/System/DocumentGraphics/facebook.gif 0644
 pub/System/DocumentGraphics/fax.gif 0644
 pub/System/DocumentGraphics/feed.gif 0644
 pub/System/DocumentGraphics/filter.gif 0644
@@ -903,10 +906,12 @@ pub/System/DocumentGraphics/png.gif 0644
 pub/System/DocumentGraphics/ppt.gif 0644
 pub/System/DocumentGraphics/presentation.gif 0644
 pub/System/DocumentGraphics/printtopic.gif 0644
+pub/System/DocumentGraphics/process.gif 0644
 pub/System/DocumentGraphics/processing-32-bg.gif 0644
 pub/System/DocumentGraphics/processing-32.gif 0644
 pub/System/DocumentGraphics/processing-bg.gif 0644
 pub/System/DocumentGraphics/processing.gif 0644
+pub/System/DocumentGraphics/profile.gif 0644
 pub/System/DocumentGraphics/proportional.gif 0644
 pub/System/DocumentGraphics/ps.gif 0644
 pub/System/DocumentGraphics/psd.gif 0644
