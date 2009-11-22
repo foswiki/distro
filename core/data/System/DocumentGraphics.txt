@@ -30,6 +30,8 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | <img src="%ATTACHURLPATH%/blank-bg.gif" alt="Blank" title="Blank" />  | =blank-bg.gif= | Blank box, transparent | =%<nop>ICON{blank-bg}%= |
 | <img src="%ATTACHURLPATH%/bubble.gif" alt="Speech bubble" title="Speech bubble" />  | =bubble.gif= | Speech bubble | =%<nop>ICON{bubble}%= |
 | <img src="%ATTACHURLPATH%/bug.gif" alt="Bug" title="Bug" />  | =bug.gif= | Bug | =%<nop>ICON{bug}%= |
+| <img src="%ATTACHURLPATH%/connections.gif" alt="Connections" title="Connections" />  | =connections.gif= | Connections | =%<nop>ICON{connections}%= |
+| <img src="%ATTACHURLPATH%/database.gif" alt="Database" title="Database" />  | =database.gif= | Database | =%<nop>ICON{database}%= |
 | <img src="%ATTACHURLPATH%/days.gif" alt="Days / Calendar" title="Days / Calendar" />  | =days.gif= | Days, Calendar | =%<nop>ICON{days}%= |
 | <img src="%ATTACHURLPATH%/download.gif" alt="Download" title="Download" />  | =download.gif= | Download | =%<nop>ICON{download}%= |
 | <img src="%ATTACHURLPATH%/fax.gif" alt="Fax" title="Fax" />  | =fax.gif= | Fax | =%<nop>ICON{fax}%= |
@@ -427,8 +429,10 @@ and that will get rendered as: %ICONURL{"toggleopen"}%
 %META:FILEATTACHMENT{name="choice-no.gif" attr="" comment="" date="1169565034" path="choice-no.gif" size="166" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="choice-yes.gif" attr="" comment="" date="1169565034" path="choice-yes.gif" size="159" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="closed.gif" attr="" comment="" date="1169565034" path="closed.gif" size="379" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="connections.gif" attr="" comment="" date="1258527559" path="connections.gif" size="957" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="code.gif" attr="" comment="" date="1169565035" path="code.gif" size="374" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="css.gif" attr="" comment="" date="1169565035" path="css.gif" size="374" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="database.gif" attr="" comment="" date="1258527559" path="database.gif" size="1030" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="days.gif" attr="" comment="" date="1169565034" path="days.gif" size="161" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="detail.gif" attr="" comment="" date="1169565034" path="detail.gif" size="118" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="dll.gif" attr="" comment="" date="1169565034" path="dll.gif" size="376" user="ProjectContributor" version=""}%
