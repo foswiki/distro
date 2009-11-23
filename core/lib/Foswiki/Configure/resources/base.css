@@ -199,3 +199,7 @@ padding-left:2em;
 .foswikiHidden,.foswikiMakeVisible,.foswikiMakeVisibleBlock {
 display:none;
 }
+
+.foswikiValueChanged { 
+  border: 2px solid red;
+}

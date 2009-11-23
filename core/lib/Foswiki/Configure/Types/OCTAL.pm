@@ -10,10 +10,11 @@ our @ISA = ('Foswiki::Configure::Types::NUMBER');
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
     return CGI::textfield(
-        -name    => $id,
-        -size    => 20,
-        -default => sprintf( '0%o', $value ),
-        -class   => "foswikiInputField $class",
+        -name     => $id,
+        -size     => 20,
+        -default  => sprintf( '0%o', $value ),
+        -onchange => 'valueChanged(this)',
+        -class    => "foswikiInputField $class",
     );
 }
 

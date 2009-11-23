@@ -595,6 +595,40 @@ var rules = {
 };
 Behaviour.register(rules);
 
+/* Value changes. Event when a value is edited; enables the save changes
+ * button */
+var somethingChanged = false;
+function valueChanged(el) {
+    foswiki.CSS.addClass(el, 'foswikiValueChanged');
+    if (!somethingChanged) {
+        var els = getElementsByClassName(document, 'showWhenNothingChanged');
+        for (var i in els) {
+            foswiki.CSS.addClass(els[i], 'foswikiHidden');
+        }
+        els = getElementsByClassName(document, 'enableWhenSomethingChanged');
+        var controlTypes = [ 'Submit', 'Button', 'InputField' ];
+        for (var i in els) {
+            foswiki.CSS.removeClass(els[i], 'foswikiHidden');
+            for (var j in controlTypes) {
+                var ct = 'foswiki' + controlTypes[j];
+                if (foswiki.CSS.hasClass(els[i], ct + 'Disabled')) {
+                    foswiki.CSS.removeClass(els[i], ct + 'Disabled');
+                    foswiki.CSS.addClass(els[i], ct);
+                }
+            }
+            els[i].disabled = false;
+        }
+        somethingChanged = true;
+    }
+}
+
+function focusPassword() {
+    if (document.forms['update'].cfgAccess != null) {
+        document.forms['update'].cfgAccess.focus();
+    }
+}
+
 addLoadEvent(toggleExpertsMode);
 addLoadEvent(toggleInfoMode);
 addLoadEvent(initSection);
+addLoadEvent(focusPassword);

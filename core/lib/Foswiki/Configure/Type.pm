@@ -44,10 +44,11 @@ sub prompt {
     # percentage size should be set in CSS
 
     return CGI::textfield(
-        -name    => $id,
-        -size    => $size,
-        -default => $value,
-        -class   => "foswikiInputField $class",
+        -name     => $id,
+        -size     => $size,
+        -default  => $value,
+        -onchange => 'valueChanged(this)',
+        -class    => "foswikiInputField $class",
     );
 }
 

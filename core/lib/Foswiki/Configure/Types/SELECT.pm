@@ -22,7 +22,12 @@ sub prompt {
         }
     }
     return CGI::Select(
-        { name => $id, size => 1, class => "foswikiSelect $class" }, $sopts );
+        {
+            name     => $id,
+            size     => 1,
+            class    => "foswikiSelect $class",
+            onchange => 'valueChanged(this)',
+        }, $sopts );
 }
 
 1;

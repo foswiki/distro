@@ -9,10 +9,13 @@
 </#assign>
 
 <#assign localOkMessage>
-	<div class='foswikiNotification'>
-		<strong>If you made any changes, save them first!</strong>
-		Otherwise <a href='${scriptName}?action=FindMoreExtensions' class='foswikiButton'>Continue to the Extensions overview</a>
+	<div class='foswikiNotification enableWhenSomethingChanged foswikiHidden'>
+		<strong>You made some changes! Consider saving them first.</strong>
+		Otherwise click to <a href='${scriptName}?action=FindMoreExtensions' class='foswikiButton'>Install and Update Extensions</a>
 	</div>
+    <div class='foswikiNotification showWhenNothingChanged'>
+	    <a href='${scriptName}?action=FindMoreExtensions' class='foswikiButton'>Install and Update Extensions</a>
+    </div>
 </#assign>
 
 <#if hasError == 1>

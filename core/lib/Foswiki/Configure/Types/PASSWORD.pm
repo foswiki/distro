@@ -19,6 +19,7 @@ sub prompt {
         -size         => $size,
         -default      => $value,
         -autocomplete => 'off',
+        -onchange     => 'valueChanged(this)',
         -class        => "foswikiInputField $class",
     );
 }

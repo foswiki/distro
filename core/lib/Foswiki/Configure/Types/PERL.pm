@@ -30,11 +30,12 @@ sub prompt {
     # percentage size should be set in CSS
 
     return CGI::textarea(
-        -name    => $id,
-        -value   => $v,
-        -rows    => 10,
-        -columns => $size,
-        -class   => "foswikiTextarea $class",
+        -name     => $id,
+        -value    => $v,
+        -rows     => 10,
+        -columns  => $size,
+        -onchange => 'valueChanged(this)',
+        -class    => "foswikiTextarea $class",
     );
 }
 

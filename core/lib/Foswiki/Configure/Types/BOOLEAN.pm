@@ -10,11 +10,12 @@ our @ISA = ('Foswiki::Configure::Type');
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
     return CGI::checkbox(
-        -name    => $id,
-        -checked => ( $value ? 1 : 0 ),
-        -value   => 1,
-        -label   => '',
-        -class   => $class,
+        -name     => $id,
+        -checked  => ( $value ? 1 : 0 ),
+        -value    => 1,
+        -label    => '',
+        -onchange => 'valueChanged(this)',
+        -class    => $class,
     );
 }
 
