@@ -103,7 +103,7 @@ sub cleanUpRevID {
     $rev =~ s/[^\d]//g;     # digits only
     
     #ill formed rev's are still valid (see MetaTests::test_BadRevisionInfo)
-    $rev = '1' if ($rev eq '');
+    $rev = 0 if ($rev eq '');
 
     return Foswiki::Sandbox::untaintUnchecked($rev);
 }
