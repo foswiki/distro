@@ -10,7 +10,7 @@ use strict;
 
 my $REPOS = $ARGV[0];
 my $TXN = $ARGV[1];
-my $dataDir = '/home/foswiki.org/data';
+my $dataDir = '/home/foswiki.org/public_html/data';
 
 my $logmsg = `/usr/local/bin/svnlook log -t $TXN $REPOS`;
 

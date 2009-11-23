@@ -5,7 +5,7 @@ use Data::Dumper;
 use List::Util;
 
 my $REPOS = '/home/svn/nextwiki';
-my $BUGS = '/home/foswiki.org/trunk/core/data/Tasks';
+my $BUGS = '/home/foswiki.org/public_html/data/Tasks';
 my $MANIFEST = '/home/trunk.foswiki.org/core/lib/MANIFEST';
 my $svn = '/usr/local/bin/svn';
 my $svnlook = '/usr/local/bin/svnlook';
