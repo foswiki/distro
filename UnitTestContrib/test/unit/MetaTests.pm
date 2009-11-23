@@ -559,12 +559,12 @@ sub test_BadRevisionInfo {
     my $broken = '$'.'Rev'.'$'; #stop svn from filling in the number..
     $rev = Foswiki::Store::cleanUpRevID($broken);
     $this->assert(defined($rev));
-    $this->assert_equals(1, $rev);
+    $this->assert_equals(0, $rev);
 
 #we recognise a txt file that has not been written by foswiki as rev=1
     $rev = Foswiki::Store::cleanUpRevID('');
     $this->assert(defined($rev));
-    $this->assert_equals(1, $rev);
+    $this->assert_equals(0, $rev);
 
 }
 
