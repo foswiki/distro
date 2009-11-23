@@ -572,11 +572,11 @@ sub addUserToGroup {
     my $groupName = $query->param('groupname');
     my $create = Foswiki::isTrue( $query->param('create'), 0);
     if (
-        (length(@userNames) <= 0) or 
+        ($#userNames <= 0) or 
         ($userNames[0] eq '')){
         throw Foswiki::OopsException( 'attention', def => 'no_users_to_add_to_group' );
     }
-    if (length(@userNames) == 1) {
+    if ($#userNames == 1) {
         @userNames = split(/,\s*/, $userNames[0]);
     }
     if (!$groupName or $groupName eq '') {
@@ -639,11 +639,11 @@ sub removeUserFromGroup {
     my @userNames = $query->param('username');
     my $groupName = $query->param('groupname');
     if (
-        (length(@userNames) <= 0) or 
+        ($#userNames <= 0) or 
         ($userNames[0] eq '')){
         throw Foswiki::OopsException( 'attention', def => 'no_users_to_remove_from_group' );
     }
-    if (length(@userNames) == 1) {
+    if ($#userNames == 1) {
         @userNames = split(/,\s+/, $userNames[0]);
     }
     if (!$groupName or $groupName eq '') {
@@ -742,6 +742,20 @@ sub _complete {
         );
         my $log = _createUserTopic( $session, $data );
         $users->setEmails( $cUID, $data->{Email} );
+
+        #convert to rego agent user copied from _writeRegistrationDetailsToTopic
+        my $safe = $session->{user};
+        my $regoAgent = $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName});
+        foreach my $groupName (split(/,/, $data->{AddToGroups})) {
+            $session->{user} = $regoAgent;
+            try {
+                $users->addUserToGroup($cUID, $groupName);
+            }
+            finally {
+                $session->{user} = $safe;
+            };
+        }
+
     }
     catch Error::Simple with {
         my $e = shift;
@@ -1348,15 +1362,14 @@ sub _getDataFromQuery {
 
     # get all parameters from the form
     my $data = {};
-    foreach ( $query->param() ) {
-        if (/^(Twk([0-9])(.*))/) {
-            my @values   = $query->param($1) || ();
+    foreach my $key ( $query->param() ) {
+        if ($key =~ /^(Twk([0-9])(.*))/) {
+            my @values   = $query->param($key);
             my $required = $2;
             my $name     = $3;
 
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
-
             # Note: field values are unvalidated (and therefore tainted).
             # This is because the registration code does not have enough
             # information to validate the data - for example, it cannot

@@ -317,7 +317,16 @@ else="*%MAKETEXT{"This Foswiki does _not_ support new User Registration"}%*"
   </select> =<font color="red">**</font>=
   </td>
 </tr>
-<tr>
+%GROUPINFO{
+      header="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupheader\"}$percnt"
+      footer="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupfooter\"}$percnt"
+      format="$percntINCLUDE{\"%WEB%.%TOPIC%\"
+         section=\"rendergroup\"
+         groupname=\"$name\"
+         allowschange=\"$allowschange\"
+       }$percnt"
+      separator=" "
+}%<tr>
   <td valign="top" align="right"> %MAKETEXT{"Comments:"}%<br /> %MAKETEXT{"(optional)"}% </td>
   <td><textarea %NOREGISTRATION%  name="Twk0Comment" wrap="virtual" rows="4" cols="38" class="foswikiInputField"></textarea></td>
 </tr>
@@ -347,3 +356,45 @@ else="*%MAKETEXT{"This Foswiki does _not_ support new User Registration"}%*"
 <div class="foswikiHelp">
    * %ICON{info}% %MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
 </div>
+
+<!-- GROUPINFO formaters -->
+<verbatim style="display:none;">
+TODO: need to make the header&footer not display if there are no groups they can join
+TODO: should redo this topic to look differet between a guest registering themselves, and a registered user inviting/registering a user
+<!--
+  parameters: groupname, allowschange
+-->
+%STARTSECTION{"rendergroup"}%<!-- rendergroup -->
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="%IF{"%allowschange%" then="changegroup" else="nochange"}%"
+  groupname="%groupname%"
+}%
+<!-- /rendergroup -->%ENDSECTION{"rendergroup"}%
+<!--
+  parameters: groupname
+-->
+%STARTSECTION{"changegroup"}%<!-- changegroup -->
+<input type="checkbox" name="Twk0AddToGroups" class="foswikiInputField" value="%groupname%" label="%groupname%" />
+               %IF{"not istopic '%MAINWEB%.%groupname%'" then="<nop>" else="%MAINWEB%."}%%groupname%
+<!-- /changegroup -->%ENDSECTION{"changegroup"}%
+<!--
+  parameters: 
+-->
+%STARTSECTION{"nochange"}%<!-- nochange// --> %ENDSECTION{"nochange"}%
+
+<!--
+  parameters: 
+-->
+%STARTSECTION{"rendergroupheader"}%<!-- rendergroupheader -->
+<tr>
+  <td align="right"> %MAKETEXT{"Wiki Groups to join:"}% </td>
+  <td>
+<!-- //rendergroupheader -->%ENDSECTION{"rendergroupheader"}%
+<!--
+  parameters: 
+-->
+%STARTSECTION{"rendergroupfooter"}%<!-- rendergroupfooter -->
+  </td>
+</tr>
+<!-- //rendergroupfooter -->%ENDSECTION{"rendergroupfooter"}%
+</verbatim>

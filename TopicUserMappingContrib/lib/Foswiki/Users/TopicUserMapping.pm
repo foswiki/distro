@@ -745,6 +745,7 @@ sub addUserToGroup {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
+    #the registration code will call this function using the rego agent
     my $user = $this->{session}->{user};
 
 #open Group topic, parse for the GROUPs setting, append new user
@@ -752,19 +753,10 @@ sub addUserToGroup {
 #TODO: LATER: check for duplicates
 #TODO: make sure the groupName ends in Group...
 
-#run this as calling user, if the registration is being run by an existing user
-# (often done by admins), else run as registration agent
-#TODO: extract this to the rego code - as we really should only allow magical group adding in specific circumstances? (or is this a pointless oddity, as any user can 'just' register a sock puppet, and then...?
-    my $usersObj = $this->{session}->{users};
 
-#$this->{session}->writeDebug($usersObj->getWikiName($user)."is TRYING to add $cuid to $groupTopic, as ".$usersObj->getWikiName($cuid)) if DEBUG;
-    if ( ( $usersObj->getWikiName($user) eq $Foswiki::cfg{DefaultUserWikiName} )
-        or ( $user eq $cuid ) )
-    {
-        $user =
-          $usersObj->findUserByWikiName(
-            $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
-    }
+    my $usersObj = $this->{session}->{users};
+    
+#print STDERR "$user, aka ".$usersObj->getWikiName($user)." is TRYING to add $cuid to $groupName, as ".$usersObj->getWikiName($cuid)."\n";
 
     if (
         $usersObj->isGroup($groupName)
