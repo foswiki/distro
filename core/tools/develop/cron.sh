@@ -37,7 +37,7 @@ mv Foswiki.pm.new Foswiki.pm
 # Make sure we have links to all non-existing webs to trunk
 for dir in data pub; do
     cd ../$dir
-    for f in /home/foswiki.org/trunk/core/$dir/*; do
+    for f in /home/foswiki.org/public_html/$dir/*; do
         if [ -d $f -a ! -e `basename $f` ]; then
             ln -s $f
         fi

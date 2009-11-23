@@ -5,7 +5,7 @@
 #
 use strict;
 
-my $where = '/home/foswiki.org/trunk/core/data/Tasks';
+my $where = '/home/foswiki.org/public_html/data/Tasks';
 my $text = `cd /home/trunk.foswiki.org/core/bin && perl -T ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
 my %topics;
 foreach my $line (split(/\r?\n/, $text)) {
@@ -28,7 +28,7 @@ if (open(F, '<', "$where/DontBugMe.txt")) {
     }
     close(F);
 }
-open(F, '>', "$where/WebNotify.txt") || die "Can't open WebNotify: $!";
+open(F, '>', "$where/WebNotify.txt") || die "Can't open $where/WebNotify: $!";
 print F <<GUFF;
 <!--
    * Set NOAUTOLINK = on
