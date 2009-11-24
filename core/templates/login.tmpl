@@ -11,8 +11,7 @@
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] login)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%---++ %MAKETEXT{"Please enter your username and password"}%
-%TMPL:END%
+%TMPL:DEF{"title"}%<h2>%MAKETEXT{"Please enter your username and password"}%</h2>%TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 %TMPL:P{"title"}%
@@ -21,7 +20,7 @@
 
 
 %TMPL:DEF{"notestep"}%<div style="display:%IF{'defined ERROR or defined NOTE or defined BANNER' then='block' else='none'}%;">
-%IF{"defined NOTE AND $NOTE != ''" then='---+++ %NOTE%'}%</div>%TMPL:END%
+%IF{"defined NOTE AND $NOTE != ''" then='<h3>%NOTE%</h3>'}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="foswikiNotification foswikiAlert foswikiUnvisited foswikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
@@ -39,7 +38,7 @@
 %TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='foswikiInputField foswikiFocus' size='40' name='username' value='%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
 %TMPL:DEF{"usernamestep"}%<div class="foswikiFormStep">
----+++ %MAKETEXT{"Username"}%
+<h3>%MAKETEXT{"Username"}%</h3>
 
 %TMPL:P{"usernamefield"}% %TMPL:P{"usernamefieldhelp"}%
 
@@ -57,7 +56,7 @@
 %TMPL:P{context="can_remember_login" then="rememberbox"}%%TMPL:END%
 
 %TMPL:DEF{"passwordstep"}%<div class="foswikiFormStep">
----+++ %MAKETEXT{"Password"}%
+<h3>%MAKETEXT{"Password"}%</h3>
 
 %TMPL:P{"passwordfieldnoteremember"}%
 </div><!-- /foswikiFormStep-->%TMPL:END%
