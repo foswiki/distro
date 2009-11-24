@@ -456,7 +456,7 @@ foreach my $project (@project_settings_list)
       {
         # Open a pipe to sendmail.
         my $command = "$sendmail $userlist";
-        if (open(SENDMAIL, '|', $command"))
+        if (open(SENDMAIL, '|-', $command))
           {
             print SENDMAIL @head, @body;
             close SENDMAIL
