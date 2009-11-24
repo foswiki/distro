@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721307" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
 %TWISTY{showlink="&#9658; %MAKETEXT{"Notification help"}%" hidelink="&#9660; %MAKETEXT{"Notification help"}%" linkclass="foswikiButton" remember="on"}%
-<div class="foswikiHelp" style="padding-top:0;">
+<div class="foswikiHelp">
 ---+++ Web Changes Notification Service
 
 Each Foswiki web has an automatic e-mail notification service that sends you an e-mail with links to all of the topics modified since the last alert. 
