@@ -138,7 +138,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						<h3>Include in global search</h3>
 						<div class="col1">
 							<p class="formOptions">
-								<label><input type="radio" name="NOSEARCHALL" value="on" checked="checked" />include</label> <label><input type="radio" name="NOSEARCHALL" value="" />exclude</label> 
+								<label><input type="radio" name="NOSEARCHALL" value="" checked="checked" />include</label> <label><input type="radio" name="NOSEARCHALL" value="on" />exclude</label> 
 							</p>
 						</div><!--//col1-->
 						<div class="col2">
