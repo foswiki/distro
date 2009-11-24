@@ -33,7 +33,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
       * Set SITEMAPUSETO = 
       * *Note:* Above settings are automatically configured when you create a web
 
-   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs).
+   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs. Comment out or set to the empty string if the web is to be included in search.)
       * Set NOSEARCHALL = 
       * *Note:* This setting is automatically configured when you create a web
 
