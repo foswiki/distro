@@ -117,6 +117,10 @@ third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
     $contents .=
+      $this->setting( 'System temporary directory',
+                      $this->_checkTmpDir( \$erk ) );
+
+    $contents .=
       $this->setting( 'CGI bin directory', $this->_checkBinDir( \$erk ) );
 
     # Turn off fatalsToBrowser while checking module loads, to avoid
@@ -276,6 +280,48 @@ HERE
     }
     closedir(D);
     return $dir . CGI::br() . $errs;
+}
+
+sub _checkTmpDir {
+    my ( $this, $rerk ) = @_;
+    my $dir = File::Spec->tmpdir();
+    if ( $dir eq '.' ) {
+        $dir = '';
+        return $this->ERROR(<<HERE);
+No writable system temporary directory.
+HERE
+    }
+    my $D;
+    if ( !opendir( $D, $dir ) ) {
+        $$rerk++;
+        return $this->ERROR(<<HERE);
+Cannot open '$dir' for read ($!) - check that permissions are correct.
+HERE
+    }
+    closedir($D);
+
+    my $tmp = time();
+    my $F;
+    while (-e "$dir/$tmp") {
+        $tmp++;
+    }
+    $tmp = "$dir/$tmp";
+    $tmp =~ /^(.*)$/; $tmp = $1;
+    if (!open($F, '>', $tmp)) {
+        $$rerk++;
+        return $this->ERROR(<<HERE);
+Cannot create a file in '$dir' ($!) - check the directory exists, and that permissions are correct, and the filesystem is not full.
+HERE
+    }
+    close($F);
+    if (!unlink($tmp)) {
+        $$rerk++;
+        return $this->ERROR(<<HERE);
+Cannot unlink '$tmp' ($!) - check that permissions are correct on the directory.
+HERE
+    }
+
+    return $dir;
 }
 
 # The perl modules that are required by Foswiki.
