@@ -578,7 +578,7 @@ sub installPackage {
 
     my $script = getInstaller($module);
     if ( $script && -e $script ) {
-        my $cmd = "perl $script";
+        my $cmd = "$^X $script";
         $cmd .= ' -a' if $noconfirm;
         $cmd .= ' -d' if $downloadOK;
         $cmd .= ' -r' if $reuseOK;
