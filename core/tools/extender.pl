@@ -110,6 +110,8 @@ BEGIN {
         die "Can't find Foswiki: $@";
     }
 
+    # Use the CLI engine
+    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
     require Foswiki;
 
     # We have to get the admin user, as a guest user may be blocked.
