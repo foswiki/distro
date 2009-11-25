@@ -188,9 +188,10 @@ MESS
         unshift( @ARGV, '-a' );    # don't prompt
         unshift( @ARGV, '-d' );    # yes, you can download
         unshift( @ARGV, '-u' );    # already unpacked
+        unshift( @ARGV, '-c' );    # do not use CPAN
         # Note: -r not passed to the script, so it will _not_ try to
         # re-use existing archives found on disc to resolve dependencies.
-        $feedback .= "Running <cpde>$installScript</code>...<br />";
+        $feedback .= "Running <code>$installScript</code>...<br />";
         no warnings 'redefine';
         print '<!--';
         do $installScript;

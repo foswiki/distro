@@ -33,6 +33,7 @@ use Cwd;
 use File::Temp;
 use File::Copy;
 use File::Path;
+use Getopt::Std;
 
 no warnings 'redefine';
 
@@ -42,6 +43,7 @@ my $alreadyUnpacked = 0;
 my $reuseOK         = 0;
 my $inactive        = 0;
 my $nocpan          = 0;
+my $action          = 'install';  # Default target is install
 my $running_from_configure;
 my $session;
 my %available;
@@ -87,6 +89,22 @@ sub _stop {
     die @_;
 }
 
+# processParameters
+my %opts;
+getopts('acdnoru', \%opts);
+$noconfirm = $opts{a};
+$nocpan = $opts{c};
+$downloadOK = $opts{d};
+$reuseOK = $opts{r};
+$inactive = $opts{n};
+$alreadyUnpacked = $opts{u};
+$running_from_configure = $opts{o};
+if( @ARGV > 1 ) {
+    usage();
+    _stop( 'Too many parameters: ' . join(" ", @ARGV) );
+}
+$action = $ARGV[0] if $ARGV[0];
+
 # Check if we were invoked from configure
 # by looking at the call stack
 my $i = 0;
@@ -115,7 +133,7 @@ my $check_perl_module = sub {
             return $available{$module} = 0;
         }
     }
-    if ( eval "use $module (); 1" ) {
+    if ( eval "require $module" ) {
         $available{$module} = 1;
     }
     else {
@@ -134,6 +152,7 @@ unless ( -d 'lib' && -d 'bin' && -e 'bin/setlib.cfg' ) {
 # read setlib.cfg
 chdir('bin');
 require 'setlib.cfg';
+chdir($installationRoot);
 
 # See if we can make a Foswiki. If we can, then we can save topic
 # and attachment histories. Key off Foswiki::Merge because it is
@@ -151,7 +170,6 @@ unless ( eval { require Foswiki } ) {
 # We have to get the admin user, as a guest user may be blocked.
 my $user = $Foswiki::cfg{AdminUserLogin};
 $session = new Foswiki($user);
-chdir($installationRoot);
 
 if ( &$check_perl_module('LWP') ) {
     $lwp = new LWP::UserAgent();
@@ -460,13 +478,15 @@ sub installPackage {
 
     my $script = getInstaller($module);
     if ( $script && -e $script ) {
-        my $cmd = "perl $script";
-        $cmd .= ' -a' if $noconfirm;
-        $cmd .= ' -nocpan' if $nocpan;
-        $cmd .= ' -d' if $downloadOK;
-        $cmd .= ' -r' if $reuseOK;
-        $cmd .= ' -n' if $inactive;
-        $cmd .= ' install';
+        my @cmd = Foswiki::Sandbox::untaintUnchecked( $^X );
+        push @cmd, $script;
+        push @cmd, '-a' if $noconfirm;
+        push @cmd, '-d' if $downloadOK;
+        push @cmd, '-r' if $reuseOK;
+        push @cmd, '-n' if $inactive;
+        push @cmd, '-c' if $nocpan;
+        push @cmd, '-o' if $running_from_configure;
+        push @cmd, 'install';
         local $| = 0;
 
         # Fork the installation of the downloaded package.
@@ -474,12 +494,12 @@ sub installPackage {
         if ($pid) {
             wait();
             if ($?) {
-                _shout STDERR "Installation of $module failed: $?";
+                _shout "Installation of $module failed: $?";
                 return 0;
             }
         }
         else {
-            exec($cmd);
+            exec(@cmd);
         }
     }
     else {
@@ -497,7 +517,7 @@ HERE
             return 0 unless ($ans);
             my $arch = getArchive($module);
             unless ($arch) {
-                print STDERR <<HERE;
+                _shout <<HERE;
 Cannot locate an archive for $module; installation failed.
 HERE
                 return 0;
@@ -618,7 +638,7 @@ sub untar {
             _warn "Trying $tarBin on the command-line\n";
             system $tarBin, "xvf$compressed", $archive and return 1;
             if ($?) {
-                print STDERR "$tarBin failed: $?\n";
+                _warn "$tarBin failed: $?";
             }
         }
         return 0;
@@ -754,7 +774,7 @@ sub _emplace {
         my $target = remap($file);
         _inform "Install $target, permissions $MANIFEST->{$file}->{perms}";
         unless ($inactive) {
-            if ( -e $target ) {
+            if ( -e $target && ! -d _ ) {
 
               # Save current permissions, remove write protect for Windows sake,
               # Back up the file and then restore the original permissions
@@ -768,13 +788,15 @@ sub _emplace {
                     _warn "Could not create $target.bak: $!";
                 }
             }
-            my @path = split( /[\/\\]+/, $target );
+            my @path = split( /[\/\\]+/, $target, -1 ); # -1 allows directories
             pop(@path);
             if ( scalar(@path) ) {
                 File::Path::mkpath( join( '/', @path ) );
             }
-            if (!File::Copy::move( $source, $target )) {
-                _shout "Failed to move $source to $target: $!";
+            unless( -d $source ) {
+                if (!File::Copy::move( $source, $target )) {
+                    _shout "Failed to move $source to $target: $!";
+                }
             }
         }
         unless ($inactive) {
@@ -817,11 +839,13 @@ You can update the revision histories of these files by:
 Ignore this warning unless you have modified the files locally.
 WHINE
     }
+    $session->finish();
+    undef $session;
 }
 
 sub usage {
     _shout <<DONE;
-Usage: ${MODULE}_installer -a -n -d -r -u -nocpan install
+Usage: ${MODULE}_installer -a -n -d -r -u -c install
        ${MODULE}_installer -a -n uninstall
        ${MODULE}_installer manifest
        ${MODULE}_installer dependencies
@@ -842,7 +866,8 @@ $MODULE even if they have been locally modified.
 -u means the archive has already been downloaded and unpacked
 -n means don't write any files into my current install, just
    tell me what you would have done
--nocpan means don't try to use CPAN to install missing libraries
+-c means don't try to use CPAN to install missing libraries
+-o means running from configure, so outputs HTML
 
 manifest will generate a list of the files in the package on
 standard output. The list is generated in the same format as
@@ -949,7 +974,7 @@ sub _validatePerlModule {
     # Remove all non alpha-numeric caracters and :
     # Do not use \w as this is localized, and might be tainted
     my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    print STDERR 'validatePerlModule removed '
+    _warn 'validatePerlModule removed '
       . $replacements
       . ' characters, leading to '
       . $module . "\n"
@@ -1040,43 +1065,6 @@ DONE
     }
 
     unshift( @INC, 'lib' );
-
-    my $n      = 0;
-    my $action = 'install';
-    while ( $n < scalar(@ARGV) ) {
-        if ( $ARGV[$n] eq '-a' ) {
-            $noconfirm = 1;
-        }
-        elsif ( $ARGV[$n] eq '-d' ) {
-            $downloadOK = 1;
-        }
-        elsif ( $ARGV[$n] eq '-r' ) {
-            $reuseOK = 1;
-        }
-        elsif ( $ARGV[$n] eq '-n' ) {
-            $inactive = 1;
-        }
-        elsif ( $ARGV[$n] eq '-nocpan' ) {
-            $nocpan = 1;
-        }
-        elsif ( $ARGV[$n] eq '-u' ) {
-            $alreadyUnpacked = 1;
-        }
-        elsif ( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
-            $action = $1;
-        }
-
-# SMELL:   There really shouldn't be a null argument.  But installer breaks if it is there.
-        elsif ( $ARGV[$n] eq '' ) {
-            $n++;
-            next;
-        }
-        else {
-            usage();
-            _shout 'Bad parameter ' . $ARGV[$n];
-        }
-        $n++;
-    }
 
     if ( $action eq 'manifest' ) {
         foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
