@@ -531,6 +531,11 @@ HERE
     foreach my $type (@$types) {
         $response = $lwp->get( $url . $type );
 
+        if ( $response->header( "Client-Warning" ) ) {
+            print STDERR "Failed to download $module $what\n",
+              "LWP complains about: ", $response->header( "Client-Warning" );
+            return;
+        }
         if ( $response->is_success() ) {
             $f = $downloadDir . '/' . $module . $type;
             open( F, ">$f" ) || die "Failed to open $f for write: $!";
