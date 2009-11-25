@@ -19,7 +19,7 @@ sub new {
       or return $this;
 
     foreach my $file ( readdir DIR ) {
-        next unless ( $file =~ m/^(.*)\.po$/ );
+        next unless ( $file =~ m/^([\w-]+)\.po$/ );
         my $lang = $1;
         $lang = "'$lang'" if $lang =~ /\W/;
 
