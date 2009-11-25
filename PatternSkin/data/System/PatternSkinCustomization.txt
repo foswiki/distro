@@ -1,6 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1130019100" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="PatternSkin"}%
-
 ---+!! %SYSTEMWEB%.PatternSkin Customization
 
 *Guidelines how to create and customize page templates.* For styling your Foswiki using stylesheets, see PatternSkinCssCookbook.
@@ -51,7 +50,7 @@ Test by appending =?cover=myskin= to the url.
 #TopicTemplates
 ---+++ The topic template approach (using VIEW_TEMPLATE)
 
-Template overrides can be written in a topic, a so-called _topic template_. Topic template names end with =Template=, for instance =BlogPostViewTemplate=.
+Template overrides can be written in a topic, a so-called _topic template_. Topic template names end with =<nop>ViewTemplate=, for instance =BlogPostViewTemplate=.
 
 Call this template by setting =VIEW_TEMPLATE=:
 <blockquote>
@@ -61,12 +60,8 @@ Call this template by setting =VIEW_TEMPLATE=:
 </blockquote>
    * Note that you don't use the =Template= extension now
    * You can make this setting hidden by writing this in the Settings screen: go to More and then Topic Settings
-   * On topic creation you can set the topic template by passing =templatetopic=:
-   <verbatim>
-   <input type="hidden" name="templatetopic" value="BlogPostViewTemplate" />
-   </verbatim>
 
-We can use the same example as above. In a topic write:
+We can use the same example as above. In the topic you want to use as view template, for instance =<nop>OnlyMoreView=, write:
 <blockquote>
 <verbatim>
 %TMPL:INCLUDE{"view"}%
@@ -74,7 +69,7 @@ We can use the same example as above. In a topic write:
 </verbatim>
 </blockquote>
 
-You can also test this by appending =?template=PersonalInfoView= to the url.
+You can also test this by appending =?template=OnlyMoreView= to the url.
 
 ---++ Reference: pattern skin template INCLUDE tree
 
@@ -143,7 +138,6 @@ Change the table style in topic %SYSTEMWEB%.WebTopBar. The default top padding i
 ---++ Top bar
 
 ---+++ The search box won't find topics in other webs
-
 
 In %SYSTEMWEB%.WebTopBar you can find the line:
 <verbatim>
@@ -227,7 +221,7 @@ and add:
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
 #patternTopBarContentsOuter {
-    height:0px;
+   height:0px;
 }%TMPL:END%
 </verbatim></blockquote>
 
