@@ -108,9 +108,6 @@ html>body .patternPrintPage pre {
 
 @media print {
 	/* Layout */
-	.clear {
-		clear:none; /* otherwise firefox cuts off tables */
-	}
 	body {
 		margin:0;
 		padding:0;
