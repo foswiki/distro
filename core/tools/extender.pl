@@ -142,9 +142,11 @@ unless ( &$check_perl_module('Foswiki::Merge') ) {
     _stop("Can't find Foswiki: $@");
 }
 
-eval "use Foswiki ()";
-
-_stop("Can't load Foswiki: $@") if $@;
+# Use the CLI engine
+$Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+unless ( eval { require Foswiki } ) {
+    _stop("Can't load Foswiki: $@");
+}
 
 # We have to get the admin user, as a guest user may be blocked.
 my $user = $Foswiki::cfg{AdminUserLogin};
