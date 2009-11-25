@@ -309,7 +309,9 @@ var FoswikiImageDialog = {
                 var select = document.getElementById("attachments_select");
                 for (var i = 0; i < atts.length; i++) {
                     for (var j = 0; j < ids.length; j++) {
-                        lsts[j].options[i] =
+                        /* +1 so as not to overwrite existing null option
+                         * defined in the static HTML. Item2412 */
+                        lsts[j].options[i+1] =
                             new Option(atts[i].name, atts[i].name);
                     }
                 }

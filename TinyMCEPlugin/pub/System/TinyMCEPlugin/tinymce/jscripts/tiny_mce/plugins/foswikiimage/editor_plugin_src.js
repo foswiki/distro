@@ -29,8 +29,8 @@
                     toolbar: false,
                     status: false,
                     url : url + '/image.htm',
-                    width : 480,
-                    height : 385,
+                    width : 550,
+                    height : 400,
                     movable : true,
                     inline : true
                 }, {
