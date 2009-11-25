@@ -619,11 +619,14 @@ sub untar {
            _warn "Archive::Tar is not installed; "
                 ."trying tar on the command-line";
         }
-        print `tar xvf$compressed $archive`;
-        if ($?) {
-            _warn "tar failed: $?";
-            return 0;
+        for my $tarBin ( qw( tar gtar ) ) {
+            _warn "Trying $tarBin on the command-line\n";
+            system $tarBin, "xvf$compressed", $archive and return 1;
+            if ($?) {
+                print STDERR "$tarBin failed: $?\n";
+            }
         }
+        return 0;
     }
 
     return 1;
