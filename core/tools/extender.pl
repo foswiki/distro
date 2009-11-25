@@ -649,8 +649,7 @@ sub unpackArchive {
 sub unzip {
     my $archive = shift;
 
-    eval 'require Archive::Zip';
-    if (! $@ ) {
+    if ( eval { require Archive::Zip } ) {
         my $zip           = Archive::Zip->new();
         my $err = $zip->read($archive);
         if ( $err ) {
@@ -692,8 +691,7 @@ sub untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    eval 'require Archive::Tar';
-    if (! $@ ) {
+    if ( eval { require Archive::Tar } ) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
         unless ( $numberOfFiles > 0 ) {
