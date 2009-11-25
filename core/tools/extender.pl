@@ -810,8 +810,6 @@ DONE
         };
         $err = $@;
     }
-    $session->finish();
-    undef $session;
     return ( !$err );
 }
 
@@ -933,6 +931,8 @@ You can update the revision histories of these files by:
 Ignore this warning unless you have modified the files locally.
 DONE
     }
+    $session->finish();
+    undef $session;
 }
 
 sub usage {
