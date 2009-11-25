@@ -192,11 +192,13 @@ MESS
         # Note: -r not passed to the script, so it will _not_ try to
         # re-use existing archives found on disc to resolve dependencies.
         $feedback .= "Running <code>$installScript</code>...<br />";
-        no warnings 'redefine';
+        # Remove the functions from the package, in case of multiple installations
+        for ( qw( preinstall postinstall preuninstall postuninstall ) ) {
+            delete $Foswiki::{$_};
+        }
         print '<!--';
         do $installScript;
         print '-->';
-        use warnings 'redefine';
         if ($@) {
             $feedback .=  $this->ERROR( $@ );
             _printFeedback($feedback);
