@@ -13,11 +13,14 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::CGI;
 
 use strict;
-use base 'Foswiki::Engine';
+use Assert;
+
+use Foswiki::Engine;
+our @ISA = qw( Foswiki::Engine );
+
 use Foswiki::Request;
 use Foswiki::Request::Upload;
 use Foswiki::Response;
-use Assert;
 
 sub run {
     my $this = shift;
