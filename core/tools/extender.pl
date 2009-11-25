@@ -415,23 +415,18 @@ HERE
 
     my $response;
     foreach my $type (@$types) {
-        $response = $lwp->get( $url . $type );
+        $f = $downloadDir . '/' . $module . $type;
+        $response = $lwp->get( $url . $type,
+            ':content_file' => $f );
 
-        if ( $response->is_success() ) {
-            $f = $downloadDir . '/' . $module . $type;
-            if (open( F, '>', $f )) {
-                binmode F;
-                print F $response->content();
-                close(F);
-                last;
-            } else {
-                _shout "Failed to open $f for write: $!";
-                $f = undef;
-            }
+        if ( $response->header( "Client-Warning" ) ) {
+            _shout "Failed to download $module $what\n",
+              "LWP complains about: ", $response->header( "Client-Warning" );
+            return;
         }
     }
 
-    unless ( $f && -e $f ) {
+    unless ( $f && -s $f ) {
         _shout "Failed to download $module $what\n"
           . $response->status_line();
         return 0;
