@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.8 - 18 Oct 2009
+---+!! Foswiki Release 1.0.8 - 29 Nov 2009
 
 %TOC%
 
@@ -20,10 +20,11 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.1 was released internally in the development community 23 Feb 2009 but we found a few important bugs that made us decide not to publish it and instead release a 1.0.2. It is a patch release with around 70 bug fixes and only very few minor enhancements.
    * Foswiki 1.0.2 was built 25 Feb 2009 and again we decided to stop the publishing for quality reasons because of one important bug.
    * Foswiki 1.0.3 was built 28 Feb 2009. We decided to stop the publishing because of a severe bug in !EditTablePlugin introduced in 1.0.1 when fixing another bug. 
-   * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 100 bug fixes relative to 1.0.0 and only very few minor enhancements.
-   * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
-   * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 190 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
-   * Foswiki 1.0.8 was built 18 Oct 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
+   * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and only very few minor enhancements.
+   * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 150 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
+   * Foswiki 1.0.6 was built 21 Jun 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This version introduces a major enhancement in security against Cross-Site Request Forgery. Further more a central translation framework got introduced which ease the translation process and enables all users to contribute to translations.
+   * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
+   * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
 
 ---++ Pre-installed Extensions
 
@@ -154,6 +155,13 @@ These changes have the following consequences when upgrading from TWiki to Foswi
    * Your site preference settings from Main.<nop>TWikiPreferences must be copied to the [[%USERSWEB%.SitePreferences]] topic.
 
 Please see %SYSTEMWEB%.UpgradeGuide#CopyUsersAndCustomizations for more information.
+
+---++ Important Changed since Foswiki 1.0.7
+
+The Wysiwyg editor is now using Tiny MCE editor version 3.2.7
+
+The mailnotify feature has been fixed/enhanced so you can run newsletter in both 'changes' and 'news' mode so you can use the feature to automatically send newsletters independant of the normal change notices
+
 
 ---++ Important Changes since Foswiki 1.0.6
 
@@ -717,6 +725,7 @@ None
 | [[%BUGS%/Item2115][Item2115]] | Upload doesn't strikeone |
 | [[%BUGS%/Item2117][Item2117]] | RenderListPlugin Moved default themes out of plugin topic for efficiency. |
 | [[%BUGS%/Item2118][Item2118]] | SmiliesPlugin Removed default preferences from plugin topic for efficiency |
+| [[%BUGS%/Item2381][Item2381]] | documentation updates for 1.0.8 |
 | [[%BUGS%/Item6024][Item6024]] | Can't handle comment templates in subwebs |
 | [[%BUGS%/Item8230][Item8230]] | Edittable is replacing SpreadSheetPlugin-formulas with the text "CALC" in headers and footers |
 | [[%BUGS%/Item8269][Item8269]] | CommentPlugin: broken anchor target |
@@ -738,13 +747,53 @@ None
 ---+++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item913][Item913]] | JSCalendarContrib::addHEAD or Func::addToHEAD used in any xxxTagsHandler and in some cases ADDTOHEAD causes deep recursion |
+| [[%BUGS%/Item1302][Item1302]] | mailnotify ignores -news operand |
+| [[%BUGS%/Item1558][Item1558]] | WYSIWYG does not work on Opera with Mac |
+| [[%BUGS%/Item1936][Item1936]] | Search.pm assumes the {editby} field is a cUID and tries to getWikiName before it finds the real cUID |
+| [[%BUGS%/Item2043][Item2043]] | parseTime should return undef for invalid date |
+| [[%BUGS%/Item2130][Item2130]] | TablePlugin initsort parameter is not tested before use |
+| [[%BUGS%/Item2137][Item2137]] | configure fails to show many many plugins in Find More Extensions |
+| [[%BUGS%/Item2151][Item2151]] | EDIT_TEMPLATE with missing edit template makes it impossible to edit the topic |
+| [[%BUGS%/Item2182][Item2182]] | Broken link in PatternSkin docu |
+| [[%BUGS%/Item2183][Item2183]] | Unable to center text with Wysiwyg editor |
+| [[%BUGS%/Item2222][Item2222]] | Conversion to HTML failed. TML: |
+| [[%BUGS%/Item2230][Item2230]] | mime.types needs entry for Office 2007 |
+| [[%BUGS%/Item2238][Item2238]] | Foswiki::Time does not recognise 1-Jan-2004 as a date |
+| [[%BUGS%/Item2260][Item2260]] | MailerContrib cannot find email templates based on skin or web |
+| [[%BUGS%/Item2261][Item2261]] | lease conflict page dosn't link properly to wikipages that aren't WikiWord's |
+| [[%BUGS%/Item2270][Item2270]] | Help Tiny MCE's wordcount plugin get correct count when first opening up the editor |
+| [[%BUGS%/Item2315][Item2315]] | Net.pm appears to be unable to fetch Foswiki extensions if LWP not installed |
+| [[%BUGS%/Item2316][Item2316]] | escaped cUID's in topic for users that are not mapped are displayed in escaped ascii form |
+| [[%BUGS%/Item2320][Item2320]] | send the wiki guest to the login screen if they navigate to a topic they are denied access to |
+| [[%BUGS%/Item2329][Item2329]] | DEPENDENCIES version field cannot be empty |
+| [[%BUGS%/Item2348][Item2348]] | don't fill the log files with uninited vars when previewing |
+| [[%BUGS%/Item2351][Item2351]] | Use filetest 'access' instead of 'stat' |
+| [[%BUGS%/Item2352][Item2352]] | WysiwygPlugin doesn't protect %Macros% with lowercase |
+| [[%BUGS%/Item2377][Item2377]] | don't use ref($this) to ASSERT on class, as it breaks subclasses |
+| [[%BUGS%/Item2381][Item2381]] | documentation updates for 1.0.8 |
+| [[%BUGS%/Item2404][Item2404]] | Documentation of !PatternSkinCustomization contains error about VIEW_TEMPLATE |
+| [[%BUGS%/Item2405][Item2405]] | Backlinks tempates show topic form and attachments |
+| [[%BUGS%/Item2406][Item2406]] | Allow the "allow non wiki word" message to be skinned |
+| [[%BUGS%/Item2407][Item2407]] | Remove empty paragraph from login template |
+| [[%BUGS%/Item2408][Item2408]] | Make action buttons easier to skin |
+| [[%BUGS%/Item2410][Item2410]] | Remove hardcoded padding setting in !WebChangesAlert |
+| [[%BUGS%/Item2411][Item2411]] | NOSEARCHALL not intuitive  |
+| [[%BUGS%/Item2412][Item2412]] | Unable to select first attachment in !TinyMCE insert image dialogue |
+| [[%BUGS%/Item2413][Item2413]] | When I use a script that uses oops to show results, the web page title is wrong. |
+| [[%BUGS%/Item2414][Item2414]] | configure crashes when some strange .po file exist |
+| [[%BUGS%/Item2417][Item2417]] | Fix for horizontally compressed printing in Safari |
+| [[%BUGS%/Item5366][Item5366]] | !BulkResetPassword confirmation lacks an OK button |
+| [[%BUGS%/Item8084][Item8084]] | Confusing "Bad request" during upgrade when going 3048 => 3236 |
+| [[%BUGS%/Item8292][Item8292]] | System.MailerContrib in 1.07 and F.O needs URL typo to SubscribePlugin fixed |
 
 </noautolink>
 
 ---+++ Enhancements
 
 <noautolink>
-
+| [[%BUGS%/Item2245][Item2245]] | Upgrade TinyMCEPlugin to 3.2.7 |
+| [[%BUGS%/Item2341][Item2341]] | Add blockquote button to TinyMCE |
 </noautolink>
 
 ---
