@@ -2738,8 +2738,11 @@ sub setEmbeddedStoreForm {
 
         # add the rev derived from version=''
         if ( $ti->{version} ) {
-            $ti->{version} =~ /\d*\.(\d*)/;
-            $ti->{rev} = $1;
+            if ($ti->{version} =~ /(\d+\.)?(\d*)/) {
+                $ti->{rev} = $2;
+            } else {
+                $ti->{rev} = 1;
+            }
         }
         else {
             $ti->{version} = $ti->{rev} = 0;
@@ -2943,6 +2946,95 @@ sub dataDecode {
 
     $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
     return $datum;
+}
+
+=begin TML
+
+---++ ObjectMethod xml( $fullpath ) -> $xmlString
+
+Generate an XML string that represents the contents of the object.
+
+If $fullpath is true, will generate pseudo-containers for containing webs.
+
+For example, if we have an object for a web =X/Y= then *without* $fullpath
+this method will generate =<web name="Y"</web>=. However *with* $fullpath
+it will generate =<web name="X"><web name="Y"</web></web>=.
+
+=cut
+
+sub xml {
+    my ($this, $fullpath) = @_;
+    my $xml = '';
+    my $webPath = $this->{_web};
+
+    if ($this->{_topic}) {
+        # Get the text first, to get a lazy load if necessary
+        my $text = $this->text();
+        $xml .= '<topic name="'.$this->{_topic}.'"';
+        my $ti = $this->get('TOPICINFO');
+        if ($ti) {
+            while (my ($k, $v) = each %$ti) {
+                $xml .= ' '.$k.'="'.$v.'"';
+            }
+        }
+        $xml .= '>';
+        # Handle the embedded form first. This schema allows us
+        # to embed multiple different form types (future-proof)
+        my $form = $this->get('FORM');
+        if ($form) {
+            $xml .= '<form name="'.$form->{name}.'">';
+            foreach my $field (@{$this->{FIELD}}) {
+                $xml .= '<field ';
+                while (my ($k, $v) = each %$field) {
+                    $xml .= $k.'="'.$v.'" ';
+                }
+                $xml .= '/>';
+            }
+            $xml .= '</form>';
+        }
+        foreach my $type (grep { !/^_/ } keys %$this) {
+            next if ($type =~ /^(FORM|FIELD|TOPICINFO)$/);
+            foreach my $item (@{$this->{$type}}) {
+                $xml .= '<'.lc($type).' ';
+                while (my ($k, $v) = each %$item) {
+                    $xml .= $k.'="'.$v.'" ';
+                }
+                $xml .= '/>';
+            }
+        }
+        # SMELL: no escaping of ]]> in the text
+        $xml .= '<body><![CDATA['.$text.']]></body>';
+        $xml .= '</topic>';
+    } else {
+        my $it = $this->eachTopic();
+        while ($it->hasNext()) {
+            my $topic = $it->next();
+            my $tom = new Foswiki::Meta(
+                $this->{_session}, $this->{_web}, $topic);
+            $xml .= $tom->xml();
+        }
+        $it = $this->eachWeb();
+        while ($it->hasNext()) {
+            my $subweb = $it->next();
+            my $topic = $it->next();
+            my $tom = new Foswiki::Meta(
+                $this->{_session}, "$this->{_web}/$subweb");
+            $xml .= $tom->xml();
+        }
+        $webPath =~ s#/?([^/]*$)##;
+        $xml = '<web name="'.$1.'">'.$xml.'</web>';
+    }
+
+    # if fullpath is requested, generate web pseudo-containers
+    # down to this web
+    if ($fullpath) {
+        while ($webPath) {
+            $webPath =~ s#/?([^/]*)$##;
+            $xml = '<web name="'.$1.'">'.$xml.'</web>';
+        }
+    }
+
+    return $xml;
 }
 
 1;

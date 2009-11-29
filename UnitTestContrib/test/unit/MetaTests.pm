@@ -568,4 +568,91 @@ sub test_BadRevisionInfo {
 
 }
 
+sub testXML_topic {
+    my $this = shift;
+
+    my $text = <<GOOD;
+%META:TOPICINFO{version="1.2" date="9876543210" author="AlbertCamus" format="1.1"}%
+%META:TOPICPARENT{name="System.UserForm"}%
+%META:FORM{name="System.UserForm"}%
+%META:FIELD{name="Profession" value="Saint"}%
+%META:FILEATTACHMENT{name="sausage.gif"}%
+%META:TOPICMOVED{from="here" to="there" by="her" date="1234567890"}%
+Green eggs and ham
+GOOD
+    my $expected = <<'XML';
+<topic name="GoodMeta" format="1.1" date="@REX(\d+)" version="1.2" rev="2" author="AlbertCamus">
+ <form name="System.UserForm">
+  <field value="Saint" name="Profession" />
+ </form>
+ <fileattachment name="sausage.gif" />
+ <topicmoved to="there" date="@REX(\d+)" from="here" by="her" />
+ <topicparent name="System.UserForm" />
+ <body>
+  <![CDATA[Green eggs and ham]]>
+ </body>
+</topic>
+XML
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, "GoodMeta", $text );
+    my $xml = $topicObject->xml();
+    $this->assert_html_equals($expected, $xml);
+}
+
+sub testXML_web {
+    my $this = shift;
+    my $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/SubWeb" );
+    $webObject->populateNewWeb();
+    my $expected = <<'XML';
+<web name="SubWeb">
+ <topic name="WebPreferences" format="1.1" version="1.1" date="@REX(\d+)" rev="1" author="BaseUserMapping_666">
+  <body><![CDATA[Preferences]]>
+  </body>
+ </topic>
+</web>
+XML
+    my $xml = $webObject->xml();
+    $this->assert_html_equals($expected, $xml);
+
+    $expected = <<'XML';
+<web name="TemporaryMetaTestsTestWebMetaTests">
+ <web name="SubWeb">
+  <topic name="WebPreferences" format="1.1" version="1.1" date="@REX(\d+)" rev="1" author="BaseUserMapping_666">
+   <body><![CDATA[Preferences]]>
+   </body>
+  </topic>
+ </web>
+</web>
+XML
+    $xml = $webObject->xml(1);
+    $this->assert_html_equals($expected, $xml);
+
+    $expected = <<'XML';
+<web name="TemporaryMetaTestsTestWebMetaTests">
+ <topic name="TestTopicMetaTests" format="1.1" version="1.1" date="@REX(\d+)" rev="1" author="BaseUserMapping_666">
+  <body>
+   <![CDATA[BLEEGLE
+]]>
+  </body>
+ </topic>
+ <topic name="WebPreferences" format="1.1" version="1.1" date="@REX(\d+)" rev="1" author="BaseUserMapping_666">
+  <body>
+   <![CDATA[Preferences]]>
+  </body>
+ </topic>
+ <web name="SubWeb">
+  <topic name="WebPreferences" format="1.1" version="1.1" date="@REX(\d+)" rev="1" author="BaseUserMapping_666">
+   <body><![CDATA[Preferences]]>
+   </body>
+  </topic>
+ </web>
+</web>
+XML
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web} );
+    $xml = $topicObject->xml();
+    $this->assert_html_equals($expected, $xml);
+}
+
 1;
