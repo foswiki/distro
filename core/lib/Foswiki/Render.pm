@@ -1349,13 +1349,13 @@ sub verbatimCallBack {
 sub _filterLiteral {
     my $val = shift;
     return $val if ( $Foswiki::cfg{AllowInlineScript} );
-    return CGI::comment('<literal> is not allowed on this site');
+    return CGI::comment('<literal> is not allowed on this site - denied by deprecated {AllowInlineScript} setting');
 }
 
 sub _filterScript {
     my $val = shift;
     return $val if ( $Foswiki::cfg{AllowInlineScript} );
-    return CGI::comment('<script> is not allowed on this site');
+    return CGI::comment('<script> is not allowed on this site - denied by deprecated {AllowInlineScript} setting');
 }
 
 =begin TML

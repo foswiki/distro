@@ -15,7 +15,7 @@ sub check {
     if ( (($valmethod eq 'strikeone') or (!$valmethod)) and
       (!$Foswiki::cfg{AllowInlineScript}) ) {
         $e .= $this->ERROR(<<'MESSAGE');
-Validation method <code>strikeone</code> is not compatible with {AllowInlineScript} set to disabled.
+Validation method <code>strikeone</code> is not compatible with deprecated {AllowInlineScript} setting.
 MESSAGE
     }
 

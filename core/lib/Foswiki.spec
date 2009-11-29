@@ -516,9 +516,10 @@ $Foswiki::cfg{SafeEnvPath} = '';
 $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 
 # **BOOLEAN**
-# Allow the use of SCRIPT and LITERAL tags in topics. If this is disabled,
-# all SCRIPT and LITERAL sections will be removed from the body of topics.
-# Note that this may prevent some plugins from functioning correctly.
+# Used to disallow the use of SCRIPT and LITERAL tags in topics by removing
+# them from the body of topics during rendering.
+# <font color="red">This setting is now DEPRECATED</font> - use SafeWikiPlugin
+# instead.
 $Foswiki::cfg{AllowInlineScript} = $TRUE;
 
 # **BOOLEAN EXPERT**
@@ -729,12 +730,11 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 
 #---+ Internationalisation -- TABS
 #---++ Languages
+# **BOOLEAN**
 # <p>Enable user interface internationalisation, i.e. presenting the user
 # interface in the users own language(s). Some languages require the
 # <code>Locale::Maketext::Lexicon</code> and <code>Encode/MapUTF8</code> Perl
 # modules to be installed.</p>
-
-# **BOOLEAN**
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
 # *LANGUAGES* Marker used by bin/configure script - do not remove!
@@ -859,11 +859,13 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # <p>Foswiki supports different back-end store implementations.</p>
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
-# <ul><li>RcsWrap uses normal RCS executables.</li>
+# <ul>
+# <li>RcsWrap uses normal RCS executables.</li>
 # <li>RcsLite uses a 100% Perl simplified implementation of RCS.
 # RcsLite is useful if you don't have, and can't install, RCS - for
 # example, on a hosted platform. It will work, and is compatible with
-# RCS, but is not quite as fast.</li></ul>
+# RCS, but is not quite as fast.</li>
+# </ul>
 $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
 
 # **BOOLEAN**

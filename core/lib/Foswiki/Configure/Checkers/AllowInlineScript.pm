@@ -12,13 +12,12 @@ sub check {
     my $valmethod = $Foswiki::cfg{Validation}{Method};
     my $e = '';
 
-    if ( (($valmethod eq 'strikeone') or (!$valmethod)) and
-      (!$Foswiki::cfg{AllowInlineScript}) ) {
+    if (!$Foswiki::cfg{AllowInlineScript}) {
         $e .= $this->ERROR(<<'MESSAGE');
-{AllowInlineScript} must be enabled for your current {Validation}{Method} 
-setting. Please consider 
-<a href="http://foswiki.org/Extensions/SafeWikiPlugin">SafeWikiPlugin</a> as an
-alternative means for restricting potentially harmful topic content. 
+{AllowInlineScript} has been deprecated.
+Please use
+<a href="http://foswiki.org/Extensions/SafeWikiPlugin">SafeWikiPlugin</a>
+to remove potentially harmful topic content instead.
 MESSAGE
     }
 
