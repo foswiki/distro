@@ -156,7 +156,7 @@ These changes have the following consequences when upgrading from TWiki to Foswi
 
 Please see %SYSTEMWEB%.UpgradeGuide#CopyUsersAndCustomizations for more information.
 
----++ Important Changed since Foswiki 1.0.7
+---++ Important Changes since Foswiki 1.0.7
 
 The Wysiwyg editor is now using Tiny MCE editor version 3.2.7
 
