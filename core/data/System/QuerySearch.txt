@@ -48,9 +48,10 @@ All meta-data in a topic is referenced according to a to a simple plan.
       * =name=
    * =META:FIELD= - the fields in the form.
       * _for each field in the form_
-         * =name=
-         * =title=
-         * =value=
+         * =name= - name of the field
+         * =title= - title of the field
+         * =value= - what is stored in the field
+         * =form= - name of the form the field is in (currently always equal to META:FORM.name)
    * =META:PREFERENCE=
       * _for each preference in the topic_
          * =name=
@@ -66,7 +67,6 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
    * =parent= means the same as =META:TOPICPARENT=
    * =moved= means the same as =META:TOPICMOVED=
    * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
-      * You can also use the name of the form in place of =form=. This is in anticipation of the day when you can attach more than one form type to a topic.
    * =fields= means the same as =META:FIELD=, You can also use the name of the form (the value of =form.name= e.g. =PersonForm=)
    * =preferences= means the same as =META:PREFERENCE=
 
