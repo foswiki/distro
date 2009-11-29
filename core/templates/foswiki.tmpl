@@ -22,7 +22,7 @@
 %TMPL:DEF{"script:skintemplate"}%%TMPL:END%
 %TMPL:DEF{"script:topictemplate"}%%TMPL:END%
 
-%TMPL:DEF{"windowtitle"}%<title>%TMPL:P{"titleaction"}% <nop>%TOPIC%%TMPL:P{"titlesep"}%%WEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
+%TMPL:DEF{"windowtitle"}%<title>%TMPL:P{"titleaction"}% <nop>%BASETOPIC%%TMPL:P{"titlesep"}%BASE%WEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
 
 %TMPL:DEF{"head"}%<head>
 	%TMPL:P{"windowtitle"}%
