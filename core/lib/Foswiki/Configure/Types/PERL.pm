@@ -25,18 +25,12 @@ sub prompt {
     my $v = Data::Dumper->Dump( [$value], ['x'] );
     $v =~ s/^\$x = (.*);\s*$/$1/s;
     $v =~ s/^     //gm;
+
+    # Force textarea
     my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+    $opts .= " ${size}x10" unless ($opts =~ /\b(\d+)x(\d+)\b/);
 
-    # percentage size should be set in CSS
-
-    return CGI::textarea(
-        -name     => $id,
-        -value    => $v,
-        -rows     => 10,
-        -columns  => $size,
-        -onchange => 'valueChanged(this)',
-        -class    => "foswikiTextarea $class",
-    );
+    return $this->SUPER::prompt($id, $opts, $v, $class);
 }
 
 # verify that the string is a legal rvalue according to the grammar

@@ -238,7 +238,8 @@ table p {
 }
 table.configureSectionValues .foswikiInputField,
 table.configureSectionValues .foswikiTextarea {
-	width:55%;
+    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    font-size:86%;
 }
 
 /* WARN and ERROR */
