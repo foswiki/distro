@@ -301,7 +301,7 @@ blockquote h2 {
 	background-color:transparent;
 }
 
-.foswikiSubmit,.foswikiSubmitDisabled {
+.foswikiSubmit {
 	background-image:url(configure?action=resource;resource=bg_submit_gradient.gif);
 	background-repeat:repeat-x;
 }

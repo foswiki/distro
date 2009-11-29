@@ -566,3 +566,12 @@ div.configureMessageBox {
 .configureLegend table strong {
 	display:block;
 }
+
+.foswikiSubmitDisabled,
+.foswikiSubmitDisabled:hover,
+.foswikiSubmitDisabled:active {
+	background:none;
+	background-color:#fff;
+	border-color:#ddd;
+	color:#ccc;
+}
