@@ -545,7 +545,7 @@ ACTUAL
 
     $Foswiki::cfg{AllowInlineScript} = 0;
     $expected = <<EXPECTED;
-<!-- <script> is not allowed on this site -->
+<!-- <script> is not allowed on this site - denied by deprecated {AllowInlineScript} setting -->
 EXPECTED
     $this->do_test( $expected, $actual );
 
