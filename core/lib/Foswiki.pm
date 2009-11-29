@@ -153,7 +153,7 @@ BEGIN {
         # ASSERTS are turned on by defining the environment variable
         # FOSWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
         # production environment, and no stack traces or paths are
-        # output to the browser. 
+        # output to the browser.
         $SIG{'__WARN__'} = sub { die @_ };
         $Error::Debug = 1;    # verbose stack traces, please
     }
