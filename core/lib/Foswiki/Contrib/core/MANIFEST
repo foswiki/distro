@@ -401,6 +401,7 @@ lib/Foswiki/Cache.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
+lib/Foswiki/Configure/Checkers/AllowInlineScript.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
 lib/Foswiki/Configure/Checkers/CGISetup.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigurationLogName.pm 0444
@@ -462,6 +463,7 @@ lib/Foswiki/Configure/Checkers/UpperNational.pm 0444
 lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
 lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
+lib/Foswiki/Configure/Checkers/Validation/Method.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/Welcome.pm
