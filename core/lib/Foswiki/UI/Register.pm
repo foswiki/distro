@@ -746,7 +746,7 @@ sub _complete {
         #convert to rego agent user copied from _writeRegistrationDetailsToTopic
         my $safe = $session->{user};
         my $regoAgent = $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName});
-	if ($data->{AddToGroups}) {
+        if ($data->{AddToGroups}) {
             foreach my $groupName (split(/,/, $data->{AddToGroups})) {
                 $session->{user} = $regoAgent;
                 try {
