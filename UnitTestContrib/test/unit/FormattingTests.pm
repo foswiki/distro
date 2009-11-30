@@ -555,7 +555,7 @@ your words
 </literal>
 ACTUAL
     $expected = <<EXPECTED;
-<!-- <literal> is not allowed on this site -->
+<!-- <literal> is not allowed on this site - denied by deprecated {AllowInlineScript} setting -->
 EXPECTED
     $this->do_test( $expected, $actual );
 
