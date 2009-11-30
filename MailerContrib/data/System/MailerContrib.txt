@@ -99,7 +99,7 @@ In the future it is intended that individual users will be able to control the f
 
 Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The =newsletter= template is used to generate the content in this mail, using whatever skin is selected in the topic being mailed.
 
-In addition, the %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers used by Foswiki:Extensions.PublishContrib to delimit the text to be published are respected in news mode.
+In addition, the %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
 
 ---++ Foswiki/Contrib/MailerContrib code library
 The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to the POD documentation for the !WebNotify class as their starting point.
