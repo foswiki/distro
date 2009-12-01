@@ -159,6 +159,7 @@ pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/js/dialog.js 
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/langs/en.js 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/example/langs/en_dlg.js 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/attach.htm 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/attach_error_autoinc.htm 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/colours.htm 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/css/popup.css 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/css/popup_src.css 0644

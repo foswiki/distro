@@ -10,6 +10,6 @@ tinyMCE.addI18n('en.foswikibuttons_dlg', {
     attach_help : "If recently uploaded files are not in the list, then close and re-open this dialog",
     attach_file : "Upload new attachment",
     attach_comment : "Comment",
-    attach_hide : "Hide attachment"
+    attach_hide : "Hide attachment",
+    attach_error_autoinc : "Unable to attach files to an unsaved AUTOINC topic. Save the topic and try again."
 });
-
