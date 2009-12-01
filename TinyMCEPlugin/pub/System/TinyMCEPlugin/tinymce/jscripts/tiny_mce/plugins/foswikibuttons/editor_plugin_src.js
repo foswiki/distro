@@ -67,7 +67,7 @@
                 var htmpath = '/attach.htm',
                     htmheight = 250;
 
-                if (null !== foswiki.topic.match(/(X{10}|AUTOINC[0-9]+)/)) {
+                if (null !== TOPIC.match(/(X{10}|AUTOINC[0-9]+)/)) {
                     htmpath = '/attach_error_autoinc.htm',
                     htmheight = 125;
                 }
