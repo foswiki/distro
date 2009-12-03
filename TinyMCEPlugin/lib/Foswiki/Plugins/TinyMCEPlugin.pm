@@ -47,7 +47,7 @@ foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
 foswikibuttons_formats : [
-{ name: "Normal", el: "", style: null },
+{ name: "Normal", el: "div", style: false },
 { name: "Heading 1", el: "h1", style: false },
 { name: "Heading 2", el: "h2", style: false },
 { name: "Heading 3", el: "h3", style: false },
