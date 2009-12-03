@@ -64,14 +64,21 @@
             });
 
             ed.addCommand('foswikibuttonsAttach', function() {
+                var htmpath = '/attach.htm',
+                    htmheight = 250;
+
+                if (null !== FoswikiTiny.foswikiVars.TOPIC.match(/(X{10}|AUTOINC[0-9]+)/)) {
+                    htmpath = '/attach_error_autoinc.htm',
+                    htmheight = 125;
+                }
                 ed.windowManager.open({
                     location: false,
                     menubar: false,
                     toolbar: false,
                     status: false,
-                    url : url + '/attach.htm',
+                    url : url + htmpath,
                     width : 350,
-                    height : 250,
+                    height : htmheight,
                     movable : true,
                     inline : true
                 }, {
