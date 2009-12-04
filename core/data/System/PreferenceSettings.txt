@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252719915" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---++ Help on Preferences
-   * A _preference setting_ lets you define a simple [[macro]] that can be expanded in your output.
+   * A _preference setting_ lets you define a simple [[Macros][macro]] that can be expanded in your output.
    * A preference setting looks like this: <br /> =3 or 6 spaces * Set NAME = value= <br /> Example:
       * S<nop>et WEBBGCOLOR = #FFFFC0
    * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
@@ -10,6 +10,7 @@
       * When you write =%WEB<nop>BGCOLOR%=, it gets expanded to =%WEBBGCOLOR%=
    * The sequential order of the preference settings is significant. i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= setting.
    * You can introduce your own preference settings and use them in your topics and templates.
+   * A preference settings is always taken from the most current topic revision, even when accessing previous revisions of a topic.
    * Preferences can be defined in a number of places:
       1 %SYSTEMWEB%.DefaultPreferences
       1 %USERSWEB%.SitePreferences
