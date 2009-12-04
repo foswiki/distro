@@ -14,7 +14,9 @@ function fixHeightOfPane () { }
         return false;
       }
     }
-    var editForm = $("#EditForm");
+    /* SMELL: Why doesn't this work when ?action=form? Item2453
+       var editForm = $('#EditForm'); */
+    var editForm = $(document.getElementById('EditForm'));
     if (action == 'add form') {
       editForm.find("input[name='submitChangeForm']").val(action);
     }
@@ -28,7 +30,9 @@ function fixHeightOfPane () { }
     if (typeof(foswikiStrikeOne) != 'undefined') {
       foswikiStrikeOne(editForm[0]);
     }
-    if (typeof(tinyMCE) !== 'undefined' && typeof(tinyMCE.activeEditor) !== 'undefined') {
+    if ((typeof(tinyMCE) === 'object') && 
+      (typeof(tinyMCE.activeEditor) === 'object') &&
+      (tinyMCE.activeEditor !== null)) {
       tinyMCE.activeEditor.onSubmit.dispatch();
     }
     editForm.submit();

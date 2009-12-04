@@ -87,6 +87,8 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  04 Dec 2009 | Foswikitask:Item2453: Form data not saved when edit is invoked \
+                 with ?action=form ('Edit data form of this topic' link) |
 |  18 Nov 2009 | Foswikitask:Item2373: improve XHTML validation |
 |  17 Nov 2009 | Foswikitask:Item2368 toolbar not always hidden (PH); \
                  improved usability of upload and insert-link dialog |
