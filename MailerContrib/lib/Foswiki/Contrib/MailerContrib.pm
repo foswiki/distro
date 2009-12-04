@@ -26,7 +26,7 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '17 Oct 2009';
+our $RELEASE = '4 Dec 2009';
 our $SHORTDESCRIPTION = 'Supports e-mail notification of changes';
 
 our $verbose = 0;
@@ -489,7 +489,6 @@ sub _sendNewsletterMail {
     my $tmpl = "$body\n$footer";
     $tmpl = Foswiki::Func::expandCommonVariables( $tmpl, $topic, $web );
     $tmpl = Foswiki::Func::renderText( $tmpl, "", $meta );
-    $tmpl = "$header$tmpl";
 
     # REFACTOR OPPORTUNITY: stop factor me into getTWikiRendering()
     # SMELL: this code is identical to PublishContrib!
@@ -512,7 +511,7 @@ sub _sendNewsletterMail {
             $newTmpl .= $s;
         }
     }
-    $tmpl = $newTmpl;
+    $tmpl = $header . $newTmpl;
     $tmpl =~ s/.*?<\/nopublish>//gs;
     $tmpl =~ s/%MAXREV%/$maxrev/g;
     $tmpl =~ s/%CURRREV%/$maxrev/g;
