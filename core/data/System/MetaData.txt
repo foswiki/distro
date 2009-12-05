@@ -12,7 +12,7 @@ _Additional data, Foswiki-generated or from [[DataForms][forms]], may be embedde
 
 The default store engines store topics in plain-text files on disk, in a simple and obvious directory structure. The big advantage of this approach is that it makes it very easy to manipulate topics from outside Foswiki, and it is also very robust; there are no complex binary indexes to maintain, and moving a topic from one installation to another is as simple as copying a couple of text files.
 
-To keep eveything together in one place, meta-data (Foswiki-generated or from [[DataForms][forms]]) is embedded directly in topics, using special macros. These macros are easy to spot, as they all start with the reserved =META:= prefix.
+To keep everything together in one place, meta-data (Foswiki-generated or from [[DataForms][forms]]) is embedded directly in topics, using special macros. These macros are easy to spot, as they all start with the reserved =META:= prefix.
 
 =META:= data includes information such as file attachments, topic movement history, and [[DataForms][form field]] values. For efficiency reasons, the topic history is *not* stored in this meta-data, but is expected to be implemented elsewhere by the store engine.
 
@@ -75,7 +75,7 @@ Notes:
  
 ---+++ META:TOPICPARENT
 
-The topic from which this topic was created, typically when clicking on a =?= questionmark link, or by filling out a form. The topic parent may also be manipulated in the user interface.
+The topic from which this topic was created, typically when clicking on a =?= question mark link, or by filling out a form. The topic parent may also be manipulated in the user interface.
 | *Key*   | *Comment* |
 | name%REG%    | Normally just =TopicName=, but it can be a full =Web.TopicName= format if the parent is in a different Web. |
 
@@ -149,7 +149,7 @@ You can append the <code>raw=debug</code> parameter to the URL to view the topic
 Meta-data belonging to the viewed topic can be included in the view using the =%META= macro. See VarMETA for details.
 
 ---+++ =%FORMFIELD=
-The =%FORMFIELD= macro lets you inspect the values of form field meta-data in other topics. See VarFORMFIELD for detals.
+The =%FORMFIELD= macro lets you inspect the values of form field meta-data in other topics. See VarFORMFIELD for details.
 
 ---+++ =%SEARCH=
 =%SEARCH= can also be used to extract meta data. See VarSEARCH and the examples in FormattedSearch and SearchPatternCookbook.
