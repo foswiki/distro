@@ -147,7 +147,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | xml-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/xml-small.png | XML feed |  =%<nop>ICON{xml-small}%= |
 
 
----+++ %ICON{choice-yes}% Status, %ICON{flag}% flag, %ICON{bullet_box-red}% LED, %ICON{tag-yellow}% tag icons
+---+++ %ICON{choice-yes}% Status, %ICON{flag}% flag, %ICON{bullet_box_red}% LED, %ICON{tag-yellow}% tag icons
 
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *Name* | *Icon URL* |  *Description* | *Write...* |
@@ -164,29 +164,29 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | unchecked | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/control_blank.png | Unchecked checkbox |  =%<nop>ICON{unchecked}%= |
 | checked | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/control_record.png | Checked checkbox |  =%<nop>ICON{checked}%= |
 | flag | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Flag |  =%<nop>ICON{flag}%= |
-| flag-gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Gray flag |  =%<nop>ICON{flag-gray}%= |
-| lag-gray-small%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Small gray flag, 13x13 | =&lt;img src="%<nop>ICONURL{flag-gray-small}%" width="13" height="13" alt="Flag" border="0" /&gt;= |
-| bullet_aqua | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_aqua.png | Aqua led |  =%<nop>ICON{bullet_aqua}%= |
+| flag-gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/flag_gray.png | Gray flag |  =%<nop>ICON{flag-gray}%= |
+| lag-gray-small | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/flag_gray_small.png | Small gray flag, 13x13 | =&lt;img src="%<nop>ICONURL{flag-gray-small}%" width="13" height="13" alt="Flag" border="0" /&gt;= |
+| bullet_aqua | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_aqua.png | Aqua led |  =%<nop>ICON{bullet_aqua}%= |
 | bullet_blue | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_blue.png | Blue led |  =%<nop>ICON{bullet_blue}%= |
-| bullet_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_gray.png | Gray led |  =%<nop>ICON{bullet_gray}%= |
+| bullet_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_black.png | Gray led |  =%<nop>ICON{bullet_gray}%= |
 | bullet_green | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_green.png | Green led |  =%<nop>ICON{bullet_green}%= |
 | bullet_orange | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_orange.png | Orange led |  =%<nop>ICON{bullet_orange}%= |
 | bullet_purple | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_purple.png | Purple led |  =%<nop>ICON{bullet_purple}%= |
 | bullet_red | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_red.png | Red led |  =%<nop>ICON{bullet_red}%= |
 | bullet_yellow | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_yellow.png | Yellow led |  =%<nop>ICON{bullet_yellow}%= |
-| bullet_box-aqua | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-aqua.png | Aqua led |  =%<nop>ICON{bullet_box-aqua}%= |
-| bullet_box-blue | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-blue.png | Blue led |  =%<nop>ICON{bullet_box-blue}%= |
-| bullet_box-gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-gray.png | Gray led |  =%<nop>ICON{bullet_box-gray}%= |
-| bullet_box-green | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-green.png | Green led |  =%<nop>ICON{bullet_box-green}%= |
-| bullet_box-orange | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-orange.png | Orange led |  =%<nop>ICON{bullet_box-orange}%= |
-| bullet_box-purple | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-purple.png | Purple led |  =%<nop>ICON{bullet_box-purple}%= |
-| bullet_box-red | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-red.png | Red led |  =%<nop>ICON{bullet_box-red}%= |
-| bullet_box-yellow | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-yellow.png | Yellow led |  =%<nop>ICON{bullet_box-yellow}%= |
+| bullet_box_aqua | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_aqua.png | Aqua led |  =%<nop>ICON{bullet_box_aqua}%= |
+| bullet_box_blue | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_blue.png | Blue led |  =%<nop>ICON{bullet_box_blue}%= |
+| bullet_box_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_black.png | Gray led |  =%<nop>ICON{bullet_box_gray}%= |
+| bullet_box_green | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_green.png | Green led |  =%<nop>ICON{bullet_box_green}%= |
+| bullet_box_orange | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_orange.png | Orange led |  =%<nop>ICON{bullet_box_orange}%= |
+| bullet_box_purple | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_purple.png | Purple led |  =%<nop>ICON{bullet_box_purple}%= |
+| bullet_box_red | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_red.png | Red led |  =%<nop>ICON{bullet_box_red}%= |
+| bullet_box_yellow | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/bullet_box_yellow.png | Yellow led |  =%<nop>ICON{bullet_box_yellow}%= |
 | tag | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_blue.png | Tag |  =%<nop>ICON{tag}%= |
 | tag-blue | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_blue.png | Blue tag |  =%<nop>ICON{tag-blue}%= |
-| tag-brown | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_brown.png | Brown tag |  =%<nop>ICON{tag-brown}%= |
+| tag-brown | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/tag_brown.png | Brown tag |  =%<nop>ICON{tag-brown}%= |
 | tag-green | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_green.png | Green tag |  =%<nop>ICON{tag-green}%= |
-| tag-magenta | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_magenta.png | Magenta tag |  =%<nop>ICON{tag-magenta}%= |
+| tag-magenta | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/tag_magenta.png | Magenta tag |  =%<nop>ICON{tag-magenta}%= |
 | tag-orange | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_orange.png | Orange tag |  =%<nop>ICON{tag-orange}%= |
 | tag-purple | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_purple.png | Purple tag |  =%<nop>ICON{tag-purple}%= |
 | tag-red | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_red.png | Red tag |  =%<nop>ICON{tag-red}%= |
