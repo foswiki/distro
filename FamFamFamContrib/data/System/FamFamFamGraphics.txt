@@ -216,7 +216,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | arrowdown | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_down.png | Arrow down |  =%<nop>ICON{arrowdown}%= |
 | go_start | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_start.png | Go to start |  =%<nop>ICON{go_start}%= |
 | go_fb | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_rewind.png | Go fast back |  =%<nop>ICON{go_fb}%= |
-| go_back | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_play_backward.png | Go back |  =%<nop>ICON{go_back}%= |
+| go_back | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/control_play_backwards.png | Go back |  =%<nop>ICON{go_back}%= |
 | go_forward | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_play.png | Go forward |  =%<nop>ICON{go_forward}%= |
 | go_ff | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_fastforward.png | Go fast forward |  =%<nop>ICON{go_ff}%= |
 | go_end | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_end.png | Go to end |  =%<nop>ICON{go_end}%= |
@@ -238,8 +238,8 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | toggleclose-mini | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_minus.png | Close toggle, Twisty close toggle | =&lt;img src="%<nop>ICONURL{toggleclose-mini}%" width="7" height="9" alt="Close" border="0" /&gt;= |
 | toggleopenleft | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/bullet_left.png | Open toggle, Twisty open toggle |  =%<nop>ICON{toggleopenleft}%= |
 | toggleopenleft-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/bullet_left.png | Open toggle, Twisty open toggle |  =%<nop>ICON{toggleopenleft-small}%= |
-| web-bg | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/web-bg.png | Web background, used in %SYSTEMWEB%.WebLeftBarWebsList |  =%<nop>ICON{web-bg}%= |
-| web-bg-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/web-bg-small.png | Web background, 13x13 | =&lt;img src="%<nop>ICONURL{web-bg-small}%" width="13" height="13" alt="Web" border="0" /&gt;= |
+| web-bg | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/folder_edit.png | Web background, used in %SYSTEMWEB%.WebLeftBarWebsList |  =%<nop>ICON{web-bg}%= |
+| web-bg-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/folder_edit.png | Web background, 13x13 | =&lt;img src="%<nop>ICONURL{web-bg-small}%" width="13" height="13" alt="Web" border="0" /&gt;= |
 
 ---+++ Foswiki icons
 
@@ -250,9 +250,9 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | code | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_cplusplus.png | Code |  =%<nop>ICON{code}%= |
 | package | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/package.png | Package |  =%<nop>ICON{package}%= |
 | plugin | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/plugin.png | Plugin |  =%<nop>ICON{plugin}%= |
-| tag | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag.png | Tag |  =%<nop>ICON{tag}%= |
-| searchpackage | %PUBURL%/%SYSTEMWEB%/FamFamFamGraphics/package_magnify.png | Search package |  =%<nop>ICON{searchpackage}%= |
-| searchtag | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_find.png | Search tag |  =%<nop>ICON{searchtag}%= |
+| tag | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_blue.png | Tag |  =%<nop>ICON{tag}%= |
+| searchpackage | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/package_find.png | Search package |  =%<nop>ICON{searchpackage}%= |
+| searchtag | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/tag_find.png | Search tag |  =%<nop>ICON{searchtag}%= |
 | skin | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/theme.png | Skin |  =%<nop>ICON{skin}%= |
 
 ---+++ %ICON{line_ur}% Block graphics

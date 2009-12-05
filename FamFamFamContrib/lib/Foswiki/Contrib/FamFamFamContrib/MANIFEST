@@ -1903,7 +1903,9 @@ pub/System/FamFamFamSilkCompanion1Icons/sound_high.png
 pub/System/FamFamFamSilkCompanion1Icons/border_draw.png
 pub/System/FamFamFamSilkCompanion1Icons/cake_out.png
 
-
+pub/System/FamFamFamFoswikiExtras/bullet_find.png
+pub/System/FamFamFamFoswikiExtras/package_find.png
+pub/System/FamFamFamFoswikiExtras/tag_find.png
 
 pub/System/FamFamFamGraphics/sitemap.png
 pub/System/FamFamFamGraphics/starred.png
