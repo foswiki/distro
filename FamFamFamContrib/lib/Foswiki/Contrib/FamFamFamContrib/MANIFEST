@@ -2010,6 +2010,7 @@ pub/System/FamFamFamFoswikiExtras/dot_udlr.png
 pub/System/FamFamFamFoswikiExtras/line_ud.png
 pub/System/FamFamFamFoswikiExtras/dot_lr.png
 pub/System/FamFamFamFoswikiExtras/line_ul.png
+pub/System/FamFamFamFoswikiExtras/XML_icon.png
 
 
 
@@ -2244,5 +2245,6 @@ pub/System/FamFamFamGraphics/dot_ulr.png
 pub/System/FamFamFamGraphics/line_ulr.png
 pub/System/FamFamFamGraphics/dot_lr.png
 pub/System/FamFamFamGraphics/line_ur_gray.png
+pub/System/FamFamFamGraphics/xml-feed.png
 
 
