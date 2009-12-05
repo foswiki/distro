@@ -19,13 +19,12 @@ sub renderHtml {
     my $num = 0;
     for my $key ( sort keys %ENV ) {
         my $value = $ENV{$key};
-        my $limit = 70;
-        if ( length $value > $limit ) {
-            my $partFirst = substr( $value, 0, $limit );
-            my $partLast  = substr( $value, $limit );
-            my $id        = "configureEllipsis_$num";
-            $value = $partFirst
-              . "<span class='configureEllipsis foswikiMakeVisible'><span class='configureEllipsisDots'>... </span><a href='#$id'>more</a></span><span class='foswikiMakeHidden' id='$id'>$partLast</span>";
+        if ($key eq 'HTTP_COOKIE') {
+            
+            # url decode for readability
+            $value =~ s/%7C/ | /go;
+            $value =~ s/%3D/=/go;
+            $value .= $this->NOTE('Cookie string decoded for readability.');
         }
         $contents .= $this->setting( $key, $value );
         $num++;
@@ -221,12 +220,14 @@ HERE
     }
     $contents .= $this->setting( 'mod_perl', $n );
 
+    my $groups = $::WebServer_gid;
+    $groups =~ s/,/, /go; # improve readability with linebreaks
     $contents .= $this->setting(
         'CGI user',
         'userid = <strong>'
           . $::WebServer_uid
           . '</strong> groups = <strong>'
-          . $::WebServer_gid
+          . $groups
           . '</strong>'
           . $this->NOTE('Your CGI scripts are executing as this user.')
     );

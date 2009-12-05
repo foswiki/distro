@@ -247,13 +247,14 @@ table.configureSectionValues .foswikiTextarea {
 	  color:#f60;
 }
 
-.configureRootSection .foswikiAlert {
+.configureRootSection div.foswikiAlert {
 	background-color:#fff;
+	color:#000;
 	border:1px solid #e6e6e6;
 	margin:.25em 0 .7em 0;
 	padding:7px 1em;
 }
-table.configureSectionValues .foswikiAlert {
+table.configureSectionValues div.foswikiAlert {
 	padding-left:3em;
 }
 div.configureInfoText {
@@ -553,7 +554,7 @@ div.configureMessageBox {
 	vertical-align:middle;
 	background-color:#fff;
 }
-.configureMessageBox .foswikiAlert {
+.configureMessageBox div.foswikiAlert {
 	margin:0;
 	padding-left:3em;
 }

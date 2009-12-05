@@ -517,8 +517,56 @@ function toggleInfo(inId) {
 }
 
 /* SELECTORS */
+var enableWhenSomethingChangedElements = new Array();
+var showWhenNothingChangedElements = new Array();
+
+/* Value changes. Event when a value is edited; enables the save changes
+ * button */
+var somethingChanged = false;
+function valueChanged(el) {
+    foswiki.CSS.addClass(el, 'foswikiValueChanged');
+
+	var els; // shorthand
+	els = showWhenNothingChangedElements;
+	if (els) {
+		for (var i in els) {
+			foswiki.CSS.addClass(els[i], 'foswikiHidden');
+		}
+	}
+	els = enableWhenSomethingChangedElements;
+	if (els) {
+		var controlTypes = [ 'Submit', 'Button', 'InputField' ];
+		for (var i in els) {
+			foswiki.CSS.removeClass(els[i], 'foswikiHidden');
+			for (var j in controlTypes) {
+				var ct = 'foswiki' + controlTypes[j];
+				if (foswiki.CSS.hasClass(els[i], ct + 'Disabled')) {
+					foswiki.CSS.removeClass(els[i], ct + 'Disabled');
+					foswiki.CSS.addClass(els[i], ct);
+				}
+			}
+			els[i].disabled = false;
+		}
+	}
+	somethingChanged = true;
+}
 
 var rules = {
+	'.enableWhenSomethingChanged' : function(el) {
+		enableWhenSomethingChangedElements.push(el);
+		if (el.tagName.toLowerCase() == 'input') {
+			// disable the Save Changes button until a change has been made 
+			// we won't use this until an AJAX call has been implemented to make // this fault proof
+			// el.disabled = 'disabled';
+			// foswiki.CSS.addClass(el, 'foswikiSubmitDisabled');
+			// foswiki.CSS.removeClass(el, 'foswikiSubmit');
+		} else {
+			foswiki.CSS.addClass(el, 'foswikiHidden');
+		}
+	},
+	'.showWhenNothingChanged' : function(el) {
+		showWhenNothingChangedElements.push(el);
+	},
 	'.tabli a' : function(el) {
 		var sectionParts = getSectionParts(el.hash);
 		var id = sectionParts.main;
@@ -591,44 +639,13 @@ var rules = {
 			}
 			return true;
 		}
+	},
+	'input.foswikiFocus':function(el) {
+		el.focus();
 	}
 };
 Behaviour.register(rules);
 
-/* Value changes. Event when a value is edited; enables the save changes
- * button */
-var somethingChanged = false;
-function valueChanged(el) {
-    foswiki.CSS.addClass(el, 'foswikiValueChanged');
-    if (!somethingChanged) {
-        var els = getElementsByClassName(document, 'showWhenNothingChanged');
-        for (var i in els) {
-            foswiki.CSS.addClass(els[i], 'foswikiHidden');
-        }
-        els = getElementsByClassName(document, 'enableWhenSomethingChanged');
-        var controlTypes = [ 'Submit', 'Button', 'InputField' ];
-        for (var i in els) {
-            foswiki.CSS.removeClass(els[i], 'foswikiHidden');
-            for (var j in controlTypes) {
-                var ct = 'foswiki' + controlTypes[j];
-                if (foswiki.CSS.hasClass(els[i], ct + 'Disabled')) {
-                    foswiki.CSS.removeClass(els[i], ct + 'Disabled');
-                    foswiki.CSS.addClass(els[i], ct);
-                }
-            }
-            els[i].disabled = false;
-        }
-        somethingChanged = true;
-    }
-}
-
-function focusPassword() {
-    if (document.forms['update'].cfgAccess != null) {
-        document.forms['update'].cfgAccess.focus();
-    }
-}
-
 addLoadEvent(toggleExpertsMode);
 addLoadEvent(toggleInfoMode);
 addLoadEvent(initSection);
-addLoadEvent(focusPassword);

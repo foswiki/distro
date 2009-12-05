@@ -12,8 +12,7 @@
 			<#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
 			<#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
 			
-			<#if firstTime == 1>(we will solve this in a minute)</#if>
-			
+			<#if firstTime == 1>(we will solve this in a minute)</#if>			
 		</div><!--/configureTools-->		
 	</div>
 	
@@ -42,7 +41,7 @@
 
 	<div id="ft">
 		<div class="configureActions">
-			<input type='submit' class='enableWhenSomethingChanged foswikiSubmitDisabled' disabled="disabled" name='action' value='Save changes' />
+			<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='action' value='Save changes' />
 		</div>
 	</div>
 
