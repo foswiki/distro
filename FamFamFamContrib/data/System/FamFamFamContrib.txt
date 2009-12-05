@@ -59,7 +59,9 @@ by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the Docu
 <img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion2Icons/silk-companion-II.png" alt="silk-companion-II.png"  />
 
 ---+++ Foswiki Extra Icons 
-So far built by Sven based on the Silk ones above, except for the XML icon - which comes from http://commons.wikimedia.org/wiki/File:XML_icon.svg
+So far built by Sven based on the Silk ones above, except for 
+   1 the XML icon - which comes from http://commons.wikimedia.org/wiki/File:XML_icon.svg
+   2 the targets which are based on - http://www.favicon.cc/?action=icon&file_id=37384
 
 ---++ Installation Instructions
 

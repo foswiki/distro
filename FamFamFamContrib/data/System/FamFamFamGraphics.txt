@@ -62,12 +62,12 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | stargold | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/star.png | Gold star, favorites |  =%<nop>ICON{stargold}%= |
 | starred | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/rosette.png | Red star, highlight | =%<nop>S%=,  =%<nop>ICON{starred}%= |
 | stop | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/stop.png | Stop |  =%<nop>ICON{stop}%= |
-| target | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target.png | Target |  =%<nop>ICON{target}%= |
-| target-blue | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-blue.png | Target - blue |  =%<nop>ICON{target-blue}%= |
-| target-gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-gray.png | Target - gray |  =%<nop>ICON{target-gray}%= |
-| target-green | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-green.png | Target - green |  =%<nop>ICON{target-green}%= |
-| target-orange | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-orange.png | Target - orange |  =%<nop>ICON{target-orange}%= |
-| target-red | %PUBURL%/%SYSTEMWEB%/FamFamFamGraphics/target_red.png | Target - red |  =%<nop>ICON{target-red}%= |
+| target | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/target.png | Target |  =%<nop>ICON{target}%= |
+| target-blue | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/target_blue.png | Target - blue |  =%<nop>ICON{target-blue}%= |
+| target-gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/target_gray.png | Target - gray |  =%<nop>ICON{target-gray}%= |
+| target-green | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/target_green.png | Target - green |  =%<nop>ICON{target-green}%= |
+| target-orange | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/target_orange.png | Target - orange |  =%<nop>ICON{target-orange}%= |
+| target-red | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/target_red.png | Target - red |  =%<nop>ICON{target-red}%= |
 | tip | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/lightbulb.png | Tip, idea | =%<nop>T%=,  =%<nop>ICON{tip}%= |
 | video | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/dvd_start.png | Video, 13x10 | =&lt;img src="%<nop>ICONURL{video}%" width="13" height="10" alt="Video" border="0" /&gt;= |
 | warning | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/exclamation.png | Warning, important | =%<nop>X%=,  =%<nop>ICON{warning}%= |

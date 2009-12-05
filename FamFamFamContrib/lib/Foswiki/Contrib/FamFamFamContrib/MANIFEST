@@ -2011,7 +2011,12 @@ pub/System/FamFamFamFoswikiExtras/line_ud.png
 pub/System/FamFamFamFoswikiExtras/dot_lr.png
 pub/System/FamFamFamFoswikiExtras/line_ul.png
 pub/System/FamFamFamFoswikiExtras/XML_icon.png
-
+pub/System/FamFamFamFoswikiExtras/target_green.png
+pub/System/FamFamFamFoswikiExtras/target_gray.png
+pub/System/FamFamFamFoswikiExtras/target.png
+pub/System/FamFamFamFoswikiExtras/target_blue.png
+pub/System/FamFamFamFoswikiExtras/target_red.png
+pub/System/FamFamFamFoswikiExtras/target_orange.png
 
 
 
@@ -2246,5 +2251,12 @@ pub/System/FamFamFamGraphics/line_ulr.png
 pub/System/FamFamFamGraphics/dot_lr.png
 pub/System/FamFamFamGraphics/line_ur_gray.png
 pub/System/FamFamFamGraphics/xml-feed.png
+pub/System/FamFamFamGraphics/target-blue.png
+pub/System/FamFamFamGraphics/target-green.png
+pub/System/FamFamFamGraphics/target-red.png
+pub/System/FamFamFamGraphics/target-gray.png
+pub/System/FamFamFamGraphics/target.png
+pub/System/FamFamFamGraphics/target-orange.png
+
 
 
