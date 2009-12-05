@@ -41,19 +41,22 @@ by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the Docu
    * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png" alt="sound_grey.ong" title="sound_grey.ong" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png" /&gt;=)
    
 ---+++ Flags preview FamFamFamFlagIcons
-<img src="%ATTACHURLPATH%/flags-preview.jpg" alt="flags-preview.jpg" width='320' height='120' />
+<img src="%ATTACHURLPATH%/flags-preview.jpg" alt="flags-preview.jpg" />
 
 ---+++ Mini preview FamFamFamMiniIcons
-<img src="%ATTACHURLPATH%/mini-preview.jpg" alt="mini-preview.jpg" width='320' height='120' />
+<img src="%ATTACHURLPATH%/mini-preview.jpg" alt="mini-preview.jpg"  />
 
 ---+++ Mint preview FamFamFamMintIcons  
-<img src="%ATTACHURLPATH%/mint-preview.jpg" alt="mint-preview.jpg" width='320' height='120' />
+<img src="%ATTACHURLPATH%/mint-preview.jpg" alt="mint-preview.jpg"  />
 
 ---+++ Silk preview FamFamFamSilkIcons
-<img src="%ATTACHURLPATH%/silk-preview.jpg" alt="silk-preview.jpg" width='320' height='240' />
+<img src="%ATTACHURLPATH%/silk-preview.jpg" alt="silk-preview.jpg"  />
 
 ---+++ Silk preview FamFamFamSilkCompanion1Icons
-<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/SilkCompanion1Thumb.png" alt="SilkCompanion1Thumb.png" width='320' height='240' />
+<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/SilkCompanion1Thumb.png" alt="SilkCompanion1Thumb.png"  />
+
+---+++ Silk preview FamFamFamSilkCompanion2Icons
+<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion2Icons/silk-companion-II.png" alt="silk-companion-II.png"  />
 
 ---++ Installation Instructions
 
@@ -64,10 +67,11 @@ by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the Docu
 
 |  Icons Creator: | Icons by Mark James http://www.famfamfam.com |
 |  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
-|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com |
+|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ |
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Dec 2009: | add FamFamFamGraphics topic to allow replacement of ICONTOPIC, and add Silk Companion 2 icons by Chris Cagle | 
 |  2 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
 |  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
 |  26 Nov 2008: | compatibility Foswiki |

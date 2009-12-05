@@ -161,8 +161,8 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | choice-cancel | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/cancel.png | Cancel |  =%<nop>ICON{choice-cancel}%= |
 | choice-no | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/accept.png | No |  =%<nop>ICON{choice-no}%= |
 | choice-yes | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/decline.png | Yes / Done | =%<nop>Y%=,  =%<nop>ICON{choice-yes}%= |
-| unchecked | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/control_blank.png | Unchecked checkbox |  =%<nop>ICON{unchecked}%= |
-| checked | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/control_record.png | Checked checkbox |  =%<nop>ICON{checked}%= |
+| unchecked | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion2Icons/check-unchecked.png | Unchecked checkbox |  =%<nop>ICON{unchecked}%= |
+| checked | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion2Icons/check-checked-green.png | Checked checkbox |  =%<nop>ICON{checked}%= |
 | flag | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Flag |  =%<nop>ICON{flag}%= |
 | flag-gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/flag_gray.png | Gray flag |  =%<nop>ICON{flag-gray}%= |
 | lag-gray-small | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/flag_gray_small.png | Small gray flag, 13x13 | =&lt;img src="%<nop>ICONURL{flag-gray-small}%" width="13" height="13" alt="Flag" border="0" /&gt;= |
