@@ -4,86 +4,91 @@
 #MetaData
 ---+ Meta data
 
-_Additional topic data, program-generated or from DataForms, is stored embedded in the topic text using =META:= tags_
+_Additional data, Foswiki-generated or from [[DataForms][forms]], may be embedded in the topic text using =META:= macros_
 
 %TOC%
 
 ---++ Overview
 
-By default, topics are stored in files on disk, in a really simple and obvious directory structure. The big advantage of this approach is that it makes it really easy to manipulate topics from outside, and is also very safe; there are no complex binary indexes to maintain, and moving a topic from one installation to another is as simple as copying a couple of text files.
+The default store engines store topics in plain-text files on disk, in a simple and obvious directory structure. The big advantage of this approach is that it makes it very easy to manipulate topics from outside Foswiki, and it is also very robust; there are no complex binary indexes to maintain, and moving a topic from one installation to another is as simple as copying a couple of text files.
 
-To keep eveything together in one place, meta-data (program-generated or from DataForms) is embedded directly in topics. It does this using =META:= tags.
+To keep eveything together in one place, meta-data (Foswiki-generated or from [[DataForms][forms]]) is embedded directly in topics, using special macros. These macros are easy to spot, as they all start with the reserved =META:= prefix.
 
-=META:= data includes program-generated info like FileAttachment, topic movement data and user-defined information from DataForms.
+=META:= data includes information such as file attachments, topic movement history, and [[DataForms][form field]] values. For efficiency reasons, the topic history is *not* stored in this meta-data, but is expected to be implemented elsewhere by the store engine.
 
 ---++ Meta data syntax
-
-   * Format is the same as in [[%SYSTEMWEB%.Macros][macros]], except all fields have a key.
+   * Format is the same as for any other [[%SYSTEMWEB%.Macros][macros]] *except* that each meta-data macro *must* be on a line on its own.
       * =%<nop>META:&lt;type&gt;{key1="value1" key2="value2" ...}%=
-
-   * Order of fields within the meta-data is not defined, except that if there is a field with key =name=, this appears first for easier searching (note the order of the data themselves is defined).
-
-   * Each meta-datum is on one line.
-
-   * Values in meta-data are URL encoded so that characters such as \n can be stored.
+   * The characters =%"\r\n{}= are encoded in argument values, using the standard URL encoding.
+   * Meta-data is divided into _core_ meta-data, described below, and _extension_ meta-data, which shares the same syntax but is used by extensions.
+   * Dates are stored as "epoch times" i.e. the integer number of seconds since 1st January 1970.
 
 <blockquote>
-*Example of Format*
+*Example of core meta-data*
 <pre>
-%<nop>META:TOPICINFO{version="1.6" date="976762663" author="LastEditorCUID" format="1.0"}%
+%<nop>META:TOPICINFO{version="1.6" date="976762663" author="LastEditor" format="1.0"}%
    text of the topic
-%<nop>META:TOPICMOVED{from="Codev.OldName" to="Codev.NewName"
-   by="TopicMoverWikiName" date="976762680"}%
-%<nop>META:TOPICPARENT{name="NavigationByTopicContext"}%
-%<nop>META:FILEATTACHMENT{name="Sample.txt" version="1.3" ... }%
-%<nop>META:FILEATTACHMENT{name="Smile.gif" version="1.1" ... }%
-%<nop>META:FORM{name="WebFormTemplate"}%
-%<nop>META:FIELD{name="OperatingSystem" value="OsWin"}%
-%<nop>META:FIELD{name="TopicClassification" value="PublicFAQ"}%
+%<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents"
+   by="CoverUp" date="976762680"}%
+%<nop>META:TOPICPARENT{name="MilitaryIntelligence5"}%
+%<nop>META:FILEATTACHMENT{name="CV.txt" version="1.3" ... }%
+%<nop>META:FILEATTACHMENT{name="Photo.gif" version="1.1" ... }%
+%<nop>META:FORM{name="SecretAgentForm"}%
+%<nop>META:FIELD{name="ChosenWeapon" value="Beretta"}%
+%<nop>META:FIELD{name="Paramour" value="PussyGalore"}%
+%<nop>META:PREFERENCE{name="ALLOWTOPICCHANGE" value="JamesBond"}%
+%<nop>META:PREFERENCE{name="DENYTOPICVIEW" value="ErnstBlofeld"}%
 </pre>
 </blockquote>
 
----++ Meta data specifications
+---++ Core meta-data
 
-The current version of Meta Data is 1.0, with support for the following syntax.
+The following meta-data macros are supported by the Foswiki core. Other macros may be used by extensions; see the extension documentation for more details. The core will read and write these extension macros, but will otherwise ignore them.
+
+Some fields are required by macros, while others are optional. Required fields are marked with a %REG% symbol. The %REG% character is *not* part of the attribute name.
 
 ---+++ META:TOPICINFO
 
+This macro caches some of the information that would normally be derived from the underlying store engine. It does this for efficiency reasons. 
+
 |  *Key*  |  *Comment*          |
-| version | Same as SVN version |
-| date    | integer, unix time, seconds since start 1970 |
-| author  | Canonical user identifier of last user to change the topic. The exact format of this depends on the user mapping manager. |
+| author%REG%  | Canonical user identifier of last user to change the topic. The exact format of this depends on the user mapping manager. |
+| version | Topic version; either CVS format (1.1), or a plain integer. |
+| date    | epoch time |
 | format  | Format of this topic, will be used for automatic format conversion |
+| reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURL{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
 
 ---+++ META:TOPICMOVED
 
-This is optional, exists if topic has ever been moved. If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic, older ones are to be found in the rcs history.
+This only exists if the topic has been moved. If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic. Older ones can to be found in the topic history.
 
-=%<nop>META:TOPICMOVED{from="Codev.OldName" to="Codev.NewName" by="talintj" date="976762680"}%=
+=%<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents" by="CoverUp" date="976762680"}%=
 
 |  *Key*  |  *Comment*          |
-| from | Full name, i.e., web.topic |
-| to   | Full name, i.e., web.topic |
-| by   | Canonical user identifier of who moved the topic. The exact format of this depends on the user mapping manager. |
-| date | integer, unix time, seconds since start 1970 |
+| from%REG% | Full name, i.e., web.topic |
+| to%REG%   | Full name, i.e., web.topic |
+| by%REG%   | Canonical user identifier of who moved the topic. The exact format of this depends on the user mapping manager. |
+| date%REG% | epoch time |
 
 Notes: 
-   * at present version number is not supported directly, it can be inferred from the SVN history.
-   * there is only one META:TOPICMOVED in a topic, older move information can be found in the SVN history.
+   * the moved version numbers can be deduced from the topic history.
  
 ---+++ META:TOPICPARENT
 
+The topic from which this topic was created, typically when clicking on a =?= questionmark link, or by filling out a form. The topic parent may also be manipulated in the user interface.
 | *Key*   | *Comment* |
-| name    | The topic from which this was created, typically when clicking on a =?= questionmark link, or by filling out a form.  Normally just =TopicName=, but it can be a full =Web.TopicName= format if the parent is in a different Web. |
+| name%REG%    | Normally just =TopicName=, but it can be a full =Web.TopicName= format if the parent is in a different Web. |
 
 ---+++ META:FILEATTACHMENT
 
+Reference to a file attached to this topic.
+
 | *Key*   | *Comment* |
-| name    | Name of file, no path.  Must be unique within topic |
-| version | Same as SVN revision  |
+| name%REG%    | Name of file, no path.  Must be unique within topic |
+| version | Either a CVS format revision (1.1) or a plain integer  |
 | path    | Full path file was loaded from |
 | size    | In bytes |
-| date    | integer, unix time, seconds since start 1970 |
+| date    | epoch time when the file was attached |
 | user    | Canonical user identifier of user who uploaded the attachment. The exact format of this depends on the user mapping manager. |
 | comment | As supplied when file uploaded |
 | attr    | =h= if hidden, optional |
@@ -94,28 +99,33 @@ Extra fields that are added if an attachment is moved:
 | movedfrom | full topic name - web.topic |
 | movedby   | Canonical user identifier of user who moved the attachment. The exact format of this depends on the user mapping manager. |
 | movedto   | full topic name - web.topic |
-| moveddate | integer, unix time, seconds since start 1970 |
+| moveddate | epoch time |
 
 ---+++ META:FORM
 
 | *Key*   | *Comment* |
-| name    | A topic name - the topic represents one of the DataForms.  Can optionally include the web name (i.e., web.topic), but doesn't normally |
+| name%REG%    | The name of the topic containing the [[DataForms][form definition]].  Can optionally include the web name (i.e., web.topic), but doesn't normally |
 
 ---+++ META:FIELD
 
-Should only be present if there is a META:FORM entry.  Note that this data is used when viewing a topic; the form definition is not read.
+Should only be present if there is a =META:FORM= entry.
 
 | *Key*   | *Name*   |
-| name    | Ties to entry in DataForms template, is title with all bar alphanumerics and . removed |
-| title   | Full text from DataForms template |
-| value   | Value user has supplied via form |
+| name%REG%    | Ties to entry in the [[DataForms][form definition]]. This is the title with all characters except alphanumerics and . removed |
+| value%REG%   | Value user has supplied via form |
+| title   | Full text from the [[DataForms][form definition]] |
+
+---+++ META:PREFERENCE
+Out-of-band [[PreferenceSettings][preference]].
+
+| *Key*   | *Name*   |
+| name%REG%    | Preference name |
+| value%REG%   | Preference value |
+| type | =Set= or =Local= (Set is the default) |
 
 ---+++ Recommended sequence
 
-There is no absolute need for Meta data to be listed in a specific order within a topic, but it makes sense to do so for a couple of good reasons:
-
-   * form fields remain in the order they are defined
-   * the =diff= function output appears in a logical order
+There is no absolute need for meta-data macros to be listed in a specific order within a topic, but it makes sense to do so, because form fields are displayed in the order they are defined when the topic is viewed.
 
 The recommended sequence is:
 
@@ -126,36 +136,29 @@ The recommended sequence is:
    * =META:FILEATTACHMENT= (0 or more entries)
    * =META:FORM= (optional)
    * =META:FIELD= (0 or more entries; FORM required)
+   * =META:PREFERENCE= (0 or more entries)
 
----++ Viewing meta data in page source
+---++ Viewing meta-data embedded in page source
 
-When viewing a topic the ==[View raw text]== link can be clicked to show the text of a topic (i.e., as seen when editing).  This is done by adding <code>raw=on</code> to URL.  <code>raw=debug</code> shows the meta data as well as the topic data, ex: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=debug">debug view for this topic</a>
+You can append the <code>raw=debug</code> parameter to the URL to view the topic text with embedded meta-data, e.g: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=debug">debug view for this topic</a>. <code>raw=all</code> lets you view the topic source as plain text, e.g: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=all">plain text view for this topic</a>.
 
 #MetaDataRendering
----++ Rendering meta data
+---++ Including meta data in viewed topics
 
-Meta data is rendered with the %<nop>META% macro. This is mostly used in the =view=, =preview= and =edit= scripts.
+---+++ =%META=
+Meta-data belonging to the viewed topic can be included in the view using the =%META= macro. See VarMETA for details.
 
-You can render form fields in topic text by using the FORMFIELD macro. Example:%BR%
-=%<nop>FORMFIELD{"TopicClassification"}%= %BR%
-For details, see VarFORMFIELD.
+---+++ =%FORMFIELD=
+The =%FORMFIELD= macro lets you inspect the values of form field meta-data in other topics. See VarFORMFIELD for detals.
 
-Current support covers:
+---+++ =%SEARCH=
+=%SEARCH= can also be used to extract meta data. See VarSEARCH and the examples in FormattedSearch and SearchPatternCookbook.
 
-| *Macro usage:*   | *Comment:*  |
-| =%<nop>META{"form"}%= | Show form data, see DataForms. |
-| =%<nop>META{"formfield"}%= | Show form field value. Parameter: ==name="field_name"==. Example:%BR% =%<nop>META{ "formfield" name="TopicClassification" }%= |
-| =%<nop>META{"attachments"}%= | Show attachments, except for hidden ones. Options: <br /> \
-    ==all="on"==: Show all attachments, including hidden ones. |
-| =%<nop>META{"moved"}%= | Details of any topic moves. |
-| =%<nop>META{"parent"}%= | Show topic parent. Options: <br /> \
-    ==dontrecurse="on"==: By default recurses up tree, at some cost. <br /> \
-    ==nowebhome="on"==: Suppress <nop>%HOMETOPIC%. <br /> \
-    ==prefix="..."==: Prefix for parents, only if there are parents, default =""=. <br /> \
-    ==suffix="..."==: Suffix, only appears if there are parents, default =""=. <br /> \
-    ==separator="..."==: Separator between parents, default is =" &gt; "=. |
-
-%H% SEARCH can also be used to render meta data, see examples in FormattedSearch and SearchPatternCookbook.
+---++ Extending meta-data in Extensions
+Extensions can extend meta-data with information of their own. See 
+[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func#StaticMethod_registerMETA_40_36name_44_37syntax_41][Foswiki::Func]] for more information.
 
 ---
 *Related Topics:* DeveloperDocumentationCategory, UserDocumentationCategory
+
+%META:PREFERENCE{name="REG" value="<span style='color:green'>&reg;</span>"}%

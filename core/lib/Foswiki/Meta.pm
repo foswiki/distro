@@ -138,6 +138,10 @@ our %VALIDATE = (
     FIELD => {
         require => [qw( name value )],
         other   => [qw( title )]
+    },
+    PREFERENCE => {
+        require => [qw( name value )],
+        other   => [qw( type )],
     }
 );
 

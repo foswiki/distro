@@ -2306,19 +2306,20 @@ sub registerRESTHandler {
 
 ---++ StaticMethod registerMETA($name, %syntax)
 
-When topic text is parsed, for example during =readTopic=, then =%META= tags
-are automatically extracted from the text. To reduce the risk of accidental
-inclusion of invalid meta-data (which could cause havoc) then %META tags
-are validated during this process. A tag is only interpreted if it
-passed validation, otherwise it is ignored.
+Foswiki supports embedding meta-data into topics. For example,
 
-You register a new META tag passing the name in =$name=. =%syntax= is a
-set of optional parameters that describe how to check the fields of the tag.
-Only tags that pass the check will be read into topic meta-data. The following
-optional parameters are supported:
+=%<nop>META:BOOK{title="Transit" author="Edmund Cooper" isbn="0-571-05724-1"}%=
+
+This meta-data is validated when it is read from the store. Meta-data
+that is not registered, or doesn't pass validation, is ignored. This
+function allows you to register a new META datum, passing the name in
+=$name=. =%syntax= is a set of optional checks that describe how to
+validate the fields of the datum.
+
+The following checks are supported:
 
 =function=>\&fn= In this case the function =fn= will be called when the
-embedded tag is encountered, passing in the name of the macro and the
+datum is encountered, passing in the name of the macro and the
 argument hash. The function must return a non-zero/undef value if the tag
 is acceptable, or 0 otherwise. For example:
 <verbatim>
