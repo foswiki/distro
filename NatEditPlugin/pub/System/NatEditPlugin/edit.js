@@ -2,7 +2,7 @@ function initTextAreaHeight(){}
 function handleKeyDown(){}
 function fixHeightOfPane(){}
 (function($){function submitEditForm(script,action){var topicText=$("#topic").val();$("#savearea").val(topicText);if(typeof(beforeSubmitHandler)=='function'){if(beforeSubmitHandler(script,action)===false){return false;}}
-var editForm=$(document.getElementById('EditForm'));if(action=='add form'){editForm.find("input[name='submitChangeForm']").val(action);}
+var editForm=$('#EditForm');if(action=='add form'){editForm.find("input[name='submitChangeForm']").val(action);}
 editForm.find("input[name='action_preview']").val('');editForm.find("input[name='action_save']").val('');editForm.find("input[name='action_checkpoint']").val('');editForm.find("input[name='action_addform']").val('');editForm.find("input[name='action_replaceform']").val('');editForm.find("input[name='action_cancel']").val('');editForm.find("input[name='action_"+action+"']").val('foobar');if(typeof(foswikiStrikeOne)!='undefined'){foswikiStrikeOne(editForm[0]);}
 if((typeof(tinyMCE)==='object')&&(typeof(tinyMCE.activeEditor)==='object')&&(tinyMCE.activeEditor!==null)){tinyMCE.activeEditor.onSubmit.dispatch();}
 editForm.submit();return false;}

@@ -14,9 +14,7 @@ function fixHeightOfPane () { }
         return false;
       }
     }
-    /* SMELL: Why doesn't this work when ?action=form? Item2453
-       var editForm = $('#EditForm'); */
-    var editForm = $(document.getElementById('EditForm'));
+    var editForm = $('#EditForm');
     if (action == 'add form') {
       editForm.find("input[name='submitChangeForm']").val(action);
     }
