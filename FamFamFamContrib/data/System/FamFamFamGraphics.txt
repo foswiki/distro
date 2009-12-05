@@ -259,31 +259,31 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *Name* | *Icon URL* |  *Description* | *Write...* |
-| line_ld | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ld.png | Line graph left-down |  =%<nop>ICON{line_ld}%= |
-| line_lr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_lr.png | Line graph left-right |  =%<nop>ICON{line_lr}%= |
-| line_lrd | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_lrd.png | Line graph left-right-down |  =%<nop>ICON{line_lrd}%= |
-| line_rd | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_rd.png | Line graph right-down |  =%<nop>ICON{line_rd}%= |
-| line_ud | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ud.png | Line graph up-down |  =%<nop>ICON{line_ud}%= |
-| line_udl | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_udl.png | Line graph up-down-left |  =%<nop>ICON{line_udl}%= |
-| line_udlr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_udlr.png | Line graph up-down-left-right |  =%<nop>ICON{line_udlr}%= |
-| line_udr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_udr.png | Line graph up-down-right |  =%<nop>ICON{line_udr}%= |
-| line_ul | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ul.png | Line graph up-left |  =%<nop>ICON{line_ul}%= |
-| line_ulr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ulr.png | Line graph up-left-right |  =%<nop>ICON{line_ulr}%= |
-| line_ur | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ur.png | Line graph up-right |  =%<nop>ICON{line_ur}%= |
-| line_ur_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ur_gray.png | Line graph up-right, gray |  =%<nop>ICON{line_ur_gray}%= |
-| dot_ld | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ld.png | Dot graph left-down |  =%<nop>ICON{dot_ld}%= |
-| dot_lr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_lr.png | Dot graph left-right |  =%<nop>ICON{dot_lr}%= |
-| dot_lrd | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_lrd.png | Dot graph left-right-down |  =%<nop>ICON{dot_lrd}%= |
-| dot_rd | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_rd.png | Dot graph right-down |  =%<nop>ICON{dot_rd}%= |
-| dot_ud | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ud.png | Dot graph up-down |  =%<nop>ICON{dot_ud}%= |
-| dot_udl | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_udl.png | Dot graph up-down-left |  =%<nop>ICON{dot_udl}%= |
-| dot_udlr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_udlr.png | Dot graph up-down-left-right |  =%<nop>ICON{dot_udlr}%= |
-| dot_udr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_udr.png | Dot graph up-down-right |  =%<nop>ICON{dot_udr}%= |
-| dot_ul | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ul.png | Dot graph up-left |  =%<nop>ICON{dot_ul}%= |
-| dot_ulr | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ulr.png | Dot graph up-left-right |  =%<nop>ICON{dot_ulr}%= |
-| dot_ur | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ur.png | Dot graph up-right |  =%<nop>ICON{dot_ur}%= |
-| empty | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/empty.png | Empty transparent 16x16 spacer |  =%<nop>ICON{empty}%= |
-| parent_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/parent_gray.png | Parent arrow |  =%<nop>ICON{parent_gray}%= |
+| line_ld | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_ld.png | Line graph left-down |  =%<nop>ICON{line_ld}%= |
+| line_lr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_lr.png | Line graph left-right |  =%<nop>ICON{line_lr}%= |
+| line_lrd | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_lrd.png | Line graph left-right-down |  =%<nop>ICON{line_lrd}%= |
+| line_rd | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_rd.png | Line graph right-down |  =%<nop>ICON{line_rd}%= |
+| line_ud | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_ud.png | Line graph up-down |  =%<nop>ICON{line_ud}%= |
+| line_udl | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_udl.png | Line graph up-down-left |  =%<nop>ICON{line_udl}%= |
+| line_udlr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_udlr.png | Line graph up-down-left-right |  =%<nop>ICON{line_udlr}%= |
+| line_udr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_udr.png | Line graph up-down-right |  =%<nop>ICON{line_udr}%= |
+| line_ul | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_ul.png | Line graph up-left |  =%<nop>ICON{line_ul}%= |
+| line_ulr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_ulr.png | Line graph up-left-right |  =%<nop>ICON{line_ulr}%= |
+| line_ur | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_ur.png | Line graph up-right |  =%<nop>ICON{line_ur}%= |
+| line_ur_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/line_ur_gray.png | Line graph up-right, gray |  =%<nop>ICON{line_ur_gray}%= |
+| dot_ld | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ld.png | Dot graph left-down |  =%<nop>ICON{dot_ld}%= |
+| dot_lr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_lr.png | Dot graph left-right |  =%<nop>ICON{dot_lr}%= |
+| dot_lrd | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_lrd.png | Dot graph left-right-down |  =%<nop>ICON{dot_lrd}%= |
+| dot_rd | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_rd.png | Dot graph right-down |  =%<nop>ICON{dot_rd}%= |
+| dot_ud | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ud.png | Dot graph up-down |  =%<nop>ICON{dot_ud}%= |
+| dot_udl | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_udl.png | Dot graph up-down-left |  =%<nop>ICON{dot_udl}%= |
+| dot_udlr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_udlr.png | Dot graph up-down-left-right |  =%<nop>ICON{dot_udlr}%= |
+| dot_udr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_udr.png | Dot graph up-down-right |  =%<nop>ICON{dot_udr}%= |
+| dot_ul | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ul.png | Dot graph up-left |  =%<nop>ICON{dot_ul}%= |
+| dot_ulr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ulr.png | Dot graph up-left-right |  =%<nop>ICON{dot_ulr}%= |
+| dot_ur | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ur.png | Dot graph up-right |  =%<nop>ICON{dot_ur}%= |
+| empty | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/empty.png | Empty transparent 16x16 spacer |  =%<nop>ICON{empty}%= |
+| parent_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/parent_gray.png | Parent arrow |  =%<nop>ICON{parent_gray}%= |
 
 
 ---+++ %ICON{gif}% Filetype icons
