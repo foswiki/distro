@@ -526,7 +526,7 @@ var somethingChanged = false;
 function valueChanged(el) {
     foswiki.CSS.addClass(el, 'foswikiValueChanged');
 
-	var els; // shorthand
+	var els; /* shorthand */
 	els = showWhenNothingChangedElements;
 	if (els) {
 		for (var i in els) {
@@ -555,11 +555,13 @@ var rules = {
 	'.enableWhenSomethingChanged' : function(el) {
 		enableWhenSomethingChangedElements.push(el);
 		if (el.tagName.toLowerCase() == 'input') {
-			// disable the Save Changes button until a change has been made 
-			// we won't use this until an AJAX call has been implemented to make // this fault proof
-			// el.disabled = 'disabled';
-			// foswiki.CSS.addClass(el, 'foswikiSubmitDisabled');
-			// foswiki.CSS.removeClass(el, 'foswikiSubmit');
+			/* disable the Save Changes button until a change has been made */
+			/* we won't use this until an AJAX call has been implemented to make
+			this fault proof
+			el.disabled = 'disabled';
+			foswiki.CSS.addClass(el, 'foswikiSubmitDisabled');
+			foswiki.CSS.removeClass(el, 'foswikiSubmit');
+			*/
 		} else {
 			foswiki.CSS.addClass(el, 'foswikiHidden');
 		}
