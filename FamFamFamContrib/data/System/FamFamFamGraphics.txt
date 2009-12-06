@@ -57,7 +57,6 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | rfc | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/comments_add.png | Request for comments |  =%<nop>ICON{rfc}%= |
 | sitemap | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/sitemap.png | Site map |  =%<nop>ICON{sitemap}%= |
 | sitetree | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/outline.png | Site tree |  =%<nop>ICON{sitetree}%= |
-| skype | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/skype.png | Skype |  =%<nop>ICON{skype}%= |
 | sort | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/table_sort.png | Sort |  =%<nop>ICON{sort}%= |
 | stargold | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/star.png | Gold star, favorites |  =%<nop>ICON{stargold}%= |
 | starred | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/rosette.png | Red star, highlight | =%<nop>S%=,  =%<nop>ICON{starred}%= |
@@ -255,6 +254,13 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | searchpackage | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/package_find.png | Search package |  =%<nop>ICON{searchpackage}%= |
 | searchtag | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/tag_find.png | Search tag |  =%<nop>ICON{searchtag}%= |
 | skin | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/theme.png | Skin |  =%<nop>ICON{skin}%= |
+
+---+++ Other Websites Icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Name* | *Icon URL* |  *Description* | *Write...* |
+| skype | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/skype.png | Skype |  =%<nop>ICON{skype}%= |
+
 
 ---+++ %ICON{line_ur}% Block graphics
 
