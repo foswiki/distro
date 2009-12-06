@@ -2017,6 +2017,17 @@ pub/System/FamFamFamFoswikiExtras/target.png
 pub/System/FamFamFamFoswikiExtras/target_blue.png
 pub/System/FamFamFamFoswikiExtras/target_red.png
 pub/System/FamFamFamFoswikiExtras/target_orange.png
+pub/System/FamFamFamFoswikiExtras/uweb_g12.png
+pub/System/FamFamFamFoswikiExtras/uweb_m12.png
+pub/System/FamFamFamFoswikiExtras/uweb_o12.png
+pub/System/FamFamFamFoswikiExtras/uweb_bo.png
+pub/System/FamFamFamFoswikiExtras/uweb_g.png
+pub/System/FamFamFamFoswikiExtras/uweb_o.png
+pub/System/FamFamFamFoswikiExtras/uweb_go.png
+pub/System/FamFamFamFoswikiExtras/uweb_gs.png
+pub/System/FamFamFamFoswikiExtras/uweb_oo.png
+pub/System/FamFamFamFoswikiExtras/uweb_os.png
+pub/System/FamFamFamFoswikiExtras/uweb_bo12.png
 
 
 
@@ -2257,6 +2268,14 @@ pub/System/FamFamFamGraphics/target-red.png
 pub/System/FamFamFamGraphics/target-gray.png
 pub/System/FamFamFamGraphics/target.png
 pub/System/FamFamFamGraphics/target-orange.png
-
+pub/System/FamFamFamGraphics/uweb_m12.png
+pub/System/FamFamFamGraphics/uweb_bo.png
+pub/System/FamFamFamGraphics/uweb_g.png
+pub/System/FamFamFamGraphics/uweb_o.png
+pub/System/FamFamFamGraphics/uweb_gs.png
+pub/System/FamFamFamGraphics/uweb_oo.png
+pub/System/FamFamFamGraphics/uweb_os.png
+pub/System/FamFamFamGraphics/uweb_o12.png
+pub/System/FamFamFamGraphics/uweb_bo12.png
 
 

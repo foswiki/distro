@@ -100,15 +100,15 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | folder | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/folder.png | Folder |  =%<nop>ICON{folder}%= |
 | table | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/table.png | Table |  =%<nop>ICON{table}%= |
 | edittable | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/table_edit.png | Edit table |  =%<nop>ICON{edittable}%= |
-| uweb-bo | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-bo.png | UWEB ([[http://www.aboutus.org/UniversalWikiEditButton][Universal Wiki Edit Button]]), blue, outline |  =%<nop>ICON{uweb-bo}%= |
-| uweb-bo12 | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-bo12.png | UWEB, blue, outline, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb-bo12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
-| uweb-g | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-g.png | UWEB, green (default) |  =%<nop>ICON{uweb-g}%= |
-| uweb-gs | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-gs.png | UWEB, green, square |  =%<nop>ICON{uweb-gs}%= |
-| uweb-m12 | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-m12.png | UWEB, black, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb-m12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
-| uweb-o | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-o.png | UWEB, orange |  =%<nop>ICON{uweb-o}%= |
-| uweb-o12 | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-o12.png | UWEB, orange, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb-o12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
-| uweb-oo | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-oo.png | UWEB, orange, outline |  =%<nop>ICON{uweb-oo}%= |
-| uweb-os | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-os.png | UWEB, orange, square |  =%<nop>ICON{uweb-os}%= |
+| uweb_bo | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_bo.png | UWEB ([[http://www.aboutus.org/UniversalWikiEditButton][Universal Wiki Edit Button]]), blue, outline |  =%<nop>ICON{uweb_bo}%= |
+| uweb_bo12 | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_bo12.png | UWEB, blue, outline, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb_bo12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
+| uweb_g | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_g.png | UWEB, green (default) |  =%<nop>ICON{uweb_g}%= |
+| uweb_gs | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_gs.png | UWEB, green, square |  =%<nop>ICON{uweb_gs}%= |
+| uweb_m12 | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_m12.png | UWEB, black, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb_m12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
+| uweb_o | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_o.png | UWEB, orange |  =%<nop>ICON{uweb_o}%= |
+| uweb_o12 | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_o12.png | UWEB, orange, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb_o12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
+| uweb_oo | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_oo.png | UWEB, orange, outline |  =%<nop>ICON{uweb_oo}%= |
+| uweb_os | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/uweb_os.png | UWEB, orange, square |  =%<nop>ICON{uweb_os}%= |
 
 
 ---+++ %ICON{person}% Person, %ICON{group}% group, %ICON{lock}% access icons
