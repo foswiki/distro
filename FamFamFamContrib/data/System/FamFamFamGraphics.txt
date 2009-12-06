@@ -41,7 +41,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | hourglass | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/hourglass.png | Hour glass (clock) |  =%<nop>ICON{hourglass}%= |
 | megaphone | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/transmit_go.png | Megaphone |  =%<nop>ICON{megaphone}%= |
 | mobile | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/phone.png | Mobile |  =%<nop>ICON{mobile}%= |
-| more | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_go.png | Read more |  =%<nop>ICON{more}%= |
+| more | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_go.png | Read more |  =%<nop>ICON{more}%= |
 | more-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_go.png | Read more, 13x13 | =&lt;img src="%<nop>ICONURL{more-small}%" width="13" height="13" alt="Read more" border="0" /&gt;= |
 | move | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_turn_left.png | Move |  =%<nop>ICON{move}%= |
 | note | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/note.png | Note |  =%<nop>ICON{note}%= |
