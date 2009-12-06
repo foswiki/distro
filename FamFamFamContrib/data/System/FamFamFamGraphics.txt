@@ -152,10 +152,10 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *Name* | *Icon URL* |  *Description* | *Write...* |
 | new | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/new.png | NEW, 30x16 | =%<nop>N%=, =&lt;img src="%<nop>ICONURL{new}%" width="30" height="16" alt="New" border="0" /&gt;= |
-| todo | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/todo.png | TODO, 37x16 | =&lt;img src="%<nop>ICONURL{todo}%" width="37" height="16" alt="TODO" border="0" /&gt;= |
-| updated | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/updated.png | UPDATED, 55x16 | =%<nop>U%=, =&lt;img src="%<nop>ICONURL{updated}%" width="55" height="16" alt="UPDATED" border="0" /&gt;= |
-| done | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/done.png | DONE, 37x16 | =&lt;img src="%<nop>ICONURL{done}%" width="37" height="16" alt="Done" border="0" /&gt;= |
-| closed | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/closed.png | CLOSED, 48x16 | =&lt;img src="%<nop>ICONURL{closed}%" width="48" height="16" alt="Closed" border="0" /&gt;= |
+| todo | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/todo.png | TODO, 37x16 | =&lt;img src="%<nop>ICONURL{todo}%" width="37" height="16" alt="TODO" border="0" /&gt;= |
+| updated | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/updated.png | UPDATED, 55x16 | =%<nop>U%=, =&lt;img src="%<nop>ICONURL{updated}%" width="55" height="16" alt="UPDATED" border="0" /&gt;= |
+| done | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/done.png | DONE, 37x16 | =&lt;img src="%<nop>ICONURL{done}%" width="37" height="16" alt="Done" border="0" /&gt;= |
+| closed | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/closed.png | CLOSED, 48x16 | =&lt;img src="%<nop>ICONURL{closed}%" width="48" height="16" alt="Closed" border="0" /&gt;= |
 | minus | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/delete.png | Minus |  =%<nop>ICON{minus}%= |
 | plus | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/add.png | Plus |  =%<nop>ICON{plus}%= |
 | choice-cancel | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/cancel.png | Cancel |  =%<nop>ICON{choice-cancel}%= |

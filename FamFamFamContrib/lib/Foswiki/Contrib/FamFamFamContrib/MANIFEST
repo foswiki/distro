@@ -2028,7 +2028,10 @@ pub/System/FamFamFamFoswikiExtras/uweb_gs.png
 pub/System/FamFamFamFoswikiExtras/uweb_oo.png
 pub/System/FamFamFamFoswikiExtras/uweb_os.png
 pub/System/FamFamFamFoswikiExtras/uweb_bo12.png
-
+pub/System/FamFamFamFoswikiExtras/done.png
+pub/System/FamFamFamFoswikiExtras/updated.png
+pub/System/FamFamFamFoswikiExtras/closed.png
+pub/System/FamFamFamFoswikiExtras/todo.png
 
 
 pub/System/FamFamFamGraphics/
@@ -2277,5 +2280,11 @@ pub/System/FamFamFamGraphics/uweb_oo.png
 pub/System/FamFamFamGraphics/uweb_os.png
 pub/System/FamFamFamGraphics/uweb_o12.png
 pub/System/FamFamFamGraphics/uweb_bo12.png
+pub/System/FamFamFamGraphics/done.png
+pub/System/FamFamFamGraphics/updated.png
+pub/System/FamFamFamGraphics/closed.png
+pub/System/FamFamFamGraphics/todo.png
+
+
 
 

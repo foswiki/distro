@@ -63,6 +63,7 @@ So far built by Sven based on the Silk ones above, except for
    1 the XML icon - which comes from http://commons.wikimedia.org/wiki/File:XML_icon.svg
    2 the targets which are based on - http://www.favicon.cc/?action=icon&file_id=37384
    3 the Universal edit icons are based on the current (dec 2009) svg
+   4 hand made done, closed, todo, updated icons - yes, ok, so i'm not an artist.
 
 ---++ Installation Instructions
 
