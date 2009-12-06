@@ -13,6 +13,7 @@ data/System/FamFamFamSilkCompanion1Icons.txt
 data/System/FamFamFamSilkCompanion2Icons.txt
 
 data/System/FamFamFamGraphics.txt
+pub/System/FamFamFamGraphics/_filetypes.txt
 
 # Do not attach these to their topics, otherwise it takes forever to install this extension
 !noci
