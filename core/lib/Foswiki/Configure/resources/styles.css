@@ -238,8 +238,8 @@ table p {
 }
 table.configureSectionValues .foswikiInputField,
 table.configureSectionValues .foswikiTextarea {
-    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
-    font-size:86%;
+    font-family: "Bitstream Vera Sans Mono", "Andale Mono","Courier New",monospace;
+    font-size:94%;
 }
 
 /* WARN and ERROR */
@@ -417,10 +417,6 @@ span.configureMandatory {
 	background-color:#c3a13f;
 	color:#fff;
 }
-.configureEllipsis a {
-	text-decoration:none;
-}
-
 /* Format of the 'changed from default' indicator */
 .configureDefaultValue {
 	font-size:94%;
@@ -497,7 +493,6 @@ a.configureDefaultValueLink:visited {
     position:relative; /*this is the key*/
 }
 a.configureDefaultValueLink:hover {
-	z-index:25;
 }
 a.configureDefaultValueLink:link span.configureDefaultValueLinkValue,
 a.configureDefaultValueLink:visited span.configureDefaultValueLinkValue {
@@ -515,6 +510,7 @@ a.configureDefaultValueLink:hover span.configureDefaultValueLinkValue {
 	border:1px solid #fbad17;
 	color:#000;
 	text-decoration:none;
+	z-index:1000;
 }
 
 /* LEGEND TABLE */
@@ -575,4 +571,8 @@ div.configureMessageBox {
 	background-color:#fff;
 	border-color:#ddd;
 	color:#ccc;
+}
+
+.configureSectionValues .foswikiValueChanged { 
+
 }

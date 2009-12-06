@@ -1,139 +1,5 @@
 /* Don't use // style comments, or you'll break the stupid minifier  */
 
-var foswiki; if (foswiki == undefined) foswiki = {};
-foswiki.CSS = {
-
-	/**
-	Remove the given class from an element, if it is there.
-	@param el : (HTMLElement) element to remove the class of
-	@param inClassName : (String) CSS class name to remove
-	*/
-	removeClass:function(el, inClassName) {
-		if (!el) return;
-		var classes = foswiki.CSS.getClassList(el);
-		if (!classes) return;
-		var index = foswiki.CSS._indexOf(classes, inClassName);
-		if (index >= 0) {
-			classes.splice(index,1);
-			foswiki.CSS.setClassList(el, classes);
-		}
-	},
-	
-	/**
-	Add the given class to the element, unless it is already there.
-	@param el : (HTMLElement) element to add the class to
-	@param inClassName : (String) CSS class name to add
-	*/
-	addClass:function(el, inClassName) {
-		if (!el) return;
-		var classes = foswiki.CSS.getClassList(el);
-		if (!classes) return;
-		if (foswiki.CSS._indexOf(classes, inClassName) < 0) {
-			classes[classes.length] = inClassName;
-			foswiki.CSS.setClassList(el,classes);
-		}
-	},
-	
-	/**
-	Replace the given class with a different class on the element.
-	The new class is added even if the old class is not present.
-	@param el : (HTMLElement) element to replace the class of
-	@param inOldClass : (String) CSS class name to remove
-	@param inNewClass : (String) CSS class name to add
-	*/
-	replaceClass:function(el, inOldClass, inNewClass) {
-		if (!el) return;
-		foswiki.CSS.removeClass(el, inOldClass);
-		foswiki.CSS.addClass(el, inNewClass);
-	},
-	
-	/**
-	Get an array of the classes on the object.
-	@param el : (HTMLElement) element to get the class list from
-	*/
-	getClassList:function(el) {
-		if (!el) return;
-		if (el.className && el.className != "") {
-			return el.className.split(' ');
-		}
-		return [];
-	},
-	
-	/**
-	Set the classes on an element from an array of class names.
-	@param el : (HTMLElement) element to set the class list to
-	@param inClassList : (Array) list of CSS class names
-	*/
-	setClassList:function(el, inClassList) {
-		if (!el) return;
-		el.className = inClassList.join(' ');
-	},
-	
-	/**
-	Determine if the element has the given class string somewhere in it's
-	className attribute.
-	@param el : (HTMLElement) element to check the class occurrence of
-	@param inClassName : (String) CSS class name
-	*/
-	hasClass:function(el, inClassName) {
-		if (!el) return;
-		if (el.className) {
-			var classes = foswiki.CSS.getClassList(el);
-			if (classes) return (foswiki.CSS._indexOf(classes, inClassName) >= 0);
-			return false;
-		}
-	},
-	
-	/* PRIVILIGED METHODS */
-	
-	/**
-	See: foswiki.Array.indexOf
-	Function copied here to prevent extra dependency on foswiki.Array.
-	*/
-	_indexOf:function(inArray, el) {
-		if (!inArray || inArray.length == undefined) return null;
-		var i, ilen = inArray.length;
-		for (i=0; i<ilen; ++i) {
-			if (inArray[i] == el) return i;
-		}
-		return -1;
-	}
-
-}
-
-function getElementsByClassName(inRootElem, inClassName, inTag) {
-	var rootElem = inRootElem || document;
-	var tag = inTag || '*';
-	var elms = rootElem.getElementsByTagName(tag);
-	var className = inClassName.replace(/\-/g, "\\-");
-	var re = new RegExp("\\b" + className + "\\b");
-	var el;
-	var hits = new Array();
-	for (var i = 0; i < elms.length; i++) {
-		el = elms[i];
-		if (re.test(el.className)) {
-			hits.push(el);
-		}
-	}
-	return hits;
-}
-
-function addLoadEvent (fn, prepend) {
-	var oldonload = window.onload;
-	if (typeof oldonload != 'function')
-		window.onload = function() {
-			fn();
-		};
-	else if (prepend)
-        window.onload = function() {
-            fn(); oldonload();
-        };
-    else
-        window.onload = function() {
-            oldonload(); fn();
-        };
-}
-
 /* EXPERT MODE */
 
 var expertsMode = '';
@@ -141,20 +7,17 @@ var expertsMode = '';
 function toggleExpertsMode() {
     var antimode = expertsMode;
     expertsMode = (antimode == 'none' ? '' : 'none');
-    var els = getElementsByClassName(document, 'configureExpert');
-    for (var i = 0; i < els.length; i++) {
-        els[i].style.display = expertsMode;
-    }
-    els = getElementsByClassName(document, 'configureNotExpert');
-    for (var i = 0; i < els.length; i++) {
-        els[i].style.display = antimode;
-    }
+    $('.configureExpert').each(function() {
+    	$(this).css("display", expertsMode);
+    });
+    $('.configureNotExpert').each(function() {
+    	$(this).css("display", antimode);
+    });
 }
 
 /* ----------------------------- MENU ----------------------------- */
 
 var tabLinks = {};
-var subSectionId;
 
 var menuState = {};
 menuState.main = undefined;
@@ -191,7 +54,7 @@ function initSection() {
 	if (document.location.hash && document.location.hash != '#') {
 		showSection(document.location.hash);
 	} else {
-		if (document.getElementById('WelcomeBody')) {
+		if ( $("#WelcomeBody").length ) {
 			showSection('Welcome');
 		} else {
 			showSection('Introduction');
@@ -204,11 +67,11 @@ Returns an object with properties:
 	main: main section id
 	sub: sub section id (if any)
 */
+var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/);
+
 function getSectionParts(inAnchor) {
 	
-	var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/);
     var matches = inAnchor.match(anchorPattern);
-
 	var main = '';
     var sub = '';
     if (matches && matches[1]) {
@@ -231,37 +94,47 @@ function showSection(inAnchor) {
 	
 	if (oldMainId != mainId) {	
 		/* hide current main section */
-		var currentMainElement = document.getElementById(oldMainId + 'Body');
-		foswiki.CSS.removeClass(currentMainElement, 'configureShowSection');
+		var currentMainElement = $("#" + oldMainId + "Body");
+		currentMainElement.removeClass("configureShowSection");
 	
 		/* show new main section */
-		var newMainElement = document.getElementById(mainId + 'Body');	
-		foswiki.CSS.addClass(newMainElement, 'configureShowSection');
+		var newMainElement = $("#" + mainId + "Body");	
+		newMainElement.addClass("configureShowSection");
 		
 		/* set main menu highlight */	
 		if (tabLinks[oldMainId]) {
-			foswiki.CSS.removeClass(tabLinks[oldMainId], 'configureMenuSelected');
+			$(tabLinks[oldMainId]).removeClass("configureMenuSelected");
 		}
 		if (tabLinks[mainId]) {
-			foswiki.CSS.addClass(tabLinks[mainId], 'configureMenuSelected');
+			$(tabLinks[mainId]).addClass("configureMenuSelected");
 		}
 	}
 		
 	/* hide current sub section */
 	var oldSubId = getSub(oldMainId);
-	var currentSubElement = document.getElementById(oldSubId + 'Body');
-	foswiki.CSS.removeClass(currentSubElement, 'configureShowSection');
-
+	if (oldSubId) {
+		var oldsub = oldSubId;
+		oldsub = oldsub.replace(/\$/g, "\\$");
+		oldsub = oldsub.replace(/#/g, "\\#");
+		var currentSubElement = $("#" + oldsub + "Body");
+		currentSubElement.removeClass('configureShowSection');
+	}
+	
 	/* show new sub section */
-	var newSubElement = document.getElementById(subId + 'Body');	
-	foswiki.CSS.addClass(newSubElement, 'configureShowSection');
+	if (subId) {
+		var sub = subId;
+		sub = sub.replace(/\$/g, "\\$");
+		sub = sub.replace(/#/g, "\\#");
+		var newSubElement = $("#" + sub + "Body");	
+		newSubElement.addClass('configureShowSection');
+	}
 	
 	/* set sub menu highlight */
 	if (tabLinks[oldSubId]) {
-		foswiki.CSS.removeClass(tabLinks[oldSubId], 'configureMenuSelected');
+		$(tabLinks[oldSubId]).removeClass("configureMenuSelected");
 	}
-	if (tabLinks[subId]) {
-		foswiki.CSS.addClass(tabLinks[subId], 'configureMenuSelected');
+	if (subId && tabLinks[subId]) {
+		$(tabLinks[subId]).addClass("configureMenuSelected");
 	}
     
 	setMain(mainId);
@@ -283,13 +156,13 @@ This is the preferred way to toggle elements. Should be done for Expert settings
 */
 function toggleSections() {
 
-    var body = document.getElementsByTagName('BODY')[0];
+    var body = $("body");
     if (menuState.allOpened == -1) {
     	/* open all sections */
-		foswiki.CSS.removeClass(body, 'configureShowOneSection');
+		body.removeClass('configureShowOneSection');
 	} else {
 		/* hide all sections */
-		foswiki.CSS.addClass(body, 'configureShowOneSection');
+		body.addClass('configureShowOneSection');
 		/* open current section */
 		var newMain = menuState.main;
 		menuState.main = '';
@@ -302,8 +175,8 @@ function toggleSections() {
 /* TOOLTIPS */
 
 function getTip(idx) {
-    var div = document.getElementById('tt' + idx);
-    if (div)
+    var div = $("#tt" + idx);
+    if (div.length)
         return div.innerHTML;
     else
         return "Reset to the default value, which is:<br />";
@@ -335,7 +208,7 @@ function initDefaultLink(inLink) {
 	inLink.title = formatLinkValueInTitle(
         inLink.type, inLink.setDefaultTitle, inLink.defaultValue);
     */
-    var label = getElementsByClassName(inLink, 'configureDefaultValueLinkLabel')[0];
+    var label = $('.configureDefaultValueLinkLabel', inLink)[0];
     if (label) {
 		label.innerHTML = inLink.setDefaultLinkText;
 	}
@@ -343,13 +216,12 @@ function initDefaultLink(inLink) {
 
 function showDefaultLinkToolTip(inLink) {
 
-	var template = document.getElementById('configureToolTipTemplate').innerHTML;
-	
+	var template = $("#configureToolTipTemplate").html();
 	template = template.replace(/VALUE/g, createHumanReadableValueString(inLink.type, inLink.defaultValue));
 	template = template.replace(/TYPE/g, inLink.type);
-	
-	var contents = getElementsByClassName(inLink, 'configureDefaultValueLinkValue')[0];
-	contents.innerHTML = template;
+
+	var contents = $('.configureDefaultValueLinkValue', inLink)[0];
+	$(contents).html(template);
 }
 
 /**
@@ -398,7 +270,7 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 		elem.value = value;
 	}
 	
-	var label = getElementsByClassName(inLink, 'configureDefaultValueLinkLabel')[0];
+	var label = $('.configureDefaultValueLinkLabel', inLink)[0];
 	if (inLink.oldValue == null) {
 		/* we have just set the default value */
 		/* prepare undo link */
@@ -480,24 +352,20 @@ var infoMode = '';
 function toggleInfoMode() {
     var antimode = infoMode;
     infoMode = (antimode == 'none' ? '' : 'none');
-    var els = getElementsByClassName(document, 'configureInfoText');
-    for (var i = 0; i < els.length; i++) {
-        /*els[i].style.display = infoMode;*/
-        if (infoMode == 'none') {
-        	foswiki.CSS.addClass(els[i], 'foswikiMakeHidden');
+    $('.configureInfoText').each(function() {
+    	if (infoMode == 'none') {
+        	$(this).addClass('foswikiMakeHidden');
         } else {
-        	foswiki.CSS.removeClass(els[i], 'foswikiMakeHidden');
+        	$(this).removeClass('foswikiMakeHidden');
         }
-    }
-    els = getElementsByClassName(document, 'configureNotInfoText');
-    for (var i = 0; i < els.length; i++) {
-        /*els[i].style.display = antimode;*/
+    });
+	$('.configureNotInfoText').each(function() {
         if (antimode == 'none') {
-        	foswiki.CSS.addClass(els[i], 'foswikiMakeHidden');
+        	$(this).addClass('foswikiMakeHidden');
         } else {
-        	foswiki.CSS.removeClass(els[i], 'foswikiMakeHidden');
+        	$(this).removeClass('foswikiMakeHidden');
         }
-    }
+    });
 }
 
 
@@ -505,12 +373,12 @@ function toggleInfoMode() {
 Opens/closes all info blocks.
 */
 function toggleInfo(inId) {
-	var twistyElement = document.getElementById('info_' + inId);
+	var twistyElement = $("#info_" + inId);
 	if (twistyElement) {
-		if (foswiki.CSS.hasClass(twistyElement, 'foswikiMakeHidden')) {
-			foswiki.CSS.removeClass(twistyElement, 'foswikiMakeHidden');
+		if (twistyElement.hasClass("foswikiMakeHidden")) {
+			twistyElement.removeClass("foswikiMakeHidden");
 		} else {
-			foswiki.CSS.addClass(twistyElement, 'foswikiMakeHidden');
+			twistyElement.addClass("foswikiMakeHidden");
 		}
 	}
 	return false;
@@ -522,132 +390,91 @@ var showWhenNothingChangedElements = new Array();
 
 /* Value changes. Event when a value is edited; enables the save changes
  * button */
-var somethingChanged = false;
 function valueChanged(el) {
-    foswiki.CSS.addClass(el, 'foswikiValueChanged');
 
-	var els; /* shorthand */
-	els = showWhenNothingChangedElements;
-	if (els) {
-		for (var i in els) {
-			foswiki.CSS.addClass(els[i], 'foswikiHidden');
-		}
-	}
-	els = enableWhenSomethingChangedElements;
-	if (els) {
+    $(el).addClass('foswikiValueChanged');
+
+	$(showWhenNothingChangedElements).each(function() {
+		$(this).addClass('foswikiHidden');
+	});
+	
+	$(enableWhenSomethingChangedElements).each(function() {
 		var controlTypes = [ 'Submit', 'Button', 'InputField' ];
-		for (var i in els) {
-			foswiki.CSS.removeClass(els[i], 'foswikiHidden');
-			for (var j in controlTypes) {
-				var ct = 'foswiki' + controlTypes[j];
-				if (foswiki.CSS.hasClass(els[i], ct + 'Disabled')) {
-					foswiki.CSS.removeClass(els[i], ct + 'Disabled');
-					foswiki.CSS.addClass(els[i], ct);
-				}
+		$(this).removeClass('foswikiHidden');
+		for (var j in controlTypes) {
+			var ct = 'foswiki' + controlTypes[j];
+			if ($(this).hasClass(ct + 'Disabled')) {
+				$(this).removeClass(ct + 'Disabled');
+				$(this).addClass(ct);
 			}
-			els[i].disabled = false;
 		}
-	}
-	somethingChanged = true;
+		$(this).disabled = false;
+	});
 }
 
-var rules = {
-	'.enableWhenSomethingChanged' : function(el) {
-		enableWhenSomethingChangedElements.push(el);
-		if (el.tagName.toLowerCase() == 'input') {
+/**
+ * jquery init 
+ */
+$(document).ready(function() {
+	$(".enableWhenSomethingChanged").each(function() {
+		enableWhenSomethingChangedElements.push(this);
+		if (this.tagName.toLowerCase() == 'input') {
 			/* disable the Save Changes button until a change has been made */
 			/* we won't use this until an AJAX call has been implemented to make
 			this fault proof
-			el.disabled = 'disabled';
-			foswiki.CSS.addClass(el, 'foswikiSubmitDisabled');
-			foswiki.CSS.removeClass(el, 'foswikiSubmit');
+			$(this).attr('disabled', 'disabled');
+			$(this).addClass('foswikiSubmitDisabled');
+			$(this).removeClass('foswikiSubmit');
 			*/
 		} else {
-			foswiki.CSS.addClass(el, 'foswikiHidden');
+			$(this).addClass('foswikiHidden');
 		}
-	},
-	'.showWhenNothingChanged' : function(el) {
-		showWhenNothingChangedElements.push(el);
-	},
-	'.tabli a' : function(el) {
-		var sectionParts = getSectionParts(el.hash);
-		var id = sectionParts.main;
+	});
+	$(".showWhenNothingChanged").each(function() {
+		showWhenNothingChangedElements.push(this);
+	});
+	$(".tabli a").each(function() {
+    	var sectionParts = getSectionParts(this.hash);
+		this.sectionId = sectionParts.main;
 		if (sectionParts.sub) {
-			id = sectionParts.sub;
+			this.sectionId = sectionParts.sub;
 			setDefaultSub(sectionParts.main, sectionParts.sub);
 		}
-		tabLinks[id] = el.parentNode;
-		el.onclick = function() {
-			return showSection(id);
-		}
-	},
-	'a.configureExpert' : function(el) {
-		el.onclick = function() {
-			toggleExpertsMode();
-			return false;
-		}
-	},
-	'a.configureNotExpert' : function(el) {
-		el.onclick = function() {
-			toggleExpertsMode();
-			return false;
-		}
-	},
-	'a.configureInfoText' : function(el) {
-		el.onclick = function() {
-			toggleInfoMode();
-			return false;
-		}
-	},
-	'a.configureNotInfoText' : function(el) {
-		el.onclick = function() {
-			toggleInfoMode();
-			return false;
-		}
-	},
-	'a.configureDefaultValueLink' : function(el) {
-		initDefaultLink(el);
-		el.onmouseover = function() {
-			showDefaultLinkToolTip(el);
-		}
-	},
-	'.configureEllipsis a' : function(el) {
-		el.onclick = function() {
-			var ellipsis = el.parentNode;
-			foswiki.CSS.addClass(ellipsis, 'foswikiMakeHidden');
-			var id = getSectionParts(el.hash).main;
-			foswiki.CSS.removeClass(document.getElementById(id), 'foswikiMakeHidden');
-			return false;
-		}
-	},
-	'.configureToggleSections a' : function(el) {
-		el.onclick = function() {
-			toggleSections();
-		}
-	},
-	/* open the 'Set password' section on the authorization screen */
-	'#twisty_setPassword' : function(el) {
-		el.onclick = function() {
-			var re = new RegExp("^twisty\_(.*)$");
-			var match = el.id.match(re)[1];
-			var twistyElement = document.getElementById(match);
-			if (twistyElement) {				
-				if (foswiki.CSS.hasClass(twistyElement, 'foswikiHidden')) {
-					foswiki.CSS.removeClass(twistyElement, 'foswikiHidden');
-				} else {
-					foswiki.CSS.addClass(twistyElement, 'foswikiHidden');
-				}
-				return false;
-			}
-			return true;
-		}
-	},
-	'input.foswikiFocus':function(el) {
-		el.focus();
-	}
-};
-Behaviour.register(rules);
+		tabLinks[this.sectionId] = $(this).parent().get(0);
+  	});
+  	$(".tabli a").click(function() {
+		return showSection(this.sectionId);
+	});
+	$("a.configureExpert").click(function() {
+		toggleExpertsMode();
+		return false;
+	});
+	$("a.configureNotExpert").click(function() {
+		toggleExpertsMode();
+		return false;
+	});
+	$("a.configureInfoText").click(function() {
+		toggleInfoMode();
+		return false;
+	});
+	$("a.configureNotInfoText").click(function() {
+		toggleInfoMode();
+		return false;
+	});
+	$("a.configureDefaultValueLink").each(function() {
+		initDefaultLink(this);
+	});
+	$("a.configureDefaultValueLink", $("div.configureRootSection")).mouseover(function() {
+		showDefaultLinkToolTip(this);
+	});
+	$(".configureToggleSections a").click(function() {
+		toggleSections();
+	});
+	$("input.foswikiFocus").each(function() {
+		this.focus();
+	});
+	toggleExpertsMode();
+	toggleInfoMode();
+	initSection();
+});
 
-addLoadEvent(toggleExpertsMode);
-addLoadEvent(toggleInfoMode);
-addLoadEvent(initSection);

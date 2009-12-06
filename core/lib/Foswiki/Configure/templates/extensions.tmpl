@@ -8,7 +8,9 @@
 </div>
 
 <#if consultedLocations??>
-	<div class="configureConsultedLocations">Consulted locations: ${consultedLocations??join(", ")}</div>
+	<div class="configureConsultedLocations">
+		Consulted locations: ${consultedLocations?join(", ")}
+	</div>
 </#if>
 
 <#-- errors -->

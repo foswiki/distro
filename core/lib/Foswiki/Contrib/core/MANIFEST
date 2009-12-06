@@ -478,7 +478,6 @@ lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
 lib/Foswiki/Configure/PLUGINS.pm 0444
 lib/Foswiki/Configure/resources/base.css 0444
-lib/Foswiki/Configure/resources/behaviour.js 0444
 lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
 lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
 lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
@@ -496,6 +495,7 @@ lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
 lib/Foswiki/Configure/resources/icon_world.gif 0444
 lib/Foswiki/Configure/resources/intro.html 0444
+lib/Foswiki/Configure/resources/jquery-1.3.2.js 0444
 lib/Foswiki/Configure/resources/legend.html 0444
 lib/Foswiki/Configure/resources/logo.gif 0444
 lib/Foswiki/Configure/resources/pattern.css 0444

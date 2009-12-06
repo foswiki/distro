@@ -19,7 +19,7 @@ margin:0;
 padding:0;
 }
 
-.foswikiAlert, {
+.foswikiAlert {
 color:red;
 }
 
@@ -33,6 +33,7 @@ font-size:94%;
 }
 
 html body {
+font-family:arial, sans-serif;
 voice-family:inherit;
 font-size:small;
 }
@@ -198,8 +199,4 @@ padding-left:2em;
 
 .foswikiHidden,.foswikiMakeVisible,.foswikiMakeVisibleBlock {
 display:none;
-}
-
-.foswikiValueChanged { 
-  border: 2px solid red;
 }
