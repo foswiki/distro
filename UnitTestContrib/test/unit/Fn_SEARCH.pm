@@ -2378,4 +2378,134 @@ GNURF
     $this->assert_equals("$this->{test_web}/B,$this->{test_web}/C,$this->{test_web}/A", $result);
 }
 
+# The results of SEARCH are highly sensitive to the template;
+# reduce sensitivity by trimming the result
+sub _cut_the_crap {
+    my $result = shift;
+    $result =~ s/<!--.*?-->//gs;
+    $result =~ s/<\/?(span|div|b|h\d)\b.*?>//gs;
+    $result =~ s/ (class|style|rel)=(["'])[^"']*\2//g;
+    $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
+    $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
+    $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
+    return $result;
+}
+sub test_no_format_no_shit {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Searched: <noautolink>BLEEGLE</noautolink>
+Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
+
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dont.matchmeblah
+
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE blah/matchme.blah
+
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE
+
+Number of topics: 4
+CRUD
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" nosummary="on"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Searched: <noautolink>BLEEGLE</noautolink>
+Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a><br />
+
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a><br />
+
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a><br />
+
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a><br />
+
+Number of topics: 4
+CRUD
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" nosearch="on"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
+
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dont.matchmeblah
+
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE blah/matchme.blah
+
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE
+
+Number of topics: 4
+CRUD
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" nototal="on"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Searched: <noautolink>BLEEGLE</noautolink>
+Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dont.matchmeblah
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE blah/matchme.blah
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE
+
+CRUD
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" noheader="on"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Searched: <noautolink>BLEEGLE</noautolink>
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
+
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dont.matchmeblah
+
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE blah/matchme.blah
+
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE
+
+Number of topics: 4
+CRUD
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" noempty="on"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Searched: <noautolink>BLEEGLE</noautolink>
+Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
+
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dont.matchmeblah
+
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE blah/matchme.blah
+
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE
+
+Number of topics: 4
+CRUD
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" zeroresults="on"}%');
+    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+Searched: <noautolink>BLEEGLE</noautolink>
+Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
+<a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
+
+<a href="">OkBTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dont.matchmeblah
+
+<a href="">OkTopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE blah/matchme.blah
+
+<a href="">TestTopicSEARCH</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE
+
+Number of topics: 4
+CRUD
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"}%');
+    my $result2 =
+      $this->{test_topicObject}->expandMacros(
+          '%SEARCH{"BLEEGLE" nosummary="on" nonoise="on"}%');
+    $this->assert_html_equals( $result, $result2 );
+}
+
 1;
