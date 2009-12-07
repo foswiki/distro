@@ -320,16 +320,29 @@ sub test_attachments {
 sub test_getrevinfo {
     my $this  = shift;
     my $topic = "RevInfo";
+    my $now = time();
+    Foswiki::Func::createWeb( $this->{test_web} . "/Blah" );
 
-   #    my $login = Foswiki::Func::wikiToUserName(Foswiki::Func::getWikiName());
-    my $wikiname = Foswiki::Func::getWikiName();
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'blah' );
+    Foswiki::Func::saveTopicText( "$this->{test_web}/Blah", $topic, 'blah' );
 
     my ( $date, $user, $rev, $comment ) =
       Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic );
     $this->assert_equals( 1, $rev );
-    $this->assert_str_equals( $wikiname, $user )
-      ;    # the Func::getRevisionInfo quite clearly says wikiname
+    my $wikiname = Foswiki::Func::getWikiName();
+    $this->assert_str_equals( $wikiname, $user );
+    $this->assert_equals( 1, $rev );
+    $this->assert( $date >= $now, $date);
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( "$this->{test_web}/Blah", $topic );
+    $this->assert_str_equals( $wikiname, $user );
+    $this->assert_equals( 1, $rev );
+    $this->assert( $date >= $now, $date);
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( "$this->{test_web}.Blah", $topic );
+    $this->assert_str_equals( $wikiname, $user );
+    $this->assert_equals( 1, $rev );
+    $this->assert( $date >= $now, $date);
 }
 
 # Helper function for test_moveTopic

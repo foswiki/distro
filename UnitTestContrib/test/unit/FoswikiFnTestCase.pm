@@ -68,6 +68,7 @@ sub set_up {
     $webObject->populateNewWeb();
     $webObject = Foswiki::Meta->new( $this->{session}, $this->{users_web} );
     $webObject->populateNewWeb();
+
     $this->{test_user_forename} = 'Scum';
     $this->{test_user_surname}  = 'Bag';
     $this->{test_user_wikiname} =
@@ -130,6 +131,9 @@ sub registerUser {
     $query->path_info("/$this->{users_web}/UserRegistration");
 
     my $fatwilly = new Foswiki( undef, $query );
+    $this->assert($fatwilly->topicExists(
+        $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName}));
+
     $fatwilly->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         Foswiki::UI::Register::register_cgi($fatwilly);
