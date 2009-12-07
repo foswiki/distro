@@ -174,7 +174,7 @@ sub view {
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(
     my ( $revTitle, $revArg ) = ( '', '' );
-    if ( $preferredRev < $shownRev ) {
+    if ( $preferredRev && $preferredRev < $shownRev ) {
         $session->enterContext('inactive');
 
         # disable edit of previous revisions
