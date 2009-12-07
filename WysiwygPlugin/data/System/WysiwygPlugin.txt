@@ -154,6 +154,9 @@ which gets translated back to TML as
 </verbatim>
 which is correct by construction, but does not render correctly in Foswiki. This problem is unfortunately unavoidable due to the way TML works.
 
+---+++ Flattening of =&lt;div&gt;= tags
+The "Normal" format command in the current release of TinyMCEPlugin depends on WysiwygPlugin flattening =&lt;div&gt;= tags. If you have a customised =WYSIWYGPLUGIN_STICKYBITS= set, check that plain =&lt;div&gt;= tags will be flattened if you expect this feature to work. It is expected that this requirement will be removed in a future release of TinyMCEPlugin.
+
 ---++ Plugin Info
 
 This plugin is brought to you by a [[http://wikiring.com][WikiRing <a href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" title="WikiRing: Professional Wiki Innovation and Support" /></a>]] partner - working together to improve your wiki experience!
@@ -169,7 +172,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  22 Oct 2009 | Foswikitask:Item2183: Protect div style= by default | 
+|  8 Dec 2009 | Foswikitask:Item2447: Add TinyMCEPlugin's &lt;div&gt; flattening requirement to Known Issues <br/> Foswikitask:Item2352: Use Foswiki's regex instead of a hard-coded regex, so that WysiwygPlugin will always "see" macros in the same way as Foswiki's renderer<br/> Foswikitask:Item2286: Cleaning up missing calls to Foswiki::finish() |
+|  22 Oct 2009 | Foswikitask:Item2183: Protect div style= by default |
 |  18 Sep 2009 | Foswikitask:Item1980: Prevent dataloss when saving a topic in Wysiwyg where there are a pair of sticky tags inside verbatim tags |
 |  28 Jun 2009 | Foswikitask:Item1770: Protect XML tags registered by plugins, and not just the content between them (Michael Tempest) |
 |  6 Jun 2009 | Foswikitask:Item1013: Correct dependency on HTML::Parser (Will Norris) Foswikitask:Item1397: Foswikitask:Item1535: Foswikitask:Item1666: Correct processing of colour and typewriter-text in several situations, include application to bold text and table cells (Michael Tempest) Foswikitask:Item1667: Remove unwanted extra &lt;sticky&gt; tags (Michael Tempest) Foswikitask:Item1674: Let plugins register XML tags that should be protected like macros |

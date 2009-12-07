@@ -145,6 +145,16 @@ TinyMCEPlugin depends on WysiwygPlugin to do the conversions from HTML to TML (T
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 ----
 
+---++ Known Issues
+The Foswiki:Community.WysiwygTaskTeam is working hard on enhancements and reliability improvements to this plugin, unfortunately the following issues remain outstanding in this current release:
+
+   * Applying formats such as Headings, Verbatim, Normal, etc:
+      * Not working in Safari and Google Chrome browsers unless the line to be formatted is selected by triple-clicking first
+      * Not working in Microsoft Internet Explorer 6
+   * "Normal" format depends on WysiwygPlugin flattening &lt;div&gt; tags
+
+If you are affected, please check regularly for updates at Foswiki:Extensions.TinyMCEPlugin.
+
 ---++ Plugin Info
 
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
@@ -156,8 +166,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  07 Dec 2009 | Foswikitask:Item2447: Fix unable to apply "Normal" format in most browsers (IE6 and Google Chrome still affected) |
-|  03 Dec 2009 | Foswikitask:Item1462: Block attachments to unsaved AUTOINC topics |
+|  07 Dec 2009 | Foswikitask:Item2447: Fix unable to apply "Normal" format in some browsers (notes added to System topic)<br/> Foswikitask:Item1462: Block attachments to unsaved AUTOINC topics |
 |  25 Nov 2009 | Foswikitask:Item2412: Inserting images - fixed a problem where it wasn't easy (impossible unless > 1 attachments) to select the first image in the attachment list; improved layout of dialog window where preview obscures insert/cancel buttons. |
 |  09 Nov 2009 | Foswikitask:Item2341: Added blockquote button and rearranged toolbars slightly; cleaned up System topic |
 |  29 Oct 2009 | Foswikitask:Item2245: Updated documentation, removed redundant setting: =paste_auto_cleanup_on_paste : true= for MSIE browsers (!TinyMCE now defaults to =true= for all browsers) |
