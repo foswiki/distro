@@ -42,6 +42,9 @@ sub new {
     my ( $class, $session, $web, $topic, $attachment ) = @_;
     my $this = bless( { session => $session }, $class );
 
+    # Normalise web path (replace [./]+ with /)
+    $web =~ tr#/.#/#s if $web;
+
     $this->{web} = $web;
 
     if ($topic) {
