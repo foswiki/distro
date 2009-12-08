@@ -276,7 +276,7 @@ sub testSimple {
     my $this = shift;
 
     my @webs = ( $this->{test_web}, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -332,7 +332,7 @@ sub testSubweb {
     my $this = shift;
 
     my @webs = ( $testWeb2, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -391,51 +391,51 @@ sub testCovers {
     $this->assert( $s1->covers($s1) );
 
     my $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-        $MailerConst::ALWAYS | $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::ALWAYS | $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A*', 0,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 1,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A*', 1,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A*B', 1,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'AxB', 0,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
     $this->assert( $s2->covers($s1) );
 
     # * covers everything.
     my $AStar = new Foswiki::Contrib::MailerContrib::Subscription( 'A*', 1,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     my $Star = new Foswiki::Contrib::MailerContrib::Subscription( '*', 1,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $Star->covers($AStar) );
     $this->assert( !$AStar->covers($Star) );
 
  #as parent-child relationshipd are broken across webs, * should cover topic (2)
     my $ChildrenOfWebHome =
       new Foswiki::Contrib::MailerContrib::Subscription( 'WebHome', 2,
-        $MailerConst::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $Star->covers($ChildrenOfWebHome) );
     $this->assert( !$ChildrenOfWebHome->covers($Star) );
 }
@@ -458,7 +458,7 @@ HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{session}, 0, undef, 0, 0 );
+        0, undef, 0, 0 );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -487,7 +487,7 @@ HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{session}, 0, undef, 0, 0 );
+        0, undef, 0, 0 );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -553,7 +553,7 @@ sub testExpansion_1847 {
 
     # Launch mailNotify
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{session}, 0, undef, 0, 0 );
+        0, undef, 0, 0 );
 
     for my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
@@ -580,8 +580,7 @@ HERE
         $meta, "Before\n${s}After", $meta );
 
     my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
-        $Foswiki::cfg{NotifyTopicName}, 1 );
+        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
    * %USERSWEB%.TestUser1: SpringCabbage
@@ -630,7 +629,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
         $wn->stringify(1) );
@@ -649,7 +648,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
         $wn->stringify(1) );
@@ -663,7 +662,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
 
     #removing * results in nothing.
@@ -688,7 +687,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
         $wn->stringify(1) );
@@ -712,7 +711,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: WebHome (2) $topicList\n",
         $wn->stringify(1) );
@@ -737,7 +736,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
@@ -765,7 +764,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
@@ -801,7 +800,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
 
   #TODO: not quite implemented - needs a 'covers' test
   #$wn =
-  #  new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
+  #  new Foswiki::Contrib::MailerContrib::WebNotify(
   #    $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
   #$this->assert_str_equals( "   * $who: WebIndex\n", $wn->stringify(1) );
 }

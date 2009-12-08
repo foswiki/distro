@@ -1,26 +1,6 @@
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2004 Wind River Systems Inc.
-# Copyright (C) 1999-2006 Foswiki Contributors.
-# All Rights Reserved. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+# See bottom of file for license and copyright information
 
-use strict;
-
-=pod
+=begin TML
 
 ---+ package Foswiki::Contrib::MailerContrib::Subscriber
 Object that represents a subscriber to notification. A subscriber is
@@ -34,13 +14,14 @@ name may also be a group, so it may expand to many email addresses.
 
 package Foswiki::Contrib::MailerContrib::Subscriber;
 
-use Foswiki;
-use Foswiki::Plugins;
+use strict;
 use Assert;
 
-require Foswiki::Contrib::MailerContrib::WebNotify;
+use Foswiki ();
+use Foswiki::Plugins ();
+use Foswiki::Contrib::MailerContrib::WebNotify ();
 
-=pod
+=begin TML
 
 ---++ new($name)
    * =$name= - Wikiname, with no web, or email address, of user targeted for notification
@@ -55,7 +36,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ getEmailAddresses() -> \@list
 Get a list of email addresses for the user(s) represented by this
@@ -72,7 +53,7 @@ sub getEmailAddresses {
     return $this->{emails};
 }
 
-=pod
+=begin TML
 
 ---++ STATIC getEmailAddressesForUser() -> \@list
 Get a list of email addresses for the user(s) represented by this
@@ -169,7 +150,7 @@ sub _subtract {
     }
 }
 
-=pod
+=begin TML
 
 ---++ subscribe($subs)
    * =$subs= - Subscription object
@@ -184,7 +165,7 @@ sub subscribe {
     $this->_subtract( 'unsubscriptions', $subs );
 }
 
-=pod
+=begin TML
 
 ---++ unsubscribe($subs)
    * =$subs= - Subscription object
@@ -216,7 +197,7 @@ sub unsubscribe {
     }
 }
 
-=pod
+=begin TML
 
 ---++ isSubscribedTo($topic, $db) -> $subscription
    * =$topic= - Topic object we are checking
@@ -238,7 +219,7 @@ sub isSubscribedTo {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ isUnsubscribedFrom($topic) -> $subscription
    * =$topic= - Topic object we are checking
@@ -259,7 +240,7 @@ sub isUnsubscribedFrom {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ stringify() -> string
 Return a string representation of this object, in Web<nop>Notify format.
@@ -285,3 +266,27 @@ sub stringify {
 }
 
 1;
+__DATA__
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 1999-2006 TWiki Contributors.
+Copyright (C) 2004 Wind River Systems Inc.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

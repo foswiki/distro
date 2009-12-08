@@ -31,7 +31,6 @@ BEGIN {
 }
 
 my $verbose = 1;
-
 my @webs = ();
 my @exwebs = ();
 my $nonews = 0;
@@ -46,16 +45,16 @@ foreach my $arg ( @ARGV ) {
     } elsif ( $arg eq "-nochanges" ) {
         $nochanges = 1;
     } elsif ( $arg =~ m/^-(.*)/ ) {
-	push( @exwebs, $1 );
+        push( @exwebs, $1 );
     } else {
         push( @webs, $arg );
     }
 }
 
-use Foswiki::Contrib::MailerContrib;
-use CGI;
+use Foswiki();
+use Foswiki::Contrib::MailerContrib ();
 
-my $report = Foswiki::Contrib::MailerContrib::mailNotify(
-    \@webs, undef, $verbose, \@exwebs, $nonews, $nochanges );
+new Foswiki();
 
-print $report."\n" if $verbose;
+Foswiki::Contrib::MailerContrib::mailNotify(
+    \@webs, $verbose, \@exwebs, $nonews, $nochanges );

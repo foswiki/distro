@@ -1,24 +1,6 @@
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2004 Wind River Systems Inc.
-# Copyright (C) 1999-2007 Foswiki Contributors.
-# All Rights Reserved. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+# See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Contrib::MailerContrib::WebNotify
 Object that represents the contents of a %NOTIFYTOPIC% topic in a Foswiki web.
@@ -35,15 +17,14 @@ use locale;    # required for matching \w with international characters
 
 use Assert;
 
-require Foswiki::Func;
-require Foswiki::Contrib::MailerContrib;
-require Foswiki::Contrib::MailerContrib::Subscriber;
-require Foswiki::Contrib::MailerContrib::Subscription;
+use Foswiki::Func ();
+use Foswiki::Contrib::MailerContrib ();
+use Foswiki::Contrib::MailerContrib::Subscriber ();
+use Foswiki::Contrib::MailerContrib::Subscription ();
 
-=pod
+=begin TML
 
----++ new($session, $web, $topic)
-   * =$session= - Foswiki object
+---++ new($web, $topic)
    * =$web= - web name
    * =$topic= - topic name
    * =$noexpandgroups= - True will prevent expansion of  group subscriptions
@@ -56,7 +37,7 @@ topic does not exist, it will create an empty object.
 =cut
 
 sub new {
-    my ( $class, $session, $web, $topic, $noexpandgroups ) = @_;
+    my ( $class, $web, $topic, $noexpandgroups ) = @_;
 
     my $this = bless( {}, $class );
 
@@ -67,7 +48,6 @@ sub new {
     $this->{topic}    = $topic || $Foswiki::cfg{NotifyTopicName} || 'WebNotify';
     $this->{pretext}  = '';
     $this->{posttext} = '';
-    $this->{session}  = $session;
     $this->{noexpandgroups} = $noexpandgroups;
 
     if ( Foswiki::Func::topicExists( $web, $topic ) ) {
@@ -77,7 +57,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ writeWebNotify()
 Write the object to the %NOTIFYTOPIC% topic it was read from.
@@ -92,7 +72,7 @@ sub writeWebNotify {
         $this->stringify(), 1, 1 );
 }
 
-=pod
+=begin TML
 
 ---++ getSubscriber($name, $noAdd)
    * =$name= - Name of subscriber (wikiname with no web or email address)
@@ -115,7 +95,7 @@ sub getSubscriber {
     return $subscriber;
 }
 
-=pod
+=begin TML
 
 ---++ getSubscribers()
 Get a list of all subscriber names (unsorted)
@@ -128,7 +108,7 @@ sub getSubscribers {
     return keys %{ $this->{subscribers} };
 }
 
-=pod
+=begin TML
 
 ---++ subscribe($name, $topics, $depth, $options)
    * =$name= - Name of subscriber (wikiname with no web or email address)
@@ -146,20 +126,12 @@ sub subscribe {
 
     my @names = ($name);
     unless ( $this->{noexpandgroups} ) {
-        if ( defined &Foswiki::Func::eachGroupMember ) {
-            my $it = Foswiki::Func::eachGroupMember($name);
-            if ($it) {
-                @names = ();
-                while ( $it->hasNext() ) {
-                    my $member = $it->next();
-                    push( @names, $member );
-                }
-            }
-        }
-        else {
-            my $user = Foswiki::User->new( $this->{session}, '', $name );
-            if ( $user->isGroup ) {
-                @names = map { $_->wikiName } @{ $user->groupMembers };
+        my $it = Foswiki::Func::eachGroupMember($name);
+        if ($it) {
+            @names = ();
+            while ( $it->hasNext() ) {
+                my $member = $it->next();
+                push( @names, $member );
             }
         }
     }
@@ -173,7 +145,7 @@ sub subscribe {
     }
 }
 
-=pod
+=begin TML
 
 ---++ unsubscribe($name, $topics, $depth)
    * =$name= - Name of subscriber (wikiname with no web or email address)
@@ -190,20 +162,12 @@ sub unsubscribe {
 
     my @names = ($name);
     unless ( $this->{noexpandgroups} ) {
-        if ( defined &Foswiki::Func::eachGroupMember ) {
-            my $it = Foswiki::Func::eachGroupMember($name);
-            if ($it) {
-                @names = ();
-                while ( $it->hasNext() ) {
-                    my $member = $it->next();
-                    push( @names, $member );
-                }
-            }
-        }
-        else {
-            my $user = Foswiki::User->new( $this->{session}, '', $name );
-            if ( $user->isGroup ) {
-                @names = map { $_->wikiName } @{ $user->groupMembers };
+        my $it = Foswiki::Func::eachGroupMember($name);
+        if ($it) {
+            @names = ();
+            while ( $it->hasNext() ) {
+                my $member = $it->next();
+                push( @names, $member );
             }
         }
     }
@@ -217,7 +181,7 @@ sub unsubscribe {
     }
 }
 
-=pod
+=begin TML
 
 ---++ stringify() -> string
 Return a string representation of this object, in %NOTIFYTOPIC% format.
@@ -244,7 +208,7 @@ sub stringify {
     return $page;
 }
 
-=pod
+=begin TML
 
 ---++ processChange($change, $db, $changeSet, $seenSet, $allSet)
    * =$change= - ref of a Foswiki::Contrib::Mailer::Change
@@ -285,10 +249,10 @@ sub processChange {
                     # Skip this change if the subscriber is the author
                     # of the change, and we are not always sending
                     next
-                      if ( !( $subs->{options} & $MailerConst::ALWAYS )
+                      if ( !( $subs->{options} & $Foswiki::Contrib::MailerContrib::Constants::ALWAYS )
                         && $authors{$email} );
 
-                    if ( $subs->{options} & $MailerConst::FULL_TOPIC ) {
+                    if ( $subs->{options} & $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC ) {
                         push( @{ $allSet->{$topic} }, $email );
                     }
                     else {
@@ -310,7 +274,7 @@ sub processChange {
     }
 }
 
-=pod
+=begin TML
 
 ---++ processCompulsory($topic, $db, \%allSet)
    * =$topic= - topic name
@@ -326,7 +290,7 @@ sub processCompulsory {
         my $subscriber = $this->{subscribers}{$name};
         my $subs = $subscriber->isSubscribedTo( $topic, $db );
         next unless $subs;
-        next unless ( $subs->{options} & $MailerConst::ALWAYS );
+        next unless ( $subs->{options} & $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
         unless ( $subscriber->isUnsubscribedFrom( $topic, $db ) ) {
             my $emails = $subscriber->getEmailAddresses();
             if ($emails) {
@@ -338,7 +302,7 @@ sub processCompulsory {
     }
 }
 
-=pod
+=begin TML
 
 ---++ isEmpty() -> boolean
 Return true if there are no subscribers
@@ -435,9 +399,9 @@ sub _subscribeTopic {
     #print STDERR "_subscribeTopic($topic)\n";
     my $opts = 0;
     if ($options) {
-        $opts |= $MailerConst::FULL_TOPIC;
+        $opts |= $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC;
         if ( $options =~ /!/ ) {
-            $opts |= $MailerConst::ALWAYS;
+            $opts |= $Foswiki::Contrib::MailerContrib::Constants::ALWAYS;
         }
     }
     my $kids = $childDepth or 0;
@@ -468,3 +432,27 @@ sub _emailWarn {
 }
 
 1;
+__DATA__
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 1999-2006 TWiki Contributors.
+Copyright (C) 2004 Wind River Systems Inc.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

@@ -1,17 +1,6 @@
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2004 Wind River Systems Inc.
-# Copyright (C) 1999-2006 Foswiki Contributors.
-# All Rights Reserved. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-#
-# As per the GPL, removal of this notice is prohibited.
+# See bottom of file for license and copyright information
 
-use strict;
-
-=pod
+=begin TML
 
 ---+ package Foswiki::Contrib::MailerContrib::Subscription
 Object that represents a single subscription of a user to
@@ -23,17 +12,18 @@ matching pages that the user is subscribed to.
 
 package Foswiki::Contrib::MailerContrib::Subscription;
 
+use strict;
 use Assert;
 
 use Foswiki::Contrib::MailerContrib::Constants;
 
-=pod
+=begin TML
 
 ---++ new($pages, $childDepth, $options)
    * =$pages= - Wildcarded expression matching subscribed pages
    * =$childDepth= - Depth of children of $topic to notify changes
      for. Defaults to 0
-   * =$options= - bitmask of MailerConst options
+   * =$options= - bitmask of Foswiki::Contrib::MailerContrib::Constants options
 Create a new subscription.
 
 =cut
@@ -56,7 +46,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ stringify() -> string
 Return a string representation of this object, in Web<nop>Notify format.
@@ -80,7 +70,7 @@ sub stringify {
     return $record;
 }
 
-=pod
+=begin TML
 
 ---++ matches($topic, $db, $depth) -> boolean
    * =$topic= - Topic object we are checking
@@ -111,7 +101,7 @@ sub matches {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ covers($other, $db) -> $boolean
    * =$other= - Other subscription object we are checking
@@ -151,7 +141,7 @@ sub covers {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ getMode() -> $mode
 Get the newsletter mode of this subscription ('', '?' or '!') as
@@ -162,14 +152,14 @@ specified in WebNotify.
 sub getMode {
     my $this = shift;
 
-    if ( $this->{options} & $MailerConst::FULL_TOPIC ) {
-        return '!' if ( $this->{options} & $MailerConst::ALWAYS );
+    if ( $this->{options} & $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC ) {
+        return '!' if ( $this->{options} & $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
         return '?';
     }
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ equals($other) -> $boolean
 Compare two subscriptions.
@@ -184,3 +174,27 @@ sub equals {
 }
 
 1;
+__DATA__
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 1999-2006 TWiki Contributors.
+Copyright (C) 2004 Wind River Systems Inc.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

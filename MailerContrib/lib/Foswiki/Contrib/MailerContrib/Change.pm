@@ -1,26 +1,6 @@
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2004 Wind River Systems Inc.
-# Copyright (C) 1999-2006 Foswiki Contributors.
-# All Rights Reserved. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+# See bottom of file for license and copyright information
 
-use strict;
-
-=pod
+=begin TML
 
 ---+ package Foswiki::Contrib::MailerContrib::Change
 Object that represents a change to a topic.
@@ -29,14 +9,15 @@ Object that represents a change to a topic.
 
 package Foswiki::Contrib::MailerContrib::Change;
 
-use Foswiki;
-
-use URI::Escape;
+use strict;
 use Assert;
 
-=pod
+use Foswiki ();
+use Foswiki::Plugins ();
 
----++ new($web)
+=begin TML
+
+---++ new($web, $topic, $author, $time, $rev)
    * =$web= - Web name
    * =$topic= - Topic name
    * =$author= - String author of change
@@ -47,23 +28,16 @@ Construct a new change object.
 =cut
 
 sub new {
-    my ( $class, $session, $web, $topic, $author, $time, $rev ) = @_;
+    my ( $class, $web, $topic, $author, $time, $rev ) = @_;
 
     my $this = bless( {}, $class );
 
-    $this->{SESSION} = $session;
     $this->{WEB}     = $web;
     $this->{TOPIC}   = $topic;
     my $user;
 
-    # SMELL: call to unpublished core function
-    if ( defined(&Foswiki::Users::findUser) ) {
-        $user = $session->{users}->findUser( $author, undef, 1 );
-        $this->{AUTHOR} = $user ? $user->wikiName() : $author;
-    }
-    else {
-        $this->{AUTHOR} = Foswiki::Func::getWikiName($author);
-    }
+    $this->{AUTHOR} = Foswiki::Func::getWikiName($author);
+
     $this->{TIME} = $time;
     ASSERT($rev) if DEBUG;
 
@@ -83,7 +57,7 @@ sub stringify {
 "$this->{WEB}.$this->{TOPIC} by $this->{AUTHOR} at $this->{TIME} from r$this->{BASE_REV} to r$this->{CURR_REV}";
 }
 
-=pod
+=begin TML
 
 ---++ merge($change)
    * =$change= - Change record to merge
@@ -107,7 +81,7 @@ sub merge {
       if ( $other->{BASE_REV} < $this->{BASE_REV} );
 }
 
-=pod
+=begin TML
 
 ---++ expandHTML($html) -> string
    * =$html= - Template to expand keys within
@@ -130,7 +104,7 @@ sub expandHTML {
         }
         else {
             $this->{HTML_SUMMARY} =
-              $this->{SESSION}->{renderer}
+              $Foswiki::Plugins::SESSION->{renderer}
               ->summariseChanges( undef, $this->{WEB}, $this->{TOPIC},
                 $this->{BASE_REV}, $this->{CURR_REV}, 1 );
         }
@@ -163,7 +137,7 @@ sub expandHTML {
     return $html;
 }
 
-=pod
+=begin TML
 
 ---++ expandPlain() -> string
 Generate a plaintext version of this change.
@@ -182,7 +156,7 @@ sub expandPlain {
         }
         else {
             $s =
-              $this->{SESSION}->{renderer}
+              $Foswiki::Plugins::SESSION->{renderer}
               ->summariseChanges( undef, $this->{WEB}, $this->{TOPIC},
                 $this->{BASE_REV}, $this->{CURR_REV}, 0 );
         }
@@ -221,3 +195,27 @@ sub expandPlain {
 }
 
 1;
+__DATA__
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 1999-2006 TWiki Contributors.
+Copyright (C) 2004 Wind River Systems Inc.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
