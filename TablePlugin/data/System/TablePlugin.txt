@@ -53,11 +53,32 @@ Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cells
 ---+++ Sorting
 Click on column heading text to sort by a column. Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
 
-   * date if format is:
-      * dd MMM YYYY - hh:mm (MMM is Jan, Feb, etc.)
-      * dd-MMM-YY or dd-MMM-YYYY (can be / or space in place of -) (MMM is Jan, Feb, etc)
-   * number is digits, with optional decimal point
-   * otherwise treated as text
+   * Date with supported date formats %TWISTY{mode="span" link="View date formats" remember="on"}%
+      * Default Foswiki format
+         * 31 Dec 2001 - 23:59
+         * 31-Dec-2001 - 23:59
+      * Foswiki format without time (defaults to 00:00)
+         * 31 Dec 2001
+         * 31-Dec-2001
+      * Date separated by '/', '.' or '-', time with '.' or ':'
+      * Date and time separated by ' ', '.' and/or '-'
+         * 2001/12/31 23:59:59
+         * 2001.12.31.23.59.59
+         * 2001/12/31 23:59
+         * 2001.12.31.23.59
+         * 2001-12-31 23:59
+         * 2001-12-31 - 23:59
+         * 2009-1-12
+         * 2009-1
+         * 2009
+      * ISO format
+         * 2001-12-31T23:59:59
+         * 2001-12-31T
+      * ISO dates may have a timezone specifier, either Z or a signed difference in hh:mm format. For example:
+         * 2001-12-31T23:59:59+01:00
+         * 2001-12-31T23:59Z %ENDTWISTY%
+   * Number is digits, with optional decimal point
+   * Otherwise treated as text
 
 ---++++ Sorting example
 %TABLE{databg="#ffc" databgsorted="#fc3" headerbg="#903" headerbgsorted="#600" initsort="1"}%
@@ -152,6 +173,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  17 Sep 2009 | 1.121: Arthur Clemens: Improved documentation for date formats. |
 |  17 Sep 2009 | 1.120: Arthur Clemens: Added =include= parameter. |
 |  16 Sep 2009 | 1.110: Arthur Clemens: Added attributes =headerrules= and =datarules=. Fixed potential bug where Explorer won't render more than 20 table CSS tags. Fix sorting on IP addresses. |
 |  13 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
