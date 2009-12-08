@@ -157,7 +157,7 @@ Run ==./foswiki.fcgi --help== for details on the options.
 
 ---+++++ Using mod_fcgid
 
-As I understood from the [[http://fastcgi.coremail.cn/doc.htm][mod_fcgid documentation]], only _dynamic_ servers are supported and there is no way to use processes running on another machine.
+As I understood from the [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html][mod_fcgid documentation]], only _dynamic_ servers are supported and there is no way to use processes running on another machine.
 
 <pre>
 # Simple and traditional example.
