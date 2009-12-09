@@ -13,7 +13,7 @@ use Foswiki::Configure::Dependency ();
 
 # Ordered list of field names to column headings
 my @tableHeads =
-  qw( description compatibility release installedRelease install );
+  qw( logo description compatibility release installedRelease install );
 
 # Mapping to column heading string
 my %headNames = (
@@ -22,6 +22,7 @@ my %headNames = (
     compatibility    => 'Compatible with',
     installedRelease => 'Installed Release',
     install          => '',
+    logo             => '',
 
     # Not used; just here for completeness
     topic            => 'Extension',
@@ -241,8 +242,12 @@ sub ui {
         my $row      = '';
         my $colCount = 0;
         foreach my $f (@tableHeads) {
-            $td = $ext->{$f} || '&nbsp;';
-            $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+            if ($f eq 'logo' && $ext->{logo}) {
+                $td = "<img src='$ext->{logo}' width='70' height='70' />";
+            } else {
+                $td = $ext->{$f} || '&nbsp;';
+                $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+            }
             my $cssClass = "configureExtensionData";
             $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
             $cssClass .= ' configureExtensionAction'
