@@ -13,7 +13,7 @@ use Foswiki::Configure::Dependency ();
 
 # Ordered list of field names to column headings
 my @tableHeads =
-  qw( logo description compatibility release installedRelease install );
+  qw( description compatibility release installedRelease install );
 
 # Mapping to column heading string
 my %headNames = (
@@ -22,7 +22,7 @@ my %headNames = (
     compatibility    => 'Compatible with',
     installedRelease => 'Installed Release',
     install          => '',
-    logo             => '',
+    image            => '',
 
     # Not used; just here for completeness
     topic            => 'Extension',
@@ -49,6 +49,7 @@ sub _getListOfExtensions {
     my $this = shift;
 
     $this->findRepositories();
+
     my @consulted = ();
     if ( !$this->{list} ) {
         $this->{list}   = {};
@@ -144,8 +145,10 @@ sub ui {
     my $colNum = 0;
     foreach my $headNameKey (@tableHeads) {
 	    $colNum++;
-	    my $cssClass = ($colNum == scalar @tableHeads) ? 'configureExtensionAction' : undef;
-	    $tableHeads .= CGI::th( {class => $cssClass}, $headNames{$headNameKey} );
+	    my $cssClass = ($colNum == scalar @tableHeads)
+          ? 'configureExtensionAction' : undef;
+	    $tableHeads .= CGI::th( {class => $cssClass},
+                                $headNames{$headNameKey} );
 	}
     $table .= CGI::Tr( $tableHeads );
 
@@ -214,20 +217,41 @@ sub ui {
         $classes .= ' configureAlienExtension'
           if ( $ext->{module} && $ext->{module} !~ /^Foswiki::/ );
 
-        my $td;
-
         # Do the title row
-        $td = $ext->{topic} || 'Unknown';
-        $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-        $td = CGI::a( { href => $ext->{data} . $ext->{topic} }, $td );
+        my $thd = $ext->{topic} || 'Unknown';
+        $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+        $thd = CGI::a( { href => $ext->{data} . $ext->{topic} }, $thd );
+
+        # Do the data row
+        my $row      = '';
+        my $colCount = 0;
+
+        $classes .= ' extensionRow';
+
+        foreach my $f (@tableHeads) {
+            my $tdd = $ext->{$f} || '&nbsp;';
+            $tdd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
+            my $cssClass = "configureExtensionData";
+            $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
+            $cssClass .= ' configureExtensionAction'
+              if $colCount == scalar @tableHeads - 1;
+            $row .= CGI::td( { class => $cssClass }, $tdd );
+            $colCount++;
+        }
+
+        my @imgControls = ();
+        if ($ext->{image}) {
+            @imgControls = ( image => $ext->{image} );
+        }
+
         $table .= CGI::Tr(
-            { class => $classes }, 
+            { class => $classes, @imgControls }, 
             CGI::td(
                 {
                     colspan => $#tableHeads,
                     class   => "configureExtensionTitle"
                 },
-                $td
+                $thd
             ),
             CGI::td(
                 {
@@ -237,26 +261,7 @@ sub ui {
                 $install . ' ' . $uninstall
             )
         );
-
-        # Do the data row
-        my $row      = '';
-        my $colCount = 0;
-        foreach my $f (@tableHeads) {
-            if ($f eq 'logo' && $ext->{logo}) {
-                $td = "<img src='$ext->{logo}' width='70' height='70' />";
-            } else {
-                $td = $ext->{$f} || '&nbsp;';
-                $td =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-            }
-            my $cssClass = "configureExtensionData";
-            $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
-            $cssClass .= ' configureExtensionAction'
-              if $colCount == scalar @tableHeads - 1;
-            $row .= CGI::td( { class => $cssClass }, $td );
-            $colCount++;
-        }
-
-        $table .= CGI::Tr( { class => $classes }, $row);
+        $table .= CGI::Tr( { class => $classes, @imgControls }, $row);
 
         $rows++;
     }

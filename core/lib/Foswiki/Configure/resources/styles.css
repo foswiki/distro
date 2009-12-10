@@ -576,3 +576,8 @@ div.configureMessageBox {
 .configureSectionValues .foswikiValueChanged { 
 
 }
+
+/* Extension popup images */
+#extensionImage {
+  padding: 7px;
+}

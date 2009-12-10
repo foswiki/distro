@@ -412,6 +412,51 @@ function valueChanged(el) {
 	});
 }
 
+(function($) {
+    $.fn.extensionImage = function(){
+        $("body").append("<div id='extensionImage' style='position: absolute; z-index: 100; display: none;'><img id='extensionImageImage' src='' /></div>");
+        return this.each(
+            function() {
+                var url = $(this).attr("image");
+                if (url == null)
+                    return;
+                $(this).hover(
+                    function(e){
+                        var tipX = e.pageX + 12;
+                        var tipY = e.pageY + 12;
+                        $("#extensionImageImage").attr("src", url);
+                        if ($.browser.msie)
+                            var tipWidth = $("#extensionImage")
+                                .outerWidth(true);
+                        else
+                            var tipWidth = $("#extensionImage").width();
+                        $("#extensionImage").width(tipWidth);
+                        $("#extensionImage").css("left", tipX)
+                            .css("top", tipY).fadeIn("fast");
+                    },
+                    function() {
+                        $("#extensionImage").fadeOut("fast");
+                    });
+                $(this).mousemove(
+                    function(e){
+                        var tipX = e.pageX + 12;
+                        var tipY = e.pageY + 12;
+                        var tipWidth = $("#extensionImage")
+                            .outerWidth(true);
+                        var tipHeight = $("#extensionImage")
+                            .outerHeight(true);
+                        if (tipX + tipWidth > $(window).scrollLeft()
+                            + $(window).width()) 
+                            tipX = e.pageX - tipWidth;
+                        if ($(window).height()+$(window).scrollTop()
+                            < tipY + tipHeight)
+                            tipY = e.pageY - tipHeight;
+                        $("#extensionImage").css("left", tipX)
+                            .css("top", tipY).fadeIn("fast");
+                    });
+            });
+    }})(jQuery);
+
 /**
  * jquery init 
  */
@@ -476,5 +521,6 @@ $(document).ready(function() {
 	toggleExpertsMode();
 	toggleInfoMode();
 	initSection();
+	$(".extensionRow").extensionImage();
 });
 
