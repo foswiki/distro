@@ -167,7 +167,7 @@ sub ui {
 
         my $install = 'Install';
         my $uninstall = '';
-        my $classes = 'configureInstall';
+        my $trClass = 'configureInstall';
         if ( $ext->{installedRelease} ) {
 
             # The module is installed; check the version
@@ -175,7 +175,7 @@ sub ui {
 
                 # pseudo-installed
                 $install = 'pseudo-installed';
-                $classes = 'configurePseudoInstalled';
+                $trClass = 'configurePseudoInstalled';
             }
             elsif ( $ext->compare_versions( '<', $ext->{release} ) ) {
 
@@ -183,7 +183,7 @@ sub ui {
 
                 $install = 'Upgrade';
                 $uninstall = 'Uninstall';
-                $classes = 'configureUpgrade';
+                $trClass = 'configureUpgrade';
             }
             else {
 
@@ -191,7 +191,7 @@ sub ui {
 
                 $install = 'Re-install';
                 $uninstall = 'Uninstall';
-                $classes = 'configureReInstall';
+                $trClass = 'configureReInstall';
             }
             $installed++;
         }
@@ -214,8 +214,9 @@ sub ui {
                );
         }
 
-        $classes .= ' configureAlienExtension'
+        $trClass .= ' configureAlienExtension'
           if ( $ext->{module} && $ext->{module} !~ /^Foswiki::/ );
+        $trClass .= ' extensionRow';
 
         # Do the title row
         my $thd = $ext->{topic} || 'Unknown';
@@ -226,7 +227,28 @@ sub ui {
         my $row      = '';
         my $colCount = 0;
 
-        $classes .= ' extensionRow';
+        my @imgControls = ();
+        if ($ext->{image}) {
+            @imgControls = ( image => $ext->{image}, topic => $ext->{topic} );
+        }
+
+        $table .= CGI::Tr(
+            { class => $trClass, @imgControls }, 
+            CGI::td(
+                {
+                    colspan => $#tableHeads,
+                    class   => "configureExtensionTitle"
+                },
+                $thd
+            ),
+            CGI::td(
+                {
+                    class =>
+                      "configureExtensionTitle configureExtensionAction"
+                },
+                $install . ' ' . $uninstall
+            )
+        );
 
         foreach my $f (@tableHeads) {
             my $tdd = $ext->{$f} || '&nbsp;';
@@ -239,29 +261,7 @@ sub ui {
             $colCount++;
         }
 
-        my @imgControls = ();
-        if ($ext->{image}) {
-            @imgControls = ( image => $ext->{image} );
-        }
-
-        $table .= CGI::Tr(
-            { class => $classes, @imgControls }, 
-            CGI::td(
-                {
-                    colspan => $#tableHeads,
-                    class   => "configureExtensionTitle"
-                },
-                $thd
-            ),
-            CGI::td(
-                {
-                    class =>
-"configureExtensionTitle configureExtensionAction"
-                },
-                $install . ' ' . $uninstall
-            )
-        );
-        $table .= CGI::Tr( { class => $classes, @imgControls }, $row);
+        $table .= CGI::Tr( { class => $trClass, id => $ext->{topic}, @imgControls }, $row);
 
         $rows++;
     }

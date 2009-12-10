@@ -578,6 +578,9 @@ div.configureMessageBox {
 }
 
 /* Extension popup images */
-#extensionImage {
+.extensionImage {
   padding: 7px;
+  position: absolute;
+  z-index: 100;
+  display: none;
 }

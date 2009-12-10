@@ -414,45 +414,30 @@ function valueChanged(el) {
 
 (function($) {
     $.fn.extensionImage = function(){
-        $("body").append("<div id='extensionImage' style='position: absolute; z-index: 100; display: none;'><img id='extensionImageImage' src='' /></div>");
         return this.each(
             function() {
-                var url = $(this).attr("image");
-                if (url == null)
+                var id = $(this).attr("topic");
+                if (id == undefined)
                     return;
+                var imgid = "#" + id + "Image";
                 $(this).hover(
                     function(e){
-                        var tipX = e.pageX + 12;
-                        var tipY = e.pageY + 12;
-                        $("#extensionImageImage").attr("src", url);
-                        if ($.browser.msie)
-                            var tipWidth = $("#extensionImage")
-                                .outerWidth(true);
-                        else
-                            var tipWidth = $("#extensionImage").width();
-                        $("#extensionImage").width(tipWidth);
-                        $("#extensionImage").css("left", tipX)
-                            .css("top", tipY).fadeIn("fast");
+                        var url = $(this).attr("image");
+                        if (url && url != "" && $(imgid).length == 0) {
+                            $("body").append(
+                                "<div id='" + id + "Image'"
+                                + " class='extensionImage'>"
+                                + "<img src='" + url + "' /></div>");
+                            // Position relative to the id-carrier
+                            var pos = $("#"+id).position();
+                            $(imgid).css("left", pos.left);
+                            $(imgid).css("top", pos.top + $(this).height());
+                        }
+                        $(this).attr("image", "");
+                        $(imgid).slideDown("fast");
                     },
                     function() {
-                        $("#extensionImage").fadeOut("fast");
-                    });
-                $(this).mousemove(
-                    function(e){
-                        var tipX = e.pageX + 12;
-                        var tipY = e.pageY + 12;
-                        var tipWidth = $("#extensionImage")
-                            .outerWidth(true);
-                        var tipHeight = $("#extensionImage")
-                            .outerHeight(true);
-                        if (tipX + tipWidth > $(window).scrollLeft()
-                            + $(window).width()) 
-                            tipX = e.pageX - tipWidth;
-                        if ($(window).height()+$(window).scrollTop()
-                            < tipY + tipHeight)
-                            tipY = e.pageY - tipHeight;
-                        $("#extensionImage").css("left", tipX)
-                            .css("top", tipY).fadeIn("fast");
+                        $(imgid).slideUp("fast");
                     });
             });
     }})(jQuery);
