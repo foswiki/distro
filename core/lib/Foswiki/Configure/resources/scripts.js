@@ -431,7 +431,7 @@ function valueChanged(el) {
                             // Position relative to the id-carrier
                             var pos = $("#"+id).position();
                             $(imgid).css("left", pos.left);
-                            $(imgid).css("top", pos.top + $(this).height());
+                            $(imgid).css("top", pos.top + $("#"+id).height());
                         }
                         $(this).attr("image", "");
                         $(imgid).slideDown("fast");
