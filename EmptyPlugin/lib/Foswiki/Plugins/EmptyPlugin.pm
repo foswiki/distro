@@ -211,6 +211,10 @@ This handler is called very early, immediately after =earlyInitPlugin=.
 
 Called when a new user registers with this Foswiki.
 
+Note that the handler is not called when the user submits the registration
+form if {Register}{NeedVerification} is enabled. It is then called when
+the user submits the activation code.
+
 *Since:* Foswiki::Plugins::VERSION = '2.0'
 
 =cut
