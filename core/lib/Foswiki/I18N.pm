@@ -102,8 +102,13 @@ BEGIN {
     # languages.
     my $dependencies = "use Locale::Maketext::Lexicon{'en'=>['Auto'],";
     foreach my $lang (@languages) {
-        $dependencies .=
-          "'$lang'=>['Gettext'=>'$Foswiki::cfg{LocalesDir}/$lang.po' ], ";
+        my $langFile = "$Foswiki::cfg{LocalesDir}/$lang.po";
+	if( -f $langFile ) {
+            $dependencies .=
+              "'$lang'=>['Gettext'=>'$langFile' ], ";
+	} else {
+	    push( @initErrors, "I18N - Ignoring enabled language $lang as $langFile does not exist.\n" );
+	}
     }
     $dependencies .= '};';
 
@@ -138,9 +143,9 @@ sub new {
         return $class->SUPER::new(@_);
     }
 
-    unless ($initialised) {
+    if (@initErrors) {
         foreach my $error (@initErrors) {
-            $session->logger->log('warning', $error);
+            $session->logger->log($initialised ? 'warning' : 'error', $error);
         }
     }
 
