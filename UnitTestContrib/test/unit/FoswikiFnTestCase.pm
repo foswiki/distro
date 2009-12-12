@@ -136,7 +136,7 @@ sub registerUser {
 
     $fatwilly->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
-        Foswiki::UI::Register::register_cgi($fatwilly);
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $fatwilly);
     }
     catch Foswiki::OopsException with {
         my $e = shift;

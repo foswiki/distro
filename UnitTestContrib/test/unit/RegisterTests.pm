@@ -525,7 +525,7 @@ sub registerVerifyOk {
 
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -613,7 +613,7 @@ sub verify_registerBadVerify {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -705,7 +705,7 @@ sub verify_registerNoVerifyOk {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
@@ -777,7 +777,7 @@ sub verify_rejectShortPassword {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
@@ -830,7 +830,7 @@ sub verify_shortPassword {
 
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
 
         my $cUID =
@@ -888,7 +888,7 @@ sub verify_duplicateActivation {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -926,7 +926,7 @@ sub verify_duplicateActivation {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -960,7 +960,7 @@ sub verify_duplicateActivation {
     $this->{session}->net->setMailHandler( \&sentMail );
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -1437,7 +1437,7 @@ sub verify_disabled_registration {
 
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -1496,7 +1496,7 @@ sub test_3951 {
 
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -1558,7 +1558,7 @@ sub test_4061 {
     close(F);
     try {
         no strict 'refs';
-        &$REG_UI_FN( $this->{session} );
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
         use strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -1782,7 +1782,7 @@ sub registerUserException {
     my $exception;
     try {
         no strict 'refs';
-        &$REG_UI_FN($fatwilly);
+        $this->captureWithKey( register => $REG_UI_FN, $fatwilly );
         no strict 'refs';
     }
     catch Foswiki::OopsException with {
