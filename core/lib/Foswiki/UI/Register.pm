@@ -17,6 +17,7 @@ use Error qw( :try );
 require Foswiki;
 require Foswiki::OopsException;
 require Foswiki::Sandbox;
+require Foswiki::UI;
 
 # Keys from the user data that should *not* be included in
 # the user topic.
@@ -82,6 +83,7 @@ sub register_cgi {
                 def   => 'registration_disabled'
             );
         }
+        Foswiki::UI::checkValidationKey( $session );
         registerAndNext($session);
     }
     elsif ( $action eq 'verify' ) {
@@ -99,6 +101,12 @@ sub register_cgi {
     }
     else {
         registerAndNext($session);
+        throw Foswiki::OopsException(
+            'attention',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'unrecognized_action'
+        );
     }
 
     $session->leaveContext('absolute_urls');
