@@ -448,7 +448,7 @@ sub registerVerifyOk {
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
@@ -543,7 +543,7 @@ sub verify_registerBadVerify {
     $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         my $encodedTestUserEmail =
@@ -640,7 +640,7 @@ sub verify_registerNoVerifyOk {
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},
@@ -701,7 +701,7 @@ sub verify_rejectShortPassword {
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
@@ -747,7 +747,7 @@ sub verify_shortPassword {
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
         my $cUID = $this->{twiki}->{users}->getCanonicalUserID($this->{new_user_login});
         $this->assert($this->{twiki}->{users}->userExists($cUID), "new user created");
     } catch Foswiki::OopsException with {
@@ -792,7 +792,7 @@ sub verify_duplicateActivation {
     $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName}, $query);
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
@@ -820,7 +820,7 @@ sub verify_duplicateActivation {
     $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName},$query);
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
@@ -844,7 +844,7 @@ sub verify_duplicateActivation {
     $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName},$query);
     $this->{twiki}->net->setMailHandler(\&sentMail);
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
@@ -1300,7 +1300,7 @@ sub verify_disabled_registration {
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});    
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});    
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},
@@ -1362,7 +1362,7 @@ sub test_3951 {
     $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
@@ -1430,7 +1430,7 @@ sub test_4061 {
     close(F);
 
     try {
-        Foswiki::UI::Register::register_cgi($this->{twiki});
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $this->{twiki});
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
@@ -1619,7 +1619,7 @@ sub registerUserException {
     $twiki->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     my $exception;
     try {
-        Foswiki::UI::Register::register_cgi($twiki);
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $twiki);
     } catch Foswiki::OopsException with {
 	$exception = shift;
 	if (

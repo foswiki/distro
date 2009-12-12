@@ -116,7 +116,7 @@ sub registerUser {
     my $twiki = new Foswiki(undef, $query);
     $twiki->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        Foswiki::UI::Register::register_cgi($twiki);
+        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $twiki);
     } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
