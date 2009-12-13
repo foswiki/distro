@@ -12,10 +12,8 @@
 %TMPL:DEF{"help"}%%INCLUDE{"%SYSTEMWEB%.%IF{"defined 'EDITOR_HELP'" then="%EDITOR_HELP%" else="WikiSyntaxSummary"}%"}%%TMPL:END%
 
 %{ if an editor plugin sets EDITOR_MESSAGE, then use it }%
-%TMPL:DEF{"textarea"}%%TMPL:P{"forceie8compatibilitymode"}%%IF{"defined 'EDITOR_MESSAGE'" then="<div class='foswikiAlert'>%EDITOR_MESSAGE%</div>"}%<div class="foswikiEditTextarea"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea></div><!--/foswikiEditTextarea-->%TMPL:END%
+%TMPL:DEF{"textarea"}%%IF{"defined 'EDITOR_MESSAGE'" then="<div class='foswikiAlert'>%EDITOR_MESSAGE%</div>"}%<div class="foswikiEditTextarea"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea></div><!--/foswikiEditTextarea-->%TMPL:END%
 
-%{ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea }%
-%TMPL:DEF{"forceie8compatibilitymode"}%%ADDTOHEAD{"EDIT_FORCE_IE8_COMPATIBILITYMODE" text="%IF{"$EDIT_FORCE_IE8_COMPATIBILITYMODE='on'" then="<!--[if IE 8]><meta http-equiv='X-UA-Compatible' content='IE=EmulateIE7'/><![endif]-->"}%"}%%TMPL:END%
 
 
 %TMPL:DEF{"form"}%%FORMFIELDS%%TMPL:END%
