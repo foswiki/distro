@@ -24,7 +24,7 @@ eg
    * Set SKIN=famfamfam,pattern
 </verbatim>
 
----++ TODO: DocumentGraphics themeing
+---++ Work in progress: DocumentGraphics themeing
 You can aso use %SYSTEMWEB%.FamFamFamGraphics as a replacement for the Foswiki DocumentGraphics, 
 by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the DocumentGraphicsPlugin.
 
