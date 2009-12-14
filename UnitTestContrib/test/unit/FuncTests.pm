@@ -822,39 +822,54 @@ END
         $Foswiki::cfg{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert( $access );
-    #next _default, which we shouldn't be able to view to
-#TODO: the commented out ones don't work quite the way SvenDowideit expected.
-#    $access =
-#      Foswiki::Func::checkAccessPermission( 'VIEW',
-#        $Foswiki::cfg{DefaultUserWikiName},
-#        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
-#    $this->assert( !$access );
+
+    # next _default, which Sven Dowideit thinks we shouldn't be able to view,
+    # but CDot can't see any good reason for that as restriction, given that
+    # the permissions in that web allow it. Test checks CDot's view.
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
+    $this->assert( $access );
+
+    # However CHANGE access is denied for non-admins
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
         $Foswiki::cfg{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
     $this->assert( !$access );
-#    $access =
-#      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
-#        $Foswiki::cfg{DefaultUserWikiName},
-#        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
-#    $this->assert( !$access );
-        #next NonExistantWeb, which doesn't exist
-#    $access =
-#      Foswiki::Func::checkAccessPermission( 'VIEW',
-#        $Foswiki::cfg{DefaultUserWikiName},
-#        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
-#    $this->assert( !$access );
-#    $access =
-#      Foswiki::Func::checkAccessPermission( 'CHANGE',
-#        $Foswiki::cfg{DefaultUserWikiName},
-#        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
-#    $this->assert( !$access );
-#    $access =
-#      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
-#        $Foswiki::cfg{DefaultUserWikiName},
-#        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
-#    $this->assert( !$access );
+
+    # The default behaviour for access controls is to permit access unless
+    # there is some constraint that says otherwise. If we test a non-
+    # existant permission, we should be given access.
+    $access =
+      Foswiki::Func::checkAccessPermission( 'DONTTHINKTHEREISSUCHAPERM',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
+    $this->assert( $access );
+
+    #next NonExistantWeb, which doesn't exist
+    # If a web doesn't exist, then there is no WebPreferences and
+    # access controls come from the parent web, or the site access
+    # controls. Just because a web doesn't exist doesn't mean an access
+    # control check should fail.
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
+    $this->assert( $access );
+
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
+    $this->assert( $access );
+
+    $access =
+      Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
+        $Foswiki::cfg{DefaultUserWikiName},
+        '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
+    $this->assert( $access );
 }
 
 sub test_checkAccessPermission_login_name {
