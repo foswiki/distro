@@ -143,7 +143,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | rss-feed | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/feed.png | RSS feed, 36x14 | =&lt;img src="%<nop>ICONURL{rss-feed}%" width="36" height="14" alt="RSS feed" border="0" /&gt;= |
 | rss-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_feed.png | RSS feed |  =%<nop>ICON{rss-small}%= |
 | xml-feed | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/XML_icon.png | XML feed, 36x14 | =&lt;img src="%<nop>ICONURL{xml-feed}%" width="36" height="13" alt="XML feed" border="0" /&gt;= |
-| xml-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/xml-small.png | XML feed |  =%<nop>ICON{xml-small}%= |
+| xml-small | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_feed.png | XML feed |  =%<nop>ICON{xml-small}%= |
 
 
 ---+++ %ICON{choice-yes}% Status, %ICON{flag}% flag, %ICON{bullet_box_red}% LED, %ICON{tag-yellow}% tag icons

@@ -53,10 +53,10 @@ by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the Docu
 <img src="%ATTACHURLPATH%/silk-preview.jpg" alt="silk-preview.jpg"  />
 
 ---+++ Silk preview FamFamFamSilkCompanion1Icons
-<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/SilkCompanion1Thumb.png" alt="SilkCompanion1Thumb.png"  />
+<img src="%ATTACHURLPATH%/SilkCompanion1Thumb.png" alt="SilkCompanion1Thumb.png"  />
 
 ---+++ Silk preview FamFamFamSilkCompanion2Icons
-<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion2Icons/silk-companion-II.png" alt="silk-companion-II.png"  />
+<img src="%ATTACHURLPATH%/silk-companion-II.png" alt="silk-companion-II.png"  />
 
 ---+++ Foswiki Extra Icons 
 So far built by Sven based on the Silk ones above, except for 
@@ -64,6 +64,7 @@ So far built by Sven based on the Silk ones above, except for
    2 the targets which are based on - http://www.favicon.cc/?action=icon&file_id=37384
    3 the Universal edit icons are based on the current (dec 2009) svg
    4 hand made done, closed, todo, updated icons - yes, ok, so i'm not an artist.
+   5 external sites icons like skype are made using their favicons
 
 ---++ Installation Instructions
 
@@ -92,6 +93,8 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 
 
 %META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="" comment="Silk icons preview" date="1205882801" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="" comment="Silk icons Companion 1 preview" date="1205882801" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="" comment="Silk icons Companion 1 preview" date="1205882801" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="" comment="Mint icons preview" date="1205882801" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="" comment="Flags icons preview" date="1205882801" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="" comment="Mini icons preview" date="1205882801" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
