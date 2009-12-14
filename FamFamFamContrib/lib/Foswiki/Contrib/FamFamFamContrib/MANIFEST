@@ -15,12 +15,19 @@ data/System/FamFamFamSilkCompanion2Icons.txt
 data/System/FamFamFamGraphics.txt
 pub/System/FamFamFamGraphics/_filetypes.txt
 
-# Do not attach these to their topics, otherwise it takes forever to install this extension
-!noci
 pub/System/FamFamFamContrib/silk-preview.jpg
+pub/System/FamFamFamContrib/SilkCompanion1Thumb.png
+pub/System/FamFamFamContrib/silk-companion-II.png
 pub/System/FamFamFamContrib/mint-preview.jpg
 pub/System/FamFamFamContrib/flags-preview.jpg
 pub/System/FamFamFamContrib/mini-preview.jpg
+
+
+# Do not attach these to their topics, otherwise it takes forever to install this extension
+!noci
+
+
+
 pub/System/FamFamFamFlagIcons/ad.png
 pub/System/FamFamFamFlagIcons/ae.png
 pub/System/FamFamFamFlagIcons/af.png
