@@ -120,7 +120,7 @@ sub new {
     my $class    = shift;
     my $template = shift;
     my $this     = $class->SUPER::new();
-    $this->{template} = $template;
+    $this->{template} = $template || 'generic';
     $this->{status}   = 500;         # default server error
     ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
       if DEBUG;
@@ -193,6 +193,7 @@ sub stringify {
 # not be called in new code.
 sub redirect {
     my ( $this, $session ) = @_;
+
     my @p = $this->_prepareResponse($session);
     my $url =
       $session->getScriptUrl( 1, 'oops', $this->{web}, $this->{topic}, @p );

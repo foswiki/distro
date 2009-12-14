@@ -1543,6 +1543,10 @@ sub new {
     $this->{response} = new Foswiki::Response();
     $this->{digester} = new Digest::MD5();
 
+    # This is required in case we get an exception during
+    # initialisation, so that we have a session to handle it with.
+    $Foswiki::Plugins::SESSION = $this;
+
     # Tell Foswiki::Response which charset we are using if not default
     if ( defined $Foswiki::cfg{Site}{CharSet}
         && $Foswiki::cfg{Site}{CharSet} !~ /^iso-?8859-?1$/io )
@@ -1667,7 +1671,7 @@ sub new {
         $topic = $topicNameTemp;
     }
 
-    # TWikibug:Item3270 - here's the appropriate place to enforce spec
+    # Item3270 - here's the appropriate place to enforce spec
     $topic = ucfirst($topic);
 
     # Validate and untaint topic name from path info
@@ -1742,10 +1746,6 @@ sub new {
 
     # Finish plugin initialization - register handlers
     $this->{plugins}->enable();
-
-    # SMELL: Every place should localize it before use, so it's not
-    # necessary here.
-    $Foswiki::Plugins::SESSION = $this;
 
     Monitor::MARK("Foswiki session created");
 

@@ -274,7 +274,7 @@ sub handleRequest {
 ---++ StaticMethod _execute($req, $sub, %initialContext) -> $res
 
 Creates a Foswiki session object with %initalContext and calls
-$sub method. Returns the Foswiki::Response object generated
+$sub method. Returns the Foswiki::Response object.
 
 =cut
 
@@ -283,110 +283,131 @@ sub _execute {
 
     # DO NOT pass in $req->remoteUser here (even though it appears to be right)
     # because it may occlude the login manager.
-    my $session = new Foswiki( undef, $req, \%initialContext );
-    my $res = $session->{response};
+    my $session;
+    my $res;
 
-    unless ( defined $session->{response}->status()
-        && $session->{response}->status() =~ /^\s*3\d\d/ )
-    {
-        try {
+    # If we get a known exception from new Foswiki(), then it must have
+    # come from one of the plugin handlers, which are initialised at this
+    # time (initPlugin, earlyInitPlugin for example). In this case the
+    # setup of the Foswiki object is pretty much complete; we can safely
+    # recover it from $Foswiki::Plugins::SESSION and clean it up.
+    # Error::Simple and EngineException indicate something more
+    # basic, however, that we can't clean up.
+    try {
+        $session = new Foswiki( undef, $req, \%initialContext );
+        $res = $session->{response};
+        unless ( defined $res->status() && $res->status() =~ /^\s*3\d\d/ ) {
             $session->getLoginManager()->checkAccess();
             &$sub($session);
         }
-        catch Foswiki::ValidationException with {
-            my $e = shift;
+    } catch Foswiki::ValidationException with {
+        my $e = shift;
 
-            my $query = $session->{request};
+        $session ||= $Foswiki::Plugins::SESSION;
+        $res = $session->{response} if $session;
+        $res ||= new Foswiki::Response();
 
-            # Cache the original query, so we can complete if if it is
-            # confirmed
-            require Foswiki::Request::Cache;
-            my $uid = Foswiki::Request::Cache->new()->save($query);
+        my $query = $session->{request};
 
-            print STDERR "ValidationException: redirect with $uid\n";
+        # Cache the original query, so we can complete if if it is
+        # confirmed
+        require Foswiki::Request::Cache;
+        my $uid = Foswiki::Request::Cache->new()->save($query);
 
-            # We use the login script for
-            # validation because it already has the correct criteria
-            # in httpd.conf for Apache login.
-            my $url = $session->getScriptUrl(
-                0, 'login',
-                $session->{webName}, $session->{topicName},
-                foswikiloginaction => 'validate',
-                foswikioriginalquery => $uid);
+        print STDERR "ValidationException: redirect with $uid\n";
 
-            $session->redirect( $url );    # no passthrough
+        # We use the login script for
+        # validation because it already has the correct criteria
+        # in httpd.conf for Apache login.
+        my $url = $session->getScriptUrl(
+            0, 'login',
+            $session->{webName}, $session->{topicName},
+            foswikiloginaction => 'validate',
+            foswikioriginalquery => $uid);
+        
+        $session->redirect( $url );    # no passthrough
+    } catch Foswiki::AccessControlException with {
+        my $e = shift;
+
+        $session ||= $Foswiki::Plugins::SESSION;
+        $res = $session->{response} if $session;
+        $res ||= new Foswiki::Response();
+
+        unless ( $session->getLoginManager()->forceAuthentication() ) {
+
+            # Login manager did not want to authenticate, perhaps because
+            # we are already authenticated.
+            my $exception = new Foswiki::OopsException(
+                'accessdenied',
+                status => 403,
+                web    => $e->{web},
+                topic  => $e->{topic},
+                def    => 'topic_access',
+                params => [ $e->{mode}, $e->{reason} ]
+               );
+
+            $exception->generate($session);
         }
-        catch Foswiki::AccessControlException with {
-            my $e = shift;
-            unless ( $session->getLoginManager()->forceAuthentication() )
-            {
+    } catch Foswiki::OopsException with {
+        my $e = shift;
 
-                # Login manager did not want to authenticate, perhaps because
-                # we are already authenticated.
-                my $exception = new Foswiki::OopsException(
-                    'accessdenied',
-                    status => 403,
-                    web    => $e->{web},
-                    topic  => $e->{topic},
-                    def    => 'topic_access',
-                    params => [ $e->{mode}, $e->{reason} ]
-                );
+        $session ||= $Foswiki::Plugins::SESSION;
+        $res = $session->{response} if $session;
+        $res ||= new Foswiki::Response();
 
-                $exception->generate($session);
-            }
+        $e->generate($session);
+    } catch Foswiki::EngineException with {
+        my $e   = shift;
+        my $res = $e->{response};
+        unless ( defined $res ) {
+            $res = new Foswiki::Response();
+            $res->header( -type => 'text/html', -status => $e->{status} );
+            my $html = CGI::start_html( $e->{status} . ' Bad Request' );
+            $html .= CGI::h1('Bad Request');
+            $html .= CGI::p( $e->{reason} );
+            $html .= CGI::end_html();
+            $res->print($html);
         }
-        catch Foswiki::OopsException with {
-            shift->generate($session);
+        $Foswiki::engine->finalizeError($res);
+        return $e->{status};
+    } catch Error::Simple with {
+        # Most usually a 'die'
+        my $e = shift;
+
+        $session ||= $Foswiki::Plugins::SESSION;
+        $res = $session->{response} if $session;
+        $res ||= new Foswiki::Response();
+
+        $res->header( -type => 'text/plain' );
+        if (DEBUG) {
+
+            # output the full message and stacktrace to the browser
+            $res->print( $e->stringify() );
         }
-        catch Error::Simple with {
-            my $e = shift;
-            $res = new Foswiki::Response;
-            $res->header( -type => 'text/plain' );
-            if (DEBUG) {
+        else {
+            my $mess = $e->stringify();
+            print STDERR $mess;
+            $session->logger->log( 'warning', $mess ) if $session;
 
-                # output the full message and stacktrace to the browser
-                $res->print( $e->stringify() );
-            }
-            else {
-                my $mess = $e->stringify();
-                print STDERR $mess;
-                $session->logger->log( 'warning', $mess );
+            # tell the browser where to look for more help
+            my $text =
+              'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
+                . "\n\n";
+            $mess =~ s/ at .*$//s;
 
-                # tell the browser where to look for more help
-                my $text =
-'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
-                  . "\n\n";
-                $mess =~ s/ at .*$//s;
-
-                # cut out pathnames from public announcement
-                $mess =~ s#/[\w./]+#path#g;
-                $text .= $mess;
-                $res->print($text);
-            }
+            # cut out pathnames from public announcement
+            $mess =~ s#/[\w./]+#path#g unless DEBUG;
+            $text .= $mess;
+            $res->print($text);
         }
-        catch Foswiki::EngineException with {
-            my $e   = shift;
-            my $res = $e->{response};
-            unless ( defined $res ) {
-                $res = new Foswiki::Response();
-                $res->header( -type => 'text/html', -status => $e->{status} );
-                my $html = CGI::start_html( $e->{status} . ' Bad Request' );
-                $html .= CGI::h1('Bad Request');
-                $html .= CGI::p( $e->{reason} );
-                $html .= CGI::end_html();
-                $res->print($html);
-            }
-            $Foswiki::engine->finalizeError($res);
-            return $e->{status};
-        }
-        otherwise {
-            $res = new Foswiki::Response;
-            $res->header( -type => 'text/plain' );
-            $res->print("Unspecified error");
-        };
-    }
+    } otherwise {
+        # Aargh! Should never get here
+        $res = new Foswiki::Response;
+        $res->header( -type => 'text/plain' );
+        $res->print("Unspecified error");
+    };
+    $session->finish() if $session;
 
-    $session->finish();
     return $res;
 }
 

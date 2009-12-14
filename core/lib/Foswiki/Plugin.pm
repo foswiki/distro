@@ -31,8 +31,12 @@ package Foswiki::Plugin;
 
 use strict;
 use Assert;
+use Error qw(:try);
 
 use Foswiki::Plugins ();
+use Foswiki::AccessControlException ();
+use Foswiki::OopsException ();
+use Foswiki::ValidationException ();
 
 our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'afterAttachmentSaveHandler',       # 1.022
@@ -236,20 +240,33 @@ sub registerHandlers {
     my $p     = $this->{module};
     my $sub   = $p . "::initPlugin";
     my $users = $Foswiki::Plugins::SESSION->{users};
-    no strict 'refs';
-    my $status = &$sub(
-        $Foswiki::Plugins::SESSION->{topicName},
-        $Foswiki::Plugins::SESSION->{webName},
-        $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
-        $this->topicWeb()
-    );
-    use strict 'refs';
+    my $status = 0;
+    my $exception = '';
+    try {
+        no strict 'refs';
+        $status = &$sub(
+            $Foswiki::Plugins::SESSION->{topicName},
+            $Foswiki::Plugins::SESSION->{webName},
+            $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
+            $this->topicWeb()
+           );
+        use strict 'refs';
+    } catch Foswiki::AccessControlException with {
+        shift->throw(); # propagate
+    } catch Foswiki::OopsException with {
+        shift->throw(); # propagate
+    } catch Foswiki::ValidationException with {
+        shift->throw(); # propagate
+    } otherwise {
+        my $e = shift;
+        $exception = $e->text() . ' ' . $e->stacktrace();
+    };
 
     unless ($status) {
-        push(
-            @{ $this->{errors} },
-            $sub . ' did not return true (' . $status . ')'
-        );
+        if (!$exception) {
+            $exception = $sub . ' did not return true';
+        }
+        push( @{ $this->{errors} }, $exception );
         $this->{disabled} = 1;
         return;
     }
