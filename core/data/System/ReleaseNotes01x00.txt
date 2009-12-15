@@ -770,6 +770,7 @@ None
 | [[%BUGS%/Item2348][Item2348]] | don't fill the log files with uninited vars when previewing |
 | [[%BUGS%/Item2351][Item2351]] | Use filetest 'access' instead of 'stat' |
 | [[%BUGS%/Item2352][Item2352]] | WysiwygPlugin doesn't protect %Macros% with lowercase |
+| [[%BUGS%/Item2374][Item2374]] | DocumentGraphics icons added to aid upgrading from old project |
 | [[%BUGS%/Item2377][Item2377]] | don't use ref($this) to ASSERT on class, as it breaks subclasses |
 | [[%BUGS%/Item2381][Item2381]] | documentation updates for 1.0.8 |
 | [[%BUGS%/Item2404][Item2404]] | Documentation of !PatternSkinCustomization contains error about VIEW_TEMPLATE |
