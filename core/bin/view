@@ -40,6 +40,6 @@ BEGIN {
     require 'setlib.cfg';
 }
 
-use Foswiki;
-use Foswiki::UI;
+use Foswiki ();
+use Foswiki::UI ();
 $Foswiki::engine->run();
