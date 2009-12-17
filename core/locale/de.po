@@ -3838,7 +3838,7 @@ msgid ""
 "accesskey='b'>&Backlinks"
 msgstr ""
 "title='Das %1 Web nach Topics durchsuchen, die hierher verweisen' "
-"accesskey='b'>We&b"
+"accesskey='b'>Querverweise (&b)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:26
 msgid ""
