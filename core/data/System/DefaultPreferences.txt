@@ -95,6 +95,9 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Style of text edit box. Set to =width: 99%= for full window width (default; this will override the EDITBOXWIDTH setting), or =width: auto= to disable. This setting works for IE and some other recent browsers. (can be overwritten by user preferences)
       * Set EDITBOXSTYLE = width:99%
 
+   * Work-around for sluggish/erratic wikitext editing in Internet Explorer 8. When this browser is in standards mode, at least some versions suffer sluggish response to keystrokes and erratic scrolling. For skins that are aware of it, this setting forces IE8 into compatibility mode for the edit template only.
+         * Set EDIT_FORCE_IE8_COMPATIBILITYMODE = on
+
    * Default state of the *Force New Revision* (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
       * Set FORCENEWREVISIONCHECKBOX =
 
