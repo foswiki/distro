@@ -32,7 +32,7 @@ sub evaluate {
     return 1 if ( defined( $session->{request}->param($eval) ) );
     return 1 if ( defined( $domain{tom}->getPreference($eval) ) );
     return 1 if ( defined( $session->{prefs}->getPreference($eval) ) );
-    return 1 if ( defined( $Foswiki::functionTags{$eval} ) );
+    return 1 if ( exists( $Foswiki::macros{$eval} ) );
     return 0;
 }
 
