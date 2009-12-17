@@ -205,7 +205,7 @@ sub login {
     # to use a template)
     $origurl ||= '';
     $session->{prefs}->setSessionPreferences(
-        ORIGURL => Foswiki::_encode( 'entity', $origurl ),
+        ORIGURL => Foswiki::entityEncode( $origurl ),
         BANNER  => $banner,
         NOTE    => $note,
         ERROR   => $error

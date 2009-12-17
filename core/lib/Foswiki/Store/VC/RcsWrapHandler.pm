@@ -21,10 +21,7 @@ use strict;
 use Foswiki::Store::VC::Handler ();
 our @ISA = ('Foswiki::Store::VC::Handler');
 
-use File::Copy ();
-
-use Foswiki::Store   ();
-use Foswiki::Sandbox ();
+use Foswiki::Sandbox   ();
 
 sub new {
     return shift->SUPER::new(@_);
@@ -237,6 +234,7 @@ sub getRevision {
         # for evidence that this code is needed.
         $tmpfile    = Foswiki::Store::VC::Handler::mkTmpFilename($this);
         $tmpRevFile = $tmpfile . ',v';
+        require File::Copy;
         File::Copy::copy( $this->{rcsFile}, $tmpRevFile );
         my ( $tmp, $status ) =
           Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{tmpBinaryCmd},

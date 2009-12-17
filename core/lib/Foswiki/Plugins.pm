@@ -170,6 +170,7 @@ sub load {
         }
     }
 
+    #Monitor::MARK('About to initPlugins');
     my $user;           # the user login name
     my $userDefiner;    # the plugin that is defining the user
     foreach my $pn (@pluginList) {
@@ -198,6 +199,7 @@ sub load {
               ->logger->log( 'warning', join( "\n", @{ $p->{errors} } ) );
         }
         $lookup{$pn} = $p;
+        #Monitor::MARK($pn);
     }
 
     return $user;

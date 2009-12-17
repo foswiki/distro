@@ -13,7 +13,7 @@ use Foswiki::Configure::Value ();
 sub ui {
     my %modules;
     my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
-    my $classes = $scanner->findClasses('Foswiki::Tags::*');
+    my $classes = $scanner->findClasses('Foswiki::Macros::*');
     foreach my $module (@$classes) {
         $module =~ s/^.*::([^:]*)/$1/;
         $Foswiki::cfg{Tags}{$module}{Enabled} ||= 0;

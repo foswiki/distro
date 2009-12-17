@@ -262,6 +262,8 @@ sub initialiseUser {
     # plugins can provide an alternate login name.
     my $plogin =
       $this->{session}->{plugins}->load( $Foswiki::cfg{DisableAllPlugins} );
+    #Monitor::MARK("Plugins loaded");
+
     $login = $plogin if $plogin;
 
     my $cUID;

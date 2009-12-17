@@ -54,6 +54,7 @@ our $VERSION = '$Rev$';
 our $ERRORKEY   = '_ERROR';
 our $DEFAULTKEY = '_DEFAULT';
 our $RAWKEY     = '_RAW';
+our $MARKER     = "\0";
 
 =begin TML
 
@@ -77,7 +78,7 @@ sub new {
 
     return $this unless defined($string);
 
-    $string =~ s/\\(["'])/$Foswiki::TranslationToken.sprintf("%.2u", ord($1))/ge
+    $string =~ s/\\(["'])/$MARKER.sprintf("%.2u", ord($1))/ge
       ;    # escapes
 
     my $sep = ( $friendly ? "[\\s,]" : "\\s" );
@@ -144,7 +145,7 @@ sub new {
         }
     }
     foreach my $k ( keys %$this ) {
-        $this->{$k} =~ s/$Foswiki::TranslationToken(\d\d)/chr($1)/geo; # escapes
+        $this->{$k} =~ s/$MARKER(\d\d)/chr($1)/geo; # escapes
     }
     return $this;
 }
@@ -224,7 +225,7 @@ sub extractValue {
 
     my $value = '';
     return $value unless ($str);
-    $str =~ s/\\\"/\\$Foswiki::TranslationToken/g;    # escape \"
+    $str =~ s/\\\"/\\$MARKER/g;    # escape \"
 
     if ($name) {
 
@@ -259,7 +260,7 @@ sub extractValue {
             $value = $str;
         }
     }
-    $value =~ s/\\$Foswiki::TranslationToken/\"/go;    # resolve \"
+    $value =~ s/\\$MARKER/\"/go;    # resolve \"
     return $value;
 }
 

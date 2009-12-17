@@ -15,6 +15,7 @@ use strict;
 use Foswiki;
 use Foswiki::UI::Edit;
 use Foswiki::Form;
+use Foswiki::Macros::TOC;
 use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
@@ -95,7 +96,7 @@ sub setup_TOCtests {
 
     # Now generate the TOC
     my $topicObject = Foswiki::Meta->new( $fatwilly, $web, $topic );
-    my $res = $fatwilly->_TOC( $text, $topicObject, $tocparams );
+    my $res = $fatwilly->TOC( $text, $topicObject, $tocparams );
 
     eval 'use HTML::TreeBuilder; use HTML::Element;';
     if ($@) {

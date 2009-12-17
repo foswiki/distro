@@ -13,6 +13,7 @@ package Foswiki::UI;
 use strict;
 
 BEGIN {
+    #Monitor::MARK("Start of BEGIN block in UI.pm");
     $Foswiki::cfg{SwitchBoard} ||= {};
 
     # package - perl package that contains the method for this request
@@ -142,6 +143,7 @@ BEGIN {
         function => 'view',
         context  => { view => 1 },
     };
+    #Monitor::MARK("End of BEGIN block in UI.pm");
 }
 
 use Error qw(:try);

@@ -23,6 +23,8 @@ our @ISA = ('Foswiki::Infix::Parser');
 use Foswiki::Search::Node ();
 use Foswiki::Infix::Error ();
 
+our $MARKER = "\0";
+
 =begin TML
 
 ---++ ClassMethod new($session)
@@ -106,7 +108,7 @@ sub parse {
             $_
           }    # remove +, change - to !, remove "
           grep { !/^($this->{stopwords})$/i }    # remove stopwords
-          map { s/$Foswiki::TranslationToken/ /go; $_ }    # restore space
+          map { s/$MARKER/ /go; $_ }    # restore space
           split( /[\s]+/, $searchString );                 # split on spaces
     }
 
@@ -120,7 +122,7 @@ sub parse {
 # FIXME: Terminology confusing here!
 sub _translateSpace {
     my $text = shift;
-    $text =~ s/\s+/$Foswiki::TranslationToken/go;
+    $text =~ s/\s+/$MARKER/go;
     return $text;
 }
 

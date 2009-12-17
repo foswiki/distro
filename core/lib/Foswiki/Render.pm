@@ -339,7 +339,7 @@ sub _emitTR {
     $row =~ s/\s*$//;      # remove trailing spaces
                            # calc COLSPAN
     $row =~ s/(\|\|+)/
-      'colspan'.$Foswiki::TranslationToken.length($1).'|'/ge;
+      'colspan'.$REMARKER.length($1).'|'/ge;
     my $cells = '';
     my $containsTableHeader;
     my $isAllTH = 1;
@@ -347,7 +347,7 @@ sub _emitTR {
         my @attr;
 
         # Avoid matching single columns
-        if (s/colspan$Foswiki::TranslationToken([0-9]+)//o) {
+        if (s/colspan$REMARKER([0-9]+)//o) {
             push( @attr, colspan => $1 );
         }
         s/^\s+$/ &nbsp; /;
@@ -565,8 +565,8 @@ SMELL: why is this available to Func?
 =cut
 
 sub internalLink {
-    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
-        $hasExplicitLinkLabel )
+    my ( $this, $web, $topic, $linkText, $anchor,
+         $linkIfAbsent, $keepWebPrefix, $hasExplicitLinkLabel, $params )
       = @_;
 
     # SMELL - shouldn't it be callable by Foswiki::Func as well?
@@ -611,13 +611,13 @@ sub internalLink {
     # Add <nop> before WikiWord inside link text to prevent double links
     $linkText =~ s/(?<=[\s\(])([$Foswiki::regex{upperAlpha}])/<nop>$1/go;
     return _renderWikiWord( $this, $web, $topic, $linkText, $anchor,
-        $linkIfAbsent, $keepWebPrefix );
+        $linkIfAbsent, $keepWebPrefix, $params );
 }
 
 # TODO: this should be overridable by plugins.
 sub _renderWikiWord {
     my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent,
-        $keepWebPrefix ) = @_;
+        $keepWebPrefix, $params ) = @_;
     my $session = $this->{session};
     my $topicExists = $session->topicExists( $web, $topic );
 
@@ -640,7 +640,7 @@ sub _renderWikiWord {
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderExistingWikiWord( $this, $web, $topic, $linkText,
-            $anchor );
+            $anchor, $params );
     }
     if ($linkIfAbsent) {
 
@@ -651,6 +651,7 @@ sub _renderWikiWord {
 
         # add a dependency so that the page gets invalidated as soon as the
         # WikiWord comes into existance
+        # Note we *ignore* the params if the target topic does not exist
         $this->{session}->{cache}->addDependency($web, $topic)
           if $Foswiki::cfg{Cache}{Enabled};
 
@@ -664,7 +665,7 @@ sub _renderWikiWord {
 }
 
 sub _renderExistingWikiWord {
-    my ( $this, $web, $topic, $text, $anchor ) = @_;
+    my ( $this, $web, $topic, $text, $anchor, $params ) = @_;
 
     my @cssClasses;
     push(@cssClasses, 'foswikiCurrentWebHomeLink')
@@ -677,6 +678,10 @@ sub _renderExistingWikiWord {
 
     my @attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
+    if ($params) {
+        $href .= $params;
+    }
+
     if ($anchor) {
         $anchor = $this->_makeAnchorName($anchor);
 
@@ -777,9 +782,9 @@ sub _handleSquareBracketedLink {
     $link =~ s/^\s+//;
     $link =~ s/\s+$//;
 
-    my $hasExplicitLinkLabel = $text ? 1 : undef;
+    my $hasExplicitLinkLabel = $text ? 1 : 0;
 
-    # Explicit external [[$link][$text]]-style can be handled directly
+    # Explicit external [[http://$link][$text]]-style can be handled directly
     if ( $link =~ m!^($Foswiki::regex{linkProtocolPattern}\:|/)! ) {
         if ( defined $text ) {
 
@@ -807,11 +812,21 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
 
     $text ||= $link;
 
+    # Extract '?params'
+    # $link =~ s/(\?.*?)(?>#|$)//;
+    my $params = '';
+    if ( $link =~ s/(\?.*$)// ) {
+        $params = $1;
+        my $p = quotemeta($params);
+        $text =~ s/$p//;
+    }
+
     # Extract '#anchor'
     # $link =~ s/(\#[a-zA-Z_0-9\-]*$)//;
     my $anchor = '';
     if ( $link =~ s/($Foswiki::regex{anchorRegex}$)// ) {
         $anchor = $1;
+        #$text =~ s/#$anchor//;
     }
 
     # filter out &any; entities (legacy)
@@ -844,7 +859,7 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
     my ( $web, $topic ) =
       $this->{session}->normalizeWebTopicName( $topicObject->web, $link );
     return $this->internalLink( $web, $topic, $text, $anchor, 1, undef,
-        $hasExplicitLinkLabel );
+        $hasExplicitLinkLabel, $params );
 }
 
 # Handle an external link typed directly into text. If it's an image
@@ -1009,9 +1024,9 @@ sub getRenderedVersion {
     my $removed = {};
 
     # verbatim before literal - see Item3431
-    $text = $this->takeOutBlocks( $text, 'verbatim', $removed );
-    $text = $this->takeOutBlocks( $text, 'literal',  $removed );
-    $text = $this->takeOutBlocks( $text, 'dirtyarea', $removed )
+    $text = Foswiki::takeOutBlocks( $text, 'verbatim', $removed );
+    $text = Foswiki::takeOutBlocks( $text, 'literal',  $removed );
+    $text = Foswiki::takeOutBlocks( $text, 'dirtyarea', $removed )
       if $Foswiki::cfg{Cache}{Enabled};
 
     $text =
@@ -1041,7 +1056,7 @@ sub getRenderedVersion {
     $plugins->dispatch( 'startRenderingHandler', $text, $topicObject->web,
         $topicObject->topic );
 
-    $text = $this->takeOutBlocks( $text, 'pre', $removed );
+    $text = Foswiki::takeOutBlocks( $text, 'pre', $removed );
 
     # Join lines ending in '\' (don't need \r?, it was removed already)
     $text =~ s/\\\n//gs;
@@ -1099,39 +1114,39 @@ sub getRenderedVersion {
 
     # locate isolated < and > and translate to entities
     # Protect isolated <!-- and -->
-    $text =~ s/<!--/{$Foswiki::TranslationToken!--/g;
-    $text =~ s/-->/--}$Foswiki::TranslationToken/g;
+    $text =~ s/<!--/{$REMARKER!--/g;
+    $text =~ s/-->/--}$REMARKER/g;
 
     # SMELL: this next fragment does not handle the case where HTML tags
     # are embedded in the values provided to other tags. The only way to
     # do this correctly is to parse the HTML (bleagh!). So we just assume
     # they have been escaped.
     $text =~
-s/<(\/?\w+(:\w+)?)>/{$Foswiki::TranslationToken$1}$Foswiki::TranslationToken/g;
+s/<(\/?\w+(:\w+)?)>/{$REMARKER$1}$REMARKER/g;
     $text =~
-s/<(\w+(:\w+)?(\s+.*?|\/)?)>/{$Foswiki::TranslationToken$1}$Foswiki::TranslationToken/g;
+s/<(\w+(:\w+)?(\s+.*?|\/)?)>/{$REMARKER$1}$REMARKER/g;
 
     # XML processing instruction only valid at start of text
     $text =~
-s/^<(\?\w.*?\?)>/{$Foswiki::TranslationToken$1}$Foswiki::TranslationToken/g;
+s/^<(\?\w.*?\?)>/{$REMARKER$1}$REMARKER/g;
 
     # entitify lone < and >, praying that we haven't screwed up :-(
     # Item1985: CDATA sections are not lone < and >
     $text =~ s/<(?!\!\[CDATA\[)/&lt\;/g;
     $text =~ s/(?<!\]\])>/&gt\;/g;
-    $text =~ s/{$Foswiki::TranslationToken/</go;
-    $text =~ s/}$Foswiki::TranslationToken/>/go;
+    $text =~ s/{$REMARKER/</go;
+    $text =~ s/}$REMARKER/>/go;
 
     # standard URI - don't modify if url(http://as) form
     $text =~
 s/(^|(?<!url)[-*\s(|])($Foswiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;:)<|]))/$1._externalLink( $this,$2)/geo;
 
     # other entities
-    $text =~ s/&(\w+);/$Foswiki::TranslationToken$1;/g;              # "&abc;"
-    $text =~ s/&(#x?[0-9a-f]+);/$Foswiki::TranslationToken$1;/gi;    # "&#123;"
+    $text =~ s/&(\w+);/$REMARKER$1;/g;              # "&abc;"
+    $text =~ s/&(#x?[0-9a-f]+);/$REMARKER$1;/gi;    # "&#123;"
     $text =~ s/&/&amp;/g;    # escape standalone "&"
-    $text =~ s/$Foswiki::TranslationToken(#x?[0-9a-f]+;)/&$1/goi;
-    $text =~ s/$Foswiki::TranslationToken(\w+;)/&$1/go;
+    $text =~ s/$REMARKER(#x?[0-9a-f]+;)/&$1/goi;
+    $text =~ s/$REMARKER(\w+;)/&$1/go;
 
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
@@ -1295,26 +1310,26 @@ s/\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\]/_handleSquareBracketedLink( $this,$topic
     unless ( Foswiki::isTrue( $prefs->getPreference('NOAUTOLINK') ) ) {
 
         # Handle WikiWords
-        $text = $this->takeOutBlocks( $text, 'noautolink', $removed );
+        $text = Foswiki::takeOutBlocks( $text, 'noautolink', $removed );
         $text =~
 s/$STARTWW(?:($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex})($Foswiki::regex{anchorRegex})?/_handleWikiWord( $this, $topicObject, $1, $2, $3)/geom;
-        $this->putBackBlocks( \$text, $removed, 'noautolink' );
+        Foswiki::putBackBlocks( \$text, $removed, 'noautolink' );
     }
 
-    $this->putBackBlocks( \$text, $removed, 'pre' );
+    Foswiki::putBackBlocks( \$text, $removed, 'pre' );
 
     # DEPRECATED plugins hook after PRE re-inserted
     $plugins->dispatch( 'endRenderingHandler', $text );
 
     # replace verbatim with pre in the final output
-    $this->putBackBlocks( \$text, $removed, 'verbatim', 'pre',
+    Foswiki::putBackBlocks( \$text, $removed, 'verbatim', 'pre',
         \&verbatimCallBack );
     $text =~ s|\n?<nop>\n$||o;    # clean up clutch
 
     $this->_putBackProtected( \$text, 'script', $removed, \&_filterScript );
-    $this->putBackBlocks( \$text, $removed, 'literal', '', \&_filterLiteral );
+    Foswiki::putBackBlocks( \$text, $removed, 'literal', '', \&_filterLiteral );
     $this->_putBackProtected( \$text, 'literal',  $removed );
-    $this->putBackBlocks( \$text, $removed, 'dirtyarea' )
+    Foswiki::putBackBlocks( \$text, $removed, 'dirtyarea' )
       if $Foswiki::cfg{Cache}{Enabled};
     $this->_putBackProtected( \$text, 'comment',  $removed );
     $this->_putBackProtected( \$text, 'head',     $removed );
@@ -1525,10 +1540,10 @@ sub _replaceBlock {
 
     return
         '<!--'
-      . $Foswiki::TranslationToken
+      . $REMARKER
       . $id
       . $placeholder
-      . $Foswiki::TranslationToken . '-->';
+      . $REMARKER . '-->';
 }
 
 # _putBackProtected( \$text, $id, \%map, $callback ) -> $text
@@ -1548,143 +1563,8 @@ sub _putBackProtected {
         my $val = $map->{$placeholder}{text};
         $val = &$callback($val) if ( defined($callback) );
         $$text =~
-s/<!--$Foswiki::TranslationToken$placeholder$Foswiki::TranslationToken-->/$val/;
+s/<!--$REMARKER$placeholder$REMARKER-->/$val/;
         delete( $map->{$placeholder} );
-    }
-}
-
-=begin TML
-
----++ ObjectMethod takeOutBlocks( \$text, $tag, \%map ) -> $text
-
-   * =$text= - Text to process
-   * =$tag= - XHTML-style tag.
-   * =\%map= - Reference to a hash to contain the removed blocks
-
-Return value: $text with blocks removed
-
-Searches through $text and extracts blocks delimited by a tag, appending each
-onto the end of the @buffer and replacing with a token
-string which is not affected by TML rendering.  The text after these
-substitutions is returned.
-
-Parameters to the open tag are recorded.
-
-This is _different_ to takeOutProtected, because it requires tags
-to be on their own line. it also supports a callback for post-
-processing the data before re-insertion.
-
-=cut
-
-sub takeOutBlocks {
-    my ( $this, $intext, $tag, $map ) = @_;
-
-    return $intext unless ( $intext =~ m/<$tag\b/i );
-
-    my $out   = '';
-    my $depth = 0;
-    my $scoop;
-    my $tagParams;
-
-    foreach my $token ( split /(<\/?$tag[^>]*>)/i, $intext ) {
-        if ( $token =~ /<$tag\b([^>]*)?>/i ) {
-            $depth++;
-            if ( $depth eq 1 ) {
-                $tagParams = $1;
-                next;
-            }
-        }
-        elsif ( $token =~ /<\/$tag>/i ) {
-            if ( $depth > 0 ) {
-                $depth--;
-                if ( $depth eq 0 ) {
-                    my $placeholder = $tag . $placeholderMarker;
-                    $placeholderMarker++;
-                    $map->{$placeholder}{text}   = $scoop;
-                    $map->{$placeholder}{params} = $tagParams;
-                    $out .= '<!--'
-                      . $Foswiki::TranslationToken
-                      . $placeholder
-                      . $Foswiki::TranslationToken . '-->';
-                    $scoop = '';
-                    next;
-                }
-            }
-        }
-        if ( $depth > 0 ) {
-            $scoop .= $token;
-        }
-        else {
-            $out .= $token;
-        }
-    }
-
-    # unmatched tags
-    if ( defined($scoop) && ( $scoop ne '' ) ) {
-        my $placeholder = $tag . $placeholderMarker;
-        $placeholderMarker++;
-        $map->{$placeholder}{text}   = $scoop;
-        $map->{$placeholder}{params} = $tagParams;
-        $out .= '<!--'
-          . $Foswiki::TranslationToken
-          . $placeholder
-          . $Foswiki::TranslationToken . '-->';
-    }
-
-    return $out;
-}
-
-=begin TML
-
----++ ObjectMethod putBackBlocks( \$text, \%map, $tag, $newtag, $callBack ) -> $text
-
-Return value: $text with blocks added back
-   * =\$text= - reference to text to process
-   * =\%map= - map placeholders to blocks removed by takeOutBlocks
-   * =$tag= - Tag name processed by takeOutBlocks
-   * =$newtag= - Tag name to use in output, in place of $tag. If undefined, uses $tag.
-   * =$callback= - Reference to function to call on each block being inserted (optional)
-
-Reverses the actions of takeOutBlocks.
-
-Each replaced block is processed by the callback (if there is one) before
-re-insertion.
-
-Parameters to the outermost cut block are replaced into the open tag,
-even if that tag is changed. This allows things like
-&lt;verbatim class=''>
-to be mapped to
-&lt;pre class=''>
-
-Cool, eh what? Jolly good show.
-
-And if you set $newtag to '', we replace the taken out block with the value itself
-   * which i'm using to stop the rendering process, but then at the end put in the html directly
-   (for &lt;literal> tag.
-
-=cut
-
-sub putBackBlocks {
-    my ( $this, $text, $map, $tag, $newtag, $callback ) = @_;
-
-    $newtag = $tag if ( !defined($newtag) );
-
-    foreach my $placeholder ( keys %$map ) {
-        if ( $placeholder =~ /^$tag\d+$/ ) {
-            my $params = $map->{$placeholder}{params} || '';
-            my $val = $map->{$placeholder}{text};
-            $val = &$callback($val) if ( defined($callback) );
-            if ( $newtag eq '' ) {
-                $$text =~
-s(<!--$Foswiki::TranslationToken$placeholder$Foswiki::TranslationToken-->)($val);
-            }
-            else {
-                $$text =~
-s(<!--$Foswiki::TranslationToken$placeholder$Foswiki::TranslationToken-->)
-              	(<$newtag$params>$val</$newtag>);
-            }
-            delete( $map->{$placeholder} );
-        }
     }
 }
 
@@ -2096,8 +1976,8 @@ sub renderTOC {
 
     # throw away <verbatim> and <pre> blocks
     my %junk;
-    $text = $this->takeOutBlocks( $text, 'verbatim', \%junk );
-    $text = $this->takeOutBlocks( $text, 'pre',      \%junk );
+    $text = Foswiki::takeOutBlocks( $text, 'verbatim', \%junk );
+    $text = Foswiki::takeOutBlocks( $text, 'pre',      \%junk );
 
     my $maxDepth = $params->{depth};
     $maxDepth ||= $session->{prefs}->getPreference('TOC_MAX_DEPTH')
@@ -2115,8 +1995,8 @@ sub renderTOC {
     my $highest  = 99;
     my $result   = '';
     my $verbatim = {};
-    $text = $this->takeOutBlocks( $text, 'verbatim', $verbatim );
-    $text = $this->takeOutBlocks( $text, 'pre',      $verbatim );
+    $text = Foswiki::takeOutBlocks( $text, 'verbatim', $verbatim );
+    $text = Foswiki::takeOutBlocks( $text, 'pre',      $verbatim );
 
     # Find URL parameters
     my $query   = $session->{request};

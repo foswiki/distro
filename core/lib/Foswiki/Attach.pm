@@ -13,6 +13,8 @@ package Foswiki::Attach;
 use strict;
 use Assert;
 
+our $MARKER = "\0";
+
 =begin TML
 
 ---++ ClassMethod new($session)
@@ -142,7 +144,7 @@ sub _formatRow {
     my $row = $tmpl;
 
     $row =~ s/%A_(\w+)%/_expandAttrs( $this, $1, $topicObject, $info)/ge;
-    $row =~ s/$Foswiki::TranslationToken/%/go;
+    $row =~ s/$MARKER/%/go;
 
     return $row;
 }
@@ -158,21 +160,7 @@ sub _expandAttrs {
         return $info->{version};
     }
     elsif ( $attr eq 'ICON' ) {
-        my $picked = $this->{session}->mapToIconFileName($file);
-        if (!defined($picked) || ($picked eq '')) {
-            return '';
-        }
-        my $url = $this->{session}->getIconUrl( 0, $picked );
-        return CGI::img(
-            {
-                src    => $url,
-                width  => 16,
-                height => 16,
-                align  => 'top',
-                alt    => $picked || '',
-                border => 0
-            }
-        );
+        return '%ICON{"'.$file.'" alt="else"}%';
     }
     elsif ( $attr eq 'EXT' ) {
 
@@ -239,8 +227,7 @@ sub _expandAttrs {
         return $users->webDotWikiName($cUID);
     }
     else {
-        return $Foswiki::TranslationToken . 'A_' . $attr
-          . $Foswiki::TranslationToken;
+        return $MARKER . 'A_' . $attr . $MARKER;
     }
 }
 
