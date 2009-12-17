@@ -87,7 +87,7 @@ There is a shortcut for accessing form fields. If you use the name of a field (f
 If =X= would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example.
 
 ---++ Constants
-You use constants for the values that you compare with fields. Constants are either strings, or numbers. Strings are always delimited by single-quotes (you can escape a quote using backslash). Numbers can be any integer or floating point number.
+You use constants for the values that you compare with fields. Constants are either strings, or numbers. Strings are always delimited by single-quotes (you can escape any character using backslash \). Numbers can be any integer or floating point number.
 
 ---++ Operators
 

@@ -217,6 +217,8 @@ sub _parse {
             elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
                 print STDERR "Tok: qs '$1'\n" if MONITOR_PARSER;
                 my $val = $2;
+                # Handle escaped characters in the string
+                $val =~ s/(?<!\\)\\(.)/$1/g;
                 push( @opands,
                     $this->{client_class}
                       ->newLeaf( $val, $Foswiki::Infix::Node::STRING ) );

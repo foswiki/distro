@@ -74,6 +74,8 @@ sub set_up {
         { name => "string", title => "String", value => "String" } );
     $meta->putKeyed( 'FIELD',
         { name => "boolean", title => "Boolean", value => "1" } );
+    $meta->putKeyed( 'FIELD',
+        { name => "macro", value => "%RED%" } );
 
     $meta->{_text} = "Green ideas sleep furiously";
 
@@ -113,6 +115,7 @@ sub test_atoms {
     $this->check( "text",          "Green ideas sleep furiously" );
     $this->check( "string",        'String' );
     $this->check( "boolean",       1 );
+    $this->check( "macro",         '%RED%' );
 }
 
 sub test_meta_dot {
@@ -188,6 +191,9 @@ sub test_string_bops {
     $this->check( "string!='string'",             1 );
     $this->check( "string='string'",              0 );
     $this->check( "string~'string'",              0 );
+    $this->check( "macro='\%RED\%'",              1 );
+    $this->check( "macro~'\%RED?'",               1 );
+    $this->check( "macro~'?RED\%'",               1 );
 }
 
 sub test_num_uops {
