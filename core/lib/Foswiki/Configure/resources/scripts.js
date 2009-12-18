@@ -412,33 +412,50 @@ function valueChanged(el) {
 	});
 }
 
+function loadImage(el) {
+    if (!el.title || el.title == '')
+        return;
+    $(el).addClass('loading');
+    var url = el.title;
+    var img = new Image();
+    $(img).load(
+        function () {
+            var w = this.width;
+            var h = this.height;
+            // set the image hidden by default    
+            $(this).hide();
+            $(el).bind("click",
+                       function() {
+                           $.modal('<img src="' + url + '" />',
+                                   { position:[ 10, 10 ] });
+                       });
+            // Scale to max 64 longest dimension
+            if (w > h) {
+                this.height = h * 64 / w;
+                this.width = 64;
+            } else {
+                this.width = w * 64 / h;
+                this.height = 64;
+            }
+            $(el).removeClass('loading');
+            $(el).append(this);
+            $(this).fadeIn();
+        });
+    $(img).error(
+        function () {
+            // notify the user that the image could not be loaded
+        });
+    
+    // set the src attribute to start the load process
+    $(img).attr('src', url);
+
+}
+
 (function($) {
-    $.fn.extensionImage = function(){
+    $.fn.loadImage = function() {
         return this.each(
             function() {
-                var id = $(this).attr("topic");
-                if (id == undefined)
-                    return;
-                var imgid = "#" + id + "Image";
-                $(this).hover(
-                    function(e){
-                        var url = $(this).attr("image");
-                        if (url && url != "" && $(imgid).length == 0) {
-                            $("body").append(
-                                "<div id='" + id + "Image'"
-                                + " class='extensionImage'>"
-                                + "<img src='" + url + "' /></div>");
-                            // Position relative to the id-carrier
-                            var pos = $("#"+id).position();
-                            $(imgid).css("left", pos.left);
-                            $(imgid).css("top", pos.top + $("#"+id).height());
-                        }
-                        $(this).attr("image", "");
-                        $(imgid).slideDown("fast");
-                    },
-                    function() {
-                        $(imgid).slideUp("fast");
-                    });
+                loadImage(this);
             });
     }})(jQuery);
 
@@ -506,6 +523,6 @@ $(document).ready(function() {
 	toggleExpertsMode();
 	toggleInfoMode();
 	initSection();
-	$(".extensionRow").extensionImage();
+	$(".loadImage").loadImage();
 });
 

@@ -13,7 +13,7 @@ use Foswiki::Configure::Dependency ();
 
 # Ordered list of field names to column headings
 my @tableHeads =
-  qw( description compatibility release installedRelease install );
+  qw( image description compatibility release installedRelease install );
 
 # Mapping to column heading string
 my %headNames = (
@@ -229,11 +229,12 @@ sub ui {
 
         my @imgControls = ();
         if ($ext->{image}) {
-            @imgControls = ( image => $ext->{image}, topic => $ext->{topic} );
+            $ext->{image} = '<div title="'.$ext->{image}
+              .'" class="loadImage"></div>';
         }
 
         $table .= CGI::Tr(
-            { class => $trClass, @imgControls }, 
+            { class => $trClass }, 
             CGI::td(
                 {
                     colspan => $#tableHeads,
@@ -261,7 +262,8 @@ sub ui {
             $colCount++;
         }
 
-        $table .= CGI::Tr( { class => $trClass, id => $ext->{topic}, @imgControls }, $row);
+        $table .= CGI::Tr( { class => $trClass, id => $ext->{topic},
+                             @imgControls }, $row);
 
         $rows++;
     }
