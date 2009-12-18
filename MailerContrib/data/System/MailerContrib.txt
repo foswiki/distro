@@ -249,6 +249,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  18 Dec 2009 | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
 |  8 Dec 2009 | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |
 |  4 Dec 2009 | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
 |  17 Oct 2009 | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
