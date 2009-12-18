@@ -415,15 +415,15 @@ function valueChanged(el) {
 function loadImage(el) {
     if (!el.title || el.title == '')
         return;
-    $(el).addClass('loading');
     var url = el.title;
     var img = new Image();
+
     $(img).load(
         function () {
             var w = this.width;
             var h = this.height;
             // set the image hidden by default    
-            $(this).hide();
+            $(img).hide();
             $(el).bind("click",
                        function() {
                            $.modal('<img src="' + url + '" />',
@@ -437,27 +437,27 @@ function loadImage(el) {
                 this.width = w * 64 / h;
                 this.height = 64;
             }
-            $(el).removeClass('loading');
             $(el).append(this);
             $(this).fadeIn();
         });
-    $(img).error(
-        function () {
-            // notify the user that the image could not be loaded
-        });
-    
-    // set the src attribute to start the load process
     $(img).attr('src', url);
-
 }
 
-(function($) {
-    $.fn.loadImage = function() {
-        return this.each(
+var allImagesLoaded = false;
+
+function imgOnDemand () {
+    if (!allImagesLoaded) {
+        var p = $(window).height() + $(window).scrollTop();
+        $('.loadImage').each(
             function() {
-                loadImage(this);
+                if ($(this).offset().top < p + 50) {
+                    loadImage(this);
+                    $(this).removeClass('loadImage');
+                }
             });
-    }})(jQuery);
+        allImagesLoaded = (p >= $(document).height());
+    }
+}
 
 /**
  * jquery init 
@@ -523,6 +523,6 @@ $(document).ready(function() {
 	toggleExpertsMode();
 	toggleInfoMode();
 	initSection();
-	$(".loadImage").loadImage();
+    $(window).scroll(function(){ imgOnDemand() });
+    imgOnDemand();
 });
-
