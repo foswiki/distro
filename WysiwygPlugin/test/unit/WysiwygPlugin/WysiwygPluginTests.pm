@@ -24,7 +24,8 @@ use Unit::Request;
 use Unit::Response;
 use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin;
-
+use Foswiki::Plugins::WysiwygPlugin::Handlers;
+use Encode();
 use strict;
 use Carp;
 
@@ -149,7 +150,7 @@ sub TML2HTML_test {
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
             my $ok =
-              Foswiki::Plugins::WysiwygPlugin::_restTML2HTML( $foswiki, undef,
+              Foswiki::Plugins::WysiwygPlugin::Handlers::_restTML2HTML( $foswiki, undef,
                 undef, $foswiki->{response} );
             $Foswiki::engine->finalize( $foswiki->{response},
                 $foswiki->{request} );
@@ -166,7 +167,7 @@ sub TML2HTML_test {
 
     $out = Encode::decode_utf8($out);
 
-    my $id = "<!--$Foswiki::Plugins::WysiwygPlugin::SECRET_ID-->";
+    my $id = "<!--$Foswiki::Plugins::WysiwygPlugin::Handlers::SECRET_ID-->";
     $this->assert( $out =~ s/^\s*$id<p>\s*//s, anal($out) );
     $out =~ s/\s*<\/p>\s*$//s;
 
@@ -204,7 +205,7 @@ sub HTML2TML_test {
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
             my $ok =
-              Foswiki::Plugins::WysiwygPlugin::_restHTML2TML( $foswiki, undef,
+              Foswiki::Plugins::WysiwygPlugin::Handlers::_restHTML2TML( $foswiki, undef,
                 undef, $foswiki->{response} );
             $Foswiki::engine->finalize( $foswiki->{response},
                 $foswiki->{request} );

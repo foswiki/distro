@@ -6,7 +6,7 @@
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 %SHORTDESCRIPTION%
 
-Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML (topic markup language) translator script. For WYSIWYG editing in Foswiki and Foswiki, you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
+Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML (topic markup language) translator script. For WYSIWYG editing you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
 
 This plugin provides a generic framework that supports editing of topics using any browser-based HTML editor. It works by transforming TML into HTML for the editor, and then transforming HTML back into TML on save.
 
@@ -175,6 +175,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  18 Dec 2009 | Foswikitask:Item2511: move code out of the plugin module to accelerate loading |
 |  18 Nov 2009 | Foswikitask:Item2369: Convert tables with cells that span rows |
 |  22 Oct 2009 | Foswikitask:Item2183: Protect div style= by default |
 |  18 Sep 2009 | Foswikitask:Item1980: Prevent dataloss when saving a topic in Wysiwyg where there are a pair of sticky tags inside verbatim tags |

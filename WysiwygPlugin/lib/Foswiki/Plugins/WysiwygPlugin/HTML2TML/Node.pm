@@ -655,7 +655,7 @@ sub _isProtectedByAttrs {
     foreach my $attr ( keys %{ $this->{attrs} } ) {
         next unless length( $this->{attrs}->{$attr} );    # ignore nulls
         return $attr
-          if Foswiki::Plugins::WysiwygPlugin::protectedByAttr( $this->{tag},
+          if Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr( $this->{tag},
             $attr );
     }
     return 0;

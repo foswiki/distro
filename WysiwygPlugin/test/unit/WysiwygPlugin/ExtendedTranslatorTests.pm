@@ -124,7 +124,7 @@ my $data = [
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 0 } );
         },
         html => '<p>'
@@ -144,7 +144,7 @@ my $data = [
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         html => '<p>'
@@ -159,7 +159,7 @@ my $data = [
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { $_[0] =~ s/some/different/; return 1; } );
         },
         html => '<p>'
@@ -175,7 +175,7 @@ my $data = [
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag('customtag');
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag('customtag');
         },
         html => '<p>'
           . $protecton
@@ -189,7 +189,7 @@ my $data = [
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         html => '<p>'
@@ -208,7 +208,7 @@ BLAH
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         html => '<p>'
@@ -242,7 +242,7 @@ BLAH
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'dot', sub { 1 } );
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'dot', sub { 1 } );
         },
         tml => <<'DOT',
 <dot>
@@ -261,7 +261,7 @@ DOT
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml =>
@@ -279,7 +279,7 @@ DOT
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml =>
@@ -331,7 +331,7 @@ DOT
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml =>
@@ -361,7 +361,7 @@ DOT
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::addXMLTag( 'customtag',
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
         tml =>
