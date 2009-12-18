@@ -22,12 +22,9 @@
 # Allow sorting of tables, plus setting of background colour for
 # headings and data cells. See %SYSTEMWEB%.TablePlugin for details of use
 
-use strict;
-
 package Foswiki::Plugins::TablePlugin;
 
-use Foswiki::Func    ();    # The plugins API
-use Foswiki::Plugins ();    # For the API version
+use strict;
 
 our $VERSION = '$Rev$';
 our $RELEASE = '1.121';
@@ -78,7 +75,8 @@ sub preRenderingHandler {
     _readPluginSettings() if !%pluginAttributes;
 
     # on-demand inclusion
-    use Foswiki::Plugins::TablePlugin::Core;
+    eval "use Foswiki::Plugins::TablePlugin::Core ()";
+    die $@ if $@;
     Foswiki::Plugins::TablePlugin::Core::handler(@_);
 }
 
