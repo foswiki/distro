@@ -429,10 +429,10 @@ function loadImage(el) {
                            $.modal('<img src="' + url + '" />',
                                    { position:[ 10, 10 ] });
                        });
-            // Scale to max 64 longest dimension
-            if (w > h) {
-                this.height = h * 64 / w;
-                this.width = 64;
+            // Scale to max 64 height, max 200 width
+            if (w * 64 / 200 > h) {
+                this.height = h * 200 / w;
+                this.width = 200;
             } else {
                 this.width = w * 64 / h;
                 this.height = 64;
