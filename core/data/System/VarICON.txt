@@ -2,16 +2,20 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarICON
 ---+++ ICON{"name" alt=""} -- small documentation graphic or icon of common attachment types
-   * Generates the HTML img tag of a small graphic image attached to DocumentGraphics. Images typically have a 16x16 pixel size. You can select a specific image by name, or you can give a full filename, in which case the type of the file will be used to select one of a collection of common file type icons.
-   * Syntax: =%<nop>ICON{"name"}%=
+   * Generates a small graphic image from the set attached to DocumentGraphics. Images typically have a 16x16 pixel size. You can select a specific image by name, or you can give a full filename, in which case the type of the file will be used to select one of a collection of common file type icons.
+   * Syntax: =%<nop>ICON{"name" alt="name"}%=
+   * You can use the optional =alt= parameter to specify an alternate
+     image, in case the filename doesn't produce a recognised graphic
+     If you don't specify an =alt=, and a filename doesn't map to a known
+     image, you will just see the filename.
    * Examples:
-      * =%<nop>ICON{"flag-gray"}%= returns %ICON{"flag-gray"}%
-      * =%<nop>ICON{"pdf"}%= returns %ICON{"pdf"}%
-      * =%<nop>ICON{"smile.pdf"}%= returns %ICON{"smile.pdf"}%
+      * =%<nop>ICON{"flag-gray"}%= displays as %ICON{"flag-gray"}%
+      * =%<nop>ICON{"pdf"}%= displays as %ICON{"pdf"}%
+      * =%<nop>ICON{"smile.pdf"}%= displays as %ICON{"smile.pdf"}%
       * =%<nop>ICON{"/dont/you/dare/smile.pdf"}%= returns %ICON{"/dont/you/dare/smile.pdf"}%
-      * =%<nop>ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%= returns %ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%
-   * You can use the =alt= parameter to specify an alternate image, in case
-     the filename doesn't produce a recognised graphic e.g. ==%<nop>ICON{"data.docx" alt="doc"}%
+      * =%<nop>ICON{"data.unknown" alt="doc"}%= displays as %ICON{"data.unknown" alt="doc"}%
+      * =%<nop>ICON{"data.unknown"}%= displays as %ICON{"data.unknown"}%
+      * =%<nop>ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%= displays %ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%
    * Graphic samples: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
    * File type samples: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], %WIKIPREFSTOPIC%, FileAttachments, DocumentGraphics
