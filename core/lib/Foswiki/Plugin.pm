@@ -351,14 +351,14 @@ sub getDescription {
 ---++ ObjectMethod topicWeb() -> $webname
 
 Find the web that has the topic for this plugin by searching the
-{Plugins}{WebSearchPath}
+{Plugins}{WebSearchPath}. Returns undef if $NO_PREFS_IN_TOPIC=1
 
 =cut
 
 sub topicWeb {
     my $this = shift;
 
-    unless ( $this->{topicWeb} ) {
+    unless ( defined( $this->{topicWeb} ) || $this->{no_topic} ) {
 
         # Find the plugin topic, if required
         my $session = $this->{session};
@@ -372,9 +372,10 @@ sub topicWeb {
                 last;
             }
         }
-        ASSERT( $this->{topicWeb}, $this->{name} ) if DEBUG;
     }
-    return $this->{topicWeb};
+    # If there is no web (probably because NO_PREFS_IN_TOPIC is set)
+    # then default to the system web name.
+    return $this->{topicWeb} || $Foswiki::cfg{SystemWebName};
 }
 
 1;

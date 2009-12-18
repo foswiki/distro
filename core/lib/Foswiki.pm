@@ -2754,9 +2754,9 @@ sub _processMacros {
                 my ( $expr, $tag, $args ) = ( $1, $2, $3 );
 
                 #print STDERR ' ' x $tell,"POP $tag\n";
-                Monitor::MARK("Before $tag");
+                #Monitor::MARK("Before $tag");
                 my $e = &$tagf( $this, $tag, $args, $topicObject );
-                Monitor::MARK("After $tag");
+                #Monitor::MARK("After $tag");
 
                 if ( defined($e) ) {
 
