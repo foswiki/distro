@@ -52,6 +52,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiHidden=            | Hidden elements |
 |=.foswikiSmall=             | Small text |
 |=.foswikiSmallish=          | Somewhat less smaller text; inbetween normal and small |
+|=.foswikiLarge=             | Large text, for instance for introduction paragraphs |
 |=.foswikiNoBreak=           | Causes whitespace not to create a linebreak; for instance with the dates in the attachment table |
 |=.foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript; defaults to inline |
 |=.foswikiMakeVisibleInline= | For =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |

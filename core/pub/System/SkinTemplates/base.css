@@ -34,6 +34,10 @@
 .foswikiSmallish {
 	font-size:94%; /*S2*/
 }
+.foswikiLarge {
+	font-size:1.3em;
+	line-height:1.5em;
+}
 .foswikiBroadcastMessage {
 	background-color:#ff0;
 	padding:.25em .5em;
