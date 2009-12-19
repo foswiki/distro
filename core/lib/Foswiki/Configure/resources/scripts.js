@@ -412,32 +412,38 @@ function valueChanged(el) {
 	});
 }
 
+function newHideContent(elts, settings, callback) {
+	elts.contentWrapper.hide();
+	callback();
+}
+
 function loadImage(el) {
     if (!el.title || el.title == '')
         return;
     var url = el.title;
+    el.title = 'Click to enlarge';
+    
     var img = new Image();
-
     $(img).load(
         function () {
             var w = this.width;
             var h = this.height;
-            // set the image hidden by default    
+            /* set the image hidden by default */
             $(img).hide();
-            $(el).bind("click",
-                       function() {
-                           $.modal('<img src="' + url + '" />',
-                                   { position:[ 10, 10 ] });
-                       });
-            // Scale to max 64 height, max 200 width
-            if (w * 64 / 200 > h) {
-                this.height = h * 200 / w;
-                this.width = 200;
+            /* Scale to max 64 height, max 150 width */
+            var MAX_H = 64;
+            var MAX_W = 150;
+            if (w * MAX_H / MAX_W > h) {
+                this.height = Math.round(h * MAX_W / w);
+                this.width = MAX_W;
             } else {
-                this.width = w * 64 / h;
-                this.height = 64;
+                this.width = Math.round(w * MAX_H / h);
+                this.height = MAX_H;
             }
+            
             $(el).append(this);
+            $(this).wrap("<a href='" + url + "' class='nyroModal'></a>");
+			$('.nyroModal').nyroModal({hideContent:newHideContent});
             $(this).fadeIn();
         });
     $(img).attr('src', url);

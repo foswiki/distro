@@ -178,6 +178,8 @@ sub getFile {
         $text = <$F>;
         close($F);
         if ( $resource =~ /\.(js|css)$/ ) {
+=pod
+commenting out, this seems just 'to work'
             $text =~ s#/\*.*?\*/##g;
             $text =~ s#\s*//.*$##gm if ( $resource =~ /\.js$/ ); #
             $text =~ s/\t/ /g;
@@ -185,6 +187,7 @@ sub getFile {
             $text =~ s/^\s+//gm;
             $text =~ s/ +/ /g;
             $text =~ s/\s*\n/\n/gs;
+=cut
         }
         $text =~ s/%INCLUDE{(.*?)}%/$this->getResource($1)/ges;
         while ( my ( $k, $v ) = each %vars ) {

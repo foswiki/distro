@@ -33,6 +33,7 @@ font-size:94%;
 }
 
 html body {
+height:100%;
 font-family:arial, sans-serif;
 voice-family:inherit;
 font-size:small;

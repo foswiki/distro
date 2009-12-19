@@ -230,7 +230,7 @@ sub ui {
         my @imgControls = ();
         if ($ext->{image}) {
             $ext->{image} = '<div title="'.$ext->{image}
-              .'" class="loadImage"></div>';
+              .'" class="foswikiImage loadImage"></div>';
         }
 
         $table .= CGI::Tr(
@@ -244,10 +244,10 @@ sub ui {
             ),
             CGI::td(
                 {
-                    class =>
-                      "configureExtensionTitle configureExtensionAction"
+                    class   => "configureExtensionTitle configureExtensionAction",
+                    rowspan => 2
                 },
-                $install . ' ' . $uninstall
+				$install . ' ' . $uninstall
             )
         );
 
@@ -256,12 +256,14 @@ sub ui {
             $tdd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
             my $cssClass = "configureExtensionData";
             $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
-            $cssClass .= ' configureExtensionAction'
-              if $colCount == scalar @tableHeads - 1;
-            $row .= CGI::td( { class => $cssClass }, $tdd );
+            if ($colCount == scalar @tableHeads - 1) {
+	            # nothing (in colspan)
+			} else {
+				$row .= CGI::td( { class => $cssClass }, $tdd );
+			}
             $colCount++;
         }
-
+		
         $table .= CGI::Tr( { class => $trClass, id => $ext->{topic},
                              @imgControls }, $row);
 

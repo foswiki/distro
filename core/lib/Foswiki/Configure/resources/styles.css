@@ -303,9 +303,11 @@ table.configureExtensionsTable {
 	margin:2em 0 0 0;
 	border:none;
 }
-table.configureExtensionsTable td,
 table.configureExtensionsTable th {
-	padding:.4em 1em;
+	padding:.6em 1em;
+}
+table.configureExtensionsTable td {
+	padding:.3em 1em;
 }
 table.configureExtensionsTable td {
 	background:transparent;
@@ -322,7 +324,6 @@ table.configureExtensionsTable td.configureExtensionTitle a {
 }
 table.configureExtensionsTable td.configureExtensionData {
 	border-top:none;
-	padding-top:0;
 	padding-bottom:.7em;
 }
 table.configureExtensionsTable td.configureExtensionDataFirst {
@@ -368,7 +369,7 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.configureExtension
 }
 .configureConsultedLocations {
 	margin:2em 0 0 0;
-	padding:7px .5em 7px 37px;
+	padding:7px .5em 7px 27px;
 	background-position:0 45%;
 	background-repeat:no-repeat;	background-image:url(configure?action=resource;resource=icon_world.gif);
 }
@@ -583,4 +584,13 @@ div.configureMessageBox {
   position: absolute;
   z-index: 100;
   display: none;
+}
+
+.foswikiImage img {
+   border-color:#eee;
+   background-color:#fff;
+}
+.foswikiImage a:hover img {
+   border-color:#06c;
+   background:#fff;
 }
