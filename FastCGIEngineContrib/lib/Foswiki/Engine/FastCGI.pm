@@ -122,7 +122,7 @@ sub run {
         $this->daemonize() if $args->{detach};
     }
 
-    my $localSiteCfg = $INC{'Foswiki.pm'};
+    my $localSiteCfg = $INC{'LocalSite.cfg'};
     my $lastMTime = ( stat $localSiteCfg )[9];
 
     while ( $r->Accept() >= 0 ) {
