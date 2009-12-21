@@ -122,9 +122,7 @@ sub run {
         $this->daemonize() if $args->{detach};
     }
 
-    my $localSiteCfg = File::Spec->catpath(
-        ( File::Spec->splitpath( $INC{'Foswiki.pm'} ) )[ 0, 1 ],
-        'LocalSite.cfg' );
+    my $localSiteCfg = $INC{'Foswiki.pm'};
     my $lastMTime = ( stat $localSiteCfg )[9];
 
     while ( $r->Accept() >= 0 ) {
