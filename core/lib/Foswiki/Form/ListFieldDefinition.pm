@@ -48,8 +48,14 @@ sub getOptions {
         my $session = $this->{session};
         my ( $fieldWeb, $fieldTopic ) =
           $session->normalizeWebTopicName( $this->{web}, $topic );
+
         my $store = $session->{store};
         if ( $store->topicExists( $fieldWeb, $fieldTopic ) ) {
+
+            # We have validated that the topic exists so OK to untaint
+            $fieldWeb = Foswiki::Sandbox::untaintUnchecked( $fieldWeb );
+            $fieldTopic = Foswiki::Sandbox::untaintUnchecked( $fieldTopic ); 
+
             my ( $meta, $text ) =
               $store->readTopic( $session->{user}, $fieldWeb, $fieldTopic,
                 undef );
