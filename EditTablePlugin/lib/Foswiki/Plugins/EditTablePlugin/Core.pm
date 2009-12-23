@@ -557,7 +557,6 @@ sub handleButtonActions {
         $inTopic )
       = @_;
 
-    _writeDebug("handleButtonActions");
     my $mode = $inMode;
 
     if ( $query->param('etcancel') ) {
@@ -597,10 +596,8 @@ sub handleButtonActions {
         # [Delete row] button pressed
         my $rowNum =
           $inTableStats->{rowCount} - $inTableStats->{footerRowCount};
-        _writeDebug("[Delete row] button pressed; rowNum=$rowNum");
         deleteRows( $inTableStats, $inTableChanges, $rowNum, 1 );
-        use Data::Dumper;
-        _writeDebug( "inTableChanges=" . Dumper($inTableChanges) );
+
     }
     elsif ( $query->param('etedit') ) {
 
@@ -652,7 +649,6 @@ sub deleteRows {
 
     # run backwards in rows to see which row has not been deleted yet
     while ($row) {
-        _writeDebug("deleteRows; row=$row");
         last
           if ( !defined $inTableChanges->{$row}
             || $inTableChanges->{$row} != -1 );
