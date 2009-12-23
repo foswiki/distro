@@ -70,8 +70,9 @@ my $PATTERN_EDITCELL               = qr'%EDITCELL{(.*?)}%'o;
 my $PATTERN_TABLE_ROW_FULL         = qr'^(\s*)\|.*\|\s*$'o;
 my $PATTERN_TABLE_ROW              = qr'^(\s*)\|(.*)'o;
 my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:{(.*?)})?%'o;
-my $SPREADSHEETPLUGIN_CALC_SUBSTITUTION = "<span class='editTableCalc'>CALC</span>";
-my $MODE                           = {
+my $SPREADSHEETPLUGIN_CALC_SUBSTITUTION =
+  "<span class='editTableCalc'>CALC</span>";
+my $MODE = {
     READ           => ( 1 << 1 ),
     EDIT           => ( 1 << 2 ),
     SAVE           => ( 1 << 3 ),
@@ -385,17 +386,20 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
         # to TABLE for exactly this purpose. Please do not remove this
         # feature again.
         if (  !$doSave
-            && $isEditingTable ) {
+            && $isEditingTable )
+        {
             _debug("editTableTag before changing TABLE tag=$editTableTag");
             my $TABLE_EDIT_TAGS = 'disableallsort="on" databg="#fff"';
             if ( $editTableTag !~ /%TABLE{.*?}%/ ) {
+
                 # no TABLE tag at all
-    	        $editTableTag .= "%TABLE{$TABLE_EDIT_TAGS}%";
-            } elsif ( $editTableTag !~ /%TABLE{.*?$TABLE_EDIT_TAGS.*?}%/ ) {
-	            $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 $TABLE_EDIT_TAGS$2/;
+                $editTableTag .= "%TABLE{$TABLE_EDIT_TAGS}%";
             }
-			_debug("editTableTag after changing TABLE tag=$editTableTag");
-    	}
+            elsif ( $editTableTag !~ /%TABLE{.*?$TABLE_EDIT_TAGS.*?}%/ ) {
+                $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 $TABLE_EDIT_TAGS$2/;
+            }
+            _debug("editTableTag after changing TABLE tag=$editTableTag");
+        }
 
         # The Data::parseText merges a TABLE and EDITTABLE to one line
         # We split it again to make editing easier for the user
@@ -450,7 +454,7 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
 
         _debug("After parsing, resultText=$resultText");
         _debug("After parsing, tableNr=$tableNr");
-        
+
         $topicText =~ s/<!--%EDITTABLESTUB\{$tableNr\}%-->/$resultText/g;
 
         # END BUTTON ROWS
@@ -482,7 +486,7 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
 
     # update the text
     $_[2] = $topicText;
-    
+
     _debug("After parsing, topic text=$_[2]");
 }
 
@@ -616,7 +620,7 @@ sub addRows {
 
     my $row = $inPosition;
 
-_debug("ADD ROW:$row");
+    _debug("ADD ROW:$row");
 
     while ( $inCount-- ) {
 
@@ -689,14 +693,6 @@ sub processTableData {
     my @bodyRows   = ();
 
     # ========================================
-    # START GET THE ROW TYPE
-
-    my $ROW_TYPE = {
-        NONE   => ( 1 << 0 ),
-        HEADER => ( 1 << 1 ),
-        FOOTER => ( 1 << 2 ),
-        BODY   => ( 1 << 3 ),
-    };
     my $bodyRowCount =
       $inEditTableData->{'rowCount'} -
       $inEditTableData->{'footerRowCount'} -
@@ -750,9 +746,9 @@ sub processTableData {
         my $rowId    = $rowNr;
         my $isNewRow = 0;
 
-		# a header row will not be edited, so do not render table row with handleTableRow
+# a header row will not be edited, so do not render table row with handleTableRow
 
-		# _handleSpreadsheetFormula($_);
+        # _handleSpreadsheetFormula($_);
         _debug("RENDER ROW: HEADER:rowNr=$rowNr; id=$rowId=$_");
         push( @headerRows, $_ );
     }
@@ -766,10 +762,10 @@ sub processTableData {
 
         my $rowId    = $rowNr;
         my $isNewRow = 0;
-        
-        # a footer row will not be edited, so do not render table row with handleTableRow
-		
-		# _handleSpreadsheetFormula($_);
+
+# a footer row will not be edited, so do not render table row with handleTableRow
+
+        # _handleSpreadsheetFormula($_);
         _debug("RENDER ROW: FOOTER:rowNr=$rowNr; id=$rowId=$_");
         push( @footerRows, $_ );
     }
@@ -800,129 +796,120 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $inTableNr, $isNewRow, $rowId, $inD
     # ========================================
     # START ADDING ROWS
 
-    if ( !$query->param('etdelrow') ) {
+    # START ADDING HEADER ROWS
 
-        # START ADDING HEADER ROWS
+    # add a header row if there is none,
+    # but only if there are no body rows yet
+    # (and not when a row has just been deleted)
 
-        # add a header row if there is none,
-        # but only if there are no body rows yet
-        # (and not when a row has just been deleted)
+    if ( !( scalar @bodyRows ) ) {
 
-        if ( !( scalar @bodyRows ) ) {
+        my $headerRows = $query->param('etheaderrows') || 0;
+        if ( $headerRows > scalar @headerRows ) {
+            my $rowNr        = scalar @headerRows;
+            my $newHeaderRow = $headerRows - @headerRows;
+            while ( $newHeaderRow-- ) {
 
-            my $headerRows = $query->param('etheaderrows') || 0;
-            if ( $headerRows > scalar @headerRows ) {
-                my $rowNr        = scalar @headerRows;
-                my $newHeaderRow = $headerRows - @headerRows;
-                while ( $newHeaderRow-- ) {
-
-                    my $rowId =
-                      scalar @headerRows +
-                      scalar @footerRows +
-                      scalar @bodyRows + 1;
-                    next
-                      if ( $tableChanges->{$rowId} == -1
-                        || $tableChanges->{$rowId} == 2 );
-
-                    $tableChanges->{$rowId} = 1;    # store the new row
-                    my $isNewRow = 1;
-                    my $newRow   = handleTableRow(
-                        '',     '',        $inTableNr, $isNewRow,
-                        $rowId, $inDoEdit, $inDoSave,  $inWeb,
-                        $inTopic
-                    );
-                    push @headerRows, $newRow;
-                }
-            }
-
-           # to start with table editing right away, add a minimum of 1 body row
-            if ( !$tableStats->{bodyRowCount} ) {
-
-                # put row at bottom
                 my $rowId =
                   scalar @headerRows +
                   scalar @footerRows +
                   scalar @bodyRows + 1;
-                $tableChanges->{$rowId} ||= 0;
-                if (
-                    !(
-                           $tableChanges->{$rowId} == -1
-                        || $tableChanges->{$rowId} == 2
-                    )
-                  )
-                {
-                    $tableChanges->{$rowId} = 1;    # store the new row
-                    my $isNewRow = 0;
-                    my $newRow   = handleTableRow(
-                        '',     '',        $inTableNr, $isNewRow,
-                        $rowId, $inDoEdit, $inDoSave,  $inWeb,
-                        $inTopic
-                    );
-                    push @bodyRows, $newRow;
-                }
-            }
-
-            # update table stats
-            $tableStats = $inEditTableData->getTableStatistics($tableChanges);
-        }
-
-        # END ADDING HEADER ROWS
-
-        # START ADDING BODY ROWS
-
-        my $bodyRows = $tableStats->{bodyRowCount};
-
-        if ( $bodyRows > scalar @bodyRows ) {
-        
-            my $rowNr =
-              scalar @headerRows + scalar @footerRows + scalar @bodyRows;
-            my $newBodyRow = $bodyRows - @bodyRows;
-            
-        _debug("ADD ROW: BODY: number=$newBodyRow");
-        
-            while ( $newBodyRow-- ) {
-                $rowNr++;
-
                 next
-                  if (
-                    (
-                        defined $inTableChanges->{$rowNr}
-                        && $inTableChanges->{$rowNr} == -1
-                    )
-                    || ( defined $inTableChanges->{$rowNr}
-                        && $inTableChanges->{$rowNr} == 2 )
-                  );
+                  if ( $tableChanges->{$rowId} == -1
+                    || $tableChanges->{$rowId} == 2 );
 
-                my $rowId =
-                  scalar @headerRows +
-                  scalar @bodyRows + 1;
-
-_debug("ADD ROW: BODY: rowId=$rowId");
-
-                my $isNewRow = 0
-                  ; # otherwise values entered in new rows are not preserved when adding yet more rows
-
-                my $newRow = handleTableRow(
+                $tableChanges->{$rowId} = 1;    # store the new row
+                my $isNewRow = 1;
+                my $newRow   = handleTableRow(
                     '',     '',        $inTableNr, $isNewRow,
                     $rowId, $inDoEdit, $inDoSave,  $inWeb,
                     $inTopic
                 );
-                
-_debug("ADD ROW: BODY: newRow=$newRow");
-
-
-                push @bodyRows, $newRow;
+                push @headerRows, $newRow;
             }
-
-            # update table stats
-            $tableStats = $inEditTableData->getTableStatistics($tableChanges);
         }
 
-        # END ADDING BODY ROWS
+        # to start with table editing right away, add a minimum of 1 body row
+        if ( !$tableStats->{bodyRowCount} ) {
 
-        # END ADDING ROWS
-        # ========================================
+            # put row at bottom
+            my $rowId =
+              scalar @headerRows + scalar @footerRows + scalar @bodyRows + 1;
+            $tableChanges->{$rowId} ||= 0;
+            if (
+                !(
+                       $tableChanges->{$rowId} == -1
+                    || $tableChanges->{$rowId} == 2
+                )
+              )
+            {
+                $tableChanges->{$rowId} = 1;    # store the new row
+                my $isNewRow = 0;
+                my $newRow   = handleTableRow(
+                    '',     '',        $inTableNr, $isNewRow,
+                    $rowId, $inDoEdit, $inDoSave,  $inWeb,
+                    $inTopic
+                );
+                push @bodyRows, $newRow;
+            }
+        }
+
+        # update table stats
+        $tableStats = $inEditTableData->getTableStatistics($tableChanges);
     }
+
+    # END ADDING HEADER ROWS
+
+    # START ADDING BODY ROWS
+
+    my $bodyRows = $tableStats->{bodyRowCount};
+
+    if ( $bodyRows > scalar @bodyRows ) {
+
+        my $rowNr = scalar @headerRows + scalar @footerRows + scalar @bodyRows;
+        my $newBodyRow = $bodyRows - @bodyRows;
+
+        _debug("ADD ROW: BODY: number=$newBodyRow");
+
+        while ( $newBodyRow-- ) {
+            $rowNr++;
+
+            next
+              if (
+                (
+                    defined $inTableChanges->{$rowNr}
+                    && $inTableChanges->{$rowNr} == -1
+                )
+                || ( defined $inTableChanges->{$rowNr}
+                    && $inTableChanges->{$rowNr} == 2 )
+              );
+
+            my $rowId = scalar @headerRows + scalar @bodyRows + 1;
+
+            _debug("ADD ROW: BODY: rowId=$rowId");
+
+            my $isNewRow = 0
+              ; # otherwise values entered in new rows are not preserved when adding yet more rows
+
+            my $newRow = handleTableRow(
+                '',     '',        $inTableNr, $isNewRow,
+                $rowId, $inDoEdit, $inDoSave,  $inWeb,
+                $inTopic
+            );
+
+            _debug("ADD ROW: BODY: newRow=$newRow");
+
+            push @bodyRows, $newRow;
+        }
+
+        # update table stats
+        $tableStats = $inEditTableData->getTableStatistics($tableChanges);
+    }
+
+    # END ADDING BODY ROWS
+
+    # END ADDING ROWS
+    # ========================================
 
     _debug( "EditTablePlugin::processTableData - tableChanges at end="
           . Dumper($tableChanges) );
@@ -944,7 +931,7 @@ _debug("ADD ROW: BODY: newRow=$newRow");
     _debug(
 "EditTablePlugin::processTableData - combinedRows=\n---------------------\n"
           . Dumper(@combinedRows) );
-     
+
     push( @result, @combinedRows );
 
     @result = map { $_ .= "\n" } @result;
@@ -1943,10 +1930,11 @@ Replaces a SpreadSheetPlugin formula by a static text.
 =cut
 
 sub _handleSpreadsheetFormula {
-    
+
     return if !$_[0];
-    $_[0] =~ s/$PATTERN_SPREADSHEETPLUGIN_CALC/$SPREADSHEETPLUGIN_CALC_SUBSTITUTION/go;
-    
+    $_[0] =~
+      s/$PATTERN_SPREADSHEETPLUGIN_CALC/$SPREADSHEETPLUGIN_CALC_SUBSTITUTION/go;
+
 }
 
 =begin TML

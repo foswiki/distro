@@ -1910,7 +1910,7 @@ Includes a topic that has an EDITTABLE with param 'include' set: the table defin
 sub test_INCLUDE_include {
     my $this = shift;
 
-    # Create topic with talbe definition
+    # Create topic with table definition
     my $tableDefTopic = "QmsCommentTable";
     Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef, <<THIS);
 %EDITTABLE{ header="|* Section *|* Description *|* Severity *|*  Status *|* Originator & Date *|" format="| text, 10 | textarea, 10x60  | select, 1, Major, Minor, Note | select, 1, Originated, Assessed, Performed, Rejected | text, 20 |" changerows="on" }%
