@@ -597,7 +597,6 @@ sub handleButtonActions {
         my $rowNum =
           $inTableStats->{rowCount} - $inTableStats->{footerRowCount};
         deleteRows( $inTableStats, $inTableChanges, $rowNum, 1 );
-
     }
     elsif ( $query->param('etedit') ) {
 

@@ -1,6 +1,11 @@
 use strict;
 
 # tests for basic formatting
+#
+# NOTE:
+# THESE TESTS STILL ASSUME TABLEPLUGIN ON RELEASE BRANCH
+# SO THEY ARE DIFFERENT FROM THE TESTS IN TRUNK
+#
 
 package EditTablePluginTests;
 
