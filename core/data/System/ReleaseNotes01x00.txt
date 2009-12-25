@@ -749,6 +749,7 @@ None
 <noautolink>
 | [[%BUGS%/Item913][Item913]] | JSCalendarContrib::addHEAD or Func::addToHEAD used in any xxxTagsHandler and in some cases ADDTOHEAD causes deep recursion |
 | [[%BUGS%/Item1302][Item1302]] | mailnotify ignores -news operand |
+| [[%BUGS%/Item1438][Item1438]] | =textareabuttons= are not displayed when =NOWYSIWYG= is 1 |
 | [[%BUGS%/Item1558][Item1558]] | WYSIWYG does not work on Opera with Mac |
 | [[%BUGS%/Item1936][Item1936]] | Search.pm assumes the {editby} field is a cUID and tries to getWikiName before it finds the real cUID |
 | [[%BUGS%/Item2043][Item2043]] | parseTime should return undef for invalid date |
