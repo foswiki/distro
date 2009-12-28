@@ -422,7 +422,7 @@ Browser clients must support the following capabilities:
    * HTML 3.2
    * Cookie support enabled, if persistent sessions are required
 
-Most skins also require CSS and Javascript support. There is a low-fat skin (Classic) that minimises these requirements. Some skins require newer browser version. The default skin (Pattern) is tested on IE 6, Safari, and Mozilla 5.0 based browsers (such as Firefox).
+Most skins also require CSS and Javascript support. There is a low-fat skin ([[System.PlainSkin][Plain]]) that minimises these requirements. Some skins require newer browser version. The default skin ([[System.PatternSkin][Pattern]]) is tested on IE 6, Safari, and Mozilla 5.0 based browsers (such as Firefox).
 
 You can easily select a balance of browser capability versus look and feel. Try the installed skins in the [[skin browser]] and more at Foswiki:Extensions.SkinPackage.
 
