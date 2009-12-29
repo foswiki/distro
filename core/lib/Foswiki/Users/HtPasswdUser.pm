@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::Users::HtPasswdUser
@@ -16,6 +17,7 @@ use base 'Foswiki::Users::Password';
 use strict;
 use Assert;
 use Error qw( :try );
+use Fcntl qw( :DEFAULT :flock );
 
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in Foswiki::setupLocale
@@ -40,8 +42,9 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
     }
-    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) &&
-          ($Foswiki::cfg{DetailedOS} eq 'darwin')) {
+    elsif ( ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
+        && ( $Foswiki::cfg{DetailedOS } eq 'darwin' ) )
+    {
         print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
         throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
     }
@@ -96,6 +99,28 @@ sub fetchUsers {
     return new Foswiki::ListIterator( \@users );
 }
 
+# Lock the htpasswd semaphore file (create if it does not exist)
+# Returns a file handle that you can later simply close with _unlockPasswdFile
+sub _lockPasswdFile {
+    my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
+
+    sysopen(my $fh, $lockFileName, O_RDWR|O_CREAT, 0666)
+      || throw Error::Simple(
+        $lockFileName . 
+        ' open or create password lock file failed -' . 
+        'check access rights: ' . $! );
+    flock $fh, LOCK_EX;
+    
+    return $fh;
+}
+
+# Unlock the semaphore file. You must pass the filehandle for the lock file
+# which was returned by _lockPasswdFile
+sub _unlockPasswdFile {
+    my $fh = shift;
+    close ($fh);
+}
+
 sub _readPasswd {
     my $this = shift;
     return $this->{passworddata} if ( defined( $this->{passworddata} ) );
@@ -104,27 +129,30 @@ sub _readPasswd {
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
-    open( IN_FILE, "<$Foswiki::cfg{Htpasswd}{FileName}" )
+    my $IN_FILE;
+    open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
-    while ( defined( $line = <IN_FILE> ) ) {
+    while ( defined( $line = <$IN_FILE> ) ) {
         if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
             if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
+
                 # implicit untaint OK; data from htpasswd
                 $data->{$1}->{pass} = $3;
                 $data->{$1}->{emails} = $4 || '';
             }
         }
-        else {                                               # htpasswd format
+        else {                                                 # htpasswd format
             if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
+
                 # implicit untaint OK; data from htpasswd
                 $data->{$1}->{pass} = $2;
                 $data->{$1}->{emails} = $3 || '';
             }
         }
     }
-    close(IN_FILE);
+    close($IN_FILE);
     $this->{passworddata} = $data;
     return $data;
 }
@@ -140,7 +168,7 @@ sub _dumpPasswd {
               . $db->{$_}->{pass} . ':'
               . $db->{$_}->{emails} . "\n";
         }
-        else {                                               # htpasswd format
+        else {                                                 # htpasswd format
             $s .=
               $_ . ':' . $db->{$_}->{pass} . ':' . $db->{$_}->{emails} . "\n";
         }
@@ -152,7 +180,7 @@ sub _savePasswd {
     my $db = shift;
 
     umask(077);
-    open( FILE, ">$Foswiki::cfg{Htpasswd}{FileName}" )
+    open( FILE, '>', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
 
@@ -166,8 +194,7 @@ sub encrypt {
     $passwd ||= '';
 
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
-        my $encodedPassword =
-          '{SHA}' . Digest::SHA::sha1_base64($passwd) . '=';
+        my $encodedPassword = '{SHA}' . Digest::SHA::sha1_base64($passwd) . '=';
 
         # don't use chomp, it relies on $/
         $encodedPassword =~ s/\s+$//;
@@ -254,7 +281,7 @@ sub fetchPass {
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
-    ASSERT( $login ) if DEBUG; 
+    ASSERT( $login ) if DEBUG;
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -266,16 +293,19 @@ sub setPassword {
     }
 
     try {
+        my $lockHandle = _lockPasswdFile;
         my $db = $this->_readPasswd();
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
         _savePasswd($db);
+        _unlockPasswdFile( $lockHandle );
     }
     catch Error::Simple with {
         my $e = shift;
         $this->{error} = $!;
         print STDERR "ERROR: failed to resetPassword - $! ($e)";
-	$this->{error} = 'unknown error in resetPassword' unless ($this->{error} && length($this->{error}));
+        $this->{error} = 'unknown error in resetPassword'
+          unless ( $this->{error} && length( $this->{error} ) );
         return undef;
     };
 
@@ -289,6 +319,7 @@ sub removeUser {
     $this->{error} = undef;
 
     try {
+        my $lockHandle = _lockPasswdFile;
         my $db = $this->_readPasswd();
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
@@ -298,6 +329,7 @@ sub removeUser {
             _savePasswd($db);
             $result = 1;
         }
+        _unlockPasswdFile( $lockHandle );
     }
     catch Error::Simple with {
         $this->{error} = shift->{-text};
@@ -348,6 +380,7 @@ sub setEmails {
     my $login = shift;
     ASSERT($login) if DEBUG;
 
+    my $lockHandle = _lockPasswdFile;
     my $db = $this->_readPasswd();
     unless ( $db->{$login} ) {
         $db->{$login}->{pass} = '';
@@ -362,6 +395,7 @@ sub setEmails {
         $db->{$login}->{emails} = '';
     }
     _savePasswd($db);
+    _unlockPasswdFile( $lockHandle );
     return 1;
 }
 
