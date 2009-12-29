@@ -1026,13 +1026,15 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     elsif ( $theFunc eq "LISTJOIN" ) {
         my ( $sep, $str ) = _properSplit( $theAttr, 2 );
         $str    = "" unless ( defined($str) );
+	# SMELL: repairing standard delimiter ", " in the constructed string to our custom separator
         $result = _listToDelimitedString( getList($str) );
-        $sep    = ', ' unless defined $sep;
-        $sep    =~ s/\$comma/,/go;
-        $sep    =~ s/\$sp/ /go;
-        $sep    =~ s/\$n/\n/go;
-        $result =~ s/, /$sep/go;
-
+	if ( length $sep ) {
+	    $sep    =~ s/\$comma/,/go;
+	    $sep    =~ s/\$sp/ /go;
+	    $sep    =~ s/\$nop//go;	# make sure $nop appears before $n otherwise you end up with "\nop"
+	    $sep    =~ s/\$n/\n/go;
+	    $result =~ s/, /$sep/go;
+	}
     }
     elsif ( $theFunc eq "LISTSIZE" ) {
         my @arr = getList($theAttr);
