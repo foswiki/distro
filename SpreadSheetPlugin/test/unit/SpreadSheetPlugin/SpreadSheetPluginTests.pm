@@ -276,9 +276,16 @@ sub test_LISTITEM {
 
 sub test_LISTJOIN {
     my ($this) = @_;
+    $this->assert( $this->CALC( '$LISTJOIN(,1,2,3)' ) eq '1, 2, 3' );
     $this->assert( $this->CALC( '$LISTJOIN($comma,1,2,3)' ) eq '1,2,3' );
-    $this->assert( $this->CALC( '$LISTJOIN(,1,2,3)' ) eq '123' );
     $this->assert( $this->CALC( '$LISTJOIN($n,1,2,3)' ) eq "1\n2\n3" );
+    $this->assert( $this->CALC( '$LISTJOIN($sp,1,2,3)' ) eq "1 2 3" );
+    $this->assert( $this->CALC( '$LISTJOIN( ,1,2,3)' ) eq "1 2 3" );
+    $this->assert( $this->CALC( '$LISTJOIN(  ,1,2,3)' ) eq "1  2  3" );
+    $this->assert( $this->CALC( '$LISTJOIN(:,1,2,3)' ) eq "1:2:3" );
+    $this->assert( $this->CALC( '$LISTJOIN(::,1,2,3)' ) eq "1::2::3" );
+    $this->assert( $this->CALC( '$LISTJOIN(0,1,2,3)' ) eq "10203" );
+    $this->assert( $this->CALC( '$LISTJOIN($nop,1,2,3)' ) eq '123' );
 }
 
 sub test_LISTMAP {

@@ -318,7 +318,7 @@ Conventions for Syntax:
 
 #FuncLISTJOIN
 ---+++ LISTJOIN( separator, list ) -- convert a list into a string
-   * By default, list items are separated by a comma and a space. Use this function to indicate a specific =separator= string, which may include =$comma= for comma, =$n= for newline, and =$sp= for space.
+   * By default, list items are separated by a comma and a space. Use this function to indicate a specific =separator= string, which may include =$comma= for comma, =$n= for newline, =$sp= for space, and =$nop= for no separator between list items.
    * Syntax: ==$LISTJOIN( separator, list )==
    * Example: ==%<nop>CALC{"$LISTJOIN($n, Apple, Orange, Apple, Kiwi)"}%== returns the four items separated by new lines
    * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=
@@ -771,6 +771,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  29 Dec 2009: | Foswikitask:Item2301: added =$nop= to $LISTJOIN() for better empty parameter |
 |  10 Nov 2009: | Added unit tests |
 |  27 Oct 2009: | Foswikitask:Item2301: Fixed $LISTJOIN() to accept an empty separator |
 |  20 Sep 2009: | Minor documentation update. trunk and release branch code synced (mainly perltidy - all functional changes have been in sync). |
