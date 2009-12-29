@@ -1054,19 +1054,19 @@ sub saveAttachment {
                 while ( $r = sysread( $opts->{stream}, $transfer, 0x80000 ) ) {
 		    if( !defined $r ) {
 			next if $! == EINTR;
-			die "system read error: $!\n";
+			die "system read error: $!";
 		    }
 		    my $offset = 0;
 		    while( $r ) {
 			my $w = syswrite( $fh, $transfer, $r, $offset );
-			die "system write error: $!\n" unless defined $w;
+			die "system write error: $!" unless defined $w;
 			$offset += $w;
 			$r -= $w;
 		    }
                 }
                 close($fh);
 		select((select($fh), $| = 1)[0]);
-		seek( $fh, 0, 0 ) or die "Can't seek temp: $!\n";
+		seek( $fh, 0, 0 ) or die "Can't seek temp: $!";
 		$opts->{stream} = $fh;
 
                 $attrs->{tmpFilename} = $tmpFile;
