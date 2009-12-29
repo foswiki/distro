@@ -232,6 +232,11 @@
                 } while (puck < 0 && (n = n.parentNode) != null);
                 if (puck >= 0) {
                     ed.fw_lb.selectByIndex(puck);
+                } else {
+                    // A region has been selected that doesn't match any known
+                    // foswiki formats, so select the first format in our list 
+                    // ('Normal').
+                    ed.fw_lb.selectByIndex(0);
                 }
             }
             return true;
