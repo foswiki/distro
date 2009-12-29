@@ -19,6 +19,7 @@ our @ISA = ('Foswiki::Users::Password');
 
 use Assert;
 use Error qw( :try );
+use Fcntl qw( :DEFAULT :flock );
 
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in Foswiki::setupLocale
@@ -43,8 +44,8 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
     }
-    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
-        && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
+    elsif ( ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
+        && ( $Foswiki::cfg{DetailedOS } eq 'darwin' ) )
     {
         print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
         throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
@@ -98,6 +99,28 @@ sub fetchUsers {
     my @users = sort keys %$db;
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@users );
+}
+
+# Lock the htpasswd semaphore file (create if it does not exist)
+# Returns a file handle that you can later simply close with _unlockPasswdFile
+sub _lockPasswdFile {
+    my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
+
+    sysopen(my $fh, $lockFileName, O_RDWR|O_CREAT, 0666)
+      || throw Error::Simple(
+        $lockFileName . 
+        ' open or create password lock file failed -' . 
+        'check access rights: ' . $! );
+    flock $fh, LOCK_EX;
+    
+    return $fh;
+}
+
+# Unlock the semaphore file. You must pass the filehandle for the lock file
+# which was returned by _lockPasswdFile
+sub _unlockPasswdFile {
+    my $fh = shift;
+    close ($fh);
 }
 
 sub _readPasswd {
@@ -260,7 +283,7 @@ sub fetchPass {
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
-    ASSERT($login) if DEBUG;
+    ASSERT( $login ) if DEBUG;
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -272,10 +295,12 @@ sub setPassword {
     }
 
     try {
+        my $lockHandle = _lockPasswdFile;
         my $db = $this->_readPasswd();
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
         _savePasswd($db);
+        _unlockPasswdFile( $lockHandle );
     }
     catch Error::Simple with {
         my $e = shift;
@@ -283,7 +308,7 @@ sub setPassword {
         print STDERR "ERROR: failed to resetPassword - $! ($e)";
         $this->{error} = 'unknown error in resetPassword'
           unless ( $this->{error} && length( $this->{error} ) );
-        return;
+        return undef;
     };
 
     $this->{error} = undef;
@@ -296,6 +321,7 @@ sub removeUser {
     $this->{error} = undef;
 
     try {
+        my $lockHandle = _lockPasswdFile;
         my $db = $this->_readPasswd();
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
@@ -305,6 +331,7 @@ sub removeUser {
             _savePasswd($db);
             $result = 1;
         }
+        _unlockPasswdFile( $lockHandle );
     }
     catch Error::Simple with {
         $this->{error} = shift->{-text};
@@ -355,6 +382,7 @@ sub setEmails {
     my $login = shift;
     ASSERT($login) if DEBUG;
 
+    my $lockHandle = _lockPasswdFile;
     my $db = $this->_readPasswd();
     unless ( $db->{$login} ) {
         $db->{$login}->{pass} = '';
@@ -369,6 +397,7 @@ sub setEmails {
         $db->{$login}->{emails} = '';
     }
     _savePasswd($db);
+    _unlockPasswdFile( $lockHandle );
     return 1;
 }
 
