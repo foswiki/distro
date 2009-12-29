@@ -14,5 +14,5 @@ cm.setActive('tt',true);else
 cm.setActive('tt',false);elm=ed.dom.getParent(n,'.WYSIWYG_COLOR');if(elm!=null)
 cm.setActive('colour',true);else
 cm.setActive('colour',false);if(ed.fw_lb){var puck=-1;var nn=n.nodeName.toLowerCase();do{for(var i=0;i<ed.fw_formats.length;i++){if((!ed.fw_formats[i].el||ed.fw_formats[i].el==nn)&&(!ed.fw_formats[i].style||ed.dom.hasClass(ed.fw_formats[i].style))){puck=i;if(puck>0)
-break;}}}while(puck<0&&(n=n.parentNode)!=null);if(puck>=0){ed.fw_lb.selectByIndex(puck);}}
+break;}}}while(puck<0&&(n=n.parentNode)!=null);if(puck>=0){ed.fw_lb.selectByIndex(puck);}else{ed.fw_lb.selectByIndex(0);}}
 return true;}});tinymce.PluginManager.add('foswikibuttons',tinymce.plugins.FoswikiButtons);})();
