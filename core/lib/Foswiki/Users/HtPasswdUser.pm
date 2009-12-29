@@ -295,7 +295,7 @@ sub setPassword {
     }
 
     try {
-        my $lockHandle = _lockPasswdFile;
+        my $lockHandle = _lockPasswdFile();
         my $db = $this->_readPasswd();
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
@@ -321,7 +321,7 @@ sub removeUser {
     $this->{error} = undef;
 
     try {
-        my $lockHandle = _lockPasswdFile;
+        my $lockHandle = _lockPasswdFile();
         my $db = $this->_readPasswd();
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
@@ -382,7 +382,7 @@ sub setEmails {
     my $login = shift;
     ASSERT($login) if DEBUG;
 
-    my $lockHandle = _lockPasswdFile;
+    my $lockHandle = _lockPasswdFile();
     my $db = $this->_readPasswd();
     unless ( $db->{$login} ) {
         $db->{$login}->{pass} = '';
