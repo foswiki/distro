@@ -148,9 +148,11 @@ TinyMCEPlugin depends on WysiwygPlugin to do the conversions from HTML to TML (T
 ---++ Known Issues
 
    * Applying formats such as Headings, Verbatim, Normal, etc:
-      * In Microsoft Internet Explorer 6, not working at all.
-      * In Safari and Google Chrome, only works once (must move the cursor out of the formatted region and back again for each subsequent format change).
-   * "Normal" format depends on WysiwygPlugin flattening &lt;div&gt; tags
+      * In Safari 4 and Google Chrome 3, selecting a format works but then the cursor is lost; subsequent changes require the user to first click the region to be formatted before each change.
+      * In some versions of Microsoft Internet Explorer 6, applying formats does not work:
+         * 6.0.2900.5512: Known to work.
+         * 6.0.2900.2180: Known to have problems.
+   * "Normal" format depends on WysiwygPlugin flattening =&lt;div&gt;= tags
 
 Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
