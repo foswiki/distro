@@ -2,4 +2,3 @@ This is the area where Foswiki stores working files, such as sessions
 and registration approvals. It should *not* be browseable from the web,
 and should *not* be accessible to anyone on the server except the
 webserver user.
-
