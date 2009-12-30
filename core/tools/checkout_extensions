@@ -1,0 +1,70 @@
+#!/bin/sh
+
+core_extensions() {
+  cut -d ' ' -f 2 lib/MANIFEST  | sed -e 's#lib/Foswiki.*##' | xargs -n 1 basename | grep -v core
+}
+
+usage(){
+  echo "usage: $0 [OPTIONS] [Extension [Extension ...]]"
+  echo
+  echo "Options:"
+  echo
+  echo "  --git          checks out the extensions using git instead of svn"
+  echo "  --git-rev REV  When checking out with git, start history at revision REV"
+  echo "  --core         checks out all the core extensions"
+  echo "  --help         displays usage information"
+  echo
+}
+
+checkout_cmd="svn checkout"
+extensions=""
+
+while test $# -gt 0; do
+  case $1 in
+    --git)
+      checkout_cmd="git svn clone"
+      ;;
+    --git-rev)
+      shift
+      rev="$1"
+      if [ "$checkout_cmd" = "git svn clone" ]; then
+        checkout_cmd="$checkout_cmd -r $rev"
+      fi
+      ;;
+    --core)
+      extensions="$extensions $(core_extensions)"
+      ;;
+    --developer)
+      extensions="$extensions BuildContrib TestFixturePlugin UnitTestContrib"
+      ;;
+    --help)
+      usage
+      exit 0
+      ;;
+    -*)
+      echo "Invalid option: $1"
+      usage
+      exit 1
+      ;;
+    *)
+      extensions="$extensions $1"
+      ;;
+  esac
+  shift
+done
+
+if [ -z "$extensions" ]; then
+  echo "You must specify at least one extension to checkout."
+  echo "Try the --core option to checkout all core extensions"
+  exit 2
+fi
+
+for ext in $extensions; do
+  echo "Checking out $ext"
+  if [ -d "../$ext" ]; then
+    echo "W: ../$ext already exists, it seems you already checked it out (not processed)"
+  else
+    svnroot=$(svn info $0 | grep URL: | sed -e 's#URL: \(.*\)/core/tools/checkout_extensions#\1#')
+    (cd .. && $checkout_cmd "$svnroot/$ext")
+  fi
+done
