@@ -112,7 +112,7 @@ HERE
       PubDir TemplateDir ScriptUrlPath LocalesDir ) {
 
         # NOT SET tells the checker to try and guess the value later on
-        $Foswiki::cfg{$var} ||= 'NOT SET';
+        $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
       }
 
       # Make %ENV safer for CGI
