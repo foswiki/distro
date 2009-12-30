@@ -71,8 +71,8 @@ unless ($errorcode == 0) {
 chdir($foswikihome);
 #TODO: add a performance BM & compare to something golden.
 `perl tools/MemoryCycleTests.pl > $foswikihome/Foswiki-MemoryCycleTests.log 2>&1`;
-`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 lib/  > $foswikihome/Foswiki-PerlCritic.log 2>&1`;
-`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 bin/ >> $foswikihome/Foswiki-PerlCritic.log 2>&1`;
+`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 --exclude==Variables::ProtectPrivateVars lib/  > $foswikihome/Foswiki-PerlCritic.log 2>&1`;
+`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 --exclude==Variables::ProtectPrivateVars bin/ >> $foswikihome/Foswiki-PerlCritic.log 2>&1`;
 #`cd tools; perl check_manifest.pl`;
 #`cd data; grep '%META:TOPICINFO{' */*.txt | grep -v TestCases | grep -v 'author="ProjectContributor".*version="\$Rev'`;
 
