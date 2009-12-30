@@ -1,6 +1,6 @@
 #!/bin/sh
 
-core_extensions() {
+default_extensions() {
   cut -d ' ' -f 2 lib/MANIFEST  | sed -e 's#lib/Foswiki.*##' | xargs -n 1 basename | grep -v core
 }
 
@@ -11,7 +11,8 @@ usage(){
   echo
   echo "  --git          checks out the extensions using git instead of svn"
   echo "  --git-rev REV  When checking out with git, start history at revision REV"
-  echo "  --core         checks out all the core extensions"
+  echo "  --default      checks out all the default extensions"
+  echo "  --developer    checks out all the developer extensions"
   echo "  --help         displays usage information"
   echo
 }
@@ -31,8 +32,8 @@ while test $# -gt 0; do
         checkout_cmd="$checkout_cmd -r $rev"
       fi
       ;;
-    --core)
-      extensions="$extensions $(core_extensions)"
+    --default)
+      extensions="$extensions $(default_extensions)"
       ;;
     --developer)
       extensions="$extensions BuildContrib TestFixturePlugin UnitTestContrib"
