@@ -312,7 +312,7 @@ sub _execute {
             # in httpd.conf for Apache login.
             my $url     = $session->getScriptUrl(
                 0, 'login', $session->{webName}, $session->{topicName} );
-            $query->param( -name => 'action',
+            $query->param( -name => 'validate',
                            -value => 'validate' );
             $query->param( -name => 'origurl',
                            -value => $session->{request}->uri );
@@ -406,7 +406,7 @@ Handler to "logon" action.
 
 sub logon {
     my $session = shift;
-    if (($session->{request}->param('action') ||'') eq 'validate'
+    if (($session->{request}->param('validate') ||'') eq 'validate'
           # Force login if not recognisably authenticated
           && $session->inContext('authenticated')) {
         Foswiki::Validation::validate( $session );
