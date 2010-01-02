@@ -1042,7 +1042,7 @@ sub saveAttachment {
                 # The code below has proven to work for all. See Item5307
 
                 use File::Temp;
-		use Errno qw/EINTR/;
+                use Errno qw/EINTR/;
 
                 my $fh;
                 ( $fh, $tmpFile ) = File::Temp::tempfile();
@@ -1052,23 +1052,22 @@ sub saveAttachment {
                 my $transfer;
                 my $r;
                 while ( $r = sysread( $opts->{stream}, $transfer, 0x80000 ) ) {
-		    if( !defined $r ) {
-			next if $! == EINTR;
-			die "system read error: $!";
-		    }
-		    my $offset = 0;
-		    while( $r ) {
-			my $w = syswrite( $fh, $transfer, $r, $offset );
-			die "system write error: $!" unless defined $w;
-			$offset += $w;
-			$r -= $w;
-		    }
+                    if( !defined $r ) {
+                        next if $! == EINTR;
+                        die "system read error: $!";
+                    }
+                my $offset = 0;
+                    while( $r ) {
+                        my $w = syswrite( $fh, $transfer, $r, $offset );
+                        die "system write error: $!" unless defined $w;
+                        $offset += $w;
+                        $r -= $w;
+                    }
                 }
-                close($fh);
-		select((select($fh), $| = 1)[0]);
-		seek( $fh, 0, 0 ) or die "Can't seek temp: $!";
-		$opts->{stream} = $fh;
 
+                select( (select($fh), $| = 1 )[0]);
+                seek( $fh, 0, 0 ) or die "Can't seek temp: $!";
+                $opts->{stream} = $fh;
                 $attrs->{tmpFilename} = $tmpFile;
                 $plugins->dispatch( 'beforeAttachmentSaveHandler',
                     $attrs, $topic, $web );
