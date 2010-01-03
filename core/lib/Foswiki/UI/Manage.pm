@@ -59,12 +59,14 @@ sub manage {
 sub _action_changePassword {
     my $session = shift;
     require Foswiki::UI::Register;
+    Foswiki::UI::checkValidationKey( $session );
     Foswiki::UI::Register::changePassword($session);
 }
 
 sub _action_resetPassword {
     my $session = shift;
     require Foswiki::UI::Register;
+    Foswiki::UI::checkValidationKey( $session );
     Foswiki::UI::Register::resetPassword($session);
 }
 
