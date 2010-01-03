@@ -67,16 +67,24 @@ For instance =%TMPL:INCLUDE{"example.tmpl"}%= will only return =templates/exampl
 The out-of-the-box setting of ={TemplatePath}= supports the following search order to determine which template file or topic to use for a particular script or =%TMPL:INCLUDE{"script"}%= statement.
 The _skin path_ is set as described in [[Skins]].
 
-   1 templates/%RED%web%ENDCOLOR%/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
+<!--
+   * Set DARKGRAY = <font color="#333333">
+-->
+
+   1 <span class="foswikiGrayText">templates/%DARKGRAY%web%ENDCOLOR%/%DARKGRAY%script%ENDCOLOR%.%DARKGRAY%skin%ENDCOLOR%.tmpl for each %DARKGRAY%skin%ENDCOLOR% on the skin path</span>
       * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
    1 templates/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
-   1 templates/%RED%web%ENDCOLOR%/%RED%script%ENDCOLOR%.tmpl
+      * _for example templates/view.dragon.tmpl_
+   1 <span class="foswikiGrayText">templates/%DARKGRAY%web%ENDCOLOR%/%DARKGRAY%script%ENDCOLOR%.tmpl</span>
       * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
    1 templates/%RED%script%ENDCOLOR%.tmpl
+      * _for example templates/view.tmpl_
    1 The topic aweb.atopic if the template name can be parsed into aweb.atopic
    1 The topic %RED%web%ENDCOLOR%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
+      * _for example <nop>DragonSkinViewTemplate in the current Web_
    1 The topic %RED%web%ENDCOLOR%.%RED%Script%ENDCOLOR%Template
    1 The topic %<nop>SYSTEMWEB%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
+      * _for example <nop>%SYSTEMWEB%.DragonSkinViewTemplate_
    1 The topic %<nop>SYSTEMWEB%.%RED%Script%ENDCOLOR%Template
 *Legend:*
    * %RED%script%ENDCOLOR% refers to the script name, e.g =view=, =edit=
