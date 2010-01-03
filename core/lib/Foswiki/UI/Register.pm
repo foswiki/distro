@@ -117,8 +117,8 @@ sub register_cgi {
     # Output of reset password:
     #    unaffected user, accessible by username.$verificationCode
 
-# Output of verify:
-#    UnsavedUser, accessible by username.$approvalCode (only sent to administrator)
+    # Output of verify:
+    #    UnsavedUser, accessible by username.$approvalCode (only sent to administrator)
 
     # Output of approve:
     #    RegisteredUser, all related UnsavedUsers deleted
@@ -332,7 +332,7 @@ sub _makeFormFieldOrderMatch {
 
 ---++ StaticMethod registerAndNext($session) 
 
-This is called when action = register or action = ""
+This is called when action = register
 
 It calls register and either Verify or Finish.
 
