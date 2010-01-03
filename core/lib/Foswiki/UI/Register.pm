@@ -731,7 +731,19 @@ sub changePassword {
     }
 
     my $cUID = $users->getCanonicalUserID($login);
+
     if ( defined $email ) {
+        # check valid email addresses - space between each
+        if ( $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ ) {
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $webName,
+                topic  => $topic,
+                def    => 'bad_email',
+                params => [ $email ]
+            );
+        }
+        
         my $oldEmails = join( ', ', $users->getEmails ( $cUID ) );
         my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
         $session->logEvent('changepasswd', $webName . '.' . $topic,
