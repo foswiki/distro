@@ -732,7 +732,10 @@ sub changePassword {
 
     my $cUID = $users->getCanonicalUserID($login);
     if ( defined $email ) {
+        my $oldEmails = join( ', ', $users->getEmails ( $cUID ) );
         my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
+        $session->logEvent('changepasswd', $webName . '.' . $topic,
+             "from $oldEmails to $email for $login" );
     }
 
     # OK - password may be changed
