@@ -210,10 +210,10 @@ sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
     $this->SUPER::finalizeHeaders( $res, $req );
 
-    # If REDIRECT_STATUS is present, preserve it. See Foswikitask:Item2549
+    # If REDIRECT_STATUS is useful, preserve it. See Foswikitask:Item2549
     # and http://httpd.apache.org/docs/2.2/en/custom-error.html#custom
     my $status;
-    if (defined $ENV{REDIRECT_STATUS}) {
+    if (defined $ENV{REDIRECT_STATUS} && $ENV{REDIRECT_STATUS} !~ /^2/o) {
         $status = $ENV{REDIRECT_STATUS};
     }
     elsif (defined $res->status && $res->status =~ /^\s*(\d{3})/o) {
