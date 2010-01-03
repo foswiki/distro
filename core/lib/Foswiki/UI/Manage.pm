@@ -177,8 +177,7 @@ sub _action_createweb {
         $opts->{ uc($p) } = $query->param($p);
     }
 
-    Foswiki::UI::checkValidationKey(
-        $session, 'createweb', $session->{webName}, $session->{topicName} );
+    Foswiki::UI::checkValidationKey( $session );
 
     my $err = $session->{store}->createWeb( $cUID, $newWeb, $baseWeb, $opts );
     if ($err) {
@@ -421,8 +420,7 @@ sub rename {
     return undef if ($query && $query->method() &&
                        uc($query->method()) ne 'POST');
 
-    Foswiki::UI::checkValidationKey(
-        $session, 'rename', $session->{webName}, $session->{topicName} );
+    Foswiki::UI::checkValidationKey( $session );
 
     # Update references in referring pages - not applicable to attachments.
     my $refs;
@@ -894,8 +892,7 @@ sub _renameweb {
 
     return undef if ($query && $query->method() && $query->method() ne 'POST');
 
-    Foswiki::UI::checkValidationKey(
-        $session, 'rename', $session->{webName}, $session->{topicName} );
+    Foswiki::UI::checkValidationKey( $session );
 
     # Update references in referring pages
     my $refs =
