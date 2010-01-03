@@ -1,5 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1216489724" format="1.1" version="$Rev: 17064 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
 ---+ %MAKETEXT{"Registration"}%
 
 %IF{"context registration_supported" 

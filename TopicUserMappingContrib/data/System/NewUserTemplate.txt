@@ -1,5 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167346194" format="1.1" version="$Rev: 16686 $"}%
-%META:TOPICPARENT{name="WikiUsers"}%
 %SPLIT%
    * %KEY%: %VALUE%%SPLIT%
 
