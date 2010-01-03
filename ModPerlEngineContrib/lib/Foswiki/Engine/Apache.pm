@@ -77,6 +77,7 @@ use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 use File::Spec               ();
+use Assert;
 
 sub run {
     my $this = $Foswiki::engine;
@@ -208,9 +209,21 @@ sub finalizeUploads {
 sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
     $this->SUPER::finalizeHeaders( $res, $req );
-    my ($status) = ( $res->status || "200" ) =~ /^(\d\d\d)/o;
 
-    $this->{r}->status( $res->status || 200 );
+    # If REDIRECT_STATUS is present, preserve it. See Foswikitask:Item2549
+    # and http://httpd.apache.org/docs/2.2/en/custom-error.html#custom
+    my $status;
+    if (defined $ENV{REDIRECT_STATUS}) {
+        $status = $ENV{REDIRECT_STATUS};
+    }
+    elsif (defined $res->status && $res->status =~ /^\s*(\d{3})/o) {
+        $status = $1;
+    }
+    else {
+        $status = 200;
+    }
+    $this->{r}->status($status);
+
     while ( my ( $header, $value ) = each %{ $res->headers } ) {
         if ( lc($header) eq 'content-type' ) {
             $this->{r}->content_type($value);
@@ -228,7 +241,7 @@ sub finalizeHeaders {
                 $this->{r}->err_headers_out->add( $header => $_ );
             }
         }
-        else {
+        elsif ( lc($header) ne 'status' ) {
             foreach ( ref($value) eq 'ARRAY' ? @$value : ($value) ) {
                 $this->{r}->headers_out->add( $header => $_ );
             }
