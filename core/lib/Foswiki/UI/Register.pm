@@ -67,7 +67,7 @@ sub register_cgi {
             web    => $session->{webName},
             topic  => $session->{topicName},
             def    => 'post_method_only',
-            params => ['upload']
+            params => ['register']
         );
     }
 
