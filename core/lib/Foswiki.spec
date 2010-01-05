@@ -499,7 +499,7 @@ $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 # **NUMBER**
 # Minimum length for a password, for new registrations and password changes.
 # If you want to allow null passwords, set this to 0.
-$Foswiki::cfg{MinPasswordLength} = 1;
+$Foswiki::cfg{MinPasswordLength} = 7;
 
 # **PATH**
 # Path to the file that stores passwords, for the Foswiki::Users::HtPasswdUser
