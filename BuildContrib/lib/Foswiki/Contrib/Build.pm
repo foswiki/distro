@@ -1099,7 +1099,7 @@ sub build_js {
             my $ot = <IF>;
             close($ot);
             if ($text eq $ot) {
-                print STDERR "$to is up to date w.r.t $from\n";
+                #print STDERR "$to is up to date w.r.t $from\n";
                 return 1; # no changes
             }
         }
