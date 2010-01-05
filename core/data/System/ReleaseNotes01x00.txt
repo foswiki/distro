@@ -692,8 +692,8 @@ None
 | [[%BUGS%/Item1572][Item1572]] | Error using Configure -> 'Find More Extensions' after installing GaugePlugin |
 | [[%BUGS%/Item1687][Item1687]] | Documentation bug in !ManagingUsers, customizing registration emails  |
 | [[%BUGS%/Item1729][Item1729]] | Have more flexibility in Twisty's remember setting |
-| [[%BUGS%/Item1741][Item1741]] | %TOPICURL% does not work correctly in %INCLUDE% |
-| [[%BUGS%/Item1766][Item1766]] | Redirecting to http://foswiki_redirect_cache... on first login of a browser session |
+| [[%BUGS%/Item1741][Item1741]] | =%<nop>TOPICURL%= does not work correctly in =%<nop>INCLUDE%= |
+| [[%BUGS%/Item1766][Item1766]] | Redirecting to <nop>http://foswiki_redirect_cache... on first login of a browser session |
 | [[%BUGS%/Item1768][Item1768]] | %Q (info icon) Macro mistake |
 | [[%BUGS%/Item1776][Item1776]] | Command line save gets stopped by validation |
 | [[%BUGS%/Item1780][Item1780]] | Under Windows using sha1 passwords new registrations create non working password |
