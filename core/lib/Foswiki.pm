@@ -161,7 +161,7 @@ BEGIN {
         $Error::Debug = 0;    # no verbose stack traces
     }
 
-    # DO NOT CHANGE THE FORMAT OF $VERSION
+    # DO NOT CHANGE THE FORMAT OF  $VERSION
     # Automatically expanded on checkin of this module
     $VERSION = '$Date$ $Rev$ ';
     $RELEASE = 'Foswiki-1.0.9-RC1';
