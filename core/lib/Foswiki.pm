@@ -990,6 +990,26 @@ sub redirectto {
 
 =begin TML
 
+---++ StaticMethod _splitAnchorFromUrl( $url ) -> ( $url, $anchor )
+
+Takes a full url (including possible query string) and splits off the anchor.
+The anchor includes the # sign. Returns an empty string if not found in the url.
+
+=cut
+
+sub _splitAnchorFromUrl {
+    my ($url) = @_;
+
+    my $anchor = '';
+    if ( $url =~ m/^(.*?)(#(.*?))*$/ ) {
+        $url    = $1;
+        $anchor = $2;
+    }
+    return ( $url, $anchor );
+}
+
+=begin TML
+
 ---++ ObjectMethod redirect( $url, $passthrough )
 
    * $url - url or topic to redirect to
@@ -1042,7 +1062,9 @@ sub redirect {
         else {
             # Redirecting a get to a get; no need to use passthru
             if ( $this->{request}->query_string() ) {
+                ( $url, my $anchor ) = _splitAnchorFromUrl($url);
                 $url .= '?' . $this->{request}->query_string();
+                $url .= $anchor if $anchor;
             }
             if ($existing) {
                 if ( $url =~ /\?/ ) {
