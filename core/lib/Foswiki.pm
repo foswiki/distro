@@ -4062,9 +4062,16 @@ sub ICON {
     # Try to map the file name to see if there is a matching filetype image
     # If no mapping could be found, use the file name that was passed
     my $iconFileName = $this->mapToIconFileName( $file, $file );
-    my $url = $this->getIconUrl( 0, $iconFileName );
-
-    return "<img src='$url' alt='$iconFileName' border='0' height='16' width='16' align='top' />";
+    return CGI::img(
+        {
+            src    => $this->getIconUrl( 0, $iconFileName ),
+            width  => 16,
+            height => 16,
+            align  => 'top',
+            alt    => $iconFileName,
+            border => 0
+        }
+    );
 }
 
 sub ICONURL {
