@@ -2169,9 +2169,16 @@ the image is taken from =$url=. The optional =$alt= specifies an alt string.
 sub renderIconImage {
     my ( $this, $url, $alt ) = @_;
 
-    $alt = $alt ? " alt='$alt'" : '';
+    my %params = (
+        src    => $url,
+        width  => 16,
+        height => 16,
+        align  => 'top',
+        border => 0
+    );
+    $params{alt} = $alt if defined $alt;
 
-    return "<img src='$url'$alt border='0' height='16' width='16' align='top' />";
+    return CGI::img( \%params );
 }
 
 1;
