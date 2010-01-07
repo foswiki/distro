@@ -990,6 +990,22 @@ sub redirectto {
 
 =begin TML
 
+---++ StaticMethod splitAnchorFromUrl( $url ) -> ( $url, $anchor )
+
+Takes a full url (including possible query string) and splits off the anchor.
+The anchor includes the # sign. Returns an empty string if not found in the url.
+
+=cut
+
+sub splitAnchorFromUrl {
+    my ($url) = @_;
+
+    ($url, my $anchor) = $url =~ m/^(.*?)(#(.*?))*$/;
+    return ( $url, $anchor );
+}
+
+=begin TML
+
 ---++ ObjectMethod redirect( $url, $passthrough )
 
    * $url - url or topic to redirect to
@@ -1023,6 +1039,8 @@ sub redirect {
 
     return unless $this->{request};
 
+	( $url, my $anchor ) = splitAnchorFromUrl($url);
+
     if ( $passthru && defined $this->{request}->method() ) {
         my $existing = '';
         if ( $url =~ s/\?(.*)$// ) {
@@ -1055,7 +1073,7 @@ sub redirect {
             }
         }
     }
-
+   
     # prevent phishing by only allowing redirect to configured host
     # do this check as late as possible to catch _any_ last minute hacks
     # TODO: this should really use URI
@@ -1075,6 +1093,8 @@ sub redirect {
               . $Foswiki::cfg{DefaultUrlHost} . '"'
         );
     }
+
+	#$url .= $anchor if $anchor;
 
     return
       if ( $this->{plugins}
@@ -1831,9 +1851,7 @@ sub i18n {
 
 =begin TML
 
----++ ObjectMethod i18n()
-Get a reference to the i18n object. Done lazily because not everyone
-needs the i18ner.
+---++ ObjectMethod logger()
 
 =cut
 
