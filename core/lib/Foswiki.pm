@@ -1094,7 +1094,7 @@ sub redirect {
         );
     }
 
-	#$url .= $anchor if $anchor;
+	$url .= $anchor if $anchor;
 
     return
       if ( $this->{plugins}
