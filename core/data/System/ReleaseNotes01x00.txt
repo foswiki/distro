@@ -821,7 +821,6 @@ None
 
 <noautolink>
 | [[%BUGS%/Item1462][Item1462]] | WYSIWYG-attaches to wrong topic when creating new autonumbered topic |
-| [[%BUGS%/Item2181][Item2181]] | because the HTML that ICON expands to contains ", you can't use it in a SEARCh format... |
 | [[%BUGS%/Item2301][Item2301]] | $LISTJOIN can't handle empty separator |
 | [[%BUGS%/Item2305][Item2305]] | Setting $Foswiki::cfg{AllowInlineScript} = 0 will kill strikeone |
 | [[%BUGS%/Item2423][Item2423]] | getRevisionInfo can't deal with dots in the web name |
