@@ -168,7 +168,7 @@ The release includes many more minor bug fixes seen only by very advanced applic
 
 It contains several bug fixes and enhancements related to security and spam fighting. The very advanced strikeone CSRF protection that was introduced in 1.0.6 has now also been implemented to make it harder to create registration bots. Reset of password and change of email address features are now both strike one protected and you can no longer change to an empty email address. Additionally logging has been added enabling the administrator to see both old and new email address after an email address change.
 
-Default password length is now 7 instead of 1 character. Upgraders will be affected by this as the current used setting will already be in the !LocalSite.cfg file.
+Default password length is now 7 instead of 1 character. Upgraders will be not be affected by this as the current used setting will already be in the !LocalSite.cfg file.
 
 A rare case condition has been identified where .htpasswd files could be truncated on a very busy site or during a spam robot attack. Foswiki now uses a file locking with a semaphore file to efficiently protect .htpasswd file from ever being changed by more than one process at a time.
 
