@@ -580,7 +580,6 @@ sub parseInterval {
 
         # complete with parts from "-12-31T23:59:60"
         # check last day of month
-        # TODO: do we do leap years?
         if ( length($last) == 7 ) {
             my $month = substr( $last, 5 );
             my $year = substr( $last, 0, 4 );
