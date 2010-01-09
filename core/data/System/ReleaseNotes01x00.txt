@@ -772,6 +772,7 @@ None
 | [[%BUGS%/Item2043][Item2043]] | parseTime should return undef for invalid date |
 | [[%BUGS%/Item2130][Item2130]] | TablePlugin initsort parameter is not tested before use |
 | [[%BUGS%/Item2137][Item2137]] | configure fails to show many many plugins in Find More Extensions |
+| [[%BUGS%/Item2148][Item2148]] | If a user's loginname happens to be a wikiword reset pwd looks rubbish |
 | [[%BUGS%/Item2151][Item2151]] | EDIT_TEMPLATE with missing edit template makes it impossible to edit the topic |
 | [[%BUGS%/Item2182][Item2182]] | Broken link in PatternSkin docu |
 | [[%BUGS%/Item2183][Item2183]] | Unable to center text with Wysiwyg editor |
