@@ -636,7 +636,10 @@ sub untar {
         }
         for my $tarBin ( qw( tar gtar ) ) {
             _warn "Trying $tarBin on the command-line\n";
-            system $tarBin, "xvf$compressed", $archive and return 1;
+            # system call returns 0 if success. and error code if no success
+            # so we return 1 if the tarBin call succeed
+            return 1 unless system $tarBin, "xvf$compressed", $archive;
+            # OK we failed. Report and loop on if more to loop
             if ($?) {
                 _warn "$tarBin failed: $?";
             }
