@@ -44,11 +44,7 @@ If the contrib is installed, you will see such a field here:
 
 ---+++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
-   * An administrator can customize the appearance of the calendar by setting the following in =<nop>LocalSite.cfg=
-     | *Setting* | *Default* |
-     | =$Foswiki::cfg{JSCalendarContrib}{style}= | ='blue'= |
-     | =$Foswiki::cfg{JSCalendarContrib}{lang}= | ='en'= |
-     | =$Foswiki::cfg{JSCalendarContrib}{format}= | ='%e %b %Y'= |
+   * An administrator can customize the appearance of the calendar using the =configure= interface to set the style, language and time format options.
 
 ---+++ Contrib Info
 
@@ -60,6 +56,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
+|  09 Jan 2010 | Adding the Config.spec file with the 3 settings so that people do not have to manually create the file. |
 |  20 Sep 2009 | Small documentation update in connection with release of Foswiki 1.0.7 |
 |  16 Dec 2008 | Foswiki version |
 |  10 Sep 2008 | Bugs:Item5991 Applied patch to fix rendering on IE7 .|
