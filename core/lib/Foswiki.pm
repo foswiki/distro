@@ -1422,6 +1422,7 @@ sub getIconUrl {
 
     my $iconTopic = $this->{prefs}->getPreference('ICONTOPIC');
     if ( defined($iconTopic) ) {
+        $iconTopic =~ s/\s+$//;
         my ( $web, $topic ) =
           $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
         $iconName =~ s/^.*\.(.*?)$/$1/;
