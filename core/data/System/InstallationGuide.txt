@@ -189,6 +189,15 @@ To setup Apache Login, perform the following steps:
       You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
    1 *Verify that registration works.* Register yourself using the =[[%SYSTEMWEB%.UserRegistration]]= topic in your Foswiki installation. Note if you are viewing this page via the =INSTALL.html= file, then you can access the user registration page by entering =<noautolink>%SYSTEMWEB%.UserRegistration</noautolink>= into the "Jump" text box at the top right of any Foswiki page in your installation.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
    1 *Check that authentication works.* Edit a topic by clicking on the =Edit= link at the top or bottom of a topic. If you have been authenticated, then you will see the edit page; otherwise, you will see an error message.
+   
+#SearchAlgorithm
+---+++ Choose search algorithm based on your platform
+
+Under Store Settings in configure you will find the setting {RCS}{SearchAlgorithm}.
+
+By default it is set to Foswiki::Store::SearchAlgorithms::Forking which is what you should keep if you install Foswiki in Linux or any other Unix type operating system.
+
+If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels). The safe setting for Windows is Foswiki::Store::SearchAlgorithms::PurePerl. 
 
 #DefineAdminUser
 ---+++ Define the administrator user(s)
