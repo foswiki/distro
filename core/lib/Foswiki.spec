@@ -883,21 +883,23 @@ $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 # of these scripts.
 $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 
-# **SELECTCLASS Foswiki::Store::SearchAlgorithms::* EXPERT**
-# Foswiki has two built-in plain-text search algorithms, both designed for
-# use with the RCS store.
+# **SELECTCLASS Foswiki::Store::SearchAlgorithms::***
+# Foswiki RCS has two built-in search algorithms
 # <ol><li> The default 'Forking' algorithm, which forks a subprocess that
-# runs a 'grep' command,
-# </li><li> the 'PurePerl' implementation, which is written in Perl and
-# usually only used as a last resort.</li></ol>
-# Normally you will be just fine with the 'Forking' implementation. However
-# if you find searches run very slowly, you may want to try a different
-# algorithm, which may work better on your configuration.
+# runs a 'grep' command and is recommended for Linux/Unix,
+# </li><li> The 'PurePerl' implementation, which is written in Perl and
+# usually only used for native Windows installations where forking
+# does not work stable because of limitations in length of command line</li></ol>
+# On Linux/Unix you will be just fine with the 'Forking' implementation.
+# However if you find searches run very slowly, you may want to try a 
+# different algorithm, which may work better on your configuration.
+# Forking may work OK also on Windows if you keep the directory path to 
+# Foswiki very short.
 # Note that there is an alternative algorithm available from
-# <a href="http://foswiki.org/Extensions/NativeSearchContrib" target="_new">
-# NativeSearchContrib</a>, that often
+# <a href="http://foswiki.org/Extensions/NativeSearchContrib">
+# http://foswiki.org/Extensions/NativeSearchContrib </a>, that often
 # gives better performance with mod_perl and Speedy CGI.
-$Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
+$Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
 # **COMMAND EXPERT**
 # Full path to GNU-compatible egrep program. This is used for searching when
