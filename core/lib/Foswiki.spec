@@ -899,7 +899,7 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # <a href="http://foswiki.org/Extensions/NativeSearchContrib">
 # http://foswiki.org/Extensions/NativeSearchContrib </a>, that often
 # gives better performance with mod_perl and Speedy CGI.
-$Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
+$Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
 # **COMMAND EXPERT**
 # Full path to GNU-compatible egrep program. This is used for searching when
