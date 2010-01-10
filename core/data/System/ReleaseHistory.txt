@@ -5,9 +5,9 @@
 
 %TOC%
 
----++ Foswiki Release 1.0.9-RC1 - 05 Jan 2009
+---++ Foswiki Release 1.0.9-RC2 - 10 Jan 2009
 
-Foswiki 1.0.9-RC1 was built 05 Jan 2009. It is a patch release with more than 310 bug fixes releative to 1.0.0 and several enhancements. This release fixes many bug mainly in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
+Foswiki 1.0.9-RC2 was built 10 Jan 2009. It is a patch release with more than 320 bug fixes releative to 1.0.0 and several enhancements. This release fixes many bug mainly in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
 
 Predicted release date for 1.0.9 is 2nd or 3rd week of January.
 
