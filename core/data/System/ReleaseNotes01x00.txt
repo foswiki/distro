@@ -170,7 +170,7 @@ It contains several bug fixes and enhancements related to security and spam figh
 
 Default password length is now 7 instead of 1 character. Upgraders will be not be affected by this as the current used setting will already be in the !LocalSite.cfg file.
 
-A rare case condition has been identified where .htpasswd files could be truncated on a very busy site or during a spam robot attack. Foswiki now uses a file locking with a semaphore file to efficiently protect .htpasswd file from ever being changed by more than one process at a time.
+A rare race condition has been identified where .htpasswd files could be truncated on a very busy site or during a spam robot attack. Foswiki now uses a file locking with a semaphore file to efficiently protect .htpasswd file from ever being changed by more than one process at a time.
 
 
 ---++ Important Changes since Foswiki 1.0.7
