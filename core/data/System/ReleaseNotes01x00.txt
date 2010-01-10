@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.9 RELEASE CANDIDATE 1 - 05 Jan 2009
+---+!! Foswiki Release 1.0.9 RELEASE CANDIDATE 2 - 10 Jan 2009
 
 Projected release date for 1.0.9 is 2nd or 3rd week of January depending on the feedback from this release candidate.
 Release candidates are only released as full package zip/tgz.
@@ -28,7 +28,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.6 was built 21 Jun 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This version introduces a major enhancement in security against Cross-Site Request Forgery. Further more a central translation framework got introduced which ease the translation process and enables all users to contribute to translations.
    * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
-   * Foswiki 1.0.9-RC1 was built 05 Jan 2009. It is a patch release with more than 310 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bug mainly in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
+   * Foswiki 1.0.9-RC2 was built 10 Jan 2009. It is a patch release with more than 310 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bug mainly in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
 
 ---++ Pre-installed Extensions
 
@@ -821,7 +821,9 @@ None
 ---++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item446][Item446]] | Make redirectto aware of anchors in links |
 | [[%BUGS%/Item1462][Item1462]] | WYSIWYG-attaches to wrong topic when creating new autonumbered topic |
+| [[%BUGS%/Item1960][Item1960]] | Extension installer fails on FreeBSD |
 | [[%BUGS%/Item2301][Item2301]] | $LISTJOIN can't handle empty separator |
 | [[%BUGS%/Item2305][Item2305]] | Setting $Foswiki::cfg{AllowInlineScript} = 0 will kill strikeone |
 | [[%BUGS%/Item2423][Item2423]] | getRevisionInfo can't deal with dots in the web name |
@@ -835,9 +837,12 @@ None
 | [[%BUGS%/Item2494][Item2494]] | Document that registrationHandler does not trigger until activation key submitted |
 | [[%BUGS%/Item2495][Item2495]] | !OopsException documents false example using macros in parameters |
 | [[%BUGS%/Item2499][Item2499]] | Enabling a wrong language in the LocalSite.cfg breaks Foswiki |
+| [[%BUGS%/Item2504][Item2504]] | Search for windows should be setup for Pureperl instead of Forking |
+| [[%BUGS%/Item2506][Item2506]] | ICONTOPIC setting is too literal, so a space at the end breaks the setting |
 | [[%BUGS%/Item2510][Item2510]] | Universal Edit Button link does not append an accurate timestamp, so the browser loads a cached edit screen |
 | [[%BUGS%/Item2512][Item2512]] | Remove photoshop files from distribution |
 | [[%BUGS%/Item2520][Item2520]] | Reading form field values from topic happens with tainted topic name |
+| [[%BUGS%/Item2529][Item2529]] | Issues with beforeSaveAttachment plugin dispatch (release 1.0.x scope) |
 | [[%BUGS%/Item2532][Item2532]] | InstallationGuide refers to =Foswikibug= instead of =Foswikitask= |
 | [[%BUGS%/Item2534][Item2534]] | TinyMCE FAQ mentions TINYMCEPLUGIN_DISABLE instead of NOWYSIWYG |
 | [[%BUGS%/Item2537][Item2537]] | Race condition in updating htpasswd can cause truncated htpasswd file |
@@ -849,6 +854,9 @@ None
 | [[%BUGS%/Item2565][Item2565]] | Log when user changes email address |
 | [[%BUGS%/Item2567][Item2567]] | Check for valid email address when changing email address |
 | [[%BUGS%/Item2568][Item2568]] | Add strikeone protection for reset password and change email on 1.0.9 |
+| [[%BUGS%/Item2606][Item2606]] | Topics created on 29th of February in a leap year fails |
+| [[%BUGS%/Item2609][Item2609]] | extender.pl broken - Plugin installation fails if using tar instead of Archive::Tar |
+| [[%BUGS%/Item8213][Item8213]] | Defaults for settings are currently hard coded. Move them into a config.spec. |
 | [[%BUGS%/Item8354][Item8354]] | Newsletter mode fails if  %STARTPUBLISH%/%STOPPUBLISH% used in the topic |
 | [[%BUGS%/Item8374][Item8374]] | "Delete last row" button removes newly added rows |
 </noautolink>
