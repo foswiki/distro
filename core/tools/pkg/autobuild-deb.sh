@@ -71,7 +71,54 @@ pkgversion="${releaseversion}-auto${branchrev}"
 debversion="0"
 cp Foswiki-${tarversion}.tgz ${tmpdir}/foswiki_${pkgversion}.orig.tar.gz
 tar zxf Foswiki-${tarversion}.tgz -C ${tmpdir}
-cp -r debian ${tmpdir}/Foswiki-${tarversion}/debian
+
+# Put or generate necessary debian control files into the stage1 package
+# build directory
+cp -pr debian ${tmpdir}/Foswiki-${tarversion}/debian
+./manifest_to_debian_install var/lib/foswiki/ \
+  <../../lib/Foswiki/Contrib/core/MANIFEST \
+  >>${tmpdir}/Foswiki-${tarversion}/debian/foswiki-core.install
+for plugin in `awk -F '[ /]' '/Plugin/ { print $3; }' ../../lib/MANIFEST`
+do
+  dc=`echo $plugin | tr [A-Z] [a-z]`
+  pkg="foswiki-core-$dc"
+  ./manifest_to_debian_install var/lib/foswiki/ \
+    <../../../$plugin/lib/Foswiki/Plugins/$plugin/MANIFEST \
+    >${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
+  cat ${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
+  cat >>${tmpdir}/Foswiki-${tarversion}/debian/control <<EOF
+
+Package: $pkg
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
+Provides: foswiki-$dc
+Conflicts: foswiki-$dc
+Description: $plugin for Foswiki
+ This is the version of $plugin from the Foswiki core release.
+ It may be replaced with newer versions packaged separately.
+EOF
+done
+for contrib in `awk -F '[ /]' '/Contrib/ { print $3; }' ../../lib/MANIFEST | egrep -v core`
+do
+  dc=`echo $contrib | tr [A-Z] [a-z]`
+  pkg="foswiki-core-$dc"
+  ./manifest_to_debian_install var/lib/foswiki/ \
+    <../../../$contrib/lib/Foswiki/Contrib/$contrib/MANIFEST \
+    >${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
+  cat ${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
+  cat >>${tmpdir}/Foswiki-${tarversion}/debian/control <<EOF
+
+Package: $pkg
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
+Provides: foswiki-$dc
+Conflicts: foswiki-$dc
+Description: $contrib for Foswiki
+ This is the version of $contrib from the Foswiki core release.
+ It may be replaced with newer versions packaged separately.
+EOF
+done
+
 cd ${tmpdir}/Foswiki-${tarversion}
 #clean out svn dirs, ignore failures
 find . -name .svn -exec rm -rf '{}' \; || true

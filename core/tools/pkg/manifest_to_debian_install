@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+#
+# manifest_to_install [destination-prefix]
+#  <{manifestfile} >>{debian/package.install}
+
+# Convert core and extension MANIFEST files to debian/package.install files
+# as a first-cut assignment of files to Debian packages.  debian/rules
+# will implement exceptions and packaging changes as necessary at build time.
+# var/lib/foswiki/ is the usual destination directory prefix.
+
+use strict;
+
+my ($prefix) = @ARGV;
+
+while (<STDIN>) {
+  next if (/^\s*#/);
+  if (/^(\S+)\s+(\d+)$/) {
+    my ($file,$perm) = ($1,$2);
+    my ($dest) = $file;
+    $dest =~ s%[^/]*$%%;
+    print "$file $prefix$dest\n";
+  }
+}

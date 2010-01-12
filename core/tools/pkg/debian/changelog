@@ -1,3 +1,11 @@
+foswiki (1.1.0~prerelease) unstable; urgency=high
+
+  * Begin packaging splitup, to better support replacement of data, tools,
+  * and more general configuration options.  Initial new packages will be
+  * empty.
+
+ -- Drake Diedrich <dld@google.com>  Wed, 06 Jan 2010 13:11:00 +0800
+
 foswiki (1.0.7-3) unstable; urgency=high
 
   * fis up the legacy redirect from /cgi-bin/foswiki

@@ -37,9 +37,9 @@ fi
 # Check whether there have been changes in the release or trunk
 #
 cd $BRANCH
-lastrelease=`$TIMEOUT svn info | awk '/Last Changed Rev:/ { print $4; }'`
+lastrelease=`($TIMEOUT svn info || $TIMEOUT git svn info) | awk '/Last Changed Rev:/ { print $4; }'`
 $TIMEOUT svn up >/dev/null
-release=`$TIMEOUT svn info | awk '/Last Changed Rev:/ { print $4; }'`
+release=`($TIMEOUT svn info || $TIMEOUT git svn info) | awk '/Last Changed Rev:/ { print $4; }'`
 cd ..
 
 if [ "$lastrelease" = "$release" ]

@@ -1,11 +1,11 @@
 Source: foswiki
 Section: web
 Priority: optional
-Maintainer: Sven Dowideit <SvenDowideit@fosiki.com>
+Maintainer: Drake Diedrich <dld@google.com>
 Build-Depends: debhelper (>= 5), tardy, po-debconf, dpatch
-Standards-Version: 3.8.2
+Standards-Version: 3.8.3
 
-Package: foswiki
+Package: foswiki-core
 Architecture: all
 Depends: ${perl:Depends}, ${misc:Depends}, libnet-perl, libmime-base64-perl, rcs (>= 5.7), apache | apache2 | apache2.2, debconf (>=  0.5) | debconf-2.0, libalgorithm-diff-perl, liberror-perl, libdigest-sha1-perl, libtext-diff-perl, liblocale-maketext-lexicon-perl, libcgi-session-perl, liburi-perl, libhtml-parser-perl
 Suggests: libunicode-maputf8-perl, libapache-mod-perl, libapache2-mod-perl2, libapache2-mod-auth-plain
@@ -14,3 +14,65 @@ Description: A Web Based Collaboration Platform
  originally developed for OOP/Patterns collaboration.  In addition to the
  traditional Wiki feature of allowing any web browser to serve as a contributing
  client, Foswiki adds rcs-based version control and user management.
+
+# Don't actually build this on modern Debian distributions
+#Package: libfoswiki-cpan-perl
+#Architecture: all
+#Depends: ${perl:Depends}, ${misc:Depends}
+#Description: CPAN libraries for Foswiki
+# This package should become unnecessary as all CPAN modules used by Foswiki
+# become separately packaged and available in various Debian and Ubuntu
+# releases. Ss a stopgap measure they are shipped in the Foswiki tarball
+# and made available in this package.
+
+Package: foswiki-configure-cgi
+Provides: foswiki-configuration
+Conflicts: foswiki-configuration
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}
+Description: Foswiki configure CGI
+ The default upstream Foswiki uses a configure CGI to rewrite Apache and
+ Foswiki configuration files.  This is dangerous and not recommended for
+ .deb-based installs, but some extensions require this method of
+ configuration.  The configure CGI is provided in this package, and changes
+ permissions of several configuration files to www-data so they can be
+ modified.  Don't install it unless you know you want or need it.
+
+Package: foswiki-configure-apache2-basic
+Provides: foswiki-configuration
+Conflicts: foswiki-configuration
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}, foswiki-cgi
+Description: Foswiki Apache2 site configuration
+ This is a simple Apache2 site configuration for testing and evaluation.
+ You need to either manually configure Foswiki or choose on of the
+ foswiki-configuration-* packages.
+
+Package: foswiki-system-web-data
+Architecture: all
+Description: Foswiki System web
+ This package directly supplies to Foswiki System web as root-owned files
+ that cannot be editted through Foswiki.  This is the recommended way to
+ keep an up-to-date Foswiki, so user edits do not need to be manually merged
+ or lost on upgrades.
+
+Package: foswiki-default-web-data
+Architecture: all
+Description: Foswiki System web
+ This package directly supplies to Foswiki _default web used as a source
+ when creating new unpopulated webs.  It is reasonable to uninstall this
+ package and install your own modified _default web.
+
+Package: foswiki-empty-web-data
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}
+Description: Foswiki _empty web
+ This package directly supplies to Foswiki _empty web used as a source
+ when creating new unpopulated webs.
+
+Package: foswiki-example-data
+Architecture: all
+Description: Foswiki example core webs
+ This contains the standard Foswiki seed tarball for creating new foswiki
+ installations.  Once your Foswiki is installed and set up, you no longer
+ need this seed data.
