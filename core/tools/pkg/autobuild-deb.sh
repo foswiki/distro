@@ -110,7 +110,7 @@ do
 
 Package: $pkg
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
+Depends: \${perl:Depends}, \${misc:Depends}, foswiki-core
 Provides: foswiki-$dc
 Conflicts: foswiki-$dc
 Description: $contrib for Foswiki
