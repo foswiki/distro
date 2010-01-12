@@ -1,7 +1,7 @@
 # Sample '.htaccess' file for subdirectories
 
 # Controls access to Foswiki subdirectories other than 'bin' and 'pub'
-# - copy this into 'data', 'lib', 'locale', 'working' and 'templates'
+# - copy this into 'data', 'lib', 'locale', 'templates', 'tools', and 'working'
 # naming it '.htaccess', to have Apache use it.
 
 # This is useful if you install Foswiki on a web host, or an intranet host
