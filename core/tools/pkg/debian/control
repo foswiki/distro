@@ -2,7 +2,7 @@ Source: foswiki
 Section: web
 Priority: optional
 Maintainer: Drake Diedrich <dld@google.com>
-Build-Depends: debhelper (>= 5), tardy, po-debconf, dpatch
+Build-Depends: debhelper (>= 7), tardy, po-debconf, dpatch
 Standards-Version: 3.8.3
 
 Package: foswiki-core
