@@ -83,9 +83,9 @@ do
   dc=`echo $plugin | tr [A-Z] [a-z]`
   pkg="foswiki-core-$dc"
   ./manifest_to_debian_install var/lib/foswiki/ \
-    <../../../$plugin/lib/Foswiki/Plugins/$plugin/MANIFEST \
-    >${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
-  cat ${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
+    <../../../$plugin/lib/Foswiki/Plugins/${plugin}/MANIFEST \
+    >${tmpdir}/Foswiki-${tarversion}/debian/${pkg}.install
+  cat ${tmpdir}/Foswiki-${tarversion}/debian/${pkg}.install
   cat >>${tmpdir}/Foswiki-${tarversion}/debian/control <<EOF
 
 Package: $pkg
@@ -104,8 +104,8 @@ do
   pkg="foswiki-core-$dc"
   ./manifest_to_debian_install var/lib/foswiki/ \
     <../../../$contrib/lib/Foswiki/Contrib/$contrib/MANIFEST \
-    >${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
-  cat ${tmpdir}/Foswiki-${tarversion}/debian/$pkg.install
+    >${tmpdir}/Foswiki-${tarversion}/debian/${pkg}.install
+  cat ${tmpdir}/Foswiki-${tarversion}/debian/${pkg}.install
   cat >>${tmpdir}/Foswiki-${tarversion}/debian/control <<EOF
 
 Package: $pkg

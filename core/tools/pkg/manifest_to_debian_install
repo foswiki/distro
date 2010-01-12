@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# manifest_to_install [destination-prefix]
+# manifest_to_debian_install [destination-prefix]
 #  <{manifestfile} >>{debian/package.install}
 
 # Convert core and extension MANIFEST files to debian/package.install files
@@ -21,3 +21,6 @@ while (<STDIN>) {
     print "$file $prefix$dest\n";
   }
 }
+
+print STDERR "manufest_to_debian_install done\n";
+exit 0;
