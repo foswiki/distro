@@ -50,6 +50,28 @@ cp  ../Foswiki-*.tgz ${FOSWIKI_HOME}/tools/pkg/
 tarversion=`echo ../Foswiki-*.tgz | sed 's%../Foswiki-%%' | sed 's/.tgz//'`
 releaseversion=`echo $tarversion | sed s/-.*//`
 
+# unless this is an already released tree, make these packages sort
+# earlier than the release.  ~ sorts earlier than any other character
+# in Debian version numbering
+if [ echo $tarversion | grep -- - ]
+then
+  # there is something like a -dev or -RCN extension, this is pre-release
+  versionextension='~'
+else
+  # Look for an svn tag, indicating this is post release
+  # a few post-release commits may still look like pre-releases until
+  # the svn tag is issued - that's OK
+  svnroot=`svn info | awk '/Repository Root:/ { print $3;}'`
+  tagname=`perl -e '"$releaseversion" =~ /^(\d+)\.(\d+)\.(\d+)$/; printf("FoswikiRelease%02dx%02dx%02d\n",$1,$2,$3);'`;
+  if git branch -r | egrep "tags/$tagname" ; then
+    versionextension='-'
+  elif svn list $svnroot/tags | egrep $tagname ; then
+    versionextension='-'
+  else
+    versionextension='~'
+  fi
+fi
+
 cd ${FOSWIKI_HOME}/tools/pkg
 
 
@@ -67,7 +89,7 @@ tmpdir=`mktemp -d /tmp/stage1-1.0.XXXXXXXXXX`
 #
 # First build using Foswiki's in-tree BuildContrib to get a source package
 #
-pkgversion="${releaseversion}-auto${branchrev}"
+pkgversion="${releaseversion}${versionextension}auto${branchrev}"
 debversion="0"
 cp Foswiki-${tarversion}.tgz ${tmpdir}/foswiki_${pkgversion}.orig.tar.gz
 tar zxf Foswiki-${tarversion}.tgz -C ${tmpdir}
@@ -125,7 +147,7 @@ find . -name .svn -exec rm -rf '{}' \; || true
 
 DEBFULLNAME="Foswiki Autobuilder" \
 DEBEMAIL="foswiki-discuss@lists.sourceforge.net" \
-  dch -v "${pkgversion}-${debversion}" "nmu: autobuild"
+  dch -b -v "${pkgversion}-${debversion}" "nmu: autobuild"
 
 
 debuild -us -uc || echo debuild returned $?
