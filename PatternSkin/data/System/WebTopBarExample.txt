@@ -6,7 +6,7 @@
 <noautolink>
    * <form name="jumpForm" action="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%"><input id="jumpFormField" type="text" class="foswikiInputField" name="topic" value="" size="18" /><noscript>&nbsp;<input type="submit" class="foswikiButton" size="5" name="submit" value="%MAKETEXT{"Jump"}%" />&nbsp;</noscript>
    </form>
-   * <form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch"><input type="text" class="foswikiInputField" id="quickSearchBox" name="search" value="" size="18" /><input type="hidden" name="scope" value="all" /><input type="hidden" name="web" value="%BASEWEB%" /><noscript>&nbsp;<input type="submit" size="5" class="foswikiButton" name="submit" value="%MAKETEXT{"Search"}%" />&nbsp;</noscript>
+   * <form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch"><input type="text" class="foswikiInputField" id="quickSearchBox" name="search" value="%URLPARAM{search}%" size="18" /><input type="hidden" name="scope" value="all" /><input type="hidden" name="web" value="%BASEWEB%" /><noscript>&nbsp;<input type="submit" size="5" class="foswikiButton" name="submit" value="%MAKETEXT{"Search"}%" />&nbsp;</noscript>
    </form>
    * %INCLUDE{%SYSTEMWEB%.LanguageSelector}%
 </noautolink></td></tr></table>
