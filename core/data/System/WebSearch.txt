@@ -6,11 +6,17 @@
 
 %SEARCH{
 "%URLPARAM{"search" encode="quote"}%"
-type="%URLPARAM{"type" encode="quote" default="word"}%"
+type="%URLPARAM{"type" default="word"}%"
 scope="%URLPARAM{"scope" encode="quote"}%"
 web="%URLPARAM{"web" encode="quote"}%"
-nosearch="%URLPARAM{"nosearch" encode="quote"}%"
 excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
+nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
+nosummary="%URLPARAM{"nosummary" encode="quote"}%"
+nototal="%URLPARAM{"nototal" encode="quote"}%"
+order="%URLPARAM{"order" encode="quote"}%"
+reverse="%URLPARAM{"reverse" encode="quote"}%"
+limit="%URLPARAM{"limit" encode="quote"}%"
 zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 
