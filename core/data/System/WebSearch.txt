@@ -4,13 +4,19 @@
 
 %IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="safe"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%BASETOPIC%,WebHome,WebStatistics"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
 
-%SEARCH{ 
-"%URLPARAM{"search" encode="quote"}%" 
-type="%URLPARAM{"type" encode="quote" default="word"}%" 
-scope="%URLPARAM{"scope" encode="quote"}%" 
-web="%URLPARAM{"web" encode="quote"}%" 
-nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+%SEARCH{
+"%URLPARAM{"search" encode="quote"}%"
+type="%URLPARAM{"type" default="word"}%"
+scope="%URLPARAM{"scope" encode="quote"}%"
+web="%URLPARAM{"web" encode="quote"}%"
 excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
+nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
+nosummary="%URLPARAM{"nosummary" encode="quote"}%"
+nototal="%URLPARAM{"nototal" encode="quote"}%"
+order="%URLPARAM{"order" encode="quote"}%"
+reverse="%URLPARAM{"reverse" encode="quote"}%"
+limit="%URLPARAM{"limit" encode="quote"}%"
 zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 
