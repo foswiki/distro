@@ -1,0 +1,71 @@
+%META:TOPICINFO{author="ProjectContributor" date="1252718352" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
+
+%STARTSECTION{"AnnotationList"}%
+---+ Annotated versions of the Installation Guide
+
+---++ Available annotated guides
+
+%SEARCH{"." type="regex" web="%SYSTEMWEB%%IF{"defined IGAnnotationsWebs" then=",%IGAnnotationsWebs%"}%" topic="InstallationGuide*" excludetopic="InstallationGuide" nonoise="on"}%
+
+Webs searched for annotated guides: %SYSTEMWEB% %IF{"defined IGAnnotationsWebs" then="%IGAnnotationsWebs%"}%
+
+---++ Creating a new annotated installation guide
+
+To annotate the installation guide, create a topic <noautolink>InstallationGuideYourVariant</noautolink> to hold your annotations. This topic can be in any web.
+
+At the start of your topic, include the following (or similar) text, passing <nop>Your<nop>Variant as the value to the IGVariant URL parameter:
+
+<verbatim>
+---+ Installation Guide: YourVariant
+
+<!-- the following will include an annotated version of the installation
+     guide within the topic, hiding it using a TWISTY -->
+%INCLUDE{"%SYSTEMWEB%.AnnotatedInstallationGuide" section="DisplayAnnotatedGuide" IGVariant="YourVariant"}%
+
+---+ Notes for YourVariant
+</verbatim>
+
+Below the "Notes for <nop>Your<nop>Variant" heading, include your annotations. Look at the raw text of %SYSTEMWEB%.InstallationGuide ([[%SYSTEMWEB%.InstallationGuide?raw=on][raw text]]) to see the sections to which you can add notes&mdash;you can add notes to the start of any section that has a corresponding _#<nop>Section<nop>Anchor_ anchor name immediately preceding the section heading.
+
+To help place each note in context, before each note, include the same headings as present within the %SYSTEMWEB%.InstallationGuide. Surround the text of each note with the following, replacing _<nop>Section<nop>Anchor_ with the specific anchor name for the section being annotated. This text will be included inline within the annotated guide.
+
+<sticky><pre>
+%<nop>STARTSECTION{"<em><nop>Section<nop>Anchor</em>"}%%<nop>INCLUDE{"%<nop>SYSTEMWEB%.AnnotatedInstallationGuide" section="StartAnnotation" IGVariant="YourVariant"}%
+... your notes (will be shown inline within the annotated guide) ...
+%<nop>INCLUDE{"%<nop>SYSTEMWEB%.AnnotatedInstallationGuide" section="EndAnnotation"}%%<nop>ENDSECTION{"<em><nop>Section<nop>Anchor</em>"}%
+</pre></sticky>
+
+As an example, see the raw text for [[%SYSTEMWEB%.InstallationGuideDreamhost?raw=on]].
+
+---++ Listing annotated guides in webs other than %SYSTEMWEB%
+
+If you have created annotated guides in other webs, you can list them by creating a topic with the following text:
+
+<verbatim>
+%INCLUDE{"%SYSTEMWEB%.AnnotatedInstallationGuide" section="AnnotationList" IGAnnotationsWebs="Web1,Web2"}%
+</verbatim>
+
+The <nop>IGAnnotations<nop>Webs parameter must be set to a comma-separated list of the webs to search (the %SYSTEMWEB% web will also be searched). The resulting topic will look the same as this one but the additional webs you specified will also be searched for annotated guides.
+
+%ENDSECTION{"AnnotationList"}%
+
+<div style="display:none;">
+<verbatim>
+%STARTINCLUDE%%IF{"defined IGVariant" then="$percntINCLUDE{\"%SYSTEMWEB%.AnnotatedInstallationGuide\" section=\"DisplayAnnotation\"}$percnt"}%%STOPINCLUDE%
+
+%STARTSECTION{"DisplayAnnotation"}%%IF{"istopic InstallationGuide%IGVariant%" then="$percntINCLUDE{\"%BASEWEB%.InstallationGuide%IGVariant%\" section=\"%IGSection%\" warn=\"off\"}$percnt"}%%ENDSECTION{"DisplayAnnotation"}%
+
+%STARTSECTION{"StartAnnotation"}%%TWISTY{showlink="<noautolink>Show notes for %IGVariant%</noautolink>&nbsp;" hidelink="<noautolink>Hide notes for %IGVariant%</noautolink>&nbsp;" mode="div" firststart="show" showimgleft="%ICONURLPATH{toggleopen-small}%" hideimgleft="%ICONURLPATH{toggleclose-small}%" class="IGAnnotation"}%%ENDSECTION{"StartAnnotation"}%
+
+%STARTSECTION{"EndAnnotation"}%%ENDTWISTY%%ENDSECTION{"EndAnnotation"}%
+
+%STARTSECTION{"DisplayAnnotatedGuide"}%%TWISTY{showlink="See notes inline within installation guide&nbsp;"
+hidelink="Hide annotated installation guide&nbsp;"
+mode="div"
+showimgleft="%ICONURLPATH{toggleopen-small}%"
+hideimgleft="%ICONURLPATH{toggleclose-small}%"
+}%%INCLUDE{"%SYSTEMWEB%.InstallationGuide" section="BodyNoHeading" IGVariant="%IGVariant%"}%%ENDTWISTY%%ENDSECTION{"DisplayAnnotatedGuide"}%
+
+</verbatim>
+</div>

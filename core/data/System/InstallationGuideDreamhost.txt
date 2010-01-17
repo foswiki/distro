@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="ProjectContributor" date="1252718352" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
+%STARTINCLUDE%
+---+ Installation Guide: Dreamhost installation
+
+%INCLUDE{"%SYSTEMWEB%.AnnotatedInstallationGuide" section="DisplayAnnotatedGuide" IGVariant="Dreamhost"}%
+
+---+ Notes for Dreamhost installation
+
+As Dreamhost web hosting accounts allow full shell access, the basic installation procedure can be followed with only a minor change, described below.
+
+---++ Basic installation: getting Foswiki up and running
+
+---+++ Configure the web server
+
+%STARTSECTION{"ConfigureWebServer"}%%INCLUDE{"%SYSTEMWEB%.AnnotatedInstallationGuide" section="StartAnnotation" IGVariant="Dreamhost"}%When configuring your web server on Dreamhost, you must use .htaccess files, as you do not have access to the web server .conf files.
+
+As Dreamhost home directories have a symlink within their paths, you must enable the =FollowSymLinks= option for the =foswiki/pub/= directory. Edit the =foswiki/pub/.htaccess file= by changing the line =Options None= to the following:
+<sticky><pre>
+Options None +FollowSymLinks +SymLinksIfOwnerMatch
+</pre></sticky>
+%INCLUDE{"%SYSTEMWEB%.AnnotatedInstallationGuide" section="EndAnnotation"}%%ENDSECTION{"ConfigureWebServer"}%
+
+---
+ *Related Topics:* %SYSTEMWEB%.InstallationGuide, %SYSTEMWEB%.AdminDocumentationCategory, Foswiki:Support.SupplementalDocuments
