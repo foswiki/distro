@@ -178,6 +178,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  17 Jan 2010: | v.4.0.7 - Repeat search phrase in search box. Version for Foswiki 1.0.9 |
 |  07 Dec 2009: | v.4.0.6 - Remove spurious newline from attachagain template. Add support for new option to work around IE8 bug with slow/erratic textareas. Fix printing in Safari (thanks Foswiki:Main.MichaelMoss). Remove bogus info on setting view template on topic creation (thanks Foswiki:Main.MartinKaufmann). Make action buttons easier to skin. Fix textareabuttons not displayed when NOWYSIWYG=1. |
 |  29 Sep 2009: | v.4.0.5 - Fixed broken link in !PatternSkinCustomization. Fix code/pre white-space styling. Make behaviour javascript work with IE8. Add clear:both to the css for the .foswikiContentFooter - that way it _could_ be over-ridden by a subskin. Made links in headers should look like links. |
 |  07 Sep 2009: | v.4.0.4 - Consolidated versions in trunk and release branch. Version for Foswiki 1.0.7. |
