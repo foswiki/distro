@@ -1,9 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.9 RELEASE CANDIDATE 2 - 10 Jan 2009
-
-Projected release date for 1.0.9 is 2nd or 3rd week of January depending on the feedback from this release candidate.
-Release candidates are only released as full package zip/tgz.
+---+!! Foswiki Release 1.0.9 - 17 Jan 2010
 
 %TOC%
 
@@ -28,7 +25,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.6 was built 21 Jun 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This version introduces a major enhancement in security against Cross-Site Request Forgery. Further more a central translation framework got introduced which ease the translation process and enables all users to contribute to translations.
    * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
-   * Foswiki 1.0.9-RC2 was built 10 Jan 2009. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bug mainly in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
+   * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
 
 ---++ Pre-installed Extensions
 
@@ -61,6 +58,8 @@ Foswiki 1.0 is shipped with the following:
    * Foswiki 1.0.6 introduces a major security enhancement, protecting against Cross-Site Request Forgery. The extra safe "double submit" algorithm, as recommended by the [[http://www.owasp.org][Open Web Application Security Project (OWASP)]] project has been used. This is the same algorithm used by several major banks and other security-conscious institutions, and requires that users have Javascript enabled. 
 See Foswiki:Support.SecurityFeatures for more information on these, and other, Foswiki security features. This is recommended reading for all Foswiki administrators.
    * Foswiki 1.0.7 extends the strikeone protection to also include attachment of files
+   * Foswiki 1.0.9 extends the strikeone protection to also include user registration. Default minimum password length is now 7 characters (does not apply when upgrading)
+   
 
 ---+++ Upgrading From TWiki
 
@@ -826,14 +825,15 @@ None
 | [[%BUGS%/Item1960][Item1960]] | Extension installer fails on FreeBSD |
 | [[%BUGS%/Item2301][Item2301]] | $LISTJOIN can't handle empty separator |
 | [[%BUGS%/Item2305][Item2305]] | Setting $Foswiki::cfg{AllowInlineScript} = 0 will kill strikeone |
+| [[%BUGS%/Item2337][Item2337]] | ATTACHFILESIZELIMIT check fails confusingly if value is "0 " |
 | [[%BUGS%/Item2423][Item2423]] | getRevisionInfo can't deal with dots in the web name |
 | [[%BUGS%/Item2434][Item2434]] | BASE windowtitle |
 | [[%BUGS%/Item2437][Item2437]] | MailerContrib documentation points to a non existing !PublishContrib |
 | [[%BUGS%/Item2439][Item2439]] | rewriteshbang typed wrong in installation guide |
-| [[%BUGS%/Item2447][Item2447]] | Unable to apply "normal" format |
+| [[%BUGS%/Item2447][Item2447]] | Unable to apply "normal" format in wysiwyg editor |
 | [[%BUGS%/Item2470][Item2470]] | Remove spurious newline from attachagain template |
 | [[%BUGS%/Item2476][Item2476]] | Slow, erratic editing in plain textareas with IE8 |
-| [[%BUGS%/Item2482][Item2482]] | Table ascending sort puts 8 before 7 |
+| [[%BUGS%/Item2482][Item2482]] | Improved documentation for date formats in !TablePlugin |
 | [[%BUGS%/Item2494][Item2494]] | Document that registrationHandler does not trigger until activation key submitted |
 | [[%BUGS%/Item2495][Item2495]] | !OopsException documents false example using macros in parameters |
 | [[%BUGS%/Item2499][Item2499]] | Enabling a wrong language in the LocalSite.cfg breaks Foswiki |
@@ -851,12 +851,15 @@ None
 | [[%BUGS%/Item2551][Item2551]] | The strikeone action parameter name clashes with manage script |
 | [[%BUGS%/Item2559][Item2559]] | Some calls to checkValidationKey contains unused parameters |
 | [[%BUGS%/Item2564][Item2564]] | Lots of broken parent links in System web |
-| [[%BUGS%/Item2565][Item2565]] | Log when user changes email address |
 | [[%BUGS%/Item2567][Item2567]] | Check for valid email address when changing email address |
-| [[%BUGS%/Item2568][Item2568]] | Add strikeone protection for reset password and change email on 1.0.9 |
 | [[%BUGS%/Item2606][Item2606]] | Topics created on 29th of February in a leap year fails |
 | [[%BUGS%/Item2609][Item2609]] | extender.pl broken - Plugin installation fails if using tar instead of Archive::Tar |
-| [[%BUGS%/Item8213][Item8213]] | Defaults for settings are currently hard coded. Move them into a config.spec. |
+| [[%BUGS%/Item2641][Item2641]] | Link to "more topic actions" on history page calls wrong template |
+| [[%BUGS%/Item2647][Item2647]] | RSS feed of search does not store excludetopic |
+| [[%BUGS%/Item2649][Item2649]] | Search box in top bar does not keep search phrase |
+| [[%BUGS%/Item2650][Item2650]] | Link to advanced search transfers limited number of search parameters |
+| [[%BUGS%/Item2651][Item2651]] | Not all search parameters are used in search on !WebSearch |
+| [[%BUGS%/Item8213][Item8213]] | Default settings for JSCalendarContrib are currently hard coded. Move them into a config.spec. |
 | [[%BUGS%/Item8354][Item8354]] | Newsletter mode fails if  %STARTPUBLISH%/%STOPPUBLISH% used in the topic |
 | [[%BUGS%/Item8374][Item8374]] | "Delete last row" button removes newly added rows |
 </noautolink>
@@ -866,6 +869,8 @@ None
 <noautolink>
 | [[%BUGS%/Item2497][Item2497]] | Add strikeone protection also for the register case |
 | [[%BUGS%/Item2556][Item2556]] | Increase default {MinPasswordLength} to 7 characters |
+| [[%BUGS%/Item2565][Item2565]] | Log when user changes email address |
+| [[%BUGS%/Item2568][Item2568]] | Add strikeone protection for reset password and change email on 1.0.9 |
 </noautolink>
 
 ---
