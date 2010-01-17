@@ -784,7 +784,9 @@ sub _restUpload {
             return;    # to prevent further processing
         }
 
-        my $maxSize = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT');
+        my $maxSize =
+          Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') || 0;
+        $maxSize =~ s/\s+$//;
         $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
 
         if ( $maxSize && $fileSize > $maxSize * 1024 ) {
