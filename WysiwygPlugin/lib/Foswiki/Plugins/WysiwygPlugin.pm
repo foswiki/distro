@@ -40,7 +40,7 @@ our $SHORTDESCRIPTION  = 'Translator framework for Wysiwyg editors';
 our $NO_PREFS_IN_TOPIC = 1;
 our $VERSION           = '$Rev$';
 
-our $RELEASE = '8 Dec 2009';
+our $RELEASE = '17 Jan 2010';
 
 our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
