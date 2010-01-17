@@ -175,6 +175,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  17 Jan 2010 | Foswikitask:Item2337: ATTACHFILESIZELIMIT check fails confusingly if value is "0 " |
 |  18 Dec 2009 | Foswikitask:Item2511: move code out of the plugin module to accelerate loading |
 |  18 Nov 2009 | Foswikitask:Item2369: Convert tables with cells that span rows |
 |  22 Oct 2009 | Foswikitask:Item2183: Protect div style= by default |
