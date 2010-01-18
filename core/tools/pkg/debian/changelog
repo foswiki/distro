@@ -1,6 +1,13 @@
+foswiki (1.0.9-1) unstable; urgency=high
+
+  * upgrade to 1.0.9
+  * tighten up the too greedy ShorterUrls rewrite match
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Mon, 18 Jan 2010 13:22:35 -0700
+
 foswiki (1.0.7-3) unstable; urgency=high
 
-  * fis up the legacy redirect from /cgi-bin/foswiki
+  * fix up the legacy redirect from /cgi-bin/foswiki
 
  -- Sven Dowideit <SvenDowideit@fosiki.com>  Thu, 08 Oct 2009 13:22:35 -0700
 
