@@ -169,7 +169,7 @@ sub _upload {
         }
 
         my $maxSize =
-          $session->{prefs}->getPreferencesValue('ATTACHFILESIZELIMIT') || 0;
+          $session->{prefs}->getPreference('ATTACHFILESIZELIMIT') || 0;
         $maxSize =~ s/\s+$//;
         $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
 
