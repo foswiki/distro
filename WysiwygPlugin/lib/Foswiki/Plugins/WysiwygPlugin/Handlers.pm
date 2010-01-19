@@ -15,8 +15,10 @@ use Foswiki::Func                              ();    # The plugins API
 use Foswiki::Plugins                           ();    # For the API version
 use Foswiki::Plugins::WysiwygPlugin::Constants ();
 
-use vars qw( $html2tml $tml2html $recursionBlock $imgMap );
-use vars qw( %FoswikiCompatibility @refs %xmltagPlugin);
+our $html2tml;
+our $imgMap;
+our @refs;
+our %xmltagPlugin;
 
 our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
@@ -60,11 +62,6 @@ sub _OTOPICTAG {
     }
 
     return $topic;
-}
-
-$FoswikiCompatibility{startRenderingHandler} = 2.1;
-sub startRenderingHandler {
-    $_[0] =~ s#</?sticky>##g;
 }
 
 # This handler is used to determine whether the topic is editable by
@@ -198,14 +195,7 @@ sub TranslateHTML2TML {
 sub beforeCommonTagsHandler {
 
     #my ( $text, $topic, $web, $meta )
-    return if $recursionBlock;
-    return unless Foswiki::Func::getContext()->{body_text};
-
     my $query = Foswiki::Func::getCgiQuery();
-
-    return unless $query;
-
-    return unless defined( $query->param('wysiwyg_edit') );
 
     # stop it from processing the template without expanded
     # %TEXT% (grr; we need a better way to tell where we
@@ -257,8 +247,6 @@ sub _JAVASCRIPT_TEXT {
 }
 
 sub postRenderingHandler {
-    return if ( $recursionBlock || !$tml2html );
-
     # Replace protected content.
     $_[0] = _dropBack( $_[0] );
 }
@@ -307,7 +295,7 @@ sub _populateVars {
 
     return if ( $opts->{exp} );
 
-    local $recursionBlock = 1;    # block calls to beforeCommonTagshandler
+    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;    # block calls to beforeCommonTagshandler
 
     my @exp = split(
         /\0/,
@@ -345,7 +333,7 @@ sub postConvertURL {
 
     #my $orig = $url; #debug
 
-    local $recursionBlock = 1;    # block calls to beforeCommonTagshandler
+    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;    # block calls to beforeCommonTagshandler
 
     my $anchor = '';
     if ( $url =~ s/(#.*)$// ) {
@@ -390,7 +378,8 @@ sub _convertImage {
 
     return unless $src;
 
-    local $recursionBlock = 1;    # block calls to beforeCommonTagshandler
+    # block calls to beforeCommonTagshandler
+    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;
 
     unless ($imgMap) {
         $imgMap = {};
@@ -494,11 +483,11 @@ sub TranslateTML2HTML {
     my ( $text, $web, $topic, @extraConvertOptions ) = @_;
 
     # Translate the topic text to pure HTML.
-    unless ($tml2html) {
+    unless ($Foswiki::Plugins::WysiwygPlugin::tml2html) {
         require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
-        $tml2html = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
+        $Foswiki::Plugins::WysiwygPlugin::tml2html = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     }
-    return $tml2html->convert(
+    return $Foswiki::Plugins::WysiwygPlugin::tml2html->convert(
         $_[0],
         {
             web             => $web,

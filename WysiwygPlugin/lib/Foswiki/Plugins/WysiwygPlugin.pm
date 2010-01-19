@@ -34,6 +34,11 @@ our $VERSION           = '$Rev$';
 our $RELEASE = '17 Jan 2010';
 
 our %xmltag;
+# The following are all used in Handlers, but declared here so we can
+# check them without loading the handlers module
+our $tml2html;
+our $recursionBlock;
+our %FoswikiCompatibility;
 
 # Set to 1 for reasons for rejection
 sub WHY { 0 };
@@ -212,6 +217,55 @@ sub notWysiwygEditable {
 sub postConvertURL {
     require Foswiki::Plugins::WysiwygPlugin::Handlers;
     Foswiki::Plugins::WysiwygPlugin::Handlers::postConvertURL(@_);
+}
+
+sub beforeEditHandler {
+    _execute('beforeEditHandler', @_);
+}
+
+sub beforeSaveHandler {
+    _execute('beforeSaveHandler', @_);
+}
+
+sub beforeMergeHandler {
+    _execute('beforeMergeHandler', @_);
+}
+
+sub afterEditHandler {
+    _execute('afterEditHandler', @_);
+}
+
+# The next few handlers have to be executed on topic views, so have to
+# avoid lazy-loading the handlers unless absolutely necessary.
+
+$FoswikiCompatibility{startRenderingHandler} = 2.1;
+sub startRenderingHandler {
+    $_[0] =~ s#</?sticky>##g;
+}
+
+sub beforeCommonTagsHandler {
+    return if $recursionBlock;
+    return unless Foswiki::Func::getContext()->{body_text};
+
+    my $query = Foswiki::Func::getCgiQuery();
+
+    return unless $query;
+
+    return unless defined( $query->param('wysiwyg_edit') );
+    _execute('beforeCommonTagsHandler', @_);
+}
+
+sub postRenderingHandler {
+    return if ( $recursionBlock || !$tml2html );
+    _execute('postRenderingHandler', @_);
+}
+
+sub modifyHeaderHandler {
+    my ( $headers, $query ) = @_;
+
+    if ( $query->param('wysiwyg_edit') ) {
+        _execute('modifyHeaderHandler', @_);
+    }
 }
 
 1;
