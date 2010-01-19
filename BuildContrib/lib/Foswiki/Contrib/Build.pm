@@ -1078,7 +1078,7 @@ sub build_js {
         $minifier = \&JavaScript::Minifier::XS::minify;
     }
     elsif ( eval { require JavaScript::Minifier } ) {
-        $minifier = \&JavaScript::Minifier::minify;
+        $minifier = sub { JavaScript::Minifier::minify(input => $_[0]) };
     }
     else {
         print STDERR "Cannot squish $to: $@\n";
@@ -1092,7 +1092,7 @@ sub build_js {
     my $text = <IF>;
     close(IF);
 
-    $text = &{$minifier}( input => $text );
+    $text = &{$minifier}( $text );
 
     unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
@@ -1132,7 +1132,7 @@ sub build_css {
         $minifier = \&CSS::Minifier::XS::minify;
     }
     elsif ( eval { require CSS::Minifier } ) {
-        $minifier = \&CSS::Minifier::minify;
+        $minifier = sub { CSS::Minifier::minify(input => $_[0]) };
     }
     else {
         print STDERR "Cannot squish $to: $@\n";
@@ -1146,7 +1146,7 @@ sub build_css {
     my $text = <IF>;
     close(IF);
 
-    $text = &{$minifier}( input => $text );
+    $text = &{$minifier}( $text );
 
     unless ( $this->{-n} ) {
         if ( open( IF, '<', $to ) ) {
