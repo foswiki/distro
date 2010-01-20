@@ -30,6 +30,7 @@ use strict;
 use Assert;
 use Error qw( :try );
 use Foswiki::ListIterator ();
+use Foswiki::Func ();
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
