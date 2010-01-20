@@ -184,6 +184,7 @@ BEGIN {
         },
         ENCODE            => undef,
         ENV               => undef,
+        EXPAND            => undef,
         FORMFIELD         => undef,
         FOREACH           => undef,
         GMTIME            => sub {
