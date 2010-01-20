@@ -325,7 +325,7 @@ sub webExists {
     my ( $this, $web ) = @_;
 
     return 0 unless defined $web;
-    $web =~ s/\./\//go;
+    $web =~ s#\.#/#go;
     my $handler = $this->getHandler( $web, $Foswiki::cfg{WebPrefsTopicName} );
     return $handler->storedDataExists();
 }
@@ -334,9 +334,9 @@ sub webExists {
 sub topicExists {
     my ( $this, $web, $topic ) = @_;
 
+    return 0 unless defined $web && $web ne '';
     $web =~ s#\.#/#go;
-    ASSERT( defined($topic) ) if DEBUG;
-    return 0 unless $topic;
+    return 0 unless defined $topic && $topic ne '';
 
     my $handler = $this->getHandler( $web, $topic );
     return $handler->storedDataExists();

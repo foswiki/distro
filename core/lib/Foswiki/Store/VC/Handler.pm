@@ -420,6 +420,7 @@ Establishes if there is stored data associated with this handler.
 
 sub storedDataExists {
     my $this = shift;
+    return 0 unless $this->{file};
     return -e $this->{file};
 }
 
