@@ -35,7 +35,7 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
 </tr>
 <!--
    # optional row for login name, enabled by {Register}{AllowLoginName} option in =configure=
-   * Set BESPOKE_AUTH = <tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> <span class="foswikiGrayText">%MAKETEXT{"required"}%</span> </td></tr>
+   * Set BESPOKE_AUTH = <tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>
 -->
 %IF{"$ ALLOWLOGINNAME" then="%BESPOKE_AUTH%"}%
 <tr>
