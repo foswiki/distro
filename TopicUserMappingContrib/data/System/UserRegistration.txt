@@ -356,7 +356,7 @@ TODO: should redo this topic to look differet between a guest registering themse
 -->
 %STARTSECTION{"changegroup"}%<!-- changegroup -->
 <input type="checkbox" name="Twk0AddToGroups" class="foswikiInputField" value="%groupname%" label="%groupname%" />
-               %IF{"not istopic '%MAINWEB%.%groupname%'" then="<nop>" else="%MAINWEB%."}%%groupname%
+               %IF{"not istopic '%USERSWEB%.%groupname%'" then="<nop>" else="%USERSWEB%."}%%groupname%
 <!-- /changegroup -->%ENDSECTION{"changegroup"}%
 <!--
   parameters: 
