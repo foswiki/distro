@@ -20,8 +20,6 @@ use Assert;
 
 use Foswiki ();
 
-my $settingPrefPrefix = 'PREFERENCE_';
-
 =begin TML
 
 ---++ StaticFunction parse( $topicObject, $prefs )
@@ -37,6 +35,7 @@ sub parse {
     my $key   = '';
     my $value = '';
     my $type;
+
     foreach ( split( "\n", $topicObject->text() ) ) {
         if (m/$Foswiki::regex{setVarRegex}/os) {
             if ( defined $type ) {
@@ -69,13 +68,6 @@ sub parse {
         my $value = $field->{value};
         my $name  = $field->{name};
         $prefs->insert( $type, $name, $value );
-
-        # SMELL: What is this mysterious undocumented code for? It inserts
-        # PREFERENCE_<pref title> but that's all I can work out :-(
-        # I can't find any clues in Codev either.
-        if ( defined( $field->{title} ) ) {
-            $prefs->insert( $type, 'PREFERENCE_' . $field->{title}, $value );
-        }
     }
 
     # Note that the use of the "S" attribute to support settings in

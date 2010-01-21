@@ -65,7 +65,6 @@ preferences are stored.
 package Foswiki::Prefs;
 
 use Assert;
-use Foswiki::Prefs::TopicRAM ();
 use Foswiki::Prefs::HASH     ();
 use Foswiki::Prefs::Stack    ();
 use Foswiki::Prefs::Web      ();
@@ -92,6 +91,9 @@ sub new {
         'internals' => {},    # Store internal preferences
         'session' => $session,
     };
+
+    eval "use $Foswiki::cfg{Store}{PrefsBackend} ()";
+    die $@ if $@;
 
     return bless $this, $class;
 }
@@ -138,7 +140,8 @@ sub _getBackend {
       unless ref($metaObject) && UNIVERSAL::isa( $metaObject, 'Foswiki::Meta' );
     my $path = $metaObject->getPath();
     unless ( exists $this->{paths}{$path} ) {
-        $this->{paths}{$path} = Foswiki::Prefs::TopicRAM->new($metaObject);
+        $this->{paths}{$path} =
+          $Foswiki::cfg{Store}{PrefsBackend}->new($metaObject);
     }
     return $this->{paths}{$path};
 }
@@ -225,7 +228,7 @@ sub loadPreferences {
     my $obj;
 
     if ( $topicObject->topic() ) {
-        $obj = Foswiki::Prefs::TopicRAM->new($topicObject);
+        $obj = $Foswiki::cfg{Store}{PrefsBackend}->new($topicObject);
     }
     elsif ( $topicObject->web() ) {
         $obj = $this->_getWebPrefsObj( $topicObject->web() );

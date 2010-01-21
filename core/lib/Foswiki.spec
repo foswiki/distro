@@ -922,6 +922,13 @@ $Foswiki::cfg{Store}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN
 # may have been installed.
 $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
 
+# **SELECTCLASS Foswiki::Prefs::*RAM* EXPERT**
+# The algorithm used to store preferences. The default algorithm reads
+# topics each time to access preferences. A caching algorithm that uses
+# BerkeleyDB is also available from the PrefsCachePlugin. This algorithm
+# is faster, but requires BerkeleyDB to be installed.
+$Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
+
 # **OCTAL EXPERT**
 # File security for new directories created by RCS stores. You may have
 # to adjust these
