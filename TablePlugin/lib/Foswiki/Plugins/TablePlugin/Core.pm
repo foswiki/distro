@@ -94,6 +94,7 @@ sub _setDefaults {
     @dataBg         = ( '#ecf2f8', '#ffffff' );
     @dataBgSorted   = ();
     @dataColor      = ();
+    $initDirection  = 0;
 
     undef $initSort;
 
