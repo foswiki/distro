@@ -133,7 +133,7 @@ Information for programmers.
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2009 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2010 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |

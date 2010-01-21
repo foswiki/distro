@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
 # Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
 # Copyright (C) 2005-2007 TWiki Contributors
-# Copyright (C) 2008 Foswiki Contributors.
+# Copyright (C) 2008-2010 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
