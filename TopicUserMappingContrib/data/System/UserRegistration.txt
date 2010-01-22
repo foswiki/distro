@@ -307,16 +307,10 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
   </select>
   </td>
 </tr>
-%GROUPINFO{
-      header="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupheader\"}$percnt"
-      footer="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupfooter\"}$percnt"
-      format="$percntINCLUDE{\"%WEB%.%TOPIC%\"
-         section=\"rendergroup\"
-         groupname=\"$name\"
-         allowschange=\"$allowschange\"
-       }$percnt"
-      separator=" "
-}%<tr>
+%INCLUDE{
+    "%WEB%.%TOPIC%" 
+    section="%IF{"'%REGISTRATIONGROUPTYPE%' = 'disabled'" then="nochange" else="addusertogroups"}%"
+  }%<tr>
   <td class="registrationLabel"> %MAKETEXT{"Comments:"}%</td>
   <td><textarea %NOREGISTRATION%  name="Twk0Comment" wrap="virtual" rows="4" cols="38" class="foswikiInputField"></textarea></td>
 </tr>
@@ -340,6 +334,20 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
 
 <!-- GROUPINFO formaters -->
 <verbatim style="display:none;">
+<!--
+-->
+%STARTSECTION{"addusertogroups"}%<!-- addusertogroups -->
+%GROUPINFO{
+      header="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupheader\"}$percnt"
+      footer="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupfooter\"}$percnt"
+      format="$percntINCLUDE{\"%WEB%.%TOPIC%\"
+         section=\"rendergroup\"
+         groupname=\"$name\"
+         allowschange=\"$allowschange\"
+       }$percnt"
+      separator=" "
+}%
+<!-- /addusertogroups -->%ENDSECTION{"addusertogroups"}%
 TODO: need to make the header&footer not display if there are no groups they can join
 TODO: should redo this topic to look differet between a guest registering themselves, and a registered user inviting/registering a user
 <!--
@@ -349,13 +357,14 @@ TODO: should redo this topic to look differet between a guest registering themse
 %INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{"%allowschange%" then="changegroup" else="nochange"}%"
   groupname="%groupname%"
+  inputtype="%REGISTRATIONGROUPTYPE%"
 }%
 <!-- /rendergroup -->%ENDSECTION{"rendergroup"}%
 <!--
-  parameters: groupname
+  parameters: groupname, inputtype
 -->
 %STARTSECTION{"changegroup"}%<!-- changegroup -->
-<input type="checkbox" name="Twk0AddToGroups" class="foswikiInputField" value="%groupname%" label="%groupname%" />
+<input type="%inputtype%" name="Twk0AddToGroups" class="foswikiInputField" value="%groupname%" label="%groupname%" />
                %IF{"not istopic '%USERSWEB%.%groupname%'" then="<nop>" else="%USERSWEB%."}%%groupname%
 <!-- /changegroup -->%ENDSECTION{"changegroup"}%
 <!--

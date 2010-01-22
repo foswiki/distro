@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 1838 $"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarGROUPINFO
----+++ GROUPINFO{"name"} -- retrieve details about a user
+---+++ GROUPINFO{"name"} -- retrieve details about a Group
    * Syntax: =%<nop>GROUPINFO%=
    * Expands to: comma-separated list of all groups
    * Syntax: =%<nop>GROUPINFO{"groupname"}%=
