@@ -799,6 +799,11 @@ sub addUserToGroup {
 #TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
         $groupTopicObject->putKeyed( 'PREFERENCE',
             { name => 'GROUP', title => 'GROUP', value => $membersString } );
+            
+        my $text = $groupTopicObject->text();
+        $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
+        $groupTopicObject->text($text);
+
         $groupTopicObject->save( -author => $user );
         return 1;
     }
@@ -819,7 +824,7 @@ sub addUserToGroup {
         #expand the GroupTemplate as best we can.
         $this->{session}->{request}->param(-name => 'topic', -value => $groupName);
         $groupTopicObject->text( $groupTopicObject->expandNewTopic( $groupTopicObject->text() ) );
-            
+        
         $groupTopicObject->putKeyed(
             'PREFERENCE',
             {
@@ -828,6 +833,10 @@ sub addUserToGroup {
                 value => $usersObj->getWikiName($cuid)
             }
         );
+        my $text = $groupTopicObject->text();
+        $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
+        $groupTopicObject->text($text);
+        
         #TODO: should also consider securing the new topic?
         $groupTopicObject->saveAs( $groupWeb,
             $groupName, -author => $user );
