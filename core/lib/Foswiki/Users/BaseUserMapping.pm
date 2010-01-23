@@ -87,16 +87,19 @@ sub new {
        );
     %BASE_GROUPS = (
         $Foswiki::cfg{SuperAdminGroup} => [
-            # Registration agent is there so registration can still take
-            # place on an otherwise locked down USERSWEB
-            'BaseUserMapping_333', 'BaseUserMapping_222'
+            'BaseUserMapping_333', 
+            # Registration agent was here so registration can still take
+            # place on an otherwise locked down USERSWEB.
+            # Jan2010: Sven removed it, otherwise anyone registering can add themselves as admin.
+            #'BaseUserMapping_222'
            ],
         BaseGroup => [
             'BaseUserMapping_333',
             $DEFAULT_USER_CUID,
             $UNKNOWN_USER_CUID,
             'BaseUserMapping_111',
-            'BaseUserMapping_222',  ]
+            'BaseUserMapping_222',  ],
+         RegistrationGroup => ['BaseUserMapping_222']
        );
 
     my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );
@@ -328,6 +331,23 @@ sub eachMembership {
         $this->isInGroup( $cUID, $_[0] );
     };
     return $it;
+}
+
+=begin TML
+
+---++ ObjectMethod groupAllowsChange($group) -> boolean
+
+returns 0 if the group is 'owned by the BaseMapper and it wants to veto adding to that group
+
+=cut
+
+sub groupAllowsChange {
+    my $this = shift;
+    my $group = shift;
+    
+    return 0 if (($group eq 'BaseGroup') or 
+                ($group eq 'RegistrationGroup'));
+    return 1;
 }
 
 =begin TML

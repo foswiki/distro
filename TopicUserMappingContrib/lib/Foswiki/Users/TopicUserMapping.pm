@@ -630,8 +630,19 @@ sub isGroup {
     # Groups have the same username as wikiname as canonical name
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
 
-    #TODO: um, shouldn't this actually test for the existance of this group?
-    return $user =~ /Group$/;
+    return 0 unless ($user =~ /Group$/);
+    #actually test for the existance of this group
+    #TODO: SMELL: this is still a lie, because it will claim that a 
+    #Group which the currently logged in user does _not_ 
+    #have VIEW permission for simply is non-existant.
+    #however, this may be desirable for security reasons.
+    #SMELL: this is why we should not use topicExist to test for createability...
+    my $iterator = $this->eachGroup();
+    while ($iterator->hasNext()) {
+        my $groupname = $iterator->next();
+        return 1 if ($groupname eq $user);
+    }
+    return 0;
 }
 
 =begin TML
@@ -714,7 +725,6 @@ sub groupAllowsChange {
     my $user = $this->{session}->{user};
     return 1 if $this->{session}->{users}->isAdmin($user);
 
-
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
@@ -757,12 +767,12 @@ sub addUserToGroup {
 
     my $usersObj = $this->{session}->{users};
     
-#print STDERR "$user, aka ".$usersObj->getWikiName($user)." is TRYING to add $cuid to $groupName, as ".$usersObj->getWikiName($cuid)."\n";
+print STDERR "$user, aka ".$usersObj->getWikiName($user)." is TRYING to add $cuid to $groupName, as ".$usersObj->getWikiName($cuid)."\n";
 
     if (
         $usersObj->isGroup($groupName)
-        and ( $this->{session}
-            ->topicExists( $groupWeb, $groupName ) )
+#        and ( $this->{session}
+#            ->topicExists( $groupWeb, $groupName ) )
       )
     {
         if ( $usersObj->isInGroup( $cuid, $groupName ) ) {
@@ -773,13 +783,14 @@ sub addUserToGroup {
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb,
             $groupName );
+print STDERR "does $user have change access?\n";
 
         return 0
           if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) )
           ;              #can't change topic.
-        my $membersString =
-            $groupTopicObject->getPreference('GROUP') . ', '
-          . $usersObj->getWikiName($cuid);
+        my $membersString = $groupTopicObject->getPreference('GROUP');
+        $membersString .= ', ' if ($membersString ne '');
+        $membersString .= $usersObj->getWikiName($cuid);
 
 #TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
         $groupTopicObject->putKeyed( 'PREFERENCE',
@@ -800,6 +811,11 @@ sub addUserToGroup {
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb,
             'GroupTemplate' );
+
+        #expand the GroupTemplate as best we can.
+        $this->{session}->{request}->param(-name => 'topic', -value => $groupName);
+        $groupTopicObject->text( $groupTopicObject->expandNewTopic( $groupTopicObject->text() ) );
+            
         $groupTopicObject->putKeyed(
             'PREFERENCE',
             {
@@ -811,6 +827,10 @@ sub addUserToGroup {
         #TODO: should also consider securing the new topic?
         $groupTopicObject->saveAs( $groupWeb,
             $groupName, -author => $user );
+            
+        #reparse groups brute force :/
+        _getListOfGroups($this, 1);
+            
         return 1;
     }
     die 'not sure how we got here';
@@ -1257,12 +1277,14 @@ sub _collateGroups {
 # get a list of groups defined in this Wiki
 sub _getListOfGroups {
     my $this = shift;
+    my $reset = shift;
+    
     ASSERT( $this->isa('Foswiki::Users::TopicUserMapping') ) if DEBUG;
 
-    unless ( $this->{groupsList} ) {
+    if ( !$this->{groupsList} || $reset) {
         my $users = $this->{session}->{users};
         $this->{groupsList} = [];
-
+        
         $this->{session}->search->searchWeb(
             _callback => \&_collateGroups,
             _cbdata   => {
@@ -1270,10 +1292,11 @@ sub _getListOfGroups {
                 users => $users
             },
             inline    => 1,
-            search    => "Set GROUP =",
             web       => $Foswiki::cfg{UsersWebName},
             topic     => "*Group",
-            type      => 'regex',
+            scope     => 'topic',
+            search    => '1',
+            type      => 'query',
             nosummary => 'on',
             nosearch  => 'on',
             noheader  => 'on',

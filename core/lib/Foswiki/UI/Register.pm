@@ -564,7 +564,7 @@ sub deleteUser {
 ---++ StaticMethod addUserToGroup($session)
 adds users to a group
    * groupname parameter must a a single groupname (group does not have to exist)
-   * username can be a single login/wikiname/(cuid?), a URLParam list, or a comma separated list.
+   * username can be a single login/wikiname/(!cuid?), a URLParam list, or a comma separated list.
 
 =cut
 
@@ -576,23 +576,38 @@ sub addUserToGroup {
     my $user    = $session->{user};
 
     my @userNames = $query->param('username');
+    
     my $groupName = $query->param('groupname');
     my $create = Foswiki::isTrue( $query->param('create'), 0);
     if (
-        ($#userNames <= 0) or 
+        ($#userNames < 0) or 
         ($userNames[0] eq '')){
         throw Foswiki::OopsException( 'attention', def => 'no_users_to_add_to_group' );
     }
-    if ($#userNames == 1) {
+    if ($#userNames == 0) {
         @userNames = split(/,\s*/, $userNames[0]);
     }
     if (!$groupName or $groupName eq '') {
         throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_add_to_group' );
     }
+    #TODO: SMELL: if you create a new group, make sure __you__ are the first user in the list, otherwise you won't be able to add more than one user.
+    #because this code saves once per user - and the group will be restricted to that group.
+    #for now, I'll add the currently logged in user to the list..
+    if (!Foswiki::Func::isGroup($groupName) and $create) {
+        unshift(@userNames, $session->{users}->getLoginName($user));
+    }
+    
     my @failed;
+    my @succeeded;
     foreach my $u (@userNames) {
+        $u =~ s/^\s+//;
+        $u =~ s/\s+$//;
+        next if ($u eq '');
+
         try {
-            if (!Foswiki::Func::addUserToGroup($u, $groupName, $create)) {
+            if (Foswiki::Func::addUserToGroup($u, $groupName, $create)) {
+                push(@succeeded, $u);
+            } else {
                 push(@failed, $u);
                 # Log the error
                 $session->logger->log( 'warning',
@@ -623,7 +638,7 @@ sub addUserToGroup {
         def    => 'added_users_to_group',
         web    => $web,
         topic  => $topic,
-        params => [ join(', ',@userNames), $groupName ]
+        params => [ join(', ',@succeeded), $groupName ]
     );
 }
 
@@ -646,20 +661,27 @@ sub removeUserFromGroup {
     my @userNames = $query->param('username');
     my $groupName = $query->param('groupname');
     if (
-        ($#userNames <= 0) or 
+        ($#userNames < 0) or 
         ($userNames[0] eq '')){
         throw Foswiki::OopsException( 'attention', def => 'no_users_to_remove_from_group' );
     }
-    if ($#userNames == 1) {
+    if ($#userNames == 0) {
         @userNames = split(/,\s+/, $userNames[0]);
     }
     if (!$groupName or $groupName eq '') {
         throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_remove_from_group' );
     }
     my @failed;
+    my @succeeded;
     foreach my $u (@userNames) {
         try {
-            if (!Foswiki::Func::removeUserFromGroup($u, $groupName)) {
+            $u =~ s/^\s+//;
+            $u =~ s/\s+$//;
+
+            next if ($u eq '');
+            if (Foswiki::Func::removeUserFromGroup($u, $groupName)) { 
+                push(@succeeded, $u);
+            } else {
                 push(@failed, $u);
                 # Log the error
                 $session->logger->log( 'warning',
@@ -690,7 +712,7 @@ sub removeUserFromGroup {
         def    => 'removed_users_from_group',
         web    => $web,
         topic  => $topic,
-        params => [ join(', ',@userNames), $groupName ]
+        params => [ join(', ',@succeeded), $groupName ]
     );
 }
 
@@ -753,7 +775,12 @@ sub _complete {
         #convert to rego agent user copied from _writeRegistrationDetailsToTopic
         my $safe = $session->{user};
         my $regoAgent = $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName});
-        if ($data->{AddToGroups}) {
+        
+        #SECURITY HACK:
+        #when upgrading an existing Wiki, the RegistrationUser is in the AdminGroup.
+        #combined with this feature, registering users would be able to join the AdminGroup.
+        #so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
+        if ((!$session->{users}->isAdmin($regoAgent)) and ($data->{AddToGroups})) {
             foreach my $groupName (split(/,/, $data->{AddToGroups})) {
                 $session->{user} = $regoAgent;
                 try {

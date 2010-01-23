@@ -24,7 +24,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"Members"}%:</h3>
     <input type="text" name="username" value="" size="60" class="foswikiInputField" />
-    <div class="foswikiFormDescription">Comma separated list</div>
+    <div class="foswikiFormDescription">Comma separated list (You will be added to the group automatically to allow you to continue to manage the new group.)</div>
   </div>
   <div class="foswikiFormStep">
     <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%"/>

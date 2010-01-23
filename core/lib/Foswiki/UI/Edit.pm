@@ -278,7 +278,7 @@ sub init_edit {
         $topicObject->copyFrom( $ttom, 'FIELD' );
 
         $topicObject->text( $topicObject->expandNewTopic( $ttom->text() ) );
-
+#SMELL: need to at least explain why we need to do this a second time.
         $topicObject->text( $topicObject->expandNewTopic( $ttom->text() ) );
     }
 

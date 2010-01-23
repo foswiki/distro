@@ -975,7 +975,7 @@ sub addUserToGroup {
     my ( $user, $group, $create ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
 
-    return () unless ($users->isGroup($group) || $create);
+#    return () unless ($users->isGroup($group) || $create);
 #    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
     $user = getCanonicalUserID($user);
     return unless ( defined($user) and ( $users->userExists($user) ) );
