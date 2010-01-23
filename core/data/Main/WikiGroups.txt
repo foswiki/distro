@@ -72,7 +72,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
 %INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{"%allowschange%" then="changegroup" else="nochange"}%"
+  section="%IF{"'%allowschange%' = '1'" then="changegroup" else="nochange"}%"
   groupname="%groupname%"
 }%
 %GROUPINFO{"%groupname%"

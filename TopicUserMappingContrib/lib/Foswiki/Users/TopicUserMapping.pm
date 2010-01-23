@@ -710,9 +710,9 @@ sub groupAllowsView {
 
 =begin TML
 
----++ ObjectMethod groupAllowsChange($group) -> boolean
+---++ ObjectMethod groupAllowsChange($group, $cuid) -> boolean
 
-returns 1 if the group is able to be modified by the current logged in user
+returns 1 if the group is able to be modified by $cuid
 
 implemented using topic CHANGE permissions
 
@@ -721,8 +721,10 @@ implemented using topic CHANGE permissions
 sub groupAllowsChange {
     my $this = shift;
     my $Group = shift;
+    my $user = shift;
+    ASSERT(defined $user) if DEBUG;
+
     
-    my $user = $this->{session}->{user};
     return 1 if $this->{session}->{users}->isAdmin($user);
 
     $Group = Foswiki::Sandbox::untaint( $Group,
@@ -767,7 +769,7 @@ sub addUserToGroup {
 
     my $usersObj = $this->{session}->{users};
     
-print STDERR "$user, aka ".$usersObj->getWikiName($user)." is TRYING to add $cuid to $groupName, as ".$usersObj->getWikiName($cuid)."\n";
+#print STDERR "$user, aka(".$usersObj->getWikiName($user).") is TRYING to add $cuid aka(".$usersObj->getWikiName($cuid).") to $groupName\n";
 
     if (
         $usersObj->isGroup($groupName)
@@ -783,11 +785,13 @@ print STDERR "$user, aka ".$usersObj->getWikiName($user)." is TRYING to add $cui
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb,
             $groupName );
-print STDERR "does $user have change access?\n";
 
-        return 0
-          if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) )
-          ;              #can't change topic.
+       if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
+           #can't change topic.
+#print STDERR "eee: $user does not have change access?\n";
+           return 0
+       }
+                        
         my $membersString = $groupTopicObject->getPreference('GROUP');
         $membersString .= ', ' if ($membersString ne '');
         $membersString .= $usersObj->getWikiName($cuid);

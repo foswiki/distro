@@ -344,6 +344,8 @@ returns 0 if the group is 'owned by the BaseMapper and it wants to veto adding t
 sub groupAllowsChange {
     my $this = shift;
     my $group = shift;
+    ASSERT(defined $group) if DEBUG;
+
     
     return 0 if (($group eq 'BaseGroup') or 
                 ($group eq 'RegistrationGroup'));

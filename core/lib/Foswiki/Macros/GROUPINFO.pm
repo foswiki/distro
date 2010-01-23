@@ -37,6 +37,9 @@ sub GROUPINFO {
             $row =~ s/\$username/$uname/ge;
             $row =~ s/\$wikiusername/$wuname/ge;
             $row =~ s/\$name/$group/g;
+
+            #TODO: should return 0 if $1 is not a valid user?
+            $row =~ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{users}->getCanonicalUserID($1))/ges;
             $row =~ s/\$allowschange/$change/ge;
         } else {
             # all groups
@@ -44,6 +47,8 @@ sub GROUPINFO {
             my $change = $this->{users}->groupAllowsChange( $cUID );
             
             $row =~ s/\$name/$cUID/g;
+            #TODO: should return 0 if $1 is not a valid user?
+            $row =~ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $cUID , $this->{users}->getCanonicalUserID($1))/ges;
             $row =~ s/\$allowschange/$change/ge;
         }
         push(@rows, $row);

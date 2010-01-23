@@ -343,7 +343,7 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
       format="$percntINCLUDE{\"%WEB%.%TOPIC%\"
          section=\"rendergroup\"
          groupname=\"$name\"
-         allowschange=\"$allowschange\"
+         allowschange=\"$allowschange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%\"
        }$percnt"
       separator=" "
 }%
@@ -355,7 +355,7 @@ TODO: should redo this topic to look differet between a guest registering themse
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
 %INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{"%allowschange%" then="changegroup" else="nochange"}%"
+  section="%IF{"%allowschange% = 1" then="changegroup" else="nochange"}%"
   groupname="%groupname%"
   inputtype="%REGISTRATIONGROUPTYPE%"
 }%

@@ -913,21 +913,19 @@ sub groupAllowsView {
 
 =begin TML
 
----++ ObjectMethod groupAllowsChange($group) -> boolean
+---++ ObjectMethod groupAllowsChange($group, $cuid) -> boolean
 
 returns 1 if the group is able to be modified by the current logged in user
-
-TODO: need to amend this so it uses the right mapper's member function - 
-atm it implies that we can always change the BaseMappsed Groups, which is wrong for BaseGroup for eg.
 
 =cut
 
 sub groupAllowsChange {
     my $this = shift;
     my $group = shift;
+    my $cuid = shift || $this->{session}->{user};
 
-    return ($this->{basemapping}->groupAllowsChange( $group ) and 
-        $this->{mapping}->groupAllowsChange( $group ));
+    return ($this->{basemapping}->groupAllowsChange( $group, $cuid ) and 
+        $this->{mapping}->groupAllowsChange( $group, $cuid ));
 }
 
 =begin TML
