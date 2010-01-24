@@ -124,7 +124,8 @@ Documentation for standard plugins shipped with !TinyMCE can be found at [[http:
 To enable these extra plugins, Set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your %USERSWEB%.SitePreferences. eg.
 
 <verbatim>
-   * Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions
+   * Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions,sitespecificplugin
+</verbatim>
 
 Some notable plugins:
 | *Plugin Name* | *Toolbar buttons* | *Description* | *Notes* |
