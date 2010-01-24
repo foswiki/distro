@@ -543,8 +543,7 @@ HERE
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         html => <<'HERE',
-<p>
-abcd
+<p>abcd
 </p>
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td colspan="2">efg</td><td>&nbsp;</td></tr>
@@ -733,6 +732,18 @@ HERE
 ---++ Argh
    * Ergh 
 </td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
+HERE
+    },
+    {
+        name => 'Item2618_ExtraneousCaretMarkerInTables',
+        exec => $HTML2TML | $ROUNDTRIP,
+        html => <<'HERE',
+<table border="0"> <tbody> 
+  <tr> <td>Foo</td> <span id="__caret"> </span> <td>a</td> </tr>
+</tbody> </table>
+HERE
+        tml => <<'HERE',
+| Foo | a |
 HERE
     },
 ];

@@ -1198,6 +1198,16 @@ sub cleanNode {
             delete $this->{attrs}->{$a};
         }
     }
+
+    # Sometimes (rarely!) there's a <span id='__caret'> </span>, an artifact of
+    # one of the strategies TinyMCE uses to recover lost cursor positioning, 
+    # see Item2618 where this can break TML tables. #SMELL: TMCE specific
+    if ( ( $this->{tag} eq 'span' ) && ( defined $this->{attrs}->{id} ) && 
+        ( $this->{attrs}->{id} eq '__caret' ) ) {
+        $this->{tag} = '';
+        $this->{attrs} = {};
+        $this->{nodeType} = 7; #PROCESSING_INSTRUCTION_NODE
+    }
 }
 
 ######################################################
