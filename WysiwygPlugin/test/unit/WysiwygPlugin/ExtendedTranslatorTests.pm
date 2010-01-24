@@ -396,6 +396,18 @@ DOT
         tml => '<img src="%PUBURLPATH%">',
         html => '<div class="WYSIWYG_PROTECTED">&lt;img&nbsp;src="%PUBURLPATH%"&gt;</div>'
     },
+    {
+        name => 'Item2618_ExtraneousCaretMarkerInTables',
+        exec => $HTML2TML | $ROUNDTRIP,
+        html => <<'HERE',
+<table border="0"> <tbody> 
+  <tr> <td>Foo</td> <span id="__caret"> </span> <td>a</td> </tr>
+</tbody> </table>
+HERE
+        tml => <<'HERE',
+| Foo | a |
+HERE
+    },
 ];
 
 sub gen_compare_tests {
