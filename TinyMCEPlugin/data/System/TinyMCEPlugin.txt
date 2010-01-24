@@ -60,7 +60,7 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
+plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
@@ -99,6 +99,7 @@ content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN
 ---+++ Settings
 | *Variable* | *Default* | *Description* |
 | =TINYMCEPLUGIN_INIT= | As [[%TOPIC%#Preferences][above]] | Holds the initialization parameters used to start !TinyMCE |
+| =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= | additional !TinyMCE plugins to initialise |
 | =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for a specific =_browser= |
 | =TINYMCEPLUGIN_DISABLE= | 0 | If set to 1, disables TinyMCEPlugin. _Please use_ =NOWYSIWYG= _instead_ |
 | =NOWYSIWYG= | 0 | If this global setting is set to 1, TinyMCEPlugin (and all other WYSIWYG editors) will be disabled. |
@@ -119,6 +120,11 @@ The defaults are:
 
 ---+++ Additional !TinyMCE Plugins 
 Documentation for standard plugins shipped with !TinyMCE can be found at [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins]].
+
+To enable these extra plugins, Set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your %USERSWEB%.SitePreferences. eg.
+
+<verbatim>
+   * Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions
 
 Some notable plugins:
 | *Plugin Name* | *Toolbar buttons* | *Description* | *Notes* |
@@ -165,6 +171,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  24 Jan 2010 | Foswikitask:Item8416: add TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS to allow wiki, web and topic specific plugins to be added [[Foswiki:Main.SvenDowideit][SD]] |
 |  29 Dec 2009 | Foswikitask:Item2447: Fix unable to apply "Normal" format in some browsers (notes added to System topic)<br/> Foswikitask:Item1462: Block attachments to unsaved AUTOINC topics |
 |  25 Nov 2009 | Foswikitask:Item2412: Inserting images - fixed a problem where it wasn't easy (impossible unless > 1 attachments) to select the first image in the attachment list; improved layout of dialog window where preview obscures insert/cancel buttons. |
 |  09 Nov 2009 | Foswikitask:Item2341: Added blockquote button and rearranged toolbars slightly; cleaned up System topic |
@@ -211,7 +218,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
    * [[http://www.carrier.com][Carrier Corporation]]
-   * [[http://foswiki.net][TWIKI.NET]]
+   * [[http://twiki.net][TWIKI.NET]]
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
