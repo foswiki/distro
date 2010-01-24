@@ -27,6 +27,7 @@ use Foswiki::Plugins::WysiwygPlugin;
 use Foswiki::Plugins::WysiwygPlugin::Handlers;
 use Encode();
 use strict;
+use warnings;
 use Carp;
 
 my $UI_FN;

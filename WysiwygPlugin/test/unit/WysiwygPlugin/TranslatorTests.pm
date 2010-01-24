@@ -28,6 +28,7 @@ package TranslatorTests;
 use base qw(FoswikiTestCase);
 
 use strict;
+use warnings;
 
 require Foswiki::Plugins::WysiwygPlugin;
 require Foswiki::Plugins::WysiwygPlugin::TML2HTML;

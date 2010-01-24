@@ -28,6 +28,7 @@ package ExtendedTranslatorTests;
 use base qw(TranslatorTests);
 
 use strict;
+use warnings;
 
 require Foswiki::Plugins::WysiwygPlugin;
 require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
@@ -417,14 +418,14 @@ DOT
         name => 'TableWithRowSpan_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => <<HTML,
+        html => <<'HTML',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
 <tr><td rowspan="2">C</td></tr>
 <tr><td>M</td></tr>
 </table>
 HTML
-        tml => <<TML,
+        tml => <<'TML',
 <table cellspacing="1" cellpadding="0" border="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
 TML
     },
@@ -521,38 +522,47 @@ BLAH
         name => 'kupuTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html =>
-'<table cellspacing="0" cellpadding="8" border="1" class="plain" _moz_resizing="true">
+        html => <<'HERE',
+<table cellspacing="0" cellpadding="8" border="1" class="plain" _moz_resizing="true">
 <tbody>
 <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
 <tr>b0<td colspan="2">b1</td><td>b3</td></tr>
 <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr>
 </tbody>
-</table>',
-        tml => '| a1 | a2 | a3 |
+</table>
+HERE
+        tml => <<'HERE'
+| a1 | a2 | a3 |
 | b1 || b3 |
 | c1 | c2 | c3 |
-',
+HERE
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'tableWithColSpans_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => '<p>abcd
+        html => <<'HERE',
+<p>
+abcd
 </p>
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td colspan="2">efg</td><td>&nbsp;</td></tr>
 <tr><td colspan="3"></td></tr></table>
-hijk',
-        tml => 'abcd
+hijk
+HERE
+        tml => <<'HERE',
+abcd
 | efg || |
 ||||
-hijk',
-        finaltml => 'abcd
+hijk
+HERE
+        finaltml => <<'HERE',
+abcd
 | efg || |
 | |||
-hijk',
+hijk
+HERE
     },
     {
         exec => $ROUNDTRIP,
@@ -576,7 +586,7 @@ HERE
 <li> List item</li><li><table><tbody><tr><td>&nbsp;11</td><td>&nbsp;21</td></tr><tr><td>12&nbsp;</td><td>&nbsp;22</td></tr></tbody></table></li><li>crap</li>
 </ul>
 JUNK
-        tml => <<JUNX,
+        tml => <<'JUNX',
    * List item
    * <table><tbody><tr><td> 11</td><td> 21</td></tr><tr><td>12 </td><td> 22</td></tr></tbody></table>
    * crap
@@ -587,19 +597,19 @@ JUNX
         name => 'Item4700_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        tml => <<EXPT,
+        tml => <<'EXPT',
 | ex | per | iment |
 | exper | iment ||
 | expe || riment |
 || exper | iment |
 EXPT
-        finaltml => <<EXPT,
+        finaltml => <<'EXPT',
 | ex | per | iment |
 | exper | iment ||
 | expe || riment |
 | | exper | iment |
 EXPT
-        html => <<HEXPT,
+        html => <<'HEXPT',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td>ex</td><td>per</td><td>iment</td></tr>
 <tr><td>exper</td><td colspan="2">iment</td></tr>
@@ -613,13 +623,13 @@ HEXPT
         name => 'Item4700_2_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        tml => <<EXPT,
+        tml => <<'EXPT',
 | ex | per | iment |
 | exper | iment ||
 | expe || riment |
 | | exper | iment |
 EXPT
-        html => <<HEXPT,
+        html => <<'HEXPT',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td>ex</td><td>per</td><td>iment</td></tr>
 <tr><td>exper</td><td colspan="2">iment</td></tr>
@@ -633,12 +643,12 @@ HEXPT
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         exec => $TML2HTML,
-        tml  => <<HERE,
+        tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %TABLESEP%
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<THERE,
+        html => <<'THERE',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -651,11 +661,11 @@ THERE
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         exec => $ROUNDTRIP | $TML2HTML,
-        tml  => <<HERE,
+        tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<THERE,
+        html => <<'THERE',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -699,41 +709,44 @@ BLAH
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         exec => $HTML2TML,
-        html => <<HERE,
+        html => <<'HERE',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td>table element with a <hr /> horizontal rule</td></tr>
 </table>
 Mad Fish
 HERE
-        tml => '| table element with a <hr /> horizontal rule |
-Mad Fish',
+        tml => <<'HERE',
+| table element with a <hr /> horizontal rule |
+Mad Fish
+HERE
     },
     {
         name => 'Item5076_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         exec => $HTML2TML,
-        html => <<HERE,
+        html => <<'HERE',
 <table border="0"><tbody><tr><td><h2>Argh</h2><ul><li>Ergh&nbsp;</li></ul></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table>
 HERE
-        tml => '<table border="0"><tbody><tr><td>
+        tml => <<'HERE',
+<table border="0"><tbody><tr><td>
 ---++ Argh
    * Ergh 
-</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>',
+</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
+HERE
     },
 ];
 
 sub gen_compare_tests {
     my %picked = map { $_ => 1 } @_;
-    for ( my $i = 0 ; $i < scalar(@$data) ; $i++ ) {
-        my $datum = $data->[$i];
+    for my $datum ( @{$data} ) {
         if ( scalar(@_) ) {
             next unless ( $picked{ $datum->{name} } );
         }
         if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
             my $fn = 'ExtendedTranslatorTests::testTML2HTML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub {
+            *{$fn} = sub {
                 my $this = shift;
                 $this->testSpecificSetup($datum);
                 $this->compareTML_HTML($datum);
@@ -744,7 +757,7 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
             my $fn = 'ExtendedTranslatorTests::testHTML2TML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub {
+            *{$fn} = sub {
                 my $this = shift;
                 $this->testSpecificSetup($datum);
                 $this->compareHTML_TML($datum);
@@ -755,7 +768,7 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $ROUNDTRIP ) {
             my $fn = 'ExtendedTranslatorTests::testROUNDTRIP_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub {
+            *{$fn} = sub {
                 my $this = shift;
                 $this->testSpecificSetup($datum);
                 $this->compareRoundTrip($datum);
@@ -766,7 +779,7 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
             my $fn = 'TranslatorTests::testCANNOTWYSIWYG_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub {
+            *{$fn} = sub {
                 my $this = shift;
                 $this->testSpecificSetup($datum);
                 $this->compareNotWysiwygEditable($datum);
@@ -775,6 +788,8 @@ sub gen_compare_tests {
             use strict 'refs';
         }
     }
+
+    return;
 }
 
 sub testSpecificSetup {
@@ -790,6 +805,8 @@ sub testSpecificSetup {
     if ( exists $args->{setup} ) {
         $args->{setup}->($this);
     }
+
+    return;
 }
 
 sub testSpecificCleanup {
@@ -797,6 +814,8 @@ sub testSpecificCleanup {
     if ( exists $args->{cleanup} ) {
         $args->{cleanup}->($this);
     }
+
+    return;
 }
 
 sub TML_HTMLconverterOptions {
