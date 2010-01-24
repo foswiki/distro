@@ -1204,9 +1204,9 @@ sub cleanNode {
     # see Item2618 where this can break TML tables. #SMELL: TMCE specific
     if ( ( $this->{tag} eq 'span' ) && ( defined $this->{attrs}->{id} ) && 
         ( $this->{attrs}->{id} eq '__caret' ) ) {
-        $this->{tag} = '';
+        $this->{tag} = q{};
         $this->{attrs} = {};
-        $this->{nodeType} = 7; #PROCESSING_INSTRUCTION_NODE
+        $this->{nodeType} = 0; #PROCESSING_INSTRUCTION_NODE
     }
 }
 
