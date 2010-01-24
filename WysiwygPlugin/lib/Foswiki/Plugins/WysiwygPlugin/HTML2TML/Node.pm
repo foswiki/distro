@@ -1177,7 +1177,7 @@ sub cleanNode {
         ( $this->{attrs}->{id} eq '__caret' ) ) {
         $this->{tag} = q{};
         $this->{attrs} = {};
-        $this->{nodeType} = 0; #PROCESSING_INSTRUCTION_NODE
+        $this->{nodeType} = 0;
     }
 }
 
