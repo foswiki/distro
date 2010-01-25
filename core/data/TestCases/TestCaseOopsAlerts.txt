@@ -32,3 +32,5 @@ Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=new_sys_pass;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 ---++ =oopsalerts geturl_failed=
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=geturl_failed;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsalerts here_not_found=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=here_not_found;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
