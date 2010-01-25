@@ -288,13 +288,28 @@ sub test_zero {
     $this->assert( !$attrs->isEmpty() );
     $this->assert( defined( $attrs->{_DEFAULT} ) );
 
-    #unfortuanatly, perl considers the string '0' to be
+    #unfortunately, perl considers the string '0' to be
     #equivalent to 0 which is equivalent to false
     #making it impossible to have a %ENCODE{"0"}%
     #task:5453 suggests that the following test should fail.
     #see also Fn_ENCODE::test_encode
-    #beware that this issue affects alot of marcos, not just ENCODE
+    #beware that this issue affects a lot of macros, not just ENCODE
     $this->assert( !$attrs->{_DEFAULT} );
+}
+
+sub test_doubleBackslash {
+    my $this = shift;
+    my $attrs = new Foswiki::Attrs( "var=\"a\\\\b\"", 0 );
+    $this->assert_str_equals( "a\\\\b", $attrs->remove("var") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_endsWithEscapedQuote {
+    my $this = shift;
+    my $attrs = new Foswiki::Attrs( "separator=\" \\\\\" format=\"\$topic\"", 0 );
+    $this->assert_str_equals( " \\", $attrs->remove("separator") );
+    $this->assert_str_equals( "\$topic", $attrs->remove("format") );
+    $this->assert( $attrs->isEmpty() );
 }
 
 1;
