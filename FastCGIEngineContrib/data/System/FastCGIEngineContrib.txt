@@ -258,4 +258,5 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 | 24 Jan 2009 | Documentation enhancements and some fixes (Foswiki:Tasks/Item853) |
 | 25 Dec 2008 | Initial Release |
 | Dependencies: | %$DEPENDENCIES% |
-| Home page: | http://foswiki.org/Extensions/FastCGIEngineContrib |
+| Home page: | http://foswiki.org/Extensions/%TOPIC% |
+| Support: | http://foswiki.org/Support/%TOPIC% |
