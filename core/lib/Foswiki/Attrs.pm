@@ -80,7 +80,7 @@ sub new {
 
     return $this unless defined($string);
 
-    $string =~ s/\\(["'])/$MARKER.sprintf("%.2u", ord($1))/ge
+    $string =~ s/\\(["'\\])/$MARKER.sprintf("%.2u", ord($1))/ge
       ;    # escapes
 
     my $sep = ( $friendly ? "[\\s,]" : "\\s" );
