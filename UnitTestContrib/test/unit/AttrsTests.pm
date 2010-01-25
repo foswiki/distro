@@ -300,7 +300,7 @@ sub test_zero {
 sub test_doubleBackslash {
     my $this = shift;
     my $attrs = new Foswiki::Attrs( "var=\"a\\\\b\"", 0 );
-    $this->assert_str_equals( "a\\\\b", $attrs->remove("var") );
+    $this->assert_str_equals( "a\\b", $attrs->remove("var") );
     $this->assert( $attrs->isEmpty() );
 }
 
