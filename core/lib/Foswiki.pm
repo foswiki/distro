@@ -16,7 +16,7 @@ with CGI accelerators such as mod_perl.
 
 ---++ Public Data members
    * =request=          Pointer to the Foswiki::Request
-   * =response=         Pointer to the Foswiki::Respose
+   * =response=         Pointer to the Foswiki::Response
    * =context=          Hash of context ids
    * =plugins=          Foswiki::Plugins singleton
    * =prefs=            Foswiki::Prefs singleton
@@ -1040,7 +1040,7 @@ sub redirect {
 
     return unless $this->{request};
 
-	( $url, my $anchor ) = splitAnchorFromUrl($url);
+    ( $url, my $anchor ) = splitAnchorFromUrl($url);
 
     if ( $passthru && defined $this->{request}->method() ) {
         my $existing = '';
@@ -1095,7 +1095,7 @@ sub redirect {
         );
     }
 
-	$url .= $anchor if $anchor;
+    $url .= $anchor if $anchor;
 
     return
       if ( $this->{plugins}
@@ -2742,6 +2742,7 @@ sub _processMacros {
          # should be considered to be $stack[$#stack]
 
     while ( scalar(@queue) ) {
+        #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n";
         my $token = shift(@queue);
 
         #print STDERR ' ' x $tell,"PROCESSING $token \n";
@@ -2775,7 +2776,7 @@ sub _processMacros {
 
                 #print STDERR ' ' x $tell,"POP $tag\n";
                 #Monitor::MARK("Before $tag");
-                my $e = &$tagf( $this, $tag, $args, $topicObject );
+                my $e = &$tagf( $this, $tag, $args, $topicObject, \@queue, $depth );
                 #Monitor::MARK("After $tag");
 
                 if ( defined($e) ) {
@@ -2784,7 +2785,7 @@ sub _processMacros {
                     $stackTop = pop(@stack);
                     # Don't bother recursively expanding unless there are
                     # unexpanded tags in the result.
-                    unless ( $e =~ /%$regex{tagNameRegex}(?:{.*})?%/o ) {
+                    unless ( $e =~ /%$regex{tagNameRegex}(?:{.*})?%/so ) {
                         $stackTop .= $e;
                         next;
                     }
@@ -2858,8 +2859,11 @@ sub _processMacros {
 # $args is the bit in the {} (if there are any)
 # $topic and $web should be passed for dynamic tags (not needed for
 # session or constant tags
+# $tokenQueue is the queue of tokens not yet processed, which may
+# contain end-of-HERE document markers
+# $depth is the recursion depth
 sub _expandMacroOnTopicRendering {
-    my ( $this, $tag, $args, $topicObject ) = @_;
+    my ( $this, $tag, $args, $topicObject, $tokenQueue, $depth ) = @_;
 
     require Foswiki::Attrs;
     my $e = $this->{prefs}->getPreference($tag);
@@ -2874,8 +2878,77 @@ sub _expandMacroOnTopicRendering {
                 $macros{$tag} = eval "\\&$tag";
                 die $@ if $@;
             }
+            my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+            if (exists $attrs->{$Foswiki::Attrs::HEREKEY}) {
+                # save the rest of the TML on this line
+                my @tokensAfterMacro;
+                my $newline = "\x{a}";
+                my $n = 0;
+                while (scalar @$tokenQueue) {
+                    $n++; die if $n > 100;
+                    if ($tokenQueue->[0] =~ s/^(.*?$newline)//o) {
+                        push @tokensAfterMacro, $1;
+                        last;
+                    }
+                    else {
+                        push @tokensAfterMacro, shift @$tokenQueue;
+                    }
+                }
+                # extract the HERE-document values
+                my %hereDocumentParams;
+                while (scalar @{ $attrs->{$Foswiki::Attrs::HEREKEY} }) {
+                    my $param = shift @{ $attrs->{$Foswiki::Attrs::HEREKEY} };
+                    my $here = shift @{ $attrs->{$Foswiki::Attrs::HEREKEY} };
+                    $hereDocumentParams{$param} = 1;
+                    # do something with the $tokenQueue
+                    #print STDERR "Looking for $here\n";
+                    my $foundHere = 0;
+                    while (scalar @$tokenQueue) {
+                        #print STDERR "Consider '$tokenQueue->[0]'\n";
+                        if ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*$newline//s) {
+                            $attrs->{$param} .= $1;
+                            $foundHere = 1;
+                            #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]')\n";
+                            last;
+                        }
+                        elsif ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*\z//s and scalar(@$tokenQueue) == 1) {
+                            $attrs->{$param} .= $1;
+                            # The string does not end in a newline, so remove the newline
+                            # from the line that contains the macro itself
+                            # so that nested HERE-docs are expanded correctly
+                            chomp $tokensAfterMacro[-1];
+                            $foundHere = 1;
+                            #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]', remove newline text following macro)\n";
+                            last;
+                        }
+                        else {
+                            $attrs->{$param} .= shift @$tokenQueue;
+                            #print STDERR "Grow $param to '$attrs->{$param}'\n";
+                        }
+                    }
+                    if (not $foundHere) {
+                        # Prevent infinite recursion
+                        $attrs->{$param} =~ s/%/&#37;/g;
+                        $attrs->{$param} .= $this->inlineAlert( 'alerts', 'here_not_found', $here );
+                    }
+                }
+                # put back the tokens on the same line after the macro
+                unshift @$tokenQueue, @tokensAfterMacro;
+                # Finished with the key used for HERE-documents
+                delete $attrs->{$Foswiki::Attrs::HEREKEY};
+
+                # TBD: are macros expanded in HERE-documents?
+                if (0) {
+                    # expand macros within the HERE-documents
+                    for my $param (keys %hereDocumentParams) {
+                        #print STDERR "[process HERE-doc $param: '$attrs->{$param}'\n";
+                        $attrs->{$param} = $this->_processMacros( $attrs->{$param}, \&_expandMacroOnTopicRendering, $topicObject, $depth - 1);
+                        #print STDERR "]$param: '$attrs->{$param}'\n";
+                    }
+                }
+            }
             $e = &{ $macros{$tag} }(
-                $this, new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} ),
+                $this, $attrs,
                 $topicObject
             );
         }
