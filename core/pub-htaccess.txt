@@ -46,7 +46,7 @@ ErrorDocument 404 /foswiki/bin/viewfile
 #LoadModule expires_module libexec/httpd/mod_expires.so
 #AddModule mod_expires.c
 #<ifmodule mod_expires.c>
-#  <filesmatch "\.(jpe?g|gif|png|css|js)$">
+#  <filesmatch "\.(jpe?g|gif|png|ico|css|js)$">
 #       ExpiresActive on
 #       ExpiresDefault "access plus 11 days"
 #   </filesmatch>
