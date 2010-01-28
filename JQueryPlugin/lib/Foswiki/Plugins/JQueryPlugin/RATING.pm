@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
-# Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
 # 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ sub new {
     name => 'Rating',
     version => '3.12',
     author => 'Diego A. (Fyneworks.com)',
-    homepage => 'http://jquery-star-rating-plugin.googlecode.com/svn/trunk/index.html',
+    homepage => 'http://www.fyneworks.com/jquery/star-rating/',
     css => ['jquery.rating.css'],
     javascript => ['jquery.rating.js'],
   ), $class);

@@ -4,7 +4,7 @@
   border:3px solid #ccc;
   text-align:left;
 }
-.simplemodal-data {
+#simplemodal-container .simplemodal-data {
   margin:1em;
   height:auto;
   width:auto;

@@ -27,7 +27,8 @@ ul.jqTabGroup {
 }
 *:first-child+html 
 ul.jqTabGroup { /* IE7 fix */
-  padding-top:2px !important; 
+  padding-top:1px !important; 
+  height:23px; /* IE8compatibility mode fix */
 }
 *:first-child+html 
 .jqTabPane .foswikiClear { /* IE7 fix to draw the borders */

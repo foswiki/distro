@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
-# Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
 # 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -14,6 +14,7 @@
 # http://www.gnu.org/copyleft/gpl.html
 
 package Foswiki::Plugins::JQueryPlugin::NIFTY;
+use Foswiki::Func ();
 use strict;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
@@ -57,6 +58,8 @@ The new one has been programmed by Paul Bakaus (paul.bakaus@gmail.com).
 Nifty Corners Cube - rounded corners with CSS and Javascript
 Copyright 2006 Alessandro Fulciniti (a.fulciniti@html.it)
 HERE
+
+  Foswiki::Func::writeWarning("the jquery.nifty plugin is deprecated. please use jquery.corner");
 
   return $this;
 }

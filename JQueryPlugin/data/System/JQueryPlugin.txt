@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258381223" format="1.1" reprev="1.9" version="1.9"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1264672217" format="1.1" reprev="1.9" version="1.9"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -80,13 +80,13 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Available jQuery plugins
 %JQPLUGINS{
-  header="<ol>"
-  format="<li> $percntIF{\"istopic '$documentation'\" 
+  format="<h3> $index. $percntIF{\"istopic '$documentation'\" 
                   then=\"[[$documentation][$name]]\" 
                   else=\"<nop>$name\"
                }$percnt $active
-          </li>"
-  footer="</ol>"
+          </h3>
+          $summary
+  "
 }%
 
 
@@ -96,11 +96,14 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Plugin Info
 |  Author(s): | Michael Daum |
-|  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright: | 2007-2010 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Jan 2010: | added jquery-1.4.1, corner, fluidfont, fullcalendar, \
+                  localscroll, masonry, scrollto, serialscroll, slimbox; \
+                  deprecated jquery.nifty; disabled JQSCRIPT and JQSTYLE |
 |  11 Nov 2009: | added jqGrid library; reorganized documentation |
 |  07 Nov 2009: | updated Superfish to 1.4.8 and added examples topic, added\
                   supersubs plugin, moved JQuery examples from Sandbox to System |

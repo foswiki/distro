@@ -1,7 +1,7 @@
 /*
  * jQuery Tabpane plugin 1.1
  *
- * Copyright (c) 2008-2009 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2010 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -217,7 +217,7 @@ $.tabpane = {
       windowHeight = window.innerHeight; // woops, jquery, whats up for konqi
     }
 
-    var height = windowHeight-paneTop-2*bottomBarHeight-12;
+    var height = windowHeight-paneTop-2*bottomBarHeight;
     var $debug = $("#DEBUG");
     if ($debug) {
       height -= $debug.outerHeight({margin:true, padding:true});

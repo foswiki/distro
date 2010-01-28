@@ -21,6 +21,8 @@
 }
 .foswikiTopic a.jqButton,
 .patternTopic a.jqButton,
+.foswikiTopic a.jqButton:hover,
+.patternTopic a.jqButton:hover,
 .jqButton {
   margin:0px 8px 0px 0px;
 }
@@ -47,7 +49,6 @@
   background-position:top left;
   background-repeat:no-repeat;
   cursor:pointer;
-  display:block;
   float:left;
   height:23px;
   line-height:23px;
@@ -57,10 +58,19 @@
   /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
+.jqButtonSimple span,
+.jqButton.simple span {
+  padding:0px;
+}
 .jqButton .jqButtonIcon {
   background-position:0px 4px;
   background-repeat:no-repeat;
-  padding:0px 0px 0px 20px;
+  padding:0px 0px 0px 23px;
+  margin:0px;
+}
+.jqButton span .jqButtonNoText {
+  padding:0px;
+  width:1em;
 }
 .jqButton.cyan { background-image:url(btn_cyan_right.gif); }
 .jqButton.cyan span { background-image:url(btn_cyan_left.gif); }
@@ -70,11 +80,14 @@
 .jqButton.green span { background-image:url(btn_green_left.gif); }
 .jqButton.simple,
 .jqButton.simple span { background-image:none; }
+.jqButtonSimple,
+.jqButtonSimple,
+.jqButtonSimple:hover,
+.jqButtonSimple span { background-image:none; }
 .jqButton.right,
 .jqButton.right:hover {
   float:right;
 }
-
 
 /* rounded cornders */
 .jqRounded div {

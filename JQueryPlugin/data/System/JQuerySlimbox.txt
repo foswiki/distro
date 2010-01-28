@@ -1,0 +1,21 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1259755952" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"slimbox"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Slimbox 2 is a 4 KB visual clone of the popular Lightbox 2 script by Lokesh Dhakar, written using the jQuery javascript library. It was designed to be very small, efficient, standards-friendly, fully customizable, more convenient and 100% compatible with the original Lightbox 2.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"slimbox"}%
+
+<a href="%ATTACHURLPATH%/IMG_1190.JPG" alt="Stupa in Kathmandu" rel="lightbox">click me</a>
+
+%META:FILEATTACHMENT{name="IMG_1190.JPG" attachment="IMG_1190.JPG" attr="" comment="" date="1259755424" path="IMG_1190.JPG" size="46155" user="micha" version="1"}%

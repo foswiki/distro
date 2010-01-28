@@ -1,0 +1,92 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1259855530" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"corner"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin adds cross-browser support for rounded corners. For modern browsers the appropriate css attributes are used while
+there is a fallback strategy for others.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+The javascript API: =corner()= takes a single string argument:  
+<verbatim class="js">
+$('#myDiv').corner("effect corners width");
+</verbatim>
+
+with
+
+   * effect: name of the effect to apply, such as round, bevel, notch, bite, etc (default is round). 
+   * corners: one or more of: top, bottom, tr, tl, br, or bl.by default, all four corners are adorned. 
+   * width: width of the effect; in the case of rounded corners this is the radius. 
+            specify this value using the px suffix such as 10px
+
+Any element using the =jqCorner= class will be rounded. Options are extracted from the =data-corner= attribute of the markup.
+
+---++ Examples
+%JQREQUIRE{"corner"}%
+
+<literal>
+<style type="text/css">
+.jqCorner {
+  margin:1em 0.8em;
+  padding:1em;
+  float:left;
+  width:250px;
+}
+.jqCorner h2.jqCorner {
+  margin:-1em -0.7em 0.7em -0.7em;
+  padding:0.8em;
+  border:0px;
+  float:none;
+  width:auto;
+}
+</style>
+</literal>
+
+<div class="jqCorner" style="background:#bfdded;color:black">
+  <h2 class="jqCorner" data-corner="round top" style="color:#ffffff;background:#778cca">
+    1. Lorem ipsum dolor sit amet
+  </h2>
+  Consectetuer adipiscing elit. Nulla dui turpis,
+  convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+  egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+  molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+</div>
+
+<div class="jqCorner" style="background:#C4E786;color:black">
+  <h2 class="jqCorner" data-corner="round top" style="color:#ffffff;background:#9DC35B">
+    2. Lorem ipsum dolor sit amet
+  </h2>
+  Consectetuer adipiscing elit. Nulla dui turpis,
+  convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+  egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+  molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+</div>
+
+<div class="jqCorner" style="background:#ffd154;color:black">
+  <h2 class="jqCorner" data-corner="round top" style="color:#ffffff;background:#DBB13F">
+    3. Lorem ipsum dolor sit amet
+  </h2>
+  Consectetuer adipiscing elit. Nulla dui turpis,
+  convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+  egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+  molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+</div>
+
+<div class="jqCorner" style="background:#EDC2C2;color:black">
+  <h2 class="jqCorner" data-corner="round top" style="color:#ffffff;background:#aa0000">
+    4. Lorem ipsum dolor sit amet
+  </h2>
+  Consectetuer adipiscing elit. Nulla dui turpis,
+  convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+  egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+  molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+</div>
+%CLEAR%

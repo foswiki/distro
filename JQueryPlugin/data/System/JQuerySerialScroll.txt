@@ -1,0 +1,96 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1258727009" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"serialscroll"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin allows you to easily animate any series of elements, by sequentially scrolling them.
+It uses JQueryScrollTo to achieve the scrolling animation.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"serialscroll"}%
+<div id="screen1">
+<div id="slideshow">
+<ul>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9020" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=8430" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7898" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7894" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=3526" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7863" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7743" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7150" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7164" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7149" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=4922" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9307" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9922" /></li>
+  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9976" /></li>
+</ul>
+</div>
+  <div id="buttons">
+    <a class="prev" href="#">Previous</a>
+    <a class="next" href="#">Next</a>
+  %CLEAR%
+  </div>
+</div>
+
+<literal>
+<script type="text/javascript">
+(function($) {
+  $(function() {
+    $('#slideshow').serialScroll({
+      items:'li',
+      prev:'#screen1 a.prev',
+      next:'#screen1 a.next',
+      offset:-230, //when scrolling to photo, stop 230 before reaching it (from the left)
+      start:1, //as we are centering it, start at the 2nd
+      duration:1200,
+      force:true,
+      stop:true,
+      lock:false,
+      cycle:false, //don't pull back once you reach the end
+      easing:'easeOutQuart', //use this easing equation for a funny effect
+      jump: true //click on the images to scroll to them
+    });
+  });
+})(jQuery);
+</script>
+
+<style type="text/css">
+#slideshow{
+  overflow:hidden;
+  width:680px;
+  border:1px solid #eee;
+}
+
+#slideshow ul{
+  padding:0;
+  margin:0;
+  list-style:none;
+  width:3900px;
+  padding-left:225px;
+}
+
+#slideshow li{
+  padding:0;
+  list-style:none;
+  float:left;
+  margin:0 16px;
+  cursor:pointer;
+}
+.prev{
+  float:left;
+}
+.next{
+  float:right;
+}
+</style>
+</literal>

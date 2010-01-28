@@ -30,7 +30,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '2.10'; 
+$RELEASE = '3.00'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -68,8 +68,8 @@ sub initPlugin {
   Foswiki::Func::registerRESTHandler('gridconnector', \&restGridConnector);
 
   # DEPRECATED
-  Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript ); 
-  Foswiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle ); 
+  #Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript ); 
+  #Foswiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle ); 
 
   # nukem
   Foswiki::Plugins::JQueryPlugin::Plugins::init();
@@ -415,27 +415,26 @@ sub handleJQueryPlugins {
 
 ###############################################################################
 # deprecated handlers
-
-sub handleJQueryScript {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
-
-  Foswiki::Func::writeWarning("WARNING: deprecated use of JQSCRIPT in $theWeb.$theTopic");
-
-  my $scriptFileName = $params->{_DEFAULT};
-  return '' unless $scriptFileName;
-  $scriptFileName .= '.js' unless $scriptFileName =~ /\.js$/;
-  return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$scriptFileName\"></script>";
-}
-
-sub handleJQueryStyle {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
-
-  Foswiki::Func::writeWarning("WARNING: deprecated use of JQSTYLE in $theWeb.$theTopic");
-
-  my $styleFileName = $params->{_DEFAULT};
-  return '' unless $styleFileName;
-  $styleFileName .= '.css' unless $styleFileName =~ /\.css$/;
-  return "<style type='text/css'>\@import url('%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$styleFileName');</style>";
-}
+# sub handleJQueryScript {
+#   my ($session, $params, $theTopic, $theWeb) = @_;   
+#
+#   Foswiki::Func::writeWarning("WARNING: deprecated use of JQSCRIPT in $theWeb.$theTopic");
+#
+#   my $scriptFileName = $params->{_DEFAULT};
+#   return '' unless $scriptFileName;
+#   $scriptFileName .= '.js' unless $scriptFileName =~ /\.js$/;
+#   return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$scriptFileName\"></script>";
+# }
+#
+# sub handleJQueryStyle {
+#   my ($session, $params, $theTopic, $theWeb) = @_;   
+#
+#   Foswiki::Func::writeWarning("WARNING: deprecated use of JQSTYLE in $theWeb.$theTopic");
+#
+#   my $styleFileName = $params->{_DEFAULT};
+#   return '' unless $styleFileName;
+#   $styleFileName .= '.css' unless $styleFileName =~ /\.css$/;
+#   return "<style type='text/css'>\@import url('%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$styleFileName');</style>";
+# }
 
 1;

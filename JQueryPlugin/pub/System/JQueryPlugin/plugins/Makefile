@@ -5,36 +5,43 @@ SUBDIRS=\
   button \
   chili \
   cookie \
+  corner \
   cycle \
   debug \
   easing \
   farbtastic \
+  fluidfont \
   focus \
   form \
   foswiki \
+  fullcalendar \
   gradient \
   grid \
   hoverintent \
   ifixpng \
   innerfade \
+  localscroll \
   maskedinput \
   media \
   metadata \
   nifty \
   rating \
+  scrollto \
+  serialscroll \
   shake \
   shrinkurls \
   simplemodal \
+  slimbox \
   spinner \
   superfish \
   supersubs \
   tabpane \
-  toggle \
   textboxlist \
+  toggle \
   tooltip \
   treeview \
   validate \
-  wikiword \
+  wikiword 
 
 all: $(SUBDIRS)
 

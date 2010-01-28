@@ -1,0 +1,170 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1260561635" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"masonry"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Masonry is a layout plugin for jQuery. Think of it as the flip side of CSS
+floats. Whereas floating arranges elements horizontally then vertically,
+Masonry arranges elements vertically then horizontally according to a grid. The
+result minimizes vertical gaps between elements of varying height, just like a
+mason fitting stones in a wall.
+%ENDSECTION{"summary"}%
+
+---++ Screenshot
+
+<img src="%ATTACHURL%/jQuery-Masonry.jpg" alt="jQuery-Masonry.jpg" width="547" height="351" />
+
+
+---++ Usage
+
+---+++ <nop>JavaScript API
+
+Configuring Masonry is fairly easy. Simply attach the =.masonry()= method 
+to the wrapping container element in your jQuery script. Depending on the layout,
+ you&#8217;ll most likely need to specify one option.
+
+For layouts with elements that span multiple widths:
+
+<verbatim class="js">
+$('#wrapper').masonry({ columnWidth: 200 });
+</verbatim>
+
+For layouts with elements that span the same width:
+
+<verbatim class="js">
+$('#wrapper').masonry({ singleMode: true });
+</verbatim>
+
+---+++ Foswiki integration
+
+All containers classified as =jqMasonry= will be processed by this plugin. Options can be specified
+using JQueryMetadata.
+
+---++ Options
+
+   * singleMode: false %BR%
+     Disables measuring the width of each floated element.
+     Set to true if floated elements have the same width.
+     default: false
+
+   * columnWidth: 240 %BR%
+     Width in pixels of 1 column of your grid.
+     default: outer width of the first floated element.
+
+   * itemSelector: '.box:visible' %BR%
+     Additional selector to specify which elements inside
+     the wrapping element will be rearranged.
+
+   * resizeable: true %BR%
+     Binds a Masonry call to window resizes.
+     default: true
+
+   * appendedContent: $('.new_content') %BR%
+     Additional container element for appended content.
+     Useful for Infinite Scroll integration.
+
+   * saveOptions: true %BR%
+     Masonry will use the options from previous Masonry
+     calls by default, so you only have to enter in options once
+     default: true
+
+---++ Examples
+%JQREQUIRE{"Masonry"}%
+
+<div class="wrap jqMasonry {columnWidth:100, itemSelector:'.box'}">
+  <div class="box">
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
+    Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna
+    nibh, viverra non, semper suscipit, posuere a, pede.
+  </div>
+
+  <div class="box">
+     Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris
+     sit amet orci.
+  </div>
+     
+  <div class="box">
+    Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper
+    vehicula
+  </div>
+
+  <div class="box">
+    Sit amet mi ullamcorper vehicula
+  </div>
+  
+  <div class="box">
+    adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque
+    mauris ut lectus.
+  </div>
+
+  <div class="box">
+    Sit amet mi ullamcorper vehicula
+  </div>
+ 
+  <div class="box">
+    Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
+  </div>
+
+  <div class="box">
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
+    Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna
+    nibh, viverra non, semper suscipit, posuere a, pede.
+  </div>
+
+  <div class="box">
+     Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris
+     sit amet orci.
+  </div>
+     
+  <div class="box">
+    Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper
+    vehicula
+  </div>
+
+  <div class="box">
+    Sit amet mi ullamcorper vehicula
+  </div>
+  
+  <div class="box">
+    adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque
+    mauris ut lectus.
+  </div>
+
+  <div class="box">
+    Sit amet mi ullamcorper vehicula
+  </div>
+ 
+  <div class="box">
+    Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
+  </div>
+
+  <br class="foswikiClear" />
+</div>
+
+<literal>
+<style type="text/css">
+.box {
+    margin: 5px;
+    padding: 5px;
+    background: #D8D5D2;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    width:80px;
+}
+.wrap {
+    padding: 10px;
+    width:300px;
+}
+</style>
+</literal>
+
+%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attachment="jQuery-Masonry.jpg" attr="h" comment="" date="1260559727" path="jQuery-Masonry.jpg" size="35840" user="micha" version="1"}%

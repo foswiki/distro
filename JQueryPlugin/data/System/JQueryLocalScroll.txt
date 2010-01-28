@@ -1,0 +1,21 @@
+%META:TOPICINFO{author="micha" comment="save topic" date="1258726297" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"localscroll"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin will animate a regular anchor navigation.
+It will allow your visitors to navigate your site with a smooth scrolling effect.
+
+Each time a link is clicked, the element you decide(can be the whole screen), will gradually scroll to the targeted element, instead of "jumping" as it'd normally do.
+JQueryScrollTo is used for the animation.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"localscroll"}%

@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
-# Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
 # 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -63,7 +63,7 @@ Tag handler for =%<nop>BUTTON%=.
 sub handleButton {
   my ($this, $params, $theTopic, $theWeb) = @_;
 
-  my $theText = $params->{_DEFAULT} || $params->{value} || $params->{text} || 'Button';
+  my $theText = $params->{_DEFAULT} || $params->{value} || $params->{text} || '';
   my $theHref = $params->{href} || '#';
   my $theOnClick = $params->{onclick};
   my $theOnMouseOver = $params->{onmouseover};
@@ -85,7 +85,7 @@ sub handleButton {
 
   if ($theIcon) {
     $theText = 
-      "<span class='jqButtonIcon' style='background-image:url($theIcon)'>$theText</span>";
+      "<span class='jqButtonIcon".($theText?'':' jqButtonNoText')."' style='background-image:url($theIcon)'>$theText</span>";
   }
   $theText = "<span> $theText </span>";
 

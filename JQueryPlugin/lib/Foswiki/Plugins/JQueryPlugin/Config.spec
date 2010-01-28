@@ -7,6 +7,10 @@ $Foswiki::cfg{JQueryPlugin}{Debug} = 0;
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{MemoryCache} = 1;
 
+# **STRING**
+# search path for JQICONs
+$Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+
 # **BOOLEAN**
 # Enable this switch to prevent name conflicts with other javascript frameworks that
 # use <code>$</code>. If enabled <code>$</code> will be renamed to <code>$j</code>.
@@ -17,8 +21,8 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # **STRING**
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, metadata, bgiframe, foswiki';
 
-# **SELECT jquery-1.2.6, jquery-1.3.2, jquery-1.3.2p1**
-$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.3.2';
+# **SELECT jquery-1.4.1, jquery-1.3.2, jquery-1.3.2p1, jquery-1.2.6**
+$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.4.1';
 
 # **SELECT base, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'base';
@@ -38,6 +42,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{BlockUI}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Chili}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Corner}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Cookie}{Enabled} = 1;
@@ -64,6 +71,12 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Form}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Foswiki}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{FluidFont}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{FullCalendar}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 1;
 
 # **BOOLEAN**
@@ -76,7 +89,13 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{InnerFade}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{LocalScroll}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{MaskedInput}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Masonry}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
@@ -85,10 +104,17 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 1;
+# This plugin is deprecated. Use Corner instead
+# $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{ScrollTo}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{SerialScroll}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 1;
@@ -98,6 +124,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{ShrinkUrls}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Slimbox}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Superfish}{Enabled} = 1;

@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
 # 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -145,7 +145,7 @@ sub getSummary {
   unless (defined $summary) {
     $summary = 'n/a';
     if ($this->{'documentation'}) {
-      $summary = Foswiki::Func::expandCommonVariables('%INCLUDE{"'.$this->{documentation}.'" section="summary"}%');
+      $summary = Foswiki::Func::expandCommonVariables('%INCLUDE{"'.$this->{documentation}.'" section="summary" warn="off"}%');
     }
 
     $this->{summary} = $summary;

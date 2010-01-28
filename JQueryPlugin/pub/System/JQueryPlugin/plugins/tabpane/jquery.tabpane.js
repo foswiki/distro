@@ -16,7 +16,7 @@ if(typeof(data.afterHandler)=="function"){data.afterHandler.call(this,oldTabId,n
 thisOpts.currentTabId=newTabId;}},autoMaxExpand:function($thisPane,opts){window.setTimeout(function(){jQuery.tabpane.fixHeight($thisPane,opts);jQuery(window).one("resize",function(){$.tabpane.autoMaxExpand($thisPane,opts)});},100);},fixHeight:function($thisPane,opts){var $container=$thisPane.find("> .jqTab.current .jqTabContents");var paneOffset=$container.offset();if(typeof(paneOffset)=='undefined'){return;}
 var paneTop=paneOffset.top;if(bottomBarHeight<=0){bottomBarHeight=jQuery('.natEditBottomBar').outerHeight({margin:true,padding:true});}
 var windowHeight=jQuery(window).height();if(!windowHeight){windowHeight=window.innerHeight;}
-var height=windowHeight-paneTop-2*bottomBarHeight-12;var $debug=$("#DEBUG");if($debug){height-=$debug.outerHeight({margin:true,padding:true});}
+var height=windowHeight-paneTop-2*bottomBarHeight;var $debug=$("#DEBUG");if($debug){height-=$debug.outerHeight({margin:true,padding:true});}
 if(opts&&opts.minHeight&&height<opts.minHeight){height=opts.minHeight;}
 if(height<0){return;}
-$container.height(height);},defaults:{select:1,animate:false,autoMaxExpand:false,minHeight:230}};$.fn.tabpane=$.tabpane.build;})(jQuery);
+$container.height(height);},defaults:{select:1,animate:false,autoMaxExpand:false,minHeight:230}};$.fn.tabpane=$.tabpane.build;})(jQuery);;

@@ -1,13 +1,5 @@
 SUBDIRS=i18n plugins themes ui
-TARGET=jquery-1.2.6.js jquery-1.3.2.js jquery-1.3.2p1.js
-
-JS_SOURCES=\
-  jquery-1.2.6.js \
-  plugins/easing/jquery.easing.js \
-  plugins/metadata/jquery.metadata.js \
-  plugins/bgiframe/jquery.bgiframe.js \
-  plugins/hoverintent/jquery.hoverIntent.js \
-  plugins/foswiki/jquery.foswiki.js
+TARGET=jquery-1.2.6.js jquery-1.3.2.js jquery-1.3.2p1.js jquery-1.4.1.js
 
 -include Makefile.include
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258383640" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1259339598" format="1.1" reprev="1.4" version="1.4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"ui"
@@ -13,9 +13,6 @@
 Widget collection for jQuery. This is the official userinterface library.
 %ENDSECTION{"summary"}%
 
----++ Examples
-%JQREQUIRE{"ui"}%
-%RED%todo%ENDCOLOR%
 
 ---++ Installed themes
 The following themes are provided:
@@ -23,3 +20,34 @@ The following themes are provided:
    * lightness  
    * redmond  
    * smoothness
+
+---++ Examples
+%JQREQUIRE{"ui"}%
+%JQREQUIRE{"metadata"}%
+
+---+++ Date picker
+See also: http://jqueryui.com/demos/datepicker/
+
+<literal>
+<script type="text/javascript">
+$(function() {
+  $(".jqDatepicker").not(".jqInited").each(function() {
+    var $this = $(this);
+    var options = $.extend(
+      { // defaults
+        firstDay: 1,
+        showAnim: 'fadeIn'
+      }, $this.metadata());
+    $this.datepicker(options);
+  });
+});
+</script>
+</literal>
+
+*Date 1:* <input type="text" size="30" name="date1" value="%GMTIME%" class="jqDatepicker" />
+
+*Date 2:* <input type="text" size="30" name="date2" value="%GMTIME%" class="jqDatepicker {dateFormat:'d M yy'}" />
+
+*Date 3:* <input type="text" size="30" name="date3" value="%GMTIME%" class="jqDatepicker {dateFormat:'@'}" />
+
+*Date 4:* <input type="text" size="30" name="date4" value="%GMTIME%" class="jqDatepicker {dateFormat:'DD, dd-M-y'}" />

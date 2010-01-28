@@ -1,0 +1,65 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1259841996" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"fluidfont"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Recompute the font size of an element based on its width. 
+%ENDSECTION{"summary"}%
+
+---++ Usage
+The =fluidfont()= plugin attaches to a jQuery object and recomputes its font-size based on its width.
+You can specify a width at which the original font size should be used. When the element is resized
+the ratio between width and font-size is maintained continuously.
+
+*Parameters*:
+
+   * width: standard width that will show the original font-size 
+   * min: minimal font size in px 
+   * max: maximal font size in px
+
+!FluidFont is activated for any html element that has got the =jqFluidFont= class. Options can be specified
+using JQueryMetadata.
+
+---++ Examples
+%JQREQUIRE{"fluidfont"}%
+
+<div class="jqFluidFont {width:960, min:7, max:20}" style="border:1px solid #ddd;padding:10px">
+%RED%This area uses fluid typography.%ENDCOLOR%
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam facilisis neque id ipsum imperdiet at ornare magna auctor. Nunc condimentum enim vitae libero placerat scelerisque. Nunc eu neque orci, in hendrerit tortor. Vestibulum quis arcu sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh est, consectetur quis commodo scelerisque, laoreet ac nulla. Mauris feugiat elit non ante hendrerit ut ultricies nisl aliquam. Pellentesque fermentum tortor a nunc vulputate laoreet. Nulla at odio ut magna bibendum dignissim. Duis eget lorem ut erat blandit accumsan in quis dolor. 
+
+| *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* | *head* |
+| data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data |
+| data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data |
+| data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data |
+| data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data | data |
+</div>
+
+
+%IF{"$'fluidfont'='on'" 
+  then="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"fluidfont\"}$percnt 
+        Fluid font is activated. Try to resize the browser window."
+  else="<a href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?fluidfont=on'>Click here</a> 
+        to activate fluid font for all of this page."
+}%
+
+<verbatim class="tml">
+%STARTSECTION{"fluidfont"}%
+<script type="text/javascript">
+jQuery(function($) {
+  $("body").fluidfont({
+    width: 1024, 
+    min: 11,
+    max: 20
+  });
+});
+</script>
+</verbatim>
+%ENDSECTION{"fluidfont"}%

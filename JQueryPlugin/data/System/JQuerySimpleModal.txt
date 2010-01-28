@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258383308" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1259584432" format="1.1" reprev="1.3" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
-%JQPLUGINS{"empty"
+%JQPLUGINS{"simplemodal"
   format="
     Homepage: $homepage <br />
     Author(s): $author <br />
@@ -14,36 +14,21 @@
 interface to create a modal dialog.
 %ENDSECTION{"summary"}%
 
+---++ Description
 The goal of !SimpleModal is to provide developers with a cross-browser
 overlay and container that will be populated with data provided to
 !SimpleModal.
 
 There are two ways to call !SimpleModal:
-1) As a chained function on a jQuery object, like $('#myDiv').modal();.
-This call would place the DOM object, #myDiv, inside a modal dialog.
-Chaining requires a jQuery object. An optional options object can be
-passed as a parameter.
-
-Examples:
-<verbatim class="js">
-$('<div>my data</div>').modal({options});
-$('#myDiv').modal({options});
-jQueryObject.modal({options});
-</verbatim>
-
-2) As a stand-alone function, like $.modal(data). The data parameter
-is required and an optional options object can be passed as a second
-parameter. This method provides more flexibility in the types of data
-that are allowed. The data could be a DOM object, a jQuery object, HTML
-or a string.
-
-<verbatim class="js">
-$.modal('<div>my data</div>', {options});
-$.modal('my data', {options});
-$.modal($('#myDiv'), {options});
-$.modal(jQueryObject, {options});
-$.modal(document.getElementById('myDiv'), {options});
-</verbatim>
+   1 As a chained function on a jQuery object, like =$('#myDiv').modal();=.
+     This call would place the DOM object, #myDiv, inside a modal dialog.
+     Chaining requires a jQuery object. An optional options object can be
+     passed as a parameter.
+   1 As a stand-alone function, like =$.modal(data)=. The data parameter
+     is required and an optional options object can be passed as a second
+     parameter. This method provides more flexibility in the types of data
+     that are allowed. The data could be a DOM object, a jQuery object, HTML
+     or a string.
 
 A !SimpleModal call can contain multiple elements, but only one modal
 dialog can be created at a time. Which means that all of the matched
@@ -60,3 +45,20 @@ overlayCss and/or containerCss options.
    * Firefox 2, 3
    * Opera 9
    * Safari 3
+
+---++ Examples
+
+<verbatim class="js">
+$('<div>my data</div>').modal({options});
+$('#myDiv').modal({options});
+jQueryObject.modal({options});
+</verbatim>
+
+
+<verbatim class="js">
+$.modal('<div>my data</div>', {options});
+$.modal('my data', {options});
+$.modal($('#myDiv'), {options});
+$.modal(jQueryObject, {options});
+$.modal(document.getElementById('myDiv'), {options});
+</verbatim>

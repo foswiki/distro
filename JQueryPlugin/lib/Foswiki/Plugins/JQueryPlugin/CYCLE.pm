@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
-# Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
 # 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::EMPTY
+---+ package Foswiki::Plugins::JQueryPlugin::CYCLE
 
 This is the perl stub for the jquery.cycle plugin.
 
