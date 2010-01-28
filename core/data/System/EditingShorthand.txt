@@ -333,6 +333,23 @@ Sandbox.%HOMETOPIC%
 </tr>
 <tr valign="top">
 <td>
+ *<nop>Acronym  Links:* %BR%
+ <nop>Words that are all capitals will produce a link automatically _only_ if the topic aready exists!. 
+</td><td>
+<verbatim>
+ACRONYM
+
+System.ACRONYM
+</verbatim>
+</td><td>
+
+ACRONYM
+
+System.ACRONYM
+</td>
+</tr>
+<tr valign="top">
+<td>
  *Anchors:* %BR%
  You can define a reference inside a topic (called an anchor name) and link to that. To *define* an anchor write =#AnchorName= at the beginning of a line. The anchor name must be a WikiWord of no more than 32 characters. To *link to* an anchor name use the =[<nop>[MyTopic#MyAnchor]]= syntax. You can omit the topic name if you want to link within the same topic.
 </td><td>
