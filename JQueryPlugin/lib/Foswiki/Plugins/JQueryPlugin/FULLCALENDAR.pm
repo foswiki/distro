@@ -41,7 +41,7 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'FullCalendar',
-    version => '1.4.1',
+    version => '1.4.3',
     author => 'Adam Shaw',
     homepage => 'http://arshaw.com/fullcalendar/',
     css => ['fullcalendar.css'],

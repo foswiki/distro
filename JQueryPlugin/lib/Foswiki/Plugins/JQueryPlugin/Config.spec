@@ -22,7 +22,8 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, metadata, bgiframe, foswiki';
 
 # **SELECT jquery-1.4.1, jquery-1.3.2, jquery-1.3.2p1, jquery-1.2.6**
-$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.4.1';
+# CAUTION: jquery-1.4.1 still has issues. please test carefully
+$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.3.2';
 
 # **SELECT base, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'base';

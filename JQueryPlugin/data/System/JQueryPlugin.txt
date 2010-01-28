@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1264672217" format="1.1" reprev="1.9" version="1.9"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1264672217" format="1.1" reprev="1.9" version="1.9"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
