@@ -17,6 +17,8 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
    * It avoids the need to fiddle with HTML tags
    * It avoids over-general topics because at least two words are required
 
+%T% Note that Acronyms (words consisting of 3 or more upper-case letters) are also auto-linked, but _only_ if the topic already exists.  See ACRONYM.
+
 ---++ Syntax of a !WikiWord
 
    * Uppercase letter(s)

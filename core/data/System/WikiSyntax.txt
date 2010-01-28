@@ -48,7 +48,7 @@ _If you can enter text, you're ready for Foswiki. With a few simple rules, you'l
 
 ---++ Internal and external links
 
-   * To link to another Wiki topic in the same web, type the WikiWord of that topic: =<nop>%HOMETOPIC%=.
+   * To link to another Wiki topic in the same web, type the WikiWord of that topic: =<nop>%HOMETOPIC%=.  Acronyms will also be linked if the topic exists. See ACRONYM.
 
    * To link to a Wiki topic in a different web, type the name of the web, and a dot, first: =Sandbox.<nop>%HOMETOPIC%=.
 
