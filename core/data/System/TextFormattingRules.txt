@@ -18,13 +18,15 @@ Working in Foswiki is as easy as typing in text. You don't need to know HTML, th
 
 ---++ Hyperlinks
 
-Being able to create links without any special formatting is a core Foswiki feature, made possible with WikiWords and inline URLs.
+Being able to create links without any special formatting is a core Foswiki feature, made possible with WikiWords, [[ACRONYM][Acronyms]],  and inline URLs.
 
 ---+++ Internal Links
 
    * GoodStyle is a WikiWord that links to the <nop>GoodStyle topic located in the current web.
 
    * NotExistingYet is a topic waiting to be written. Create the topic by clicking on the *?*. (Try clicking, but then, *Cancel* - creating the topic would wreck this example!)
+
+   * ACRONYM links to a topic name consisting of only upper-case letters. Acronyms are linked only if the target topic actually exists.
 
 ---+++ External Links
 
@@ -40,6 +42,8 @@ Being able to create links without any special formatting is a core Foswiki feat
       * =nntp://...=
       * =telnet://...=
    are linked automatically.
+    
+%T% =LinkProtocolPattern= is an _expert_ setting in the Foswiki configuration and can only be changed by a systems administrator.
 
    * E-mail addresses like =name@domain.com= are linked automatically.
 
