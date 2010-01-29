@@ -76,7 +76,8 @@ sub test_plainInline {
 
     $this->_testExpand('%MACRO{"flurble" cheese="gouda" say="\\"Hello\\""}%', {_RAW=>$dontCare, _DEFAULT=>"flurble", cheese=>"gouda", say=>'"Hello"'});
 
-    $this->_testExpand('%MACRO{cheese="gouda" say="\\"Hello\\""}%', {_RAW=>$dontCare, cheese=>"gouda", say=>'"Hello"'});
+    $this->_testExpand('%MACRO{cheese="gouda" say="\\"Hello\\"" perlgreeting="print \\"say \\\\"Hello\\\\"\\""}%', 
+		               {_RAW=>$dontCare, cheese=>"gouda", say=>'"Hello"', perlgreeting=>'print "say \\"Hello\\""'});
 }
 
 sub test_simpleNestedMacrosInline {
@@ -90,7 +91,25 @@ sub test_simpleNestedMacrosInline {
 
     $this->_testExpand('%MACRO{"$percntWIKINAME%"}%', { _RAW => $dontCare, _DEFAULT => '$percntWIKINAME%'});
 
-    $this->_testExpand('%MACRO{"$percntWIKINAME%"}%', { _RAW => $dontCare, _DEFAULT => '$percntWIKINAME%'});
+    $this->_testExpand('%MACRO{"$percntWIKINAME$percnt"}%', { _RAW => $dontCare, _DEFAULT => '$percntWIKINAME$percnt'});
+}
+
+sub test_nonDelayedExpansionInline {
+    my $this = shift;
+
+    my $result = $this->_expand(<<'END');
+%FOREACH{"OneHump,TwoEyes,ThreeTeeth" format="%ENCODE{"%EXPAND{"%SPACEOUT{"$topic"}%"}%"}%" separator=","}%
+END
+    $this->assert_str_equals("%24topic,%24topic,%24topic\n", $result);
+}
+
+sub test_delayedExpansionInline {
+    my $this = shift;
+
+    my $result = $this->_expand(<<'END');
+%FOREACH{"OneHump,TwoEyes,ThreeTeeth" format="$percntSPACEOUT{\"$topic\"}$percnt" separator=","}%
+END
+    $this->assert_str_equals("One Hump,Two Eyes,Three Teeth\n", $result);
 }
 
 sub test_plainHereDocument {

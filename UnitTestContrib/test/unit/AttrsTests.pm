@@ -299,16 +299,16 @@ sub test_zero {
 
 sub test_doubleBackslash {
     my $this = shift;
-    my $attrs = new Foswiki::Attrs( "var=\"a\\\\b\"", 0 );
-    $this->assert_str_equals( "a\\b", $attrs->remove("var") );
+    my $attrs = new Foswiki::Attrs( 'var="a\\\\b"', 0 );
+    $this->assert_str_equals( "a\\\\b", $attrs->remove("var") );
     $this->assert( $attrs->isEmpty() );
 }
 
 sub test_endsWithEscapedQuote {
     my $this = shift;
-    my $attrs = new Foswiki::Attrs( "separator=\" \\\\\" format=\"\$topic\"", 0 );
-    $this->assert_str_equals( " \\", $attrs->remove("separator") );
-    $this->assert_str_equals( "\$topic", $attrs->remove("format") );
+    my $attrs = new Foswiki::Attrs( 'separator=" \\\\"" format="$topic"', 0 );
+    $this->assert_str_equals( ' \\"', $attrs->remove("separator") );
+    $this->assert_str_equals( '$topic', $attrs->remove("format") );
     $this->assert( $attrs->isEmpty() );
 }
 
