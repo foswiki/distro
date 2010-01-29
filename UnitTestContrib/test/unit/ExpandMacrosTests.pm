@@ -75,9 +75,37 @@ sub test_plainInline {
     $this->_testExpand('%MACRO{"ping"}%', {_RAW=>$dontCare, _DEFAULT=>"ping"});
 
     $this->_testExpand('%MACRO{"flurble" cheese="gouda" say="\\"Hello\\""}%', {_RAW=>$dontCare, _DEFAULT=>"flurble", cheese=>"gouda", say=>'"Hello"'});
+}
+
+sub test_inlineWithDoubleEscapedQuotes {
+    my $this = shift;
 
     $this->_testExpand('%MACRO{cheese="gouda" say="\\"Hello\\"" perlgreeting="print \\"say \\\\"Hello\\\\"\\""}%', 
-		               {_RAW=>$dontCare, cheese=>"gouda", say=>'"Hello"', perlgreeting=>'print "say \\"Hello\\""'});
+                       {_RAW=>$dontCare, cheese=>"gouda", say=>'"Hello"', perlgreeting=>'print "say \\"Hello\\""'});
+}
+
+sub test_inlineWithEmbeddedNewline {
+    my $this = shift;
+
+    $this->_testExpand(<<'END',
+%MACRO{"Embedded
+newline"}%
+END
+      {_RAW=>$dontCare, _DEFAULT=>"Embedded\nnewline"});
+
+    Foswiki::Func::registerTagHandler('FOO', sub {''});
+    $this->_testExpand(<<'END',
+%MACRO{"Escaped embedded%FOO{
+}%newline"}%
+END
+      {_RAW=>$dontCare, _DEFAULT=>"Escaped embeddednewline"});
+
+    Foswiki::Func::setPreferencesValue('BAR', '');
+    $this->_testExpand(<<'END',
+%MACRO{"Escaped embedded%BAR{
+}%newline"}%
+END
+      {_RAW=>$dontCare, _DEFAULT=>"Escaped embeddednewline"});
 }
 
 sub test_simpleNestedMacrosInline {
