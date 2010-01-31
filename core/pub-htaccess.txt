@@ -12,7 +12,7 @@
 Allow from all
 
 # Deny people from looking at the index
-# Bare in mind that this is largely inadequate
+# Bear in mind that this is largely inadequate
 # See http://foswiki.org/System/AccessControl#Controlling_access_to_Attachment
 # and http://foswiki.org/Tasks/Item610
 # If you think you have a solution it is in your best interests to share it 
