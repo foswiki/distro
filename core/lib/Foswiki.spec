@@ -737,7 +737,7 @@ $Foswiki::cfg{LogFileName} = '$Foswiki::cfg{DataDir}/log%DATE%.txt';
 # <p>
 # Configuration items in this section control two things: recognition of
 # national (non-ascii) characters and the system locale used by Foswiki, which
-# influences how programs Foswiki and external programa called by it behave
+# influences how programs Foswiki and external programs called by it behave
 # regarding internationalization.
 # </p>
 # <p>
