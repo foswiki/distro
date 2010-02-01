@@ -221,6 +221,9 @@ HERE
             value      => "GRRR "
         }
     );
+    $meta->putKeyed( FIELD => { name=>'ZeroString', attributes=>'', title=>'Zero', value=>'0' } );
+    $meta->putKeyed( FIELD => { name=>'ZeroNumber', attributes=>'', title=>'Zero', value=>0 } );
+
     Foswiki::Func::saveTopic( $this->{test_web}, $testtopic2, $meta, 'TT2' );
 }
 
@@ -286,7 +289,10 @@ sub test_render_formfield_raw {
       $meta->renderFormFieldForDisplay( "State", '',
         { newline => 'NL', bar => "BAR" } );
     $this->assert_str_equals( '', $res );
-
+    $res = $meta->renderFormFieldForDisplay( 'ZeroString', '$value' );
+    $this->assert_str_equals('0', $res);
+    $res = $meta->renderFormFieldForDisplay( 'ZeroNumber', '$value' );
+    $this->assert_str_equals('0', $res);
 }
 
 # Simple test; form in place, just check value rendering
