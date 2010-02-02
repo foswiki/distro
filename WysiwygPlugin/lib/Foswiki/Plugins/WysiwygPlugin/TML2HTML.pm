@@ -188,7 +188,15 @@ sub _processTags {
 
     return '' unless defined($text);
 
-    my @queue = split( /(\n?%)/s, $text );
+#SMELL: why put a \n into the split? (at least document it..)
+#    my @queue = split( /(\n?%)/s, $text );
+#SVEN: I've removed the extra \n capture, and am seeing what the tests tell me..
+#      doing so removes an (so far) unexplaind <br /> that was put into the WYSIWYG_PROTECTED bloc..
+#      eg. <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
+#SMELL: having removed the \n from the split, the code below now _should_ be rewritten to remove the 
+#      other processing of the \n. For now (Feb2010), I've left it as is, so that we can revert to the old 
+#      code if/when someone figures out why it was in the split in the first place.
+    my @queue = split( /(%)/s, $text );
     my @stack;
     my $stackTop = '';
 
