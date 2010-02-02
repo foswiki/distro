@@ -51,4 +51,4 @@ If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent t
 
 ---
 *Access Control:*
-   * Set ALLOWTOPICCHANGE = RegistrationGroup
+   * Set ALLOWTOPICCHANGE = RegistrationAgent

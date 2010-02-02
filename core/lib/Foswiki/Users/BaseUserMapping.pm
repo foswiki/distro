@@ -99,7 +99,7 @@ sub new {
             $UNKNOWN_USER_CUID,
             'BaseUserMapping_111',
             'BaseUserMapping_222',  ],
-         RegistrationGroup => ['BaseUserMapping_222']
+#         RegistrationGroup => ['BaseUserMapping_222']
        );
 
     my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );

@@ -340,7 +340,8 @@ sub verify_isAnAdmin {
         next if ( $this->noUsersRegistered() && ( $u eq 'UserA' ) );
 
         if (   $u eq $Foswiki::cfg{AdminUserWikiName}
-            || $u eq $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+#having rego agent an admin pretty much defeats the purpose of not making WikiGuest admin
+#            || $u eq $Foswiki::cfg{Register}{RegistrationAgentWikiName}
             || $u eq 'UserA' )
         {
             $this->assert( $sadmin, $u );

@@ -26,7 +26,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
 
    * Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]). 
    Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web.
-   If you intend to lock down the %USERSWEB% to only allow registration, you need to add the built in =RegistrationGroup= to the =ALLOWWEBCHANGE= setting.
+   If you intend to lock down the %USERSWEB% to only allow registration, you need to add the built in =RegistrationAgent= to the =ALLOWWEBCHANGE= setting.
       * Set DENYWEBVIEW = 
       * Set ALLOWWEBVIEW = 
       * Set DENYWEBCHANGE = 
