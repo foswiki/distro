@@ -5,3 +5,4 @@
 Algorithm::Diff,>=0,cpan,required
 HTML::Entities,>=0,cpan,required
 Foswiki::Plugins::TestFixturePlugin,>=0,perl,optional, used for semi-automatic test cases (TestCases web)
+Devel::Symdump,>=0,cpan,required
