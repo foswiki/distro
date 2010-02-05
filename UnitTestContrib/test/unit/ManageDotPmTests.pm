@@ -136,6 +136,46 @@ sub addUserToGroup {
     return $exception;
 }
 
+sub removeUserFromGroup {
+    my $this = shift;
+    #my $queryHash = shift;
+    
+    my $query = new Unit::Request(@_);
+
+    $query->path_info("/$this->{users_web}/WikiGroups");
+    my $fatwilly = new Foswiki( undef, $query );
+
+    my $exception;
+    try {
+        no strict 'refs';
+        $this->captureWithKey( manage => $this->getUIFn('manage'), $fatwilly );
+        no strict 'refs';
+    }
+    catch Foswiki::OopsException with {
+        $exception = shift;
+        print STDERR "---------".$exception->stringify()."\n" if ($Error::Debug);
+        if (   ( "attention" eq $exception->{template} )
+            && ( "removed" eq $exception->{def} ) )
+        {
+#TODO: confirm that that onle the expected group and user is created
+            undef $exception;    #the only correct answer
+        }
+    }
+    catch Foswiki::AccessControlException with {
+        $exception = shift;
+        print STDERR "---------2 ".$exception->stringify()."\n" if ($Error::Debug);
+    }
+    catch Error::Simple with {
+        $exception = shift;
+        print STDERR "---------3 ".$exception->stringify()."\n" if ($Error::Debug);
+    }
+    otherwise {
+        print STDERR "--------- otherwise\n" if ($Error::Debug);
+        $exception = new Error::Simple();
+    };
+    return $exception;
+}
+
 sub test_SingleAddToNewGroupCreate {
     my $this = shift;
     my $ret;
@@ -161,9 +201,119 @@ sub test_SingleAddToNewGroupCreate {
     $this->{session} = new Foswiki( undef, $q );
 
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ));
     $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
 }
 
+
+
+sub test_DoubleAddToNewGroupCreate {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    $ret = $this->registerUserException( 'qwer', 'Qwer', 'Poiu', 'qwer@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    $ret = $this->registerUserException( 'zxcv', 'Zxcv', 'Poiu', 'zxcv@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->addUserToGroup(        {
+            'username'      => ['AsdfPoiu','QwerPoiu'],
+            'groupname'     => ['NewGroup'],
+            'create'        => [1],
+            'action'        => ['addUserToGroup']
+        });
+    $this->assert_null( $ret, "Simple add to new group" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+}
+
+sub test_TwiceAddToNewGroupCreate {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    $ret = $this->registerUserException( 'qwer', 'Qwer', 'Poiu', 'qwer@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    $ret = $this->registerUserException( 'zxcv', 'Zxcv', 'Poiu', 'zxcv@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->addUserToGroup(        {
+            'username'      => [$this->{session}->{user}],
+            'groupname'     => ['NewGroup'],
+            'create'        => [1],
+            'action'        => ['addUserToGroup']
+        });
+    $this->assert_null( $ret, "add myself" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+
+    $ret = $this->addUserToGroup(        {
+            'username'      => ["AsdfPoiu"],
+            'groupname'     => ['NewGroup'],
+            'create'        => [],
+            'action'        => ['addUserToGroup']
+        });
+    $this->assert_null( $ret, "second add user" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+
+}
+
+
+###########################################################################
+#totoal failure type tests..
 sub test_SingleAddToNewGroupNoCreate {
     my $this = shift;
     my $ret;
@@ -191,5 +341,101 @@ sub test_SingleAddToNewGroupNoCreate {
     $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
     $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
 }
+
+sub test_NoUserAddToNewGroupCreate {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    $ret = $this->registerUserException( 'qwer', 'Qwer', 'Poiu', 'qwer@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    $ret = $this->registerUserException( 'zxcv', 'Zxcv', 'Poiu', 'zxcv@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->addUserToGroup(        {
+            'username'      => [],
+            'groupname'     => ['NewGroup'],
+            'create'        => [1],
+            'action'        => ['addUserToGroup']
+        });
+    $this->assert_not_null( $ret, "no users in list of users to add to group" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+}
+
+sub test_RemoveFromNonExistantGroup {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->removeUserFromGroup(        {
+            'username'      => ['AsdfPoiu'],
+            'groupname'     => ['AnotherNewGroup'],
+            'action'        => ['removeUserFromGroup']
+        });
+    $this->assert_not_null( $ret, "there ain't any such group" );
+    $this->assert_equals( $ret->{template}, "attention" );
+    $this->assert_equals( $ret->{def}, "problem_removing_from_group" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+}
+
+sub test_RemoveNoUserFromExistantGroup {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->removeUserFromGroup(        {
+            'username'      => [],
+            'groupname'     => ['AnotherNewGroup'],
+            'action'        => ['removeUserFromGroup']
+        });
+    $this->assert_not_null( $ret, "no user.." );
+    $this->assert_equals( $ret->{template}, "attention" );
+    $this->assert_equals( $ret->{def}, "no_users_to_remove_from_group" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+}
+
 
 1;
