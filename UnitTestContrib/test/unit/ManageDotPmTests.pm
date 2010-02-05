@@ -72,7 +72,7 @@ sub registerUserException {
             && ( "thanks" eq $exception->{def} ) )
         {
 
-            #print STDERR "---------".$exception->stringify()."\n";
+            print STDERR "---------".$exception->stringify()."\n" if ($Error::Debug);
             $exception = undef;    #the only correct answer
         }
     }
@@ -96,21 +96,11 @@ sub registerUserException {
     return $exception;
 }
 
-sub test_AddToGroup {
+sub addUserToGroup {
     my $this = shift;
-    my $ret;
-
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
-    $this->assert_null( $ret, "Simple rego should work" );
+    #my $queryHash = shift;
     
-        my $query = new Unit::Request(
-        {
-            'username'      => ['AsdfPoiu'],
-            'groupname'     => ['NewGroup'],
-            'create'        => [1],
-            'action'        => ['addUserToGroup']
-        }
-    );
+    my $query = new Unit::Request(@_);
 
     $query->path_info("/$this->{users_web}/WikiGroups");
     my $fatwilly = new Foswiki( undef, $query );
@@ -123,19 +113,47 @@ sub test_AddToGroup {
     }
     catch Foswiki::OopsException with {
         $exception = shift;
+        print STDERR "---------".$exception->stringify()."\n" if ($Error::Debug);
         if (   ( "attention" eq $exception->{template} )
             && ( "added_users_to_group" eq $exception->{def} ) )
         {
 #TODO: confirm that that onle the expected group and user is created
-            #print STDERR "---------".$exception->stringify()."\n";
-            $exception = undef;    #the only correct answer
+            undef $exception;    #the only correct answer
         }
     }
+    catch Foswiki::AccessControlException with {
+        $exception = shift;
+        print STDERR "---------2 ".$exception->stringify()."\n" if ($Error::Debug);
+    }
+    catch Error::Simple with {
+        $exception = shift;
+        print STDERR "---------3 ".$exception->stringify()."\n" if ($Error::Debug);
+    }
+    otherwise {
+        print STDERR "--------- otherwise\n" if ($Error::Debug);
+        $exception = new Error::Simple();
+    };
+    return $exception;
+}
 
+sub test_SingleAddToNewGroupCreate {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->addUserToGroup(        {
+            'username'      => ['AsdfPoiu'],
+            'groupname'     => ['NewGroup'],
+            'create'        => [1],
+            'action'        => ['addUserToGroup']
+        });
+    $this->assert_null( $ret, "Simple add to new group" );
+    
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
-    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
-
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
     
     #need to reload to force Foswiki to reparse Groups :(
     my $q = $this->{request};
@@ -146,5 +164,32 @@ sub test_AddToGroup {
     $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
 }
 
+sub test_SingleAddToNewGroupNoCreate {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu', 'asdf@example.com' );
+    $this->assert_null( $ret, "Simple rego should work" );
+    
+    $ret = $this->addUserToGroup(        {
+            'username'      => ['AsdfPoiu'],
+            'groupname'     => ['AnotherNewGroup'],
+            'create'        => [0],
+            'action'        => ['addUserToGroup']
+        });
+    $this->assert_not_null( $ret, "can't add to new group without setting create" );
+    
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
+
+    $this->assert(!Foswiki::Func::topicExists( $this->{users_web}, "AnotherNewGroup" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+}
 
 1;
