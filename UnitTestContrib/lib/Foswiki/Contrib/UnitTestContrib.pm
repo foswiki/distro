@@ -17,7 +17,7 @@ use strict;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
-$VERSION          = '$Rev$';
-$RELEASE          = '';
-$SHORTDESCRIPTION = '';
+$VERSION = '$Rev$';
+$RELEASE = '1.1';
+$SHORTDESCRIPTION = 'Foswiki Unit-Test Framework';
 
