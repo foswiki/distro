@@ -4,7 +4,6 @@
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = Foswiki Unit-Test Framework
 -->
-<a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 %SHORTDESCRIPTION%
 
 %TOC%
@@ -70,4 +69,3 @@ __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDoc
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on foswiki.org instead. -->
 
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%
