@@ -18,7 +18,7 @@ use strict;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '29 Dec 2009';
+our $RELEASE           = '7 Feb 2010';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -42,7 +42,7 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,foswikimacro,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
+plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
@@ -67,7 +67,7 @@ paste_remove_spans: true,
 paste_remove_styles: true,
 paste_strip_class_attributes: "all",
 theme_advanced_buttons1 : "%IF{"defined TINYMCEPLUGIN_BUTTONS1" then="%TINYMCEPLUGIN_BUTTONS1%" else="foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,blockquote,separator,link,unlink,anchor,separator,undo,redo,separator,search,replace"}%",
-theme_advanced_buttons2 : "%IF{"defined TINYMCEPLUGIN_BUTTONS2" then="%TINYMCEPLUGIN_BUTTONS2%" else="tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen,componentedit"}%",
+theme_advanced_buttons2 : "%IF{"defined TINYMCEPLUGIN_BUTTONS2" then="%TINYMCEPLUGIN_BUTTONS2%" else="tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen"}%",
 theme_advanced_buttons3 : "%IF{"defined TINYMCEPLUGIN_BUTTONS3" then="%TINYMCEPLUGIN_BUTTONS3%" else=""}%",
 theme_advanced_toolbar_location: "top",
 theme_advanced_resize_horizontal : false,
