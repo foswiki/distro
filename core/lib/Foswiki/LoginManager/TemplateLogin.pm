@@ -186,7 +186,9 @@ sub login {
         }
     }
     else {
-        $session->{response}->status(400);
+        #if the loginName is unset, then the request was likely a perfectly valid GET call to http://foswiki/bin/login
+        #additionally, 400 cannot be a correct status, as we desire the user to retry the same URL with a different login/password
+        $session->{response}->status(200);
     }
 
     # Remove the validation_key from the passed through params. It isn't
