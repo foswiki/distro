@@ -8,7 +8,7 @@ el=find(-1);else
 el=DOM.get(v[0]);}else{if(v[1]==':next')
 el=find(1);else
 el=DOM.get(v[1]);}
-if(el){if(ed=tinymce.get(el.id||el.name))
+if(el){if(ed=tinymce.EditorManager.get(el.id||el.name))
 ed.focus();else
 window.setTimeout(function(){window.focus();el.focus();},10);return Event.cancel(e);}}};ed.onKeyUp.add(tabCancel);if(tinymce.isGecko){ed.onKeyPress.add(tabHandler);ed.onKeyDown.add(tabCancel);}else
 ed.onKeyDown.add(tabHandler);ed.onInit.add(function(){each(DOM.select('a:first,a:last',ed.getContainer()),function(n){Event.add(n,'focus',function(){ed.focus();});});});},getInfo:function(){return{longname:'Tabfocus',author:'Moxiecode Systems AB',authorurl:'http://tinymce.moxiecode.com',infourl:'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/tabfocus',version:tinymce.majorVersion+"."+tinymce.minorVersion};}});tinymce.PluginManager.add('tabfocus',tinymce.plugins.TabFocusPlugin);})();

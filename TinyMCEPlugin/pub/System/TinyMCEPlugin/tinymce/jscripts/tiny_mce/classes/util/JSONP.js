@@ -1,11 +1,8 @@
 /**
- * JSONP.js
+ * $Id: JSON.js 920 2008-09-09 14:05:33Z spocke $
  *
- * Copyright 2009, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * @author Moxiecode
+ * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 tinymce.create('static tinymce.util.JSONP', {

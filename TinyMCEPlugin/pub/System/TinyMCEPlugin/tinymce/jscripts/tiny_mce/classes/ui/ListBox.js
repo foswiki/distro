@@ -1,11 +1,8 @@
 /**
- * ListBox.js
+ * $Id: ListBox.js 1176 2009-08-04 09:42:14Z spocke $
  *
- * Copyright 2009, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * @author Moxiecode
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function(tinymce) {
@@ -241,16 +238,16 @@
 		hideMenu : function(e) {
 			var t = this;
 
-			if (t.menu && t.menu.isMenuVisible) {
-				// Prevent double toogles by canceling the mouse click event to the button
-				if (e && e.type == "mousedown" && (e.target.id == t.id + '_text' || e.target.id == t.id + '_open'))
-					return;
+			// Prevent double toogles by canceling the mouse click event to the button
+			if (e && e.type == "mousedown" && (e.target.id == t.id + '_text' || e.target.id == t.id + '_open'))
+				return;
 
-				if (!e || !DOM.getParent(e.target, '.mceMenu')) {
-					DOM.removeClass(t.id, t.classPrefix + 'Selected');
-					Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
+			if (!e || !DOM.getParent(e.target, '.mceMenu')) {
+				DOM.removeClass(t.id, t.classPrefix + 'Selected');
+				Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
+
+				if (t.menu)
 					t.menu.hideMenu();
-				}
 			}
 		},
 
@@ -281,25 +278,13 @@
 			});
 
 			each(t.items, function(o) {
-				// No value then treat it as a title
-				if (o.value === undefined) {
-					m.add({
-						title : o.title,
-						'class' : 'mceMenuItemTitle',
-						onclick : function() {
-							if (t.settings.onselect('') !== false)
-								t.select(''); // Must be runned after
-						}
-					});
-				} else {
-					o.id = DOM.uniqueId();
-					o.onclick = function() {
-						if (t.settings.onselect(o.value) !== false)
-							t.select(o.value); // Must be runned after
-					};
+				o.id = DOM.uniqueId();
+				o.onclick = function() {
+					if (t.settings.onselect(o.value) !== false)
+						t.select(o.value); // Must be runned after
+				};
 
-					m.add(o);
-				}
+				m.add(o);
 			});
 
 			t.onRenderMenu.dispatch(t, m);

@@ -82,7 +82,7 @@ function insertTable() {
 			capEl = elm.ownerDocument.createElement('caption');
 
 			if (!tinymce.isIE)
-				capEl.innerHTML = '<br _mce_bogus="1"/>';
+				capEl.innerHTML = '<br mce_bogus="1"/>';
 
 			elm.insertBefore(capEl, elm.firstChild);
 		}
@@ -151,7 +151,6 @@ function insertTable() {
 	html += makeAttrib('border', border);
 	html += makeAttrib('cellpadding', cellpadding);
 	html += makeAttrib('cellspacing', cellspacing);
-	html += makeAttrib('_mce_new', '1');
 
 	if (width && inst.settings.inline_styles) {
 		if (style)
@@ -187,7 +186,7 @@ function insertTable() {
 
 	if (caption) {
 		if (!tinymce.isIE)
-			html += '<caption><br _mce_bogus="1"/></caption>';
+			html += '<caption><br mce_bogus="1"/></caption>';
 		else
 			html += '<caption></caption>';
 	}
@@ -197,7 +196,7 @@ function insertTable() {
 
 		for (var x=0; x<cols; x++) {
 			if (!tinymce.isIE)
-				html += '<td><br _mce_bogus="1"/></td>';
+				html += '<td><br mce_bogus="1"/></td>';
 			else
 				html += '<td></td>';
 		}
@@ -211,10 +210,9 @@ function insertTable() {
 
 	// Move table
 	if (inst.settings.fix_table_elements) {
-		var patt = '';
+		var bm = inst.selection.getBookmark(), patt = '';
 
-		inst.focus();
-		inst.selection.setContent('<br class="_mce_marker" />');
+		inst.execCommand('mceInsertContent', false, '<br class="_mce_marker" />');
 
 		tinymce.each('h1,h2,h3,h4,h5,h6,p'.split(','), function(n) {
 			if (patt)
@@ -227,18 +225,11 @@ function insertTable() {
 			inst.dom.split(inst.dom.getParent(n, 'h1,h2,h3,h4,h5,h6,p'), n);
 		});
 
-		dom.setOuterHTML(dom.select('br._mce_marker')[0], html);
+		dom.setOuterHTML(dom.select('._mce_marker')[0], html);
+
+		inst.selection.moveToBookmark(bm);
 	} else
 		inst.execCommand('mceInsertContent', false, html);
-
-	tinymce.each(dom.select('table[_mce_new]'), function(node) {
-		var td = dom.select('td', node);
-
-		inst.selection.select(td[0], true);
-		inst.selection.collapse();
-
-		dom.setAttrib(node, '_mce_new', '');
-	});
 
 	inst.addVisual();
 	inst.execCommand('mceEndUndoLevel');

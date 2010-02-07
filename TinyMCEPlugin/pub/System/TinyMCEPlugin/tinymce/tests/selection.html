@@ -1,246 +1,224 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Unit tests for tinymce.dom.Selection</title>
-<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-<script type="text/javascript" src="qunit/qunit.js"></script>
-<script type="text/javascript" src="../jscripts/tiny_mce/tiny_mce_dev.js?debug=1"></script>
-<script>
-var editor;
+<title>Unit tests for DOM Selection IE implementation</title>
+<link rel="stylesheet" href="css/unit.css" type="text/css" />
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.3");
+</script>
+<script type="text/javascript" src="../jscripts/tiny_mce/tiny_mce_dev.js"></script>
+<script type="text/javascript" src="js/testrunner.js"></script>
+</head>
+<body>
+	<h1>Unit tests for DOM Selection IE implementation</h1>
+	<h2 id="banner"></h2>
+	<h2 id="userAgent"></h2>
+	<ol id="tests"></ol>
+	<div id="main"></div>
+	<div id="sample">
+		<textarea id="elm1" name="elm1"></textarea>
+		<div>
+			<a href="javascript:alert(tinymce.EditorManager.get('elm1').getContent({format : 'raw'}));">[getRawContents]</a>
+			<a href="javascript:alert(tinymce.EditorManager.get('elm1').getContent());">[getContents]</a>
+		</div>
+	</div>
 
-test('getContent', function() {
-	var rng, eventObj;
+<script type="text/javascript">
+var editor, rng;
 
-	// Get selected contents
-	editor.setContent('<p>text</p>');
+test("Selection of element containing text", function() {
+	expect(5);
+
+	editor.setContent('<p>123</p>', {format : 'raw'});
+
 	rng = editor.dom.createRng();
 	rng.setStart(editor.getBody(), 0);
 	rng.setEnd(editor.getBody(), 1);
 	editor.selection.setRng(rng);
-	equals(editor.selection.getContent(), '<p>text</p>', 'Get selected contents');
 
-	// Get selected contents (collapsed)
-	editor.setContent('<p>text</p>');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody(), 0);
-	rng.setEnd(editor.getBody(), 0);
-	editor.selection.setRng(rng);
-	equals(editor.selection.getContent(), '', 'Get selected contents (collapsed)');
-
-	// Get selected contents, onGetContent event
-	eventObj = {};
-
-	function handler(sender, event) {
-		eventObj = event;
-	};
-
-	editor.selection.onGetContent.add(handler);
-	editor.setContent('<p>text</p>');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody(), 0);
-	rng.setEnd(editor.getBody(), 1);
-	editor.selection.setRng(rng);
-	editor.selection.getContent();
-	equals(eventObj.content, '<p>text</p>', 'Get selected contents, onGetContent event');
-	editor.selection.onGetContent.remove(handler);
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, '#text');
+	equals(rng.endContainer.nodeName, '#text');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 3);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()), '123');
 });
 
-test('setContent', function() {
-	var rng, eventObj;
+test("Single image selection", function() {
+	expect(6);
 
-	// Set contents at selection
-	editor.setContent('<p>text</p>');
+	editor.setContent('<img src="about:blank" />', {format : 'raw'});
+
 	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody(), 0);
-	rng.setEnd(editor.getBody(), 1);
+	rng.setStartBefore(editor.dom.select('img')[0]);
+	rng.setEndAfter(editor.dom.select('img')[0]);
 	editor.selection.setRng(rng);
-	editor.selection.setContent('<div>test</div>');
-	equals(editor.getContent(), '<div>test</div>', 'Set contents at selection');
 
-	// Set contents at selection (collapsed)
-	editor.setContent('<p>text</p>');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody(), 0);
-	rng.setEnd(editor.getBody(), 0);
-	editor.selection.setRng(rng);
-	editor.selection.setContent('<div>test</div>');
-	equals(editor.getContent(), '<div>test</div><p>text</p>', 'Set contents at selection (collapsed)');
-
-	// Set selected contents, onSetContent event
-	eventObj = {};
-
-	function handler(sender, event) {
-		eventObj = event;
-	};
-
-	editor.selection.onSetContent.add(handler);
-	editor.setContent('<p>text</p>');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody(), 0);
-	rng.setEnd(editor.getBody(), 1);
-	editor.selection.setRng(rng);
-	editor.selection.setContent('<div>text</div>');
-	equals(eventObj.content, '<div>text</div>', 'Set selected contents, onSetContent event');
-	editor.selection.onSetContent.remove(handler);
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'P');
+	equals(rng.endContainer.nodeName, 'P');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 1);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()), '<IMG src="about:blank" mce_src="about:blank">');
+	ok(editor.selection.getRng().item, 'Not a control selection');
 });
 
-test('getStart/getEnd', function() {
-	var rng;
+test("Multiple image selection", function() {
+	expect(6);
 
-	// Selected contents
-	editor.setContent('<p id="a">text</p><p id="b">text</p>');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild.firstChild, 0);
-	rng.setEnd(editor.getBody().lastChild.firstChild, 0);
-	editor.selection.setRng(rng);
-	equals(editor.selection.getStart().id, 'a', 'Selected contents (getStart)');
-	equals(editor.selection.getEnd().id, 'b', 'Selected contents (getEnd)');
+	editor.setContent('<img src="about:blank" /><img src="about:blank" />', {format : 'raw'});
 
-	// Selected contents (collapsed)
-	editor.setContent('<p id="a">text</p><p id="b">text</p>');
 	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild.firstChild, 0);
-	rng.setEnd(editor.getBody().firstChild.firstChild, 0);
+	rng.setStartBefore(editor.dom.select('img')[0]);
+	rng.setEndAfter(editor.dom.select('img')[1]);
 	editor.selection.setRng(rng);
-	equals(editor.selection.getStart().id, 'a', 'Selected contents (getStart, collapsed)');
-	equals(editor.selection.getEnd().id, 'a', 'Selected contents (getEnd, collapsed)');
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'P');
+	equals(rng.endContainer.nodeName, 'P');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 2);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()), '<IMG src="about:blank" mce_src="about:blank"><IMG src="about:blank" mce_src="about:blank">');
+	ok(editor.selection.getRng().parentElement, 'Not a text selection');
 });
 
-test('getBookmark/setBookmark (persistent)', function() {
-	var rng, bookmark;
+test("Text node selection", function() {
+	expect(5);
 
-	// Get persistent bookmark simple text selection
-	editor.setContent('text');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild, 1);
-	rng.setEnd(editor.getBody().firstChild, 3);
-	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark();
-	equals(editor.getContent(), 'text', 'Editor contents (text)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), 'ex', 'Selected contents (text)');
+	editor.setContent('<p>1234</p>', {format : 'raw'});
 
-	// Get persistent bookmark multiple elements text selection
-	editor.setContent('<p>text</p><p>text</p>');
 	rng = editor.dom.createRng();
 	rng.setStart(editor.getBody().firstChild.firstChild, 1);
-	rng.setEnd(editor.getBody().lastChild.firstChild, 3);
+	rng.setEnd(editor.getBody().firstChild.firstChild, 3);
 	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark();
-	equals(editor.getContent(), '<p>text</p><p>text</p>', 'Editor contents (elements)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), '<p>ext</p><p>tex</p>', 'Selected contents (elements)');
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, '#text');
+	equals(rng.endContainer.nodeName, '#text');
+	equals(rng.startOffset, 1);
+	equals(rng.endOffset, 3);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()), '23');
 });
 
-test('getBookmark/setBookmark (simple)', function() {
-	var rng, bookmark;
+test("Text node selection between two elements", function() {
+	expect(10);
 
-	// Get persistent bookmark simple text selection
-	editor.setContent('text');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild, 1);
-	rng.setEnd(editor.getBody().firstChild, 3);
-	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark(1);
-	equals(editor.getContent(), 'text', 'Editor contents (text)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), 'ex', 'Selected contents (text)');
+	editor.setContent('<p>1234</p><p>abcd</p>', {format : 'raw'});
 
-	// Get persistent bookmark multiple elements text selection
-	editor.setContent('<p>text</p><p>text</p>');
 	rng = editor.dom.createRng();
 	rng.setStart(editor.getBody().firstChild.firstChild, 1);
-	rng.setEnd(editor.getBody().lastChild.firstChild, 3);
+	rng.setEnd(editor.getBody().childNodes[1].firstChild, 3);
 	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark(1);
-	equals(editor.getContent(), '<p>text</p><p>text</p>', 'Editor contents (elements)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), '<p>ext</p><p>tex</p>', 'Selected contents (elements)');
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, '#text');
+	equals(rng.endContainer.nodeName, '#text');
+	equals(rng.startOffset, 1);
+	equals(rng.endOffset, 3);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()).replace(/[\r\n]/g, ''), '<P>234</P><P>abc</P>');
+
+	editor.setContent('<p>1</p><p>1234</p><p>abcd</p><p>2</p>', {format : 'raw'});
+
+	rng = editor.dom.createRng();
+	rng.setStartBefore(editor.dom.select('p')[1]);
+	rng.setEndAfter(editor.dom.select('p')[2]);
+	editor.selection.setRng(rng);
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, '#text');
+	equals(rng.endContainer.nodeName, '#text');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 4);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()).replace(/[\r\n]/g, ''), '<P>1234</P><P>abcd</P>');
 });
 
-test('getBookmark/setBookmark (non intrusive)', function() {
-	var rng, bookmark;
+test("Mixed selection start at element end at text", function() {
+	expect(5);
 
-	// Get persistent bookmark simple text selection
-	editor.setContent('text');
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild, 1);
-	rng.setEnd(editor.getBody().firstChild, 3);
-	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark(2);
-	equals(editor.getContent(), 'text', 'Editor contents (text)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), 'ex', 'Selected contents (text)');
+	editor.setContent('<img src="about:blank" />text', {format : 'raw'});
 
-	// Get persistent bookmark multiple elements text selection
-	editor.setContent('<p>text</p><p>text</p>');
 	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild.firstChild, 1);
-	rng.setEnd(editor.getBody().lastChild.firstChild, 3);
+	rng.setStartBefore(editor.dom.select('img')[0]);
+	rng.setEnd(editor.getBody().firstChild.lastChild, 3);
 	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark(2);
-	equals(editor.getContent(), '<p>text</p><p>text</p>', 'Editor contents (elements)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), '<p>ext</p><p>tex</p>', 'Selected contents (elements)');
 
-	// Get persistent bookmark multiple elements text selection fragmented
-	editor.setContent('<p>text</p><p>text</p>');
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('a'));
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('a'));
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('a'));
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('text'));
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild.lastChild, 1);
-	rng.setEnd(editor.getBody().lastChild.firstChild, 3);
-	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark(2);
-	equals(editor.getContent(), '<p>textaaatext</p><p>text</p>', 'Editor contents (fragmented, elements)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), '<p>ext</p><p>tex</p>', 'Selected contents (fragmented, elements)');
-
-	// Get persistent bookmark multiple elements text selection fragmented
-	editor.setContent('<p>text</p><p>text</p>');
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('a'));
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('a'));
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('a'));
-	editor.dom.select('p')[0].appendChild(editor.dom.doc.createTextNode('text'));
-	rng = editor.dom.createRng();
-	rng.setStart(editor.getBody().firstChild.lastChild, 1);
-	rng.setEnd(editor.getBody().lastChild.firstChild, 3);
-	editor.selection.setRng(rng);
-	bookmark = editor.selection.getBookmark(2, true);
-	editor.setContent(editor.getContent());
-	equals(editor.getContent(), '<p>textaaatext</p><p>text</p>', 'Editor contents (fragmented, elements)');
-	editor.selection.moveToBookmark(bookmark);
-	equals(editor.selection.getContent(), '<p>ext</p><p>tex</p>', 'Selected contents (fragmented, elements)');
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'P');
+	equals(rng.endContainer.nodeName, '#text');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 3);
+	equals(editor.dom.getOuterHTML(rng.cloneContents()), '<IMG src="about:blank" mce_src="about:blank">tex');
 });
 
-test('select', function() {
-	var rng;
+test("Caret position before image", function() {
+	expect(4);
 
-	// Select simple element
-	editor.setContent('<p>text1</p><p>text2</p>');
-	editor.selection.select(editor.dom.select('p')[0]);
-	equals(editor.selection.getContent(), '<p>text1</p>', 'Select simple element, content');
-	equals(editor.selection.getNode().nodeName, 'P', 'Select simple element, nodeName');
+	editor.setContent('<p><img src="about:blank" /><img src="about:blank" /></p>', {format : 'raw'});
 
-	// Select complex element
-	editor.setContent('<table><tbody><tr><td>text1</td></tr></tbody></table>');
-	editor.selection.select(editor.dom.select('table')[0]);
-	equals(editor.selection.getContent(), '<table><tbody><tr><td>text1</td></tr></tbody></table>', 'Select complex element, content');
-	equals(editor.selection.getNode().nodeName, 'TABLE', 'Select complex element, nodeName');
+	rng = editor.dom.createRng();
+	rng.setStartBefore(editor.dom.select('img')[0]);
+	rng.setEndBefore(editor.dom.select('img')[0]);
+	editor.selection.setRng(rng);
 
-	// Select contents 1
-	editor.setContent('<table><tbody><tr><td id="a">text1</td><td id="b">text2</td></tr></tbody></table>');
-	editor.selection.select(editor.dom.select('table')[0], true);
-	equals(editor.selection.getStart().id, 'a', 'Expand to text content 1 (start)');
-	equals(editor.selection.getEnd().id, 'b', 'Expand to text content 1 (end)');
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'P');
+	equals(rng.endContainer.nodeName, 'P');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 0);
+});
 
-	// Select contents 2
-	editor.setContent('<table><tbody><tr><td id="a"><br /></td><td id="b"><br /></td></tr></tbody></table>');
-	editor.selection.select(editor.dom.select('table')[0], true);
-	equals(editor.dom.getParent(editor.selection.getStart(), 'td').id, 'a', 'Expand to text content 2 (start)');
-	equals(editor.dom.getParent(editor.selection.getEnd(), 'td').id, 'b', 'Expand to text content 2 (end)');
+test("Caret position between images", function() {
+	expect(4);
+
+	editor.setContent('<p><img src="about:blank" /><img src="about:blank" /></p>', {format : 'raw'});
+
+	rng = editor.dom.createRng();
+	rng.setStartAfter(editor.dom.select('img')[0]);
+	rng.setEndAfter(editor.dom.select('img')[0]);
+	editor.selection.setRng(rng);
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'P');
+	equals(rng.endContainer.nodeName, 'P');
+	equals(rng.startOffset, 1);
+	equals(rng.endOffset, 1);
+});
+
+test("Caret position after image", function() {
+	expect(4);
+
+	editor.setContent('<p><img src="about:blank" /><img src="about:blank" /></p>', {format : 'raw'});
+
+	rng = editor.dom.createRng();
+	rng.setStartAfter(editor.dom.select('img')[1]);
+	rng.setEndAfter(editor.dom.select('img')[1]);
+	editor.selection.setRng(rng);
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'P');
+	equals(rng.endContainer.nodeName, 'P');
+	equals(rng.startOffset, 2);
+	equals(rng.endOffset, 2);
+});
+
+test("Selection of empty text element", function() {
+	expect(6);
+
+	editor.setContent('<div></div>', {format : 'raw'});
+
+	rng = editor.dom.createRng();
+	rng.setStart(editor.getBody(), 0);
+	rng.setEnd(editor.getBody(), 1);
+	editor.selection.setRng(rng);
+
+	rng = editor.selection.getRng(1);
+	equals(rng.startContainer.nodeName, 'BODY');
+	equals(rng.endContainer.nodeName, 'BODY');
+	equals(rng.startOffset, 0);
+	equals(rng.endOffset, 1);
+	equals(rng.startContainer.childNodes[0].innerHTML, '');
+	equals(editor.dom.getOuterHTML(rng.cloneContents()), '<DIV>&nbsp;</DIV>');
 });
 
 tinyMCE.init({
@@ -248,36 +226,13 @@ tinyMCE.init({
 	elements : "elm1",
 	theme : "advanced",
 	add_unload_trigger : false,
-	apply_source_formatting : 0,
-	fix_list_elements : 0,
-	fix_table_elements : 0,
-	forced_root_block : '',
-	entities : 'raw',
-	valid_styles : {
-		'*' : 'color,font-size,font-family,background-color,font-weight,font-style,text-decoration,float,margin,margin-top,margin-right,margin-bottom,margin-left,display'
-	},
+	plugins : 'safari',
 	init_instance_callback : function(ed) {
 		editor = ed;
-
-		ed.onNodeChange.addToTop(function() {
-			return false;
-		});
-
-		QUnit.setup();
+		run();
 	}
 });
 </script>
-</head>
-<body>
-	<h1 id="qunit-header">Unit tests for tinymce.dom.Selection</h1>
-	<h2 id="qunit-banner"></h2>
-	<div id="qunit-testrunner-toolbar"></div>
-	<h2 id="qunit-userAgent"></h2>
-	<ol id="qunit-tests"></ol>
-	<textarea id="elm1" name="elm1"></textarea>
-	<div>
-		<a href="javascript:alert(tinymce.EditorManager.get('elm1').getContent({format : 'raw'}));">[getRawContents]</a>
-		<a href="javascript:alert(tinymce.EditorManager.get('elm1').getContent());">[getContents]</a>
-	</div>
+
 </body>
 </html>

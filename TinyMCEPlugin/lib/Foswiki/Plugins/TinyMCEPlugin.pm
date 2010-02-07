@@ -18,7 +18,7 @@ use strict;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '7 Feb 2010';
+our $RELEASE           = '29 Dec 2009';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -26,7 +26,7 @@ our $NO_PREFS_IN_TOPIC = 1;
 # allow other extensions to override them.
 # PLEASE ENSURE THE PLUGIN TOPIC EXAMPLES ARE KEPT IN SYNCH!
 our $defaultINIT = <<'HERE';
-mode:"textareas",
+mode: "textareas",
 editor_selector : "foswikiWysiwygEdit",
 save_on_tinymce_forms: true,
 cleanup : true,
@@ -42,12 +42,12 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
+plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
 foswikibuttons_formats : [
-{ name: "Normal", el: 'div', style: null },
+{ name: "Normal", el: "div", style: null },
 { name: "Heading 1", el: "h1", style: null },
 { name: "Heading 2", el: "h2", style: null },
 { name: "Heading 3", el: "h3", style: null },
@@ -234,9 +234,9 @@ sub beforeEditHandler {
     # SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
     #        but Foswiki::Func.pm does not expose that function, so plugins may not use it
     $encodedVersion =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
-    Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT);
+    Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT, 'JQUERYPLUGIN::FOSWIKI');
 <meta name="TINYMCEPLUGIN_INIT" content="$metainit" />
-<script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
+<script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT

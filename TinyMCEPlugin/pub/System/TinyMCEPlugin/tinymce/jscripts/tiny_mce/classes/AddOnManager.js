@@ -1,11 +1,8 @@
 /**
- * AddOnManager.js
+ * $Id: PluginManager.js 352 2007-11-05 17:03:49Z spocke $
  *
- * Copyright 2009, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * @author Moxiecode
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function(tinymce) {
@@ -46,10 +43,16 @@
 		 * @param {String} n Short name of the add-on.
 		 */
 		requireLangPack : function(n) {
-			var s = tinymce.settings;
+			var u, s = tinymce.EditorManager.settings;
 
-			if (s && s.language)
-				tinymce.ScriptLoader.add(this.urls[n] + '/langs/' + s.language + '.js');
+			if (s && s.language) {
+				u = this.urls[n] + '/langs/' + s.language + '.js';
+
+				if (!tinymce.dom.Event.domLoaded && !s.strict_mode)
+					tinymce.ScriptLoader.load(u);
+				else
+					tinymce.ScriptLoader.add(u);
+			}
 		},
 
 		/**

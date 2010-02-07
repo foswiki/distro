@@ -1,20 +1,15 @@
 /**
- * Editor.js
+ * $Id: Editor.js 1228 2009-09-17 15:58:45Z spocke $
  *
- * Copyright 2009, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * @author Moxiecode
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function(tinymce) {
-	// Shorten these names
-	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend,
-		Dispatcher = tinymce.util.Dispatcher, each = tinymce.each, isGecko = tinymce.isGecko,
-		isIE = tinymce.isIE, isWebKit = tinymce.isWebKit, is = tinymce.is,
-		ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager,
-		inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, Dispatcher = tinymce.util.Dispatcher;
+	var each = tinymce.each, isGecko = tinymce.isGecko, isIE = tinymce.isIE, isWebKit = tinymce.isWebKit;
+	var is = tinymce.is, ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager, EditorManager = tinymce.EditorManager;
+	var inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
 
 	/**
 	 * This class contains the core logic for a TinyMCE editor.
@@ -416,9 +411,11 @@
 				custom_undo_redo_keyboard_shortcuts : 1,
 				custom_undo_redo_restore_selection : 1,
 				custom_undo_redo : 1,
-				doctype : '<!DOCTYPE>',
+				doctype : '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">',
 				visual_table_class : 'mceItemTable',
 				visual : 1,
+				inline_styles : true,
+				convert_fonts_to_spans : true,
 				font_size_style_values : 'xx-small,x-small,small,medium,large,x-large,xx-large',
 				apply_source_formatting : 1,
 				directionality : 'ltr',
@@ -432,8 +429,7 @@
 				indentation : '30px',
 				keep_styles : 1,
 				fix_table_elements : 1,
-				inline_styles : 1,
-				convert_fonts_to_spans : true
+				removeformat_selector : 'span,b,strong,em,i,font,u,strike'
 			}, s);
 
 			/**
@@ -452,7 +448,7 @@
 			 * @property baseURI
 			 * @type tinymce.util.URI
 			 */
-			t.baseURI = tinymce.baseURI;
+			t.baseURI = EditorManager.baseURI;
 
 			// Call setup
 			t.execCallback('setup', t);
@@ -474,11 +470,20 @@
 				return;
 			}
 
-			tinyMCE.settings = s;
+			// Force strict loading mode if render us called by user and not internally
+			if (!nst) {
+				s.strict_loading_mode = 1;
+				tinyMCE.settings = s;
+			}
 
 			// Element not found, then skip initialization
 			if (!t.getElement())
 				return;
+
+			if (s.strict_loading_mode) {
+				sl.settings.strict_mode = s.strict_loading_mode;
+				tinymce.DOM.settings.strict = 1;
+			}
 
 			// Add hidden input for non input elements inside form elements
 			if (!/TEXTAREA|INPUT/i.test(t.getElement().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
@@ -535,7 +540,7 @@
 						n._mceOldSubmit = n.submit;
 						n.submit = function() {
 							// Save all instances
-							tinymce.triggerSave();
+							EditorManager.triggerSave();
 							t.isNotDirty = 1;
 
 							return t.formElement._mceOldSubmit(t.formElement);
@@ -556,8 +561,8 @@
 
 				each(explode(s.plugins), function(p) {
 					if (p && p.charAt(0) != '-' && !PluginManager.urls[p]) {
-						// Skip safari plugin, since it is removed as of 3.3b1
-						if (p == 'safari')
+						// Skip safari plugin for other browsers
+						if (!isWebKit && p == 'safari')
 							return;
 
 						PluginManager.load(p, 'plugins/' + p + '/editor_plugin' + tinymce.suffix + '.js');
@@ -584,7 +589,7 @@
 		init : function() {
 			var n, t = this, s = t.settings, w, h, e = t.getElement(), o, ti, u, bi, bc, re;
 
-			tinymce.add(t);
+			EditorManager.add(t);
 
 			/**
 			 * Reference to the theme instance that was used to generate the UI. 
@@ -634,15 +639,29 @@
 			 */
 			t.controlManager = new tinymce.ControlManager(t);
 
-			if (s.custom_undo_redo) {
-				// Add initial undo level
-				t.onBeforeExecCommand.add(function(ed, cmd, ui, val, a) {
-					if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint' && (!a || !a.skip_undo)) {
-						if (!t.undoManager.hasUndo())
-							t.undoManager.add();
-					}
-				});
+			/**
+			 * Undo manager instance, responsible for handling undo levels. 
+			 *
+			 * @property undoManager
+			 * @type tinymce.UndoManager
+			 */
+			t.undoManager = new tinymce.UndoManager(t);
 
+			// Pass through
+			t.undoManager.onAdd.add(function(um, l) {
+				if (!l.initial)
+					return t.onChange.dispatch(t, l, um);
+			});
+
+			t.undoManager.onUndo.add(function(um, l) {
+				return t.onUndo.dispatch(t, l, um);
+			});
+
+			t.undoManager.onRedo.add(function(um, l) {
+				return t.onRedo.dispatch(t, l, um);
+			});
+
+			if (s.custom_undo_redo) {
 				t.onExecCommand.add(function(ed, cmd, ui, val, a) {
 					if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint' && (!a || !a.skip_undo))
 						t.undoManager.add();
@@ -726,7 +745,7 @@
 			if (s.document_base_url != tinymce.documentBaseURL)
 				t.iframeHTML += '<base href="' + t.documentBaseURI.getURI() + '" />';
 
-			t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=7" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
 			if (tinymce.relaxedDomain)
 				t.iframeHTML += '<script type="text/javascript">document.domain = "' + tinymce.relaxedDomain + '";</script>';
@@ -828,17 +847,8 @@
 				hex_colors : s.force_hex_style_colors,
 				class_filter : s.class_filter,
 				update_styles : 1,
-				fix_ie_paragraphs : 1,
-				valid_styles : s.valid_styles
+				fix_ie_paragraphs : 1
 			});
-
-			/**
-			 * Schema instance, enables you to validate elements and it's children.
-			 *
-			 * @property schema
-			 * @type tinymce.dom.Schema
-			 */
-			t.schema = new tinymce.dom.Schema();
 
 			/**
 			 * DOM serializer for the editor.
@@ -848,8 +858,7 @@
 			 */
 			t.serializer = new tinymce.dom.Serializer(extend(s, {
 				valid_elements : s.verify_html === false ? '*[*]' : s.valid_elements,
-				dom : t.dom,
-				schema : t.schema
+				dom : t.dom
 			}));
 
 			/**
@@ -860,105 +869,9 @@
 			 */
 			t.selection = new tinymce.dom.Selection(t.dom, t.getWin(), t.serializer);
 
-			/**
-			 * Formatter instance.
-			 *
-			 * @property formatter
-			 * @type tinymce.Formatter
-			 */
-			t.formatter = new tinymce.Formatter(this);
-
-			// Register default formats
-			t.formatter.register({
-				alignleft : [
-					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'left'}},
-					{selector : 'img,table', styles : {'float' : 'left'}}
-				],
-
-				aligncenter : [
-					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'center'}},
-					{selector : 'img', styles : {display : 'block', marginLeft : 'auto', marginRight : 'auto'}},
-					{selector : 'table', styles : {marginLeft : 'auto', marginRight : 'auto'}}
-				],
-
-				alignright : [
-					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'right'}},
-					{selector : 'img,table', styles : {'float' : 'right'}}
-				],
-
-				alignfull : [
-					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'justify'}}
-				],
-
-				bold : [
-					{inline : 'strong'},
-					{inline : 'span', styles : {fontWeight : 'bold'}},
-					{inline : 'b'}
-				],
-
-				italic : [
-					{inline : 'em'},
-					{inline : 'span', styles : {fontStyle : 'italic'}},
-					{inline : 'i'}
-				],
-
-				underline : [
-					{inline : 'span', styles : {textDecoration : 'underline'}, exact : true},
-					{inline : 'u'}
-				],
-
-				strikethrough : [
-					{inline : 'span', styles : {textDecoration : 'line-through'}, exact : true},
-					{inline : 'u'}
-				],
-
-				forecolor : {inline : 'span', styles : {color : '%value'}},
-				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}},
-				fontname : {inline : 'span', styles : {fontFamily : '%value'}},
-				fontsize : {inline : 'span', styles : {fontSize : '%value'}},
-				blockquote : {block : 'blockquote', wrapper : 1},
-
-				removeformat : [
-					{selector : 'b,strong,em,i,font,u,strike', remove : 'all', split : true, expand : false, block_expand : true, deep : true},
-					{selector : 'span', attributes : ['style', 'class'], remove : 'empty', split : true, expand : false, deep : true},
-					{selector : '*', attributes : ['style', 'class'], expand : false, deep : true}
-				]
-			});
-
-			// Register default block formats
-			each('p h1 h2 h3 h4 h5 h6 div address pre div code dt dd samp'.split(/\s/), function(name) {
-				t.formatter.register(name, {block : name});
-			});
-
-			// Register user defined formats
-			t.formatter.register(t.settings.formats);
-
-			/**
-			 * Undo manager instance, responsible for handling undo levels. 
-			 *
-			 * @property undoManager
-			 * @type tinymce.UndoManager
-			 */
-			t.undoManager = new tinymce.UndoManager(t);
-
-			// Pass through
-			t.undoManager.onAdd.add(function(um, l) {
-				if (!l.initial)
-					return t.onChange.dispatch(t, l, um);
-			});
-
-			t.undoManager.onUndo.add(function(um, l) {
-				return t.onUndo.dispatch(t, l, um);
-			});
-
-			t.undoManager.onRedo.add(function(um, l) {
-				return t.onRedo.dispatch(t, l, um);
-			});
-
 			t.forceBlocks = new tinymce.ForceBlocks(t, {
 				forced_root_block : s.forced_root_block
 			});
-
 			t.editorCommands = new tinymce.EditorCommands(t);
 
 			// Pass through
@@ -998,7 +911,7 @@
 						} else
 							n = 'div';
 
-						o.content = o.content.replace(new RegExp('<(' + v + ')([^>]*)>', 'g'), '<' + n + ' _mce_name="$1"$2>');
+						o.content = o.content.replace(new RegExp('<(' + v + ')([^>]*)>', 'g'), '<' + n + ' mce_name="$1"$2>');
 						o.content = o.content.replace(new RegExp('</(' + v + ')>', 'g'), '</' + n + '>');
 					});
 				};
@@ -1081,6 +994,12 @@
 				};
 			}
 
+			if (s.convert_fonts_to_spans)
+				t._convertFonts();
+
+			if (s.inline_styles)
+				t._convertInlineElements();
+
 			if (s.cleanup_callback) {
 				t.onBeforeSetContent.add(function(ed, o) {
 					o.content = t.execCallback('cleanup_callback', 'insert_to_editor', o.content, o);
@@ -1137,7 +1056,7 @@
 						var pn = n.parentNode;
 
 						if (ed.dom.isBlock(pn) && pn.lastChild === n)
-							ed.dom.add(pn, 'br', {'_mce_bogus' : 1});
+							ed.dom.add(pn, 'br', {'mce_bogus' : 1});
 					});
 				};
 
@@ -1168,6 +1087,7 @@
 
 				t.load({initial : true, format : (s.cleanup_on_startup ? 'html' : 'raw')});
 				t.startContent = t.getContent({format : 'raw'});
+				t.undoManager.add({initial : true});
 				t.initialized = true;
 
 				t.onInit.dispatch(t);
@@ -1186,7 +1106,7 @@
 				// Handle auto focus
 				if (s.auto_focus) {
 					setTimeout(function () {
-						var ed = tinymce.get(s.auto_focus);
+						var ed = EditorManager.get(s.auto_focus);
 
 						ed.selection.select(ed.getBody(), 1);
 						ed.selection.collapse(1);
@@ -1230,9 +1150,9 @@
 				hex_colors : s.force_hex_style_colors,
 				class_filter : s.class_filter,
 				root_element : t.id,
+				strict_root : 1,
 				fix_ie_paragraphs : 1,
-				update_styles : 1,
-				valid_styles : s.valid_styles
+				update_styles : 1
 			});
 
 			t.serializer = new tinymce.dom.Serializer({
@@ -1245,17 +1165,17 @@
 				fix_table_elements : s.fix_table_elements,
 				fix_list_elements : s.fix_list_elements,
 				fix_content_duplication : s.fix_content_duplication,
+				convert_fonts_to_spans : s.convert_fonts_to_spans,
 				font_size_classes  : s.font_size_classes,
+				font_size_style_values : s.font_size_style_values,
 				apply_source_formatting : s.apply_source_formatting,
-				dom : t.dom,
-				schema : schema
+				dom : t.dom
 			});
 
 			t.selection = new tinymce.dom.Selection(t.dom, t.getWin(), t.serializer);
 			t.forceBlocks = new tinymce.ForceBlocks(t, {
 				forced_root_block : s.forced_root_block
 			});
-
 			t.editorCommands = new tinymce.EditorCommands(t);
 
 			// Pass through
@@ -1272,6 +1192,12 @@
 
 			t.controlManager.onPostRender.dispatch(t, t.controlManager);
 			t.onPostRender.dispatch(t);
+
+			if (s.convert_fonts_to_spans)
+				t._convertFonts();
+
+			if (s.inline_styles)
+				t._convertInlineElements();
 
 			t.onSetContent.add(function() {
 				t.addVisual(t.getBody());
@@ -1314,7 +1240,7 @@
 		// #endif
 
 		/**
-		 * Focuses/activates the editor. This will set this editor as the activeEditor in the tinymce collection
+		 * Focuses/activates the editor. This will set this editor as the activeEditor in the EditorManager
 		 * it will also place DOM focus inside the editor.
 		 *
 		 * @method focus
@@ -1347,14 +1273,14 @@
 				// #endif
 			}
 
-			if (tinymce.activeEditor != t) {
-				if ((oed = tinymce.activeEditor) != null)
+			if (EditorManager.activeEditor != t) {
+				if ((oed = EditorManager.activeEditor) != null)
 					oed.onDeactivate.dispatch(oed, t);
 
 				t.onActivate.dispatch(t, oed);
 			}
 
-			tinymce._setActive(t);
+			EditorManager._setActive(t);
 		},
 
 		/**
@@ -1397,7 +1323,7 @@
 		 * @return {String} Translated string.
 		 */
 		translate : function(s) {
-			var c = this.settings.language || 'en', i18n = tinymce.i18n;
+			var c = this.settings.language || 'en', i18n = EditorManager.i18n;
 
 			if (!s)
 				return '';
@@ -1415,7 +1341,7 @@
 		 * @param {String} dv Optional default value to retrive.
 		 */
 		getLang : function(n, dv) {
-			return tinymce.i18n[(this.settings.language || 'en') + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
+			return EditorManager.i18n[(this.settings.language || 'en') + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
 		},
 
 		/**
@@ -1463,22 +1389,10 @@
 
 			// Fix for bug #1896577 it seems that this can not be fired while the editor is loading
 			if (t.initialized) {
-				o = o || {};
-				n = isIE && n.ownerDocument != t.getDoc() ? t.getBody() : n; // Fix for IE initial state
-
-				// Get parents and add them to object
-				o.parents = [];
-				t.dom.getParent(n, function(node) {
-					if (node.nodeName == 'BODY')
-						return true;
-
-					o.parents.push(node);
-				});
-
 				t.onNodeChange.dispatch(
 					t,
 					o ? o.controlManager || t.controlManager : t.controlManager,
-					n,
+					isIE && n.ownerDocument != t.getDoc() ? t.getBody() : n, // Fix for IE initial state
 					s.isCollapsed(),
 					o
 				);
@@ -1684,10 +1598,10 @@
 		 * Returns a command specific state, for example if bold is enabled or not.
 		 *
 		 * @method queryCommandState
-		 * @param {string} cmd Command to query state from.
+		 * @param {string} c Command to query state from.
 		 * @return {Boolean} Command specific state, for example if bold is enabled or not.
 		 */
-		queryCommandState : function(cmd) {
+		queryCommandState : function(c) {
 			var t = this, o, s;
 
 			// Is hidden then return undefined
@@ -1695,7 +1609,7 @@
 				return;
 
 			// Registred commands
-			if (o = t.queryStateCommands[cmd]) {
+			if (o = t.queryStateCommands[c]) {
 				s = o.func.call(o.scope);
 
 				// Fall though on true
@@ -1704,13 +1618,13 @@
 			}
 
 			// Registred commands
-			o = t.editorCommands.queryCommandState(cmd);
+			o = t.editorCommands.queryCommandState(c);
 			if (o !== -1)
 				return o;
 
 			// Browser commands
 			try {
-				return this.getDoc().queryCommandState(cmd);
+				return this.getDoc().queryCommandState(c);
 			} catch (ex) {
 				// Fails sometimes see bug: 1896577
 			}
@@ -1913,7 +1827,7 @@
 			// Padd empty content in Gecko and Safari. Commands will otherwise fail on the content
 			// It will also be impossible to place the caret in the editor unless there is a BR element present
 			if (!tinymce.isIE && (h.length === 0 || /^\s+$/.test(h))) {
-				o.content = t.dom.setHTML(t.getBody(), '<br _mce_bogus="1" />');
+				o.content = t.dom.setHTML(t.getBody(), '<br mce_bogus="1" />');
 				o.format = 'raw';
 			}
 
@@ -2140,7 +2054,7 @@
 		},
 
 		/**
-		 * Removes the editor from the dom and tinymce collection.
+		 * Removes the editor from the dom and EditorManager collection.
 		 *
 		 * @method remove
 		 */
@@ -2156,7 +2070,7 @@
 			// Clear all execCommand listeners this is required to avoid errors if the editor was removed inside another command
 			t.onExecCommand.listeners = [];
 
-			tinymce.remove(t);
+			EditorManager.remove(t);
 			DOM.remove(e);
 		},
 
@@ -2304,7 +2218,7 @@
 					each(ed.dom.select('img'), function(e) {
 						var v;
 
-						if (v = e.getAttribute('_mce_src'))
+						if (v = e.getAttribute('mce_src'))
 							e.src = t.documentBaseURI.toAbsolute(v);
 					})
 				});*/
@@ -2314,7 +2228,7 @@
 
 					e = e.target;
 
-					if (e.nodeType === 1 && e.nodeName === 'IMG' && (v = e.getAttribute('_mce_src')))
+					if (e.nodeType === 1 && e.nodeName === 'IMG' && (v = e.getAttribute('mce_src')))
 						e.src = t.documentBaseURI.toAbsolute(v);
 				});
 			}
@@ -2355,18 +2269,6 @@
 				t.onMouseDown.add(setOpts);
 			}
 
-			// Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
-			// WebKit can't even do simple things like selecting an image
-			if (tinymce.isWebKit) {
-				t.onClick.add(function(ed, e) {
-					e = e.target;
-
-					// Needs tobe the setBaseAndExtend or it will fail to select floated images
-					if (e.nodeName == 'IMG')
-						t.selection.getSel().setBaseAndExtent(e, 0, e, 1);
-				});
-			}
-
 			// Add node change handlers
 			t.onMouseUp.add(t.nodeChanged);
 			t.onClick.add(t.nodeChanged);
@@ -2398,7 +2300,7 @@
 
 				// BlockFormat shortcuts keys
 				for (i=1; i<=6; i++)
-					t.addShortcut('ctrl+' + i, '', ['FormatBlock', false, 'h' + i]);
+					t.addShortcut('ctrl+' + i, '', ['FormatBlock', false, '<h' + i + '>']);
 
 				t.addShortcut('ctrl+7', '', ['FormatBlock', false, '<p>']);
 				t.addShortcut('ctrl+8', '', ['FormatBlock', false, '<div>']);
@@ -2534,21 +2436,43 @@
 					t.undoManager.add();
 				};
 
-				t.dom.bind(t.getDoc(), 'focusout', function(e) {
-					if (!t.removed && t.undoManager.typing)
-						addUndo();
-				});
+				// Add undo level on editor blur
+				if (tinymce.isIE) {
+					t.dom.bind(t.getWin(), 'blur', function(e) {
+						var n;
+
+						// Check added for fullscreen bug
+						if (t.selection) {
+							n = t.selection.getNode();
+
+							// Add undo level is selection was lost to another document
+							if (!t.removed && n.ownerDocument && n.ownerDocument != t.getDoc())
+								addUndo();
+						}
+					});
+				} else {
+					t.dom.bind(t.getDoc(), 'blur', function() {
+						if (t.selection && !t.removed)
+							addUndo();
+					});
+				}
+
+				t.onMouseDown.add(addUndo);
 
 				t.onKeyUp.add(function(ed, e) {
-					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.ctrlKey)
-						addUndo();
+					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.ctrlKey) {
+						t.undoManager.typing = 0;
+						t.undoManager.add();
+					}
 				});
 
 				t.onKeyDown.add(function(ed, e) {
 					// Is caracter positon keys
 					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45) {
-						if (t.undoManager.typing)
-							addUndo();
+						if (t.undoManager.typing) {
+							t.undoManager.add();
+							t.undoManager.typing = 0;
+						}
 
 						return;
 					}
@@ -2558,12 +2482,135 @@
 						t.undoManager.typing = 1;
 					}
 				});
+			}
+		},
 
-				t.onMouseDown.add(function() {
-					if (t.undoManager.typing)
-						addUndo();
+		_convertInlineElements : function() {
+			var t = this, s = t.settings, dom = t.dom, v, e, na, st, sp;
+
+			function convert(ed, o) {
+				if (!s.inline_styles)
+					return;
+
+				if (o.get) {
+					each(t.dom.select('table,u,strike', o.node), function(n) {
+						switch (n.nodeName) {
+							case 'TABLE':
+								if (v = dom.getAttrib(n, 'height')) {
+									dom.setStyle(n, 'height', v);
+									dom.setAttrib(n, 'height', '');
+								}
+								break;
+
+							case 'U':
+							case 'STRIKE':
+								//sp = dom.create('span', {style : dom.getAttrib(n, 'style')});
+								n.style.textDecoration = n.nodeName == 'U' ? 'underline' : 'line-through';
+								dom.setAttrib(n, 'mce_style', '');
+								dom.setAttrib(n, 'mce_name', 'span');
+								break;
+						}
+					});
+				} else if (o.set) {
+					each(t.dom.select('table,span', o.node).reverse(), function(n) {
+						if (n.nodeName == 'TABLE') {
+							if (v = dom.getStyle(n, 'height'))
+								dom.setAttrib(n, 'height', v.replace(/[^0-9%]+/g, ''));
+						} else {
+							// Convert spans to elements
+							if (n.style.textDecoration == 'underline')
+								na = 'u';
+							else if (n.style.textDecoration == 'line-through')
+								na = 'strike';
+							else
+								na = '';
+
+							if (na) {
+								n.style.textDecoration = '';
+								dom.setAttrib(n, 'mce_style', '');
+
+								e = dom.create(na, {
+									style : dom.getAttrib(n, 'style')
+								});
+
+								dom.replace(e, n, 1);
+							}
+						}
+					});
+				}
+			};
+
+			t.onPreProcess.add(convert);
+
+			if (!s.cleanup_on_startup) {
+				t.onSetContent.add(function(ed, o) {
+					if (o.initial)
+						convert(t, {node : t.getBody(), set : 1});
 				});
 			}
+		},
+
+		_convertFonts : function() {
+			var t = this, s = t.settings, dom = t.dom, fz, fzn, sl, cl;
+
+			// No need
+			if (!s.inline_styles)
+				return;
+
+			// Font pt values and font size names
+			fz = [8, 10, 12, 14, 18, 24, 36];
+			fzn = ['xx-small', 'x-small','small','medium','large','x-large', 'xx-large'];
+
+			if (sl = s.font_size_style_values)
+				sl = explode(sl);
+
+			if (cl = s.font_size_classes)
+				cl = explode(cl);
+
+			function process(no) {
+				var n, sp, nl, x;
+
+				// Keep unit tests happy
+				if (!s.inline_styles)
+					return;
+
+				nl = t.dom.select('font', no);
+				for (x = nl.length - 1; x >= 0; x--) {
+					n = nl[x];
+
+					sp = dom.create('span', {
+						style : dom.getAttrib(n, 'style'),
+						'class' : dom.getAttrib(n, 'class')
+					});
+
+					dom.setStyles(sp, {
+						fontFamily : dom.getAttrib(n, 'face'),
+						color : dom.getAttrib(n, 'color'),
+						backgroundColor : n.style.backgroundColor
+					});
+
+					if (n.size) {
+						if (sl)
+							dom.setStyle(sp, 'fontSize', sl[parseInt(n.size) - 1]);
+						else
+							dom.setAttrib(sp, 'class', cl[parseInt(n.size) - 1]);
+					}
+
+					dom.setAttrib(sp, 'mce_style', '');
+					dom.replace(sp, n, 1);
+				}
+			};
+
+			// Run on cleanup
+			t.onPreProcess.add(function(ed, o) {
+				if (o.get)
+					process(o.node);
+			});
+
+			t.onSetContent.add(function(ed, o) {
+				if (o.initial)
+					process(o.node);
+			});
 		},
 
 		_isHidden : function() {

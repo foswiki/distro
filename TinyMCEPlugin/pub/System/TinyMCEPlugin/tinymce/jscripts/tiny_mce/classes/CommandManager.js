@@ -1,15 +1,12 @@
 /**
- * TinyMCE - ContentManager class.
+ * $Id: ControlManager.js 999 2009-02-10 17:42:58Z spocke $
  *
- * Copyright 2009, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * @author Moxiecode
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function(tinymce) {
-	function CommandManager() {
+	tinymce.CommandManager = function() {
 		var execCommands = {}, queryStateCommands = {}, queryValueCommands = {};
 
 		function add(collection, cmd, func, scope) {
@@ -53,5 +50,5 @@
 		});
 	};
 
-	tinymce.GlobalCommands = new CommandManager();
+	tinymce.GlobalCommands = new tinymce.CommandManager();
 })(tinymce);
