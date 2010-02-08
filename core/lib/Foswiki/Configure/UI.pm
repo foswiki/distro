@@ -28,7 +28,9 @@ sub new {
     $this->{bin} = $1;
     my @root = File::Spec->splitdir( $this->{bin} );
     pop(@root);
-    $this->{root} = File::Spec->catfile( @root, '' );
+    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+    $this->{root} = File::Spec->catfile( @root, 'x' );
+    chop $this->{root};
 
     return $this;
 }
