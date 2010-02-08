@@ -105,6 +105,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{QueryObject}{Enabled} = 1;
+
+# **BOOLEAN**
 # This plugin is deprecated. Use Corner instead
 # $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 1;
 

@@ -6,8 +6,9 @@
 #
 # Packaged for Foswiki by Paul.W.Harvey@csiro.au - www.taxonomy.org.au
 
-package Foswiki::Plugins::JQueryPlugin::SUPERSUBS;
+package Foswiki::Plugins::JQueryPlugin::QUERYOBJECT;
 use strict;
+use warnings;
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
@@ -36,7 +37,7 @@ sub new {
     version => '2.1.7',
     author => 'Blair Mitchelmore',
     homepage => 'http://plugins.jquery.com/project/query-object',
-    javascript => ['jquery.queryobject.js'],
+    javascript => ['jquery.queryobject.js']
   ), $class);
 
   return $this;

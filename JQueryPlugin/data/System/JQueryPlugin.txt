@@ -101,6 +101,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Feb 2010: | added query-object |
 |  28 Jan 2010: | added jquery-1.4.1, corner, fluidfont, fullcalendar, \
                   localscroll, masonry, scrollto, serialscroll, slimbox; \
                   deprecated jquery.nifty; disabled JQSCRIPT and JQSTYLE |

@@ -17,4 +17,4 @@ return obj;}
 this.keys=build(this.keys);return this;},compact:function(){return this.copy().COMPACT();},toString:function(){var i=0,queryString=[],chunks=[],self=this;var encode=function(str){str=str+"";if($spaces)str=str.replace(/ /g,"+");return encodeURIComponent(str);};var addFields=function(arr,key,value){if(!is(value)||value===false)return;var o=[encode(key)];if(value!==true){o.push("=");o.push(encode(value));}
 arr.push(o.join(""));};var build=function(obj,base){var newKey=function(key){return!base||base==""?[key].join(""):[base,"[",key,"]"].join("");};jQuery.each(obj,function(key,value){if(typeof value=='object')
 build(value,newKey(key));else
-addFields(chunks,newKey(key),value);});};build(this.keys);if(chunks.length>0)queryString.push($hash);queryString.push(chunks.join($separator));return queryString.join("");}};return new queryObject(location.search,location.hash);};}(jQuery.query||{});;
+addFields(chunks,newKey(key),value);});};build(this.keys);if(chunks.length>0)queryString.push($hash);queryString.push(chunks.join($separator));return queryString.join("");}};return new queryObject(location.search,location.hash);};}(jQuery.query||{});
