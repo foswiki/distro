@@ -11,7 +11,7 @@
 # Replace {ScriptUrlPath} with the value from =configure=
 # Replace {Administrators} with a space-separated list of the login
 # name(s) of the person(s) allowed to run the configure script
-# e.g. admin root superhero
+# e.g. admin configure root superhero
 
 # We set an environment variable called anonymous_spider
 # Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
