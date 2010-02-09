@@ -125,7 +125,7 @@ A query matches if the query returns one or more values when it is applied to th
 
 ---+++ Query examples
    * =attachments[name='purdey.gif']= - true if there is an attachment call =purdey.gif= on the topic
-   * =(fields[name='Firstname'].value='Emma' OR fields[name=Firstname].value='John') AND fields[name='Lastname'].value='Peel'= - true for 'Emma Peel' and 'John Peel' but *not* 'Robert Peel' or 'Emma Thompson'
+   * =(fields[name='Firstname'].value='Emma' OR fields[name='Firstname'].value='John') AND fields[name='Lastname'].value='Peel'= - true for 'Emma Peel' and 'John Peel' but *not* 'Robert Peel' or 'Emma Thompson'
    * =(Firstname='Emma' OR Firstname='John') AND Lastname='Peel'= - shortcut form of the previous query
    * =History<nop>Form[name='Age'].value>2= - true if the topic has a =HistoryForm=, and the form has a field called =Age= with a value > 2
    * =History<nop>Form.Age > 2= - shortcut for the previous query
