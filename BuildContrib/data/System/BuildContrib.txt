@@ -531,7 +531,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
-|  13 Sep 2009 | Foswiki::Task:Item8272: Improve handling of compression targets |
+|  9 Feb 2010 | Foswiki:Task:Item8490: Handle 200 or 400 from GET bin/login |
+|  13 Sep 2009 | Foswiki:Task:Item8272: Improve handling of compression targets |
 |  21 Jul 2009 | Foswiki:Task:Item1840: check result of login attempt during perl build.pl upload |
 |  20 Mar 2009 | Foswiki:Task:Item1338: added SHA1 checksum generation; Foswiki:Task:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
 |  5 Mar 2009 | Foswiki:Task:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
