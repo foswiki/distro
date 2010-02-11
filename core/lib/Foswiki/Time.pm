@@ -105,7 +105,7 @@ in hh:mm format. For example:
 The default timezone is Z, unless $defaultLocal is true in which case
 the local timezone will be assumed.
 
-If the date format was not recognised, will return 0.
+If the date format was not recognised, will return undef.
 
 =cut
 
