@@ -44,7 +44,7 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "29 Jul 2009";
+our $RELEASE = "11 Feb 2010";
 our $VERSION = '$Rev$';
 
 our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
@@ -1942,7 +1942,7 @@ automatically generated from Subversion. Do not edit it! Your edits
 will be lost the next time the topic is uploaded!
 
 If you want to report an error in the topic, please raise a report at
-http://foswiki.org/view/Tasks/$this->{project}
+http://foswiki.org/Tasks/$this->{project}
 -->
 EXTRA
     print "Saving $topic\n";
