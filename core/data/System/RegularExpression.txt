@@ -32,7 +32,7 @@ REs are similar to (but more poweful than) the "wildcards" used in the command-l
 
 ---++ Advanced
 
-Here is stuff for our UNIX freaks: (copied from 'man egrep')
+Here is stuff for our UNIX freaks: (copied from =man egrep=)
 
 <blockquote>
 A regular expression is a pattern that describes a set of strings. Regular expressions are constructed analogously to arithmetic expressions, by using various operators to combine smaller expressions.
