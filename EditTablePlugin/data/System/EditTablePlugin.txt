@@ -47,7 +47,7 @@ An individual edit field type can be defined for each table cell. Place an =%<no
 
 It is also possible to place the edit button inside a cell instead of default location below the table. Type =| %<nop>EDITCELL{ "editbutton, 1, Edit this table" }% |= to show a button, or =| %<nop>EDITCELL{ "editbutton, 1, Edit table, Image-URL" }% |= to show a button image with alternate text.
 
-*Note:* The =%<nop>EDITCELL{ }%= macro cannot be used by itself; place an =%<nop>EDITTABLE{ }%=variable at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= variables.
+*Note:* The =%<nop>EDITCELL{ }%= macro cannot be used by itself; place an =%<nop>EDITTABLE{ }%= variable at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= variables.
 
 ---++ Table Buttons
 
