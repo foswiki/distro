@@ -1,0 +1,106 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265976902" format="1.1" reprev="1.2" version="1.2"}%
+---+!! %TOPIC%
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+The primary purpose of !ZonePlugin is to streamline the anatomy of a HTML page in a way to allow
+today's browsers to process it more efficiently. Page loading time has been [[http://www.die.net/musings/page_load_time/][reported]] to decrease significantly when all !JavaScript files are removed from the HEAD element and appended to the
+end of the BODY element of a page. That's because the browser will stop processing a page as soon as a !JavaScript file is found in the linear order of the page. The browser will only proceed after this file has been downloaded and excecuted. Notably other content like CSS files and image material will _not_ be downloaded in parallel as long as the !JavaScript interpreter hasn't finished.
+
+Currently, Foswiki uses ADDTOHEAD to place additional CSS and JS files into the HEAD element. It does _not_ reorder those files in any way other than specified by the explicit =requires= argument to the macro. Further more, it is only able to add stuff to one specific location of a HTML page, the HEAD element.
+
+By using ADDTOZONE CSS and JS material can be added to the resulting page incrementally while the core engine parses templates and wiki applications. ADDTOZONE's first parameter is the name of the zone to add stuff to. There are two
+special zones: =body= and =head=. All CSS should be added to the =head= zone while all JS goes into the =body= zone.
+
+The actual location of a zone is specified with an explicit RENDERZONE macro. This macro expands to the content of all material that has been posted to the named zone. Note, that this happens at the very end of the rendering pipeline of Foswiki. That means RENDERZONE is not processed as a normal macro obeying the evaluation order of the TML parser.
+Instead, all calls to ADDTOZONE are processed by the TML parser first after which all zones are expanded.
+
+If RENDERZONE{head} and RENDERZONE{body} aren't found in the final page explicitly, they are expanded at the appropriate position, that is at =&lt;/head>= and =&lt;/body>= respectively.
+
+The features of this plugin have been [[Foswiki:Development/ImprovePageLoadTime][proposed]] as a core feature for Foswiki to replace the standard ADDTOHEAD with the more generic ADDTOZONE tag.
+This plugin allows authors of extensions and wiki applications to make use of this advanced feature in a backwards-compatible way. As soon as the ADDTOZONE macro has been released as part of newer Foswiki versions, this plugin won't be of use anymore.
+
+---++ Syntax
+
+---+++ ADDTOZONE
+
+<verbatim class="tml">
+%ADDTOZONE{
+  "zone"
+  ...
+}%
+</verbatim>
+
+   * zone: optional, comma-separated list of zones the content should be added to,
+     special zones are =body= and =head=, defaults to =head=
+   * tag: optional, identificator for the material to be added, to be used in =requires=
+   * requires: comma-separated list of tags that must occur before the current material, constraints the order of all material in a zone
+   * text: optional, text to be added to the named zone, mutually exclusive with =topic=
+   * topic: optional, full qualified web-topic name that contains the text to be added, mutually exclusive with =text=
+   * section: optional, section of the =topic= to be added, defaults to the default section between STARTINCLUDE and
+     STOPINCLUDE
+
+Note, that using =topic= and =section= is actually a short form of 
+<verbatim class="tml">
+%ADDTOZONE{
+   "myzone"
+   text="$percntINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percnt"
+}%
+</verbatim>
+
+---+++ RENDERZONE
+
+<verbatim class="tml">
+%RENDERZONE{"zone" ...}%
+</verbatim>
+
+(Note, this macro can't be spread over multiple lines.)
+
+   * zone: required, name of the zone to be expanded
+   * header: optional, prefix format string
+   * format: optional, format string for each item added to the zone, defaults to =$item=, any standard escapes like =$percnt=, =$dollar= etc can be used to delay evaluation order of the format parameter
+   * footer: optional, suffix format string
+   * separator: optional, put between each item of a zone
+
+Note, that you can create as many zones as you like. The plugin does not restrict you to use it only for =body= and =head=. Interesting use cases in wiki applications:
+
+   * create a =sidebar= zone to add widgets
+   * create a =toolbar= zone to add buttons icons
+
+---++ Perl API
+
+This plugin patches the =Foswiki::Func= API for backwards compatibility. 
+
+   * New =Foswiki::Func::addToZone($zone, $tag, $text, $requires)=
+   * Replaces =Foswiki::Func::addToHEAD() to use the =head= namespace of this plugin instead of =Foswiki::_HTMLHEAD=
+
+The latter will try to detect material being pure !JavaScript and thus can be move to the =body= zone. Otherwise,
+e.g. if it is a mixture of CSS and JS, it will default to add the data to the =head= as usual. A warning will be 
+emitted to the log files that the page has got a suboptimal structure, pointing to the packages that still use
+=Foswiki::Func::addToHEAD()= 
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Info
+
+Many thanks to the following sponsors for supporting this work:
+   * Acknowledge any sponsors here
+
+|  Author(s): | Michael Daum|
+|  Copyright: | &copy; 2010 Michael Daum http://michaelaumconsulting.com |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  12 Feb 2010 | initial release |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home page: | Foswiki:Extensions/ZonePlugin |
+|  Support: | Foswiki:Support/ZonePlugin |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
