@@ -1,5 +1,5 @@
 # Copyright (C) 2002-2009 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
-# Copyright (C) 2005-2009 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2005-2010 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ use vars qw(
     );
 
 $VERSION = '$Rev$';
-$RELEASE = '5.01';
+$RELEASE = '5.10';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';
 

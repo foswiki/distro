@@ -1,7 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002-2009 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
-# Copyright (C) 2005-2009 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2005-2010 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,8 @@
 package Foswiki::Plugins::ImageGalleryPlugin::Core;
 
 use strict;
+use Foswiki::Func ();
+use Foswiki::Plugins ();
 use constant DEBUG => 0; # toggle me
 use vars qw(%imageSuffixes);
 
@@ -41,6 +43,7 @@ sub new {
   $this->{mage} = new $impl;
 
   $this->{id} = $id;
+  $this->{session} = $Foswiki::Plugins::SESSION;
   $this->{query} = Foswiki::Func::getCgiQuery();
   $this->{topic} = $topic;
   $this->{web} = $web;
@@ -179,6 +182,9 @@ sub init {
   $this->{minwidth} = $params->{minwidth} || 0;
   $this->{minwidth} = $this->{maxwidth} if $this->{minwidth} > $this->{maxwidth};
   $this->{format} = $params->{format};
+  $this->{frontend} = $params->{frontend};
+  $this->{header} = $params->{header};
+  $this->{footer} = $params->{footer};
   $this->{title} = $params->{title} || ' $comment ($imgnr/$nrimgs)';
   $this->{doTitles} = ($this->{title} eq 'off')?0:1;
   $this->{thumbtitle} = $params->{thumbtitle} || ' $comment';
@@ -215,6 +221,10 @@ sub init {
 
   $this->{reverse} = $params->{rev} || $params->{reverse} || 'off';
   $this->{reverse} = 'off' unless $this->{reverse} =~ /^on|off$/;
+
+  unless (defined $this->{frontend}) {
+    $this->{frontend} = (Foswiki::Func::getContext()->{JQueryPluginEnabled})?'lightbox':'default';
+  }
 
   return 1;
 }
@@ -274,7 +284,15 @@ sub render {
   my $filename = $this->{query}->param("filename");
   my $id = $this->{query}->param("id") || '';
 
-  if ($this->{format}) {
+  if ($this->{frontend} eq 'lightbox') {
+    require Foswiki::Plugins::JQueryPlugin;
+    Foswiki::Plugins::JQueryPlugin::createPlugin('slimbox');
+    $this->{header} = "<noautolink><div class=\"igp jqSlimbox {itemSelector:'.igpThumbNail', singleMode:true}\" id='igp$this->{id}'>\n<a name='igp$this->{id}'></a>\n";
+    $this->{footer} = "<span class='foswikiClear'></span></div></noautolink>";
+    $this->{format} = "<a href='\$imageurl' class='igpThumbNail {origurl:\"\$origurl\"}' title='\$comment'><img src='\$thumburl' alt='\$name' /></a>"
+      unless defined $this->{format};
+    $result = $this->renderFormatted();
+  } elsif ($this->{format}) {
     $result = $this->renderFormatted();
   } else {
     $result = "<div class='igp'><a name='igp$this->{id}'></a>";
@@ -332,12 +350,12 @@ sub renderImage {
   if ($this->{doDocRels}) {
     $result .=
       "<link rel='parent' href='".
-       Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view').
+       $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic}).
       "' title='Thumbnails' />\n";
     if ($firstImg && $firstImg->{name} ne $filename) {
       $result .=
         "<link rel='first' href='".
-        Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+        $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
           'id'=>$this->{id},
           'filename'=>$firstImg->{name},
           '#'=>"igp$this->{id}"
@@ -346,7 +364,7 @@ sub renderImage {
     if ($lastImg && $lastImg->{name} ne $filename) {
       $result .=
           "<link rel='last' href='".
-          Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+          $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
             'id'=>$this->{id},
             'filename'=>$lastImg->{name},
             '#'=>"igp$this->{id}"
@@ -355,7 +373,7 @@ sub renderImage {
     if ($nextImg && $nextImg->{name} ne $filename) {
       $result .=
           "<link rel='next' href='".
-          Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+          $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
             'id'=>$this->{id},
             'filename'=>$nextImg->{name},
             '#'=>"igp$this->{id}"
@@ -364,7 +382,7 @@ sub renderImage {
     if ($prevImg && $prevImg->{name} ne $filename) {
       $result .=
         "<link rel='previous' href='".
-        Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+        $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
           'id'=>$this->{id},
           'filename'=>$prevImg->{name},
           '#'=>"igp$this->{id}"
@@ -400,7 +418,7 @@ sub renderImage {
 
   if ($firstImg && $firstImg->{name} ne $filename) {
     $result .= "<a class='igpNaviFirst' title='go to first' href='".
-    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
       'id'=>$this->{id},
       'filename'=>$firstImg->{name},
       '#'=>"igp$this->{id}"
@@ -410,7 +428,7 @@ sub renderImage {
   }
   if ($prevImg) {
     $result .= "<a class='igpNaviPrev' title='go to previous' href='".
-    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
       'id'=>$this->{id},
       'filename'=>$prevImg->{name},
       '#'=>"igp$this->{id}"
@@ -420,7 +438,7 @@ sub renderImage {
   }
   if ($nextImg) {
     $result .= "<a class='igpNaviNext' title='go to next' href='".
-    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
       'id'=>$this->{id},
       'filename'=>$nextImg->{name},
       '#'=>"igp$this->{id}"
@@ -430,7 +448,7 @@ sub renderImage {
   }
   if ($lastImg && $lastImg->{name} ne $filename) {
     $result .= "<a class='igpNaviLast' title='go to last' href='".
-    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    $this->{session}->getScriptUrl(0, 'view', $this->{web}, $this->{topic},
       'id'=>$this->{id},
       'filename'=>$lastImg->{name},
       '#'=>"igp$this->{id}"
@@ -439,7 +457,7 @@ sub renderImage {
     $result .= "<span class='igpNaviLast igpNaviDisabled '><span>last</span></span>";
   }
   $result .= "<a class='igpNaviDone' href='".
-    Foswiki::Func::getScriptUrl($this->{web},$this->{topic}, 'view', "#"=>"igp$this->{id}").
+    $this->{session}->getScriptUrl(0, 'view', $this->{web},$this->{topic}, "#"=>"igp$this->{id}").
     "'><span>done</span></a>";
 
   $result .= "<br clear='both' /></td></tr>\n</table>\n";
@@ -822,6 +840,7 @@ sub replaceVars {
     $format =~ s/\$origurl/$image->{IGP_url}/gos;
     $format =~ s/\$web/$image->{IGP_web}/gos;
     $format =~ s/\$topic/$image->{IGP_topic}/gos;
+    $format =~ s/\$id/$this->{id}/gos;
 
   }
 

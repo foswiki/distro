@@ -106,3 +106,7 @@
   background-image:url(cross.png);
 }
 
+.jqSlimbox .igpThumbNail {
+  float:left;
+  padding:5px;
+}

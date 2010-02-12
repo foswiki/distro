@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1234443922" format="1.1"  version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252914561" format="1.1" version="1.3"}%
 ---+!! <nop>ImageGalleryPlugin
 <table style="float:right">
 <tr>
@@ -39,6 +39,8 @@ that both take the following arguments:
 | limit | maximum number of images to display (default: 0, meaning no limit). |
 | include | regular expression an image must match to be part of the gallery |
 | exclude | regular expression an image must _not_ match to be part of the gallery |
+| frontend | select gallery interface, possible values are =lightbox= and =default=; \
+             (defaults to =lightbox= if Foswiki:Extensions/JQueryPlugin is installed and =default= otherwise) |
 | field | specify which property of the image has to match using =include= or =exclude=; \
           possible values: name, comment (default: name) |
 | size | the thumbnail size, the actual geometries of a size can be configured below; \
@@ -55,14 +57,16 @@ that both take the following arguments:
 | minwidth | minimal display width of an image; images are scaled not to fall below this \
             limit while preserving aspect ratio %BR% (default: 0) |
 | minheight | minimal display height of an image %BR% (default: 0) |
+| header | header part of the gallery; only used if there is a =format= |
 | format | html format of an image %BR% \
           (default: &lt;a href="$origurl"&gt;&lt;img src="$imageurl" title="$comment" width="$width" height="$height"/&gt;&lt;/a&gt;) |
+| footer | footer part of the gallery; only used if there is a =format= |
 | titles | toggles image and thumnail titles on and off %BR% \
-          (default: on) |
+          (default: off) |
 | title | html format of an image title; "off" will hide the image's title %BR% \
-          (default: $comment ($imgnr/$nrimgs)&nbsp;$reddot) |
+          (default: $comment ($imgnr/$nrimgs)) |
 | thumbtitle  | html format of a thumbnail title; "off" will hide the thumbnail's title %BR% \
-          (default: $comment&nbsp;$reddot) |
+          (default: $comment) |
 | sort | set the initial order of the images, can be name, date, size or comment (default:date) |
 | reverse | invert the initial order of the images, can be on or off (default:off) |
 
@@ -77,7 +81,6 @@ refer to image properties:
 | $topic | the topic the image is located |
 | $nrimages | the total number of images in the gallery |
 | $n | a linefeed |
-| $reddot | render a red-dot anchor to access the attachment |
 | $width | the display width of the image |
 | $height | the display height of the image |
 | $thumbwidth | the thumbnail width of the image |
@@ -138,10 +141,10 @@ By default the image gallery will display images in the order that they where up
 This determines their _natural_ order. When you want to change this order you can
 prefix the comment of the attachment with a sequence number. For example: given a
 picture whose comment is "My old bike" that should be put at position 12
-in your image gallery then change the comment to "12 - My old bike". This
+in your image gallery then change the comment to "12 <nop>- My old bike". This
 will put the image at the desired position. Sequence numbers don't necessarily need
 to be unique, that is if there's another picture with a comment like 
-"12 - My new bike" then the natural order of the both is relevant. In general,
+"12 <nop>- My new bike" then the natural order of the both is relevant. In general,
 a picture will be put at position =&lt;nr&gt;= if its attachment comment has the format
 <verbatim>
   <nr><space>-<space><comment>
@@ -157,11 +160,12 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
    * Set SHORTDESCRIPTION = Displays image gallery with auto-generated thumbnails from attachments.
 -->
 |  Plugin Author: | Michael Daum, Will Norris |
-|  Copyright &copy;: | 2002-2009, Will Norris; 2005-2009, Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2002-2009, Will Norris; 2005-2010, Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  12 Feb 2010 | new =frontend= parameter defaulting to "lightbox" when Foswiki:Extensions/JQueryPlugin is installed | 
 |  03 Jul 2009 | shipping minified and compressed css files now |
 |  24 Apr 2009 | converted to foswiki plugin |
 |  12 Feb 2009 | interface improvements; creating more accurate thumbnails |
@@ -190,7 +194,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  15 June 2005 | new release |
 |  10 May 2005 | fixed igp id clash error found by Martin Cleaver; \
                  capture <nop>ImageMagick error messages; \
-                 don't trust attachment info - check for attachment existence as well;\
+                 don't trust attachment info, check for attachment existence as well;\
                  added refresh query parameter to recompute images |
 |  09 May 2005 | fixed errors reported by Marcel Trap; \
                  added support for multiple topics (proposed by Martin Cleaver; \

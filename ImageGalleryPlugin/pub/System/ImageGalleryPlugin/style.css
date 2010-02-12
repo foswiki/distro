@@ -11,4 +11,4 @@
 .igpNaviPrev{background-image:url(control-left.png);}.igpNaviNext:hover,
 .igpNaviNext{background-image:url(control-right.png);}.igpNaviLast:hover,
 .igpNaviLast{background-image:url(control-end.png);}.igpNaviFirst.igpNaviDisabled{background-image:url(control-start-gray.png);}.igpNaviPrev.igpNaviDisabled{background-image:url(control-left-gray.png);}.igpNaviNext.igpNaviDisabled{background-image:url(control-right-gray.png);}.igpNaviLast.igpNaviDisabled{background-image:url(control-end-gray.png);}.igpNaviDone:hover,
-.igpNaviDone{background-image:url(cross.png);}
+.igpNaviDone{background-image:url(cross.png);}.jqSlimbox .igpThumbNail{float:left;padding:5px;}
