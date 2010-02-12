@@ -4,10 +4,13 @@
 %TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
 %TMPL:INCLUDE{"editdialog"}%<!-- editdialog// -->
 %TMPL:INCLUDE{"uploadplugin"}%<!-- uploadplugin// -->
-
 %TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%MAKETEXT{"edit"}%"}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
-%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{"defined 'rev'" then="[[%WEB%.%TOPIC%][%TMPL:P{"topictitle"}%]] (%MAKETEXT{"restore"}%)" else="%IF{"istopic '%WEB%.%TOPIC%'" then="[[%WEB%.%TOPIC%][%TMPL:P{"topictitle"}%]] (%MAKETEXT{"edit"}%)" else="%TMPL:P{"topictitle"}% (%MAKETEXT{"new"}%)"}%"}%</h1>%TMPL:END%
+%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{
+  "istopic '%WEB%.%TOPIC%'" 
+  then="[[%WEB%.%TOPIC%][%TMPL:P{"topictitle"}%]] %TMPL:P{"titleaction"}%" 
+  else="<nop>%WEB%.%TOPIC% %TMPL:P{"titleaction"}%"
+}%</h1>%TMPL:END%
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
@@ -107,7 +110,7 @@
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep foswikiFormLast">
     <h3>%MAKETEXT{"Parent topic"}%:</h3>
-    <input class="foswikiInputField" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%" autocomplete="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" />
+    <input class="foswikiInputField" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" />
   </div>
 </div>
 %TMPL:P{"moresettings"}%<!-- moresettings// -->

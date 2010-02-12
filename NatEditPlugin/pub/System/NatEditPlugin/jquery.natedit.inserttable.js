@@ -17,6 +17,12 @@
       cols = 0;
     }
     var output = [];
+    var editTableLine = '%EDITTABLE{format="';
+    for (var i = 0; i < cols; i++) {
+      editTableLine += '| text,20';
+    }
+    editTableLine += '|"}%';
+    output.push(editTableLine);
     for (var i = 0; i < heads; i++) {
       var line = '|';
       for (var j = 0; j < cols; j++) {

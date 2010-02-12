@@ -562,6 +562,8 @@ $.NatEditor.prototype._openDialog = function(opts) {
   var $dialog = $(opts.dialog);
 
   $dialog.modal({
+    minHeight: 'auto',
+    minWidth: 'auto',
     persist: true,
     close:false,
     onShow: function(dialog) {
@@ -632,7 +634,7 @@ $.NatEditor.prototype.fixHeight = function() {
   if (!windowWidth) {
     windowWidth = window.innerWidth;
   }
-  newHeight = windowHeight-offset.top-bottomHeight*2-12;
+  newHeight = windowHeight-offset.top-bottomHeight*2;
   if ($debug) {
     newHeight -= $debug.height();
   }
@@ -650,20 +652,23 @@ $.NatEditor.prototype.fixHeight = function() {
 
   $txtarea.height(newHeight);
 	
-	
   /* Resize tinyMCE. Both the iframe and containing table need to be adjusted. 
    * SMELL: Hard-coded magic numbers : 12px */
   if (typeof(tinyMCE) === 'object' && typeof(tinyMCE.activeEditor) === 'object' &&
     !tinyMCE.activeEditor.getParam('fullscreen_is_enabled')) {
+
     /* TMCE container = <td>, in a <tr>, <tbody>, <table>, <span> next to original 
-     * <textarea display: none> in a <div .natEdit> in a <div .jqTabContents> :-) */
-    /* SMELL: No "proper" way to get correct instance until Item2297 finished */
+     * <textarea display: none> in a <div .natEdit> in a <div .jqTabContents> :-) 
+     * SMELL: No "proper" way to get correct instance until Item2297 finished 
+     */
+
     tmceEdContainer = tinyMCE.activeEditor.contentAreaContainer;
     tmceIframe = $(tmceEdContainer).children('iframe')[0];
     tmceTable = tmceEdContainer.parentNode.parentNode.parentNode;
+
     /* The NatEdit Title: text sits in the jqTab above TMCE */
     natEditTopicInfoHeight = $($(tmceTable.parentNode.parentNode).siblings(
-      '.natEditTopicInfo')[0]).outerHeight({margin: true});
+      '.natEditTopicInfo')[0]).outerHeight({margin: true}); // SMELL: this looks strange
     offset = $(tmceTable).offset().top;
 
     $(tmceEdContainer.parentNode).siblings().each(	/* Iterate over TMCE layout */
@@ -671,17 +676,20 @@ $.NatEditor.prototype.fixHeight = function() {
         newHeightExtra = newHeightExtra + $(tr).outerHeight({margin: true});
       }
     );
+
     /* SMELL: minHeight isn't working on IE7 (but does on IE6 + IE8 */
-    newHeight = windowHeight - offset - bottomHeight*2 - 12;
+    newHeight = windowHeight - offset - bottomHeight*2;
     if (self.opts.minHeight && newHeight - newHeightExtra + 
       natEditTopicInfoHeight < self.opts.minHeight) {
-      newHeight = self.opts.minHeight + natEditTopicInfoHeight - 12;
+      newHeight = self.opts.minHeight + natEditTopicInfoHeight;
     }
     $(tmceTable).height(newHeight);
     $(tmceIframe).height(newHeight - newHeightExtra);
+
     /* SMELL: We set a width first, then check to see if it's too small
      * by checking if document is able to accomodate a larger size..
-     * ... and this doesn't work in IE6 or IE8, so minWidth not enforced there. */
+     * ... and this doesn't work in IE6 or IE8, so minWidth not enforced there. 
+     */
     offset = ($(tmceTable).offset().left * 2) + 4;	/* Assume centred layout */
     newWidth = windowWidth - offset;
     $(tmceTable).width(newWidth);
@@ -713,23 +721,24 @@ $.NatEditor.prototype.autoExpand = function() {
   self._time = now;
 
   window.setTimeout(function() {
+    var width = $txtarea.width();
     var text = self.txtarea.value+'x';
-    if (text == self._lastText) {
-      //$.log("suppressing events for same text");
+    if (text == self._lastText || width == 0) {
+      $.log("suppressing events");
       return
     };
     self._lastText = text;
     text = $.natedit.htmlEntities(text);
-   
-    self.helper.width($txtarea.width());
+    self.helper.width(width);
+    $.log("width="+width);
 
     //$.log("helper text="+text);
     self.helper.html(text);
     var height = self.helper.height() + 12;
     height = Math.max($txtarea.height(), height);
     //$.log("helper height="+height);
-    $txtarea.height(height).width($txtarea.width());
-  },10);
+    $txtarea.height(height).width(width);
+  },100);
 };
 
 /*****************************************************************************

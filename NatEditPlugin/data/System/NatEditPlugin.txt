@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1233664112" format="1.1"  version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1264672309" format="1.1" version="1.3"}%
 ---+!! Natural Edit Plugin
 <!--
 
@@ -22,12 +22,14 @@
 </table>
 
 ---++ Description
+%STARTSECTION{"summary"}%
 The <nop>NatEdit is an wiki editor that helps in learning the TML
 Language by providing a GUI. By design, this is not a wysiwyg editor that tries
 to generate the correct TML in the background. Instead, the user is still in
 charge of writing correct wiki markup but with a bit more of assistance as a
 plain browser textarea. Therefor this editor helps to lower the learning curve
 but will not get in your way once you are aware of wiki markup. 
+%ENDSECTION{"summary"}%
 
 <nop>NatEdit is implemented as a jquery plugin, called =jquery.natedit=,
 and thus heavily depends on javascript. Hence browsers without javascript are not supported. 
@@ -82,11 +84,12 @@ Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 Sponsored by [[http://www.trivadis.com][Trivadis AG]] 
 
 |  Author: | Michael Daum |
-|  Copyright &copy;: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2010 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  12 Feb 2010 | Foswikitask:Item8486, Foswikitask:Item8385: fixing edit and settings screen on !PatternSkin |
 |  04 Dec 2009 | Foswikitask:Item2453: Form data not saved when edit is invoked \
                  with ?action=form ('Edit data form of this topic' link) |
 |  18 Nov 2009 | Foswikitask:Item2373: improve XHTML validation |

@@ -4,21 +4,21 @@
 %TMPL:DEF{"mandatory"}%<div class='foswikiFormLegend' id="foswikiFormMandatory"><span class="foswikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% </div>%TMPL:END%
 
 %TMPL:DEF{"repeatedformrows"}% %REPEAT%
-<div class="foswikiFormStep">
-<h3 >%ROWTITLE%%ROWEXTRA%:</h3>
-%ROWVALUE%
-</div>
-%REPEAT%
-<div class="foswikiFormStep">
-%ROWVALUE%
-</div>
-%REPEAT%%TMPL:END%
+<tr>
+  <th>%ROWTITLE%%ROWEXTRA%:</th>
+  <td>%ROWVALUE%</td>
+</tr>%REPEAT%
+<tr>
+  <th colspan="2">%ROWVALUE%</th>
+</tr>%REPEAT% %TMPL:END%
 
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
 %TAB{"Form"}%
-<div class="foswikiFormSteps foswikiEditForm">
 <h2 >%FORMTITLE%%TMPL:P{"changeform"}%</h2>
+<div class="foswikiFormSteps foswikiEditForm">
+<table class="foswikiLayoutTable">
 %TMPL:P{"repeatedformrows"}%
+</table>
 %TMPL:P{"formtail"}%
 </div>
 %ENDTAB%

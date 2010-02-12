@@ -67,7 +67,7 @@ sub init {
 
   return unless $this->SUPER::init();
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::NATEDIT::THEME", <<"HERE", 'JQUERYPLUGIN::NATEDIT');
+  Foswiki::Func::addToZone("head", "JQUERYPLUGIN::NATEDIT::THEME", <<"HERE", 'JQUERYPLUGIN::NATEDIT');
 <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/%IF{\"defined NATEDIT_THEME\" then=\"%NATEDIT_THEME%\" else=\"default\"}%/styles.css?version=$this->{version}' type='text/css' media='all' />
 HERE
 
