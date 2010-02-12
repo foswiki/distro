@@ -1,0 +1,52 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265643226" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"livequery"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Live Query utilizes the power of jQuery selectors by binding events or firing callbacks for matched elements auto-magically, even after the page has been loaded and the DOM updated. 
+%ENDSECTION{"summary"}%
+
+
+---++ Example
+
+%TABPANE%
+%TAB{"First"}%
+This tab is loaded on page load. The second and third will be reloaded using ajax. livequery will make sure
+that the jQuery elements inside are initialized correctly as soon as they are added to the DOM tree.
+%ENDTAB%
+%TAB{"Second" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=second;skin=text"}%
+<span class="jqAjaxLoader">&nbsp;</span>
+<verbatim style="display:none">
+%STARTSECTION{"second"}%
+This button has been loaded async-ly 
+
+%BUTTON{"Hello" icon="emoticon_smile" onclick="alert('The callback for this button was properly initialized')"}%
+%CLEAR%
+
+Click on the button to see if it is properly initialized.
+%ENDSECTION{"second"}%
+</verbatim>
+%ENDTAB%
+%TAB{"Third" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=third;skin=text"}%
+%JQREQUIRE{"chili"}%
+<span class="jqAjaxLoader">&nbsp;</span>
+<verbatim style="display:none">
+%STARTSECTION{"third"}%
+<verbatim class="html">
+<body>
+  <h1 style="border-bottom:1px solid #eee">Hello world</h1>
+
+  <strong>If this is coloured, then livequery worked out fine.</strong>
+</body>
+</verbatim>
+%ENDSECTION{"third"}%
+</verbatim>
+%ENDTAB%
+%ENDTAB%
