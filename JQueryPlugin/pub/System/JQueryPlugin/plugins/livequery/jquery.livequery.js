@@ -18,4 +18,4 @@ $.livequery.queue.push(id);});if($.livequery.timeout)clearTimeout($.livequery.ti
 $.livequery.queries[id].stop();else
 $.each($.livequery.queries,function(id){$.livequery.queries[id].stop();});}});$.livequery.registerPlugin('append','prepend','after','before','wrap','attr','removeAttr','addClass','removeClass','toggleClass','empty','remove');$(function(){$.livequery.play();});var init=$.prototype.init;$.prototype.init=function(a,c){var r=init.apply(this,arguments);if(a&&a.selector)
 r.context=a.context,r.selector=a.selector;if(typeof a=='string')
-r.context=c||document,r.selector=a;return r;};$.prototype.init.prototype=$.prototype;})(jQuery);;
+r.context=c||document,r.selector=a;return r;};$.prototype.init.prototype=$.prototype;})(jQuery);

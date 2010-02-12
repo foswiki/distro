@@ -6,4 +6,4 @@ function resize(){var width=$this.width();var fontSize=fontRatio*width;if(typeof
 if(typeof(opts.min)=='number'&&fontSize<opts.min){fontSize=opts.min;}
 var lineHeight=fontSize*lineRatio;$.log("width="+width+" font-size="+fontSize+" line-height="+lineHeight+" lineRatio="+lineRatio);$this.css({'font-size':fontSize+"px",'line-height':lineHeight+"px"});window.setTimeout(function(){$(window).one("resize.fluidfont",resize);},100);}
 var fontRatio=getRatio($this.css('font-size'));var lineRatio=getRatio($this.css('line-height'));lineRatio=lineRatio/fontRatio;resize();return $this;},defaults:{width:1024,min:10,max:15}}
-$.fn.fluidfont=$.fluidfont.build;$(function(){$(".jqFluidFont").not(".jqInitedFluidFont").each(function(){var $this=$(this);var opts=$.extend({},$this.metadata());$this.addClass("jqInitedFluidFont");$this.fluidfont(opts);});});})(jQuery);;
+$.fn.fluidfont=$.fluidfont.build;$(function(){$(".jqFluidFont").not(".jqInitedFluidFont").each(function(){var $this=$(this);var opts=$.extend({},$this.metadata());$this.addClass("jqInitedFluidFont");$this.fluidfont(opts);});});})(jQuery);

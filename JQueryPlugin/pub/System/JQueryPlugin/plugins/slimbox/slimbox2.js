@@ -13,4 +13,4 @@ $(center).queue(function(){$(bottomContainer).css({width:centerWidth,top:top+cen
 function animateCaption(){if(prevImage>=0)$(prevLink).show();if(nextImage>=0)$(nextLink).show();$(bottom).css("marginTop",-bottom.offsetHeight).animate({marginTop:0},options.captionAnimationDuration);bottomContainer.style.visibility="";}
 function stop(){preload.onload=null;preload.src=preloadPrev.src=preloadNext.src=activeURL;$([center,image,bottom]).stop(true);$([prevLink,nextLink,image,bottomContainer]).hide();}
 function close(){if(activeImage>=0){stop();activeImage=prevImage=nextImage=-1;$(center).hide();$(overlay).stop().fadeOut(options.overlayFadeDuration,setup);}
-return false;}})(jQuery);;
+return false;}})(jQuery);

@@ -25,4 +25,4 @@ $pane.queue('fx',[]).stop();if(settings.constant)
 duration=Math.abs(duration/step*(active-pos));$pane
 .scrollTo(elem,duration,settings)
 .trigger('notify.serialScroll',[pos]);};function next(){$pane.trigger('next.serialScroll');};function clear(){clearTimeout(timer);};function getItems(){return $(items,pane);};function index(elem){if(!isNaN(elem))return elem;var $items=getItems(),i;while((i=$items.index(elem))==-1&&elem!=pane)
-elem=elem.parentNode;return i;};});};})(jQuery);;
+elem=elem.parentNode;return i;};});};})(jQuery);

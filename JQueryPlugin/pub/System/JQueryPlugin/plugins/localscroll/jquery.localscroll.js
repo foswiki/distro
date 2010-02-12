@@ -10,4 +10,4 @@ return;if(settings.stop)
 $target.stop(true);if(settings.hash){var attr=elem.id==id?'id':'name',$a=$('<a> </a>').attr(attr,id).css({position:'absolute',top:$(window).scrollTop(),left:$(window).scrollLeft()});elem[attr]='';$('body').prepend($a);location=link.hash;$a.remove();elem[attr]=id;}
 $target
 .scrollTo(elem,settings)
-.trigger('notify.serialScroll',[elem]);};})(jQuery);;
+.trigger('notify.serialScroll',[elem]);};})(jQuery);

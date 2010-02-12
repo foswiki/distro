@@ -365,4 +365,4 @@ changeCallback(this.cell);}};}
 var undefined,dayIDs=['sun','mon','tue','wed','thu','fri','sat'];function zeroPad(n){return(n<10?'0':'')+n;}
 function smartProperty(obj,name){if(obj[name]!=undefined){return obj[name];}
 var parts=name.split(/(?=[A-Z])/),i=parts.length-1,res;for(;i>=0;i--){res=obj[parts[i].toLowerCase()];if(res!=undefined){return res;}}
-return obj[''];}})(jQuery);;
+return obj[''];}})(jQuery);

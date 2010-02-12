@@ -29,4 +29,4 @@ else{if(this.dialog.parentNode){if(this.opts.persist){this.dialog.data.hide().ap
 else{this.dialog.data.remove();this.dialog.orig.appendTo(this.dialog.parentNode);}}
 else{this.dialog.data.remove();}
 this.dialog.container.remove();this.dialog.overlay.remove();this.dialog.iframe&&this.dialog.iframe.remove();this.dialog={};}
-this.unbindEvents();}};})(jQuery);;
+this.unbindEvents();}};})(jQuery);

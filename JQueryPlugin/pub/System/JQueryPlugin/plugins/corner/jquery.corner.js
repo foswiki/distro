@@ -22,4 +22,4 @@ else
 ds.width='100%';}
 else{ds.position='relative';ds.margin=!bot?'-'+pad.T+'px -'+pad.R+'px '+(pad.T-width)+'px -'+pad.L+'px':(pad.B-width)+'px -'+pad.R+'px -'+pad.B+'px -'+pad.L+'px';}
 for(var i=0;i<width;i++){var w=Math.max(0,getWidth(fx,i,width));var e=strip.cloneNode(false);e.style.borderWidth='0 '+(opts[j+'R']?w:0)+'px 0 '+(opts[j+'L']?w:0)+'px';bot?d.appendChild(e):d.insertBefore(e,d.firstChild);}}}});};$.fn.uncorner=function(){if(moz||webkit)
-this.css(moz?'-moz-border-radius':'-webkit-border-radius',0);$('div.jquery-corner',this).remove();return this;};$.fn.corner.defaults={useNative:true,metaAttr:'data-corner'};})(jQuery);;
+this.css(moz?'-moz-border-radius':'-webkit-border-radius',0);$('div.jquery-corner',this).remove();return this;};$.fn.corner.defaults={useNative:true,metaAttr:'data-corner'};})(jQuery);
