@@ -67,9 +67,8 @@ foswiki.TwistyPlugin = new function () {
                           $(contentElem).show();
 
                         }
-                        $(showControl).addClass("twistyHidden");
-                        $(hideControl).removeClass("twistyHidden");
-                        $(contentElem).removeClass("twistyHidden");
+                        $(showControl).hide();
+                        $(hideControl).show();
 		} else {
 			// hide content
                         if (inMaySave) {
@@ -77,9 +76,8 @@ foswiki.TwistyPlugin = new function () {
                         } else {
                           $(contentElem).hide();
                         }
-                        $(showControl).removeClass("twistyHidden");
-                        $(hideControl).addClass("twistyHidden");
-                        $(contentElem).addClass("twistyHidden");
+                        $(showControl).show();
+                        $(hideControl).hide();
 		}
 		if (inMaySave && ref.saveSetting) {
 	        foswiki.Pref.setPref(foswiki.TwistyPlugin.COOKIE_PREFIX + ref.name, ref.state);
@@ -147,7 +145,7 @@ foswiki.TwistyPlugin.hideAnimation = function (elem) {
   jQuery(elem).animate({
     height:'toggle', 
     opacity:'toggle'
-  }, 300, 'easeInOutQuad');
+  }, 'fast');
 };
 
 /**
@@ -246,8 +244,7 @@ foswiki.TwistyPlugin.Storage = function () {
  */
 $(function() {
   $(".twistyTrigger, .twistyContent").
-    removeClass("twistyMakeHidden foswikiMakeHidden foswikiMakeVisible foswikiMakeVisibleBlock foswikiMakeVisibleInline").
-    addClass('twistyHidden').
+    removeClass("twistyMakeHidden foswikiMakeHidden foswikiMakeVisible foswikiMakeVisibleBlock foswikiMakeVisibleInline twistyHidden").
     each(function() {
       foswiki.TwistyPlugin.init(this);
     });

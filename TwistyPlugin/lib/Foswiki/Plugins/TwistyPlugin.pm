@@ -101,7 +101,7 @@ sub _addHeader {
     Foswiki::Func::loadTemplate(
         Foswiki::Sandbox::untaintUnchecked( lc($pluginName) ) );
     my $header = Foswiki::Func::expandTemplate('twisty:header');
-    Foswiki::Func::addToHEAD( $pluginName, $header );
+    Foswiki::Func::expandCommonVariables($header );
 }
 
 sub _TWISTYSHOW {

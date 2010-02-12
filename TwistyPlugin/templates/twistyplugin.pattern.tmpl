@@ -1,10 +1,11 @@
-%{ this is the default header for TwistyPlugin, using the Foswiki Javascript files }%
+%TMPL:INCLUDE{twistyplugin}%
 
-%TMPL:DEF{twisty:header}%<style type="text/css" media="all">
-@import url("%PUBURL%/%SYSTEMWEB%/TwistyPlugin/twisty.css");
-</style>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiCSS.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TwistyPlugin/twisty.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiStyles.js"></script>
+%TMPL:DEF{twisty:header:js}%
+%ADDTOHEAD{
+  "TWISTYPLUGIN::JS"
+  text="
+<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js'></script>
+<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiCSS.js'></script>
+<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/TwistyPlugin/twisty.js'></script>
+"}%
 %TMPL:END%
