@@ -164,6 +164,7 @@ function info_dialog(caption, content,c_b, modalopt) {
 		top:170,
 		zIndex : 1000,
 		jqModal : true,
+		modal : false,
 		closeOnEscape : true,
 		align: 'center',
 		buttonalign : 'center',
@@ -222,9 +223,10 @@ function info_dialog(caption, content,c_b, modalopt) {
 			h.w.hide().remove();
 			if(h.o) { h.o.remove(); }
 		},
-		modal :true,
+		modal :mopt.modal,
 		jqm:jm
 	});
+	try{$("#info_dialog").focus();} catch (e){}
 }
 //Helper functions
 function findPos(obj) {
@@ -364,6 +366,9 @@ function createEl(eltype,options,vl,autowidth, ajaxso) {
 					var so = options.value.split(";"),sv, ov;
 					for(i=0; i<so.length;i++){
 						sv = so[i].split(":");
+						if(sv.length > 2 ) {
+							sv[1] = jQuery.map(sv,function(n,i){if(i>0)return n;}).join(":");
+						}
 						ov = document.createElement("option");
 						ov.value = sv[0]; ov.innerHTML = sv[1];
 						if (!msl &&  (sv[0] == vl || sv[1]==vl)) ov.selected ="selected";
@@ -390,7 +395,7 @@ function createEl(eltype,options,vl,autowidth, ajaxso) {
 		case "button" :
 			elem = document.createElement("input");
 			elem.type = eltype;
-			elem.value = jQuery.jgrid.htmlDecode(vl);
+			elem.value = vl;
 			options = bindEv(elem,options);
 			if(eltype != "button"){
 				if(autowidth) {
@@ -546,7 +551,7 @@ function checkDate (format, date) {
 	} else {
 		strDate = tsp[format[j]].toString();
 		if(yln == 2 && strDate.length == 1) {yln = 1;}
-		if (strDate.length != yln || tsp[format[j]]==0 ){
+		if (strDate.length != yln || (tsp[format[j]]==0 && date[j]!="00")){
 			return false;
 		}
 	}

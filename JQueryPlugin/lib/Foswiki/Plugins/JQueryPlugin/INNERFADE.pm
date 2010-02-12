@@ -46,6 +46,7 @@ sub new {
     homepage => 'http://medienfreunde.com/lab/innerfade',
     css => ['jquery.innerfade.css'],
     javascript => ['jquery.innerfade.js', 'jquery.innerfade.init.js' ],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

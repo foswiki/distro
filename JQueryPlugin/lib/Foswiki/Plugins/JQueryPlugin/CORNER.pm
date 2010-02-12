@@ -45,6 +45,7 @@ sub new {
     author => 'Dave Methvin, Mike Alsup',
     homepage => 'http://jquery.malsup.com/corner',
     javascript => ['jquery.corner.js', 'jquery.corner.init.js'],
+    dependencies => ['livequery'], 
   ), $class);
 
   return $this;

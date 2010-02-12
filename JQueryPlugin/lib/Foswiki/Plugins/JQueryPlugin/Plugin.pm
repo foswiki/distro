@@ -93,23 +93,20 @@ sub init {
   $this->{isInit} = 1;
 
   my $header = '';
+  my $footer = '';
 
   # load all css
   foreach my $css (@{$this->{css}}) {
     $css =~ s/\.css$/.uncompressed.css/ if $this->{debug};
     $css .= '?version='.$this->{version};
-    $header .= <<"HERE";
-<link rel='stylesheet' href='$this->{puburl}/$css' type='text/css' media='all' />
-HERE
+    $header .= "<link rel='stylesheet' href='$this->{puburl}/$css' type='text/css' media='all' />\n";
   }
 
   # load all javascript
   foreach my $js (@{$this->{javascript}}) {
     $js =~ s/\.js$/.uncompressed.js/ if $this->{debug};
     $js .= '?version='.$this->{version};
-    $header .= <<"HERE";
-<script type='text/javascript' src='$this->{puburl}/$js'></script>
-HERE
+    $footer .= "<script type='text/javascript' src='$this->{puburl}/$js'></script>\n";
   }
 
   # dependencies
@@ -123,7 +120,10 @@ HERE
     }
   }
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::".uc($this->{name}), "\n".$header, join(', ', @headerDependency));
+  Foswiki::Func::addToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @headerDependency))
+    if $header;
+  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @headerDependency))
+    if $footer;
 
   return 1;
 }

@@ -4,7 +4,7 @@
   font-size:13px;
 }
 .jqTextboxListContainer input {
-  float:left;
+  _float:left; /* IE6 doesn't know inline-block*/
   margin:2px 0px;
 }
 .jqTextboxListValue {
@@ -12,8 +12,9 @@
   border:1px solid #CAD8F3;
   margin:2px 5px 2px 0px;
   background:#DEE7F8;
-  float:left;
   position:relative;
+  _float:left; /* IE6 doesn't know inline-block*/
+  display:inline-block;
 }
 a.jqTextboxListClose:hover,
 a.jqTextboxListClose {

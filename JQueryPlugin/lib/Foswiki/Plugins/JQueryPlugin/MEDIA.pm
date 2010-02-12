@@ -46,6 +46,7 @@ sub new {
     author => 'M. Alsup',
     homepage => 'http://malsup.com/jquery/media',
     javascript => ['jquery.media.js', 'jquery.media.init.js'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

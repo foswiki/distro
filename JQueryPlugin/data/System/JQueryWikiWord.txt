@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258383716" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265666211" format="1.1" reprev="1.4" version="1.4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"wikiword"
@@ -17,6 +17,54 @@ to derive a topic name from a free-form topic title text.
 %ENDSECTION{"summary"}%
 
 ---++ Examples
-%JQREQUIRE{"wikiword"}%
+<div class="foswikiFormSteps">
+  <h2>Add Project</h2>
+  <form action="%SCRIPTURLPATH{"edit"}%/%WEB%" />
+  <div class="foswikiFormStep">
+    <h3>Title:</h3>
+    <input type="text" id="prjTitle" size="30" name="TopicTitle" />
+  </div>
+  <div class="foswikiFormStep">
+    <h3>Year:</h3>
+    <select id="prjYear" name="prjYear">
+      <option></option>
+      <option>2005</option>
+      <option>2006</option>
+      <option>2007</option>
+      <option>2008</option>
+      <option>2009</option>
+      <option>2010</option>
+      <option>2011</option>
+    </select>
+  </div>
+  <div class="foswikiFormStep">
+    <h3>Project topic:</h3>
+    <input type="text" id="prjTopic" size="30" name="topic" />
+  </div>
+  <div class="foswikiFormStep foswikiFormLast">
+    %BUTTON{"Submit" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
 
-%RED%todo%ENDCOLOR%
+%JQREQUIRE{"wikiword"}%
+%ADDTOZONE{"body" topic="%TOPIC%" section="init" requires="JQUERYPLUGIN::WIKIWORD"}%
+
+---++ !JavaScript initialization
+<verbatim class="tml">
+%STARTSECTION{"init"}%
+<literal>
+<script type='text/javascript'>
+(function($) {
+  $(function() {
+    $('#prjTopic').wikiword(
+      '#prjTitle, #prjYear', {
+      prefix: 'Project',
+      initial: 'Project...'
+    });
+  });
+})(jQuery);
+</script>
+</literal>
+%ENDSECTION{"init"}%
+</verbatim>

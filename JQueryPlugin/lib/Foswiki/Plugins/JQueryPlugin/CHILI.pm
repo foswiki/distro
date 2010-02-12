@@ -45,6 +45,7 @@ sub new {
     author => 'Andrea Ercolino',
     homepage => 'http://noteslog.com/chili/',
     javascript => ['jquery.chili.js', 'jquery.chili.init.js'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

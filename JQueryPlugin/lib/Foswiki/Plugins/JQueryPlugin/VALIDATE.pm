@@ -45,7 +45,7 @@ sub new {
     author => 'Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
     javascript => ['jquery.validate.js', 'jquery.validate.additional-methods.js'],
-    dependencies => ['metadata', 'form'],
+    dependencies => ['form'],
   ), $class);
 
   return $this;
@@ -71,10 +71,8 @@ sub init {
   my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/plugins/validate/localization/messages_'.$langTag.'.js';
   my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
   if (-f $messageFile) {
-    $header .= <<"HERE";
-<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$messagePath"></script>
-HERE
-    Foswiki::Func::addToHEAD("JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
+    $header .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
+    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
   }
 
 }

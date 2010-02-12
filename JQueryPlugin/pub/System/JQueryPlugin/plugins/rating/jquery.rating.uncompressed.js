@@ -129,7 +129,7 @@
 			// Prepare division control
 			if(typeof control.split=='number' && control.split>0){
 				var stw = ($.fn.width ? star.width() : 0) || control.starWidth;
-				var spi = (control.count % control.split), spw = Math.floor(stw/control.split);
+				var spi = (control.count % control.split), spw = stw/control.split;
 				star
 				// restrict star's width and hide overflow (already in CSS)
 				.width(spw)
@@ -325,7 +325,7 @@
 			
 			// Width of star image in case the plugin can't work it out. This can happen if
 			// the jQuery.dimensions plugin is not available OR the image is hidden at installation
-			starWidth: 16//,
+			starWidth: 18//,
 			
 			//NB.: These don't need to be pre-defined (can be undefined/null) so let's save some code!
 			//half:     false,         // just a shortcut to control.split = 2

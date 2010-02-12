@@ -46,7 +46,7 @@ sub new {
     homepage => 'http://acko.net/dev/farbtastic',
     css => ['jquery.farbtastic.css'],
     javascript => ['jquery.farbtastic.js', 'jquery.farbtastic.init.js'],
-    dependencies => ['metadata', 'ui'], 
+    dependencies => ['ui', 'metadata', 'livequery'], 
   ), $class);
 
   return $this;

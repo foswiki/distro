@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258378963" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265674930" format="1.1" reprev="1.3" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"tooltip"
@@ -24,13 +24,12 @@ backend dynamically.
 ---++ Examples
 %JQREQUIRE{"tooltip"}%
 <div class="jqTooltip">
-
 All elements with a <i title="I've got a title">title attribute</i> in here get a tooltip. Options can be given using metadata inside the class attribute like this:
 
-<verbatim title="Help: How to pass arguments to the jquery.tooltip plugin" class="html {extraClass:'bubble', fade:'true'}">
-<span title="Hello World: This is my first tooltip!!!" class="{extraClass:'bubble'}">
-  Hover me
-</span>
+<verbatim class="html {extraClass:'bubble', fade:'true'}" title="Help: How to pass arguments to the jquery.tooltip plugin">
+<div class="{extraClass:'bubble'}" title="Help: How to pass arguments to the jquery.tooltip plugin">
+  Hover me.
+</div>
 </verbatim>
   
 </div>

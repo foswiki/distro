@@ -1,4 +1,5 @@
 SUBDIRS=\
+  masonry \
   autocomplete \
   bgiframe \
   blockui \
@@ -41,6 +42,8 @@ SUBDIRS=\
   tooltip \
   treeview \
   validate \
+  queryobject \
+  livequery \
   wikiword 
 
 all: $(SUBDIRS)

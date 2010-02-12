@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258383446" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1265630874" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"queryobject"
@@ -17,7 +17,7 @@ version of this with little code.
 %ENDSECTION{"summary"}%
 
 ---++ Examples
-<verbatim class="javascript">
+<verbatim class="js">
 var url = location.search;
 > "?action=view&section=info&id=123&debug&testy[]=true&testy[]=false&testy[]"
 var section = $.query.get('section');

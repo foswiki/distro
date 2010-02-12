@@ -1,4 +1,3 @@
-/* bar */
 /* Plugin:      searchFilter v1.2.9
  * Author:      Kasey Speakman (kasey@cornerspeed.com)
  * License:     Dual Licensed, MIT and GPL v2 (http://www.gnu.org/copyleft/gpl.html)
@@ -21,7 +20,7 @@
  * INPUT TYPE
  *     fields:  an array of field objects. each object has the following properties:
  *              text: a string containing the display name of the field (e.g. "Field 1")
- *              value: a string containing the actual field name (e.g. "field1")
+ *              itemval: a string containing the actual field name (e.g. "field1")
  *              optional properties:
  *                  ops: an array of operators in the same format as jQuery.fn.searchFilter.defaults.operators
  *                       that is: [ { op: 'gt', text: 'greater than'}, { op:'lt', text: 'less than'}, ... ]
@@ -38,7 +37,7 @@
  *               var fields = [
  *                 {
  *                   text: 'Field Display Name',
- *                   value: 'field_actual_name',
+ *                   itemval: 'field_actual_name',
  *                   // below this are optional values
  *                   ops: [ // this format is the same as jQuery.fn.searchFilter.defaults.operators
  *                     { op: 'gt', text: 'greater than' },
@@ -267,7 +266,7 @@ jQuery.fn.searchFilter = function(fields, options) {
             ");
             /* end hard-to-minify code */
             /* begin easier to minify code */
-            jQ.html("").addClass("ui-searchFilter").append("<div class='ui-widget-overlay' style='z-index: -1'>&nbsp;</div><table class='ui-widget-content ui-corner-all'><thead><tr><td colspan='5' class='ui-widget-header ui-corner-all' style='line-height: 18px;'><div class='ui-closer ui-state-default ui-corner-all ui-helper-clearfix' style='float: right;'><span class='ui-icon ui-icon-close'></span></div>" + opts.windowTitle + "</td></tr></thead><tbody><tr class='sf'><td class='fields'></td><td class='ops'></td><td class='data'></td><td><div class='ui-del ui-state-default ui-corner-all'><span class='ui-icon ui-icon-minus'></span></div></td><td><div class='ui-add ui-state-default ui-corner-all'><span class='ui-icon ui-icon-plus'></span></div></td></tr><tr><td colspan='5' class='divider'><div>&nbsp;</div></td></tr></tbody><tfoot><tr><td colspan='3'><span class='ui-reset ui-state-default ui-corner-all' style='display: inline-block; float: left;'><span class='ui-icon ui-icon-arrowreturnthick-1-w' style='float: left;'></span><span style='line-height: 18px; padding: 0 7px 0 3px;'>" + opts.resetText + "</span></span><span class='ui-search ui-state-default ui-corner-all' style='display: inline-block; float: right;'><span class='ui-icon ui-icon-search' style='float: left;'></span><span style='line-height: 18px; padding: 0 7px 0 3px;'>" + opts.searchText + "</span></span><span class='matchText'>" + opts.matchText + "</span> " + gOps_html + " <span class='rulesText'>" + opts.rulesText + "</span></td><td>&nbsp;</td><td><div class='ui-add-last ui-state-default ui-corner-all'><span class='ui-icon ui-icon-plusthick'></span></div></td></tr></tfoot></table>");
+            jQ.html("").addClass("ui-searchFilter").append("<div class='ui-widget-overlay' style='z-index: -1'>&#160;</div><table class='ui-widget-content ui-corner-all'><thead><tr><td colspan='5' class='ui-widget-header ui-corner-all' style='line-height: 18px;'><div class='ui-closer ui-state-default ui-corner-all ui-helper-clearfix' style='float: right;'><span class='ui-icon ui-icon-close'></span></div>" + opts.windowTitle + "</td></tr></thead><tbody><tr class='sf'><td class='fields'></td><td class='ops'></td><td class='data'></td><td><div class='ui-del ui-state-default ui-corner-all'><span class='ui-icon ui-icon-minus'></span></div></td><td><div class='ui-add ui-state-default ui-corner-all'><span class='ui-icon ui-icon-plus'></span></div></td></tr><tr><td colspan='5' class='divider'><div>&#160;</div></td></tr></tbody><tfoot><tr><td colspan='3'><span class='ui-reset ui-state-default ui-corner-all' style='display: inline-block; float: left;'><span class='ui-icon ui-icon-arrowreturnthick-1-w' style='float: left;'></span><span style='line-height: 18px; padding: 0 7px 0 3px;'>" + opts.resetText + "</span></span><span class='ui-search ui-state-default ui-corner-all' style='display: inline-block; float: right;'><span class='ui-icon ui-icon-search' style='float: left;'></span><span style='line-height: 18px; padding: 0 7px 0 3px;'>" + opts.searchText + "</span></span><span class='matchText'>" + opts.matchText + "</span> " + gOps_html + " <span class='rulesText'>" + opts.rulesText + "</span></td><td>&#160;</td><td><div class='ui-add-last ui-state-default ui-corner-all'><span class='ui-icon ui-icon-plusthick'></span></div></td></tr></tfoot></table>");
             /* end easier-to-minify code */
 
             var jRow = jQ.find("tr.sf");
@@ -289,7 +288,7 @@ jQuery.fn.searchFilter = function(fields, options) {
             var has_custom_data = false;
             jQuery.each(fields, function(i) {
                 var field_num = i;
-                fields_html += buildOpt(this.value, this.text);
+                fields_html += buildOpt(this.itemval, this.text);
                 // add custom ops if they exist
                 if (this.ops != null) {
                     has_custom_ops = true;
@@ -426,6 +425,8 @@ jQuery.fn.searchFilter = function(fields, options) {
                     var tField = jQuery(this).find("select[name='field'] :selected").val();
                     var tOp = jQuery(this).find("select[name='op'] :selected").val();
                     var tData = jQuery(this).find("input.vdata,select.vdata :selected").val();
+                    tData += "";
+                    tData = tData.replace(/\\/g,'\\\\').replace(/\"/g,'\\"');
                     if (!opts.stringResult) {
                         ruleGroup.rules.push({
                             field: tField,

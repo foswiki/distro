@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258383791" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1265972497" format="1.1" reprev="1.3" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"metadata"
@@ -14,7 +14,55 @@ This plugin is capable of extracting metadata from classes, random attributes,
 and child elements.
 %ENDSECTION{"summary"}%
 
----++ Examples
-%JQREQUIRE{"metadata"}%
+---++ Usage
 
-%RED%todo%ENDCOLOR%
+A lot of jQuery plugins are initialized and configured using _metadata_ embeded into the markup thus eliminating 
+the need to explicitly write !JavaScript. A behavior is assigned to an html element by giving it the pertinent class name
+that the plugin listens to. Parameters to the plugin itself are embeded as a JSON object inside the class attribute. JQueryMetadata can also be encoded differently. Having it inside the class attribute as well is most common. One exception is JQueryCorner for example, that uses an explicit =data-corner= attribute, which of course isn't standard conform markup. However browsers happily ignore attributes that they don't understand. So that's not a problem in real live.
+
+---++ Examples
+
+Load the plugin as required for the current page:
+
+<verbatim class="tml">
+%JQREQUIRE{"mynewplugin"}%
+</verbatim>
+
+This is how the markup looks like:
+
+<verbatim class="html">
+<div class="jqMyNewPlugin {key1:'value1', key2:'value2', key3:'value3'}">
+
+<div>
+</verbatim>
+
+This is the plugin's initializer reading the metadata:
+
+<verbatim class="js">
+jQuery(function($) {
+
+  var defaults {
+    key1: 'default1',
+    key2: 'default2',
+    key3: 'default3'
+  };
+
+  // find all elements tagged .jqMyNewPlugin that aren't init'ed yet
+  // ... using livequery instead of each to trigger initialisation of async content
+
+  $(".jqMyNewPlugin:not(jqInitedMyNewPlugin)").livequery(function() {
+
+     // create a jQuery object for this
+     var $this = $(this);
+
+     // prevent the markup to be init'ed multiple times
+     $this.addClass("jqInitedMyNewPlugin");
+   
+     // get plugin options by merging defaults and current json objs
+     var opts = $.extend({}, defaults, $this.metadata());
+
+     // call the plugin handler
+     $this.myNewPlugin(opts);
+  });
+});
+</verbatim>

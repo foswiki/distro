@@ -48,6 +48,7 @@ data/System/JQueryWikiWord.txt 0644
 lib/CPAN/lib/CSS/Minifier.pm 0644
 lib/CPAN/lib/JavaScript/Minifier.pm 0644
 lib/Foswiki/Form/Color.pm 0644
+lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/AUTOCOMPLETE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/BGIFRAME.pm 0644
@@ -71,6 +72,7 @@ lib/Foswiki/Plugins/JQueryPlugin/GRADIENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/GRID.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/HOVERINTENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/INNERFADE.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/LIVEQUERY.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/LOCALSCROLL.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASKEDINPUT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASONRY.pm 0644
@@ -79,8 +81,8 @@ lib/Foswiki/Plugins/JQueryPlugin/METADATA.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/NIFTY.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugin.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugins.pm 0644
-lib/Foswiki/Plugins/JQueryPlugin/QUERYOBJECT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/QUERYOBJECT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/RATING.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SCROLLTO.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SERIALSCROLL.pm 0644
@@ -164,6 +166,7 @@ pub/System/JQueryPlugin/jquery-1.3.2p1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.3.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.4.1.js 0644
 pub/System/JQueryPlugin/jquery-1.4.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.4.1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery.js 0644
 pub/System/JQueryPlugin/jquery.noconflict.js 0644
 pub/System/JQueryPlugin/jquery.patch 0644
@@ -236,6 +239,9 @@ pub/System/JQueryPlugin/plugins/corner/jquery.corner.js 0644
 pub/System/JQueryPlugin/plugins/corner/jquery.corner.js.gz 0644
 pub/System/JQueryPlugin/plugins/corner/jquery.corner.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/corner/Makefile 0644
+pub/System/JQueryPlugin/plugins/cycle/jquery.cycle.init.js 0644
+pub/System/JQueryPlugin/plugins/cycle/jquery.cycle.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/cycle/jquery.cycle.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/cycle/jquery.cycle.js 0644
 pub/System/JQueryPlugin/plugins/cycle/jquery.cycle.js.gz 0644
 pub/System/JQueryPlugin/plugins/cycle/jquery.cycle.uncompressed.js 0644
@@ -328,6 +334,9 @@ pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-bg.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cat.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cat.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cat.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cn.js 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cn.js.gz 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cn.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cs.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cs.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-cs.uncompressed.js 0644
@@ -353,12 +362,17 @@ pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-fr.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-fr.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-fr.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-he.js 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-he.js.gz 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-he.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-is.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-is.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-is.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-it.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-it.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-it.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ja.js 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ja.js.gz 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ja.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-jp.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-jp.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-jp.uncompressed.js 0644
@@ -378,6 +392,8 @@ pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-pt.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-pt.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-pt.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ro.js 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ro.js.gz 0644
+pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ro.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ru.js 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ru.js.gz 0644
 pub/System/JQueryPlugin/plugins/grid/i18n/grid.locale-ru.uncompressed.js 0644
@@ -397,7 +413,6 @@ pub/System/JQueryPlugin/plugins/grid/i18n/Makefile 0644
 pub/System/JQueryPlugin/plugins/grid/jqDnR.js 0644
 pub/System/JQueryPlugin/plugins/grid/jqModal.js 0644
 pub/System/JQueryPlugin/plugins/grid/jquery.fmatter.js 0644
-pub/System/JQueryPlugin/plugins/grid/jquery.fmatter.js.orig 0644
 pub/System/JQueryPlugin/plugins/grid/jquery.jqgrid.css.gz 0644
 pub/System/JQueryPlugin/plugins/grid/jquery.jqgrid.init.js 0644
 pub/System/JQueryPlugin/plugins/grid/jquery.jqgrid.init.js.gz 0644
@@ -428,6 +443,10 @@ pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.js.gz 0644
 pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/innerfade/Makefile 0644
+pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js 0644
+pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js.gz 0644
+pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/livequery/Makefile 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js.gz 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.uncompressed.js 0644
@@ -481,6 +500,9 @@ pub/System/JQueryPlugin/plugins/queryobject/Makefile 0644
 pub/System/JQueryPlugin/plugins/rating/delete.gif 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.css 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.css.gz 0644
+pub/System/JQueryPlugin/plugins/rating/jquery.rating.init.js 0644
+pub/System/JQueryPlugin/plugins/rating/jquery.rating.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/rating/jquery.rating.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.js 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.js.gz 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.uncompressed.css 0644
@@ -499,6 +521,9 @@ pub/System/JQueryPlugin/plugins/shake/jquery.shake.js 0644
 pub/System/JQueryPlugin/plugins/shake/jquery.shake.js.gz 0644
 pub/System/JQueryPlugin/plugins/shake/jquery.shake.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/shake/Makefile 0644
+pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.init.js 0644
+pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.js 0644
 pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.js.gz 0644
 pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.uncompressed.js 0644

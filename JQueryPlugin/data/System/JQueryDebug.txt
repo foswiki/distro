@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258385452" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265644624" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"debug"
@@ -10,15 +10,7 @@
 }%
 
 %STARTSECTION{"summary"}%
-Simple jQuery logger / debugger using firebug's console or a div of its own of the form
-<verbatim class="html">
-<div id="DEBUG">
-  <ol>
-    <li>...</li>
-    ...
-  </ol>
-</div>
-</verbatim>
+Simple jQuery logger / debugger using firebug's console or a div of its own of the form. Useful for !JavaScript developers.
 %ENDSECTION{"summary"}%
 
 ---++ Usage

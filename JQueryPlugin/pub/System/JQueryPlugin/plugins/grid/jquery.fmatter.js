@@ -270,7 +270,7 @@
 		}
 		return $.fmatter.util.NumberFormat(cellval,op);
 	};
-	$.fn.fmatter.date = function (cellval, opts, act) {
+	$.fn.fmatter.date = function (cellval, opts, rwd, act) {
 		var op = $.extend({},opts.date);
 		if(!isUndefined(opts.colModel.formatoptions)) {
 			op = $.extend({},op,opts.colModel.formatoptions);
@@ -283,7 +283,7 @@
 			return $.fn.fmatter.defaultFormat(cellval, opts);
 		}
 	};
-	$.fn.fmatter.select = function (cellval,opts, act) {
+	$.fn.fmatter.select = function (cellval,opts, rwd, act) {
 		// jqGrid specific
 		cellval = cellval + "";
 		var oSelect = false, ret=[];
@@ -299,6 +299,9 @@
 				var so = oSelect.split(";"), j=0;
 				for(var i=0; i<so.length;i++){
 					sv = so[i].split(":");
+					if(sv.length > 2 ) {
+						sv[1] = jQuery.map(sv,function(n,i){if(i>0)return n;}).join(":");
+					}
 					if(msl) {
 						if(jQuery.inArray(sv[0],scell)>-1) {
 							ret[j] = sv[1];
@@ -322,6 +325,47 @@
 		}
 		cellval = ret.join(", ");
 		return  cellval == "" ? $.fn.fmatter.defaultFormat(cellval,opts) : cellval;
+	};
+	$.fn.fmatter.rowactions = function(rid,gid,act,keys) {
+		switch(act)
+		{
+			case 'edit':
+				var restorerow = function()	{
+					$(".ui-inline-edit, .ui-inline-del","#"+rid).show();
+					$(".ui-inline-save, .ui-inline-cancel","#"+rid).hide();
+				}
+				$('#'+gid).jqGrid('editRow',rid,keys,null,null,null,{oper:'edit'},restorerow,null,restorerow);
+				$(".ui-inline-edit, .ui-inline-del","#"+rid).hide();
+				$(".ui-inline-save, .ui-inline-cancel","#"+rid).show();
+			break;
+			case 'save':
+				$('#'+gid).jqGrid('saveRow',rid,null,null,{oper:'edit'});
+				$(".ui-inline-edit, .ui-inline-del","#"+rid).show();
+				$(".ui-inline-save, .ui-inline-cancel","#"+rid).hide();
+				break;
+			case 'cancel' :
+				$('#'+gid).jqGrid('restoreRow',rid);
+				$(".ui-inline-edit, .ui-inline-del","#"+rid).show();
+				$(".ui-inline-save, .ui-inline-cancel","#"+rid).hide();
+				break;
+		}
+	};
+	$.fn.fmatter.actions = function(cellval,opts, rwd) {
+		var op ={keys:false};
+		if(!isUndefined(opts.colModel.formatoptions)) {
+			op = $.extend(op,opts.colModel.formatoptions);
+		}
+		var rowid = opts.rowId;
+		if(typeof(rowid) =='undefined' || isEmpty(rowid)) return "";
+		var ocl = "onclick=$.fn.fmatter.rowactions('"+rowid+"','"+opts.gid+"','edit',"+op.keys+");"
+		var str = "<div style='margin-left:8px;'><div title='"+$.jgrid.nav.edittitle+"' style='float:left;cursor:pointer;' class='ui-pg-div ui-inline-edit' "+ocl+"><span class='ui-icon ui-icon-pencil'></span></div>";
+		ocl = "onclick=jQuery('#"+opts.gid+"').jqGrid('delGridRow','"+rowid+"');"
+		str = str+"<div title='"+$.jgrid.nav.deltitle+"' style='float:left;margin-left:5px;' class='ui-pg-div ui-inline-del' "+ocl+"><span class='ui-icon ui-icon-trash'></span></div>";
+		ocl = "onclick=$.fn.fmatter.rowactions('"+rowid+"','"+opts.gid+"','save',false);"
+		str = str+"<div title='"+$.jgrid.edit.bSubmit+"' style='float:left;display:none' class='ui-pg-div ui-inline-save'><span class='ui-icon ui-icon-disk' "+ocl+"></span></div>";
+		ocl = "onclick=$.fn.fmatter.rowactions('"+rowid+"','"+opts.gid+"','cancel',false);"
+		str = str+"<div title='"+$.jgrid.edit.bCancel+"' style='float:left;display:none;margin-left:5px;' class='ui-pg-div ui-inline-cancel'><span class='ui-icon ui-icon-cancel' "+ocl+"></span></div></div>";
+		return str;
 	};
 	$.unformat = function (cellval,options,pos,cnt) {
 		// specific for jqGrid only
@@ -352,16 +396,17 @@
 					stripTag = new RegExp(sep, "g");
 					ret = $(cellval).text().replace(stripTag,'').replace(op.decimalSeparator,'.').replace(op.prefix,'').replace(op.suffix,'');
 					break;
-				case 'checkbox' :
+				case 'checkbox':
 					var cbv = (options.colModel.editoptions) ? options.colModel.editoptions.value.split(":") : ["Yes","No"];
 					ret = $('input',cellval).attr("checked") ? cbv[0] : cbv[1];
 					break;
 				case 'select' :
 					ret = $.unformat.select(cellval,options,pos,cnt);
 					break;
+				case 'actions':
+					return "";
                 default:
                     ret= $(cellval).text();
-                    break;
 			}
 		}
 		return ret ? ret : cnt===true ? $(cellval).text() : $.jgrid.htmlDecode($(cellval).html());
@@ -411,11 +456,10 @@
 		}
 	};
 	function fireFormatter(formatType,cellval, opts, rwd, act) {
-	    formatType = formatType.toLowerCase();
 		var v=cellval;
 
         if ($.fn.fmatter[formatType]){
-            v = $.fn.fmatter[formatType](cellval, opts, act);
+            v = $.fn.fmatter[formatType](cellval, opts, rwd, act);
         }
 
         return v;

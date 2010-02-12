@@ -48,25 +48,23 @@ sub init () {
   $currentTheme = undef;
 
   foreach my $pluginName (sort keys %{$Foswiki::cfg{JQueryPlugin}{Plugins}}) {
-    registerPlugin($pluginName);
+    registerPlugin($pluginName)
+      if $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Enabled};
   }
 
   # load jquery
   my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || 'jquery-1.3.2';
-  $jQuery .= '.uncompressed' if $debug && $jQuery ne 'jquery-1.4.1';
 
-  my $header = <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
-HERE
+  my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>\n";
 
   # switch on noconflict mode
+  my $header = '';
   if ($Foswiki::cfg{JQueryPlugin}{NoConflict}) {
-    $header .= <<"HERE";
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>
-HERE
+    $header .= "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>\n";
   }
 
-  Foswiki::Func::addToHEAD('JQUERYPLUGIN', "\n".$header);
+  Foswiki::Func::addToZone('head', 'JQUERYPLUGIN', "\n".$header) if $header;
+  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN', "\n".$footer);
 
   # initial plugins
   createPlugin('Foswiki'); # this one is needed anyway

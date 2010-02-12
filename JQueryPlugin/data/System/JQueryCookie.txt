@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258385507" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265646639" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"cookie"
@@ -14,6 +14,7 @@ Easy cookie handling using jQuery.
 %ENDSECTION{"summary"}%
 
 ---++ Usage
+
    * =$.cookie('the_cookie');=: return the value of the cookie
    * =$.cookie('the_cookie', 'the_value');=: set the value of a cookie
    * =$.cookie('the_cookie', 'the_value', { expires: 7, path: '/', domain: 'jquery.com', secure: true });=:
@@ -21,7 +22,8 @@ Easy cookie handling using jQuery.
    * =$.cookie('the_cookie', null);=: delete a cookie by passing null as value.
       Keep in mind that you have to use the same path and domain used when the cookie was set.
 
-Options:
+---++ Options
+
    * expires: either an integer specifying the expiration date from now on in days or a Date object.
      If a negative value is specified (e.g. a date in the past), the cookie will
      be deleted.  If set to null or omitted, the cookie will be a session cookie and

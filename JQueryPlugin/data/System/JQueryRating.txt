@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258379247" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265664989" format="1.1" reprev="1.4" version="1.4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"rating"
@@ -19,33 +19,45 @@ creates the interface based on standard form elements, which means the basic
 functionality will still be available even if Javascript is disabled.
 %ENDSECTION{"summary"}%
 
+---++ Usage
+
+Create a set of radio buttons and surround them with a div of class ==jqRating==.
+When you hover over the stars, a tooltip at the right side will display the value of the 
+radio box, or the title if present.
+
+---++ Formfield =rating=
+
+The jquery rating plugin is used to implement a ==rating== formfield. Here are some examples:
+
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| Rating1 | rating | 10 | very low, low, substandard, standard, superior, I like it, quite good, good, very good, excellent  | | |
+| Rating2 | rating | 20 | 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10   | | split:2 |
+| Rating3 | rating+values | 10 | very low=1, low=2, substandard=3, standard=4, superior=5, I like it=6, quite good=7, good=8, very good=9, excellent=10  | | |
+
+   * Rating1 defines a simple scheme using named categories.
+   * Rating2 defines a selection between 0-10 using 0.5 steps
+   * Rating3 defines a numeric rating where each value is mapped to a named category
+
+Note, that the Attributes column of a rating field will be used to parametrize the jquery rating plugin. 
+
 ---++ Examples
 %JQREQUIRE{"rating"}%
-<script type="text/javascript">
-(function($) {
-$(function() {
-  $(".rating").rating({
-    focus: function(value, link) {
-      $("#test-tip").html(link.title || link.value);
-    },
-    blur: function(value, link) {
-      $("#test-tip").html('&nbsp;');
-    }
-  });
-});
-})(jQuery);
-</script>
 
-<form>
+<verbatim class="html">
+%STARTSECTION{"markup"}%
+<div class="jqRating">
 <input type="radio" name="test" value="1" class="rating" title="very low"/>
 <input type="radio" name="test" value="2" class="rating" title="low" />
 <input type="radio" name="test" value="3" class="rating" title="substandard" />
 <input type="radio" name="test" value="4" class="rating" title="standard" />
-<input type="radio" name="test" value="5" class="rating" title="superior" />
+<input type="radio" name="test" value="5" class="rating" title="superior" checked="checked" />
 <input type="radio" name="test" value="6" class="rating" title="I like it" />
 <input type="radio" name="test" value="7" class="rating" title="quite good" />
 <input type="radio" name="test" value="8" class="rating" title="good" />
 <input type="radio" name="test" value="9" class="rating" title="very good" />
 <input type="radio" name="test" value="10" class="rating" title="excelent" />
-<span id="test-tip" style="margin-left:10px">&nbsp;</span>
-</form>
+</div>
+%ENDSECTION{"markup"}%
+</verbatim>
+
+%INCLUDE{"%TOPIC%" section="markup"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258384650" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265650972" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"grid"
@@ -18,8 +18,6 @@ JSP, !ColdFusion, and Perl. For more read the [[http://www.trirand.com/jqgridwik
 %ENDSECTION{"summary"}%
 
 ---++ Examples
-%JQREQUIRE{"empty"}%
-
 %GRID{
   form="System.UserForm"
   web="%USERSWEB%"
@@ -30,4 +28,5 @@ JSP, !ColdFusion, and Perl. For more read the [[http://www.trirand.com/jqgridwik
   width="auto"
   height="auto"
 }%
+
 %META:FILEATTACHMENT{name="jqgriddocs.pdf" attachment="jqgriddocs.pdf" attr="" comment="" date="1258384650" path="jqgriddocs.pdf" size="1462696" user="ProjectContributor" version="1"}%

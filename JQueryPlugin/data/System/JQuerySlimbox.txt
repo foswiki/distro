@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1259755952" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265971754" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"slimbox"
@@ -13,9 +13,20 @@
 Slimbox 2 is a 4 KB visual clone of the popular Lightbox 2 script by Lokesh Dhakar, written using the jQuery javascript library. It was designed to be very small, efficient, standards-friendly, fully customizable, more convenient and 100% compatible with the original Lightbox 2.
 %ENDSECTION{"summary"}%
 
+---++ Usage
+
+Surround a set if image links with a container that has got the class name ==jqSlimbox=. Additional parameters can be specified using JQueryMetadata.
+
 ---++ Examples
 %JQREQUIRE{"slimbox"}%
 
-<a href="%ATTACHURLPATH%/IMG_1190.JPG" alt="Stupa in Kathmandu" rel="lightbox">click me</a>
+<div class="jqSlimbox">
+<!--
+   * Set IMAGESIZE = 150
+-->
+%IMAGE{"IMG_1190.JPG"}%
+%IMAGE{"IMG_1190.JPG"}%
+%IMAGE{"IMG_1190.JPG"}%
+</div>
 
-%META:FILEATTACHMENT{name="IMG_1190.JPG" attachment="IMG_1190.JPG" attr="" comment="" date="1259755424" path="IMG_1190.JPG" size="46155" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="IMG_1190.JPG" attachment="IMG_1190.JPG" attr="h" comment="" date="1259755424" path="IMG_1190.JPG" size="46155" user="ProjectContributor" version="1"}%

@@ -41,10 +41,11 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'ShrinkUrls',
-    version => '1.1',
+    version => '1.2',
     author => 'Michael Daum',
     homepage => 'http://michaeldaumconsulting.com',
-    javascript => ['jquery.shrinkurls.js'],
+    javascript => ['jquery.shrinkurls.js', 'jquery.shrinkurls.init.js'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

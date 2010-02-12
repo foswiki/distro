@@ -1,23 +1,19 @@
-(function($) {
-
-$(function() {
-  $("[autocomplete][autocomplete!=off]").not('.jqInited').each(function() {
+jQuery(function($) {
+  var defaults = {
+    selectFirst:false,
+    autoFill:false,
+    matchCase:false,
+    matchSubset:false,
+    matchContains:false
+  };
+  $("[autocomplete][autocomplete!=off]:not(.jqInitedAutocomplete)").livequery(function() {
     var $this = $(this);
-    $this.addClass("jqInited");
-    var options = $.extend({
-      selectFirst:false,
-      autoFill:false,
-      matchCase:false,
-      matchSubset:false,
-      matchContains:false
-    }, $this.metadata());
+    var options = $.extend({}, defaults, $this.metadata());
     var urlOrData = $this.attr('autocomplete') || '';
     $this.attr('autocomplete', 'off');
     if (!urlOrData.match("^https?://")) {
       urlOrData = urlOrData.split(/\s*,\s*/);
     }
-    $this.autocomplete(urlOrData, options);
+    $this.addClass("jqInitedAutocomplete").autocomplete(urlOrData, options);
   });
 });
-
-})(jQuery);

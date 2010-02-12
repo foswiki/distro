@@ -45,7 +45,7 @@ sub new {
     author => 'David <nop>DeSandro',
     homepage => 'http://desandro.com/resources/jquery-masonry',
     javascript => ['jquery.masonry.js', 'jquery.masonry.init.js'],
-    dependencies => ['metadata'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

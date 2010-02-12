@@ -47,7 +47,7 @@ sub new {
     tags => 'EMPTY',
     css => ['jquery.empty.css'],
     javascript => ['jquery.empty.js'],
-    dependencies => ['metadata'], # just an example
+    #dependencies => ['some other plugin'], 
   ), $class);
 
   return $this;

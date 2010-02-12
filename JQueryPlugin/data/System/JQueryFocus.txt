@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258385067" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265649228" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"focus"
@@ -12,10 +12,11 @@
 %STARTSECTION{"summary"}%
 This plugin sets the focus on a form input field
 or textarea of a form when the page is loaded.
-
-Add the css class =.jqFocus= to the input field you'd like to
-focus.
 %ENDSECTION{"summary"}%
+
+---++ Usage
+Add the css class ==jqFocus== to the input field you'd like to
+focus.
 
 ---++ Examples
 %JQREQUIRE{"focus"}%

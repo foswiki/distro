@@ -1,1 +1,1 @@
-(function($){$(function(){$(".jqCorner").not(".jqInited").addClass(".jqInited").corner();});})(jQuery);;
+jQuery(function($){$(".jqCorner:not(.jqInitedCorner)").livequery(function(){var $this=$(this);$this.addClass("jqInitedCorner").corner();});});;

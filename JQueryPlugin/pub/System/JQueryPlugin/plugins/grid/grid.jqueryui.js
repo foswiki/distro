@@ -15,7 +15,7 @@ if ($.browser.msie && $.browser.version==8) {
 	}
 }
 
-if ($.ui.multiselect && $.ui.multiselect.prototype._setSelected) {
+if ($.ui && $.ui.multiselect && $.ui.multiselect.prototype._setSelected) {
     var setSelected = $.ui.multiselect.prototype._setSelected;
     $.ui.multiselect.prototype._setSelected = function(item,selected) {
         var ret = setSelected.call(this,item,selected);
@@ -95,7 +95,8 @@ $.jgrid.extend({
 	},
     columnChooser : function(opts) {
         var self = this;
-        var selector = $('<div style="position:relative;overflow:hidden"><div><select multiple="multiple"></select></div></div>');
+		if($("#colchooser_"+self[0].p.id).length ) return;
+        var selector = $('<div id="colchooser_'+self[0].p.id+'" style="position:relative;overflow:hidden"><div><select multiple="multiple"></select></div></div>');
         var select = $('select', selector);
 
         opts = $.extend({
@@ -154,10 +155,14 @@ $.jgrid.extend({
                     }
                 });
                 
-                var perm = fixedCols.slice(0);
+                var perm = [];
+				//fixedCols.slice(0);
                 $('option[selected]',select).each(function() { perm.push(parseInt(this.value)) });
-                $.each(perm, function() { delete colMap[colModel[this].name] });
-                $.each(colMap, function() { perm.push(this) });
+                $.each(perm, function() { delete colMap[colModel[parseInt(this)].name] });
+                $.each(colMap, function() {
+					var ti = parseInt(this);
+					perm = insert(perm,ti,ti);
+				});
                 if (opts.done) {
                     opts.done.call(self, perm);
                 }
@@ -172,7 +177,8 @@ $.jgrid.extend({
                 if (calldone && opts.done) {
                     opts.done.call(self);
                 }
-            }
+            },
+			"msel_opts" : {}
         }, $.jgrid.col, opts || {});
 
         if (opts.caption) {
@@ -207,6 +213,15 @@ $.jgrid.extend({
             select.append("<option value='"+i+"' "+
                           (this.hidden?"":"selected='selected'")+">"+colNames[i]+"</option>");
         });
+		function insert(perm,i,v) {
+			if(i>=0){
+				var a = perm.slice();
+				var b = a.splice(i);
+				if(i>perm.length) i = perm.length;
+				a[i] = v;
+				return a.concat(b);
+			}
+		}
         function call(fn, obj) {
             if (!fn) return;
             if (typeof fn == 'string') {
@@ -263,6 +278,11 @@ $.jgrid.extend({
 				opts.update = function (ev,ui) {
 					$(ui.item).css("border-width","");
 					$t.updateColumns();
+					if($t.p.rownumbers === true) {
+						$("td.jqgrid-rownum",$t.rows).each(function(i){
+							$(this).html(i+1);
+						});
+					}
 					if(opts._update_) {
 						opts._update_.apply(this,[ev,ui]);
 					}
@@ -306,9 +326,9 @@ $.jgrid.extend({
 						// hack
 						// drag and drop does not insert tr in table, when the table has no rows
 						// we try to insert new empty row on the target(s)
-						for (var i=0;i<opts.connectWith.length;i++){
-							if($(opts.connectWith[i]).jqGrid('getGridParam','reccount') == "0" ){
-								$(opts.connectWith[i]).jqGrid('addRowData','jqg_empty_row',{});
+						for (var i=0;i<$.data($t,"dnd").connectWith.length;i++){
+							if($($.data($t,"dnd").connectWith[i]).jqGrid('getGridParam','reccount') == "0" ){
+								$($.data($t,"dnd").connectWith[i]).jqGrid('addRowData','jqg_empty_row',{});
 							}
 						}
 						ui.helper.addClass("ui-state-highlight");
@@ -322,9 +342,9 @@ $.jgrid.extend({
 							var ids = $(ui.helper).attr("id");
 							$($t).jqGrid('delRowData',ids );
 						}
-						// if we have a empty row inserted from start event try to delete it 
-						for (var i=0;i<opts.connectWith.length;i++){
-							$(opts.connectWith[i]).jqGrid('delRowData','jqg_empty_row');
+						// if we have a empty row inserted from start event try to delete it
+						for (var i=0;i<$.data($t,"dnd").connectWith.length;i++){
+							$($.data($t,"dnd").connectWith[i]).jqGrid('delRowData','jqg_empty_row');
 						}
 						if(opts.onstop && $.isFunction(opts.onstop) ) opts.onstop.call($($t),ev,ui);
 					}
@@ -332,7 +352,14 @@ $.jgrid.extend({
 			},
 			"drop" : function (opts) {
 				return $.extend({
-					accept: '#'+$t.id+' tr.jqgrow',
+					accept: function(d) {
+						var tid = $(d).closest("table.ui-jqgrid-btable");
+						if($.data(tid[0],"dnd") != undefined) {
+						    var cn = $.data(tid[0],"dnd").connectWith;
+						    return $.inArray('#'+this.id,cn) != -1 ? true : false;
+						}
+						return d;
+					},
 					drop: function(ev, ui) {
 						var accept = $(ui.draggable).attr("id");
 						var getdata = $('#'+$t.id).jqGrid('getRowData',accept);
@@ -413,7 +440,7 @@ $.jgrid.extend({
 		return this.each(function(){
 			var $t = this;
 			if(!$t.grid || !$.fn['resizable']) return;
-			opts = $.extend(opts || {});
+			opts = $.extend({}, opts || {});
 			if(opts.alsoResize ) {
 				opts._alsoResize_ = opts.alsoResize;
 				delete opts.alsoResize;

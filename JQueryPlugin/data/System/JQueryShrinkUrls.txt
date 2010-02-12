@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258383166" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265665271" format="1.1" version="1.4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"shrinkurls"
@@ -17,6 +17,9 @@ is appended to the title attribute of the anchor.
 %ENDSECTION{"summary"}%
 
 ---++ Usage
+
+---+++ !JavaScript API
+
 <verbatim class="js">
  $("#container a").shrinkUrls({
    size:<number>,           // max size (default 25)
@@ -30,6 +33,30 @@ is appended to the title attribute of the anchor.
  });
 </verbatim>
 
+---+++ Foswiki integration
+
+Add the class name ==jqShrinkUrls== to a container to process all anchors inside.
+
+<verbatim class="tml">
+%JQREQUIRE{"shrinkurls"}%
+<div class="jqShrink {size:25, whitespace:true}">
+   <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
+</div>
+</verbatim>
+
 
 ---++ Examples
-%RED%todo%ENDCOLOR%
+
+%JQREQUIRE{"shrinkurls"}%
+
+<div class="jqShrinkUrls {size:25, whitespace:true}">
+   <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
+</div>
+
+<div class="jqShrinkUrls {size:25, whitespace:true, trunc:'middle'}">
+   <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
+</div>
+
+<div class="jqShrinkUrls {size:25, whitespace:true, trunc:'head'}">
+   <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
+</div>

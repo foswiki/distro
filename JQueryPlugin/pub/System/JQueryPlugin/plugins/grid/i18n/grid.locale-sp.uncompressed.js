@@ -30,10 +30,10 @@ $.jgrid = {
 	    bSubmit: "Guardar",
 	    bCancel: "Cancelar",
 		bClose: "Cerrar",
-		saveData: "Los datos han cambiado. ¿Guardar cambios?",
-		bYes : "Yes",
+		saveData: "Se han modificado los datos, ¿guardar cambios?",
+		bYes : "Si",
 		bNo : "No",
-		bExit : "Cancel",
+		bExit : "Cancelar",
 	    msg: {
 	        required:"Campo obligatorio",
 	        number:"Introduzca un número",
@@ -42,7 +42,11 @@ $.jgrid = {
 	        email: "no es una dirección de correo válida",
 	        integer: "Introduzca un valor entero",
 			date: "Introduza una fecha correcta ",
-			url: "no es una URL válida. Prefijo requerido ('http://' or 'https://')"
+			url: "no es una URL válida. Prefijo requerido ('http://' or 'https://')",
+			nodefined : " no está definido.",
+			novalue : " valor de retorno es requerido.",
+			customarray : "La función personalizada debe devolver un array.",
+			customfcheck : "La función personalizada debe estar presente en el caso de validación personalizada."
 		}
 	},
 	view : {

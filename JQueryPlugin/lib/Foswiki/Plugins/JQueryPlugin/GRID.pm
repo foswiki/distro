@@ -47,12 +47,12 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'Grid',
-    version => '3.6.0',
+    version => '3.6.3',
     author => 'Tony Tomov',
     homepage => 'http://www.trirand.com/blog/',
     javascript => ['jquery.jqgrid.js', 'jquery.jqgrid.init.js'],
     css => ['css/jquery.jqgrid.css'],
-    dependencies => ['ui', 'JQUERYPLUGIN::THEME', 'JQUERYPLUGIN::GRID::LANG'], 
+    dependencies => ['ui', 'metadata', 'livequery', 'JQUERYPLUGIN::THEME', 'JQUERYPLUGIN::GRID::LANG'], 
   ), $class);
 
   $this->{fieldNameMap} = {
@@ -84,10 +84,8 @@ sub init {
   $localePath = $localePrefix.'/grid.locale-en.js' 
     unless -f $Foswiki::cfg{PubDir}.'/'.$localePath;
 
-  my $header .= <<"HERE";
-<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$localePath"></script>
-HERE
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::GRID::LANG", $header, 'JQUERYPLUGIN::UI');
+  my $header .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$localePath'></script>\n";
+  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::GRID::LANG", $header, 'JQUERYPLUGIN::UI');
 }
 
 =begin TML
@@ -223,7 +221,7 @@ jQuery(document).ready(function(){
 </script>
 HERE
 
-    Foswiki::Func::addToHEAD("JQUERYPLUGIN::GRID::$gridId", $jsTemplate, 'JQUERYPLUGIN::GRID');
+    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::GRID::$gridId", $jsTemplate, 'JQUERYPLUGIN::GRID');
 
     my $result = "<table id='$gridId'></table>";
     $result .= "<div id='$pagerId'></div>" if $thePager eq 'on';

@@ -3,7 +3,7 @@
  *
  * http://michaeldaumconsulting.com
  *
- * Copyright (c) 2007-2010 Michael Daum
+ * Copyright (c) 2007-2010 Michael Daum 
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -44,7 +44,6 @@ $.fn.extend({
     return this.each(function() {
       var text = $(this).text();
       var txtlength = text.length;
-      $(text).debug();
       if ((txtlength > settings.size) && 
           (!settings.include || text.match(settings.include)) &&
           (!settings.exclude || !text.match(settings.exclude)) &&
@@ -52,6 +51,7 @@ $.fn.extend({
         var firstPart = "";
         var lastPart = "";
         var middlePart = "";
+        //$.log("length="+txtlength+", text="+text);
         switch (settings.trunc) {
           default:
           case 'tail':
@@ -68,24 +68,13 @@ $.fn.extend({
         var origText = text;
         text = firstPart + "&hellip;" + lastPart;
         var title = $(this).attr('title');
-        if (title) {
-          title += ' ('+origText+')';
-        } else {
+        if (!title) {
           title = origText;
         }
         $(this).html(text).attr('title',title);
       }
+
     });
   }
 });
-
-$(function() {
-  /********************************************************
-   * shrink urls in WikiTables lists
-   */
-  if (true) { // TODO: make this configurable
-    $(".foswikiAttachments .foswikiTable a").shrinkUrls({size:25, trunc:'middle'});
-  }
-});
-
 })(jQuery);

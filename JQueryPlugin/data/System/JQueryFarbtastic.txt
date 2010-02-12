@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258385161" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265664634" format="1.1" reprev="1.4" version="1.4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"farbtastic"
@@ -19,6 +19,24 @@ gradient inside of a hue circle. No Flash or pixel-sized divs are used.
 There's a =color= formfield for easy integration into Foswiki DataForms.
 %ENDSECTION{"summary"}%
 
+---++ Usage
+
+Add the class ==jqFarbtastic== to an input element that you want to attach the color selector to.
+The widget can be parametrized using [[JQueryMetadata][metadata]] inside the class attribute.
+
+---++ Color Formfield
+
+With the farbtastic plugin comes a formfield type ==color= that lets you add one or more color formfields to %SYSTEMWEB%.DataForms. Try
+
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| Color1 | color | 10 | | | |
+| Color2 | color | 10 | | | |
+| Color3 | color | 10 | | | |
+| Color4 | color | 10 | | | |
+
+To define a !PaletteForm with 4 colors.
+
 ---++ Examples
 %JQREQUIRE{"farbtastic"}%
+
 <input type="text" id="color" name="color" value="#123456" class="jqFarbtastic" />

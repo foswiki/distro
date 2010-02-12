@@ -46,7 +46,7 @@ sub new {
     tags => 'BUTTON',
     css => ['jquery.button.css'],
     javascript => ['jquery.button.init.js'],
-    dependencies => ['metadata'], 
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

@@ -19,7 +19,7 @@ $Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilk
 $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 
 # **STRING**
-$Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, metadata, bgiframe, foswiki';
+$Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, bgiframe';
 
 # **SELECT jquery-1.4.1, jquery-1.3.2, jquery-1.3.2p1, jquery-1.2.6**
 # CAUTION: jquery-1.4.1 still has issues. please test carefully
@@ -88,6 +88,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{InnerFade}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{LiveQuery}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{LocalScroll}{Enabled} = 1;

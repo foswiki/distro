@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258378319" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265646565" format="1.1" reprev="1.3" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"autocomplete"
@@ -25,48 +25,58 @@ See also [[%SYSTEMWEB%.JQueryAjaxHelper][JQueryjaxHelper]] for examples on how t
 into Foswiki.
 %ENDSECTION{"summary"}%
 
+---++ Usage
+
+Autocompletion is activated for HTML input elements whose ==autocomplete== attribute value does not equal =off=.
+It can either be list of candidate values, or an url in which case candidate values are queried from an ajax backend.
+The current input prefix is provided via the =q= urlparameter. The backend must return a list of matching values
+separated by newlines.
+
 ---++ Examples
 %JQREQUIRE{"autocomplete"}%
 
-<literal>
-<script>
-(function($) {
-  $(function(){
-    $("#example").autocomplete(
-      ["admin", 
-       "backup",
-       "bash",
-       "emulation",
-       "games",
-       "irc",
-       "linux",
-       "mercurial",
-       "patches",
-       "perl",
-       "php",
-       "python",
-       "site",
-       "surfing",
-       "tag",
-       "test",
-       "foswiki",
-       "web",
-       "wiki",
-       "windows",
-       "windsurfing",
-       "wine"
-      ], {
-        multiple: true,
-        selectFirst: false,
-        matchCase: false,
-        matchSubset: true,
-        minChars: 1
-      }
-    );
-  });
-})(jQuery);
-</script>
-</literal>
+This example queries candidate values from a simple ajax backend using the wiki application in the =data= section of this topic. Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully.
 
-*Enter tags:* 
-<input class="foswikiInputField" id="example" size='42' />
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Enter tags:</h3>
+    <input class="foswikiInputField {multiple:true, matchCase:false, matchSubset:true, minChars:1}" id="example" size='42' autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text" />
+    <div class="foswikiFormDescription">
+      Tags are suggested as you type. Separate multiple tags using a comma (,).
+    </div>
+  </div>
+</div>
+
+---++ Backend Implementation
+<verbatim class="tml">
+%STARTSECTION{"data"}%%FORMATLIST{
+  "
+    admin
+    backup
+    bash
+    emulation
+    games
+    irc
+    linux
+    mercurial
+    patches
+    perl
+    php
+    python
+    site
+    surfing
+    tag
+    test
+    foswiki
+    web
+    wiki
+    windows
+    windsurfing
+    wine
+  "
+  split="\n"
+  format=" $1 "
+  separator="$n"
+  include=".*%URLPARAM{"q"}%.*"
+}%%ENDSECTION{"data"}%
+</verbatim>

@@ -28,6 +28,7 @@ sub renderForEdit {
     $topic = $param2;
     $value = $param3;
   }
+  $value ||= '#000';
 
   my $field = CGI::textfield(
     -class => $this->cssClasses('foswikiInputField jqFarbtastic'),
@@ -38,6 +39,17 @@ sub renderForEdit {
   );
 
   return ('',$field);
+}
+
+sub renderForDisplay {
+  my ($this, $format, $value, $attrs) = @_;
+
+  Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
+
+  my $result = "<div class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</div>";
+  $format =~ s/\$value/$result/g;
+
+  return $this->SUPER::renderForDisplay($format, $value, $attrs);
 }
 
 1;

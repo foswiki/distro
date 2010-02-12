@@ -35,4 +35,4 @@ else if(chVal==253){result+='y';}
 else if(chVal==254){result+='p';}
 else if(chVal==255){result+='y';}
 else{result+=String.fromCharCode(chVal);}}
-result=result.replace(/[a-zA-Z\d]+/g,function(a){return a.charAt(0).toLocaleUpperCase()+a.substr(1);});result=result.replace(/[^a-zA-Z\d]/g,"");result=result.replace(/\s/g,"");return result;},defaults:{suffix:'',prefix:'',initial:''}};$(function(){$.fn.wikiword=$.wikiword.build;});})(jQuery);
+result=result.replace(/[a-zA-Z\d]+/g,function(a){return a.charAt(0).toLocaleUpperCase()+a.substr(1);});result=result.replace(/[^a-zA-Z\d]/g,"");result=result.replace(/\s/g,"");return result;},defaults:{suffix:'',prefix:'',initial:''}};$(function(){$.fn.wikiword=$.wikiword.build;});})(jQuery);;

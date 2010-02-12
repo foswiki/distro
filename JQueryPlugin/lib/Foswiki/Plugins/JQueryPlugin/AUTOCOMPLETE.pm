@@ -45,6 +45,7 @@ sub new {
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
     css => ['jquery.autocomplete.css'],
     javascript => ['jquery.autocomplete.js', 'jquery.autocomplete.init.js'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

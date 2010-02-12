@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258379821" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265646675" format="1.1" reprev="1.3" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"cycle"
@@ -18,8 +18,14 @@ many transition effects. It also supports, but does not require, the Metadata
 Plugin and the Easing Plugin.
 %ENDSECTION{"summary"}%
 
+---++ Usage
+
+Add the ==jqCycle== class to the container holding the elements to be cycled. 
+
 ---++ Examples
-<div class="pics">
+%JQREQUIRE{"cycle"}%
+
+<div class="pics jqCycle {fx:'scrollLeft'}">
 <div>
   <img src="%ATTACHURLPATH%/beach1.jpg" />
 
@@ -37,16 +43,6 @@ Plugin and the Easing Plugin.
 </div>
 </div>
 
-%JQREQUIRE{"cycle"}%
-
-<literal>
-<script type="text/javascript">
-(function($) {
-  $(function() {
-    $(".pics").cycle({fx:'scrollLeft'});
-  });
-})(jQuery);
-</script>
 
 <style type="text/css">
 .pics  {  

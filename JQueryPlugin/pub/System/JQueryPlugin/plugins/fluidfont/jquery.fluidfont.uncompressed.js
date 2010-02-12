@@ -96,10 +96,10 @@
 
   /* initialisation */
   $(function() {
-    $(".jqFluidFont").not(".jqInited").each(function() {
+    $(".jqFluidFont").not(".jqInitedFluidFont").each(function() {
       var $this = $(this);
       var opts = $.extend({}, $this.metadata());
-      $this.addClass("jqInited");
+      $this.addClass("jqInitedFluidFont");
       $this.fluidfont(opts);
     });
   });

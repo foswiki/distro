@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1256240816" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265972954" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standards]]
@@ -82,6 +82,7 @@ There is a set of predefined variables that can be used in your javascript code 
 | foswiki.ImagePluginEnabled | %IF<nop>{"context ImagePluginEnabled" then="true" else="false"}% | 
 | foswiki.MathModePluginEnabled | %IF<nop>{"context MathModePluginEnabled" then="true" else="false"}% |
 </noautolink>
+
 ---++ Avoid Internet Explorer errors
 
    * Use an object if you need an associative array, not an array. [[http://ajaxian.com/archives/javascript-associative-arrays-considered-harmful][[source]]]
@@ -89,5 +90,35 @@ There is a set of predefined variables that can be used in your javascript code 
    * Remove trailing commas from array and object definitions, i.e.:
      <verbatim class="js">var object = { foo: 'bar' }</verbatim> not 
      <verbatim class="js">var object = { foo: 'bar', }</verbatim>
+
+---++ Metadata
+
+Use JQueryMetadata to integrate jQuery plugins into Foswiki.
+
+---++ <nop>LiveQuery
+
+Use JQueryLiveQuery to initialize your plugin for all html elements of a page. Otherwise content
+that is loaded asynchronously using ajax won't be initialized. !LiveQuery will take care of that
+automatically.
+
+Instead of
+
+<verbatim class="js">
+$(".jqPluginName").each(function() {
+  // initializer
+});
+</verbatim>
+
+use
+
+<verbatim class="js">
+$(".jqPluginName").livequery(function() {
+  // initializer
+});
+</verbatim>
+
+See JQueryMetadata for a more thorough example of useing metadata and livequery
+
+
 
 %META:PREFERENCE{name="TOPICTITLE" title="TOPICTITLE" type="Local" value="JQuery Coding Standards"}%

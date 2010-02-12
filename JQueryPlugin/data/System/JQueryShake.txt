@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258378570" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265665229" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"shake"
@@ -12,6 +12,16 @@
 %STARTSECTION{"summary"}%
 jQuery plugin to emulate &#8220;shake&#8221; on login failure in OSX login box.
 %ENDSECTION{"summary"}%
+
+---++ Usage
+
+Call =$("&lt;selector>").shake(shakes, distance, duration)= to shake the selected elements.
+
+Options:
+
+   * shake: amount of shakes
+   * distance: shake distance
+   * duration: duration of the effect
 
 ---++ Examples
 %JQREQUIRE{"shake"}%

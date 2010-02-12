@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258383894" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1265652159" format="1.1" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"media"
@@ -27,9 +27,12 @@ Any types supported by the above players, such as:
    * Other: bmp, html, pdf, psd, qif, qtif, qti, tif, tiff, xaml
 %ENDSECTION{"summary"}%
 
----++ Examples
-%RED%todo%ENDCOLOR%
+---++ Usage
 
+To enable the media plugin surround (a set of) links to the media with a ==jqMedia== div element. All
+links inside will be processed and an according player will be embeded.
+
+---++ Examples
 <verbatim>
 %JQREQUIRE{"media"}%
 

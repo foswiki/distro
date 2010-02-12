@@ -46,6 +46,7 @@ sub new {
     homepage => 'http://code.google.com/p/slimbox/',
     css => ['slimbox2.css'],
     javascript => ['slimbox2.js', 'slimbox2.init.js'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

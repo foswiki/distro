@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1259855530" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265646658" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"corner"
@@ -15,6 +15,9 @@ there is a fallback strategy for others.
 %ENDSECTION{"summary"}%
 
 ---++ Usage
+
+---+++ !JavaScript API
+
 The javascript API: =corner()= takes a single string argument:  
 <verbatim class="js">
 $('#myDiv').corner("effect corners width");
@@ -28,6 +31,12 @@ with
             specify this value using the px suffix such as 10px
 
 Any element using the =jqCorner= class will be rounded. Options are extracted from the =data-corner= attribute of the markup.
+
+---+++ Foswiki integration
+
+Add the ==jqCorner== class to elements that should be rounded. Additional parameter are provided via
+the =data-corner= attribute of an HTML element. (Note, that this differs from other plugins where parameters
+are provided inside the =class= attribute using JQueryMetadata.)
 
 ---++ Examples
 %JQREQUIRE{"corner"}%

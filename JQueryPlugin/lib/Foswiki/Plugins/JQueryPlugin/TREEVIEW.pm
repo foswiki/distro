@@ -44,6 +44,7 @@ sub new {
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
     css => ['jquery.treeview.css'],
     javascript => ['jquery.treeview.js', 'jquery.treeview.async.js', 'jquery.treeview.init.js'],
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

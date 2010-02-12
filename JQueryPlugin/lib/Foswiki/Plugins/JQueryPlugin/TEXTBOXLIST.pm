@@ -41,12 +41,12 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'TextboxList',
-    version => '0.1',
+    version => '0.2',
     author => 'Michael Daum',
     homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
     css => ['jquery.textboxlist.css'],
     javascript => ['jquery.textboxlist.js', 'jquery.textboxlist.init.js'],
-    dependencies => ['metadata', 'autocomplete'], # just an example
+    dependencies => ['autocomplete', 'metadata', 'livequery'], 
   ), $class);
 
   return $this;

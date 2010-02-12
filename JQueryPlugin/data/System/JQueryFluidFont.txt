@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1259841996" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265649188" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"fluidfont"
@@ -14,6 +14,8 @@ Recompute the font size of an element based on its width.
 %ENDSECTION{"summary"}%
 
 ---++ Usage
+
+---+++ !JavaScript API
 The =fluidfont()= plugin attaches to a jQuery object and recomputes its font-size based on its width.
 You can specify a width at which the original font size should be used. When the element is resized
 the ratio between width and font-size is maintained continuously.
@@ -24,7 +26,8 @@ the ratio between width and font-size is maintained continuously.
    * min: minimal font size in px 
    * max: maximal font size in px
 
-!FluidFont is activated for any html element that has got the =jqFluidFont= class. Options can be specified
+---+++ Foswiki integration
+!FluidFont is activated for any html element that has got the ==jqFluidFont== class. Options can be specified
 using JQueryMetadata.
 
 ---++ Examples
@@ -44,7 +47,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam facilisis neque i
 
 
 %IF{"$'fluidfont'='on'" 
-  then="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"fluidfont\"}$percnt 
+  then="$percntADDTOZONE{\"body\" topic=\"%WEB%.%TOPIC%\" section=\"fluidfont\"}$percnt 
         Fluid font is activated. Try to resize the browser window."
   else="<a href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?fluidfont=on'>Click here</a> 
         to activate fluid font for all of this page."
@@ -54,6 +57,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam facilisis neque i
 %STARTSECTION{"fluidfont"}%
 <script type="text/javascript">
 jQuery(function($) {
+  alert("Switching on fluid font for the body element. \n Resize the browser window to see the effect.");
   $("body").fluidfont({
     width: 1024, 
     min: 11,
@@ -61,5 +65,5 @@ jQuery(function($) {
   });
 });
 </script>
-</verbatim>
 %ENDSECTION{"fluidfont"}%
+</verbatim>

@@ -1,18 +1,20 @@
-(function($) {
-  $(function() {
+jQuery(function($) {
 
-    ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';
-    ChiliBook.automaticSelector = 'pre';
+  /* improved codeLanguage that removes metadata first */
+  ChiliBook.codeLanguage = function( el ) {
+    var recipeName = jQuery(el).attr( "class" );
+    recipeName = recipeName.replace(/\s*{.*}\s*/, "");
+    return recipeName ? recipeName : '';
+  }
 
-    if (ChiliBook.automatic) {
-      $(ChiliBook.automaticSelector).chili();
-    }
-  });
-})(jQuery);
+  ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';
+  ChiliBook.automaticSelector = 'pre';
+  //ChiliBook.lineNumbers = true;
 
-/* improved codeLanguage that removes metadata first */
-ChiliBook.codeLanguage = function( el ) {
-  var recipeName = jQuery(el).attr( "class" );
-  recipeName = recipeName.replace(/\s*{.*}\s*/, "");
-  return recipeName ? recipeName : '';
-}
+  if (ChiliBook.automatic) {
+    $(ChiliBook.automaticSelector).livequery(function() {
+      $(this).chili();
+    });
+  }
+});
+

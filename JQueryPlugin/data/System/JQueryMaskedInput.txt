@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258384015" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265652004" format="1.1" reprev="1.3" version="1.3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"maskedinput"
@@ -20,6 +20,7 @@ literals will be automatically entered for the user as they type and will not
 be able to be removed by the user.
 %ENDSECTION{"summary"}%
 
+---++ Usage
 
 The following mask definitions are
 predefined:
@@ -27,7 +28,8 @@ predefined:
    * 9 - Represents a numeric character (0-9)
    * * - Represents an alphanumeric character (A-Z,a-z,0-9)
 
-Examples:
+
+---++ !JavaScript API
 <verbatim class="js">
 $("#date").mask("99/99/9999");
 $("#phone").mask("(999) 999-9999");
@@ -57,5 +59,34 @@ $.mask.definitions['~']='[+-]';
 $("#eyescript").mask("~9.99 ~9.99 999");
 </verbatim>
 
+---++ Foswiki integration
+
+Use the ==jqMaskedInput== class name to enable masked input on an input element. The mask itself is specified
+in the ==mask== attribute.
+
 ---++ Examples
-%RED%todo%ENDCOLOR%
+%JQREQUIRE{"maskedinput"}%
+
+<div class="foswikiFormSteps">
+  <form>
+  <div class="foswikiFormStep">
+    <h3>Date:</h3>
+    <input type="text" size="10" class="jqMaskedInput" mask="99/99/9999" />
+  </div>
+  <div class="foswikiFormStep">
+    <h3>Phone:</h3>
+    <input type="text" size="10" class="jqMaskedInput" mask="(999) 999-9999" />
+  </div>
+  <div class="foswikiFormStep">
+    <h3>Product Key:</h3>
+    <input type="text" size="10" class="jqMaskedInput" mask="a*-999-a999" />
+    <div class="foswikiFormDescription">
+     Enter your product key of the form =a*-999-a999=.
+    </div>
+  </div>
+  <div class="foswikiFormStep foswikiFormLast">
+    %BUTTON{"Submit" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+  </form>
+</div>

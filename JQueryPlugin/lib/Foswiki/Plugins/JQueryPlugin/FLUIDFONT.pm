@@ -45,7 +45,7 @@ sub new {
     author => 'Michael Daum',
     homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
     javascript => ['jquery.fluidfont.js'],
-    dependencies => ['metadata'], 
+    dependencies => ['metadata', 'livequery'], 
   ), $class);
 
   return $this;

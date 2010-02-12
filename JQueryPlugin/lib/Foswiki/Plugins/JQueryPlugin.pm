@@ -1,5 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
+# Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -30,7 +32,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '3.01'; 
+$RELEASE = '3.10'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -412,29 +414,5 @@ sub handleJQueryPlugins {
     Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
   return $theHeader.join($theSeparator, @result).$theFooter;
 }
-
-###############################################################################
-# deprecated handlers
-# sub handleJQueryScript {
-#   my ($session, $params, $theTopic, $theWeb) = @_;   
-#
-#   Foswiki::Func::writeWarning("WARNING: deprecated use of JQSCRIPT in $theWeb.$theTopic");
-#
-#   my $scriptFileName = $params->{_DEFAULT};
-#   return '' unless $scriptFileName;
-#   $scriptFileName .= '.js' unless $scriptFileName =~ /\.js$/;
-#   return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$scriptFileName\"></script>";
-# }
-#
-# sub handleJQueryStyle {
-#   my ($session, $params, $theTopic, $theWeb) = @_;   
-#
-#   Foswiki::Func::writeWarning("WARNING: deprecated use of JQSTYLE in $theWeb.$theTopic");
-#
-#   my $styleFileName = $params->{_DEFAULT};
-#   return '' unless $styleFileName;
-#   $styleFileName .= '.css' unless $styleFileName =~ /\.css$/;
-#   return "<style type='text/css'>\@import url('%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$styleFileName');</style>";
-# }
 
 1;

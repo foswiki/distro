@@ -45,7 +45,6 @@ sub new {
     author => 'Brandon Aaron Last',
     homepage => 'http://brandonaaron.net',
     javascript => ['jquery.gradient.js', 'jquery.gradient.init.js'],
-    dependencies => ['metadata'], 
   ), $class);
 
   return $this;

@@ -22,7 +22,8 @@
                 jsonGrid :{
                     config : "grid",
                     data: "data"
-                }
+                },
+                ajaxOptions :{}
             }, o || {});
             return this.each(function(){
                 var $t = this;
@@ -64,7 +65,7 @@
                 };
                 switch (o.imptype){
                     case 'xml':
-                        $.ajax({
+                        $.ajax($.extend({
                             url:o.impurl,
                             type:o.mtype,
                             data: o.impData,
@@ -78,7 +79,7 @@
                                 }
                                 xml=null;
                             }
-                        });
+                        }, o.ajaxOptions));
                         break;
                     case 'xmlstring' :
                         // we need to make just the conversion and use the same code as xml
@@ -95,7 +96,7 @@
                         }
                         break;
                     case 'json':
-                        $.ajax({
+                        $.ajax($.extend({
                             url:o.impurl,
                             type:o.mtype,
                             data: o.impData,
@@ -109,7 +110,7 @@
                                 }
                                 json=null;
                             }
-                        });
+                        }, o.ajaxOptions ));
                         break;
                     case 'jsonstring' :
                         if(o.impstring && typeof o.impstring == 'string') {
@@ -132,20 +133,20 @@
             var ret = null;
             this.each(function () {
                 if(!this.grid) { return;}
-                var gprm = $(this).jqGrid("getGridParam");
+                var gprm = $.extend({},$(this).jqGrid("getGridParam"));
                 // we need to check for:
                 // 1.multiselect, 2.subgrid  3. treegrid and remove the unneded columns from colNames
                 if(gprm.rownumbers) {
-                    gprm.colNames.splice(0);
-                    gprm.colModel.splice(0);
+                    gprm.colNames.splice(0,1);
+                    gprm.colModel.splice(0,1);
                 }
                 if(gprm.multiselect) {
-                    gprm.colNames.splice(0);
-                    gprm.colModel.splice(0);
+                    gprm.colNames.splice(0,1);
+                    gprm.colModel.splice(0,1);
                 }
                 if(gprm.subgrid) {
-                    gprm.colNames.splice(0);
-                    gprm.colModel.splice(0);
+                    gprm.colNames.splice(0,1);
+                    gprm.colModel.splice(0,1);
                 }
                 if(gprm.treeGrid) {
                     for (var key in gprm.treeReader) {
@@ -163,6 +164,25 @@
                 }
             });
             return ret;
+        },
+        excelExport : function(o) {
+            o = $.extend({
+                exptype : "remote",
+                url : null,
+                oper: "oper",
+                tag: "excel",
+                exportOptions : {}
+            }, o || {});
+            return this.each(function(){
+                $t = this;
+                if(!this.grid) { return;}
+                if(o.exptype == "remote") {
+                    var pdata = $.extend({},this.p.postData);
+                    pdata[o.oper] = o.tag;
+                    var params = jQuery.param(pdata);
+                    window.location = o.url+"?"+params;
+                }
+            });
         }
     });
 })(jQuery);
