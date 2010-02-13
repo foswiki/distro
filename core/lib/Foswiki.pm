@@ -2146,12 +2146,15 @@ sub parseSections {
     my $seq    = 0;
     my $ntext  = '';
     my $offset = 0;
-    foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] ) ) {
+    my @queue = split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] );
+    while ( scalar(@queue) ) {
+        my $bit = shift(@queue);
         if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
+            _extractHereDocuments(undef, $attrs, \@queue);
             $attrs->{type} ||= 'section';
             $attrs->{name} =
                  $attrs->{_DEFAULT}
@@ -2184,6 +2187,7 @@ sub parseSections {
 
             # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
+            _extractHereDocuments(undef, $attrs, \@queue);
             $attrs->{type} ||= 'section';
             $attrs->{name} = $attrs->{_DEFAULT} || $attrs->{name} || '';
             delete $attrs->{_DEFAULT};
@@ -2989,7 +2993,12 @@ sub _extractHereDocuments
             # Prevent infinite recursion
             $attrs->{$param} =~ s/%/&#37;/g;
             # Emit a warning to help wiki-app developers see what is wrong
-            $attrs->{$param} .= $this->inlineAlert( 'alerts', 'here_not_found', $here );
+            if ($this) {
+                $attrs->{$param} .= $this->inlineAlert( 'alerts', 'here_not_found', $here );
+            }
+            else {
+                Foswiki::Func::writeWarning("HERE-document end marker '$here' not found");
+            }
         }
     }
     # put back the tokens on the same line after the macro
