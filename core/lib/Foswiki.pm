@@ -2867,8 +2867,18 @@ sub _expandMacroOnTopicRendering {
 
     require Foswiki::Attrs;
     my $e = $this->{prefs}->getPreference($tag);
-    unless ( defined($e) ) {
-        if ( !defined($e) && exists( $macros{$tag} ) ) {
+    if (defined $e)
+    {
+        # Parse preference arguments to remove HERE documents
+        # for consistency with macro-processing
+        # I.e. so that %PREF{<<HERE}% and %MACRO{<<HERE}% 
+        # behave in the same way from the user's perspective
+        my $attrs = new Foswiki::Attrs( $args, 0 );
+        $this->_extractHereDocuments($attrs, $tokenQueue);
+        # Preferences aren't supposed to have parameters - so ignore them
+    }
+    else {
+        if ( exists( $macros{$tag} ) ) {
             unless ( defined( $macros{$tag} )) {
                 # Demand-load the macro module
                 die $tag unless $tag =~ /([A-Z_:]+)/i;
@@ -2878,73 +2888,18 @@ sub _expandMacroOnTopicRendering {
                 $macros{$tag} = eval "\\&$tag";
                 die $@ if $@;
             }
-            my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
-            if (exists $attrs->{$Foswiki::Attrs::HEREKEY}) {
-                # save the rest of the TML on this line
-                my @tokensAfterMacro;
-                my $newline = "\x{a}";
-                my $n = 0;
-                while (scalar @$tokenQueue) {
-                    $n++; die if $n > 100;
-                    if ($tokenQueue->[0] =~ s/^(.*?$newline)//o) {
-                        push @tokensAfterMacro, $1;
-                        last;
-                    }
-                    else {
-                        push @tokensAfterMacro, shift @$tokenQueue;
-                    }
-                }
-                # extract the HERE-document values
-                my %hereDocumentParams;
-                while (scalar @{ $attrs->{$Foswiki::Attrs::HEREKEY} }) {
-                    my $param = shift @{ $attrs->{$Foswiki::Attrs::HEREKEY} };
-                    my $here = shift @{ $attrs->{$Foswiki::Attrs::HEREKEY} };
-                    $hereDocumentParams{$param} = 1;
-                    # do something with the $tokenQueue
-                    #print STDERR "Looking for $here\n";
-                    my $foundHere = 0;
-                    while (scalar @$tokenQueue) {
-                        #print STDERR "Consider '$tokenQueue->[0]'\n";
-                        if ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*$newline//s) {
-                            $attrs->{$param} .= $1;
-                            $foundHere = 1;
-                            #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]')\n";
-                            last;
-                        }
-                        elsif ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*\z//s and scalar(@$tokenQueue) == 1) {
-                            $attrs->{$param} .= $1;
-                            # The string does not end in a newline, so remove the newline
-                            # from the line that contains the macro itself
-                            # so that nested HERE-docs are expanded correctly
-                            chomp $tokensAfterMacro[-1];
-                            $foundHere = 1;
-                            #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]', remove newline text following macro)\n";
-                            last;
-                        }
-                        else {
-                            $attrs->{$param} .= shift @$tokenQueue;
-                            #print STDERR "Grow $param to '$attrs->{$param}'\n";
-                        }
-                    }
-                    if (not $foundHere) {
-                        # Prevent infinite recursion
-                        $attrs->{$param} =~ s/%/&#37;/g;
-                        $attrs->{$param} .= $this->inlineAlert( 'alerts', 'here_not_found', $here );
-                    }
-                }
-                # put back the tokens on the same line after the macro
-                unshift @$tokenQueue, @tokensAfterMacro;
-                # Finished with the key used for HERE-documents
-                delete $attrs->{$Foswiki::Attrs::HEREKEY};
 
-                # TBD: are macros expanded in HERE-documents?
-                if (0) {
-                    # expand macros within the HERE-documents
-                    for my $param (keys %hereDocumentParams) {
-                        #print STDERR "[process HERE-doc $param: '$attrs->{$param}'\n";
-                        $attrs->{$param} = $this->_processMacros( $attrs->{$param}, \&_expandMacroOnTopicRendering, $topicObject, $depth - 1);
-                        #print STDERR "]$param: '$attrs->{$param}'\n";
-                    }
+            my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+            my @hereDocumentParams =
+              $this->_extractHereDocuments($attrs, $tokenQueue);
+
+            # TBD: are macros expanded in HERE-documents?
+            if (0) {
+                # expand macros within the HERE-documents
+                for my $param (@hereDocumentParams) {
+                    #print STDERR "[process HERE-doc $param: '$attrs->{$param}'\n";
+                    $attrs->{$param} = $this->_processMacros( $attrs->{$param}, \&_expandMacroOnTopicRendering, $topicObject, $depth - 1);
+                    #print STDERR "]$param: '$attrs->{$param}'\n";
                 }
             }
             $e = &{ $macros{$tag} }(
@@ -2954,6 +2909,93 @@ sub _expandMacroOnTopicRendering {
         }
     }
     return $e;
+}
+
+# Extract here documents during topic rendering
+# $attrs is a Foswiki::Attrs object
+# $tokenQueue is a reference to an array produced from split /(%)/, $text
+#   of the topic text immediately following the %MACRO{ ... }%
+# Returns the list of parameters for which here-documents were found
+sub _extractHereDocuments
+{
+    my ($this, $attrs, $tokenQueue) = @_;
+
+    return unless exists $attrs->{$Foswiki::Attrs::HEREKEY};
+
+    my $hereList = delete $attrs->{$Foswiki::Attrs::HEREKEY};
+
+    # @$hereList must have an even number of members
+    ASSERT( scalar(@$hereList) % 2 == 0) if DEBUG;
+
+    # save the rest of the TML on this line
+    my @tokensAfterMacro;
+    my $newline = "\x{a}";
+    my $n = 0;
+    while (scalar @$tokenQueue) {
+        $n++; die if $n > 100;
+        if ($tokenQueue->[0] =~ s/^(.*?$newline)//o) {
+            push @tokensAfterMacro, $1;
+
+            # Found the end of the line
+            last;
+        }
+        else {
+            push @tokensAfterMacro, shift @$tokenQueue;
+        }
+    }
+
+    # extract the HERE-document values
+    my @hereDocumentParams;
+    while (scalar @{ $hereList }) {
+        my $param = shift @{ $hereList };
+        my $here = shift @{ $hereList };
+        ASSERT($param) if DEBUG;
+        ASSERT( defined $here ) if DEBUG;
+        ASSERT( length($here) > 0 ) if DEBUG;
+        $attrs->{$param} = '' if not defined $attrs->{$param};
+        push @hereDocumentParams, $param;
+
+        # do something with the $tokenQueue
+        #print STDERR "Looking for $here\n";
+        my $foundHere = 0;
+        while (scalar @$tokenQueue) {
+            #print STDERR "Consider '$tokenQueue->[0]'\n";
+            if ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*$newline//s) {
+                # Found the HERE marker followed by newline - this is the normal case
+                # Optional whitespace is included for robustness
+                $attrs->{$param} .= $1;
+                $foundHere = 1;
+                #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]')\n";
+                last;
+            }
+            elsif ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*\z//s and scalar(@$tokenQueue) == 1) {
+                # Found the HERE marker at the end of the string,
+                # with no more tokens after this one.
+                $attrs->{$param} .= $1;
+                # The string does not end in a newline, so remove the newline
+                # from the line that contains the macro itself
+                # so that nested HERE-docs are expanded correctly
+                chomp $tokensAfterMacro[-1];
+                $foundHere = 1;
+                #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]', remove newline text following macro)\n";
+                last;
+            }
+            else {
+                $attrs->{$param} .= shift @$tokenQueue;
+                #print STDERR "Grow $param to '$attrs->{$param}'\n";
+            }
+        }
+        if (not $foundHere) {
+            # Prevent infinite recursion
+            $attrs->{$param} =~ s/%/&#37;/g;
+            # Emit a warning to help wiki-app developers see what is wrong
+            $attrs->{$param} .= $this->inlineAlert( 'alerts', 'here_not_found', $here );
+        }
+    }
+    # put back the tokens on the same line after the macro
+    unshift @$tokenQueue, @tokensAfterMacro;
+
+    return @hereDocumentParams;
 }
 
 # Handle expansion of a tag during new topic creation. When creating a
