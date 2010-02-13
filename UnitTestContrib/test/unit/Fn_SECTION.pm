@@ -145,4 +145,18 @@ sub test_sections10 {
     );
 }
 
+sub test_sections11 {
+    my $this = shift;
+
+    # Named sections using here documents
+    my $text =
+"0%STARTSECTION{name=<<NAME}%1\none\nNAME\n2%ENDSECTION{name=<<NAME}%3\none\nNAME\n4";
+    my ( $nt, $s ) = Foswiki::parseSections($text);
+    $this->assert_str_equals( "01\n23\n4", $nt );
+    $this->assert_str_equals(
+'end="4" name="one" start="1" type="section"',
+        dumpsec($s)
+    );
+}
+
 1;
