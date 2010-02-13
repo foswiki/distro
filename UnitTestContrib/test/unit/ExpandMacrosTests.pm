@@ -155,6 +155,19 @@ HERE
     $this->assert_str_equals("1$macroWasHere Not part of the macro\nNor this either\n", $result);
 }
 
+sub test_plainHereDocumentWithTrailingWhitespace{
+    my $this = shift;
+
+    my $result = $this->_testExpand(  "%MACRO{cheese=<<GOUDA say=<<HELLO}% Not part of the macro \n"
+                                    . "blue\n"
+                                    . "GOUDA\t\n"
+                                    . " bye! \n"
+                                    . "HELLO  \n"
+                                    . " Nor this either\n",
+                                    {_RAW=>$dontCare, cheese=>'blue', say=>' bye! ' });
+    $this->assert_str_equals("1$macroWasHere Not part of the macro \n Nor this either\n", $result);
+}
+
 sub test_plainHereDocumentValueLooksLikeEndMarker {
     my $this = shift;
 
@@ -252,6 +265,33 @@ END
     $this->assert_str_equals("1$macroWasHere,1$macroWasHere,1$macroWasHere\n", $result);
 }
 
+
+sub test_preferenceWithParameter {
+    my $this = shift;
+
+    Foswiki::Func::setPreferencesValue('BAR', 'bar');
+    my $result = $this->_expand('%BAR%');
+    $this->assert_str_equals('bar', $result);
+
+    $result = $this->_expand('%BAR{}%');
+    $this->assert_str_equals('bar', $result);
+
+    $result = $this->_expand('%BAR{ foo="ignored" }%');
+    $this->assert_str_equals('bar', $result);
+
+    $result = $this->_expand("%BAR{ foo=<<HERE }%twibble\nignored\nHERE\nspoon");
+    $this->assert_str_equals("bartwibble\nspoon", $result);
+
+}
+
+sub test_preferenceOverridesMacro {
+    my $this = shift;
+
+    Foswiki::Func::setPreferencesValue('MACRO', 'foo');
+    my $result = $this->_expand('%MACRO{"bar"}%');
+    $this->assert_str_equals('foo', $result);
+
+}
 
 my @expected;
 my $test;
