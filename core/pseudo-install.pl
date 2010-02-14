@@ -105,7 +105,7 @@ sub findRelativeTo {
 
 sub installModule {
     my $module = shift;
-    $module =~ s#/+$##; #remove trailing slash's
+    $module =~ s#/+$##; #remove trailing slashes
     print "Processing $module\n";
     my $subdir = 'Plugins';
     $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn)$/;
@@ -190,7 +190,7 @@ sub _checkLink {
     my ( $moduleDir, $path, $c ) = @_;
 
     my $dest = _cleanPath( readlink( $path . $c ), $path );
-    $dest =~ m#/([^/]*)$#;
+    $dest =~ m#/([^/]*)$#; # Remove slashes
     unless ( $1 eq $c ) {
         print STDERR <<HERE;
 WARNING Confused by
@@ -234,9 +234,7 @@ sub just_link {
         }
         elsif (( $c eq 'TWiki' )
             or ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
-        {
-
-            # Special case
+        { # Special case
             $path .= "$c/";
             print STDERR "mkdir $path\n";
             if ( !mkdir( _cleanPath($path) ) ) {
@@ -257,6 +255,30 @@ sub just_link {
             last;
         }
     }
+    # Test special case when source is compressed or uncompressed
+    my $found = -f "$moduleDir/$file";
+    unless( $found ) {
+        if( $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/ && -f "$moduleDir/$1$3" ) {
+            symlink( _cleanPath("$moduleDir/$file" ), _cleanPath("$moduleDir/$1$3") )
+            or die "Failed to link $moduleDir/$1$3 to moduleDir/$file: $!";
+            print "Linked $file as $1$3\n";
+            $found++;
+        } elsif ( my ($src, $ext) = $file =~ /^(.+)(\.[^\.]+)$/ ) {
+            for my $kind ( qw( .uncompressed .compressed _src ) ) {
+                if( -f "$moduleDir/$src$kind$ext" ) {
+                    symlink( _cleanPath("$moduleDir/$src$kind$ext"), _cleanPath("$moduleDir/$file" ) )
+                    or die "Failed to link $moduleDir/$file to $moduleDir/$src$kind$ext: $!";
+                    print "Linked $file as $src$kind$ext\n";
+                    $found++;
+                    last;
+                }
+            }
+        }
+    }
+    unless( $found ) {
+        print STDERR "WARNING: Cannot find source file $moduleDir/#/$file\n";
+        return;
+    }
 }
 
 sub uninstall {
@@ -264,6 +286,11 @@ sub uninstall {
 
     # link handling that detects valid linking path components higher in the
     # tree so it unlinks the directories, and not the leaf files.
+    # Special case when install created symlink to (un)?compressed version
+    if( -l "$moduleDir/$file" ) {
+        unlink "$moduleDir/$file";
+        print "Unlinked $moduleDir/$file\n";
+    }
     my @components = split( /\/+/, $file );
     my $base       = $moduleDir;
     my $path       = '';
