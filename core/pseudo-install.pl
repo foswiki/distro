@@ -105,7 +105,7 @@ sub findRelativeTo {
 
 sub installModule {
     my $module = shift;
-    $module =~ s#/+$##; #remove trailing slashes
+    $module =~ s#/+$##;    #remove trailing slashes
     print "Processing $module\n";
     my $subdir = 'Plugins';
     $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn)$/;
@@ -165,9 +165,9 @@ sub installModule {
 sub copy_in {
     my ( $moduleDir, $dir, $file ) = @_;
     File::Path::mkpath($dir);
-    if( -e "$moduleDir/$file" ) {
+    if ( -e "$moduleDir/$file" ) {
         File::Copy::copy( "$moduleDir/$file", $file )
-        || die "Couldn't install $file: $!";
+          || die "Couldn't install $file: $!";
     }
     print "Copied $file\n";
 }
@@ -190,7 +190,7 @@ sub _checkLink {
     my ( $moduleDir, $path, $c ) = @_;
 
     my $dest = _cleanPath( readlink( $path . $c ), $path );
-    $dest =~ m#/([^/]*)$#; # Remove slashes
+    $dest =~ m#/([^/]*)$#;    # Remove slashes
     unless ( $1 eq $c ) {
         print STDERR <<HERE;
 WARNING Confused by
@@ -234,7 +234,7 @@ sub just_link {
         }
         elsif (( $c eq 'TWiki' )
             or ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
-        { # Special case
+        {    # Special case
             $path .= "$c/";
             print STDERR "mkdir $path\n";
             if ( !mkdir( _cleanPath($path) ) ) {
@@ -255,19 +255,28 @@ sub just_link {
             last;
         }
     }
+
     # Test special case when source is compressed or uncompressed
     my $found = -f "$moduleDir/$file";
-    unless( $found ) {
-        if( $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/ && -f "$moduleDir/$1$3" ) {
-            symlink( _cleanPath("$moduleDir/$file" ), _cleanPath("$moduleDir/$1$3") )
-            or die "Failed to link $moduleDir/$1$3 to moduleDir/$file: $!";
+    unless ($found) {
+        if ( $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
+            && -f "$moduleDir/$1$3" )
+        {
+            symlink( _cleanPath("$moduleDir/$file"),
+                _cleanPath("$moduleDir/$1$3") )
+              or die "Failed to link $moduleDir/$1$3 to moduleDir/$file: $!";
             print "Linked $file as $1$3\n";
             $found++;
-        } elsif ( my ($src, $ext) = $file =~ /^(.+)(\.[^\.]+)$/ ) {
-            for my $kind ( qw( .uncompressed .compressed _src ) ) {
-                if( -f "$moduleDir/$src$kind$ext" ) {
-                    symlink( _cleanPath("$moduleDir/$src$kind$ext"), _cleanPath("$moduleDir/$file" ) )
-                    or die "Failed to link $moduleDir/$file to $moduleDir/$src$kind$ext: $!";
+        }
+        elsif ( my ( $src, $ext ) = $file =~ /^(.+)(\.[^\.]+)$/ ) {
+            for my $kind (qw( .uncompressed .compressed _src )) {
+                if ( -f "$moduleDir/$src$kind$ext" ) {
+                    symlink(
+                        _cleanPath("$moduleDir/$src$kind$ext"),
+                        _cleanPath("$moduleDir/$file")
+                      )
+                      or die
+"Failed to link $moduleDir/$file to $moduleDir/$src$kind$ext: $!";
                     print "Linked $file as $src$kind$ext\n";
                     $found++;
                     last;
@@ -275,7 +284,7 @@ sub just_link {
             }
         }
     }
-    unless( $found ) {
+    unless ($found) {
         print STDERR "WARNING: Cannot find source file $moduleDir/#/$file\n";
         return;
     }
@@ -287,7 +296,7 @@ sub uninstall {
     # link handling that detects valid linking path components higher in the
     # tree so it unlinks the directories, and not the leaf files.
     # Special case when install created symlink to (un)?compressed version
-    if( -l "$moduleDir/$file" ) {
+    if ( -l "$moduleDir/$file" ) {
         unlink "$moduleDir/$file";
         print "Unlinked $moduleDir/$file\n";
     }
@@ -318,13 +327,17 @@ sub Autoconf {
     my $localSiteCfg = $foswikidir . '/lib/LocalSite.cfg';
     if ( $force || ( !-e $localSiteCfg ) ) {
         my $grep = 'grep';
-        $grep = 'find' if ($^O eq 'MSWin32');   #let windows play too
-            my $localsite = `$grep "Foswiki::cfg" $foswikidir/lib/Foswiki.spec`;
-            if ($^O eq 'MSWin32') {
+        $grep = 'find' if ( $^O eq 'MSWin32' );    #let windows play too
+        my $localsite = `$grep "Foswiki::cfg" $foswikidir/lib/Foswiki.spec`;
+        if ( $^O eq 'MSWin32' ) {
+
             #oh wow, windows find is retarded
             $localsite =~ s|^(-------.*)$||m;
+
             #prefer non-grep SEARCH
-            $localsite =~ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
+            $localsite =~
+s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
+
             #RscLite
             $localsite =~ s|^(.*)RcsWrap(.*)$|$1RcsLite$2|m;
         }
@@ -431,12 +444,13 @@ unless ( scalar(@ARGV) ) {
 }
 
 my @modules;
-for my $arg ( @ARGV ) {
-	if ( $arg eq "all" ) {
-	    foreach my $dir (@extensions_path) {
-    		opendir D, $dir or next;
-	    	push @modules,
-		      grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" } readdir D;
+for my $arg (@ARGV) {
+    if ( $arg eq "all" ) {
+        foreach my $dir (@extensions_path) {
+            opendir D, $dir or next;
+            push @modules,
+              grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" }
+              readdir D;
             closedir D;
         }
     }
@@ -444,11 +458,11 @@ for my $arg ( @ARGV ) {
         open F, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
         local $/ = "\n";
         @modules =
-            map { /(\w+)$/; $1 }
-            grep { /^!include/ } <F>;
+          map { /(\w+)$/; $1 }
+          grep { /^!include/ } <F>;
         close F;
         push @modules, 'BuildContrib', 'TestFixturePlugin', 'UnitTestContrib'
-            if $arg eq 'developer';
+          if $arg eq 'developer';
     }
     else {
         push @modules, $arg;
@@ -465,11 +479,15 @@ my @installedModules;
 foreach my $module (@modules) {
     my $libDir = installModule($module);
     if ($libDir) {
-        push(@installedModules, $module);
+        push( @installedModules, $module );
         if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
             enablePlugin( $module, $installing, $libDir );
         }
     }
 }
 
-print ' '.(($#installedModules > 0) ? join( ", ", @installedModules ) : 'Nothing'). ' '. ( $installing ? 'i' : 'uni' ). "nstalled\n";
+print ' '
+  . ( ( $#installedModules > 0 ) ? join( ", ", @installedModules ) : 'Nothing' )
+  . ' '
+  . ( $installing ? 'i' : 'uni' )
+  . "nstalled\n";
