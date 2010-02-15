@@ -13,42 +13,61 @@ This is a runtime engine component from [[Foswiki:Development.FoswikiStandAlone]
 
 [[http://en.wikipedia.org/wiki/Mod_perl][mod_perl]] is the
 [[http://perl.apache.org/][Perl API]] to the
-[[http://httpd.apache.org/][Apache]] web server. It permits to hook applications
+[[http://httpd.apache.org/][Apache]] web server. It permits hooking applications
 into Apache, providing good performance and great flexibility.
 
 It has better performance than
 [[http://en.wikipedia.org/wiki/Common_Gateway_Interface][CGI]] because it loads
-and compile apps at apache initialization and apps are kept in memory as long
-as apache itself, so there is no need to fork+load+compile all the code for
+and compiles apps at Apache initialization and apps are kept in memory as long
+as Apache itself, so there is no need to fork+load+compile all the code for
 each request.
 
 ---++ Installation Instructions
 
 Install [[Foswiki:Extensions/ModPerlEngineContrib][ModPerlEngineContrib]]
 either manually (download the package and extract its contents over your
-foswiki directory) or using [[%SCRIPTURL{"configure"}%][configure]] script
+foswiki directory) or using [[%SCRIPTURL{"configure"}%][configure]]
 (under =Extensions= section, push the =Find More Extensions= button).
 
 Visit the [[Foswiki:Support/ApacheConfigGenerator][apache config generator]]
-and fill the fields according to your environment. Select __mod_perl__ as your
+and fill in the fields according to your environment. Select __mod_perl__ as your
 __Runtime Engine__ and choose your apache version. Push the ==Update config file== 
 button and you'll get your config file.
 
-%X% %RED% When installed for the first time, foswiki *must* be configured. Run
-[[%SCRIPTURL{"configure"}%][configure]] script *before* enabling this contrib
-or else Apache will not start, reporting an error about missing
-lib/LocalSite.cfg %ENDCOLOR%
+%X% %RED% When installed for the first time, Foswiki *must* be configured. Run
+[[%SCRIPTURL{"configure"}%][configure]] *before* enabling this contrib
+or else Apache will not start, reporting an error about a missing
+=lib/LocalSite.cfg= %ENDCOLOR%
 
-In the web server configuration you will need to load mod_perl but it is also recommended to load the
+In the web server configuration, you will need to load =mod_perl= but it is also recommended to load the
 [[http://httpd.apache.org/apreq/][Apache HTTP Request Library]] (module apreq).
-If apreq is not loaded the following error may be encountered in certain situations e.g. during login:
+If =apreq= is not loaded, the following error may be encountered in certain situations, e.g., during login:
 <verbatim>
 apache2: symbol lookup error: /usr/lib/perl5/auto/APR/Request/Apache2/Apache2.so: undefined symbol: apreq_handle_apache2
 </verbatim>
 
+---+++ Confirming =mod_perl= installation
+
+You may (though not necessarily) be able to confirm that =mod_perl= is installed and enabled by checking
+in configure's "Environment Variables" section.  a sample:
+
+| SERVER_SIGNATURE | Apache/2.2.9 (Debian) mod_apreq2-20051231/2.6.0 mod_perl/2.0.4 Perl/v5.10.0 Server at 127.0.0.1 Port 2116 |
+| SERVER_SOFTWARE | Apache/2.2.9 (Debian) mod_apreq2-20051231/2.6.0 mod_perl/2.0.4 Perl/v5.10.0 |
+
+Another technique to see which modules are enabled is using =apache2ctl=
+<verbatim>
+$ apache2ctl -M | grep perl_module
+ perl_module (shared)
+</verbatim>
+If not found, enable mod_perl with 
+<verbatim>
+$ a2enmod mod_perl
+</verbatim>
+
+
 ---+++ Foswiki configuration tuning
 
-Fork new processes under =mod_perl= can be very slow, so some configuration
+Forking new processes under =mod_perl= can be very slow, so some configuration
 changes are recommended.
 
 Access the [[%SCRIPTURL{"configure"}%][configure]] script and click the =Yes, I've read all the documentation=
@@ -59,11 +78,20 @@ Go to =Store Settings=:
 
 ---++ Known Issues
 
-   * Apache must be restarted in order to configuration changes take effect.
+   * Apache must be =restart=ed in order for configuration changes take effect.
    * The =bin/configure= script is an exception and should be run as a plain 
-   CGI script. If you are using some extension that adds files to =bin/= 
-   directory you should configure them to be run as plain CGI scripts: since 
-   they were not designed to be executed under mod_perl you may face problems. 
+   CGI script.  The required =SetHandler cgi-script= should already be specified
+   in the =<Files configure.*>= in your Apache config or =bin/.htaccess= file.
+<blockquote><verbatim>
+   <FilesMatch "configure.*">
+      SetHandler cgi-script
+      .
+      .
+   </FilesMatch>
+</verbatim></blockquote>
+   * If you are using some extension that add files to the =bin/= 
+   directory, you may face problems as they were not designed to be executed 
+   under =mod_perl=.  You should configure them to be run as plain CGI scripts.
    You can replace =Files= directive by
    [[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] 
    and list all the exceptions.
@@ -85,6 +113,7 @@ Go to =Store Settings=:
 |  12 Apr 2009 (0.9.1) | Improved documentation |
 |  12 Jan 2009 (0.9.0) | Initial Release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | http://foswiki.org/Extensions/ModPerlEngineContrib |
+|  Home page: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
