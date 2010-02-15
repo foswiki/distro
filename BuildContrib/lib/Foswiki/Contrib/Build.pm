@@ -1085,7 +1085,7 @@ sub build_js {
     }
 
     my $from = $this->_deduceCompressibleSrc($to, 'js');
-    return 0 unless -e $from;
+    return 0 unless -e $from && $minifier;
 
     open( IF, '<', $from ) || die $!;
     local $/ = undef;
@@ -1139,7 +1139,7 @@ sub build_css {
     }
 
     my $from = $this->_deduceCompressibleSrc($to, 'css');
-    return 0 unless -e $from;
+    return 0 unless -e $from && $minifier;
 
     open( IF, '<', $from ) || die $!;
     local $/ = undef;

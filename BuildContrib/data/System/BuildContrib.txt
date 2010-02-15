@@ -177,7 +177,7 @@ use the =DEBUG= global from the =Assert= module:
 <verbatim>
 use Assert; # Standard Foswiki ASSERT module
 ...
-my $pack = DEBUG > '.uncompressed' : '.compressed';
+my $pack = DEBUG ? '.uncompressed' : '.compressed';
 Foswiki::Func::addToHEAD(<<SCRIPT);
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/MyPlugin/my$pack.js">
 <link rel="stylesheet" type="text/css" href="%PUBURLPATH%/%SYSTEMWEB%/MyPlugin//my$pack.css" />
