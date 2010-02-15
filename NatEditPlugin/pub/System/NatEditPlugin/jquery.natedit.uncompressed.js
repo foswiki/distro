@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 2.0
  *
- * Copyright (c) 2008-2009 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2010 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

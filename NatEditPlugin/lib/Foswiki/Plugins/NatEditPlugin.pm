@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2009 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2010 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
