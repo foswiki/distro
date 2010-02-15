@@ -19,29 +19,40 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.0';
+our $RELEASE = '1.1';
 our $SHORTDESCRIPTION = 'Gather content of a page in named zones while rendering it';
 our $NO_PREFS_IN_TOPIC = 1;
+
+# hash of all content posted to the named zone using ADDTOZONE
 our %ZONES;
 
+# hash tracking occurences of RENDERZONE, that are replaced with a token during
+# first pass, then expanded showing all gathered content in completePageHandler
+our %RENDERZONE; 
+                 
+# token used to generate the RENDERZONE placeholder while parsing
+our $translationToken = "\03";
+
+# switch on to WARN on deprecated calls to ADDZOHEAD or Foswiki::Func::addToHEAD
 use constant DOWARN => 0;
 
 # monkey-patch API ###########################################################
 BEGIN {
-  no warnings 'redefine';
-  *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
-  *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
+  if ($Foswiki::cfg{Plugins}{ZonePlugin}{Enabled}) {
+    no warnings 'redefine';
+    *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
+    *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
+  }
 }
 
 ##############################################################################
 sub initPlugin {
 
   Foswiki::Func::registerTagHandler('ADDTOZONE', \&ADDTOZONE);
+  Foswiki::Func::registerTagHandler('RENDERZONE', \&RENDERZONE);
 
   # redefine
   Foswiki::Func::registerTagHandler('ADDTOHEAD', \&ADDTOHEAD);
-
-  # RENDERZONE is handled in completePageHandler
 
   return 1;
 }
@@ -50,7 +61,7 @@ sub initPlugin {
 sub completePageHandler {
   # my ($text, $hdr)
 
-  $_[0] =~ s/%RENDERZONE{(.*?)}%/RENDERZONE($1)/ge;
+  $_[0] =~ s/${translationToken}RENDERZONE{(.*?)}${translationToken}/renderZoneById($1)/ge;
 
   # get the head zone ones again and insert it at </head>
   my $content = renderZone('head', {chomp=>"on", format=>'$item$n'});
@@ -65,6 +76,8 @@ sub completePageHandler {
 
   # finally forget it
   %ZONES = ();
+  %RENDERZONE = ();
+
 }
 
 ##############################################################################
@@ -177,18 +190,43 @@ sub addToZone {
 }
 
 ##############################################################################
+# captures all RENDERZONE macros and inserts a token to finally insert the 
+# one's content at the end of the rendering pipeline
 sub RENDERZONE {
-  my $attrs = shift;
+  my ($sessions, $params, $topic, $web) = @_;
 
-  my $params = Foswiki::Attrs->new($attrs);
+  my $id = scalar(keys %RENDERZONE);
+
+  $RENDERZONE{$id} = {
+    params => $params,
+    topic => $topic,
+    web => $web,
+  };
+
+  return $translationToken."RENDERZONE{$id}".$translationToken;
+}
+
+##############################################################################
+sub renderZoneById {
+  my $id = shift;
+
+  return '' unless defined $id;
+
+  my $renderZone = $RENDERZONE{$id};
+
+  return '' unless defined $renderZone;
+
+  my $web = $renderZone->{web};
+  my $topic = $renderZone->{topic};
+  my $params = $renderZone->{params};
   my $zone = $params->{_DEFAULT} || $params->{zone};
 
-  return renderZone($zone, $params);
+  return renderZone($zone, $params, $web, $topic);
 }
 
 ##############################################################################
 sub renderZone {
-  my ($zone, $params) = @_;
+  my ($zone, $params, $web, $topic) = @_;
 
   return '' unless $zone && $ZONES{$zone};
 
@@ -234,8 +272,8 @@ sub renderZone {
   $params->{separator} = Foswiki::Func::decodeFormatTokens($params->{separator});
 
   my $result = $params->{header} . join($params->{separator}, @result) . $params->{footer};
-  $result = Foswiki::Func::expandCommonVariables($result);
-  $result = Foswiki::Func::renderText($result);
+  $result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
+  $result = Foswiki::Func::renderText($result, $web, $topic);
 
   return $result;
 }

@@ -1,2 +1,4 @@
+data/System/VarADDTOZONE.txt 0644
+data/System/VarRENDERZONE.txt 0644
 data/System/ZonePlugin.txt 0644
 lib/Foswiki/Plugins/ZonePlugin.pm 0644

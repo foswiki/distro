@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265976902" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1266225075" format="1.1" reprev="1.3" version="1.3"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -26,50 +26,8 @@ This plugin allows authors of extensions and wiki applications to make use of th
 
 ---++ Syntax
 
----+++ ADDTOZONE
-
-<verbatim class="tml">
-%ADDTOZONE{
-  "zone"
-  ...
-}%
-</verbatim>
-
-   * zone: optional, comma-separated list of zones the content should be added to,
-     special zones are =body= and =head=, defaults to =head=
-   * tag: optional, identificator for the material to be added, to be used in =requires=
-   * requires: comma-separated list of tags that must occur before the current material, constraints the order of all material in a zone
-   * text: optional, text to be added to the named zone, mutually exclusive with =topic=
-   * topic: optional, full qualified web-topic name that contains the text to be added, mutually exclusive with =text=
-   * section: optional, section of the =topic= to be added, defaults to the default section between STARTINCLUDE and
-     STOPINCLUDE
-
-Note, that using =topic= and =section= is actually a short form of 
-<verbatim class="tml">
-%ADDTOZONE{
-   "myzone"
-   text="$percntINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percnt"
-}%
-</verbatim>
-
----+++ RENDERZONE
-
-<verbatim class="tml">
-%RENDERZONE{"zone" ...}%
-</verbatim>
-
-(Note, this macro can't be spread over multiple lines.)
-
-   * zone: required, name of the zone to be expanded
-   * header: optional, prefix format string
-   * format: optional, format string for each item added to the zone, defaults to =$item=, any standard escapes like =$percnt=, =$dollar= etc can be used to delay evaluation order of the format parameter
-   * footer: optional, suffix format string
-   * separator: optional, put between each item of a zone
-
-Note, that you can create as many zones as you like. The plugin does not restrict you to use it only for =body= and =head=. Interesting use cases in wiki applications:
-
-   * create a =sidebar= zone to add widgets
-   * create a =toolbar= zone to add buttons icons
+%INCLUDE{"VarADDTOZONE"}%
+%INCLUDE{"VarRENDERZONE"}%
 
 ---++ Perl API
 
@@ -98,6 +56,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Feb 2010 | be more careful applying the monkey-patch to the Func API; \
+                 parsing RENDERZONE properly but finally inserting the zone at the end of the rendering pipeline |
 |  12 Feb 2010 | initial release |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | Foswiki:Extensions/ZonePlugin |
