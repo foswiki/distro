@@ -42,12 +42,12 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 <noautolink>
 <div id="createWeb" class="foswikiFormSteps">
 	<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
-		<input name="newtopic" type="hidden" value="%URLPARAM{" newtopic"}%" /> <input name="action" type="hidden" value="createweb" />
+		<input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" /> <input name="action" type="hidden" value="createweb" />
 		<div class="foswikiFormStep">
 			<h3>Name of the new Web <span class="required">Required</span></h3>
 			<div class="col1">
 				<p>
-					<input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{" newweb"}%" size="40" />
+					<input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="40" />
 				</p>
 			</div><!--//col1-->
 			<div class="col2">
