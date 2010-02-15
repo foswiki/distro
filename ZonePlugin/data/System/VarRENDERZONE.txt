@@ -7,8 +7,6 @@
 %RENDERZONE{"zone" ...}%
 </verbatim>
 
-(Note, this macro can't be spread over multiple lines.)
-
    * zone: required, name of the zone to be expanded
    * header: optional, prefix format string
    * format: optional, format string for each item added to the zone, defaults to =$item=, any standard escapes like =$percnt=, =$dollar= etc can be used to delay evaluation order of the format parameter
