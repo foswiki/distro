@@ -45,10 +45,6 @@ emitted to the log files that the page has got a suboptimal structure, pointing 
 
 %$INSTALL_INSTRUCTIONS%
 
----++ Info
-
-Many thanks to the following sponsors for supporting this work:
-   * Acknowledge any sponsors here
 
 |  Author(s): | Michael Daum|
 |  Copyright: | &copy; 2010 Michael Daum http://michaelaumconsulting.com |
