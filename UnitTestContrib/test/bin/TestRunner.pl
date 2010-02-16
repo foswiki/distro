@@ -34,6 +34,7 @@ BEGIN {
     die "Cannot locate bin/setlib.cfg" unless $root;
 
     $root =~ s{/bin/setlib.cfg$}{};
+    ($root) = $root =~ /^(.*)$/;   # untaint 
 
     unshift @INC, "$root/test/unit";
     unshift @INC, "$root/bin";
@@ -86,10 +87,23 @@ if ($ENV{FOSWIKI_ASSERTS}) {
 
 if ($options{-clean}) {
     require File::Path;
-    my @x = glob "$Foswiki::cfg{DataDir}/Temp*";
-    File::Path::rmtree([@x]) if scalar(@x);
-    @x = glob "$Foswiki::cfg{PubDir}/Temp*";
-    File::Path::rmtree([@x]) if scalar(@x);
+    my $rmDir = $Foswiki::cfg{DataDir};
+    opendir( DIR, "$rmDir" );
+    my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
+    foreach my $x (@x) {
+       ($x) = $x =~ /^(.*)$/;
+        print "removing $x \n";
+        File::Path::rmtree($x) if ($x);
+    }
+
+    $rmDir = $Foswiki::cfg{PubDir};
+    opendir( DIR, "$rmDir" );
+    @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
+    foreach my $x (@x) {
+       ($x) = $x =~ /^(.*)$/;
+        print "removing $x \n";
+        File::Path::rmtree($x) if ($x);
+    }
 }
 
 if (not $options{-worker}) {
