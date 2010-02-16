@@ -109,20 +109,20 @@ sub init {
     $footer .= "<script type='text/javascript' src='$this->{puburl}/$js'></script>\n";
   }
 
-  # dependencies
-  my @headerDependency = ('JQUERYPLUGIN::FOSWIKI'); # jquery.foswiki is in there by default
+  # gather dependencies
+  my @dependencies = ('JQUERYPLUGIN::FOSWIKI'); # jquery.foswiki is in there by default
   foreach my $dep (@{$this->{dependencies}}) {
     if ($dep =~ /^JQUERYPLUGIN/) {
-      push @headerDependency, $dep;
+      push @dependencies, $dep;
     } else {
       Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
-      push @headerDependency, 'JQUERYPLUGIN::'.uc($dep);
+      push @dependencies, 'JQUERYPLUGIN::'.uc($dep);
     }
   }
 
-  Foswiki::Func::addToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @headerDependency))
+  Foswiki::Func::addToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @dependencies))
     if $header;
-  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @headerDependency))
+  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @dependencies))
     if $footer;
 
   return 1;

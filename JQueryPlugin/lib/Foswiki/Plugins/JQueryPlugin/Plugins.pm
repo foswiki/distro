@@ -54,17 +54,13 @@ sub init () {
 
   # load jquery
   my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || 'jquery-1.3.2';
-
-  my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>\n";
+  my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
 
   # switch on noconflict mode
-  my $header = '';
-  if ($Foswiki::cfg{JQueryPlugin}{NoConflict}) {
-    $header .= "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>\n";
-  }
+  $footer .= "\n<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
+    if $Foswiki::cfg{JQueryPlugin}{NoConflict};
 
-  Foswiki::Func::addToZone('head', 'JQUERYPLUGIN', "\n".$header) if $header;
-  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN', "\n".$footer);
+  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN', $footer);
 
   # initial plugins
   createPlugin('Foswiki'); # this one is needed anyway
