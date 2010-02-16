@@ -32,6 +32,7 @@ sub start {
             $suite = $2;
             push( @INC, $1 ) if $1 && -d $1;
         }
+        ($suite) = $suite =~ /^(.*)$/;
         eval "use $suite";
         if ($@) {
             my $useError = $@;
