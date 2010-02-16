@@ -1867,8 +1867,9 @@ sub _login {
     my ( $this, $userAgent, $user, $pass ) = @_;
     #Send a login request - to get a validation key for strikeone
     my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/login$this->{UPLOADTARGETSUFFIX}");
+    # "(Foswiki login)" or "Login - Foswiki"
     unless ( ($response->code == 200  || $response->code == 400) 
-             and $response->header('title') =~ /\(Foswiki login\)/ ) {
+             and $response->header('title') =~ /login/i ) {
         die 'Failed to GET login form '. $response->request->uri.
           ' -- '. $response->status_line. "\n";
     }
