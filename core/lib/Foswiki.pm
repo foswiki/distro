@@ -2934,17 +2934,18 @@ sub _extractHereDocuments
     # save the rest of the TML on this line
     my @tokensAfterMacro;
     my $newline = "\x{a}";
-    my $n = 0;
+    #print STDERR "Looking for newline\n";
     while (scalar @$tokenQueue) {
-        $n++; die if $n > 100;
-        if ($tokenQueue->[0] =~ s/^(.*?$newline)//o) {
+        if ($tokenQueue->[0] =~ s/^(.*?)$newline//o) {
             push @tokensAfterMacro, $1;
+            #print STDERR "Skip up to end of '$tokensAfterMacro[-1]'\n";
 
             # Found the end of the line
             last;
         }
         else {
             push @tokensAfterMacro, shift @$tokenQueue;
+            #print STDERR "Skip '$tokensAfterMacro[-1]'\n";
         }
     }
 
@@ -2963,25 +2964,44 @@ sub _extractHereDocuments
         #print STDERR "Looking for $here\n";
         my $foundHere = 0;
         while (scalar @$tokenQueue) {
-            #print STDERR "Consider '$tokenQueue->[0]'\n";
-            if ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*$newline//s) {
+            # print STDERR "Consider '$tokenQueue->[0]'\n";
+            if ($tokenQueue->[0] =~ s/(.*?)$newline$here[ \t]*$newline//s) {
                 # Found the HERE marker followed by newline - this is the normal case
                 # Optional whitespace is included for robustness
                 $attrs->{$param} .= $1;
                 $foundHere = 1;
-                #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]')\n";
+                #print STDERR "Found $here. Grow $param to '$attrs->{$param}' Leave '$tokenQueue->[0]'\n";
                 last;
             }
-            elsif ($tokenQueue->[0] =~ s/(.*?)$newline$here\s*\z//s and scalar(@$tokenQueue) == 1) {
+            elsif (scalar(@$tokenQueue) == 1 and $tokenQueue->[0] =~ s/(.*?)$newline$here[ \t]*\z//s) {
                 # Found the HERE marker at the end of the string,
                 # with no more tokens after this one.
                 $attrs->{$param} .= $1;
-                # The string does not end in a newline, so remove the newline
-                # from the line that contains the macro itself
-                # so that nested HERE-docs are expanded correctly
-                chomp $tokensAfterMacro[-1];
                 $foundHere = 1;
-                #print STDERR "Grow $param to '$attrs->{$param}' (leave '$tokenQueue->[0]', remove newline text following macro)\n";
+                #print STDERR "Found $here. Grow $param to '$attrs->{$param}' Nothing left\n";
+                last;
+            }
+            elsif ($tokenQueue->[0] =~ s/\A$here[ \t]*$newline//s) {
+                # Found the HERE marker at the start of the token, 
+                # (which is also the start of the line)
+                # followed by newline
+                # Optional whitespace is included for robustness
+
+                # No change to $attrs->{$param};
+                $foundHere = 1;
+                #print STDERR "Found $here. Leave '$tokenQueue->[0]'\n";
+                last;
+            }
+            elsif (scalar(@$tokenQueue) == 1 and $tokenQueue->[0] =~ s/\A$here[ \t]*\z//s) {
+                # Found the HERE marker at the start of the token, 
+                # (which is also the start of the line)
+                # and at the same time at the end of the string
+                # with no more tokens after this one.
+                # Optional whitespace is included for robustness
+                #
+                # No change to $attrs->{$param};
+                $foundHere = 1;
+                #print STDERR "Found $here. Nothing left\n";
                 last;
             }
             else {
