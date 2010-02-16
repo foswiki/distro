@@ -152,7 +152,7 @@ HELLO
 Nor this either
 HERE
         {_RAW=>$dontCare, cheese=>'blue', say=>'bye!' });
-    $this->assert_str_equals("1$macroWasHere Not part of the macro\nNor this either\n", $result);
+    $this->assert_str_equals("1$macroWasHere Not part of the macroNor this either\n", $result);
 }
 
 sub test_plainHereDocumentWithTrailingWhitespace{
@@ -165,7 +165,7 @@ sub test_plainHereDocumentWithTrailingWhitespace{
                                     . "HELLO  \n"
                                     . " Nor this either\n",
                                     {_RAW=>$dontCare, cheese=>'blue', say=>' bye! ' });
-    $this->assert_str_equals("1$macroWasHere Not part of the macro \n Nor this either\n", $result);
+    $this->assert_str_equals("1$macroWasHere Not part of the macro  Nor this either\n", $result);
 }
 
 sub test_plainHereDocumentValueLooksLikeEndMarker {
@@ -174,10 +174,14 @@ sub test_plainHereDocumentValueLooksLikeEndMarker {
     my $result = $this->_testExpand(<<'HERE',
 before macro %MACRO{value=<<_10}% after macro
 _10%_
+ _10
+_10 more
+less _10
 _10
+
 after end marker
 HERE
-        {_RAW=>$dontCare, value=>'_10%_' });
+        {_RAW=>$dontCare, value=>"_10%_\n _10\n_10 more\nless _10" });
     $this->assert_str_equals("before macro 1$macroWasHere after macro\nafter end marker\n", $result);
 }
 
@@ -189,10 +193,10 @@ sub test_hereDocumentWithOtherMacroOnSameLine {
 wurble%MACRO{<<HERE}%blegh %WIKINAME% foo
 ping
 HERE
-baz
+bar
 END
         {_RAW=>$dontCare, _DEFAULT=>"ping" });
-    $this->assert_str_equals("wurble1${macroWasHere}blegh $expandedWikiName foo\nbaz\n", $result);
+    $this->assert_str_equals("wurble1${macroWasHere}blegh $expandedWikiName foobar\n", $result);
 }
 
 sub test_twoHereDocumentsInOneMacroShareSameEndMarker {
@@ -216,7 +220,7 @@ sub test_delayedExpansionInHereDocument {
 %SPACEOUT{"$topic"}%
 HERE
 END
-    $this->assert_str_equals("One Hump,Two Eyes,Three Teeth\n", $result);
+    $this->assert_str_equals("One Hump,Two Eyes,Three Teeth", $result);
 }
 
 sub skip_test_nonDelayedExpansionInHereDocument {
@@ -229,7 +233,7 @@ sub skip_test_nonDelayedExpansionInHereDocument {
 EXPAND
 ENCODE
 END
-    $this->assert_str_equals("%25topic,%25topic,%25topic\n", $result);
+    $this->assert_str_equals("%25topic,%25topic,%25topic", $result);
 }
 
 sub test_nestedHereDocOrderOfEvaluationOuterFirst {
@@ -243,6 +247,27 @@ orange
 PURPLE
 
 HERE
+END
+        {_RAW=>$dontCare, _DEFAULT=>'orange', which=>'one'},
+        {_RAW=>$dontCare, _DEFAULT=>'orange', which=>'two'},
+        {_RAW=>$dontCare, _DEFAULT=>'orange', which=>'three'}
+    );
+    $this->assert_str_equals("1$macroWasHere\\,2$macroWasHere\\,3$macroWasHere\\", $result);
+}
+
+sub test_nestedHereDocOrderOfEvaluationOuterFirstWithNewline {
+    my $this = shift;
+
+    # Tests the case where inner macros are expanded after outer macro
+    my $result = $this->_testExpand(<<'END', 
+%FOREACH{"one,two,three" format=<<HERE separator=","}%
+%MACRO{<<PURPLE which="$topic"}%\
+orange
+PURPLE
+
+
+HERE
+
 END
         {_RAW=>$dontCare, _DEFAULT=>'orange', which=>'one'},
         {_RAW=>$dontCare, _DEFAULT=>'orange', which=>'two'},
@@ -262,7 +287,7 @@ orange
 PURPLE
 HERE
 END
-    $this->assert_str_equals("1$macroWasHere,1$macroWasHere,1$macroWasHere\n", $result);
+    $this->assert_str_equals("1$macroWasHere,1$macroWasHere,1$macroWasHere", $result);
 }
 
 
@@ -280,7 +305,7 @@ sub test_preferenceWithParameter {
     $this->assert_str_equals('bar', $result);
 
     $result = $this->_expand("%BAR{ foo=<<HERE }%twibble\nignored\nHERE\nspoon");
-    $this->assert_str_equals("bartwibble\nspoon", $result);
+    $this->assert_str_equals("bartwibblespoon", $result);
 
 }
 
@@ -290,6 +315,65 @@ sub test_preferenceOverridesMacro {
     Foswiki::Func::setPreferencesValue('MACRO', 'foo');
     my $result = $this->_expand('%MACRO{"bar"}%');
     $this->assert_str_equals('foo', $result);
+
+}
+
+sub test_newlines {
+    my $this = shift;
+    my $result = $this->_testExpand('a%MACRO%b',
+        {_RAW=>$dontCare}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO%b\n",
+        {_RAW=>$dontCare}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b\n", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\nHERE",
+        {_RAW=>$dontCare, _DEFAULT=>""}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\nHERE\n",
+        {_RAW=>$dontCare, _DEFAULT=>""}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\nHERE\n\n",
+        {_RAW=>$dontCare, _DEFAULT=>""}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b\n", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\n\nHERE",
+        {_RAW=>$dontCare, _DEFAULT=>""}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\n\nHERE\n",
+        {_RAW=>$dontCare, _DEFAULT=>""}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\n\nHERE\n\n",
+        {_RAW=>$dontCare, _DEFAULT=>""}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b\n", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\n\n\nHERE",
+        {_RAW=>$dontCare, _DEFAULT=>"\n"}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\n\n\nHERE\n",
+        {_RAW=>$dontCare, _DEFAULT=>"\n"}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b", $result);
+
+    $result = $this->_testExpand("a%MACRO{<<HERE}%b\n\n\nHERE\n\n",
+        {_RAW=>$dontCare, _DEFAULT=>"\n"}
+    );
+    $this->assert_str_equals("a1${macroWasHere}b\n", $result);
 
 }
 
