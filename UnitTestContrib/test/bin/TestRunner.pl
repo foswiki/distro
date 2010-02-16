@@ -92,7 +92,6 @@ if ($options{-clean}) {
     my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
     foreach my $x (@x) {
        ($x) = $x =~ /^(.*)$/;
-        print "removing $x \n";
         File::Path::rmtree($x) if ($x);
     }
 
@@ -101,14 +100,13 @@ if ($options{-clean}) {
     @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
     foreach my $x (@x) {
        ($x) = $x =~ /^(.*)$/;
-        print "removing $x \n";
         File::Path::rmtree($x) if ($x);
     }
 }
 
 if (not $options{-worker}) {
-    testForFiles($Foswiki::cfg{DataDir}.'/Temp*');
-    testForFiles($Foswiki::cfg{PubDir}.'/Temp*');
+    testForFiles($Foswiki::cfg{DataDir},'/Temp*');
+    testForFiles($Foswiki::cfg{PubDir},'/Temp*');
 }
 
 my $testrunner = Unit::TestRunner->new();
@@ -125,9 +123,11 @@ print STDERR "Run was logged to $log\n" if $options{-log};
 exit $exit;
 
 sub testForFiles {
-    my $test = shift;
-    my @list = glob $test;
-    die "Please remove $test (or run with the -clean option) to run tests\n" if (scalar(@list));
+    my $testDir = shift;
+    my $pattrn = shift;
+    opendir( DIR, "$testDir" );
+    my @list = grep { s/^($pattrn)/$testDir\/$1\n/ } readdir(DIR);
+    die "Please remove @list (or run with the -clean option) to run tests\n" if (scalar(@list));
 }
 
 1;
