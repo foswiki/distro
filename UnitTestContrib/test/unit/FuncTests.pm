@@ -317,6 +317,135 @@ sub test_attachments {
 
 }
 
+sub test_subweb_attachments {
+    my $this = shift;
+
+    my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
+    my $attnm = 'blahblahblah.gif';
+    my $name1 = 'blahblahblah.gif';
+    my $name2 = 'bleagh.sniff';
+    my $topic = "BlahBlahBlah";
+    my $web = $this->{test_web}."/SubWeb";
+
+    my $stream;
+    $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
+    binmode($stream);
+    print $stream $data;
+    close($stream);
+
+    $this->assert( open( $stream, "<$this->{tmpdatafile}" ) );
+    binmode($stream);
+
+    my $stream2;
+    $this->assert( open( $stream2, ">$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+    print $stream2 $data2;
+    close($stream2);
+
+    $this->assert( open( $stream2, "<$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
+
+    $name1 = Assert::TAINT($name1);
+    my $e = Foswiki::Func::saveAttachment(
+        $web,
+        $topic, $name1,
+        {
+            dontlog  => 1,
+            comment  => 'Feasgar Bha',
+            stream   => $stream,
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+    my @attachments = $meta->find('FILEATTACHMENT');
+    $this->assert_str_equals( $name1, $attachments[0]->{name} );
+
+    $name2 = Assert::TAINT($name2);
+    my $infile = $this->{tmpdatafile};
+    #my $web = Assert::TAINT($web);
+    #my $infile = Assert::TAINT($this->{tmpdatafile1});
+                my @stats    = stat $this->{tmpdatafile};
+                my $fileSize = $stats[7];
+                my $fileDate = $stats[9];
+                $e = Foswiki::Func::saveAttachment(
+                    $web, 
+                    $topic, $name2,
+                    {   dontlog => 1,
+                        file     => $infile, 
+                        filedate => $fileDate,
+                        filesize => $fileSize,
+                        comment  => '<nop>DirectedGraphPlugin: DOT graph',
+                        hide     => 1
+                    }
+                );
+               $this->assert( !$e, $e );
+
+    # Verify that the files and directories actually were created
+    #
+    my $ft = '';
+    $ft = Foswiki::Func::getPubDir(). "/" . $web;
+    $this->assert( (-d $ft), "Web directory for attachment not created"  );
+    $ft .= "/".$topic;
+    $this->assert( (-d $ft), "Topic directory for attachment not created?"  );
+    print "Attachment RCS Filename $ft/$name1,v was not written to disk?" unless (-e $ft."/$name1,v" ) ;
+    #$this->assert( (-e $ft."/$name1,v" ), "Attachment RCS Filename $ft/$name1,v was not written to disk?" );
+    $this->assert( (-e $ft."/$name1" ), "Attachment file $ft/$name1  was not written to disk?" );
+    $this->assert( (-e $ft."/$name2,v" ), "Attachment RCS Filename $ft/$name2,v was not written to disk?" );
+    $this->assert( (-e $ft."/$name2" ), "Attachment file $ft/$name2  was not written to disk?" );
+
+
+    ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+    @attachments = $meta->find('FILEATTACHMENT');
+    $this->assert_str_equals( $name1, $attachments[0]->{name} );
+    $this->assert_str_equals( $name2, $attachments[1]->{name} );
+
+    my $x = Foswiki::Func::readAttachment( $web, $topic, $name1 );
+    $this->assert_str_equals( $data, $x );
+    $x = Foswiki::Func::readAttachment( $web, $topic, $name2 );
+    $this->assert_str_equals( $data, $x );
+
+    # This should succeed - attachment exists
+    $this->assert(
+        Foswiki::Func::attachmentExists( $web, $topic, $name1 ) );
+
+    # This should fail - attachment is not present
+    $this->assert(
+        !(Foswiki::Func::attachmentExists( $web, $topic, "NotExists" )) );
+
+    # This should fail - attachment is not present
+    $this->assert( 
+        !Foswiki::Func::readAttachment( $web, $topic, "NotExists" ));
+
+    # Update the attachment and check that the data is updated.
+    $e = Foswiki::Func::saveAttachment(
+        $web,
+        $topic, $name2,
+        {
+            dontlog  => 1,
+            comment  => 'Ciamar a tha u',
+            file     => $this->{tmpdatafile2},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+    $x = Foswiki::Func::readAttachment( $web, $topic, $name2 );
+    $this->assert_str_equals( $data2, $x );
+
+    # Verify that the prior revision contains the old data
+    $x = Foswiki::Func::readAttachment( $web, $topic, $name2, "1");
+    $this->assert_str_equals( $data, $x );
+
+}
+
 sub test_getrevinfo {
     my $this  = shift;
     my $topic = "RevInfo";
