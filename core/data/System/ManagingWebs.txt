@@ -114,6 +114,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 *Notes:*
    * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)
    * A new web created using the =_default= or =_empty= template webs must have their access controls set before public use
+   * =_empty= is really empty (only has a !WebPreferences topic); normally you want to choose =_default=.
    * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
 							</p>
 						</div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
