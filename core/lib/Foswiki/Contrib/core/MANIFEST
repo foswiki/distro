@@ -616,6 +616,8 @@ lib/Foswiki/Macros/GROUPS.pm 0444
 lib/Foswiki/Macros/HTTP.pm 0444
 lib/Foswiki/Macros/HTTPS.pm 0444
 lib/Foswiki/Macros/ICON.pm 0444
+lib/Foswiki/Macros/ICONURL.pm 0444
+lib/Foswiki/Macros/ICONURLPATH.pm 0444
 lib/Foswiki/Macros/IF.pm 0444
 lib/Foswiki/Macros/INCLUDE.pm 0444
 lib/Foswiki/Macros/INTURLENCODE.pm 0444

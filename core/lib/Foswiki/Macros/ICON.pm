@@ -3,71 +3,113 @@ package Foswiki;
 
 use strict;
 
-# Maps from a filename (or just the extension) to the name of the
-# file that contains the image for that file type.
-sub mapToIconFileName {
-    my ( $this, $fileName, $default ) = @_;
+use Foswiki::Macros::ICONURL ();
 
-    my @bits = ( split( /\./, $fileName ) );
-    my $fileExt = lc( $bits[$#bits] );
+# Uses:
+# _ICONSPACE to reference the meta object of the %ICONTOPIC%,
+# _EXT2ICON to record the mapping of file extensions to icon names
+# _KNOWNICON to record the mapping for icons already used
 
-    unless ( $this->{_ICONMAP} ) {
+# Maps from a "filename or extension" to the path of the
+# attachment that contains the image for that file type.
+# If there is no such icon, returns undef.
+# The path returned is of the form web/topic/attachment, so can be
+# used relative to a base URL or as a file path.
+sub _lookupIcon {
+    my ( $this, $choice ) = @_;
+
+    return undef unless defined $choice;
+
+    if (!defined $this->{_ICONSPACE}) {
         my $iconTopic = $this->{prefs}->getPreference('ICONTOPIC');
         if ( defined($iconTopic) ) {
-            my ( $web, $topic ) =
+            $iconTopic =~ s/\s+$//;
+            my ( $w, $t ) =
               $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-            my $topicObject = Foswiki::Meta->new( $this, $web, $topic );
+            $this->{_ICONSPACE} = new Foswiki::Meta($this, $w, $t);
+        }
+    }
+    return undef unless $this->{_ICONSPACE};
+
+    # Have we seen it before?
+    $this->{_KNOWNICON} ||= {};
+    my $path = $this->{_KNOWNICON}->{$choice};
+
+    # First, try for a straight attachment name e.g. %ICON{"browse"}%
+    # -> "System/FamFamFamGraphics/browse.gif"
+    if (defined $path) {
+        # Already known
+    } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.gif")) {
+        # Found .gif attached to ICONTOPIC
+        $path = $this->{_ICONSPACE}->getPath()."/$choice.gif";
+    } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.png")) {
+        # Found .png attached to ICONTOPIC
+        $path = $this->{_ICONSPACE}->getPath()."/$choice.png";
+    } elsif ($choice =~ /\.([a-zA-Z0-9]+)$/) {
+        my $ext = $1;
+        if (!defined $this->{_EXT2ICON}) {
+            # Load the file extension mapping
+            $this->{_EXT2ICON} = {};
             local $/;
             try {
                 my $icons =
-                  $topicObject->openAttachment( '_filetypes.txt', '<' );
-                %{ $this->{_ICONMAP} } = split( /\s+/, <$icons> );
+                  $this->{_ICONSPACE}->openAttachment( '_filetypes.txt', '<' );
+                %{ $this->{_EXT2ICON} } = split( /\s+/, <$icons> );
                 $icons->close();
-            }
-            catch Error with {
+            } catch Error with {
                 ASSERT( 0, $_[0] ) if DEBUG;
-                %{ $this->{_ICONMAP} } = ();
+                $this->{_EXT2ICON} = {};
             };
         }
-        else {
-            return $default || $fileName;
+
+        my $icon = $this->{_EXT2ICON}->{$ext};
+        if ( defined $icon ) {
+            # For historical reasons these icons are always .gif files,
+            # and can be assumed to exist.
+            $path = $this->{_ICONSPACE}->getPath()."/$ext.gif";
         }
     }
 
-    return $this->{_ICONMAP}->{$fileExt} || $default || 'else';
+    $this->{_KNOWNICON}->{$choice} = $path if defined $path;
+
+    return $path;
 }
+
+sub _getIconUrl {
+    my $this = shift;
+    my $absolute = shift;
+    my @path = split('/', shift);
+    my $a = pop(@path);
+    my $t = pop(@path);
+    my $w = join('/', @path);
+    return $this->getPubUrl($absolute, $w, $t, $a);
+}
+
+# %ICON{ "filename or icon name" [ default="filename or icon name" ]
+#           [ alt="alt text to be added to the HTML img tag" ] }%
+# If the main parameter refers to a non-existent icon, and default is not
+# given, or also refers to a non-existent icon, then the else icon (else)
+# will be used. The HTML alt attribute for the image will be taken from
+# the alt parameter. If alt is not given, the main parameter will be used. 
 
 sub ICON {
     my ( $this, $params ) = @_;
-    my $file = $params->{_DEFAULT} || '';
-    my $alt = defined $params->{alt} ? $params->{alt} : $file;
 
-    # Try to map the file name to see if there is a matching filetype image
-    # If no mapping could be found, use the file name that was passed
-    my $iconFileName = $this->mapToIconFileName( $file, $alt );
-    return '' unless $iconFileName;
+    my $path = $this->_lookupIcon($params->{_DEFAULT}) ||
+      $this->_lookupIcon($params->{default}) ||
+      $this->_lookupIcon('else');
+
     return $this->renderer->renderIconImage(
-        $this->getIconUrl( 0, $iconFileName ),
-        $iconFileName );
+        $this->_getIconUrl( 0, $path ), $params->{alt} || $params->{_DEFAULT});
 }
 
 1;
 __DATA__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2009-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-and TWiki Contributors. All Rights Reserved. TWiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-Based on parts of Ward Cunninghams original Wiki and JosWiki.
-Copyright (C) 1998 Markus Peter - SPiN GmbH (warpi@spin.de)
-Some changes by Dave Harris (drh@bhresearch.co.uk) incorporated
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

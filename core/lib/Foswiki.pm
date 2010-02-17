@@ -199,10 +199,8 @@ BEGIN {
         HTTP              => undef,
         HTTPS             => undef,
         ICON              => undef,
-        ICONURL           =>
-          sub { $_[0]->getIconUrl( 1,  $_[1]->{_DEFAULT} || '' ); },
-        ICONURLPATH       =>
-          sub { $_[0]->getIconUrl( 0,  $_[1]->{_DEFAULT} || '' ); },
+        ICONURL           => undef,
+        ICONURLPATH       => undef,
         IF                => undef,
         INCLUDE           => undef,
         INTURLENCODE      => undef,
@@ -1412,30 +1410,6 @@ sub getPubUrl {
 
 =begin TML
 
----++ ObjectMethod getIconUrl( $absolute, $iconName ) -> $iconURL
-
-Map an icon name to a URL path.
-
-=cut
-
-sub getIconUrl {
-    my ( $this, $absolute, $iconName ) = @_;
-
-    my $iconTopic = $this->{prefs}->getPreference('ICONTOPIC');
-    if ( defined($iconTopic) ) {
-        $iconTopic =~ s/\s+$//;
-        my ( $web, $topic ) =
-          $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-        $iconName =~ s/^.*\.(.*?)$/$1/;
-        return $this->getPubUrl( $absolute, $web, $topic, $iconName . '.gif' );
-    }
-    else {
-        return '';
-    }
-}
-
-=begin TML
-
 ---++ ObjectMethod deepWebList($filter, $web) -> @list
 
 Deep list subwebs of the named web. $filter is a Foswiki::WebFilter
@@ -1981,7 +1955,9 @@ sub finish {
     undef $this->{topic};
     undef $this->{webName};
     undef $this->{topicName};
-    undef $this->{_ICONMAP};
+    undef $this->{_ICONSPACE};
+    undef $this->{_EXT2ICON};
+    undef $this->{_KNOWNICON};
     undef $this->{context};
     undef $this->{remoteUser};
     undef $this->{requestedWebName};    # Web name before renaming
