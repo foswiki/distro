@@ -777,6 +777,7 @@ sub _addSessionCookieToResponse {
         -name     => $Foswiki::LoginManager::Session::NAME,
         -value    => $this->{_cgisession}->id(),
         -path     => '/',
+        -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1
     );
 
