@@ -23,11 +23,13 @@ If you want to redefine a preference setting, for example in %USERSWEB%.SitePref
 
 ---++ Plugin Info
 
-|  Author | Foswiki:Main.PluginAuthor|
+|  Author | Foswiki:Main.PluginAuthor |
 |  Copyright | &copy; 2008, Foswiki Contributors |
 |  License | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version | %$VERSION% |
-|  Release | %$RELEASE% | 
-|  Home | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Release | %$RELEASE% |
+|  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  XX Mmm 20XX (1.0) | Description of change |
+|  Home | http://foswiki.org/Extensions/%TOPIC% |
 |  Support | http://foswiki.org/Support/%TOPIC% |
 
