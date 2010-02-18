@@ -154,7 +154,11 @@ sub ui {
 
     # Each extension has two rows
     
-    foreach my $key ( sort keys %$exts ) {
+    foreach my $key ( sort {
+	(length $exts->{$a}->{installedVersion} == 0) <=> (length $exts->{$b}->{installedVersion} == 0)
+	    ||
+	$a cmp $b
+		      } keys %$exts ) {
         my $ext = $exts->{$key};
 
         next if $ext->{topic} eq 'EmptyPlugin';    # special case
