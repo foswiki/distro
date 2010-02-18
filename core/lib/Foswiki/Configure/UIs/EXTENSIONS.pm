@@ -157,7 +157,7 @@ sub ui {
     foreach my $key ( sort {
 	(length $exts->{$a}->{installedVersion} == 0) <=> (length $exts->{$b}->{installedVersion} == 0)
 	    ||
-	$a cmp $b
+	lc $a cmp lc $b
 		      } keys %$exts ) {
         my $ext = $exts->{$key};
 
