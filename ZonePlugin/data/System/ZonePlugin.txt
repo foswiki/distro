@@ -7,22 +7,64 @@
 
 %TOC%
 
-The primary purpose of !ZonePlugin is to streamline the anatomy of a HTML page in a way to allow
-today's browsers to process it more efficiently. Page loading time has been [[http://www.die.net/musings/page_load_time/][reported]] to decrease significantly when all !JavaScript files are removed from the HEAD element and appended to the
-end of the BODY element of a page. That's because the browser will stop processing a page as soon as a !JavaScript file is found in the linear order of the page. The browser will only proceed after this file has been downloaded and excecuted. Notably other content like CSS files and image material will _not_ be downloaded in parallel as long as the !JavaScript interpreter hasn't finished.
+The primary purpose of !ZonePlugin is to streamline the anatomy of a HTML page
+in a way to allow today's browsers to process it more efficiently. Page loading
+time has been [[http://www.die.net/musings/page_load_time/][reported]] to
+decrease significantly when all !JavaScript files are removed from the HEAD
+element and appended to the end of the BODY element of a page. That's because
+the browser will stop processing a page as soon as a !JavaScript file is found
+in the linear order of the page. The browser will only proceed after this file
+has been downloaded and excecuted. Notably other content like CSS files and
+image material will _not_ be downloaded in parallel as long as the !JavaScript
+interpreter hasn't finished.
 
-Currently, Foswiki uses ADDTOHEAD to place additional CSS and JS files into the HEAD element. It does _not_ reorder those files in any way other than specified by the explicit =requires= argument to the macro. Further more, it is only able to add stuff to one specific location of a HTML page, the HEAD element.
+Currently, Foswiki uses ADDTOHEAD to place additional CSS and JS files into the
+HEAD element. It does _not_ reorder those files in any way other than specified
+by the explicit =requires= argument to the macro. Further more, it is only able
+to add stuff to one specific location of a HTML page, the HEAD element.
 
-By using ADDTOZONE CSS and JS material can be added to the resulting page incrementally while the core engine parses templates and wiki applications. ADDTOZONE's first parameter is the name of the zone to add stuff to. There are two
-special zones: =body= and =head=. All CSS should be added to the =head= zone while all JS goes into the =body= zone.
+By using ADDTOZONE CSS and JS material can be added to the resulting page
+incrementally while the core engine parses templates and wiki applications.
+ADDTOZONE's first parameter is the name of the zone to add stuff to. There are
+two special zones: =body= and =head=. All CSS should be added to the =head=
+zone while all JS goes into the =body= zone.
 
-The actual location of a zone is specified with an explicit RENDERZONE macro. This macro expands to the content of all material that has been posted to the named zone. Note, that this happens at the very end of the rendering pipeline of Foswiki. That means RENDERZONE is not processed as a normal macro obeying the evaluation order of the TML parser.
-Instead, all calls to ADDTOZONE are processed by the TML parser first after which all zones are expanded.
+The actual location of a zone is specified with an explicit RENDERZONE macro.
+This macro expands to the content of all material that has been posted to the
+named zone. Note, that this happens at the very end of the rendering pipeline
+of Foswiki. That means RENDERZONE is not processed as a normal macro obeying
+the evaluation order of the TML parser.  Instead, all calls to ADDTOZONE are
+processed by the TML parser first after which all zones are expanded.
 
-If RENDERZONE{head} and RENDERZONE{body} aren't found in the final page explicitly, they are expanded at the appropriate position, that is at =&lt;/head>= and =&lt;/body>= respectively.
+If RENDERZONE{head} and RENDERZONE{body} aren't found in the final page
+explicitly, they are expanded at the appropriate position, that is at
+=&lt;/head>= and =&lt;/body>= respectively.
 
-The features of this plugin have been [[Foswiki:Development/ImprovePageLoadTime][proposed]] as a core feature for Foswiki to replace the standard ADDTOHEAD with the more generic ADDTOZONE tag.
-This plugin allows authors of extensions and wiki applications to make use of this advanced feature in a backwards-compatible way. As soon as the ADDTOZONE macro has been released as part of newer Foswiki versions, this plugin won't be of use anymore.
+The features of this plugin have been
+[[Foswiki:Development/ImprovePageLoadTime][proposed]] as a core feature for
+Foswiki to replace the standard ADDTOHEAD with the more generic ADDTOZONE tag.
+This plugin allows authors of extensions and wiki applications to make use of
+this advanced feature in a backwards-compatible way. As soon as the ADDTOZONE
+macro has been released as part of newer Foswiki versions, this plugin won't be
+of use anymore.
+
+%RED%WARNING:%ENDCOLOR% Using this plugin can potentially break your installation.
+If you experience occasional !JavaScript errors, switch on =BackwardsCompatibility=
+in [[%SCRIPTURLPATH{"configure}%][configure]]. This mode will render the HTML page
+in a non-optimized way similar to how the standard =ADDTOHEAD= mechanism does. 
+
+In any case is it recommended to use =ADDTOHEAD= or =ADDTOZONE= to properly add
+this code to the page. It is _not_ recommended to add !JavaScript code otherwise.
+
+If you rely on having !JavaScript added to the
+page _without_ using =ADDTOHEAD= or =ADDTOZONE= then you have to enable
+=BackwardsCompatibility= mode most probably. In this case the HTML page cannot
+be optimized.
+
+!ZonePlugin will try to detect whether any use of ADDTOHEAD contains
+=text/javascript= and automatically move its content to the =body= zone while adding
+anything else to the =head= zone. 
+
 
 ---++ Syntax
 
@@ -36,10 +78,13 @@ This plugin patches the =Foswiki::Func= API for backwards compatibility.
    * New =Foswiki::Func::addToZone($zone, $tag, $text, $requires)=
    * Replaces =Foswiki::Func::addToHEAD() to use the =head= namespace of this plugin instead of =Foswiki::_HTMLHEAD=
 
-The latter will try to detect material being pure !JavaScript and thus can be move to the =body= zone. Otherwise,
-e.g. if it is a mixture of CSS and JS, it will default to add the data to the =head= as usual. A warning will be 
-emitted to the log files that the page has got a suboptimal structure, pointing to the packages that still use
-=Foswiki::Func::addToHEAD()= 
+The latter will try to detect =text/javascrtipt= and 
+move content into the =body= zone. Otherwise, it will be added to the =head=. 
+
+Any use of =ADDTOHEAD= or =Foswiki::Func::addToHEAD()= will emit a warning to
+the log files (must be switched on with the =Warnings= flag in
+[[%SCRIPTURLPATH{"configure}%][configure]]).  This can be used to hunt down
+suboptimal use of these APIs.
 
 ---++ Installation Instructions
 
@@ -52,6 +97,7 @@ emitted to the log files that the page has got a suboptimal structure, pointing 
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  19 Feb 2010 | added ={<nop>BackwardsCompatibility}= switch |
 |  15 Feb 2010 | be more careful applying the monkey-patch to the Func API; \
                  parsing RENDERZONE properly but finally inserting the zone at the end of the rendering pipeline |
 |  12 Feb 2010 | initial release |

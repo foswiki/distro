@@ -19,7 +19,7 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.1';
+our $RELEASE = '1.2';
 our $SHORTDESCRIPTION = 'Gather content of a page in named zones while rendering it';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -32,9 +32,6 @@ our %RENDERZONE;
                  
 # token used to generate the RENDERZONE placeholder while parsing
 our $translationToken = "\03";
-
-# switch on to WARN on deprecated calls to ADDZOHEAD or Foswiki::Func::addToHEAD
-use constant DOWARN => 0;
 
 # monkey-patch API ###########################################################
 BEGIN {
@@ -54,6 +51,9 @@ sub initPlugin {
   # redefine
   Foswiki::Func::registerTagHandler('ADDTOHEAD', \&ADDTOHEAD);
 
+  Foswiki::Func::writeWarning("running in backwards compatibility mode ... page layout suboptimal")
+    if $Foswiki::cfg{ZonePlugin}{Warnings};
+
   return 1;
 }
 
@@ -69,7 +69,13 @@ sub completePageHandler {
 
   # get the body zone ones again and insert it at </body>
   $content = renderZone('body', {chomp=>"on", format=>'$item$n'});
-  $_[0] =~ s!(</body>)!$content$1!i if $content;
+
+  # in compatibility mode all body material is still appended to the head
+  if($Foswiki::cfg{ZonePlugin}{BackwardsCompatible}) {
+    $_[0] =~ s!(</head>)!$content$1!i if $content;
+  } else {
+    $_[0] =~ s!(</body>)!$content$1!i if $content;
+  }
 
   # clean up all unknown zones
   $_[0] =~ s/%RENDERZONE{.*?}%//g;
@@ -93,7 +99,7 @@ sub ADDTOHEAD {
   $text = $tag unless $text;
 
   Foswiki::Func::writeWarning("use of deprecated ADDTOHEAD in $theWeb.$theTopic")
-    if DOWARN;
+    if $Foswiki::cfg{ZonePlugin}{Warnings};
 
   addToHead($tag, $text, $requires, 1);
   return '';
@@ -130,7 +136,8 @@ sub ADDTOZONE {
 sub addToHead {
   my ($tag, $text, $requires, $nowarn) = @_;
 
-  if (DOWARN && !$nowarn) {
+  if ($Foswiki::cfg{ZonePlugin}{Warnings} && !$nowarn) {
+    # suppress warning of when it has already been emited during ADDTOHEAD
     my ($package, $filename, $line) = caller;
     Foswiki::Func::writeWarning("use of deprecated API addToHEAD at $package line $line")
   }
@@ -140,7 +147,6 @@ sub addToHead {
   # if it also contains text/css then switch it back to 'head' ... won't be optimized
   my $zone = 'head';
   $zone = 'body' if $text =~ /type=["']text\/javascript["']/;
-  $zone = 'head' if $text =~ /type=["']text\/css["']/;
 
   addToZone($zone, $tag, $text, $requires);
 
@@ -158,7 +164,7 @@ sub addToZone {
     # get a random one
     $tag = int(rand(10000)) +1;
   }
-
+  
   # get zone, or create record
   my $thisZone = $ZONES{$zone};
   unless (defined $thisZone) {
