@@ -234,8 +234,14 @@ sub beforeEditHandler {
     # SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
     #        but Foswiki::Func.pm does not expose that function, so plugins may not use it
     $encodedVersion =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
-    Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT, 'JQUERYPLUGIN::FOSWIKI');
+
+    # SMELL: meta tag now in a separate addToHEAD for Item8566, due to
+    # addToZONE shenanigans. <meta> tags really do have to be in the head!
+    Foswiki::Func::addToHEAD( 'tinyMCE::Meta', <<SCRIPT);
 <meta name="TINYMCEPLUGIN_INIT" content="$metainit" />
+SCRIPT
+
+    Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT, 'JQUERYPLUGIN::FOSWIKI');
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
