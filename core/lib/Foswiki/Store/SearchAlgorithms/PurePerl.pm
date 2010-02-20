@@ -104,15 +104,15 @@ sub query {
         my %topicMatches;
         unless ( $options->{'scope'} eq 'text' ) {
             my $qtoken = $token;
+            # FIXME I18N
+            $qtoken = quotemeta($qtoken)
+              if ( $options->{'type'} ne 'regex' );
 
             my @topicList;
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
                 my $topic = $topicSet->next();
 
-                # FIXME I18N
-                $qtoken = quotemeta($qtoken)
-                  if ( $options->{'type'} ne 'regex' );
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
