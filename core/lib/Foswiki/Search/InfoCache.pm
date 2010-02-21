@@ -21,6 +21,10 @@ I have the feeling that we should make result sets immutable
 
 use Assert;
 use Foswiki::Meta ();
+use Foswiki::Iterator::FilterIterator ();
+
+#use Monitor ();
+#Monitor::MonitorMethod('Foswiki::Search::InfoCache', 'getTopicListIterator');
 
 =pod
 ---++ Foswiki::Search::InfoCache::new($session, $defaultWeb, \@topicList)
@@ -333,6 +337,89 @@ sub _compare {
     else {
         return $y cmp $x;
     }
+}
+
+#########################################
+#TODO: this is _now_ a default utility method that can be used by search&query algo's to brute force file a list of topics to search.
+#if you can avoid it, you should - as it needs to do an opendir on the web, and if you have alot of topics, life gets slow
+# get a list of topics to search in the web, filtered by the $topic
+# spec
+sub getTopicListIterator {
+    my ( $webObject, $options ) = @_;
+    my $casesensitive = defined($options->{casesensitive})?$options->{casesensitive}:1;
+
+    # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
+    $options->{excludeTopics} = convertTopicPatternToRegex( $options->{excludeTopics} )
+      if ( $options->{excludeTopics} );
+
+    my $topicFilter;
+    my $it;
+    if ( $options->{includeTopics} ) {
+
+        # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
+        $options->{includeTopics} =
+          convertTopicPatternToRegex( $options->{includeTopics} );
+
+        # limit search to topic list
+        if ( $casesensitive and
+	    $options->{includeTopics} =~
+		/^\^\([\_\-\+$Foswiki::regex{mixedAlphaNum}\|]+\)\$$/ )
+        {
+
+            # topic list without wildcards
+            # for speed, do not get all topics in web
+            # but convert topic pattern into topic list
+            my $topics = $options->{includeTopics};
+            $topics =~ s/^\^\(//o;
+            $topics =~ s/\)\$//o;
+
+            # build list from topic pattern
+            my @list = split( /\|/, $topics );
+            $it = new Foswiki::ListIterator( \@list );
+        }
+        elsif ( !$casesensitive ) {
+            $topicFilter = qr/$options->{includeTopics}/i;
+        }
+        else {
+            $topicFilter = qr/$options->{includeTopics}/;
+        }
+    }
+
+    $it = $webObject->eachTopic() unless ( defined($it) );
+
+    my $filterIter = new Foswiki::Iterator::FilterIterator(
+        $it,
+        sub {
+            my $item = shift;
+
+            #my $data = shift;
+            return unless !$topicFilter || $item =~ /$topicFilter/;
+
+            # exclude topics, Codev.ExcludeWebTopicsFromSearch
+            if ( !$casesensitive && $options->{excludeTopics} ) {
+                return if $item =~ /$options->{excludeTopics}/i;
+            }
+            elsif ( $options->{excludeTopics} ) {
+                return if $item =~ /$options->{excludeTopics}/;
+            }
+            return $Foswiki::Plugins::SESSION->topicExists( $webObject->web, $item );
+        }
+    );
+    return $filterIter;
+}
+
+sub convertTopicPatternToRegex {
+    my ($topic) = @_;
+    return '' unless ($topic);
+
+    # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
+    my @arr =
+      map { s/[^\*\_\-\+$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
+      split( /(?:,\s*|\|)/, $topic );
+    return '' unless (@arr);
+
+    # ( 'Web.*', 'FooBar' ) ==> "^(Web.*|FooBar)$"
+    return '^(' . join( '|', @arr ) . ')$';
 }
 
 1;

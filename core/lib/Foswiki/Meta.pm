@@ -564,6 +564,10 @@ sub searchInText {
 Search for a meta-data expression in the content of a web.
 =$query= must be a =Foswiki::Query= object.
 
+   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
+     if set to undef, the search/query algo will create a new iterator using eachTopic() 
+     and the topic and excludetopics options
+
 Returns an Foswiki::Search::InfoCache iterator
 
 =cut

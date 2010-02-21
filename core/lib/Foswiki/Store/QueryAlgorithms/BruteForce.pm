@@ -30,6 +30,12 @@ sub query {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
     my $topicSet = $inputTopicSet;
+    if (!defined($topicSet)) {
+        #then we start with the whole web?
+        #TODO: i'm sure that is a flawed assumption
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        $topicSet = Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
+    }
 
     #TODO: howto ask iterator for list length?
     #TODO: once the inputTopicSet isa ResultSet we might have an idea

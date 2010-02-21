@@ -663,8 +663,7 @@ return on the first match in each topic (i.e. it will return only one
 match per topic, and will not return matching lines).
 
 DEPRECATED: this is the old way to search, and should not be used in new code.
-
-SMELL: it's all very well saying that, but what else are you supposed to use?
+instead, use searchInWebMetaData() - using the topicSet iterator interface allows optimistations
 
 =cut
 

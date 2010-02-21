@@ -105,72 +105,6 @@ sub _countPattern {
     return $count;
 }
 
-# get a list of topics to search in the web, filtered by the $topic
-# spec
-sub _getTopicList {
-    my ( $this, $webObject, $options ) = @_;
-    my $casesensitive = defined($options->{casesensitive})?$options->{casesensitive}:1;
-
-    # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
-    $options->{excludeTopics} = _makeTopicPattern( $options->{excludeTopics} )
-      if ( $options->{excludeTopics} );
-
-    my $topicFilter;
-    my $it;
-    if ( $options->{includeTopics} ) {
-
-        # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
-        $options->{includeTopics} =
-          _makeTopicPattern( $options->{includeTopics} );
-
-        # limit search to topic list
-        if ( $casesensitive and
-	    $options->{includeTopics} =~
-		/^\^\([\_\-\+$Foswiki::regex{mixedAlphaNum}\|]+\)\$$/ )
-        {
-
-            # topic list without wildcards
-            # for speed, do not get all topics in web
-            # but convert topic pattern into topic list
-            my $topics = $options->{includeTopics};
-            $topics =~ s/^\^\(//o;
-            $topics =~ s/\)\$//o;
-
-            # build list from topic pattern
-            my @list = split( /\|/, $topics );
-            $it = new Foswiki::ListIterator( \@list );
-        }
-        elsif ( !$casesensitive ) {
-            $topicFilter = qr/$options->{includeTopics}/i;
-        }
-        else {
-            $topicFilter = qr/$options->{includeTopics}/;
-        }
-    }
-
-    $it = $webObject->eachTopic() unless ( defined($it) );
-
-    my $filterIter = new Foswiki::Iterator::FilterIterator(
-        $it,
-        sub {
-            my $item = shift;
-
-            #my $data = shift;
-            return unless !$topicFilter || $item =~ /$topicFilter/;
-
-            # exclude topics, Codev.ExcludeWebTopicsFromSearch
-            if ( !$casesensitive && $options->{excludeTopics} ) {
-                return if $item =~ /$options->{excludeTopics}/i;
-            }
-            elsif ( $options->{excludeTopics} ) {
-                return if $item =~ /$options->{excludeTopics}/;
-            }
-            return $this->{session}->topicExists( $webObject->web, $item );
-        }
-    );
-    return $filterIter;
-}
-
 #convert a comma separated list of webs into the list we'll process
 sub _getListOfWebs {
     my ( $this, $webName, $recurse, $searchAllFlag ) = @_;
@@ -246,19 +180,6 @@ sub _getListOfWebs {
     return @webs;
 }
 
-sub _makeTopicPattern {
-    my ($topic) = @_;
-    return '' unless ($topic);
-
-    # 'Web*, FooBar' ==> ( 'Web*', 'FooBar' ) ==> ( 'Web.*', "FooBar" )
-    my @arr =
-      map { s/[^\*\_\-\+$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
-      split( /(?:,\s*|\|)/, $topic );
-    return '' unless (@arr);
-
-    # ( 'Web.*', 'FooBar' ) ==> "^(Web.*|FooBar)$"
-    return '^(' . join( '|', @arr ) . ')$';
-}
 
 =begin TML
 
@@ -514,15 +435,16 @@ sub searchWeb {
             && $web ne $session->{webName} );
 
         # Run the search on topics in this web
-        my $inputTopicSet = _getTopicList( $this, $webObject, \%params );
-
-        next
-          if ( $params{noempty} && !$inputTopicSet->hasNext() )
-          ;    # Nothing to show for this web
-
-        my $infoCache = $webObject->query( $query, $inputTopicSet, \%params );
+#setting the inputTopicSet to be undef allows the search/query algo to use 
+#the topic="" and excludetopic="" params and web Obj to get a new list of topics.
+#this allows the algo's to customise and optimise the getting of this list themselves.
+        my $infoCache = $webObject->query( $query, undef, \%params );
         $infoCache->sortResults( $web, \%params );
 
+        if ( $params{noempty} && !$infoCache->hasNext() ) {
+        next       ;    # Nothing to show for this web
+        }
+          
         # add dependencies
         my $cache = $session->{cache};
         if ($cache) {

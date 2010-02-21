@@ -282,7 +282,9 @@ deprecated (use queries instead).
 
    * =$searchString= - the search string, in egrep format if regex
    * =$web= - The web to search in
-   * =\@topics= - reference to a list of topics to search
+   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
+     if set to undef, the search/query algo will create a new iterator using eachTopic() 
+     and the topic and excludetopics options
    * =$session= - the Foswiki session object that provides the context of this
      search
    * =\%options= - reference to an options hash
@@ -329,6 +331,9 @@ NOQUERY
 
 Search for a meta-data expression in the content of a web. =$query= must
 be a =Foswiki::*::Node= object.
+   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
+     if set to undef, the search/query algo will create a new iterator using eachTopic() 
+     and the topic and excludetopics options
 
 Returns an Foswiki::Search::InfoCache iterator
 

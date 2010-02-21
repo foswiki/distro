@@ -137,6 +137,12 @@ sub query {
         && $options->{'scope'} =~ /^(topic|all)$/ );
 
     my $topicSet = $inputTopicSet;
+    if (!defined($topicSet)) {
+        #then we start with the whole web
+        #TODO: i'm sure that is a flawed assumption
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        $topicSet = Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
+    }
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
 #print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
