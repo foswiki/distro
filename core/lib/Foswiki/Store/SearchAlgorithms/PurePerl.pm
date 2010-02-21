@@ -51,7 +51,7 @@ sub search {
 
     #SMELL, TODO, replace with Store call.
     my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
-
+    $inputTopicSet->reset();
   FILE:
     while ( $inputTopicSet->hasNext() ) {
         my $file = $inputTopicSet->next();
@@ -89,8 +89,6 @@ sub query {
     my $topicSet = $inputTopicSet;
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
-    my %completeMatch;
-
 #print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
 # AND search - search once for each token, ANDing result together
     foreach my $token ( @{ $query->{tokens} } ) {
@@ -116,12 +114,9 @@ sub query {
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
-                    #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/ );
                     $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/ );
                 }
                 else {
-
-                    #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/i );
                     $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/i );
                 }
             }
@@ -145,30 +140,23 @@ sub query {
             while ( $topicSet->hasNext() ) {
                 my $topic = $topicSet->next();
 
-                #push( @scopeTextList, $topic )
                 if ( $topicMatches{$topic} ) {
-
-                    #remove this match
-                    delete $completeMatch{$topic};
+                } else {
+                    push( @scopeTextList, $topic );            
                 }
             }
         }
         else {
-
             #TODO: the sad thing about this is we lose info
-            %completeMatch = %topicMatches;
+            @scopeTextList = keys(%topicMatches);
         }
 
-        # reduced topic list for next token
-        @scopeTextList = keys(%completeMatch);
         $topicSet =
           new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
             \@scopeTextList );
     }
 
     return $topicSet;
-
-    #    return \%completeMatch;
 }
 
 1;

@@ -45,6 +45,7 @@ sub query {
         my $searchQuery =
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
+         $topicSet->reset();
         $topicSet =
           $session->{store}->searchInWebMetaData(
               $searchQuery, $web, $topicSet, $session, $searchOptions );
@@ -60,6 +61,7 @@ sub query {
     my $resultTopicSet =
       new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web);
     local $/;
+    $topicSet->reset();
     while ( $topicSet->hasNext() ) {
         my $topic = $topicSet->next();
         my $meta = Foswiki::Meta->new( $session, $web, $topic );

@@ -130,7 +130,7 @@ this is the new way -
 sub query {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
-
+#print STDERR "ForkingSEARCH(".join(', ', @{ $query->{tokens} }).")\n";
     # default scope is 'text'
     $options->{'scope'} = 'text'
       unless ( defined( $options->{'scope'} )
@@ -138,8 +138,6 @@ sub query {
 
     my $topicSet = $inputTopicSet;
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
-
-    my %completeMatch;
 
 #print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
 # AND search - search once for each token, ANDing result together
@@ -196,30 +194,24 @@ sub query {
             while ( $topicSet->hasNext() ) {
                 my $topic = $topicSet->next();
 
-                #push( @scopeTextList, $topic )
                 if ( $topicMatches{$topic} ) {
-
-                    #remove this match
-                    delete $completeMatch{$topic};
+                } else {
+                    push( @scopeTextList, $topic );            
                 }
             }
         }
         else {
-
             #TODO: the sad thing about this is we lose info
-            %completeMatch = %topicMatches;
+            @scopeTextList = keys(%topicMatches);
         }
 
         # reduced topic list for next token
-        @scopeTextList = keys(%completeMatch);
         $topicSet =
           new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
             \@scopeTextList );
     }
 
     return $topicSet;
-
-    #return \%completeMatch;
 }
 
 1;

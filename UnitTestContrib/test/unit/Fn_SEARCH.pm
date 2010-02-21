@@ -2508,4 +2508,223 @@ CRUD
     $this->assert_html_equals( $result, $result2 );
 }
 
+sub verify_search_type_word {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+    $this->assert_str_equals( 'OkBTopic', $result );
+    my @list = split(/,/, $result);
+    my $dontcount = $#list;
+    $this->assert( $dontcount == 0 );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+    @list = split(/,/, $result);
+    $this->assert_str_equals( 'OkBTopic', $result );
+    my $plus_dontcount = $#list;
+    $this->assert( $plus_dontcount == 0 );
+    $this->assert( $plus_dontcount == $dontcount );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $minus_dontcount = $#list;
+    $this->assert( $minus_dontcount == 3 );
+    #$this->assert( $minus_dontcount == ($alltopics - $dontcount );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $bang_dontcount = $#list;
+    $this->assert( $bang_dontcount == 3 );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+    $this->assert_str_equals( '', $result );
+    @list = split(/,/, $result);
+    my $quote_dontcount = $#list;
+    $this->assert( $quote_dontcount == -1 );
+    
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $not_quote_dontcount = $#list;
+    $this->assert( $not_quote_dontcount == 4 );
+}
+
+sub verify_search_type_keyword {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
+    my @list = split(/,/, $result);
+    my $dontcount = $#list;
+    $this->assert( $dontcount == 1 );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+    @list = split(/,/, $result);
+    $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
+    my $plus_dontcount = $#list;
+    $this->assert( $plus_dontcount == 1 );
+    $this->assert( $plus_dontcount == $dontcount );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $minus_dontcount = $#list;
+    $this->assert( $minus_dontcount == 2 );
+    #$this->assert( $minus_dontcount == ($alltopics - $dontcount );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $bang_dontcount = $#list;
+    $this->assert( $bang_dontcount == 2 );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+    $this->assert_str_equals( '', $result );
+    @list = split(/,/, $result);
+    my $quote_dontcount = $#list;
+    $this->assert( $quote_dontcount == -1 );
+    
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $not_quote_dontcount = $#list;
+    $this->assert( $not_quote_dontcount == 4 );
+}
+
+sub verify_search_type_literal {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
+    my @list = split(/,/, $result);
+    my $dontcount = $#list;
+    $this->assert( $dontcount == 1 );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+    @list = split(/,/, $result);
+    $this->assert_str_equals( '', $result );
+    my $plus_dontcount = $#list;
+    $this->assert( $plus_dontcount == -1 );
+    $this->assert( $plus_dontcount != $dontcount );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+    $this->assert_str_equals( '', $result );
+    @list = split(/,/, $result);
+    my $minus_dontcount = $#list;
+    $this->assert( $minus_dontcount == -1 );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $bang_dontcount = $#list;
+    $this->assert( $bang_dontcount == 2 );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+    $this->assert_str_equals( '', $result );
+    @list = split(/,/, $result);
+    my $quote_dontcount = $#list;
+    $this->assert( $quote_dontcount == -1 );
+    
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $not_quote_dontcount = $#list;
+    $this->assert( $not_quote_dontcount == 4 );
+}
+
+sub verify_search_type_regex {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
+    my @list = split(/,/, $result);
+    my $dontcount = $#list;
+    $this->assert( $dontcount == 1 );
+  
+#this causes regex search to throw an error due to the '+'    
+#    $result =
+#      $this->{test_topicObject}->expandMacros(
+#        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+#    @list = split(/,/, $result);
+#    $this->assert_str_equals( '', $result );
+#    my $plus_dontcount = $#list;
+#    $this->assert( $plus_dontcount == -1 );
+#    $this->assert( $plus_dontcount != $dontcount );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+    $this->assert_str_equals( '', $result );
+    @list = split(/,/, $result);
+    my $minus_dontcount = $#list;
+    $this->assert( $minus_dontcount == -1 );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $bang_dontcount = $#list;
+    $this->assert( $bang_dontcount == 2 );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+    $this->assert_str_equals( '', $result );
+    @list = split(/,/, $result);
+    my $quote_dontcount = $#list;
+    $this->assert( $quote_dontcount == -1 );
+    
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split(/,/, $result);
+    my $not_quote_dontcount = $#list;
+    $this->assert( $not_quote_dontcount == 4 );
+}
+
 1;
