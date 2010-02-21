@@ -12,6 +12,7 @@ use Foswiki;
 use Error qw( :try );
 use Assert;
 use Foswiki::Search;
+use Foswiki::Search::InfoCache;
 
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
@@ -1452,7 +1453,7 @@ sub _getTopicList {
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     # Run the search on topics in this web
     my $search = $this->{session}->search();
-    my $iter = $search->_getTopicList($webObject, $options );
+    my $iter = Foswiki::Search::InfoCache::getTopicListIterator($webObject, $options );
 
     ASSERT(UNIVERSAL::isa( $iter, 'Foswiki::Iterator' )) if DEBUG;
     my @topicList = ();
