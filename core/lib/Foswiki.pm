@@ -2122,15 +2122,12 @@ sub parseSections {
     my $seq    = 0;
     my $ntext  = '';
     my $offset = 0;
-    my @queue = split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] );
-    while ( scalar(@queue) ) {
-        my $bit = shift(@queue);
+    foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] ) ) {
         if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
-            _extractHereDocuments(undef, $attrs, \@queue);
             $attrs->{type} ||= 'section';
             $attrs->{name} =
                  $attrs->{_DEFAULT}
@@ -2163,7 +2160,6 @@ sub parseSections {
 
             # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
-            _extractHereDocuments(undef, $attrs, \@queue);
             $attrs->{type} ||= 'section';
             $attrs->{name} = $attrs->{_DEFAULT} || $attrs->{name} || '';
             delete $attrs->{_DEFAULT};
