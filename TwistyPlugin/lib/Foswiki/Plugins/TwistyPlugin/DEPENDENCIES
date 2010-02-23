@@ -1,3 +1,1 @@
 Foswiki::Contrib::BehaviourContrib,>=0,perl,Required if using default Foswiki twisties.
-Foswiki::Plugins::JQueryPlugin,>=0.5,perl,Required if using jquery twisties.
-Foswiki::Contrib::DojoToolkitContrib,>=0,perl,Required if using dojo twisties.
