@@ -66,7 +66,6 @@ You can generate a listing manually, or on an automated schedule, of visits to i
 ---+++ Configuring for automatic operation
 
    * You can automatically generate usage statistics for all webs. To enable this:
-      * Make sure configure settings *{Log}{view}*, *{Log}{save}* and *{Log}{upload} in are set in [[%SCRIPTURLPATH{"configure"}%][configure]]. This will generate log file entries (see below).
       * The WebStatistics topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
       * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the WebStatistics topics in all webs.
       * *Attention:* The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
@@ -89,16 +88,15 @@ When running from the command line or a cron job, you can pass parameters to the
 #LogFiles
 ---++ Log Files
 
-Foswiki generates monthly log files which are used by the statistics script
-   * The log file is defined by the *{LogFileName}* setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
-   * The file name is =log&lt;year&gt;&lt;month&gt;.txt=
-   * Example path name: =logs/log%SERVERTIME{$year$mo}%.txt=
+Foswiki generates an event log which is used by the statistics script
+   * The directory for the log file is defined by the =={Log}{Dir}== setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
+   * The file name is =events&lt;year&gt;&lt;month&gt;.log=
+   * Example path name: =events%SERVERTIME{$year$mo}%.log=
    * Each access gets logged as: %BR%
      =| &lt;time&gt; | &lt;wikiusername&gt; | &lt;action&gt; | &lt;web&gt;.&lt;topic&gt; | &lt;extra info&gt; | &lt;IP address&gt; |=
    * Example log entry: %BR%
      =| %SERVERTIME{$day $mon $year - $hour:$min}% | %USERSWEB%.WikiGuest | view | %SYSTEMWEB%.WebRss |  | 66.124.232.02 |=
-   * Actions are logged if enabled in [[%SCRIPTURLPATH{"configure"}%][configure]] by the *{Log}{<i>action</i>}* flags
-   * Logged actions:
+   * By default the following actions are logged:
      | *Script* | *Action name* | *Extra info* |
      | attach | =attach= | when viewing attach screen of previous uploaded attachment: =filename= |
      | changes | =changes= |  |
@@ -115,6 +113,7 @@ Foswiki generates monthly log files which are used by the statistics script
      | search | =search= | search string |
      | upload | =upload= | filename |
      | view | =view= | when viewing non-existing topic: =(not exist)= %BR% when viewing previous topic revision: =r3= |
+   * You can disable the logging (and therefore the reporting) of individual actions using the =={Log}{Action}== %RED%EXPERT%ENDCOLOR% setting in =configure=.
 
 #ConfigureEmail
 ---++ E-mail

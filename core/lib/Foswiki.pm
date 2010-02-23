@@ -1991,8 +1991,8 @@ sub logEvent {
     my $user     = shift;
 
     return
-      if ( defined $Foswiki::cfg{Log}{$action}
-        && !$Foswiki::cfg{Log}{$action} );
+      if ( defined $Foswiki::cfg{Log}{Action}{$action}
+        && !$Foswiki::cfg{Log}{Action}{$action} );
 
     $user ||= $this->{user};
     $user = ( $this->{users}->getLoginName($user) || 'unknown' )

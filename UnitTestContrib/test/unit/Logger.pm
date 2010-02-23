@@ -5,6 +5,7 @@ use base qw( FoswikiTestCase );
 
 use strict;
 use File::Temp;
+use File::Path;
 use Foswiki::Logger::PlainFile;
 
 # NOTE: Test logs are created in the test web so they get torn down when the
@@ -14,17 +15,14 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    $Foswiki::cfg{DebugFileName}   = "DebugFileName$$";
-    $Foswiki::cfg{WarningFileName} = "WarningFileName$$";
-    $Foswiki::cfg{LogFileName}     = "LogFileName$$";
+    $Foswiki::cfg{Log}{Dir} = "logDir$$";
+    mkdir $Foswiki::cfg{Log}{Dir};
 }
 
 sub tear_down {
     my $this = shift;
 
-    unlink( $Foswiki::cfg{DebugFileName} );
-    unlink( $Foswiki::cfg{WarningFileName} );
-    unlink( $Foswiki::cfg{LogFileName} );
+    File::Path::rmtree( $Foswiki::cfg{Log}{Dir} );
     $this->SUPER::tear_down();
 }
 

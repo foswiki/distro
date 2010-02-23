@@ -1847,7 +1847,7 @@ sub replaceMostRecentRevision {
     finally {
         $this->_atomicUnlock($cUID);
     };
-    if ( $Foswiki::cfg{Log}{save} && !$opts{dontlog} ) {
+    if ( $Foswiki::cfg{Log}{Action}{save} && !$opts{dontlog} ) {
         my $info = $this->getRevisionInfo();
 
         # write log entry

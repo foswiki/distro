@@ -17,10 +17,10 @@ are recorded using ISO format, and include the time, and it dies when
 a log can't be written (rather than printing a warning).
 
 This logger implementation maps groups of levels to a single logfile, viz.
-   * =debug= messages are output to $Foswiki::cfg{DebugFileName}
-   * =info= messages are output to $Foswiki::cfg{LogFileName}
+   * =debug= messages are output to $Foswiki::cfg{Log}{Dir}/debug%DATE%.log
+   * =info= messages are output to $Foswiki::cfg{Log}{Dir}/log%DATE%.log
    * =warning=, =error=, =critical=, =alert=, =emergency= messages are
-     output to $Foswiki::cfg{WarningFileName}.
+     output to $Foswiki::cfg{Log}{Dir}/warn%DATE%.log.
    * =error=, =critical=, =alert=, and =emergency= messages are also
      written to standard error (the webserver log file, usually)
 
@@ -28,6 +28,17 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 use Foswiki::Time         ();
 use Foswiki::ListIterator ();
+
+# Map from a log level to the root of a log file name
+our %LEVEL2LOG = (
+    debug     => 'debug',
+    info      => 'events',
+    warning   => 'error',
+    error     => 'error',
+    critical  => 'error',
+    alert     => 'error',
+    emergency => 'error'
+   );
 
 # Local symbol used so we can override it during unit testing
 sub _time { return time() }
@@ -66,6 +77,7 @@ sub log {
         close($file);
     }
     else {
+        # die to force the admin to get permissions correct
         die 'ERROR: Could not write ' . $message . ' to ' . "$log: $!\n";
     }
     if ( $level =~ /^(error|critical|alert|emergency)$/ ) {
@@ -191,26 +203,16 @@ sub _expandDATE {
 # Get the name of the log for a given reporting level
 sub _getLogForLevel {
     my $level = shift;
-    my $log;
-    if ( $level eq 'debug' ) {
-        $log = $Foswiki::cfg{DebugFileName};
-    }
-    elsif ( $level eq 'info' ) {
-        $log = $Foswiki::cfg{LogFileName};
-    }
-    else {
-        ASSERT( $level =~ /^(warning|error|critical|alert|emergency)$/ )
-          if DEBUG;
-        $log = $Foswiki::cfg{WarningFileName};
-    }
-    return $log;
+    ASSERT(defined $LEVEL2LOG{$level}) if DEBUG;
+    my $log = $LEVEL2LOG{$level};
+    return "$Foswiki::cfg{Log}{Dir}/$log%DATE%.log";
 }
 
 1;
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
