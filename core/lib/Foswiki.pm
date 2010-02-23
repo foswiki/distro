@@ -2845,12 +2845,6 @@ sub _expandMacroOnTopicRendering {
     my $e = $this->{prefs}->getPreference($tag);
     if (defined $e)
     {
-        # Parse preference arguments to remove HERE documents
-        # for consistency with macro-processing
-        # I.e. so that %PREF{<<HERE}% and %MACRO{<<HERE}% 
-        # behave in the same way from the user's perspective
-        my $attrs = new Foswiki::Attrs( $args, 0 );
-        $this->_extractHereDocuments($attrs, $tokenQueue);
         # Preferences aren't supposed to have parameters - so ignore them
     }
     else {
@@ -2866,18 +2860,7 @@ sub _expandMacroOnTopicRendering {
             }
 
             my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
-            my @hereDocumentParams =
-              $this->_extractHereDocuments($attrs, $tokenQueue);
 
-            # TBD: are macros expanded in HERE-documents?
-            if (0) {
-                # expand macros within the HERE-documents
-                for my $param (@hereDocumentParams) {
-                    #print STDERR "[process HERE-doc $param: '$attrs->{$param}'\n";
-                    $attrs->{$param} = $this->_processMacros( $attrs->{$param}, \&_expandMacroOnTopicRendering, $topicObject, $depth - 1);
-                    #print STDERR "]$param: '$attrs->{$param}'\n";
-                }
-            }
             $e = &{ $macros{$tag} }(
                 $this, $attrs,
                 $topicObject
@@ -2885,118 +2868,6 @@ sub _expandMacroOnTopicRendering {
         }
     }
     return $e;
-}
-
-# Extract here documents during topic rendering
-# $attrs is a Foswiki::Attrs object
-# $tokenQueue is a reference to an array produced from split /(%)/, $text
-#   of the topic text immediately following the %MACRO{ ... }%
-# Returns the list of parameters for which here-documents were found
-sub _extractHereDocuments
-{
-    my ($this, $attrs, $tokenQueue) = @_;
-
-    return unless exists $attrs->{$Foswiki::Attrs::HEREKEY};
-
-    my $hereList = delete $attrs->{$Foswiki::Attrs::HEREKEY};
-
-    # @$hereList must have an even number of members
-    ASSERT( scalar(@$hereList) % 2 == 0) if DEBUG;
-
-    # save the rest of the TML on this line
-    my @tokensAfterMacro;
-    my $newline = "\x{a}";
-    #print STDERR "Looking for newline\n";
-    while (scalar @$tokenQueue) {
-        if ($tokenQueue->[0] =~ s/^(.*?)$newline//o) {
-            push @tokensAfterMacro, $1;
-            #print STDERR "Skip up to end of '$tokensAfterMacro[-1]'\n";
-
-            # Found the end of the line
-            last;
-        }
-        else {
-            push @tokensAfterMacro, shift @$tokenQueue;
-            #print STDERR "Skip '$tokensAfterMacro[-1]'\n";
-        }
-    }
-
-    # extract the HERE-document values
-    my @hereDocumentParams;
-    while (scalar @{ $hereList }) {
-        my $param = shift @{ $hereList };
-        my $here = shift @{ $hereList };
-        ASSERT($param) if DEBUG;
-        ASSERT( defined $here ) if DEBUG;
-        ASSERT( length($here) > 0 ) if DEBUG;
-        $attrs->{$param} = '' if not defined $attrs->{$param};
-        push @hereDocumentParams, $param;
-
-        # do something with the $tokenQueue
-        #print STDERR "Looking for $here\n";
-        my $foundHere = 0;
-        while (scalar @$tokenQueue) {
-            # print STDERR "Consider '$tokenQueue->[0]'\n";
-            if ($tokenQueue->[0] =~ s/(.*?)$newline$here[ \t]*$newline//s) {
-                # Found the HERE marker followed by newline - this is the normal case
-                # Optional whitespace is included for robustness
-                $attrs->{$param} .= $1;
-                $foundHere = 1;
-                #print STDERR "Found $here. Grow $param to '$attrs->{$param}' Leave '$tokenQueue->[0]'\n";
-                last;
-            }
-            elsif (scalar(@$tokenQueue) == 1 and $tokenQueue->[0] =~ s/(.*?)$newline$here[ \t]*\z//s) {
-                # Found the HERE marker at the end of the string,
-                # with no more tokens after this one.
-                $attrs->{$param} .= $1;
-                $foundHere = 1;
-                #print STDERR "Found $here. Grow $param to '$attrs->{$param}' Nothing left\n";
-                last;
-            }
-            elsif ($tokenQueue->[0] =~ s/\A$here[ \t]*$newline//s) {
-                # Found the HERE marker at the start of the token, 
-                # (which is also the start of the line)
-                # followed by newline
-                # Optional whitespace is included for robustness
-
-                # No change to $attrs->{$param};
-                $foundHere = 1;
-                #print STDERR "Found $here. Leave '$tokenQueue->[0]'\n";
-                last;
-            }
-            elsif (scalar(@$tokenQueue) == 1 and $tokenQueue->[0] =~ s/\A$here[ \t]*\z//s) {
-                # Found the HERE marker at the start of the token, 
-                # (which is also the start of the line)
-                # and at the same time at the end of the string
-                # with no more tokens after this one.
-                # Optional whitespace is included for robustness
-                #
-                # No change to $attrs->{$param};
-                $foundHere = 1;
-                #print STDERR "Found $here. Nothing left\n";
-                last;
-            }
-            else {
-                $attrs->{$param} .= shift @$tokenQueue;
-                #print STDERR "Grow $param to '$attrs->{$param}'\n";
-            }
-        }
-        if (not $foundHere) {
-            # Prevent infinite recursion
-            $attrs->{$param} =~ s/%/&#37;/g;
-            # Emit a warning to help wiki-app developers see what is wrong
-            if ($this) {
-                $attrs->{$param} .= $this->inlineAlert( 'alerts', 'here_not_found', $here );
-            }
-            else {
-                Foswiki::Func::writeWarning("HERE-document end marker '$here' not found");
-            }
-        }
-    }
-    # put back the tokens on the same line after the macro
-    unshift @$tokenQueue, @tokensAfterMacro;
-
-    return @hereDocumentParams;
 }
 
 # Handle expansion of a tag during new topic creation. When creating a
