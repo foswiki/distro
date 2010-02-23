@@ -44,7 +44,7 @@
 <input type="hidden" name="action" value="%URLPARAM{"action"}%" />%TMPL:END%
 
 
-%TMPL:DEF{"sig"}%<div><div class="foswikiLeft"><label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /></div><br class="foswikiClear"><!--/foswikiLeft--></div>%TMPL:END%
+%TMPL:DEF{"sig"}%<div><div class="foswikiLeft"><label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /></div><br class="foswikiClear"><!--/foswikiLeft--></div>%TMPL:END%
 
 
 %TMPL:DEF{"footernote"}%%TMPL:P{"help"}%%TMPL:END%
