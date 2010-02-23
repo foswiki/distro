@@ -54,7 +54,6 @@ our $VERSION = '$Rev$';
 our $ERRORKEY   = '_ERROR';
 our $DEFAULTKEY = '_DEFAULT';
 our $RAWKEY     = '_RAW';
-our $HEREKEY    = '-HERE'; # Not a valid attribute name
 our $MARKER     = "\0";
 
 =begin TML
@@ -76,7 +75,6 @@ sub new {
     my $this = bless( {}, $class );
 
     $this->{$RAWKEY} = $string;
-    my @here;
 
     return $this unless defined($string);
 
@@ -86,30 +84,14 @@ sub new {
     my $sep = ( $friendly ? "[\\s,]" : "\\s" );
     my $first = 1;
 
-    if ( !$friendly && $string =~ s/^\s*\"(.*?)\"\s*(\w+\s*=\s*(?:\"|<<\w+)|$)/$2/s ) {
+    if ( !$friendly && $string =~ s/^\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/$2/s ) {
         $this->{$DEFAULTKEY} = $1;
     }
     while ( $string =~ m/\S/s ) {
 
-        # name=<<HERE pairs
-        if ( $string =~ s/^$sep*(\w+)\s*=\s*<<(\w+)//is ) {
-            $this->{$1} = '';
-            push @here, $1, $2;
-            $first = 0;
-        }
-
         # name="value" pairs
-        elsif ( $string =~ s/^$sep*(\w+)\s*=\s*\"(.*?)\"//is ) {
+        if ( $string =~ s/^$sep*(\w+)\s*=\s*\"(.*?)\"//is ) {
             $this->{$1} = $2;
-            $first = 0;
-        }
-
-        # <<HERE with no name, sets the default
-        elsif ( $string =~ s/^$sep*<<(\w+)(?!\S)//os ) {
-            unless (defined $this->{$DEFAULTKEY} ) {
-                push @here, $DEFAULTKEY, $1;
-                $this->{$DEFAULTKEY} = '';
-            }
             $first = 0;
         }
 
@@ -166,7 +148,6 @@ sub new {
     foreach my $k ( keys %$this ) {
         $this->{$k} =~ s/$MARKER(\d\d)/chr($1)/geo; # escapes
     }
-    $this->{$HEREKEY} = \@here if @here;
     return $this;
 }
 
