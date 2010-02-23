@@ -2752,7 +2752,7 @@ sub _processMacros {
 
                 #print STDERR ' ' x $tell,"POP $tag\n";
                 #Monitor::MARK("Before $tag");
-                my $e = &$tagf( $this, $tag, $args, $topicObject, \@queue, $depth );
+                my $e = &$tagf( $this, $tag, $args, $topicObject );
                 #Monitor::MARK("After $tag");
 
                 if ( defined($e) ) {
@@ -2835,11 +2835,8 @@ sub _processMacros {
 # $args is the bit in the {} (if there are any)
 # $topic and $web should be passed for dynamic tags (not needed for
 # session or constant tags
-# $tokenQueue is the queue of tokens not yet processed, which may
-# contain end-of-HERE document markers
-# $depth is the recursion depth
 sub _expandMacroOnTopicRendering {
-    my ( $this, $tag, $args, $topicObject, $tokenQueue, $depth ) = @_;
+    my ( $this, $tag, $args, $topicObject ) = @_;
 
     require Foswiki::Attrs;
     my $e = $this->{prefs}->getPreference($tag);
