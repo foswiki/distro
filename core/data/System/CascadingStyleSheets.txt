@@ -25,6 +25,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTable=                 | Tables, for instance used by TablePlugin  |
 |=.foswikiForm=                  | Container for data form in topic, including header; see also [[%TOPIC%#DataForms][Data Forms]] below |
 |=.foswikiAttachments=           | Container for attachments table, including header |
+|=table#foswikiAttachmentsTable= | Identifier for the attachment table  |
 |=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
 |=.foswikiFormStep=              | Form step row |
 |=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |
@@ -107,6 +108,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiInputFieldBeforeFocus= | The color of the input text field when not clicked in the field; usually a grayed text color with a hint, for instance "Search" |
 |=.foswikiFocus=                 | Behaviour marker so a field can be given input focus |
 |=.foswikiRadioButton=           | Radio button  |
+|=.foswikiCheckbox=              | Checkbox |
 |=.foswikiSelect=                | Select dropdown menu |
 |=.foswikiSelectDisabled=        | Disabled dropdown menu |
 |=.foswikiOption=                | Dropdown option element |
