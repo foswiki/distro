@@ -186,7 +186,7 @@ sub _upload {
     try {
         $topicObject->attach(
             name        => $fileName,
-            dontlog     => !$Foswiki::cfg{Log}{upload},
+            dontlog     => !$Foswiki::cfg{Log}{Action}{upload},
             comment     => $fileComment,
             hide        => $hideFile,
             createlink  => $createLink,
