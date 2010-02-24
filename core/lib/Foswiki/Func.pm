@@ -702,6 +702,7 @@ sub userToWikiName {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $users = $Foswiki::Plugins::SESSION->{users};
     my $user  = getCanonicalUserID($login);
+die $login unless $user;
     return (
           $dontAddWeb
         ? $login
@@ -2600,16 +2601,92 @@ sub spaceOutWikiWord {
 
 =begin TML
 
+---+++ writeEvent( $action, $extra )
+
+Log an event.
+   * =$action= - name of the event (keep them unique!)
+   * =$extra= - arbitrary extra information to add to the log.
+You can enumerate the contents of the log using the =eachEventSince= function.
+
+*NOTE:* Older plugins may use =$Foswiki::cfg{LogFileName}=. These
+plugins must be modified to use =writeEvent= and =eachEventSince= instead.
+
+To maintain compatibility with older Foswiki releases, you can write
+conditional code as follows:
+<verbatim>
+if (defined &Foswiki::Func::writeEvent) {
+   # use writeEvent and eachEventSince
+} else {
+   # old code using {LogFileName}
+}
+</verbatim>
+
+Note that the ability to read/write =$Foswiki::cfg{LogFileName}= is
+maintained for compatibility but is *deprecated* (should not be used
+in new code intended to work only with Foswiki 1.1 and later) and will
+not work with any installation that stores logs in a database.
+
+=cut
+
+sub writeEvent {
+    my ($action, $extra) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $webTopic = $Foswiki::Plugins::SESSION->{webName} . '.'
+      . $Foswiki::Plugins::SESSION->{topicName};
+    return $Foswiki::Plugins::SESSION->logEvent(
+        $action, $webTopic, $extra );
+}
+
+=begin TML
+
+---++ ObjectMethod eachEventSince($time, $level) -> $iterator
+   * =$time= - a time in the past (seconds since the epoch)
+   * =$level= - log level to return events for.
+
+Get an iterator over the list of all the events at the given level
+between =$time= and now. Events are written to the event log using
+=writeEvent=. The Foswiki core will write other events that will
+also be returned.
+
+Events are returned in *oldest-first* order.
+
+Each event is returned as a reference to an array. The elements are:
+   1 date of the event (seconds since the epoch)
+   1 login name of the user who triggered the event
+   1 the event name (the $action passed to =writeEvent=)
+   1 the Web.Topic that the event applied to
+   1 Extras (the $extra passed to =writeEvent=)
+   1 The IP address that was the source of the event (if known)
+
+Use the iterator like this:
+<verbatim>
+my $it = Foswiki::Func::eachEventSince(Foswiki::Time::parseTime("1 Apr 2010"));
+while ($it->hasNext()) {
+   my $entry = $it->next();
+   my $date = $entry->[0];
+   my $loginName = $entry->[1];
+   ...
+}
+</verbatim>
+
+=cut
+
+sub eachEventSince {
+    my $time = shift;
+    return $Foswiki::Plugins::SESSION->logger->eachEventSince(
+        $time, 'info' );
+}
+
+=begin TML
+
 ---+++ writeWarning( $text )
 
-Log Warning that may require admin intervention to data/warning.txt
+Log a warning that may require admin intervention to the warnings log
    * =$text= - Text to write; timestamp gets added
 
 =cut
 
 sub writeWarning {
-
-    #   my( $text ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     return $Foswiki::Plugins::SESSION->logger->log( 'warning',
         scalar( caller() ), @_ );
@@ -2619,7 +2696,7 @@ sub writeWarning {
 
 ---+++ writeDebug( $text )
 
-Log debug message to data/debug.txt
+Log debug message to the debug log 
    * =$text= - Text to write; timestamp gets added
 
 =cut

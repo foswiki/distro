@@ -1484,4 +1484,26 @@ SETS
                          Foswiki::Func::getPreferencesValue('ICE'));
 }
 
+sub test_writeEvent {
+    my $this = shift;
+    my $now = time();
+    Foswiki::Func::writeEvent("cereal", "milk");
+    select(undef, undef, undef, 0.25) while (time() == $now);
+    $now = time();
+    Foswiki::Func::writeEvent("sausage", "eggs");
+    Foswiki::Func::writeEvent("bacon");
+    Foswiki::Func::writeEvent();
+    Foswiki::Func::writeEvent("toast", "jam");
+    my $it = Foswiki::Func::eachEventSince($now);
+    $this->assert($it->hasNext());
+    my $e = $it->next();
+    $this->assert_equals($now, $e->[0]);
+    $this->assert_equals('sausage', $e->[2]);
+    $this->assert_equals('eggs', $e->[4]);
+    $e = $it->next() while ($it->hasNext() && $e->[2] ne 'bacon');
+    $e = $it->next() while ($it->hasNext() && $e->[2] ne '');
+    $e = $it->next() while ($it->hasNext() && $e->[2] ne 'toast');
+    $this->assert_equals('jam', $e->[4]);
+}
+
 1;
