@@ -235,44 +235,19 @@ Note that if you want to use the =action= template then you must also:
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
-|  Copyright: | &copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2009 Foswiki:%SYSTEMWEB%.ProjectContributor |
+|  Copyright: | &copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2010 Foswiki:%SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  24 Feb 2010 | Foswikitask:Item8611 - block comments resulting from calls to saveTopic from within an afterSaveHandler |
 |  12 Sep 2009 | Foswikitask:Item8269 - Targeting anchors broken by Item727 is fixed. |
 |  04 Jun 2009 | Foswikitask:Item1668 - The action template used with !ActionTrackerPlugin now uses new syntax ending with %ENDACTION. This makes each action item appear on a new line. Additionally new lines are now correctly saved as html br tags and not as html encoded br tag <br /> Foswikitask:Item1640 - Templates shipped with the plugin no longer encodes the user date entered when the date is saved so that it is possible for the user to use macros. |
 |  15 Jan 2008 | Foswikitask:Item727 - data loss issue when missing anchor or location |
 |  13 Jan 2009 | Foswikitask:Item736 - Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
 |  16 Dec 2008 | Foswiki version |
-|  03 Aug 2008 | The TWiki 4.2.1 release version | 
-|  11 Apr 2008 | TWikibug:Item5518 corrected the template definition for bulletabove |
-|  05 Sep 2007 | TWikibug:Item3689 corrected =location= handling TWikibug:Item4181 added VarCOMMENT TWikibug:Item4402 corrected access check |
-|  22 Jun 2007 | Removed the long-deprecated =%TIME= (use %GMTIME instead). Minor doc changes |
-|  14021 | TWikibug:Item3755 Fixed incorrect handling of line terminators when targeting an anchor |
-|  13311 | Added option to define a comment template in any topic. Pass the topic location with =templatetopic= (either =topic= or =web.topic=). See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]]. |
-|  12822 | TWikibug:Item3598 minor doc fixes |
-|  12750 | TWikibug:Item3510 added a note about the changed template spec in TWiki 4.1.0. Code remains unchanged |
-|  11358 | TWikibug:Item2802 moved SHORTDESCRIPTION to .pm. Coded up TWiki:main.PankajPant's suggestions as =nopost= and =remove=. Added default text for the %COMMENT as requested by TWiki:Main.AndyGlew |
-|  11118 | TWikibug:Item2322 removed span tag around oneliner bullet output |
-|  8788 | TWikibug:Item1465  Item1577: reverted 8433 to fix inclusion of correct user templates |
-|  8787 | TWikibug:Item1573  renamed standard templates topic to avoid naming clash on Windows, where filenames are case-insensitive |
-|  8433 | TWikibug:Item1465  Fix 'TWiki.' to '%SYSTEMWEB%.'; also fixed include 'UserComments' to 'UserCommentsTemplate' (at least that is what the doc suggests) |
-|  7427 | TWikibug:Item845  removed duplicate date in default comments; stick with server time |
-|  7251 | TWikibug:Item810  fix for user template inclusion; reorganised templates to make customisation easier |
-|  5906 | TWikibug:Item143  apache warning from comment plugin when !CommentsTmpl.txt not found |
-|  5519 | !CommentPluginOnAnchorsBroken: incorporated !JacobEisinger's fix |
-|  5518 | !CommentPluginOnAnchorsBroken: incorporated !OlivierBerger's fix |
-|  5455 | On Niels Kodslo's prompting, removed the global recursion prevention that I believe is no longer needed. |
-|  5280 | Removed templates, and some minor fixes |
-|  5250 | Removed newlines from prompt box |
-|  4902 | Changed to use viewauth. Moved templates into user topics. |
-|  4901 | Added templates in user webs support |
-|  4897 | Fixes for disabling during preview; re-enabled old legacy parameters |
-|  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
-|  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
-|  4745 | 06 Mar 2002 initial commit |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  06 Mar 2002 | initial commit |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 *Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]

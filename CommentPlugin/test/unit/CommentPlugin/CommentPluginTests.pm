@@ -67,8 +67,7 @@ sub inputTest {
         $sattrs .= '" ';
     }
 
-    my $url =
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/save$Foswiki::cfg{ScriptSuffix}/$web/$topic";
+    my $url = Foswiki::Func::getScriptUrl( $web, $topic, 'save' );
 
     if ($location) {
         $sattrs .= ' location="' . $location . '" ';

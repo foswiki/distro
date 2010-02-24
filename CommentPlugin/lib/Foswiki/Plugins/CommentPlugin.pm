@@ -10,7 +10,7 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '12 Sep 2009';
+our $RELEASE = '24 Feb 2010';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -50,6 +50,10 @@ sub beforeSaveHandler {
     my $action = $query->param('comment_action');
 
     return unless( defined( $action ) && $action eq 'save' );
+
+    # Stop it being applied again
+    $query->delete('comment_action');
+
     Foswiki::Plugins::CommentPlugin::Comment::save( @_ );
 }
 
