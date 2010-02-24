@@ -1517,6 +1517,7 @@ sub new {
     # Compatibility; not used except maybe in plugins
     $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
       unless defined( $Foswiki::cfg{TempfileDir} );
+    $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/log%DATE%.log";
 
     # Set command_line context if there is no query
     $initialContext ||= defined($query) ? {} : { command_line => 1 };
