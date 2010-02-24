@@ -28,6 +28,7 @@ data/System/JQueryMedia.txt 0644
 data/System/JQueryMetadata.txt 0644
 data/System/JQueryPlugin.txt 0644
 data/System/JQueryQueryObject.txt 0644
+data/System/JQueryQTip.txt 0644
 data/System/JQueryRating.txt 0644
 data/System/JQueryScrollTo.txt 0644
 data/System/JQuerySerialScroll.txt 0644
@@ -84,6 +85,7 @@ lib/Foswiki/Plugins/JQueryPlugin/Plugin.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugins.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/QUERYOBJECT.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/QTIP.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/RATING.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SCROLLTO.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SERIALSCROLL.pm 0644
@@ -498,6 +500,11 @@ pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.js 0644
 pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.js.gz 0644
 pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/queryobject/Makefile 0644
+pub/System/JQueryPlugin/plugins/qtip/jquery.qtip.js 0644
+pub/System/JQueryPlugin/plugins/qtip/jquery.qtip.js.gz 0644
+pub/System/JQueryPlugin/plugins/qtip/jquery.qtip.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/qtip/Makefile 0644
+pub/System/JQueryPlugin/plugins/qtip/LICENSE 0644
 pub/System/JQueryPlugin/plugins/rating/delete.gif 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.css 0644
 pub/System/JQueryPlugin/plugins/rating/jquery.rating.css.gz 0644
