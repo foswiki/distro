@@ -108,6 +108,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiInputFieldBeforeFocus= | The color of the input text field when not clicked in the field; usually a grayed text color with a hint, for instance "Search" |
 |=.foswikiFocus=                 | Behaviour marker so a field can be given input focus |
 |=.foswikiRadioButton=           | Radio button  |
+|=.foswikiCheckbox=              | Checkbox |
 |=.foswikiSelect=                | Select dropdown menu |
 |=.foswikiSelectDisabled=        | Disabled dropdown menu |
 |=.foswikiOption=                | Dropdown option element |
@@ -161,7 +162,6 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiEditboxStyleMono=         | Gives the edit textarea monospaced font (not used with WYSWIWYG) |
 |=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
 |=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
-
 
 
 
