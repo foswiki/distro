@@ -702,7 +702,6 @@ sub userToWikiName {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $users = $Foswiki::Plugins::SESSION->{users};
     my $user  = getCanonicalUserID($login);
-die $login unless $user;
     return (
           $dontAddWeb
         ? $login
