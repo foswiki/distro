@@ -155,7 +155,7 @@ sub ui {
     # Each extension has two rows
     
     foreach my $key ( sort {
-	(length $exts->{$a}->{installedVersion} == 0) <=> (length $exts->{$b}->{installedVersion} == 0)
+	defined $exts->{$b}->{installedVersion} <=> defined $exts->{$a}->{installedVersion}
 	    ||
 	lc $a cmp lc $b
 		      } keys %$exts ) {
