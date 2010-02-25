@@ -138,10 +138,14 @@
     $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
     var self = this;
 
-    if (typeof(values) == 'object') {
+    if (typeof(values) === 'object') {
       values = values.join(',');
+    } 
+    if (typeof(values) !== 'undefined' && typeof(values) !== 'null') {
+      values = values.split(/\s*,\s*/).sort();
+    } else {
+      values = '';
     }
-    values = values.split(/\s*,\s*/).sort();
 
     // only set values not already there
     if (self.currentValues.length > 0) {
