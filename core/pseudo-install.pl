@@ -15,6 +15,10 @@ our $CAN_LINK;
 our $force;
 our $parentdir;
 
+my $autoenable = 0;
+my $installing = 1;
+my $autoconf   = 0;
+
 BEGIN {
     $basedir   = $FindBin::Bin;    # core dir
     $parentdir = "$basedir/..";
@@ -38,6 +42,14 @@ BEGIN {
         $CAN_LINK = 1;
     };
     unlink( "testtgt$n", "testlink$n" );
+}
+
+sub error {
+    warn "ERROR: ",@_;
+}
+
+sub trace {
+    #warn "...",@_,"\n";
 }
 
 sub usage {
@@ -67,7 +79,7 @@ sub usage {
     -l[ink] - create links $linkByDefault
     -c[opy] - copy instead of linking $copyByDefault
     -u[ninstall] - self explanatory (doesn't remove dirs)
-    all - install all extensions
+    all - install all extensions (big job)
     default - install extensions listed in lib/MANIFEST
     developer - default + key developer environment
     <module>... one or more extensions to install
@@ -109,7 +121,7 @@ sub installModule {
     print "Processing $module\n";
     my $subdir = 'Plugins';
     $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn)$/;
-    $subdir = 'Tags'    if $module =~ /Tag$/;
+
     my $moduleDir;
 
     foreach my $dir (@extensions_path) {
@@ -120,7 +132,7 @@ sub installModule {
     }
 
     unless ( -d $moduleDir ) {
-        print STDERR "--> Could not find $module\n";
+        warn "--> Could not find $module\n";
         return;
     }
 
@@ -149,7 +161,7 @@ sub installModule {
     }
     else {
         $libDir = undef;
-        print STDERR "---> No MANIFEST in $module (at $manifest)\n";
+        warn "---> No MANIFEST in $module (at $manifest)\n";
     }
     if ( -d "$moduleDir/test/unit/$module" ) {
         opendir( D, "$moduleDir/test/unit/$module" );
@@ -159,7 +171,53 @@ sub installModule {
         }
         closedir(D);
     }
+
+    # process dependencies, if we are installing
+    if ($installing) {
+        my $deps = $manifest;
+        $deps =~ s/MANIFEST/DEPENDENCIES/;
+        if (open( F, '<', $deps )) {
+            trace "read deps from $deps";
+            foreach my $dep (<F>) {
+                chomp($dep);
+                next unless $dep =~ /^\w+/;
+                satisfyDependency(split(/\s*,\s*/, $dep));
+            }
+            close(F);
+        } else {
+            warn "*** Could not open $deps\n";
+        }
+
+    }
+
     return $libDir;
+}
+
+sub satisfyDependency {
+    my ($mod, $cond, $type, $mess) = @_;
+
+    # First see if we can find it in the install or @INC path
+    my $f = $mod;
+    $f =~ s#::#/#g;
+    foreach my $dir ('./lib', @INC) {
+        if (-e "$dir/$f.pm") {
+            # Found it
+            # TODO: check the version
+            trace "$mod is already installed";
+            return;
+        }
+    }
+    trace "$mod is not installed";
+    # Not found, is it required?
+    if ($mess !~ /^required/i) {
+        warn "$mod is an optional dependency, but is not installed";
+        return;
+    }
+    if ($type eq 'perl' && $mod =~ /^Foswiki/) {
+        warn "**** $mod is a required Foswiki dependency, but it is not installed\n";
+    } else {
+        warn "**** $mod is a required dependency, but it is not installed\n";
+    }
 }
 
 sub copy_in {
@@ -192,7 +250,7 @@ sub _checkLink {
     my $dest = _cleanPath( readlink( $path . $c ), $path );
     $dest =~ m#/([^/]*)$#;    # Remove slashes
     unless ( $1 eq $c ) {
-        print STDERR <<HERE;
+        warn <<HERE;
 WARNING Confused by
      $path -> '$dest' doesn't point to the expected place
      (should be $moduleDir$path$c)
@@ -201,7 +259,7 @@ HERE
 
     my $expected = _cleanPath("$moduleDir/$path$c");
     if ( $dest ne $expected ) {
-        print STDERR <<HERE;
+        warn <<HERE;
 WARNING Confused by
      $path$c -> '$dest' doesn't point to the expected place
      (should be $expected)
@@ -222,23 +280,23 @@ sub just_link {
         if ( -l $path . $c ) {
             _checkLink( $moduleDir, $path, $c );
 
-            #print STDERR "$path$c already linked\n";
+            #warn "$path$c already linked\n";
             last;
         }
         elsif ( -d "$path$c" ) {
             $path .= "$c/";
         }
         elsif ( -e "$path$c" ) {
-            print STDERR "ERROR $path$c is in the way\n";
+            warn "ERROR $path$c is in the way\n";
             last;
         }
         elsif (( $c eq 'TWiki' )
             or ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
         {    # Special case
             $path .= "$c/";
-            print STDERR "mkdir $path\n";
+            warn "mkdir $path\n";
             if ( !mkdir( _cleanPath($path) ) ) {
-                print STDERR "Could not mkdir $path: $!\n";
+                warn "Could not mkdir $path: $!\n";
                 last;
             }
         }
@@ -249,28 +307,47 @@ sub just_link {
                   unless symlink( $tgt, _cleanPath( $path . $c ) );
             }
             else {
-                print STDERR "WARNING: no such file $tgt\n";
+                warn "WARNING: no such file $tgt\n";
             }
             print "Linked $path$c\n";
             last;
         }
     }
 
-    # Test special case when source is compressed or uncompressed
+    # Special case s for derived objects created by compression and/or
+    # zipping.
     my $found = -f "$moduleDir/$file";
+
+    # Unlink zip generated by compression. This is inefficient, but
+    # the alternative is comparing file dates, which is hard work.
+    if ($found && ! -l "$moduleDir/$file" && $file =~ /\.gz$/) {
+        unlink "$moduleDir/$file";
+        $found = 0;
+    }
+
     unless ($found) {
-        if ( $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
+        trace "$moduleDir/$file not found";
+        my $compress = 0;
+        if (!$found && $file =~ /(.*)\.gz$/) {
+            $file = $1;
+            $found = (-f "$moduleDir/$1");
+            $compress = 1;
+        }
+        if ( !$found && $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
             && -f "$moduleDir/$1$3" )
         {
+            trace "...link $moduleDir/$file to $moduleDir/$1$3";
             symlink( _cleanPath("$moduleDir/$file"),
                 _cleanPath("$moduleDir/$1$3") )
               or die "Failed to link $moduleDir/$1$3 to moduleDir/$file: $!";
             print "Linked $file as $1$3\n";
             $found++;
         }
-        elsif ( my ( $src, $ext ) = $file =~ /^(.+)(\.[^\.]+)$/ ) {
+        elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/) {
+            my ( $src, $ext ) =  ($1, $2);
             for my $kind (qw( .uncompressed .compressed _src )) {
                 if ( -f "$moduleDir/$src$kind$ext" ) {
+                    trace "...link $moduleDir/$src$kind$ext to $moduleDir/$1$3";
                     symlink(
                         _cleanPath("$moduleDir/$src$kind$ext"),
                         _cleanPath("$moduleDir/$file")
@@ -283,9 +360,14 @@ sub just_link {
                 }
             }
         }
+        if ($found && $compress) {
+            trace "...compressed $moduleDir/$file to create $file.gz";
+            # SMELL: someone might not have tar
+            trace `tar vczf $file.gz $file`;
+        }
     }
     unless ($found) {
-        print STDERR "WARNING: Cannot find source file $moduleDir/#/$file\n";
+        warn "WARNING: Cannot find source file $moduleDir/#/$file\n";
         return;
     }
 }
@@ -350,10 +432,10 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
         if ( open( LS, '>', $localSiteCfg ) ) {
             print LS $localsite;
             close(LS);
-            print STDERR "wrote simple config to $localSiteCfg\n\n";
+            warn "wrote simple config to $localSiteCfg\n\n";
         }
         else {
-            print STDERR "ERROR: failed to write to $localSiteCfg\n\n";
+            warn "ERROR: failed to write to $localSiteCfg\n\n";
         }
     }
     else {
@@ -397,14 +479,11 @@ sub enablePlugin {
             );
         }
         else {
-            print STDERR "WARNING: failed to write lib/LocalSite.cfg\n";
+            warn "WARNING: failed to write lib/LocalSite.cfg\n";
         }
     }
 }
 
-my $autoenable = 0;
-my $installing = 1;
-my $autoconf   = 0;
 $install = $CAN_LINK ? \&just_link : \&copy_in;
 
 while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
@@ -487,7 +566,8 @@ foreach my $module (@modules) {
 }
 
 print ' '
-  . ( ( $#installedModules > 0 ) ? join( ", ", @installedModules ) : 'Nothing' )
+  . ( scalar(@installedModules) ? join( ", ", @installedModules )
+        : 'No modules' )
   . ' '
   . ( $installing ? 'i' : 'uni' )
   . "nstalled\n";
