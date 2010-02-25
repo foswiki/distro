@@ -1,13 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721409" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1267133207" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ User Form
 
 This is a maintenance topic, used by the Wiki administrator.
 
 ---++ Data form definition of user topics
-<!--
-Before changing this form, please read the guidelines below at [[%SYSTEMWEB%.UserForm#CustomForm][Customizing the User Form]]
--->
+%INCLUDE{"%SYSTEMWEB%.UserFormHelp" section="note"}%
+
 |*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
 | <nop>FirstName | text | 40 | | | |
 | <nop>LastName | text | 40 | | | |
@@ -25,32 +24,4 @@ Before changing this form, please read the guidelines below at [[%SYSTEMWEB%.Use
 | <nop>HomePage | text | 40 | | | |
 | Comment | textarea | 50x6 | | | |
 
-#CustomForm
----++ Customizing the User Form
-If you want to change the user form, you would first want to make a copy of this form to the <nop>%USERSWEB% Web. That ensures your changes stay intact after a Foswiki update.
-
-To make a copy, follow these steps:
-
-   * By hand:
-      1 Take a copy of this topic and save it to %IF{"istopic '%USERSWEB%.UserForm'" then="[[%USERSWEB%.UserForm]]" else="%USERSWEB%.<nop>UserForm"}%
-      1 When editing your new !UserForm topic, change the entries in the data form definition. You may remove all explanation around the table.
-   * Automatically: %BR%
-   <form action="%SCRIPTURL{manage}%/%WEB%/" method="post"><input type="hidden" name="topic" value="%USERSWEB%.UserForm" ><input type="submit" class="foswikiButton" value="Make a copy for me now" /><input type="hidden" name="action" value="create" /><input type="hidden" name="onlynewtopic" value="on" /><input type="hidden" name="templatetopic" value="%WEB%.%TOPIC%" /><input type="hidden" name="section" value="definition" /><input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" /><input type="hidden" name="nowysiwyg" value="1" /></form> %BR%
-   <span class="foswikiGrayText">you will return here after saving</span>
-
-%X% Note that your form changes will only be visible in a user topic after it has been saved. %BR%
-%X% Please keep the %SYSTEMWEB%.UserRegistration form and this form definition in sync. When you update this form you need to edit/save the %SYSTEMWEB%.NewUserTemplate topic. This ensures that the fields are in the right order.
-
----+++ A form for new users
-To use your new user form for new (registering) users, create a copy of %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="%USERSWEB%.<nop>NewUserTemplate"}%.
-
-   * By hand:
-      1 Take a copy of [[%SYSTEMWEB%.NewUserTemplate]] and save it to %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="%USERSWEB%.<nop>NewUserTemplate"}%
-      1 Set the topic form to your custom %IF{"istopic '%USERSWEB%.UserForm'" then="%USERSWEB%.UserForm" else="%USERSWEB%.<nop>UserForm"}% topic
-   
-   * Automatically: %BR%
-   <form action="%SCRIPTURL{manage}%/%WEB%/" method="post"><input type="hidden" name="topic" value="%USERSWEB%.NewUserTemplate" ><input type="submit" class="foswikiButton" value="Make a copy for me now" /><input type="hidden" name="action" value="create" /><input type="hidden" name="onlynewtopic" value="on" /><input type="hidden" name="templatetopic" value="%SYSTEMWEB%.NewUserTemplate" /><input type="hidden" name="formtemplate" value="%USERSWEB%.UserForm" /><input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" /><input type="hidden" name="nowysiwyg" value="1" /></form> %BR%
-   <span class="foswikiGrayText">you will return here after saving</span>
-
----
-*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.PatternSkinUserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
+%INCLUDE{"%SYSTEMWEB%.UserFormHelp" section="customform"}%

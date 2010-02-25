@@ -1,0 +1,53 @@
+%META:TOPICINFO{author="ProjectContributor" date="1267133207" format="1.1" version="$Rev: 4884 $"}%
+%META:TOPICPARENT{name="UserForm"}%
+---+!! User Form Help
+%STARTSECTION{"note"}%%IF{"$ BASEWEB='%SYSTEMWEB%'"
+then="%IF{"istopic '%USERSWEB%.%TOPIC%'" then="This is the default user form. You have also created a customized copy at [[%USERSWEB%.UserForm]]."
+else="Before changing this form, please read the guidelines at [[%BASEWEB%.%BASETOPIC%#CustomForm][Customizing the User Form]] below.
+"}%
+"}%%ENDSECTION{"note"}%
+
+%STARTSECTION{"customform"}%%IF{"$ BASEWEB='%SYSTEMWEB%'"
+then="
+#CustomForm
+---++ Customizing the User Form
+%IF{
+"istopic '%USERSWEB%.UserForm'"
+then="You have created a customized copy of the user form: [[%USERSWEB%.UserForm]]."
+else="If you want to change the user form, you would first want to make a copy of this form to the <nop>%USERSWEB% Web. That ensures your changes stay intact after a Foswiki update.
+
+To create a custom user form, do this:
+   * <form action='%SCRIPTURL{manage}%/%WEB%/' method='post'><input type='hidden' name='topic' value='%USERSWEB%.UserForm' ><input type='submit' class='foswikiButton' value='Create a copy for me now' /><input type='hidden' name='action' value='create' /><input type='hidden' name='onlynewtopic' value='on' /><input type='hidden' name='templatetopic' value='%BASEWEB%.UserForm' /><input type='hidden' name='section' value='definition' /><input type='hidden' name='redirectto' value='%BASEWEB%.UserForm#CustomForm' /><input type='hidden' name='nowysiwyg' value='1' /></form> %BR%
+   <span class='foswikiGrayText'>you will return here after saving</span>
+   
+   * Or create a copy by hand:
+      1 Take a copy of this topic and save it to %IF{"istopic '%USERSWEB%.UserForm'" then="[[%USERSWEB%.UserForm]]" else="%USERSWEB%.<nop>UserForm"}%
+      1 When editing your new !UserForm topic, change the entries in the data form definition. You may remove all explanation around the table.
+"}%
+"}%
+
+%X% Note that your form changes will only be visible in a user topic after it has been saved. %BR%
+%X% Please keep the %SYSTEMWEB%.UserRegistration form and the user form definition in sync. When you update the user form you need to edit/save the %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="[[%SYSTEMWEB%.NewUserTemplate]] (not recommended, see below)"}%. This ensures that the fields are in the right order.
+
+#CreateNewUserForm
+---+++ A form for new users
+If a new user registers, the new user page is prefilled with the contents of %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="[[%SYSTEMWEB%.NewUserTemplate]]"}%. That template also contains a user form, based on the form definition in %IF{"istopic '%USERSWEB%.UserForm'" then="[[%USERSWEB%.UserForm]]" else="[[%SYSTEMWEB%.UserForm]]"}%.
+
+%IF{
+"istopic '%USERSWEB%.NewUserTemplate'"
+then="You have created a customized copy of the 'new user' template: [[%USERSWEB%.NewUserTemplate]]."
+else="%IF{"istopic '%USERSWEB%.UserForm'" then="You have created a custom user form, so you ought to use a custom 'new user' template as well." else="If you use a custom user form, you ought to use a custom 'new user' template as well."}% This will make your changes safe to future Foswiki upgrades.
+
+To create your custom new user template, do this:
+   * <form action='%SCRIPTURL{manage}%/%WEB%/' method='post'><input type='hidden' name='topic' value='%USERSWEB%.NewUserTemplate' ><input type='submit' class='foswikiButton' value='Create a copy for me now' /><input type='hidden' name='action' value='create' /><input type='hidden' name='onlynewtopic' value='on' /><input type='hidden' name='templatetopic' value='%SYSTEMWEB%.NewUserTemplate' /><input type='hidden' name='formtemplate' value='%USERSWEB%.UserForm' /><input type='hidden' name='redirectto' value='%BASEWEB%.UserForm#CreateNewUserForm' /><input type='hidden' name='nowysiwyg' value='1' /></form> %BR%
+   <span class='foswikiGrayText'>you will return here after saving</span>
+   
+   * Or create a copy by hand:
+      1 Take a copy of [[%SYSTEMWEB%.NewUserTemplate]] and save it to %IF{"istopic '%USERSWEB%.NewUserTemplate'" then="[[%USERSWEB%.NewUserTemplate]]" else="%USERSWEB%.<nop>NewUserTemplate"}%
+      1 Set the topic form to your custom %IF{"istopic '%USERSWEB%.UserForm'" then="%USERSWEB%.UserForm" else="%USERSWEB%.<nop>UserForm"}% topic
+"
+}%
+
+---
+*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.PatternSkinUserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
+%ENDSECTION{"customform"}%

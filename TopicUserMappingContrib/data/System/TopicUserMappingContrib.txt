@@ -36,11 +36,11 @@ It includes the topics that are used when registering and managing users and gro
       * %USERSWEB%.UserList                  
       * %USERSWEB%.UserListHeader            
       * %USERSWEB%.UserListByDateJoined      
-      * %USERSWEB%.UserListByLocation        
-      * %USERSWEB%.UserListByPhotograph      
+      * %USERSWEB%.UserListByLocation           
    * User and Group template files
       * %SYSTEMWEB%.NewUserTemplate
       * %SYSTEMWEB%.UserForm
+      * %SYSTEMWEB%.UserFormHelp
       * %SYSTEMWEB%.UsersTemplate
       * %USERSWEB%.UserHomepageHeader        
       * %SYSTEMWEB%.UserSetting
@@ -53,15 +53,14 @@ Users are added using the default registration process in Foswiki. To delete a u
 
    1. Edit the .htpasswd file to delete their entry (see =configure= for the location
    2. Remove their topic files: data/%USERSWEB%/FredQuimby.txt and data/%USERSWEB%/FredQuimby.txt,v
-   3. Remove the FredQuimby line from the %USERSWEB%.WikiUsers topic
-   4. Remove user from all groups and from all the ALLOWWEB/ALLOWTOPIC... declarations, if any.
-      Note: Otherwise this will leave a security hole, as the first person to re-register with this name will be granted the permissions of the previous user.
+   3. Remove the !FredQuimby line from the %USERSWEB%.WikiUsers topic
+   4. Remove user from all groups and from all the ALLOWWEB/ALLOWTOPIC... declarations, if any. <br />
+   %X% Note: Otherwise this will leave a security hole, as the first person to re-register with this name will be granted the permissions of the previous user.
 
 ---++ Settings
 The !TopicUserMappingContrib specific settings have not yet been moved out of the standard Foswiki.spec. This will be done in a future release.
 
 ---++ Installation Instructions
-
 It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
@@ -71,6 +70,7 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.2.4 | 25 Feb 2010 - Updated documentation in !UserForm. |
 |  4.2.3 | 20 Sep 2009 - Foswiki 1.0.7 version |
 |  4.2.2 | 16 Dec 2008 - Foswiki version |
 |  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
