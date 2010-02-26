@@ -51,8 +51,6 @@ sub new {
         throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
     }
     
-    $session->enterContext('passwords_managed');
-    
     return $this;
 }
 

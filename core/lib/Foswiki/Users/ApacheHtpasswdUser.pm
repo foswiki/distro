@@ -30,8 +30,6 @@ sub new {
     my $this = $class->SUPER::new($session);
     $this->{apache} = new Apache::Htpasswd(
         { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
-
-    $session->enterContext('passwords_managed');
     
     return $this;
 }
