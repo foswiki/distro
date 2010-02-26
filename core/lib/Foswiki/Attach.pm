@@ -160,7 +160,7 @@ sub _expandAttrs {
         return $info->{version};
     }
     elsif ( $attr eq 'ICON' ) {
-        return '%ICON{"'.$file.'" alt="else"}%';
+        return '%ICON{"'.$file.'" default="else"}%';
     }
     elsif ( $attr eq 'EXT' ) {
 
