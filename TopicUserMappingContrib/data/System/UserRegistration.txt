@@ -47,7 +47,7 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
    * Set BESPOKE_PASSWORD = <tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>\
      <tr><td align=\"right\"> %MAKETEXT{"Verify password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>
 -->
-%IF{"$ ALLOWLOGINNAME < 1" then="%BESPOKE_PASSWORD%"}%
+%IF{"context passwords_managed" then="%BESPOKE_PASSWORD%"}%
 <tr>
   <td class="registrationLabel"> %MAKETEXT{"Organisation name:"}% </td>
   <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" /></td>
