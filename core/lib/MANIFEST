@@ -7,6 +7,7 @@
 !include ../HistoryPlugin/lib/Foswiki/Plugins/HistoryPlugin
 !include ../InterwikiPlugin/lib/Foswiki/Plugins/InterwikiPlugin
 !include ../JSCalendarContrib/lib/Foswiki/Contrib/JSCalendarContrib
+!include ../JQueryPlugin/lib/Foswiki/Contrib/JQueryPlugin
 !include ../MailerContrib/lib/Foswiki/Contrib/MailerContrib
 !include ../PatternSkin/lib/Foswiki/Contrib/PatternSkin
 !include ../PreferencesPlugin/lib/Foswiki/Plugins/PreferencesPlugin
