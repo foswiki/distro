@@ -71,12 +71,16 @@ sub log {
     # OK too.
     unshift( @fields, "$time $level" );
     my $message = '| ' . join( ' | ', map { s/\|/&vbar;/g; $_ } @fields ) . ' |';
+
     my $file;
     if ( open( $file, '>>', $log ) ) {
         print $file "$message\n";
         close($file);
     }
     else {
+        if (! -w $log) {
+            die "ERROR: Could open logfile $log for write. Your admin should 'configure' now and fix the errors!\n";
+        }
         # die to force the admin to get permissions correct
         die 'ERROR: Could not write ' . $message . ' to ' . "$log: $!\n";
     }

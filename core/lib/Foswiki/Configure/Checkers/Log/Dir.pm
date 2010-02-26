@@ -19,7 +19,15 @@ sub check {
     my $ld =  $Foswiki::cfg{Log}{Dir};
     $ld =~ s/\$Foswiki::cfg({[^}]+})+/eval("\$Foswiki::cfg$1")/ge;
 
-    unless ( -d $ld ) {
+    my $d;
+    if ( opendir($d, $ld) ) {
+        # make sure all the files in the log dir are writable
+        foreach my $f ( grep { /^[^\.].*.log/ } readdir($d)) {
+            if (! -w "$ld/$f") {
+                $mess .= $this->ERROR("$ld/$f is not writable");
+            }
+        }
+    } else {
         mkdir($ld)
           || return $this->ERROR(
 "$ld does not exist, and I can't create it: $!"
