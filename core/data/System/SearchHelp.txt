@@ -1,14 +1,12 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebSearch"}%
 ---+!! Search Help
-
-%TOC%
-
----++ Search Pages
-
 There are two search pages; WebSearch offers basic search features, while
 WebSearchAdvanced offers more control over searches.
 
+%TOC%
+
+---++ Entering a search
 By default searches are keyword based like in a typical search engine:
    * Specify word(s) you want to find
    * Multiple words form an *AND* search, =intranet web service= returns all pages that have the three words anywhere in the page
@@ -21,6 +19,10 @@ By default searches are keyword based like in a typical search engine:
       * If you want to search for a word in the stop word list, prefix the word with a plus sign
    * *Example:* To search for all topics that contain ="SOAP"=, ="WSDL"=, a literal ="web service"=, but not ="shampoo"=,%BR% enter this: =soap +wsdl "web service" -shampoo=
 
+---++ Query search
+Query searches help you search the contents of forms attached to your topics, as well as the values of other meta-data attached to the topic. Read on in [[QuerySearch]].
+
+---++ Regular expression search
 Regular expression search searches for a set of regular expression patterns:
    * Patterns are separated by semicolons
    * An AND search is performed for the list of patterns
