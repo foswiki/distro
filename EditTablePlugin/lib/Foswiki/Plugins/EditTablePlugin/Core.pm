@@ -1812,7 +1812,7 @@ sub handleTableRow {
     }    # /if ($doEdit)
 
     # render final value in view mode (not edit or save)
-    Foswiki::Plugins::EditTablePlugin::decodeFormatTokens($text)
+    Foswiki::Func::decodeFormatTokens($text)
       if ( !$doSave && !$doEdit );
 
     return $text;

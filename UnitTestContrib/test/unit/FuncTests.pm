@@ -1153,6 +1153,7 @@ $n embed$nembed$n()embed
 $nop embed$nopembed$nop()embed
 $quot embed$quotembed$quot()embed
 $percnt embed$percntembed$percnt()embed
+$percent embed$percentembed$percent()embed
 $dollar embed$dollarembed$dollar()embed
 $lt embed$ltembed$lt()embed
 $gt embed$gtembed$gt()embed
@@ -1164,6 +1165,7 @@ TEST
 embed
  embedembedembed
 " embed"embed"embed
+% embed%embed%embed
 % embed%embed%embed
 $ embed$embed$embed
 < embed<embed<embed

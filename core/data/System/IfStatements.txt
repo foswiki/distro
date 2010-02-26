@@ -40,7 +40,7 @@ You are %IF{ "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'" then="not" }% a
 
 3. URL parameter
 <verbatim>
-%IF{ "defined 'search'" then="Search: $percntURLPARAM{search}$percnt" else="No search passed in"}%
+%IF{ "defined 'search'" then="Search: $percentURLPARAM{search}$percent" else="No search passed in"}%
 </verbatim>
 
 4. Range test on URL parameter

@@ -6,10 +6,10 @@ Foswiki defines some standard special tokens that can be used to replace charact
 %STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
 | =$nop= or =$nop()= | Is a "no operation". This token gets removed; useful for nested search |
 | =$quot= | Double quote (="=) (\" also works) |
-| =$percnt= | Percent sign (=%=) |
+| =$percent= | Percent sign (=%=) (=$percnt also works) |
 | =$dollar= | Dollar sign (=$=) |
 | =$lt= | Less than sign (=<=) |
 | =$gt= | Greater than sign (=>=) |
 | =$amp= | Ampersand (=&=) |
 %STOPINCLUDE%
-If you ever find yourself needing to escape an escape, you can use =$dollar= to escape the leading dollar, thus: =$dollarpercnt=.
+If you ever find yourself needing to escape an escape, you can use =$dollar= to escape the leading dollar, thus: =$dollarpercent=.

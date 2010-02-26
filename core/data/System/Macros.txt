@@ -112,7 +112,7 @@ This version of Foswiki - %WIKIVERSION% - predefines the following macros:
     web="%SYSTEMWEB%"
     type="regex"
     scope="topic"
-    format="$percntINCLUDE{$web.$topic}$percnt"
+    format="$percentINCLUDE{$web.$topic}$percent"
     nonoise="on"
 }%
 

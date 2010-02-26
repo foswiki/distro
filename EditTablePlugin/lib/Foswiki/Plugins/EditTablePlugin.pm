@@ -175,21 +175,6 @@ sub decodeValue {
     return $theText;
 }
 
-=pod
-
-=cut
-
-sub decodeFormatTokens {
-    return if ( !$_[0] );
-    $_[0] =~ s/\$n\(\)/\n/gos;               # expand '$n()' to new line
-    my $alpha = Foswiki::Func::getRegularExpression('mixedAlpha');
-    $_[0] =~ s/\$n([^$alpha]|$)/\n$1/gos;    # expand '$n' to new line
-    $_[0] =~ s/\$nop(\(\))?//gos;      # remove filler, useful for nested search
-    $_[0] =~ s/\$quot(\(\))?/\"/gos;   # expand double quote
-    $_[0] =~ s/\$percnt(\(\))?/\%/gos; # expand percent
-    $_[0] =~ s/\$dollar(\(\))?/\$/gos; # expand dollar
-}
-
 =begin TML
 
 Style sheet for table in view mode

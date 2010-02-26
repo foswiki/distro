@@ -3180,7 +3180,7 @@ are handled:
 | =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
 | =$nop= or =$nop()= | Is a "no operation". |
 | =$quot= | Double quote (="=) |
-| =$percnt= | Percent sign (=%=) |
+| =$percent= | Percent sign (=%=) (also =$percnt) |
 | =$dollar= | Dollar sign (=$=) |
 
 =cut
@@ -3191,7 +3191,7 @@ sub expandStandardEscapes {
     $text =~ s/\$n([^$regex{mixedAlpha}]|$)/\n$1/gos;  # expand '$n' to new line
     $text =~ s/\$nop(\(\))?//gos;      # remove filler, useful for nested search
     $text =~ s/\$quot(\(\))?/\"/gos;   # expand double quote
-    $text =~ s/\$percnt(\(\))?/\%/gos; # expand percent
+    $text =~ s/\$perce?nt(\(\))?/\%/gos; # expand percent
     $text =~ s/\$dollar(\(\))?/\$/gos; # expand dollar
     $text =~ s/\$lt(\(\))?/\</gos;     # expand less than
     $text =~ s/\$gt(\(\))?/\>/gos;     # expand greater than
