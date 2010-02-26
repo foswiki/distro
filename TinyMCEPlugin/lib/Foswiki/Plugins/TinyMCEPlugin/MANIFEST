@@ -4,6 +4,7 @@ data/System/TinyMCEFrequentlyAskedQuestions.txt 0644
 data/System/TinyMCEQuickHelp.txt 0644
 !noci
 lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
+lib/Foswiki/Configure/Checkers/Plugins/TinyMCEPlugin/Enabled.pm 0644
 pub/System/TinyMCEPlugin/anchor.gif 0644
 pub/System/TinyMCEPlugin/foswiki.js 0644
 pub/System/TinyMCEPlugin/foswiki_src.js 0644
