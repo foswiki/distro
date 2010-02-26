@@ -6,7 +6,7 @@ Foswiki defines some standard special tokens that can be used to replace charact
 %STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
 | =$nop= or =$nop()= | Is a "no operation". This token gets removed; useful for nested search |
 | =$quot= | Double quote (="=) (\" also works) |
-| =$percent= | Percent sign (=%=) (=$percnt also works) |
+| =$percent= | Percent sign (=%=) (=$percnt= also works) |
 | =$dollar= | Dollar sign (=$=) |
 | =$lt= | Less than sign (=<=) |
 | =$gt= | Greater than sign (=>=) |
