@@ -119,7 +119,7 @@ sub test_simpleNestedMacrosInline {
 
     $this->_testExpand('%MACRO{"$percntWIKINAME%"}%', { _RAW => $dontCare, _DEFAULT => '$percntWIKINAME%'});
 
-    $this->_testExpand('%MACRO{"$percentWIKINAME$percnt"}%', { _RAW => $dontCare, _DEFAULT => '$percntWIKINAME$percent'});
+    $this->_testExpand('%MACRO{"$percentWIKINAME$percnt"}%', { _RAW => $dontCare, _DEFAULT => '$percentWIKINAME$percnt'});
 }
 
 sub test_nonDelayedExpansionInline {
