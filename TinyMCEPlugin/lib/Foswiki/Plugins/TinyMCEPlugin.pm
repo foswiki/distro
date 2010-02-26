@@ -241,7 +241,7 @@ sub beforeEditHandler {
 <meta name="TINYMCEPLUGIN_INIT" content="$metainit" />
 SCRIPT
 
-    Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT);
+    Foswiki::Func::addToHEAD( 'tinyMCE', <<SCRIPT, 'tinyMCE::Meta');
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
