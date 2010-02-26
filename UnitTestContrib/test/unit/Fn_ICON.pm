@@ -75,6 +75,11 @@ sub test_ICON {
     $this->assert_html_equals( $html.$this->{reliconurl}.'/gif.gif" alt="else.gif" />', $t);
     $t = Foswiki::Func::expandCommonVariables('%ICON{"doc"}%');
     $this->assert_html_equals( $html.$this->{reliconurl}.'/doc.gif" alt="doc" />', $t);
+    # SMELL: depends on _filetypes.txt being correct
+    $t = Foswiki::Func::expandCommonVariables(
+        '%ICON{"unknown.tgz" default="argh" alt="bunshop"}%');
+    $this->assert_html_equals(
+        $html.$this->{reliconurl}.'/zip.gif" alt="bunshop" />', $t);
 }
 
 1;

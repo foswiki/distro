@@ -66,7 +66,7 @@ sub _lookupIcon {
         if ( defined $icon ) {
             # For historical reasons these icons are always .gif files,
             # and can be assumed to exist.
-            $path = $this->{_ICONSPACE}->getPath()."/$ext.gif";
+            $path = $this->{_ICONSPACE}->getPath()."/$icon.gif";
         }
     }
 
