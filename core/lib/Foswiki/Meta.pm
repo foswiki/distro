@@ -1283,7 +1283,7 @@ is rendered.
 =cut
 
 sub renderFormFieldForDisplay {
-    my ( $this, $name, $format, $attrs ) = @_;
+    my ( $this, $name, $format ) = @_;
 
     my $value;
     my $mf = $this->get( 'FIELD', $name );
@@ -1306,7 +1306,7 @@ sub renderFormFieldForDisplay {
         if ($form) {
             my $field = $form->getField($name);
             if ($field) {
-                return $field->renderForDisplay( $format, $value, $attrs );
+                return $field->renderForDisplay( $format, $value );
             }
         }
     }
@@ -1316,7 +1316,10 @@ sub renderFormFieldForDisplay {
     if ($f) {
         $format =~ s/\$title/$f->{title}/;
         require Foswiki::Render;
-        $value = Foswiki::Render::protectFormFieldValue( $value, $attrs );
+# Item5489: Leave it up to the caller of renderForDisplay to protect the
+# formfield value. Always calling protect makes renderForDisplay() useless
+# except for formatted searches.
+#       $value = Foswiki::Render::protectFormFieldValue( $value );
         $format =~ s/\$value/$value/;
     }
     return $format;
