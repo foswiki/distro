@@ -372,6 +372,7 @@ System.ACRONYM
 <tr valign="top">
 <td>
 #HeRe
+#SquareBrackets
  *Forced Links:* %BR%
  You can create a forced internal link by enclosing words in double square brackets.
 %BR% 
