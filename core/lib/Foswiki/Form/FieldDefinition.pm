@@ -334,10 +334,7 @@ sub renderForDisplay {
     }
 
     require Foswiki::Render;
-# Item5489: Leave it up to the caller of renderForDisplay to protect the
-# formfield value. Always calling protect makes renderForDisplay() useless
-# except for formatted searches.
-#    $value = Foswiki::Render::protectFormFieldValue( $value, $attrs );
+    $value = Foswiki::Render::protectFormFieldValue( $value, $attrs );
 
     $format =~ s/\$title/$this->{title}/g;
     $format =~ s/\$value/$value/g;
