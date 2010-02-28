@@ -66,6 +66,8 @@ Format tokens that can be used in the format string:
 | =$summary(50)= | Topic summary, up to 50 characters shown |
 | =$summary(showvarnames)= | Topic summary, with =%<nop>SOMEMACRO{...}%= macros shown as =SOMEMACRO{...}= |
 | =$summary(noheader)= | Topic summary, with leading =---+ headers= removed%BR% *Note:* The tokens can be combined, for example =$summary(100, showvarnames, noheader)= |
+| =$summary(searchcontext)= | Creates a topic summary with the search terms highlighted |
+| =$summary(searchcontext, 50)= | Creates a topic summary with the search terms highlighted, up to 50 characters |
 | =$changes= | Summary of changes between latest rev and previous rev |
 | =$changes(n)= | Summary of changes between latest rev and rev n |
 | =$formname= | The name of the form attached to the topic; empty if none |
