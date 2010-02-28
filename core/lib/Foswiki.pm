@@ -1517,7 +1517,7 @@ sub new {
     # Compatibility; not used except maybe in plugins
     $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
       unless defined( $Foswiki::cfg{TempfileDir} );
-    if (defined $Foswiki::cfg{LogFileName}
+    if (defined $Foswiki::cfg{WarningFileName}
           && $Foswiki::cfg{Log}{Implementation}
             eq 'Foswiki::Logger::PlainFile') {
         # Admin has already expressed a preference for where they want their
@@ -1525,7 +1525,7 @@ sub new {
         $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
         print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
     } else {
-        # Otherwise 
+        # Otherwise define it for use in plugins
         $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
     }
 

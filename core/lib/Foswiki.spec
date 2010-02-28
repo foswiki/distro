@@ -674,8 +674,8 @@ $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 # Note: the Foswiki 1.0 implementation of logfiles is still supported,
 # through use of the <tt>Foswiki::Logger::Compatibility</tt> logger. This
 # logger will automatically be selected if configure detects a setting for
-# <tt>{LogFileName}</tt> in your LocalSite.cfg. You are recommended to
-# change to the PlainFile logger at your convenience by removing this
+# <tt>{WarningFileName}</tt> in your LocalSite.cfg. You are recommended to
+# change to the PlainFile logger at your earliest convenience by removing this
 # setting from LocalSite.cfg and re-running configure.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
 
