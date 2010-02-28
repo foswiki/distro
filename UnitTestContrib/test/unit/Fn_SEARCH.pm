@@ -2816,8 +2816,8 @@ Test if search results adhere to the SEARCHSTOPWORDS pref.
 sub test_stop_words_search_word {
     my $this = shift;
 
-    my $prefs = $this->{session}->{prefs};
-    $prefs->setSessionPreferences( 'SEARCHSTOPWORDS' => 'xxx luv ,kiss, bye' );
+    use Foswiki::Func;
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', 'xxx luv ,kiss, bye' );
 
     my $TEST_TEXT  = "xxx Shamira";
     my $TEST_TOPIC = 'StopWordTestTopic';
