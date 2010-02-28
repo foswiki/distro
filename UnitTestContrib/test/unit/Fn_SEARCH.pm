@@ -2807,6 +2807,12 @@ sub verify_search_type_regex {
     $this->assert( $not_quote_dontcount == 4 );
 }
 
+=pod
+
+Test if search results adhere to the SEARCHSTOPWORDS pref.
+
+=cut
+
 sub test_stop_words_search_word {
     my $this = shift;
 
@@ -2832,6 +2838,14 @@ sub test_stop_words_search_word {
         my $result =
           $this->{test_topicObject}->expandMacros(
 '%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
+          );
+
+        $this->assert_str_equals( '', $result );
+    }
+    {
+        my $result =
+          $this->{test_topicObject}->expandMacros(
+'%SEARCH{"+xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
           );
 
         $this->assert_str_equals( '', $result );
