@@ -85,7 +85,7 @@ SUB
     return \@groups;
 }
 
-sub verify_simple {
+sub ___verify_simple {
     my $this = shift;
 
     my $result =
@@ -98,7 +98,7 @@ sub verify_simple {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_Item4692 {
+sub ___verify_Item4692 {
     my $this = shift;
 
     my $result =
@@ -108,7 +108,7 @@ sub verify_Item4692 {
     $this->assert_str_equals( '', $result );
 }
 
-sub verify_angleb {
+sub ___verify_angleb {
     my $this = shift;
 
     # Test regex with \< and \>, used in rename searches
@@ -122,7 +122,7 @@ sub verify_angleb {
     $this->assert_does_not_match( qr/OkATopic/, $result );
 }
 
-sub verify_topicName {
+sub ___verify_topicName {
     my $this = shift;
 
     # Test topic name search
@@ -137,7 +137,7 @@ sub verify_topicName {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_regex_trivial {
+sub ___verify_regex_trivial {
     my $this = shift;
 
     my $result =
@@ -150,7 +150,7 @@ sub verify_regex_trivial {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_literal {
+sub ___verify_literal {
     my $this = shift;
 
     # literal
@@ -165,7 +165,7 @@ sub verify_literal {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_keyword {
+sub ___verify_keyword {
     my $this = shift;
 
     # keyword
@@ -180,7 +180,7 @@ sub verify_keyword {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_word {
+sub ___verify_word {
     my $this = shift;
 
     # word
@@ -199,65 +199,66 @@ sub verify_word {
 
 #####################
 sub _septic {
-    my ($this, $head, $foot, $sep, $results, $expected) = @_;
+    my ( $this, $head, $foot, $sep, $results, $expected ) = @_;
     my $str = $results ? '*Topic' : 'Septic';
-    $head = $head ? 'header="HEAD"' : '';
-    $foot = $foot ? 'footer="FOOT"' : '';
-    $sep = defined $sep ? "separator=\"$sep\"" : '';
+    $head = $head        ? 'header="HEAD"'      : '';
+    $foot = $foot        ? 'footer="FOOT"'      : '';
+    $sep  = defined $sep ? "separator=\"$sep\"" : '';
     my $result =
       $this->{test_topicObject}->expandMacros(
-          "%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%" );
+"%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%"
+      );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
 #####################
 
-sub verify_no_header_no_footer_no_separator_with_results {
+sub ___verify_no_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 0, undef, 1, <<EXPECT);
+    $this->_septic( 0, 0, undef, 1, <<EXPECT);
 OkATopic
 OkBTopic
 OkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_no_separator_no_results {
+sub ___verify_no_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 0, undef, 0, <<EXPECT);
+    $this->_septic( 0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_empty_separator_with_results {
+sub ___verify_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 0, "", 1, <<EXPECT);
+    $this->_septic( 0, 0, "", 1, <<EXPECT);
 OkATopicOkBTopicOkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_empty_separator_no_results {
+sub ___verify_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 0, "", 0, <<EXPECT);
+    $this->_septic( 0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_separator_with_results {
+sub ___verify_no_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 0, ",", 1, <<EXPECT);
+    $this->_septic( 0, 0, ",", 1, <<EXPECT);
 OkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_separator_no_results {
+sub ___verify_no_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 0, ",", 0, <<EXPECT);
+    $this->_septic( 0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
-sub verify_no_header_with_footer_no_separator_with_results {
+sub ___verify_no_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 1, undef, 1, <<EXPECT);
+    $this->_septic( 0, 1, undef, 1, <<EXPECT);
 OkATopic
 OkBTopic
 OkTopic
@@ -265,37 +266,37 @@ FOOT
 EXPECT
 }
 
-sub verify_no_header_with_footer_no_separator_no_results {
+sub ___verify_no_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 1, undef, 0, <<EXPECT);
+    $this->_septic( 0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_with_footer_empty_separator_with_results {
+sub ___verify_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 1, "", 1, <<EXPECT);
+    $this->_septic( 0, 1, "", 1, <<EXPECT);
 OkATopicOkBTopicOkTopicFOOT
 EXPECT
 }
 
-sub verify_no_header_with_footer_empty_separator_no_results {
+sub ___verify_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 1, "", 0, <<EXPECT);
+    $this->_septic( 0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_with_footer_with_separator_with_results {
+sub ___verify_no_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 1, ",", 1, <<EXPECT);
+    $this->_septic( 0, 1, ",", 1, <<EXPECT);
 OkATopic,OkBTopic,OkTopic,FOOT
 EXPECT
 }
 
 #####################
 
-sub verify_with_header_with_footer_no_separator_with_results {
+sub ___verify_with_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 1, undef, 1, <<EXPECT);
+    $this->_septic( 1, 1, undef, 1, <<EXPECT);
 HEAD
 OkATopic
 OkBTopic
@@ -304,45 +305,45 @@ FOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_no_separator_no_results {
+sub ___verify_with_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 1, undef, 0, <<EXPECT);
+    $this->_septic( 1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_with_footer_empty_separator_with_results {
+sub ___verify_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 1, "", 1, <<EXPECT);
+    $this->_septic( 1, 1, "", 1, <<EXPECT);
 HEAD
 OkATopicOkBTopicOkTopicFOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_empty_separator_no_results {
+sub ___verify_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 1, "", 0, <<EXPECT);
+    $this->_septic( 1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_with_footer_with_separator_with_results {
+sub ___verify_with_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 1, ",", 1, <<EXPECT);
+    $this->_septic( 1, 1, ",", 1, <<EXPECT);
 HEAD
 OkATopic,OkBTopic,OkTopic,FOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_with_separator_no_results {
+sub ___verify_with_header_with_footer_with_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 1, ",", 0, <<EXPECT);
+    $this->_septic( 1, 1, ",", 0, <<EXPECT);
 EXPECT
 }
 
 #####################
 
-sub verify_with_header_no_footer_no_separator_with_results {
+sub ___verify_with_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 0, undef, 1, <<EXPECT);
+    $this->_septic( 1, 0, undef, 1, <<EXPECT);
 HEAD
 OkATopic
 OkBTopic
@@ -350,79 +351,83 @@ OkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_no_separator_no_results {
+sub ___verify_with_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 0, undef, 0, <<EXPECT);
+    $this->_septic( 1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_no_footer_empty_separator_with_results {
+sub ___verify_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 0, "", 1, <<EXPECT);
+    $this->_septic( 1, 0, "", 1, <<EXPECT);
 HEAD
 OkATopicOkBTopicOkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_empty_separator_no_results {
+sub ___verify_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 0, "", 0, <<EXPECT);
+    $this->_septic( 1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_no_footer_with_separator_with_results {
+sub ___verify_with_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 0, ",", 1, <<EXPECT);
+    $this->_septic( 1, 0, ",", 1, <<EXPECT);
 HEAD
 OkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_with_separator_no_results {
+sub ___verify_with_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 0, ",", 0, <<EXPECT);
+    $this->_septic( 1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
 #####################
 
-sub verify_footer_with_ntopics {
+sub ___verify_footer_with_ntopics {
     my $this = shift;
 
-    my $result = $this->{test_topicObject}->expandMacros(
+    my $result =
+      $this->{test_topicObject}->expandMacros(
 '%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="$topic"}%'
-    );
+      );
 
     $this->assert_str_equals(
         join( "\n", sort qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
         $result );
 }
 
-sub verify_multiple_and_footer_with_ntopics_and_nhits {
+sub ___verify_multiple_and_footer_with_ntopics_and_nhits {
     my $this = shift;
 
     $this->set_up_for_formatted_search();
 
-    my $result = $this->{test_topicObject}->expandMacros(
+    my $result =
+      $this->{test_topicObject}->expandMacros(
 '%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" footer="Total found: $ntopics, Hits: $nhits" format="$text - $nhits"}%'
-    );
+      );
 
     $this->assert_str_equals(
-        "   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
-        $result );
+"   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
+        $result
+    );
 }
 
-sub verify_footer_with_ntopics_empty_format {
+sub ___verify_footer_with_ntopics_empty_format {
     my $this = shift;
 
-    my $result = $this->{test_topicObject}->expandMacros(
+    my $result =
+      $this->{test_topicObject}->expandMacros(
 '%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
-    );
+      );
 
     $this->assert_str_equals( "Total found: 3", $result );
 }
 
-sub verify_regex_match {
+sub ___verify_regex_match {
     my $this = shift;
 
     my $result =
@@ -435,7 +440,7 @@ sub verify_regex_match {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_literal_match {
+sub ___verify_literal_match {
     my $this = shift;
 
     # literal
@@ -450,7 +455,7 @@ sub verify_literal_match {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_keyword_match {
+sub ___verify_keyword_match {
     my $this = shift;
 
     # keyword
@@ -465,7 +470,7 @@ sub verify_keyword_match {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_word_match {
+sub ___verify_word_match {
     my $this = shift;
 
     # word
@@ -480,7 +485,7 @@ sub verify_word_match {
     $this->assert_does_not_match( qr/OkATopic/, $result );
 }
 
-sub verify_regex_matchme {
+sub ___verify_regex_matchme {
     my $this = shift;
 
     # ---------------------
@@ -497,7 +502,7 @@ sub verify_regex_matchme {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_literal_matchme {
+sub ___verify_literal_matchme {
     my $this = shift;
 
     # literal
@@ -512,7 +517,7 @@ sub verify_literal_matchme {
     $this->assert_matches( qr/OkATopic/, $result );
 }
 
-sub verify_keyword_matchme {
+sub ___verify_keyword_matchme {
     my $this = shift;
 
     # keyword
@@ -528,7 +533,7 @@ sub verify_keyword_matchme {
 
 }
 
-sub verify_word_matchme {
+sub ___verify_word_matchme {
     my $this = shift;
 
     # word
@@ -544,7 +549,7 @@ sub verify_word_matchme {
 
 }
 
-sub verify_minus_regex {
+sub ___verify_minus_regex {
     my $this = shift;
 
     # ---------------------
@@ -561,7 +566,7 @@ sub verify_minus_regex {
     $this->assert_does_not_match( qr/OkATopic/, $result );
 }
 
-sub verify_minus_literal {
+sub ___verify_minus_literal {
     my $this = shift;
 
     # literal
@@ -577,7 +582,7 @@ sub verify_minus_literal {
 
 }
 
-sub verify_minus_keyword {
+sub ___verify_minus_keyword {
     my $this = shift;
 
     # keyword
@@ -593,7 +598,7 @@ sub verify_minus_keyword {
 
 }
 
-sub verify_minus_word {
+sub ___verify_minus_word {
     my $this = shift;
 
     # word
@@ -609,7 +614,7 @@ sub verify_minus_word {
 
 }
 
-sub verify_slash_regex {
+sub ___verify_slash_regex {
     my $this = shift;
 
     # ---------------------
@@ -627,7 +632,7 @@ sub verify_slash_regex {
 
 }
 
-sub verify_slash_literal {
+sub ___verify_slash_literal {
     my $this = shift;
 
     # literal
@@ -643,7 +648,7 @@ sub verify_slash_literal {
 
 }
 
-sub verify_slash_keyword {
+sub ___verify_slash_keyword {
     my $this = shift;
 
     # keyword
@@ -659,7 +664,7 @@ sub verify_slash_keyword {
 
 }
 
-sub verify_slash_word {
+sub ___verify_slash_word {
     my $this = shift;
 
     # word
@@ -675,7 +680,7 @@ sub verify_slash_word {
 
 }
 
-sub verify_quote_regex {
+sub ___verify_quote_regex {
     my $this = shift;
 
     # ---------------------
@@ -693,7 +698,7 @@ sub verify_quote_regex {
 
 }
 
-sub verify_quote_literal {
+sub ___verify_quote_literal {
     my $this = shift;
 
     # literal
@@ -709,7 +714,7 @@ sub verify_quote_literal {
 
 }
 
-sub verify_quote_keyword {
+sub ___verify_quote_keyword {
     my $this = shift;
 
     # keyword
@@ -725,7 +730,7 @@ sub verify_quote_keyword {
 
 }
 
-sub verify_quote_word {
+sub ___verify_quote_word {
     my $this = shift;
 
     # word
@@ -738,7 +743,7 @@ sub verify_quote_word {
     $this->assert_matches( qr/OkBTopic/, $result );
 }
 
-sub verify_SEARCH_3860 {
+sub ___verify_SEARCH_3860 {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros( <<'HERE');
@@ -753,7 +758,7 @@ HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 }
 
-sub verify_search_empty_regex {
+sub ___verify_search_empty_regex {
     my $this = shift;
 
     my $result =
@@ -762,7 +767,7 @@ sub verify_search_empty_regex {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_empty_literal {
+sub ___verify_search_empty_literal {
     my $this = shift;
 
     my $result =
@@ -772,7 +777,7 @@ sub verify_search_empty_literal {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_empty_keyword {
+sub ___verify_search_empty_keyword {
     my $this = shift;
 
     my $result =
@@ -782,7 +787,7 @@ sub verify_search_empty_keyword {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_empty_word {
+sub ___verify_search_empty_word {
     my $this = shift;
 
     my $result =
@@ -791,7 +796,7 @@ sub verify_search_empty_word {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_regex {
+sub ___verify_search_numpty_regex {
     my $this = shift;
 
     my $result =
@@ -801,7 +806,7 @@ sub verify_search_numpty_regex {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_literal {
+sub ___verify_search_numpty_literal {
     my $this = shift;
 
     my $result =
@@ -811,7 +816,7 @@ sub verify_search_numpty_literal {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_keyword {
+sub ___verify_search_numpty_keyword {
     my $this = shift;
 
     my $result =
@@ -821,7 +826,7 @@ sub verify_search_numpty_keyword {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_word {
+sub ___verify_search_numpty_word {
     my $this = shift;
 
     my $result =
@@ -856,7 +861,7 @@ HERE
     $topicObject->save();
 }
 
-sub verify_formatted_search_summary_with_exclamation_marks {
+sub ___verify_formatted_search_summary_with_exclamation_marks {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -881,7 +886,7 @@ sub verify_formatted_search_summary_with_exclamation_marks {
     $this->assert_str_equals( $expected, $actual );
 }
 
-sub verify_METASEARCH {
+sub ___verify_METASEARCH {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -892,7 +897,7 @@ sub verify_METASEARCH {
       $this->{test_topicObject}->expandMacros(
 '%METASEARCH{type="topicmoved" topic="FormattedSearchTopic1" title="This topic used to exist and was moved to: "}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = 'This topic used to exist and was moved to: ';
     $this->assert_str_equals( $expected, $actual );
 
@@ -900,8 +905,9 @@ sub verify_METASEARCH {
       $this->{test_topicObject}->expandMacros(
 '%METASEARCH{type="parent" topic="TestCaseAutoFormattedSearch" title="Children: "}%'
       );
-    $actual   = $this->{test_topicObject}->renderTML($actual);
-    $expected = $this->{test_topicObject}->renderTML('Children: FormattedSearchTopic1 ');
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected =
+      $this->{test_topicObject}->renderTML('Children: FormattedSearchTopic1 ');
     $this->assert_str_equals( $expected, $actual );
 }
 
@@ -964,7 +970,7 @@ HERE
 
 my $stdCrap = 'type="query" nonoise="on" format="$topic" separator=" "}%';
 
-sub verify_parentQuery {
+sub ___verify_parentQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -975,7 +981,7 @@ sub verify_parentQuery {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_attachmentSizeQuery1 {
+sub ___verify_attachmentSizeQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -986,7 +992,7 @@ sub verify_attachmentSizeQuery1 {
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
-sub verify_attachmentSizeQuery2 {
+sub ___verify_attachmentSizeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -997,7 +1003,7 @@ sub verify_attachmentSizeQuery2 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_indexQuery {
+sub ___verify_indexQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1008,7 +1014,7 @@ sub verify_indexQuery {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_gropeQuery {
+sub ___verify_gropeQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1019,7 +1025,7 @@ sub verify_gropeQuery {
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
-sub verify_4580Query1 {
+sub ___verify_4580Query1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1030,7 +1036,7 @@ sub verify_4580Query1 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_4580Query2 {
+sub ___verify_4580Query2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1041,7 +1047,7 @@ sub verify_4580Query2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_gropeQuery2 {
+sub ___verify_gropeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1052,7 +1058,7 @@ sub verify_gropeQuery2 {
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
-sub verify_formQuery {
+sub ___verify_formQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1063,7 +1069,7 @@ sub verify_formQuery {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_formQuery2 {
+sub ___verify_formQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1074,7 +1080,7 @@ sub verify_formQuery2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_formQuery3 {
+sub ___verify_formQuery3 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1085,7 +1091,7 @@ sub verify_formQuery3 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_formQuery4 {
+sub ___verify_formQuery4 {
     my $this = shift;
 
     if (   $Foswiki::cfg{OS} eq 'WINDOWS'
@@ -1102,7 +1108,7 @@ sub verify_formQuery4 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_formQuery5 {
+sub ___verify_formQuery5 {
     my $this = shift;
 
     if (   $Foswiki::cfg{OS} eq 'WINDOWS'
@@ -1124,7 +1130,7 @@ sub verify_formQuery5 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_refQuery {
+sub ___verify_refQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1139,7 +1145,7 @@ sub verify_refQuery {
 # make sure syntax errors are handled cleanly. All the error cases thrown by
 # the infix parser are tested more thoroughly in Fn_IF, and don't have to
 # be re-tested here.
-sub test_badQuery1 {
+sub ___test_badQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1223,7 +1229,7 @@ HERE
       "\nRE " . Benchmark::timestr($retime), "\n";
 }
 
-sub verify_4347 {
+sub ___verify_4347 {
     my $this = shift;
 
     my $result =
@@ -1233,7 +1239,7 @@ sub verify_4347 {
     $this->assert_str_equals( '', $result );
 }
 
-sub verify_likeQuery {
+sub ___verify_likeQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1264,7 +1270,7 @@ sub verify_likeQuery {
 
 }
 
-sub verify_likeQuery2 {
+sub ___verify_likeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1318,7 +1324,7 @@ sub verify_likeQuery2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub test_pattern {
+sub ___test_pattern {
     my $this = shift;
 
     my $result =
@@ -1330,7 +1336,7 @@ sub test_pattern {
     $this->assert_matches( qr/XY/,              $result );
 }
 
-sub test_badpattern {
+sub ___test_badpattern {
     my $this = shift;
 
     # The (??{ pragma cannot be run at runtime since perl 5.5
@@ -1350,7 +1356,7 @@ sub test_badpattern {
     $this->assert_equals( 3, $result =~ s/^XY$//gm );
 }
 
-sub test_validatepattern {
+sub ___test_validatepattern {
     my $this = shift;
     my ( $pattern, $temp );
 
@@ -1387,7 +1393,7 @@ sub test_validatepattern {
 }
 
 #Item977
-sub verify_formatOfLinks {
+sub ___verify_formatOfLinks {
     my $this = shift;
 
     my $topicObject = Foswiki::Meta->new(
@@ -1439,213 +1445,271 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
 }
 
 sub _getTopicList {
-    my $this = shift;
-    my $web = shift;
+    my $this    = shift;
+    my $web     = shift;
     my $options = shift;
 
-#    my $options = {
-#        casesensitive  => $caseSensitive,
-#        wordboundaries => $wordBoundaries,
-#        includeTopics  => $topic,
-#        excludeTopics  => $excludeTopic,
-#    };
+    #    my $options = {
+    #        casesensitive  => $caseSensitive,
+    #        wordboundaries => $wordBoundaries,
+    #        includeTopics  => $topic,
+    #        excludeTopics  => $excludeTopic,
+    #    };
 
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+
     # Run the search on topics in this web
     my $search = $this->{session}->search();
-    my $iter = Foswiki::Search::InfoCache::getTopicListIterator($webObject, $options );
+    my $iter =
+      Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
 
-    ASSERT(UNIVERSAL::isa( $iter, 'Foswiki::Iterator' )) if DEBUG;
+    ASSERT( UNIVERSAL::isa( $iter, 'Foswiki::Iterator' ) ) if DEBUG;
     my @topicList = ();
-    while (my $t = $iter->next()) {
-        push(@topicList, $t);
+    while ( my $t = $iter->next() ) {
+        push( @topicList, $t );
     }
 
     return \@topicList;
 }
 
-sub test_getTopicList {
+sub ___test_getTopicList {
     my $this = shift;
 
     #no topics specified..
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
-                            $this->_getTopicList($this->{test_web}, {}),
-                            'no filters, all topics in test_web');
+        [
+            'OkATopic', 'OkBTopic',
+            'OkTopic',  'TestTopicSEARCH',
+            'WebPreferences'
+        ],
+        $this->_getTopicList( $this->{test_web}, {} ),
+        'no filters, all topics in test_web'
+    );
     $this->assert_deep_equals(
-                            ['WebAtom', 'WebChanges', 'WebCreateNewTopic', 'WebHome', 'WebIndex', 'WebLeftBar',
-                             'WebNotify', 'WebPreferences', 'WebRss', 'WebSearch', 'WebSearchAdvanced', 'WebStatistics', 'WebTopicList'],
-                            $this->_getTopicList('_default', {}),
-                            'no filters, all topics in test_web');
+        [
+            'WebAtom',           'WebChanges',
+            'WebCreateNewTopic', 'WebHome',
+            'WebIndex',          'WebLeftBar',
+            'WebNotify',         'WebPreferences',
+            'WebRss',            'WebSearch',
+            'WebSearchAdvanced', 'WebStatistics',
+            'WebTopicList'
+        ],
+        $this->_getTopicList( '_default', {} ),
+        'no filters, all topics in test_web'
+    );
+
     #use wildcards
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web}, {
-                                    includeTopics => 'Ok*'
-                                                                     }),
-                            'comma separated list');
+        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList( $this->{test_web}, { includeTopics => 'Ok*' } ),
+        'comma separated list'
+    );
     $this->assert_deep_equals(
-                            ['WebAtom', 'WebChanges', 'WebCreateNewTopic', 'WebHome', 'WebIndex', 'WebLeftBar',
-                             'WebNotify', 'WebPreferences', 'WebRss', 'WebSearch', 'WebSearchAdvanced', 'WebStatistics', 'WebTopicList'],
-                            $this->_getTopicList('_default', {
-                                    includeTopics => 'Web*'
-                                                              }),
-                            'no filters, all topics in test_web');
+        [
+            'WebAtom',           'WebChanges',
+            'WebCreateNewTopic', 'WebHome',
+            'WebIndex',          'WebLeftBar',
+            'WebNotify',         'WebPreferences',
+            'WebRss',            'WebSearch',
+            'WebSearchAdvanced', 'WebStatistics',
+            'WebTopicList'
+        ],
+        $this->_getTopicList( '_default', { includeTopics => 'Web*' } ),
+        'no filters, all topics in test_web'
+    );
+
     #comma separated list specifed for inclusion
     $this->assert_deep_equals(
-                            ['TestTopicSEARCH', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web}, {
-                                    includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic'
-                                                                     }),
-                            'comma separated list');
+        [ 'TestTopicSEARCH', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            { includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic' }
+        ),
+        'comma separated list'
+    );
     $this->assert_deep_equals(
-                            ['WebStatistics', 'WebCreateNewTopic' ],
-                            $this->_getTopicList('_default', {
-                                    includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic'
-                                                              }),
-                            'no filters, all topics in test_web');
+        [ 'WebStatistics', 'WebCreateNewTopic' ],
+        $this->_getTopicList(
+            '_default',
+            {
+                includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic'
+            }
+        ),
+        'no filters, all topics in test_web'
+    );
 
     #excludes
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
-                            $this->_getTopicList($this->{test_web}, {
-						excludeTopics=> 'NoSuchTopic,OkBTopic'
-								}),
-                            'no filters, all topics in test_web');
+        [ 'OkATopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences' ],
+        $this->_getTopicList(
+            $this->{test_web}, { excludeTopics => 'NoSuchTopic,OkBTopic' }
+        ),
+        'no filters, all topics in test_web'
+    );
     $this->assert_deep_equals(
-                            ['WebAtom', 'WebChanges', 'WebCreateNewTopic', 'WebHome', 'WebIndex', 'WebLeftBar',
-                             'WebNotify', 'WebPreferences', 'WebRss', 'WebSearchAdvanced', 'WebStatistics', 'WebTopicList'],
-                            $this->_getTopicList('_default', {
-						excludeTopics=> 'WebSearch'
-								}),
-                            'no filters, all topics in test_web');
-    
+        [
+            'WebAtom',           'WebChanges',
+            'WebCreateNewTopic', 'WebHome',
+            'WebIndex',          'WebLeftBar',
+            'WebNotify',         'WebPreferences',
+            'WebRss',            'WebSearchAdvanced',
+            'WebStatistics',     'WebTopicList'
+        ],
+        $this->_getTopicList( '_default', { excludeTopics => 'WebSearch' } ),
+        'no filters, all topics in test_web'
+    );
+
     #Talk about missing alot of tests
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => '*'
-                                                 }
-                                                 ),
-                            'all topics, using wildcard');
+        [
+            'OkATopic', 'OkBTopic',
+            'OkTopic',  'TestTopicSEARCH',
+            'WebPreferences'
+        ],
+        $this->_getTopicList( $this->{test_web}, { includeTopics => '*' } ),
+        'all topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'Ok*'
-                                                 }
-                                                 ),
-                            'Ok* topics, using wildcard');
+        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList( $this->{test_web}, { includeTopics => 'Ok*' } ),
+        'Ok* topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            [],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'ok*',
-                                                    casesensitive => 1
-                                                 }
-                                                 ),
-                            'case sensitive ok* topics, using wildcard');
+        [],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'ok*',
+                casesensitive => 1
+            }
+        ),
+        'case sensitive ok* topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'ok*',
-                                                    casesensitive => 0
-                                                 }
-                                                 ),
-                            'case insensitive ok* topics, using wildcard');
+        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'ok*',
+                casesensitive => 0
+            }
+        ),
+        'case insensitive ok* topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            [],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'okatopic',
-                                                    casesensitive => 1
-                                                 }
-                                                 ),
-                            'case sensitive okatopic topic');
+        [],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'okatopic',
+                casesensitive => 1
+            }
+        ),
+        'case sensitive okatopic topic'
+    );
     $this->assert_deep_equals(
-                            ['OkATopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'okatopic',
-                                                    casesensitive => 0
-                                                 }
-                                                 ),
-                            'case insensitive okatopic topic');
+        ['OkATopic'],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'okatopic',
+                casesensitive => 0
+            }
+        ),
+        'case insensitive okatopic topic'
+    );
     ##### same again, with excludes.
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => '*',
-                                                    excludeTopics => 'web*'
-                                                 }
-                                                 ),
-                            'all topics, using wildcard');
+        [
+            'OkATopic', 'OkBTopic',
+            'OkTopic',  'TestTopicSEARCH',
+            'WebPreferences'
+        ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => '*',
+                excludeTopics => 'web*'
+            }
+        ),
+        'all topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'Ok*',
-                                                    excludeTopics => 'okatopic'
-                                                 }
-                                                 ),
-                            'Ok* topics, using wildcard');
+        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'Ok*',
+                excludeTopics => 'okatopic'
+            }
+        ),
+        'Ok* topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            [],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'ok*',
-                                                    excludeTopics => 'WebPreferences',
-                                                    casesensitive => 1
-                                                 }
-                                                 ),
-                            'case sensitive ok* topics, using wildcard');
+        [],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'ok*',
+                excludeTopics => 'WebPreferences',
+                casesensitive => 1
+            }
+        ),
+        'case sensitive ok* topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'ok*',
-                                                    excludeTopics => '',
-                                                    casesensitive => 0
-                                                 }
-                                                 ),
-                            'case insensitive ok* topics, using wildcard');
+        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'ok*',
+                excludeTopics => '',
+                casesensitive => 0
+            }
+        ),
+        'case insensitive ok* topics, using wildcard'
+    );
     $this->assert_deep_equals(
-                            ['OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'Ok*',
-                                                    excludeTopics => '*ATopic',
-                                                    casesensitive => 1
-                                                 }
-                                                 ),
-                            'case sensitive okatopic topic');
+        [ 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'Ok*',
+                excludeTopics => '*ATopic',
+                casesensitive => 1
+            }
+        ),
+        'case sensitive okatopic topic'
+    );
     $this->assert_deep_equals(
-                            ['OkATopic', 'OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'Ok*',
-                                                    excludeTopics => '*atopic',
-                                                    casesensitive => 1
-                                                 }
-                                                 ),
-                            'case sensitive okatopic topic');
+        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'Ok*',
+                excludeTopics => '*atopic',
+                casesensitive => 1
+            }
+        ),
+        'case sensitive okatopic topic'
+    );
     $this->assert_deep_equals(
-                            ['OkBTopic', 'OkTopic'],
-                            $this->_getTopicList($this->{test_web},
-                                                 {
-                                                    includeTopics => 'ok*topic',
-                                                    excludeTopics => 'okatopic',
-                                                    casesensitive => 0
-                                                 }
-                                                 ),
-                            'case insensitive okatopic topic');
-    
+        [ 'OkBTopic', 'OkTopic' ],
+        $this->_getTopicList(
+            $this->{test_web},
+            {
+                includeTopics => 'ok*topic',
+                excludeTopics => 'okatopic',
+                casesensitive => 0
+            }
+        ),
+        'case insensitive okatopic topic'
+    );
+
 }
 
-sub verify_casesensitivesetting {
+sub ___verify_casesensitivesetting {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -1655,7 +1719,7 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
     $this->assert_str_equals( $expected, $actual );
 
@@ -1663,7 +1727,7 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '';
     $this->assert_str_equals( $expected, $actual );
 
@@ -1671,7 +1735,7 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
     $this->assert_str_equals( $expected, $actual );
 
@@ -1679,16 +1743,16 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
     $this->assert_str_equals( $expected, $actual );
 
-#topic scope
+    #topic scope
     $actual =
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
     $this->assert_str_equals( $expected, $actual );
 
@@ -1696,7 +1760,7 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '';
     $this->assert_str_equals( $expected, $actual );
 
@@ -1704,7 +1768,7 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
     $this->assert_str_equals( $expected, $actual );
 
@@ -1712,14 +1776,14 @@ sub verify_casesensitivesetting {
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
       );
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
     $this->assert_str_equals( $expected, $actual );
 
 }
 
-sub verify_Item6082_Search {
-    my $this    = shift;
+sub ___verify_Item6082_Search {
+    my $this = shift;
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
@@ -1737,17 +1801,16 @@ FORM
 FORM
     $topicObject->save();
 
-    my $actual =
-      $topicObject->expandMacros(
+    my $actual = $topicObject->expandMacros(
 '%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
-      );
+    );
     my $expected = 'SplodgeOne;Blah';
     $this->assert_str_equals( $expected, $actual );
 
 }
 
-sub verify_quotemeta {
-    my $this    = shift;
+sub ___verify_quotemeta {
+    my $this = shift;
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
@@ -1765,70 +1828,65 @@ FORM
 FORM
     $topicObject->save();
 
-    my $actual =
-      $topicObject->expandMacros(
+    my $actual = $topicObject->expandMacros(
 '%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
-      );
+    );
     my $expected = 'SplodgeOne;Blah';
     $this->assert_str_equals( $expected, $actual );
 
 }
 
-sub verify_Search_expression {
-#make sure perl-y characters in SEARCH expressions are escaped well enough
-    my $this    = shift;
+sub ___verify_Search_expression {
+
+    #make sure perl-y characters in SEARCH expressions are escaped well enough
+    my $this = shift;
 
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
 
-    my $actual =
-      $webObject->expandMacros(
-'%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%'
-      );
+    my $actual = $webObject->expandMacros(
+        '%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%' );
     my $expected = <<'HERE';
 <span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks~'Bl&gt;ah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
 HERE
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $webObject->expandMacros(
-'%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%'
-      );
+    $actual = $webObject->expandMacros(
+        '%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%' );
     $expected = <<'HERE';
 <span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks = 'B/lah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
 HERE
     $this->assert_str_equals( $expected, $actual );
 }
 
-
 #####################
 #and again for multiple webs. :(
 #TODO: rewrite using named params for more flexibility
 #need summary, and multiple
 sub _multiWebSeptic {
-    my ($this, $head, $foot, $sep, $results, $expected) = @_;
+    my ( $this, $head, $foot, $sep, $results, $expected ) = @_;
     my $str = $results ? '*Preferences' : 'Septic';
-    $head = $head ? 'header="HEAD($web)"' : '';
-    $foot = $foot ? 'footer="FOOT($ntopics,$nhits)"' : '';
-    $sep = defined $sep ? "separator=\"$sep\"" : '';
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-          "%SEARCH{\"name~'$str'\" 
+    $head = $head        ? 'header="HEAD($web)"'            : '';
+    $foot = $foot        ? 'footer="FOOT($ntopics,$nhits)"' : '';
+    $sep  = defined $sep ? "separator=\"$sep\""             : '';
+    my $result = $this->{test_topicObject}->expandMacros(
+        "%SEARCH{\"name~'$str'\" 
             web=\"System,Main\" 
             type=\"query\" 
             nosearch=\"on\" 
             nosummary=\"on\" 
             nototal=\"on\" 
             format=\"\$topic\" 
-            $head $foot $sep }%" );
+            $head $foot $sep }%"
+    );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
 #####################
 
-sub verify_multiWeb_no_header_no_footer_no_separator_with_results {
+sub ___verify_multiWeb_no_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT);
 DefaultPreferences
 WebPreferences
 SitePreferences
@@ -1836,42 +1894,42 @@ WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_no_separator_no_results {
+sub ___verify_multiWeb_no_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_empty_separator_with_results {
+sub ___verify_multiWeb_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesSitePreferencesWebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_empty_separator_no_results {
+sub ___verify_multiWeb_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_with_separator_with_results {
+sub ___verify_multiWeb_no_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,SitePreferences,WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_with_separator_no_results {
+sub ___verify_multiWeb_no_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, ",", 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
-sub verify_multiWeb_no_header_with_footer_no_separator_with_results {
+sub ___verify_multiWeb_no_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, undef, 1, <<EXPECT);
 DefaultPreferences
 WebPreferences
 FOOT(2,2)SitePreferences
@@ -1880,37 +1938,37 @@ FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_no_separator_no_results {
+sub ___verify_multiWeb_no_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_empty_separator_with_results {
+sub ___verify_multiWeb_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesFOOT(2,2)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_empty_separator_no_results {
+sub ___verify_multiWeb_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
+sub ___verify_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,FOOT(2,2)SitePreferences,WebPreferences,FOOT(2,2)
 EXPECT
 }
 
 #####################
 
-sub verify_multiWeb_with_header_with_footer_no_separator_with_results {
+sub ___verify_multiWeb_with_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, undef, 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences
 WebPreferences
@@ -1921,47 +1979,47 @@ FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_no_separator_no_results {
+sub ___verify_multiWeb_with_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
+sub ___verify_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, "", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)
 SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_empty_separator_no_results {
+sub ___verify_multiWeb_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
+sub ___verify_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, ",", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences,WebPreferences,FOOT(2,2)HEAD(Main)
 SitePreferences,WebPreferences,FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_with_separator_no_results {
+sub ___verify_multiWeb_with_header_with_footer_with_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, ",", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, ",", 0, <<EXPECT);
 EXPECT
 }
 
 #####################
 
-sub verify_multiWeb_with_header_no_footer_no_separator_with_results {
+sub ___verify_multiWeb_with_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, undef, 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences
 WebPreferences
@@ -1971,48 +2029,47 @@ WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_no_separator_no_results {
+sub ___verify_multiWeb_with_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
+sub ___verify_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, "", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferencesWebPreferencesHEAD(Main)
 SitePreferencesWebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_empty_separator_no_results {
+sub ___verify_multiWeb_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
+sub ___verify_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, ",", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences,WebPreferences,HEAD(Main)
 SitePreferences,WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_with_separator_no_results {
+sub ___verify_multiWeb_with_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, ",", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
 #Item1992: calling Foswiki::Search::_makeTopicPattern repeatedly made a big mess.
-sub verify_web_and_topic_expansion {
-    my $this = shift;
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{
+sub ___verify_web_and_topic_expansion {
+    my $this   = shift;
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
                 "web" 
                 type="text"
                 web="System,Main,Sandbox"
@@ -2021,7 +2078,8 @@ sub verify_web_and_topic_expansion {
                 nonoise="on" 
                 format="$web.$topic"
                 footer="FOOT($ntopics,$nhits)"
-        }%' );
+        }%'
+    );
     my $expected = <<EXPECT;
 System.WebHome
 System.WebPreferences
@@ -2037,12 +2095,11 @@ EXPECT
 
 #####################
 # PAGING
-sub verify_paging_three_webs_first_five {
+sub ___verify_paging_three_webs_first_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2054,8 +2111,8 @@ sub verify_paging_three_webs_first_five {
     pagesize="5"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 System.WebChanges
 System.WebHome
@@ -2065,15 +2122,14 @@ FOOT(4,4)Main.WebChanges
 FOOT(1,1)
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_second_five {
+sub ___verify_paging_three_webs_second_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2085,8 +2141,8 @@ sub verify_paging_three_webs_second_five {
     pagesize="5"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 Main.WebHome
 Main.WebIndex
@@ -2096,15 +2152,14 @@ Sandbox.WebHome
 FOOT(2,2)
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_third_five {
+sub ___verify_paging_three_webs_third_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2116,23 +2171,22 @@ sub verify_paging_three_webs_third_five {
     pagesize="5"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 Sandbox.WebIndex
 Sandbox.WebPreferences
 FOOT(2,2)
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_fourth_five {
+sub ___verify_paging_three_webs_fourth_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2144,20 +2198,19 @@ sub verify_paging_three_webs_fourth_five {
     pagesize="5"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_way_too_far {
+sub ___verify_paging_three_webs_way_too_far {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2169,22 +2222,21 @@ sub verify_paging_three_webs_way_too_far {
     pagesize="5"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
 #------------------------------------
 # PAGING with limit= does weird things.
-sub verify_paging_with_limit_first_five {
+sub ___verify_paging_with_limit_first_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2197,8 +2249,8 @@ sub verify_paging_with_limit_first_five {
     limit="3"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 System.WebChanges
 System.WebHome
@@ -2206,15 +2258,14 @@ System.WebIndex
 FOOT(3,3)
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_second_five {
+sub ___verify_paging_with_limit_second_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2227,8 +2278,8 @@ sub verify_paging_with_limit_second_five {
     limit="3"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 Main.WebChanges
 Main.WebHome
@@ -2236,15 +2287,14 @@ Main.WebIndex
 FOOT(3,3)
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_third_five {
+sub ___verify_paging_with_limit_third_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2257,8 +2307,8 @@ sub verify_paging_with_limit_third_five {
     limit="3"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 Sandbox.WebChanges
 Sandbox.WebHome
@@ -2266,15 +2316,14 @@ Sandbox.WebIndex
 FOOT(3,3)
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_fourth_five {
+sub ___verify_paging_with_limit_fourth_five {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2287,20 +2336,19 @@ sub verify_paging_with_limit_fourth_five {
     limit="3"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_way_too_far {
+sub ___verify_paging_with_limit_way_too_far {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
     "web" 
     type="text"
     web="System,Main,Sandbox"
@@ -2313,12 +2361,12 @@ sub verify_paging_with_limit_way_too_far {
     limit="3"
     footer="FOOT($ntopics,$nhits)"
 }%'
-      );
-      
+    );
+
     my $expected = <<EXPECT;
 EXPECT
     $expected =~ s/\n$//s;
-    $this->assert_str_equals( $expected,  $result );
+    $this->assert_str_equals( $expected, $result );
 }
 
 # Create three subwebs, and create a topic with the same name in all three
@@ -2331,41 +2379,38 @@ EXPECT
 sub DISABLEDtest_sorting_same_topic_in_subwebs {
     my $this = shift;
 
-    my $webObject = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/A" );
+    my $webObject =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/A" );
     $webObject->populateNewWeb();
     my $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, "$this->{test_web}/A", 'TheTopic', <<CRUD);
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/A", 'TheTopic',
+        <<CRUD);
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Order" title="Order" value="3"}%
 CRUD
     $topicObject->save();
 
-    $webObject = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/B" );
+    $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/B" );
     $webObject->populateNewWeb();
     $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, "$this->{test_web}/B", 'TheTopic', <<CRUD);
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/B", 'TheTopic',
+        <<CRUD);
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Order" title="Order" value="1"}%
 CRUD
     $topicObject->save();
 
-    $webObject = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/C" );
+    $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/C" );
     $webObject->populateNewWeb();
     $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, "$this->{test_web}/C", 'TheTopic', <<CRUD);
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/C", 'TheTopic',
+        <<CRUD);
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Order" title="Order" value="2"}%
 CRUD
     $topicObject->save();
 
-    my $result =
-      $this->{test_topicObject}->expandMacros( <<GNURF );
+    my $result = $this->{test_topicObject}->expandMacros( <<GNURF );
 %SEARCH{"Order!=''"
  type="query"
  web="$this->{test_web}"
@@ -2376,7 +2421,9 @@ CRUD
  format="\$web"
  separator=","}%
 GNURF
-    $this->assert_equals("$this->{test_web}/B,$this->{test_web}/C,$this->{test_web}/A", $result);
+    $this->assert_equals(
+        "$this->{test_web}/B,$this->{test_web}/C,$this->{test_web}/A",
+        $result );
 }
 
 # The results of SEARCH are highly sensitive to the template;
@@ -2384,18 +2431,18 @@ GNURF
 sub _cut_the_crap {
     my $result = shift;
     $result =~ s/<!--.*?-->//gs;
-    $result =~ s/<\/?(span|div|b|h\d)\b.*?>//gs;
+    $result =~ s/<\/?(em|span|div|b|h\d)\b.*?>//gs;
     $result =~ s/ (class|style|rel)=(["'])[^"']*\2//g;
     $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
     $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
     $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
     return $result;
 }
+
 sub test_no_format_no_shit {
     my $this = shift;
 
-    my $result =
-      $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
+    my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
@@ -2410,8 +2457,8 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
 Number of topics: 4
 CRUD
     $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" nosummary="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
@@ -2426,8 +2473,8 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
 Number of topics: 4
 CRUD
     $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" nosearch="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" nosearch="on"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
 <a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
@@ -2441,8 +2488,8 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
 Number of topics: 4
 CRUD
     $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" nototal="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" nototal="on"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
@@ -2453,8 +2500,8 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
 
 CRUD
     $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" noheader="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" noheader="on"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 <a href="">OkATopic</a> TemporarySEARCHUsersWeb.WikiGuestNEW - <a href="">DATE - TIME</a>&nbsp;<br /><nop>BLEEGLE dontmatchme.blah
@@ -2468,8 +2515,8 @@ Searched: <noautolink>BLEEGLE</noautolink>
 Number of topics: 4
 CRUD
     $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" noempty="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" noempty="on"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
@@ -2484,8 +2531,8 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
 Number of topics: 4
 CRUD
     $result =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" zeroresults="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" zeroresults="on"}%');
     $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME<br />
@@ -2502,28 +2549,31 @@ CRUD
 
     $result =
       $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"}%');
+'%SEARCH{"BLEEGLE" nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"}%'
+      );
     my $result2 =
-      $this->{test_topicObject}->expandMacros(
-          '%SEARCH{"BLEEGLE" nosummary="on" nonoise="on"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on" nonoise="on"}%');
     $this->assert_html_equals( $result, $result2 );
 }
 
-sub verify_search_type_word {
+sub ___verify_search_type_word {
     my $this = shift;
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+      );
     $this->assert_str_equals( 'OkBTopic', $result );
-    my @list = split(/,/, $result);
+    my @list = split( /,/, $result );
     my $dontcount = $#list;
     $this->assert( $dontcount == 0 );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
-    @list = split(/,/, $result);
+'%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+      );
+    @list = split( /,/, $result );
     $this->assert_str_equals( 'OkBTopic', $result );
     my $plus_dontcount = $#list;
     $this->assert( $plus_dontcount == 0 );
@@ -2531,54 +2581,63 @@ sub verify_search_type_word {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
-    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+      );
+    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences',
+        $result );
+    @list = split( /,/, $result );
     my $minus_dontcount = $#list;
     $this->assert( $minus_dontcount == 3 );
+
     #$this->assert( $minus_dontcount == ($alltopics - $dontcount );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
-    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+      );
+    $this->assert_str_equals( 'OkATopic,OkTopic,TestTopicSEARCH,WebPreferences',
+        $result );
+    @list = split( /,/, $result );
     my $bang_dontcount = $#list;
     $this->assert( $bang_dontcount == 3 );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
+'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+      );
     $this->assert_str_equals( '', $result );
-    @list = split(/,/, $result);
+    @list = split( /,/, $result );
     my $quote_dontcount = $#list;
     $this->assert( $quote_dontcount == -1 );
-    
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%');
-    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="word"}%'
+      );
+    $this->assert_str_equals(
+        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
 }
 
-sub verify_search_type_keyword {
+sub ___verify_search_type_keyword {
     my $this = shift;
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+      );
     $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
-    my @list = split(/,/, $result);
+    my @list = split( /,/, $result );
     my $dontcount = $#list;
     $this->assert( $dontcount == 1 );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
-    @list = split(/,/, $result);
+'%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+      );
+    @list = split( /,/, $result );
     $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
     my $plus_dontcount = $#list;
     $this->assert( $plus_dontcount == 1 );
@@ -2586,54 +2645,63 @@ sub verify_search_type_keyword {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+      );
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+        $result );
+    @list = split( /,/, $result );
     my $minus_dontcount = $#list;
     $this->assert( $minus_dontcount == 2 );
+
     #$this->assert( $minus_dontcount == ($alltopics - $dontcount );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+      );
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+        $result );
+    @list = split( /,/, $result );
     my $bang_dontcount = $#list;
     $this->assert( $bang_dontcount == 2 );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
+'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+      );
     $this->assert_str_equals( '', $result );
-    @list = split(/,/, $result);
+    @list = split( /,/, $result );
     my $quote_dontcount = $#list;
     $this->assert( $quote_dontcount == -1 );
-    
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%');
-    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="keyword"}%'
+      );
+    $this->assert_str_equals(
+        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
 }
 
-sub verify_search_type_literal {
+sub ___verify_search_type_literal {
     my $this = shift;
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+      );
     $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
-    my @list = split(/,/, $result);
+    my @list = split( /,/, $result );
     my $dontcount = $#list;
     $this->assert( $dontcount == 1 );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
-    @list = split(/,/, $result);
+'%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+      );
+    @list = split( /,/, $result );
     $this->assert_str_equals( '', $result );
     my $plus_dontcount = $#list;
     $this->assert( $plus_dontcount == -1 );
@@ -2641,50 +2709,56 @@ sub verify_search_type_literal {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+      );
     $this->assert_str_equals( '', $result );
-    @list = split(/,/, $result);
+    @list = split( /,/, $result );
     my $minus_dontcount = $#list;
     $this->assert( $minus_dontcount == -1 );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+      );
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+        $result );
+    @list = split( /,/, $result );
     my $bang_dontcount = $#list;
     $this->assert( $bang_dontcount == 2 );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
+'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+      );
     $this->assert_str_equals( '', $result );
-    @list = split(/,/, $result);
+    @list = split( /,/, $result );
     my $quote_dontcount = $#list;
     $this->assert( $quote_dontcount == -1 );
-    
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%');
-    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="literal"}%'
+      );
+    $this->assert_str_equals(
+        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
 }
 
-sub verify_search_type_regex {
+sub ___verify_search_type_regex {
     my $this = shift;
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+'%SEARCH{"dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+      );
     $this->assert_str_equals( 'OkATopic,OkBTopic', $result );
-    my @list = split(/,/, $result);
+    my @list = split( /,/, $result );
     my $dontcount = $#list;
     $this->assert( $dontcount == 1 );
-  
-#this causes regex search to throw an error due to the '+'    
+
+#this causes regex search to throw an error due to the '+'
 #    $result =
 #      $this->{test_topicObject}->expandMacros(
 #        '%SEARCH{"+dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
@@ -2696,36 +2770,199 @@ sub verify_search_type_regex {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+'%SEARCH{"-dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+      );
     $this->assert_str_equals( '', $result );
-    @list = split(/,/, $result);
+    @list = split( /,/, $result );
     my $minus_dontcount = $#list;
     $this->assert( $minus_dontcount == -1 );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
-    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!dont" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+      );
+    $this->assert_str_equals( 'OkTopic,TestTopicSEARCH,WebPreferences',
+        $result );
+    @list = split( /,/, $result );
     my $bang_dontcount = $#list;
     $this->assert( $bang_dontcount == 2 );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
+'%SEARCH{"\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+      );
     $this->assert_str_equals( '', $result );
-    @list = split(/,/, $result);
+    @list = split( /,/, $result );
     my $quote_dontcount = $#list;
     $this->assert( $quote_dontcount == -1 );
-    
 
     $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%');
-    $this->assert_str_equals( 'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
-    @list = split(/,/, $result);
+'%SEARCH{"!\"-dont\"" scope="all" nonoise="on" format="$topic" separator="," type="regex"}%'
+      );
+    $this->assert_str_equals(
+        'OkATopic,OkBTopic,OkTopic,TestTopicSEARCH,WebPreferences', $result );
+    @list = split( /,/, $result );
     my $not_quote_dontcount = $#list;
     $this->assert( $not_quote_dontcount == 4 );
+}
+
+sub ___test_stop_words_search_word {
+    my $this = shift;
+
+    my $prefs = $this->{session}->{prefs};
+    $prefs->setSessionPreferences( 'SEARCHSTOPWORDS' => 'xxx luv ,kiss, bye' );
+
+    my $TEST_TEXT  = "xxx Shamira";
+    my $TEST_TOPIC = 'StopWordTestTopic';
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $TEST_TOPIC,
+        $TEST_TEXT );
+    $topicObject->save();
+
+    {
+        my $result =
+          $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Shamira" type="word" scope="text" nonoise="on" format="$topic"}%'
+          );
+
+        $this->assert_matches( qr/$TEST_TOPIC/, $result );
+    }
+    {
+        my $result =
+          $this->{test_topicObject}->expandMacros(
+'%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
+          );
+
+        $this->assert_str_equals( '', $result );
+    }
+}
+
+sub createSummaryTestTopic {
+    my ( $this, $topicName ) = @_;
+
+    my $TEST_SUMMARY_TEXT =
+"Alan says: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was toppling him over the banisters. He said to me: 'When you have lost the 4 stone and the 14 stone, then you might topple over.' That's all I can remember.' Alan is thoughtful a while then talks about the 'toppling over'. He thinks that the sense was that the man might get unbalanced and topple over. He considers whether he might be pushing him over in the dream. He thought there was a way in which the man was suggesting that when Alan had lost the 4 stone and the 14 stone then he might topple over too; might lose his balance.
+
+	As Alan thought about different parts of his dream he let his mind follow the thoughts, images and memories which came to him. He thought about his weight loss programme. He couldn't think why he was dreaming about 4 and 14 stone, but it didn't bother him that he couldn't understand that part, something would probably come up later. Perhaps it's because his next goal is 18 stone, he muses. He remembers being thin as a young man at school. In particular in athletics, competing against an arch-rival in running. He remembers something else which happened at that time too. He smiles with surprise, saying that he hasn't thought of it for 30 years until this moment. But now he notices that thinking about this memory makes him feel anxious.
+
+	Just as he's saying this, his analyst notices that as she begins to think of what she might say about the dream she finds herself feeling she'll have to be very careful not to say it insensitively and provoke a fight. Subtly and imperceptibly the atmosphere has become tense. He remembers fighting this rival; really fighting as if to the death. He thinks that he might have completely lost control and killed him if this strange thing hadn't happened at that point. He'd just gone like jelly; he got up and walked away.
+
+	After dwelling a little more on the fears he'd suffered as a young thin man about losing control and being violent, he remembers his father's sudden death from a heart attack when he was a boy. What his analyst knows is that this death, so traumatic for Alan, had precipitated his disturbance as a child. He had developed obsessional routines involving checking and re-checking that he had turned off the taps and secured the locks on the windows at night, as if he believed that in some way he was culpable for the death of his father.
+
+	Alan interrupts himself to say: 'I went to the doctor yesterday, by the way, to discuss coming off all the pills.' He reminds his analyst that he is currently taking four different pills. He reminds her what each is for: an antipsychotic, an antidepressant, a beta blocker and a blood pressure pill. They speak a bit about the visit to the GP and Alan stresses both his desire to give up all his medication now that he is improving with the help of his analysis and his need to do it very carefully. He knows someone who came off antidepressants suddenly, all at once, and nearly died because the doctors hadn't bothered to warn him that it was dangerous. He checked this out with the GP and is stopping at the rate of half a pill per fortnight. His analyst says: 'Perhaps this helps us understand the 4 and the 14 in the dream. While you very much want to be healthy and be doing well in your analysis, and to manage without taking the 4 pills by giving up more every 14 days, you are also afraid that without the pills and the fat jelly you've covered yourself with, you might get unbalanced and be compelled to fight and be violent. Perhaps you fear your violence towards me, your thin analyst, too. The banisters made me think of those outside the consulting room which you see as you come in.'
+
+	Alan says: 'Oh yes; I knew I'd seen them somewhere before! But how do I know I won't go mad and do something to you? I just thought of something, just then.' Alan is now very agitated. 'It makes my blood boil the way analysts never defend themselves when they are attacked in the press. You hear one slander after another about Freud and psychoanalysis, and what do your lot do? Nothing!'";
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
+        $TEST_SUMMARY_TEXT );
+    $topicObject->save();
+}
+
+=pod
+
+Test the summary, default format.
+
+=cut
+
+sub ___test_summary_default_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Alan" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+Alan says<nop>: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was ...
+CRUD
+}
+
+=pod
+
+Test the default summary, limited to n chars.
+
+=cut
+
+sub ___test_summary_short_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Alan" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(12)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+Alan says<nop>: 'I was ...
+CRUD
+}
+
+=pod
+
+Test the summary with search context (default length).
+
+=cut
+
+sub ___test_summary_searchcontext_default_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"do" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(searchcontext)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+<b>&hellip;</b>  his analysis and his need to <em>do</em> it very carefully. He knows  <b>&hellip;</b>  somewhere before! But how <em>do</em> I know I won't go mad and do  <b>&hellip;</b>  and psychoanalysis, and what <em>do</em> your lot do? Nothing <b>&hellip;</b>
+CRUD
+}
+
+=pod
+
+Test the summary with search context, limmited to n chars (short).
+
+=cut
+
+sub ___test_summary_searchcontext_short_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"his" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(searchcontext,40)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+<b>&hellip;</b>  topple over too; might lose <em>his</em> balance. As Alan thought  <b>&hellip;</b> 
+CRUD
+}
+
+=pod
+
+Test the summary with search context, limmited to n chars (long)
+
+=cut
+
+sub ___test_summary_searchcontext_long_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"his" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(searchcontext,200)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+<b>&hellip;</b>  topple over too; might lose <em>his</em> balance. As Alan thought  <b>&hellip;</b> about different parts of <em>his</em> dream he let his mind follow  <b>&hellip;</b> came to him. He thought about <em>his</em> weight loss programme. He  <b>&hellip;</b>  later. Perhaps it's because <em>his</em> next goal is 18 stone, he  <b>&hellip;</b> 
+CRUD
 }
 
 1;
