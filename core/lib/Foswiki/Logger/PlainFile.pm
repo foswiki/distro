@@ -17,10 +17,10 @@ are recorded using ISO format, and include the time, and it dies when
 a log can't be written (rather than printing a warning).
 
 This logger implementation maps groups of levels to a single logfile, viz.
-   * =debug= messages are output to $Foswiki::cfg{Log}{Dir}/debug%DATE%.log
-   * =info= messages are output to $Foswiki::cfg{Log}{Dir}/log%DATE%.log
+   * =debug= messages are output to $Foswiki::cfg{Log}{Dir}/debug.log
+   * =info= messages are output to $Foswiki::cfg{Log}{Dir}/events.log
    * =warning=, =error=, =critical=, =alert=, =emergency= messages are
-     output to $Foswiki::cfg{Log}{Dir}/warn%DATE%.log.
+     output to $Foswiki::cfg{Log}{Dir}/error.log.
    * =error=, =critical=, =alert=, and =emergency= messages are also
      written to standard error (the webserver log file, usually)
 
@@ -40,8 +40,12 @@ our %LEVEL2LOG = (
     emergency => 'error'
    );
 
-# Local symbol used so we can override it during unit testing
-sub _time { return time() }
+our $nextCheckDue = 0;
+
+# Symbols used so we can override during unit testing
+our $dontRotate = 0;
+sub _time { time() }
+sub _stat { stat(@_); }
 
 sub new {
     my $class = shift;
@@ -61,7 +65,7 @@ sub log {
 
     my $log = _getLogForLevel($level);
     my $now = _time();
-    $log = _expandDATE( $log, $now );
+    _rotate($log, $now);
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
 
     # Unfortunate compatibility requirement; need the level, but the old
@@ -79,7 +83,7 @@ sub log {
     }
     else {
         if (! -w $log) {
-            die "ERROR: Could open logfile $log for write. Your admin should 'configure' now and fix the errors!\n";
+            die "ERROR: Could not open logfile $log for write. Your admin should 'configure' now and fix the errors!\n";
         }
         # die to force the admin to get permissions correct
         die 'ERROR: Could not write ' . $message . ' to ' . "$log: $!\n";
@@ -92,9 +96,9 @@ sub log {
 {
 
     # Private subclass of LineIterator that splits events into fields
-    package Foswiki::Logger::EventIterator;
+    package Foswiki::Logger::PlainFile::EventIterator;
     require Foswiki::LineIterator;
-    @Foswiki::Logger::EventIterator::ISA = ('Foswiki::LineIterator');
+    @Foswiki::Logger::PlainFile::EventIterator::ISA = ('Foswiki::LineIterator');
 
     sub new {
         my ( $class, $fh, $threshold, $level ) = @_;
@@ -155,28 +159,36 @@ sub eachEventSince {
 
     # Find the year-month for the current time
     my $now          = _time();
-    my $lastLogYear  = Foswiki::Time::formatTime( $now, '$year', 'servertime' );
-    my $lastLogMonth = Foswiki::Time::formatTime( $now, '$mo', 'servertime' );
+    my $nowLogYear  = Foswiki::Time::formatTime( $now, '$year', 'servertime' );
+    my $nowLogMonth = Foswiki::Time::formatTime( $now, '$mo',   'servertime' );
 
     # Find the year-month for the first time in the range
-    my $logYear  = $lastLogYear;
-    my $logMonth = $lastLogMonth;
-    if ( $log =~ /%DATE%/ ) {
-        $logYear  = Foswiki::Time::formatTime( $time, '$year', 'servertime' );
-        $logMonth = Foswiki::Time::formatTime( $time, '$mo',   'servertime' );
-    }
+    my $logYear  = Foswiki::Time::formatTime( $time, '$year', 'servertime' );
+    my $logMonth = Foswiki::Time::formatTime( $time, '$mo',   'servertime' );
 
-    # Enumerate over all the logfiles in the time range, creating an
-    # iterator for each.
-    my @iterators;
-    while (1) {
+    # Get the names of all the logfiles in the time range
+    my @logs;
+    while (!($logMonth == $nowLogMonth && $logYear == $nowLogYear)) {
         my $logfile = $log;
         my $logTime = $logYear . sprintf( "%02d", $logMonth );
-        $logfile =~ s/%DATE%/$logTime/g;
+        $logfile =~ s/\.log$/.$logTime/g;
+        push(@logs, $logfile);
+        $logMonth++;
+        if ( $logMonth == 13 ) {
+            $logMonth = 1;
+            $logYear++;
+        }
+    }
+    # Finally the current log
+    push(@logs, $log);
+
+    my @iterators;
+    foreach my $logfile (@logs) {
+        next unless -r $logfile;
         my $fh;
         if ( open( $fh, '<', $logfile ) ) {
             push( @iterators,
-                new Foswiki::Logger::EventIterator( $fh, $time, $level ) );
+                new Foswiki::Logger::PlainFile::EventIterator( $fh, $time, $level ) );
         }
         else {
 
@@ -184,24 +196,10 @@ sub eachEventSince {
             # besides, empty logfiles can happen.
             #print STDERR "Failed to open $logfile: $!";
         }
-        last if $logMonth == $lastLogMonth && $logYear == $lastLogYear;
-        $logMonth++;
-        if ( $logMonth == 13 ) {
-            $logMonth = 1;
-            $logYear++;
-        }
     }
     return new Foswiki::ListIterator( \@iterators ) if scalar(@iterators) == 0;
     return $iterators[0] if scalar(@iterators) == 1;
     return new Foswiki::AggregateIterator( \@iterators );
-}
-
-# Expand %DATE% in a logfile name
-sub _expandDATE {
-    my ( $log, $time ) = @_;
-    my $stamp = Foswiki::Time::formatTime( $time, '$year$mo', 'servertime' );
-    $log =~ s/%DATE%/$stamp/go;
-    return $log;
 }
 
 # Get the name of the log for a given reporting level
@@ -209,7 +207,113 @@ sub _getLogForLevel {
     my $level = shift;
     ASSERT(defined $LEVEL2LOG{$level}) if DEBUG;
     my $log = $LEVEL2LOG{$level};
-    return "$Foswiki::cfg{Log}{Dir}/$log%DATE%.log";
+    return "$Foswiki::cfg{Log}{Dir}/$log.log";
+}
+
+sub _time2month {
+    my $time = shift;
+    my @t = localtime($time);
+    $t[5] += 1900;
+    return sprintf('%0.4d%0.2d', $t[5], $t[4] + 1);
+}
+
+# See if the log needs to be rotated. If the log was last modified
+# last month, we need to rotate it.
+sub _rotate {
+    my ( $log, $now ) = @_;
+
+    return if $dontRotate;
+
+    # Don't bother checking if we have checked in this process already
+    return if ($now < $nextCheckDue);
+
+    # Work out the current month
+    my $curMonth = _time2month($now);
+
+    # After this check, don't check again for a month.
+    $curMonth =~ /(\d{4})(\d{2})/;
+    my ($y, $m) = ($1, $2 + 1);
+    if ($m > 12) {
+        $m = '01'; $y++;
+    } else {
+        $m = sprintf('%0.2d', $m);
+    }
+    $nextCheckDue = Foswiki::Time::parseTime("$y-$m-01");
+
+    # If there's no existing log, there's nothing to rotate
+    return unless -e $log;
+
+    # Check when the log was last modified. If it was in the previous
+    # month, if may need to be rotated.
+    my @stat = _stat($log);
+    my $modMonth = _time2month($stat[9]);
+    return if ( $modMonth == $curMonth );
+
+    # The log was last modified in a month that was not the current month.
+    # Rotate older entries out into month-by-month logfiles.
+
+    #print STDERR ">> Checking $log entries\n";
+
+    # Open the current log
+    my $lf;
+    return unless open($lf, '<', $log);
+
+    # Analyse the log and partition the lines into month groups
+    my %months;
+
+    local $/ = "\n";
+    my $line;
+    while ($line = <$lf>) {
+        my @event = split( /\s*\|\s*/, $line );
+        my $eventTime = Foswiki::Time::parseTime( $event[1] );
+
+        if (!$eventTime) {
+            #print STDERR ">> Bad time in log: $line\n";
+            close($lf);
+            return;
+        }
+
+        my $eventMonth = _time2month($eventTime);
+
+        if ($eventMonth < $curMonth) {
+            push(@{$months{$eventMonth}}, $line);
+        } else {
+            # Reached the start of log entries for this month
+            last;
+        }
+    }
+
+    if (!scalar(keys %months)) {
+        # no old months, we're done. The modify time on the current
+        # log will be touched by the next write, so we won't attempt
+        # to rotate again until next month (or $forceRotate is set).
+        #print STDERR ">> No old months\n";
+        close($lf);
+        return;
+    }
+
+    # Sook up the rest of the current log
+    $line ||= '';
+    $/ = undef;
+    my $curLog = $line . <$lf>;
+    close($lf);
+
+    foreach my $month (keys %months) {
+        my $bf;
+        my $backup = $log;
+        $backup =~ s/log$/$month/;
+        if (-e $backup || !open($bf, '>', $backup)) {
+            #print STDERR ">> Could not create $backup\n";
+            return;
+        }
+        print $bf join('', @{$months{$month}});
+        close($bf);
+    }
+
+    # Finally rewrite the shortened current log
+    return unless open($lf, '>', $log);
+    print $lf $curLog;
+    close($lf);
 }
 
 1;
