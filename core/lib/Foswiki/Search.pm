@@ -138,13 +138,14 @@ sub _tokensFromSearchString {
 
         # Tokenize string taking account of literal strings, then remove
         # stop words and convert '+' and '-' syntax.
-        @tokens = map {
+        @tokens = 
+          grep { !/^($stopWords)$/i }    # remove stopwords
+          map {
             s/^\+//o;
             s/^\-/\!/o;
             s/^"//o;
             $_
           }    # remove +, change - to !, remove "
-          grep { !/^($stopWords)$/i }    # remove stopwords
           map { s/$Foswiki::TranslationToken/ /go; $_ }    # restore space
           split( /[\s]+/, $searchString );               # split on spaces
     }
