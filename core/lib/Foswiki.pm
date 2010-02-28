@@ -224,6 +224,7 @@ BEGIN {
           sub { $_[0]->getPubUrl(1) },
         PUBURLPATH        =>
           sub { $_[0]->getPubUrl(0) },
+        QUERY             => undef,
         QUERYPARAMS       => undef,
         QUERYSTRING       =>
           sub { $_[0]->{request}->queryString() },

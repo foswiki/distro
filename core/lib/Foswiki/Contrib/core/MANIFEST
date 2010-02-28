@@ -239,6 +239,7 @@ data/System/VarPUBURL.txt 0644
 data/System/VarPUBURLPATH.txt 0644
 data/System/VarPURPLE.txt 0644
 data/System/VarQ.txt 0644
+data/System/VarQUERY.txt 0644
 data/System/VarQUERYPARAMS.txt 0644
 data/System/VarQUERYSTRING.txt 0644
 data/System/VarRED.txt 0644
@@ -623,6 +624,7 @@ lib/Foswiki/Macros/LANGUAGES.pm 0444
 lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/PUBURL.pm 0444
+lib/Foswiki/Macros/QUERY.pm 0444
 lib/Foswiki/Macros/QUERYPARAMS.pm 0444
 lib/Foswiki/Macros/RELATIVETOPICPATH.pm 0444
 lib/Foswiki/Macros/REVARG.pm 0444
