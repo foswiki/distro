@@ -101,15 +101,16 @@ sub parse {
 
         # Tokenize string taking account of literal strings, then remove
         # stop words and convert '+' and '-' syntax.
-        @tokens = map {
+        @tokens =
+          grep { !/^($this->{stopwords})$/i }    # remove stopwords
+          map {
             s/^\+//o;
             s/^\-/\!/o;
             s/^"//o;
             $_
           }    # remove +, change - to !, remove "
-          grep { !/^($this->{stopwords})$/i }    # remove stopwords
           map { s/$MARKER/ /go; $_ }    # restore space
-          split( /[\s]+/, $searchString );                 # split on spaces
+          split( /[\s]+/, $searchString );    # split on spaces
     }
 
     my $result = new Foswiki::Search::Node( $searchString, \@tokens, $options );
@@ -131,7 +132,7 @@ __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #
