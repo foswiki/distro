@@ -149,15 +149,17 @@ sub query {
 # AND search - search once for each token, ANDing result together
     foreach my $token ( @{ $query->{tokens} } ) {
 
+        my $tokenCopy = $token;
+        
         # flag for AND NOT search
         my $invertSearch = 0;
-        $invertSearch = ( $token =~ s/^\!//o );
+        $invertSearch = ( $tokenCopy =~ s/^\!//o );
 
         # scope can be 'topic' (default), 'text' or "all"
         # scope='topic', e.g. Perl search on topic name:
         my %topicMatches;
         unless ( $options->{'scope'} eq 'text' ) {
-            my $qtoken = $token;
+            my $qtoken = $tokenCopy;
 
 # FIXME I18N
 # http://foswiki.org/Tasks/Item1646 this causes us to use/leak huge amounts of memory if called too often
@@ -186,7 +188,7 @@ sub query {
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
             $textMatches = search(
-                $token, $web, $topicSet, $session, $options );
+                $tokenCopy, $web, $topicSet, $session, $options );
         }
 
         #bring the text matches into the topicMatch hash
