@@ -109,12 +109,16 @@ our $VERSION = '$Rev$';
 our $EMBEDDING_FORMAT_VERSION = 1.1;
 
 # defaults for trunctation of summary text
-our $TMLTRUNC   = 162;
-our $PLAINTRUNC = 70;
-our $MINTRUNC   = 16;
+our $SUMMARY_TMLTRUNC = 162;
+our $SUMMARY_MINTRUNC = 16;
+our $SUMMARY_ELLIPSIS = '<b>&hellip;</b>';    # Google style
+
+# the number of characters either side of a search term
+our $SUMMARY_DEFAULT_CONTEXT = 30;
 
 # max number of lines in a summary (best to keep it even)
-our $SUMMARYLINES = 6;
+our $CHANGES_SUMMARY_LINECOUNT  = 6;
+our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
 # META:x validation. See Foswiki::Func::registerMETA for more information.
 # Note that 'other' is *not* the same as 'allow'; it doesn't imply any
@@ -199,7 +203,8 @@ sub new {
 
     $this->{_web}   = $web;
     $this->{_topic} = $topic;
-#print STDERR "--new Meta($web, ".($topic||'undef').")\n";
+
+    #print STDERR "--new Meta($web, ".($topic||'undef').")\n";
     #$this->{_text}  = undef;    # topics only
 
     # Preferences cache object. We store a pointer, rather than looking
@@ -476,8 +481,8 @@ sub populateNewWeb {
         }
         my $tWebObject = Foswiki::Meta->new( $session, $templateWeb );
         require Foswiki::WebFilter;
-        my $sys = Foswiki::WebFilter->new('template')
-          ->ok($session, $templateWeb);
+        my $sys =
+          Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
@@ -2448,7 +2453,7 @@ sub renderTML {
 
 =begin TML
 
----++ ObjectMethod summariseText( $flags [, $text] ) -> $tml
+---++ ObjectMethod summariseText( $flags [, $text, \%searchOptions] ) -> $tml
 
 Makes a plain text summary of the topic text by simply trimming a bit
 off the top. Truncates to $TMTRUNC chars or, if a number is specified
@@ -2456,16 +2461,52 @@ in $flags, to that length.
 
 If $text is defined, use it in place of the topic text.
 
+The =\%searchOptions= hash may contain the following options:
+   * =type= - search type: keyword, literal, query
+   * =casesensitive= - false to ignore case (default true)
+   * =wordboundaries= - if type is 'keyword'
+   * =tokens= - array ref of search tokens
+   
 =cut
 
 sub summariseText {
-    my ( $this, $flags, $text ) = @_;
+    my ( $this, $flags, $text, $searchOptions ) = @_;
 
     $flags ||= '';
 
     $text = $this->text() unless defined $text;
-    my $htext = $this->session->renderer->TML2PlainText( $text, $this, $flags );
-    $htext =~ s/\n+/ /g;
+    my $plainText =
+      $this->session->renderer->TML2PlainText( $text, $this, $flags );
+    $plainText =~ s/\n+/ /g;
+
+    # limit to n chars
+    my $limit = $flags || '';
+    unless ( $limit =~ s/^.*?([0-9]+).*$/$1/ ) {
+        $limit = $SUMMARY_TMLTRUNC;
+    }
+    $limit = $SUMMARY_MINTRUNC if ( $limit < $SUMMARY_MINTRUNC );
+
+    if ( $flags =~ m/searchcontext/ ) {
+        return $this->_summariseTextWithSearchContext( $plainText, $limit,
+            $searchOptions );
+    }
+    else {
+        return $this->_summariseTextSimple( $plainText, $limit );
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod _summariseTextSimple( $text, $limit ) -> $tml
+
+Makes a plain text summary of the topic text by simply trimming a bit
+off the top. Truncates to $TMTRUNC chars or, if a number is specified
+in $flags, to that length.
+
+=cut
+
+sub _summariseTextSimple {
+    my ( $this, $text, $limit ) = @_;
 
     # SMELL: need to avoid splitting within multi-byte characters
     # by encoding bytes as Perl UTF-8 characters.
@@ -2477,27 +2518,113 @@ sub summariseText {
     # letters and accents)
     # Might be better to split on \b if possible.
 
-    # limit to n chars
-    my $nchar = $flags;
-    unless ( $nchar =~ s/^.*?([0-9]+).*$/$1/ ) {
-        $nchar = $TMLTRUNC;
-    }
-    $nchar = $MINTRUNC if ( $nchar < $MINTRUNC );
-    $htext =~
-      s/^(.{$nchar}.*?)($Foswiki::regex{mixedAlphaNumRegex}).*$/$1$2 \.\.\./s;
+    $text =~
+      s/^(.{$limit}.*?)($Foswiki::regex{mixedAlphaNumRegex}).*$/$1$2 \.\.\./s;
+
+    return $this->_makeSummaryTextSafe($text);
+}
+
+sub _makeSummaryTextSafe {
+    my ( $this, $text ) = @_;
+
+    my $session  = $this->session();
+    my $renderer = $session->renderer();
 
     # We do not want the summary to contain any $variable that formatted
     # searches can interpret to anything (Item3489).
     # Especially new lines (Item2496)
     # To not waste performance we simply replace $ by $<nop>
-    $htext =~ s/\$/\$<nop>/g;
+    $text =~ s/\$/\$<nop>/g;
 
     # Escape Interwiki links and other side effects introduced by
     # plugins later in the rendering pipeline (Item4748)
-    $htext =~ s/\:/<nop>\:/g;
-    $htext =~ s/\s+/ /g;
+    $text =~ s/\:/<nop>\:/g;
+    $text =~ s/\s+/ /g;
 
-    return $this->session->renderer->protectPlainText($htext);
+    return $this->session->renderer->protectPlainText($text);
+}
+
+=begin TML
+
+---++ ObjectMethod _summariseTextWithSearchContext( $text, $limit, $type, $searchOptions ) -> $tml
+
+Improves the presentation of summaries for keyword, word and literal searches, by displaying topic content on either side of the search terms wherever they are found in the topic.
+
+The =\%searchOptions= hash may contain the following options:
+   * =type= - search type: keyword, literal, query
+   * =casesensitive= - false to ignore case (default true)
+   * =wordboundaries= - if type is 'keyword'
+   * =tokens= - array ref of search tokens
+   
+=cut
+
+sub _summariseTextWithSearchContext {
+    my ( $this, $text, $limit, $searchOptions ) = @_;
+
+    if ( !$searchOptions->{tokens} ) {
+        return $this->_summariseTextSimple( $text, $limit );
+    }
+
+    my $type = $searchOptions->{type} || '';
+    if ( $type ne 'keyword' && $type ne 'literal' && $type ne '' ) {
+        return $this->_summariseTextSimple( $text, $limit );
+    }
+
+    my $caseSensitive  = $searchOptions->{casesensitive}  || '';
+    my $wordBoundaries = $searchOptions->{wordboundaries} || '';
+
+    my @tokens = grep { !/^!.*$/ } @{ $searchOptions->{tokens} };
+    my $keystrs = join( '|', @tokens );
+
+    if ( !$keystrs ) {
+        return $this->_summariseTextSimple( $text, $limit );
+    }
+
+    # we don't have a means currently to set the word window through a parameter
+    # so we always use the default
+    my $context = $SUMMARY_DEFAULT_CONTEXT;
+
+# break on words with search type 'word' (which is passed as type 'keyword' with $wordBoundaries as true
+    my $wordBoundaryAnchor =
+      ( $type eq 'keyword' && $wordBoundaries ) ? '\b' : '';
+    $keystrs = $caseSensitive ? "($keystrs)" : "((?i:$keystrs))";
+    my $termsPattern = $wordBoundaryAnchor . $keystrs . $wordBoundaryAnchor;
+
+# if $wordBoundaries is false, only break on whole words at start and end, not surrounding the search term; therefore the pattern at start differs from the pattern at the end
+    my $beforePattern = "(\\b.{0,$context}$wordBoundaryAnchor)";
+    my $afterPattern  = "($wordBoundaryAnchor.{0,$context}\\b)";
+    my $searchPattern = $beforePattern . $termsPattern . $afterPattern;
+
+    my $summary       = '';
+    my $summaryLength = 0;
+    while ( $summaryLength < $limit && $text =~ m/$searchPattern/gs ) {
+        my $before = $1 || '';
+        my $term   = $2 || '';
+        my $after  = $3 || '';
+
+        $before = $this->_makeSummaryTextSafe($before);
+        $term   = $this->_makeSummaryTextSafe($term);
+        $after  = $this->_makeSummaryTextSafe($after);
+
+        $summaryLength += length "$before$term$after";
+
+        my $startLoc = $-[0];
+
+        # only show ellipsis when not at the start
+        # and when we don't have any summary text yet
+        if ( !$summary && $startLoc != 0 ) {
+            $before = "$SUMMARY_ELLIPSIS $before";
+        }
+
+        my $endLoc = $+[0] || $-[0];
+        $after = "$after $SUMMARY_ELLIPSIS" if $endLoc != length $text;
+
+        $summary .= $before . CGI::em($term) . $after . ' ';
+    }
+
+    return $this->_summariseTextSimple( $text, $limit ) if !$summary;
+
+    return $summary;
 }
 
 =begin TML
@@ -2570,9 +2697,9 @@ sub summariseChanges {
     my @revised;
     my $getnext  = 0;
     my $prev     = '';
-    my $ellipsis = $tml ? '&hellip;' : '...';
-    my $trunc    = $tml ? $TMLTRUNC : $PLAINTRUNC;
-    while ( scalar @$blocks && scalar(@revised) < $SUMMARYLINES ) {
+    my $ellipsis = $tml ? $SUMMARY_ELLIPSIS : '...';
+    my $trunc    = $tml ? $SUMMARY_TMLTRUNC : $CHANGES_SUMMARY_PLAINTRUNC;
+    while ( scalar @$blocks && scalar(@revised) < $CHANGES_SUMMARY_LINECOUNT ) {
         my $block = shift(@$blocks);
         next unless $block =~ /\S/;
         my $trim = length($block) > $trunc;
@@ -2746,9 +2873,10 @@ sub setEmbeddedStoreForm {
 
         # add the rev derived from version=''
         if ( $ti->{version} ) {
-            if ($ti->{version} =~ /(\d+\.)?(\d*)/) {
+            if ( $ti->{version} =~ /(\d+\.)?(\d*)/ ) {
                 $ti->{rev} = $2;
-            } else {
+            }
+            else {
                 $ti->{rev} = 1;
             }
         }

@@ -75,3 +75,8 @@ a:hover .foswikiAccessKey {
 	margin:1em 0;
 	padding:1em;
 }
+.foswikiSummary em {
+	font-weight:bold;
+	font-style:normal;
+	color:#000;
+}

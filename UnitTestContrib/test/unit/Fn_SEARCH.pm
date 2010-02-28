@@ -2431,7 +2431,7 @@ GNURF
 sub _cut_the_crap {
     my $result = shift;
     $result =~ s/<!--.*?-->//gs;
-    $result =~ s/<\/?(span|div|b|h\d)\b.*?>//gs;
+    $result =~ s/<\/?(em|span|div|b|h\d)\b.*?>//gs;
     $result =~ s/ (class|style|rel)=(["'])[^"']*\2//g;
     $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
     $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
@@ -2807,12 +2807,6 @@ sub verify_search_type_regex {
     $this->assert( $not_quote_dontcount == 4 );
 }
 
-=pod
-
-Test if search results adhere to the SEARCHSTOPWORDS pref.
-
-=cut
-
 sub test_stop_words_search_word {
     my $this = shift;
 
@@ -2850,6 +2844,141 @@ sub test_stop_words_search_word {
 
         $this->assert_str_equals( '', $result );
     }
+    {
+        my $result =
+		$this->{test_topicObject}->expandMacros(
+		'%SEARCH{"+xxx" type="word" topic="$TEST_TOPIC" scope="text" nonoise="on" format="$summary(searchcontext)"}%'
+		);
+		
+		$this->assert_str_equals( '', $result );
+    }
+}
+
+sub createSummaryTestTopic {
+    my ( $this, $topicName ) = @_;
+
+    my $TEST_SUMMARY_TEXT =
+"Alan says: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was toppling him over the banisters. He said to me: 'When you have lost the 4 stone and the 14 stone, then you might topple over.' That's all I can remember.' Alan is thoughtful a while then talks about the 'toppling over'. He thinks that the sense was that the man might get unbalanced and topple over. He considers whether he might be pushing him over in the dream. He thought there was a way in which the man was suggesting that when Alan had lost the 4 stone and the 14 stone then he might topple over too; might lose his balance.
+
+	As Alan thought about different parts of his dream he let his mind follow the thoughts, images and memories which came to him. He thought about his weight loss programme. He couldn't think why he was dreaming about 4 and 14 stone, but it didn't bother him that he couldn't understand that part, something would probably come up later. Perhaps it's because his next goal is 18 stone, he muses. He remembers being thin as a young man at school. In particular in athletics, competing against an arch-rival in running. He remembers something else which happened at that time too. He smiles with surprise, saying that he hasn't thought of it for 30 years until this moment. But now he notices that thinking about this memory makes him feel anxious.
+
+	Just as he's saying this, his analyst notices that as she begins to think of what she might say about the dream she finds herself feeling she'll have to be very careful not to say it insensitively and provoke a fight. Subtly and imperceptibly the atmosphere has become tense. He remembers fighting this rival; really fighting as if to the death. He thinks that he might have completely lost control and killed him if this strange thing hadn't happened at that point. He'd just gone like jelly; he got up and walked away.
+
+	After dwelling a little more on the fears he'd suffered as a young thin man about losing control and being violent, he remembers his father's sudden death from a heart attack when he was a boy. What his analyst knows is that this death, so traumatic for Alan, had precipitated his disturbance as a child. He had developed obsessional routines involving checking and re-checking that he had turned off the taps and secured the locks on the windows at night, as if he believed that in some way he was culpable for the death of his father.
+
+	Alan interrupts himself to say: 'I went to the doctor yesterday, by the way, to discuss coming off all the pills.' He reminds his analyst that he is currently taking four different pills. He reminds her what each is for: an antipsychotic, an antidepressant, a beta blocker and a blood pressure pill. They speak a bit about the visit to the GP and Alan stresses both his desire to give up all his medication now that he is improving with the help of his analysis and his need to do it very carefully. He knows someone who came off antidepressants suddenly, all at once, and nearly died because the doctors hadn't bothered to warn him that it was dangerous. He checked this out with the GP and is stopping at the rate of half a pill per fortnight. His analyst says: 'Perhaps this helps us understand the 4 and the 14 in the dream. While you very much want to be healthy and be doing well in your analysis, and to manage without taking the 4 pills by giving up more every 14 days, you are also afraid that without the pills and the fat jelly you've covered yourself with, you might get unbalanced and be compelled to fight and be violent. Perhaps you fear your violence towards me, your thin analyst, too. The banisters made me think of those outside the consulting room which you see as you come in.'
+
+	Alan says: 'Oh yes; I knew I'd seen them somewhere before! But how do I know I won't go mad and do something to you? I just thought of something, just then.' Alan is now very agitated. 'It makes my blood boil the way analysts never defend themselves when they are attacked in the press. You hear one slander after another about Freud and psychoanalysis, and what do your lot do? Nothing!'";
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
+        $TEST_SUMMARY_TEXT );
+    $topicObject->save();
+}
+
+=pod
+
+Test the summary, default format.
+
+=cut
+
+sub test_summary_default_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Alan" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+Alan says<nop>: 'I was on a landing; there were banisters'. He pauses before describing the exact shape and details of the banisters. 'There was a thin man there. I was ...
+CRUD
+}
+
+=pod
+
+Test the default summary, limited to n chars.
+
+=cut
+
+sub test_summary_short_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Alan" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(12)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+Alan says<nop>: 'I was ...
+CRUD
+}
+
+=pod
+
+Test the summary with search context (default length).
+
+=cut
+
+sub test_summary_searchcontext_default_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"do" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(searchcontext)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+<b>&hellip;</b>  his analysis and his need to <em>do</em> it very carefully. He knows  <b>&hellip;</b>  somewhere before! But how <em>do</em> I know I won't go mad and do  <b>&hellip;</b>  and psychoanalysis, and what <em>do</em> your lot do? Nothing <b>&hellip;</b>
+CRUD
+}
+
+=pod
+
+Test the summary with search context, limited to n chars (short).
+
+=cut
+
+sub test_summary_searchcontext_short_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"his" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(searchcontext,40)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+<b>&hellip;</b>  topple over too; might lose <em>his</em> balance. As Alan thought  <b>&hellip;</b> 
+CRUD
+}
+
+=pod
+
+Test the summary with search context, limited to n chars (long)
+
+=cut
+
+sub test_summary_searchcontext_long_word_search {
+    my $this = shift;
+
+    $this->createSummaryTestTopic('TestSummaryTopic');
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"his" type="word" topic="TestSummaryTopic" scope="text" nonoise="on" format="$summary(searchcontext,200)"}%'
+      );
+
+    $this->assert_html_equals( <<CRUD, $result );
+<b>&hellip;</b>  topple over too; might lose <em>his</em> balance. As Alan thought  <b>&hellip;</b> about different parts of <em>his</em> dream he let his mind follow  <b>&hellip;</b> came to him. He thought about <em>his</em> weight loss programme. He  <b>&hellip;</b>  later. Perhaps it's because <em>his</em> next goal is 18 stone, he  <b>&hellip;</b> 
+CRUD
 }
 
 1;

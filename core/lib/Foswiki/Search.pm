@@ -180,7 +180,6 @@ sub _getListOfWebs {
     return @webs;
 }
 
-
 =begin TML
 
 ---++ ObjectMethod searchWeb (...)
@@ -229,7 +228,7 @@ sub searchWeb {
       Foswiki::Meta->new( $session, $session->{webName},
         $inline ? undef : $session->{topicName} );
 
-	my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);
+    my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 
     my $baseTopic = $params{basetopic} || $session->{topicName};
     my $baseWeb   = $params{baseweb}   || $session->{webName};
@@ -281,12 +280,11 @@ sub searchWeb {
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
     #END TODO
-	
+
     my $doBookView = Foswiki::isTrue( $params{bookview} );
     my $nonoise    = Foswiki::isTrue( $params{nonoise} );
     my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
-    
-    
+
     my $sortOrder = $params{order} || '';
     my $revSort = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
@@ -386,9 +384,9 @@ sub searchWeb {
         @webs = () unless scalar( @{ $query->{tokens} } );    #default
     }
 
-	my ($tmplHead, $tmplSearch, $tmplTail) = $this->loadTemplates(\%params, $baseWebObject, 
-						$formatDefined, $doBookView, $noHeader, $noSummary, $noTotal, $noFooter);
-
+    my ( $tmplHead, $tmplSearch, $tmplTail ) =
+      $this->loadTemplates( \%params, $baseWebObject, $formatDefined,
+        $doBookView, $noHeader, $noSummary, $noTotal, $noFooter );
 
     # If not inline search, also expand tags in head and tail sections
     unless ($inline) {
@@ -434,17 +432,17 @@ sub searchWeb {
             && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
 
-        # Run the search on topics in this web
-#setting the inputTopicSet to be undef allows the search/query algo to use 
+# Run the search on topics in this web
+#setting the inputTopicSet to be undef allows the search/query algo to use
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
         my $infoCache = $webObject->query( $query, undef, \%params );
         $infoCache->sortResults( $web, \%params );
 
         if ( $params{noempty} && !$infoCache->hasNext() ) {
-        next       ;    # Nothing to show for this web
+            next;    # Nothing to show for this web
         }
-          
+
         # add dependencies
         my $cache = $session->{cache};
         if ($cache) {
@@ -463,8 +461,7 @@ sub searchWeb {
 
         my ( $web_ttopics, $web_searchResult );
         ( $web_ttopics, $web_searchResult ) =
-          $this->formatResults( $webObject, $query, $searchString, $infoCache,
-            \%params );
+          $this->formatResults( $webObject, $query, $infoCache, \%params );
 
         $ttopics += $web_ttopics;
 
@@ -504,9 +501,13 @@ sub searchWeb {
 }
 
 sub loadTemplates {
-	my ($this, $params, $baseWebObject, $formatDefined, $doBookView, $noHeader, $noSummary, $noTotal, $noFooter) = @_;
-	
-	my $session            = $this->{session};
+    my (
+        $this,          $params,     $baseWebObject,
+        $formatDefined, $doBookView, $noHeader,
+        $noSummary,     $noTotal,    $noFooter
+    ) = @_;
+
+    my $session = $this->{session};
 
     #tmpl loading code.
     my $tmpl = '';
@@ -543,7 +544,7 @@ sub loadTemplates {
           . 'Incorrect format of '
           . $template
           . ' template (missing sections? There should be 4 %SPLIT% tags)';
-        throw Error::Simple( $mess );
+        throw Error::Simple($mess);
     }
 
     {
@@ -562,14 +563,15 @@ sub loadTemplates {
             $repeatText =~ s/&nbsp;//go;
         }
         else {
-            $repeatText =~ s/%TEXTHEAD%/\$summary/go;
+            $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
         }
         $params->{format} |= $repeatText;
         unless ($noFooter) {
             $params->{footer} |= $afterText;
         }
         unless ($noTotal) {
-            $params->{footercounter} |= $baseWebObject->expandMacros($tmplNumber);
+            $params->{footercounter} |=
+              $baseWebObject->expandMacros($tmplNumber);
             $params->{footer} .= $params->{footercounter};
         }
         else {
@@ -577,7 +579,7 @@ sub loadTemplates {
             #print STDERR "}}}".$params{format}."{{{";
         }
     }
-    return ($tmplHead, $tmplSearch, $tmplTail);
+    return ( $tmplHead, $tmplSearch, $tmplTail );
 }
 
 =begin TML
@@ -596,14 +598,13 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 =cut
 
 sub formatResults {
-    my ( $this, $webObject, $query, $searchString, $infoCache, $params ) = @_;
+    my ( $this, $webObject, $query, $infoCache, $params ) = @_;
     my $session            = $this->{session};
     my $users              = $session->{users};
     my $web                = $webObject->web;
     my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
-
-	my ($callback, $cbdata) = setup_callback($params);
+    my ( $callback, $cbdata ) = setup_callback($params);
 
     my $baseTopic = $params->{basetopic} || $session->{topicName};
     my $baseWeb   = $params->{baseweb}   || $session->{webName};
@@ -742,46 +743,74 @@ sub formatResults {
 
             $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
 
-            if ($formatDefined and ($format ne '')) {
-#TODO: hack to convert a bad SEARCH format to the one used by getRevInfo..
-		$format =~ s/\$createdate/\$createlongdate/gs;
-		#it looks like $isodate in format is equive to $iso in renderRevisionInfo
-		#TODO: clean these 3 hacks up
-		$format =~ s/\$isodate/\$iso/gs;
-		$format =~ s/\%TIME\%/\$date/gs;
-		$format =~ s/\$date/\$longdate/gs;
-#other tmpl based renderings
-		$format =~ s/%WEB%/\$web/go;
-		$format =~ s/%TOPICNAME%/\$topic/go;
-		$format =~ s/%AUTHOR%/\$wikiusername/g;
-    
-		$out = $this->formatResult($format, $info->{tom}, $text,
-					   {
-						'\$ntopics' => sub {return $ntopics},
-						'\$nhits' => sub {return $nhits},
-    #rev1 info
-    #TODO: move the $create* formats into Render::renderRevisionInfo..
-    #which implies moving the infocache's pre-extracted data into the tom obj too.
-    #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
-    #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
-						'\$createlongdate' => sub {return $infoCache->getRev1Info( $topic, "createlongdate" )},
-						'\$createusername' => sub {return $infoCache->getRev1Info( $topic, "createusername" )},
-						'\$createwikiname' => sub {return $infoCache->getRev1Info( $topic, "createwikiname" )},
-						'\$createwikiusername' => sub {return $infoCache->getRev1Info( $topic, "createwikiusername" )},
-#TODO: hacky bits that need to be moved out of formatResult()
-						'$revNum'	=> sub {return $revNum;},
-						'$doBookView'	=> sub {return $doBookView;},
-						'$baseWeb'	=> sub {return $baseWeb;},
-						'$baseTopic'	=> sub {return $baseTopic;},
-						'$newLine'	=> sub {return $newLine;},
-						'$separator'	=> sub {return $separator;},
-						'$noTotal'	=> sub {return $noTotal;},
-						'$paramsHash'	=> sub {return $params;},
-					    }
-					   );
+            if ( $formatDefined and ( $format ne '' ) ) {
+
+      #TODO: hack to convert a bad SEARCH format to the one used by getRevInfo..
+                $format =~ s/\$createdate/\$createlongdate/gs;
+
+       #it looks like $isodate in format is equive to $iso in renderRevisionInfo
+       #TODO: clean these 3 hacks up
+                $format =~ s/\$isodate/\$iso/gs;
+                $format =~ s/\%TIME\%/\$date/gs;
+                $format =~ s/\$date/\$longdate/gs;
+
+                #other tmpl based renderings
+                $format =~ s/%WEB%/\$web/go;
+                $format =~ s/%TOPICNAME%/\$topic/go;
+                $format =~ s/%AUTHOR%/\$wikiusername/g;
+
+                # pass search options to summary parser
+                my $searchOptions = {
+                    type           => $params->{type},
+                    wordboundaries => $params->{wordboundaries},
+                    casesensitive  => $caseSensitive,
+                    tokens         => $query->{tokens}
+                };
+                $out = $this->formatResult(
+                    $format,
+                    $info->{tom},
+                    $text,
+                    $searchOptions,
+                    {
+                        '\$ntopics' => sub { return $ntopics },
+                        '\$nhits'   => sub { return $nhits },
+
+  #rev1 info
+  #TODO: move the $create* formats into Render::renderRevisionInfo..
+  #which implies moving the infocache's pre-extracted data into the tom obj too.
+  #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
+  #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
+                        '\$createlongdate' => sub {
+                            return $infoCache->getRev1Info( $topic,
+                                "createlongdate" );
+                        },
+                        '\$createusername' => sub {
+                            return $infoCache->getRev1Info( $topic,
+                                "createusername" );
+                        },
+                        '\$createwikiname' => sub {
+                            return $infoCache->getRev1Info( $topic,
+                                "createwikiname" );
+                        },
+                        '\$createwikiusername' => sub {
+                            return $infoCache->getRev1Info( $topic,
+                                "createwikiusername" );
+                        },
+
+                   #TODO: hacky bits that need to be moved out of formatResult()
+                        '$revNum'     => sub { return $revNum; },
+                        '$doBookView' => sub { return $doBookView; },
+                        '$baseWeb'    => sub { return $baseWeb; },
+                        '$baseTopic'  => sub { return $baseTopic; },
+                        '$newLine'    => sub { return $newLine; },
+                        '$separator'  => sub { return $separator; },
+                        '$noTotal'    => sub { return $noTotal; },
+                        '$paramsHash' => sub { return $params; },
+                    }
+                );
             }
             else {
-		$out = '';
+                $out = '';
             }
 
             # lazy output of header (only if needed for the first time)
@@ -846,6 +875,7 @@ sub formatResults {
 
 ---++ ObjectMethod formatResult
    * $text can be undefined.
+   * $searchOptions is an options hash to pass on to the summary parser
    * customKeys is a hash of {'$key' => sub {my $item = shift; return value;} }
      where $item is a tom object (initially a Foswiki::Meta, but I'd like to be more generic)
      
@@ -856,108 +886,110 @@ TODO: need to cater for $summary(params) style too
 =cut
 
 sub formatResult {
-    my ($this, $out, $topicObject, $text, $customKeys) = @_;
+    my ( $this, $out, $topicObject, $text, $searchOptions, $customKeys ) = @_;
 
+    my $session = $this->{session};
 
-    my $session            = $this->{session};
-    
-    my $web = $topicObject->web();
+    my $web   = $topicObject->web();
     my $topic = $topicObject->topic();
 
-#TODO: these need to go away.
-    my $revNum = &{$customKeys->{'$revNum'}}();
-    my $doBookView = &{$customKeys->{'$doBookView'}}();
-    my $baseWeb = &{$customKeys->{'$baseWeb'}}();
-    my $baseTopic = &{$customKeys->{'$baseTopic'}}();
-    my $newLine = &{$customKeys->{'$newLine'}}();
-    my $separator = &{$customKeys->{'$separator'}}();
-    my $noTotal = &{$customKeys->{'$noTotal'}}();
-    my $params = &{$customKeys->{'$paramsHash'}}();
-    foreach my $key ('$revNum','$doBookView','$baseWeb','$baseTopic','$newLine','$separator','$noTotal','$paramsHash') {
-	delete $customKeys->{$key};
+    #TODO: these need to go away.
+    my $revNum     = &{ $customKeys->{'$revNum'} }();
+    my $doBookView = &{ $customKeys->{'$doBookView'} }();
+    my $baseWeb    = &{ $customKeys->{'$baseWeb'} }();
+    my $baseTopic  = &{ $customKeys->{'$baseTopic'} }();
+    my $newLine    = &{ $customKeys->{'$newLine'} }();
+    my $separator  = &{ $customKeys->{'$separator'} }();
+    my $noTotal    = &{ $customKeys->{'$noTotal'} }();
+    my $params     = &{ $customKeys->{'$paramsHash'} }();
+    foreach my $key (
+        '$revNum',  '$doBookView', '$baseWeb', '$baseTopic',
+        '$newLine', '$separator',  '$noTotal', '$paramsHash'
+      )
+    {
+        delete $customKeys->{$key};
     }
-    
-    foreach my $key (keys (%$customKeys)) {
+
+    foreach my $key ( keys(%$customKeys) ) {
         $out =~ s/$key/&{$customKeys->{$key}}()/ges;
     }
 
     $out =
-      $session->renderer->renderRevisionInfo( $topicObject,
-	$revNum, $out );
+      $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out );
 
     if ( $out =~ m/\$text/ ) {
-	unless ($text) {
-	    $text = $topicObject->text();
-	}
-	if ( $topic eq $session->{topicName} ) {
-	    #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
+        unless ($text) {
+            $text = $topicObject->text();
+        }
+        if ( $topic eq $session->{topicName} ) {
 
-	    # defuse SEARCH in current topic to prevent loop
-	    $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
-	}
-	$out =~ s/\$text/$text/gos;
+#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
+
+            # defuse SEARCH in current topic to prevent loop
+            $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
+        }
+        $out =~ s/\$text/$text/gos;
     }
-#TODO: extract the rev
+
+    #TODO: extract the rev
     my $srev = 'r' . $revNum;
     if ( $revNum eq '0' || $revNum eq '1' ) {
-	$srev = CGI::span( { class => 'foswikiNew' },
-	    ( $session->i18n->maketext('NEW') ) );
+        $srev = CGI::span( { class => 'foswikiNew' },
+            ( $session->i18n->maketext('NEW') ) );
     }
     $out =~ s/%REVISION%/$srev/o;
 
-
     if ($doBookView) {
 
-	# BookView
-	unless ($text) {
-	    $text = $topicObject->text();
-	}
-	if ( $web eq $baseWeb && $topic eq $baseTopic ) {
+        # BookView
+        unless ($text) {
+            $text = $topicObject->text();
+        }
+        if ( $web eq $baseWeb && $topic eq $baseTopic ) {
 
-	    # primitive way to prevent recursion
-	    $text =~ s/%SEARCH/%<nop>SEARCH/g;
-	}
-	$text = $topicObject->expandMacros($text);
-	$text = $topicObject->renderTML($text);
+            # primitive way to prevent recursion
+            $text =~ s/%SEARCH/%<nop>SEARCH/g;
+        }
+        $text = $topicObject->expandMacros($text);
+        $text = $topicObject->renderTML($text);
 
-	$out =~ s/%TEXTHEAD%/$text/go;
+        $out =~ s/%TEXTHEAD%/$text/go;
 
     }
     else {
-	$out =~ s/\$summary(?:\(([^\)]*)\))?/
-	  $topicObject->summariseText( $1, $text )/ges;
-	$out =~ s/\$changes(?:\(([^\)]*)\))?/
+        $out =~ s/\$summary(?:\(([^\)]*)\))?/
+	  $topicObject->summariseText( $1, $text, $searchOptions )/ges;
+        $out =~ s/\$changes(?:\(([^\)]*)\))?/
 	  $topicObject->summariseChanges($1, $revNum)/ges;
-	$out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
+        $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
 	  displayFormField( $topicObject, $1 )/ges;
-	$out =~ s/\$parent\(([^\)]*)\)/
+        $out =~ s/\$parent\(([^\)]*)\)/
 	  Foswiki::Render::breakName(
 	      $topicObject->getParent(), $1 )/ges;
-	$out =~ s/\$parent/$topicObject->getParent()/ges;
-	$out =~ s/\$formname/$topicObject->getFormName()/ges;
-	$out =~
-	  s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
+        $out =~ s/\$parent/$topicObject->getParent()/ges;
+        $out =~ s/\$formname/$topicObject->getFormName()/ges;
+        $out =~ s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
 
-# FIXME: Allow all regex characters but escape them
-# Note: The RE requires a .* at the end of a pattern to avoid false positives
-# in pattern matching
-	$out =~
-	  s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
-	$out =~ s/\r?\n/$newLine/gos if ($newLine);
-	if ( !defined($separator) ) {
+   # FIXME: Allow all regex characters but escape them
+   # Note: The RE requires a .* at the end of a pattern to avoid false positives
+   # in pattern matching
+        $out =~ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+        $out =~ s/\r?\n/$newLine/gos if ($newLine);
+        if ( !defined($separator) ) {
 
 # add new line at end if needed
 # SMELL: why?
 #TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
 #SMELL: I wonder if this can't be wrapped into the summarizeText code
-	    unless ( $noTotal && !$params->{formatdefined} ) {
-		$out =~ s/([^\n])$/$1\n/s;
-	    }
-	}
+            unless ( $noTotal && !$params->{formatdefined} ) {
+                $out =~ s/([^\n])$/$1\n/s;
+            }
+        }
 
-	$out = Foswiki::expandStandardEscapes($out);
+        $out = Foswiki::expandStandardEscapes($out);
 
     }
+
 #see http://foswiki.org/Tasks/Item2371 - needs unit test exploration
 #the problem is that when I separated the formating from the searching, I set the format string to what is in the template,
 #and thus here, format is always set.
@@ -1007,11 +1039,10 @@ sub displayFormField {
         { break => $breakArgs, protectdollar => 1, showhidden => 1 } );
 }
 
-
 #my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);
 sub setup_callback {
-	my ($params, $webObj) = @_;
-	
+    my ( $params, $webObj ) = @_;
+
     my $callback = $params->{_callback};
     my $cbdata   = $params->{_cbdata};
 
@@ -1031,7 +1062,7 @@ sub setup_callback {
         $cbdata = $params->{_cbdata} = [] unless ( defined($cbdata) );
         $callback = \&_collate_to_list;
     }
-    return ($callback, $cbdata);
+    return ( $callback, $cbdata );
 }
 
 # callback for search function to collate

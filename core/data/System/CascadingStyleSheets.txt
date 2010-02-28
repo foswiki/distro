@@ -118,6 +118,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 ---+++ Search
 |=table#foswikiSearchTable=         | Table with search input form elements; used in WebSearch, WebSearchAdvanced and WebTopicViewTemplate |
 |=.foswikiSummary=                  | Summary of search results  |
+|=.foswikiSummary em=               | Highlighted search term in summary  |
 |=.foswikiNew=                      | Identifier of new topics: topics without a revision history   |
 |=.foswikiTopRow=                   | First row in search results; also used for styling first table rows (=td.foswikiTopRow=)  |
 |=.foswikiBottomRow=                | Last row in search results |
