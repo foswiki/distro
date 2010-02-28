@@ -1517,7 +1517,17 @@ sub new {
     # Compatibility; not used except maybe in plugins
     $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
       unless defined( $Foswiki::cfg{TempfileDir} );
-    $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/log%DATE%.log";
+    if (defined $Foswiki::cfg{LogFileName}
+          && $Foswiki::cfg{Log}{Implementation}
+            eq 'Foswiki::Logger::PlainFile') {
+        # Admin has already expressed a preference for where they want their
+        # logfiles to go, and has obviously not re-run configure yet.
+        $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+        print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
+    } else {
+        # Otherwise 
+        $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
+    }
 
     # Set command_line context if there is no query
     $initialContext ||= defined($query) ? {} : { command_line => 1 };

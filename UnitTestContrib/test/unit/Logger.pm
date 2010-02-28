@@ -10,20 +10,41 @@ use Foswiki::Logger::PlainFile;
 
 # NOTE: Test logs are created in the test web so they get torn down when the
 # web is torn down in the superclass.
+our $logDir;
 
 sub set_up {
     my $this = shift;
+    delete $Foswiki::cfg{LogFileName} ;
+    delete $Foswiki::cfg{DebugFileName} ;
+    delete $Foswiki::cfg{WarningFileName} ;
     $this->SUPER::set_up();
-
-    $Foswiki::cfg{Log}{Dir} = "logDir$$";
+    $logDir = "logDir$$";
+    $Foswiki::cfg{Log}{Dir} = "$logDir";
     mkdir $Foswiki::cfg{Log}{Dir};
 }
 
 sub tear_down {
     my $this = shift;
 
-    File::Path::rmtree( $Foswiki::cfg{Log}{Dir} );
+    File::Path::rmtree( $logDir );
     $this->SUPER::tear_down();
+}
+
+sub CompatibilityLogger {
+    my $this = shift;
+    require Foswiki::Logger::Compatibility;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+    $this->{logger} = new Foswiki::Logger::Compatibility();
+    $Foswiki::cfg{LogFileName} = "$logDir/logfile%DATE%";
+    $Foswiki::cfg{DebugFileName} = "$logDir/debug%DATE%";
+    $Foswiki::cfg{WarningFileName} = "$logDir/warn%DATE%!!";
+}
+
+sub PlainFileLogger {
+    my $this = shift;
+    require Foswiki::Logger::PlainFile;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+    $this->{logger} = new Foswiki::Logger::PlainFile();
 }
 
 sub fixture_groups {
@@ -41,16 +62,6 @@ sub fixture_groups {
     foreach my $alg ( keys %algs ) {
         my $fn = $alg . 'Logger';
         push( @groups, $fn );
-        next if ( defined(&$fn) );
-        my $class = "Foswiki::Logger::$alg";
-        eval <<HERE;
-sub $fn {
-    my \$this = shift;
-    require $class;
-    \$this->{logger} = new $class();
-}
-HERE
-        die $@ if $@;
     }
 
     return \@groups;
@@ -80,6 +91,10 @@ sub verify_eachEventSinceOnEmptyLog {
     my $this = shift;
     foreach my $level qw(debug info warning) {
         my $it = $this->{logger}->eachEventSince( 0, $level );
+        if ($it->hasNext()) {
+            use Data::Dumper;
+            die Data::Dumper->Dump([$it->next()]);
+        }
         $this->assert( !$it->hasNext() );
     }
 }
@@ -91,13 +106,14 @@ sub PlainFileTestTime {
 }
 
 # Test specific to PlainFile logger
-sub test_eachEventSinceOnSeveralLogs {
+sub verify_eachEventSinceOnSeveralLogs {
     my $this   = shift;
     my $logger = new Foswiki::Logger::PlainFile();
     my $cache  = \&Foswiki::Logger::PlainFile::_time;
     no warnings 'redefine';
     *Foswiki::Logger::PlainFile::_time = \&PlainFileTestTime;
-    $plainFileTestTime = 3600;    # 1am on 1st Jan 1970
+
+    $plainFileTestTime = 3600;
     $logger->log( 'info', "Seal" );
     my $firstTime = time - 2 * 32 * 24 * 60 * 60;
     $plainFileTestTime = $firstTime;    # 2 months ago
@@ -145,7 +161,7 @@ sub test_eachEventSinceOnSeveralLogs {
     use warnings 'redefine';
 }
 
-sub test_filter {
+sub verify_filter {
 
     # with PlainFile, warning up are all crammed into one logfile
     my $this   = shift;
@@ -170,6 +186,76 @@ sub test_filter {
     $data = $it->next();
     $this->assert_str_equals( "Hurts", $data->[1] );
     $this->assert( !$it->hasNext() );
+}
+
+my $mode;  # access mode
+my $mtime; # modify time
+sub PlainFileTestStat {
+    return (0, 0, $mode, 0, 0, 0, 0, 99, 0, $mtime, 0, 0, 0, 0);
+}
+
+sub verify_rotate {
+    my $this = shift;
+
+    return unless
+      $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile';
+
+    my $timecache  = \&Foswiki::Logger::PlainFile::_time;
+    my $statcache  = \&Foswiki::Logger::PlainFile::_stat;
+    no warnings 'redefine';
+    *Foswiki::Logger::PlainFile::_time = \&PlainFileTestTime;
+    *Foswiki::Logger::PlainFile::_stat = \&PlainFileTestStat;
+
+    $Foswiki::Logger::PlainFile::dontRotate = 1;
+
+    my $then = Foswiki::Time::parseTime("2000-02-01");
+
+    $plainFileTestTime = $then;
+    $mode = 0777;
+
+    # Don't try to rotate a non-existant log
+    my $lfn = "$Foswiki::cfg{Log}{Dir}/events.log";
+
+    my $logger = new Foswiki::Logger::PlainFile();
+    $this->assert(! -e $lfn);
+    $logger->_rotate($plainFileTestTime);
+    $this->assert(! -e $lfn);
+
+    # Create the log, the entry should be stamped at $then - 1000 (last month)
+    $plainFileTestTime = $then - 1000;
+    $logger->log('info', 'Nil carborundum illegitami');
+    # fake the modify time
+    $mtime = $plainFileTestTime;
+
+    $Foswiki::Logger::PlainFile::dontRotate = 0;
+    $Foswiki::Logger::PlainFile::nextCheckDue = $then;
+
+    # now advance the clock to this month, and add another log entry. This
+    # should rotate the log.
+    $plainFileTestTime = $then;
+    $logger->log('info', 'Salve nauta');
+
+    local $/ = undef;
+    $this->assert(open(F, '<', $lfn));
+    my $e = <F>;
+    $this->assert_equals("| 2000-02-01T00:00:00Z info | Salve nauta |\n", $e);
+    close(F);
+
+    # We should see the creation of a backup log with
+    # the last-month entry, and the current log should be cut down to
+    # this month's entry.
+    my $backup = $lfn;
+    $backup =~ s/log$/200001/;
+    $this->assert(-e $backup);
+
+    $this->assert(open(F, '<', $backup));
+    $e = <F>;
+    $this->assert_equals("| 2000-01-31T23:43:20Z info | Nil carborundum illegitami |\n", $e);
+    close(F);
+
+    *Foswiki::Logger::PlainFile::_time = $timecache;
+    *Foswiki::Logger::PlainFile::_stat = $statcache;
+    use warnings 'redefine';
 }
 
 1;

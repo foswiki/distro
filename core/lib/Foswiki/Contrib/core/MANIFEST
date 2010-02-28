@@ -414,6 +414,7 @@ lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
 lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/LocalesDir.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Dir.pm 0444
+lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/LoginManager.pm 0444
 lib/Foswiki/Configure/Checkers/LoginNameFilterIn.pm 0444
 lib/Foswiki/Configure/Checkers/LowerNational.pm 0444

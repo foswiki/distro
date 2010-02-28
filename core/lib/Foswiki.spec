@@ -665,12 +665,18 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 # cycled once a month.
 $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 
-# **SELECTCLASS none,Foswiki::Logger::* EXPERT **
+# **SELECTCLASS none,Foswiki::Logger::* **
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
 # for a large site, or even provide your own custom logger. Select the
 # implementation to be used here. Most sites should be OK with the
-# PlainFile logger, which automatically rotates the logs every month.
+# PlainFile logger, which automatically rotates the logs every month.<p />
+# Note: the Foswiki 1.0 implementation of logfiles is still supported,
+# through use of the <tt>Foswiki::Logger::Compatibility</tt> logger. This
+# logger will automatically be selected if configure detects a setting for
+# <tt>{LogFileName}</tt> in your LocalSite.cfg. You are recommended to
+# change to the PlainFile logger at your convenience by removing this
+# setting from LocalSite.cfg and re-running configure.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
 
 # **PERL EXPERT**
