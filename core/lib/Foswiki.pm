@@ -1523,7 +1523,7 @@ sub new {
         # Admin has already expressed a preference for where they want their
         # logfiles to go, and has obviously not re-run configure yet.
         $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-        print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
+        #print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
     } else {
         # Otherwise define it for use in plugins
         $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
