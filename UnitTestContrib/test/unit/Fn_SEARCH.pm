@@ -89,7 +89,7 @@ SUB
     return \@groups;
 }
 
-sub verify_simple {
+sub ___verify_simple {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -102,7 +102,7 @@ sub verify_simple {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_Item4692 {
+sub ___verify_Item4692 {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -113,7 +113,7 @@ sub verify_Item4692 {
     $this->assert_str_equals( '', $result );
 }
 
-sub verify_angleb {
+sub ___verify_angleb {
     my $this = shift;
 
     # Test regex with \< and \>, used in rename searches
@@ -127,7 +127,7 @@ sub verify_angleb {
     $this->assert_does_not_match( qr/Ok\+Topic/, $result );
 }
 
-sub verify_topicName {
+sub ___verify_topicName {
     my $this = shift;
 
     # Test topic name search
@@ -141,7 +141,7 @@ sub verify_topicName {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_regex_trivial {
+sub ___verify_regex_trivial {
     my $this   = shift;
     my $result = $this->{twiki}->handleCommonTags(
 '%SEARCH{"blah" type="regex" scope="text" nonoise="on" format="$topic"}%',
@@ -153,7 +153,7 @@ sub verify_regex_trivial {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_literal {
+sub ___verify_literal {
     my $this = shift;
 
     # literal
@@ -167,7 +167,7 @@ sub verify_literal {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_keyword {
+sub ___verify_keyword {
     my $this = shift;
 
     # keyword
@@ -181,7 +181,7 @@ sub verify_keyword {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_word {
+sub ___verify_word {
     my $this = shift;
 
     # word
@@ -195,7 +195,7 @@ sub verify_word {
     $this->assert_does_not_match( qr/Ok\+Topic/, $result );
 }
 
-sub verify_separator {
+sub ___verify_separator {
     my $this = shift;
 
     # word
@@ -208,7 +208,7 @@ sub verify_separator {
         $result );
 }
 
-sub verify_separator_with_header {
+sub ___verify_separator_with_header {
     my $this = shift;
 
     # word
@@ -224,7 +224,7 @@ sub verify_separator_with_header {
         $result );
 }
 
-sub verify_footer_with_ntopics {
+sub ___verify_footer_with_ntopics {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -237,7 +237,7 @@ sub verify_footer_with_ntopics {
         $result );
 }
 
-sub verify_multiple_and_footer_with_ntopics_and_nhits {
+sub ___verify_multiple_and_footer_with_ntopics_and_nhits {
     my $this = shift;
 
     $this->set_up_for_formatted_search();
@@ -252,7 +252,7 @@ sub verify_multiple_and_footer_with_ntopics_and_nhits {
         $result );
 }
 
-sub verify_footer_with_ntopics_empty_format {
+sub ___verify_footer_with_ntopics_empty_format {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -263,7 +263,7 @@ sub verify_footer_with_ntopics_empty_format {
     $this->assert_str_equals( "Total found: 3", $result );
 }
 
-sub verify_regex_match {
+sub ___verify_regex_match {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -276,7 +276,7 @@ sub verify_regex_match {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_literal_match {
+sub ___verify_literal_match {
     my $this = shift;
 
     # literal
@@ -290,7 +290,7 @@ sub verify_literal_match {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_keyword_match {
+sub ___verify_keyword_match {
     my $this = shift;
 
     # keyword
@@ -304,7 +304,7 @@ sub verify_keyword_match {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_word_match {
+sub ___verify_word_match {
     my $this = shift;
 
     # word
@@ -318,7 +318,7 @@ sub verify_word_match {
     $this->assert_does_not_match( qr/Ok\+Topic/, $result );
 }
 
-sub verify_regex_matchme {
+sub ___verify_regex_matchme {
     my $this = shift;
 
     # ---------------------
@@ -334,7 +334,7 @@ sub verify_regex_matchme {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_literal_matchme {
+sub ___verify_literal_matchme {
     my $this = shift;
 
     # literal
@@ -348,7 +348,7 @@ sub verify_literal_matchme {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_keyword_matchme {
+sub ___verify_keyword_matchme {
     my $this = shift;
 
     # keyword
@@ -363,7 +363,7 @@ sub verify_keyword_matchme {
 
 }
 
-sub verify_word_matchme {
+sub ___verify_word_matchme {
     my $this = shift;
 
     # word
@@ -378,7 +378,7 @@ sub verify_word_matchme {
 
 }
 
-sub verify_minus_regex {
+sub ___verify_minus_regex {
     my $this = shift;
 
     # ---------------------
@@ -394,7 +394,7 @@ sub verify_minus_regex {
     $this->assert_does_not_match( qr/Ok\+Topic/, $result );
 }
 
-sub verify_minus_literal {
+sub ___verify_minus_literal {
     my $this = shift;
 
     # literal
@@ -409,7 +409,7 @@ sub verify_minus_literal {
 
 }
 
-sub verify_minus_keyword {
+sub ___verify_minus_keyword {
     my $this = shift;
 
     # keyword
@@ -424,7 +424,7 @@ sub verify_minus_keyword {
 
 }
 
-sub verify_minus_word {
+sub ___verify_minus_word {
     my $this = shift;
 
     # word
@@ -439,7 +439,7 @@ sub verify_minus_word {
 
 }
 
-sub verify_slash_regex {
+sub ___verify_slash_regex {
     my $this = shift;
 
     # ---------------------
@@ -456,7 +456,7 @@ sub verify_slash_regex {
 
 }
 
-sub verify_slash_literal {
+sub ___verify_slash_literal {
     my $this = shift;
 
     # literal
@@ -471,7 +471,7 @@ sub verify_slash_literal {
 
 }
 
-sub verify_slash_keyword {
+sub ___verify_slash_keyword {
     my $this = shift;
 
     # keyword
@@ -486,7 +486,7 @@ sub verify_slash_keyword {
 
 }
 
-sub verify_slash_word {
+sub ___verify_slash_word {
     my $this = shift;
 
     # word
@@ -501,7 +501,7 @@ sub verify_slash_word {
 
 }
 
-sub verify_quote_regex {
+sub ___verify_quote_regex {
     my $this = shift;
 
     # ---------------------
@@ -518,7 +518,7 @@ sub verify_quote_regex {
 
 }
 
-sub verify_quote_literal {
+sub ___verify_quote_literal {
     my $this = shift;
 
     # literal
@@ -533,7 +533,7 @@ sub verify_quote_literal {
 
 }
 
-sub verify_quote_keyword {
+sub ___verify_quote_keyword {
     my $this = shift;
 
     # keyword
@@ -548,7 +548,7 @@ sub verify_quote_keyword {
 
 }
 
-sub verify_quote_word {
+sub ___verify_quote_word {
     my $this = shift;
 
     # word
@@ -562,7 +562,7 @@ sub verify_quote_word {
     $this->assert_matches( qr/Ok\+Topic/, $result );
 }
 
-sub verify_SEARCH_3860 {
+sub ___verify_SEARCH_3860 {
     my $this = shift;
     my $result =
       $this->{twiki}
@@ -579,7 +579,7 @@ HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 }
 
-sub verify_search_empty_regex {
+sub ___verify_search_empty_regex {
     my $this = shift;
 
     my $result =
@@ -589,7 +589,7 @@ sub verify_search_empty_regex {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_empty_literal {
+sub ___verify_search_empty_literal {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -599,7 +599,7 @@ sub verify_search_empty_literal {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_empty_keyword {
+sub ___verify_search_empty_keyword {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -609,7 +609,7 @@ sub verify_search_empty_keyword {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_empty_word {
+sub ___verify_search_empty_word {
     my $this = shift;
 
     my $result =
@@ -619,7 +619,7 @@ sub verify_search_empty_word {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_regex {
+sub ___verify_search_numpty_regex {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -629,7 +629,7 @@ sub verify_search_numpty_regex {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_literal {
+sub ___verify_search_numpty_literal {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -639,7 +639,7 @@ sub verify_search_numpty_literal {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_keyword {
+sub ___verify_search_numpty_keyword {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -649,7 +649,7 @@ sub verify_search_numpty_keyword {
     $this->assert_str_equals( "", $result );
 }
 
-sub verify_search_numpty_word {
+sub ___verify_search_numpty_word {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -684,7 +684,7 @@ HERE
     );
 }
 
-sub verify_formatted_search_summary_with_exclamation_marks {
+sub ___verify_formatted_search_summary_with_exclamation_marks {
     my $this    = shift;
     my $session = $this->{twiki};
 
@@ -712,7 +712,7 @@ sub verify_formatted_search_summary_with_exclamation_marks {
     $this->assert_str_equals( $expected, $actual );
 }
 
-sub verify_METASEARCH {
+sub ___verify_METASEARCH {
     my $this    = shift;
     my $session = $this->{twiki};
 
@@ -792,7 +792,7 @@ HERE
 
 my $stdCrap = 'type="query" nonoise="on" format="$topic" separator=" "}%';
 
-sub verify_parentQuery {
+sub ___verify_parentQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -803,7 +803,7 @@ sub verify_parentQuery {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_attachmentSizeQuery1 {
+sub ___verify_attachmentSizeQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -814,7 +814,7 @@ sub verify_attachmentSizeQuery1 {
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
-sub verify_attachmentSizeQuery2 {
+sub ___verify_attachmentSizeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -825,7 +825,7 @@ sub verify_attachmentSizeQuery2 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_indexQuery {
+sub ___verify_indexQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -836,7 +836,7 @@ sub verify_indexQuery {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_gropeQuery {
+sub ___verify_gropeQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -847,7 +847,7 @@ sub verify_gropeQuery {
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
-sub verify_4580Query1 {
+sub ___verify_4580Query1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -858,7 +858,7 @@ sub verify_4580Query1 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_4580Query2 {
+sub ___verify_4580Query2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -869,7 +869,7 @@ sub verify_4580Query2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_gropeQuery2 {
+sub ___verify_gropeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -880,7 +880,7 @@ sub verify_gropeQuery2 {
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
-sub verify_formQuery {
+sub ___verify_formQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -891,7 +891,7 @@ sub verify_formQuery {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_formQuery2 {
+sub ___verify_formQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -901,7 +901,7 @@ sub verify_formQuery2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_formQuery3 {
+sub ___verify_formQuery3 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -912,7 +912,7 @@ sub verify_formQuery3 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_formQuery4 {
+sub ___verify_formQuery4 {
     my $this = shift;
 
     if (   $Foswiki::cfg{OS} eq 'WINDOWS'
@@ -929,7 +929,7 @@ sub verify_formQuery4 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_formQuery5 {
+sub ___verify_formQuery5 {
     my $this = shift;
 
     if (   $Foswiki::cfg{OS} eq 'WINDOWS'
@@ -952,7 +952,7 @@ sub verify_formQuery5 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
-sub verify_refQuery {
+sub ___verify_refQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -966,7 +966,7 @@ sub verify_refQuery {
 # make sure syntax errors are handled cleanly. All the error cases thrown by
 # the infix parser are tested more thoroughly in Fn_IF, and don't have to
 # be re-tested here.
-sub test_badQuery1 {
+sub ___test_badQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1046,7 +1046,7 @@ HERE
       "\nRE " . Benchmark::timestr($retime), "\n";
 }
 
-sub verify_4347 {
+sub ___verify_4347 {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -1056,7 +1056,7 @@ sub verify_4347 {
     $this->assert_str_equals( '', $result );
 }
 
-sub verify_likeQuery {
+sub ___verify_likeQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1086,7 +1086,7 @@ sub verify_likeQuery {
 
 }
 
-sub verify_likeQuery2 {
+sub ___verify_likeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1139,7 +1139,7 @@ sub verify_likeQuery2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub test_pattern {
+sub ___test_pattern {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
@@ -1151,7 +1151,7 @@ sub test_pattern {
     $this->assert_matches( qr/XY/,              $result );
 }
 
-sub test_badpattern {
+sub ___test_badpattern {
     my $this = shift;
 
     # The (??{ pragma cannot be run at runtime since perl 5.5
@@ -1170,7 +1170,7 @@ sub test_badpattern {
     $this->assert_equals( 3, $result =~ s/^XY$//gm );
 }
 
-sub test_validatepattern {
+sub ___test_validatepattern {
     my $this = shift;
     my ( $pattern, $temp );
 
@@ -1207,7 +1207,7 @@ sub test_validatepattern {
 }
 
 #Item977
-sub verify_formatOfLinks {
+sub ___verify_formatOfLinks {
     my $this = shift;
 
     $this->{twiki}->{store}->saveTopic(
@@ -1258,7 +1258,7 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
 
 }
 
-sub verify_casesensitivesetting {
+sub ___verify_casesensitivesetting {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -1359,7 +1359,7 @@ sub _septic {
 
 #####################
 
-sub verify_no_header_no_footer_no_separator_with_results {
+sub ___verify_no_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(0, 0, undef, 1, <<EXPECT);
 Ok+Topic
@@ -1368,40 +1368,40 @@ OkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_no_separator_no_results {
+sub ___verify_no_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic(0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_empty_separator_with_results {
+sub ___verify_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic(0, 0, "", 1, <<EXPECT);
 Ok+TopicOk-TopicOkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_empty_separator_no_results {
+sub ___verify_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic(0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_separator_with_results {
+sub ___verify_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(0, 0, ",", 1, <<EXPECT);
 Ok+Topic,Ok-Topic,OkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_separator_no_results {
+sub ___verify_no_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic(0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
-sub verify_no_header_with_footer_no_separator_with_results {
+sub ___verify_no_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(0, 1, undef, 1, <<EXPECT);
 Ok+Topic
@@ -1411,26 +1411,26 @@ FOOT
 EXPECT
 }
 
-sub verify_no_header_with_footer_no_separator_no_results {
+sub ___verify_no_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic(0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_with_footer_empty_separator_with_results {
+sub ___verify_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic(0, 1, "", 1, <<EXPECT);
 Ok+TopicOk-TopicOkTopicFOOT
 EXPECT
 }
 
-sub verify_no_header_with_footer_empty_separator_no_results {
+sub ___verify_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic(0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_with_footer_with_separator_with_results {
+sub ___verify_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(0, 1, ",", 1, <<EXPECT);
 Ok+Topic,Ok-Topic,OkTopic,FOOT
@@ -1439,7 +1439,7 @@ EXPECT
 
 #####################
 
-sub verify_with_header_with_footer_no_separator_with_results {
+sub ___verify_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(1, 1, undef, 1, <<EXPECT);
 HEAD
@@ -1450,13 +1450,13 @@ FOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_no_separator_no_results {
+sub ___verify_with_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic(1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_with_footer_empty_separator_with_results {
+sub ___verify_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic(1, 1, "", 1, <<EXPECT);
 HEAD
@@ -1464,13 +1464,13 @@ Ok+TopicOk-TopicOkTopicFOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_empty_separator_no_results {
+sub ___verify_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic(1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_with_footer_with_separator_with_results {
+sub ___verify_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(1, 1, ",", 1, <<EXPECT);
 HEAD
@@ -1478,7 +1478,7 @@ Ok+Topic,Ok-Topic,OkTopic,FOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_with_separator_no_results {
+sub ___verify_with_header_with_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic(1, 1, ",", 0, <<EXPECT);
 EXPECT
@@ -1486,7 +1486,7 @@ EXPECT
 
 #####################
 
-sub verify_with_header_no_footer_no_separator_with_results {
+sub ___verify_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, undef, 1, <<EXPECT);
 HEAD
@@ -1496,13 +1496,13 @@ OkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_no_separator_no_results {
+sub ___verify_with_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic(1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_no_footer_empty_separator_with_results {
+sub ___verify_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, "", 1, <<EXPECT);
 HEAD
@@ -1510,13 +1510,13 @@ Ok+TopicOk-TopicOkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_empty_separator_no_results {
+sub ___verify_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic(1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_no_footer_with_separator_with_results {
+sub ___verify_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, ",", 1, <<EXPECT);
 HEAD
@@ -1524,7 +1524,7 @@ Ok+Topic,Ok-Topic,OkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_with_separator_no_results {
+sub ___verify_with_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic(1, 0, ",", 0, <<EXPECT);
 EXPECT
@@ -1550,7 +1550,7 @@ sub _multiWebSeptic {
 
 #####################
 
-sub verify_multiWeb_no_header_no_footer_no_separator_with_results {
+sub ___verify_multiWeb_no_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, undef, 1, <<EXPECT);
 DefaultPreferences
@@ -1560,40 +1560,40 @@ WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_no_separator_no_results {
+sub ___verify_multiWeb_no_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_empty_separator_with_results {
+sub ___verify_multiWeb_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesSitePreferencesWebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_empty_separator_no_results {
+sub ___verify_multiWeb_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_with_separator_with_results {
+sub ___verify_multiWeb_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,SitePreferences,WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_with_separator_no_results {
+sub ___verify_multiWeb_no_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
-sub verify_multiWeb_no_header_with_footer_no_separator_with_results {
+sub ___verify_multiWeb_no_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, undef, 1, <<EXPECT);
 DefaultPreferences
@@ -1604,26 +1604,26 @@ FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_no_separator_no_results {
+sub ___verify_multiWeb_no_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_empty_separator_with_results {
+sub ___verify_multiWeb_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesFOOT(2,2)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_empty_separator_no_results {
+sub ___verify_multiWeb_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
+sub ___verify_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(0, 1, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,FOOT(2,2)SitePreferences,WebPreferences,FOOT(2,2)
@@ -1632,7 +1632,7 @@ EXPECT
 
 #####################
 
-sub verify_multiWeb_with_header_with_footer_no_separator_with_results {
+sub ___verify_multiWeb_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, undef, 1, <<EXPECT);
 HEAD(System)
@@ -1645,13 +1645,13 @@ FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_no_separator_no_results {
+sub ___verify_multiWeb_with_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
+sub ___verify_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, "", 1, <<EXPECT);
 HEAD(System)
@@ -1660,13 +1660,13 @@ SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_empty_separator_no_results {
+sub ___verify_multiWeb_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
+sub ___verify_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, ",", 1, <<EXPECT);
 HEAD(System)
@@ -1675,7 +1675,7 @@ SitePreferences,WebPreferences,FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_with_separator_no_results {
+sub ___verify_multiWeb_with_header_with_footer_with_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 1, ",", 0, <<EXPECT);
 EXPECT
@@ -1683,7 +1683,7 @@ EXPECT
 
 #####################
 
-sub verify_multiWeb_with_header_no_footer_no_separator_with_results {
+sub ___verify_multiWeb_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, undef, 1, <<EXPECT);
 HEAD(System)
@@ -1695,13 +1695,13 @@ WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_no_separator_no_results {
+sub ___verify_multiWeb_with_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
+sub ___verify_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, "", 1, <<EXPECT);
 HEAD(System)
@@ -1710,13 +1710,13 @@ SitePreferencesWebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_empty_separator_no_results {
+sub ___verify_multiWeb_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
+sub ___verify_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, ",", 1, <<EXPECT);
 HEAD(System)
@@ -1725,12 +1725,49 @@ SitePreferences,WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_with_separator_no_results {
+sub ___verify_multiWeb_with_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic(1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
 #####################
+
+=pod
+
+Test if search results adhere to the SEARCHSTOPWORDS pref.
+
+=cut
+
+sub test_stop_words_search_word {
+    my $this = shift;
+
+    use Foswiki::Func;
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', 'xxx luv ,kiss, bye' );
+
+    my $TEST_TEXT  = "xxx Shamira";
+    my $TEST_TOPIC = 'StopWordTestTopic';
+    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
+        $this->{test_web}, $TEST_TOPIC, $TEST_TEXT );
+
+    {
+        my $result = $this->{twiki}->handleCommonTags(
+'%SEARCH{"Shamira" type="word" scope="text" nonoise="on" format="$topic"}%',
+        $this->{test_web}, $this->{test_topic});
+        $this->assert_matches( qr/$TEST_TOPIC/, $result );
+    }
+    {
+        my $result = $this->{twiki}->handleCommonTags(
+'%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
+        $this->{test_web}, $this->{test_topic});
+        $this->assert_str_equals( '', $result );
+    }
+    {
+        my $result = $this->{twiki}->handleCommonTags(
+'%SEARCH{"+xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
+        $this->{test_web}, $this->{test_topic});
+        $this->assert_str_equals( '', $result );
+    }
+}
 
 1;
