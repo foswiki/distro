@@ -29,6 +29,18 @@ use Foswiki::Search::InfoCache;
 sub query {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
+    require Foswiki::Query::HoistREs;
+    my $hoistedREs = Foswiki::Query::HoistREs::collatedHoist($query);
+    
+    if ((!defined($options->{topic})) and 
+        ($hoistedREs->{name}) and
+        (scalar(@{$hoistedREs->{name}}) == 1)   #only do this if the 'name' query is simple (ie, has only one element)
+        ) {
+            my @filter = @{$hoistedREs->{name_source}};
+            #set the 'includetopic' matcher..
+            $options->{topic} = $filter[0];
+    }
+
     my $topicSet = $inputTopicSet;
     if (!defined($topicSet)) {
         #then we start with the whole web?
@@ -40,14 +52,13 @@ sub query {
     #TODO: howto ask iterator for list length?
     #TODO: once the inputTopicSet isa ResultSet we might have an idea
     #    if ( scalar(@$topics) > 6 ) {
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-    if ( scalar(@filter) ) {
+    if ( defined($hoistedREs->{text}) ) {
         my $searchOptions = {
             type                => 'regex',
             casesensitive       => 1,
             files_without_match => 1,
         };
+        my @filter = @{$hoistedREs->{text}};
         my $searchQuery =
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
@@ -222,7 +233,7 @@ sub getRefTopic {
 __END__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

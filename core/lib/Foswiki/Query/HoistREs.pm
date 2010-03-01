@@ -33,12 +33,46 @@ sub MONITOR_HOIST { 0 }
 
 =begin TML
 
----++ ObjectMethod hoist($query) -> @res
+---++ ObjectMethod collatedHoist($query) -> $hasRef
+
+retuns a hashRef where the keys are the node's (web|name|text) 
+for which we have hoisted regex's
+and who's values are a list of regex's
+
+and also keys of "(web|name|text)_source" where the list contains 
+the non-regex version (ie what the user entered)
+
+=cut
+
+sub collatedHoist {
+    my $node = shift;
+
+    my %collation;
+
+    my @ops = hoist($node);
+    foreach my $op (@ops) {
+        push( @{ $collation{ $op->{node} } }, $op->{regex} );
+        push( @{ $collation{ $op->{node}.'_source' } }, $op->{source} );
+    }
+    return \%collation;
+}
+
+=begin TML
+
+---++ ObjectMethod hoist($query) -> @hashRefs
 
 Extract useful filter REs from the given query. The list returned is a list
 of filter expressions that can be used with a cache search to refine the
 list of topics. The full query should still be applied to topics that remain
 after the filter match has been applied; this is purely an optimisation.
+
+each hash in the array contains the node the regex is for, and a regex string
+
+{
+    node => 'web|name|text',
+    regex => 'Web.*'
+    source => 'Web*'
+}
 
 =cut
 
@@ -90,7 +124,14 @@ sub _hoistOR {
         my $lhs = _hoistOR( $node->{params}[0] );
         my $rhs = _hoistEQ( $node->{params}[1] );
         if ( $lhs && $rhs ) {
-            return "$lhs|$rhs";
+            if ( $lhs->{node} eq $rhs->{node} ) {
+                return {
+                    node  => $lhs->{node},
+                    regex => $lhs->{regex} . '|' . $rhs->{regex},
+                    source => $lhs->{source} . ',' . $rhs->{source}
+                };
+            }
+            return ( $lhs, $rhs );
         }
     }
     else {
@@ -119,7 +160,8 @@ sub _hoistEQ {
         my $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
-            $lhs =~ s/\000RHS\001/$rhs/g;
+            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{source} = _hoistConstant( $node->{params}[1]);
             return $lhs;
         }
 
@@ -128,7 +170,8 @@ sub _hoistEQ {
         $rhs = _hoistConstant( $node->{params}[0] );
         if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
-            $lhs =~ s/\000RHS\001/$rhs/g;
+            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{source} = _hoistConstant( $node->{params}[0]);
             return $lhs;
         }
     }
@@ -137,9 +180,10 @@ sub _hoistEQ {
         my $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
-            $rhs =~ s/\\\?/./g;
-            $rhs =~ s/\\\*/.*/g;
-            $lhs =~ s/\000RHS\001/$rhs/g;
+            $rhs          =~ s/\\\?/./g;
+            $rhs          =~ s/\\\*/.*/g;
+            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{source} = _hoistConstant( $node->{params}[1]);
             return $lhs;
         }
     }
@@ -177,18 +221,28 @@ sub _hoistDOT {
             if ( $lhs =~ /^META:/ ) {
 
                 # \000RHS\001 is a placholder for the RHS term
-                return '^%' . $lhs . '{.*\\b' . $rhs . "=\\\"\000RHS\001\\\"";
+                return {
+                    node  => 'text',
+                    regex => '^%' 
+                      . $lhs 
+                      . '{.*\\b' 
+                      . $rhs
+                      . "=\\\"\000RHS\001\\\""
+                };
             }
 
             # Otherwise assume the term before the dot is the form name
             if ( $rhs eq 'text' ) {
 
                 # Special case for the text body
-                return "\000RHS\001";
+                return { node => 'text', regex => "\000RHS\001" };
             }
             else {
-                return
-"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\"";
+                return {
+                    node => 'text',
+                    regex =>
+"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\""
+                };
             }
 
         }
@@ -198,21 +252,26 @@ sub _hoistDOT {
         if ( $node->{params}[0] eq 'name' ) {
 
             # Special case for the topic name
+            return { node => 'name', regex => "\000RHS\001" };
             return;
         }
         elsif ( $node->{params}[0] eq 'web' ) {
 
             # Special case for the web name
+            return { node => 'web', regex => "\000RHS\001" };
             return;
         }
         elsif ( $node->{params}[0] eq 'text' ) {
 
             # Special case for the text body
-            return "\000RHS\001";
+            return { node => 'text', regex => "\000RHS\001" };
         }
         else {
-            return
-"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\"";
+            return {
+                node => 'text',
+                regex =>
+"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\""
+            };
         }
     }
 
@@ -240,7 +299,7 @@ __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #
@@ -264,3 +323,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 As per the GPL, removal of this notice is prohibited.
 
 Author: Crawford Currie http://c-dot.co.uk
+           Sven Dowideit http://fosiki.com
