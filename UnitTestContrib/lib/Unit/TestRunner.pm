@@ -108,12 +108,21 @@ sub start {
    }
 
     if ( $this->{unexpected_failures} || $this->{unexpected_passes} ) {
-        print $this->{unexpected_failures} . " failures\n"
-          if $this->{unexpected_failures};
-        print $this->{unexpected_passes} . " unexpected passes\n"
-          if $this->{unexpected_passes};
-        print join( "\n---------------------------\n", @{ $this->{failures} } ),
-          "\n";
+        if ($this->{unexpected_failures}) {
+        print $this->{unexpected_failures} . " failure".
+                ($this->{unexpected_failures}>1?'s':'').
+                "\n";
+            }
+        if ($this->{unexpected_passes}) {
+        print $this->{unexpected_passes} . " unexpected pass".
+                ($this->{unexpected_passes}>1?'es':'').
+                "\n";
+            }
+        if (($passes + $this->{unexpected_failures}) > 1) {
+            #don't print the failure a second time if there is only one test run - its really annoying.
+            print join( "\n---------------------------\n", @{ $this->{failures} } ),
+            "\n";
+        }
         $this->{unexpected_failures} ||= 0;
         print "$passes of ", $passes + $this->{unexpected_failures},
           " test cases passed\n";
