@@ -21,6 +21,7 @@ data/System/JQueryGradient.txt 0644
 data/System/JQueryGrid.txt 0644
 data/System/JQueryHoverIntent.txt 0644
 data/System/JQueryInnerFade.txt 0644
+data/System/JQueryLiveQuery.txt 0644
 data/System/JQueryLocalScroll.txt 0644
 data/System/JQueryMaskedInput.txt 0644
 data/System/JQueryMasonry.txt 0644
@@ -35,7 +36,6 @@ data/System/JQueryShake.txt 0644
 data/System/JQueryShrinkUrls.txt 0644
 data/System/JQuerySimpleModal.txt 0644
 data/System/JQuerySlimbox.txt 0644
-data/System/JQueryLiveQuery.txt 0644
 data/System/JQuerySuperfish.txt 0644
 data/System/JQuerySupersubs.txt 0644
 data/System/JQueryTabpane.txt 0644
@@ -258,6 +258,10 @@ pub/System/JQueryPlugin/plugins/easing/jquery.easing.js 0644
 pub/System/JQueryPlugin/plugins/easing/jquery.easing.js.gz 0644
 pub/System/JQueryPlugin/plugins/easing/jquery.easing.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/easing/Makefile 0644
+pub/System/JQueryPlugin/plugins/empty/jquery.empty.css 0644
+pub/System/JQueryPlugin/plugins/empty/jquery.empty.css.gz 0644
+pub/System/JQueryPlugin/plugins/empty/jquery.empty.js 0644
+pub/System/JQueryPlugin/plugins/empty/jquery.empty.js.gz 0644
 pub/System/JQueryPlugin/plugins/empty/jquery.empty.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/empty/jquery.empty.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/empty/Makefile 0644
@@ -459,11 +463,14 @@ pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.js 0644
 pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.js.gz 0644
 pub/System/JQueryPlugin/plugins/maskedinput/jquery.maskedinput.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/maskedinput/Makefile 0644
+pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.css 0644
+pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.css.gz 0644
 pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.init.js 0644
 pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.init.js.gz 0644
 pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.js 0644
 pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.js.gz 0644
+pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/masonry/jquery.masonry.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/masonry/Makefile 0644
 pub/System/JQueryPlugin/plugins/media/jquery.media.init.js 0644
@@ -530,6 +537,9 @@ pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.uncompressed.js 064
 pub/System/JQueryPlugin/plugins/shrinkurls/Makefile 0644
 pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.css 0644
 pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.css.gz 0644
+pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.init.js 0644
+pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.js 0644
 pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.js.gz 0644
 pub/System/JQueryPlugin/plugins/simplemodal/jquery.simplemodal.uncompressed.css 0644
@@ -841,7 +851,7 @@ pub/System/JQueryPlugin/ui/ui.tabs.js 0644
 pub/System/JQueryPlugin/wikiringlogo40x40.png 0644
 pub/System/JQuerySlimbox/IMG_1190.JPG 0644
 pub/System/JQuerySuperfish/example.js 0644
-tools/yuicompressor.jar 0755
 tools/jslint4java.jar 0755
 tools/minifycss 0755
 tools/minifyjs 0755
+tools/yuicompressor.jar 0755
