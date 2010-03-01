@@ -443,18 +443,6 @@ sub searchWeb {
             next;    # Nothing to show for this web
         }
 
-        # add dependencies
-        my $cache = $session->{cache};
-        if ($cache) {
-
-            #TODO: ouch - this forces pre-evaluation of results,
-            # and assumes we need or care to evaluate all of them :/
-            # I wonder if this makes paging head processing heavy
-            foreach my $topic ( $infoCache->{list} ) {
-                $cache->addDependency( $web, $topic );
-            }
-        }
-
      # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
         &$callback( $cbdata, $separator )
           if ( ( $ttopics > 0 ) and $noFooter and $noSummary and $separator );
@@ -689,6 +677,11 @@ sub formatResults {
         {
             $params->{pager_skip_results_from}--;
             next;
+        }
+
+        # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
+        if (my $cache = $session->{cache}) {
+             $cache->addDependency( $web, $topic );
         }
 
         my $info = $infoCache->get($topic);
@@ -1176,15 +1169,15 @@ sub searchMetaData {
 __DATA__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
 # Additional copyrights apply to some or all of the code in this
 # file as follows:
 #
-# Copyright (C) 2000-2007 Peter Thoeny, peter@thoeny.org
-# and TWiki Contributors. All Rights Reserved. TWiki Contributors
+# Copyright (C) 2000-2007 TWiki Contributors. 
+# All Rights Reserved. TWiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 #
 # This program is free software; you can redistribute it and/or
