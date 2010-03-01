@@ -14,7 +14,6 @@ sub check {
        $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile') {
         $root->{valuer}->{values}->{Log}{Implementation}
           = 'Foswiki::Logger::Compatibility';
-die "COCK" unless $root->{valuer}->currentValue($value) eq "Foswiki::Logger::Compatibility";
         $mess .= $this->WARN("Found a setting for LogFileName in LocalSite.cfg, so I have automatically selected the Compatibility logger. ");
     }
     return $mess;
