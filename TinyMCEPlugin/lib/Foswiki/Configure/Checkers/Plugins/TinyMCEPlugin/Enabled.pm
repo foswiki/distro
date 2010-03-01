@@ -12,7 +12,7 @@ sub check {
     my $warnings;
 
     if ( $Foswiki::cfg{Plugins}{TinyMCEPlugin}{Enabled} ) {
-        if ( !$Foswiki::cfg{JQueryPlugin}{Enabled} ) {
+        if ( !$Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} ) {
             $warnings .= $this->ERROR(<<'HERE');
 TinyMCEPlugin depends on JQueryPlugin, which is not enabled.
 HERE
