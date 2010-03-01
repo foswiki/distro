@@ -101,6 +101,9 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  01 Mar 2010: | improved js and css compression using yuicompressor; \
+                  improved simplemodal integration to foswiki to create modal dialogs with less additional javascript; \
+                  added custom events to textboxlist: <nop>AddValue, <nop>DeleteValue , Reset and Clear |
 |  12 Feb 2010: | added livequery and rewrote all initializers to use it; \
                   added =rating= formfield type; \
                   updated jqGrid to latest version; \
