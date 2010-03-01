@@ -184,7 +184,7 @@ MESS
 
 # Entry point for the value check. Overridden by subclasses.
 sub check {
-    my ( $this, $value ) = @_;
+    my ( $this, $value, $root ) = @_;
 
     # default behaviour; do nothing
     return '';
