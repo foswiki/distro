@@ -33,7 +33,7 @@
  *
  */
 
-;(function($) {
+(function($) {
 $.fn.extend({
   shrinkUrls: function(settings) {
     settings = $.extend({
@@ -53,16 +53,16 @@ $.fn.extend({
         var middlePart = "";
         //$.log("length="+txtlength+", text="+text);
         switch (settings.trunc) {
-          default:
-          case 'tail':
-            firstPart = text.substring(0,settings.size-1);
-            break;
           case 'head':
             lastPart = text.substring(txtlength-settings.size+1,txtlength);
             break;
           case 'middle':
             firstPart = text.substring(0,settings.size/2);
             lastPart = text.substring(txtlength-settings.size/2+1,txtlength);
+            break;
+          default:
+          case 'tail':
+            firstPart = text.substring(0,settings.size-1);
             break;
         }
         var origText = text;

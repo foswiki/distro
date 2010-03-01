@@ -16,7 +16,7 @@
 /***************************************************************************
  * plugin definition 
  */
-;(function($) {
+(function($) {
 
   $.fluidfont = {
       
@@ -26,8 +26,10 @@
     build: function(options) {
       $.log("called fluidfont.build()");
      
-      var $this = $(this);
-      var opts = $.extend({}, $.fluidfont.defaults, options);
+      var $this = $(this), 
+        opts = $.extend({}, $.fluidfont.defaults, options),
+        lineRatio, fontRatio;
+
 
       function getRatio(size) {
         if (size.match(/px/)) {
@@ -46,8 +48,9 @@
       }
 
       function resize() {
-        var width = $this.width();
-        var fontSize = fontRatio * width;
+        var width = $this.width(), 
+            fontSize = fontRatio * width,
+            lineHeight;
 
         if (typeof(opts.max) == 'number' && fontSize > opts.max) {
           fontSize = opts.max;
@@ -57,7 +60,7 @@
           fontSize = opts.min;
         }
 
-        var lineHeight = fontSize * lineRatio;
+        lineHeight = fontSize * lineRatio;
 
         $.log("width="+width+" font-size="+fontSize+" line-height="+lineHeight+" lineRatio="+lineRatio);
         $this.css({'font-size': fontSize+"px", 'line-height': lineHeight+"px"});
@@ -67,10 +70,11 @@
         }, 100); 
       }
 
-      var fontRatio = getRatio($this.css('font-size'));
-      var lineRatio = getRatio($this.css('line-height'));
       lineRatio = lineRatio / fontRatio;
+      fontRatio = getRatio($this.css('font-size'));
+      lineRatio = getRatio($this.css('line-height'));
     
+
       resize();
 
       return $this;
@@ -89,7 +93,7 @@
       min: 10, // minimum text size in px
       max: 15 // maximum text size in px
     }
-  }
+  };
 
   /* register by extending jquery */
   $.fn.fluidfont = $.fluidfont.build;
@@ -97,8 +101,7 @@
   /* initialisation */
   $(function() {
     $(".jqFluidFont").not(".jqInitedFluidFont").each(function() {
-      var $this = $(this);
-      var opts = $.extend({}, $this.metadata());
+      var $this = $(this), opts = $.extend({}, $this.metadata());
       $this.addClass("jqInitedFluidFont");
       $this.fluidfont(opts);
     });

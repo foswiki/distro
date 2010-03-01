@@ -1,28 +1,41 @@
 FOSWIKI_ROOT=~/foswiki/trunk/core
 FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
-MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
-MINIFYCSS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
+MINIFYJS=$(YUI_MINIFYJS)
+MINIFYCSS=$(YUI_MINIFYCSS)
+JSLINT=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/jslint4java.jar --undef --predef=jQuery,window,console,document,foswiki
+YUI_MINIFYJS=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/yuicompressor.jar --type js 
+YUI_MINIFYCSS=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/yuicompressor.jar --type css 
+PERL_MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
+PERL_MINIFYCSS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
+JAVA=java
 GZIP=gzip
 CAT=cat
 PATCH=patch
 
-.SUFFIXES: .js .css
+.SUFFIXES: .js .css .jslint
 .PHONY: subdirs $(SUBDIRS)
 
 all: subdirs $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
 	@echo -n ""
 
+jslint: subdirs $(TARGET:.js=.jslint) 
+	@echo -n ""
+
+%.jslint: %.uncompressed.js
+	@echo checking code quality of $<
+	@$(JSLINT) $< && touch $@
+
 %.js: %.uncompressed.js
-	@echo creating $@ from $<
+	@echo minifying $@ from $<
 	@$(MINIFYJS) $< > $@
 
 %.gz: %
-	@echo compressing $< to $@
+	@echo zipping $< to $@
 	@$(GZIP) -c $< > $@
 
 %.css: %.uncompressed.css
-	@echo creating $@ from $<
+	@echo minifying $@ from $<
 	@$(MINIFYCSS) $< > $@
 
 subdirs: $(SUBDIRS)

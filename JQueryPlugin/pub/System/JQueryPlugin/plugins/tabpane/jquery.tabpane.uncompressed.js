@@ -116,32 +116,13 @@ $.tabpane = {
       $newContainer.height(oldHeight);
     }
 
-    // async loader
-    if (typeof(data.url) != "undefined") {
-        
-      $newContainer.load(data.url, undefined, function() {
-        if (typeof(data.afterLoadHandler) == "function") {
-          //jQuery.log("after load handler "+command);
-          data.afterLoadHandler.call(this, oldTabId, newTabId);
-        }
-        _finally();
-      });
-      delete thisOpts[newTabId].url;
-    } else {
-      _finally();
-    }
-
     function _finally () {
       
       var effect = 'none';
-      if (oldHeight != newHeight && oldHeight > 0) {
-        if (oldHeight > newHeight) {
-          effect = 'easeOutQuad';
-        } else {
-          effect = 'easeInQuad';
-        }
+      if (oldHeight > 0) {
+        effect = 'easeInOutQuad';
       }
-      
+
       // adjust height of the current tab
       if (thisOpts.autoMaxExpand) {
         if(thisOpts.animate && effect != 'none') {
@@ -177,7 +158,22 @@ $.tabpane = {
       thisOpts.currentTabId = newTabId;
     }
 
+    // async loader
+    if (typeof(data.url) != "undefined") {
+        
+      $newContainer.load(data.url, undefined, function() {
+        if (typeof(data.afterLoadHandler) == "function") {
+          //jQuery.log("after load handler "+command);
+          data.afterLoadHandler.call(this, oldTabId, newTabId);
+        }
+        _finally();
+      });
+      delete thisOpts[newTabId].url;
+    } else {
+      _finally();
+    }
     
+
   },
 
   /*************************************************************************
@@ -188,7 +184,7 @@ $.tabpane = {
     window.setTimeout(function() {
       jQuery.tabpane.fixHeight($thisPane, opts);
       jQuery(window).one("resize", function() {
-        $.tabpane.autoMaxExpand($thisPane, opts)
+        $.tabpane.autoMaxExpand($thisPane, opts);
       });
     }, 100);
   },

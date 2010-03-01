@@ -45,7 +45,7 @@ sub new {
     author => 'Eric Martin',
     homepage => 'http://www.ericmmartin.com/projects/simplemodal',
     css => ['jquery.simplemodal.css'],
-    javascript => ['jquery.simplemodal.js'],
+    javascript => ['jquery.simplemodal.js', 'jquery.simplemodal.init.js'],
   ), $class);
 
   return $this;

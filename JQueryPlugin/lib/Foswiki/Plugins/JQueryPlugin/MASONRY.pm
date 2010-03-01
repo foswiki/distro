@@ -44,6 +44,7 @@ sub new {
     version => '1.0.0',
     author => 'David <nop>DeSandro',
     homepage => 'http://desandro.com/resources/jquery-masonry',
+    css => ['jquery.masonry.css'],
     javascript => ['jquery.masonry.js', 'jquery.masonry.init.js'],
     dependencies => ['metadata', 'livequery'], 
   ), $class);

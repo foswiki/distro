@@ -32,4 +32,3 @@ jquery-ui.uncompressed.js: $(SOURCES) Makefile
 	@$(CAT) $(SOURCES) > $@
 
 -include ../Makefile.include
-

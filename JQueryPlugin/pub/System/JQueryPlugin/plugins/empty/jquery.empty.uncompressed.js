@@ -10,15 +10,15 @@
  * Revision: $Id$
  *
  * How to proceed: 
- *    1 copy this file into a file named jquery.<plugin-name>.js
- *    2 replace the strings "empty" with <plugin-name> in this file
+ *    1 copy this file into a file named jquery.plugin-name.js
+ *    2 replace the strings "empty" with plugin-name in this file
  *
  */
 
 /***************************************************************************
  * plugin definition 
  */
-;(function($) {
+(function($) {
 
   $.empty = {
 
@@ -56,7 +56,7 @@
     defaults: {
       //key: 'value'
     }
-  }
+  };
 
   /* register by extending jquery */
   $.fn.empty = $.empty.build;

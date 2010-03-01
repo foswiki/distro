@@ -2,18 +2,18 @@
  * Simple jQuery logger / debugger.
  * Based on: http://jquery.com/plugins/Authoring/
  * See var DEBUG below for turning debugging/logging on and off.
- * Modified by Stéphane Lenclud to support logging key/value object
+ * Modified by Stephane Lenclud to support logging key/value object
  *
  * @version   20080225
  * @since     2006-07-10
- * @copyright Copyright (c) 2006 Glyphix Studio, Inc. http://www.glyphix.com, Copyright (c) 2008 Stéphane Lenclud.
+ * @copyright Copyright (c) 2006 Glyphix Studio, Inc. http://www.glyphix.com, Copyright (c) 2008 Stephane Lenclud.
  * @author    Brad Brizendine <brizbane@gmail.com>
  * @license   MIT http://www.opensource.org/licenses/mit-license.php
  * @requires  >= jQuery 1.0.3
  */
 // global debug switch ... add DEBUG = true; somewhere after jquery.debug.js is loaded to turn debugging on
 var DEBUG = true;
-;(function($) {
+(function($) {
 // shamelessly ripped off from http://getfirebug.com/
 if (!("console" in window) || !("firebug" in console)){
 	var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
@@ -30,7 +30,7 @@ if (!("console" in window) || !("firebug" in console)){
                   var $debug = $("#DEBUG"); 
                   $debug.find('ol').append( '<li>' + msg + '</li>' ); 
                   $debug.scrollTop($debug[0].scrollHeight); 
-                }
+                };
 	}
 }
 
@@ -56,24 +56,23 @@ $.log = function(message){
 		// if no firebug, build a debug line from the actual html element if it's an object, or just send the string
 		var str = message;
 		if( !('firebug' in console) ){
-			if( typeof(message) == 'object' ){				
-				if (message.nodeName)
-					{
+			if( typeof(message) == 'object' ){
+				if (message.nodeName) {
 					str = '&lt;';	
 					str += message.nodeName.toLowerCase();
 					for( var i = 0; i < message.attributes.length; i++ ){
 						str += ' ' + message.attributes[i].nodeName.toLowerCase() + '="' + message.attributes[i].nodeValue + '"';
-						}
+                                        }
 					str += '&gt;';
-					}
-				else
-					{
-					for(var key in message) { str += key + " : " + (message[key]) + ", "; }	
-					}
+                                } else {
+					for(var key in message) { 
+                                          str += key + " : " + (message[key]) + ", "; 
+                                        }	
 				}
 				
 			}
 		}
 		console.debug(str);
-	};
+	}
+};
 })(jQuery);

@@ -9,7 +9,7 @@ jQuery(function($) {
     $this.addClass("jqInitedSlimbox2");
     var opts = $.extend({}, defaults, $this.metadata());
     var groupRel = "lightbox-"+Math.floor(Math.random() * 100);
-    $this.find("a").attr('rel', groupRel).slimbox(opts,
+    $this.find("a[href]").attr('rel', groupRel).slimbox(opts,
       function(el) {
         var metadata = $(el).metadata();
         var href = metadata.origurl || el.href;

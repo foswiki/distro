@@ -1,8 +1,8 @@
 jQuery(function($) {
   $(".jqButton:not(.jqInitedButton)").livequery(function() {
-    var $this = $(this);
+    var $this = $(this), options;
     $this.addClass("jqInitedButton");
-    var options = $.extend({}, $this.metadata({type:'attr', name:'data'}));
+    options = $.extend({}, $this.metadata({type:'attr', name:'data'}));
     if (options.onclick) {
       $this.click(function() {
         return options.onclick.call(this);

@@ -9,10 +9,25 @@ if (typeof(foswiki) == "undefined") {
 }
 
 (function($) {
+
   /********************************************************
-  /* dummy to be overridden by jquery.debug */
+   * dummy to be overridden by jquery.debug 
+   */
   $.log = function(message){};
   $.fn.debug = function() {};
+
+  /*******************************************************
+   * generates an unique ID. 
+   */
+  foswiki.getUniqueID = function() {
+    var uid = new Date().getTime().toString(32), i;
+
+    for (i = 0; i < 5; i++) {
+      uid += Math.floor(Math.random() * 65535).toString(32);
+    }
+
+    return uid;
+  };
 
   /********************************************************
    * hepler function to recursively create a nested object
@@ -38,17 +53,17 @@ if (typeof(foswiki) == "undefined") {
    */
   $(function() {
     $("head meta[name^='foswiki.']").each(function() {
-      var val = this.content;
+      var val = this.content, keys;
       if (val == "false") {
         val = false; // convert to Boolean
       } else if (val == "true") {
         val = true; // convert to Boolean
-      } else if (val.match(/^{.*}$/)) {
+      } else if (val.match(/^\{.*\}$/)) {
         val = eval("("+val+")"); // convert to object
       } else if (val.match(/^function/)) {
         val = eval("("+val+")"); // convert to Function
       }
-      var keys = this.name.split(/\./);
+      keys = this.name.split(/\./);
       keys.shift(); // take out the first one
       createMember(foswiki, keys, val);
     });

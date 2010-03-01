@@ -13,7 +13,7 @@
 /***************************************************************************
  * plugin definition 
  */
-;(function($) {
+(function($) {
 
   // extending jquery 
   $.fn.extend({
@@ -24,14 +24,14 @@
      
       // create textbox lister for each jquery hit
       return this.each(function() {
-        new $.TextboxLister(this, opts);
+        var txtboxlist = new $.TextboxLister(this, opts);
       });
     }
   });
 
   // TextboxLister class **************************************************
   $.TextboxLister = function(elem, opts) {
-    var self = this;
+    var self = this, autocompleteOpts;
     self.input = $(elem);
 
     // build element specific options. 
@@ -66,7 +66,7 @@
    
     // autocompletion
     if (self.opts.autocomplete) {
-      var autocompleteOpts = 
+      autocompleteOpts = 
         $.extend({},{
             selectFirst:false,
             autoFill:false,
@@ -96,6 +96,33 @@
       }
     });
 
+    // add event
+    self.input.bind("AddValue", function(e, val) {
+      $.log("TEXTBOXLIST: got add event, val="+val);
+      if (val) {
+        self.select([val]);
+      }
+    });
+
+    // add event
+    self.input.bind("DeleteValue", function(e, val) {
+      $.log("TEXTBOXLIST: got delete event, val="+val);
+      if (val) {
+        self.deselect([val]);
+      }
+    });
+
+    // reset event
+    self.input.bind("Reset", function(e) {
+      self.reset();
+    });
+
+    // clear event
+    self.input.bind("Clear", function(e) {
+      self.clear();
+    });
+
+
     // init
     self.currentValues = [];
     if (self.input.val()) {
@@ -103,7 +130,7 @@
     }
     self.initialValues = self.currentValues.slice();
     self.input.removeClass('foswikiHidden').show();
-  }
+  };
  
   // clear selection *****************************************************
   $.TextboxLister.prototype.clear = function() {
@@ -136,7 +163,7 @@
   // add values to the selection ******************************************
   $.TextboxLister.prototype.select = function(values, suppressCallback) {
     $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
-    var self = this;
+    var self = this, i, j, val, found, currentVal, input, close;
 
     if (typeof(values) === 'object') {
       values = values.join(',');
@@ -149,15 +176,15 @@
 
     // only set values not already there
     if (self.currentValues.length > 0) {
-      for (var i = 0; i < values.length; i++) {
-        var val = values[i];
-        var found = false;
+      for (i = 0; i < values.length; i++) {
+        val = values[i];
+        found = false;
         if (!val) {
           continue;
         }
         $.log("val='"+val+"'");
         for (j = 0; j < self.currentValues.length; j++) {
-          var currentVal = self.currentValues[j];
+          currentVal = self.currentValues[j];
           if (currentVal == val) {
             found = true;
             break;
@@ -168,9 +195,9 @@
         }
       }
     } else {
-      self.currentValues = new Array();
-      for (var i = 0; i < values.length; i++) {
-        var val = values[i];
+      self.currentValues = [];
+      for (i = 0; i < values.length; i++) {
+        val = values[i];
         if (val) {
           self.currentValues.push(val);
         }
@@ -184,12 +211,13 @@
     $.log("TEXTBOXLIST: self.currentValues="+self.currentValues+"("+self.currentValues.length+")");
 
     self.container.find("."+self.opts.listValueClass).remove();
-    for (var i = self.currentValues.length-1; i >= 0; i--) {
-      var val = self.currentValues[i];
-      if (!val) 
+    for (i = self.currentValues.length-1; i >= 0; i--) {
+      val = self.currentValues[i];
+      if (!val) {
         continue;
-      var input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' />";
-      var close = $("<a href='#' title='remove "+val+"'></a>").
+      }
+      input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' />";
+      close = $("<a href='#' title='remove "+val+"'></a>").
         addClass(self.opts.closeClass).
         click(function() {
           self.deselect.call(self, $(this).parent().find("input").val());
@@ -214,8 +242,7 @@
   $.TextboxLister.prototype.deselect = function(values) {
     $.log("TEXTBOXLIST: called deselect("+values+")");
 
-    var self = this;
-    var newValues = new Array();
+    var self = this, newValues = [], i, j, currentVal, found, val;
 
     if (typeof(values) == 'object') {
       values = values.join(',');
@@ -225,13 +252,14 @@
       return;
     }
 
-    for (var i = 0; i < self.currentValues.length; i++) {
-      var currentVal = self.currentValues[i];
-      if (!currentVal) 
+    for (i = 0; i < self.currentValues.length; i++) {
+      currentVal = self.currentValues[i];
+      if (!currentVal) {
         continue;
-      var found = false;
+      }
+      found = false;
       for (j = 0; j < values.length; j++) {
-        var val = values[j];
+        val = values[j];
         if (val && currentVal == val) {
           found = true;
           break;

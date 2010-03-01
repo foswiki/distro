@@ -14,7 +14,7 @@
 /***************************************************************************
  * plugin definition 
  */
-;(function($) {
+(function($) {
 $.wikiword = {
 
     
@@ -70,7 +70,11 @@ $.wikiword = {
 
     target.each(function() {
       //$.log("this="+this);
-      $(this).is(':input')?$(this).val(result):$(this).text(result);
+      if ($(this).is(':input')) {
+        $(this).val(result);
+      } else {
+        $(this).text(result);
+      }
     });
   },
 
@@ -86,7 +90,7 @@ $.wikiword = {
 
       //$.log("chVal="+chVal);
 
-      if (chVal == 192 || chVal == 193 || chVal == 194 || chVal == 195) { ch = 'A'; }
+      if (chVal == 192 || chVal == 193 || chVal == 194 || chVal == 195) { chVal = 'A'; }
       else if (chVal == 196) { result += 'Ae'; }
       else if (chVal == 197) { result += 'Aa'; }
       else if (chVal == 198) { result += 'Ae'; }

@@ -46,6 +46,4 @@ SUBDIRS=\
   livequery \
   wikiword 
 
-all: $(SUBDIRS)
-
 -include ../Makefile.include
