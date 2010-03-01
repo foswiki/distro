@@ -408,9 +408,14 @@ sub Autoconf {
     my $foswikidir   = $basedir;
     my $localSiteCfg = $foswikidir . '/lib/LocalSite.cfg';
     if ( $force || ( !-e $localSiteCfg ) ) {
-        my $grep = 'grep';
-        $grep = 'find' if ( $^O eq 'MSWin32' );    #let windows play too
-        my $localsite = `$grep "Foswiki::cfg" $foswikidir/lib/Foswiki.spec`;
+        my $f;
+        open($f, '<', "$foswikidir/lib/Foswiki.spec") ||
+          die "Cannot autoconf: $!";
+        local $/ = undef;
+        my $localsite = <$f>;
+        close($f);
+        $localsite =~ s/^#[^\n]*\n+//mg;
+        $localsite =~ s/\n\s+/\n/sg;
         if ( $^O eq 'MSWin32' ) {
 
             #oh wow, windows find is retarded
@@ -439,7 +444,7 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
         }
     }
     else {
-        print "ERROR: won't overwrite $localSiteCfg without -force\n\n";
+        warn "ERROR: won't overwrite $localSiteCfg without -force\n\n";
     }
 }
 
