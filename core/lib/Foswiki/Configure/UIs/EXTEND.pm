@@ -6,6 +6,7 @@ use strict;
 
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
+use Foswiki::Configure::Util ();
 use File::Temp ();
 use File::Copy ();
 use File::Spec ();
@@ -123,10 +124,14 @@ MESS
     $fh->close();
 
     $feedback .= "Unpacking...<br />\n";
-    my ($dir, $error) = _unpackArchive($tmpfilename);
+    my ($dir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
     $feedback .= "$error<br />\n" if $error;
     
-    my @names = _listDir($dir);
+    my @names = Foswiki::Configure::Util::listDir($dir);
+    my @targets;
+    foreach my $fn (@names) {
+       push @targets, Foswiki::Configure::Util::mapTarget($this->{root},$fn);
+       }
     
     # install the contents
     my $installScript = undef;
@@ -134,7 +139,7 @@ MESS
     unless ( $query->param('confirm') ) {
         my $unpackedFeedback = '';
         foreach my $file (@names) {
-            my $ef = $this->_findTarget($file);
+            my $ef = Foswiki::Configure::Util::mapTarget($this->{root},$file);
             $unpackedFeedback .= "$file\n";
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
                 $installScript = $ef;
@@ -153,7 +158,7 @@ MESS
         next unless -e "$dir/$file";
         
         # Find where it is meant to go
-        my $ef = $this->_findTarget($file);
+        my $ef = Foswiki::Configure::Util::mapTarget($this->{root},$file);
         if ( -e $ef && !-d $ef && !-w $ef ) {
             $feedback .= $this->ERROR("No permission to write to $ef");
             $feedback .= "Installation terminated";
@@ -260,7 +265,7 @@ sub _uninstall {
     # find the uninstaller
     my $query = $Foswiki::query;
     my $file = "${extension}_installer";
-    my $installScript = $this->_findTarget($file);
+    my $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
 
     unless ($installScript && -e $installScript) {
         $feedback .= $this->WARN("No $installScript found - cannot uninstall");
@@ -321,181 +326,8 @@ HERE
     _printFeedback($feedback);
 }
 
-# Find the installation target of a single file. This involves remapping
-# through the settings in LocalSite.cfg. If the target is not remapped, then
-# the file is installed relative to the root, which is the directory
-# immediately above bin.
-sub _findTarget {
-    my ( $this, $file ) = @_;
 
-    if ( $file =~ s#^data/#$Foswiki::cfg{DataDir}/# ) {
-    }
-    elsif ( $file =~ s#^pub/#$Foswiki::cfg{PubDir}/# ) {
-    }
-    elsif ( $file =~ s#^templates/#$Foswiki::cfg{TemplateDir}/# ) {
-    }
-    elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
-    }
-    elsif ( $file =~ s#^(bin/\w+)$#$this->{root}$1$Foswiki::cfg{ScriptSuffix}# )
-    {
 
-        #This makes a couple of bad assumptions
-        #1. that the twiki's bin dir _is_ called bin
-        #2. that any file going into there _is_ a script - making installing the
-        #   .htaccess file via this machanism impossible
-        #3. that softlinks are not in use (same issue below)
-    }
-    else {
-        $file = File::Spec->catfile( $this->{root}, $file );
-    }
-    return $file;
-}
-
-# Recursively list a directory
-sub _listDir {
-    my ( $dir, $path ) = @_;
-    $path ||= '';
-    $dir .= '/' unless $dir =~ /\/$/;
-    my $d;
-    my @names = ();
-    if ( opendir( $d, "$dir$path" ) ) {
-        foreach my $f ( grep { !/^\.*$/ } readdir $d ) {
-
-            # Someone might upload a package that contains
-            # a filename which, when passed to File::Copy, does something
-            # evil. Check and untaint the filenames here.
-            # SMELL: potential problem with unicode chars in file names? (yes)
-            # TODO: should really compare to MANIFEST
-            if ( $f =~ /^([-\w.,]+)$/ ) {
-                $f = $1;
-                if ( -d "$dir$path/$f" ) {
-                    push( @names, "$path$f/" );
-                    push( @names, _listDir( $dir, "$path$f/" ) );
-                }
-                else {
-                    push( @names, "$path$f" );
-                }
-            }
-            else {
-                print
-"WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n";
-            }
-        }
-        closedir($d);
-    }
-    return @names;
-}
-
-=begin TML
-
----++ StaticMethod _unpackArchive($archive [,$dir] )
-Unpack an archive. The unpacking method is determined from the file
-extension e.g. .zip, .tgz. .tar, etc. If $dir is not given, unpack
-to a temporary directory, the name of which is returned.
-
-=cut
-
-sub _unpackArchive {
-    my ( $name, $dir ) = @_;
-
-    $dir ||= File::Temp::tempdir( CLEANUP => 1 );
-    my $here = Cwd::getcwd();
-    $here =~ /(.*)/;
-    $here = $1;    # untaint current dir name
-    chdir($dir);
-    my $error;
-    unless ( $name =~ /(\.zip)/i && _unzip($name)
-        || $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && _untar($name) )
-    {
-        $dir = undef;
-        $error = "Failed to unpack archive $name";
-    }
-    chdir($here);
-
-    return ($dir, $error);
-}
-
-sub _unzip {
-    my $archive = shift;
-
-    eval 'use Archive::Zip';
-    unless ($@) {
-        my $zip = Archive::Zip->new($archive);
-        unless ($zip) {
-            print "Could not open zip file $archive<br />\n";
-            return 0;
-        }
-
-        my @members = $zip->members();
-        foreach my $member (@members) {
-            my $file = $member->fileName();
-            $file =~ /(.*)/;
-            $file = $1;    #yes, we must untaint
-            my $target = $file;
-            my $err = $zip->extractMember( $file, $target );
-            if ($err) {
-                print "Failed to extract '$file' from zip file ",
-                  $zip, ". Archive may be corrupt.<br />\n";
-                return 0;
-            }
-        }
-    }
-    else {
-        print
-"Archive::Zip is not installed; trying unzip on the command line<br />\n";
-        print `unzip $archive`;
-
-        # On certain older versions of perl / unzip it seems the unzip results
-        # in an illegal seek error. But running the same command again often
-        # goes well. Seems like the 2nd pass works because the subdirectories
-        # are then created. A hack but it seems to work.
-        if ($!) {
-            print `unzip $archive`;
-            if ($!) {
-                print "unzip failed: $!\n";
-                return 0;
-            }
-        }
-    }
-
-    return 1;
-}
-
-sub _untar {
-    my $archive = shift;
-
-    my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
-
-    eval 'use Archive::Tar ()';
-    unless ($@) {
-        my $tar = Archive::Tar->new( $archive, $compressed );
-        unless ($tar) {
-            print "Could not open tar file $archive<br />\n";
-            return 0;
-        }
-
-        my @members = $tar->list_files();
-        foreach my $file (@members) {
-            my $err = $tar->extract($file);
-            unless ($err) {
-                print 'Failed to extract ', $file, ' from tar file ',
-                  $tar, ". Archive may be corrupt.<br />\n";
-                return 0;
-            }
-        }
-    }
-    else {
-        print
-"Archive::Tar is not installed; trying tar on the command-line<br />\n";
-        print `tar xvf$compressed $archive`;
-        if ($!) {
-            print "tar failed: $!\n";
-            return 0;
-        }
-    }
-
-    return 1;
-}
 
 1;
 __DATA__

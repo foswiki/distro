@@ -180,47 +180,8 @@ if ( &$check_perl_module('LWP') ) {
 
 # Can't do this until we have setlib.cfg
 require Foswiki::Configure::Dependency;
+require Foswiki::Configure::Util;
 
-sub remap {
-    my $file = shift;
-
-    if ( $Foswiki::cfg{SystemWebName} ne 'System' ) {
-        $file =~ s#^data/System/#data/$Foswiki::cfg{SystemWebName}/#;
-        $file =~ s#^pub/System/#pub/$Foswiki::cfg{SystemWebName}/#;
-    }
-
-    if ( $Foswiki::cfg{TrashWebName} ne 'Trash' ) {
-        $file =~ s#^data/Trash/#data/$Foswiki::cfg{TrashWebName}/#;
-        $file =~ s#^pub/Trash/#pub/$Foswiki::cfg{TrashWebName}/#;
-    }
-
-    if ( $Foswiki::cfg{UsersWebName} ne 'Main' ) {
-        $file =~ s#^data/Main/#data/$Foswiki::cfg{UsersWebName}/#;
-        $file =~ s#^pub/Main/#pub/$Foswiki::cfg{UsersWebName}/#;
-    }
-
-    if ( $Foswiki::cfg{UsersWebName} ne 'Users' ) {
-        $file =~ s#^data/Users/#data/$Foswiki::cfg{UsersWebName}/#;
-        $file =~ s#^pub/Users/#pub/$Foswiki::cfg{UsersWebName}/#;
-    }
-
-    # Canonical symbol mappings
-    foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
-        if ( defined $Foswiki::cfg{$w} ) {
-            $file =~ s#^data/$w/#data/$Foswiki::cfg{$w}/#;
-            $file =~ s#^pub/$w/#pub/$Foswiki::cfg{$w}/#;
-        }
-    }
-    foreach my $t qw( NotifyTopicName HomeTopicName WebPrefsTopicName
-      MimeTypesFileName ) {
-        if ( defined $Foswiki::cfg{$t} )
-        {
-            $file =~
-              s#^data/(.*)/$t\.txt(,v)?#data/$1/$Foswiki::cfg{$t}.txt$2/#;
-            $file =~ s#^pub/(.*)/$t/([^/]*)$#pub/$1/$Foswiki::cfg{$t}/$2/#;
-        }
-      } return $file;
-}
 
 # Satisfy dependencies on modules, by checking:
 # 1. If the module is a perl module, then:
@@ -534,122 +495,6 @@ HERE
     return 1;
 }
 
-=pod
-
----++ StaticMethod unpackArchive($archive [,$dir] )
-Unpack an archive. The unpacking method is determined from the file
-extension e.g. .zip, .tgz. .tar, etc. If $dir is not given, unpack
-to a temporary directory, the name of which is returned.
-
-=cut
-
-sub unpackArchive {
-    my ( $name, $dir ) = @_;
-
-    $dir ||= File::Temp::tempdir( CLEANUP => 1 );
-    chdir($dir);
-    unless ( $name =~ /\.zip/i && unzip($name)
-        || $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && untar($name) )
-    {
-        $dir = undef;
-        _shout "Failed to unpack archive $name";
-    }
-    chdir($installationRoot);
-
-    return $dir;
-}
-
-sub unzip {
-    my $archive = shift;
-
-    if ( eval { require Archive::Zip } ) {
-        my $zip = Archive::Zip->new();
-        my $err = $zip->read($archive);
-        if ($err) {
-            _shout "Could not open zip file $archive (" . $err;
-            return 0;
-        }
-
-        my @members = $zip->members();
-        foreach my $member (@members) {
-            my $file   = $member->fileName();
-            my $target = $file;
-            my $err    = $zip->extractMember( $file, $target );
-            if ($err) {
-                _shout "Failed to extract '$file' from zip file ",
-                  $zip, ". Archive may be corrupt.";
-                return 0;
-            }
-            else {
-                _inform "    $target";
-            }
-        }
-    }
-    else {
-        if (!$running_from_configure) {
-            _warn
-              "Archive::Zip is not installed; trying unzip on the command line";
-        }
-        print `unzip $archive`;
-        if ($?) {
-            _warn "unzip failed: $?\n";
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
-sub untar {
-    my $archive = shift;
-
-    my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
-
-    if ( eval { require Archive::Tar } ) {
-        my $tar = Archive::Tar->new();
-        my $numberOfFiles = $tar->read( $archive, $compressed );
-        unless ( $numberOfFiles > 0 ) {
-            _shout "Could not open tar file $archive ("
-              . $tar->error();
-            return 0;
-        }
-
-        my @members = $tar->list_files();
-        foreach my $file (@members) {
-            my $target = $file;
-
-            my $ok = $tar->extract_file( $file, $target );
-            unless ($ok) {
-                _shout 'Failed to extract ', $file, ' from tar file ',
-                  $tar, ". Archive may be corrupt.";
-                return 0;
-            }
-            else {
-                _inform "    $target";
-            }
-        }
-    }
-    else {
-        if (!$running_from_configure) {
-           _warn "Archive::Tar is not installed; "
-                ."trying tar on the command-line";
-        }
-        for my $tarBin ( qw( tar gtar ) ) {
-            _warn "Trying $tarBin on the command-line\n";
-            # system call returns 0 if success. and error code if no success
-            # so we return 1 if the tarBin call succeed
-            return 1 unless system $tarBin, "${compressed}xvf", $archive;
-            # OK we failed. Report and loop on if more to loop
-            if ($?) {
-                _warn "$tarBin failed: $?";
-            }
-        }
-        return 0;
-    }
-
-    return 1;
-}
-
 # Check in.
 sub checkin {
     my ( $web, $topic, $file ) = @_;
@@ -721,7 +566,7 @@ sub _uninstall {
     my @dead;
     foreach $file ( keys %$MANIFEST ) {
         if ( -e $file ) {
-            push( @dead, remap($file) );
+            push( @dead, Foswiki::Configure::Util::mapTarget($installationRoot,$file) );
         }
     }
     unless ( $#dead > 1 ) {
@@ -774,14 +619,14 @@ sub _emplace {
     my $file;
     foreach $file ( keys %$MANIFEST ) {
         my $source = "$source/$file";
-        my $target = remap($file);
+        my $target = Foswiki::Configure::Util::mapTarget($installationRoot,$file);
         _inform "Install $target, permissions $MANIFEST->{$file}->{perms}";
         unless ($inactive) {
             if ( -e $target && ! -d _ ) {
 
               # Save current permissions, remove write protect for Windows sake,
               # Back up the file and then restore the original permissions
-                my $mode = ( stat($file) )[2];
+                my $mode = ( stat($target) )[2];
                 chmod( oct(600), "$target" );
                 chmod( oct(600), "$target.bak" ) if ( -e "$target.bak" );
                 if ( File::Copy::move( $target, "$target.bak" ) ) {
@@ -948,7 +793,7 @@ sub _install {
         elsif ( defined &TWiki::preinstall ) {
             TWiki::preinstall();
         }
-        my $tmpdir = unpackArchive($archive);
+        my ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($archive);
         _inform "Archive unpacked";
         return 0 unless $tmpdir;
         return 0 unless _emplace($tmpdir);

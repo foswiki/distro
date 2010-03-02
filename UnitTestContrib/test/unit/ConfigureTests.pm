@@ -6,6 +6,7 @@ use base qw(FoswikiTestCase);
 
 use Error qw( :try );
 use File::Temp;
+use FindBin;
 
 use Foswiki::Configure::Util ();
 use Foswiki::Configure::FoswikiCfg ();
@@ -277,5 +278,181 @@ EXAMPLE
 #                print F '| ',gmtime(),' | ',$this->{user},' | ',$txt," |\n";
 #                close(F);
 #            }
+
+
+#
+#  Tests for Configure::Util::mapTarget (RootDir, Filename)
+#
+ 
+sub test_Util_mapTarget {
+
+    my $this = shift;
+
+    $Foswiki::cfg{TrashWebName} = 'Dump';
+    $Foswiki::cfg{PubDir} = '/var/www/foswiki/pub';
+    $Foswiki::cfg{DataDir} = '/var/www/foswiki/data';
+
+# Remap system web
+
+    $Foswiki::cfg{SystemWebName} = 'Fizbin';
+    my $file = 'pub/System/System/MyAtt.gif';
+    my $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/pub/Fizbin/System/MyAtt.gif', $results );
+
+    $file = 'data/System/System.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/data/Fizbin/System.txt', $results );
+
+# Remap data and pub directory names
+
+    $Foswiki::cfg{PubDir} = '/var/www/foswiki/public';
+    $Foswiki::cfg{DataDir} = '/var/www/foswiki/storage';
+
+    $file = 'pub/Trash/Fizbin/Data.attachment';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Dump/Fizbin/Data.attachment', $results );
+
+    $file = 'data/Trash/Fizbin.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Dump/Fizbin.txt', $results );
+
+# Verify default Users and Main web names
+
+    $Foswiki::cfg{PubDir} = '/var/www/foswiki/public';
+    $Foswiki::cfg{DataDir} = '/var/www/foswiki/storage';
+
+    $file = 'pub/Users/Fizbin/asdf.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Main/Fizbin/asdf.txt', $results );
+
+    $file = 'data/Users/Fizbin.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Main/Fizbin.txt', $results );
+
+# Remap the UsersWebName
+
+    $Foswiki::cfg{UsersWebName} = 'Blah';
+
+    $file = 'pub/Main/Fizbin/Blah.gif';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Blah/Fizbin/Blah.gif', $results );
+
+    $file = 'data/Main/Fizbin.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Blah/Fizbin.txt', $results );
+
+# Remap topic names -  NotifyTopicName - default WebNotify
+
+    $Foswiki::cfg{NotifyTopicName} = 'TellMe';
+    $file = 'data/Sandbox/WebNotify.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Sandbox/TellMe.txt', $results );
+
+    $file = 'pub/Sandbox/WebNotify/Blah.gif';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Sandbox/TellMe/Blah.gif', $results );
+
+# Remap topic names -  HomeTopicName - default WebHome
+
+    $Foswiki::cfg{HomeTopicName} = 'HomePage';
+    $file = 'data/Sandbox/WebHome.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Sandbox/HomePage.txt', $results );
+
+    $file = 'pub/Sandbox/WebNotify/Blah.gif';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Sandbox/TellMe/Blah.gif', $results );
+
+# Remap topic names -  WebPrefsTopicName - default WebPreferences
+
+    $Foswiki::cfg{WebPrefsTopicName} = 'Settings';
+    $file = 'data/Sandbox/WebPreferences.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Sandbox/Settings.txt', $results );
+
+    $file = 'pub/Sandbox/WebPreferences/Logo.gif';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Sandbox/Settings/Logo.gif', $results );
+
+# Remap bin directory and script suffix -  WebPrefsTopicName - default WebPreferences
+
+    $Foswiki::cfg{ScriptSuffix} = '.pl';
+    $Foswiki::cfg{ScriptDir} = 'C:/asdf/bin/';
+    $file = 'bin/compare';
+    $results = Foswiki::Configure::Util::mapTarget("C:/asdf/", "$file");
+    $this->assert_str_equals( 'C:/asdf/bin/compare.pl', $results );
+
+# Remap the data/mime.types file location
+
+    $Foswiki::cfg{MimeTypesFileName} = "$Foswiki::cfg{DataDir}/mymime.types";
+    $file = 'data/mime.types';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/mymime.types', $results );
+
+    $Foswiki::cfg{ToolsDir} = '/var/www/foswiki/stuff';
+    $file = 'tools/testrun';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/stuff/testrun', $results );
+
+#NotifyTopicName HomeTopicName WebPrefsTopicName
+#      MimeTypesFileName 
+
+}
+
+sub test_Util_listDir {
+    my $this = shift;
+    use File::Path qw(make_path remove_tree);
+ 
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_Util_ListDir';
+    remove_tree($tempdir);  # Cleanup any old tests
+
+    make_path($tempdir);
+    make_path($tempdir."/asdf");
+    make_path($tempdir."/asdf/qwerty");
+
+    open ( FILE, ">$tempdir/asdf/qwerty/test.txt");
+    print FILE "asdfasdf \n";
+    close FILE;
+
+    my @dir = Foswiki::Configure::Util::listDir("$tempdir");
+
+    my $count = @dir;
+
+    $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
+    $this->assert_str_equals( "asdf/qwerty/test.txt", pop @dir, "Wrong directory returned");
+    $this->assert_str_equals( "asdf/qwerty/", pop @dir, "Wrong directory returned");
+    $this->assert_str_equals( "asdf/", pop @dir, "Wrong directory returned");
+
+
+    open ( FILE2, ">$tempdir" . '/asdf/qwerty/f~#asdf');
+    print FILE2 "asdfasdf \n";
+    close FILE2;
+
+    my $stdout = '';
+    my $stderr = '';
+
+    eval 'use Capture::Tiny';
+    if( $@ ) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN listDir test for illegal file names:  $mess");
+    } else {
+        eval 'use Capture::Tiny qw/capture/;
+            ($stdout, $stderr) = capture {
+            @dir= Foswiki::Configure::Util::listDir("$tempdir") ;
+            };';
+        }
+
+    $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
+    $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
+   
+    remove_tree($tempdir);
+
+    @dir = Foswiki::Configure::Util::listDir("$tempdir");
+    $count = @dir;
+    $this->assert_num_equals( 0, $count, "listDir returned incorrect number of directories for empty/missing directory");
+
+}
 
 1;
