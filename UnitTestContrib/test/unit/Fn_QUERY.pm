@@ -173,7 +173,7 @@ sub test_json {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+                          <<'SMELL');
 %QUERY{ "Wibble" style="json"}%
 %QUERY{ "attachments[1].name" style="json" }%
 %QUERY{ "attachments" style="json" }%
@@ -187,11 +187,18 @@ SMELL
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
-    $this->assert_equals( <<THIS, $result );
+    eval "require JSON";
+    if( $@ ) {
+        # Bad JSON
+        $this->assert_matches(qr/Perl JSON module is not available/, $result );
+    } else {
+        # Good JSON
+        $this->assert_equals( <<THIS, $result );
 "Woo"
 ["whatsnot.gif","World.gif"]
 [{"date":"1266942905","version":"1","name":"whatsnot.gif","size":"4586"},{"date":"1266943219","version":"1","name":"World.gif","size":"2486"}]
 THIS
+    }
 }
 
 sub test_ref {

@@ -57,7 +57,12 @@ sub _serialise_perl {
 
 sub _serialise_json {
     my ($this, $result) = @_;
-    require JSON;
+    eval "require JSON";
+    if ($@) {
+        return
+          $this->inlineAlert(
+              'alerts', 'generic', 'Perl JSON module is not available');
+    }
     return JSON::to_json($result, { allow_nonref => 1 });
 }
 
