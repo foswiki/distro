@@ -94,9 +94,9 @@ sub usage {
     all the plugins for the default distribution (and then run the unit tests)
         svn co http://svn.foswiki.org/trunk
         cd trunk/core
-        ./pseudo-install -A developer
+        ./pseudo-install.pl -A developer
         cd test/unit
-        ../bin/TestRunner -clean FoswikiSuite.pm
+        ../bin/TestRunner.pl -clean FoswikiSuite.pm
 
 EOM
 
