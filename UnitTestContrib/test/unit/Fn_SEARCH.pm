@@ -2811,6 +2811,7 @@ sub test_stop_words_search_word {
     my $this = shift;
 
     use Foswiki::Func;
+    my $origSetting = Foswiki::Func::getPreferencesValue( 'SEARCHSTOPWORDS' );
     Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', 'xxx luv ,kiss, bye' );
 
     my $TEST_TEXT  = "xxx Shamira";
@@ -2852,6 +2853,8 @@ sub test_stop_words_search_word {
 		
 		$this->assert_str_equals( '', $result );
     }
+    
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', $origSetting );
 }
 
 sub createSummaryTestTopic {
