@@ -57,7 +57,7 @@ sub _serialise_perl {
 
 sub _serialise_json {
     my ($this, $result) = @_;
-    use JSON ();
+    require JSON;
     return JSON::to_json($result, { allow_nonref => 1 });
 }
 
