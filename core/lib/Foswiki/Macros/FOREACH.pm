@@ -28,10 +28,9 @@ sub FOREACH {
             split( /,\s*/, $topicString );
 
         my $query;  #query node
-        my $searchString = '';
         require Foswiki::Search::InfoCache;
         my $infoCache = new Foswiki::Search::InfoCache($this, $params->{baseweb}, \@topics);
-        my ( $ttopics, $searchResult, $tmplTail ) = $this->search->formatResults($webObject, $query, $searchString, $infoCache, $params);
+        my ( $ttopics, $searchResult, $tmplTail ) = $this->search->formatResults($webObject, $query, $infoCache, $params);
         $s = $searchResult;
     }
     catch Error::Simple with {
