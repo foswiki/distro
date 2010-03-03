@@ -1739,7 +1739,7 @@ Test if search results adhere to the SEARCHSTOPWORDS pref.
 
 =cut
 
-sub test_stop_words_search_word {
+sub verify_stop_words_search_word {
     my $this = shift;
 
     use Foswiki::Func;
@@ -1751,24 +1751,20 @@ sub test_stop_words_search_word {
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
         $this->{test_web}, $TEST_TOPIC, $TEST_TEXT );
 
-    {
         my $result = $this->{twiki}->handleCommonTags(
 '%SEARCH{"Shamira" type="word" scope="text" nonoise="on" format="$topic"}%',
         $this->{test_web}, $this->{test_topic});
         $this->assert_matches( qr/$TEST_TOPIC/, $result );
-    }
-    {
-        my $result = $this->{twiki}->handleCommonTags(
+
+        $result = $this->{twiki}->handleCommonTags(
 '%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
         $this->{test_web}, $this->{test_topic});
         $this->assert_str_equals( '', $result );
-    }
-    {
-        my $result = $this->{twiki}->handleCommonTags(
+
+        $result = $this->{twiki}->handleCommonTags(
 '%SEARCH{"+xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
         $this->{test_web}, $this->{test_topic});
         $this->assert_str_equals( '', $result );
-    }
     
     Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', $origSetting );
 }
