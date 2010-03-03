@@ -394,21 +394,18 @@ sub test_Util_mapTarget {
     $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
     $this->assert_str_equals( '/var/www/foswiki/stuff/testrun', $results );
 
-#NotifyTopicName HomeTopicName WebPrefsTopicName
-#      MimeTypesFileName 
-
 }
 
 sub test_Util_listDir {
     my $this = shift;
-    use File::Path qw(make_path remove_tree);
+    use File::Path qw(mkpath rmtree);
  
     my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_Util_ListDir';
-    remove_tree($tempdir);  # Cleanup any old tests
+    rmtree($tempdir);  # Cleanup any old tests
 
-    make_path($tempdir);
-    make_path($tempdir."/asdf");
-    make_path($tempdir."/asdf/qwerty");
+    mkpath($tempdir);
+    mkpath($tempdir."/asdf");
+    mkpath($tempdir."/asdf/qwerty");
 
     open ( FILE, ">$tempdir/asdf/qwerty/test.txt");
     print FILE "asdfasdf \n";
@@ -447,7 +444,7 @@ sub test_Util_listDir {
     $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
     $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
    
-    remove_tree($tempdir);
+    rmtree($tempdir);
 
     @dir = Foswiki::Configure::Util::listDir("$tempdir");
     $count = @dir;
