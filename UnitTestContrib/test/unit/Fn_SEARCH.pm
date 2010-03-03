@@ -2807,12 +2807,13 @@ sub verify_search_type_regex {
     $this->assert( $not_quote_dontcount == 4 );
 }
 
-sub test_stop_words_search_word {
+sub verify_stop_words_search_word {
     my $this = shift;
 
     use Foswiki::Func;
-    my $origSetting = Foswiki::Func::getPreferencesValue( 'SEARCHSTOPWORDS' );
-    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', 'xxx luv ,kiss, bye' );
+    my $origSetting = Foswiki::Func::getPreferencesValue('SEARCHSTOPWORDS');
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS',
+        'xxx luv ,kiss, bye' );
 
     my $TEST_TEXT  = "xxx Shamira";
     my $TEST_TOPIC = 'StopWordTestTopic';
@@ -2821,39 +2822,31 @@ sub test_stop_words_search_word {
         $TEST_TEXT );
     $topicObject->save();
 
-    {
-        my $result =
-          $this->{test_topicObject}->expandMacros(
+    my $result =
+      $this->{test_topicObject}->expandMacros(
 '%SEARCH{"Shamira" type="word" scope="text" nonoise="on" format="$topic"}%'
-          );
+      );
+    $this->assert_matches( qr/$TEST_TOPIC/, $result );
 
-        $this->assert_matches( qr/$TEST_TOPIC/, $result );
-    }
-    {
-        my $result =
-          $this->{test_topicObject}->expandMacros(
-'%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
-          );
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
+    $this->assert_str_equals( '', $result );
 
-        $this->assert_str_equals( '', $result );
-    }
-    {
-        my $result =
-          $this->{test_topicObject}->expandMacros(
-'%SEARCH{"+xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
-          );
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"+xxx" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
+    $this->assert_str_equals( '', $result );
 
-        $this->assert_str_equals( '', $result );
-    }
-    {
-        my $result =
-		$this->{test_topicObject}->expandMacros(
-		'%SEARCH{"+xxx" type="word" topic="$TEST_TOPIC" scope="text" nonoise="on" format="$summary(searchcontext)"}%'
-		);
-		
-		$this->assert_str_equals( '', $result );
-    }
-    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"+xxx" type="word" topic="$TEST_TOPIC" scope="text" nonoise="on" format="$summary(searchcontext)"}%'
+      );
+
+    $this->assert_str_equals( '', $result );
+
     Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', $origSetting );
 }
 
