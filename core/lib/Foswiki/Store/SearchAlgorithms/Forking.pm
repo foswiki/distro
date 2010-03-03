@@ -48,7 +48,8 @@ sub search {
     }
     if ( $options->{wordboundaries} ) {
 
-       # Item5529: Can't use quotemeta because $searchString may be UTF8 encoded
+# Item5529: Can't use quotemeta because $searchString may be UTF8 encoded
+# TODO when testing UTF-8 code, try quotemeta. It should work with a decent perl
         $searchString =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g;
         $searchString = '\b' . $searchString . '\b';
     }
@@ -82,13 +83,14 @@ sub search {
         # and 1 otherwise. But the exit status is 2 if an error occurred,
         # unless the -q or --quiet or --silent option is used and a selected
         # line is found."
-        if ($exit > 1) {
-            #TODO: need to work out a way to alert the admin there is a problem, without
-            #      filling up the log files with repeated SEARCH's
-            
-            # NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
-            #       or a file it does not have permission to open, so throwing here gives wrong search results.
-            # throw Error::Simple("$program Grep for '$searchString' returned error")
+        if ( $exit > 1 ) {
+
+    #TODO: need to work out a way to alert the admin there is a problem, without
+    #      filling up the log files with repeated SEARCH's
+
+# NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
+#       or a file it does not have permission to open, so throwing here gives wrong search results.
+# throw Error::Simple("$program Grep for '$searchString' returned error")
         }
         $matches .= $m;
         @set = splice( @take, 0, $maxTopicsInSet );
@@ -98,6 +100,7 @@ sub search {
     # Note use of / and \ as dir separators, to support Winblows
     $matches =~
       s/([^\/\\]*)\.txt(:(.*))?$/push( @{$seen{$1}}, ($3||'') ); ''/gem;
+
     # Implicit untaint OK; data from grep
 
     return \%seen;
