@@ -52,7 +52,8 @@ sub search {
     }
     if ( $options->{wordboundaries} ) {
 
-       # Item5529: Can't use quotemeta because $searchString may be UTF8 encoded
+# Item5529: Can't use quotemeta because $searchString may be UTF8 encoded
+# TODO when testing UTF-8 code, try quotemeta. It should work with a decent perl
         $searchString =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g;
         $searchString = '\b' . $searchString . '\b';
     }
