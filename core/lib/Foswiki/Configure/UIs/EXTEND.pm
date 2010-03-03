@@ -139,10 +139,9 @@ MESS
     unless ( $query->param('confirm') ) {
         my $unpackedFeedback = '';
         foreach my $file (@names) {
-            my $ef = Foswiki::Configure::Util::mapTarget($this->{root},$file);
             $unpackedFeedback .= "$file\n";
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
-                $installScript = $ef;
+                $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
             }
         }
         $feedback .= "<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
@@ -151,36 +150,13 @@ MESS
         }
     }
     
-    # foreach file in archive, move it to the correct place
-    foreach my $file (@names) {
-        
-        # The file may already have been moved along with its directory
-        next unless -e "$dir/$file";
-        
-        # Find where it is meant to go
-        my $ef = Foswiki::Configure::Util::mapTarget($this->{root},$file);
-        if ( -e $ef && !-d $ef && !-w $ef ) {
-            $feedback .= $this->ERROR("No permission to write to $ef");
-            $feedback .= "Installation terminated";
-            _printFeedback($feedback);
-            return 0;
-        }
-        elsif ( !-d $ef ) {
-            if ( -d "$dir/$file" ) {
-                unless ( mkdir($ef) ) {
-                    $feedback .= $this->ERROR("Cannot create directory $ef: $!");
-                    $feedback .= "Installation terminated";
-                    _printFeedback($feedback);
-                    die();
-                }
-            }
-            elsif ( !File::Copy::move( "$dir/$file", $ef ) ) {
-                $feedback .=  $this->ERROR("Failed to move file '$file' to $ef: $!");
-                $feedback .= "Installation terminated";
-                _printFeedback($feedback);
-                return 0;
-            }
-        }
+    # foreach file in archive, move it to the correct place.
+    my $err = Foswiki::Configure::Util::installFiles($this->{root}, $dir, @names);
+    if ($err) {
+        $feedback .= $this->ERROR("$err");
+        $feedback .= "Installation terminated";
+        _printFeedback($feedback);
+        return 0;
     }
     
     if ( $installScript && -e $installScript ) {

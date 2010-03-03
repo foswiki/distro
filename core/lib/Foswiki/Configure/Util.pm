@@ -261,6 +261,62 @@ sub listDir {
     return @names;
 }
 
+=begin TML
+
+---++ StaticMethod installFiles($root, $dir, @names )
+Install files listed in @names.  $root is the root of the Foswiki installation.
+and $dir is the root of the source directory.  @names is the list of source files and
+directories beneath the $dir directory.  They should be passed in descending directory
+order.  Missing directories are created as required.  The files are mapped into non-standard
+locations by the mapTarget utility routine.  If a file is read-only, it is temporarily
+overridden and the mode of the file is restored after the move.
+
+=cut
+
+sub installFiles {
+    my ( $root, $dir, @names ) = @_;
+
+    # foreach file in list, move it to the correct place
+    foreach my $file (@names) {
+
+        # Find where it is meant to go
+        my $target = Foswiki::Configure::Util::mapTarget($root,$file);
+
+        # If a file exists where a directory will go, clean it up.
+        # and then make the directory if necessary.  Need to remove
+        # trailing slash from filename to clean it up.
+        if ( -d "$dir/$file" ) {
+            my $tf = $target;
+            chop $tf if ( substr( $tf, -1 ) eq '/' );
+            chmod( oct(600), "$tf") if (!-w $tf);  
+            unlink $tf if (-f $tf) ;
+            unless ( -e $target) {
+                unless ( mkdir($target) ) {
+                    return "Cannot create directory $target: $!";
+                }
+            }
+        }
+
+        # Temporarily save file mode if readonly
+        my $mode = undef;
+        if ( -e $target && !-w $target && !-d "$dir/$file") {
+            $mode = (stat($target))[2];
+            chmod( oct(600), "$target");
+            }
+
+        # Move or copy the file, restoring mode if needed.
+        if ( -f "$dir/$file" ) {
+            if ( !File::Copy::move( "$dir/$file", $target ) ) {
+                if ( !File::Copy::copy( "$dir/$file", $target ) ) {
+                    chmod( $mode, "$target") if (defined $mode) ;
+                    return "Failed to move/copy file '$file' to $target: $!";
+                    }
+                }
+            chmod( $mode, "$target") if (defined $mode) ;
+        }
+    }
+}
+
 
 1;
 __DATA__
