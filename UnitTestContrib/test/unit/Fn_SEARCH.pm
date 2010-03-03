@@ -248,8 +248,9 @@ sub verify_multiple_and_footer_with_ntopics_and_nhits {
     );
 
     $this->assert_str_equals(
-        "   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
-        $result );
+"   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
+        $result
+    );
 }
 
 sub verify_footer_with_ntopics_empty_format {
@@ -719,25 +720,26 @@ sub verify_METASEARCH {
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
 
-    $actual =
-      $session->handleCommonTags(
+    $actual = $session->handleCommonTags(
 '%METASEARCH{type="topicmoved" topic="FormattedSearchTopic1" title="This topic used to exist and was moved to: "}%',
-		$this->{test_web}, $this->{test_topic}
-      );
-    $actual = $session->renderer->getRenderedVersion($actual, $this->{test_web},
+        $this->{test_web}, $this->{test_topic}
+    );
+    $actual =
+      $session->renderer->getRenderedVersion( $actual, $this->{test_web},
         $this->{test_topic} );
     $expected = 'This topic used to exist and was moved to: ';
     $this->assert_str_equals( $expected, $actual );
 
-    $actual =
-      $session->handleCommonTags(
+    $actual = $session->handleCommonTags(
 '%METASEARCH{type="parent" topic="TestCaseAutoFormattedSearch" title="Children: "}%',
-		$this->{test_web}, $this->{test_topic}
-      );
-    $actual = $session->renderer->getRenderedVersion($actual, $this->{test_web},
+        $this->{test_web}, $this->{test_topic}
+    );
+    $actual =
+      $session->renderer->getRenderedVersion( $actual, $this->{test_web},
         $this->{test_topic} );
-    $expected = $session->renderer->getRenderedVersion('Children: FormattedSearchTopic1 ', $this->{test_web},
-        $this->{test_topic} );
+    $expected = $session->renderer->getRenderedVersion(
+        'Children: FormattedSearchTopic1 ',
+        $this->{test_web}, $this->{test_topic} );
     $this->assert_str_equals( $expected, $actual );
 }
 
@@ -1344,15 +1346,15 @@ sub verify_casesensitivesetting {
 
 #####################
 sub _septic {
-    my ($this, $head, $foot, $sep, $results, $expected) = @_;
+    my ( $this, $head, $foot, $sep, $results, $expected ) = @_;
     my $str = $results ? '*Topic' : 'Septic';
-    $head = $head ? 'header="HEAD"' : '';
-    $foot = $foot ? 'footer="FOOT"' : '';
-    $sep = defined $sep ? "separator=\"$sep\"" : '';
-    my $result =
-      $this->{twiki}->handleCommonTags(
-          "%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%",
-        $this->{test_web}, $this->{test_topic} );
+    $head = $head        ? 'header="HEAD"'      : '';
+    $foot = $foot        ? 'footer="FOOT"'      : '';
+    $sep  = defined $sep ? "separator=\"$sep\"" : '';
+    my $result = $this->{twiki}->handleCommonTags(
+"%SEARCH{\"name~'$str'\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%",
+        $this->{test_web}, $this->{test_topic}
+    );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
@@ -1361,7 +1363,7 @@ sub _septic {
 
 sub verify_no_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 0, undef, 1, <<EXPECT);
+    $this->_septic( 0, 0, undef, 1, <<EXPECT);
 Ok+Topic
 Ok-Topic
 OkTopic
@@ -1370,40 +1372,40 @@ EXPECT
 
 sub verify_no_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 0, undef, 0, <<EXPECT);
+    $this->_septic( 0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 0, "", 1, <<EXPECT);
+    $this->_septic( 0, 0, "", 1, <<EXPECT);
 Ok+TopicOk-TopicOkTopic
 EXPECT
 }
 
 sub verify_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 0, "", 0, <<EXPECT);
+    $this->_septic( 0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_no_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 0, ",", 1, <<EXPECT);
+    $this->_septic( 0, 0, ",", 1, <<EXPECT);
 Ok+Topic,Ok-Topic,OkTopic
 EXPECT
 }
 
 sub verify_no_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 0, ",", 0, <<EXPECT);
+    $this->_septic( 0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
 sub verify_no_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 1, undef, 1, <<EXPECT);
+    $this->_septic( 0, 1, undef, 1, <<EXPECT);
 Ok+Topic
 Ok-Topic
 OkTopic
@@ -1413,26 +1415,26 @@ EXPECT
 
 sub verify_no_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 1, undef, 0, <<EXPECT);
+    $this->_septic( 0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 1, "", 1, <<EXPECT);
+    $this->_septic( 0, 1, "", 1, <<EXPECT);
 Ok+TopicOk-TopicOkTopicFOOT
 EXPECT
 }
 
 sub verify_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(0, 1, "", 0, <<EXPECT);
+    $this->_septic( 0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_no_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(0, 1, ",", 1, <<EXPECT);
+    $this->_septic( 0, 1, ",", 1, <<EXPECT);
 Ok+Topic,Ok-Topic,OkTopic,FOOT
 EXPECT
 }
@@ -1441,7 +1443,7 @@ EXPECT
 
 sub verify_with_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 1, undef, 1, <<EXPECT);
+    $this->_septic( 1, 1, undef, 1, <<EXPECT);
 HEAD
 Ok+Topic
 Ok-Topic
@@ -1452,13 +1454,13 @@ EXPECT
 
 sub verify_with_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 1, undef, 0, <<EXPECT);
+    $this->_septic( 1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 1, "", 1, <<EXPECT);
+    $this->_septic( 1, 1, "", 1, <<EXPECT);
 HEAD
 Ok+TopicOk-TopicOkTopicFOOT
 EXPECT
@@ -1466,13 +1468,13 @@ EXPECT
 
 sub verify_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 1, "", 0, <<EXPECT);
+    $this->_septic( 1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_with_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 1, ",", 1, <<EXPECT);
+    $this->_septic( 1, 1, ",", 1, <<EXPECT);
 HEAD
 Ok+Topic,Ok-Topic,OkTopic,FOOT
 EXPECT
@@ -1480,7 +1482,7 @@ EXPECT
 
 sub verify_with_header_with_footer_with_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 1, ",", 0, <<EXPECT);
+    $this->_septic( 1, 1, ",", 0, <<EXPECT);
 EXPECT
 }
 
@@ -1488,7 +1490,7 @@ EXPECT
 
 sub verify_with_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 0, undef, 1, <<EXPECT);
+    $this->_septic( 1, 0, undef, 1, <<EXPECT);
 HEAD
 Ok+Topic
 Ok-Topic
@@ -1498,13 +1500,13 @@ EXPECT
 
 sub verify_with_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 0, undef, 0, <<EXPECT);
+    $this->_septic( 1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 0, "", 1, <<EXPECT);
+    $this->_septic( 1, 0, "", 1, <<EXPECT);
 HEAD
 Ok+TopicOk-TopicOkTopic
 EXPECT
@@ -1512,13 +1514,13 @@ EXPECT
 
 sub verify_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 0, "", 0, <<EXPECT);
+    $this->_septic( 1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_with_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_septic(1, 0, ",", 1, <<EXPECT);
+    $this->_septic( 1, 0, ",", 1, <<EXPECT);
 HEAD
 Ok+Topic,Ok-Topic,OkTopic
 EXPECT
@@ -1526,7 +1528,7 @@ EXPECT
 
 sub verify_with_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_septic(1, 0, ",", 0, <<EXPECT);
+    $this->_septic( 1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
@@ -1535,15 +1537,15 @@ EXPECT
 #TODO: rewrite using named params for more flexibility
 #need summary, and multiple
 sub _multiWebSeptic {
-    my ($this, $head, $foot, $sep, $results, $expected) = @_;
+    my ( $this, $head, $foot, $sep, $results, $expected ) = @_;
     my $str = $results ? '*Preferences' : 'Septic';
-    $head = $head ? 'header="HEAD($web)"' : '';
-    $foot = $foot ? 'footer="FOOT($ntopics,$nhits)"' : '';
-    $sep = defined $sep ? "separator=\"$sep\"" : '';
-    my $result =
-      $this->{twiki}->handleCommonTags(
-          "%SEARCH{\"name~'$str'\" web=\"System,Main\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%",
-        $this->{test_web}, $this->{test_topic} );
+    $head = $head        ? 'header="HEAD($web)"'            : '';
+    $foot = $foot        ? 'footer="FOOT($ntopics,$nhits)"' : '';
+    $sep  = defined $sep ? "separator=\"$sep\""             : '';
+    my $result = $this->{twiki}->handleCommonTags(
+"%SEARCH{\"name~'$str'\" web=\"System,Main\" type=\"query\" nosearch=\"on\" nosummary=\"on\" nototal=\"on\" format=\"\$topic\" $head $foot $sep}%",
+        $this->{test_web}, $this->{test_topic}
+    );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
@@ -1552,7 +1554,7 @@ sub _multiWebSeptic {
 
 sub verify_multiWeb_no_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT);
 DefaultPreferences
 WebPreferences
 SitePreferences
@@ -1562,40 +1564,40 @@ EXPECT
 
 sub verify_multiWeb_no_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesSitePreferencesWebPreferences
 EXPECT
 }
 
 sub verify_multiWeb_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_no_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,SitePreferences,WebPreferences
 EXPECT
 }
 
 sub verify_multiWeb_no_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 0, ",", 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
 sub verify_multiWeb_no_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, undef, 1, <<EXPECT);
 DefaultPreferences
 WebPreferences
 FOOT(2,2)SitePreferences
@@ -1606,26 +1608,26 @@ EXPECT
 
 sub verify_multiWeb_no_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesFOOT(2,2)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
 sub verify_multiWeb_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(0, 1, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 0, 1, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,FOOT(2,2)SitePreferences,WebPreferences,FOOT(2,2)
 EXPECT
 }
@@ -1634,7 +1636,7 @@ EXPECT
 
 sub verify_multiWeb_with_header_with_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, undef, 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences
 WebPreferences
@@ -1647,13 +1649,13 @@ EXPECT
 
 sub verify_multiWeb_with_header_with_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, "", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)
 SitePreferencesWebPreferencesFOOT(2,2)
@@ -1662,13 +1664,13 @@ EXPECT
 
 sub verify_multiWeb_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, ",", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences,WebPreferences,FOOT(2,2)HEAD(Main)
 SitePreferences,WebPreferences,FOOT(2,2)
@@ -1677,7 +1679,7 @@ EXPECT
 
 sub verify_multiWeb_with_header_with_footer_with_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 1, ",", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 1, ",", 0, <<EXPECT);
 EXPECT
 }
 
@@ -1685,7 +1687,7 @@ EXPECT
 
 sub verify_multiWeb_with_header_no_footer_no_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, undef, 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, undef, 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences
 WebPreferences
@@ -1697,13 +1699,13 @@ EXPECT
 
 sub verify_multiWeb_with_header_no_footer_no_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, undef, 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, "", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, "", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferencesWebPreferencesHEAD(Main)
 SitePreferencesWebPreferences
@@ -1712,13 +1714,13 @@ EXPECT
 
 sub verify_multiWeb_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, "", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
 sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, ",", 1, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, ",", 1, <<EXPECT);
 HEAD(System)
 DefaultPreferences,WebPreferences,HEAD(Main)
 SitePreferences,WebPreferences
@@ -1727,7 +1729,7 @@ EXPECT
 
 sub verify_multiWeb_with_header_no_footer_with_separator_no_results {
     my $this = shift;
-    $this->_multiWebSeptic(1, 0, ",", 0, <<EXPECT);
+    $this->_multiWebSeptic( 1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
@@ -1743,29 +1745,33 @@ sub verify_stop_words_search_word {
     my $this = shift;
 
     use Foswiki::Func;
-    my $origSetting = Foswiki::Func::getPreferencesValue( 'SEARCHSTOPWORDS' );
-    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', 'xxx luv ,kiss, bye' );
+    my $origSetting = Foswiki::Func::getPreferencesValue('SEARCHSTOPWORDS');
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS',
+        'xxx luv ,kiss, bye' );
 
     my $TEST_TEXT  = "xxx Shamira";
     my $TEST_TOPIC = 'StopWordTestTopic';
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
         $this->{test_web}, $TEST_TOPIC, $TEST_TEXT );
 
-        my $result = $this->{twiki}->handleCommonTags(
+    my $result = $this->{twiki}->handleCommonTags(
 '%SEARCH{"Shamira" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic});
-        $this->assert_matches( qr/$TEST_TOPIC/, $result );
+        $this->{test_web}, $this->{test_topic}
+    );
+    $this->assert_matches( qr/$TEST_TOPIC/, $result );
 
-        $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic});
-        $this->assert_str_equals( '', $result );
+    $result = $this->{twiki}->handleCommonTags(
+        '%SEARCH{"xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
+        $this->{test_web}, $this->{test_topic}
+    );
+    $this->assert_str_equals( '', $result );
 
-        $result = $this->{twiki}->handleCommonTags(
+    $result = $this->{twiki}->handleCommonTags(
 '%SEARCH{"+xxx" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic});
-        $this->assert_str_equals( '', $result );
-    
+        $this->{test_web}, $this->{test_topic}
+    );
+    $this->assert_str_equals( '', $result );
+
     Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', $origSetting );
 }
 
