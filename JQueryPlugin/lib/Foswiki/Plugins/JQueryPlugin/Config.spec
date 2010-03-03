@@ -28,7 +28,7 @@ $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.3.2';
 # **SELECT base, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'base';
 
-# ---+++ jQuery plugins -- EXPERT
+# ---+++ jQuery plugins - EXPERT
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 1;
 
