@@ -49,7 +49,7 @@ sub search {
     if ( $options->{wordboundaries} ) {
 
        # Item5529: Can't use quotemeta because $searchString may be UTF8 encoded
-        $searchString =~ s#([][|/\\$^*()+{};@?.{}])#\\$1#g;
+        $searchString =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g;
         $searchString = '\b' . $searchString . '\b';
     }
 
