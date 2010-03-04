@@ -30,7 +30,7 @@ Through your web browser, you can easily upload graphics (or sound files, or any
 
 Attachment names are stored directly in the server native file system, so filenames are sanitized to prevent use of names that would be unacceptable to the variety of platforms where Foswiki is supported.  Note that the rules are different depending on whether or not your installation is configured to support international characters (!UseLocale)
 
----++++!! Default rules without international character set support. 
+---++++!! Default rules without international character set support.
 
    * Filenames must only be compose of:
       * "Mixed Alpha-Numeric" characters.  (A-Z,  a-z and 0-9)
@@ -42,19 +42,18 @@ Attachment names are stored directly in the server native file system, so filena
    * Any other characters are removed from the filename.
    * Any leading dots or slashes (==.==, ==\== or ==/==) will be stripped
    * Embedded spaces will be converted to underscore ==_==
-   * Certain filenames that might be interpreted as executable code will have .txt appended.
-      (_This is set locally by your system administrator_)
+   * Certain filenames that might be interpreted as executable code will have .txt appended.  (_This is set locally by your system administrator_)
 
----++++!! Attachment name rules with international character set support enabled. 
+---++++!! Attachment name rules with international character set support enabled.
 
    * Embedded spaces are converted to ==_== (Underscore).
-   * Filenames are filtered according to rules set by your administrator.  
+   * Filenames are filtered according to rules set by your administrator.
    * The default rules will strip the following characters from the filename:
       * Any "whitespace" characters
       * ==*== (Asterisk)
       * ==?== (Question mark)
       * ==~== (Tilde)
-      * ==^== (Caret / Circumflex) 
+      * ==^== (Caret / Circumflex)
       * ==\== (Backslash)
       * ==$== (Dollar-sign)
       * ==@== (At-sign)
@@ -67,8 +66,7 @@ Attachment names are stored directly in the server native file system, so filena
       * ==[]== (Open and close square brackets)
       * And any ASCII control characters (Hex x00-x1f)
    * Any leading dots or slashes (==.==, ==\== or ==/==) will be stripped
-   * Certain filenames that might be interpreted as executable code will have .txt appended.
-      (_This is set locally by your system administrator_)
+   * Certain filenames that might be interpreted as executable code will have .txt appended.  (_This is set locally by your system administrator_)
 
 ---++ Uploading files
 
