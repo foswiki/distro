@@ -3,7 +3,7 @@
 %STARTINCLUDE%
 ---+ File Attachments
 
-_Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved._ 
+_Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved._
 
 %TOC%
 
@@ -26,6 +26,48 @@ Through your web browser, you can easily upload graphics (or sound files, or any
 
 %H% You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files cannot be managed using browser-based attachment controls. You can use your browser to create shortcuts using [[Macros]], like this %<nop>H% = %H%.
 
+---+++ Attachment Names
+
+Attachment names are stored directly in the server native file system, so filenames are sanitized to prevent use of names that would be unacceptable to the variety of platforms where Foswiki is supported.  Note that the rules are different depending on whether or not your installation is configured to support international characters (!UseLocale)
+
+---++++!! Default rules without international character set support.
+
+   * Filenames must only be compose of:
+      * "Mixed Alpha-Numeric" characters.  (A-Z,  a-z and 0-9)
+      * May also contain:
+         * ==.== (period / decimal point / "dot")
+         * ==_== (Underscore)
+         * ==-== (Hyphen or dash)
+         * embedded spaces (Will be converted to underscore (==_==) during upload
+   * Any other characters are removed from the filename.
+   * Any leading dots or slashes (==.==, ==\== or ==/==) will be stripped
+   * Embedded spaces will be converted to underscore ==_==
+   * Certain filenames that might be interpreted as executable code will have .txt appended.  (_This is set locally by your system administrator_)
+
+---++++!! Attachment name rules with international character set support enabled.
+
+   * Embedded spaces are converted to ==_== (Underscore).
+   * Filenames are filtered according to rules set by your administrator.
+   * The default rules will strip the following characters from the filename:
+      * Any "whitespace" characters
+      * ==*== (Asterisk)
+      * ==?== (Question mark)
+      * ==~== (Tilde)
+      * ==^== (Caret / Circumflex)
+      * ==\== (Backslash)
+      * ==$== (Dollar-sign)
+      * ==@== (At-sign)
+      * ==%== (Percent-sign)
+      * ==`'"== Quotes (Open-quote, Close-quote/Apostrophe, and Double-quote)
+      * ==&== (Ampersand)
+      * ==;== (Semicolon)
+      * ==|== (Vertical line)
+      * ==&lt;&gt;== (Less and Greater signs)
+      * ==[]== (Open and close square brackets)
+      * And any ASCII control characters (Hex x00-x1f)
+   * Any leading dots or slashes (==.==, ==\== or ==/==) will be stripped
+   * Certain filenames that might be interpreted as executable code will have .txt appended.  (_This is set locally by your system administrator_)
+
 ---++ Uploading files
 
    * Click on the ==[Attach]== link at the bottom of the page. The =Attach= screen lets you browse for a file, add a comment, and upload it. The uploaded file will show up in the [[#FileAttachmentTable][file attachment table]].
@@ -34,10 +76,11 @@ Through your web browser, you can easily upload graphics (or sound files, or any
       * Foswiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= [[%SYSTEMWEB%.PreferenceSettings][preference settings]], currently set at %ATTACHFILESIZELIMIT% kB.
          * %X% It is not recommended to upload files greater than a few hundred K through a browser. Large files can be extremely slow-loading, and often time out. Use an FTP site for large file uploads.
    * Automatic attachments:
-      * When enabled, all files in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an =[Attach]= link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
+      * When enabled, all files with valid names in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an =[Attach]= link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
+         * Before an attachment is shown, the filename is filtered per the above Attachment name rules.  If the filtered name is not identical to the actual file name, the file will not be included in the list of attachments
       * To enable this feature, set the {AutoAttachPubFiles} configuration option.
       * %H% The automatic attachment feature can only be used by an administrator who has access to the server's file system.
-   
+
 ---++ Downloading files
 
    * Click on the file in the [[#FileAttachmentTable][File Attachment table]].
@@ -47,7 +90,7 @@ Through your web browser, you can easily upload graphics (or sound files, or any
 
 ---++ Moving attachment files
 
-An attachment can be moved between topics. 
+An attachment can be moved between topics.
    * Click ==[Manage]== on the Attachment to be moved.
    * On the control screen, select the new web and/or topic.
    * Click ==[Move]==. The attachment and its version history are moved. The original location is stored as [[CompleteDocumentation#Meta_Data_Definition][topic meta data]].
@@ -84,7 +127,7 @@ Following you will find some examples of screens and tables related to this topi
 #FileAttachmentTable
 ---+++ File attachment table
 
-Files attached to a topic are displayed in a directory table, showing the different file names and attributes. An =h= means the attachment is hidden and not listed when viewing a topic in normal mode. 
+Files attached to a topic are displayed in a directory table, showing the different file names and attributes. An =h= means the attachment is hidden and not listed when viewing a topic in normal mode.
 
 The file attachment table is normally displayed at the bottom of the page, or optionally, hidden and accessed when you click =[Attach]=.
 
@@ -97,11 +140,11 @@ The file attachment table is normally displayed at the bottom of the page, or op
 #FileAttachmentControls
 ---+++ File attachment controls
 
-Clicking on a ==[Manage]== link takes you to a new page that looks a bit like this (depending on what [[Skins][skin]] is selected). 
+Clicking on a ==[Manage]== link takes you to a new page that looks a bit like this (depending on what [[Skins][skin]] is selected).
 
 Here, you have different options:
    * *To update an existing file*, choose the updated file on your local drive and click ==[Update file]==. The filename of the original attachment will preserved; the filename of the local file you chose will *not* be used.
-   * *To change the comment* on an attachment, enter a new comment and then click ==[Change comment and properties only]==.  Note that the comment listed against the specific version will not change, however the comment displayed when viewing the topic does change.  
+   * *To change the comment* on an attachment, enter a new comment and then click ==[Change comment and properties only]==.  Note that the comment listed against the specific version will not change, however the comment displayed when viewing the topic does change.
    * *To hide/unhide* an attachment, enable the ==Do not show attachment in table== checkbox, then click ==[Change comment and properties only]==.
 
 <div class="foswikiFormSteps">
