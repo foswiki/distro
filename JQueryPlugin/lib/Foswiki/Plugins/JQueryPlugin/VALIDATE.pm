@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::JQueryPlugin::VALIDATE;
 use strict;
+use warnings;
 
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
@@ -72,7 +73,7 @@ sub init {
   my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
   if (-f $messageFile) {
     $header .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
-    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
+    Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', "JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
   }
 
 }

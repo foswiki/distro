@@ -14,6 +14,7 @@
 #
 package Foswiki::Plugins::JQueryPlugin;
 use strict;
+use warnings;
 
 =begin TML
 
@@ -414,5 +415,27 @@ sub handleJQueryPlugins {
     Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
   return $theHeader.join($theSeparator, @result).$theFooter;
 }
+
+=begin TML
+
+---++ ourAddToZone($zone, $tag, $text, $requires)
+
+This is a simple wrapper to call Foswiki::Func::addToZone() if available, or
+Foswiki::Func::addToHead() otherwise (in which case, everything is added to head)
+
+=cut
+
+sub ourAddToZone {
+  my ($zone, $tag, $text, $requires) = @_;
+         
+  if (not exists &Foswiki::Func::addToZone) {
+    Foswiki::Func::addToHEAD($tag, $text, $requires);
+  } else {
+    Foswiki::Func::addToZone($zone, $tag, $text, $requires);
+  }
+
+  return;
+}
+
 
 1;

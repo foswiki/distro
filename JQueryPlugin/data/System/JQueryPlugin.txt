@@ -101,6 +101,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Mar 2010: | made ZonePlugin an optional dependency |
 |  01 Mar 2010: | improved js and css compression using yuicompressor; \
                   improved simplemodal integration to foswiki to create modal dialogs with less additional javascript; \
                   added custom events to textboxlist: <nop>AddValue, <nop>DeleteValue , Reset and Clear |

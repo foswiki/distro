@@ -18,6 +18,7 @@ package Foswiki::Plugins::JQueryPlugin::Plugin;
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
 use strict;
+use warnings;
 
 =begin TML
 
@@ -120,9 +121,9 @@ sub init {
     }
   }
 
-  Foswiki::Func::addToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @dependencies))
+  Foswiki::Plugins::JQueryPlugin::ourAddToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @dependencies))
     if $header;
-  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @dependencies))
+  Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @dependencies))
     if $footer;
 
   return 1;

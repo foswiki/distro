@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::JQueryPlugin::TOGGLE;
 use strict;
+use warnings;
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
 =begin TML
@@ -95,7 +96,7 @@ sub handleToggle {
   my $cmd = "function() {\$('$theTarget').each(function() {\$(this).is(':visible')?\$(this).$showEffect:\$(this).$hideEffect;});return false;}";
   my $toggleId = "jqToggle".Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
-  Foswiki::Func::addToZone("head", "JQUERYPLUGIN::TOGGLE::$toggleId", <<"HERE", 'JQUERYPLUGIN::TOGGLE');
+  Foswiki::Plugins::JQueryPlugin::ourAddToZone("head", "JQUERYPLUGIN::TOGGLE::$toggleId", <<"HERE", 'JQUERYPLUGIN::TOGGLE');
 <meta name="foswiki.jquery.toggle.$toggleId" content="{id:'$toggleId', onclick:$cmd}" />
 HERE
 

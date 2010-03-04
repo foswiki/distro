@@ -13,6 +13,7 @@
 
 package Foswiki::Plugins::JQueryPlugin::Plugins;
 use strict;
+use warnings;
 
 our @iconSearchPath;
 our %iconCache;
@@ -61,7 +62,7 @@ sub init () {
   $footer .= "\n<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
     if $Foswiki::cfg{JQueryPlugin}{NoConflict};
 
-  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN', $footer);
+  Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', 'JQUERYPLUGIN', $footer);
 
   # initial plugins
   createPlugin('Foswiki'); # this one is needed anyway

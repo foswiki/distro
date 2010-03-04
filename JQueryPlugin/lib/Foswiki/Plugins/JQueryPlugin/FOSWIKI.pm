@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::JQueryPlugin::FOSWIKI;
 use strict;
+use warnings;
 use Foswiki::Func;
 use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
 
@@ -89,8 +90,8 @@ HERE
 
   my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>\n";
 
-  Foswiki::Func::addToZone('head', 'JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
-  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN::FOSWIKI', $footer, 'JQUERYPLUGIN');
+  Foswiki::Plugins::JQueryPlugin::ourAddToZone('head', 'JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
+  Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', 'JQUERYPLUGIN::FOSWIKI', $footer, 'JQUERYPLUGIN');
 
 }
 
