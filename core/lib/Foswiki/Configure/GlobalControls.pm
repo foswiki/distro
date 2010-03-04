@@ -84,7 +84,7 @@ sub generateTabs {
           . "</a></li>"
           ;    # do not append a newline because IE makes this a whitespace
     }
-    $tabs .= "</ul><br class='foswikiClear' />";
+    $tabs .= "</ul><p class='foswikiClear'></p>";
 
     return $tabs;
 }

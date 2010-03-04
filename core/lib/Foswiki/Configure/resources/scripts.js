@@ -7,10 +7,18 @@ var expertsMode = '';
 function toggleExpertsMode() {
     var antimode = expertsMode;
     expertsMode = (antimode == 'none' ? '' : 'none');
-    $('.configureExpert').each(function() {
+    /* toggle table rows */
+    $('tr.configureExpert').each(function() {
     	$(this).css("display", expertsMode);
     });
-    $('.configureNotExpert').each(function() {
+    $('tr.configureNotExpert').each(function() {
+    	$(this).css("display", antimode);
+    });
+    /* toggle links */
+    $('a.configureExpert').each(function() {
+    	$(this).css("display", expertsMode);
+    });
+    $('a.configureNotExpert').each(function() {
     	$(this).css("display", antimode);
     });
 }
@@ -525,6 +533,18 @@ $(document).ready(function() {
 	});
 	$("input.foswikiFocus").each(function() {
 		this.focus();
+	});
+	$(".configureRootSection table.configureSectionValues div.configureError").each(function() {
+		var row = $(this).parent().parent().get(0);
+		if (row) {
+			$(row).removeClass('configureExpert');
+		}
+	});
+	$(".configureRootSection table.configureSectionValues div.configureWarning").each(function() {
+		var row = $(this).parent().parent().get(0);
+		if (row) {
+			$(row).removeClass('configureExpert');
+		}
 	});
 	toggleExpertsMode();
 	toggleInfoMode();
