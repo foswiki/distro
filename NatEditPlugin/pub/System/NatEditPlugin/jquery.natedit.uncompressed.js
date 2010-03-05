@@ -654,7 +654,7 @@ $.NatEditor.prototype.fixHeight = function() {
 	
   /* Resize tinyMCE. Both the iframe and containing table need to be adjusted. 
    * SMELL: Hard-coded magic numbers : 12px */
-  if (typeof(tinyMCE) === 'object' && typeof(tinyMCE.activeEditor) === 'object' &&
+  if (typeof(tinyMCE) === 'object' && tinyMCE.activeEditor !== null &&
     !tinyMCE.activeEditor.getParam('fullscreen_is_enabled')) {
 
     /* TMCE container = <td>, in a <tr>, <tbody>, <table>, <span> next to original 
