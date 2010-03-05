@@ -1,6 +1,6 @@
 # ---+ Extensions
 # ---++ ZonePlugin
-# ---+++ Backwards compatibility -- EXPERT
+# ---+++ Backwards compatibility - EXPERT
 # **BOOLEAN**
 # This will help you to work around situatios where javascript files produce errors
 # due to the different ordering of depending files being located in the BODY zone.
@@ -10,7 +10,7 @@
 # to fix the cause for any javascript not being properly put into the BODY zone.
 $Foswiki::cfg{ZonePlugin}{BackwardsCompatible} = 0;
 
-# ---+++ Warning messages -- EXPERT
+# ---+++ Warning messages - EXPERT
 # **BOOLEAN**
 # Enable this flag to log any use of legady APIs, that is topics that still use
 # %ADDTOHEAD or perl code that uses Foswiki::Func::addToHEAD(). ZonePlugin will
