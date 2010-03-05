@@ -437,12 +437,13 @@ sub test_Util_listDir {
     } else {
         eval 'use Capture::Tiny qw/capture/;
             ($stdout, $stderr) = capture {
-            @dir= Foswiki::Configure::Util::listDir("$tempdir") ;
-            };';
+                 @dir= Foswiki::Configure::Util::listDir("$tempdir") ;
+            };
+            $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
+            $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
+            ';
         }
 
-    $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
-    $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
    
     rmtree($tempdir);
 
