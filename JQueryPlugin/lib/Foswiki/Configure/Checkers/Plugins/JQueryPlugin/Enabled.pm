@@ -12,7 +12,10 @@ sub check {
     my $warnings;
 
     if ( $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} ) {
-        if ( not exists &Foswiki::Func::addToZone ) {
+    # Check for Foswiki::Func::addToZone in case it exists in core,
+    # otherwise check that ZonePlugin is Enabled.
+        if ( (not exists &Foswiki::Func::addToZone) and 
+            (!$Foswiki::cfg{Plugins}{ZonePlugin}{Enabled}) ) {
             $warnings .= $this->NOTE(<<'HERE');
 ZonePlugin is not enabled. With ZonePlugin, JQueryPlugin can optimise the
 placement of <code>&lt;script&gt;</code> tags in the rendered XHTML for better
