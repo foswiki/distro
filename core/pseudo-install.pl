@@ -418,6 +418,7 @@ sub Autoconf {
         $localsite =~ s/^# (\$Foswiki::cfg[^\n]*)/$1/mg;
         $localsite =~ s/^#[^\n]*\n+//mg;
         $localsite =~ s/\n\s+/\n/sg;
+        $localsite =~ s/__END__//g;
         if ( $^O eq 'MSWin32' ) {
 
             #oh wow, windows find is retarded
@@ -432,9 +433,6 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
         }
 
         $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
-
-        # single # seems to denote an important param that needs to be set
-        $localsite =~ s|# \$Foswiki|\$Foswiki|g;
 
         if ( open( LS, '>', $localSiteCfg ) ) {
             print LS $localsite;
