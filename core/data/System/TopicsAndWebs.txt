@@ -95,6 +95,35 @@ A primary purpose of Foswiki is to make it incredibly easy for you to add and ed
 
 Another way to add a topic is to type a new topic name in the Go box or an unknown topic URL.  You can type in either a WikiName to create the topic in the current web or <nop>Web.TopicName to create a topic in a different web than the current page.  Topics created with the Go box or URLs do not have parent meta-data defined.
 
+<blockquote>
+---+++ A note on Topic Names
+The best strategy is to use WikiWords for your topic names.  In this way, linking is automatic, as described above.   However if you have custom requirements for non-standard names, you can use "Forced Links" written inside square brackets to force a link to a non-standard topic name.  Forced links are subject to some special rules and the actual topic name visible in the URL may not be identical to what was entered into the forced link.
+
+   * The first letter of each "word"  will be automatically capitalized
+   * Spaces are compressed out of the topic name
+   * The following special characters are removed:  (The default rules may be different at your installation): 
+      * Any other "whitespace" characters
+      * ==*== (Asterisk)
+      * ==?== (Question mark)
+      * ==~== (Tilde)
+      * ==^== (Caret / Circumflex)
+      * ==\== (Backslash)
+      * ==$== (Dollar-sign)
+      * ==@== (At-sign)
+      * ==%== (Percent-sign)
+      * ==`'"== Quotes (Open-quote, Close-quote/Apostrophe, and Double-quote)
+      * ==&== (Ampersand)
+      * ==;== (Semicolon)
+      * ==|== (Vertical line)
+      * ==&lt;&gt;== (Less and Greater signs)
+      * ==[]== (Open and close square brackets)
+      * And any ASCII control characters (Hex x00-x1f)
+
+For an example,  If you enter ==[<nop>[my special-topic @here]]==, you will see ==[[my special-topic @here]]==, but the actual topic created will be ==<nop>MySpecial-topicHere==.   
+
+Note that if you use the [[WebCreateNewTopic][Topic Creator]] WikiWord rules are strictly enforced, and the resulting topic would be ==<nop>MySpecialTopicHere==
+</blockquote>
+
 
 #OtherFeatures
 ---++ Other features
