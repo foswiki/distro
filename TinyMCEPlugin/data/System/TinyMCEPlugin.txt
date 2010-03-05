@@ -43,8 +43,8 @@ This variable holds all the options passed to the !TinyMCE editor on startup. Fo
 
 The default options are as follows (you will need to remove the newlines for your own =TINYMCEPLUGIN_INIT= string). Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
 
-<verbatim>
-mode:"textareas",
+%JQREQUIRE{"chili"}%<verbatim class="js">
+mode: "textareas",
 editor_selector : "foswikiWysiwygEdit",
 save_on_tinymce_forms: true,
 cleanup : true,
@@ -60,7 +60,7 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
+plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
@@ -178,6 +178,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Mar 2010 | Foswikitask:Item2174: Upgrade to !TinyMCE 3.3 |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |
 |  24 Jan 2010 | Foswikitask:Item8416: add TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS and TINYMCEPLUGIN_BUTTONS(123) to allow wiki, web and topic specific plugins to be added [[Foswiki:Main.SvenDowideit][SD]] |
 |  29 Dec 2009 | Foswikitask:Item2447: Fix unable to apply "Normal" format in some browsers (notes added to System topic)<br/> Foswikitask:Item1462: Block attachments to unsaved AUTOINC topics |

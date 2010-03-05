@@ -1,8 +1,11 @@
 /**
- * $Id: Popup.js 1204 2009-08-19 12:12:07Z spocke $
+ * Popup.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 // Some global instances
@@ -131,10 +134,7 @@ tinyMCEPopup = {
 		dw = t.getWindowArg('mce_width') - vp.w;
 		dh = t.getWindowArg('mce_height') - vp.h;
 
-		if (t.isWindow)
-			window.resizeBy(dw, dh);
-		else
-			t.editor.windowManager.resizeBy(dw, dh, t.id);
+		t.editor.windowManager.resizeBy(dw, dh, t.id || window);
 	},
 
 	/**
@@ -338,7 +338,7 @@ tinyMCEPopup = {
 
 		if (!tinymce.isIE && !t.isWindow) {
 			tinymce.dom.Event._add(document, 'focus', function() {
-				t.editor.windowManager.focus(t.id)
+				t.editor.windowManager.focus(t.id);
 			});
 		}
 

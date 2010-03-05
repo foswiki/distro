@@ -18,7 +18,7 @@ use strict;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '29 Dec 2009';
+our $RELEASE           = '03 Mar 2010';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -42,7 +42,7 @@ urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
 save_callback : "FoswikiTiny.saveCallback",
 %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,safari,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
+plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswikibuttons,foswikiimage,%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%",
 foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
