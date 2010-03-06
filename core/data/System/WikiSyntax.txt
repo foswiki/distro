@@ -34,9 +34,7 @@ _If you can enter text, you're ready for Foswiki. With a few simple rules, you'l
      =and more of it!= %BR%
      =<b>&lt;/verbatim&gt;</b>=
 
----+++ Macros and special characters (advanced)
-   * <nop>%MACROS% can be set inside verbatim tags - they are not disabled. For more detailed information, see [[Macros]].
-
+---+++ Working with special characters (advanced)
    * If you want to display angle brackets, enter them as HTML codes instead of typing them in directly:
       * =&amp;lt;= = =&lt;= %BR%
         =&amp;gt;= = =&gt;=
@@ -45,6 +43,27 @@ _If you can enter text, you're ready for Foswiki. With a few simple rules, you'l
 
    * Sometimes you will not see the =&= charachter and you need to excape it to see it as it is. The reason behind is that =&= has a special meaning in HTML - it starts so called character entities, like ='&amp;copy;'= which is the =&copy;= copyright character.
       * Type ='This &amp;amp; that'= to get ='This &amp; that'=.
+
+---+++ Preventing [[Macros][Macro]]/variable exapnsion (advanced)
+Place =&lt;nop&gt;= within a =%<nop>MACRO%= statement to prevent it from being expanded, as follows:
+   * =%&lt;nop&gt;MACRO%=, result: %<nop>MACRO%
+
+---+++ Working with =&lt;verbatim&gt;= (advanced)
+Although text inside a =&lt;verbatim&gt;= block should be displayed exactly as it is typed (without being expanded), Foswiki does not necessarily ignore it. The following examples show TML that Foswiki will process inside a =&lt;verbatim&gt;= block:
+<pre class="tml">&lt;verbatim&gt;
+Example 1:
+   &#42; Set VARIABLE = This variable may be used as normal, Eg. %<nop>VARIABLE%
+
+Example 2:
+%<nop>STARTSECTION{"section"}%
+This section may be used as normal, Eg. %<nop>INCLUDE{"%TOPIC%" section="section"}%
+%<nop>ENDSECTION{"section"}%
+
+Example 3:
+%<nop>TMPL:DEF{"template"}%
+This template definition may be used as normal, Eg. %<nop>TMPL:P{"template"}%
+%TMPL:END%
+&lt;/verbatim&gt;</pre>
 
 ---++ Internal and external links
 
