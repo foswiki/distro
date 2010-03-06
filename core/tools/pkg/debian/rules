@@ -43,14 +43,10 @@ install: build
 	# packaging changes outside the MANIFEST files
 	chmod 755 debian/foswiki-core/var/lib/foswiki/bin/*
 	mv debian/foswiki-core/var/lib/foswiki/bin/configure debian/foswiki-configure-cgi/var/lib/foswiki/bin/
-	mv debian/foswiki-core/var/lib/foswiki/bin/LocalLib.cfg.txt debian/foswiki-core/var/lib/foswiki/bin/LocalLib.cfg
+	cp debian/setlib.cfg debian/foswiki-core/var/lib/foswiki/bin/setlib.cfg
 	chmod 644 debian/foswiki-core/var/lib/foswiki/bin/setlib.cfg
-	chmod 644 debian/foswiki-core/var/lib/foswiki/bin/LocalLib.cfg
-
-	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki-core/var/lib/foswiki/bin/LocalLib.cfg
-	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
-	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/var/lib/foswiki-core/bin/LocalLib.cfg
-	rm debian/foswiki-core/var/lib/foswiki/bin/LocalLib.cfg~
+	cp debian/Foswiki.spec debian/foswiki-core/var/lib/foswiki/lib/Foswiki.spec
+	chmod 644 debian/foswiki-core/var/lib/foswiki/lib/Foswiki.spec
 
 	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/foswiki-core/var/lib/foswiki/tools/rewriteshbang.pl
 	perl -piOLD -e 's{#!perl}{#!/usr/bin/perl}g;' debian/foswiki-core/var/lib/foswiki/tools/upgrade_emails.pl
