@@ -41,10 +41,10 @@ _If you can enter text, you're ready for Foswiki. With a few simple rules, you'l
       * __You enter:__ =(a &amp;gt; 0)= %BR%
         __Result:__ =(a &gt; 0)=
 
-   * Sometimes you will not see the =&= charachter and you need to excape it to see it as it is. The reason behind is that =&= has a special meaning in HTML - it starts so called character entities, like ='&amp;copy;'= which is the =&copy;= copyright character.
+   * Sometimes you will not see the =&= character and you need to escape it to see it as it is. The reason behind is that =&= has a special meaning in HTML - it starts so called character entities, like ='&amp;copy;'= which is the =&copy;= copyright character.
       * Type ='This &amp;amp; that'= to get ='This &amp; that'=.
 
----+++ Preventing [[Macros][Macro]]/variable exapnsion (advanced)
+---+++ Preventing [[Macros][Macro]]/variable expansion (advanced)
 Place =&lt;nop&gt;= within a =%<nop>MACRO%= statement to prevent it from being expanded, as follows:
    * =%&lt;nop&gt;MACRO%=, result: %<nop>MACRO%
 
