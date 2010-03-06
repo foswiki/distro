@@ -453,4 +453,97 @@ sub test_Util_listDir {
 
 }
 
+sub test_getPerlLocation {
+    my $this = shift;
+
+    use File::Path qw(mkpath rmtree);
+ 
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_getperllocation';
+    mkpath($tempdir); 
+
+    my $holddir = $Foswiki::cfg{ScriptDir};
+    $Foswiki::cfg{ScriptDir} = "$tempdir/";
+    my $holdsfx = $Foswiki::cfg{ScriptSuffix};
+    
+    _doLocationTest($this, $tempdir, "#!/usr/bin/perl -w -T ", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#!/usr/bin/perl  ", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#!/usr/bin/perl -wT ", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#!/usr/bin/perl -wT", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#! /usr/bin/perl    -wT ", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#! /usr/bin/perl -wT ", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#! /usr/bin/perl", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#!    /usr/bin/perl        ", "/usr/bin/perl" ); 
+    _doLocationTest($this, $tempdir, "#! perl  -wT ", "perl" ); 
+    _doLocationTest($this, $tempdir, "#!C:\\Progra~1\\Strawberry\\bin\\perl.exe  -wT ", "C:\\Progra~1\\Strawberry\\bin\\perl.exe" ); 
+    _doLocationTest($this, $tempdir, "#!c:\\strawberry\\perl\\bin\\perl.exe  -w ", "c:\\strawberry\\perl\\bin\\perl.exe" ); 
+    _doLocationTest($this, $tempdir, "#!C:\\Program Files\\Strawberry\\bin\\perl.exe  -wT ", "C:\\Program Files\\Strawberry\\bin\\perl.exe" ); 
+    _doLocationTest($this, $tempdir, "#! C:\\Program Files\\Strawberry\\bin\\perl.exe", "C:\\Program Files\\Strawberry\\bin\\perl.exe" ); 
+
+    $Foswiki::cfg{ScriptSuffix} = ".pl";
+    _doLocationTest($this, $tempdir, "#!/usr/bin/perl -wT ", "/usr/bin/perl" ); 
+
+    $Foswiki::cfg{ScriptDir} = $holddir;
+    rmtree($tempdir);  # Cleanup any old tests
+
+    }
+
+sub _doLocationTest {
+    my $this = shift;
+    my $tempdir = shift;
+    my $shbang = shift;
+    my $expected = shift;
+   
+    open (CFGFILE, ">$tempdir/configure$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print CFGFILE "$shbang \n";
+    close (CFGFILE);
+
+    my $perl = Foswiki::Configure::Util::getPerlLocation();
+    $this->assert_str_equals( $expected, $perl );
+
+}
+
+sub test_rewriteShbang {
+    my $this = shift;
+
+    use File::Path qw(mkpath rmtree);
+ 
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_rewriteShbang';
+    mkpath($tempdir); 
+
+    #                                Template File         Shbang to write       Expected line
+    _doRewriteTest($this, $tempdir, '#!/usr/bin/perl -wT', 'C:\asdf\perl.exe', '#! C:\asdf\perl.exe -wT');
+    _doRewriteTest($this, $tempdir, '#!/usr/bin/perl -wT', '/usr/bin/perl', '#! /usr/bin/perl -wT');
+    _doRewriteTest($this, $tempdir, '#! /usr/bin/perl -wT', '/usr/bin/perl', '#! /usr/bin/perl -wT');
+    _doRewriteTest($this, $tempdir, '#! /usr/bin/perl ', '/usr/bin/perl', '#! /usr/bin/perl -wT');
+    _doRewriteTest($this, $tempdir, '#! /usr/bin/perl', '/usr/bin/perl', '#! /usr/bin/perl -wT');
+    _doRewriteTest($this, $tempdir, '#! /usr/bin/perl', '/usr/bin/perl', '#! /usr/bin/perl -wT');
+    _doRewriteTest($this, $tempdir, '#!/usr/bin/perl -wT', 'C:\Program Files\Active State\perl.exe', '#! C:\Program Files\Active State\perl.exe -wT');
+
+}    
+
+sub _doRewriteTest {
+    my $this = shift;
+    my $tempdir = shift;
+    my $testline = shift;
+    my $shbang = shift;
+    my $expected = shift;
+   
+    open (CFGFILE, ">$tempdir/myscript$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print CFGFILE <<DONE;
+$testline
+#!blah
+bleh
+DONE
+    close (CFGFILE);
+
+    my $err = Foswiki::Configure::Util::rewriteShbang("$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", '$shbang');
+
+    open (BINCFG, '<', "$Foswiki::cfg{ScriptDir}/myscript$Foswiki::cfg{ScriptSuffix}") 
+        || return '' ;
+    my $shBangLine  = <BINCFG>;
+    chomp $shBangLine;
+
+    $this->assert_str_equals( $expected, $shBangLine );
+
+}
 1;

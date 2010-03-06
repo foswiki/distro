@@ -317,6 +317,55 @@ sub installFiles {
     }
 }
 
+=begin TML
+
+---++ StaticMethod getPerlLocation($root, $dir, @names )
+This routine will read in the first line of the bin/configure 
+script and recover the location of the perl interpreter.
+
+=cut
+
+sub getPerlLocation {
+
+    open (BINCFG, '<', "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}") 
+        || return '' ;
+    my $shBang  = <BINCFG>;
+    chomp $shBang;
+    $shBang =~ s/^#\!\s*(.*?)\s?(:?\s-.*)?$/$1/;
+    $shBang =~ s/\s+$//;
+    close (BINCFG);
+    return $shBang;
+
+}
+=begin TML
+
+---++ StaticMethod rewriteShbang($root, $dir, @names )
+This routine will read in the first line of the bin/configure 
+script and recover the location of the perl interpreter.
+
+=cut
+
+sub rewriteShbang {
+    my $file = shift;
+    my $newShbang = shift;
+
+    my $savesep = $/;
+    $/ = undef;
+    open(F, '<', $file) || return "Rewrite shbang failed:  $!";
+    my $contents = <F>;
+    close F;
+
+    # Note: space inserted after #! - needed on some flavors of Unix
+    if( $contents =~ s/^#!\s*\S+/#! $newShbang/s ) {
+        my $mode = (stat($file))[2];
+        chmod( oct(600), "$file");
+        open(F, '>', $file) || return "Rewrite shbang failed:  $!";
+        print F $contents;
+        close F;
+        chmod( $mode, "$file");
+    } 
+    $/ = $savesep;
+}
 
 1;
 __DATA__
