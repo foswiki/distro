@@ -85,6 +85,18 @@ SUB
     return \@groups;
 }
 
+sub loadExtraConfig {
+    my $this = shift; # the Test::Unit::TestCase object
+    $this->SUPER::loadExtraConfig();
+     
+    #enable the MongoDBPlugin which keeps the mongodb uptodate with topics changes onsave
+    #TODO: make conditional - or figure out how to force this in the MongoDB search and query algo's
+    $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} = 'Foswiki::Plugins::MongoDBPlugin';
+    $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{MongoDBPlugin}{EnableOnSaveUpdates} = 1;
+}
+
+
 sub verify_simple {
     my $this = shift;
 
