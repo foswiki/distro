@@ -47,11 +47,26 @@ sub _initialise {
 
     # Build pattern of stop words
     my $prefs = $this->{session}->{prefs};
+    ASSERT($prefs) if DEBUG;
     $this->{stopwords} = $prefs->getPreference('SEARCHSTOPWORDS') || '';
     $this->{stopwords} =~ s/[\s\,]+/\|/go;
     $this->{stopwords} =~ s/[\(\)]//go;
 
     $this->{initialised} = 1;
+}
+
+=begin TML
+
+---++ ObjectMethod finish()
+Break circular references.
+
+=cut
+
+sub finish {
+    my $self = shift;
+
+    undef $self->{stopwords};
+    undef $self->{initialised};
 }
 
 =begin TML

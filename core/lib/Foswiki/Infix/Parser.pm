@@ -90,6 +90,18 @@ sub new {
 
 =begin TML
 
+---++ ObjectMethod finish()
+Break circular references.
+
+=cut
+
+sub finish {
+    my $self = shift;
+
+}
+
+=begin TML
+
 ---++ ObjectMethod addOperator(\%oper)
 Add an operator to the parser.
 
@@ -217,6 +229,7 @@ sub _parse {
             elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
                 print STDERR "Tok: qs '$1'\n" if MONITOR_PARSER;
                 my $val = $2;
+
                 # Handle escaped characters in the string
                 $val =~ s/(?<!\\)\\(.)/$1/g;
                 push( @opands,
@@ -309,7 +322,7 @@ __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

@@ -20,10 +20,6 @@ use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 use Foswiki::WebFilter                ();
 
-#TODO: move these into a more appropriate place - they are function objects so can persist for a _long_ time
-my $queryParser;
-my $searchParser;
-
 BEGIN {
 
     # 'Use locale' for internationalisation of Perl sorting and searching -
@@ -63,6 +59,16 @@ Break circular references.
 sub finish {
     my $this = shift;
     undef $this->{session};
+
+# these may well be function objects, but if (a setting changes, it needs to be picked up again.
+    if ( defined($this->{queryParser}) ) {
+        $this->{queryParser}->finish();
+        undef $this->{queryParser};
+    }
+    if ( defined($this->{searchParser}) ) {
+        $this->{searchParser}->finish();
+        undef $this->{searchParser};
+    }
 }
 
 sub _extractPattern {
@@ -354,18 +360,18 @@ sub searchWeb {
 
     my $theParser;
     if ( $params{type} eq 'query' ) {
-        unless ( defined($queryParser) ) {
+        unless ( defined($this->{queryParser}) ) {
             require Foswiki::Query::Parser;
-            $queryParser = new Foswiki::Query::Parser();
+            $this->{queryParser} = new Foswiki::Query::Parser();
         }
-        $theParser = $queryParser;
+        $theParser = $this->{queryParser};
     }
     else {
-        unless ( defined($searchParser) ) {
+        unless ( defined($this->{searchParser}) ) {
             require Foswiki::Search::Parser;
-            $searchParser = new Foswiki::Search::Parser($session);
+            $this->{searchParser} = new Foswiki::Search::Parser($session);
         }
-        $theParser = $searchParser;
+        $theParser = $this->{searchParser};
     }
     try {
         $query = $theParser->parse( $searchString, \%params );
@@ -709,6 +715,7 @@ sub formatResults {
         if ( $doMultiple && $query->{tokens} ) {
 
             #TODO: i wonder if this shoudl be a HoistRE..
+            #TODO: well, um, and how does this work for query search?
             my @tokens  = @{ $query->{tokens} };
             my $pattern = $tokens[$#tokens];       # last token in an AND search
             $pattern = quotemeta($pattern) if ( $type ne 'regex' );
