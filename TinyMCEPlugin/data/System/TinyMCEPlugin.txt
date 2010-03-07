@@ -128,7 +128,7 @@ If the plugin also adds a toolbar button, you will need to add it into the appro
 add the following to %USERSWEB%.SitePreferences
 
 <verbatim>
----++ TinyMCE cunstomisations
+---++ TinyMCE customisations
    * Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions
    * Set TINYMCEPLUGIN_BUTTONS2 = emotions,tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen
 </verbatim>
