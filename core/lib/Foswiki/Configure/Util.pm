@@ -319,7 +319,7 @@ sub installFiles {
 
 =begin TML
 
----++ StaticMethod getPerlLocation($root, $dir, @names )
+---++ StaticMethod getPerlLocation( )
 This routine will read in the first line of the bin/configure 
 script and recover the location of the perl interpreter.
 
@@ -327,19 +327,19 @@ script and recover the location of the perl interpreter.
 
 sub getPerlLocation {
 
-    open (BINCFG, '<', "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}") 
+    open (my $fh, '<', "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}") 
         || return '' ;
-    my $shBang  = <BINCFG>;
+    my $shBang  = <$fh>;
     chomp $shBang;
     $shBang =~ s/^#\!\s*(.*?)\s?(:?\s-.*)?$/$1/;
     $shBang =~ s/\s+$//;
-    close (BINCFG);
+    close ($fh);
     return $shBang;
 
 }
 =begin TML
 
----++ StaticMethod rewriteShbang($root, $dir, @names )
+---++ StaticMethod rewriteShbang($file, $newShbang )
 This routine will read in the first line of the bin/configure 
 script and recover the location of the perl interpreter.
 
@@ -351,21 +351,189 @@ sub rewriteShbang {
 
     my $savesep = $/;
     $/ = undef;
-    open(F, '<', $file) || return "Rewrite shbang failed:  $!";
-    my $contents = <F>;
-    close F;
+    open(my $fh, '<', $file) || return "Rewrite shbang failed:  $!";
+    my $contents = <$fh>;
+    close $fh;
 
     # Note: space inserted after #! - needed on some flavors of Unix
     if( $contents =~ s/^#!\s*\S+/#! $newShbang/s ) {
         my $mode = (stat($file))[2];
         chmod( oct(600), "$file");
-        open(F, '>', $file) || return "Rewrite shbang failed:  $!";
-        print F $contents;
-        close F;
+        open(my $fh, '>', $file) || return "Rewrite shbang failed:  $!";
+        print $fh  $contents;
+        close $fh;
         chmod( $mode, "$file");
     } 
     $/ = $savesep;
 }
+
+=begin TML
+
+---++ StaticMethod extractPkgData ($root, $extension,  \%Manifest, \%Dependency )
+This routine looks for the $extension_installer or 
+$extension_installer.pl and extracts the manifest
+from the installer.  Manifest hash is passed to the routine by 
+references, and updated with the extracted manifest 
+
+->{filename}->{ci}      Flag if file should be "checked in"
+->{filename}->{perms}   File permissions
+->{filename}->{MD5}     MD5 of file (if available)
+
+=cut
+
+sub extractPkgData {
+    my $root = shift;
+    my $extension = shift;
+    #$_[0] - reference to manifest hash
+    #$_[1] - reference to dependency hash
+
+    my $file;
+    if (-e "$root/${extension}_installer") {
+       $file = "$root/${extension}_installer"; 
+    } else {
+       if (-e "$root/${extension}_installer.pl") {
+           $file = "$root/${extension}_installer.pl";
+       } else {
+           return "ERROR - Extension $extension package not found ";
+           }
+    }     
+
+    return unless ($file);
+
+    open(my $fh, '<', $file) || return "Extract manfiest failed: $file -  $!";
+
+    while (<$fh>) {
+        if ( $_ eq "__DATA__\n" ) {
+            last;
+         }
+    }
+
+    my $found = '';
+    while (<$fh>) {
+       if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
+           $found = 'M1';
+           next;
+       } else {
+           if ( $_ eq "<<<< MANIFEST2 >>>>\n" ) { 
+               $found = 'M2';
+               next;
+           } else {
+               if ( $_ eq "<<<< DEPENDENCIES >>>>\n" ) { 
+                   $found = 'D';
+                   next;
+               }
+           }
+       }
+
+       if ($found eq 'M1' || $found eq 'M2' ) {
+          if ( $_ eq "\n") {
+             $found = '';
+             next;
+          }
+          chomp $_;
+          _parseManifest ( $_[0], $_, ($found eq 'M2') );
+          next;
+       }
+
+       if ($found eq 'D' ) {
+          if ( $_ eq "\n") {
+             $found = '';
+             next;
+          }
+          chomp $_;
+          _parseDependency ( $_[1], $_ );
+          next;
+       }
+    }
+    
+    close $fh;
+    return 0;
+}
+
+=begin TML
+
+---++ StaticMethod _parseManifest ( \%Manifest, $line, $v2)
+Parse the manifest line into the manifest hash.  If $v2 is
+true, use the version 2 format containing the MD5 sum of 
+the file.
+
+->{filename}->{ci}      Flag if file should be "checked in"
+->{filename}->{perms}   File permissions
+->{filename}->{MD5}     MD5 of file (if available)
+
+=cut
+
+sub _parseManifest {
+
+    my $file = '';
+    my $perms = '';
+    my $md5 = '';
+    my $desc = '';
+    
+    if ( $_[2] ) {
+        ( $file, $perms, $md5, $desc ) = split( ',', $_[1], 4 ) ; 
+    } else {
+        ( $file, $perms, $desc ) = split( ',', $_[1], 3 );
+    }
+
+    return unless ($file);
+
+    $_[0]->{$file}->{ci} = ( $desc =~ /\(noci\)/ ? 0 : 1 );
+    $_[0]->{$file}->{perms} = $perms;
+    $_[0]->{$file}->{md5} = $md5 if ($md5);
+
+}
+
+=begin TML
+
+---++ StaticMethod _parseManifest ( \%Manifest, $line, $v2)
+Parse the manifest line into the manifest hash.  If $v2 is
+true, use the version 2 format containing the MD5 sum of 
+the file.
+
+->{filename}->{ci}      Flag if file should be "checked in"
+->{filename}->{perms}   File permissions
+->{filename}->{MD5}     MD5 of file (if available)
+
+=cut
+
+sub _parseDependency {
+
+    my $warn = undef;
+    my ( $module, $condition, $trigger, $type, $desc ) =
+        split( ',', $_[1], 5 );
+
+    return unless ($module);
+   
+    if ( $type =~ m/cpan|perl/i ) {
+        $module  = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
+    }   
+
+    $_[0]->{$module}->{condition} = $condition;
+    $_[0]->{$module}->{trigger} = $trigger;
+    $_[0]->{$module}->{type} = $type ;
+    $_[0]->{$module}->{desc} = $desc ;
+    $_[0]->{$module}->{warning} = $warn ;
+
+}
+
+# This is used to ensure the perl module dependencies
+# provided by the module are real module names, and not some random garbage
+# which could be potentially insecure.
+sub _validatePerlModule {
+    my $module = shift;
+    # Remove all non alpha-numeric caracters and :
+    # Do not use \w as this is localized, and might be tainted
+    my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
+    #my $warn = 'validatePerlModule removed '
+    #  . $replacements
+    #  . ' characters, leading to '
+    #  . $module . "\n"
+    #  if $replacements;
+    #print "$module - $replacements - $warn \n";
+    return $module;
+}
+
 
 1;
 __DATA__

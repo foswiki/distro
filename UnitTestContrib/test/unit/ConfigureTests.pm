@@ -493,9 +493,9 @@ sub _doLocationTest {
     my $shbang = shift;
     my $expected = shift;
    
-    open (CFGFILE, ">$tempdir/configure$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
-    print CFGFILE "$shbang \n";
-    close (CFGFILE);
+    open (my $fh, ">$tempdir/configure$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh "$shbang \n";
+    close ($fh);
 
     my $perl = Foswiki::Configure::Util::getPerlLocation();
     $this->assert_str_equals( $expected, $perl );
@@ -528,13 +528,13 @@ sub _doRewriteTest {
     my $shbang = shift;
     my $expected = shift;
    
-    open (CFGFILE, ">$tempdir/myscript$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
-    print CFGFILE <<DONE;
+    open (my $fh, ">$tempdir/myscript$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh <<DONE;
 $testline
 #!blah
 bleh
 DONE
-    close (CFGFILE);
+    close ($fh);
 
     my $err = Foswiki::Configure::Util::rewriteShbang("$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", '$shbang');
 
@@ -544,6 +544,77 @@ DONE
     chomp $shBangLine;
 
     $this->assert_str_equals( $expected, $shBangLine );
+
+}
+
+sub test_extractPkgData {
+    my $this = shift;
+
+    #my @root = File::Spec->splitdir( $Foswiki::cfg{ScriptDir} );
+    #pop(@root);
+    #my $root = File::Spec->catfile( @root, 'x' );
+    #chop $root;
+    #
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_extractPkgData';
+    mkpath($tempdir); 
+
+    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh <<DONE;
+#!blah
+bleh
+__DATA__
+<<<< MANIFEST >>>>
+data/System/FamFamFamContrib.txt,0644,Documentation
+lib/Foswiki/Contrib/FamFamFamContrib.pm,0644,Perl module
+templates/view.famfamfam.tmpl,0444,
+data/System/FamFamFamFlagIcons.txt,0664,
+data/System/FamFamFamSilkCompanion1Icons.txt,0664,
+pub/System/FamFamFamGraphics/_filetypes.txt,0664,
+pub/System/FamFamFamContrib/silk-preview.jpg,0664,
+pub/System/FamFamFamContrib/SilkCompanion1Thumb.png,0664,
+pub/System/FamFamFamFlagIcons/ad.png,0664, (noci)
+pub/System/FamFamFamFlagIcons/ae.png,0664, (noci)
+
+<<<< MANIFEST2 >>>>
+data/System/FamFamFamContrib.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation
+lib/Foswiki/Contrib/FamFamFamContrib.pm,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Perl module
+templates/view.famfamfam.tmpl,0444,ede33d5e092a0cb2fa00d9146eed5f9a,
+
+<<<< DEPENDENCIES >>>>
+SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
+CGI::Blah,>=10.1,0,cpan,Test lower case cpan
+ImageMagick,,1,,
+
+DONE
+    close ($fh);
+
+    my %MANIFEST;
+    my %DEPENDENCIES;
+
+    my $extension = "MyPlugin";
+    my $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
+
+    $this->assert_str_equals( '1a9a1da563535b2dad241d8571acd170', $MANIFEST{'data/System/FamFamFamContrib.txt'}{md5} );
+    $this->assert_str_equals( '1', $MANIFEST{'data/System/FamFamFamContrib.txt'}{ci} );
+    $this->assert_str_equals( '0644', $MANIFEST{'data/System/FamFamFamContrib.txt'}{perms} );
+    $this->assert_str_equals( '0664', $MANIFEST{'pub/System/FamFamFamFlagIcons/ae.png'}{perms} );
+    $this->assert_str_equals( '0', $MANIFEST{'pub/System/FamFamFamFlagIcons/ae.png'}{ci} );
+
+    $this->assert_str_equals( '>=0.68', $DEPENDENCIES{'SOAP::Lite'}{condition} );
+    $this->assert_str_equals( 'CPAN', $DEPENDENCIES{'SOAP::Lite'}{type} );
+    $this->assert_str_equals( '1', $DEPENDENCIES{'SOAP::Lite'}{trigger} );
+    $this->assert_str_equals( 'Required. install from CPAN', $DEPENDENCIES{'SOAP::Lite'}{desc} );
+    $this->assert_str_equals( '', $DEPENDENCIES{'ImageMagick'}{desc} );
+    $this->assert_str_equals( '', $DEPENDENCIES{'ImageMagick'}{type} );
+
+    #for my $key ( keys %MANIFEST ) {
+    #    my $md5 = $MANIFEST{$key}{md5} || '';
+    #    print "FILE:  $key PERM: $MANIFEST{$key}{perms}  CI: $MANIFEST{$key}{ci}  MD5: $md5 \n";
+    #    }
+    
+    $extension = "NotHere";
+    $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
+    $this->assert_str_equals('ERROR - Extension NotHere package not found ',  $err );
 
 }
 1;
