@@ -319,6 +319,36 @@ sub installFiles {
 
 =begin TML
 
+---++ StaticMethod applyManifest($root, @names, \%MANIFEST )
+Check each installed file against the manifest.  Apply the
+mode to the file.  
+
+=cut
+
+sub applyManifest {
+    my $root = shift;
+    my $files = shift;
+
+    # foreach file in list, move it to the correct place
+    foreach my $file (@$files) {
+
+        # Find where it is meant to go
+        my $target = Foswiki::Configure::Util::mapTarget($root,$file);
+
+        if (-f $target) {
+
+            my $mode = $_[0]->{$file}->{perms};
+
+            if ($mode) {
+                $target = Foswiki::Sandbox::untaintUnchecked($target);
+                $mode = Foswiki::Sandbox::untaintUnchecked($mode);
+                chmod( oct($mode), $target);
+            }
+        }
+    }
+}
+=begin TML
+
 ---++ StaticMethod getPerlLocation( )
 This routine will read in the first line of the bin/configure 
 script and recover the location of the perl interpreter.
@@ -469,7 +499,7 @@ sub _parseManifest {
     my $perms = '';
     my $md5 = '';
     my $desc = '';
-    
+
     if ( $_[2] ) {
         ( $file, $perms, $md5, $desc ) = split( ',', $_[1], 4 ) ; 
     } else {
@@ -498,6 +528,8 @@ the file.
 =cut
 
 sub _parseDependency {
+
+    require Foswiki::Sandbox;
 
     my $warn = undef;
     my ( $module, $condition, $trigger, $type, $desc ) =
