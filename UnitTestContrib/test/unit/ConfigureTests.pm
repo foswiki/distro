@@ -550,11 +550,6 @@ DONE
 sub test_extractPkgData {
     my $this = shift;
 
-    #my @root = File::Spec->splitdir( $Foswiki::cfg{ScriptDir} );
-    #pop(@root);
-    #my $root = File::Spec->catfile( @root, 'x' );
-    #chop $root;
-    #
     my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_extractPkgData';
     mkpath($tempdir); 
 
@@ -616,5 +611,57 @@ DONE
     $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
     $this->assert_str_equals('ERROR - Extension NotHere package not found ',  $err );
 
+    rmtree($tempdir); 
+}
+
+sub test_applyManifest {
+    my $this = shift;
+
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_applyManifest';
+    rmtree($tempdir);  # Clean up old files if left behind 
+    mkpath($tempdir); 
+    
+    $Foswiki::cfg{DataDir} = "$tempdir/data";
+
+    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh <<DONE;
+#!blah
+bleh
+__DATA__
+<<<< MANIFEST >>>>
+data/test.txt,0606,Documentation
+lib/MyMod.pm,0444,Perl module
+
+DONE
+    close ($fh);
+
+    my %MANIFEST;
+    my %DEPENDENCIES;
+
+    my $extension = "MyPlugin";
+    my $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
+
+    $this->assert_str_equals( '0606', $MANIFEST{'data/test.txt'}{perms} );
+    $this->assert_str_equals( '0444', $MANIFEST{'lib/MyMod.pm'}{perms} );
+
+    my @files = ('data/test.txt','lib/MyMod.pm');
+
+    mkpath("$tempdir/data"); 
+    mkpath("$tempdir/lib"); 
+    open ( FILE, ">$tempdir/data/test.txt");
+    print FILE "asdfasdf \n";
+    close FILE;
+
+    open ( FILE, ">$tempdir/lib/MyMod.pm");
+    print FILE "asdfasdf \n";
+    close FILE;
+
+    Foswiki::Configure::Util::applyManifest( $tempdir, \@files, \%MANIFEST );
+
+    $this->assert_num_equals( 0444, (stat("$tempdir/lib/MyMod.pm"))[2] & 07777 );
+    $this->assert_num_equals( 0606, (stat("$tempdir/data/test.txt"))[2] & 07777 );
+
+
+    rmtree($tempdir); 
 }
 1;
