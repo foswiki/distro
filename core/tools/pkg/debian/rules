@@ -89,6 +89,9 @@ install: build
 
 
 	cp debian/apache.conf debian/foswiki-configure-apache2-basic/etc/foswiki/
+	ln -s /etc/foswiki/apache.conf debian/foswiki-configure-apache2-basic/etc/apache2/sites-available/foswiki.conf
+	ln -s ../sites-available/foswiki.conf debian/foswiki-configure-apache2-basic/etc/apache2/sites-enabled/foswiki.conf
+
 	for dir in var/log/foswiki var/lib/foswiki/working var/lib/foswiki/working/work_areas ; \
 	  do chown www-data:www-data debian/foswiki-configure-apache2-basic/$$dir ; done
 
