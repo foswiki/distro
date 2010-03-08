@@ -29,17 +29,6 @@ set -e
 #     `abort-remove' or `abort-deconfigure'.
 
 
-db_get foswiki/samplefiles
-samplefiles="$RET"
-if [ "$RET" = true ]; then
-	
-	# clean up the .mailnotify timestamps.
-	webs="Main Sandbox System Trash _default";
-	for web in $webs; do
-	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
-	done
-fi
-
 db_get foswiki/defaultUrlHost
 defaulturlhost="$RET"
 
