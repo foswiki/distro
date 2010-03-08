@@ -12,6 +12,7 @@ foswiki-core-edittableplugin
 foswiki-core-emptyplugin
 foswiki-core-historyplugin
 foswiki-core-interwikiplugin
+foswiki-core-jqueryplugin
 foswiki-core-preferencesplugin
 foswiki-core-renderlistplugin
 foswiki-core-slideshowplugin
