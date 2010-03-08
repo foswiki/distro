@@ -88,8 +88,10 @@ install: build
 	mv debian/foswiki-core/var/lib/foswiki/lib/CPAN debian/libfoswiki-cpan-perl/var/lib/foswiki/lib/
 
 
-#	cp -p debian/apache.conf debian/foswiki/etc/foswiki/
-#	cp -p debian/ShorterUrl.conf debian/foswiki/etc/foswiki/
+	cp debian/apache.conf debian/foswiki-configure-apache2-basic/etc/foswiki/
+	for dir in var/log/foswiki var/lib/foswiki/working var/lib/foswiki/working/work_areas ; \
+	  do chown www-data:www-data debian/foswiki-configure-apache2-basic/$$dir ; done
+
 #move LocalSite.cfg to /etc/foswiki
 #	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 #	chmod -R 644 debian/foswiki/etc/foswiki/*

@@ -44,7 +44,7 @@ Package: foswiki-configure-apache2-basic
 Provides: foswiki-configuration
 Conflicts: foswiki-configuration
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}, foswiki-cgi
+Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
 Description: Foswiki Apache2 site configuration
  This is a simple Apache2 site configuration for testing and evaluation.
  You need to either manually configure Foswiki or choose on of the
