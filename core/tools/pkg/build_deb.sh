@@ -7,6 +7,6 @@ fi
 
 mkdir /tmp/build_deb
 
-version=`(svn info || git svn info) | awk '/Last Changed Rev:/ { print $4; }'`
+version=`(svn info || git svn info) | awk '/^Revision:/ { print $2; }'`
 
 ./autobuild-deb.sh `cd ../../.. ; pwd` /tmp/build_deb $version "-sa -us -uc"
