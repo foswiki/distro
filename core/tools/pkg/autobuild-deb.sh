@@ -104,6 +104,7 @@ for plugin in `awk -F '[ /]' '/Plugin/ { print $3; }' ../../lib/MANIFEST`
 do
   dc=`echo $plugin | tr [A-Z] [a-z]`
   pkg="foswiki-core-$dc"
+  allpkgs="$allpkgs, $pkg"
   ./manifest_to_debian_install var/lib/foswiki/ \
     <../../../$plugin/lib/Foswiki/Plugins/${plugin}/MANIFEST \
     >${tmpdir}/Foswiki-${tarversion}/debian/${pkg}.install
@@ -124,6 +125,7 @@ for contrib in `awk -F '[ /]' '/Contrib/ { print $3; }' ../../lib/MANIFEST | egr
 do
   dc=`echo $contrib | tr [A-Z] [a-z]`
   pkg="foswiki-core-$dc"
+  allpkgs="$allpkgs, $pkg"
   ./manifest_to_debian_install var/lib/foswiki/ \
     <../../../$contrib/lib/Foswiki/Contrib/$contrib/MANIFEST \
     >${tmpdir}/Foswiki-${tarversion}/debian/${pkg}.install
@@ -140,6 +142,17 @@ Description: $contrib for Foswiki
  It may be replaced with newer versions packaged separately.
 EOF
 done
+
+  cat >>${tmpdir}/Foswiki-${tarversion}/debian/control <<EOF
+
+Package: foswiki
+Architecture: all
+Depends: foswiki-core, $allpkgs
+Description: Foswiki meta package
+ This package pulls in the complete Foswiki core, a configuration method,
+ and the standard web data.  It may be used to transition from the monolithic
+ Foswiki 1.0.X packages.
+EOF
 
 cd ${tmpdir}/Foswiki-${tarversion}
 #clean out svn dirs, ignore failures
