@@ -379,6 +379,8 @@ sub rewriteShbang {
     my $file = shift;
     my $newShbang = shift;
 
+    return unless (-f $file );
+
     my $savesep = $/;
     $/ = undef;
     open(my $fh, '<', $file) || return "Rewrite shbang failed:  $!";
@@ -388,10 +390,13 @@ sub rewriteShbang {
     # Note: space inserted after #! - needed on some flavors of Unix
     if( $contents =~ s/^#!\s*\S+/#! $newShbang/s ) {
         my $mode = (stat($file))[2];
+        require Foswiki::Sandbox;
+        $file = Foswiki::Sandbox::untaintUnchecked($file);
         chmod( oct(600), "$file");
         open(my $fh, '>', $file) || return "Rewrite shbang failed:  $!";
         print $fh  $contents;
         close $fh;
+        $mode = Foswiki::Sandbox::untaintUnchecked($mode);
         chmod( $mode, "$file");
     } 
     $/ = $savesep;

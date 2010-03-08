@@ -143,6 +143,11 @@ MESS
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
                 $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
             }
+            # Rewrite the shbang line of bin scripts.
+            if ( $file =~ /^bin\/[^\/]+$/ ) {
+                my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
+                Foswiki::Configure::Util::rewriteShbang("$dir/$file", "$perlLoc") if $perlLoc;
+            }
         }
         $feedback .= "<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
         unless ($installScript) {
@@ -158,6 +163,14 @@ MESS
         _printFeedback($feedback);
         return 0;
     }
+
+    my %MANIFEST;
+    my %DEPENDENCIES;
+
+    $err = Foswiki::Configure::Util::extractPkgData($this->{root}, $extension, \%MANIFEST, \%DEPENDENCIES );
+
+    # Apply the MANIFEST permissions to the files
+    Foswiki::Configure::Util::applyManifest( $this->{root}, \@names, \%MANIFEST) unless $err;
     
     if ( $installScript && -e $installScript ) {
         
