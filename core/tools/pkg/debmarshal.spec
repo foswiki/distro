@@ -1,3 +1,4 @@
+foswiki
 foswiki-core
 foswiki-configure-cgi
 foswiki-configure-apache2-basic
