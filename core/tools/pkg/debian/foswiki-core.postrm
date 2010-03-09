@@ -17,8 +17,7 @@ set -e
 # for details, see /usr/share/doc/packaging-manual/
 
 if [ "$1" = "purge" ]; then
-	rm -rf /var/log/foswiki /var/lib/foswiki/working /var/lib/foswiki/log
-	rmdir /var/lib/foswiki/data /var/lib/foswiki/pub || echo "Data left behind in /var/lib/foswiki"
+	rm -rf /var/log/foswiki /var/lib/foswiki/working
 fi
 
 # dh_installdeb will replace this with shell code automatically

@@ -3,3 +3,6 @@ var/log/foswiki
 etc/foswiki
 usr/share/doc/foswiki
 usr/share/foswiki
+var/lib/foswiki/data
+var/lib/foswiki/pub
+var/lib/foswiki/working

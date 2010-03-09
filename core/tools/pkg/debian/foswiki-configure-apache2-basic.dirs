@@ -1,6 +1,3 @@
-var/lib/foswiki/working
-var/lib/foswiki/working/work_areas
-var/log/foswiki
 etc/foswiki
 etc/apache2/sites-available
 etc/apache2/sites-enabled

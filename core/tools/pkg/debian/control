@@ -31,7 +31,7 @@ Package: foswiki-configure-cgi
 Provides: foswiki-configuration
 Conflicts: foswiki-configuration
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}
+Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
 Description: Foswiki configure CGI
  The default upstream Foswiki uses a configure CGI to rewrite Apache and
  Foswiki configuration files.  This is dangerous and not recommended for
@@ -52,6 +52,7 @@ Description: Foswiki Apache2 site configuration
 
 Package: foswiki-system-web-data
 Architecture: all
+Depends: foswiki-core
 Description: Foswiki System web
  This package directly supplies to Foswiki System web as root-owned files
  that cannot be editted through Foswiki.  This is the recommended way to
@@ -60,6 +61,7 @@ Description: Foswiki System web
 
 Package: foswiki-default-web-data
 Architecture: all
+Depends: foswiki-core
 Description: Foswiki System web
  This package directly supplies to Foswiki _default web used as a source
  when creating new unpopulated webs.  It is reasonable to uninstall this
@@ -67,13 +69,14 @@ Description: Foswiki System web
 
 Package: foswiki-empty-web-data
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}
+Depends: foswiki-core
 Description: Foswiki _empty web
  This package directly supplies to Foswiki _empty web used as a source
  when creating new unpopulated webs.
 
 Package: foswiki-example-data
 Architecture: all
+Depends: foswiki-core
 Description: Foswiki example core webs
  This contains the standard Foswiki seed tarball for creating new foswiki
  installations.  Once your Foswiki is installed and set up, you no longer
