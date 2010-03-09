@@ -87,9 +87,9 @@ install: build
 	mkdir -p debian/libfoswiki-cpan-perl/var/lib/foswiki/lib
 	mv debian/foswiki-core/var/lib/foswiki/lib/CPAN debian/libfoswiki-cpan-perl/var/lib/foswiki/lib/
 
-	cp debian/apache.conf debian/foswiki-configure-apache2-basic/etc/foswiki/
-	ln -s /etc/foswiki/apache.conf debian/foswiki-configure-apache2-basic/etc/apache2/sites-available/foswiki.conf
-	ln -s ../sites-available/foswiki.conf debian/foswiki-configure-apache2-basic/etc/apache2/sites-enabled/foswiki.conf
+	cp debian/apache.conf debian/foswiki-apache2/etc/foswiki/
+	ln -s /etc/foswiki/apache.conf debian/foswiki-apache2/etc/apache2/sites-available/foswiki.conf
+	ln -s ../sites-available/foswiki.conf debian/foswiki-apache2/etc/apache2/sites-enabled/foswiki.conf
 
 	chown -R www-data:adm debian/*/var/lib/foswiki/working
 	chmod -R 750 debian/*/var/lib/foswiki/working

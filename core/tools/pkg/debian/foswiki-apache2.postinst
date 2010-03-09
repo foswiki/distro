@@ -29,25 +29,6 @@ set -e
 #     `abort-remove' or `abort-deconfigure'.
 
 
-db_get foswiki/defaultUrlHost
-defaulturlhost="$RET"
-
-db_get foswiki/wikiwebmaster
-wikiwebmaster="$RET"
-
-# user + password authorized to run configure script
-db_get foswiki/adminuser
-adminuser="$RET"
-
-db_get foswiki/adminpassword
-adminpassword="$RET"
-
-# prevent further confusion: done with debconfig
-
-# regrettably, this doesn't actually permit us to do further I/O.
-# Rewrite this in perl, if we ever find a non-kerberos example of how
-# to do so.
-
 case "$1" in
     configure)
 
@@ -78,40 +59,6 @@ case "$1" in
 			ln -s /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/cgi.load
 		fi
 	fi
-
-	# create initial htpasswd, if needed
-	if [ -e /var/lib/foswiki/data ]; then
-		#for now prefer apache 1 config, I don't know how to detect which one is prefered
-		if [ -e /usr/bin/htpasswd2 ]; then
-			HTPASSWDCMD="/usr/bin/htpasswd2";
-		fi
-		if [ -e /usr/bin/htpasswd ]; then
-			HTPASSWDCMD="/usr/bin/htpasswd";
-		fi
-		if [ -e $HTPASSWDCMD ]; then
-			#if the user has installed without initial universe then we can't do this
-			if [ ! -e /var/lib/foswiki/data/.htpasswd ]; then
-			    touch /var/lib/foswiki/data/.htpasswd
-			    chmod 660 /var/lib/foswiki/data/.htpasswd
-			fi
-		       	$HTPASSWDCMD -b /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
-			chown $WIKI_OWNER.www-data /var/lib/foswiki/data/.htpasswd
-			#add the same password into the LocalLib.cfg
-			passwordhash=`grep "$configuser" /var/lib/foswiki/data/.htpasswd | sed "s/$configuser://"`
-			perl -pi~ -e '$U=q{'"$passwordhash"'}; s{PASSWORD}{$U}g;' /etc/foswiki/LocalSite.cfg
-		fi
-	fi
-
-
-	#mmmm, mailnotify etc may be running _not_ as www-data
-	#and for some reason create a session
-	#use 1777 to prevent third parties replacing the file with a doctored one
-
-	if [ ! -e /var/lib/foswiki/log ]; then
-		ln -s /var/log/foswiki /var/lib/foswiki/log
-	fi
-
-	db_stop
 
 
 	# reload apache configs
