@@ -261,50 +261,65 @@ sub _uninstall {
         _printFeedback($feedback);
         return;
     }
+
+    my %MANIFEST;
+    my %DEPENDENCIES;
+
+    my $err = Foswiki::Configure::Util::extractPkgData($this->{root}, $extension, \%MANIFEST, \%DEPENDENCIES );
+
+    # Apply the MANIFEST permissions to the files
+    my @removed = Foswiki::Configure::Util::removeManifestFiles( $this->{root}, \%MANIFEST) unless $err;
+   
+    my $unpackedFeedback = '';
+    foreach my $file (@removed) {
+            $unpackedFeedback .= "$file\n";
+            }
+    $feedback .= "<b>Removing files:</b> <br />\n<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
+
   
     # invoke the installer script.
     # SMELL: Not sure yet how to handle
     # interaction if the script ignores -a. At the moment it
     # will just hang :-(
-    chdir( $this->{root} );
-    unshift( @ARGV, '-a' );    # don't prompt
-    unshift( @ARGV, '-uninstall' );
-    eval {
-        no warnings 'redefine';
-        print '<!--';
-        do $installScript;
-        print '-->';
-        use warnings 'redefine';
-    };
-    if ($@) {
-        $feedback .= $this->ERROR( $@ );
-        _printFeedback($feedback);
-        return;
-    }
-    if ($@) {
-        $feedback .= $this->ERROR(<<HERE);
-Uninstall returned errors:
-<pre>$@</pre>
-You may be able to resolve these errors and complete the installation
-from the command line, so I will leave the installed files where they are.
-HERE
-    }
-    else {
-        # OK
-        $feedback .= $this->NOTE("Installer ran without errors");
-    }
-    chdir( $this->{bin} );
-    
-    if ( $this->{warnings} ) {
-        $feedback .= $this->NOTE( "Installation finished with $this->{errors} error"
-                             . ( $this->{errors} == 1 ? '' : 's' )
-                               . " and $this->{warnings} warning"
-                                 . ( $this->{warnings} == 1 ? '' : 's' ) );
-    }
-    else {
-        # OK
-        $feedback .= $this->NOTE_OK( 'Uninstallation finished' );
-    }
+    #chdir( $this->{root} );
+    #unshift( @ARGV, '-a' );    # don't prompt
+    #unshift( @ARGV, '-uninstall' );
+    #eval {
+    #    no warnings 'redefine';
+    #    print '<!--';
+    #    do $installScript;
+    #    print '-->';
+    #    use warnings 'redefine';
+    #};
+    #if ($@) {
+    #    $feedback .= $this->ERROR( $@ );
+    #    _printFeedback($feedback);
+    #    return;
+    #}
+    #if ($@) {
+    #    $feedback .= $this->ERROR(<<HERE);
+#Uninstall returned errors:
+#<pre>$@</pre>
+#You may be able to resolve these errors and complete the installation
+#from the command line, so I will leave the installed files where they are.
+#HERE
+    #}
+    #else {
+    #    # OK
+    #    $feedback .= $this->NOTE("Installer ran without errors");
+    #}
+    #chdir( $this->{bin} );
+    #
+    #if ( $this->{warnings} ) {
+    #    $feedback .= $this->NOTE( "Installation finished with $this->{errors} error"
+    #                         . ( $this->{errors} == 1 ? '' : 's' )
+    #                           . " and $this->{warnings} warning"
+    #                             . ( $this->{warnings} == 1 ? '' : 's' ) );
+    #}
+    #else {
+    #    # OK
+    $feedback .= $this->NOTE_OK( 'Uninstallation finished' );
+    #}
 
     if ( $extension =~ /Plugin$/ ) {
         $feedback .= $this->NOTE(<<HERE);

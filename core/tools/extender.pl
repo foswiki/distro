@@ -619,7 +619,12 @@ sub _emplace {
     my $file;
     foreach $file ( keys %$MANIFEST ) {
         my $source = "$source/$file";
-        my $target = Foswiki::Configure::Util::mapTarget($installationRoot,$file);
+        if ( $file =~ /^bin\/[^\/]+$/ ) {
+                my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
+                Foswiki::Configure::Util::rewriteShbang("$source", "$perlLoc") if $perlLoc;
+            }
+
+        my $target = Foswiki::Configure::Util::mapTarget("$installationRoot/",$file);
         _inform "Install $target, permissions $MANIFEST->{$file}->{perms}";
         unless ($inactive) {
             if ( -e $target && ! -d _ ) {
