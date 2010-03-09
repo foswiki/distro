@@ -52,6 +52,8 @@ Settings at higher-numbered levels override settings of the same macro at lower 
 
 If you are setting a preference and using it in the same topic, note that Foswiki reads all the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] from the saved version of the topic before it displays anything.  This means you can use a macro anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
 
+Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results. 
+
 The syntax for setting macros is the same anywhere: <br /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
 <blockquote>
 *Examples:*

@@ -112,6 +112,8 @@ Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the 
       * ==Set <nop>DENYTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
 
+%X% *Caution!* Settings are always taken from the latest (current) revision of a topic.  If older revisions of a topic had more restrictive access controls, they will not be used when accessing the older revision. 
+
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the WebLeftBar - may also be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
 *Be careful* with empty values for any of these.
@@ -160,6 +162,8 @@ Note that you do *not* require =ROOTCHANGE= access to rename an existing top-lev
 
 When deciding whether to grant access, Foswiki evaluates the following rules in order (read from the top of the list; if the logic arrives at *PERMITTED* or *DENIED* that applies immediately and no more rules are applied). You need to read the rules bearing in mind that VIEW, CHANGE and RENAME access may be granted/denied separately.
 
+%X% Settings are only read from the most current (latest) revision of a topic.  Settings from older revisions are never used, even when viewing an older revision with the =rdiff= script 
+
    1 If the user is an [[#SuperAdminGroup][administrator]]
       * access is *PERMITTED*.
    1 If DENYTOPIC is set to a list of wikinames
@@ -190,8 +194,10 @@ Examples: Topic A includes topic B
 
 ---+++ Obfuscating webs
 
-Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by enabling the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%:
+Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by setting the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%:
    * ==Set <nop>NOSEARCHALL = on==
+
+%T%  Setting <nop>NOSEARCHALL to __any__ value other than the empty string will hide a web.  Setting ==<nop>NOSEARCHALL = off== will have the same effect as setting it to ==on== 
 
 This setup can be useful to hide a new web until content its ready for deployment, or to hide view access restricted webs.
 
