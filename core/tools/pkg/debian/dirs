@@ -4,5 +4,8 @@ etc/foswiki
 usr/share/doc/foswiki
 usr/share/foswiki
 var/lib/foswiki/data
+var/lib/foswiki/data/Main
+var/lib/foswiki/data/Trash
+var/lib/foswiki/data/Sandbox
 var/lib/foswiki/pub
 var/lib/foswiki/working

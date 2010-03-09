@@ -91,11 +91,13 @@ install: build
 	ln -s /etc/foswiki/apache.conf debian/foswiki-apache2/etc/apache2/sites-available/foswiki.conf
 	ln -s ../sites-available/foswiki.conf debian/foswiki-apache2/etc/apache2/sites-enabled/foswiki.conf
 
-	chown -R www-data:adm debian/*/var/lib/foswiki/working
-	chmod -R 750 debian/*/var/lib/foswiki/working
-	for d in var/lib/foswiki/data var/lib/foswiki/pub var/log/foswiki ; do \
-		chown www-data:adm debian/*/$$d ; \
-		chmod 750 debian/*/$$d ; \
+	chown -R www-data:www-data debian/*/var/lib/foswiki/working
+	chmod -R 1770 debian/*/var/lib/foswiki/working
+	for d in var/lib/foswiki/data var/lib/foswiki/data/Main	\
+	    var/lib/foswiki/data/Trash var/lib/foswiki/data/Sandbox \
+	    var/lib/foswiki/pub var/log/foswiki; do \
+		chown www-data:www-data debian/*/$$d ; \
+		chmod 3770 debian/*/$$d ; \
 	done
 
 # Build architecture-independent files here.
