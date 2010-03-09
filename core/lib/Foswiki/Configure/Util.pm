@@ -329,7 +329,7 @@ sub applyManifest {
     my $root = shift;
     my $files = shift;
 
-    # foreach file in list, move it to the correct place
+    # foreach file in list, apply the permissions per the manifest
     foreach my $file (@$files) {
 
         # Find where it is meant to go
@@ -347,6 +347,34 @@ sub applyManifest {
         }
     }
 }
+
+=begin TML
+
+---++ StaticMethod removeManifestFiles($root, \%MANIFEST )
+Check each installed file against the manifest.  Apply the
+mode to the file.  
+
+=cut
+
+sub removeManifestFiles {
+    my $root = shift;
+    my $manifest = shift;
+    my @removed;
+
+    # foreach file in the manifest, remove the file. 
+    foreach my $key ( keys( %$manifest ) ) {
+
+        # Find where it is meant to go
+        my $target = Foswiki::Configure::Util::mapTarget($root,$key);
+
+        if (-f $target) {
+            chmod( '0600', $target);
+            unlink "$target";
+            push (@removed, "$target");
+            }
+        }
+    return @removed;
+    }
 =begin TML
 
 ---++ StaticMethod getPerlLocation( )
@@ -521,14 +549,8 @@ sub _parseManifest {
 
 =begin TML
 
----++ StaticMethod _parseManifest ( \%Manifest, $line, $v2)
-Parse the manifest line into the manifest hash.  If $v2 is
-true, use the version 2 format containing the MD5 sum of 
-the file.
-
-->{filename}->{ci}      Flag if file should be "checked in"
-->{filename}->{perms}   File permissions
-->{filename}->{MD5}     MD5 of file (if available)
+---++ StaticMethod _parseDependency ( \%DEPENDENCY, $line)
+Parse the manifest line into the manifest hash.  
 
 =cut
 

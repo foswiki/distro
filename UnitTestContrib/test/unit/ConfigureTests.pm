@@ -664,4 +664,56 @@ DONE
 
     rmtree($tempdir); 
 }
+
+sub test_removeManifestFiles {
+    my $this = shift;
+
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_removeManifestFiles';
+    rmtree($tempdir);  # Clean up old files if left behind 
+    mkpath($tempdir); 
+    
+    $Foswiki::cfg{DataDir} = "$tempdir/data";
+
+    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh <<DONE;
+#!blah
+bleh
+__DATA__
+<<<< MANIFEST >>>>
+data/test.txt,0606,Documentation
+lib/MyMod.pm,0444,Perl module
+
+DONE
+    close ($fh);
+
+    my %MANIFEST;
+    my %DEPENDENCIES;
+
+    my $extension = "MyPlugin";
+    my $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
+
+    my @files = ('data/test.txt','lib/MyMod.pm');
+
+    mkpath("$tempdir/data"); 
+    mkpath("$tempdir/lib"); 
+    open ( FILE, ">$tempdir/data/test.txt");
+    print FILE "asdfasdf \n";
+    close FILE;
+
+    open ( FILE, ">$tempdir/lib/MyMod.pm");
+    print FILE "asdfasdf \n";
+    close FILE;
+    chmod ('0400', "$tempdir/lib/MyMod.pm");
+
+    my @removed = Foswiki::Configure::Util::removeManifestFiles( $tempdir, \%MANIFEST );
+
+    my $cnt = @removed;
+
+    $this->assert_num_equals( 2, $cnt);
+
+    $this->assert( !-e "$tempdir/data/test.txt");
+    $this->assert( !-e "$tempdir/lib/MyMod.pm");
+
+    rmtree($tempdir); 
+}
 1;
