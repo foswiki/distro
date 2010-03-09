@@ -28,27 +28,28 @@ Description: A Web Based Collaboration Platform
 # and made available in this package.
 
 Package: foswiki-configure-cgi
-Provides: foswiki-configuration
-Conflicts: foswiki-configuration
 Architecture: all
 Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
 Description: Foswiki configure CGI
  The default upstream Foswiki uses a configure CGI to rewrite Apache and
  Foswiki configuration files.  This is dangerous and not recommended for
  .deb-based installs, but some extensions require this method of
- configuration.  The configure CGI is provided in this package, and changes
- permissions of several configuration files to www-data so they can be
- modified.  Don't install it unless you know you want or need it.
+ configuration.  The configure CGI is provided in this package, but
+ does not change permissions of several configuration files and content
+ to www-data.  That must be done by hand at present to make configure CGI
+ management work.  Don't install it unless you know you want or need it.
 
-Package: foswiki-configure-apache2-basic
+Package: foswiki-apache2
 Provides: foswiki-configuration
 Conflicts: foswiki-configuration
 Architecture: all
 Depends: ${perl:Depends}, ${misc:Depends}, foswiki-core
 Description: Foswiki Apache2 site configuration
  This is a simple Apache2 site configuration for testing and evaluation.
- You need to either manually configure Foswiki or choose on of the
- foswiki-configuration-* packages.
+ By default it uses local .htaccess files for accounts, and may only
+ be accessed from localhost.  The files it provides may be copied
+ and modified for more open use, or another foswiki-configuration-*
+ package may be installed instead.
 
 Package: foswiki-system-web-data
 Architecture: all

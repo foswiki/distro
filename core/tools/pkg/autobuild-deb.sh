@@ -147,7 +147,7 @@ done
 
 Package: foswiki
 Architecture: all
-Depends: foswiki-core, $allpkgs
+Depends: foswiki-core, foswiki-configuration, $allpkgs
 Description: Foswiki meta package
  This package pulls in the complete Foswiki core, a configuration method,
  and the standard web data.  It may be used to transition from the monolithic
