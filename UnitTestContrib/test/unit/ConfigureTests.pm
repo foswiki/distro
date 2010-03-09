@@ -407,9 +407,7 @@ sub test_Util_listDir {
     mkpath($tempdir."/asdf");
     mkpath($tempdir."/asdf/qwerty");
 
-    open ( FILE, ">$tempdir/asdf/qwerty/test.txt");
-    print FILE "asdfasdf \n";
-    close FILE;
+    _makefile ( "$tempdir/asdf/qwerty", "test.txt", "asdfasdf \n");
 
     my @dir = Foswiki::Configure::Util::listDir("$tempdir");
 
@@ -421,9 +419,7 @@ sub test_Util_listDir {
     $this->assert_str_equals( "asdf/", pop @dir, "Wrong directory returned");
 
 
-    open ( FILE2, ">$tempdir" . '/asdf/qwerty/f~#asdf');
-    print FILE2 "asdfasdf \n";
-    close FILE2;
+    _makefile ( "$tempdir", "/asdf/qwerty/f~#asdf", "asdfasdf \n");
 
     my $stdout = '';
     my $stderr = '';
@@ -646,15 +642,9 @@ DONE
 
     my @files = ('data/test.txt','lib/MyMod.pm');
 
-    mkpath("$tempdir/data"); 
-    mkpath("$tempdir/lib"); 
-    open ( FILE, ">$tempdir/data/test.txt");
-    print FILE "asdfasdf \n";
-    close FILE;
 
-    open ( FILE, ">$tempdir/lib/MyMod.pm");
-    print FILE "asdfasdf \n";
-    close FILE;
+    _makefile ( "$tempdir/lib", "MyMod.pm", "asdfasdf\n");
+    _makefile ( "$tempdir/data", "test.txt");
 
     Foswiki::Configure::Util::applyManifest( $tempdir, \@files, \%MANIFEST );
 
@@ -663,6 +653,19 @@ DONE
 
 
     rmtree($tempdir); 
+}
+
+sub _makefile {
+    my $path = shift;
+    my $file = shift;
+    my $content = shift;
+
+    $content = "datadata/n" unless ($content);
+
+    mkpath("$path");
+    open ( my $fh, '>', "$path/$file");
+    print $fh "$content \n";
+    close ($fh);
 }
 
 sub test_removeManifestFiles {
@@ -694,24 +697,20 @@ DONE
 
     my @files = ('data/test.txt','lib/MyMod.pm');
 
-    mkpath("$tempdir/data"); 
-    mkpath("$tempdir/lib"); 
-    open ( FILE, ">$tempdir/data/test.txt");
-    print FILE "asdfasdf \n";
-    close FILE;
-
-    open ( FILE, ">$tempdir/lib/MyMod.pm");
-    print FILE "asdfasdf \n";
-    close FILE;
-    chmod ('0400', "$tempdir/lib/MyMod.pm");
+    _makefile ( "$tempdir/lib", "MyMod.pm", "asdfasdf\n");
+    chmod ('0400', "$tempdir/lib/MyMod.pm");  #write protect 
+    _makefile ( "$tempdir/data", "test.txt", "asdfasdf\n");
+    _makefile ( "$tempdir/data", "test.txt,v", "asdfasdf\n");
+    chmod ('0400', "$tempdir/data/test.txt,v");  #write protect 
 
     my @removed = Foswiki::Configure::Util::removeManifestFiles( $tempdir, \%MANIFEST );
 
     my $cnt = @removed;
 
-    $this->assert_num_equals( 2, $cnt);
+    $this->assert_num_equals( 3, $cnt);
 
     $this->assert( !-e "$tempdir/data/test.txt");
+    $this->assert( !-e "$tempdir/data/test.txt,v");
     $this->assert( !-e "$tempdir/lib/MyMod.pm");
 
     rmtree($tempdir); 

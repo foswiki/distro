@@ -351,8 +351,9 @@ sub applyManifest {
 =begin TML
 
 ---++ StaticMethod removeManifestFiles($root, \%MANIFEST )
-Check each installed file against the manifest.  Apply the
-mode to the file.  
+Remove each file identified by the manifest.  Also remove
+any rcs "...,v" files if they exist.   Note that directories
+are NOT removed.
 
 =cut
 
@@ -372,6 +373,11 @@ sub removeManifestFiles {
             unlink "$target";
             push (@removed, "$target");
             }
+        if (-f "$target,v") {
+            chmod( '0600', "$target,v");
+            unlink "$target,v";
+            push (@removed, "$target,v");
+            }
         }
     return @removed;
     }
@@ -385,6 +391,7 @@ script and recover the location of the perl interpreter.
 
 sub getPerlLocation {
 
+    local $/ = "\n"; 
     open (my $fh, '<', "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}") 
         || return '' ;
     my $shBang  = <$fh>;
@@ -409,8 +416,7 @@ sub rewriteShbang {
 
     return unless (-f $file );
 
-    my $savesep = $/;
-    $/ = undef;
+    local $/ = undef;
     open(my $fh, '<', $file) || return "Rewrite shbang failed:  $!";
     my $contents = <$fh>;
     close $fh;
@@ -427,7 +433,6 @@ sub rewriteShbang {
         $mode = Foswiki::Sandbox::untaintUnchecked($mode);
         chmod( $mode, "$file");
     } 
-    $/ = $savesep;
 }
 
 =begin TML
