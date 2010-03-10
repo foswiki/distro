@@ -656,12 +656,13 @@ sub _emplace {
             chmod( oct( $MANIFEST->{$file}->{perms} ), $target )
               || _warn "Cannot set permissions on $target: $!";
         }
+
         if ( $MANIFEST->{$file}->{ci} ) {
-            if ( $target =~ /^data\/(\w+)\/(\w+).txt$/ ) {
-                push( @ci_topic, $target );
+            if ( $file =~ /^data\/(\w+)\/(\w+).txt$/ ) {
+                push( @ci_topic, $file );
             }
-            elsif ( $target =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
-                push( @ci_attachment, $target );
+            elsif ( $file =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
+                push( @ci_attachment, $file );
             }
         }
     }
