@@ -1,7 +1,7 @@
 foswiki
 foswiki-core
 foswiki-configure-cgi
-foswiki-configure-apache2-basic
+foswiki-apache2
 foswiki-system-web-data
 foswiki-default-web-data
 foswiki-empty-web-data
