@@ -5,8 +5,8 @@ Abstract: This manual describes the Foswiki web-based collaboration system.
 Section: Web Development
 
 Format: HTML
-Index: /usr/share/doc/foswiki/index.html
-Files: /usr/share/doc/foswiki/*.html
+Index: /usr/share/doc/foswiki-core/index.html
+Files: /usr/share/doc/foswiki-core/*.html
 
 Format: Text
-Files: /usr/share/doc/foswiki/readme.txt
+Files: /usr/share/doc/foswiki-core/readme.txt
