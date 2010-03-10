@@ -1,7 +1,0 @@
-Bugs specific to the debian packaging [pre-upload]:
-
-1. This 4.2.x version still has not had all the updates that were applied to the 4.1.2 version in debian experimental.
-2. Once that is merged, the admin user&password setting will also set the configure saving password.
-3. Now that the System web _should_ be able to be read only, it, and the other non-changeable web data should become a
-   foswiki-topics debian package - or a part of the foswiki package - so that the topics get auto upgraded too.
-4. replace the configure plugin installer (from f.o) with advice to use the fosiki foswiki-debian repository
