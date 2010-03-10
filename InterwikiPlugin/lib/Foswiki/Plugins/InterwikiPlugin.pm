@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2009-2010 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,15 +42,15 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '20 Sep 2009';
+our $RELEASE           = '10 Mar 2010';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link ExternalSite:Page text to external sites based on aliases defined in a rules topic';
 
-our $interLinkFormat;
-our $sitePattern;
-our $pagePattern;
-our %interSiteTable;
+my $interLinkFormat;
+my $sitePattern;
+my $pagePattern;
+my %interSiteTable;
 
 BEGIN {
 
