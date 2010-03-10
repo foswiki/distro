@@ -250,15 +250,26 @@ sub searchWeb {
       1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
 
 #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
+#TODO: or... I may wrap an AggregateIterator in a PagingIterator which then is evaluated by a Formattingiterator.
     my $pagesize =
          $params{pagesize}
       || $Foswiki::cfg{Search}{DefaultPageSize}
       || 25;
-    my $showpage = $params{showpage}
-      || undef;    # 1-based system; 0 is not a valid page number
-    if ( defined($showpage) ) {
+      
+    require Digest::MD5;
+    my $string_id = $params{_RAW} || 'we had better not go there';
+    my $paging_ID = 'SEARCH'.Digest::MD5::md5_hex($string_id);
+    $params{pager_urlparam_id} = $paging_ID;
+    
+    # 1-based system; 0 is not a valid page number
+    my $showpage = $session->{request}->param($paging_ID) || $params{showpage} || 1;
+    
+    if (defined($params{pagesize}) or defined($showpage) ) {
         $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
         $params{pager_show_results_to} = $pagesize;
+        if (!defined($showpage)) {
+            $showpage = 1;
+        }
     }
 
     #TODO: refactorme
@@ -494,6 +505,14 @@ sub searchWeb {
     return $searchResult;
 }
 
+=begin TML
+
+---++ ObjectMethod loadTemplates (...)
+
+this code was extracted from searchWeb, and should probably be private.
+
+=cut
+
 sub loadTemplates {
     my (
         $this,          $params,     $baseWebObject,
@@ -521,7 +540,7 @@ sub loadTemplates {
         $template = 'search';
     }
     $tmpl = $session->templates->readTemplate($template);
-
+#print STDERR "}}} $tmpl {{{\n";
     # SMELL: the only META tags in a template will be METASEARCH
     # Why the heck are they being filtered????
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
@@ -633,6 +652,76 @@ sub formatResults {
     {
         $limit = $params->{pager_show_results_to};
     }
+    #pager formatting
+    my %pager_formatting;
+    if (defined($params->{pager_show_results_to})) {
+        #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
+            my $pagesize =
+                 $params->{pagesize}
+              || $Foswiki::cfg{Search}{DefaultPageSize}
+              || 25;
+              
+         #TODO: paging only implemented for SEARCH atm :/
+        my $paging_ID =$params->{pager_urlparam_id};
+        
+        # 1-based system; 0 is not a valid page number
+        my $showpage = $session->{request}->param($paging_ID) || $params->{showpage} || 1;
+            if ( defined($params->{pagesize}) or defined($showpage) ) {
+                if (!defined($showpage)) {
+                    $showpage = 1;
+                }
+            }
+            
+            #TODO: need to ask the result set
+            my $numberofpages = 666;
+            my $sep = ' ';
+            
+            my $nextidx = $showpage+1;
+            my $previousidx = $showpage-1; 
+            
+            my %new_params;
+            #kill me please, i can't find a way to just load up the hash :(
+            foreach my $key ($session->{request}->param) {
+                $new_params{$key} = $session->{request}->param($key);
+            }
+
+            $session->templates->readTemplate('searchformat');
+
+            my $previouspagebutton = '';
+            my $previouspageurl = '';
+            if ($previousidx >= 1) {
+                $new_params{$paging_ID} = $previousidx;
+                $previouspageurl = Foswiki::Func::getScriptUrl($baseWeb, $baseTopic, 'view', %new_params);
+                $previouspagebutton = $session->templates->expandTemplate('SEARCH:pager_previous');
+            }
+            my $nextpagebutton = '';
+            my $nextpageurl = '';
+            if ($nextidx <= $numberofpages) {
+                $new_params{$paging_ID} = $nextidx;
+                $nextpageurl = Foswiki::Func::getScriptUrl($baseWeb, $baseTopic, 'view', %new_params);
+                $nextpagebutton = $session->templates->expandTemplate('SEARCH:pager_next');
+            }
+        %pager_formatting = (
+            '\$previouspage' => sub { return $previousidx },
+            '\$currentpage' => sub { return $showpage },
+            '\$nextpage' => sub { return $showpage+1 },
+            '\$numberofpages' => sub { return 666 },
+            '\$pagesize' => sub { return $pagesize },
+            '\$previousurl' => sub { return $previouspageurl },
+            '\$nexturl' => sub { return $nextpageurl },
+            '\$sep' => sub { return $sep;}
+        );
+            
+            $previouspagebutton = $this->formatCommon($previouspagebutton, \%pager_formatting);
+            $pager_formatting{'\$previousbutton'} = sub {return $previouspagebutton};
+            
+            $nextpagebutton = $this->formatCommon($nextpagebutton, \%pager_formatting);
+            $pager_formatting{'\$nextbutton'} = sub {return $nextpagebutton};
+            
+            my $pager_control = $session->templates->expandTemplate('SEARCH:pager');
+            $pager_control = $this->formatCommon($pager_control, \%pager_formatting);
+            $pager_formatting{'\$pager'} = sub { return $pager_control;};
+        }
 
     #TODO: multiple is an attribute of the ResultSet
     my $doMultiple = Foswiki::isTrue( $params->{multiple} );
@@ -663,6 +752,9 @@ sub formatResults {
         $header =~ s/([^\n])$/$1\n/os;    # add new line at end
     }
 
+    if ((defined($params->{pager})) and ($params->{pager} eq 'on')) {
+        $footer .= '$pager';
+    }
     if ( defined $footer ) {
         $footer = Foswiki::expandStandardEscapes($footer);
         $footer =~ s/\$web/$web/gos;      # expand name of web
@@ -766,6 +858,9 @@ sub formatResults {
                     casesensitive  => $caseSensitive,
                     tokens         => $query->{tokens}
                 };
+
+                #TODO: why is this not part of the callback? at least the non-result element format strings can be common here.
+                #or do i need a formatCommon sub that formatResult can also call.. (which then goes into the callback?
                 $out = $this->formatResult(
                     $format,
                     $info->{tom},
@@ -774,7 +869,8 @@ sub formatResults {
                     {
                         '\$ntopics' => sub { return $ntopics },
                         '\$nhits'   => sub { return $nhits },
-
+    
+                        %pager_formatting,
   #rev1 info
   #TODO: move the $create* formats into Render::renderRevisionInfo..
   #which implies moving the infocache's pre-extracted data into the tom obj too.
@@ -822,6 +918,7 @@ sub formatResults {
                 $header =~ s/%WEB%/$web/go;
                 $header =~ s/\$ntopics/0/gs;
                 $header =~ s/\$nhits/0/gs;
+                $out = $this->formatCommon($out, \%pager_formatting);
                 $header = $webObject->expandMacros($header);
                 &$callback( $cbdata, $header );
             }
@@ -844,6 +941,7 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
+        $footer = $this->formatCommon($footer, \%pager_formatting);
         $footer = $webObject->expandMacros($footer);
         if ( $inline || $formatDefined ) {
             $footer =~ s/\n$//os;    # remove trailing new line
@@ -869,6 +967,17 @@ sub formatResults {
         ( ( not defined( $params->{_callback} ) ) and ( $nhits >= 0 ) )
         ? join( '', @$cbdata )
         : '' );
+}
+
+sub formatCommon {
+    my ( $this, $out, $customKeys ) = @_;
+
+    my $session = $this->{session};
+
+    foreach my $key ( keys(%$customKeys) ) {
+        $out =~ s/$key/&{$customKeys->{$key}}()/ges;
+    }
+    return $out;
 }
 
 =begin TML

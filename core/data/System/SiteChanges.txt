@@ -27,19 +27,22 @@ See changes since: <select class="foswikiSelect" name="since" onChange="storeSel
 <input type="submit" class="foswikiButton" name="search" value="Update" />
 </div>
 <div class="foswikiFormStep">
-%TABLE{sort="on" initsort="1" initdirection="up" headerrows="1"}%
+%TABLE{sort="on" initsort="1" initdirection="up" headerrows="1" tablewidth="100%"}%
 | *Last Modified* | *Web* | *Topic* | *Last Editor* | *Action* |
 %SEARCH{
-"info.author!='WikiGnome' AND info.date >= d2n('%URLPARAM{"since" default="%CALC{$FORMATTIME($EVAL($TIME()-24*3600), $year-$month-$dayT$hour:$minute:$second)}%"}%')"
-type="query"
-nosearch="on"
-nototal="on"
-limit="%URLPARAM{"limit" default="25"}%"
-web="%URLPARAM{"web" default="all"}%"
-excludetopic="WebStatistics"
-reverse="on"
-order="modified"
-format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percentFORMFIELD{$quotSummary$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percent]] | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]], %BR% [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][last&nbsp;change]] | "
+    "info.author!='WikiGnome' AND info.date >= d2n('%URLPARAM{"since" default="%CALC{$FORMATTIME($EVAL($TIME()-24*3600), $year-$month-$dayT$hour:$minute:$second)}%"}%')"
+    type="query"
+    nosearch="on"
+    nototal="on"
+    pagesize="%URLPARAM{"limit" default="25"}%"
+    showpage="1"
+    web="%URLPARAM{"web" default="all"}%"
+    excludetopic="WebStatistics"
+    reverse="on"
+    order="modified"
+    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percentFORMFIELD{$quotSummary$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percent]] | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]], %BR% [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][last&nbsp;change]] | "
+    nofooter="$n---$n $pager $n----$n"
+    pager="on"
 }%
 </div>
 <div class="foswikiFormStep">
