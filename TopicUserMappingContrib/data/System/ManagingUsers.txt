@@ -86,7 +86,7 @@ If you want to make it clear the user is no longer around, replace the topic con
 The existence of the <nop>UserName topic should also prevent that user name from being re-used, sealing the potential security hole regarding inherited permissions..
 
 ---++ Customizing registration Emails.
-Foswiki's Registration can send 3 emails who's output is governed by templates:
+Foswiki's Registration can send 3 emails whose output is governed by templates:
    1 User registration confirmation - =templates/registerconfirm.tmpl=
    2 User registration notification - =templates/registernotify.tmpl=
    3 Email to notify the Wiki admin of registration - =templates/registernotifyadmin.tmpl=
