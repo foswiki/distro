@@ -178,6 +178,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  12 Mar 2010: | v.4.0.7.2 - Fixes printing in Firefox 3.6. Version for Foswiki 1.0.9 |
 |  23 Feb 2010: | v.4.0.7.1 - Remove color profile from top bar image. Version for Foswiki 1.0.9 |
 |  17 Jan 2010: | v.4.0.7 - Repeat search phrase in search box. Version for Foswiki 1.0.9 |
 |  07 Dec 2009: | v.4.0.6 - Remove spurious newline from attachagain template. Add support for new option to work around IE8 bug with slow/erratic textareas. Fix printing in Safari (thanks Foswiki:Main.MichaelMoss). Remove bogus info on setting view template on topic creation (thanks Foswiki:Main.MartinKaufmann). Make action buttons easier to skin. Fix textareabuttons not displayed when NOWYSIWYG=1. |

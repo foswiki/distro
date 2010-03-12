@@ -18,7 +18,7 @@ body.patternPrintPage,
 }
 .patternPrintPage #patternMain {
 	width:100%;
-	float:right;
+	float:none;
 	display:inline;
 	overflow:visible;
 }
@@ -124,7 +124,7 @@ html>body .patternPrintPage pre {
 	}
 	#patternMain {
 		width:100%;
-		float:right;
+		float:none;
 		display:inline;
 		overflow:visible;
 	}
