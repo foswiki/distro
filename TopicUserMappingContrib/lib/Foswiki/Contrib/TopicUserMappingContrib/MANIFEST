@@ -16,6 +16,7 @@ data/Main/UserHomepageHeader.txt 0644
 data/Main/UserListByLocation.txt 0644
 data/Main/GroupTemplate.txt 0644
 
+data/System/DefaultUserRegistration.txt 0644
 data/System/UserRegistration.txt 0644
 data/System/UsersTemplate.txt 0644 Default template for a new WikiUsers topic
 data/System/ChangeEmailAddress.txt 0644
