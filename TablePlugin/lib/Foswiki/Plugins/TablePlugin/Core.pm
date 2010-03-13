@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Foswiki Contributors.
+# Copyright (C) 2008-2010 Foswiki Contributors.
 # Copyright (C) 2005-2006 TWiki Contributors
 # Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
 # Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
@@ -20,6 +20,7 @@
 # As per the GPL, removal of this notice is prohibited.
 
 use strict;
+use Foswiki::Func;
 
 package Foswiki::Plugins::TablePlugin::Core;
 
@@ -103,12 +104,6 @@ my $SORT_DIRECTION = {
     'ASCENDING'  => 0,
     'DESCENDING' => 1,
     'NONE'       => 2,
-};
-my $COLUMN_TYPE = {
-    'TEXT'      => 'text',
-    'DATE'      => 'date',
-    'NUMBER'    => 'number',
-    'UNDEFINED' => 'undefined',
 };
 
 my $PATTERN_ATTRIBUTE_SIZE = qr'([0-9]+)(px|%)*'o;
@@ -278,7 +273,7 @@ sub _parseAttributes {
     # table attributes
     # some will be used for css styling as well
 
-    # sort
+    # sort attributes
     if ($modeSpecific) {
         my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
         _storeAttribute( 'sort', $sort, $inCollection );
@@ -454,64 +449,90 @@ sub _getIncludeParams {
 
 =pod
 
-Convert text to number and date if syntactically possible
+_convertStringToDate ( $text ) -> $number
+
+Convert text to number if syntactically possible, otherwise return undef.
+Assumes that the text has been stripped from HTML markup.
 
 =cut
 
-sub _convertToNumberAndDate {
+sub _convertStringToDate {
     my ($text) = @_;
 
-    $text = _stripHtml($text);
-    _debug("_convertToNumberAndDate:$text");
-    if ( $text =~ /^\s*$/ ) {
-        return ( undef, undef );
-    }
-
-    my $num  = undef;
+    return undef if !defined $text;
+    return undef if $text eq '';
+    return undef if ( $text =~ /^\s*$/ );
+    
     my $date = undef;
-
-    # Unless the table cell is a pure number
-    # we test if it is a date.
-    if ( $text =~ /^\s*-?[0-9]+(\.[0-9]+)?\s*$/ ) {
+    
+    if ( $text =~ /^\s*-?[0-9]+(\.[0-9])*\s*$/ && $text !~ /^\s*(-*\d{4})\s*$/ ) {
         _debug("\t this is a number");
-        $num = $text;
     }
     else {
         try {
             $date = Foswiki::Time::parseTime($text);
+            _debug("\t is a date");
         }
         catch Error::Simple with {
 
             # nope, wasn't a date
-            _debug("\t this is not a date");
+            _debug("\t $text is not a date");
         };
     }
-    _debug("\t this is a date") if defined $date;
-    if ( !defined $num && !defined $date ) {
 
-        # very course testing on IP (could in fact be anything with n.n. syntax
-        if ( $text =~ /^\s*\b\d{1,}\.\d{1,}\.(?:.*?)$/ ) {
-            _debug("\t this looks like an IP address, or something similar");
+	return $date;
+}
 
-            # should be sorted by text
+=pod
 
-        }
-        elsif ( $text =~ /^\s*(-?[0-9]+)(\.[0-9]+)?/ ) {
+_convertStringToNumber ( $text ) -> $number
 
-            # test for:
-            # 8 - whole numbers
-            # 8.1 - decimal numbers
-            # 8K - strings that start with a number
-            # 8.1K - idem
+Convert text to number if syntactically possible, otherwise return undef.
+Assumes that the text has been stripped from HTML markup.
 
-            _debug("\t this is a number with decimal");
-            my $num1 = $1 || 0;
-            my $num2 = $2 || 0;
-            $num = scalar("$num1$num2");
-        }
-    }
+=cut
 
-    return ( $num, $date );
+sub _convertStringToNumber {
+    my ($text) = @_;
+
+    return undef if !defined $text;
+    return undef if $text eq '';
+    return undef if ( $text =~ /^\s*$/ );
+
+    # very course testing on IP (could in fact be anything with n.n. syntax
+    if ($text =~ m/
+    	^		
+    	\s*			# any space
+    	(?:			# don't need to capture
+    	[0-9]+		# digits
+    	\.			# dot
+    	)			#
+    	{2,}		# repeat more than once: exclude decimal numbers 
+    	.*?			# any string
+    	$
+    	/x ) {
+		_debug("\t $text looks like an IP address, or something similar");
+		# should be sorted by text
+		return undef;
+	}
+        
+	if ($text =~ m/
+		^
+		\s*			# any space
+		(			# 
+		-*			# possible minus
+		[0-9]+		# digits
+		\.*         # possible decimal
+		[0-9]*		# possible fracture digits
+		)			# end capture of number
+		.*$			# any string
+		/x) {
+		
+		_debug("\t $1 is a number");
+		# make sure to return a number, not a string
+		return $1 * 1.0;
+	}
+	return undef;
 }
 
 sub _processTableRow {
@@ -668,40 +689,44 @@ sub _shouldISortThisTable {
     return 1;
 }
 
-# Guess if column is a date, number or plain text
-sub _guessColumnType {
-    my ($col)         = @_;
-    my $isDate        = 0;
-    my $isNum         = 0;
-    my $columnIsValid = 0;
-    foreach my $row (@curTable) {
-        next if ( $row->[$col]->{text} =~ /^\s*$/ );
+=pod
 
-        # else
-        $columnIsValid = 1;
-        my ( $num, $date ) = _convertToNumberAndDate( $row->[$col]->{text} );
+_setSortTypeForCells ( $col, \@table )
 
+Sets a sort key for each cell.
+
+=cut
+
+sub _setSortTypeForCells {
+    my ( $col, $table )         = @_;
+
+    foreach my $row ( @{$table} ) {
+       
+        my $rowText = _stripHtml( $row->[$col]->{text} );
+        
+        my $num = _convertStringToNumber( $rowText );
+        my $date = _convertStringToDate( $rowText );
+        
+        $row->[$col]->{sortText} = '';
+        $row->[$col]->{number} = 0;
+        $row->[$col]->{dateString} = '';
+        
         if ( defined $date ) {
-            $isDate = 1;
-            $row->[$col]->{date} = $date;
+        	# date has just converted to a number
+            $row->[$col]->{number} = $date;
+            # add dateString value in case dates are equal
+            $row->[$col]->{dateString} = $rowText;
         }
         elsif ( defined $num ) {
-            $isNum = 1;
             $row->[$col]->{number} = $num;
+        	# when sorting mixed numbers and text, make the text sort value as low as possible
+        	$row->[$col]->{sortText} = ' ';
         }
         else {
-            last;
+            $row->[$col]->{sortText} = lc $rowText;
         }
+
     }
-    return $COLUMN_TYPE->{'UNDEFINED'} if ( !$columnIsValid );
-    my $type = $COLUMN_TYPE->{'TEXT'};
-    if ($isDate) {
-        $type = $COLUMN_TYPE->{'DATE'};
-    }
-    elsif ($isNum) {
-        $type = $COLUMN_TYPE->{'NUMBER'};
-    }
-    return $type;
 }
 
 # Remove HTML from text so it can be sorted
@@ -712,7 +737,7 @@ sub _stripHtml {
       s/\[\[[^\]]+\]\[([^\]]+)\]\]/$1/go; # extract label from [[...][...]] link
 
     my $orgtext =
-      $text;    # in case we will remove all contents with stripping html
+      $text;    # in case we will have removed all contents with stripping html
     $text =~ s/<[^>]+>//go;    # strip HTML
     $text =~ s/\&nbsp;/ /go;
     $text = _getImageTextForSorting($orgtext) if ( $text eq '' );
@@ -1241,7 +1266,6 @@ sub emitTable {
     my $text = $currTablePre . CGI::start_table($tableTagAttributes);
     $text .= $currTablePre . CGI::caption( $combinedTableAttrs->{tableCaption} )
       if $combinedTableAttrs->{tableCaption};
-    my $stype = '';
 
     # count the number of cols to prevent looping over non-existing columns
     my $maxCols = 0;
@@ -1304,49 +1328,24 @@ sub emitTable {
             }
         }
 
-        $stype = $COLUMN_TYPE->{'UNDEFINED'};    # default value
-
         # only get the column type if within bounds
         if ( $sortCol < $maxCols ) {
-            $stype = _guessColumnType($sortCol);
+            _setSortTypeForCells($sortCol, \@curTable);
         }
 
-        _debug("Sort by:$stype");
         _debug("currentSortDirection:$currentSortDirection");
-
-        # invalidate sorting if no valid column
-        if ( $stype eq $COLUMN_TYPE->{'UNDEFINED'} ) {
-            delete $combinedTableAttrs->{initSort};
-            undef $sortCol;
-        }
-        elsif ( $stype eq $COLUMN_TYPE->{'TEXT'} ) {
-            if ( $currentSortDirection == $SORT_DIRECTION->{'DESCENDING'} ) {
-
-                # efficient way of sorting stripped HTML text
-                # SMELL: efficient? That's not efficient!
-                @curTable = map { $_->[0] }
-                  sort { $b->[1] cmp $a->[1] }
-                  map { [ $_, lc( $_->[$sortCol]->{text} ) ] } @curTable;
-            }
-            if ( $currentSortDirection == $SORT_DIRECTION->{'ASCENDING'} ) {
-                @curTable = map { $_->[0] }
-                  sort { $a->[1] cmp $b->[1] }
-                  map { [ $_, lc( $_->[$sortCol]->{text} ) ] } @curTable;
-            }
-        }
-        else {
-            if ( $currentSortDirection == $SORT_DIRECTION->{'DESCENDING'} ) {
-                @curTable =
-                  sort { $b->[$sortCol]->{$stype} <=> $a->[$sortCol]->{$stype} }
-                  @curTable;
-            }
-            if ( $currentSortDirection == $SORT_DIRECTION->{'ASCENDING'} ) {
-                @curTable =
-                  sort { $a->[$sortCol]->{$stype} <=> $b->[$sortCol]->{$stype} }
-                  @curTable;
-            }
-
-        }
+        
+        if ( $currentSortDirection == $SORT_DIRECTION->{'ASCENDING'} ) {
+			@curTable = sort {
+					$a->[$sortCol]->{sortText} cmp $b->[$sortCol]->{sortText} || $a->[$sortCol]->{number} <=> $b->[$sortCol]->{number} ||
+					$a->[$sortCol]->{dateString} cmp $b->[$sortCol]->{dateString}
+			} @curTable;
+		} elsif ( $currentSortDirection == $SORT_DIRECTION->{'DESCENDING'} ) {
+			@curTable = sort {
+					$b->[$sortCol]->{sortText} cmp $a->[$sortCol]->{sortText} || $b->[$sortCol]->{number} <=> $a->[$sortCol]->{number} ||
+					$b->[$sortCol]->{dateString} cmp $a->[$sortCol]->{dateString}
+			} @curTable;
+		}
 
         # DG 08 Aug 2002: Cleanup after the header/trailer splicing
         # this is probably awfully inefficient - but how big is a table?
@@ -1401,7 +1400,7 @@ sub emitTable {
                 # Removing the line below hides the marking of sorted columns
                 # until the user clicks on a header (KJL)
                 # && defined $requestedTable && $requestedTable == $tableCount
-                && $stype ne ''
+#                && $sortType ne ''
               )
             {
                 $isSorted     = 1;

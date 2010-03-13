@@ -173,6 +173,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  13 Mar 2010 | 1.122: Arthur Clemens: Fixed sorting of columns with mixed data types: numbers, dates, strings, empty cells. |
 |  17 Sep 2009 | 1.121: Arthur Clemens: Improved documentation for date formats. |
 |  17 Sep 2009 | 1.120: Arthur Clemens: Added =include= parameter. |
 |  16 Sep 2009 | 1.110: Arthur Clemens: Added attributes =headerrules= and =datarules=. Fixed potential bug where Explorer won't render more than 20 table CSS tags. Fix sorting on IP addresses. |

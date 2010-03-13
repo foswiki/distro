@@ -10,6 +10,7 @@ use Foswiki;
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebTableFormatting';
 my $tableCount = 1;
+my $debug = 0;
 
 sub new {
     my $self = shift()->SUPER::new( 'TableFormatting', @_ );
@@ -412,6 +413,264 @@ EXPECTED
 
 =pod
 
+Test sorting of a numbers column with additional strings. One cell is empty.
+
+=cut
+
+sub test_sort_numbers_with_strings_mixed {
+    my $this = shift;
+    
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $actual = <<ACTUAL;
+%TABLE{sort="on" initsort="1"}%
+| *Number of things* |
+| 1 thingy |
+| 10.1 thingies |
+| -1.1 thingies |
+| 9.99 thingies |
+| 2 thingies |
+| 2.0 thingies |
+| |
+| 20 thingies |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Number of things</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> -1.1 thingies </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 1 thingy </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2 thingies </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2.0 thingies </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 9.99 thingies </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 10.1 thingies </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> 20 thingies </td>
+		</tr>
+	</tbody></table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+Test sorting of a numbers column that contains an empty cell and a cell with a string.
+
+=cut
+
+sub test_sort_numbers__mixed {
+    my $this = shift;
+    
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $actual = <<ACTUAL;
+%TABLE{sort="on" initsort="1"}%
+| *Mostly numbers* |
+| -1 |
+| 0 |
+| 1 |
+| ls -al |
+|  |
+| 3 |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Mostly numbers</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> -1 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 0 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 1 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 3 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> ls -al </td>
+		</tr>
+	</tbody></table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+    
+=pod
+
+Test sorting of a numbers column that contains an empty cell and a cell with a string.
+
+=cut
+
+sub test_sort_dates {
+    my $this = shift;
+    
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $actual = <<ACTUAL;
+%TABLE{sort="on" initsort="1"}%
+| *Dates* |
+| 2001/12/27 23:59:59 |
+| 2001.12.26.23.59.59 |
+| 2001/12/28 23:59 |
+| 2001.12.30.23.59 |
+| 2001-12-31 23:59 |
+| 2001-12-29 - 23:59 |
+| 2009-1-12 |
+| 2009-1 |
+| 2009 |
+| 2001-12-25T23:59:59 |
+| 2001-12-24T |
+| 2001-12-22T23:59:59+01:00 |
+| 2001-12-23T23:59Z |
+| 21 Dec 2001 |
+| 18-Dec-2001 |
+| 20 Dec 2001 - 23:59 |
+| 19-Dec-2001 - 23:59 |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Dates</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 18-Dec-2001 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 19-Dec-2001 - 23:59 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 20 Dec 2001 - 23:59 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 21 Dec 2001 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-22T23:59:59+01:00 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-23T23:59Z </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-24T </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-25T23:59:59 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001.12.26.23.59.59 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001/12/27 23:59:59 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001/12/28 23:59 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-29 - 23:59 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001.12.30.23.59 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-31 23:59 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2009 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2009-1 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> 2009-1-12 </td>
+		</tr>
+	</tbody></table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+   
+    
+=pod
+
 Test sorting of Date column with HTML tags before the date
 
 =cut
@@ -674,6 +933,218 @@ ACTUAL
     $this->assert_html_equals( $expected, $actual1 . $actual2 );
 }
 
+# DEVELOPMENT TESTS
+
+sub dev_test_convertStringToNumber_empty_string {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $number);
+	
+	$text = '    ';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = undef;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToNumber_number_int {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $number);
+	
+	$text = '1';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 1;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '0';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 0;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '-1';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = -1;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToNumber_number_float {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $number);
+	
+	$text = '1.1';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 1.1;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '9.999';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 9.999;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '-9.999';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = -9.999;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '0.000';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 0;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToNumber_number_with_string {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $number);
+	
+	$text = '1K';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 1;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '1 thing';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 1;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '9.99 kilos';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 9.99;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToNumber_ip_string {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $number);
+	
+	$text = '1.1.1.1';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = undef;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '1.1.1.1 IP address';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = undef;
+	$this->assert_equals( $expected, $result );
+	
+	$text = '1.1';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = 1.1;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToNumber_string {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $number);
+	
+	$text = 'thing';
+	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+	$result = $number;
+	$expected = undef;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToDate_date_string_1 {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $date);
+	
+	$text = '12 Dec 2001';
+	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+	$result = $date;
+	$expected = 1008115200;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToDate_date_string_2 {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $date);
+	
+	$text = '2001-1';
+	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+	$result = $date;
+	$expected = 978307200;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToDate_year {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $date);
+	
+	$text = '2001';
+	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+	$result = $date;
+	$expected = 978307200;
+	print ("RES=$result.\n")     if $debug;
+	print ("EXP=$expected.\n") if $debug;
+	$this->assert_equals( $expected, $result );
+}
+
+sub dev_test_convertStringToDate_year_before_1970 {
+    my $this     = shift;
+
+	use Foswiki::Plugins::TablePlugin::Core;
+	my ($text, $result, $expected, $date);
+	
+	$text = '1940';
+	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+	$result = $date;
+	$expected = undef;
+
+	$this->assert_equals( $expected, $result );
+}
 
 sub _trimSpaces {
 

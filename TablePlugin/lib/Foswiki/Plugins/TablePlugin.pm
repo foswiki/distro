@@ -1,9 +1,9 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
+# Copyright (C) 2008-2010 Foswiki Contributors.
+# Copyright (C) 2005-2006 TWiki Contributors
 # Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2005-2007 TWiki Contributors
-# Copyright (C) 2008-2009 Foswiki Contributors.
+# Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ package Foswiki::Plugins::TablePlugin;
 use strict;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.121';
+our $RELEASE = '1.122';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
