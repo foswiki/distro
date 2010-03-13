@@ -24,10 +24,10 @@ sub set_up {
 # This formats the text up to immediately before <nop>s are removed, so we
 # can see the nops.
 sub do_test {
-    my ( $this, $expected, $actual ) = @_;
+    my ( $this, $expected, $actual, $web, $topic ) = @_;
     my $session   = $this->{session};
-    my $webName   = $this->{test_web};
-    my $topicName = $this->{test_topic};
+    my $webName   = $web || $this->{test_web};
+    my $topicName = $topic || $this->{test_topic};
 
     $actual =
       Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
@@ -246,6 +246,38 @@ contents
 EXPECTED
 
     $this->do_test( $expected, $source );
+}
+
+sub test_twistyInSubWeb {
+    my $this = shift;
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+	my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
+	my $testTopic = 'TwistyTestTopic';
+    my $source = <<SOURCE;
+%TWISTY{
+showlink="Show..."
+hidelink="Hide"
+remember="on"
+}%
+my twisty content
+%ENDTWISTY%
+SOURCE
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $testWebSubWebPath, $testTopic,
+        $source );
+        
+    $topicObject->save();
+    
+    my $expected = <<EXPECTED;
+<span class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1show" class="twistyRememberSetting twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1hide" class="twistyRememberSetting twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Hide</span></a></span></span><!--/twistyPlugin foswikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1toggle" class="twistyRememberSetting twistyContent foswikiMakeHidden twistyInited">
+my twisty content
+</span></span><!--/twistyPlugin-->
+EXPECTED
+
+    $this->do_test( $expected, $source, $testWebSubWebPath, $testTopic );
 }
 
 1;
