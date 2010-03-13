@@ -133,12 +133,14 @@ Information for programmers.
 
 ---++ Plugin Info
 
+%TABLE{columnwidths="15%,85%"}%
 |  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2010 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  21 Jan 2010 | 1.045: Kenneth Lavrsen: Fixed initdirection not working in persistant perl environment |
+|  13 Mar 2010 | 1.046: Arthur Clemens: Fixed sorting of decimal numbers and numbers with strings, like "20 cups". |
+|  21 Jan 2010 | 1.045: Kenneth Lavrsen: Fixed =initdirection= not working in persistant perl environment |
 |  08 Dec 2009 | 1.044: Arthur Clemens: Improved documentation for date formats. |
 |  21 Sep 2009 | 1.043: Kenneth Lavrsen: Added check for valid value for initsort. Ignore if it is not a number. |
 |  12 Sep 2009 | 1.042: Kenneth Lavrsen: Added a new API call initialiseWhenRender which plugins like !CompareRevisionsAddOn can use to reset the table counters between two renderings of the same topic |
