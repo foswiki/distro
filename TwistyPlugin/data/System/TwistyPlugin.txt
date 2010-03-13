@@ -487,7 +487,7 @@ Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
     | =imgright=     | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
     | =hideimg=      | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
     | =showimg=      | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
-   * Related [[#VarTWISTYSHOW][TWISTYBUTTON]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
+   * Related [[#VarTWISTYSHOW][TWISTYSHOW]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
 
 #VarENDTWISTY
 ---+++ ENDTWISTY
@@ -565,7 +565,7 @@ This is useful if both the show and the hide button take the same arguments.
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
     | =noscript= | ="hide"= | Make content hidden in case use does not have !JavaScript on | optional, default content is shown with no !JavaScript |
    * Example: =%<nop>TWISTYTOGGLE{id="demo" mode="div" remember="on"}%My content%<nop>ENDTWISTYTOGGLE%=
-   * Related: [[#VarTWISTYHIDE][TWISTYHIDE]], [[#VarTWISTYHIDE][TWISTYHIDE]] an [[#VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]]
+   * Related: [[#VarTWISTYSHOW][TWISTYSHOW]], [[#VarTWISTYHIDE][TWISTYHIDE]] and [[#VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]]
 
 #VarENDTWISTYTOGGLE
 ---+++ ENDTWISTYTOGGLE
@@ -613,6 +613,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  13 Mar 2010 | 1.5.5 Fixed id generated in subwebs. |
 |  12 Feb 2010 | 1.5.4 Fixed jquery twisties, improved templates structure |
 |  02 Sep 2009 | 1.5.3 Add sequential number to the =TWISTY= =id= to allow more than one instance with that id on the page. |
 |  26 Aug 2009 | 1.5.2 Fix dependencies - jqueryPlugin and DojoToolkit were ported to foswiki a while ago. |
