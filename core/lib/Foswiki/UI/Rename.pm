@@ -1272,11 +1272,6 @@ sub _getReferringTopicsListFromURL {
 #   * =$om= - web or topic to search for
 #   * =$allWebs= - 0 to search $web only. 1 to search all webs
 # _except_ $web.
-# Returns a hash of web.topic names. Will _not_ return $web.$topic in the list
-# SMELL: this will only work as long as searchInText searches meta-data
-# as well. It sould really do a query over the meta-data as well, but at the
-# moment that is just duplication and it's too slow already.
-# Calling user *must* have view access on the topics.
 sub _getReferringTopics {
     my ( $session, $om, $allWebs ) = @_;
     my $renderer = $session->renderer;
@@ -1297,7 +1292,6 @@ sub _getReferringTopics {
         next if ( $allWebs && !$interWeb );
 
         my $webObject = Foswiki::Meta->new( $session, $searchWeb );
-
         next unless $webObject->haveAccess('VIEW');
 
         # Search for both the foswiki form and the URL form
@@ -1314,14 +1308,12 @@ sub _getReferringTopics {
             url      => 1
           );
 
-        #print STDERR "SEARCH $searchString in $searchWeb\n";
-        my $matches = $webObject->searchInText(
-            $searchString,
-            undef,    # all topics
-            { casesensitive => 1, type => 'regex' }
-        );
+        my $matches = Foswiki::Func::searchInWebContent( $searchString, $searchWeb, undef,
+            { casesensitive => 1, type => 'regex'  } );
 
-        foreach my $searchTopic ( keys %$matches ) {
+        while ($matches->hasNext) {
+            my $webtopic = $matches->next;
+            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
             next
               if ( $searchWeb eq $om->web
                 && $om->topic

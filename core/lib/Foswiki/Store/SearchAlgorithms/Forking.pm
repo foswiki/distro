@@ -81,12 +81,13 @@ sub search {
     my @set;
     $inputTopicSet->reset();
     while ( $inputTopicSet->hasNext() ) {
-        my $tn = $inputTopicSet->next();
+        my $webtopic = $inputTopicSet->next();
+        my ($Iweb, $tn) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
         push( @set, "$sDir/$tn.txt" );
         if (
             ( $#set >= $maxTopicsInSet )    #replace with character count..
             || !( $inputTopicSet->hasNext() )
-          )
+                )
         {
             my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
                 $program,
@@ -112,7 +113,7 @@ sub search {
         }
     }
     my %seen;
-
+    
     # Note use of / and \ as dir separators, to support Winblows
     $matches =~
       s/([^\/\\]*)\.txt(:(.*))?$/push( @{$seen{$1}}, ($3||'') ); ''/gem;
@@ -129,6 +130,46 @@ this is the new way -
 =cut
 
 sub query {
+    my ( $query, $inputTopicSet, $session, $options ) = @_;
+
+    if (( @{ $query->{tokens} } ) == 0) {
+        return new Foswiki::Search::InfoCache($session, '');
+    }
+
+    my $webNames = $options->{web}       || '';
+    my $recurse = $options->{'recurse'} || '';
+    my $isAdmin = $session->{users}->isAdmin( $session->{user} );
+
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
+
+    my @resultCacheList;
+    foreach my $web (@webs) {
+        # can't process what ain't thar
+        next unless $session->webExists($web);
+
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
+
+        # make sure we can report this web on an 'all' search
+        # DON'T filter out unless it's part of an 'all' search.
+        next
+          if ( $searchAllFlag
+            && !$isAdmin
+            && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
+            && $web ne $session->{webName} );
+        
+        my $infoCache = _webQuery($query, $web, $inputTopicSet, $session, $options);
+        $infoCache->sortResults( $options );
+        push(@resultCacheList, $infoCache);
+    }
+    #TODO: combine these into one great ResultSet
+    return new Foswiki::AggregateIterator(\@resultCacheList);
+}
+
+
+#ok, for initial validation, naively call the code with a web.
+sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
 #print STDERR "ForkingSEARCH(".join(', ', @{ $query->{tokens} }).")\n";
@@ -201,7 +242,8 @@ sub query {
         if ($invertSearch) {
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
-                my $topic = $topicSet->next();
+                my $webtopic = $topicSet->next();
+                my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
 
                 if ( $topicMatches{$topic} ) {
                 } else {
@@ -227,7 +269,7 @@ sub query {
 __DATA__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #

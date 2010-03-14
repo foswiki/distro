@@ -2411,17 +2411,19 @@ sub decodeFormatTokens {
 
 =begin TML
 
----+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
+---+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> iterator (resultset)
 
-Search for a string in the content of a web. The search is over all content, including meta-data. Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
+Search for a string in the content of a web. The search is over all content, including meta-data. 
+Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
    * =$searchString= - the search string, in egrep format
-   * =$web= - The web to search in
-   * =\@topics= - reference to a list of topics to search
+   * =$web= - The web/s to search in - string can have the same form as the =web= param of SEARCH
+   * =\@topics= - reference to a list of topics to search (if undef, then the store will search all topics in the specified web/webs.)
    * =\%option= - reference to an options hash
 The =\%options= hash may contain the following options:
-   * =type= - if =regex= will perform a egrep-syntax RE search (default '')
+   * =type= - =regex=, =keyword=, =query=
    * =casesensitive= - false to ignore case (defaulkt true)
    * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
+   * TODO: topic, excludetopic and other params as per SEARCH
 
 The return value is a reference to a hash which maps each matching topic
 name to a list of the lines in that topic that matched the search,
@@ -2431,10 +2433,14 @@ To iterate over the returned topics use:
 <verbatim>
 my $result = Foswiki::Func::searchInWebContent( "Slimy Toad", $web, \@topics,
    { casesensitive => 0, files_without_match => 0 } );
-foreach my $topic (keys %$result ) {
-   foreach my $matching_line ( @{$result->{$topic}} ) {
+        while ($matches->hasNext) {
+            my $webtopic = $matches->next;
+            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
       ...etc
 </verbatim>
+
+__WARNING: does not return a hash - returns an iterator (else you will crash your server needlessly)__
+(Please report a Task item if you're using the non-iterator interface)
 
 =cut
 
@@ -2443,10 +2449,18 @@ foreach my $topic (keys %$result ) {
 # though the function definitions are quite different.
 sub searchInWebContent {
 
-    my ( $searchString, $web, $topics, $options ) = @_;
+    my ( $searchString, $webs, $topics, $options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-    return $webObject->searchInText( $searchString, $topics, $options );
+    
+    my $inputTopicSet;
+    if ($topics) {
+        $inputTopicSet = new Foswiki::ListIterator($topics);
+    }
+    $options->{web} = $webs;
+    my $query = $Foswiki::Plugins::SESSION->search->parseSearch($searchString, $options);
+
+    return Foswiki::Meta::query( $query, $inputTopicSet,
+        $options );
 }
 
 =begin TML
@@ -3254,7 +3268,7 @@ __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this

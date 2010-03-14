@@ -549,7 +549,7 @@ match per topic, and will not return matching lines).
 
 =cut
 
-sub searchInText {
+sub THISISBEINGDELETEDsearchInText {
     my ( $this, $searchString, $topics, $options ) = @_;
     ASSERT( !$this->{_topic} ) if DEBUG;
     unless ($topics) {
@@ -564,24 +564,26 @@ sub searchInText {
 
 =begin TML
 
----++ ObjectMethod query($query, $inputTopicSet, \%options) -> $outputTopicSet
+---++ StaticMethod query($query, $inputTopicSet, \%options) -> $outputTopicSet
 
-Search for a meta-data expression in the content of a web.
-=$query= must be a =Foswiki::Query= object.
+Search for topic information
+=$query= must be a =Foswiki::*::Node= object. 
 
    * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
      if set to undef, the search/query algo will create a new iterator using eachTopic() 
-     and the topic and excludetopics options
+     and the web, topic and excludetopics options (as per SEARCH)
+   * web option - The web/s to search in - string can have the same form as the =web= param of SEARCH
+
 
 Returns an Foswiki::Search::InfoCache iterator
 
 =cut
 
 sub query {
-    my ( $this, $query, $inputTopicSet, $options ) = @_;
-    return $this->{_session}->{store}
-      ->searchInWebMetaData( $query, $this->{_web}, $inputTopicSet,
-        $this->{_session}, $options );
+    my ( $query, $inputTopicSet, $options ) = @_;
+    return $Foswiki::Plugins::SESSION->{store}
+      ->query( $query, $inputTopicSet,
+        $Foswiki::Plugins::SESSION, $options );
 }
 
 =begin TML
@@ -1107,6 +1109,53 @@ sub getRevisionInfo {
         $this->setRevisionInfo($info);
     }
     return $info;
+}
+
+# Determins, and caches, the topic revision info of the base version,
+#warning: this is a horrid little legacy of the InfoCache object, and should be done away with.
+sub getRev1Info {
+    my ( $this, $attr ) = @_;
+
+    #my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
+    my $web = $this->web;
+    my $topic = $this->topic;
+
+    if (!defined($this->{getRev1Info})) {
+        $this->{getRev1Info} = {};
+    }
+    my $info = $this->{getRev1Info};
+    unless ( defined $info->{$attr} ) {
+        my $ri = $info->{rev1info};
+        unless ($ri) {
+            my $tmp =
+              Foswiki::Meta->load( $this->{_session}, $web,
+                $topic, 1 );
+            $info->{rev1info} = $ri = $tmp->getRevisionInfo();
+        }
+
+        if ( $attr eq 'createusername' ) {
+            $info->{createusername} =
+              $this->{_session}->{users}->getLoginName( $ri->{author} );
+        }
+        elsif ( $attr eq 'createwikiname' ) {
+            $info->{createwikiname} =
+              $this->{_session}->{users}->getWikiName( $ri->{author} );
+        }
+        elsif ( $attr eq 'createwikiusername' ) {
+            $info->{createwikiusername} =
+              $this->{_session}->{users}->webDotWikiName( $ri->{author} );
+        }
+        elsif ( $attr eq 'createdate' or
+               $attr eq 'createlongdate' or
+               $attr eq 'created' ) {
+            $info->{created} = $ri->{date};
+            require Foswiki::Time;
+            $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
+            #TODO: wow thats disgusting.
+            $info->{created} = $info->{createlongdate} = $info->{createdate};
+        }
+    }
+    return $info->{$attr};
 }
 
 =begin TML
@@ -2467,6 +2516,9 @@ The =\%searchOptions= hash may contain the following options:
    * =wordboundaries= - if type is 'keyword'
    * =tokens= - array ref of search tokens
    
+TODO: should this really be in Meta? it seems like a rendering issue to me.
+
+   
 =cut
 
 sub summariseText {
@@ -2502,6 +2554,8 @@ sub summariseText {
 Makes a plain text summary of the topic text by simply trimming a bit
 off the top. Truncates to $TMTRUNC chars or, if a number is specified
 in $flags, to that length.
+
+TODO: should this really be in Meta? it seems like a rendering issue to me.
 
 =cut
 
@@ -3090,7 +3144,7 @@ __END__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

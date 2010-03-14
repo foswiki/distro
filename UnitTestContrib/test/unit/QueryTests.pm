@@ -408,7 +408,6 @@ sub test_hoistName2{
     my $query       = $queryParser->parse($s);
     require Foswiki::Query::HoistREs;
     my @filter = Foswiki::Query::HoistREs::hoist($query);
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
     $this->assert_str_equals( 'name', $filter[0]->{node} );
     $this->assert_str_equals( 'Web.*|A.*|Banana', $filter[0]->{regex} );
     $this->assert_str_equals( 'Web*,A*,Banana', $filter[0]->{source} );

@@ -20,6 +20,7 @@ I have the feeling that we should make result sets immutable
 =cut
 
 use Assert;
+use Foswiki::Func ();
 use Foswiki::Meta ();
 use Foswiki::Iterator::FilterIterator ();
 
@@ -45,9 +46,12 @@ CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resul
 sub new {
     my ( $class, $session, $defaultWeb, $topicList ) = @_;
     
-    my $this = $class->SUPER::new($topicList || []);
+    my $this = $class->SUPER::new([]);
     $this->{_session}    = $session;
     $this->{_defaultWeb} = $defaultWeb;
+    if (defined($topicList)) {
+        $this->addTopics($defaultWeb, @$topicList);
+    }
 
     return $this;
 }
@@ -63,18 +67,10 @@ sub addTopics {
     if DEBUG  ;    #cannot modify list once its being used as an iterator.
     ASSERT( defined($defaultWeb) ) if DEBUG;
 
-    if ( defined($defaultWeb) && ( $defaultWeb ne $this->{_defaultWeb} ) ) {
-        foreach my $t (@list) {
-            my ( $web, $topic ) =
-              Foswiki::Func::normalizeTopic( $defaultWeb, $t );
-            push( @{ $this->{list} }, "$web.$topic" );
-        }
-    }
-    else {
-
-        #TODO: what if the list is an arrayref?
-        #TODO: or even better, another infoCache.
-        push( @{ $this->{list} }, @list );
+    foreach my $t (@list) {
+        my ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $defaultWeb, $t );
+        push( @{ $this->{list} }, "$web.$topic" );
     }
 }
 
@@ -88,14 +84,12 @@ sub addTopic {
     my $web = $meta->web();
     my $topic = $meta->topic();
 
-    if ( defined($web) && ( $web ne $this->{_defaultWeb} ) ) {
-        my ( $w, $t ) =
-          Foswiki::Func::normalizeTopic( $web, $topic );
-        $topic = "$w.$t";
-    }
-    push( @{ $this->{list} }, $topic );
+    my ( $w, $t ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $topic );
+    my $webtopic = "$w.$t";
+    push( @{ $this->{list} }, $webtopic );
     if (defined($meta)) {
-        $this->get($topic, $meta);
+        $this->get($webtopic, $meta);
     }
 }
 
@@ -110,7 +104,7 @@ delay evaluated, partially evaluated, or even delegated to the DB/SQL
 =cut
 
 sub sortResults {
-    my ( $infoCache, $web, $params ) = @_;
+    my ( $infoCache, $params ) = @_;
     my $session = $infoCache->{_session};
 
     my $sortOrder = $params->{order} || '';
@@ -141,7 +135,6 @@ sub sortResults {
     # sort the topic list by date, author or topic name, and cache the
     # info extracted to do the sorting
     if ( $sortOrder eq 'modified' ) {
-
         # For performance:
         #   * sort by approx time (to get a rough list)
         #   * shorten list to the limit + some slack
@@ -156,7 +149,10 @@ sub sortResults {
             my @tmpList =
               map  { $_->[1] }
               sort { $a->[0] <=> $b->[0] }
-              map  { [ $session->getApproxRevTime( $web, $_ ), $_ ] }
+              map  {
+                        my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $infoCache->{_defaultWeb}, $_ );
+                        [ $session->getApproxRevTime( $web, $topic ), $_ ] 
+                  }
               @{ $infoCache->{list} };
             @tmpList = reverse(@tmpList) if ($revSort);
 
@@ -185,6 +181,7 @@ sub sortResults {
         # simple sort, see Codev.SchwartzianTransformMisused
         # note no extraction of topic info here, as not needed
         # for the sort. Instead it will be read lazily, later on.
+ #TODO: need to remove the web portion
         if ($revSort) {
             @{ $infoCache->{list} } =
               sort { $b cmp $a } @{ $infoCache->{list} };
@@ -199,11 +196,12 @@ sub sortResults {
         require Foswiki::Time;
         my @ends       = Foswiki::Time::parseInterval($date);
         my @resultList = ();
-        foreach my $topic ( @{ $infoCache->{list} } ) {
+        foreach my $webtopic ( @{ $infoCache->{list} } ) {
 
             # if date falls out of interval: exclude topic from result
+            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $infoCache->{_defaultWeb}, $webtopic );
             my $topicdate = $session->getApproxRevTime( $web, $topic );
-            push( @resultList, $topic )
+            push( @resultList, $webtopic )
               unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
         }
         @{ $infoCache->{list} } = @resultList;
@@ -213,13 +211,14 @@ sub sortResults {
 
 ######OLD methods
 sub get {
-    my ( $this, $topic, $meta ) = @_;
+    my ( $this, $webtopic, $meta ) = @_;
+    
+    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
 
-    unless ($this->{$topic}) {
-        $this->{$topic} = {};
-        $this->{$topic}->{tom} = $meta || 
-          Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb},
-            $topic );
+    unless ($this->{$webtopic}) {
+        $this->{$webtopic} = {};
+        $this->{$webtopic}->{tom} = $meta || 
+          Foswiki::Meta->load( $this->{_session}, $web, $topic );
         # SMELL: why do this here? Smells of a hack, as AFAICT it is done
         # anyway during output processing. Disable it, and see what happens....
         #my $text = $topicObject->text();
@@ -228,29 +227,31 @@ sub get {
         #$topicObject->text($text);
 
         # Extract sort fields
-        my $ri = $this->{$topic}->{tom}->getRevisionInfo();
+        my $ri = $this->{$webtopic}->{tom}->getRevisionInfo();
 
         # Rename fields to match sorting criteria
-        $this->{$topic}->{editby}   = $ri->{author} || '';
-        $this->{$topic}->{modified} = $ri->{date};
-        $this->{$topic}->{revNum}   = $ri->{version};
+        $this->{$webtopic}->{editby}   = $ri->{author} || '';
+        $this->{$webtopic}->{modified} = $ri->{date};
+        $this->{$webtopic}->{revNum}   = $ri->{version};
 
-        $this->{$topic}->{allowView} = $this->{$topic}->{tom}->haveAccess('VIEW');
+        $this->{$webtopic}->{allowView} = $this->{$webtopic}->{tom}->haveAccess('VIEW');
     }
 
-    return $this->{$topic};
+    return $this->{$webtopic};
 }
 
 # Determins, and caches, the topic revision info of the base version,
 sub getRev1Info {
-    my ( $this, $topic, $attr ) = @_;
+    my ( $this, $webtopic, $attr ) = @_;
 
-    my $info = $this->get($topic);
+    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
+
+    my $info = $this->get($webtopic);
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
             my $tmp =
-              Foswiki::Meta->load( $this->{_session}, $this->{_defaultWeb},
+              Foswiki::Meta->load( $this->{_session}, $web,
                 $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
@@ -289,14 +290,14 @@ sub sortTopics {
       ;    #cannot modify list once its being used as an iterator.
 
     # populate the cache for each topic
-    foreach my $topic ( @{ $this->{list} } ) {
+    foreach my $webtopic ( @{ $this->{list} } ) {
         if ( $sortfield =~ /^creat/ ) {
 
             # The act of getting the info will cache it
-            $this->getRev1Info( $topic, $sortfield );
+            $this->getRev1Info( $webtopic, $sortfield );
         }
         else {
-            my $info = $this->get($topic);
+            my $info = $this->get($webtopic);
             if ( !defined( $info->{$sortfield} ) ) {
                 $info->{$sortfield} =
                   Foswiki::Search::displayFormField( $info->{tom}, $sortfield );
@@ -305,7 +306,7 @@ sub sortTopics {
 
         # SMELL: CDot isn't clear why this is needed, but it is otherwise
         # we end up with the users all being identified as "undef"
-        my $info = $this->get($topic);
+        my $info = $this->get($webtopic);
         $info->{editby} =
           $info->{tom}->session->{users}->getWikiName( $info->{editby} );
     }
@@ -328,6 +329,11 @@ $NUMBER = qr/^[-+]?[0-9]+(\.[0-9]*)?([Ee][-+]?[0-9]+)?$/s;
 sub _compare {
     my $x = shift;
     my $y = shift;
+    
+    ASSERT($x) if DEBUG;
+    ASSERT($y) if DEBUG;
+    
+    
     if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {
 
         # when sorting numbers do it largest first; this is just because
@@ -339,6 +345,88 @@ sub _compare {
     }
 }
 
+#convert a comma separated list of webs into the list we'll process
+#TODO: this is part of the Store now, and so should not need to reference Meta - it rather uses the store..
+sub _getListOfWebs {
+    my ( $webName, $recurse, $searchAllFlag ) = @_;
+    my $session = $Foswiki::Plugins::SESSION;
+
+    my %excludeWeb;
+    my @tmpWebs;
+    
+#$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+
+    if ($webName) {
+        foreach my $web ( split( /[\,\s]+/, $webName ) ) {
+            $web =~ s#\.#/#go;
+
+            # the web processing loop filters for valid web names,
+            # so don't do it here.
+            if ( $web =~ s/^-// ) {
+                $excludeWeb{$web} = 1;
+            }
+            else {
+                if (   $web =~ /^(all|on)$/i
+                    || $Foswiki::cfg{EnableHierarchicalWebs}
+                    && Foswiki::isTrue($recurse) )
+                {
+                    require Foswiki::WebFilter;
+                    my $webObject;
+                    my $prefix = "$web/";
+                    if ( $web =~ /^(all|on)$/i ) {
+                        $webObject = Foswiki::Meta->new($session);
+                        $prefix    = '';
+                    }
+                    else {
+                        $web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+                        push( @tmpWebs, $web );
+                        $webObject = Foswiki::Meta->new( $session, $web );
+                    }
+                    my $it = $webObject->eachWeb(1);
+                    while ( $it->hasNext() ) {
+                        my $w = $prefix . $it->next();
+                        next
+                          unless $Foswiki::WebFilter::user_allowed->ok(
+                            $session, $w );
+                        $w = Foswiki::Sandbox::untaint( $w,\&Foswiki::Sandbox::validateWebName );
+                        push( @tmpWebs, $w );
+                    }
+                }
+                else {
+                    $web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+                    push( @tmpWebs, $web );
+                }
+            }
+        }
+
+    }
+    else {
+
+        # default to current web
+        my $web = Foswiki::Sandbox::untaint( $session->{webName},\&Foswiki::Sandbox::validateWebName );
+        push( @tmpWebs, $web );
+        if ( Foswiki::isTrue($recurse) ) {
+            my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
+            my $it =
+              $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
+            while ( $it->hasNext() ) {
+                my $w = $session->{webName} . '/' . $it->next();
+                next
+                  unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
+                $w = Foswiki::Sandbox::untaint( $w,\&Foswiki::Sandbox::validateWebName );
+                push( @tmpWebs, $w );
+            }
+        }
+    }
+
+    my @webs;
+    foreach my $web (@tmpWebs) {
+        push( @webs, $web ) unless $excludeWeb{$web};
+        $excludeWeb{$web} = 1;    # eliminate duplicates
+    }
+
+    return @webs;
+}
 #########################################
 #TODO: this is _now_ a default utility method that can be used by search&query algo's to brute force file a list of topics to search.
 #if you can avoid it, you should - as it needs to do an opendir on the web, and if you have alot of topics, life gets slow

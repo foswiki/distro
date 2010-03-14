@@ -54,12 +54,13 @@ sub search {
     $inputTopicSet->reset();
   FILE:
     while ( $inputTopicSet->hasNext() ) {
-        my $file = $inputTopicSet->next();
-        next unless open( FILE, '<', "$sDir/$file.txt" );
+        my $webtopic = $inputTopicSet->next();
+        my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
+        next unless open( FILE, '<', "$sDir/$topic.txt" );
         while ( my $line = <FILE> ) {
             if ( &$doMatch($line) ) {
                 chomp($line);
-                push( @{ $seen{$file} }, $line );
+                push( @{ $seen{$webtopic} }, $line );
                 if ( $options->{files_without_match} ) {
                     close(FILE);
                     next FILE;
@@ -78,6 +79,47 @@ this is the new way -
 =cut
 
 sub query {
+    my ( $query, $inputTopicSet, $session, $options ) = @_;
+
+    if ( (@{ $query->{tokens} } ) == 0) {
+        return new Foswiki::Search::InfoCache($session, '');
+    }
+
+
+    my $webNames = $options->{web}       || '';
+    my $recurse = $options->{'recurse'} || '';
+    my $isAdmin = $session->{users}->isAdmin( $session->{user} );
+
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
+
+    my @resultCacheList;
+    foreach my $web (@webs) {
+        # can't process what ain't thar
+        next unless $session->webExists($web);
+
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
+
+        # make sure we can report this web on an 'all' search
+        # DON'T filter out unless it's part of an 'all' search.
+        next
+          if ( $searchAllFlag
+            && !$isAdmin
+            && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
+            && $web ne $session->{webName} );
+        
+        my $infoCache = _webQuery($query, $web, $inputTopicSet, $session, $options);
+        $infoCache->sortResults( $options );
+        push(@resultCacheList, $infoCache);
+    }
+    #TODO: combine these into one great ResultSet
+    return new Foswiki::AggregateIterator(\@resultCacheList);
+}
+
+
+#ok, for initial validation, naively call the code with a web.
+sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
 
@@ -95,7 +137,7 @@ sub query {
     }
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
-#print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
+#print STDERR "######## PurePerl search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
 # AND search - search once for each token, ANDing result together
     foreach my $token ( @{ $query->{tokens} } ) {
 
@@ -117,15 +159,16 @@ sub query {
             my @topicList;
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
-                my $topic = $topicSet->next();
+                my $webtopic = $topicSet->next();
+                my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
 
                 if ( $options->{'casesensitive'} ) {
 
                     # fix for Codev.SearchWithNoPipe
-                    $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/ );
+                    $topicMatches{$webtopic} = 1 if ( $topic =~ /$qtoken/ );
                 }
                 else {
-                    $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/i );
+                    $topicMatches{$webtopic} = 1 if ( $topic =~ /$qtoken/i );
                 }
             }
         }
@@ -146,11 +189,11 @@ sub query {
         if ($invertSearch) {
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
-                my $topic = $topicSet->next();
+                my $webtopic = $topicSet->next();
 
-                if ( $topicMatches{$topic} ) {
+                if ( $topicMatches{$webtopic} ) {
                 } else {
-                    push( @scopeTextList, $topic );            
+                    push( @scopeTextList, $webtopic );            
                 }
             }
         }
@@ -170,7 +213,7 @@ sub query {
 1;
 __DATA__
 #
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+# Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #

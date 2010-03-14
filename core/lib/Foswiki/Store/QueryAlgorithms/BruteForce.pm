@@ -27,6 +27,48 @@ use Foswiki::Search::InfoCache;
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
+    my ( $query, $inputTopicSet, $session, $options ) = @_;
+
+#TODO: th 1==2 and other false optimisations..
+    #if ( !defined($query->{tokens}) or 
+    #    (@{ $query->{tokens} } ) == 0) {
+    #    return new Foswiki::Search::InfoCache($session, '');
+    #}
+
+    my $webNames = $options->{web}       || '';
+    my $recurse = $options->{'recurse'} || '';
+    my $isAdmin = $session->{users}->isAdmin( $session->{user} );
+
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
+
+    my @resultCacheList;
+    foreach my $web (@webs) {
+        # can't process what ain't thar
+        next unless $session->webExists($web);
+
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
+
+        # make sure we can report this web on an 'all' search
+        # DON'T filter out unless it's part of an 'all' search.
+        next
+          if ( $searchAllFlag
+            && !$isAdmin
+            && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
+            && $web ne $session->{webName} );
+        
+        my $infoCache = _webQuery($query, $web, $inputTopicSet, $session, $options);
+        $infoCache->sortResults( $options );
+        push(@resultCacheList, $infoCache);
+    }
+    #TODO: combine these into one great ResultSet
+    return new Foswiki::AggregateIterator(\@resultCacheList);
+}
+
+
+#ok, for initial validation, naively call the code with a web.
+sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
     require Foswiki::Query::HoistREs;
@@ -74,13 +116,14 @@ sub query {
 
         #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
     }
-
     my $resultTopicSet =
       new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web);
     local $/;
     $topicSet->reset();
     while ( $topicSet->hasNext() ) {
-        my $topic = $topicSet->next();
+        my $webtopic = $topicSet->next();
+        my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
+        
         my $meta = Foswiki::Meta->new( $session, $web, $topic );
         # this 'lazy load' will become useful when @$topics becomes
         # an infoCache

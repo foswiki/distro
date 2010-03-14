@@ -646,6 +646,7 @@ lib/Foswiki/Macros/WIKINAME.pm 0444
 lib/Foswiki/Macros/WIKIUSERNAME.pm 0444
 lib/Foswiki/Merge.pm 0444
 lib/Foswiki/Meta.pm 0444
+lib/Foswiki/MetaCache.pm 0444
 lib/Foswiki/Net/HTTPResponse.pm 0444
 lib/Foswiki/Net.pm 0444
 lib/Foswiki/Net/UserCredAgent.pm 0444

@@ -51,11 +51,12 @@ sub new {
 ---++ ObjectMethod finish()
 Break circular references.
 
+ Note to developers; please undef *all* fields in the object explicitly,
+ whether they are references or not. That way this method is "golden
+ documentation" of the live fields in the object.
+
 =cut
 
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
     undef $this->{session};
@@ -70,6 +71,50 @@ sub finish {
         undef $this->{searchParser};
     }
 }
+
+
+=begin TML
+
+---++ ObjectMethod parseSearch($searchString, $params) -> Foswiki::*::Node 
+
+parses the search string and builds the appropriate nodes (uses $param->{type} to work out which parser 
+
+TODO: make parser register themselves with their type, so that we could plug in anything.
+
+=cut
+
+sub parseSearch {
+    my $this = shift;
+    my $searchString = shift;
+    my $params = shift;
+
+    my $query;
+    my $theParser;
+    if ( $params->{type} eq 'query' ) {
+        unless ( defined($this->{queryParser}) ) {
+            require Foswiki::Query::Parser;
+            $this->{queryParser} = new Foswiki::Query::Parser();
+        }
+        $theParser = $this->{queryParser};
+    }
+    else {
+        unless ( defined($this->{searchParser}) ) {
+            require Foswiki::Search::Parser;
+            $this->{searchParser} = new Foswiki::Search::Parser($this->{session});
+        }
+        $theParser = $this->{searchParser};
+    }
+    try {
+        $query = $theParser->parse( $searchString, $params );
+    }
+    catch Foswiki::Infix::Error with {
+
+        # Pass the error on to the caller
+        throw Error::Simple( shift->stringify() );
+    };
+    return $query;
+}
+
 
 sub _extractPattern {
     my ( $text, $pattern ) = @_;
@@ -109,81 +154,6 @@ sub _countPattern {
     };
 
     return $count;
-}
-
-#convert a comma separated list of webs into the list we'll process
-sub _getListOfWebs {
-    my ( $this, $webName, $recurse, $searchAllFlag ) = @_;
-    my $session = $this->{session};
-
-    my %excludeWeb;
-    my @tmpWebs;
-
-    if ($webName) {
-        foreach my $web ( split( /[\,\s]+/, $webName ) ) {
-            $web =~ s#\.#/#go;
-
-            # the web processing loop filters for valid web names,
-            # so don't do it here.
-            if ( $web =~ s/^-// ) {
-                $excludeWeb{$web} = 1;
-            }
-            else {
-                if (   $web =~ /^(all|on)$/i
-                    || $Foswiki::cfg{EnableHierarchicalWebs}
-                    && Foswiki::isTrue($recurse) )
-                {
-                    require Foswiki::WebFilter;
-                    my $webObject;
-                    my $prefix = "$web/";
-                    if ( $web =~ /^(all|on)$/i ) {
-                        $webObject = Foswiki::Meta->new($session);
-                        $prefix    = '';
-                    }
-                    else {
-                        push( @tmpWebs, $web );
-                        $webObject = Foswiki::Meta->new( $session, $web );
-                    }
-                    my $it = $webObject->eachWeb(1);
-                    while ( $it->hasNext() ) {
-                        my $w = $prefix . $it->next();
-                        next
-                          unless $Foswiki::WebFilter::user_allowed->ok(
-                            $session, $w );
-                        push( @tmpWebs, $w );
-                    }
-                }
-                else {
-                    push( @tmpWebs, $web );
-                }
-            }
-        }
-
-    }
-    else {
-
-        # default to current web
-        push( @tmpWebs, $session->{webName} );
-        if ( Foswiki::isTrue($recurse) ) {
-            my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
-            my $it =
-              $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
-            while ( $it->hasNext() ) {
-                my $w = $session->{webName} . '/' . $it->next();
-                next
-                  unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
-                push( @tmpWebs, $w );
-            }
-        }
-    }
-
-    my @webs;
-    foreach my $web (@tmpWebs) {
-        push( @webs, $web ) unless $excludeWeb{$web};
-        $excludeWeb{$web} = 1;    # eliminate duplicates
-    }
-
-    return @webs;
 }
 
 =begin TML
@@ -262,7 +232,7 @@ sub searchWeb {
     $params{pager_urlparam_id} = $paging_ID;
     
     # 1-based system; 0 is not a valid page number
-    my $showpage = $session->{request}->param($paging_ID) || $params{showpage} || 1;
+    my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
     
     if (defined($params{pagesize}) or defined($showpage) ) {
         $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
@@ -302,7 +272,6 @@ sub searchWeb {
     my $nonoise    = Foswiki::isTrue( $params{nonoise} );
     my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
 
-    my $sortOrder = $params{order} || '';
     my $revSort = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
     my $searchString = defined $params{search} ? $params{search} : '';
@@ -319,7 +288,7 @@ sub searchWeb {
         $params{wordboundaries} = 1;
     }
 
-    my $webName = $params{web}       || '';
+    my $webNames = $params{web}       || '';
     my $date    = $params{date}      || '';
     my $recurse = $params{'recurse'} || '';
     my $finalTerm = $inline ? ( $params{nofinalnewline} || 0 ) : 0;
@@ -343,12 +312,8 @@ sub searchWeb {
 
     # A value of 'all' or 'on' by itself gets all webs,
     # otherwise ignored (unless there is a web called 'All'.)
-    my $searchAllFlag = ( $webName =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-
-    my @webs = $this->_getListOfWebs( $webName, $recurse, $searchAllFlag );
-
-    #to help later processing (formatResults)
-    $params{numberOfWebs} = scalar(@webs);
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
 
     # Write log entry
     # FIXME: Move log entry further down to log actual webs searched
@@ -357,56 +322,22 @@ sub searchWeb {
         $session->logEvent( 'search', $t, $searchString );
     }
 
-    my $query;
+###################the search
+    my $query = $this->parseSearch($searchString, \%params );
+#setting the inputTopicSet to be undef allows the search/query algo to use
+#the topic="" and excludetopic="" params and web Obj to get a new list of topics.
+#this allows the algo's to customise and optimise the getting of this list themselves.
+    my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
-    if ( length($searchString) == 0 ) {
-
-        #default search should return no results
-        $searchString = '1 = 2';
-
-    #shortcircuit the search
-    #FIXME: this breaks the per-web summary output that is hidden in the foreach
-        @webs = ();
-    }
-
-    my $theParser;
-    if ( $params{type} eq 'query' ) {
-        unless ( defined($this->{queryParser}) ) {
-            require Foswiki::Query::Parser;
-            $this->{queryParser} = new Foswiki::Query::Parser();
-        }
-        $theParser = $this->{queryParser};
-    }
-    else {
-        unless ( defined($this->{searchParser}) ) {
-            require Foswiki::Search::Parser;
-            $this->{searchParser} = new Foswiki::Search::Parser($session);
-        }
-        $theParser = $this->{searchParser};
-    }
-    try {
-        $query = $theParser->parse( $searchString, \%params );
-    }
-    catch Foswiki::Infix::Error with {
-
-        # Pass the error on to the caller
-        throw Error::Simple( shift->stringify() );
-    };
-
-#TODO: redo with a $query->isEmpty() or something generic, and then push into the foreach?
-    unless ( $params{type} eq 'query' ) {
-
-    #shorcircuit the search foreach below for a zero result search
-    #FIXME: this breaks the per-web summary output that is hidden in the foreach
-        @webs = () unless scalar( @{ $query->{tokens} } );    #default
-    }
+###################the rendering
+    return '' if (!$inline and  (!$infoCache->hasNext()) and $params{zeroresults} );
 
     my ( $tmplHead, $tmplSearch, $tmplTail ) =
       $this->loadTemplates( \%params, $baseWebObject, $formatDefined,
         $doBookView, $noHeader, $noSummary, $noTotal, $noFooter );
 
     # If not inline search, also expand tags in head and tail sections
-    unless ($inline) {
+    if (!$inline) {
         $tmplHead = $baseWebObject->expandMacros($tmplHead);
 
         &$callback( $cbdata, $tmplHead );
@@ -427,42 +358,21 @@ sub searchWeb {
     }
 
     # Loop through webs
-    my $isAdmin = $session->{users}->isAdmin( $session->{user} );
     my $ttopics = 0;
     my $prefs   = $session->{prefs};
-    foreach my $web (@webs) {
-
-        $web = Foswiki::Sandbox::untaint( $web,
-            \&Foswiki::Sandbox::validateWebName );
-
-        # can't process what ain't thar
-        next unless $session->webExists($web);
-
-        my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
-
-        # make sure we can report this web on an 'all' search
-        # DON'T filter out unless it's part of an 'all' search.
-        next
-          if ( $searchAllFlag
-            && !$isAdmin
-            && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
-            && $web ne $session->{webName} );
-
-# Run the search on topics in this web
-#setting the inputTopicSet to be undef allows the search/query algo to use
-#the topic="" and excludetopic="" params and web Obj to get a new list of topics.
-#this allows the algo's to customise and optimise the getting of this list themselves.
-        my $infoCache = $webObject->query( $query, undef, \%params );
-        $infoCache->sortResults( $web, \%params );
-
-        if ( $params{noempty} && !$infoCache->hasNext() ) {
-            next;    # Nothing to show for this web
-        }
+#    foreach my $web (@webs) {
+#        if ( $params{noempty} && !$infoCache->hasNext() ) {
+#            next;    # Nothing to show for this web
+#        }
 
      # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-        &$callback( $cbdata, $separator )
-          if ( ( $ttopics > 0 ) and $noFooter and $noSummary and $separator );
+#        &$callback( $cbdata, $separator )
+#          if ( ( $ttopics > 0 ) and $noFooter and $noSummary and $separator );
+
+        my $webObject;# = Foswiki::Meta->new( $session, $web );
+        
+        #TODO: quick hackjob - see what the feature proposal gives before it becomes public
+        $params{partition_output} = 'web';
 
         my ( $web_ttopics, $web_searchResult );
         ( $web_ttopics, $web_searchResult ) =
@@ -470,15 +380,14 @@ sub searchWeb {
 
         $ttopics += $web_ttopics;
 
-        #paging
-        if ( defined($showpage) and $params{pager_show_results_to} > 0 ) {
-            $params{pager_show_results_to} -= $web_ttopics;
-            last if ( $params{pager_show_results_to} <= 0 );
-        }
-    }    # end of: foreach my $web ( @webs )
-    return '' if ( $ttopics == 0 && $params{zeroresults} );
+#        #paging
+#        if ( defined($showpage) and $params{pager_show_results_to} > 0 ) {
+#            $params{pager_show_results_to} -= $web_ttopics;
+#            last if ( $params{pager_show_results_to} <= 0 );
+#        }
+#    }    # end of: foreach my $web ( @webs )
 
-    unless ($inline) {
+    if (!$inline) {
         $tmplTail = $baseWebObject->expandMacros($tmplTail);
 
         &$callback( $cbdata, $tmplTail );
@@ -611,11 +520,11 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 =cut
 
 sub formatResults {
-    my ( $this, $webObject, $query, $infoCache, $params ) = @_;
+    my ( $this, $webObject__GONE, $query, $infoCache, $params ) = @_;
     my $session            = $this->{session};
     my $users              = $session->{users};
-    my $web                = $webObject->web;
-    my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
+#    my $web                = $webObject->web;
+#    my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
     my ( $callback, $cbdata ) = setup_callback($params);
 
@@ -647,14 +556,14 @@ sub formatResults {
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
+
+    #pager formatting
+    my %pager_formatting;
     if ( defined( $params->{pager_show_results_to} )
         and $params->{pager_show_results_to} > 0 )
     {
-        $limit = $params->{pager_show_results_to};
-    }
-    #pager formatting
-    my %pager_formatting;
-    if (defined($params->{pager_show_results_to})) {
+            $limit = $params->{pager_show_results_to};
+
         #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
             my $pagesize =
                  $params->{pagesize}
@@ -746,29 +655,21 @@ sub formatResults {
     my $separator = $params->{separator};
     my $type      = $params->{type} || '';
 
-    if ( defined $header ) {
-        $header = Foswiki::expandStandardEscapes($header);
-        $header =~ s/\$web/$web/gos;      # expand name of web
-        $header =~ s/([^\n])$/$1\n/os;    # add new line at end
-    }
-
-    if ((defined($params->{pager})) and ($params->{pager} eq 'on')) {
-        $footer .= '$pager';
-    }
-    if ( defined $footer ) {
-        $footer = Foswiki::expandStandardEscapes($footer);
-        $footer =~ s/\$web/$web/gos;      # expand name of web
-        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
-    }
-
     # output the list of topics in $web
     my $ntopics    = 0;         # number of topics in current web
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
 
-    while ( $infoCache->hasNext() ) {
-        my $topic = $infoCache->next();
+    my $web;
+    my $webObject;
+    my $lastWebProcessed = '';
+    my $ttopics = 0;
+    my $thits = 0;
 
+    while ( $infoCache->hasNext() ) {
+        my $webtopic = $infoCache->next();
+        my $topic;
+        ($web, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
         #pager..
         if ( defined( $params->{pager_skip_results_from} )
             and $params->{pager_skip_results_from} > 0 )
@@ -782,7 +683,7 @@ sub formatResults {
             $cache->addDependency( $web, $topic );
         }
 
-        my $info = $infoCache->get($topic);
+        my $info = $this->get($web, $topic);
         my $text;    #current hits' text
 
 # Check security (don't show topics the current user does not have permission to view)
@@ -828,9 +729,11 @@ sub formatResults {
         my $revNum = $info->{revNum} || 0;
 
         $ntopics += 1;
+        $ttopics += 1;
         do {    # multiple=on loop
 
             $nhits += 1;
+            $thits += 1;
             my $out = '';
 
             $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
@@ -877,20 +780,16 @@ sub formatResults {
   #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
   #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
                         '\$createlongdate' => sub {
-                            return $infoCache->getRev1Info( $topic,
-                                "createlongdate" );
+                            return $this->get($web, $topic)->{tom}->getRev1Info( "createlongdate" );
                         },
                         '\$createusername' => sub {
-                            return $infoCache->getRev1Info( $topic,
-                                "createusername" );
+                            return $this->get($web, $topic)->{tom}->getRev1Info( "createusername" );
                         },
                         '\$createwikiname' => sub {
-                            return $infoCache->getRev1Info( $topic,
-                                "createwikiname" );
+                            return $this->get($web, $topic)->{tom}->getRev1Info( "createwikiname" );
                         },
                         '\$createwikiusername' => sub {
-                            return $infoCache->getRev1Info( $topic,
-                                "createwikiusername" );
+                            return $this->get($web, $topic)->{tom}->getRev1Info( "createwikiusername" );
                         },
 
                    #TODO: hacky bits that need to be moved out of formatResult()
@@ -909,30 +808,105 @@ sub formatResults {
                 $out = '';
             }
 
-            # lazy output of header (only if needed for the first time)
-            unless ($headerDone) {
-                $headerDone = 1;
-                my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
-                  || '\#FF00FF';
-                $header =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
-                $header =~ s/%WEB%/$web/go;
-                $header =~ s/\$ntopics/0/gs;
-                $header =~ s/\$nhits/0/gs;
-                $out = $this->formatCommon($out, \%pager_formatting);
-                $header = $webObject->expandMacros($header);
-                &$callback( $cbdata, $header );
+            my $justdidHeaderOrFooter = 0;
+            if ((defined($params->{partition_output})) and ($params->{partition_output} eq 'web')) {
+                if ($lastWebProcessed ne $web) {
+                    #output the footer for the previous webtopic
+                    if ($lastWebProcessed ne '') {
+                         #c&p from below
+                         #TODO: needs refactoring.
+                            if ( defined($footer) and ($footer ne '')) {
+                                my $processedfooter = Foswiki::expandStandardEscapes($footer);
+                                $processedfooter =~ s/\$web/$lastWebProcessed/gos;      # expand name of web
+                                $processedfooter =~ s/([^\n])$/$1\n/os;    # add new line at end
+                                # output footer of $web
+                                $ntopics--;
+                                $nhits--;
+                                $processedfooter =~ s/\$ntopics/$ntopics/gs;
+                                $processedfooter =~ s/\$nhits/$nhits/gs;
+                                $ntopics = 1;
+                                $nhits = 1;
+
+                                #legacy SEARCH counter support
+                                $processedfooter =~ s/%NTOPICS%/$ntopics/go;
+
+                                $processedfooter = $this->formatCommon($processedfooter, \%pager_formatting);
+                                $processedfooter = $webObject->expandMacros($processedfooter);
+                                if ( $inline || $formatDefined ) {
+                                    $processedfooter =~ s/\n$//os;    # remove trailing new line
+                                }
+
+                                if ( defined($separator) ) {
+
+                         #	$header = $header.$separator if (defined($params->{header}));
+                         #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
+                                    if ( defined( $params->{footer}) ) {
+                                        &$callback( $cbdata, $separator )
+                                    }
+                                }
+                                else {
+
+                        #TODO: legacy from SEARCH - we want to remove this oddness
+                        #    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $processedfooter ne '<nop>');
+                                }
+
+                                $justdidHeaderOrFooter = 1;
+                                &$callback( $cbdata, $processedfooter );
+                            }
+                    }
+                    #trigger a header for this new web
+                    $headerDone = undef;
+                }
             }
 
-            &$callback( $cbdata, $separator )
-              if ( defined($separator) and $nhits > 1 );
+            if ($lastWebProcessed ne $web) {
+                $webObject = new Foswiki::Meta($session, $web);
+                $lastWebProcessed = $web;
+            }
+
+            # lazy output of header (only if needed for the first time)
+            if ((!$headerDone and (defined($header))) and ($header ne '')) {
+                     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
+                     if ( ( $ttopics > 1 ) and $noFooter and $noSummary and $separator ) {
+                        &$callback( $cbdata, $separator )
+                     }
+                    my $processedheader = Foswiki::expandStandardEscapes($header);
+                    $processedheader =~ s/\$web/$web/gos;      # expand name of web
+                    $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
+                    
+                    $headerDone = 1;
+                    my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
+                      || '\#FF00FF';
+                    $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
+                    $processedheader =~ s/%WEB%/$web/go;
+                    $processedheader =~ s/\$ntopics/0/gs;
+                    $processedheader =~ s/\$nhits/0/gs;
+                    $processedheader = $this->formatCommon($processedheader, \%pager_formatting);
+                    $processedheader = $webObject->expandMacros($processedheader);
+                    &$callback( $cbdata, $processedheader );
+                    $justdidHeaderOrFooter = 1;
+            } 
+        
+            if ( defined($separator) and ($thits > 1) and ($justdidHeaderOrFooter != 1)) {
+                &$callback( $cbdata, $separator )
+            }
+
             &$callback( $cbdata, $out );
         } while (@multipleHitLines);    # multiple=on loop
 
-        last if ( $ntopics >= $limit );
+        last if ( $ttopics >= $limit );
     }    # end topic loop
 
     # output footer only if hits in web
     if ($ntopics) {
+        if ((defined($params->{pager})) and ($params->{pager} eq 'on')) {
+            $footer .= '$pager';
+        }
+        if ( defined $footer ) {
+            $footer = Foswiki::expandStandardEscapes($footer);
+            $footer =~ s/\$web/$web/gos;      # expand name of web
+            $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
+        }
 
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
@@ -1279,6 +1253,41 @@ sub searchMetaData {
     }
 
     return $text;
+}
+
+#TODO: this is a bad copy&extract from infocache
+#i am pretty sure I'll move this and its cousin into either
+#Foswiki::Meta::Cache, as it is a cache of meta obj's (which the search algo's have to access? ouch.)
+#Foswiki::Store::Cache (so that it can be shared both with the internal to Store search algo's, and by Meta..
+#errr, bugger, can't put anything into Foswiki::Store:: as the unit tests arse-hume that any .pm file there is a Store impl.
+#um, yes, totally broken abstractions :/
+#but it does mean that there needs to be a concept of readonly Meta objects vs the few taht will be modified.
+#give us a way to get topics without re-re-reloading themselves
+sub get {
+    my ( $this, $web, $topic, $meta ) = @_;
+
+    unless ($this->{$web}) {
+        $this->{$web} = {};
+    }
+
+    unless ($this->{$web}->{$topic}) {
+        $this->{$web}->{$topic} = {};
+        $this->{$web}->{$topic}->{tom} = $meta || 
+          Foswiki::Meta->load( $this->{session}, $web,
+            $topic );
+
+        # Extract sort fields
+        my $ri = $this->{$web}->{$topic}->{tom}->getRevisionInfo();
+
+        # Rename fields to match sorting criteria
+        $this->{$web}->{$topic}->{editby}   = $ri->{author} || '';
+        $this->{$web}->{$topic}->{modified} = $ri->{date};
+        $this->{$web}->{$topic}->{revNum}   = $ri->{version};
+
+        $this->{$web}->{$topic}->{allowView} = $this->{$web}->{$topic}->{tom}->haveAccess('VIEW');
+    }
+
+    return $this->{$web}->{$topic};
 }
 
 1;

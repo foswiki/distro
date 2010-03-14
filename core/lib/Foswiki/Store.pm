@@ -624,11 +624,40 @@ sub remove {
 
 =begin TML
 
+---++ ObjectMethod query($query, $inputTopicSet, $session, \%options) -> $outputTopicSet
+
+Search for data in the store (not web based). =$query= must
+be a =Foswiki::*::Node= object.
+
+    my $query = $Foswiki::Plugins::SESSION->search->parseSearch($searchString, $options);
+    #where $options->{type} is the type specifier as per SEARCH
+
+   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
+     if set to undef, the search/query algo will create a new iterator using eachTopic() 
+     and the topic and excludetopics options
+
+Returns an Foswiki::Search::InfoCache iterator
+
+This will become a 'query engine' factory that will allow us to plug in different
+query 'types' (Sven has code for 'tag' and 'attachment' waiting for this)
+
+=cut
+
+sub query {
+    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+    die "Abstract base class";
+}
+
+=begin TML
+
 ---++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, $session, \%options) -> $outputTopicSet
 
 Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
 
 Returns an Foswiki::Search::InfoCache iterator
+
+DEPRECATED: this is the old way to search, and should not be used in new code.
+instead, use query() - using the topicSet iterator interface allows optimistations
 
 =cut
 
@@ -663,7 +692,7 @@ return on the first match in each topic (i.e. it will return only one
 match per topic, and will not return matching lines).
 
 DEPRECATED: this is the old way to search, and should not be used in new code.
-instead, use searchInWebMetaData() - using the topicSet iterator interface allows optimistations
+instead, use query() - using the topicSet iterator interface allows optimistations
 
 =cut
 
@@ -744,7 +773,7 @@ sub removeSpuriousLeases {
 __END__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #

@@ -110,7 +110,6 @@ sub finish {
     undef $this->{web};
     undef $this->{topic};
     undef $this->{attachment};
-    undef $this->{searchFn};
 }
 
 # Used in subclasses for late initialisation during object creation
@@ -270,109 +269,6 @@ sub getWebNames {
         closedir($dh);
     }
     return @tmpList;
-}
-
-=begin TML
-
----++ ObjectMethod searchInWebContent($searchString, $web, $inputTopicSet, $session, \%options ) -> \%map
-
-Search for a string in the content of a web. The search must be over all
-content and all formatted meta-data, though the latter search type is
-deprecated (use queries instead).
-
-   * =$searchString= - the search string, in egrep format if regex
-   * =$web= - The web to search in
-   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
-     if set to undef, the search/query algo will create a new iterator using eachTopic() 
-     and the topic and excludetopics options
-   * =$session= - the Foswiki session object that provides the context of this
-     search
-   * =\%options= - reference to an options hash
-The =\%options= hash may contain the following options:
-   * =type= - if =regex= will perform a egrep-syntax RE search (default '')
-   * =casesensitive= - false to ignore case (defaulkt true)
-   * =files_without_match= - true to return files only (default false)
-
-The return value is a reference to a hash which maps each matching topic
-name to a list of the lines in that topic that matched the search,
-as would be returned by 'grep'. If =files_without_match= is specified, it will
-return on the first match in each topic (i.e. it will return only one
-match per topic, and will not return matching lines).
-
-=cut
-
-sub searchInWebContent {
-    my ( $this, $searchString, $web, $inputTopicSet, $session, $options ) = @_;
-    ASSERT( defined $options ) if DEBUG;
-
-    unless ( $this->{searchFn} ) {
-        eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
-        die <<BADALG if $@;
-Bad {Store}{SearchAlgorithm}; suggest you run configure and select
-a different algorithm
-$@
-BADALG
-        $this->{searchFn} = $Foswiki::cfg{Store}{SearchAlgorithm} . '::search';
-        die <<NOQUERY unless eval "defined &$this->{searchFn}";
-Bad {Store}{SearchAlgorithm}; no search method. Suggest you run
-configure and select a different algorithm
-NOQUERY
-    }
-
-    no strict 'refs';
-    return &{ $this->{searchFn} }(
-        $searchString, $web, $inputTopicSet, $session, $options );
-    use strict 'refs';
-}
-
-=begin TML
-
----++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, $session, \%options) -> $outputTopicSet
-
-Search for a meta-data expression in the content of a web. =$query= must
-be a =Foswiki::*::Node= object.
-   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
-     if set to undef, the search/query algo will create a new iterator using eachTopic() 
-     and the topic and excludetopics options
-
-Returns an Foswiki::Search::InfoCache iterator
-
-This will become a 'query engine' factory that will allow us to plug in different
-query 'types' (Sven has code for 'tag' and 'attachment' waiting for this)
-
-TODO: needs a rename.
-
-=cut
-
-sub searchInWebMetaData {
-    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
-
-    my $engine;
-    if ( $options->{type} eq 'query' ) {
-        unless ( $this->{queryFn} ) {
-            eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
-            die
-"Bad {Store}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
-              if $@;
-            $this->{queryFn} = $Foswiki::cfg{Store}{QueryAlgorithm} . '::query';
-        }
-        $engine = $this->{queryFn};
-    }
-    else {
-        unless ( $this->{searchQueryFn} ) {
-            eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
-            die
-"Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
-              if $@;
-            $this->{searchQueryFn} =
-              $Foswiki::cfg{Store}{SearchAlgorithm} . '::query';
-        }
-        $engine = $this->{searchQueryFn};
-    }
-
-    no strict 'refs';
-    return &{$engine}( $query, $web, $inputTopicSet, $session, $options );
-    use strict 'refs';
 }
 
 =begin TML
@@ -1252,7 +1148,7 @@ sub eachChange {
 
 __END__
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of
 this distribution. NOTE: Please extend that file, not this notice.
 
