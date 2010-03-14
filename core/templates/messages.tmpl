@@ -606,6 +606,9 @@
 %MAKETEXT{"Contact [_1] if you have any questions." args="%WIKIWEBMASTER%"}%
 
 %TMPL:END%
+%TMPL:DEF{"ENCODE_bad_1"}%%MAKETEXT{"ENCODE failed - =type= cannot be used alongside =old= and =new= "}%%TMPL:END%
+%TMPL:DEF{"ENCODE_bad_2"}%%MAKETEXT{"ENCODE failed - both of =old= and =new= must be given"}%%TMPL:END%
+%TMPL:DEF{"ENCODE_bad_3"}%%MAKETEXT{"ENCODE failed - token '%PARAM1%' is repeated in =old= "}%%TMPL:END%
 %TMPL:DEF{"EXPAND_nomacro"}%%MAKETEXT{"EXPAND failed - no macro"}%%TMPL:END%
 %TMPL:DEF{"EXPAND_noscope"}%%MAKETEXT{"EXPAND failed - no such topic '%PARAM1%'"}% %TMPL:END%
 %TMPL:DEF{"EXPAND_noaccess"}%%MAKETEXT{"EXPAND failed - access to '%PARAM1%' denied"}%%TMPL:END%

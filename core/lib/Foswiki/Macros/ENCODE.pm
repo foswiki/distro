@@ -2,13 +2,65 @@
 package Foswiki;
 
 use strict;
+my @DIG = map { chr($_) } (0..9);
+
+# Returns a decimal number encoded as a string where each digit is
+# replaced by an unprintable character
+sub _s2d {
+    return join('', map { chr(int($_)) } split('', shift));
+}
+
+sub _expandEscapes {
+    my $s = expandStandardEscapes(shift);
+    $s =~ s/\$comma(\(\))?/,/g;
+    return $s;
+}
 
 sub ENCODE {
     my ( $this, $params ) = @_;
-    my $type = $params->{type} || 'url';
 
-    # Value 0 can be valid input so we cannot use simple = || ''
-    my $text = defined( $params->{_DEFAULT} ) ? $params->{_DEFAULT} : '';
+    my $old = $params->{old};
+    my $new = $params->{new};
+    my $type = $params->{type};
+
+    if (defined $type && (defined $old || defined $new)) {
+        return $this->inlineAlert('alerts', 'ENCODE_bad_1');
+    }
+    if (defined $old && !defined $new || !defined $old && defined $new) {
+        return $this->inlineAlert('alerts', 'ENCODE_bad_2');
+    }
+
+    my $text = $params->{_DEFAULT};
+    $text = '' unless defined $text;
+
+    if (defined $old) {
+        my @old = split(',', $old);
+        my @new = split(',', $new);
+        while (scalar(@new) < scalar(@old)) {
+            push(@new, '');
+        }
+        # The double loop is to make it behave like tr///. The first loop
+        # locates the tokens to replace, and the second loop subs them.
+        my %toks; # detect repeated tokens
+        for (my $i = 0; $i <= $#old; $i++) {
+            my $e = _s2d($i);
+            my $o = $old[$i];
+            if ($toks{$o}) {
+                return $this->inlineAlert('alerts', 'ENCODE_bad_3', $o);
+            }
+            $toks{$o} = 1;
+            $o = quotemeta(_expandEscapes($o));
+            $text =~ s/$o/$e/ge;
+        }
+        for (my $i = 0; $i <= $#new; $i++) {
+            my $e = _s2d($i);
+            my $n = _expandEscapes($new[$i]);
+            $text =~ s/$e/$n/g;
+        }
+        return $text;
+    }
+
+    $type ||= 'url';
 
     if ( $type =~ /^entit(y|ies)$/i ) {
         return entityEncode($text);
@@ -31,7 +83,7 @@ sub ENCODE {
         # no encoding
         return $text;
     }
-    else {                               # safe or default
+    else {                               # safe
                                          # entity encode ' " < > and %
         $text =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         return $text;
