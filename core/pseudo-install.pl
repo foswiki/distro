@@ -8,6 +8,10 @@ use Cwd;
 use Config;
 use FindBin;
 
+my $internal_gzip = 1;
+eval "require Compress::Zlib";
+$internal_gzip = 0 if $@;
+
 our $install;
 our $basedir;
 our @extensions_path;
@@ -362,8 +366,24 @@ sub just_link {
         }
         if ($found && $compress) {
             trace "...compressed $moduleDir/$file to create $file.gz";
-            # SMELL: someone might not have tar
-            trace `tar vczf $file.gz $file`;
+            if ($internal_gzip) {
+                open( IF, '<', _cleanPath("$moduleDir/$file") ) || die "Failed to open $file to read: $!";
+                local $/ = undef;
+                my $text = <IF>;
+                close(IF);
+
+                $text = Compress::Zlib::memGzip( $text );
+
+                open( OF, '>', _cleanPath("$moduleDir/$file") . ".gz" ) || die "Failed to open $file.gz to write: $!";
+                binmode OF;
+                print OF $text;
+                close(OF);
+            }
+            else {
+              # Try gzip as a backup, if Compress::Zlib is not available
+              my $command = "gzip -c " . _cleanPath("$moduleDir/$file") . " > " . _cleanPath("$moduleDir/$file") . ".gz";
+              trace `$command`;
+            }
         }
     }
     unless ($found) {
