@@ -238,4 +238,13 @@ sub _testMacroHandler {
     return $handlerInvoked.$macroWasHere;
 }
 
+sub test_EXPAND_bad {
+    my $this = shift;
+    my $r = $this->_expand("%EXPAND{}%");
+    $this->assert_matches(qr/EXPAND failed - no macro/, $r);
+    $r = $this->_expand('%EXPAND{"schlob" scope="bandersnatch"}%');
+    $this->assert_matches(qr/EXPAND failed - no such topic 'bandersnatch'/, $r);
+    # TODO: check access controls
+}
+
 1;

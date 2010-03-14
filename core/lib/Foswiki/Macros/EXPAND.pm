@@ -6,17 +6,18 @@ use strict;
 sub EXPAND {
     my ( $this, $params ) = @_;
     my $macro = $params->{_DEFAULT};
-    return "EXPAND failed" unless $macro;
+    return $this->inlineAlert('alerts', 'EXPAND_nomacro')
+      unless $macro;
     $macro = expandStandardEscapes($macro);
     my $scope = $params->{scope};
     my $meta;
     if ($scope) {
         my ( $web, $topic ) = $this->normalizeWebTopicName(
            $this->{webName}, $scope);
-        return "EXPAND failed - no such topic"
+        return $this->inlineAlert('alerts', 'EXPAND_noscope', $scope)
           unless $this->topicExists($web, $topic);
         $meta = new Foswiki::Meta($this, $web, $topic);
-        return "EXPAND failed - access to $scope denied"
+        return $this->inlineAlert('alerts', 'EXPAND_noaccess', $scope)
           unless $meta->haveAccess('VIEW');
         $this->{prefs}->popTopicContext();
         $this->{prefs}->pushTopicContext( $web, $topic );
