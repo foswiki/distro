@@ -2,9 +2,14 @@
 # ---++ JQueryPlugin
 # ---+++ General settings 
 # **BOOLEAN**
+# This flag enables the debug mode for JQueryPlugin and all of its sub-modules.
+# Instead of loading jquery.myplugin.js, it will load jquery.myplugin.uncompressed.js.
 $Foswiki::cfg{JQueryPlugin}{Debug} = 0;
 
 # **BOOLEAN**
+# Enabling {MemoryCache} is an optimization flag useful when running Foswiki in a persistent perl
+# environment (fast-cgi, mod_perl). If set, registration information of sub-modules are kept in memory
+# between requests, thus speeding up the initialization phase.
 $Foswiki::cfg{JQueryPlugin}{MemoryCache} = 1;
 
 # **STRING**
@@ -22,6 +27,7 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = 'easing, bgiframe';
 
 # **SELECT jquery-1.4.2, jquery-1.3.2, jquery-1.3.2p1, jquery-1.2.6**
+# CAUTION: jquery-1.4.2 still has issues. please test carefully
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.3.2';
 
 # **SELECT base, lightness, redmond, smoothness**

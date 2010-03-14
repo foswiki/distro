@@ -1,6 +1,6 @@
 /*
  * Translated default messages for the jQuery validation plugin.
- * Language: PL
+ * Locale: PL
  */
 jQuery.extend(jQuery.validator.messages, {
 	required: "To pole jest wymagane.",
@@ -14,13 +14,10 @@ jQuery.extend(jQuery.validator.messages, {
 	creditcard: "Proszę o podanie prawidłowej karty kredytowej.",
 	equalTo: "Proszę o podanie tej samej wartości ponownie.",
 	accept: "Proszę o podanie wartości z prawidłowym rozszerzeniem.",
-	maxlength: jQuery.format("Proszę o podanie nie więcej niż {0} znaków."),
-	minlength: jQuery.format("Proszę o podanie przynajmniej {0} znaków."),
-	rangelength: jQuery.format("Proszę o podanie wartości o długości od {0} do {1} znaków."),
-	rangeValue: jQuery.format("Proszę o podanie wartości z przedziału od {0} do {1}."),
-	range: jQuery.format("Proszę o podanie wartości z przedziału od {0} do {1}."),
-	maxValue: jQuery.format("Proszę o podanie wartości mniejszej bądź równej {0}."),
-	max: jQuery.format("Proszę o podanie wartości mniejszej bądź równej {0}."),
-	minValue: jQuery.format("Proszę o podanie wartości większej bądź równej {0}."),
-	min: jQuery.format("Proszę o podanie wartości większej bądź równej {0}.")
+	maxlength: jQuery.validator.format("Proszę o podanie nie więcej niż {0} znaków."),
+	minlength: jQuery.validator.format("Proszę o podanie przynajmniej {0} znaków."),
+	rangelength: jQuery.validator.format("Proszę o podanie wartości o długości od {0} do {1} znaków."),
+	range: jQuery.validator.format("Proszę o podanie wartości z przedziału od {0} do {1}."),
+	max: jQuery.validator.format("Proszę o podanie wartości mniejszej bądź równej {0}."),
+	min: jQuery.validator.format("Proszę o podanie wartości większej bądź równej {0}.")
 });

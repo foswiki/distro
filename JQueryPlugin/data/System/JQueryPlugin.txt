@@ -101,6 +101,9 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Mar 2010: | upgraded =validate= to v1.7; added =wikiword= validation method; \
+                  fixed computation of line-height in =fluidfont=; \
+                  fixed height issue in =tabpane= |
 |  03 Mar 2010: | made ZonePlugin an optional dependency |
 |  01 Mar 2010: | improved js and css compression using yuicompressor; \
                   improved simplemodal integration to foswiki to create modal dialogs with less additional javascript; \

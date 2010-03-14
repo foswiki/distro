@@ -45,7 +45,7 @@ sub new {
     version => '1.5.2',
     author => 'Joern Zaefferer',
     homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
-    javascript => ['jquery.validate.js', 'jquery.validate.additional-methods.js'],
+    javascript => ['jquery.validate.js', 'jquery.validate.methods.js'],
     dependencies => ['form'],
   ), $class);
 

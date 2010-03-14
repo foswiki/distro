@@ -28,7 +28,7 @@
      
       var $this = $(this), 
         opts = $.extend({}, $.fluidfont.defaults, options),
-        lineRatio, fontRatio;
+        lineRatio, fontRatio, fontSize, lineHeight;
 
 
       function getRatio(size) {
@@ -46,6 +46,13 @@
        
         return size; 
       }
+
+      fontSize = $this.css('font-size');
+      fontRatio = getRatio(fontSize);
+      lineHeight = $this.css('line-height')
+      lineRatio = getRatio(lineHeight);
+      lineRatio = lineRatio / fontRatio;
+      $.log("fontSize="+fontSize+" lineHeight="+lineHeight+" fontRatio="+fontRatio+" lineRatio="+lineRatio);
 
       function resize() {
         var width = $this.width(), 
@@ -70,19 +77,10 @@
         }, 100); 
       }
 
-      lineRatio = lineRatio / fontRatio;
-      fontRatio = getRatio($this.css('font-size'));
-      lineRatio = getRatio($this.css('line-height'));
-    
-
       resize();
 
       return $this;
     },
-
-    /***************************************************************************
-     * recompute the font-size of the given element
-     */
 
 
     /***************************************************************************

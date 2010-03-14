@@ -460,18 +460,4 @@ sub urlDecode {
   return $text;
 }
 
-=begin TML
-
----++ StaticMethod urlEncode( $text ) -> $text
-
-from Fowiki.pm
-
-=cut
-
-sub urlEncode {
-  my $text = shift;
-  $text =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
-  return $text;
-}
-
 1;

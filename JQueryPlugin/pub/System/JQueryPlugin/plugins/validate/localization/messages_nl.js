@@ -1,6 +1,6 @@
 /*
  * Translated default messages for the jQuery validation plugin.
- * Language: NL
+ * Locale: NL
  */
 jQuery.extend(jQuery.validator.messages, {
         required: "Dit is een verplicht veld.",
@@ -14,10 +14,10 @@ jQuery.extend(jQuery.validator.messages, {
         creditcard: "Vul hier een geldig credit card nummer in.",
         equalTo: "Vul hier dezelfde waarde in.",
         accept: "Vul hier een waarde in met een geldige extensie.",
-        maxlength: jQuery.format("Vul hier maximaal {0} tekens in."),
-        minlength: jQuery.format("Vul hier minimaal {0} tekens in."),
-        rangelength: jQuery.format("Vul hier een waarde in van minimaal {0} en maximaal {1} tekens."),
-        range: jQuery.format("Vul hier een waarde in van minimaal {0} en maximaal {1}."),
-        max: jQuery.format("Vul hier een waarde in kleiner dan of gelijk aan {0}."),
-        min: jQuery.format("Vul hier een waarde in groter dan of gelijk aan {0}.")
+        maxlength: jQuery.validator.format("Vul hier maximaal {0} tekens in."),
+        minlength: jQuery.validator.format("Vul hier minimaal {0} tekens in."),
+        rangelength: jQuery.validator.format("Vul hier een waarde in van minimaal {0} en maximaal {1} tekens."),
+        range: jQuery.validator.format("Vul hier een waarde in van minimaal {0} en maximaal {1}."),
+        max: jQuery.validator.format("Vul hier een waarde in kleiner dan of gelijk aan {0}."),
+        min: jQuery.validator.format("Vul hier een waarde in groter dan of gelijk aan {0}.")
 });

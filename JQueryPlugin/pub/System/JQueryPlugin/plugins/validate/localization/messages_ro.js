@@ -1,7 +1,6 @@
 /*
  * Translated default messages for the jQuery validation plugin.
- * Language: RO
- * Author: Elzo Valugi - http://www.valugi.ro
+ * Locale: RO
  */
 jQuery.extend(jQuery.validator.messages, {
   required: "Acest câmp este obligatoriu.",
@@ -15,10 +14,10 @@ jQuery.extend(jQuery.validator.messages, {
   creditcard: "Te rugăm să introduci un numar de carte de credit valid.",
   equalTo: "Te rugăm să reintroduci valoarea.",
   accept: "Te rugăm să introduci o valoare cu o extensie validă.",
-  maxlength: jQuery.format("Te rugăm să nu introduci mai mult de {0} caractere."),
-  minlength: jQuery.format("Te rugăm să introduci cel puțin {0} caractere."),
-  rangelength: jQuery.format("Te rugăm să introduci o valoare între {0} și {1} caractere."),
-  range: jQuery.format("Te rugăm să introduci o valoare între {0} și {1}."),
-  max: jQuery.format("Te rugăm să introduci o valoare egal sau mai mică decât {0}."),
-  min: jQuery.format("Te rugăm să introduci o valoare egal sau mai mare decât {0}.")
+  maxlength: jQuery.validator.format("Te rugăm să nu introduci mai mult de {0} caractere."),
+  minlength: jQuery.validator.format("Te rugăm să introduci cel puțin {0} caractere."),
+  rangelength: jQuery.validator.format("Te rugăm să introduci o valoare între {0} și {1} caractere."),
+  range: jQuery.validator.format("Te rugăm să introduci o valoare între {0} și {1}."),
+  max: jQuery.validator.format("Te rugăm să introduci o valoare egal sau mai mică decât {0}."),
+  min: jQuery.validator.format("Te rugăm să introduci o valoare egal sau mai mare decât {0}.")
 });

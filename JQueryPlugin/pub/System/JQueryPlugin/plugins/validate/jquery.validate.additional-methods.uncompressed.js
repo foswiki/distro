@@ -1,15 +1,24 @@
-jQuery.validator.addMethod("maxWords", function(value, element, params) { 
-    return this.optional(element) || value.match(/\b\w+\b/g).length < params; 
-}, jQuery.format("Please enter {0} words or less.")); 
- 
-jQuery.validator.addMethod("minWords", function(value, element, params) { 
-    return this.optional(element) || value.match(/\b\w+\b/g).length >= params; 
-}, jQuery.format("Please enter at least {0} words.")); 
- 
-jQuery.validator.addMethod("rangeWords", function(value, element, params) { 
-    return this.optional(element) || value.match(/\b\w+\b/g).length >= params[0] && value.match(/bw+b/g).length < params[1]; 
-}, jQuery.format("Please enter between {0} and {1} words."));
+(function() {
+	
+	function stripHtml(value) {
+		// remove html tags and space chars
+		return value.replace(/<.[^<>]*?>/g, ' ').replace(/&nbsp;|&#160;/gi, ' ')
+		// remove numbers and punctuation
+		.replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g,'');
+	}
+	jQuery.validator.addMethod("maxWords", function(value, element, params) { 
+	    return this.optional(element) || stripHtml(value).match(/\b\w+\b/g).length < params; 
+	}, jQuery.validator.format("Please enter {0} words or less.")); 
+	 
+	jQuery.validator.addMethod("minWords", function(value, element, params) { 
+	    return this.optional(element) || stripHtml(value).match(/\b\w+\b/g).length >= params; 
+	}, jQuery.validator.format("Please enter at least {0} words.")); 
+	 
+	jQuery.validator.addMethod("rangeWords", function(value, element, params) { 
+	    return this.optional(element) || stripHtml(value).match(/\b\w+\b/g).length >= params[0] && value.match(/bw+b/g).length < params[1]; 
+	}, jQuery.validator.format("Please enter between {0} and {1} words."));
 
+})();
 
 jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
 	return this.optional(element) || /^[a-z-.,()'\"\s]+$/i.test(value);
@@ -30,6 +39,10 @@ jQuery.validator.addMethod("nowhitespace", function(value, element) {
 jQuery.validator.addMethod("ziprange", function(value, element) {
 	return this.optional(element) || /^90[2-5]\d\{2}-\d{4}$/.test(value);
 }, "Your ZIP-code must be in the range 902xx-xxxx to 905-xx-xxxx");
+
+jQuery.validator.addMethod("integer", function(value, element) {
+	return this.optional(element) || /^-?\d+$/.test(value);
+}, "A positive or negative non-decimal number please");
 
 /**
 * Return true, if the value is a valid vehicle identification number (VIN).
@@ -107,7 +120,7 @@ jQuery.validator.addMethod(
 	"dateITA",
 	function(value, element) {
 		var check = false;
-		var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
+		var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
 		if( re.test(value)){
 			var adata = value.split('/');
 			var gg = parseInt(adata[0],10);
@@ -123,6 +136,16 @@ jQuery.validator.addMethod(
 		return this.optional(element) || check;
 	}, 
 	"Please enter a correct date"
+);
+
+jQuery.validator.addMethod("dateNL", function(value, element) {
+		return this.optional(element) || /^\d\d?[\.\/-]\d\d?[\.\/-]\d\d\d?\d?$/.test(value);
+	}, "Vul hier een geldige datum in."
+);
+
+jQuery.validator.addMethod("time", function(value, element) {
+		return this.optional(element) || /^([01][0-9])|(2[0123]):([0-5])([0-9])$/.test(value);
+	}, "Please enter a valid time, between 00:00 and 23:59"
 );
 
 /**
@@ -143,16 +166,26 @@ jQuery.validator.addMethod(
  * and not
  * 212 123 4567
  */
-jQuery.validator.addMethod("phone", function(phone_number, element) {
+jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
     phone_number = phone_number.replace(/\s+/g, ""); 
 	return this.optional(element) || phone_number.length > 9 &&
 		phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
 }, "Please specify a valid phone number");
 
+jQuery.validator.addMethod('phoneUK', function(phone_number, element) {
+return this.optional(element) || phone_number.length > 9 &&
+phone_number.match(/^(\(?(0|\+44)[1-9]{1}\d{1,4}?\)?\s?\d{3,4}\s?\d{3,4})$/);
+}, 'Please specify a valid phone number');
+
+jQuery.validator.addMethod('mobileUK', function(phone_number, element) {
+return this.optional(element) || phone_number.length > 9 &&
+phone_number.match(/^((0|\+44)7(5|6|7|8|9){1}\d{2}\s?\d{6})$/);
+}, 'Please specify a valid mobile number');
+
 // TODO check if value starts with <, otherwise don't try stripping anything
 jQuery.validator.addMethod("strippedminlength", function(value, element, param) {
 	return jQuery(value).text().length >= param;
-}, jQuery.format("Please enter at least {0} characters"));
+}, jQuery.validator.format("Please enter at least {0} characters"));
 
 // same as email, but TLD is optional
 jQuery.validator.addMethod("email2", function(value, element, param) {
@@ -163,3 +196,64 @@ jQuery.validator.addMethod("email2", function(value, element, param) {
 jQuery.validator.addMethod("url2", function(value, element, param) {
 	return this.optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value); 
 }, jQuery.validator.messages.url);
+
+// NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator
+// Redistributed under the the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
+// Valid Types: mastercard, visa, amex, dinersclub, enroute, discover, jcb, unknown, all (overrides all other settings)
+jQuery.validator.addMethod("creditcardtypes", function(value, element, param) {
+
+	if (/[^0-9-]+/.test(value)) 
+		return false;
+	
+	value = value.replace(/\D/g, "");
+	
+	var validTypes = 0x0000;
+	
+	if (param.mastercard) 
+		validTypes |= 0x0001;
+	if (param.visa) 
+		validTypes |= 0x0002;
+	if (param.amex) 
+		validTypes |= 0x0004;
+	if (param.dinersclub) 
+		validTypes |= 0x0008;
+	if (param.enroute) 
+		validTypes |= 0x0010;
+	if (param.discover) 
+		validTypes |= 0x0020;
+	if (param.jcb) 
+		validTypes |= 0x0040;
+	if (param.unknown) 
+		validTypes |= 0x0080;
+	if (param.all) 
+		validTypes = 0x0001 | 0x0002 | 0x0004 | 0x0008 | 0x0010 | 0x0020 | 0x0040 | 0x0080;
+	
+	if (validTypes & 0x0001 && /^(51|52|53|54|55)/.test(value)) { //mastercard
+		return value.length == 16;
+	}
+	if (validTypes & 0x0002 && /^(4)/.test(value)) { //visa
+		return value.length == 16;
+	}
+	if (validTypes & 0x0004 && /^(34|37)/.test(value)) { //amex
+		return value.length == 15;
+	}
+	if (validTypes & 0x0008 && /^(300|301|302|303|304|305|36|38)/.test(value)) { //dinersclub
+		return value.length == 14;
+	}
+	if (validTypes & 0x0010 && /^(2014|2149)/.test(value)) { //enroute
+		return value.length == 15;
+	}
+	if (validTypes & 0x0020 && /^(6011)/.test(value)) { //discover
+		return value.length == 16;
+	}
+	if (validTypes & 0x0040 && /^(3)/.test(value)) { //jcb
+		return value.length == 16;
+	}
+	if (validTypes & 0x0040 && /^(2131|1800)/.test(value)) { //jcb
+		return value.length == 15;
+	}
+	if (validTypes & 0x0080) { //unknown
+		return true;
+	}
+	return false;
+}, "Please enter a valid credit card number.");

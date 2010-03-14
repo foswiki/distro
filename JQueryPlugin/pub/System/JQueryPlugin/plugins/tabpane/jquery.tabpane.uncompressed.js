@@ -63,9 +63,7 @@ $.tabpane = {
 
         /* establish auto max expand */
         if (thisOpts.autoMaxExpand) {
-          window.setTimeout(function() {
-              $.tabpane.autoMaxExpand($thisPane, thisOpts);
-            }, 100);
+          $.tabpane.autoMaxExpand($thisPane, thisOpts);
         }
 
         $thisPane.find(".jqTabGroup > li > a").click(function() {
@@ -197,6 +195,7 @@ $.tabpane = {
     //jQuery.log("tabpane: called fixHeight()");
 
     var $container = $thisPane.find("> .jqTab.current .jqTabContents");
+
     var paneOffset = $container.offset();
 
     if (typeof(paneOffset) == 'undefined') {
@@ -205,7 +204,7 @@ $.tabpane = {
 
     var paneTop = paneOffset.top; // || $container[0].offsetTop;
     if (bottomBarHeight <= 0) {
-      bottomBarHeight = jQuery('.natEditBottomBar').outerHeight({margin:true, padding:true});
+      bottomBarHeight = jQuery('.natEditBottomBar').outerHeight(true);
     }
 
     var windowHeight = jQuery(window).height();
@@ -216,7 +215,7 @@ $.tabpane = {
     var height = windowHeight-paneTop-2*bottomBarHeight;
     var $debug = $("#DEBUG");
     if ($debug) {
-      height -= $debug.outerHeight({margin:true, padding:true});
+      height -= $debug.outerHeight(true);
     }
 
     //jQuery.log("tabpane: container="+$container.parent().attr('id')+" paneTop="+paneTop+" bottomBarHeight="+bottomBarHeight+" height="+height+" minHeight="+opts.minHeight);
