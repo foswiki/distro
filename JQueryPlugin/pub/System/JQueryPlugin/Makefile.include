@@ -1,4 +1,4 @@
-FOSWIKI_ROOT=~/foswiki/trunk/core
+FOSWIKI_ROOT?=~/foswiki/trunk/core
 FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 MINIFYJS=$(YUI_MINIFYJS)
