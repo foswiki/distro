@@ -130,7 +130,9 @@ our %VALIDATE = (
         other   => [qw( version date format reprev )]
     },
     TOPICMOVED     => { require => [qw( from to by date )] },
-    TOPICPARENT    => { require => [qw( name )] },
+    # Special case, see Item2554; allow an empty TOPICPARENT, as this was
+    # erroneously generated at some point in the past
+    TOPICPARENT    => { allow => [qw( name )] },
     FILEATTACHMENT => {
         require => [qw( name )],
         other   => [
