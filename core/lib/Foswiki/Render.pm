@@ -1866,22 +1866,22 @@ sub renderRevisionInfo {
     }
 
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
-    $value =~ s/\$web/$web/gi;
-    $value =~ s/\$topic/$topic/gi;
-    $value =~ s/\$rev/$rev/gi;
-    $value =~ s/\$time/Foswiki::Time::formatTime( $date, '$hour:$min:$sec')/gei;
+    $value =~ s/\$web/$web/g;
+    $value =~ s/\$topic/$topic/g;
+    $value =~ s/\$rev/$rev/g;
+    $value =~ s/\$time/Foswiki::Time::formatTime( $date, '$hour:$min:$sec')/ge;
     $value =~
-s/\$date/Foswiki::Time::formatTime( $date, $Foswiki::cfg{DefaultDateFormat} )/gei;
+s/\$date/Foswiki::Time::formatTime( $date, $Foswiki::cfg{DefaultDateFormat} )/ge;
     $value =~
-      s/(\$(rcs|http|email|iso))/Foswiki::Time::formatTime($date, $1 )/gei;
+      s/(\$(rcs|http|email|iso))/Foswiki::Time::formatTime($date, $1 )/ge;
 
     if ( $value =~ /\$(sec|min|hou|day|wday|dow|week|mo|ye|epoch|tz)/ ) {
         $value = Foswiki::Time::formatTime( $date, $value );
     }
-    $value =~ s/\$comment/$comment/gi;
-    $value =~ s/\$username/$un/gi;
-    $value =~ s/\$wikiname/$wn/gi;
-    $value =~ s/\$wikiusername/$wun/gi;
+    $value =~ s/\$comment/$comment/g;
+    $value =~ s/\$username/$un/g;
+    $value =~ s/\$wikiname/$wn/g;
+    $value =~ s/\$wikiusername/$wun/g;
 
     return $value;
 }
