@@ -2,21 +2,23 @@
 %STARTINCLUDE%
 ---+ Foswiki Contribs
 
-_Extensions that sit close to the core, or provide services for other extensions_
+_Extensions to Foswiki that are not plugins_
 
 %TOC%
 
 ---++ Overview
 
-Foswiki contribs extend the functionality of Foswiki, in a lower-level way than plugins and add-ons. They may also provide alternative implementations for sections of the Foswiki core e.g. user management, or when an extension just can't be implemented as a plugin because it requires very close access to Foswiki internals.
+The term "Contrib" is used to refer to any package that is not just a simple plugin. 
 
-An example is the MailerContrib, which implements mail notification of topics changes.
+Foswiki contribs may
+   * extend the functionality of Foswiki, in a lower-level way than plugins,
+   * or provide alternative implementations for sections of the Foswiki core e.g. user management, or when an extension just can't be implemented as a plugin because it requires very close access to Foswiki internals,
+   * or they might provide other files that Foswiki uses, for example language files,
+   * or they might be packages of topics that implement a "Wiki Application", using the wiki macro language, TML.
 
 *Relevant links on Foswiki.org:*
-   * Foswiki:Extensions.ContribPackage - list of all contributed contrib packages
-   * Foswiki:Extensions.ContribDevelopment - discussion and feedback on contributed packages
-   * Foswiki:Extensions.ContribBrainstorming - open forum for new contrib ideas
-   * Foswiki:Extensions.ContribPackageHowTo - instructions and template to create a new contrib package
+   * Foswiki:Extensions - list of all contributed contrib packages
+   * Foswiki:Development - where developers get started
 
 *See other types of extensions:* ContributedAddOns, [[Plugins]], [[Skins]]
 
@@ -33,12 +35,9 @@ An example is the MailerContrib, which implements mail notification of topics ch
 
 ---++ Installing Contribs
 
-   * Download an add-on from Foswiki:Extensions.ContribPackage.
+   * Use =configure= to browse to the list of extensions available from Foswiki.org
+   * Or, download an extension package from some other source, and unzip it
    * Follow the installation instructions in the contrib topic.
-
----++ Creating new Contribs
-
-   * Visit Foswiki:Extensions.ContribPackageHowTo and follow the instructions.
 
 %STOPINCLUDE%
 ---

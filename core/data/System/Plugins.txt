@@ -2,7 +2,7 @@
 %STARTINCLUDE%
 ---+ Foswiki Plugins
 
-_Add functionality to Foswiki with plugins_
+_Extensions that use a simple API to talk to Foswiki_
 
 %TOC%
 
@@ -22,12 +22,7 @@ Most [[http://twiki.org/cgi-bin/view/Plugins/WebHome][TWiki<sup>&reg;</sup> plug
 
 *See other types of extensions:* [[Contribs]], [[Skins]]
 
----+ Installed Plugins
-%PLUGINDESCRIPTIONS%
-
-#FailedPlugins
----+ Failed Plugins
-%FAILEDPLUGINS%
+See InstalledPlugins for a list of plugins installed on this site.
 
 #InstallPlugin
 ---++ Installing Plugins
