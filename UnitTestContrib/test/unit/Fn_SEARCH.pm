@@ -2989,4 +2989,87 @@ sub test_summary_searchcontext_long_word_search {
 CRUD
 }
 
+#from the FormattedSearch topic
+sub verify_FormattedSearch__Search_with_conditional_output {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(<<'HERE');
+%SEARCH{ 
+    "." 
+    scope="topic" 
+    type="regex" 
+    nosearch="on" 
+    nototal="on" 
+    order="modified"
+     reverse="on"
+     format="| $date | [[$topic]] | $wikiusername | $date | $rev |"
+     limit="3" 
+}% 
+HERE
+
+    $this->assert_html_equals( <<CRUD, $result );
+| 15 Mar 2010 - 00:11 | [[OkBTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:11 | 1 |
+| 15 Mar 2010 - 00:11 | [[OkTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:11 | 1 |
+| 15 Mar 2010 - 00:11 | [[WebPreferences]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:11 | 1 | 
+
+CRUD
+
+    $result =
+      $this->{test_topicObject}->expandMacros(<<'HERE');
+%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
+%CALC{$IF($TIME(15 Mar 2010 - 00:11) < $GET(weekold), no, yes)}%
+HERE
+
+    $this->assert_html_equals( <<CRUD, $result );
+yes
+CRUD
+
+    $result =
+      $this->{test_topicObject}->expandMacros(<<'HERE');
+%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
+%SEARCH{ 
+    "." 
+    scope="topic" 
+    type="regex" 
+    nosearch="on" 
+    nototal="on" 
+    order="modified"
+     reverse="on"
+     format="$percentCALC{$IF($TIME($date) < $GET(weekold), no, yes)}$percent"
+     limit="3" 
+}% 
+HERE
+
+    $this->assert_html_equals( <<CRUD, $result );
+yes
+yes
+yes
+CRUD
+
+    $result =
+      $this->{test_topicObject}->expandMacros(<<'HERE');
+%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
+%SEARCH{ 
+    "." 
+    scope="topic" 
+    type="regex" 
+    nosearch="on" 
+    nototal="on" 
+    order="modified"
+     reverse="on"
+     format="$percentCALC{$IF($TIME($date) < $GET(weekold), <nop>, | [[$topic]] | $wikiusername | $date | $rev |)}$percent"
+     limit="3" 
+}% 
+HERE
+
+    $this->assert_html_equals( <<CRUD, $result );
+
+| [[OkBTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:44 | 1 |
+| [[OkTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:44 | 1 |
+| [[WebPreferences]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:44 | 1 | 
+CRUD
+}
+
+
 1;
