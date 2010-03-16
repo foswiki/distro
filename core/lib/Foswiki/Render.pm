@@ -1038,6 +1038,9 @@ sub renderFORMFIELD {
         $text = $altText || '';
     }
 
+    # render nop exclamation marks before words as <nop>
+    $text =~ s/!(\w+)/<nop>$1/gs;
+    
     return $text;
 }
 
