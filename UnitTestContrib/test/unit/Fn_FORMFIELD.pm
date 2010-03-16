@@ -21,6 +21,7 @@ sub set_up {
 | *Name*    | *Type* | *Size* |
 | Marjorie  | text   | 30     |
 | Priscilla | text   | 30     |
+| Daphne | text   | 30     |
 FORM
     $topicObject->save();
 
@@ -30,6 +31,8 @@ FORM
         { name => "Marjorie", title => "Number", value => "99" } );
     $topicObject->putKeyed( 'FIELD',
         { name => "Priscilla", title => "String", value => "" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Daphne", title => "String", value => "<nop>ElleBelle" } );
     $topicObject->save();
 }
 
@@ -121,6 +124,26 @@ sub test_FORMFIELD_topic {
         '%FORMFIELD{"Marjorie" topic="'.
           $this->{test_web}.'.'.$this->{test_topic}.'"}%');
     $this->assert_str_equals('99', $result);
+}
+
+# Check if ! and <nop> are properly rendered
+sub test_FORMFIELD_render_nops {
+    my $this = shift;
+
+    my $topicObject = $this->{test_topicObject};
+    my $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Daphne"}%');
+    $this->assert_str_equals('<nop>ElleBelle', $result);
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Ffiona" alttext="!NiceAsPie" default="Cressida"}%');
+    $this->assert_str_equals('<nop>NiceAsPie', $result);
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Priscilla" default="!NiceAsPie"}%');
+    $this->assert_str_equals('<nop>NiceAsPie', $result);
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Priscilla" default="<nop>NiceAsPie"}%');
+    $this->assert_str_equals('<nop>NiceAsPie', $result);
+
 }
 
 1;
