@@ -268,6 +268,21 @@ sub test_42 {
     $this->assert( $ui =~ /No permission to view/ );
 }
 
+#see http://trunk.foswiki.org/Tasks/Item8708
+#since pre-history, there were 'i' options on the regex's for formatRevision
+#this is undoccoed, and kills SpreadSheetPlugin's attempts to use $DATE and $TIME as _its_ inner language.
+#so I've removed it.
+sub test_CaseSensitiveFormatString {
+    my $this = shift;
+     
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my $ui = $topicObject->expandMacros(
+            '%REVINFO{format="$DATE"}%',
+    );
+    $this->assert_str_equals( '$DATE', $ui );
+}
+
 # SMELL: need to test for other revs specified by the 'rev' parameter
 
 # SMELL: need to test for the format parameter strings:
