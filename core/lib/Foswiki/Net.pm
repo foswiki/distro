@@ -381,7 +381,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
     $text = "$header\n\n$body";    # rebuild message
 
     my $MAIL;
-    open( $MAIL, "|$Foswiki::cfg{MailProgram}" )
+    open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )
       || die "ERROR: Can't send mail using Foswiki::cfg{MailProgram}";
     print $MAIL $text;
     close($MAIL);
