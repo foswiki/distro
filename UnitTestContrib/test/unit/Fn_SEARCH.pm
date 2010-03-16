@@ -1609,17 +1609,22 @@ sub test_getTopicList {
         ),
         'case insensitive ok* topics, using wildcard'
     );
-    $this->assert_deep_equals(
-        [],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'okatopic',
-                casesensitive => 1
-            }
-        ),
-        'case sensitive okatopic topic'
-    );
+    
+    unless ($^O eq 'darwin') {
+        # this test won't work on Mac OS X
+        $this->assert_deep_equals(
+            [],
+            $this->_getTopicList(
+                $this->{test_web},
+                {
+                    includeTopics => 'okatopic',
+                    casesensitive => 1
+                }
+            ),
+            'case sensitive okatopic topic 1'
+        );
+    }
+    
     $this->assert_deep_equals(
         ['OkATopic'],
         $this->_getTopicList(
@@ -1682,6 +1687,7 @@ sub test_getTopicList {
         ),
         'case insensitive ok* topics, using wildcard'
     );
+
     $this->assert_deep_equals(
         [ 'OkBTopic', 'OkTopic' ],
         $this->_getTopicList(
@@ -1692,8 +1698,9 @@ sub test_getTopicList {
                 casesensitive => 1
             }
         ),
-        'case sensitive okatopic topic'
+        'case sensitive okatopic topic 2'
     );
+
     $this->assert_deep_equals(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
         $this->_getTopicList(
@@ -1704,8 +1711,9 @@ sub test_getTopicList {
                 casesensitive => 1
             }
         ),
-        'case sensitive okatopic topic'
+        'case sensitive okatopic topic 3'
     );
+
     $this->assert_deep_equals(
         [ 'OkBTopic', 'OkTopic' ],
         $this->_getTopicList(
