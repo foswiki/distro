@@ -898,6 +898,25 @@ sub verify_formatted_search_summary_with_exclamation_marks {
     $this->assert_str_equals( $expected, $actual );
 }
 
+# Item8718
+sub verify_formatted_search_with_exclamation_marks_inside_bracket_link {
+    my $this    = shift;
+    my $session = $this->{session};
+
+    $this->set_up_for_formatted_search();
+    my $actual, my $expected;
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Anna" topic="FormattedSearchTopic1" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="[[$web.$topic][$formfield(Name)]]"}%'
+      );
+    $actual   = $this->{test_topicObject}->renderTML($actual);
+    $actual = _cut_the_crap($actual);
+    $expected = '<a href=""><nop>AnnaAnchor</a>';
+    
+    $this->assert_str_equals( $expected, $actual );
+}
+
 sub verify_METASEARCH {
     my $this    = shift;
     my $session = $this->{session};
