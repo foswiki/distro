@@ -697,6 +697,11 @@ sub renderFormFieldForDisplay {
 
     $value = $mf->{value};
 
+    # remove nop exclamation marks from form field value before it is put
+    # inside a format like [[$topic][$formfield()]] that prevents it being 
+    # detected
+    $value =~ s/!(\w+)/<nop>$1/gos;
+    
     my $fname = $this->getFormName();
     if ($fname) {
         require Foswiki::Form;

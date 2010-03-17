@@ -713,6 +713,26 @@ sub verify_formatted_search_summary_with_exclamation_marks {
     $this->assert_str_equals( $expected, $actual );
 }
 
+# Item8718
+sub verify_formatted_search_with_exclamation_marks_inside_bracket_link {
+    my $this    = shift;
+    my $session = $this->{twiki};
+
+    $this->set_up_for_formatted_search();
+    my $actual, my $expected;
+
+    $actual = $session->handleCommonTags(
+'%SEARCH{"Anna" topic="FormattedSearchTopic1" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="[[$web.$topic][$formfield(Name)]]"}%', $this->{test_web}, $this->{test_topic}
+      );
+    $actual =
+      $session->renderer->getRenderedVersion( $actual, $this->{test_web},
+        $this->{test_topic} );
+    $actual = _cut_the_crap($actual);
+    $expected = '<a href=""><nop>AnnaAnchor</a>';
+    
+    $this->assert_str_equals( $expected, $actual );
+}
+
 sub verify_METASEARCH {
     my $this    = shift;
     my $session = $this->{twiki};
@@ -1773,6 +1793,19 @@ sub verify_stop_words_search_word {
     $this->assert_str_equals( '', $result );
 
     Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', $origSetting );
+}
+
+# The results of SEARCH are highly sensitive to the template;
+# reduce sensitivity by trimming the result
+sub _cut_the_crap {
+    my $result = shift;
+    $result =~ s/<!--.*?-->//gs;
+    $result =~ s/<\/?(em|span|div|b|h\d)\b.*?>//gs;
+    $result =~ s/ (class|style|rel)=(["'])[^"']*\2//g;
+    $result =~ s/( href=(["']))[^"']*(\2)/$1$3/g;
+    $result =~ s/\d\d:\d\d( \(\w+\))?/TIME/g;
+    $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
+    return $result;
 }
 
 1;
