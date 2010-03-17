@@ -1629,7 +1629,7 @@ sub test_getTopicList {
         'case insensitive ok* topics, using wildcard'
     );
     
-    unless ($^O eq 'darwin') {
+    #unless ($^O eq 'darwin') {
         # this test won't work on Mac OS X
         $this->assert_deep_equals(
             [],
@@ -1642,7 +1642,7 @@ sub test_getTopicList {
             ),
             'case sensitive okatopic topic 1'
         );
-    }
+    #}
     
     $this->assert_deep_equals(
         ['OkATopic'],
