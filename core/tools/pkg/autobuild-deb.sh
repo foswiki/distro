@@ -34,6 +34,12 @@ perl pseudo-install.pl -clean -A developer
 # perl ../bin/TestRunner.pl -clean FoswikiSuite.pm || true
 
 #
+# JQueryPlugin needs make run to autogenerate files
+#
+cd ../JQueryPlugin/pub/System/JQueryPlugin
+FOSWIKI_ROOT=${branch}/JQueryPlugin make
+
+#
 # Build tarballs of source, with svn revision number embedded
 #
 cd ${FOSWIKI_HOME}/tools
