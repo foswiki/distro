@@ -195,8 +195,8 @@ sub upgradeCategoryTable {
 
     }
     else {
-        $session->logger->log( 'warning',
-            "Form: get find category template twikicatitems for Web $web" );
+        # We used to log a warning but it only made noise and trouble
+        # People will not need to be warned any longer. Item1440
     }
     return $text;
 }

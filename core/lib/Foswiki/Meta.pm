@@ -2974,13 +2974,15 @@ sub setEmbeddedStoreForm {
 
     # If there is no meta data then convert from old format
     if ( !$this->count('TOPICINFO') ) {
-        if ( $text =~ /<!--FoswikiAttachment-->/ ) {
+        # The T-word string must remain unchanged for the compatibility
+        if ( $text =~ /<!--TWikiAttachment-->/ ) {
             require Foswiki::Compatibility;
             $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
                 $this->{_session}, $this, $text );
         }
 
-        if ( $text =~ /<!--FoswikiCat-->/ ) {
+        # The T-word string must remain unchanged for the compatibility
+        if ( $text =~ /<!--TWikiCat-->/ ) {
             require Foswiki::Compatibility;
             $text =
               Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
@@ -2991,7 +2993,8 @@ sub setEmbeddedStoreForm {
         require Foswiki::Compatibility;
 
         # This format used live at DrKW for a few months
-        if ( $text =~ /<!--FoswikiCat-->/ ) {
+        # The T-word string must remain unchanged for the compatibility
+        if ( $text =~ /<!--TWikiCat-->/ ) {
             $text =
               Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
                 $this->{_web}, $this->{_topic}, $this, $text );
