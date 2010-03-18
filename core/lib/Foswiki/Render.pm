@@ -711,7 +711,8 @@ sub _renderExistingWikiWord {
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
     if ($anchor) {
         $anchor = $this->makeAnchorName($anchor);
-        $href = "$href#$anchor";
+        # Item8556 - drop path if same topic and anchor
+        $href = $currentTopic ? "#$anchor" : "$href#$anchor";
     }
     my $cssClassName = "$currentTopic$currentWebHome";
     $cssClassName =~ s/^(.*?)\s*$/$1/ if $cssClassName;
