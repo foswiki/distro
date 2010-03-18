@@ -672,9 +672,13 @@ sub _renderExistingWikiWord {
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $Foswiki::cfg{HomeTopicName} ) );
 
-    push(@cssClasses, 'foswikiCurrentTopicLink')
-      if ( ( $web eq $this->{session}->{webName} )
-        && ( $topic eq $this->{session}->{topicName} ) );
+    my $inCurrentTopic = 0;
+    
+    if ( ( $web eq $this->{session}->{webName} )
+         && ( $topic eq $this->{session}->{topicName} ) ) {
+        push(@cssClasses, 'foswikiCurrentTopicLink');
+        $inCurrentTopic = 1;
+    }
 
     my @attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
@@ -684,10 +688,12 @@ sub _renderExistingWikiWord {
 
     if ($anchor) {
         $anchor = $this->_makeAnchorName($anchor);
-
+        $anchor = Foswiki::urlEncode($anchor);
+        
         # No point in trying to make it unique; just aim at the first
         # occurrence
-        $href = $href . '#' . Foswiki::urlEncode($anchor);
+        # Item8556 - drop path if same topic and anchor
+        $href = $inCurrentTopic ? "#$anchor" : "$href#$anchor";
     }
     push( @attrs, class => join(' ', @cssClasses) ) if ($#cssClasses >= 0);
     push( @attrs, href => $href );
