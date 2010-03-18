@@ -429,9 +429,9 @@ escaped:
 ---++ Anchors
 ---+++ Expected
 <!-- expected expand ANCHOR -->
-<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#NotThere">TestCaseAutoFormatting#NotThere</a>
+<a class="foswikiCurrentTopicLink" href="#NotThere">TestCaseAutoFormatting#NotThere</a>
 <p />
-<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#MyAnchor">Jump</a>
+<a class="foswikiCurrentTopicLink" href="#MyAnchor">Jump</a>
 <p />
 <a name="MyAnchor"></a> To here
 <!-- /expected -->
