@@ -21,7 +21,8 @@ fi
 
 REPOSITORYHOST=debmarshal.debian.net
 INCOMING=/var/lib/debmarshal/foswiki/incoming
-TIMEOUT='timeout 600'
+LOGS=/var/lib/debmarshal/foswiki/logs
+TIMEOUT="timeout 600"
 
 cd ${HOME}
 
@@ -47,6 +48,11 @@ then
   exit 0
 fi
 
+LOGFILE="${LOGS}/${release}-build-${BRANCH}.log"
+exec >${LOGFILE} 2>&1
+
+ln -sf ${release}-build-${BRANCH}.log ${LOGS}/building-${BRANCH}.log
+
 # Always build a full source release, since the Debian packaging is in the
 # same branch where source changes occur
 rebuild_flags="-sa"
@@ -65,17 +71,20 @@ remotehome=`ssh ${BUILDHOST} pwd`
 rsync -a --delete ${BRANCH}/ ${BUILDHOST}:${BRANCH}
 
 #
-# Make sbuild suid root and installs packages needed by the build, and whatever
+# Makes build suid root and installs packages needed by the build, and whatever
 # else becomes required to build
 #
 ssh root@${BUILDHOST} ${remotehome}/${BRANCH}/core/tools/pkg/autosetup-deb.sh ${remotehome}/${BRANCH} $DEST_DIR
 
 #
-# The actual build runs unprivileged, and returns the filenames of the packages
-# that were built.  The build should sign the packages, so the build user
-# should have a gpg key without a password.
+# The actual build runs unprivileged, and returns a status indicating whether the
+# build was successful.  A symlink tracks the log of the last successful build.
 #
-ssh ${BUILDHOST} ${remotehome}/${BRANCH}/core/tools/pkg/autobuild-deb.sh ~/${BRANCH} $DEST_DIR $release $rebuild_flags
+if ssh ${BUILDHOST} ${remotehome}/${BRANCH}/core/tools/pkg/autobuild-deb.sh ~/${BRANCH} $DEST_DIR $release $rebuild_flags
+then
+  ln -sf ${release}-build-${BRANCH}.log ${LOGS}/built-${BRANCH}.log
+fi
+
 
 #
 # Final root step.  This may run install tests or clean up.
