@@ -375,7 +375,9 @@ lib/CPAN/lib/CGI/Session/Serialize/freezethaw.pm 0444
 lib/CPAN/lib/CGI/Session/Serialize/storable.pm 0444
 lib/CPAN/lib/CGI/Session/Test/Default.pm 0444
 lib/CPAN/lib/CGI/Session/Tutorial.pm 0444
+lib/CPAN/lib/CSS/Minifier.pm 0644
 lib/CPAN/lib/Error.pm 0444
+lib/CPAN/lib/JavaScript/Minifier.pm 0644
 lib/CPAN/lib/Locale/Maketext/Extract.pm 0444
 lib/CPAN/lib/Locale/Maketext/Extract/Run.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon.pm 0444
