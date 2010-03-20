@@ -26,7 +26,12 @@ sub _lookupIcon {
             $iconTopic =~ s/\s+$//;
             my ( $w, $t ) =
               $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-            $this->{_ICONSPACE} = new Foswiki::Meta($this, $w, $t);
+            if (topicExists($w, $t)) {
+                $this->{_ICONSPACE} = new Foswiki::Meta($this, $w, $t);
+            } else {
+                $this->logger->log(
+                    'warning', 'ICONTOPIC $w.$t does not exist' );
+            }
         }
     }
     return undef unless $this->{_ICONSPACE};
