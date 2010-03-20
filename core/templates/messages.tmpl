@@ -326,7 +326,10 @@
 
 %MAKETEXT{"The required field [_1] was not filled in." args="*<noautolink>%PARAM1%</noautolink>*"}%
 
-%MAKETEXT{"Go back in your browser and insert information for all mandatory fields."}%
+%MAKETEXT{"Go back in your browser and insert values for all mandatory fields before saving again"}%%IF{"{Validation}{Method}!='none'" then="%MAKETEXT{"
+(just select 'OK' when you are asked to confirm your save)
+"}%"}%
+
 %TMPL:END%
 %TMPL:DEF{"no_form_def"}%
 ---+++ %MAKETEXT{"Form Definition [_1] missing" args="%PARAM1%.<nop>%PARAM2%"}%
