@@ -19,7 +19,9 @@ which lets us select which other topic to get the preference value from.
 
 Additional parameters can be passed to the macro being expanded using the standard macro syntax in the name of the macro; for example,
 
-=%EXPAND{"$percentMYPREFERENCE{$quotdefault$quot param=$quotvalue$quot}" scope="SettingsTopic"}%=
+<verbatim>
+%EXPAND{"$percentMYPREFERENCE{$quotdefault$quot param=$quotvalue$quot}" scope="SettingsTopic"}%
+</verbatim>
 
 Notes:
    * %EXPAND is not very efficient, and should be used sparingly.
