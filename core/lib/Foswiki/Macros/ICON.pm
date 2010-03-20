@@ -39,13 +39,14 @@ sub _lookupIcon {
     # -> "System/FamFamFamGraphics/browse.gif"
     if (defined $path) {
         # Already known
-    } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.gif")) {
-        # Found .gif attached to ICONTOPIC
-        $path = $this->{_ICONSPACE}->getPath()."/$choice.gif";
     } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.png")) {
         # Found .png attached to ICONTOPIC
         $path = $this->{_ICONSPACE}->getPath()."/$choice.png";
+    } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.gif")) {
+        # Found .gif attached to ICONTOPIC
+        $path = $this->{_ICONSPACE}->getPath()."/$choice.gif";
     } elsif ($choice =~ /\.([a-zA-Z0-9]+)$/) {
+#TODO: need to give this useage a chance at tmpl based icons too
         my $ext = $1;
         if (!defined $this->{_EXT2ICON}) {
             # Load the file extension mapping
@@ -64,9 +65,12 @@ sub _lookupIcon {
 
         my $icon = $this->{_EXT2ICON}->{$ext};
         if ( defined $icon ) {
-            # For historical reasons these icons are always .gif files,
-            # and can be assumed to exist.
-            $path = $this->{_ICONSPACE}->getPath()."/$icon.gif";
+            if ($this->{_ICONSPACE}->hasAttachment("$icon.png")) {
+                # Found .png attached to ICONTOPIC
+                $path = $this->{_ICONSPACE}->getPath()."/$icon.png";
+            } else {
+                $path = $this->{_ICONSPACE}->getPath()."/$icon.gif";
+            }
         }
     }
 
@@ -116,7 +120,6 @@ sub ICON {
     if (!defined($this->{_ICONSTEMPLATE})) {
         #if we fail to load once, don't try again.
         $this->{_ICONSTEMPLATE} = $this->templates->readTemplate('icons');
-        print STDERR "-i-i-i $this->{_ICONSTEMPLATE}\n";
     }
     
     #use icons.tmpl
@@ -125,7 +128,6 @@ sub ICON {
             my $iconName = $params->{_DEFAULT};  #can't test for default&else here - need to allow the 'old' way a chance.
             #next unless (defined($iconName));
             my $html = $this->templates->expandTemplate("icon:".$iconName);
-            print STDERR "-iiiii $iconName\n";
             return $html if (defined($html) and $html ne '');
         #}
     }
