@@ -229,7 +229,10 @@ sub populateMetaFromQueryData {
 
     return unless $this->{name};
 
-    if ( defined( $query->param( $this->{name} ) ) ) {
+    my %names = map { $_ => 1 } $query->param;
+
+    if ( $names{ $this->{name} } ) {
+        # Field is present in the request
         $bPresent = 1;
         if ( $this->isMultiValued() ) {
             my @values = $query->param( $this->{name} );
@@ -259,8 +262,10 @@ sub populateMetaFromQueryData {
             }
         }
         else {
-            $value = $query->param( $this->{name} );
-            if ( defined($value) && $this->{session}->inContext('edit') ) {
+            # Default the value to the empty string (undef would result
+            # in the old value being restored)
+            $value = $query->param( $this->{name} ) || '';
+            if ( $this->{session}->inContext('edit') ) {
                 $value = Foswiki::expandStandardEscapes($value);
             }
         }

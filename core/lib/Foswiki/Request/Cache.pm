@@ -186,7 +186,9 @@ sub cleanup {
 # PRIVATE. make the name of a cache file
 sub _cacheFile {
     my ($this, $uid) = @_;
-    return $Foswiki::cfg{WorkingDir}.'/tmp/passthru_'.$uid;
+    # Validate and untaint in one step
+    die "Illegal UID" unless $uid =~ /^([0-9a-z]{32})$/i;
+    return $Foswiki::cfg{WorkingDir}.'/tmp/passthru_'.$1;
 }
 
 # PRIVATE. Each upload is cached in two files,

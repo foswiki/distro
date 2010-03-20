@@ -243,7 +243,7 @@ sub validate {
       $session->templates->readTemplate( 'validate', $session->getSkin() );
 
     if ( $query->param('response') ) {
-        my $cacheUID = $query->param('originalquery');
+        my $cacheUID = $query->param('foswikioriginalquery');
         $query->delete('foswikioriginalquery');
         my $url;
         if ( $query->param('response') eq 'OK'
@@ -258,11 +258,12 @@ sub validate {
                 # it will now be using the validation code from the
                 # confirmation screen that brought us here.
                 require Foswiki::Request::Cache;
-                Foswiki::Cache->new()->load($cacheUID, $query);
+                Foswiki::Request::Cache->new()->load($cacheUID, $query);
+                $url = $query->url();
             }
 
             # Complete the query by passing the query on
-            # dispatcher
+            # with passthrough
             print STDERR "WV: CONFIRMED; POST to $url\n" if TRACE;
             $session->redirect( $url, 1 );
         }
