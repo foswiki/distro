@@ -115,4 +115,9 @@
 %{ title string in page: }%%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}%%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<h1>%TMPL:P{"pagetitle"}%</h1>%TMPL:END%%TMPL:P{"htmldoctype"}%%TMPL:P{"head"}%%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
 
-%{ formatting macros }%%{ webListIndent - used in WEBLIST }%%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%
+%{ formatting macros }%
+%{ webListIndent - used in WEBLIST }%
+%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%
+%{ icon:image - uses double quotes required for legacy reasons :/  }%
+%TMPL:DEF{"icon:image"}%<span class="foswikiIcon"><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%
+%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%

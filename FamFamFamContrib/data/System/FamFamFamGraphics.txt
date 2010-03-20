@@ -25,8 +25,8 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *Name* | *Icon URL* |  *Description* | *Write...* |
 | book | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/book.png | Book |  =%<nop>ICON{book}%= |
-| blank | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/blank.png | Blank box |  =%<nop>ICON{blank}%= |
-| blank-bg | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/blank-bg.png | Blank box, transparent |  =%<nop>ICON{blank-bg}%= |
+| blank |  | Blank box (done in =icons.tmpl= using css %ICON{blank}%) |  =%<nop>ICON{blank}%= |
+| blank-bg |  | Blank box, transparent (done in =icons.tmpl= using css %ICON{blank-bg}%) |  =%<nop>ICON{blank-bg}%= |
 | bubble | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/comment.png | Speech bubble |  =%<nop>ICON{bubble}%= |
 | days | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/date.png | Days, Calendar |  =%<nop>ICON{days}%= |
 | download | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/disk_download.png | Download |  =%<nop>ICON{download}%= |
@@ -224,8 +224,8 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *Name* | *Icon URL* |  *Description* | *Write...* |
-| monospace | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/monospace.png | Monospace |  =%<nop>ICON{monospace}%= |
-| proportional | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/proportional.png | Proportional |  =%<nop>ICON{proportional}%= |
+| monospace |  | Monospace (done in =icons.tmpl= using css %ICON{monospace}%) |  =%<nop>ICON{monospace}%= |
+| proportional |  | Proportional (done in =icons.tmpl= using css %ICON{proportional}%) |  =%<nop>ICON{proportional}%= |
 | tablesortdiamond | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_black.png | Sort table | =&lt;img src="%<nop>ICONURL{tablesortdiamond}%" width="11" height="13" alt="Sort table" border="0" /&gt;= |
 | tablesortdown | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_arrow_down.png | Sort table descending | =&lt;img src="%<nop>ICONURL{tablesortdown}%" width="11" height="13" alt="Sort table descending" border="0" /&gt;= |
 | tablesortup | %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_arrow_up.png | Sort table ascending | =&lt;img src="%<nop>ICONURL{tablesortup}%" width="11" height="13" alt="Sort table ascending" border="0" /&gt;= |
@@ -289,7 +289,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | dot_ul | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ul.png | Dot graph up-left |  =%<nop>ICON{dot_ul}%= |
 | dot_ulr | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ulr.png | Dot graph up-left-right |  =%<nop>ICON{dot_ulr}%= |
 | dot_ur | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/dot_ur.png | Dot graph up-right |  =%<nop>ICON{dot_ur}%= |
-| empty | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/empty.png | Empty transparent 16x16 spacer |  =%<nop>ICON{empty}%= |
+| empty |  | Empty transparent 16x16 spacer (done in =icons.tmpl= using css %ICON{empty}%) |  =%<nop>ICON{empty}%= |
 | parent_gray | %PUBURL%/%SYSTEMWEB%/FamFamFamFoswikiExtras/parent_gray.png | Parent arrow |  =%<nop>ICON{parent_gray}%= |
 
 

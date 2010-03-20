@@ -75,6 +75,16 @@ sub _lookupIcon {
     return $path;
 }
 
+sub _findIcon {
+    my $this = shift;
+    my $params = shift;
+
+    my $path = $this->_lookupIcon($params->{_DEFAULT}) || 
+      $this->_lookupIcon($params->{default}) ||
+      $this->_lookupIcon('else');
+    return ($path);
+}
+
 sub _getIconUrl {
     my $this = shift;
     my $absolute = shift;
@@ -85,19 +95,43 @@ sub _getIconUrl {
     return $this->getPubUrl($absolute, $w, $t, $a);
 }
 
-# %ICON{ "filename or icon name" [ default="filename or icon name" ]
-#           [ alt="alt text to be added to the HTML img tag" ] }%
-# If the main parameter refers to a non-existent icon, and default is not
-# given, or also refers to a non-existent icon, then the else icon (else)
-# will be used. The HTML alt attribute for the image will be taken from
-# the alt parameter. If alt is not given, the main parameter will be used. 
+=begin TML
+
+---++ ObjectMethod ICON($params) -> $html
+
+ICONURLPATH macro implementation
+
+   * %ICON{ "filename or icon name" [ default="filename or icon name" ]
+           [ alt="alt text to be added to the HTML img tag" ] }%
+If the main parameter refers to a non-existent icon, and default is not
+given, or also refers to a non-existent icon, then the else icon (else)
+will be used. The HTML alt attribute for the image will be taken from
+the alt parameter. If alt is not given, the main parameter will be used. 
+
+=cut
 
 sub ICON {
     my ( $this, $params ) = @_;
+    
+    if (!defined($this->{_ICONSTEMPLATE})) {
+        #if we fail to load once, don't try again.
+        $this->{_ICONSTEMPLATE} = $this->templates->readTemplate('icons');
+        print STDERR "-i-i-i $this->{_ICONSTEMPLATE}\n";
+    }
+    
+    #use icons.tmpl
+    if (defined($this->{_ICONSTEMPLATE})) {
+        #foreach my $iconName ($params->{_DEFAULT}, $params->{default}, 'else') {
+            my $iconName = $params->{_DEFAULT};  #can't test for default&else here - need to allow the 'old' way a chance.
+            #next unless (defined($iconName));
+            my $html = $this->templates->expandTemplate("icon:".$iconName);
+            print STDERR "-iiiii $iconName\n";
+            return $html if (defined($html) and $html ne '');
+        #}
+    }
 
-    my $path = $this->_lookupIcon($params->{_DEFAULT}) ||
-      $this->_lookupIcon($params->{default}) ||
-      $this->_lookupIcon('else');
+    #fall back to using the traditional brute force attachment method.
+    my ($path) = $this->_findIcon ($params);
 
     return $this->renderer->renderIconImage(
         $this->_getIconUrl( 0, $path ), $params->{alt} || $params->{_DEFAULT});

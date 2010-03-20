@@ -1381,7 +1381,7 @@ sub verify_topic_meta_usermapping {
     $metainfo =~ s/(01 Jan 1970\s*-\s*)[-\d+:]*/${1}TIME/g;
     $this->assert_html_equals( <<HERE, $metainfo );
 | *I* | *Attachment* | *Action* | *Size* | *Date* | *Who* | *Comment* |
-| <img width="16" alt="testfile.gif" align="top" src="$Foswiki::cfg{PubUrlPath}/System/DocumentGraphics/gif.gif" height="16" border="0" /><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  0.1&nbsp;K|<span class="foswikiNoBreak">01 Jan 1970 - TIME</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
+| <img width="16" alt="testfile.gif" align="top" src="$Foswiki::cfg{PubUrlPath}/System/FamFamFamGraphics/gif.gif" height="16" border="0" /><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  0.1&nbsp;K|<span class="foswikiNoBreak">01 Jan 1970 - TIME</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
 HERE
 }
 

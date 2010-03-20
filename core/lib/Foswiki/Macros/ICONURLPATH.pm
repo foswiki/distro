@@ -5,11 +5,17 @@ use strict;
 
 use Foswiki::Macros::ICON ();
 
+=begin TML
+
+---++ ObjectMethod ICONURLPATH($params) -> $html
+
+ICONPATH macro implementation
+
+=cut
+
 sub ICONURLPATH {
     my ( $this, $params ) = @_;
-
-    my $path = $this->_lookupIcon( $params->{_DEFAULT} ) ||
-      $this->_lookupIcon('else');
+    my ($path) = $this->_findIcon ($params);
 
     return $this->_getIconUrl( 0, $path );
 }

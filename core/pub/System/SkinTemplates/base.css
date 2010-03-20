@@ -68,6 +68,16 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 	border-style:solid;
 }
+.foswikiIcon {
+	border-width:0;
+	margin:0;
+	padding:0;
+	vertical-align:middle;
+}
+.foswikiIcon img {
+	border-width:0;
+	align: top;
+}
 .foswikiPreviewArea {
 	border-width:1px;
 	border-style:solid;

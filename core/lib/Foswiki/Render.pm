@@ -2173,21 +2173,29 @@ sub _makeAnchorNameUnique {
 Generate the output for representing an 16x16 icon image. The source of
 the image is taken from =$url=. The optional =$alt= specifies an alt string.
 
+re-written using TMPL:DEF{icon:image} in Foswiki.tmpl
+%TMPL:DEF{"icon:image"}%<span class='foswikiIcon'><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%
+see System.SkinTemplates:base.css for the default of .foswikiIcon img
+
+TODO: Sven's not sure this code belongs here - its only use appears to be the ICON macro
+
 =cut
 
 sub renderIconImage {
     my ( $this, $url, $alt ) = @_;
+    
+    if (!defined($alt)) {
+        #yes, you really should have a useful alt text.
+        $alt = $url;
+    }
 
-    my %params = (
-        src    => $url,
-        width  => 16,
-        height => 16,
-        align  => 'top',
-        border => 0
-    );
-    $params{alt} = $alt if defined $alt;
+    my $html = $this->{session}->templates->expandTemplate("icon:image");
+    $html =~ s/%URL%/$url/ge;
+    $html =~ s/%WIDTH%/16px/g;
+    $html =~ s/%HEIGHT%/16px/g;
+    $html =~ s/%ALT%/$alt/ge;
 
-    return CGI::img( \%params );
+    return $html;
 }
 
 1;

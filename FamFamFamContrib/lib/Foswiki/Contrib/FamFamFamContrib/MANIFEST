@@ -3,6 +3,7 @@ data/System/FamFamFamContrib.txt 0644 Documentation
 lib/Foswiki/Contrib/FamFamFamContrib.pm 0644 Perl module
 #lib/Foswiki/Plugins/DocumentGraphicsPlugin.pm 0644 replacement for built in ICON macro
 
+templates/icons.tmpl
 templates/view.famfamfam.tmpl
 
 data/System/FamFamFamFlagIcons.txt

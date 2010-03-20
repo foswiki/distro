@@ -1,8 +1,11 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarICON
----+++ ICON{"name" alt=""} -- small documentation graphic or icon of common attachment types
-   * Generates a small graphic image from the set attached to DocumentGraphics. Images typically have a 16x16 pixel size. You can select a specific image by name, or you can give a full filename, in which case the type of the file will be used to select one of a collection of common file type icons.
+---+++ ICON{"name" alt="" default="name"} -- small documentation graphic or icon of common attachment types
+   * Generates a small graphic image from the set attached to %ICONTOPIC%. 
+     Images typically have a 16x16 pixel size. 
+     You can select a specific image by name, or you can give a full filename, in which case the type of the file will be used to select one of a collection of common file type icons.
+   * if you specify an icon which cannot be found, the one specified in the =default= parameter will be used (and if that fails, the 'else' icon will be used)
    * Syntax: =%<nop>ICON{ "filename or icon name" [ default="filename or icon name" ] [ alt="alt text to be added to the HTML img tag" ] }%
    * Examples:
       * =%<nop>ICON{"flag-gray"}%= displays as %ICON{"flag-gray"}%
@@ -15,5 +18,5 @@
       * =%<nop>ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%= displays %ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%
    * Graphic samples: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
    * File type samples: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], %WIKIPREFSTOPIC%, FileAttachments, DocumentGraphics
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], %WIKIPREFSTOPIC%, FileAttachments, %ICONTOPIC%
 
