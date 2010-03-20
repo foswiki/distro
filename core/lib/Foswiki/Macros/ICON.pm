@@ -92,7 +92,9 @@ sub _findIcon {
 sub _getIconUrl {
     my $this = shift;
     my $absolute = shift;
-    my @path = split('/', shift);
+    my $path = shift;
+    return if (!defined($path));
+    my @path = split('/', $path);
     my $a = pop(@path);
     my $t = pop(@path);
     my $w = join('/', @path);
