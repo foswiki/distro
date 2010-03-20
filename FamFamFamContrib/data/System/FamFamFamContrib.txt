@@ -16,6 +16,8 @@ be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
 
 At this point, the only way to access these Icons is using the url - see below.
 
+__This Contrib is part of the foswiki 1.1 release__
+
 ---+++ Topic action icons.
 To replace the _Edit_, _Attach_ topic action buttons with icons, pre-pend your =SKIN= setting with =famfamfam=.
 
@@ -24,9 +26,9 @@ eg
    * Set SKIN=famfamfam,pattern
 </verbatim>
 
----++ Work in progress: DocumentGraphics themeing
+---++ ICONTOPIC themeing
 You can aso use %SYSTEMWEB%.FamFamFamGraphics as a replacement for the Foswiki DocumentGraphics, 
-by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the DocumentGraphicsPlugin.
+by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences.
 
 <verbatim>
    * Set ICONTOPIC = %SYSTEMWEB%.FamFamFamGraphics
@@ -79,7 +81,8 @@ So far built by Sven based on the Silk ones above, except for
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  Jab 2010: | fix FamFamFamGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |
+|  Mar 2010: | include into foswiki 1.1 core and make it the default =ICONTOPIC= |
+|  Jan 2010: | fix FamFamFamGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |
 |  Dec 2009: | add FamFamFamGraphics topic to allow replacement of ICONTOPIC, and add Silk Companion 2 icons by Chris Cagle | 
 |  2 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
 |  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
