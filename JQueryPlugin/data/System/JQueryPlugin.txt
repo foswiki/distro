@@ -101,7 +101,8 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  14 Mar 2010: | upgraded =validate= to v1.7; added =wikiword= validation method; \
+|  20 Mar 2010 (3.31): | Minifier CPAN libs removed from plugin. They will be in core CPAN lib in Foswiki 1.1 |
+|  14 Mar 2010 (3.30): | upgraded =validate= to v1.7; added =wikiword= validation method; \
                   fixed computation of line-height in =fluidfont=; \
                   fixed height issue in =tabpane= |
 |  03 Mar 2010: | made ZonePlugin an optional dependency |
