@@ -28,6 +28,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | blank | %ICON{blank}% | Blank box |  =%<nop>ICON{blank}%= |
 | blank-bg | %ICON{blank-bg}% | Blank box, transparent |  =%<nop>ICON{blank-bg}%= |
 | bubble | %ICON{bubble}% | Speech bubble |  =%<nop>ICON{bubble}%= |
+| bug | %ICON{bug}% | bug |  =%<nop>ICON{bug}%= |
 | days | %ICON{days}% | Days, Calendar |  =%<nop>ICON{days}%= |
 | download | %ICON{download}% | Download |  =%<nop>ICON{download}%= |
 | fax | %ICON{fax}% | Fax |  =%<nop>ICON{fax}%= |

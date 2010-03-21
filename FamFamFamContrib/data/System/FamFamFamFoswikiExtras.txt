@@ -78,5 +78,6 @@ So far built by Foswiki:Main.SvenDowideit based on the Silk ones above, except f
 <img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/todo.png" />
 <img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/foswiki.png" />
 <img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/skype.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bug.png" />
 
 See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons

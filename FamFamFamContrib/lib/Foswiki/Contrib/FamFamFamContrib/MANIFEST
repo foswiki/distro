@@ -1984,6 +1984,7 @@ pub/System/FamFamFamSilkCompanion2Icons/select-multiple-edit.png
 pub/System/FamFamFamFoswikiExtras/bullet_find.png
 pub/System/FamFamFamFoswikiExtras/package_find.png
 pub/System/FamFamFamFoswikiExtras/tag_find.png
+pub/System/FamFamFamFoswikiExtras/bug.png
 pub/System/FamFamFamFoswikiExtras/bullet_aqua.png
 pub/System/FamFamFamFoswikiExtras/bullet_box_blue.png
 pub/System/FamFamFamFoswikiExtras/bullet_box_aqua.png
@@ -2045,6 +2046,7 @@ pub/System/FamFamFamFoswikiExtras/todo.png
 pub/System/FamFamFamFoswikiExtras/foswiki.png
 pub/System/FamFamFamFoswikiExtras/skype.png
 
+pub/System/DocumentGraphics/bug.png
 pub/System/DocumentGraphics/choice-cancel.png
 pub/System/DocumentGraphics/stargold.png
 pub/System/DocumentGraphics/exe.png
@@ -2297,6 +2299,7 @@ pub/System/DocumentGraphics/recentchanges.png
 pub/System/DocumentGraphics/code.png
 
 #and the compatibility gif versions for users that have hardcoded the entire icon url :(
+pub/System/DocumentGraphics/bug.gif
 pub/System/DocumentGraphics/choice-cancel.gif
 pub/System/DocumentGraphics/stargold.gif
 pub/System/DocumentGraphics/exe.gif
