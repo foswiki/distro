@@ -26,7 +26,7 @@ sub _lookupIcon {
             $iconTopic =~ s/\s+$//;
             my ( $w, $t ) =
               $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-            if (topicExists($w, $t)) {
+            if ($this->topicExists($w, $t)) {
                 $this->{_ICONSPACE} = new Foswiki::Meta($this, $w, $t);
             } else {
                 $this->logger->log(
@@ -131,8 +131,9 @@ sub ICON {
     
     #use icons.tmpl
     if (defined($this->{_ICONSTEMPLATE})) {
+        #can't test for default&else here - need to allow the 'old' way a chance.
         #foreach my $iconName ($params->{_DEFAULT}, $params->{default}, 'else') {
-            my $iconName = $params->{_DEFAULT};  #can't test for default&else here - need to allow the 'old' way a chance.
+            my $iconName = $params->{_DEFAULT} || $params->{default} || 'else';  #can default the values if things are undefined though
             #next unless (defined($iconName));
             my $html = $this->templates->expandTemplate("icon:".$iconName);
             return $html if (defined($html) and $html ne '');
@@ -143,7 +144,7 @@ sub ICON {
     my ($path) = $this->_findIcon ($params);
 
     return $this->renderer->renderIconImage(
-        $this->_getIconUrl( 0, $path ), $params->{alt} || $params->{_DEFAULT});
+        $this->_getIconUrl( 0, $path ), $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else');
 }
 
 1;
