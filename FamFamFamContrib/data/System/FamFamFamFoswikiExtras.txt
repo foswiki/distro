@@ -1,0 +1,82 @@
+---+ %TOPIC%
+%STARTINCLUDE%
+So far built by Foswiki:Main.SvenDowideit based on the Silk ones above, except for 
+   1 the XML icon - which comes from http://commons.wikimedia.org/wiki/File:XML_icon.svg
+   2 the targets which are based on - http://www.favicon.cc/?action=icon&file_id=37384
+   3 the Universal edit icons are based on the current (dec 2009) svg
+   4 hand made done, closed, todo, updated icons - yes, ok, so i'm not an artist.
+   5 external sites icons like skype are made using their favicons
+%STOPINCLUDE%
+
+---++ Icons
+
+
+
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_find.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/package_find.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/tag_find.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_aqua.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_blue.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_aqua.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/tag_magenta.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_green.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/tag_brown.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/flag_gray_small.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_purple.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_red.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_yellow.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_orange.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bullet_box_black.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/flag_gray.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_ur.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_ld.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_rd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_udlr.png" />
+
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_ud.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_ur_gray.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_lr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_ul.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_lrd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_lrd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_udl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_udl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_ur.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_udr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_udr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_ld.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_ulr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_ulr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_rd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_udlr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_ud.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/dot_lr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/line_ul.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/XML_icon.png" />
+
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/target_green.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/target_gray.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/target.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/target_blue.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/target_red.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/target_orange.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_g12.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_m12.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_o12.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_bo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_g.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_o.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_go.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_gs.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_oo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_os.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/uweb_bo12.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/done.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/updated.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/closed.png" />
+
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/todo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/foswiki.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/skype.png" />
+
+See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons

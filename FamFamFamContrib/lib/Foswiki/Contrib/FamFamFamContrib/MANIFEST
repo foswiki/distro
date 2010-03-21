@@ -7,6 +7,7 @@ templates/icons.tmpl
 templates/view.famfamfam.tmpl
 
 data/System/FamFamFamFlagIcons.txt
+data/System/FamFamFamFoswikiExtras.txt
 data/System/FamFamFamSilkIcons.txt
 data/System/FamFamFamMintIcons.txt
 data/System/FamFamFamMiniIcons.txt

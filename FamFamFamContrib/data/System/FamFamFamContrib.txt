@@ -26,14 +26,6 @@ eg
    * Set SKIN=famfamfam,pattern
 </verbatim>
 
----++ ICONTOPIC themeing
-You can aso use %SYSTEMWEB%.DocumentGraphics as a replacement for the Foswiki DocumentGraphics, 
-by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences.
-
-<verbatim>
-   * Set ICONTOPIC = %SYSTEMWEB%.DocumentGraphics
-</verbatim>
-
 ---++ Examples (if installed)
 
    * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" alt="au.png" title="au.png" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" /&gt;=)
@@ -60,13 +52,8 @@ by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences.
 ---+++ Silk preview FamFamFamSilkCompanion2Icons
 <img src="%ATTACHURLPATH%/silk-companion-II.png" alt="silk-companion-II.png"  />
 
----+++ Foswiki Extra Icons 
-So far built by Sven based on the Silk ones above, except for 
-   1 the XML icon - which comes from http://commons.wikimedia.org/wiki/File:XML_icon.svg
-   2 the targets which are based on - http://www.favicon.cc/?action=icon&file_id=37384
-   3 the Universal edit icons are based on the current (dec 2009) svg
-   4 hand made done, closed, todo, updated icons - yes, ok, so i'm not an artist.
-   5 external sites icons like skype are made using their favicons
+---+++ Foswiki Extra Icons FamFamFamFoswikiExtras
+%INCLUDE{%SYSTEMWEB%.FamFamFamFoswikiExtras}%
 
 ---++ Installation Instructions
 
@@ -75,9 +62,9 @@ So far built by Sven based on the Silk ones above, except for
 ---++ Contrib Info
 
 
-|  Icons Creator: | Icons by Mark James http://www.famfamfam.com |
+|  Icons Creator: | original Icons by Mark James http://www.famfamfam.com |
 |  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
-|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ |
+|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ and Sven Dowideit http://fosiki.com |
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
