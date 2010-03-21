@@ -27,11 +27,11 @@ eg
 </verbatim>
 
 ---++ ICONTOPIC themeing
-You can aso use %SYSTEMWEB%.FamFamFamGraphics as a replacement for the Foswiki DocumentGraphics, 
+You can aso use %SYSTEMWEB%.DocumentGraphics as a replacement for the Foswiki DocumentGraphics, 
 by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences.
 
 <verbatim>
-   * Set ICONTOPIC = %SYSTEMWEB%.FamFamFamGraphics
+   * Set ICONTOPIC = %SYSTEMWEB%.DocumentGraphics
 </verbatim>
 
 ---++ Examples (if installed)
@@ -82,8 +82,8 @@ So far built by Sven based on the Silk ones above, except for
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Mar 2010: | include into foswiki 1.1 core and make it the default =ICONTOPIC= |
-|  Jan 2010: | fix FamFamFamGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |
-|  Dec 2009: | add FamFamFamGraphics topic to allow replacement of ICONTOPIC, and add Silk Companion 2 icons by Chris Cagle | 
+|  Jan 2010: | fix DocumentGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |
+|  Dec 2009: | add DocumentGraphics topic to allow replacement of ICONTOPIC, and add Silk Companion 2 icons by Chris Cagle | 
 |  2 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
 |  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
 |  26 Nov 2008: | compatibility Foswiki |

@@ -18,7 +18,7 @@ Note that =ICON{}= assumes a GIF image of 16 x 16 pixels. Use a HTML =img= tag w
 Other usage: [[%TOPIC%#Usage_extended][see below]].
 
 ---++ Graphics
-   * Set ICONTOPIC=%SYSTEMWEB%.DocumentGraphics
+   * Set ICONTOPIC=%SYSTEMWEB%.OriginalDocumentGraphics
 
 
 ---+++ %ICON{note}% Document icons
@@ -400,9 +400,9 @@ For extended use, check out Foswiki:Extensions.SmiliesPlugin that uses a differe
 
 Full path:
 <blockquote>
-In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/help.gif= to show %PUBURL%/%SYSTEMWEB%/DocumentGraphics/help.gif
+In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/OriginalDocumentGraphics/help.gif= to show %PUBURL%/%SYSTEMWEB%/OriginalDocumentGraphics/help.gif
 
-You are not restricted to use the !DocumentGraphics topic - in a similar way you can show attached images by replacing =DocumentGraphics= with the topic name.
+You are not restricted to use the !OriginalDocumentGraphics topic - in a similar way you can show attached images by replacing =OriginalDocumentGraphics= with the topic name.
 </blockquote>
 
 To create an image with a link, write:
