@@ -201,7 +201,7 @@ sub install {
                 close $fh;
 
                 if ($contents) {
-                    $results .= "Checked in: $file  as $tweb.$ttopic \n";
+                    $results .= "Checked in: $file  as $tweb.$ttopic\n";
                     my $meta = Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
                     _installAttachments($this, $dir, "$tweb/$ttopic", $meta, $manifest, $results );
                     $meta->saveAs ( $tweb, $ttopic, %opts );
@@ -213,13 +213,13 @@ sub install {
             # Everything else
             my $msg .= _moveFile ("$dir/$file", "$target", $perms);
             $err .= $msg if ($msg);
-            $results .= "Installed:  $file  \n";
+            $results .= "Installed:  $file\n";
             next;
             }
         }
         my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
         my $msg = _moveFile ("$dir/$this->{_pkgname}_installer", "$pkgstore/$this->{_pkgname}_installer");
-        $results .= "Installed:  $pkgstore/$this->{_pkgname}_installer \n";
+        $results .= "Installed:  $this->{_pkgname}_installer\n";
 
         $err .= $msg if ($msg);
         return ($results, $err);

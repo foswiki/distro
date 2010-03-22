@@ -1006,6 +1006,13 @@ sub test_Package {
     my $result = '';
     ($result, $err) = $pkg->install($tempdir);
 
+    my $expresult = "Installed:  data/Sandbox/TestTopic1.txt
+Checked in: data/Sandbox/TestTopic43.txt  as Sandbox.TestTopic43
+Installed:  pub/Sandbox/TestTopic1/file.att
+Installed:  MyPlugin_installer
+";
+    $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
+
     my @mfiles = $pkg->files();
     my @ifiles = $pkg->files('1');
 
