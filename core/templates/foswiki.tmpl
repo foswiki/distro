@@ -121,3 +121,11 @@
 %{ icon:image - uses double quotes required for legacy reasons :/  }%
 %TMPL:DEF{"icon:image"}%<span class="foswikiIcon"><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%
 %TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%
+
+%{ support for default skin's webtopiclist }%
+%TMPL:DEF{"defaultwebtopiclist"}%[[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />%TMPL:END%
+%TMPL:DEF{"webtopiclist"}%%IF{"defined 'WEBTOPICLIST'" 
+  then="$percntWEBTOPICLIST$percnt" 
+  else="$percntTMPL:P{\"defaultwebtopiclist\"}$percnt"
+}%%TMPL:END%
+
