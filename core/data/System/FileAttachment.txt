@@ -104,11 +104,11 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
    * Once a file is attached it can be referenced in the topic. Example:
       1. ==[Attach]== a file, for example: =Sample.txt=
       1. ==[Edit]== the topic you attached the file to and enter: =%<nop>ATTACHURL%/Sample.txt=
-      1. ==[Preview]==: the =%<nop>ATTACHURL%/Sample.txt= text appears as: %PUBURLPATH%/%WEB%/%TOPIC%/Sample.txt, a link to the text file.
+      1. ==[Preview]==: the =%<nop>ATTACHURL%/Sample.txt= text appears as: %PUBURL%/%WEB%/%TOPIC%/Sample.txt, a link to the text file.
 
    * To reference an attachment located in another topic, enter:
-      * =%<nop>PUBURLPATH%/%<nop>WEB%/OtherTopic/Sample.txt= (if it's within the same web)
-      * =%<nop>PUBURLPATH%/Otherweb/OtherTopic/Sample.txt= (if it's in a different web)
+      * =%<nop>PUBURL%/%<nop>WEB%/OtherTopic/Sample.txt= (if it's within the same web)
+      * =%<nop>PUBURL%/Otherweb/OtherTopic/Sample.txt= (if it's in a different web)
 
    * Attached HTML files and text files can be inlined in a topic. Example:
       1. ==[Attach]== file: =Sample.txt=
