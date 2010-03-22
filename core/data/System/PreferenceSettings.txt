@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252719915" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
----++ Help on Preferences
+---++!! Help on Preferences
    * A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that can be expanded in your output.
    * A preference setting looks like this: <br /> =3 or 6 spaces * Set NAME = value= <br /> Example:
       * S<nop>et WEBBGCOLOR = #FFFFC0
