@@ -37,6 +37,10 @@ sub set_up {
      $this->{sandbox_web} = 'Testsandboxweb1234';
      $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_web} );
      $webObject->populateNewWeb();
+     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
+     mkpath($this->{tempdir});
+
+
 }
 
 sub tear_down {
@@ -45,6 +49,7 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, $this->{test_web} );
     $this->removeWebFixture( $this->{session}, $this->{trash_web} );
     $this->removeWebFixture( $this->{session}, $this->{sandbox_web} );
+    rmtree($this->{tempdir});  # Cleanup any old tests
     $this->SUPER::tear_down();
 
 }
@@ -64,7 +69,7 @@ sub test_parseSave {
 
     my $valuer = new Foswiki::Configure::Valuer( \%defaultCfg, \%cfg );
     my $root = new Foswiki::Configure::Root();
-    my ( $fh, $fhname ) = File::Temp::tempfile( unlink => 1 );
+    my ( $fh, $fhname ) = File::Temp::tempfile( DIR => $this->{tempdir} );
     print $fh <<'EXAMPLE';
 # Crud
 my $pubDir = $cfg{PubDir} || '';
@@ -140,7 +145,7 @@ sub test_2parse {
     $this->assert_null( $root->getValueObject('{One}') );
     $this->assert_null( $root->getValueObject('{Two}') );
 
-    my ( $f1, $f1name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f1, $f1name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #  File::Temp::tempfile( unlink => 1 );
     print $f1 <<'EXAMPLE';
 # **STRING 10**
 $Foswiki::cfg{One} = 'One';
@@ -152,7 +157,7 @@ EXAMPLE
     $this->assert_not_null( $root->getValueObject('{One}') );
     $this->assert_null( $root->getValueObject('{Two}') );
 
-    my ( $f2, $f2name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f2, $f2name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #File::Temp::tempfile( unlink => 1 );
     print $f2 <<'EXAMPLE';
 # **STRING 10**
 $Foswiki::cfg{Two} = 'Two';
@@ -169,7 +174,7 @@ EXAMPLE
 sub test_loadpluggables {
     my $this = shift;
     my $root = new Foswiki::Configure::Root();
-    my ( $f1, $f1name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f1, $f1name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #File::Temp::tempfile( unlink => 1 );
     print $f1 <<'EXAMPLE';
 # *LANGUAGES*
 # *PLUGINS*
@@ -192,7 +197,7 @@ sub test_conflict {
 
     my $root = new Foswiki::Configure::Root();
 
-    my ( $f1, $f1name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f1, $f1name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #File::Temp::tempfile( unlink => 1 );
     print $f1 <<'EXAMPLE';
 # **STRING 10**
 # Good description
@@ -209,7 +214,7 @@ EXAMPLE
     $vo = $root->getValueObject('{Two}');
     $this->assert_not_null($vo);
 
-    my ( $f2, $f2name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f2, $f2name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #File::Temp::tempfile( unlink => 1 );
     print $f2 <<'EXAMPLE';
 $Foswiki::cfg{Two} = 'Two';
 # **BOOLEAN 10**
@@ -243,7 +248,7 @@ sub test_resection {
     my $valuer = new Foswiki::Configure::Valuer( \%defaultCfg, \%cfg );
     my $root = new Foswiki::Configure::Root();
 
-    my ( $f1, $f1name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f1, $f1name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #File::Temp::tempfile( unlink => 1 );
     print $f1 <<'EXAMPLE';
 #---+ Section
 # ** STRING **
@@ -284,7 +289,7 @@ sub test_UI {
     my %cfg        = ( Value => "after" );
     my $valuer     = new Foswiki::Configure::Valuer( \%defaultCfg, \%cfg );
 
-    my ( $f1, $f1name ) = File::Temp::tempfile( unlink => 1 );
+    my ( $f1, $f1name ) =  File::Temp::tempfile( DIR => $this->{tempdir} );  #File::Temp::tempfile( unlink => 1 );
     print $f1 <<'EXAMPLE';
 # **STRING 10**
 $Foswiki::cfg{One} = 'One';
@@ -484,7 +489,7 @@ sub test_Util_listDir {
     my $this = shift;
     use File::Path qw(mkpath rmtree);
  
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_Util_ListDir';
+    my $tempdir = $this->{tempdir} . '/test_Util_ListDir';
     rmtree($tempdir);  # Cleanup any old tests
 
     mkpath($tempdir);
@@ -538,7 +543,7 @@ sub test_getPerlLocation {
 
     use File::Path qw(mkpath rmtree);
  
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_getperllocation';
+    my $tempdir = $this->{tempdir} . '/test_util_getperllocation';
     mkpath($tempdir); 
 
     my $holddir = $Foswiki::cfg{ScriptDir};
@@ -587,7 +592,7 @@ sub test_rewriteShbang {
 
     use File::Path qw(mkpath rmtree);
  
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_rewriteShbang';
+    my $tempdir = $this->{tempdir} . '/test_util_rewriteShbang';
     mkpath($tempdir); 
 
     #                                Template File         Shbang to write       Expected line
@@ -630,7 +635,7 @@ DONE
 sub _test_extractPkgData {
     my $this = shift;
 
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_extractPkgData';
+    my $tempdir = $this->{tempdir} . '/test_util_extractPkgData';
     mkpath($tempdir); 
 
     open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
@@ -707,13 +712,13 @@ DONE
 sub _test_applyManifest {
     my $this = shift;
 
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_applyManifest';
+    my $tempdir = $this->{tempdir} . '/test_util_applyManifest';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
     
     $Foswiki::cfg{DataDir} = "$tempdir/data";
 
-    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    open (my $fh, '>',  "$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
     print $fh <<DONE;
 #!blah
 bleh
@@ -765,7 +770,7 @@ sub _makefile {
 sub _test_removeManifestFiles {
     my $this = shift;
 
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_removeManifestFiles';
+    my $tempdir = $this->{tempdir} . '/test_util_removeManifestFiles';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
     
@@ -810,94 +815,6 @@ DONE
     rmtree($tempdir); 
 }
 
-=begin TML
-
----++ Test installFiles($root, $dir, @names )
-Install files listed in @names.  $root is the root of the Foswiki installation.
-and $dir is the root of the source directory.  @names is the list of source files and
-directories beneath the $dir directory.  They should be passed in descending directory
-order.  Missing directories are created as required.  The files are mapped into non-standard
-locations by the mapTarget utility routine.  If a file is read-only, it is temporarily
-overridden and the mode of the file is restored after the move.
-=cut
-
-sub _test_installFiles {
-    my $this = shift;
-
-
-    $FindBin::Bin =~ /(.*)/;
-    my $mybin = $1;
-    my @root = File::Spec->splitdir( $mybin );
-    pop(@root);
-    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
-    my $root = File::Spec->catfile( @root, 'x' );
-    chop $root;
-
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_installFiles';
-    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
-    print $fh <<DONE;
-#!blah
-bleh
-__DATA__
-<<<< MANIFEST >>>>
-data/Sandbox/TestTopic1.txt,0644,Documentation
-data/Sandbox/TestTopic43.txt,0644,Documentation
-pub/Sandbox/TestTopic43/file.att,0664,
-pub/Sandbox/TestTopic43/file2.att,0664,
-
-DONE
-    close ($fh);
-    _makefile ( "$tempdir/data/Sandbox", "TestTopic1.txt", <<'DONE');
-%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
-Test rev 132412341234
-==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
-
-[[Test Topic-Name With@Sign]]
-
-[[Test Topic-Name With$Sign]]
-
-[[test topic-name with%sign]]
-
--- Main.AdminUser - 04 Mar 2010
-DONE
-    _makefile ( "$tempdir/data/Sandbox", "TestTopic43.txt", <<'DONE');
-%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
-Test rev 132412341234
-==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
-
-[[Test Topic-Name With@Sign]]
-
-[[Test Topic-Name With$Sign]]
-
-[[test topic-name with%sign]]
-
--- Main.AdminUser - 04 Mar 2010
-DONE
-    _makefile ( "$tempdir/pub/Sandbox/TestTopic43", "file.att", <<'DONE');
-Test file data
-DONE
-    _makefile ( "$tempdir/pub/Sandbox/TestTopic43", "file2.att", <<'DONE');
-Test file data
-DONE
-
-
-    my $extension = "MyPlugin";
-    my %MANIFEST;
-    my %DEPENDENCIES;
-    my $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
-
-
-    my @names = ( 'data/Sandbox/TestTopic1.txt', 'data/Sandbox/TestTopic43.txt', 'pub/Sandbox/TestTopic43/file.att', 'pub/Sandbox/TestTopic43/file2.att');
-
-
-    #my %opts;
-    #$opts{dontlog} = 1;
-
-    Foswiki::Configure::Util::installFiles ( $this->{session}, $root,  $tempdir, \@names, \%MANIFEST);
-
-}
-
-
 
 sub test_makeBackup {
     my $this = shift;
@@ -908,7 +825,7 @@ sub test_makeBackup {
     my $root = File::Spec->catfile( @root, 'x' );
     chop $root;
 
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_installFiles';
+    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
 
@@ -988,29 +905,45 @@ DONE
 
 sub test_Package {
     my $this = shift;
-
     my $root = $this->{rootdir};
+    use Foswiki::Configure::Package;
+    my $result = '';
 
-    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_installFiles';
+    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
    
     my $extension = "MyPlugin";
     _makePackage ($tempdir, $extension);
 
-    use Foswiki::Configure::Package;
+    #
+    #   Make sure that the package is removed, that no old topics were left around
+    #
+    #
     my $pkg = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
     my $err = $pkg->loadInstaller($tempdir);
+    $pkg->uninstall();
+    $pkg->finish();
+    
+
+    #
+    #   Install the package - as a fresh install, no checkin or rcs files created
+    #
+
+    _makePackage ($tempdir, $extension);
+    $pkg = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
+    $err = $pkg->loadInstaller($tempdir);
+    ($result, $err) = $pkg->install($tempdir);
     $this->assert_str_equals( '', $err ); 
 
-    my $result = '';
-    ($result, $err) = $pkg->install($tempdir);
-
     my $expresult = "Installed:  data/Sandbox/TestTopic1.txt
-Checked in: data/Sandbox/TestTopic43.txt  as Sandbox.TestTopic43
+Installed:  data/Sandbox/TestTopic43.txt
 Installed:  pub/Sandbox/TestTopic1/file.att
+Installed:  pub/Sandbox/TestTopic43/file.att
+Installed:  pub/Sandbox/TestTopic43/file2.att
 Installed:  MyPlugin_installer
 ";
+
     $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
 
     my @mfiles = $pkg->files();
@@ -1018,18 +951,57 @@ Installed:  MyPlugin_installer
 
    
     $this->assert_num_equals( 5, scalar @mfiles, 'Unexpected number of files in manifest'); # 5 files in manifest
-    #$this->assert_num_equals( 8, scalar @ifiles, 'Unexpected number of files installed');   # + 3 rcs files after checkin
 
+    #print "To be installed \n";
+    #foreach my $f ( @mfiles ) {
+    #   print "$f \n";
+    #   }
+
+    $this->assert_num_equals( 5, scalar @ifiles, 'Unexpected number of files installed');   # and 5 files installed 
+
+    #print "\nActually installed \n";
+    #foreach my $f ( @ifiles ) {
+    #   print "$f \n";
+    #   }
+
+    #
+    # Install a 2nd time - RCS files should be created when checkin is requested.
+    #
     _makePackage ($tempdir, $extension);
  
     my $pkg2 = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
     $err = $pkg2->loadInstaller($tempdir);
-    $this->assert_str_equals( '', $err ); 
 
-    my @list = $pkg2->uninstall();
+    $result = '';
+    ($result, $err) = $pkg2->install($tempdir);
 
-    #$this->assert_num_equals( 9, scalar @list, 'Unexpected number of files uninstalled'); # + the installer file is removed
+    $expresult = "Installed:  data/Sandbox/TestTopic1.txt
+Checked in: data/Sandbox/TestTopic43.txt  as Sandbox.TestTopic43
+Attached:   pub/Sandbox/TestTopic43/file.att to Sandbox/TestTopic43
+Attached:   pub/Sandbox/TestTopic43/file2.att to Sandbox/TestTopic43
+Installed:  pub/Sandbox/TestTopic1/file.att
+Installed:  MyPlugin_installer
+";
+    #print "Error: $err  Expected - \n$expresult \n\nActual - \n$result\n\n";
+    my @ifiles2 = $pkg->files('1');
 
+    $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
+    $this->assert_num_equals( 8, scalar @ifiles2, 'Unexpected number of files installed on 2nd install ');   # + 3 rcs files after checkin
+    $this->assert_str_equals( '', $err, "Error $err remported" ); 
+
+
+    #  
+    #  Now uninistall the package
+    #
+    my @ufiles = $pkg2->uninstall();
+
+    $this->assert_num_equals( 9, scalar @ufiles, 'Unexpected number of files uninstalled'); # 8 files + the installer file are removed
+
+    #print "\nUninstalled \n";
+    foreach my $f ( @ufiles ) {
+       print  "File $f not deleted" if (-e $f) ;
+       $this->assert( (! -e $f), "File $f not deleted" );
+       }
     $pkg->finish();
     $pkg2->finish();
 
@@ -1047,11 +1019,11 @@ Installed:  MyPlugin_installer
 
 sub test_Load_expandValue {
     my $this = shift;
-    $Foswiki::cfg{WorkingDir} = '/tmp/asdf';
+    #$Foswiki::cfg{WorkingDir} = '/tmp/asdf';
     my $logv = '$Foswiki::cfg{WorkingDir}/test';
     require Foswiki::Configure::Load;
     Foswiki::Configure::Load::expandValue($logv);
-    $this->assert_str_equals( '/tmp/asdf/test', $logv ); 
+    $this->assert_str_equals( "$Foswiki::cfg{WorkingDir}/test", $logv ); 
 }
 
 

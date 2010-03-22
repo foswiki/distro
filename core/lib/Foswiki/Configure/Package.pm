@@ -203,7 +203,7 @@ sub install {
                 if ($contents) {
                     $results .= "Checked in: $file  as $tweb.$ttopic\n";
                     my $meta = Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
-                    _installAttachments($this, $dir, "$tweb/$ttopic", $meta, $manifest, $results );
+                    $results .= _installAttachments($this, $dir, "$tweb/$ttopic", $meta, $manifest );
                     $meta->saveAs ( $tweb, $ttopic, %opts );
                 }
                 next;
@@ -238,7 +238,7 @@ sub _installAttachments {
     my $webTopic = shift;
     my $meta = shift;
     my $manifest = shift;
-    my $results = shift;
+    my $results = '';
 
     foreach my $key ( keys %{ $this->{_manifest}->{ATTACH}->{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
@@ -255,9 +255,10 @@ sub _installAttachments {
             $opts{filesize} = $stats[7];
             $opts{filedate} = $stats[9];
             $meta->attach (%opts);
-            $results .= "  Attached: $file to $webTopic \n";
+            $results .= "Attached:   $file to $webTopic\n";
             }
         }
+    return $results;
 }
    
 =begin TML
@@ -431,14 +432,14 @@ sub uninstall {
         } else {
 
             if (-f $target) {
-                chmod( '0600', $target);
-                unlink "$target";
-                push (@removed, "$target");
+                chmod( '0666', $target);
+                my $n = unlink "$target";
+                push (@removed, "$target") if ($n == 1);
                 }
             if (-f "$target,v") {
-                chmod( '0600', "$target,v");
-                unlink "$target,v";
-                push (@removed, "$target,v");
+                chmod( '0666', "$target,v");
+                my $n = unlink "$target,v";
+                push (@removed, "$target,v") if ($n == 1);
                 }
             }
         }
