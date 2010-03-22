@@ -5,6 +5,7 @@ use strict;
 use Assert;
 
 use Foswiki::Logger ();
+use Foswiki::Configure::Load;
 our @ISA = ('Foswiki::Logger');
 
 =begin TML
@@ -206,8 +207,14 @@ sub eachEventSince {
 sub _getLogForLevel {
     my $level = shift;
     ASSERT(defined $LEVEL2LOG{$level}) if DEBUG;
-    my $log = $LEVEL2LOG{$level};
-    return "$Foswiki::cfg{Log}{Dir}/$log.log";
+    my $log = $Foswiki::cfg{Log}{Dir} . '/' . $LEVEL2LOG{$level} . '.log';
+
+    # SMELL: Expand should not be needed, except if bin/configure tries
+    # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
+    # Windows seemed to be the most difficult to fix - this was the only thing
+    # that I could find that worked all the time.
+    Foswiki::Configure::Load::expandValue($log); 
+    return $log;
 }
 
 sub _time2month {

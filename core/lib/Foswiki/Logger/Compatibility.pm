@@ -36,6 +36,7 @@ This is a copy of the Foswiki 1.0 code.
 
 use Foswiki::Time         ();
 use Foswiki::ListIterator ();
+use Foswiki::Configure::Load ();
 
 # Local symbol used so we can override it during unit testing
 sub _time { return time() }
@@ -211,6 +212,12 @@ sub _getLogForLevel {
           if DEBUG;
         $log = $Foswiki::cfg{WarningFileName};
     }
+
+    # SMELL: Expand should not be needed, except if bin/configure tries
+    # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
+    # Windows seemed to be the most difficult to fix - this was the only thing
+    # that I could find that worked all the time.
+    Foswiki::Configure::Load::expandValue($log);  # Expand in place
     return $log;
 }
 
