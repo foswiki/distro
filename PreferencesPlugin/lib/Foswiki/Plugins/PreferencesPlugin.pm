@@ -179,31 +179,11 @@ sub _generateEditField {
     my ( $extras, $html );
 
     if ($formDef) {
-        my $fieldDef;
-        if ( defined(&Foswiki::Form::getField) ) {
-
-            # TWiki 4.2 and later
-            $fieldDef = $formDef->getField($name);
-        }
-        else {
-
-            # TWiki < 4.2
-            $fieldDef = _getField( $formDef, $name );
-        }
+        my $fieldDef = $formDef->getField($name);
         if ($fieldDef) {
-            if ( defined(&Foswiki::Form::renderFieldForEdit) ) {
-
-                # TWiki < 4.2 SMELL: use of unpublished core function
-                ( $extras, $html ) =
-                  $formDef->renderFieldForEdit( $fieldDef, $web, $topic,
-                    $value );
-            }
-            else {
-
-                # TWiki 4.2 and later SMELL: use of unpublished core function
-                ( $extras, $html ) =
-                  $fieldDef->renderForEdit( $web, $topic, $value );
-            }
+            my $topicObject =
+              Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+              ( $extras, $html ) = $fieldDef->renderForEdit( $topicObject, $value );
         }
     }
     unless ($html) {
