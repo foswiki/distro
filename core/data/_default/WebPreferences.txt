@@ -1,67 +1,54 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1269259719" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
-The following settings are *web preferences* of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the *site-level preferences* in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by *user preferences* (your personal topic, eg: [[%USERSWEB%.%WIKINAME%][%WIKINAME%]] in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
-
 %TOC%
 
----++ Web Preferences Settings
+---++ Appearance
 
-These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]]. Many of the settings below are commented out. Remove the # sign to enable a local customisation.
+   * Set WEBBGCOLOR = #DDDDDD
+      * web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span>
 
-   * List of topics of the <nop>%WEB% web:
-      * #Set WEBTOPICLIST = %WEBTOPICLIST%
+   * Set SITEMAPLIST = on
+      * set to =off= to hide this web from the [[%SYSTEMWEB%.SiteMap][SiteMap]]
+   * Set WEBSUMMARY = 
+      * description what this web is used for
 
-<div style='background-color: %WEBBGCOLOR%;float: right'>
-&nbsp;%WEBBGCOLOR%&nbsp;
-</div>
-   * Web-specific background color: (Pick a lighter one of the [[%SYSTEMWEB%.StandardColors][StandardColors]]).
-      * Set WEBBGCOLOR = #DDDDDD
-      * *Note:* This setting is automatically configured when you create a web
+   * Set NOSEARCHALL = 
+      * if set to =on=, this web will be exclude web from a global search
 
-   * Image, URL and alternate tooltip text of web's logo.%BR%
-     *Note:* Don't add your own local logos to the [[%SYSTEMWEB%.ProjectLogos][ProjectLogos]] topic; create your own logos topic instead.
-      * #Set WEBLOGOIMG = %WEBLOGOIMG%
-      * #Set WEBLOGOURL = %WEBLOGOURL%
-      * #Set WEBLOGOALT = %WEBLOGOALT%
+---++ Wiki application settings
 
-   * List this web in the [[%SYSTEMWEB%.SiteMap][SiteMap]]. If you want the web listed, then set SITEMAPLIST to =on=, do not set NOSEARCHALL, and add the "what" and "use to..." description for the site map. Use links that include the name of the web, i.e. <nop>%WEB%.Topic links.%BR%
-      *Note:* Unlike other settings, SITEMAPLIST is *not* inherited from parent webs. It has to be set in *every* web that is to be listed in the [[%SYSTEMWEB%.SiteMap][SiteMap]] %BR%
-      * Set SITEMAPLIST = on
-      * Set SITEMAPWHAT = 
-      * Set SITEMAPUSETO = 
-      * *Note:* Above settings are automatically configured when you create a web
+   * WebTopicEditTemplate
+      * default template for new topics in this web, if this topic does not exist,  [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
 
-   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs. Comment out or set to the empty string if the web is to be included in search.)
-      * Set NOSEARCHALL = 
-      * *Note:* This setting is automatically configured when you create a web
+   * Set WEBFORMS =
+      * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
 
-   * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and acronyms (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
-      * #Set NOAUTOLINK = %NOAUTOLINK%
-      * *Note:* You can still use the =[<nop>[...][...]]= syntax to link topics if you disabled <nop>WikiWord linking. The =&lt;noautolink&gt; ... &lt;/noautolink&gt;= syntax can be used to prevents links within a block of text.
+---++ Access control
 
-   * Default template for *new topics* for this web:
-      * WebTopicEditTemplate: Default template for new topics in this web. (Site-level is used if topic does not exist)
-      * [[%SYSTEMWEB%.WebTopicEditTemplate]]: Site-level default topic template
+Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]).
 
-   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
-      * Set WEBFORMS =
+   * Set DENYWEBVIEW = 
+   * Set ALLOWWEBVIEW = 
+   * Set DENYWEBCHANGE = 
+   * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
+   * Set DENYWEBRENAME = 
+   * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
 
-   * Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]).
-      * Set DENYWEBVIEW = 
-      * Set ALLOWWEBVIEW = 
-      * Set DENYWEBCHANGE = 
-      * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
-      * Set DENYWEBRENAME = 
-      * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
+Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
 
-   * Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
-      * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
-      * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
+   * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+   * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
 
-   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
-      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
+---++ Finalisation
 
-%INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%
+Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
+
+   * Set FINALPREFERENCES = ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
+
+
+---
+%INCLUDE{"%SYSTEMWEB%.WebPreferencesHelp"}%
+
 
