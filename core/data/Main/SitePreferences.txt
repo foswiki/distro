@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1269269181" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1269269181" format="1.1" version="$Rev$"}%
 ---+!! %TOPIC%
 
 %ICON{"help"}% 
