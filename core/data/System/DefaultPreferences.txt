@@ -19,8 +19,6 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 %X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the !WebPreferences topic in each web
 
-   * List of selected topics in a web (used in menus)
-      * Set WEBTOPICLIST = [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
 
    * Web-specific background color: (is overwritten by web preferences)
       * Set WEBBGCOLOR = #FFD8AA
