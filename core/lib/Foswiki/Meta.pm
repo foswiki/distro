@@ -2211,7 +2211,9 @@ sub attach {
             comment     => $opts{comment} || '',
         };
 
-        if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+
+        if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') || 
+             $plugins->haveHandlerFor('beforeUploadHandler') ) {
 
             # SMELL: the attachment handler requires a file on disc
             # Because of the way CGI works, the stream is actually attached
@@ -2227,8 +2229,16 @@ sub attach {
 "Cannot call beforeAttachmentSaveHandler; caller did not provide a temporary file name"
                 );
             }
-            $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
-                $this->{_topic}, $this->{_web} );
+
+            if ( $plugins->haveHandlerFor('beforeUploadHandler') ) {
+                $plugins->dispatch( 'beforeUploadHandler', $attrs, $this);
+            }
+
+            if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+              $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
+                  $this->{_topic}, $this->{_web} );
+            }
+
             open( $opts{stream}, '<', $attrs->{tmpFilename} )
               || die "Internal error: $!";
             binmode( $opts{stream} );
@@ -2286,6 +2296,10 @@ sub attach {
             $action,     $this->{_web} . '.' . $this->{_topic},
             $opts{name}, $this->{_session}->{user}
         );
+    }
+
+    if ( $plugins->haveHandlerFor('afterUploadHandler') ) {
+        $plugins->dispatch( 'afterUploadHandler', $attrs, $this);
     }
 }
 
@@ -2433,6 +2447,10 @@ sub moveAttachment {
         $fileAttachment->{movedto}   = $to->getPath() . '.' . $newName;
         $fileAttachment->{movedwhen} = time();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
+
+        if ($this->getPath() eq $to->getPath()) {
+          $to->remove( 'FILEATTACHMENT', $name );
+        }
 
         $to->saveAs(
             undef, undef,

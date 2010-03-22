@@ -39,16 +39,16 @@ use Foswiki::OopsException ();
 use Foswiki::ValidationException ();
 
 our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
-    'afterAttachmentSaveHandler',       # 1.022
+    'afterUploadHandler',               # 2.1
     'afterCommonTagsHandler',           # 1.024
     'afterEditHandler',                 # 1.010
     'afterRenameHandler',               # 1.110
     'afterSaveHandler',                 # 1.020
-    'beforeAttachmentSaveHandler',      # 1.022
     'beforeCommonTagsHandler',          # 1.024
     'beforeEditHandler',                # 1.010
     'beforeMergeHandler',               # 1.200
     'beforeSaveHandler',                # 1.010
+    'beforeUploadHandler',              # 2.1
     'commonTagsHandler',                # 1.000
     'completePageHandler',              # 1.100
     'earlyInitPlugin',                  # 1.020
@@ -72,12 +72,14 @@ our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
 
 # deprecated handlers
 our %deprecated = (
-    startRenderingHandler => 1,
-    outsidePREHandler     => 1,
-    insidePREHandler      => 1,
+    afterAttachmentSaveHandler => 1,
+    beforeAttachmentSaveHandler => 1,
     endRenderingHandler   => 1,
-    writeHeaderHandler    => 1,
+    insidePREHandler      => 1,
+    outsidePREHandler     => 1,
     redirectCgiQueryHandler => 1,
+    startRenderingHandler => 1,
+    writeHeaderHandler    => 1,
 );
 
 =begin TML
