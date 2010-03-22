@@ -128,10 +128,6 @@ MESS
     $feedback .= "$error<br />\n" if $error;
     
     my @names = Foswiki::Configure::Util::listDir($dir);
-    my @targets;
-    foreach my $fn (@names) {
-       push @targets, Foswiki::Configure::Util::mapTarget($this->{root},$fn);
-       }
     
     # install the contents
     my $installScript = undef;
@@ -143,20 +139,48 @@ MESS
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
                 $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
             }
-            # Rewrite the shbang line of bin scripts.
-            if ( $file =~ /^bin\/[^\/]+$/ ) {
-                my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
-                Foswiki::Configure::Util::rewriteShbang("$dir/$file", "$perlLoc") if $perlLoc;
-            }
         }
         $feedback .= "<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
         unless ($installScript) {
             $feedback .= $this->WARN("No installer script found in archive");
         }
     }
+
+    # Make sure that when new Foswiki is created, it reloads the configuration
+    # and expands all variables.  Configure has already loaded the config with
+    # noexpand specified.
+    #delete $Foswiki::cfg{ConfigurationFinished};
+    #Foswiki::Configure::Load::expandValue( \$Foswiki::cfg{Log}{Dir} );
+    #$Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+    unless ( eval { require Foswiki } ) {
+     die "Can't load Foswiki: $@";
+    }
+
+    # Load up a new Foswiki session so that the install can checkin topics and attchments
+    # that are under revision control.
+    my $user = $Foswiki::cfg{AdminUserLogin};
+    my $session = new Foswiki($user);
+    require Foswiki::Configure::Package;
+
+    my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '', $session);
+    my $err = $pkg->loadInstaller($dir);  # Recover the manifest from the _installer file
+
+    my $rslt;
+    ($rslt, $err) = $pkg->createBackup($dir) unless ($err); # Create a backup of the previous install if any
     
-    # foreach file in archive, move it to the correct place.
-    my $err = Foswiki::Configure::Util::installFiles($this->{root}, $dir, @names);
+    $feedback .= "Creating Backup...<br />\n";
+    $feedback .= "<pre>$rslt </pre>";
+
+    ($rslt, $err) = $pkg->install($dir) unless ($err); # and do the installation
+    
+    $feedback .= "Installing...<br />\n";
+    $feedback .= "<pre>$rslt </pre>";
+
+    $pkg->finish();
+    undef $pkg;
+    $session->finish();
+    undef $session;
+
     if ($err) {
         $feedback .= $this->ERROR("$err");
         $feedback .= "Installation terminated";
@@ -164,14 +188,7 @@ MESS
         return 0;
     }
 
-    my %MANIFEST;
-    my %DEPENDENCIES;
 
-    $err = Foswiki::Configure::Util::extractPkgData($this->{root}, $extension, \%MANIFEST, \%DEPENDENCIES );
-
-    # Apply the MANIFEST permissions to the files
-    Foswiki::Configure::Util::applyManifest( $this->{root}, \@names, \%MANIFEST) unless $err;
-    
     if ( $installScript && -e $installScript ) {
         
         # invoke the installer script.
@@ -250,87 +267,55 @@ sub _uninstall {
 
     my $feedback = '';
     $feedback .= "<h3 style='margin-top:0'>Uninstalling $extension</h3>";
-    
-    # find the uninstaller
-    my $query = $Foswiki::query;
-    my $file = "${extension}_installer";
-    my $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
 
-    unless ($installScript && -e $installScript) {
-        $feedback .= $this->WARN("No $installScript found - cannot uninstall");
+    my @removed;
+
+    require Foswiki::Configure::Package;
+    my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '');
+    my $err = $pkg->loadInstaller();
+
+    my $rslt = $pkg->createBackup();
+    $feedback .= "<b>Creating Backup:</b> <br />\n<pre>$rslt</pre>" if $rslt;
+
+    @removed = $pkg->uninstall() unless ($err);
+
+    $pkg->finish();
+    undef $pkg;
+
+    if ($err) {
+        $feedback .= $this->WARN("Error $err encountered - uninstall not completed");
         _printFeedback($feedback);
         return;
     }
 
-    my %MANIFEST;
-    my %DEPENDENCIES;
+    unless (scalar @removed) {
+        $feedback .= $this->WARN(" Nothing to remove for $extension");
+        _printFeedback($feedback);
+        return;
+    }
 
-    my $err = Foswiki::Configure::Util::extractPkgData($this->{root}, $extension, \%MANIFEST, \%DEPENDENCIES );
-
-    # Apply the MANIFEST permissions to the files
-    my @removed = Foswiki::Configure::Util::removeManifestFiles( $this->{root}, \%MANIFEST) unless $err;
-   
+    my @plugins;
     my $unpackedFeedback = '';
     foreach my $file (@removed) {
             $unpackedFeedback .= "$file\n";
+            my ($plugName) = $file =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
+            push (@plugins,  $plugName) if $plugName;
             }
     $feedback .= "<b>Removing files:</b> <br />\n<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
 
-  
-    # invoke the installer script.
-    # SMELL: Not sure yet how to handle
-    # interaction if the script ignores -a. At the moment it
-    # will just hang :-(
-    #chdir( $this->{root} );
-    #unshift( @ARGV, '-a' );    # don't prompt
-    #unshift( @ARGV, '-uninstall' );
-    #eval {
-    #    no warnings 'redefine';
-    #    print '<!--';
-    #    do $installScript;
-    #    print '-->';
-    #    use warnings 'redefine';
-    #};
-    #if ($@) {
-    #    $feedback .= $this->ERROR( $@ );
-    #    _printFeedback($feedback);
-    #    return;
-    #}
-    #if ($@) {
-    #    $feedback .= $this->ERROR(<<HERE);
-#Uninstall returned errors:
-#<pre>$@</pre>
-#You may be able to resolve these errors and complete the installation
-#from the command line, so I will leave the installed files where they are.
-#HERE
-    #}
-    #else {
-    #    # OK
-    #    $feedback .= $this->NOTE("Installer ran without errors");
-    #}
-    #chdir( $this->{bin} );
-    #
-    #if ( $this->{warnings} ) {
-    #    $feedback .= $this->NOTE( "Installation finished with $this->{errors} error"
-    #                         . ( $this->{errors} == 1 ? '' : 's' )
-    #                           . " and $this->{warnings} warning"
-    #                             . ( $this->{warnings} == 1 ? '' : 's' ) );
-    #}
-    #else {
-    #    # OK
-    $feedback .= $this->NOTE_OK( 'Uninstallation finished' );
-    #}
-
-    if ( $extension =~ /Plugin$/ ) {
-        $feedback .= $this->NOTE(<<HERE);
+    if ( scalar @plugins ) {
+        $feedback .= $this->WARN(<<HERE);
 Note: Don't forget to disable uninstalled plugins in the
-"Plugins" section in the main page.
+"Plugins" section in the main page, listed below:
 HERE
+        $feedback .= "<pre>";
+        foreach my $plugName (@plugins) {
+            $feedback .= "$plugName \n" if $plugName;
+        }
+        $feedback .= "</pre>";
     }
     _printFeedback($feedback);
 }
-
-
 
 
 1;

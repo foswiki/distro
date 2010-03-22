@@ -15,6 +15,46 @@ use Foswiki::Configure::Valuer ();
 use Foswiki::Configure::UI ();
 use Foswiki::Configure::GlobalControls ();
 
+sub set_up {
+    my $this = shift;
+    $this->SUPER::set_up();
+
+    my @root = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
+    pop(@root);
+    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+    my $root = File::Spec->catfile( @root, 'x' );
+    chop $root;
+
+     $this->{rootdir} = $root;
+     $this->{user} = $Foswiki::cfg{AdminUserLogin};
+     $this->{session} = new Foswiki( $this->{user} );
+     $this->{test_web} = 'Testsystemweb1234';
+     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
+     $webObject->populateNewWeb();
+     $this->{trash_web} = 'Testtrashweb1234';
+     $webObject = Foswiki::Meta->new( $this->{session}, $this->{trash_web} );
+     $webObject->populateNewWeb();
+     $this->{sandbox_web} = 'Testsandboxweb1234';
+     $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_web} );
+     $webObject->populateNewWeb();
+}
+
+sub tear_down {
+    my $this = shift;
+
+    $this->removeWebFixture( $this->{session}, $this->{test_web} );
+    $this->removeWebFixture( $this->{session}, $this->{trash_web} );
+    $this->removeWebFixture( $this->{session}, $this->{sandbox_web} );
+    $this->SUPER::tear_down();
+
+}
+
+sub removeWeb {
+    my ( $this, $web ) = @_;
+    $this->removeWebFixture( $this->{session}, $web );
+}
+
+
 # Parse a cfg; change some values; save the changes
 sub test_parseSave {
     my $this = shift;
@@ -288,20 +328,34 @@ sub test_Util_mapTarget {
 
     my $this = shift;
 
-    $Foswiki::cfg{TrashWebName} = 'Dump';
-    $Foswiki::cfg{PubDir} = '/var/www/foswiki/pub';
-    $Foswiki::cfg{DataDir} = '/var/www/foswiki/data';
+    my $savePub     = $Foswiki::cfg{PubDir};
+    my $saveData    = $Foswiki::cfg{DataDir};
+    my $saveTools   = $Foswiki::cfg{ToolsDir};
+    my $saveScript  = $Foswiki::cfg{ScriptDir};
+    my $saveSuffix  = $Foswiki::cfg{ScriptSuffix};
+
+    my $saveTrash   = $Foswiki::cfg{TrashWebName};
+    #my $saveSandbox = $Foswiki::cfg{SandboxWebName};
+    my $saveUser    = $Foswiki::cfg{UsersWebName};
+    my $saveSystem  = $Foswiki::cfg{SystemWebName};
+
+    my $saveNotify  = $Foswiki::cfg{NotifyTopicName};
+    my $saveHome    = $Foswiki::cfg{HomeTopicName};
+    my $savePrefs   = $Foswiki::cfg{WebPrefsTopicName};
+    my $saveMime    = $Foswiki::cfg{MimeTypesFileName};
+
+    $Foswiki::cfg{TrashWebName} = $this->{trash_web};
 
 # Remap system web
 
     $Foswiki::cfg{SystemWebName} = 'Fizbin';
     my $file = 'pub/System/System/MyAtt.gif';
     my $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
-    $this->assert_str_equals( '/var/www/foswiki/pub/Fizbin/System/MyAtt.gif', $results );
+    $this->assert_str_equals( "$this->{rootdir}pub/Fizbin/System/MyAtt.gif", $results );
 
     $file = 'data/System/System.txt';
     $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
-    $this->assert_str_equals( '/var/www/foswiki/data/Fizbin/System.txt', $results );
+    $this->assert_str_equals( "$this->{rootdir}data/Fizbin/System.txt", $results );
 
 # Remap data and pub directory names
 
@@ -310,11 +364,11 @@ sub test_Util_mapTarget {
 
     $file = 'pub/Trash/Fizbin/Data.attachment';
     $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
-    $this->assert_str_equals( '/var/www/foswiki/public/Dump/Fizbin/Data.attachment', $results );
+    $this->assert_str_equals( "/var/www/foswiki/public/$this->{trash_web}/Fizbin/Data.attachment", $results );
 
     $file = 'data/Trash/Fizbin.txt';
     $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
-    $this->assert_str_equals( '/var/www/foswiki/storage/Dump/Fizbin.txt', $results );
+    $this->assert_str_equals( "/var/www/foswiki/storage/$this->{trash_web}/Fizbin.txt", $results );
 
 # Verify default Users and Main web names
 
@@ -340,6 +394,20 @@ sub test_Util_mapTarget {
     $file = 'data/Main/Fizbin.txt';
     $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
     $this->assert_str_equals( '/var/www/foswiki/storage/Blah/Fizbin.txt', $results );
+
+# Remap the SandboxWebName
+
+    #$Foswiki::cfg{SandboxWebName} = 'Litterbox';
+
+    #$file = 'pub/Sandbox/Fizbin/Blah.gif';
+    #$results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    #$this->assert_str_equals( '/var/www/foswiki/public/Litterbox/Fizbin/Blah.gif', $results );
+
+    #$file = 'data/Sandbox/Fizbin.txt';
+    #$results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    #$this->assert_str_equals( '/var/www/foswiki/storage/Litterbox/Fizbin.txt', $results );
+
+    #$Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
 # Remap topic names -  NotifyTopicName - default WebNotify
 
@@ -393,6 +461,22 @@ sub test_Util_mapTarget {
     $file = 'tools/testrun';
     $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
     $this->assert_str_equals( '/var/www/foswiki/stuff/testrun', $results );
+
+    $Foswiki::cfg{PubDir} = $savePub;
+    $Foswiki::cfg{DataDir} = $saveData;
+    $Foswiki::cfg{ToolsDir} = $saveTools;
+    $Foswiki::cfg{ScriptDir} = $saveScript;
+    $Foswiki::cfg{ScriptSuffix} = $saveSuffix;
+
+    $Foswiki::cfg{UsersWebName} = $saveUser;
+    $Foswiki::cfg{SystemWebName} = $saveSystem;
+    $Foswiki::cfg{TrashWebName} = $saveTrash;
+    #$Foswiki::cfg{SandboxWebName} = $saveSandbox;
+
+    $Foswiki::cfg{WebPrefsTopicName} = $savePrefs;
+    $Foswiki::cfg{NotifyTopicName} = $saveNotify;
+    $Foswiki::cfg{HomeTopicName} = $saveHome;
+    $Foswiki::cfg{MimeTypesFileName} = $saveMime;
 
 }
 
@@ -543,7 +627,7 @@ DONE
 
 }
 
-sub test_extractPkgData {
+sub _test_extractPkgData {
     my $this = shift;
 
     my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_extractPkgData';
@@ -607,10 +691,20 @@ DONE
     $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
     $this->assert_str_equals('ERROR - Extension NotHere package not found ',  $err );
 
+    my $key;
+    my $k2;
+
+    foreach $key ( keys %{ $MANIFEST{ATTACH} } ) {
+       print "ATTACH key = $key \n";
+       foreach  $k2 ( keys %{ $MANIFEST{ATTACH}{"$key"} }) {
+            print "ATTACH key = $key, $k2, $MANIFEST{ATTACH}{$key}{$k2} \n";
+            }
+        }
+
     rmtree($tempdir); 
 }
 
-sub test_applyManifest {
+sub _test_applyManifest {
     my $this = shift;
 
     my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_applyManifest';
@@ -668,7 +762,7 @@ sub _makefile {
     close ($fh);
 }
 
-sub test_removeManifestFiles {
+sub _test_removeManifestFiles {
     my $this = shift;
 
     my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_removeManifestFiles';
@@ -715,4 +809,243 @@ DONE
 
     rmtree($tempdir); 
 }
+
+=begin TML
+
+---++ Test installFiles($root, $dir, @names )
+Install files listed in @names.  $root is the root of the Foswiki installation.
+and $dir is the root of the source directory.  @names is the list of source files and
+directories beneath the $dir directory.  They should be passed in descending directory
+order.  Missing directories are created as required.  The files are mapped into non-standard
+locations by the mapTarget utility routine.  If a file is read-only, it is temporarily
+overridden and the mode of the file is restored after the move.
+=cut
+
+sub _test_installFiles {
+    my $this = shift;
+
+
+    $FindBin::Bin =~ /(.*)/;
+    my $mybin = $1;
+    my @root = File::Spec->splitdir( $mybin );
+    pop(@root);
+    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+    my $root = File::Spec->catfile( @root, 'x' );
+    chop $root;
+
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_installFiles';
+    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh <<DONE;
+#!blah
+bleh
+__DATA__
+<<<< MANIFEST >>>>
+data/Sandbox/TestTopic1.txt,0644,Documentation
+data/Sandbox/TestTopic43.txt,0644,Documentation
+pub/Sandbox/TestTopic43/file.att,0664,
+pub/Sandbox/TestTopic43/file2.att,0664,
+
+DONE
+    close ($fh);
+    _makefile ( "$tempdir/data/Sandbox", "TestTopic1.txt", <<'DONE');
+%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
+Test rev 132412341234
+==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
+
+[[Test Topic-Name With@Sign]]
+
+[[Test Topic-Name With$Sign]]
+
+[[test topic-name with%sign]]
+
+-- Main.AdminUser - 04 Mar 2010
+DONE
+    _makefile ( "$tempdir/data/Sandbox", "TestTopic43.txt", <<'DONE');
+%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
+Test rev 132412341234
+==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
+
+[[Test Topic-Name With@Sign]]
+
+[[Test Topic-Name With$Sign]]
+
+[[test topic-name with%sign]]
+
+-- Main.AdminUser - 04 Mar 2010
+DONE
+    _makefile ( "$tempdir/pub/Sandbox/TestTopic43", "file.att", <<'DONE');
+Test file data
+DONE
+    _makefile ( "$tempdir/pub/Sandbox/TestTopic43", "file2.att", <<'DONE');
+Test file data
+DONE
+
+
+    my $extension = "MyPlugin";
+    my %MANIFEST;
+    my %DEPENDENCIES;
+    my $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
+
+
+    my @names = ( 'data/Sandbox/TestTopic1.txt', 'data/Sandbox/TestTopic43.txt', 'pub/Sandbox/TestTopic43/file.att', 'pub/Sandbox/TestTopic43/file2.att');
+
+
+    #my %opts;
+    #$opts{dontlog} = 1;
+
+    Foswiki::Configure::Util::installFiles ( $this->{session}, $root,  $tempdir, \@names, \%MANIFEST);
+
+}
+
+
+
+sub test_makeBackup {
+    my $this = shift;
+
+    my @root = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
+    pop(@root);
+    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+    my $root = File::Spec->catfile( @root, 'x' );
+    chop $root;
+
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_installFiles';
+    rmtree($tempdir);  # Clean up old files if left behind 
+    mkpath($tempdir); 
+
+    my $extension = "MyPlugin";
+    _makePackage ($tempdir, $extension);
+
+    use Foswiki::Configure::Package;
+    my $pkg = new Foswiki::Configure::Package ($root, "$extension", 'Plugin', $this->{session} );
+
+    my $err = $pkg->loadInstaller($tempdir);
+    $this->assert_str_equals( '', $err ); 
+
+    my $result = '';
+    ($result, $err) = $pkg->install($tempdir);
+
+    print "Running Backup ";
+    my $msg = $pkg->createBackup();
+    $this->assert_str_equals( 'Backup saved into', substr($msg, 0,17) );
+    #print "$msg \n";
+
+}
+
+sub _makePackage {
+    my ($tempdir, $plugin) = @_;
+
+    open (my $fh, '>', "$tempdir/${plugin}_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    print $fh <<DONE;
+#!blah
+bleh
+__DATA__
+<<<< MANIFEST >>>>
+data/Sandbox/TestTopic1.txt,0644,Documentation (noci)
+data/Sandbox/TestTopic43.txt,0644,Documentation 
+pub/Sandbox/TestTopic1/file.att,0664, (noci) 
+pub/Sandbox/TestTopic43/file.att,0664, 
+pub/Sandbox/TestTopic43/file2.att,0664, 
+
+DONE
+    close ($fh);
+    _makefile ( "$tempdir/data/Sandbox", "TestTopic1.txt", <<'DONE');
+%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
+Test rev 132412341234
+==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
+
+[[Test Topic-Name With@Sign]]
+
+[[Test Topic-Name With$Sign]]
+
+[[test topic-name with%sign]]
+
+-- Main.AdminUser - 04 Mar 2010
+DONE
+    _makefile ( "$tempdir/data/Sandbox", "TestTopic43.txt", <<'DONE');
+%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
+Test rev 132412341234
+==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
+
+[[Test Topic-Name With@Sign]]
+
+[[Test Topic-Name With$Sign]]
+
+[[test topic-name with%sign]]
+
+-- Main.AdminUser - 04 Mar 2010
+DONE
+    _makefile ( "$tempdir/pub/Sandbox/TestTopic1", "file.att", <<'DONE');
+Test file data
+DONE
+    _makefile ( "$tempdir/pub/Sandbox/TestTopic43", "file.att", <<'DONE');
+Test file data
+DONE
+    _makefile ( "$tempdir/pub/Sandbox/TestTopic43", "file2.att", <<'DONE');
+Test file data
+DONE
+
+}
+
+sub test_Package {
+    my $this = shift;
+
+    my $root = $this->{rootdir};
+
+    my $tempdir = $Foswiki::cfg{TempfileDir} . '/test_util_installFiles';
+    rmtree($tempdir);  # Clean up old files if left behind 
+    mkpath($tempdir); 
+   
+    my $extension = "MyPlugin";
+    _makePackage ($tempdir, $extension);
+
+    use Foswiki::Configure::Package;
+    my $pkg = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
+    my $err = $pkg->loadInstaller($tempdir);
+    $this->assert_str_equals( '', $err ); 
+
+    my $result = '';
+    ($result, $err) = $pkg->install($tempdir);
+
+    my @mfiles = $pkg->files();
+    my @ifiles = $pkg->files('1');
+
+   
+    $this->assert_num_equals( 5, scalar @mfiles, 'Unexpected number of files in manifest'); # 5 files in manifest
+    $this->assert_num_equals( 8, scalar @ifiles, 'Unexpected number of files installed');   # + 3 rcs files after checkin
+
+    _makePackage ($tempdir, $extension);
+ 
+    my $pkg2 = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
+    $err = $pkg2->loadInstaller($tempdir);
+    $this->assert_str_equals( '', $err ); 
+
+    my @list = $pkg2->uninstall();
+
+    $this->assert_num_equals( 9, scalar @list, 'Unexpected number of files uninstalled'); # + the installer file is removed
+
+    $pkg->finish();
+    $pkg2->finish();
+
+    rmtree($tempdir);
+
+}
+
+#sub test_Util_createArchive {
+
+#    my ($rslt, $err) = Foswiki::Configure::Util::createArchive( 'GenPDFAddOn-backup-20100319-195250', '/var/www/SVN/foswiki/core/working/configure/backup/', '0');
+
+#    print "createArchive Error $err \n" if ($err);
+
+#}
+
+sub test_Load_expandValue {
+    my $this = shift;
+    $Foswiki::cfg{WorkingDir} = '/tmp/asdf';
+    my $logv = '$Foswiki::cfg{WorkingDir}/test';
+    require Foswiki::Configure::Load;
+    Foswiki::Configure::Load::expandValue($logv);
+    $this->assert_str_equals( '/tmp/asdf/test', $logv ); 
+}
+
+
 1;

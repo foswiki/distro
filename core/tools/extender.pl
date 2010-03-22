@@ -495,80 +495,21 @@ HERE
     return 1;
 }
 
-# Check in.
-sub checkin {
-    my ( $web, $topic, $file ) = @_;
-
-    return 0 unless ($session);
-
-    my $err = 1;
-
-    if ($file) {
-        my $origfile =
-          $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
-        _inform "Add attachment $origfile";
-        return 1 if ($inactive);
-        print <<DONE;
-##########################################################
-Adding file: $file to installation ....
-(attaching it to $web.$topic)
-DONE
-
-        # Need copy of file to upload it, use temporary location
-        # Use non object version of File::Temp for Perl 5.6.1 compatibility
-        my @stats    = stat $origfile;
-        my $fileSize = $stats[7];
-        my $fileDate = $stats[9];
-
-        # make sure it's readable and writable by the current user
-        chmod( ( $stats[2] & 07777 ) | 0600, $origfile );
-
-        my ( $tmp, $tmpfilename ) = File::Temp::tempfile( unlink => 1 );
-        if (File::Copy::copy( $origfile, $tmpfilename )) {
-            eval {
-                Foswiki::Func::saveAttachment(
-                    $web, $topic, $file,
-                    {
-                        comment  => 'Saved by install script',
-                        file     => $tmpfilename,
-                        filesize => $fileSize,
-                        filedate => $fileDate
-                       }
-                   );
-            };
-            $err = $@;
-        } else {
-            $err = "$origfile could not be copied to tmp dir ($tmpfilename): $!";
-        }
-        _shout $err if $err;
-    }
-    else {
-        _inform "Add topic $web.$topic";
-        return 1 if ($inactive);
-        _inform <<DONE;
-##########################################################
-Adding topic: $web.$topic to installation ....
-DONE
-
-        # read the topic to recover meta-data
-        eval {
-            my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-            Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
-                { comment => 'Saved by install script' } );
-        };
-        $err = $@;
-    }
-    return ( !$err );
-}
 
 sub _uninstall {
     my $file;
     my @dead;
-    foreach $file ( keys %$MANIFEST ) {
-        if ( -e $file ) {
-            push( @dead, Foswiki::Configure::Util::mapTarget($installationRoot,$file) );
-        }
-    }
+
+    require Foswiki::Configure::Package;
+
+    my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
+    my $err = $pkg->loadInstaller();
+    my $rslt = $pkg->createBackup();
+
+    _inform "$rslt";
+   
+    @dead = $pkg->uninstall('1') unless ($err);
+
     unless ( $#dead > 1 ) {
         _warn "No part of $MODULE is installed";
         return 0;
@@ -588,11 +529,11 @@ sub _uninstall {
         elsif ( defined &TWiki::preuninstall ) {
             TWiki::preuninstall();
         }
-        foreach $file ( keys %$MANIFEST ) {
-            if ( -e $file ) {
-                unlink($file);
-            }
-        }
+    
+        @dead = $pkg->uninstall() ;
+        $pkg->finish();
+        undef $pkg;
+
         if ( defined &Foswiki::postuninstall ) {
             Foswiki::postuninstall();
         }
@@ -604,98 +545,6 @@ sub _uninstall {
     return 1;
 }
 
-# 1 Check dependencies
-# 2 Transfer files from temporary unpack area to the target installation
-# 3 Check in any files with existing ,vs on disc
-# 4 Perform post-install
-sub _emplace {
-    my $source = shift;
-
-    # For each file in the MANIFEST, move the file into the installation,
-    # set the permissions, and check if it is a data or pub file. If it is,
-    # then check it in.
-    my @ci_topic;         # topics to checkin
-    my @ci_attachment;    # topics to checkin
-    my $file;
-    foreach $file ( keys %$MANIFEST ) {
-        my $source = "$source/$file";
-        if ( $file =~ /^bin\/[^\/]+$/ ) {
-                my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
-                Foswiki::Configure::Util::rewriteShbang("$source", "$perlLoc") if $perlLoc;
-            }
-
-        my $target = Foswiki::Configure::Util::mapTarget("$installationRoot/",$file);
-        _inform "Install $target, permissions $MANIFEST->{$file}->{perms}";
-        unless ($inactive) {
-            if ( -e $target && ! -d _ ) {
-
-              # Save current permissions, remove write protect for Windows sake,
-              # Back up the file and then restore the original permissions
-                my $mode = ( stat($target) )[2];
-                chmod( oct(600), "$target" );
-                chmod( oct(600), "$target.bak" ) if ( -e "$target.bak" );
-                if ( File::Copy::move( $target, "$target.bak" ) ) {
-                    chmod( $mode, "$target.bak" );
-                }
-                else {
-                    _warn "Could not create $target.bak: $!";
-                }
-            }
-            my @path = split( /[\/\\]+/, $target, -1 ); # -1 allows directories
-            pop(@path);
-            if ( scalar(@path) ) {
-                File::Path::mkpath( join( '/', @path ) );
-            }
-            unless( -d $source ) {
-                if (!File::Copy::move( $source, $target )) {
-                    _shout "Failed to move $source to $target: $!";
-                }
-            }
-        }
-        unless ($inactive) {
-            chmod( oct( $MANIFEST->{$file}->{perms} ), $target )
-              || _warn "Cannot set permissions on $target: $!";
-        }
-
-        if ( $MANIFEST->{$file}->{ci} ) {
-            if ( $file =~ /^data\/(\w+)\/(\w+).txt$/ ) {
-                push( @ci_topic, $file );
-            }
-            elsif ( $file =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
-                push( @ci_attachment, $file );
-            }
-        }
-    }
-    my @bads;
-
-    foreach $file (@ci_topic) {
-        $file =~ /^data\/(.*)\/(\w+).txt$/;
-        unless ( checkin( $1, $2, undef ) ) {
-            push( @bads, $file );
-        }
-    }
-    foreach $file (@ci_attachment) {
-        $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
-        unless ( checkin( $1, $2, $3 ) ) {
-            push( @bads, $file );
-        }
-    }
-
-    if ( scalar(@bads) ) {
-        my $bl = "\t".join( "\n\t", @bads );
-        _warn <<WHINE;
-I cannot automatically update the local revision history for:
-$bl
-
-You can update the revision histories of these files by:
-   1. Editing any topics and saving them without changing them,
-   2. Uploading attachments to the same topics again.
-Ignore this warning unless you have modified the files locally.
-WHINE
-    }
-    $session->finish();
-    undef $session;
-}
 
 sub usage {
     _shout <<DONE;
@@ -802,9 +651,25 @@ sub _install {
         my ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($archive);
         _inform "Archive unpacked";
         return 0 unless $tmpdir;
-        return 0 unless _emplace($tmpdir);
+        
+        require Foswiki::Configure::Package;
+
+        my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
+        my $err = $pkg->loadInstaller();
+        my $rslt = '';
+        $rslt = $pkg->createBackup() unless ($err);
+
+        _inform "$rslt";
+
+        ($rslt, $err) = $pkg->install($tmpdir) unless ($err);
+
+        $pkg->finish();
+        undef $pkg;
+
+        _inform "$rslt";
 
         _inform "$MODULE installed";
+        _warn " with errors $err" if ($err);
         _warn ' with ', $unsatisfied . ' unsatisfied dependencies'
           if ($unsatisfied);
     }

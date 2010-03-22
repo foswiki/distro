@@ -117,7 +117,6 @@ sub session {
 
 ---++ ObjectMethod pkgname([$name])
    * =$name= - optional, change the package name in the object
-      * *Since* 28 Nov 2008
 Get/set the web name associated with the object.
 
 =cut
@@ -145,9 +144,9 @@ optional, must be set prior to running the install method.
 Files are "checked in" by creating a Topic Meta object and using the Foswiki Meta API to 
 save the topic.
 
- - If the file is new, with no history, it is simply copied, 
- - If the file exists and has rcs history ( *,v file exists), it is always checked in 
- - If the file exists without history, the Manifest "CI" flag is followed
+   * If the file is new, with no history, it is simply copied, 
+   * If the file exists and has rcs history ( *,v file exists), it is always checked in 
+   * If the file exists without history, the Manifest "CI" flag is followed
 
 =cut
 
@@ -173,22 +172,6 @@ sub install {
 
         # Find where it is meant to go
         my $target = Foswiki::Configure::Util::mapTarget($this->{_root},$file);
-
-        # If a file exists where a directory will go, clean it up.
-        # and then make the directory if necessary.  Need to remove
-        # trailing slash from filename to clean it up.
-        #if ( -d "$dir/$file" ) {
-        #    my $tf = $target;
-        #    chop $tf if ( substr( $tf, -1 ) eq '/' );
-        #    chmod( oct(600), "$tf") if (!-w $tf);  
-        #    unlink $tf if (-f $tf) ;
-        #    unless ( -e $target) {
-        #        unless ( mkdir($target) ) {
-        #            return "Cannot create directory $target: $!";
-        #        }
-        #    }
-        #    next;
-        #}
 
         # Make file writable if it is read-only 
         if ( -e $target && !-w $target ) {
@@ -277,26 +260,83 @@ sub _installAttachments {
         }
 }
    
+=begin TML
+---+++ _moveFile ()
+
+Make the path as required and move or copy the file into the target location
+
+=cut
 sub _moveFile {
-   my $from = shift;
-   my $to = shift;
-   my $perms = shift;
+    my $from = shift;
+    my $to = shift;
+    my $perms = shift;
 
-   my @path = split( /[\/\\]+/, $to, -1 ); # -1 allows directories            
-   pop(@path);                                                                    
-   if ( scalar(@path) ) {                                                         
-       File::Path::mkpath( join( '/', @path ) );                                  
-       }                                                                              
+    my @path = split( /[\/\\]+/, $to, -1 ); # -1 allows directories            
+    pop(@path);                                                                    
+    if ( scalar(@path) ) {                                                         
+        File::Path::mkpath( join( '/', @path ) );                                  
+        }                                                                              
 
-   if ( !File::Copy::move( "$from", $to ) ) {
-       if ( !File::Copy::copy( "$from", $to ) ) {
+    if ( !File::Copy::move( "$from", $to ) ) {
+        if ( !File::Copy::copy( "$from", $to ) ) {
             return "Failed to move/copy file '$from' to $to: $!";
             }
         }
-   $to = Foswiki::Sandbox::untaintUnchecked($to);
-   $perms = Foswiki::Sandbox::untaintUnchecked($perms);
-   chmod( oct($perms), "$to") if (defined $perms) ;
-   return 0;
+    if (defined $perms ) {
+        $to =~ /(.*)/; $to = $1;    #yes, we must untaint
+        $perms =~ /(.*)/; $perms = $1;    #yes, we must untaint
+        chmod( oct($perms), "$to");
+    }
+    return 0;
+}
+
+
+=begin TML
+---++ ObjectMethod createBackup ()
+Create a backup of the extension by copying the files into the 
+=working/configure/backup/= directory.  If system archive
+tools are available, then the directory will be compressed
+into a backup file.
+
+=cut
+
+sub createBackup {
+    my $this = shift;
+    my $root = $this->{_root};
+    $root =~ s#\\#/#g;   # Convert windows style slashes 
+
+    require Foswiki::Time;
+    my $stamp = Foswiki::Time::formatTime( time(), '$year$mo$day-$hour$minutes$seconds', 'servertime' );
+
+    my $bkdir = "$Foswiki::cfg{WorkingDir}/configure/backup";
+    my $bkname = "$this->{_pkgname}-backup-$stamp";
+    my $pkgstore .= "$bkdir/$bkname";
+
+    my @files = $this->files('1');    # return list of installed files
+    unshift (@files,"$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer") if (-e "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"); 
+
+    if ( scalar @files ) {                     # Anything to backup?
+        File::Path::mkpath( "$pkgstore");
+    
+        foreach my $file (@files) {
+            my ($tofile) = $file =~ m/^$root(.*)$/;  # Filename relative to root of Foswiki installation
+            next unless $tofile;                     # Unit tests use a tmp working directory which fails the match
+            my @path = split( /[\/\\]+/, "$pkgstore/$tofile", -1 ); # -1 allows directories            
+            pop(@path);                                                                    
+            if ( scalar(@path) ) {
+                File::Path::mkpath( join( '/', @path ) );
+                my $mode = (stat($file))[2];   # File::Copy doesn't copy permissions
+                File::Copy::copy( "$file", "$pkgstore/$tofile"); 
+                $mode =~ /(.*)/; $mode = $1;    #yes, we must untaint
+                chmod( $mode, "$pkgstore/$tofile");
+            }                                                                              
+        }
+
+    #my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
+
+    return "Backup saved into $pkgstore \n";
+    }
+    return "Nothing to backup \n";
 }
 
 
@@ -323,8 +363,8 @@ sub setPermissions {
             my $mode = $this->{_manifest}->{$file}->{perms};
 
             if ($mode) {
-                $target = Foswiki::Sandbox::untaintUnchecked($target);
-                $mode = Foswiki::Sandbox::untaintUnchecked($mode);
+                $target =~ /(.*)/; $target = $1;    #yes, we must untaint
+                $mode =~ /(.*)/; $mode = $1;    #yes, we must untaint
                 chmod( oct($mode), $target);
             }
         }
