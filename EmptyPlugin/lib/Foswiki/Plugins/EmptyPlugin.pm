@@ -587,7 +587,8 @@ The attributes hash will include at least the following attributes:
    * =user= - the user id
    * =tmpFilename= - name of a temporary file containing the attachment data
 
-*Since:* Foswiki::Plugins::VERSION = 2.0
+*Since:* Foswiki::Plugins::VERSION = 2.0,
+deprecated since 2.1; please use =beforeUploadHandler()= instead.
 
 =cut
 
@@ -597,7 +598,31 @@ The attributes hash will include at least the following attributes:
 
 =begin TML
 
+---++ beforeUploadHandler(\%attrHash, $meta )
+   * =\%attrHash= - reference to hash of attachment attribute values
+   * =$meta= - the topic object where the upload will happen
+
+This handler is called once when an attachment is uploaded. When this
+handler is called, the attachment has *not* been recorded in the database.
+
+The attributes hash will include at least the following attributes:
+   * =attachment= => the attachment name
+   * =comment= - the comment
+   * =user= - the user id
+   * =tmpFilename= - name of a temporary file containing the attachment data
+
+*Since:* Foswiki::Plugins::VERSION = 2.1,
+
+=cut
+
+#sub beforeUploadHandler {
+#    my( $attrHashRef, $topic, $web ) = @_;
+#}
+
+=begin TML
+
 ---++ afterAttachmentSaveHandler(\%attrHash, $topic, $web, $error )
+
    * =\%attrHash= - reference to hash of attachment attribute values
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
@@ -608,12 +633,34 @@ will include at least the following attributes:
    * =comment= - the comment
    * =user= - the user id
 
-*Since:* Foswiki::Plugins::VERSION = 2.0
+*Since:* Foswiki::Plugins::VERSION = 2.0, 
+deprecated since 2.1; please use =afterUploadHandler()= instead.
+
 
 =cut
 
 #sub afterAttachmentSaveHandler {
 #    my( $attrHashRef, $topic, $web ) = @_;
+#}
+
+=begin TML
+
+---++ afterUploadHandler(\%attrHash, $meta )
+   * =\%attrHash= - reference to hash of attachment attribute values
+   * =$meta= - a topic object pointing where the upload has happened
+
+This handler is called just after the save action. The attributes hash
+will include at least the following attributes:
+   * =attachment= => the attachment name
+   * =comment= - the comment
+   * =user= - the user id
+
+*Since:* Foswiki::Plugins::VERSION = 2.1
+
+=cut
+
+#sub afterUploadHandler {
+#    my( $attrHashRef, $meta ) = @_;
 #}
 
 =begin TML
@@ -813,7 +860,7 @@ Foswiki::Support.Faq1
 =cut
 
 #sub restExample {
-#   my ($session) = @_;
+#   my ( $session, $subject, $verb, $response ) = @_;
 #   return "This is an example of a REST invocation\n\n";
 #}
 
