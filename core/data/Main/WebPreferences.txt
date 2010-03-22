@@ -2,43 +2,46 @@
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
-The following settings are *web preferences* of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the *site-level preferences* in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by *user preferences* (your personal topic, eg: [[%USERSWEB%.%WIKINAME%][%WIKINAME%]] in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
-
 %TOC%
 
----++ Web Preferences Settings
+---++ Appearance
 
-These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
+   * Set WEBBGCOLOR = #FFEFA6
+      * web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span>
+   * Set SITEMAPLIST = on
+   * Set WEBSUMMARY = Welcome to <nop>%WIKITOOLNAME% ... meet people on this site
 
-   * Web settings:
-      * Set WEBTOPICLIST = [[%WIKIUSERSTOPIC%][Users]] %SEP% [[WikiGroups][Groups]] %SEP% [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
-      * Set WEBBGCOLOR = #FFEFA6
-      * Set SITEMAPWHAT = Welcome to <nop>%WIKITOOLNAME%... [[%WEB%.%WIKIUSERSTOPIC%][Users]], [[%WEB%.WikiGroups][Groups]]
-      * Set SITEMAPUSETO = ...see who is registered on this site
-      * Set SITEMAPLIST = on
+---++ Wiki application settings
 
-   * Default template for *new topics* for this web:
-      * WebTopicEditTemplate: Default template for new topics in this web. (Site-level is used if topic does not exist)
-      * [[%SYSTEMWEB%.WebTopicEditTemplate]]: Site-level default topic template
+   * WebTopicEditTemplate
+      * default template for new topics in this web, if this topic does not exist,  [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
 
-   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
-      * Set WEBFORMS = %SYSTEMWEB%.UserForm
+   * Set WEBFORMS = %SYSTEMWEB%.UserForm
+      * Comma separated list of forms that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
 
-   * Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]). 
-   Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web.
-   If you intend to lock down the %USERSWEB% to only allow registration, you need to add the built in =RegistrationAgent= to the =ALLOWWEBCHANGE= setting.
-      * Set DENYWEBVIEW = 
-      * Set ALLOWWEBVIEW = 
-      * Set DENYWEBCHANGE = 
-      * Set ALLOWWEBCHANGE = 
-      * Set DENYWEBRENAME = 
-      * Set ALLOWWEBRENAME = 
+---++ Access control
 
-   * Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
-      * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
-      * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
+Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.
+Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web.
+If you intend to lock down the %USERSWEB% to only allow registration, you need to add the built in =RegistrationAgent= to the =ALLOWWEBCHANGE= setting.
 
-   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
-      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
+   * Set DENYWEBVIEW = 
+   * Set ALLOWWEBVIEW = 
+   * Set DENYWEBCHANGE = 
+   * Set ALLOWWEBCHANGE = 
+   * Set DENYWEBRENAME = 
+   * Set ALLOWWEBRENAME = 
+
+Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
+
+   * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+   * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
+
+---++ Finalisation
+Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
+
+   * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
+
+---
 
 %INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%

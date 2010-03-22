@@ -11,6 +11,7 @@
 
    * Set SITEMAPLIST = on
       * set to =off= to hide this web from the [[%SYSTEMWEB%.SiteMap][SiteMap]]
+
    * Set WEBSUMMARY = 
       * description what this web is used for
 
@@ -27,7 +28,8 @@
 
 ---++ Access control
 
-Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]).
+Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.
+Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web.
 
    * Set DENYWEBVIEW = 
    * Set ALLOWWEBVIEW = 
