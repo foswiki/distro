@@ -817,7 +817,7 @@ INPUT
 <table border="1" class="foswikiTable" rules="none">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.gif" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.png" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
 			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a href="$viewUrl" class="foswikiCurrentTopicLink">$topicName</a> </td>
 		</tr>
 	</tbody>
