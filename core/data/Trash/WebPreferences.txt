@@ -18,11 +18,6 @@ Restricted to adminsso that deleted topics can't be viewed by spies.
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
    * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
 
-----++ Finalisation
-
-   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
-      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
-
 ---
 
 %INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%
