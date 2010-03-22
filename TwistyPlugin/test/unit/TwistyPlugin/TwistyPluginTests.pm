@@ -142,13 +142,13 @@ SOURCE
 <div class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><img src="
 EXPECTED1
 
-    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/toggleopen-small.gif";
+    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/toggleopen-small.png";
 
     $expected .= <<EXPECTED2;
 " border="0" alt="" /><span class="foswikiLinkLabel foswikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><img src="
 EXPECTED2
 
-    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/toggleclose-small.gif";
+    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/toggleclose-small.png";
 
     $expected .= <<EXPECTED3;
 " border="0" alt="" /><span class="foswikiLinkLabel foswikiUnvisited">Hide</span></a> </span>  </div><!--/twistyPlugin foswikiMakeVisibleInline--> <div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent foswikiMakeHidden twistyInited">
@@ -214,13 +214,13 @@ SOURCE
 <span class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited"><img src="
 EXPECTED1
 
-    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
+    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.png";
 
     $expected .= <<EXPECTED2;
 " alt="DONE" title="DONE" width="16" height="16" border="0" /></span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited"><img src="
 EXPECTED2
 
-    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
+    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.png";
 
     $expected .= <<EXPECTED3;
 " alt="DONE" title="DONE" width="16" height="16" border="0" /></span></a> </span></span><!--/twistyPlugin foswikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent foswikiMakeHidden twistyInited">content</span></span><!--/twistyPlugin-->
