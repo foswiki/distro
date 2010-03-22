@@ -9,9 +9,11 @@ use strict;
 #
 # | *Handler*                    | *Tested by* |
 # | afterAttachmentSaveHandler   | *untested* |
+# | afterUploadHandler           | *untested* |
 # | afterCommonTagsHandler       | test_commonTagsH# | afterEditHandler             | *untested* |
 # | afterRenameHandler           | *untested* |
 # | afterSaveHandler             | *untested* |
+# | beforeUploadHandler          | *untested* |
 # | beforeAttachmentSaveHandler  | *untested* |
 # | beforeCommonTagsHandler      | test_commonTagsHandlers |
 # | beforeEditHandler            | *untested* |
@@ -456,6 +458,16 @@ sub afterAttachmentSaveHandler {
 HERE
 }
 
+sub test_afterUploadHandler {
+    my $this = shift;
+    $this->makePlugin( 'afterUploadHandler', <<'HERE');
+sub afterUploadHandler {
+    my ($attachmentAttrHash, $meta) = @_;
+    $called->{afterUploadHandler}++;
+}
+HERE
+}
+
 sub test_afterEditHandler {
     my $this = shift;
     $this->makePlugin( 'afterEditHandler', <<'HERE');
@@ -496,6 +508,17 @@ sub beforeAttachmentSaveHandler {
 }
 HERE
 }
+
+sub test_beforeUploadHandler {
+    my $this = shift;
+    $this->makePlugin( 'beforeUploadHandler', <<'HERE');
+sub beforeUploadHandler {
+    my( $attrHashRef, $meta ) = @_;
+    $called->{beforeUploadHandler}++;
+}
+HERE
+}
+
 
 sub test_beforeEditHandler {
     my $this = shift;

@@ -390,6 +390,27 @@ sub test_beforeSaveHandlerChangeBoth {
 }
 
 # Handler used in next test
+sub beforeUploadHandler {
+    my ( $attrHash, $meta ) = @_;
+    die "attachment $attrHash->{attachment}"
+      unless $attrHash->{attachment} eq "testfile.gif";
+    die "comment $attrHash->{comment}"
+      unless $attrHash->{comment} eq "a comment";
+
+    open( F, '<', $attrHash->{tmpFilename} )
+      || die "$attrHash->{tmpFilename}: $!";
+    local $/ = undef;
+    my $text = <F>;
+    close(F) || die "$attrHash->{tmpFilename}: $!";
+
+    $text =~ s/two/four/;
+
+    open( F, '>', $attrHash->{tmpFilename} )
+      || die "$attrHash->{tmpFilename}: $!";
+    print F $text;
+    close(F) || die "$attrHash->{tmpFilename}: $!";
+}
+
 sub beforeAttachmentSaveHandler {
     my ( $attrHash, $topic, $web ) = @_;
     die "attachment $attrHash->{attachment}"
@@ -420,6 +441,15 @@ sub afterAttachmentSaveHandler {
       unless $attrHash->{comment} eq "a comment";
 }
 
+sub afterUploadHandler {
+    my ( $attrHash, $meta ) = @_;
+    die "attachment $attrHash->{attachment}"
+      unless $attrHash->{attachment} eq "testfile.gif";
+    die "comment $attrHash->{comment}"
+      unless $attrHash->{comment} eq "a comment";
+}
+
+
 sub test_attachmentSaveHandlers {
     my $this = shift;
     my $args = {
@@ -442,7 +472,21 @@ sub test_attachmentSaveHandlers {
     push(
         @{
             $this->{session}->{plugins}
+              ->{registeredHandlers}{beforeUploadHandler}
+          },
+        new Foswiki::Plugin( $this->{session}, "StoreTestPlugin", 'StoreTests' )
+    );
+    push(
+        @{
+            $this->{session}->{plugins}
               ->{registeredHandlers}{afterAttachmentSaveHandler}
+          },
+        new Foswiki::Plugin( $this->{session}, "StoreTestPlugin", 'StoreTests' )
+    );
+    push(
+        @{
+            $this->{session}->{plugins}
+              ->{registeredHandlers}{afterUploadHandler}
           },
         new Foswiki::Plugin( $this->{session}, "StoreTestPlugin", 'StoreTests' )
     );
