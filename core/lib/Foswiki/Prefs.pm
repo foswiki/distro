@@ -221,9 +221,10 @@ sub loadPreferences {
     my ( $this, $topicObject ) = @_;
 
     my $path = $topicObject->getPath();
-    $topicObject->session->logger->log( 'debug',
-        "Loading preferences for $path\n" )
-      if DEBUG;
+
+#    $topicObject->session->logger->log( 'debug',
+#        "Loading preferences for $path\n" )
+#      if DEBUG;
 
     my $obj;
 
