@@ -109,8 +109,7 @@ Create a new web
 | =newweb= | Name of the new web | '' |
 | =baseweb= | Name of the web to copy to create the new web | '' |
 | =webbgcolor= | value for WEBBGCOLOR | '' |
-| =sitemapwhat= | Value for SITEMAPWHAT | '' |
-| =sitemapuseto= | Value for SITEMAPUSETO | '' |
+| =websummary= | Value for WEBSUMMARY | '' |
 | =nosearchall= | Value for NOSEARCHALL | '' |
 | =newtopic= | Value of %<nop>TOPIC% within the web creation message. Optionally used in some skins to signify a non-default home topic. |
 

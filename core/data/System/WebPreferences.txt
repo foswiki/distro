@@ -15,8 +15,7 @@ These [[%SYSTEMWEB%.PreferenceSettings][preference settings]] override the defau
       * Set WEBTOPICLIST = [[WelcomeGuest][Welcome]] %SEP% [[UserRegistration][Register]] %SEP% [[WebChanges][Changes]] %SEP% [[WebTopicList][Topics]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
       * Set WEBBGCOLOR = #FFD8AA
       * Set SITEMAPLIST = on
-      * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.UserRegistration][Registration]], and other %WEB%.StartingPoints; Foswiki history &amp; Wiki style; All the docs...
-      * Set SITEMAPUSETO = ...discover Foswiki details, and how to start your own site.
+      * Set WEBSUMMARY = Discover Foswiki details, and how to start your own site.
       * Hide Table of Contents if the topic is included
          * Set TOC_HIDE_IF_INCLUDED = on
       * Set default Table of Contents title
@@ -43,6 +42,6 @@ These [[%SYSTEMWEB%.PreferenceSettings][preference settings]] override the defau
       * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 
    * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
-      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, ALLOWWEBRENAME, DENYWEBRENAME
+      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, ALLOWWEBRENAME, DENYWEBRENAME
 
 %INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%

@@ -70,10 +70,10 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 			<br class="foswikiClear" />
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
-			<h3>Description</h3>
+			<h3>Summary</h3>
 			<div class="col1">
 				<p>
-					<input type="text" class="foswikiInputField" name="SITEMAPWHAT" value="" size="40" /> 
+					<input type="text" class="foswikiInputField" name="WEBSUMMARY" value="" size="40" /> 
 				</p>
 			</div><!--//col1-->
 			<div class="col2">
