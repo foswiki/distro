@@ -1552,15 +1552,17 @@ sub save {
         # the meta
         my $after = Foswiki::Meta->new( $this->{_session}, $this->{_web},
                     $this->{_topic}, $text );
-        $text = $after->text();    
-        $this->text($text);
+        $text = $after->text();
 
         # If there are no changes in the object, assemble a new tom
         # from the text. Nasty compatibility requirement.
         if ( $this->stringify() eq $before ) {
             # reassemble the tom. there may be new meta in the text.
             $this = $after;
-        } 
+        }
+        else {
+            $this->text($text);
+        }
     }
 
     my $signal;
