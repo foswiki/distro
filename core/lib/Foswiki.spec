@@ -1042,22 +1042,31 @@ $Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Fosw
 # chose a different backend for their own purposes. Some recommendations:
 # <ul>
 #   <li>Use <code>Foswiki::Cache::FileCache</code> for long term
-#     caching. Cached pages will be stored on disk.</li>
+#     caching. Cached pages will be stored on disk. This is the default cache type.
+#     The required CPAN lib Cache::Cache is distributed with Foswiki so it works
+#     "out-of-the-box"</li>
+#   <li>Use <code>Foswiki::Cache::BDB</code> for Berkeley Data Base type cache.
+#     This is the recommended cache type but it requires additional CPAN lib
+#     BerkeleyDB to be installed.</li>
 #   <li>Use <code>Foswiki::Cache::Memcached</code> for distributed caching
 #     on high end sites</li>
 #   <li>Use <code>Foswiki::Cache::MemoryLRU</code> for an in-memory LRU cache.
 #     Note that this CacheManager will only keep pages during one call or for
 #     the time of a perl persistent backend.</li>
 # </ul>
-$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::BDB';
+$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
 # **SELECT Foswiki::Cache::DB_File,Foswiki::Cache::BDB EXPERT**
 # Select the database backend use to store meta data for the page cache.
-# This may be set to a different CacheManager than the one chosen above. While the
-# cached pages might be displaced in an LRU (least recently used) page cache,
-# meta data about page dependencies shall be stored reliably. That's why
-# only DB_File and BDB are selectable.
-$Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::BDB';
+# <code>Foswiki::Cache::DB_File</code> uses plain files to store the
+# cache. This is default and works "out-of-the-box".
+# <code>Foswiki::Cache::BDB</code> is Berkeley Data Base. This is the
+# recommended cache type. It requires additional CPAN lib BerkeleyDB to be
+# installed.
+# While the cached pages might be displaced in an LRU (least recently used) page
+# cache, meta data about page dependencies shall be stored reliably. That's why
+# only DB_File and BDB are selectable for meta data cache. 
+$Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
 
 # **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
