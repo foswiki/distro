@@ -1551,7 +1551,7 @@ sub save {
         # afterSaveHandler may also alter $text so we must rebuild
         # the meta
         my $after =
-          Foswiki::Meta->new( $this->{_session}, $this->{_web}, $this->{_topic},
+          $this->new( $this->{_session}, $this->{_web}, $this->{_topic},
             $text );
         $text = $after->text();
 
