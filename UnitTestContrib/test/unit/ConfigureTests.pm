@@ -634,39 +634,7 @@ DONE
 
 sub _test_extractPkgData {
     my $this = shift;
-
-    my $tempdir = $this->{tempdir} . '/test_util_extractPkgData';
-    mkpath($tempdir); 
-
-    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
-    print $fh <<DONE;
-#!blah
-bleh
-__DATA__
-<<<< MANIFEST >>>>
-data/System/FamFamFamContrib.txt,0644,Documentation
-lib/Foswiki/Contrib/FamFamFamContrib.pm,0644,Perl module
-templates/view.famfamfam.tmpl,0444,
-data/System/FamFamFamFlagIcons.txt,0664,
-data/System/FamFamFamSilkCompanion1Icons.txt,0664,
-pub/System/FamFamFamGraphics/_filetypes.txt,0664,
-pub/System/FamFamFamContrib/silk-preview.jpg,0664,
-pub/System/FamFamFamContrib/SilkCompanion1Thumb.png,0664,
-pub/System/FamFamFamFlagIcons/ad.png,0664, (noci)
-pub/System/FamFamFamFlagIcons/ae.png,0664, (noci)
-
-<<<< MANIFEST2 >>>>
-data/System/FamFamFamContrib.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation
-lib/Foswiki/Contrib/FamFamFamContrib.pm,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Perl module
-templates/view.famfamfam.tmpl,0444,ede33d5e092a0cb2fa00d9146eed5f9a,
-
-<<<< DEPENDENCIES >>>>
-SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
-CGI::Blah,>=10.1,0,cpan,Test lower case cpan
-ImageMagick,,1,,
-
-DONE
-    close ($fh);
+    my $tempdir = $this->{_tempdir};
 
     my %MANIFEST;
     my %DEPENDENCIES;
@@ -693,7 +661,7 @@ DONE
     #    }
     
     $extension = "NotHere";
-    $err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
+    #$err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
     $this->assert_str_equals('ERROR - Extension NotHere package not found ',  $err );
 
     my $key;
@@ -852,9 +820,38 @@ sub _makePackage {
     my ($tempdir, $plugin) = @_;
 
     open (my $fh, '>', "$tempdir/${plugin}_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
-    print $fh <<DONE;
+    print $fh <<'DONE';
 #!blah
 bleh
+
+sub preuninstall {
+
+    return "Pre-uninstall entered";
+}
+
+sub postuninstall {
+
+    # # No POSTUNINSTALL script;
+}
+
+sub preinstall {
+
+# Remove Templates.pm file if it exists. Dead code.
+   return "Pre-install entered";
+}
+
+sub postinstall {
+
+    # # No POSTINSTALL script;
+}
+
+Foswiki::Extender::install( $PACKAGES_URL, 'CommentPlugin', 'CommentPlugin', @DATA );
+
+1;
+
+# MANIFEST and DEPENDENCIES are done this way
+# to make it easy to extract them from this script.
+
 __DATA__
 <<<< MANIFEST >>>>
 data/Sandbox/TestTopic1.txt,0644,Documentation (noci)
@@ -863,6 +860,18 @@ pub/Sandbox/TestTopic1/file.att,0664, (noci)
 pub/Sandbox/TestTopic43/file.att,0664, 
 pub/Sandbox/TestTopic43/file2.att,0664, 
 
+<<<< MANIFEST2 >>>>
+data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
+data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation 
+pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci) 
+pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170, 
+pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
+
+<<<< DEPENDENCIES >>>>
+SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
+CGI::Blah,>=10.1,0,cpan,Test lower case cpan
+ImageMagick,,1,,
+
 DONE
     close ($fh);
     _makefile ( "$tempdir/data/Sandbox", "TestTopic1.txt", <<'DONE');
@@ -870,24 +879,12 @@ DONE
 Test rev 132412341234
 ==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
 
-[[Test Topic-Name With@Sign]]
-
-[[Test Topic-Name With$Sign]]
-
-[[test topic-name with%sign]]
-
 -- Main.AdminUser - 04 Mar 2010
 DONE
     _makefile ( "$tempdir/data/Sandbox", "TestTopic43.txt", <<'DONE');
 %META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
 Test rev 132412341234
 ==qr/[\s\*?~^\$@%`"'&;|&lt;&gt;\[\]\x00-\x1f]/;==
-
-[[Test Topic-Name With@Sign]]
-
-[[Test Topic-Name With$Sign]]
-
-[[test topic-name with%sign]]
 
 -- Main.AdminUser - 04 Mar 2010
 DONE
@@ -924,6 +921,7 @@ sub test_Package {
     my $err = $pkg->loadInstaller($tempdir);
     $pkg->uninstall();
     $pkg->finish();
+    undef $pkg;
     
 
     #
@@ -947,28 +945,19 @@ Installed:  MyPlugin_installer
     $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
 
     my @mfiles = $pkg->files();
-    my @ifiles = $pkg->files('1');
-
-   
     $this->assert_num_equals( 5, scalar @mfiles, 'Unexpected number of files in manifest'); # 5 files in manifest
 
-    #print "To be installed \n";
-    #foreach my $f ( @mfiles ) {
-    #   print "$f \n";
-    #   }
-
+    my @ifiles = $pkg->files('1');
     $this->assert_num_equals( 5, scalar @ifiles, 'Unexpected number of files installed');   # and 5 files installed 
 
-    #print "\nActually installed \n";
-    #foreach my $f ( @ifiles ) {
-    #   print "$f \n";
-    #   }
+    $pkg->finish();
+    undef $pkg;
 
     #
     # Install a 2nd time - RCS files should be created when checkin is requested.
     #
     _makePackage ($tempdir, $extension);
- 
+
     my $pkg2 = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
     $err = $pkg2->loadInstaller($tempdir);
 
@@ -982,13 +971,16 @@ Attached:   pub/Sandbox/TestTopic43/file2.att to Sandbox/TestTopic43
 Installed:  pub/Sandbox/TestTopic1/file.att
 Installed:  MyPlugin_installer
 ";
-    #print "Error: $err  Expected - \n$expresult \n\nActual - \n$result\n\n";
-    my @ifiles2 = $pkg->files('1');
+    my @ifiles2 = $pkg2->files('1');
 
     $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
     $this->assert_num_equals( 8, scalar @ifiles2, 'Unexpected number of files installed on 2nd install ');   # + 3 rcs files after checkin
     $this->assert_str_equals( '', $err, "Error $err remported" ); 
-
+     
+    $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall());
+    $this->assert_str_equals( 'Pre-install entered', $pkg2->preinstall());
+    $this->assert_null( $pkg2->postuninstall());
+    $this->assert_null( $pkg2->postinstall());
 
     #  
     #  Now uninistall the package
@@ -997,13 +989,12 @@ Installed:  MyPlugin_installer
 
     $this->assert_num_equals( 9, scalar @ufiles, 'Unexpected number of files uninstalled'); # 8 files + the installer file are removed
 
-    #print "\nUninstalled \n";
     foreach my $f ( @ufiles ) {
-       print  "File $f not deleted" if (-e $f) ;
        $this->assert( (! -e $f), "File $f not deleted" );
        }
-    $pkg->finish();
+
     $pkg2->finish();
+    undef $pkg2;
 
     rmtree($tempdir);
 

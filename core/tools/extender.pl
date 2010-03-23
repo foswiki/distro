@@ -520,26 +520,27 @@ sub _uninstall {
     } else {
         _inform "\t" . join( "\n\t", @dead );
     }
+
+    $pkg->validateExits();
+
+    if (defined $pkg->preinstall ) { print "preinstalll defined \n"; }
+    if (defined $pkg->postinstall ) { print "postinstall defined \n"; }
+    if (defined $pkg->preuninstall ) { print "preuninstalll defined \n"; }
+    if (defined $pkg->postuninstall ) { print "postuninstall defined \n"; }
+    
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
-        if ( defined &Foswiki::preuninstall ) {
-            Foswiki::preuninstall();
-        }
-        elsif ( defined &TWiki::preuninstall ) {
-            TWiki::preuninstall();
-        }
-    
+   
+        $pkg->preuninstall() if (defined $pkg->preinstall);
+
         @dead = $pkg->uninstall() ;
+
+        $pkg->postuninstall() if (defined $pkg->postuninstall);
+
         $pkg->finish();
         undef $pkg;
 
-        if ( defined &Foswiki::postuninstall ) {
-            Foswiki::postuninstall();
-        }
-        elsif ( defined &TWiki::postuninstall ) {
-            TWiki::postuninstall();
-        }
         _inform "$MODULE uninstalled";
     }
     return 1;
@@ -642,12 +643,7 @@ sub _install {
             _warn "Unable to locate suitable archive for install";
             return 0;
         }
-        if ( defined &Foswiki::preinstall ) {
-            Foswiki::preinstall();
-        }
-        elsif ( defined &TWiki::preinstall ) {
-            TWiki::preinstall();
-        }
+
         my ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($archive);
         _inform "Archive unpacked";
         return 0 unless $tmpdir;
@@ -657,11 +653,19 @@ sub _install {
         my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
         my $err = $pkg->loadInstaller();
         my $rslt = '';
-        $rslt = $pkg->createBackup() unless ($err);
 
-        _inform "$rslt";
+        unless ($err) {
 
-        ($rslt, $err) = $pkg->install($tmpdir) unless ($err);
+            $pkg->preinstall() if (defined $pkg->preinstall);
+
+            $rslt = $pkg->createBackup() ;
+
+            _inform "$rslt";
+
+            ($rslt, $err) = $pkg->install($tmpdir) unless ($err);
+
+            $pkg->postinstall() if (defined $pkg->postinstall);
+        }
 
         $pkg->finish();
         undef $pkg;
@@ -669,15 +673,9 @@ sub _install {
         _inform "$rslt";
 
         _inform "$MODULE installed";
-        _warn " with errors $err" if ($err);
+        _warn " INSTALL FAILED with errors $err" if ($err);
         _warn ' with ', $unsatisfied . ' unsatisfied dependencies'
           if ($unsatisfied);
-    }
-    if ( defined &Foswiki::postinstall ) {
-        Foswiki::postinstall();
-    }
-    elsif ( defined &TWiki::postinstall ) {
-        TWiki::postinstall();
     }
 
     return ( $unsatisfied ? 0 : 1 );

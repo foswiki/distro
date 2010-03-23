@@ -150,8 +150,7 @@ MESS
     # and expands all variables.  Configure has already loaded the config with
     # noexpand specified.
     #delete $Foswiki::cfg{ConfigurationFinished};
-    #Foswiki::Configure::Load::expandValue( \$Foswiki::cfg{Log}{Dir} );
-    #$Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+    
     unless ( eval { require Foswiki } ) {
      die "Can't load Foswiki: $@";
     }
@@ -167,15 +166,29 @@ MESS
 
     my $rslt;
     ($rslt, $err) = $pkg->createBackup($dir) unless ($err); # Create a backup of the previous install if any
-    
-    $feedback .= "Creating Backup...<br />\n";
-    $feedback .= "<pre>$rslt </pre>";
 
-    ($rslt, $err) = $pkg->install($dir) unless ($err); # and do the installation
-    
-    $feedback .= "Installing...<br />\n";
-    $feedback .= "<pre>$rslt </pre>";
+    unless ($err) {
+        $feedback .= "Creating Backup...<br />\n";
+        $feedback .= "<pre>$rslt </pre>";
 
+        if (defined $pkg->preinstall ) { 
+            $feedback .= "Running Pre-install...<br />\n";
+            $rslt = $pkg->preinstall() || '';
+            $feedback .= '<pre>' . $rslt . '</pre>' ;
+        }
+
+        ($rslt, $err) = $pkg->install($dir); # and do the installation
+    
+        $feedback .= "Installing...<br />\n";
+        $feedback .= "<pre>$rslt </pre>";
+
+        if (defined $pkg->postinstall ) { 
+            $feedback .= "Running Post-install...<br />\n";
+            $rslt = $pkg->postinstall() || '';
+            $feedback .= '<pre>' . $rslt . '</pre>' ;
+        }
+    }
+ 
     $pkg->finish();
     undef $pkg;
     $session->finish();
@@ -274,10 +287,24 @@ sub _uninstall {
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '');
     my $err = $pkg->loadInstaller();
 
-    my $rslt = $pkg->createBackup();
-    $feedback .= "<b>Creating Backup:</b> <br />\n<pre>$rslt</pre>" if $rslt;
+    unless ($err) {
+        my $rslt = $pkg->createBackup();
+        $feedback .= "<b>Creating Backup:</b> <br />\n<pre>$rslt</pre>" if $rslt;
 
-    @removed = $pkg->uninstall() unless ($err);
+        if (defined $pkg->preuninstall ) { 
+            $feedback .= "Running Pre-uninstall...<br />\n";
+            $rslt = $pkg->preuninstall() || '';
+            $feedback .= '<pre>' . $rslt . '</pre>' ;
+        }
+
+        @removed = $pkg->uninstall();
+
+        if (defined $pkg->postuninstall ) { 
+            $feedback .= "Running Post-uninstall...<br />\n";
+            $rslt = $pkg->postuninstall() || '';
+            $feedback .= '<pre>' . $rslt . '</pre>' ;
+        }
+    }
 
     $pkg->finish();
     undef $pkg;
@@ -289,7 +316,7 @@ sub _uninstall {
     }
 
     unless (scalar @removed) {
-        $feedback .= $this->WARN(" Nothing to remove for $extension");
+        $feedback .= $this->WARN(" Nothing removed for $extension");
         _printFeedback($feedback);
         return;
     }

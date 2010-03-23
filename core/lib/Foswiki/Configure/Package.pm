@@ -72,6 +72,7 @@ sub new {
             _manifest => undef,
             # Hash mapping the dependencies required by this package 
             _dependency => undef,
+            _routines => undef,
         },
         $class
     );
@@ -97,6 +98,11 @@ sub finish {
     undef $this->{_session};
     undef $this->{_manifest};
     undef $this->{_dependency};
+    undef $this->{_routines};
+    for ( qw( preinstall postinstall preuninstall postuninstall ) ) {
+            undef &{$_};
+    }
+                                
 }
 
 =begin TML
@@ -457,12 +463,12 @@ sub uninstall {
 
 ---++ loadInstaller ([$temproot] )
 This routine looks for the $extension_installer or 
-$extension_installer.pl and extracts the manifest
-and dependencies from the installer.  
+$extension_installer.pl file  and extracts the manifest,
+dependencies and pre/post Exit routines from the installer.  
 
-->{filename}->{ci}      Flag if file should be "checked in"
-->{filename}->{perms}   File permissions
-->{filename}->{MD5}     MD5 of file (if available)
+The manifest and dependencies are parsed and loaded into their
+respective hashes.  The pre and post routines are eval'd and 
+installed as methods for this object.
 
 =cut
 
@@ -470,6 +476,7 @@ sub loadInstaller {
     my ($this, $temproot) = @_;
     $temproot = $this->{_root} unless defined $temproot;
 
+    my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     my $extension = $this->{_pkgname};
     local $/ = "\n";
 
@@ -480,8 +487,12 @@ sub loadInstaller {
        if (-e "$temproot/${extension}_installer.pl") {
            $file = "$temproot/${extension}_installer.pl";
        } else {
-           return "ERROR - Extension $extension package not found ";
+           if (-e "$pkgstore/${extension}_installer") {
+           $file = "$pkgstore/${extension}_installer";
+           } else {
+               return "ERROR - Extension $extension package not found ";
            }
+        }
     }     
 
     open(my $fh, '<', $file) || return "Extract manfiest failed: $file -  $!";
@@ -499,7 +510,11 @@ sub loadInstaller {
                if ( $_ eq "<<<< DEPENDENCIES >>>>\n" ) { 
                    $found = 'D';
                    next;
-               }
+               } else {
+                   if ( substr( $_, 0, 18 ) eq 'sub preuninstall {' ) {
+                       $found = 'P';
+                  }
+              }
            }
        }
 
@@ -521,12 +536,26 @@ sub loadInstaller {
           chomp $_;
           _parseDependency ($this, $_ ) if ($_);
           next;
-       }
+       } 
+
+        if ($found eq 'P') {
+            if ( substr($_, 0, 26) eq 'Foswiki::Extender::install' ) {
+                $found = '';
+                next;
+            }
+            $this->{_routines} .= $_
+        }      
     }
-    
     close $fh;
+
+    if ($this->{_routines}) {
+        $this->{_routines} =~ /(.*)/sm; $this->{_routines} = $1;    #yes, we must untaint
+        eval $this->{_routines};
+    }
+
+
     return '';
-}
+} 
 
 =begin TML
 
@@ -621,6 +650,20 @@ sub _validatePerlModule {
     #  if $replacements;
     #print "$module - $replacements - $warn \n";
     return $module;
+}
+
+
+=begin TML
+
+---++ ObjectMethod validateExits ()
+Eval any exits loaded in the _installler module. Return any errors
+from the "eval" 
+
+=cut
+
+sub validateExits {
+    my $this = shift;
+
 }
 
 1;
