@@ -194,7 +194,7 @@ sub new {
             # index within the data array.
             _indices => undef,
         },
-        $class
+        ref($class) || $class
     );
 
     # Normalise web path (replace [./]+ with /)
@@ -481,7 +481,7 @@ sub populateNewWeb {
             throw Error::Simple(
                 'Template web ' . $templateWeb . ' does not exist' );
         }
-        my $tWebObject = Foswiki::Meta->new( $session, $templateWeb );
+        my $tWebObject = $this->new( $session, $templateWeb );
         require Foswiki::WebFilter;
         my $sys =
           Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
@@ -490,7 +490,7 @@ sub populateNewWeb {
             my $topic = $it->next();
             next unless ( $sys || $topic =~ /^Web/ );
             my $topicObject =
-              Foswiki::Meta->load( $this->{_session}, $templateWeb, $topic );
+              $this->load( $this->{_session}, $templateWeb, $topic );
             $topicObject->saveAs( $this->{_web}, $topic );
         }
     }
@@ -503,7 +503,7 @@ sub populateNewWeb {
         )
       )
     {
-        $prefsTopicObject = Foswiki::Meta->new(
+        $prefsTopicObject = $this->new(
             $this->{_session},                $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName}, 'Preferences'
         );
@@ -514,7 +514,7 @@ sub populateNewWeb {
     # we are creating a new web here.
     if ($opts) {
         $prefsTopicObject ||=
-          Foswiki::Meta->load( $this->{_session}, $this->{_web},
+          $this->load( $this->{_session}, $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
         foreach my $key ( keys %$opts ) {
@@ -1130,7 +1130,7 @@ sub getRev1Info {
         my $ri = $info->{rev1info};
         unless ($ri) {
             my $tmp =
-              Foswiki::Meta->load( $this->{_session}, $web,
+              $this->load( $this->{_session}, $web,
                 $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
@@ -1725,13 +1725,13 @@ sub _atomicLock {
         my $it = $this->eachWeb();
         while ( $it->hasNext() ) {
             my $web = $this->{_web} . '/' . $it->next();
-            my $meta = Foswiki::Meta->new( $this->{_session}, $web );
+            my $meta = $this->new( $this->{_session}, $web );
             $meta->_atomicLock($cUID);
         }
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
             my $meta =
-              Foswiki::Meta->new( $this->{_session}, $this->{_web},
+              $this->new( $this->{_session}, $this->{_web},
                 $it->next() );
             $meta->_atomicLock($cUID);
         }
@@ -1747,13 +1747,13 @@ sub _atomicUnlock {
         my $it = $this->eachWeb();
         while ( $it->hasNext() ) {
             my $web = $this->{_web} . '/' . $it->next();
-            my $meta = Foswiki::Meta->new( $this->{_session}, $web );
+            my $meta = $this->new( $this->{_session}, $web );
             $meta->_atomicUnlock($cUID);
         }
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
             my $meta =
-              Foswiki::Meta->new( $this->{_session}, $this->{_web},
+              $this->new( $this->{_session}, $this->{_web},
                 $it->next() );
             $meta->_atomicUnlock($cUID);
         }
@@ -2117,14 +2117,14 @@ sub onTick {
         while ( $it->hasNext() ) {
             my $web = $it->next();
             $web = $this->getPath() . "/$web" if $this->getPath();
-            my $m = new Foswiki::Meta( $this->{_session}, $web );
+            my $m = $this->new( $this->{_session}, $web );
             $m->onTick($time);
         }
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
             my $topicObject =
-              new Foswiki::Meta( $this->{_session}, $this->getPath(), $topic );
+              $this->new( $this->{_session}, $this->getPath(), $topic );
             $topicObject->onTick($time);
         }
 
@@ -2763,12 +2763,12 @@ sub summariseChanges {
       . $this->stringify($metaPick);
 
     my $oldTopicObject =
-      Foswiki::Meta->new( $session, $this->web, $this->topic );
+      $this->new( $session, $this->web, $this->topic );
     unless ( $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
         $oldTopicObject =
-          Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
+          $this->new( $session, $this->web, $this->topic, '' );
     }
     my $otext =
       $renderer->TML2PlainText( $oldTopicObject->text(), $oldTopicObject,
