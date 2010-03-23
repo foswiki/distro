@@ -129,7 +129,8 @@ our %VALIDATE = (
         require => [qw( author )],
         other   => [qw( version date format reprev )]
     },
-    TOPICMOVED     => { require => [qw( from to by date )] },
+    TOPICMOVED => { require => [qw( from to by date )] },
+
     # Special case, see Item2554; allow an empty TOPICPARENT, as this was
     # erroneously generated at some point in the past
     TOPICPARENT    => { allow => [qw( name )] },
@@ -584,8 +585,7 @@ Returns an Foswiki::Search::InfoCache iterator
 sub query {
     my ( $query, $inputTopicSet, $options ) = @_;
     return $Foswiki::Plugins::SESSION->{store}
-      ->query( $query, $inputTopicSet,
-        $Foswiki::Plugins::SESSION, $options );
+      ->query( $query, $inputTopicSet, $Foswiki::Plugins::SESSION, $options );
 }
 
 =begin TML
@@ -1118,20 +1118,18 @@ sub getRevisionInfo {
 sub getRev1Info {
     my ( $this, $attr ) = @_;
 
-    #my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
-    my $web = $this->web;
+#my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
+    my $web   = $this->web;
     my $topic = $this->topic;
 
-    if (!defined($this->{getRev1Info})) {
+    if ( !defined( $this->{getRev1Info} ) ) {
         $this->{getRev1Info} = {};
     }
     my $info = $this->{getRev1Info};
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
-            my $tmp =
-              $this->load( $this->{_session}, $web,
-                $topic, 1 );
+            my $tmp = $this->load( $this->{_session}, $web, $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
 
@@ -1147,12 +1145,14 @@ sub getRev1Info {
             $info->{createwikiusername} =
               $this->{_session}->{users}->webDotWikiName( $ri->{author} );
         }
-        elsif ( $attr eq 'createdate' or
-               $attr eq 'createlongdate' or
-               $attr eq 'created' ) {
+        elsif ($attr eq 'createdate'
+            or $attr eq 'createlongdate'
+            or $attr eq 'created' )
+        {
             $info->{created} = $ri->{date};
             require Foswiki::Time;
             $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
+
             #TODO: wow thats disgusting.
             $info->{created} = $info->{createlongdate} = $info->{createdate};
         }
@@ -1353,12 +1353,12 @@ sub renderFormFieldForDisplay {
     return '' unless $mf;    # field not found
 
     $value = $mf->{value};
-    
+
     # remove nop exclamation marks from form field value before it is put
-    # inside a format like [[$topic][$formfield()]] that prevents it being 
+    # inside a format like [[$topic][$formfield()]] that prevents it being
     # detected
     $value =~ s/!(\w+)/<nop>$1/gos;
-    
+
     my $fname = $this->getFormName();
     if ($fname) {
         require Foswiki::Form;
@@ -1546,17 +1546,19 @@ sub save {
 
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
-        
+
         # remove meta from text again
         # afterSaveHandler may also alter $text so we must rebuild
         # the meta
-        my $after = Foswiki::Meta->new( $this->{_session}, $this->{_web},
-                    $this->{_topic}, $text );
+        my $after =
+          Foswiki::Meta->new( $this->{_session}, $this->{_web}, $this->{_topic},
+            $text );
         $text = $after->text();
 
         # If there are no changes in the object, assemble a new tom
         # from the text. Nasty compatibility requirement.
         if ( $this->stringify() eq $before ) {
+
             # reassemble the tom. there may be new meta in the text.
             $this = $after;
         }
@@ -1731,8 +1733,7 @@ sub _atomicLock {
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
             my $meta =
-              $this->new( $this->{_session}, $this->{_web},
-                $it->next() );
+              $this->new( $this->{_session}, $this->{_web}, $it->next() );
             $meta->_atomicLock($cUID);
         }
     }
@@ -1753,8 +1754,7 @@ sub _atomicUnlock {
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
             my $meta =
-              $this->new( $this->{_session}, $this->{_web},
-                $it->next() );
+              $this->new( $this->{_session}, $this->{_web}, $it->next() );
             $meta->_atomicUnlock($cUID);
         }
     }
@@ -2218,9 +2218,9 @@ sub attach {
             comment     => $opts{comment} || '',
         };
 
-
-        if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') || 
-             $plugins->haveHandlerFor('beforeUploadHandler') ) {
+        if (   $plugins->haveHandlerFor('beforeAttachmentSaveHandler')
+            || $plugins->haveHandlerFor('beforeUploadHandler') )
+        {
 
             # SMELL: the attachment handler requires a file on disc
             # Because of the way CGI works, the stream is actually attached
@@ -2238,12 +2238,12 @@ sub attach {
             }
 
             if ( $plugins->haveHandlerFor('beforeUploadHandler') ) {
-                $plugins->dispatch( 'beforeUploadHandler', $attrs, $this);
+                $plugins->dispatch( 'beforeUploadHandler', $attrs, $this );
             }
 
             if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
-              $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
-                  $this->{_topic}, $this->{_web} );
+                $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
+                    $this->{_topic}, $this->{_web} );
             }
 
             open( $opts{stream}, '<', $attrs->{tmpFilename} )
@@ -2306,7 +2306,7 @@ sub attach {
     }
 
     if ( $plugins->haveHandlerFor('afterUploadHandler') ) {
-        $plugins->dispatch( 'afterUploadHandler', $attrs, $this);
+        $plugins->dispatch( 'afterUploadHandler', $attrs, $this );
     }
 }
 
@@ -2455,8 +2455,8 @@ sub moveAttachment {
         $fileAttachment->{movedwhen} = time();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
 
-        if ($this->getPath() eq $to->getPath()) {
-          $to->remove( 'FILEATTACHMENT', $name );
+        if ( $this->getPath() eq $to->getPath() ) {
+            $to->remove( 'FILEATTACHMENT', $name );
         }
 
         $to->saveAs(
@@ -2762,13 +2762,11 @@ sub summariseChanges {
         $renderer->TML2PlainText( $ntext, $this, 'nonop' ) . "\n"
       . $this->stringify($metaPick);
 
-    my $oldTopicObject =
-      $this->new( $session, $this->web, $this->topic );
+    my $oldTopicObject = $this->new( $session, $this->web, $this->topic );
     unless ( $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
-        $oldTopicObject =
-          $this->new( $session, $this->web, $this->topic, '' );
+        $oldTopicObject = $this->new( $session, $this->web, $this->topic, '' );
     }
     my $otext =
       $renderer->TML2PlainText( $oldTopicObject->text(), $oldTopicObject,
@@ -2999,6 +2997,7 @@ sub setEmbeddedStoreForm {
 
     # If there is no meta data then convert from old format
     if ( !$this->count('TOPICINFO') ) {
+
         # The T-word string must remain unchanged for the compatibility
         if ( $text =~ /<!--TWikiAttachment-->/ ) {
             require Foswiki::Compatibility;
