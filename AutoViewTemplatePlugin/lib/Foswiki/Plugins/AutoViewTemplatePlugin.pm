@@ -81,9 +81,9 @@ sub initPlugin {
     # only set the view template if there is anything to set
     return 1 unless $templateName;
 
-    # in edit mode, try to read the template to check if it exists
-    if ($isEditAction && !Foswiki::Func::readTemplate($templateName)) {
-      Foswiki::Func::writeDebug("- ${pluginName}: edit tempalte not found") if $debug;
+    # try to read the template to check if it exists
+    if (!Foswiki::Func::readTemplate($templateName)) {
+      Foswiki::Func::writeDebug("- ${pluginName}: template not found") if $debug;
       return 1;
     }
 
@@ -127,7 +127,7 @@ sub _getTemplateFromSectionInclude {
 }
 
 
-# replaces Web.MyForm with Web.MyViewTemplate and returns Web.MyViewTemplate if it exists otherwise nothing
+# replaces Web.MyForm with Web.MyViewTemplate and returns Web.MyViewTemplate or Web.MyEditTemplate
 sub _getTemplateFromTemplateExistence {
     my $formName = $_[0];
     my $topic    = $_[1];
