@@ -39,8 +39,11 @@ package Foswiki::Configure::Package;
 use strict;
 use Error qw(:try);
 use Assert;
+use Foswiki::Configure::Dependency;
 
 our $VERSION = '$Rev: 6590 $';
+
+my $depwarn = '';   # Pass back warnings from untaint validation routine
 
 ############# GENERIC METHODS #############
 
@@ -61,6 +64,8 @@ Required for installer methods - used for checkin operations.
 
 sub new {
     my ( $class, $root, $pkgname, $type, $session ) = @_;
+    my @deps;
+
 
     my $this = bless(
         {
@@ -70,8 +75,8 @@ sub new {
             _session => $session,
             # Hash mapping the topics, attachment and other files supplied by this package
             _manifest => undef,
-            # Hash mapping the dependencies required by this package 
-            _dependency => undef,
+            # Array of dependencies required by this package 
+            _dependency => \@deps,
             _routines => undef,
         },
         $class
@@ -478,6 +483,7 @@ sub loadInstaller {
 
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     my $extension = $this->{_pkgname};
+    my $warn = '';
     local $/ = "\n";
 
     my $file;
@@ -490,12 +496,12 @@ sub loadInstaller {
            if (-e "$pkgstore/${extension}_installer") {
            $file = "$pkgstore/${extension}_installer";
            } else {
-               return "ERROR - Extension $extension package not found ";
+               return ('', "ERROR - Extension $extension package not found ");
            }
         }
     }     
 
-    open(my $fh, '<', $file) || return "Extract manfiest failed: $file -  $!";
+    open(my $fh, '<', $file) || return ('', "Extract manfiest failed: $file -  $!");
 
     my $found = '';
     while (<$fh>) {
@@ -534,7 +540,7 @@ sub loadInstaller {
              next;
           }
           chomp $_;
-          _parseDependency ($this, $_ ) if ($_);
+          $warn .= _parseDependency ($this, $_ ) if ($_);
           next;
        } 
 
@@ -553,8 +559,7 @@ sub loadInstaller {
         eval $this->{_routines};
     }
 
-
-    return '';
+    return ($warn, '');
 } 
 
 =begin TML
@@ -614,25 +619,62 @@ Parse the manifest line into the manifest hash.
 
 sub _parseDependency {
     my $this = shift;
+    my $deps = $this->{_dependency};
 
     require Foswiki::Sandbox;
 
-    my $warn = undef;
+    my $warn = '';
     my ( $module, $condition, $trigger, $type, $desc ) =
         split( ',', $_[0], 5 );
 
     return unless ($module);
-   
+
     if ( $type =~ m/cpan|perl/i ) {
+        $depwarn = '';
         $module  = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
+        $warn .= $depwarn;
     }   
 
-    $this->{_dependency}->{$module}->{condition} = $condition;
-    $this->{_dependency}->{$module}->{trigger} = $trigger;
-    $this->{_dependency}->{$module}->{type} = $type ;
-    $this->{_dependency}->{$module}->{desc} = $desc ;
-    $this->{_dependency}->{$module}->{warning} = $warn ;
+    if ( $trigger eq '1' ) {
 
+        # ONLYIF is rare and dangerous
+        push(
+            @$deps,
+            new Foswiki::Configure::Dependency(
+                module      => $module,
+                type        => $type,
+                version     => $condition || 0,    # version condition
+                trigger     => 1,                  # ONLYIF condition
+                description => $desc
+            )
+        );
+    }
+    else {
+
+        # There is a ONLYIF condition, warn user
+        $warn .= "The script uses an ONLYIF condition for module $module"
+          . ' which is potentially insecure: "'
+          . $trigger . '"' . "\n";
+        if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
+
+            # It looks more or less safe
+            push(
+                @$deps,
+                new Foswiki::Configure::Dependency(
+                    module      => $module,
+                    type        => $type,
+                    version     => $condition,    # version condition
+                    trigger     => $1,            # ONLYIF condition
+                    description => $desc
+                )
+            );
+        }
+        else {
+            $warn .= 'This ' . $trigger . ' condition does not look safe and is being disabled.' . "\n";
+            $warn .= "This dependency on $module should be manually resolved \n";
+        }
+    }
+    return $warn;
 }
 
 # This is used to ensure the perl module dependencies
@@ -643,26 +685,49 @@ sub _validatePerlModule {
     # Remove all non alpha-numeric caracters and :
     # Do not use \w as this is localized, and might be tainted
     my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    #my $warn = 'validatePerlModule removed '
-    #  . $replacements
-    #  . ' characters, leading to '
-    #  . $module . "\n"
-    #  if $replacements;
-    #print "$module - $replacements - $warn \n";
+    $depwarn = 'validatePerlModule removed '
+      . $replacements
+      . ' characters, leading to '
+      . $module . "\n"
+      if $replacements;
     return $module;
 }
 
 
 =begin TML
 
----++ ObjectMethod validateExits ()
-Eval any exits loaded in the _installler module. Return any errors
-from the "eval" 
+---++ ObjectMethod checkDependencies ()
+Checks the dependencies listed for this module.  Returns two "reports";
+Installed dependencies and Missing dependencies.   It also returns a 
+list of Foswiki package names that might be installed.
 
 =cut
 
-sub validateExits {
+sub checkDependencies {
     my $this = shift;
+    my $installed = '';
+    my $missing = ''; 
+    my @install;
+    my @cpan;
+
+    foreach my $dep ( @{$this->{_dependency}}  ) {
+        my ($ok, $msg) =  $dep->check() ;
+        if ($ok) {
+            $installed .= "$msg\n";
+        } else {
+            $missing .= "$msg\n";
+            if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
+                my $type     = $1;
+                my $pack     = $2;
+                my $packname = $3;
+                $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
+                $dep->{name} = $packname;
+                push( @install, $packname );
+             }
+             push ( @cpan, $dep->{module} ) if ( $dep->{type} eq 'cpan' );
+        }
+    }
+    return ($installed, $missing,  @install, @cpan);
 
 }
 

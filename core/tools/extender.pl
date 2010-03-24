@@ -503,8 +503,11 @@ sub _uninstall {
     require Foswiki::Configure::Package;
 
     my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
-    my $err = $pkg->loadInstaller();
-    my $rslt = $pkg->createBackup();
+    my ($rslt, $err) = $pkg->loadInstaller();
+
+    _inform "$rslt" if ($rslt);
+
+    $rslt = $pkg->createBackup();
 
     _inform "$rslt";
    
@@ -521,13 +524,6 @@ sub _uninstall {
         _inform "\t" . join( "\n\t", @dead );
     }
 
-    $pkg->validateExits();
-
-    if (defined $pkg->preinstall ) { print "preinstalll defined \n"; }
-    if (defined $pkg->postinstall ) { print "postinstall defined \n"; }
-    if (defined $pkg->preuninstall ) { print "preuninstalll defined \n"; }
-    if (defined $pkg->postuninstall ) { print "postuninstall defined \n"; }
-    
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
@@ -651,10 +647,15 @@ sub _install {
         require Foswiki::Configure::Package;
 
         my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
-        my $err = $pkg->loadInstaller();
-        my $rslt = '';
+        my ($rslt, $err) = $pkg->loadInstaller();
+
+        _warn "$rslt" if ($rslt);
 
         unless ($err) {
+
+            $rslt = $pkg->checkDependencies();
+
+            _inform "$rslt" if ($rslt);
 
             $pkg->preinstall() if (defined $pkg->preinstall);
 
@@ -706,80 +707,80 @@ sub install {
     push( @_, '' ) if ( scalar(@_) & 1 );
     my %data = @_;
 
-    foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
-        my ( $file, $perms, $desc ) = split( ',', $row, 3 );
-        $MANIFEST->{$file}->{ci} = ( $desc =~ /\(noci\)/ ? 0 : 1 );
-        $MANIFEST->{$file}->{perms} = $perms;
-    }
+#    foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
+#        my ( $file, $perms, $desc ) = split( ',', $row, 3 );
+#        $MANIFEST->{$file}->{ci} = ( $desc =~ /\(noci\)/ ? 0 : 1 );
+#        $MANIFEST->{$file}->{perms} = $perms;
+#    }
 
     my @deps;
-    foreach my $row ( split( /\r?\n/, $data{DEPENDENCIES} ) ) {
-        my ( $module, $condition, $trigger, $type, $desc ) =
-          split( ',', $row, 5 );
-        $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
-        if ( $trigger eq '1' ) {
-
-            # ONLYIF is rare and dangerous
-            push(
-                @deps,
-                new Foswiki::Configure::Dependency(
-                    module      => $module,
-                    type        => $type,
-                    version     => $condition || 0,    # version condition
-                    trigger     => 1,                  # ONLYIF condition
-                    description => $desc
-                )
-            );
-        }
-        else {
-
-            # There is a ONLYIF condition, warn user
-            _warn 'The script uses an ONLYIF condition'
-              . ' which is potentially insecure: "'
-              . $trigger . '"';
-            if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
-
-                # It looks more or less safe
-                push(
-                    @deps,
-                    new Foswiki::Configure::Dependency(
-                        module      => $module,
-                        type        => $type,
-                        version     => $condition,    # version condition
-                        trigger     => $1,            # ONLYIF condition
-                        description => $desc
-                    )
-                );
-            }
-            else {
-                _warn 'This ' . $trigger . ' condition does not look safe.';
-                if ($running_from_configure) {
-                    _shout <<DONE;
-Disabling this as we were invoked from configure.
-If you really want to install this module, do it from the command line.'
-DONE
-                }
-                else {
-                    my $reply = ask('Do you want to run it anyway?');
-                    if ($reply) {
-                        _inform 'OK...';
-                        push(
-                            @deps,
-                            new Foswiki::Configure::Dependency(
-                                module  => $module,
-                                type    => $type,
-                                version => $condition,    # version condition
-                                trigger =>
-                                  Foswiki::Sandbox::untaintUnchecked($1)
-                                ,                         # ONLYIF condition
-                                description => $desc
-                            )
-                        );
-                    }
-                }
-            }
-        }
-    }
+#    foreach my $row ( split( /\r?\n/, $data{DEPENDENCIES} ) ) {
+#        my ( $module, $condition, $trigger, $type, $desc ) =
+#          split( ',', $row, 5 );
+#        $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
+#        if ( $trigger eq '1' ) {
+#
+#            # ONLYIF is rare and dangerous
+##            push(
+#                @deps,
+#                new Foswiki::Configure::Dependency(
+#                    module      => $module,
+#                    type        => $type,
+#                    version     => $condition || 0,    # version condition
+##                    trigger     => 1,                  # ONLYIF condition
+#                    description => $desc
+#                )
+#            );
+#        }
+#        else {
+#
+##            # There is a ONLYIF condition, warn user
+##            _warn 'The script uses an ONLYIF condition'
+#              . ' which is potentially insecure: "'
+#              . $trigger . '"';
+#            if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
+#
+#                # It looks more or less safe
+#                push(
+#                    @deps,
+#                    new Foswiki::Configure::Dependency(
+#                        module      => $module,
+#                        type        => $type,
+##                        version     => $condition,    # version condition
+#                        trigger     => $1,            # ONLYIF condition
+#                        description => $desc
+#                    )
+###                );
+#            }
+#            else {
+##                _warn 'This ' . $trigger . ' condition does not look safe.';
+#                if ($running_from_configure) {
+#                    _shout <<DONE;
+#Disabling this as we were invoked from configure.
+#If you really want to install this module, do it from the command line.'
+#DONE
+#                }
+#                else {
+##                    my $reply = ask('Do you want to run it anyway?');
+#                    if ($reply) {
+#                        _inform 'OK...';
+#                        push(
+#                            @deps,
+#                            new Foswiki::Configure::Dependency(
+#                                module  => $module,
+#                                type    => $type,
+#                                version => $condition,    # version condition
+#                                trigger =>
+#                                  Foswiki::Sandbox::untaintUnchecked($1)
+#                                ,                         # ONLYIF condition
+#                                description => $desc
+#                            )
+#                        );
+#                    }
+#                }
+#            }
+#        }
+#    }
 
     unshift( @INC, 'lib' );
 
@@ -791,18 +792,18 @@ DONE
         exit 0;
     }
 
-    if ( $action eq 'dependencies' ) {
-        foreach my $dep (@deps) {
-            if ( $dep->{trigger} && $dep->{trigger} != '1' ) {
-                _inform "ONLYIF $dep->{trigger}";
-            }
-            _inform $dep->{module}, ', ',
-              $dep->{version}, ', ',
-                $dep->{type}, ', ',
-                  $dep->{description};
-        }
-        exit 0;
-    }
+#    if ( $action eq 'dependencies' ) {
+#        foreach my $dep (@deps) {
+#            if ( $dep->{trigger} && $dep->{trigger} != '1' ) {
+#                _inform "ONLYIF $dep->{trigger}";
+#            }
+#            _inform $dep->{module}, ', ',
+#              $dep->{version}, ', ',
+##                $dep->{type}, ', ',
+#3                  $dep->{description};
+#        }
+#        exit 0;
+#    }
 
     if (!$running_from_configure) {
         _inform "\n${MODULE} Installer";

@@ -162,9 +162,22 @@ MESS
     require Foswiki::Configure::Package;
 
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '', $session);
-    my $err = $pkg->loadInstaller($dir);  # Recover the manifest from the _installer file
+    my ($rslt, $err) = $pkg->loadInstaller($dir);  # Recover the manifest from the _installer file
 
-    my $rslt;
+    if ($rslt) {
+        $feedback .= "Warnings loading installer...<br />\n";
+        $feedback .= "<pre>$rslt </pre>";
+    }
+
+    my ($installed, $missing, @install, @cpan) = $pkg->checkDependencies();
+    $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
+    $rslt .= "====== MISSING ========\n$missing\n" if ($missing);
+
+    if ($rslt) {
+        $feedback .= "Dependency Report..<br />\n";
+        $feedback .= "<pre>$rslt </pre>";
+    }
+
     ($rslt, $err) = $pkg->createBackup($dir) unless ($err); # Create a backup of the previous install if any
 
     unless ($err) {
@@ -285,7 +298,12 @@ sub _uninstall {
 
     require Foswiki::Configure::Package;
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '');
-    my $err = $pkg->loadInstaller();
+    my ($rslt, $err) = $pkg->loadInstaller();
+
+    if ($rslt) {
+        $feedback .= "Warnings loading installer...<br />\n";
+        $feedback .= "<pre>$rslt </pre>";
+    }
 
     unless ($err) {
         my $rslt = $pkg->createBackup();

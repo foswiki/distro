@@ -793,6 +793,9 @@ sub test_makeBackup {
     my $root = File::Spec->catfile( @root, 'x' );
     chop $root;
 
+    my $result = '';
+    my $err = '';
+
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
@@ -803,13 +806,11 @@ sub test_makeBackup {
     use Foswiki::Configure::Package;
     my $pkg = new Foswiki::Configure::Package ($root, "$extension", 'Plugin', $this->{session} );
 
-    my $err = $pkg->loadInstaller($tempdir);
+    ($result, $err)  = $pkg->loadInstaller($tempdir);
     $this->assert_str_equals( '', $err ); 
 
-    my $result = '';
     ($result, $err) = $pkg->install($tempdir);
 
-    print "Running Backup ";
     my $msg = $pkg->createBackup();
     $this->assert_str_equals( 'Backup saved into', substr($msg, 0,17) );
     #print "$msg \n";
@@ -836,13 +837,18 @@ sub postuninstall {
 
 sub preinstall {
 
-# Remove Templates.pm file if it exists. Dead code.
-   return "Pre-install entered";
+    return "Pre-install entered";
 }
 
 sub postinstall {
 
-    # # No POSTINSTALL script;
+    my $this = shift;   # Get the object instance passed to the routine
+    if ($this) {        # Verify that you are running in the new environment
+        my $mapped = Foswiki::Configure::Util::mapTarget( $this->{_rootdir},
+        'tools/obsolete.pl');
+        my $count = unlink $mapped if ( -e $mapped );
+        return "Removed $mapped \n " if ($count);
+        }
 }
 
 Foswiki::Extender::install( $PACKAGES_URL, 'CommentPlugin', 'CommentPlugin', @DATA );
@@ -868,9 +874,21 @@ pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
 
 <<<< DEPENDENCIES >>>>
-SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
-CGI::Blah,>=10.1,0,cpan,Test lower case cpan
-ImageMagick,,1,,
+.\@#$%}{SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
+Time::ParseDate,>=2003.0211,1,cpan,Required. Available from the CPAN:Time::ParseDate archive.
+Foswiki::Contrib::JSCalendarContrib,>=0.961,1,perl,Optional, used if installed. Used to display a neat calendar popup when editing actions. Available from the Foswiki:Extensions/JSCalendarContrib repository.
+Foswiki::Contrib::BehaviourContrib,>=0,1,perl,Javascript module
+Foswiki::Plugins::WysiwygPlugin,>=4315,1,perl,Translator module
+Foswiki::Plugins::JQueryPlugin,>=0.5,1,perl,Required if using jquery twisties.
+Foswiki::Plugins::DojoToolkitContrib,>=0,1,perl,Required if using dojo twisties.
+Foswiki::Contribs::FamFamFamContrib,>=0,1,perl,Icons
+FCGI, >0.67,1,cpan,FastCGI perl library
+File::Spec, >0,1,cpan,This module is shipped as part of standard perl
+Cwd, >0,1,cpan,This module is shipped as part of standard perl
+POSIX, >0,1,cpan,This module is shipped as part of standard perl
+Getopt::Long, >2.37,1,cpan,Extended processing of command line options
+Pod::Usage, >1.35,1,cpan,print a usage message from embedded pod documentation
+
 
 DONE
     close ($fh);
@@ -905,11 +923,16 @@ sub test_Package {
     my $root = $this->{rootdir};
     use Foswiki::Configure::Package;
     my $result = '';
+    my $err = '';
 
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
    
+    _makefile ( "$root/tools", "obsolete.pl", <<'DONE');
+Test file data
+DONE
+
     my $extension = "MyPlugin";
     _makePackage ($tempdir, $extension);
 
@@ -918,7 +941,7 @@ sub test_Package {
     #
     #
     my $pkg = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
-    my $err = $pkg->loadInstaller($tempdir);
+    ($result, $err) = $pkg->loadInstaller($tempdir);
     $pkg->uninstall();
     $pkg->finish();
     undef $pkg;
@@ -930,7 +953,7 @@ sub test_Package {
 
     _makePackage ($tempdir, $extension);
     $pkg = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
-    $err = $pkg->loadInstaller($tempdir);
+    ($result, $err) = $pkg->loadInstaller($tempdir);
     ($result, $err) = $pkg->install($tempdir);
     $this->assert_str_equals( '', $err ); 
 
@@ -959,7 +982,7 @@ Installed:  MyPlugin_installer
     _makePackage ($tempdir, $extension);
 
     my $pkg2 = new Foswiki::Configure::Package ($root, 'MyPlugin', 'Plugin', $this->{session});
-    $err = $pkg2->loadInstaller($tempdir);
+    ($result, $err) = $pkg2->loadInstaller($tempdir);
 
     $result = '';
     ($result, $err) = $pkg2->install($tempdir);
@@ -980,7 +1003,11 @@ Installed:  MyPlugin_installer
     $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall());
     $this->assert_str_equals( 'Pre-install entered', $pkg2->preinstall());
     $this->assert_null( $pkg2->postuninstall());
-    $this->assert_null( $pkg2->postinstall());
+    $this->assert_str_equals( 'Removed ', substr( $pkg2->postinstall(), 0, 8));
+
+    my ($installed, $missing,  @install, @cpan) = $pkg2->checkDependencies();
+    print "===== INSTALLED =======\n$installed\n";
+    print "====== MISSING ========\n$missing\n";
 
     #  
     #  Now uninistall the package
