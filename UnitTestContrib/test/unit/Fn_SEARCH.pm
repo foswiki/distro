@@ -3045,16 +3045,6 @@ CRUD
     $result =
       $this->{test_topicObject}->expandMacros(<<'HERE');
 %CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
-%CALC{$IF($TIME(15 Mar 2010 - 00:11) < $GET(weekold), no, yes)}%
-HERE
-
-    $this->assert_html_equals( <<CRUD, $result );
-yes
-CRUD
-
-    $result =
-      $this->{test_topicObject}->expandMacros(<<'HERE');
-%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
 %SEARCH{ 
     "." 
     scope="topic" 
