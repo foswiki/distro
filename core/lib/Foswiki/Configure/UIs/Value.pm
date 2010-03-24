@@ -70,12 +70,10 @@ sub renderHtml {
           $value->asString( $root->{valuer},
             $Foswiki::Configure::Value::VALUE_TYPE->{DEFAULT} );
 
-        # encode special characters
-        $valueString =~ s/(['"\n])/'#'.ord($1)/ge;
+        # URL encode parameter name and value
+        my $safeKeys = $this->urlEncode($keys);
 
-        my $safeKeys = $keys;
-        $safeKeys =~ s/(['"\n])/'#'.ord($1)/ge;
-        my $defaultDisplayValue = $valueString;
+        my $defaultDisplayValue = $this->urlEncode($valueString);
 
         if (   $value->{typename} eq 'BOOLEAN'
             || $value->{typename} eq 'NUMBER'
@@ -84,7 +82,8 @@ sub renderHtml {
             $defaultDisplayValue ||= '0';
         }
         $valueString =~ s/\'/\\'/go;
-        $valueString =~ s/\"/&quot;/go;
+        $valueString =~ s/\n/\\n/go;
+        $valueString = $this->urlEncode($valueString);
         $resetToDefaultLinkText .= <<HERE;
 <a href='#' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$valueString')"><span class="configureDefaultValueLinkLabel">&nbsp;</span><span class='configureDefaultValueLinkValue'>$defaultDisplayValue</span></a>
 HERE

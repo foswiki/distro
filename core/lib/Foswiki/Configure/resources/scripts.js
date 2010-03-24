@@ -204,7 +204,7 @@ function initDefaultLink(inLink) {
 	inLink.type = type;
 	
 	/* retrieve value from title tag */
-	inLink.defaultValue = decode(inLink.title);
+	inLink.defaultValue = unescape(inLink.title);
 
 	/* set link label states */
 	inLink.setDefaultLinkText = 'use default';
@@ -212,10 +212,7 @@ function initDefaultLink(inLink) {
 	
 	/* set defaults */
 	inLink.title = '';
-	/*
-	inLink.title = formatLinkValueInTitle(
-        inLink.type, inLink.setDefaultTitle, inLink.defaultValue);
-    */
+
     var label = $('.configureDefaultValueLinkLabel', inLink)[0];
     if (label) {
 		label.innerHTML = inLink.setDefaultLinkText;
@@ -233,23 +230,16 @@ function showDefaultLinkToolTip(inLink) {
 }
 
 /**
-Prepend a string to a human readable value string.
-*/
-function formatLinkValueInTitle (inType, inString, inValue) {
-	return (inString + createHumanReadableValueString(inType, inValue));
-}
-
-/**
 Called from "reset to default" link.
 Values are set in UIs/Value.pm
 */
 function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 
-	var name = decode(inName);
+	var name = unescape(inName);
 	var elem = document.forms.update[name];
 	if (!elem) return;
 	
-	var value = decode(inValue);
+	var value = unescape(inValue);
 	if (inLink.oldValue != null) value = inLink.oldValue;
 
 	var oldValue;
@@ -328,9 +318,7 @@ function createHumanReadableValueString (inType, inValue) {
 		return '""';
 	}
 	/* all other cases */
-	var value = inValue;
-	value = value.replace(/\\&quot;/g, '');
-	return value;
+	return inValue;
 }
 
 /**
@@ -340,17 +328,6 @@ function isTrue (v) {
 	if (v == 1 || v == '1' || v == 'on' || v == 'true')
         return 1;
 	return 0;
-}
-
-/**
-Replaces encoded characters with the real characters.
-*/
-function decode(v) {
-	var re = new RegExp(/#(\d\d)/g);
-	return v.replace(re,
-                     function (str, p1) {
-                         return String.fromCharCode(parseInt(p1));
-                     });
 }
 
 /* INFO TEXTS */
