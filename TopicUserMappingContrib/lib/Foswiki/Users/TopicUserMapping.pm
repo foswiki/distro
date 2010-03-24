@@ -1304,7 +1304,6 @@ sub _getListOfGroups {
                 list  => $this->{groupsList},
                 users => $users
             },
-            inline    => 1,
             web       => $Foswiki::cfg{UsersWebName},
             topic     => "*Group",
             scope     => 'topic',

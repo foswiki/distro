@@ -8,7 +8,6 @@ sub SEARCH {
 
     # pass on all attrs, and add some more
     #$params->{_callback} = undef;
-    $params->{inline}    = 1;
     $params->{baseweb}   = $topicObject->web;
     $params->{basetopic} = $topicObject->topic;
     $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};

@@ -170,9 +170,6 @@ remaining parameters the same as 'print'.
 If =_callback= is set, the result is always undef. Otherwise the
 result is a string containing the rendered search results.
 
-If =inline= is set, then the results are *not* decorated with
-the search template head and tail blocks.
-
 The function will throw Error::Simple if it encounters any problems with the
 syntax of the search string.
 
@@ -184,7 +181,7 @@ If =type="word"= it will be changed to =type="keyword"= with =wordboundaries=1=.
 
 SMELL: If =template= is defined =bookview= will not work
 
-SMELL: it seems that if you define =_callback= or =inline= then you are
+SMELL: it seems that if you define =_callback= then you are
 	responsible for converting the TML to HTML yourself!
 
 FIXME: =callback= cannot work with format parameter (consider format='| $topic |'
@@ -197,12 +194,8 @@ sub searchWeb {
     ASSERT( defined $session->{webName} ) if DEBUG;
     my %params = @_;
 
-    my $inline = $params{inline};
-
-#TODO: SMELL: work out the $inline bit - its set to 0 in the search cgi, see Item2342 (turn on ASSERT..)
     my $baseWebObject =
-      Foswiki::Meta->new( $session, $session->{webName},
-        $inline ? undef : $session->{topicName} );
+      Foswiki::Meta->new( $session, $session->{webName} );
 
     my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 
@@ -251,16 +244,15 @@ sub searchWeb {
 
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
-    # now deprecated option 'inline' is used combined with 'format'
     my $noHeader =
       !defined($header)
       && Foswiki::isTrue( $params{noheader}, $params{nonoise} )
-      || ( !$header && $formatDefined && $inline );
+      || ( !$header && $formatDefined );
 
     my $noFooter =
       !defined($footer)
       && Foswiki::isTrue( $params{nofooter}, $params{nonoise} )
-      || ( !$footer && $formatDefined && $inline );
+      || ( !$footer && $formatDefined );
 
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $params{nonoise} );
     my $zeroResults =
@@ -291,7 +283,7 @@ sub searchWeb {
     my $webNames = $params{web}       || '';
     my $date    = $params{date}      || '';
     my $recurse = $params{'recurse'} || '';
-    my $finalTerm = $inline ? ( $params{nofinalnewline} || 0 ) : 0;
+    my $finalTerm = $params{nofinalnewline} || 0 ;
 
     $baseWeb =~ s/\./\//go;
 
@@ -315,13 +307,6 @@ sub searchWeb {
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
     my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
 
-    # Write log entry
-    # FIXME: Move log entry further down to log actual webs searched
-    if ( !$inline ) {
-        my $t = join( ' ', @webs );
-        $session->logEvent( 'search', $t, $searchString );
-    }
-
 ###################the search
     my $query = $this->parseSearch($searchString, \%params );
 #setting the inputTopicSet to be undef allows the search/query algo to use
@@ -330,18 +315,10 @@ sub searchWeb {
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
 ###################the rendering
-    return '' if (!$inline and  (!$infoCache->hasNext()) and $params{zeroresults} );
 
     my ( $tmplHead, $tmplSearch, $tmplTail ) =
       $this->loadTemplates( \%params, $baseWebObject, $formatDefined,
         $doBookView, $noHeader, $noSummary, $noTotal, $noFooter );
-
-    # If not inline search, also expand tags in head and tail sections
-    if (!$inline) {
-        $tmplHead = $baseWebObject->expandMacros($tmplHead);
-
-        &$callback( $cbdata, $tmplHead );
-    }
 
     # Generate 'Search:' part showing actual search string used
     unless ($noSearch) {
@@ -387,12 +364,6 @@ sub searchWeb {
 #        }
 #    }    # end of: foreach my $web ( @webs )
 
-    if (!$inline) {
-        $tmplTail = $baseWebObject->expandMacros($tmplTail);
-
-        &$callback( $cbdata, $tmplTail );
-    }
-
     return if ( defined $params{_callback} );
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
@@ -405,11 +376,6 @@ sub searchWeb {
             $searchResult =~ s/\n$//os;           # remove trailing new line
         }
     }
-
-    return $searchResult if $inline;
-
-    $searchResult = $baseWebObject->expandMacros($searchResult);
-    $searchResult = $baseWebObject->renderTML($searchResult);
 
     return $searchResult;
 }
@@ -539,7 +505,6 @@ sub formatResults {
     my $format        = $params->{format} || '';
     my $header        = $params->{header} || '';
     my $footer        = $params->{footer} || '';
-    my $inline        = $params->{inline};
     my $limit         = $params->{limit} || '';
 
 # Limit search results
@@ -638,14 +603,13 @@ sub formatResults {
 
     # Note: a defined header/footer overrides noheader/nofooter
     # To maintain Cairo compatibility we ommit default header/footer if the
-    # now deprecated option 'inline' is used combined with 'format'
     my $noHeader =
       !defined($header) && Foswiki::isTrue( $params->{noheader}, $nonoise )
-      || ( !$header && $formatDefined && $inline );
+      || ( !$header && $formatDefined );
 
     my $noFooter =
       !defined($footer) && Foswiki::isTrue( $params->{nofooter}, $nonoise )
-      || ( !$footer && $formatDefined && $inline );
+      || ( !$footer && $formatDefined );
 
     my $noSummary = Foswiki::isTrue( $params->{nosummary}, $nonoise );
     my $zeroResults =
@@ -824,17 +788,16 @@ sub formatResults {
                                 $nhits--;
                                 $processedfooter =~ s/\$ntopics/$ntopics/gs;
                                 $processedfooter =~ s/\$nhits/$nhits/gs;
-                                $ntopics = 1;
-                                $nhits = 1;
 
                                 #legacy SEARCH counter support
                                 $processedfooter =~ s/%NTOPICS%/$ntopics/go;
 
+                                $ntopics = 1;
+                                $nhits = 1;
+
                                 $processedfooter = $this->formatCommon($processedfooter, \%pager_formatting);
                                 $processedfooter = $webObject->expandMacros($processedfooter);
-                                if ( $inline || $formatDefined ) {
-                                    $processedfooter =~ s/\n$//os;    # remove trailing new line
-                                }
+                                $processedfooter =~ s/\n$//os;    # remove trailing new line
 
                                 if ( defined($separator) ) {
 
@@ -917,9 +880,7 @@ sub formatResults {
 
         $footer = $this->formatCommon($footer, \%pager_formatting);
         $footer = $webObject->expandMacros($footer);
-        if ( $inline || $formatDefined ) {
-            $footer =~ s/\n$//os;    # remove trailing new line
-        }
+        $footer =~ s/\n$//os;    # remove trailing new line
 
         if ( defined($separator) ) {
 
@@ -1223,7 +1184,6 @@ sub searchMetaData {
             nototal   => 'on',
             noempty   => 'on',
             template  => 'searchmeta',
-            inline    => 1,
         );
     }
     else {
@@ -1240,7 +1200,6 @@ sub searchMetaData {
             nototal   => 'on',
             noempty   => 'on',
             template  => 'searchmeta',
-            inline    => 1,
         );
     }
     my $attrTitle = $params->{title} || '';

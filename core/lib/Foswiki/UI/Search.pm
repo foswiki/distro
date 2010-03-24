@@ -18,6 +18,8 @@ use Foswiki ();
 
 ---++ StaticMethod search( $session )
 
+Deprecated - now redirects to WebSearch topic.
+
 Perform a search as dictated by CGI parameters:
 
 | *Parameter:* | *Description:* | *Default:* |
@@ -54,75 +56,10 @@ sub search {
 
     my $query   = $session->{request};
     my $webName = $session->{webName};
-    my $topic   = $session->{topicName};
-
-    unless ( $session->webExists($webName) ) {
-        require Foswiki::OopsException;
-        throw Foswiki::OopsException(
-            'accessdenied',
-            status => 403,
-            def    => 'no_such_web',
-            web    => $webName,
-            topic  => $topic,
-            params => ['search']
-        );
-    }
-
-    # The CGI.pm docs claim that it returns all of the values in a
-    # multiple select if called in a list context, but that may not
-    # work (didn't on the dev box -- perl 5.004_4 and CGI.pm 2.36 on
-    # Linux (Slackware 2.0.33) with Apache 1.2.  That being the case,
-    # we need to parse them out here.
-    # SMELL: surely this has been fixed by now?
-    # my @webs = $query->param( 'web' ) || ( $webName ); #didn't work
-    my $attrWeb = join ' ', grep { s/^web=(.*)$/$1/ }
-      split( /[&;]/, $query->query_string );
-
-    my $text = $session->search->searchWeb(
-
-#        _callback       => \&_contentCallback,	#FIXME - can't process format=| $topic | line by line...
-        _callback      => undef,
-        _cbdata        => undef,
-        'inline'       => 0,
-        'search'       => $query->param('search') || undef,
-        'web'          => $attrWeb,
-        'topic'        => $query->param('topic') || undef,
-        'excludetopic' => $query->param('excludetopic') || undef,
-        'scope'        => $query->param('scope') || undef,
-        'order'        => $query->param('order') || undef,
-        'type'         => $query->param('type')
-          || $session->{prefs}->getPreference('SEARCHDEFAULTTTYPE') || undef,
-        'regex'           => $query->param('regex') || undef,
-        'limit'           => $query->param('limit') || undef,
-        'reverse'         => $query->param('reverse') || undef,
-        'casesensitive'   => $query->param('casesensitive') || undef,
-        'nosummary'       => $query->param('nosummary') || undef,
-        'nosearch'        => $query->param('nosearch') || undef,
-        'noheader'        => $query->param('noheader') || undef,
-        'nototal'         => $query->param('nototal') || undef,
-        'bookview'        => $query->param('bookview') || undef,
-        'showlock'        => $query->param('showlock') || undef,
-        'expandvariables' => $query->param('expandvariables') || undef,
-        'noempty'         => $query->param('noempty') || undef,
-        'template'        => $query->param('template') || undef,
-        'header'          => $query->param('header') || undef,
-        'format'          => $query->param('format') || undef,
-        'multiple'        => $query->param('multiple') || undef,
-        'separator'       => $query->param('separator') || undef,
-        'subweb'          => $query->param('subweb') || undef
-    );
-
-    $session->writeCompletePage($text);
-
-}
-
-# TSA SMELL: Review this in case of defining _callback above
-sub _contentCallback {
-    Foswiki::spamProof( $_[1] );
-
-    # FIXME: if you're going to define a callback, you have to
-    # convert from TML too
-    print $_[1];
+    
+    #TODO: is WebSearch a constant?
+    my $searchUrl = $session->getScriptUrl( 1, 'view', $webName, 'WebSearch');
+    $session->redirect( $searchUrl, 1 );    # with passthrough
 }
 
 1;
