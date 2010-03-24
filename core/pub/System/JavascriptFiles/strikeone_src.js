@@ -218,6 +218,9 @@ var StrikeOne = {
     }
 };
 
+// Maintained for compatibility
+function foswikiStrikeOne(form) { return StrikeOne.submit(form); }
+
 // Staple the onload handler into the chain. Fingers crossed this
 // works OK with jQuery.
 if (typeof window.onload != 'function') {
@@ -228,3 +231,4 @@ if (typeof window.onload != 'function') {
         StrikeOne.pcd(); oldonload();
     };
 }
+
