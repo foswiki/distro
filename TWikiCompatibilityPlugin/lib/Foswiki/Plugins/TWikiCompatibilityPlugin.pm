@@ -28,7 +28,7 @@ require Foswiki::Plugins;    # For the API version
 use vars
   qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
 $VERSION           = '$Rev$';
-$RELEASE           = '1.1';
+$RELEASE           = '1.1.0';
 $TWiki::RELEASE    = 'TWiki 4.2.3';
 $SHORTDESCRIPTION  = 'Add TWiki personality to Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
@@ -104,7 +104,6 @@ sub earlyInitPlugin {
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
     Foswiki::Func::setPreferencesValue( 'TWIKIWEB', 'TWiki' );
-    Foswiki::Func::setPreferencesValue( 'MAINWEB',  '%USERSWEB%' );
 
     # Load TWiki::Func and TWiki::Plugins, for badly written plugins
     # which rely on them being there without using them first

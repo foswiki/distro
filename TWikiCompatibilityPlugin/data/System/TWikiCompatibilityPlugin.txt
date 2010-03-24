@@ -12,18 +12,15 @@ One line description, required for extensions repository catalog.
 Automatically maps requests for legacy TWiki web topics to Foswiki free topics as per
 [[http://foswiki.org/Development/TopicNameMappingTable][TopicNameMappingTable]].
 
-Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings required.
+Map TWIKIWEB to SYSTEMWEB - no Preference setting required.
 
-to add similar auto-compatibility for attachments, add (or uncomment) the following ErrorDocument handeling to
+to add similar auto-compatibility for attachments, add (or uncomment) the following !ErrorDocument handeling to
 your Apache configuration _in the =pub= section_
 
 <verbatim>
     #for TWikiCompatibility
     ErrorDocument 404 /foswiki/bin/viewfile
 </verbatim>
-
----+++ TODO:
-   1 pub file redirection - will probably have to be a final regex in postRendering
 
 ---++ Installation Instructions
 
@@ -40,6 +37,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.1 | Foswikitask:Item8669 - MAINWEB mapping removed. It has instead been added to !DefaultPreferences in Foswiki 1.1 and forward so that upgraders do not have to enable this plugin just to map MAINWEB to USERSWEB. Many upgraders will not need any other function and would rather not have the code overhead of this plugin |
+|  1.0 | Version shipped with Foswiki 1.0.X |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
