@@ -227,6 +227,8 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
       * Set EDITURL = %SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%
       * Set EDITTOPIC = <a href="%EDITURL%" title="Edit Topic - deprecated usage - please see release notes">Edit</a>
+   * Support for MAINWEB which is often used in older legacy webs that have been upgraded to Foswiki
+      * Set MAINWEB = %USERSWEB%
 
 ---++ Plugins Settings
 
