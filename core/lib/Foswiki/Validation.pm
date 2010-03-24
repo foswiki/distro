@@ -50,7 +50,7 @@ object.
 =cut
 
 # Done as a sub to help perl optimise it away
-sub TRACE { 0 }
+sub TRACE { 1 }
 
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript
@@ -106,7 +106,7 @@ sub addValidationKey {
 
 ---++ StaticMethod addOnSubmit( $form ) -> $form
 
-Add a =foswikiStrikeOne= double submission onsubmit handler to a form.
+Add a double submission onsubmit handler to a form.
    * =$form= - the opening tag of a form, ie. &lt;form ...&gt;=
 The handler will be added to an existing on submit, or by adding a new
 onsubmit in the form tag.
@@ -116,9 +116,9 @@ onsubmit in the form tag.
 sub addOnSubmit {
     my ($form) = @_;
     unless ( $form =~
-        s/\bonsubmit=(["'])((?:\s*javascript:)?)(.*)\1/onsubmit=${1}${2}foswikiStrikeOne(this);$3$1/i )
+        s/\bonsubmit=(["'])((?:\s*javascript:)?)(.*)\1/onsubmit=${1}${2}StrikeOne.submit(this);$3$1/i )
     {
-        $form =~ s/>$/ onsubmit="foswikiStrikeOne(this)">/;
+        $form =~ s/>$/ onsubmit="StrikeOne.submit(this)">/;
     }
     return $form;
 }

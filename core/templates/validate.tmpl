@@ -5,9 +5,11 @@
 %TMPL:DEF{"pagetitle"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] validation)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%<div class="foswikiFormStep">
+%TMPL:DEF{"title"}%<div style="display:none" class="foswikiFormStep s1js_available">
 ---++ %MAKETEXT{"Warning! Confirmation required"}%
-</div><!-- /foswikiFormStep-->%TMPL:END%
+</div><div class="foswikiFormStep s1js_missing">
+---++ %MAKETEXT{"Change cannot be completed"}%
+</div>%TMPL:END%
 
 %TMPL:DEF{"note"}%<div class="foswikiFormStep">
 <p>
@@ -16,9 +18,16 @@
 <p>
 %MAKETEXT{"There is a risk that someone may be trying to use your identity to change content on [_1] without your knowledge." args="<nop>%WIKITOOLNAME%"}%
 </p>
-
+<div class="s1js_missing">
+%RED% %MAKETEXT{"You cannot manually confirm this change because either Cookies or Javascript are disabled in your browser."}% %ENDCOLOR%
+</div>
+<div class="s1js_missing">
+%MAKETEXT{"Go back to the previous page, and enable Cookies and Javascript before trying again"}%
+</div>
+<div class="s1js_available" style="display:none">
    * %MAKETEXT{"Press OK to confirm that this change was intentional."}%
    * %MAKETEXT{"Press Cancel otherwise."}%
+</div>
 <p>
 %MAKETEXT{"If you are unsure what this means, read:"}%
 <a href="http://foswiki.org/Support/WhyYouAreAskedToConfirm" class="foswikiPopUp">
@@ -31,7 +40,7 @@
 %TMPL:DEF{"formend"}%<literal>
 <input type="hidden" name="foswikioriginalquery" value="%URLPARAM{foswikioriginalquery}%" /><input type="hidden" name="foswikiloginaction" value="validate" /></form>%TMPL:END%
 
-%TMPL:DEF{"action"}%<div class="foswikiFormStep"><input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"OK"}%' /> <input name="response" tabindex='5' type='submit' class='foswikiButtonCancel' value='%MAKETEXT{"Cancel"}%' /></div><!-- /foswikiFormStep-->%TMPL:END%
+%TMPL:DEF{"action"}%<div style="display:none" class="foswikiFormStep s1js_available"><input name="response" tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"OK"}%' /> <input name="response" tabindex='5' type='submit' class='foswikiButtonCancel' value='%MAKETEXT{"Cancel"}%' /></div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"form"}%<div id="foswikiLogin">
 <div class="foswikiFormSteps">%TMPL:P{"formstart"}%
