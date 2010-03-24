@@ -17,8 +17,12 @@ sub new {
     # Establish where we are
     my $wd = Cwd::cwd();
 
+    #SMELL:   This module really tests Configure::Dependency - nothing
+    #         to do with extender.pl.   This whole block can be commented
+    #         out and everything still tests okay.
     chdir "$Foswiki::cfg{ToolsDir}/..";             # extender.pl needs this
 
+    local @ARGV;
     unless ( my $return = do "tools/extender.pl" ) {
         my $message = "Could not load extender.pl: ";
 

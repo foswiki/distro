@@ -4,8 +4,6 @@ package Foswiki::Configure::Util;
 
 use strict;
 
-my $br = '';
-
 sub getScriptName {
     my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );
     my $scriptName = pop(@script);
@@ -271,8 +269,7 @@ sub _zip {
     unless ($@) {
         my $zip = Archive::Zip->new($archive);
         unless ($zip) {
-            print "Could not open zip file $archive $br\n";
-            return 0;
+            return "Could not open zip file $archive\n";
         }
 
         my @members = $zip->members();
@@ -283,19 +280,16 @@ sub _zip {
             my $err = $zip->extractMember( $file, $target );
             if ($err) {
                 print "Failed to extract '$file' from zip file ",
-                  $zip, ". Archive may be corrupt.$br\n";
+                  $zip, ". Archive may be corrupt.\n";
                 return 0;
             }
         }
     }
     else {
-        print
-"Archive::Zip is not installed; trying unzip on the command line$br\n";
-        print `unzip $archive`;
+        print `zip -r $archive`;
 
-        if ($!) {
-            print "unzip failed: $!$br\n";
-            return 0;
+        if ($?) {
+            return "zip failed: $!\n";
         }
     }
 
@@ -311,16 +305,13 @@ sub _tar {
         my $rslt = Archive::Tar->create_archive( $archive, 'COMPRESS_GZIP', @$files );
     }
     else {
-        print
-"Archive::Tar is not installed; trying tar on the command-line$br\n";
 #        my $results .= `tar -czv -C "$name" -f "$name.tar" .`;
-        if ($!) {
-            print "tar failed: $!\n";
-            return 0;
+        if ($?) {
+            return "tar failed: $!\n";
         }
     }
 
-    return 1;
+    return ;
 }
 
 =begin TML
@@ -335,19 +326,20 @@ to a temporary directory, the name of which is returned.
 sub unpackArchive {
     my ( $name, $dir ) = @_;
   
-    $br = (caller =~ /^Foswiki::Extender/)? '' : '<br />';
-
     $dir ||= File::Temp::tempdir( CLEANUP => 1 );
     my $here = Cwd::getcwd();
     $here =~ /(.*)/; $here = $1;    # untaint current dir name
     chdir($dir);
-    my $error = '';
-    unless ( $name =~ /(\.zip)/i && _unzip($name)
-        || $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && _untar($name) )
-    {
-        $dir = undef;
-        $error = "Failed to unpack archive $name $br\n";
+    my $error = "Failed to unpack archive $name\n";
+
+    if ($name =~ /(\.zip)/i) {
+        $error = _unzip($name);
+    } else {
+        if ( $name =~ /(\.tar\.gz|\.tgz|\.tar)/ ) {
+            $error = _untar($name); 
+        }
     }
+    $dir = undef if ($error);
     chdir($here);
 
     return ($dir, $error);
@@ -360,8 +352,7 @@ sub _unzip {
     unless ($@) {
         my $zip = Archive::Zip->new($archive);
         unless ($zip) {
-            print "Could not open zip file $archive $br\n";
-            return 0;
+            return "Could not open zip file $archive\n";
         }
 
         my @members = $zip->members();
@@ -371,31 +362,27 @@ sub _unzip {
             my $target = $file;
             my $err = $zip->extractMember( $file, $target );
             if ($err) {
-                print "Failed to extract '$file' from zip file ",
-                  $zip, ". Archive may be corrupt.$br\n";
-                return 0;
+                return "Failed to extract '$file' from zip file ",
+                  $zip, ". Archive may be corrupt.\n";
             }
         }
     }
     else {
-        print
-"Archive::Zip is not installed; trying unzip on the command line$br\n";
-        print `unzip $archive`;
+        my $out = `unzip -n $archive`;
 
         # On certain older versions of perl / unzip it seems the unzip results
         # in an illegal seek error. But running the same command again often
         # goes well. Seems like the 2nd pass works because the subdirectories
         # are then created. A hack but it seems to work.
-        if ($!) {
-            print `unzip $archive`;
-            if ($!) {
-                print "unzip failed: $!$br\n";
-                return 0;
+        if ($?) {
+            `unzip -n $archive`;
+            if ($?) {
+                return "unzip failed: $!\n";
             }
         }
     }
 
-    return 1;
+    return;
 }
 
 sub _untar {
@@ -408,31 +395,26 @@ sub _untar {
     unless ($@) {
         my $tar = Archive::Tar->new( $archive, $compressed );
         unless ($tar) {
-            print "Could not open tar file $archive $br\n";
-            return 0;
+            return "Could not open tar file $archive\n";
         }
 
         my @members = $tar->list_files();
         foreach my $file (@members) {
             my $err = $tar->extract($file);
             unless ($err) {
-                print 'Failed to extract ', $file, ' from tar file ',
-                  $tar, ". Archive may be corrupt.$br\n";
-                return 0;
+                return 'Failed to extract ', $file, ' from tar file ',
+                  $tar, ". Archive may be corrupt.\n";
             }
         }
     }
     else {
-        print
-"Archive::Tar is not installed; trying tar on the command-line$br\n";
-        print `tar xvf$compressed $archive`;
-        if ($!) {
-            print "tar failed: $!\n";
-            return 0;
+        `tar xvf$compressed $archive`;
+        if ($?) {
+            return "tar failed: $? -  $!\n";
         }
     }
 
-    return 1;
+    return;
 }
 
 =begin TML

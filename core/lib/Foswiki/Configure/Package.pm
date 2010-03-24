@@ -566,6 +566,24 @@ sub loadInstaller {
 
 =begin TML
 
+---++ ObjectMethod Manifest ()
+Return the manifest in printable format
+
+=cut
+
+sub Manifest {
+    my ($this)  = @_;
+    my $rslt = '';
+
+    foreach my $file ( sort keys( % {$this->{_manifest}} ) ) {
+        next if ($file eq 'ATTACH');
+        $rslt .=  "$file $this->{_manifest}->{$file}->{perms} $this->{_manifest}->{$file}->{md5} $this->{_manifest}->{$file}->{desc}\n";
+        }
+    return $rslt;
+}
+
+=begin TML
+
 ---++ _parseManifest ( $line, $v2)
 Parse the manifest line into the manifest hash.  If $v2 is
 true, use the version 2 format containing the MD5 sum of 
@@ -701,7 +719,8 @@ sub _validatePerlModule {
 ---++ ObjectMethod checkDependencies ()
 Checks the dependencies listed for this module.  Returns two "reports";
 Installed dependencies and Missing dependencies.   It also returns a 
-list of Foswiki package names that might be installed.
+list of Foswiki package names that might be installed and a list of the
+CPAN modules that could be installed.
 
 =cut
 
@@ -709,27 +728,34 @@ sub checkDependencies {
     my $this = shift;
     my $installed = '';
     my $missing = ''; 
-    my @install;
+    my @wiki;
     my @cpan;
+    my @manual;
 
     foreach my $dep ( @{$this->{_dependency}}  ) {
         my ($ok, $msg) =  $dep->check() ;
         if ($ok) {
             $installed .= "$msg\n";
+            next;
+        }
+
+        $missing .= "$msg\n";
+        if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
+            my $type     = $1;
+            my $pack     = $2;
+            my $packname = $3;
+            $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
+            $dep->{name} = $packname;
+            push( @wiki, $dep );
+            next;
+        }
+        if ( $dep->{type} eq 'cpan')  {
+            push ( @cpan, $dep );
         } else {
-            $missing .= "$msg\n";
-            if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
-                my $type     = $1;
-                my $pack     = $2;
-                my $packname = $3;
-                $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
-                $dep->{name} = $packname;
-                push( @install, $packname );
-             }
-             push ( @cpan, $dep->{module} ) if ( $dep->{type} eq 'cpan' );
+            push ( @manual, $dep );
         }
     }
-    return ($installed, $missing,  @install, @cpan);
+    return ($installed, $missing,  @wiki, @cpan, @manual);
 
 }
 

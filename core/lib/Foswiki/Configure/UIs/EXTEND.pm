@@ -128,6 +128,7 @@ MESS
     $feedback .= "$error<br />\n" if $error;
     
     my @names = Foswiki::Configure::Util::listDir($dir);
+    my @plugins;
     
     # install the contents
     my $installScript = undef;
@@ -139,7 +140,9 @@ MESS
             if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
                 $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
             }
-        }
+            my ($plugName) = $file =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
+            push (@plugins,  $plugName) if $plugName;
+            }
         $feedback .= "<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
         unless ($installScript) {
             $feedback .= $this->WARN("No installer script found in archive");
@@ -214,47 +217,6 @@ MESS
         return 0;
     }
 
-
-    if ( $installScript && -e $installScript ) {
-        
-        # invoke the installer script.
-        # SMELL: Not sure yet how to handle
-        # interaction if the script ignores -a. At the moment it
-        # will just hang :-(
-        chdir( $this->{root} );
-        unshift( @ARGV, '-a' );    # don't prompt
-        unshift( @ARGV, '-d' );    # yes, you can download
-        unshift( @ARGV, '-u' );    # already unpacked
-        unshift( @ARGV, '-c' );    # do not use CPAN
-        # Note: -r not passed to the script, so it will _not_ try to
-        # re-use existing archives found on disc to resolve dependencies.
-        $feedback .= "Running <code>$installScript</code>...<br />";
-        # Remove the functions from the package, in case of multiple installations
-        for ( qw( preinstall postinstall preuninstall postuninstall ) ) {
-            delete $Foswiki::{$_};
-        }
-        print '<!--';
-        do $installScript;
-        print '-->';
-        if ($@) {
-            $feedback .=  $this->ERROR( $@ );
-            _printFeedback($feedback);
-            return;
-        }
-        if ($@) {
-            $feedback .= $this->ERROR(<<HERE);
-Installer returned errors:
-<pre>$@</pre>
-You may be able to resolve these errors and complete the installation
-from the command line, so I will leave the installed files where they are.
-HERE
-        }
-        else {
-            # OK
-            $feedback .= $this->NOTE("Installer ran without errors");
-        }
-        chdir( $this->{bin} );
-    }
     
     if ( $this->{warnings} ) {
         $feedback .= $this->NOTE( "Installation finished with $this->{errors} error"
@@ -266,18 +228,17 @@ HERE
         # OK
         $feedback .= $this->NOTE_OK( 'Installation finished' );
     }
-    unless ($installScript) {
-        $feedback .= $this->WARN(<<HERE);
-You should test this installation very carefully, as there is no installer
-script. This suggests that $arf may have been generated manually, and may
-require further manual configuration.
-HERE
-    }
-    if ( $extension =~ /Plugin$/ ) {
+
+    if ( scalar @plugins ) {
         $feedback .= $this->NOTE(<<HERE);
 Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
 HERE
+        $feedback .= "<pre>";
+        foreach my $plugName (@plugins) {
+            $feedback .= "$plugName \n" if $plugName;
+        }
+        $feedback .= "</pre>";
     }
     _printFeedback($feedback);
 }

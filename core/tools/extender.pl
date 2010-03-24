@@ -44,8 +44,8 @@ my $reuseOK         = 0;
 my $inactive        = 0;
 my $nocpan          = 0;
 my $action          = 'install';  # Default target is install
-my $running_from_configure;
 my $session;
+my $thispkg;         # Package object for THIS module
 my %available;
 my $lwp;
 my @archTypes = ( '.tgz', '.tar.gz', '.zip' );
@@ -55,33 +55,15 @@ my $PACKAGES_URL;
 my $MANIFEST;
 
 sub _inform {
-    if ($running_from_configure) {
-        print "<div class='configureInfo'>",@_,"</div>\n";
-    } else {
         print @_,"\n";
-    }
 }
 
 sub _warn {
-    if ($running_from_configure) {
-        print '<div class="foswikiAlert configureWarn">',
-          '<span><strong>Warning:</strong>',
-            join( " ", @_ ),
-              '</span></div>';
-    } else {
         print "*WARNING* ",@_,"\n";
-    }
 }
 
 sub _shout {
-    if ($running_from_configure) {
-        print '<div class="foswikiAlert configureError">',
-          '<span><strong>Error:</strong>',
-            join( " ", @_ ),
-              '</span></div>';
-    } else {
         print "### ERROR ### ",@_,"\n";
-    }
 }
 
 sub _stop {
@@ -98,23 +80,11 @@ $downloadOK = $opts{d};
 $reuseOK = $opts{r};
 $inactive = $opts{n};
 $alreadyUnpacked = $opts{u};
-$running_from_configure = $opts{o};
 if( @ARGV > 1 ) {
     usage();
     _stop( 'Too many parameters: ' . join(" ", @ARGV) );
 }
 $action = $ARGV[0] if $ARGV[0];
-
-# Check if we were invoked from configure
-# by looking at the call stack
-my $i = 0;
-while ( my $caller = caller( ++$i ) ) {
-    if ( $caller =~ /^Foswiki::Configure::UIs::EXTEND$/ ) {
-        $running_from_configure = 1;
-        $noconfirm = 1;
-        last;
-    }
-}
 
 $installationRoot = Cwd::getcwd();
 
@@ -125,14 +95,6 @@ $installationRoot = $1;
 my $check_perl_module = sub {
     my $module = shift;
     
-    if ( $module =~ /^CPAN/ ) {
-
-        # Check how we were invoked as CPAN shouldn't
-        # be loaded from configure
-        if ($running_from_configure) {
-            return $available{$module} = 0;
-        }
-    }
     if ( eval "require $module" ) {
         $available{$module} = 1;
     }
@@ -181,6 +143,7 @@ if ( &$check_perl_module('LWP') ) {
 # Can't do this until we have setlib.cfg
 require Foswiki::Configure::Dependency;
 require Foswiki::Configure::Util;
+require Foswiki::Configure::Package;
 
 
 # Satisfy dependencies on modules, by checking:
@@ -231,7 +194,7 @@ DONE
         }
     }
 
-    if ( $dep->{type} eq 'cpan' && $available{CPAN} && !$nocpan ) {
+    if ( $dep->{type} =~ m/cpan/i && $available{CPAN} && !$nocpan ) {
         _inform <<'DONE';
 This module is available from the CPAN archive (http://www.cpan.org). You
 can download and install it from here. The module will be installed
@@ -355,16 +318,14 @@ sub getComponent {
                 if ( -e $f ) {
                     my @st      = stat($f);
                     my $credate = localtime( $st[9] );
-                    if (!$running_from_configure) {
-                        print <<HERE;
+                    print <<HERE;
 $f exists on this machine; would you like me to use it?
 It was created on $credate.
 If not, I will try to download a new one.
 HERE
-                        if ( ask("Use existing $f?") ) {
-                            print "Got a local $what from $f\n";
-                            return $f;
-                        }
+                    if ( ask("Use existing $f?") ) {
+                        print "Got a local $what from $f\n";
+                        return $f;
                     }
                 }
             }
@@ -433,6 +394,15 @@ sub getInstaller {
     return getComponent( $module, ['_installer'], 'installer' );
 }
 
+sub _loadInstaller {
+    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
+    my ($rslt, $err) = $thispkg->loadInstaller();
+
+    _warn "$rslt" if ($rslt);
+    _stop "$err" if ($err);
+}
+
+
 # install a package by running the installer
 sub installPackage {
     my ($module) = @_;
@@ -446,7 +416,6 @@ sub installPackage {
         push @cmd, '-r' if $reuseOK;
         push @cmd, '-n' if $inactive;
         push @cmd, '-c' if $nocpan;
-        push @cmd, '-o' if $running_from_configure;
         push @cmd, 'install';
         local $| = 0;
 
@@ -468,27 +437,25 @@ sub installPackage {
 I cannot locate an installer for $module.
 $module may not have been designed to be installed with this installer.
 HERE
-        if (!$running_from_configure) {
-            _warn <<HERE;
+        _warn <<HERE;
 I might be able to download and unpack a simple archive, but you will
 have to satisfy the dependencies and finish the install of it yourself,
 as per the instructions for $module.
 HERE
-            my $ans = ask("Would you like me to try to get an archive of $module?");
-            return 0 unless ($ans);
-            my $arch = getArchive($module);
-            unless ($arch) {
-                _shout <<HERE;
+        my $ans = ask("Would you like me to try to get an archive of $module?");
+        return 0 unless ($ans);
+        my $arch = getArchive($module);
+        unless ($arch) {
+            _shout <<HERE;
 Cannot locate an archive for $module; installation failed.
 HERE
-                return 0;
-            }
-
-            # Unpack the archive in place. Don't bother trying to
-            # look for a MANIFEST or run the installer script - it
-            # was probably packaged by an amateur.
-            unpackArchive( $arch, $installationRoot );
+            return 0;
         }
+
+        # Unpack the archive in place. Don't bother trying to
+        # look for a MANIFEST or run the installer script - it
+        # was probably packaged by an amateur.
+        unpackArchive( $arch, $installationRoot );
         return 0;
     }
 
@@ -499,43 +466,34 @@ HERE
 sub _uninstall {
     my $file;
     my @dead;
+    my $rslt = '';
+    my $err = '';
 
-    require Foswiki::Configure::Package;
-
-    my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
-    my ($rslt, $err) = $pkg->loadInstaller();
-
-    _inform "$rslt" if ($rslt);
-
-    $rslt = $pkg->createBackup();
+    $rslt = $thispkg->createBackup();
 
     _inform "$rslt";
    
-    @dead = $pkg->uninstall('1') unless ($err);
+    @dead = $thispkg->uninstall('1') unless ($err);
 
     unless ( $#dead > 1 ) {
         _warn "No part of $MODULE is installed";
         return 0;
     }
     _warn "To uninstall $MODULE, the following files will be deleted:";
-    if ($running_from_configure) {
-        _inform "<ul><li>" . join( "</li><li>", @dead )."</li></ul>";
-    } else {
-        _inform "\t" . join( "\n\t", @dead );
-    }
+    _inform "\t" . join( "\n\t", @dead );
 
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
    
-        $pkg->preuninstall() if (defined $pkg->preinstall);
+        $thispkg->preuninstall() if (defined $thispkg->preinstall);
 
-        @dead = $pkg->uninstall() ;
+        @dead = $thispkg->uninstall() ;
 
-        $pkg->postuninstall() if (defined $pkg->postuninstall);
+        $thispkg->postuninstall() if (defined $thispkg->postuninstall);
 
-        $pkg->finish();
-        undef $pkg;
+        $thispkg->finish();
+        undef $thispkg;
 
         _inform "$MODULE uninstalled";
     }
@@ -641,37 +599,30 @@ sub _install {
         }
 
         my ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($archive);
-        _inform "Archive unpacked";
+        _inform "Archive unpacked - ";
+        _warn $error if ($error);
         return 0 unless $tmpdir;
-        
-        require Foswiki::Configure::Package;
+       
+        my $rslt = '';
+        my $err = '';
 
-        my $pkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
-        my ($rslt, $err) = $pkg->loadInstaller();
-
-        _warn "$rslt" if ($rslt);
-
-        unless ($err) {
-
-            $rslt = $pkg->checkDependencies();
-
-            _inform "$rslt" if ($rslt);
-
-            $pkg->preinstall() if (defined $pkg->preinstall);
-
-            $rslt = $pkg->createBackup() ;
-
-            _inform "$rslt";
-
-            ($rslt, $err) = $pkg->install($tmpdir) unless ($err);
-
-            $pkg->postinstall() if (defined $pkg->postinstall);
-        }
-
-        $pkg->finish();
-        undef $pkg;
-
+        $rslt = $thispkg->createBackup() ;
         _inform "$rslt";
+        $rslt = '';
+
+        $rslt = $thispkg->preinstall() if (defined $thispkg->preinstall);
+        _inform "$rslt" if ($rslt);
+
+        ($rslt, $err) = $thispkg->install($tmpdir);
+        _inform "$rslt";
+        $rslt = '';
+
+        $rslt = $thispkg->postinstall() if (defined $thispkg->postinstall);
+        _inform "$rslt" if ($rslt);
+
+        $thispkg->finish();
+        undef $thispkg;
+
 
         _inform "$MODULE installed";
         _warn " INSTALL FAILED with errors $err" if ($err);
@@ -707,112 +658,33 @@ sub install {
     push( @_, '' ) if ( scalar(@_) & 1 );
     my %data = @_;
 
-#    foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
-#        my ( $file, $perms, $desc ) = split( ',', $row, 3 );
-#        $MANIFEST->{$file}->{ci} = ( $desc =~ /\(noci\)/ ? 0 : 1 );
-#        $MANIFEST->{$file}->{perms} = $perms;
-#    }
-
     my @deps;
-#    foreach my $row ( split( /\r?\n/, $data{DEPENDENCIES} ) ) {
-#        my ( $module, $condition, $trigger, $type, $desc ) =
-#          split( ',', $row, 5 );
-#        $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
-#        if ( $trigger eq '1' ) {
-#
-#            # ONLYIF is rare and dangerous
-##            push(
-#                @deps,
-#                new Foswiki::Configure::Dependency(
-#                    module      => $module,
-#                    type        => $type,
-#                    version     => $condition || 0,    # version condition
-##                    trigger     => 1,                  # ONLYIF condition
-#                    description => $desc
-#                )
-#            );
-#        }
-#        else {
-#
-##            # There is a ONLYIF condition, warn user
-##            _warn 'The script uses an ONLYIF condition'
-#              . ' which is potentially insecure: "'
-#              . $trigger . '"';
-#            if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
-#
-#                # It looks more or less safe
-#                push(
-#                    @deps,
-#                    new Foswiki::Configure::Dependency(
-#                        module      => $module,
-#                        type        => $type,
-##                        version     => $condition,    # version condition
-#                        trigger     => $1,            # ONLYIF condition
-#                        description => $desc
-#                    )
-###                );
-#            }
-#            else {
-##                _warn 'This ' . $trigger . ' condition does not look safe.';
-#                if ($running_from_configure) {
-#                    _shout <<DONE;
-#Disabling this as we were invoked from configure.
-#If you really want to install this module, do it from the command line.'
-#DONE
-#                }
-#                else {
-##                    my $reply = ask('Do you want to run it anyway?');
-#                    if ($reply) {
-#                        _inform 'OK...';
-#                        push(
-#                            @deps,
-#                            new Foswiki::Configure::Dependency(
-#                                module  => $module,
-#                                type    => $type,
-#                                version => $condition,    # version condition
-#                                trigger =>
-#                                  Foswiki::Sandbox::untaintUnchecked($1)
-#                                ,                         # ONLYIF condition
-#                                description => $desc
-#                            )
-#                        );
-#                    }
-#                }
-#            }
-#        }
-#    }
 
     unshift( @INC, 'lib' );
 
+    _loadInstaller();
+
     if ( $action eq 'manifest' ) {
-        foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
-            my ( $file, $perms, $desc ) = split( ',', $row, 3 );
-            _inform "$file $perms $desc";
-        }
+        _inform $thispkg->Manifest();
         exit 0;
     }
 
-#    if ( $action eq 'dependencies' ) {
-#        foreach my $dep (@deps) {
-#            if ( $dep->{trigger} && $dep->{trigger} != '1' ) {
-#                _inform "ONLYIF $dep->{trigger}";
-#            }
-#            _inform $dep->{module}, ', ',
-#              $dep->{version}, ', ',
-##                $dep->{type}, ', ',
-#3                  $dep->{description};
-#        }
-#        exit 0;
-#    }
+    if ( $action eq 'dependencies' ) {
+        my ($installed, $missing,  @wiki, @cpan, @manual) = $thispkg->checkDependencies();
 
-    if (!$running_from_configure) {
-        _inform "\n${MODULE} Installer";
-        _inform <<DONE;
+        _inform $installed;
+        _inform $missing;
+
+        exit 0;
+    }
+
+    _inform "\n${MODULE} Installer";
+    _inform <<DONE;
 This installer must be run from the root directory of your Foswiki
 installation.
 DONE
-        unless ($noconfirm) {
-            _inform <<DONE
+    unless ($noconfirm) {
+        _inform <<DONE
     * The script will not do anything without asking you for
       confirmation first (unless you used -a).
 DONE
@@ -822,9 +694,11 @@ DONE
     * If you answer 'no' to any questions you can always re-run
       the script again later
 DONE
-    }
 
     if ( $action eq 'install' ) {
+        my ($installed, $missing,  @wiki, @cpan, @manual) = $thispkg->checkDependencies();
+        push @deps, @wiki;
+        push @deps, @cpan;
         _install( \@deps, $rootModule );
     }
     elsif ( $action eq 'uninstall' ) {
