@@ -340,7 +340,7 @@ sub test_Util_mapTarget {
     my $saveSuffix  = $Foswiki::cfg{ScriptSuffix};
 
     my $saveTrash   = $Foswiki::cfg{TrashWebName};
-    #my $saveSandbox = $Foswiki::cfg{SandboxWebName};
+    my $saveSandbox = $Foswiki::cfg{SandboxWebName};
     my $saveUser    = $Foswiki::cfg{UsersWebName};
     my $saveSystem  = $Foswiki::cfg{SystemWebName};
 
@@ -402,17 +402,32 @@ sub test_Util_mapTarget {
 
 # Remap the SandboxWebName
 
-    #$Foswiki::cfg{SandboxWebName} = 'Litterbox';
+    $Foswiki::cfg{SandboxWebName} = 'Litterbox';
 
-    #$file = 'pub/Sandbox/Fizbin/Blah.gif';
-    #$results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
-    #$this->assert_str_equals( '/var/www/foswiki/public/Litterbox/Fizbin/Blah.gif', $results );
+    $file = 'pub/Sandbox/Fizbin/Blah.gif';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Litterbox/Fizbin/Blah.gif', $results );
 
-    #$file = 'data/Sandbox/Fizbin.txt';
-    #$results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
-    #$this->assert_str_equals( '/var/www/foswiki/storage/Litterbox/Fizbin.txt', $results );
+    $file = 'data/Sandbox/Fizbin.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Litterbox/Fizbin.txt', $results );
 
-    #$Foswiki::cfg{SandboxWebName} = 'Sandbox';
+    $Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+# Remap the SandboxWebName with Subweb
+
+    $Foswiki::cfg{SandboxWebName} = 'Litterbox';
+
+    $file = 'pub/Sandbox/Beta/Fizbin/Blah.gif';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/public/Litterbox/Beta/Fizbin/Blah.gif', $results );
+
+    $file = 'data/Sandbox/Beta/Fizbin.txt';
+    $results = Foswiki::Configure::Util::mapTarget("/var/www/foswiki/", "$file");
+    $this->assert_str_equals( '/var/www/foswiki/storage/Litterbox/Beta/Fizbin.txt', $results );
+
+    $Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
 
 # Remap topic names -  NotifyTopicName - default WebNotify
 
@@ -472,6 +487,126 @@ sub test_Util_mapTarget {
     $Foswiki::cfg{ToolsDir} = $saveTools;
     $Foswiki::cfg{ScriptDir} = $saveScript;
     $Foswiki::cfg{ScriptSuffix} = $saveSuffix;
+
+    $Foswiki::cfg{UsersWebName} = $saveUser;
+    $Foswiki::cfg{SystemWebName} = $saveSystem;
+    $Foswiki::cfg{TrashWebName} = $saveTrash;
+    #$Foswiki::cfg{SandboxWebName} = $saveSandbox;
+
+    $Foswiki::cfg{WebPrefsTopicName} = $savePrefs;
+    $Foswiki::cfg{NotifyTopicName} = $saveNotify;
+    $Foswiki::cfg{HomeTopicName} = $saveHome;
+    $Foswiki::cfg{MimeTypesFileName} = $saveMime;
+
+}
+
+#
+#  Tests for Configure::Util::getMappedWebTopic (Filename)
+#
+ 
+sub test_Util_getMappedWebTopic {
+
+    my $this = shift;
+
+    my $saveTrash   = $Foswiki::cfg{TrashWebName};
+    my $saveSandbox = $Foswiki::cfg{SandboxWebName};
+    my $saveUser    = $Foswiki::cfg{UsersWebName};
+    my $saveSystem  = $Foswiki::cfg{SystemWebName};
+
+    my $saveNotify  = $Foswiki::cfg{NotifyTopicName};
+    my $saveHome    = $Foswiki::cfg{HomeTopicName};
+    my $savePrefs   = $Foswiki::cfg{WebPrefsTopicName};
+    my $saveMime    = $Foswiki::cfg{MimeTypesFileName};
+
+    $Foswiki::cfg{TrashWebName} = $this->{trash_web};
+
+    my $wname = '';
+    my $tname = '';
+
+# Remap system web
+
+    $Foswiki::cfg{SystemWebName} = 'Fizbin';
+
+    my $file = 'data/System/System.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Fizbin', $wname );
+    $this->assert_str_equals( 'System', $tname );
+
+# Verify default Users and Main web names
+
+    $file = 'data/Users/Fizbin.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Main', $wname );
+    $this->assert_str_equals( 'Fizbin', $tname );
+
+# Remap the UsersWebName
+
+    $Foswiki::cfg{UsersWebName} = 'Blah';
+
+    $file = 'data/Main/Fizbin.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Blah', $wname );
+    $this->assert_str_equals( 'Fizbin', $tname );
+
+# Remap the SandboxWebName
+
+    $Foswiki::cfg{SandboxWebName} = 'Litterbox';
+
+    $file = 'data/Sandbox/Fizbin.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Litterbox', $wname );
+    $this->assert_str_equals( 'Fizbin', $tname );
+
+    $Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+# Remap the SandboxWebName with Subweb
+
+    $Foswiki::cfg{SandboxWebName} = 'Litterbox';
+
+    $file = 'data/Sandbox/Beta/Fizbin.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Litterbox/Beta', $wname );
+    $this->assert_str_equals( 'Fizbin', $tname );
+
+
+    $Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+
+# Remap topic names -  NotifyTopicName - default WebNotify
+
+    $Foswiki::cfg{NotifyTopicName} = 'TellMe';
+    $file = 'data/Sandbox/WebNotify.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Sandbox', $wname );
+    $this->assert_str_equals( 'TellMe', $tname );
+
+# Remap topic names -  HomeTopicName - default WebHome
+
+    $Foswiki::cfg{HomeTopicName} = 'HomePage';
+    $file = 'data/Sandbox/WebHome.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Sandbox', $wname );
+    $this->assert_str_equals( 'HomePage', $tname );
+
+# Remap topic names -  HomeTopicName - with Subweb and mapped web 
+
+    $Foswiki::cfg{SandboxWebName} = 'WorkArea';
+    $Foswiki::cfg{HomeTopicName} = 'HomePage';
+    $file = 'data/Sandbox/Testing/WebHome.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'WorkArea/Testing', $wname );
+    $this->assert_str_equals( 'HomePage', $tname );
+
+    $Foswiki::cfg{SandboxWebName} = 'Sandbox';
+    $Foswiki::cfg{HomeTopicName} = 'WebHome';
+
+# Remap topic names -  WebPrefsTopicName - default WebPreferences
+
+    $Foswiki::cfg{WebPrefsTopicName} = 'Settings';
+    $file = 'data/Sandbox/WebPreferences.txt';
+    ($wname, $tname) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'Sandbox', $wname );
+    $this->assert_str_equals( 'Settings', $tname );
 
     $Foswiki::cfg{UsersWebName} = $saveUser;
     $Foswiki::cfg{SystemWebName} = $saveSystem;
@@ -925,6 +1060,9 @@ sub test_Package {
     my $result = '';
     my $err = '';
 
+    my $savebox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
+    $Foswiki::cfg{SandboxWebName} = $this->{sandbox_web};
+
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
@@ -967,6 +1105,8 @@ Installed:  MyPlugin_installer
 
     $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
 
+
+
     my @mfiles = $pkg->files();
     $this->assert_num_equals( 5, scalar @mfiles, 'Unexpected number of files in manifest'); # 5 files in manifest
 
@@ -988,12 +1128,13 @@ Installed:  MyPlugin_installer
     ($result, $err) = $pkg2->install($tempdir);
 
     $expresult = "Installed:  data/Sandbox/TestTopic1.txt
-Checked in: data/Sandbox/TestTopic43.txt  as Sandbox.TestTopic43
-Attached:   pub/Sandbox/TestTopic43/file.att to Sandbox/TestTopic43
-Attached:   pub/Sandbox/TestTopic43/file2.att to Sandbox/TestTopic43
+Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43
+Attached:   pub/Sandbox/TestTopic43/file.att to $this->{sandbox_web}/TestTopic43
+Attached:   pub/Sandbox/TestTopic43/file2.att to $this->{sandbox_web}/TestTopic43
 Installed:  pub/Sandbox/TestTopic1/file.att
 Installed:  MyPlugin_installer
 ";
+
     my @ifiles2 = $pkg2->files('1');
 
     $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
@@ -1024,6 +1165,7 @@ Installed:  MyPlugin_installer
     undef $pkg2;
 
     rmtree($tempdir);
+    $Foswiki::cfg{SandboxWebName} = $savebox;
 
 }
 

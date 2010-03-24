@@ -67,6 +67,8 @@ names and also Web names.   The following mapping is performed:
 sub mapTarget {
     my $root = shift;
     my $file = shift;
+    # Workaround for Tasks.Item8744 feature proposal
+    my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
     foreach my $t qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
       ) {
@@ -85,11 +87,10 @@ sub mapTarget {
         return $file;
         }
 
-    # Waiting for Tasks.Item8744 feature proposal
-    #if ( $Foswiki::cfg{SandboxWebName} ne 'Sandbox' ) {
-    #    $file =~ s#^data/Sandbox/#data/$Foswiki::cfg{SandboxWebName}/#;
-    #    $file =~ s#^pub/Sandbox/#pub/$Foswiki::cfg{SandboxWebName}/#;
-    #}
+    if ( $sandbox ne 'Sandbox' ) {
+        $file =~ s#^data/Sandbox/#data/$sandbox/#;
+        $file =~ s#^pub/Sandbox/#pub/$sandbox/#;
+    }
 
     if ( $Foswiki::cfg{SystemWebName} ne 'System' ) {
         $file =~ s#^data/System/#data/$Foswiki::cfg{SystemWebName}/#;
@@ -119,6 +120,9 @@ sub mapTarget {
             $file =~ s#^pub/$w/#pub/$Foswiki::cfg{$w}/#;
         }
     }
+    $file =~ s#^data/Sandbox/#data/$sandbox/#;
+    $file =~ s#^pub/Sandbox/#pub/$sandbox/#;
+
 
     if ( $file =~ s#^data/#$Foswiki::cfg{DataDir}/# ) {
     }
@@ -145,6 +149,79 @@ sub mapTarget {
     return $file;
 }
 
+=begin TML
+
+---++ StaticMethod getMappedWebTopic( $file )
+Extract a mapped Web,TopicName from the default path from a topic in the manifest.
+(Works for topics, not attachments)
+
+Returns ($web, $topic) 
+
+---+++ Web names
+
+   * =SystemWebName=
+   * =TrashWebname=
+   * =UsersWebname=
+   * =SandboxWebName= ( Future - see  Foswikitask:Item8744 )
+
+---+++ Topic Names
+   * =NotifyTopicName=
+   * =HomeTopicName=
+   * =WebPrefsTopicName= 
+
+=cut
+
+
+sub getMappedWebTopic {
+    my $file = shift;
+
+    # Workaround for Tasks.Item8744 feature proposal
+    my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
+
+    foreach my $t qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+      ) {
+        my ($val, $def) = split( ':', $t);
+        if ( defined $Foswiki::cfg{$val} )
+        {
+            $file =~
+              s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
+        }
+      } 
+
+    if ( $sandbox ne 'Sandbox' ) {
+        $file =~ s#^data/Sandbox/#$sandbox/#;
+    }
+
+    if ( $Foswiki::cfg{SystemWebName} ne 'System' ) {
+        $file =~ s#^data/System/#$Foswiki::cfg{SystemWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{TrashWebName} ne 'Trash' ) {
+        $file =~ s#^data/Trash/#$Foswiki::cfg{TrashWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{UsersWebName} ne 'Main' ) {
+        $file =~ s#^data/Main/#$Foswiki::cfg{UsersWebName}/#;
+    }
+
+    if ( $Foswiki::cfg{UsersWebName} ne 'Users' ) {
+        $file =~ s#^data/Users/#$Foswiki::cfg{UsersWebName}/#;
+    }
+
+    # Canonical symbol mappings
+    #foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
+    foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
+        if ( defined $Foswiki::cfg{$w} ) {
+            $file =~ s#^data/$w/#$Foswiki::cfg{$w}/#;
+        }
+    }
+    $file =~ s#^data/Sandbox/#$sandbox/#;
+
+    my ($tweb, $ttopic) = $file =~ /^(.*)\/(\w+).txt$/;
+
+
+    return ($tweb, $ttopic);
+}
 
 =begin TML
 

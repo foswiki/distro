@@ -40,6 +40,7 @@ use strict;
 use Error qw(:try);
 use Assert;
 use Foswiki::Configure::Dependency;
+use Foswiki::Configure::Util;
 
 our $VERSION = '$Rev: 6590 $';
 
@@ -200,7 +201,8 @@ sub install {
 
             # Topic files in the data directory needing Checkin
             if ( $file =~ m/^data/ && (-e "$target,v" || (-e "$target" && $ci ) ) ) {
-                my ($tweb, $ttopic) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+                my ($web, $topic) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+                my ($tweb, $ttopic) = Foswiki::Configure::Util::getMappedWebTopic($file);
 
                 my %opts;
                 $opts{forcenewrevision} = 1;
@@ -214,7 +216,7 @@ sub install {
                 if ($contents) {
                     $results .= "Checked in: $file  as $tweb.$ttopic\n";
                     my $meta = Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
-                    $results .= _installAttachments($this, $dir, "$tweb/$ttopic", $meta, $manifest );
+                    $results .= _installAttachments($this, $dir,"$web/$topic", "$tweb/$ttopic", $meta );
                     $meta->saveAs ( $tweb, $ttopic, %opts );
                 }
                 next;
@@ -247,8 +249,8 @@ sub _installAttachments {
     my $this = shift;
     my $dir = shift;
     my $webTopic = shift;
+    my $twebTopic = shift;
     my $meta = shift;
-    my $manifest = shift;
     my $results = '';
 
     foreach my $key ( keys %{ $this->{_manifest}->{ATTACH}->{$webTopic} } ) {
@@ -266,7 +268,7 @@ sub _installAttachments {
             $opts{filesize} = $stats[7];
             $opts{filedate} = $stats[9];
             $meta->attach (%opts);
-            $results .= "Attached:   $file to $webTopic\n";
+            $results .= "Attached:   $file to $twebTopic\n";
             }
         }
     return $results;
