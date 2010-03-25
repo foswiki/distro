@@ -695,6 +695,7 @@ lib/Foswiki/Query/OP_gt.pm 0444
 lib/Foswiki/Query/OP_lc.pm 0444
 lib/Foswiki/Query/OP_length.pm 0444
 lib/Foswiki/Query/OP_like.pm 0444
+lib/Foswiki/Query/OP_match.pm 0444
 lib/Foswiki/Query/OP_lte.pm 0444
 lib/Foswiki/Query/OP_lt.pm 0444
 lib/Foswiki/Query/OP_ne.pm 0444
