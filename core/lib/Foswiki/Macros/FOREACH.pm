@@ -20,7 +20,6 @@ sub FOREACH {
 #    $params->{footer}      = ''  unless ( $params->{footer} );
     my $s;
     try {
-        my $webObject = Foswiki::Meta->new( $this, $params->{baseweb} );
         my $topicString = $params->{_DEFAULT} || '';
         #from Search::_makeTopicPattern (plus an added . to allow web.topic)
         my @topics = map { s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
@@ -29,7 +28,7 @@ sub FOREACH {
         my $query;  #query node
         require Foswiki::Search::InfoCache;
         my $infoCache = new Foswiki::Search::InfoCache($this, $params->{baseweb}, \@topics);
-        my ( $ttopics, $searchResult, $tmplTail ) = $this->search->formatResults($webObject, $query, $infoCache, $params);
+        my ( $ttopics, $searchResult, $tmplTail ) = $this->search->formatResults($query, $infoCache, $params);
         $s = $searchResult;
     }
     catch Error::Simple with {

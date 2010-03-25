@@ -289,24 +289,6 @@ sub searchWeb {
 
     $params{type} = 'regex' if ( $params{regex} );
 
-    my $mixedAlpha = $Foswiki::regex{mixedAlpha};
-    my $separator  = $params{separator};
-    if ( defined($separator) ) {
-        $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
-        $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
-    }
-    $params{separator} = $separator;
-    my $newLine = $params{newline} || '';
-    if ($newLine) {
-        $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
-        $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
-    }
-
-    # A value of 'all' or 'on' by itself gets all webs,
-    # otherwise ignored (unless there is a web called 'All'.)
-    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
-
 ###################the search
     my $query = $this->parseSearch($searchString, \%params );
 #setting the inputTopicSet to be undef allows the search/query algo to use
@@ -334,37 +316,30 @@ sub searchWeb {
         &$callback( $cbdata, $tmplSearch );
     }
 
-    # Loop through webs
-    my $ttopics = 0;
     my $prefs   = $session->{prefs};
-#    foreach my $web (@webs) {
-#        if ( $params{noempty} && !$infoCache->hasNext() ) {
-#            next;    # Nothing to show for this web
-#        }
+      
+    #TODO: quick hackjob - see what the feature proposal gives before it becomes public
+    $params{partition_output} = 'web';
 
-     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-#        &$callback( $cbdata, $separator )
-#          if ( ( $ttopics > 0 ) and $noFooter and $noSummary and $separator );
-
-        my $webObject;# = Foswiki::Meta->new( $session, $web );
-        
-        #TODO: quick hackjob - see what the feature proposal gives before it becomes public
-        $params{partition_output} = 'web';
-
-        my ( $web_ttopics, $web_searchResult );
-        ( $web_ttopics, $web_searchResult ) =
-          $this->formatResults( $webObject, $query, $infoCache, \%params );
-
-        $ttopics += $web_ttopics;
-
-#        #paging
-#        if ( defined($showpage) and $params{pager_show_results_to} > 0 ) {
-#            $params{pager_show_results_to} -= $web_ttopics;
-#            last if ( $params{pager_show_results_to} <= 0 );
-#        }
-#    }    # end of: foreach my $web ( @webs )
+    my ( $numberOfResults, $web_searchResult ) =
+      $this->formatResults( $query, $infoCache, \%params );
 
     return if ( defined $params{_callback} );
+
+
+#TODO: this code ($separator and $newLine) used to be a long way higher, and the processing might still be needed?
+    my $mixedAlpha = $Foswiki::regex{mixedAlpha};
+    my $separator  = $params{separator};
+    if ( defined($separator) ) {
+        $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
+        $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
+    }
+    $params{separator} = $separator;
+    my $newLine = $params{newline} || '';
+    if ($newLine) {
+        $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
+        $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
+    }
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
     if ( $formatDefined && !$finalTerm ) {
@@ -486,11 +461,9 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 =cut
 
 sub formatResults {
-    my ( $this, $webObject__GONE, $query, $infoCache, $params ) = @_;
+    my ( $this, $query, $infoCache, $params ) = @_;
     my $session            = $this->{session};
     my $users              = $session->{users};
-#    my $web                = $webObject->web;
-#    my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
     my ( $callback, $cbdata ) = setup_callback($params);
 
