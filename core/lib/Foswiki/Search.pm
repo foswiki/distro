@@ -62,16 +62,15 @@ sub finish {
     undef $this->{session};
 
 # these may well be function objects, but if (a setting changes, it needs to be picked up again.
-    if ( defined($this->{queryParser}) ) {
+    if ( defined( $this->{queryParser} ) ) {
         $this->{queryParser}->finish();
         undef $this->{queryParser};
     }
-    if ( defined($this->{searchParser}) ) {
+    if ( defined( $this->{searchParser} ) ) {
         $this->{searchParser}->finish();
         undef $this->{searchParser};
     }
 }
-
 
 =begin TML
 
@@ -84,23 +83,24 @@ TODO: make parser register themselves with their type, so that we could plug in 
 =cut
 
 sub parseSearch {
-    my $this = shift;
+    my $this         = shift;
     my $searchString = shift;
-    my $params = shift;
+    my $params       = shift;
 
     my $query;
     my $theParser;
     if ( $params->{type} eq 'query' ) {
-        unless ( defined($this->{queryParser}) ) {
+        unless ( defined( $this->{queryParser} ) ) {
             require Foswiki::Query::Parser;
             $this->{queryParser} = new Foswiki::Query::Parser();
         }
         $theParser = $this->{queryParser};
     }
     else {
-        unless ( defined($this->{searchParser}) ) {
+        unless ( defined( $this->{searchParser} ) ) {
             require Foswiki::Search::Parser;
-            $this->{searchParser} = new Foswiki::Search::Parser($this->{session});
+            $this->{searchParser} =
+              new Foswiki::Search::Parser( $this->{session} );
         }
         $theParser = $this->{searchParser};
     }
@@ -114,7 +114,6 @@ sub parseSearch {
     };
     return $query;
 }
-
 
 sub _extractPattern {
     my ( $text, $pattern ) = @_;
@@ -194,8 +193,7 @@ sub searchWeb {
     ASSERT( defined $session->{webName} ) if DEBUG;
     my %params = @_;
 
-    my $baseWebObject =
-      Foswiki::Meta->new( $session, $session->{webName} );
+    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
 
     my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 
@@ -218,19 +216,19 @@ sub searchWeb {
          $params{pagesize}
       || $Foswiki::cfg{Search}{DefaultPageSize}
       || 25;
-      
+
     require Digest::MD5;
     my $string_id = $params{_RAW} || 'we had better not go there';
-    my $paging_ID = 'SEARCH'.Digest::MD5::md5_hex($string_id);
+    my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
     $params{pager_urlparam_id} = $paging_ID;
-    
+
     # 1-based system; 0 is not a valid page number
     my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
-    
-    if (defined($params{pagesize}) or defined($showpage) ) {
+
+    if ( defined( $params{pagesize} ) or defined($showpage) ) {
         $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
         $params{pager_show_results_to} = $pagesize;
-        if (!defined($showpage)) {
+        if ( !defined($showpage) ) {
             $showpage = 1;
         }
     }
@@ -280,17 +278,18 @@ sub searchWeb {
         $params{wordboundaries} = 1;
     }
 
-    my $webNames = $params{web}       || '';
-    my $date    = $params{date}      || '';
-    my $recurse = $params{'recurse'} || '';
-    my $finalTerm = $params{nofinalnewline} || 0 ;
+    my $webNames  = $params{web}            || '';
+    my $date      = $params{date}           || '';
+    my $recurse   = $params{'recurse'}      || '';
+    my $finalTerm = $params{nofinalnewline} || 0;
 
     $baseWeb =~ s/\./\//go;
 
     $params{type} = 'regex' if ( $params{regex} );
 
 ###################the search
-    my $query = $this->parseSearch($searchString, \%params );
+    my $query = $this->parseSearch( $searchString, \%params );
+
 #setting the inputTopicSet to be undef allows the search/query algo to use
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
@@ -316,16 +315,15 @@ sub searchWeb {
         &$callback( $cbdata, $tmplSearch );
     }
 
-    my $prefs   = $session->{prefs};
-      
-    #TODO: quick hackjob - see what the feature proposal gives before it becomes public
+    my $prefs = $session->{prefs};
+
+#TODO: quick hackjob - see what the feature proposal gives before it becomes public
     $params{partition_output} = 'web';
 
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
 
     return if ( defined $params{_callback} );
-
 
 #TODO: this code ($separator and $newLine) used to be a long way higher, and the processing might still be needed?
     my $mixedAlpha = $Foswiki::regex{mixedAlpha};
@@ -345,10 +343,10 @@ sub searchWeb {
     if ( $formatDefined && !$finalTerm ) {
         if ($separator) {
             $separator = quotemeta($separator);
-            $searchResult =~ s/$separator$//s;    # remove separator at end
+            $searchResult =~ s/$separator$//s;       # remove separator at end
         }
         else {
-            $searchResult =~ s/\n$//os;           # remove trailing new line
+            $searchResult =~ s/\n$//os;              # remove trailing new line
         }
     }
 
@@ -390,7 +388,8 @@ sub loadTemplates {
         $template = 'search';
     }
     $tmpl = $session->templates->readTemplate($template);
-#print STDERR "}}} $tmpl {{{\n";
+
+    #print STDERR "}}} $tmpl {{{\n";
     # SMELL: the only META tags in a template will be METASEARCH
     # Why the heck are they being filtered????
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
@@ -462,8 +461,8 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 
 sub formatResults {
     my ( $this, $query, $infoCache, $params ) = @_;
-    my $session            = $this->{session};
-    my $users              = $session->{users};
+    my $session = $this->{session};
+    my $users   = $session->{users};
 
     my ( $callback, $cbdata ) = setup_callback($params);
 
@@ -500,75 +499,89 @@ sub formatResults {
     if ( defined( $params->{pager_show_results_to} )
         and $params->{pager_show_results_to} > 0 )
     {
-            $limit = $params->{pager_show_results_to};
+        $limit = $params->{pager_show_results_to};
 
-        #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
-            my $pagesize =
-                 $params->{pagesize}
-              || $Foswiki::cfg{Search}{DefaultPageSize}
-              || 25;
-              
-         #TODO: paging only implemented for SEARCH atm :/
-        my $paging_ID =$params->{pager_urlparam_id};
-        
+#paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
+        my $pagesize =
+             $params->{pagesize}
+          || $Foswiki::cfg{Search}{DefaultPageSize}
+          || 25;
+
+        #TODO: paging only implemented for SEARCH atm :/
+        my $paging_ID = $params->{pager_urlparam_id};
+
         # 1-based system; 0 is not a valid page number
-        my $showpage = $session->{request}->param($paging_ID) || $params->{showpage} || 1;
-            if ( defined($params->{pagesize}) or defined($showpage) ) {
-                if (!defined($showpage)) {
-                    $showpage = 1;
-                }
+        my $showpage =
+             $session->{request}->param($paging_ID)
+          || $params->{showpage}
+          || 1;
+        if ( defined( $params->{pagesize} ) or defined($showpage) ) {
+            if ( !defined($showpage) ) {
+                $showpage = 1;
             }
-            
-            #TODO: need to ask the result set
-            my $numberofpages = 666;
-            my $sep = ' ';
-            
-            my $nextidx = $showpage+1;
-            my $previousidx = $showpage-1; 
-            
-            my %new_params;
-            #kill me please, i can't find a way to just load up the hash :(
-            foreach my $key ($session->{request}->param) {
-                $new_params{$key} = $session->{request}->param($key);
-            }
-
-            $session->templates->readTemplate('searchformat');
-
-            my $previouspagebutton = '';
-            my $previouspageurl = '';
-            if ($previousidx >= 1) {
-                $new_params{$paging_ID} = $previousidx;
-                $previouspageurl = Foswiki::Func::getScriptUrl($baseWeb, $baseTopic, 'view', %new_params);
-                $previouspagebutton = $session->templates->expandTemplate('SEARCH:pager_previous');
-            }
-            my $nextpagebutton = '';
-            my $nextpageurl = '';
-            if ($nextidx <= $numberofpages) {
-                $new_params{$paging_ID} = $nextidx;
-                $nextpageurl = Foswiki::Func::getScriptUrl($baseWeb, $baseTopic, 'view', %new_params);
-                $nextpagebutton = $session->templates->expandTemplate('SEARCH:pager_next');
-            }
-        %pager_formatting = (
-            '\$previouspage' => sub { return $previousidx },
-            '\$currentpage' => sub { return $showpage },
-            '\$nextpage' => sub { return $showpage+1 },
-            '\$numberofpages' => sub { return 666 },
-            '\$pagesize' => sub { return $pagesize },
-            '\$previousurl' => sub { return $previouspageurl },
-            '\$nexturl' => sub { return $nextpageurl },
-            '\$sep' => sub { return $sep;}
-        );
-            
-            $previouspagebutton = $this->formatCommon($previouspagebutton, \%pager_formatting);
-            $pager_formatting{'\$previousbutton'} = sub {return $previouspagebutton};
-            
-            $nextpagebutton = $this->formatCommon($nextpagebutton, \%pager_formatting);
-            $pager_formatting{'\$nextbutton'} = sub {return $nextpagebutton};
-            
-            my $pager_control = $session->templates->expandTemplate('SEARCH:pager');
-            $pager_control = $this->formatCommon($pager_control, \%pager_formatting);
-            $pager_formatting{'\$pager'} = sub { return $pager_control;};
         }
+
+        #TODO: need to ask the result set
+        my $numberofpages = 666;
+        my $sep           = ' ';
+
+        my $nextidx     = $showpage + 1;
+        my $previousidx = $showpage - 1;
+
+        my %new_params;
+
+        #kill me please, i can't find a way to just load up the hash :(
+        foreach my $key ( $session->{request}->param ) {
+            $new_params{$key} = $session->{request}->param($key);
+        }
+
+        $session->templates->readTemplate('searchformat');
+
+        my $previouspagebutton = '';
+        my $previouspageurl    = '';
+        if ( $previousidx >= 1 ) {
+            $new_params{$paging_ID} = $previousidx;
+            $previouspageurl =
+              Foswiki::Func::getScriptUrl( $baseWeb, $baseTopic, 'view',
+                %new_params );
+            $previouspagebutton =
+              $session->templates->expandTemplate('SEARCH:pager_previous');
+        }
+        my $nextpagebutton = '';
+        my $nextpageurl    = '';
+        if ( $nextidx <= $numberofpages ) {
+            $new_params{$paging_ID} = $nextidx;
+            $nextpageurl =
+              Foswiki::Func::getScriptUrl( $baseWeb, $baseTopic, 'view',
+                %new_params );
+            $nextpagebutton =
+              $session->templates->expandTemplate('SEARCH:pager_next');
+        }
+        %pager_formatting = (
+            '\$previouspage'  => sub { return $previousidx },
+            '\$currentpage'   => sub { return $showpage },
+            '\$nextpage'      => sub { return $showpage + 1 },
+            '\$numberofpages' => sub { return 666 },
+            '\$pagesize'      => sub { return $pagesize },
+            '\$previousurl'   => sub { return $previouspageurl },
+            '\$nexturl'       => sub { return $nextpageurl },
+            '\$sep'           => sub { return $sep; }
+        );
+
+        $previouspagebutton =
+          $this->formatCommon( $previouspagebutton, \%pager_formatting );
+        $pager_formatting{'\$previousbutton'} =
+          sub { return $previouspagebutton };
+
+        $nextpagebutton =
+          $this->formatCommon( $nextpagebutton, \%pager_formatting );
+        $pager_formatting{'\$nextbutton'} = sub { return $nextpagebutton };
+
+        my $pager_control = $session->templates->expandTemplate('SEARCH:pager');
+        $pager_control =
+          $this->formatCommon( $pager_control, \%pager_formatting );
+        $pager_formatting{'\$pager'} = sub { return $pager_control; };
+    }
 
     #TODO: multiple is an attribute of the ResultSet
     my $doMultiple = Foswiki::isTrue( $params->{multiple} );
@@ -600,13 +613,15 @@ sub formatResults {
     my $web;
     my $webObject;
     my $lastWebProcessed = '';
-    my $ttopics = 0;
-    my $thits = 0;
+    my $ttopics          = 0;
+    my $thits            = 0;
 
     while ( $infoCache->hasNext() ) {
         my $webtopic = $infoCache->next();
         my $topic;
-        ($web, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
+        ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+
         #pager..
         if ( defined( $params->{pager_skip_results_from} )
             and $params->{pager_skip_results_from} > 0 )
@@ -620,7 +635,7 @@ sub formatResults {
             $cache->addDependency( $web, $topic );
         }
 
-        my $info = $this->get($web, $topic);
+        my $info = $this->get( $web, $topic );
         my $text;    #current hits' text
 
 # Check security (don't show topics the current user does not have permission to view)
@@ -699,8 +714,8 @@ sub formatResults {
                     tokens         => $query->{tokens}
                 };
 
-                #TODO: why is this not part of the callback? at least the non-result element format strings can be common here.
-                #or do i need a formatCommon sub that formatResult can also call.. (which then goes into the callback?
+#TODO: why is this not part of the callback? at least the non-result element format strings can be common here.
+#or do i need a formatCommon sub that formatResult can also call.. (which then goes into the callback?
                 $out = $this->formatResult(
                     $format,
                     $info->{tom},
@@ -709,24 +724,29 @@ sub formatResults {
                     {
                         '\$ntopics' => sub { return $ntopics },
                         '\$nhits'   => sub { return $nhits },
-    
+
                         %pager_formatting,
+
   #rev1 info
   #TODO: move the $create* formats into Render::renderRevisionInfo..
   #which implies moving the infocache's pre-extracted data into the tom obj too.
   #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
   #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
                         '\$createlongdate' => sub {
-                            return $this->get($web, $topic)->{tom}->getRev1Info( "createlongdate" );
+                            return $this->get( $web, $topic )->{tom}
+                              ->getRev1Info("createlongdate");
                         },
                         '\$createusername' => sub {
-                            return $this->get($web, $topic)->{tom}->getRev1Info( "createusername" );
+                            return $this->get( $web, $topic )->{tom}
+                              ->getRev1Info("createusername");
                         },
                         '\$createwikiname' => sub {
-                            return $this->get($web, $topic)->{tom}->getRev1Info( "createwikiname" );
+                            return $this->get( $web, $topic )->{tom}
+                              ->getRev1Info("createwikiname");
                         },
                         '\$createwikiusername' => sub {
-                            return $this->get($web, $topic)->{tom}->getRev1Info( "createwikiusername" );
+                            return $this->get( $web, $topic )->{tom}
+                              ->getRev1Info("createwikiusername");
                         },
 
                    #TODO: hacky bits that need to be moved out of formatResult()
@@ -746,85 +766,108 @@ sub formatResults {
             }
 
             my $justdidHeaderOrFooter = 0;
-            if ((defined($params->{partition_output})) and ($params->{partition_output} eq 'web')) {
-                if ($lastWebProcessed ne $web) {
+            if (    ( defined( $params->{partition_output} ) )
+                and ( $params->{partition_output} eq 'web' ) )
+            {
+                if ( $lastWebProcessed ne $web ) {
+
                     #output the footer for the previous webtopic
-                    if ($lastWebProcessed ne '') {
-                         #c&p from below
-                         #TODO: needs refactoring.
-                            if ( defined($footer) and ($footer ne '')) {
-                                my $processedfooter = Foswiki::expandStandardEscapes($footer);
-                                $processedfooter =~ s/\$web/$lastWebProcessed/gos;      # expand name of web
-                                $processedfooter =~ s/([^\n])$/$1\n/os;    # add new line at end
-                                # output footer of $web
-                                $ntopics--;
-                                $nhits--;
-                                $processedfooter =~ s/\$ntopics/$ntopics/gs;
-                                $processedfooter =~ s/\$nhits/$nhits/gs;
+                    if ( $lastWebProcessed ne '' ) {
 
-                                #legacy SEARCH counter support
-                                $processedfooter =~ s/%NTOPICS%/$ntopics/go;
+                        #c&p from below
+                        #TODO: needs refactoring.
+                        if ( defined($footer) and ( $footer ne '' ) ) {
+                            my $processedfooter =
+                              Foswiki::expandStandardEscapes($footer);
+                            $processedfooter =~ s/\$web/$lastWebProcessed/gos
+                              ;    # expand name of web
+                            $processedfooter =~
+                              s/([^\n])$/$1\n/os;    # add new line at end
+                                                     # output footer of $web
+                            $ntopics--;
+                            $nhits--;
+                            $processedfooter =~ s/\$ntopics/$ntopics/gs;
+                            $processedfooter =~ s/\$nhits/$nhits/gs;
 
-                                $ntopics = 1;
-                                $nhits = 1;
+                            #legacy SEARCH counter support
+                            $processedfooter =~ s/%NTOPICS%/$ntopics/go;
 
-                                $processedfooter = $this->formatCommon($processedfooter, \%pager_formatting);
-                                $processedfooter = $webObject->expandMacros($processedfooter);
-                                $processedfooter =~ s/\n$//os;    # remove trailing new line
+                            $ntopics = 1;
+                            $nhits   = 1;
 
-                                if ( defined($separator) ) {
+                            $processedfooter =
+                              $this->formatCommon( $processedfooter,
+                                \%pager_formatting );
+                            $processedfooter =
+                              $webObject->expandMacros($processedfooter);
+                            $processedfooter =~
+                              s/\n$//os;    # remove trailing new line
 
-                         #	$header = $header.$separator if (defined($params->{header}));
-                         #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-                                    if ( defined( $params->{footer}) ) {
-                                        &$callback( $cbdata, $separator )
-                                    }
+                            if ( defined($separator) ) {
+
+ #	$header = $header.$separator if (defined($params->{header}));
+ #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
+                                if ( defined( $params->{footer} ) ) {
+                                    &$callback( $cbdata, $separator );
                                 }
-                                else {
-
-                        #TODO: legacy from SEARCH - we want to remove this oddness
-                        #    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $processedfooter ne '<nop>');
-                                }
-
-                                $justdidHeaderOrFooter = 1;
-                                &$callback( $cbdata, $processedfooter );
                             }
+                            else {
+
+#TODO: legacy from SEARCH - we want to remove this oddness
+#    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $processedfooter ne '<nop>');
+                            }
+
+                            $justdidHeaderOrFooter = 1;
+                            &$callback( $cbdata, $processedfooter );
+                        }
                     }
+
                     #trigger a header for this new web
                     $headerDone = undef;
                 }
             }
 
-            if ($lastWebProcessed ne $web) {
-                $webObject = new Foswiki::Meta($session, $web);
+            if ( $lastWebProcessed ne $web ) {
+                $webObject = new Foswiki::Meta( $session, $web );
                 $lastWebProcessed = $web;
             }
 
             # lazy output of header (only if needed for the first time)
-            if ((!$headerDone and (defined($header))) and ($header ne '')) {
-                     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-                     if ( ( $ttopics > 1 ) and $noFooter and $noSummary and $separator ) {
-                        &$callback( $cbdata, $separator )
-                     }
-                    my $processedheader = Foswiki::expandStandardEscapes($header);
-                    $processedheader =~ s/\$web/$web/gos;      # expand name of web
-                    $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
-                    
-                    $headerDone = 1;
-                    my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
-                      || '\#FF00FF';
-                    $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
-                    $processedheader =~ s/%WEB%/$web/go;
-                    $processedheader =~ s/\$ntopics/0/gs;
-                    $processedheader =~ s/\$nhits/0/gs;
-                    $processedheader = $this->formatCommon($processedheader, \%pager_formatting);
-                    $processedheader = $webObject->expandMacros($processedheader);
-                    &$callback( $cbdata, $processedheader );
-                    $justdidHeaderOrFooter = 1;
-            } 
-        
-            if ( defined($separator) and ($thits > 1) and ($justdidHeaderOrFooter != 1)) {
-                &$callback( $cbdata, $separator )
+            if (    ( !$headerDone and ( defined($header) ) )
+                and ( $header ne '' ) )
+            {
+
+     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
+                if (    ( $ttopics > 1 )
+                    and $noFooter
+                    and $noSummary
+                    and $separator )
+                {
+                    &$callback( $cbdata, $separator );
+                }
+                my $processedheader = Foswiki::expandStandardEscapes($header);
+                $processedheader =~ s/\$web/$web/gos;      # expand name of web
+                $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
+
+                $headerDone = 1;
+                my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
+                  || '\#FF00FF';
+                $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
+                $processedheader =~ s/%WEB%/$web/go;
+                $processedheader =~ s/\$ntopics/0/gs;
+                $processedheader =~ s/\$nhits/0/gs;
+                $processedheader =
+                  $this->formatCommon( $processedheader, \%pager_formatting );
+                $processedheader = $webObject->expandMacros($processedheader);
+                &$callback( $cbdata, $processedheader );
+                $justdidHeaderOrFooter = 1;
+            }
+
+            if (    defined($separator)
+                and ( $thits > 1 )
+                and ( $justdidHeaderOrFooter != 1 ) )
+            {
+                &$callback( $cbdata, $separator );
             }
 
             &$callback( $cbdata, $out );
@@ -835,7 +878,8 @@ sub formatResults {
 
     # output footer only if hits in web
     if ($ntopics) {
-        if ((defined($params->{pager})) and ($params->{pager} eq 'on')) {
+        if ( ( defined( $params->{pager} ) ) and ( $params->{pager} eq 'on' ) )
+        {
             $footer .= '$pager';
         }
         if ( defined $footer ) {
@@ -851,9 +895,9 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        $footer = $this->formatCommon($footer, \%pager_formatting);
+        $footer = $this->formatCommon( $footer, \%pager_formatting );
         $footer = $webObject->expandMacros($footer);
-        $footer =~ s/\n$//os;    # remove trailing new line
+        $footer =~ s/\n$//os;                 # remove trailing new line
 
         if ( defined($separator) ) {
 
@@ -1198,15 +1242,14 @@ sub searchMetaData {
 sub get {
     my ( $this, $web, $topic, $meta ) = @_;
 
-    unless ($this->{$web}) {
+    unless ( $this->{$web} ) {
         $this->{$web} = {};
     }
 
-    unless ($this->{$web}->{$topic}) {
+    unless ( $this->{$web}->{$topic} ) {
         $this->{$web}->{$topic} = {};
-        $this->{$web}->{$topic}->{tom} = $meta || 
-          Foswiki::Meta->load( $this->{session}, $web,
-            $topic );
+        $this->{$web}->{$topic}->{tom} = $meta
+          || Foswiki::Meta->load( $this->{session}, $web, $topic );
 
         # Extract sort fields
         my $ri = $this->{$web}->{$topic}->{tom}->getRevisionInfo();
@@ -1216,7 +1259,8 @@ sub get {
         $this->{$web}->{$topic}->{modified} = $ri->{date};
         $this->{$web}->{$topic}->{revNum}   = $ri->{version};
 
-        $this->{$web}->{$topic}->{allowView} = $this->{$web}->{$topic}->{tom}->haveAccess('VIEW');
+        $this->{$web}->{$topic}->{allowView} =
+          $this->{$web}->{$topic}->{tom}->haveAccess('VIEW');
     }
 
     return $this->{$web}->{$topic};
