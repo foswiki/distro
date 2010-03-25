@@ -1013,7 +1013,7 @@ sub postinstall {
 Foswiki::Extender::install( $PACKAGES_URL, 'CommentPlugin', 'CommentPlugin', @DATA );
 
 1;
-
+our $VERSION = '2.1';
 # MANIFEST and DEPENDENCIES are done this way
 # to make it easy to extract them from this script.
 
@@ -1035,6 +1035,8 @@ pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
 <<<< DEPENDENCIES >>>>
 .\@#$%}{SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
 Time::ParseDate,>=2003.0211,1,cpan,Required. Available from the CPAN:Time::ParseDate archive.
+Foswiki::Plugins::ZonePlugin,>=0.1,( $Foswiki::Plugins::VERSION < 3.2 ),perl,Required
+Foswiki::Plugins::FixerPlugin,>=0.1,( $Foswiki::Plugins::VERSION < 2.0 ),perl,Required
 Foswiki::Contrib::JSCalendarContrib,>=0.961,1,perl,Optional, used if installed. Used to display a neat calendar popup when editing actions. Available from the Foswiki:Extensions/JSCalendarContrib repository.
 Foswiki::Contrib::BehaviourContrib,>=0,1,perl,Javascript module
 Foswiki::Plugins::WysiwygPlugin,>=4315,1,perl,Translator module
@@ -1159,7 +1161,7 @@ Installed:  MyPlugin_installer
 
     my @ifiles2 = $pkg2->files('1');
 
-    $this->assert_str_equals( $expresult, $result, 'Verify Checked in vs. Installed');
+    $this->assert_str_equals( $expresult, $result, "Verify Checked in vs. Installed\n EXPECTED $expresult \n RESULT $result");
     $this->assert_num_equals( 8, scalar @ifiles2, 'Unexpected number of files installed on 2nd install ');   # + 3 rcs files after checkin
     $this->assert_str_equals( '', $err, "Error $err remported" ); 
      

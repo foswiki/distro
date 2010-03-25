@@ -647,9 +647,10 @@ sub _parseDependency {
     my ( $module, $condition, $trigger, $type, $desc ) =
         split( ',', $_[0], 5 );
 
+
     return unless ($module);
 
-    if ( $type =~ m/cpan|perl/i ) {
+    if ( $type =~ m/cpan|perl/i ) { 
         $depwarn = '';
         $module  = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
         $warn .= $depwarn;
@@ -670,13 +671,11 @@ sub _parseDependency {
         );
     }
     else {
-
         # There is a ONLYIF condition, warn user
         $warn .= "The script uses an ONLYIF condition for module $module"
           . ' which is potentially insecure: "'
           . $trigger . '"' . "\n";
-        if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
-
+        if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()\$]*$/ ) {
             # It looks more or less safe
             push(
                 @$deps,
@@ -684,7 +683,7 @@ sub _parseDependency {
                     module      => $module,
                     type        => $type,
                     version     => $condition,    # version condition
-                    trigger     => $1,            # ONLYIF condition
+                    trigger     => $trigger,            # ONLYIF condition
                     description => $desc
                 )
             );
@@ -733,13 +732,20 @@ sub checkDependencies {
     my @manual;
 
     foreach my $dep ( @{$this->{_dependency}}  ) {
+
+        my $required = eval "$dep->{trigger}";   # Evaluate the trigger - if true, module is required
+        next unless $required;                 # Skip the module - trigger was false
+        my $trig = '';
+        $trig = " -- Triggered by $dep->{trigger}\n" unless ($dep->{trigger} eq '1');
+
         my ($ok, $msg) =  $dep->check() ;
         if ($ok) {
-            $installed .= "$msg\n";
+            $installed .= "$msg$trig\n";
             next;
         }
 
-        $missing .= "$msg\n";
+        $missing .= "$msg$trig\n";
+
         if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
             my $type     = $1;
             my $pack     = $2;
@@ -749,13 +755,14 @@ sub checkDependencies {
             push( @wiki, $dep );
             next;
         }
+
         if ( $dep->{type} eq 'cpan')  {
             push ( @cpan, $dep );
         } else {
             push ( @manual, $dep );
         }
     }
-    return ($installed, $missing,  @wiki, @cpan, @manual);
+    return ($installed, $missing, @wiki, @cpan, @manual);
 
 }
 
