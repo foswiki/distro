@@ -83,9 +83,10 @@ sub usage {
     -l[ink] - create links $linkByDefault
     -c[opy] - copy instead of linking $copyByDefault
     -u[ninstall] - self explanatory (doesn't remove dirs)
-    all - install all extensions (big job)
-    default - install extensions listed in lib/MANIFEST
-    developer - default + key developer environment
+    core - install core (create and link derived objects)
+    all - install core + all extensions (big job)
+    default - install core + extensions listed in lib/MANIFEST
+    developer - core + default + key developer environment
     <module>... one or more extensions to install
     -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
 
@@ -124,14 +125,25 @@ sub installModule {
     $module =~ s#/+$##;    #remove trailing slashes
     print "Processing $module\n";
     my $subdir = 'Plugins';
-    $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn)$/;
+    $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn|^core)$/;
 
     my $moduleDir;
+    # If $ignoreBlock is true, will ignore blocking files (not complain
+    # if a file it is trying to copy in / link already exists)
+    my $ignoreBlock = 0;
 
-    foreach my $dir (@extensions_path) {
-        if ( -d "$dir/$module/" ) {
-            $moduleDir = "$dir/$module";
-            last;
+    if ($module eq 'core') {
+        # Special install procedure for core, processes manifest
+        # and checks for missing files, and generates derived objects
+        # along the way (such as compressed JS and CSS)
+        $moduleDir = '.';
+        $ignoreBlock = 1;
+    } else {
+        foreach my $dir (@extensions_path) {
+            if ( -d "$dir/$module/" ) {
+                $moduleDir = "$dir/$module";
+                last;
+            }
         }
     }
 
@@ -140,61 +152,69 @@ sub installModule {
         return;
     }
 
-    my $manifest =
-      findRelativeTo( "$moduleDir/lib/Foswiki/$subdir/$module/", 'MANIFEST' );
+    my $manifest = findRelativeTo(
+        "$moduleDir/lib/Foswiki/$subdir/$module/", 'MANIFEST' );
     my $libDir = "Foswiki";
 
     if ( !-e $manifest ) {
-        $manifest =
-          findRelativeTo( "$moduleDir/lib/TWiki/$subdir/$module/", 'MANIFEST' );
+        $manifest = findRelativeTo(
+            "$moduleDir/lib/TWiki/$subdir/$module/", 'MANIFEST' );
         $libDir = "TWiki";
     }
-
-    if ( -e "$manifest" ) {
-        open( F, '<', "$manifest" ) || die $!;
-        foreach my $file (<F>) {
-            chomp($file);
-            next unless $file =~ /^\w+/;
-            $file =~ s/\s.*$//;
-            next if -d "$moduleDir/$file";
-            my $dir = $file;
-            $dir =~ s/\/[^\/]*$//;
-            &$install( $moduleDir, $dir, $file );
-        }
-        close(F);
+    if ( -e $manifest ) {
+        installFromMANIFEST($module, $moduleDir, $manifest, $ignoreBlock);
     }
     else {
         $libDir = undef;
         warn "---> No MANIFEST in $module (at $manifest)\n";
     }
+
+    return $libDir;
+}
+
+sub installFromMANIFEST {
+    my ($module, $moduleDir, $manifest, $ignoreBlock) = @_;
+
+    trace "Using manifest from $manifest";
+
+    my $df;
+    open( $df, '<', $manifest ) || die $!;
+    foreach my $file (<$df>) {
+        chomp($file);
+        next unless $file =~ /^\w+/;
+        $file =~ s/\s.*$//;
+        next if -d "$moduleDir/$file";
+        my $dir = $file;
+        $dir =~ s/\/[^\/]*$//;
+        &$install( $moduleDir, $dir, $file, $ignoreBlock );
+    }
+    close($df);
+
     if ( -d "$moduleDir/test/unit/$module" ) {
-        opendir( D, "$moduleDir/test/unit/$module" );
-        foreach my $f ( grep( /\.pm$/, readdir(D) ) ) {
+        opendir( $df, "$moduleDir/test/unit/$module" );
+        foreach my $f ( grep( /\.pm$/, readdir($df) ) ) {
             &$install( $moduleDir, "test/unit/$module",
-                "test/unit/$module/$f" );
+                       "test/unit/$module/$f", $ignoreBlock );
         }
-        closedir(D);
+        closedir($df);
     }
 
     # process dependencies, if we are installing
     if ($installing) {
         my $deps = $manifest;
         $deps =~ s/MANIFEST/DEPENDENCIES/;
-        if (open( F, '<', $deps )) {
+        if (open( $df, '<', $deps )) {
             trace "read deps from $deps";
-            foreach my $dep (<F>) {
+            foreach my $dep (<$df>) {
                 chomp($dep);
                 next unless $dep =~ /^\w+/;
                 satisfyDependency(split(/\s*,\s*/, $dep));
             }
-            close(F);
+            close($df);
         } else {
             warn "*** Could not open $deps\n";
         }
-
     }
-
-    return $libDir;
 }
 
 sub satisfyDependency {
@@ -203,7 +223,7 @@ sub satisfyDependency {
     # First see if we can find it in the install or @INC path
     my $f = $mod;
     $f =~ s#::#/#g;
-    foreach my $dir ('./lib', @INC) {
+    foreach my $dir ('./lib', @INC, './lib/CPAN/lib') {
         if (-e "$dir/$f.pm") {
             # Found it
             # TODO: check the version
@@ -214,7 +234,7 @@ sub satisfyDependency {
     trace "$mod is not installed";
     # Not found, is it required?
     if ($mess !~ /^required/i) {
-        warn "$mod is an optional dependency, but is not installed";
+        warn "$mod is an optional dependency, but is not installed\n";
         return;
     }
     if ($type eq 'perl' && $mod =~ /^Foswiki/) {
@@ -224,8 +244,9 @@ sub satisfyDependency {
     }
 }
 
+# See also: just_link
 sub copy_in {
-    my ( $moduleDir, $dir, $file ) = @_;
+    my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
     File::Path::mkpath($dir);
     if ( -e "$moduleDir/$file" ) {
         File::Copy::copy( "$moduleDir/$file", $file )
@@ -273,16 +294,17 @@ HERE
     return 1;
 }
 
+# See also: copy_in
 # Will try to link as high in the dir structure as it can
 sub just_link {
-    my ( $moduleDir, $dir, $file ) = @_;
+    my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
 
     my $base       = "$moduleDir/";
     my @components = split( /\/+/, $file );
     my $path       = '';
     foreach my $c (@components) {
         if ( -l $path . $c ) {
-            _checkLink( $moduleDir, $path, $c );
+            _checkLink( $moduleDir, $path, $c ) unless $ignoreBlock;
 
             #warn "$path$c already linked\n";
             last;
@@ -291,7 +313,7 @@ sub just_link {
             $path .= "$c/";
         }
         elsif ( -e "$path$c" ) {
-            warn "ERROR $path$c is in the way\n";
+            warn "ERROR $path$c is in the way\n" unless $ignoreBlock;
             last;
         }
         elsif (( $c eq 'TWiki' )
@@ -550,21 +572,25 @@ unless ( scalar(@ARGV) ) {
 my @modules;
 for my $arg (@ARGV) {
     if ( $arg eq "all" ) {
+        push(@modules, 'core');
         foreach my $dir (@extensions_path) {
-            opendir D, $dir or next;
+            my $d;
+            opendir $d, $dir or next;
             push @modules,
               grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" }
-              readdir D;
-            closedir D;
+              readdir $d;
+            closedir $d;
         }
     }
     elsif ( $arg eq 'default' || $arg eq 'developer' ) {
-        open F, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
+        push(@modules, 'core');
+        my $f;
+        open $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
         local $/ = "\n";
         @modules =
           map { /(\w+)$/; $1 }
-          grep { /^!include/ } <F>;
-        close F;
+          grep { /^!include/ } <$f>;
+        close $f;
         push @modules, 'BuildContrib', 'TestFixturePlugin', 'UnitTestContrib'
           if $arg eq 'developer';
     }
