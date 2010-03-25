@@ -30,7 +30,8 @@ The testcases below assume that the correct interpretation is the one used in Ed
 
 =cut
 
-use base qw( FoswikiTestCase );
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 use Error qw( :try );
 
 use Foswiki;

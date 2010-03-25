@@ -4,7 +4,8 @@ use strict;
 
 package EmptyTests;
 
-use base qw( FoswikiTestCase );
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki;
 use Error qw( :try );

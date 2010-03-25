@@ -2,7 +2,8 @@ require 5.006;
 
 package RcsTests;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 use strict;
 
 sub new {

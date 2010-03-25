@@ -1,7 +1,8 @@
 use strict;
 
 package HierarchicalWebsTests;
-use base qw( FoswikiTestCase );
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki;
 use Error qw( :try );

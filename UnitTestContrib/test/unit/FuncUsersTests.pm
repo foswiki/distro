@@ -7,7 +7,8 @@ use warnings;
 # Some basic tests for adding/removing users in the Foswiki users topic,
 # and finding them again.
 
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Foswiki::Func;

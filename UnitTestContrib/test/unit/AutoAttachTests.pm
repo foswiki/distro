@@ -6,7 +6,8 @@ use strict;
 # 3) Turn autoattach = on. Ask for the list of attachments. attachmentAdded should appear. attachmentMissing should not.
 
 package AutoAttachTests;
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use Foswiki;

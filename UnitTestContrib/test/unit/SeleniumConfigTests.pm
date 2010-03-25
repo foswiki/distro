@@ -2,7 +2,8 @@ use strict;
 
 package SeleniumConfigTests;
 
-use base qw(FoswikiSeleniumTestCase);
+use FoswikiSeleniumTestCase;
+our @ISA = qw( FoswikiSeleniumTestCase );
 
 use Foswiki::Func;
 

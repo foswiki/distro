@@ -3,7 +3,8 @@ require 5.006;
 
 package PrefsTests;
 
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Foswiki::Prefs;

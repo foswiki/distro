@@ -6,7 +6,8 @@ use warnings;
 
 package Fn_SEARCH;
 
-use base qw( FoswikiFnTestCase );
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Error qw( :try );

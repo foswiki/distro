@@ -4,7 +4,8 @@ require 5.006;
 
 package MergeTests;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki;
 use strict;

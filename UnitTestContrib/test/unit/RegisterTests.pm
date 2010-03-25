@@ -16,7 +16,8 @@ package RegisterTests;
 # Note that the FoswikiFnTestCase needs to use the registration code to work,
 # so this is a bit arse before tit. However we need some pre-registered users
 # for this to work sensibly, so we just have to bite the bullet.
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use diagnostics;

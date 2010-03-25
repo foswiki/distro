@@ -47,7 +47,8 @@ use strict;
 # start coding....
 #
 package PluginHandlerTests;
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use Foswiki;

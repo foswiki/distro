@@ -9,7 +9,8 @@ use diagnostics;
 
 package ManageDotPmTests;
 
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 use Error qw(:try);
 use Foswiki;
 use Foswiki::UI::Manage;

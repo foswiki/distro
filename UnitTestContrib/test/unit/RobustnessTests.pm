@@ -1,7 +1,8 @@
 # Copyright (C) 2004 Florian Weimer
 package RobustnessTests;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 require 5.008;
 
 use Foswiki;

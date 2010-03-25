@@ -11,7 +11,8 @@
 # to have to work out how to re-initialise Foswiki for each test)
 #
 package UTF8Tests;
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 

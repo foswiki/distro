@@ -1664,7 +1664,8 @@ sub target_uninstall {
 {
 
     package Foswiki::Contrib::Build::UserAgent;
-    use base qw(LWP::UserAgent);
+    use LWP::UserAgent;
+    our @ISA = qw( LWP::UserAgent );
 
     sub new {
         my ( $class, $id, $bldr ) = @_;

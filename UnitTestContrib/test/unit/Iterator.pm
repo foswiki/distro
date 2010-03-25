@@ -4,7 +4,8 @@ use strict;
 
 package Iterator;
 
-use base qw( FoswikiTestCase );
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki::ListIterator;
 use Foswiki::AggregateIterator;

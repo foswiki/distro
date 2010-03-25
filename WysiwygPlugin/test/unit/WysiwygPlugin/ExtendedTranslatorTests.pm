@@ -25,7 +25,8 @@
 # of Foswiki it needs to include.
 #
 package ExtendedTranslatorTests;
-use base qw(TranslatorTests);
+use TranslatorTests;
+our @ISA = qw( TranslatorTests );
 
 use strict;
 use warnings;

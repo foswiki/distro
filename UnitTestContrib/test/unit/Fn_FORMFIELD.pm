@@ -1,7 +1,8 @@
 # tests for the correct expansion of FORMFIELD
 
 package Fn_FORMFIELD;
-use base qw( FoswikiFnTestCase );
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use Error qw( :try );

@@ -2,7 +2,8 @@ package Unit::ExternalEngine;
 
 use strict;
 use warnings;
-use base qw(Unit::TestCase);
+use Unit::TestCase;
+our @ISA = qw( Unit::TestCase );
 
 use Foswiki;
 use Storable qw(freeze thaw);

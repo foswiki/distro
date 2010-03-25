@@ -4,7 +4,8 @@ package ExtenderTests;
 
 use strict;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Error qw( :try );
 use File::Temp;

@@ -2,7 +2,8 @@ use strict;
 
 package AccessControlTests;
 
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 sub new {
     my $class = shift;

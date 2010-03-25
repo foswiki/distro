@@ -5,7 +5,8 @@ package ClientTests;
 # This is woefully incomplete, but it does at least check that
 # LoginManager.pm compiles okay.
 
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Unit::Request;
 use Error qw( :try );

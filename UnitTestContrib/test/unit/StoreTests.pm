@@ -3,7 +3,8 @@ require 5.006;
 
 package StoreTests;
 
-use base qw(FoswikiFnTestCase);
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use strict;

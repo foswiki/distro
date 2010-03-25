@@ -2,7 +2,8 @@ use strict;
 
 package RequestCacheTests;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki::Request;
 use Foswiki::Request::Cache;

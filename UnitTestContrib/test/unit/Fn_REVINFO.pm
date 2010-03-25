@@ -3,7 +3,8 @@ use strict;
 # tests for the correct expansion of REVINFO
 
 package Fn_REVINFO;
-use base qw( FoswikiFnTestCase );
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use Foswiki;

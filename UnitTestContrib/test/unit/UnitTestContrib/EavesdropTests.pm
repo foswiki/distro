@@ -4,7 +4,8 @@ use strict;
 
 package EavesdropTests;
 
-use base qw( Unit::TestCase );
+use Unit::TestCase;
+our @ISA = qw( Unit::TestCase );
 
 use Error qw( :try );
 

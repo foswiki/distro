@@ -3,7 +3,8 @@ use strict;
 # Pathologically simple test case.
 package ExampleTests;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki;
 

@@ -9,7 +9,8 @@ use strict;
 #
 package TopicUserMappingContribTests;
 
-use base qw( FoswikiFnTestCase );
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Unit::Request;
 use Unit::Response;

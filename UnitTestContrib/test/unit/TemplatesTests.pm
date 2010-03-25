@@ -6,7 +6,8 @@ use strict;
 
 package TemplatesTests;
 
-use base qw(FoswikiTestCase);
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use Foswiki;
 use Foswiki::Templates;
