@@ -15,7 +15,10 @@ our @ISA = ('Foswiki::Query::BinaryOP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '~', prec => 500 );
+    return $class->SUPER::new(
+        name => '~',
+        ascname => 'like',
+        prec => 500 );
 }
 
 sub evaluate {
@@ -35,6 +38,14 @@ sub evaluate {
               && $_[0] =~ m/^$expr$/s ? 1 : 0;
         }
     );
+}
+
+sub xpath {
+    my $this = shift;
+    my $node = shift;
+    my $a = $node->{params}[0];
+    my $b = $node->{params}[1];
+    return 'like('.$a->xpath().','.$b->xpath(@_).')';
 }
 
 1;

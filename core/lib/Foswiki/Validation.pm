@@ -50,7 +50,7 @@ object.
 =cut
 
 # Done as a sub to help perl optimise it away
-sub TRACE { 1 }
+sub TRACE { 0 }
 
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript

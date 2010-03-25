@@ -1429,6 +1429,7 @@ sub saveTopic {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
+
     $topicObject->copyFrom($smeta) if $smeta;
     return $topicObject->save(%$options);
 }
@@ -2380,22 +2381,14 @@ For example, if you were to write
 then %<nop>WURBLE would be expanded *before* %<NOP>MYTAG is evaluated. To avoid
 this Foswiki uses escapes in the format string. For example:
 
-=%<nop>MYTAG{format="$percntWURBLE$percnt"}%=
+=%<nop>MYTAG{format="$percentWURBLE$percent"}%=
 
 This lets you enter arbitrary strings into parameters without worrying that
 Foswiki will expand them before your plugin gets a chance to deal with them
 properly. Once you have processed your tag, you will want to expand these
 tokens to their proper value. That's what this function does.
 
-| *Escape:* | *Expands To:* |
-| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
-| =$nop= or =$nop()= | Is a "no operation". |
-| =$quot= | Double quote (="=) |
-| =$percnt= | Percent sign (=%=) |
-| =$dollar= | Dollar sign (=$=) |
-
-Note thath $quot, $percnt and $dollar all work *even if they are followed by
-alphanumeric characters*. You have been warned!
+The set of tokens that is expanded is described in System.FormatTokens.
 
 =cut
 

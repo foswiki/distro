@@ -242,6 +242,7 @@ sub populateMetaFromQueryData {
             }
             my %vset = ();
             foreach my $val (@values) {
+                $val ||= '';
                 $val =~ s/^\s*//o;
                 $val =~ s/\s*$//o;
 

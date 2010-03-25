@@ -272,6 +272,7 @@ sub _rotate {
     my $line;
     while ($line = <$lf>) {
         my @event = split( /\s*\|\s*/, $line );
+        last unless $event[1];
         my $eventTime = Foswiki::Time::parseTime( $event[1] );
 
         if (!$eventTime) {

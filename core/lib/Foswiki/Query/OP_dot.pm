@@ -9,13 +9,15 @@
 package Foswiki::Query::OP_dot;
 
 use strict;
+use Assert;
 
 use Foswiki::Query::BinaryOP ();
 our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::Node;
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '.', prec => 800 );
+    return $class->SUPER::new( name => '.', ascname => 'dot', prec => 800 );
 }
 
 sub evaluate {
@@ -31,6 +33,14 @@ sub evaluate {
         return $res->[0];
     }
     return $res;
+}
+
+sub xpath {
+    my $this = shift;
+    my $node = shift;
+    my $a = $node->{params}[0];
+    my $b = $node->{params}[1];
+    return $a->xpath().'['.$b->xpath(@_).']';
 }
 
 1;

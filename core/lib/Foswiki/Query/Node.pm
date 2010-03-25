@@ -127,22 +127,46 @@ sub evaluate {
     return $result;
 }
 
+sub xpath {
+    my $this = shift;
+    my $result;
+    if ( !ref( $this->{op} ) ) {
+        if ( $this->{op} == $Foswiki::Infix::Node::STRING) {
+            $result = "'" . $this->{params}[0] . "'";
+        } elsif ( $this->{op} == $Foswiki::Infix::Node::NAME) {
+            my $name = $this->{params}[0];
+            foreach my $n (keys %aliases) {
+                if ($name eq $n || $name eq $aliases{$n} ) {
+                    return $n;
+                }
+            }
+            # Not a recognised keyword, must be a field name
+            return 'fields[@name="'.$name.'"]';
+        } else {
+            $result = $this->{params}[0];
+        }
+    } else {
+        $result = $this->{op}->xpath( $this, @_ );
+    }
+    return $result;
+}
+
 1;
 __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
-# Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
+TWiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
