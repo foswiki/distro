@@ -5,7 +5,8 @@ use strict;
 
 use Foswiki::Configure::Checker;
 
-use base 'Foswiki::Configure::Checker';
+use Foswiki::Configure::Checker;
+our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
     my $this = shift;

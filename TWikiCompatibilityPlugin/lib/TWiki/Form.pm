@@ -6,7 +6,8 @@ package TWiki::Form;
 use strict;
 
 use TWiki;
-use base 'Foswiki::Form';
+use Foswiki::Form;
+our @ISA = qw( Foswiki::Form );
 
 # need to check whether we were invoked from a plugin
 # or from somewhere else

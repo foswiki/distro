@@ -1,5 +1,6 @@
 package QueryTests;
-use base 'FoswikiFnTestCase';
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki::Query::Parser;
 use Foswiki::Query::HoistREs;

@@ -38,7 +38,8 @@ the final TML.
 =cut
 
 package Foswiki::Plugins::WysiwygPlugin::HTML2TML;
-use base 'HTML::Parser';
+use HTML::Parser;
+our @ISA = qw( HTML::Parser );
 
 use strict;
 

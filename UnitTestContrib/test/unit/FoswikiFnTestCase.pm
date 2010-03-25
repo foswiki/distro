@@ -9,7 +9,8 @@
 # 4. A single user has been pre-registered, wikinamed 'ScumBag'
 
 package FoswikiFnTestCase;
-use base 'FoswikiTestCase';
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 use strict;
 

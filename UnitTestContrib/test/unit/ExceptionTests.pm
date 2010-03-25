@@ -1,5 +1,6 @@
 package ExceptionTests;
-use base 'FoswikiFnTestCase';
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 

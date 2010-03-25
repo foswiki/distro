@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Color;
-use base 'Foswiki::Form::FieldDefinition';
+use Foswiki::Form::FieldDefinition;
+our @ISA = qw( Foswiki::Form::FieldDefinition );
 
 use Foswiki::Plugins::JQueryPlugin ();
 

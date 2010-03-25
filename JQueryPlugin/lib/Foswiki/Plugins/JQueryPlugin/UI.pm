@@ -18,7 +18,8 @@ use strict;
 use Foswiki::Plugins ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
+use Foswiki::Plugins::JQueryPlugin::Plugin;
+our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 

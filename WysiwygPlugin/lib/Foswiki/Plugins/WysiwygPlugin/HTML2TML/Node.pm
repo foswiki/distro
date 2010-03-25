@@ -33,7 +33,8 @@ See also Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf
 =cut
 
 package Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node;
-use base 'Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base';
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base;
+our @ISA = qw( Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base );
 
 use strict;
 

@@ -1,5 +1,6 @@
 package Unit::Request;
-use base 'Foswiki::Request';
+use Foswiki::Request;
+our @ISA = qw( Foswiki::Request );
 
 sub setUrl {
     my ( $this, $queryString ) = @_;

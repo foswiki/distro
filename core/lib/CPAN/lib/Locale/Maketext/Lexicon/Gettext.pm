@@ -12,7 +12,8 @@ Locale::Maketext::Lexicon::Gettext - PO and MO file parser for Maketext
 Called via B<Locale::Maketext::Lexicon>:
 
     package Hello::I18N;
-    use base 'Locale::Maketext';
+    use Locale::Maketext;
+    our @ISA = qw( Locale::Maketext );
     use Locale::Maketext::Lexicon {
         de => [Gettext => 'hello/de.mo'],
     };

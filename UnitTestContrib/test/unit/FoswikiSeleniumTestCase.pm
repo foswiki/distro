@@ -3,7 +3,8 @@
 # The FoswikiFnTestCase restrictions also apply.
 
 package FoswikiSeleniumTestCase;
-use base 'FoswikiFnTestCase';
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 

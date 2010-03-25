@@ -18,7 +18,8 @@
 # Tests for the plugin component
 #
 package WysiwygPluginTests;
-use base 'FoswikiFnTestCase';
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use Unit::Request;
 use Unit::Response;

@@ -24,7 +24,8 @@ BEGIN {
 
     my $code = <<CODE;
 package Foswiki::Form::Nuffin;
-use base 'Foswiki::Form::FieldDefinition';
+use Foswiki::Form::FieldDefinition;
+our @ISA = qw( Foswiki::Form::FieldDefinition );
 
 sub renderForEdit {
     return ('EXTRA', 'SWEET');

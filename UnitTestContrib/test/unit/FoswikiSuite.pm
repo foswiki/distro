@@ -2,7 +2,8 @@
 require 5.006;
 
 package FoswikiSuite;
-use base 'Unit::TestSuite';
+use Unit::TestSuite;
+our @ISA = qw( Unit::TestSuite );
 
 use strict;
 

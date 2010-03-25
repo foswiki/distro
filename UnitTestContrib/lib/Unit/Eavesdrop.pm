@@ -1,6 +1,7 @@
 # See bottom of file for description
 package Unit::Eavesdrop;
-use base 'Tie::Handle';
+use Tie::Handle;
+our @ISA = qw( Tie::Handle );
 
 use strict;
 

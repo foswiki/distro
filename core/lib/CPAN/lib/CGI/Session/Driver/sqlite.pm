@@ -5,7 +5,8 @@ package CGI::Session::Driver::sqlite;
 use strict;
 
 use File::Spec;
-use base 'CGI::Session::Driver::DBI';
+use CGI::Session::Driver::DBI;
+our @ISA = qw( CGI::Session::Driver::DBI );
 use DBI qw(SQL_BLOB);
 use Fcntl;
 

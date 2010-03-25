@@ -8,7 +8,8 @@
 # you can always create a new web based on that web.
 #
 package FoswikiTestCase;
-use base 'Unit::TestCase';
+use Unit::TestCase;
+our @ISA = qw( Unit::TestCase );
 
 use Data::Dumper;
 

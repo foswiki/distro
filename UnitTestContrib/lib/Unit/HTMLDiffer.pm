@@ -13,7 +13,8 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 package Unit::HTMLDiffer;
-use base 'HTML::Parser';
+use HTML::Parser;
+our @ISA = qw( HTML::Parser );
 
 # Module for comparing two blocks of HTML to see if
 # they would render to the same thing.

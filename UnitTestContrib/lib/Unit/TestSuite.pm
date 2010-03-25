@@ -1,6 +1,7 @@
 # See bottom of file for description
 package Unit::TestSuite;
-use base 'Unit::TestCase';
+use Unit::TestCase;
+our @ISA = qw( Unit::TestCase );
 
 sub include_tests {
     return ();

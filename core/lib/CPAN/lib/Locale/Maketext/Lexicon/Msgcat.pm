@@ -10,7 +10,8 @@ Locale::Maketext::Lexicon::Msgcat - Msgcat catalog parser Maketext
 =head1 SYNOPSIS
 
     package Hello::I18N;
-    use base 'Locale::Maketext';
+    use Locale::Maketext;
+    our @ISA = qw( Locale::Maketext );
     use Locale::Maketext::Lexicon {
         en => ['Msgcat', 'en_US/hello.pl.m'],
     };

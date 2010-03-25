@@ -12,7 +12,8 @@ Locale::Maketext::Lexicon::Tie - Use tied hashes as lexicons for Maketext
 =head1 SYNOPSIS
 
     package Hello::I18N;
-    use base 'Locale::Maketext';
+    use Locale::Maketext;
+    our @ISA = qw( Locale::Maketext );
     use Locale::Maketext::Lexicon {
         en => [ Tie => [ DB_File => 'en.db' ] ],
     };

@@ -1,7 +1,8 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Textboxlist;
 
-use base 'Foswiki::Form::ListFieldDefinition';
+use Foswiki::Form::ListFieldDefinition;
+our @ISA = qw( Foswiki::Form::ListFieldDefinition );
 use Foswiki::Plugins::JQueryPlugin ();
 
 use strict;

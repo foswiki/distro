@@ -10,7 +10,8 @@ Locale::Maketext::Lexicon::Auto - Auto fallback lexicon for Maketext
 =head1 SYNOPSIS
 
     package Hello::I18N;
-    use base 'Locale::Maketext';
+    use Locale::Maketext;
+    our @ISA = qw( Locale::Maketext );
     use Locale::Maketext::Lexicon {
         en => ['Auto'],
         # ... other languages

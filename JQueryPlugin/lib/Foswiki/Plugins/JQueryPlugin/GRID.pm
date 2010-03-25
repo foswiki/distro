@@ -17,7 +17,8 @@ package Foswiki::Plugins::JQueryPlugin::GRID;
 use strict;
 use warnings;
 
-use base 'Foswiki::Plugins::JQueryPlugin::Plugin';
+use Foswiki::Plugins::JQueryPlugin::Plugin;
+our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 use Foswiki::Form ();
 
 use constant DEBUG => 0; # toggle me

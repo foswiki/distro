@@ -1,5 +1,6 @@
 package Unit::Response;
-use base 'Foswiki::Response';
+use Foswiki::Response;
+our @ISA = qw( Foswiki::Response );
 use strict;
 
 our $response;    # for proper finalization
