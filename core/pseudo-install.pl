@@ -583,7 +583,6 @@ for my $arg (@ARGV) {
         }
     }
     elsif ( $arg eq 'default' || $arg eq 'developer' ) {
-        push(@modules, 'core');
         my $f;
         open $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
         local $/ = "\n";
