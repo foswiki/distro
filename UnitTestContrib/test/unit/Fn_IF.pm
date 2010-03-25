@@ -951,6 +951,31 @@ sub test_98 {
     $this->simpleTest( test => 'defined IF', then => 1, else => 0 );
 }
 
+sub test_99 {
+    my $this = shift;
+    $this->simpleTest( test => "'A'=~'B'", then => 0, else => 1 );
+}
+
+sub test_99 {
+    my $this = shift;
+    $this->simpleTest( test => "'A'=~'A'", then => 1, else => 0 );
+}
+
+sub test_100 {
+    my $this = shift;
+    $this->simpleTest( test => "'AA'=~'A'", then => 1, else => 0 );
+}
+
+sub test_101 {
+    my $this = shift;
+    $this->simpleTest( test => "'foo bar baz'=~'\\bbar\\b'", then => 1, else => 0 );
+}
+
+sub test_102 {
+    my $this = shift;
+    $this->simpleTest( test => "'foo bar baz'=~'\\bbam\\b'", then => 0, else => 1 );
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
