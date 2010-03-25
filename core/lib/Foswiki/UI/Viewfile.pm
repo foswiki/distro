@@ -137,6 +137,12 @@ sub viewfile {
 
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
+    my $logEntry = $fileName; 
+    $logEntry .= ", r$rev" if $rev; 
+    if ($Foswiki::cfg{Log}{Action}{viewfile}) {
+	$session->writeLog( 'viewfile', $web.'.'.$topic, $logEntry ); 
+    } 
+
     my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 
     my $type  = _suffixToMimeType($fileName);

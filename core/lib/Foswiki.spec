@@ -694,7 +694,9 @@ $Foswiki::cfg{Log}{Action} = {
     attach   => 1,
     rename   => 1,
     register => 1,
-    rest     => 1 };
+    rest     => 1,
+    viewfile => 1,
+ };
 
 # **NUMBER**
 # Number of top viewed topics to show in statistics topic
