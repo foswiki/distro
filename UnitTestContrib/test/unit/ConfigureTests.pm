@@ -1135,16 +1135,16 @@ our $VERSION = '2.1';
 __DATA__
 <<<< MANIFEST >>>>
 data/Sandbox/TestTopic1.txt,0644,Documentation (noci)
-data/Sandbox/TestTopic43.txt,0644,Documentation 
-pub/Sandbox/TestTopic1/file.att,0664, (noci) 
-pub/Sandbox/TestTopic43/file.att,0664, 
-pub/Sandbox/TestTopic43/file2.att,0664, 
+data/Sandbox/TestTopic43.txt,0644,Documentation
+pub/Sandbox/TestTopic1/file.att,0664, (noci)
+pub/Sandbox/TestTopic43/file.att,0664,
+pub/Sandbox/TestTopic43/file2.att,0664,
 
 <<<< MANIFEST2 >>>>
 data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
-data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation 
-pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci) 
-pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170, 
+data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci)
+pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
 
 <<<< DEPENDENCIES >>>>

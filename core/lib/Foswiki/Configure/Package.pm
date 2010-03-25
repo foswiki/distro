@@ -221,7 +221,7 @@ sub install {
                 #$opts{dontlog} = 1;
 
                 local $/ = undef;
-                open( my $fh, '<', "$dir/$file" );
+                open( my $fh, '<', "$dir/$file" ) or die "Cannot open $dir/$file for reading: $!";
                 my $contents = <$fh>;
                 close $fh;
 
@@ -272,14 +272,16 @@ sub _installAttachments {
 
     foreach my $key ( keys %{ $this->{_manifest}->{ATTACH}->{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
+        my $tfile = $file;
+        $tfile =~ s/$webTopic/$twebTopic/;
         my $attachinfo =
           $meta->get( 'FILEATTACHMENT', $key );    # Recover existing Metadata
         if (
             (
                 $this->{_manifest}->{$file}->{ci}
-                && ( -e "$this->{_root}/$file" )
+                && ( -e "$this->{_root}/$tfile" )
             )
-            || ( -e "$this->{_root}/$file,v" )
+            || ( -e "$this->{_root}/$tfile,v" )
           )
         {
             $this->{_manifest}->{$file}->{I} =
