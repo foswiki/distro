@@ -970,6 +970,7 @@ sub test_makeBackup {
     $this->assert_matches( qr/Backup saved into/, $msg );
     my @ufiles = $pkg->uninstall();
     $this->assert_num_equals( 6, scalar @ufiles, 'Unexpected number of files uninstalled: ' . @ufiles); # 6 files + the installer file are removed
+
 }
 
 sub _makePackage {
