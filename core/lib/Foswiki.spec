@@ -1328,7 +1328,7 @@ $Foswiki::cfg{WarningsAreErrors} = $FALSE;
 # List of operators permitted in structured search queries.
 # Each operator is implemented by a class. Not visible in the
 # configure UI.
-$Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_and', 'Foswiki::Query::OP_eq', 'Foswiki::Query::OP_lc', 'Foswiki::Query::OP_lte', 'Foswiki::Query::OP_not', 'Foswiki::Query::OP_ref', 'Foswiki::Query::OP_d2n', 'Foswiki::Query::OP_gte', 'Foswiki::Query::OP_length', 'Foswiki::Query::OP_lt', 'Foswiki::Query::OP_ob', 'Foswiki::Query::OP_uc', 'Foswiki::Query::OP_dot', 'Foswiki::Query::OP_gt', 'Foswiki::Query::OP_like', 'Foswiki::Query::OP_ne', 'Foswiki::Query::OP_or', 'Foswiki::Query::OP_where' ];
+$Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_match', 'Foswiki::Query::OP_and', 'Foswiki::Query::OP_eq', 'Foswiki::Query::OP_lc', 'Foswiki::Query::OP_lte', 'Foswiki::Query::OP_not', 'Foswiki::Query::OP_ref', 'Foswiki::Query::OP_d2n', 'Foswiki::Query::OP_gte', 'Foswiki::Query::OP_length', 'Foswiki::Query::OP_lt', 'Foswiki::Query::OP_ob', 'Foswiki::Query::OP_uc', 'Foswiki::Query::OP_dot', 'Foswiki::Query::OP_gt', 'Foswiki::Query::OP_like', 'Foswiki::Query::OP_ne', 'Foswiki::Query::OP_or', 'Foswiki::Query::OP_where' ];
 
 # **PERL H**
 # List of operators permitted in %IF statements.
