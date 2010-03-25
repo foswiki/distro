@@ -696,9 +696,10 @@ sub writeCompletePage {
             # incorporated into the foswikilib.js because that module
             # is conditionally loaded under the control of the
             # templates, and we have to be *sure* it gets loaded.
+            my $src = DEBUG() ? '_src' : '';
             $this->addToHEAD( 'FOSWIKI STRIKE ONE',
                               <<STRIKEONE);
-<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone.js"></script>
+<script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone$src.js"></script>
 STRIKEONE
             $usingStrikeOne = 1;
         }
