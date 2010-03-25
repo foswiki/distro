@@ -36,7 +36,8 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::Apache::MP13;
 
 use strict;
-use base 'Foswiki::Engine::Apache';
+use Foswiki::Engine::Apache;
+our @ISA = qw( Foswiki::Engine::Apache );
 
 use Apache            ();
 use Apache::Constants ();

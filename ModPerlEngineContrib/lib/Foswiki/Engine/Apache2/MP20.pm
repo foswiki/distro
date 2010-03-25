@@ -36,7 +36,8 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::Apache2::MP20;
 
 use strict;
-use base 'Foswiki::Engine::Apache2';
+use Foswiki::Engine::Apache2;
+our @ISA = qw( Foswiki::Engine::Apache2 );
 
 use Apache2::Connection ();
 use Apache2::Const -compile => qw(OK);

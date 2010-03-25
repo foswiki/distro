@@ -36,7 +36,8 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::Apache;
 
 use strict;
-use base 'Foswiki::Engine';
+use Foswiki::Engine;
+our @ISA = qw( Foswiki::Engine );
 
 BEGIN {
     if ( $ENV{MOD_PERL} ) {

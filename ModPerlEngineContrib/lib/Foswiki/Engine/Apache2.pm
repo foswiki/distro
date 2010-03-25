@@ -36,7 +36,8 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::Apache2;
 
 use strict;
-use base 'Foswiki::Engine::Apache';
+use Foswiki::Engine::Apache;
+our @ISA = qw( Foswiki::Engine::Apache );
 
 sub finalizeHeaders {
     my ( $this, @p ) = @_;
