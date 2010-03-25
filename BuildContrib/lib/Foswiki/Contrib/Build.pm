@@ -1221,6 +1221,7 @@ sub _build_compress {
         if ($this->{-v} || $this->{-n}) {
             warn "$to is up-to-date\n";
         }
+        return;
     }
 
     if (!$this->{-n}) {
