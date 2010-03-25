@@ -28,7 +28,8 @@ automatically upon configuration change.
 
 package Foswiki::Engine::FastCGI::ProcManager;
 
-use base 'FCGI::ProcManager';
+use FCGI::ProcManager;
+our @ISA = qw( FCGI::ProcManager );
 use strict;
 
 sub sig_manager {

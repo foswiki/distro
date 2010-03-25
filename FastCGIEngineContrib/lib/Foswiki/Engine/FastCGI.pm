@@ -43,7 +43,8 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 
 package Foswiki::Engine::FastCGI;
 
-use base 'Foswiki::Engine::CGI';
+use Foswiki::Engine::CGI;
+our @ISA = qw( Foswiki::Engine::CGI );
 
 use strict;
 
