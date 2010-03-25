@@ -1,12 +1,14 @@
 package ConfigureTests;
 
 use strict;
+use warnings;
 
 use base qw(FoswikiTestCase);
 
 use Error qw( :try );
 use File::Temp;
 use FindBin;
+use File::Path qw(mkpath rmtree);
 
 use Foswiki::Configure::Util ();
 use Foswiki::Configure::FoswikiCfg ();
@@ -644,7 +646,6 @@ sub test_Util_getMappedWebTopic {
 
 sub test_Util_listDir {
     my $this = shift;
-    use File::Path qw(mkpath rmtree);
  
     my $tempdir = $this->{tempdir} . '/test_Util_ListDir';
     rmtree($tempdir);  # Cleanup any old tests
@@ -698,8 +699,6 @@ sub test_Util_listDir {
 sub test_getPerlLocation {
     my $this = shift;
 
-    use File::Path qw(mkpath rmtree);
- 
     my $tempdir = $this->{tempdir} . '/test_util_getperllocation';
     mkpath($tempdir); 
 
@@ -747,8 +746,6 @@ sub _doLocationTest {
 sub test_rewriteShbang {
     my $this = shift;
 
-    use File::Path qw(mkpath rmtree);
- 
     my $tempdir = $this->{tempdir} . '/test_util_rewriteShbang';
     mkpath($tempdir); 
 
@@ -886,8 +883,8 @@ sub _makefile {
 
     $content = "datadata/n" unless ($content);
 
-    mkpath("$path");
-    open ( my $fh, '>', "$path/$file");
+    mkpath($path);
+    open ( my $fh, '>', "$path/$file") or die "Unable to open $path/$file for writing: $!\n";
     print $fh "$content \n";
     close ($fh);
 }
@@ -901,7 +898,8 @@ sub _test_removeManifestFiles {
     
     $Foswiki::cfg{DataDir} = "$tempdir/data";
 
-    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}") || die "Unable to open \n $! \n\n ";
+    open (my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}")
+        or die "Unable to open $tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}: $!\n";
     print $fh <<DONE;
 #!blah
 bleh
@@ -969,11 +967,9 @@ sub test_makeBackup {
     ($result, $err) = $pkg->install($tempdir);
 
     my $msg = $pkg->createBackup();
-    $this->assert_str_equals( 'Backup saved into', substr($msg, 0,17) );
-    #print " Saved: $msg \n";
-    
- 
-
+    $this->assert_matches( qr/Backup saved into/, $msg );
+    my @ufiles = $pkg->uninstall();
+    $this->assert_num_equals( 6, scalar @ufiles, 'Unexpected number of files uninstalled: ' . @ufiles); # 6 files + the installer file are removed
 }
 
 sub _makePackage {
@@ -1003,11 +999,11 @@ sub postinstall {
 
     my $this = shift;   # Get the object instance passed to the routine
     if ($this) {        # Verify that you are running in the new environment
-        my $mapped = Foswiki::Configure::Util::mapTarget( $this->{_rootdir},
-        'tools/test_util_installFiles_obsolete');
-        my $count = unlink $mapped if ( -e $mapped );
-        return "Removed $mapped \n " if ($count);
-        }
+DONE
+    print $fh "        my \$file = \"$tempdir/obsolete.pl\";\n";
+    print $fh <<'DONE';
+        return "Removed $file" if unlink $file;
+    }
 }
 
 Foswiki::Extender::install( $PACKAGES_URL, 'CommentPlugin', 'CommentPlugin', @DATA );
@@ -1089,7 +1085,7 @@ sub test_Package {
     rmtree($tempdir);  # Clean up old files if left behind 
     mkpath($tempdir); 
    
-    _makefile ( "$root/tools", "test_util_installFiles_obsolete", <<'DONE');
+    _makefile ( $tempdir, "obsolete.pl", <<'DONE');
 Test file data
 DONE
 
@@ -1161,25 +1157,25 @@ Installed:  MyPlugin_installer
 
     my @ifiles2 = $pkg2->files('1');
 
-    $this->assert_str_equals( $expresult, $result, "Verify Checked in vs. Installed\n EXPECTED $expresult \n RESULT $result");
-    $this->assert_num_equals( 8, scalar @ifiles2, 'Unexpected number of files installed on 2nd install ');   # + 3 rcs files after checkin
-    $this->assert_str_equals( '', $err, "Error $err remported" ); 
+    $this->assert_str_equals( $expresult, $result );
+    $this->assert_num_equals( 8, scalar @ifiles2, 'Unexpected number of files installed on 2nd install: ' . @ifiles2);   # + 3 rcs files after checkin
+    $this->assert_str_equals( '', $err, "Error $err reported" ); 
      
-    $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall());
     $this->assert_str_equals( 'Pre-install entered', $pkg2->preinstall());
+    $this->assert_str_equals( "Removed $tempdir/obsolete.pl", $pkg2->postinstall());
+    $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall());
     $this->assert_null( $pkg2->postuninstall());
-    $this->assert_str_equals( 'Removed ', substr( $pkg2->postinstall(), 0, 8));
 
-    my ($installed, $missing,  @wiki, @cpan, @manual) = $pkg2->checkDependencies();
-    print "===== INSTALLED =======\n$installed\n";
-    print "====== MISSING ========\n$missing\n";
+    my ($installed, $missing,  @install, @cpan) = $pkg2->checkDependencies();
+    #print "===== INSTALLED =======\n$installed\n";
+    #print "====== MISSING ========\n$missing\n";
 
     #  
     #  Now uninistall the package
     #
     my @ufiles = $pkg2->uninstall();
 
-    $this->assert_num_equals( 9, scalar @ufiles, 'Unexpected number of files uninstalled'); # 8 files + the installer file are removed
+    $this->assert_num_equals( 9, scalar @ufiles, 'Unexpected number of files uninstalled: ' . @ufiles); # 6 files + 2 .txt,v + the installer file are removed
 
     foreach my $f ( @ufiles ) {
        $this->assert( (! -e $f), "File $f not deleted" );

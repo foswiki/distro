@@ -417,7 +417,7 @@ sub files {
 ---++ uninstall ( $simulate )
 Remove each file identified by the manifest.  Also remove
 any rcs "...,v" files if they exist.   Note that directories
-are NOT removed.
+are NOT removed unless they are empty.
 
 Returns the list of files that were removed.  If simulate is set to 
 true, no files are uninstalled, but the list of files that would
@@ -430,6 +430,7 @@ sub uninstall {
     my $simulate = shift;
    
     my @removed;
+    my %directories;
 
     # foreach file in the manifest, remove the file. 
     foreach my $key ( keys( % {$this->{_manifest}} ) ) {
@@ -442,27 +443,28 @@ sub uninstall {
         if ($simulate) {
             push (@removed, "$target") if  (-f "$target");
             push (@removed, "$target,v") if  (-f "$target,v");
+            $directories{$1}++ if $target =~ m!^(.*)/[^/]*$!;
         } else {
 
             if (-f $target) {
-                chmod( '0666', $target);
                 my $n = unlink "$target";
                 push (@removed, "$target") if ($n == 1);
-                }
+            }
             if (-f "$target,v") {
-                chmod( '0666', "$target,v");
                 my $n = unlink "$target,v";
                 push (@removed, "$target,v") if ($n == 1);
-                }
             }
         }
+    }
 
     my $pkgdata = "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer";
     push (@removed, $pkgdata);
     unless ( $simulate ) {
-        chmod( '0600', $pkgdata);
         unlink "$pkgdata";
+        for( keys %directories ) {
+            while( rmdir ) { s!/[^/]*$!!;  }
         }
+    }
     return sort(@removed);
 }
 
@@ -503,9 +505,10 @@ sub loadInstaller {
         }
     }     
 
-    open(my $fh, '<', $file) || return ('', "Extract manfiest failed: $file -  $!");
+    open(my $fh, '<', $file) || return ('', "Extract manifest failed: $file -  $!");
 
     my $found = '';
+    my $depth = 0;
     while (<$fh>) {
        if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
            $found = 'M1';
@@ -519,7 +522,7 @@ sub loadInstaller {
                    $found = 'D';
                    next;
                } else {
-                   if ( substr( $_, 0, 18 ) eq 'sub preuninstall {' ) {
+                   if ( /sub\s*p(?:ost|re)(?:un)?install/ ) {
                        $found = 'P';
                   }
               }
@@ -547,18 +550,23 @@ sub loadInstaller {
        } 
 
         if ($found eq 'P') {
-            if ( substr($_, 0, 26) eq 'Foswiki::Extender::install' ) {
-                $found = '';
-                next;
-            }
-            $this->{_routines} .= $_
+
+            # SMELL try to guess when the function is closed.
+            # if brackets are not in pairs, this will fail, like { in comment
+            $depth++ for /{/g;
+            $depth-- for /}/g;
+            $this->{_routines} .= $_;
+            $found = '' unless $depth;
+            next;
         }      
     }
     close $fh;
 
     if ($this->{_routines}) {
         $this->{_routines} =~ /(.*)/sm; $this->{_routines} = $1;    #yes, we must untaint
-        eval $this->{_routines};
+        unless( eval $this->{_routines} . "; 1; " ) {
+            die "Couldn't load subroutines: $@";
+        }
     }
 
     return ($warn, '');
