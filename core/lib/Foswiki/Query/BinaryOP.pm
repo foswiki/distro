@@ -1,16 +1,11 @@
-# See bottom of file for copyright and license details
 package Foswiki::Query::BinaryOP;
 
 use strict;
 
-use Foswiki::Query::OP;
-our @ISA = ( 'Foswiki::Query::OP' );
-
-use Foswiki::Query::SQLResult ();
-
 sub new {
     my $class = shift;
-    return $class->SUPER::new(arity => 2, @_);
+    my $this = { @_, arity => 2 };
+    return bless( $this, $class );
 }
 
 # Determine if a string represents a valid number
@@ -61,34 +56,4 @@ sub evalTest {
     }
 }
 
-sub xpath {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}[0];
-    my $b = $node->{params}[1];
-    return '('.$a->xpath().' '.($this->{xpath_op} || $this->{name})
-              .' '.$b->xpath(@_).')';
-}
-
 1;
-__END__
-
-Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
-
-Copyright (C) 2009 Foswiki Contributors. All Rights Reserved.
-Foswiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version. For
-more details read LICENSE in the root of this distribution.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-As per the GPL, removal of this notice is prohibited.
-
-Author: Crawford Currie http://c-dot.co.uk

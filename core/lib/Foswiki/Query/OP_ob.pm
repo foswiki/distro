@@ -15,8 +15,7 @@ our @ISA = ('Foswiki::Query::UnaryOP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new(
-        name => '(', close => ')', ascname => 'ob', prec => 1000 );
+    return $class->SUPER::new( name => '(', close => ')', prec => 1000 );
 }
 
 sub evaluate {
@@ -24,13 +23,6 @@ sub evaluate {
     my $node = shift;
     my $a    = $node->{params}[0];
     return $a->evaluate(@_);
-}
-
-sub xpath {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}[0];
-    return '('.$a->xpath().')';
 }
 
 1;

@@ -89,7 +89,7 @@ sub extract {
     }
 
  # Foswiki's %MAKETEXT{...}% inside a search format would look like this:
- # %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percent ..." ...}%
+ # %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percnt ..." ...}%
  #
  # XXX: the regex down there matches a sequence formed be an escaped double
  # quote (\"), followed by characters that are not doublequotes OR
@@ -104,7 +104,7 @@ sub extract {
     pos($_) = 0;
     my @_lines = split( /\n/, $_ );
     foreach (@_lines) {
-        while (m/\$perce?ntMAKETEXT\{\s*(string=)?(\\"(\\\\\\"|[^"])*\\")/gm) {
+        while (m/\$percntMAKETEXT\{\s*(string=)?(\\"(\\\\\\"|[^"])*\\")/gm) {
 
             # remove the enclosing [\"]'s:
             my $str = substr( $2, 2, -2 );

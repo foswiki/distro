@@ -29,13 +29,6 @@ sub evaluate {
     return $this->evalUnary( $node, sub { lc(shift) }, @_ );
 }
 
-sub xpath {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}[0];
-    return 'lower('.$a->xpath().')';
-}
-
 1;
 
 __DATA__

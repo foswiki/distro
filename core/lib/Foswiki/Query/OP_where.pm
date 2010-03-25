@@ -9,17 +9,13 @@
 package Foswiki::Query::OP_where;
 
 use strict;
-use Assert;
 
 use Foswiki::Query::BinaryOP ();
 our @ISA = ('Foswiki::Query::BinaryOP');
 
-use Foswiki::Query::SQLResult ();
-
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '[', close => ']',
-                               ascname => 'squab', prec => 800 );
+    return $class->SUPER::new( name => '[', close => ']', prec => 800 );
 }
 
 sub evaluate {
@@ -42,14 +38,6 @@ sub evaluate {
     else {
         return $b->evaluate( data => $lval, tom => $domain{tom} );
     }
-}
-
-sub xpath {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}[0];
-    my $b = $node->{params}[1];
-    return $a->xpath().'['.$b->xpath(@_).']';
 }
 
 1;

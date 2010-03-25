@@ -202,15 +202,15 @@ sub _getLogForLevel {
     my $level = shift;
     my $log;
     if ( $level eq 'debug' ) {
-        $log = $Foswiki::cfg{DebugFileName} || 'debug%DATE%.txt';
+        $log = $Foswiki::cfg{DebugFileName};
     }
     elsif ( $level eq 'info' ) {
-        $log = $Foswiki::cfg{LogFileName} || 'log%DATE%.txt';
+        $log = $Foswiki::cfg{LogFileName};
     }
     else {
         ASSERT( $level =~ /^(warning|error|critical|alert|emergency)$/ )
           if DEBUG;
-        $log = $Foswiki::cfg{WarningFileName} || 'warn%DATE%.txt';
+        $log = $Foswiki::cfg{WarningFileName};
     }
 
     # SMELL: Expand should not be needed, except if bin/configure tries
