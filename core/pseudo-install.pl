@@ -409,7 +409,7 @@ sub just_link {
         }
     }
     unless ($found) {
-        warn "WARNING: Cannot find source file $moduleDir/#/$file\n";
+        warn "WARNING: Cannot find source file for $moduleDir/#/$file\n";
         return;
     }
 }
@@ -597,6 +597,8 @@ for my $arg (@ARGV) {
     else {
         push @modules, $arg;
     }
+    # *Never* uninstall 'core'
+    @modules = grep { !/^core$/ } @modules unless $installing;
 }
 
 print(
