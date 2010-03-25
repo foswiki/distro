@@ -3199,15 +3199,26 @@ are handled:
 
 sub expandStandardEscapes {
     my $text = shift;
-    $text =~ s/\$n\(\)/\n/gos;    # expand '$n()' to new line
-    $text =~ s/\$n([^$regex{mixedAlpha}]|$)/\n$1/gos;  # expand '$n' to new line
-    $text =~ s/\$nop(\(\))?//gos;      # remove filler, useful for nested search
-    $text =~ s/\$quot(\(\))?/\"/gos;   # expand double quote
-    $text =~ s/\$perce?nt(\(\))?/\%/gos; # expand percent
-    $text =~ s/\$dollar(\(\))?/\$/gos; # expand dollar
-    $text =~ s/\$lt(\(\))?/\</gos;     # expand less than
-    $text =~ s/\$gt(\(\))?/\>/gos;     # expand greater than
-    $text =~ s/\$amp(\(\))?/\&/gos;    # expand ampersand
+
+    # expand '$n()' and $n! to new line
+    $text =~ s/\$n\(\)/\n/gos;
+    $text =~ s/\$n(?=[^$regex{mixedAlpha}]|$)/\n/gos;
+
+    # remove filler, useful for nested search
+    $text =~ s/\$nop(\(\))?//gos;
+    # $quot -> "
+    $text =~ s/\$quot(\(\))?/\"/gos;
+    # $percent -> %
+    $text =~ s/\$perce?nt(\(\))?/\%/gos;
+    # $lt -> <
+    $text =~ s/\$lt(\(\))?/\</gos;
+    # $gt -> >
+    $text =~ s/\$gt(\(\))?/\>/gos;
+    # $amp -> &
+    $text =~ s/\$amp(\(\))?/\&/gos;
+    # $dollar -> $, done last to avoid creating the above tokens
+    $text =~ s/\$dollar(\(\))?/\$/gos;
+
     return $text;
 }
 
