@@ -44,7 +44,7 @@ use Foswiki::Configure::Util;
 
 our $VERSION = '$Rev: 6590 $';
 
-my $depwarn = '';   # Pass back warnings from untaint validation routine
+my $depwarn = '';    # Pass back warnings from untaint validation routine
 
 ############# GENERIC METHODS #############
 
@@ -67,18 +67,19 @@ sub new {
     my ( $class, $root, $pkgname, $type, $session ) = @_;
     my @deps;
 
-
     my $this = bless(
         {
-            _root => $root,
+            _root    => $root,
             _pkgname => $pkgname,
-            _type => $type,
+            _type    => $type,
             _session => $session,
-            # Hash mapping the topics, attachment and other files supplied by this package
+
+  # Hash mapping the topics, attachment and other files supplied by this package
             _manifest => undef,
-            # Array of dependencies required by this package 
+
+            # Array of dependencies required by this package
             _dependency => \@deps,
-            _routines => undef,
+            _routines   => undef,
         },
         $class
     );
@@ -105,10 +106,11 @@ sub finish {
     undef $this->{_manifest};
     undef $this->{_dependency};
     undef $this->{_routines};
-    for ( qw( preinstall postinstall preuninstall postuninstall ) ) {
-            undef &{$_};
+
+    for (qw( preinstall postinstall preuninstall postuninstall )) {
+        undef &{$_};
     }
-                                
+
 }
 
 =begin TML
@@ -163,79 +165,93 @@ save the topic.
 =cut
 
 sub install {
-    my $this = shift;    
-    my $dir = shift;       # Location of unpacked extension
+    my $this = shift;
+    my $dir  = shift;    # Location of unpacked extension
 
-    my $session = $this->{_session};   # Session used for file checkin - should be admin user.
-    my $root = $this->{_root};      # Root of the foswiki installation
-    my $manifest = $this->{_manifest};  # Reference to the manifest 
+    my $session =
+      $this->{_session}; # Session used for file checkin - should be admin user.
+    my $root     = $this->{_root};        # Root of the foswiki installation
+    my $manifest = $this->{_manifest};    # Reference to the manifest
 
-    my @names = $this->files();         # Retrieve list of filenames from manifest
-    my $results = '';                   # Results from install
-    my $err = '';                       # Accumulated errors
+    my @names   = $this->files();    # Retrieve list of filenames from manifest
+    my $results = '';                # Results from install
+    my $err     = '';                # Accumulated errors
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
 
         if ( $file =~ /^bin\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
-            Foswiki::Configure::Util::rewriteShbang("$dir/$file", "$perlLoc") if $perlLoc;
+            Foswiki::Configure::Util::rewriteShbang( "$dir/$file", "$perlLoc" )
+              if $perlLoc;
         }
 
         # Find where it is meant to go
-        my $target = Foswiki::Configure::Util::mapTarget($this->{_root},$file);
+        my $target =
+          Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
 
-        # Make file writable if it is read-only 
+        # Make file writable if it is read-only
         if ( -e $target && !-w $target ) {
-            chmod( oct(600), "$target");
-            }
+            chmod( oct(600), "$target" );
+        }
 
-        # Move or copy the file. 
-        if ( -f "$dir/$file" ) {  # Exists as a file.
-            my $installed = $manifest->{$file}->{I} || ''; # Set to 1 if file already installed
+        # Move or copy the file.
+        if ( -f "$dir/$file" ) {    # Exists as a file.
+            my $installed = $manifest->{$file}->{I}
+              || '';                # Set to 1 if file already installed
             next if ($installed);
-            $manifest->{$file}->{I} = 1;   # Set this to installed (assuming it all works)
+            $manifest->{$file}->{I} =
+              1;    # Set this to installed (assuming it all works)
 
-            my $ci = $manifest->{$file}->{ci} || '';       # Set to 1 if checkin desired
-            my $perms = $manifest->{$file}->{perms};       # File permissions
+            my $ci = $manifest->{$file}->{ci}
+              || '';    # Set to 1 if checkin desired
+            my $perms = $manifest->{$file}->{perms};    # File permissions
 
             # Topic files in the data directory needing Checkin
-            if ( $file =~ m/^data/ && (-e "$target,v" || (-e "$target" && $ci ) ) ) {
-                my ($web, $topic) = $file =~ /^data\/(.*)\/(\w+).txt$/;
-                my ($tweb, $ttopic) = Foswiki::Configure::Util::getMappedWebTopic($file);
+            if ( $file =~ m/^data/
+                && ( -e "$target,v" || ( -e "$target" && $ci ) ) )
+            {
+                my ( $web, $topic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+                my ( $tweb, $ttopic ) =
+                  Foswiki::Configure::Util::getMappedWebTopic($file);
 
                 my %opts;
                 $opts{forcenewrevision} = 1;
+
                 #$opts{dontlog} = 1;
 
                 local $/ = undef;
-                open(my $fh, '<', "$dir/$file" ) ;
+                open( my $fh, '<', "$dir/$file" );
                 my $contents = <$fh>;
                 close $fh;
 
                 if ($contents) {
                     $results .= "Checked in: $file  as $tweb.$ttopic\n";
-                    my $meta = Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
-                    $results .= _installAttachments($this, $dir,"$web/$topic", "$tweb/$ttopic", $meta );
-                    $meta->saveAs ( $tweb, $ttopic, %opts );
+                    my $meta =
+                      Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
+                    $results .= _installAttachments( $this, $dir, "$web/$topic",
+                        "$tweb/$ttopic", $meta );
+                    $meta->saveAs( $tweb, $ttopic, %opts );
                 }
                 next;
             }
 
-
             # Everything else
-            my $msg .= _moveFile ("$dir/$file", "$target", $perms);
+            my $msg .= _moveFile( "$dir/$file", "$target", $perms );
             $err .= $msg if ($msg);
             $results .= "Installed:  $file\n";
             next;
-            }
         }
-        my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
-        my $msg = _moveFile ("$dir/$this->{_pkgname}_installer", "$pkgstore/$this->{_pkgname}_installer");
-        $results .= "Installed:  $this->{_pkgname}_installer\n";
+    }
+    my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
+    my $msg      = _moveFile(
+        "$dir/$this->{_pkgname}_installer",
+        "$pkgstore/$this->{_pkgname}_installer"
+    );
+    $results .= "Installed:  $this->{_pkgname}_installer\n";
 
-        $err .= $msg if ($msg);
-        return ($results, $err);
+    $err .= $msg if ($msg);
+    return ( $results, $err );
 
 }
 
@@ -245,65 +261,78 @@ sub install {
 Install the attachments associated with a topic.  
 
 =cut
+
 sub _installAttachments {
-    my $this = shift;
-    my $dir = shift;
-    my $webTopic = shift;
+    my $this      = shift;
+    my $dir       = shift;
+    my $webTopic  = shift;
     my $twebTopic = shift;
-    my $meta = shift;
-    my $results = '';
+    my $meta      = shift;
+    my $results   = '';
 
     foreach my $key ( keys %{ $this->{_manifest}->{ATTACH}->{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
-        my $attachinfo = $meta->get( 'FILEATTACHMENT', $key );  # Recover existing Metadata
-        if ( ($this->{_manifest}->{$file}->{ci} && (-e "$this->{_root}/$file")) || (-e "$this->{_root}/$file,v" )) {
-            $this->{_manifest}->{$file}->{I} = 1;   # Set this to installed (assuming it all works)
-            my @stats    = stat "$dir/$file";
+        my $attachinfo =
+          $meta->get( 'FILEATTACHMENT', $key );    # Recover existing Metadata
+        if (
+            (
+                $this->{_manifest}->{$file}->{ci}
+                && ( -e "$this->{_root}/$file" )
+            )
+            || ( -e "$this->{_root}/$file,v" )
+          )
+        {
+            $this->{_manifest}->{$file}->{I} =
+              1;    # Set this to installed (assuming it all works)
+            my @stats = stat "$dir/$file";
             my %opts;
             $opts{name} = $key;
             $opts{file} = "$dir/$file";
+
             #$opts{dontlog} = 1;
-            $opts{attr} = $attachinfo->{attr};
-            $opts{comment} = $attachinfo->{comment};
+            $opts{attr}     = $attachinfo->{attr};
+            $opts{comment}  = $attachinfo->{comment};
             $opts{filesize} = $stats[7];
             $opts{filedate} = $stats[9];
-            $meta->attach (%opts);
+            $meta->attach(%opts);
             $results .= "Attached:   $file to $twebTopic\n";
-            }
         }
+    }
     return $results;
 }
-   
+
 =begin TML
 ---+++ _moveFile ()
 
 Make the path as required and move or copy the file into the target location
 
 =cut
+
 sub _moveFile {
-    my $from = shift;
-    my $to = shift;
+    my $from  = shift;
+    my $to    = shift;
     my $perms = shift;
 
-    my @path = split( /[\/\\]+/, $to, -1 ); # -1 allows directories            
-    pop(@path);                                                                    
-    if ( scalar(@path) ) {                                                         
-        File::Path::mkpath( join( '/', @path ) );                                  
-        }                                                                              
+    my @path = split( /[\/\\]+/, $to, -1 );    # -1 allows directories
+    pop(@path);
+    if ( scalar(@path) ) {
+        File::Path::mkpath( join( '/', @path ) );
+    }
 
     if ( !File::Copy::move( "$from", $to ) ) {
         if ( !File::Copy::copy( "$from", $to ) ) {
             return "Failed to move/copy file '$from' to $to: $!";
-            }
         }
-    if (defined $perms ) {
-        $to =~ /(.*)/; $to = $1;    #yes, we must untaint
-        $perms =~ /(.*)/; $perms = $1;    #yes, we must untaint
-        chmod( oct($perms), "$to");
+    }
+    if ( defined $perms ) {
+        $to =~ /(.*)/;
+        $to = $1;    #yes, we must untaint
+        $perms =~ /(.*)/;
+        $perms = $1;    #yes, we must untaint
+        chmod( oct($perms), "$to" );
     }
     return 0;
 }
-
 
 =begin TML
 ---++ ObjectMethod createBackup ()
@@ -317,42 +346,54 @@ into a backup file.
 sub createBackup {
     my $this = shift;
     my $root = $this->{_root};
-    $root =~ s#\\#/#g;   # Convert windows style slashes 
+    $root =~ s#\\#/#g;    # Convert windows style slashes
 
     require Foswiki::Time;
-    my $stamp = Foswiki::Time::formatTime( time(), '$year$mo$day-$hour$minutes$seconds', 'servertime' );
+    my $stamp =
+      Foswiki::Time::formatTime( time(), '$year$mo$day-$hour$minutes$seconds',
+        'servertime' );
 
-    my $bkdir = "$Foswiki::cfg{WorkingDir}/configure/backup";
+    my $bkdir  = "$Foswiki::cfg{WorkingDir}/configure/backup";
     my $bkname = "$this->{_pkgname}-backup-$stamp";
     my $pkgstore .= "$bkdir/$bkname";
 
     my @files = $this->files('1');    # return list of installed files
-    unshift (@files,"$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer") if (-e "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"); 
+    unshift( @files,
+"$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
+      )
+      if (
+        -e "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
+      );
 
-    if ( scalar @files ) {                     # Anything to backup?
-        File::Path::mkpath( "$pkgstore");
-    
+    if ( scalar @files ) {            # Anything to backup?
+        File::Path::mkpath("$pkgstore");
+
         foreach my $file (@files) {
-            my ($tofile) = $file =~ m/^$root(.*)$/;  # Filename relative to root of Foswiki installation
-            next unless $tofile;                     # Unit tests use a tmp working directory which fails the match
-            my @path = split( /[\/\\]+/, "$pkgstore/$tofile", -1 ); # -1 allows directories            
-            pop(@path);                                                                    
+            my ($tofile) = $file =~ m/^$root(.*)$/
+              ;    # Filename relative to root of Foswiki installation
+            next
+              unless $tofile
+            ;    # Unit tests use a tmp working directory which fails the match
+            my @path = split( /[\/\\]+/, "$pkgstore/$tofile", -1 )
+              ;    # -1 allows directories
+            pop(@path);
             if ( scalar(@path) ) {
                 File::Path::mkpath( join( '/', @path ) );
-                my $mode = (stat($file))[2];   # File::Copy doesn't copy permissions
-                File::Copy::copy( "$file", "$pkgstore/$tofile"); 
-                $mode =~ /(.*)/; $mode = $1;    #yes, we must untaint
-                chmod( $mode, "$pkgstore/$tofile");
-            }                                                                              
+                my $mode =
+                  ( stat($file) )[2];    # File::Copy doesn't copy permissions
+                File::Copy::copy( "$file", "$pkgstore/$tofile" );
+                $mode =~ /(.*)/;
+                $mode = $1;              #yes, we must untaint
+                chmod( $mode, "$pkgstore/$tofile" );
+            }
         }
 
-    #my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
+#my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
 
-    return "Backup saved into $pkgstore \n";
+        return "Backup saved into $pkgstore \n";
     }
     return "Nothing to backup \n";
 }
-
 
 =begin TML
 
@@ -370,16 +411,19 @@ sub setPermissions {
     foreach my $file (@names) {
 
         # Find where it is meant to go
-        my $target = Foswiki::Configure::Util::mapTarget($this->{_root},$file);
+        my $target =
+          Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
 
-        if (-f $target) {
+        if ( -f $target ) {
 
             my $mode = $this->{_manifest}->{$file}->{perms};
 
             if ($mode) {
-                $target =~ /(.*)/; $target = $1;    #yes, we must untaint
-                $mode =~ /(.*)/; $mode = $1;    #yes, we must untaint
-                chmod( oct($mode), $target);
+                $target =~ /(.*)/;
+                $target = $1;    #yes, we must untaint
+                $mode =~ /(.*)/;
+                $mode = $1;      #yes, we must untaint
+                chmod( oct($mode), $target );
             }
         }
     }
@@ -396,17 +440,19 @@ including rcs files.
 =cut
 
 sub files {
-    my ($this, $installed)  = @_;
+    my ( $this, $installed ) = @_;
 
     my @files;
-    foreach my $key ( keys( % {$this->{_manifest}} ) ) {
-        next if ($key eq 'ATTACH');
+    foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
+        next if ( $key eq 'ATTACH' );
         if ($installed) {
-            my $target = Foswiki::Configure::Util::mapTarget($this->{_root},$key);
-            push (@files, "$target") if  (-f "$target");
-            push (@files, "$target,v") if  (-f "$target,v");
-        } else {
-            push (@files, $key);
+            my $target =
+              Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
+            push( @files, "$target" )   if ( -f "$target" );
+            push( @files, "$target,v" ) if ( -f "$target,v" );
+        }
+        else {
+            push( @files, $key );
         }
     }
     return sort(@files);
@@ -426,43 +472,46 @@ have been removed is returned.
 =cut
 
 sub uninstall {
-    my $this = shift;
+    my $this     = shift;
     my $simulate = shift;
-   
+
     my @removed;
     my %directories;
 
-    # foreach file in the manifest, remove the file. 
-    foreach my $key ( keys( % {$this->{_manifest}} ) ) {
+    # foreach file in the manifest, remove the file.
+    foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
 
-        next if ($key eq 'ATTACH');
+        next if ( $key eq 'ATTACH' );
 
         # Find where it is meant to go
-        my $target = Foswiki::Configure::Util::mapTarget($this->{_root},$key);
+        my $target =
+          Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
 
         if ($simulate) {
-            push (@removed, "$target") if  (-f "$target");
-            push (@removed, "$target,v") if  (-f "$target,v");
+            push( @removed, "$target" )   if ( -f "$target" );
+            push( @removed, "$target,v" ) if ( -f "$target,v" );
             $directories{$1}++ if $target =~ m!^(.*)/[^/]*$!;
-        } else {
+        }
+        else {
 
-            if (-f $target) {
+            if ( -f $target ) {
                 my $n = unlink "$target";
-                push (@removed, "$target") if ($n == 1);
+                push( @removed, "$target" ) if ( $n == 1 );
             }
-            if (-f "$target,v") {
+            if ( -f "$target,v" ) {
                 my $n = unlink "$target,v";
-                push (@removed, "$target,v") if ($n == 1);
+                push( @removed, "$target,v" ) if ( $n == 1 );
             }
         }
     }
 
-    my $pkgdata = "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer";
-    push (@removed, $pkgdata);
-    unless ( $simulate ) {
+    my $pkgdata =
+      "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer";
+    push( @removed, $pkgdata );
+    unless ($simulate) {
         unlink "$pkgdata";
-        for( keys %directories ) {
-            while( rmdir ) { s!/[^/]*$!!;  }
+        for ( keys %directories ) {
+            while (rmdir) { s!/[^/]*$!!; }
         }
     }
     return sort(@removed);
@@ -482,74 +531,82 @@ installed as methods for this object.
 =cut
 
 sub loadInstaller {
-    my ($this, $temproot) = @_;
+    my ( $this, $temproot ) = @_;
     $temproot = $this->{_root} unless defined $temproot;
 
-    my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
+    my $pkgstore  = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     my $extension = $this->{_pkgname};
-    my $warn = '';
+    my $warn      = '';
     local $/ = "\n";
 
     my $file;
-    if (-e "$temproot/${extension}_installer") {
-       $file = "$temproot/${extension}_installer"; 
-    } else {
-       if (-e "$temproot/${extension}_installer.pl") {
-           $file = "$temproot/${extension}_installer.pl";
-       } else {
-           if (-e "$pkgstore/${extension}_installer") {
-           $file = "$pkgstore/${extension}_installer";
-           } else {
-               return ('', "ERROR - Extension $extension package not found ");
-           }
+    if ( -e "$temproot/${extension}_installer" ) {
+        $file = "$temproot/${extension}_installer";
+    }
+    else {
+        if ( -e "$temproot/${extension}_installer.pl" ) {
+            $file = "$temproot/${extension}_installer.pl";
         }
-    }     
+        else {
+            if ( -e "$pkgstore/${extension}_installer" ) {
+                $file = "$pkgstore/${extension}_installer";
+            }
+            else {
+                return ( '',
+                    "ERROR - Extension $extension package not found " );
+            }
+        }
+    }
 
-    open(my $fh, '<', $file) || return ('', "Extract manifest failed: $file -  $!");
+    open( my $fh, '<', $file )
+      || return ( '', "Extract manifest failed: $file -  $!" );
 
     my $found = '';
     my $depth = 0;
     while (<$fh>) {
-       if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
-           $found = 'M1';
-           next;
-       } else {
-           if ( $_ eq "<<<< MANIFEST2 >>>>\n" ) { 
-               $found = 'M2';
-               next;
-           } else {
-               if ( $_ eq "<<<< DEPENDENCIES >>>>\n" ) { 
-                   $found = 'D';
-                   next;
-               } else {
-                   if ( /sub\s*p(?:ost|re)(?:un)?install/ ) {
-                       $found = 'P';
-                  }
-              }
-           }
-       }
+        if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
+            $found = 'M1';
+            next;
+        }
+        else {
+            if ( $_ eq "<<<< MANIFEST2 >>>>\n" ) {
+                $found = 'M2';
+                next;
+            }
+            else {
+                if ( $_ eq "<<<< DEPENDENCIES >>>>\n" ) {
+                    $found = 'D';
+                    next;
+                }
+                else {
+                    if (/sub\s*p(?:ost|re)(?:un)?install/) {
+                        $found = 'P';
+                    }
+                }
+            }
+        }
 
-       if ($found eq 'M1' || $found eq 'M2' ) {
-          if ( $_ eq "\n") {
-             $found = '';
-             next;
-          }
-          chomp $_;
-          _parseManifest ($this, $_, ($found eq 'M2') );
-          next;
-       }
+        if ( $found eq 'M1' || $found eq 'M2' ) {
+            if ( $_ eq "\n" ) {
+                $found = '';
+                next;
+            }
+            chomp $_;
+            _parseManifest( $this, $_, ( $found eq 'M2' ) );
+            next;
+        }
 
-       if ($found eq 'D' ) {
-          if ( $_ eq "\n") {
-             $found = '';
-             next;
-          }
-          chomp $_;
-          $warn .= _parseDependency ($this, $_ ) if ($_);
-          next;
-       } 
+        if ( $found eq 'D' ) {
+            if ( $_ eq "\n" ) {
+                $found = '';
+                next;
+            }
+            chomp $_;
+            $warn .= _parseDependency( $this, $_ ) if ($_);
+            next;
+        }
 
-        if ($found eq 'P') {
+        if ( $found eq 'P' ) {
 
             # SMELL try to guess when the function is closed.
             # if brackets are not in pairs, this will fail, like { in comment
@@ -558,19 +615,20 @@ sub loadInstaller {
             $this->{_routines} .= $_;
             $found = '' unless $depth;
             next;
-        }      
+        }
     }
     close $fh;
 
-    if ($this->{_routines}) {
-        $this->{_routines} =~ /(.*)/sm; $this->{_routines} = $1;    #yes, we must untaint
-        unless( eval $this->{_routines} . "; 1; " ) {
+    if ( $this->{_routines} ) {
+        $this->{_routines} =~ /(.*)/sm;
+        $this->{_routines} = $1;    #yes, we must untaint
+        unless ( eval $this->{_routines} . "; 1; " ) {
             die "Couldn't load subroutines: $@";
         }
     }
 
-    return ($warn, '');
-} 
+    return ( $warn, '' );
+}
 
 =begin TML
 
@@ -580,13 +638,14 @@ Return the manifest in printable format
 =cut
 
 sub Manifest {
-    my ($this)  = @_;
+    my ($this) = @_;
     my $rslt = '';
 
-    foreach my $file ( sort keys( % {$this->{_manifest}} ) ) {
-        next if ($file eq 'ATTACH');
-        $rslt .=  "$file $this->{_manifest}->{$file}->{perms} $this->{_manifest}->{$file}->{md5} $this->{_manifest}->{$file}->{desc}\n";
-        }
+    foreach my $file ( sort keys( %{ $this->{_manifest} } ) ) {
+        next if ( $file eq 'ATTACH' );
+        $rslt .=
+"$file $this->{_manifest}->{$file}->{perms} $this->{_manifest}->{$file}->{md5} $this->{_manifest}->{$file}->{desc}\n";
+    }
     return $rslt;
 }
 
@@ -606,36 +665,38 @@ the file.
 sub _parseManifest {
     my $this = shift;
 
-    my $file = '';
+    my $file  = '';
     my $perms = '';
-    my $md5 = '';
-    my $desc = '';
+    my $md5   = '';
+    my $desc  = '';
 
     if ( $_[1] ) {
-        ( $file, $perms, $md5, $desc ) = split( ',', $_[0], 4 ) ; 
-    } else {
+        ( $file, $perms, $md5, $desc ) = split( ',', $_[0], 4 );
+    }
+    else {
         ( $file, $perms, $desc ) = split( ',', $_[0], 3 );
     }
 
     return unless ($file);
 
-    my $tweb = '';
-    my $ttopic = '';
+    my $tweb    = '';
+    my $ttopic  = '';
     my $tattach = '';
 
     if ( $file =~ m/^data\/.*/ ) {
-        ($tweb, $ttopic) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+        ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
     }
     if ( $file =~ m/^pub\/.*/ ) {
-        ($tweb, $ttopic, $tattach) = $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
+        ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
     }
 
-    $this->{_manifest}->{$file}->{ci} = ( $desc =~ /\(noci\)/ ? 0 : 1 );
+    $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
-    $this->{_manifest}->{$file}->{md5} = $md5 if ($md5);
+    $this->{_manifest}->{$file}->{md5}   = $md5 if ($md5);
     $this->{_manifest}->{$file}->{topic} = "$tweb\t$ttopic\t$tattach";
-    $this->{_manifest}->{$file}->{desc} = $desc =~ s/\(noci\)//;
-    $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}{$tattach} = $file if ($tattach);
+    $this->{_manifest}->{$file}->{desc}  = $desc =~ s/\(noci\)//;
+    $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}{$tattach} = $file
+      if ($tattach);
 }
 
 =begin TML
@@ -653,16 +714,15 @@ sub _parseDependency {
 
     my $warn = '';
     my ( $module, $condition, $trigger, $type, $desc ) =
-        split( ',', $_[0], 5 );
-
+      split( ',', $_[0], 5 );
 
     return unless ($module);
 
-    if ( $type =~ m/cpan|perl/i ) { 
+    if ( $type =~ m/cpan|perl/i ) {
         $depwarn = '';
-        $module  = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
+        $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
         $warn .= $depwarn;
-    }   
+    }
 
     if ( $trigger eq '1' ) {
 
@@ -679,11 +739,14 @@ sub _parseDependency {
         );
     }
     else {
+
         # There is a ONLYIF condition, warn user
-        $warn .= "The script uses an ONLYIF condition for module $module"
+        $warn .=
+            "The script uses an ONLYIF condition for module $module"
           . ' which is potentially insecure: "'
           . $trigger . '"' . "\n";
         if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()\$]*$/ ) {
+
             # It looks more or less safe
             push(
                 @$deps,
@@ -691,14 +754,18 @@ sub _parseDependency {
                     module      => $module,
                     type        => $type,
                     version     => $condition,    # version condition
-                    trigger     => $trigger,            # ONLYIF condition
+                    trigger     => $trigger,      # ONLYIF condition
                     description => $desc
                 )
             );
         }
         else {
-            $warn .= 'This ' . $trigger . ' condition does not look safe and is being disabled.' . "\n";
-            $warn .= "This dependency on $module should be manually resolved \n";
+            $warn .=
+                'This ' 
+              . $trigger
+              . ' condition does not look safe and is being disabled.' . "\n";
+            $warn .=
+              "This dependency on $module should be manually resolved \n";
         }
     }
     return $warn;
@@ -709,17 +776,18 @@ sub _parseDependency {
 # which could be potentially insecure.
 sub _validatePerlModule {
     my $module = shift;
+
     # Remove all non alpha-numeric caracters and :
     # Do not use \w as this is localized, and might be tainted
     my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    $depwarn = 'validatePerlModule removed '
+    $depwarn =
+        'validatePerlModule removed '
       . $replacements
       . ' characters, leading to '
       . $module . "\n"
       if $replacements;
     return $module;
 }
-
 
 =begin TML
 
@@ -732,21 +800,23 @@ CPAN modules that could be installed.
 =cut
 
 sub checkDependencies {
-    my $this = shift;
+    my $this      = shift;
     my $installed = '';
-    my $missing = ''; 
+    my $missing   = '';
     my @wiki;
     my @cpan;
     my @manual;
 
-    foreach my $dep ( @{$this->{_dependency}}  ) {
+    foreach my $dep ( @{ $this->{_dependency} } ) {
 
-        my $required = eval "$dep->{trigger}";   # Evaluate the trigger - if true, module is required
-        next unless $required;                 # Skip the module - trigger was false
+        my $required = eval "$dep->{trigger}"
+          ;    # Evaluate the trigger - if true, module is required
+        next unless $required;    # Skip the module - trigger was false
         my $trig = '';
-        $trig = " -- Triggered by $dep->{trigger}\n" unless ($dep->{trigger} eq '1');
+        $trig = " -- Triggered by $dep->{trigger}\n"
+          unless ( $dep->{trigger} eq '1' );
 
-        my ($ok, $msg) =  $dep->check() ;
+        my ( $ok, $msg ) = $dep->check();
         if ($ok) {
             $installed .= "$msg$trig\n";
             next;
@@ -758,19 +828,21 @@ sub checkDependencies {
             my $type     = $1;
             my $pack     = $2;
             my $packname = $3;
-            $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
+            $packname .= $pack
+              if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
             $dep->{name} = $packname;
             push( @wiki, $dep );
             next;
         }
 
-        if ( $dep->{type} eq 'cpan')  {
-            push ( @cpan, $dep );
-        } else {
-            push ( @manual, $dep );
+        if ( $dep->{type} eq 'cpan' ) {
+            push( @cpan, $dep );
+        }
+        else {
+            push( @manual, $dep );
         }
     }
-    return ($installed, $missing, @wiki, @cpan, @manual);
+    return ( $installed, $missing, @wiki, @cpan, @manual );
 
 }
 
