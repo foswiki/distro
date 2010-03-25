@@ -90,8 +90,8 @@ HERE
 
   my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>\n";
 
-  Foswiki::Plugins::JQueryPlugin::ourAddToZone('head', 'JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
-  Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', 'JQUERYPLUGIN::FOSWIKI', $footer, 'JQUERYPLUGIN');
+  Foswiki::Func::addToZone('head', 'JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
+  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN::FOSWIKI', $footer, 'JQUERYPLUGIN');
 
 }
 

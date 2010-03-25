@@ -33,6 +33,7 @@
   $.TextboxLister = function(elem, opts) {
     var self = this, autocompleteOpts;
     self.input = $(elem);
+    elem.textboxList = self;
 
     // build element specific options. 
     // note you may want to install the Metadata plugin
@@ -163,7 +164,7 @@
   // add values to the selection ******************************************
   $.TextboxLister.prototype.select = function(values, suppressCallback) {
     $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
-    var self = this, i, j, val, found, currentVal, input, close;
+    var self = this, i, j, val, label, found, currentVal, input, close;
 
     if (typeof(values) === 'object') {
       values = values.join(',');
@@ -182,7 +183,6 @@
         if (!val) {
           continue;
         }
-        $.log("val='"+val+"'");
         for (j = 0; j < self.currentValues.length; j++) {
           currentVal = self.currentValues[j];
           if (currentVal == val) {
@@ -212,21 +212,27 @@
 
     self.container.find("."+self.opts.listValueClass).remove();
     for (i = self.currentValues.length-1; i >= 0; i--) {
-      val = self.currentValues[i];
+      val = label = self.currentValues[i];
       if (!val) {
         continue;
       }
+      if (val.match(/^(.+)=(.+)$/)) {
+        val = RegExp.$1;
+        label = RegExp.$2;
+      }
+      $.log("val="+val+" label="+label);
       input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' />";
       close = $("<a href='#' title='remove "+val+"'></a>").
         addClass(self.opts.closeClass).
-        click(function() {
-          self.deselect.call(self, $(this).parent().find("input").val());
+        click(function(e) {
+          e.preventDefault();
+          self.input.trigger("DeleteValue", $(this).parent().find("input").val());
           return false;
         });
       $("<span></span>").addClass(self.opts.listValueClass).
         append(input).
         append(close).
-        append(val).
+        append(label).
         prependTo(self.container);
     }
     self.input.val('');

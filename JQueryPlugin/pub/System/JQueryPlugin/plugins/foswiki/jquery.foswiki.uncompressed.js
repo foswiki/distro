@@ -4,7 +4,7 @@
  * $Rev$
 */
 var foswiki;
-if (typeof(foswiki) == "undefined") {
+if (typeof(foswiki) === "undefined") {
   foswiki = {};
 }
 
@@ -33,7 +33,7 @@ if (typeof(foswiki) == "undefined") {
    * hepler function to recursively create a nested object
    * based on the keys descriptor. 
    */
-  function createMember(obj, keys, val) {
+  foswiki.createMember = function(obj, keys, val) {
     var key = keys.shift();
     if (keys.length > 0) {
       // this is a nested obj
@@ -41,7 +41,7 @@ if (typeof(foswiki) == "undefined") {
         obj[key] = {}; // create it if it does not exist yet
       }
       // recurse
-      createMember(obj[key], keys, val);
+      foswiki.createMember(obj[key], keys, val);
     } else {
       // store value
       obj[key] = val;
@@ -65,7 +65,7 @@ if (typeof(foswiki) == "undefined") {
       }
       keys = this.name.split(/\./);
       keys.shift(); // take out the first one
-      createMember(foswiki, keys, val);
+      foswiki.createMember(foswiki, keys, val);
     });
   });
 

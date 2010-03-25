@@ -127,4 +127,9 @@
   width: 16px;
   display: block;
 }
-
+.treeview .open .placeholder {
+  display:none;
+}
+.treeview .open .placeholder {
+  display:none;
+}

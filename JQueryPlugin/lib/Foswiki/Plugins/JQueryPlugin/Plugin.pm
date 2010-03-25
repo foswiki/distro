@@ -75,6 +75,7 @@ sub new {
       lc($this->{name});
   }
 
+
   return $this;
 }
 
@@ -98,16 +99,12 @@ sub init {
 
   # load all css
   foreach my $css (@{$this->{css}}) {
-    $css =~ s/\.css$/.uncompressed.css/ if $this->{debug};
-    $css .= '?version='.$this->{version};
-    $header .= "<link rel='stylesheet' href='$this->{puburl}/$css' type='text/css' media='all' />\n";
+    $header .= $this->renderCSS($css);
   }
 
   # load all javascript
   foreach my $js (@{$this->{javascript}}) {
-    $js =~ s/\.js$/.uncompressed.js/ if $this->{debug};
-    $js .= '?version='.$this->{version};
-    $footer .= "<script type='text/javascript' src='$this->{puburl}/$js'></script>\n";
+    $footer .= $this->renderJS($js);
   }
 
   # gather dependencies
@@ -121,12 +118,32 @@ sub init {
     }
   }
 
-  Foswiki::Plugins::JQueryPlugin::ourAddToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @dependencies))
+  Foswiki::Func::addToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @dependencies))
     if $header;
-  Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @dependencies))
+  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @dependencies))
     if $footer;
 
   return 1;
+}
+
+sub renderCSS {
+  my ($this, $text) = @_;
+
+  $text =~ s/\.css$/.uncompressed.css/ if $this->{debug};
+  $text .= '?version='.$this->{version};
+  $text = "<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all' />\n";
+
+  return $text;
+}
+
+sub renderJS {
+  my ($this, $text) = @_;
+
+  $text =~ s/\.js$/.uncompressed.js/ if $this->{debug};
+  $text .= '?version='.$this->{version};
+  $text = "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
+
+  return $text;
 }
 
 =begin TML

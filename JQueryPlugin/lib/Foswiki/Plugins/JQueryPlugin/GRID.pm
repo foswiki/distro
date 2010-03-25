@@ -86,7 +86,7 @@ sub init {
     unless -f $Foswiki::cfg{PubDir}.'/'.$localePath;
 
   my $header .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$localePath'></script>\n";
-  Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', "JQUERYPLUGIN::GRID::LANG", $header, 'JQUERYPLUGIN::UI');
+  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::GRID::LANG", $header, 'JQUERYPLUGIN::UI');
 }
 
 =begin TML
@@ -222,7 +222,7 @@ jQuery(document).ready(function(){
 </script>
 HERE
 
-    Foswiki::Plugins::JQueryPlugin::ourAddToZone('body', "JQUERYPLUGIN::GRID::$gridId", $jsTemplate, 'JQUERYPLUGIN::GRID');
+    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::GRID::$gridId", $jsTemplate, 'JQUERYPLUGIN::GRID');
 
     my $result = "<table id='$gridId'></table>";
     $result .= "<div id='$pagerId'></div>" if $thePager eq 'on';

@@ -1,2 +1,50 @@
-all: jquery-ui-i18n.js jquery-ui-i18n.js.gz
+TARGET=jquery-ui-i18n.js 
 -include ../Makefile.include
+
+UI_DATEPICKER_SOURCE=\
+  ui.datepicker-ar.js\
+  ui.datepicker-bg.js\
+  ui.datepicker-ca.js\
+  ui.datepicker-cs.js\
+  ui.datepicker-da.js\
+  ui.datepicker-de.js\
+  ui.datepicker-el.js\
+  ui.datepicker-eo.js\
+  ui.datepicker-es.js\
+  ui.datepicker-fa.js\
+  ui.datepicker-fi.js\
+  ui.datepicker-fr.js\
+  ui.datepicker-he.js\
+  ui.datepicker-hr.js\
+  ui.datepicker-hu.js\
+  ui.datepicker-hy.js\
+  ui.datepicker-id.js\
+  ui.datepicker-is.js\
+  ui.datepicker-it.js\
+  ui.datepicker-ja.js\
+  ui.datepicker-ko.js\
+  ui.datepicker-lt.js\
+  ui.datepicker-lv.js\
+  ui.datepicker-ms.js\
+  ui.datepicker-nl.js\
+  ui.datepicker-no.js\
+  ui.datepicker-pl.js\
+  ui.datepicker-pt-BR.js\
+  ui.datepicker-ro.js\
+  ui.datepicker-ru.js\
+  ui.datepicker-sk.js\
+  ui.datepicker-sl.js\
+  ui.datepicker-sq.js\
+  ui.datepicker-sr-SR.js\
+  ui.datepicker-sr.js\
+  ui.datepicker-sv.js\
+  ui.datepicker-th.js\
+  ui.datepicker-tr.js\
+  ui.datepicker-uk.js\
+  ui.datepicker-zh-CN.js\
+  ui.datepicker-zh-TW.js
+
+jquery-ui-i18n.uncompressed.js: $(UI_DATEPICKER_SOURCE)
+	@echo "creating $@"
+	@$(CAT) $(UI_DATEPICKER_SOURCE) > $@
+
