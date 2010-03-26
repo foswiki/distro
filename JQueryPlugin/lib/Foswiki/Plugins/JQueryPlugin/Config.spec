@@ -80,9 +80,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Foswiki}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{FluidFont}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{FullCalendar}{Enabled} = 1;
-
-# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 1;
 
 # **BOOLEAN**

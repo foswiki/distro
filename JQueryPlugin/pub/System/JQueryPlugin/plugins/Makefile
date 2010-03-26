@@ -15,7 +15,6 @@ SUBDIRS=\
   focus \
   form \
   foswiki \
-  fullcalendar \
   gradient \
   hoverintent \
   ifixpng \
