@@ -168,6 +168,7 @@ sub tmplP {
                 $val =~ s/%$p%/$params->{$p}/ge;
             }
         }
+        $val =~ s/%TMPL:PREV%/%TMPL:P{"$template:_PREV"}%/g;
         $val =~ s/%TMPL:P{(.*?)}%/$this->expandTemplate($1)/ge;
     }
 
@@ -244,7 +245,19 @@ sub readTemplate {
 
             # handle %TMPL:DEF{key}%
             if ($key) {
-                $this->{VARS}->{$key} = $val;
+
+                # if the key is already defined, rename the existing template to  key:_PREV
+                my $new_value    = $val;
+                my $prev_key     = $key;
+                my $prev_value   = $this->{VARS}->{$prev_key};
+                $this->{VARS}->{$prev_key} = $new_value;
+                while ($prev_value) {
+                    $new_value   = $prev_value;
+                    $prev_key    = "$prev_key:_PREV";
+                    $prev_value   = $this->{VARS}->{$prev_key};
+                    $this->{VARS}->{$prev_key} = $new_value;
+                } 
+
             }
             $key = $1;
 
@@ -255,7 +268,19 @@ sub readTemplate {
         elsif (/^END%[\n\r]*(.*)/s) {
 
             # handle %TMPL:END%
-            $this->{VARS}->{$key} = $val;
+
+            # if the key is already defined, rename the existing template to  key:_PREV
+            my $new_value    = $val;
+            my $prev_key     = $key;
+            my $prev_value   = $this->{VARS}->{$prev_key};
+            $this->{VARS}->{$prev_key} = $new_value;
+            while ($prev_value) {
+                $new_value   = $prev_value;
+                $prev_key    = "$prev_key:_PREV";
+                $prev_value   = $this->{VARS}->{$prev_key};
+                $this->{VARS}->{$prev_key} = $new_value;
+            } 
+
             $key                  = '';
             $val                  = '';
 

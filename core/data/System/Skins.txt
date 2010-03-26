@@ -72,9 +72,9 @@ The following template files are used for Foswiki screens, and are referenced in
    * =renameweb= - used when renaming a web
    * =renamewebconfirm= - used when renaming a web
    * =renamewebdelete= - used when renaming a web
-   * =searchbookview= - used to format inline search results in book view
-   * =searchformat= - used to format inline search results
-   * =search= - used by the =search= CGI script
+   * =searchbookview= - used to format search results in book view
+   * =searchformat= - used to format search results
+   * =search= - used to format inline search results if no formatting is specified
    * =settings=
    * =view= - used by the =view= CGI script
    * =viewprint= - used to create the printable view

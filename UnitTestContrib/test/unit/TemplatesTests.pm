@@ -476,4 +476,32 @@ SKIN=pattern An faca sibh?
 ', $data );
 }
 
+sub test_TMPLPREV {
+    my $this = shift;
+    my $data;
+
+    language_setup();
+    
+    write_template(
+        'strings.prev', '%TMPL:INCLUDE{strings}%
+%TMPL:DEF{"Question"}%%TMPL:PREV% - 1234%TMPL:END%
+'
+    );
+    
+    $data = $tmpls->readTemplate( 'example', 'prev,gaelic,pattern', '' );
+    $this->assert_str_equals( '
+SKIN=pattern An faca sibh? - 1234
+<input type="button" value="Chan fhaca">
+<input type="button" value="Chunnaic">
+', $data );
+
+    $data = $tmpls->readTemplate( 'example', 'prev,pattern', '' );
+    $this->assert_str_equals( '
+SKIN=pattern Do you see? - 1234
+<input type="button" value="No">
+<input type="button" value="Yes">
+', $data );
+
+}
+
 1;
