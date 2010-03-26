@@ -49,7 +49,7 @@ macro has been released as part of newer Foswiki versions, this plugin won't be
 of use anymore.
 
 %RED%WARNING:%ENDCOLOR% Using this plugin can potentially break your installation.
-If you experience occasional !JavaScript errors, switch on =BackwardsCompatibility=
+If you experience occasional !JavaScript errors, switch off =OptimizePageLayout=
 in [[%SCRIPTURLPATH{"configure}%][configure]]. This mode will render the HTML page
 in a non-optimized way similar to how the standard =ADDTOHEAD= mechanism does. 
 
@@ -57,8 +57,8 @@ In any case is it recommended to use =ADDTOHEAD= or =ADDTOZONE= to properly add
 this code to the page. It is _not_ recommended to add !JavaScript code otherwise.
 
 If you rely on having !JavaScript added to the
-page _without_ using =ADDTOHEAD= or =ADDTOZONE= then you have to enable
-=BackwardsCompatibility= mode most probably. In this case the HTML page cannot
+page _without_ using =ADDTOHEAD= or =ADDTOZONE= then you have to disable
+=OptimizePageLayout= mode most probably. In this case the HTML page cannot
 be optimized.
 
 !ZonePlugin will try to detect whether any use of ADDTOHEAD contains
@@ -97,7 +97,8 @@ suboptimal use of these APIs.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  19 Feb 2010 | added ={<nop>BackwardsCompatibility}= switch |
+|  26 Mar 2010 | suppressing plugin initialisation on Foswiki engines >= 1.1; renamed <nop>BackwardsCompatible switch to <nop>OptimizePageLayout (defaults to off) |
+|  19 Feb 2010 | added ={<nop>BackwardsCompatible}= switch |
 |  15 Feb 2010 | be more careful applying the monkey-patch to the Func API; \
                  parsing RENDERZONE properly but finally inserting the zone at the end of the rendering pipeline |
 |  12 Feb 2010 | initial release |

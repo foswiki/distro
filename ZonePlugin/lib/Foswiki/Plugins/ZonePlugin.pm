@@ -19,7 +19,7 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.2';
+our $RELEASE = '2.0';
 our $SHORTDESCRIPTION = 'Gather content of a page in named zones while rendering it';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -35,15 +35,22 @@ our $translationToken = "\03";
 
 # monkey-patch API ###########################################################
 BEGIN {
-  if ($Foswiki::cfg{Plugins}{ZonePlugin}{Enabled}) {
+  if ($Foswiki::cfg{Plugins}{ZonePlugin}{Enabled} && !defined(\&Foswiki::Func::addToZone)) {
     no warnings 'redefine';
     *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
     *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
+  } else {
+    #print STDERR "suppressing monkey patching via ZonePlugin\n";
   }
 }
 
 ##############################################################################
 sub initPlugin {
+
+  if ($Foswiki::Plugins::VERSION >= 2.1) {
+    Foswiki::Func::writeWarning("ZonePlugin is not compatible with your Foswiki version");
+    return 0;
+  }
 
   Foswiki::Func::registerTagHandler('ADDTOZONE', \&ADDTOZONE);
   Foswiki::Func::registerTagHandler('RENDERZONE', \&RENDERZONE);
@@ -64,21 +71,27 @@ sub completePageHandler {
   $_[0] =~ s/${translationToken}RENDERZONE{(.*?)}${translationToken}/renderZoneById($1)/ge;
 
   # get the head zone ones again and insert it at </head>
-  my $content = renderZone('head', {chomp=>"on", format=>'$item$n'});
-  $_[0] =~ s!(</head>)!$content$1!i if $content;
+  my $headZone = renderZone('head', {chomp=>"on"}) || '';
+  $_[0] =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
   # get the body zone ones again and insert it at </body>
-  $content = renderZone('body', {chomp=>"on", format=>'$item$n'});
+  my $bodyZone = renderZone('body', {chomp=>"on"}) || '';
 
   # in compatibility mode all body material is still appended to the head
-  if($Foswiki::cfg{ZonePlugin}{BackwardsCompatible}) {
-    $_[0] =~ s!(</head>)!$content$1!i if $content;
-  } else {
-    $_[0] =~ s!(</body>)!$content$1!i if $content;
-  }
+  if ($bodyZone) {
 
-  # clean up all unknown zones
-  $_[0] =~ s/%RENDERZONE{.*?}%//g;
+    my $optimizePageLayout = $Foswiki::cfg{OptimizePageLayout};
+
+    # check for an old plugin specific setting
+    $optimizePageLayout = ($Foswiki::cfg{ZonePlugin}{BackwardsCompatible}?0:1)
+      unless defined $optimizePageLayout;
+
+    unless($optimizePageLayout) {
+      $_[0] =~ s!(</head>)!$bodyZone\n$1!i;
+    } else {
+      $_[0] =~ s!(</body>)!$bodyZone\n$1!i;
+    }
+  }
 
   # finally forget it
   %ZONES = ();
@@ -117,7 +130,9 @@ sub ADDTOZONE {
   my $text = $params->{text} || '';
   my $web = $theWeb;
 
-  if ($topic) {
+  if ($topic || $section) {
+    $web ||= $theWeb;
+    $topic ||= $theTopic;
     ($web, $topic) = Foswiki::Func::normalizeWebTopicName($web, $topic);
     $text = '%INCLUDE{"' . $web . '.' . $topic . '"';
     $text .= ' section="' . $section . '"' if $section;
@@ -146,7 +161,7 @@ sub addToHead {
   # if it contains text/javascript then set it to 'body'
   # if it also contains text/css then switch it back to 'head' ... won't be optimized
   my $zone = 'head';
-  $zone = 'body' if $text =~ /type=["']text\/javascript["']/;
+  #$zone = 'body' if $Foswiki::cfg{OptimizePageLayout} && $text =~ /type=["']text\/javascript["']/;
 
   addToZone($zone, $tag, $text, $requires);
 
@@ -237,10 +252,11 @@ sub renderZone {
   return '' unless $zone && $ZONES{$zone};
 
   $params->{header} ||= '';
-  $params->{format} ||= '$item';
-  $params->{separator} ||= '';
   $params->{footer} ||= '';
   $params->{chomp} ||= 'off';
+
+  $params->{format} = '$item <!-- $tag -->' unless defined $params->{format};
+  $params->{separator} = '$n' unless defined $params->{separator};
 
   # Loop through the vertices of the graph, in any order, initiating
   # a depth-first search for any vertex that has not already been
@@ -268,8 +284,10 @@ sub renderZone {
       $text =~ s/\s+$//g;
     }
     next unless $text;
+    my $tag = $item->{tag} || '';
     my $line = $params->{format};
     $line =~ s/\$item\b/$text/g;
+    $line =~ s/\$tag\b/$tag/g;
     $line = Foswiki::Func::decodeFormatTokens($line);
     next unless $line;
     push @result, $line if $line;

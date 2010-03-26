@@ -8,7 +8,7 @@
 # Note, that in backwards compatibility mode, the page layout will be suboptimal
 # resulting in slower page rendering times by todays browsers. Alternatively, try
 # to fix the cause for any javascript not being properly put into the BODY zone.
-$Foswiki::cfg{ZonePlugin}{BackwardsCompatible} = 0;
+$Foswiki::cfg{OptimizePageLayout} = 0;
 
 # ---+++ Warning messages - EXPERT
 # **BOOLEAN**

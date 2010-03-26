@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1266225040" format="1.1" version="1.1"}%
-%META:TOPICPARENT{name="ZonePlugin"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarRENDERZONE
 ---+++ RENDERZONE
 
@@ -18,3 +18,5 @@ Note, that you can create as many zones as you like. The plugin does not restric
 
    * create a =sidebar= zone to add widgets
    * create a =toolbar= zone to add buttons icons
+
+See also VarADDTOZONE
