@@ -956,24 +956,49 @@ sub test_99 {
     $this->simpleTest( test => "'A'=~'B'", then => 0, else => 1 );
 }
 
-sub test_99a {
+sub test_100 {
     my $this = shift;
     $this->simpleTest( test => "'A'=~'A'", then => 1, else => 0 );
 }
 
-sub test_100 {
+sub test_101 {
     my $this = shift;
     $this->simpleTest( test => "'AA'=~'A'", then => 1, else => 0 );
 }
 
-sub test_101 {
+sub test_102 {
     my $this = shift;
     $this->simpleTest( test => "'foo bar baz'=~'\\bbar\\b'", then => 1, else => 0 );
 }
 
-sub test_102 {
+sub test_103 {
     my $this = shift;
     $this->simpleTest( test => "'foo bar baz'=~'\\bbam\\b'", then => 0, else => 1 );
+}
+
+sub test_104 {
+    my $this = shift;
+    $this->simpleTest( test => "'foob'=~'foo\\b'", then => 0, else => 1 );
+}
+
+sub test_105 {
+    my $this = shift;
+    $this->simpleTest( test => "' \\ '=~' \\\\ '", then => 1, else => 0 );
+}
+
+sub test_106 {
+    my $this = shift;
+    $this->simpleTest( test => "' \\\\' '=~' \\\\' '", then => 1, else => 0 );
+}
+
+sub test_107 {
+    my $this = shift;
+    try {
+      $this->simpleTest( test => "'foo'=~'*illegal regex'", then => 'does not matter', else => 'does not matter either' );
+    }
+    catch Error::Simple with {
+      #print STDERR "catched error ".shift."\n";
+    };
 }
 
 sub set_up {
