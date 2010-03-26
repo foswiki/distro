@@ -17,7 +17,6 @@ SUBDIRS=\
   foswiki \
   fullcalendar \
   gradient \
-  grid \
   hoverintent \
   ifixpng \
   innerfade \

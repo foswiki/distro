@@ -86,9 +86,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{FullCalendar}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Grid}{Enabled} = 1;
-
-# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;
 
 # **BOOLEAN**
