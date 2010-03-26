@@ -1,15 +1,8 @@
-%{ This is a default template }%%TMPL:INCLUDE{"view"}%
+%{ This is a default template }%
+%{ this is the template used when the format prameter is not set in SEARCH }%
+%TMPL:INCLUDE{"searchformat"}%
 
-%TMPL:DEF{"titleaction"}%%MAKETEXT{"(search results)"}%%TMPL:END%
-%TMPL:DEF{"webaction"}% %TMPL:P{"webtopiclist"}% %TMPL:END%
-
-%TMPL:DEF{"topicactionbuttons"}%%MAKETEXT{"(search results)"}%%TMPL:END%
-
-%TMPL:DEF{"footernote"}%%TMPL:END%
-
-%TMPL:DEF{"searched"}%%MAKETEXT{"Searched:"}% <b> %SEARCHSTRING% </b>%TMPL:END%
-
-%TMPL:DEF{"header"}%<div class="foswikiSearchResult">
+%TMPL:DEF{SEARCH:header}%<div class="foswikiSearchResult">
 <div class="foswikiTopRow" style="backgroundcolor:%WEBBGCOLOR%;">
 <div class="foswikiLeft"><b>%MAKETEXT{"Topics in [_1] web" args="<nop>%WEB%"}%</b></div>
 <div class="foswikiRight foswikiSRAuthor"><b>%MAKETEXT{"Changed"}%</b></div>
@@ -17,9 +10,7 @@
 <br class="foswikiClear" /></div><!--/foswikiTopRow-->
 </div><!--/foswikiSearchResult-->%TMPL:END%
 
-%TMPL:DEF{"count"}%</table><br clear="all" /> %BR% Number of topics: <b>%NTOPICS%</b>%TMPL:END%
-
-%TMPL:DEF{"result"}%<div class="foswikiSearchResult">
+%TMPL:DEF{SEARCH:format}%<div class="foswikiSearchResult">
 <div class="foswikiTopRow">
 <div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div>
 <div class="foswikiRight foswikiSRAuthor"> %AUTHOR%</div>
@@ -29,6 +20,10 @@
 <div class="foswikiSummary foswikiGrayText">%TEXTHEAD%</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow-->
 </div><!--/foswikiSearchResult-->%TMPL:END%
+%TMPL:DEF{SEARCH:footer}%</table>%TMPL:END%
+
+%TMPL:DEF{SEARCH:searched}%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b><p />
+%TMPL:END%
+%TMPL:DEF{SEARCH:count}%<br clear="all" /> %BR% Number of topics: <b>%NTOPICS%</b>%TMPL:END%
 
 
-%TMPL:DEF{"content"}%%SPLIT%%TMPL:P{"searched"}%%SPLIT%%TMPL:P{"header"}%%REPEAT%%TMPL:P{"result"}%%REPEAT%%SPLIT%%TMPL:P{"count"}%%SPLIT%%TMPL:END%

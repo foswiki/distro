@@ -1,7 +1,24 @@
 %TMPL:INCLUDE{"searchformat"}%
 
 
+%TMPL:DEF{SEARCH:searched}%<span class="patternSearched">%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+%TMPL:END%
 
-%TMPL:DEF{"content"}%%SPLIT%Search: <b> %SEARCHSTRING% </b><p />
-%SPLIT%%REPEAT%%REPEAT%%SPLIT%%TMPL:P{"count"}%<p />
-%SPLIT%%TMPL:END%
+%TMPL:DEF{SEARCH:count}%<div class="patternSearchResultCount">%MAKETEXT{"Number of topics:"}% <span class="foswikiSearchResultCount">%NTOPICS%</span></div><!--/patternSearchResultCount-->%TMPL:P{count_spacer}%%TMPL:END%
+
+
+%TMPL:DEF{"SEARCH:header"}%<h4 class="patternSearchResultsHeader" %TMPL:P{"header:style:backgroundcolor"}%><span class="foswikiLeft">%TMPL:P{"header:left"}%</span><span class="foswikiRight">%TMPL:P{"header:right"}%</span><br class="foswikiClear" /></h4>%TMPL:END%
+
+%{ for some reason this is different in the non-formated version }%
+%TMPL:DEF{count_spacer}%<p />
+%TMPL:END%
+
+
+%TMPL:DEF{"header:left"}%<b>%MAKETEXT{"Results from [_1] web" args="<nop>%WEB%"}%</b> %MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%%TMPL:END%
+
+
+%TMPL:DEF{"header:right"}%%TMPL:END%
+
+
+%TMPL:DEF{"header:style:backgroundcolor"}%%TMPL:END%
+

@@ -1,17 +1,29 @@
-%{ This is a default template }%%SPLIT%
-Search: %SEARCHSTRING%
-%SPLIT%
+%{ this is the template used when the format prameter is not set in SEARCH }%
+%TMPL:INCLUDE{"searchformat"}%
+
+%TMPL:DEF{SEARCH:header}%
 %MAKETEXT{"Topics in [_1] web:" args="<nop>%WEB%"}%
 
 
-%REPEAT%
+%TMPL:END%
+
+%TMPL:DEF{SEARCH:format}%
 
 %WEB%.%TOPICNAME%: %TIME% - %REVISION% %AUTHOR%
 
 %TEXTHEAD%
 
-%REPEAT%
-%SPLIT%
+%TMPL:END%
+
+%TMPL:DEF{SEARCH:footer}%
+%TMPL:END%
+
+%TMPL:DEF{SEARCH:searched}%
+Search: %SEARCHSTRING%
+%TMPL:END%
+
+%TMPL:DEF{SEARCH:count}%
 %MAKETEXT{"Number of topics:"}% <b>%NTOPICS%</b>
-%SPLIT% 
-%{it seems SPLIT does not work if its ends a file}%
+%TMPL:END%
+
+

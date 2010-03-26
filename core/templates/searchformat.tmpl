@@ -1,15 +1,13 @@
-%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+%{ This is a default template }%
 
-%TMPL:DEF{"titleaction"}%%MAKETEXT{"(search result)"}% %TMPL:END%
-%TMPL:DEF{"webaction"}% %TMPL:P{"webtopiclist"}% %TMPL:END%
-%TMPL:DEF{"topicaction"}%%TMPL:END%
+%TMPL:DEF{SEARCH:header}%%TMPL:END%
+%TMPL:DEF{SEARCH:format}%%TMPL:END%
+%TMPL:DEF{SEARCH:footer}%%TMPL:END%
 
-
-%TMPL:DEF{"content"}%
-%SPLIT%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b><p />
-%SPLIT%%REPEAT%%REPEAT%%SPLIT%%MAKETEXT{"Number of topics:"}% <b>%NTOPICS%</b><p />
-%SPLIT%
+%TMPL:DEF{SEARCH:searched}%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b><p />
 %TMPL:END%
+%TMPL:DEF{SEARCH:count}%
+%MAKETEXT{"Number of topics:"}% <b>%NTOPICS%</b><p />%TMPL:END%
 
 %{ simple default pager }%
 

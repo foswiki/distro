@@ -392,6 +392,7 @@ sub loadTemplates {
     #print STDERR "}}} $tmpl {{{\n";
     # SMELL: the only META tags in a template will be METASEARCH
     # Why the heck are they being filtered????
+    #TODO: write a unit test that uses topic based templates with META's in them and if ok, remove.
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
 
     # Split template into 5 sections
@@ -401,16 +402,36 @@ sub loadTemplates {
     # Invalid template?
     #TODO: replace with an exception.
     if ( !defined($tmplTail) ) {
-        my $mess =
-            'Foswiki Installation Error: '
-          . 'Incorrect format of '
-          . $template
-          . ' template (missing sections? There should be 4 %SPLIT% tags)';
-        throw Error::Simple($mess);
+        $tmplSearch = $session->templates->expandTemplate('SEARCH:searched');
+        $tmplNumber = $session->templates->expandTemplate('SEARCH:count');
+        
+        unless ($noHeader) {
+            $params->{header} = $session->templates->expandTemplate('SEARCH:header') unless defined $params->{header};
+        }
+        
+        my $repeatText = $session->templates->expandTemplate('SEARCH:format');
+        #nosummary="on" nosearch="on" noheader="on" nototal="on"
+        if ($noSummary) {
+            $repeatText =~ s/%TEXTHEAD%//go;
+            $repeatText =~ s/&nbsp;//go;
+        }
+        else {
+            $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
+        }
+        $params->{format} |= $repeatText;
+        
+        unless ($noFooter) {
+            $params->{footer} = $session->templates->expandTemplate('SEARCH:footer') unless defined $params->{footer};
+        }
+        unless ($noTotal) {
+            $params->{footercounter} |=
+              $baseWebObject->expandMacros($tmplNumber);
+            $params->{footer} .= $params->{footercounter};
+        }
     }
-
+    else
     {
-
+        #Historical legacy form of the search TMPL's
         # header and footer of $web
         my ( $beforeText, $repeatText, $afterText ) =
           split( /%REPEAT%/, $tmplTable );

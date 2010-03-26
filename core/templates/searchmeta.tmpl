@@ -1,2 +1,5 @@
-%{ This is a default template }%%SPLIT%%SPLIT%%REPEAT%<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%">%TOPICNAME%</a> %REPEAT%%SPLIT%%SPLIT%
-<!--Dummy tail-->
+%{ This is a default template }%
+%TMPL:INCLUDE{"searchformat"}%
+
+%TMPL:DEF{SEARCH:format}%<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%">%TOPICNAME%</a> %TMPL:END%
+
