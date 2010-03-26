@@ -980,6 +980,7 @@ sub test_makeBackup {
         scalar @ufiles,
         'Unexpected number of files uninstalled: ' . @ufiles
     );    # 6 files + the installer file are removed
+    $pkg->finish();
 
 }
 
@@ -1205,7 +1206,9 @@ Installed:  MyPlugin_installer
        $mods .= "$dep->{module};";
        }
     #print "$mods\n";
-    $this->assert_str_equals( "Filtrx::Invalid::Blah;Time::ParseDate;Cwd;", $mods, 'CPAN modules to be installed');
+    my $expected = 'Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate') . 'Cwd;';
+    $this->assert_str_equals( $expected, $mods);
+    $this->assert_str_equals( $expected, $mods, 'CPAN modules to be installed');
 
     $mods = '';
     foreach my $dep ( @{$cpan} ) {

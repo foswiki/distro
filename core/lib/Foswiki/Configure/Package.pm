@@ -622,6 +622,11 @@ sub loadInstaller {
     close $fh;
 
     if ( $this->{_routines} ) {
+
+        # Ensure it's clean, to avoid redefine error
+        for (qw( preinstall postinstall preuninstall postuninstall )) {
+            undef &{$_};
+        }
         $this->{_routines} =~ /(.*)/sm;
         $this->{_routines} = $1;    #yes, we must untaint
         unless ( eval $this->{_routines} . "; 1; " ) {
