@@ -164,12 +164,31 @@ sub getExternalResource {
             $proxyHost = $prefs->getPreferencesValue('PROXYHOST');
             $proxyPort = $prefs->getPreferencesValue('PROXYPORT');
         }
-        $proxyHost ||= $Foswiki::cfg{PROXY}{HOST};
-        $proxyPort ||= $Foswiki::cfg{PROXY}{PORT};
+
+        # Do not use || so user can disable proxy using preferences
+        $proxyHost = $Foswiki::cfg{PROXY}{HOST} unless defined $proxyHost;
+        $proxyPort = $Foswiki::cfg{PROXY}{PORT} unless defined $proxyPort;
         if ( $proxyHost && $proxyPort ) {
+            my ( $proxyUser, $proxyPass );
+            if ( $proxyHost =~ m#^http://(?:(.*?)(?::(.*?))?@)?(.*)(?::(\d+))?/*# ) {
+                $proxyUser = $1;
+                $proxyPass = $2;
+                $proxyHost = $3;
+                $proxyPort = $4 if defined $4;
+            } else {
+                require Foswiki::Net::HTTPResponse;
+                return new Foswiki::Net::HTTPResponse(
+                    "Proxy settings are invalid, check configure ($proxyHost)");
+            }
             $req  = "GET http://$host:$port$url HTTP/1.0\r\n";
             $host = $proxyHost;
             $port = $proxyPort;
+            if ($proxyUser) {
+                require MIME::Base64;
+                import MIME::Base64();
+                my $base64 = encode_base64( "$proxyUser:$proxyPass", "\r\n" );
+                $req .= "Proxy-Authorization: Basic $base64";
+            }
         }
 
         '$Rev$' =~ /([0-9]+)/;
