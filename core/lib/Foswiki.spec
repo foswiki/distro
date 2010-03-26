@@ -1178,15 +1178,19 @@ $Foswiki::cfg{SMTP}{Password} = '';
 # **STRING 30**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. (e.g. http://proxy.your.company).
-# <b>CAUTION</b> This setting can be overridden by a %PROXYHOST% setting
-# in SitePreferences. Make sure you delete the setting from there.
+# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
+# in SitePreferences. Make sure you delete the setting from there if
+# you are using a SitePreferences topic from a previous release of Foswiki.
+# If your proxy requires authentication, simply put it in the URL, as in:
+# http://username:password@proxy.your.company.
 $Foswiki::cfg{PROXY}{HOST} = '';
 
 # **STRING 30**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. Set the port number here (e.g: 8080).
-# <b>CAUTION</b> This setting can be overridden by a %PROXYPORT% setting
-# in SitePreferences. Make sure you delete the setting from there.
+# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
+# in SitePreferences. Make sure you delete the setting from there if you
+# are using a SitePreferences topic from a previous release of Foswiki.
 $Foswiki::cfg{PROXY}{PORT} = '';
 
 # **BOOLEAN EXPERT**
