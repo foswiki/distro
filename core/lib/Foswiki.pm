@@ -76,7 +76,7 @@ our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
-our $TranslationToken = "\0"; # unused, but maintained for compatibility
+our $TranslationToken = "\0"; 
 
 # Used by takeOut/putBack blocks
 our $BLOCKID = 0;
@@ -162,6 +162,8 @@ BEGIN {
     # REST handlers.
     %macros = (
         ADDTOHEAD         => undef,
+          # deprecated, use ADDTOZONE instead
+        ADDTOZONE         => undef,
         ALLVARIABLES      =>
           sub { $_[0]->{prefs}->stringify() },
         ATTACHURL         =>
@@ -243,6 +245,7 @@ BEGIN {
         REMOTE_USER       =>
           # DEPRECATED
           sub { $_[0]->{request}->remoteUser() || '' },
+        RENDERZONE        => undef,
         REVINFO           => undef,
         REVTITLE          => undef,
         REVARG            => undef,
@@ -697,8 +700,7 @@ sub writeCompletePage {
             # is conditionally loaded under the control of the
             # templates, and we have to be *sure* it gets loaded.
             my $src = DEBUG() ? '_src' : '';
-            $this->addToHEAD( 'FOSWIKI STRIKE ONE',
-                              <<STRIKEONE);
+            $this->addToZone( 'head', 'FOSWIKI STRIKE ONE', <<STRIKEONE);
 <script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone$src.js"></script>
 STRIKEONE
             $usingStrikeOne = 1;
@@ -713,11 +715,25 @@ STRIKEONE
               $cgis, $context, $usingStrikeOne )/gei;
     }
 
-    my $htmlHeader = _genHeaders($this);
-    unless ($text =~ s/%RENDERHEAD%/$htmlHeader/g) {
-      # fallback if there's no RENDERHEAD in the skin
-      $text =~ s!(</head>)!$htmlHeader$1!i if $htmlHeader;
+    # render zones
+    $text =~ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this, $1)/ge;
+
+    # get the head zone ones again and insert it at </head>
+    my $headZone = _renderZone($this, 'head', {chomp=>"on"}) || '';
+    $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
+
+    # get the body zone ones again and insert it at </body>
+    my $bodyZone = _renderZone($this, 'body', {chomp=>"on"}) || '';
+
+    # in compatibility mode all body material is still appended to the head
+    if ($bodyZone) {
+      unless($Foswiki::cfg{OptimizePageLayout}) {
+        $text =~ s!(</head>)!$bodyZone\n$1!i;
+      } else {
+        $text =~ s!(</body>)!$bodyZone\n$1!i;
+      }
     }
+
     chomp($text);
 
     # SMELL: can't compute; faking content-type for backwards compatibility;
@@ -823,9 +839,7 @@ sub generateHTTPHeaders {
     # add http compression and conditional cache controls
     if (!$this->inContext('command_line') && $text) {
 
-        my $contentEncodingHdr = '';
-        if ($Foswiki::cfg{Cache}{Enabled} &&
-            $Foswiki::cfg{Cache}{Compress}) {
+        if ($Foswiki::cfg{HttpCompress}) {
           # compress
           if ($ENV{'HTTP_ACCEPT_ENCODING'} &&
               $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i) {
@@ -1530,7 +1544,7 @@ sub new {
         # Otherwise define it for use in plugins
         $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
     }
-
+    
     # Set command_line context if there is no query
     $initialContext ||= defined($query) ? {} : { command_line => 1 };
 
@@ -1553,7 +1567,12 @@ sub new {
         $this->{response}->charset( $Foswiki::cfg{Site}{CharSet} );
     }
 
-    $this->{_HTMLHEADERS} = {};
+    # hash of zone records
+    $this->{_zones} = ();
+
+    # hash of occurences of RENDERZONE
+    $this->{_renderZonePlaceholder} = ();
+    
     $this->{context}      = $initialContext;
 
     if ($Foswiki::cfg{Cache}{Enabled}) {
@@ -1860,6 +1879,7 @@ sub logger {
             }
         }
     }
+
     return $this->{logger};
 }
 
@@ -1960,7 +1980,8 @@ sub finish {
 #    $this->{logger}->finish()      if $this->{logger};
     undef $this->{logger};
 
-    undef $this->{_HTMLHEADERS};
+    undef $this->{_zones};
+    undef $this->{_renderZonePlaceholder};
     undef $this->{request};
     undef $this->{digester};
     undef $this->{urlHost};
@@ -2011,18 +2032,16 @@ sub logEvent {
     $user = ( $this->{users}->getLoginName($user) || 'unknown' )
       if ( $this->{users} );
 
-    if ( $user eq $cfg{DefaultUserLogin} ) {
-        my $cgiQuery = $this->{request};
-        if ($cgiQuery) {
-            my $agent = $cgiQuery->user_agent();
-            if ($agent) {
-                $extra .= ' ' if $extra;
-                if ( $agent =~ /(MSIE 6|MSIE 7|Firefox|Opera|Konqueror|Safari)/ ) {
-                  $extra .= $1;
-                } else {
-                  $agent =~ m/([\w]+)/;
-                  $extra .= $1;
-                }
+    my $cgiQuery = $this->{request};
+    if ($cgiQuery) {
+        my $agent = $cgiQuery->user_agent();
+        if ($agent) {
+            $extra .= ' ' if $extra;
+            if ( $agent =~ /(MSIE 6|MSIE 7|Firefox|Opera|Konqueror|Safari)/ ) {
+              $extra .= $1;
+            } else {
+              $agent =~ m/([\w]+)/;
+              $extra .= $1;
             }
         }
     }
@@ -3082,62 +3101,105 @@ sub expandMacros {
 
 =begin TML
 
----++ ObjectMethod addToHEAD( $tag, $header, $requires, $topicObject )
+---++ ObjectMethod addToHEAD( $tag, $header, $requires )
 
-Add =$html= to the HEAD tag of the page currently being generated.
-
-Programmatic interface to ADDTOHEAD
+compatibility wrapper for addToZone
 
 =cut
 
 sub addToHEAD {
-    my ( $this, $tag, $header, $requires, $topicObject ) = @_;
+    my $this = shift;
+    return $this->addToZone('head', @_);
+}
 
-    return unless $header; # don't add empty or even undef stuff
+=begin TML
 
-    # Expand macros in the header
-    $header = $topicObject->expandMacros($header) if $topicObject;
+---++ ObjectMethod addToZone( $zone, $tag, $data, $requires )
 
-    $this->{_HTMLHEADERS} ||= {};
-    $tag ||= '';
+Add =$data= to the named zone of the page currently being generated.
 
+Programmatic interface to ADDTOZONE
+
+=cut
+
+
+sub addToZone {
+    my ( $this, $zone, $tag, $data, $requires ) = @_;
+
+    return unless $data;    # don't add empty or even undef stuff
     $requires ||= '';
-    my $debug = '';
 
-    # Resolve to references to build DAG
+    $this->{$zone} ||= {};
+
+    # get a random one
+    unless ($tag) {
+        $tag = int( rand(10000) ) + 1;
+    }
+
+    # get zone, or create record
+    my $thisZone = $this->{_zones}{$zone};
+    unless ( defined $thisZone ) {
+        $this->{_zones}{$zone} = $thisZone = {};
+    }
+
     my @requires;
-    foreach my $req ( split( /,\s*/, $requires ) ) {
-        unless ( $this->{_HTMLHEADERS}->{$req} ) {
-            $this->{_HTMLHEADERS}->{$req} = {
+    foreach my $req ( split( /\s*,\s*/, $requires ) ) {
+        unless ( $thisZone->{$req} ) {
+            $thisZone->{$req} = {
                 tag      => $req,
                 requires => [],
-                header   => '',
+                text     => '',
             };
         }
-        push( @requires, $this->{_HTMLHEADERS}->{$req} );
+        push( @requires, $thisZone->{$req} );
     }
-    my $record = $this->{_HTMLHEADERS}->{$tag};
+
+    # store record within zone
+    my $record = $thisZone->{$tag};
     unless ($record) {
         $record = { tag => $tag };
-        $this->{_HTMLHEADERS}->{$tag} = $record;
+        $thisZone->{$tag} = $record;
     }
+
+    # override previous properties
     $record->{requires} = \@requires;
-    $record->{header}   = $header;
+    $record->{text}     = $data;
 }
 
-sub _visit {
-    my ( $v, $visited, $list ) = @_;
-    return if $visited->{$v};
-    $visited->{$v} = 1;
-    foreach my $r ( @{ $v->{requires} } ) {
-        _visit( $r, $visited, $list );
+sub _renderZoneById {
+    my $this = shift;
+    my $id   = shift;
+
+    return '' unless defined $id;
+
+    my $renderZone = $this->{_renderZonePlaceholder}{$id};
+
+    return '' unless defined $renderZone;
+
+    my $params      = $renderZone->{params};
+    my $topicObject = $renderZone->{topicObject};
+    my $zone        = $params->{_DEFAULT} || $params->{zone};
+
+    return _renderZone( $this, $zone, $params, $topicObject );
+}
+
+sub _renderZone {
+    my ( $this, $zone, $params, $topicObject ) = @_;
+
+    return '' unless $zone && $this->{_zones}{$zone};
+
+    $params->{header}    ||= '';
+    $params->{footer}    ||= '';
+    $params->{chomp}     ||= 'off';
+    $params->{format}    ||= 
+
+    $params->{format} = '$item <!-- $tag -->' unless defined $params->{format};
+    $params->{separator} = '$n' unless defined $params->{separator};
+
+    unless ( defined $topicObject ) {
+        $topicObject =
+          Foswiki::Meta->new( $this, $this->{webName}, $this->{topicName} );
     }
-    push( @$list, $v );
-}
-
-sub _genHeaders {
-    my ($this) = @_;
-    return '' unless $this->{_HTMLHEADERS};
 
     # Loop through the vertices of the graph, in any order, initiating
     # a depth-first search for any vertex that has not already been
@@ -3150,11 +3212,52 @@ sub _genHeaders {
     # algorithm runs in linear time.
     my %visited;
     my @total;
-    foreach my $v ( values %{ $this->{_HTMLHEADERS} } ) {
+    foreach my $v ( values %{ $this->{_zones}{$zone} } ) {
         _visit( $v, \%visited, \@total );
     }
 
-    return join( "\n", map { "<!-- $_->{tag} --> $_->{header}" } @total );
+    # kill a zone ones it has been rendered
+    undef $this->{_zones}{$zone};
+
+    my @result = ();
+    foreach my $item (@total) {
+        my $text = $item->{text};
+        if ( $params->{'chomp'} ) {
+            $text =~ s/^\s+//g;
+            $text =~ s/\s+$//g;
+        }
+        next unless $text;
+        my $tag = $item->{tag} || '';
+        my $line = $params->{format};
+        $line =~ s/\$item\b/$text/g;
+        $line =~ s/\$tag\b/$tag/g;
+        $line = expandStandardEscapes($line);
+        next unless $line;
+        push @result, $line if $line;
+    }
+
+    $params->{separator} = expandStandardEscapes( $params->{separator} );
+
+    my $result =
+        $params->{header}
+      . join( $params->{separator}, @result )
+      . $params->{footer};
+
+    # delay rendering the zone until now
+    $result = $topicObject->expandMacros($result);
+    $result = $topicObject->renderTML($result);
+
+    return $result;
+}
+
+sub _visit {
+    my ( $v, $visited, $list ) = @_;
+    return if $visited->{$v};
+    $visited->{$v} = 1;
+    foreach my $r ( @{ $v->{requires} } ) {
+        _visit( $r, $visited, $list );
+    }
+    push( @$list, $v );
 }
 
 =begin TML

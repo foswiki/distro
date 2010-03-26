@@ -1,0 +1,22 @@
+%META:TOPICINFO{author="ProjectContributor" date="1266225040" format="1.1" version="1.1"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarRENDERZONE
+---+++ RENDERZONE
+
+<verbatim class="tml">
+%RENDERZONE{"zone" ...}%
+</verbatim>
+
+   * zone: required, name of the zone to be expanded
+   * header: optional, prefix format string
+   * format: optional, format string for each item added to the zone, defaults to =$item=, any standard escapes like =$percnt=, =$dollar= etc can be used to delay evaluation order of the format parameter
+   * chomp: removed leading and trailing whitespace in formatted items, useful to pretty-print them one per line
+   * footer: optional, suffix format string
+   * separator: optional, put between each item of a zone
+
+Note, that you can create as many zones as you like. The plugin does not restrict you to use it only for =body= and =head=. Interesting use cases in wiki applications:
+
+   * create a =sidebar= zone to add widgets
+   * create a =toolbar= zone to add buttons icons
+
+See also VarADDTOZONE

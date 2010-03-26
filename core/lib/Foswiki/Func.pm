@@ -1921,34 +1921,49 @@ sub redirectCgiQuery {
 
 =begin TML
 
----+++ addToHEAD( $id, $header, $requires )
+---+++ addToHEAD( $id, $data, $requires )
 
-Adds =$header= to the HTML header (the <head> tag).
-This is useful for Plugins that want to include some javascript custom css.
-   * =$id= - Unique ID to prevent the same HTML from being duplicated. Plugins should use a prefix to prevent name clashes (e.g EDITTABLEPLUGIN_JSCALENDAR)
-   * =$header= - the HTML to be added to the <head> section. The HTML must be valid in a HEAD tag - no checks are performed.
-   * =requires= optional, comma-separated list of id's of other head blocks this one depends on.
+Adds =$data= to the HTML header (the <head> tag).
 
-All macros present in =$header= will be expanded before being inserted into the =<head>= section.
-
-Note that this is _not_ the same as the HTTP header, which is modified through the Plugins =modifyHeaderHandler=.
-
-Example:
-<verbatim>
-Foswiki::Func::addToHEAD('PATTERN_STYLE','<link id="foswikiLayoutCss" rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
-</verbatim>
+This is a compatibility wrapper for =addZoZone('head', ...)=.
 
 =cut=
 
 sub addToHEAD {
-    my ( $tag, $header, $requires ) = @_;
+    #my ( $tag, $data, $requires ) = @_;
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
 
-    my $topicObject =
-      Foswiki::Meta->new( $session, $session->{webName},
-        $session->{topicName} );
-    $session->addToHEAD( $tag, $header, $requires, $topicObject );
+    $session->addToZone( 'head', @_ );
+}
+
+=begin TML
+
+---+++ addToZone( $zone, $tag, $data, $requires )
+
+Adds =$data= to the HTML header (the <head> tag).
+This is useful for Plugins that want to include some javascript custom css.
+   * =$zone= - name of the area where to add the data to; special zones are "body" and "head"
+   * =$tag= - unique ID to prevent the same HTML from being duplicated. Plugins should use a prefix to prevent name clashes (e.g EDITTABLEPLUGIN_JSCALENDAR)
+   * =$data= - the HTML to be added to the <head> section. The HTML must be valid in a HEAD tag - no checks are performed.
+   * =requires= optional, comma-separated list of id's of other head blocks this one depends on.
+
+All macros present in =$data= will be expanded before being inserted into the =<head>= section.
+
+Example:
+<verbatim>
+Foswiki::Func::addToZone( "head", 'PATTERN_STYLE','<link rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
+Foswiki::Func::addToZone( "body", 'PATTERN_JAVASCRIPT','<script type="text/javascript" src="%PUBURL%/Foswiki/PatternSkin/pattern.js"></scipt>');
+</verbatim>
+
+=cut=
+
+sub addToZone {
+    #my ( $zone, $tag, $data, $requires ) = @_;
+    my $session = $Foswiki::Plugins::SESSION;
+    ASSERT($session) if DEBUG;
+
+    $session->addToZone( @_ );
 }
 
 =begin TML

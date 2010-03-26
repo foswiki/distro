@@ -2,11 +2,6 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarADDTOHEAD
 ---+++ ADDTOHEAD
-You can write =%<nop>ADDTOHEAD{...}%= in a topic or template. This variable accepts the following parameters:
-   * =_DEFAULT= optional, id of the head block. Used to generate a comment in the output HTML.
-   * =text= optional, text to use for the head block. Mutually exclusive with =topic=.
-   * =topic= optional, full Foswiki path name of a topic that contains the full text to use for the head block. Mutually exclusive with =text=. Example: =topic="%WEB%.MyTopic"=.
-   * =requires= optional, comma-separated list of id's of other head blocks this one depends on.
-=%<nop>ADDTOHEAD%= expands in-place to the empty string, unless there is an error in which case the variable expands to an error string.
 
-Use =%<nop>RENDERHEAD%= to generate the sorted head tags.
+This macro is deprecated. Please use VarADDTOZONE instead.
+It effecively is a shortcut for =%<nop>ADDTOZONE{"head" ...}%=

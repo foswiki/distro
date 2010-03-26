@@ -1014,6 +1014,31 @@ $Foswiki::cfg{RCS}{breaklockCmd} =
 $Foswiki::cfg{RCS}{delRevCmd} =
     "/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%";
 
+#---+ Tuning
+
+#---++ HTTP Compression
+# **BOOLEAN EXPERT**
+# Enable gzip/deflate page compression. Modern browsers can uncompress content
+# encoded using gzip compression. You will save a lot of bandwidth by compressing
+# pages. This makes most sense when enabling page caching as well as these are
+# stored in compressed format already. Note that only pages without any 'dirty areas'
+# will be compressed. Any other pages will be transmitted uncompressed.
+$Foswiki::cfg{HttpCompress} = $FALSE;
+
+#---++ HTML Page Layout
+# **BOOLEAN EXPERT**
+# Enable heuristics to optimize the HTML layout by placing all JavaScript files
+# at the bottom of the page, while leaving all CSS files at the top. Note, that
+# you will need to load JavaScript files using <code>%ADDTOZONE{"body" ...}%</code>
+# for content that should participate in this optimization step. Similarly, all
+# CSS files should be added to the page using <code>%ADDTOZONE{"head" ...}%</code>.
+# Note also, that placing JavaScript library files at the bottom of the page, JavaScript
+# code within the topic content area might potentially break when it relys on those libraries
+# being loaded before. So please make sure all JavaScript code is added to the page
+# using <code>%ADDTOZONE{"body"...requires="library-tag"}%</code> with the appropriate library tag
+# to guarantee a correct linear order of the files being loaded by the browser.
+$Foswiki::cfg{OptimizePageLayout} = $FALSE;
+
 #---++ Cache
 # <p>Foswiki includes built-in support for caching HTML pages. This can
 # dramatically increase performance, especially if there are a lot more page
@@ -1069,14 +1094,6 @@ $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 # cache, meta data about page dependencies shall be stored reliably. That's why
 # only DB_File and BDB are selectable for meta data cache. 
 $Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
-
-# **BOOLEAN EXPERT**
-# Enable gzip/deflate page compression. Modern browsers can uncompress content
-# encoded using gzip compression. You will save a lot of bandwidth by compressing
-# pages. This makes most sense when enabling page caching as well as these are
-# stored in compressed format already. Note that only pages without any 'dirty areas'
-# will be compressed. Any other pages will be transmitted uncompressed.
-$Foswiki::cfg{Cache}{Compress} = $TRUE;
 
 # **PATH EXPERT**
 # Specify the root directory for CacheManagers with a file-system based storage
