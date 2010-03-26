@@ -833,18 +833,21 @@ sub checkDependencies {
             $packname .= $pack
               if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
             $dep->{name} = $packname;
+            #print "Push $dep->{module} onto WIKI\n";
             push( @wiki, $dep );
             next;
         }
 
-        if ( $dep->{type} eq 'cpan' ) {
+        if ( $dep->{type} =~ m/cpan/i ) {
+            #print "Push $dep->{module} onto CPAN\n";
             push( @cpan, $dep );
         }
         else {
+            #print "Push $dep->{module} onto MANUAL\n";
             push( @manual, $dep );
         }
     }
-    return ( $installed, $missing, @wiki, @cpan, @manual );
+    return ( $installed, $missing, \@wiki, \@cpan, \@manual );
 
 }
 

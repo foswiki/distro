@@ -696,9 +696,9 @@ DONE
 DONE
 
     if ( $action eq 'install' ) {
-        my ($installed, $missing,  @wiki, @cpan, @manual) = $thispkg->checkDependencies();
-        push @deps, @wiki;
-        push @deps, @cpan;
+        my ($installed, $missing,  $wiki, $cpan, $manual) = $thispkg->checkDependencies();
+        push @deps, @{$wiki};
+        push @deps, @{$cpan};
         _install( \@deps, $rootModule );
     }
     elsif ( $action eq 'uninstall' ) {

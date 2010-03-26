@@ -172,7 +172,7 @@ MESS
         $feedback .= "<pre>$rslt </pre>";
     }
 
-    my ($installed, $missing, @install, @cpan) = $pkg->checkDependencies();
+    my ($installed, $missing, $wiki, $cpan, $manual) = $pkg->checkDependencies();
     $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
     $rslt .= "====== MISSING ========\n$missing\n" if ($missing);
 

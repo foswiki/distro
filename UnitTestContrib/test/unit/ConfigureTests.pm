@@ -812,7 +812,7 @@ sub _doLocationTest {
     my $shbang   = shift;
     my $expected = shift;
 
-    open( my $fh, ">$tempdir/configure$Foswiki::cfg{ScriptSuffix}" )
+    open( my $fh, '>', "$tempdir/configure$Foswiki::cfg{ScriptSuffix}" )
       || die "Unable to open \n $! \n\n ";
     print $fh "$shbang \n";
     close($fh);
@@ -857,7 +857,7 @@ sub _doRewriteTest {
     my $shbang   = shift;
     my $expected = shift;
 
-    open( my $fh, ">$tempdir/myscript$Foswiki::cfg{ScriptSuffix}" )
+    open( my $fh, '>', "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<DONE;
 $testline
@@ -869,69 +869,15 @@ DONE
     my $err = Foswiki::Configure::Util::rewriteShbang(
         "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", '$shbang' );
 
-    open( BINCFG, '<',
+    open( my $bfh, '<',
         "$Foswiki::cfg{ScriptDir}/myscript$Foswiki::cfg{ScriptSuffix}" )
       || return '';
-    my $shBangLine = <BINCFG>;
+    my $shBangLine = <$bfh>;
     chomp $shBangLine;
+    close $bfh;
 
     $this->assert_str_equals( $expected, $shBangLine );
 
-}
-
-sub _test_extractPkgData {
-    my $this    = shift;
-    my $tempdir = $this->{_tempdir};
-
-    my %MANIFEST;
-    my %DEPENDENCIES;
-
-    my $extension = "MyPlugin";
-    my $err = Foswiki::Configure::Util::extractPkgData( $tempdir, $extension,
-        \%MANIFEST, \%DEPENDENCIES );
-
-    $this->assert_str_equals( '1a9a1da563535b2dad241d8571acd170',
-        $MANIFEST{'data/System/FamFamFamContrib.txt'}{md5} );
-    $this->assert_str_equals( '1',
-        $MANIFEST{'data/System/FamFamFamContrib.txt'}{ci} );
-    $this->assert_str_equals( '0644',
-        $MANIFEST{'data/System/FamFamFamContrib.txt'}{perms} );
-    $this->assert_str_equals( '0664',
-        $MANIFEST{'pub/System/FamFamFamFlagIcons/ae.png'}{perms} );
-    $this->assert_str_equals( '0',
-        $MANIFEST{'pub/System/FamFamFamFlagIcons/ae.png'}{ci} );
-
-    $this->assert_str_equals( '>=0.68',
-        $DEPENDENCIES{'SOAP::Lite'}{condition} );
-    $this->assert_str_equals( 'CPAN', $DEPENDENCIES{'SOAP::Lite'}{type} );
-    $this->assert_str_equals( '1',    $DEPENDENCIES{'SOAP::Lite'}{trigger} );
-    $this->assert_str_equals( 'Required. install from CPAN',
-        $DEPENDENCIES{'SOAP::Lite'}{desc} );
-    $this->assert_str_equals( '', $DEPENDENCIES{'ImageMagick'}{desc} );
-    $this->assert_str_equals( '', $DEPENDENCIES{'ImageMagick'}{type} );
-
-#for my $key ( keys %MANIFEST ) {
-#    my $md5 = $MANIFEST{$key}{md5} || '';
-#    print "FILE:  $key PERM: $MANIFEST{$key}{perms}  CI: $MANIFEST{$key}{ci}  MD5: $md5 \n";
-#    }
-
-    $extension = "NotHere";
-
-#$err = Foswiki::Configure::Util::extractPkgData($tempdir, $extension, \%MANIFEST, \%DEPENDENCIES );
-    $this->assert_str_equals( 'ERROR - Extension NotHere package not found ',
-        $err );
-
-    my $key;
-    my $k2;
-
-    foreach $key ( keys %{ $MANIFEST{ATTACH} } ) {
-        print "ATTACH key = $key \n";
-        foreach $k2 ( keys %{ $MANIFEST{ATTACH}{"$key"} } ) {
-            print "ATTACH key = $key, $k2, $MANIFEST{ATTACH}{$key}{$k2} \n";
-        }
-    }
-
-    rmtree($tempdir);
 }
 
 sub _test_applyManifest {
@@ -996,58 +942,6 @@ sub _makefile {
     close($fh);
 }
 
-sub _test_removeManifestFiles {
-    my $this = shift;
-
-    my $tempdir = $this->{tempdir} . '/test_util_removeManifestFiles';
-    rmtree($tempdir);    # Clean up old files if left behind
-    mkpath($tempdir);
-
-    $Foswiki::cfg{DataDir} = "$tempdir/data";
-
-    open( my $fh, ">$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}" )
-      or die
-"Unable to open $tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}: $!\n";
-    print $fh <<DONE;
-#!blah
-bleh
-__DATA__
-<<<< MANIFEST >>>>
-data/test.txt,0606,Documentation
-lib/MyMod.pm,0444,Perl module
-
-DONE
-    close($fh);
-
-    my %MANIFEST;
-    my %DEPENDENCIES;
-
-    my $extension = "MyPlugin";
-    my $err = Foswiki::Configure::Util::extractPkgData( $tempdir, $extension,
-        \%MANIFEST, \%DEPENDENCIES );
-
-    my @files = ( 'data/test.txt', 'lib/MyMod.pm' );
-
-    _makefile( "$tempdir/lib", "MyMod.pm", "asdfasdf\n" );
-    chmod( '0400', "$tempdir/lib/MyMod.pm" );    #write protect
-    _makefile( "$tempdir/data", "test.txt",   "asdfasdf\n" );
-    _makefile( "$tempdir/data", "test.txt,v", "asdfasdf\n" );
-    chmod( '0400', "$tempdir/data/test.txt,v" );    #write protect
-
-    my @removed =
-      Foswiki::Configure::Util::removeManifestFiles( $tempdir, \%MANIFEST );
-
-    my $cnt = @removed;
-
-    $this->assert_num_equals( 3, $cnt );
-
-    $this->assert( !-e "$tempdir/data/test.txt" );
-    $this->assert( !-e "$tempdir/data/test.txt,v" );
-    $this->assert( !-e "$tempdir/lib/MyMod.pm" );
-
-    rmtree($tempdir);
-}
-
 sub test_makeBackup {
     my $this = shift;
 
@@ -1089,6 +983,9 @@ sub test_makeBackup {
 
 }
 
+#
+# Utility subroutine to build the files for an installable package
+#
 sub _makePackage {
     my ( $tempdir, $plugin ) = @_;
 
@@ -1148,22 +1045,14 @@ pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
 
 <<<< DEPENDENCIES >>>>
-.\@#$%}{SOAP::Lite,>=0.68,1,CPAN,Required. install from CPAN
+.\@#$%}{Filtrx::Invalid::Blah,>=0.68,1,CPAN,Required. install from CPAN
 Time::ParseDate,>=2003.0211,1,cpan,Required. Available from the CPAN:Time::ParseDate archive.
-Foswiki::Plugins::ZonePlugin,>=0.1,( $Foswiki::Plugins::VERSION < 3.2 ),perl,Required
-Foswiki::Plugins::FixerPlugin,>=0.1,( $Foswiki::Plugins::VERSION < 2.0 ),perl,Required
-Foswiki::Contrib::JSCalendarContrib,>=0.961,1,perl,Optional, used if installed. Used to display a neat calendar popup when editing actions. Available from the Foswiki:Extensions/JSCalendarContrib repository.
-Foswiki::Contrib::BehaviourContrib,>=0,1,perl,Javascript module
-Foswiki::Plugins::WysiwygPlugin,>=4315,1,perl,Translator module
-Foswiki::Plugins::JQueryPlugin,>=0.5,1,perl,Required if using jquery twisties.
-Foswiki::Plugins::DojoToolkitContrib,>=0,1,perl,Required if using dojo twisties.
-Foswiki::Contribs::FamFamFamContrib,>=0,1,perl,Icons
-FCGI, >0.67,1,cpan,FastCGI perl library
+Foswiki::Plugins::RequiredTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 3.2 ),perl,Required
+Foswiki::Plugins::UnneededTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 2.1 ),perl,Required
+Foswiki::Contrib::JSCalendarContrib,>=14754,1,perl,Javascript calendar module
 File::Spec, >0,1,cpan,This module is shipped as part of standard perl
-Cwd, >0,1,cpan,This module is shipped as part of standard perl
-POSIX, >0,1,cpan,This module is shipped as part of standard perl
-Getopt::Long, >2.37,1,cpan,Extended processing of command line options
-Pod::Usage, >1.35,1,cpan,print a usage message from embedded pod documentation
+Cwd, >55,1,cpan,This module is shipped as part of standard perl
+htmldoc, >24.3,1,c,Required for generating PDF
 
 DONE
     close($fh);
@@ -1302,10 +1191,37 @@ Installed:  MyPlugin_installer
     $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall() );
     $this->assert_null( $pkg2->postuninstall() );
 
-    my ( $installed, $missing, @install, @cpan ) = $pkg2->checkDependencies();
+    my ( $installed, $missing, $wiki, $install, $cpan ) = $pkg2->checkDependencies();
+
+    my $mods;
+    foreach my $dep ( @{$wiki} ) {
+       $mods .= "$dep->{module};";
+       }
+    #print "$mods\n";
+    $this->assert_str_equals( "Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::JSCalendarContrib;", $mods, 'Wiki modules to be installed');
+
+    $mods = '';
+    foreach my $dep ( @{$install} ) {
+       $mods .= "$dep->{module};";
+       }
+    #print "$mods\n";
+    $this->assert_str_equals( "Filtrx::Invalid::Blah;Time::ParseDate;Cwd;", $mods, 'CPAN modules to be installed');
+
+    $mods = '';
+    foreach my $dep ( @{$cpan} ) {
+       $mods .= "$dep->{module};";
+       }
+    #print "$mods\n";
+    $this->assert_str_equals( "htmldoc;", $mods, 'External modules to be installed');
+
+    #print "====== MISSING ========\n$missing\n";
+    $this->assert_matches( qr/Filtrx::Invalid::Blah/, $missing, 'Filtering invalid characters from module name');
+    $this->assert_matches( qr/^Foswiki::Plugins::RequiredTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
+    $this->assert_does_not_match( qr/^Foswiki::Plugins::UnneededTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
+    $this->assert_matches( qr/^Cwd version > 55 required(.*)^ -- installed version is /ms, $missing, 'Test for backlevel module');
 
     #print "===== INSTALLED =======\n$installed\n";
-    #print "====== MISSING ========\n$missing\n";
+    $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed, 'Installed module File::Spec');
 
     #
     #  Now uninistall the package
