@@ -297,7 +297,7 @@ sub searchWeb {
 
 ###################the rendering
 
-    my ( $tmplHead, $tmplSearch, $tmplTail ) =
+    my $tmplSearch =
       $this->loadTemplates( \%params, $baseWebObject, $formatDefined,
         $doBookView, $noHeader, $noSummary, $noTotal, $noFooter );
 
@@ -399,8 +399,8 @@ sub loadTemplates {
     my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
       split( /%SPLIT%/, $tmpl );
 
-    # Invalid template?
-    #TODO: replace with an exception.
+    my $repeatText;
+
     if ( !defined($tmplTail) ) {
         $tmplSearch = $session->templates->expandTemplate('SEARCH:searched');
         $tmplNumber = $session->templates->expandTemplate('SEARCH:count');
@@ -409,60 +409,47 @@ sub loadTemplates {
             $params->{header} = $session->templates->expandTemplate('SEARCH:header') unless defined $params->{header};
         }
         
-        my $repeatText = $session->templates->expandTemplate('SEARCH:format');
-        #nosummary="on" nosearch="on" noheader="on" nototal="on"
-        if ($noSummary) {
-            $repeatText =~ s/%TEXTHEAD%//go;
-            $repeatText =~ s/&nbsp;//go;
-        }
-        else {
-            $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
-        }
-        $params->{format} |= $repeatText;
+        $repeatText = $session->templates->expandTemplate('SEARCH:format');
         
         unless ($noFooter) {
             $params->{footer} = $session->templates->expandTemplate('SEARCH:footer') unless defined $params->{footer};
-        }
-        unless ($noTotal) {
-            $params->{footercounter} |=
-              $baseWebObject->expandMacros($tmplNumber);
-            $params->{footer} .= $params->{footercounter};
         }
     }
     else
     {
         #Historical legacy form of the search TMPL's
         # header and footer of $web
-        my ( $beforeText, $repeatText, $afterText ) =
+        my $beforeText;
+        my $afterText;
+        ( $beforeText, $repeatText, $afterText ) =
           split( /%REPEAT%/, $tmplTable );
 
         unless ($noHeader) {
             $params->{header} = $beforeText unless defined $params->{header};
         }
 
-        #nosummary="on" nosearch="on" noheader="on" nototal="on"
-        if ($noSummary) {
-            $repeatText =~ s/%TEXTHEAD%//go;
-            $repeatText =~ s/&nbsp;//go;
-        }
-        else {
-            $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
-        }
-        $params->{format} |= $repeatText;
         unless ($noFooter) {
             $params->{footer} |= $afterText;
         }
-        unless ($noTotal) {
-            $params->{footercounter} |=
-              $baseWebObject->expandMacros($tmplNumber);
-            $params->{footer} .= $params->{footercounter};
-        }
-        else {
-
-            #print STDERR "}}}".$params{format}."{{{";
-        }
     }
-    return ( $tmplHead, $tmplSearch, $tmplTail );
+
+    #nosummary="on" nosearch="on" noheader="on" nototal="on"
+    if ($noSummary) {
+        $repeatText =~ s/%TEXTHEAD%//go;
+        $repeatText =~ s/&nbsp;//go;
+    }
+    else {
+        $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
+    }
+    $params->{format} |= $repeatText;
+    
+    unless ($noTotal) {
+        $params->{footercounter} |=
+          $baseWebObject->expandMacros($tmplNumber);
+        $params->{footer} .= $params->{footercounter};
+    }
+    
+    return $tmplSearch;
 }
 
 =begin TML
