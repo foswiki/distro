@@ -33,7 +33,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '3.31'; 
+$RELEASE = '3.40'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -65,10 +65,6 @@ sub initPlugin {
 
   # jquery.toggle
   Foswiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
-
-  # DEPRECATED
-  #Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript ); 
-  #Foswiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle ); 
 
   # nukem
   Foswiki::Plugins::JQueryPlugin::Plugins::init();

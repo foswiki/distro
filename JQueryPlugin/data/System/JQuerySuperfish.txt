@@ -32,7 +32,8 @@ Features:
 ---+++ Using <nop>TreePlugin
 Requires Foswiki:Extensions.TreePlugin
 
-%ADDTOHEAD{"SUPERFISH::DEMO" 
+%ADDTOZONE{"body" 
+    tag="SUPERFISH::DEMO" 
     text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
           <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css' type='text/css'/>
           <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css' type='text/css'/>
@@ -453,4 +454,4 @@ Note that Supersubs needs to be called before Superfish in the initialisation ch
    * Set NOWYSIWYG = 1
 -->
 
-%META:FILEATTACHMENT{name="example.js" attachment="example.js" attr="" comment="" date="1257681912" moveby="micha" movedto="System.JQuerySuperfish.example.js" movedwhen="1258381733" movefrom="System.JQuerySuperfishExample.example.js" path="example.js" size="250" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example.js" attachment="example.js" attr="" comment="" date="1257681912" path="example.js" size="250" user="ProjectContributor" version="1"}%
