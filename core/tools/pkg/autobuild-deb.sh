@@ -25,7 +25,7 @@ export FOSWIKI_LIBS=${FOSWIKI_HOME}/lib:${FOSWIKI_HOME}/lib/CPAN/lib
 cd ${FOSWIKI_HOME}
 
 perl pseudo-install.pl -clean -u developer
-perl pseudo-install.pl -clean -A developer
+perl pseudo-install.pl developer
 
 #
 # Run the unit tests.
