@@ -21,12 +21,19 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
+
     return $this->evalTest(
         $node,
         \@_,
         sub {
-            defined( $_[0] ) && defined( $_[1] )
-              && $_[0] =~ m/$_[1]/s ? 1 : 0;
+            my $regex;
+            eval { $regex = qr/$_[1]/ };
+            if ($@) {
+                throw Foswiki::Infix::Error( 'illegal regex', $_[1] );
+            }
+            defined( $_[0] )
+              && defined( $_[1] )
+              && $_[0] =~ m/$regex/s ? 1 : 0;
         }
     );
 }
