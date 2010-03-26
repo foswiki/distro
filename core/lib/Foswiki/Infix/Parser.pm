@@ -227,11 +227,13 @@ sub _parse {
                 push( @opers, $op );
             }
             elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
-                print STDERR "Tok: qs '$1'\n" if MONITOR_PARSER;
+                my $q = $1;
                 my $val = $2;
+                print STDERR "Tok: qs '$q'\n" if MONITOR_PARSER;
 
-                # Handle escaped characters in the string
-                $val =~ s/(?<!\\)\\(.)/$1/g;
+                # Handle escaped characters in the string. This is where
+                # expansions such as \n are handled
+                $val =~ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'"')/ge;
                 push( @opands,
                     $this->{client_class}
                       ->newLeaf( $val, $Foswiki::Infix::Node::STRING ) );

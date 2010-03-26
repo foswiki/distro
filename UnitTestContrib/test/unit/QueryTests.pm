@@ -74,6 +74,9 @@ sub set_up {
     $meta->putKeyed( 'FIELD',
         { name => "string", title => "String", value => "String" } );
     $meta->putKeyed( 'FIELD',
+        { name => "StringWithChars", title => "StringWithChars",
+          value => "n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX" } );
+    $meta->putKeyed( 'FIELD',
         { name => "boolean", title => "Boolean", value => "1" } );
     $meta->putKeyed( 'FIELD',
         { name => "macro", value => "%RED%" } );
@@ -233,6 +236,53 @@ sub test_boolean_bops {
     $this->check( "number=99 OR string='Spring'",  1 );
     $this->check( "number=98 OR string='String'",  1 );
     $this->check( "number=98 OR string='Spring'",  0 );
+}
+
+sub test_99 {
+    my $this = shift;
+    $this->check( "'A'=~'B'", 0);
+}
+
+sub test_100 {
+    my $this = shift;
+    $this->check( "'A'=~'A'", 1);
+}
+
+sub test_101 {
+    my $this = shift;
+    $this->check( "'AA'=~'A'", 1);
+}
+
+sub test_102 {
+    my $this = shift;
+    $this->check( "'foo bar baz'=~'\\bbar\\b'", 1);
+}
+
+sub test_103 {
+    my $this = shift;
+    $this->check( "'foo bar baz'=~'\\bbam\\b'", 0);
+}
+
+sub test_104 {
+    my $this = shift;
+    $this->check( "'foob'=~'foo\\b'", 0);
+}
+
+sub test_105 {
+    my $this = shift;
+    $this->check( "' \\ '=~' \\\\ '", 0);
+}
+
+sub test_106 {
+    my $this = shift;
+    $this->check( "' \\\' '=~' \\\' '", 1);
+}
+
+sub test_constant_strings {
+    my $this = shift;
+    my $in = 'n\nn t\tt s\\\\s q\\\'q o\\043o h\\x23h X\\x{7e}X \\b \\a \\e \\f \\r \\cX';
+
+    $this->check( "'$in'=StringWithChars", 1 );
 }
 
 sub conjoin {

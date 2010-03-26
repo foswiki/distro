@@ -87,7 +87,19 @@ There is a shortcut for accessing form fields. If you use the name of a field (f
 If =X= would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example.
 
 ---++ Constants
-You use constants for the values that you compare with fields. Constants are either strings, or numbers. Strings are always delimited by single-quotes (you can escape any character using backslash \). Numbers can be any integer or floating point number.
+You use constants for the values that you compare with fields. Constants are either strings, or numbers.
+---++ String Constants
+String constants are always delimited by single-quotes. You can use backslash =\= to include the following special characters:
+| *Code* | *Meaning* |
+| =\n= | newline |
+| =\t= | tab |
+| =\033= | octal character code |
+| =\x7f | hexadecimal character code |
+| =\x{1234} | heaxadecimal wide character code |
+| =\\= | a single =\= | 
+All other occurrences of backslashes are carried through into the string, so =\d= means =\d= (unless the string is used as a regular expression, in which case it means any digit).
+---++ Numerical constants
+Numbers can be any signed or unsigned integer or floating point number using standard scientific notation e.g. -1.2e-3 represents -0.0012
 
 ---++ Operators
 
@@ -96,7 +108,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | <code>=</code> | Left-hand side (LHS) exactly matches the value on the Right-hand side (RHS). Numbers and strings can be compared. |
 | <code>!=</code> | Inverse of <code>=</code>. |
 | =~= | wildcard match ('*' will match any number of characters, '?' will match any single character e.g. "PersonForm.Surname ~ '*Smit?'") Note: Surname ~ 'Smith' is the same as Surname = 'Smith' |
-| <code>=~</code> | regular expression check |
+| <code>=~</code> | regular expression match |
 | <code>&lt;</code> | LHS is less than RHS. If both sides are numbers, the order is numeric. Otherwise it is lexical (applies to all comparison operators) |
 | <code>&gt;</code> | greater than |
 | <code>&lt;=</code> | less than or equal to |
