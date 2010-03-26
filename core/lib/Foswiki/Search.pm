@@ -406,6 +406,8 @@ sub loadTemplates {
         $tmplNumber = $session->templates->expandTemplate('SEARCH:count');
         
         #it'd be nice to not need this if, but it seem that the noheader setting is ignored if a header= is set. truely bizzare
+        #TODO: push up the 'noheader' evaluation to take not of this quirk
+        #TODO: um, we die when ASSERT is on with a wide char in print
         unless ($noHeader) {
             $params->{header} = $session->templates->expandTemplate('SEARCH:header') unless defined $params->{header};
         }
