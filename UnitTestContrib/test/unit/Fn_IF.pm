@@ -956,7 +956,7 @@ sub test_99 {
     $this->simpleTest( test => "'A'=~'B'", then => 0, else => 1 );
 }
 
-sub test_99 {
+sub test_99a {
     my $this = shift;
     $this->simpleTest( test => "'A'=~'A'", then => 1, else => 0 );
 }
