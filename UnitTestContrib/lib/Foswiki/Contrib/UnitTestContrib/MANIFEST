@@ -89,6 +89,7 @@ test/unit/ViewScriptTests.pm 0644
 test/unit/ViewFileScriptTests.pm 0644
 test/unit/FoswikiSeleniumTestCase.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
+test/unit/ZoneTests.pm 0644
 pub/System/UnitTestContrib/wikiringlogo20x20.png 0660
 pub/System/UnitTestContrib/logo.gif 0660
 data/System/UnitTestContrib.txt 0660
