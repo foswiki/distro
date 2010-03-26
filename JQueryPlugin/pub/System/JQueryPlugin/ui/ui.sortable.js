@@ -1,5 +1,5 @@
 /*
- * jQuery UI Sortable 1.7.1
+ * jQuery UI Sortable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -985,7 +985,7 @@ $.widget("ui.sortable", $.extend({}, $.ui.mouse, {
 
 $.extend($.ui.sortable, {
 	getter: "serialize toArray",
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: "sort",
 	defaults: {
 		appendTo: "parent",

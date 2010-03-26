@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1259339598" format="1.1" reprev="1.4" version="1.4"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1269627081" format="1.1" reprev="1.5" version="1.5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"ui"
@@ -22,15 +22,18 @@ The following themes are provided:
    * smoothness
 
 ---++ Examples
+
 %JQREQUIRE{"ui"}%
-%JQREQUIRE{"metadata"}%
 
 ---+++ Date picker
 See also: http://jqueryui.com/demos/datepicker/
 
+%ADDTOZONE{"body" section="init" requires="JQUERYPLUGIN::UI"}%
+<verbatim style="display:none">
+%STARTSECTION{"init"}%
 <literal>
 <script type="text/javascript">
-$(function() {
+jQuery(function($) {
   $(".jqDatepicker").not(".jqInited").each(function() {
     var $this = $(this);
     var options = $.extend(
@@ -43,6 +46,8 @@ $(function() {
 });
 </script>
 </literal>
+%ENDSECTION{"init"}%
+</verbatim>
 
 *Date 1:* <input type="text" size="30" name="date1" value="%GMTIME%" class="jqDatepicker" />
 

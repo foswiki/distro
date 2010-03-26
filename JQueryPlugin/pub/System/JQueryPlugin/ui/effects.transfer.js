@@ -1,5 +1,5 @@
 /*
- * jQuery UI Effects Transfer 1.7.1
+ * jQuery UI Effects Transfer 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)

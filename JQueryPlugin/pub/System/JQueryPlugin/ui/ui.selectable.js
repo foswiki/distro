@@ -1,5 +1,5 @@
 /*
- * jQuery UI Selectable 1.7.1
+ * jQuery UI Selectable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -242,7 +242,7 @@ $.widget("ui.selectable", $.extend({}, $.ui.mouse, {
 }));
 
 $.extend($.ui.selectable, {
-	version: "1.7.1",
+	version: "1.7.2",
 	defaults: {
 		appendTo: 'body',
 		autoRefresh: true,

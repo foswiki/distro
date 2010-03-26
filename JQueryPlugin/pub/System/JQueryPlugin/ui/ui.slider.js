@@ -1,5 +1,5 @@
 /*
- * jQuery UI Slider 1.7.1
+ * jQuery UI Slider 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -77,10 +77,26 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 		this.handle = this.handles.eq(0);
 
 		this.handles.add(this.range).filter("a")
-			.click(function(event) { event.preventDefault(); })
-			.hover(function() { $(this).addClass('ui-state-hover'); }, function() { $(this).removeClass('ui-state-hover'); })
-			.focus(function() { $(".ui-slider .ui-state-focus").removeClass('ui-state-focus'); $(this).addClass('ui-state-focus'); })
-			.blur(function() { $(this).removeClass('ui-state-focus'); });
+			.click(function(event) {
+				event.preventDefault();
+			})
+			.hover(function() {
+				if (!o.disabled) {
+					$(this).addClass('ui-state-hover');
+				}
+			}, function() {
+				$(this).removeClass('ui-state-hover');
+			})
+			.focus(function() {
+				if (!o.disabled) {
+					$(".ui-slider .ui-state-focus").removeClass('ui-state-focus'); $(this).addClass('ui-state-focus');
+				} else {
+					$(this).blur();
+				}
+			})
+			.blur(function() {
+				$(this).removeClass('ui-state-focus');
+			});
 
 		this.handles.each(function(i) {
 			$(this).data("index.ui-slider-handle", i);
@@ -305,8 +321,8 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 			value: this.value()
 		};
 		if (this.options.values && this.options.values.length) {
-			uiHash.value = this.values(index)
-			uiHash.values = this.values()
+			uiHash.value = this.values(index);
+			uiHash.values = this.values();
 		}
 		this._trigger("start", event, uiHash);
 	},
@@ -319,8 +335,10 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 
 			var otherVal = this.values(index ? 0 : 1);
 
-			if ((index == 0 && newVal >= otherVal) || (index == 1 && newVal <= otherVal))
-				newVal = otherVal;
+			if ((this.options.values.length == 2 && this.options.range === true) && 
+				((index == 0 && newVal > otherVal) || (index == 1 && newVal < otherVal))){
+ 				newVal = otherVal;
+			}
 
 			if (newVal != this.values(index)) {
 				var newValues = this.values();
@@ -361,8 +379,8 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 			value: this.value()
 		};
 		if (this.options.values && this.options.values.length) {
-			uiHash.value = this.values(index)
-			uiHash.values = this.values()
+			uiHash.value = this.values(index);
+			uiHash.values = this.values();
 		}
 		this._trigger("stop", event, uiHash);
 	},
@@ -373,8 +391,8 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 			value: this.value()
 		};
 		if (this.options.values && this.options.values.length) {
-			uiHash.value = this.values(index)
-			uiHash.values = this.values()
+			uiHash.value = this.values(index);
+			uiHash.values = this.values();
 		}
 		this._trigger("change", event, uiHash);
 	},
@@ -415,6 +433,14 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 		$.widget.prototype._setData.apply(this, arguments);
 
 		switch (key) {
+			case 'disabled':
+				if (value) {
+					this.handles.filter(".ui-state-focus").blur();
+					this.handles.removeClass("ui-state-hover");
+					this.handles.attr("disabled", "disabled");
+				} else {
+					this.handles.removeAttr("disabled");
+				}
 			case 'orientation':
 
 				this._detectOrientation();
@@ -513,7 +539,7 @@ $.widget("ui.slider", $.extend({}, $.ui.mouse, {
 
 $.extend($.ui.slider, {
 	getter: "value values",
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: "slide",
 	defaults: {
 		animate: false,

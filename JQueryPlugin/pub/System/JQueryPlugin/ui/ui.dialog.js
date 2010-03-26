@@ -1,5 +1,5 @@
 /*
- * jQuery UI Dialog 1.7.1
+ * jQuery UI Dialog 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -172,6 +172,17 @@ $.widget("ui.dialog", {
 		$.ui.dialog.overlay.resize();
 
 		self._isOpen = false;
+		
+		// adjust the maxZ to allow other modal dialogs to continue to work (see #4309)
+		if (self.options.modal) {
+			var maxZ = 0;
+			$('.ui-dialog').each(function() {
+				if (this != self.uiDialog[0]) {
+					maxZ = Math.max(maxZ, $(this).css('z-index'));
+				}
+			});
+			$.ui.dialog.maxZ = maxZ;
+		}
 	},
 
 	isOpen: function() {
@@ -483,7 +494,7 @@ $.widget("ui.dialog", {
 });
 
 $.extend($.ui.dialog, {
-	version: "1.7.1",
+	version: "1.7.2",
 	defaults: {
 		autoOpen: true,
 		bgiframe: false,
@@ -533,10 +544,13 @@ $.extend($.ui.dialog.overlay, {
 			// we use a setTimeout in case the overlay is created from an
 			// event that we're going to be cancelling (see #2804)
 			setTimeout(function() {
-				$(document).bind($.ui.dialog.overlay.events, function(event) {
-					var dialogZ = $(event.target).parents('.ui-dialog').css('zIndex') || 0;
-					return (dialogZ > $.ui.dialog.overlay.maxZ);
-				});
+				// handle $(el).dialog().dialog('close') (see #4065)
+				if ($.ui.dialog.overlay.instances.length) {
+					$(document).bind($.ui.dialog.overlay.events, function(event) {
+						var dialogZ = $(event.target).parents('.ui-dialog').css('zIndex') || 0;
+						return (dialogZ > $.ui.dialog.overlay.maxZ);
+					});
+				}
 			}, 1);
 
 			// allow closing by pressing the escape key
@@ -569,6 +583,13 @@ $.extend($.ui.dialog.overlay, {
 		}
 
 		$el.remove();
+		
+		// adjust the maxZ to allow other modal dialogs to continue to work (see #4309)
+		var maxZ = 0;
+		$.each(this.instances, function() {
+			maxZ = Math.max(maxZ, this.css('z-index'));
+		});
+		this.maxZ = maxZ;
 	},
 
 	height: function() {

@@ -57,7 +57,7 @@ sub new {
 
 ---++ ClassMethod init( $this )
 
-Initialize this plugin by adding the required static files to the html header
+Initialize this plugin by adding the required static files to the page
 
 =cut
 
@@ -66,15 +66,13 @@ sub init {
 
   return unless $this->SUPER::init();
 
-  my $header;
-
   # open matching localization file if it exists
   my $langTag = $this->{session}->i18n->language();
   my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/plugins/validate/localization/messages_'.$langTag.'.js';
   my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
   if (-f $messageFile) {
-    $header .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
-    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::VALIDATE::LANG", $header, 'JQUERYPLUGIN::VALIDATE');
+    my $text .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
+    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::VALIDATE::LANG", $text, 'JQUERYPLUGIN::VALIDATE');
   }
 
 }

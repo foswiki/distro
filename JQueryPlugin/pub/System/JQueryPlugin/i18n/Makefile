@@ -1,7 +1,4 @@
-TARGET=jquery-ui-i18n.js 
--include ../Makefile.include
-
-UI_DATEPICKER_SOURCE=\
+TARGET=\
   ui.datepicker-ar.js\
   ui.datepicker-bg.js\
   ui.datepicker-ca.js\
@@ -44,7 +41,4 @@ UI_DATEPICKER_SOURCE=\
   ui.datepicker-zh-CN.js\
   ui.datepicker-zh-TW.js
 
-jquery-ui-i18n.uncompressed.js: $(UI_DATEPICKER_SOURCE)
-	@echo "creating $@"
-	@$(CAT) $(UI_DATEPICKER_SOURCE) > $@
-
+-include ../Makefile.include

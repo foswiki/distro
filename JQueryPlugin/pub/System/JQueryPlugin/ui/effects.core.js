@@ -1,5 +1,5 @@
 /*
- * jQuery UI Effects 1.7.1
+ * jQuery UI Effects 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -10,7 +10,7 @@
 ;jQuery.effects || (function($) {
 
 $.effects = {
-	version: "1.7.1",
+	version: "1.7.2",
 
 	// Saves a set of properties in a data storage
 	save: function(element, set) {
@@ -175,9 +175,11 @@ $.fn.extend({
 	},
 
 	toggle: function(){
-		if(!arguments[0] || (arguments[0].constructor == Number || (/(slow|normal|fast)/).test(arguments[0])) || (arguments[0].constructor == Function))
+		if(!arguments[0] ||
+			(arguments[0].constructor == Number || (/(slow|normal|fast)/).test(arguments[0])) ||
+			($.isFunction(arguments[0]) || typeof arguments[0] == 'boolean')) {
 			return this.__toggle.apply(this, arguments);
-		else {
+		} else {
 			return this.effect.apply(this, _normalizeArguments(arguments, 'toggle'));
 		}
 	},

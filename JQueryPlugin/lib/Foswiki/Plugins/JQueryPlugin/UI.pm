@@ -44,7 +44,7 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'UI',
-    version => '1.7.1',
+    version => '1.7.2',
     puburl => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
     author => 'see http://jqueryui.com/about',
     homepage => 'http://docs.jquery.com/UI',
@@ -58,7 +58,7 @@ sub new {
 
 ---++ ClassMethod init( $this )
 
-Initialize this plugin by adding the required static files to the html header
+Initialize this plugin by adding the required static files to the page 
 
 =cut
 
@@ -69,6 +69,15 @@ sub init {
 
   my $themeName = $Foswiki::cfg{JQueryPlugin}{JQueryTheme} || 'base';
   Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
+
+  # open matching localization file if it exists
+  my $langTag = $this->{session}->i18n->language();
+  my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/i18n/ui.datepicker-'.$langTag.'.js';
+  my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
+  if (-f $messageFile) {
+    my $text .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
+    Foswiki::Func::addToZone('body', "JQUERYPLUGIN::UI::LANG", $text, 'JQUERYPLUGIN::UI');
+  }
 }
 1;
 

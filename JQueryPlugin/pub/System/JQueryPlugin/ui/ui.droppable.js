@@ -1,5 +1,5 @@
 /*
- * jQuery UI Droppable 1.7.1
+ * jQuery UI Droppable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -133,7 +133,7 @@ $.widget("ui.droppable", {
 });
 
 $.extend($.ui.droppable, {
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: 'drop',
 	defaults: {
 		accept: '*',

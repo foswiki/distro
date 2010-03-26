@@ -1,4 +1,4 @@
-all: jquery-ui.uncompressed.js jquery-ui.js jquery-ui.js.gz
+TARGET=jquery-ui.js 
 
 SOURCES=\
   ui.core.js \
@@ -27,8 +27,9 @@ SOURCES=\
   effects.slide.js \
   effects.transfer.js 
 
+-include ../Makefile.include
+
 jquery-ui.uncompressed.js: $(SOURCES) Makefile
 	@echo creating $@
 	@$(CAT) $(SOURCES) > $@
 
--include ../Makefile.include
