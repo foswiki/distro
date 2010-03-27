@@ -56,6 +56,7 @@ sub search {
     while ( $inputTopicSet->hasNext() ) {
         my $webtopic = $inputTopicSet->next();
         my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
+#TODO: need to BM if this is faster than doing it via an object in the MetaCache.
         next unless open( FILE, '<', "$sDir/$topic.txt" );
         while ( my $line = <FILE> ) {
             if ( &$doMatch($line) ) {

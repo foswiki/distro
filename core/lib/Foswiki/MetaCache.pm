@@ -2,98 +2,131 @@
 package Foswiki::MetaCache;
 use strict;
 
-use Foswiki::ListIterator ();
-our @ISA = ('Foswiki::ListIterator');
-
 =begin TML
 
 ---+ package Foswiki::MetaCache
 
-Support package; cache of topic info. When information about search hits is
+A cache of Meta objects - initially used to speed up searching and sorting, but by foswiki 2.0 hopefully this 
+will be used for all readonly accesses to the store.
+
+Replaces the mishmash of the Search InfoCache Support package; cache of topic info. 
+When information about search hits is
 compiled for output, this cache is used to avoid recovering the same info
 about the same topic more than once.
-
-TODO: this is going to transform from an ugly duckling into the ResultSet Iterator
-
-I have the feeling that we should make result sets immutable
 
 =cut
 
 use Assert;
 use Foswiki::Func ();
 use Foswiki::Meta ();
-use Foswiki::Iterator::FilterIterator ();
 
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
 
+sub TRACE {0;}
+
+
 =pod
 ---++ Foswiki::MetaCache::new($session)
-initialise a new list of topics, allowing their data to be lazy loaded if and when needed.
 
-$defaultWeb is used to qualify topics that do not have a web specifier - should expect it to be the same as BASEWEB in most cases.
-
-because this 'Iterator can be created and filled dynamically, once the Iterator hasNext() and next() methods are called, it is immutable.
-
-TODO: duplicates??, what about topicExists?
-TODO: remove the iterator code from this __container__ and make a $this->getIterator() which can then be used.
-TODO: replace the Iterator->reset() function with a lightweight Iterator->copyConstructor?
-TODO: or..... make reset() make the object muttable again, so we can change the elements in the list, but re-use the meta cache??
-CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
 
 =cut
 
 sub new {
     my ( $class, $session) = @_;
     
-    my $this = $class->SUPER::new([]);
-    $this->{_session}    = $session;
+    #my $this = $class->SUPER::new([]);
+    my $this = bless({
+                session => $session, 
+                cache => {},
+                new_count=>0,
+                get_count=>0,
+                undef_count=>0,
+            }, $class);
 
     return $this;
 }
 
+=begin TML
+
+---++ ObjectMethod finish()
+Break circular references.
+
+ Note to developers; please undef *all* fields in the object explicitly,
+ whether they are references or not. That way this method is "golden
+ documentation" of the live fields in the object.
+
+=cut
+
+sub finish {
+    my $this = shift;
+    undef $this->{session};
+    
+    #must clear cache every request until the cache is hooked up to Store's save
+    
+    foreach my $webtopic (keys(%{$this->{cache}})) {
+        undef $this->{cache}->{$webtopic};
+        $this->{undef_count}++;
+    }
+    undef $this->{cache};
+    
+    if (TRACE) {
+        print STDERR "MetaCache: new: $this->{new_count} get: $this->{get_count} undef: $this->{undef_count} \n";
+    }
+    
+}
+
+
+=begin TML
+
+---++ ObjectMethod get($webtopic, $meta) -> a cache obj (sorry, needs to be refactored out to return a Foswiki::Meta obj only
+
+get a requested meta object - web or topic typically, might work for attachments too
+
+optionally the $meta parameter can be used to add that to the cache - useful if you've already loaded and parsed the topic.
+
+=cut
+
 sub get {
     my ( $this, $webtopic, $meta ) = @_;
+    ASSERT( $meta->isa('Foswiki::Meta') ) if (defined($meta) and DEBUG);
+
+    $this->{get_count}++;
     
-    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
+    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $webtopic );
 
-    unless ($this->{$webtopic}) {
-        $this->{$webtopic} = {};
-        $this->{$webtopic}->{tom} = $meta || 
-          Foswiki::Meta->load( $this->{_session}, $web, $topic );
-        # SMELL: why do this here? Smells of a hack, as AFAICT it is done
-        # anyway during output processing. Disable it, and see what happens....
-        #my $text = $topicObject->text();
-        #$text =~ s/%WEB%/$web/gs;
-        #$text =~ s/%TOPIC%/$topic/gs;
-        #$topicObject->text($text);
+    unless ($this->{cache}->{$webtopic}) {
+        $this->{cache}->{$webtopic} = {};
+        $this->{cache}->{$webtopic}->{tom} = $meta || 
+          Foswiki::Meta->load( $this->{session}, $web, $topic );
+        return if (!defined($this->{cache}->{$webtopic}->{tom}) or $this->{cache}->{$webtopic}->{tom} eq '');
 
+        $this->{new_count}++;
+
+#TODO: extract this to the Meta Class, or remove entirely
         # Extract sort fields
-        my $ri = $this->{$webtopic}->{tom}->getRevisionInfo();
+        my $ri = $this->{cache}->{$webtopic}->{tom}->getRevisionInfo();
 
         # Rename fields to match sorting criteria
-        $this->{$webtopic}->{editby}   = $ri->{author} || '';
-        $this->{$webtopic}->{modified} = $ri->{date};
-        $this->{$webtopic}->{revNum}   = $ri->{version};
+        $this->{cache}->{$webtopic}->{editby}   = $ri->{author} || '';
+        $this->{cache}->{$webtopic}->{modified} = $ri->{date};
+        $this->{cache}->{$webtopic}->{revNum}   = $ri->{version};
 
-        $this->{$webtopic}->{allowView} = $this->{$webtopic}->{tom}->haveAccess('VIEW');
+        $this->{cache}->{$webtopic}->{allowView} = $this->{cache}->{$webtopic}->{tom}->haveAccess('VIEW');
     }
 
-    return $this->{$webtopic};
+    ASSERT( $this->{cache}->{$webtopic}->{tom}->isa('Foswiki::Meta') ) if DEBUG;
+
+    return $this->{cache}->{$webtopic};
 }
 
 1;
 __END__
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of
 this distribution. NOTE: Please extend that file, not this notice.
 
-Additional copyrights apply to some of the code in this file, as follows
-
-Copyright (C) 2002 John Talintyre, john.talintyre@btinternet.com
-Copyright (C) 2000-2007 Peter Thoeny, peter@thoeny.org
-Copyright (C) 2000-2008 TWiki Contributors. All Rights Reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -106,3 +139,5 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
+
+author: Sven Dowideit

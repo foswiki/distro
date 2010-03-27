@@ -19,6 +19,7 @@ use Foswiki::Search::InfoCache        ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 use Foswiki::WebFilter                ();
+use Foswiki::MetaCache                ();
 
 BEGIN {
 
@@ -70,6 +71,27 @@ sub finish {
         $this->{searchParser}->finish();
         undef $this->{searchParser};
     }
+    if ( defined( $this->{MetaCache} ) ) {
+        $this->{MetaCache}->finish();
+        undef $this->{MetaCache};
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod metacache
+returns the metacache.
+
+=cut
+
+sub metacache {
+    my $this = shift;
+
+# these may well be function objects, but if (a setting changes, it needs to be picked up again.
+    if ( ! defined( $this->{MetaCache} ) ) {
+        $this->{MetaCache} = new Foswiki::MetaCache($this->{session});
+    }
+    return $this->{MetaCache};
 }
 
 =begin TML
@@ -646,7 +668,7 @@ sub formatResults {
             $cache->addDependency( $web, $topic );
         }
 
-        my $info = $this->get( $web, $topic );
+        my $info = $this->metacache->get( $web.'.'.$topic );
         my $text;    #current hits' text
 
 # Check security (don't show topics the current user does not have permission to view)
@@ -744,19 +766,19 @@ sub formatResults {
   #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
   #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
                         '\$createlongdate' => sub {
-                            return $this->get( $web, $topic )->{tom}
+                            return $this->metacache->get( $web.'.'.$topic )->{tom}
                               ->getRev1Info("createlongdate");
                         },
                         '\$createusername' => sub {
-                            return $this->get( $web, $topic )->{tom}
+                            return $this->metacache->get( $web.'.'.$topic )->{tom}
                               ->getRev1Info("createusername");
                         },
                         '\$createwikiname' => sub {
-                            return $this->get( $web, $topic )->{tom}
+                            return $this->metacache->get( $web.'.'.$topic )->{tom}
                               ->getRev1Info("createwikiname");
                         },
                         '\$createwikiusername' => sub {
-                            return $this->get( $web, $topic )->{tom}
+                            return $this->metacache->get( $web.'.'.$topic )->{tom}
                               ->getRev1Info("createwikiusername");
                         },
 
@@ -1240,41 +1262,6 @@ sub searchMetaData {
     }
 
     return $text;
-}
-
-#TODO: this is a bad copy&extract from infocache
-#i am pretty sure I'll move this and its cousin into either
-#Foswiki::Meta::Cache, as it is a cache of meta obj's (which the search algo's have to access? ouch.)
-#Foswiki::Store::Cache (so that it can be shared both with the internal to Store search algo's, and by Meta..
-#errr, bugger, can't put anything into Foswiki::Store:: as the unit tests arse-hume that any .pm file there is a Store impl.
-#um, yes, totally broken abstractions :/
-#but it does mean that there needs to be a concept of readonly Meta objects vs the few taht will be modified.
-#give us a way to get topics without re-re-reloading themselves
-sub get {
-    my ( $this, $web, $topic, $meta ) = @_;
-
-    unless ( $this->{$web} ) {
-        $this->{$web} = {};
-    }
-
-    unless ( $this->{$web}->{$topic} ) {
-        $this->{$web}->{$topic} = {};
-        $this->{$web}->{$topic}->{tom} = $meta
-          || Foswiki::Meta->load( $this->{session}, $web, $topic );
-
-        # Extract sort fields
-        my $ri = $this->{$web}->{$topic}->{tom}->getRevisionInfo();
-
-        # Rename fields to match sorting criteria
-        $this->{$web}->{$topic}->{editby}   = $ri->{author} || '';
-        $this->{$web}->{$topic}->{modified} = $ri->{date};
-        $this->{$web}->{$topic}->{revNum}   = $ri->{version};
-
-        $this->{$web}->{$topic}->{allowView} =
-          $this->{$web}->{$topic}->{tom}->haveAccess('VIEW');
-    }
-
-    return $this->{$web}->{$topic};
 }
 
 1;

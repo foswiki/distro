@@ -211,33 +211,10 @@ sub sortResults {
 
 ######OLD methods
 sub get {
-    my ( $this, $webtopic, $meta ) = @_;
+#    my ( $this, $webtopic, $meta ) = @_;
+    my $this = shift;
     
-    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
-
-    unless ($this->{$webtopic}) {
-        $this->{$webtopic} = {};
-        $this->{$webtopic}->{tom} = $meta || 
-          Foswiki::Meta->load( $this->{_session}, $web, $topic );
-        # SMELL: why do this here? Smells of a hack, as AFAICT it is done
-        # anyway during output processing. Disable it, and see what happens....
-        #my $text = $topicObject->text();
-        #$text =~ s/%WEB%/$web/gs;
-        #$text =~ s/%TOPIC%/$topic/gs;
-        #$topicObject->text($text);
-
-        # Extract sort fields
-        my $ri = $this->{$webtopic}->{tom}->getRevisionInfo();
-
-        # Rename fields to match sorting criteria
-        $this->{$webtopic}->{editby}   = $ri->{author} || '';
-        $this->{$webtopic}->{modified} = $ri->{date};
-        $this->{$webtopic}->{revNum}   = $ri->{version};
-
-        $this->{$webtopic}->{allowView} = $this->{$webtopic}->{tom}->haveAccess('VIEW');
-    }
-
-    return $this->{$webtopic};
+    return $this->{_session}->search->metacache->get(@_);
 }
 
 # Determins, and caches, the topic revision info of the base version,
@@ -313,12 +290,12 @@ sub sortTopics {
     if ($revSort) {
         @{ $this->{list} } = map { $_->[1] }
           sort { _compare( $b->[0], $a->[0] ) }
-          map { [ $this->{$_}->{$sortfield}, $_ ] } @{ $this->{list} };
+          map { [ $this->get($_)->{$sortfield}, $_ ] } @{ $this->{list} };
     }
     else {
         @{ $this->{list} } = map { $_->[1] }
           sort { _compare( $a->[0], $b->[0] ) }
-          map { [ $this->{$_}->{$sortfield}, $_ ] } @{ $this->{list} };
+          map { [ $this->get($_)->{$sortfield}, $_ ] } @{ $this->{list} };
     }
 }
 
@@ -330,8 +307,8 @@ sub _compare {
     my $x = shift;
     my $y = shift;
     
-    ASSERT($x) if DEBUG;
-    ASSERT($y) if DEBUG;
+    ASSERT(defined($x)) if DEBUG;
+    ASSERT(defined($y)) if DEBUG;
     
     
     if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {

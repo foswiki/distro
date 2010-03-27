@@ -21,9 +21,10 @@ package Foswiki::Store::QueryAlgorithms::BruteForce;
 use strict;
 #@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
 
-use Foswiki::Search::Node ();
-use Foswiki::Meta         ();
-use Foswiki::Search::InfoCache;
+use Foswiki::Search::Node       ();
+use Foswiki::Meta               ();
+use Foswiki::Search::InfoCache  ();
+use Foswiki::MetaCache          ();
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
@@ -123,8 +124,9 @@ sub _webQuery {
     while ( $topicSet->hasNext() ) {
         my $webtopic = $topicSet->next();
         my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
-        
-        my $meta = Foswiki::Meta->new( $session, $web, $topic );
+        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get($Iweb.'.'.$topic);
+        my $meta = $cache->{tom};
+
         # this 'lazy load' will become useful when @$topics becomes
         # an infoCache
         $meta->reload() unless ( $meta->getLoadedRev() );

@@ -690,6 +690,9 @@ sub load {
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
     my $this = new( $class, $session, $web, $topic );
     $this->reload($rev);
+    
+    ASSERT( $this->isa('Foswiki::Meta') ) if DEBUG;
+    
     return $this;
 }
 
