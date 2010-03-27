@@ -44,7 +44,6 @@ data/System/JQueryTreeview.txt 0644
 data/System/JQueryUI.txt 0644
 data/System/JQueryValidate.txt 0644
 data/System/JQueryWikiWord.txt 0644
-lib/Foswiki/Configure/Checkers/Plugins/JQueryPlugin/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
