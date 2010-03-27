@@ -754,7 +754,7 @@ sub test_Util_listDir {
 
 }
 
-sub test_getPerlLocation {
+sub test_Util_getPerlLocation {
     my $this = shift;
 
     my $tempdir = $this->{tempdir} . '/test_util_getperllocation';
@@ -822,7 +822,7 @@ sub _doLocationTest {
 
 }
 
-sub test_rewriteShbang {
+sub test_Util_rewriteShbang {
     my $this = shift;
 
     my $tempdir = $this->{tempdir} . '/test_util_rewriteShbang';
@@ -880,53 +880,6 @@ DONE
 
 }
 
-sub _test_applyManifest {
-    my $this = shift;
-
-    my $tempdir = $this->{tempdir} . '/test_util_applyManifest';
-    rmtree($tempdir);    # Clean up old files if left behind
-    mkpath($tempdir);
-
-    $Foswiki::cfg{DataDir} = "$tempdir/data";
-
-    open( my $fh, '>',
-        "$tempdir/MyPlugin_installer$Foswiki::cfg{ScriptSuffix}" )
-      || die "Unable to open \n $! \n\n ";
-    print $fh <<DONE;
-#!blah
-bleh
-__DATA__
-<<<< MANIFEST >>>>
-data/test.txt,0606,Documentation
-lib/MyMod.pm,0444,Perl module
-
-DONE
-    close($fh);
-
-    my %MANIFEST;
-    my %DEPENDENCIES;
-
-    my $extension = "MyPlugin";
-    my $err = Foswiki::Configure::Util::extractPkgData( $tempdir, $extension,
-        \%MANIFEST, \%DEPENDENCIES );
-
-    $this->assert_str_equals( '0606', $MANIFEST{'data/test.txt'}{perms} );
-    $this->assert_str_equals( '0444', $MANIFEST{'lib/MyMod.pm'}{perms} );
-
-    my @files = ( 'data/test.txt', 'lib/MyMod.pm' );
-
-    _makefile( "$tempdir/lib", "MyMod.pm", "asdfasdf\n" );
-    _makefile( "$tempdir/data", "test.txt" );
-
-    Foswiki::Configure::Util::applyManifest( $tempdir, \@files, \%MANIFEST );
-
-    $this->assert_num_equals( 0444,
-        ( stat("$tempdir/lib/MyMod.pm") )[2] & 07777 );
-    $this->assert_num_equals( 0606,
-        ( stat("$tempdir/data/test.txt") )[2] & 07777 );
-
-    rmtree($tempdir);
-}
 
 sub _makefile {
     my $path    = shift;
@@ -942,7 +895,7 @@ sub _makefile {
     close($fh);
 }
 
-sub test_makeBackup {
+sub test_Package_makeBackup {
     my $this = shift;
 
     my @root = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
@@ -1083,7 +1036,7 @@ DONE
 
 }
 
-sub test_Package {
+sub test_Package_install {
     my $this = shift;
     my $root = $this->{rootdir};
     use Foswiki::Configure::Package;
@@ -1192,6 +1145,10 @@ Installed:  MyPlugin_installer
     $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall() );
     $this->assert_null( $pkg2->postuninstall() );
 
+
+    #
+    #  Dependency Tests
+    #
     my ( $installed, $missing, $wiki, $install, $cpan ) = $pkg2->checkDependencies();
 
     my $mods;
@@ -1206,7 +1163,7 @@ Installed:  MyPlugin_installer
        $mods .= "$dep->{module};";
        }
     #print "$mods\n";
-    my $expected = 'Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate') . 'Cwd;';
+    my $expected = 'Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;') . 'Cwd;';
     $this->assert_str_equals( $expected, $mods);
     $this->assert_str_equals( $expected, $mods, 'CPAN modules to be installed');
 
@@ -1259,11 +1216,22 @@ Installed:  MyPlugin_installer
 sub test_Load_expandValue {
     my $this = shift;
 
-    #$Foswiki::cfg{WorkingDir} = '/tmp/asdf';
     my $logv = '$Foswiki::cfg{WorkingDir}/test';
     require Foswiki::Configure::Load;
     Foswiki::Configure::Load::expandValue($logv);
     $this->assert_str_equals( "$Foswiki::cfg{WorkingDir}/test", $logv );
 }
 
-1;
+sub _test_Package_fetchFile {
+     my $this = shift;
+
+     my $repository = {
+                 name => 'Foswiki', 
+                 data => 'http://foswiki.org/Extensions/', 
+                 pub => 'http://foswiki.org/pub/Extensions/' 
+                 };
+     my ($resp, $file) = Foswiki::Configure::Package::_fetchFile( $repository, 'EmptyPlugin', '_installer' );
+
+     print "$resp, for $file \n";
+}
+
