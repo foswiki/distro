@@ -1819,6 +1819,26 @@ sub verify_zeroresults {
 Searched: <noautolink>NOBLEEGLE</noautolink>
 Number of topics: 0
 RESULT
+
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" zeroresults="on"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+  
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" zeroresults="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_equals( '', $result );
+  
+      $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" zeroresults="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+
+
 #nototal=on
     $result =
       $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on"}%', $this->{test_web}, $this->{test_topic});
@@ -1827,19 +1847,17 @@ Searched: <noautolink>NOBLEEGLE</noautolink>
 RESULT
   
     $result =
-      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="on"}%', $this->{test_web}, $this->{test_topic});
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="on"}%', $this->{test_web}, $this->{test_topic});
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
 RESULT
   
     $result =
-      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="off"}%', $this->{test_web}, $this->{test_topic});
-    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
-RESULT
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_equals( '', $result );
   
       $result =
-      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
 RESULT
@@ -1853,21 +1871,18 @@ Number of topics: 0
 RESULT
   
     $result =
-      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="on"}%', $this->{test_web}, $this->{test_topic});
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="on"}%', $this->{test_web}, $this->{test_topic});
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
 Number of topics: 0
 RESULT
   
       $result =
-      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="off"}%', $this->{test_web}, $this->{test_topic});
-    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
-Number of topics: 0
-RESULT
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_equals( '', $result );
   
     $result =
-      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
 Number of topics: 0
