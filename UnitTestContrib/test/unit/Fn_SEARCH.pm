@@ -1017,13 +1017,13 @@ sub benchmarktest_largeQuery {
         my $vE = ( $n == 2 )   ? 'A' : 'B';
         my $text = <<HERE;
 %META:TOPICINFO{author="TopicUserMapping_guest" date="12" format="1.1" version="1.2"}%
----+ Progressive Sexuality
+---Progressive Sexuality
 A Symbol Interpreted In American Architecture. Meta-Physics Of Marxism & Poverty In The American Landscape. Exploration Of Crime In Mexican Sculptures: A Study Seen In American Literature. Brief Survey Of Suicide In Italian Art: The Big Picture. Special Studies In Bisexual Female Architecture. Brief Survey Of Suicide In Polytheistic Literature: Analysis, Analysis, and Critical Thinking. Radical Paganism: Modern Theories. Liberal Mexican Religion In The Modern Age. Selected Topics In Global Warming: $vD Policy In Modern America. Survey Of The Aesthetic Minority Revolution In The American Landscape. Populist Perspectives: Myth & Reality. Ethnicity In Modern America: The Bisexual Latino Condition. Postmodern Marxism In Modern America. Female Literature As A Progressive Genre. Horror & Life In Recent Times. The Universe Of Female Values In The Postmodern Era.
 
----++ Work, Politics, And Conflict In European Drama: A Symbol Interpreted In 20th Century Poetry
+---+Work, Politics, And Conflict In European Drama: A Symbol Interpreted In 20th Century Poetry
 Sexuality & Socialism In Modern Society. Special Studies In Early Egyptian Art: A Study Of Globalism In The United States. Meta-Physics Of Synchronized Swimming: The Baxter-Floyd Principle At Work. Ad-Hoc Investigation Of Sex In Middle Eastern Art: Contemporary Theories. Concepts In Eastern Mexican Folklore. The Liberated Dimension Of Western Minority Mythology. French Art Interpretation: A Figure Interpreted In American Drama
 
----+ Theories Of Liberal Pre-Cubism & The Crowell Law.
+---Theories Of Liberal Pre-Cubism & The Crowell Law.
 We are committed to enhance vertical sub-functionalities and skill sets. Our function is to competently reinvent our mega-relationships. Our responsibility is to expertly engineer content. Our obligation is to continue to zealously simplify our customer-centric paradigms as part of our five-year plan to successfully market an overhyped more expensive line of products and produce more dividends for our serfs. $vA It is our mission to optimize progressive schemas and supply-chains to better serve the country. We are committed to astutely deliver our net-niches, user-centric face time, and assets in order to dominate the economy. It is our goal to conveniently facilitate our e-paradigms, our frictionless skill sets, and our architectures to shore up revenue for our workers. Our goal is to work towards skillfully enabling catalysts for metrics.
 
 We resolve to endeavor to synthesize our sub-partnerships in order that we may intelligently unleash bleeding-edge total quality management as part of our master plan to burgeon our bottom line. It is our business to work to enhance our initiatives in order that we may take $vB over the nation and take over the country. It's our task to reinvent massively-parallel relationships. We execute a strategic plan to quickly facilitate our niches and enthusiastically maximize our extensible perspectives.
@@ -1032,7 +1032,7 @@ Our obligation is to work to spearhead cutting-edge portals so that hopefully we
 
 We have committed to work to effectively facilitate global e-channels as part of a larger $vC strategy to create a higher quality product and create a lot of bucks. Our duty is to work to empower our revolutionary functionalities and simplify our idiot-proof synergies as a component of our plan to beat the snot out of our enemies. We resolve to engage our mega-eyeballs, our e-bandwidth, and intuitive face time in order to earn a lot of scratch. It's our obligation to generate our niches.
 
----+ It is our job to strive to simplify our bandwidth.
+---It is our job to strive to simplify our bandwidth.
 We have committed to enable customer-centric supply-chains and our mega-channels as part of our business plan to meet the wants of our valued customers.
 We have committed to take steps towards $vE reinventing our cyber-key players and harnessing frictionless net-communities so that hopefully we may better serve our customers.
 %META:FORM{name="TestForm"}%
@@ -1234,7 +1234,7 @@ sub verify_formatOfLinks {
 
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user},
-        $this->{test_web}, 'Item977', "---+ Apache
+        $this->{test_web}, 'Item977', "---Apache
 
 Apache is the [[http://www.apache.org/httpd/][well known web server]].
 "
@@ -1807,5 +1807,71 @@ sub _cut_the_crap {
     $result =~ s/\d{2} \w{3} \d{4}/DATE/g;
     return $result;
 }
+
+#looks like zeroresults is non-functional.
+sub verify_zeroresults {
+      my $this = shift;
+    my $result;
+    
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+#nototal=on
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+  
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="on"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+  
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+  
+      $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+
+#nototal=off
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+  
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="on"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+  
+      $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+  
+    $result =
+      $this->{twiki}->handleCommonTags('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="I did not find anything."}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+  }
 
 1;
