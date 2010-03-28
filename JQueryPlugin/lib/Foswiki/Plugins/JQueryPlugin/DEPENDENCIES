@@ -1,2 +1,1 @@
-ONLYIF ( $Foswiki::Plugins::VERSION < 2.1 )
 Foswiki::Plugins::ZonePlugin,>=2.1,perl,Required
