@@ -35,10 +35,11 @@ our $translationToken = "\03";
 
 # monkey-patch API ###########################################################
 BEGIN {
-  if ($Foswiki::cfg{Plugins}{ZonePlugin}{Enabled} && !defined(\&Foswiki::Func::addToZone)) {
+  if ($Foswiki::cfg{Plugins}{ZonePlugin}{Enabled} && !defined(&Foswiki::Func::addToZone)) {
     no warnings 'redefine';
     *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
     *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
+    use warnings 'redefine';
   } else {
     #print STDERR "suppressing monkey patching via ZonePlugin\n";
   }
