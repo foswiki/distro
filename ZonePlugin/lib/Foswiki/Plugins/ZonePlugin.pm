@@ -41,7 +41,7 @@ BEGIN {
     *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
     use warnings 'redefine';
   } else {
-    print STDERR "suppressing monkey patching via ZonePlugin\n";
+    #print STDERR "suppressing monkey patching via ZonePlugin\n";
   }
 }
 
