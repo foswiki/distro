@@ -1108,7 +1108,7 @@ sub install {
             print 'The script uses an ONLYIF condition'
               . ' which is potentially insecure: "'
               . $trigger . "\"\n";
-            if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
+            if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()\$]*$/ ) {
 
                 # It looks more or less safe
                 push(
