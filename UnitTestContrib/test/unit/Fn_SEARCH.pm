@@ -3017,77 +3017,73 @@ sub test_summary_searchcontext_long_word_search {
 CRUD
 }
 
-#from the FormattedSearch topic
-sub verify_FormattedSearch__Search_with_conditional_output {
+sub verify_zeroresults {
     my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(<<'HERE');
-%SEARCH{ 
-    "." 
-    scope="topic" 
-    type="regex" 
-    nosearch="on" 
-    nototal="on" 
-    order="modified"
-     reverse="on"
-     format="| $date | [[$topic]] | $wikiusername | $date | $rev |"
-     limit="3" 
-}% 
-HERE
-
-    $this->assert_html_equals( <<CRUD, $result );
-| 15 Mar 2010 - 00:11 | [[OkBTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:11 | 1 |
-| 15 Mar 2010 - 00:11 | [[OkTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:11 | 1 |
-| 15 Mar 2010 - 00:11 | [[WebPreferences]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:11 | 1 | 
-
-CRUD
+    my $result;
+    
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+#nototal=on
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
 
     $result =
-      $this->{test_topicObject}->expandMacros(<<'HERE');
-%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
-%SEARCH{ 
-    "." 
-    scope="topic" 
-    type="regex" 
-    nosearch="on" 
-    nototal="on" 
-    order="modified"
-     reverse="on"
-     format="$percentCALC{$IF($TIME($date) < $GET(weekold), no, yes)}$percent"
-     limit="3" 
-}% 
-HERE
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="on"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
 
-    $this->assert_html_equals( <<CRUD, $result );
-yes
-yes
-yes
-CRUD
+RESULT
 
     $result =
-      $this->{test_topicObject}->expandMacros(<<'HERE');
-%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
-%SEARCH{ 
-    "." 
-    scope="topic" 
-    type="regex" 
-    nosearch="on" 
-    nototal="on" 
-    order="modified"
-     reverse="on"
-     format="$percentCALC{$IF($TIME($date) < $GET(weekold), <nop>, | [[$topic]] | $wikiusername | $date | $rev |)}$percent"
-     limit="3" 
-}% 
-HERE
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="off"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
 
-    $this->assert_html_equals( <<CRUD, $result );
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="I did not find anything."}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+#nototal=off
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
 
-| [[OkBTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:44 | 1 |
-| [[OkTopic]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:44 | 1 |
-| [[WebPreferences]] | TemporarySEARCHUsersWeb.WikiGuest | 15 Mar 2010 - 00:44 | 1 | 
-CRUD
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="on"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="off"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
+
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="I did not find anything."}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+RESULT
 }
-
 
 1;
