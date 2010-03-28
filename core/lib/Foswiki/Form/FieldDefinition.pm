@@ -124,7 +124,7 @@ sub renderForEdit {
           . $this->{type}
           . '</span>',
         CGI::textfield(
-            -class => $this->cssClasses('foswikiAlert'),
+            -class => $this->cssClasses('foswikiAlert foswikiInputField'),
             -name  => $this->{name},
             -size  => 80,
             -value => $value
