@@ -8,6 +8,7 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
 }%
 
 <!--
+Note: This setting is only used when viewing DefaultUserRegistration directly. When this topic is included from UserRegistration NOREGISTRATION is defined as a parameter in the INCLUDE
       * Set NOREGISTRATION = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
 -->
 
@@ -33,21 +34,13 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
   <td class="registrationLabel"> %MAKETEXT{"(identifies you to others) WikiName:"}% </td>
   <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="foswikiInputField" value="" onblur="" /> <span class="foswikiGrayText">%MAKETEXT{"required"}%</span> </td>
 </tr>
-<!--
-   # optional row for login name, enabled by {Register}{AllowLoginName} option in =configure=
-   * Set BESPOKE_AUTH = <tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>
--->
-%IF{"$ ALLOWLOGINNAME" then="%BESPOKE_AUTH%"}%
+%IF{"$ ALLOWLOGINNAME" then="<tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>"}%
 <tr>
   <td class="registrationLabel"> %MAKETEXT{"E-mail address:"}% </td>
   <td><input %NOREGISTRATION%  type="text" name="Twk1Email" size="40" class="foswikiInputField" value="" /> <span class="foswikiGrayText">%MAKETEXT{"required"}%</span> </td>
 </tr>
-<!--
-   # optional rows for password, enabled by {Register}{AllowLoginName} option in =configure=, we assume that login name means that Foswiki does not handle passwords
-   * Set BESPOKE_PASSWORD = <tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>\
-     <tr><td align=\"right\"> %MAKETEXT{"Verify password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>
--->
-%IF{"context passwords_modifyable" then="%BESPOKE_PASSWORD%"}%
+%IF{"context passwords_modifyable" then="<tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>\
+     <tr><td align=\"right\"> %MAKETEXT{"Verify password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>"}%
 <tr>
   <td class="registrationLabel"> %MAKETEXT{"Organisation name:"}% </td>
   <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" /></td>
@@ -316,10 +309,6 @@ else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
 </tr>
 </table>
 </div><!-- /foswikiFormStep-->
-<!--
-   # login method used by this site:
-   * Set LOGIN_METHOD_IN_THIS_SITE = %IF{"$ ALLOWLOGINNAME" then="LoginName" else="WikiName"}%
--->
 <div class="foswikiFormStep">
 <input type="hidden" name="rx" value='%BLACKLISTPLUGIN{ action="magic" }%' />
 <input type="hidden" name="topic" value="%TOPIC%" />
