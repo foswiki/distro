@@ -1,0 +1,2 @@
+# This plugin can now be found in JQGridPlugin. Dead code, delete.
+unlink("lib/Foswiki/Plugins/JQueryPlugin/GRID.pm");
