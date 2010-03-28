@@ -241,6 +241,10 @@ a:visited .foswikiAccessKey,
 a:hover .foswikiAccessKey {
 	color:inherit;
 }
+img {
+	border:0;
+	vertical-align:text-bottom;
+}
 .foswikiImage img {
 	border-color:#eee;
 	background-color:#fff;
