@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../lib/jquery-1.2.6.js" />
+/// <reference path="../../../lib/jquery-1.2.6.js" />
 /*
 	Masked Input plugin for jQuery
 	Copyright (c) 2007-2009 Josh Bush (digitalbush.com)
