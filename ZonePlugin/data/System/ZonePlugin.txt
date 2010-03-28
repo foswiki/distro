@@ -97,6 +97,7 @@ suboptimal use of these APIs.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Mar 2010 | fix problem where Foswiki 1.0.x installations would fail with "Undefined subroutine &Foswiki::Func::addToZone" |
 |  26 Mar 2010 | suppressing plugin initialisation on Foswiki engines >= 1.1; renamed <nop>BackwardsCompatible switch to <nop>OptimizePageLayout (defaults to off) |
 |  19 Feb 2010 | added ={<nop>BackwardsCompatible}= switch |
 |  15 Feb 2010 | be more careful applying the monkey-patch to the Func API; \

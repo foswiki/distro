@@ -19,7 +19,7 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '2.0';
+our $RELEASE = '2.1';
 our $SHORTDESCRIPTION = 'Gather content of a page in named zones while rendering it';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -41,7 +41,7 @@ BEGIN {
     *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
     use warnings 'redefine';
   } else {
-    #print STDERR "suppressing monkey patching via ZonePlugin\n";
+    print STDERR "suppressing monkey patching via ZonePlugin\n";
   }
 }
 
