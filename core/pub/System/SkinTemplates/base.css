@@ -76,7 +76,7 @@ a:hover .foswikiAccessKey {
 }
 .foswikiIcon img {
 	border-width:0;
-	align: top;
+	vertical-align:top;
 }
 .foswikiPreviewArea {
 	border-width:1px;
