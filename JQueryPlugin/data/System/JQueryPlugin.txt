@@ -101,6 +101,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Mar 2010: | (3.41) fix ZonePlugin listed as optional dependency (not optional for Foswiki 1.0.x installations) |
 |  26 Mar 2010: | (3.40) externalized grid and fullcalendar modules into plugins of their own; upgraded to jquery-ui 1.7.2; only load i18n support matching the current site language |
 |  20 Mar 2010: | (3.31) Minifier CPAN libs removed from plugin. They will be in core CPAN lib in Foswiki 1.1 |
 |  14 Mar 2010: | (3.30) upgraded =validate= to v1.7; added =wikiword= validation method; \
