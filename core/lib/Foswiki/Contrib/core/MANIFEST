@@ -76,6 +76,7 @@ data/System/CommandAndCGIScripts.txt 0644
 data/System/CompleteDocumentation.txt 0644
 data/System/Contribs.txt 0644
 data/System/ContributedAddOns.txt 0644
+data/System/CountryList.txt 0644
 data/System/DataForms.txt 0644
 data/System/DefaultPreferences.txt 0644
 data/System/DeleteOrRenameATopic.txt 0644
