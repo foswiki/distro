@@ -25,14 +25,21 @@ Suppose there is a topic with a table defining entries in a [[data form]]. I.e. 
 
 How to extract the 'name' values, i.e. 'option1', 'option2' and 'option3' and put them in a HTML form select input?
 
----+++ Solution
-
+---+++ Solution 1
 The following search pattern can be employed:
 
 <verbatim>
 <form>
 <select>
-%SEARCH{ "^\|[^\|]*\| *option *\|" topic="%TOPIC%" type="regex" multiple="on" nosearch="on" nototal="on" format="<option>$pattern(^\| *(.*?) *\|.*)</option>" }%
+%SEARCH{
+"^\|[^\|]*\| *option *\|"
+topic="%TOPIC%"
+type="regex"
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
+}%
 </select>
 </form>
 </verbatim>
@@ -40,9 +47,60 @@ The following search pattern can be employed:
 which is, in effect:
 <form>
 <select>
-%SEARCH{ "^\|[^\|]*\| *option *\|" topic="%TOPIC%" type="regex" multiple="on" nosearch="on" nototal="on" format="<option>$pattern(^\| *(.*?) *\|.*)</option>" }%
+%SEARCH{
+"^\|[^\|]*\| *option *\|"
+topic="%TOPIC%"
+type="regex"
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
+}%
 </select>
 </form>
+
+---+++ Solution 2
+If your table has this format:
+<verbatim>
+| *Country* |
+| |
+| Afghanistan |
+| Aland Islands |
+| Albania |
+| Algeria |
+| American Samoa |
+| Andorra |
+</verbatim>
+
+You need to skip the header row. Use this search:
+<verbatim>
+<select>
+%SEARCH{
+"^\|[^\*\|]*\|"
+topic="CountryList"
+type="regex"
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
+}%
+</select>
+</verbatim>
+
+Which renders as:
+
+<select>
+%SEARCH{
+"^\|[^\*\|]*\|"
+topic="CountryList"
+type="regex"
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
+}%
+</select>
+
 
 
 <!-- ============================== -->
@@ -69,11 +127,15 @@ We will:
 ---+++ Solution
 
 <verbatim>
-%SEARCH{"TopicClassification='%URLPARAM{type}%'" type="query" nosearch="on" 
+%SEARCH{
+"TopicClassification='%URLPARAM{type}%'"
+type="query"
+nosearch="on" 
 format="   * $topic - <font face=\"arial,helvetica\" size=\"1\"> 
 _last modified by_ $wikiusername _on_ $date </font> %BR% &nbsp;&nbsp;&nbsp; 
 <font face=\"arial,helvetica\" size=\"1\"> $formfield(TopicStatus) </font>" 
-sort="topic"}%
+sort="topic"
+}%
 </verbatim>
 
 The filtering select dialogue is created as in Pattern 1:
@@ -83,9 +145,18 @@ The filtering select dialogue is created as in Pattern 1:
 *Filter:* %BR%
 <form name="selectType" action="%SCRIPTURLPATH{"view"}%/%WEB%/" >
 <select name="type" size="1" onchange="document.location=this.value;"> 
-%SEARCH{ "^\|[^\|]*\| *option *\|" topic="TopicClassification" web="%WEB%" type="regex" 
-multiple="on" nosearch="on" nototal="on" format="<option value=%BASETOPIC%?type=$pattern(^\| *(.*?) *\|.*)>$pattern(^\| *(.*?) *\|.*)</option>" }% 
-<option value=%BASETOPIC%>All pages</option> </select>
+%SEARCH{
+"^\|[^\|]*\| *option *\|"
+topic="TopicClassification"
+web="%WEB%"
+type="regex" 
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option value=%BASETOPIC%?type=$pattern(^\| *(.*?) *\|.*)>$pattern(^\| *(.*?) *\|.*)</option>"
+}% 
+<option value=%BASETOPIC%>All pages</option>
+</select>
 </form>
 %STOPSIDEBAR% 
 </verbatim>
@@ -107,6 +178,10 @@ Use the META macro:
 
 =%<nop>META{ "parent" dontrecurse="on" }%=
 
+---+++ Test case
+
+%META{ "parent" dontrecurse="on" }%
+
 
 <!-- ============================== -->
 #SearchTopicChildren
@@ -122,11 +197,18 @@ The parent information is stored in the topic meta data. Do a SEARCH to find all
 
 <verbatim>
 Children:
-%SEARCH{ "parent.name='%TOPIC%'" type="query" nonoise="on" format="[[$topic]]" separator=", " }%
+%SEARCH{
+"parent.name='%TOPIC%'"
+type="query"
+nonoise="on"
+format="[[$topic]]"
+separator=", "
+}%
 </verbatim>
 
 *Note:* Replace =%<nop>TOPIC%= with =%<nop>BASETOPIC%= if you put this SEARCH into the skin or a sidebar.
 
+See also HierarchicalNavigation for an elaborate example.
 
 <!-- ============================== -->
 #SearchPublicWebsList
@@ -142,9 +224,16 @@ How to find and display public webs in a drop down list box.
 <form>
 <select name="topic">
 <option value="%TOPIC%">Select...</option>
-%SEARCH{ "%HOMETOPIC%" scope="topic" web="all" topic="%HOMETOPIC%" format="<option value=\"$web.$topic\">$web</option>" separator=" " }%
+%SEARCH{
+"%HOMETOPIC%"
+scope="topic"
+web="all"
+topic="%HOMETOPIC%"
+format="<option value=\"$web.$topic\">$web</option>"
+separator=" "
+}%
 </select>
-<input type="submit"  value="Go" />
+<input type="submit" class="foswikiSubmit" value="Go" />
 </form>
 </verbatim>
 
@@ -155,9 +244,16 @@ Public webs can be found with the %<nop>WEBLIST% macro.
 <form>
 <select name="topic">
 <option value="%TOPIC%">Select...</option>
-%WEBLIST{ format="<option value=\"$name.%HOMETOPIC%\">$name</option>" webs="public" separator=" " }%
+%SEARCH{
+"%HOMETOPIC%"
+scope="topic"
+web="all"
+topic="%HOMETOPIC%"
+format="<option value=\"$web.$topic\">$web</option>"
+separator=" "
+}%
 </select>
-<input type="submit" value="Go" />
+<input type="submit" class="foswikiSubmit" value="Go" />
 </form>
 
 
@@ -182,13 +278,36 @@ The following search pattern can be employed:
 <verbatim>
 <select name="type">
 <option>Select category...</option>
-%SEARCH{"   *\s*.*?" topic="CategoryList" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="<option>$pattern(.*   \*\s*([^\n]*).*)</option>"}%
+%SEARCH{
+"   *\s*.*?"
+topic="CategoryList"
+type="regex"
+multiple="on"
+casesensitive="on"
+nosummary="on"
+nosearch="on"
+noheader="on"
+nototal="on"
+format="<option>$pattern(.*   \*\s*([^\n]*).*)</option>"
+}%
 </select>
 </verbatim>
 
 To render the bullet list as a comma-separated list, use the =separator= parameter:
 <verbatim>
-%SEARCH{"   *\s*.*?" topic="CategoryList" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" separator="," format="$pattern(.*   \*\s*([^\n]*).*)"}%
+%SEARCH{
+"   *\s*.*?"
+topic="CategoryList"
+type="regex"
+multiple="on"
+casesensitive="on"
+nosummary="on"
+nosearch="on"
+noheader="on"
+nototal="on"
+separator=","
+format="$pattern(.*   \*\s*([^\n]*).*)"
+}%
 </verbatim>
 
 
@@ -205,7 +324,17 @@ Display the user name in the user's topic title
 Search for the =Name:= entry.
 
 <verbatim>
-%SEARCH{"   * [N]ame: " topic="%TOPIC%" type="regex" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="---+!! $pattern(.*   \* Name: ([^\n]*).*)"}%
+%SEARCH{
+"   \* [N]ame:"
+topic="%TOPIC%"
+type="regex"
+casesensitive="on"
+nosummary="on"
+nosearch="on"
+noheader="on"
+nototal="on"
+format="---+!! $pattern(.*   \* Name: ([^\n]*).*)"
+}%
 </verbatim>
 
 ---+++ Test case
@@ -216,7 +345,17 @@ To create a test case, we will put a name entry here:
 
 Search result:
 
-%SEARCH{"   * [N]ame: " topic="%TOPIC%" type="regex" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="---+!! $pattern(.*   \* Name: ([^\n]*).*)"}%
+%SEARCH{
+"   \* [N]ame:"
+topic="%TOPIC%"
+type="regex"
+casesensitive="on"
+nosummary="on"
+nosearch="on"
+noheader="on"
+nototal="on"
+format="<strong>$pattern(.*   \* Name: ([^\n]*).*)</strong>"
+}%
 
 <!-- ============================== -->
 #MovedTopics
@@ -230,7 +369,30 @@ How would I go about listing all moved topics ?
 
 Search for the 'moved' meta data. Type this: 
 
-=Moved topics: %<nop>SEARCH{ "moved.to!=''" type="query" format="$topic, " nosearch="on" noheader="on" nosummary="on" }%=
+<verbatim>
+Moved topics: %SEARCH{
+"moved.to!=''"
+web="all"
+type="query"
+separator=", "
+format="$web.$topic"
+nonoise="on"
+noheader="on"
+nosummary="on"
+}%
+</verbatim>
+
+---+++ Test case
+Moved topics: %SEARCH{
+"moved.to!=''"
+web="all"
+type="query"
+separator=", "
+format="$web.$topic"
+nonoise="on"
+noheader="on"
+nosummary="on"
+}%
 
 ---
 *Related Topics:* UserDocumentationCategory, SearchHelp, [[Macros]], FormattedSearch, RegularExpression
