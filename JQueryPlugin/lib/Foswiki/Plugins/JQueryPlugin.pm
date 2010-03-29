@@ -24,6 +24,7 @@ Container for jQuery and plugins
 
 =cut
 
+use Foswiki::Plugins ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
 use vars qw( 
@@ -33,7 +34,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '3.41'; 
+$RELEASE = '3.42'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -45,6 +46,13 @@ $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
   my( $topic, $web, $user ) = @_;
+
+  # check for prerequisites
+  if (!$Foswiki::cfg{ZonePlugin}{Enabled} && $Foswiki::Plugins::VERSION < 2.1) {
+    Foswiki::Func::writeWarning("ZonePlugin not installed/enabled...disabling JQueryPlugin");
+    return 0;
+  }
+
 
   # jquery.foswiki 
   Foswiki::Func::registerTagHandler('JQTHEME', \&handleJQueryTheme );
