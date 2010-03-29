@@ -45,6 +45,8 @@ sub ui {
 
 sub _install {
     my ($this, $repositoryPath, $extension) = @_;
+    my @plugins;
+    my $err;
 
     my $feedback = '';
     $feedback .= "<h3 style='margin-top:0'>Installing $extension</h3>";
@@ -57,98 +59,6 @@ sub _install {
         return;
     }
     
-    my $ext = '.tgz';
-    my $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
-    my $ar;
-    
-    $feedback .= "Fetching <code>$arf</code>...<br />\n";
-
-    my $response = $this->getUrl($arf);
-    if ( !$response->is_error() ) {
-        eval { $ar = $response->content(); };
-    }
-    else {
-        $@ = $response->message();
-    }
-    
-    if ($@) {
-        $feedback .= $this->WARN(<<HERE);
-I can't download $arf because of the following error:
-<pre>$@</pre>
-HERE
-        _printFeedback($feedback);
-        return;
-    }
-
-    if ( !defined($ar) ) {
-        $feedback .= $this->WARN(<<HERE);
-Extension may not have been packaged correctly.
-Trying for a .zip file instead.
-HERE
-        $ext = '.zip';
-        $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
-        $feedback .= "Fetching $arf...<br />\n";
-        $response = $this->getUrl($arf);
-        if ( !$response->is_error() ) {
-            eval { $ar = $response->content(); };
-        }
-        else {
-            $@ = $response->message();
-        }
-        if ($@) {
-            $feedback .= $this->WARN(<<HERE);
-I can't download $arf because of the following error:
-<pre>$@</pre>
-HERE
-            undef $ar;
-        }
-    }
-    
-    unless ($ar) {
-        $feedback .= $this->ERROR(<<MESS);
-Please follow the published process for manual installation from the
-command line.
-MESS
-        _printFeedback($feedback);
-        return;
-    }
-    
-    # Strip HTTP headers if necessary
-    $ar =~ s/^HTTP(.*?)\r\n\r\n//sm;
-        
-    # Save it somewhere it will be cleaned up
-    my ( $fh, $tmpfilename ) =
-      File::Temp::tempfile( SUFFIX => $ext, UNLINK => 1 );
-    binmode($fh);
-    print $fh $ar;
-    $fh->close();
-
-    $feedback .= "Unpacking...<br />\n";
-    my ($dir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
-    $feedback .= "$error<br />\n" if $error;
-    
-    my @names = Foswiki::Configure::Util::listDir($dir);
-    my @plugins;
-    
-    # install the contents
-    my $installScript = undef;
-    my $query = $Foswiki::query;
-    unless ( $query->param('confirm') ) {
-        my $unpackedFeedback = '';
-        foreach my $file (@names) {
-            $unpackedFeedback .= "$file\n";
-            if ( $file =~ /^${extension}_installer(\.pl)?$/ ) {
-                $installScript = Foswiki::Configure::Util::mapTarget($this->{root},$file);
-            }
-            my ($plugName) = $file =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
-            push (@plugins,  $plugName) if $plugName;
-            }
-        $feedback .= "<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
-        unless ($installScript) {
-            $feedback .= $this->WARN("No installer script found in archive");
-        }
-    }
-
     # Make sure that when new Foswiki is created, it reloads the configuration
     # and expands all variables.  Configure has already loaded the config with
     # noexpand specified.
@@ -164,46 +74,11 @@ MESS
     my $session = new Foswiki($user);
     require Foswiki::Configure::Package;
 
-    my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '', $session);
-    my ($rslt, $err) = $pkg->loadInstaller($dir);  # Recover the manifest from the _installer file
+    my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, $session);
+    $pkg->repository($repository);
+    my $rslt = $pkg->fullInstall(); 
 
-    if ($rslt) {
-        $feedback .= "Warnings loading installer...<br />\n";
-        $feedback .= "<pre>$rslt </pre>";
-    }
-
-    my ($installed, $missing, $wiki, $cpan, $manual) = $pkg->checkDependencies();
-    $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
-    $rslt .= "====== MISSING ========\n$missing\n" if ($missing);
-
-    if ($rslt) {
-        $feedback .= "Dependency Report..<br />\n";
-        $feedback .= "<pre>$rslt </pre>";
-    }
-
-    ($rslt, $err) = $pkg->createBackup($dir) unless ($err); # Create a backup of the previous install if any
-
-    unless ($err) {
-        $feedback .= "Creating Backup...<br />\n";
-        $feedback .= "<pre>$rslt </pre>";
-
-        if (defined $pkg->preinstall ) { 
-            $feedback .= "Running Pre-install...<br />\n";
-            $rslt = $pkg->preinstall() || '';
-            $feedback .= '<pre>' . $rslt . '</pre>' ;
-        }
-
-        ($rslt, $err) = $pkg->install($dir); # and do the installation
-    
-        $feedback .= "Installing...<br />\n";
-        $feedback .= "<pre>$rslt </pre>";
-
-        if (defined $pkg->postinstall ) { 
-            $feedback .= "Running Post-install...<br />\n";
-            $rslt = $pkg->postinstall() || '';
-            $feedback .= '<pre>' . $rslt . '</pre>' ;
-        }
-    }
+    _printFeedback($rslt);
  
     $pkg->finish();
     undef $pkg;
@@ -258,7 +133,7 @@ sub _uninstall {
     my @removed;
 
     require Foswiki::Configure::Package;
-    my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, '');
+    my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension );
     my ($rslt, $err) = $pkg->loadInstaller();
 
     if ($rslt) {
@@ -269,6 +144,8 @@ sub _uninstall {
     unless ($err) {
         my $rslt = $pkg->createBackup();
         $feedback .= "<b>Creating Backup:</b> <br />\n<pre>$rslt</pre>" if $rslt;
+
+        $pkg->loadExits();
 
         if (defined $pkg->preuninstall ) { 
             $feedback .= "Running Pre-uninstall...<br />\n";

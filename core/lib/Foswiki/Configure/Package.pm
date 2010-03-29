@@ -59,20 +59,21 @@ my $depwarn = '';    # Pass back warnings from untaint validation routine
       * Contrib - A Foswiki Contribution or AddOn.   Defined in Contrib/_extension_.pm
       * Core - (future) a packaged core installation.
    * =$session= (optional) - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
-Required for installer methods - used for checkin operations.
+Required for installer methods - used for checkin operations
       
 =cut
 
 sub new {
-    my ( $class, $root, $pkgname, $type, $session ) = @_;
+    my ( $class, $root, $pkgname, $session, $envir ) = @_;
     my @deps;
+    $envir = '' unless ($envir);
 
     my $this = bless(
         {
             _root    => $root,
             _pkgname => $pkgname,
-            _type    => $type,
             _session => $session,
+            _env     => $envir, 
 
   # Hash mapping the topics, attachment and other files supplied by this package
             _manifest => undef,
@@ -80,6 +81,8 @@ sub new {
             # Array of dependencies required by this package
             _dependency => \@deps,
             _routines   => undef,
+            _repository => undef,
+            _loaded => undef,          # Flag set if loadInstaller is complete
         },
         $class
     );
@@ -103,9 +106,11 @@ sub finish {
     undef $this->{_pkgname};
     undef $this->{_type};
     undef $this->{_session};
+    undef $this->{_env};
     undef $this->{_manifest};
     undef $this->{_dependency};
     undef $this->{_routines};
+    undef $this->{_loaded};
 
     for (qw( preinstall postinstall preuninstall postuninstall )) {
         undef &{$_};
@@ -115,16 +120,17 @@ sub finish {
 
 =begin TML
 
----++ ObjectMethod session()
+---++ ObjectMethod repository()
 
-Get or set the session associated with the object.
+Get or set the respository associated with the object.
 
 =cut
 
-sub session {
-    my ( $this, $session ) = @_;
-    $this->{_session} = $session if defined $session;
-    return $this->{_session};
+sub repository {
+    my $this = shift;
+    
+    $this->{_repository} = $_[0] if defined $_[0];
+    return $this->{_repository};
 }
 
 =begin TML
@@ -137,16 +143,97 @@ Get/set the web name associated with the object.
 
 sub pkgname {
     my ( $this, $pkgname ) = @_;
-    $this->{_web} = $pkgname if defined $pkgname;
+    $this->{_pkgname} = $pkgname if defined $pkgname;
     return $this->{_pkgname};
 }
 
 =begin TML
 
----++ ObjectMethod install( $dir )
+---++ ObjectMethod fullInstall()
+
+Perform a full installation of the package, including all dependencies
+and any required downloads from the repository.
+
+=cut
+sub fullInstall {
+    my $this = shift;
+
+    my $feedback = '';
+    my $rslt = '';
+    my $err = '';
+
+    my $nl = "<br />\n";
+    my $pre = '<pre>';
+    my $epre = '</pre>';
+
+    if ( $this->{_env} eq 'shell' ) {
+        $nl = "\n";
+        $pre = '';
+        $epre = '';
+    }
+ 
+    unless ( $this->{_loaded} ) {
+        ($rslt, $err) = $this->loadInstaller() ;  # Recover the manifest from the _installer file
+        if ($rslt) {
+            $feedback .= "Warnings loading installer...$nl";
+            $feedback .= "$pre$rslt$epre";
+        }
+    }
+
+    return ($err) if ($err);
+
+    my ($installed, $missing, $wiki, $cpan, $manual) = $this->checkDependencies();
+    $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
+    $rslt .= "====== MISSING ========\n$missing\n" if ($missing);
+
+    if ($rslt) {
+        $feedback .= "Dependency Report for $this->{_pkgname} ..$nl";
+        $feedback .= "$pre$rslt$epre";
+    }
+
+    $feedback .= $this->installDependencies();
+
+    ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
+
+    unless ($err) {
+        $feedback .= "Creating Backup of $this->{_pkgname} ...$nl";
+        $feedback .= "$pre$rslt$epre";
+
+        $this->loadExits();
+
+        if (defined $this->preinstall ) { 
+            $feedback .= "Running Pre-install exit for $this->{_pkgname} ...$nl";
+            $rslt = $this->preinstall() || '';
+            $feedback .= "$pre$rslt$epre" ;
+        }
+
+        ($rslt, $err) = $this->install(); # and do the installation
+    
+        $feedback .= "Installing $this->{_pkgname}... $nl";
+        $feedback .= "$pre$rslt$epre";
+
+        if (defined $this->postinstall ) { 
+            $feedback .= "Running Post-install exit for $this->{_pkgname}...$nl";
+            $rslt = $this->postinstall() || '';
+            $feedback .= "$pre$rslt$epre" ;
+        }
+    }
+
+    return ($feedback);
+ 
+}
+
+
+=begin TML
+
+---++ ObjectMethod install()
 
 Install files listed in the manifest.  $dir is the temporary directory where the 
-Extension package has been unpacked for installation
+Extension package will be found for installation.  
+
+If repository is provided in addition to the directory, the archives will be 
+retrieved.   If $uselocal is set, then local copies if found will be used instead of 
+the download.
 
 Missing directories are created as required.  The files are mapped into non-standard
 locations by the mapTarget utility routine.  If a file is read-only, it is temporarily
@@ -162,11 +249,58 @@ save the topic.
    * If the file exists and has rcs history ( *,v file exists), it is always checked in 
    * If the file exists without history, the Manifest "CI" flag is followed
 
+   * =%optios= (optional) options to override behavior - primarily for unit tests.
+      * =DIR =>  directory where installer package is found
+      * =USELOCAL => 1= Use local archives if found (Used by shell installations)
+      * =EXPANDED => 1= Archive file has already been expanded - preventing any downloads - for unit tests
+
 =cut
 
 sub install {
     my $this = shift;
-    my $dir  = shift;    # Location of unpacked extension
+    my $options = shift;
+ 
+    my $expanded = $options->{EXPANDED};
+    my $uselocal = $options->{USELOCAL};
+    my $dir = $options->{DIR} || $this->{_root};
+
+    my $ext = '';
+    my $feedback = '';                # Results from install
+    my $error = '';                   # Error results
+
+    unless ($expanded) {
+        if ($uselocal) {
+            if (-e "$this->{_pkgname}.tgz") { 
+                $ext = '.tgz';
+                }
+            else {
+                if (-e "$this-{_pkgname}.zip") {
+                    $ext = '.zip'; 
+                }
+            }
+            $feedback .= 'No local package found, and uselocal requested - download required\n';
+        }
+        my $tmpdir;              # Directory where archive was expanded
+
+        unless ($ext && $this->{_repository} ) {      # no extension found - need to download the package
+            my ($err, $tmpfilename) = $this->_fetchFile('.tgz');
+                return ($feedback, "Download failure\n $err") if $err;
+            $feedback .= "Unpacking...\n";
+            ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
+            $feedback .= "$error\n" if $error;
+
+            unless ($tmpdir) {      # no .tgz found - try the zip archive
+                my ($err, $tmpfilename) = $this->_fetchFile('.zip');
+                    return ($feedback, "Download failure\n $err") if $err;
+                $feedback .= "Unpacking...\n";
+                ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
+                $feedback .= "$error\n" if $error;
+            }
+        }
+        return ($feedback, "No archive found to install\n") unless ($tmpdir);
+        $dir = $tmpdir;
+    }
+
 
     my $session =
       $this->{_session}; # Session used for file checkin - should be admin user.
@@ -174,12 +308,10 @@ sub install {
     my $manifest = $this->{_manifest};    # Reference to the manifest
 
     my @names   = $this->files();    # Retrieve list of filenames from manifest
-    my $results = '';                # Results from install
     my $err     = '';                # Accumulated errors
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
-
         if ( $file =~ /^bin\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
             Foswiki::Configure::Util::rewriteShbang( "$dir/$file", "$perlLoc" )
@@ -196,6 +328,7 @@ sub install {
         }
 
         # Move or copy the file.
+       
         if ( -f "$dir/$file" ) {    # Exists as a file.
             my $installed = $manifest->{$file}->{I}
               || '';                # Set to 1 if file already installed
@@ -226,10 +359,10 @@ sub install {
                 close $fh;
 
                 if ($contents) {
-                    $results .= "Checked in: $file  as $tweb.$ttopic\n";
+                    $feedback .= "Checked in: $file  as $tweb.$ttopic\n";
                     my $meta =
                       Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
-                    $results .= _installAttachments( $this, $dir, "$web/$topic",
+                    $feedback .= _installAttachments( $this, $dir, "$web/$topic",
                         "$tweb/$ttopic", $meta );
                     $meta->saveAs( $tweb, $ttopic, %opts );
                 }
@@ -239,7 +372,7 @@ sub install {
             # Everything else
             my $msg .= _moveFile( "$dir/$file", "$target", $perms );
             $err .= $msg if ($msg);
-            $results .= "Installed:  $file\n";
+            $feedback .= "Installed:  $file\n";
             next;
         }
     }
@@ -248,17 +381,19 @@ sub install {
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
     );
-    $results .= "Installed:  $this->{_pkgname}_installer\n";
+    $feedback .= "Installed:  $this->{_pkgname}_installer\n";
 
     $err .= $msg if ($msg);
-    return ( $results, $err );
+    return ( $feedback, $err );
 
 }
 
 =begin TML
 ---+++ _installAttachments ()
 
-Install the attachments associated with a topic.  
+Install the attachments associated with a topic.  Used when 
+attachments or the owning topic have revision data to maintain.
+Otherwise the attachments are just copied.
 
 =cut
 
@@ -268,7 +403,7 @@ sub _installAttachments {
     my $webTopic  = shift;
     my $twebTopic = shift;
     my $meta      = shift;
-    my $results   = '';
+    my $feedback   = '';
 
     foreach my $key ( keys %{ $this->{_manifest}->{ATTACH}->{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
@@ -297,10 +432,10 @@ sub _installAttachments {
             $opts{filesize} = $stats[7];
             $opts{filedate} = $stats[9];
             $meta->attach(%opts);
-            $results .= "Attached:   $file to $twebTopic\n";
+            $feedback .= "Attached:   $file to $twebTopic\n";
         }
     }
-    return $results;
+    return $feedback;
 }
 
 =begin TML
@@ -526,6 +661,9 @@ This routine looks for the $extension_installer or
 $extension_installer.pl file  and extracts the manifest,
 dependencies and pre/post Exit routines from the installer.  
 
+If the installer is not found and a repository is provided, the
+installer file will be retrieved from the repository.
+
 The manifest and dependencies are parsed and loaded into their
 respective hashes.  The pre and post routines are eval'd and 
 installed as methods for this object.
@@ -533,15 +671,16 @@ installed as methods for this object.
 =cut
 
 sub loadInstaller {
-    my ( $this, $temproot ) = @_;
+    my ( $this, $temproot) = @_;
     $temproot = $this->{_root} unless defined $temproot;
-
+    my $file;
+    my $err;
+    
     my $pkgstore  = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     my $extension = $this->{_pkgname};
     my $warn      = '';
     local $/ = "\n";
 
-    my $file;
     if ( -e "$temproot/${extension}_installer" ) {
         $file = "$temproot/${extension}_installer";
     }
@@ -553,19 +692,34 @@ sub loadInstaller {
             if ( -e "$pkgstore/${extension}_installer" ) {
                 $file = "$pkgstore/${extension}_installer";
             }
-            else {
-                return ( '',
-                    "ERROR - Extension $extension package not found " );
-            }
         }
     }
 
+    $warn .= "Unable to find $extension locally in $temproot ..." unless ($file);
+
+    unless ($file) {  # Need to fetch the file
+        if ( defined $this->{_repository}) {
+            $warn .= "fetching from $this->{_repository}->{name} ...";
+            ($err, $file) = $this->_fetchFile('_installer');
+            $warn .= " succeeded\n";
+            if ($err) {
+                $warn .= " Download failed \n - $err \n";
+                return ( '', $warn);
+            }
+        } else {
+            $warn .= 'unable to download - no repository provided';
+            return ( '', $warn);
+        }
+    }
+         
     open( my $fh, '<', $file )
       || return ( '', "Extract manifest failed: $file -  $!" );
 
     my $found = '';
     my $depth = 0;
     while (<$fh>) {
+
+        #if ( $_ =~ m/my PACKAGEURL
         if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
             $found = 'M1';
             next;
@@ -620,6 +774,22 @@ sub loadInstaller {
         }
     }
     close $fh;
+    $this->{_loaded} = 1;
+    return ( $warn, '' );
+}
+
+=begin TML
+
+---++ ObjectMethod loadExits ()
+Evaluate the pre and post install / uninstall routines extracted from 
+the package file.  
+
+=cut
+
+
+sub loadExits {
+    my $this = shift;
+    my $err = '';
 
     if ( $this->{_routines} ) {
 
@@ -630,12 +800,30 @@ sub loadInstaller {
         $this->{_routines} =~ /(.*)/sm;
         $this->{_routines} = $1;    #yes, we must untaint
         unless ( eval $this->{_routines} . "; 1; " ) {
-            die "Couldn't load subroutines: $@";
+            $err = "Couldn't load subroutines: $@";
         }
     }
 
-    return ( $warn, '' );
+    return ( $err);
 }
+
+=begin TML
+
+---++ ObjectMethod deleteExits ()
+Delete the pre and post install / uninstall routines from the namespace
+
+=cut
+
+
+sub deleteExits {
+    my $this = shift;
+
+    for (qw( preinstall postinstall preuninstall postuninstall )) {
+        undef &{$_};
+    }
+    return;
+}
+
 
 =begin TML
 
@@ -696,12 +884,12 @@ sub _parseManifest {
     if ( $file =~ m/^pub\/.*/ ) {
         ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
     }
-
     $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
     $this->{_manifest}->{$file}->{md5}   = $md5 if ($md5);
     $this->{_manifest}->{$file}->{topic} = "$tweb\t$ttopic\t$tattach";
-    $this->{_manifest}->{$file}->{desc}  = $desc =~ s/\(noci\)//;
+    $desc =~ s/\(noci\)//;
+    $this->{_manifest}->{$file}->{desc} = $desc;
     $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}{$tattach} = $file
       if ($tattach);
 }
@@ -808,6 +996,7 @@ CPAN modules that could be installed.
 
 sub checkDependencies {
     my $this      = shift;
+    my $which     = shift;
     my $installed = '';
     my $missing   = '';
     my @wiki;
@@ -838,23 +1027,107 @@ sub checkDependencies {
             $packname .= $pack
               if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
             $dep->{name} = $packname;
-            #print "Push $dep->{module} onto WIKI\n";
             push( @wiki, $dep );
             next;
         }
 
         if ( $dep->{type} =~ m/cpan/i ) {
-            #print "Push $dep->{module} onto CPAN\n";
             push( @cpan, $dep );
         }
         else {
-            #print "Push $dep->{module} onto MANUAL\n";
             push( @manual, $dep );
         }
     }
+    return (\@wiki) if (defined $which && $which eq 'wiki');
     return ( $installed, $missing, \@wiki, \@cpan, \@manual );
 
 }
+
+=begin TML
+---++ ObjectMethod installDependencies ()
+Installs the dependencies listed for this module.  Returns the details
+of the installation.   
+
+=cut
+
+sub installDependencies {
+    my $this      = shift;
+    my $rslt = '';
+
+    foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
+        my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_env} );
+        $deppkg->repository($this->repository());
+        $rslt .= $deppkg->fullInstall();
+    }
+    return $rslt;
+}
+#
+#  Internal function to fetch a file from a repository - passed parameters:
+#  * A repository hash 
+#       my $repository = {
+#          name => 'Foswiki',
+#          data => 'http://foswiki.org/Extensions/',
+#          pub => 'http://foswiki.org/pub/Extensions/' };
+#  * The filetype to be fetched - .tgz,  .zip,  .md5,  _installer
+#  The function returns the file location & name,  along with a message if any.
+#
+sub _fetchFile {
+    my $this = shift;
+    my $ext = shift;
+
+    my $arf = $this->{_repository}->{pub} . $this->{_pkgname} . '/' . $this->{_pkgname} . $ext;
+    my $ar;
+
+    my $feedback;
+    
+    my $response = Foswiki::Configure::Package::_getUrl($arf);
+    if ( !$response->is_error() ) {
+        eval { $ar = $response->content(); };
+    }
+    else {
+        $@ = $response->message();
+    }
+    
+    if ($@) {
+        $feedback .= <<HERE;
+I can't download $arf because of the following error:
+$@
+HERE
+        return $feedback;
+    }
+
+    if ( !defined($ar) ) {
+        $feedback .= <<HERE;
+No content.  Extension may not have been packaged correctly.
+HERE
+        return $feedback;
+    }
+
+    # Strip HTTP headers if necessary
+    $ar =~ s/^HTTP(.*?)\r\n\r\n//sm;
+        
+    # Save it somewhere it will be cleaned up
+    my ( $fh, $tmpfilename ) =
+      File::Temp::tempfile( SUFFIX => $ext, UNLINK => 1 );
+    binmode($fh);
+    print $fh $ar;
+    $fh->close();
+
+    return ('', $tmpfilename );
+
+}
+
+
+sub _getUrl {
+    my ( $url ) = @_;
+
+    require Foswiki::Net;
+    my $tn = new Foswiki::Net();
+    my $response = $tn->getExternalResource($url);
+    $tn->finish();
+    return $response;
+}
+
 
 1;
 

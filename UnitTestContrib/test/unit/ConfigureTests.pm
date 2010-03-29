@@ -917,13 +917,13 @@ sub test_Package_makeBackup {
 
     use Foswiki::Configure::Package;
     my $pkg =
-      new Foswiki::Configure::Package( $root, "$extension", 'Plugin',
+      new Foswiki::Configure::Package( $root, "$extension",
         $this->{session} );
 
     ( $result, $err ) = $pkg->loadInstaller($tempdir);
     $this->assert_str_equals( '', $err );
 
-    ( $result, $err ) = $pkg->install($tempdir);
+    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 });
 
     my $msg = $pkg->createBackup();
     $this->assert_matches( qr/Backup saved into/, $msg );
@@ -1059,8 +1059,7 @@ DONE
   #
   #
     my $pkg =
-      new Foswiki::Configure::Package( $root, 'MyPlugin', 'Plugin',
-        $this->{session} );
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
     ( $result, $err ) = $pkg->loadInstaller($tempdir);
     $pkg->uninstall();
     $pkg->finish();
@@ -1072,10 +1071,9 @@ DONE
 
     _makePackage( $tempdir, $extension );
     $pkg =
-      new Foswiki::Configure::Package( $root, 'MyPlugin', 'Plugin',
-        $this->{session} );
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
     ( $result, $err ) = $pkg->loadInstaller($tempdir);
-    ( $result, $err ) = $pkg->install($tempdir);
+    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1} );
     $this->assert_str_equals( '', $err );
 
     my $expresult = "Installed:  data/Sandbox/TestTopic1.txt
@@ -1112,14 +1110,13 @@ Installed:  MyPlugin_installer
     _makePackage( $tempdir, $extension );
 
     my $pkg2 =
-      new Foswiki::Configure::Package( $root, 'MyPlugin', 'Plugin',
-        $this->{session} );
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
     ( $result, $err ) = $pkg2->loadInstaller($tempdir);
 
     print "ERRORS: $err\n" if ($err);
 
     $result = '';
-    ( $result, $err ) = $pkg2->install($tempdir);
+    ( $result, $err ) = $pkg2->install({ DIR => $tempdir, EXPANDED => 1 } );
 
     $expresult = "Installed:  data/Sandbox/TestTopic1.txt
 Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43
@@ -1138,6 +1135,13 @@ Installed:  MyPlugin_installer
         'Unexpected number of files installed on 2nd install: ' . @ifiles2
     );    # + 3 rcs files after checkin
     $this->assert_str_equals( '', $err, "Error $err reported" );
+
+    #
+    # Verify the pre/post install exits
+    #
+
+    $err = $pkg2->loadExits();
+    $this->assert_str_equals( '', $err, "Load exits failed with $err ");
 
     $this->assert_str_equals( 'Pre-install entered', $pkg2->preinstall() );
     $this->assert_str_equals( "Removed $tempdir/obsolete.pl",
@@ -1213,6 +1217,39 @@ Installed:  MyPlugin_installer
 
 #}
 
+# 
+# Determine that installer can download the package from Foswiki.org if not available locally
+#
+sub test_Package_loadInstaller {
+    my $this = shift;
+    my $root = $this->{rootdir};
+
+    my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
+    rmtree($tempdir);    # Clean up old files if left behind
+    mkpath($tempdir);
+
+    my $repository = {
+                 name => 'Foswiki', 
+                 data => 'http://foswiki.org/Extensions/', 
+                 pub => 'http://foswiki.org/pub/Extensions/' 
+                 };
+    my $pkg =
+      new Foswiki::Configure::Package( $root, 'EmptyPlugin', $this->{session} );
+    $pkg->repository($repository);
+    my ( $result, $err ) = $pkg->loadInstaller($tempdir );
+
+    chomp $result;
+    $this->assert_matches (qr/Unable to find EmptyPlugin locally in (.*) ...fetching from Foswiki ... succeeded/, $result, "Unexpected $result from loadInstaller");
+    $this->assert_str_equals ('', $err, "Error from loadInstaller $err");
+
+    my @files = $pkg->files();
+    $this->assert_num_equals(3, scalar @files, "Unexpected number of files in EmptyPlugin manifest");
+
+    $pkg->finish();
+    undef $pkg;
+}
+
+
 sub test_Load_expandValue {
     my $this = shift;
 
@@ -1222,17 +1259,22 @@ sub test_Load_expandValue {
     $this->assert_str_equals( "$Foswiki::cfg{WorkingDir}/test", $logv );
 }
 
-sub _test_Package_fetchFile {
-     my $this = shift;
+sub test_Package_fetchFile {
+    my $this = shift;
+    my $root = $this->{_rootdir};
 
-     my $repository = {
+    my $repository = {
                  name => 'Foswiki', 
                  data => 'http://foswiki.org/Extensions/', 
                  pub => 'http://foswiki.org/pub/Extensions/' 
                  };
-     my ($resp, $file) = Foswiki::Configure::Package::_fetchFile( $repository, 'EmptyPlugin', '_installer' );
+     
+    my $pkg =
+      new Foswiki::Configure::Package( $root, 'EmptyPlugin');
+    $pkg->repository($repository);
 
-     print "$resp, for $file \n";
+    my ($resp, $file) = $pkg->_fetchFile( '_installer' );
+    $this->assert_str_equals('', $resp);
 }
 
 1;

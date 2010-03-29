@@ -133,11 +133,6 @@ unless ( eval { require Foswiki } ) {
 my $user = $Foswiki::cfg{AdminUserLogin};
 $session = new Foswiki($user);
 
-if ( &$check_perl_module('LWP') ) {
-    $lwp = new LWP::UserAgent();
-    $lwp->agent("PluginsInstaller");
-    $lwp->env_proxy();
-}
 &$check_perl_module('CPAN');
 
 # Can't do this until we have setlib.cfg
@@ -146,53 +141,12 @@ require Foswiki::Configure::Util;
 require Foswiki::Configure::Package;
 
 
-# Satisfy dependencies on modules, by checking:
-# 1. If the module is a perl module, then:
-#    1. If the module is loadable in the current environment
-#    2. If the dependency has specified a version constraint, then
-#       the module must have a top-level variable VERSION which satisfies
-#       the constraint.
-#       Note that all Foswiki modules are perl modules - even non-perl
-#       distributions have a perl 'stub' module that carries the version info.
-# 2. If the module is _not_ perl, then we can't check it.
+# Satisfy CPAN dependencies on modules, by checking:
+
 sub satisfy {
     my $dep  = shift;
-    my $trig = eval $dep->{trigger};
-
-    return 1 unless ($trig);
-
-    _inform "Checking dependency on $dep->{module}....";
-    my ( $ok, $msg ) = $dep->check();
-
-    if ($ok) {
-        _inform $msg;
-        return 1;
-    }
-
-    _warn <<DONE;
-$MODULE depends on $dep->{type} package $dep->{module} $dep->{version}
-which is described as "$dep->{description}"
-But when I tried to find it I got this error:
-
-$msg
-DONE
-
-    if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
-        my $type     = $1;
-        my $pack     = $2;
-        my $packname = $3;
-        $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
-        $dep->{name} = $packname;
-        if ( !$noconfirm || ( $noconfirm && $downloadOK ) ) {
-            my $reply =
-              ask(  'Would you like me to try to download '
-                  . 'and install the latest version of '
-                  . $packname
-                  . ' from foswiki.org?' );
-            return 0 unless $reply;
-            return installPackage($packname);
-        }
-    }
+    my $ok = '';
+    my $msg = '';
 
     if ( $dep->{type} =~ m/cpan/i && $available{CPAN} && !$nocpan ) {
         _inform <<'DONE';
@@ -296,170 +250,13 @@ sub prompt {
     return $reply;
 }
 
-# Try and find an installer or archive.
-# Look in (1) the current directory (2) on the $TWIKI_PACKAGES path and
-# (3) in the twikiplugins subdirectory (if there, to support developers)
-# and finally (4) download from $PACKAGES_URL
-sub getComponent {
-    my ( $module, $types, $what ) = @_;
-    my $f;
-
-    # Look for the archive.
-    require Config;
-    if ( !$noconfirm || ( $noconfirm && $reuseOK ) ) {
-        foreach my $dir (
-            $installationRoot,
-            $installationRoot . '/twikiplugins/' . $module,
-            split( $Config::Config{path_sep}, $ENV{TWIKI_PACKAGES} || '' )
-          )
-        {
-            foreach my $type (@$types) {    # .tgz preferred
-                $f = $dir . '/' . $module . $type;
-                if ( -e $f ) {
-                    my @st      = stat($f);
-                    my $credate = localtime( $st[9] );
-                    print <<HERE;
-$f exists on this machine; would you like me to use it?
-It was created on $credate.
-If not, I will try to download a new one.
-HERE
-                    if ( ask("Use existing $f?") ) {
-                        print "Got a local $what from $f\n";
-                        return $f;
-                    }
-                }
-            }
-        }
-    }
-
-    unless ($lwp) {
-        _shout <<HERE;
-Cannot find a local $what for $module, and LWP is not installed
-so I can't download it. Please download it manually and re-run
-this script.
-HERE
-        return;
-    }
-
-    my $url         = "$PACKAGES_URL/$module/$module";
-    my $downloadDir = $installationRoot;
-
-    if ( $ENV{TWIKI_PACKAGES} && -d $ENV{TWIKI_PACKAGES} ) {
-
-        # see if we can write in $TWIKI_PACKAGES
-        my $test = $ENV{TWIKI_PACKAGES} . '/' . $$;
-        if ( open( F, '>', $test ) ) {
-            close(F);
-            unlink($test);
-            $downloadDir = $ENV{TWIKI_PACKAGES};
-        }
-    }
-
-    my $response;
-    foreach my $type (@$types) {
-        $f = $downloadDir . '/' . $module . $type;
-        $response = $lwp->get( $url . $type,
-            ':content_file' => $f );
-
-        if ( $response->header( "Client-Warning" ) ) {
-            _shout "Failed to download $module $what\n",
-              "LWP complains about: ", $response->header( "Client-Warning" );
-            return;
-        }
-    }
-
-    unless ( $f && -s $f ) {
-        _shout "Failed to download $module $what\n"
-          . $response->status_line();
-        return 0;
-    }
-    else {
-        _inform "Downloaded $what from $PACKAGES_URL to $f";
-    }
-
-    return $f;
-}
-
-# Try and find an archive for the named module.
-sub getArchive {
-    my $module = shift;
-
-    return getComponent( $module, \@archTypes, 'archive' );
-}
-
-# Try and find an installer for the named module.
-sub getInstaller {
-    my $module = shift;
-
-    return getComponent( $module, ['_installer'], 'installer' );
-}
 
 sub _loadInstaller {
-    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, '', $session);
+    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, $session, 'shell');
     my ($rslt, $err) = $thispkg->loadInstaller();
 
     _warn "$rslt" if ($rslt);
     _stop "$err" if ($err);
-}
-
-
-# install a package by running the installer
-sub installPackage {
-    my ($module) = @_;
-
-    my $script = getInstaller($module);
-    if ( $script && -e $script ) {
-        my @cmd = Foswiki::Sandbox::untaintUnchecked( $^X );
-        push @cmd, $script;
-        push @cmd, '-a' if $noconfirm;
-        push @cmd, '-d' if $downloadOK;
-        push @cmd, '-r' if $reuseOK;
-        push @cmd, '-n' if $inactive;
-        push @cmd, '-c' if $nocpan;
-        push @cmd, 'install';
-        local $| = 0;
-
-        # Fork the installation of the downloaded package.
-        my $pid = fork();
-        if ($pid) {
-            wait();
-            if ($?) {
-                _shout "Installation of $module failed: $?";
-                return 0;
-            }
-        }
-        else {
-            exec(@cmd);
-        }
-    }
-    else {
-        _warn <<HERE;
-I cannot locate an installer for $module.
-$module may not have been designed to be installed with this installer.
-HERE
-        _warn <<HERE;
-I might be able to download and unpack a simple archive, but you will
-have to satisfy the dependencies and finish the install of it yourself,
-as per the instructions for $module.
-HERE
-        my $ans = ask("Would you like me to try to get an archive of $module?");
-        return 0 unless ($ans);
-        my $arch = getArchive($module);
-        unless ($arch) {
-            _shout <<HERE;
-Cannot locate an archive for $module; installation failed.
-HERE
-            return 0;
-        }
-
-        # Unpack the archive in place. Don't bother trying to
-        # look for a MANIFEST or run the installer script - it
-        # was probably packaged by an amateur.
-        unpackArchive( $arch, $installationRoot );
-        return 0;
-    }
-
-    return 1;
 }
 
 
@@ -485,6 +282,8 @@ sub _uninstall {
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
+    
+        $thispkg->loadExits();
    
         $thispkg->preuninstall() if (defined $thispkg->preinstall);
 
@@ -546,13 +345,13 @@ DONE
 # 5 Move files into the target tree
 # 6 Clean up
 sub _install {
-    my ( $deps, $rootModule ) = @_;
-    my $unsatisfied = 0;
-    foreach my $dep (@$deps) {
-        unless ( satisfy($dep) ) {
-            $unsatisfied++;
-        }
-    }
+    my ( $rootModule ) = @_;
+    #my $unsatisfied = 0;
+    #foreach my $dep (@$deps) {
+    #    unless ( satisfy($dep) ) {
+    #        $unsatisfied++;
+    #    }
+    #}
 
     my $path = $MODULE;
 
@@ -589,48 +388,35 @@ sub _install {
         }
     }
 
-    if (!$alreadyUnpacked) {
-        _inform "Fetching the archive for $path.";
-        my $archive = getArchive($MODULE);
+    my ($installed, $missing,  @wiki, @cpan, @manual) = $thispkg->checkDependencies();
+    _inform $installed;
+    _inform $missing;
 
-        unless ($archive) {
-            _warn "Unable to locate suitable archive for install";
-            return 0;
-        }
+    my $instmsg = "$MODULE ready to be installed ";
+    $instmsg .= "along with Foswiki dependencies identified above\n" if ($missing);
+    $instmsg .= "(you will be asked later about any CPAN dependencies)\n" if ($missing);
+    $instmsg .= "Do you want to proceed with installation of $MODULE";
+    $instmsg .= " and Dependencies" if ($missing);
+    $instmsg .= '?';
 
-        my ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($archive);
-        _inform "Archive unpacked - ";
-        _warn $error if ($error);
-        return 0 unless $tmpdir;
-       
-        my $rslt = '';
-        my $err = '';
+    return 0
+        unless ask( "$instmsg" );
 
-        $rslt = $thispkg->createBackup() ;
-        _inform "$rslt";
-        $rslt = '';
+    my $repository = {
+                 name => 'fromInstaller', 
+                 data => '', 
+                 pub => "$PACKAGES_URL/" 
+                 };
+    $thispkg->repository($repository);
 
-        $rslt = $thispkg->preinstall() if (defined $thispkg->preinstall);
-        _inform "$rslt" if ($rslt);
+    my $rslt = $thispkg->fullInstall();
+    _inform $rslt;
 
-        ($rslt, $err) = $thispkg->install($tmpdir);
-        _inform "$rslt";
-        $rslt = '';
+    $thispkg->finish();
+    undef $thispkg;
 
-        $rslt = $thispkg->postinstall() if (defined $thispkg->postinstall);
-        _inform "$rslt" if ($rslt);
-
-        $thispkg->finish();
-        undef $thispkg;
-
-
-        _inform "$MODULE installed";
-        _warn " INSTALL FAILED with errors $err" if ($err);
-        _warn ' with ', $unsatisfied . ' unsatisfied dependencies'
-          if ($unsatisfied);
-    }
-
-    return ( $unsatisfied ? 0 : 1 );
+    return 0;
+    #return ( $unsatisfied ? 0 : 1 );
 }
 
 # Invoked when the user installs a new extension using
@@ -651,6 +437,9 @@ sub _validatePerlModule {
     return $module;
 }
 
+#
+#  Install is the main routine called by the [package]_installer script
+#
 sub install {
     $PACKAGES_URL = shift;
     $MODULE       = shift;
@@ -661,6 +450,11 @@ sub install {
     my @deps;
 
     unshift( @INC, 'lib' );
+
+    if ( $action eq 'usage' ) {
+        usage();
+        exit 0;
+    }
 
     _loadInstaller();
 
@@ -696,10 +490,7 @@ DONE
 DONE
 
     if ( $action eq 'install' ) {
-        my ($installed, $missing,  $wiki, $cpan, $manual) = $thispkg->checkDependencies();
-        push @deps, @{$wiki};
-        push @deps, @{$cpan};
-        _install( \@deps, $rootModule );
+        _install( $rootModule );
     }
     elsif ( $action eq 'uninstall' ) {
         _uninstall();
