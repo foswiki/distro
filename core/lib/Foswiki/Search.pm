@@ -340,14 +340,33 @@ sub searchWeb {
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
 ###################the rendering
-    if ((not $infoCache->hasNext()) and (not $zeroResults)) {
-        return '';
-    } else {
-        if (not _isSetTrue( $params{zeroresults}, $nonoise )) {
-            #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results 
-            #TODO: need to expandMacros etc
-            #and work out how to apply to FOREACH
-            #return $params{zeroresults};
+    if (not $infoCache->hasNext()) {
+        if (not $zeroResults) {
+            return '';
+        } else {
+            if (not _isSetTrue( $params{zeroresults}, 1 )) {
+                #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results 
+                #TODO: need to expandMacros etc
+                #and work out how to apply to FOREACH
+
+                #TODO: extract & merge with extration of footer processing code below
+                my $result = Foswiki::expandStandardEscapes($params{zeroresults});
+                $result =~ s/\$web/$baseWeb/gos;      # expand name of web
+                $result =~ s/([^\n])$/$1\n/os;    # add new line at end
+
+                # output footer of $web
+                $result =~ s/\$ntopics/0/gs;
+                $result =~ s/\$nhits/0/gs;
+
+                #legacy SEARCH counter support
+                $result =~ s/%NTOPICS%/0/go;
+
+                #$result = $this->formatCommon( $result, \%pager_formatting );
+                $result = $baseWebObject->expandMacros($result);
+                $result =~ s/\n$//os;                 # remove trailing new line
+                
+                return $result;
+            }
         }
     }
 
