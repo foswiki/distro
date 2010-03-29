@@ -179,6 +179,30 @@ sub _countPattern {
 
 =begin TML
 
+---++ StaticMethod _isSetTrue( $value, $default ) -> $boolean
+
+Returns 1 if =$value= is _actually set to_ true, and 0 otherwise. 
+
+If the value is undef, then =$default= is returned. If =$default= is
+not specified it is taken as 0.
+
+=cut
+
+sub _isSetTrue {
+    my ( $value, $default ) = @_;
+
+    $default ||= 0;
+
+    return $default unless defined($value);
+
+    $value =~ s/on//gi;
+    $value =~ s/yes//gi;
+    $value =~ s/true//gi;
+    return ($value) ? 0 : 1;
+}
+
+=begin TML
+
 ---++ ObjectMethod searchWeb (...)
 
 Search one or more webs according to the parameters.
@@ -229,8 +253,7 @@ sub searchWeb {
     $params{multiple} = Foswiki::isTrue( $params{multiple} );
     $params{nonoise}  = Foswiki::isTrue( $params{nonoise} );
     $params{noempty}  = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
-    $params{zeroresults} =
-      1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
+###    $params{zeroresults} = Foswiki::isTrue( ( $params{zeroresults} ), $params{nonoise} );
 
 #paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
 #TODO: or... I may wrap an AggregateIterator in a PagingIterator which then is evaluated by a Formattingiterator.
@@ -275,8 +298,7 @@ sub searchWeb {
       || ( !$footer && $formatDefined );
 
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $params{nonoise} );
-    my $zeroResults =
-      1 - Foswiki::isTrue( ( $params{zeroresults} || 'on' ), $params{nonoise} );
+    my $zeroResults = Foswiki::isTrue( $params{zeroresults}, $params{nonoise}||1 );
 
     #END TODO
 
@@ -318,6 +340,16 @@ sub searchWeb {
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
 ###################the rendering
+    if ((not $infoCache->hasNext()) and (not $zeroResults)) {
+        return '';
+    } else {
+        if (not _isSetTrue( $params{zeroresults}, $nonoise )) {
+            #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results 
+            #TODO: need to expandMacros etc
+            #and work out how to apply to FOREACH
+            #return $params{zeroresults};
+        }
+    }
 
     my $tmplSearch =
       $this->loadTemplates( \%params, $baseWebObject, $formatDefined,
@@ -468,12 +500,9 @@ sub loadTemplates {
     }
     $params->{format} |= $repeatText;
     
-    unless ($noTotal) {
-        $params->{footercounter} |=
-          $baseWebObject->expandMacros($tmplNumber);
-        $params->{footer} .= $params->{footercounter};
-    }
-    
+    $params->{footercounter} |=
+      $baseWebObject->expandMacros($tmplNumber);
+
     return $tmplSearch;
 }
 
@@ -631,8 +660,7 @@ sub formatResults {
       || ( !$footer && $formatDefined );
 
     my $noSummary = Foswiki::isTrue( $params->{nosummary}, $nonoise );
-    my $zeroResults =
-      1 - Foswiki::isTrue( ( $params->{zeroresults} || 'on' ), $nonoise );
+    my $zeroResults = Foswiki::isTrue( ( $params->{zeroresults}), $nonoise||1 );
     my $noTotal = Foswiki::isTrue( $params->{nototal}, $nonoise );
     my $newLine   = $params->{newline} || '';
     my $separator = $params->{separator};
@@ -809,9 +837,13 @@ sub formatResults {
 
                         #c&p from below
                         #TODO: needs refactoring.
-                        if ( defined($footer) and ( $footer ne '' ) ) {
-                            my $processedfooter =
-                              Foswiki::expandStandardEscapes($footer);
+                        my $processedfooter  = $footer;
+                        if (not $noTotal) {
+                            $processedfooter .= $params->{footercounter};
+                        }
+                        if ( defined($processedfooter) and ( $processedfooter ne '' ) ) {
+                            $processedfooter =
+                              Foswiki::expandStandardEscapes($processedfooter);
                             $processedfooter =~ s/\$web/$lastWebProcessed/gos
                               ;    # expand name of web
                             $processedfooter =~
@@ -840,7 +872,7 @@ sub formatResults {
 
  #	$header = $header.$separator if (defined($params->{header}));
  #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-                                if ( defined( $params->{footer} ) ) {
+                                if ( defined( $processedfooter ) and ($processedfooter ne '') ) {
                                     &$callback( $cbdata, $separator );
                                 }
                             }
@@ -910,16 +942,27 @@ sub formatResults {
     }    # end topic loop
 
     # output footer only if hits in web
-    if ($ntopics) {
+    if ($ntopics == 0) {
+        if ($zeroResults and not $noTotal) {
+            $footer = $params->{footercounter};
+        } else {
+            $footer = '';
+        }
+        $webObject = new Foswiki::Meta( $session, $baseWeb );
+    } else {
+        if ((not $noTotal) and (defined($params->{footercounter}))) {
+            $footer .= $params->{footercounter};
+        }
+
         if ( ( defined( $params->{pager} ) ) and ( $params->{pager} eq 'on' ) )
         {
             $footer .= '$pager';
         }
-        if ( defined $footer ) {
-            $footer = Foswiki::expandStandardEscapes($footer);
-            $footer =~ s/\$web/$web/gos;      # expand name of web
-            $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
-        }
+    }
+    if ( defined $footer ) {
+        $footer = Foswiki::expandStandardEscapes($footer);
+        $footer =~ s/\$web/$web/gos;      # expand name of web
+        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
 
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
@@ -932,12 +975,11 @@ sub formatResults {
         $footer = $webObject->expandMacros($footer);
         $footer =~ s/\n$//os;                 # remove trailing new line
 
-        if ( defined($separator) ) {
+        if ( defined($separator) and ($footer ne '')) {
 
  #	$header = $header.$separator if (defined($params->{header}));
  #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-            &$callback( $cbdata, $separator )
-              if ( defined( $params->{footer} ) );
+            &$callback( $cbdata, $separator );
         }
         else {
 

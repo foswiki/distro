@@ -3026,7 +3026,31 @@ sub verify_zeroresults {
       ->expandMacros('%SEARCH{"NOBLEEGLE"}%');
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
 RESULT
+
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="on"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+  
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="off"}%');
+    $this->assert_equals( '', $result );
+  
+      $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="I did not find anything."}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
+RESULT
+
+
 #nototal=on
     $result =
       $this->{test_topicObject}
@@ -3037,52 +3061,51 @@ RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="on"}%');
-    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
-
-RESULT
-
-    $result =
-      $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="off"}%');
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="on"}%');
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresult="I did not find anything."}%');
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="off"}%');
+	$this->assert_equals( '', $result );
+
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="on" zeroresults="I did not find anything."}%');
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
 RESULT
+
 #nototal=off
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off"}%');
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="on"}%');
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="on"}%');
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
 RESULT
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="off"}%');
-    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
-Searched: <noautolink>NOBLEEGLE</noautolink>
-RESULT
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="off"}%');
+    $this->assert_equals( '', $result );
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresult="I did not find anything."}%');
+      ->expandMacros('%SEARCH{"NOBLEEGLE" nototal="off" zeroresults="I did not find anything."}%');
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 Searched: <noautolink>NOBLEEGLE</noautolink>
+Number of topics: 0
 RESULT
 }
 
