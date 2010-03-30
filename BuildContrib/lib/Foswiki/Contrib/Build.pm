@@ -365,6 +365,9 @@ sub new {
         $this->{UPLOADTARGETSCRIPT} = $rep->{script};
         $this->{UPLOADTARGETSUFFIX} = $rep->{suffix};
         $this->{UPLOADTARGETWEB}    = $rep->{web};
+        $this->{DOWNTARGETSCRIPT} = $rep->{downscript} || $rep->{script};
+        $this->{DOWNTARGETSUFFIX} = $rep->{downsuffix} || $rep->{suffix};
+        $this->{DOWNTARGETWEB}    = $rep->{downweb} || $rep->{web};
     }
     else {
         $this->{UPLOADTARGETPUB} = $UPLOADSITEPUB
@@ -375,6 +378,13 @@ sub new {
           unless defined $this->{UPLOADTARGETSUFFIX};
         $this->{UPLOADTARGETWEB} = $UPLOADSITEEXTENSIONSWEB
           unless defined $this->{UPLOADTARGETWEB};
+
+        $this->{DOWNTARGETSCRIPT} = $UPLOADSITESCRIPT
+          unless defined $this->{DOWNTARGETSCRIPT};
+        $this->{DOWNTARGETSUFFIX} = $UPLOADSITESUFFIX
+          unless defined $this->{DOWNTARGETSUFFIX};
+        $this->{DOWNTARGETWEB} = $UPLOADSITEEXTENSIONSWEB
+          unless defined $this->{DOWNTARGETWEB};
     }
 
     return $this;
@@ -1786,6 +1796,11 @@ Web:     $this->{UPLOADTARGETWEB}
 PubDir:  $this->{UPLOADTARGETPUB}
 Scripts: $this->{UPLOADTARGETSCRIPT}
 Suffix:  $this->{UPLOADTARGETSUFFIX}
+ 
+If upload target does not exist, recover package form from:
+Web:     $this->{DOWNTARGETWEB}
+Scripts: $this->{DOWNTARGETSCRIPT}
+Suffix:  $this->{DOWNTARGETSUFFIX}
 END
 
         last if ask( "Is that correct? Answer 'n' to change", 1 );
@@ -1802,11 +1817,28 @@ END
           prompt( "Suffix", $this->{UPLOADTARGETSUFFIX} );
         $this->{UPLOADTARGETSUFFIX} = ''
           if $this->{UPLOADTARGETSUFFIX} eq 'none';
+        print "\nEnter the alternate name of the web that contains the package form\n";
+        $this->{DOWNTARGETWEB} = prompt( "Web", $this->{DOWNTARGETWEB} );
+        
+        print "Enter the full URL path to the alternate bin directory\n";
+        $this->{DOWNTARGETSCRIPT} =
+          prompt( "Scripts", $this->{DOWNTARGETSCRIPT} );
+        print
+"Enter the file suffix used on scripts in the alternate bin directory (enter 'none' for none)\n";
+        $this->{DOWNTARGETSUFFIX} =
+          prompt( "Suffix", $this->{DOWNTARGETSUFFIX} );
+        $this->{DOWNTARGETSUFFIX} = ''
+          if $this->{DOWNTARGETSUFFIX} eq 'none';
+
+
         my $rep = $this->{config}->{repositories}->{ $this->{project} } || {};
         $rep->{pub}    = $this->{UPLOADTARGETPUB};
         $rep->{script} = $this->{UPLOADTARGETSCRIPT};
         $rep->{suffix} = $this->{UPLOADTARGETSUFFIX};
         $rep->{web}    = $this->{UPLOADTARGETWEB};
+        $rep->{downscript} = $this->{DOWNTARGETSCRIPT};
+        $rep->{downsuffix} = $this->{DOWNTARGETSUFFIX};
+        $rep->{downweb}    = $this->{DOWNTARGETWEB};
         $this->{config}->{repositories}->{ $this->{project} } = $rep;
         $this->_saveConfig();
     }
@@ -1836,6 +1868,7 @@ END
 
     my $url =
 "$this->{UPLOADTARGETSCRIPT}/view$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic";
+    my $alturl = "$this->{DOWNTARGETSCRIPT}/view$this->{DOWNTARGETSUFFIX}/$this->{DOWNTARGETWEB}/$topic";
 
     # Get the old form data and attach it to the update
     print "Downloading $topic to recover form\n";
@@ -1843,15 +1876,32 @@ END
 
     my %newform;
     my $formExists = 0;
-    unless ( $response->is_success ) {
-        print 'Failed to GET old topic ', $response->request->uri,
-          ' -- ', $response->status_line, "\n";
-        $newform{formtemplate} = 'PackageForm';
-        if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-            $newform{TopicClassification} = $1 . 'Package';
+
+# SMELL: There appears to be no way to determine if Foswiki didn't find the topic and returns
+# the topic creator form,  or if the get was successful.  Foswiki always returns 200 for the status
+# We need a better way of handling the not-found condition.  For now, look to see if there is a
+# newtopicform present.  If found, it means that the get should be treated as a NOT FOUND.
+
+    unless ( $response->is_success && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
+        if ( ! $response->is_success ) {
+            print 'Failed to GET old topic ', $response->request->uri,
+              ' -- ', $response->status_line, "\n";
+            }
+
+        if (($this->{DOWNTARGETSCRIPT} ne $this->{UPLOADTARGETSCRIPT}) ||( $this->{DOWNTARGETWEB} ne $this->{UPLOADTARGETWEB})) {
+            print "Downloading $topic from $alturl to recover form\n";
+            $response = $userAgent->get("$alturl?raw=all");
+            unless ( $response->is_success ) { 
+                print 'Failed to GET old topic from Alternate location', $response->request->uri,
+                $newform{formtemplate} = 'PackageForm';
+                if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
+                    $newform{TopicClassification} = $1 . 'Package';
+                }
+            }
         }
     }
-    else {
+    if ($response->is_success && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
+        print "Recovering form from $topic\n";
         foreach my $line ( split( /\n/, $response->content() ) ) {
             if ( $line =~ m/%META:FIELD{name="(.*?)".*?value="(.*?)"/ ) {
                 my $val = $2;
@@ -1861,7 +1911,8 @@ END
                     $newform{$1} = $val;
                 }
             }
-            elsif ( $line =~ /META:FORM{name=/ ) {
+            elsif ( $line =~ /META:FORM{name="PackageForm/ ) { 
+                $newform{formtemplate} = 'PackageForm';
                 $formExists = 1;
             }
         }
@@ -1873,6 +1924,7 @@ END
             $newform{TopicClassification} ||= $1 . 'Package';
         }
     }
+
     $newform{text} = $topicText;
 
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
