@@ -1209,13 +1209,33 @@ Installed:  MyPlugin_installer
 
 }
 
-#sub test_Util_createArchive {
+sub test_Util_createArchive {
+    my $this = shift;
 
-#    my ($rslt, $err) = Foswiki::Configure::Util::createArchive( 'GenPDFAddOn-backup-20100319-195250', '/var/www/SVN/foswiki/core/working/configure/backup/', '0');
+    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    rmtree($tempdir);    # Clean up old files if left behind
+
+    my $extension = "MyPlugin";
+    my $extbkup = "$extension-backup-20100329-123456";
+
+    mkpath("$tempdir/$extbkup");
+    _makePackage( "$tempdir/$extbkup", $extension );
+
+#    foreach my $file (Foswiki::Configure::Util::listDir("$tempdir",1) ) {
+#        print "$file \n";
+#        }
+
+    my ($rslt, $err) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0');
 
 #    print "createArchive Error $err \n" if ($err);
+    rmtree("$tempdir/$extbkup");    # Clean up old files if left behind
 
-#}
+#    foreach my $file (Foswiki::Configure::Util::listDir("$tempdir") ) {
+#        print "After:  $file \n";
+#        }
+
+
+}
 
 # 
 # Determine that installer can download the package from Foswiki.org if not available locally

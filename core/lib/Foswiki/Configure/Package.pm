@@ -171,12 +171,15 @@ sub fullInstall {
         $pre = '';
         $epre = '';
     }
- 
+
+    $feedback = '<div style="margin-left: 30pt;">' unless ($this->{_env} eq 'shell' ); 
+
     unless ( $this->{_loaded} ) {
         ($rslt, $err) = $this->loadInstaller() ;  # Recover the manifest from the _installer file
         if ($rslt) {
             $feedback .= "Warnings loading installer...$nl";
             $feedback .= "$pre$rslt$epre";
+            $rslt = '';
         }
     }
 
@@ -189,6 +192,7 @@ sub fullInstall {
     if ($rslt) {
         $feedback .= "Dependency Report for $this->{_pkgname} ..$nl";
         $feedback .= "$pre$rslt$epre";
+        $rslt = '';
     }
 
     $feedback .= $this->installDependencies();
@@ -198,6 +202,7 @@ sub fullInstall {
     unless ($err) {
         $feedback .= "Creating Backup of $this->{_pkgname} ...$nl";
         $feedback .= "$pre$rslt$epre";
+        $rslt = '';
 
         $this->loadExits();
 
@@ -205,20 +210,25 @@ sub fullInstall {
             $feedback .= "Running Pre-install exit for $this->{_pkgname} ...$nl";
             $rslt = $this->preinstall() || '';
             $feedback .= "$pre$rslt$epre" ;
+            $rslt = '';
         }
 
         ($rslt, $err) = $this->install(); # and do the installation
     
         $feedback .= "Installing $this->{_pkgname}... $nl";
         $feedback .= "$pre$rslt$epre";
+        $rslt = '';
 
         if (defined $this->postinstall ) { 
             $feedback .= "Running Post-install exit for $this->{_pkgname}...$nl";
             $rslt = $this->postinstall() || '';
             $feedback .= "$pre$rslt$epre" ;
+            $rslt = '';
         }
     }
 
+    $feedback .= "</div>" unless ($this->{_env} eq 'shell' ); 
+   
     return ($feedback);
  
 }
@@ -525,8 +535,7 @@ sub createBackup {
             }
         }
 
-#my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
-
+        my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
         return "Backup saved into $pkgstore \n";
     }
     return "Nothing to backup \n";
@@ -1005,7 +1014,8 @@ sub checkDependencies {
 
     foreach my $dep ( @{ $this->{_dependency} } ) {
 
-        my $required = eval "$dep->{trigger}"
+        (my $trigger) = $dep->{trigger} =~ /^(.*)$/s;
+        my $required = eval "$trigger"
           ;    # Evaluate the trigger - if true, module is required
         next unless $required;    # Skip the module - trigger was false
         my $trig = '';

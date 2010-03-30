@@ -235,31 +235,55 @@ sub createArchive {
     my ( $name, $dir, $delete ) = @_;
 
     my $results = '';
+    my $warn = '';
   
     my $here = Cwd::getcwd();
     $here =~ /(.*)/; $here = $1;    # untaint current dir name
 
-    return ( undef, "Directory $dir does not exist \n") unless (-e $dir && -d $dir);
+    return ( undef, "Directory $dir/$name does not exist \n") unless (-e "$dir/$name" && -d "$dir/$name");
     
-    chdir($dir);
-    my $error = '';
+    chdir("$dir/$name");
 
-    $results .= `tar -czv -C "$name" -f "$name.tar" .`;
+    $results .= `tar -czvf "../$name.tgz" .`;
 
-    unless ($results) { 
-        $error .= "tar failed, trying zip \n"; 
+    if ($results && ! $@) { 
+        chdir ($here);
+        return ("$dir/$name.tgz", $results);
+    }    
 
-        chdir("$dir/$name");   #chdir into the backup directory - no -C equivalent with zip.
-        $results .= `zip -r "../$name.zip" .`; 
+    $warn .= "tar command failed $!, trying zip \n"; 
+
+
+    $results .= `zip -r "../$name.zip" .`; 
         
-        unless ($results) {
-            $error .= "zip failed, trying zip \n"; 
-            } 
-        }
+    if ($results && ! $@) {
+        chdir ($here);
+        return ("$dir/$name.zip", $results);
+    }
+
+    $warn .= "zip failed $!, trying perl routines \n"; 
+
+    my @flist = Foswiki::Configure::Util::listDir('.', 1);
+    $results = _tar ( "../$name.tgz", \@flist );
+
+    if ($results) {
+        chdir ($here);
+        return ("$dir/$name.tgz", $results);
+    }
+
+    $warn .= "Perl Archive::Tar failed - trying zip \n"; 
+
+    #my @flist = Foswiki::Configure::Util::listDir("../$name", 1);
+    #my $rc = _tar ( "../$name.tgz", \@flist );
+
+    #if ($rc) {
+    #    print "Perl Archive succeeded "
+    #    return ("$dir/$name.tgz", $warn);
+    #}
 
     chdir($here);
 
-    return ($results, $error);
+    return (undef, $warn);
 }
 
 sub _zip {
@@ -299,19 +323,17 @@ sub _zip {
 sub _tar {
     my $archive = shift;
     my $files = shift;
+    my $rslt;
 
+   foreach my $f ( @$files) {
+      }
     eval 'use Archive::Tar ()';
     unless ($@) {
-        my $rslt = Archive::Tar->create_archive( $archive, 'COMPRESS_GZIP', @$files );
+        $rslt = Archive::Tar->create_archive( $archive, 7, @$files );
+        return `tar -tzvf $archive`;
+        return (Archive::Tar->list_archive( $archive ) ) if $rslt;
     }
-    else {
-#        my $results .= `tar -czv -C "$name" -f "$name.tar" .`;
-        if ($?) {
-            return "tar failed: $!\n";
-        }
-    }
-
-    return ;
+    return 0;
 }
 
 =begin TML
@@ -419,9 +441,12 @@ sub _untar {
 
 =begin TML
 
----++ StaticMethod listDir($dir, [$path] )
-Recursively list the files in directory $dir.   If $path is passed, it is
-appended to the Directory.  list of files in @names, relative to the
+---++ StaticMethod listDir($dir, [$dflag], [$path] )
+Recursively list the files in directory $dir. Optional $dflag can be set to 1
+to cause the list to exclude the directory names from the list. 
+
+If $path is used internally for the recursive directory list. It is
+appended to the Directory.  The list of files in @names is relative to the
 $dir directory.   Subroutine called recursively for each subdirectory
 encountered.
 
@@ -429,8 +454,9 @@ encountered.
 
 # Recursively list a directory
 sub listDir {
-    my ( $dir, $path ) = @_;
+    my ( $dir, $dflag,  $path ) = @_;
     $path ||= '';
+    $dflag ||= '';
     $dir .= '/' unless $dir =~ /\/$/;
     my $d;
     my @names = ();
@@ -444,8 +470,8 @@ sub listDir {
             if ( $f =~ /^([-\w.,]+)$/ ) {
                 $f = $1;
                 if ( -d "$dir$path/$f" ) {
-                    push( @names, "$path$f/" );
-                    push( @names, listDir( $dir, "$path$f/" ) );
+                    push( @names, "$path$f/" ) unless ($dflag);
+                    push( @names, listDir( $dir, $dflag,  "$path$f/" ) );
                 }
                 else {
                     push( @names, "$path$f" );
