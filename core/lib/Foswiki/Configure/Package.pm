@@ -172,7 +172,8 @@ sub fullInstall {
         $epre = '';
     }
 
-    $feedback = '<div style="margin-left: 30pt;">' unless ($this->{_env} eq 'shell' ); 
+    $feedback .= "<h3 style='margin-top:0'>Installing $this->{_pkgname}</h3>";
+    $feedback .= "<div class='installDependency'>" unless ($this->{_env} eq 'shell' );
 
     unless ( $this->{_loaded} ) {
         ($rslt, $err) = $this->loadInstaller() ;  # Recover the manifest from the _installer file

@@ -49,7 +49,6 @@ sub _install {
     my $err;
 
     my $feedback = '';
-    $feedback .= "<h3 style='margin-top:0'>Installing $extension</h3>";
     
     my $repository = $this->getRepository( $repositoryPath );
     if ( !$repository ) {

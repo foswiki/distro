@@ -555,6 +555,9 @@ div.configureMessageBox {
 	margin:0;
 	padding-left:3em;
 }
+
+.installDependency { margin-left:3em; }
+
 .configureLegend table div.configureExpertExample {
 	border-left:5px solid #c3a13f;
 	padding-left:.5em;
