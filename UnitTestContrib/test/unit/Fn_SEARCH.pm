@@ -3107,4 +3107,28 @@ I did not find anything.
 RESULT
 }
 
+# Item8800: SEARCH date param seems to be broken 
+sub verify_date_param {
+    my $this = shift;
+    
+    my $text = <<HERE;
+%META:TOPICINFO{author="TopicUserMapping_guest" date="1" format="1.1" version="1.2"}%
+---+ Progressive Sexuality
+A Symbol Interpreted In American Architecture. Meta-Physics Of Marxism & Poverty In The American Landscape. Exploration Of Crime In Mexican Sculptures: A Study Seen In American Literature. Brief Survey Of Suicide In Italian Art: The Big Picture. Special Studies In Bisexual Female Architecture. Brief Survey Of Suicide In Polytheistic Literature: Analysis, Analysis, and Critical Thinking. Radical Paganism: Modern Theories. Liberal Mexican Religion In The Modern Age. 
+
+HERE
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        "VeryOldTopic", $text );
+    $topicObject->save(forcedate=>123);
+    
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"1" type="query" date="1970" nonoise="on" format="$topic"}%');
+    $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
+VeryOldTopic
+RESULT
+}
+
+
 1;

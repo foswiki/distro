@@ -79,6 +79,21 @@ sub finish {
 
 =begin TML
 
+---++ ObjectMethod hasCached($webtopic) -> boolean
+
+returns true if the topic is already int he cache.
+
+=cut
+
+sub hasCached {
+    my ( $this, $webtopic ) = @_;
+    
+    return (defined($this->{cache}->{$webtopic}));
+}
+
+
+=begin TML
+
 ---++ ObjectMethod get($webtopic, $meta) -> a cache obj (sorry, needs to be refactored out to return a Foswiki::Meta obj only
 
 get a requested meta object - web or topic typically, might work for attachments too
@@ -93,12 +108,15 @@ sub get {
 
     $this->{get_count}++;
     
-    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $webtopic );
-
     unless ($this->{cache}->{$webtopic}) {
         $this->{cache}->{$webtopic} = {};
-        $this->{cache}->{$webtopic}->{tom} = $meta || 
-          Foswiki::Meta->load( $this->{session}, $web, $topic );
+        if (defined($meta)) {
+            $this->{cache}->{$webtopic}->{tom} = $meta;
+        } else {
+            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $webtopic );
+            $this->{cache}->{$webtopic}->{tom} = 
+                Foswiki::Meta->load( $this->{session}, $web, $topic );
+        }
         return if (!defined($this->{cache}->{$webtopic}->{tom}) or $this->{cache}->{$webtopic}->{tom} eq '');
 
         $this->{new_count}++;

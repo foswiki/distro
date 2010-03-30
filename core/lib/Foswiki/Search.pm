@@ -16,6 +16,7 @@ use Error qw( :try );
 use Foswiki                           ();
 use Foswiki::Sandbox                  ();
 use Foswiki::Search::InfoCache        ();
+use Foswiki::Search::ResultSet            ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 use Foswiki::WebFilter                ();

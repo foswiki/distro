@@ -5,6 +5,7 @@ package Foswiki::Store::SearchAlgorithms::PurePerl;
 use strict;
 use Assert;
 use Foswiki::Search::InfoCache;
+use Foswiki::Search::ResultSet;
 
 =begin TML
 
@@ -115,7 +116,7 @@ sub query {
         push(@resultCacheList, $infoCache);
     }
     #TODO: combine these into one great ResultSet
-    return new Foswiki::AggregateIterator(\@resultCacheList);
+    return new Foswiki::Search::ResultSet(\@resultCacheList);
 }
 
 

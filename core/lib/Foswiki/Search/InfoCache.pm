@@ -72,6 +72,7 @@ sub addTopics {
           Foswiki::Func::normalizeWebTopicName( $defaultWeb, $t );
         push( @{ $this->{list} }, "$web.$topic" );
     }
+    undef $this->{sorted};
 }
 
 #TODO: what if it isa Meta obj
@@ -89,8 +90,9 @@ sub addTopic {
     my $webtopic = "$w.$t";
     push( @{ $this->{list} }, $webtopic );
     if (defined($meta)) {
-        $this->get($webtopic, $meta);
+        $this->{_session}->search->metacache->get($webtopic, $meta);
     }
+    undef $this->{sorted};
 }
 
 =begin TML
@@ -101,11 +103,18 @@ the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
 it should be possible for the search engine to pre-sort, making this a nop, or to
 delay evaluated, partially evaluated, or even delegated to the DB/SQL 
 
+can call repeatedly, the list will only be re-sorted if new elements are added.
+
 =cut
 
 sub sortResults {
-    my ( $infoCache, $params ) = @_;
-    my $session = $infoCache->{_session};
+    my ( $this, $params ) = @_;
+    
+    #TODO: for now assume we do not change the sort order later
+    return if (defined($this->{sorted}));
+    $this->{sorted} = 1;
+    
+    my $session = $this->{_session};
 
     my $sortOrder = $params->{order} || '';
     my $revSort   = Foswiki::isTrue( $params->{reverse} );
@@ -143,30 +152,29 @@ sub sortResults {
         # SMELL: In Dakar this seems to be pointless since latest rev
         # time is taken from topic instead of dir list.
         my $slack = 10;
-        if ( $limit + 2 * $slack < scalar( @{ $infoCache->{list} } ) ) {
+        if ( $limit + 2 * $slack < scalar( @{ $this->{list} } ) ) {
 
             # sort by approx latest rev time
             my @tmpList =
               map  { $_->[1] }
               sort { $a->[0] <=> $b->[0] }
               map  {
-                        my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $infoCache->{_defaultWeb}, $_ );
+                        my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $_ );
                         [ $session->getApproxRevTime( $web, $topic ), $_ ] 
                   }
-              @{ $infoCache->{list} };
+              @{ $this->{list} };
             @tmpList = reverse(@tmpList) if ($revSort);
 
             # then shorten list and build the hashes for date and author
             my $idx = $limit + $slack;
-            @{ $infoCache->{list} } = ();
+            @{ $this->{list} } = ();
             foreach (@tmpList) {
-                push( @{ $infoCache->{list} }, $_ );
+                push( @{ $this->{list} }, $_ );
                 $idx -= 1;
                 last if $idx <= 0;
             }
         }
 
-        $infoCache->sortTopics( $sortOrder, !$revSort );
     }
     elsif (
         $sortOrder =~ /^creat/ ||    # topic creation time
@@ -174,76 +182,65 @@ sub sortResults {
         $sortOrder =~ s/^formfield\((.*)\)$/$1/    # form field
       )
     {
-        $infoCache->sortTopics( $sortOrder, !$revSort );
     }
     else {
-
-        # simple sort, see Codev.SchwartzianTransformMisused
-        # note no extraction of topic info here, as not needed
-        # for the sort. Instead it will be read lazily, later on.
- #TODO: need to remove the web portion
-        if ($revSort) {
-            @{ $infoCache->{list} } =
-              sort { $b cmp $a } @{ $infoCache->{list} };
-        }
-        else {
-            @{ $infoCache->{list} } =
-              sort { $a cmp $b } @{ $infoCache->{list} };
-        }
+        #default to topic sorting
+        $sortOrder = 'topic';
     }
+    sortTopics( $this->{list}, $sortOrder, !$revSort );
 
+#SMELL: this is not a sort at all - its a filters
+#TODO: remove and replace with a FilterIterator
     if ($date) {
         require Foswiki::Time;
         my @ends       = Foswiki::Time::parseInterval($date);
         my @resultList = ();
-        foreach my $webtopic ( @{ $infoCache->{list} } ) {
+        foreach my $webtopic ( @{ $this->{list} } ) {
 
             # if date falls out of interval: exclude topic from result
-            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $infoCache->{_defaultWeb}, $webtopic );
+            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
             my $topicdate = $session->getApproxRevTime( $web, $topic );
             push( @resultList, $webtopic )
               unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
         }
-        @{ $infoCache->{list} } = @resultList;
+        @{ $this->{list} } = @resultList;
     }
 }
 
 
 ######OLD methods
-sub get {
-#    my ( $this, $webtopic, $meta ) = @_;
-    my $this = shift;
-    
-    return $this->{_session}->search->metacache->get(@_);
-}
 
 # Determins, and caches, the topic revision info of the base version,
 sub getRev1Info {
-    my ( $this, $webtopic, $attr ) = @_;
+    my ( $webtopic, $attr ) = @_;
+    
+    my $session = $Foswiki::Plugins::SESSION;
+    my $metacache = $session->search->metacache;
 
-    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
 
-    my $info = $this->get($webtopic);
+    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $webtopic );
+
+    my $info = $metacache->get($webtopic);
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
             my $tmp =
-              Foswiki::Meta->load( $this->{_session}, $web,
+              Foswiki::Meta->load( $session, $web,
                 $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
 
         if ( $attr eq 'createusername' ) {
             $info->{createusername} =
-              $this->{_session}->{users}->getLoginName( $ri->{author} );
+              $session->{users}->getLoginName( $ri->{author} );
         }
         elsif ( $attr eq 'createwikiname' ) {
             $info->{createwikiname} =
-              $this->{_session}->{users}->getWikiName( $ri->{author} );
+              $session->{users}->getWikiName( $ri->{author} );
         }
         elsif ( $attr eq 'createwikiusername' ) {
             $info->{createwikiusername} =
-              $this->{_session}->{users}->webDotWikiName( $ri->{author} );
+              $session->{users}->webDotWikiName( $ri->{author} );
         }
         elsif ( $attr eq 'createdate' or
                $attr eq 'createlongdate' or
@@ -260,21 +257,35 @@ sub getRev1Info {
 
 # Sort a topic list using cached info
 sub sortTopics {
-    my ( $this, $sortfield, $revSort ) = @_;
+    my ( $listRef, $sortfield, $revSort ) = @_;
     ASSERT($sortfield);
+    
+    if ($sortfield eq 'topic') {
 
-    ASSERT( !$this->isImmutable() )
-      ;    #cannot modify list once its being used as an iterator.
+        # simple sort, see Codev.SchwartzianTransformMisused
+        # note no extraction of topic info here, as not needed
+        # for the sort. Instead it will be read lazily, later on.
+ #TODO: need to remove the web portion
+        if ($revSort) {
+            @{ $listRef } =
+              sort { $a cmp $b } @{ $listRef };
+        } else {
+            @{ $listRef } =
+              sort { $b cmp $a } @{ $listRef };
+        }
+    }
+    
+    my $metacache = $Foswiki::Plugins::SESSION->search->metacache;
 
     # populate the cache for each topic
-    foreach my $webtopic ( @{ $this->{list} } ) {
+    foreach my $webtopic ( @{ $listRef } ) {
         if ( $sortfield =~ /^creat/ ) {
 
             # The act of getting the info will cache it
-            $this->getRev1Info( $webtopic, $sortfield );
+            getRev1Info( $webtopic, $sortfield );
         }
         else {
-            my $info = $this->get($webtopic);
+            my $info = $metacache->get($webtopic);
             if ( !defined( $info->{$sortfield} ) ) {
                 $info->{$sortfield} =
                   Foswiki::Search::displayFormField( $info->{tom}, $sortfield );
@@ -283,19 +294,19 @@ sub sortTopics {
 
         # SMELL: CDot isn't clear why this is needed, but it is otherwise
         # we end up with the users all being identified as "undef"
-        my $info = $this->get($webtopic);
+        my $info = $metacache->get($webtopic);
         $info->{editby} =
           $info->{tom}->session->{users}->getWikiName( $info->{editby} );
     }
     if ($revSort) {
-        @{ $this->{list} } = map { $_->[1] }
+        @{ $listRef } = map { $_->[1] }
           sort { _compare( $b->[0], $a->[0] ) }
-          map { [ $this->get($_)->{$sortfield}, $_ ] } @{ $this->{list} };
+          map { [ $metacache->get($_)->{$sortfield}, $_ ] } @{ $listRef };
     }
     else {
-        @{ $this->{list} } = map { $_->[1] }
+        @{ $listRef } = map { $_->[1] }
           sort { _compare( $a->[0], $b->[0] ) }
-          map { [ $this->get($_)->{$sortfield}, $_ ] } @{ $this->{list} };
+          map { [ $metacache->get($_)->{$sortfield}, $_ ] } @{ $listRef };
     }
 }
 

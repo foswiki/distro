@@ -24,6 +24,7 @@ use strict;
 use Foswiki::Search::Node       ();
 use Foswiki::Meta               ();
 use Foswiki::Search::InfoCache  ();
+use Foswiki::Search::ResultSet  ();
 use Foswiki::MetaCache          ();
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
@@ -64,7 +65,7 @@ sub query {
         push(@resultCacheList, $infoCache);
     }
     #TODO: combine these into one great ResultSet
-    return new Foswiki::AggregateIterator(\@resultCacheList);
+    return new Foswiki::Search::ResultSet(\@resultCacheList);
 }
 
 

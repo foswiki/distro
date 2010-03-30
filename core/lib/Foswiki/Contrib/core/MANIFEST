@@ -717,6 +717,7 @@ lib/Foswiki/Sandbox.pm 0444
 lib/Foswiki/Search/InfoCache.pm 0444
 lib/Foswiki/Search/Node.pm 0444
 lib/Foswiki/Search/Parser.pm 0444
+lib/Foswiki/Search/ResultSet.pm 0444
 lib/Foswiki/Search.pm 0444
 lib/Foswiki/Store.pm 0444
 lib/Foswiki/Store/QueryAlgorithms/BruteForce.pm 0444

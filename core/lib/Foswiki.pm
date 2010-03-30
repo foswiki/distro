@@ -3378,10 +3378,19 @@ sub getWorkArea {
 Get an approximate rev time for the latest rev of the topic. This method
 is used to optimise searching. Needs to be as fast as possible.
 
+SMELL: is there a reason this is in Foswiki.pm, and not in Search?
+
 =cut
 
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
+    
+    my $metacache = $this->search->metacache;
+    if ($metacache->hasCached("$web.$topic")) {
+        #don't kill me - this should become a property on Meta
+        return $metacache->get("$web.$topic")->{modified};
+    }
+    
     return $this->{store}->getApproxRevTime( $web, $topic );
 }
 
@@ -3389,7 +3398,7 @@ sub getApproxRevTime {
 __DATA__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
