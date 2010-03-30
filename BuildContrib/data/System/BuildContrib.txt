@@ -474,7 +474,7 @@ delete it if it exists.
     my $this = shift;   # Get the object instance passed to the routine
     if ($this) {        # Verify that you are running in the new environment
         # Map the standard location to the absolute location on this
-        # installation of Foswiki
+        # installation of Foswiki.   mapTarget is only available in Foswiki >= 1.1
         my $mapped = Foswiki::Configure::Util::mapTarget( $this->{_rootdir}, 'tools/obsolete.pl');
         my $count = unlink $mapped if ( -e $mapped ); # If it exists, delete it. 
         return "Removed $mapped \n " if ($count);
