@@ -399,6 +399,10 @@ sub searchWeb {
     my $prefs = $session->{prefs};
 
     my $mixedAlpha = $Foswiki::regex{mixedAlpha};
+
+    # separator defines what separates each search result
+    # excluding header and footer
+    # Replace $n and $n() with \n for separator
     my $separator  = $params{separator};
     if ( defined($separator) ) {
         $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
@@ -406,12 +410,14 @@ sub searchWeb {
     }
     $params{separator} = $separator;
 
-#TODO: this code ($newLine) does not seem to be used. Fix needed.
+    # newline feature replaces newlines within each search result
+    # Replace $n and $n() with \n for newLine
     my $newLine = $params{newline} || '';
     if ($newLine) {
         $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
         $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
+    $params{newline} = $newLine;
 
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
