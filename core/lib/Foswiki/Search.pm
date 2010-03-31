@@ -398,12 +398,6 @@ sub searchWeb {
 
     my $prefs = $session->{prefs};
 
-    my ( $numberOfResults, $web_searchResult ) =
-      $this->formatResults( $query, $infoCache, \%params );
-
-    return if ( defined $params{_callback} );
-
-#TODO: this code ($separator and $newLine) used to be a long way higher, and the processing might still be needed?
     my $mixedAlpha = $Foswiki::regex{mixedAlpha};
     my $separator  = $params{separator};
     if ( defined($separator) ) {
@@ -411,11 +405,18 @@ sub searchWeb {
         $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
     $params{separator} = $separator;
+
+#TODO: this code ($newLine) does not seem to be used. Fix needed.
     my $newLine = $params{newline} || '';
     if ($newLine) {
         $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
         $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
     }
+
+    my ( $numberOfResults, $web_searchResult ) =
+      $this->formatResults( $query, $infoCache, \%params );
+
+    return if ( defined $params{_callback} );
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
     if ( $formatDefined && !$finalTerm ) {
