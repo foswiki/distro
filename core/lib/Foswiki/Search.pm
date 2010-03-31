@@ -331,6 +331,13 @@ sub searchWeb {
     $baseWeb =~ s/\./\//go;
 
     $params{type} = 'regex' if ( $params{regex} );
+    
+#TODO: quick hackjob - see what the feature proposal gives before it becomes public
+    if (defined($params{groupby}) and ($params{groupby} eq 'none')) {
+        #_only_ allow groupby="none" - as its a secrect none public setting.
+    } else {
+        $params{groupby} = 'web';
+    }
 
 ###################the search
     my $query = $this->parseSearch( $searchString, \%params );
@@ -390,9 +397,6 @@ sub searchWeb {
     }
 
     my $prefs = $session->{prefs};
-
-#TODO: quick hackjob - see what the feature proposal gives before it becomes public
-    $params{partition_output} = 'web';
 
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
@@ -604,7 +608,8 @@ sub formatResults {
         }
 
         #TODO: need to ask the result set
-        my $numberofpages = 666;
+        my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};
+        $numberofpages = int($numberofpages)+1;
         my $sep           = ' ';
 
         my $nextidx     = $showpage + 1;
@@ -643,7 +648,7 @@ sub formatResults {
             '\$previouspage'  => sub { return $previousidx },
             '\$currentpage'   => sub { return $showpage },
             '\$nextpage'      => sub { return $showpage + 1 },
-            '\$numberofpages' => sub { return 666 },
+            '\$numberofpages' => sub { return $numberofpages },
             '\$pagesize'      => sub { return $pagesize },
             '\$previousurl'   => sub { return $previouspageurl },
             '\$nexturl'       => sub { return $nextpageurl },
@@ -847,8 +852,8 @@ sub formatResults {
             }
 
             my $justdidHeaderOrFooter = 0;
-            if (    ( defined( $params->{partition_output} ) )
-                and ( $params->{partition_output} eq 'web' ) )
+            if (    ( defined( $params->{groupby} ) )
+                and ( $params->{groupby} eq 'web' ) )
             {
                 if ( $lastWebProcessed ne $web ) {
 

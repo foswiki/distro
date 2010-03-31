@@ -49,6 +49,7 @@ sub new {
     my $this = $class->SUPER::new([]);
     $this->{_session}    = $session;
     $this->{_defaultWeb} = $defaultWeb;
+    $this->{count} = 0;
     if (defined($topicList)) {
         $this->addTopics($defaultWeb, @$topicList);
     }
@@ -71,6 +72,7 @@ sub addTopics {
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $defaultWeb, $t );
         push( @{ $this->{list} }, "$web.$topic" );
+        $this->{count}++;
     }
     undef $this->{sorted};
 }
@@ -89,11 +91,22 @@ sub addTopic {
           Foswiki::Func::normalizeWebTopicName( $web, $topic );
     my $webtopic = "$w.$t";
     push( @{ $this->{list} }, $webtopic );
+    $this->{count}++;
     if (defined($meta)) {
         $this->{_session}->search->metacache->get($webtopic, $meta);
     }
     undef $this->{sorted};
 }
+
+sub numberOfTopics {
+    my $this = shift;
+    
+    #can't use this, as it lies once its gone through the 'sortResults' hack
+    #return scalar(@{ $this->{list} });
+    
+    return $this->{count};
+}
+
 
 =begin TML
 ---++ sortResults
@@ -273,6 +286,7 @@ sub sortTopics {
             @{ $listRef } =
               sort { $b cmp $a } @{ $listRef };
         }
+        return;
     }
     
     my $metacache = $Foswiki::Plugins::SESSION->search->metacache;
@@ -287,8 +301,13 @@ sub sortTopics {
         else {
             my $info = $metacache->get($webtopic);
             if ( !defined( $info->{$sortfield} ) ) {
-                $info->{$sortfield} =
-                  Foswiki::Search::displayFormField( $info->{tom}, $sortfield );
+                if ($sortfield eq 'modified') {
+                    my $ri = $info->getRevisionInfo();
+                    $info->{$sortfield} = $ri->{date};
+                } else {
+                    $info->{$sortfield} =
+                        Foswiki::Search::displayFormField( $info->{tom}, $sortfield );
+                }
             }
         }
 
@@ -320,7 +339,6 @@ sub _compare {
     
     ASSERT(defined($x)) if DEBUG;
     ASSERT(defined($y)) if DEBUG;
-    
     
     if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {
 

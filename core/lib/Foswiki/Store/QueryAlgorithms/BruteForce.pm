@@ -60,12 +60,14 @@ sub query {
             && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
         
+        #TODO: combine these into one great ResultSet
         my $infoCache = _webQuery($query, $web, $inputTopicSet, $session, $options);
-        $infoCache->sortResults( $options );
         push(@resultCacheList, $infoCache);
     }
-    #TODO: combine these into one great ResultSet
-    return new Foswiki::Search::ResultSet(\@resultCacheList);
+    my $resultset = new Foswiki::Search::ResultSet(\@resultCacheList, $options->{groupby}, $options->{order}, Foswiki::isTrue( $options->{reverse} ));
+    #TODO: $options should become redundant
+    $resultset->sortResults( $options );
+    return $resultset;
 }
 
 

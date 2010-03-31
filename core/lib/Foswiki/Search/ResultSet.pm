@@ -31,19 +31,31 @@ not damaged in any way.
 =cut
 
 sub new {
-    my ( $class, $list ) = @_;
+    my ( $class, $list, $partition, $sortby, $revSort ) = @_;
     my $this = bless(
         {
             Itr_list    => $list,
             Itr_index   => 0,
-            index       => 0,
-            process     => undef,
-            filter      => undef,
             next        => undef,
+            Itr_next    => [],
+            partition   => $partition || 'web',
+            sortby   => $sortby || 'topic',
+            revsort   => $revSort || 0,
         },
         $class
     );
     return $this;
+}
+
+sub numberOfTopics {
+    my $this = shift;
+    
+    my $count = 0;
+    foreach my $infocache (@{ $this->{Itr_list} }) {
+        $count += $infocache->numberOfTopics();
+    }
+    
+    return $count;
 }
 
 =begin TML
@@ -57,26 +69,59 @@ Returns false when the iterator is exhausted.
 sub hasNext {
     my ($this) = @_;
     return 1 if $this->{next};
-    my $n;
-    do {
-        unless ( $this->{list} ) {
-            if ( $this->{Itr_index} < scalar( @{ $this->{Itr_list} } ) ) {
-                $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+    
+    #this is the 'normal' legacy way to iterate over the list of results (one web at a time)
+    if ($this->{partition} eq 'web') {
+        my $n;
+        do {
+            unless ( $this->{list} ) {
+                if ( $this->{Itr_index} < scalar( @{ $this->{Itr_list} } ) ) {
+                    $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+                }
+                else {
+                    return 0;    #no more iterators in list
+                }
+            }
+            if ( $this->{list}->hasNext() ) {
+                $n = $this->{list}->next();
             }
             else {
-                return 0;    #no more iterators in list
+                $this->{list} = undef;    #goto next iterator
+            }
+          } while ( !$this->{list} );
+        $this->{next} = $n;
+    } else {
+        #yes, this is innefficient, for now I'm looking only to get a functioning result.
+        my $next = -1;
+        for (my $idx = 0; $idx < scalar( @{ $this->{Itr_list} } ) ; $idx++) {
+            #load the next element from each of the iterators
+            if (!defined($this->{Itr_next}[$idx]) and $this->{Itr_list}[$idx]->hasNext()) {
+                $this->{Itr_next}[$idx] = $this->{Itr_list}[$idx]->next();
+            }
+            if (defined($this->{Itr_next}[$idx])) {
+                #find the first one of them (works because each iterator is already sorted..
+                if ($next == -1) {
+                    $next = $idx;
+                    next;
+                }            
+                #print STDERR "------ trying ($idx) ".$this->{Itr_next}[$idx]."\n";
+                #compare $next's elem with $idx's and rotate if needed
+                my @two = ($this->{Itr_next}[$next], $this->{Itr_next}[$idx]);
+                Foswiki::Search::InfoCache::sortTopics( \@two, $this->{sortby}, !$this->{revsort} );
+                if ($two[0] ne $this->{Itr_next}[$next]) {
+                    $next = $idx;
+                }
             }
         }
-        if ( $this->{list}->hasNext() ) {
-            $n = $this->{list}->next();
+        #print STDERR "---getting result from $next\n";
+        if ($next == -1) {
+            return 0;
+        } else {
+            $this->{next} = $this->{Itr_next}[$next];
+            $this->{Itr_next}[$next] = undef;
         }
-        else {
-            $this->{list} = undef;    #goto next iterator
-        }
-      } while ( !$this->{list}
-        || ( $this->{filter} && !&{ $this->{filter} }($n) )
-         );
-    $this->{next} = $n;
+        
+    }
     return 1;
 }
 
@@ -86,16 +131,6 @@ sub hasNext {
 
 Return the next entry in the list.
 
-The iterator object can be customised to pre- and post-process entries from
-the list before returning them. This is done by setting two fields in the
-iterator object:
-
-   * ={filter}= can be defined to be a sub that filters each entry. The entry
-     will be ignored (next() will not return it) if the filter returns false.
-   * ={process}= can be defined to be a sub to process each entry before it
-     is returned by next. The value returned from next is the value returned
-     by the process function.
-
 =cut
 
 sub next {
@@ -103,7 +138,6 @@ sub next {
     $this->hasNext();
     my $n = $this->{next};
     $this->{next} = undef;
-    $n = &{ $this->{process} }($n) if $this->{process};
 
     return $n;
 }
