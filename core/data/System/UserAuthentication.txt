@@ -51,6 +51,8 @@ New user registration uses the password manager to set and change passwords and 
 
 The registration process is also responsible for creating user topics, and setting up the mapping information used by the User Mapping support.
 
+See [[#UserRegistrationPage][Custom registration page]] for changing the user registration page.
+
 #LoginManagement
 ---++ Login Management
 
@@ -83,9 +85,17 @@ AccessControl has more information on setting up access controls.
 
 %X% At this time AccessControls cannot control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up in the webserver to allow open access you may want to add =.htaccess= files in there to restrict access.
 
-%T% You can create a custom version of the UserRegistration form by copying the topic, and then deleting or adding input tags in your copy. The =name=""= parameter of the input tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly. Do *not* modify the version of UserRegistration shipped with %WIKITOOLNAME%, as your changes will be overwritten next time you upgrade.
+%T% The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same macros get expanded as in the [[template topics]]. You can create a custom new user home page by creating the !NewUserTemplate topic in %USERSWEB% web, which will then override the default. See %SYSTEMWEB%.UserForm for copy instructions.
 
-%T% The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same macros get expanded as in the [[template topics]]. You can create a custom new user home page by creating the [[%USERSWEB%.NewUserTemplate][%USERSWEB%.NewUserTemplate]] topic, which will then override the default.
+#UserRegistrationPage
+---++++ Custom registration page
+You can create a custom version of the UserRegistration form by first copying the topic DefaultUserRegistration to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
+
+A couple of common fields are hidden from normal view to make the registration page as lean as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags) or add new ones.
+
+Or you can add new fields. The =name=""= parameter of the input tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly.
+
+
 
 #ApacheLogin
 ---+++ Apache Login (select =Foswiki::LoginManager::ApacheLogin=)
