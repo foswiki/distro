@@ -402,8 +402,6 @@ sub searchWeb {
         &$callback( $cbdata, $tmplSearch );
     }
 
-    my $prefs = $session->{prefs};
-
     my $mixedAlpha = $Foswiki::regex{mixedAlpha};
 
     # separator defines what separates each search result
