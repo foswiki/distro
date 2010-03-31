@@ -304,8 +304,6 @@ sub searchWeb {
     #END TODO
 
     my $doBookView = Foswiki::isTrue( $params{bookview} );
-    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
-    my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
 
     my $revSort = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
@@ -388,6 +386,9 @@ sub searchWeb {
         $doBookView, $noHeader, $noSummary, $noTotal, $noFooter );
 
     # Generate 'Search:' part showing actual search string used
+    # Ommit any text before search results if either nosearch or nonoise is on
+    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
+    my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
     unless ($noSearch) {
         my $searchStr = $searchString;
         $searchStr =~ s/&/&amp;/go;
