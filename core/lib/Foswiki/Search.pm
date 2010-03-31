@@ -348,6 +348,11 @@ sub searchWeb {
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
 ################### Do the Rendering
+
+
+    # If the search did not return anything, return the rendered zeroresults
+    # if it is defined as a string.
+    # (http://foswiki.org/Development/AddDefaultTopicParameterToINCLUDE)
     if (not $infoCache->hasNext()) {
         if (not $zeroResults) {
             return '';
