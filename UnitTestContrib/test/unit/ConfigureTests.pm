@@ -1033,7 +1033,6 @@ DONE
     _makefile( "$tempdir/pub/Sandbox/TestTopic43", "file2.att", <<'DONE');
 Test file data
 DONE
-
 }
 
 sub test_Package_install {
@@ -1087,14 +1086,14 @@ Installed:  MyPlugin_installer
     $this->assert_str_equals( $expresult, $result,
         'Verify Checked in vs. Installed' );
 
-    my @mfiles = $pkg->files();
+    my @mfiles = $pkg->listFiles();
     $this->assert_num_equals(
         5,
         scalar @mfiles,
         'Unexpected number of files in manifest'
     );    # 5 files in manifest
 
-    my @ifiles = $pkg->files('1');
+    my @ifiles = $pkg->listFiles('1');
     $this->assert_num_equals(
         5,
         scalar @ifiles,
@@ -1126,7 +1125,7 @@ Installed:  pub/Sandbox/TestTopic1/file.att
 Installed:  MyPlugin_installer
 ";
 
-    my @ifiles2 = $pkg2->files('1');
+    my @ifiles2 = $pkg2->listFiles('1');
 
     $this->assert_str_equals( $expresult, $result );
     $this->assert_num_equals(
@@ -1186,6 +1185,7 @@ Installed:  MyPlugin_installer
 
     #print "===== INSTALLED =======\n$installed\n";
     $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed, 'Installed module File::Spec');
+
 
     #
     #  Now uninistall the package
@@ -1262,9 +1262,15 @@ sub test_Package_loadInstaller {
     $this->assert_matches (qr/Unable to find EmptyPlugin locally in (.*) ...fetching from Foswiki ... succeeded/, $result, "Unexpected $result from loadInstaller");
     $this->assert_str_equals ('', $err, "Error from loadInstaller $err");
 
-    my @files = $pkg->files();
+    my @files = $pkg->listFiles();
     $this->assert_num_equals(3, scalar @files, "Unexpected number of files in EmptyPlugin manifest");
 
+    #
+    # Test listPlugins
+    #
+    my @plugins = $pkg->listPlugins();
+
+    $this->assert_str_equals( 'EmptyPlugin', $plugins[0], 'Failed to discover plugin in manifest' );
     $pkg->finish();
     undef $pkg;
 }

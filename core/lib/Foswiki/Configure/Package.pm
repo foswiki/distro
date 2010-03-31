@@ -195,8 +195,9 @@ sub fullInstall {
         $feedback .= "$pre$rslt$epre";
         $rslt = '';
     }
-
-    $feedback .= $this->installDependencies();
+    my @depPlugins;
+    ($rslt, @depPlugins) = $this->installDependencies();
+    $feedback .= $rslt;
 
     ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
 
@@ -227,10 +228,12 @@ sub fullInstall {
             $rslt = '';
         }
     }
+    my @plugins = $this->listPlugins();
+    push @plugins, @depPlugins ;
 
     $feedback .= "</div>" unless ($this->{_env} eq 'shell' ); 
    
-    return ($feedback);
+    return ($feedback, @plugins);
  
 }
 
@@ -318,8 +321,10 @@ sub install {
     my $root     = $this->{_root};        # Root of the foswiki installation
     my $manifest = $this->{_manifest};    # Reference to the manifest
 
-    my @names   = $this->files();    # Retrieve list of filenames from manifest
+    my @names   = $this->listFiles();    # Retrieve list of filenames from manifest
     my $err     = '';                # Accumulated errors
+
+    my @plugins;
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
@@ -505,7 +510,7 @@ sub createBackup {
     my $bkname = "$this->{_pkgname}-backup-$stamp";
     my $pkgstore .= "$bkdir/$bkname";
 
-    my @files = $this->files('1');    # return list of installed files
+    my @files = $this->listFiles('1');    # return list of installed files
     unshift( @files,
 "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
       )
@@ -554,7 +559,7 @@ sub setPermissions {
     my $this = shift;
 
     # foreach file in list, apply the permissions per the manifest
-    my @names = $this->files();
+    my @names = $this->listFiles();
     foreach my $file (@names) {
 
         # Find where it is meant to go
@@ -578,7 +583,7 @@ sub setPermissions {
 
 =begin TML
 
----++ files ( $installed )
+---++ listFiles ( $installed )
 Return the sorted list of files in the package. 
 
 If $installed is true, return the list of files that are actually installed
@@ -586,7 +591,7 @@ including rcs files.
 
 =cut
 
-sub files {
+sub listFiles {
     my ( $this, $installed ) = @_;
 
     my @files;
@@ -604,6 +609,24 @@ sub files {
     }
     return sort(@files);
 }
+
+=begin TML
+---++ ObjectMethod listPlugins ()
+List the plugin modules provided by this extension.
+
+=cut
+
+sub listPlugins {
+    my $this      = shift;
+    my @plugins;
+
+    foreach my $plugin ( $this->listFiles() )  {
+        my ($plugName) = $plugin =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
+        push (@plugins,  $plugName) if $plugName;
+    }
+    return sort(@plugins);
+}
+
 
 =begin TML
 
@@ -1064,14 +1087,19 @@ of the installation.
 sub installDependencies {
     my $this      = shift;
     my $rslt = '';
+    my @plugins;
+    my @pluglist;
 
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_env} );
         $deppkg->repository($this->repository());
-        $rslt .= $deppkg->fullInstall();
+        ($rslt,@plugins) = $deppkg->fullInstall();
+        push @pluglist, @plugins;
     }
-    return $rslt;
+    return ($rslt, @pluglist);
 }
+
+
 #
 #  Internal function to fetch a file from a repository - passed parameters:
 #  * A repository hash 

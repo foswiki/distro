@@ -409,8 +409,21 @@ sub _install {
                  };
     $thispkg->repository($repository);
 
-    my $rslt = $thispkg->fullInstall();
+    my ($rslt, @plugins) = $thispkg->fullInstall();
     _inform $rslt;
+
+    if ( scalar @plugins ) {
+        $rslt = <<HERE;
+Note: Don't forget to enable installed plugins in the
+"Plugins" section of bin/configure, listed below:
+
+HERE
+        foreach my $plugName (@plugins) {
+            $rslt .= "  $plugName \n" if $plugName;
+        }
+    }
+    _inform($rslt);
+
 
     $thispkg->finish();
     undef $thispkg;

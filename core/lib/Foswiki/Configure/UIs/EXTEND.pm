@@ -45,7 +45,6 @@ sub ui {
 
 sub _install {
     my ($this, $repositoryPath, $extension) = @_;
-    my @plugins;
     my $err;
 
     my $feedback = '';
@@ -58,11 +57,7 @@ sub _install {
         return;
     }
     
-    # Make sure that when new Foswiki is created, it reloads the configuration
-    # and expands all variables.  Configure has already loaded the config with
-    # noexpand specified.
-    #delete $Foswiki::cfg{ConfigurationFinished};
-    
+
     unless ( eval { require Foswiki } ) {
      die "Can't load Foswiki: $@";
     }
@@ -75,7 +70,7 @@ sub _install {
 
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, $session);
     $pkg->repository($repository);
-    my $rslt = $pkg->fullInstall(); 
+    my ($rslt, @plugins) = $pkg->fullInstall(); 
 
     _printFeedback($rslt);
  
