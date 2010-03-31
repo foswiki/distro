@@ -1,18 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252720972" format="1.1" version="$Rev$"}%
 <!--
-      * Set NOREGISTRATION = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
+      * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
 -->
 %IF{
 "istopic '%USERSWEB%.%TOPIC%'"
 then="$percntINCLUDE{$quot%USERSWEB%.%TOPIC%$quot NOREGISTRATION=$quot%NOREGISTRATION%$quot}$percnt" 
-else="$percntINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot NOREGISTRATION=$quot%NOREGISTRATION%$quot}$percnt"
+else="$percntINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot REGISTRATION_DISABLED=$quot%REGISTRATION_DISABLED%$quot}$percnt"
 }%
 <!--
 The section above looks whether a custom user registration page exists in %USERSWEB% and includes it if it does; otherwise it includes DefaultUserRegistration.
 
 To create a custom UserRegistration page yourself:
-1. make a copy of this topic (DefaultUserRegistration) in your %SYSTEM% web
+1. make a copy of topic DefaultUserRegistration in your %SYSTEM% web
 2. name the copy "UserRegistration"
-3. copy it to %USERSWEB% (by default called 'Main')
+3. place it in %USERSWEB% (by default called 'Main')
 Note: You cannot set macros in an included topic.
 -->

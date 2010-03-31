@@ -1,396 +1,282 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805976" format="1.1" version="$Rev: 6542 $"}%
-%META:TOPICPARENT{name="UserToolsCategory"}%
+<noautolink>
 ---+ %MAKETEXT{"Registration"}%
-
-%IF{"context registration_supported" 
-then="*%MAKETEXT{"To edit pages on this site, you must have a registered user name and password."}%* %IF{"context registration_enabled" then="" else="%BR%%BR% *%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%* "}%" 
-else="*%MAKETEXT{"This site does _not_ support new User Registration"}%*"
-}%
-
 <!--
-Note: This setting is only used when viewing DefaultUserRegistration directly. When this topic is included from UserRegistration NOREGISTRATION is defined as a parameter in the INCLUDE
-      * Set NOREGISTRATION = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
+Read general customisation instructions in System.UserAuthentication
 -->
+<!--
+Registration enabled/disabled messages
+-->
+%IF{
+"not context registration_enabled"
+then=" *%MAKETEXT{"You cannot register on this site."}%* "
+else=" %IF{"$REGISTRATION_DISABLED!='DISABLED'" then=" *%MAKETEXT{"Create your account to edit pages on this site."}%* "}%
+%IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%* "}%
+"
+}%
+<!--
+Show the form, if not REGISTRATION_DISABLED
+-->
+%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="off"}%<p>
+%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
+</p>
+<verbatim class="foswikiHidden">
 
-%MAKETEXT{"If you already have an account, you can [[[_1]][change]] and [[[_2]][reset]] your password." args="%SYSTEMWEB%.ChangePassword,%SYSTEMWEB%.ResetPassword"}%
+All the topic sections.
+The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED'.
+Other sections define the fields and extra info text.
 
-<!-- IMPORTANT NOTE if you want to customize this form: You can delete or add new input fields in this form. The name="" parameter of the input tags must start with: "Twk0..." (if this is an optional entry), "Twk1..." (if this is a required entry). This will ensure that the fields are processed correctly. -->
-
-<form action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
-<div class="foswikiFormSteps">
-<div class="foswikiFormStep">
-*%MAKETEXT{"To register as a new user, simply fill out this form:"}%*
-</div>
-<div class="foswikiFormStep">
-<table id="registration">
-<tr>
-  <td class="registrationLabel"> %MAKETEXT{"First Name:"}% </td>
-  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.value+' '+this.form.Twk1LastName.value)" /> <span class="foswikiGrayText"><span class="foswikiGrayText">%MAKETEXT{"required"}%</span></span></td>
-</tr>
-<tr>
-  <td class="registrationLabel"> %MAKETEXT{"Last Name:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.form.Twk1FirstName.value+' '+this.value)" /> <span class="foswikiGrayText">%MAKETEXT{"required"}%</span> </td>
-</tr>
-  <td class="registrationLabel"> %MAKETEXT{"(identifies you to others) WikiName:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="foswikiInputField" value="" onblur="" /> <span class="foswikiGrayText">%MAKETEXT{"required"}%</span> </td>
-</tr>
-%IF{"$ ALLOWLOGINNAME" then="<tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>"}%
-<tr>
-  <td class="registrationLabel"> %MAKETEXT{"E-mail address:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1Email" size="40" class="foswikiInputField" value="" /> <span class="foswikiGrayText">%MAKETEXT{"required"}%</span> </td>
-</tr>
-%IF{"context passwords_modifyable" then="<tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>\
-     <tr><td align=\"right\"> %MAKETEXT{"Verify password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> <span class=\"foswikiGrayText\">%MAKETEXT{"required"}%</span> </td></tr>"}%
-<tr>
-  <td class="registrationLabel"> %MAKETEXT{"Organisation name:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" /></td>
-</tr><tr>
-  <td class="registrationLabel"> %MAKETEXT{"Organisation URL:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationURL" size="40" class="foswikiInputField" onBlur="if(this.value=='http://') { this.value='' }" onFocus="if(this.value=='') { this.value='http://' }" /></td>
-</tr><tr>
-  <td class="registrationLabel"> %MAKETEXT{"Country:"}% </td>
-  <td>
-  <select class="foswikiSelect" %NOREGISTRATION% name="Twk0Country" size="1">
-  <option selected value="">Select...</option>
-  <option>Andorra</option>
-  <option>United Arab Emirates</option>
-  <option>Afghanistan</option>
-  <option>Antigua and Barbuda</option>
-  <option>Anguilla</option>
-  <option>Albania</option>
-  <option>Armenia</option>
-  <option>Netherlands Antilles</option>
-  <option>Angola</option>
-  <option>Antarctica</option>
-  <option>Argentina</option>
-  <option>American Samoa</option>
-  <option>Austria</option>
-  <option>Australia</option>
-  <option>Aruba</option>
-  <option>Aland Islands</option>
-  <option>Azerbaijan</option>
-  <option>Bosnia and Herzegovina</option>
-  <option>Barbados</option>
-  <option>Bangladesh</option>
-  <option>Belgium</option>
-  <option>Burkina Faso</option>
-  <option>Bulgaria</option>
-  <option>Bahrain</option>
-  <option>Burundi</option>
-  <option>Benin</option>
-  <option>Saint Barth&eacute;lemy</option>
-  <option>Bermuda</option>
-  <option>Brunei</option>
-  <option>Bolivia</option>
-  <option>Brazil</option>
-  <option>Bahamas</option>
-  <option>Bhutan</option>
-  <option>Bouvet Island</option>
-  <option>Botswana</option>
-  <option>Belarus</option>
-  <option>Belize</option>
-  <option>Canada</option>
-  <option>Cocos Islands</option>
-  <option>Congo - Kinshasa</option>
-  <option>Central African Republic</option>
-  <option>Congo - Brazzaville</option>
-  <option>Switzerland</option>
-  <option>Ivory Coast</option>
-  <option>Cook Islands</option>
-  <option>Chile</option>
-  <option>Cameroon</option>
-  <option>China</option>
-  <option>Colombia</option>
-  <option>Costa Rica</option>
-  <option>Cuba</option>
-  <option>Cape Verde</option>
-  <option>Christmas Island</option>
-  <option>Cyprus</option>
-  <option>Czech Republic</option>
-  <option>Germany</option>
-  <option>Djibouti</option>
-  <option>Denmark</option>
-  <option>Dominica</option>
-  <option>Dominican Republic</option>
-  <option>Algeria</option>
-  <option>Ecuador</option>
-  <option>Estonia</option>
-  <option>Egypt</option>
-  <option>Western Sahara</option>
-  <option>Eritrea</option>
-  <option>Spain</option>
-  <option>Ethiopia</option>
-  <option>Finland</option>
-  <option>Fiji</option>
-  <option>Falkland Islands</option>
-  <option>Micronesia</option>
-  <option>Faroe Islands</option>
-  <option>France</option>
-  <option>Gabon</option>
-  <option>United Kingdom</option>
-  <option>Grenada</option>
-  <option>Georgia</option>
-  <option>French Guiana</option>
-  <option>Guernsey</option>
-  <option>Ghana</option>
-  <option>Gibraltar</option>
-  <option>Greenland</option>
-  <option>Gambia</option>
-  <option>Guinea</option>
-  <option>Guadeloupe</option>
-  <option>Equatorial Guinea</option>
-  <option>Greece</option>
-  <option>South Georgia and the South Sandwich Islands</option>
-  <option>Guatemala</option>
-  <option>Guam</option>
-  <option>Guinea-Bissau</option>
-  <option>Guyana</option>
-  <option>Hong Kong</option>
-  <option>Heard Island and McDonald Islands</option>
-  <option>Honduras</option>
-  <option>Croatia</option>
-  <option>Haiti</option>
-  <option>Hungary</option>
-  <option>Indonesia</option>
-  <option>Israel</option>
-  <option>Isle of Man</option>
-  <option>India</option>
-  <option>British Indian Ocean Territory</option>
-  <option>Iraq</option>
-  <option>Iran</option>
-  <option>Iceland</option>
-  <option>Italy</option>
-  <option>Jersey</option>
-  <option>Jamaica</option>
-  <option>Jordan</option>
-  <option>Japan</option>
-  <option>Kenya</option>
-  <option>Kyrgyzstan</option>
-  <option>Cambodia</option>
-  <option>Kiribati</option>
-  <option>Comoros</option>
-  <option>Saint Kitts and Nevis</option>
-  <option>North Korea</option>
-  <option>South Korea</option>
-  <option>Kuwait</option>
-  <option>Cayman Islands</option>
-  <option>Kazakhstan</option>
-  <option>Laos</option>
-  <option>Lebanon</option>
-  <option>Saint Lucia</option>
-  <option>Liechtenstein</option>
-  <option>Sri Lanka</option>
-  <option>Liberia</option>
-  <option>Lesotho</option>
-  <option>Lithuania</option>
-  <option>Luxembourg</option>
-  <option>Latvia</option>
-  <option>Libya</option>
-  <option>Morocco</option>
-  <option>Monaco</option>
-  <option>Moldova</option>
-  <option>Montenegro</option>
-  <option>Saint Martin</option>
-  <option>Madagascar</option>
-  <option>Marshall Islands</option>
-  <option>Macedonia</option>
-  <option>Mali</option>
-  <option>Myanmar</option>
-  <option>Mongolia</option>
-  <option>Macao</option>
-  <option>Northern Mariana Islands</option>
-  <option>Martinique</option>
-  <option>Mauritania</option>
-  <option>Montserrat</option>
-  <option>Malta</option>
-  <option>Mauritius</option>
-  <option>Maldives</option>
-  <option>Malawi</option>
-  <option>Mexico</option>
-  <option>Malaysia</option>
-  <option>Mozambique</option>
-  <option>Namibia</option>
-  <option>New Caledonia</option>
-  <option>Niger</option>
-  <option>Norfolk Island</option>
-  <option>Nigeria</option>
-  <option>Nicaragua</option>
-  <option>Netherlands</option>
-  <option>Norway</option>
-  <option>Nepal</option>
-  <option>Nauru</option>
-  <option>Niue</option>
-  <option>New Zealand</option>
-  <option>Oman</option>
-  <option>Panama</option>
-  <option>Peru</option>
-  <option>French Polynesia</option>
-  <option>Papua New Guinea</option>
-  <option>Philippines</option>
-  <option>Pakistan</option>
-  <option>Poland</option>
-  <option>Saint Pierre and Miquelon</option>
-  <option>Pitcairn</option>
-  <option>Puerto Rico</option>
-  <option>Palestinian Territory</option>
-  <option>Portugal</option>
-  <option>Palau</option>
-  <option>Paraguay</option>
-  <option>Qatar</option>
-  <option>Reunion</option>
-  <option>Romania</option>
-  <option>Serbia</option>
-  <option>Russia</option>
-  <option>Rwanda</option>
-  <option>Saudi Arabia</option>
-  <option>Solomon Islands</option>
-  <option>Seychelles</option>
-  <option>Sudan</option>
-  <option>Sweden</option>
-  <option>Singapore</option>
-  <option>Saint Helena</option>
-  <option>Slovenia</option>
-  <option>Svalbard and Jan Mayen</option>
-  <option>Slovakia</option>
-  <option>San Marino</option>
-  <option>Senegal</option>
-  <option>Somalia</option>
-  <option>Suriname</option>
-  <option>Sao Tome and Principe</option>
-  <option>El Salvador</option>
-  <option>Syria</option>
-  <option>Swaziland</option>
-  <option>Turks and Caicos Islands</option>
-  <option>Chad</option>
-  <option>French Southern Territories</option>
-  <option>Togo</option>
-  <option>Thailand</option>
-  <option>Tajikistan</option>
-  <option>Tokelau</option>
-  <option>East Timor</option>
-  <option>Turkmenistan</option>
-  <option>Tunisia</option>
-  <option>Tonga</option>
-  <option>Turkey</option>
-  <option>Trinidad and Tobago</option>
-  <option>Tuvalu</option>
-  <option>Taiwan</option>
-  <option>Tanzania</option>
-  <option>Ukraine</option>
-  <option>Uganda</option>
-  <option>United States Minor Outlying Islands</option>
-  <option>United States</option>
-  <option>Uruguay</option>
-  <option>Uzbekistan</option>
-  <option>Vatican</option>
-  <option>Saint Vincent and the Grenadines</option>
-  <option>Venezuela</option>
-  <option>British Virgin Islands</option>
-  <option>U.S. Virgin Islands</option>
-  <option>Vietnam</option>
-  <option>Vanuatu</option>
-  <option>Wallis and Futuna</option>
-  <option>Samoa</option>
-  <option>Yemen</option>
-  <option>Mayotte</option>
-  <option>South Africa</option>
-  <option>Zambia</option>
-  <option>Zimbabwe</option>
-  <option value="Other Country">%MAKETEXT{"Other Country"}%</option>
-  </select>
-  </td>
-</tr>
-%INCLUDE{
-    "%WEB%.%TOPIC%" 
-    section="%IF{"'%REGISTRATIONGROUPTYPE%' = 'disabled'" then="nochange" else="addusertogroups"}%"
-  }%<tr>
-  <td class="registrationLabel"> %MAKETEXT{"Comments:"}%</td>
-  <td><textarea %NOREGISTRATION%  name="Twk0Comment" wrap="virtual" rows="4" cols="38" class="foswikiInputField"></textarea></td>
-</tr>
-</table>
-</div><!-- /foswikiFormStep-->
-<div class="foswikiFormStep">
-<input type="hidden" name="rx" value='%BLACKLISTPLUGIN{ action="magic" }%' />
+%STARTSECTION{"form"}%<div class="registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+	<div class="foswikiFormSteps">
+		<div class="foswikiFormStep">
+			<p><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
+			<ul>
+				<!-- REQUIRED FIELDS -->
+				%INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
+				%INCLUDE{"%TOPIC%" section="requiredField_lastName"}%
+				%INCLUDE{"%TOPIC%" section="requiredField_wikiName"}%
+				%IF{'$ALLOWLOGINNAME' then='%INCLUDE{"%TOPIC%" section="requiredField_loginName"}%' else='<!-- -->'}%
+				%INCLUDE{"%TOPIC%" section="requiredField_email"}%
+				%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
+				<!-- START OPTIONAL FIELDS -->
+				<!-- remove EXCLUDED_ from section names to show fields -->
+				%IF{'$SHOW_FIELD_JOIN_GROUPS and $REGISTRATIONGROUPTYPE !="disabled"' then='%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_groups" warn="off"}%' else='<!-- -->'}%
+				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%
+				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%
+				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
+				<!-- SUBMIT BUTTON -->
+				%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
+			</ul>
+		</div>
+	</div>
+	%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%
+%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percntBLACKLISTPLUGIN{action=$quotmagic$quot}$percnt" />' else='<!-- -->'}%
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
-<input %NOREGISTRATION%  type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Register"}% ' />
-</div><!-- /foswikiFormStep-->
-<div class="foswikiFormStep foswikiLast">
-%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
-</div><!-- /foswikiFormStep-->
-</div><!-- /foswikiFormSteps-->
 </form>
-
-<!-- GROUPINFO formaters -->
-<verbatim style="display:none;">
-<!--
--->
-%STARTSECTION{"addusertogroups"}%<!-- addusertogroups -->
-%GROUPINFO{
-      header="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupheader\"}$percnt"
-      footer="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"rendergroupfooter\"}$percnt"
-      format="$percntINCLUDE{\"%WEB%.%TOPIC%\"
-         section=\"rendergroup\"
-         groupname=\"$name\"
-         allowschange=\"$allowschange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%\"
-       }$percnt"
-      separator=" "
-}%
-<!-- /addusertogroups -->%ENDSECTION{"addusertogroups"}%
-TODO: need to make the header&footer not display if there are no groups they can join
-TODO: should redo this topic to look differet between a guest registering themselves, and a registered user inviting/registering a user
-<!--
-  parameters: groupname, allowschange
--->
-%STARTSECTION{"rendergroup"}%<!-- rendergroup -->
-%INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{"%allowschange% = 1" then="changegroup" else="nochange"}%"
-  groupname="%groupname%"
-  inputtype="%REGISTRATIONGROUPTYPE%"
-}%
-<!-- /rendergroup -->%ENDSECTION{"rendergroup"}%
-<!--
-  parameters: groupname, inputtype
--->
-%STARTSECTION{"changegroup"}%<!-- changegroup -->
-<input type="%inputtype%" name="Twk0AddToGroups" class="foswikiInputField" value="%groupname%" label="%groupname%" />
-               %IF{"not istopic '%USERSWEB%.%groupname%'" then="<nop>" else="%USERSWEB%."}%%groupname%
-<!-- /changegroup -->%ENDSECTION{"changegroup"}%
-<!--
-  parameters: 
--->
-%STARTSECTION{"nochange"}%<!-- nochange// --> %ENDSECTION{"nochange"}%
-
-<!--
-  parameters: 
--->
-%STARTSECTION{"rendergroupheader"}%<!-- rendergroupheader -->
-<tr>
-  <td class="registrationLabel"> %MAKETEXT{"Wiki Groups to join:"}% </td>
-  <td>
-<!-- //rendergroupheader -->%ENDSECTION{"rendergroupheader"}%
-<!--
-  parameters: 
--->
-%STARTSECTION{"rendergroupfooter"}%<!-- rendergroupfooter -->
-  </td>
-</tr>
-<!-- //rendergroupfooter -->%ENDSECTION{"rendergroupfooter"}%
-</verbatim>
-%MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the web server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfuscated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this web server before registering." args="<a href='mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy'>%WIKIWEBMASTER%</a>"}%
-%ADDTOHEAD{
-text="<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js'></script>
-<style type='text/css' media='all'>
-#registration {
-	border:0;
+</div>
+%ADDTOHEAD{"UserRegistrationStyle"
+text="<style type=\"text/css\" media=\"all\">
+.registration .foswikiFormSteps {
+	margin:.5em 0 1em 0;
 }
-#registration th,
-#registration td {
-	padding:.2em;
-	vertical-align:top;
+.registration .foswikiFormStep {
+	clear:both;
 }
-#registration .registrationLabel {
+.registration form {
+	width:100%;
+	margin:0;
+	padding:0;
+}
+/* horizontal layout */
+/* for the 3 'columns' we use: 25% 30% 40% */
+.registration label {
+	width:25%;
+}
+.registration li div {
+	float:left;
+	width:70%;
+	padding:0 0 0 1em;
+}
+.registration .foswikiInputField,
+.registration .foswikiTextarea {
+	width:40%;
+}
+.registration li em {
+	display:block;
+	margin:0 0 0 43%;
+	padding:2px;
+}
+/* END horizontal layout */
+.registration ul {
+	clear:all;
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+.registration li {
+	margin:0;
+	padding:.7em 0;
+	clear:both;
+	min-height:1em;
+}
+.registration label {
+	float:left;
+	margin:0;
+	padding:0;
 	text-align:right;
 }
-</style>"
-}%
+.registration .joinGroups label {
+	float:none;
+}
+.registration .foswikiInputField,
+.registration .foswikiSelect,
+.registration .foswikiTextarea {
+	float:left;
+	margin-top:-2px;
+}
+.registration em {
+	font-style:normal;
+	font-size:94%;
+	line-height:110%;
+	color:#666;
+}
+.registration .required {
+	padding:0 .3em;
+	color:#f00;
+}
+</style>
+<script type=\"text/javascript\" src=\"%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js\" />"
+}%%ENDSECTION{"form"}%
+
+
+
+Required field first name
+
+%STARTSECTION{"requiredField_firstName"}%<li><label for="Twk1FirstName"><span class="required">*</span>%MAKETEXT{"First name"}%</label>
+<div><input type="text" id="Twk1FirstName" name="Twk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.value+' '+this.form.Twk1LastName.value)" /></div></li>%ENDSECTION{"requiredField_firstName"}%
+
+
+
+Required field last name
+
+%STARTSECTION{"requiredField_lastName"}%<li><label for="Twk1LastName"><span class="required">*</span>%MAKETEXT{"Last name"}%</label>
+<div><input type="text" id="Twk1LastName" name="Twk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.form.Twk1FirstName.value+' '+this.value)" /></div></li>%ENDSECTION{"requiredField_lastName"}%
+
+
+
+Required field wiki name
+
+%STARTSECTION{"requiredField_wikiName"}%<li><label for="Twk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name"}%</label>
+<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" onblur="" /><em>%MAKETEXT{"Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%.WikiName][Wiki name]]. By default it is derived from your first and last name."}%</em></div></li>%ENDSECTION{"requiredField_wikiName"}%
+
+
+
+Required field login name
+Only shown if ALLOWLOGINNAME is true.
+
+%STARTSECTION{"requiredField_loginName"}%<li><label for="Twk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name"}%</label>
+<div><input type="text" id="Twk1LoginName" name="Twk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" onblur="" /><em>%MAKETEXT{"The login name you use to sign in."}%</em></div></li>%ENDSECTION{"requiredField_loginName"}%
+
+
+
+Required field email
+
+%STARTSECTION{"requiredField_email"}%<li><label for="Twk1Email"><span class="required">*</span>%MAKETEXT{"Email address"}%</label>
+<div><input type="text" id="Twk1Email" name="Twk1Email" size="40" class="foswikiInputField" value="" tabindex="5" onblur="" /><em>%MAKETEXT{"Your email address will be kept confidential."}%</em></div></li>%ENDSECTION{"requiredField_email"}%
+
+
+
+Required field password
+Only shown if the password manager supports changing the password / email.
+
+%STARTSECTION{"requiredField_password"}%<li><label for="Twk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
+<div><input type="text" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>
+<li><label for="Twk1Confirm"><span class="required">*</span>%MAKETEXT{"Confirm password"}%</label>
+<div><input type="text" id="Twk1Confirm" name="Twk1Confirm" size="40" class="foswikiInputField" value="" tabindex="7" onblur="" /></div></li>%ENDSECTION{"requiredField_password"}%
+
+
+
+Optional field join group
+
+This field is currently disabled. Remove EXCLUDED_ from the INCLUDE section name to show.
+
+TODO: need to make the header&footer not display if there are no groups they can join
+TODO: should redo this topic to look different between a guest registering themselves, and a registered user inviting/registering a user
+
+%STARTSECTION{"extraField_groups"}%%GROUPINFO{
+      header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupheader$quot}$percnt"
+      footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"
+      format="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
+         section=$quotrendergroup$quot
+         groupname=$quot$name$quot
+         allowschange=$quot$allowschange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%$quot
+       }$percnt"
+      separator=" "
+}%%ENDSECTION{"extraField_groups"}%
+
+
+Section nochange
+
+%STARTSECTION{"nochange"}%<!-- nochange// --> %ENDSECTION{"nochange"}%
+
+
+Section rendergroup
+  parameters: groupname, allowschange
+
+%STARTSECTION{"rendergroup"}%%IF{"%allowschange% = 1" then="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
+section=$quotchangegroup$quot groupname=$quot%groupname%$quot inputtype=$quot%REGISTRATIONGROUPTYPE%$quot}$percnt"}%%ENDSECTION{"rendergroup"}%
+
+
+Section changegroup
+  parameters: groupname, inputtype
+
+%STARTSECTION{"changegroup"}%<input type="%inputtype%" name="Twk0AddToGroups" id="cb_%groupname%" /><label for="cb_%groupname%">%IF{"not istopic '%USERSWEB%.%groupname%'" then="<!-- -->" else="%USERSWEB%."}%%groupname%</label>%ENDSECTION{"changegroup"}%
+
+
+Section rendergroupheader
+  parameters: 
+
+%STARTSECTION{"rendergroupheader"}%<li><label for="Twk0AddToGroups">%MAKETEXT{"Wiki Groups to join"}%</label>
+<div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
+
+
+Section rendergroupfooter
+  parameters: 
+
+%STARTSECTION{"rendergroupfooter"}%</div></li>%ENDSECTION{"rendergroupfooter"}%
+
+
+
+Optional field organisation name
+
+%STARTSECTION{"extraField_organisationName"}%<li><label for="Twk0OrganisationName"><span class="required">*</span>%MAKETEXT{"Organisation name"}%</label>
+<div><input type="text" id="Twk0OrganisationName" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" onblur="" /></div></li>%ENDSECTION{"extraField_organisationName"}%
+
+
+
+Optional field organisation url
+
+%STARTSECTION{"extraField_organisationUrl"}%<li><label for="Twk0OrganisationURL"><span class="required">*</span>%MAKETEXT{"Organisation website"}%</label>
+<div><input type="text" id="Twk0OrganisationURL" name="Twk0OrganisationURL" size="40" class="foswikiInputField" value="http://" tabindex="9" /></div></li>%ENDSECTION{"extraField_organisationUrl"}%  
+
+
+
+Optional field country
+
+%STARTSECTION{"extraField_country"}%<li><label for="Twk0Country">%MAKETEXT{"Country"}%</label>
+<div><select class="foswikiSelect" id="Twk0Country" name="Twk0Country" size="1" tabindex="10">%SEARCH{
+"^\|[^\*\|]*\|"
+topic="CountryList"
+web="%SYSTEMWEB%"
+type="regex"
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
+}%</select></div></li>%ENDSECTION{"extraField_country"}% 
+
+
+
+Required submit button
+
+%STARTSECTION{"requiredButton_submit"}%<li><label>&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /></div></li>%ENDSECTION{"requiredButton_submit"}%
+
+
+
+Optional privacy information
+
+%STARTSECTION{"privacyInformation"}%<p> %MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the web server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfuscated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this web server before registering." args="[[mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy][%WIKIWEBMASTER%]]"}%</p>%ENDSECTION{"privacyInformation"}%
+
+</verbatim>
+
+
+
+
+
+
+<!--
+   * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
+      * Note: This setting is only used when viewing DefaultUserRegistration directly. When this topic is included from UserRegistration REGISTRATION_DISABLED is defined as a parameter in the INCLUDE
+-->
+</noautolink>
