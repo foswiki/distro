@@ -339,7 +339,7 @@ sub searchWeb {
         $params{groupby} = 'web';
     }
 
-###################the search
+################### Perform The Search
     my $query = $this->parseSearch( $searchString, \%params );
 
 #setting the inputTopicSet to be undef allows the search/query algo to use
@@ -347,7 +347,7 @@ sub searchWeb {
 #this allows the algo's to customise and optimise the getting of this list themselves.
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
-###################the rendering
+################### Do the Rendering
     if (not $infoCache->hasNext()) {
         if (not $zeroResults) {
             return '';
@@ -419,6 +419,7 @@ sub searchWeb {
     }
     $params{newline} = $newLine;
 
+    # We now format the results.
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
 
