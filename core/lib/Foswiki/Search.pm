@@ -394,7 +394,6 @@ sub searchWeb {
         $searchStr =~ s/&/&amp;/go;
         $searchStr =~ s/</&lt;/go;
         $searchStr =~ s/>/&gt;/go;
-        $searchStr =~ s/^\.\*$/Index/go;
 
         # Expand tags in template sections
         $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
