@@ -40,6 +40,8 @@ The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 
 The =date= field type allows one to choose a date with a popup calendar. Popup calendar works with all modern browsers. The date picker button is inactive if the browser cannot support the popup calendar or if javascript is disabled. 
 
+The optional DHTML date format specifiers are described in the [[System.JSCalendarContrib#FormatSpecifiers][JSCalendarContrib]] documentation. When time specifiers are used, the calendar allows one to choose a date and a time.
+
 
 ---++ Per Cell Settings
 
