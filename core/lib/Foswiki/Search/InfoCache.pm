@@ -93,7 +93,7 @@ sub addTopic {
     push( @{ $this->{list} }, $webtopic );
     $this->{count}++;
     if (defined($meta)) {
-        $this->{_session}->search->metacache->get($webtopic, $meta);
+        $this->{_session}->search->metacache->get($web, $topic, $meta);
     }
     undef $this->{sorted};
 }
@@ -203,7 +203,7 @@ sub sortResults {
     sortTopics( $this->{list}, $sortOrder, !$revSort );
 
 #SMELL: this is not a sort at all - its a filters
-#TODO: remove and replace with a FilterIterator
+#TODO: can't just make a FilterIterator, as the silent removal breaks the numberofpages..
     if ($date) {
         require Foswiki::Time;
         my @ends       = Foswiki::Time::parseInterval($date);
@@ -233,7 +233,7 @@ sub getRev1Info {
 
     my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $webtopic );
 
-    my $info = $metacache->get($webtopic);
+    my $info = $metacache->get($web, $topic);
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
@@ -273,22 +273,30 @@ sub sortTopics {
     my ( $listRef, $sortfield, $revSort ) = @_;
     ASSERT($sortfield);
     
+    #seriously, don't spend time doing stuff to an empty list (or a list of one!)
+    return if (scalar(@$listRef) <= 0);
+    
     if ($sortfield eq 'topic') {
-
         # simple sort, see Codev.SchwartzianTransformMisused
         # note no extraction of topic info here, as not needed
         # for the sort. Instead it will be read lazily, later on.
  #TODO: need to remove the web portion
+ #mmm, need to profile if there is even a point to this - as all topics still need to be parsed to find permissions
         if ($revSort) {
-            @{ $listRef } =
-              sort { $a cmp $b } @{ $listRef };
+            @{ $listRef } = map { $_->[1] }
+              sort { $a->[0] cmp $b->[0] } 
+              map { $_ =~ /^(.*?)([^.]+)$/; [$2, $_] } #quickhack to remove web
+              @{ $listRef };
         } else {
-            @{ $listRef } =
-              sort { $b cmp $a } @{ $listRef };
+            @{ $listRef } = map { $_->[1] }
+              sort { $b->[0] cmp $a->[0] } 
+              map { $_ =~ /^(.*?)([^.]+)$/; [$2, $_] } #quickhack to remove web
+              @{ $listRef };
         }
+        ASSERT($listRef->[0]) if DEBUG;
         return;
     }
-    
+
     my $metacache = $Foswiki::Plugins::SESSION->search->metacache;
 
     # populate the cache for each topic
@@ -299,6 +307,9 @@ sub sortTopics {
             getRev1Info( $webtopic, $sortfield );
         }
         else {
+            #duplicated from above - I'd rather do it only here, but i'm not sure if i can.
+            $sortfield =~ s/^formfield\((.*)\)$/$1/;    # form field
+            
             my $info = $metacache->get($webtopic);
             if ( !defined( $info->{$sortfield} ) ) {
                 if ($sortfield eq 'modified') {

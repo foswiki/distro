@@ -127,7 +127,7 @@ sub _webQuery {
     while ( $topicSet->hasNext() ) {
         my $webtopic = $topicSet->next();
         my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get($Iweb.'.'.$topic);
+        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get($Iweb, $topic);
         my $meta = $cache->{tom};
 
         # this 'lazy load' will become useful when @$topics becomes

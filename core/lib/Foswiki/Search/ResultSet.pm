@@ -71,7 +71,9 @@ sub hasNext {
     return 1 if $this->{next};
     
     #this is the 'normal' legacy way to iterate over the list of results (one web at a time)
-    if ($this->{partition} eq 'web') {
+    if (($this->{partition} eq 'web') 
+            or (scalar( @{ $this->{Itr_list} } ) <= 0)  #no reason to got through the more complex case if there's only one itr
+        ) {
         my $n;
         do {
             unless ( $this->{list} ) {

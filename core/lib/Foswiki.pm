@@ -3386,9 +3386,9 @@ sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
     
     my $metacache = $this->search->metacache;
-    if ($metacache->hasCached("$web.$topic")) {
+    if ($metacache->hasCached($web, $topic)) {
         #don't kill me - this should become a property on Meta
-        return $metacache->get("$web.$topic")->{modified};
+        return $metacache->get($web, $topic)->{modified};
     }
     
     return $this->{store}->getApproxRevTime( $web, $topic );

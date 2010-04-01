@@ -715,9 +715,10 @@ sub formatResults {
 
     while ( $infoCache->hasNext() ) {
         my $webtopic = $infoCache->next();
+        ASSERT($webtopic) if DEBUG;
         my $topic;
         ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+          Foswiki::Func::normalizeWebTopicName( '', $webtopic );
 
         #pager..
         if ( defined( $params->{pager_skip_results_from} )
@@ -732,7 +733,7 @@ sub formatResults {
             $cache->addDependency( $web, $topic );
         }
 
-        my $info = $this->metacache->get( $web.'.'.$topic );
+        my $info = $this->metacache->get( $web, $topic );
         my $text;    #current hits' text
 
 # Check security (don't show topics the current user does not have permission to view)
@@ -830,19 +831,19 @@ sub formatResults {
   #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
   #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
                         '\$createlongdate' => sub {
-                            return $this->metacache->get( $web.'.'.$topic )->{tom}
+                            return $this->metacache->get( $web, $topic )->{tom}
                               ->getRev1Info("createlongdate");
                         },
                         '\$createusername' => sub {
-                            return $this->metacache->get( $web.'.'.$topic )->{tom}
+                            return $this->metacache->get( $web, $topic )->{tom}
                               ->getRev1Info("createusername");
                         },
                         '\$createwikiname' => sub {
-                            return $this->metacache->get( $web.'.'.$topic )->{tom}
+                            return $this->metacache->get( $web, $topic )->{tom}
                               ->getRev1Info("createwikiname");
                         },
                         '\$createwikiusername' => sub {
-                            return $this->metacache->get( $web.'.'.$topic )->{tom}
+                            return $this->metacache->get( $web, $topic )->{tom}
                               ->getRev1Info("createwikiusername");
                         },
 

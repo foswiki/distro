@@ -64,9 +64,12 @@ sub finish {
     
     #must clear cache every request until the cache is hooked up to Store's save
     
-    foreach my $webtopic (keys(%{$this->{cache}})) {
-        undef $this->{cache}->{$webtopic};
-        $this->{undef_count}++;
+    foreach my $web (keys(%{$this->{cache}})) {
+        foreach my $topic (keys(%{$this->{cache}->{$web}})) {
+            undef $this->{cache}->{$web}{$topic};
+            $this->{undef_count}++;
+        }
+        undef $this->{cache}->{$web};
     }
     undef $this->{cache};
     
@@ -86,9 +89,10 @@ returns true if the topic is already int he cache.
 =cut
 
 sub hasCached {
-    my ( $this, $webtopic ) = @_;
+    my ( $this, $web, $topic ) = @_;
+    ASSERT(defined($topic)) if DEBUG;
     
-    return (defined($this->{cache}->{$webtopic}));
+    return (defined($this->{cache}->{$web}{$topic}));
 }
 
 
@@ -103,39 +107,46 @@ optionally the $meta parameter can be used to add that to the cache - useful if 
 =cut
 
 sub get {
-    my ( $this, $webtopic, $meta ) = @_;
+    my ( $this, $web, $topic, $meta ) = @_;
     ASSERT( $meta->isa('Foswiki::Meta') ) if (defined($meta) and DEBUG);
+    
+    if (!defined($topic)) {
+        #there are some instances - like the result set sorting, where we need to quickly pass "$web.$topic"
+        ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( '', $web );
+    }
 
     $this->{get_count}++;
     
-    unless ($this->{cache}->{$webtopic}) {
-        $this->{cache}->{$webtopic} = {};
+    unless ($this->{cache}->{$web}) {
+        $this->{cache}->{$web} = {};
+    }
+    unless ($this->{cache}->{$web}{$topic}) {
+        $this->{cache}->{$web}{$topic} = {};
         if (defined($meta)) {
-            $this->{cache}->{$webtopic}->{tom} = $meta;
+            $this->{cache}->{$web}{$topic}->{tom} = $meta;
         } else {
-            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $webtopic );
-            $this->{cache}->{$webtopic}->{tom} = 
+            $this->{cache}->{$web}{$topic}->{tom} = 
                 Foswiki::Meta->load( $this->{session}, $web, $topic );
         }
-        return if (!defined($this->{cache}->{$webtopic}->{tom}) or $this->{cache}->{$webtopic}->{tom} eq '');
+        return if (!defined($this->{cache}->{$web}{$topic}->{tom}) or $this->{cache}->{$web}{$topic}->{tom} eq '');
 
         $this->{new_count}++;
 
 #TODO: extract this to the Meta Class, or remove entirely
         # Extract sort fields
-        my $ri = $this->{cache}->{$webtopic}->{tom}->getRevisionInfo();
+        my $ri = $this->{cache}->{$web}{$topic}->{tom}->getRevisionInfo();
 
         # Rename fields to match sorting criteria
-        $this->{cache}->{$webtopic}->{editby}   = $ri->{author} || '';
-        $this->{cache}->{$webtopic}->{modified} = $ri->{date};
-        $this->{cache}->{$webtopic}->{revNum}   = $ri->{version};
+        $this->{cache}->{$web}{$topic}->{editby}   = $ri->{author} || '';
+        $this->{cache}->{$web}{$topic}->{modified} = $ri->{date};
+        $this->{cache}->{$web}{$topic}->{revNum}   = $ri->{version};
 
-        $this->{cache}->{$webtopic}->{allowView} = $this->{cache}->{$webtopic}->{tom}->haveAccess('VIEW');
+        $this->{cache}->{$web}{$topic}->{allowView} = $this->{cache}->{$web}{$topic}->{tom}->haveAccess('VIEW');
     }
 
-    ASSERT( $this->{cache}->{$webtopic}->{tom}->isa('Foswiki::Meta') ) if DEBUG;
+    ASSERT( $this->{cache}->{$web}{$topic}->{tom}->isa('Foswiki::Meta') ) if DEBUG;
 
-    return $this->{cache}->{$webtopic};
+    return $this->{cache}->{$web}{$topic};
 }
 
 1;
