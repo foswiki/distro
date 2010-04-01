@@ -579,8 +579,10 @@ sub formatResults {
     my $footer        = $params->{footer} || '';
     my $limit         = $params->{limit} || '';
 
-# Limit search results
-#TODO: I _think_ that limit should be able to be deprecated and replaced by pagesize..
+    # Limit search results. Cannot be deprecated
+    # Limit will still be needed for the application types of SEARCHES
+    # even if pagesize is added as feature. Example for searching and listing
+    # text from first 5 bullets in a formatted multiple type search
     if ( $limit =~ /(^\d+$)/o ) {
 
         # only digits, all else is the same as
