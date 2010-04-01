@@ -272,11 +272,11 @@ sub searchWeb {
     my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
 
     if ( defined( $params{pagesize} ) or defined($showpage) ) {
-        $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
-        $params{pager_show_results_to} = $pagesize;
         if ( !defined($showpage) ) {
             $showpage = 1;
         }
+        $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
+        $params{pager_show_results_to} = $pagesize;
     }
 
     #TODO: refactorme
