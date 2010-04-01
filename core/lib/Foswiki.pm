@@ -3288,15 +3288,8 @@ sub readFile {
 
 ---++ StaticMethod expandStandardEscapes($str) -> $unescapedStr
 
-Expands standard escapes used in parameter values to block evaluation. The following escapes
-are handled:
-
-| *Escape:* | *Expands To:* |
-| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
-| =$nop= or =$nop()= | Is a "no operation". |
-| =$quot= | Double quote (="=) |
-| =$percent= | Percent sign (=%=) (also =$percnt) |
-| =$dollar= | Dollar sign (=$=) |
+Expands standard escapes used in parameter values to block evaluation. See
+System.FormatTokens for a full list of supported tokens.
 
 =cut
 
@@ -3304,23 +3297,26 @@ sub expandStandardEscapes {
     my $text = shift;
 
     # expand '$n()' and $n! to new line
-    $text =~ s/\$n\(\)/\n/gos;
+    $text =~ s/\$n\(\)/\n/gs;
     $text =~ s/\$n(?=[^$regex{mixedAlpha}]|$)/\n/gos;
 
-    # remove filler, useful for nested search
-    $text =~ s/\$nop(\(\))?//gos;
+    # filler, useful for nested search
+    $text =~ s/\$nop(\(\))?//gs;
+
     # $quot -> "
-    $text =~ s/\$quot(\(\))?/\"/gos;
+    $text =~ s/\$quot(\(\))?/\"/gs;
+    # $comma -> ,
+    $text =~ s/\$comma(\(\))?/,/gs;
     # $percent -> %
-    $text =~ s/\$perce?nt(\(\))?/\%/gos;
+    $text =~ s/\$perce?nt(\(\))?/\%/gs;
     # $lt -> <
-    $text =~ s/\$lt(\(\))?/\</gos;
+    $text =~ s/\$lt(\(\))?/\</gs;
     # $gt -> >
-    $text =~ s/\$gt(\(\))?/\>/gos;
+    $text =~ s/\$gt(\(\))?/\>/gs;
     # $amp -> &
-    $text =~ s/\$amp(\(\))?/\&/gos;
+    $text =~ s/\$amp(\(\))?/\&/gs;
     # $dollar -> $, done last to avoid creating the above tokens
-    $text =~ s/\$dollar(\(\))?/\$/gos;
+    $text =~ s/\$dollar(\(\))?/\$/gs;
 
     return $text;
 }

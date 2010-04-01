@@ -11,5 +11,6 @@ Foswiki defines some standard special tokens that can be used to replace charact
 | =$lt= | Less than sign (=<=) |
 | =$gt= | Greater than sign (=>=) |
 | =$amp= | Ampersand (=&=) |
+| =$comma= | Comma (=,=) |
 %STOPINCLUDE%
 If you ever find yourself needing to escape an escape, you can use =$dollar= to escape the leading dollar, thus: =$dollarpercent=.

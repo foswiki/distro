@@ -1156,6 +1156,7 @@ $quot embed$quotembed$quot()embed
 $percnt embed$percntembed$percnt()embed
 $percent embed$percentembed$percent()embed
 $dollar embed$dollarembed$dollar()embed
+$comma embed$commaembed$comma()embed
 $lt embed$ltembed$lt()embed
 $gt embed$gtembed$gt()embed
 $n$n!$n()gnnnnh
@@ -1171,6 +1172,7 @@ embed
 % embed%embed%embed
 % embed%embed%embed
 $ embed$embed$embed
+, embed,embed,embed
 < embed<embed<embed
 > embed>embed>embed
 

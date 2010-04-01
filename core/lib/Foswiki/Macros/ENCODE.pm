@@ -10,12 +10,6 @@ sub _s2d {
     return join('', map { chr(int($_)) } split('', shift));
 }
 
-sub _expandEscapes {
-    my $s = expandStandardEscapes(shift);
-    $s =~ s/\$comma(\(\))?/,/g;
-    return $s;
-}
-
 sub ENCODE {
     my ( $this, $params ) = @_;
 
@@ -49,12 +43,12 @@ sub ENCODE {
                 return $this->inlineAlert('alerts', 'ENCODE_bad_3', $o);
             }
             $toks{$o} = 1;
-            $o = quotemeta(_expandEscapes($o));
+            $o = quotemeta(expandStandardEscapes($o));
             $text =~ s/$o/$e/ge;
         }
         for (my $i = 0; $i <= $#new; $i++) {
             my $e = _s2d($i);
-            my $n = _expandEscapes($new[$i]);
+            my $n = expandStandardEscapes($new[$i]);
             $text =~ s/$e/$n/g;
         }
         return $text;
@@ -94,7 +88,7 @@ sub ENCODE {
 __DATA__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
