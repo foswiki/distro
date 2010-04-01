@@ -62,7 +62,7 @@ our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'outsidePREHandler',                # 1.000 DEPRECATED
     'postRenderingHandler',             # 1.026
     'preRenderingHandler',              # 1.026
-    'redirectCgiQueryHandler',          # 1.010
+    'redirectCgiQueryHandler',          # 1.010 DEPRECATED
     'registrationHandler',              # 1.010
     'renderFormFieldForEditHandler',    # ?
     'renderWikiWordHandler',            # 1.023

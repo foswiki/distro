@@ -1028,7 +1028,8 @@ sub splitAnchorFromUrl {
      parameters (see below)
 
 Redirects the request to =$url=, *unless*
-   1 It is overridden by a plugin declaring a =redirectCgiQueryHandler=.
+   1 It is overridden by a plugin declaring a =redirectCgiQueryHandler=
+     (a dangerous, deprecated handler!)
    1 =$session->{request}= is =undef= or
 Thus a redirect is only generated when in a CGI context.
 
@@ -1111,6 +1112,7 @@ sub redirect {
 
     $url .= $anchor if $anchor;
 
+    # Dangerous, deprecated handler! Might work, probably won't.
     return
       if ( $this->{plugins}
         ->dispatch( 'redirectCgiQueryHandler', $this->{response}, $url ) );
