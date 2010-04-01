@@ -324,7 +324,6 @@ sub searchWeb {
     my $webNames  = $params{web}            || '';
     my $date      = $params{date}           || '';
     my $recurse   = $params{'recurse'}      || '';
-    my $finalTerm = $params{nofinalnewline} || 0;
 
     $baseWeb =~ s/\./\//go;
 
@@ -423,13 +422,17 @@ sub searchWeb {
     $params{newline} = $newLine;
 
     # We now format the results.
+    # All the 
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
 
     return if ( defined $params{_callback} );
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
-    if ( $formatDefined && !$finalTerm ) {
+    
+    # Remove trailing separator or new line if nofinalnewline parameter is set
+    my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1);
+    if ( $formatDefined && $noFinalNewline ) {
         if ($separator) {
             $separator = quotemeta($separator);
             $searchResult =~ s/$separator$//s;       # remove separator at end
