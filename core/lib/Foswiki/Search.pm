@@ -617,11 +617,6 @@ sub formatResults {
              $session->{request}->param($paging_ID)
           || $params->{showpage}
           || 1;
-        if ( defined( $params->{pagesize} ) or defined($showpage) ) {
-            if ( !defined($showpage) ) {
-                $showpage = 1;
-            }
-        }
 
         #TODO: need to ask the result set
         my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};
