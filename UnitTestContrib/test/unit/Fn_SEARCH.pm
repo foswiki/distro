@@ -2415,8 +2415,8 @@ EXPECT
 # the parent web recursively, with a sort order based on the value of the
 # formfield. The sort should be based on the value of the 'Order' field.
 #TODO: this is how the code has always worked, as the rendering of SEARCH results is done per web
-#TODO: we hope to remove this (unless a compatibility switch is thrown, because its pretty un-useful.
-sub DISABLEDtest_sorting_same_topic_in_subwebs {
+#http://foswiki.org/Development/MakeSEARCHResultPartitioningByWebOptional
+sub verify_groupby_none_using_subwebs {
     my $this = shift;
 
     my $webObject =
@@ -2428,7 +2428,7 @@ sub DISABLEDtest_sorting_same_topic_in_subwebs {
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Order" title="Order" value="3"}%
 CRUD
-    $topicObject->save();
+    $topicObject->save(forcedate=>1000);
 
     $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/B" );
     $webObject->populateNewWeb();
@@ -2438,7 +2438,7 @@ CRUD
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Order" title="Order" value="1"}%
 CRUD
-    $topicObject->save();
+    $topicObject->save(forcedate=>100);
 
     $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/C" );
     $webObject->populateNewWeb();
@@ -2448,8 +2448,9 @@ CRUD
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Order" title="Order" value="2"}%
 CRUD
-    $topicObject->save();
+    $topicObject->save(forcedate=>500);
 
+#order by formfield, with groupby=none
     my $result = $this->{test_topicObject}->expandMacros( <<GNURF );
 %SEARCH{"Order!=''"
  type="query"
@@ -2459,10 +2460,113 @@ CRUD
  nonoise="on"
  order="formfield(Order)"
  format="\$web"
- separator=","}%
+ separator=","
+ groupby="none"
+}%
 GNURF
     $this->assert_equals(
-        "$this->{test_web}/B,$this->{test_web}/C,$this->{test_web}/A",
+        "$this->{test_web}/B,$this->{test_web}/C,$this->{test_web}/A\n",
+        $result );
+        
+#order by modified date, reverse=off, with groupby=none
+    $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"Order!=''"
+ type="query"
+ web="$this->{test_web}"
+ topic="TheTopic"
+ recurse="on"
+ nonoise="on"
+ order="modified"
+ reverse="off"
+ format="\$web \$date"
+ separator=", "
+ groupby="none"
+}%
+GNURF
+    $this->assert_equals(
+        "$this->{test_web}/B 01 Jan 1970 - 00:01, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/A 01 Jan 1970 - 00:16\n",
+        $result );
+
+#order by modified date, reverse=n, with groupby=none
+    $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"Order!=''"
+ type="query"
+ web="$this->{test_web}"
+ topic="TheTopic"
+ recurse="on"
+ nonoise="on"
+ order="modified"
+ reverse="on"
+ format="\$web \$date"
+ separator=", "
+ groupby="none"
+}%
+GNURF
+    $this->assert_equals(
+        "$this->{test_web}/A 01 Jan 1970 - 00:16, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/B 01 Jan 1970 - 00:01\n",
+        $result );
+        
+#and the same again, this time using header&footer, as that is what really shows the issue.
+#order by formfield, with groupby=none
+    $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"Order!=''"
+ type="query"
+ web="$this->{test_web}"
+ topic="TheTopic"
+ recurse="on"
+ nonoise="on"
+ order="formfield(Order)"
+ header="HEADER"
+ format="\$web"
+ footer="FOOTER"
+ separator=", "
+ groupby="none"
+}%
+GNURF
+    $this->assert_equals(
+        "HEADER\n$this->{test_web}/B, $this->{test_web}/C, $this->{test_web}/A, FOOTER\n",
+        $result );
+        
+#order by modified date, reverse=off, with groupby=none
+    $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"Order!=''"
+ type="query"
+ web="$this->{test_web}"
+ topic="TheTopic"
+ recurse="on"
+ nonoise="on"
+ order="modified"
+ reverse="off"
+ header="HEADER"
+ format="\$web \$date"
+ footer="FOOTER"
+ separator=", "
+ groupby="none"
+}%
+GNURF
+    $this->assert_equals(
+        "HEADER\n$this->{test_web}/B 01 Jan 1970 - 00:01, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/A 01 Jan 1970 - 00:16, FOOTER\n",
+        $result );
+
+#order by modified date, reverse=n, with groupby=none
+    $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"Order!=''"
+ type="query"
+ web="$this->{test_web}"
+ topic="TheTopic"
+ recurse="on"
+ nonoise="on"
+ order="modified"
+ reverse="on"
+ header="HEADER"
+ format="\$web \$date"
+ footer="FOOTER"
+ separator=", "
+ groupby="none"
+}%
+GNURF
+    $this->assert_equals(
+        "HEADER\n$this->{test_web}/A 01 Jan 1970 - 00:16, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/B 01 Jan 1970 - 00:01, FOOTER\n",
         $result );
 }
 
@@ -3107,7 +3211,7 @@ I did not find anything.
 RESULT
 }
 
-# Item8800: SEARCH date param seems to be broken 
+# Item8800: SEARCH date param
 sub verify_date_param {
     my $this = shift;
     
