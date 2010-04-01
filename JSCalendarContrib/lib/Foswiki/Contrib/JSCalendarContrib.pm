@@ -146,6 +146,7 @@ sub commonTagsHandler {
 </verbatim>
 The first parameter to =showCalendar= is the id of the textfield, and the second parameter is the date format. Default format is '%e %B %Y'.
 
+#FormatSpecifiers
 All available date specifiers:
 <verbatim>
 %a - abbreviated weekday name 
