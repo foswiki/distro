@@ -11,16 +11,16 @@
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 See changes since: <select class="foswikiSelect" name="since" onChange="storeSelectedOption(this[selectedIndex].id, this[selectedIndex].value, document.forms.seeChangesSince.sinceReadable)">
-<option id="last_time_checked" value=""></option>
-<option id="1_hour_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-1*3600), $year-$month-$day $hour:$minute:$second)"}%">1 hour ago</option>
-<option id="6_hours_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-6*3600), $year-$month-$day $hour:$minute:$second)"}%">6 hours ago</option>
-<option id="12_hours_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-12*3600), $year-$month-$day $hour:$minute:$second)"}%">12 hours ago</option>
-<option id="24_hours_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-24*3600), $year-$month-$day $hour:$minute:$second)"}%">24 hours ago</option>
-<option id="3_days_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-3*24*3600), $year-$month-$day $hour:$minute:$second)"}%">3 days ago</option>
-<option id="1_week_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-7*24*3600), $year-$month-$day $hour:$minute:$second)"}%">1 week ago</option>
-<option id="2_weeks_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-14*24*3600), $year-$month-$day $hour:$minute:$second)"}%">2 weeks ago</option>
-<option id="4_weeks_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-28*24*3600), $year-$month-$day $hour:$minute:$second)"}%">4 weeks ago</option>
-<option id="beginning" value="%CALC{"$FORMATTIME(0, $year-$month-$day $hour:$minute:$second)"}%">beginning</option>
+<!-- unfortuanatly, last time checked won't work like this in combination with paging - when you click on page 2, this code would then show you nothing -->
+<option id="beginning" value="">beginning</option>
+<option id="1_hour_ago" value="P1h/$now" %IF{"$since = 'P1h/$now'" then="selected='selected'"}%>1 hour ago</option>
+<option id="6_hours_ago" value="P6h/$now" %IF{"$since = 'P6h/$now'" then="selected='selected'"}%>6 hours ago</option>
+<option id="12_hours_ago" value="P12h/$now" %IF{"$since = 'P12h/$now'" then="selected='selected'"}%>12 hours ago</option>
+<option id="24_hours_ago" value="P1d/$now" %IF{"$since = 'P1d/$now'" then="selected='selected'"}%>24 hours ago</option>
+<option id="3_days_ago" value="P3d/$now"}%" %IF{"$since = 'P3d/$now'" then="selected='selected'"}%>3 days ago</option>
+<option id="1_week_ago" value="P7w/$now"}%" %IF{"$since = 'P12/$now'" then="selected='selected'"}%>1 week ago</option>
+<option id="2_weeks_ago" value="P2w/$now" %IF{"$since = 'P2w/$now'" then="selected='selected'"}%>2 weeks ago</option>
+<option id="4_weeks_ago" value="P4w/$now"}%" %IF{"$since = 'P4w/$now'" then="selected='selected'"}%>4 weeks ago</option>
 </select>
 <input type="hidden" name="sinceReadable" value="%URLPARAM{"sinceReadable"}%" />
 <input type="hidden" name="debugJs" value="%URLPARAM{"debugJs" default="0"}%" /> 
@@ -44,6 +44,7 @@ See changes since: <select class="foswikiSelect" name="since" onChange="storeSel
     nofooter="$n---$n $pager $n----$n"
     pager="on"
     groupby="none"
+    date="%URLPARAM{"since" default=""}%"
 }%
 </div>
 <div class="foswikiFormStep">
