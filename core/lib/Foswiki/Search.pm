@@ -271,13 +271,13 @@ sub searchWeb {
     # 1-based system; 0 is not a valid page number
     my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
 
-
-    if ( !defined($showpage) ) {
-        $showpage = 1;
+    if ( defined( $params{pagesize} ) or defined($showpage) ) {
+        if ( !defined($showpage) ) {
+            $showpage = 1;
+        }
+        $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
+        $params{pager_show_results_to} = $pagesize;
     }
-    $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
-    $params{pager_show_results_to} = $pagesize;
-
 
     #TODO: refactorme
     my $header  = $params{header};
