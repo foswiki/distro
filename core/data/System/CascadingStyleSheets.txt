@@ -163,7 +163,7 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiEditboxStyleMono=         | Gives the edit textarea monospaced font (not used with WYSWIWYG) |
 |=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
 |=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
-
+|=.foswikiIcon=                     | Span around icon image |
 
 
 
