@@ -139,7 +139,7 @@ The targets you will normally use are:
 | =test= | run [[#UnitTesting][unit tests]] |
 | =release= | =build=, =pod= and package a release zip |
 | =upload= | =build=, =pod=, =release= and upload |
-| =manifest= | print a guess at the MANIFEST |
+| =manifest= | print a guess at the MANIFEST (Caution - omits the primary System/Extension.txt topic |
 | =history= | Generates a list of svn checkins with comments suitable for use in the history section of the plugin/contrib topic. |
 | =dependencies= | Find and print a best-guess dependencies list (for DEPENDENCIES) |
 
@@ -227,7 +227,9 @@ sources and documentation.
 ---+++ The =upload= target
 This target builds a release, and then tries to upload it to a target repository. The target uploads all the files in the release, and also tries to upload any attachments to the extension topic (as found by scanning the topic for META:FILEATTACHMENT).
 
-You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.
+You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.   Note that the =upload= operation will first attempt to download the topic to recover the !PackageForm so that it can be added to the newly uploaded topic.  
+The =upload= also gives you a chance to specify an alternate download location
+to be used for !PackageForm recovery.  
 
 ---+++ The =manifest= and =dependencies= targets
 These are used when you are unsure of the correct contents of MANIFEST and DEPENDENCIES. They make a best-guess at the required contents for these files.
