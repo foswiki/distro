@@ -12,6 +12,13 @@ This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCale
 ---++ Detailed Documentation
 %$POD%
 
+---+++ Using the Calendar for picking dates only or picking times and dates
+
+The calendar is able to display a time-picker, in addition to the default date-picker, depending on the optional date format passed.
+
+   * the calendar displays the built-in time picker when the passed format descriptions includes hours, minutes or am or pm specifiers (i.e.: =%H, %I, %k, %l, %M, %p, %P=),
+   * otherwise the calendar is displayed normally with only dates if anything else or no format description is passed.
+
 ---+++ Using the Calendar in user forms
 You can also use the calendar directly in your own hand-built forms, without
 having to write any code. Just add this inline in the topic text:
