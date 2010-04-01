@@ -17,7 +17,11 @@ function showCalendar(id, format) {
                 cal.hide();
                 _dynarch_popupCalendar = null;
             });
-        cal.showsTime = false;
+        if (format.search(/%H|%I|%k|%l|%M|%p|%P/)!=-1) {
+            cal.showsTime=true;
+        } else {
+            cal.showsTime=false;
+        }
         cal.showsOtherMonths = true;
         _dynarch_popupCalendar = cal;
         cal.setRange(1900, 2070);
