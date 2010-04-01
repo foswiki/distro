@@ -347,17 +347,17 @@ to a temporary directory, the name of which is returned.
 
 sub unpackArchive {
     my ( $name, $dir ) = @_;
-  
+
     $dir ||= File::Temp::tempdir( CLEANUP => 1 );
     my $here = Cwd::getcwd();
     $here =~ /(.*)/; $here = $1;    # untaint current dir name
     chdir($dir);
     my $error = "Failed to unpack archive $name\n";
 
-    if ($name =~ /(\.zip)/i) {
+    if ($name =~ m/\.zip$/i) {
         $error = _unzip($name);
     } else {
-        if ( $name =~ /(\.tar\.gz|\.tgz|\.tar)/ ) {
+        if ( $name =~ m/(\.tar\.gz|\.tgz|\.tar)$/i ) {
             $error = _untar($name); 
         }
     }

@@ -920,7 +920,7 @@ sub test_Package_makeBackup {
       new Foswiki::Configure::Package( $root, "$extension",
         $this->{session} );
 
-    ( $result, $err ) = $pkg->loadInstaller($tempdir);
+    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
     $this->assert_str_equals( '', $err );
 
     ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 });
@@ -1059,7 +1059,7 @@ DONE
   #
     my $pkg =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg->loadInstaller($tempdir);
+    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
     $pkg->uninstall();
     $pkg->finish();
     undef $pkg;
@@ -1071,7 +1071,7 @@ DONE
     _makePackage( $tempdir, $extension );
     $pkg =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg->loadInstaller($tempdir);
+    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
     ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1} );
     $this->assert_str_equals( '', $err );
 
@@ -1110,7 +1110,7 @@ Installed:  MyPlugin_installer
 
     my $pkg2 =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg2->loadInstaller($tempdir);
+    ( $result, $err ) = $pkg2->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
 
     print "ERRORS: $err\n" if ($err);
 
@@ -1256,10 +1256,11 @@ sub test_Package_loadInstaller {
     my $pkg =
       new Foswiki::Configure::Package( $root, 'EmptyPlugin', $this->{session} );
     $pkg->repository($repository);
-    my ( $result, $err ) = $pkg->loadInstaller($tempdir );
+    my ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 } );
 
     chomp $result;
-    $this->assert_matches (qr/Unable to find EmptyPlugin locally in (.*) ...fetching from Foswiki ... succeeded/, $result, "Unexpected $result from loadInstaller");
+    $this->assert_matches (qr#Unable to find EmptyPlugin locally in (.*) ...fetching installer from http://foswiki.org/pub/Extensions/ ... succeeded#, $result, "Unexpected $result from loadInstaller");
+
     $this->assert_str_equals ('', $err, "Error from loadInstaller $err");
 
     my @files = $pkg->listFiles();

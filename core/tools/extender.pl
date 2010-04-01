@@ -252,10 +252,24 @@ sub prompt {
 
 
 sub _loadInstaller {
-    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, $session, 'shell');
-    my ($rslt, $err) = $thispkg->loadInstaller();
 
-    _warn "$rslt" if ($rslt);
+    my $repository = {
+                 name => 'fromInstaller', 
+                 data => '', 
+                 pub => "$PACKAGES_URL/" 
+                 };
+
+    _inform "Package repository set to $PACKAGES_URL \n";
+    _inform " ... locally found installer scripts and archives will be used if available" if ($reuseOK);
+
+    
+
+    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, $session, { SHELL => 1, USELOCAL => $reuseOK });
+    $thispkg->repository($repository);
+
+    my ($rslt, $err) = $thispkg->loadInstaller();  # Use local package, don't download, as we were invoked from it.
+
+    _inform "$rslt" if ($rslt);
     _stop "$err" if ($err);
 }
 
@@ -402,13 +416,6 @@ sub _install {
     return 0
         unless ask( "$instmsg" );
 
-    my $repository = {
-                 name => 'fromInstaller', 
-                 data => '', 
-                 pub => "$PACKAGES_URL/" 
-                 };
-    $thispkg->repository($repository);
-
     my ($rslt, @plugins) = $thispkg->fullInstall();
     _inform $rslt;
 
@@ -468,6 +475,8 @@ sub install {
         usage();
         exit 0;
     }
+
+    $reuseOK = ask("Do you want to use locally found installer scripts and archives to install $MODULE and any dependencies.\nIf you reply n, then fresh copies will be downloaded from this repository.") unless ($reuseOK);
 
     _loadInstaller();
 

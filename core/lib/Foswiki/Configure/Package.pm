@@ -60,20 +60,29 @@ my $depwarn = '';    # Pass back warnings from untaint validation routine
       * Core - (future) a packaged core installation.
    * =$session= (optional) - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
 Required for installer methods - used for checkin operations
+
+   * =$options= - A hash of options for the installation
+
+      {
+        EXPANDED => 0/1     Specify that archive file has already been expanded 
+        USELOCAL => 0/1     If local versions of _installer or archives are found, use them instead of download.
+        SHELL    => 0/1     Specify if executed from shell - default is to generate html markup in messages.
+        NODEPS   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
+                            (CPAN and external dependencies are not handled by this module.)
+      }
       
 =cut
 
 sub new {
-    my ( $class, $root, $pkgname, $session, $envir ) = @_;
+    my ( $class, $root, $pkgname, $session, $options ) = @_;
     my @deps;
-    $envir = '' unless ($envir);
 
     my $this = bless(
         {
             _root    => $root,
             _pkgname => $pkgname,
             _session => $session,
-            _env     => $envir, 
+            _options => $options, 
 
   # Hash mapping the topics, attachment and other files supplied by this package
             _manifest => undef,
@@ -106,7 +115,7 @@ sub finish {
     undef $this->{_pkgname};
     undef $this->{_type};
     undef $this->{_session};
-    undef $this->{_env};
+    undef $this->{_options};
     undef $this->{_manifest};
     undef $this->{_dependency};
     undef $this->{_routines};
@@ -166,14 +175,16 @@ sub fullInstall {
     my $pre = '<pre>';
     my $epre = '</pre>';
 
-    if ( $this->{_env} eq 'shell' ) {
+    if ( $this->{_options}->{SHELL} ) {
         $nl = "\n";
         $pre = '';
         $epre = '';
+        $feedback .= " ===== INSTALLING DEPENDENCY $this->{_pkgname} \n";
+        }
+    else {
+        $feedback .= "<h3 style='margin-top:0'>Installing $this->{_pkgname}</h3>";
+        $feedback .= "<div class='installDependency'>";
     }
-
-    $feedback .= "<h3 style='margin-top:0'>Installing $this->{_pkgname}</h3>";
-    $feedback .= "<div class='installDependency'>" unless ($this->{_env} eq 'shell' );
 
     unless ( $this->{_loaded} ) {
         ($rslt, $err) = $this->loadInstaller() ;  # Recover the manifest from the _installer file
@@ -195,9 +206,12 @@ sub fullInstall {
         $feedback .= "$pre$rslt$epre";
         $rslt = '';
     }
+
     my @depPlugins;
-    ($rslt, @depPlugins) = $this->installDependencies();
-    $feedback .= $rslt;
+    unless ($this->{_options}->{NODEPS} ) {
+        ($rslt, @depPlugins) = $this->installDependencies();
+        $feedback .= $rslt;
+    }
 
     ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
 
@@ -231,7 +245,7 @@ sub fullInstall {
     my @plugins = $this->listPlugins();
     push @plugins, @depPlugins ;
 
-    $feedback .= "</div>" unless ($this->{_env} eq 'shell' ); 
+    $feedback .= "</div>" unless ($this->{_options}->{SHELL}); 
    
     return ($feedback, @plugins);
  
@@ -274,43 +288,43 @@ sub install {
     my $this = shift;
     my $options = shift;
  
-    my $expanded = $options->{EXPANDED};
-    my $uselocal = $options->{USELOCAL};
+    my $expanded = $this->{_options}->{EXPANDED} || $options->{EXPANDED};
+    my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
     my $dir = $options->{DIR} || $this->{_root};
 
     my $ext = '';
     my $feedback = '';                # Results from install
     my $error = '';                   # Error results
+    my $installer = '';
 
     unless ($expanded) {
         if ($uselocal) {
-            if (-e "$this->{_pkgname}.tgz") { 
-                $ext = '.tgz';
-                }
-            else {
-                if (-e "$this-{_pkgname}.zip") {
-                    $ext = '.zip'; 
+
+            for (qw( .tgz .zip .TGZ .tar.gz .ZIP  )) {
+                if ( -r "$this->{_pkgname}$_") {    # readable by user
+                    $ext = $_;
+                    last;
                 }
             }
-            $feedback .= 'No local package found, and uselocal requested - download required\n';
+            $feedback .= 'No local package found, and uselocal requested - download required' . "\n" unless ($ext);
         }
         my $tmpdir;              # Directory where archive was expanded
+        my $tmpfilename;         # Filename set when downloaded
+        my $err;
 
-        unless ($ext && $this->{_repository} ) {      # no extension found - need to download the package
-            my ($err, $tmpfilename) = $this->_fetchFile('.tgz');
+        if ( !$ext && $this->{_repository} ) {      # no extension found - need to download the package
+            ($err, $tmpfilename) = $this->_fetchFile('.tgz');
                 return ($feedback, "Download failure\n $err") if $err;
-            $feedback .= "Unpacking...\n";
-            ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
-            $feedback .= "$error\n" if $error;
 
-            unless ($tmpdir) {      # no .tgz found - try the zip archive
-                my ($err, $tmpfilename) = $this->_fetchFile('.zip');
+            unless ($tmpfilename && ! $err) {      # no .tgz found - try the zip archive
+                ($err, $tmpfilename) = $this->_fetchFile('.zip');
                     return ($feedback, "Download failure\n $err") if $err;
-                $feedback .= "Unpacking...\n";
-                ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
-                $feedback .= "$error\n" if $error;
             }
         }
+        $tmpfilename = "$dir/$this->{_pkgname}$ext" if ($ext); 
+        $feedback .= "Unpacking $tmpfilename...\n";
+        ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
+        $feedback .= "$error\n" if $error;
         return ($feedback, "No archive found to install\n") unless ($tmpdir);
         $dir = $tmpdir;
     }
@@ -689,7 +703,7 @@ sub uninstall {
 
 =begin TML
 
----++ loadInstaller ([$temproot] )
+---++ loadInstaller ([$options])
 This routine looks for the $extension_installer or 
 $extension_installer.pl file  and extracts the manifest,
 dependencies and pre/post Exit routines from the installer.  
@@ -701,11 +715,24 @@ The manifest and dependencies are parsed and loaded into their
 respective hashes.  The pre and post routines are eval'd and 
 installed as methods for this object.
 
+   * =%options= (optional) options to override behavior - primarily for unit tests.
+      * =DIR =>  directory where installer package is found
+      * =USELOCAL => 1= Use local archives if found (Used by shell installations)
+      * =EXPANDED => 1= Archive file has already been expanded - preventing any downloads - for unit tests
+
+Returns:
+   * Warning text if no fatal errors occurred
+   * Error messages if load failed.
+
 =cut
 
 sub loadInstaller {
-    my ( $this, $temproot) = @_;
-    $temproot = $this->{_root} unless defined $temproot;
+    my $this = shift;
+    my $options = shift;
+
+    my $uselocal = $options->{USELOCAL} || $this->{_options}->{USELOCAL};
+    my $temproot = $options->{DIR} || $this->{_root};
+
     my $file;
     my $err;
     
@@ -714,25 +741,26 @@ sub loadInstaller {
     my $warn      = '';
     local $/ = "\n";
 
-    if ( -e "$temproot/${extension}_installer" ) {
-        $file = "$temproot/${extension}_installer";
-    }
-    else {
-        if ( -e "$temproot/${extension}_installer.pl" ) {
-            $file = "$temproot/${extension}_installer.pl";
+    if ($uselocal) {
+        if ( -e "$temproot/${extension}_installer" ) {
+            $file = "$temproot/${extension}_installer";
         }
         else {
-            if ( -e "$pkgstore/${extension}_installer" ) {
-                $file = "$pkgstore/${extension}_installer";
+            if ( -e "$temproot/${extension}_installer.pl" ) {
+                $file = "$temproot/${extension}_installer.pl";
+            }
+            else {
+                if ( -e "$pkgstore/${extension}_installer" ) {
+                    $file = "$pkgstore/${extension}_installer";
+                }
             }
         }
+        $warn .= "Unable to find $extension locally in $temproot ..." unless ($file);
     }
-
-    $warn .= "Unable to find $extension locally in $temproot ..." unless ($file);
 
     unless ($file) {  # Need to fetch the file
         if ( defined $this->{_repository}) {
-            $warn .= "fetching from $this->{_repository}->{name} ...";
+            $warn .= "fetching installer from $this->{_repository}->{pub} ...";
             ($err, $file) = $this->_fetchFile('_installer');
             $warn .= " succeeded\n";
             if ($err) {
@@ -1091,7 +1119,7 @@ sub installDependencies {
     my @pluglist;
 
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
-        my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_env} );
+        my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_options} );
         $deppkg->repository($this->repository());
         ($rslt,@plugins) = $deppkg->fullInstall();
         push @pluglist, @plugins;
