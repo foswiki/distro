@@ -18,7 +18,7 @@ require Foswiki::Func;    # The plugins API
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
 $VERSION = '$Rev$';
-$RELEASE = '09 Jan 2010';
+$RELEASE = '01 Apr 2010';
 $SHORTDESCRIPTION = "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
 
 # Max width of different mishoo format components
@@ -147,6 +147,7 @@ sub commonTagsHandler {
 </verbatim>
 The first parameter to =showCalendar= is the id of the textfield, and the second parameter is the date format. Default format is '%e %B %Y'.
 
+#FormatSpecifiers
 All available date specifiers:
 <verbatim>
 %a - abbreviated weekday name 
