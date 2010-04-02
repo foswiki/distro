@@ -189,7 +189,7 @@ sub fullInstall {
     unless ( $this->{_loaded} ) {
         ($rslt, $err) = $this->loadInstaller() ;  # Recover the manifest from the _installer file
         if ($rslt) {
-            $feedback .= "Warnings loading installer...$nl";
+            $feedback .= "Loading package installer$nl";
             $feedback .= "$pre$rslt$epre";
             $rslt = '';
         }
@@ -762,7 +762,10 @@ sub loadInstaller {
         $warn .= "Unable to find $extension locally in $temproot ..." unless ($file);
     }
 
-    unless ($file) {  # Need to fetch the file
+    if ($file) {
+        $warn .= "Using local $file for package manifest \n";
+        }
+    else {
         if ( defined $this->{_repository}) {
             $warn .= "fetching installer from $this->{_repository}->{pub} ...";
             ($err, $file) = $this->_fetchFile('_installer');

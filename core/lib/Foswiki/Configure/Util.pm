@@ -311,7 +311,7 @@ sub _zip {
     my $files = shift;
     my $err;
 
-    eval 'use Archive::Zip qw( :ERROR_CODES )';
+    eval 'use Archive::Zip ( )';
     unless ($@) {
         my $zip = Archive::Zip->new();
         unless ($zip) {
@@ -333,14 +333,14 @@ sub _zip {
 sub _tar {
     my $archive = shift;
     my $files = shift;
-    my $rslt;
 
-   foreach my $f ( @$files) {
-      }
     eval 'use Archive::Tar ()';
     unless ($@) {
-        $rslt = Archive::Tar->create_archive( $archive, 7, @$files );
-        return `tar -tzvf $archive`;
+        my $tgz = Archive::Tar->new();
+        return 0 unless ($tgz);
+        $tgz->add_files( @$files );
+        $tgz->write( "$archive", 7) ;
+        return join("\n", $tgz->list_files());
     }
     return 0;
 }

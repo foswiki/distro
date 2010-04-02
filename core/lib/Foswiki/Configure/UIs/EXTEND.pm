@@ -125,19 +125,33 @@ sub _uninstall {
     $feedback .= "<h3 style='margin-top:0'>Uninstalling $extension</h3>";
 
     my @removed;
+    my $rslt;
+    my $err;
 
     require Foswiki::Configure::Package;
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension );
-    my ($rslt, $err) = $pkg->loadInstaller();
+
+    # For uninstall, set repository in case local installer is not found
+    # it can be downloaded to recover the manifest
+    my $repository = $this->getRepository( $repositoryPath );
+    if ( !$repository ) {
+        $rslt .= "Repository not found. "
+                    . $repository." - Local installer must exist)\n";
+    } else {
+        $pkg->repository($repository);
+    }
+
+    # And allow the package to use / prefer the local _installer file if found
+    ($rslt, $err) = $pkg->loadInstaller( { USELOCAL => 1 });
 
     if ($rslt) {
-        $feedback .= "Warnings loading installer...<br />\n";
+        $feedback .= "Loading installer for manifest <br />\n";
         $feedback .= "<pre>$rslt </pre>";
     }
 
     unless ($err) {
         my $rslt = $pkg->createBackup();
-        $feedback .= "<b>Creating Backup:</b> <br />\n<pre>$rslt</pre>" if $rslt;
+        $feedback .= "Creating Backup: <br />\n<pre>$rslt</pre>" if $rslt;
 
         $pkg->loadExits();
 
@@ -178,7 +192,7 @@ sub _uninstall {
             my ($plugName) = $file =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
             push (@plugins,  $plugName) if $plugName;
             }
-    $feedback .= "<b>Removing files:</b> <br />\n<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
+    $feedback .= "Removed files:<br />\n<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
 
     if ( scalar @plugins ) {
         $feedback .= $this->WARN(<<HERE);
