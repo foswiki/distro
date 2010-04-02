@@ -162,6 +162,16 @@ DONE
         return 0 unless $reply;
 
         my $mod = CPAN::Shell->expand( 'Module', $dep->{module} );
+        unless ($mod) {
+            _shout <<DONE;
+$dep->{module} was not found on CPAN
+
+Please check the dependencies for this package.  $dep->{module} may be incorrect.
+Or the dependency will require manual resolution.
+DONE
+            return 0;
+        }
+
         my $info = $mod->dslip_status();
         if ( $info->{D} eq 'S' ) {
 
@@ -351,21 +361,13 @@ DEPENDENCIES files used by BuidContrib.
 DONE
 }
 
-# 1 Check and satisfy dependencies
-# 2 Check if there is already an install of this module, and seek
+# 1 Check if there is already an install of this module, and seek
 #   overwrite confirmation
-# 3 Locate a suitable archive, download if necessary
-# 4 Unpack the archive
-# 5 Move files into the target tree
-# 6 Clean up
+# 2 Check dependencies and confirm that install should proceed
+# 3 Install the package - which will resolve any Foswiki/TWiki dependencies
+# 4 If any CPAN dependences are reported - offer to satisfy them
 sub _install {
     my ( $rootModule ) = @_;
-    #my $unsatisfied = 0;
-    #foreach my $dep (@$deps) {
-    #    unless ( satisfy($dep) ) {
-    #        $unsatisfied++;
-    #    }
-    #}
 
     my $path = $MODULE;
 
@@ -416,16 +418,23 @@ sub _install {
     return 0
         unless ask( "$instmsg" );
 
-    my ($rslt, @plugins) = $thispkg->fullInstall();
+    my ($rslt, $plugins, $depCPAN) = $thispkg->fullInstall();
     _inform $rslt;
 
-    if ( scalar @plugins ) {
+    my $unsatisfied = 0;
+    foreach my $dep (@$depCPAN) {
+        unless ( satisfy($dep) ) {
+            $unsatisfied++;
+        }
+    }
+
+    if ( scalar @$plugins ) {
         $rslt = <<HERE;
 Note: Don't forget to enable installed plugins in the
 "Plugins" section of bin/configure, listed below:
 
 HERE
-        foreach my $plugName (@plugins) {
+        foreach my $plugName (@$plugins) {
             $rslt .= "  $plugName \n" if $plugName;
         }
     }
@@ -436,7 +445,6 @@ HERE
     undef $thispkg;
 
     return 0;
-    #return ( $unsatisfied ? 0 : 1 );
 }
 
 # Invoked when the user installs a new extension using

@@ -70,7 +70,7 @@ sub _install {
 
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, $session);
     $pkg->repository($repository);
-    my ($rslt, @plugins) = $pkg->fullInstall(); 
+    my ($rslt, $plugins) = $pkg->fullInstall(); 
 
     _printFeedback($rslt);
  
@@ -98,13 +98,13 @@ sub _install {
         $feedback .= $this->NOTE_OK( 'Installation finished' );
     }
 
-    if ( scalar @plugins ) {
+    if ( scalar @$plugins ) {
         $feedback .= $this->NOTE(<<HERE);
 Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
 HERE
         $feedback .= "<pre>";
-        foreach my $plugName (@plugins) {
+        foreach my $plugName (@$plugins) {
             $feedback .= "$plugName \n" if $plugName;
         }
         $feedback .= "</pre>";

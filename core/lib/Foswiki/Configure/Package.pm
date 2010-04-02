@@ -207,10 +207,14 @@ sub fullInstall {
         $rslt = '';
     }
 
-    my @depPlugins;
+    my @cpanDeps;
+    push @cpanDeps, @$cpan;       # push this module's dependencies
+
+    my $depPlugins;
     unless ($this->{_options}->{NODEPS} ) {
-        ($rslt, @depPlugins) = $this->installDependencies();
+        ($rslt, $depPlugins, $cpan) = $this->installDependencies();
         $feedback .= $rslt;
+        push @cpanDeps, @$cpan;
     }
 
     ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
@@ -242,12 +246,12 @@ sub fullInstall {
             $rslt = '';
         }
     }
-    my @plugins = $this->listPlugins();
-    push @plugins, @depPlugins ;
+    my @plugins = $this->listPlugins();   # Retrieve a list of any plugin modules installed by this package.
+    push @plugins, @$depPlugins ;
 
     $feedback .= "</div>" unless ($this->{_options}->{SHELL}); 
    
-    return ($feedback, @plugins);
+    return ($feedback, \@plugins, \@cpanDeps);
  
 }
 
@@ -1115,16 +1119,19 @@ of the installation.
 sub installDependencies {
     my $this      = shift;
     my $rslt = '';
-    my @plugins;
+    my $cpan;
+    my $plugins;
     my @pluglist;
+    my @cpanlist;
 
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_options} );
         $deppkg->repository($this->repository());
-        ($rslt,@plugins) = $deppkg->fullInstall();
-        push @pluglist, @plugins;
+        ($rslt,$plugins,$cpan) = $deppkg->fullInstall();
+        push @pluglist, @$plugins;
+        push @cpanlist, @$cpan;
     }
-    return ($rslt, @pluglist);
+    return ($rslt, \@pluglist, \@cpanlist);
 }
 
 
