@@ -3234,5 +3234,302 @@ VeryOldTopic
 RESULT
 }
 
+###########################################
+#pager formatting
+sub verify_pager_on {
+    my $this = shift;
+    
+    my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    pager="on"
+}%'
+    );
+
+    my $expected = <<EXPECT;
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)Main.WebChanges
+FOOT(1,1)
+---
+   Page 1 of 3   [[$viewTopicUrl?SEARCHc6139cf1d63c9614230f742fca2c6a36=2][Next >]]
+---
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    pager="on"
+}%'
+    );
+
+    $expected = <<EXPECT;
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)
+---
+[[$viewTopicUrl?SEARCH6331ae02a320baf1478c8302e38b7577=1][< Previous]]   Page 2 of 3   [[$viewTopicUrl?SEARCH6331ae02a320baf1478c8302e38b7577=3][Next >]]
+---
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
+sub verify_pager_on_pagerformat {
+    my $this = shift;
+    
+    my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    pager="on"
+    pagerformat="$n..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize, prevurl=$previousurl, nexturl=$nexturl..$n"
+}%'
+    );
+
+    my $expected = <<EXPECT;
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)Main.WebChanges
+FOOT(1,1)
+..prev=0, 1, next=2, numberofpages=3, pagesize=5, prevurl=, nexturl=$viewTopicUrl?SEARCHe9863b5d7ec27abeb8421578b0747c25=2..
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    pager="on"
+    pagerformat="$n..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize, prevurl=$previousurl, nexturl=$nexturl..$n"
+}%'
+    );
+
+    $expected = <<EXPECT;
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)
+..prev=1, 2, next=3, numberofpages=3, pagesize=5, prevurl=$viewTopicUrl?SEARCHc5ceccfcec96473a9efe986cf3597eb1=1, nexturl=$viewTopicUrl?SEARCHc5ceccfcec96473a9efe986cf3597eb1=3..
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
+sub verify_pager_off_pagerformat {
+    my $this = shift;
+    
+    my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    pager="off"
+    pagerformat="$n..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize, prevurl=$previousurl, nexturl=$nexturl..$n"
+}%'
+    );
+
+    my $expected = <<EXPECT;
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)Main.WebChanges
+FOOT(1,1)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    OFFpager="on"
+    pagerformat="$n..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize, prevurl=$previousurl, nexturl=$nexturl..$n"
+}%'
+    );
+
+    $expected = <<EXPECT;
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
+sub verify_pager_off_pagerformat_pagerinheaderfooter {
+    my $this = shift;
+    
+    my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    pagesize="5"
+    header="HEADER($pager)"
+    footer="FOOT($ntopics,$nhits)($pager)"
+    pager="off"
+    pagerformat="..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize.."
+}%'
+    );
+
+    my $expected = <<EXPECT;
+HEADER(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)HEADER(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
+Main.WebChanges
+FOOT(1,1)(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    pagesize="5"
+    header="HEADER($pager)"
+    footer="FOOT($ntopics,$nhits)($pager)"
+    OFFpager="on"
+    pagerformat="..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize.."
+}%'
+    );
+
+    $expected = <<EXPECT;
+HEADER(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)HEADER(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
+Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
+sub verify_pager_off_pagerformat_pagerinall {
+    my $this = shift;
+    
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic ($pager)ntopics=$ntopics"
+    showpage="2"
+    pagesize="5"
+    header="HEADER($pager)ntopics=$ntopics"
+    footer="FOOT($ntopics,$nhits)($pager)"
+    OFFpager="on"
+    pagerformat="ntopics=$ntopics..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize.."
+}%'
+    );
+
+    my $expected = <<EXPECT;
+HEADER(ntopics=0..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=0
+Main.WebHome (ntopics=1..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=1
+Main.WebIndex (ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=2
+Main.WebPreferences (ntopics=3..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=3
+FOOT(3,3)(ntopics=3..prev=1, 2, next=3, numberofpages=3, pagesize=5..)HEADER(ntopics=0..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=0
+Sandbox.WebChanges (ntopics=1..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=1
+Sandbox.WebHome (ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=2
+FOOT(2,2)(ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+}
 
 1;

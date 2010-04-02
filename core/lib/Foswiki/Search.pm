@@ -675,9 +675,11 @@ sub formatResults {
           $this->formatCommon( $nextpagebutton, \%pager_formatting );
         $pager_formatting{'\$nextbutton'} = sub { return $nextpagebutton };
 
-        my $pager_control = $session->templates->expandTemplate('SEARCH:pager');
+        my $pager_control = $params->{pagerformat} || $session->templates->expandTemplate('SEARCH:pager');
         $pager_control =
           $this->formatCommon( $pager_control, \%pager_formatting );
+        $pager_control =
+          Foswiki::expandStandardEscapes($pager_control);
         $pager_formatting{'\$pager'} = sub { return $pager_control; };
     }
 
@@ -784,10 +786,133 @@ sub formatResults {
 
             $nhits += 1;
             $thits += 1;
-            my $out = '';
 
             $text = pop(@multipleHitLines) if ( scalar(@multipleHitLines) );
 
+            my $justdidHeaderOrFooter = 0;
+            if (    ( defined( $params->{groupby} ) )
+                and ( $params->{groupby} eq 'web' ) )
+            {
+                if ( $lastWebProcessed ne $web ) {
+
+                    #output the footer for the previous webtopic
+                    if ( $lastWebProcessed ne '' ) {
+
+                        #c&p from below
+                        #TODO: needs refactoring.
+                        my $processedfooter  = $footer;
+                        if (not $noTotal) {
+                            $processedfooter .= $params->{footercounter};
+                        }
+                        if ( defined($processedfooter) and ( $processedfooter ne '' ) ) {
+                            #footer comes before result
+                            $ntopics--;
+                            $nhits--;
+                            
+                            #because $pager contains more $ntopics like format strings, it needs to be expanded first.
+                            $processedfooter = $this->formatCommon( $processedfooter, \%pager_formatting );                            
+                            $processedfooter =
+                              Foswiki::expandStandardEscapes($processedfooter);
+                            $processedfooter =~ s/\$web/$lastWebProcessed/gos
+                              ;    # expand name of web
+                            $processedfooter =~
+                              s/([^\n])$/$1\n/os;    # add new line at end
+                                                     # output footer of $web
+                                                     
+                            $processedfooter =~ s/\$ntopics/$ntopics/gs;
+                            $processedfooter =~ s/\$nhits/$nhits/gs;
+
+                            #legacy SEARCH counter support
+                            $processedfooter =~ s/%NTOPICS%/$ntopics/go;
+
+                            $processedfooter =
+                              $this->formatCommon( $processedfooter,
+                                \%pager_formatting );
+                            $processedfooter =
+                              $webObject->expandMacros($processedfooter);
+                            $processedfooter =~
+                              s/\n$//os;    # remove trailing new line
+
+                            if ( defined($separator) ) {
+
+ #	$header = $header.$separator if (defined($params->{header}));
+ #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
+                                if ( defined( $processedfooter ) and ($processedfooter ne '') ) {
+                                    &$callback( $cbdata, $separator );
+                                }
+                            }
+                            else {
+
+#TODO: legacy from SEARCH - we want to remove this oddness
+#    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $processedfooter ne '<nop>');
+                            }
+
+                            $justdidHeaderOrFooter = 1;
+                            &$callback( $cbdata, $processedfooter );
+                            
+                            #go back to counting results
+                            $ntopics++;
+                            $nhits++;
+                        }
+                    }
+
+                    #trigger a header for this new web
+                    $headerDone = undef;
+                }
+            }
+
+            if ( $lastWebProcessed ne $web ) {
+                $webObject = new Foswiki::Meta( $session, $web );
+                $lastWebProcessed = $web;
+                #reset our web partitioned legacy counts
+                $ntopics = 1;
+                $nhits   = 1;
+            }
+
+            # lazy output of header (only if needed for the first time)
+            if (    ( !$headerDone and ( defined($header) ) )
+                and ( $header ne '' ) )
+            {
+
+     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
+                if (    ( $ttopics > 1 )
+                    and $noFooter
+                    and $noSummary
+                    and $separator )
+                {
+                    &$callback( $cbdata, $separator );
+                }
+                my $processedheader = $header;
+                #because $pager contains more $ntopics like format strings, it needs to be expanded first.
+                $processedheader = $this->formatCommon( $processedheader, \%pager_formatting );
+                $processedheader = Foswiki::expandStandardEscapes($processedheader);
+                $processedheader =~ s/\$web/$web/gos;      # expand name of web
+                $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
+
+                $headerDone = 1;
+                my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
+                  || '\#FF00FF';
+                $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
+                $processedheader =~ s/%WEB%/$web/go;
+                $processedheader =~ s/\$ntopics/($ntopics-1)/gse;
+                $processedheader =~ s/\$nhits/($nhits-1)/gse;
+                $processedheader =
+                  $this->formatCommon( $processedheader, \%pager_formatting );
+                $processedheader = $webObject->expandMacros($processedheader);
+                &$callback( $cbdata, $processedheader );
+                $justdidHeaderOrFooter = 1;
+            }
+
+            if (    defined($separator)
+                and ( $thits > 1 )
+                and ( $justdidHeaderOrFooter != 1 ) )
+            {
+                &$callback( $cbdata, $separator );
+            }
+
+
+            ###################Render the result
+            my $out;
             if ( $formatDefined and ( $format ne '' ) ) {
 
       #TODO: hack to convert a bad SEARCH format to the one used by getRevInfo..
@@ -862,116 +987,7 @@ sub formatResults {
             else {
                 $out = '';
             }
-
-            my $justdidHeaderOrFooter = 0;
-            if (    ( defined( $params->{groupby} ) )
-                and ( $params->{groupby} eq 'web' ) )
-            {
-                if ( $lastWebProcessed ne $web ) {
-
-                    #output the footer for the previous webtopic
-                    if ( $lastWebProcessed ne '' ) {
-
-                        #c&p from below
-                        #TODO: needs refactoring.
-                        my $processedfooter  = $footer;
-                        if (not $noTotal) {
-                            $processedfooter .= $params->{footercounter};
-                        }
-                        if ( defined($processedfooter) and ( $processedfooter ne '' ) ) {
-                            $processedfooter =
-                              Foswiki::expandStandardEscapes($processedfooter);
-                            $processedfooter =~ s/\$web/$lastWebProcessed/gos
-                              ;    # expand name of web
-                            $processedfooter =~
-                              s/([^\n])$/$1\n/os;    # add new line at end
-                                                     # output footer of $web
-                            $ntopics--;
-                            $nhits--;
-                            $processedfooter =~ s/\$ntopics/$ntopics/gs;
-                            $processedfooter =~ s/\$nhits/$nhits/gs;
-
-                            #legacy SEARCH counter support
-                            $processedfooter =~ s/%NTOPICS%/$ntopics/go;
-
-                            $ntopics = 1;
-                            $nhits   = 1;
-
-                            $processedfooter =
-                              $this->formatCommon( $processedfooter,
-                                \%pager_formatting );
-                            $processedfooter =
-                              $webObject->expandMacros($processedfooter);
-                            $processedfooter =~
-                              s/\n$//os;    # remove trailing new line
-
-                            if ( defined($separator) ) {
-
- #	$header = $header.$separator if (defined($params->{header}));
- #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-                                if ( defined( $processedfooter ) and ($processedfooter ne '') ) {
-                                    &$callback( $cbdata, $separator );
-                                }
-                            }
-                            else {
-
-#TODO: legacy from SEARCH - we want to remove this oddness
-#    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $processedfooter ne '<nop>');
-                            }
-
-                            $justdidHeaderOrFooter = 1;
-                            &$callback( $cbdata, $processedfooter );
-                        }
-                    }
-
-                    #trigger a header for this new web
-                    $headerDone = undef;
-                }
-            }
-
-            if ( $lastWebProcessed ne $web ) {
-                $webObject = new Foswiki::Meta( $session, $web );
-                $lastWebProcessed = $web;
-            }
-
-            # lazy output of header (only if needed for the first time)
-            if (    ( !$headerDone and ( defined($header) ) )
-                and ( $header ne '' ) )
-            {
-
-     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-                if (    ( $ttopics > 1 )
-                    and $noFooter
-                    and $noSummary
-                    and $separator )
-                {
-                    &$callback( $cbdata, $separator );
-                }
-                my $processedheader = Foswiki::expandStandardEscapes($header);
-                $processedheader =~ s/\$web/$web/gos;      # expand name of web
-                $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
-
-                $headerDone = 1;
-                my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
-                  || '\#FF00FF';
-                $processedheader =~ s/%WEBBGCOLOR%/$thisWebBGColor/go;
-                $processedheader =~ s/%WEB%/$web/go;
-                $processedheader =~ s/\$ntopics/0/gs;
-                $processedheader =~ s/\$nhits/0/gs;
-                $processedheader =
-                  $this->formatCommon( $processedheader, \%pager_formatting );
-                $processedheader = $webObject->expandMacros($processedheader);
-                &$callback( $cbdata, $processedheader );
-                $justdidHeaderOrFooter = 1;
-            }
-
-            if (    defined($separator)
-                and ( $thits > 1 )
-                and ( $justdidHeaderOrFooter != 1 ) )
-            {
-                &$callback( $cbdata, $separator );
-            }
-
+            
             &$callback( $cbdata, $out );
         } while (@multipleHitLines);    # multiple=on loop
 
@@ -997,6 +1013,8 @@ sub formatResults {
         }
     }
     if ( defined $footer ) {
+        #because $pager contains more $ntopics like format strings, it needs to be expanded first.
+        $footer = $this->formatCommon( $footer, \%pager_formatting );
         $footer = Foswiki::expandStandardEscapes($footer);
         $footer =~ s/\$web/$web/gos;      # expand name of web
         $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
@@ -1008,7 +1026,6 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        $footer = $this->formatCommon( $footer, \%pager_formatting );
         $footer = $webObject->expandMacros($footer);
         $footer =~ s/\n$//os;                 # remove trailing new line
 

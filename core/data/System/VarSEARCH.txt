@@ -34,6 +34,11 @@
      | =recurse="on"= | Recurse into subwebs, if subwebs are enabled. | =off= |
      | =separator=", "= | Line separator _between_ search hits (only used when format= is set) | ="$n"= (Newline) |
      | =newline="%<nop>BR%"= | Line separator _within_ a search hit. Useful if you want to put multi-line content into a table cell, for example if the format="" parameter contains a $pattern() that captures more than one line, or contains a $formfield() that returns a multi-line textfield. | ="$n"= (Newline) |
+     | =pagesize="25"= | number of items to show per page | ="25"= |
+     | =showpage="1"= | Page of items to show (starts at 1) (over-ridden by the value specified by the URL parameter hash from =$previousurl= and =$nexturl=) | ="1"= |
+     | =pager="on"= | appends the pager to the footer format (the quickest way to add paging to your SEARCHes is to just add =pager="on"=) %BR% \
+                      _Note:_ the default pager (when =pagerformat= is not defined) requires the parameters to the SEARCH to not change while paging, as it uses =$previousurl= and =$nexturl= which use a hash of the Macro's parameters to override the value of =showpage=. If you use time variable parameters, you will need to define your own =pagerformat=. | ="off"= |
+     | =pagerformat="text"= | Custom format results: see *[[FormattedSearch]]* for usage &amp; examples | filled from skin template |
      | =groupby="none"= | _Warning: this option is liable to change dramatically (and potentially incompatibly) in the next major release of foswiki._ Setting to ="none"= applies only to multi-web SEARCHs, and means the =header= and =footer= are only output _once_ - at the beginning and end of the list of results, and the =order= parameter is applied over the entire set of results (this setting removes the legacy that results are always partitioned by web) see %SYSTEMWEB%.SiteChanges for an example. | ="web"= |
    * Example: =%<nop>SEARCH{"wiki" web="%USERSWEB%" scope="topic"}%=
    * Example with format: =%<nop>SEARCH{"FAQ" scope="topic" nosearch="on" nototal="on" header="| *Topic: * | *Summary: * |" format="<nop>| $topic | $summary |"}%= _(displays results in a table with header - [[FormattedSearch][details]])_
