@@ -1212,6 +1212,9 @@ Installed:  MyPlugin_installer
 sub test_Util_createArchive {
     my $this = shift;
 
+    my $file;
+    my $rslt;
+
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
     rmtree($tempdir);    # Clean up old files if left behind
 
@@ -1221,20 +1224,21 @@ sub test_Util_createArchive {
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-#    foreach my $file (Foswiki::Configure::Util::listDir("$tempdir",1) ) {
-#        print "$file \n";
-#        }
+    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'tar');
+    $this->assert( (-f $file), "$file does not appear to exist - Create tar archive");
+    unlink ($file);  # Cleanup for next test
 
-    my ($rslt, $err) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0');
+    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'zip');
+    $this->assert( (-f $file), "$file does not appear to exist - Create zip archive");
+    unlink ($file);  # Cleanup for next test
 
-#    print "createArchive Error $err \n" if ($err);
+    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'Ptar');
+    $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Tar archive");
+
+    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
+    $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
+
     rmtree("$tempdir/$extbkup");    # Clean up old files if left behind
-
-#    foreach my $file (Foswiki::Configure::Util::listDir("$tempdir") ) {
-#        print "After:  $file \n";
-#        }
-
-
 }
 
 # 

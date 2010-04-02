@@ -560,7 +560,7 @@ sub createBackup {
         }
 
         my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
-        return "Backup saved into $pkgstore \n";
+        return "Backup saved into $pkgstore \n   Archived as $rslt \n";
     }
     return "Nothing to backup \n";
 }

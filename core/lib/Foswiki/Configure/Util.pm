@@ -232,8 +232,10 @@ Create an archive of the passed directory.
 =cut
 
 sub createArchive {
-    my ( $name, $dir, $delete ) = @_;
+    my ( $name, $dir, $delete, $test ) = @_;
+    eval {use File::Path qw(rmtree)};
 
+    my $file = undef;
     my $results = '';
     my $warn = '';
   
@@ -244,80 +246,88 @@ sub createArchive {
     
     chdir("$dir/$name");
 
-    $results .= `tar -czvf "../$name.tgz" .`;
+    if (!defined $test || (defined $test && $test eq 'tar')) {
+        $results .= `tar -czvf "../$name.tgz" .`;
 
-    if ($results && ! $@) { 
-        chdir ($here);
-        return ("$dir/$name.tgz", $results);
-    }    
+        if ($results && ! $@) { 
+            $file = "$dir/$name.tgz";
+        }
+    }
 
-    $warn .= "tar command failed $!, trying zip \n"; 
+    unless ($results) {
+        $warn .= "tar command failed $!, trying zip \n"; 
 
-
-    $results .= `zip -r "../$name.zip" .`; 
+        if (!defined $test || (defined $test && $test eq 'zip')) {
+            $results .= `zip -r "../$name.zip" .`; 
         
-    if ($results && ! $@) {
-        chdir ($here);
-        return ("$dir/$name.zip", $results);
+            if ($results && ! $@) {
+                $file = "$dir/$name.zip";
+            }  
+        }
+
+
+        unless ($results) {
+            $warn .= "zip failed $!, trying perl routines \n"; 
+
+            if (!defined $test || (defined $test && $test eq 'Ptar')) {
+                my @flist = Foswiki::Configure::Util::listDir('.', 1);
+                $results = _tar ( "../$name.tgz", \@flist );
+
+                if ($results) {
+                    $file = "$dir/$name.tgz";
+                }
+            }
+
+            unless ($results) {
+                $warn .= "Perl Archive::Tar failed - trying zip \n"; 
+
+                if (!defined $test || (defined $test && $test eq 'Pzip')) {
+                    my @flist = Foswiki::Configure::Util::listDir('.', 1);
+                    $results = _zip ( "../$name.zip", \@flist );
+
+                    if ($results) {
+                        $file = "$dir/$name.zip";
+                    } else {
+                        $warn .= "Perl Archive::Zip failed - Backup directory remains \n"; 
+                    }
+                }
+            }
+        }
     }
 
-    $warn .= "zip failed $!, trying perl routines \n"; 
 
-    my @flist = Foswiki::Configure::Util::listDir('.', 1);
-    $results = _tar ( "../$name.tgz", \@flist );
-
-    if ($results) {
-        chdir ($here);
-        return ("$dir/$name.tgz", $results);
-    }
-
-    $warn .= "Perl Archive::Tar failed - trying zip \n"; 
-
-    #my @flist = Foswiki::Configure::Util::listDir("../$name", 1);
-    #my $rc = _tar ( "../$name.tgz", \@flist );
-
-    #if ($rc) {
-    #    print "Perl Archive succeeded "
-    #    return ("$dir/$name.tgz", $warn);
-    #}
 
     chdir($here);
 
-    return (undef, $warn);
+    return (undef, $warn) unless ($results);
+
+    rmtree("$dir/$name") if ($delete);
+    return ($file, $results);
+
 }
 
 sub _zip {
     my $archive = shift;
+    my $files = shift;
+    my $err;
 
-    eval 'use Archive::Zip';
+    eval 'use Archive::Zip qw( :ERROR_CODES )';
     unless ($@) {
-        my $zip = Archive::Zip->new($archive);
+        my $zip = Archive::Zip->new();
         unless ($zip) {
-            return "Could not open zip file $archive\n";
+            return 0;
         }
 
-        my @members = $zip->members();
-        foreach my $member (@members) {
-            my $file = $member->fileName();
-            $file =~ /(.*)/; $file = $1;    #yes, we must untaint
-            my $target = $file;
-            my $err = $zip->extractMember( $file, $target );
-            if ($err) {
-                print "Failed to extract '$file' from zip file ",
-                  $zip, ". Archive may be corrupt.\n";
-                return 0;
-            }
+        # Note:  Archive::Zip addTree fails with taint errors.  
+        # Workaround was to add each file individually
+        foreach my $f ( @$files ) {
+            $zip->addFile( $f );
         }
-    }
-    else {
-        print `zip -r $archive`;
-
-        if ($?) {
-            return "zip failed: $!\n";
-        }
+        $err = $zip->writeToFileNamed("$archive");
+        return join("\n",$zip->memberNames()) unless ($err);
     }
 
-    return 1;
+    return 0;
 }
 
 sub _tar {
@@ -331,7 +341,6 @@ sub _tar {
     unless ($@) {
         $rslt = Archive::Tar->create_archive( $archive, 7, @$files );
         return `tar -tzvf $archive`;
-        return (Archive::Tar->list_archive( $archive ) ) if $rslt;
     }
     return 0;
 }
