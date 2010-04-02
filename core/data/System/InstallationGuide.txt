@@ -331,18 +331,27 @@ In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit Raw_ li
 
 If you prefer to use the raw text editor by default and have a separate WYSIWYG button, as in TWiki 4.1, then you can modify the templates that define the edit screen as described in Foswiki:Support.FaqHowToMakeRawEditDefault.
 
----+++ Installing extensions
+---+++ Extensions
 
-Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution.
+Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution.  There are several types of Extensions available:
+   * [[Plugins]] extend Foswiki functionality without altering the core code.
+   * [[Skins]] Skins overlay regular templates to give different looks and feels to Foswiki screens.
+   * [[Contribs]] and [[ContributedAddOns][AddOns]] are any other Extension that provides added functionality beyond Plugins and Skins
 
+---++++ Installing extensions
 In the _Extensions_ section of the =configure= page, you can select the _Find More Extensions_ button to download and install additional plugins from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used
    * The extension is downloaded from the configured archive
+      * The latest version of the Extension is always downloaded.  There is no automatic means of downloading older versions.
    * If the extension is already installed, a backup is taken to the =working/configure/backup= directory
    * Dependencies on other Extensions are automatically resolved and installed
       * Dependencies are downloaded from the _same archive_ where the Extension was found.  No additional searching is performed.
+   * The Extension is installed.
+      * By default, unless a collsion occurrs with an existing file, the Extension's topics will not be _checked in_ to the revision control system.
+      * If previous topics or attachments are found, then the topic will be _checked in_ under the Administrators user id.
+      * If the topics or attachments are flagged as =!noci=, disabling checkin, they will still be checked in if existing revision control files are found, suggesting that local modifications have occurred.
    * CPAN dependencies and other external packages are *not* resolved and should be resolved manually
    * After installation, the Extension =_installer= module is saved in =working/configure/pkgdata=
 
@@ -356,17 +365,21 @@ When installing extensions from the command line:
 
 Plugins are activated in the _Plugins_ section of the =configure= page. In addition, some plugins are also configured in this section.
 
----+++ Removing (uninstalling) extensions
+---++++ Removing (uninstalling) extensions
+
+%X% Caution:  When removing an extension, no dependency checking is performed.
+   * Dependencies are not removed
+   * Other Extensions dependent on the removed extension may become non-operational.
 
 The web and command line interfaces can also be used to uninstall extensions.  When an extension is remove, the following occurs:
    * The =_installer= package is used to recover the manifest.  If it cannot be found locally, it will be downloaded from the configured extension repository
    * A backup of the previously installed files per the manifest will be taken to the =configure/working/backup= directory
-      * Note: If download of the =_uninstaller= was required, the backup will be made per the _current_ manifest.  It is preferable to always save the =_installer= modules.
-   * The Extension files will be removed, including the =_installer=. 
+      * Note: If download of the =_uninstaller= was required, the backup will be made per the _current_ installer's manifest.  It is preferable to always save the =_installer= modules.
+   * The Extension files along with any =,v= revision control files will be removed, including the =_installer=. 
       * Any additional files saved locally are not removed.
    * Plugin modules __are not disabled in the configuration__ - they must be disabled manually.
 
----++ Restoring a removed, or previous version of an extension
+---++++ Restoring a removed, or previous version of an extension
 
 The backup can be extracted from the root directory of the Foswiki installation.  The archive is taken "relative" to the root of the installation, so an =unzip= or =tar -xzf= of the backup file should be all that is required:
    * =cd /root/of/foswiki=
