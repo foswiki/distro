@@ -21,6 +21,9 @@ Format tokens that can be used in the header string:
 
 | *Name:* | *Expands To:* |
 | =$web= | Name of the web |
+| =$ntopics= | Number of topics found in current web. Will be 0 (zero). |
+| =$nhits= | Number of hits if =multiple="on"=. Will be 0 (zero). |
+| =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{FormatTokens}%
 
 ---+++ 2. =footer="..."= parameter
@@ -33,9 +36,30 @@ Format tokens that can be used in the footer string:
 | =$web= | Name of the web |
 | =$ntopics= | Number of topics found in current web |
 | =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
+| =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{FormatTokens}%
 
----+++ 3. =format="..."= parameter
+---+++ 3. =pagerformat="..."= parameter
+
+Use the pagerformat parameter to customise the appearance of the paging control. 
+It should correspond to the format of the format parameter. 
+This parameter is optional. <br /> Example: =pagerformat="Page $showpage of $numberofpages [[$nexturl][next page]]"=
+
+Format tokens that can be used in the pagerformat string:
+
+| *Name:* | *Expands To:* |
+| =$previouspage= | The page number before the currently displayed one |
+| =$currentpage= | The currently displayed page number |
+| =$nextpage= | The page number after the currently displayed one  |
+| =$numberofpages= | Total number of pages there are results for |
+| =$pagesize= | The number of results per page |
+| =$previousurl= | full URL to the previous page - _IF_ using the built in pager system |
+| =$nexturl= | full URL to the previous page - _IF_ using the built in pager system |
+| =$previousbutton= | skin template (SEARCH:pager_previous) html for the full URL to the previous page - _IF_ using the built in pager system |
+| =$nextbutton= | skin template (SEARCH:pager_next) html for the full URL to the previous page - _IF_ using the built in pager system |
+%INCLUDE{FormatTokens}%
+
+---+++ 4. =format="..."= parameter
 
 Use the format parameter to specify the format of one search hit.
 <br /> Example: =format="| $topic | $summary |"=
@@ -79,6 +103,7 @@ Format tokens that can be used in the format string:
 | =$count(reg-exp)= | Count of number of times a regular expression pattern appears in the text of a topic (does not search meta data). Follows guidelines for use and limitations outlined above under =$pattern(reg-exp)=. Example: =$count(.*?(---[+][+][+][+]) .*)= counts the number of &lt;H4&gt; headers in a page. |
 | =$ntopics= | Number of topics found in current web. This is the current topic count, not the total number of topics |
 | =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
+| =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{FormatTokens}%
 
 ---++ Examples

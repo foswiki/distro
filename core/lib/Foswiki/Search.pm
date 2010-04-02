@@ -621,6 +621,7 @@ sub formatResults {
         #TODO: need to ask the result set
         my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};
         $numberofpages = int($numberofpages)+1;
+        #TODO: excuse me?
         my $sep           = ' ';
 
         my $nextidx     = $showpage + 1;
