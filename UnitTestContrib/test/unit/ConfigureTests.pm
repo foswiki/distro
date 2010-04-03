@@ -1235,8 +1235,18 @@ sub test_Util_createArchive {
     ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'Ptar');
     $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Tar archive");
 
-    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
-    $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
+    eval 'use Archive::Zip';
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate(
+            "CANNOT RUN test for zip archive:  $mess");
+    }
+    else {
+        ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
+        $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
+    }
 
     rmtree("$tempdir/$extbkup");    # Clean up old files if left behind
 }
