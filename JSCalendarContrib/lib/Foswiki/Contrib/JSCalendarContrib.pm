@@ -79,7 +79,7 @@ my $toDate = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
 sub renderDateForEdit {
     my ( $name, $value, $format, $options ) = @_;
 
-    $format ||= $Foswiki::cfg{JSCalendarContrib}{format} || '%e %B %Y';
+    $format ||= Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT') || $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
 
     addHEAD('foswiki');
 
@@ -189,8 +189,8 @@ An alternative to =commonTagsHandler= is =postRenderingHandler= which is more ef
 sub addHEAD {
     my $setup = shift;
     $setup ||= 'calendar-setup';
-    my $style = $Foswiki::cfg{JSCalendarContrib}{style} || 'blue';
-    my $lang  = $Foswiki::cfg{JSCalendarContrib}{lang}  || 'en';
+    my $style = Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_STYLE') || $Foswiki::cfg{JSCalendarContrib}{style} || 'blue';
+    my $lang  = Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_LANG') || $Foswiki::cfg{JSCalendarContrib}{lang}  || 'en';
     my $base  = '%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib';
     eval {
         require Foswiki::Contrib::BehaviourContrib;

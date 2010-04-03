@@ -41,7 +41,7 @@ sub renderForEdit {
                 : 'foswikiInputField foswikiEditFormDateField'
                }
        );
-    my $ifFormat = $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
+    my $ifFormat = Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT') || $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
     my $button .= CGI::image_button(
         -name    => 'calendar',
