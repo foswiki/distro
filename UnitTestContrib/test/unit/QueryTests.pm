@@ -1,4 +1,7 @@
+# Tests for query parser and evaluation
+
 package QueryTests;
+
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
@@ -99,9 +102,16 @@ sub check {
               . " for $s in "
               . join( ' ', caller ) );
     }
-    else {
+    elsif (defined $r) {
         $this->assert_str_equals( $r, $val,
                 "Expected $r, got "
+              . Foswiki::Query::Node::toString($val)
+              . " for $s in "
+              . join( ' ', caller ) );
+    }
+    else {
+        $this->assert(!defined($val),
+                "Expected undef, got "
               . Foswiki::Query::Node::toString($val)
               . " for $s in "
               . join( ' ', caller ) );
@@ -120,6 +130,7 @@ sub test_atoms {
     $this->check( "string",        'String' );
     $this->check( "boolean",       1 );
     $this->check( "macro",         '%RED%' );
+    $this->check( "notafield",     undef );
 }
 
 sub test_meta_dot {
@@ -130,6 +141,29 @@ sub test_meta_dot {
     $this->check( "info.author",    'AlbertCamus' );
     $this->check( "fields.number",  99 );
     $this->check( "fields.string",  'String' );
+    $this->check( "notafield.string",  undef );
+}
+
+sub test_array_integer_index {
+    my $this = shift;
+    $this->check( "preferences[0].name", 'Red' );
+    $this->check( "preferences[1].name", 'Green' );
+    $this->check( "preferences[2].name", 'Blue' );
+    $this->check( "preferences[3].name", 'White' );
+    $this->check( "preferences[4].name", 'Yellow' );
+    # Integer part used as the index
+    $this->check( "preferences[1.9].name", 'Green' );
+
+    # From-the-end indices
+    $this->check( "preferences[-1].name", 'Yellow' );
+    $this->check( "preferences[-2].name", 'White' );
+    $this->check( "preferences[-3].name", 'Blue' );
+    $this->check( "preferences[-4].name", 'Green' );
+    $this->check( "preferences[-5].name", 'Red' );
+
+    # Out-of-range indices
+    $this->check( "preferences[5].name", undef );
+    $this->check( "preferences[-6].name", undef );
 }
 
 sub test_array_dot {
@@ -159,6 +193,7 @@ sub test_boolean_uops {
     $this->check( "not number",  0 );
     $this->check( "not boolean", 0 );
     $this->check( "not 0",       1 );
+    $this->check( "not notafield", 1 );
 }
 
 sub test_string_uops {
@@ -166,7 +201,9 @@ sub test_string_uops {
     $this->check( "uc string",   'STRING' );
     $this->check( "uc(string)",  "STRING" );
     $this->check( "lc string",   'string' );
+    $this->check( "lc(notafield)",   undef );
     $this->check( "uc 'string'", 'STRING' );
+    $this->check( "uc (notafield)", undef );
     $this->check( "lc 'STRING'", 'string' );
 }
 
@@ -202,12 +239,25 @@ sub test_string_bops {
 
 sub test_num_uops {
     my $this = shift;
-    $this->check(
-        "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'", 0 );
     $this->check( "length attachments",     2 );
     $this->check( "length META:PREFERENCE", 5 );
     $this->check( "length 'five'",          4 );
     $this->check( "length info",            4 );
+    $this->check( "length notafield",       0 );
+}
+
+sub test_d2n {
+    my $this = shift;
+    $this->check(
+        "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'servertime' )
+          . "'", 0 );
+    my $t = time;
+    $this->check(
+        "d2n '" . Foswiki::Time::formatTime( $t, '$iso', 'servertime' )
+          . "'", $t );
+    $this->check( "d2n 'not a time'", undef );
+    $this->check( "d2n 0", undef );
+    $this->check( "d2n notatime", undef );
 }
 
 sub test_num_bops {
@@ -226,54 +276,84 @@ sub test_num_bops {
     $this->check( "number>=98",  1 );
     $this->check( "number>=99",  1 );
     $this->check( "number>=100", 0 );
+
+    $this->check( "number=notafield", 0);
+    $this->check( "notafield=number", 0);
+    $this->check( "number!=notafield", 1);
+    $this->check( "notafield!=number", 1);
+    $this->check( "number>=notafield", 1);
+    $this->check( "notafield>=number", 0);
+    $this->check( "number<=notafield", 0);
+    $this->check( "notafield<=number", 1);
+    $this->check( "number>notafield", 1);
+    $this->check( "notafield>number", 0);
+    $this->check( "number<notafield", 0);
+    $this->check( "notafield<number", 1);
 }
 
 sub test_boolean_bops {
     my $this = shift;
+
+    $this->check( "1 AND 1", 1 );
+    $this->check( "0 AND 1", 0 );
+    $this->check( "1 AND 0", 0 );
+
+    $this->check( "1 OR 1", 1 );
+    $this->check( "0 OR 1", 1 );
+    $this->check( "1 OR 0", 1 );
+
     $this->check( "number=99 AND string='String'", 1 );
     $this->check( "number=98 AND string='String'", 0 );
     $this->check( "number=99 AND string='Sring'",  0 );
     $this->check( "number=99 OR string='Spring'",  1 );
     $this->check( "number=98 OR string='String'",  1 );
     $this->check( "number=98 OR string='Spring'",  0 );
+
+    $this->check( "notafield AND 1",  0 );
+    $this->check( "1 AND notafield",  0 );
+    $this->check( "0 AND notafield",  0 );
+    $this->check( "notafield OR 1",   1 );
+    $this->check( "1 OR notafield",   1 );
+    $this->check( "notafield OR 0",   0 );
+    $this->check( "0 OR notafield",   0 );
 }
 
-sub test_99 {
+sub test_match_fail {
     my $this = shift;
     $this->check( "'A'=~'B'", 0);
 }
 
-sub test_100 {
+sub test_match_good {
     my $this = shift;
     $this->check( "'A'=~'A'", 1);
 }
 
-sub test_101 {
+sub test_partial_match {
     my $this = shift;
     $this->check( "'AA'=~'A'", 1);
 }
 
-sub test_102 {
+sub test_word_bound_match_good {
     my $this = shift;
     $this->check( "'foo bar baz'=~'\\bbar\\b'", 1);
 }
 
-sub test_103 {
+sub test_word_bound_match_fail {
     my $this = shift;
     $this->check( "'foo bar baz'=~'\\bbam\\b'", 0);
 }
 
-sub test_104 {
+sub test_word_end_match_fail {
     my $this = shift;
     $this->check( "'foob'=~'foo\\b'", 0);
 }
 
-sub test_105 {
+sub test_backslash_match_fail {
     my $this = shift;
     $this->check( "' \\ '=~' \\\\ '", 0);
 }
 
-sub test_106 {
+sub test_backslash_match_good {
     my $this = shift;
     $this->check( "' \\\' '=~' \\\' '", 1);
 }
@@ -319,152 +399,6 @@ sub test_brackets {
             }
         }
     }
-}
-
-sub test_hoistSimple {
-    my $this        = shift;
-    my $s           = "number=99";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-
-   #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        join( ';', map {$_->{regex}} @filter ) );
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistSimple2 {
-    my $this        = shift;
-    my $s           = "99=number";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-
-   #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        join( ';', map {$_->{regex}}@filter ) );
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistCompound {
-    my $this = shift;
-    my $s =
-"number=99 AND string='String' and (moved.by='AlbertCamus' OR moved.by ~ '*bert*')";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-
-   #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        $filter[0]->{regex} );
-    $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"String\"',
-        $filter[1]->{regex} );
-    $this->assert_str_equals(
-'^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
-        $filter[2]->{regex}
-    );
-    $this->assert(!defined($filter[3]));
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistCompound2 {
-    my $this = shift;
-    my $s =
-"(moved.by='AlbertCamus' OR moved.by ~ '*bert*') AND number=99 AND string='String'";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-
-   #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals(
-'^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
-        $filter[0]->{regex}
-    );
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        $filter[1]->{regex} );
-    $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"String\"',
-        $filter[2]->{regex} );
-    $this->assert(!defined($filter[3]));
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistAlias {
-    my $this        = shift;
-    my $s           = "info.date=12345";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^%META:TOPICINFO{.*\bdate=\"12345\"',
-        join( ';', map {$_->{regex}}@filter ) );
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistFormField {
-    my $this        = shift;
-    my $s           = "TestForm.number=99";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        join( ';', map {$_->{regex}}@filter ) );
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistText {
-    my $this        = shift;
-    my $s           = "text ~ '*Green*'";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '.*Green.*', join( ';', map {$_->{regex}}@filter ) );
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistName{
-    my $this        = shift;
-    my $s           = "name ~ 'Web*'";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( 'name', $filter[0]->{node} );
-    $this->assert_str_equals( 'Web.*', $filter[0]->{regex} );
-    $this->assert_str_equals( 'Web*', $filter[0]->{source} );
-    $this->assert(!defined($filter[1]));
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
-}
-
-sub test_hoistName2{
-    my $this        = shift;
-    my $s           = "name ~ 'Web*' OR name ~ 'A*' OR name = 'Banana'";
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( 'name', $filter[0]->{node} );
-    $this->assert_str_equals( 'Web.*|A.*|Banana', $filter[0]->{regex} );
-    $this->assert_str_equals( 'Web*,A*,Banana', $filter[0]->{source} );
-    $this->assert(!defined($filter[1]));
-    my $meta = $this->{meta};
-    my $val = $query->evaluate( tom => $meta, data => $meta );
 }
 
 1;

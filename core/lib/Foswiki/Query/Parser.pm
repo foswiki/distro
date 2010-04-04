@@ -42,7 +42,7 @@ sub new {
       unless defined( $Foswiki::cfg{Operators}{Query} );
     foreach my $op ( @{ $Foswiki::cfg{Operators}{Query} } ) {
         eval "require $op";
-        ASSERT( !$@ ) if DEBUG;
+        ASSERT( !$@, $@ ) if DEBUG;
         $this->addOperator( $op->new() );
     }
     return $this;

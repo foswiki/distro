@@ -8,7 +8,7 @@ Query searches help you search the contents of forms attached to your topics, as
    1 Parent relationships
    1 File attachment information (but *not* the attached files themselves)
 
-Query searches are defined using a simple SQL-like query language. The language consists of _field specifiers_ and _constants_ joined with _operators_.
+Query searches are defined using a simple query language. The language consists of _field specifiers_ and _constants_ joined with _operators_.
 
 %TOC%
 
@@ -73,9 +73,9 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
 Fields in this plan are referenced using a simple _field specifier_ syntax:
 | *Syntax* | *Means* | *Examples* |
 | =X= | refers to the field named =X=. | =info=, =META:TOPICMOVED=, =attachments=, =name=. |
-| =X.Y= | refers to the entry with the key =Y= in the structure named =X= | =info.date=, =moved.by=, =META:TOPICPARENT.name= |
-| =X[<i>query</i>]= | refers to all the elements of the array =X= that match _query_. If <i>query</i> is of the form =name='Y'= then you can use the same =X.Y= syntax as is used for accessing structures. | =attachments[size>1024]=, =DocumentForm[name!='Summary' AND value~'top secret'].value=, =DocumentForm.Summary= |
-| =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X= | =attachments[3]= |
+| =X.Y= | refers to the entry with the key =Y= in the structure named =X=. If =X= is an array of structure, then returns an array made up from the =Y= entry of each member of the array. | =info.date=, =moved.by=, =META:TOPICPARENT.name=, =attachments.name= |
+| =X[<i>query</i>]= | refers to all the elements of the array =X= that match _query_. If <i>query</i> is of the form =name='Y'= then you can use the same =X.Y= syntax as is used for accessing structures. | =attachments[size>1024]=, =DocumentContainer[name!='Summary' AND value~'top secret'].value=|
+| =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X=. If N is a floating point number, the integer part will be used as the index. Negative indices can be used to index the array from the end e.g. =attachments[-1]= to get the last attachment. | =attachments[3]= |
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
 
 Note: at some point Foswiki may support multiple forms in the same topic. For this reason you are recommended *not* to use the =fields= shortcut when accessing form fields, but always use the name of the form instead.
@@ -100,7 +100,6 @@ String constants are always delimited by single-quotes. You can use backslash =\
 All other occurrences of backslashes are carried through into the string, so =\d= means =\d= (unless the string is used as a regular expression, in which case it means any digit).
 ---++ Numerical constants
 Numbers can be any signed or unsigned integer or floating point number using standard scientific notation e.g. -1.2e-3 represents -0.0012
-
 ---++ Operators
 
 Field specifiers and constants are combined using _operators_ to create queries.
@@ -115,13 +114,17 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | <code>&gt;=</code> | greater than or equal to |
 | =lc(x)= | Converts x to lower case, Use for caseless comparisons. |
 | =uc(x)= | Converts x to UPPER CASE. Use for caseless comparisons. |
-| =d2n(x)= | Converts a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If you have date fields in your forms, note that they are *not* stored in Foswiki's internal format, but are stored as text strings. You should still use =d2n= to convert them to numbers for comparisons, though. |
+| =d2n(x)= | Converts a text string representing a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If the text string is not recognised as a valid date, then =d2n= will return =undefined=. |
 | =NOT= | Invert the result of the subquery |
 | =AND= | Combine two subqueries |
 | =OR= | Combine two subqueries |
 | =()= | Bracketed subquery |
 
-%I% The same operators are supported for [[VarIF][%IF statements]].
+%I% The same operators are supported by the [[VarIF][%IF]] and [[VarQUERY][%QUERY]] macros.
+
+%I% You can get the current time for date comparisons using SpreadSheetPlugin, thus: =%<nop>CALC{"$TIME()"}%=
+
+%I% In the operators (<code>&#61; !&#61; ~ &#61;~ &lt; &gt; &lt&#61; &gt&#61; NOT AND OR</code>) an undefined operand is treated the same as numerical 0. For <code>lc uc d2n an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
 
 ---++ Text and Meta Text
 There are two fields that contain the topic text, =text= and =metatext=. =text= just contains the raw text of the topic, as you would see if you viewed the topic raw. =metatext= contains the text of the topic with MetaData embedded. This can be useful when you want to generate output based on processing meta-data.
