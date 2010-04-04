@@ -1,11 +1,12 @@
 package Foswiki::Query::BinaryOP;
 
 use strict;
+use Foswiki::Query::OP;
+our @ISA = ( 'Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    my $this = { @_, arity => 2 };
-    return bless( $this, $class );
+    return $class->SUPER::new(arity => 2, @_);
 }
 
 # Determine if a string represents a valid number
