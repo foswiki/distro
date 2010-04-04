@@ -27,7 +27,7 @@ package Foswiki::Plugins::TablePlugin;
 use strict;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.122';
+our $RELEASE = '1.123';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
