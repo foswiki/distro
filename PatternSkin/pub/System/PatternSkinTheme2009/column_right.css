@@ -1,0 +1,19 @@
+/*
+places the side bar at the right
+depends on global settings in layout.css
+*/
+
+#patternMain {
+	float:left;
+	overflow:hidden;
+}
+.patternViewPage #patternOuter {
+	margin-right:16em;
+}
+#patternSideBar {
+	float:right;
+	width:16em; /* includes left padding, see #patternSideBarContents */
+	margin-right:-16em;
+	margin-left:-1px;
+	position:relative;
+}

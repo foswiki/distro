@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1227973233" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="BaseUserMapping_333" comment="save topic" date="1270244482" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
@@ -13,53 +13,20 @@ Select a theme to change the look, or tune the entire appearance with CSS or tem
 %TOC{title="Page contents"}%
 
 ---++ Browse available themes
-You may quickly change the appearance of this skin by setting a theme and the sidebar location:
+You may quickly change the appearance of this skin by setting a theme.
 
-#ThemeBrowser
-<div class="foswikiFormSteps">
-<div class="foswikiFormStep">
----+++!! Choose theme
-[[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;themefile=%THEME%PREVIOUSTHEME%%;themeidx=%PREVIOUSTHEME%;%COLPARAM%#ThemeBrowser][%ICON{"go_back"}%]] 
-[[%THEME%CURRENTTHEME%%][%THEME_NAME%CURRENTTHEME%%]] (%CALC{"$EVAL( %CURRENTTHEME% - %THEMEFIRST% +1 ) of $EVAL( %THEMELAST% - %THEMEFIRST% +1 )"}%)
-[[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;themefile=%THEME%NEXTTHEME%%;themeidx=%NEXTTHEME%;%COLPARAM%#ThemeBrowser][%ICON{"go_forward"}%]]
-</div>
-<div class="foswikiFormStep">
-Or enter the *full URL path* to one of the theme CSS files: %BR%
-<form action="" method="POST">
-<input type="hidden" name="themeidx" value="%CURRENTTHEME%" />
-<input type="hidden" name="colidx" value="%CURRENTCOL%" />
-<input type="hidden" name="patterncolumns" value="%URLPARAM{"patterncolumns" default="%COL%CURRENTCOL%%"}%" />
-<input type="text" size="60" name="themefile" class="foswikiInputField" value="%THEME%CURRENTTHEME%%" /> <input type="submit" value="View theme" class="foswikiSubmit" />
-</form>
-</div>
-<div class="foswikiFormStep">
----+++!! Choose side column
-[[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;%THEMEPARAM%;patterncolumns=%COL%PREVIOUSCOL%%;colidx=%PREVIOUSCOL%#ThemeBrowser][%ICON{"go_back"}%]] 
-[[%COL%CURRENTCOL%%][%COL_NAME%CURRENTCOL%%]] (%CALC{"$EVAL( %CURRENTCOL% - %COLFIRST% +1 ) of $EVAL( %COLLAST% - %COLFIRST% +1 )"}%)
-[[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;%THEMEPARAM%;patterncolumns=%COL%NEXTCOL%%;colidx=%NEXTCOL%#ThemeBrowser][%ICON{"go_forward"}%]] 
-</div>
-<div class="foswikiFormStep">
----+++!! Copying these settings
-Do you want to store the selected theme? %TWISTY{link="Show how..." remember="on"}%
+---+++ Browse themes
+   * [[%SYSTEMWEB%.PatternSkinTheme][Foswiki (default)]]
+   * [[%SYSTEMWEB%.PatternSkinTheme2009][Foswiki 2009]]
+   * [[%SYSTEMWEB%.PatternSkinThemeFatWilly][Foswiki "Fat Willy" Site Skin]]
+   
+<!--
+%STARTSECTION{"copysettings"}%
+Do you want to keep these settings?
    * Copy the text below to [[%WIKIUSERNAME%][your personal topic]]
    * If you are a site admin, copy the text to %USERSWEB%.SitePreferences (or !WebPreferences for per-web themes)
-
-<noautolink>
-<form name="select_all">
-<textarea readonly="readonly" rows="8" cols="120" name="copypaste" class="foswikiInputFieldReadOnly foswikiSmallish">
-The overall skin:
-   * Set SKIN = pattern
-The customized skin file:
-   * <nop>Set PATTERNSKIN_THEME = %PATTERNSKIN_THEME_RELATIVE%
-The column preference:
-   * <nop>Set PATTERNSKIN_COLUMNS = %PATTERNSKIN_COLUMNS_RELATIVE%
-</textarea><br />
-<input type="button" class="foswikiButton" value="Highlight text" onClick="javascript:this.form.copypaste.focus();this.form.copypaste.select();">
-</form>
-</noautolink>
-%ENDTWISTY%
-</div>
-</div>
+%ENDSECTION{"copysettings"}%
+-->
 
 
 ---++ Screenshot
@@ -107,14 +74,17 @@ See these topics for more information: %SYSTEMWEB%.WebLeftBarCookbook, %SYSTEMWE
 To set pattern skin as default (site wide) skin, use these settings in [[%MAINWEB%.SitePreferences]]:
    
    * Global skin styles. To change the look of the site, point these variables to custom CSS attachments.
-      * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css
-      * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css
-      * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css
+      * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css
+      * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css
+      * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css
 
    * Themes that add upon the global skin styles. Choose from the Theme Browser at PatternSkin.
-      * Set PATTERNSKIN_THEME = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme_foswiki_noframe.css
-      * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/column_left.css
+      * Set PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css
+      * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/column_left.css
 
+   * The topic that defines the main and meta navigation. See PatternSkinHorizontalNavigationExample. Not defined for default pattern skin.
+      * Set PATTERNSKIN_NAVIGATION_TOPIC =
+      
    * Overriding styles that add upon the global and theme styles. Enabled by default but empty to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs.
       * Set USERLAYOUTURL =
       * Set USERSTYLEURL =
@@ -135,9 +105,9 @@ Check these [[%SYSTEMWEB%.PreferenceSettings][preference settings]] here:
 If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following preferences do exist and that they are set to on:
 <pre>
    * %SYSTEMWEB%.PatternSkin settings:
-      * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/layout.css
-      * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/style.css
-      * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/colors.css
+      * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkinTheme/layout.css
+      * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkinTheme/style.css
+      * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkinTheme/colors.css
 </pre>
 
 *NOTE:* customization of these values should be done in [[%USERSWEB%.SitePreferences]]
@@ -180,6 +150,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  04 Apr 2010: | v.5.0 - Changed themes from single css file to file collections to preserve older appearance and to provide bigger restyling within a theme. |
 |  12 Mar 2010: | v.4.0.9 - Fixes printing in Firefox 3.6. |
 |  23 Feb 2010: | v.4.0.8 - Signature format can be set in preference =SIGNATUREFORMAT=. |
 |  17 Jan 2010: | v.4.0.7 - Repeat search phrase in search box. Version for Foswiki 1.0.9 |
@@ -207,58 +178,3 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 ---++ Feedback
 
 Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOPIC%.
-
-<verbatim class="foswikiHidden">
-Iterators for theme and column file
-   * Theme
-      * Set CURRENTTHEME = %URLPARAM{"themeidx" default="%THEME_DEFAULT%"}%
-      * Set NEXTTHEME = %CALC{"$IF( $EVAL( %CURRENTTHEME% + 1 ) > %THEMELAST%, %THEMEFIRST%, $EVAL( %CURRENTTHEME% + 1 ))"}%
-      * Set PREVIOUSTHEME = %CALC{"$IF( $EVAL( %CURRENTTHEME% - 1 ) < %THEMEFIRST%, %THEMELAST%, $EVAL( %CURRENTTHEME% - 1 ))"}%
-      * Set THEMEPARAM = themefile=%URLPARAM{"themefile" default="%THEME%CURRENTTHEME%%"}%;themeidx=%CURRENTTHEME%
-
-   * Columns
-      * Set CURRENTCOL = %URLPARAM{"colidx" default="%COL_DEFAULT%"}%
-      * Set NEXTCOL = %CALC{"$IF( $EVAL( %CURRENTCOL% + 1 ) > %COLLAST%, %COLFIRST%, $EVAL( %CURRENTCOL% + 1 ))"}%
-      * Set PREVIOUSCOL = %CALC{"$IF( $EVAL( %CURRENTCOL% - 1 ) < %COLFIRST%, %COLLAST%, $EVAL( %CURRENTCOL% - 1 ))"}%
-      * Set COLPARAM = colsfile=%URLPARAM{"colsfile" default="%COL%CURRENTCOL%%"}%;colidx=%CURRENTCOL%
-   
-
-BROWSER SETTINGS
-
-Column layouts
-   * Set COL_DEFAULT = 1
-   * Set COLFIRST = 1
-   
-   * Set COL1 = %PUBURL%/%SYSTEMWEB%/PatternSkin/column_left.css
-   * Set COL_NAME1 = Column left
-   * Set COL2 = %PUBURL%/%SYSTEMWEB%/PatternSkin/column_right.css
-   * Set COL_NAME2 = Column right
-   * Set COL3 = %PUBURL%/%SYSTEMWEB%/PatternSkin/column_none.css
-   * Set COL_NAME3 = No column
-   * Set COL4 = %PUBURL%/%SYSTEMWEB%/PatternSkin/column_twiki.css
-   * Set COL_NAME4 = TWiki's Pattern Skin left colum
-   
-   * Set COLLAST = 4
-   
-Themes
-   * Set THEME_DEFAULT = 1
-   * Set THEMEFIRST = 1
-   
-   * Set THEME1 = %PUBURL%/%SYSTEMWEB%/PatternSkin/theme_foswiki_noframe.css
-   * Set THEME_NAME1 = Foswiki without a frame
-   * Set THEME2 = %PUBURL%/%SYSTEMWEB%/PatternSkin/theme_foswiki.css
-   * Set THEME_NAME2 = Foswiki with a frame
-   * Set THEME3 = %PUBURL%/%SYSTEMWEB%/PatternSkin/theme_twiki.css
-   * Set THEME_NAME3 = TWiki's Pattern Skin
-
-   * Set THEMELAST = 3
-   
-Relative paths with macros
-   * Set PATTERNSKIN_THEME_RELATIVE = %CALC{"$SUBSTITUTE(%THEME%CURRENTTHEME%%, %PUBURL%/%SYSTEMWEB%/PatternSkin, $NOP(%<nop>PUBURL%/%<nop>SYSTEMWEB%/PatternSkin))"}%
-   * Set PATTERNSKIN_COLUMNS_RELATIVE = %CALC{"$SUBSTITUTE(%COL%CURRENTCOL%%, %PUBURL%/%SYSTEMWEB%/PatternSkin, $NOP(%<nop>PUBURL%/%<nop>SYSTEMWEB%/PatternSkin))"}%
-   
-Setting the variables to view the results on this page
-   * Local PATTERNSKIN_THEME = %THEME%CURRENTTHEME%%
-   * Local PATTERNSKIN_COLUMNS = %COL%CURRENTCOL%%
-</verbatim>
-

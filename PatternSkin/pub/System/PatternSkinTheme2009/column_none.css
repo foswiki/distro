@@ -1,0 +1,7 @@
+/*
+hides the sidebar column
+*/
+
+#patternSideBar {
+	display:none;
+}
