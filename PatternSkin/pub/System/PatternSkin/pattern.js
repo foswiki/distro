@@ -37,7 +37,7 @@ var Pattern = {
 	
 	displayTotalSearchResultsCount:function(el) {
 		// write result count
-		if (Pattern.searchResultsCount >= 10) {
+		if (Pattern.searchResultsCount != 0) {
 			var text = " " + TEXT_NUM_TOPICS + " <b>" + Pattern.searchResultsCount + " <\/b>";
 			foswiki.HTML.setHtmlOfElement(el, text);
 		}
@@ -82,10 +82,10 @@ var patternRules = {
 	'body.patternEditPage' : function(el) {
 		foswiki.Event.addLoadEvent(initForm, false); // call after Behaviour
 	},
-	'.foswikiSearchResultCount' : function(el) {
+	'.foswikiSearchResultCount span' : function(el) {
 		Pattern.addSearchResultsCounter(el);
 	},
-	'span#foswikiNumberOfResultsContainer' : function(el) {
+	'#foswikiNumberOfResultsContainer' : function(el) {
 		Pattern.displayTotalSearchResultsCount(el);
 	},
 	'form#foswikiWebSearchForm':function(el) {
