@@ -124,6 +124,8 @@ Field specifiers and constants are combined using _operators_ to create queries.
 
 %I% You can get the current time for date comparisons using SpreadSheetPlugin, thus: =%<nop>CALC{"$TIME()"}%=
 
+%I% If you want to know if a field is undefined (has never been given a value) then you can compare it with =undefined= (this requires that no field called =undefined= exists in the form).
+ 
 %I% In the operators (<code>&#61; !&#61; ~ &#61;~ &lt; &gt; &lt&#61; &gt&#61; NOT AND OR</code>) an undefined operand is treated the same as numerical 0. For <code>lc uc d2n an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
 
 ---++ Text and Meta Text

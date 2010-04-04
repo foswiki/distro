@@ -39,6 +39,8 @@ A form definition specifies the fields in a form. A form definition is simply a 
 | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsVersion"><nop>OsVersion</a> | text |  16  | | blah blah... | &nbsp; |
 </blockquote>
 
+%X% Do *not* use the field name =undefined= (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.
+
 See [[#FormStructure][structure of a form]] for full details of what types are available and what all the columns mean.
 
 You can also retrieve possible values for =select=, =checkbox= or =radio= types from other topics:

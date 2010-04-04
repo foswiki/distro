@@ -138,7 +138,7 @@ The =%<nop>IF%= statement is deliberately kept simple. In particular, note that 
 
 ---++ Query syntax
 
-Note also that while the [[QuerySearch][query syntax]] can be used to access form fields, there are some contexts in which an IF statement may be used where there is no topic context, or the topic context is not what you expected.
+Note that while the [[QuerySearch][query syntax]] can be used to access form fields, there are some contexts in which an IF statement may be used where there is no topic context, or the topic context is not what you want. In these cases you can use the =/= operator to indicate the name of the topic:
 
 ---+++ Examples
 Display the value of a form field if the topic has form field "Summary":
