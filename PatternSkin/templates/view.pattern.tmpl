@@ -69,6 +69,10 @@
 %TMPL:DEF{"printaction"}%%TMPL:P{"activatable_printable"}%%TMPL:END%
 
 %TMPL:DEF{"footernote"}%%TMPL:P{"topicinfo"}%%TMPL:END%
-%TMPL:DEF{"topicinfo"}%<div class="patternInfo foswikiGrayText"><div class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO%</div><!-- /patternRevInfo--><div class="patternMoved">%META{"moved"}%</div><!-- /patternMoved--></div><!-- /patternInfo-->%TMPL:END%
+%TMPL:DEF{"topicinfo"}%<div class="patternInfo"><div class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO%</div><!-- /patternRevInfo--><div class="patternMoved">%META{"moved"}%</div><!-- /patternMoved--></div><!-- /patternInfo-->%TMPL:END%
 
 %TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"textareabuttons"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
+
+%TMPL:DEF{"horizontalnavigation"}%%IF{"istopic '%PATTERNSKIN_NAVIGATION_TOPIC%'" then="$percntINCLUDE{$quot%PATTERNSKIN_NAVIGATION_TOPIC%$quot section=$quotmain$quot warn=$quotoff$quot}$percnt"}%%TMPL:END%
+
+%TMPL:DEF{"metanavigation"}%%IF{"istopic '%PATTERNSKIN_NAVIGATION_TOPIC%'" then="$percntINCLUDE{$quot%PATTERNSKIN_NAVIGATION_TOPIC%$quot section=$quotmeta$quot warn=$quotoff$quot}$percnt"}%%TMPL:END%

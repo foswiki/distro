@@ -12,6 +12,10 @@
 
 %TMPL:DEF{"simpleheader"}%%TMPL:END%
 
+%TMPL:DEF{"horizontalnavigation"}%%TMPL:END%
+
+%TMPL:DEF{"metanavigation"}%%TMPL:END%
+
 %TMPL:DEF{"pagetitlestylewrapper"}%<h1 class="patternTemplateTitle">%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
 
 %TMPL:DEF{"patterntopiccontents"}%<div class="foswikiTopic">%TMPL:P{"pagetitlestylewrapper"}% %TMPL:P{"content"}%</div><!-- /foswikiTopic-->%TMPL:END%
@@ -57,11 +61,11 @@
 #PageTop%TMPL:END%
 
 %TMPL:DEF{"main"}%<div class="foswikiPage"><div id="patternScreen">
-<div id="patternPageShadow">
+<div id="patternPageShadow">%TMPL:P{"metanavigation"}%
 <div id="patternPage">
 %TMPL:P{"startsidebarwrapper"}%<div id="patternOuter">
 <div id="patternFloatWrap">
-<div id="patternMain">%TMPL:P{"topbarspacer"}%
+<div id="patternMain">%TMPL:P{"topbarspacer"}%%TMPL:P{"horizontalnavigation"}%
 <div id="patternMainContents">%TMPL:P{"logo"}%%TMPL:P{"patterntopiccontents"}%
 </div><!-- /patternMainContents-->
 </div><!-- /patternMain-->%TMPL:P{"sidebar"}%
