@@ -150,6 +150,8 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  05 Apr 2010: | v.5.2 - Visual update. |
+|  04 Apr 2010: | v.5.1 - Added Foswiki site skin as theme, including horizontal navigation topic; see PatternSkinHorizontalNavigationExample. |
 |  04 Apr 2010: | v.5.0 - Changed themes from single css file to file collections to preserve older appearance and to provide bigger restyling within a theme. |
 |  12 Mar 2010: | v.4.0.9 - Fixes printing in Firefox 3.6. |
 |  23 Feb 2010: | v.4.0.8 - Signature format can be set in preference =SIGNATUREFORMAT=. |

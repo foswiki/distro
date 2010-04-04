@@ -4,14 +4,14 @@
 </div><!-- /patternSideBarContents--></div><!-- /patternSideBar-->%TMPL:END%
 
 
-%TMPL:DEF{"sidebar:webindicator"}%<div class="patternWebIndicator">
-   * <a href='%SCRIPTURL{"view"}%/%BASEWEB%/%HOMETOPIC%'><img src='%ICONURL{"web-bg"}%' style='background-color:%WEBBGCOLOR%' alt='%WEB%'/> <nop>%BASEWEB%</a>
-</div><!--/patternWebIndicator-->%TMPL:END%
+%TMPL:DEF{"sidebar:webindicator"}%<div class="patternWebIndicator" style="border-color:%WEBBGCOLOR%">
+<a href='%SCRIPTURL{"view"}%/%BASEWEB%/%HOMETOPIC%'><nop>%BASEWEB%</a>
+</div>%TMPL:END%
 
 
 %TMPL:DEF{"sidebar:weblink"}%<div class="patternWebIndicator">
-   * [[%BASEWEB%/%HOMETOPIC%][%BASEWEB%]]
-</div><!--/patternWebIndicator-->%TMPL:END%
+[[%BASEWEB%/%HOMETOPIC%][%BASEWEB%]]
+</div>%TMPL:END%
 
 %{ Please note that there must be a new line before the include of the WebLeftBar. Other wise the first bullet will not be displayed as a bullet. See Foswiki task Item410 }%
 %TMPL:DEF{"websidebar"}%%TMPL:P{"sidebar:webindicator"}%
