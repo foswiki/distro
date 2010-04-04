@@ -1,13 +1,17 @@
 %{ This is a default template }%
 
-%TMPL:DEF{SEARCH:header}%%TMPL:END%
+%TMPL:DEF{"SEARCH:header"}%<h4 class="foswikiSearchResultsHeader" %TMPL:P{"header:style:backgroundcolor"}%>%TMPL:P{"header:text"}%</h4>%TMPL:END%
+
 %TMPL:DEF{SEARCH:format}%%TMPL:END%
 %TMPL:DEF{SEARCH:footer}%%TMPL:END%
 
-%TMPL:DEF{SEARCH:searched}%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b><p />
-%TMPL:END%
-%TMPL:DEF{SEARCH:count}%
-%MAKETEXT{"Number of topics:"}% <b>%NTOPICS%</b><p />%TMPL:END%
+%TMPL:DEF{SEARCH:searched}%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b>%TMPL:END%
+
+%TMPL:DEF{SEARCH:count}%<div class="foswikiSearchResultCount">%MAKETEXT{"Number of topics: [_1]" args="<span>%NTOPICS%</span>"}%</div>%TMPL:END%
+
+%TMPL:DEF{"header:text"}%<b>%MAKETEXT{"Results from [_1] web" args="<nop>%WEB%"}%</b> %MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%%TMPL:END%
+
+%TMPL:DEF{"header:style:backgroundcolor"}% style="border-color:%WEBBGCOLOR%"%TMPL:END%
 
 %{ simple default pager }%
 

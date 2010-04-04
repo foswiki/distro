@@ -1,8 +1,149 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ %MAKETEXT{"Web Search"}%
+%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearch$quot}$percnt"}%
 
-%IF{"defined search and $search!=''" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="safe"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%BASETOPIC%,WebHome,WebStatistics"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
+%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearchadvanced$quot}$percnt"}%
+
+%IF{"$'URLPARAM{tab}'='az'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotaz$quot}$percnt"}%
+
+%IF{"$'URLPARAM{tab}'='help'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quothelp$quot}$percnt"}%
+
+<verbatim class="foswikiHidden">
+
+%STARTSECTION{"search"}%%INCLUDE{"%TOPIC%" section="title"}%
+%INCLUDE{"%TOPIC%" section="form"}%
+%INCLUDE{"%TOPIC%" section="searchresults"}%
+%ENDSECTION{"search"}%
+
+
+%STARTSECTION{"searchadvanced"}%%INCLUDE{"%TOPIC%" section="title"}%
+%INCLUDE{"%TOPIC%" section="form"}%
+%INCLUDE{"%TOPIC%" section="searchresults"}%
+%INCLUDE{"%TOPIC%" section="querysearchexample"}%
+%ENDSECTION{"searchadvanced"}%
+
+
+%STARTSECTION{"help"}%%INCLUDE{"%TOPIC%" section="title"}%
+%INCLUDE{"%TOPIC%" section="tabs"}%
+<div class="foswikiTabContent">%INCLUDE{"%SYSTEMWEB%.SearchHelp"}%</div>
+%ENDSECTION{"help"}%
+
+
+%STARTSECTION{"title"}%---+ %MAKETEXT{"Search in [_1] Web" args="<nop>%BASEWEB%"}%%ENDSECTION{"title"}%
+
+
+%STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="tabs"}%
+<div class="foswikiTabContent">
+<div class="foswikiWebSearchForm">
+<form name="WebSearchForm" action="%SCRIPTURLPATH{view}%/%BASEWEB%/%TOPIC%">
+<input type="hidden" name="tab" value="%URLPARAM{"tab" default="search"}%" />
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+<input type="text" class="foswikiInputField foswikiFocus" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" style="width:99%" />	
+</div>
+<div class="foswikiFormStep">
+%TWISTY{
+id="searchOptions"
+mode="div"
+start="%IF{"$'URLPARAM{search}'=''" then="show" else="hide"}%"
+link="<strong>%MAKETEXT{"Search options"}%</strong>"
+showimgleft="%ICONURLPATH{toggleopen}%"
+hideimgleft="%ICONURLPATH{toggleclose}%"
+}%
+%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'=''" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percnt"}%%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotoptionsadvanced$quot}$percnt"}%
+%ENDTWISTY%
+</div>
+<div class="foswikiFormStep foswikiLast">
+<input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Search"}%" /> 
+</div>
+</div><!--//foswikiFormSteps-->
+</form>
+</div>
+</div>%ENDSECTION{"form"}%
+
+
+%STARTSECTION{"searchparamssimple"}%search=%URLPARAM{"search" encode="url"}%;scope=%URLPARAM{"scope" encode="url" default="all"}%;web=%URLPARAM{"web" encode="url"}%%ENDSECTION{"searchparamssimple"}%
+
+
+%STARTSECTION{"searchparamsadvanced"}%%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;type=%URLPARAM{"type" encode="url" default="word"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%;limit=%URLPARAM{"limit" encode="url"}%;excludetopic=%URLPARAM{"excludetopic" encode="url"}%;casesensitive=%URLPARAM{"casesensitive" encode="url"}%%ENDSECTION{"searchparamsadvanced"}%
+
+
+%STARTSECTION{"tabs"}%<noautolink><div class="foswikiTabs">
+	<ul>
+		<li%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search"">%MAKETEXT{"Search"}%</a></li>
+		<li%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced"">%MAKETEXT{"Advanced search"}%</a></li>
+		<li%IF{"$'URLPARAM{tab}'='az'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az"">%MAKETEXT{"A-Z"}%</a></li>
+		<li%IF{"$'URLPARAM{tab}'='help'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=help">%MAKETEXT{"Help"}%</a></li>
+	</ul>
+	<br class="foswikiClear" />
+</div></noautolink>%ENDSECTION{"tabs"}%
+
+
+%STARTSECTION{"optionssimple"}%<table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<th>%MAKETEXT{"Search where:"}%</th>
+<td>
+<input type="radio" class="foswikiRadioButton" id="textbody" name="scope" value="text" %IF{" '%URLPARAM{"scope"}%' = 'text' " then="checked=\"checked\"" else=""}% /><label for="textbody"> %MAKETEXT{"Text body"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="topictitle" name="scope" value="topic" %IF{" '%URLPARAM{"scope" default="all"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topictitle"> %MAKETEXT{"Topic title"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="both" name="scope" value="all" %IF{" '%URLPARAM{"scope" default="all"}%' = 'all' " then="checked=\"checked\"" else=""}% /><label for="both"> %MAKETEXT{"Both body and title"}%</label>
+<hr />
+<input type="checkbox" class="foswikiCheckbox" id="web" name="web" value="all" %IF{" '%URLPARAM{web}%' = 'all'" then="checked=\"checked\"" else=""}% /><label for="web"> %MAKETEXT{"All public webs"}%</label> <span class="foswikiSmall">%MAKETEXT{"(otherwise search [_1] Web only)" args="<nop>%BASEWEB%"}%</span>
+</td>
+</tr>
+</table>%ENDSECTION{"optionssimple"}%
+
+
+%STARTSECTION{"optionsadvanced"}%<table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<th>%MAKETEXT{"Search where:"}%</th>
+<td>
+<input type="radio" class="foswikiRadioButton" id="textbody" name="scope" value="text" %IF{" '%URLPARAM{"scope"}%' = 'text' " then="checked=\"checked\"" else=""}% /><label for="textbody"> %MAKETEXT{"Text body"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="topictitle" name="scope" value="topic" %IF{" '%URLPARAM{"scope" default="all"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topictitle"> %MAKETEXT{"Topic title"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="both" name="scope" value="all" %IF{" '%URLPARAM{"scope" default="all"}%' = 'all' " then="checked=\"checked\"" else=""}% /><label for="both"> %MAKETEXT{"Both body and title"}%</label>
+<hr />
+<input type="checkbox" class="foswikiCheckbox" id="web" name="web" value="all" %IF{" '%URLPARAM{web}%' = 'all'" then="checked=\"checked\"" else=""}% /><label for="web"> %MAKETEXT{"All public webs"}%</label> <span class="foswikiSmall">%MAKETEXT{"(otherwise search [_1] Web only)" args="<nop>%BASEWEB%"}%</span>
+</td>
+</tr>
+<tr>
+<th>%MAKETEXT{"Sort results by:"}%</th>
+<td>
+<input type="radio" class="foswikiRadioButton" id="topic" name="order" value="topic" %IF{" '%URLPARAM{"order" default="topic"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Topic name"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="modified" name="order" value="modified" %IF{" '%URLPARAM{order}%' = 'modified' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Last modified time"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="editby" name="order" value="editby" %IF{" '%URLPARAM{order}%' = 'editby' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Last editor"}%</label>
+<hr />
+<input type="checkbox" class="foswikiCheckbox" name="reverse" id="reverse" %IF{" '%URLPARAM{reverse}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="reverse"> %MAKETEXT{"In reversed order"}%</label>
+</td>
+</tr>
+<tr>
+<th>%MAKETEXT{"Make search:"}%</th>
+<td>%MAKETEXT{"Selections apply to search in \"text body\""}% <span class="foswikiUnvisited"><a class="foswikiPopUp foswikiSmall" target="SearchHelp" href="%SCRIPTURL{view}%/%SYSTEMWEB%/SearchHelp">%MAKETEXT{"Help"}%</a></span>
+<hr />
+<input type="checkbox" class="foswikiCheckbox" id="casesensitive" name="casesensitive" %IF{" '%URLPARAM{casesensitive}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="casesensitive"> %MAKETEXT{"Case sensitive"}%</label><br />
+<hr />
+<input type="radio" class="foswikiRadioButton" id="word" name="type" value="word" %IF{" '%URLPARAM{"type" default="word"}%' = 'word' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Word search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="keyword" name="type" value="keyword" %IF{" '%URLPARAM{type}%' = 'keyword' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Keyword search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="literal" name="type" value="literal" %IF{" '%URLPARAM{type}%' = 'literal' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Literal search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="regex" name="type" value="regex" %IF{" '%URLPARAM{type}%' = 'regex' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Regular expression search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="query" name="type" value="query" %IF{" '%URLPARAM{type}%' = 'query' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Query Search"}%</label>
+</td>
+</tr>
+<tr>
+<th><b>%MAKETEXT{"Don't show:"}%</b></th>
+<td><input type="checkbox" class="foswikiCheckbox" id="nosearch" name="nosearch" %IF{" '%URLPARAM{nosearch}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nosearch"> %MAKETEXT{"Search string"}%</label><br />
+<input type="checkbox" class="foswikiCheckbox" id="nosummary" name="nosummary" %IF{" '%URLPARAM{nosummary}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nosummary"> %MAKETEXT{"Summaries"}%</label><br />
+<input type="checkbox" class="foswikiCheckbox" id="nototal" name="nototal" %IF{" '%URLPARAM{nototal}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nototal"> %MAKETEXT{"Total matches"}%</label><br />
+</td>
+</tr>
+<tr>
+<th class="foswikiLast">%MAKETEXT{"Limit results to:"}%</th>
+<td class="foswikiLast"><input type="text" class="foswikiInputField" id="limit" name="limit" size="3" value="%IF{" '%URLPARAM{"limit" default="all"}%' = 'all' " then="all" else="%URLPARAM{limit}%"}%" /><label for="limit"> %MAKETEXT{"Topics per web"}% </label><span class="foswikiSmall">%MAKETEXT{"(=all= to show all topics)"}%</span>
+</td>
+</tr>
+</table>%ENDSECTION{"optionsadvanced"}%
+
+
+%STARTSECTION{"searchresults"}%%IF{"$'URLPARAM{search}'!=''" then='<h2>Search results</h2>
+$percntINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percnt'}%
 %SEARCH{
 "%URLPARAM{"search" encode="quote"}%"
 type="%URLPARAM{"type" default="word"}%"
@@ -17,39 +158,72 @@ order="%URLPARAM{"order" encode="quote"}%"
 reverse="%URLPARAM{"reverse" encode="quote"}%"
 limit="%URLPARAM{"limit" encode="quote"}%"
 zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
+}%%ENDSECTION{"searchresults"}%
+
+
+%STARTSECTION{"searchfeed"}%<div>%ICON{"rss-small"}%%INCLUDE{"%SYSTEMWEB%.%TOPIC%" section="searchfeedlink"}%</div>%ENDSECTION{"searchfeed"}%
+
+
+%STARTSECTION{"searchfeedlink"}% <a href='%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,WebHome,WebStatistics"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
+
+
+%STARTSECTION{"querysearchexample"}%%IF{"$'URLPARAM{search}'!=''" then='$percntINCLUDE{$quot%TOPIC%$quot section=$quot_querysearchexample$quot}$percnt'}%%ENDSECTION{"querysearchexample"}%
+
+
+%STARTSECTION{"_querysearchexample"}%<p /><div class="foswikiHelp">
+%MAKETEXT{"To display the above search results in a topic, copy-paste the following markup:"}%
+<pre class="foswikiSmall">
+%<nop>SEARCH{
+   "%URLPARAM{"search" encode="quote"}%"
+   type="%URLPARAM{"type" default="word"}%"
+%IF{"defined scope" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"defined nosearch" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined nosummary" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
-<a name="foswikiSearchForm"></a>
-<noautolink>
-<div class="foswikiPageForm">
-<form id="foswikiWebSearchForm" action="%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%">
-<table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td colspan="2" class="foswikiFirstRow">
-  <input type="text" class="foswikiInputField%IF{"'%URLPARAM{"search"}%'" else=" foswikiFocus"}%" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" /> 
-  <input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="foswikiSmall foswikiUnvisited">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%BASEWEB%/WebSearchAdvanced?search=%URLPARAM{"search" encode="url"}%;type=%URLPARAM{"type" encode="url" default="word"}%;scope=%URLPARAM{"scope" encode="url"}%;web=%URLPARAM{"web" encode="url"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%;limit=%URLPARAM{"limit" encode="url"}%;excludetopic=%URLPARAM{"excludetopic" encode="url"}%;casesensitive=%URLPARAM{"casesensitive" encode="url"}%'>%MAKETEXT{"More search options"}%</a></span>
-<div class="foswikiSmall" style="padding:1em 0 0 0;">%MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code><br />
-<a class="foswikiPopUp foswikiUnvisited" target="SearchHelp" href="%SCRIPTURL{view}%/%SYSTEMWEB%/SearchHelp">%MAKETEXT{"More search help"}%</a>
-</div>
-</td>
-</tr>
-<tr>
-<th class="foswikiLast">%MAKETEXT{"Search where:"}%</th>
-<td class="foswikiLast">
-<input type="radio" class="foswikiRadioButton" id="textbody" name="scope" value="text" %IF{" '%URLPARAM{"scope"}%' = 'text' " then="checked=\"checked\"" else=""}% /><label for="textbody"> %MAKETEXT{"Text body"}%</label>&nbsp;&nbsp;&nbsp;<input type="radio" class="foswikiRadioButton" id="topictitle" name="scope" value="topic" %IF{" '%URLPARAM{scope}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topictitle"> %MAKETEXT{"Topic title"}%</label>&nbsp;&nbsp;&nbsp;<input type="radio" class="foswikiRadioButton" id="both" name="scope" value="all" %IF{" '%URLPARAM{"scope" default="all"}%' = 'all' " then="checked=\"checked\"" else=""}% /><label for="both"> %MAKETEXT{"Both body and title"}%</label>
-<hr />
-<input type="checkbox" class="foswikiCheckbox" id="web" name="web" value="all" %IF{" '%URLPARAM{web}%' = 'all'" then="checked=\"checked\"" else=""}% /><label for="web"> %MAKETEXT{"All public webs"}%</label> <span class="foswikiSmall">%MAKETEXT{"(otherwise search [_1] Web only)" args="<nop>%BASEWEB%"}%</span>
-</td>
-</tr>
-</table>
-</form>
-</div>
-</noautolink>
+</pre>
+</div>%ENDSECTION{"_querysearchexample"}%
 
-<div class="foswikiHelp">
-*%MAKETEXT{"Other search options:"}%*
-   * %ICON{"arrowright"}% %MAKETEXT{"If you already know the name of the topic, enter the name of the topic into the ~[~[[_1]~]~[Jump box~]~] at the top" args="%SYSTEMWEB%.GoBox"}%
-   * %ICON{"indexlist"}% <a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&regex=on&search=\.*">%MAKETEXT{"List all topics in the [_1] web in alphabetical order" args="<nop>%BASEWEB%"}%</a> 
-   * %ICON{"filter"}% %MAKETEXT{"List topics that start with the letter:"}% <a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ea">A</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Eb">B</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ec">C</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ed">D</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ee">E</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ef">F</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Eg">G</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Eh">H</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ei">I</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ej">J</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ek">K</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5El">L</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Em">M</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5En">N</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Eo">O</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ep">P</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Eq">Q</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Er">R</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Es">S</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Et">T</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Eu">U</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ev">V</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ew">W</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ex">X</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ey">Y</a><span class="foswikiSeparator"> | </span><a href="%SCRIPTURLPATH{"search"}%/%BASEWEB%/?scope=topic&amp;regex=on&amp;search=%5Ez">Z</a>
-   * %ICON{"recentchanges"}% [[%BASEWEB%.WebChanges][%MAKETEXT{"Recently changed topics"}%]]
-</div>
 
+%STARTSECTION{"searchbyletterlink"}%%IF{"$'URLPARAM{searchletter}'='%letter%'" then="%letter%" else="<a href='%SCRIPTURLPATH{"search"}%/%BASEWEB%/%TOPIC%?scope=topic&amp;type=regex&amp;search=%5E%letter%;$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearchparamsadvanced$quot}$percnt;searchletter=%letter%;tab=az'>%letter%</a>"}%%ENDSECTION{"searchbyletterlink"}%
+
+
+%STARTSECTION{"az"}%%INCLUDE{"%TOPIC%" section="title"}%
+%INCLUDE{"%TOPIC%" section="tabs"}%
+<div class="foswikiTabContent">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+%MAKETEXT{"List topics that start with the letter:"}% %INCLUDE{"%TOPIC%" section="letterlist"}%
+</div>
+</div>
+%IF{"$'URLPARAM{searchletter}'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearchresults$quot}$percnt$percntINCLUDE{$quot%TOPIC%$quot section=$quotquerysearchexample$quot}$percnt"}%</div>%ENDSECTION{"az"}%
+
+%STARTSECTION{"letterlist"}%<div class="foswikiHorizontalList foswikiUnvisited">
+<ul>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="A"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="B"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="C"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="D"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="E"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="F"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="G"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="H"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="I"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="J"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="K"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="L"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="M"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="N"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="O"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="P"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Q"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="R"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="S"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="T"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="U"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="V"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="W"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="X"}%</li>
+	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Y"}%</li>
+	<li class="foswikiLast">%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Z"}%</li>
+</ul><br class="foswikiClear" />
+</div>%ENDSECTION{"letterlist"}%
+
+</verbatim>

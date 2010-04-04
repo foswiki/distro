@@ -34,8 +34,8 @@ strong, b {
 hr {
 	height:1px;
 	border:none;
-	color:#aaa;
-	background-color:#aaa;
+	color:#ccc;
+	background-color:#ccc;
 }
 /* put overflow pre in a scroll area */
 pre {
@@ -46,6 +46,10 @@ pre {
 html>body pre { /* hide from IE */
 	/*\*/ overflow:auto !important; /* */ overflow:scroll; width:auto; /* for Mac Safari */
 }
+img {
+	border:0;
+	vertical-align:text-bottom;
+}
 ol, ul {
 	margin-top:0;
 }
@@ -55,6 +59,15 @@ ol li, ul li {
 /* Form elements */
 form { 
 	display:inline;
+	margin:0;
+	padding:0;
+}
+fieldset {
+	border:none;
+	margin:0;
+	padding:0;
+}
+fieldset legend {
 	margin:0;
 	padding:0;
 }
@@ -115,12 +128,12 @@ blockquote {
 :link:active,
 :visited:active {
 	color:#06c;
-	background-color:transparent;
+	text-decoration:none;
 }
 :link:hover,
 :visited:hover {
-	color:#FBF7E8;
-	background-color:#d6000f;
+	color:#06c;
+	text-decoration:underline;
 }
 :link:hover img,
 :visited:hover img {
@@ -241,27 +254,11 @@ a:visited .foswikiAccessKey,
 a:hover .foswikiAccessKey {
 	color:inherit;
 }
-img {
-	border:0;
-	vertical-align:text-bottom;
-}
 .foswikiImage img {
 	border-color:#eee;
 	background-color:#fff;
 }
 
-/* WebSearch, WebSearchAdvanced */
-table#foswikiSearchTable th,
-table#foswikiSearchTable td {
-	background-color:#fff;
-	border-color:#ccc;
-} 
-table#foswikiSearchTable th {
-	color:#000;
-}
-table#foswikiSearchTable td.first {
-	background-color:#FCF8EC;
-}
 tr.foswikiDiffDebug td {
 	border-color:#ccc;
 }
@@ -458,6 +455,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	border-style:solid;
 }
 .foswikiFormStep {
+	clear:both;
 	line-height:140%;
 	padding:1em 20px; /*S5*/
 	border-width:0 0 1px 0;
@@ -486,6 +484,9 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiFormStep p {
 	margin:.3em 0;
 }
+.foswikiFormStep ul {
+	margin:0;
+}
 .foswikiFormSteps .foswikiLast {
 	border-bottom-style:solid;
 	border-bottom-width:0px;
@@ -508,11 +509,28 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiSmallish {
 	font-size:94%; /*S2*/
 }
-.foswikiNew { }
-.foswikiSummary {
-	font-size:86%;
-	line-height:110%; /*S3*/
+.foswikiSearchResultsHeader {
+	margin:0 0 1em 0;
+	border-width:1px;
+	border-style:solid;
+	border-color:#ccc;
 }
+h4.foswikiSearchResultsHeader {
+	margin:1em 0;
+	border-width:3px;
+	border-style:none none solid none;
+	font-size:100%;
+	padding-top:.5em;
+	padding-bottom:.5em;
+	font-style:normal;
+}
+.foswikiSearchResults {
+	margin:1em 0;
+}
+.foswikiSearchResult {
+	margin:0 0 1em 0;
+}
+.foswikiSummary {}
 .foswikiEmulatedLink {
 	text-decoration:underline;
 }
@@ -565,6 +583,9 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 	border-style:solid;
 }
+.foswikiHorizontalList ul li {
+	border-color:#ccc;
+}
 
 .foswikiHierarchicalNavigation ul {
 	padding:0;
@@ -577,17 +598,18 @@ a:hover .foswikiAccessKey {
 .foswikiHierarchicalNavigation .foswikiParentTopic li {}
 .foswikiHierarchicalNavigation .foswikiChildTopics li {}
 
-
 /* WebSearch, WebSearchAdvanced */
 #foswikiSearchTable {
 	background:none;
 	border-bottom:0;
+	width:100%;
 } 
 #foswikiSearchTable th,
 #foswikiSearchTable td {
 	padding:1em;
 	border-width:0 0 1px 0;
 	border-style:solid;
+	border-color:#ccc;
 } 
 #foswikiSearchTable th {
 	width:20%;

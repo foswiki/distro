@@ -2,28 +2,16 @@
 %{ this is the template used when the format prameter is not set in SEARCH }%
 %TMPL:INCLUDE{"searchformat"}%
 
-%TMPL:DEF{SEARCH:header}%<div class="foswikiSearchResult">
-<div class="foswikiTopRow" style="backgroundcolor:%WEBBGCOLOR%;">
-<div class="foswikiLeft"><b>%MAKETEXT{"Topics in [_1] web" args="<nop>%WEB%"}%</b></div>
-<div class="foswikiRight foswikiSRAuthor"><b>%MAKETEXT{"Changed"}%</b></div>
-<div class="foswikiRight foswikiSRRev"><b>%MAKETEXT{"Changed by"}%</div>
-<br class="foswikiClear" /></div><!--/foswikiTopRow-->
-</div><!--/foswikiSearchResult-->%TMPL:END%
-
-%TMPL:DEF{SEARCH:format}%<div class="foswikiSearchResult">
-<div class="foswikiTopRow">
-<div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div>
-<div class="foswikiRight foswikiSRAuthor"> %AUTHOR%</div>
-<div class="foswikiRight foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div>
-<br class="foswikiClear" /></div><!--/foswikiTopRow-->
+%TMPL:DEF{SEARCH:format}%<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a>
+<div class="foswikiSummary">%TEXTHEAD%</div></div>
 <div class="foswikiBottomRow">
-<div class="foswikiSummary foswikiGrayText">%TEXTHEAD%</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow-->
-</div><!--/foswikiSearchResult-->%TMPL:END%
-%TMPL:DEF{SEARCH:footer}%</table>%TMPL:END%
+<span class="foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a></span> <span class="foswikiSRAuthor">%MAKETEXT{"by [_1] " args="%AUTHOR%"}%</span>
+</div>
+</div>%TMPL:END%
 
-%TMPL:DEF{SEARCH:searched}%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b><p />
-%TMPL:END%
-%TMPL:DEF{SEARCH:count}%<br clear="all" /> %BR% Number of topics: <b>%NTOPICS%</b>%TMPL:END%
+%TMPL:DEF{SEARCH:footer}%%TMPL:END%
 
+%TMPL:DEF{SEARCH:searched}%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b>%TMPL:END%
 
+%TMPL:DEF{SEARCH:count}%<div class="foswikiSearchResultCount">%MAKETEXT{"Number of topics: [_1]" args="<span>%NTOPICS%</span>"}%</div>%TMPL:END%

@@ -63,6 +63,10 @@ a:hover .foswikiAccessKey {
 	text-decoration:none;
 	border:none;
 }
+img {
+	border:0;
+	vertical-align:middle;
+}
 .foswikiImage img {
 	padding:3px;
 	border-width:1px;
@@ -79,4 +83,65 @@ a:hover .foswikiAccessKey {
 	font-weight:bold;
 	font-style:normal;
 	color:#000;
+}
+/* tabs */
+.foswikiTabs ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.foswikiTabs ul li {
+	display:inline;
+}
+.foswikiTabs ul li a,
+.foswikiTabs ul li a:link,
+.foswikiTabs ul li a:hover,
+.foswikiTabs ul li a:visited {
+	text-decoration:none;
+	color:#000;
+}
+.foswikiTabs ul li a,
+.foswikiTabs ul li span {
+	display:block;
+	float:left;
+	margin:0 6px 0 0;
+	padding:.35em .7em;	
+	border-style:solid;
+	border-width:1px;
+	border-color:#ccc;
+	background:#eee;
+}
+.foswikiTabs ul li a,
+.foswikiTabs ul li span,
+.foswikiTabContent {
+	border-style:solid;
+	border-width:1px;
+	border-color:#ccc;
+}
+.foswikiTabs ul li.foswikiActiveTab a,
+.foswikiTabs ul li a:hover,
+.foswikiTabs ul li span {
+	border-bottom-color:#fff;
+	background:#fff;
+}
+.foswikiTabContent {
+	margin:-1px 0 1em 0;
+	padding:.7em;
+	background:#fff;
+}
+.foswikiHorizontalList ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+	clear:both;
+}
+.foswikiHorizontalList ul li {
+	float:left;
+	display:block;
+	padding:0 .5em;
+	border-style:none solid none none;
+	border-width:1px;
+}
+.foswikiHorizontalList ul li.foswikiLast {
+	border:none;
 }

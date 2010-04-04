@@ -29,6 +29,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
 |=.foswikiFormStep=              | Form step row |
 |=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |
+|=.foswikiHorizontalList=        | Container around horizontal bullet list (=.foswikiHorizontalList ul=) |
+|=li.foswikiLast=                | Last element of a horizontal list  |
 |=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.DefaultPreferences; custom set in %USERSWEB%.SitePreferences  |
 |=.foswikiNotification=          | Temporary alert, for instance after user actions; used as wrapper around =%<nop>FLASHNOTE%=  |
 |=.foswikiContentHeader=         | Optional container around text placed above topic text  |
@@ -40,6 +42,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTopicActions=          | Topic Actions list |
 |=.foswikiTopicInfo=             | Topic Info section containing REVINFO |
 |=.foswikiTopicText=             | The rendered Topic text |
+|=.foswikiTabs=                  | Container for tabs (styled bullet list, =.foswikiTabs ul=) |
+|=li.foswikiActiveTab=           | Active tab |
+|=.foswikiTabContent=            | Container for content below tabs |
 
 ---+++ General appearance
 |=.foswikiLeft=              | Left float |
@@ -116,7 +121,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTextareaRawView=       | Raw topic view textarea |
 
 ---+++ Search
-|=table#foswikiSearchTable=         | Table with search input form elements; used in WebSearch, WebSearchAdvanced and WebTopicViewTemplate |
+|=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
+|=.foswikiSearchResult=             | Search result with title, summary, author and date |
 |=.foswikiSummary=                  | Summary of search results  |
 |=.foswikiSummary em=               | Highlighted search term in summary  |
 |=.foswikiNew=                      | Identifier of new topics: topics without a revision history   |
@@ -126,7 +132,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiSRAuthor=                 | Author in search results listing |
 |=.foswikiSearchResultCount=        | Search results count  |
 |=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below  |
-|=#foswikiWebSearchForm=            | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below  |
+|=.foswikiWebSearchForm=            | Container around the search form |
 |=#foswikiModifySearchContainer=    | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below  |
 
 ---+++ History
@@ -152,7 +158,6 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiFocus=                    | Behaviour marker so a field can be given input focus |
 |=.foswikiChangeFormButton=         | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
 |=#foswikiNumberOfResultsContainer= | Container identifier to write the number of search results into |
-|=#foswikiWebSearchForm=            | Form identifier to place the "Modify search" link before |
 |=#foswikiModifySearchContainer=    | Container identifier to write the "Modify search" link into  |
 
 ---+++ Other classes
