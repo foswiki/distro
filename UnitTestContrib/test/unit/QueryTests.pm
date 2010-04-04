@@ -1,5 +1,15 @@
 # Tests for query parser and evaluation
 
+# This testcase is focused on the correct implementation of the queries, rather
+# than %SEARCH itself. The main purpose is to test the query parser, but it
+# also acts as a validation check for store-specific query algorithm
+# implementations.
+# There are two types of test here; verify_ tests that are applied to each
+# query algorithm. It's assumed that these algorithms are working off a
+# query parse tree, so the focus is on testing the semantics of the queries.
+# The other type are test_ tests, which are focused on testing the
+# query syntax.
+
 package QueryTests;
 
 use FoswikiFnTestCase;
@@ -11,6 +21,8 @@ use Foswiki::Query::Node;
 use Foswiki::Meta;
 use strict;
 
+my %qalgs;
+
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
     return $self;
@@ -20,7 +32,8 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my $meta = Foswiki::Meta->new( $this->{session}, 'Web', 'Topic' );
+    my $meta = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, 'HitTopic' );
     $meta->putKeyed(
         'FILEATTACHMENT',
         {
@@ -85,26 +98,56 @@ sub set_up {
         { name => "macro", value => "%RED%" } );
 
     $meta->{_text} = "Green ideas sleep furiously";
-
     $this->{meta} = $meta;
+    $meta->save();
+}
+
+sub fixture_groups {
+    my ( %qalgs );
+    foreach my $dir (@INC) {
+        if ( opendir( D, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
+            foreach my $alg ( readdir D ) {
+                next unless $alg =~ /^(.*)\.pm$/;
+                $alg = $1;
+                $qalgs{$alg} = 1;
+            }
+            closedir(D);
+        }
+    }
+    my @groups;
+    foreach my $alg ( keys %qalgs ) {
+        my $fn = $alg . 'Query';
+        push( @groups, $fn );
+        next if ( defined(&$fn) );
+        eval <<SUB;
+sub $fn {
+require Foswiki::Store::QueryAlgorithms::$alg;
+\$Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::$alg'; }
+SUB
+        die $@ if $@;
+    }
+
+    return \@groups;
 }
 
 sub check {
-    my ( $this, $s, $r ) = @_;
+    my ( $this, $s, $r, $syntaxOnly ) = @_;
+
+    # First check that standard evaluator
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
     my $meta        = $this->{meta};
     my $val         = $query->evaluate( tom => $meta, data => $meta );
     if ( ref($r) ) {
         $this->assert_deep_equals( $r, $val,
-                "Expected $r, got "
+                "Expected ".ref($r)." $r, got "
               . Foswiki::Query::Node::toString($val)
               . " for $s in "
               . join( ' ', caller ) );
     }
     elsif (defined $r) {
         $this->assert_str_equals( $r, $val,
-                "Expected $r, got "
+                "Expected scalar $r, got "
               . Foswiki::Query::Node::toString($val)
               . " for $s in "
               . join( ' ', caller ) );
@@ -116,9 +159,20 @@ sub check {
               . " for $s in "
               . join( ' ', caller ) );
     }
+
+    unless ($syntaxOnly) {
+        # Next check the search algorithm
+        my $expr = "%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,$this->{test_topic}\" nonoise=\"on\" format=\"\$topic\"}%";
+        my $list = $this->{test_topicObject}->expandMacros($expr);
+        if ($r) {
+            $this->assert_str_equals( 'HitTopic', $list);
+        } else {
+            $this->assert_str_equals( '', $list);
+        }
+    }
 }
 
-sub test_atoms {
+sub verify_atoms {
     my $this = shift;
     $this->check( "'0'",           '0' );
     $this->check( "''",            '' );
@@ -133,7 +187,7 @@ sub test_atoms {
     $this->check( "notafield",     undef );
 }
 
-sub test_meta_dot {
+sub verify_meta_dot {
     my $this = shift;
     $this->check( "META:FORM", { name => 'TestForm' } );
     $this->check( "META:FORM.name", 'TestForm' );
@@ -144,10 +198,10 @@ sub test_meta_dot {
     $this->check( "notafield.string",  undef );
 }
 
-sub test_array_integer_index {
+sub verify_array_integer_index {
     my $this = shift;
     $this->check( "preferences[0].name", 'Red' );
-    $this->check( "preferences[1].name", 'Green' );
+    $this->check( "preferences[1]", { name => 'Green', value => 1 } );
     $this->check( "preferences[2].name", 'Blue' );
     $this->check( "preferences[3].name", 'White' );
     $this->check( "preferences[4].name", 'Yellow' );
@@ -162,33 +216,33 @@ sub test_array_integer_index {
     $this->check( "preferences[-5].name", 'Red' );
 
     # Out-of-range indices
-    $this->check( "preferences[5].name", undef );
-    $this->check( "preferences[-6].name", undef );
+    $this->check( "preferences[5]", undef );
+    $this->check( "preferences[-6]", undef );
 }
 
-sub test_array_dot {
+sub verify_array_dot {
     my $this = shift;
     $this->check( "preferences[value=0].Red",    0 );
     $this->check( "preferences[value=1].Yellow", 1 );
 }
 
-sub test_meta_squabs {
+sub verify_meta_squabs {
     my $this = shift;
     $this->check( "fields[name='number'].value",                99 );
     $this->check( "fields[name='number' AND value='99'].value", 99 );
     $this->check( "fields[name='number' AND value='99'].value", 99 );
 }
 
-sub test_array_squab {
+sub verify_array_squab {
     my $this = shift;
     $this->check( "preferences[value=0][name='Blue'].name", "Blue" );
 }
 
-sub test_slashes {
+sub verify_slashes {
     my $this = shift;
 }
 
-sub test_boolean_uops {
+sub verify_boolean_uops {
     my $this = shift;
     $this->check( "not number",  0 );
     $this->check( "not boolean", 0 );
@@ -196,7 +250,7 @@ sub test_boolean_uops {
     $this->check( "not notafield", 1 );
 }
 
-sub test_string_uops {
+sub verify_string_uops {
     my $this = shift;
     $this->check( "uc string",   'STRING' );
     $this->check( "uc(string)",  "STRING" );
@@ -207,7 +261,7 @@ sub test_string_uops {
     $this->check( "lc 'STRING'", 'string' );
 }
 
-sub test_string_bops {
+sub verify_string_bops {
     my $this = shift;
     $this->check( "string='String'",              1 );
     $this->check( "string='String '",             0 );
@@ -232,12 +286,16 @@ sub test_string_bops {
     $this->check( "string!='string'",             1 );
     $this->check( "string='string'",              0 );
     $this->check( "string~'string'",              0 );
-    $this->check( "macro='\%RED\%'",              1 );
-    $this->check( "macro~'\%RED?'",               1 );
-    $this->check( "macro~'?RED\%'",               1 );
 }
 
-sub test_num_uops {
+sub test_string_bops {
+    my $this = shift;
+    $this->check( "macro='\%RED\%'",              1, 1 );
+    $this->check( "macro~'\%RED?'",               1, 1 );
+    $this->check( "macro~'?RED\%'",               1, 1 );
+}
+
+sub verify_length {
     my $this = shift;
     $this->check( "length attachments",     2 );
     $this->check( "length META:PREFERENCE", 5 );
@@ -246,7 +304,7 @@ sub test_num_uops {
     $this->check( "length notafield",       0 );
 }
 
-sub test_d2n {
+sub verify_d2n {
     my $this = shift;
     $this->check(
         "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'servertime' )
@@ -260,7 +318,7 @@ sub test_d2n {
     $this->check( "d2n notatime", undef );
 }
 
-sub test_num_bops {
+sub verify_num_bops {
     my $this = shift;
     $this->check( "number=99",   1 );
     $this->check( "number=98",   0 );
@@ -278,6 +336,7 @@ sub test_num_bops {
     $this->check( "number>=100", 0 );
 
     $this->check( "number=notafield", 0);
+    $this->check( "0=notafield", 0);
     $this->check( "notafield=number", 0);
     $this->check( "number!=notafield", 1);
     $this->check( "notafield!=number", 1);
@@ -289,9 +348,11 @@ sub test_num_bops {
     $this->check( "notafield>number", 0);
     $this->check( "number<notafield", 0);
     $this->check( "notafield<number", 1);
+
+    $this->check( "notafield=undefined", 1);
 }
 
-sub test_boolean_bops {
+sub verify_boolean_bops {
     my $this = shift;
 
     $this->check( "1 AND 1", 1 );
@@ -318,51 +379,59 @@ sub test_boolean_bops {
     $this->check( "0 OR notafield",   0 );
 }
 
-sub test_match_fail {
+sub verify_match_fail {
     my $this = shift;
     $this->check( "'A'=~'B'", 0);
 }
 
-sub test_match_good {
+sub verify_match_good {
     my $this = shift;
     $this->check( "'A'=~'A'", 1);
 }
 
-sub test_partial_match {
+sub verify_partial_match {
     my $this = shift;
     $this->check( "'AA'=~'A'", 1);
 }
 
-sub test_word_bound_match_good {
+sub verify_word_bound_match_good {
     my $this = shift;
     $this->check( "'foo bar baz'=~'\\bbar\\b'", 1);
 }
 
-sub test_word_bound_match_fail {
+sub verify_word_bound_match_fail {
     my $this = shift;
     $this->check( "'foo bar baz'=~'\\bbam\\b'", 0);
 }
 
-sub test_word_end_match_fail {
+sub verify_word_end_match_fail {
     my $this = shift;
     $this->check( "'foob'=~'foo\\b'", 0);
 }
 
+sub verify_ref {
+    my $this = shift;
+    $this->check( "'HitTopic'/number=99", 1);
+    $this->check( "'$this->{test_web}.HitTopic'/number=99", 1);
+    $this->check( "'NotATopic'/number", undef);
+    $this->check( "'NotATopic'/number=99", 0);
+}
+
 sub test_backslash_match_fail {
     my $this = shift;
-    $this->check( "' \\ '=~' \\\\ '", 0);
+    $this->check( "' \\ '=~' \\\\ '", 0, 1);
 }
 
 sub test_backslash_match_good {
     my $this = shift;
-    $this->check( "' \\\' '=~' \\\' '", 1);
+    $this->check( "' \\\' '=~' \\\' '", 1, 1);
 }
 
 sub test_constant_strings {
     my $this = shift;
     my $in = 'n\nn t\tt s\\\\s q\\\'q o\\043o h\\x23h X\\x{7e}X \\b \\a \\e \\f \\r \\cX';
 
-    $this->check( "'$in'=StringWithChars", 1 );
+    $this->check( "'$in'=StringWithChars", 1, 1 );
 }
 
 sub conjoin {
@@ -383,7 +452,7 @@ sub conjoin {
     $this->check( $expr, $r );
 }
 
-sub test_brackets {
+sub verify_brackets {
     my $this = shift;
     for ( my $a = 0 ; $a < 2 ; $a++ ) {
         for ( my $b = 0 ; $b < 2 ; $b++ ) {

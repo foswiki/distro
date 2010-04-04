@@ -207,6 +207,20 @@ sub test_29a {
     );
 }
 
+sub test_29b {
+    my $this = shift;
+    $this->simpleTest(
+        test => "\$NOTAVAR=''",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "(\$NOTAVAR)=undefined",
+        then => 1,
+        else => 0
+    );
+}
+
 sub test_30 {
     my $this = shift;
     $this->simpleTest( test => "'A'~'B'", then => 0, else => 1 );
