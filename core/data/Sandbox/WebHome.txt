@@ -29,7 +29,7 @@
 <dl>
 %SEARCH{ ".*" regex="on" nosearch="on" nototal="on" order="modified" reverse="on" limit="7" format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='foswikiGrayText'>$date - $wikiusername</span></dd>"}%
 </dl>
-%MAKETEXT{"A more extensive changes list is available via ~[~[[_1]~]~[Recent Changes~]~]." args="WebChanges"}%
+%MAKETEXT{"A more extensive changes list is available via ~[~[[_1]~]~[Recent changes~]~]." args="WebChanges"}%
 
 <!--
    * Set ALLOWTOPICCHANGE = Main.AdminGroup
