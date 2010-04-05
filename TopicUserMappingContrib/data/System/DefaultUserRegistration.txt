@@ -185,6 +185,8 @@ TODO: need to make the header&footer not display if there are no groups they can
 TODO: should redo this topic to look different between a guest registering themselves, and a registered user inviting/registering a user
       not necessarily - several of the admins requesting this feature _want_ the guest registering to select a group.
 TODO: it might make sense to separate this into several sections, dependent on the REGISTRATIONGROUPTYPE setting.
+TODO: it would be nice to have a red warning if the rego agent is in the admin group telling the admin that this feature is disabled unless they remove the rego user from that group (die to security issues)
+      (and confirming to them that this is due to an upgrade)
 
 %STARTSECTION{"extraField_groups"}%%GROUPINFO{
       header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupheader$quot}$percnt"
@@ -213,7 +215,8 @@ section=$quotchangegroup$quot groupname=$quot%groupname%$quot inputtype=$quot%RE
 Section changegroup
   parameters: groupname, inputtype
 
-%STARTSECTION{"changegroup"}%<input type="%inputtype%" name="Twk0AddToGroups" id="cb_%groupname%" /><label for="cb_%groupname%">%IF{"not istopic '%USERSWEB%.%groupname%'" then="<!-- -->" else="%USERSWEB%."}%%groupname%</label>%ENDSECTION{"changegroup"}%
+%STARTSECTION{"changegroup"}%<input type="%inputtype%" name="Twk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
+	<label for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"changegroup"}%
 
 
 Section rendergroupheader

@@ -22,12 +22,13 @@ use Foswiki::UI            ();
 # Keys from the user data that should *not* be included in
 # the user topic.
 my %SKIPKEYS = (
-    'Photo'     => 1,
-    'WikiName'  => 1,
-    'LoginName' => 1,
-    'Password'  => 1,
-    'Confirm'   => 1,
-    'Email'     => 1
+    'Photo'       => 1,
+    'WikiName'    => 1,
+    'LoginName'   => 1,
+    'Password'    => 1,
+    'Confirm'     => 1,
+    'Email'       => 1,
+    'AddToGroups' => 1
 );
 my @requiredFields = qw(WikiName FirstName LastName Email);
 
@@ -774,13 +775,19 @@ sub _complete {
 
         #convert to rego agent user copied from _writeRegistrationDetailsToTopic
         my $safe = $session->{user};
-        my $regoAgent = $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName});
+        my $regoAgent = $session->{user};
+        my $enableAddToGroup = 1;
+        if (Foswiki::Func::isGuest($regoAgent)) {
+            $session->{user} = $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName});
+
+            #SECURITY ISSUE:
+            #when upgrading an existing Wiki, the RegistrationUser is in the AdminGroup.
+            #combined with this feature, registering users would be able to join the AdminGroup.
+            #so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
+            $enableAddToGroup = !$session->{users}->isAdmin($regoAgent);
+        }
         
-        #SECURITY HACK:
-        #when upgrading an existing Wiki, the RegistrationUser is in the AdminGroup.
-        #combined with this feature, registering users would be able to join the AdminGroup.
-        #so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
-        if ((!$session->{users}->isAdmin($regoAgent)) and ($data->{AddToGroups})) {
+        if (($enableAddToGroup) and ($data->{AddToGroups})) {
             foreach my $groupName (split(/,/, $data->{AddToGroups})) {
                 $session->{user} = $regoAgent;
                 try {
@@ -790,6 +797,9 @@ sub _complete {
                     $session->{user} = $safe;
                 };
             }
+        } else {
+#TODO: should really tell the user too?
+#print STDERR "ERROR: can't add user to groups ($data->{AddToGroups}) because the $Foswiki::cfg{Register}{RegistrationAgentWikiName} is in the $Foswiki::cfg{SuperAdminGroup}\n";
         }
     }
     catch Error::Simple with {
@@ -1398,13 +1408,15 @@ sub _getDataFromQuery {
     # get all parameters from the form
     my $data = {};
     foreach my $key ( $query->param() ) {
-        if ($key =~ /^(Twk([0-9])(.*))/) {
+        if ($key =~ /^(Twk([0-9])(.*))/ and
+            (defined($query->param($key)))) {
             my @values   = $query->param($key);
             my $required = $2;
             my $name     = $3;
 
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
+print STDERR "--- $key = $value \n";
             # Note: field values are unvalidated (and therefore tainted).
             # This is because the registration code does not have enough
             # information to validate the data - for example, it cannot
