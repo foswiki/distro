@@ -40,7 +40,7 @@ Other sections define the fields and extra info text.
 				%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
 				<!-- START OPTIONAL FIELDS -->
 				<!-- remove EXCLUDED_ from section names to show fields -->
-				%IF{'$SHOW_FIELD_JOIN_GROUPS and $REGISTRATIONGROUPTYPE !="disabled"' then='%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_groups" warn="off"}%' else='<!-- -->'}%
+				%IF{'$REGISTRATIONGROUPTYPE !="disabled"' then='%INCLUDE{"%TOPIC%" section="extraField_groups" warn="off"}%' else='<!-- -->'}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
@@ -179,10 +179,12 @@ Only shown if the password manager supports changing the password / email.
 
 Optional field join group
 
-This field is currently disabled. Remove EXCLUDED_ from the INCLUDE section name to show.
+enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPrefernces topic to non-disabled.
 
 TODO: need to make the header&footer not display if there are no groups they can join
 TODO: should redo this topic to look different between a guest registering themselves, and a registered user inviting/registering a user
+      not necessarily - several of the admins requesting this feature _want_ the guest registering to select a group.
+TODO: it might make sense to separate this into several sections, dependent on the REGISTRATIONGROUPTYPE setting.
 
 %STARTSECTION{"extraField_groups"}%%GROUPINFO{
       header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupheader$quot}$percnt"
