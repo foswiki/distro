@@ -785,6 +785,11 @@ sub _complete {
             #combined with this feature, registering users would be able to join the AdminGroup.
             #so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
             $enableAddToGroup = !$session->{users}->isAdmin($regoAgent);
+            if (!$enableAddToGroup) {
+#TODO: should really tell the user too?
+                $session->logger->log( 'warning',
+                    "Registration failed: ERROR: can't add user to groups ($data->{AddToGroups}) because the $Foswiki::cfg{Register}{RegistrationAgentWikiName} is in the $Foswiki::cfg{SuperAdminGroup}");
+            }
         }
         
         if (($enableAddToGroup) and ($data->{AddToGroups})) {
@@ -797,9 +802,6 @@ sub _complete {
                     $session->{user} = $safe;
                 };
             }
-        } else {
-#TODO: should really tell the user too?
-#print STDERR "ERROR: can't add user to groups ($data->{AddToGroups}) because the $Foswiki::cfg{Register}{RegistrationAgentWikiName} is in the $Foswiki::cfg{SuperAdminGroup}\n";
         }
     }
     catch Error::Simple with {
@@ -1416,7 +1418,6 @@ sub _getDataFromQuery {
 
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
-print STDERR "--- $key = $value \n";
             # Note: field values are unvalidated (and therefore tainted).
             # This is because the registration code does not have enough
             # information to validate the data - for example, it cannot

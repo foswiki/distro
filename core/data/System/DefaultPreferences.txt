@@ -170,11 +170,11 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---+++ Registration configuration options
       * Set REGISTRATIONGROUPS = (not implemented yet..)
-   * Users can be automatically added to the Groups listed above (by setting the =REGISTRATIONGROUPTYPE= setting to =hidden=), or 
-   Users can select _one_ of the Groups (by setting to =radio=) or 
-   Users can select Multiple Groups to join when they register (by setting to =checkbox=) or
-   The Add user to Groups feature can be disabled (by setting to =disabled=)
-      * Set REGISTRATIONGROUPTYPE = disabled
+   * Users can be automatically added to the Groups listed above (by setting the =REGISTRATIONGROUPTYPE= setting to =automatic=), or 
+   Users can select _one_ of the Groups (by setting to =one=) or 
+   Users can select Multiple Groups to join when they register (by setting to =multiple=) or
+   The Add user to Groups feature can be disabled (by setting to =none=)
+      * Set REGISTRATIONGROUPTYPE = none
 
 ---+++ HTTP-<nop>EQUIV Settings
 

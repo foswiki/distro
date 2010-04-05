@@ -40,7 +40,7 @@ Other sections define the fields and extra info text.
 				%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
 				<!-- START OPTIONAL FIELDS -->
 				<!-- remove EXCLUDED_ from section names to show fields -->
-				%IF{'$REGISTRATIONGROUPTYPE !="disabled"' then='%INCLUDE{"%TOPIC%" section="extraField_groups" warn="off"}%' else='<!-- -->'}%
+				%IF{'$REGISTRATIONGROUPTYPE !="none"' then='%INCLUDE{"%TOPIC%" section="extraField_groups" warn="off"}%' else='<!-- -->'}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
@@ -187,14 +187,18 @@ TODO: should redo this topic to look different between a guest registering thems
 TODO: it might make sense to separate this into several sections, dependent on the REGISTRATIONGROUPTYPE setting.
 TODO: it would be nice to have a red warning if the rego agent is in the admin group telling the admin that this feature is disabled unless they remove the rego user from that group (die to security issues)
       (and confirming to them that this is due to an upgrade)
+      
+      
+Instead of choosing between "disabled", "hidden", "checkbox" and "radio" - which is html/form lingo, we can provide more meaningful choices like "none", "automatic", "multiple" and "one"
 
 %STARTSECTION{"extraField_groups"}%%GROUPINFO{
-      header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupheader$quot}$percnt"
+      header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%rendergroupheader$quot multiple=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="Groups" else="Group"}%$quot}$percnt"
       footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"
       format="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
          section=$quotrendergroup$quot
          groupname=$quot$name$quot
          allowschange=$quot$allowschange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%$quot
+         inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
        }$percnt"
       separator=" "
 }%%ENDSECTION{"extraField_groups"}%
@@ -206,10 +210,13 @@ Section nochange
 
 
 Section rendergroup
-  parameters: groupname, allowschange
+  parameters: groupname, allowschange, inputtype
 
-%STARTSECTION{"rendergroup"}%%IF{"%allowschange% = 1" then="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
-section=$quotchangegroup$quot groupname=$quot%groupname%$quot inputtype=$quot%REGISTRATIONGROUPTYPE%$quot}$percnt"}%%ENDSECTION{"rendergroup"}%
+%STARTSECTION{"rendergroup"}%%IF{
+				"%allowschange% = 1" 
+				then="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
+section=$quotchangegroup$quot groupname=$quot%groupname%$quot inputtype=$quot%inputtype%$quot}$percnt"
+}%%ENDSECTION{"rendergroup"}%
 
 
 Section changegroup
@@ -222,7 +229,7 @@ Section changegroup
 Section rendergroupheader
   parameters: 
 
-%STARTSECTION{"rendergroupheader"}%<li><label for="Twk0AddToGroups">%MAKETEXT{"Wiki Groups to join"}%</label>
+%STARTSECTION{"rendergroupheader"}%<li><label for="Twk0AddToGroups">%MAKETEXT{"Select Wiki [_1] to join" args="%multiple%"}%</label>
 <div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
 
 
@@ -231,6 +238,11 @@ Section rendergroupfooter
 
 %STARTSECTION{"rendergroupfooter"}%</div></li>%ENDSECTION{"rendergroupfooter"}%
 
+Section hiddenrendergroupheader
+  parameters: 
+
+%STARTSECTION{"hiddenrendergroupheader"}%<li class="foswikiHidden">
+<div class="joinGroups">%ENDSECTION{"hiddenrendergroupheader"}%
 
 
 Optional field organisation name

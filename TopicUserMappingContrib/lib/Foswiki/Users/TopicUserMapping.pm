@@ -769,7 +769,7 @@ sub addUserToGroup {
 
     my $usersObj = $this->{session}->{users};
     
-#print STDERR "$user, aka(".$usersObj->getWikiName($user).") is TRYING to add $cuid aka(".$usersObj->getWikiName($cuid).") to $groupName\n";
+    print STDERR "$user, aka(".$usersObj->getWikiName($user).") is TRYING to add $cuid aka(".$usersObj->getWikiName($cuid).") to $groupName\n" if DEBUG;
 
     if (
         $usersObj->isGroup($groupName)
@@ -788,7 +788,7 @@ sub addUserToGroup {
 
        if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
            #can't change topic.
-#print STDERR "eee: $user does not have change access?\n";
+            print STDERR "eee: $user does not have change access?\n" if DEBUG;
            return 0
        }
                         
