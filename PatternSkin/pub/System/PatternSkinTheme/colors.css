@@ -434,8 +434,8 @@ a:hover .foswikiAccessKey {
    color:#aaa;
 }
 .patternTopicAction .foswikiAccessKey {
-   color:#fff;
-   border-color:#fff;
+   color:#06c;
+   border-color:#06c;
 }
 .patternTopicAction a:hover .foswikiAccessKey {
    color:#06c;
