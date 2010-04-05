@@ -32,18 +32,19 @@ use Cwd;
 
 =pod
 
----+ Package_installer
+---+ extension_installer
 This is a generic installer script. The basic function of this script is to
-locate an archive and unpack it.
+locate an archive and unpack it. 
 
 It is called as any of the named package installers, with the addition of the
-Extension name to be installed.
+Extension name to be installed as the first parameter to the command.  It 
+*must* be run from the root of the Foswiki installation
 
 | *Function* | *Dedicated Package* | *Generic Installer* |
-| Install | =perl MyExtension_installer= | =perl Package_installer MyExtension |
-| uninstall | =perl MyExtension_installer uninstall= | =perl Package_installer MyExtension uninstall |
-| Manifest | =perl MyExtension_installer manifest= | =perl Package_installer MyExtension manifest |
-| Dependencies | =perl MyExtension_installer dependencies= | =perl Package_installer MyExtension dependencies |
+| Install | =perl MyExtension_installer= | =perl tools/extension_installer MyExtension |
+| uninstall | =perl MyExtension_installer uninstall= | =perl tools/extension_installer MyExtension uninstall |
+| Manifest | =perl MyExtension_installer manifest= | =perl tools/extension_installer MyExtension manifest |
+| Dependencies | =perl MyExtension_installer dependencies= | =perl tools/extension_installer MyExtension dependencies |
 
 
 The script also functions as an *uninstaller* by passing the parameter
