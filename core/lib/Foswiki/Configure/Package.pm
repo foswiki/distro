@@ -1087,7 +1087,8 @@ sub checkDependencies {
             next;
         }
 
-        $missing .= "$msg$trig\n";
+        $missing .= "$msg$trig";
+        $missing .= " -- $dep->{description}\n\n";
 
         if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
             my $type     = $1;
