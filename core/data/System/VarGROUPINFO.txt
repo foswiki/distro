@@ -19,6 +19,8 @@
 | =separator= | separator between items in the list | =,= |
 | =header= | Header for the list | '' |
 | =footer= | Footer for the list | '' |
+| =zeroresults= | If set, and there are no Groups or Members that can be shown, the =header= and =footer= are suppressed, and this text is output | =undefined= |
+| =show= | filter the output list of Groups - can be set to =all=, allowschange=, =denychange=, =allowschange(!UserWikiName)=, =denychange(!UserWikiName)= | =all= |
 | =limit= | If set, limits the number of results to this | infinity |
 | =limited= | If limit is set, and the list is truncated, this text will be added at the end of the list | '' |
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERINFO][USERINFO]]

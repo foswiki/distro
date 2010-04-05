@@ -191,13 +191,14 @@ TODO: it would be nice to have a red warning if the rego agent is in the admin g
    ******TODO: implement http://trunk.foswiki.org/Tasks/Item8704 and then move the GROUPINFO here to the REGISTRATIONGROUPS setting - using the exclude allowchange from list option.
       
 %STARTSECTION{"extraField_groups"}%%GROUPINFO{
-      header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%rendergroupheader$quot multiple=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="Groups" else="Group"}%$quot}$percnt"
-      footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"
-      format="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
-         section=$quotrendergroup$quot
-         groupname=$quot$name$quot
-         allowschange=$quot$allowschange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%$quot
-         inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
+	header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%rendergroupheader$quot multiple=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="Groups" else="Group"}%$quot}$percnt"
+	footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"
+	zeroresults=""
+	show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
+	format="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
+		section=$quotrendergroup$quot
+		groupname=$quot$name$quot
+		inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
        }$percnt"
       separator=" "
 }%%ENDSECTION{"extraField_groups"}%
@@ -209,20 +210,10 @@ Section nochange
 
 
 Section rendergroup
-  parameters: groupname, allowschange, inputtype
-
-%STARTSECTION{"rendergroup"}%%IF{
-				"%allowschange% = 1" 
-				then="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
-section=$quotchangegroup$quot groupname=$quot%groupname%$quot inputtype=$quot%inputtype%$quot}$percnt"
-}%%ENDSECTION{"rendergroup"}%
-
-
-Section changegroup
   parameters: groupname, inputtype
 
-%STARTSECTION{"changegroup"}%<input type="%inputtype%" name="Twk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
-	<label for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"changegroup"}%
+%STARTSECTION{"rendergroup"}%<input type="%inputtype%" name="Twk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
+	<label for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"rendergroup"}%
 
 
 Section rendergroupheader

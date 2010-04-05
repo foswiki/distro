@@ -27,6 +27,10 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{users_web}, "PopGroup",
         "   * Set GROUP = WikiGuest\n" );
     $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "OnlyAdminCanChangeGroup",
+        "   * Set GROUP = WikiGuest\n   * Set TOPICCHANGE = AdminGroup\n" );
+    $topicObject->save();
 }
 
 sub test_basic {
