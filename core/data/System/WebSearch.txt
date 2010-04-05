@@ -70,9 +70,9 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 
 %STARTSECTION{"tabs"}%<noautolink><div class="foswikiTabs">
 	<ul>
-		<li%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search"">%MAKETEXT{"Search"}%</a></li>
-		<li%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced"">%MAKETEXT{"Advanced search"}%</a></li>
-		<li%IF{"$'URLPARAM{tab}'='az'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az"">%MAKETEXT{"A-Z"}%</a></li>
+		<li%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search">%MAKETEXT{"Search"}%</a></li>
+		<li%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced">%MAKETEXT{"Advanced search"}%</a></li>
+		<li%IF{"$'URLPARAM{tab}'='az'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az">%MAKETEXT{"A-Z"}%</a></li>
 		<li%IF{"$'URLPARAM{tab}'='help'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=help">%MAKETEXT{"Help"}%</a></li>
 	</ul>
 	<br class="foswikiClear" />
@@ -223,7 +223,6 @@ zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="X"}%</li>
 	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Y"}%</li>
 	<li class="foswikiLast">%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Z"}%</li>
-</ul><br class="foswikiClear" />
-</div>%ENDSECTION{"letterlist"}%
+</ul><br class="foswikiClear" /></div>%ENDSECTION{"letterlist"}%
 
 </verbatim>
