@@ -473,9 +473,6 @@ sub install {
     $MODULE       = shift;
     my $rootModule = shift;
     push( @_, '' ) if ( scalar(@_) & 1 );
-    my %data = @_;
-
-    my @deps;
 
     unshift( @INC, 'lib' );
 
