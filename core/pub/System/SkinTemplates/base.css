@@ -89,6 +89,8 @@ img {
 	margin:0;
 	padding:0;
 	list-style:none;
+	position:relative;
+	bottom:0;
 }
 .foswikiTabs ul li {
 	display:inline;
