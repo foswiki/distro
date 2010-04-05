@@ -73,6 +73,7 @@ The =edit= script understands the following parameters, typically supplied by HT
 | =anyname= | Any parameter can passed to the new topic; if the template topic contains =%<nop>URLPARAM{"anyname"}%=, it will be replaced by its value | |
 | =breaklock= | If set, any lease conflicts will be ignored, and the edit will proceed even if someone is already editing the topic. | |
 | =redirectto= | If the user continues from edit to save, and if the save (or cancels the edit) process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
+| =t= | Provide a unique URL each time a topic is edited, typically specifying parameter =t=%SERVERTIME{$epoch}%= in an edit link. This is done to prevent browsers from caching an edit session, which could result in editing outdated content. The parameter name and value is arbitrary, but must be unique each time. | |
 
 Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
    1 The first sequence of ten or more =X= characters in the topic name will be converted on save to a number such that the resulting topic name is unique in the target web.
