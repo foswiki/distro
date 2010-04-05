@@ -133,7 +133,6 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiSearchResultCount=        | Search results count  |
 |=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below  |
 |=.foswikiWebSearchForm=            | Container around the search form |
-|=#foswikiModifySearchContainer=    | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below  |
 
 ---+++ History
 |=.foswikiDiffTable=                 | Revision table  |
@@ -158,7 +157,6 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiFocus=                    | Behaviour marker so a field can be given input focus |
 |=.foswikiChangeFormButton=         | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
 |=#foswikiNumberOfResultsContainer= | Container identifier to write the number of search results into |
-|=#foswikiModifySearchContainer=    | Container identifier to write the "Modify search" link into  |
 
 ---+++ Other classes
 |=.foswikiWebIndent=                | Used by =%<nop>WEBLIST%= to indent sub-web names |
