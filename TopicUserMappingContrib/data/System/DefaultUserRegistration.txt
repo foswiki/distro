@@ -179,18 +179,17 @@ Only shown if the password manager supports changing the password / email.
 
 Optional field join group
 
-enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPrefernces topic to non-disabled.
+enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences topic to automatic, one, mulitple.
 
-TODO: need to make the header&footer not display if there are no groups they can join
+TODO: need to make the header&footer not display if there are no groups they can join (in one/multipl mode)
 TODO: should redo this topic to look different between a guest registering themselves, and a registered user inviting/registering a user
       not necessarily - several of the admins requesting this feature _want_ the guest registering to select a group.
 TODO: it might make sense to separate this into several sections, dependent on the REGISTRATIONGROUPTYPE setting.
 TODO: it would be nice to have a red warning if the rego agent is in the admin group telling the admin that this feature is disabled unless they remove the rego user from that group (die to security issues)
       (and confirming to them that this is due to an upgrade)
-      
-      
-Instead of choosing between "disabled", "hidden", "checkbox" and "radio" - which is html/form lingo, we can provide more meaningful choices like "none", "automatic", "multiple" and "one"
 
+   ******TODO: implement http://trunk.foswiki.org/Tasks/Item8704 and then move the GROUPINFO here to the REGISTRATIONGROUPS setting - using the exclude allowchange from list option.
+      
 %STARTSECTION{"extraField_groups"}%%GROUPINFO{
       header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%rendergroupheader$quot multiple=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="Groups" else="Group"}%$quot}$percnt"
       footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"

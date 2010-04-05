@@ -169,12 +169,15 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set TOPICURL = %SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%
 
 ---+++ Registration configuration options
-      * Set REGISTRATIONGROUPS = (not implemented yet..)
-   * Users can be automatically added to the Groups listed above (by setting the =REGISTRATIONGROUPTYPE= setting to =automatic=), or 
+   * Users can be automatically added to the Groups (by setting to =automatic=), or 
    Users can select _one_ of the Groups (by setting to =one=) or 
    Users can select Multiple Groups to join when they register (by setting to =multiple=) or
    The Add user to Groups feature can be disabled (by setting to =none=)
       * Set REGISTRATIONGROUPTYPE = none
+   * List of groups to use in =automatic=, =one= and =multiple= modes - if unset Group permissions will be used to
+   allow guests to be added to any/all groups that the RegistrationAgent has =CHANGE= permission to, or when a 
+   logged in user does the registration, Groups _that_ user has permission to =CHANGE=.
+      * #Set REGISTRATIONGROUPS = (not implemented yet..) - waiting on http://trunk.foswiki.org/Tasks/Item8704
 
 ---+++ HTTP-<nop>EQUIV Settings
 
