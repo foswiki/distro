@@ -30,11 +30,11 @@ EOF
     exit 1;
 }
 
-fail("No Bug item in log message") unless( $logmsg =~ /\bItem\d+:/ );
+fail("No Bug item in log message") unless( $logmsg =~ /\bItem\d+\s*:/ );
 local $/;
 
 my @items;
-$logmsg =~ s/\b(Item\d+):/push(@items, $1); '';/gem;
+$logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
 foreach my $item ( @items ) {
     fail "Bug item $item does not exist"
       unless( -f "$dataDir/Tasks/$item.txt" );

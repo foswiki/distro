@@ -64,7 +64,7 @@ for my $rev ($first..$last) {
     my $logmsg = `/usr/local/bin/svnlook log -r $rev $REPOS`;
 
     my @list;
-    while( $logmsg =~ s/\b(Item\d+):// ) {
+    while( $logmsg =~ s/\b(Item\d+)\s*:// ) {
         push(@list, $1);
     }
 
