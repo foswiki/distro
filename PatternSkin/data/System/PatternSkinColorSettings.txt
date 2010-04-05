@@ -1,5 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1228050988" format="1.1" reprev="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="PatternSkin"}%
+%META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Color scheme settings for %SYSTEMWEB%.PatternSkin
 Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When this topic is saved, the attachment =my_colors.css= will be updated with new color values. This method relies on Foswiki:Extensions.AttachContentPlugin to work.
 
@@ -20,7 +21,7 @@ Edit this topic, and change the color as you like.
 </div>
 <div class="foswikiFormStep">
 ---+++!! Step 3
-%IF{"context AttachContentPluginEnabled" then='<form action="%SCRIPTURL{save}%/%WEB%/%TOPIC%" method="post"><input type="hidden" name="action" value="action_save=1" /><input type="submit" class="foswikiButton" value="Save the topic" /></form> This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/my_colors.css][attachment]] to topic [[PatternSkin]].' else='Install !AttachContentPlugin to be able to save this topic. On saving, an attachment will be created to topic PatternSkin.'}% 
+%IF{"context AttachContentPluginEnabled" then='<form action="%SCRIPTURL{save}%/%WEB%/%TOPIC%" method="post"><input type="hidden" name="action" value="action_save=1" /><input type="submit" class="foswikiButton" value="Save the topic" /></form> This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/my_colors.css][attachment]] to topic [[PatternSkinTheme]].' else='Install !AttachContentPlugin to be able to save this topic. On saving, an attachment will be created to topic PatternSkinTheme.'}% 
 </div>
 </div>
 
@@ -42,7 +43,7 @@ Edit this topic, and change the color as you like.
 ---++++ GENERAL_TEXT General text (black)
    * Local GENERAL_TEXT = #000
 ---++++ H1_HEADER_TEXT Header text
-   * Local H1_HEADER_TEXT = #222
+   * Local H1_HEADER_TEXT = #333
 ---++++ HEADER_TEXT Header text
    * Local HEADER_TEXT = #390
 ---++++ CODE_TEXT Code text, left bar text and links
@@ -51,16 +52,19 @@ Edit this topic, and change the color as you like.
    * Local MUTED_TEXT = %GRAYED_TEXT%
 ---++++ GRAYED_OUT_TEXT Grayed out text
    * Local GRAYED_OUT_TEXT = %GRAYED_TEXT%
----++++ GRAYED_OUT_TEXT_ON_DARK Grayed out text on dark background
-   * Local GRAYED_OUT_TEXT_ON_DARK = #bbb
+---++++ SEPARATOR Separator
+   * Local SEPARATOR = #aaa
+---++++ SIDEBAR_TEXT Side bar text
+   * Local SIDEBAR_TEXT = #333
+   
    
 ---+++ Links
 ---++++ LINK_TEXT_NORMAL Link normal text
-   * Local LINK_TEXT_NORMAL = #4571d0
+   * Local LINK_TEXT_NORMAL = #06c
 ---++++ LINK_BACKGROUND_NORMAL Link normal background
    * Local LINK_BACKGROUND_NORMAL = transparent
 ---++++ LINK_TEXT_NORMAL_VISITED Link normal text visited
-   * Local LINK_TEXT_NORMAL_VISITED = #666
+   * Local LINK_TEXT_NORMAL_VISITED = #4c94db
 ---++++ LINK_TEXT_ACTION_BUTTON Link text red (same as LINK_BACKGROUND_HOVER)
    * Local LINK_TEXT_ACTION_BUTTON = #0055b5
 ---++++ LINK_TEXT_HOVER Link hover text
@@ -68,7 +72,7 @@ Edit this topic, and change the color as you like.
 ---++++ LINK_BACKGROUND_HOVER Link background hover
    * Local LINK_BACKGROUND_HOVER = transparent
 ---++++ SIDE_BAR_LINK_TEXT Side bar link text
-   * Local SIDE_BAR_LINK_TEXT = %LINK_TEXT_NORMAL%
+   * Local SIDE_BAR_LINK_TEXT = %SIDEBAR_TEXT%
 ---++++ BUTTON_TEXT_NORMAL Button text
    * Local BUTTON_TEXT_NORMAL = #333
    
@@ -82,11 +86,9 @@ Edit this topic, and change the color as you like.
 ---++++ BUTTON_BORDERS_DISABLED Disabled button borders
    * Local BUTTON_BORDERS_DISABLED = #fff #ccc #ccc #fff
 
----+++ 'New'
----++++ NEW_TEXT New text (green)
-   * Local NEW_TEXT = #049804
----++++ NEW_BACKGROUND New background (light green)
-   * Local NEW_BACKGROUND = #ECFADC
+---+++ Search results bottom
+---++++ SEARCH_RESULTS_INFO_TEXT Search results info (green)
+   * Local SEARCH_RESULTS_INFO_TEXT = #049804
 
 ---+++ Alert
 ---++++ ALERT_TEXT Alert text (red)
@@ -114,29 +116,29 @@ Edit this topic, and change the color as you like.
 
 ---+++ Background colors
 ---++++ PAGE_BACKGROUND General background color
-   * Local PAGE_BACKGROUND = #e2e2e2
+   * Local PAGE_BACKGROUND = #fafafa
 ---++++ NEUTRAL_BACKGROUND
-   * Local NEUTRAL_BACKGROUND = #f5f5f5
+   * Local NEUTRAL_BACKGROUND = #fafafa
 ---++++ SIDE_BAR_BACKGROUND Side bar background
    * Local SIDE_BAR_BACKGROUND = #fff
 ---++++ TOP_BAR_BACKGROUND Top bar background
    * Local TOP_BAR_BACKGROUND = #e8f3f7
 ---++++ ATTACHMENT_AND_FORM_BACKGROUND Attachment, form
-   * Local ATTACHMENT_AND_FORM_BACKGROUND = #eef7fa
+   * Local ATTACHMENT_AND_FORM_BACKGROUND = #f0f0ee
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
-   * Local TOPIC_ACTION_BACKGROUND = #3ba1cb
+   * Local TOPIC_ACTION_BACKGROUND = #eaf5fb
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
    * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
-   * Local NOTIFICATION_BACKGROUND = #ffe67b
+   * Local NOTIFICATION_BACKGROUND = #fff7e7
 ---++++ INFO_BACKGROUND
-   * Local INFO_BACKGROUND = #edf5fa
+   * Local INFO_BACKGROUND = #f1f8ed
 
 ---+++ Border colors
 ---++++ NEUTRAL_BORDER Info (light gray)
    * Local NEUTRAL_BORDER = #ddd
 ---++++ SEPARATOR_BORDER
-   * Local SEPARATOR_BORDER = #e2e2e2
+   * Local SEPARATOR_BORDER = #dfdfdf
 ---++++ STRONG_BORDER
    * Local STRONG_BORDER = #ccc
 ---++++ MINOR_SEPARATOR_BORDER Header H3..H6 bottom
@@ -150,7 +152,9 @@ Edit this topic, and change the color as you like.
 ---++++ FORM_STEP_BORDER Form step border
    * Local FORM_STEP_BORDER = %SEPARATOR_BORDER%
 ---++++ NOTIFICATION_BORDER Notification messages
-   * Local NOTIFICATION_BORDER = #ffdf4c
+   * Local NOTIFICATION_BORDER = #fbad17
+---++++ TOPIC_ACTION_BORDER Topic action border
+   * Local TOPIC_ACTION_BORDER = #6aadd0
 
 ---++++ Table colors
 ---+++++ TABLE_DATA_BACKGROUND Table data background
@@ -170,7 +174,7 @@ Edit this topic, and change the color as you like.
 ---+++++ TABLE_DATA_MIX_BACKGROUND Table data background (mix between even and odd)
    * Local TABLE_DATA_MIX_BACKGROUND = #f7fafc
 ---++++ TABLE_BORDER Table border, sup (light neutral tone)
-   * Local TABLE_BORDER = #e2e2e2
+   * Local TABLE_BORDER = #dfdfdf
 ---++++ LINK_TEXT_NORMAL_TABLE_HEADER Table header link text
    * Local LINK_TEXT_NORMAL_TABLE_HEADER = #fff
 ---++++ LINK_TEXT_NORMAL_BORDER_TABLE_HEADER Table header link border
@@ -190,20 +194,20 @@ Edit this topic, and change the color as you like.
 ---++++ FORM_BORDER Form (same as foswikiTable border)
    * Local FORM_BORDER = #cfcfcf
 ---++++ ACTIVE_FORM_BACKGROUND Edit form, form steps
-   * Local ACTIVE_FORM_BACKGROUND = #eef7fa
+   * Local ACTIVE_FORM_BACKGROUND = #f0f0ee
 ---++++ FORMFIELD_ACTIVE Active form field
-   * Local FORMFIELD_ACTIVE = #ffffe0
+   * Local FORMFIELD_ACTIVE = #ebf5fa
 ---++++ FORM_HEADER_TEXT Header text on form background
-   * Local FORM_HEADER_TEXT = %HEADER_TEXT%
+   * Local FORM_HEADER_TEXT = #333
 
 <!-- END OF COLOR PREFERENCES -->
 
 Do not change the text below this line unless you know what you are doing!
 ---
 <verbatim>
-%STARTATTACH{"my_colors.css" web="%SYSTEMWEB%" topic="PatternSkin"}%
+%STARTATTACH{"my_colors.css" web="%SYSTEMWEB%" topic="PatternSkinTheme"}%
 /* PatternSkin colors */
-/* Generated by AttachContentPlugin from %WEB%.%TOPIC% */
+/* Generated by AttachContentPlugin from %WEB%.PatternSkinColorSettings */
 
 /* LAYOUT ELEMENTS */
 
@@ -215,7 +219,8 @@ Do not change the text below this line unless you know what you are doing!
 }
 #patternTopBar {
    border-color:%SEPARATOR_BORDER%;
-    /* color is defined as WEBHEADERBGCOLOR in System/DefaultPreferences */
+   background:%PAGE_BACKGROUND%;
+   /* color can be overridden with WEBHEADERBGCOLOR in System/DefaultPreferences */
 }
 #patternMain { /* don't set a background here; use patternOuter */ }
 #patternOuter {
@@ -475,10 +480,6 @@ table.foswikiFormTable td.foswikiFormTableRow {
    background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
    border-color:%MAIN_TEXT_BACKGROUND%;
 }
-.foswikiAttachments .foswikiButton h3,
-.foswikiForm .foswikiButton h3 {
-    color:%HEADER_TEXT%;
-}
 .foswikiAttachments table,
 table.foswikiFormTable {
    border-color:%TABLE_BORDER%;
@@ -512,7 +513,7 @@ table.foswikiFormTable {
    background-color:transparent;
 }
 .foswikiActionFormStepSign {
-   color:%FORM_HEADER_TEXT%;
+   color:%DISABLED_TEXT%;
 }
 .foswikiFormStep .foswikiHelp {
 	background:%MAIN_TEXT_BACKGROUND%;
@@ -523,8 +524,6 @@ table.foswikiFormTable {
 .foswikiBroadcastMessage,
 .foswikiNotification {
    background-color:%NOTIFICATION_BACKGROUND%;
-}
-.foswikiNotification {
    border-color:%NOTIFICATION_BORDER%;
 }
 #foswikiLogin .patternLoginNotification {
@@ -533,7 +532,6 @@ table.foswikiFormTable {
 }
 .foswikiHelp {
    background-color:%INFO_BACKGROUND%;
-   border-color:%SEPARATOR_BORDER%;
 }
 .foswikiBroadcastMessage b,
 .foswikiBroadcastMessage strong {
@@ -576,6 +574,12 @@ a:hover .foswikiAccessKey {
 .foswikiImage a:hover img {
    border-color:%LINK_BACKGROUND_HOVER%;
 }
+.foswikiSeparator {
+   color:%SEPARATOR%;
+}
+.foswikiHorizontalList ul li {
+	border-color:%SEPARATOR%;
+}
 
 /*   -----------------------------------------------------------
    Pattern skin specific elements
@@ -583,22 +587,17 @@ a:hover .foswikiAccessKey {
 #patternPage {
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
-.patternHomePath a:link,
-.patternHomePath a:visited {
-   border-color:%NEUTRAL_BORDER%;
-   color:%LINK_TEXT_NORMAL_VISITED%;
-}
 .patternTop a:hover {
    border:none;
    color:%LINK_TEXT_HOVER%;
 }
-.patternHomePath .patternRevInfo,
-.patternHomePath .patternRevInfo a:link,
-.patternHomePath .patternRevInfo a:visited {
-   color:%GRAYED_OUT_TEXT%;
+.patternHomePath a:link,
+.patternHomePath a:visited {
+   color:%GRAYED_TEXT%;
 }
-.patternHomePath .patternRevInfo a:hover {
-   color:%LINK_TEXT_HOVER%;
+.patternHomePath:hover a:link,
+.patternHomePath:hover a:visited {
+   color:%LINK_TEXT_NORMAL%;
 }
 
 /* Left bar */
@@ -622,33 +621,29 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents b,
 #patternSideBarContents strong {
-    color:%HEADER_TEXT%;
+    color:%SIDEBAR_TEXT%;
 }
 
 .patternTopicActions {
    background-color:%TOPIC_ACTION_BACKGROUND%;
-   color:%GRAYED_OUT_TEXT_ON_DARK%;
+   color:%MAIN_TEXT%;
+   border-color:%TOPIC_ACTION_BORDER%;
 }
 .patternTopicAction {
    border-color:%ATTACHMENT_AND_FORM_BORDER%;
+}
+.patternActionButtons a:link,
+.patternActionButtons a:visited,
+.patternActionButtons a:hover {
+   color:%LINK_TEXT_NORMAL%;
 }
 .patternTopicAction s,
 .patternTopicAction strike {
    color:%DISABLED_TEXT%;
 }
-.patternTopicAction .foswikiSeparator {
-   color:%SEPARATOR_BORDER%;
-}
-.patternActionButtons a:link,
-.patternActionButtons a:visited {
-   color:%LIGHT_ON_DARK_TEXT%;
-}
-.patternActionButtons a:hover {
-   color:%LINK_TEXT_HOVER%;
-}
 .patternTopicAction .foswikiAccessKey {
-   color:%LIGHT_ON_DARK_TEXT%;
-   border-color:%LIGHT_ON_DARK_TEXT%;
+   color:%LINK_TEXT_NORMAL%;
+   border-color:%LINK_TEXT_NORMAL%;
 }
 .patternTopicAction a:hover .foswikiAccessKey {
    color:%LINK_TEXT_HOVER%;
@@ -663,7 +658,7 @@ a:hover .foswikiAccessKey {
    color:%MUTED_TEXT%;
 }
 .patternEditTopic {
-    background:%ATTACHMENT_AND_FORM_BACKGROUND%;
+    background:%PAGE_BACKGROUND%;
 }
 .patternToolBar a:link .foswikiAccessKey,
 .patternToolBar a:visited .foswikiAccessKey {
@@ -675,14 +670,26 @@ a:hover .foswikiAccessKey {
    color:inherit;
    border-color:%LINK_TEXT_NORMAL_VISITED%;
 }
+.patternInfo,
+.patternInfo a:link,
+.patternInfo a:visited {
+	color:%GRAYED_TEXT%;
+}
+.patternInfo:hover a:link,
+.patternInfo:hover a:visited,
+.patternInfo a:hover {
+	color:%LINK_TEXT_NORMAL%;
+}
+
+.patternTwistyButton h3 {
+	color:%LINK_TEXT_NORMAL%;
+}
 
 /* WebSearch, WebSearchAdvanced */
 
-.foswikiSearchHeader {
-}
-/*
 table#foswikiSearchTable {
    border-color:%FORM_STEP_BORDER%;
+   background-color:%PAGE_BACKGROUND%;
 }
 table#foswikiSearchTable th,
 table#foswikiSearchTable td {
@@ -696,26 +703,25 @@ table#foswikiSearchTable hr {
 table#foswikiSearchTable th {
    color:%MAIN_TEXT%;
 }
-*/
 
 /*   -----------------------------------------------------------
    Search results
    styles and overridden styles used in search.pattern.tmpl
    -----------------------------------------------------------   */
 
-h3.patternSearchResultsHeader,
-h4.patternSearchResultsHeader {
-   background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
+h3.foswikiSearchResultsHeader,
+h4.foswikiSearchResultsHeader {
    border-color:%SEPARATOR_BORDER%;
 }
-h4.patternSearchResultsHeader {
-   color:%MAIN_TEXT%;
+h4.foswikiSearchResultsHeader {
+   color:%GRAYED_TEXT%;
 }
-.patternNoViewPage h4.patternSearchResultsHeader {
+h4.foswikiSearchResultsHeader b,
+h4.foswikiSearchResultsHeader strong {
+	color:%MAIN_TEXT%;
+}
+.patternNoViewPage h4.foswikiSearchResultsHeader {
    color:%HEADER_TEXT%;
-}
-.foswikiSearchResult .foswikiBottomRow {
-   border-color:%MINOR_SEPARATOR_BORDER%;
 }
 .foswikiSearchResult .foswikiAlert {
    color:%ALERT_TEXT%;
@@ -723,10 +729,14 @@ h4.patternSearchResultsHeader {
 .foswikiSearchResult .foswikiSummary .foswikiAlert {
    color:%ALERT_TEXT_MUTED%;
 }
-.foswikiSearchResult .foswikiNew {
-   background-color:%NEW_BACKGROUND%;
-   border-color:%NEW_TEXT%;
-   color:%NEW_TEXT%;
+.foswikiSearchResult .foswikiBottomRow,
+.foswikiSearchResult .foswikiBottomRow a:link,
+.foswikiSearchResult .foswikiBottomRow a:visited {
+   color:%SEARCH_RESULTS_INFO_TEXT%;
+}
+.foswikiSearchResult .foswikiBottomRow:hover a:link,
+.foswikiSearchResult .foswikiBottomRow:hover a:visited {
+   color:%LINK_TEXT_NORMAL%;
 }
 .patternViewPage .patternSearchResultsBegin {
    border-color:%TABLE_BORDER%;
@@ -764,12 +774,12 @@ h4.patternSearchResultsHeader {
 .patternDiff {
    border-color:%TABLE_HEADER_BACKGROUND%;
 }
-#patternMainContents .patternDiff h4.patternSearchResultsHeader {
+#patternMainContents .patternDiff h4.foswikiSearchResultsHeader {
    background-color:%TABLE_HEADER_BACKGROUND%;
    color:%LIGHT_ON_DARK_TEXT%;
 }
-#patternMainContents .patternDiff h4.patternSearchResultsHeader a:link,
-#patternMainContents .patternDiff h4.patternSearchResultsHeader a:visited {
+#patternMainContents .patternDiff h4.foswikiSearchResultsHeader a:link,
+#patternMainContents .patternDiff h4.foswikiSearchResultsHeader a:visited {
    color:%LIGHT_ON_DARK_TEXT%;
 }
 tr.foswikiDiffDebug td {
@@ -974,11 +984,6 @@ a.foswikiButton:active {
 }
 .patternButtonShrink:active {
    background-position:16px -84px;
-}
-
-.foswikiBroadcastMessage {
-   background-image:url(background_alert.gif);
-   background-repeat:repeat-x;
 }
 
 /* common settings */
