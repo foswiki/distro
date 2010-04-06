@@ -400,6 +400,7 @@ sub loadSession {
         }
         else {
             _trace( $this, "User is logging out" );
+            $session->logEvent( 'logout', ' ', "AUTHENTICATION LOGOUT - $authUser - " );
 
             #TODO: consider if we should risk passing on the urlparams on logout
             my $path_info = $session->{request}->path_info();
