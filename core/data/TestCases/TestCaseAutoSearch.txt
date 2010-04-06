@@ -11,21 +11,22 @@ Designed by: Crawford Currie
 ---+ Search _default
 ---++ Expected
 <!-- expected expand rex DEFAULT -->
-<span class="patternSearched">Searched: <b><noautolink>hit me with your rhythm stick</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4>
-<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
-<div class="foswikiRight foswikiSRAuthor">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
-<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow">
-<div class="foswikiSummary foswikiGrayText"><b>&hellip;</b> default Expected Searched: <em>hit me with your rhythm stick</em> Results from TestCases web  <b>&hellip;</b> default Expected Searched: <em>hit me with your rhythm stick</em> Results from TestCases web <b>&hellip;</b> </div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div>
-<div class="foswikiRight foswikiSRAuthor">
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
-<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div>
-<!--/foswikiTopRow--><div class="foswikiBottomRow">
-<div class="foswikiSummary foswikiGrayText"><b>&hellip;</b> , used in TestCaseAutoSearch <em>hit me with your rhythm stick</em> hit me! hit me! schmerz ist  <b>&hellip;</b> </div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div>
-<!--/patternSearchResult-->
-<div class="patternSearchResultCount" class="foswikiBottomResultCount" >Number of topics: <span class="foswikiSearchResultCount">2</span></div><!--/patternSearchResultCount-->
+<div class="foswikiSearchResultsHeader"><span>Searched: <b>hit me with your rhythm stick</b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from <nop>TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</h4> 
+<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> 
+<div class="foswikiSummary"><b>&hellip;</b>  default Expected Searched: <em>hit me with your rhythm stick</em> Results from <nop>TestCases web  <b>&hellip;</b> default Expected Searched: <em>hit me with your rhythm stick</em> Results from TestCases web <b>&hellip;</b> </div></div> 
+<div class="foswikiBottomRow"> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"riff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+</div> 
+</div> 
+<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> 
+<div class="foswikiSummary"><b>&hellip;</b> , used in TestCaseAutoSearch <em>hit me with your rhythm stick</em> hit me! hit me! schmerz ist  <b>&hellip;</b> </div></div> 
+<div class="foswikiBottomRow"> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"riff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+</div> 
+</div> 
+<div class="foswikiSearchResultCount">Number of topics: <span>2</span></div> 
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
@@ -59,9 +60,19 @@ Same as last test
 ---+ Topic search with two webs specified, all summary fields disabled (expand rex TWOWEBS)
 ---++ Expected
 <!-- expected expand rex TWOWEBS -->
-<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"><a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a> 
+<div class="foswikiSummary"></div></div> 
+<div class="foswikiBottomRow"> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"riff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+</div> 
+</div><div class="foswikiSearchResult"><div class="foswikiTopRow"> 
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
+<div class="foswikiSummary"></div></div> 
+<div class="foswikiBottomRow"> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"riff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+</div> 
+</div> 
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
@@ -83,10 +94,19 @@ Same as last test
 ---+ Topic search with all webs specified
 ---++ Expected
 <!-- expected expand rex ALLWEBS -->
-<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
-
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> 
+<div class="foswikiSummary"></div></div> 
+<div class="foswikiBottomRow"> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"riff"}%/%SYSTEMWEB%/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+</div> 
+</div><div class="foswikiSearchResult"><div class="foswikiTopRow"> 
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> 
+<div class="foswikiSummary"></div></div> 
+<div class="foswikiBottomRow"> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"riff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+</div> 
+</div> 
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
@@ -295,7 +315,7 @@ NOOPED vars shouldn't expand in search results %<nop>DATE%
 <span class="patternSearched">Searched: <b><noautolink>WebPreferences$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
 <h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">1</span></div><!--/patternSearchResultCount-->
-<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div><!--/foswikiSummary-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">1</span></div><!--/patternSearchResultCount-->
 <!-- /expected -->
 ---++ Actual
@@ -316,9 +336,9 @@ NOOPED vars shouldn't expand in search results %<nop>DATE%
 <span class="patternSearched">Searched: <b><noautolink>WebPreferences$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
 <h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">1</span></div><!--/patternSearchResultCount-->
-<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/System/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/System/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div><!--/foswikiSummary-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">1</span></div><!--/patternSearchResultCount-->
-<h4 class="patternSearchResultsHeader" style="background-color:#FFEFA6"><span class="foswikiLeft"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Main Web Preferences Appearance Set WEBBGCOLOR #FFEFA6 web specific background color, current color Set SITEMAPLIST on Set WEBSUMMARY ...</div><!--/foswikiSummary-->
+<h4 class="patternSearchResultsHeader" style="background-color:#FFEFA6"><span class="foswikiLeft"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Main Web Preferences Appearance Set WEBBGCOLOR #FFEFA6 web specific background color, current color Set SITEMAPLIST on Set WEBSUMMARY ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">1</span></div><!--/patternSearchResultCount-->
 <h4 class="patternSearchResultsHeader" style="background-color:#B9DAFF"><span class="foswikiLeft"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">nop Sandbox Web Preferences Appearance Set WEBBGCOLOR #B9DAFF Set WEBSUMMARY Sandbox test area to experiment in an unrestricted hands on web. ...</div><!--/foswikiSummary-->
 </div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">1</span></div><!--/patternSearchResultCount-->
