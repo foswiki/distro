@@ -30,7 +30,6 @@ each line of the function. For efficiency and clarity, you should
 only uncomment handlers you actually use.
 
 __NOTE:__ When developing a plugin it is important to remember that
-
 Foswiki is tolerant of plugins that do not compile. In this case,
 the failure will be silent but the plugin will not be available.
 See %SYSTEMWEB%.InstalledPlugins for error messages.
@@ -38,11 +37,18 @@ See %SYSTEMWEB%.InstalledPlugins for error messages.
 __NOTE:__ Foswiki:Development.StepByStepRenderingOrder helps you decide which
 rendering handler to use. When writing handlers, keep in mind that these may
 be invoked
-
 on included topics. For example, if a plugin generates links to the current
 topic, these need to be generated before the =afterCommonTagsHandler= is run.
 After that point in the rendering loop we have lost the information that
 the text had been included from another topic.
+
+__NOTE:__ Not all handlers (and not all parameters passed to handlers) are
+available with all versions of Foswiki. Where a handler has been added
+(or deprecated) the POD comment will indicate this with a "Since" line
+e.g. *Since:* Foswiki::Plugins::VERSION 1.1
+
+See http://foswiki.org/Download/ReleaseDates for a breakdown of release
+versions.
 
 =cut
 
@@ -843,6 +849,17 @@ Foswiki::Support.Faq1
 #   my ( $session, $subject, $verb, $response ) = @_;
 #   return "This is an example of a REST invocation\n\n";
 #}
+
+=begin TML
+
+Deprecated handlers
+
+=redirectCgiQueryHandler($query, $url )= *Since:* Foswiki::Plugins::VERSION 2.1
+
+This handler was deprecated because it cannot be guaranteed to work, and
+caused a significant impediment to code improvements in the core.
+
+=cut
 
 1;
 __END__
