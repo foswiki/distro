@@ -1003,6 +1003,7 @@ pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
 Time::ParseDate,>=2003.0211,1,cpan,Required. Available from the CPAN:Time::ParseDate archive.
 Foswiki::Plugins::RequiredTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 3.2 ),perl,Required
 Foswiki::Plugins::UnneededTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 2.1 ),perl,Required
+Foswiki::Contrib::OptionalDependency,>=14754,1,perl,optional module
 Foswiki::Contrib::JSCalendarContrib,>=14754,1,perl,Javascript calendar module
 File::Spec, >0,1,cpan,This module is shipped as part of standard perl
 Cwd, >55,1,cpan,This module is shipped as part of standard perl
@@ -1182,6 +1183,7 @@ Installed:  MyPlugin_installer
     $this->assert_matches( qr/^Foswiki::Plugins::RequiredTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
     $this->assert_does_not_match( qr/^Foswiki::Plugins::UnneededTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
     $this->assert_matches( qr/^Cwd version > 55 required(.*)^ -- installed version is /ms, $missing, 'Test for backlevel module');
+    $this->assert_matches( qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- module is not installed(.*)^ -- Description: [Oo]ptional module(.*)^ -- Optional dependency will not be automatically installed/ms, $missing, 'Test for optional module');
 
     #print "===== INSTALLED =======\n$installed\n";
     $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed, 'Installed module File::Spec');

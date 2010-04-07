@@ -1088,7 +1088,9 @@ sub checkDependencies {
         }
 
         $missing .= "$msg$trig";
-        $missing .= " -- $dep->{description}\n\n";
+        $missing .= " -- Description: $dep->{description}\n" if ($dep->{description});
+        $missing .= " -- Optional dependency will not be automatically installed\n" if ($dep->{description} =~ m/^[Oo]ptional/);
+        $missing .= "\n";
 
         if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
             my $type     = $1;
@@ -1097,7 +1099,7 @@ sub checkDependencies {
             $packname .= $pack
               if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
             $dep->{name} = $packname;
-            push( @wiki, $dep );
+            push( @wiki, $dep ) unless ($dep->{description} =~ m/^[Oo]ptional/);
             next;
         }
 
