@@ -120,6 +120,7 @@ sub view {
     else {                 # Topic does not exist yet
         $indexableView = 0;
         $session->enterContext('new_topic');
+        $session->{response}->status(404);
         $rev = 1;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
