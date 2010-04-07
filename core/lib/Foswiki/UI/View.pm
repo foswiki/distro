@@ -152,6 +152,7 @@ sub view {
         $topicObject = Foswiki::Meta->new( $session, $web, $topic );
         $indexableView = 0;
         $session->enterContext('new_topic');
+        $session->{response}->status(404);
         $preferredRev          = 1;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
