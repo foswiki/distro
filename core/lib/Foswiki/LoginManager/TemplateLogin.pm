@@ -153,6 +153,7 @@ sub login {
 
             # SUCCESS our user is authenticated..
             $this->userLoggedIn($loginName);
+            $session->logEvent( 'login', $web . '.' . $topic, "AUTHENTICATION SUCCESS - $loginName - " );
 
             # remove the sudo param - its only to tell TemplateLogin
             # that we're using BaseMapper..
@@ -182,6 +183,7 @@ sub login {
         }
         else {
             $session->{response}->status(403);
+            $session->logEvent( 'login', $web . '.' . $topic, "AUTHENTICATION FAILURE - $loginName - " );
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
