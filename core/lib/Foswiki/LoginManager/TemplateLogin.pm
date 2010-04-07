@@ -182,7 +182,10 @@ sub login {
             return;
         }
         else {
-            $session->{response}->status(403);
+            # Tasks:Item1029  After much discussion, the 403 code is not used for authentication failures.
+            # RFC states: "Authorization will not help and the request SHOULD NOT be repeated" which is not
+            # the situation here.  
+            $session->{response}->status(200);
             $session->logEvent( 'login', $web . '.' . $topic, "AUTHENTICATION FAILURE - $loginName - " );
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }
