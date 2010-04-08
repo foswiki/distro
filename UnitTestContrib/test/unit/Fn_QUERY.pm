@@ -125,7 +125,7 @@ sub test_CAS {
         <<'SMELL');
 %QUERY{ "BleaghForm.Wibble" }%
 %QUERY{ "Wibble" }%
-%QUERY{ "attachments[1].name" }%
+%QUERY{ "attachments.name" }%
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 %META:FILEATTACHMENT{name="whatsnot.gif" date="1266942905" size="4586" version="1"}%
@@ -150,7 +150,7 @@ sub test_perl {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
         <<'SMELL');
 %QUERY{ "Wibble" style="perl" }%
-%QUERY{ "attachments[1].name" style="perl" }%
+%QUERY{ "attachments.name" style="perl" }%
 %QUERY{ "attachments" style="perl" }%
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
@@ -176,7 +176,7 @@ sub test_json {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
                           <<'SMELL');
 %QUERY{ "Wibble" style="json"}%
-%QUERY{ "attachments[1].name" style="json" }%
+%QUERY{ "attachments.name" style="json" }%
 %QUERY{ "attachments" style="json" }%
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
@@ -217,7 +217,7 @@ SMELL
 
     my $text = <<PONG;
 %QUERY{ "'$this->{test_web}.DeadHerring'/form.name"}%
-%QUERY{ "'$this->{test_web}.DeadHerring'/attachments[1].name" }%
+%QUERY{ "'$this->{test_web}.DeadHerring'/attachments.name" }%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
