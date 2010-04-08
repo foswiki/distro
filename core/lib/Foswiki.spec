@@ -742,6 +742,7 @@ $Foswiki::cfg{Languages}{pl}{Enabled} = 1;
 $Foswiki::cfg{Languages}{pt}{Enabled} = 1;
 $Foswiki::cfg{Languages}{ru}{Enabled} = 1;
 $Foswiki::cfg{Languages}{sv}{Enabled} = 1;
+$Foswiki::cfg{Languages}{tr}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-cn'}{Enabled} = 1;
 $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 
