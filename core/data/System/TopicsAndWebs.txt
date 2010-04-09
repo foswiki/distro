@@ -121,7 +121,7 @@ The best strategy is to use WikiWords for your topic names.  In this way, linkin
 
 For an example,  If you enter ==[<nop>[my special-topic @here]]==, you will see ==[[my special-topic @here]]==, but the actual topic created will be ==<nop>MySpecial-topicHere==.   
 
-Note that if you use the [[WebCreateNewTopic][Topic Creator]] WikiWord rules are strictly enforced, and the resulting topic would be ==<nop>MySpecialTopicHere==
+Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules are strictly enforced and the resulting topic name would be ==<nop>MySpecialTopicHere== For more details on forced links, see [[EditingShorthand#HeRe]]
 </blockquote>
 
 
