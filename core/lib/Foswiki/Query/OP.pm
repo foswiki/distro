@@ -8,6 +8,12 @@ sub new {
     return bless(\%opts, $class);
 }
 
+# Does this operator evaluate to a constant?
+# See Foswiki::Query::Node::evaluatesToConstant
+sub evaluatesToConstant {
+    return 0;
+}
+
 1;
 __END__
 

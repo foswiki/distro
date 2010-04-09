@@ -26,6 +26,12 @@ sub evalUnary {
     }
 }
 
+sub evaluatesToConstant {
+    my $this = shift;
+    my $node = shift;
+    return $node->{params}[0]->evaluatesToConstant(@_);
+}
+
 1;
 __END__
 

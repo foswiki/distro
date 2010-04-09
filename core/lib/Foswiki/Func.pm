@@ -24,7 +24,7 @@ API version $Date$ (revision $Rev$)
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (Foswiki 1.0.0). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
-parameter.
+parameter. See Foswiki:Download.ReleaseDates for version release dates.
 
 *Deprecated* _date_ indicates where a function or parameters has been
 [[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
@@ -3279,6 +3279,7 @@ Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://F
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
 Additional copyrights apply to some or all of the code in this
 file as follows:
 

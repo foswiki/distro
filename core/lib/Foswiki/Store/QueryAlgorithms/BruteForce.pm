@@ -37,6 +37,10 @@ sub query {
     #    return new Foswiki::Search::InfoCache($session, '');
     #}
 
+    # Eliminate static expressions
+    my $context = Foswiki::Meta->new( $session, $session->{webName} );
+    $query->simplify(tom => $context, data => $context );
+
     my $webNames = $options->{web}       || '';
     my $recurse = $options->{'recurse'} || '';
     my $isAdmin = $session->{users}->isAdmin( $session->{user} );

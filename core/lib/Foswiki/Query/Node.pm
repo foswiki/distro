@@ -127,22 +127,77 @@ sub evaluate {
     return $result;
 }
 
+=begin TML
+
+---++ evaluatesToConstant(%opts)
+
+Determine if this node evaluates to a constant or not. "Constant" is defined
+as "anything that doesn't involve actually looking in searched topics".
+This function takes the same parameters (%domain) as evaluate(). Note that
+no reference to the tom or data web or topic will be made, so you can
+simply pass an arbitrary Foswiki::Meta.
+
+=cut
+
+sub evaluatesToConstant {
+    my $this = shift;
+    if (!ref($this->{op})
+          && ($this->{op} == $Foswiki::Infix::Node::NUMBER
+                || $this->{op} == $Foswiki::Infix::Node::STRING)) {
+        return 1;
+    }
+    elsif (ref($this->{op})) {
+        return $this->{op}->evaluatesToConstant($this, @_);
+    }
+    return 0;
+}
+
+=begin TML
+
+---++ simplify(%opts)
+
+Simplify the query by spotting constant expressions and evaluating them,
+replacing the constant expression with an atomic value in the expression tree.
+This function takes the same parameters (%domain) as evaluate(). Note that
+no reference to the tom or data web or topic will be made, so you can
+simply pass an arbitrary Foswiki::Meta.
+
+=cut
+
+sub simplify {
+    my $this = shift;
+
+    if ($this->evaluatesToConstant(@_)) {
+        my $c = $this->evaluate(@_) || 0;
+        if ($c =~ /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/) {
+            $this->{op} = $Foswiki::Infix::Node::NUMBER;
+        } else {
+            $this->{op} = $Foswiki::Infix::Node::STRING;
+        }
+        @{$this->{params}} = ( $c );
+    } else {
+        for my $f (@{$this->{params}}) {
+            if (UNIVERSAL::can($f, 'simplify')) {
+                $f->simplify(@_);
+            }
+        }
+    }
+}
+
 1;
 __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
-# Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
+Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
+
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
