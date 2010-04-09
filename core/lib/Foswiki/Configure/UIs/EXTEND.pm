@@ -95,7 +95,7 @@ sub _install {
     }
     else {
         # OK
-        $feedback .= $this->NOTE_OK( 'Installation finished' );
+        $feedback .= $this->NOTE_OK( "Installation of $extension and dependencies finished" );
         $feedback .= $this->NOTE(<<HERE);
 Before proceeding, review the dependency reports of each installed extension and
 resolve any dependencies as required.  <ul><li>External dependencies are never automatically
