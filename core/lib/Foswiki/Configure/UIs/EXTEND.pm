@@ -70,7 +70,7 @@ sub _install {
 
     my $pkg = new Foswiki::Configure::Package ($this->{root}, $extension, $session);
     $pkg->repository($repository);
-    my ($rslt, $plugins) = $pkg->fullInstall(); 
+    my ($rslt, $plugins, $depCPAN) = $pkg->fullInstall(); 
 
     _printFeedback($rslt);
  
@@ -96,6 +96,25 @@ sub _install {
     else {
         # OK
         $feedback .= $this->NOTE_OK( 'Installation finished' );
+        $feedback .= $this->NOTE(<<HERE);
+Before proceeding, review the dependency reports of each installed extension and
+resolve any dependencies as required.  <ul><li>External dependencies are never automatically
+resolved by Foswiki. <li>Dependencies noted as "Optional" will not be automatically 
+resolved, and <li>CPAN dependencies are not resolved by the web installer.
+HERE
+    }
+
+    if ( scalar @$depCPAN ) {
+        $feedback .= $this->NOTE(<<HERE);
+Warning:  CPAN dependencies were detected, but will not be automatically installed
+by the Web installer.  The following dependencies should be manually resolved as
+required. 
+HERE
+        $feedback .= "<pre>";
+        foreach my $dep (@$depCPAN) {
+            $feedback .= "$dep->{module}\n" if $dep;
+        }
+        $feedback .= "</pre>";
     }
 
     if ( scalar @$plugins ) {
