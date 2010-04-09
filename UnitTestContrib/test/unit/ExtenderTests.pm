@@ -63,7 +63,7 @@ sub test_check_dep_not_module {
         type => "perl", module => "Non::Existing::Module" );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 0, $ok );
-    $this->assert_matches( qr/Non::Existing::Module version >=0 required\s*--\s*module is not installed/, $message );
+    $this->assert_matches( qr/Non::Existing::Module version >=0 required\s*--\s*perl module is not installed/, $message );
 
 }
 

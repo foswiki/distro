@@ -71,7 +71,7 @@ sub new {
 
     # Other defaults
     $this->{trigger}     ||= 1;
-    $this->{type}        ||= 'perl';                 # assume Foswiki module
+    $this->{type}        ||= 'external';                 # assume external module
     $this->{description} ||= 'Nondescript module';
 
     return $this;
@@ -99,7 +99,7 @@ LALA
     if ( !$this->studyInstallation() ) {
         return ( 0, <<LALA );
 $this->{module} version $this->{version} required
- -- module is not installed
+ -- $this->{type} module is not installed
 LALA
     }
     elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
