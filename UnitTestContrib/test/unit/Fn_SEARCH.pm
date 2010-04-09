@@ -121,13 +121,13 @@ sub verify_Item4692 {
     $this->assert_str_equals( '', $result );
 }
 
-sub verify_angleb {
+sub verify_b {
     my $this = shift;
 
-    # Test regex with \< and \>, used in rename searches
+    # Test regex with \b, used in rename searches
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\<matc[h]me\>" type="regex" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
+'%SEARCH{"\bmatc[h]me\b" type="regex" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
       );
 
     $this->assert_matches( qr/OkTopic/, $result );
