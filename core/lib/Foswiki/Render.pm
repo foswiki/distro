@@ -1767,12 +1767,12 @@ sub getReferenceRE {
     # Item1468/5791 - Quote special characters
     $topic = quotemeta($topic) if defined $topic;
 
-    # Note use of \< and \> to match the empty string at the
+    # Note use of \b to match the empty string at the
     # edges of a word.
     my ( $bow, $eow, $forward, $back ) = ( '\b', '\b', '?=', '?<=' );
     if ( $options{grep} ) {
-        $bow     = '\<';
-        $eow     = '\>';
+        $bow     = '\b';
+        $eow     = '\b';
         $forward = '';
         $back    = '';
     }
