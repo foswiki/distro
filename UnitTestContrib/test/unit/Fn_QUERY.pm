@@ -40,14 +40,6 @@ sub test_3 {
     $this->simpleTest( test => "'A'='A'", expect => 1 );
 }
 
-sub test_4 {
-    my $this = shift;
-    $this->simpleTest(
-        test => '$ WIKINAME',
-        expect => Foswiki::Func::getWikiName( $this->{session}->{user} ),
-       );
-}
-
 sub test_5 {
     my $this = shift;
     $this->simpleTest(

@@ -22,8 +22,8 @@ sub QUERY {
         return '';
     }
     unless ($evalParser) {
-        require Foswiki::If::Parser;
-        $evalParser = new Foswiki::If::Parser();
+        require Foswiki::Query::Parser;
+        $evalParser = new Foswiki::Query::Parser();
     }
 
     $this->{evaluatingEval}->{$expr}++;
