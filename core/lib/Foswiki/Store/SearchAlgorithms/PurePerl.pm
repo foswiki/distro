@@ -39,8 +39,11 @@ sub search {
         $searchString =~ s/(\W)/\\$1/g;
     }
 
+    # *Compatibility; this should no longer be required, as usage of
+    # \< and \> has been removed in the core.
     # Convert GNU grep \< \> syntax to \b
     $searchString =~ s/(?<!\\)\\[<>]/\\b/g;
+
     $searchString =~ s/^(.*)$/\\b$1\\b/go if $options->{'wordboundaries'};
     my $doMatch;
     if ( $options->{casesensitive} ) {
