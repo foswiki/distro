@@ -1124,6 +1124,7 @@ of the installation.
 
 sub installDependencies {
     my $this      = shift;
+    my $tmpRslt = '';
     my $rslt = '';
     my $cpan;
     my $plugins;
@@ -1133,7 +1134,8 @@ sub installDependencies {
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_options} );
         $deppkg->repository($this->repository());
-        ($rslt,$plugins,$cpan) = $deppkg->fullInstall();
+        ($tmpRslt,$plugins,$cpan) = $deppkg->fullInstall();
+        $rslt .= $tmpRslt;
         push @pluglist, @$plugins;
         push @cpanlist, @$cpan;
     }

@@ -498,6 +498,7 @@ lib/Foswiki/Configure/GlobalControls.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
 lib/Foswiki/Configure/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
+lib/Foswiki/Configure/Package.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
 lib/Foswiki/Configure/PLUGINS.pm 0444
 lib/Foswiki/Configure/resources/ajaxLoader.gif 0444
