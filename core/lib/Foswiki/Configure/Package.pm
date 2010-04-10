@@ -1136,8 +1136,8 @@ sub installDependencies {
         $deppkg->repository($this->repository());
         ($tmpRslt,$plugins,$cpan) = $deppkg->fullInstall();
         $rslt .= $tmpRslt;
-        push @pluglist, @$plugins;
-        push @cpanlist, @$cpan;
+        push(@pluglist, @$plugins) if (defined($plugins));
+        push(@cpanlist, @$cpan) if (defined($cpan));
     }
     return ($rslt, \@pluglist, \@cpanlist);
 }
@@ -1158,6 +1158,12 @@ sub _fetchFile {
     my $ext = shift;
 
     my $arf = $this->{_repository}->{pub} . $this->{_pkgname} . '/' . $this->{_pkgname} . $ext;
+    if (defined($this->{_repository}->{user})) { 
+        $arf .= '?username='.$this->{_repository}->{user};
+        if (defined($this->{_repository}->{pass})) {
+            $arf .= ';password='.$this->{_repository}->{pass};
+        }
+    }
     my $ar;
 
     my $feedback;

@@ -422,10 +422,10 @@ sub _compare_extension_versions {
 # zeroes as necessary.
 sub _digitise_tuples {
     my ( $a, $b ) = @_;
-
+    
     my ($maxDigits) = reverse sort ( map { length($_) } ( @$a, @$b ) );
-    $a = join( '', map { sprintf( '%0' . $maxDigits . 'u', $_ ); } @$a );
-    $b = join( '', map { sprintf( '%0' . $maxDigits . 'u', $_ ); } @$b );
+    $a = join( '', map { if ($_ eq 'HEAD') {$_} else { sprintf( '%0' . $maxDigits . 'u', $_ );} } @$a );
+    $b = join( '', map { if ($_ eq 'HEAD') {$_} else { sprintf( '%0' . $maxDigits . 'u', $_ );} } @$b );
 
     # Pad with zeroes to equal length
     if ( length($b) > length($a) ) {

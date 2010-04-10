@@ -61,8 +61,15 @@ sub _getListOfExtensions {
             push( @consulted, $place->{name} );
 
             my $url      = $place->{data} . 'FastReport?skin=text';
+            if (defined($place->{user})) { 
+                $url .= ';username='.$place->{user};
+                if (defined($place->{pass})) {
+                    $url .= ';password='.$place->{pass};
+                }
+            }
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
+#print STDERR "a--- ".Data::Dumper->Dump( [ $response ] )."\n";
                 my $page = $response->content();
                 if ( defined $page ) {
                     $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
@@ -98,9 +105,19 @@ sub _parseRow {
     my ( $this, $row, $place ) = @_;
     my %data;
     return '' unless defined $row;
+    my $original_row = $row;
     return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
 
-    die "$row: " . Data::Dumper->Dump( [ \%data ] ) unless $data{topic};
+    if (! $data{topic}) {
+        #die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] );
+        #its a shame that at this point we don't have enough info to extract (for eg) the <title> -
+        #which might tell the user that the site has been redirected to http://slashdot.org or something
+                    push(
+                        @{ $this->{errors} },
+"no valid Extensions report found. (".$place->{name}.")"
+                    );
+        return '';
+    }
 
     $data{name}       = $data{topic};
     $data{repository} = $place->{name};
@@ -136,9 +153,6 @@ sub ui {
     my $rows      = 0;
     my $installed = 0;
     my ( $exts, @consultedLocations ) = $this->_getListOfExtensions();
-
-    return ( \@consultedLocations, undef, $this->{errors} )
-      if scalar @{ $this->{errors} };
 
     # Table heads
     my $tableHeads = '';
@@ -274,7 +288,7 @@ sub ui {
         $rows++;
     }
 
-    return ( \@consultedLocations, $table, undef, $installed, $rows );
+    return ( \@consultedLocations, $table, $this->{errors}, $installed, $rows );
 }
 
 1;

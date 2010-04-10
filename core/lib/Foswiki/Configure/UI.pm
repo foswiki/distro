@@ -68,7 +68,7 @@ sub findRepositories {
         {
             push(
                 @{ $this->{repositories} },
-                { name => $1, data => $2, pub => $3 }
+                { name => $1, data => $2, pub => $3, user => $4, pass => $5 }
             );
         }
     }
