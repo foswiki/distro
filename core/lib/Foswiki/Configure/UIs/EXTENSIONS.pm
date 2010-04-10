@@ -123,6 +123,7 @@ sub _parseRow {
     $data{repository} = $place->{name};
     $data{data}       = $place->{data};
     $data{pub}        = $place->{pub};
+    $data{type}       = 'perl';
 
     my $dep = new Foswiki::Configure::Dependency(%data);
     $dep->studyInstallation();
