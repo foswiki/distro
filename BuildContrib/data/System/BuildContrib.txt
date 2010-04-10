@@ -376,19 +376,27 @@ name, version, type, description
 </verbatim>
 where
    * name is the name of the module,
+      * For Foswiki/TWiki/and CPAN modules, write the full module path, =Foswiki::Plugins::MyPlugin=
+      * For external modules, use a "well known" name that can be understood by other package managers. Alternative packaging like =.deb= packages can resolve these external dependencies.
    * version is the version constraint (e.g. ">1.5"),
-   * type is its type (cpan, perl, C etc) and
-   * description is a short description of the module and where to get it.
-The installer script written by the build process uses the dependency type
-to decide how to install dependant modules. 'cpan' means 'get the module
-from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org'
-(or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES=
-or =$PLUGINS_URL=).
+      * If version is written as =r1234=  (r followed by 1-6 digit number), the SVN release of the module will be compared, instead of the version.
+      * _Legacy dependencies - if written as a simple 4-digit number, will be assumed to be a SVN release number._
+   * type is its type (cpan, perl, or eternal)
+      * =cpan= modules should be found in the CPAN repositories. 
+      * =perl= modules include =Foswiki::= and =TWiki::= modules. 
+      * =external= or any other value is reported but ignored. 
+   * description is a short description of the module and where to get it. If it begins with the word =Optional= then the dependency will not be automatically resolved.
+
+%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= %statement to compare the VERSION and RELEASE strings.  
+
+The installer script written by the build process uses the dependency type to decide how to install dependant modules. 'cpan' means 'get the module from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org' (or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES= or =$PLUGINS_URL=).
 
 ---+++ Calculating DEPENDENCIES
 When your module (the _depender_) depends on another module (a _dependee_), it is important to think carefully about what version of the dependee your module requires.
 
 When you are working with Foswiki modules (such as contribs and plugins) you should list the version number of the module that you tested with. Normally you will want to use a <code>&gt;</code> condition, so that more recent versions will also work. If a dependency on a Foswiki module fails (because the module isn't installed, for example) then the installer script will pull *the latest version* of the module from Foswiki.org, whether that is the required version or not. This is a limitation of the way plugins are stored on Foswiki.org.
+
+As an alternative to using the Version number, you can also compare to the SVN release number.  Write the version string as =>=r1234=.  Note that the Version number is the preferred method, and is reported to the user during the install.
 
 When you are working with CPAN modules, you need to take account of the fact that there are *two types* of CPAN modules; _built-ins_ and _add-ons_.
 
