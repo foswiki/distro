@@ -494,6 +494,7 @@ a.configureDefaultValueLink:visited {
     position:relative; /*this is the key*/
 }
 a.configureDefaultValueLink:hover {
+	text-decoration:none;
 }
 a.configureDefaultValueLink:link span.configureDefaultValueLinkValue,
 a.configureDefaultValueLink:visited span.configureDefaultValueLinkValue {

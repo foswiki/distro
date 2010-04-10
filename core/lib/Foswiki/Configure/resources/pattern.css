@@ -55,6 +55,12 @@ blockquote {
 	padding:.5em 1.25em;
 }
 
+h2, h3, h4, h5, h6 {
+	font-weight:normal;
+	margin:1em 0 1em 0;
+}
+
+
 h1 {
 	font-size:190%;
 	color:#333;
@@ -62,41 +68,36 @@ h1 {
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-weight:400;
 	line-height:1em;
 	margin:.5em 0;
 }
 
 h3,h4,h5,h6 {
-	font-weight:500;
 	color:#090;
 	padding:0;
 }
 
 h2 {
-	font-size:160%;
+	font-size:153%;
 	color:#333;
 	padding:0;
 }
 
 h3 {
-	font-size:133%;
+	font-size:137%;
 	margin:1em 0 .5em 0;
 }
 
 h4 {
-	font-size:122%;
-	font-weight:700;
+	font-size:127%;
 }
 
 h5 {
-	font-size:110%;
-	font-weight:700;
+	font-size:117%;
 }
 
 h6 {
-	font-size:95%;
-	font-weight:700;
+	font-size:107%;
 }
 
 :link:focus,:visited:focus,:link,:visited,:link:active,:visited:active {
