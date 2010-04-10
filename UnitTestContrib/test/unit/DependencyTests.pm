@@ -150,6 +150,83 @@ sub test_check_dep_version_with_rev {
     $this->assert($revision ne '999999');
 }
 
+sub test_check_dep_version_with_implied_svn {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a svn version number
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
+            version => ">1000"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok, $message );
+    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* loaded/,
+        $message );
+    $this->assert($message =~ /version (\d+) /, $message);
+    my $revision = $1;
+    $this->assert($revision ne '999999');
+}
+
+sub test_check_dep_version_with_explicit_svn {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a svn version number
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
+            version => ">r1000"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok, $message );
+    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* loaded/,
+        $message );
+    $this->assert($message =~ /version (\d+) /, $message);
+    my $revision = $1;
+    $this->assert($revision ne '999999');
+}
+
+sub test_check_dep_version_with_unsatisfied_explicit_svn {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a svn version number
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
+            version => "<r23"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 0, $ok, $message );
+    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version < r23 required/,
+        $message );
+    $this->assert($message =~ /version (\d+) /, $message);
+    my $revision = $1;
+    $this->assert($revision ne '999999');
+}
+
+sub test_check_dep_version_with_unsatisfied_svn {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with a svn version number
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
+            version => ">2000"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 0, $ok, $message );
+    $this->assert_matches( qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version > 2000 required/,
+        $message );
+    $this->assert($message =~ /version (\d+) /, $message);
+    my $revision = $1;
+    $this->assert($revision ne '999999');
+}
+
+
 sub test_check_dep_version_with_multi_part_number {
     my ($this) = @_;
 

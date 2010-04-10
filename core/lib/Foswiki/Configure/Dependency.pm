@@ -353,6 +353,14 @@ sub _compare_extension_versions {
         }
     }
 
+    # SMELL:  Deal with poorly written DEPENDENCY files that compare for SVN release number.
+    $expect = 'svn' if ($b =~ m/^[0-9]{4,5}$/);  # If we are looking for a 4 digit number, assume SVN
+
+    if ($b =~ m/^r([0-9]){1,6}$/) {  # If we are looking for a r followed by 1-6 digit number, compare SVN
+        $b = $1;          # Strip the leading r
+        $expect = 'svn'   # And force SVN comparison
+    }
+
     if ( $expect eq 'svn' ) {
 
         # Didn't get a good RELEASE; fall back to subversion

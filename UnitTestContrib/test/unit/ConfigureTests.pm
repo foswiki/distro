@@ -1004,7 +1004,7 @@ Time::ParseDate,>=2003.0211,1,cpan,Required. Available from the CPAN:Time::Parse
 Foswiki::Plugins::RequiredTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 3.2 ),perl,Required
 Foswiki::Plugins::UnneededTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 2.1 ),perl,Required
 Foswiki::Contrib::OptionalDependency,>=14754,1,perl,optional module
-Foswiki::Contrib::JSCalendarContrib,>=14754,1,perl,Javascript calendar module
+Foswiki::Contrib::UnitTestContrib::MultiDottedVersion,>=14754,1,perl,Required
 File::Spec, >0,1,cpan,This module is shipped as part of standard perl
 Cwd, >55,1,cpan,This module is shipped as part of standard perl
 htmldoc, >24.3,1,c,Required for generating PDF
@@ -1159,14 +1159,12 @@ Installed:  MyPlugin_installer
     foreach my $dep ( @{$wiki} ) {
        $mods .= "$dep->{module};";
        }
-    #print "$mods\n";
-    $this->assert_str_equals( "Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::JSCalendarContrib;", $mods, 'Wiki modules to be installed');
+    $this->assert_str_equals( "Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::UnitTestContrib::MultiDottedVersion;", $mods, 'Wiki modules to be installed');
 
     $mods = '';
     foreach my $dep ( @{$install} ) {
        $mods .= "$dep->{module};";
        }
-    #print "$mods\n";
     my $expected = 'Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;') . 'Cwd;';
     $this->assert_str_equals( $expected, $mods);
     $this->assert_str_equals( $expected, $mods, 'CPAN modules to be installed');
