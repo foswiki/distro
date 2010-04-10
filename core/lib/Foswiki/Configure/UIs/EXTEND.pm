@@ -28,7 +28,12 @@ sub ui {
               . " </pre>" );
     }
     my $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
-
+    if (defined($this->{_repository}->{user})) { 
+        $arf .= '?username='.$this->{_repository}->{user};
+        if (defined($this->{_repository}->{pass})) {
+            $arf .= ';password='.$this->{_repository}->{pass};
+        }
+    }
     print "<br/>Fetching $arf...<br />\n";
     my $response = $this->getUrl($arf);
     if ( !$response->is_error() ) {

@@ -48,8 +48,15 @@ sub _getListOfExtensions {
             $place->{data} =~ s#/*$#/#;
             print CGI::div("Consulting $place->{name}...");
             my $url      = $place->{data} . 'FastReport?skin=text';
+            if (defined($place->{user})) { 
+                $url .= ';username='.$place->{user};
+                if (defined($place->{pass})) {
+                    $url .= ';password='.$place->{pass};
+                }
+            }
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
+#print STDERR "a--- ".Data::Dumper->Dump( [ $response ] )."\n";
                 my $page = $response->content();
                 if (defined $page) {
                     $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
@@ -90,7 +97,16 @@ sub _parseRow {
     $data{repository} = $place->{name};
     $data{data}       = $place->{data};
     $data{pub}        = $place->{pub};
-    die "$row: " . Data::Dumper->Dump( [ \%data ] ) unless $data{topic};
+    if (! $data{topic}) {
+        #die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] );
+        #its a shame that at this point we don't have enough info to extract (for eg) the <title> -
+        #which might tell the user that the site has been redirected to http://slashdot.org or something
+                    push(
+                        @{ $this->{errors} },
+"no valid Extensions report found. (".$place->{name}.")"
+                    );
+        return '';
+    }
     $this->{list}->{ $data{topic} } = \%data;
     return '';
 }
