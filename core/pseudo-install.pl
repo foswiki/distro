@@ -247,6 +247,7 @@ sub satisfyDependency {
 # See also: just_link
 sub copy_in {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
+    return if ( -e "$file" && $ignoreBlock);  # For core manifest, ignore copy if target exists.
     File::Path::mkpath($dir);
     if ( -e "$moduleDir/$file" ) {
         File::Copy::copy( "$moduleDir/$file", $file )
