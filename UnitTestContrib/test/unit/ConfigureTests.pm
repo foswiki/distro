@@ -1283,9 +1283,9 @@ sub test_Package_loadInstaller {
     #
     # Test listPlugins
     #
-    my @plugins = $pkg->listPlugins();
+    my %plugins = $pkg->listPlugins();
 
-    $this->assert_str_equals( 'EmptyPlugin', $plugins[0], 'Failed to discover plugin in manifest' );
+    $this->assert_str_equals( '1', %plugins->{EmptyPlugin}, 'Failed to discover plugin in manifest' );
     $pkg->finish();
     undef $pkg;
 }

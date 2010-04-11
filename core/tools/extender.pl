@@ -428,13 +428,13 @@ sub _install {
         }
     }
 
-    if ( scalar @$plugins ) {
+    if ( keys %$plugins ) {
         $rslt = <<HERE;
 Note: Don't forget to enable installed plugins in the
 "Plugins" section of bin/configure, listed below:
 
 HERE
-        foreach my $plugName (@$plugins) {
+        foreach my $plugName ( keys %$plugins) {
             $rslt .= "  $plugName \n" if $plugName;
         }
     }

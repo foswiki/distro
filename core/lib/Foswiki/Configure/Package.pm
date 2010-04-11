@@ -246,12 +246,13 @@ sub fullInstall {
             $rslt = '';
         }
     }
-    my @plugins = $this->listPlugins();   # Retrieve a list of any plugin modules installed by this package.
-    push @plugins, @$depPlugins ;
+    my %plugins;
+    %plugins = $this->listPlugins();   # Retrieve a list of any plugin modules installed by this package.
+    @plugins{ keys %$depPlugins } = values %$depPlugins;
 
     $feedback .= "</div>" unless ($this->{_options}->{SHELL}); 
    
-    return ($feedback, \@plugins, \@cpanDeps);
+    return ($feedback, \%plugins, \@cpanDeps);
  
 }
 
@@ -341,8 +342,6 @@ sub install {
 
     my @names   = $this->listFiles();    # Retrieve list of filenames from manifest
     my $err     = '';                # Accumulated errors
-
-    my @plugins;
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
@@ -636,13 +635,13 @@ List the plugin modules provided by this extension.
 
 sub listPlugins {
     my $this      = shift;
-    my @plugins;
+    my %plugins;
 
     foreach my $plugin ( $this->listFiles() )  {
         my ($plugName) = $plugin =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
-        push (@plugins,  $plugName) if $plugName;
+        $plugins{$plugName} = 1 if $plugName;
     }
-    return sort(@plugins);
+    return %plugins;
 }
 
 
@@ -1128,7 +1127,7 @@ sub installDependencies {
     my $rslt = '';
     my $cpan;
     my $plugins;
-    my @pluglist;
+    my %pluglist;
     my @cpanlist;
 
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
@@ -1136,10 +1135,10 @@ sub installDependencies {
         $deppkg->repository($this->repository());
         ($tmpRslt,$plugins,$cpan) = $deppkg->fullInstall();
         $rslt .= $tmpRslt;
-        push(@pluglist, @$plugins) if (defined($plugins));
+        @pluglist{ keys %$plugins } = values %$plugins;
         push(@cpanlist, @$cpan) if (defined($cpan));
     }
-    return ($rslt, \@pluglist, \@cpanlist);
+    return ($rslt, \%pluglist, \@cpanlist);
 }
 
 

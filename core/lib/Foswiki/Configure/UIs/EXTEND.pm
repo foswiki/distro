@@ -117,14 +117,14 @@ HERE
         $feedback .= "</pre>";
     }
 
-    if ( scalar @$plugins ) {
+    if ( keys( %$plugins )) {
         $feedback .= $this->NOTE(<<HERE);
 Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
 HERE
         $feedback .= "<pre>";
-        foreach my $plugName (@$plugins) {
-            $feedback .= "$plugName \n" if $plugName;
+        foreach my $plu ( keys %$plugins )  {
+            $feedback .= "$plu \n";
         }
         $feedback .= "</pre>";
     }
@@ -208,7 +208,7 @@ sub _uninstall {
     my $unpackedFeedback = '';
     foreach my $file (@removed) {
             $unpackedFeedback .= "$file\n";
-            my ($plugName) = $file =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
+            my ($plugName) = $file =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
             push (@plugins,  $plugName) if $plugName;
             }
     $feedback .= "Removed files:<br />\n<pre>$unpackedFeedback</pre>" if $unpackedFeedback;
