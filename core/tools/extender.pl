@@ -41,7 +41,7 @@ my $noconfirm       = 0;
 my $downloadOK      = 0;
 my $alreadyUnpacked = 0;
 my $reuseOK         = 0;
-my $inactive        = 0;
+my $simulate        = 0;
 my $nocpan          = 0;
 my $action          = 'install';  # Default target is install
 my $session;
@@ -78,7 +78,7 @@ $noconfirm = $opts{a};
 $nocpan = $opts{c};
 $downloadOK = $opts{d};
 $reuseOK = $opts{r};
-$inactive = $opts{n};
+$simulate = $opts{n};
 $alreadyUnpacked = $opts{u};
 if( @ARGV > 1 ) {
     usage();
@@ -274,7 +274,7 @@ sub _loadInstaller {
 
     
 
-    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, $session, { SHELL => 1, USELOCAL => $reuseOK });
+    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, $session, { SHELL => 1, USELOCAL => $reuseOK, SIMULATE => $simulate });
     $thispkg->repository($repository);
 
     my ($rslt, $err) = $thispkg->loadInstaller();  # Use local package, don't download, as we were invoked from it.
@@ -289,6 +289,8 @@ sub _uninstall {
     my @dead;
     my $rslt = '';
     my $err = '';
+    my $sim = '';
+    $sim = 'Simulated - ' if ($simulate);
 
     $rslt = $thispkg->createBackup();
 
@@ -300,25 +302,34 @@ sub _uninstall {
         _warn "No part of $MODULE is installed";
         return 0;
     }
-    _warn "To uninstall $MODULE, the following files will be deleted:";
-    _inform "\t" . join( "\n\t", @dead );
+    _warn "$sim To uninstall $MODULE, the following files will be deleted:";
+    _inform "\t" . join( "\n\t$sim", @dead );
 
-    return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
     
         $thispkg->loadExits();
-   
-        $thispkg->preuninstall() if (defined $thispkg->preinstall);
+
+        unless ( $simulate ) { 
+            $rslt = "Running Pre-uninstall exit for $thispkg->{_pkgname} ...\n";
+            $rslt .= $thispkg->preuninstall() || '' ;
+            _inform "$rslt" ;
+        }
 
         @dead = $thispkg->uninstall() ;
+        my $removed = scalar @dead;
+        _inform "$sim removed $removed files";
 
-        $thispkg->postuninstall() if (defined $thispkg->postuninstall);
+        unless ( $simulate ) { 
+            $rslt = "Running Post-uninstall exit for $thispkg->{_pkgname} ...\n";
+            $rslt .= $thispkg->postuninstall() || '' ;
+            _inform "$rslt" ;
+        }
 
         $thispkg->finish();
         undef $thispkg;
 
-        _inform "$MODULE uninstalled";
+        _inform "$sim $MODULE uninstalled";
     }
     return 1;
 }
@@ -420,10 +431,11 @@ sub _install {
 
     my ($rslt, $plugins, $depCPAN) = $thispkg->fullInstall();
     _inform $rslt;
+    $rslt = '';
 
     my $unsatisfied = 0;
-    foreach my $dep (@$depCPAN) {
-        unless ( satisfy($dep) ) {
+    foreach my $depkey (keys %$depCPAN) {
+        unless ( satisfy( \%{$depCPAN->{$depkey}} ) ) {
             $unsatisfied++;
         }
     }

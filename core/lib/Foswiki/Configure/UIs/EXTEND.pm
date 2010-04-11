@@ -104,15 +104,15 @@ resolved, and <li>CPAN dependencies are not resolved by the web installer.
 HERE
     }
 
-    if ( scalar @$depCPAN ) {
+    if ( keys %$depCPAN ) {
         $feedback .= $this->NOTE(<<HERE);
 Warning:  CPAN dependencies were detected, but will not be automatically installed
 by the Web installer.  The following dependencies should be manually resolved as
 required. 
 HERE
         $feedback .= "<pre>";
-        foreach my $dep (@$depCPAN) {
-            $feedback .= "$dep->{module}\n" if $dep;
+        foreach my $dep (keys %$depCPAN) {
+            $feedback .= "$dep\n";
         }
         $feedback .= "</pre>";
     }

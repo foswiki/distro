@@ -69,6 +69,7 @@ Required for installer methods - used for checkin operations
         SHELL    => 0/1     Specify if executed from shell - default is to generate html markup in messages.
         NODEPS   => 0/1     Set if dependencies should not be installed.  Default is to always install Foswiki dependencies.
                             (CPAN and external dependencies are not handled by this module.)
+        SIMULATE => 0/1     Set to 1 if actions should be simulated - no file system modifications other than temporary files.
       }
       
 =cut
@@ -179,7 +180,7 @@ sub fullInstall {
         $nl = "\n";
         $pre = '';
         $epre = '';
-        $feedback .= " ===== INSTALLING DEPENDENCY $this->{_pkgname} \n";
+        $feedback .= "===== INSTALLING $this->{_pkgname} \n";
         }
     else {
         $feedback .= "<h3 style='margin-top:0'>Installing $this->{_pkgname}</h3>";
@@ -198,6 +199,8 @@ sub fullInstall {
     return ($err) if ($err);
 
     my ($installed, $missing, $wiki, $cpan, $manual) = $this->checkDependencies();
+        # #wiki, $cpan and $manual are array references to array of Dependency objects
+        
     $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
     $rslt .= "====== MISSING ========\n$missing\n" if ($missing);
 
@@ -207,14 +210,11 @@ sub fullInstall {
         $rslt = '';
     }
 
-    my @cpanDeps;
-    push @cpanDeps, @$cpan;       # push this module's dependencies
-
-    my $depPlugins;
+    my $depPlugins;               # hashref to hash of plugin names
+    my $depCPAN;                  # hashref to hash of cpan dependency names
     unless ($this->{_options}->{NODEPS} ) {
-        ($rslt, $depPlugins, $cpan) = $this->installDependencies();
+        ($rslt, $depPlugins, $depCPAN) = $this->installDependencies();
         $feedback .= $rslt;
-        push @cpanDeps, @$cpan;
     }
 
     ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
@@ -226,9 +226,9 @@ sub fullInstall {
 
         $this->loadExits();
 
-        if (defined $this->preinstall ) { 
+        unless ( $this->{_options}->{SIMULATE} ) { 
             $feedback .= "Running Pre-install exit for $this->{_pkgname} ...$nl";
-            $rslt = $this->preinstall() || '';
+            $rslt = $this->preinstall() || '' ;
             $feedback .= "$pre$rslt$epre" ;
             $rslt = '';
         }
@@ -239,7 +239,7 @@ sub fullInstall {
         $feedback .= "$pre$rslt$epre";
         $rslt = '';
 
-        if (defined $this->postinstall ) { 
+        unless ( $this->{_options}->{SIMULATE} ) { 
             $feedback .= "Running Post-install exit for $this->{_pkgname}...$nl";
             $rslt = $this->postinstall() || '';
             $feedback .= "$pre$rslt$epre" ;
@@ -248,11 +248,17 @@ sub fullInstall {
     }
     my %plugins;
     %plugins = $this->listPlugins();   # Retrieve a list of any plugin modules installed by this package.
-    @plugins{ keys %$depPlugins } = values %$depPlugins;
+    @plugins{ keys %$depPlugins } = values %$depPlugins;   # merge in dependencies
+
+    my %cpanDeps;
+    foreach my $cpdep ( @$cpan) {
+        $cpanDeps{$cpdep->{module}} = $cpdep;
+        }
+    @cpanDeps{ keys %$depCPAN } = values %$depCPAN;   # merge in cpan from dependencies
 
     $feedback .= "</div>" unless ($this->{_options}->{SHELL}); 
    
-    return ($feedback, \%plugins, \@cpanDeps);
+    return ($feedback, \%plugins, \%cpanDeps);
  
 }
 
@@ -301,6 +307,8 @@ sub install {
     my $feedback = '';                # Results from install
     my $error = '';                   # Error results
     my $installer = '';
+    my $simulated = '';
+    $simulated = 'Simulated - ' if ($this->{_options}->{SIMULATE});
 
     unless ($expanded) {
         if ($uselocal) {
@@ -356,7 +364,7 @@ sub install {
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
 
         # Make file writable if it is read-only
-        if ( -e $target && !-w $target ) {
+        if ( -e $target && !-w $target && ! $this->{_options}->{SIMULATE} ) {
             chmod( oct(600), "$target" );
         }
 
@@ -392,29 +400,29 @@ sub install {
                 close $fh;
 
                 if ($contents) {
-                    $feedback .= "Checked in: $file  as $tweb.$ttopic\n";
+                    $feedback .= "${simulated}Checked in: $file  as $tweb.$ttopic\n";
                     my $meta =
                       Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
                     $feedback .= _installAttachments( $this, $dir, "$web/$topic",
                         "$tweb/$ttopic", $meta );
-                    $meta->saveAs( $tweb, $ttopic, %opts );
+                    $meta->saveAs( $tweb, $ttopic, %opts ) unless  $this->{_options}->{SIMULATE};
                 }
                 next;
             }
 
             # Everything else
-            my $msg .= _moveFile( "$dir/$file", "$target", $perms );
+            my $msg .= _moveFile($this, "$dir/$file", "$target", $perms );
             $err .= $msg if ($msg);
-            $feedback .= "Installed:  $file\n";
+            $feedback .= "${simulated}Installed:  $file\n";
             next;
         }
     }
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
-    my $msg      = _moveFile(
+    my $msg      = _moveFile($this,
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
     );
-    $feedback .= "Installed:  $this->{_pkgname}_installer\n";
+    $feedback .= "${simulated}Installed:  $this->{_pkgname}_installer\n";
 
     $err .= $msg if ($msg);
     return ( $feedback, $err );
@@ -464,7 +472,7 @@ sub _installAttachments {
             $opts{comment}  = $attachinfo->{comment};
             $opts{filesize} = $stats[7];
             $opts{filedate} = $stats[9];
-            $meta->attach(%opts);
+            $meta->attach(%opts) unless ($this->{_options}->{SIMULATE});
             $feedback .= "Attached:   $file to $twebTopic\n";
         }
     }
@@ -479,27 +487,30 @@ Make the path as required and move or copy the file into the target location
 =cut
 
 sub _moveFile {
+    my $this  = shift;
     my $from  = shift;
     my $to    = shift;
     my $perms = shift;
 
     my @path = split( /[\/\\]+/, $to, -1 );    # -1 allows directories
     pop(@path);
-    if ( scalar(@path) ) {
-        File::Path::mkpath( join( '/', @path ) );
-    }
+    unless ( $this->{_options}->{SIMULATE}) {
+        if ( scalar(@path) ) {
+            File::Path::mkpath( join( '/', @path ) );
+        }  
 
-    if ( !File::Copy::move( "$from", $to ) ) {
-        if ( !File::Copy::copy( "$from", $to ) ) {
-            return "Failed to move/copy file '$from' to $to: $!";
+       if ( !File::Copy::move( "$from", $to ) ) {
+            if ( !File::Copy::copy( "$from", $to ) ) {
+                return "Failed to move/copy file '$from' to $to: $!";
+            }
         }
-    }
-    if ( defined $perms ) {
-        $to =~ /(.*)/;
-        $to = $1;    #yes, we must untaint
-        $perms =~ /(.*)/;
-        $perms = $1;    #yes, we must untaint
-        chmod( oct($perms), "$to" );
+        if ( defined $perms ) {
+            $to =~ /(.*)/;
+            $to = $1;    #yes, we must untaint
+            $perms =~ /(.*)/;
+            $perms = $1;    #yes, we must untaint
+            chmod( oct($perms), "$to" );
+        }
     }
     return 0;
 }
@@ -536,7 +547,7 @@ sub createBackup {
       );
 
     if ( scalar @files ) {            # Anything to backup?
-        File::Path::mkpath("$pkgstore");
+        File::Path::mkpath("$pkgstore") unless ($this->{_options}->{SIMULATE}) ;
 
         foreach my $file (@files) {
             my ($tofile) = $file =~ m/^$root(.*)$/
@@ -548,17 +559,18 @@ sub createBackup {
               ;    # -1 allows directories
             pop(@path);
             if ( scalar(@path) ) {
-                File::Path::mkpath( join( '/', @path ) );
+                File::Path::mkpath( join( '/', @path ) ) unless ($this->{_options}->{SIMULATE}) ;
                 my $mode =
                   ( stat($file) )[2];    # File::Copy doesn't copy permissions
-                File::Copy::copy( "$file", "$pkgstore/$tofile" );
+                File::Copy::copy( "$file", "$pkgstore/$tofile" ) unless ($this->{_options}->{SIMULATE}) ;
                 $mode =~ /(.*)/;
                 $mode = $1;              #yes, we must untaint
-                chmod( $mode, "$pkgstore/$tofile" );
+                chmod( $mode, "$pkgstore/$tofile" ) unless ($this->{_options}->{SIMULATE}) ;
             }
         }
 
-        my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' );
+        my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' ) unless ($this->{_options}->{SIMULATE}) ;
+        $rslt = ' - Simulated backup, no files copied '  if ($this->{_options}->{SIMULATE}); 
         return "Backup saved into $pkgstore \n   Archived as $rslt \n";
     }
     return "Nothing to backup \n";
@@ -592,7 +604,7 @@ sub setPermissions {
                 $target = $1;    #yes, we must untaint
                 $mode =~ /(.*)/;
                 $mode = $1;      #yes, we must untaint
-                chmod( oct($mode), $target );
+                chmod( oct($mode), $target ) unless ( $this->{_options}->{SIMULATE});
             }
         }
     }
@@ -661,6 +673,8 @@ have been removed is returned.
 sub uninstall {
     my $this     = shift;
     my $simulate = shift;
+
+    $simulate =  $this->{_options}->{SIMULATE} unless ($simulate); 
 
     my @removed;
     my %directories;
@@ -1128,17 +1142,20 @@ sub installDependencies {
     my $cpan;
     my $plugins;
     my %pluglist;
-    my @cpanlist;
+    my %cpanlist;
 
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
-        my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_options} );
-        $deppkg->repository($this->repository());
-        ($tmpRslt,$plugins,$cpan) = $deppkg->fullInstall();
-        $rslt .= $tmpRslt;
-        @pluglist{ keys %$plugins } = values %$plugins;
-        push(@cpanlist, @$cpan) if (defined($cpan));
+        my ( $ok, $msg ) = $dep->check();
+        unless ($ok) {
+            my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_options} );
+            $deppkg->repository($this->repository());
+            ($tmpRslt,$plugins,$cpan) = $deppkg->fullInstall();
+            $rslt .= $tmpRslt;
+            @pluglist{ keys %$plugins } = values %$plugins;
+            @cpanlist{ keys %$cpan } = values %$cpan;
+        }
     }
-    return ($rslt, \%pluglist, \@cpanlist);
+    return ($rslt, \%pluglist, \%cpanlist);
 }
 
 
