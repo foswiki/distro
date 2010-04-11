@@ -639,7 +639,7 @@ sub listPlugins {
     my @plugins;
 
     foreach my $plugin ( $this->listFiles() )  {
-        my ($plugName) = $plugin =~ m/.*\/Plugins\/(.*?Plugin)\.pm$/;
+        my ($plugName) = $plugin =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
         push (@plugins,  $plugName) if $plugName;
     }
     return sort(@plugins);
