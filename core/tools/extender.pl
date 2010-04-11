@@ -434,7 +434,7 @@ Note: Don't forget to enable installed plugins in the
 "Plugins" section of bin/configure, listed below:
 
 HERE
-        foreach my $plugName ( keys %$plugins) {
+        foreach my $plugName (sort { lc ($a) cmp lc ($b) } keys %$plugins) {
             $rslt .= "  $plugName \n" if $plugName;
         }
     }

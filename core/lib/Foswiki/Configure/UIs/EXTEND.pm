@@ -123,7 +123,7 @@ Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
 HERE
         $feedback .= "<pre>";
-        foreach my $plu ( keys %$plugins )  {
+        foreach my $plu (sort { lc ($a) cmp lc ($b) } keys %$plugins )  {
             $feedback .= "$plu \n";
         }
         $feedback .= "</pre>";
