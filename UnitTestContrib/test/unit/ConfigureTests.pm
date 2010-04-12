@@ -1264,7 +1264,7 @@ DONE
     foreach my $cpdep (sort { lc ($a) cmp lc ($b) }keys %$cpan) {
             $cplist .= "$cpdep;";
         }
-    $this->assert_str_equals( 'Cwd;Filtrx::Invalid::Blah;', $cplist, "Unexpected CPAN Dependencies");
+    $this->assert_str_equals( 'Cwd;Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;'), $cplist, "Unexpected CPAN Dependencies");
 
     #print $result;
    
@@ -1282,14 +1282,17 @@ HERE
 
     $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected Installed files from Simulated fullInstall");
 
-
     $expresult = <<'HERE';
 ====== MISSING ========
 Filtrx::Invalid::Blah version >=0.68 required
  -- CPAN module is not installed
  -- Description: Required. install from CPAN
 
-Foswiki::Plugins::RequiredTriggeredModule version >=0.1 required
+(Time::ParseDate version >=2003.0211 required
+ -- cpan module is not installed
+ -- Description: Required. Available from the CPAN:Time::ParseDate archive.
+
+)?Foswiki::Plugins::RequiredTriggeredModule version >=0.1 required
  -- perl module is not installed
  -- Triggered by \( \$Foswiki::Plugins::VERSION < 3.2 \)
  -- Description: Required
