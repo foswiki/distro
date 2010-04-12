@@ -1299,7 +1299,7 @@ Foswiki::Contrib::OptionalDependency version >=14754 required
  -- Description: optional module
  -- Optional dependency will not be automatically installed
 
-Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version >= 11000 required
+Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version >= 14754 required
  -- installed version is 1.23.4
  -- Description: Required
 

@@ -748,8 +748,8 @@ sub loadInstaller {
     my $this = shift;
     my $options = shift;
 
-    my $uselocal = $options->{USELOCAL} || $this->{_options}->{USELOCAL};
-    my $temproot = $options->{DIR} || $this->{_options}->{DIR} || $this->{_root};
+    my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
+    my $temproot = $this->{_options}->{DIR}      || $options->{DIR}        || $this->{_root};
 
     my $file;
     my $err;
