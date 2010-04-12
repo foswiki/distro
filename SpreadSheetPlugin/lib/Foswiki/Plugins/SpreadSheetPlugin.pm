@@ -55,7 +55,9 @@ sub initPlugin {
 
     # Flag to skip calc if in include
     $skipInclude =
-      Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_SKIPINCLUDE") || 1;
+        Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_SKIPINCLUDE");
+    my $skipIncludePref = Foswiki::Func::getPreferencesValue("SPREADSHEETPLUGIN_SKIPINCLUDE");
+    $skipInclude = 1 unless defined $skipIncludePref && $skipIncludePref ne '';
 
     # Plugin correctly initialized
     Foswiki::Func::writeDebug(
