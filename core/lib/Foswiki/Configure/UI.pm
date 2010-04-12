@@ -134,7 +134,9 @@ sub setting {
 
     my $data = join( ' ', @_ ) || ' ';
 
-    return CGI::Tr( CGI::th($key) . CGI::td($data) );
+    # SMELL:  CGI matches the term "CGI" and omits it from the table row.
+    #         Changing from CGI::th to CGI->th resolves the issue
+    return CGI::Tr( CGI->th($key) . CGI::td($data) );
 }
 
 # encode a string to make a simplified unique ID useable
