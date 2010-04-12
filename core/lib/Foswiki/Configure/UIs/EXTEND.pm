@@ -111,7 +111,7 @@ by the Web installer.  The following dependencies should be manually resolved as
 required. 
 HERE
         $feedback .= "<pre>";
-        foreach my $dep (keys %$depCPAN) {
+        foreach my $dep (sort { lc ($a) cmp lc ($b) }keys %$depCPAN) {
             $feedback .= "$dep\n";
         }
         $feedback .= "</pre>";

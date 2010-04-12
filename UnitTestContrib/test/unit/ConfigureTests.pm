@@ -1209,6 +1209,118 @@ Installed:  MyPlugin_installer
 
 }
 
+sub test_Package_fullInstall {
+    my $this = shift;
+    my $root = $this->{rootdir};
+    use Foswiki::Configure::Package;
+    my $result = '';
+    my $err    = '';
+    my $plugins;
+    my $cpan;
+
+    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
+    rmtree($tempdir);    # Clean up old files if left behind
+    mkpath($tempdir);
+
+    _makefile( $tempdir, "obsolete.pl", <<'DONE');
+Test file data
+DONE
+
+    my $extension = "MyPlugin";
+    _makePackage( $tempdir, $extension );
+
+  #
+  #   Make sure that the package is removed, that no old topics were left around
+  #
+  #
+    my $pkg =
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
+    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
+    $pkg->uninstall();
+    $pkg->finish();
+    undef $pkg;
+
+   #
+   #   Install the package - as a fresh install, no checkin or rcs files created
+   #
+
+    _makePackage( $tempdir, $extension );
+    $pkg =
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session}, 
+          { SIMULATE => 1,            # Don't actually install any files
+            DIR => $tempdir,          # Location of expanded package
+            EXPANDED => 1,            # Already expanded
+            USELOCAL => 1,            # Use local files don't download
+            SHELL => 1,               # Shell version, no HTML markup
+            NODEPS => 1               # No dependencies
+          } );
+    ( $result, $plugins, $cpan ) = $pkg->fullInstall();
+
+    foreach my $pn ( keys %$plugins ) {
+        print "PLUGIN $pn \n";
+        }
+
+    my $cplist = '';
+    foreach my $cpdep (sort { lc ($a) cmp lc ($b) }keys %$cpan) {
+            $cplist .= "$cpdep;";
+        }
+    $this->assert_str_equals( 'Cwd;Filtrx::Invalid::Blah;', $cplist, "Unexpected CPAN Dependencies");
+
+    #print $result;
+   
+    my $expresult = <<HERE;
+Creating Backup of MyPlugin ...
+Nothing to backup 
+Installing MyPlugin... 
+Simulated - Installed:  data/Sandbox/TestTopic1.txt
+Simulated - Installed:  data/Sandbox/TestTopic43.txt
+Simulated - Installed:  pub/Sandbox/TestTopic1/file.att
+Simulated - Installed:  pub/Sandbox/TestTopic43/file.att
+Simulated - Installed:  pub/Sandbox/TestTopic43/file2.att
+Simulated - Installed:  MyPlugin_installer
+HERE
+
+    $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected Installed files from Simulated fullInstall");
+
+
+    $expresult = <<'HERE';
+====== MISSING ========
+Filtrx::Invalid::Blah version >=0.68 required
+ -- CPAN module is not installed
+ -- Description: Required. install from CPAN
+
+Foswiki::Plugins::RequiredTriggeredModule version >=0.1 required
+ -- perl module is not installed
+ -- Triggered by \( \$Foswiki::Plugins::VERSION < 3.2 \)
+ -- Description: Required
+
+Foswiki::Contrib::OptionalDependency version >=14754 required
+ -- perl module is not installed
+ -- Description: optional module
+ -- Optional dependency will not be automatically installed
+
+Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version >= 11000 required
+ -- installed version is 1.23.4
+ -- Description: Required
+
+Cwd version > 55 required
+ -- installed version is (.*)?
+ -- Description: This module is shipped as part of standard perl
+
+htmldoc is type c, and cannot be automatically checked.
+Please check it manually and install if necessary.
+ -- Description: Required for generating PDF
+HERE
+
+    $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected dependency results from Simulated fullInstall");
+
+    $pkg->finish();
+    undef $pkg;
+
+    rmtree($tempdir);
+
+}
+
 sub test_Util_createArchive {
     my $this = shift;
 

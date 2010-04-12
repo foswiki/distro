@@ -196,7 +196,7 @@ sub fullInstall {
         }
     }
 
-    return ($err) if ($err);
+    return ("ERROR - " . $err) if ($err);
 
     my ($installed, $missing, $wiki, $cpan, $manual) = $this->checkDependencies();
         # #wiki, $cpan and $manual are array references to array of Dependency objects
@@ -301,7 +301,7 @@ sub install {
  
     my $expanded = $this->{_options}->{EXPANDED} || $options->{EXPANDED};
     my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
-    my $dir = $options->{DIR} || $this->{_root};
+    my $dir      = $this->{_options}->{DIR}      || $options->{DIR}        || $this->{_root};
 
     my $ext = '';
     my $feedback = '';                # Results from install
@@ -353,6 +353,7 @@ sub install {
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
+
         if ( $file =~ /^bin\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
             Foswiki::Configure::Util::rewriteShbang( "$dir/$file", "$perlLoc" )
@@ -748,7 +749,7 @@ sub loadInstaller {
     my $options = shift;
 
     my $uselocal = $options->{USELOCAL} || $this->{_options}->{USELOCAL};
-    my $temproot = $options->{DIR} || $this->{_root};
+    my $temproot = $options->{DIR} || $this->{_options}->{DIR} || $this->{_root};
 
     my $file;
     my $err;
