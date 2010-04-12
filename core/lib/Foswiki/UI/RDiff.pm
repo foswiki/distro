@@ -123,7 +123,7 @@ sub _sideBySideRow {
         },
         $right . '&nbsp;'
     );
-    return CGI::Tr( $d1 . $d2 );
+    return CGI::Tr( {}, $d1 . $d2 );
 }
 
 #| Description: | render the Diff entry using side by side |
@@ -190,7 +190,7 @@ sub _renderDebug {
     $right =~ s/</&lt;/go;
     $right =~ s/>/&gt;/go;
 
-    $result = CGI::Tr( CGI::td( 'type: ' . $diffType ) );
+    $result = CGI::Tr( {}, CGI::td( {}, 'type: ' . $diffType ) );
 
     my %classMap = (
         '+' => ['foswikiDiffAddedText'],
@@ -209,7 +209,7 @@ sub _renderDebug {
             { class => 'foswikiDiffDebug' },
             CGI::td(
                 { class => 'foswikiDiffDebugLeft ' . $styleClassLeft },
-                CGI::div($left)
+                CGI::div({}, $left)
             )
         );
     }
@@ -218,7 +218,7 @@ sub _renderDebug {
             { class => 'foswikiDiffDebug' },
             CGI::td(
                 { class => 'foswikiDiffDebugRight ' . $styleClassRight },
-                CGI::div($right)
+                CGI::div({}, $right)
             )
         );
     }
@@ -244,19 +244,19 @@ sub _sequentialRow {
         );
     }
     else {
-        $row = CGI::td("&nbsp;");
+        $row = CGI::td({}, '&nbsp;');
     }
     $row .= CGI::td( { class => "twikiDiff${bodycls}Text" }, $data );
-    $row = CGI::Tr($row);
+    $row = CGI::Tr({}, $row);
     if ($bg) {
-        return CGI::Tr(
+        return CGI::Tr( {},
             CGI::td(
                 {
                     bgcolor => $bg,
                     class   => "twikiDiff${hdrcls}Header",
                     colspan => 9
                 },
-                CGI::b( $session->i18n->maketext($hdrcls) . ': ' )
+                CGI::b( {}, $session->i18n->maketext($hdrcls) . ': ' )
             )
         ) . $row;
     }
@@ -389,7 +389,7 @@ sub _renderRevisionDiff {
             $result .= _renderSequential( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'sidebyside' ) {
-            $result .= CGI::Tr(
+            $result .= CGI::Tr( {},
                 CGI::td( { width => '50%' }, '' ),
                 CGI::td( { width => '50%' }, '' )
             );
@@ -407,7 +407,7 @@ sub _renderRevisionDiff {
             $result .= _renderSequential( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'sidebyside' ) {
-            $result .= CGI::Tr(
+            $result .= CGI::Tr( {},
                 CGI::td( { width => '50%' }, '' ),
                 CGI::td( { width => '50%' }, '' )
             );

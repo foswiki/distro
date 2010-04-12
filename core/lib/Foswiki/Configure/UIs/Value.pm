@@ -147,14 +147,14 @@ sub getRowHtml {
     my $classProp = $class ? { class => $class } : undef;
     return CGI::Tr( $classProp,
             CGI::th( $classProp, $header )
-          . CGI::td($data)
+          . CGI::td( {}, $data)
           . CGI::td( { class => "$class configureHelp" }, $info ) );
 }
 
 sub getOutsideRowHtml {
     my ( $class, $title, $data ) = @_;
 
-    return CGI::Tr(
+    return CGI::Tr( {},
         CGI::td( { class => $class, colspan => "3" }, "$title $data" ) );
 }
 

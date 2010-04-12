@@ -1322,10 +1322,8 @@ sub renderFormForDisplay {
         # Make pseudo-form from field data
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
-        my $mess = CGI::span(
-            { class => 'foswikiAlert' },
-            "%MAKETEXT{\"Form definition '[_1]' not found\" args=\"$fname\"}%"
-        );
+        my $mess = $this->{_session}->inlineAlert(
+            'alerts', 'formdef_missing', $fname);
         $mess .= $form->renderForDisplay($this) if $form;
         return $mess;
     }
@@ -2708,7 +2706,7 @@ sub _summariseTextWithSearchContext {
         my $endLoc = $+[0] || $-[0];
         $after = "$after $SUMMARY_ELLIPSIS" if $endLoc != length $text;
 
-        $summary .= $before . CGI::em($term) . $after . ' ';
+        $summary .= $before . CGI::em({}, $term) . $after . ' ';
     }
 
     return $this->_summariseTextSimple( $text, $limit ) if !$summary;
@@ -2793,8 +2791,8 @@ sub summariseChanges {
         $block =~ s/^(.{$trunc}).*$/$1/ if ($trim);
         if ( $block =~ m/^[-+]/ ) {
             if ($tml) {
-                $block =~ s/^-(.*)$/CGI::del( $1 )/se;
-                $block =~ s/^\+(.*)$/CGI::ins( $1 )/se;
+                $block =~ s/^-(.*)$/CGI::del( {}, $1 )/se;
+                $block =~ s/^\+(.*)$/CGI::ins( {}, $1 )/se;
             }
             elsif ( $session->inContext('rss') ) {
                 $block =~ s/^-/REMOVED: /;

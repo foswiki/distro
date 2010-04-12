@@ -331,6 +331,9 @@
 "}%"}%
 
 %TMPL:END%
+
+%TMPL:DEF{"formdef_missing"}%%MAKETEXT{"Form definition '[_1]' not found" args="%PARAM1%"}%%TMPL:END%
+
 %TMPL:DEF{"no_form_def"}%
 ---+++ %MAKETEXT{"Form Definition [_1] missing" args="%PARAM1%.<nop>%PARAM2%"}%
 %MAKETEXT{"See [_1] for information about Form Definitions." args="%SYSTEMWEB%.DataForms"}%

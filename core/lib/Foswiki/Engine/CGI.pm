@@ -86,8 +86,8 @@ sub preparePath {
         my $res    = new Foswiki::Response();
         $res->header( -type => 'text/html', -status => 500 );
         my $html = CGI::start_html('500 - Internal Server Error');
-        $html .= CGI::h1('Internal Server Error');
-        $html .= CGI::p($reason);
+        $html .= CGI::h1({}, 'Internal Server Error');
+        $html .= CGI::p({}, $reason);
         $html .= CGI::end_html();
         $res->print($html);
         throw Foswiki::EngineException( 500, $reason, $res );

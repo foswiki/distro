@@ -269,18 +269,19 @@ sub getAttachmentLink {
         my $stream = $topicObject->openAttachment( $attName, '<' );
         my ( $nx, $ny ) = _imgsize( $stream, $attName );
         $stream->close();
-        my @attrs;
+        my %attrs;
 
         if ( $nx > 0 && $ny > 0 ) {
-            push( @attrs, width => $nx, height => $ny );
+            $attrs{width} = $nx;
+            $attrs{height} = $ny;
             $imgSize = "width='$nx' height='$ny'";
         }
 
         $fileLink = $prefs->getPreference('ATTACHEDIMAGEFORMAT');
         unless ($fileLink) {
-            push( @attrs, src => "%ATTACHURLPATH%/$fileURL" );
-            push( @attrs, alt => $attName );
-            return "   * $fileComment: " . CGI::br() . CGI::img( {@attrs} );
+            $attrs{src} = "%ATTACHURLPATH%/$fileURL";
+            $attrs{alt} = $attName;
+            return "   * $fileComment: " . CGI::br() . CGI::img( \%attrs );
         }
     }
     else {

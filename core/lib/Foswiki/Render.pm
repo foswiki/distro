@@ -34,6 +34,10 @@ our $TRMARK = "is\1all\1th";
 
 our $REMARKER = "\0";
 
+our $DEFAULT_NEWLINKFORMAT = <<'NLF';
+<span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
+NLF
+
 BEGIN {
 
     # Do a dynamic 'use locale' for this module
@@ -82,9 +86,7 @@ sub _newLinkFormat {
     unless ( $this->{NEWLINKFORMAT} ) {
         $this->{NEWLINKFORMAT} =
           $this->{session}->{prefs}->getPreference('NEWLINKFORMAT')
-          || '<span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{edit}%/$web/$topic?topicparent=%WEB%.%TOPIC%" '
-          . 'rel="nofollow" title="%MAKETEXT{"Create this topic"}%">'
-          . '?</a></span>';
+          || $DEFAULT_NEWLINKFORMAT;
     }
     return $this->{NEWLINKFORMAT};
 }
@@ -211,7 +213,7 @@ sub renderMoved {
                 $this->{session}->i18n->maketext('put it back')
               );
         }
-        $text = CGI::i(
+        $text = CGI::i( {},
             $this->{session}->i18n->maketext(
                 "[_1] moved from [_2] on [_3] by [_4]",
                 "<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",
@@ -344,11 +346,11 @@ sub _emitTR {
     my $containsTableHeader;
     my $isAllTH = 1;
     foreach ( split( /\|/, $row ) ) {
-        my @attr;
+        my %attr;
 
         # Avoid matching single columns
         if (s/colspan$REMARKER([0-9]+)//o) {
-            push( @attr, colspan => $1 );
+            $attr{colspan} = $1;
         }
         s/^\s+$/ &nbsp; /;
         my ( $l1, $l2 ) = ( 0, 0 );
@@ -358,20 +360,20 @@ sub _emitTR {
         }
         if ( $l1 >= 2 ) {
             if ( $l2 <= 1 ) {
-                push( @attr, align => 'right' );
+                $attr{align} = 'right';
             }
             else {
-                push( @attr, align => 'center' );
+                $attr{align} = 'center';
             }
         }
 
         # implicit untaint is OK, because we are just taking topic data
         # and rendering it; no security step is bypassed.
         if (/^\s*\*(.*)\*\s*$/) {
-            $cells .= CGI::th( {@attr}, CGI::strong(" $1 ") ) . "\n";
+            $cells .= CGI::th( \%attr, CGI::strong({}, " $1 ") ) . "\n";
         }
         else {
-            $cells .= CGI::td( {@attr}, " $_ " ) . "\n";
+            $cells .= CGI::td( \%attr, " $_ " ) . "\n";
             $isAllTH = 0;
         }
     }
@@ -680,7 +682,7 @@ sub _renderExistingWikiWord {
         $inCurrentTopic = 1;
     }
 
-    my @attrs;
+    my %attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
     if ($params) {
         $href .= $params;
@@ -695,12 +697,12 @@ sub _renderExistingWikiWord {
         # Item8556 - drop path if same topic and anchor
         $href = $inCurrentTopic ? "#$anchor" : "$href#$anchor";
     }
-    push( @attrs, class => join(' ', @cssClasses) ) if ($#cssClasses >= 0);
-    push( @attrs, href => $href );
+    $attrs{class} = join(' ', @cssClasses) if ($#cssClasses >= 0);
+    $attrs{href} = $href;
     my $tooltip = _linkToolTipInfo( $this, $web, $topic );
-    push( @attrs, title => $tooltip ) if ($tooltip);
+    $attrs{title} = $tooltip if $tooltip;
 
-    my $link = CGI::a( {@attrs}, $text );
+    my $link = CGI::a( \%attrs, $text );
 
     # When we pass the tooltip text to CGI::a it may contain
     # <nop>s, and CGI::a will convert the < to &lt;. This is a
@@ -1119,7 +1121,7 @@ sub getRenderedVersion {
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
-    $text =~ s/^>(.*?)$/'&gt;'.CGI::cite( $1 ).CGI::br()/gem;
+    $text =~ s/^>(.*?)$/'&gt;'.CGI::cite( {}, $1 ).CGI::br()/gem;
 
     # locate isolated < and > and translate to entities
     # Protect isolated <!-- and -->

@@ -481,12 +481,13 @@ sub _printMsg {
     }
     else {
         if ( $msg =~ s/^\!// ) {
-            $msg = CGI::h4( CGI::span( { class => 'foswikiAlert' }, $msg ) );
+            $msg = CGI::h4({},
+                CGI::span( { class => 'foswikiAlert' }, $msg ) );
         }
         elsif ( $msg =~ /^[A-Z]/ ) {
 
             # SMELL: does not support internationalised script messages
-            $msg =~ s/^([A-Z].*)/CGI::h3($1)/ge;
+            $msg =~ s/^([A-Z].*)/CGI::h3({},$1)/ge;
         }
         else {
             $msg =~ s/(\*\*\*.*)/CGI::span( { class=>'foswikiAlert' }, $1 )/ge;

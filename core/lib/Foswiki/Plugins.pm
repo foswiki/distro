@@ -359,7 +359,7 @@ sub _handleFAILEDPLUGINS {
 
     my $text =
         CGI::start_table( { border => 1, class => 'foswikiTable' } )
-      . CGI::Tr( CGI::th('Plugin') . CGI::th('Errors') );
+      . CGI::Tr( {}, CGI::th({}, 'Plugin') . CGI::th({}, 'Errors') );
 
     foreach my $plugin ( @{ $this->{plugins} } ) {
         my $td;
@@ -372,20 +372,21 @@ sub _handleFAILEDPLUGINS {
             );
         }
         else {
-            $td = CGI::td('none');
+            $td = CGI::td({}, 'none');
         }
         my $web = $plugin->topicWeb();
         $text .= CGI::Tr(
             { valign => 'top' },
-            CGI::td( ' ' . ( $web ? "$web." : '!' ) . $plugin->{name} . ' ' )
-              . $td
+            CGI::td( {},
+                     ' ' . ( $web ? "$web." : '!' ) . $plugin->{name} . ' ' )
+                . $td
         );
     }
 
     $text .=
         CGI::end_table()
       . CGI::start_table( { border => 1, class => 'foswikiTable' } )
-      . CGI::Tr( CGI::th('Handler') . CGI::th('Plugins') );
+      . CGI::Tr( {}, CGI::th({}, 'Handler') . CGI::th({}, 'Plugins') );
 
     foreach my $handler (@Foswiki::Plugin::registrableHandlers) {
         my $h = '';
@@ -404,7 +405,8 @@ sub _handleFAILEDPLUGINS {
                   );
             }
             $text .=
-              CGI::Tr( { valign => 'top' }, CGI::td($handler) . CGI::td($h) );
+              CGI::Tr( { valign => 'top' }, CGI::td( {}, $handler)
+                         . CGI::td({}, $h) );
         }
     }
 
@@ -420,10 +422,10 @@ sub _handlePLUGINDESCRIPTIONS {
     my $this = shift->{plugins};
     my $text = '';
     foreach my $plugin ( @{ $this->{plugins} } ) {
-        $text .= CGI::li( $plugin->getDescription() . ' ' );
+        $text .= CGI::li( {}, $plugin->getDescription() . ' ' );
     }
 
-    return CGI::ul($text);
+    return CGI::ul({}, $text);
 }
 
 # note this is invoked with the session as the first parameter

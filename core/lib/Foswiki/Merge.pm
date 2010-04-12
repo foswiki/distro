@@ -134,8 +134,8 @@ sub _change {
                 push( @$out, $merged );
             }
             else {
-                push( @$out, CGI::del( $ai->[$a] ) );
-                push( @$out, CGI::ins( $bi->[$b] ) );
+                push( @$out, CGI::del( {}, $ai->[$a] ) );
+                push( @$out, CGI::ins( {}, $bi->[$b] ) );
             }
         }
         else {
@@ -146,7 +146,7 @@ sub _change {
                 push( @$out, $merged );
             }
             else {
-                push( @$out, CGI::del( $ai->[$a] ) );
+                push( @$out, CGI::del( {}, $ai->[$a] ) );
             }
         }
     }
@@ -494,7 +494,7 @@ sub merge3 {
 my $conflictAttrs = { class => 'foswikiConflict' };
 
 # SMELL: internationalisation?
-my $conflictB = CGI::b('CONFLICT');
+my $conflictB = CGI::b({}, 'CONFLICT');
 
 sub _handleConflict {
     my (

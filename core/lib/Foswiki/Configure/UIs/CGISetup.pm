@@ -135,7 +135,7 @@ HERE
         $mess = $@;
         $mess =
             $this->ERROR('Foswiki.pm could not be loaded. The error was:')
-          . CGI::pre($mess)
+          . CGI::pre({}, $mess)
           . $this->ERROR(<<HERE);
 Check path to <code>twiki/lib</code> and check that LocalSite.cfg is
 present and readable

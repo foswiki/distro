@@ -134,9 +134,7 @@ sub setting {
 
     my $data = join( ' ', @_ ) || ' ';
 
-    # SMELL:  CGI matches the term "CGI" and omits it from the table row.
-    #         Changing from CGI::th to CGI->th resolves the issue
-    return CGI::Tr( CGI->th($key) . CGI::td($data) );
+    return CGI::Tr( {}, CGI::th({}, $key) . CGI::td({}, $data) );
 }
 
 # encode a string to make a simplified unique ID useable
@@ -152,13 +150,13 @@ sub makeID {
 sub NOTE {
     my $this = shift;
     return CGI::div( { class => 'configureInfo' },
-        CGI::span( join( "\n", @_ ) ) );
+        CGI::span( {}, join( "\n", @_ ) ) );
 }
 
 sub NOTE_OK {
     my $this = shift;
     return CGI::div( { class => 'configureOk' },
-        CGI::span( join( "\n", @_ ) ) );
+        CGI::span( {}, join( "\n", @_ ) ) );
 }
 
 # a warning
@@ -167,7 +165,7 @@ sub WARN {
     $this->{item}->inc('warnings');
     $totwarnings++;
     return CGI::div( { class => 'foswikiAlert configureWarn' },
-        CGI::span( CGI::strong('Warning: ') . join( "\n", @_ ) ) );
+        CGI::span( {}, CGI::strong({}, 'Warning: ') . join( "\n", @_ ) ) );
 }
 
 # an error
@@ -177,7 +175,7 @@ sub ERROR {
     $toterrors++;
     return CGI::div(
         { class => 'foswikiAlert configureError' },
-        CGI::span( CGI::strong('Error: ') . join( "\n", @_ ) )
+        CGI::span( {}, CGI::strong({}, 'Error: ') . join( "\n", @_ ) )
     );
 }
 
