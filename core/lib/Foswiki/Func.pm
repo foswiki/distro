@@ -2309,7 +2309,7 @@ for managing this directory; Foswiki will not read from it, or write to it.
 The directory is guaranteed to exist, and to be writable by the webserver
 user. By default it will *not* be web accessible.
 
-The directory and it's contents are permanent, so Plugins must be careful
+The directory and its contents are permanent, so Plugins must be careful
 to keep their areas tidy.
 
 =cut
