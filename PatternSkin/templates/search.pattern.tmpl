@@ -1,17 +1,12 @@
 %TMPL:INCLUDE{"search"}%
 %TMPL:INCLUDE{"searchformat"}%
 
-
 %TMPL:DEF{SEARCH:format}%<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a>
 <div class="foswikiSummary">%TEXTHEAD%</div></div>
-<div class="foswikiBottomRow">
-<span class="foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a></span> <span class="foswikiSRAuthor">%MAKETEXT{"by [_1] " args="%AUTHOR%"}%</span>
-</div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a></span> <span class="foswikiSRAuthor">%MAKETEXT{"by [_1] " args="%AUTHOR%"}%</span></div>
 </div>%TMPL:END%
 
 %TMPL:DEF{SEARCH:footer}%%TMPL:END%
-
-%TMPL:DEF{count_spacer}%%TMPL:END%
 
 %TMPL:DEF{"header:style:backgroundcolor"}% style="border-color:%WEBBGCOLOR%"%TMPL:END%
