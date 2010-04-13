@@ -141,6 +141,10 @@ sub mkPathTo {
     my ( $volume, $path, undef ) = File::Spec->splitpath( $file );
     $path = File::Spec->catpath( $volume, $path, '' );
 
+    # SMELL:  Sites running Apache with SuexecUserGroup will have a forced "safe" umask
+    #         Override umask here to allow correct dirPermissions to be applied
+    umask(oct(777)-$Foswiki::cfg{RCS}{dirPermission});
+
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
         throw Error::Simple("VC::Handler: failed to create ${path}: $!");
