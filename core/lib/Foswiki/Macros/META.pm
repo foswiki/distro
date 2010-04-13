@@ -6,8 +6,8 @@ use strict;
 # Poor-man's content access.
 sub META {
     my ( $this, $params, $topicObject ) = @_;
-    
-    $topicObject->reload() unless $topicObject->getLoadedRev();
+   
+    $topicObject->reload() if $topicObject->getLoadedRev() < $topicObject->getMaxRevNo();
 
     my $option = $params->{_DEFAULT} || '';
 
