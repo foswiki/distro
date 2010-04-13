@@ -703,6 +703,9 @@ sub load {
 Reload the object from the store; perhaps because we haven't loaded it yet,
 or we are looking at a different rev. See =getLoadedRev= to determine what
 revision is currently being viewed.
+   * =$rev= - revision to load. If 0 or > max available rev, will reload the
+     latest rev. If undef, will reload the currently loaded rev or, if no rev
+     is currently loaded, will load the latest rev.
 
 =cut
 
