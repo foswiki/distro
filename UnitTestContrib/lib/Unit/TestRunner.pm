@@ -101,6 +101,7 @@ sub start {
             else {
                 $action = runOne($tester, $suite, $testToRun);
             }
+            ($action) = $action =~ m/^(.*)$/ms;
             eval $action;
             die $@ if $@;
             die "Test suite $suite aborted\n" unless $completed;

@@ -22,6 +22,8 @@ sub fixture_groups {
             foreach my $alg ( readdir D ) {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
                 next if defined &$alg;
+                $ENV{PATH} =~ /^(.*)$/ms;
+                $ENV{PATH} = $1;
                 if ($alg =~ /RcsWrap/) {
                     eval {
                         `co -V`;    # Check to see if we have co
@@ -31,6 +33,7 @@ sub fixture_groups {
                         next;
                     }
                 }
+                ($alg) = $alg =~ /^(.*)$/ms;
                 eval "require Foswiki::Store::$alg";
                 die $@ if $@;
                 no strict 'refs';
