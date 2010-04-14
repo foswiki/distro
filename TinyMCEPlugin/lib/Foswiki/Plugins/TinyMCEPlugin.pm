@@ -18,7 +18,7 @@ use strict;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '03 Mar 2010';
+our $RELEASE           = '12 Apr 2010';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -82,6 +82,7 @@ our %defaultINIT_BROWSER = (
     OPERA  => '',
     GECKO  => 'gecko_spellcheck : true',
     SAFARI => '',
+    CHROME=> '',
 );
 
 use Foswiki::Func ();
@@ -96,7 +97,13 @@ sub initPlugin {
     return 0 unless $query;
     unless ( $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} ) {
         Foswiki::Func::writeWarning(
-"TinyMCEPlugin is enabled but WysiwygPlugin is not enabled. Both plugins must be installed and enabled for TinyMCE."
+"TinyMCEPlugin is enabled but WysiwygPlugin is not. Both must be installed and enabled for TinyMCE."
+        );
+        return 0;
+    }
+    unless ( $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} ) {
+        Foswiki::Func::writeWarning(
+"TinyMCEPlugin is enabled but JQueryPlugin is not. Both must be installed and enabled for TinyMCE."
         );
         return 0;
     }
@@ -109,9 +116,11 @@ sub initPlugin {
         $browserInfo{isMSIE5_0} = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5.0/ );
         $browserInfo{isMSIE6} = $browserInfo{isMSIE} && $ua =~ /MSIE 6/;
         $browserInfo{isMSIE7} = $browserInfo{isMSIE} && $ua =~ /MSIE 7/;
+        $browserInfo{isMSIE8} = $browserInfo{isMSIE} && $ua =~ /MSIE 8/;
         $browserInfo{isGecko}  = $ua =~ /Gecko/;   # Will also be true on Safari
-        $browserInfo{isSafari} = $ua =~ /Safari/;
+        $browserInfo{isSafari} = $ua =~ /Safari/;  # Will also be true on Chrome
         $browserInfo{isOpera}  = $ua =~ /Opera/;
+        $browserInfo{isChrome}  = $ua =~ /Chrome/;
         $browserInfo{isMac}    = $ua =~ /Mac/;
         $browserInfo{isNS7}  = $ua =~ /Netscape\/7/;
         $browserInfo{isNS71} = $ua =~ /Netscape\/7.1/;
@@ -169,7 +178,10 @@ sub beforeEditHandler {
 
     # The order of these conditions is important, because browsers
     # spoof eachother
-    if ( $browserInfo{isSafari} ) {
+    if ( $browserInfo{isChrome} ) {
+        $extras = 'CHROME';
+    } 
+    elsif ( $browserInfo{isSafari} ) {
         $extras = 'SAFARI';
     }
     elsif ( $browserInfo{isOpera} ) {
