@@ -836,10 +836,14 @@ Additional parameters can be recovered via the query object in the $session, for
 my $query = $session->{request};
 my $web = $query->{param}->{web}[0];
 
+If your rest handler adds or replaces equivalent functionality to a standard script
+provided with Foswiki, it should set the appropriate context in its switchboard entry.
+A list of contexts are defined in %SYSTEMWEB%.IfStatements#Context_identifiers.
+
 For more information, check %SYSTEMWEB%.CommandAndCGIScripts#rest
 
 For information about handling error returns from REST handlers, see
-Foswiki::Support.Faq1
+Foswiki:Support.Faq1
 
 *Since:* Foswiki::Plugins::VERSION 2.0
 
