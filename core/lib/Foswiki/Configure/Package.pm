@@ -219,6 +219,9 @@ sub fullInstall {
 
     ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
 
+    my %plugins;
+    my %cpanDeps;
+
     unless ($err) {
         $feedback .= "Creating Backup of $this->{_pkgname} ...$nl";
         $feedback .= "$pre$rslt$epre";
@@ -239,6 +242,12 @@ sub fullInstall {
         $feedback .= "$pre$rslt$epre";
         $rslt = '';
 
+        if ($err) {
+            $feedback .= "ERRORS while Installing $this->{_pkgname}... $nl";
+            $feedback .= "$pre$err$epre";
+            return ($feedback, \%plugins, \%cpanDeps);
+        }
+
         unless ( $this->{_options}->{SIMULATE} ) { 
             $feedback .= "Running Post-install exit for $this->{_pkgname}...$nl";
             $rslt = $this->postinstall() || '';
@@ -246,11 +255,9 @@ sub fullInstall {
             $rslt = '';
         }
     }
-    my %plugins;
     %plugins = $this->listPlugins();   # Retrieve a list of any plugin modules installed by this package.
     @plugins{ keys %$depPlugins } = values %$depPlugins;   # merge in dependencies
 
-    my %cpanDeps;
     foreach my $cpdep ( @$cpan) {
         $cpanDeps{$cpdep->{module}} = $cpdep;
         }
@@ -413,7 +420,7 @@ sub install {
 
             # Everything else
             my $msg .= _moveFile($this, "$dir/$file", "$target", $perms );
-            $err .= $msg if ($msg);
+            return ( $feedback, $err .= $msg) if ($msg);
             $feedback .= "${simulated}Installed:  $file\n";
             next;
         }
@@ -423,9 +430,9 @@ sub install {
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
     );
+    return ( $feedback, $err .= $msg) if ($msg);
     $feedback .= "${simulated}Installed:  $this->{_pkgname}_installer\n";
 
-    $err .= $msg if ($msg);
     return ( $feedback, $err );
 
 }
@@ -502,7 +509,7 @@ sub _moveFile {
 
        if ( !File::Copy::move( "$from", $to ) ) {
             if ( !File::Copy::copy( "$from", $to ) ) {
-                return "Failed to move/copy file '$from' to $to: $!";
+                return "Failed to move/copy file '$from' to $to: $!\n";
             }
         }
         if ( defined $perms ) {
