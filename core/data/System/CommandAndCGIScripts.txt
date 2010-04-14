@@ -93,7 +93,7 @@ Used for logging in when Web Server authentication is being used (e.g. !ApacheLo
 ---+++ =manage=
 Performs a range of management functions.
 
-*%X% Note:* The =manage= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;A href= link.
+*%X% Note:* The =manage= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;a href ...&gt;= link.
 
 | *Parameter* | *Description* | *Default* |
 | =action= | One of =create=, =createweb=, =changePassowrd=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | none |
@@ -192,11 +192,11 @@ This script is _deprecated_. Its functions are covered by the =save= script.
 Renders the differences between version of a topic
 
 | *Parameter* | *Description* | *Default* |
-| rev1 | the higher revision | |
-| rev2 | the lower revision | |
-| render | the rendering style {sequential, sidebyside, raw, debug} | DIFFRENDERSTYLE, =sequential= |
-| type | {history, diff, last} history diff, version to version, last version to previous | =diff= |
-| context | number of lines of context | |
+| =rev1= | the higher revision | |
+| =rev2= | the lower revision | |
+| =render= | the rendering style {sequential, sidebyside, raw, debug} | =DIFFRENDERSTYLE=, =sequential= |
+| =type= | {history, diff, last} history diff, version to version, last version to previous | =diff= |
+| =context= | number of lines of context | |
 TODO:
    * add a {word} render style
 
@@ -205,7 +205,7 @@ TODO:
 | *Parameter* | *Description* | *Default* |
 | =action= | =register= or =verify= or =resetPassword= or =approve= | |
 
-*%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;A href= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.
+*%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.
 
 ---+++ =rename=
 Used for renaming webs, topics and attachments.
@@ -234,7 +234,7 @@ Rename a topic or an attachment.
 | =currentwebonly= | if defined, searches current web only for links to this topic | |
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |
 
-*%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;A href= link.
+*%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;a href ...&gt;= link.
 
 ---+++ =rest=
 This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =Foswiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
@@ -335,7 +335,7 @@ Form field values are passed in parameters named 'field' - for example, if I hav
     ...
 &lt;/form&gt;
 </pre>
-It is not possible to call =save= from an =&lt;A href= link.
+It is not possible to call =save= from an =&lt;a href ...&gt;= link.
 
 ---+++ =search=
 This cgi script has been deprecated. When called, it will redirect to the WebSearch topic, and the parameters will be passed on.
@@ -381,7 +381,7 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
 
-*%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;A href= link.
+*%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.
 
 ---+++ =view=
 Used for viewing topics.
