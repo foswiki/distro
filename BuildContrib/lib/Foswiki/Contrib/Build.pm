@@ -1181,10 +1181,12 @@ sub build_css {
             };
         }
     }
-    if ( !$minifiers{css} && eval { require CSS::Minifier::XS } ) {
-        $minifiers{css} = $this->_cpanMinify(@_, \&CSS::Minifier::XS::minify);
+    if ( !$minifiers{css} && eval { require CSS::Minifier::XS; 1 } ) {
+        $minifiers{css} = sub {
+            return $this->_cpanMinify(@_, \&CSS::Minifier::XS::minify);
+        };
     }
-    if ( !$minifiers{css} && eval { require CSS::Minifier } ) {
+    if ( !$minifiers{css} && eval { require CSS::Minifier; 1 } ) {
         $minifiers{css} = sub {
             $this->_cpanMinify(
                 @_,
