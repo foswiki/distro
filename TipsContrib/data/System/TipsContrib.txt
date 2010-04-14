@@ -42,7 +42,8 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  16 Dec 2008: | Foswiki version | 
+|  14 Apr 2010: | Fix the "Add tip for plugin" form; Fix styles; Set correct parent on a new custom tip |
+|  16 Dec 2008: | Foswiki version |
 |  04 Jan 2007: | Performance improvement |
 |  10 Oct 2005: | Initial version - Packaging by TWiki:Main.LynnwoodBrown |
 |  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
