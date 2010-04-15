@@ -1595,10 +1595,15 @@ Date.parseDate = function(str, fmt) {
 	var i = 0, j = 0;
 	var hr = 0;
 	var min = 0;
+	var epoch = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (!a[i])
 			continue;
 		switch (b[i]) {
+                    case "%s":
+                        epoch = parseInt(a[i], 10);
+                        break;
+
 		    case "%d":
 		    case "%e":
 			d = parseInt(a[i], 10);
@@ -1646,6 +1651,9 @@ Date.parseDate = function(str, fmt) {
 	if (isNaN(d)) d = today.getDate();
 	if (isNaN(hr)) hr = today.getHours();
 	if (isNaN(min)) min = today.getMinutes();
+        if (isNaN(epoch)) epoch = 0;
+        if (epoch)
+		return new Date(epoch * 1000);
 	if (y != 0 && m != -1 && d != 0)
 		return new Date(y, m, d, hr, min, 0);
 	y = 0; m = -1; d = 0;
