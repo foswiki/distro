@@ -7,7 +7,7 @@ use strict;
 sub META {
     my ( $this, $params, $topicObject ) = @_;
    
-    $topicObject->reload(0) if $topicObject->getLoadedRev() < $topicObject->getMaxRevNo();
+    $topicObject->reload(0) if $topicObject->getLoadedRev() != $topicObject->getMaxRevNo();
 
     my $option = $params->{_DEFAULT} || '';
 
