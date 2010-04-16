@@ -403,16 +403,22 @@ sub install {
                 #$opts{dontlog} = 1;
 
                 local $/ = undef;
-                open( my $fh, '<', "$dir/$file" ) or die "Cannot open $dir/$file for reading: $!";
+                open( my $fh, '<', "$dir/$file" ) or return ($feedback,  "Cannot open $dir/$file for reading: $!\nProbably packaging error\n");
                 my $contents = <$fh>;
                 close $fh;
+
+                # If file is not writable, and not owned, the chmod probably won't work ...  so fail.
+                return ($feedback, "Target $file is not writable\n") if (-e "$target" && ! -w "$target" && ! -o "$target"  ); 
 
                 if ($contents) {
                     $feedback .= "${simulated}Checked in: $file  as $tweb.$ttopic\n";
                     my $meta =
                       Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
-                    $feedback .= _installAttachments( $this, $dir, "$web/$topic",
+
+                    my ($afdbk, $aerr) = _installAttachments( $this, $dir, "$web/$topic",
                         "$tweb/$ttopic", $meta );
+                    $feedback .= $afdbk;
+                    return ($feedback, $aerr) if ($aerr);
                     $meta->saveAs( $tweb, $ttopic, %opts ) unless  $this->{_options}->{SIMULATE};
                 }
                 next;
@@ -449,25 +455,30 @@ Otherwise the attachments are just copied.
 sub _installAttachments {
     my $this      = shift;
     my $dir       = shift;
-    my $webTopic  = shift;
-    my $twebTopic = shift;
+    my $webTopic  = shift;  # Standard web/topic for the attachment
+    my $twebTopic = shift;  # Mapped target web/topic 
     my $meta      = shift;
     my $feedback   = '';
 
-    foreach my $key ( keys %{ $this->{_manifest}->{ATTACH}->{$webTopic} } ) {
+    foreach my $key ( keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
-        my $tfile = $file;
-        $tfile =~ s/$webTopic/$twebTopic/;
-        my $attachinfo =
-          $meta->get( 'FILEATTACHMENT', $key );    # Recover existing Metadata
+        my $tfile =
+              Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
+
+        # Attach the file if rcs checkin is needed, otherwise skip it and it will be copied later.
         if (
             (
                 $this->{_manifest}->{$file}->{ci}
-                && ( -e "$this->{_root}/$tfile" )
+                && ( -e "$tfile" )    # checkin requested and file exists
             )
-            || ( -e "$this->{_root}/$tfile,v" )
+            || ( -e "$tfile,v" )      # or rcs file exists
           )
         {
+            return ($feedback, "Target file $tfile is not writable\n") if (-e "$tfile" && ! -w "$tfile" && ! -o "$tfile");
+            return ($feedback, "Source file missing, probable packaging error\n") if (! -e "$dir/$file" );
+
+            my $attachinfo =
+              $meta->get( 'FILEATTACHMENT', $key );    # Recover existing Metadata
             $this->{_manifest}->{$file}->{I} =
               1;    # Set this to installed (assuming it all works)
             my @stats = stat "$dir/$file";
@@ -484,7 +495,7 @@ sub _installAttachments {
             $feedback .= "Attached:   $file to $twebTopic\n";
         }
     }
-    return $feedback;
+    return ($feedback, '');
 }
 
 =begin TML
@@ -520,6 +531,11 @@ sub _moveFile {
             chmod( oct($perms), "$to" );
         }
     }
+    else {
+        return "Target file $to is not writable\n" if (-e "$to" && ! -w "$to" && ! -o "$to"  ); 
+        return "Probably packaging error - $from not found" if (! -e $from);
+    }
+
     return 0;
 }
 
@@ -973,13 +989,14 @@ sub _parseManifest {
     if ( $file =~ m/^pub\/.*/ ) {
         ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
     }
+
     $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
     $this->{_manifest}->{$file}->{md5}   = $md5 if ($md5);
     $this->{_manifest}->{$file}->{topic} = "$tweb\t$ttopic\t$tattach";
     $desc =~ s/\(noci\)//;
     $this->{_manifest}->{$file}->{desc} = $desc;
-    $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}{$tattach} = $file
+    $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}->{$tattach} = $file
       if ($tattach);
 }
 
