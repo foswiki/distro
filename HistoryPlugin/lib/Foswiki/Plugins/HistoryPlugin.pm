@@ -127,10 +127,7 @@ sub handleHistory {
         $rev--;
     }
     $out .= handleHeadFoot($footer, $rev1, $rev2, $nrev, $maxrev);
-    $out =~ s/\$percnt/\%/go;
-    $out =~ s/\$dollar/\$/go;
-    $out =~ s/\$nop//go;
-    $out =~ s/\$n([^$mixedAlphaNum]|$)/\n$1/go;
+    $out = Foswiki::Func::decodeFormatTokens($out);
 
     return $out;
 }
