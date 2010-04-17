@@ -425,7 +425,7 @@ sub test_nondefined_form {
     my $res  = $meta->renderFormForDisplay();
 
     $this->assert_html_equals( <<HERE, $res );
-<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>$web.NonExistantPluginTestForm</h3></noautolink> " else="<h3> $web.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
+<span class="foswikiAlert">Form definition 'NonExistantPluginTestForm' not found</span><div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>$web.NonExistantPluginTestForm</h3></noautolink> " else="<h3> $web.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
 ContactAuthorFirst
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
 Example
