@@ -83,7 +83,7 @@ sub new {
             _root    => $root,
             _pkgname => $pkgname,
             _session => $session,
-            _options => $options, 
+            _options => $options,
 
   # Hash mapping the topics, attachment and other files supplied by this package
             _manifest => undef,
@@ -92,7 +92,7 @@ sub new {
             _dependency => \@deps,
             _routines   => undef,
             _repository => undef,
-            _loaded => undef,          # Flag set if loadInstaller is complete
+            _loaded     => undef,    # Flag set if loadInstaller is complete
         },
         $class
     );
@@ -138,7 +138,7 @@ Get or set the respository associated with the object.
 
 sub repository {
     my $this = shift;
-    
+
     $this->{_repository} = $_[0] if defined $_[0];
     return $this->{_repository};
 }
@@ -165,30 +165,33 @@ Perform a full installation of the package, including all dependencies
 and any required downloads from the repository.
 
 =cut
+
 sub fullInstall {
     my $this = shift;
 
     my $feedback = '';
-    my $rslt = '';
-    my $err = '';
+    my $rslt     = '';
+    my $err      = '';
 
-    my $nl = "<br />\n";
-    my $pre = '<pre>';
+    my $nl   = "<br />\n";
+    my $pre  = '<pre>';
     my $epre = '</pre>';
 
     if ( $this->{_options}->{SHELL} ) {
-        $nl = "\n";
-        $pre = '';
+        $nl   = "\n";
+        $pre  = '';
         $epre = '';
         $feedback .= "===== INSTALLING $this->{_pkgname} \n";
-        }
+    }
     else {
-        $feedback .= "<h3 style='margin-top:0'>Installing $this->{_pkgname}</h3>";
+        $feedback .=
+          "<h3 style='margin-top:0'>Installing $this->{_pkgname}</h3>";
         $feedback .= "<div class='installDependency'>";
     }
 
     unless ( $this->{_loaded} ) {
-        ($rslt, $err) = $this->loadInstaller() ;  # Recover the manifest from the _installer file
+        ( $rslt, $err ) = $this->loadInstaller()
+          ;    # Recover the manifest from the _installer file
         if ($rslt) {
             $feedback .= "Loading package installer$nl";
             $feedback .= "$pre$rslt$epre";
@@ -196,13 +199,15 @@ sub fullInstall {
         }
     }
 
-    return ("ERROR - " . $err) if ($err);
+    return ( "ERROR - " . $err ) if ($err);
 
-    my ($installed, $missing, $wiki, $cpan, $manual) = $this->checkDependencies();
-        # #wiki, $cpan and $manual are array references to array of Dependency objects
-        
+    my ( $installed, $missing, $wiki, $cpan, $manual ) =
+      $this->checkDependencies();
+
+  # #wiki, $cpan and $manual are array references to array of Dependency objects
+
     $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
-    $rslt .= "====== MISSING ========\n$missing\n" if ($missing);
+    $rslt .= "====== MISSING ========\n$missing\n"   if ($missing);
 
     if ($rslt) {
         $feedback .= "Dependency Report for $this->{_pkgname} ..$nl";
@@ -210,14 +215,15 @@ sub fullInstall {
         $rslt = '';
     }
 
-    my $depPlugins;               # hashref to hash of plugin names
-    my $depCPAN;                  # hashref to hash of cpan dependency names
-    unless ($this->{_options}->{NODEPS} ) {
-        ($rslt, $depPlugins, $depCPAN) = $this->installDependencies();
+    my $depPlugins;    # hashref to hash of plugin names
+    my $depCPAN;       # hashref to hash of cpan dependency names
+    unless ( $this->{_options}->{NODEPS} ) {
+        ( $rslt, $depPlugins, $depCPAN ) = $this->installDependencies();
         $feedback .= $rslt;
     }
 
-    ($rslt, $err) = $this->createBackup() unless ($err); # Create a backup of the previous install if any
+    ( $rslt, $err ) = $this->createBackup()
+      unless ($err);    # Create a backup of the previous install if any
 
     my %plugins;
     my %cpanDeps;
@@ -229,15 +235,16 @@ sub fullInstall {
 
         $this->loadExits();
 
-        unless ( $this->{_options}->{SIMULATE} ) { 
-            $feedback .= "Running Pre-install exit for $this->{_pkgname} ...$nl";
-            $rslt = $this->preinstall() || '' ;
-            $feedback .= "$pre$rslt$epre" ;
+        unless ( $this->{_options}->{SIMULATE} ) {
+            $feedback .=
+              "Running Pre-install exit for $this->{_pkgname} ...$nl";
+            $rslt = $this->preinstall() || '';
+            $feedback .= "$pre$rslt$epre";
             $rslt = '';
         }
 
-        ($rslt, $err) = $this->install(); # and do the installation
-    
+        ( $rslt, $err ) = $this->install();    # and do the installation
+
         $feedback .= "Installing $this->{_pkgname}... $nl";
         $feedback .= "$pre$rslt$epre";
         $rslt = '';
@@ -245,30 +252,32 @@ sub fullInstall {
         if ($err) {
             $feedback .= "ERRORS while Installing $this->{_pkgname}... $nl";
             $feedback .= "$pre$err$epre";
-            return ($feedback, \%plugins, \%cpanDeps);
+            return ( $feedback, \%plugins, \%cpanDeps );
         }
 
-        unless ( $this->{_options}->{SIMULATE} ) { 
-            $feedback .= "Running Post-install exit for $this->{_pkgname}...$nl";
+        unless ( $this->{_options}->{SIMULATE} ) {
+            $feedback .=
+              "Running Post-install exit for $this->{_pkgname}...$nl";
             $rslt = $this->postinstall() || '';
-            $feedback .= "$pre$rslt$epre" ;
+            $feedback .= "$pre$rslt$epre";
             $rslt = '';
         }
     }
-    %plugins = $this->listPlugins();   # Retrieve a list of any plugin modules installed by this package.
-    @plugins{ keys %$depPlugins } = values %$depPlugins;   # merge in dependencies
+    %plugins = $this->listPlugins()
+      ;    # Retrieve a list of any plugin modules installed by this package.
+    @plugins{ keys %$depPlugins } = values %$depPlugins; # merge in dependencies
 
-    foreach my $cpdep ( @$cpan) {
-        $cpanDeps{$cpdep->{module}} = $cpdep;
-        }
-    @cpanDeps{ keys %$depCPAN } = values %$depCPAN;   # merge in cpan from dependencies
+    foreach my $cpdep (@$cpan) {
+        $cpanDeps{ $cpdep->{module} } = $cpdep;
+    }
+    @cpanDeps{ keys %$depCPAN } =
+      values %$depCPAN;    # merge in cpan from dependencies
 
-    $feedback .= "</div>" unless ($this->{_options}->{SHELL}); 
-   
-    return ($feedback, \%plugins, \%cpanDeps);
- 
+    $feedback .= "</div>" unless ( $this->{_options}->{SHELL} );
+
+    return ( $feedback, \%plugins, \%cpanDeps );
+
 }
-
 
 =begin TML
 
@@ -303,60 +312,65 @@ save the topic.
 =cut
 
 sub install {
-    my $this = shift;
+    my $this    = shift;
     my $options = shift;
- 
+
     my $expanded = $this->{_options}->{EXPANDED} || $options->{EXPANDED};
     my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
-    my $dir      = $this->{_options}->{DIR}      || $options->{DIR}        || $this->{_root};
+    my $dir = $this->{_options}->{DIR} || $options->{DIR} || $this->{_root};
 
-    my $ext = '';
-    my $feedback = '';                # Results from install
-    my $error = '';                   # Error results
+    my $ext       = '';
+    my $feedback  = '';    # Results from install
+    my $error     = '';    # Error results
     my $installer = '';
     my $simulated = '';
-    $simulated = 'Simulated - ' if ($this->{_options}->{SIMULATE});
+    $simulated = 'Simulated - ' if ( $this->{_options}->{SIMULATE} );
 
     unless ($expanded) {
         if ($uselocal) {
 
             for (qw( .tgz .zip .TGZ .tar.gz .ZIP  )) {
-                if ( -r "$this->{_pkgname}$_") {    # readable by user
+                if ( -r "$this->{_pkgname}$_" ) {    # readable by user
                     $ext = $_;
                     last;
                 }
             }
-            $feedback .= 'No local package found, and uselocal requested - download required' . "\n" unless ($ext);
+            $feedback .=
+'No local package found, and uselocal requested - download required'
+              . "\n"
+              unless ($ext);
         }
-        my $tmpdir;              # Directory where archive was expanded
-        my $tmpfilename;         # Filename set when downloaded
+        my $tmpdir;         # Directory where archive was expanded
+        my $tmpfilename;    # Filename set when downloaded
         my $err;
 
-        if ( !$ext && $this->{_repository} ) {      # no extension found - need to download the package
-            ($err, $tmpfilename) = $this->_fetchFile('.tgz');
-                return ($feedback, "Download failure\n $err") if $err;
+        if ( !$ext && $this->{_repository} )
+        {                   # no extension found - need to download the package
+            ( $err, $tmpfilename ) = $this->_fetchFile('.tgz');
+            return ( $feedback, "Download failure\n $err" ) if $err;
 
-            unless ($tmpfilename && ! $err) {      # no .tgz found - try the zip archive
-                ($err, $tmpfilename) = $this->_fetchFile('.zip');
-                    return ($feedback, "Download failure\n $err") if $err;
+            unless ( $tmpfilename && !$err )
+            {               # no .tgz found - try the zip archive
+                ( $err, $tmpfilename ) = $this->_fetchFile('.zip');
+                return ( $feedback, "Download failure\n $err" ) if $err;
             }
         }
-        $tmpfilename = "$dir/$this->{_pkgname}$ext" if ($ext); 
+        $tmpfilename = "$dir/$this->{_pkgname}$ext" if ($ext);
         $feedback .= "Unpacking $tmpfilename...\n";
-        ($tmpdir, $error) = Foswiki::Configure::Util::unpackArchive($tmpfilename);
+        ( $tmpdir, $error ) =
+          Foswiki::Configure::Util::unpackArchive($tmpfilename);
         $feedback .= "$error\n" if $error;
-        return ($feedback, "No archive found to install\n") unless ($tmpdir);
+        return ( $feedback, "No archive found to install\n" ) unless ($tmpdir);
         $dir = $tmpdir;
     }
-
 
     my $session =
       $this->{_session}; # Session used for file checkin - should be admin user.
     my $root     = $this->{_root};        # Root of the foswiki installation
     my $manifest = $this->{_manifest};    # Reference to the manifest
 
-    my @names   = $this->listFiles();    # Retrieve list of filenames from manifest
-    my $err     = '';                # Accumulated errors
+    my @names = $this->listFiles();   # Retrieve list of filenames from manifest
+    my $err   = '';                   # Accumulated errors
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
@@ -372,12 +386,12 @@ sub install {
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
 
         # Make file writable if it is read-only
-        if ( -e $target && !-w $target && ! $this->{_options}->{SIMULATE} ) {
+        if ( -e $target && !-w $target && !$this->{_options}->{SIMULATE} ) {
             chmod( oct(600), "$target" );
         }
 
         # Move or copy the file.
-       
+
         if ( -f "$dir/$file" ) {    # Exists as a file.
             my $installed = $manifest->{$file}->{I}
               || '';                # Set to 1 if file already installed
@@ -403,40 +417,48 @@ sub install {
                 #$opts{dontlog} = 1;
 
                 local $/ = undef;
-                open( my $fh, '<', "$dir/$file" ) or return ($feedback,  "Cannot open $dir/$file for reading: $!\nProbably packaging error\n");
+                open( my $fh, '<', "$dir/$file" )
+                  or return ( $feedback,
+"Cannot open $dir/$file for reading: $!\nProbably packaging error\n"
+                  );
                 my $contents = <$fh>;
                 close $fh;
 
-                # If file is not writable, and not owned, the chmod probably won't work ...  so fail.
-                return ($feedback, "Target $file is not writable\n") if (-e "$target" && ! -w "$target" && ! -o "$target"  ); 
+# If file is not writable, and not owned, the chmod probably won't work ...  so fail.
+                return ( $feedback, "Target $file is not writable\n" )
+                  if ( -e "$target" && !-w "$target" && !-o "$target" );
 
                 if ($contents) {
-                    $feedback .= "${simulated}Checked in: $file  as $tweb.$ttopic\n";
+                    $feedback .=
+                      "${simulated}Checked in: $file  as $tweb.$ttopic\n";
                     my $meta =
                       Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
 
-                    my ($afdbk, $aerr) = _installAttachments( $this, $dir, "$web/$topic",
+                    my ( $afdbk, $aerr ) =
+                      _installAttachments( $this, $dir, "$web/$topic",
                         "$tweb/$ttopic", $meta );
                     $feedback .= $afdbk;
-                    return ($feedback, $aerr) if ($aerr);
-                    $meta->saveAs( $tweb, $ttopic, %opts ) unless  $this->{_options}->{SIMULATE};
+                    return ( $feedback, $aerr ) if ($aerr);
+                    $meta->saveAs( $tweb, $ttopic, %opts )
+                      unless $this->{_options}->{SIMULATE};
                 }
                 next;
             }
 
             # Everything else
-            my $msg .= _moveFile($this, "$dir/$file", "$target", $perms );
-            return ( $feedback, $err .= $msg) if ($msg);
+            my $msg .= _moveFile( $this, "$dir/$file", "$target", $perms );
+            return ( $feedback, $err .= $msg ) if ($msg);
             $feedback .= "${simulated}Installed:  $file\n";
             next;
         }
     }
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
-    my $msg      = _moveFile($this,
+    my $msg      = _moveFile(
+        $this,
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
     );
-    return ( $feedback, $err .= $msg) if ($msg);
+    return ( $feedback, $err .= $msg ) if ($msg);
     $feedback .= "${simulated}Installed:  $this->{_pkgname}_installer\n";
 
     return ( $feedback, $err );
@@ -455,17 +477,17 @@ Otherwise the attachments are just copied.
 sub _installAttachments {
     my $this      = shift;
     my $dir       = shift;
-    my $webTopic  = shift;  # Standard web/topic for the attachment
-    my $twebTopic = shift;  # Mapped target web/topic 
+    my $webTopic  = shift;    # Standard web/topic for the attachment
+    my $twebTopic = shift;    # Mapped target web/topic
     my $meta      = shift;
-    my $feedback   = '';
+    my $feedback  = '';
 
     foreach my $key ( keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
         my $tfile =
-              Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
+          Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
 
-        # Attach the file if rcs checkin is needed, otherwise skip it and it will be copied later.
+# Attach the file if rcs checkin is needed, otherwise skip it and it will be copied later.
         if (
             (
                 $this->{_manifest}->{$file}->{ci}
@@ -474,11 +496,14 @@ sub _installAttachments {
             || ( -e "$tfile,v" )      # or rcs file exists
           )
         {
-            return ($feedback, "Target file $tfile is not writable\n") if (-e "$tfile" && ! -w "$tfile" && ! -o "$tfile");
-            return ($feedback, "Source file missing, probable packaging error\n") if (! -e "$dir/$file" );
+            return ( $feedback, "Target file $tfile is not writable\n" )
+              if ( -e "$tfile" && !-w "$tfile" && !-o "$tfile" );
+            return ( $feedback,
+                "Source file missing, probable packaging error\n" )
+              if ( !-e "$dir/$file" );
 
             my $attachinfo =
-              $meta->get( 'FILEATTACHMENT', $key );    # Recover existing Metadata
+              $meta->get( 'FILEATTACHMENT', $key );  # Recover existing Metadata
             $this->{_manifest}->{$file}->{I} =
               1;    # Set this to installed (assuming it all works)
             my @stats = stat "$dir/$file";
@@ -491,11 +516,11 @@ sub _installAttachments {
             $opts{comment}  = $attachinfo->{comment};
             $opts{filesize} = $stats[7];
             $opts{filedate} = $stats[9];
-            $meta->attach(%opts) unless ($this->{_options}->{SIMULATE});
+            $meta->attach(%opts) unless ( $this->{_options}->{SIMULATE} );
             $feedback .= "Attached:   $file to $twebTopic\n";
         }
     }
-    return ($feedback, '');
+    return ( $feedback, '' );
 }
 
 =begin TML
@@ -513,12 +538,12 @@ sub _moveFile {
 
     my @path = split( /[\/\\]+/, $to, -1 );    # -1 allows directories
     pop(@path);
-    unless ( $this->{_options}->{SIMULATE}) {
+    unless ( $this->{_options}->{SIMULATE} ) {
         if ( scalar(@path) ) {
             File::Path::mkpath( join( '/', @path ) );
-        }  
+        }
 
-       if ( !File::Copy::move( "$from", $to ) ) {
+        if ( !File::Copy::move( "$from", $to ) ) {
             if ( !File::Copy::copy( "$from", $to ) ) {
                 return "Failed to move/copy file '$from' to $to: $!\n";
             }
@@ -532,8 +557,9 @@ sub _moveFile {
         }
     }
     else {
-        return "Target file $to is not writable\n" if (-e "$to" && ! -w "$to" && ! -o "$to"  ); 
-        return "Probably packaging error - $from not found" if (! -e $from);
+        return "Target file $to is not writable\n"
+          if ( -e "$to" && !-w "$to" && !-o "$to" );
+        return "Probably packaging error - $from not found" if ( !-e $from );
     }
 
     return 0;
@@ -570,8 +596,9 @@ sub createBackup {
         -e "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer"
       );
 
-    if ( scalar @files ) {            # Anything to backup?
-        File::Path::mkpath("$pkgstore") unless ($this->{_options}->{SIMULATE}) ;
+    if ( scalar @files ) {                # Anything to backup?
+        File::Path::mkpath("$pkgstore")
+          unless ( $this->{_options}->{SIMULATE} );
 
         foreach my $file (@files) {
             my ($tofile) = $file =~ m/^$root(.*)$/
@@ -583,18 +610,24 @@ sub createBackup {
               ;    # -1 allows directories
             pop(@path);
             if ( scalar(@path) ) {
-                File::Path::mkpath( join( '/', @path ) ) unless ($this->{_options}->{SIMULATE}) ;
+                File::Path::mkpath( join( '/', @path ) )
+                  unless ( $this->{_options}->{SIMULATE} );
                 my $mode =
                   ( stat($file) )[2];    # File::Copy doesn't copy permissions
-                File::Copy::copy( "$file", "$pkgstore/$tofile" ) unless ($this->{_options}->{SIMULATE}) ;
+                File::Copy::copy( "$file", "$pkgstore/$tofile" )
+                  unless ( $this->{_options}->{SIMULATE} );
                 $mode =~ /(.*)/;
                 $mode = $1;              #yes, we must untaint
-                chmod( $mode, "$pkgstore/$tofile" ) unless ($this->{_options}->{SIMULATE}) ;
+                chmod( $mode, "$pkgstore/$tofile" )
+                  unless ( $this->{_options}->{SIMULATE} );
             }
         }
 
-        my ($rslt, $err) = Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' ) unless ($this->{_options}->{SIMULATE}) ;
-        $rslt = ' - Simulated backup, no files copied '  if ($this->{_options}->{SIMULATE}); 
+        my ( $rslt, $err ) =
+          Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' )
+          unless ( $this->{_options}->{SIMULATE} );
+        $rslt = ' - Simulated backup, no files copied '
+          if ( $this->{_options}->{SIMULATE} );
         return "Backup saved into $pkgstore \n   Archived as $rslt \n";
     }
     return "Nothing to backup \n";
@@ -628,7 +661,8 @@ sub setPermissions {
                 $target = $1;    #yes, we must untaint
                 $mode =~ /(.*)/;
                 $mode = $1;      #yes, we must untaint
-                chmod( oct($mode), $target ) unless ( $this->{_options}->{SIMULATE});
+                chmod( oct($mode), $target )
+                  unless ( $this->{_options}->{SIMULATE} );
             }
         }
     }
@@ -670,16 +704,15 @@ List the plugin modules provided by this extension.
 =cut
 
 sub listPlugins {
-    my $this      = shift;
+    my $this = shift;
     my %plugins;
 
-    foreach my $plugin ( $this->listFiles() )  {
+    foreach my $plugin ( $this->listFiles() ) {
         my ($plugName) = $plugin =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
         $plugins{$plugName} = 1 if $plugName;
     }
     return %plugins;
 }
-
 
 =begin TML
 
@@ -698,7 +731,7 @@ sub uninstall {
     my $this     = shift;
     my $simulate = shift;
 
-    $simulate =  $this->{_options}->{SIMULATE} unless ($simulate); 
+    $simulate = $this->{_options}->{SIMULATE} unless ($simulate);
 
     my @removed;
     my %directories;
@@ -768,15 +801,18 @@ Returns:
 =cut
 
 sub loadInstaller {
-    my $this = shift;
+    my $this    = shift;
     my $options = shift;
 
     my $uselocal = $this->{_options}->{USELOCAL} || $options->{USELOCAL};
-    my $temproot = $this->{_options}->{DIR}      || $options->{DIR}        || $this->{_root};
+    my $temproot =
+         $this->{_options}->{DIR}
+      || $options->{DIR}
+      || $this->{_root};
 
     my $file;
     my $err;
-    
+
     my $pkgstore  = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     my $extension = $this->{_pkgname};
     my $warn      = '';
@@ -796,27 +832,29 @@ sub loadInstaller {
                 }
             }
         }
-        $warn .= "Unable to find $extension locally in $temproot ..." unless ($file);
+        $warn .= "Unable to find $extension locally in $temproot ..."
+          unless ($file);
     }
 
     if ($file) {
         $warn .= "Using local $file for package manifest \n";
-        }
+    }
     else {
-        if ( defined $this->{_repository}) {
+        if ( defined $this->{_repository} ) {
             $warn .= "fetching installer from $this->{_repository}->{pub} ...";
-            ($err, $file) = $this->_fetchFile('_installer');
+            ( $err, $file ) = $this->_fetchFile('_installer');
             $warn .= " succeeded\n";
             if ($err) {
                 $warn .= " Download failed \n - $err \n";
-                return ( '', $warn);
+                return ( '', $warn );
             }
-        } else {
+        }
+        else {
             $warn .= 'unable to download - no repository provided';
-            return ( '', $warn);
+            return ( '', $warn );
         }
     }
-         
+
     open( my $fh, '<', $file )
       || return ( '', "Extract manifest failed: $file -  $!" );
 
@@ -891,10 +929,9 @@ the package file.
 
 =cut
 
-
 sub loadExits {
     my $this = shift;
-    my $err = '';
+    my $err  = '';
 
     if ( $this->{_routines} ) {
 
@@ -909,7 +946,7 @@ sub loadExits {
         }
     }
 
-    return ( $err);
+    return ($err);
 }
 
 =begin TML
@@ -919,7 +956,6 @@ Delete the pre and post install / uninstall routines from the namespace
 
 =cut
 
-
 sub deleteExits {
     my $this = shift;
 
@@ -928,7 +964,6 @@ sub deleteExits {
     }
     return;
 }
-
 
 =begin TML
 
@@ -1111,9 +1146,9 @@ sub checkDependencies {
 
     foreach my $dep ( @{ $this->{_dependency} } ) {
 
-        (my $trigger) = $dep->{trigger} =~ /^(.*)$/s;
-        my $required = eval "$trigger"
-          ;    # Evaluate the trigger - if true, module is required
+        ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
+        my $required =
+          eval "$trigger";  # Evaluate the trigger - if true, module is required
         next unless $required;    # Skip the module - trigger was false
         my $trig = '';
         $trig = " -- Triggered by $dep->{trigger}\n"
@@ -1126,8 +1161,11 @@ sub checkDependencies {
         }
 
         $missing .= "$msg$trig";
-        $missing .= " -- Description: $dep->{description}\n" if ($dep->{description});
-        $missing .= " -- Optional dependency will not be automatically installed\n" if ($dep->{description} =~ m/^[Oo]ptional/);
+        $missing .= " -- Description: $dep->{description}\n"
+          if ( $dep->{description} );
+        $missing .=
+          " -- Optional dependency will not be automatically installed\n"
+          if ( $dep->{description} =~ m/^[Oo]ptional/ );
         $missing .= "\n";
 
         if ( $dep->{module} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
@@ -1137,7 +1175,8 @@ sub checkDependencies {
             $packname .= $pack
               if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
             $dep->{name} = $packname;
-            push( @wiki, $dep ) unless ($dep->{description} =~ m/^[Oo]ptional/);
+            push( @wiki, $dep )
+              unless ( $dep->{description} =~ m/^[Oo]ptional/ );
             next;
         }
 
@@ -1148,7 +1187,7 @@ sub checkDependencies {
             push( @manual, $dep );
         }
     }
-    return (\@wiki) if (defined $which && $which eq 'wiki');
+    return ( \@wiki ) if ( defined $which && $which eq 'wiki' );
     return ( $installed, $missing, \@wiki, \@cpan, \@manual );
 
 }
@@ -1161,9 +1200,9 @@ of the installation.
 =cut
 
 sub installDependencies {
-    my $this      = shift;
+    my $this    = shift;
     my $tmpRslt = '';
-    my $rslt = '';
+    my $rslt    = '';
     my $cpan;
     my $plugins;
     my %pluglist;
@@ -1172,21 +1211,23 @@ sub installDependencies {
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
         my ( $ok, $msg ) = $dep->check();
         unless ($ok) {
-            my $deppkg = new Foswiki::Configure::Package ($this->{_root}, $dep->{name}, $this->{_session}, $this->{_options} );
-            $deppkg->repository($this->repository());
-            ($tmpRslt,$plugins,$cpan) = $deppkg->fullInstall();
+            my $deppkg = new Foswiki::Configure::Package(
+                $this->{_root},    $dep->{name},
+                $this->{_session}, $this->{_options}
+            );
+            $deppkg->repository( $this->repository() );
+            ( $tmpRslt, $plugins, $cpan ) = $deppkg->fullInstall();
             $rslt .= $tmpRslt;
             @pluglist{ keys %$plugins } = values %$plugins;
-            @cpanlist{ keys %$cpan } = values %$cpan;
+            @cpanlist{ keys %$cpan }    = values %$cpan;
         }
     }
-    return ($rslt, \%pluglist, \%cpanlist);
+    return ( $rslt, \%pluglist, \%cpanlist );
 }
-
 
 #
 #  Internal function to fetch a file from a repository - passed parameters:
-#  * A repository hash 
+#  * A repository hash
 #       my $repository = {
 #          name => 'Foswiki',
 #          data => 'http://foswiki.org/Extensions/',
@@ -1196,19 +1237,23 @@ sub installDependencies {
 #
 sub _fetchFile {
     my $this = shift;
-    my $ext = shift;
+    my $ext  = shift;
 
-    my $arf = $this->{_repository}->{pub} . $this->{_pkgname} . '/' . $this->{_pkgname} . $ext;
-    if (defined($this->{_repository}->{user})) { 
-        $arf .= '?username='.$this->{_repository}->{user};
-        if (defined($this->{_repository}->{pass})) {
-            $arf .= ';password='.$this->{_repository}->{pass};
+    my $arf =
+        $this->{_repository}->{pub}
+      . $this->{_pkgname} . '/'
+      . $this->{_pkgname}
+      . $ext;
+    if ( defined( $this->{_repository}->{user} ) ) {
+        $arf .= '?username=' . $this->{_repository}->{user};
+        if ( defined( $this->{_repository}->{pass} ) ) {
+            $arf .= ';password=' . $this->{_repository}->{pass};
         }
     }
     my $ar;
 
     my $feedback;
-    
+
     my $response = Foswiki::Configure::Package::_getUrl($arf);
     if ( !$response->is_error() ) {
         eval { $ar = $response->content(); };
@@ -1216,7 +1261,7 @@ sub _fetchFile {
     else {
         $@ = $response->message();
     }
-    
+
     if ($@) {
         $feedback .= <<HERE;
 I can't download $arf because of the following error:
@@ -1234,7 +1279,7 @@ HERE
 
     # Strip HTTP headers if necessary
     $ar =~ s/^HTTP(.*?)\r\n\r\n//sm;
-        
+
     # Save it somewhere it will be cleaned up
     my ( $fh, $tmpfilename ) =
       File::Temp::tempfile( SUFFIX => $ext, UNLINK => 1 );
@@ -1242,21 +1287,19 @@ HERE
     print $fh $ar;
     $fh->close();
 
-    return ('', $tmpfilename );
+    return ( '', $tmpfilename );
 
 }
 
-
 sub _getUrl {
-    my ( $url ) = @_;
+    my ($url) = @_;
 
     require Foswiki::Net;
-    my $tn = new Foswiki::Net();
+    my $tn       = new Foswiki::Net();
     my $response = $tn->getExternalResource($url);
     $tn->finish();
     return $response;
 }
-
 
 1;
 
