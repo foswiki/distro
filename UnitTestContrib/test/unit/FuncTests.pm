@@ -10,6 +10,7 @@ our @ISA = qw( FoswikiFnTestCase );
 use strict;
 use Foswiki;
 use Foswiki::Func;
+use Assert;
 
 sub new {
     my $self = shift()->SUPER::new( "Func", @_ );
@@ -241,6 +242,8 @@ sub test_attachments {
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
 
+    $name1 = TAINT($name1);
+
     my $e = Foswiki::Func::saveAttachment(
         $this->{test_web},
         $topic, $name1,
@@ -259,6 +262,7 @@ sub test_attachments {
     my @attachments = $meta->find('FILEATTACHMENT');
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
 
+    $name2 = TAINT($name2);
     $e = Foswiki::Func::saveAttachment(
         $this->{test_web},
         $topic, $name2,
@@ -370,23 +374,27 @@ sub test_subweb_attachments {
 
     $name2 = Assert::TAINT($name2);
     my $infile = $this->{tmpdatafile};
+
     #my $web = Assert::TAINT($web);
     #my $infile = Assert::TAINT($this->{tmpdatafile1});
-                my @stats    = stat $this->{tmpdatafile};
-                my $fileSize = $stats[7];
-                my $fileDate = $stats[9];
-                $e = Foswiki::Func::saveAttachment(
-                    $web, 
-                    $topic, $name2,
-                    {   dontlog => 1,
-                        file     => $infile, 
-                        filedate => $fileDate,
-                        filesize => $fileSize,
-                        comment  => '<nop>DirectedGraphPlugin: DOT graph',
-                        hide     => 1
-                    }
-                );
-               $this->assert( !$e, $e );
+
+    my @stats    = stat $this->{tmpdatafile};
+    my $fileSize = $stats[7];
+    my $fileDate = $stats[9];
+    $e = Foswiki::Func::saveAttachment(
+        $web, 
+        $topic,
+        $name2,
+        {
+            dontlog => 1,
+            file     => $infile, 
+            filedate => $fileDate,
+            filesize => $fileSize,
+            comment  => '<nop>DirectedGraphPlugin: DOT graph',
+            hide     => 1,
+        }
+       );
+    $this->assert( !$e, $e );
 
     # Verify that the files and directories actually were created
     #
@@ -395,12 +403,18 @@ sub test_subweb_attachments {
     $this->assert( (-d $ft), "Web directory for attachment not created"  );
     $ft .= "/".$topic;
     $this->assert( (-d $ft), "Topic directory for attachment not created?"  );
-    print "Attachment RCS Filename $ft/$name1,v was not written to disk?" unless (-e $ft."/$name1,v" ) ;
-    #$this->assert( (-e $ft."/$name1,v" ), "Attachment RCS Filename $ft/$name1,v was not written to disk?" );
-    $this->assert( (-e $ft."/$name1" ), "Attachment file $ft/$name1  was not written to disk?" );
-    $this->assert( (-e $ft."/$name2,v" ), "Attachment RCS Filename $ft/$name2,v was not written to disk?" );
-    $this->assert( (-e $ft."/$name2" ), "Attachment file $ft/$name2  was not written to disk?" );
-
+    $this->assert(
+        (-e $ft."/$name1" ),
+        "Attachment file $ft/$name1  was not written to disk?" );
+    $this->assert(
+        (-e $ft."/$name1,v" ),
+        "Attachment RCS Filename $ft/$name1,v was not written to disk?" );
+    $this->assert(
+        (-e $ft."/$name2,v" ),
+        "Attachment RCS Filename $ft/$name2,v was not written to disk?" );
+    $this->assert(
+        (-e $ft."/$name2" ),
+        "Attachment file $ft/$name2  was not written to disk?" );
 
     ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     @attachments = $meta->find('FILEATTACHMENT');

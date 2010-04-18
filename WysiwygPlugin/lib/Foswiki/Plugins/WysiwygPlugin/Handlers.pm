@@ -6,6 +6,7 @@ package Foswiki::Plugins::WysiwygPlugin::Handlers;
 # module only when it is actually required.
 use strict;
 use Assert;
+use Error (':try');
 
 use CGI qw( :cgi -any );
 
@@ -786,23 +787,28 @@ sub _restUpload {
 
     # SMELL: use of undocumented CGI::tmpFileName
     my $tfp   = $query->tmpFileName( $query->param('filepath') );
-    my $error = Foswiki::Func::saveAttachment(
-        $web, $topic,
-        $fileName,
-        {
-            dontlog     => !$Foswiki::cfg{Log}{upload},
-            comment     => $fileComment,
-            hide        => $hideFile,
-            createlink  => $createLink,
-            stream      => $stream,
-            filepath    => $filePath,
-            filesize    => $fileSize,
-            filedate    => $fileDate,
-            tmpFilename => $tfp,
-        }
-    );
-
-    close($stream) if $stream;
+    my $error;
+    try {
+        Foswiki::Func::saveAttachment(
+            $web, $topic,
+            $fileName,
+            {
+                dontlog     => !$Foswiki::cfg{Log}{upload},
+                comment     => $fileComment,
+                hide        => $hideFile,
+                createlink  => $createLink,
+                stream      => $stream,
+                filepath    => $filePath,
+                filesize    => $fileSize,
+                filedate    => $fileDate,
+                tmpFilename => $tfp,
+            }
+           );
+    } catch Error::Simple with {
+        $error = shift->{-text};
+    } finally {
+        close($stream) if $stream;
+    };
 
     if ($error) {
         returnRESTResult( $response, 500, $error );

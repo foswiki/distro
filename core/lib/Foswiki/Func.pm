@@ -1721,12 +1721,7 @@ sub saveAttachment {
     my $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
 
     # SMELL: check access controls?
-    try {
-        $meta->attach( name => $name, %$data );
-    }
-    catch Error::Simple with {
-        $result = shift->{-text};
-    };
+    $meta->attach( name => $name, %$data );
 
     return $result;
 }

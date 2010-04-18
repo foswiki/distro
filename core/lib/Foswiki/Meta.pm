@@ -2192,6 +2192,8 @@ appropriate.
 
 If file is not set, this is a properties-only save.
 
+Throws an exception on error.
+
 =cut
 
 sub attach {
@@ -2261,9 +2263,6 @@ sub attach {
               ->saveAttachment( $this, $opts{name}, $opts{stream},
                 $opts{author} || $this->{_session}->{user} );
         }
-        catch Error with {
-            $error = shift;
-        };
         finally {
             $this->fireDependency();
         };
