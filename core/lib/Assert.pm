@@ -1,7 +1,7 @@
 package Assert;
 
 # Derived from Carp::Assert
-# Copyright 2004 Crawford Currie
+# Copyright 2004-2010 Foswiki Contributors
 # Copyright 2002 by Michael G Schwern <schwern@pobox.com
 # Slightly simplified derived version of Assert
 # Differences are:
@@ -17,6 +17,7 @@ package Assert;
 
 use strict;
 
+use locale; # so result of lc() is tainted
 use Exporter;
 our @ISA = ('Exporter');
 
@@ -26,7 +27,7 @@ our %EXPORT_TAGS = (
 );
 
 our $VERSION = '$Rev$';
-our $DIRTY   = $ENV{PATH};    # Used in TAINT
+our $DIRTY   = lc('x');    # Used in TAINT
 
 Exporter::export_tags(qw(NDEBUG DEBUG));
 
