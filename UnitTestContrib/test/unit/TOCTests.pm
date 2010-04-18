@@ -10,7 +10,8 @@ propagated into the TOC.
 =cut
 
 use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
 use Foswiki;
@@ -20,13 +21,6 @@ use Foswiki::Macros::TOC;
 use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
-
-my $testweb    = "TestWeb";
-my $testtopic1 = "TestTopic1";
-
-my $fatwilly;
-my $user;
-my $testuser1 = "TestUser1";
 
 my $setup_failure = '';
 
@@ -50,43 +44,15 @@ With a few words of text.
 
 HERE
 
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
-
-# Set up the test fixture
-sub set_up {
-    my $this = shift;
-    $this->SUPER::set_up();
+sub setup_TOCtests {
+    my ( $this, $text, $params, $tocparams ) = @_;
 
     my $query = new Unit::Request();
-    $fatwilly = new Foswiki( undef, $query );
-    $this->{request}  = $query;
-    $this->{response} = new Unit::Response;
-    $user             = $fatwilly->{user};
 
-    $surl = $fatwilly->getScriptUrl(1);
+    $surl = $this->{session}->getScriptUrl(1);
 
-    my $webObject = Foswiki::Meta->new( $fatwilly, $testweb );
-    $webObject->populateNewWeb();
-
-    $Foswiki::Plugins::SESSION = $fatwilly;
-}
-
-sub tear_down {
-    my $this = shift;
-    $this->removeWebFixture( $fatwilly, $testweb );
-    eval { $fatwilly->finish() };
-    $this->SUPER::tear_down();
-}
-
-sub setup_TOCtests {
-    my ( $this, $text, $web, $topic, $params, $tocparams ) = @_;
-
-    $fatwilly->{webName}   = $web;
-    $fatwilly->{topicName} = $topic;
-    my $render = $fatwilly->renderer;
+    $this->{session}->{webName}   = $this->{test_web};
+    $this->{session}->{topicName} = $this->{test_topic};
 
     use Foswiki::Attrs;
     my $attr = new Foswiki::Attrs($params);
@@ -96,8 +62,9 @@ sub setup_TOCtests {
     }
 
     # Now generate the TOC
-    my $topicObject = Foswiki::Meta->new( $fatwilly, $web, $topic );
-    my $res = $fatwilly->TOC( $text, $topicObject, $tocparams );
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, $this->{test_topic} );
+    my $res = $this->{session}->TOC( $text, $topicObject, $tocparams );
 
     eval 'use HTML::TreeBuilder; use HTML::Element;';
     if ($@) {
@@ -129,7 +96,7 @@ sub setup_TOCtests {
 sub test_parameters {
     my $this = shift;
 
-    my @children = setup_TOCtests( $this, $testtext1, $testtopic1, $testweb,
+    my @children = $this->setup_TOCtests( $testtext1,
         'param1="a little luck" param2="no luck"', '' );
 
     # @children will have alternating ' * ' and an href
@@ -147,7 +114,7 @@ sub test_no_parameters {
     my $this = shift;
 
     my @children =
-      setup_TOCtests( $this, $testtext1, $testtopic1, $testweb, '', '' );
+      $this->setup_TOCtests( $testtext1, '', '' );
 
     # @children will have alternating ' * ' and an href
     foreach my $c (@children) {
@@ -156,6 +123,41 @@ sub test_no_parameters {
         $res =~ s/#.*$//o;    # Delete anchor
         $this->assert_str_equals( '', $res );
     }
+}
+
+sub test_Item8592 {
+    my $this = shift;
+    my $text = <<'HERE';
+%TOC%
+---+ A level 1 head!line
+---++ Followed by a level 2! headline
+---++!! Another level 2 headline
+HERE
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, $this->{test_topic}, $text );
+    $topicObject->save();
+    my $res = $topicObject->expandMacros($text );
+    $res = $topicObject->renderTML( $res );
+
+    $this->assert_html_equals(<<HTML, $res);
+<a name="foswikiTOC"></a>
+<div class="foswikiToc">
+ <ul>
+  <li> <a href="#A_level_1_head_33line">A level 1 head!line</a>
+   <ul>
+    <li> <a href="#Followed_by_a_level_2_33_headline">
+     Followed by a level 2! headline</a>
+    </li>
+   </ul> 
+  </li>
+ </ul> 
+</div>
+<nop><h1><a name="A_level_1_head_33line"></a>  A level 1 head!line </h1>
+<nop><h2><a name="Followed_by_a_level_2_33_headline"></a>
+ Followed by a level 2! headline </h2>
+<nop><h2><a name="Another_level_2_headline"></a>
+ Another level 2 headline </h2>
+HTML
 }
 
 1;
