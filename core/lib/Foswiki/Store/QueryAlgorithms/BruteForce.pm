@@ -164,6 +164,10 @@ sub getField {
         if ( $Foswiki::Query::Node::aliases{$field} ) {
             $realField = $Foswiki::Query::Node::aliases{$field};
         }
+        if ($realField eq 'META:TOPICINFO') {
+            # Ensure the revision info is populated from the store
+            $data->getRevisionInfo();
+        }
         if ( $realField =~ s/^META:// ) {
             if ( $Foswiki::Query::Node::isArrayType{$realField} ) {
 

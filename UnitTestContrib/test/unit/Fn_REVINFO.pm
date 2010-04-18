@@ -173,16 +173,13 @@ sub test_compatibility1 {
     {
         return;
     }
-    $this->assert(
-        open(
-            F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"
-        )
-    );
-    print F <<'HERE';
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, 'CrikeyMoses', <<'HERE');
 %META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
-    close(F);
-    my $topicObject =
+    $topicObject->save();
+    $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'CrikeyMoses' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{format="$username $wikiname"}%');
@@ -201,16 +198,13 @@ sub test_compatibility2 {
     {
         return;
     }
-    $this->assert(
-        open(
-            F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"
-        )
-    );
-    print F <<'HERE';
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, 'CrikeyMoses', <<'HERE');
 %META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
-    close(F);
-    my $topicObject =
+    $topicObject->save();
+    $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'CrikeyMoses' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{format="$username $wikiname"}%');

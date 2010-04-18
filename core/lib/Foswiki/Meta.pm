@@ -1062,25 +1062,27 @@ Set TOPICINFO information on the object, as specified by the parameters.
 sub setRevisionInfo {
     my ( $this, $data ) = @_;
 
+    my $ti = $this->get('TOPICINFO') || {};
+
+    foreach my $k (keys %$data) {
+        $ti->{$k} = $data->{$k};
+    }
+
     # compatibility; older versions of the code use
     # RCS rev numbers. Save with them so old code can
     # read these topics
     my %args = %$data;
-    $args{version} = 1 if $args{version} < 1;
-    $args{version} = '1.' . $args{version};
-    $args{format}  = $EMBEDDING_FORMAT_VERSION;
+    $ti->{version} = 1 if $ti->{version} < 1;
+    $ti->{rev} = $ti->{version};
+    $ti->{version} = '1.' . $ti->{version};
+    $ti->{format}  = $EMBEDDING_FORMAT_VERSION;
 
-    $this->put( 'TOPICINFO', \%args );
+    $this->put( 'TOPICINFO', $ti );
 }
 
 =begin TML
 
----++ ObjectMethod getRevisionInfo($fromrev) -> \%info
-
-   * =$fromrev= revision number. If 0, undef, or out-of-range, will get info about the most recent revision.
-
-Try and get revision info from the meta information, or, if it is not
-present, kick down to the Store module for the same information.
+---++ ObjectMethod getRevisionInfo() -> \%info
 
 Return %info with at least:
 | date | in epochSec |
@@ -1094,8 +1096,18 @@ sub getRevisionInfo {
     my $this = shift;
 
     my $info;
+
+    # This used to try and get revision info from the meta
+    # information and only kick down to the Store module for the
+    # same information if it was not present. However there have
+    # been several cases where the meta information in the cache
+    # is badly out of step with the store, and the conclusion is
+    # that it can't be trusted. For this reason, when meta is read
+    # TOPICINFO version field is automatically undefined, which
+    # forces this function to re-get it from the store.
     my $topicinfo = $this->get('TOPICINFO');
-    if ($topicinfo) {
+
+    if ($topicinfo && defined $topicinfo->{version}) {
         $info = {
             date    => $topicinfo->{date},
             author  => $topicinfo->{author},
@@ -1119,12 +1131,13 @@ sub getRevisionInfo {
     return $info;
 }
 
-# Determins, and caches, the topic revision info of the base version,
-#warning: this is a horrid little legacy of the InfoCache object, and should be done away with.
+# Determines, and caches, the topic revision info of the base version,
+# SMELL: this is a horrid little legacy of the InfoCache object, and
+# should be done away with.
 sub getRev1Info {
     my ( $this, $attr ) = @_;
 
-#my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
+    #my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
     my $web   = $this->web;
     my $topic = $this->topic;
 
@@ -1535,6 +1548,10 @@ sub save {
     my %opts = @_;
 
     my $plugins = $this->{_session}->{plugins};
+
+    # make sure version and date in TOPICINFO are up-to-date
+    # (side effect of getRevisionInfo)
+    $this->getRevisionInfo();
 
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
@@ -2958,18 +2975,15 @@ sub setEmbeddedStoreForm {
         # Make sure we update the topic format for when we save
         $ti->{format} = $EMBEDDING_FORMAT_VERSION;
 
-        # add the rev derived from version=''
-        if ( $ti->{version} ) {
-            if ( $ti->{version} =~ /(\d+\.)?(\d*)/ ) {
-                $ti->{rev} = $2;
-            }
-            else {
-                $ti->{rev} = 1;
-            }
-        }
-        else {
-            $ti->{version} = $ti->{rev} = 0;
-        }
+        # The version, date and rev cached in TOPICINFO *cannot be trusted*
+        # See Tasks.Item8848
+        # These fields will be populated from the store when
+        # getRevisionInfo() is called. Important: always do this
+        # before calling get('TOPICINFO') if you want to use the
+        # rev info!
+        delete $ti->{version};
+        delete $ti->{date};
+        delete $ti->{rev};
     }
 
     # Other meta-data

@@ -58,6 +58,8 @@ This macro caches some of the information that would normally be derived from th
 | format  | Format of this topic, will be used for automatic format conversion |
 | reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURL{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
 
+Note that the *version and date fields are advisory only* and cannot be trusted. This is because processes outside of Foswiki's control may write topic files without maintaining these fields.
+
 ---+++ META:TOPICMOVED
 
 This only exists if the topic has been moved. If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic. Older ones can to be found in the topic history.

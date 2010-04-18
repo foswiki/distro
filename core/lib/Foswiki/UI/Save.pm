@@ -262,6 +262,7 @@ sub buildNewTopic {
 
             require Foswiki::Merge;
 
+            $topicObject->getRevisionInfo();
             my $pti = $topicObject->get('TOPICINFO');
             if (   $pti->{reprev}
                 && $pti->{version}

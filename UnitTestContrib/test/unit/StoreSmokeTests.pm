@@ -272,7 +272,7 @@ sub verify_releaselocksonsave {
 
     # get the date
     my $m = Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topic );
-    my $t1 = $m->get('TOPICINFO')->{date};
+    my $t1 = $m->getRevisionInfo()->{date};
 
     # create rev 2 as TestUser1
     $query = new Unit::Request(

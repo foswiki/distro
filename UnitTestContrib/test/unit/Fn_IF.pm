@@ -1254,6 +1254,7 @@ PONG
 
     $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topicName );
+    $meta->getRevisionInfo();
     my $ti = $meta->get('TOPICINFO');
 
     $this->assert_str_equals( $ti->{version}, '1.1' );

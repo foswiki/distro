@@ -298,6 +298,7 @@ sub test_beforeSaveHandlerChangeText {
 
     # remove topicinfo, useless for test
     $readMeta->remove('TOPICINFO');
+    $meta->remove('TOPICINFO');
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'text' } );
@@ -330,7 +331,6 @@ sub test_beforeSaveHandlerChangeMeta {
     $meta->putKeyed( "FIELD", $args );
     $meta->save( user => $this->{test_user_login} );
     $this->assert( $this->{session}->topicExists( $web, $topic ) );
-
     my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     my $readText = $readMeta->text;
 
@@ -341,8 +341,10 @@ sub test_beforeSaveHandlerChangeMeta {
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    delete $meta->get( 'TOPICINFO')->{rev};
-    delete $readMeta->get( 'TOPICINFO')->{rev};
+    foreach my $fld qw(rev version date) {
+        delete $meta->get( 'TOPICINFO')->{$fld};
+        delete $readMeta->get( 'TOPICINFO')->{$fld};
+    }
     $this->assert_str_equals( $meta->stringify(), $readMeta->stringify() );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();
@@ -383,8 +385,10 @@ sub test_beforeSaveHandlerChangeBoth {
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    delete $meta->get( 'TOPICINFO' )->{rev};
-    delete $readMeta->get( 'TOPICINFO')->{rev};
+    foreach my $fld qw(rev version date) {
+        delete $meta->get( 'TOPICINFO')->{$fld};
+        delete $readMeta->get( 'TOPICINFO')->{$fld};
+    }
     $this->assert_str_equals( $meta->stringify(), $readMeta->stringify() );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();

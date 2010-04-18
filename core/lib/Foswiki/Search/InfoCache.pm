@@ -396,6 +396,7 @@ sub _getListOfWebs {
                     }
                     else {
                         $web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+ASSERT($web);
                         push( @tmpWebs, $web );
                         $webObject = Foswiki::Meta->new( $session, $web );
                     }
@@ -406,6 +407,7 @@ sub _getListOfWebs {
                           unless $Foswiki::WebFilter::user_allowed->ok(
                             $session, $w );
                         $w = Foswiki::Sandbox::untaint( $w,\&Foswiki::Sandbox::validateWebName );
+ASSERT($web);
                         push( @tmpWebs, $w );
                     }
                 }
@@ -438,6 +440,7 @@ sub _getListOfWebs {
 
     my @webs;
     foreach my $web (@tmpWebs) {
+        next unless defined $web;
         push( @webs, $web ) unless $excludeWeb{$web};
         $excludeWeb{$web} = 1;    # eliminate duplicates
     }
