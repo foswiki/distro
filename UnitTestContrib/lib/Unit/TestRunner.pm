@@ -101,30 +101,33 @@ sub start {
             else {
                 $action = runOne($tester, $suite, $testToRun);
             }
-            ($action) = $action =~ m/^(.*)$/ms;
+            # untaint action for the case where the test is run in another process
+            ($action) = $action =~ m/^(.*)$/ms; 
+
             eval $action;
             die $@ if $@;
             die "Test suite $suite aborted\n" unless $completed;
         }
-   }
+    }
 
     if ( $this->{unexpected_failures} || $this->{unexpected_passes} ) {
+        $this->{unexpected_failures} ||= 0;
+        $this->{unexpected_passes} ||= 0;
         if ($this->{unexpected_failures}) {
-        print $this->{unexpected_failures} . " failure".
+            print $this->{unexpected_failures} . " failure".
                 ($this->{unexpected_failures}>1?'s':'').
                 "\n";
-            }
+        }
         if ($this->{unexpected_passes}) {
-        print $this->{unexpected_passes} . " unexpected pass".
+            print $this->{unexpected_passes} . " unexpected pass".
                 ($this->{unexpected_passes}>1?'es':'').
                 "\n";
-            }
+        }
         if (($passes + $this->{unexpected_failures}) > 1) {
             #don't print the failure a second time if there is only one test run - its really annoying.
             print join( "\n---------------------------\n", @{ $this->{failures} } ),
             "\n";
         }
-        $this->{unexpected_failures} ||= 0;
         print "$passes of ", $passes + $this->{unexpected_failures},
           " test cases passed\n";
         return scalar( @{ $this->{failures} } );
@@ -279,12 +282,16 @@ sub runOne
         return $action;
     }
     foreach my $test (@tests) {
-		#Devel::Leak::Object::checkpoint();
+        #Devel::Leak::Object::checkpoint();
         print "\t$test\n";
+        $action .= "\n# $test\n    ";
         $tester->set_up();
         try {
             $tester->$test();
             $action .= '$passes++;';
+            if ( $tester->{expect_failure} ) {
+                $action .= '$this->{unexpected_passes}++;';
+            }
         }
         catch Error with {
             my $e = shift;
@@ -296,15 +303,10 @@ sub runOne
                 $action .= '$this->{unexpected_failures}++;';
             }
             $action .= 'push( @{ $this->{failures} }, "'
-                     . $test 
-                     . '\n' 
+                     . quotemeta( $test ) 
+                     . '\\n' 
                      . quotemeta( $e->stringify() )
                      . '" );';
-        }
-        otherwise {
-            if ( $tester->{expect_failure} ) {
-                $action .= '$this->{unexpected_passes}++;';
-            }
         };
         $tester->tear_down();
     }
