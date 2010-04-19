@@ -122,7 +122,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-#---+ User Logins -- TABS
+#---+ Security &amp; Authentication -- TABS
 # <p>In order to support tracking who changed what, and apply access controls,
 # Foswiki is normally configured to use logins. The tabs below control
 # various aspects of logins.</p>
@@ -135,8 +135,8 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # Client sessions are not required for logins to work, but Foswiki will not
 # be able to remember logged-in users consistently.
 # See <a href="http://foswiki.org/System/UserAuthentication" target="_new">User 
-# Authentication</a> for a full discussion of the pros and
 # cons of using persistent sessions.</p>
+# Authentication</a> for a full discussion of the pros and
 
 # **BOOLEAN**
 # Control whether Foswiki will use persistent sessions.
@@ -429,7 +429,6 @@ $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
 # (if it supports mappings, that is).
 $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 
-#---++ Registration
 # **BOOLEAN**
 # Controls whether new user registration is available.
 # It will have no effect on existing users.
@@ -454,7 +453,7 @@ $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 # Configuration password (not prompted)
 $Foswiki::cfg{Password} = '';
 
-#---+ Security
+#---++ Environment
 # **PATH M**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep and rcs.
