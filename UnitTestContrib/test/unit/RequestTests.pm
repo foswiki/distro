@@ -1,7 +1,7 @@
 package RequestTests;
 
-use Unit::TestCase;
-our @ISA = qw( Unit::TestCase );
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 use strict;
 use warnings;
 
