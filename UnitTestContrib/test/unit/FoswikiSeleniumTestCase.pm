@@ -18,14 +18,24 @@ use Encode;
 my $useSeleniumError;
 my $browsers;
 
+my $debug = 0;
+
+my $instance_count = 0;
+
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
+
+    $instance_count++;
 
     $this->{useSeleniumError} = $this->_loadSeleniumInterface;
     $this->{seleniumBrowsers} = $this->_loadSeleniumBrowsers;
 
     return $this;
+}
+
+END {
+    _shutDownSeleniumBrowsers() if $browsers;
 }
 
 sub list_tests {
@@ -34,9 +44,9 @@ sub list_tests {
 
     if ($this->{useSeleniumError}) {
         print STDERR "Cannot run Selenium-based tests: $this->{useSeleniumError}";
-		return;
-	}
-	return @set;
+        return;
+    }
+    return @set;
 }
 
 sub fixture_groups {
@@ -44,82 +54,85 @@ sub fixture_groups {
 
     if ($this->{useSeleniumError}) {
         print STDERR "Cannot run Selenium-based tests: $this->{useSeleniumError}";
-		return;
-	}
+        return;
+    }
 
-	my @groups;
+    my @groups;
 
-	for my $browser (keys %{ $this->{seleniumBrowsers} })
-	{
-		my $onBrowser = "on$browser";
-		push @groups, $onBrowser;
-		my $selenium = $this->{seleniumBrowsers}->{$browser};
-		eval "sub $onBrowser { my \$this = shift; \$this->{selenium} = \$selenium; }";
-		die $@ if $@;
-	}
-	return \@groups;
+    for my $browser (keys %{ $this->{seleniumBrowsers} })
+    {
+        my $onBrowser = "on$browser";
+        push @groups, $onBrowser;
+        my $selenium = $this->{seleniumBrowsers}->{$browser};
+        eval "sub $onBrowser { my \$this = shift; \$this->{browser} = \$browser; \$this->{selenium} = \$selenium; }";
+        die $@ if $@;
+    }
+    return \@groups;
 }
 
 sub _loadSeleniumInterface {
-	my $this = shift;
+    my $this = shift;
 
-	return $useSeleniumError if defined $useSeleniumError;
+    return $useSeleniumError if defined $useSeleniumError;
 
     eval "use Test::WWW::Selenium";
     if ($@) {
         $useSeleniumError = $@;
         $useSeleniumError =~ s/\(\@INC contains:.*$//s;
-		#$this->expect_failure();
-		#$this->annotate("CANNOT RUN SELENIUM TESTS: $this->{use_selenium_error}");
     }
-	else
-	{
-		$useSeleniumError = '';
-	}
-	return $useSeleniumError;
+    else
+    {
+        $useSeleniumError = '';
+    }
+    return $useSeleniumError;
 }
 
 sub _loadSeleniumBrowsers {
-	my $this = shift;
+    my $this = shift;
 
-	return $browsers if $browsers;
+    return $browsers if $browsers;
 
-	$browsers = {};
+    $browsers = {};
 
-	unless ($this->{useSeleniumError}) {
-		if ($Foswiki::cfg{UnitTestContrib}{SeleniumRc}) {
-			for my $browser (keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc} }) {
-				my %config = %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{$browser} };
-				$config{host} ||= 'localhost';
-				$config{port} ||= 4444;
-				$config{browser} ||= '*firefox';
-				$config{browser_url} ||= $Foswiki::cfg{DefaultUrlHost};
+    unless ($this->{useSeleniumError}) {
+        if ($Foswiki::cfg{UnitTestContrib}{SeleniumRc}) {
+            for my $browser (keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc} }) {
+                my %config = %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{$browser} };
+                $config{host} ||= 'localhost';
+                $config{port} ||= 4444;
+                $config{browser} ||= '*firefox';
+                $config{browser_url} ||= $Foswiki::cfg{DefaultUrlHost};
 
-				$config{error_callback} = sub { $this->assert(0, join(' ', @_)); };
+                $config{error_callback} = sub { $this->assert(0, join(' ', @_)); };
 
-				my $selenium = Test::WWW::Selenium->new( %config );
-				if ($selenium) {
-    				$browsers->{$browser} = $selenium;
-				}
-				else {
-					print STDERR "Could not create Test::WWW::Selenium object for \$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{$browser}\n";
-				}
-			}
-		}
-	}
-	if (keys %{ $browsers }) {
-		eval "use Test::Builder";
-		die $@ if $@;
-		my $test = Test::Builder->new;
-		$test->no_plan();
-		$test->no_diag(1);
-		$test->no_ending(1);
-		my $testOutput = '';
-		$test->output(\$testOutput );
-	}
+                my $selenium = Test::WWW::Selenium->new( %config );
+                if ($selenium) {
+                    $browsers->{$browser} = $selenium;
+                }
+            }
+        }
+    }
+    if (keys %{ $browsers }) {
+        eval "use Test::Builder";
+        die $@ if $@;
+        my $test = Test::Builder->new;
+        $test->reset();
+        $test->no_plan();
+        $test->no_diag(1);
+        $test->no_ending(1);
+        my $testOutput = '';
+        $test->output(\$testOutput );
+    }
 
-	return $browsers;
+    return $browsers;
 }
 
+sub _shutDownSeleniumBrowsers {
+    for my $browser (values %$browsers) {
+        print STDERR "Shutting down $browser\n" if $debug;
+        $browser->stop();
+    }
+    undef $browsers;
+}
 
 1;
