@@ -5,9 +5,9 @@
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '3.2',
+		minorVersion : '3.3',
 
-		releaseDate : '2010-03-25',
+		releaseDate : '2010-04-19',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -3282,32 +3282,6 @@ tinymce.create('static tinymce.util.XHR', {
 	function Selection(selection) {
 		var t = this, invisibleChar = '\uFEFF', range, lastIERng, dom = selection.dom, TRUE = true, FALSE = false;
 
-		// Compares two IE specific ranges to see if they are different
-		// this method is useful when invalidating the cached selection range
-		function compareRanges(rng1, rng2) {
-			if (rng1 && rng2) {
-				// Both are control ranges and the selected element matches
-				if (rng1.item && rng2.item && rng1.item(0) === rng2.item(0))
-					return TRUE;
-
-				// Both are text ranges and the range matches
-				if (rng1.isEqual && rng2.isEqual && rng2.isEqual(rng1)) {
-					// IE will say that the range is equal then produce an invalid argument exception
-					// if you perform specific operations in a keyup event. For example Ctrl+Del.
-					// This hack will invalidate the range cache if the exception occurs
-					try {
-						// Try accessing nextSibling will producer an invalid argument some times
-						range.startContainer.nextSibling;
-						return TRUE;
-					} catch (ex) {
-						// Ignore
-					}
-				}
-			}
-
-			return FALSE;
-		};
-
 		// Returns a W3C DOM compatible range object by using the IE Range API
 		function getRange() {
 			var ieRange = selection.getRng(), domRange = dom.createRng(), ieRange2, element, collapsed, isMerged;
@@ -3545,11 +3519,21 @@ tinymce.create('static tinymce.util.XHR', {
 
 		this.getRangeAt = function() {
 			// Setup new range if the cache is empty
-			if (!range || !compareRanges(lastIERng, selection.getRng())) {
+			if (!range || !tinymce.dom.RangeUtils.compareRanges(lastIERng, selection.getRng())) {
 				range = getRange();
 
 				// Store away text range for next call
 				lastIERng = selection.getRng();
+			}
+
+			// IE will say that the range is equal then produce an invalid argument exception
+			// if you perform specific operations in a keyup event. For example Ctrl+Del.
+			// This hack will invalidate the range cache if the exception occurs
+			try {
+				range.startContainer.nextSibling;
+			} catch (ex) {
+				range = getRange();
+				lastIERng = null;
 			}
 
 			// Return cached range
@@ -7237,6 +7221,26 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 		};
 */
 	};
+
+	tinymce.dom.RangeUtils.compareRanges = function(rng1, rng2) {
+		if (rng1 && rng2) {
+			// Compare native IE ranges
+			if (rng1.item || rng1.duplicate) {
+				// Both are control ranges and the selected element matches
+				if (rng1.item && rng2.item && rng1.item(0) === rng2.item(0))
+					return true;
+
+				// Both are text ranges and the range matches
+				if (rng1.isEqual && rng2.isEqual && rng2.isEqual(rng1))
+					return true;
+			} else {
+				// Compare w3c ranges
+				return rng1.startContainer == rng2.startContainer && rng1.startOffset == rng2.startOffset;
+			}
+		}
+
+		return false;
+	};
 })(tinymce);
 
 (function(tinymce) {
@@ -10620,11 +10624,9 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				}
 
 				// Add default shortcuts for gecko
-				if (isGecko) {
-					t.addShortcut('ctrl+b', t.getLang('bold_desc'), 'Bold');
-					t.addShortcut('ctrl+i', t.getLang('italic_desc'), 'Italic');
-					t.addShortcut('ctrl+u', t.getLang('underline_desc'), 'Underline');
-				}
+				t.addShortcut('ctrl+b', t.getLang('bold_desc'), 'Bold');
+				t.addShortcut('ctrl+i', t.getLang('italic_desc'), 'Italic');
+				t.addShortcut('ctrl+u', t.getLang('underline_desc'), 'Underline');
 
 				// BlockFormat shortcuts keys
 				for (i=1; i<=6; i++)
@@ -10971,7 +10973,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				}
 
 				// Present alert message about clipboard access not being available
-				if (failed || !doc.queryCommandEnabled(command)) {
+				if (failed || !doc.queryCommandSupported(command)) {
 					if (tinymce.isGecko) {
 						editor.windowManager.confirm(editor.getLang('clipboard_msg'), function(state) {
 							if (state)
@@ -11075,7 +11077,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				var node = value || selection.getNode();
 
 				// Make sure that the body node isn't removed
-				if (node != ed.getBody()) {
+				if (node != editor.getBody()) {
 					storeSelection();
 					editor.dom.remove(node, TRUE);
 					restoreSelection();
@@ -11180,7 +11182,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					if (value.href)
 						dom.setAttribs(link, value);
 					else
-						ed.dom.remove(link, TRUE);
+						editor.dom.remove(link, TRUE);
 				}
 			}
 		});
@@ -11636,6 +11638,13 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 										}
 									}
 								} else {
+									// Force control range into text range
+									if (r.item) {
+										tr = d.body.createTextRange();
+										tr.moveToElementText(r.item(0));
+										r = tr;
+									}
+
 									tr = d.body.createTextRange();
 									tr.moveToElementText(b);
 									tr.collapse(1);
@@ -12657,7 +12666,8 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 				// Move startContainer/startOffset in to a suitable node
 				if (container.nodeType == 1 || container.nodeValue === "") {
-					walker = new TreeWalker(container.childNodes[offset]);
+					container = container.nodeType == 1 ? container.childNodes[offset] : container;
+					walker = new TreeWalker(container, container);
 					for (node = walker.current(); node; node = walker.next()) {
 						if (node.nodeType == 3 && !isBlock(node.parentNode) && !isWhiteSpaceNode(node)) {
 							rng.setStart(node, 0);
@@ -13718,7 +13728,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 		};
 
 		function isTextBlock(name) {
-			return /^(h[1-6]|p|div|pre|address)$/.test(name);
+			return /^(h[1-6]|p|div|pre|address|dl|dt|dd)$/.test(name);
 		};
 
 		function getContainer(rng, start) {
@@ -13784,6 +13794,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 			// Pending apply or remove formats
 			if (hasPending()) {
 				ed.getDoc().execCommand('FontName', false, 'mceinline');
+				pendingFormats.lastRng = selection.getRng();
 
 				// IE will convert the current word
 				each(dom.select('font,span'), function(node) {
@@ -13803,7 +13814,8 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 					each('onKeyDown,onKeyUp,onKeyPress,onMouseUp'.split(','), function(event) {
 						ed[event].addToTop(function(ed, e) {
-							if (hasPending()) {
+							// Do we have pending formats and is the selection moved has moved
+							if (hasPending() && !tinymce.dom.RangeUtils.compareRanges(pendingFormats.lastRng, selection.getRng())) {
 								each(dom.select('font,span'), function(node) {
 									var bookmark, textNode, rng;
 

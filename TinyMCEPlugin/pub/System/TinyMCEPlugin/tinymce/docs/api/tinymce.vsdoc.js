@@ -698,7 +698,7 @@ tinymce.dom.DOMUtils.prototype.getStyle = function(n, na, c) {
 	/// <summary>Returns the current style or runtime/computed value of a element.</summary>
 	/// <param name="n" type="">HTML element or element id string to get style from.</param>
 	/// <param name="na" type="String">Style name to return.</param>
-	/// <param name="c" type="String">Computed style.</param>
+	/// <param name="c" type="Boolean">Computed style.</param>
 	/// <returns type="String">Current style or computed style value of a element.</returns>
 }
 

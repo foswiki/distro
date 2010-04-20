@@ -1601,7 +1601,7 @@ or the CSS style name like background-color.
 <param name="na" type="String">
 <description>Style name to return.</description>
 </param>
-<param name="c" type="String">
+<param name="c" type="Boolean">
 <description>Computed style.</description>
 </param>
 <return type="String">

@@ -179,7 +179,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
-|  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3.2, Foswiki now uses jQuery version |
+|  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |
 |  24 Jan 2010 | Foswikitask:Item8416: add TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS and TINYMCEPLUGIN_BUTTONS(123) to allow wiki, web and topic specific plugins to be added [[Foswiki:Main.SvenDowideit][SD]] |
 |  29 Dec 2009 | Foswikitask:Item2447: Fix unable to apply "Normal" format in some browsers (notes added to System topic)<br/> Foswikitask:Item1462: Block attachments to unsaved AUTOINC topics |
