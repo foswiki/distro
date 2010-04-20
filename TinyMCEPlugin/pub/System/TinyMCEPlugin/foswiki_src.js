@@ -16,7 +16,7 @@
 */
 
 // Top level setup for tiny MCE editor. Requires tiny_mce.js and foswiki_tiny.js
-
+jQuery(document).ready( function () {
 FoswikiTiny.install();
 
 // Setup the standard edit screen for use with TMCE
@@ -122,3 +122,4 @@ Duplicated from JavascriptFiles/foswiki_edit.js to resolve Item5514
 function suppressSaveValidation() {
     foswiki.Pref.validateSuppressed = true;
 }
+});

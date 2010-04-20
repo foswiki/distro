@@ -250,7 +250,7 @@ sub beforeEditHandler {
     # SMELL: meta tag now in a separate addToHEAD for Item8566, due to
     # addToZONE shenanigans. <meta> tags really do have to be in the head!
     Foswiki::Func::addToZone('head', 'tinyMCE::Meta', <<SCRIPT);
-<meta name="TINYMCEPLUGIN_INIT" content="$metainit" />
+<meta name="foswiki.TinyMCEPlugin.init" content="$metainit" />
 SCRIPT
 
     Foswiki::Func::addToZone('body', 'tinyMCE', <<SCRIPT, 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI');

@@ -359,7 +359,7 @@ var FoswikiTiny = {
     
     install : function() {
         // find the TINYMCEPLUGIN_INIT META
-        var tmce_init = this.getMetaTag('TINYMCEPLUGIN_INIT');
+        var tmce_init = foswiki.TinyMCEPlugin.init;
         if (tmce_init != null) {
             eval("tinyMCE.init({" + unescape(tmce_init) + "});");
             return;
