@@ -126,7 +126,7 @@ text="<style type=\"text/css\" media=\"all\">
 	color:#f00;
 }
 </style>
-<script type=\"text/javascript\" src=\"%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js\" />"
+<script type=\"text/javascript\" src=\"%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js\"></script>"
 }%%ENDSECTION{"form"}%
 
 
