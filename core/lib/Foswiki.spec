@@ -122,7 +122,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-#---+ Security &amp; Authentication -- TABS
+#---+ Security and Authentication -- TABS
 # <p>In order to support tracking who changed what, and apply access controls,
 # Foswiki is normally configured to use logins. The tabs below control
 # various aspects of logins.</p>
@@ -135,8 +135,8 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # Client sessions are not required for logins to work, but Foswiki will not
 # be able to remember logged-in users consistently.
 # See <a href="http://foswiki.org/System/UserAuthentication" target="_new">User 
-# cons of using persistent sessions.</p>
 # Authentication</a> for a full discussion of the pros and
+# cons of using persistent sessions.</p>
 
 # **BOOLEAN**
 # Control whether Foswiki will use persistent sessions.
@@ -217,22 +217,24 @@ $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 $Foswiki::cfg{Sessions}{CookieRealm} = '';
 
 # **SELECT strikeone,embedded,none **
-# By default Foswiki uses Javascript to perform "double submission" validation
+# <p>By default Foswiki uses Javascript to perform "double submission" validation
 # of browser requests. This technique, called "strikeone", is highly
-# recommended for the prevention of cross-site request forgery (CSRF).
-# If Javascript is known not to be available in browsers that use the site,
+# recommended for the prevention of cross-site request forgery (CSRF). See also 
+# <a href="http://foswiki.org/Support/WhyYouAreAskedToConfirm" target="_new">
+# Why am I being asked to confirm?</a>.</p>
+# <p>If Javascript is known not to be available in browsers that use the site,
 # or cookies are disabled, but you still want validation of submissions,
 # then you can fall back on a embedded-key validation technique that
 # is less secure, but still offers some protection against CSRF. Both
 # validation techniques rely on user verification of "suspicious"
-# transactions.
-# This option allows you to select which validation technique will be
+# transactions.</p>
+# <p>This option allows you to select which validation technique will be
 # used.<br />
 # If it is set to "strikeone", or is undefined, 0, or the empty string, then
 # double-submission using Javascript will be used.<br />
 # If it is set to "embedded", then embedded validation keys will be used.<br/>
 # If it is set to "none", then no validation of posted requests will
-# be performed.
+# be performed.</p>
 $Foswiki::cfg{Validation}{Method} = 'strikeone';
 
 # **NUMBER EXPERT**
@@ -657,7 +659,7 @@ $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 # (there is an example in the root of your Foswiki installation).
 $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
-#---+ Logging &amp; Statistics
+#---+ Logging and Statistics
 
 # **PATH**
 # Directory where log files will be written. Log files are automatically
