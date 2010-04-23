@@ -2,7 +2,7 @@
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2007 Foswiki Contributors.
+# Copyright (C) 2007-2009 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,11 +26,14 @@ use Algorithm::Diff;
 
 sub usage {
     die <<NEWBIE
-This script will synchronise the content of a set of webs in a local
-subversion checkout with the content of a local TWiki that is tagged
-with %STARTSECTION{"distributiondoc"}% sections. It
-only synchronises topics found in subversion; linked documents (e.g. those
-created by pseudo-install.pl) are ignored.
+This script will synchronise the content of a set of webs that exist
+in a local subversion checkout with the content of a remote Foswiki.
+Topic in the remote wiki may include a %STARTSECTION{"subversion"}%
+section, in which case only that subsection of the document text will
+be synched to subversion. Topic meta-data is always synched.
+
+Only topics that are in subversion are processed. The local files
+are modified but are *not* checked back in.
 
 Progress and error messages are printed to STDERR. The output of the
 script is a list of changed topics.
@@ -38,15 +41,14 @@ script is a list of changed topics.
 The script must be run in the subversion checkout area:
 
 cd ..../bin
-perl ../tools/mergeDoc.pl [-svn2twiki] <twikipath> <web1> <web2> ... <webN>
-<svnpath> is the absolute file path to the root of the subversion checkout.
-<web1> <web2> ... <webN> are the webs to synchronise
+perl ../tools/mergeDoc.pl <viewscripturl> <path1> <path2> ... <pathN>
+<viewscripturl> is the view script URL of the site providing the data
+<path1> <path2> ... <pathN> may be webs or topics. For example,
 
-Options:
-   -svn2twiki - overwrite the content of the twiki with what's in subversion.
-                Note: text outside the %STARTSECTION{"distributiondoc"}% is
-                retained. Default is to update the subversion checkout from
-                twiki.
+perl ../tools/mergeDoc.pl http://foswiki.org System Main.WebHome
+
+will synch the System web and the Main.WebHome topic.
+
 NEWBIE
 }
 
@@ -59,13 +61,13 @@ unless (scalar(@ARGV)) {
 }
 
 my $mode = 't2s';
-if ($ARGV[0] eq '-svn2twiki') {
+if ($ARGV[0] eq '-svn2wiki') {
     $mode = 's2t';
     shift @ARGV;
 }
 
 my $svnpath = '..';
-my $twikipath = shift @ARGV;
+my $wikipath = shift @ARGV;
 
 unless ($svnpath && -d $svnpath) {
     print STDERR "Bad svn path $svnpath";
@@ -112,7 +114,7 @@ foreach my $web (@ARGV) {
         }
 
         # Load tagged version
-        my $twikifile = "$twikipath/data/$path.txt";
+        my $twikifile = "$wikipath/data/$path.txt";
         unless (open(TF, '<', $twikifile)) {
             print STDERR "Failed to open $twikifile: $!\n";
             next;
