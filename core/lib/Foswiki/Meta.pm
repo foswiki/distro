@@ -711,7 +711,6 @@ revision is currently being viewed.
 
 sub reload {
     my ( $this, $rev ) = @_;
-
     return unless $this->{_topic};
     if ( defined $rev ) {
         $rev = Foswiki::Store::cleanUpRevID($rev);
@@ -725,7 +724,6 @@ sub reload {
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
-
     # SMELL: removed see getLoadedRev - should remove any
     # non-numeric rev's (like the $rev stuff from svn)
     $this->{_preferences}->finish() if defined $this->{_preferences};
@@ -753,9 +751,8 @@ sub text {
     }
     else {
 
-        # Lazy load
-        # SMELL: SD: will reload repeatedly if there is no topic text -
-        # ie if the topic is all META
+        # Lazy load. Reload with no params will reload the _loadedRev, or load the
+        # latest if that is not defined.
         $this->reload() unless defined( $this->{_text} );
     }
     return $this->{_text};
@@ -1418,6 +1415,8 @@ sub haveAccess {
     my ( $this, $mode, $cUID ) = @_;
     $cUID ||= $this->{_session}->{user};
     if ( defined $this->{_topic} && !defined $this->{_text} ) {
+        # Lazy load the text, by reloading the _loadedRev or loading the latest
+        # if that is not defined.
         $this->reload();
     }
     my $session = $this->{_session};
@@ -1542,6 +1541,8 @@ Save the current object, invoking appropriate plugin handlers
 
 =cut
 
+# SMELL: arguably save should only be permitted if the loaded rev of the object is the same as the
+# latest rev.
 sub save {
     my $this = shift;
     ASSERT( scalar(@_) % 2 == 0 );
@@ -1641,6 +1642,8 @@ extensions.
 
 =cut
 
+# SMELL: arguably save should only be permitted if the loaded rev of the object is the same as the
+# latest rev.
 sub saveAs {
     my $this     = shift;
     my $newWeb   = shift;
@@ -1791,6 +1794,8 @@ object $to. %opts may include:
 
 =cut
 
+# SMELL: arguably move should only be permitted if the loaded rev of the object is the same as the
+# latest rev.
 sub move {
     my ( $this, $to, %opts ) = @_;
 
@@ -1802,6 +1807,9 @@ sub move {
 
         $this->_atomicLock($cUID);
         $to->_atomicLock($cUID);
+
+        # Ensure latest rev is loaded
+        $this->reload(0) unless $this->latestIsLoaded();
 
         # Clear outstanding leases. We assume that the caller has checked
         # that the lease is OK to kill.
@@ -1818,7 +1826,7 @@ sub move {
             );
             $this->save();    # to save the metadata change
             $this->{_session}->{store}->moveTopic( $this, $to, $cUID );
-            $to->reload();
+            $to->reload(0);
         }
         finally {
             $this->_atomicUnlock($cUID);
@@ -1971,6 +1979,23 @@ sub getMaxRevNo {
 
 =begin TML
 
+---++ ObjectMethod latestIsLoaded() -> $boolean
+Return true if the currently loaded rev is the latest rev. Note that there may have
+been changes to the meta or text locally in the loaded meta; these changes will be
+retained.
+
+Only valid on topics.
+
+=cut
+
+sub latestIsLoaded {
+    my $this = shift;
+
+    return defined $this->{_loadedRev} && $this->{_loadedRev} == $this->getMaxRevNo();
+}
+
+=begin TML
+
 ---++ ObjectMethod getLoadedRev() -> $integer
 
 Get the currently loaded revision. Result will be a revision number or
@@ -1998,6 +2023,8 @@ or attachment from the store, possibly including all its history.
 
 =cut
 
+# SMELL: arguably should only be permitted if the loaded rev of the object is the same as the
+# latest rev.
 sub removeFromStore {
     my ( $this, $attachment ) = @_;
     my $store = $this->{_session}->{store};
@@ -2205,13 +2232,17 @@ sub getAttachmentRevisionInfo {
         topics.
 
 Saves a new revision of the attachment, invoking plugin handlers as
-appropriate.
+appropriate. This method automatically updates the loaded rev of $this
+to the latest topic revision.
 
 If file is not set, this is a properties-only save.
 
 Throws an exception on error.
 
 =cut
+
+# SMELL: arguably should only be permitted if the loaded rev of the object is the same as the
+# latest rev.
 
 sub attach {
     my $this = shift;
@@ -2226,8 +2257,9 @@ sub attach {
           || throw Error::Simple( $opts{file} . ' binmode failed: ' . $! );
         $opts{tmpFilename} = $opts{file};
     }
+    # Force reload of the latest version
+    $this->reload(0) unless $this->latestIsLoaded();
 
-    $this->reload();
     my $attrs;
     if ( $opts{stream} ) {
         $action = 'upload';
@@ -2343,7 +2375,7 @@ sub hasAttachment {
 
     # Store denies knowledge of it; check the meta, just in case it's
     # been added to meta but not saved yet
-    $this->reload() unless $this->getLoadedRev();
+    $this->reload(0) unless $this->latestIsLoaded();
     return defined $this->get( 'FILEATTACHMENT', $name );
 
 }
@@ -2453,6 +2485,9 @@ sub moveAttachment {
     $this->_atomicLock($cUID);
     $to->_atomicLock($cUID);
 
+    # Make sure we have latest revs
+    $this->reload(0) unless $this->latestIsLoaded();
+
     try {
         $this->{_session}->{store}
           ->moveAttachment( $this, $name, $to, $newName, $cUID );
@@ -2473,6 +2508,7 @@ sub moveAttachment {
           $this->{_session}->{users}->getLoginName($cUID);
         $fileAttachment->{movedto}   = $to->getPath() . '.' . $newName;
         $fileAttachment->{movedwhen} = time();
+        $to->reload(0) unless $to->latestIsLoaded();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
 
         if ( $this->getPath() eq $to->getPath() ) {
@@ -2484,9 +2520,6 @@ sub moveAttachment {
             dontlog => 1,
             comment => 'gained' . $newName
         );
-
-        $this->reload();
-        $to->reload();
     }
     finally {
         $to->_atomicUnlock($cUID);
