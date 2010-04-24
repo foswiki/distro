@@ -26,7 +26,8 @@
 #
 package TranslatorTests;
 use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use TranslatorBase;
+our @ISA = qw( FoswikiTestCase TranslatorBase );
 
 use strict;
 use warnings;
@@ -2258,40 +2259,6 @@ HERE
     },
 ];
 
-sub gen_compare_tests {
-    my %picked = map { $_ => 1 } @_;
-    for ( my $i = 0 ; $i < scalar(@$data) ; $i++ ) {
-        my $datum = $data->[$i];
-        if ( scalar(@_) ) {
-            next unless ( $picked{ $datum->{name} } );
-        }
-        if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
-            my $fn = 'TranslatorTests::testTML2HTML_' . $datum->{name};
-            no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareTML_HTML($datum) };
-            use strict 'refs';
-        }
-        if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
-            my $fn = 'TranslatorTests::testHTML2TML_' . $datum->{name};
-            no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareHTML_TML($datum) };
-            use strict 'refs';
-        }
-        if ( ( $mask & $datum->{exec} ) & $ROUNDTRIP ) {
-            my $fn = 'TranslatorTests::testROUNDTRIP_' . $datum->{name};
-            no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareRoundTrip($datum) };
-            use strict 'refs';
-        }
-        if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
-            my $fn = 'TranslatorTests::testCANNOTWYSIWYG_' . $datum->{name};
-            no strict 'refs';
-            *$fn =
-              sub { my $this = shift; $this->compareNotWysiwygEditable($datum) };
-            use strict 'refs';
-        }
-    }
-}
 
 # Run from BEGIN
 sub gen_file_tests {
@@ -2432,10 +2399,10 @@ sub compareRoundTrip {
      # Expect that roundtrip is not possible if notWysiwygEditable returns true.
      # notWysiwygEditable should not return false for anything that *can* be
      # roundtripped.
-        $this->_assert_tml_not_equals( $finaltml, $tx, $args->{name} );
+        $this->assert_tml_not_equals( $finaltml, $tx, $args->{name} );
     }
     else {
-        $this->_assert_tml_equals( $finaltml, $tx, $args->{name} );
+        $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
         $this->assert( !$notEditable,
 "$args->{name} TML is wysiwyg-editable, but notWysiwygEditable() reports: $notEditable"
         );
@@ -2468,59 +2435,7 @@ sub compareHTML_TML {
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions() );
-    $this->_assert_tml_equals( $finaltml, $tx, $args->{name} );
-}
-
-sub encode {
-    my $s = shift;
-
-    # used for debugging odd chars
-    #    $s =~ s/([\000-\037])/'#'.ord($1)/ge;
-    return $s;
-}
-
-sub _assert_tml_equals {
-    my ( $this, $expected, $actual, $name ) = @_;
-    $expected ||= '';
-    $actual   ||= '';
-    $actual   =~ s/\n$//s;
-    $expected =~ s/\n$//s;
-    unless ( $expected eq $actual ) {
-        my $expl =
-            "==$name== Expected TML:\n"
-          . encode($expected)
-          . "\n==$name== Actual TML:\n"
-          . encode($actual)
-          . "\n==$name==\n";
-        my $i = 0;
-        while ( $i < length($expected) && $i < length($actual) ) {
-            my $e = substr( $expected, $i, 1 );
-            my $a = substr( $actual,   $i, 1 );
-            if ( $a ne $e ) {
-                $expl .= "<<==== HERE actual ";
-                $expl .= ord($a) . " != expected " . ord($e) . "\n";
-                last;
-            }
-            $expl .= $a;
-            $i++;
-        }
-        $this->assert( 0, $expl . "\n" );
-    }
-}
-
-sub _assert_tml_not_equals {
-    my ( $this, $expected, $actual, $name ) = @_;
-    $expected ||= '';
-    $actual   ||= '';
-    $actual   =~ s/\n$//s;
-    $expected =~ s/\n$//s;
-    if ( $expected eq $actual ) {
-        my $expl =
-"==$name== Actual TML unexpectedly correct, remove \$CANNOTWYSIWYG flag:\n"
-          . encode($actual)
-          . "\n==$name==\n";
-        $this->assert( 0, $expl . "\n" );
-    }
+    $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
 }
 
 sub convertImage {
@@ -2531,7 +2446,7 @@ sub convertImage {
     }
 }
 
-gen_compare_tests();
+TranslatorTests->gen_compare_tests('test', $data);
 
 #gen_file_tests();
 

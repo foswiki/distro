@@ -749,59 +749,32 @@ HERE
     },
 ];
 
-sub gen_compare_tests {
-    my %picked = map { $_ => 1 } @_;
-    for my $datum ( @{$data} ) {
-        if ( scalar(@_) ) {
-            next unless ( $picked{ $datum->{name} } );
-        }
-        if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
-            my $fn = 'ExtendedTranslatorTests::testTML2HTML_' . $datum->{name};
-            no strict 'refs';
-            *{$fn} = sub {
-                my $this = shift;
-                $this->testSpecificSetup($datum);
-                $this->compareTML_HTML($datum);
-                $this->testSpecificCleanup($datum);
-            };
-            use strict 'refs';
-        }
-        if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
-            my $fn = 'ExtendedTranslatorTests::testHTML2TML_' . $datum->{name};
-            no strict 'refs';
-            *{$fn} = sub {
-                my $this = shift;
-                $this->testSpecificSetup($datum);
-                $this->compareHTML_TML($datum);
-                $this->testSpecificCleanup($datum);
-            };
-            use strict 'refs';
-        }
-        if ( ( $mask & $datum->{exec} ) & $ROUNDTRIP ) {
-            my $fn = 'ExtendedTranslatorTests::testROUNDTRIP_' . $datum->{name};
-            no strict 'refs';
-            *{$fn} = sub {
-                my $this = shift;
-                $this->testSpecificSetup($datum);
-                $this->compareRoundTrip($datum);
-                $this->testSpecificCleanup($datum);
-            };
-            use strict 'refs';
-        }
-        if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
-            my $fn = 'TranslatorTests::testCANNOTWYSIWYG_' . $datum->{name};
-            no strict 'refs';
-            *{$fn} = sub {
-                my $this = shift;
-                $this->testSpecificSetup($datum);
-                $this->compareNotWysiwygEditable($datum);
-                $this->testSpecificCleanup($datum);
-            };
-            use strict 'refs';
-        }
-    }
+sub compareTML_HTML {
+    my ( $this, $args ) = @_;
+    $this->testSpecificSetup($args);
+    $this->SUPER::compareTML_HTML($args);
+    $this->testSpecificCleanup($args);
+}
 
-    return;
+sub compareNotWysiwygEditable {
+    my ( $this, $args ) = @_;
+    $this->testSpecificSetup($args);
+    $this->SUPER::compareNotWysiwygEditable($args);
+    $this->testSpecificCleanup($args);
+}
+
+sub compareRoundTrip {
+    my ( $this, $args ) = @_;
+    $this->testSpecificSetup($args);
+    $this->SUPER::compareRoundTrip($args);
+    $this->testSpecificCleanup($args);
+}
+
+sub compareHTML_TML {
+    my ( $this, $args ) = @_;
+    $this->testSpecificSetup($args);
+    $this->SUPER::compareHTML_TML($args);
+    $this->testSpecificCleanup($args);
 }
 
 sub testSpecificSetup {
@@ -839,6 +812,6 @@ sub TML_HTMLconverterOptions {
     return $options;
 }
 
-gen_compare_tests();
+ExtendedTranslatorTests->gen_compare_tests('test', $data);
 
 1;
