@@ -70,7 +70,7 @@ my $waitForServerMessage = "Please wait... retrieving page from server.";
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
-    $self->{BrowserTranslator_Init} = 0;
+    $self->{BrowserTranslator_Init} = {};
 
     return $self;
 }
@@ -90,12 +90,12 @@ sub tear_down {
 
 sub _init {
     my $this = shift;
-    return if $this->{BrowserTranslator_Init};
+    return if $this->{BrowserTranslator_Init}->{$this->{browser}};
 
     $this->login();
     $this->_open_editor();
 
-    $this->{BrowserTranslator_Init} = 1;
+    $this->{BrowserTranslator_Init}->{$this->{browser}} = 1;
 }
 
 sub compareTML_HTML {
@@ -135,7 +135,7 @@ sub _open_editor {
     $this->{selenium}->wait_for_element_present( $editFrameLocator, 2 * $this->timeout() );
     $this->{selenium}->pause(); # Breathe for a moment; let TMCE settle before doing anything else
 
-    $this->{Browser_Translator_mode} = 'wysiwyg';
+    $this->{Browser_Translator_mode}->{$this->{browser}} = 'wysiwyg';
 }
 
 sub _select_editor_frame {
@@ -150,7 +150,7 @@ sub _select_top_frame {
 
 sub _wikitext {
     my $this = shift;
-    return if $this->{Browser_Translator_mode} eq 'wikitext';
+    return if $this->{Browser_Translator_mode}->{$this->{browser}} eq 'wikitext';
     if ($this->{selenium}->is_element_present($wysiwygLocator)) {
         # SMELL: I can't see this button, but the assert fails. Dunno why.
         # $this->assertElementIsNotVisible( $wysiwygLocator );
@@ -168,12 +168,12 @@ sub _wikitext {
 
     $this->waitFor(sub{ $this->{selenium}->get_value($editTextareaLocator) !~ /\Q$waitForServerMessage/; });
 
-    $this->{Browser_Translator_mode} = 'wikitext';
+    $this->{Browser_Translator_mode}->{$this->{browser}} = 'wikitext';
 }
 
 sub _wysiwyg {
     my $this = shift;
-    return if $this->{Browser_Translator_mode} eq 'wysiwyg';
+    return if $this->{Browser_Translator_mode}->{$this->{browser}} eq 'wysiwyg';
     $this->assertElementIsPresent( $wysiwygLocator );
     $this->assertElementIsVisible( $wysiwygLocator );
     $this->{selenium}->click_ok( $wysiwygLocator );
@@ -188,7 +188,7 @@ sub _wysiwyg {
     $this->waitFor(sub{ $this->{selenium}->get_text("css=body") !~ /\Q$waitForServerMessage/; });
     $this->_select_top_frame();
 
-    $this->{Browser_Translator_mode} = 'wysiwyg';
+    $this->{Browser_Translator_mode}->{$this->{browser}} = 'wysiwyg';
 }
 
 BrowserTranslatorTests->gen_compare_tests('verify', $data);
