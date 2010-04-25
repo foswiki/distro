@@ -44,12 +44,12 @@ with CGI accelerators such as mod_perl.
 use strict;
 use Assert;
 use Error qw( :try );
-use Monitor ();
-use CGI         ();    # Always required to get html generation tags;
-use Digest::MD5 ();    # For passthru and validation
+use Monitor                  ();
+use CGI                      ();  # Always required to get html generation tags;
+use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
 
-require 5.005;    # For regex objects and internationalisation
+require 5.005;                    # For regex objects and internationalisation
 
 # Site configuration constants
 our %cfg;
@@ -64,12 +64,12 @@ our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
-our $TranslationToken = "\0"; 
+our $TranslationToken = "\0";
 
 # Used by takeOut/putBack blocks
 our $BLOCKID = 0;
-our $OC = "<!--\0";
-our $CC = "\0-->";
+our $OC      = "<!--\0";
+our $CC      = "\0-->";
 
 # Returns the full path of the directory containing Foswiki.pm
 sub _getLibDir {
@@ -118,6 +118,7 @@ sub _getLibDir {
 }
 
 BEGIN {
+
     #Monitor::MARK("Start of BEGIN block in Foswiki.pm");
     if (DEBUG) {
 
@@ -129,7 +130,7 @@ BEGIN {
         # ASSERTS are turned on by defining the environment variable
         # FOSWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
         # production environment, and no stack traces or paths are
-        # output to the browser. 
+        # output to the browser.
         $SIG{'__WARN__'} = sub { die @_ };
         $Error::Debug = 1;    # verbose stack traces, please
     }
@@ -149,120 +150,123 @@ BEGIN {
     # the load time of this module, especially when it is used from
     # REST handlers.
     %macros = (
-        ADDTOHEAD         => undef,
-          # deprecated, use ADDTOZONE instead
-        ADDTOZONE         => undef,
-        ALLVARIABLES      =>
-          sub { $_[0]->{prefs}->stringify() },
-        ATTACHURL         =>
+        ADDTOHEAD => undef,
+
+        # deprecated, use ADDTOZONE instead
+        ADDTOZONE    => undef,
+        ALLVARIABLES => sub { $_[0]->{prefs}->stringify() },
+        ATTACHURL =>
           sub { return $_[0]->getPubUrl( 1, $_[2]->web, $_[2]->topic ); },
-        ATTACHURLPATH     =>
+        ATTACHURLPATH =>
           sub { return $_[0]->getPubUrl( 0, $_[2]->web, $_[2]->topic ); },
-        DATE              => sub {
+        DATE => sub {
             Foswiki::Time::formatTime(
                 time(),
                 $Foswiki::cfg{DefaultDateFormat},
                 $Foswiki::cfg{DisplayTimeValues}
-               );
+            );
         },
-        DISPLAYTIME       => sub {
+        DISPLAYTIME => sub {
             Foswiki::Time::formatTime(
                 time(),
                 $_[1]->{_DEFAULT} || '',
                 $Foswiki::cfg{DisplayTimeValues}
-               );
+            );
         },
-        ENCODE            => undef,
-        ENV               => undef,
-        EXPAND            => undef,
-        FORMFIELD         => undef,
-        FOREACH           => undef,
-        GMTIME            => sub {
-            Foswiki::Time::formatTime(
-                time(), $_[1]->{_DEFAULT} || '', 'gmtime' );
+        ENCODE    => undef,
+        ENV       => undef,
+        EXPAND    => undef,
+        FORMFIELD => undef,
+        FOREACH   => undef,
+        GMTIME    => sub {
+            Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
+                'gmtime' );
         },
-        GROUPINFO         => undef,
-        GROUPS            => undef,
-        HTTP_HOST         =>
+        GROUPINFO => undef,
+        GROUPS    => undef,
+        HTTP_HOST =>
+
           #deprecated functionality, now implemented using %ENV%
           sub { $_[0]->{request}->header('Host') || '' },
-        HTTP              => undef,
-        HTTPS             => undef,
-        ICON              => undef,
-        ICONURL           => undef,
-        ICONURLPATH       => undef,
-        IF                => undef,
-        INCLUDE           => undef,
-        INTURLENCODE      => undef,
-        LANGUAGE          => sub { $_[0]->i18n->language(); },
-        LANGUAGES         => undef,
-        MAKETEXT          => undef,
-        META              => undef,
-        METASEARCH        => sub {
+        HTTP         => undef,
+        HTTPS        => undef,
+        ICON         => undef,
+        ICONURL      => undef,
+        ICONURLPATH  => undef,
+        IF           => undef,
+        INCLUDE      => undef,
+        INTURLENCODE => undef,
+        LANGUAGE     => sub { $_[0]->i18n->language(); },
+        LANGUAGES    => undef,
+        MAKETEXT     => undef,
+        META         => undef,
+        METASEARCH   => sub {
+
             # DEPRECATED
-            $_[0]->search->searchMetaData($_[1]);
+            $_[0]->search->searchMetaData( $_[1] );
         },
-        NOP               =>
+        NOP =>
+
           # Remove NOP tag in template topics but show content.
           # Used in template _topics_ (not templates, per se, but
           # topics used as templates for new topics)
           sub { $_[1]->{_RAW} ? $_[1]->{_RAW} : '<nop>' },
-        PLUGINVERSION     => sub {
+        PLUGINVERSION => sub {
             $_[0]->{plugins}->getPluginVersion( $_[1]->{_DEFAULT} );
         },
-        PUBURL            =>
-          sub { $_[0]->getPubUrl(1) },
-        PUBURLPATH        =>
-          sub { $_[0]->getPubUrl(0) },
+        PUBURL            => sub { $_[0]->getPubUrl(1) },
+        PUBURLPATH        => sub { $_[0]->getPubUrl(0) },
         QUERY             => undef,
         QUERYPARAMS       => undef,
-        QUERYSTRING       =>
-          sub { $_[0]->{request}->queryString() },
+        QUERYSTRING       => sub { $_[0]->{request}->queryString() },
         RELATIVETOPICPATH => undef,
-        REMOTE_ADDR       => 
+        REMOTE_ADDR =>
+
           # DEPRECATED, now implemented using %ENV%
           #move to compatibility plugin in Foswiki 2.0
           sub { $_[0]->{request}->remoteAddress() || ''; },
-        REMOTE_PORT       =>
+        REMOTE_PORT =>
+
           # DEPRECATED
           # CGI/1.1 (RFC 3875) doesn't specify REMOTE_PORT,
           # but some webservers implement it. However, since
           # it's not RFC compliant, Foswiki should not rely on
           # it. So we get more portability.
           sub { '' },
-        REMOTE_USER       =>
+        REMOTE_USER =>
+
           # DEPRECATED
           sub { $_[0]->{request}->remoteUser() || '' },
-        RENDERZONE        => undef,
-        REVINFO           => undef,
-        REVTITLE          => undef,
-        REVARG            => undef,
-        SCRIPTNAME        => sub { $_[0]->{request}->action() },
-        SCRIPTURL         =>
-          sub { $_[0]->getScriptUrl( 1, $_[1]->{_DEFAULT} || '' ) },
-        SCRIPTURLPATH     =>
+        RENDERZONE => undef,
+        REVINFO    => undef,
+        REVTITLE   => undef,
+        REVARG     => undef,
+        SCRIPTNAME => sub { $_[0]->{request}->action() },
+        SCRIPTURL  => sub { $_[0]->getScriptUrl( 1, $_[1]->{_DEFAULT} || '' ) },
+        SCRIPTURLPATH =>
           sub { $_[0]->getScriptUrl( 0, $_[1]->{_DEFAULT} || '' ) },
-        SEARCH            => undef,
-        SEP               =>
+        SEARCH => undef,
+        SEP =>
+
           # Shortcut to %TMPL:P{"sep"}%
           sub { $_[0]->templates->expandTemplate('sep') },
-        SERVERTIME        => sub {
-            Foswiki::Time::formatTime(
-                time(), $_[1]->{_DEFAULT} || '', 'servertime' );
+        SERVERTIME => sub {
+            Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
+                'servertime' );
         },
-        SHOWPREFERENCE    => undef,
-        SPACEDTOPIC       => undef,
-        SPACEOUT          => undef,
-        'TMPL:P'          => sub { $_[0]->templates->tmplP($_[1]) },
-        TOPICLIST         => undef,
-        URLENCODE         => undef,
-        URLPARAM          => undef,
-        USERINFO          => undef,
-        USERNAME          => undef,
-        VAR               => undef,
-        WEBLIST           => undef,
-        WIKINAME          => undef,
-        WIKIUSERNAME      => undef,
+        SHOWPREFERENCE      => undef,
+        SPACEDTOPIC         => undef,
+        SPACEOUT            => undef,
+        'TMPL:P'            => sub { $_[0]->templates->tmplP( $_[1] ) },
+        TOPICLIST           => undef,
+        URLENCODE           => undef,
+        URLPARAM            => undef,
+        USERINFO            => undef,
+        USERNAME            => undef,
+        VAR                 => undef,
+        WEBLIST             => undef,
+        WIKINAME            => undef,
+        WIKIUSERNAME        => undef,
         DISPLAYDEPENDENCIES => undef,
 
         # Constant tag strings _not_ dependent on config. These get nicely
@@ -332,17 +336,17 @@ BEGIN {
     $macros{LOCALSITEPREFS} = sub { $Foswiki::cfg{LocalSitePreferences} };
     $macros{NOFOLLOW} =
       sub { $Foswiki::cfg{NoFollow} ? 'rel=' . $Foswiki::cfg{NoFollow} : '' };
-    $macros{NOTIFYTOPIC}     = sub { $Foswiki::cfg{NotifyTopicName} };
-    $macros{SCRIPTSUFFIX}    = sub { $Foswiki::cfg{ScriptSuffix} };
-    $macros{STATISTICSTOPIC} = sub { $Foswiki::cfg{Stats}{TopicName} };
-    $macros{SYSTEMWEB}       = sub { $Foswiki::cfg{SystemWebName} };
-    $macros{TRASHWEB}        = sub { $Foswiki::cfg{TrashWebName} };
-    $macros{WIKIADMINLOGIN}  = sub { $Foswiki::cfg{AdminUserLogin} };
-    $macros{USERSWEB}        = sub { $Foswiki::cfg{UsersWebName} };
-    $macros{WEBPREFSTOPIC}   = sub { $Foswiki::cfg{WebPrefsTopicName} };
-    $macros{WIKIPREFSTOPIC}  = sub { $Foswiki::cfg{SitePrefsTopicName} };
-    $macros{WIKIUSERSTOPIC}  = sub { $Foswiki::cfg{UsersTopicName} };
-    $macros{WIKIWEBMASTER}   = sub { $Foswiki::cfg{WebMasterEmail} };
+    $macros{NOTIFYTOPIC}       = sub { $Foswiki::cfg{NotifyTopicName} };
+    $macros{SCRIPTSUFFIX}      = sub { $Foswiki::cfg{ScriptSuffix} };
+    $macros{STATISTICSTOPIC}   = sub { $Foswiki::cfg{Stats}{TopicName} };
+    $macros{SYSTEMWEB}         = sub { $Foswiki::cfg{SystemWebName} };
+    $macros{TRASHWEB}          = sub { $Foswiki::cfg{TrashWebName} };
+    $macros{WIKIADMINLOGIN}    = sub { $Foswiki::cfg{AdminUserLogin} };
+    $macros{USERSWEB}          = sub { $Foswiki::cfg{UsersWebName} };
+    $macros{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
+    $macros{WIKIPREFSTOPIC}    = sub { $Foswiki::cfg{SitePrefsTopicName} };
+    $macros{WIKIUSERSTOPIC}    = sub { $Foswiki::cfg{UsersTopicName} };
+    $macros{WIKIWEBMASTER}     = sub { $Foswiki::cfg{WebMasterEmail} };
     $macros{WIKIWEBMASTERNAME} = sub { $Foswiki::cfg{WebMasterName} };
 
     # locale setup
@@ -535,16 +539,16 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
 }
 
 # Components that all requests need
-use Foswiki::Response        ();
-use Foswiki::Request         ();
-use Foswiki::Logger          ();
-use Foswiki::Meta            ();
-use Foswiki::Sandbox         ();
-use Foswiki::Time            ();
-use Foswiki::Prefs           ();
-use Foswiki::Plugins         ();
-use Foswiki::Store           ();
-use Foswiki::Users           ();
+use Foswiki::Response ();
+use Foswiki::Request  ();
+use Foswiki::Logger   ();
+use Foswiki::Meta     ();
+use Foswiki::Sandbox  ();
+use Foswiki::Time     ();
+use Foswiki::Prefs    ();
+use Foswiki::Plugins  ();
+use Foswiki::Store    ();
+use Foswiki::Users    ();
 
 sub UTF82SiteCharSet {
     my ( $this, $text ) = @_;
@@ -675,8 +679,10 @@ sub writeCompletePage {
     $contentType ||= 'text/html';
 
     my $cgis = $this->getCGISession();
-    if ( $cgis && $contentType eq 'text/html'
-           && $Foswiki::cfg{Validation}{Method} ne 'none') {
+    if (   $cgis
+        && $contentType eq 'text/html'
+        && $Foswiki::cfg{Validation}{Method} ne 'none' )
+    {
 
         # Don't expire the validation key through login, or when
         # endpoint is an error.
@@ -685,15 +691,19 @@ sub writeCompletePage {
             or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
 
         my $usingStrikeOne = 0;
-        if ($Foswiki::cfg{Validation}{Method} eq 'strikeone'
-              # Add the onsubmit handler to the form
-              && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-                Foswiki::Validation::addOnSubmit($1)/gei) {
+        if (
+            $Foswiki::cfg{Validation}{Method} eq 'strikeone'
+
+            # Add the onsubmit handler to the form
+            && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+                Foswiki::Validation::addOnSubmit($1)/gei
+          )
+        {
 
             # At least one form has been touched; add the validation
             # cookie
-            $this->{response}->cookies(
-                [ Foswiki::Validation::getCookie( $cgis ) ]);
+            $this->{response}
+              ->cookies( [ Foswiki::Validation::getCookie($cgis) ] );
 
             # Add the JS module to the page. Note that this is *not*
             # incorporated into the foswikilib.js because that module
@@ -708,50 +718,54 @@ STRIKEONE
 
         # Inject validation key in HTML forms
         my $context =
-          $this->{request}->url( -full => 1, -path => 1, -query => 1 )
-            . time();
+          $this->{request}->url( -full => 1, -path => 1, -query => 1 ) . time();
         $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
           $1 . Foswiki::Validation::addValidationKey(
               $cgis, $context, $usingStrikeOne )/gei;
     }
 
     # render zones
-    $text =~ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this, $1)/ge;
+    $text =~
+s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this, $1)/ge;
 
     # get the head zone ones again and insert it at </head>
-    my $headZone = _renderZone($this, 'head', {chomp=>"on"}) || '';
+    my $headZone = _renderZone( $this, 'head', { chomp => "on" } ) || '';
     $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
     # get the body zone ones again and insert it at </body>
-    my $bodyZone = _renderZone($this, 'body', {chomp=>"on"}) || '';
+    my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } ) || '';
 
     # in compatibility mode all body material is still appended to the head
     if ($bodyZone) {
-      unless($Foswiki::cfg{OptimizePageLayout}) {
-        $text =~ s!(</head>)!$bodyZone\n$1!i;
-      } else {
-        $text =~ s!(</body>)!$bodyZone\n$1!i;
-      }
+        unless ( $Foswiki::cfg{OptimizePageLayout} ) {
+            $text =~ s!(</head>)!$bodyZone\n$1!i;
+        }
+        else {
+            $text =~ s!(</body>)!$bodyZone\n$1!i;
+        }
     }
 
     chomp($text);
 
     # SMELL: can't compute; faking content-type for backwards compatibility;
     # any other information might become bogus later anyway
-    my $hdr = "Content-type: ".$contentType."\r\n";
+    my $hdr = "Content-type: " . $contentType . "\r\n";
 
     # Call final handler
-    $this->{plugins}->dispatch('completePageHandler', $text, $hdr);
+    $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
 
     # cache final page, but only view
     my $cachedPage;
-    if ($Foswiki::cfg{Cache}{Enabled} && 
-        ($this->inContext('view') || $this->inContext('rest')) ) {
-        $cachedPage = $this->{cache}->cachePage($contentType, $text);
-        $this->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
-    } else {
-      # remove <dirtyarea> tags
-      $text =~ s/<\/?dirtyarea[^>]*>//go;
+    if ( $Foswiki::cfg{Cache}{Enabled}
+        && ( $this->inContext('view') || $this->inContext('rest') ) )
+    {
+        $cachedPage = $this->{cache}->cachePage( $contentType, $text );
+        $this->{cache}->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
+    }
+    else {
+
+        # remove <dirtyarea> tags
+        $text =~ s/<\/?dirtyarea[^>]*>//go;
     }
 
     # Remove <nop> and <noautolink> tags
@@ -780,9 +794,10 @@ All parameters are optional.
 =cut
 
 sub generateHTTPHeaders {
-    my( $this, $pageType, $contentType, $text, $cachedPage ) = @_;
+    my ( $this, $pageType, $contentType, $text, $cachedPage ) = @_;
 
     my $hopts = {};
+
     # Handle Edit pages - future versions will extend to caching
     # of other types of page, with expiry time driven by page type.
     if ( $pageType && $pageType eq 'edit' ) {
@@ -824,10 +839,10 @@ sub generateHTTPHeaders {
 
     $contentType = 'text/html' unless $contentType;
     $contentType .= '; charset=' . $Foswiki::cfg{Site}{CharSet}
-      if $contentType ne '' &&
-        $contentType =~ m!^text/! &&
-        $contentType !~ /\bcharset\b/ &&
-        $Foswiki::cfg{Site}{CharSet};
+      if $contentType ne ''
+          && $contentType =~ m!^text/!
+          && $contentType !~ /\bcharset\b/
+          && $Foswiki::cfg{Site}{CharSet};
 
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
@@ -837,43 +852,50 @@ sub generateHTTPHeaders {
       ->dispatch( 'modifyHeaderHandler', $hopts, $this->{request} );
 
     # add http compression and conditional cache controls
-    if (!$this->inContext('command_line') && $text) {
+    if ( !$this->inContext('command_line') && $text ) {
 
-        if ($Foswiki::cfg{HttpCompress}) {
-          # compress
-          if ($ENV{'HTTP_ACCEPT_ENCODING'} &&
-              $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i) {
-            my $encoding = $1;
+        if ( $Foswiki::cfg{HttpCompress} ) {
 
-            # check if we take the compressed version from the cache
-            if ($cachedPage && !$cachedPage->{isDirty}) {
-              $text = $cachedPage->{text}; 
-            } else {
+            # compress
+            if (   $ENV{'HTTP_ACCEPT_ENCODING'}
+                && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i )
+            {
+                my $encoding = $1;
 
-              # well, then compress it now
-              if (!$cachedPage || $cachedPage->{isDirty}) {
-                require Compress::Zlib;
-                $text = Compress::Zlib::memGzip($text);
-                #print STDERR "compressing\n";
-              }
+                # check if we take the compressed version from the cache
+                if ( $cachedPage && !$cachedPage->{isDirty} ) {
+                    $text = $cachedPage->{text};
+                }
+                else {
+
+                    # well, then compress it now
+                    if ( !$cachedPage || $cachedPage->{isDirty} ) {
+                        require Compress::Zlib;
+                        $text = Compress::Zlib::memGzip($text);
+
+                        #print STDERR "compressing\n";
+                    }
+                }
+
+                $hopts->{'Content-Encoding'} = $encoding;
+                $hopts->{'Vary'}             = 'Accept-Encoding';
+
             }
+            else {
+                if ( $cachedPage && !$cachedPage->{isDirty} ) {
 
-            $hopts->{'Content-Encoding'} = $encoding;
-            $hopts->{'Vary'} = 'Accept-Encoding';
+                    # sorry, we need to uncompressed pages from cache again
+                    require Compress::Zlib;
+                    $text = Compress::Zlib::memGunzip($text);
 
-          } else {
-            if ($cachedPage && !$cachedPage->{isDirty}) {
-
-              # sorry, we need to uncompressed pages from cache again
-              require Compress::Zlib;
-              $text = Compress::Zlib::memGunzip($text);
-              #print STDERR "uncompressing\n";
+                    #print STDERR "uncompressing\n";
+                }
             }
-          }
-        } else {
-          if ($cachedPage && !$cachedPage->{isDirty}) {
-            $text = $cachedPage->{text} 
-          }
+        }
+        else {
+            if ( $cachedPage && !$cachedPage->{isDirty} ) {
+                $text = $cachedPage->{text};
+            }
         }
 
         # we need to force the browser into a check on every
@@ -883,34 +905,37 @@ sub generateHTTPHeaders {
         # check etag and last modification time
         # if we have a cached page on the server side
         if ($cachedPage) {
-          my $etag = $cachedPage->{etag};
-          my $lastModified = $cachedPage->{lastModified};
+            my $etag         = $cachedPage->{etag};
+            my $lastModified = $cachedPage->{lastModified};
 
-          $hopts->{'ETag'} = $etag;
-          $hopts->{'Last-Modified'} = $lastModified if $lastModified;
+            $hopts->{'ETag'} = $etag;
+            $hopts->{'Last-Modified'} = $lastModified if $lastModified;
 
-          # only send a 304 if both criteria are true
-          my $etagFlag = 1;
-          my $lastModifiedFlag = 1;
+            # only send a 304 if both criteria are true
+            my $etagFlag         = 1;
+            my $lastModifiedFlag = 1;
 
-          # check etag
-          unless ($ENV{'HTTP_IF_NONE_MATCH'} &&
-              $etag eq $ENV{'HTTP_IF_NONE_MATCH'}) {
-            $etagFlag = 0;
-          }
+            # check etag
+            unless ( $ENV{'HTTP_IF_NONE_MATCH'}
+                && $etag eq $ENV{'HTTP_IF_NONE_MATCH'} )
+            {
+                $etagFlag = 0;
+            }
 
-          # check last-modified
-          unless ($ENV{'HTTP_IF_MODIFIED_SINCE'} &&
-              $lastModified eq $ENV{'HTTP_IF_MODIFIED_SINCE'}) {
-            $lastModifiedFlag = 0;
-          } 
+            # check last-modified
+            unless ( $ENV{'HTTP_IF_MODIFIED_SINCE'}
+                && $lastModified eq $ENV{'HTTP_IF_MODIFIED_SINCE'} )
+            {
+                $lastModifiedFlag = 0;
+            }
 
-          # finally decide on a 304 reply
-          if ($etagFlag && $lastModified) {
-            $hopts->{'Status'} = '304 Not Modified';
-            $text = '';
-            #print STDERR "NOT modified\n";
-          }
+            # finally decide on a 304 reply
+            if ( $etagFlag && $lastModified ) {
+                $hopts->{'Status'} = '304 Not Modified';
+                $text = '';
+
+                #print STDERR "NOT modified\n";
+            }
         }
 
         # write back to text
@@ -918,7 +943,7 @@ sub generateHTTPHeaders {
     }
 
     $hopts->{"X-FoswikiAction"} = $this->{request}->action;
-    $hopts->{"X-FoswikiURI"} = $this->{request}->uri;
+    $hopts->{"X-FoswikiURI"}    = $this->{request}->uri;
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there
@@ -1015,7 +1040,7 @@ The anchor includes the # sign. Returns an empty string if not found in the url.
 sub splitAnchorFromUrl {
     my ($url) = @_;
 
-    ($url, my $anchor) = $url =~ m/^(.*?)(#(.*?))*$/;
+    ( $url, my $anchor ) = $url =~ m/^(.*?)(#(.*?))*$/;
     return ( $url, $anchor );
 }
 
@@ -1067,13 +1092,14 @@ sub redirect {
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
             if ($cache) {
-                if ($url eq '/') {
-                    $url = $this->getScriptUrl(1, 'view');
+                if ( $url eq '/' ) {
+                    $url = $this->getScriptUrl( 1, 'view' );
                 }
                 $url .= $cache;
             }
         }
         else {
+
             # Redirecting a get to a get; no need to use passthru
             if ( $this->{request}->query_string() ) {
                 $url .= '?' . $this->{request}->query_string();
@@ -1089,7 +1115,7 @@ sub redirect {
             }
         }
     }
-   
+
     # prevent phishing by only allowing redirect to configured host
     # do this check as late as possible to catch _any_ last minute hacks
     # TODO: this should really use URI
@@ -1117,13 +1143,13 @@ sub redirect {
       if ( $this->{plugins}
         ->dispatch( 'redirectCgiQueryHandler', $this->{response}, $url ) );
 
-    $url = $this->getLoginManager()->rewriteRedirectUrl( $url );
+    $url = $this->getLoginManager()->rewriteRedirectUrl($url);
 
     # Foswiki::Response::redirect doesn't automatically pass on the cookies
     # for us, so we have to do it explicitly; otherwise the session cookie
     # won't get passed on.
-    $this->{response}->redirect(
-        -url => $url, -cookies => $this->{response}->cookies() );
+    $this->{response}
+      ->redirect( -url => $url, -cookies => $this->{response}->cookies() );
 }
 
 =begin TML
@@ -1151,9 +1177,10 @@ sub cacheQuery {
 
     require Foswiki::Request::Cache;
     my $uid = Foswiki::Request::Cache->new()->save($query);
-    if ($Foswiki::cfg{UsePathForRedirectCache}) {
+    if ( $Foswiki::cfg{UsePathForRedirectCache} ) {
         return '/foswiki_redirect_cache/' . $uid;
-    } else {
+    }
+    else {
         return '?foswiki_redirect_cache=' . $uid;
     }
 }
@@ -1365,7 +1392,7 @@ sub _make_params {
         else {
             my $v = shift(@_);
             $v = '' unless defined $v;
-            $ps .= ';' . urlEncode($p) . '=' . urlEncode( $v );
+            $ps .= ';' . urlEncode($p) . '=' . urlEncode($v);
         }
     }
     if ($ps) {
@@ -1535,18 +1562,22 @@ sub new {
     # Compatibility; not used except maybe in plugins
     $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
       unless defined( $Foswiki::cfg{TempfileDir} );
-    if (defined $Foswiki::cfg{WarningFileName}
-          && $Foswiki::cfg{Log}{Implementation}
-            eq 'Foswiki::Logger::PlainFile') {
+    if ( defined $Foswiki::cfg{WarningFileName}
+        && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
+    {
+
         # Admin has already expressed a preference for where they want their
         # logfiles to go, and has obviously not re-run configure yet.
         $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-        #print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
-    } else {
+
+#print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
+    }
+    else {
+
         # Otherwise define it for use in plugins
         $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
     }
-    
+
     # Set command_line context if there is no query
     $initialContext ||= defined($query) ? {} : { command_line => 1 };
 
@@ -1574,12 +1605,12 @@ sub new {
 
     # hash of occurences of RENDERZONE
     $this->{_renderZonePlaceholder} = ();
-    
-    $this->{context}      = $initialContext;
 
-    if ($Foswiki::cfg{Cache}{Enabled}) {
+    $this->{context} = $initialContext;
+
+    if ( $Foswiki::cfg{Cache}{Enabled} ) {
         require Foswiki::PageCache;
-        $this->{cache} = new Foswiki::PageCache( $this )
+        $this->{cache} = new Foswiki::PageCache($this);
     }
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs}   = $prefs;
@@ -1587,16 +1618,16 @@ sub new {
 
     eval "require $Foswiki::cfg{Store}{Implementation}";
     ASSERT( !$@, $@ ) if DEBUG;
-    $this->{store}   = $Foswiki::cfg{Store}{Implementation}->new();
+    $this->{store} = $Foswiki::cfg{Store}{Implementation}->new();
 
     #Monitor::MARK("Created store");
 
-    $this->{users}   = new Foswiki::Users($this);
+    $this->{users} = new Foswiki::Users($this);
 
     #Monitor::MARK("Created users object");
 
     # Load (or create) the CGI session
-    $this->{remoteUser} = $this->{users}->loadSession( $defaultUser );
+    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
 
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
@@ -1871,12 +1902,14 @@ sub logger {
     unless ( $this->{logger} ) {
         if ( $Foswiki::cfg{Log}{Implementation} eq 'none' ) {
             $this->{logger} = Foswiki::Logger->new();
-        } else {
+        }
+        else {
             eval "require $Foswiki::cfg{Log}{Implementation}";
-            if ( $@ ) {
+            if ($@) {
                 print STDERR "Logger load failed: $@";
                 $this->{logger} = Foswiki::Logger->new();
-            } else {
+            }
+            else {
                 $this->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
             }
         }
@@ -1954,32 +1987,33 @@ sub finish {
     #    print STDERR "\t$i\n" unless defined $macros{$i};
     #}
     $_->finish() foreach values %{ $this->{forms} };
-    $this->{plugins}->finish()   if $this->{plugins};
+    $this->{plugins}->finish() if $this->{plugins};
     undef $this->{plugins};
-    $this->{users}->finish()     if $this->{users};
+    $this->{users}->finish() if $this->{users};
     undef $this->{users};
-    $this->{prefs}->finish()     if $this->{prefs};
+    $this->{prefs}->finish() if $this->{prefs};
     undef $this->{prefs};
     $this->{templates}->finish() if $this->{templates};
     undef $this->{templates};
-    $this->{renderer}->finish()  if $this->{renderer};
+    $this->{renderer}->finish() if $this->{renderer};
     undef $this->{renderer};
-    $this->{net}->finish()       if $this->{net};
+    $this->{net}->finish() if $this->{net};
     undef $this->{net};
-    $this->{store}->finish()     if $this->{store};
+    $this->{store}->finish() if $this->{store};
     undef $this->{store};
-    $this->{search}->finish()    if $this->{search};
+    $this->{search}->finish() if $this->{search};
     undef $this->{search};
-    $this->{attach}->finish()    if $this->{attach};
+    $this->{attach}->finish() if $this->{attach};
     undef $this->{attach};
-    $this->{security}->finish()  if $this->{security};
+    $this->{security}->finish() if $this->{security};
     undef $this->{security};
-    $this->{i18n}->finish()      if $this->{i18n};
+    $this->{i18n}->finish() if $this->{i18n};
     undef $this->{i18n};
     $this->{cache}->finish() if $this->{cache};
     undef $this->{cache};
-#TODO: the logger doesn't seem to have a finish...
-#    $this->{logger}->finish()      if $this->{logger};
+
+    #TODO: the logger doesn't seem to have a finish...
+    #    $this->{logger}->finish()      if $this->{logger};
     undef $this->{logger};
 
     undef $this->{_zones};
@@ -2040,10 +2074,11 @@ sub logEvent {
         if ($agent) {
             $extra .= ' ' if $extra;
             if ( $agent =~ /(MSIE 6|MSIE 7|Firefox|Opera|Konqueror|Safari)/ ) {
-              $extra .= $1;
-            } else {
-              $agent =~ m/([\w]+)/;
-              $extra .= $1;
+                $extra .= $1;
+            }
+            else {
+                $agent =~ m/([\w]+)/;
+                $extra .= $1;
             }
         }
     }
@@ -2620,7 +2655,7 @@ sub takeOutBlocks {
     my $scoop;
     my $tagParams;
 
-    foreach my $token ( split( /(<\/?$tag[^>]*>)/i, $intext )) {
+    foreach my $token ( split( /(<\/?$tag[^>]*>)/i, $intext ) ) {
         if ( $token =~ /<$tag\b([^>]*)?>/i ) {
             $depth++;
             if ( $depth eq 1 ) {
@@ -2739,10 +2774,10 @@ sub _processMacros {
     }
 
     my $verbatim = {};
-    $text = takeOutBlocks( $text, 'verbatim', $verbatim);
+    $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
     my $dirtyAreas = {};
-    $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas) 
+    $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
       if $Foswiki::cfg{Cache}{Enabled};
 
     my @queue = split( /(%)/, $text );
@@ -2752,6 +2787,7 @@ sub _processMacros {
          # should be considered to be $stack[$#stack]
 
     while ( scalar(@queue) ) {
+
         #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n";
         my $token = shift(@queue);
 
@@ -2787,12 +2823,14 @@ sub _processMacros {
                 #print STDERR ' ' x $tell,"POP $tag\n";
                 #Monitor::MARK("Before $tag");
                 my $e = &$tagf( $this, $tag, $args, $topicObject );
+
                 #Monitor::MARK("After $tag");
 
                 if ( defined($e) ) {
 
                     #print STDERR ' ' x $tell--,"EXPANDED $tag -> $e\n";
                     $stackTop = pop(@stack);
+
                     # Don't bother recursively expanding unless there are
                     # unexpanded tags in the result.
                     unless ( $e =~ /%$regex{tagNameRegex}(?:{.*})?%/so ) {
@@ -2806,6 +2844,7 @@ sub _processMacros {
                         $depth - 1 );
                 }
                 else {
+
                     #print STDERR ' ' x $tell++,"EXPAND $tag FAILED\n";
                     # To handle %NOP
                     # correctly, we have to handle the %VAR% case differently
@@ -2827,20 +2866,20 @@ sub _processMacros {
                     #} else
                     #{
 
-                        # %VAR% case.
-                        # In this case we *do* want to match the tag expression
-                        # again, as an embedded %VAR% may have expanded to
-                        # create a valid outer expression. This is directly
-                        # at odds with the %VAR{...}% case.
-                        push( @stack, $stackTop );
-                        $stackTop = '%';    # open new context
-                    #}
+                    # %VAR% case.
+                    # In this case we *do* want to match the tag expression
+                    # again, as an embedded %VAR% may have expanded to
+                    # create a valid outer expression. This is directly
+                    # at odds with the %VAR{...}% case.
+                    push( @stack, $stackTop );
+                    $stackTop = '%';    # open new context
+                                        #}
                 }
             }
             else {
                 push( @stack, $stackTop );
-                $stackTop = '%';            # push a new context
-                                            #$tell++;
+                $stackTop = '%';        # push a new context
+                                        #$tell++;
             }
         }
         else {
@@ -2874,13 +2913,14 @@ sub _expandMacroOnTopicRendering {
 
     require Foswiki::Attrs;
     my $e = $this->{prefs}->getPreference($tag);
-    if (defined $e)
-    {
+    if ( defined $e ) {
+
         # Preferences aren't supposed to have parameters - so ignore them
     }
     else {
         if ( exists( $macros{$tag} ) ) {
-            unless ( defined( $macros{$tag} )) {
+            unless ( defined( $macros{$tag} ) ) {
+
                 # Demand-load the macro module
                 die $tag unless $tag =~ /([A-Z_:]+)/i;
                 $tag = $1;
@@ -2892,10 +2932,7 @@ sub _expandMacroOnTopicRendering {
 
             my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
 
-            $e = &{ $macros{$tag} }(
-                $this, $attrs,
-                $topicObject
-            );
+            $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
         }
     }
     return $e;
@@ -3036,14 +3073,13 @@ sub expandMacros {
 
     #use a "global var", so included topics can extract and putback
     #their verbatim blocks safetly.
-    my $verbatim={};
-    $text = takeOutBlocks( $text, 'verbatim', $verbatim);
+    my $verbatim = {};
+    $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # take out dirty areas
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
       if $Foswiki::cfg{Cache}{Enabled};
-
 
     # Require defaults for plugin handlers :-(
     my $webContext   = $topicObject->web   || $this->{webName};
@@ -3076,7 +3112,7 @@ sub expandMacros {
     # 'Special plugin tag' TOC hack, must be done after all other expansions
     # are complete, and has to reprocess the entire topic.
 
-    if ($text =~ /%TOC(?:{.*})?%/ ) {
+    if ( $text =~ /%TOC(?:{.*})?%/ ) {
         require Foswiki::Macros::TOC;
         $text =~ s/%TOC(?:{(.*?)})?%/$this->TOC($text, $topicObject, $1)/ge;
     }
@@ -3111,7 +3147,7 @@ compatibility wrapper for addToZone
 
 sub addToHEAD {
     my $this = shift;
-    return $this->addToZone('head', @_);
+    return $this->addToZone( 'head', @_ );
 }
 
 =begin TML
@@ -3123,7 +3159,6 @@ Add =$data= to the named zone of the page currently being generated.
 Programmatic interface to ADDTOZONE
 
 =cut
-
 
 sub addToZone {
     my ( $this, $zone, $tag, $data, $requires ) = @_;
@@ -3190,12 +3225,13 @@ sub _renderZone {
 
     return '' unless $zone && $this->{_zones}{$zone};
 
-    $params->{header}    ||= '';
-    $params->{footer}    ||= '';
-    $params->{chomp}     ||= 'off';
-    $params->{format}    ||= 
+    $params->{header} ||= '';
+    $params->{footer} ||= '';
+    $params->{chomp}  ||= 'off';
+    $params->{format} ||=
 
-    $params->{format} = '$item <!-- $tag -->' unless defined $params->{format};
+      $params->{format} = '$item <!-- $tag -->'
+      unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
 
     unless ( defined $topicObject ) {
@@ -3307,16 +3343,22 @@ sub expandStandardEscapes {
 
     # $quot -> "
     $text =~ s/\$quot(\(\))?/\"/gs;
+
     # $comma -> ,
     $text =~ s/\$comma(\(\))?/,/gs;
+
     # $percent -> %
     $text =~ s/\$perce?nt(\(\))?/\%/gs;
+
     # $lt -> <
     $text =~ s/\$lt(\(\))?/\</gs;
+
     # $gt -> >
     $text =~ s/\$gt(\(\))?/\>/gs;
+
     # $amp -> &
     $text =~ s/\$amp(\(\))?/\&/gs;
+
     # $dollar -> $, done last to avoid creating the above tokens
     $text =~ s/\$dollar(\(\))?/\$/gs;
 
@@ -3382,13 +3424,14 @@ SMELL: is there a reason this is in Foswiki.pm, and not in Search?
 
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
-    
+
     my $metacache = $this->search->metacache;
-    if ($metacache->hasCached($web, $topic)) {
+    if ( $metacache->hasCached( $web, $topic ) ) {
+
         #don't kill me - this should become a property on Meta
-        return $metacache->get($web, $topic)->{modified};
+        return $metacache->get( $web, $topic )->{modified};
     }
-    
+
     return $this->{store}->getApproxRevTime( $web, $topic );
 }
 

@@ -109,15 +109,24 @@ BEGIN {
     eval "use Locale::Maketext::Lexicon{ en => [ 'Auto' ] } ;";
     if ($@) {
         $initialised = 0;
-        push( @initErrors, "I18N - Couldn't load default English messages: $@\n"
+        push( @initErrors,
+                "I18N - Couldn't load default English messages: $@\n"
               . "Install Locale::Maketext::Lexicon or turn off {UserInterfaceInternationalisation}"
         );
     }
     foreach my $lang (@languages) {
         my $langFile = "$Foswiki::cfg{LocalesDir}/$lang.po";
         if ( -f $langFile ) {
-            unless( eval { Locale::Maketext::Lexicon->import( { $lang => [ Gettext => $langFile ] } ); 1; } ) {
-                push( @initErrors, "I18N - Error loading language $lang: $@\n" );
+            unless (
+                eval {
+                    Locale::Maketext::Lexicon->import(
+                        { $lang => [ Gettext => $langFile ] } );
+                    1;
+                }
+              )
+            {
+                push( @initErrors,
+                    "I18N - Error loading language $lang: $@\n" );
             }
         }
         else {
@@ -319,7 +328,7 @@ sub _discover_languages {
 #TODO: if the cache file don't exist, perhaps a warning should be issued to the logs?
         open LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache";
         foreach my $tag ( available_languages() ) {
-            my $h    = Foswiki::I18N->get_handle($tag);
+            my $h = Foswiki::I18N->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
             $name = $this->toSiteCharSet($name);
             _add_language( $this, $tag, $name );
