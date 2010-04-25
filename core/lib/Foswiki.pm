@@ -47,19 +47,7 @@ use Error qw( :try );
 use Monitor ();
 use CGI         ();    # Always required to get html generation tags;
 use Digest::MD5 ();    # For passthru and validation
-
-# Components that all requests need
 use Foswiki::Configure::Load ();
-use Foswiki::Response        ();
-use Foswiki::Request         ();
-use Foswiki::Logger          ();
-use Foswiki::Meta            ();
-use Foswiki::Sandbox         ();
-use Foswiki::Time            ();
-use Foswiki::Prefs           ();
-use Foswiki::Plugins         ();
-use Foswiki::Store           ();
-use Foswiki::Users           ();
 
 require 5.005;    # For regex objects and internationalisation
 
@@ -545,6 +533,18 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
 
     #Monitor::MARK('End of BEGIN block in Foswiki.pm');
 }
+
+# Components that all requests need
+use Foswiki::Response        ();
+use Foswiki::Request         ();
+use Foswiki::Logger          ();
+use Foswiki::Meta            ();
+use Foswiki::Sandbox         ();
+use Foswiki::Time            ();
+use Foswiki::Prefs           ();
+use Foswiki::Plugins         ();
+use Foswiki::Store           ();
+use Foswiki::Users           ();
 
 sub UTF82SiteCharSet {
     my ( $this, $text ) = @_;
