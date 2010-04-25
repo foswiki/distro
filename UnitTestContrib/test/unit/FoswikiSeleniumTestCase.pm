@@ -39,6 +39,7 @@ BEGIN {
 
 my $useSeleniumError;
 my $browsers;
+my @BrowserFixtureGroups;
 
 my $debug = 0;
 
@@ -82,17 +83,17 @@ sub fixture_groups {
         return;
     }
 
-    my @groups;
+    return \@BrowserFixtureGroups if @BrowserFixtureGroups;
 
     for my $browser (keys %{ $this->{seleniumBrowsers} })
     {
         my $onBrowser = "on$browser";
-        push @groups, $onBrowser;
+        push @BrowserFixtureGroups, $onBrowser;
         my $selenium = $this->{seleniumBrowsers}->{$browser};
         eval "sub $onBrowser { my \$this = shift; \$this->{browser} = \$browser; \$this->{selenium} = \$selenium; }";
         die $@ if $@;
     }
-    return \@groups;
+    return \@BrowserFixtureGroups;
 }
 
 sub _loadSeleniumInterface {
