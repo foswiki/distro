@@ -320,7 +320,7 @@ sub _discover_languages {
         open LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache";
         foreach my $tag ( available_languages() ) {
             my $h    = Foswiki::I18N->get_handle($tag);
-            my $name = $h->maketext("_language_name");
+            my $name = eval { $h->maketext("_language_name") } or next;
             $name = $this->toSiteCharSet($name);
             _add_language( $this, $tag, $name );
             print LANGUAGE "$tag=$name\n";
@@ -466,7 +466,7 @@ sub toSiteCharSet {
 # private utility method: add a pair tag/language name
 sub _add_language {
     my ( $this, $tag, $name ) = @_;
-    ${ $this->{enabled_languages} }{$tag} = $name;
+    $this->{enabled_languages}->{$tag} = $name;
 }
 
 1;
