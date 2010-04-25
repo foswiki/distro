@@ -106,28 +106,25 @@ BEGIN {
 
     # dynamically build languages to be loaded according to admin-enabled
     # languages.
-    my $dependencies = "use Locale::Maketext::Lexicon{'en'=>['Auto'],";
+    eval "use Locale::Maketext::Lexicon{ en => [ 'Auto' ] } ;";
+    if ($@) {
+        $initialised = 0;
+        push( @initErrors, "I18N - Couldn't load default English messages: $@\n"
+              . "Install Locale::Maketext::Lexicon or turn off {UserInterfaceInternationalisation}"
+        );
+    }
     foreach my $lang (@languages) {
         my $langFile = "$Foswiki::cfg{LocalesDir}/$lang.po";
         if ( -f $langFile ) {
-            $dependencies .= "'$lang'=>['Gettext'=>'$langFile' ], ";
+            unless( eval { Locale::Maketext::Lexicon->import( { $lang => [ Gettext => $langFile ] } ); 1; } ) {
+                push( @initErrors, "I18N - Error loading language $lang: $@\n" );
+            }
         }
         else {
             push( @initErrors,
 "I18N - Ignoring enabled language $lang as $langFile does not exist.\n"
             );
         }
-    }
-    $dependencies .= '};';
-
-    eval $dependencies;
-    if ($@) {
-        $initialised = 0;
-        push( @initErrors,
-"I18N - Couldn't load required perl module Locale::Maketext::Lexicon: "
-              . $@
-              . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
-        );
     }
 }
 
