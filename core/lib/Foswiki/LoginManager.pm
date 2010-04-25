@@ -18,7 +18,7 @@ of this class, implementing the methods marked as *VIRTUAL*. There are already
 examples in the =lib/Foswiki/LoginManager= directory.
 
 The class has extensive tracing, which is enabled by
-$Foswiki::cfg{Trace}{LoginManager.pm}. The tracing is done in such a way as to
+$Foswiki::cfg{Trace}{LoginManager}. The tracing is done in such a way as to
 let the perl optimiser optimise out the trace function as a no-op if tracing
 is disabled.
 
@@ -437,6 +437,13 @@ sub loadSession {
             SESSIONID  => $this->{_cgisession}->id(),
             SESSIONVAR => $CGI::Session::NAME
            );
+
+        # Restore CGI Session parameters
+        for( $this->{_cgisession}->param ) {
+            my $value = $this->{_cgisession}->param( $_ );
+            $session->{prefs}->setInternalPreferences( $_ => $value );
+            $this->_trace( "Setting internal preference $_ to " . $value );
+        }
 
         # May end up doing this several times; but this is the only place
         # if should really need to be done, unless someone allocates a
