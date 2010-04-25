@@ -452,7 +452,8 @@ sub loadSession {
         for ( $this->{_cgisession}->param ) {
             my $value = $this->{_cgisession}->param($_);
             $session->{prefs}->setInternalPreferences( $_ => $value );
-            $this->_trace( "Setting internal preference $_ to " . $value );
+            $this->_trace( "Setting internal preference $_ to "
+                  . ( $value ? $value : 'null' ) );
         }
 
         # May end up doing this several times; but this is the only place
