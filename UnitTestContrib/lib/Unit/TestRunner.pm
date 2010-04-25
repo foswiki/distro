@@ -290,7 +290,11 @@ sub runOne
             $tester->$test();
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
-                $action .= '$this->{unexpected_passes}++;';
+                print "*** Unexpected pass\n";
+                $action .= '$this->{unexpected_passes}++;'
+                         . 'push( @{ $this->{failures} }, "'
+                         . quotemeta( $test ) 
+                         . '\\nUnexpected pass" );'; 
             }
         }
         catch Error with {
