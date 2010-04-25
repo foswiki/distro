@@ -78,8 +78,10 @@ sub save {
       . $!;
 
     # Serialize some key info from the request
-    foreach my $field qw(method path_info action) {
+    #  Note: action is not saved - it will be set properly by the target script.
+    foreach my $field qw(method path_info) {
         print $F $field,'=', ($req->$field() || ''), "\n";
+        print STDERR "Saving $field =" . $req->$field() || '' . "\n" if (TRACE_CACHE); 
     }
     print $F "=\n";
 
@@ -129,6 +131,7 @@ sub load {
             chomp($e);
             last if $e eq '=';
             my ($fn, $val) = split('=', $e, 2);
+            print STDERR "CACHE LOAD set $fn ( $val ) \n" if (TRACE_CACHE);
             $req->$fn($val);
         }
 
