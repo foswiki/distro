@@ -21,7 +21,59 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
    * Set ICONTOPIC=%SYSTEMWEB%.DocumentGraphics
    * Set RENDERTABLES=%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5" tablewidth="100%" columnwidths="200px,40px"}%
 
-
+---+++ MISSING
+| airplane | %ICON{airplane}% | airplane |  =%<nop>ICON{airplane}%= |
+| arrowright-small | %ICON{arrowright-small}% | arrowright-small |  =%<nop>ICON{arrowright-small}%= |
+| award | %ICON{award}% | award |  =%<nop>ICON{award}%= |
+| barcode | %ICON{barcode}% | barcode |  =%<nop>ICON{barcode}%= |
+| bed | %ICON{bed}% | bed |  =%<nop>ICON{bed}%= |
+| blank-bg | %ICON{blank-bg}% | blank-bg |  =%<nop>ICON{blank-bg}%= |
+| blank | %ICON{blank}% | blank |  =%<nop>ICON{blank}%= |
+| bomb | %ICON{bomb}% | bomb |  =%<nop>ICON{bomb}%= |
+| chart-bar | %ICON{chart-bar}% | chart-bar |  =%<nop>ICON{chart-bar}%= |
+| chart-pie | %ICON{chart-pie}% | chart-pie |  =%<nop>ICON{chart-pie}%= |
+| comments | %ICON{comments}% | comments |  =%<nop>ICON{comments}%= |
+| connections | %ICON{connections}% | connections |  =%<nop>ICON{connections}%= |
+| database | %ICON{database}% | database |  =%<nop>ICON{database}%= |
+| detail | %ICON{detail}% | detail |  =%<nop>ICON{detail}%= |
+| empty | %ICON{empty}% | empty |  =%<nop>ICON{empty}%= |
+| facebook | %ICON{facebook}% | facebook |  =%<nop>ICON{facebook}%= |
+| food | %ICON{food}% | food |  =%<nop>ICON{food}%= |
+| graduation | %ICON{graduation}% | graduation |  =%<nop>ICON{graduation}%= |
+| heart | %ICON{heart}% | heart |  =%<nop>ICON{heart}%= |
+| legal | %ICON{legal}% | legal |  =%<nop>ICON{legal}%= |
+| linkedin | %ICON{linkedin}% | linkedin |  =%<nop>ICON{linkedin}%= |
+| luggage | %ICON{luggage}% | luggage |  =%<nop>ICON{luggage}%= |
+| mechanics | %ICON{mechanics}% | mechanics |  =%<nop>ICON{mechanics}%= |
+| monospace | %ICON{monospace}% | monospace |  =%<nop>ICON{monospace}%= |
+| parent_gray | %ICON{parent_gray}% | parent_gray |  =%<nop>ICON{parent_gray}%= |
+| plug | %ICON{plug}% | plug |  =%<nop>ICON{plug}%= |
+| process | %ICON{process}% | process |  =%<nop>ICON{process}%= |
+| processing-32-bg | %ICON{processing-32-bg}% | processing-32-bg |  =%<nop>ICON{processing-32-bg}%= |
+| processing-32 | %ICON{processing-32}% | processing-32 |  =%<nop>ICON{processing-32}%= |
+| processing-bg | %ICON{processing-bg}% | processing-bg |  =%<nop>ICON{processing-bg}%= |
+| processing | %ICON{processing}% | processing |  =%<nop>ICON{processing}%= |
+| profile | %ICON{profile}% | profile |  =%<nop>ICON{profile}%= |
+| proportional | %ICON{proportional}% | proportional |  =%<nop>ICON{proportional}%= |
+| quiet | %ICON{quiet}% | quiet |  =%<nop>ICON{quiet}%= |
+| radioactive | %ICON{radioactive}% | radioactive |  =%<nop>ICON{radioactive}%= |
+| rss | %ICON{rss}% | rss |  =%<nop>ICON{rss}%= |
+| socket | %ICON{socket}% | socket |  =%<nop>ICON{socket}%= |
+| star-full | %ICON{star-full}% | star-full |  =%<nop>ICON{star-full}%= |
+| star-half | %ICON{star-half}% | star-half |  =%<nop>ICON{star-half}%= |
+| star-none | %ICON{star-none}% | star-none |  =%<nop>ICON{star-none}%= |
+| support | %ICON{support}% | support |  =%<nop>ICON{support}%= |
+| svg | %ICON{svg}% | svg |  =%<nop>ICON{svg}%= |
+| switch | %ICON{switch}% | switch |  =%<nop>ICON{switch}%= |
+| tag-black | %ICON{tag-black}% | tag-black |  =%<nop>ICON{tag-black}%= |
+| thumbs-down | %ICON{thumbs-down}% | thumbs-down |  =%<nop>ICON{thumbs-down}%= |
+| thumbs-up | %ICON{thumbs-up}% | thumbs-up |  =%<nop>ICON{thumbs-up}%= |
+| togglecloseleft-small | %ICON{togglecloseleft-small}% | togglecloseleft-small |  =%<nop>ICON{togglecloseleft-small}%= |
+| toolbox | %ICON{toolbox}% | toolbox |  =%<nop>ICON{toolbox}%= |
+| tooth | %ICON{tooth}% | tooth |  =%<nop>ICON{tooth}%= |
+| traffic-light | %ICON{traffic-light}% | traffic-light |  =%<nop>ICON{traffic-light}%= |
+| twitter | %ICON{twitter}% | twitter |  =%<nop>ICON{twitter}%= |
+| ying-yang | %ICON{ying-yang}% | ying-yang |  =%<nop>ICON{ying-yang}%= |
    
 ---+++ %ICON{note}% Document icons
 
