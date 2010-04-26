@@ -167,16 +167,16 @@ sub test_TOC_SpecialCharacters {
     # The first value is the expected anchor. 
     # The second value is the heading.
     my @comparisons = (
-        # Plain integer versions
-        ['A_1', '---+ 1'],
-        ['test_361', '---+ test $1'],
-        ['test_40_41', '---+ test ()'],
-        ['TEST WikiWord', '---+ TEST !WikiWord'], 
-        ['TEST_60', '---+ TEST <'],
-        ['TEST_61', '---+ TEST >'],
-        ['TEST_60_61', '---+ TEST <>'],
-        ['Test_40_41_123_125_91_93_45_43_33_60_61_62_126_36', '---+ Test (){}[]_-+!<>~$'],
-        #['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$'],
+        ['A_1', '---+ 1', 'Numbered heading' ],         # Numbered heading
+        ['test_361', '---+ test $1', 'Dollar sign'],    # Dollar Sign
+        ['test_40_41', '---+ test ()', 'Parenthesis'],                 # Parenthesis
+        ['TEST_33_WikiWord', '---+ TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
+        ['TEST_WikiWord', '---+ TEST !WikiWord', 'Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_60', '---+ TEST <', 'Less-than'],                     # Less-than
+        ['TEST_61', '---+ TEST >', 'Greater-than'],                     # Greater-than
+        ['TEST_60_61', '---+ TEST <>'],                 # Less / greater than.
+        ['Test_40_41_123_125_91_93_45_43_33_60_61_62_126_36', '---+ Test (){}[]_-+!<>~$', 'Complex 1'],
+        #['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
 
     );
     foreach my $set (@comparisons) {
@@ -193,7 +193,7 @@ HERE
         #print "RES $res \n\n";
         $this->assert_matches( 
             qr/href="#$expected".*name="$expected"/sm, 
-            $res);
+            $res, "$set->[2] - Expected Anchor/Link =  $expected  Actual HTML\n====\n$res\n====\n" );
     }
 }
 
