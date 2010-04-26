@@ -2028,17 +2028,17 @@ pub/System/FamFamFamFoswikiExtras/target.png
 pub/System/FamFamFamFoswikiExtras/target_blue.png
 pub/System/FamFamFamFoswikiExtras/target_red.png
 pub/System/FamFamFamFoswikiExtras/target_orange.png
-pub/System/FamFamFamFoswikiExtras/uweb_g12.png
-pub/System/FamFamFamFoswikiExtras/uweb_m12.png
-pub/System/FamFamFamFoswikiExtras/uweb_o12.png
-pub/System/FamFamFamFoswikiExtras/uweb_bo.png
-pub/System/FamFamFamFoswikiExtras/uweb_g.png
-pub/System/FamFamFamFoswikiExtras/uweb_o.png
-pub/System/FamFamFamFoswikiExtras/uweb_go.png
-pub/System/FamFamFamFoswikiExtras/uweb_gs.png
-pub/System/FamFamFamFoswikiExtras/uweb_oo.png
-pub/System/FamFamFamFoswikiExtras/uweb_os.png
-pub/System/FamFamFamFoswikiExtras/uweb_bo12.png
+pub/System/FamFamFamFoswikiExtras/uweb-g12.png
+pub/System/FamFamFamFoswikiExtras/uweb-m12.png
+pub/System/FamFamFamFoswikiExtras/uweb-o12.png
+pub/System/FamFamFamFoswikiExtras/uweb-bo.png
+pub/System/FamFamFamFoswikiExtras/uweb-g.png
+pub/System/FamFamFamFoswikiExtras/uweb-o.png
+pub/System/FamFamFamFoswikiExtras/uweb-go.png
+pub/System/FamFamFamFoswikiExtras/uweb-gs.png
+pub/System/FamFamFamFoswikiExtras/uweb-oo.png
+pub/System/FamFamFamFoswikiExtras/uweb-os.png
+pub/System/FamFamFamFoswikiExtras/uweb-bo12.png
 pub/System/FamFamFamFoswikiExtras/done.png
 pub/System/FamFamFamFoswikiExtras/updated.png
 pub/System/FamFamFamFoswikiExtras/closed.png
@@ -2052,7 +2052,7 @@ pub/System/DocumentGraphics/stargold.png
 pub/System/DocumentGraphics/exe.png
 pub/System/DocumentGraphics/trash.png
 pub/System/DocumentGraphics/searchpackage.png
-pub/System/DocumentGraphics/uweb_bo12.png
+pub/System/DocumentGraphics/uweb-bo12.png
 pub/System/DocumentGraphics/led-box-purple.png
 pub/System/DocumentGraphics/checked.png
 pub/System/DocumentGraphics/home.png
@@ -2068,7 +2068,7 @@ pub/System/DocumentGraphics/air.png
 pub/System/DocumentGraphics/js.png
 pub/System/DocumentGraphics/buildings.png
 pub/System/DocumentGraphics/tag-purple.png
-pub/System/DocumentGraphics/uweb_m12.png
+pub/System/DocumentGraphics/uweb-m12.png
 pub/System/DocumentGraphics/led-yellow.png
 pub/System/DocumentGraphics/arrowdown.png
 pub/System/DocumentGraphics/external.png
@@ -2102,7 +2102,7 @@ pub/System/DocumentGraphics/target-green.png
 pub/System/DocumentGraphics/sort.png
 pub/System/DocumentGraphics/css.png
 pub/System/DocumentGraphics/go_end.png
-pub/System/DocumentGraphics/uweb_gs.png
+pub/System/DocumentGraphics/uweb-gs.png
 pub/System/DocumentGraphics/bubble.png
 pub/System/DocumentGraphics/dot_ur.png
 pub/System/DocumentGraphics/building.png
@@ -2196,7 +2196,7 @@ pub/System/DocumentGraphics/dll.png
 pub/System/DocumentGraphics/target-blue.png
 pub/System/DocumentGraphics/rss-small.png
 pub/System/DocumentGraphics/led-red.png
-pub/System/DocumentGraphics/uweb_bo.png
+pub/System/DocumentGraphics/uweb-bo.png
 pub/System/DocumentGraphics/tag-red.png
 pub/System/DocumentGraphics/toggleopenleft-small.png
 pub/System/DocumentGraphics/choice-yes.png
@@ -2208,7 +2208,7 @@ pub/System/DocumentGraphics/toggleclose.png
 pub/System/DocumentGraphics/download.png
 pub/System/DocumentGraphics/down.png
 pub/System/DocumentGraphics/more-small.png
-pub/System/DocumentGraphics/uweb_g.png
+pub/System/DocumentGraphics/uweb-g.png
 pub/System/DocumentGraphics/notify.png
 pub/System/DocumentGraphics/toggleopen-small.png
 pub/System/DocumentGraphics/flag-gray.png
@@ -2217,7 +2217,7 @@ pub/System/DocumentGraphics/folder.png
 pub/System/DocumentGraphics/led-purple.png
 pub/System/DocumentGraphics/dot_ud.png
 pub/System/DocumentGraphics/ram.png
-pub/System/DocumentGraphics/uweb_o.png
+pub/System/DocumentGraphics/uweb-o.png
 pub/System/DocumentGraphics/led-box-gray.png
 pub/System/DocumentGraphics/c.png
 pub/System/DocumentGraphics/addon.png
@@ -2227,8 +2227,8 @@ pub/System/DocumentGraphics/help.png
 pub/System/DocumentGraphics/puzzle.png
 pub/System/DocumentGraphics/printtopic.png
 pub/System/DocumentGraphics/tip.png
-pub/System/DocumentGraphics/uweb_oo.png
-pub/System/DocumentGraphics/uweb_os.png
+pub/System/DocumentGraphics/uweb-oo.png
+pub/System/DocumentGraphics/uweb-os.png
 pub/System/DocumentGraphics/person.png
 pub/System/DocumentGraphics/flag.png
 pub/System/DocumentGraphics/rfc.png
@@ -2247,7 +2247,7 @@ pub/System/DocumentGraphics/line_udlr.png
 pub/System/DocumentGraphics/go_ff.png
 pub/System/DocumentGraphics/led-orange.png
 pub/System/DocumentGraphics/fon.png
-pub/System/DocumentGraphics/uweb_o12.png
+pub/System/DocumentGraphics/uweb-o12.png
 pub/System/DocumentGraphics/line_lr.png
 pub/System/DocumentGraphics/target-gray.png
 pub/System/DocumentGraphics/updated.png
@@ -2305,7 +2305,7 @@ pub/System/DocumentGraphics/stargold.gif
 pub/System/DocumentGraphics/exe.gif
 pub/System/DocumentGraphics/trash.gif
 pub/System/DocumentGraphics/searchpackage.gif
-pub/System/DocumentGraphics/uweb_bo12.gif
+pub/System/DocumentGraphics/uweb-bo12.gif
 pub/System/DocumentGraphics/led-box-purple.gif
 pub/System/DocumentGraphics/checked.gif
 pub/System/DocumentGraphics/home.gif
@@ -2321,7 +2321,7 @@ pub/System/DocumentGraphics/air.gif
 pub/System/DocumentGraphics/js.gif
 pub/System/DocumentGraphics/buildings.gif
 pub/System/DocumentGraphics/tag-purple.gif
-pub/System/DocumentGraphics/uweb_m12.gif
+pub/System/DocumentGraphics/uweb-m12.gif
 pub/System/DocumentGraphics/led-yellow.gif
 pub/System/DocumentGraphics/arrowdown.gif
 pub/System/DocumentGraphics/external.gif
@@ -2355,7 +2355,7 @@ pub/System/DocumentGraphics/target-green.gif
 pub/System/DocumentGraphics/sort.gif
 pub/System/DocumentGraphics/css.gif
 pub/System/DocumentGraphics/go_end.gif
-pub/System/DocumentGraphics/uweb_gs.gif
+pub/System/DocumentGraphics/uweb-gs.gif
 pub/System/DocumentGraphics/bubble.gif
 pub/System/DocumentGraphics/dot_ur.gif
 pub/System/DocumentGraphics/building.gif
@@ -2449,7 +2449,7 @@ pub/System/DocumentGraphics/dll.gif
 pub/System/DocumentGraphics/target-blue.gif
 pub/System/DocumentGraphics/rss-small.gif
 pub/System/DocumentGraphics/led-red.gif
-pub/System/DocumentGraphics/uweb_bo.gif
+pub/System/DocumentGraphics/uweb-bo.gif
 pub/System/DocumentGraphics/tag-red.gif
 pub/System/DocumentGraphics/toggleopenleft-small.gif
 pub/System/DocumentGraphics/choice-yes.gif
@@ -2461,7 +2461,7 @@ pub/System/DocumentGraphics/toggleclose.gif
 pub/System/DocumentGraphics/download.gif
 pub/System/DocumentGraphics/down.gif
 pub/System/DocumentGraphics/more-small.gif
-pub/System/DocumentGraphics/uweb_g.gif
+pub/System/DocumentGraphics/uweb-g.gif
 pub/System/DocumentGraphics/notify.gif
 pub/System/DocumentGraphics/toggleopen-small.gif
 pub/System/DocumentGraphics/flag-gray.gif
@@ -2470,7 +2470,7 @@ pub/System/DocumentGraphics/folder.gif
 pub/System/DocumentGraphics/led-purple.gif
 pub/System/DocumentGraphics/dot_ud.gif
 pub/System/DocumentGraphics/ram.gif
-pub/System/DocumentGraphics/uweb_o.gif
+pub/System/DocumentGraphics/uweb-o.gif
 pub/System/DocumentGraphics/led-box-gray.gif
 pub/System/DocumentGraphics/c.gif
 pub/System/DocumentGraphics/addon.gif
@@ -2480,8 +2480,8 @@ pub/System/DocumentGraphics/help.gif
 pub/System/DocumentGraphics/puzzle.gif
 pub/System/DocumentGraphics/printtopic.gif
 pub/System/DocumentGraphics/tip.gif
-pub/System/DocumentGraphics/uweb_oo.gif
-pub/System/DocumentGraphics/uweb_os.gif
+pub/System/DocumentGraphics/uweb-oo.gif
+pub/System/DocumentGraphics/uweb-os.gif
 pub/System/DocumentGraphics/person.gif
 pub/System/DocumentGraphics/flag.gif
 pub/System/DocumentGraphics/rfc.gif
@@ -2500,7 +2500,7 @@ pub/System/DocumentGraphics/line_udlr.gif
 pub/System/DocumentGraphics/go_ff.gif
 pub/System/DocumentGraphics/led-orange.gif
 pub/System/DocumentGraphics/fon.gif
-pub/System/DocumentGraphics/uweb_o12.gif
+pub/System/DocumentGraphics/uweb-o12.gif
 pub/System/DocumentGraphics/line_lr.gif
 pub/System/DocumentGraphics/target-gray.gif
 pub/System/DocumentGraphics/updated.gif

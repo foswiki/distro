@@ -103,15 +103,15 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | folder | %ICON{folder}% | Folder |  =%<nop>ICON{folder}%= |
 | table | %ICON{table}% | Table |  =%<nop>ICON{table}%= |
 | edittable | %ICON{edittable}% | Edit table |  =%<nop>ICON{edittable}%= |
-| uweb_bo | %ICON{uweb_bo}% | UWEB ([[http://www.aboutus.org/UniversalWikiEditButton][Universal Wiki Edit Button]]), blue, outline |  =%<nop>ICON{uweb_bo}%= |
-| uweb_bo12 | %ICON{uweb_bo12}% | UWEB, blue, outline, small 12x12 |  =%<nop>ICON{uweb_bo12}%= |
-| uweb_g | %ICON{uweb_g}% | UWEB, green (default) |  =%<nop>ICON{uweb_g}%= |
-| uweb_gs | %ICON{uweb_gs}% | UWEB, green, square |  =%<nop>ICON{uweb_gs}%= |
-| uweb_m12 | %ICON{uweb_m12}% | UWEB, black, small 12x12 |  =%<nop>ICON{uweb_m12}%= |
-| uweb_o | %ICON{uweb_o}% | UWEB, orange |  =%<nop>ICON{uweb_o}%= |
-| uweb_o12 | %ICON{uweb_o12}% | UWEB, orange, small 12x12 |  =%<nop>ICON{uweb_o12}%= |
-| uweb_oo | %ICON{uweb_oo}% | UWEB, orange, outline |  =%<nop>ICON{uweb_oo}%= |
-| uweb_os | %ICON{uweb_os}% | UWEB, orange, square |  =%<nop>ICON{uweb_os}%= |
+| uweb-bo | %ICON{uweb-bo}% | UWEB ([[http://www.aboutus.org/UniversalWikiEditButton][Universal Wiki Edit Button]]), blue, outline |  =%<nop>ICON{uweb-bo}%= |
+| uweb-bo12 | %ICON{uweb-bo12}% | UWEB, blue, outline, small 12x12 |  =%<nop>ICON{uweb-bo12}%= |
+| uweb-g | %ICON{uweb-g}% | UWEB, green (default) |  =%<nop>ICON{uweb-g}%= |
+| uweb-gs | %ICON{uweb-gs}% | UWEB, green, square |  =%<nop>ICON{uweb-gs}%= |
+| uweb-m12 | %ICON{uweb-m12}% | UWEB, black, small 12x12 |  =%<nop>ICON{uweb-m12}%= |
+| uweb-o | %ICON{uweb-o}% | UWEB, orange |  =%<nop>ICON{uweb-o}%= |
+| uweb-o12 | %ICON{uweb-o12}% | UWEB, orange, small 12x12 |  =%<nop>ICON{uweb-o12}%= |
+| uweb-oo | %ICON{uweb-oo}% | UWEB, orange, outline |  =%<nop>ICON{uweb-oo}%= |
+| uweb-os | %ICON{uweb-os}% | UWEB, orange, square |  =%<nop>ICON{uweb-os}%= |
 
 
 ---+++ %ICON{person}% Person, %ICON{group}% group, %ICON{lock}% access icons
