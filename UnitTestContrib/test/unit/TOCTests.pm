@@ -167,11 +167,14 @@ sub test_TOC_SpecialCharacters {
     # The first value is the expected anchor. 
     # The second value is the heading.
     my @comparisons = (
-        ['A_1', '---+ 1', 'Numbered heading' ],         # Numbered heading
+        ['A_1', '---+ 1', 'Numbered heading' ],
+        ['A_1_AN1', "---+ 1\n---+ 1", 'Duplicate heading' ],
+        ['A_1_AN2', "---+ 1\n---+ 1\n---+ 1", 'Triplicate heading' ],
         ['test_361', '---+ test $1', 'Dollar sign'],    # Dollar Sign
         ['test_40_41', '---+ test ()', 'Parenthesis'],                 # Parenthesis
         ['TEST_33_WikiWord', '---+ TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
-        ['TEST_WikiWord', '---+ TEST !WikiWord', 'Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_WikiWord', '---+ TEST <nop>WikiWord', '<nop> Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_WikiWord', '---+ TEST !WikiWord', '! Escaped WikiWord'],       # Escaped WikiWord
         ['TEST_60', '---+ TEST <', 'Less-than'],                     # Less-than
         ['TEST_61', '---+ TEST >', 'Greater-than'],                     # Greater-than
         ['TEST_60_61', '---+ TEST <>'],                 # Less / greater than.
