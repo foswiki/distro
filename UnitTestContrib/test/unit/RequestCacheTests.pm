@@ -15,6 +15,9 @@ sub new {
 }
 
 # Test that simple parameters are cached
+# SMELL:  Item8937:   This test is failing because action has been deleted
+# from the cache.  Need someone else to verify that the fix to Item8937 is correct
+# before removing action from the unit test.
 sub test_simpleparams {
     my $this = shift;
     my %init = (
