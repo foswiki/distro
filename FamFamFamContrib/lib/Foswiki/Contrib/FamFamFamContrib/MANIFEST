@@ -2551,6 +2551,8 @@ pub/System/DocumentGraphics/arrowleft.gif
 pub/System/DocumentGraphics/recentchanges.gif
 pub/System/DocumentGraphics/code.gif
 
+
+################new
 pub/System/DocumentGraphics/bomb.png
 pub/System/DocumentGraphics/comments.gif
 pub/System/DocumentGraphics/thumbs-down.gif
@@ -2581,3 +2583,13 @@ pub/System/DocumentGraphics/thumbs-down.png
 pub/System/DocumentGraphics/chart-bar.png
 pub/System/DocumentGraphics/thumbs-up.png
 pub/System/DocumentGraphics/database.gif
+pub/System/DocumentGraphics/profile.png
+pub/System/DocumentGraphics/profile.gif
+
+pub/System/DocumentGraphics/processing-32.gif
+pub/System/DocumentGraphics/processing-bg.gif
+pub/System/DocumentGraphics/processing-32-bg.gif
+pub/System/DocumentGraphics/processing.gif
+
+
+
