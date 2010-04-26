@@ -160,4 +160,41 @@ HERE
 HTML
 }
 
+sub test_TOC_SpecialCharacters {
+    my ($this) = @_;
+
+    # Each tuple describes one heading comparison and the expected result
+    # The first value is the expected anchor. 
+    # The second value is the heading.
+    my @comparisons = (
+        # Plain integer versions
+        ['A_1', '---+ 1'],
+        ['test_361', '---+ test $1'],
+        ['test_40_41', '---+ test ()'],
+        ['TEST WikiWord', '---+ TEST !WikiWord'], 
+        ['TEST_60', '---+ TEST <'],
+        ['TEST_61', '---+ TEST >'],
+        ['TEST_60_61', '---+ TEST <>'],
+        ['Test_40_41_123_125_91_93_45_43_33_60_61_62_126_36', '---+ Test (){}[]_-+!<>~$'],
+        #['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$'],
+
+    );
+    foreach my $set (@comparisons) {
+        my $expected = $set->[0];
+        my $wikitext = <<HERE;
+%TOC%
+$set->[1]
+HERE
+        my $topicObject = Foswiki::Meta->new(
+            $this->{session}, $this->{test_web}, $this->{test_topic}, $wikitext );
+        $topicObject->save();
+        my $res = $topicObject->expandMacros($wikitext );
+        $res = $topicObject->renderTML( $res );
+        #print "RES $res \n\n";
+        $this->assert_matches( 
+            qr/href="#$expected".*name="$expected"/sm, 
+            $res);
+    }
+}
+
 1;
