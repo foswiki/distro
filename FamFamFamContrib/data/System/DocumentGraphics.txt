@@ -20,6 +20,9 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 ---++ Graphics
    * Set ICONTOPIC=%SYSTEMWEB%.DocumentGraphics
    * Set RENDERTABLES=%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5" tablewidth="100%" columnwidths="200px,40px"}%
+
+
+   
 ---+++ %ICON{note}% Document icons
 
 %RENDERTABLES%
@@ -147,7 +150,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | xml-small | %ICON{xml-small}% | XML feed |  =%<nop>ICON{xml-small}%= |
 
 
----+++ %ICON{choice-yes}% Status, %ICON{flag}% flag, %ICON{bullet_box_red}% LED, %ICON{tag-yellow}% tag icons
+---+++ %ICON{choice-yes}% Status, %ICON{flag}% flag, %ICON{led-box-red}% LED, %ICON{tag-yellow}% tag icons
 
 %RENDERTABLES%
 | *Name* | *Icon* |  *Description* | *Write...* |
@@ -166,22 +169,22 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | flag | %ICON{flag}% | Flag |  =%<nop>ICON{flag}%= |
 | flag-gray | %ICON{flag-gray}% | Gray flag |  =%<nop>ICON{flag-gray}%= |
 | flag-gray-small | %ICON{flag-gray-small}% | Small gray flag, 13x13 |  =%<nop>ICON{flag-gray-small}%= |
-| bullet_aqua | %ICON{bullet_aqua}% | Aqua led |  =%<nop>ICON{bullet_aqua}%= |
-| bullet_blue | %ICON{bullet_blue}% | Blue led |  =%<nop>ICON{bullet_blue}%= |
-| bullet_gray | %ICON{bullet_gray}% | Gray led |  =%<nop>ICON{bullet_gray}%= |
-| bullet_green | %ICON{bullet_green}% | Green led |  =%<nop>ICON{bullet_green}%= |
-| bullet_orange | %ICON{bullet_orange}% | Orange led |  =%<nop>ICON{bullet_orange}%= |
-| bullet_purple | %ICON{bullet_purple}% | Purple led |  =%<nop>ICON{bullet_purple}%= |
-| bullet_red | %ICON{bullet_red}% | Red led |  =%<nop>ICON{bullet_red}%= |
-| bullet_yellow | %ICON{bullet_yellow}% | Yellow led |  =%<nop>ICON{bullet_yellow}%= |
-| bullet_box_aqua | %ICON{bullet_box_aqua}% | Aqua led |  =%<nop>ICON{bullet_box_aqua}%= |
-| bullet_box_blue | %ICON{bullet_box_blue}% | Blue led |  =%<nop>ICON{bullet_box_blue}%= |
-| bullet_box_gray | %ICON{bullet_box_gray}% | Gray led |  =%<nop>ICON{bullet_box_gray}%= |
-| bullet_box_green | %ICON{bullet_box_green}% | Green led |  =%<nop>ICON{bullet_box_green}%= |
-| bullet_box_orange | %ICON{bullet_box_orange}% | Orange led |  =%<nop>ICON{bullet_box_orange}%= |
-| bullet_box_purple | %ICON{bullet_box_purple}% | Purple led |  =%<nop>ICON{bullet_box_purple}%= |
-| bullet_box_red | %ICON{bullet_box_red}% | Red led |  =%<nop>ICON{bullet_box_red}%= |
-| bullet_box_yellow | %ICON{bullet_box_yellow}% | Yellow led |  =%<nop>ICON{bullet_box_yellow}%= |
+| led-aqua | %ICON{led-aqua}% | Aqua led |  =%<nop>ICON{led-aqua}%= |
+| led-blue | %ICON{led-blue}% | Blue led |  =%<nop>ICON{led-blue}%= |
+| led-gray | %ICON{led-gray}% | Gray led |  =%<nop>ICON{led-gray}%= |
+| led-green | %ICON{led-green}% | Green led |  =%<nop>ICON{led-green}%= |
+| led-orange | %ICON{led-orange}% | Orange led |  =%<nop>ICON{led-orange}%= |
+| led-purple | %ICON{led-purple}% | Purple led |  =%<nop>ICON{led-purple}%= |
+| led-red | %ICON{led-red}% | Red led |  =%<nop>ICON{led-red}%= |
+| led-yellow | %ICON{led-yellow}% | Yellow led |  =%<nop>ICON{led-yellow}%= |
+| led-box-aqua | %ICON{led-box-aqua}% | Aqua led |  =%<nop>ICON{led-box-aqua}%= |
+| led-box-blue | %ICON{led-box-blue}% | Blue led |  =%<nop>ICON{led-box-blue}%= |
+| led-box-gray | %ICON{led-box-gray}% | Gray led |  =%<nop>ICON{led-box-gray}%= |
+| led-box-green | %ICON{led-box-green}% | Green led |  =%<nop>ICON{led-box-green}%= |
+| led-box-orange | %ICON{led-box-orange}% | Orange led |  =%<nop>ICON{led-box-orange}%= |
+| led-box-purple | %ICON{led-box-purple}% | Purple led |  =%<nop>ICON{led-box-purple}%= |
+| led-box-red | %ICON{led-box-red}% | Red led |  =%<nop>ICON{led-box-red}%= |
+| led-box-yellow | %ICON{led-box-yellow}% | Yellow led |  =%<nop>ICON{led-box-yellow}%= |
 | tag | %ICON{tag}% | Tag |  =%<nop>ICON{tag}%= |
 | tag-blue | %ICON{tag-blue}% | Blue tag |  =%<nop>ICON{tag-blue}%= |
 | tag-brown | %ICON{tag-brown}% | Brown tag |  =%<nop>ICON{tag-brown}%= |
