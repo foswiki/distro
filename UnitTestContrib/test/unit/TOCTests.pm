@@ -175,11 +175,11 @@ sub test_TOC_SpecialCharacters {
         ['TEST_33_WikiWord', '---+ TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
         ['TEST_WikiWord', '---+ TEST <nop>WikiWord', '<nop> Escaped WikiWord'],       # Escaped WikiWord
         ['TEST_WikiWord', '---+ TEST !WikiWord', '! Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_60_62', '---+ TEST <>', 'Null tag'],                 # Less / greater than.
+        ['TEST_62', '---+ TEST >', 'Greater-than'],                     # Greater-than
         ['TEST_60', '---+ TEST <', 'Less-than'],                     # Less-than
-        ['TEST_61', '---+ TEST >', 'Greater-than'],                     # Greater-than
-        ['TEST_60_61', '---+ TEST <>'],                 # Less / greater than.
-        ['Test_40_41_123_125_91_93_45_43_33_60_61_62_126_36', '---+ Test (){}[]_-+!<>~$', 'Complex 1'],
-        #['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
+        ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', '---+ Test (){}[]_-+!<>~$', 'Complex 1'],
+        ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
 
     );
     foreach my $set (@comparisons) {
@@ -197,6 +197,36 @@ HERE
         $this->assert_matches( 
             qr/href="#$expected".*name="$expected"/sm, 
             $res, "$set->[2] - Expected Anchor/Link =  $expected  Actual HTML\n====\n$res\n====\n" );
+    }
+}
+
+sub test_TOC_makeAnchorName {
+    my ($this) = @_;
+    require Foswiki::Render;
+
+    # Each tuple describes one heading comparison and the expected result
+    # The first value is the expected anchor. 
+    # The second value is the heading.
+    my @comparisons = (
+        ['A_1', '1', 'Numbered heading' ],
+        ['test_361', 'test $1', 'Dollar sign'],    # Dollar Sign
+        ['test_40_41', 'test ()', 'Parenthesis'],                 # Parenthesis
+        ['TEST_33_WikiWord', 'TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
+        ['TEST_WikiWord', 'TEST <nop>WikiWord', '<nop> Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_WikiWord', 'TEST !WikiWord', '! Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_60_62', 'TEST <>', 'Null tag'],                 # Less / greater than.
+        ['TEST_62', 'TEST >', 'Greater-than'],                     # Greater-than
+        ['TEST_60', 'TEST <', 'Less-than'],                     # Less-than
+        ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', 'Test (){}[]_-+!<>~$', 'Complex 1'],
+        ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', 'Test <(){}[]_-+!>~$', 'Complex 2'],
+
+    );
+    foreach my $set (@comparisons) {
+        my $expected = $set->[0];
+        my $wikitext = $set->[1];
+
+        my $res = Foswiki::Render::_makeAnchorName('',$wikitext);
+        $this->assert_str_equals($expected, $res, "$set->[2] - Expected = $expected,  ACTUAL = $res\n");
     }
 }
 
