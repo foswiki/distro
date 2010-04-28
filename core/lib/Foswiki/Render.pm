@@ -468,6 +468,9 @@ sub _makeAnchorName {
     $text =~ s/<\/?[a-zA-Z][^>]*>//gi;
     $text =~ s/&#?[a-zA-Z0-9]+;//g;
 
+    # remove escape from escaped wikiWords
+    $text =~ s/!($Foswiki::regex{wikiWordRegex})/$1/go;
+
     # remove spaces
     $text =~ s/\s+/_/g;
 
