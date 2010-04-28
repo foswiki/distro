@@ -14,6 +14,7 @@ use Unit::Response;
 use Foswiki::UI::Register;
 use Error qw( :try );
 use Encode;
+use Scalar::Util qw( weaken );
 
 my $startWait;
 my $doze;
@@ -40,16 +41,23 @@ BEGIN {
 my $useSeleniumError;
 my $browsers;
 my @BrowserFixtureGroups;
+my $currentTest;
 
 my $debug = 0;
-
-my $instance_count = 0;
 
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
 
-    $instance_count++;
+    if (defined $currentTest) {
+        $this->assert(0,
+            "There may only be one FoswikiSeleniumTestCase-based test\n"
+            . "running in each test process.\n"
+            . "Cannot run the $class test \n"
+            . "because the $currentTest is still running.");
+    }
+    $currentTest = $this;
+    weaken($currentTest); # Ensure the destructor is called at the normal time
 
     $this->{selenium_timeout} = 30_000; # Same as WWW::Selenium's default value
     $this->{useSeleniumError} = $this->_loadSeleniumInterface;
@@ -62,6 +70,16 @@ sub new {
 
 END {
     _shutDownSeleniumBrowsers() if $browsers;
+}
+
+sub DESTROY {
+    my $this = shift;
+    if (not defined($currentTest) or $currentTest != $this) {
+        $this->assert(0,
+            "Unexpected change of current test:"
+          . "Expected $this but found $currentTest");
+    }
+    $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
 
 sub list_tests {
@@ -129,11 +147,22 @@ sub _loadSeleniumBrowsers {
                 $config{browser} ||= '*firefox';
                 $config{browser_url} ||= $Foswiki::cfg{DefaultUrlHost};
 
-                $config{error_callback} = sub { $this->assert(0, join(' ', @_)); };
+                # The error callback needs a reference to the current test
+                # object. There may be several test objects that use the
+                # selenium interface, so the error callback cannot be a 
+                # closure (anonymous sub) that uses $this (because $this
+                # in a closure would always refers to the first test
+                # to run that is derived from FoswikiSeleniumTestCase).
+                # Instead, the error callback uses a static class variable
+                # that is set (and weakened) in the constructor.
+                $config{error_callback} = \&_errorCallback;
 
                 my $selenium = Test::WWW::Selenium->new( %config );
                 if ($selenium) {
                     $browsers->{$browser} = $selenium;
+                }
+                else {
+                    $this->assert(0, "Could not create a Test::WWW::Selenium object for $browser");
                 }
             }
         }
@@ -151,6 +180,18 @@ sub _loadSeleniumBrowsers {
     }
 
     return $browsers;
+}
+
+sub _errorCallback {
+    if ($currentTest) {
+        $currentTest->assert(0, join(' ', @_));
+    }
+    else {
+        die "A Test::WWW::Selenium class reported an error, "
+          . "but the associated test-case object has "
+          . "already been destroyed. The error is:\n"
+          . join(' ', @_);
+    }
 }
 
 sub _shutDownSeleniumBrowsers {
