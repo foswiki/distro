@@ -23,6 +23,19 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 
 
 ---+++ need to sort into category
+
+| remove | %ICON{remove}% | remove |  =%<nop>ICON{remove}%= |
+| empty | %ICON{empty}% | empty |  =%<nop>ICON{empty}%= |
+| alert | %ICON{alert}% | alert |  =%<nop>ICON{alert}%= |
+| proportional | %ICON{proportional}% | proportional |  =%<nop>ICON{proportional}%= |
+| vector | %ICON{vector}% | vector |  =%<nop>ICON{vector}%= |
+| checked-round | %ICON{checked-round}% | checked-round |  =%<nop>ICON{checked-round}%= |
+| monospace | %ICON{monospace}% | monospace |  =%<nop>ICON{monospace}%= |
+| vcard | %ICON{vcard}% | vcard |  =%<nop>ICON{vcard}%= |
+| irc | %ICON{irc}% | irc |  =%<nop>ICON{irc}%= |
+| unchecked-round | %ICON{unchecked-round}% | unchecked-round |  =%<nop>ICON{unchecked-round}%= |
+
+
 | graduation | %ICON{graduation}% | graduation |  =%<nop>ICON{graduation}%= |
 | parent_gray | %ICON{parent_gray}% | parent_gray |  =%<nop>ICON{parent_gray}%= |
 | togglecloseleft-small | %ICON{togglecloseleft-small}% | togglecloseleft-small |  =%<nop>ICON{togglecloseleft-small}%= |
@@ -63,7 +76,6 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | barcode | %ICON{barcode}% | barcode |  =%<nop>ICON{barcode}%= |
 | food | %ICON{food}% | food |  =%<nop>ICON{food}%= |
 | legal | %ICON{legal}% | legal |  =%<nop>ICON{legal}%= |
-| svg | %ICON{svg}% | svg |  =%<nop>ICON{svg}%= |
 | detail | %ICON{detail}% | detail |  =%<nop>ICON{detail}%= |
 | tag-black | %ICON{tag-black}% | tag-black |  =%<nop>ICON{tag-black}%= |
 | quiet | %ICON{quiet}% | quiet |  =%<nop>ICON{quiet}%= |
@@ -456,6 +468,7 @@ Filetype icons are used by the attachment table and are seldom used in topics. W
 | reg | %ICON{reg}% | Registry file |  =%<nop>ICON{reg}%= |
 | sh | %ICON{sh}% | Unix shell script |  =%<nop>ICON{sh}%= |
 | sniff | %ICON{sniff}% | sniff |  =%<nop>ICON{sniff}%= |
+| svg | %ICON{svg}% | svg |  =%<nop>ICON{svg}%= |
 | swf | %ICON{swf}% | SWF (Shockwave Flash) |  =%<nop>ICON{swf}%= |
 | ttf | %ICON{ttf}% | True Type font |  =%<nop>ICON{ttf}%= |
 | txt | %ICON{txt}% | Text |  =%<nop>ICON{txt}%= |
