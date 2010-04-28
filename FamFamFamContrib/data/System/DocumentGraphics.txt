@@ -22,36 +22,31 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
    * Set RENDERTABLES=%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5" tablewidth="100%" columnwidths="200px,40px"}%
 
 ---+++ MISSING
-| airplane | %ICON{airplane}% | airplane |  =%<nop>ICON{airplane}%= |
-| barcode | %ICON{barcode}% | barcode |  =%<nop>ICON{barcode}%= |
-| bed | %ICON{bed}% | bed |  =%<nop>ICON{bed}%= |
-| detail | %ICON{detail}% | detail |  =%<nop>ICON{detail}%= |
+
+
 | facebook | %ICON{facebook}% | facebook |  =%<nop>ICON{facebook}%= |
-| food | %ICON{food}% | food |  =%<nop>ICON{food}%= |
-| graduation | %ICON{graduation}% | graduation |  =%<nop>ICON{graduation}%= |
-| legal | %ICON{legal}% | legal |  =%<nop>ICON{legal}%= |
 | linkedin | %ICON{linkedin}% | linkedin |  =%<nop>ICON{linkedin}%= |
-| luggage | %ICON{luggage}% | luggage |  =%<nop>ICON{luggage}%= |
-| mechanics | %ICON{mechanics}% | mechanics |  =%<nop>ICON{mechanics}%= |
-| parent_gray | %ICON{parent_gray}% | parent_gray |  =%<nop>ICON{parent_gray}%= |
-| plug | %ICON{plug}% | plug |  =%<nop>ICON{plug}%= |
-| process | %ICON{process}% | process |  =%<nop>ICON{process}%= |
-| proportional | %ICON{proportional}% | proportional |  =%<nop>ICON{proportional}%= |
-| quiet | %ICON{quiet}% | quiet |  =%<nop>ICON{quiet}%= |
-| radioactive | %ICON{radioactive}% | radioactive |  =%<nop>ICON{radioactive}%= |
-| socket | %ICON{socket}% | socket |  =%<nop>ICON{socket}%= |
-| support | %ICON{support}% | support |  =%<nop>ICON{support}%= |
-| svg | %ICON{svg}% | svg |  =%<nop>ICON{svg}%= |
-| switch | %ICON{switch}% | switch |  =%<nop>ICON{switch}%= |
-| tag-black | %ICON{tag-black}% | tag-black |  =%<nop>ICON{tag-black}%= |
-| togglecloseleft-small | %ICON{togglecloseleft-small}% | togglecloseleft-small |  =%<nop>ICON{togglecloseleft-small}%= |
-| toolbox | %ICON{toolbox}% | toolbox |  =%<nop>ICON{toolbox}%= |
-| tooth | %ICON{tooth}% | tooth |  =%<nop>ICON{tooth}%= |
-| traffic-light | %ICON{traffic-light}% | traffic-light |  =%<nop>ICON{traffic-light}%= |
 | twitter | %ICON{twitter}% | twitter |  =%<nop>ICON{twitter}%= |
-| ying-yang | %ICON{ying-yang}% | ying-yang |  =%<nop>ICON{ying-yang}%= |
+
+
+
+| %ICON{bitly}% | =%<nop>ICON{bitly}%= | Bit.ly | gif | 16x16 |  |
+| %ICON{blogger}% | =%<nop>ICON{blogger}%= | Blogger | gif | 16x16 |  |
+| %ICON{delicious}% | =%<nop>ICON{delicious}%= | Delicious | gif | 16x16 |  |
+| %ICON{digg}% | =%<nop>ICON{digg}%= | Digg | gif | 16x16 |  |
+| %ICON{facebook}% | =%<nop>ICON{facebook}%= | Facebook | gif | 16x16 |  |
+| %ICON{google}% | =%<nop>ICON{google}%= | Google | gif | 16x16 |  |
+| %ICON{linkedin}% | =%<nop>ICON{linkedin}%= | LinkedIn | gif | 16x16 |  |
+| %ICON{reddit}% | =%<nop>ICON{reddit}%= | Reddit | gif | 16x16 |  |
+| %ICON{stumbleupon}% | =%<nop>ICON{stumbleupon}%= | Stumbleupon | gif | 16x16 |  |
+| %ICON{technorati}% | =%<nop>ICON{technorati}%= | Technorati | gif | 16x16 |  |
+| %ICON{twitter}% | =%<nop>ICON{twitter}%= | Twitter | gif | 16x16 |  |
+| %ICON{windows}% | =%<nop>ICON{windows}%= | Windows | gif | 16x16 |  |
 
 ---+++ need to sort into category
+| graduation | %ICON{graduation}% | graduation |  =%<nop>ICON{graduation}%= |
+| parent_gray | %ICON{parent_gray}% | parent_gray |  =%<nop>ICON{parent_gray}%= |
+| togglecloseleft-small | %ICON{togglecloseleft-small}% | togglecloseleft-small |  =%<nop>ICON{togglecloseleft-small}%= |
 | arrowright-small | %ICON{arrowright-small}% | arrowright-small |  =%<nop>ICON{arrowright-small}%= |
 | award | %ICON{award}% | award |  =%<nop>ICON{award}%= |
 | bomb | %ICON{bomb}% | bomb |  =%<nop>ICON{bomb}%= |
@@ -72,6 +67,29 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | star-none | %ICON{star-none}% | star-none |  =%<nop>ICON{star-none}%= |
 | thumbs-down | %ICON{thumbs-down}% | thumbs-down |  =%<nop>ICON{thumbs-down}%= |
 | thumbs-up | %ICON{thumbs-up}% | thumbs-up |  =%<nop>ICON{thumbs-up}%= |
+| airplane | %ICON{airplane}% | airplane |  =%<nop>ICON{airplane}%= |
+| bed | %ICON{bed}% | bed |  =%<nop>ICON{bed}%= |
+| luggage | %ICON{luggage}% | luggage |  =%<nop>ICON{luggage}%= |
+| mechanics | %ICON{mechanics}% | mechanics |  =%<nop>ICON{mechanics}%= |
+| plug | %ICON{plug}% | plug |  =%<nop>ICON{plug}%= |
+| process | %ICON{process}% | process |  =%<nop>ICON{process}%= |
+| proportional | %ICON{proportional}% | proportional |  =%<nop>ICON{proportional}%= |
+| radioactive | %ICON{radioactive}% | radioactive |  =%<nop>ICON{radioactive}%= |
+| socket | %ICON{socket}% | socket |  =%<nop>ICON{socket}%= |
+| support | %ICON{support}% | support |  =%<nop>ICON{support}%= |
+| switch | %ICON{switch}% | switch |  =%<nop>ICON{switch}%= |
+| toolbox | %ICON{toolbox}% | toolbox |  =%<nop>ICON{toolbox}%= |
+| traffic-light | %ICON{traffic-light}% | traffic-light |  =%<nop>ICON{traffic-light}%= |
+| ying-yang | %ICON{ying-yang}% | ying-yang |  =%<nop>ICON{ying-yang}%= |
+| barcode | %ICON{barcode}% | barcode |  =%<nop>ICON{barcode}%= |
+| food | %ICON{food}% | food |  =%<nop>ICON{food}%= |
+| legal | %ICON{legal}% | legal |  =%<nop>ICON{legal}%= |
+| svg | %ICON{svg}% | svg |  =%<nop>ICON{svg}%= |
+| detail | %ICON{detail}% | detail |  =%<nop>ICON{detail}%= |
+| tag-black | %ICON{tag-black}% | tag-black |  =%<nop>ICON{tag-black}%= |
+| quiet | %ICON{quiet}% | quiet |  =%<nop>ICON{quiet}%= |
+| tooth | %ICON{tooth}% | tooth |  =%<nop>ICON{tooth}%= |
+
 
 ---+++ %ICON{note}% Document icons
 
@@ -434,6 +452,9 @@ To get the full URL of the icon, use [[VarICONURL][ICONURL]]:
 =%<nop>ICONURL{"toggleopen"}%= gets you the image path: <code>%ICONURL{"toggleopen"}%</code> %BR%
 and that will get rendered as: %ICONURL{"toggleopen"}%
 </blockquote>
+
+---++ Credits
+Most of these icons are from the [[http://www.famfamfam.com/lab/icons/silk/][FamFamFam Silk]] icon set, some are modifications by Foswiki:Main.SvenDowideit, and a few come from the [[http://p.yusukekamiyamane.com/][Fugue icons]] set.
 
 ---
 *Related Topics:* [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
