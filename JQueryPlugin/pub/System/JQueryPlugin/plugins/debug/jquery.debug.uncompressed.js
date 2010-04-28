@@ -18,11 +18,7 @@ var DEBUG = true;
 if (!("console" in window) || !("firebug" in console)){
 	var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
 	// create the logging div
-	$(document).ready(
-		function(){
-			$(document.body).append('<div id="DEBUG"><ol></ol></div>');
-		}
-	);
+        $('body').append('<div id="DEBUG"><ol></ol></div>');
 	// attach a function to each of the firebug methods
 	window.console = {};
 	for (var i = 0; i < names.length; ++i){

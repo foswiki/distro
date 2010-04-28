@@ -42,10 +42,10 @@ sub new {
   my $this = bless($class->SUPER::new( 
     $session,
     name => 'WikiWord',
-    version => '1.0',
+    version => '1.1',
     author => 'Michael Daum',
     homepage => 'http://michaeldaumconsulting.com',
-    javascript => ['jquery.wikiword.js'],
+    javascript => ['jquery.wikiword.js', 'jquery.wikiword.init.js'],
   ), $class);
 
   return $this;

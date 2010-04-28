@@ -34,7 +34,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '3.42'; 
+$RELEASE = '3.50'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -240,13 +240,16 @@ Handles the =%<nop>JQREQUIRE% tag.
 sub handleJQueryRequire {
   my ($session, $params, $theTopic, $theWeb) = @_;   
 
-  my $pluginName = $params->{_DEFAULT};
+  my $plugins = $params->{_DEFAULT} || '';
   my $warn = $params->{warn} || '';
-  my $plugin = createPlugin($pluginName, $session);
-  return "<span class='foswikiAlert'>Error: no such plugin $pluginName</span>"
-    if !$plugin && $warn ne 'off' ;
+  my $errorMsg = '';
+  foreach my $pluginName (split(/\s*,\s*/, $plugins)) {
+    my $plugin = createPlugin($pluginName, $session);
+    $errorMsg .= "<div class='foswikiAlert'>Error: no such plugin $pluginName</div>"
+      if !$plugin && $warn ne 'off' ;
+  }
 
-  return '';
+  return $errorMsg;
 }
 
 =begin TML

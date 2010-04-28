@@ -52,7 +52,7 @@
   float:left;
   height:23px;
   line-height:23px;
-  padding:0px 8px;
+  padding:0px 5px 0px 8px;
   margin:0px 3px 0px 0px;
   font-size:13px;
   /* ie 6 */
@@ -61,6 +61,10 @@
 .jqButtonSimple span,
 .jqButton.simple span {
   padding:0px;
+}
+.jqButtonSimple span span,
+.jqButton.simple span span {
+  padding:0px 0px 0px 23px;
 }
 .jqButton .jqButtonIcon {
   background-position:0px 4px;

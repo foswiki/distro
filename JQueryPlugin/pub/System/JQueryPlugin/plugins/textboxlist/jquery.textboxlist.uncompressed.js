@@ -31,7 +31,7 @@
 
   // TextboxLister class **************************************************
   $.TextboxLister = function(elem, opts) {
-    var self = this, autocompleteOpts;
+    var self = this;
     self.input = $(elem);
     elem.textboxList = self;
 
@@ -67,15 +67,7 @@
    
     // autocompletion
     if (self.opts.autocomplete) {
-      autocompleteOpts = 
-        $.extend({},{
-            selectFirst:false,
-            autoFill:false,
-            matchCase:false,
-            matchContains:false,
-            matchSubset:true
-          }, self.opts.autocompleteOpts);
-      self.input.attr('autocomplete', 'off').autocomplete(self.opts.autocomplete, autocompleteOpts).
+      self.input.attr('autocomplete', 'off').autocomplete(self.opts.autocomplete, self.opts).
       result(function(event, data, value) {
         //$.log("TEXTBOXLIST: result data="+data+" formatted="+formatted);
         self.select(value);
@@ -90,7 +82,7 @@
       if(event.keyCode == 13) {
         var val = self.input.val();
         if (val) {
-          self.select([val]);
+          self.select(val);
           event.preventDefault();
           return false;
         }
@@ -101,13 +93,12 @@
     self.input.bind("AddValue", function(e, val) {
       $.log("TEXTBOXLIST: got add event, val="+val);
       if (val) {
-        self.select([val]);
+        self.select(val);
       }
     });
 
     // add event
     self.input.bind("DeleteValue", function(e, val) {
-      $.log("TEXTBOXLIST: got delete event, val="+val);
       if (val) {
         self.deselect([val]);
       }
@@ -126,6 +117,7 @@
 
     // init
     self.currentValues = [];
+    self.titleOfValue = [];
     if (self.input.val()) {
       self.select(self.input.val().split(/\s*,\s*/).sort(), true);
     }
@@ -139,6 +131,7 @@
     var self = this;
     self.container.find("."+self.opts.listValueClass).remove();
     self.currentValues = [];
+    self.titleOfValue = [];
 
     // onClear callback
     if (typeof(self.opts.onClear) == 'function') {
@@ -164,7 +157,7 @@
   // add values to the selection ******************************************
   $.TextboxLister.prototype.select = function(values, suppressCallback) {
     $.log("TEXTBOXLIST: called select("+values+") "+typeof(values));
-    var self = this, i, j, val, label, found, currentVal, input, close;
+    var self = this, i, j, val, title, found, currentVal, input, close;
 
     if (typeof(values) === 'object') {
       values = values.join(',');
@@ -173,6 +166,20 @@
       values = values.split(/\s*,\s*/).sort();
     } else {
       values = '';
+    }
+
+    // parse values
+    for (i = 0; i < values.length; i++) {
+      val = values[i];
+      found = false;
+      if (!val) {
+        continue;
+      }
+      title = val;
+      if (val.match(/^(.*)=(.*)$/)) {
+        values[i] = val = RegExp.$1
+        self.titleOfValue[val] = RegExp.$2
+      }
     }
 
     // only set values not already there
@@ -208,21 +215,18 @@
       self.currentValues = self.currentValues.sort();
     }
 
-    $.log("TEXTBOXLIST: self.currentValues="+self.currentValues+"("+self.currentValues.length+")");
+    $.log("TEXTBOXLIST: self.currentValues="+self.currentValues+" length="+self.currentValues.length);
 
     self.container.find("."+self.opts.listValueClass).remove();
     for (i = self.currentValues.length-1; i >= 0; i--) {
-      val = label = self.currentValues[i];
+      val = self.currentValues[i];
       if (!val) {
         continue;
       }
-      if (val.match(/^(.+)=(.+)$/)) {
-        val = RegExp.$1;
-        label = RegExp.$2;
-      }
-      $.log("val="+val+" label="+label);
-      input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' />";
-      close = $("<a href='#' title='remove "+val+"'></a>").
+      title = self.titleOfValue[val] || val;
+      $.log("TEXTBOXLIST: val="+val+" title="+title);
+      input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' title='"+title+"' />";
+      close = $("<a href='#' title='remove "+title+"'></a>").
         addClass(self.opts.closeClass).
         click(function(e) {
           e.preventDefault();
@@ -232,8 +236,9 @@
       $("<span></span>").addClass(self.opts.listValueClass).
         append(input).
         append(close).
-        append(label).
+        append(title).
         prependTo(self.container);
+
     }
     self.input.val('');
 
@@ -242,6 +247,7 @@
       $.log("TEXTBOXLIST: calling onSelect handler");
       self.opts.onSelect(self);
     }
+    self.input.trigger("SelectedValue", values);
   };
 
   // remove values from the selection *************************************
@@ -283,7 +289,7 @@
       self.opts.onDeselect(self);
     }
 
-    self.select(newValues);
+    self.select(newValues, true);
   };
 
   // default settings ****************************************************
@@ -299,7 +305,12 @@
     onClear: undefined,
     onReset: undefined,
     onSelect: undefined,
-    onDeselect: undefined
+    onDeselect: undefined,
+    selectFirst:false,
+    autoFill:false,
+    matchCase:false,
+    matchContains:false,
+    matchSubset:true
   };
  
 })(jQuery);

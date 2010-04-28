@@ -1,2 +1,6 @@
-TARGET=jquery.wikiword.js $(JQUERYPLUGIN_LIB)/WIKIWORD.pm
+TARGET=\
+  jquery.wikiword.js \
+  jquery.wikiword.init.js \
+  $(JQUERYPLUGIN_LIB)/WIKIWORD.pm
+
 -include ../../Makefile.include

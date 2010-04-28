@@ -65,10 +65,15 @@ sub renderForEdit {
   Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
 
   my $result = "<div class='jqRating {$this->{attributes}}'>\n";
+  my $found = 0;
+  my $intVal = ($value)?$value:0;
   foreach my $item (@{ $this->getOptions() }) {
     $result .= '<input type="radio" name="' . $this->{name} . '" ' . ' value="' . $item . '" ';
     $result .= 'title="'.$this->{valueMap}{$item}.'" ' if $this->{valueMap}{$item};
-    $result .= 'checked="checked" ' if $item eq $value;
+    if ($item == $intVal || ($item > $intVal && !$found)) {
+      $found = 1;
+      $result .= 'checked="checked" ';
+    }
     $result .= "/>\n";
   }
   $result .= '<input type="hidden" name="'.$this->{name}.'" value="" />';
@@ -83,11 +88,16 @@ sub renderForDisplay {
   Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
 
   my $result = "<div class='jqRating {$this->{attributes}}'>\n";
+  my $found = 0;
+  my $intVal = ($value)?$value:0;
   foreach my $item (@{ $this->getOptions() }) {
     $result .= '<input type="radio" name="' . $this->{name} . '" ' . ' value="' . $item . '" ';
     $result .= 'title="'.$this->{valueMap}{$item}.'" ' if $this->{valueMap}{$item};
     $result .= 'disabled="disabled" ';
-    $result .= 'checked="checked" ' if $item eq $value;
+    if ($item == $intVal || ($item > $intVal && !$found)) {
+      $found = 1;
+      $result .= 'checked="checked" ';
+    }
     $result .= "/>\n";
   }
   $result .= "</div>\n";

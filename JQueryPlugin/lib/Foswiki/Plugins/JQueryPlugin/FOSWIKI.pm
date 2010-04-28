@@ -89,7 +89,7 @@ HERE
   $js .= '.uncompressed' if $this->{debug};
   $js .= '.js?version='.$this->{version};
 
-  my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>\n";
+  my $footer = "<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>\n";
 
   Foswiki::Func::addToZone('head', 'JQUERYPLUGIN::FOSWIKI', $header, 'JQUERYPLUGIN');
   Foswiki::Func::addToZone('body', 'JQUERYPLUGIN::FOSWIKI', $footer, 'JQUERYPLUGIN');
