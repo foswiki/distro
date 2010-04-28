@@ -58,11 +58,11 @@ HERE
 ];
 
 
-
 my $editFrameLocator = "css=iframe#topic_ifr";
 my $wikitextLocator = "css=a#topic_hide";
 my $wysiwygLocator = "css=input#topic_2WYSIWYG";
 my $editTextareaLocator = "css=textarea#topic";
+my $editCancelButtonLocator = "css=input#cancel";
 
 # This must match the text in foswiki_tiny.js
 my $waitForServerMessage = "Please wait... retrieving page from server.";
@@ -96,6 +96,22 @@ sub _init {
     $this->_open_editor();
 
     $this->{BrowserTranslator_Init}->{$this->{browser}} = 1;
+}
+
+sub DESTROY
+{
+    my $this = shift;
+    for my $browser (keys %{ $this->{BrowserTranslator_Init} }) {
+        $this->{browser} = $browser;
+        $this->{selenium} = $this->{seleniumBrowsers}->{$browser};
+
+        $this->_select_top_frame();
+        $this->{selenium}->click( $editCancelButtonLocator );
+    }
+    if (keys %{ $this->{BrowserTranslator_Init} }) {
+        $this->{selenium}->pause(); # Breathe for a moment; let TMCE settle before doing anything else
+    }
+    $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
 
 sub compareTML_HTML {
