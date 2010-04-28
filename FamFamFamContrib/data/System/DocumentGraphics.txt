@@ -21,87 +21,44 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
    * Set ICONTOPIC=%SYSTEMWEB%.DocumentGraphics
    * Set RENDERTABLES=%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5" tablewidth="100%" columnwidths="200px,40px"}%
 
-
----+++ need to sort into category
-
-| remove | %ICON{remove}% | remove |  =%<nop>ICON{remove}%= |
-| empty | %ICON{empty}% | empty |  =%<nop>ICON{empty}%= |
-| alert | %ICON{alert}% | alert |  =%<nop>ICON{alert}%= |
-| proportional | %ICON{proportional}% | proportional |  =%<nop>ICON{proportional}%= |
-| vector | %ICON{vector}% | vector |  =%<nop>ICON{vector}%= |
-| checked-round | %ICON{checked-round}% | checked-round |  =%<nop>ICON{checked-round}%= |
-| monospace | %ICON{monospace}% | monospace |  =%<nop>ICON{monospace}%= |
-| vcard | %ICON{vcard}% | vcard |  =%<nop>ICON{vcard}%= |
-| irc | %ICON{irc}% | irc |  =%<nop>ICON{irc}%= |
-| unchecked-round | %ICON{unchecked-round}% | unchecked-round |  =%<nop>ICON{unchecked-round}%= |
-
-
-| graduation | %ICON{graduation}% | graduation |  =%<nop>ICON{graduation}%= |
-| parent_gray | %ICON{parent_gray}% | parent_gray |  =%<nop>ICON{parent_gray}%= |
-| togglecloseleft-small | %ICON{togglecloseleft-small}% | togglecloseleft-small |  =%<nop>ICON{togglecloseleft-small}%= |
-| arrowright-small | %ICON{arrowright-small}% | arrowright-small |  =%<nop>ICON{arrowright-small}%= |
-| award | %ICON{award}% | award |  =%<nop>ICON{award}%= |
-| bomb | %ICON{bomb}% | bomb |  =%<nop>ICON{bomb}%= |
-| chart-bar | %ICON{chart-bar}% | chart-bar |  =%<nop>ICON{chart-bar}%= |
-| chart-pie | %ICON{chart-pie}% | chart-pie |  =%<nop>ICON{chart-pie}%= |
-| comments | %ICON{comments}% | comments |  =%<nop>ICON{comments}%= |
-| connections | %ICON{connections}% | connections |  =%<nop>ICON{connections}%= |
-| database | %ICON{database}% | database |  =%<nop>ICON{database}%= |
-| heart | %ICON{heart}% | heart |  =%<nop>ICON{heart}%= |
-| processing-32-bg | %ICON{processing-32-bg}% | processing-32-bg |  =%<nop>ICON{processing-32-bg}%= |
-| processing-32 | %ICON{processing-32}% | processing-32 |  =%<nop>ICON{processing-32}%= |
-| processing-bg | %ICON{processing-bg}% | processing-bg |  =%<nop>ICON{processing-bg}%= |
-| processing | %ICON{processing}% | processing |  =%<nop>ICON{processing}%= |
-| profile | %ICON{profile}% | profile |  =%<nop>ICON{profile}%= |
-| rss | %ICON{rss}% | rss |  =%<nop>ICON{rss}%= |
-| star-full | %ICON{star-full}% | star-full |  =%<nop>ICON{star-full}%= |
-| star-half | %ICON{star-half}% | star-half |  =%<nop>ICON{star-half}%= |
-| star-none | %ICON{star-none}% | star-none |  =%<nop>ICON{star-none}%= |
-| thumbs-down | %ICON{thumbs-down}% | thumbs-down |  =%<nop>ICON{thumbs-down}%= |
-| thumbs-up | %ICON{thumbs-up}% | thumbs-up |  =%<nop>ICON{thumbs-up}%= |
-| airplane | %ICON{airplane}% | airplane |  =%<nop>ICON{airplane}%= |
-| bed | %ICON{bed}% | bed |  =%<nop>ICON{bed}%= |
-| luggage | %ICON{luggage}% | luggage |  =%<nop>ICON{luggage}%= |
-| mechanics | %ICON{mechanics}% | mechanics |  =%<nop>ICON{mechanics}%= |
-| plug | %ICON{plug}% | plug |  =%<nop>ICON{plug}%= |
-| process | %ICON{process}% | process |  =%<nop>ICON{process}%= |
-| proportional | %ICON{proportional}% | proportional |  =%<nop>ICON{proportional}%= |
-| radioactive | %ICON{radioactive}% | radioactive |  =%<nop>ICON{radioactive}%= |
-| socket | %ICON{socket}% | socket |  =%<nop>ICON{socket}%= |
-| support | %ICON{support}% | support |  =%<nop>ICON{support}%= |
-| switch | %ICON{switch}% | switch |  =%<nop>ICON{switch}%= |
-| toolbox | %ICON{toolbox}% | toolbox |  =%<nop>ICON{toolbox}%= |
-| traffic-light | %ICON{traffic-light}% | traffic-light |  =%<nop>ICON{traffic-light}%= |
-| ying-yang | %ICON{ying-yang}% | ying-yang |  =%<nop>ICON{ying-yang}%= |
-| barcode | %ICON{barcode}% | barcode |  =%<nop>ICON{barcode}%= |
-| food | %ICON{food}% | food |  =%<nop>ICON{food}%= |
-| legal | %ICON{legal}% | legal |  =%<nop>ICON{legal}%= |
-| detail | %ICON{detail}% | detail |  =%<nop>ICON{detail}%= |
-| tag-black | %ICON{tag-black}% | tag-black |  =%<nop>ICON{tag-black}%= |
-| quiet | %ICON{quiet}% | quiet |  =%<nop>ICON{quiet}%= |
-| tooth | %ICON{tooth}% | tooth |  =%<nop>ICON{tooth}%= |
-
-
 ---+++ %ICON{note}% Document icons
 
 %RENDERTABLES%
 | *Name* | *Icon* |  *Description* | *Write...* |
+| airplane | %ICON{airplane}% | airplane |  =%<nop>ICON{airplane}%= |
+| alert | %ICON{alert}% | alert |  =%<nop>ICON{alert}%= |
+| award | %ICON{award}% | award |  =%<nop>ICON{award}%= |
+| barcode | %ICON{barcode}% | barcode |  =%<nop>ICON{barcode}%= |
+| bed | %ICON{bed}% | bed |  =%<nop>ICON{bed}%= |
+| bomb | %ICON{bomb}% | bomb |  =%<nop>ICON{bomb}%= |
 | book | %ICON{book}% | Book |  =%<nop>ICON{book}%= |
 | blank | %ICON{blank}% | Blank box |  =%<nop>ICON{blank}%= |
 | blank-bg | %ICON{blank-bg}% | Blank box, transparent |  =%<nop>ICON{blank-bg}%= |
 | bubble | %ICON{bubble}% | Speech bubble |  =%<nop>ICON{bubble}%= |
 | bug | %ICON{bug}% | bug |  =%<nop>ICON{bug}%= |
+| chart-bar | %ICON{chart-bar}% | chart-bar |  =%<nop>ICON{chart-bar}%= |
+| chart-pie | %ICON{chart-pie}% | chart-pie |  =%<nop>ICON{chart-pie}%= |
+| comments | %ICON{comments}% | comments |  =%<nop>ICON{comments}%= |
+| connections | %ICON{connections}% | connections |  =%<nop>ICON{connections}%= |
+| database | %ICON{database}% | database |  =%<nop>ICON{database}%= |
 | days | %ICON{days}% | Days, Calendar |  =%<nop>ICON{days}%= |
+| detail | %ICON{detail}% | detail |  =%<nop>ICON{detail}%= |
 | download | %ICON{download}% | Download |  =%<nop>ICON{download}%= |
 | fax | %ICON{fax}% | Fax |  =%<nop>ICON{fax}%= |
 | filter | %ICON{filter}% | Filter |  =%<nop>ICON{filter}%= |
+| food | %ICON{food}% | food |  =%<nop>ICON{food}%= |
 | gear | %ICON{gear}% | Gear |  =%<nop>ICON{gear}%= |
 | globe | %ICON{globe}% | Globe |  =%<nop>ICON{globe}%= |
-| map | %ICON{map}% | Map |  =%<nop>ICON{map}%= |
+| graduation | %ICON{graduation}% | graduation |  =%<nop>ICON{graduation}%= |
 | hand | %ICON{hand}% | Pointing hand |  =%<nop>ICON{hand}%= |
+| heart | %ICON{heart}% | heart |  =%<nop>ICON{heart}%= |
 | help | %ICON{help}% | Help |  =%<nop>H%=,  =%<nop>ICON{help}%= |
-| info | %ICON{info}% | Info |  =%<nop>ICON{info}%= |
 | hourglass | %ICON{hourglass}% | Hour glass (clock) |  =%<nop>ICON{hourglass}%= |
+| info | %ICON{info}% | Info |  =%<nop>ICON{info}%= |
+| legal | %ICON{legal}% | legal |  =%<nop>ICON{legal}%= |
+| luggage | %ICON{luggage}% | luggage |  =%<nop>ICON{luggage}%= |
+| map | %ICON{map}% | Map |  =%<nop>ICON{map}%= |
+| mechanics | %ICON{mechanics}% | mechanics |  =%<nop>ICON{mechanics}%= |
 | megaphone | %ICON{megaphone}% | Megaphone |  =%<nop>ICON{megaphone}%= |
 | mobile | %ICON{mobile}% | Mobile |  =%<nop>ICON{mobile}%= |
 | more | %ICON{more}% | Read more |  =%<nop>ICON{more}%= |
@@ -114,29 +71,45 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | phone | %ICON{phone}% | Phone |  =%<nop>ICON{phone}%= |
 | photo | %ICON{photo}% | Photo, 13x10 |  =%<nop>ICON{photo}%= |
 | presentation | %ICON{presentation}% | Presentation |  =%<nop>ICON{presentation}%= |
+| plug | %ICON{plug}% | plug |  =%<nop>ICON{plug}%= |
 | puzzle | %ICON{puzzle}% | Puzzle |  =%<nop>ICON{puzzle}%= |
+| process | %ICON{process}% | process |  =%<nop>ICON{process}%= |
+| profile | %ICON{profile}% | profile |  =%<nop>ICON{profile}%= |
 | question | %ICON{question}% | Question |  =%<nop>ICON{question}%= |
 | quiet | %ICON{quiet}% | Quiet |  =%<nop>ICON{quiet}%= |
+| radioactive | %ICON{radioactive}% | radioactive |  =%<nop>ICON{radioactive}%= |
 | rfc | %ICON{rfc}% | Request for comments |  =%<nop>ICON{rfc}%= |
 | sitemap | %ICON{sitemap}% | Site map |  =%<nop>ICON{sitemap}%= |
+| socket | %ICON{socket}% | socket |  =%<nop>ICON{socket}%= |
 | sitetree | %ICON{sitetree}% | Site tree |  =%<nop>ICON{sitetree}%= |
 | sort | %ICON{sort}% | Sort |  =%<nop>ICON{sort}%= |
 | stargold | %ICON{stargold}% | Gold star, favorites |  =%<nop>ICON{stargold}%= |
 | starred | %ICON{starred}% | Red star, highlight |  =%<nop>S%=,  =%<nop>ICON{starred}%= |
+| star-full | %ICON{star-full}% | star-full |  =%<nop>ICON{star-full}%= |
+| star-half | %ICON{star-half}% | star-half |  =%<nop>ICON{star-half}%= |
+| star-none | %ICON{star-none}% | star-none |  =%<nop>ICON{star-none}%= |
 | stop | %ICON{stop}% | Stop |  =%<nop>ICON{stop}%= |
+| support | %ICON{support}% | support |  =%<nop>ICON{support}%= |
+| switch | %ICON{switch}% | switch |  =%<nop>ICON{switch}%= |
 | target | %ICON{target}% | Target |  =%<nop>ICON{target}%= |
 | target-blue | %ICON{target-blue}% | Target - blue |  =%<nop>ICON{target-blue}%= |
 | target-gray | %ICON{target-gray}% | Target - gray |  =%<nop>ICON{target-gray}%= |
 | target-green | %ICON{target-green}% | Target - green |  =%<nop>ICON{target-green}%= |
 | target-orange | %ICON{target-orange}% | Target - orange |  =%<nop>ICON{target-orange}%= |
 | target-red | %ICON{target-red}% | Target - red |  =%<nop>ICON{target-red}%= |
+| thumbs-down | %ICON{thumbs-down}% | thumbs-down |  =%<nop>ICON{thumbs-down}%= |
+| thumbs-up | %ICON{thumbs-up}% | thumbs-up |  =%<nop>ICON{thumbs-up}%= |
 | tip | %ICON{tip}% | Tip, idea |  =%<nop>T%=,  =%<nop>ICON{tip}%= |
+| toolbox | %ICON{toolbox}% | toolbox |  =%<nop>ICON{toolbox}%= |
+| tooth | %ICON{tooth}% | tooth |  =%<nop>ICON{tooth}%= |
+| traffic-light | %ICON{traffic-light}% | traffic-light |  =%<nop>ICON{traffic-light}%= |
+| vcard | %ICON{vcard}% | vcard |  =%<nop>ICON{vcard}%= |
 | video | %ICON{video}% | Video, 13x10 |  =%<nop>ICON{video}%= |
 | warning | %ICON{warning}% | Warning, important |  =%<nop>X%=,  =%<nop>ICON{warning}%= |
 | watch | %ICON{watch}% | Watch |  =%<nop>ICON{watch}%= |
 | wip | %ICON{wip}% | Work in progress, under construction |  =%<nop>ICON{wip}%= |
 | wrench | %ICON{wrench}% | Wrench, tools |  =%<nop>ICON{wrench}%= |
-
+| ying-yang | %ICON{ying-yang}% | ying-yang |  =%<nop>ICON{ying-yang}%= |
 
 ---+++ %ICON{viewtopic}% Topic, %ICON{attachfile}% file, %ICON{folder}% folder icons
 
@@ -198,11 +171,12 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 %RENDERTABLES%
 | *Name* | *Icon* |  *Description* | *Write...* |
 | changes | %ICON{changes}% | Changes |  =%<nop>ICON{changes}%= |
-| changes-small | %ICON{changes-small}% | Changes (small), 13x13 | =%<nop>ICON{changes-small}%= |
+| changes-small | %ICON{changes-small}% | Changes (small), 13x13 |  =%<nop>ICON{changes-small}%= |
 | recentchanges | %ICON{recentchanges}% | Recent changes |  =%<nop>ICON{recentchanges}%= |
 | mail | %ICON{mail}% | Mail |  =%<nop>ICON{mail}%= |
 | notify | %ICON{notify}% | Notify |  =%<nop>ICON{notify}%= |
 | feed | %ICON{feed}% | Feed |  =%<nop>ICON{feed}%= |
+| rss | %ICON{rss}% | rss |  =%<nop>ICON{rss}%= |
 | rss-feed | %ICON{rss-feed}% | RSS feed, 36x14 |  =%<nop>ICON{rss-feed}%= |
 | rss-small | %ICON{rss-small}% | RSS feed |  =%<nop>ICON{rss-small}%= |
 | xml-feed | %ICON{xml-feed}% | XML feed, 36x14 |  =%<nop>ICON{xml-feed}%= |
@@ -218,6 +192,12 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | updated | %ICON{updated}% | UPDATED, 55x16 |  =%<nop>U%=, =&lt;img src="%<nop>ICONURL{updated}%= |
 | done | %ICON{done}% | DONE, 37x16 |  =%<nop>ICON{done}%= |
 | closed | %ICON{closed}% | CLOSED, 48x16 |  =%<nop>ICON{closed}%= |
+| processing-32-bg | %ICON{processing-32-bg}% | processing-32-bg |  =%<nop>ICON{processing-32-bg}%= |
+| processing-32 | %ICON{processing-32}% | processing-32 |  =%<nop>ICON{processing-32}%= |
+| processing-bg | %ICON{processing-bg}% | processing-bg |  =%<nop>ICON{processing-bg}%= |
+| processing | %ICON{processing}% | processing |  =%<nop>ICON{processing}%= |
+| add | %ICON{add}% | add |  =%<nop>ICON{add}%= |
+| remove | %ICON{remove}% | remove |  =%<nop>ICON{remove}%= |
 | minus | %ICON{minus}% | Minus |  =%<nop>ICON{minus}%= |
 | plus | %ICON{plus}% | Plus |  =%<nop>ICON{plus}%= |
 | choice-cancel | %ICON{choice-cancel}% | Cancel |  =%<nop>ICON{choice-cancel}%= |
@@ -225,6 +205,8 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | choice-yes | %ICON{choice-yes}% | Yes / Done |  =%<nop>Y%=,  =%<nop>ICON{choice-yes}%= |
 | unchecked | %ICON{unchecked}% | Unchecked checkbox |  =%<nop>ICON{unchecked}%= |
 | checked | %ICON{checked}% | Checked checkbox |  =%<nop>ICON{checked}%= |
+| checked-round | %ICON{checked-round}% | checked-round |  =%<nop>ICON{checked-round}%= |
+| unchecked-round | %ICON{unchecked-round}% | unchecked-round |  =%<nop>ICON{unchecked-round}%= |
 | flag | %ICON{flag}% | Flag |  =%<nop>ICON{flag}%= |
 | flag-gray | %ICON{flag-gray}% | Gray flag |  =%<nop>ICON{flag-gray}%= |
 | flag-gray-small | %ICON{flag-gray-small}% | Small gray flag, 13x13 |  =%<nop>ICON{flag-gray-small}%= |
@@ -245,6 +227,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | led-box-red | %ICON{led-box-red}% | Red led |  =%<nop>ICON{led-box-red}%= |
 | led-box-yellow | %ICON{led-box-yellow}% | Yellow led |  =%<nop>ICON{led-box-yellow}%= |
 | tag | %ICON{tag}% | Tag |  =%<nop>ICON{tag}%= |
+| tag-black | %ICON{tag-black}% | tag-black |  =%<nop>ICON{tag-black}%= |
 | tag-blue | %ICON{tag-blue}% | Blue tag |  =%<nop>ICON{tag-blue}%= |
 | tag-brown | %ICON{tag-brown}% | Brown tag |  =%<nop>ICON{tag-brown}%= |
 | tag-green | %ICON{tag-green}% | Green tag |  =%<nop>ICON{tag-green}%= |
@@ -270,6 +253,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | down | %ICON{down}% | Down |  =%<nop>ICON{down}%= |
 | arrowbleft | %ICON{arrowbleft}% | Arrow blue left |  =%<nop>ICON{arrowbleft}%= |
 | arrowbright | %ICON{arrowbright}% | Arrow blue right |  =%<nop>ICON{arrowbright}%= |
+| arrowright-small | %ICON{arrowright-small}% | arrowright-small |  =%<nop>ICON{arrowright-small}%= |
 | arrowbup | %ICON{arrowbup}% | Arrow blue up |  =%<nop>ICON{arrowbup}%= |
 | arrowbdown | %ICON{arrowbdown}% | Arrow blue down |  =%<nop>ICON{arrowbdown}%= |
 | arrowleft | %ICON{arrowleft}% | Arrow left |  =%<nop>ICON{arrowleft}%= |
@@ -300,6 +284,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | toggleclose-mini | %ICON{toggleclose-mini}% | Close toggle, Twisty close toggle |  =%<nop>ICON{toggleclose-mini}%= |
 | toggleopenleft | %ICON{toggleopenleft}% | Open toggle, Twisty open toggle |  =%<nop>ICON{toggleopenleft}%= |
 | toggleopenleft-small | %ICON{toggleopenleft-small}% | Open toggle, Twisty open toggle |  =%<nop>ICON{toggleopenleft-small}%= |
+| togglecloseleft-small | %ICON{togglecloseleft-small}% | togglecloseleft-small |  =%<nop>ICON{togglecloseleft-small}%= |
 | web-bg | %ICON{web-bg}% | Web background, used in %SYSTEMWEB%.WebLeftBarWebsList |  =%<nop>ICON{web-bg}%= |
 | web-bg-small | %ICON{web-bg-small}% | Web background, 13x13 |  =%<nop>ICON{web-bg-small}%= |
 
@@ -317,8 +302,9 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | searchpackage | %ICON{searchpackage}% | Search package |  =%<nop>ICON{searchpackage}%= |
 | searchtag | %ICON{searchtag}% | Search tag |  =%<nop>ICON{searchtag}%= |
 | skin | %ICON{skin}% | Skin |  =%<nop>ICON{skin}%= |
+| irc | %ICON{irc}% | irc |  =%<nop>ICON{irc}%= |
 
----+++ Other Websites Icons
+---+++ %ICON{twitter}% Other Websites Icons
 
 %RENDERTABLES%
 | *Name* | *Icon* |  *Description* | *Write...* |
@@ -479,6 +465,7 @@ Filetype icons are used by the attachment table and are seldom used in topics. W
 | xml | %ICON{xml}% | XML |  =%<nop>ICON{xml}%= |
 | xsl | %ICON{xsl}% | XSL (XML style sheet) |  =%<nop>ICON{xsl}%= |
 | zip | %ICON{zip}% | Compressed Zip archive |  =%<nop>ICON{zip}%= |
+| vector | %ICON{vector}% | vector |  =%<nop>ICON{vector}%= |
 
 ---++ Usage (extended)
 

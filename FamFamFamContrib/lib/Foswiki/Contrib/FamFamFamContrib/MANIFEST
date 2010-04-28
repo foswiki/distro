@@ -2809,3 +2809,18 @@ pub/System/DocumentGraphics/alert.png
 pub/System/DocumentGraphics/remove.png
 pub/System/DocumentGraphics/unchecked-round.gif
 
+pub/System/DocumentGraphics/done.png
+pub/System/DocumentGraphics/rss-feed.png
+pub/System/DocumentGraphics/updated.png
+pub/System/DocumentGraphics/todo.png
+pub/System/DocumentGraphics/done.gif
+pub/System/DocumentGraphics/rss-feed.gif
+pub/System/DocumentGraphics/updated.gif
+pub/System/DocumentGraphics/todo.gif
+pub/System/DocumentGraphics/closed.png
+pub/System/DocumentGraphics/add.png
+pub/System/DocumentGraphics/new.png
+pub/System/DocumentGraphics/closed.gif
+pub/System/DocumentGraphics/add.gif
+pub/System/DocumentGraphics/new.gif
+
