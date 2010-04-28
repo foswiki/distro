@@ -484,7 +484,7 @@ For extended use, check out Foswiki:Extensions.SmiliesPlugin that uses a differe
 
 Full path:
 <blockquote>
-In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/FamFamFamGraphics/help.png= to show %PUBURL%/%SYSTEMWEB%/DocumentGraphics/help.png
+In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/help.png= to show %PUBURL%/%SYSTEMWEB%/DocumentGraphics/help.png
 
 You are not restricted to use the !DocumentGraphics topic - 
 in a similar way you can show attached images by replacing =DocumentGraphics= with the topic name.
