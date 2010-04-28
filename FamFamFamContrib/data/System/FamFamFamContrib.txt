@@ -68,6 +68,7 @@ eg
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Apr 2010: | finish finding matching icons for all the legacy icon names - readying for 1.1 release |
 |  Mar 2010: | include into foswiki 1.1 core and make it the default =ICONTOPIC= |
 |  Jan 2010: | fix DocumentGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |
 |  Dec 2009: | add DocumentGraphics topic to allow replacement of ICONTOPIC, and add Silk Companion 2 icons by Chris Cagle | 

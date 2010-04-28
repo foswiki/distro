@@ -686,10 +686,10 @@ Most of these icons are from the [[http://www.famfamfam.com/lab/icons/silk/][Fam
 %META:FILEATTACHMENT{name="ppt.png" attr="h" comment="" date="1169565034" path="ppt.png" size="373" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="presentation.png" attr="h" comment="" date="1196729838" path="presentation.png" size="892" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="printtopic.png" attr="h" comment="" date="1169565034" path="printtopic.png" size="221" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="processing-32-bg.png" attr="h" comment="" date="1237421717" path="processing-32-bg.png" size="2193" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="processing-32.png" attr="h" comment="" date="1237421717" path="processing-32.png" size="1918" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="processing-bg.png" attr="h" comment="" date="1237421717" path="processing-bg.png" size="1661" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="processing.png" attr="h" comment="" date="1229216814" path="processing.png" size="2537" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="processing-32-bg.gif" attr="h" comment="" date="1237421717" path="processing-32-bg.gif" size="2193" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="processing-32.gif" attr="h" comment="" date="1237421717" path="processing-32.gif" size="1918" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="processing-bg.gif" attr="h" comment="" date="1237421717" path="processing-bg.gif" size="1661" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="processing.gif" attr="h" comment="" date="1229216814" path="processing.gif" size="2537" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="proportional.png" attr="h" comment="" date="1169565034" path="proportional.png" size="137" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="ps.png" attr="h" comment="" date="1169565034" path="ps.png" size="362" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="psd.png" attr="h" comment="" date="1169565034" path="psd.png" size="369" user="ProjectContributor" version=""}%
