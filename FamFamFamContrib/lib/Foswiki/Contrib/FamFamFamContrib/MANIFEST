@@ -1,19 +1,20 @@
-# Release manifest for FamFamFamContrib
+
 templates/icons.tmpl
 templates/view.famfamfam.tmpl
 
-data/System/DocumentGraphics.txt
+data/System/DocumentGraphics.txt 0644 Documentation
 data/System/FamFamFamContrib.txt 0644 Documentation
-data/System/FamFamFamFlagIcons.txt
-data/System/FamFamFamFoswikiExtras.txt
-data/System/FamFamFamMiniIcons.txt
-data/System/FamFamFamMintIcons.txt
-data/System/FamFamFamSilkCompanion1Icons.txt
-data/System/FamFamFamSilkCompanion2Icons.txt
-data/System/FamFamFamSilkIcons.txt
-# Do not attach these to their topics, otherwise it takes forever to install this extension
+data/System/FamFamFamFlagIcons.txt 0644 Documentation
+data/System/FamFamFamFoswikiExtras.txt 0644 Documentation
+data/System/FamFamFamMiniIcons.txt 0644 Documentation
+data/System/FamFamFamMintIcons.txt 0644 Documentation
+data/System/FamFamFamSilkCompanion1Icons.txt 0644 Documentation
+data/System/FamFamFamSilkCompanion2Icons.txt 0644 Documentation
+data/System/FamFamFamSilkIcons.txt 0644 Documentation
+
 lib/Foswiki/Contrib/FamFamFamContrib.pm 0644 Perl module
 
+# Do not attach these to their topics, otherwise it takes forever to install this extension
 !noci
 pub/System/DocumentGraphics/add.gif
 pub/System/DocumentGraphics/addon.gif
@@ -75,6 +76,8 @@ pub/System/DocumentGraphics/bing.gif
 pub/System/DocumentGraphics/bing.png
 pub/System/DocumentGraphics/bitly.gif
 pub/System/DocumentGraphics/bitly.png
+pub/System/DocumentGraphics/blank-bg.gif
+pub/System/DocumentGraphics/blank.gif
 pub/System/DocumentGraphics/blogger.gif
 pub/System/DocumentGraphics/blogger.png
 pub/System/DocumentGraphics/bmp.gif
@@ -127,8 +130,6 @@ pub/System/DocumentGraphics/choice-no.png
 pub/System/DocumentGraphics/choice-yes.gif
 pub/System/DocumentGraphics/choice-yes.png
 pub/System/DocumentGraphics/closed.gif
-pub/System/DocumentGraphics/closed.gif
-pub/System/DocumentGraphics/closed.png
 pub/System/DocumentGraphics/closed.png
 pub/System/DocumentGraphics/code.gif
 pub/System/DocumentGraphics/code.png
@@ -160,8 +161,6 @@ pub/System/DocumentGraphics/dll.png
 pub/System/DocumentGraphics/doc.gif
 pub/System/DocumentGraphics/doc.png
 pub/System/DocumentGraphics/done.gif
-pub/System/DocumentGraphics/done.gif
-pub/System/DocumentGraphics/done.png
 pub/System/DocumentGraphics/done.png
 pub/System/DocumentGraphics/dot_ld.gif
 pub/System/DocumentGraphics/dot_ld.png
@@ -425,8 +424,6 @@ pub/System/DocumentGraphics/myspace.png
 pub/System/DocumentGraphics/netvibes.gif
 pub/System/DocumentGraphics/netvibes.png
 pub/System/DocumentGraphics/new.gif
-pub/System/DocumentGraphics/new.gif
-pub/System/DocumentGraphics/new.png
 pub/System/DocumentGraphics/new.png
 pub/System/DocumentGraphics/newsvine.gif
 pub/System/DocumentGraphics/newsvine.png
@@ -525,8 +522,6 @@ pub/System/DocumentGraphics/rfc.png
 pub/System/DocumentGraphics/right.gif
 pub/System/DocumentGraphics/right.png
 pub/System/DocumentGraphics/rss-feed.gif
-pub/System/DocumentGraphics/rss-feed.gif
-pub/System/DocumentGraphics/rss-feed.png
 pub/System/DocumentGraphics/rss-feed.png
 pub/System/DocumentGraphics/rss.gif
 pub/System/DocumentGraphics/rss.png
@@ -642,8 +637,6 @@ pub/System/DocumentGraphics/thumbs-up.png
 pub/System/DocumentGraphics/tip.gif
 pub/System/DocumentGraphics/tip.png
 pub/System/DocumentGraphics/todo.gif
-pub/System/DocumentGraphics/todo.gif
-pub/System/DocumentGraphics/todo.png
 pub/System/DocumentGraphics/todo.png
 pub/System/DocumentGraphics/toggleclose.gif
 pub/System/DocumentGraphics/togglecloseleft-small.gif
@@ -677,7 +670,6 @@ pub/System/DocumentGraphics/trash.gif
 pub/System/DocumentGraphics/trash.png
 pub/System/DocumentGraphics/ttf.gif
 pub/System/DocumentGraphics/ttf.png
-pub/System/DocumentGraphics/ttt.sh
 pub/System/DocumentGraphics/tumblr.gif
 pub/System/DocumentGraphics/tumblr.png
 pub/System/DocumentGraphics/twitter.gif
@@ -689,8 +681,6 @@ pub/System/DocumentGraphics/unchecked.png
 pub/System/DocumentGraphics/unchecked-round.gif
 pub/System/DocumentGraphics/unchecked-round.png
 pub/System/DocumentGraphics/updated.gif
-pub/System/DocumentGraphics/updated.gif
-pub/System/DocumentGraphics/updated.png
 pub/System/DocumentGraphics/updated.png
 pub/System/DocumentGraphics/up.gif
 pub/System/DocumentGraphics/up.png
@@ -1035,7 +1025,18 @@ pub/System/FamFamFamFlagIcons/za.png
 pub/System/FamFamFamFlagIcons/zm.png
 pub/System/FamFamFamFlagIcons/zw.png
 pub/System/FamFamFamFoswikiExtras/bug.png
+pub/System/FamFamFamFoswikiExtras/bullet_aqua.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_aqua.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_black.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_blue.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_green.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_orange.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_purple.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_red.png
+pub/System/FamFamFamFoswikiExtras/bullet_box_yellow.png
+pub/System/FamFamFamFoswikiExtras/bullet_find.png
 pub/System/FamFamFamFoswikiExtras/closed.png
+pub/System/FamFamFamFoswikiExtras/control_play_backwards.png
 pub/System/FamFamFamFoswikiExtras/done.png
 pub/System/FamFamFamFoswikiExtras/dot_ld.png
 pub/System/FamFamFamFoswikiExtras/dot_lrd.png
@@ -1052,16 +1053,6 @@ pub/System/FamFamFamFoswikiExtras/flag_gray.png
 pub/System/FamFamFamFoswikiExtras/flag_gray_small.png
 pub/System/FamFamFamFoswikiExtras/foswiki.png
 pub/System/FamFamFamFoswikiExtras/graduation.png
-pub/System/FamFamFamFoswikiExtras/led-aqua.png
-pub/System/FamFamFamFoswikiExtras/led-box-aqua.png
-pub/System/FamFamFamFoswikiExtras/led-box-black.png
-pub/System/FamFamFamFoswikiExtras/led-box-blue.png
-pub/System/FamFamFamFoswikiExtras/led-box-green.png
-pub/System/FamFamFamFoswikiExtras/led-box-orange.png
-pub/System/FamFamFamFoswikiExtras/led-box-purple.png
-pub/System/FamFamFamFoswikiExtras/led-box-red.png
-pub/System/FamFamFamFoswikiExtras/led-box-yellow.png
-pub/System/FamFamFamFoswikiExtras/led-find.png
 pub/System/FamFamFamFoswikiExtras/line_ld.png
 pub/System/FamFamFamFoswikiExtras/line_lrd.png
 pub/System/FamFamFamFoswikiExtras/line_lr.png
@@ -1089,17 +1080,17 @@ pub/System/FamFamFamFoswikiExtras/target_red.png
 pub/System/FamFamFamFoswikiExtras/todo.png
 pub/System/FamFamFamFoswikiExtras/tooth.png
 pub/System/FamFamFamFoswikiExtras/updated.png
-pub/System/FamFamFamFoswikiExtras/uweb-bo12.png
-pub/System/FamFamFamFoswikiExtras/uweb-bo.png
-pub/System/FamFamFamFoswikiExtras/uweb-g12.png
-pub/System/FamFamFamFoswikiExtras/uweb-go.png
-pub/System/FamFamFamFoswikiExtras/uweb-g.png
-pub/System/FamFamFamFoswikiExtras/uweb-gs.png
-pub/System/FamFamFamFoswikiExtras/uweb-m12.png
-pub/System/FamFamFamFoswikiExtras/uweb-o12.png
-pub/System/FamFamFamFoswikiExtras/uweb-oo.png
-pub/System/FamFamFamFoswikiExtras/uweb-o.png
-pub/System/FamFamFamFoswikiExtras/uweb-os.png
+pub/System/FamFamFamFoswikiExtras/uweb_bo12.png
+pub/System/FamFamFamFoswikiExtras/uweb_bo.png
+pub/System/FamFamFamFoswikiExtras/uweb_g12.png
+pub/System/FamFamFamFoswikiExtras/uweb_go.png
+pub/System/FamFamFamFoswikiExtras/uweb_g.png
+pub/System/FamFamFamFoswikiExtras/uweb_gs.png
+pub/System/FamFamFamFoswikiExtras/uweb_m12.png
+pub/System/FamFamFamFoswikiExtras/uweb_o12.png
+pub/System/FamFamFamFoswikiExtras/uweb_oo.png
+pub/System/FamFamFamFoswikiExtras/uweb_o.png
+pub/System/FamFamFamFoswikiExtras/uweb_os.png
 pub/System/FamFamFamFoswikiExtras/XML_icon.png
 pub/System/FamFamFamMiniIcons/action_back.gif
 pub/System/FamFamFamMiniIcons/action_forward.gif
@@ -1335,6 +1326,29 @@ pub/System/FamFamFamSilkCompanion1Icons/bug_fix.png
 pub/System/FamFamFamSilkCompanion1Icons/bug_magnify.png
 pub/System/FamFamFamSilkCompanion1Icons/build_cancel.png
 pub/System/FamFamFamSilkCompanion1Icons/build.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_connect.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_cross.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_database.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_database_yellow.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_earth.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_edit.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_eject.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_get.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_home.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_left.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_lightning.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_magnify.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_minus.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_page_white.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_plus.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_right.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_shape.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_sparkle.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_start.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_stop_alt.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_stop.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_tick.png
+pub/System/FamFamFamSilkCompanion1Icons/bullet_wrench_red.png
 pub/System/FamFamFamSilkCompanion1Icons/button.png
 pub/System/FamFamFamSilkCompanion1Icons/cake_out.png
 pub/System/FamFamFamSilkCompanion1Icons/cake_sliced.png
@@ -1496,29 +1510,6 @@ pub/System/FamFamFamSilkCompanion1Icons/laptop_stop.png
 pub/System/FamFamFamSilkCompanion1Icons/laptop_wrench.png
 pub/System/FamFamFamSilkCompanion1Icons/layout_key.png
 pub/System/FamFamFamSilkCompanion1Icons/layout_lightning.png
-pub/System/FamFamFamSilkCompanion1Icons/led-connect.png
-pub/System/FamFamFamSilkCompanion1Icons/led-cross.png
-pub/System/FamFamFamSilkCompanion1Icons/led-database.png
-pub/System/FamFamFamSilkCompanion1Icons/led-database_yellow.png
-pub/System/FamFamFamSilkCompanion1Icons/led-earth.png
-pub/System/FamFamFamSilkCompanion1Icons/led-edit.png
-pub/System/FamFamFamSilkCompanion1Icons/led-eject.png
-pub/System/FamFamFamSilkCompanion1Icons/led-get.png
-pub/System/FamFamFamSilkCompanion1Icons/led-home.png
-pub/System/FamFamFamSilkCompanion1Icons/led-left.png
-pub/System/FamFamFamSilkCompanion1Icons/led-lightning.png
-pub/System/FamFamFamSilkCompanion1Icons/led-magnify.png
-pub/System/FamFamFamSilkCompanion1Icons/led-minus.png
-pub/System/FamFamFamSilkCompanion1Icons/led-page_white.png
-pub/System/FamFamFamSilkCompanion1Icons/led-plus.png
-pub/System/FamFamFamSilkCompanion1Icons/led-right.png
-pub/System/FamFamFamSilkCompanion1Icons/led-shape.png
-pub/System/FamFamFamSilkCompanion1Icons/led-sparkle.png
-pub/System/FamFamFamSilkCompanion1Icons/led-start.png
-pub/System/FamFamFamSilkCompanion1Icons/led-stop_alt.png
-pub/System/FamFamFamSilkCompanion1Icons/led-stop.png
-pub/System/FamFamFamSilkCompanion1Icons/led-tick.png
-pub/System/FamFamFamSilkCompanion1Icons/led-wrench_red.png
 pub/System/FamFamFamSilkCompanion1Icons/lock_key.png
 pub/System/FamFamFamSilkCompanion1Icons/lock_start.png
 pub/System/FamFamFamSilkCompanion1Icons/lock_stop.png
@@ -1927,6 +1918,31 @@ pub/System/FamFamFamSilkIcons/building_go.png
 pub/System/FamFamFamSilkIcons/building_key.png
 pub/System/FamFamFamSilkIcons/building_link.png
 pub/System/FamFamFamSilkIcons/building.png
+pub/System/FamFamFamSilkIcons/bullet_add.png
+pub/System/FamFamFamSilkIcons/bullet_arrow_bottom.png
+pub/System/FamFamFamSilkIcons/bullet_arrow_down.png
+pub/System/FamFamFamSilkIcons/bullet_arrow_top.png
+pub/System/FamFamFamSilkIcons/bullet_arrow_up.png
+pub/System/FamFamFamSilkIcons/bullet_black.png
+pub/System/FamFamFamSilkIcons/bullet_blue.png
+pub/System/FamFamFamSilkIcons/bullet_delete.png
+pub/System/FamFamFamSilkIcons/bullet_disk.png
+pub/System/FamFamFamSilkIcons/bullet_error.png
+pub/System/FamFamFamSilkIcons/bullet_feed.png
+pub/System/FamFamFamSilkIcons/bullet_go.png
+pub/System/FamFamFamSilkIcons/bullet_green.png
+pub/System/FamFamFamSilkIcons/bullet_key.png
+pub/System/FamFamFamSilkIcons/bullet_orange.png
+pub/System/FamFamFamSilkIcons/bullet_picture.png
+pub/System/FamFamFamSilkIcons/bullet_pink.png
+pub/System/FamFamFamSilkIcons/bullet_purple.png
+pub/System/FamFamFamSilkIcons/bullet_red.png
+pub/System/FamFamFamSilkIcons/bullet_star.png
+pub/System/FamFamFamSilkIcons/bullet_toggle_minus.png
+pub/System/FamFamFamSilkIcons/bullet_toggle_plus.png
+pub/System/FamFamFamSilkIcons/bullet_white.png
+pub/System/FamFamFamSilkIcons/bullet_wrench.png
+pub/System/FamFamFamSilkIcons/bullet_yellow.png
 pub/System/FamFamFamSilkIcons/cake.png
 pub/System/FamFamFamSilkIcons/calculator_add.png
 pub/System/FamFamFamSilkIcons/calculator_delete.png
@@ -2288,31 +2304,6 @@ pub/System/FamFamFamSilkIcons/layout_header.png
 pub/System/FamFamFamSilkIcons/layout_link.png
 pub/System/FamFamFamSilkIcons/layout.png
 pub/System/FamFamFamSilkIcons/layout_sidebar.png
-pub/System/FamFamFamSilkIcons/led-add.png
-pub/System/FamFamFamSilkIcons/led-arrow_bottom.png
-pub/System/FamFamFamSilkIcons/led-arrow_down.png
-pub/System/FamFamFamSilkIcons/led-arrow_top.png
-pub/System/FamFamFamSilkIcons/led-arrow_up.png
-pub/System/FamFamFamSilkIcons/led-black.png
-pub/System/FamFamFamSilkIcons/led-blue.png
-pub/System/FamFamFamSilkIcons/led-delete.png
-pub/System/FamFamFamSilkIcons/led-disk.png
-pub/System/FamFamFamSilkIcons/led-error.png
-pub/System/FamFamFamSilkIcons/led-feed.png
-pub/System/FamFamFamSilkIcons/led-go.png
-pub/System/FamFamFamSilkIcons/led-green.png
-pub/System/FamFamFamSilkIcons/led-key.png
-pub/System/FamFamFamSilkIcons/led-orange.png
-pub/System/FamFamFamSilkIcons/led-picture.png
-pub/System/FamFamFamSilkIcons/led-pink.png
-pub/System/FamFamFamSilkIcons/led-purple.png
-pub/System/FamFamFamSilkIcons/led-red.png
-pub/System/FamFamFamSilkIcons/led-star.png
-pub/System/FamFamFamSilkIcons/led-toggle_minus.png
-pub/System/FamFamFamSilkIcons/led-toggle_plus.png
-pub/System/FamFamFamSilkIcons/led-white.png
-pub/System/FamFamFamSilkIcons/led-wrench.png
-pub/System/FamFamFamSilkIcons/led-yellow.png
 pub/System/FamFamFamSilkIcons/lightbulb_add.png
 pub/System/FamFamFamSilkIcons/lightbulb_delete.png
 pub/System/FamFamFamSilkIcons/lightbulb_off.png
@@ -2801,4 +2792,3 @@ pub/System/FamFamFamSilkIcons/xhtml_valid.png
 pub/System/FamFamFamSilkIcons/zoom_in.png
 pub/System/FamFamFamSilkIcons/zoom_out.png
 pub/System/FamFamFamSilkIcons/zoom.png
-
