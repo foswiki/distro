@@ -419,6 +419,7 @@ sub _makeAnchorTarget {
         { name => $this->_makeAnchorNameUnique( $topicObject, $goodAnchor ), },
         ''
     );
+    #print STDERR "INITIAL = $text ... GOODANCHOR = $goodAnchor ...  HTML = $html\n";
 
     if ( $Foswiki::cfg{RequireCompatibleAnchors} ) {
 
@@ -463,6 +464,14 @@ sub _makeAnchorName {
     #ASSERT($text !~ /[^\x00-\xFF]/) if DEBUG;
     $text =~ s/[^\x00-\xFF]//g;
     ASSERT( $text !~ /[^\x00-\xFF]/ ) if DEBUG;
+
+    # SMELL:  This corrects for anchors containing < and >
+    # which for some reason are encoded when building the anchor, but
+    # un-encoded when building the link.  
+    #
+    # Convert < and > back from entity
+    $text =~ s/&lt;/</g;
+    $text =~ s/&gt;/>/g;
 
     # remove HTML tags and entities
     $text =~ s/<\/?[a-zA-Z][^>]*>//gi;

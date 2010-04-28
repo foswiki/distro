@@ -214,6 +214,7 @@ sub test_TOC_makeAnchorName {
         ['TEST_33_WikiWord', 'TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
         ['TEST_WikiWord', 'TEST <nop>WikiWord', '<nop> Escaped WikiWord'],       # Escaped WikiWord
         ['TEST_WikiWord', 'TEST !WikiWord', '! Escaped WikiWord'],       # Escaped WikiWord
+        ['TEST_asdf', 'TEST <a href="A1"> asdf', 'valid tag'],                 
         ['TEST_60_62', 'TEST <>', 'Null tag'],                 # Less / greater than.
         ['TEST_62', 'TEST >', 'Greater-than'],                     # Greater-than
         ['TEST_60', 'TEST <', 'Less-than'],                     # Less-than
