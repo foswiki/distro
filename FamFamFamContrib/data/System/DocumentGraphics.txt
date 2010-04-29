@@ -318,7 +318,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | mobileme | %ICON{mobileme}% | mobileme |  =%<nop>ICON{mobileme}%= |
 | retweet | %ICON{retweet}% | retweet |  =%<nop>ICON{retweet}%= |
 | button-red | %ICON{button-red}% | button-red |  =%<nop>ICON{button-red}%= |
-| frinedster | %ICON{frinedster}% | frinedster |  =%<nop>ICON{frinedster}%= |
+| friendster | %ICON{friendster}% | friendster |  =%<nop>ICON{friendster}%= |
 | microsoft | %ICON{microsoft}% | microsoft |  =%<nop>ICON{microsoft}%= |
 | vimeo | %ICON{vimeo}% | vimeo |  =%<nop>ICON{vimeo}%= |
 | button-white | %ICON{button-white}% | button-white |  =%<nop>ICON{button-white}%= |

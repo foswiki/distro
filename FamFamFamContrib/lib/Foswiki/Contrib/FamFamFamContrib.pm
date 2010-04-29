@@ -18,6 +18,6 @@ use strict;
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
 $VERSION = '$Rev$';
-$RELEASE = '';
-$SHORTDESCRIPTION = 'Silk is a smooth, free icon set, containing over 2000 icons by Mark James http://www.famfamfam.com and Damien Guard http://damieng.com';
+$RELEASE = '1.1';
+$SHORTDESCRIPTION = 'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
 
