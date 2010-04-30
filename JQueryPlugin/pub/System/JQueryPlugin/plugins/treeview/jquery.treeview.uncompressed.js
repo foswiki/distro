@@ -70,17 +70,21 @@
 			}).add( $("a", this) ).hoverClass();
 			
 			if (!settings.prerendered) {
-				// handle closed ones first
-				this.filter(":has(>ul:hidden)")
-						.addClass(CLASSES.expandable)
-						.replaceClass(CLASSES.last, CLASSES.lastExpandable);
-						
-				// handle open ones
-				this.not(":has(>ul:hidden)")
-						.addClass(CLASSES.collapsable)
-						.replaceClass(CLASSES.last, CLASSES.lastCollapsable);
-						
-	            // create hitarea
+                                this.each(function() {
+                                  var branch = $(this);
+                                  branch.children("ul").each(function() {
+                                    if ($(this).css('display') == 'none') {
+                                      branch
+                                        .addClass(CLASSES.expandable)
+                                        .replaceClass(CLASSES.last, CLASSES.lastExpandable);
+                                    } else {
+                                      branch
+                                        .addClass(CLASSES.collapsable)
+                                        .replaceClass(CLASSES.last, CLASSES.lastCollapsable);
+                                    }
+                                  });
+                                });
+                                // create hitarea
 				this.prepend("<div class=\"" + CLASSES.hitarea + "\"/>").find("div." + CLASSES.hitarea).each(function() {
 					var classes = "";
 					$.each($(this).parent().attr("class").split(" "), function() {
