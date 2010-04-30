@@ -21,8 +21,15 @@ sub changes {
     Foswiki::UI::checkWebExists( $session, $webObject->web, 'find changes in' );
 
     my $text = $session->templates->readTemplate('changes');
-
     my ( $page, $eachChange, $after ) = split( /%REPEAT%/, $text );
+
+	if (!defined($after)) {
+		#the new, non %REPEAT tmpl definition from foswiki 1.1
+		$page = $session->templates->expandTemplate('CHANGE:header');
+		$eachChange = $session->templates->expandTemplate('CHANGE:format');
+		$after = $session->templates->expandTemplate('CHANGE:footer');
+	}
+
 
     my $showMinor = $query->param('minor');
     unless ($showMinor) {
