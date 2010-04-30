@@ -158,12 +158,12 @@ sub assert_equals {
 
 sub assert_not_null {
     my ( $this, $wot, $mess ) = @_;
-    $this->assert( defined($wot), $mess );
+    $this->assert( defined($wot), $mess || "Expected not null value" );
 }
 
 sub assert_null {
     my ( $this, $wot, $mess ) = @_;
-    $this->assert( !defined($wot), $mess );
+    $this->assert( !defined($wot), $mess || "Expected null value, got '$wot'" );
 }
 
 sub assert_str_equals {
