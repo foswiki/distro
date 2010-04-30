@@ -1552,6 +1552,30 @@ sub verify_with_header_no_footer_with_separator_no_results {
 EXPECT
 }
 
+
+sub verify_Search_expression {
+
+    #make sure perl-y characters in SEARCH expressions are escaped well enough
+    my $this = shift;
+
+    my $actual = $this->{twiki}->handleCommonTags(
+        '%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%',
+                $this->{test_web}, $this->{test_topic} );
+    my $expected = <<'HERE';
+<span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks~'Bl&gt;ah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+HERE
+    
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual = $this->{twiki}->handleCommonTags(
+        '%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%',
+        $this->{test_web}, $this->{test_topic} );
+    $expected = <<'HERE';
+<span class="patternSearched">Searched: <b><noautolink>TestForm.Ecks = 'B/lah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+HERE
+    $this->assert_str_equals( $expected, $actual );
+}
+
 #####################
 #and again for multiple webs. :(
 #TODO: rewrite using named params for more flexibility
@@ -1808,7 +1832,6 @@ sub _cut_the_crap {
     return $result;
 }
 
-#looks like zeroresults is non-functional.
 sub verify_zeroresults {
       my $this = shift;
     my $result;
@@ -1888,5 +1911,41 @@ Searched: <noautolink>NOBLEEGLE</noautolink>
 Number of topics: 0
 RESULT
   }
+
+sub verify_simple_format {
+    my $this = shift;
+
+    my $actual = $this->{twiki}->handleCommonTags(
+        '%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="   * !$web.$topic"
+    nosearch="on"
+}%
+',
+                $this->{test_web}, $this->{test_topic} );
+    my $expected = <<'HERE';
+   * !TestCases.WebHome
+   * !TestCases.WebPreferences
+   * !TestCases.WebStatistics
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+   * !System.WebHome
+   * !System.WebPreferences
+   * !System.WebStatistics
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+   * !Main.WebHome
+   * !Main.WebPreferences
+   * !Main.WebStatistics
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+   * !Sandbox.WebHome
+   * !Sandbox.WebPreferences
+   * !Sandbox.WebStatistics
+<div class="patternSearchResultCount">Number of topics: <span class="foswikiSearchResultCount">3</span></div><!--/patternSearchResultCount--><p />
+HERE
+    
+    $this->assert_str_equals( $expected, $actual );
+}
 
 1;
