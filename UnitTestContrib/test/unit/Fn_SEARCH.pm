@@ -1881,23 +1881,19 @@ sub verify_Search_expression {
     #make sure perl-y characters in SEARCH expressions are escaped well enough
     my $this = shift;
 
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
-
-    my $actual = $webObject->expandMacros(
+    my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%' );
     my $expected = <<'HERE';
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks~'Bl&gt;ah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 HERE
-    $expected =~ s/^(.*)\s*$/$1/;
     
     $this->assert_str_equals( $expected, $actual );
 
-    $actual = $webObject->expandMacros(
+    $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%' );
     $expected = <<'HERE';
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks = 'B/lah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 HERE
-    $expected =~ s/^(.*)\s*$/$1/;
     $this->assert_str_equals( $expected, $actual );
 }
 
@@ -3602,5 +3598,41 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 
 }
+
+sub verify_simple_format {
+    my $this = shift;
+
+    my $actual = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="   * !$web.$topic"
+    nosearch="on"
+}%
+');
+    my $expected = <<'HERE';
+   * !TestCases.WebHome
+   * !TestCases.WebPreferences
+   * !TestCases.WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+   * !System.WebHome
+   * !System.WebPreferences
+   * !System.WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+   * !Main.WebHome
+   * !Main.WebPreferences
+   * !Main.WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+   * !Sandbox.WebHome
+   * !Sandbox.WebPreferences
+   * !Sandbox.WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+HERE
+    
+    $this->assert_str_equals( $expected, $actual );
+}
+
 
 1;
