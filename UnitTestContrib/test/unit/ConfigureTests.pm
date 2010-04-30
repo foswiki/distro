@@ -726,23 +726,20 @@ sub test_Util_listDir {
     my $stdout = '';
     my $stderr = '';
 
-    eval 'use Capture::Tiny';
+    eval 'use Capture::Tiny qw/capture/';
     if ($@) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
         $this->expect_failure();
         $this->annotate(
             "CANNOT RUN listDir test for illegal file names:  $mess");
+        $this->assert(0);
     }
-    else {
-        eval 'use Capture::Tiny qw/capture/;
-            ($stdout, $stderr) = capture {
-                 @dir= Foswiki::Configure::Util::listDir("$tempdir") ;
-            };
-            $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
-            $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
-            ';
-    }
+    ($stdout, $stderr) = capture {
+         @dir= Foswiki::Configure::Util::listDir("$tempdir") ;
+    };
+    $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
+    $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
 
     rmtree($tempdir);
 
@@ -1357,13 +1354,12 @@ sub test_Util_createArchive {
         $this->expect_failure();
         $this->annotate(
             "CANNOT RUN test for zip archive:  $mess");
+        $this->assert(0);
     }
-    else {
-        ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
-        $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
-    }
+    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
+    $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
 
-    rmtree("$tempdir/$extbkup");    # Clean up old files if left behind
+    unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
 
 # 
