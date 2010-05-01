@@ -79,7 +79,7 @@ sub save {
 
     # Serialize some key info from the request
     #  Note: action is not saved - it will be set properly by the target script.
-    foreach my $field qw(method path_info) {
+    foreach my $field qw(method path_info action) {
         print $F $field,'=', ($req->$field() || ''), "\n";
         print STDERR "Saving $field =" . $req->$field() || '' . "\n" if (TRACE_CACHE); 
     }
