@@ -46,6 +46,39 @@ This is helpful when you want to test a plugin in context with all the other cor
 One test file, =SemiAutomaticTestCaseTests.pm=, reads the semi-automatic tests from the !TestCases web stored in subversion. 
 It will not run if it can't find the !TestCases web, or if the Foswiki:Extensions.TestFixturePlugin is not installed.
 
+---++ Browser-in-the-loop tests
+
+Tests derived from =FoswikiSeleniumTestCase= use [[http://seleniumhq.org/projects/remote-control/][Selenium Remote Control]] to exercise Foswiki via one or more browsers.
+These tests only execute if one or more browsers are [[%SCRIPTURLPATH{"configure"}%#UnitTestContrib$Extensions][configured]] in $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers},
+which tells the perl Selenium client (Test::WWW::Selenium) where to find the !SeleniumRC server for each browser and how the server should launch the browser.
+The default value is blank (i.e. no browsers), so these tests are skipped by default.
+If any browsers are specified, then each test derived from =FoswikiSeleniumTestCase= is executed via each browser.
+
+If you configure any browsers in $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}, then you are responsible for starting !SeleniumRC server on the
+corresponding machines (the servers will launch the browsers automatically, and close them automatically when the tests are finished).
+The browser-in-the-loop tests will fail if they cannot connect to the servers.
+
+Each browser is specified by means of a hash which supports the fields listed below. 
+See [[http://search.cpan.org/perldoc?WWW%3A%3ASelenium#METHODS][the WWW::Selenium documentation]] for more information.
+| *Field name*  | *Description* | *Default value* |
+| =host=        | Name or IP address where the selenium server is running | localhost |
+| =port=        | Port number   | 4444 |
+| =browser=     | Command for launching the browser, which would typically be "*firefox", "*iexplore" or the path to the browser. See the WWW::Selenium documentation for more info. | *firefox |
+| =browser_url= | The starting URL, including just the domain name - the domain must be the same as the wiki to be tested | $Foswiki::cfg{DefaultUrlHost} |
+
+Here is an example configuration with three browsers: =FF= is Firefox running on the same machine that runs the unit tests, 
+=IE= is Internet Explorer running on another machine and =FFwindows= is Firefox running on the same machine as Internet Explorer
+(they use the same !SeleniumRC server).
+<verbatim>
+{
+    'FF' => { },
+    'IE' => { 'host' => 10.0.0.3, 'browser' => '*iexplore' },
+    'FFwindows' => { 'host' => 10.0.0.3, 'browser' => '*firefox' },
+}
+</verbatim>
+
+Use the =SeleniumConfigTests= to verify your configuration.
+
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%

@@ -1,5 +1,6 @@
 bin/test 0755
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
+lib/Foswiki/Contrib/UnitTestContrib/Config.spec 0644
 lib/Foswiki/Contrib/UnitTestContrib/MultiDottedVersion.pm 0644
 lib/Foswiki/UI/Test.pm 0644
 lib/Unit/Eavesdrop.pm 0644
@@ -72,11 +73,13 @@ test/unit/RequestCacheTests.pm 0644
 test/unit/ResponseTests.pm 0644
 test/unit/RobustnessTests.pm 0644
 test/unit/SaveScriptTests.pm 0644
+test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
 test/unit/StoreSmokeTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TOCTests.pm 0644
 test/unit/FoswikiFnTestCase.pm 0644
+test/unit/FoswikiSeleniumTestCase.pm 0644
 test/unit/FoswikiSuite.pm 0644
 test/unit/FoswikiTestCase.pm 0644
 test/unit/TemplatesTests.pm 0644
