@@ -120,6 +120,7 @@ sub login {
     my $loginName = $query->param('username');
     my $loginPass = $query->param('password');
     my $remember  = $query->param('remember');
+    print STDERR "ENTERING login \n";
 
     # Eat these so there's no risk of accidental passthrough
     $query->delete( 'origurl', 'username', 'password' );
@@ -166,9 +167,12 @@ sub login {
             # that we're using BaseMapper..
             $query->delete('sudo');
 
+            my $nocache = 0;   # Set to true if login is returning an original url 
+
             $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
+                #print STDERR "SET origurl to $origurl\n";
             }
             else {
 
@@ -179,13 +183,16 @@ sub login {
                     foreach my $pair ( split( /[&;]/, $1 ) ) {
                         if ( $pair =~ /(.*?)=(.*)/ ) {
                             $query->param( $1, TAINT($2) );
+                            #print STDERR "UNPACKING - set $1 to $2 \n";
+                            $nocache = 1;
                         }
                     }
                 }
             }
 
             # Redirect with passthrough
-            $session->redirect( $origurl, 1 );    # with passthrough
+            print STDERR "Issuing REDIRECT from login \n";
+            $session->redirect( $origurl, 1, $nocache );    # with passthrough
             return;
         }
         else {
