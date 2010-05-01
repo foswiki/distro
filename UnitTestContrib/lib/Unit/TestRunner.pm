@@ -9,7 +9,11 @@ use Error qw(:try);
 
 sub new {
     my $class = shift;
-    return bless( {}, $class );
+    return bless( {
+        unexpected_passes => [],
+        expected_failures => [],
+        failures          => [],
+    }, $class );
 }
 
 sub start {
@@ -102,7 +106,7 @@ sub start {
                 $action = runOne($tester, $suite, $testToRun);
             }
             # untaint action for the case where the test is run in another process
-            ($action) = $action =~ m/^(.*)$/ms; 
+            ($action) = $action =~ m/^(.*)$/ms;
 
             eval $action;
             die $@ if $@;
@@ -110,34 +114,27 @@ sub start {
         }
     }
 
-    if ( $this->{unexpected_failures} || $this->{unexpected_passes} ) {
-        $this->{unexpected_failures} ||= 0;
-        $this->{unexpected_passes} ||= 0;
-        if ($this->{unexpected_failures}) {
-            print $this->{unexpected_failures} . " failure".
-                ($this->{unexpected_failures}>1?'s':'').
-                "\n";
-        }
-        if ($this->{unexpected_passes}) {
-            print $this->{unexpected_passes} . " unexpected pass".
-                ($this->{unexpected_passes}>1?'es':'').
-                "\n";
-        }
-        if (($passes + $this->{unexpected_failures}) > 1) {
-            #don't print the failure a second time if there is only one test run - its really annoying.
-            print join( "\n---------------------------\n", @{ $this->{failures} } ),
-            "\n";
-        }
-        print "$passes of ", $passes + $this->{unexpected_failures},
-          " test cases passed\n";
-        return scalar( @{ $this->{failures} } );
+    my $total = $passes;
+    my $failed;
+    if ( $failed = scalar @{ $this->{unexpected_passes} } ) {
+        print "$failed unexpected pass".  ($failed>1?'es':'').  ":\n";
+        print join( "\n", @{ $this->{unexpected_passes} } );
+        $total += $failed;
     }
-    else {
-        print $this->{expected_failures} . " expected failures\n"
-          if $this->{expected_failures};
-        print "All tests passed ($passes)\n";
-        return 0;
+    if ( $failed = scalar @{ $this->{expected_failures} } ) {
+        print "$failed expected failure".  ($failed>1?'s':'').  ":\n";
+        print join( "\n", @{ $this->{expected_failures} } );
+        $total += $failed;
     }
+    if( $failed = scalar @{ $this->{failures} } ) {
+        print "\n$failed failure".  ($failed>1?'s':'').  ":\n";
+        print join( "\n---------------------------\n", @{ $this->{failures} } ), "\n";
+        $total += $failed;
+        print "$passes of $total test cases passed\n";
+        return $failed;
+    }
+    print "All tests passed ($passes" .($passes == $total ? '' : "/$total").")\n";
+    return 0;
 }
 
 sub runOneInNewProcess
@@ -172,7 +169,7 @@ sub runOneInNewProcess
         print "*** Could not spawn new process for $suite: $error\n";
         return 'push( @{ $this->{failures} }, "'
                      . $suite
-                     . '\n' 
+                     . '\n'
                      . quotemeta( $error )
                      . '" );';
     }
@@ -184,7 +181,7 @@ sub runOneInNewProcess
             unlink $tempfilename;
             return 'push( @{ $this->{failures} }, "Process for '
                          . $suite
-                         . ' returned ' 
+                         . ' returned '
                          . $returnCode
                          . '" );';
         }
@@ -291,26 +288,21 @@ sub runOne
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
-                $action .= '$this->{unexpected_passes}++;'
-                         . 'push( @{ $this->{failures} }, "'
-                         . quotemeta( $test ) 
-                         . '\\nUnexpected pass" );'; 
+                $action .= 'push( @{ $this->{unexpected_passes} }, "'
+                         . quotemeta( $test );
             }
         }
         catch Error with {
             my $e = shift;
             print "*** ", $e->stringify(), "\n";
             if ( $tester->{expect_failure} ) {
-                $action .= '$this->{expected_failures}++;';
+                $action .= 'push( @{ $this->{expected_failures} }, "';
             }
             else {
-                $action .= '$this->{unexpected_failures}++;';
+                $action .= 'push( @{ $this->{failures} }, "';
             }
-            $action .= 'push( @{ $this->{failures} }, "'
-                     . quotemeta( $test ) 
-                     . '\\n' 
-                     . quotemeta( $e->stringify() )
-                     . '" );';
+            $action .= quotemeta( $test ) . '\\n'
+                     . quotemeta( $e->stringify() ) . '" );';
         };
         $tester->tear_down();
     }
