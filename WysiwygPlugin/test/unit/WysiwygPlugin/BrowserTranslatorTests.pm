@@ -70,37 +70,35 @@ my $waitForServerMessage = "Please wait... retrieving page from server.";
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
+    $self->{BrowserTranslator_WebInit} = 0;
     $self->{BrowserTranslator_Init} = {};
 
     return $self;
 }
 
-sub set_up {
-    my $this = shift();
-
-    $this->SUPER::set_up();
-
-}
-
-sub tear_down {
-    my $this = shift;
-
-    $this->SUPER::tear_down();
-}
-
 sub _init {
     my $this = shift;
-    return if $this->{BrowserTranslator_Init}->{$this->{browser}};
 
+    if (not $this->{BrowserTranslator_WebInit}) {
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, $this->{test_web},
+            $Foswiki::cfg{WebPrefsTopicName}, "   * Set SKIN=pattern\n");
+        $topicObject->save();
+        $this->{BrowserTranslator_WebInit} = 1;
+    }
+
+    if (not $this->{BrowserTranslator_Init}->{$this->{browser}}) {
     $this->login();
     $this->_open_editor();
 
     $this->{BrowserTranslator_Init}->{$this->{browser}} = 1;
 }
+}
 
 sub DESTROY
 {
     my $this = shift;
+    #my $pressEnterToContinue = <STDIN>;
     for my $browser (keys %{ $this->{BrowserTranslator_Init} }) {
         $this->{browser} = $browser;
         $this->{selenium} = $this->{seleniumBrowsers}->{$browser};
@@ -127,10 +125,11 @@ sub compareNotWysiwygEditable {
 sub compareRoundTrip {
     my $this = shift;
     my $args = shift;
+
     $this->_init();
 
     $this->_wikitext();
-    $this->{selenium}->type($editTextareaLocator, $args->{tml});
+    $this->_type($editTextareaLocator, $args->{tml});
     $this->_wysiwyg();
     $this->_wikitext();
     $this->assert_tml_equals( $args->{finaltml} || $args->{tml},
@@ -162,6 +161,41 @@ sub _select_editor_frame {
 sub _select_top_frame {
     my $this = shift;
     $this->{selenium}->select_frame_ok("relative=top");
+}
+
+sub _type {
+    my $this = shift;
+    my $locator = shift;
+    my $text = shift;
+
+    # If you pass too much text to $this->{selenium}->type()
+    # then the test fails with a 414 error from the selenium server.
+    # That can happen quite easily when pasting topic text into
+    # the edit form's textarea
+
+    $locator =~ s#"#\\"#g;
+
+    # The algorithm here is based on this posting by balrog:
+    # http://groups.google.com/group/selenium-users/msg/669560194d07734e
+    my $maxChars = 1000;
+    my $textLength = length $text;
+    if ($textLength > $maxChars) {
+        my $start = 0;
+        while ($start < $textLength) {
+            my $chunk = substr($text, $start, $maxChars);
+            $chunk =~ s#\\#\\\\#g;
+            $chunk =~ s#\n#\\n#g;
+            $chunk =~ s#"#\\"#g;
+            my $assignOperator = ($start == 0) ? '=' : '+=';
+            $start += $maxChars;
+            my $javascript = qq/selenium.browserbot.findElement("$locator").value $assignOperator "$chunk";/;
+            $this->{selenium}->get_eval($javascript);
+            #sleep 2;
+        }
+    }
+    else {
+       $this->{selenium}->type($locator, $text);
+   }
 }
 
 sub _wikitext {
@@ -210,3 +244,4 @@ sub _wysiwyg {
 BrowserTranslatorTests->gen_compare_tests('verify', $data);
 
 1;
+
