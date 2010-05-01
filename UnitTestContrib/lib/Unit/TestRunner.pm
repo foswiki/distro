@@ -4,29 +4,34 @@ package Unit::TestRunner;
 use strict;
 use Devel::Symdump;
 use Error qw(:try);
+
 #use Devel::Leak::Object qw{ GLOBAL_bless };
 #$Devel::Leak::Object::TRACKSOURCELINES = 1;
 
 sub new {
     my $class = shift;
-    return bless( {
-        unexpected_passes => [],
-        expected_failures => [],
-        failures          => [],
-    }, $class );
+    return bless(
+        {
+            unexpected_passes => [],
+            expected_failures => [],
+            failures          => [],
+        },
+        $class
+    );
 }
 
 sub start {
     my $this  = shift;
     my @files = @_;
-    @{ $this->{failures} } = ();
+    @{ $this->{failures} }   = ();
     @{ $this->{initialINC} } = @INC;
     my $passes = 0;
 
     # First use all the tests to get them compiled
     while ( scalar(@files) ) {
         my $testSuiteModule = shift @files;
-        $testSuiteModule =~ s/\/$//;   # Trim final slash, for completion lovers like Sven
+        $testSuiteModule =~
+          s/\/$//;    # Trim final slash, for completion lovers like Sven
         my $testToRun;
         if ( $testSuiteModule =~ s/::(\w+)$// ) {
             $testToRun = $1;
@@ -100,12 +105,15 @@ sub start {
             my $completed;
             my $action;
             if ( $tester->run_in_new_process() ) {
-                $action = $this->runOneInNewProcess($testSuiteModule, $suite, $testToRun);
+                $action =
+                  $this->runOneInNewProcess( $testSuiteModule, $suite,
+                    $testToRun );
             }
             else {
-                $action = runOne($tester, $suite, $testToRun);
+                $action = runOne( $tester, $suite, $testToRun );
             }
-            # untaint action for the case where the test is run in another process
+
+          # untaint action for the case where the test is run in another process
             ($action) = $action =~ m/^(.*)$/ms;
 
             eval $action;
@@ -117,61 +125,60 @@ sub start {
     my $total = $passes;
     my $failed;
     if ( $failed = scalar @{ $this->{unexpected_passes} } ) {
-        print "$failed unexpected pass".  ($failed>1?'es':'').  ":\n";
+        print "$failed unexpected pass" . ( $failed > 1 ? 'es' : '' ) . ":\n";
         print join( "\n", @{ $this->{unexpected_passes} } );
         $total += $failed;
     }
     if ( $failed = scalar @{ $this->{expected_failures} } ) {
-        print "$failed expected failure".  ($failed>1?'s':'').  ":\n";
+        print "$failed expected failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n", @{ $this->{expected_failures} } );
         $total += $failed;
     }
-    if( $failed = scalar @{ $this->{failures} } ) {
-        print "\n$failed failure".  ($failed>1?'s':'').  ":\n";
-        print join( "\n---------------------------\n", @{ $this->{failures} } ), "\n";
+    if ( $failed = scalar @{ $this->{failures} } ) {
+        print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
+        print join( "\n---------------------------\n", @{ $this->{failures} } ),
+          "\n";
         $total += $failed;
         print "$passes of $total test cases passed\n";
         return $failed;
     }
-    print "All tests passed ($passes" .($passes == $total ? '' : "/$total").")\n";
+    print "All tests passed ($passes"
+      . ( $passes == $total ? '' : "/$total" ) . ")\n";
     return 0;
 }
 
-sub runOneInNewProcess
-{
-    my $this = shift;
+sub runOneInNewProcess {
+    my $this            = shift;
     my $testSuiteModule = shift;
-    my $suite = shift;
-    my $testToRun = shift;
+    my $suite           = shift;
+    my $testToRun       = shift;
     $testToRun ||= 'undef';
 
     my $tempfilename = 'worker_output.' . $$ . '.' . $suite;
 
     # Assume all new paths were either unshifted or pushed onto @INC
-    my @pushedOntoINC = @INC;
+    my @pushedOntoINC    = @INC;
     my @unshiftedOntoINC = ();
-    while ($this->{initialINC}->[0] ne $pushedOntoINC[0])
-    {
+    while ( $this->{initialINC}->[0] ne $pushedOntoINC[0] ) {
         push @unshiftedOntoINC, shift @pushedOntoINC;
     }
-    for my $oneINC (@{ $this->{initialINC} })
-    {
+    for my $oneINC ( @{ $this->{initialINC} } ) {
         shift @pushedOntoINC if $pushedOntoINC[0] eq $oneINC;
     }
 
-    my $paths = join(' ', map {'-I ' . $_} @unshiftedOntoINC, @pushedOntoINC);
+    my $paths =
+      join( ' ', map { '-I ' . $_ } @unshiftedOntoINC, @pushedOntoINC );
     my $command = "perl -w $paths $0 -worker $suite $testToRun $tempfilename";
     print "Running: $command\n";
     system($command);
-    if ($? == -1) {
+    if ( $? == -1 ) {
         my $error = $!;
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
-        return 'push( @{ $this->{failures} }, "'
-                     . $suite
-                     . '\n'
-                     . quotemeta( $error )
-                     . '" );';
+        return
+            'push( @{ $this->{failures} }, "'
+          . $suite . '\n'
+          . quotemeta($error) . '" );';
     }
     else {
         my $returnCode = $? >> 8;
@@ -179,14 +186,16 @@ sub runOneInNewProcess
             print "*** Error trying to run $suite\n";
             die;
             unlink $tempfilename;
-            return 'push( @{ $this->{failures} }, "Process for '
-                         . $suite
-                         . ' returned '
-                         . $returnCode
-                         . '" );';
+            return
+                'push( @{ $this->{failures} }, "Process for '
+              . $suite
+              . ' returned '
+              . $returnCode . '" );';
         }
         else {
-            open my $testoutputfile, "<", $tempfilename or die "Cannot open '$tempfilename' to read output from $suite: $!";
+            open my $testoutputfile, "<", $tempfilename
+              or die
+              "Cannot open '$tempfilename' to read output from $suite: $!";
             my $action = '';
             while (<$testoutputfile>) {
                 $action .= $_;
@@ -198,10 +207,9 @@ sub runOneInNewProcess
     }
 }
 
-sub worker
-{
-    my ($this, $testSuiteModule, $testToRun, $tempfilename) = @_;
-    if ($testToRun eq 'undef') {
+sub worker {
+    my ( $this, $testSuiteModule, $testToRun, $tempfilename ) = @_;
+    if ( $testToRun eq 'undef' ) {
         $testToRun = undef;
     }
 
@@ -213,25 +221,28 @@ sub worker
 
     my $log = "stdout.$$.log";
     require Unit::Eavesdrop;
-    open(my $logfh, ">", $log) || die $!;
+    open( my $logfh, ">", $log ) || die $!;
     print STDERR "Logging to $log\n";
     my $stdout = new Unit::Eavesdrop('STDOUT');
     $stdout->teeTo($logfh);
+
     # Don't need this, all the required info goes to STDOUT. STDERR is
     # really just treated as a black hole (except when debugging)
-#    my $stderr = new Unit::Eavesdrop('STDERR');
-#    $stderr->teeTo($logfh);
+    #    my $stderr = new Unit::Eavesdrop('STDERR');
+    #    $stderr->teeTo($logfh);
 
-    my $action = runOne($tester, $suite, $testToRun);
+    my $action = runOne( $tester, $suite, $testToRun );
 
     {
         local $SIG{__WARN__} = sub { die $_[0]; };
         eval { close $logfh; };
         if ($@) {
-            if($@ =~ /Bad file descriptor/ and $suite eq 'EngineTests') {
+            if ( $@ =~ /Bad file descriptor/ and $suite eq 'EngineTests' ) {
+
                 # This is expected - ignore it
             }
             else {
+
                 # propagate the error
                 die $@;
             }
@@ -240,30 +251,32 @@ sub worker
     undef $logfh;
     $stdout->finish();
     undef $stdout;
-#    $stderr->finish();
-#    undef $stderr;
-    open($logfh, "<", $log) or die $!;
-    local $/; # slurp in whole file
+
+    #    $stderr->finish();
+    #    undef $stderr;
+    open( $logfh, "<", $log ) or die $!;
+    local $/;    # slurp in whole file
     my $logged_stdout = <$logfh>;
     close $logfh or die $!;
-    unlink $log or die "Could not unlink $log: $!";
+    unlink $log  or die "Could not unlink $log: $!";
+
     #escape characters so that it may be printed
     $logged_stdout =~ s{\\}{\\\\}g;
     $logged_stdout =~ s{'}{\\'}g;
     $action .= "print '" . $logged_stdout . "';";
 
-    open my $outputfile, ">", $tempfilename or die "Cannot open output file '$tempfilename': $!";
-    print $outputfile $action."\n";
+    open my $outputfile, ">", $tempfilename
+      or die "Cannot open output file '$tempfilename': $!";
+    print $outputfile $action . "\n";
     close $outputfile or die "Error closing output file '$tempfilename': $!";
     exit(0);
 }
 
-sub runOne
-{
-    my $tester = shift;
-    my $suite = shift;
+sub runOne {
+    my $tester    = shift;
+    my $suite     = shift;
     my $testToRun = shift;
-    my $action = '$completed = 1;';
+    my $action    = '$completed = 1;';
 
     # Get a list of the test methods in the class
     my @tests = $tester->list_tests($suite);
@@ -279,6 +292,7 @@ sub runOne
         return $action;
     }
     foreach my $test (@tests) {
+
         #Devel::Leak::Object::checkpoint();
         print "\t$test\n";
         $action .= "\n# $test\n    ";
@@ -288,8 +302,8 @@ sub runOne
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
-                $action .= 'push( @{ $this->{unexpected_passes} }, "'
-                         . quotemeta( $test );
+                $action .=
+                  'push( @{ $this->{unexpected_passes} }, "' . quotemeta($test);
             }
         }
         catch Error with {
@@ -301,8 +315,8 @@ sub runOne
             else {
                 $action .= 'push( @{ $this->{failures} }, "';
             }
-            $action .= quotemeta( $test ) . '\\n'
-                     . quotemeta( $e->stringify() ) . '" );';
+            $action .=
+              quotemeta($test) . '\\n' . quotemeta( $e->stringify() ) . '" );';
         };
         $tester->tear_down();
     }
