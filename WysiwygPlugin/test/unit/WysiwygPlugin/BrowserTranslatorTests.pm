@@ -7,6 +7,7 @@ use TranslatorBase;
 our @ISA = qw( FoswikiSeleniumTestCase TranslatorBase );
 
 use Foswiki::Func;
+use Foswiki::Plugins::WysiwygPlugin::Handlers;
 
 # The following big table contains all the testcases. These are
 # used to add a bunch of functions to the symbol table of this
@@ -27,10 +28,10 @@ use Foswiki::Func;
 # we are testing deprecated syntax.
 my $data = [
     {
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => $TranslatorBase::ROUNDTRIP | $TranslatorBase::HTML2TML | $TranslatorBase::TML2HTML,
         name => 'linkAtStart',
         tml  => 'LinkAtStart',
-        html => $TranslatorBase::linkon . 'LinkAtStart' . $TranslatorBase::linkoff,
+        html => '<p>' . $TranslatorBase::linkon . 'LinkAtStart' . $TranslatorBase::linkoff . '</p>',
     },
     {
         exec => $TranslatorBase::ROUNDTRIP,
@@ -54,6 +55,20 @@ my $data = [
 
 2nd paragraph
 HERE
+    },
+    {
+        name => 'Item1798',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+| [[LegacyTopic1]] | Main.SomeGuy |
+%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+HERE
+        html => <<THERE,
+<table cellspacing="1" cellpadding="0" border="1">
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+</table>
+<span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+THERE
     },
 ];
 
@@ -114,7 +129,18 @@ sub DESTROY
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)."::compareTML_HTML not implemented");
+
+    $this->_init();
+
+    $this->_wikitext();
+    $this->_type($editTextareaLocator, $args->{tml});
+    $this->_wysiwyg();
+    $this->_select_editor_frame();
+    my $actualHtml = $this->_getContent("css=body");
+    $this->_select_top_frame();
+    $actualHtml =~ s/^<!--$Foswiki::Plugins::WysiwygPlugin::Handlers::SECRET_ID-->//go
+      or $this->assert(0, "HTML did not contain the secret ID\n$actualHtml");
+    $this->assert_html_equals( $args->{html}, $actualHtml );
 }
 
 sub compareNotWysiwygEditable {
@@ -139,7 +165,17 @@ sub compareRoundTrip {
 
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)."::compareHTML_TML not implemented");
+
+    $this->_init();
+
+    $this->_wysiwyg();
+    $this->_select_editor_frame();
+    $this->_setContent("css=body", $args->{html});
+    $this->_select_top_frame();
+    $this->_wikitext();
+    $this->assert_tml_equals( $args->{tml},
+                              $this->{selenium}->get_value($editTextareaLocator),
+                              $args->{name} );
 }
 
 sub _open_editor {
@@ -196,6 +232,44 @@ sub _type {
     else {
        $this->{selenium}->type($locator, $text);
    }
+}
+
+sub _setContent {
+    my $this = shift;
+    my $locator = shift;
+    my $text = shift;
+
+    my $bufferName = 'window.document.unitTestBuffer';
+    $this->{selenium}->get_eval("$bufferName = '';");
+
+    my $maxChars = 1000;
+    my $textLength = length $text;
+    my $start = 0;
+    while ($start < $textLength) {
+        my $chunk = substr($text, $start, $maxChars);
+        $chunk =~ s#\\#\\\\#g;
+        $chunk =~ s#\n#\\n#g;
+        $chunk =~ s#"#\\"#g;
+        $start += $maxChars;
+        my $javascript = qq/$bufferName += "$chunk";/;
+        $this->{selenium}->get_eval($javascript);
+        #sleep 2;
+    }
+
+    $locator =~ s#"#\\"#g;
+
+    my $javascript = qq/selenium.browserbot.findElement("$locator").innerHTML = $bufferName;/;
+    $this->{selenium}->get_eval($javascript);
+}
+
+sub _getContent {
+    my $this = shift;
+    my $locator = shift;
+
+    $locator =~ s#"#\\"#g;
+
+    my $javascript = qq/selenium.browserbot.findElement("$locator").innerHTML;/;
+    return $this->{selenium}->get_eval($javascript);
 }
 
 sub _wikitext {
