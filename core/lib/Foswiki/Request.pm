@@ -36,12 +36,6 @@ use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
 
-sub TRACE_CACHE {
-
-    # Change to a 1 to trace cache usage
-    0;
-}
-
 =begin TML
 
 ---++ ClassMethod new([$initializer])
@@ -96,16 +90,43 @@ sub new {
 
 =begin TML
 
----++ ObjectMethod action() -> $action
+---++ ObjectMethod action([$action]) -> $action
+
 
 Gets/Sets action requested (view, edit, save, ...)
 
 =cut
 
 sub action {
-    return @_ == 1
-      ? $_[0]->{action}
-      : ( $ENV{FOSWIKI_ACTION} = $_[0]->{action} = $_[1] );
+    my ($this, $action) = @_;
+    if (defined $action) {
+        # Record the very first action set in this request. It will be required
+        # later if a redirect cache overlays this request.
+        $this->{base_action} = $action unless defined $this->{base_action};
+        $ENV{FOSWIKI_ACTION} = $this->{action} = $action;
+        return $action;
+    } else {
+        return $this->{action};
+    }
+
+}
+
+=begin TML
+
+---++ ObjectMethod base_action() -> $action
+
+Get the first action ever set in this request object. This remains
+unchanged even if a request cache is unwrapped on to of this request.
+The idea is that callers can always find out the action that initiated
+the HTTP request. This is required for (for example) checking access
+controls.
+
+=cut
+
+sub base_action {
+    my $this = shift;
+    return defined $this->{base_action} ? $this->{base_action}
+      : $this->action();
 }
 
 =begin TML

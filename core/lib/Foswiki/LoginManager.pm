@@ -486,14 +486,18 @@ sub checkAccess {
     unless ( $session->inContext('authenticated')
         || $Foswiki::cfg{LoginManager} eq 'none' )
     {
-        my $script = $session->{request}->action;
+        # This checks the *base_action* which is the action in the
+        # request *before* any request cache was restored. Otherwise
+        # you can end up with an infinite loop - see
+        # Foswiki:Development.FoswikiRedirectCache
+        my $action = $session->{request}->base_action();
 
-        if ( defined $script && $this->{_authScripts}{$script} ) {
+        if ( defined $action && $this->{_authScripts}{$action} ) {
             my $topic = $session->{topicName};
             my $web   = $session->{webName};
             require Foswiki::AccessControlException;
-            throw Foswiki::AccessControlException( $script, $session->{user},
-                $web, $topic, 'authentication required' );
+            throw Foswiki::AccessControlException( $action, $session->{user},
+                $web, $topic, $action . ' requires authentication' );
         }
     }
 }
