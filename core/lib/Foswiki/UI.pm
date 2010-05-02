@@ -318,11 +318,12 @@ sub _execute {
 
         print STDERR "ValidationException: redirect with $uid\n";
 
-        # We use the login script for
-        # validation because it already has the correct criteria
-        # in httpd.conf for Apache login.
+        # We use the login script for validation because it already
+        # has the correct criteria in httpd.conf for Apache login.
+        # URL is absolute as required by
+        # http://tools.ietf.org/html/rfc2616#section-14.30
         my $url = $session->getScriptUrl(
-            0, 'login',
+            1, 'login',
             $session->{webName}, $session->{topicName},
             foswikiloginaction => 'validate',
             foswikioriginalquery => $uid);

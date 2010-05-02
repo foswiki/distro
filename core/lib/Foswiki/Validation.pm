@@ -280,7 +280,16 @@ sub validate {
         print STDERR "V: PROMPTING FOR CONFIRMATION ".$query->uri()
           ."\n" if TRACE;
 
-        # prompt for user verification - code 419 chosen by foswiki devs
+        # Prompt for user verification - code 419 chosen by foswiki devs.
+        # None of the defined HTTP codes describe what is really happening,
+        # which is why we chose a "new" code. The confirmation page
+        # isn't a conflict, not a security issue, and we cannot use 403
+        # because there is a high probability this would get caught by
+        # Apache to send back the Registation page. We didn't want any
+        # installation to catch the HTTP return code we were sending back,
+        # as we need this page to arrive intact to the user, otherwise
+        # they won't be able to do anything. 419 is a placebo, and if it
+        # is ever defined can be replaced by any other undefined 4xx code.
         $session->{response}->status(419);
 
         my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
