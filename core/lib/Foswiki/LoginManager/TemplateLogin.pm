@@ -213,10 +213,10 @@ sub login {
 
             # If the method used to access origUrl was POST, we want to
             # enable passthrough on this redirect, so that all the parameters
-            # get restored. That willhappen by default because the login
+            # get restored. That will happen by default because the login
             # script is submitted method=POST. However some GET targets 
             # don't support passthrough, and we have to make sure we
-            # suppress redirect for these targets.
+            # suppress it for these targets.
             $session->redirect( $origurl, uc($origmethod) eq 'POST' );
             return;
         }
