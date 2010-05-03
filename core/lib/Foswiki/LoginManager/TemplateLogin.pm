@@ -43,6 +43,28 @@ sub new {
     return $this;
 }
 
+# Pack key request parameters into a single value
+# Used for passing meta-information about the request
+# through a URL (without requiring passthrough)
+sub _packRequest {
+    my ($uri, $method, $action) = @_;
+    return '' unless $uri;
+    if (ref($uri)) { # first parameter is a $session
+        my $r = $uri->{request};
+        $uri = $r->uri();
+        $method = $r->method();
+        $action = $r->action();
+    }
+    return "$method,$action,$uri";
+}
+
+# Unpack single value to key request parameters
+sub _unpackRequest {
+    my $packed = shift || '';
+    my ($method, $action, $uri) = split(',', $packed, 3);
+    return ($uri, $method, $action);
+}
+
 =begin TML
 
 ---++ ObjectMethod forceAuthentication () -> $boolean
@@ -64,8 +86,8 @@ sub forceAuthentication {
         my $topic   = $session->{topicName};
         my $web     = $session->{webName};
         my $url     = $session->getScriptUrl( 0, 'login', $web, $topic );
-        $query->param( -name => 'origurl',
-                       -value => $session->{request}->uri );
+        $query->param( -name => 'foswiki_origin',
+                       -value => _packRequest($session) );
         $session->redirect( $url, 1 );    # with passthrough
         return 1;
     }
@@ -76,8 +98,7 @@ sub forceAuthentication {
 
 ---++ ObjectMethod loginUrl () -> $loginUrl
 
-TODO: why is this not used internally? When is it called, and why
-Content of a login link
+Overrides LoginManager. Content of a login link.
 
 =cut
 
@@ -86,8 +107,10 @@ sub loginUrl {
     my $session = $this->{session};
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
-    return $session->getScriptUrl( 0, 'login', $web, $topic,
-        origurl => $session->{request}->uri );
+    return $session->getScriptUrl(
+        0, 'login', $web, $topic,
+        foswiki_origin => _packRequest($session)
+       );
 }
 
 =begin TML
@@ -116,15 +139,14 @@ sub login {
     my ( $this, $query, $session ) = @_;
     my $users = $session->{users};
 
-    my $origurl   = $query->param('origurl');
-    my $loginName = $query->param('username');
-    my $loginPass = $query->param('password');
-    my $remember  = $query->param('remember');
-    #print STDERR "ENTERING login \n";
-    #print STDERR " ... origurl =" .  $origurl || '' . "\n";
+    my $origin     = $query->param('foswiki_origin');
+    my ($origurl, $origmethod, $origaction) = _unpackRequest($origin);
+    my $loginName  = $query->param('username');
+    my $loginPass  = $query->param('password');
+    my $remember   = $query->param('remember');
 
     # Eat these so there's no risk of accidental passthrough
-    $query->delete( 'origurl', 'username', 'password' );
+    $query->delete( 'foswiki_origin', 'username', 'password', 'validation_key' );
 
     # UserMappings can over-ride where the login template is defined
     my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl
@@ -155,7 +177,6 @@ sub login {
         $error = $users->passwordError();
 
         if ($validation) {
-            #print STDERR "VALIDATE successful,  origurl still $origurl, Query URL = " .  $query->url() . " \n";
 
             # SUCCESS our user is authenticated. Note that we may already
             # have been logged in by the userLoggedIn call in loadSession,
@@ -163,83 +184,72 @@ sub login {
             # the params passed to this script, and they will be used
             # in loadSession if no other user info is available.
             $this->userLoggedIn($loginName);
-            $session->logEvent( 'login', $web . '.' . $topic, "AUTHENTICATION SUCCESS - $loginName - " );
+            $session->logEvent( 'login', $web . '.' . $topic,
+                                "AUTHENTICATION SUCCESS - $loginName - " );
 
             # remove the sudo param - its only to tell TemplateLogin
             # that we're using BaseMapper..
             $query->delete('sudo');
 
-            # The purpose of the nocache parameter is to cause the redirect to be done to the 
-            # origurl parameter instead of creating a redirect_cache.   Two cases where this applies
-            # 1.  The case of a simple GET (viewing a protected topic) wich requires authentication.
-            #     In this case, the origurl is sufficient, but a redirect_cache would normally be created
-            #     because the submission of user/password to bin/login is done by a POST.
-            # 2.  When redirecting back to a "rest" operation, the origurl is also sufficient.  If a cache
-            #     is used, the url path for login  (bin/login/web/topic) is used to build the url for rest
-            #     (bin/rest/web/topic) which is incorrect.   The url path for rest is of the form
-            #     bin/rest/<RestHandler>/<verb>.  Bypassing the redirect cache uses the correct path.
-            # Other operations, such as a topic save, must be done using the redirect cache, otherwise the
-            # save is rejected because after redirect it is executed as a GET.  The redirect_cache restores
-            # the POST in this case.
-            #
-            my $nocache = 0;   # Set to true if login should redirect with the origyrl parameter.
-            $nocache = 1 if ($origurl =~ m/^$Foswiki::cfg{ScriptUrlPath}\/rest\//);
-
             $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
-                #print STDERR "SET origurl to $origurl\n";
             }
             else {
 
                 # Unpack params encoded in the origurl and restore them
                 # to the query. If they were left in the query string they
-                # would be lost when we redirect with passthrough
+                # would be lost if we redirect with passthrough.
                 if ( $origurl =~ s/\?(.*)// ) {
                     foreach my $pair ( split( /[&;]/, $1 ) ) {
                         if ( $pair =~ /(.*?)=(.*)/ ) {
                             $query->param( $1, TAINT($2) );
-                            #print STDERR "UNPACKING - set $1 to $2 \n";
-                            $nocache = 1;
                         }
                     }
                 }
+                # Restore the action too
+                $query->action($origaction) if $origaction;
             }
 
-            # Redirect with passthrough
-            #print STDERR "Issuing REDIRECT from login, nocache = $nocache,  origurl = $origurl  \n";
-            #print STDERR " PATHINFO " . $session->{request}->pathInfo() . " \n";
-            $session->redirect( $origurl, 1, $nocache );    # with passthrough
+            # If the method used to access origUrl was POST, we want to
+            # enable passthrough on this redirect, so that all the parameters
+            # get restored. That willhappen by default because the login
+            # script is submitted method=POST. However some GET targets 
+            # don't support passthrough, and we have to make sure we
+            # suppress redirect for these targets.
+            $session->redirect( $origurl, uc($origmethod) eq 'POST' );
             return;
         }
         else {
-            # Tasks:Item1029  After much discussion, the 403 code is not used for authentication failures.
-            # RFC states: "Authorization will not help and the request SHOULD NOT be repeated" which is not
-            # the situation here.  
+            # Tasks:Item1029  After much discussion, the 403 code is not
+            # used for authentication failures. RFC states: "Authorization
+            # will not help and the request SHOULD NOT be repeated" which
+            # is not the situation here.  
             $session->{response}->status(200);
-            $session->logEvent( 'login', $web . '.' . $topic, "AUTHENTICATION FAILURE - $loginName - " );
+            $session->logEvent( 'login', $web . '.' . $topic,
+                                "AUTHENTICATION FAILURE - $loginName - " );
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
     else {
-        #if the loginName is unset, then the request was likely a perfectly valid GET call to http://foswiki/bin/login
-        #additionally, 400 cannot be a correct status, as we desire the user to retry the same URL with a different login/password
+        # If the loginName is unset, then the request was likely a perfectly
+        # valid GET call to http://foswiki/bin/login
+        # 4xx cannot be a correct status, as we want the user to retry the
+        # same URL with a different login/password
         $session->{response}->status(200);
     }
 
-    # Remove the validation_key from the passed through params. It isn't
-    # required, because the form will have a new validation key, and
-    # giving the parameter twice will confuse the strikeone Javascript.
-    $session->{request}->delete('validation_key');
-
     # TODO: add JavaScript password encryption in the template
-    # to use a template)
     $origurl ||= '';
+
+    # Set session preferences that will be expanded when the login
+    # template is instantiated
     $session->{prefs}->setSessionPreferences(
-        ORIGURL => Foswiki::entityEncode( $origurl ),
-        BANNER  => $banner,
-        NOTE    => $note,
-        ERROR   => $error
+        FOSWIKI_ORIGINAL => Foswiki::entityEncode(
+            _packRequest($origurl, $origmethod, $origaction)),
+        BANNER     => $banner,
+        NOTE       => $note,
+        ERROR      => $error
     );
 
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
@@ -251,28 +261,26 @@ sub login {
 
 1;
 __DATA__
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
-# Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2005-2006 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-# Copyright (C) 2005 Greg Abbas, twiki@abbas.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2005-2006 TWiki Contributors. All Rights Reserved.
+Copyright (C) 2005 Greg Abbas, twiki@abbas.org
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

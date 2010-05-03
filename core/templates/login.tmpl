@@ -33,7 +33,8 @@
 
 %TMPL:DEF{"formend"}%<literal>
 %QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%
-</literal><input type="hidden" name="origurl" value="%ORIGURL%" /></form>%TMPL:END%
+</literal><input type="hidden" name="foswiki_origin" value="%FOSWIKI_ORIGIN%" />
+</form>%TMPL:END%
 
 %TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='foswikiInputField foswikiFocus' size='40' name='username' value='%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 

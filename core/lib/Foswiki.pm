@@ -1069,18 +1069,13 @@ in the URL (after ?). If the request_method was POST, then there is a risk the
 URL would be too big for the receiver, so it caches the form data and passes
 over a cache reference in the redirect GET.
 
-The nocache parameter is set to true by the TemplateLogin routine to prevent
-building a new cache object.  A new cache should only be created by the
-event that redirected initially to bin/login, and not by the post to login 
-when the user submits the userid/password.
-
 NOTE: Passthrough is only meaningful if the redirect target is on the same
 server.
 
 =cut
 
 sub redirect {
-    my ( $this, $url, $passthru, $nocache ) = @_;
+    my ( $this, $url, $passthru ) = @_;
     ASSERT( defined $url ) if DEBUG;
 
     return unless $this->{request};
@@ -1092,7 +1087,7 @@ sub redirect {
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
-        if ( uc( $this->{request}->method() ) eq 'POST' && ! $nocache) {
+        if ( uc( $this->{request}->method() ) eq 'POST' ) {
 
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
