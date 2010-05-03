@@ -146,7 +146,7 @@ sub login {
     my $remember   = $query->param('remember');
 
     # Eat these so there's no risk of accidental passthrough
-    $query->delete( 'foswiki_origin', 'username', 'password', 'validation_key' );
+    $query->delete( 'foswiki_origin', 'username', 'password' );
 
     # UserMappings can over-ride where the login template is defined
     my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl
@@ -235,6 +235,11 @@ sub login {
         # same URL with a different login/password
         $session->{response}->status(200);
     }
+
+    # Remove the validation_key from the *passed through* params. It isn't
+    # required, because the form will have a new validation key, and
+    # giving the parameter twice will confuse the strikeone Javascript.
+    $session->{request}->delete('validation_key');
 
     # TODO: add JavaScript password encryption in the template
     $origurl ||= '';
