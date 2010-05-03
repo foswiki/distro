@@ -169,8 +169,20 @@ sub login {
             # that we're using BaseMapper..
             $query->delete('sudo');
 
-            my $nocache = 0;   # Set to true if login is returning an original url 
-
+            # The purpose of the nocache parameter is to cause the redirect to be done to the 
+            # origurl parameter instead of creating a redirect_cache.   Two cases where this applies
+            # 1.  The case of a simple GET (viewing a protected topic) wich requires authentication.
+            #     In this case, the origurl is sufficient, but a redirect_cache would normally be created
+            #     because the submission of user/password to bin/login is done by a POST.
+            # 2.  When redirecting back to a "rest" operation, the origurl is also sufficient.  If a cache
+            #     is used, the url path for login  (bin/login/web/topic) is used to build the url for rest
+            #     (bin/rest/web/topic) which is incorrect.   The url path for rest is of the form
+            #     bin/rest/<RestHandler>/<verb>.  Bypassing the redirect cache uses the correct path.
+            # Other operations, such as a topic save, must be done using the redirect cache, otherwise the
+            # save is rejected because after redirect it is executed as a GET.  The redirect_cache restores
+            # the POST in this case.
+            #
+            my $nocache = 0;   # Set to true if login should redirect with the origyrl parameter.
             $nocache = 1 if ($origurl =~ m/^$Foswiki::cfg{ScriptUrlPath}\/rest\//);
 
             $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
