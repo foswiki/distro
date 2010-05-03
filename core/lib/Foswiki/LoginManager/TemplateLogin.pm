@@ -146,7 +146,7 @@ sub login {
     my $remember   = $query->param('remember');
 
     # Eat these so there's no risk of accidental passthrough
-    $query->delete( 'foswiki_origin', 'username', 'password', 'validation_key' );
+    $query->delete( 'foswiki_origin', 'username', 'password' );
 
     # UserMappings can over-ride where the login template is defined
     my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl

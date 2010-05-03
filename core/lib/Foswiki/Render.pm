@@ -2026,6 +2026,7 @@ sub renderTOC {
     my @qparams = ();
     foreach my $name ( $query->param ) {
         next if ( $name eq 'keywords' );
+        next if ( $name eq 'validation_key' );
         next if ( $name eq 'topic' );
         next if ( $name eq 'text' );
         push @qparams, $name => $query->param($name);
