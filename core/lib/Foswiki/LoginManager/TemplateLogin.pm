@@ -245,7 +245,7 @@ sub login {
     # Set session preferences that will be expanded when the login
     # template is instantiated
     $session->{prefs}->setSessionPreferences(
-        FOSWIKI_ORIGINAL => Foswiki::entityEncode(
+        FOSWIKI_ORIGIN => Foswiki::entityEncode(
             _packRequest($origurl, $origmethod, $origaction)),
         BANNER     => $banner,
         NOTE       => $note,
