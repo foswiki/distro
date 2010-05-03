@@ -120,7 +120,8 @@ sub login {
     my $loginName = $query->param('username');
     my $loginPass = $query->param('password');
     my $remember  = $query->param('remember');
-    print STDERR "ENTERING login \n";
+    #print STDERR "ENTERING login \n";
+    #print STDERR " ... origurl =" .  $origurl || '' . "\n";
 
     # Eat these so there's no risk of accidental passthrough
     $query->delete( 'origurl', 'username', 'password' );
@@ -154,6 +155,7 @@ sub login {
         $error = $users->passwordError();
 
         if ($validation) {
+            #print STDERR "VALIDATE successful,  origurl still $origurl, Query URL = " .  $query->url() . " \n";
 
             # SUCCESS our user is authenticated. Note that we may already
             # have been logged in by the userLoggedIn call in loadSession,
@@ -168,6 +170,8 @@ sub login {
             $query->delete('sudo');
 
             my $nocache = 0;   # Set to true if login is returning an original url 
+
+            $nocache = 1 if ($origurl =~ m/^$Foswiki::cfg{ScriptUrlPath}\/rest\//);
 
             $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
@@ -191,7 +195,8 @@ sub login {
             }
 
             # Redirect with passthrough
-            print STDERR "Issuing REDIRECT from login \n";
+            #print STDERR "Issuing REDIRECT from login, nocache = $nocache,  origurl = $origurl  \n";
+            #print STDERR " PATHINFO " . $session->{request}->pathInfo() . " \n";
             $session->redirect( $origurl, 1, $nocache );    # with passthrough
             return;
         }
