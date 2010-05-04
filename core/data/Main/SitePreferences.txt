@@ -9,10 +9,11 @@
 
 %TOC%
 
-
+<sticky>
 <div class="%IF{"not context PreferencesPluginEnabled" then="foswikiHidden"}%">
 %EDITPREFERENCES{"%SYSTEMWEB%.DefaultPreferencesForm"}%
 </div>
+</sticky>
 
 ---++ Appearance
 
