@@ -100,7 +100,7 @@ sub save {
     # Serialize uploads, if there are any, and store the upload keys
     while ( my ($k, $v) = each %{ $req->{uploads} }) {
         $k = Foswiki::urlEncode($k);
-        print STDERR "CACHE $uid> upload $k\n";
+        print STDERR "CACHE $uid> upload $k\n" if (TRACE_CACHE);
         $this->_saveUpload( $this->_cacheFile($uid), $k, $v );
         print $F $k;
     }
@@ -155,7 +155,7 @@ sub load {
             chomp($key);
             $key = Foswiki::urlDecode(
                 Foswiki::Sandbox::untaintUnchecked( $key ));
-            print STDERR "CACHE $uid< upload $key\n";
+            print STDERR "CACHE $uid< upload $key\n" if (TRACE_CACHE);
             $req->{uploads}->{$key} =
               $this->_loadUpload( $this->_cacheFile($uid), $key );
         }
@@ -163,13 +163,14 @@ sub load {
         unlink($this->_cacheFile($uid));
         print STDERR "CACHE $uid< Loaded ".
           $this->_cacheFile($uid).", URL now ".$req->url()."\n"
-            if TRACE_CACHE;
+            if (TRACE_CACHE);
 
     }
     else {
         # SMELL: should this be an assert?
-        print STDERR "CACHE $uid< Could not find ".$this->_cacheFile($uid)."\n"
-          if TRACE_CACHE;
+        print STDERR "CACHE $uid< Could not find ",
+          $this->_cacheFile($uid)."\n"
+            if (TRACE_CACHE);
     }
 }
 
