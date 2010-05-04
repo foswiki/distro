@@ -35,8 +35,10 @@ sub parse {
     my $key   = '';
     my $value = '';
     my $type;
+    my $text = $topicObject->text();
+    $text = '' unless defined $text;
 
-    foreach ( split( "\n", $topicObject->text() ) ) {
+    foreach ( split( "\n", $text) ) {
         if (m/$Foswiki::regex{setVarRegex}/os) {
             if ( defined $type ) {
                 $prefs->insert( $type, $key, $value );

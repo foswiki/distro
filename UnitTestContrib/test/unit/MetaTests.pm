@@ -380,8 +380,7 @@ sub test_attachmentStreams {
         hide => 0,
         stream => $fh);
     close($fh);
-
-    $this->assert_equals(2, $this->{test_topicObject}->getMaxRevNo('dat.dis'));
+    $this->assert_equals(2, $this->{test_topicObject}->getLatestRev('dat.dis'));
 
     # Latest rev (rev 2)
     $fh = $this->{test_topicObject}->openAttachment( 'dat.dis', '<');
@@ -573,16 +572,15 @@ sub test_BadRevisionInfo {
     my $in = '$Rev$';
     my $rev = Foswiki::Store::cleanUpRevID($in);
     $this->assert(defined($rev));
-    $in =~ s/[^\d]//g;
-    $this->assert_equals($in, $rev);
+    $this->assert_equals(0, $rev);
 
-#svn attribute not set - still a valid topic.
+    #svn attribute not set - still a valid topic.
     my $broken = '$'.'Rev'.'$'; #stop svn from filling in the number..
     $rev = Foswiki::Store::cleanUpRevID($broken);
     $this->assert(defined($rev));
     $this->assert_equals(0, $rev);
 
-#we recognise a txt file that has not been written by foswiki as rev=1
+    #we recognise a txt file that has not been written by foswiki as rev=0
     $rev = Foswiki::Store::cleanUpRevID('');
     $this->assert(defined($rev));
     $this->assert_equals(0, $rev);

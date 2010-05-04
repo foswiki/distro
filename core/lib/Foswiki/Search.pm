@@ -745,6 +745,7 @@ sub formatResults {
         # Special handling for format='...'
         if ($formatDefined) {
             $text = $info->{tom}->text();
+            $text = '' unless defined $text;
 
             if ($doExpandVars) {
                 if ( $web eq $baseWeb && $topic eq $baseTopic ) {
@@ -765,9 +766,9 @@ sub formatResults {
             my @tokens  = @{ $query->{tokens} };
             my $pattern = $tokens[$#tokens];       # last token in an AND search
             $pattern = quotemeta($pattern) if ( $type ne 'regex' );
-            unless ($text) {
-                $text = $info->{tom}->text();
-            }
+            $text = $info->{tom}->text() unless defined $text;
+            $text = '' unless defined $text;
+
             if ($caseSensitive) {
                 @multipleHitLines =
                   reverse grep { /$pattern/ } split( /[\n\r]+/, $text );
@@ -1109,9 +1110,9 @@ sub formatResult {
       $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out );
 
     if ( $out =~ m/\$text/ ) {
-        unless ($text) {
-            $text = $topicObject->text();
-        }
+        $text = $topicObject->text() unless defined $text;
+        $text = '' unless defined $text;
+
         if ( $topic eq $session->{topicName} ) {
 
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
@@ -1133,9 +1134,9 @@ sub formatResult {
     if ($doBookView) {
 
         # BookView
-        unless ($text) {
-            $text = $topicObject->text();
-        }
+        $text = $topicObject->text() unless defined $text;
+        $text = '' unless defined $text;
+
         if ( $web eq $baseWeb && $topic eq $baseTopic ) {
 
             # primitive way to prevent recursion

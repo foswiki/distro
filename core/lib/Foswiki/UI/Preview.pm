@@ -52,7 +52,7 @@ sub preview {
         $formFields = $formDef->renderHidden( $topicObject, 0 );
     }
 
-    my $text = $topicObject->text();
+    my $text = $topicObject->text() || '';
     $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
 
     my $template = $session->{prefs}->getPreference('VIEW_TEMPLATE')

@@ -109,7 +109,7 @@ sub formatVersions {
     my ( $this, $topicObject, %attrs ) = @_;
 
     my $users     = $this->{session}->{users};
-    my $latestRev = $topicObject->getMaxRevNo( $attrs{name} );
+    my $revIt   = $topicObject->getRevisionHistory( $attrs{name} );
 
     my $templates = $this->{session}->templates;
     $templates->readTemplate('attachtables');
@@ -118,19 +118,20 @@ sub formatVersions {
     my $footer = $templates->expandTemplate('ATTACH:versions:footer');
     my $row    = $templates->expandTemplate('ATTACH:versions:row');
 
-    my $rows = '';
+    my @rows;
 
-    for ( my $rev = $latestRev ; $rev >= 1 ; $rev-- ) {
+    while ($revIt->hasNext()) {
+        my $rev = $revIt->next();
         my $info =
           $topicObject->getAttachmentRevisionInfo( $attrs{name}, $rev );
         $info->{name} = $attrs{name};
         $info->{attr} = $attrs{attr};
         $info->{size} = $attrs{size};
 
-        $rows .= _formatRow( $this, $topicObject, $info, $row );
+        push(@rows, _formatRow( $this, $topicObject, $info, $row ));
     }
 
-    return "$header$rows$footer";
+    return $header.join('', @rows).$footer;
 }
 
 #Format a single row in an attachment table by expanding a template.

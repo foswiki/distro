@@ -25,9 +25,9 @@ A loaded object may be constructed by calling the =load= constructor, or
 a previously constructed object may be converted to 'loaded' state by
 calling =reload=.
 
-Unloaded objects return 0 from =getLoadedRev=, or the loaded revision
+Unloaded objects return undef from =getLoadedRev=, or the loaded revision
 otherwise. =reload= allows you to load different revisions of the same
-topic.
+topic, or 
 
 An unloaded object can be populated through calls to =text($text)=, =put=
 and =putKeyed=. Such an object can be saved using =save()= to create a new
@@ -126,8 +126,7 @@ our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 # documentation (and DB schema initialisation).
 our %VALIDATE = (
     TOPICINFO => {
-        require => [qw( author )],
-        other   => [qw( version date format reprev )]
+        allow => [qw( author version date format reprev rev comment encoding )]
     },
     TOPICMOVED => { require => [qw( from to by date )] },
 
@@ -415,7 +414,8 @@ sub stringify {
     my $s = $this->{_web};
     if ( $this->{_topic} ) {
         $s .= ".$this->{_topic} ";
-        $s .= $this->{_loadedRev} || '(not loaded)' if $debug;
+        $s .= (defined $this->{_loadedRev}) ? $this->{_loadedRev}
+          : '(not loaded)' if $debug;
         $s .= "\n" . $this->getEmbeddedStoreForm();
     }
     return $s;
@@ -683,6 +683,8 @@ $this = Foswiki::Meta->new( $session, $web, $topic );
 $this->reload( $rev );
 </verbatim>
 
+WARNING: see notes on revision numbers under =getLoadedRev=
+
 =cut
 
 sub load {
@@ -707,29 +709,36 @@ revision is currently being viewed.
      latest rev. If undef, will reload the currently loaded rev or, if no rev
      is currently loaded, will load the latest rev.
 
+WARNING: see notes on revision numbers under =getLoadedRev=
+
 =cut
 
 sub reload {
     my ( $this, $rev ) = @_;
     return unless $this->{_topic};
     if ( defined $rev ) {
-        $rev = Foswiki::Store::cleanUpRevID($rev);
-    }
-    else {
+        $rev ||= 0;
+        ASSERT($rev =~ /^\d+$/, $rev) if DEBUG;
+    } else {
         $rev = $this->{_loadedRev};    # if any
     }
+
     foreach my $field ( keys %$this ) {
         next if $field =~ /^_(web|topic|session)/;
         $this->{$field} = undef;
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
-    # SMELL: removed see getLoadedRev - should remove any
-    # non-numeric rev's (like the $rev stuff from svn)
-    $this->{_preferences}->finish() if defined $this->{_preferences};
-    $this->{_preferences} = undef;
 
-    $this->addDependency();
+    if (defined $this->{_loadedRev}) {
+        # Make sure it's a simple integer
+        ASSERT($this->{_loadedRev} =~ /^\d+$/, $this->{_loadedRev}) if DEBUG;
+
+        $this->{_preferences}->finish() if defined $this->{_preferences};
+        $this->{_preferences} = undef;
+
+        $this->addDependency();
+    }
 }
 
 =begin TML
@@ -1046,7 +1055,7 @@ sub count {
 
 =begin TML
 
----++ ObjectMethod setRevisionInfo( \%opts )
+---++ ObjectMethod setRevisionInfo( %opts )
 
 Set TOPICINFO information on the object, as specified by the parameters.
    * =version= - the revision number
@@ -1057,21 +1066,19 @@ Set TOPICINFO information on the object, as specified by the parameters.
 =cut
 
 sub setRevisionInfo {
-    my ( $this, $data ) = @_;
+    my ( $this, %data ) = @_;
 
     my $ti = $this->get('TOPICINFO') || {};
 
-    foreach my $k (keys %$data) {
-        $ti->{$k} = $data->{$k};
+    foreach my $k (keys %data) {
+        $ti->{$k} = $data{$k};
     }
 
     # compatibility; older versions of the code use
     # RCS rev numbers. Save with them so old code can
     # read these topics
-    my %args = %$data;
     $ti->{version} = 1 if $ti->{version} < 1;
-    $ti->{rev} = $ti->{version};
-    $ti->{version} = '1.' . $ti->{version};
+    $ti->{version} = $ti->{version};
     $ti->{format}  = $EMBEDDING_FORMAT_VERSION;
 
     $this->put( 'TOPICINFO', $ti );
@@ -1081,7 +1088,7 @@ sub setRevisionInfo {
 
 ---++ ObjectMethod getRevisionInfo() -> \%info
 
-Return %info with at least:
+Return revision info for the loaded revision in %info with at least:
 | date | in epochSec |
 | user | canonical user ID |
 | version | the revision number |
@@ -1110,12 +1117,6 @@ sub getRevisionInfo {
             author  => $topicinfo->{author},
             version => $topicinfo->{version},
         };
-
-        # parse out SVN keywords in doc
-        $info->{version} =~ s/^\$Rev(:\s*\d+)?\s*\$$/0/;
-
-        # Chuck away RCS major rev number
-        $info->{version} =~ s/^\d+\.//;
     }
     else {
 
@@ -1123,7 +1124,7 @@ sub getRevisionInfo {
         $info = $this->{_session}->{store}->getVersionInfo($this);
 
         # cache the result
-        $this->setRevisionInfo($info);
+        $this->setRevisionInfo(%$info);
     }
     return $info;
 }
@@ -1557,47 +1558,42 @@ sub save {
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
     if ( $plugins->haveHandlerFor('beforeSaveHandler') ) {
-        my $before = '';
-
         # Break up the tom and write the meta into the topic text.
         # Nasty compatibility requirement as some old plugins may hack the
         # meta instead of using the Meta API
         my $text = $this->getEmbeddedStoreForm();
 
-        $before = $this->stringify();
+        my $pretext = $text; # text before the handler modifies it
+        my $premeta = $this->stringify(); # just the meta, no text
 
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
 
-        # remove meta from text again
-        # afterSaveHandler may also alter $text so we must rebuild
-        # the meta
-        my $after =
-          $this->new( $this->{_session}, $this->{_web}, $this->{_topic},
-            $text );
-        $text = $after->text();
-
-        # If there are no changes in the object, assemble a new tom
-        # from the text. Nasty compatibility requirement.
-        if ( $this->stringify() eq $before ) {
-
-            # reassemble the tom. there may be new meta in the text.
-            $this = $after;
-        }
-        else {
-            $this->text($text);
+        # If the text has changed; it may be a text or meta change, or both
+        if ($text ne $pretext) {
+            # Create a new object to parse the changed text
+            my $after = new Foswiki::Meta(
+                $this->{_session}, $this->{_web}, $this->{_topic}, $text );
+            unless ($this->stringify() ne $premeta) {
+                # Meta-data changes in the object take priority over
+                # conflicting changes in the text. So if there have been
+                # *any* changes in the meta, ignore changes in the text.
+                $this->copyFrom($after);
+            }
+            $this->text($after->text());
         }
     }
 
     my $signal;
+    my $newRev;
     try {
-        $this->saveAs( $this->{_web}, $this->{_topic}, %opts );
+        $newRev = $this->saveAs( $this->{_web}, $this->{_topic}, %opts );
     }
     catch Error::Simple with {
         $signal = shift;
     };
 
-    # Semantics inherited from Cairo. See
+    # Semantics inherited from TWiki. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
     if ( $plugins->haveHandlerFor('afterSaveHandler') ) {
         my $text = $this->getEmbeddedStoreForm();
@@ -1616,11 +1612,12 @@ sub save {
             $this->{_session}->{user}
         );
     }
+    return $newRev;
 }
 
 =begin TML
 
----++ ObjectMethod saveAs( $web, $topic, %options  )
+---++ ObjectMethod saveAs( $web, $topic, %options  ) -> $rev
 
 Save the current topic to a store location. Only works on topics.
 *without* invoking plugins handlers.
@@ -1640,6 +1637,8 @@ so an extension author can in fact use all these options. However those
 marked "core only" are for core use only and should *not* be used in
 extensions.
 
+Returns the saved revision number.
+
 =cut
 
 # SMELL: arguably save should only be permitted if the loaded rev of the object is the same as the
@@ -1657,8 +1656,8 @@ sub saveAs {
     ASSERT( $this->{_web} && $this->{_topic} ) if DEBUG;
     $this->_atomicLock($cUID);
 
-    my $currentRev = $this->{_session}->{store}->getRevisionNumber($this) || 0;
-    my $nextRev = $currentRev + 1;
+    my $i = $this->{_session}->{store}->getRevisionHistory($this);
+    my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
         if ( $currentRev && !$opts{forcenewrevision} ) {
 
@@ -1673,34 +1672,35 @@ sub saveAs {
 
                 # same user?
                 if ( $info->{author} eq $cUID ) {
-
                     # reprev is required so we can tell when a merge is
                     # based on something that is *not* the original rev
                     # where another users' edit started.
-                    $info->{reprev} = '1.' . $info->{version};
+                    $info->{reprev} = $info->{version};
                     $info->{date} = $opts{forcedate} || time();
-                    $this->setRevisionInfo($info);
+                    $this->setRevisionInfo(%$info);
                     $this->{_session}->{store}->repRev( $this, $cUID, %opts );
                     $this->{_loadedRev} = $currentRev;
-                    return;
+                    return $currentRev;
                 }
             }
         }
+        my $nextRev = $this->{_session}->{store}->getNextRevision($this);
         $this->setRevisionInfo(
-            {
-                date => $opts{forcedate} || time(),
-                author  => $cUID,
-                version => $nextRev
-            }
-        );
+            date => $opts{forcedate} || time(),
+            author  => $cUID,
+            version => $nextRev
+           );
 
-        $this->{_loadedRev} =
-          $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
+        my $checkSave = $this->{_session}->{store}->saveTopic(
+            $this, $cUID, \%opts );
+        ASSERT($checkSave == $nextRev, "$checkSave != $nextRev") if DEBUG;
+        $this->{_loadedRev} = $nextRev;
     }
     finally {
         $this->_atomicUnlock($cUID);
         $this->fireDependency();
     };
+    return $this->{_loadedRev};
 }
 
 # An atomic lock will cause other
@@ -1935,8 +1935,8 @@ sub replaceMostRecentRevision {
 
     # repRev is required so we can tell when a merge is based on something
     # that is *not* the original rev where another users' edit started.
-    $info->{reprev} = '1.' . $info->{version};
-    $this->setRevisionInfo($info);
+    $info->{reprev} = $info->{version};
+    $this->setRevisionInfo(%$info);
 
     try {
         $this->{_session}->{store}->repRev( $this, $cUID, @_ );
@@ -1959,22 +1959,40 @@ sub replaceMostRecentRevision {
 
 =begin TML
 
----++ ObjectMethod getMaxRevNo([$attachment]) -> $integer
+---++ ObjectMethod getRevisionHistory([$attachment]) -> $iterator
 
-Get the revision number of the most recent revision of the topic,
-irrespective of which rev is currently loaded.
+Get an iterator over the range of version identifiers (just the identifiers,
+not the content).
 
-$attachment is optional, and if provided will get the max rev of an attachment
-on the topic.
+$attachment is optional.
 
-Only valid on topics.
+Not valid on webs. Returns a null iterator if no revisions exist.
 
 =cut
 
-sub getMaxRevNo {
+sub getRevisionHistory {
     my ( $this, $attachment ) = @_;
     ASSERT( $this->{_topic} ) if DEBUG;
-    return $this->{_session}->{store}->getRevisionNumber( $this, $attachment );
+    return $this->{_session}->{store}->getRevisionHistory( $this, $attachment );
+}
+
+=begin TML
+
+---++ ObjectMethod getLatestRev[$attachment]) -> $revision
+
+Get the revision ID of the latest revision.
+
+$attachment is optional.
+
+Not valid on webs.
+
+=cut
+
+sub getLatestRev {
+    my $this = shift;
+    my $it = $this->getRevisionHistory(@_);
+    return 0 unless $it->hasNext();
+    return $it->next();
 }
 
 =begin TML
@@ -1991,26 +2009,28 @@ Only valid on topics.
 sub latestIsLoaded {
     my $this = shift;
 
-    return defined $this->{_loadedRev} && $this->{_loadedRev} == $this->getMaxRevNo();
+    return defined $this->{_loadedRev} &&
+      $this->{_loadedRev} == $this->getLatestRev();
 }
 
 =begin TML
 
 ---++ ObjectMethod getLoadedRev() -> $integer
 
-Get the currently loaded revision. Result will be a revision number or
-0 if no revision has been loaded. Only valid on topics.
+Get the currently loaded revision. Result will be a revision number, or
+undef if no revision has been loaded. Only valid on topics.
 
-SMELL: while the docco says '$integer' its untrue. it will return whatever is in the
-File's META::TOPICINFO - which for core topics is a $Rev$ string.
-forcing the value to an integer atm forces a reload (thousands of readFiles more)
+WARNING: some store implementations use the concept of a "working copy" of
+each topic that may be modified *without* being added to the revision
+control system. This means that the version number reported for the latest
+rev may not be the actual latest version.
 
 =cut
 
 sub getLoadedRev {
     my $this = shift;
     ASSERT( $this->{_topic} ) if DEBUG;
-    return $this->{_loadedRev} || 0;
+    return $this->{_loadedRev};
 }
 
 =begin TML
@@ -2316,7 +2336,7 @@ sub attach {
             $this->fireDependency();
         };
 
-        my $fileVersion = $this->getMaxRevNo( $opts{name} );
+        my $fileVersion = $this->getLatestRev( $opts{name} );
         $attrs->{version} = $fileVersion;
         $attrs->{path}    = $opts{filepath} if ( defined( $opts{filepath} ) );
         $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
@@ -2343,6 +2363,7 @@ sub attach {
 
     if ( $opts{createlink} ) {
         my $text = $this->text();
+        $text = '' unless defined $text;
         $text .=
           $this->{_session}->attach->getAttachmentLink( $this, $opts{name} );
         $this->text($text);
@@ -2612,6 +2633,8 @@ sub summariseText {
     $flags ||= '';
 
     $text = $this->text() unless defined $text;
+    $text = '' unless defined $text;
+
     my $plainText =
       $this->session->renderer->TML2PlainText( $text, $this, $flags );
     $plainText =~ s/\n+/ /g;
@@ -2792,7 +2815,7 @@ sub summariseChanges {
     my $session  = $this->session();
     my $renderer = $session->renderer();
 
-    $nrev = $this->getMaxRevNo() unless $nrev;
+    $nrev = $this->getLatestRev() unless $nrev;
 
     $orev = $nrev - 1 unless defined($orev);
 
@@ -3000,7 +3023,6 @@ sub setEmbeddedStoreForm {
     # head meta-data
     $text =~ s/^(%META:(TOPICINFO){(.*)}%\n)/
       $this->_readMETA($1, $2, $3)/gem;
-
     my $ti = $this->get('TOPICINFO');
     if ($ti) {
         $format = $ti->{format} || 0;
@@ -3008,15 +3030,12 @@ sub setEmbeddedStoreForm {
         # Make sure we update the topic format for when we save
         $ti->{format} = $EMBEDDING_FORMAT_VERSION;
 
-        # The version, date and rev cached in TOPICINFO *cannot be trusted*
-        # See Tasks.Item8848
-        # These fields will be populated from the store when
-        # getRevisionInfo() is called. Important: always do this
-        # before calling get('TOPICINFO') if you want to use the
-        # rev info!
-        delete $ti->{version};
-        delete $ti->{date};
-        delete $ti->{rev};
+        # Clean up SVN and other malformed rev nums. This can happen
+        # when old code (e.g. old plugins) generated the meta.
+        $ti->{version} = Foswiki::Store::cleanUpRevID($ti->{version});
+        delete($ti->{rev}) if defined $ti->{rev}; # not needed any more
+        $ti->{reprev} = Foswiki::Store::cleanUpRevID($ti->{reprev})
+          if defined $ti->{reprev};
     }
 
     # Other meta-data

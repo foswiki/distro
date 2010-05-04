@@ -1419,6 +1419,8 @@ sub TML2PlainText {
     my ( $this, $text, $topicObject, $opts ) = @_;
     $opts ||= '';
 
+    return '' unless defined $text;
+
     $text =~ s/\r//g;    # SMELL, what about OS10?
 
     if ( $opts =~ /showmeta/ ) {
@@ -1620,9 +1622,8 @@ sub renderRevisionInfo {
 
     my $users = $this->{session}->{users};
     if ($rrev) {
-        $rrev = Foswiki::Store::cleanUpRevID($rrev);
         $topicObject->reload($rrev)
-          unless $rrev == $topicObject->getLoadedRev();
+          unless $rrev == ($topicObject->getLoadedRev() || 0);
     }
     my $info = $topicObject->getRevisionInfo();
 
@@ -1705,6 +1706,8 @@ The return result replaces $line in $newText.
 
 sub forEachLine {
     my ( $this, $text, $fn, $options ) = @_;
+
+    return '' unless defined $text;
 
     $options->{in_pre}        = 0;
     $options->{in_pre}        = 0;

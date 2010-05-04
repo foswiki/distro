@@ -26,7 +26,7 @@ use Foswiki::Store::VC::RcsLiteHandler ();
 
 sub getHandler {
     my $this = shift;
-    return new Foswiki::Store::VC::RcsLiteHandler( @_ );
+    return new Foswiki::Store::VC::RcsLiteHandler( $this, @_ );
 }
 
 1;

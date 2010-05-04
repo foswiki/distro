@@ -786,9 +786,9 @@ sub eachUser {
 
 =begin TML
 
----++ ObjectMethod eachGroup() ->  Foswiki::ListIterator of groupnames
+---++ ObjectMethod eachGroup() ->  $iterator
 
-Get an iterator over the list of all the groups.
+Get an iterator over the list of all the group names.
 
 =cut
 

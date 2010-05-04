@@ -92,38 +92,55 @@ sub view {
 
     Foswiki::UI::checkWebExists( $session, $web, 'view' );
 
-    my $preferredRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+    my $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+    my $showLatest = !$requestedRev;
+    my $showRev;
 
     my $topicObject;    # the stub of the topic we are to display
     my $text;           # the text to display, *not* necessarily
                         # the same as $topicObject->text
-    my $shownRev = 0;   # the rev we are displaying ($preferredRev
-                        # is the requested rev)
+    my $revIt;          # Iterator over the range of available revs
+    my $maxRev;
 
     if ( $session->topicExists( $web, $topic ) ) {
 
-        # Load the most recent rev
+        # Load the most recent rev. This *should* be maxRev, but may
+        # not say it is because the TOPICINFO could be up the spout
         $topicObject = Foswiki::Meta->load( $session, $web, $topic );
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
-        my $info = $topicObject->getRevisionInfo();
 
-        if ( !$preferredRev || $preferredRev > $info->{version} ) {
-            $preferredRev = $info->{version};
+        $revIt = $topicObject->getRevisionHistory();
+        $maxRev = 1;
+        if ($revIt->hasNext()) {
+            $maxRev = $revIt->next();
+            $revIt->reset();
         }
-
-        if ( $preferredRev < $info->{version} ) {
-
-            # Load the old revision instead
-            $topicObject = Foswiki::Meta->load( $session, $web, $topic, $preferredRev );
-            if ( !$topicObject->haveAccess('VIEW') ) {
-                throw Foswiki::AccessControlException( 'VIEW', $session->{user},
-                    $web, $topic, $Foswiki::Meta::reason );
+        if (defined $requestedRev) {
+            # Is the requested rev id known?
+            while ($revIt->hasNext()) {
+                if ($requestedRev eq $revIt->next()) {
+                    $showRev = $requestedRev;
+                    last;
+                }
             }
-            $info = $topicObject->getRevisionInfo();
-            $logEntry .= 'r' . $preferredRev;
-        }
+            # if rev was not found; show max rev
+            $showRev = $maxRev unless (defined $showRev);
+            
+            if ( $showRev ne $maxRev ) {
 
-        $shownRev = $topicObject->getMaxRevNo();
+                # Load the old revision instead
+                $topicObject = Foswiki::Meta->load(
+                    $session, $web, $topic, $showRev );
+                if ( !$topicObject->haveAccess('VIEW') ) {
+                    throw Foswiki::AccessControlException(
+                        'VIEW', $session->{user},
+                        $web, $topic, $Foswiki::Meta::reason );
+                }
+                $logEntry .= 'r' . $requestedRev;
+            }
+        } else {
+            $showRev = $maxRev;
+        }
 
         if ( my $section = $query->param('section') ) {
 
@@ -153,10 +170,12 @@ sub view {
         $indexableView = 0;
         $session->enterContext('new_topic');
         $session->{response}->status(404);
-        $preferredRev          = 1;
+        $showRev         = 1;
+        $maxRev = 0;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
         $raw = '';    # There is no raw view of a topic that doesn't exist
+        $revIt = new Foswiki::ListIterator([1]);
     }
 
     if ($raw) {
@@ -169,19 +188,22 @@ sub view {
         }
     }
 
+    $text = '' unless defined $text;
+
     $session->logEvent( 'view', $topicObject->web . '.' . $topicObject->topic,
         $logEntry );
 
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(
     my ( $revTitle, $revArg ) = ( '', '' );
-    if ( $preferredRev && $preferredRev < $shownRev ) {
+    if ( $showRev && $revIt->hasNext() && $showRev != $revIt->next() ) {
         $session->enterContext('inactive');
 
         # disable edit of previous revisions
-        $revTitle = '(r' . $preferredRev . ')';
-        $revArg   = '&rev=' . $preferredRev;
+        $revTitle = '(r' . $showRev . ')';
+        $revArg   = '&rev=' . $showRev;
     }
+    $revIt->reset();
 
     my $template =
          $viewTemplate
@@ -223,57 +245,75 @@ sub view {
     }
 
     # Show revisions around the one being displayed.
-    # We start at $shownRev then possibly jump near $preferredRev
-    # if too distant
     my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
-    $revsToShow = $shownRev if $shownRev < $revsToShow;
-    my $doingRev = $shownRev;
-    my $revs     = '';
-    while ( $revsToShow > 0 ) {
-        $revsToShow--;
-        if ( $doingRev == $preferredRev ) {
-            $revs .= 'r' . $preferredRev;
+    # Soak up the revision iterator
+    my @revs = $revIt->all();
+    my $maxRevShown = 1;
+
+    if ($Foswiki::cfg{NumberOfRevisions}) {
+        # Locate the preferred rev in the array
+        my $showIndex = $#revs;
+        my $left = 0;
+        my $right = $Foswiki::cfg{NumberOfRevisions};
+        if ($requestedRev) {
+            while ($showIndex && $revs[$showIndex] != $showRev) {
+                $showIndex--;
+            }
+            $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
+            $right = scalar(@revs) if $right > scalar(@revs);
+            $left = $right - $Foswiki::cfg{NumberOfRevisions};
+            if ($left < 0) {
+                $left = 0;
+                $right = $Foswiki::cfg{NumberOfRevisions};
+            }
+        }
+        splice(@revs, $right) if ($right < scalar(@revs));
+        splice(@revs, 0, $left);
+        $maxRevShown = ($left == 0);
+    }
+
+    my $revo = '';
+    unless ($maxRevShown) {
+        unshift(@revs, $maxRev);
+    }
+    my $r = 0;
+    while ($r < scalar(@revs)) {
+        if ( $revs[$r] == $showRev ) {
+            $revo .= 'r' . $showRev;
         }
         else {
-            $revs .= CGI::a(
+            $revo .= CGI::a(
                 {
                     href => $session->getScriptUrl(
                         0,                 'view',
                         $topicObject->web, $topicObject->topic,
-                        rev => $doingRev
+                        rev => $revs[$r]
                     ),
                     rel => 'nofollow'
                 },
-                "r$doingRev"
+                'r'.$revs[$r]
             );
         }
-        if ( $doingRev - $preferredRev >= $Foswiki::cfg{NumberOfRevisions} ) {
-
-            # we started too far away, need to jump closer to $preferredRev
-            use integer;
-            $doingRev = $preferredRev + $revsToShow / 2;
-            $doingRev = $revsToShow if $revsToShow > $doingRev;
-            $revs .= ' | ';
-            next;
-        }
-        if ($revsToShow) {
-            $revs .= '&nbsp;'
+        if ($r == 0 && !$maxRevShown) {
+            $revo .= ' | ';
+        } elsif ($r < $#revs) {
+            $revo .= '&nbsp;'
               . CGI::a(
                 {
                     href => $session->getScriptUrl(
                         0, 'rdiff', $topicObject->web, $topicObject->topic,
-                        rev1 => $doingRev,
-                        rev2 => $doingRev - 1
+                        rev1 => $revs[$r],
+                        rev2 => $revs[$r - 1]
                     ),
                     rel => 'nofollow'
                 },
                 '&lt;'
               ) . '&nbsp;';
         }
-        $doingRev--;
+        $r++;
     }
 
-    $tmpl =~ s/%REVISIONS%/$revs/go;
+    $tmpl =~ s/%REVISIONS%/$revo/go;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -357,8 +397,8 @@ sub view {
         $contentType = 'text/html';
     }
     $session->{prefs}->setSessionPreferences(
-        MAXREV  => $shownRev,
-        CURRREV => $preferredRev
+        MAXREV  => $maxRev,
+        CURRREV => $showRev
     );
 
     # Set page generation mode to RSS if using an RSS skin

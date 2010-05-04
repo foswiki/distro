@@ -91,21 +91,20 @@ number that can be incremented to create a new revision number.
 
 This method should be used to sanitise user-provided revision IDs.
 
+Returns 0 if it was unable to determine a valid rev number from the
+string passed.
+
 =cut
 
 sub cleanUpRevID {
     my $rev = shift;
 
-    return 0 unless defined($rev);
+    # RCS format: 1.2, or plain integer: 2
+    if (defined $rev && $rev =~ /^(?:\d+\.)?(\d+)$/) {
+        return $1;
+    }
 
-    $rev =~ s/^r(ev)?//i;
-    $rev =~ s/^\d+\.//;     # clean up RCS rev number
-    $rev =~ s/[^\d]//g;     # digits only
-    
-    #ill formed rev's are still valid (see MetaTests::test_BadRevisionInfo)
-    $rev = 0 if ($rev eq '');
-
-    return Foswiki::Sandbox::untaintUnchecked($rev);
+    return 0;
 }
 
 =begin TML
@@ -149,13 +148,13 @@ __END__
 
 ---++ ObjectMethod readTopic($topicObject, $version) -> $rev
    * =$topicObject= - Foswiki::Meta object
-   * =$version= - integer, or undef
-Reads the given version of a topic, and populates the $topicObject. If the version
-is undef, then reads the most recent version. The version number must be
-an integer, or undef for the latest version. If the version number is higher
-than the most recent version, then the most recent version will be read.
+   * =$version= - revision identifier, or undef
+Reads the given version of a topic, and populates the $topicObject.
+If the =$version= is undef, then reads the most recent version. 
 
-Returns the version of the topic that was actually read.
+Returns the version identifier of the topic that was actually read. If
+the topic does not exist in the store, or $version refers to a version
+that does not exist, then return undef.
 
 =cut
 
@@ -285,18 +284,34 @@ sub openAttachment {
 
 =begin TML
 
----++ ObjectMethod getRevisionNumber ( $topicObject, $attachment  ) -> $integer
+---++ ObjectMethod getRevisionHistory ( $topicObject [, $attachment]  ) -> $iterator
    * =$topicObject= - Foswiki::Meta for the topic
    * =$attachment= - name of an attachment (optional)
-Get the revision number of the most recent revision of the topic (or attachment). Returns
-the integer revision number or '' if the topic doesn't exist.
+Get an iterator over the list of revisions of the object. The iterator returns
+the revision identifiers (which will usually be numbers) starting with the most recent revision.
 
 MUST WORK FOR ATTACHMENTS AS WELL AS TOPICS
 
 =cut
 
-sub getRevisionNumber {
+sub getRevisionHistory {
     my( $this, $topicObject, $attachment ) = @_;
+    die "Abstract base class";
+}
+
+=begin TML
+
+---++ ObjectMethod getNextRevision ( $topicObject  ) -> $revision
+   * =$topicObject= - Foswiki::Meta for the topic
+Get the ientifier for the next revision of the topic. That is, the identifier
+for the revision that we will create when we next save.
+
+=cut
+
+# SMELL: There's an inherent race condition with doing this, but it's always
+# been there so I guess we can live with it.
+sub getNextRevision{
+    my( $this, $topicObject ) = @_;
     die "Abstract base class";
 }
 
@@ -383,7 +398,7 @@ Save a topic or attachment _without_ invoking plugin handlers.
    * =minor= - True if this is a minor change (used in log)
    * =author= - cUID of author of the change
 
-Returns the new revision number
+Returns the new revision identifier.
 
 =cut
 
@@ -708,7 +723,7 @@ sub searchInWebContent {
    * =$topicObject= - topic
    * =$time= - time (in epoch secs) for the rev
 
-Get the revision number of a topic at a specific time.
+Get the revision identifier of a topic at a specific time.
 Returns a single-digit rev number or undef if it couldn't be determined
 (either because the topic isn't that old, or there was a problem)
 

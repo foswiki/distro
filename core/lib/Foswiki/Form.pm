@@ -158,6 +158,7 @@ sub _parseFormDefinition {
     my @fields  = ();
     my $inBlock = 0;
     my $text    = $this->text();
+    $text = '' unless defined $text;
 
     $text =~ s/\\\n//g;    # remove trailing '\' and join continuation lines
 

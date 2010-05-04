@@ -1257,7 +1257,7 @@ PONG
     $meta->getRevisionInfo();
     my $ti = $meta->get('TOPICINFO');
 
-    $this->assert_str_equals( $ti->{version}, '1.1' );
+    $this->assert_num_equals( $ti->{version}, 1 );
     $this->assert(
         $this->{session}->topicExists( $this->{test_web}, $topicName ) );
 
@@ -1279,14 +1279,7 @@ PONG
     push(
         @tests,
         {
-            test   => "info.version = '1.1'",
-            expect => "1",
-        }
-    );
-    push(
-        @tests,
-        {
-            test   => "info.rev = '1'",
+            test   => "info.version = '1'",
             expect => "1",
         }
     );
@@ -1294,14 +1287,7 @@ PONG
     push(
         @tests,
         {
-            test   => "'$this->{test_web}.$topicName'/info.version = '1.1'",
-            expect => "1"
-        }
-    );
-    push(
-        @tests,
-        {
-            test   => "'$this->{test_web}.$topicName'/info.rev = '1'",
+            test   => "'$this->{test_web}.$topicName'/info.version = '1'",
             expect => "1"
         }
     );

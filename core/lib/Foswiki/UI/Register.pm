@@ -919,7 +919,7 @@ sub _writeRegistrationDetailsToTopic {
 
     my ( $before, $repeat, $after );
     ( $before, $repeat, $after ) =
-      split( /%SPLIT%/, $templateTopicObject->text(), 3 )
+      split( /%SPLIT%/, $templateTopicObject->text() || '', 3 )
       if $templateTopicObject;
     $before = '' unless defined($before);
     $after  = '' unless defined($after);

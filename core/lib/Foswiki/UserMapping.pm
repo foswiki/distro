@@ -230,10 +230,10 @@ sub userExists {
 
 =begin TML
 
----++ ObjectMethod eachUser () -> Foswiki::ListIterator of cUIDs
+---++ ObjectMethod eachUser () -> $iterator
 
-Get an iterator over the list of all the registered users *not* including
-groups.
+Get an iterator over the list of all cUIDs of the registered
+users *not* including groups.
 
 Subclasses *must* implement this method.
 
@@ -245,7 +245,7 @@ sub eachUser {
 
 =begin TML
 
----++ ObjectMethod eachGroupMember ($group) ->  Foswiki::ListIterator of cUIDs
+---++ ObjectMethod eachGroupMember ($group) -> $iterator
 
 Return a iterator over the canonical user ids of users that are members
 of this group. Should only be called on groups.
@@ -280,9 +280,9 @@ sub isGroup {
 
 =begin TML
 
----++ ObjectMethod eachGroup () -> Foswiki::ListIterator of groupnames
+---++ ObjectMethod eachGroup () -> $iterator
 
-Get an iterator over the list of all the groups.
+Get an iterator over the list of all the group names.
 
 Subclasses *must* implement this method.
 
@@ -294,7 +294,7 @@ sub eachGroup {
 
 =begin TML
 
----++ ObjectMethod eachMembership($cUID) -> Foswiki::ListIterator of groups this user is in
+---++ ObjectMethod eachMembership($cUID) -> $iterator
 
 Return an iterator over the names of groups that $cUID is a member of.
 

@@ -33,30 +33,46 @@ use File::Path     ();
 
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
+use Foswiki::Iterator::NumberRangeIterator ();
 
 =begin TML
 
----++ ClassMethod new($web, $topic, $attachment)
+---++ ClassMethod new($store, $web, $topic, $attachment)
 
 Constructor. There is one object per stored file.
 
-Note that $web, $topic and $attachment must be untainted!
+$store is the Foswiki::VC::Store object that contains the cache for
+objects of this type. A cache is used because at some point we'll be
+smarter about the number of calls to RCS code we make.
 
-Can also be called on
-a =Foswiki::Meta object=, =new($metaObject, $attachment)=
+Note that $web, $topic and $attachment must be untainted!
 
 =cut
 
 sub new {
-    my ( $class, $web, $topic, $attachment ) = @_;
+    my ( $class, $store, $web, $topic, $attachment ) = @_;
+
+    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
+
     if (UNIVERSAL::isa($web, 'Foswiki::Meta')) {
         # $web refers to a meta object
         $attachment = $topic;
         $topic = $web->topic();
         $web = $web->web();
     }
+
+    # Reuse is good
+    my $id = ($web||0).'/'.($topic||0).'/'.($attachment||0);
+    if ($store->{handler_cache} && $store->{handler_cache}->{$id}) {
+        return $store->{handler_cache}->{$id};
+    }
+
     my $this = bless( {
         web => $web, topic => $topic, attachment => $attachment }, $class );
+
+    # Cache so we can re-use this object (it has no internal state
+    # so can safely be reused)
+    $store->{handler_cache}->{$id} = $this;
 
     if ( $web && $topic ) {
         my $rcsSubDir = ( $Foswiki::cfg{RCS}{useSubDir} ? '/RCS' : '' );
@@ -186,30 +202,66 @@ if file-based rev info is required.
 =cut
 
 sub getInfo {
-    my ($this) = @_;
+    my $this = shift;
     # SMELL: this is only required for the constant
     require Foswiki::Users::BaseUserMapping;
-    return {
-        version => 1,
-        date    => $this->getTimestamp(),
-        author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
-        comment => 'Default revision information',
-    };
+
+    # If a topic file exists, grab the TOPICINFO from it. This is
+    # the default behaviour if no implementing class can come up
+    # with a better answer. Note that we only peek at the first line
+    # of the file, which is where a "proper" save will have left the tag.
+    my $info = {};
+    my $f;
+    if (open($f, '<', $this->{file})) {
+        local $/ = "\n";
+        my $ti = <$f>;
+        close($f);
+        if (defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/) {
+            require Foswiki::Attrs;
+            my $a = new Foswiki::Attrs($1);
+            # Default bad revs to 1, not 0, because this is coming from
+            # a topic on disk, so we know it's a "real" rev.
+            $info->{version} =
+              Foswiki::Store::cleanUpRevID($a->{version}) || 1;
+            $info->{date} = $a->{date} if defined $a->{date};
+            $info->{author} = $a->{author} if defined $a->{author};
+            $info->{comment} = $a->{comment} if defined $a->{comment};
+        }
+    }
+    # version, date, author and comment fields *must* be defined
+    $info->{version} = 1 unless defined $info->{version};
+    $info->{date} = $this->getTimestamp() unless defined $info->{date};
+    $info->{author} =  $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID
+      unless defined $info->{author};
+    $info->{comment} = ''
+      unless defined $info->{comment};
+    return $info;
 }
 
 =begin TML
 
----++ ObjectMethod getLatestRevision() -> $text
+---++ ObjectMethod getRevisionHistory() -> $iterator
 
-Get the text of the most recent revision
+Get an iterator over the identifiers of revisions. Returns the most
+recent revision first.
+
+The default is to return an iterator over the version number read from the
+topic (if there is one)
 
 =cut
 
-sub getLatestRevision {
+sub getRevisionHistory {
     my $this = shift;
-
-#SMELL: why is this assumption made rather than delegating to the impl? ($this->getRevision();)
-    return readFile( $this, $this->{file} );
+    unless (-e $this->{rcsFile}) {
+        if (-e $this->{file}) {
+            return new Foswiki::ListIterator([1]);
+        } else {
+            return new Foswiki::ListIterator([]);
+        }
+    }
+    # SMELL: what happens with the working file?
+    my $maxRev = $this->numRevisions();
+    return new Foswiki::Iterator::NumberRangeIterator($maxRev, 1);
 }
 
 =begin TML
@@ -249,6 +301,21 @@ sub getTopicNames {
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
     closedir($dh);
     return @topicList;
+}
+
+=begin TML
+
+---++ ObjectMethod revisionExists($rev) -> $boolean
+
+Determine if the identified revision actually exists in the object
+history.
+
+=cut
+
+sub revisionExists {
+    my ($this, $rev) = @_;
+    # Rev numbers run from 1 to numRevisions
+    return $rev && $rev <= $this->numRevisions();
 }
 
 =begin TML
@@ -312,7 +379,10 @@ if the main file revision is required.
 
 sub getRevision {
     my ($this) = @_;
-    return readFile( $this, $this->{file} );
+    if (-e $this->{file}) {
+        return readFile( $this, $this->{file} );
+    }
+    return undef;
 }
 
 =begin TML
@@ -407,21 +477,22 @@ sub remove {
 
 =begin TML
 
----++ ObjectMethod moveTopic( $newWeb, $newTopic )
+---++ ObjectMethod moveTopic( $store, $newWeb, $newTopic )
 
 Move/rename a topic.
 
 =cut
 
 sub moveTopic {
-    my ( $this, $newWeb, $newTopic ) = @_;
+    my ( $this, $store, $newWeb, $newTopic ) = @_;
+
+    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
 
     my $oldWeb   = $this->{web};
     my $oldTopic = $this->{topic};
 
     # Move data file
-    my $new =
-      new Foswiki::Store::VC::Handler( $newWeb, $newTopic, '' );
+    my $new = $store->getHandler( $newWeb, $newTopic );
     _moveFile( $this->{file}, $new->{file} );
 
     # Move history
@@ -441,20 +512,21 @@ sub moveTopic {
 
 =begin TML
 
----++ ObjectMethod copyTopic( $newWeb, $newTopic )
+---++ ObjectMethod copyTopic( $store, $newWeb, $newTopic )
 
 Copy a topic.
 
 =cut
 
 sub copyTopic {
-    my ( $this, $newWeb, $newTopic ) = @_;
+    my ( $this, $store, $newWeb, $newTopic ) = @_;
+
+    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
 
     my $oldWeb   = $this->{web};
     my $oldTopic = $this->{topic};
 
-    my $new =
-      new Foswiki::Store::VC::Handler( $newWeb, $newTopic, '' );
+    my $new = $store->getHandler( $newWeb, $newTopic );
 
     _copyFile( $this->{file}, $new->{file} );
     if ( -e $this->{rcsFile} ) {
@@ -465,10 +537,9 @@ sub copyTopic {
     if (opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" )) {
         for my $att ( grep { !/^\./ } readdir $dh ) {
             $att = Foswiki::Sandbox::untaintUnchecked($att);
-            my $oldAtt =
-              new Foswiki::Store::VC::Handler(
+            my $oldAtt = $store->getHandler(
                   $this->{web}, $this->{topic}, $att );
-            $oldAtt->copyAttachment( $newWeb, $newTopic );
+            $oldAtt->copyAttachment( $store, $newWeb, $newTopic );
         }
 
         closedir $dh;
@@ -477,18 +548,19 @@ sub copyTopic {
 
 =begin TML
 
----++ ObjectMethod moveAttachment( $newWeb, $newTopic, $newAttachment )
+---++ ObjectMethod moveAttachment( $store, $newWeb, $newTopic, $newAttachment )
 
 Move an attachment from one topic to another. The name is retained.
 
 =cut
 
 sub moveAttachment {
-    my ( $this, $newWeb, $newTopic, $newAttachment ) = @_;
+    my ( $this, $store, $newWeb, $newTopic, $newAttachment ) = @_;
+
+    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
 
     # FIXME might want to delete old directories if empty
-    my $new =
-      Foswiki::Store::VC::Handler->new( $newWeb, $newTopic, $newAttachment );
+    my $new = $store->getHandler( $newWeb, $newTopic, $newAttachment );
 
     _moveFile( $this->{file}, $new->{file} );
 
@@ -499,21 +571,22 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod copyAttachment( $newWeb, $newTopic )
+---++ ObjectMethod copyAttachment( $store, $newWeb, $newTopic )
 
 Copy an attachment from one topic to another. The name is retained.
 
 =cut
 
 sub copyAttachment {
-    my ( $this, $newWeb, $newTopic ) = @_;
+    my ( $this, $store, $newWeb, $newTopic ) = @_;
+
+    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
 
     my $oldWeb     = $this->{web};
     my $oldTopic   = $this->{topic};
     my $attachment = $this->{attachment};
 
-    my $new =
-      Foswiki::Store::VC::Handler->new( $newWeb, $newTopic, $attachment );
+    my $new = $store->getHandler( $newWeb, $newTopic, $attachment );
 
     _copyFile( $this->{file}, $new->{file} );
 
@@ -1193,8 +1266,6 @@ as a nonexistent file, returns 0.
 
 Initialise a binary file.
 
-Must be provided by subclasses.
-
 *Virtual method* - must be implemented by subclasses
 
 =cut
@@ -1204,8 +1275,6 @@ Must be provided by subclasses.
 ---++ ObjectMethod initText()
 
 Initialise a text file.
-
-Must be provided by subclasses.
 
 *Virtual method* - must be implemented by subclasses
 

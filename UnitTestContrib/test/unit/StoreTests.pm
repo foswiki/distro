@@ -160,7 +160,7 @@ sub test_getRevisionInfo {
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
     $meta->save();
-    $this->assert_equals( 1, $meta->getMaxRevNo() );
+    $this->assert_equals( 1, $meta->getLatestRev() );
 
     $text .= "\nnewline";
     $meta->text($text);
@@ -172,7 +172,7 @@ sub test_getRevisionInfo {
     # ignore whitspace at end of data
     $readText =~ s/\s*$//s;
     $this->assert_equals( $text, $readText );
-    $this->assert_equals( 2,     $readMeta->getMaxRevNo() );
+    $this->assert_equals( 2,     $readMeta->getLatestRev() );
     my $info = $readMeta->getRevisionInfo();
     $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
     $this->assert_num_equals( 2, $info->{version} );
@@ -383,7 +383,8 @@ sub test_beforeSaveHandlerChangeBoth {
 
     $this->assert_equals( $text, $readText );
 
-    # set expected meta
+    # set expected meta. Changes in the *meta object* take priority
+    # over conflicting changes in the *text*.
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
     foreach my $fld qw(rev version date) {
         delete $meta->get( 'TOPICINFO')->{$fld};

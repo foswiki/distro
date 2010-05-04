@@ -246,7 +246,7 @@ sub canFetchUsers {
 
 =begin TML 
 
----++ ObjectMethod fetchUsers() -> new Foswiki::ListIterator(\@users)
+---++ ObjectMethod fetchUsers() -> $iterator
 
 returns an Iterator of loginnames from the password source. If AllowLoginNames is false
 this is used to remove the need for a WikiUsers topic.

@@ -71,7 +71,7 @@ sub init_edit {
       || 'text/html';
     my $parentTopic = $query->param('topicparent') || '';
     my $ptext       = $query->param('text');
-    my $revision    = $query->param('rev') || undef;
+    my $revision    = Foswiki::Store::cleanUpRevID($query->param('rev'));
 
     Foswiki::UI::checkWebExists( $session, $web, 'edit' );
 
@@ -420,7 +420,7 @@ sub finalize_edit {
       || $query->param('apptype')
       || 'text/html';
 
-    my $text = $topicObject->text();
+    my $text = $topicObject->text() || '';
     $tmpl =~ s/%UNENCODED_TEXT%/$text/g;
 
     $text = Foswiki::entityEncode($text);

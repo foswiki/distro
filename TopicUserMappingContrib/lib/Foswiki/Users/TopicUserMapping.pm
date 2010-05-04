@@ -2,7 +2,9 @@
 
 =begin TML
 
----+ package Foswiki::Users::TopicUserMapping
+---+ package Foswiki::Users::TopicUserMapping @isa Foswiki::UserMapping');
+
+use
 
 The User mapping is the process by which Foswiki maps from a username (a login name)
 to a wikiname and back. It is also where groups are defined.
@@ -24,7 +26,7 @@ Subclasses should be named 'XxxxUserMapping' so that configure can find them.
 
 package Foswiki::Users::TopicUserMapping;
 use Foswiki::UserMapping ();
-@ISA = ('Foswiki::UserMapping');
+our @ISA = ('Foswiki::UserMapping');
 
 use strict;
 use Assert;
@@ -355,9 +357,9 @@ sub addUser {
  # insidelist is used to see if we are before the first record or after the last
  # 0 before, 1 inside, 2 after
     my $insidelist = 0;
-    my $input      = $usersTopicObject->text() || '';
+    my $input      = $usersTopicObject->text();
     my $output     = '';
-    foreach my $line ( split( /\r?\n/, $input ) ) {
+    foreach my $line ( split( /\r?\n/, $input || '' ) ) {
 
         # TODO: I18N fix here once basic auth problem with 8-bit user names is
         # solved
@@ -553,7 +555,7 @@ sub userExists {
 
 =begin TML
 
----++ ObjectMethod eachUser () -> Foswiki::ListIterator of cUIDs
+---++ ObjectMethod eachUser () -> Foswiki::Iterator of cUIDs
 
 See baseclass for documentation
 
@@ -592,7 +594,8 @@ sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
 
-    return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} )
+    return new Foswiki::ListIterator(
+        $this->{eachGroupMember}->{$group} )
       if ( defined( $this->{eachGroupMember}->{$group} ) );
 
     my $session = $this->{session};
@@ -613,7 +616,8 @@ sub eachGroupMember {
     }
     $this->{eachGroupMember}->{$group} = $members;
 
-    return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
+    return new Foswiki::ListIterator(
+        $this->{eachGroupMember}->{$group} );
 }
 
 =begin TML
@@ -631,6 +635,7 @@ sub isGroup {
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
 
     return 0 unless ($user =~ /Group$/);
+
     #actually test for the existance of this group
     #TODO: SMELL: this is still a lie, because it will claim that a 
     #Group which the currently logged in user does _not_ 
@@ -800,7 +805,7 @@ sub addUserToGroup {
         $groupTopicObject->putKeyed( 'PREFERENCE',
             { name => 'GROUP', title => 'GROUP', value => $membersString } );
             
-        my $text = $groupTopicObject->text();
+        my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
         $groupTopicObject->text($text);
 
@@ -833,7 +838,7 @@ sub addUserToGroup {
                 value => $usersObj->getWikiName($cuid)
             }
         );
-        my $text = $groupTopicObject->text();
+        my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
         $groupTopicObject->text($text);
         
@@ -1132,7 +1137,7 @@ sub mapper_setEmails {
     else {
 
         # otherwise use the topic text
-        my $text = $topicObject->text();
+        my $text = $topicObject->text() || '';
         unless ( $text =~ s/^(\s+\*\s+E-?mail:\s*).*$/$1$mails/mi ) {
             $text .= "\n   * Email: $mails\n";
         }
@@ -1350,7 +1355,7 @@ sub _loadMapping {
                 $Foswiki::cfg{UsersWebName},
                 $Foswiki::cfg{UsersTopicName}
             );
-            my $text = $usersTopicObject->text();
+            my $text = $usersTopicObject->text() || '';
 
             # Get the WikiNames and userids, and build hashes in both directions
             # This matches:

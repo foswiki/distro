@@ -932,7 +932,8 @@ sub _replaceWebInternalReferences {
 
     # Replace references that were internal to the source web; they are
     # now inter-web
-    $text = $renderer->forEachLine( $text, \&_replaceInternalRefs, $options );
+    $text = $renderer->forEachLine(
+        $text || '', \&_replaceInternalRefs, $options );
 
     $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
         \&_replaceInternalRefs, $options );

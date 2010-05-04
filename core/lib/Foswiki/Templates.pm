@@ -356,7 +356,9 @@ sub _readTemplateFile {
                 return $this->{session}->inlineAlert( 'alerts', 'access_denied',
                     "$userdirweb.$userdirname" );
             }
-            return $meta->text();
+            my $text = $meta->text();
+            $text = '' unless defined $text;
+            return $text;
         }
     }
     else {
@@ -437,7 +439,9 @@ sub _readTemplateFile {
                     my $meta = Foswiki::Meta->load( $session, $web1, $name1 );
                     next unless $meta->haveAccess( 'VIEW', $session->{user} );
 
-                    return $meta->text();
+                    my $text = $meta->text();
+                    $text = '' unless defined $text;
+                    return $text;
                 }
             }
             elsif ( -e $file ) {

@@ -74,7 +74,6 @@ sub initBinary {
 # implements VC::Handler
 sub initText {
     my ($this) = @_;
-
     $this->{binary} = 0;
 
     Foswiki::Store::VC::Handler::mkPathTo( $this->{file} );
@@ -131,12 +130,12 @@ sub addRevisionFromStream {
 sub replaceRevision {
     my ( $this, $text, $comment, $user, $date ) = @_;
 
-    my $rev = $this->numRevisions();
+    my $rev = $this->numRevisions() || 0;
 
     $comment ||= 'none';
 
     # update repository with same userName and date
-    if ( $rev == 1 ) {
+    if ( $rev <= 1 ) {
 
         # initial revision, so delete repository file and start again
         unlink $this->{rcsFile};
@@ -217,8 +216,14 @@ sub getRevision {
     my ( $this, $version ) = @_;
 
     unless ( $version && -e $this->{rcsFile} ) {
+        # Get the latest rev from the cache
         return $this->SUPER::getRevision($version);
     }
+
+    # We've been asked for an explicit rev. The rev might be outside the
+    # range of revs in RCS. RCS will return the latest, though it reports
+    # the rev retrieved to STDERR (no use to us, as we have no access
+    # to STDERR)
 
     my $tmpfile;
     my $tmpRevFile;
@@ -259,10 +264,11 @@ sub getRevision {
 
 # implements VC::Handler
 sub numRevisions {
-    my ($this) = @_;
+    my $this = shift;
 
     unless ( -e $this->{rcsFile} ) {
-        return 1 if ( -e $this->{file} );
+        # If there is no history, there can only be one.
+        return 1 if -e $this->{file};
         return 0;
     }
 

@@ -6,8 +6,10 @@ use strict;
 # Poor-man's content access.
 sub META {
     my ( $this, $params, $topicObject ) = @_;
-   
-    $topicObject->reload(0) if $topicObject->getLoadedRev() != $topicObject->getMaxRevNo();
+
+    # Force a load of the latest. Some day we'll support content access to
+    # old revs... maybe
+    $topicObject->reload(0) unless $topicObject->latestIsLoaded();
 
     my $option = $params->{_DEFAULT} || '';
 

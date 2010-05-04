@@ -14,7 +14,7 @@ sub REVINFO {
     my $cgiQuery = $this->{request};
     my $cgiRev   = '';
     $cgiRev = $cgiQuery->param('rev') if ($cgiQuery);
-    my $rev = $params->{rev} || $cgiRev || '';
+    my $rev = Foswiki::Store::cleanUpRevID( $params->{rev} || $cgiRev || '' );
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
     if ( $web ne $topicObject->web || $topic ne $topicObject->topic ) {

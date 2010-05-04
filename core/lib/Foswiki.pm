@@ -2184,14 +2184,17 @@ round out the spec.
 
 sub parseSections {
 
-    #my( $text _ = @_;
+    my $text = shift;
+
+    return ( '', [] ) unless defined $text;
+
     my %sections;
     my @list = ();
 
     my $seq    = 0;
     my $ntext  = '';
     my $offset = 0;
-    foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] ) ) {
+    foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $text ) ) {
         if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
@@ -2286,6 +2289,8 @@ expected in templates that must be statically expanded in new content.
 
 sub expandMacrosOnTopicCreation {
     my ( $this, $text, $topicObject ) = @_;
+
+    return '' unless defined $text;
 
     # Chop out templateonly sections
     my ( $ntext, $sections ) = parseSections($text);
@@ -3064,7 +3069,7 @@ DO NOT CALL THIS DIRECTLY; use $topicObject->expandMacros instead.
 sub expandMacros {
     my ( $this, $text, $topicObject ) = @_;
 
-    return $text unless $text;
+    return '' unless defined $text;
 
     # Plugin Hook (for cache Plugins only)
     $this->{plugins}

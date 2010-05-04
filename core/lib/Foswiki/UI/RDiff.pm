@@ -473,8 +473,8 @@ sub diff {
         $session->{prefs}->getPreference('DIFFCONTEXTLINES');
         $contextLines = 3 unless defined $contextLines;
     }
-    my $revHigh = $query->param('rev1');
-    my $revLow  = $query->param('rev2');
+    my $revHigh = Foswiki::Store::cleanUpRevID( $query->param('rev1') );
+    my $revLow  = Foswiki::Store::cleanUpRevID( $query->param('rev2') );
 
     my $skin = $session->getSkin();
     my $tmpl = $session->templates->readTemplate( 'rdiff', $skin );
@@ -486,18 +486,16 @@ sub diff {
     $after  ||= '';
     $tail   ||= '';
 
-    my $maxrev = $topicObject->getMaxRevNo();
+    my $maxrev = $topicObject->getLatestRev();
 
     if ( $diffType eq 'last' ) {
         $revHigh = $maxrev;
         $revLow  = $maxrev - 1;
     }
 
-    $revHigh = Foswiki::Store::cleanUpRevID($revHigh);
     $revHigh = $maxrev if ( $revHigh < 1 );
     $revHigh = $maxrev if ( $revHigh > $maxrev );
 
-    $revLow = Foswiki::Store::cleanUpRevID($revLow);
     $revLow = 1 if ( $revLow < 1 );
     $revLow = $maxrev if ( $revLow > $maxrev );
 
@@ -522,27 +520,28 @@ sub diff {
         $isMultipleDiff = 1;
     }
 
-    my %topicObject;
+    my %toms;
 
+    # SMELL: this code assumes linear version numbers, which
+    # may not be true after Foswiki 1.1
     do {
 
         # Load the revs being diffed
-        $topicObject{$rHigh} =
+        $toms{$rHigh} =
           Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
             $rHigh )
-          unless $topicObject{$rHigh};
+          unless $toms{$rHigh};
         ASSERT(
-            $topicObject{$rHigh}->getLoadedRev() == $rHigh,
-            $topicObject{$rHigh}->getLoadedRev() . " == $rHigh"
+            $toms{$rHigh}->getLoadedRev() == $rHigh,
+            $toms{$rHigh}->getLoadedRev() . " == $rHigh"
         ) if DEBUG;
-
-        $topicObject{$rLow} =
+        $toms{$rLow} =
           Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
             $rLow )
-          unless $topicObject{$rLow};
+          unless $toms{$rLow};
         ASSERT(
-            $topicObject{$rLow}->getLoadedRev() == $rLow,
-            $topicObject{$rLow}->getLoadedRev() . " == $rLow"
+            $toms{$rLow}->getLoadedRev() == $rLow,
+            $toms{$rLow}->getLoadedRev() . " == $rLow"
         ) if DEBUG;
 
         my $diff = $difftmpl;
@@ -571,9 +570,9 @@ sub diff {
 
         # Check access rights
         my $rd;
-        if ( !$topicObject{$rHigh}->haveAccess() ) {
+        if ( !$toms{$rHigh}->haveAccess() ) {
             $rd = [ [ '-', " *Revision $rHigh is unreadable* ", '' ] ];
-            if ( !$topicObject{$rLow}->haveAccess() ) {
+            if ( !$toms{$rLow}->haveAccess() ) {
                 push( @$rd, [ '+', '', " *Revision $rLow is unreadable* " ] );
             }
             else {
@@ -582,14 +581,14 @@ sub diff {
                 }
             }
         }
-        elsif ( !$topicObject{$rLow}->haveAccess() ) {
+        elsif ( !$toms{$rLow}->haveAccess() ) {
             $rd = [ [ '+', '', " *Revision $rLow is unreadable* " ] ];
             foreach ( split( "\n", $rHigh ) ) {
                 push( @$rd, [ '-', $_, '' ] );
             }
         }
         else {
-            $rd = $topicObject{$rLow}->getDifferences( $rHigh, $contextLines );
+            $rd = $toms{$rLow}->getDifferences( $rHigh, $contextLines );
         }
 
         $text = _renderRevisionDiff(

@@ -1271,7 +1271,9 @@ sub summariseChanges {
     my ( $web, $topic, $orev, $nrev, $tml ) = @_;
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->summariseChanges( $orev, $nrev, $tml );
+    return $topicObject->summariseChanges(
+        Foswiki::Store::cleanUpRevID( $orev ),
+        Foswiki::Store::cleanUpRevID( $nrev ), $tml );
 }
 
 =begin TML

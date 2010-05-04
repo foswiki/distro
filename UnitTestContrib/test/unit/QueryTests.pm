@@ -201,7 +201,11 @@ sub verify_meta_dot {
     $this->check( "META:FORM", eval=>{ name => 'TestForm' } );
     $this->check( "META:FORM.name", eval=>'TestForm' );
     $this->check( "form.name", eval=>     'TestForm' );
-    $this->check( "info.author", eval=>   'AlbertCamus' );
+    my $info = $this->{meta}->getRevisionInfo();
+    $this->check( "info.date", eval=>   $info->{date} );
+    $this->check( "info.format", eval=>   1.1 );
+    $this->check( "info.version", eval=>   $info->{version} );
+    $this->check( "info.author", eval=>   $info->{author} );
     $this->check( "fields.number", eval=> 99 );
     $this->check( "fields.string", eval=> 'String' );
     $this->check( "notafield.string", eval=> undef );

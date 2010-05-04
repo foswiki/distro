@@ -144,6 +144,8 @@ sub buildNewTopic {
         $text .= "\n" unless $text =~ /\n$/s;
     }
 
+    $text = '' unless defined $text;
+
     # Change the parent, if appropriate
     my $newParent = $query->param('topicparent');
     if ($newParent) {
@@ -570,6 +572,7 @@ WARN
 
     if ( $saveaction =~ /^(save|checkpoint)$/ ) {
         my $text = $topicObject->text();
+        $text = '' unless defined $text;
         $session->{plugins}
           ->dispatch( 'afterEditHandler', $text, $topicObject->topic,
             $topicObject->web, $topicObject );

@@ -118,12 +118,15 @@ use Foswiki::Sandbox ();
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
-    $this->{head}    = 0;
-    $this->{access}  = '';
-    $this->{symbols} = '';
-    $this->{comment} = '# ';     # Default comment for Rcs
-    $this->{desc}    = 'none';
-    $this->initText;             # Set default expand to 'o'
+    unless ($this->{initialised}) {
+        $this->{initialised} = 1;
+        $this->{head}    = 0;
+        $this->{access}  = '';
+        $this->{symbols} = '';
+        $this->{comment} = '# ';       # Default comment for Rcs
+        $this->{desc}    = 'none';
+        initText($this);               # Set default expand to 'o'
+    }
 
     return $this;
 }
@@ -425,7 +428,6 @@ sub initBinary {
 # implements VC::Handler
 sub initText {
     my ($this) = @_;
-
     # Nothing to be done but note for re-writing
     $this->{expand} = 'o';
 }
@@ -518,7 +520,6 @@ sub _writeMe {
         close($out);
     }
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{rcsFile} );
-
     return $dataError;
 }
 

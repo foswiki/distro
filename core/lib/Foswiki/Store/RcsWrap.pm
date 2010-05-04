@@ -26,7 +26,7 @@ use Foswiki::Store::VC::RcsWrapHandler ();
 
 sub getHandler {
     my $this = shift;
-    return new Foswiki::Store::VC::RcsWrapHandler( @_ );
+    return new Foswiki::Store::VC::RcsWrapHandler( $this, @_ );
 }
 
 1;

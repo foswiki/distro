@@ -203,7 +203,7 @@ sub verify_normal_attachment {
     unlink "$Foswiki::cfg{TempfileDir}/$attachment";
 
     # Check revision number
-    my $rev = $meta->getMaxRevNo($attachment);
+    my $rev = $meta->getLatestRev($attachment);
     $this->assert_num_equals( 1, $rev );
 
 }

@@ -70,33 +70,36 @@ sub getHandler {
 
 sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
-    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
 
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     my $handler = $this->getHandler($topicObject);
-    my $text;
-    if ($version) {
-        $text = $handler->getRevision($version);
+
+    # check that the requested revision actually exists
+    if (defined $version) {
+        if (!$version || !$handler->revisionExists($version)) {
+            $version = $handler->numRevisions();
+        }
     }
-    else {
-        $text = $handler->getLatestRevision();
-    }
+
+    my $text = $handler->getRevision($version);
+    return undef unless defined $text;
+
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
 
-    # Use the potentially more risky topic version number for speed
-    my $gotRev;
-    my $ri = $topicObject->get('TOPICINFO');
-    if ( defined($ri) ) {
-        $gotRev = $ri->{version};
+    my $gotRev = $version;
+    unless (defined $gotRev) {
+        # First try the just-loaded text for the revision
+        my $ri = $topicObject->get('TOPICINFO');
+        if ( defined($ri) ) {
+            # SMELL: this can end up overriding a correct rev no (the one
+            # requested) with an incorrect one (the one in the TOPICINFO)
+            $gotRev = $ri->{version};
+        }
     }
-    else {
-
-        # SMELL: Risky. In most cases, I reckon this is going to be OK.
-        # Alt kick down to to the handler to get the real deal?
-        # Sven reckons it is too slow. Synch the TOPICINFO version number
-        # with the handler on save, so they can never get out of step?
-        # C.
-        $gotRev = $version;
+    if (!$gotRev) {
+        # No revision from any other source; must be latest
+        $gotRev = $handler->numRevisions() || 1;
     }
 
     # Add attachments that are new from reading the pub directory.
@@ -104,7 +107,6 @@ sub readTopic {
     if (   $Foswiki::cfg{RCS}{AutoAttachPubFiles}
         && $topicObject->isSessionTopic() )
     {
-
         my @knownAttachments = $topicObject->find('FILEATTACHMENT');
         my @attachmentsFoundInPub =
           $handler->synchroniseAttachmentsList( \@knownAttachments );
@@ -131,8 +133,7 @@ sub readTopic {
         $topicObject->putAll( 'FILEATTACHMENT', @validAttachmentsFound )
           if @validAttachmentsFound;
     }
-
-    return Foswiki::Store::cleanUpRevID( $gotRev || 1 );
+    return $gotRev;
 }
 
 sub moveAttachment {
@@ -142,7 +143,8 @@ sub moveAttachment {
 
     my $handler = $this->getHandler( $oldTopicObject, $oldAttachment );
     if ( $handler->storedDataExists() ) {
-        $handler->moveAttachment( $newTopicObject->web, $newTopicObject->topic,
+        $handler->moveAttachment(
+            $this, $newTopicObject->web, $newTopicObject->topic,
             $newAttachment );
     }
 }
@@ -160,7 +162,7 @@ sub moveTopic {
     my $handler = $this->getHandler( $oldTopicObject, '' );
     my $rev = $handler->numRevisions();
 
-    $handler->moveTopic( $newTopicObject->web, $newTopicObject->topic );
+    $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
 
@@ -193,11 +195,17 @@ sub openAttachment {
     return $handler->openStream( $mode, @opts );
 }
 
-sub getRevisionNumber {
+sub getRevisionHistory {
     my ( $this, $topicObject, $attachment ) = @_;
 
     my $handler = $this->getHandler( $topicObject, $attachment );
-    return $handler->numRevisions();
+    return $handler->getRevisionHistory();
+}
+
+sub getNextRevision{
+    my( $this, $topicObject ) = @_;
+    my $handler = $this->getHandler( $topicObject );
+    return ($handler->numRevisions() || 0) + 1;
 }
 
 sub getRevisionDiff {
@@ -218,7 +226,7 @@ sub getAttachmentVersionInfo {
 sub getVersionInfo {
     my ( $this, $topicObject ) = @_;
     my $handler = $this->getHandler($topicObject);
-    return $handler->getInfo();
+    return $handler->getInfo($topicObject->getLoadedRev());
 }
 
 sub saveAttachment {

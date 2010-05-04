@@ -83,7 +83,7 @@ sub verify_notopic {
     my $topic = "UnitTest1";
     my $m =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "UnitTest1" );
-    my $rev = $m->getMaxRevNo();
+    my $rev = $m->getLatestRev();
     $this->assert(
         !$this->{session}->topicExists( $this->{test_web}, $topic ) );
     $this->assert_num_equals( 0, $rev );
@@ -100,7 +100,7 @@ sub verify_checkin {
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic, $text );
     $meta->save( user => $user );
-    my $rev = $meta->getMaxRevNo();
+    my $rev = $meta->getLatestRev();
     $this->assert_num_equals( 1, $rev );
 
     $meta =
@@ -126,7 +126,7 @@ sub verify_checkin {
     $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
     $info = $meta->getRevisionInfo();
     $meta->save();
-    $this->assert_num_equals( 2, $meta->getMaxRevNo() );
+    $this->assert_num_equals( 2, $meta->getLatestRev() );
 
     # Force reload
     $meta =
@@ -173,7 +173,7 @@ sub verify_checkin_attachment {
     unlink "$Foswiki::cfg{TempfileDir}/$attachment";
 
     # Check revision number
-    my $rev = $meta->getMaxRevNo($attachment);
+    my $rev = $meta->getLatestRev($attachment);
     $this->assert_num_equals( 1, $rev );
 
     # Save again and check version number goes up by 1
@@ -190,7 +190,7 @@ sub verify_checkin_attachment {
     unlink "$Foswiki::cfg{TempfileDir}/$attachment";
 
     # Check revision number
-    $rev = $meta->getMaxRevNo($attachment);
+    $rev = $meta->getLatestRev($attachment);
     $this->assert_num_equals( 2, $rev );
 }
 
@@ -221,8 +221,8 @@ sub verify_rename {
         file => "$Foswiki::cfg{TempfileDir}/$attachment"
     );
 
-    my $oldRevAtt = $meta->getMaxRevNo($attachment);
-    my $oldRevTop = $meta->getMaxRevNo();
+    my $oldRevAtt = $meta->getLatestRev($attachment);
+    my $oldRevTop = $meta->getLatestRev();
 
     $user = $testUser1;
     $this->{session}->{user} = $user;
@@ -237,7 +237,7 @@ sub verify_rename {
     $this->assert( $this->{session}->topicExists( $newWeb, $newTopic ) );
     $this->assert( $nmeta->hasAttachment($attachment) );
 
-    my $newRevAtt = $nmeta->getMaxRevNo($attachment);
+    my $newRevAtt = $nmeta->getLatestRev($attachment);
     $this->assert_num_equals( $oldRevAtt, $newRevAtt );
 }
 
@@ -331,7 +331,7 @@ sub verify_releaselocksonsave {
     local $/ = undef;
     my $text = <F>;
     close(F);
-    $this->assert_matches( qr/version="1.3"/, $text );
+    $this->assert_matches( qr/version="(1.)?3"/, $text );
     $this->assert_matches(
 qr/<div\s+class="foswikiConflict">.+version\s+2.*<\/div>\s*Changed\nLines[\s.]+<div/,
         $text

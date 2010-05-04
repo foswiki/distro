@@ -15,11 +15,11 @@ sub ADDTOHEAD {
           $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
 
         # prevent deep recursion
-        $web =~ s/\//\./g;
+        $web =~ s/\//\./g; # SMELL: unnecessary?
         unless ($this->{_addedToHEAD}{"$web.$topic"}) {
-          my $atom = Foswiki::Meta->new( $this, $web, $topic );
-          $text = $atom->text();
-          $this->{_addedToHEAD}{"$web.$topic"} = 1;
+            my $atom = Foswiki::Meta->load( $this, $web, $topic );
+            $text = $atom->text();
+            $this->{_addedToHEAD}{"$web.$topic"} = 1;
         }
     }
     $text = $_DEFAULT unless defined $text;
