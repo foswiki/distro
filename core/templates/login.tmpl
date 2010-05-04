@@ -29,7 +29,7 @@
 
 %TMPL:DEF{"authrealm"}%%AUTHREALM%%TMPL:END%
 
-%TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
+%TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%%PATH_INFO%' name='loginform' method='post'>%TMPL:END%
 
 %TMPL:DEF{"formend"}%<literal>
 %QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%

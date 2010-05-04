@@ -82,9 +82,13 @@ sub forceAuthentication {
         my $query = $session->{request};
 
         # Redirect with passthrough so we don't lose the original query params
-        my $session = $this->{session};
-        my $topic   = $session->{topicName};
-        my $web     = $session->{webName};
+
+        # We use the query here to ensure the original path_info
+        # from the request gets through to the login form. See also
+        # PATH_INFO below.
+        # $x because path_info always has a leading /
+        my ($x, $web, $topic) = split(/\/+/, $query->path_info());
+
         my $url     = $session->getScriptUrl( 0, 'login', $web, $topic );
         $query->param( -name => 'foswiki_origin',
                        -value => _packRequest($session) );
@@ -249,6 +253,11 @@ sub login {
     $session->{prefs}->setSessionPreferences(
         FOSWIKI_ORIGIN => Foswiki::entityEncode(
             _packRequest($origurl, $origmethod, $origaction)),
+        # Path to be used in the login form action.
+        # Could have used %ENV{PATH_INFO} (after extending {AccessibleENV})
+        # but decided against it as the path_info might have been rewritten
+        # from the original env var.
+        PATH_INFO  => $query->path_info(),
         BANNER     => $banner,
         NOTE       => $note,
         ERROR      => $error
