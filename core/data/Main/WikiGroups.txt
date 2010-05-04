@@ -8,6 +8,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
   mode="div"
 }%
 
+<sticky>
 <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST">
 <input type="hidden" name="action" value="addUserToGroup"/>
 <input type="hidden" name="create" value="1"/>
@@ -41,8 +42,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
     </div>
   </div>
 </div>
-</form>
-%ENDTWISTY%
+</form></sticky> %ENDTWISTY%
 
 %GROUPINFO{
    header="<table class='foswikiTable' style='width:99%'>
@@ -64,9 +64,9 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
    footer="</table>"
    separator="$n"
 }%
-<div class='foswikiGrayText'>** Nested groups are expanded.</div>
+<sticky><div class='foswikiGrayText'>** Nested groups are expanded.</div></sticky>
 
-<verbatim style="display:none">
+<verbatim style="display: none;">
 <!--
   parameters: username, groupname, allowschange
 -->
@@ -81,6 +81,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 }%<!-- list of members// -->
 %TWISTYTOGGLE{id="%groupname%_add"}%
 
+<sticky>
 <div class='foswikiFormSteps'>
   <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
   <input type="hidden" name="groupname" value="%groupname%"/> 
@@ -92,7 +93,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
      <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%" />
   </div>
 </form>
-</div>
+</div></sticky>
 
 %ENDTWISTYTOGGLE%
 %TWISTYTOGGLE{id="%groupname%_remove"}%
@@ -122,14 +123,14 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 <!-- //rendergroup -->%ENDSECTION{"rendergroup"}%
 </verbatim>
 
-<verbatim style="display:none">
+<verbatim style="display: none;">
 <!--
   parameters: username, groupname
 -->
 %STARTSECTION{"nochange"}%<!-- nochange // -->%ENDSECTION{"nochange"}%
 </verbatim>
 
-<verbatim style="display:none">
+<verbatim style="display: none;">
 <!--
   parameters: groupname
 -->
