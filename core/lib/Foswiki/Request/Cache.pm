@@ -80,10 +80,19 @@ sub save {
     # Serialize some key info from the request
     foreach my $field qw(method path_info action) {
         print $F $field,'=', ($req->$field() || ''), "\n";
-        print STDERR "Saving $field =" . $req->$field() || '' . "\n"
+        print STDERR "CACHE $uid> $field(" . ($req->$field() || '') . ")\n"
           if (TRACE_CACHE); 
     }
     print $F "=\n";
+
+    if (TRACE_CACHE) {
+        foreach my $name ( $req->param ) {
+            foreach my $value ( $req->param($name) ) {
+                $value = '' unless defined $value;
+                print STDERR "CACHE $uid> $name=$value\n";
+            }
+        }
+    }
 
     # Serialize the request parameters
     $req->save($F);
@@ -91,6 +100,7 @@ sub save {
     # Serialize uploads, if there are any, and store the upload keys
     while ( my ($k, $v) = each %{ $req->{uploads} }) {
         $k = Foswiki::urlEncode($k);
+        print STDERR "CACHE $uid> upload $k\n";
         $this->_saveUpload( $this->_cacheFile($uid), $k, $v );
         print $F $k;
     }
@@ -118,21 +128,23 @@ sub load {
     # Read cached post parameters
     my $F = new IO::File($this->_cacheFile($uid), '<' );
     if ($F) {
-        if (TRACE_CACHE) {
-            print STDERR "ReqCache: Loading $uid\n";
-            #local $/;
-            #print STDERR <$F>, "\n";
-            #$F->seek( 0, 0 );
-        }
-
         # Load request fields
         local $/ = "\n";
         while (my $e = <$F>) {
             chomp($e);
             last if $e eq '=';
             my ($fn, $val) = split('=', $e, 2);
-            print STDERR "CACHE LOAD set $fn ( $val ) \n" if (TRACE_CACHE);
+            print STDERR "CACHE $uid< $fn($val)\n" if (TRACE_CACHE);
             $req->$fn($val);
+        }
+
+        if (TRACE_CACHE) {
+            my $here = tell $F;
+            while (my $l = <$F>) {
+                last if $l =~ /^=/;
+                print STDERR "CACHE $uid< $l";
+            }
+            seek($F, $here, 0);
         }
 
         # Load params
@@ -141,20 +153,22 @@ sub load {
         # Load uploads
         while (my $key = <$F>) {
             chomp($key);
-            $key = Foswiki::Sandbox::untaintUnchecked( $key );
-            $req->{uploads}->{Foswiki::urlDecode($key)} =
+            $key = Foswiki::urlDecode(
+                Foswiki::Sandbox::untaintUnchecked( $key ));
+            print STDERR "CACHE $uid< upload $key\n";
+            $req->{uploads}->{$key} =
               $this->_loadUpload( $this->_cacheFile($uid), $key );
         }
         # Load uploads
         unlink($this->_cacheFile($uid));
-        print STDERR "ReqCache: Loaded ".
+        print STDERR "CACHE $uid< Loaded ".
           $this->_cacheFile($uid).", URL now ".$req->url()."\n"
             if TRACE_CACHE;
 
     }
     else {
         # SMELL: should this be an assert?
-        print STDERR "ReqCache: Could not find ".$this->_cacheFile($uid)."\n"
+        print STDERR "CACHE $uid< Could not find ".$this->_cacheFile($uid)."\n"
           if TRACE_CACHE;
     }
 }
