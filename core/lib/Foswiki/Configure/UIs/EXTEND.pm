@@ -71,6 +71,7 @@ sub _install {
       new Foswiki::Configure::Package( $this->{root}, $extension, $session );
     $pkg->repository($repository);
     my ( $rslt, $plugins, $depCPAN ) = $pkg->fullInstall();
+    $err = $pkg->errors();
 
     _printFeedback($rslt);
 
@@ -80,7 +81,9 @@ sub _install {
     undef $session;
 
     if ($err) {
-        $feedback .= $this->ERROR("$err");
+        $feedback .= $this->ERROR(
+"Errors encountered during package installation.  The Extension may not be usable. <pre>$err</pre>"
+        );
         $feedback .= "Installation terminated";
         _printFeedback($feedback);
         return 0;

@@ -43,9 +43,9 @@ my $alreadyUnpacked = 0;
 my $reuseOK         = 0;
 my $simulate        = 0;
 my $nocpan          = 0;
-my $action          = 'install';    # Default target is install
+my $action          = 'install';  # Default target is install
 my $session;
-my $thispkg;                        # Package object for THIS module
+my $thispkg;         # Package object for THIS module
 my %available;
 my $lwp;
 my @archTypes = ( '.tgz', '.tar.gz', '.zip' );
@@ -55,15 +55,15 @@ my $PACKAGES_URL;
 my $MANIFEST;
 
 sub _inform {
-    print @_, "\n";
+        print @_,"\n";
 }
 
 sub _warn {
-    print "*WARNING* ", @_, "\n";
+        print "*WARNING* ",@_,"\n";
 }
 
 sub _shout {
-    print "### ERROR ### ", @_, "\n";
+        print "### ERROR ### ",@_,"\n";
 }
 
 sub _stop {
@@ -73,16 +73,16 @@ sub _stop {
 
 # processParameters
 my %opts;
-getopts( 'acdnoru', \%opts );
-$noconfirm       = $opts{a};
-$nocpan          = $opts{c};
-$downloadOK      = $opts{d};
-$reuseOK         = $opts{r};
-$simulate        = $opts{n};
+getopts('acdnoru', \%opts);
+$noconfirm = $opts{a};
+$nocpan = $opts{c};
+$downloadOK = $opts{d};
+$reuseOK = $opts{r};
+$simulate = $opts{n};
 $alreadyUnpacked = $opts{u};
-if ( @ARGV > 1 ) {
+if( @ARGV > 1 ) {
     usage();
-    _stop( 'Too many parameters: ' . join( " ", @ARGV ) );
+    _stop( 'Too many parameters: ' . join(" ", @ARGV) );
 }
 $action = $ARGV[0] if $ARGV[0];
 
@@ -94,21 +94,21 @@ $installationRoot = $1;
 
 my $check_perl_module = sub {
     my $module = shift;
-
+    
     if ( eval "require $module" ) {
         $available{$module} = 1;
     }
     else {
-        _warn(  "$module is not available on this server,"
-              . " some installer functions have been disabled" );
+        _warn("$module is not available on this server,"
+                . " some installer functions have been disabled");
         $available{$module} = 0;
     }
     return $available{$module};
 };
 
 unless ( -d 'lib' && -d 'bin' && -e 'bin/setlib.cfg' ) {
-    _stop(  'This installer must be run from the root directory'
-          . ' of a Foswiki installation' );
+    _stop('This installer must be run from the root directory'
+            . ' of a Foswiki installation');
 }
 
 # read setlib.cfg
@@ -140,11 +140,12 @@ require Foswiki::Configure::Dependency;
 require Foswiki::Configure::Util;
 require Foswiki::Configure::Package;
 
+
 # Satisfy CPAN dependencies on modules, by checking:
 
 sub satisfy {
-    my $dep = shift;
-    my $ok  = '';
+    my $dep  = shift;
+    my $ok = '';
     my $msg = '';
 
     if ( $dep->{type} =~ m/cpan/i && $available{CPAN} && !$nocpan ) {
@@ -259,43 +260,42 @@ sub prompt {
     return $reply;
 }
 
+
 sub _loadInstaller {
 
     my $repository = {
-        name => 'fromInstaller',
-        data => '',
-        pub  => "$PACKAGES_URL/"
-    };
+                 name => 'fromInstaller', 
+                 data => '', 
+                 pub => "$PACKAGES_URL/" 
+                 };
 
     _inform "Package repository set to $PACKAGES_URL \n";
-    _inform
-" ... locally found installer scripts and archives will be used if available"
-      if ($reuseOK);
+    _inform " ... locally found installer scripts and archives will be used if available" if ($reuseOK);
 
-    $thispkg =
-      new Foswiki::Configure::Package( "$installationRoot/", $MODULE, $session,
-        { SHELL => 1, USELOCAL => $reuseOK, SIMULATE => $simulate } );
+    
+
+    $thispkg = new Foswiki::Configure::Package ("$installationRoot/", $MODULE, $session, { SHELL => 1, USELOCAL => $reuseOK, SIMULATE => $simulate });
     $thispkg->repository($repository);
 
-    my ( $rslt, $err ) = $thispkg->loadInstaller()
-      ;    # Use local package, don't download, as we were invoked from it.
+    my ($rslt, $err) = $thispkg->loadInstaller();  # Use local package, don't download, as we were invoked from it.
 
     _inform "$rslt" if ($rslt);
-    _stop "$err"    if ($err);
+    _stop "$err" if ($err);
 }
+
 
 sub _uninstall {
     my $file;
     my @dead;
     my $rslt = '';
-    my $err  = '';
-    my $sim  = '';
+    my $err = '';
+    my $sim = '';
     $sim = 'Simulated - ' if ($simulate);
 
     $rslt = $thispkg->createBackup();
 
     _inform "$rslt";
-
+   
     @dead = $thispkg->uninstall('1') unless ($err);
 
     unless ( $#dead > 1 ) {
@@ -307,24 +307,23 @@ sub _uninstall {
 
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
-
+    
         $thispkg->loadExits();
 
-        unless ($simulate) {
+        unless ( $simulate ) { 
             $rslt = "Running Pre-uninstall exit for $thispkg->{_pkgname} ...\n";
-            $rslt .= $thispkg->preuninstall() || '';
-            _inform "$rslt";
+            $rslt .= $thispkg->preuninstall() || '' ;
+            _inform "$rslt" ;
         }
 
-        @dead = $thispkg->uninstall();
+        @dead = $thispkg->uninstall() ;
         my $removed = scalar @dead;
         _inform "$sim removed $removed files";
 
-        unless ($simulate) {
-            $rslt =
-              "Running Post-uninstall exit for $thispkg->{_pkgname} ...\n";
-            $rslt .= $thispkg->postuninstall() || '';
-            _inform "$rslt";
+        unless ( $simulate ) { 
+            $rslt = "Running Post-uninstall exit for $thispkg->{_pkgname} ...\n";
+            $rslt .= $thispkg->postuninstall() || '' ;
+            _inform "$rslt" ;
         }
 
         $thispkg->finish();
@@ -334,6 +333,7 @@ sub _uninstall {
     }
     return 1;
 }
+
 
 sub usage {
     _shout <<DONE;
@@ -378,7 +378,7 @@ DONE
 # 3 Install the package - which will resolve any Foswiki/TWiki dependencies
 # 4 If any CPAN dependences are reported - offer to satisfy them
 sub _install {
-    my ($rootModule) = @_;
+    my ( $rootModule ) = @_;
 
     my $path = $MODULE;
 
@@ -408,35 +408,34 @@ sub _install {
 
         if ($moduleVersion) {
             return 0
-              unless ask( "$MODULE version $moduleVersion is already installed."
-                  . " Are you sure you want to re-install this module?" );
+              unless ask(
+                          "$MODULE version $moduleVersion is already installed."
+                        . " Are you sure you want to re-install this module?"
+              );
         }
     }
 
-    my ( $installed, $missing, @wiki, @cpan, @manual ) =
-      $thispkg->checkDependencies();
+    my ($installed, $missing,  @wiki, @cpan, @manual) = $thispkg->checkDependencies();
     _inform $installed;
     _inform $missing;
 
     my $instmsg = "$MODULE ready to be installed ";
-    $instmsg .= "along with Foswiki dependencies identified above\n"
-      if ($missing);
-    $instmsg .= "(you will be asked later about any CPAN dependencies)\n"
-      if ($missing);
+    $instmsg .= "along with Foswiki dependencies identified above\n" if ($missing);
+    $instmsg .= "(you will be asked later about any CPAN dependencies)\n" if ($missing);
     $instmsg .= "Do you want to proceed with installation of $MODULE";
     $instmsg .= " and Dependencies" if ($missing);
     $instmsg .= '?';
 
     return 0
-      unless ask("$instmsg");
+        unless ask( "$instmsg" );
 
-    my ( $rslt, $plugins, $depCPAN ) = $thispkg->fullInstall();
+    my ($rslt, $plugins, $depCPAN) = $thispkg->fullInstall();
     _inform $rslt;
     $rslt = '';
 
     my $unsatisfied = 0;
-    foreach my $depkey ( keys %$depCPAN ) {
-        unless ( satisfy( \%{ $depCPAN->{$depkey} } ) ) {
+    foreach my $depkey (keys %$depCPAN) {
+        unless ( satisfy( \%{$depCPAN->{$depkey}} ) ) {
             $unsatisfied++;
         }
     }
@@ -447,11 +446,18 @@ Note: Don't forget to enable installed plugins in the
 "Plugins" section of bin/configure, listed below:
 
 HERE
-        foreach my $plugName ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
+        foreach my $plugName (sort { lc ($a) cmp lc ($b) } keys %$plugins) {
             $rslt .= "  $plugName \n" if $plugName;
         }
     }
     _inform($rslt);
+
+    my $err = $thispkg->errors();
+    if ($err) {
+        _shout($err);
+    } else {
+        _inform("No errors encountered during installation\n");
+    }
 
     $thispkg->finish();
     undef $thispkg;
@@ -493,9 +499,7 @@ sub install {
         exit 0;
     }
 
-    $reuseOK = ask(
-"Do you want to use locally found installer scripts and archives to install $MODULE and any dependencies.\nIf you reply n, then fresh copies will be downloaded from this repository."
-    ) unless ($reuseOK);
+    $reuseOK = ask("Do you want to use locally found installer scripts and archives to install $MODULE and any dependencies.\nIf you reply n, then fresh copies will be downloaded from this repository.") unless ($reuseOK);
 
     _loadInstaller();
 
@@ -505,8 +509,7 @@ sub install {
     }
 
     if ( $action eq 'dependencies' ) {
-        my ( $installed, $missing, @wiki, @cpan, @manual ) =
-          $thispkg->checkDependencies();
+        my ($installed, $missing,  @wiki, @cpan, @manual) = $thispkg->checkDependencies();
 
         _inform $installed;
         _inform $missing;
@@ -524,15 +527,15 @@ DONE
     * The script will not do anything without asking you for
       confirmation first (unless you used -a).
 DONE
-    }
-    _inform <<DONE;
+        }
+        _inform <<DONE;
     * You can abort the script at any point and re-run it later
     * If you answer 'no' to any questions you can always re-run
       the script again later
 DONE
 
     if ( $action eq 'install' ) {
-        _install($rootModule);
+        _install( $rootModule );
     }
     elsif ( $action eq 'uninstall' ) {
         _uninstall();

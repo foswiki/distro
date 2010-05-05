@@ -365,9 +365,11 @@ sub unpackArchive {
 
     if ($name =~ m/\.zip$/i) {
         $error = _unzip($name);
+        $error .= "Failed to unpack archive $name\n" if ($error);
     } else {
         if ( $name =~ m/(\.tar\.gz|\.tgz|\.tar)$/i ) {
             $error = _untar($name); 
+            $error .= "Failed to unpack archive $name\n" if ($error);
         }
     }
     $dir = undef if ($error);
@@ -383,7 +385,7 @@ sub _unzip {
     unless ($@) {
         my $zip = Archive::Zip->new($archive);
         unless ($zip) {
-            return "Could not open zip file $archive\n";
+            return "unzip failed: Could not open zip file $archive\n";
         }
 
         my @members = $zip->members();
@@ -393,7 +395,7 @@ sub _unzip {
             my $target = $file;
             my $err = $zip->extractMember( $file, $target );
             if ($err) {
-                return "Failed to extract '$file' from zip file ",
+                return "unzip failed: Failed to extract '$file' from zip file ",
                   $zip, ". Archive may be corrupt.\n";
             }
         }

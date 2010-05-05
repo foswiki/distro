@@ -1124,8 +1124,8 @@ Installed:  MyPlugin_installer
     # Verify the pre/post install exits
     #
 
-    $err = $pkg2->loadExits();
-    $this->assert_str_equals( '', $err, "Load exits failed with $err ");
+    $pkg2->loadExits();
+    $this->assert_str_equals( '', $pkg2->errors(), "Load exits failed ");
 
     $this->assert_str_equals( 'Pre-install entered', $pkg2->preinstall() );
     $this->assert_str_equals( "Removed $tempdir/obsolete.pl",
@@ -1414,6 +1414,80 @@ sub test_Package_fetchFile {
 
     my ($resp, $file) = $pkg->_fetchFile( '_installer' );
     $this->assert_str_equals('', $resp);
+}
+
+# 
+# Verify error handling for the Package class
+#
+sub test_Package_errors{
+    my $this = shift;
+    my $root = $this->{rootdir};
+
+    print STDERR "### NOTE ###\n This test is expected to generate errors due to invalid tar/zip archives\n";
+
+    my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
+    rmtree($tempdir);    # Clean up old files if left behind
+    mkpath($tempdir);
+
+    my $repository = {
+                 name => 'Foswiki', 
+                 data => 'http://foswiki.org/Extensions/', 
+                 pub => 'http://foswiki.org/pub/Extensions/' 
+                 };
+
+    #
+    # Verify error when download fails
+    #
+    my $pkg =
+      new Foswiki::Configure::Package( $root, 'EmptyPluginx', $this->{session}, { DIR => $tempdir, USELOCAL => 1 } );
+    $pkg->repository($repository);
+    my ( $result, $err ) = $pkg->loadInstaller();
+
+    my $expected = <<HERE;
+I can't download http://foswiki.org/pub/Extensions/EmptyPluginx/EmptyPluginx_installer because of the following error:
+Not Found
+HERE
+    $this->assert_matches( qr/$expected/, $pkg->errors(), "Unexpected error from download");
+
+    #
+    # Verify error expanding .tgz file
+    #
+    my $extension = "MyPlugin";
+    _makePackage( $tempdir, $extension );
+
+    $pkg =
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session}, { DIR => $tempdir, USELOCAL => 1 } );
+    ( $result, $err ) = $pkg->loadInstaller();
+
+    _makefile( $tempdir, "MyPlugin.tgz", <<'DONE');
+Test file data
+DONE
+    $pkg->install();
+
+    print STDERR "\n\nERROR RETURN\n" . $pkg->errors() . "\n\n";
+    $this->assert_matches( qr/Failed to unpack archive(.*)MyPlugin.tgz/, $pkg->errors(), 'Unexpected results from failed tgz test');
+
+    unlink $tempdir."/MyPlugin.tgz";
+    $pkg->finish();
+    undef $pkg;
+
+
+    #
+    # Verify error expanding .zip file
+    #
+    $pkg =
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session}, { DIR => $tempdir, USELOCAL => 1 } );
+    ( $result, $err ) = $pkg->loadInstaller();
+    _makefile( $tempdir, "MyPlugin.zip", <<'DONE');
+Test file data
+DONE
+    $pkg->install();
+    print STDERR "\n\nERROR RETURN\n" . $pkg->errors() . "\n\n";
+    $this->assert_matches( qr/unzip failed/, $pkg->errors(), 'Unexpected results from failed zip test');
+    unlink $tempdir."/MyPlugin.tgz";
+    $pkg->finish();
+    undef $pkg;
+
 }
 
 1;
