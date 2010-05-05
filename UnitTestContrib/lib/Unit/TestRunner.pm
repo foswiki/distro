@@ -1,5 +1,14 @@
-# See bottom of file for more information
+# See bottom of file for license and copyright
 package Unit::TestRunner;
+
+=begin TML
+
+---+ package Unit::TestRunner
+
+Test run controller. Provides most of the functionality for the TestRunner.pl
+script that runs testcases.
+
+=cut
 
 use strict;
 use Devel::Symdump;
@@ -327,12 +336,9 @@ sub runOne {
 
 __DATA__
 
-=pod
-
-Test run controller
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2007 WikiRing, http://wikiring.com
+Copyright (C) 2007-2010 Foswiki Contributors
 All Rights Reserved.
 
 This program is free software; you can redistribute it and/or
@@ -347,4 +353,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
 
-=cut

@@ -1,9 +1,38 @@
 # See bottom of file for description
 package Unit::Eavesdrop;
+
+=begin TML
+
+---+ package Unit::Eavesdrop
+
+Duplication of STDOUT and STDERR from tests to a (single) log file. Lets
+you log everything printed on streams to another stream.
+
+This differs from Unit::TestCase::captureSTD in that is simply piggybacks
+on the streams, rather than redirecting them completely.
+
+Usage:
+
+my $logfile = 'test.log';
+open(F, ">$logfile");
+my $stdout = new Unit::Eavesdrop('STDOUT', \*F);
+my $stderr = new Unit::Eavesdrop('STDERR', \*F);
+print STDERR "Foo\n";
+print STDOUT "Bar\n";
+close(F);
+
+=cut
+
 use Tie::Handle;
 our @ISA = qw( Tie::Handle );
 
 use strict;
+
+=begin TML
+
+---++ ClassMethod new($stream, $fh) -> $var
+
+=cut
 
 sub new {
     my ( $class, $baseName ) = @_;
@@ -120,22 +149,7 @@ sub CLOSE {
 
 __DATA__
 
-=pod
-
-Duplication of STDOUT and STDERR from tests to a (single) log file. Lets
-you log everything printed on streams to another stream.
-
 Author: Crawford Currie, http://c-dot.co.uk
-
-Usage:
-
-my $logfile = 'test.log';
-open(F, ">$logfile");
-my $stdout = new Unit::Eavesdrop('STDOUT', \*F);
-my $stderr = new Unit::Eavesdrop('STDERR', \*F);
-print STDERR "Foo\n";
-print STDOUT "Bar\n";
-close(F);
 
 Copyright (C) 2007 WikiRing, http://wikiring.com
 All Rights Reserved.
@@ -152,5 +166,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
 
-=cut
 

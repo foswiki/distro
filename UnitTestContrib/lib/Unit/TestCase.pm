@@ -1,5 +1,15 @@
-# See bottom of file for description
+# See bottom of file for license and copyright
 package Unit::TestCase;
+
+=begin TML
+
+---+ package Unit::TestCase
+Base class of all unit test cases. Modeled on JUnit.TestCase.
+
+This class is a general purpose and should not make any reference to
+Foswiki.
+
+=cut
 
 use strict;
 use Error qw( :try );
@@ -11,6 +21,13 @@ $Carp::Verbose = 1;
 use vars qw( $differ );
 
 my $SEPARATOR_STRING = '########################################';
+
+=begin TML
+
+---++ ClassMethod new()
+Construct a new testcase.
+
+=cut
 
 sub new {
     my $class = shift;
@@ -24,23 +41,50 @@ sub new {
     return $this;
 }
 
+=begin TML
+
+---+ ObjectMethod set_up()
+
+Called by the test environment before each test case, used to set up
+test fixtures.
+
+Subclasses should call the superclass method in overrides.
+
+=cut
+
 sub set_up {
     my $this = shift;
     @{ $this->{annotations} } = ();
     $this->{expect_failure} = 0;
 }
 
-# Override this method to return true 
-# in test suites that should be run in a separate process.
-# This facility is provided for tests that make non-reversible
-# changes to the system state e.g. tests that enable 
-# non-default plugins, whose initPlugin() handlers
-# could do just about anything
-sub run_in_new_process {
-    return;
-}
+=begin TML
+
+---++ ObjectMethod tear_down()
+Tear down temporary test fixtures
+
+Subclasses should call the superclass method in overrides.
+
+=cut
 
 sub tear_down {
+}
+
+=begin TML
+
+---++ ObjectMethod run_in_new_process()
+
+Override this method to return true 
+in test suites that should be run in a separate process.
+This facility is provided for tests that make non-reversible
+changes to the system state e.g. tests that enable 
+non-default plugins, whose initPlugin() handlers
+could do just about anything
+
+=cut
+
+sub run_in_new_process {
+    return;
 }
 
 sub _fixture_test {
@@ -49,7 +93,9 @@ sub _fixture_test {
     $this->$test();
 }
 
-=pod
+=begin TML
+
+---++ ObjectMethod fixture_groups() ->\@\@functions
 
 Implement this to return an array of arrays, each of which is a list
 of the names of fixture setup functions. For example, ( [ A, B ], [ C, D] ).
@@ -74,6 +120,15 @@ implemented as:
 sub fixture_groups {
     return ();
 }
+
+=begin TML
+
+---++ ObjectMethod list_tests() -> $list
+
+Returns a list of the names of test functions defined by the testcase.
+This method can be overridden to give an alternative list of tests.
+
+=cut
 
 sub list_tests {
     my ( $this, $suite ) = @_;
@@ -133,6 +188,14 @@ SUB
     return @tests;
 }
 
+=begin TML
+
+---++ ObjectMethod assert($condition [, $message])
+
+Fail the test unless the $condition is true. $message is optional.
+
+=cut
+
 sub assert {
     my ( $this, $bool, $mess ) = @_;
     return 1 if $bool;
@@ -141,6 +204,14 @@ sub assert {
     $mess = Carp::longmess($mess);
     die $mess;
 }
+
+=begin TML
+
+---++ ObjectMethod assert_equals($expected, $got [, $message])
+
+Fail the test unless the $expected eq $got is true. $message is optional.
+
+=cut
 
 sub assert_equals {
     my ( $this, $expected, $got, $mess ) = @_;
@@ -156,15 +227,39 @@ sub assert_equals {
     }
 }
 
+=begin TML
+
+---++ ObjectMethod assert_not_null($wot [, $message])
+
+Fail the test if $wot is undef. $message is optional.
+
+=cut
+
 sub assert_not_null {
     my ( $this, $wot, $mess ) = @_;
     $this->assert( defined($wot), $mess || "Expected not null value" );
 }
 
+=begin TML
+
+---++ ObjectMethod assert_null($wot [, $message])
+
+Fail the test unless $wot is undef. $message is optional.
+
+=cut
+
 sub assert_null {
     my ( $this, $wot, $mess ) = @_;
     $this->assert( !defined($wot), $mess || (defined($wot) && "Expected null value, got '$wot'") );
 }
+
+=begin TML
+
+---++ ObjectMethod assert_str_equals($expected, $got [, $message])
+
+Fail the test unless $got eq $expected. $message is optional.
+
+=cut
 
 sub assert_str_equals {
     my ( $this, $expected, $got, $mess ) = @_;
@@ -174,6 +269,14 @@ sub assert_str_equals {
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
 
+=begin TML
+
+---++ ObjectMethod assert_str_not_equals($expected, $got [, $message])
+
+Fail the test if $got eq $expected. $message is optional.
+
+=cut
+
 sub assert_str_not_equals {
     my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
@@ -182,6 +285,14 @@ sub assert_str_not_equals {
         $mess || "Expected:'$expected'\n And got:'$got'\n" );
 }
 
+=begin TML
+
+---++ ObjectMethod assert_num_equals($expected, $got [, $message])
+
+Fail the test if $got == $expected. $message is optional.
+
+=cut
+
 sub assert_num_equals {
     my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
@@ -189,6 +300,14 @@ sub assert_num_equals {
     $this->assert( $expected == $got,
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
+
+=begin TML
+
+---++ ObjectMethod assert_matches($expected, $got [, $message])
+
+Fail the test unless $got =~ /$expected/. $message is optional.
+
+=cut
 
 sub assert_matches {
     my ( $this, $expected, $got, $mess ) = @_;
@@ -210,6 +329,14 @@ sub assert_matches {
     }
 }
 
+=begin TML
+
+---++ ObjectMethod assert_does_not_match($expected, $got [, $message])
+
+Fail the test if $got !~ /$expected/ undef. $message is optional.
+
+=cut
+
 sub assert_does_not_match {
     my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
@@ -229,6 +356,14 @@ sub assert_does_not_match {
         use warnings;
     }
 }
+
+=begin TML
+
+---++ ObjectMethod assert_deep_equals($expected, $got [, $message])
+
+Fail the test if $got != $expected. Comparison is deep. $message is optional.
+
+=cut
 
 sub assert_deep_equals {
     my ( $this, $expected, $got, $mess, $sniffed ) = @_;
@@ -278,19 +413,44 @@ sub assert_deep_equals {
     }
 }
 
+=begin TML
+
+---++ ObjectMethod annotate($message)
+
+Add an annotation to the test output
+
+=cut
+
 sub annotate {
     my ( $this, $mess ) = @_;
     push( @{ $this->{annotations} }, $mess ) if defined($mess);
 }
+
+=begin TML
+
+---++ ObjectMethod expect_failure()
+
+Flag that the test is expected to fail in the current environment. This
+is used for example on platfroms where tests are known to fail e.g. case
+sensitivity of filenames on Win32.
+
+=cut
 
 sub expect_failure {
     my ($this) = @_;
     $this->{expect_failure} = 1;
 }
 
-# 1:1 HTML comparison. Correctly compares attributes in tags. Uses HTML::Parser
-# which is tolerant of unbalanced tags, so the actual may have unbalanced
-# tags which will _not_ be detected.
+=begin TML
+
+---+ ObjectMethod assert_html_equals($expected, $got [,$message])
+
+HTML comparison. Correctly compares attributes in tags. Uses HTML::Parser
+which is tolerant of unbalanced tags, so the actual may have unbalanced
+tags which will _not_ be detected.
+
+=cut
+
 sub assert_html_equals {
     my ( $this, $e, $a, $mess ) = @_;
 
@@ -310,8 +470,15 @@ sub assert_html_equals {
     }
 }
 
-# See if a block of HTML occurs in a larger
-# block of HTML. Both blocks must be well-formed HTML.
+=begin TML
+
+---+ ObjectMethod assert_html_matches($expected, $got [,$message])
+
+See if a block of HTML occurs in a larger
+block of HTML. Both blocks must be well-formed HTML.
+
+=cut
+
 sub assert_html_matches {
     my ( $this, $e, $a, $mess ) = @_;
 
@@ -325,64 +492,66 @@ sub assert_html_matches {
     }
 }
 
-# invoke a subroutine while grabbing stdout, so the "http
-# response" doesn't flood the console that you're running the
-# unit test from.
-# $this->capture(\&proc, ...) -> $stdout
-# ... params get passed on to &proc
-sub capture {
+=begin TML
+
+---+ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
+
+Invoke a function while grabbing stdout and stderr, so the output
+doesn't flood the console that you're running the unit test from.
+
+ ... params get passed on to &fn
+
+$result is the return value from &fn
+
+=cut
+
+sub captureSTD {
     my $this = shift;
     my $proc = shift;
 
     require File::Temp;
     my $tmpdir = File::Temp::tempdir( CLEANUP => 1 );
-    my $tmpfilename = "$tmpdir/data";
+    my $stdoutfile = "$tmpdir/stdout";
+    my $stderrfile = "$tmpdir/stderr";
 
-    my $text     = undef;
-    my $response = undef;
     my @params   = @_;
     my $result;
-    my ($release) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
 
     {
         local *STDOUT;
-        open STDOUT, ">", $tmpfilename
-          or die "Can't open temporary STDOUT file $tmpfilename: $!";
-
+        local *STDERR;
+        open STDOUT, ">", $stdoutfile
+          or die "Can't open temporary STDOUT file $stdoutfile: $!";
+        open STDERR, ">", $stderrfile
+          or die "Can't open temporary STDERR file $stderrfile: $!";
         $result = &$proc(@params);
     }
 
-    $response =
-      UNIVERSAL::isa( $params[0], 'Foswiki' )
-      ? $params[0]->{response}
-      : $Foswiki::Plugins::SESSION->{response};
+    my $f;
+    open($f, '<', $stdoutfile) || die "Capture failed to reopen $stdoutfile";
+    local $/;
+    my $stdout = <$f>;
+    close($f);
+    open($f, '<', $stderrfile) || die "Capture failed to reopen $stderrfile";
+    local $/;
+    my $stderr = <$f>;
+    close($f);
 
-    # Capture headers
-    Foswiki::Engine->finalizeCookies($response);
-    foreach my $header ( keys %{ $response->headers } ) {
-        $text .= $header . ': ' . $_ . "\x0D\x0A"
-          foreach $response->getHeader($header);
-    }
-    $text .= "\x0D\x0A";
-
-    # Capture body
-    $text .= $response->body() if $response->body();
-
-    return ( $text, $result );
+    return ( $stdout, $stderr, $result );
 }
 
 1;
 
 __DATA__
 
-=pod
-
-Base class for unit testcases
 Author: Crawford Currie, http://c-dot.co.uk
 
+Copyright (C) 2008-2010 Foswiki Contributors
 
-Copyright (C) 2007 WikiRing, http://wikiring.com
-All Rights Reserved.
+Additional copyrights apply to some or all of the code in this file
+as follows:
+
+Copyright (C) 2007-2008 WikiRing, http://wikiring.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -396,4 +565,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
 
-=cut

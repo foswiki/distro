@@ -1,13 +1,21 @@
-#
-# Base class of all Foswiki tests. Establishes base paths and adds
-# some useful functionality such as comparing HTML
-#
-# The basic strategy in all unit tests is to never write to normal
-# Foswiki data areas; only ever write to temporary test areas. If you
-# have to create a test fixture that duplicates an existing area,
-# you can always create a new web based on that web.
-#
+# See bottom of file for license and copyright
+
 package FoswikiTestCase;
+
+=begin TML
+
+---+ package FoswikiTestCase
+
+Base class of all Foswiki tests. Establishes base paths and adds
+some useful Foswiki-specific functionality.
+
+The basic strategy in all unit tests is to never write to normal
+Foswiki data areas; only ever write to temporary test areas. If you
+have to create a test fixture that duplicates an existing area,
+you can always create a new web based on that web.
+
+=cut
+
 use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );
 
@@ -41,7 +49,7 @@ sub new {
 }
 
 # Checks we only need to run once per test run
-sub onceOnlyChecks {
+sub _onceOnlyChecks {
     return if $didOnlyOnceChecks;
 
     # Make sure we can create directories in $Foswiki::cfg{DataDir}, otherwise
@@ -160,7 +168,7 @@ sub set_up {
     # have been called when the first Foswiki object was created, above.)
     $this->loadExtraConfig();
 
-    onceOnlyChecks();
+    _onceOnlyChecks();
 
 }
 
@@ -211,6 +219,14 @@ sub _copy {
     }
 }
 
+=begin TML
+
+---++ ObjectMethod removeWebFixture($session, $web)
+
+Remove a temporary web fixture (data and pub)
+
+=cut
+
 sub removeWebFixture {
     my ( $this, $session, $web ) = @_;
 
@@ -225,9 +241,58 @@ sub removeWebFixture {
     };
 }
 
-# invoke capture with first setting a key
-# so it's authorized. First parameter is the action name,
-# rest is passed over to capture
+=begin TML
+
+---++ ObjectMethod capture(\&fn, [,$session], ...) -> ($responseText, $result, $stdout, $stderr)
+
+Like Unit::TestCase::captureSTD, except it captures the HTTP response
+as well as STDOUT and STDERR.
+
+$session can be passed in which case the response body will be taken from
+that session; otherwise it will use $Foswiki::Plugins::SESSION.
+
+$responseText includes HTTP headers.
+
+$result is the result of the function.
+
+=cut
+
+sub capture {
+    my $this = shift;
+
+    my ($stdout, $stderr, $result) = $this->captureSTD(@_);
+    my $fn = shift;
+
+    my $response  =
+      UNIVERSAL::isa( $_[0], 'Foswiki' )
+      ? $_[0]->{response}
+      : $Foswiki::Plugins::SESSION->{response};
+
+    my $responseText = '';
+    # Capture headers
+    Foswiki::Engine->finalizeCookies($response);
+    foreach my $header ( keys %{ $response->headers } ) {
+        $responseText .= $header . ': ' . $_ . "\x0D\x0A"
+          foreach $response->getHeader($header);
+    }
+    $responseText .= "\x0D\x0A";
+
+    # Capture body
+    $responseText .= $response->body() if $response->body();
+
+    return ($responseText, $result, $stdout, $stderr);
+}
+
+=begin TML
+
+---++ ObjectMethod captureWithKey(\&fn, [,$session], ...) -> ($responseText, $result, $stdout, $stderr)
+
+Invoke capture with first setting a strikeone validation key
+so it's authorized. First parameter is the action name,
+rest is passed over to capture.
+
+=cut
+
 sub captureWithKey {
     my $this   = shift;
     my $action = shift;
@@ -280,4 +345,52 @@ sub captureWithKey {
     $this->capture(@_);
 }
 
+=begin TML
+
+---++ ObjectMethod getUIFn($script) -> \&fn
+
+Look up the $Foswiki::cfg{SwitchBoard} to get the UI function for a
+specific script.
+
+NOTE: there is NO POINT in checking the exit status from a capture
+of one of these functions. It will just be some random string.
+
+=cut
+
+sub getUIFn {
+    my $this   = shift;
+    my $script = shift;
+    require Foswiki::UI;
+    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}, $script );
+    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{package}, "$script package not set");
+    my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
+    eval "require $fn";
+    die "DIED during (require $fn)\n".$@ if $@;
+    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{function}, "$script function not set");
+    $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};
+    return \&$fn;
+}
+
 1;
+__DATA__
+
+Author: Crawford Currie, http://c-dot.co.uk
+
+Copyright (C) 2008-2010 Foswiki Contributors
+
+Additional copyrights apply to some or all of the code in this file
+as follows:
+
+Copyright (C) 2007-2008 WikiRing, http://wikiring.com
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

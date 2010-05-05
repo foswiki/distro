@@ -1,14 +1,30 @@
-# Base class for tests for FoswikiFns
-# This base class layers some extra protections on FoswikiTestCase to try and make life
-# for FoswikiFn testers even easier.
-# 1. Do not be afraid to modify Foswiki::cfg. You cannot break other tests that way.
-# 2. Never, ever write to any webs except the {test_web} and {users_web}, or any other
-#    test webs you create and remove (following the pattern shown below)
-# 3. The password manager is set to HtPasswdUser, and you can create users as shown
-#    below in the creation of {test_user}
-# 4. A single user has been pre-registered, wikinamed 'ScumBag'
+# See bottom of file for license and copyright
 
 package FoswikiFnTestCase;
+
+=begin TML
+
+---+ package FoswikiFnTestCase
+
+This base class layers some extra stuff on FoswikiTestCase to
+try and make life for Foswiki testers even easier at higher levels.
+Normally this will be the base class for tests that require an almost
+complete user environment. However it does quite a lot of relatively
+slow setup, so should not be used for simpler tests (such as those
+targeting single classes).
+
+   1. Do not be afraid to modify Foswiki::cfg. You cannot break other
+      tests that way.
+   2. Never, ever write to any webs except the {test_web} and
+      {users_web}, or any other test webs you create and remove
+      (following the pattern shown below)
+   3. The password manager is set to HtPasswdUser, and you can create
+      users as shown in the creation of {test_user}
+   4. A single user has been pre-registered, wikinamed 'ScumBag'
+
+=cut
+
+
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
@@ -20,7 +36,7 @@ use Unit::Response;
 use Foswiki::UI::Register;
 use Error qw( :try );
 
-use vars qw( @mails );
+our @mails;
 
 sub new {
     my $class = shift;
@@ -34,6 +50,14 @@ sub new {
     $this->{session}    = undef;
     return $this;
 }
+
+=begin TML
+
+---++ ObjectMethod loadExtraConfig()
+This method can be overridden (overrides should call up to the base class)
+to add extra stuff to Foswiki::cfg.
+
+=cut
 
 sub loadExtraConfig {
     my $this = shift;
@@ -99,19 +123,42 @@ sub tear_down {
 
 }
 
+=begin TML
+
+---++ ObjectMethod removeWeb($web)
+
+Remove a temporary web fixture (data and pub)
+
+=cut
+
 sub removeWeb {
     my ( $this, $web ) = @_;
     $this->removeWebFixture( $this->{session}, $web );
 }
 
-# callback used by Net.pm
+=begin TML
+
+---++ StaticMethod sentMail($net, $mess)
+
+Default implementation for the callback used by Net.pm. Sent mails are
+pushed onto a global variable @FoswikiFnTestCase::mails.
+
+=cut
+
 sub sentMail {
     my ( $net, $mess ) = @_;
     push( @mails, $mess );
     return undef;
 }
 
-# Used by subclasses to register test users
+=begin TML
+
+---++ ObjectMethod registerUser($loginname, $forename, $surname, $email)
+
+Can be used by subclasses to register test users.
+
+=cut
+
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
 
@@ -162,23 +209,6 @@ sub registerUser {
     $this->{session}->finish();
     $this->{session} = new Foswiki( undef, $q );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-}
-
-# Look up the switchboard to get the function for a specific script
-# NOTE: there is NO POINT in checking the exit status from a capture
-# of one of these functions. It will just be some random string.
-sub getUIFn {
-    my $this   = shift;
-    my $script = shift;
-    require Foswiki::UI;
-    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}, $script );
-    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{package}, "$script package not set");
-    my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
-    eval "require $fn";
-    die "DIED during (require $fn)\n".$@ if $@;
-    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{function}, "$script function not set");
-    $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};
-    return \&$fn;
 }
 
 1;
