@@ -33,7 +33,7 @@ unless ( -e $foswikiBranch ) {
    print STDERR "using existing checkout, removing ? files";
    chdir($foswikiBranch);
    `svn status | grep ? | sed 's/?/rm -r/' | sh > Foswiki-svn.log`;
-   `svn up >> Foswiki-svn.log`;
+   `svn up --accept 'theirs-full' >> Foswiki-svn.log`;
    chdir('core');
 }
 
