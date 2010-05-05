@@ -83,13 +83,13 @@ sub forceAuthentication {
 
         # Redirect with passthrough so we don't lose the original query params
 
+        my $url = $session->getScriptUrl( 0, 'login');
+
         # We use the query here to ensure the original path_info
         # from the request gets through to the login form. See also
         # PATH_INFO below.
-        # $x because path_info always has a leading /
-        my ($x, $web, $topic) = split(/\/+/, $query->path_info());
+        $url .= Foswiki::urlEncode( $query->path_info() );
 
-        my $url     = $session->getScriptUrl( 0, 'login', $web, $topic );
         $query->param( -name => 'foswiki_origin',
                        -value => _packRequest($session) );
         $session->redirect( $url, 1 );    # with passthrough
