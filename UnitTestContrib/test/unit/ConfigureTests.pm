@@ -1464,7 +1464,6 @@ Test file data
 DONE
     $pkg->install();
 
-    print STDERR "\n\nERROR RETURN\n" . $pkg->errors() . "\n\n";
     $this->assert_matches( qr/Failed to unpack archive(.*)MyPlugin.tgz/, $pkg->errors(), 'Unexpected results from failed tgz test');
 
     unlink $tempdir."/MyPlugin.tgz";
@@ -1482,7 +1481,6 @@ DONE
 Test file data
 DONE
     $pkg->install();
-    print STDERR "\n\nERROR RETURN\n" . $pkg->errors() . "\n\n";
     $this->assert_matches( qr/unzip failed/, $pkg->errors(), 'Unexpected results from failed zip test');
     unlink $tempdir."/MyPlugin.tgz";
     $pkg->finish();
