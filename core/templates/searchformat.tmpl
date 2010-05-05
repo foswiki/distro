@@ -8,7 +8,8 @@
 %TMPL:DEF{SEARCH:searched}%<div class="foswikiSearchResultsHeader"><span>%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 %TMPL:END%
 
-%TMPL:DEF{SEARCH:count}%<div class="foswikiSearchResultCount">%MAKETEXT{"Number of topics: [_1]" args="<span>%NTOPICS%</span>"}%</div>
+%TMPL:DEF{SEARCH:count_result}%<div class="foswikiSearchResultCount">%MAKETEXT{"Number of topics: [_1]" args="<span>%NTOPICS%</span>"}%</div>%TMPL:END%
+%TMPL:DEF{SEARCH:count}%%TMPL:P{SEARCH:count_result}%
 %TMPL:END%
 
 %TMPL:DEF{"header:text"}%<b>%MAKETEXT{"Results from [_1] web" args="<nop>%WEB%"}%</b> %MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%%TMPL:END%

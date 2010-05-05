@@ -2,6 +2,10 @@
 %{ this is the template used when the format prameter is not set in SEARCH }%
 %TMPL:INCLUDE{"searchformat"}%
 
+%{ remove the extra linefeed that is needed when format="" is used }%
+%TMPL:DEF{SEARCH:count}%%TMPL:P{SEARCH:count_result}%%TMPL:END%
+
+
 %TMPL:DEF{SEARCH:format}%<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a>
 <div class="foswikiSummary">%TEXTHEAD%</div></div>
