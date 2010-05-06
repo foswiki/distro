@@ -297,6 +297,9 @@ sub readTemplate {
         }
     }
 
+    # chomp
+    $result =~ s/%TMPL:EOF%.*//s;
+
     # handle %TMPL:P{"..."}% recursively
     $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/geo;
 
