@@ -117,9 +117,8 @@ sub rest {
         # send it out
         $session->{response}->print($text);
 
-        if ($Foswiki::cfg{Log}{Action}{rest}) {
-            $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
-        }
+        $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
+
         return;
     }
 
@@ -232,9 +231,7 @@ sub rest {
         # an XHR.
     }
 
-    if ($Foswiki::cfg{Log}{Action}{rest}) {
-        $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
-    }
+    $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
 
     no strict 'refs';
     my $function = $record->{function};

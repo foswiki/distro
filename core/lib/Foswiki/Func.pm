@@ -1405,9 +1405,9 @@ sub setTopicEditLock {
    * =$text= - text of the topic (without embedded meta-data!!!
    * =\%options= - ref to hash of save options
      =\%options= may include:
-     | =dontlog= | don't log this change in twiki log |
+     | =dontlog= | mark this change so it doesn't appear in the statistics |
+     | =minor= | True if this change is not to be notified |
      | =forcenewrevision= | force the save to increment the revision counter |
-     | =minor= | True if this is a minor change, and is not to be notified |
      | =comment= | Comment relating to the save |
 For example,
 <verbatim>
@@ -1687,7 +1687,7 @@ sub readAttachment {
    * =\%opts= - Ref to hash of options
 Create an attachment on the given topic.
 =\%opts= may include:
-| =dontlog= | don't log this change in twiki log |
+| =dontlog= | mark this change so it is not picked up in statistics |
 | =comment= | comment for save |
 | =hide= | if the attachment is to be hidden in normal topic view |
 | =stream= | Stream of file to upload |

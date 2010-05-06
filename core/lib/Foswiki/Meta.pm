@@ -1604,14 +1604,17 @@ sub save {
 
     throw $signal if $signal;
 
-    if ( !$opts{dontlog} ) {
-        $this->{_session}->logEvent(
-            'save',
-            $this->{_web} . '.' . $this->{_topic},
-            $opts{minor} ? 'minor' : '',
-            $this->{_session}->{user}
-        );
-    }
+    my @extras = ();
+    push(@extras, 'minor') if $opts{minor};     # don't notify
+    push(@extras, 'dontlog') if $opts{dontlog}; # don't statisticify
+
+    $this->{_session}->logEvent(
+        'save',
+        $this->{_web} . '.' . $this->{_topic},
+        join(', ', @extras),
+        $this->{_session}->{user}
+       );
+
     return $newRev;
 }
 
@@ -1625,9 +1628,9 @@ Save the current topic to a store location. Only works on topics.
    * =%options= - Hash of options, may include:
       * =forcenewrevision= - force an increment in the revision number,
         even if content doesn't change.
-      * =dontlog= - don't log this change in log
+      * =dontlog= - don't include this change in statistics
+      * =minor= - don't notify this change
       * =comment= - comment for save
-      * =minor= - True if this is a minor change (used in log)
       * =savecmd= - Save command (core use only)
       * =forcedate= - force the revision date to be this (core only)
       * =author= - cUID of author of change (core only - default current user)
@@ -1944,17 +1947,17 @@ sub replaceMostRecentRevision {
     finally {
         $this->_atomicUnlock($cUID);
     };
-    if ( $Foswiki::cfg{Log}{Action}{save} && !$opts{dontlog} ) {
-        my $info = $this->getRevisionInfo();
 
-        # write log entry
-        require Foswiki::Time;
-        my $extra = "repRev $info->{version} by " . $cUID . ' ';
-        $extra .= Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' );
-        $extra .= ' minor' if ( $opts{minor} );
-        $this->{_session}->writeLog( $opts{forcedate} ? 'cmd' : 'save',
-            $this->getPath(), $extra, $cUID );
-    }
+    # write log entry
+    require Foswiki::Time;
+    my @extras = ( $info->{version} );
+    push(@extras,
+         Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' ));
+    push(@extras, 'minor') if $opts{minor};
+    push(@extras, 'dontlog') if $opts{dontlog};
+    push(@extras, 'forced') if $opts{forcedate};
+    $this->{_session}->logEvent(
+        'reprev', $this->getPath(), join(', ', @extras), $cUID );
 }
 
 =begin TML
@@ -2043,8 +2046,6 @@ or attachment from the store, possibly including all its history.
 
 =cut
 
-# SMELL: arguably should only be permitted if the loaded rev of the object is the same as the
-# latest rev.
 sub removeFromStore {
     my ( $this, $attachment ) = @_;
     my $store = $this->{_session}->{store};
@@ -2068,7 +2069,7 @@ sub removeFromStore {
               . $attachment );
     }
 
-    $store->remove($this);
+    $store->remove($this->{_session}->{user}, $this);
 }
 
 =begin TML
@@ -2234,7 +2235,7 @@ sub getAttachmentRevisionInfo {
 
    * =%opts= may include:
       * =name= - Name of the attachment
-      * =dontlog= - don't log this change
+      * =dontlog= - don't add to statistics
       * =comment= - comment for save
       * =hide= - if the attachment is to be hidden in normal topic view
       * =stream= - Stream of file to upload
@@ -2371,12 +2372,11 @@ sub attach {
 
     $this->saveAs() unless $opts{notopicchange};
 
-    if ( !$opts{dontlog} ) {
-        $this->{_session}->logEvent(
-            $action,     $this->{_web} . '.' . $this->{_topic},
-            $opts{name}, $this->{_session}->{user}
-        );
-    }
+    my @extras = ( $opts{name} );
+    push(@extras, 'dontlog') if $opts{dontlog}; # no statistics
+    $this->{_session}->logEvent(
+        $action,     $this->{_web} . '.' . $this->{_topic},
+        join(', ', @extras), $this->{_session}->{user});
 
     if ( $plugins->haveHandlerFor('afterUploadHandler') ) {
         $plugins->dispatch( 'afterUploadHandler', $attrs, $this );
@@ -2518,7 +2518,7 @@ sub moveAttachment {
         $this->remove( 'FILEATTACHMENT', $name );
         $this->saveAs(
             undef, undef,
-            dontlog => 1,
+            dontlog => 1, # no statistics
             comment => 'lost ' . $name
         );
 
@@ -2538,7 +2538,7 @@ sub moveAttachment {
 
         $to->saveAs(
             undef, undef,
-            dontlog => 1,
+            dontlog => 1, # no statistics
             comment => 'gained' . $newName
         );
     }

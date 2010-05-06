@@ -73,9 +73,8 @@ sub view {
         $session->{response}->print($text);
 
         Monitor::MARK('Wrote HTML');
-        if ($Foswiki::cfg{Log}{Action}{view}) {
-            $session->logEvent('view', $web . '.' . $topic, '(cached)' );
-        }
+        $session->logEvent('view', $web . '.' . $topic, '(cached)' );
+
         return;
     }
 

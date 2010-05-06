@@ -54,6 +54,7 @@ sub changes {
         my $change = $iterator->next();
         next
           if ( !$showMinor && $change->{more} && $change->{more} =~ /minor/ );
+        next if ($change->{more} && $change->{more} =~ /silent/);
         next if $done{ $change->{topic} };
         next
           unless $session->topicExists( $webObject->web, $change->{topic} );

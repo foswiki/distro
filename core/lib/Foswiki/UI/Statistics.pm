@@ -24,8 +24,6 @@ use Foswiki::Time                   ();
 use Foswiki::Meta                   ();
 use Foswiki::AccessControlException ();
 
-my $debug = 0;
-
 BEGIN {
 
     # Do a dynamic 'use locale' for this module
@@ -60,7 +58,6 @@ sub statistics {
     my $destWeb = $Foswiki::cfg{UsersWebName};
     my $logDate = $session->{request}->param('logdate') || '';
     $logDate =~ s/[^0-9]//g;    # remove all non numerals
-    $debug = $session->{request}->param('debug');
 
     unless ( $session->inContext('command_line') ) {
 
@@ -196,8 +193,8 @@ sub _debugPrintHash {
 sub _collectLogData {
     my ( $session, $start ) = @_;
 
-    # Log file format: $user, $action, $webTopic, $extra, $remoteAddr
-    # $user - login name of user - default current user,
+    # Log file contains: $user, $action, $webTopic, $extra, $remoteAddr
+    # $user - cUID of user - default current user,
     # or failing that the user agent
     # $action - what happened, e.g. view, save, rename
     # $webTopic - what it happened to
@@ -233,19 +230,14 @@ sub _collectLogData {
 
         my ( $opName, $webTopic, $notes, $ip ) = @$line;
 
-        # ignore minor changes - not statistically helpful
-        next if ( $notes && $notes =~ /(minor|dontNotify)/ );
+        # ignore events that are not statistically helpful
+        next if ( $notes && $notes =~ /dontlog/ );
 
         # ignore searches for now - idea: make a "top search phrase list"
-        next if ( $opName && $opName =~ /(search)/ );
+        next if ( $opName && $opName =~ /search|renameweb|changepasswd/ );
 
-        # ignore "renamed web" log lines
-        next if ( $opName && $opName =~ /(renameweb)/ );
-
-        # ignore "change password" log lines
-        next if ( $opName && $opName =~ /(changepasswd)/ );
-
-# .+ is used because topics name can contain stuff like !, (, ), =, -, _ and they should have stats anyway
+        # .+ is used because topics name can contain stuff like
+        # !, (, ), =, -, _ and they should have stats anyway
         if (   $webTopic
             && $opName
             && $webTopic =~

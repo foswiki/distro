@@ -409,7 +409,7 @@ sub saveTopic {
 
 =begin TML
 
----++ ObjectMethod repRev( $topicObject, $cUID, %options )
+---++ ObjectMethod repRev( $topicObject, $cUID, %options ) -> $rev
    * =$topicObject= - Foswiki::Meta topic object
 Replace last (top) revision of a topic with different content. The different
 content is taken from the content currently loaded in $topicObject.
@@ -430,6 +430,8 @@ Also provided as a means for administrators to rewrite history (forcedate).
 
 It is up to the store implementation if this is different
 to a normal save or not.
+
+Returns the id of the latest revision.
 
 =cut
 
@@ -624,7 +626,8 @@ sub eachWeb {
 
 =begin TML
 
----++ ObjectMethod remove( $om, $attachment )
+---++ ObjectMethod remove( $cUID, $om, $attachment )
+   * =$cUID= who is doing the removing
    * =$om= - thing being removed (web or topic)
    * =$attachment= - optional attachment being removed
 
@@ -633,7 +636,7 @@ Destroy a thing, utterly.
 =cut
 
 sub remove {
-    my( $this, $topicObject, $attachment ) = @_;
+    my( $this, $cUID, $topicObject, $attachment ) = @_;
     die "Abstract base class";
 }
 

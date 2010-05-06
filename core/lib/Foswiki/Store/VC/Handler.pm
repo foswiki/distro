@@ -1163,10 +1163,10 @@ sub recordChange {
     while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
         shift(@changes);
     }
-
     # Add the new change to the end of the file
-    push( @changes, [ $this->{topic}, $cUID, time(), $rev, $more ] );
-    my $text = join( "\n", map { join( "\t", @$_ ); } @changes );
+    push( @changes, [ $this->{topic} || '.', $cUID, time(), $rev, $more ] );
+
+    my $text = join( "\n", map { join( "\t", @$_ ) } @changes );
 
     saveFile( $this, $file, $text );
 }

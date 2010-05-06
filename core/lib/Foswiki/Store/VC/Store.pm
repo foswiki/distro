@@ -146,6 +146,7 @@ sub moveAttachment {
         $handler->moveAttachment(
             $this, $newTopicObject->web, $newTopicObject->topic,
             $newAttachment );
+        $handler->recordChange( $cUID, 0 );
     }
 }
 
@@ -180,6 +181,8 @@ sub moveWeb {
 
     my $handler = $this->getHandler($oldWebObject);
     $handler->moveWeb( $newWebObject->web );
+
+    $handler->recordChange( $cUID, 0 );
 }
 
 sub testAttachment {
@@ -230,11 +233,12 @@ sub getVersionInfo {
 }
 
 sub saveAttachment {
-    my ( $this, $topicObject, $name, $stream, $author ) = @_;
+    my ( $this, $topicObject, $name, $stream, $cUID ) = @_;
     my $handler = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->numRevisions() || 0;
     my $nextRev = $currentRev + 1;
-    $handler->addRevisionFromStream( $stream, 'save attachment', $author );
+    $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
+    $handler->recordChange( $cUID, $nextRev );
     return $nextRev;
 }
 
@@ -266,6 +270,9 @@ sub repRev {
     my $handler = $this->getHandler($topicObject);
     $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
         'reprev', $info->{author}, $info->{date} );
+    my $rev = $handler->numRevisions();
+    $handler->recordChange( $cUID, $rev, 'minor, reprev' );
+    return $rev;
 }
 
 sub delRev {
@@ -284,6 +291,8 @@ sub delRev {
 
     # restore last topic from repository
     $handler->restoreLatestRevision($cUID);
+
+    $handler->recordChange( $cUID, $rev );
 
     return $rev;
 }
@@ -388,11 +397,12 @@ sub eachWeb {
 }
 
 sub remove {
-    my ( $this, $topicObject, $attachment ) = @_;
+    my ( $this, $cUID, $topicObject, $attachment ) = @_;
     ASSERT( $topicObject->web ) if DEBUG;
 
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
+    $handler->recordChange( $cUID, 0 );
 }
 
 #also deprecated. (use Foswiki::Meta::query)
