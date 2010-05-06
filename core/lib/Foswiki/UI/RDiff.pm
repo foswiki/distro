@@ -480,27 +480,43 @@ sub diff {
     my $tmpl = $session->templates->readTemplate( 'rdiff', $skin );
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
 
-    my ( $before, $difftmpl, $after, $tail ) = split( /%REPEAT%/, $tmpl );
+    # The template is split by up to 4 %REPEAT% tags. The sections are:
+    # $before - text before any output
+    # $difftmpl - template for a single diff
+    # $after - text after the diffs
+    # tail - appears to generate revision info for each of the
+    # displayed revisions, but not sure - looks like a legacy thing, it's
+    # not used in any of the existing templates.
+    my ( $before, $difftmpl, $after, $tail ) = split( /%REPEAT%/, $tmpl, 4 );
 
     $before ||= '';
     $after  ||= '';
     $tail   ||= '';
 
-    my $maxrev = $topicObject->getLatestRev();
+    my $revIt = $topicObject->getRevisionHistory();
+    my @history = $revIt->all(); # most recent rev first
 
+    my ($olderi, $neweri); # indexes into history
     if ( $diffType eq 'last' ) {
-        $revHigh = $maxrev;
-        $revLow  = $maxrev - 1;
+        $neweri = 0;
+        $olderi  = $neweri + 1;
+    } else {
+        for (my $i = 0; $i <= $#history; $i++) {
+            $neweri = $i if ($history[$i] == $revHigh);
+            $olderi = $i if ($history[$i] == $revLow);
+            last if (defined $olderi && defined $neweri);
+        }
+        $neweri = 0 unless defined $neweri;
+        $olderi = $#history unless defined $olderi;
     }
 
-    $revHigh = $maxrev if ( $revHigh < 1 );
-    $revHigh = $maxrev if ( $revHigh > $maxrev );
+    my $revTitleHigh = $history[$neweri];
+    my $revTitleLow = ( $olderi != $neweri ) ? $history[$olderi] : '';
 
-    $revLow = 1 if ( $revLow < 1 );
-    $revLow = $maxrev if ( $revLow > $maxrev );
-
-    my $revTitleHigh = $revHigh;
-    my $revTitleLow = ( $revHigh != $revLow ) ? $revLow : '';
+    # Limit the total number of diffs to avoid DoS
+    my $step = int(($olderi - $neweri) /
+                     $Foswiki::cfg{MaxRevisionsInADiff} + 0.5);
+    $step = 1 if $step < 1;
 
     $before =~ s/%REVTITLE1%/$revTitleHigh/go;
     $before =~ s/%REVTITLE2%/$revTitleLow/go;
@@ -511,20 +527,22 @@ sub diff {
 
     # do one or more diffs
     $difftmpl = $topicObject->expandMacros($difftmpl);
-    my $rHigh          = $revHigh;
-    my $rLow           = $revLow;
+    my $rNewer          = $neweri;
+    my $rOlder          = $olderi;
     my $isMultipleDiff = 0;
 
-    if ( ( $diffType eq 'history' ) && ( $rHigh > $rLow + 1 ) ) {
-        $rLow           = $rHigh - 1;
+    if ( $diffType eq 'history' && $olderi > $neweri + 1 ) {
+        $rOlder = $neweri + $step;
         $isMultipleDiff = 1;
     }
 
     my %toms;
 
-    # SMELL: this code assumes linear version numbers, which
-    # may not be true after Foswiki 1.1
     do {
+        last if ($rOlder > $#history);
+
+        my $rHigh = $history[$rNewer];
+        my $rLow = $history[$rOlder];
 
         # Load the revs being diffed
         $toms{$rHigh} =
@@ -598,87 +616,50 @@ sub diff {
         $diff =~ s/%REVINFO2%/$rInfo2/go;
         $diff =~ s/%TEXT%/$text/go;
         $page .= $diff;
-        $rHigh = $rHigh - 1;
-        $rLow  = $rLow - 1;
-        $rLow  = 1 if ( $rLow < 1 );
-    } while ( $diffType eq 'history' && ( $rHigh > $revLow || $rHigh == 1 ) );
+        $rNewer += $step;
+        $rOlder += $step;
+        $rOlder  = $#history if $rOlder > $#history;
+    } while ( $diffType eq 'history' && $rNewer < $olderi );
 
     $session->logEvent( 'rdiff', $web . '.' . $topic, "$revHigh $revLow" );
 
-    my $i         = $maxrev;
-    my $j         = $maxrev;
-    my $revisions = '';
-    my $breakRev  = 0;
-    if (   $Foswiki::cfg{NumberOfRevisions} > 0
-        && $Foswiki::cfg{NumberOfRevisions} < $maxrev )
-    {
-        $breakRev = $maxrev - $Foswiki::cfg{NumberOfRevisions} + 1;
-    }
+    # Generate the revisions navigator
+    require Foswiki::UI::View;
+    my $revisions = Foswiki::UI::View::revisionsAround(
+        $session, $topicObject,
+        $history[$neweri], $history[$neweri], $history[0]);
 
-#SMELL: this should be the same variable as in view script, and so on - thus be configurable
-    my $revSeperator = '&lt;';
-
-    while ( $i > 0 ) {
-        $revisions .= ' '
-          . CGI::a(
-            {
-                href =>
-                  $session->getScriptUrl( 0, 'view', $web, $topic, rev => $i ),
-                rel => 'nofollow'
-            },
-            'r' . $i
-          );
-        if ( $i != 1 ) {
-            if ( $i == $breakRev ) {
-                $i = 1;
-            }
-            else {
-                if ( ( $i == $revHigh ) && ( !$isMultipleDiff ) ) {
-                    $revisions .= ' ' . $revSeperator;
-                }
-                else {
-                    $j = $i - 1;
-                    $revisions .= ' '
-                      . CGI::a(
-                        {
-                            href => $session->getScriptUrl(
-                                0, 'rdiff', $web, $topic,
-                                rev1 => $i,
-                                rev2 => $j
-                            ),
-                            rel => 'nofollow'
-                        },
-                        $revSeperator
-                      );
-                }
-            }
-        }
-        $i--;
-    }
-
-    $i = $revHigh;
     my $tailResult = '';
-    my $revTitle   = '';
-    while ( $i >= $revLow ) {
-        $revTitle = CGI::a(
-            {
-                href =>
-                  $session->getScriptUrl( 0, 'view', $web, $topic, rev => $i ),
-                rel => 'nofollow'
-            },
-            $i
-        );
-        my $revInfo =
-          $session->renderer->renderRevisionInfo( $topicObject, undef, $i );
-        $tailResult .= $tail;
-        $tailResult =~ s/%REVTITLE%/$revTitle/go;
-        $tailResult =~ s/%REVINFO%/$revInfo/go;
-        $i--;
+
+    if (defined $tail) {
+        # SMELL: made this conditional as it doesn't seem to be used
+        # Generate information about each of the revs shown
+        my $i = $neweri;
+        my $revTitle   = '';
+        while ( $i <= $olderi ) {
+            last if ($i > $#history);
+            my $n = $history[$i];
+            $revTitle = CGI::a(
+                {
+                    href =>
+                      $session->getScriptUrl( 0, 'view', $web, $topic, rev => $n ),
+                    rel => 'nofollow'
+                   },
+                $i
+               );
+            my $revInfo =
+              $session->renderer->renderRevisionInfo( $topicObject, undef, $n );
+            $tailResult .= $tail;
+            $tailResult =~ s/%REVTITLE%/$revTitle/go;
+            $tailResult =~ s/%REVINFO%/$revInfo/go;
+            $i += $step;
+        }
     }
-    $after =~ s/%TAIL%/$tailResult/go;
+    $after =~ s/%TAIL%/$tailResult/go; # SMELL: unused in templates
+
     $after =~ s/%REVISIONS%/$revisions/go;
     $after =~ s/%CURRREV%/$revHigh/go;
-    $after =~ s/%MAXREV%/$maxrev/go;
+    $after =~ s/%MAXREV%/$history[0]/go;
 
     $after = $topicObject->expandMacros($after);
     $after = $topicObject->renderTML($after);

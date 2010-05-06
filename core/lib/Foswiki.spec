@@ -1302,6 +1302,14 @@ $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 $Foswiki::cfg{NumberOfRevisions} = 4;
 
 # **NUMBER EXPERT**
+# Set the upper limit of the maximum number of difference that will be
+# displayed when viewing the entire history of a page. The compared revisions
+# will be evenly spaced across the history of the page e.g. if the page has
+# 100 revisions and we have set this option to 10, we will see differences
+# between r100 and r90, r90 and r80, r80 and r70 and so on.
+$Foswiki::cfg{MaxRevisionsInADiff} = 25;
+
+# **NUMBER EXPERT**
 # If this is set to a > 0 value, and the revision control system
 # supports it (RCS does), then if a second edit of the same topic
 # is done by the same user within this number of seconds, a new

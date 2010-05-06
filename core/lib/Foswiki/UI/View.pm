@@ -244,75 +244,7 @@ sub view {
     }
 
     # Show revisions around the one being displayed.
-    my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
-    # Soak up the revision iterator
-    my @revs = $revIt->all();
-    my $maxRevShown = 1;
-
-    if ($Foswiki::cfg{NumberOfRevisions}) {
-        # Locate the preferred rev in the array
-        my $showIndex = $#revs;
-        my $left = 0;
-        my $right = $Foswiki::cfg{NumberOfRevisions};
-        if ($requestedRev) {
-            while ($showIndex && $revs[$showIndex] != $showRev) {
-                $showIndex--;
-            }
-            $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
-            $right = scalar(@revs) if $right > scalar(@revs);
-            $left = $right - $Foswiki::cfg{NumberOfRevisions};
-            if ($left < 0) {
-                $left = 0;
-                $right = $Foswiki::cfg{NumberOfRevisions};
-            }
-        }
-        splice(@revs, $right) if ($right < scalar(@revs));
-        splice(@revs, 0, $left);
-        $maxRevShown = ($left == 0);
-    }
-
-    my $revo = '';
-    unless ($maxRevShown) {
-        unshift(@revs, $maxRev);
-    }
-    my $r = 0;
-    while ($r < scalar(@revs)) {
-        if ( $revs[$r] == $showRev ) {
-            $revo .= 'r' . $showRev;
-        }
-        else {
-            $revo .= CGI::a(
-                {
-                    href => $session->getScriptUrl(
-                        0,                 'view',
-                        $topicObject->web, $topicObject->topic,
-                        rev => $revs[$r]
-                    ),
-                    rel => 'nofollow'
-                },
-                'r'.$revs[$r]
-            );
-        }
-        if ($r == 0 && !$maxRevShown) {
-            $revo .= ' | ';
-        } elsif ($r < $#revs) {
-            $revo .= '&nbsp;'
-              . CGI::a(
-                {
-                    href => $session->getScriptUrl(
-                        0, 'rdiff', $topicObject->web, $topicObject->topic,
-                        rev1 => $revs[$r],
-                        rev2 => $revs[$r - 1]
-                    ),
-                    rel => 'nofollow'
-                },
-                '&lt;'
-              ) . '&nbsp;';
-        }
-        $r++;
-    }
-
-    $tmpl =~ s/%REVISIONS%/$revo/go;
+    $tmpl =~ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -481,6 +413,91 @@ sub _prepare {
     }
 
     return $text;
+}
+
+=begin TML
+
+---++ StaticMethod revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
+
+Calculate the revisions spanning the current one for display in the bottom
+bar.
+
+=cut
+
+sub revisionsAround {
+    my ($session, $topicObject, $requestedRev, $showRev, $maxRev) = @_;
+
+    my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
+    # Soak up the revision iterator
+    my $revIt = $topicObject->getRevisionHistory();
+    my @revs = $revIt->all();
+    my $maxRevDisjoint = 0;
+
+    if ($Foswiki::cfg{NumberOfRevisions}) {
+        # Locate the preferred rev in the array
+        my $showIndex = $#revs;
+        my $left = 0;
+        my $right = $Foswiki::cfg{NumberOfRevisions};
+        if ($requestedRev) {
+            while ($showIndex && $revs[$showIndex] != $showRev) {
+                $showIndex--;
+            }
+            $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
+            $right = scalar(@revs) if $right > scalar(@revs);
+            $left = $right - $Foswiki::cfg{NumberOfRevisions};
+            if ($left < 0) {
+                $left = 0;
+                $right = $Foswiki::cfg{NumberOfRevisions};
+            }
+        }
+        splice(@revs, $right) if ($right < scalar(@revs));
+        splice(@revs, 0, $left);
+        if ($left > 0) {
+            # Put the max rev back in at the front, and flag
+            # special treatment
+            $maxRevDisjoint = 1;
+            unshift(@revs, $maxRev);
+        }
+    }
+
+    my $output = '';
+    my $r = 0;
+    while ($r < scalar(@revs)) {
+        if ( $revs[$r] == $showRev ) {
+            $output .= 'r' . $showRev;
+        }
+        else {
+            $output .= CGI::a(
+                {
+                    href => $session->getScriptUrl(
+                        0,                 'view',
+                        $topicObject->web, $topicObject->topic,
+                        rev => $revs[$r]
+                    ),
+                    rel => 'nofollow'
+                },
+                'r'.$revs[$r]
+            );
+        }
+        if ($r == 0 && $maxRevDisjoint) {
+            $output .= ' | ';
+        } elsif ($r < $#revs) {
+            $output .= '&nbsp;'
+              . CGI::a(
+                {
+                    href => $session->getScriptUrl(
+                        0, 'rdiff', $topicObject->web, $topicObject->topic,
+                        rev1 => $revs[$r + 1],
+                        rev2 => $revs[$r]
+                    ),
+                    rel => 'nofollow'
+                },
+                '&lt;'
+              ) . '&nbsp;';
+        }
+        $r++;
+    }
+    return $output;
 }
 
 1;
