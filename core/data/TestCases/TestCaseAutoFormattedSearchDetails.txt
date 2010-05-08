@@ -12,95 +12,95 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ default search formatting
 ---+++ Expected
 <!-- expected expand rex old Tmwiki default multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">Welcome to the System Web Come to foswiki.org. Foswiki is a flexible, powerful, secure, yet simple web based collaboration platform. Use Foswiki to run a project ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop Main Web Preferences Appearance Set WEBBGCOLOR #FFEFA6 web specific background color, current color Set SITEMAPLIST on Set WEBSUMMARY ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">%TWISTY{ link "" mode "div" }% " icon "tick" type "submit""}%</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop Sandbox Web Preferences Appearance Set WEBBGCOLOR #B9DAFF Set WEBSUMMARY Sandbox test area to experiment in an unrestricted hands on web. ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div> 
-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">Welcome to the System Web Come to foswiki.org. Foswiki is a flexible, powerful, secure, yet simple web based collaboration platform. Use Foswiki to run a project ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop Main Web Preferences Appearance Set WEBBGCOLOR #FFEFA6 web specific background color, current color Set SITEMAPLIST on Set WEBSUMMARY ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">%TWISTY{ link "" mode "div" }% " icon "tick" type "submit""}%</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop Sandbox Web Preferences Appearance Set WEBBGCOLOR #B9DAFF Set WEBSUMMARY Sandbox test area to experiment in an unrestricted hands on web. ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
@@ -117,82 +117,82 @@ The major risk is the default formatting where web's are separated - for paging 
 (shows separator is ignored if format isn't set)
 ---+++ Expected
 <!-- DISABLE expected expand rex old Tmwiki format, and sep multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">Welcome to the System Web Come to foswiki.org. Foswiki is a flexible, powerful, secure, yet simple web based collaboration platform. Use Foswiki to run a project ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop Main Web Preferences Appearance Set WEBBGCOLOR #FFEFA6 web specific background color, current color Set SITEMAPLIST on Set WEBSUMMARY ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%USERSWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a> 
-<div class="foswikiSummary">%TWISTY{ link "" mode "div" }% " icon "tick" type "submit""}%</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop Sandbox Web Preferences Appearance Set WEBBGCOLOR #B9DAFF Set WEBSUMMARY Sandbox test area to experiment in an unrestricted hands on web. ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
-</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a> 
-<div class="foswikiSummary">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div> 
-<div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
-</div> 
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop TestCases Web Preferences Set BROADCASTMESSAGE NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">Welcome to the System Web Come to foswiki.org. Foswiki is a flexible, powerful, secure, yet simple web based collaboration platform. Use Foswiki to run a project ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop System Web Preferences Appearance Set WEBBGCOLOR #FFD8AA Set SITEMAPLIST on Set WEBSUMMARY Discover Foswiki details, and how to start your ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version , Plugin API version To learn more about ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop Main Web Preferences Appearance Set WEBBGCOLOR #FFEFA6 web specific background color, current color Set SITEMAPLIST on Set WEBSUMMARY ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
+<div class="foswikiSummary">%TWISTY{ link "" mode "div" }% " icon "tick" type "submit""}%</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
+<div class="foswikiSummary">nop Sandbox Web Preferences Appearance Set WEBBGCOLOR #B9DAFF Set WEBSUMMARY Sandbox test area to experiment in an unrestricted hands on web. ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
+</div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a>
+<div class="foswikiSummary">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<div class="foswikiBottomRow">
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+</div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /DISABLE expected -->
 ---++ Actual
@@ -211,29 +211,29 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ simple format="   * !$web.!$topic"
 ---+++ Expected
 <!-- expected expand rex simple format="   * !$web.$topic" -->
-<ul> 
+<ul>
 <li> TestCases.WebHome
 </li> <li> TestCases.WebPreferences
 </li> <li> TestCases.WebStatistics
-</li></ul> 
+</li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-<ul> 
+<ul>
 <li> System.WebHome
-</li> System.WebPreferences
+</li> <li> System.WebPreferences
 </li> <li> System.WebStatistics
-</li></ul> 
+</li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-<ul> 
+<ul>
 <li> Main.WebHome
-</li> Main.WebPreferences
+</li> <li> Main.WebPreferences
 </li> <li> Main.WebStatistics
-</li></ul> 
+</li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-<ul> 
+<ul>
 <li> Sandbox.WebHome
-</li> Sandbox.WebPreferences
+</li> <li> Sandbox.WebPreferences
 </li> <li> Sandbox.WebStatistics
-</li></ul> 
+</li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /expected -->
 ---++ Actual
@@ -258,11 +258,11 @@ __i think this is a BUG__
 ---+++ Expected
 <!-- expected  format="   * !$web.!$topic" separator="-" -->
 <ul>
-<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li> <li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li> <li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li> <li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li></ul> 
+<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li></ul>
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
@@ -287,11 +287,11 @@ __i think this is a BUG__
 ---+++ Expected
 <!-- expected  format="   * !$web.!$topic" separator="-" header="---++ header !$web" footer="---++ footer !$web" -->
 <h2><a name="header_TestCases_AN1"></a>  header TestCases </h2>
-<ul> 
-<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li> <li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li> <li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
-</li> <li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div> 
+<ul>
+<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li></ul>
 <!-- /expected -->
 ---++ Actual
