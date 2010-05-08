@@ -59,9 +59,6 @@ pre, code, tt {
 html>body pre { /* hide from IE */
 	/*\*/ overflow:auto !important; /* */ overflow:scroll; width:auto; /* for Mac Safari */
 }
-ol, ul {
-	margin-top:0;
-}
 blockquote {
 	margin:0;
 	font-size:94%;
