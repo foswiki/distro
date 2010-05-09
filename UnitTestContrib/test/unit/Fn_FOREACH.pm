@@ -501,5 +501,42 @@ sub test_with_header_no_footer_with_separator_no_results {
 EXPECT
 }
 
+sub test_delayed_expansion {
+    my $this = shift;
+eval "require Foswiki::Macros::FOREACH";
+    
+    my $result = $Foswiki::Plugins::SESSION->FOREACH({
+                                    _DEFAULT=>"WebHome,WebIndex, WebPreferences",
+                                    format=>'$topic',
+                                    separator=>", ",
+                                }, $this->{test_topicObject});
+    $this->assert_str_equals( <<EXPECT, $result."\n" );
+WebHome, WebIndex, WebPreferences
+EXPECT
+
+    $result = $Foswiki::Plugins::SESSION->FOREACH({
+                                    _DEFAULT=>"WebHome,WebIndex, WebPreferences",
+                                    format=>'$percentWIKINAME$percent',
+                                    separator=>", ",
+                                }, $this->{test_topicObject});
+    $this->assert_str_equals( <<EXPECT, $result."\n" );
+%WIKINAME%, %WIKINAME%, %WIKINAME%
+EXPECT
+
+#TODO: This shows the separator issue of Item1773 too
+#Item8849: the header (and similarly footer) are expended once too often, FOREACh and SEARCH should return the raw TML, which is _then_ expanded
+    $result = $Foswiki::Plugins::SESSION->FOREACH({
+                                    _DEFAULT=>"WebHome,WebIndex, WebPreferences",
+                                    header=>'$percentWIKINAME$percent',
+                                    format=>'$topic',
+                                    separator=>", ",
+                                }, $this->{test_topicObject});
+    $this->assert_str_equals( <<EXPECT, $result."\n" );
+%WIKINAME%
+WebHome, WebIndex, WebPreferences
+EXPECT
+
+}
+
 
 1;
