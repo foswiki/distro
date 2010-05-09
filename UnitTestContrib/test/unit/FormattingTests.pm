@@ -234,6 +234,19 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+#for eg, SEARCH{format="!$web.!$topic"} - just to show it won't work.
+sub test_escapedWikiWord_withDotBang {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<nop>$Foswiki::cfg{SystemWebName}.!$Foswiki::cfg{HomeTopicName}
+EXPECTED
+
+    my $actual = <<ACTUAL;
+!$Foswiki::cfg{SystemWebName}.!$Foswiki::cfg{HomeTopicName}
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_escapedSquab {
     my $this     = shift;
     my $expected = <<EXPECTED;

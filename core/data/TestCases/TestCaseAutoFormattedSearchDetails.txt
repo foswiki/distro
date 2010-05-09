@@ -258,10 +258,10 @@ __i think this is a BUG__
 ---+++ Expected
 <!-- expected  format="   * !$web.!$topic" separator="-" -->
 <ul>
-<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> TestCases.!WebHome-   * TestCases.!WebPreferences-   * TestCases.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> System.!WebHome-   * System.!WebPreferences-   * System.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Main.!WebHome-   * Main.!WebPreferences-   * Main.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Sandbox.!WebHome-   * Sandbox.!WebPreferences-   * Sandbox.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li></ul>
 <!-- /expected -->
 ---++ Actual
@@ -288,10 +288,10 @@ __i think this is a BUG__
 <!-- expected  format="   * !$web.!$topic" separator="-" header="---++ header !$web" footer="---++ footer !$web" -->
 <h2><a name="header_TestCases_AN1"></a>  header TestCases </h2>
 <ul>
-<li> TestCases.WebHome-   * TestCases.WebPreferences-   * TestCases.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> System.WebHome-   * System.WebPreferences-   * System.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> Main.WebHome-   * Main.WebPreferences-   * Main.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> Sandbox.WebHome-   * Sandbox.WebPreferences-   * Sandbox.WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> TestCases.!WebHome-   * TestCases.!WebPreferences-   * TestCases.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> System.!WebHome-   * System.!WebPreferences-   * System.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Main.!WebHome-   * Main.!WebPreferences-   * Main.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> Sandbox.!WebHome-   * Sandbox.!WebPreferences-   * Sandbox.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li></ul>
 <!-- /expected -->
 ---++ Actual
