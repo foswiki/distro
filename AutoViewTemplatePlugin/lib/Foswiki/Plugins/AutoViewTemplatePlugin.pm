@@ -81,9 +81,9 @@ sub initPlugin {
     # only set the view template if there is anything to set
     return 1 unless $templateName;
 
-    # try to read the template to check if it exists
-    if (!Foswiki::Func::readTemplate($templateName)) {
-      Foswiki::Func::writeDebug("- ${pluginName}: template not found") if $debug;
+    # in edit mode, try to read the template to check if it exists
+    if ($isEditAction && !Foswiki::Func::readTemplate($templateName)) {
+      Foswiki::Func::writeDebug("- ${pluginName}: edit template not found") if $debug;
       return 1;
     }
 
