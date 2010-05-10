@@ -2590,6 +2590,8 @@ Only valid on topics.
 
 sub expandMacros {
     my ( $this, $text ) = @_;
+    ASSERT( defined($this->web) && defined($this->topic) ) if DEBUG;
+
     return $this->{_session}->expandMacros( $text, $this );
 }
 

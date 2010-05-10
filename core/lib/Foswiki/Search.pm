@@ -356,10 +356,8 @@ sub searchWeb {
         } else {
             if (not _isSetTrue( $params{zeroresults}, 1 )) {
                 #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results 
-                #TODO: need to expandMacros etc
-                #and work out how to apply to FOREACH
 
-                #TODO: extract & merge with extration of footer processing code below
+                #TODO: extract & merge with extraction of footer processing code below
                 my $result = Foswiki::expandStandardEscapes($params{zeroresults});
                 $result =~ s/\$web/$baseWeb/gos;      # expand name of web
                 $result =~ s/([^\n])$/$1\n/os;    # add new line at end
@@ -372,7 +370,6 @@ sub searchWeb {
                 $result =~ s/%NTOPICS%/0/go;
 
                 #$result = $this->formatCommon( $result, \%pager_formatting );
-                $result = $baseWebObject->expandMacros($result);
                 $result =~ s/\n$//os;                 # remove trailing new line
                 
                 return $result;
@@ -394,8 +391,6 @@ sub searchWeb {
         $searchStr =~ s/</&lt;/go;
         $searchStr =~ s/>/&gt;/go;
 
-        # Expand tags in template sections
-        $tmplSearch = $baseWebObject->expandMacros($tmplSearch);
         $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
         &$callback( $cbdata, $tmplSearch );
     }
@@ -538,8 +533,7 @@ sub loadTemplates {
     }
     $params->{format} |= $repeatText;
     
-    $params->{footercounter} |=
-      $baseWebObject->expandMacros($tmplNumber);
+    $params->{footercounter} |= $tmplNumber;
 
     return $tmplSearch;
 }
@@ -830,9 +824,6 @@ sub formatResults {
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
-					        #DO NOT DO THIS: it breaks the rendering order (by expanding $percentMACRO$percent in the header/footer inside the processing of the search.
-                            #$processedfooter =
-                            #  $webObject->expandMacros($processedfooter);
                             $processedfooter =~
                               s/\n$//os;    # remove trailing new line
 
@@ -901,8 +892,6 @@ sub formatResults {
                 $processedheader =~ s/\$nhits/($nhits-1)/gse;
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
-                #DO NOT DO THIS: it breaks the rendering order (by expanding $percentMACRO$percent in the header/footer inside the processing of the search.
-                #$processedheader = $webObject->expandMacros($processedheader);
                 &$callback( $cbdata, $processedheader );
                 $justdidHeaderOrFooter = 1;
             }
@@ -1030,8 +1019,6 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        #DO NOT DO THIS: it breaks the rendering order (by expanding $percentMACRO$percent in the header/footer inside the processing of the search.
-        #$footer = $webObject->expandMacros($footer);
         $footer =~ s/\n$//os;                 # remove trailing new line
 
         if ( defined($separator) and ($footer ne '')) {
