@@ -129,18 +129,24 @@ sub _parseRow {
     $dep->studyInstallation();
     
     # If release isn't specified, then use the version string
+    
+    # SMELL:  $dep->{release} is defined as the "Required" release string that will be compared by the
+    #         dependency check function. It is being misused here to report the latest "available" 
+    #         release in the Extensions repository.
     if ( !$data{release} && $data{version} ) {
 
         # See if we can pull the release ID from the generated %$VERSION%
         if ( $data{version} =~ /^\d+ \((.+)\)$/ ) {
-            $data{release} = $1;
+            $dep->{release} = $1;
         }
         else {
 
             # Can't make sense of it; use the whole string
-            $data{release} = $data{version};
+            $dep->{release} = $data{version};
+
         }
     }
+    #die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] ) if ($data{name} eq "WordPressPlugin");
 
     $this->{list}->{ $dep->{name} } = $dep;
     return '';
