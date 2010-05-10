@@ -1,6 +1,7 @@
 bin/test 0755
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/Config.spec 0644
+lib/Foswiki/Contrib/UnitTestContrib/MissingDependency.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/MultiDottedVersion.pm 0644
 lib/Foswiki/UI/Test.pm 0644
 lib/Unit/Eavesdrop.pm 0644

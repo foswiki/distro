@@ -1165,7 +1165,7 @@ Installed:  MyPlugin_installer
     $this->assert_matches( qr/^Foswiki::Plugins::RequiredTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
     $this->assert_does_not_match( qr/^Foswiki::Plugins::UnneededTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
     $this->assert_matches( qr/^Cwd version > 55 required(.*)^ -- installed version is /ms, $missing, 'Test for backlevel module');
-    $this->assert_matches( qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl module is not installed(.*)^ -- Description: [Oo]ptional module(.*)^ -- Optional dependency will not be automatically installed/ms, $missing, 'Test for optional module');
+    $this->assert_matches( qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl module is not installed(.*)^ -- Description: [Oo]ptional module(.*)^ -- Optional dependency will not be automatically installed/ms, $missing, "Test for optional module - Returned \n$missing\n\n");
 
     #print "===== INSTALLED =======\n$installed\n";
     $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed, 'Installed module File::Spec');
@@ -1299,7 +1299,7 @@ Please check it manually and install if necessary.
  -- Description: Required for generating PDF
 HERE
 
-    $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected dependency results from Simulated fullInstall");
+    $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected dependency results from Simulated fullInstall - Returned\n$result\n\nExpected \n$expresult\n\n");
 
     $pkg->finish();
     undef $pkg;

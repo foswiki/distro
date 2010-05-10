@@ -43,14 +43,38 @@ my %STRINGOPMAP = (
     '>=' => 'ge'
 );
 
-# Class representing a single dependency, as read from DEPENDENCIES
-# %opts
-# name        => unqualified name e.g. SafeWikiPlugin
-# module      => qualified module e.g Foswiki::Plugins::SafeWikiPlugin
-# type        => perl|cpan|external,
-# version     => version condition e.g. ">1.2.3"
-# trigger     => ONLYIF condition
-# description => text
+=begin TML
+
+---+ package Foswiki::Configure::Dependency
+
+This module defines a dependency required by a Foswiki module and provides
+functions to test if the dependency is installed, and compare versions with
+the requred version..  
+
+It is also used to examine the installed version of a Foswiki module.
+
+%TOC%
+
+---++ ClassMethod new( %opts ) 
+
+Create an object instance representing a single dependency, as read from DEPENDENCIES
+   * %opts
+      * =name             => unqualified name e.g. SafeWikiPlugin=
+      * =module           => qualified module e.g Foswiki::Plugins::SafeWikiPlugin=
+         * If a qualified =module= is not provided, all possible Foswiki/TWiki module types are searched for =type=perl=
+      * =type             => perl|cpan|external=
+         * =perl= is a Foswiki or TWiki module.  =external= is used for any program other than a perl module.  External dependencies are __not__ checked.
+      * =version          => version condition e.g. ">1.2.3"=
+      * =trigger          => ONLYIF condition= (Specifies a version of another module, such as the Foswiki Func API)
+      * =description      => text=
+
+   * Instance variables set by calling studyInstallation() or indirectly by calling check() 
+      * =installedVersion => $VERSION string from module=
+      * =installedRelease => $RELEASE string from module (or $VERSION)=
+      * =notes            => text   Notes on condition of module= (ex. fails due to missing dependency)
+
+=cut
+
 sub new {
     my ( $class, %opts ) = @_;
     my $this = bless( \%opts, $class );
@@ -73,17 +97,23 @@ sub new {
     $this->{trigger}     ||= 1;
     $this->{type}        ||= 'external';                 # assume external module
     $this->{description} ||= 'Nondescript module';
+    $this->{notes}         = '';
 
     return $this;
 }
 
-# Check whether the dependency is satisfied by a currently-installed module.
-# Return: ($ok, $msg, $release)
-# Where:
-# $ok is a boolean indicating success/failure
-# $msg is a helpful message describing the failure
-# $release is the installed release of the module, as determined from the
-# values of $RELEASE and $VERSION in the module.
+=begin TML
+
+---++ ObjectMethod check()
+
+Check whether the dependency is satisfied by a currently-installed module.
+   * Return: ($ok, $msg)
+      * $ok is a boolean indicating success/failure
+      * $msg is a helpful message describing the failure
+      * $release is the installed release of the module, as determined from the values of $RELEASE and $VERSION in the module.
+
+=cut
+
 sub check {
     my $this = shift;
 
@@ -99,7 +129,7 @@ LALA
     if ( !$this->studyInstallation() ) {
         return ( 0, <<LALA );
 $this->{module} version $this->{version} required
- -- $this->{type} module is not installed
+ -- $this->{type} $this->{notes}
 LALA
     }
     elsif ( $this->{version} =~ /^\s*([<>=]+)?\s*(.+)/ ) {
@@ -121,27 +151,58 @@ $this->{module} version $this->{installedRelease} loaded
 LALA
 }
 
-# Check the current installation, populating the {installedRelease} and
-# {installedVersion} fields, and returning true if the extension is installed.
+=begin TML
+
+---++ ObjectMethod studyInstallation()
+
+Check the current installation, populating the ={installedRelease}= and ={installedVersion}= fields, and returning true if the extension is installed. 
+={notes}= will also be set when certain conditions are discovered (example:  missing dependencies or other compile failures).
+
+   * Return: $ok
+      * $ok is a boolean indicating success/failure.  If the module is found and a VERSION and RELEASE are discovered, the method returns true.
+
+=cut
+
+
 sub studyInstallation {
     my $this = shift;
+    my $load_errors = '';
 
     if ( !$this->{module} ) {
         my $lib = ( $this->{name} =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
         foreach my $namespace qw(Foswiki TWiki) {
             my $path = $namespace . '::' . $lib . '::' . $this->{name};
             eval "require $path";
-            unless ($@) {
+            unless ($@ && $@ =~ m/^Can't locate $path/)  {
                 $this->{module} = $path;
+                $load_errors = $@ if ($@);
                 last;
             }
         }
     }
     return 0 unless $this->{module};
-    eval "require $this->{module}";
-    if ($@) {
+
+    unless ($load_errors) {
+        eval "require $this->{module}";
+        $load_errors = $@ if ($@);
+        }
+
+    my $path = $this->{module};
+    $path =~ s#::#/#g;
+    $path .= '.pm';
+
+    if ($load_errors =~ m/^Can't locate $path/)  {
+        $this->{notes} = "module is not installed";
         return;
+    } else {
+        if ($load_errors =~ m/^(Can't locate|Insecure dep)/)  {
+            $this->{notes} = "module missing required dependencies" ;
+            return 1 if ( $this->_recover_versions($path) );
+            print STDERR "Unexpect errors attempting to determine version of dependency\n$load_errors\n";
+            return;
+        }
     }
+
     no strict 'refs';
     $this->{installedVersion} = ${"$this->{module}::VERSION"} || 0;
     $this->{installedRelease} = ${"$this->{module}::RELEASE"}
@@ -150,7 +211,7 @@ sub studyInstallation {
 
     # Check if it's pseudo installed. Only works on platforms that
     # support soft links (and assumes the pseudo-install was -l)
-    my $path = $this->{module};
+    $path = $this->{module};
     $path =~ s#::#/#g;
     $path .= '.pm';
     foreach my $dir (@INC) {
@@ -167,7 +228,45 @@ sub studyInstallation {
     return 1;
 }
 
-# Compare versions (provided as $RELEASE, $VERSION) with a release specifier
+
+sub _recover_versions {
+    my ($this, $path) = @_;
+    foreach my $dir (@INC) {
+        if ( -e "$dir/$path" ) {
+
+            my $modfh = open my $mod, '<', "$dir/$path";
+            if ( !$modfh ) {
+                return 0;
+            }
+            my $file_contents = do { local $/; <$mod> };
+            my $VERSION;
+            my $RELEASE;
+
+            my ($version) = $file_contents =~ m/^\s?(?:our)?\s?(\$VERSION\s?=.*);.*?$/m;
+            my ($release) = $file_contents =~ m/^\s?(?:our)?\s?(\$RELEASE\s?=.*);.*?$/m;
+
+            eval $version if ($version);
+            eval $release if ($release);
+
+            $this->{installedVersion} = $VERSION || 0;
+            $this->{installedRelease} = $RELEASE || $this->{installedVersion};
+
+            return 1;
+
+        }
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod compare_versions ($condition, $release) 
+
+ Compare versions (provided as $RELEASE, $VERSION) with a release specifier
+
+ Returns the boolean result of the comparison
+
+=cut
+
 sub compare_versions {
     my $this = shift;
     if ( $this->{type} eq 'perl' ) {

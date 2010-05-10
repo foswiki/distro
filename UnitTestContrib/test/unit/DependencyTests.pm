@@ -243,6 +243,21 @@ sub test_check_dep_version_with_multi_part_number {
         $message );
 }
 
+sub test_check_dep_with_missing_dependency {
+    my ($this) = @_;
+
+    # Check a normal dependency that is in turn missing dependencies  which 
+    # will cause a compile error trying to eval the module to obtain version. 
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki::Contrib::UnitTestContrib::MissingDependency",
+            version => ">=1.23.4"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok, $message );
+    $this->assert_equals( '1.23.4', $dep->{installedRelease}, "Unexpected version found $dep->{installedRelease}");
+    $this->assert_equals( '$Rev: 1234 (2010-01-19) $', $dep->{installedVersion}, "Unexpected version found $dep->{installedVersion}");
+}
 sub test_check_dep_version_with_underscore {
     my ($this) = @_;
 
