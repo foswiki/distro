@@ -3634,5 +3634,83 @@ HERE
     $this->assert_str_equals( $expected, $actual );
 }
 
+sub verify_formatdotBang {
+    my $this = shift;
+
+    my $actual = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="%SYSTEMWEB%"
+    format="   * !$web.!$topic"
+    nosearch="on"
+}%
+');
+    my $expected = <<'HERE';
+   * !System.!WebHome
+   * !System.!WebPreferences
+   * !System.!WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+HERE
+
+	
+    
+    $this->assert_str_equals( $expected, $actual );
+}
+
+
+sub test_delayed_expansion {
+    my $this = shift;
+eval "require Foswiki::Macros::SEARCH";
+    
+    my $result = $Foswiki::Plugins::SESSION->SEARCH({
+                                    _DEFAULT=>"1",
+                                    type=>"query",
+                                    nonoise=>"on",
+                                    web=>"Main, System",
+                                    topic=>"WebHome,WebIndex, WebPreferences",
+                                    format=>'$topic',
+                                    separator=>", ",
+                                }, $this->{test_topicObject});
+    $this->assert_str_equals( <<EXPECT, $result."\n" );
+WebHome, WebIndex, WebPreferences, WebHome, WebIndex, WebPreferences
+EXPECT
+
+    $result = $Foswiki::Plugins::SESSION->SEARCH({
+                                    _DEFAULT=>"1",
+                                    type=>"query",
+                                    nonoise=>"on",
+                                    web=>"Main, System",
+                                    topic=>"WebHome,WebIndex, WebPreferences",
+                                    format=>'$percentWIKINAME$percent',
+                                    separator=>", ",
+                                }, $this->{test_topicObject});
+    $this->assert_str_equals( <<EXPECT, $result."\n" );
+%WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%
+EXPECT
+
+#TODO: This shows the separator issue of Item1773 too
+#Item8849: the header (and similarly footer) are expended once too often, FOREACh and SEARCH should return the raw TML, which is _then_ expanded
+    $result = $Foswiki::Plugins::SESSION->SEARCH({
+                                    _DEFAULT=>"1",
+                                    type=>"query",
+                                    nonoise=>"on",
+                                    web=>"Main, System",
+                                    topic=>"WebHome,WebIndex, WebPreferences",
+                                    header=>'$percentINCLUDE{Main.WebHeader}$percent',
+                                    footer=>'$percentINCLUDE{Main.WebFooter}$percent',
+                                    format=>'$topic',
+                                    separator=>", ",
+                                }, $this->{test_topicObject});
+    $this->assert_str_equals( <<EXPECT, $result."\n" );
+%INCLUDE{Main.WebHeader}%
+WebHome, WebIndex, WebPreferences, %INCLUDE{Main.WebFooter}%%INCLUDE{Main.WebHeader}%
+WebHome, WebIndex, WebPreferences, %INCLUDE{Main.WebFooter}%
+EXPECT
+
+}
+
+
 
 1;

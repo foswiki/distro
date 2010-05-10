@@ -527,13 +527,14 @@ EXPECT
 #Item8849: the header (and similarly footer) are expended once too often, FOREACh and SEARCH should return the raw TML, which is _then_ expanded
     $result = $Foswiki::Plugins::SESSION->FOREACH({
                                     _DEFAULT=>"WebHome,WebIndex, WebPreferences",
-                                    header=>'$percentWIKINAME$percent',
+                                    header=>'$percentINCLUDE{Main.WebHome}$percent',
+                                    footer=>'$percentINCLUDE{Main.WebHome}$percent',
                                     format=>'$topic',
                                     separator=>", ",
                                 }, $this->{test_topicObject});
     $this->assert_str_equals( <<EXPECT, $result."\n" );
-%WIKINAME%
-WebHome, WebIndex, WebPreferences
+%INCLUDE{Main.WebHome}%
+WebHome, WebIndex, WebPreferences, %INCLUDE{Main.WebHome}%
 EXPECT
 
 }

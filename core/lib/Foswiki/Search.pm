@@ -830,8 +830,9 @@ sub formatResults {
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
-                            $processedfooter =
-                              $webObject->expandMacros($processedfooter);
+					        #DO NOT DO THIS: it breaks the rendering order (by expanding $percentMACRO$percent in the header/footer inside the processing of the search.
+                            #$processedfooter =
+                            #  $webObject->expandMacros($processedfooter);
                             $processedfooter =~
                               s/\n$//os;    # remove trailing new line
 
@@ -900,7 +901,8 @@ sub formatResults {
                 $processedheader =~ s/\$nhits/($nhits-1)/gse;
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
-                $processedheader = $webObject->expandMacros($processedheader);
+                #DO NOT DO THIS: it breaks the rendering order (by expanding $percentMACRO$percent in the header/footer inside the processing of the search.
+                #$processedheader = $webObject->expandMacros($processedheader);
                 &$callback( $cbdata, $processedheader );
                 $justdidHeaderOrFooter = 1;
             }
@@ -1028,7 +1030,8 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        $footer = $webObject->expandMacros($footer);
+        #DO NOT DO THIS: it breaks the rendering order (by expanding $percentMACRO$percent in the header/footer inside the processing of the search.
+        #$footer = $webObject->expandMacros($footer);
         $footer =~ s/\n$//os;                 # remove trailing new line
 
         if ( defined($separator) and ($footer ne '')) {
