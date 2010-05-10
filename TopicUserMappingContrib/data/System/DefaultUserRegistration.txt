@@ -40,7 +40,9 @@ Other sections define the fields and extra info text.
 				%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
 				<!-- START OPTIONAL FIELDS -->
 				<!-- remove EXCLUDED_ from section names to show fields -->
-				%IF{'$REGISTRATIONGROUPTYPE !="none"' then='%INCLUDE{"%TOPIC%" section="extraField_groups" warn="off"}%' else='<!-- -->'}%
+				%IF{'$REGISTRATIONGROUPTYPE = "one" OR
+					$REGISTRATIONGROUPTYPE = "multiple" OR
+					$REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" section="extraField_groups" warn="off"}$percent' else='<!-- -->'}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%
 				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
@@ -188,16 +190,26 @@ TODO: it might make sense to separate this into several sections, dependent on t
 TODO: it would be nice to have a red warning if the rego agent is in the admin group telling the admin that this feature is disabled unless they remove the rego user from that group (die to security issues)
       (and confirming to them that this is due to an upgrade)
 
-   ******TODO: implement http://trunk.foswiki.org/Tasks/Item8704 and then move the GROUPINFO here to the REGISTRATIONGROUPS setting - using the exclude allowchange from list option.
       
-%STARTSECTION{"extraField_groups"}%%GROUPINFO{
-	header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%rendergroupheader$quot multiple=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="Groups" else="Group"}%$quot}$percnt"
+%STARTSECTION{"extraField_groups"}%%FOREACH{
+	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
+			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
+			format="$name"
+			separator=","
+		}%"}%"
+	header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{
+						"'%REGISTRATIONGROUPTYPE%' = 'automatic'" 
+						then="hidden"
+					}%rendergroupheader$quot multiple=$quot%IF{
+						"'%REGISTRATIONGROUPTYPE%' = 'multiple'" 
+						then="Groups" 
+						else="Group"
+					}%$quot}$percnt"
 	footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"
-	zeroresults=""
-	show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
+	zeroresults="<!-- no groups available -->"
 	format="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
 		section=$quotrendergroup$quot
-		groupname=$quot$name$quot
+		groupname=$quot$topic$quot
 		inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
        }$percnt"
       separator=" "
