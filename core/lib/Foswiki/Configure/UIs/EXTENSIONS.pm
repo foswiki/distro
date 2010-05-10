@@ -127,18 +127,18 @@ sub _parseRow {
 
     my $dep = new Foswiki::Configure::Dependency(%data);
     $dep->studyInstallation();
-
+    
     # If release isn't specified, then use the version string
-    if ( !$dep->{release} && $dep->{version} ) {
+    if ( !$data{release} && $data{version} ) {
 
         # See if we can pull the release ID from the generated %$VERSION%
-        if ( $dep->{version} =~ /^\d+ \((.+)\)$/ ) {
-            $dep->{release} = $1;
+        if ( $data{version} =~ /^\d+ \((.+)\)$/ ) {
+            $data{release} = $1;
         }
         else {
 
             # Can't make sense of it; use the whole string
-            $dep->{release} = $dep->{version};
+            $data{release} = $data{version};
         }
     }
 
