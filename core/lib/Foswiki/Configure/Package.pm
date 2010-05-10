@@ -578,6 +578,7 @@ sub _moveFile {
     pop(@path);
     unless ( $this->{_options}->{SIMULATE} ) {
         if ( scalar(@path) ) {
+            umask(oct(777)-$Foswiki::cfg{RCS}{dirPermission}); 
             File::Path::mkpath( join( '/', @path ) );
         }
 
