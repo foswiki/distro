@@ -301,7 +301,7 @@ sub _getInstalledVersion {
     foreach $from qw(Foswiki TWiki) {
         my $path = $from . '::' . $lib . '::' . $module;
         eval "require $path";
-        unless ($@) {
+        unless ($@ && $@ =~ m/^Can't locate $path/) {
             $compileable = 1;    # found the module
             last;
         }
