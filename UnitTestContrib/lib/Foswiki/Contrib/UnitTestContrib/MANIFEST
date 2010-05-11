@@ -52,6 +52,7 @@ test/unit/FuncTests.pm 0644
 test/unit/FuncUsersTests.pm 0644
 test/unit/HierarchicalWebsTests.pm 0644
 test/unit/HoistREsTests.pm 0644
+test/unit/HTMLValidation.pm 0644
 test/unit/InitFormTests.pm 0644
 test/unit/Iterator.pm 0755
 test/unit/LoadedRevTests.pm 0755
