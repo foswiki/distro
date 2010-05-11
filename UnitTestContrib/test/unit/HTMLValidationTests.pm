@@ -29,7 +29,7 @@ sub set_up {
 	$this->{tidy} = HTML::Tidy->new({
 								#turn off warnings until we have fixed errors
 								'show-warnings' => 1,
-								'accessibility-check'	=> 0,
+								#'accessibility-check'	=> 1,
 								'drop-empty-paras'	=> 0
 									});
 	print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
@@ -126,7 +126,7 @@ sub verify_switchboard_function {
 #    $this->assert_equals('', $header);
 #    $this->assert_equals('', $text);
 
-	#$this->assert($this->{tidy}->parse('something', $text));
+	$this->{tidy}->parse('something', $text);
 	$this->assert_null($this->{tidy}->messages());
 	my $output = join("\n", $this->{tidy}->messages());
 	$this->assert_equals('', $output);
