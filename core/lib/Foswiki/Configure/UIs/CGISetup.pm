@@ -53,6 +53,14 @@ HERE
         $erk++;
     }
 
+    my $cgiver = $CGI::VERSION;
+    if ("$cgiver" =~ m/^(2\.89|3\.37|3\.43|3\.47)$/ ) { 
+        $contents .= $this->setting( '', $this->WARN( <<HERE ) );
+You are using a version of \$CGI that is know to have issues with Foswiki.
+CGI should be upgraded to a version > 3.11, avoiding 3.37, 3.43, and 3.47.
+HERE
+    }
+
 # Check for potential CGI.pm module upgrade
 # CGI.pm version, on some platforms - actually need CGI 2.93 for
 # mod_perl 2.0 and CGI 2.90 for Cygwin Perl 5.8.0.  See
