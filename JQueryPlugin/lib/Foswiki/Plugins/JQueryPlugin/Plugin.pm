@@ -141,7 +141,7 @@ sub renderJS {
 
   $text =~ s/\.js$/.uncompressed.js/ if $this->{debug};
   $text .= '?version='.$this->{version};
-  $text = "<script src='$this->{puburl}/$text'></script>\n";
+  $text = "<script type="text/javascript" src='$this->{puburl}/$text'></script>\n";
 
   return $text;
 }

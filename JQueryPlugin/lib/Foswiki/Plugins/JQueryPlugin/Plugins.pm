@@ -56,7 +56,7 @@ sub init () {
   # load jquery
   my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.3.2";
   $jQuery .= ".uncompressed" if $debug;
-  my $footer = "<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
+  my $footer = "<script type="text/javascript" src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
 
   # switch on noconflict mode
   $footer .= "\n<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
