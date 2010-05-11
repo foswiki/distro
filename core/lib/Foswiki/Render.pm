@@ -2209,8 +2209,8 @@ sub renderIconImage {
 
     my $html = $this->{session}->templates->expandTemplate("icon:image");
     $html =~ s/%URL%/$url/ge;
-    $html =~ s/%WIDTH%/16px/g;
-    $html =~ s/%HEIGHT%/16px/g;
+    $html =~ s/%WIDTH%/16/g;
+    $html =~ s/%HEIGHT%/16/g;
     $html =~ s/%ALT%/$alt/ge;
 
     return $html;
