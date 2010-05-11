@@ -59,7 +59,7 @@ sub init () {
   my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
 
   # switch on noconflict mode
-  $footer .= "\n<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
+  $footer .= "\n<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
     if $Foswiki::cfg{JQueryPlugin}{NoConflict};
 
   Foswiki::Func::addToZone('body', 'JQUERYPLUGIN', $footer);

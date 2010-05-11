@@ -71,7 +71,7 @@ sub init {
   my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/plugins/validate/localization/messages_'.$langTag.'.js';
   my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
   if (-f $messageFile) {
-    my $text .= "<script src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
+    my $text .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
     Foswiki::Func::addToZone('body', "JQUERYPLUGIN::VALIDATE::LANG", $text, 'JQUERYPLUGIN::VALIDATE');
   }
 

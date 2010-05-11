@@ -75,7 +75,7 @@ sub init {
   my $messagePath = $Foswiki::cfg{SystemWebName}.'/JQueryPlugin/i18n/ui.datepicker-'.$langTag.'.js';
   my $messageFile = $Foswiki::cfg{PubDir}.'/'.$messagePath;
   if (-f $messageFile) {
-    my $text .= "<script src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
+    my $text .= "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
     Foswiki::Func::addToZone('body', "JQUERYPLUGIN::UI::LANG", $text, 'JQUERYPLUGIN::UI');
   }
 }
