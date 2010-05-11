@@ -1,6 +1,6 @@
 use strict;
 
-package HTMLValidation;
+package HTMLValidationTests;
 
 #this has been quickly copied from the UICompilation tests
 #TODO: need to pick a list of topics, actions, opps's and add detection of installed skins
@@ -31,6 +31,8 @@ sub set_up {
 								'show-warnings' => 1,
 								'accessibility-check'	=> 0,
 									});
+	print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
+	#print STDERR "libtidy Version: ".HTML::Tidy::libtidy_version()."\n";
     
     $this->SUPER::set_up();
 }
