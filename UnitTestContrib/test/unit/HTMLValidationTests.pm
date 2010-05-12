@@ -28,10 +28,11 @@ sub new {
 sub set_up {
     my $this = shift;
 
+	#see http://tidy.sourceforge.net/docs/quickref.html for parameters - be warned that some cause HTML::Tidy to crash
 	$this->{tidy} = HTML::Tidy->new({
 								#turn off warnings until we have fixed errors
 								'show-warnings' => 1,
-								#'accessibility-check'	=> 1,
+								#'accessibility-check'	=> 3,
 								'drop-empty-paras'	=> 0
 									});
 	print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
