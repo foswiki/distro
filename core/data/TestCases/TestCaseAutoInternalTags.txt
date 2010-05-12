@@ -18,27 +18,27 @@ Designed by: Crawford Currie
  </tr>
   <tr>
   <td>ICON{}</td>
-  <td><!-- expected fave rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.png" alt="else" height="16px" width="16px" /></span><!-- /expected --></td>
+  <td><!-- expected fave rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.png" alt="else" height="16" width="16" /></span><!-- /expected --></td>
   <td><!-- actual -->ICON %ICON{}%<!-- /actual --></td>
  </tr>
  <tr>
   <td>ICON{""}</td>
-  <td><!-- expected sox rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.png" alt="else" height="16px" width="16px" /></span><!-- /expected --></td>
+  <td><!-- expected sox rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.png" alt="else" height="16" width="16" /></span><!-- /expected --></td>
   <td><!-- actual -->ICON %ICON{""}%<!-- /actual --></td>
  </tr>
  <tr>
   <td>ICON{"Fleegle"}</td>
-  <td><!-- expected sebum rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.png" alt="Fleegle" height="16px" width="16px" /></span><!-- /expected --></td>
+  <td><!-- expected sebum rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.png" alt="Fleegle" height="16" width="16" /></span><!-- /expected --></td>
   <td><!-- actual -->ICON %ICON{"Fleegle"}%<!-- /actual --></td>
  </tr>
  <tr>
   <td>ICON{"sniff.sniff"}</td>
-  <td><!-- expected ate rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/sniff.png" alt="sniff.sniff" height="16px" width="16px" /></span><!-- /expected --></td>
+  <td><!-- expected ate rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/sniff.png" alt="sniff.sniff" height="16" width="16" /></span><!-- /expected --></td>
   <td><!-- actual -->ICON %ICON{"sniff.sniff"}%<!-- /actual --></td>
  </tr>
  <tr>
   <td>ICON{"gif"}</td>
-  <td><!-- expected noin rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/gif.png" alt="gif" height="16px" width="16px" /></span><!-- /expected --></td>
+  <td><!-- expected noin rex expand -->ICON <span class=foswikiIcon><img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/gif.png" alt="gif" height="16" width="16" /></span><!-- /expected --></td>
   <td><!-- actual -->ICON %ICON{"gif"}%<!-- /actual --></td>
  </tr>
  <tr>
