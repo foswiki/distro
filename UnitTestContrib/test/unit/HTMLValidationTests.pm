@@ -150,7 +150,7 @@ sub verify_switchboard_function {
 
 	my $testcase = 'HTMLValidation_'.$SCRIPT_NAME.'_'.$SKIN_NAME;
     
-    my ($status, $header, $text) = $this->call_UI_FN($this->{test_web}, 'WebHome');
+    my ($status, $header, $text) = $this->call_UI_FN('Main', 'WebHome');
     #$this->assert_equals('200', $status);
 #    $this->assert_equals('', $header);
 #    $this->assert_equals('', $text);
