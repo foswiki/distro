@@ -15,6 +15,8 @@ use Error qw( :try );
 use HTML::Tidy;
 
 our $UI_FN;
+our $SCRIPT_NAME;
+our $SKIN_NAME;
 
 sub new {
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
@@ -39,39 +41,59 @@ sub set_up {
 }
 
 sub fixture_groups {
-	my @groups;
+	my @scripts;
 	
 	foreach my $script (keys (%{$Foswiki::cfg{SwitchBoard}})) {
-        push( @groups, $script );
+        push( @scripts, $script );
         next if ( defined(&$script) );
-#print STDERR "defining $script\n";
-	my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
-    if ( ref($dispatcher) eq 'ARRAY' ) {
+        
+		#print STDERR "defining sub $script()\n";
+		my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
+		if ( ref($dispatcher) eq 'ARRAY' ) {
 
-        # Old-style array entry in switchboard from a plugin
-        my @array = @$dispatcher;
-        $dispatcher = {
-            package  => $array[0],
-            function => $array[1],
-            context  => $array[2],
-        };
-    }
+		    # Old-style array entry in switchboard from a plugin
+		    my @array = @$dispatcher;
+		    $dispatcher = {
+		        package  => $array[0],
+		        function => $array[1],
+		        context  => $array[2],
+		    };
+		}
 
-    my $package = $dispatcher->{package} || 'Foswiki::UI';
-    my $function = $dispatcher->{function};
-    my $sub = $package .'::'. $function;
-#print STDERR "call $sub\n";
+		my $package = $dispatcher->{package} || 'Foswiki::UI';
+		my $function = $dispatcher->{function};
+		my $sub = $package .'::'. $function;
+		#print STDERR "call $sub\n";
 
-        eval <<SUB;
-sub $script {
-    eval "require \$package" if (defined(\$package));
-	\$UI_FN = \$sub;
-}
+		    eval <<SUB;
+		sub $script {
+			eval "require \$package" if (defined(\$package));
+			\$UI_FN = \$sub;
+	
+			\$SCRIPT_NAME = \$script;
+		}
 SUB
         die $@ if $@;
     }
-	
-	return \@groups;
+
+	my @skins;
+	#TODO: detect installed skins..
+	foreach my $skin (qw/default pattern plain print/) {
+        push( @skins, $skin );
+        next if ( defined(&$skin) );
+        
+		#print STDERR "defining sub $skin()\n";
+		eval <<SUB;
+		sub $skin {
+			\$SKIN_NAME = \$skin;
+		}
+SUB
+	}
+
+	my @groups;
+	push(@groups, \@scripts);
+	push(@groups, \@skins);
+	return @groups;
 }
 
 sub call_UI_FN {
@@ -81,10 +103,15 @@ sub call_UI_FN {
             webName   => [$web],
             topicName => [$topic],
 #            template  => [$tmpl],
+            #debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
+            skin               => $SKIN_NAME
         }
     );
     $query->path_info("/$web/$topic");
-    $query->method('POST');
+    $query->method('GET');
+
+	#turn off ASSERTS so we get less plain text erroring - the user should always see html
+    $ENV{FOSWIKI_ASSERTS} = 0;
     my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
     my ($status, $header, $text);
     try {
@@ -120,21 +147,28 @@ sub call_UI_FN {
 #and that the switchboard still works.
 sub verify_switchboard_function {
     my $this = shift;
+
+	my $testcase = 'HTMLValidation_'.$SCRIPT_NAME.'_'.$SKIN_NAME;
     
     my ($status, $header, $text) = $this->call_UI_FN($this->{test_web}, 'WebHome');
-#    $this->assert_equals(200, $status);
+    #$this->assert_equals('200', $status);
 #    $this->assert_equals('', $header);
 #    $this->assert_equals('', $text);
 
-	$this->{tidy}->parse('something', $text);
-	$this->assert_null($this->{tidy}->messages());
+	$this->{tidy}->parse($testcase, $text);
+	#$this->assert_null($this->{tidy}->messages());
 	my $output = join("\n", $this->{tidy}->messages());
+	unless ($output eq '') {
+		#save the output html..
+        open( F, ">${testcase}_run.html" );
+        print F $text;
+        close F;
+	}
 	$this->assert_equals('', $output);
+	#clean up messages for next run..
 	$this->{tidy}->clear_messages();
 }
 
-#TODO: craft specific tests for each script
-#TODO: including timing expectations... (imo statistics takes a long time in this test)
 
 
 1;
