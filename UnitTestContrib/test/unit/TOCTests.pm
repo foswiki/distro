@@ -160,6 +160,42 @@ HERE
 HTML
 }
 
+sub test_Item9009 {
+    my $this = shift;
+    my $text = <<'HERE';
+---+ A level 1 head!line
+---++ Followed by a level 2! headline
+---++!! Another level 2 headline
+HERE
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, $this->{test_topic}, $text );
+    $topicObject->save();
+    $text = <<HERE;
+%TOC{"$this->{test_web}.$this->{test_topic}"}%
+HERE
+    my $res2 = $topicObject->expandMacros($text );
+    $res2 = $topicObject->renderTML( $res2 );
+    $this->assert_html_equals(<<HTML, $res2);
+<a name="foswikiTOC"></a>
+<div class="foswikiToc">
+ <ul>
+  <li> <a href="#A_level_1_head_33line">A level 1 head!line</a>
+   <ul>
+    <li> <a href="#Followed_by_a_level_2_33_headline">
+     Followed by a level 2! headline</a>
+    </li>
+   </ul> 
+  </li>
+ </ul> 
+</div>
+<nop><h1><a name="A_level_1_head_33line"></a>  A level 1 head!line </h1>
+<nop><h2><a name="Followed_by_a_level_2_33_headline"></a>
+ Followed by a level 2! headline </h2>
+<nop><h2><a name="Another_level_2_headline"></a>
+ Another level 2 headline </h2>
+HTML
+}
+
 sub test_TOC_SpecialCharacters {
     my ($this) = @_;
 
