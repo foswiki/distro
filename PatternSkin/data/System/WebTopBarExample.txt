@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1138738574" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="PatternSkin"}%
-<table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" style="width:100%" summary="">
 <tr><td valign="middle"><span id="foswikiLogo" class="foswikiImage"><a href="%WEBLOGOURL%"><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" style="border:none;" /></a></span></td>
 <td align="right" valign="top" class="patternMetaMenu">
 <noautolink>
@@ -8,5 +8,5 @@
    </form>
    * <form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch"><input type="text" class="foswikiInputField" id="quickSearchBox" name="search" value="%URLPARAM{search}%" size="18" /><input type="hidden" name="scope" value="all" /><input type="hidden" name="web" value="%BASEWEB%" /><noscript>&nbsp;<input type="submit" size="5" class="foswikiButton" name="submit" value="%MAKETEXT{"Search"}%" />&nbsp;</noscript>
    </form>
-   * %INCLUDE{%SYSTEMWEB%.LanguageSelector}%
+%IF{"context i18n_enabled" then='   * %INCLUDE{%SYSTEMWEB%.LanguageSelector}%'}%
 </noautolink></td></tr></table>
