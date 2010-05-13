@@ -36,8 +36,8 @@ sub TOC {
     if ( $tocTopic || $tocWeb ) {
         $tocWeb   ||= $topicObject->web;
         $tocTopic ||= $topicObject->topic;
-        ( $tocTopic, $tocWeb ) =
-          $this->normalizeWebTopicName( $tocTopic, $tocWeb );
+        ( $tocWeb, $tocTopic ) =
+          $this->normalizeWebTopicName( $tocWeb, $tocTopic );
 
         if ( $tocWeb eq $topicObject->web && $tocTopic eq $topicObject->topic )
         {
