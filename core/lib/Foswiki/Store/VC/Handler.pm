@@ -148,7 +148,7 @@ sub init {
 # Make any missing paths on the way to this file
 sub mkPathTo {
 
-    my $file = shift;
+    my ($this, $file) = @_;
 
     $file = Foswiki::Sandbox::untaintUnchecked($file);
 
@@ -245,8 +245,8 @@ sub getInfo {
 Get an iterator over the identifiers of revisions. Returns the most
 recent revision first.
 
-The default is to return an iterator over the version number read from the
-topic (if there is one)
+The default is to return an iterator from the current version number
+down to 1.
 
 =cut
 
@@ -260,8 +260,36 @@ sub getRevisionHistory {
         }
     }
     # SMELL: what happens with the working file?
-    my $maxRev = $this->numRevisions();
+    my $maxRev = $this->getLatestRevisionID();
     return new Foswiki::Iterator::NumberRangeIterator($maxRev, 1);
+}
+
+=begin TML
+
+---++ ObjectMethod getLatestRevisionID() -> $id
+
+Get the ID of the most recent revision. This may return undef if there have
+been no revisions committed to the store.
+
+=cut
+
+sub getLatestRevisionID {
+    return shift->numRevisions() || 1;
+}
+
+=begin TML
+
+---++ ObjectMethod getNextRevisionID() -> $id
+
+Get the ID of the next (as yet uncreated) revision. The handler is required
+to implement this because the store has to be able to embed the revision
+ID into TOPICINFO before the revision is actually created.
+
+=cut
+
+sub getNextRevisionID {
+    my $this = shift;
+    return ($this->numRevisions() || 0) + 1;
 }
 
 =begin TML
@@ -352,12 +380,12 @@ Move a web.
 
 sub moveWeb {
     my ( $this, $newWeb ) = @_;
-    _moveFile(
+    $this->moveFile(
         $Foswiki::cfg{DataDir} . '/' . $this->{web},
         $Foswiki::cfg{DataDir} . '/' . $newWeb
     );
     if ( -d $Foswiki::cfg{PubDir} . '/' . $this->{web} ) {
-        _moveFile(
+        $this->moveFile(
             $Foswiki::cfg{PubDir} . '/' . $this->{web},
             $Foswiki::cfg{PubDir} . '/' . $newWeb
         );
@@ -431,7 +459,7 @@ Restore the plaintext file from the revision at the head.
 sub restoreLatestRevision {
     my ( $this, $cUID ) = @_;
 
-    my $rev  = $this->numRevisions();
+    my $rev  = $this->getLatestRevisionID();
     my $text = $this->getRevision($rev);
 
     # If there is no ,v, create it
@@ -493,12 +521,12 @@ sub moveTopic {
 
     # Move data file
     my $new = $store->getHandler( $newWeb, $newTopic );
-    _moveFile( $this->{file}, $new->{file} );
+    $this->moveFile( $this->{file}, $new->{file} );
 
     # Move history
-    mkPathTo( $new->{rcsFile} );
+    $this->mkPathTo( $new->{rcsFile} );
     if ( -e $this->{rcsFile} ) {
-        _moveFile( $this->{rcsFile}, $new->{rcsFile} );
+        $this->moveFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 
     # Move attachments
@@ -506,7 +534,7 @@ sub moveTopic {
       $Foswiki::cfg{PubDir} . '/' . $this->{web} . '/' . $this->{topic};
     if ( -e $from ) {
         my $to = $Foswiki::cfg{PubDir} . '/' . $newWeb . '/' . $newTopic;
-        _moveFile( $from, $to );
+        $this->moveFile( $from, $to );
     }
 }
 
@@ -528,9 +556,9 @@ sub copyTopic {
 
     my $new = $store->getHandler( $newWeb, $newTopic );
 
-    _copyFile( $this->{file}, $new->{file} );
+    $this->copyFile( $this->{file}, $new->{file} );
     if ( -e $this->{rcsFile} ) {
-        _copyFile( $this->{rcsFile}, $new->{rcsFile} );
+        $this->copyFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 
     my $dh;
@@ -562,10 +590,10 @@ sub moveAttachment {
     # FIXME might want to delete old directories if empty
     my $new = $store->getHandler( $newWeb, $newTopic, $newAttachment );
 
-    _moveFile( $this->{file}, $new->{file} );
+    $this->moveFile( $this->{file}, $new->{file} );
 
     if ( -e $this->{rcsFile} ) {
-        _moveFile( $this->{rcsFile}, $new->{rcsFile} );
+        $this->moveFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 }
 
@@ -588,10 +616,10 @@ sub copyAttachment {
 
     my $new = $store->getHandler( $newWeb, $newTopic, $attachment );
 
-    _copyFile( $this->{file}, $new->{file} );
+    $this->copyFile( $this->{file}, $new->{file} );
 
     if ( -e $this->{rcsFile} ) {
-        _copyFile( $this->{rcsFile}, $new->{rcsFile} );
+        $this->copyFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 }
 
@@ -647,7 +675,7 @@ See if a lock exists. Return the lock user and lock time if it does.
 =cut
 
 sub isLocked {
-    my ($this) = @_;
+    my $this = shift;
 
     my $filename = _controlFileName( $this, 'lock' );
     if ( -e $filename ) {
@@ -736,7 +764,7 @@ sub saveStream {
 
     ASSERT($fh) if DEBUG;
 
-    mkPathTo( $this->{file} );
+    $this->mkPathTo( $this->{file} );
     my $F;
     open( $F, '>', $this->{file} )
       || throw Error::Simple(
@@ -755,20 +783,20 @@ sub saveStream {
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
 
-sub _copyFile {
-    my ( $from, $to ) = @_;
+sub copyFile {
+    my ( $this, $from, $to ) = @_;
 
-    mkPathTo($to);
+    $this->mkPathTo($to);
     unless ( File::Copy::copy( $from, $to ) ) {
         throw Error::Simple(
             'VC::Handler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
 }
 
-sub _moveFile {
-    my ( $from, $to ) = @_;
+sub moveFile {
+    my ( $this, $from, $to ) = @_;
     ASSERT(-e $from) if DEBUG;
-    mkPathTo($to);
+    $this->mkPathTo($to);
     unless ( File::Copy::move( $from, $to ) ) {
         throw Error::Simple(
             'VC::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
@@ -779,7 +807,7 @@ sub _moveFile {
 sub saveFile {
     my ( $this, $name, $text ) = @_;
 
-    mkPathTo($name);
+    $this->mkPathTo($name);
     my $FILE;
     open( $FILE, '>', $name )
       || throw Error::Simple(
@@ -984,7 +1012,7 @@ sub openStream {
     }
     else {
         if ( $mode =~ />/ ) {
-            mkPathTo( $this->{file} );
+            $this->mkPathTo( $this->{file} );
         }
         unless ( open( $stream, $mode, $this->{file} ) ) {
             throw Error::Simple(
@@ -1166,7 +1194,13 @@ sub recordChange {
     # Add the new change to the end of the file
     push( @changes, [ $this->{topic} || '.', $cUID, time(), $rev, $more ] );
 
-    my $text = join( "\n", map { join( "\t", @$_ ) } @changes );
+    # Doing this using a Schwartzian transform sometimes causes a mysterious
+    # undefined value, so had to unwrap it to a for loop.
+    for (my $i = 0; $i <= $#changes; $i++) {
+        $changes[$i] = join("\t", @{$changes[$i]});
+    }
+
+    my $text = join( "\n", @changes );
 
     saveFile( $this, $file, $text );
 }
@@ -1251,22 +1285,21 @@ As per the GPL, removal of this notice is prohibited.
 
 ---++ ObjectMethod numRevisions() -> $integer
 
-Must be provided by subclasses.
-
+Must be provided by subclasses that do not implement:
+   * revisionExists
 Find out how many revisions there are. If there is a problem, such
 as a nonexistent file, returns 0.
 
-*Virtual method* - must be implemented by subclasses
-
+*Must not be called outside this class and subclasses*.
 =cut
 
 =begin TML
 
 ---++ ObjectMethod initBinary()
 
+Must be provided by subclasses that do not implement
+   * init
 Initialise a binary file.
-
-*Virtual method* - must be implemented by subclasses
 
 =cut
 
@@ -1274,9 +1307,9 @@ Initialise a binary file.
 
 ---++ ObjectMethod initText()
 
+Must be provided by subclasses that do not implement
+   * init
 Initialise a text file.
-
-*Virtual method* - must be implemented by subclasses
 
 =cut
 

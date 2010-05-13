@@ -77,7 +77,7 @@ sub readTopic {
     # check that the requested revision actually exists
     if (defined $version) {
         if (!$version || !$handler->revisionExists($version)) {
-            $version = $handler->numRevisions();
+            $version = $handler->getLatestRevisionID();
         }
     }
 
@@ -99,7 +99,7 @@ sub readTopic {
     }
     if (!$gotRev) {
         # No revision from any other source; must be latest
-        $gotRev = $handler->numRevisions() || 1;
+        $gotRev = $handler->getLatestRevisionID();
     }
 
     # Add attachments that are new from reading the pub directory.
@@ -133,6 +133,7 @@ sub readTopic {
         $topicObject->putAll( 'FILEATTACHMENT', @validAttachmentsFound )
           if @validAttachmentsFound;
     }
+
     return $gotRev;
 }
 
@@ -161,7 +162,7 @@ sub moveTopic {
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler( $oldTopicObject, '' );
-    my $rev = $handler->numRevisions();
+    my $rev = $handler->getLatestRevisionID();
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
@@ -205,10 +206,10 @@ sub getRevisionHistory {
     return $handler->getRevisionHistory();
 }
 
-sub getNextRevision{
+sub getNextRevision {
     my( $this, $topicObject ) = @_;
     my $handler = $this->getHandler( $topicObject );
-    return ($handler->numRevisions() || 0) + 1;
+    return $handler->getNextRevisionID();
 }
 
 sub getRevisionDiff {
@@ -235,7 +236,7 @@ sub getVersionInfo {
 sub saveAttachment {
     my ( $this, $topicObject, $name, $stream, $cUID ) = @_;
     my $handler = $this->getHandler( $topicObject, $name );
-    my $currentRev = $handler->numRevisions() || 0;
+    my $currentRev = $handler->getLatestRevisionID();
     my $nextRev = $currentRev + 1;
     $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
     $handler->recordChange( $cUID, $nextRev );
@@ -253,8 +254,8 @@ sub saveTopic {
         'save topic', $cUID, $options->{forcedate} );
 
     # just in case they are not sequential
-    my $nextRev = $handler->numRevisions();
-
+    my $nextRev = $handler->getLatestRevisionID();
+    
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
@@ -270,7 +271,7 @@ sub repRev {
     my $handler = $this->getHandler($topicObject);
     $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
         'reprev', $info->{author}, $info->{date} );
-    my $rev = $handler->numRevisions();
+    my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
     return $rev;
 }
@@ -281,7 +282,7 @@ sub delRev {
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler($topicObject);
-    my $rev     = $handler->numRevisions();
+    my $rev     = $handler->getLatestRevisionID();
     if ( $rev <= 1 ) {
         throw Error::Simple( 'Cannot delete initial revision of '
               . $topicObject->web . '.'

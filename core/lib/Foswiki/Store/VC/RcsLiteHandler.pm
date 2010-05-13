@@ -473,13 +473,13 @@ sub _addRevision {
     }
 
     if ($isStream) {
-        Foswiki::Store::VC::Handler::saveStream( $this, $data );
+        $this->saveStream( $data );
 
         # SMELL: for big attachments, this is a dog
-        $data = Foswiki::Store::VC::Handler::readFile( $this, $this->{file} );
+        $data = $this->readFile( $this->{file} );
     }
     else {
-        Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $data );
+        $this->saveFile( $this->{file}, $data );
     }
 
     my $head = $this->{head};

@@ -49,7 +49,7 @@ sub initBinary {
 
     $this->{binary} = 1;
 
-    Foswiki::Store::VC::Handler::mkPathTo( $this->{file} );
+    $this->mkPathTo( $this->{file} );
 
     return if -e $this->{rcsFile};
 
@@ -76,7 +76,7 @@ sub initText {
     my ($this) = @_;
     $this->{binary} = 0;
 
-    Foswiki::Store::VC::Handler::mkPathTo( $this->{file} );
+    $this->mkPathTo( $this->{file} );
 
     return if -e $this->{rcsFile};
 

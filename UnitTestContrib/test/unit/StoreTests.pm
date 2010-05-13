@@ -49,10 +49,8 @@ sub tear_down {
     my $this = shift;
 
     $this->removeWebFixture( $this->{session}, $web )
-      if ( -e "$Foswiki::cfg{DataDir}/$web" );
-
+      if (Foswiki::Func::webExists($web) );
     unlink("$Foswiki::cfg{TempfileDir}/testfile.gif");
-    unlink "$Foswiki::cfg{DataDir}/$web/.changes";
 
     #$this->{session}->finish();
     $this->SUPER::tear_down();
