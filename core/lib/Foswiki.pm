@@ -780,7 +780,7 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
     # Trim whitespace from the start and end of selected content types
     if ($contentType =~ m#text/html#) {
         $text =~ s#^\s*##si;
-        $text =~ s#\s*$#$1#si;
+        $text =~ s#\s*$##si;
     }
 
     $this->{response}->print($text);
