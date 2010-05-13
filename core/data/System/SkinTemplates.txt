@@ -29,7 +29,6 @@ Directives are of the form ==%<nop>TMPL:&lt;key&gt;%== and ==%<nop>TMPL:&lt;key&
    * ==%<nop>TMPL:END%==: Ends a block definition.
    * ==%<nop>TMPL:PREV%==: returns the previous definition of the block being defined.
    * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
-   * ==%<nop>TMPL:EOF%== marks the end of the _content_ in a template file. See [[#TmplEof][below]] for more information.
    * ==%<nop>{...}%==: is a comment.
 Two-pass processing lets you use a defined block before or after declaring it.
 For example, you can create a skin that overloads only the =foswiki.tmpl= master template, like the =print= skin which uses =foswiki.print.tmpl= to redefine the header and footer.
@@ -128,26 +127,6 @@ For example, say you _only_ want to override the breadcrumbs for the view script
 </verbatim>
 and then =* Set SKIN=crumbless,pattern=
 %X% The default ={TemplatePath}= will *not* give you the desired result if you simple put these statements in =Thisweb.CrumblessSkinViewTemplate=. The default ={TemplatePath}= will find the =template/view.pattern.tmpl=, before it gets to the =Thisweb.CrumblessSkinViewTemplate=. You can make it work by prefixing the ={TemplatePath}= with: =$web.CrumblessSkin$nameTemplate=. 
-
-#TmplEof
----++ Using =%TMPL:EOF=
-When a template file is read, two things happen; first, all =%TMPL:DEF= directives are extracted, and stored for use in =%TMPL:P= statements. Then the remaining template directives in the file are evaluated and the result is taken as the "content" of the template.
-
-Sometimes you want to be able to signal the end of the content, but have the template processor continue to process =%TMPL:DEF= statements in the file. You do this using %TMPL:EOF%. For example,
-<verbatim>
-%TMPL:P{"mytemplate"}%
-%TMPL:EOF%
-This will be thrown away
-%TMPL:DEF{"mytemplate"}%
-This will be used to define %TMPL:P{"mytmpl"}%
-%TMPL:END%
-This will be thrown away as well
-</verbatim>
-You can use =%TMPL:EOF= in a number of ways:
-   * You can use it to separate _content_ from _macro definitions_. This is good practice to help keep the template files readable, and lets you interleave the template definitions with comments.
-   * It is useful when working with text editors that append newlines to the end of files without being asked to.
-   * If =%TMPL:EOF%= if the first thing in the file, all the content in the file will be ignored, but all the =%TMPL:DEF='s will be read and will be available for use in other macros. This is useful for defining libraries of =%TMPL:DEF='s.
-Note that you can also use =%{...}%= for inline comments.
 
 ---++ Default master template
 

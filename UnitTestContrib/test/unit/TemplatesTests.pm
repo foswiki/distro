@@ -504,38 +504,4 @@ SKIN=pattern Do you see? - 1234
 
 }
 
-sub test_EOF {
-    my $this = shift;
-
-    write_template('eof', <<THERE);
-%TMPL:EOF%
-This is ignored
-%TMPL:DEF{"data"}%1234%TMPL:END%
-THERE
-    my $data = $tmpls->readTemplate( 'eof' );
-    $this->assert_equals('', $data);
-
-    write_template('eof', <<THERE);
-4321
-THERE
-
-    $data = $tmpls->readTemplate( 'eof' );
-    $this->assert_equals("4321\n", $data);
-
-    write_template('eof', <<THERE);
-4321%TMPL:EOF%
-THERE
-
-    $data = $tmpls->readTemplate( 'eof' );
-    $this->assert_equals('4321', $data);
-
-    write_template('eof', <<THERE);
-%TMPL:P{data}%%TMPL:EOF%
-%TMPL:DEF{"data"}%1234%TMPL:END%
-THERE
-
-    $data = $tmpls->readTemplate( 'eof' );
-    $this->assert_equals('1234', $data);
-}
-
 1;

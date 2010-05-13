@@ -777,6 +777,12 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
     # during Foswiki::Engine::finalize
     # $hdr = $this->{response}->printHeaders;
 
+    # Trim whitespace from the start and end of selected content types
+    if ($contentType =~ m#text/html#) {
+        $text =~ s#^\s*##si;
+        $text =~ s#\s*$#$1#si;
+    }
+
     $this->{response}->print($text);
 }
 
