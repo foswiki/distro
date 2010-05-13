@@ -242,8 +242,8 @@ sub _recover_versions {
             my $VERSION;
             my $RELEASE;
 
-            my ($version) = $file_contents =~ m/^\s?(?:our)?\s?(\$VERSION\s?=.*);.*?$/m;
-            my ($release) = $file_contents =~ m/^\s?(?:our)?\s?(\$RELEASE\s?=.*);.*?$/m;
+            my ($version) = $file_contents =~ m/^\s*(?:our)?\s*(\$VERSION\s*=.*);/sm;
+            my ($release) = $file_contents =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*);/sm;
 
             eval $version if ($version);
             eval $release if ($release);

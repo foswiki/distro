@@ -5,8 +5,9 @@ package Foswiki::Contrib::UnitTestContrib::MissingDependency;
 # that includes multiple dots, for the purposes of unit-testing
 # extender.pl
 #our $VERSION = 'Caught a comment!';
- our $VERSION = '$Rev: 1234 (2010-01-19) $';
-  $RELEASE = "1.23.4";
+   our $VERSION = '$Rev: 1234 (2010-01-19) $';   # Comment
+  $RELEASE    = 
+"1.23.4";   # Comment
 
 require Archive::Missing;
 
