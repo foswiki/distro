@@ -162,6 +162,13 @@ HTML
 
 sub test_Item9009 {
     my $this = shift;
+
+    my $url = $Foswiki::cfg{ScriptUrlPath};
+    my $view = '/view';
+    $view =  $Foswiki::cfg{ScriptUrlPaths}{view} if (defined $Foswiki::cfg{ScriptUrlPaths}{view}); 
+
+    $url = ( $view ) ? $url.$view : '';    # Allow for shorter URL in configuration
+
     my $text = <<'HERE';
 ---+ A level 1 head!line
 ---++ Followed by a level 2! headline
@@ -179,11 +186,12 @@ HERE
     $topicObject->save();
     my $res2 = $topicObject2->expandMacros($text2 );
     $res2 = $topicObject->renderTML( $res2 );
+    #return;
 
     $this->assert_html_equals(<<HTML, $res2);
 <a name="foswikiTOC"></a><div class="foswikiToc"> <ul> 
-<li> <a href="/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a> <ul>
-<li> <a href="/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#Followed_by_a_level_2_33_headline">Followed by a level 2! headline</a>
+<li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a> <ul>
+<li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#Followed_by_a_level_2_33_headline">Followed by a level 2! headline</a>
 </li></ul>                                                                                                                              
 </li></ul>                                                                                                                              
 </div>
