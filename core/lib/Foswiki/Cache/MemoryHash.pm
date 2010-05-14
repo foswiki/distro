@@ -35,7 +35,7 @@ use strict;
 use Foswiki::Cache;
 use vars qw($sharedCache);
 
-@Foswiki::Cache::MemoryHash::ISA = ( 'Foswiki::Cache' );
+@Foswiki::Cache::MemoryHash::ISA = ('Foswiki::Cache');
 
 =pod 
 
@@ -46,15 +46,15 @@ Construct a new cache object.
 =cut
 
 sub new {
-  my ($class, $session) = @_;
+    my ( $class, $session ) = @_;
 
-  unless ($sharedCache) {
-    $sharedCache = bless($class->SUPER::new($session), $class);
-  }
+    unless ($sharedCache) {
+        $sharedCache = bless( $class->SUPER::new($session), $class );
+    }
 
-  $sharedCache->init($session);
+    $sharedCache->init($session);
 
-  return $sharedCache;
+    return $sharedCache;
 }
 
 =pod
@@ -68,10 +68,10 @@ returns true if it was stored sucessfully
 =cut
 
 sub set {
-  my ($this, $key, $obj) = @_;
+    my ( $this, $key, $obj ) = @_;
 
-  $this->{cache}{$this->genKey($key)} = $obj;
-  return $obj;
+    $this->{cache}{ $this->genKey($key) } = $obj;
+    return $obj;
 }
 
 =pod 
@@ -83,9 +83,9 @@ retrieve a cached object, returns undef if it does not exist
 =cut
 
 sub get {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-  return $this->{cache}{$this->genKey($key)}};
+    return $this->{cache}{ $this->genKey($key) };
 }
 
 =pod 
@@ -99,10 +99,10 @@ returns true if the key was found and deleted, and false otherwise
 =cut
 
 sub delete {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-  undef $this->{cache}{$this->genKey($key)};
-  return 1;
+    undef $this->{cache}{ $this->genKey($key) };
+    return 1;
 }
 
 =pod 
@@ -114,9 +114,9 @@ removes all objects from the cache.
 =cut
 
 sub clear {
-  my $this = shift;
+    my $this = shift;
 
-  $this->{cache} = ();
+    $this->{cache} = ();
 }
 
 =pod
@@ -127,6 +127,6 @@ do nothing, keep all in memory
 
 =cut
 
-sub finish {}
+sub finish { }
 
 1;

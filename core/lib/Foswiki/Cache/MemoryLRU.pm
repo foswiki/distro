@@ -35,7 +35,7 @@ use strict;
 use Foswiki::Cache;
 use vars qw($sharedCache);
 
-@Foswiki::Cache::MemoryLRU::ISA = ( 'Foswiki::Cache' );
+@Foswiki::Cache::MemoryLRU::ISA = ('Foswiki::Cache');
 
 =pod 
 
@@ -46,26 +46,27 @@ Construct a new cache object.
 =cut
 
 sub new {
-  my ($class, $session) = @_;
+    my ( $class, $session ) = @_;
 
-  my $this;
-  if ($sharedCache) {
-    $this = $sharedCache;
-  } else {
-    $this = bless($class->SUPER::new($session), $class);
-    $sharedCache = $this;
-    $this->{maxSize} = $Foswiki::cfg{Cache}{MaxSize} || 1000;
-    $this->{head} = 0;
-    $this->{tail} = 0;
-    $this->{nodes} = ();
-    $this->{hits} = 0;
-    $this->{requests} = 0;
-  }
+    my $this;
+    if ($sharedCache) {
+        $this = $sharedCache;
+    }
+    else {
+        $this = bless( $class->SUPER::new($session), $class );
+        $sharedCache = $this;
+        $this->{maxSize}  = $Foswiki::cfg{Cache}{MaxSize} || 1000;
+        $this->{head}     = 0;
+        $this->{tail}     = 0;
+        $this->{nodes}    = ();
+        $this->{hits}     = 0;
+        $this->{requests} = 0;
+    }
 
-  $this->init($session);
-  $this->{finished} = 0;
+    $this->init($session);
+    $this->{finished} = 0;
 
-  return $this;
+    return $this;
 }
 
 =pod
@@ -79,28 +80,29 @@ returns true if it was stored sucessfully
 =cut
 
 sub set {
-  my ($this, $key, $obj) = @_;
+    my ( $this, $key, $obj ) = @_;
 
-  $key = $this->genKey($key);
-  my $node = $this->_remove($key);
+    $key = $this->genKey($key);
+    my $node = $this->_remove($key);
 
-  if ($node) {
-    $node->{obj} = $obj;
-  } else {
-    $node = {
-      key => $key,
-      obj => $obj,
-      prev => 0,
-      next => 0,
+    if ($node) {
+        $node->{obj} = $obj;
     }
-  }
-  
-  $this->_append($node);
+    else {
+        $node = {
+            key  => $key,
+            obj  => $obj,
+            prev => 0,
+            next => 0,
+        };
+    }
 
-  #print STDERR "set:\n";
-  #$this->_print();
+    $this->_append($node);
 
-  return $obj;
+    #print STDERR "set:\n";
+    #$this->_print();
+
+    return $obj;
 }
 
 =pod 
@@ -112,19 +114,20 @@ appends a node to the internal structure
 =cut
 
 sub _append {
-  my ($this, $node) = @_;
+    my ( $this, $node ) = @_;
 
-  #print STDERR "_append node: $node->{key}\n";
-  $this->{nodes}{$node->{key}} = $node;
+    #print STDERR "_append node: $node->{key}\n";
+    $this->{nodes}{ $node->{key} } = $node;
 
-  if ($this->{tail}) {
-    $this->{tail}{next} = $node;
-  } else {
-    $this->{head} = $node;
-  }
+    if ( $this->{tail} ) {
+        $this->{tail}{next} = $node;
+    }
+    else {
+        $this->{head} = $node;
+    }
 
-  $node->{prev} = $this->{tail};
-  $this->{tail} = $node;
+    $node->{prev} = $this->{tail};
+    $this->{tail} = $node;
 }
 
 =pod
@@ -136,34 +139,34 @@ remove a node from the internal structure
 =cut
 
 sub _remove {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-  my $node = $this->{nodes}{$key};
-  return unless $node;
+    my $node = $this->{nodes}{$key};
+    return unless $node;
 
-  $this->{tail} = $node->{prev} if $node eq $this->{tail};
-  $this->{head} = $node->{next} if $node eq $this->{head};
-  $node->{next}{prev} = $node->{prev} if $node->{next};
-  $node->{prev}{next} = $node->{next} if $node->{prev};
-  $node->{next} = 0;
-  $node->{prev} = 0;
+    $this->{tail} = $node->{prev} if $node eq $this->{tail};
+    $this->{head} = $node->{next} if $node eq $this->{head};
+    $node->{next}{prev} = $node->{prev} if $node->{next};
+    $node->{prev}{next} = $node->{next} if $node->{prev};
+    $node->{next}       = 0;
+    $node->{prev}       = 0;
 
-  delete $this->{nodes}{$key};
+    delete $this->{nodes}{$key};
 
-  return $node;
+    return $node;
 }
 
 sub _print {
-  my $this = shift;
+    my $this = shift;
 
-  my $index = 1;
-  my %seen;
-  for (my $node = $this->{head}; $node; $node = $node->{next}) {
-    die "loop detected" if $seen{$node};
-    $seen{$node} = 1;
-    print STDERR "$index: $node->{key}\n";
-    $index++;
-  }
+    my $index = 1;
+    my %seen;
+    for ( my $node = $this->{head} ; $node ; $node = $node->{next} ) {
+        die "loop detected" if $seen{$node};
+        $seen{$node} = 1;
+        print STDERR "$index: $node->{key}\n";
+        $index++;
+    }
 }
 
 =pod 
@@ -175,17 +178,17 @@ retrieve a cached object, returns undef if it does not exist
 =cut
 
 sub get {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-  $this->{requests}++;
+    $this->{requests}++;
 
-  my $node = $this->_remove($this->genKey($key));
-  return unless $node;
+    my $node = $this->_remove( $this->genKey($key) );
+    return unless $node;
 
-  $this->_append($node);
-  $this->{hits}++;
+    $this->_append($node);
+    $this->{hits}++;
 
-  return $node->{obj};
+    return $node->{obj};
 }
 
 =pod 
@@ -197,10 +200,10 @@ delete an entry for a given $key
 =cut
 
 sub delete {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-  $this->_remove($this->genKey($key));
-  return 1;
+    $this->_remove( $this->genKey($key) );
+    return 1;
 }
 
 =pod 
@@ -212,11 +215,11 @@ removes all objects from the cache.
 =cut
 
 sub clear {
-  my $this = shift;
+    my $this = shift;
 
-  $this->{nodes} = ();
-  $this->{head} = 0;
-  $this->{tail} = 0;
+    $this->{nodes} = ();
+    $this->{head}  = 0;
+    $this->{tail}  = 0;
 }
 
 =pod
@@ -228,25 +231,25 @@ remove least recently used items
 =cut
 
 sub finish {
-  my $this = shift;
+    my $this = shift;
 
-  return if $this->{finished};
-  $this->{finished} = 1;
-  my $size = keys %{$this->{nodes}};
+    return if $this->{finished};
+    $this->{finished} = 1;
+    my $size = keys %{ $this->{nodes} };
 
-  #my $percnt = 0;
-  #$percnt = int(100 * $this->{hits}/$this->{requests}) if $this->{requests};
-  #print STDERR "size=$size, hits=$this->{hits}, requests=$this->{requests} ($percnt%)\n";
-  #print STDERR "before:\n";
-  #$this->_print();
-  
-  for (my $i = $this->{maxSize}; $i < $size; $i++) {
-    $this->_remove($this->{head}{key});
-  }
+#my $percnt = 0;
+#$percnt = int(100 * $this->{hits}/$this->{requests}) if $this->{requests};
+#print STDERR "size=$size, hits=$this->{hits}, requests=$this->{requests} ($percnt%)\n";
+#print STDERR "before:\n";
+#$this->_print();
 
-  #print STDERR "after:\n";
-  #$this->_print();
-  undef $this->{session};
+    for ( my $i = $this->{maxSize} ; $i < $size ; $i++ ) {
+        $this->_remove( $this->{head}{key} );
+    }
+
+    #print STDERR "after:\n";
+    #$this->_print();
+    undef $this->{session};
 }
 
 1;

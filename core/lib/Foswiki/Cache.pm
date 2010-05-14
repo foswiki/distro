@@ -31,7 +31,7 @@ use strict;
 
 # static poor man's debugging tools
 sub writeDebug {
-  print STDERR "Foswiki::Cache - $_[0]\n" if $Foswiki::cfg{Cache}{Debug};
+    print STDERR "Foswiki::Cache - $_[0]\n" if $Foswiki::cfg{Cache}{Debug};
 }
 
 =pod 
@@ -43,13 +43,13 @@ Construct a new cache delegator.
 =cut
 
 sub new {
-  my ($class, $session) = @_;
+    my ( $class, $session ) = @_;
 
-  my $this = {};
-  bless($this, $class);
-  $this->init($session);
+    my $this = {};
+    bless( $this, $class );
+    $this->init($session);
 
-  return $this;
+    return $this;
 }
 
 =pod 
@@ -64,13 +64,14 @@ handler.
 =cut
 
 sub init {
-  my ($this, $session) = @_;
+    my ( $this, $session ) = @_;
 
-  $this->{session} = $session;
-  my $nameSpace = $Foswiki::cfg{Cache}{NameSpace} || $Foswiki::cfg{DefaultUrlHost};
-  $nameSpace =~ s/^https?:\/\///go;
-  $nameSpace =~ s/[\s\/]+/_/go;
-  $this->{namespace} = $nameSpace;
+    $this->{session} = $session;
+    my $nameSpace = $Foswiki::cfg{Cache}{NameSpace}
+      || $Foswiki::cfg{DefaultUrlHost};
+    $nameSpace =~ s/^https?:\/\///go;
+    $nameSpace =~ s/[\s\/]+/_/go;
+    $this->{namespace} = $nameSpace;
 }
 
 =pod 
@@ -80,8 +81,8 @@ explicite destructor to break cyclic links
 =cut
 
 sub DESTROY {
-  my $this = shift;
-  $this->finish();
+    my $this = shift;
+    $this->finish();
 }
 
 =pod 
@@ -91,41 +92,39 @@ finish up internal structures
 =cut
 
 sub finish {
-  my $this = shift;
+    my $this = shift;
 
-  # this is where individual backends to their real work
-  # by implementing the write action
-  if ($this->{handler}) {
+    # this is where individual backends to their real work
+    # by implementing the write action
+    if ( $this->{handler} ) {
 
-    # begin transaction
+        # begin transaction
 
-    if ($this->{delBuffer}) {
-      foreach my $key (keys %{$this->{delBuffer}}) {
-        next unless $this->{delBuffer}{$key};
-        $this->{handler}->remove($key);
-      }
+        if ( $this->{delBuffer} ) {
+            foreach my $key ( keys %{ $this->{delBuffer} } ) {
+                next unless $this->{delBuffer}{$key};
+                $this->{handler}->remove($key);
+            }
+        }
+
+        if ( $this->{writeBuffer} ) {
+            foreach my $key ( keys %{ $this->{writeBuffer} } ) {
+                my $obj = $this->{writeBuffer}{$key};
+                next unless $obj;
+                $this->{handler}->set( $key, $obj );
+            }
+        }
+
+        # commit transaction
+
+        undef $this->{handler};
     }
 
-    if ($this->{writeBuffer}) {
-      foreach my $key (keys %{$this->{writeBuffer}}) {
-        my $obj = $this->{writeBuffer}{$key};
-        next unless $obj;
-        $this->{handler}->set($key, $obj);
-      }
-    }
-
-    # commit transaction
-
-    undef $this->{handler};
-  }
-
-  undef $this->{session};
-  undef $this->{readBuffer};
-  undef $this->{writeBuffer};
-  undef $this->{delBuffer};
+    undef $this->{session};
+    undef $this->{readBuffer};
+    undef $this->{writeBuffer};
+    undef $this->{delBuffer};
 }
-
-
 
 =pod
 
@@ -143,11 +142,11 @@ implementations during the constructor already.
 =cut
 
 sub genKey {
-  my ($this, $key) = @_;
-  my $pageKey = $this->{namespace};
-  $pageKey .= ':'.$key if $key;
-  $pageKey =~ s/[\s\/]+/_/go;
-  return $pageKey;
+    my ( $this, $key ) = @_;
+    my $pageKey = $this->{namespace};
+    $pageKey .= ':' . $key if $key;
+    $pageKey =~ s/[\s\/]+/_/go;
+    return $pageKey;
 }
 
 =pod
@@ -162,21 +161,21 @@ returns true if it was stored sucessfully
 =cut
 
 sub set {
-  my ($this, $key, $obj) = @_;
+    my ( $this, $key, $obj ) = @_;
 
-  return 0 unless $this->{handler};
-  return 0 unless defined($key) && defined($obj);
+    return 0 unless $this->{handler};
+    return 0 unless defined($key) && defined($obj);
 
-  my $pageKey = $this->genKey($key);
+    my $pageKey = $this->genKey($key);
 
-  $this->{writeBuffer}{$pageKey} = $obj;
-  $this->{readBuffer}{$pageKey} = $obj;
+    $this->{writeBuffer}{$pageKey} = $obj;
+    $this->{readBuffer}{$pageKey}  = $obj;
 
-  if ($this->{delBuffer}) {
-    delete $this->{delBuffer}{$pageKey} 
-  }
+    if ( $this->{delBuffer} ) {
+        delete $this->{delBuffer}{$pageKey};
+    }
 
-  return 1;
+    return 1;
 }
 
 =pod 
@@ -188,22 +187,22 @@ retrieve a cached object, returns undef if it does not exist
 =cut
 
 sub get {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-  return 0 unless $this->{handler};
+    return 0 unless $this->{handler};
 
-  my $pageKey = $this->genKey($key);
-  if ($this->{delBuffer}) {
-    return undef if $this->{delBuffer}{$pageKey};
-  }
+    my $pageKey = $this->genKey($key);
+    if ( $this->{delBuffer} ) {
+        return undef if $this->{delBuffer}{$pageKey};
+    }
 
-  my $obj = $this->{readBuffer}{$pageKey};
-  return $obj if $obj;
+    my $obj = $this->{readBuffer}{$pageKey};
+    return $obj if $obj;
 
-  $obj = $this->{handler}->get($pageKey);
-  $this->{readBuffer}{$pageKey} = $obj;
+    $obj = $this->{handler}->get($pageKey);
+    $this->{readBuffer}{$pageKey} = $obj;
 
-  return $obj;
+    return $obj;
 }
 
 =pod 
@@ -217,21 +216,20 @@ returns true if the key was found and deleted, and false otherwise
 =cut
 
 sub delete {
-  my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
-#print STDERR "called Cache::delete($key)\n";
+    #print STDERR "called Cache::delete($key)\n";
 
-  return 0 unless $this->{handler};
+    return 0 unless $this->{handler};
 
-  my $pageKey = $this->genKey($key);
-  
-  delete $this->{writeBuffer}{$pageKey};
-  delete $this->{readBuffer}{$pageKey};
-  $this->{delBuffer}{$pageKey} = 1;
+    my $pageKey = $this->genKey($key);
 
-  return 1;
+    delete $this->{writeBuffer}{$pageKey};
+    delete $this->{readBuffer}{$pageKey};
+    $this->{delBuffer}{$pageKey} = 1;
+
+    return 1;
 }
-
 
 =pod 
 
@@ -242,12 +240,12 @@ removes all objects from the cache.
 =cut
 
 sub clear {
-  my $this = shift;
+    my $this = shift;
 
-  $this->{handler}->clear() if $this->{handler};
-  undef $this->{writeBuffer};
-  undef $this->{delBuffer};
-  undef $this->{readBuffer};
+    $this->{handler}->clear() if $this->{handler};
+    undef $this->{writeBuffer};
+    undef $this->{delBuffer};
+    undef $this->{readBuffer};
 }
 
 1;

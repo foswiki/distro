@@ -35,7 +35,7 @@ use strict;
 use Cache::FileCache;
 use Foswiki::Cache;
 
-@Foswiki::Cache::FileCache::ISA = ( 'Foswiki::Cache' );
+@Foswiki::Cache::FileCache::ISA = ('Foswiki::Cache');
 
 =pod 
 
@@ -46,9 +46,9 @@ Construct a new cache object.
 =cut
 
 sub new {
-  my ($class, $session) = @_;
+    my ( $class, $session ) = @_;
 
-  return bless($class->SUPER::new($session), $class);
+    return bless( $class->SUPER::new($session), $class );
 }
 
 =pod 
@@ -61,18 +61,21 @@ on a second call
 =cut
 
 sub init {
-  my ($this, $session) = @_;
+    my ( $this, $session ) = @_;
 
-  $this->SUPER::init($session);
-  unless($this->{handler}) {
-    $this->{handler} = new Cache::FileCache({
-        'namespace' => $this->{namespace}, # also encoded into object keys, see Foswiki::Cache::genKey()
-        'cache_root' => $Foswiki::cfg{Cache}{RootDir} || $Foswiki::cfg{WorkingDir}.'/cache/',
-        'cache_depth' => $Foswiki::cfg{Cache}{SubDirs} || 3,
-        'directory_umask' => $Foswiki::cfg{Cache}{Umask} || 077,
-    });
-  }
+    $this->SUPER::init($session);
+    unless ( $this->{handler} ) {
+        $this->{handler} = new Cache::FileCache(
+            {
+                'namespace' => $this->{namespace}
+                ,  # also encoded into object keys, see Foswiki::Cache::genKey()
+                'cache_root' => $Foswiki::cfg{Cache}{RootDir}
+                  || $Foswiki::cfg{WorkingDir} . '/cache/',
+                'cache_depth'     => $Foswiki::cfg{Cache}{SubDirs} || 3,
+                'directory_umask' => $Foswiki::cfg{Cache}{Umask}   || 077,
+            }
+        );
+    }
 }
-
 
 1;

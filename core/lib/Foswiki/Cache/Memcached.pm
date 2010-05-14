@@ -35,7 +35,7 @@ use strict;
 use Cache::Memcached;
 use Foswiki::Cache;
 
-@Foswiki::Cache::Memcached::ISA = ( 'Foswiki::Cache' );
+@Foswiki::Cache::Memcached::ISA = ('Foswiki::Cache');
 
 =pod 
 
@@ -46,9 +46,9 @@ Construct a new cache connecting to a memcached server pool.
 =cut
 
 sub new {
-  my ($class, $session) = @_;
+    my ( $class, $session ) = @_;
 
-  return bless($class->SUPER::new($session), $class);
+    return bless( $class->SUPER::new($session), $class );
 }
 
 =pod
@@ -60,21 +60,23 @@ connect to the memcached if we didn't already
 =cut
 
 sub init {
-  my ($this, $session) = @_;
+    my ( $this, $session ) = @_;
 
-  $this->SUPER::init($session);
-  unless ($this->{handler}) {
-    $this->{servers} = $Foswiki::cfg{Cache}{Servers} || '127.0.0.1:11211';
+    $this->SUPER::init($session);
+    unless ( $this->{handler} ) {
+        $this->{servers} = $Foswiki::cfg{Cache}{Servers} || '127.0.0.1:11211';
 
-    my @servers = split(/,\s/, $this->{servers});
-    # connect to new cache
-    $this->{handler} = new Cache::Memcached {
-      'servers'=>[@servers],
-      #'debug'=> $Foswiki::cfg{Cache}{Debug},
-      'compress_enable'=> 0, # no effect
-    };
-  }
-  $this->{handler}->{compress_enable} = 0;
+        my @servers = split( /,\s/, $this->{servers} );
+
+        # connect to new cache
+        $this->{handler} = new Cache::Memcached {
+            'servers' => [@servers],
+
+            #'debug'=> $Foswiki::cfg{Cache}{Debug},
+            'compress_enable' => 0,    # no effect
+        };
+    }
+    $this->{handler}->{compress_enable} = 0;
 }
 
 =pod 
@@ -84,40 +86,41 @@ finish up internal structures
 =cut
 
 sub finish {
-  my $this = shift;
+    my $this = shift;
 
-  # this is where individual backends to their real work
-  # by implementing the write action
-  if ($this->{handler}) {
+    # this is where individual backends to their real work
+    # by implementing the write action
+    if ( $this->{handler} ) {
 
-    # begin transaction / aquire lock
+        # begin transaction / aquire lock
 
-    if ($this->{delBuffer}) {
-      foreach my $key (keys %{$this->{delBuffer}}) {
-        next unless $this->{delBuffer}{$key};
-        $this->{handler}->delete($key);
-        #Foswiki::Cache::writeDebug("deleting $key");
-      }
+        if ( $this->{delBuffer} ) {
+            foreach my $key ( keys %{ $this->{delBuffer} } ) {
+                next unless $this->{delBuffer}{$key};
+                $this->{handler}->delete($key);
+
+                #Foswiki::Cache::writeDebug("deleting $key");
+            }
+        }
+
+        if ( $this->{writeBuffer} ) {
+            foreach my $key ( keys %{ $this->{writeBuffer} } ) {
+                my $obj = $this->{writeBuffer}{$key};
+                next unless $obj;
+                $this->{handler}->set( $key, $obj );
+
+                #Foswiki::Cache::writeDebug("flushing $key");
+            }
+        }
+
+        # commit transaction / release lock
+
+        #$this->{handler}->disconnect_all();
+        undef $this->{handler};
     }
 
-    if ($this->{writeBuffer}) {
-      foreach my $key (keys %{$this->{writeBuffer}}) {
-        my $obj = $this->{writeBuffer}{$key};
-        next unless $obj;
-        $this->{handler}->set($key, $obj);
-        #Foswiki::Cache::writeDebug("flushing $key");
-      }
-    }
-
-    # commit transaction / release lock
-  
-    #$this->{handler}->disconnect_all();
-    undef $this->{handler};
-  }
-
-  $this->SUPER::finish();
+    $this->SUPER::finish();
 }
-
 
 =pod 
 
@@ -128,12 +131,12 @@ removes all objects from the cache.
 =cut
 
 sub clear {
-  my $this = shift;
+    my $this = shift;
 
-  #$this->{handler}->flush_all;
-  undef $this->{writeBuffer};
-  undef $this->{delBuffer};
-  undef $this->{readBuffer};
+    #$this->{handler}->flush_all;
+    undef $this->{writeBuffer};
+    undef $this->{delBuffer};
+    undef $this->{readBuffer};
 }
 
 1;
