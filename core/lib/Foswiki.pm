@@ -771,12 +771,6 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
     # Remove <nop> and <noautolink> tags
     $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
-    $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
-
-    # SMELL: null operation. the http headers are written out
-    # during Foswiki::Engine::finalize
-    # $hdr = $this->{response}->printHeaders;
-
     # Trim whitespace from the start and end of selected content types
     if ($contentType =~ m#text/html#) {
         # Use \s to match unicode whitespace, in anticipation of the day when
@@ -784,6 +778,12 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
         $text =~ s#^\s+##;
         $text =~ s#\s+$##;
     }
+
+    $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
+
+    # SMELL: null operation. the http headers are written out
+    # during Foswiki::Engine::finalize
+    # $hdr = $this->{response}->printHeaders;
 
     $this->{response}->print($text);
 }
