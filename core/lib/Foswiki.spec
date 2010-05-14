@@ -1045,60 +1045,38 @@ $Foswiki::cfg{OptimizePageLayout} = $FALSE;
 # <p>Foswiki includes built-in support for caching HTML pages. This can
 # dramatically increase performance, especially if there are a lot more page
 # views than changes.</p>
+# The cache has a number of setup and tuning parameters. You should read
+# <a href="http://foswiki.org/System/PageCaching">Page Caching</a> on
+# foswiki.org (or your local copy of this page in the System web) before
+# enabling the cache.
 
 # **BOOLEAN**
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
 # **STRING 80 EXPERT**
-# This is a list of those topics that have a manual dependency on every topic
-# in a web. That is, whenever a topic is saved the cached versions of the listed
-# topics are removed from the page cache as well. For instance, each update in a web
-# will result in the WebRss topic to be recomputed when it is requested again.
-# Web dependencies can also be specified using the WEBDEPENDENCIES in the WebPreferences.
+# List of those topics that have a manual dependency on every topic
+# in a web. Web dependencies can also be specified using the WEBDEPENDENCIES
+# preference, which overrides this setting.
 $Foswiki::cfg{Cache}{WebDependencies} = 'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
 
 # **REGEX EXPERT**
-# Exclude topics from the dependency tracker. All topics that match the
-# pattern will not take part in the automatic cache invalidation. This helps
-# to reduce the amount of topics a page depends on. Note also, that the more topics
-# match the expression below, the higher the probability is that you experience
-# unwanted caching effects where an otherwise outdated page is delivered.
+# Exclude topics that match this regular expression from the dependency
+# tracker.
 $Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|.*Template$|TWiki\..*';
 
 # **SELECTCLASS Foswiki::Cache::* EXPERT**
-# Select the default caching mechanism. Note, that individual subsystems might
-# chose a different backend for their own purposes. Some recommendations:
-# <ul>
-#   <li>Use <code>Foswiki::Cache::FileCache</code> for long term
-#     caching. Cached pages will be stored on disk. This is the default cache type.
-#     The required CPAN lib Cache::Cache is distributed with Foswiki so it works
-#     "out-of-the-box"</li>
-#   <li>Use <code>Foswiki::Cache::BDB</code> for Berkeley Data Base type cache.
-#     This is the recommended cache type but it requires additional CPAN lib
-#     BerkeleyDB to be installed.</li>
-#   <li>Use <code>Foswiki::Cache::Memcached</code> for distributed caching
-#     on high end sites</li>
-#   <li>Use <code>Foswiki::Cache::MemoryLRU</code> for an in-memory LRU cache.
-#     Note that this CacheManager will only keep pages during one call or for
-#     the time of a perl persistent backend.</li>
-# </ul>
+# Select the default caching mechanism. Note that individual subsystems might
+# choose a different backend for their own purposes.
 $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
 
 # **SELECT Foswiki::Cache::DB_File,Foswiki::Cache::BDB EXPERT**
 # Select the database backend use to store meta data for the page cache.
-# <code>Foswiki::Cache::DB_File</code> uses plain files to store the
-# cache. This is default and works "out-of-the-box".
-# <code>Foswiki::Cache::BDB</code> is Berkeley Data Base. This is the
-# recommended cache type. It requires additional CPAN lib BerkeleyDB to be
-# installed.
-# While the cached pages might be displaced in an LRU (least recently used) page
-# cache, meta data about page dependencies shall be stored reliably. That's why
-# only DB_File and BDB are selectable for meta data cache. 
 $Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
 
 # **PATH EXPERT**
-# Specify the root directory for CacheManagers with a file-system based storage
+# Specify the root directory for CacheManagers that use file-system based
+# storage. This is where the database files will be stored.
 $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/tmp/cache';
 
 # **STRING 30 EXPERT**
