@@ -862,48 +862,29 @@ sub generateHTTPHeaders {
     # add http compression and conditional cache controls
     if ( !$this->inContext('command_line') && $text ) {
 
-        if ( $Foswiki::cfg{HttpCompress} ) {
+        if ( $Foswiki::cfg{HttpCompress} && $ENV{'HTTP_ACCEPT_ENCODING'}
+            && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i ) {
+            my $encoding = $1;
+            $hopts->{'Content-Encoding'} = $encoding;
+            $hopts->{'Vary'}             = 'Accept-Encoding';
 
-            # compress
-            if (   $ENV{'HTTP_ACCEPT_ENCODING'}
-                && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i )
-            {
-                my $encoding = $1;
-
-                # check if we take the compressed version from the cache
-                if ( $cachedPage && !$cachedPage->{isDirty} ) {
-                    $text = $cachedPage->{text};
-                }
-                else {
-
-                    # well, then compress it now
-                    if ( !$cachedPage || $cachedPage->{isDirty} ) {
-                        require Compress::Zlib;
-                        $text = Compress::Zlib::memGzip($text);
-
-                        #print STDERR "compressing\n";
-                    }
-                }
-
-                $hopts->{'Content-Encoding'} = $encoding;
-                $hopts->{'Vary'}             = 'Accept-Encoding';
-
-            }
-            else {
-                if ( $cachedPage && !$cachedPage->{isDirty} ) {
-
-                    # sorry, we need to uncompressed pages from cache again
-                    require Compress::Zlib;
-                    $text = Compress::Zlib::memGunzip($text);
-
-                    #print STDERR "uncompressing\n";
-                }
-            }
-        }
-        else {
+            # check if we take the version from the cache
             if ( $cachedPage && !$cachedPage->{isDirty} ) {
                 $text = $cachedPage->{text};
             }
+            # Either there was no cache, or cache was not compressed
+            if ( !$Foswiki::cfg{Cache}{Compress}
+                || !$cachedPage || $cachedPage->{isDirty} ) {
+                require Compress::Zlib;
+                $text = Compress::Zlib::memGzip($text);
+            }
+        }
+        elsif ( $cachedPage && !$cachedPage->{isDirty} &&
+            $Foswiki::cfg{Cache}{Compress} ) {
+
+            # sorry, we need to uncompressed pages from cache again
+            require Compress::Zlib;
+            $text = Compress::Zlib::memGunzip($text);
         }
 
         # we need to force the browser into a check on every

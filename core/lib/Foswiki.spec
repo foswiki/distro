@@ -1023,8 +1023,9 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
 # encoded using gzip compression. You will save a lot of bandwidth by compressing
 # pages. This makes most sense when enabling page caching as well as these are
-# stored in compressed format already. Note that only pages without any 'dirty areas'
-# will be compressed. Any other pages will be transmitted uncompressed.
+# stored in compressed format by default (see cfg{Cache}{Compress}.
+# Note that only pages without any 'dirty areas' will be compressed. Any other page
+# will be transmitted uncompressed.
 $Foswiki::cfg{HttpCompress} = $FALSE;
 
 #---++ HTML Page Layout
@@ -1097,6 +1098,16 @@ $Foswiki::cfg{Cache}{MaxSize} = 1000;
 # Specify a comma separated list of servers for distributed CacheManagers like
 # <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
+
+# **BOOLEAN EXPERT**
+# Enable gzip/deflate page cache compression. Disable it only if you do not
+# have Compress::Zlib or you're not using cfg{HttpCompress} and do not care
+# about disk space.
+$Foswiki::cfg{Cache}{Compress} = $TRUE;
+
+# **BOOLEAN EXPERT**
+# This setting will switch on/off debugging for caching.
+$Foswiki::cfg{Cache}{Debug} = $FALSE;
 
 #---+ Mail and Proxies
 # <p>Settings controlling if and how Foswiki sends email, and the proxies used
