@@ -1,4 +1,4 @@
-%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+%{ This is a default template }%%TMPL:INCLUDE{"view"}%
 %TMPL:INCLUDE{"search"}%
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(changes)"}% %TMPL:END%
@@ -8,6 +8,9 @@
 
 %TMPL:P{"topicinfo"}%%TMPL:END%
 
-%TMPL:DEF{"CHANGES:header"}%%TMPL:DEF{"SEARCH:header"}%%TMPL:END%
-%TMPL:DEF{CHANGES:format}%%TMPL:DEF{"SEARCH:format"}%%TMPL:END%
-%TMPL:DEF{CHANGES:footer}%%TMPL:DEF{"SEARCH:footer"}%%TMPL:END%
+%TMPL:DEF{CHANGES:header}%%TMPL:P{SEARCH:header}%%TMPL:END%
+%TMPL:DEF{CHANGES:format}%%TMPL:P{SEARCH:format}%%TMPL:END%
+%TMPL:DEF{CHANGES:footer}%%TMPL:P{SEARCH:footer}%%TMPL:END%
+
+%TMPL:DEF{"content"}%%TMPL:P{CHANGES:header}%%TEXT%%TMPL:P{CHANGES:footer}%%TMPL:END%
+

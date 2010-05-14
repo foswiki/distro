@@ -25,11 +25,13 @@ sub changes {
 
 	if (!defined($after)) {
 		#the new, non %REPEAT tmpl definition from foswiki 1.1
-		$page = $session->templates->expandTemplate('CHANGE:header');
-		$eachChange = $session->templates->expandTemplate('CHANGE:format');
-		$after = $session->templates->expandTemplate('CHANGE:footer');
-	}
 
+		my ( $header, $footer ) = split( /%TEXT%/, $text );
+		$page = $header;
+		$after = $footer;
+		
+		$eachChange = $session->templates->expandTemplate('CHANGES:format');
+	}
 
     my $showMinor = $query->param('minor');
     unless ($showMinor) {
@@ -78,8 +80,8 @@ sub changes {
             }
             $thisChange =~ s/%TIME%/$time/g;
             $thisChange =~ s/%REVISION%/$srev/go;
-            $thisChange = $topicObject->renderTML($thisChange);
             $thisChange =~ s/%TEXTHEAD%/$summary/go;
+            $thisChange = $topicObject->renderTML($thisChange);
             $page .= $thisChange;
         }
         catch Foswiki::AccessControlException with {
