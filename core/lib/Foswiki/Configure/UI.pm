@@ -356,6 +356,13 @@ sub checkPerlModules {
     return $e;
 }
 
+sub checkPerlModule {
+    my ( $this, $module, $usage, $version ) = @_;
+    my $error = $this->checkPerlModules( 0, [ { name => $module, minimumVersion
+    => $version, usage => $usage } ] );
+    return $error;
+}
+
 sub getTemplateParser {
     if ( !$templateParser ) {
 
