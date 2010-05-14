@@ -1172,8 +1172,8 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <description>Optional node to remove the format from defaults to current selection.</description>
 </param>
 </method>
-<method name="toggle" summary="Toggles the specifed format on/off.">
-<description>Toggles the specifed format on/off.
+<method name="toggle" summary="Toggles the specified format on/off.">
+<description>Toggles the specified format on/off.
 </description>
 <param name="name" type="String">
 <description>Name of format to apply/remove.</description>
@@ -1197,12 +1197,15 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <param name="vars" type="Object">
 <description>Optional list of variables to replace before checking it.</description>
 </param>
+<param name="similar" type="Boolean">
+<description>Match format that has similar properties.</description>
+</param>
 <return type="Object">
 <description>Returns the format object it matches or undefined if it doesn't match.</description>
 </return>
 </method>
-<method name="match" summary="Matches the current selection or specifed node against the specified format name.">
-<description>Matches the current selection or specifed node against the specified format name.
+<method name="match" summary="Matches the current selection or specified node against the specified format name.">
+<description>Matches the current selection or specified node against the specified format name.
 </description>
 <param name="name" type="String">
 <description>Name of format to match.</description>
@@ -4200,6 +4203,10 @@ The current keys are longname, author, authorurl, infourl and version.
 </property>
 <property final="true" name="isAir" static="true" summary="Constant that is true if the runtime is Adobe Air." type="Boolean">
 <description>Constant that is true if the runtime is Adobe Air.
+</description>
+</property>
+<property final="true" name="isIDevice" static="true" summary="Constant that tells if the current browser is an iPhone or iPad." type="Boolean">
+<description>Constant that tells if the current browser is an iPhone or iPad.
 </description>
 </property>
 <method name="is" static="true" summary="Checks if a object is of a specific type for example an array.">

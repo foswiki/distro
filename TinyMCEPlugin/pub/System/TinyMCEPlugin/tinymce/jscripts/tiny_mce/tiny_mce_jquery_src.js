@@ -5,9 +5,9 @@
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '3.4',
+		minorVersion : '3.5.1',
 
-		releaseDate : '2010-04-27',
+		releaseDate : '2010-05-07',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -1505,7 +1505,7 @@ tinymce.create('static tinymce.util.XHR', {
 				if (keep_children) {
 					while (child = node.firstChild) {
 						// IE 8 will crash if you don't remove completely empty text nodes
-						if (child.nodeType !== 3 || child.nodeValue)
+						if (!tinymce.isIE || child.nodeType !== 3 || child.nodeValue)
 							parent.insertBefore(child, node);
 						else
 							node.removeChild(child);
@@ -2151,7 +2151,7 @@ tinymce.create('static tinymce.util.XHR', {
 						// So if we replace the p elements with divs and mark them and then replace them back to paragraphs
 						// after we use innerHTML we can fix the DOM tree
 						h = h.replace(/<p ([^>]+)>|<p>/ig, '<div $1 _mce_tmp="1">');
-						h = h.replace(/<\/p>/g, '</div>');
+						h = h.replace(/<\/p>/gi, '</div>');
 
 						// Set the new HTML with DIVs
 						set();
@@ -2655,10 +2655,13 @@ tinymce.create('static tinymce.util.XHR', {
 				for (lastNodeType = node.nodeType, node = node.previousSibling, lastNode = node; node; node = node.previousSibling) {
 					nodeType = node.nodeType;
 
-					// Handle normalization of text nodes
-					if (!normalized || nodeType != 3 || (lastNodeType != nodeType && node.nodeValue.length))
-						idx++;
+					// Normalize text nodes
+					if (normalized && nodeType == 3) {
+						if (nodeType == lastNodeType || !node.nodeValue.length)
+							continue;
+					}
 
+					idx++;
 					lastNodeType = nodeType;
 				}
 			}
@@ -4322,7 +4325,7 @@ tinymce.create('static tinymce.util.XHR', {
 					d.body.innerHTML = h;
 				} else {
 					r.deleteContents();
-					r.insertNode(t.getRng().createContextualFragment(h));
+					r.insertNode(r.createContextualFragment(h));
 				}
 
 				// Move to caret marker
@@ -4520,7 +4523,7 @@ tinymce.create('static tinymce.util.XHR', {
 		},
 
 		moveToBookmark : function(bookmark) {
-			var t = this, dom = t.dom, marker1, marker2, rng, root;
+			var t = this, dom = t.dom, marker1, marker2, rng, root, startContainer, endContainer, startOffset, endOffset;
 
 			// Clear selection cache
 			if (t.tridentSel)
@@ -4552,8 +4555,6 @@ tinymce.create('static tinymce.util.XHR', {
 
 					t.setRng(rng);
 				} else if (bookmark.id) {
-					rng = dom.createRng();
-
 					function restoreEndPoint(suffix) {
 						var marker = dom.get(bookmark.id + '_' + suffix), node, idx, next, prev, keep = bookmark.keep;
 
@@ -4568,8 +4569,8 @@ tinymce.create('static tinymce.util.XHR', {
 									idx = 1;
 								}
 
-								rng.setStart(node, idx);
-								rng.setEnd(node, idx);
+								startContainer = endContainer = node;
+								startOffset = endOffset = idx;
 							} else {
 								if (!keep) {
 									idx = dom.nodeIndex(marker);
@@ -4578,7 +4579,8 @@ tinymce.create('static tinymce.util.XHR', {
 									idx = 1;
 								}
 
-								rng.setEnd(node, idx);
+								endContainer = node;
+								endOffset = idx;
 							}
 
 							if (!keep) {
@@ -4603,10 +4605,12 @@ tinymce.create('static tinymce.util.XHR', {
 									dom.remove(next);
 
 									if (suffix == 'start') {
-										rng.setStart(prev, idx);
-										rng.setEnd(prev, idx);
-									} else
-										rng.setEnd(prev, idx);
+										startContainer = endContainer = prev;
+										startOffset = endOffset = idx;
+									} else {
+										endContainer = prev;
+										endOffset = idx;
+									}
 								}
 							}
 						}
@@ -4616,6 +4620,9 @@ tinymce.create('static tinymce.util.XHR', {
 					restoreEndPoint('start');
 					restoreEndPoint('end');
 
+					rng = dom.createRng();
+					rng.setStart(startContainer, startOffset);
+					rng.setEnd(endContainer, endOffset);
 					t.setRng(rng);
 				} else if (bookmark.name) {
 					t.select(dom.select(bookmark.name)[bookmark.index]);
@@ -8804,6 +8811,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}},
 				fontname : {inline : 'span', styles : {fontFamily : '%value'}},
 				fontsize : {inline : 'span', styles : {fontSize : '%value'}},
+				fontsize_class : {inline : 'span', attributes : {'class' : '%value'}},
 				blockquote : {block : 'blockquote', wrapper : 1, remove : 'all'},
 
 				removeformat : [
@@ -10794,7 +10802,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				};
 
 				ed.onKeyPress.add(function(ed, e) {
-					if (e.keyCode == 13 && (e.shiftKey || s.force_br_newlines)) {
+					if (e.keyCode == 13 && (e.shiftKey || (s.force_br_newlines && !dom.getParent(selection.getNode(), 'ol,ul')))) {
 						insertBr(ed);
 						Event.cancel(e);
 					}
@@ -11933,7 +11941,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				// Move startContainer/startOffset in to a suitable node
 				if (container.nodeType == 1 || container.nodeValue === "") {
 					container = container.nodeType == 1 ? container.childNodes[offset] : container;
-					walker = new TreeWalker(container, container);
+					walker = new TreeWalker(container, container.parentNode);
 					for (node = walker.current(); node; node = walker.next()) {
 						if (node.nodeType == 3 && !isBlock(node.parentNode) && !isWhiteSpaceNode(node)) {
 							rng.setStart(node, 0);
@@ -12016,7 +12024,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 								}
 							});
 
-							// Contine processing if a selector match wasn't found and a inline element is defined
+							// Continue processing if a selector match wasn't found and a inline element is defined
 							if (!format.inline || found) {
 								currentWrapElm = 0;
 								return;
@@ -12109,14 +12117,23 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 							});
 						});
 
+						// Remove child if direct parent is of same type
+						if (matchNode(node.parentNode, name, vars)) {
+							dom.remove(node, 1);
+							node = 0;
+							return TRUE;
+						}
+
 						// Look for parent with similar style format
-						dom.getParent(node.parentNode, function(parent) {
-							if (matchNode(parent, name, vars)) {
-								dom.remove(node, 1);
-								node = 0;
-								return TRUE;
-							}
-						});
+						if (format.merge_with_parents) {
+							dom.getParent(node.parentNode, function(parent) {
+								if (matchNode(parent, name, vars)) {
+									dom.remove(node, 1);
+									node = 0;
+									return TRUE;
+								}
+							});
+						}
 
 						// Merge next and previous siblings if they are similar <b>text</b><b>text</b> becomes <b>texttext</b>
 						if (node) {
@@ -12243,7 +12260,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				var node = dom.get(start ? '_start' : '_end'),
 					out = node[start ? 'firstChild' : 'lastChild'];
 
-				dom.remove(node, 1);
+				dom.remove(node, true);
 
 				return out;
 			};
@@ -12312,7 +12329,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				apply(name, vars, node);
 		};
 
-		function matchNode(node, name, vars) {
+		function matchNode(node, name, vars, similar) {
 			var formatList = get(name), format, i, classes;
 
 			function matchItems(node, format, item_name) {
@@ -12329,7 +12346,10 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 								else
 									value = getStyle(node, key);
 
-								if (!isEq(value, replaceVars(items[key], vars)))
+								if (similar && !value && !format.exact)
+									return;
+
+								if ((!similar || format.exact) && !isEq(value, replaceVars(items[key], vars)))
 									return;
 							}
 						}
@@ -12372,7 +12392,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 			function matchParents(node) {
 				// Find first node with similar format settings
 				node = dom.getParent(node, function(node) {
-					return !!matchNode(node, name, vars);
+					return !!matchNode(node, name, vars, true);
 				});
 
 				// Do an exact check on the similar format element

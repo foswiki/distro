@@ -485,22 +485,23 @@ tinymce.Formatter.prototype.remove = function(name, vars, node) {
 }
 
 tinymce.Formatter.prototype.toggle = function(name, vars, node) {
-	/// <summary>Toggles the specifed format on/off.</summary>
+	/// <summary>Toggles the specified format on/off.</summary>
 	/// <param name="name" type="String">Name of format to apply/remove.</param>
 	/// <param name="vars" type="Object">Optional list of variables to replace within format before applying/removing it.</param>
 	/// <param name="node" type="Node">Optional node to apply the format to or remove from. Defaults to current selection.</param>
 }
 
-tinymce.Formatter.prototype.matchNode = function(node, name, vars) {
+tinymce.Formatter.prototype.matchNode = function(node, name, vars, similar) {
 	/// <summary>Return true/false if the specified node has the specified format.</summary>
 	/// <param name="node" type="Node">Node to check the format on.</param>
 	/// <param name="name" type="String">Format name to check.</param>
 	/// <param name="vars" type="Object">Optional list of variables to replace before checking it.</param>
+	/// <param name="similar" type="Boolean">Match format that has similar properties.</param>
 	/// <returns type="Object">Returns the format object it matches or undefined if it doesn't match.</returns>
 }
 
 tinymce.Formatter.prototype.match = function(name, vars, node) {
-	/// <summary>Matches the current selection or specifed node against the specified format name.</summary>
+	/// <summary>Matches the current selection or specified node against the specified format name.</summary>
 	/// <param name="name" type="String">Name of format to match.</param>
 	/// <param name="vars" type="Object">Optional list of variables to replace before checking it.</param>
 	/// <param name="node" type="Node">Optional node to check.</param>
@@ -2534,6 +2535,7 @@ tinymce.isIE6 = new Boolean();
 tinymce.isGecko = new Boolean();
 tinymce.isMac = new Boolean();
 tinymce.isAir = new Boolean();
+tinymce.isIDevice = new Boolean();
 tinymce.onAddEditor = new tinymce.util.Dispatcher();
 tinymce.onRemoveEditor = new tinymce.util.Dispatcher();
 tinymce.prototype.init = function(s) {

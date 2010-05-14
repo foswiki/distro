@@ -77,7 +77,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#match">match</a>(name:String, vars:Object, node:Node):boolean</div>
-<div class="summary">Matches the current selection or specifed node against the specified format name.</div>
+<div class="summary">Matches the current selection or specified node against the specified format name.</div>
 </td>
 <td class="last">Formatter</td>
 </tr>
@@ -92,7 +92,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Formatter.html#matchNode">matchNode</a>(node:Node, name:String, vars:Object):Object</div>
+<a class="memberName" href="class_tinymce.Formatter.html#matchNode">matchNode</a>(node:Node, name:String, vars:Object, similar:Boolean):Object</div>
 <div class="summary">Return true/false if the specified node has the specified format.</div>
 </td>
 <td class="last">Formatter</td>
@@ -117,7 +117,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#toggle">toggle</a>(name:String, vars:Object, node:Node):void</div>
-<div class="summary">Toggles the specifed format on/off.</div>
+<div class="summary">Toggles the specified format on/off.</div>
 </td>
 <td class="last">Formatter</td>
 </tr>
@@ -189,7 +189,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </h3>
 <code class="syntax">public 
 						function match(name:String, vars:Object, node:Node):boolean</code>
-<div class="memberDescription">Matches the current selection or specifed node against the specified format name.
+<div class="memberDescription">Matches the current selection or specified node against the specified format name.
 </div>
 <h4>Parameters</h4>
 <table class="params">
@@ -234,7 +234,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <h3>matchNode<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function matchNode(node:Node, name:String, vars:Object):Object</code>
+						function matchNode(node:Node, name:String, vars:Object, similar:Boolean):Object</code>
 <div class="memberDescription">Return true/false if the specified node has the specified format.
 </div>
 <h4>Parameters</h4>
@@ -250,6 +250,10 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <tr>
 <td class="first">vars:Object</td>
 <td class="last">Optional list of variables to replace before checking it.</td>
+</tr>
+<tr>
+<td class="first">similar:Boolean</td>
+<td class="last">Match format that has similar properties.</td>
 </tr>
 </table>
 <h4>Returns</h4>
@@ -302,7 +306,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </h3>
 <code class="syntax">public 
 						function toggle(name:String, vars:Object, node:Node):void</code>
-<div class="memberDescription">Toggles the specifed format on/off.
+<div class="memberDescription">Toggles the specified format on/off.
 </div>
 <h4>Parameters</h4>
 <table class="params">
