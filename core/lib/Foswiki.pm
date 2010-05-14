@@ -779,8 +779,10 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
 
     # Trim whitespace from the start and end of selected content types
     if ($contentType =~ m#text/html#) {
-        $text =~ s#^\s*##si;
-        $text =~ s#\s*$##si;
+        # Use \s to match unicode whitespace, in anticipation of the day when
+        # we unicode everything.
+        $text =~ s#^\s+##;
+        $text =~ s#\s+$##;
     }
 
     $this->{response}->print($text);
