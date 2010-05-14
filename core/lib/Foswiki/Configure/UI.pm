@@ -49,6 +49,7 @@ sub new {
     $this->{bin} = $1;
     my @root = File::Spec->splitdir( $this->{bin} );
     pop(@root);
+
     # SMELL: Force a trailing separator - Linux and Windows are inconsistent
     $this->{root} = File::Spec->catfile( @root, 'x' );
     chop $this->{root};
@@ -134,7 +135,7 @@ sub setting {
 
     my $data = join( ' ', @_ ) || ' ';
 
-    return CGI::Tr( {}, CGI::th({}, $key) . CGI::td({}, $data) );
+    return CGI::Tr( {}, CGI::th( {}, $key ) . CGI::td( {}, $data ) );
 }
 
 # encode a string to make a simplified unique ID useable
@@ -165,7 +166,7 @@ sub WARN {
     $this->{item}->inc('warnings');
     $totwarnings++;
     return CGI::div( { class => 'foswikiAlert configureWarn' },
-        CGI::span( {}, CGI::strong({}, 'Warning: ') . join( "\n", @_ ) ) );
+        CGI::span( {}, CGI::strong( {}, 'Warning: ' ) . join( "\n", @_ ) ) );
 }
 
 # an error
@@ -173,10 +174,8 @@ sub ERROR {
     my $this = shift;
     $this->{item}->inc('errors');
     $toterrors++;
-    return CGI::div(
-        { class => 'foswikiAlert configureError' },
-        CGI::span( {}, CGI::strong({}, 'Error: ') . join( "\n", @_ ) )
-    );
+    return CGI::div( { class => 'foswikiAlert configureError' },
+        CGI::span( {}, CGI::strong( {}, 'Error: ' ) . join( "\n", @_ ) ) );
 }
 
 # Used in place of CGI::hidden, which is broken in some versions.
@@ -194,7 +193,7 @@ sub hidden {
 
 # URL encode a value.
 sub urlEncode {
-    my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
     $value =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
     return $value;
 }
@@ -358,8 +357,16 @@ sub checkPerlModules {
 
 sub checkPerlModule {
     my ( $this, $module, $usage, $version ) = @_;
-    my $error = $this->checkPerlModules( 0, [ { name => $module, minimumVersion
-    => $version, usage => $usage } ] );
+    my $error = $this->checkPerlModules(
+        0,
+        [
+            {
+                name           => $module,
+                minimumVersion => $version,
+                usage          => $usage
+            }
+        ]
+    );
     return $error;
 }
 
@@ -377,7 +384,7 @@ sub getTemplateParser {
 
         # skin can be set using url parameter 'skin'
         my $skin = $Foswiki::query->param('skin') if $Foswiki::query;
-        $templateParser->setSkin( $skin ) if $skin;
+        $templateParser->setSkin($skin) if $skin;
     }
     return $templateParser;
 }
