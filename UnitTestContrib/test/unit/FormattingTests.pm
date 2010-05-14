@@ -802,4 +802,78 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+sub test_render_PlainText {
+    my $this = shift;
+    
+#TODO: these test should move to a proper testing of Render.pm - will happen during
+#extractFormat feature
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{session}->renderer->TML2PlainText(
+'Apache is the [[http://www.apache.org/httpd/][well known web server]].'
+        )
+    );
+
+    #test a few others to try to not break things
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
+        )
+    );
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            'Apache is the [[ApacheServer][well known web server]].')
+    );
+
+    #SMELL: an unexpected result :/
+    $this->assert_str_equals( 'Apache is the   well known web server  .',
+        $this->{session}->{renderer}
+          ->TML2PlainText('Apache is the [[well known web server]].') );
+    $this->assert_str_equals( 'Apache is the well known web server.',
+        $this->{session}->{renderer}
+          ->TML2PlainText('Apache is the well known web server.') );
+
+#non formatting uses of formatting markup
+    $this->assert_str_equals(
+        'Apache 2*3 is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            'Apache 2*3 is the [[ApacheServer][well known web server]].')
+    );
+    $this->assert_str_equals(
+        'Apache 2=3 is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            'Apache 2=3 is the [[ApacheServer][well known web server]].')
+    );
+    
+    $this->assert_str_equals(
+        'Apache 1_1 is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            'Apache 1_1 is the [[ApacheServer][well known web server]].')
+    );
+#    $this->assert_str_equals(
+#        'Apache 1_1 is the %SEARCH{"one" section="two"}% well known web server.',
+#        $this->{session}->{renderer}->TML2PlainText(
+#            'Apache 1_1 is the %SEARCH{"one" section="two"}% [[ApacheServer][well known web server]].')
+#    );
+#formatting uses of formatting markup
+    $this->assert_str_equals(
+        'Apache 2.3 is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            'Apache *2.3* is the [[ApacheServer][well known web server]].')
+    );
+    
+    $this->assert_str_equals(
+        'Apache 1.1 is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            '__Apache 1.1__ is the [[ApacheServer][well known web server]].')
+    );
+#    $this->assert_str_equals(
+#        'Apache 1_1 _is_ the %INCLUDE{"one" section="two"}% well known web server.',
+#        $this->{session}->{renderer}->TML2PlainText(
+#            'Apache 1_1 is the %INCLUDE{"one" section="two"}% [[ApacheServer][well known web server]].')
+#    );
+}
+
 1;

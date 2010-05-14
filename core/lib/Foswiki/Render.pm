@@ -1477,7 +1477,17 @@ s/$STARTWW((mailto\:)?[a-zA-Z0-9-_.+]+@[a-zA-Z0-9-_.]+\.[a-zA-Z0-9-_]+)$ENDWW/_m
     # remove "Web." prefix from "Web.TopicName" link
     $text =~
 s/$STARTWW(($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}))/$3/g;
-    $text =~ s/[\[\]\*\|=_\&\<\>]/ /g;    # remove Wiki formatting chars
+
+#SMELL: can't do this, it removes these characters even when they're not for formatting
+    #$text =~ s/[\[\]\*\|=_\&\<\>]/ /g;    # remove Wiki formatting chars
+    $text =~ s/${STARTWW}==(\S+?|\S[^\n]*?\S)==$ENDWW/$1/gem;
+    $text =~ s/${STARTWW}__(\S+?|\S[^\n]*?\S)__$ENDWW/$1/gm;
+    $text =~ s/${STARTWW}\*(\S+?|\S[^\n]*?\S)\*$ENDWW/$1/gm;
+    $text =~ s/${STARTWW}\_(\S+?|\S[^\n]*?\S)\_$ENDWW/$1/gm;
+    $text =~ s/${STARTWW}\=(\S+?|\S[^\n]*?\S)\=$ENDWW/$1/gem;
+    #SMELL: need to correct these too
+    $text =~ s/[\[\]\|\&\<\>]/ /g;    # remove remaining Wiki formatting chars
+
     $text =~ s/^\-\-\-+\+*\s*\!*/ /gm;    # remove heading formatting and hbar
     $text =~ s/[\+\-]+/ /g;               # remove special chars
     $text =~ s/^\s+//;                    # remove leading whitespace
