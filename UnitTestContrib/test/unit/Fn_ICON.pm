@@ -54,7 +54,7 @@ sub test_ICONURLPATH {
 
 sub test_ICON {
     my $this = shift;
-    my $html = '<span class=foswikiIcon><img width="16px" height="16px" src="';
+    my $html = '<span class=foswikiIcon><img width="16" height="16" src="';
     my $postHtml = '</span>';
     my $t = Foswiki::Func::expandCommonVariables("%ICON%");
     $this->assert_html_equals(
