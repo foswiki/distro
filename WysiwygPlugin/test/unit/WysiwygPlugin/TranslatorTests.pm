@@ -396,9 +396,9 @@ Before &nbsp; After
 </verbatim>',
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $ROUNDTRIP | $TML2HTML,
         name => 'simpleHR',
-        html => '<hr class="TMLhr"/><hr class="TMLhr"/>--',
+        html => '<hr class="TMLhr"/><hr class="TMLhr"/><p>--</p>',
         tml  => <<'HERE',
 ---
 -------
@@ -408,6 +408,7 @@ HERE
         finaltml => <<'HERE',
 ---
 ---
+
 --
 HERE
     },
@@ -678,7 +679,7 @@ HERE
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'variousWikiWords',
         html =>
-"<p>${linkon}WebPreferences${linkoff}</p><p>$protecton%MAINWEB%$protectoff.WikiUsers</p><p>${linkon}CompleteAndUtterNothing${linkoff}</p><p>${linkon}LinkBox$linkoff${linkon}LinkBoxs${linkoff}${linkon}LinkBoxies${linkoff}${linkon}LinkBoxess${linkoff}${linkon}LinkBoxesses${linkoff}${linkon}LinkBoxes${linkoff}</p>",
+"<p>${linkon}WebPreferences${linkoff}</p><p>$protecton<br />%MAINWEB%$protectoff.WikiUsers</p><p>${linkon}CompleteAndUtterNothing${linkoff}</p><p>${linkon}LinkBox$linkoff${linkon}LinkBoxs${linkoff}${linkon}LinkBoxies${linkoff}${linkon}LinkBoxess${linkoff}${linkon}LinkBoxesses${linkoff}${linkon}LinkBoxes${linkoff}</p>",
         tml => <<'YYY',
 WebPreferences
 
@@ -1049,9 +1050,9 @@ Inside
   <ul>
    <li> Inside </li>
   </ul>
-<span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
+<p><span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
  Outside
- ',
+ </p>',
         tml => 'Outside
 <noautolink class="foswikiAlert">
    * Inside
@@ -1173,7 +1174,7 @@ HERE
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td colspan="2">efg</td><td>&nbsp;</td></tr>
 <tr><td colspan="3"></td></tr></table>
-hijk',
+<p>hijk</p>',
         tml => 'abcd
 | efg || |
 ||||
@@ -1556,7 +1557,7 @@ If you edit this page with TMCE, then save it, this line will become part of the
 JUNSX
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'Item4550',
         tml  => <<FGFG,
 ---+ A
@@ -1567,12 +1568,20 @@ C
 X
 FGFG
         html => '<h1 class="TML">  A </h1>
-<span class="WYSIWYG_PROTECTED">&lt;section&gt;</span>
+<p><span class="WYSIWYG_PROTECTED">&lt;section&gt;</span></p>
 <h2 class="TML">  B </h2>
-C
+<p>C
 <span class="WYSIWYG_PROTECTED">&lt;/section&gt;</span>
-X
+X</p>
 ',
+        finaltml  => <<FGFG,
+---+ A
+
+<section>
+---++ B
+
+C </section> X
+FGFG
     },
     {
         exec => $HTML2TML,
@@ -1978,7 +1987,7 @@ SPACED
 
 </li> <li> And another item with one space
 </li></ol> 
-No more
+<p>No more</p>
 DECAPS
     },
     {
@@ -1994,18 +2003,20 @@ DECAPS
     },
     {
         name => 'Item4855',
-        exec => $TML2HTML,
+        exec => $ROUNDTRIP | $TML2HTML,
         tml  => <<HERE,
 | [[LegacyTopic1]] | Main.SomeGuy |
 %TABLESEP%
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
         html => <<THERE,
+<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
-<span class="WYSIWYG_PROTECTED">%TABLESEP%</span>
-<span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+</div>
 THERE
     },
     {
@@ -2016,10 +2027,12 @@ THERE
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
         html => <<THERE,
+<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
-<span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+</div>
 THERE
     },
     {
@@ -2035,7 +2048,9 @@ HERE
 <tr><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 <tr><td> - <span class="WYSIWYG_LINK">Main.SomeGuy</span> - </td></tr>
 </table>
+<p>
 <span class="WYSIWYG_LINK">Main.SomeGuy</span>
+</p>
 THERE
     },
     {
@@ -2165,7 +2180,7 @@ HERE
         exec => $TML2HTML,
         html => <<HERE,
 <h1 class="TML">  Title<img src="art1.jpg"> </img> </h1>
-Peace in earth, and goodwill to all worms
+<p>Peace in earth, and goodwill to all worms</p>
 HERE
         tml => <<HERE,
 ---+ Title<img src="art1.jpg"></img>
@@ -2271,11 +2286,28 @@ HERE
 %SEARCH{search="Sven"}%
 HERE
         html => <<'HERE',
-<p>
 <hr class="TMLhr" />
-</p>
 <p>
-<span class="WYSIWYG_PROTECTED">%SEARCH{search=&#34;Sven&#34;}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
+</p>
+HERE
+    },
+    {
+        name => "ItemSVEN2",
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => <<'HERE',
+---
+%SEARCH{search="Sven"}%
+HERE
+        finaltml => <<'HERE',
+---
+
+%SEARCH{search="Sven"}%
+HERE
+        html => <<'HERE',
+<hr class="TMLhr" />
+<p>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
 </p>
 HERE
     },

@@ -240,15 +240,19 @@ generate TML)
 sub rootGenerate {
     my ( $this, $opts ) = @_;
 
+    #print STDERR "Raw       [", WC::debugEncode($this->stringify()), "\n\n";
     $this->cleanParseTree();
 
+    #print STDERR "Cleaned   [", WC::debugEncode($this->stringify()), "]\n\n";
     # Perform some transformations on the parse tree
     $this->_collapse();
+
+    #print STDERR "Collapsed [", WC::debugEncode($this->stringify()), "]\n\n";
 
     my ( $f, $text ) = $this->generate($opts);
 
     # Debug support
-    #print STDERR "Converted ",WC::debugEncode($text),"\n";
+    #print STDERR "Converted [",WC::debugEncode($text),"]\n";
 
     # Move leading \n out of protected region. Delicate hack fix required to
     # maintain Foswiki variables at the start of lines.
@@ -1491,11 +1495,27 @@ sub _handleP {
 
     my ( $f, $kids ) = $this->_flatten($options);
     return ( $f, '<p>' . $kids . '</p>' ) if ( $options & $WC::NO_BLOCK_TML );
-    my $pre = '';
-    if ( $this->prevIsInline() ) {
+    my $prevNode = $this->{prev};
+    if ($prevNode and not $prevNode->{tag}) {
+        $prevNode = $prevNode->{prev};
+    }
+    my $afterTable = ($prevNode and uc( $prevNode->{tag} ) eq 'TABLE');
+    my $nextNode = $this->{next};
+    if ($nextNode and not $nextNode->{tag}) {
+        $nextNode = $nextNode->{next};
+    }
+    my $beforeTable = ($nextNode and uc( $nextNode->{tag} ) eq 'TABLE');
+    my $pre;
+    if ( $afterTable and not $beforeTable) {
+        $pre = '';
+    }
+    elsif ( $this->prevIsInline() ) {
+        $pre = $WC::NBBR . $WC::NBBR;
+    }
+    else {
         $pre = $WC::NBBR;
     }
-    return ( $f | $WC::BLOCK_TML, $pre . $WC::NBBR . $kids . $WC::NBBR );
+    return ( $f | $WC::BLOCK_TML, $pre . $kids . $WC::NBBR );
 }
 
 # PARAM

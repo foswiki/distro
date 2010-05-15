@@ -61,6 +61,7 @@ sub generate {
         $t =~ s/\t/   /g;
         $t =~ s/\n/$WC::CHECKw/g;
         $t =~ s/  +/ /g;
+        $t =~ s/ $/$WC::CHECKw/g;
     }
     if ( $options & $WC::NOP_ALL ) {
 

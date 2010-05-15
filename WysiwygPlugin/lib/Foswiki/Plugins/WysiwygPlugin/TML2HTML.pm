@@ -188,15 +188,18 @@ sub _processTags {
 
     return '' unless defined($text);
 
-#SMELL: why put a \n into the split? (at least document it..)
-#    my @queue = split( /(\n?%)/s, $text );
-#SVEN: I've removed the extra \n capture, and am seeing what the tests tell me..
-#      doing so removes an (so far) unexplaind <br /> that was put into the WYSIWYG_PROTECTED bloc..
-#      eg. <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
-#SMELL: having removed the \n from the split, the code below now _should_ be rewritten to remove the 
-#      other processing of the \n. For now (Feb2010), I've left it as is, so that we can revert to the old 
-#      code if/when someone figures out why it was in the split in the first place.
-    my @queue = split( /(%)/s, $text );
+    # Macros at the start of a line must *stay* at the start of a line.
+    # The newline preceding the mcro must be preserved.
+    # This is important for macros like %SEARCH that can emit 
+    # line-oriented TML.
+    #
+    # This split captures the preceding newline along with the %, 
+    # if present, as that is a convenient way to include the newline
+    # in the protected span.
+    #
+    # The result is something like this:
+    # <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
+    my @queue = split( /(\n?%)/s, $text );
     my @stack;
     my $stackTop = '';
 
@@ -308,7 +311,8 @@ sub _getRenderedVersion {
     $text =~ s/(<\/?(?!(?i:$PALATABLE_HTML)\b)[A-Z]+(\s[^>]*)?>)/
       $this->_liftOut($1, 'PROTECTED')/gei;
 
-    $text =~ s/\\\n//gs;    # Join lines ending in '\'
+    # SMELL: This was just done, about 25 lines above! Commenting out to see what breaks...
+    #$text =~ s/\\\n//gs;    # Join lines ending in '\'
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
@@ -350,15 +354,70 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     my $hr = CGI::hr( { class => 'TMLhr' } );
     $text =~ s/^---+$/$hr/gm;
 
+    # Wrap tables with macros before or after them in a <div>,
+    # together with the macros,
+    # so that TMCE may be used without the force_root_block option
+    my @lines = split( /\n/, $text );
+    my $divableStartLine = undef;
+    my $hasTable = 0;
+    my $hasMacro = 0;
+    my @divIndexes = ();
+    for my $lineNumber ( 0 .. $#lines ) {
+        # Table: | cell | cell |
+        # allow trailing white space after the last |
+        if ($lines[$lineNumber] =~ m/^\s*\|.*\|\s*$/) {
+            $divableStartLine = $lineNumber 
+              if not defined $divableStartLine;
+            $hasTable = 1;
+        }
+
+        # Macro, after it was lifted out by _processTags
+        elsif ($lines[$lineNumber] =~ m/$TT1(\d+)$TT2/
+                and $this->{refs}->[$1]->{text} =~ /^\n?%/) {
+            $divableStartLine = $lineNumber 
+              if not defined $divableStartLine;
+            $hasMacro = 1;
+        }
+        
+        # Neither table line nor macro
+        else {
+            if (defined $divableStartLine) {
+                if ($hasMacro and $hasTable) {
+                    push @divIndexes, { start => $divableStartLine, end => $lineNumber };
+                }
+                undef $divableStartLine;
+                $hasMacro = 0;
+                $hasTable = 0;
+            }
+        }
+    }
+    if (defined $divableStartLine) {
+        if ($hasMacro and $hasTable) {
+            push @divIndexes, { start => $divableStartLine, end => $#lines };
+        }
+    }
+    my $tableAndMacrosDivStart = '<div class="foswikiTableAndMacros">';
+    my $tableAndMacrosDivEnd   = '</div><!--foswikiTableAndMacros-->';
+    while (@divIndexes) {
+        # Work backwards from the end, 
+        # so that the indexes are correct as they are processed
+        my $set = pop @divIndexes;
+        splice @lines, $set->{end}+1, 0, $tableAndMacrosDivEnd;
+        splice @lines, $set->{start}, 0, $tableAndMacrosDivStart;
+    }
+    $text = join( "\n", @lines );
+    
     # Now we really _do_ need a line loop, to process TML
     # line-oriented stuff.
     my $inList      = 0;         # True when within a list type
     my $inTable     = 0;         # True when within a table type
     my %table       = ();
-    my $inParagraph = 1;         # True when within a P
-    my @result      = ('<p>');
+    my $inParagraph = 0;         # True when within a P
+    my $inDiv       = 0;         # True when within a foswikiTableAndMacros div
+    my @result      = ();
 
     foreach my $line ( split( /\n/, $text ) ) {
+        my $tableEnded = 0;
 
         # Table: | cell | cell |
         # allow trailing white space after the last |
@@ -375,6 +434,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ($inTable) {
             push( @result, _emitTable( \%table ) );
             $inTable = 0;
+            $tableEnded = 1;
         }
 
         if ( $line =~ /$Foswiki::regex{headerPatternDa}/o ) {
@@ -462,11 +522,34 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Extend text of previous list item by dropping through
 
         }
+        elsif ($line eq $hr) {
+            push( @result, '</p>' ) if $inParagraph;
+            $inParagraph = 0;
+        }
+        elsif ($line eq $tableAndMacrosDivStart) {
+            push( @result, '</p>' ) if $inParagraph;
+            $inParagraph = 0;
+            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $inList = 0;
+            $inDiv = 1;
+        }
+        elsif ($line eq $tableAndMacrosDivEnd) {
+            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $inList = 0;
+            $inDiv = 0;
+            # The comment was only needed for this test,
+            # and it must be removed to prevent it ending up in TML
+            $line = '</div>';
+        }
         else {
 
             # Other line
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
+            unless ($inParagraph or $inDiv) {
+                push( @result, '<p>' );
+                $inParagraph = 1;
+            }
         }
 
         push( @result, $line );
@@ -480,6 +563,9 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     }
     elsif ($inParagraph) {
         push( @result, '</p>' );
+    }
+    elsif ($inDiv) {
+        push( @result, '</div>' );
     }
 
     $text = join( "\n", @result );
