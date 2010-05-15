@@ -10,9 +10,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    if ( $Foswiki::cfg{HttpCompress} != $Foswiki::cfg{Cache}{Compress} ) {
-        my $httpComp  = $Foswiki::cfg{HttpCompress}    ? 'enabled' : 'disabled';
-        my $cacheComp = $Foswiki::cfg{Cache}{Compress} ? 'enabled' : 'disabled';
+    my $httpComp  = $Foswiki::cfg{HttpCompress}    ? 'enabled' : 'disabled';
+    my $cacheComp = $Foswiki::cfg{Cache}{Compress} ? 'enabled' : 'disabled';
+    if ( $httpComp ne $cacheComp ) {
         return $this->WARN(
             <<EOF
 {HttpCompress} is $httpComp, but {Cache}{Compress} is $cacheComp. Doing
