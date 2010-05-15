@@ -4,6 +4,7 @@ Devel::Symdump,>=0,cpan,required
 Encode,>=2.32,cpan,required, other versions may work, but 2.12 is known bad
 Foswiki::Plugins::TestFixturePlugin,>=0,perl,optional, used for semi-automatic test cases (TestCases web)
 HTML::Parser,>=0,cpan,required
+HTML::Tidy,>1.51,cpan,required
 HTML::TreeBuilder,>=0,cpan,required
 WWW::Selenium,>=0,cpan,optional, used for browser-in-the-loop tests
 Test::WWW::Selenium,>=0,cpan,optional, used for browser-in-the-loop tests
