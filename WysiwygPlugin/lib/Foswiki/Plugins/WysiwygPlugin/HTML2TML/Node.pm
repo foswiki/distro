@@ -240,19 +240,15 @@ generate TML)
 sub rootGenerate {
     my ( $this, $opts ) = @_;
 
-    print STDERR "Raw       [", WC::debugEncode($this->stringify()), "\n\n";
     $this->cleanParseTree();
 
-    print STDERR "Cleaned   [", WC::debugEncode($this->stringify()), "]\n\n";
     # Perform some transformations on the parse tree
     $this->_collapse();
-
-    print STDERR "Collapsed [", WC::debugEncode($this->stringify()), "]\n\n";
 
     my ( $f, $text ) = $this->generate($opts);
 
     # Debug support
-    print STDERR "\nConverted [".WC::debugEncode($text)."]\n";
+    #print STDERR "Converted ",WC::debugEncode($text),"\n";
 
     # Move leading \n out of protected region. Delicate hack fix required to
     # maintain Foswiki variables at the start of lines.
