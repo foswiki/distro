@@ -367,7 +367,7 @@ a:hover .foswikiAccessKey {
    border-color:transparent;
 }
 .foswikiSeparator {
-   color:#aaa;
+   color:#ccc;
 }
 .foswikiHorizontalList ul li {
 	border-color:#aaa;
@@ -419,7 +419,7 @@ a:hover .foswikiAccessKey {
 .patternTopicActions {
    background-color:#eaf5fb;
    color:#000;
-   border-color:#6aadd0;
+   border-color:#dfdfdf;
 }
 .patternTopicAction {
    border-color:#fff;
