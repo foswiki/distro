@@ -189,7 +189,7 @@ HERE
         tml  => "start (='^'=) to end",
         html => <<'BLAH',
 <p>
-(<span class="WYSIWYG_TT">'^'</span>)
+start (<span class="WYSIWYG_TT"> '^' </span>) to end
 </p>
 BLAH
     },
