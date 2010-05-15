@@ -124,6 +124,13 @@ sub _action_createweb {
     if ( $newWeb =~ m|^(.*)[./](.*?)$| ) {
         $parent = $1;
     }
+    unless ( $session->webExists($parent) ) {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'base_web_missing',
+            params => [$parent]
+        );
+    }
     Foswiki::UI::checkAccess( $session, $parent, undef, 'CHANGE',
         $session->{user} );
 
