@@ -6,7 +6,7 @@ One line description, required for extensions repository catalog.
 -->
 %SHORTDESCRIPTION%
 
-<img src="%ATTACHURLPATH%/screenshot.png"/>
+<img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
 
 %TOC%
 This is an integration of the fast and highly functional <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. It supports a wide range of browsers, including Firefox, IE, Safari, Opera and Google Chrome (see [[http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility][compatibility chart]]). At the time of writing it doesn't work with Konqueror.
@@ -54,7 +54,6 @@ relative_urls : false,
 remove_script_host : false,
 dialog_type: "modal",
 extended_valid_elements : "li[type]",
-forced_root_block : false,
 setupcontent_callback : FoswikiTiny.setUpContent,
 urlconverter_callback : "FoswikiTiny.convertLink",
 foswikipuburl_callback : "FoswikiTiny.convertPubURL",
