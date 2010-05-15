@@ -136,6 +136,13 @@ sub _action_createweb {
     if ( $newWeb =~ m|^(.*)[./](.*?)$| ) {
         $parent = $1;
     }
+    unless ( $session->webExists($parent) ) {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'base_web_missing',
+            params => [$parent]
+        );
+    }
     my $webObject = Foswiki::Meta->new( $session, $parent );
     unless ( $webObject->haveAccess('CHANGE') ) {
         throw Foswiki::OopsException(
