@@ -131,18 +131,22 @@ sub _action_createweb {
         }
     );
 
-    # check permission, user authorized to create web here?
+    # For hierarchical webs, check that parent web exists
     my $parent = undef;    # default is root if no parent web
     if ( $newWeb =~ m|^(.*)[./](.*?)$| ) {
         $parent = $1;
     }
-    unless ( $session->webExists($parent) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'base_web_missing',
-            params => [$parent]
-        );
+    if ($parent) {
+        unless ( $session->webExists($parent) ) {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'base_web_missing',
+                params => [$parent]
+            );
+        }
     }
+
+    # check permission, user authorized to create web here?
     my $webObject = Foswiki::Meta->new( $session, $parent );
     unless ( $webObject->haveAccess('CHANGE') ) {
         throw Foswiki::OopsException(
