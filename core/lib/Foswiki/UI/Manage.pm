@@ -124,7 +124,7 @@ sub _action_createweb {
     if ( $newWeb =~ m|^(.*)[./](.*?)$| ) {
         $parent = $1;
     }
-    unless ( $session->webExists($parent) ) {
+    unless ( $session->{store}->webExists($parent) ) {
         throw Foswiki::OopsException(
             'attention',
             def    => 'base_web_missing',
