@@ -184,6 +184,16 @@ HERE
         tml  => '=Code='
     },
     {
+        name => 'codeInParentheses',
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => "start (='^'=) to end",
+        html => <<'BLAH',
+<p>
+(<span class="WYSIWYG_TT">'^'</span>)
+</p>
+BLAH
+    },
+    {
         exec => $TML2HTML | $HTML2TML,
         name => 'codeToFromHtml',
         html => <<'BLAH',
@@ -938,6 +948,18 @@ Outside <pre class="foswikiAlert TMLverbatim"><br />&nbsp;&nbsp;Inside<br />&nbs
         tml => 'Outside <verbatim class="foswikiAlert">
   Inside
   </verbatim> Outside',
+    },
+    {
+        name => 'verbatimWithClassForJqChili',
+        exec => $ROUNDTRIP,
+        tml => <<'HERE',
+<verbatim class="tml">
+%STARTSECTION{"formfield"}%%FORMFIELD{
+  "%URLPARAM{"formfield" default="does not exist"}%"
+  topic="%URLPARAM{"source" default="does not exist"}%"
+}%%ENDSECTION{"formfield"}%
+</verbatim>
+HERE
     },
     {
         exec => $ROUNDTRIP,
@@ -1919,7 +1941,7 @@ STUCK
 GLUED
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'Item4705_B',
         tml  => <<SPACED,
 A
@@ -2257,6 +2279,19 @@ HERE
 </p>
 HERE
     },
+    {
+        name => "brTagInMacroFormat",
+        exec => $ROUNDTRIP,
+        tml => <<'HERE',
+%JQPLUGINS{"scrollto"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+HERE
+    }
 ];
 
 

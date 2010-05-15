@@ -240,15 +240,19 @@ generate TML)
 sub rootGenerate {
     my ( $this, $opts ) = @_;
 
+    print STDERR "Raw       [", WC::debugEncode($this->stringify()), "\n\n";
     $this->cleanParseTree();
 
+    print STDERR "Cleaned   [", WC::debugEncode($this->stringify()), "]\n\n";
     # Perform some transformations on the parse tree
     $this->_collapse();
+
+    print STDERR "Collapsed [", WC::debugEncode($this->stringify()), "]\n\n";
 
     my ( $f, $text ) = $this->generate($opts);
 
     # Debug support
-    #print STDERR "Converted ",WC::debugEncode($text),"\n";
+    print STDERR "\nConverted [".WC::debugEncode($text)."]\n";
 
     # Move leading \n out of protected region. Delicate hack fix required to
     # maintain Foswiki variables at the start of lines.
@@ -609,8 +613,11 @@ sub _htmlParams {
     my ( $attrs, $options ) = @_;
     my @params;
 
-    while ( my ( $k, $v ) = each %$attrs ) {
+    # Sort the attributes when converting back to TML 
+    # so that the conversion is deterministic
+    for my $k (sort keys %$attrs) {
         next unless $k;
+        my $v = $attrs->{$k};
         if ( $k eq 'class' ) {
 
             # if cleaning aggressively, remove class attributes completely
@@ -652,7 +659,7 @@ sub _defaultTag {
 sub _isProtectedByAttrs {
     my $this = shift;
 
-    require Foswiki::Plugins::WysiwygPlugin;
+    require Foswiki::Plugins::WysiwygPlugin::Handlers;
     foreach my $attr ( keys %{ $this->{attrs} } ) {
         next unless length( $this->{attrs}->{$attr} );    # ignore nulls
         return $attr
@@ -1056,7 +1063,7 @@ sub _emphasis {
     return ( 0, undef ) unless $ae && $be;
 
     return ( $flags,
-        $pre . $WC::CHECKw . $ch . $contents . $ch . $WC::CHECK2 . $post );
+        $pre . $WC::CHECK1 . $ch . $contents . $ch . $WC::CHECK2 . $post );
 }
 
 sub isBlockNode {
