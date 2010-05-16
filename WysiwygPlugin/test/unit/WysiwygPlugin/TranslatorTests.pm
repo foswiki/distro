@@ -278,6 +278,18 @@ BLAH
         tml  => '| =Code= |'
     },
     {
+        exec => $HTML2TML,
+        name => 'ttClassAndPInTable',
+        html => '<table><tr><td class="WYSIWYG_TT"><p>Code</p></td></tr></table>',
+        tml  => '| =Code= |'
+    },
+    {
+        exec => $HTML2TML,
+        name => 'ttClassPInTable',
+        html => '<table><tr><td><p class="WYSIWYG_TT">Code</p></td></tr></table>',
+        tml  => '| =Code= |'
+    },
+    {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'tmlInTable',
         html => <<'BLAH',
@@ -318,6 +330,24 @@ BLAH
 | *bold* at start |
 | ends with *bold* |
 BLAH
+    },
+    {
+        exec => $HTML2TML,
+        name => 'pInTable',
+        html => <<'HTML',
+<table>
+<tr><td><p>X Y</p></td></tr>
+<tr><td> <p>X Y</p> </td></tr>
+<tr><td>X<p> Y</p></td></tr>
+<tr><td><p>X</p><p>Y</p></td></tr>
+</table>
+HTML
+        tml  => <<'TML',
+| X Y |
+| X Y |
+| X<p> Y</p> |
+| <p>X</p><p>Y</p> |
+TML
     },
     {
         exec => $ROUNDTRIP,
