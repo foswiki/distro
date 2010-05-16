@@ -185,6 +185,84 @@ sub test_create_subweb_with_same_name_as_a_topic {
         !$this->{session}->webExists("$testWebSubWebPath/$testTopic") );
 }
 
+sub test_createSubweb_missingParent {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+    my $user = $this->{session}->{user};
+
+    my $webObject =
+      Foswiki::Meta->new( $this->{session}, "Missingweb/Subweb" );
+
+    try {
+        $webObject->populateNewWeb();
+        $this->assert( 'No error thrown from populateNewWe() ');
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Parent web Missingweb does not exist.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(
+        !$this->{session}->webExists("Missingweb/Subweb") );
+    $this->assert(
+        !$this->{session}->webExists("Missingweb") );
+}
+
+sub test_createWeb_InvalidBase {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+    my $user = $this->{session}->{user};
+
+    my $webTest = 'Item0';
+    my $webObject =
+      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$webTest" );
+
+    try {
+        $webObject->populateNewWeb("Missingbase");
+        $this->assert( 'No error thrown from populateNewWe() ');
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Template web Missingbase does not exist.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(
+        !$this->{session}->webExists("$testWebSubWebPath/$webTest") );
+}
+
+sub test_createWeb_hierarchyDisabled {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 0;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+    my $user = $this->{session}->{user};
+
+    my $webTest = 'Item0';
+    my $webObject =
+      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$webTest".'x' );
+
+    try {
+        $webObject->populateNewWeb();
+        $this->assert( 'No error thrown from populateNewWe() ');
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Unable to create .* - Hierrchical webs are disabled.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(
+        !$this->{session}->webExists("$testWebSubWebPath/$webTest".'x') );
+}
+
+
 sub test_url_parameters {
     my $this = shift;
     $this->{session}->finish();
