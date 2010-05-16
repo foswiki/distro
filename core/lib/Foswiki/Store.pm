@@ -1751,6 +1751,19 @@ the web preferences topic in the new web.
 sub createWeb {
     my ( $this, $user, $newWeb, $baseWeb, $opts ) = @_;
 
+    $newWeb =~ s#\.#/#go;
+
+    my ($parent, $new)  = $newWeb =~ m/^(.*)\/([^\.\/]+)$/;
+
+    if ($parent) {
+        unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+            throw Error::Simple(  "Unable to create $newWeb - Hierrchical webs are disabled" );
+        }
+        unless ( $this->webExists($parent) ) {
+            throw Error::Simple( 'Parent web ' . $parent . ' does not exist' );
+        }
+    }
+
     unless ($baseWeb) {
 
         # For a web to be a web, it has to have at least one topic
@@ -1762,12 +1775,13 @@ sub createWeb {
         return;
     }
 
+    $baseWeb =~ s#\.#/#go if $baseWeb;
+
     unless ( $this->webExists($baseWeb) ) {
         throw Error::Simple( 'Base web ' . $baseWeb . ' does not exist' );
     }
 
-    $newWeb =~ s#\.#/#go;
-    $baseWeb =~ s#\.#/#go if $baseWeb;
+
 
     # copy topics from base web
     my @topicList = $this->getTopicNames($baseWeb);

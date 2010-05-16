@@ -20,6 +20,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     $this->{tmpdatafile} = $Foswiki::cfg{TempfileDir}.'/tmpity-tmp.gif';
+    $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir}.'/tmpity-tmp2.gif';
     $this->{test_web2} = $this->{test_web}.'Extra';
     $this->assert_null($this->{twiki}->{store}->createWeb(
         $this->{twiki}->{user}, $this->{test_web2}));
@@ -31,6 +32,52 @@ sub tear_down {
     $this->removeWebFixture($this->{twiki},$this->{test_web2});
     $this->SUPER::tear_down();
 }
+
+sub test_Item9021 {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    try {
+        Foswiki::Func::createWeb($this->{test_web}."Missing/Blah");
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Parent web TemporaryFuncTestWebFuncMissing does not exist.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."Missing"), "test should not have created the web");
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."Missing/Blah"), "Test should not have created the web");
+}
+
+sub test_createWeb_InvalidBase {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+
+    try {
+        Foswiki::Func::createWeb($this->{test_web}."InvaliBase", "Invalidbase");
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Base web Invalidbase does not exist.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."invaliBase"));
+}
+
+sub test_createWeb_hierarchyDisabled {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 0;
+
+    try {
+        Foswiki::Func::createWeb($this->{test_web} . "/Subweb");
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Unable to create .* - Hierrchical webs are disabled.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."/Subweb"));
+}
+
 
 sub test_web {
     my $this = shift;
@@ -157,12 +204,14 @@ sub test_leases {
 
 sub test_attachments {
     my $this = shift;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $attnm = 'blahblahblah.gif';
     my $name1 = 'blahblahblah.gif';
     my $name2 = 'bleagh.sniff';
     my $topic = "BlahBlahBlah";
+    my $ft = '';
 
     my $stream;
     $this->assert(open($stream,">$this->{tmpdatafile}"));
@@ -224,12 +273,204 @@ sub test_attachments {
     # This should fail - attachment is not present
     $this->assert( 
         !(Foswiki::Func::readAttachment( $this->{test_web}, $topic, "NotExists") ));
+
+
+    Foswiki::Func::createWeb( $this->{test_web} . "Attblah" );
+    Foswiki::Func::createWeb( $this->{test_web} . "Attblah/SubWeb" );
+    $this->assert( Foswiki::Func::webExists( $this->{test_web} . "Attblah" ) );
+    $this->assert(
+        Foswiki::Func::webExists( $this->{test_web} . "Attblah/SubWeb" ) );
+
+    Foswiki::Func::saveTopicText( $this->{test_web}."Attblah/SubWeb", $topic, '' );
+
+    $e = Foswiki::Func::saveAttachment(
+        $this->{test_web}."Attblah/SubWeb",
+        $topic, $name1,
+        {
+            dontlog  => 1,
+            comment  => 'Ciamar a tha u',
+            file     => $this->{tmpdatafile},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    $e = Foswiki::Func::saveAttachment(
+        $this->{test_web}."Attblah/SubWeb",
+        $topic, $name2,
+        {
+            dontlog  => 1,
+            comment  => 'Ciamar a tha u',
+            file     => $this->{tmpdatafile},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    $this->assert(
+        Foswiki::Func::attachmentExists( $this->{test_web}."Attblah/SubWeb", $topic, $name1 ) );
+    $x = Foswiki::Func::readAttachment( $this->{test_web}."Attblah/SubWeb", $topic, $name1 );
+    $this->assert_str_equals( $data, $x );
+    $this->assert(
+        Foswiki::Func::attachmentExists( $this->{test_web}."Attblah/SubWeb", $topic, $name2 ) );
+    $x = Foswiki::Func::readAttachment( $this->{test_web}."Attblah/SubWeb", $topic, $name2 );
+    $this->assert_str_equals( $data, $x );
+
+    # Verify that the files and directories actually were created
+    #
+    $ft = Foswiki::Func::getPubDir(). "/" . $this->{test_web} . "Attblah";
+    $this->assert( (-d $ft), "Web pub directory exists?"  );
+    $ft .= "/SubWeb";
+    $this->assert( (-d $ft), "Subweb pub directory exists?" );
+    $ft .= "/".$topic;
+    $this->assert( (-d $ft), "Attachment Topic directory exists?"  );
+    $ft .= "/".$name1;
+    $this->assert( (-e $ft), "Attachment Filename was created?" );
+    $ft .= ",v";
+    $this->assert( (-e $ft), "Attachment RCS file was created?" );
+
+
+}
+
+sub test_subweb_attachments {
+    my $this = shift;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
+    my $attnm = 'blahblahblah.gif';
+    my $name1 = 'blahblahblah.gif';
+    my $name2 = 'bleagh.sniff';
+    my $topic = "BlahBlahBlah";
+    my $web = $this->{test_web}."/SubWeb";
+
+    my $stream;
+    $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
+    binmode($stream);
+    print $stream $data;
+    close($stream);
+
+    $this->assert( open( $stream, "<$this->{tmpdatafile}" ) );
+    binmode($stream);
+
+    my $stream2;
+    $this->assert( open( $stream2, ">$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+    print $stream2 $data2;
+    close($stream2);
+
+    $this->assert( open( $stream2, "<$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
+
+    $name1 = Assert::TAINT($name1);
+    my $e = Foswiki::Func::saveAttachment(
+        $web,
+        $topic, $name1,
+        {
+            dontlog  => 1,
+            comment  => 'Feasgar Bha',
+            stream   => $stream,
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+    my @attachments = $meta->find('FILEATTACHMENT');
+    $this->assert_str_equals( $name1, $attachments[0]->{name} );
+
+    $name2 = Assert::TAINT($name2);
+    my $infile = $this->{tmpdatafile};
+    #my $web = Assert::TAINT($web);
+    #my $infile = Assert::TAINT($this->{tmpdatafile1});
+                my @stats    = stat $this->{tmpdatafile};
+                my $fileSize = $stats[7];
+                my $fileDate = $stats[9];
+                $e = Foswiki::Func::saveAttachment(
+                    $web, 
+                    $topic, $name2,
+                    {   dontlog => 1,
+                        file     => $infile, 
+                        filedate => $fileDate,
+                        filesize => $fileSize,
+                        comment  => '<nop>DirectedGraphPlugin: DOT graph',
+                        hide     => 1
+                    }
+                );
+               $this->assert( !$e, $e );
+
+    # Verify that the files and directories actually were created
+    #
+    my $ft = '';
+    $ft = Foswiki::Func::getPubDir(). "/" . $web;
+    $this->assert( (-d $ft), "Web directory for attachment not created"  );
+    $ft .= "/".$topic;
+    $this->assert( (-d $ft), "Topic directory for attachment not created?"  );
+    $this->assert( (-e $ft."/$name1,v" ), "Attachment RCS Filename $ft/$name1,v was not written to disk?" );
+    $this->assert( (-e $ft."/$name1" ), "Attachment file $ft/$name1  was not written to disk?" );
+    $this->assert( (-e $ft."/$name2,v" ), "Attachment RCS Filename $ft/$name2,v was not written to disk?" );
+    $this->assert( (-e $ft."/$name2" ), "Attachment file $ft/$name2  was not written to disk?" );
+
+
+    ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+    @attachments = $meta->find('FILEATTACHMENT');
+    $this->assert_str_equals( $name1, $attachments[0]->{name} );
+    $this->assert_str_equals( $name2, $attachments[1]->{name} );
+
+    my $x = Foswiki::Func::readAttachment( $web, $topic, $name1 );
+    $this->assert_str_equals( $data, $x );
+    $x = Foswiki::Func::readAttachment( $web, $topic, $name2 );
+    $this->assert_str_equals( $data, $x );
+
+    # This should succeed - attachment exists
+    $this->assert(
+        Foswiki::Func::attachmentExists( $web, $topic, $name1 ) );
+
+    # This should fail - attachment is not present
+    $this->assert(
+        !(Foswiki::Func::attachmentExists( $web, $topic, "NotExists" )) );
+
+    # This should fail - attachment is not present
+    $this->assert( 
+        !Foswiki::Func::readAttachment( $web, $topic, "NotExists" ));
+
+    # Update the attachment and check that the data is updated.
+    $e = Foswiki::Func::saveAttachment(
+        $web,
+        $topic, $name2,
+        {
+            dontlog  => 1,
+            comment  => 'Ciamar a tha u',
+            file     => $this->{tmpdatafile2},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+    $x = Foswiki::Func::readAttachment( $web, $topic, $name2 );
+    $this->assert_str_equals( $data2, $x );
+
+    # Verify that the prior revision contains the old data
+    $x = Foswiki::Func::readAttachment( $web, $topic, $name2, "1");
+    $this->assert_str_equals( $data, $x );
+
 }
 
 sub test_getrevinfo {
     my $this = shift;
     my $topic = "RevInfo";
     my $now = time();
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
     Foswiki::Func::createWeb( $this->{test_web} . "/Blah" );
 
 	Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'blah' );
