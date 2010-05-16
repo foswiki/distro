@@ -32,6 +32,7 @@ use strict;
 use warnings;
 
 require Foswiki::Plugins::WysiwygPlugin;
+require Foswiki::Plugins::WysiwygPlugin::Handlers;
 require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
 require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
@@ -429,6 +430,9 @@ HTML
         tml => <<'TML',
 <table cellspacing="1" cellpadding="0" border="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
 TML
+        finaltml => <<'TML',
+<table border="1" cellpadding="0" cellspacing="1"> <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr> <tr><td rowspan="2">C</td></tr> <tr><td>M</td></tr> </table>
+TML
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
@@ -440,7 +444,7 @@ TML
 Before
 </p>
 <table border="1" cellpadding="0" cellspacing="1"><tr><th>L</th><th>C</th><th>R</th></tr><tr><td> A2</td><td style="text-align: center" class="align-center"> 2</td><td style="text-align: right" class="align-right"> 2</td></tr><tr><td> A3</td><td style="text-align: center" class="align-center"> 3</td><td style="text-align: left" class="align-left"> 3</td></tr><tr><td> A4-6</td><td> four</td><td> four</td></tr><tr><td>^</td><td> five</td><td> five</td></tr></table><p /><table border="1" cellpadding="0" cellspacing="1"><tr><td>^</td><td> six</td><td> six</td></tr></table>
-After
+<p>After</p>
 HERE
         tml => <<'HERE',
 Before
@@ -549,7 +553,8 @@ HERE
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td colspan="2">efg</td><td>&nbsp;</td></tr>
 <tr><td colspan="3"></td></tr></table>
-hijk
+<p>hijk
+</p>
 HERE
         tml => <<'HERE',
 abcd
@@ -649,11 +654,13 @@ HEXPT
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
         html => <<'THERE',
+<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
-<span class="WYSIWYG_PROTECTED">%TABLESEP%</span>
-<span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+</div>
 THERE
     },
     {
@@ -666,10 +673,12 @@ THERE
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
         html => <<'THERE',
+<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
-<span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+</div>
 THERE
     },
     {
