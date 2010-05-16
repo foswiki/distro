@@ -901,6 +901,7 @@ sub _isConvertableTableRow {
     }
     while ($kid) {
         if ( $kid->{tag} eq 'th' ) {
+            $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
             ( $flags, $text ) = $kid->_flatten($options);
@@ -908,6 +909,7 @@ sub _isConvertableTableRow {
             $text = "*$text*" if length($text);
         }
         elsif ( $kid->{tag} eq 'td' ) {
+            $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
             ( $flags, $text ) = $kid->_flatten($options);
@@ -980,6 +982,79 @@ sub _isConvertableTableRow {
         $kid = $kid->{next};
     }
     return \@row;
+}
+
+# Remove the P tag from a table cell when it surrounds the whole content
+# These "wrapper P tags" come from TMCE, when you press Enter 
+# in a table cell. They are impossible to remove in TMCE itself
+# and they mess up the vertical alignment of table text.
+sub _removePWrapper {
+    my $this = shift;
+
+    # Find the first kid that is a tag, 
+    # keeping track of any content before it
+    my $kid = $this->{head};
+    my $leadingContent = '';
+    while ($kid->{next} and not $kid->{tag}) {
+        $leadingContent .= $kid->{text};
+        $kid = $kid->{next};
+    }
+
+    # If there are no enclosed tags, then there is nothing further to do
+    return unless $kid; 
+    return unless $kid->{tag}; 
+
+    # If there is something (non-whitespace) before the first tag,
+    # then there is nothing further to do
+    return if $leadingContent =~ /\S/; 
+
+    # This is the first node (tag)
+    my $firstNodeKid = $kid;
+
+    # Find the last kid that is a tag, 
+    # keeping track of any content after it
+    $kid = $this->{tail};
+    my $trailingContent = '';
+    while ($kid->{prev} and not $kid->{tag}) {
+        $trailingContent .= $kid->{text};
+        $kid = $kid->{prev};
+    }
+
+    # Note that there is at least one kid that is a node (tag)
+    # so the checks here are for safety's sake
+    ASSERT($kid) if DEBUG;
+    ASSERT($kid->{tag}) if DEBUG;
+    return unless $kid; 
+    return unless $kid->{tag}; 
+    
+    # If there is something (non-whitespace) after the last tag,
+    # then there is nothing further to do
+    return if $trailingContent =~ /\S/;
+
+    # This is the last node (tag)
+    my $lastNodeKid = $kid;
+
+    # If there are multiple kids that are nodes (tags)
+    # then there is no "wrapper" tag to be removed
+    return unless $firstNodeKid eq $lastNodeKid;
+
+    # There is only a problem if the surrounding tag is a <p> tag
+    return unless uc($firstNodeKid->{tag}) eq 'P'; 
+
+    $firstNodeKid->_remove();
+    # Check if the tag has attributes
+    if ( keys %{ $firstNodeKid->{attrs} } ) {
+        # Replace the wrapper P tag with a span
+        my $newspan =
+          new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node( $this->{context},
+            'span', $firstNodeKid->{attrs} );
+        $newspan->_eat($firstNodeKid);
+        $this->addChild($newspan);
+    }
+    else {
+        # Remove the wrapper P tag
+        $this->_eat($firstNodeKid);
+    }
 }
 
 # Work out the alignment of a table cell from the style and/or class
