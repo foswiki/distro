@@ -35,8 +35,56 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
+sub test_Item9021 {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    try {
+        Foswiki::Func::createWeb($this->{test_web}."Missing/Blah");
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Parent web TemporaryFuncTestWebFuncMissing does not exist.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."Missing"), "test should not have created the web");
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."Missing/Blah"), "Test should not have created the web");
+}
+
+sub test_createWeb_InvalidBase {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    try {
+        Foswiki::Func::createWeb($this->{test_web}."InvaliBase", "Invalidbase");
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Template web Invalidbase does not exist.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."invaliBase"));
+}
+
+sub test_createWeb_hierarchyDisabled {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 0;
+
+    try {
+        Foswiki::Func::createWeb($this->{test_web} . "/Subweb");
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/^Unable to create .* - Hierrchical webs are disabled.*/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."/Subweb"));
+}
+
+
 sub test_moveWeb {
     my $this = shift;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     Foswiki::Func::createWeb( $this->{test_web} . "Blah" );
     Foswiki::Func::createWeb( $this->{test_web} . "Blah/SubWeb" );
@@ -214,6 +262,7 @@ NONNY
 
 sub test_attachments {
     my $this = shift;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
@@ -324,6 +373,7 @@ sub test_attachments {
 
 sub test_subweb_attachments {
     my $this = shift;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
@@ -465,6 +515,8 @@ sub test_getrevinfo {
     my $this  = shift;
     my $topic = "RevInfo";
     my $now = time();
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
     Foswiki::Func::createWeb( $this->{test_web} . "/Blah" );
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'blah' );

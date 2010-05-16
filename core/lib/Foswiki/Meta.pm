@@ -477,6 +477,19 @@ sub populateNewWeb {
     ASSERT( !$this->{_topic} ) if DEBUG;
 
     my $session = $this->{_session};
+
+    my ($parent, $new)  = $this->{_web} =~ m/^(.*)\/([^\.\/]+)$/;
+
+    if ($parent) {
+        unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
+            throw Error::Simple( "Unable to create $this->{_web} - Hierrchical webs are disabled" );
+        }
+    
+        unless ( $session->webExists($parent) ) {
+            throw Error::Simple( 'Parent web ' . $parent . ' does not exist' );
+        }
+    }
+
     if ($templateWeb) {
         unless ( $session->webExists($templateWeb) ) {
             throw Error::Simple(
