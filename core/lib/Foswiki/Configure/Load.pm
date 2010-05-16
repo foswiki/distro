@@ -15,8 +15,10 @@ normal Foswiki operation.
 package Foswiki::Configure::Load;
 
 use strict;
+use warnings;
 
-our $TRUE = 1;
+our $TRUE  = 1;
+our $FALSE = 0;
 
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
