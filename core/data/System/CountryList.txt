@@ -109,6 +109,7 @@ List of countries used in the [[UserForm]]. To use this list in Foswiki applicat
 | Indonesia |
 | Iran |
 | Iraq |
+| Ireland |
 | Isle of Man |
 | Israel |
 | Italy |
