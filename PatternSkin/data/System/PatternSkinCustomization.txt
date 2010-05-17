@@ -73,18 +73,18 @@ You can also test this by appending =?template=OnlyMoreView= to the url.
 
 ---++ Reference: pattern skin template INCLUDE tree
 
-The =view= script invokes the =view= template:
+The =view= script invokes the =view= template:  (Note that to simplify customization of the top and side bar layouts, the templates include an "Example" topic if the corresponding topic does not exist.  Copy the example topic rather than changing the example directly.)
 <verbatim>
 view
     foswiki
         css
         viewtopbar
-            %SYSTEMWEB%.WebTopBar
+            %SYSTEMWEB%.WebTopBar or %SYSTEMWEB%.WebTopBarExample
         viewsidebar
-            %WEB%.WebLeftBar
+            %WEB%.WebLeftBar or  %SYSTEMWEB%.WebLeftBarExample
         viewtopicactionbuttons
         viewbottombar
-            %SYSTEMWEB%.WebBottomBar
+            %SYSTEMWEB%.WebBottomBar or %SYSTEMWEB%.WebBottomBarExample
 </verbatim>
 
 ---++ Logo
@@ -228,6 +228,7 @@ and add:
 *Using style sheets:* %BR%
 See PatternSkinCssCookbookNoTopBar
 
+#LeftBar
 ---++ Left bar
 
 ---+++ I want to hide the side bar
