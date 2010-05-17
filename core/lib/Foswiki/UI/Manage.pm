@@ -140,8 +140,9 @@ sub _action_createweb {
         unless ( $session->webExists($parent) ) {
             throw Foswiki::OopsException(
                 'attention',
-                def    => 'base_web_missing',
-                params => [$parent]
+                def    => 'web_creation_error',
+                params => [$newWeb,$session->i18n->maketext(
+                    'The [_1] web does not exist', $parent)]
             );
         }
     }
