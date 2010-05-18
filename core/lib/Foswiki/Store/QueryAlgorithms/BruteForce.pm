@@ -115,7 +115,7 @@ sub _webQuery {
     else {
 
         #lets set it to simplify the TRUE case..
-        $queryIsAConstantFastpath |= 0;
+        $queryIsAConstantFastpath ||= 0;
     }
 
     require Foswiki::Query::HoistREs;
