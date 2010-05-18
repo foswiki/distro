@@ -778,7 +778,7 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
         # Use \s to match unicode whitespace, in anticipation of the day when
         # we unicode everything.
         $text =~ s#^\s+##;
-        $text =~ s#\s+$##;
+        $text =~ s#(</html>).*$#$1#is;
     }
 
     $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
