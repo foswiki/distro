@@ -11,6 +11,7 @@ Iterator over a perl list
 
 package Foswiki::ListIterator;
 use strict;
+use warnings;
 
 use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');

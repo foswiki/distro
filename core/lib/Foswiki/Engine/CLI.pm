@@ -14,6 +14,7 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::CLI;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Engine ();

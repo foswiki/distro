@@ -2,6 +2,7 @@
 package Foswiki::Validation;
 
 use strict;
+use warnings;
 
 use Assert;
 

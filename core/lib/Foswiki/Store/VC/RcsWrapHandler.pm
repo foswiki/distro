@@ -17,6 +17,7 @@ is analagous to the old =Foswiki::Store::RcsWrap=.
 
 package Foswiki::Store::VC::RcsWrapHandler;
 use strict;
+use warnings;
 
 use Foswiki::Store::VC::Handler ();
 our @ISA = ('Foswiki::Store::VC::Handler');

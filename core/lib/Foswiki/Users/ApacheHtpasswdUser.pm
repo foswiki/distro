@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Users::ApacheHtpasswdUser;
 use strict;
+use warnings;
 
 use Foswiki::Users::Password ();
 our @ISA = ('Foswiki::Users::Password');

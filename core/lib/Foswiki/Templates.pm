@@ -31,6 +31,7 @@ easily be coverted into a true singleton (template manager).
 package Foswiki::Templates;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Attrs ();

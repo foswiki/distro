@@ -31,6 +31,7 @@ the function or parameter.
 package Foswiki::Sandbox;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

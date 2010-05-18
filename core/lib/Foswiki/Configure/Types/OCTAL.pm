@@ -3,6 +3,7 @@
 package Foswiki::Configure::Types::OCTAL;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Types::NUMBER ();
 our @ISA = ('Foswiki::Configure::Types::NUMBER');

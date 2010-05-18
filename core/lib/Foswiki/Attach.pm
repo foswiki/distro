@@ -11,6 +11,7 @@ A singleton object of this class is used to deal with attachments to topics.
 package Foswiki::Attach;
 
 use strict;
+use warnings;
 use Assert;
 
 our $MARKER = "\0";

@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::MSWin32;
 
 use strict;
+use warnings;
 
 sub check {
     my $this = shift;

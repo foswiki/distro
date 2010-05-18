@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 #| $web | web and  |
 #| $topic | topic to display the name for |

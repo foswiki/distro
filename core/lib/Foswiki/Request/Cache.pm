@@ -19,6 +19,7 @@ request and restores them on reload.
 =cut
 
 use strict;
+use warnings;
 use Assert;
 
 use File::Copy   ();

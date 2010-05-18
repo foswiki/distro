@@ -14,6 +14,7 @@ This is a preference backend used to get preferences defined in a topic.
 package Foswiki::Prefs::TopicRAM;
 
 use strict;
+use warnings;
 
 use Foswiki::Prefs::BaseBackend ();
 our @ISA = qw(Foswiki::Prefs::BaseBackend);

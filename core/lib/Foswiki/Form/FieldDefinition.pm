@@ -16,6 +16,7 @@ a specific type cannot be loaded.
 package Foswiki::Form::FieldDefinition;
 
 use strict;
+use warnings;
 use Assert;
 
 =begin TML

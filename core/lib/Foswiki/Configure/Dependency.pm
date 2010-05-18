@@ -2,6 +2,7 @@
 package Foswiki::Configure::Dependency;
 
 use strict;
+use warnings;
 
 my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
 my $mnamess = join( '|', @MNAMES );

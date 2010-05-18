@@ -3,6 +3,7 @@
 package Foswiki::Configure::Types::BOOLEAN;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Type ();
 our @ISA = ('Foswiki::Configure::Type');

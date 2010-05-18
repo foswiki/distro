@@ -10,6 +10,7 @@ UI methods for password management.
 package Foswiki::UI::Passwords;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

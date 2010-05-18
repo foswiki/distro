@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::cygwin;
 
 use strict;
+use warnings;
 
 sub check {
     my $this = shift;

@@ -10,6 +10,7 @@
 package Foswiki::Configure::Pluggable;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Section ();
 our @ISA = ('Foswiki::Configure::Section');

@@ -11,6 +11,7 @@ Implementation of a Foswiki::Cache using DB_File;
 package Foswiki::Cache::DB_File;
 
 use strict;
+use warnings;
 use DB_File;
 use Storable       ();
 use Foswiki::Cache ();

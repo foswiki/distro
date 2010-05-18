@@ -2,6 +2,7 @@
 package Foswiki::Form::Checkbox;
 
 use strict;
+use warnings;
 
 use Foswiki::Form::ListFieldDefinition ();
 our @ISA = ('Foswiki::Form::ListFieldDefinition');

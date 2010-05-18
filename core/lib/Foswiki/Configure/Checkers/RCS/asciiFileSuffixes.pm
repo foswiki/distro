@@ -4,6 +4,7 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 use strict;
+use warnings;
 
 sub check { return shift->checkRE('{RCS}{asciiFileSuffixes}'); }
 

@@ -42,6 +42,7 @@ with CGI accelerators such as mod_perl.
 =cut
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 use Monitor                  ();

@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 # Poor-man's content access.
 sub META {

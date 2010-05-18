@@ -3,6 +3,7 @@
 package Foswiki::Configure::LANGUAGES;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');

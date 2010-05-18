@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 my @DIG = map { chr($_) } (0..9);
 
 # Returns a decimal number encoded as a string where each digit is

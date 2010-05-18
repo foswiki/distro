@@ -11,6 +11,7 @@ UI functions for searching.
 package Foswiki::UI::Search;
 
 use strict;
+use warnings;
 
 use Foswiki ();
 

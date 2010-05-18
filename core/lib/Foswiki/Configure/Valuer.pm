@@ -11,6 +11,7 @@
 package Foswiki::Configure::Valuer;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Type ();
 

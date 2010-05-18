@@ -11,6 +11,7 @@ Implementation of a Foswiki::Cache using Cache::MemoryCache
 package Foswiki::Cache::MemoryCache;
 
 use strict;
+use warnings;
 use Cache::MemoryCache;
 use Foswiki::Cache;
 

@@ -11,6 +11,7 @@ Implementation of a Foswiki::Cache using BerkeleyDB
 package Foswiki::Cache::BDB;
 
 use strict;
+use warnings;
 use BerkeleyDB;
 use Storable       ();
 use Foswiki::Cache ();

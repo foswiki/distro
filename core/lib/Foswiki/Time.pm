@@ -33,6 +33,7 @@ the function or parameter.
 package Foswiki::Time;
 
 use strict;
+use warnings;
 
 use Foswiki ();
 

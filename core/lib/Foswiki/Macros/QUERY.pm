@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 our $evalParser; # could share $ifParser from IF.pm
 

@@ -11,6 +11,7 @@ Support for strings translation and language detection.
 package Foswiki::I18N;
 
 use strict;
+use warnings;
 use Assert;
 
 our $initialised;

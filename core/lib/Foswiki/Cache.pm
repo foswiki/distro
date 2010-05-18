@@ -10,6 +10,7 @@ Base class for Foswiki::Cache implementations
 package Foswiki::Cache;
 
 use strict;
+use warnings;
 
 # static poor man's debugging tools
 sub writeDebug {

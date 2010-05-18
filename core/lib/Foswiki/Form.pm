@@ -30,6 +30,7 @@ of possible values.
 
 package Foswiki::Form;
 use strict;
+use warnings;
 
 use Foswiki::Meta ();
 our @ISA = ('Foswiki::Meta');

@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::InfoCache;
 use strict;
+use warnings;
 
 use Foswiki::ListIterator ();
 our @ISA = ('Foswiki::ListIterator');

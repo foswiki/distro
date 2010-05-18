@@ -2,6 +2,7 @@
 package Foswiki::Logger;
 
 use strict;
+use warnings;
 
 use Assert;
 

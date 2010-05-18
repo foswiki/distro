@@ -3,6 +3,7 @@
 package Foswiki::Configure::Checker;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');

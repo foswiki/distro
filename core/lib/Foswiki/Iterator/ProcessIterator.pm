@@ -12,6 +12,7 @@ element in the iteration.
 package Foswiki::Iterator::ProcessIterator;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Iterator ();

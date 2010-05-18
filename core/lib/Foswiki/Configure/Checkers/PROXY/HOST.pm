@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::PROXY::HOST;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Checker;
 

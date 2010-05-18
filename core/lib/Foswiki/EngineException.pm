@@ -14,6 +14,7 @@ following fields:
 package Foswiki::EngineException;
 
 use strict;
+use warnings;
 
 use Error ();
 our @ISA = ('Error');

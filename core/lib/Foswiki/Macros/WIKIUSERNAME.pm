@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 require Foswiki::Macros::USERINFO;
 
 # DEPRECATED, now implemented using %USERINFO%

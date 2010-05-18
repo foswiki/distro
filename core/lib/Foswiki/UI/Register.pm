@@ -11,6 +11,7 @@ User registration handling.
 package Foswiki::UI::Register;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

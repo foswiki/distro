@@ -2,6 +2,7 @@
 package Foswiki::Form::Text;
 
 use strict;
+use warnings;
 
 use Foswiki::Form::FieldDefinition ();
 our @ISA = ('Foswiki::Form::FieldDefinition');

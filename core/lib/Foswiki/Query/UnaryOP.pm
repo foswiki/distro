@@ -2,6 +2,7 @@
 package Foswiki::Query::UnaryOP;
 
 use strict;
+use warnings;
 use Foswiki::Query::OP;
 our @ISA = ( 'Foswiki::Query::OP');
 

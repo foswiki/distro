@@ -17,6 +17,7 @@ methods of this class.
 package Foswiki::LoginManager::TemplateLogin;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::LoginManager ();

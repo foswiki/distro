@@ -16,6 +16,7 @@ phase invoked from the END block happens.
 package Foswiki::Engine::Legacy;
 
 use strict;
+use warnings;
 
 our @ISA;
 my ( $request, $response );

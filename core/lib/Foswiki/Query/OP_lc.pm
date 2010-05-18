@@ -9,6 +9,7 @@
 package Foswiki::Query::OP_lc;
 
 use strict;
+use warnings;
 
 use Foswiki::Query::UnaryOP ();
 our @ISA = ('Foswiki::Query::UnaryOP');

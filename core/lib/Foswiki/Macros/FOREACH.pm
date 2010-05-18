@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub FOREACH {
     my ( $this, $params, $topicObject ) = @_;

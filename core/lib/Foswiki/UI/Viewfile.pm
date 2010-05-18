@@ -10,6 +10,7 @@ UI delegate for viewfile function
 =cut
 
 use strict;
+use warnings;
 use integer;
 use CGI::Carp qw( fatalsToBrowser );
 

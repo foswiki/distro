@@ -2,6 +2,7 @@
 package Foswiki::WebFilter;
 
 use strict;
+use warnings;
 
 #TODO: documentme
 #TODO: should this be converted to a FilterIterator?

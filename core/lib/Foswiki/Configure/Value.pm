@@ -3,6 +3,7 @@
 package Foswiki::Configure::Value;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');

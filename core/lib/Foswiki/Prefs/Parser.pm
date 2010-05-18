@@ -16,6 +16,7 @@ simply returns the recognized settings in the order it sees them in.
 package Foswiki::Prefs::Parser;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki ();

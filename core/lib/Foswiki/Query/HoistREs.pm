@@ -15,6 +15,7 @@ See =Store/RcsFile.pm= for an example of usage.
 package Foswiki::Query::HoistREs;
 
 use strict;
+use warnings;
 
 use Foswiki::Infix::Node ();
 use Foswiki::Query::Node ();

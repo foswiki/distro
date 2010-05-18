@@ -11,6 +11,7 @@ Coordinator of execution flow and service functions used by the UI packages
 package Foswiki::UI;
 
 use strict;
+use warnings;
 
 BEGIN {
     #Monitor::MARK("Start of BEGIN block in UI.pm");

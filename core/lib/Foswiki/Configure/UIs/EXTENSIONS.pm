@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::UIs::EXTENSIONS;
 use strict;
+use warnings;
 
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');

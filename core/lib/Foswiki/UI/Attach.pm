@@ -11,6 +11,7 @@ UI delegate for attachment management functions
 package Foswiki::UI::Attach;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

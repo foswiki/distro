@@ -11,6 +11,7 @@ Implementation of a Foswiki::Cache using Cache::FileCache
 package Foswiki::Cache::FileCache;
 
 use strict;
+use warnings;
 use Cache::FileCache;
 use Foswiki::Cache;
 

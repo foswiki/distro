@@ -4,6 +4,7 @@
 package Foswiki::Configure::GlobalControls;
 
 use strict;
+use warnings;
 
 sub new {
     my ( $class, $groupid ) = @_;

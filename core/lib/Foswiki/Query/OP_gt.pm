@@ -9,6 +9,7 @@
 package Foswiki::Query::OP_gt;
 
 use strict;
+use warnings;
 
 use Foswiki::Query::BinaryOP ();
 our @ISA = ('Foswiki::Query::BinaryOP');

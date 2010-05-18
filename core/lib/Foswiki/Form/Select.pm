@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Select;
 use strict;
+use warnings;
 
 use Foswiki::Form::ListFieldDefinition ();
 our @ISA = ('Foswiki::Form::ListFieldDefinition');

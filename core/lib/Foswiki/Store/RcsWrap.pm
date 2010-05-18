@@ -18,6 +18,7 @@ has no equivalent in Foswiki 1.0. The equivalent of the old
 package Foswiki::Store::RcsWrap;
 
 use strict;
+use warnings;
 
 use Foswiki::Store::VC::Store ();
 our @ISA = ('Foswiki::Store::VC::Store');

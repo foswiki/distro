@@ -11,6 +11,7 @@ UI delegate for oops function
 package Foswiki::UI::Oops;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki ();

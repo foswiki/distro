@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 #
 # SMELL: this is _not_ a tag handler in the sense of other builtin tags,

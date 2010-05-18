@@ -20,6 +20,7 @@ See the documentation of HTTP::Response for information about the methods.
 package Foswiki::Net::HTTPResponse;
 
 use strict;
+use warnings;
 use Assert;
 
 sub new {

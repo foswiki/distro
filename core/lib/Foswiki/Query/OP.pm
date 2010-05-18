@@ -2,6 +2,7 @@
 package Foswiki::Query::OP;
 
 use strict;
+use warnings;
 
 sub new {
     my ($class, %opts) = @_;

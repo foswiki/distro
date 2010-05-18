@@ -3,6 +3,7 @@
 package Foswiki::Configure::UIs::Introduction;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::TemplateParser ();
 use Foswiki::Configure::UIs::Section   ();

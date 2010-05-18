@@ -12,6 +12,7 @@ Node class for the result of an If statement parse
 package Foswiki::If::Node;
 
 use strict;
+use warnings;
 
 use Foswiki::Query::Node ();
 our @ISA = ('Foswiki::Query::Node');

@@ -24,6 +24,7 @@ is analagous to =Foswiki::Store::RcsFile=.
 package Foswiki::Store::VC::Handler;
 
 use strict;
+use warnings;
 use Assert;
 
 use IO::File       ();

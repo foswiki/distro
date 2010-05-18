@@ -51,6 +51,7 @@
 package Foswiki::Configure::FoswikiCfg;
 
 use strict;
+use warnings;
 use Data::Dumper ();
 
 use Foswiki::Configure::Util      ();

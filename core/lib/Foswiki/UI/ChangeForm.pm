@@ -11,6 +11,7 @@ Service functions used by the UI packages
 package Foswiki::UI::ChangeForm;
 
 use strict;
+use warnings;
 use Error qw( :try );
 use Assert;
 

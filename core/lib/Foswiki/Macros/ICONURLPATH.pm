@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 use Foswiki::Macros::ICON ();
 

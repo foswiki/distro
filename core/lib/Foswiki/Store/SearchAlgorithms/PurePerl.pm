@@ -3,6 +3,7 @@
 package Foswiki::Store::SearchAlgorithms::PurePerl;
 
 use strict;
+use warnings;
 use Assert;
 use Foswiki::Search::InfoCache;
 use Foswiki::Search::ResultSet;

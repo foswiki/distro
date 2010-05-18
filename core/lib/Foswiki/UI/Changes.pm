@@ -3,6 +3,7 @@
 package Foswiki::UI::Changes;
 
 use strict;
+use warnings;
 
 use Assert;
 use Error qw( :try );

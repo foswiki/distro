@@ -2,6 +2,7 @@
 package Foswiki::Logger::PlainFile;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Logger ();

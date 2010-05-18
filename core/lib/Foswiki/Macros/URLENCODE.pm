@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 *Foswiki::URLENCODE = \&Foswiki::ENCODE;
 

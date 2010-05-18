@@ -57,6 +57,7 @@ to a user.
 package Foswiki::Users;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::AggregateIterator ();

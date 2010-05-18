@@ -5,6 +5,7 @@
 package Foswiki::I18N::Fallback;
 
 use strict;
+use warnings;
 
 use Foswiki::I18N ();
 our @ISA = ('Foswiki::I18N');

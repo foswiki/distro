@@ -2,6 +2,7 @@
 package Foswiki::Configure::Types::LANGUAGE;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Types::BOOLEAN ();
 our @ISA = ('Foswiki::Configure::Types::BOOLEAN');

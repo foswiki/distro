@@ -11,6 +11,7 @@ Class of errors used with Foswiki::Infix::Parser
 package Foswiki::Infix::Error;
 
 use strict;
+use warnings;
 
 use Error ();
 our @ISA = ('Error');

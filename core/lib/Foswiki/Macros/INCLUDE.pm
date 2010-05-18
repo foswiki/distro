@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 # applyPatternToIncludedText( $text, $pattern ) -> $text
 # Apply a pattern on included text to extract a subset

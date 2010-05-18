@@ -13,6 +13,7 @@ in one place.
 package Foswiki::UI::Manage;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

@@ -10,6 +10,7 @@ Exception used raise a validation error. See also Foswiki::Validation.
 
 package Foswiki::ValidationException;
 use strict;
+use warnings;
 use Error ();
 our @ISA = ( 'Error' ); # base class
 

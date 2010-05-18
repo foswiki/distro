@@ -10,6 +10,7 @@ Foswiki::PageCache interface
 package Foswiki::PageCache;
 
 use strict;
+use warnings;
 use Foswiki::Cache;
 use Foswiki::Time;
 use Foswiki::Attrs;

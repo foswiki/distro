@@ -13,6 +13,7 @@ method INCLUDE.
 package Foswiki::IncludeHandlers::doc;
 
 use strict;
+use warnings;
 
 use Foswiki ();
 

@@ -49,6 +49,7 @@ the function or parameter.
 package Foswiki::Func;
 
 use strict;
+use warnings;
 use Error qw( :try );
 use Assert;
 

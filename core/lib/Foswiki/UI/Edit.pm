@@ -10,6 +10,7 @@ Edit command handler
 =cut
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

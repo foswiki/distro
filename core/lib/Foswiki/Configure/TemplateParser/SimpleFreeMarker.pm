@@ -3,6 +3,7 @@
 package Foswiki::Configure::TemplateParser::SimpleFreeMarker;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::TemplateParser ();
 our @ISA = ('Foswiki::Configure::TemplateParser');

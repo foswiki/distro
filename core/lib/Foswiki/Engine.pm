@@ -15,6 +15,7 @@ to achieve correct behavior.
 package Foswiki::Engine;
 
 use strict;
+use warnings;
 use Error qw( :try );
 use Assert;
 use Scalar::Util ();

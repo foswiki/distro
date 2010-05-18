@@ -15,6 +15,7 @@ hash.
 package Foswiki::Prefs::HASH;
 
 use strict;
+use warnings;
 
 use Foswiki::Prefs::BaseBackend ();
 our @ISA = qw(Foswiki::Prefs::BaseBackend);

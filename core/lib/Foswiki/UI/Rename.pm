@@ -11,6 +11,7 @@ UI functions for renaming.
 package Foswiki::UI::Rename;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw(:try);
 

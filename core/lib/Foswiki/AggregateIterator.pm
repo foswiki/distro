@@ -11,6 +11,7 @@ Combine multiple iterators into a single iteration.
 
 package Foswiki::AggregateIterator;
 use strict;
+use warnings;
 
 use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');

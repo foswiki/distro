@@ -12,6 +12,7 @@ Iterator over the lines read from a file handle.
 package Foswiki::LineIterator;
 
 use strict;
+use warnings;
 
 use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');

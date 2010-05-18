@@ -11,6 +11,7 @@ UI delegate for view function
 package Foswiki::UI::View;
 
 use strict;
+use warnings;
 use integer;
 use Monitor ();
 use Assert;

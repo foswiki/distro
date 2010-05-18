@@ -15,6 +15,7 @@ in future it will probably become more clever.
 
 package Foswiki::Search::ResultSet;
 use strict;
+use warnings;
 
 use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');

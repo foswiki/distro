@@ -2,6 +2,7 @@
 package Foswiki::Configure::Types::REGEX;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');

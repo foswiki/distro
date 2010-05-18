@@ -2,6 +2,7 @@
 package Foswiki::Configure::Types::NUMBER;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Type ();
 our @ISA = ('Foswiki::Configure::Type');

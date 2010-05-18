@@ -16,6 +16,7 @@ Fields:
 
 package Foswiki::Response;
 use strict;
+use warnings;
 use Assert;
 use CGI::Util qw(rearrange expires);
 

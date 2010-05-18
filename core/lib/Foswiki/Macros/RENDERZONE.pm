@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub RENDERZONE {
     my ( $this, $params, $topicObject ) = @_;

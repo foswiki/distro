@@ -11,6 +11,7 @@
 package Foswiki::Configure::Item;
 
 use strict;
+use warnings;
 
 sub new {
     my $class = shift;

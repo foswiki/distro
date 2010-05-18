@@ -12,6 +12,7 @@ it, but it may be useful.
 package Foswiki::Infix::Node;
 
 use strict;
+use warnings;
 
 # 1 for debug
 sub MONITOR_EVAL { 0 }

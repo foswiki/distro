@@ -99,6 +99,7 @@ the function or parameter.
 package Foswiki::Meta;
 
 use strict;
+use warnings;
 use Error qw(:try);
 use Assert;
 

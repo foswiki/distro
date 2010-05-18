@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub TOPICLIST {
     my ( $this, $params ) = @_;

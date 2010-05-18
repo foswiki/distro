@@ -27,6 +27,7 @@ Fields:
 
 package Foswiki::Request;
 use strict;
+use warnings;
 
 use CGI ();
 our @ISA = ('CGI');

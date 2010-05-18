@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 # DEPRECATED
 # This routine is deprecated as of TWiki 4.1,

@@ -37,6 +37,7 @@ Pictorially,
 package Foswiki::Configure::Package;
 
 use strict;
+use warnings;
 use Error qw(:try);
 use Assert;
 use Foswiki::Configure::Dependency;

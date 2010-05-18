@@ -15,6 +15,7 @@ to implement other password handling methods.
 package Foswiki::Users::Password;
 
 use strict;
+use warnings;
 use Assert;
 
 =begin TML

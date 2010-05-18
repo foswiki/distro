@@ -3,6 +3,7 @@
 package Foswiki::Configure::Types::SELECTCLASS;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Types::SELECT ();
 our @ISA = ('Foswiki::Configure::Types::SELECT');

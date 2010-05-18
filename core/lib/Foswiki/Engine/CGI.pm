@@ -13,6 +13,7 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::CGI;
 
 use strict;
+use warnings;
 
 use Foswiki::Engine ();
 our @ISA = ('Foswiki::Engine');

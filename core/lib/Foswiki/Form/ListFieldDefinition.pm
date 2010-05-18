@@ -12,6 +12,7 @@ can *store* multiple values.
 package Foswiki::Form::ListFieldDefinition;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Form::FieldDefinition ();

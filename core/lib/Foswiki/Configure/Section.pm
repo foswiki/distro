@@ -7,6 +7,7 @@
 package Foswiki::Configure::Section;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');

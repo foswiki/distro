@@ -13,6 +13,7 @@ See documentation of that class for descriptions of the methods of this class.
 
 package Foswiki::Users::HtPasswdUser;
 use strict;
+use warnings;
 
 use Foswiki::Users::Password ();
 our @ISA = ('Foswiki::Users::Password');

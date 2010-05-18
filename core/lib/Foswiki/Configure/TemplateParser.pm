@@ -29,6 +29,7 @@
 package Foswiki::Configure::TemplateParser;
 
 use strict;
+use warnings;
 use Foswiki::Configure::Util ();
 
 # Where to look for templates and resources

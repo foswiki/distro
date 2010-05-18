@@ -11,6 +11,7 @@ Statistics extraction and presentation
 package Foswiki::UI::Statistics;
 
 use strict;
+use warnings;
 use Assert;
 use File::Copy qw(copy);
 use IO::File ();

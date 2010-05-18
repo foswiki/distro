@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub ADDTOHEAD {
     my ( $this, $args, $topicObject ) = @_;

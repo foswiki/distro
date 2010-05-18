@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::Log::Implementation;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');

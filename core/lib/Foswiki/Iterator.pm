@@ -19,6 +19,7 @@ See Foswiki::ListIterator for an example implementation.
 package Foswiki::Iterator;
 
 use strict;
+use warnings;
 use Assert;
 
 =begin TML

@@ -12,6 +12,7 @@ document the interface and provide facilities methods.
 package Foswiki::Prefs::BaseBackend;
 
 use strict;
+use warnings;
 use Assert;
 
 =begin TML

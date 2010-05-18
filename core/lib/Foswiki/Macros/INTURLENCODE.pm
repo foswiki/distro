@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 # DEPRECATED
 # This routine was introduced to URL encode Mozilla UTF-8 POST URLs in the

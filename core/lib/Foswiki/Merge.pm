@@ -11,6 +11,7 @@ Support for merging strings
 package Foswiki::Merge;
 
 use strict;
+use warnings;
 use Assert;
 
 use CGI ();

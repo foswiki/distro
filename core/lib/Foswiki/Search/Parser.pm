@@ -13,6 +13,7 @@ If if becomes useful, it will become a set of Nodes as for Foswiki::Query
 package Foswiki::Search::Parser;
 
 use strict;
+use warnings;
 
 use Assert;
 use Error qw( :try );

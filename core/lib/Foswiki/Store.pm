@@ -43,6 +43,7 @@ would be unable to do if passed $web, $topic.
 package Foswiki::Store;
 
 use strict;
+use warnings;
 
 use Error qw( :try );
 use Assert;

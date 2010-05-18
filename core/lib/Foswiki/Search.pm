@@ -10,6 +10,7 @@ This module implements all the search functionality.
 =cut
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

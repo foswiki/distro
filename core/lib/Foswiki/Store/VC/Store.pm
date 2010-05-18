@@ -31,6 +31,7 @@ These methods are documented in the Foswiki:Store abstract base class
 
 package Foswiki::Store::VC::Store;
 use strict;
+use warnings;
 
 use Foswiki::Store ();
 our @ISA = ('Foswiki::Store');

@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;

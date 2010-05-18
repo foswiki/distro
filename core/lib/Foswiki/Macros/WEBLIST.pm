@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub WEBLIST {
     my ( $this, $params ) = @_;

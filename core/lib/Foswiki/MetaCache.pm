@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::MetaCache;
 use strict;
+use warnings;
 
 =begin TML
 

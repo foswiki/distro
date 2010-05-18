@@ -11,6 +11,7 @@ UI delegate for save function
 package Foswiki::UI::Save;
 
 use strict;
+use warnings;
 use Error qw( :try );
 use Assert;
 

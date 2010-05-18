@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub REVARG {
     my ( $this, $params ) = @_;

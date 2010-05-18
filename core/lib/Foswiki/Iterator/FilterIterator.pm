@@ -11,6 +11,7 @@ Iterator that filters another iterator based on the results from a function.
 package Foswiki::Iterator::FilterIterator;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Iterator ();

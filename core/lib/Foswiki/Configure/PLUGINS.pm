@@ -4,6 +4,7 @@
 package Foswiki::Configure::PLUGINS;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');

@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::CGISetup;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Section ();
 our @ISA = ('Foswiki::Configure::Section');

@@ -3,6 +3,7 @@
 package Foswiki::Configure::Util;
 
 use strict;
+use warnings;
 
 sub getScriptName {
     my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );

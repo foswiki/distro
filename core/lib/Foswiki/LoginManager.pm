@@ -48,6 +48,7 @@ The Foswiki object this login manager is attached to.
 package Foswiki::LoginManager;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

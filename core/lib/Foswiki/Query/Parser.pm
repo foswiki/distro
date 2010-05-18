@@ -11,6 +11,7 @@ Parser for queries
 package Foswiki::Query::Parser;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Infix::Parser ();

@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub VAR {
     my ( $this, $params, $topicObject ) = @_;

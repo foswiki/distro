@@ -3,6 +3,7 @@
 package Foswiki::Configure::UIs::PLUGINS;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::UIs::Section ();
 our @ISA = ('Foswiki::Configure::UIs::Section');

@@ -6,6 +6,7 @@
 package Foswiki::Net::UserCredAgent;
 
 use strict;
+use warnings;
 
 use LWP::UserAgent ();
 our @ISA = ('LWP::UserAgent');

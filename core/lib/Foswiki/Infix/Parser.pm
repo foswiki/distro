@@ -14,6 +14,7 @@ Escapes are supported in strings, using backslash.
 package Foswiki::Infix::Parser;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 use Foswiki::Infix::Error ();

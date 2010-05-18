@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::LocalesDir;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');

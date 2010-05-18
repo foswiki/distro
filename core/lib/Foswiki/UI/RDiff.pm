@@ -11,6 +11,7 @@ UI functions for diffing.
 package Foswiki::UI::RDiff;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

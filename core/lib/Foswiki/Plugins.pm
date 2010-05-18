@@ -15,6 +15,7 @@ handler calls to registered plugins.
 package Foswiki::Plugins;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Plugin ();

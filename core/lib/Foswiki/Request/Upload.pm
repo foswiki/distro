@@ -11,6 +11,7 @@ Class to encapsulate uploaded file info.
 package Foswiki::Request::Upload;
 
 use strict;
+use warnings;
 use Assert;
 
 use IO::File ();

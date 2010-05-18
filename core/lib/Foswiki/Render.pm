@@ -10,6 +10,7 @@ This module provides most of the actual HTML rendering code in Foswiki.
 =cut
 
 use strict;
+use warnings;
 use Assert;
 use Error qw(:try);
 

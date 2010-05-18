@@ -3,6 +3,7 @@
 package Foswiki::UI::Preview;
 
 use strict;
+use warnings;
 use Error qw( :try );
 
 use Foswiki                ();

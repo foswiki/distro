@@ -27,6 +27,7 @@ query algorithms.
 
 package Foswiki::Query::Node;
 use strict;
+use warnings;
 use Foswiki::Infix::Node ();
 our @ISA = ('Foswiki::Infix::Node');
 

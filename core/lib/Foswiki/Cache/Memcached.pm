@@ -11,6 +11,7 @@ implementation of a Foswiki::Cache using memcached
 package Foswiki::Cache::Memcached;
 
 use strict;
+use warnings;
 use Cache::Memcached;
 use Foswiki::Cache;
 

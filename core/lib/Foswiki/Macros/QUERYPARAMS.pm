@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 require Foswiki::Macros::ENCODE;
 
 sub QUERYPARAMS {

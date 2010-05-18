@@ -6,6 +6,7 @@
 package Foswiki::Plugin;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw(:try);
 

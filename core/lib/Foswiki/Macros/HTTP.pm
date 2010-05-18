@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub HTTP {
     my ( $this, $params ) = @_;

@@ -11,6 +11,7 @@ UI delegate for REST interface
 package Foswiki::UI::Rest;
 
 use strict;
+use warnings;
 use Foswiki ();
 use Error qw( :try );
 

@@ -9,6 +9,7 @@
 package Foswiki::If::OP_istopic;
 
 use strict;
+use warnings;
 
 use Foswiki::Query::UnaryOP ();
 our @ISA = ('Foswiki::Query::UnaryOP');

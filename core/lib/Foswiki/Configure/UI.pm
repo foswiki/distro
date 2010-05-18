@@ -11,6 +11,7 @@
 package Foswiki::Configure::UI;
 
 use strict;
+use warnings;
 use File::Spec ();
 use FindBin    ();
 

@@ -85,6 +85,7 @@ yyyyyy   is the new line 5
 
 package Foswiki::Store::VC::RcsLiteHandler;
 use strict;
+use warnings;
 
 use Foswiki::Store::VC::Handler ();
 our @ISA = ('Foswiki::Store::VC::Handler');

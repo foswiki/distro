@@ -13,6 +13,7 @@ method INCLUDE. Also handles https:
 package Foswiki::IncludeHandlers::http;
 
 use strict;
+use warnings;
 
 use Foswiki ();
 

@@ -2,6 +2,7 @@
 package Foswiki::Compatibility;
 
 use strict;
+use warnings;
 use Assert;
 
 =begin TML

@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub REVTITLE {
     my ( $this, $params, $topicObject ) = @_;

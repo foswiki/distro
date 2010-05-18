@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub LANGUAGES {
     my ( $this, $params ) = @_;

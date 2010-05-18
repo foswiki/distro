@@ -2,6 +2,7 @@
 package Foswiki::Configure::Checkers::BasicSanity;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Checker ();
 use Foswiki::Configure::Util ();

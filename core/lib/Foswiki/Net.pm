@@ -15,6 +15,7 @@ Object that brokers access to network resources.
 package Foswiki::Net;
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 

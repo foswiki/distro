@@ -2,6 +2,7 @@
 package Foswiki;
 
 use strict;
+use warnings;
 
 sub EXPAND {
     my ( $this, $params ) = @_;

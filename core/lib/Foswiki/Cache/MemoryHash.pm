@@ -11,6 +11,7 @@ Implementation of a Foswiki::Cache using an in-memory perl hash
 package Foswiki::Cache::MemoryHash;
 
 use strict;
+use warnings;
 use Foswiki::Cache;
 use vars qw($sharedCache);
 

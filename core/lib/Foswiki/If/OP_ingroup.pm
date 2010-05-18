@@ -9,6 +9,7 @@
 package Foswiki::If::OP_ingroup;
 
 use strict;
+use warnings;
 
 use Foswiki::Query::BinaryOP ();
 our @ISA = ('Foswiki::Query::BinaryOP');

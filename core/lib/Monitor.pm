@@ -37,6 +37,7 @@ TODO: replace FOSWIKI_MONITOR with LocalSite.cfg setting that can turn on per mo
 package Monitor;
 
 use strict;
+use warnings;
 
 our @times;
 our @methodStats;

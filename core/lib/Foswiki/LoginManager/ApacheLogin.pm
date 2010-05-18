@@ -22,6 +22,7 @@ methods of this class.
 package Foswiki::LoginManager::ApacheLogin;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::LoginManager ();

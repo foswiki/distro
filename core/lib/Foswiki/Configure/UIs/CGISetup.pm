@@ -3,6 +3,7 @@
 package Foswiki::Configure::UIs::CGISetup;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Util         ();
 use Foswiki::Configure::UIs::Section ();

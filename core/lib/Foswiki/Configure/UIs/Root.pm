@@ -3,6 +3,7 @@
 package Foswiki::Configure::UIs::Root;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::UI ();
 

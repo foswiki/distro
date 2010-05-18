@@ -3,6 +3,7 @@
 package Foswiki::Configure::Types::PASSWORD;
 
 use strict;
+use warnings;
 
 use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');

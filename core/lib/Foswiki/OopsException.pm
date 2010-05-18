@@ -90,6 +90,7 @@ the function or parameter.
 
 package Foswiki::OopsException;
 use strict;
+use warnings;
 
 use Error ();
 our @ISA = ('Error');

@@ -7,6 +7,7 @@
 package Foswiki::Configure::UIs::Section;
 
 use strict;
+use warnings;
 use Foswiki::Configure::UIs::Value ();
 use Foswiki::Configure::UI         ();
 our @ISA = ('Foswiki::Configure::UI');

@@ -11,6 +11,7 @@ Support for the conditions in %IF{} statements.
 package Foswiki::If::Parser;
 
 use strict;
+use warnings;
 
 use Foswiki::Query::Parser ();
 our @ISA = ('Foswiki::Query::Parser');
