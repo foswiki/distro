@@ -19,37 +19,40 @@ speed and memory size. It also depends on the complexity of the query.
 
 package Foswiki::Store::QueryAlgorithms::BruteForce;
 use strict;
+
 #@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
 
-use Foswiki::Search::Node       ();
-use Foswiki::Meta               ();
-use Foswiki::Search::InfoCache  ();
-use Foswiki::Search::ResultSet  ();
-use Foswiki::MetaCache          ();
+use Foswiki::Search::Node      ();
+use Foswiki::Meta              ();
+use Foswiki::Search::InfoCache ();
+use Foswiki::Search::ResultSet ();
+use Foswiki::MetaCache         ();
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
-#TODO: th 1==2 and other false optimisations..
-    #if ( !defined($query->{tokens}) or 
+    #TODO: th 1==2 and other false optimisations..
+    #if ( !defined($query->{tokens}) or
     #    (@{ $query->{tokens} } ) == 0) {
     #    return new Foswiki::Search::InfoCache($session, '');
     #}
 
     # Eliminate static expressions
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    $query->simplify(tom => $context, data => $context );
+    $query->simplify( tom => $context, data => $context );
 
     my $webNames = $options->{web}       || '';
-    my $recurse = $options->{'recurse'} || '';
-    my $isAdmin = $session->{users}->isAdmin( $session->{user} );
+    my $recurse  = $options->{'recurse'} || '';
+    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
 
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
+        $searchAllFlag );
 
     my @resultCacheList;
     foreach my $web (@webs) {
+
         # can't process what ain't thar
         next unless $session->webExists($web);
 
@@ -63,85 +66,139 @@ sub query {
             && !$isAdmin
             && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
-        
+
         #TODO: combine these into one great ResultSet
-        my $infoCache = _webQuery($query, $web, $inputTopicSet, $session, $options);
-        push(@resultCacheList, $infoCache);
+        my $infoCache =
+          _webQuery( $query, $web, $inputTopicSet, $session, $options );
+        push( @resultCacheList, $infoCache );
     }
-    my $resultset = new Foswiki::Search::ResultSet(\@resultCacheList, $options->{groupby}, $options->{order}, Foswiki::isTrue( $options->{reverse} ));
+    my $resultset =
+      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
+        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+
     #TODO: $options should become redundant
-    $resultset->sortResults( $options );
+    $resultset->sortResults($options);
     return $resultset;
 }
-
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
+    my $resultTopicSet =
+      new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web );
+
+#see if this query can be fasttracked.
+#TODO: is this simplification call appropriate here, or should it go in Search.pm
+#TODO: what about simplify to constant in _this_ web?
+    my $queryIsAConstantFastpath;    #undefined if this is a 'real' query'
+    $query->simplify();
+    if ( $query->evaluatesToConstant() ) {
+
+        #SMELL: use any old topic
+        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get( $web,
+            'WebPreferences' );
+        my $meta = $cache->{tom};
+        $queryIsAConstantFastpath =
+          $query->evaluate( tom => $meta, data => $meta );
+
+        #print STDERR "fastpath $queryIsAConstantFastpath\n";
+    }
+
+    if ( defined($queryIsAConstantFastpath) and not $queryIsAConstantFastpath )
+    {
+
+        #CONSTANT == FALSE - return no results
+        return $resultTopicSet;
+    }
+    else {
+
+        #lets set it to simplify the TRUE case..
+        $queryIsAConstantFastpath |= 0;
+    }
+
     require Foswiki::Query::HoistREs;
     my $hoistedREs = Foswiki::Query::HoistREs::collatedHoist($query);
-    
-    if ((!defined($options->{topic})) and 
-        ($hoistedREs->{name}) and
-        (scalar(@{$hoistedREs->{name}}) == 1)   #only do this if the 'name' query is simple (ie, has only one element)
-        ) {
-            my @filter = @{$hoistedREs->{name_source}};
-            #set the 'includetopic' matcher..
-            $options->{topic} = $filter[0];
+
+    if (
+            ( !defined( $options->{topic} ) )
+        and ( $hoistedREs->{name} )
+        and (
+            scalar( @{ $hoistedREs->{name} } ) == 1
+        ) #only do this if the 'name' query is simple (ie, has only one element)
+      )
+    {
+        my @filter = @{ $hoistedREs->{name_source} };
+
+        #set the 'includetopic' matcher..
+        $options->{topic} = $filter[0];
     }
 
     my $topicSet = $inputTopicSet;
-    if (!defined($topicSet)) {
+    if ( !defined($topicSet) ) {
+
         #then we start with the whole web?
         #TODO: i'm sure that is a flawed assumption
         my $webObject = Foswiki::Meta->new( $session, $web );
-        $topicSet = Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
+        $topicSet =
+          Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
+            $options );
     }
 
     #TODO: howto ask iterator for list length?
     #TODO: once the inputTopicSet isa ResultSet we might have an idea
-    #    if ( scalar(@$topics) > 6 ) {
-    if ( defined($hoistedREs->{text}) ) {
+    #TODO: I presume $hoisetedRE's is undefined for constant queries..
+    #    if (() and ( scalar(@$topics) > 6 )) {
+    if ( defined( $hoistedREs->{text} ) ) {
         my $searchOptions = {
             type                => 'regex',
             casesensitive       => 1,
             files_without_match => 1,
         };
-        my @filter = @{$hoistedREs->{text}};
+        my @filter = @{ $hoistedREs->{text} };
         my $searchQuery =
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
-         $topicSet->reset();
+        $topicSet->reset();
         $topicSet =
-          $session->{store}->searchInWebMetaData(
-              $searchQuery, $web, $topicSet, $session, $searchOptions );
+          $session->{store}
+          ->searchInWebMetaData( $searchQuery, $web, $topicSet, $session,
+            $searchOptions );
     }
     else {
-
 
 #TODO: clearly _this_ can be re-written as a FilterIterator, and if we are able to use the sorting hints (ie DB Store) can propogate all the way to FORMAT
 
         #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
     }
-    my $resultTopicSet =
-      new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web);
+
     local $/;
     $topicSet->reset();
     while ( $topicSet->hasNext() ) {
         my $webtopic = $topicSet->next();
-        my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get($Iweb, $topic);
-        my $meta = $cache->{tom};
+        my ( $Iweb, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+        if ($queryIsAConstantFastpath) {
 
-        # this 'lazy load' will become useful when @$topics becomes
-        # an infoCache
-        $meta->reload() unless ( $meta->getLoadedRev() );
-        next unless ( $meta->getLoadedRev() );
-        print STDERR "Processing $topic\n" if Foswiki::Query::Node::MONITOR_EVAL();
-        my $match = $query->evaluate( tom => $meta, data => $meta );
-        if ($match) {
-            $resultTopicSet->addTopic($meta);
+#TODO: frustratingly, there is no way to evaluate a filterIterator without actually iterating over it..
+            $resultTopicSet->addTopics( $Iweb, $topic );
+        }
+        else {
+            my $cache =
+              $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb,
+                $topic );
+            my $meta = $cache->{tom};
+
+            # this 'lazy load' will become useful when @$topics becomes
+            # an infoCache
+            $meta->reload() unless ( $meta->getLoadedRev() );
+            next unless ( $meta->getLoadedRev() );
+            print STDERR "Processing $topic\n"
+              if Foswiki::Query::Node::MONITOR_EVAL();
+            my $match = $query->evaluate( tom => $meta, data => $meta );
+            if ($match) {
+                $resultTopicSet->addTopic($meta);
+            }
         }
     }
 
@@ -164,7 +221,8 @@ sub getField {
         if ( $Foswiki::Query::Node::aliases{$field} ) {
             $realField = $Foswiki::Query::Node::aliases{$field};
         }
-        if ($realField eq 'META:TOPICINFO') {
+        if ( $realField eq 'META:TOPICINFO' ) {
+
             # Ensure the revision info is populated from the store
             $data->getRevisionInfo();
         }
@@ -224,6 +282,7 @@ sub getField {
         }
     }
     elsif ( ref($data) eq 'ARRAY' ) {
+
         # Array objects are returned during evaluation, e.g. when
         # a subset of an array is matched for further processing.
 
@@ -268,6 +327,7 @@ sub getField {
         }
     }
     elsif ( ref($data) eq 'HASH' ) {
+
         # A hash object may be returned when a sub-object of a Foswiki::Meta
         # object has been matched.
         $result = $data->{ $node->{params}[0] };
@@ -281,7 +341,7 @@ sub getField {
 # Get a referenced topic
 # See Foswiki::Store::QueryAlgorithms.pm for details
 sub getRefTopic {
-    my ($this, $relativeTo, $w, $t) = @_;
+    my ( $this, $relativeTo, $w, $t ) = @_;
     return Foswiki::Meta->load( $relativeTo->session, $w, $t );
 }
 
