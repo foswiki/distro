@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::MemoryLRU
 
-Implementation of a Foswiki::Cache using an in-memory perl hash
+Implementation of a Foswiki::Cache using an in-memory perl hash.
+See Foswiki::Cache for details of the methods implemented by this class.
 
 =cut
 
@@ -13,17 +14,10 @@ package Foswiki::Cache::MemoryLRU;
 use strict;
 use warnings;
 use Foswiki::Cache;
-use vars qw($sharedCache);
 
 @Foswiki::Cache::MemoryLRU::ISA = ('Foswiki::Cache');
 
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache object. 
-
-=cut
+our $sharedCache;
 
 sub new {
     my ( $class, $session ) = @_;
@@ -48,16 +42,6 @@ sub new {
 
     return $this;
 }
-
-=pod
-
----++ ObjectMethod set($key, $object) -> $boolean
-
-cache an $object under the given $key
-
-returns true if it was stored sucessfully
-
-=cut
 
 sub set {
     my ( $this, $key, $obj ) = @_;
@@ -85,14 +69,7 @@ sub set {
     return $obj;
 }
 
-=pod 
-
----++ ObjectMethod _append($node)
-
-appends a node to the internal structure
-
-=cut
-
+# appends a node to the internal structure
 sub _append {
     my ( $this, $node ) = @_;
 
@@ -110,14 +87,7 @@ sub _append {
     $this->{tail} = $node;
 }
 
-=pod
-
----++ ObjectMethod _remove($key)
-
-remove a node from the internal structure
-
-=cut
-
+# remove a node from the internal structure
 sub _remove {
     my ( $this, $key ) = @_;
 
@@ -136,26 +106,18 @@ sub _remove {
     return $node;
 }
 
-sub _print {
-    my $this = shift;
-
-    my $index = 1;
-    my %seen;
-    for ( my $node = $this->{head} ; $node ; $node = $node->{next} ) {
-        die "loop detected" if $seen{$node};
-        $seen{$node} = 1;
-        print STDERR "$index: $node->{key}\n";
-        $index++;
-    }
-}
-
-=pod 
-
----++ ObjectMethod get($key) -> $object
-
-retrieve a cached object, returns undef if it does not exist
-
-=cut
+#sub _print {
+#    my $this = shift;
+#
+#    my $index = 1;
+#    my %seen;
+#    for ( my $node = $this->{head} ; $node ; $node = $node->{next} ) {
+#        die "loop detected" if $seen{$node};
+#        $seen{$node} = 1;
+#        print STDERR "$index: $node->{key}\n";
+#        $index++;
+#    }
+#}
 
 sub get {
     my ( $this, $key ) = @_;
@@ -171,28 +133,12 @@ sub get {
     return $node->{obj};
 }
 
-=pod 
-
----++ ObjectMethod delete($key)
-
-delete an entry for a given $key
-
-=cut
-
 sub delete {
     my ( $this, $key ) = @_;
 
     $this->_remove( $this->genKey($key) );
     return 1;
 }
-
-=pod 
-
----++ ObjectMethod clear()
-
-removes all objects from the cache.
-
-=cut
 
 sub clear {
     my $this = shift;
@@ -201,14 +147,6 @@ sub clear {
     $this->{head}  = 0;
     $this->{tail}  = 0;
 }
-
-=pod
-
----++ ObjectMet finis()
-
-remove least recently used items
-
-=cut
 
 sub finish {
     my $this = shift;

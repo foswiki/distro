@@ -17,6 +17,7 @@ test/bin/TestRunner.pl 0755
 test/unit/AccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/AutoAttachTests.pm 0644
+test/unit/CacheTests.pm 0755
 test/unit/ClientTests.pm 0755
 test/unit/ConfigureTests.pm 0644
 test/unit/EmptyTests.pm 0644

@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::DB_File;
 
-Implementation of a Foswiki::Cache using DB_File;
+Implementation of a Foswiki::Cache using DB_File. See Foswiki::Cache
+for details of the methods implemented by this class.
 
 =cut
 
@@ -16,33 +17,17 @@ use DB_File;
 use Storable       ();
 use Foswiki::Cache ();
 use Fcntl qw( :flock O_RDONLY O_RDWR O_CREAT );
+use Assert;
 
 use constant F_STORABLE => 1;
 
 @Foswiki::Cache::DB_File::ISA = ('Foswiki::Cache');
-
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache object. 
-
-=cut
 
 sub new {
     my ( $class, $session ) = @_;
 
     return bless( $class->SUPER::new($session), $class );
 }
-
-=pod 
-
----++ ObjectMethod init($session)
-
-this is called after creating a cache object and when reusing it
-on a second call
-
-=cut
 
 sub init {
     my ( $this, $session ) = @_;
@@ -51,16 +36,9 @@ sub init {
     $this->{filename} = $Foswiki::cfg{Cache}{DBFile}
       || $Foswiki::cfg{WorkingDir} . '/foswiki_db';
 
-    $this->tie('ro');    # first we are in read-only mode - we retie for writing
+    # first we are in read-only mode - we retie for writing
+    $this->_tie('ro');
 }
-
-=pod 
-
----++ ObjectMethod get($key) -> $object
-
-retrieve a cached object, returns undef if it does not exist
-
-=cut
 
 sub get {
     my ( $this, $key ) = @_;
@@ -109,12 +87,6 @@ sub get {
     return $obj;
 }
 
-=pod 
-
-finish up internal structures
-
-=cut
-
 sub finish {
     my $this = shift;
 
@@ -122,7 +94,7 @@ sub finish {
         if ( $this->{delBuffer} || $this->{writeBuffer} ) {
 
             # retie the database
-            $this->tie('rw');
+            $this->_tie('rw');
 
             if ( $this->{delBuffer} ) {
                 foreach my $key ( keys %{ $this->{delBuffer} } ) {
@@ -160,7 +132,7 @@ sub finish {
                 }
             }
 
-            $this->untie();
+            $this->_untie();
         }
     }
 
@@ -170,22 +142,14 @@ sub finish {
     undef $this->{delBuffer};
 }
 
-=pod
-
----++ ObjectMethod tie($mode)
-
-(re)ties the cache db using the given $mode 'ro' or 'rw'
-
-a file lock is aquired depending on the intended tie mode.
-
-=cut
-
-sub tie {
+# (re)ties the cache db using the given $mode 'ro' or 'rw'
+# a file lock is acquired depending on the intended tie mode.
+sub _tie {
     my ( $this, $mode ) = @_;
 
     # untie first
     if ( $this->{handler} ) {
-        $this->untie();
+        $this->_untie();
     }
 
     # aquire a file lock
@@ -204,7 +168,7 @@ sub tie {
           or die "can't lock cache db: $!";
     }
     else {
-        die "unknown mode $mode in Cache::DB_File";    # never reach
+        ASSERT(0, "unknown mode $mode in Cache::DB_File");
     }
 
     $this->{handler} = tie %{ $this->{tie} },
@@ -212,15 +176,8 @@ sub tie {
       or die "Cannot open file $this->{filename}: $!";
 }
 
-=pod 
-
-unties this module using the given $mode 'ro' or 'rw'
-
-a file lock is aquired depending on the intended tie mode.
-
-=cut
-
-sub untie {
+# unties this module from the DB
+sub _untie {
     my ($this) = @_;
 
     if ( $this->{handler} ) {
@@ -234,21 +191,13 @@ sub untie {
     }
 }
 
-=pod 
-
----++ ObjectMethod clear()
-
-removes all objects from the cache.
-
-=cut
-
 sub clear {
     my $this = shift;
 
     return unless $this->{handler};
-    $this->tie('rw');
+    $this->_tie('rw');
     %{ $this->{tie} } = ();
-    $this->tie('ro');
+    $this->_tie('ro');
 
     undef $this->{writeBuffer};
     undef $this->{delBuffer};

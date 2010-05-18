@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright information
 
 =pod
+
 ---+ package Foswiki::PageCache
 
-Foswiki::PageCache interface
+Interface to the caching infrastructure.
 
 =cut
 
@@ -22,9 +23,13 @@ use constant PAGECACHE_DEPS_KEY    => 'Foswiki::PageCache::Deps::';
 use constant PAGECACHE_REVDEPS_KEY => 'Foswiki::PageCache::RevDeps::';
 use constant PAGECACHE_KEYSEP      => "\0";
 
-# static poor man's debugging tools
+# Enable output of messages to the foswiki debug log. All writeDebug()
+# calls are written as writeDebug(...) if (TRACE)
+use constant TRACE => 0;
+
+# Protected, for use of subclasses (and companion classes) only.
 sub writeDebug {
-    print STDERR "Foswiki::PageCache - $_[0]\n" if $Foswiki::cfg{Cache}{Debug};
+    $Foswiki::Plugins::SESSION->logger->log( 'debug', @_ );
 }
 
 =pod 
@@ -38,25 +43,24 @@ Construct a new page cache and a delegator.
 sub new {
     my ( $class, $session ) = @_;
 
-    #writeDebug("new PageCache");
-    my $impl = $Foswiki::cfg{CacheManager} || 'Foswiki::Cache::BDB';
+    writeDebug("new PageCache using $Foswiki::cfg{CacheManager}")
+        if (TRACE);
 
     # try to get a shared instance of this class
-    eval "use $impl";
+    eval "require $Foswiki::cfg{CacheManager}";
     die $@ if $@;
 
     my $this = {
         session => $session,
-        handler => $impl->new($session),
+        handler => $Foswiki::cfg{CacheManager}->new($session),
     };
 
     # store metadata in a separate store, i.e. one without size constraints
-    my $metaImpl = $Foswiki::cfg{MetaCacheManager} || 'Foswiki::Cache::BDB';
-
-    if ( $metaImpl ne $impl ) {
-        eval "use $metaImpl";
+    if ( $Foswiki::cfg{MetaCacheManager} ne $Foswiki::cfg{CacheManager} ) {
+        eval "use $Foswiki::cfg{MetaCacheManager}";
         die $@ if $@;
-        $this->{metaHandler} = $metaImpl->new($session),;
+        $this->{metaHandler} =
+          $Foswiki::cfg{MetaCacheManager}->new($session);
     }
     else {
         $this->{metaHandler} = $this->{handler};
@@ -69,8 +73,26 @@ sub new {
 
 ---++ ObjectMethod genVariationKey() -> $key
 
-method to generate a key for the current webtopic being produced; this reads
-information from the current session and url params
+Generate a key for the current webtopic being produced; this reads
+information from the current session and url params, as follows:
+    *  The server serving the request (HTTP_HOST)
+    * The port number of the server serving the request (HTTP_PORT)
+    * The language of the current session, if any
+    * All session parameters EXCEPT:
+          o Those starting with an underscore
+          o VALIDATION
+          o REMEMBER
+          o FOSWIKISTRIKEONE.*
+          o VALID_ACTIONS.*
+          o BREADCRUMB_TRAIL
+    * All HTTP request parameters EXCEPT:
+          o All those starting with an underscore
+          o refresh
+          o foswiki_redirect_cache
+          o logout
+          o style.*
+          o switch.*
+          o topic
 
 =cut
 
@@ -99,7 +121,7 @@ sub genVariationKey {
           if $key =~
 /^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL)$/o;
 
-        #writeDebug("adding session key=$key");
+        writeDebug("adding session key=$key") if (TRACE);
 
         $sessionValues->{$key} = 'undef' unless defined $sessionValues->{$key};
         $variationKey .= "::$key=$sessionValues->{$key}";
@@ -118,10 +140,10 @@ sub genVariationKey {
         #$val =~ s/PAGECACHE_KEYSEP//g;
         $variationKey .= '::' . $key . '=' . $val;
 
-        #writeDebug("adding urlparam key=$key");
+        writeDebug("adding urlparam key=$key") if (TRACE);
     }
 
-    #writeDebug("variation key = '$variationKey'");
+    writeDebug("variation key = '$variationKey'") if (TRACE);
 
     # cache it
     $this->{variationKey} = $variationKey;
@@ -133,10 +155,10 @@ sub genVariationKey {
 ---++ ObjectMethod cachePage($contentType, $text) -> $boolean
 
 Cache a html page. every page is stored in a page bucket
-that contains all variations (stored for other users or other session parameters)
-of this page, as well as dependency and expiration information
+that contains all variations (stored for other users or other session
+parameters) of this page, as well as dependency and expiration information
 
-Note, that the dependencies are fired in reverse logic as the depending pages
+Note that the dependencies are fired in reverse order as the depending pages
 have to notify this page if they changed. 
 
 =cut
@@ -154,7 +176,8 @@ sub cachePage {
     my $refresh = $session->{request}->param('refresh') || '';
     my $variationKey = $this->genVariationKey();
 
-    writeDebug("cachePage($web, $topic), variationKey='$variationKey'");
+    writeDebug("cachePage($web, $topic), variationKey='$variationKey'")
+      if (TRACE);
 
     # remove old dependencies
     if ( $refresh =~ /^(all|on|cache)$/o ) {
@@ -213,7 +236,10 @@ sub cachePage {
 
 =pod 
 
-retrieve a html page for the current session from cache
+---++ ObjectMethod getPage($web, $topic)
+
+Retrieve a html page for the given web.topic from cache, using a variation
+key based on the current session.
 
 =cut
 
@@ -238,7 +264,7 @@ sub getPage {
     # check cacheability
     return undef unless $this->_isCacheable($webTopic);
 
-    #writeDebug("getPage($web.$topic)");
+    writeDebug("getPage($web.$topic)") if (TRACE);
 
     # check availability
     my $variationKey = $this->genVariationKey();
@@ -247,26 +273,21 @@ sub getPage {
       ->get( PAGECACHE_PAGE_KEY . $webTopic . $variationKey );
 }
 
-=pod 
-
-check if the current page is cacheable
-
-1. check refresh url param
-2. check CACHEABLE pref value
-3. ask plugins what they think (e.g. the blacklist plugin may want
-   to prevent the blacklist message from being cached)
-
-=cut
-
+# check if the current page is cacheable
+# 
+# 1. check refresh url param
+# 2. check CACHEABLE pref value
+# 3. ask plugins what they think (e.g. the blacklist plugin may want
+#    to prevent the blacklist message from being cached)
 sub _isCacheable {
     my ( $this, $webTopic ) = @_;
 
-    #writeDebug("isCacheable($webTopic)");
+    writeDebug("isCacheable($webTopic)") if (TRACE);
 
     my $isCacheable = $this->{isCacheable}{$webTopic};
     return $isCacheable if defined $isCacheable;
 
-    #writeDebug("... checking");
+    writeDebug("... checking") if (TRACE);
 
     # by default we try to cache as much as possible
     $isCacheable = 1;
@@ -277,14 +298,16 @@ sub _isCacheable {
 
     # TODO: give plugins a chance - create a callback
 
-    #writeDebug("isCacheable=$isCacheable");
+    writeDebug("isCacheable=$isCacheable") if (TRACE);
     $this->{isCacheable}{$webTopic} = $isCacheable;
     return $isCacheable;
 }
 
 =pod
 
-add a web.topic to the dependencies of the current page
+---++ ObjectMethod addDependency($web, $topic)
+
+Add a web.topic to the dependencies of the current page
 
 =cut
 
@@ -309,7 +332,9 @@ sub addDependency {
 
 =pod 
 
-return dependencies for a given web.topic
+---++ ObjectMethod getDependencies($web, $topic, $variationKey) -> \@deps
+
+Return dependencies for a given web.topic
 
 =cut
 
@@ -349,12 +374,7 @@ sub getDependencies {
     return \@result;
 }
 
-=pod
-
-private implementation of getDependencies
-
-=cut
-
+# private implementation of getDependencies
 sub _getDependencies {
     my ( $this, $webTopic, $variationKey ) = @_;
 
@@ -364,7 +384,10 @@ sub _getDependencies {
 
 =pod 
 
-return reverse dependencies for a given web.topic
+---++ ObjectMethod getRevDependencies($web, $topic) -> \@deps
+
+Return reverse dependencies for a given web.topic (those topics that
+depend on this topic)
 
 =cut
 
@@ -383,12 +406,7 @@ sub getRevDependencies {
     return \@result;
 }
 
-=pod
-
-private implementation of getRevDependencies
-
-=cut
-
+# private implementation of getRevDependencies
 sub _getRevDependencies {
     my ( $this, $webTopic, ) = @_;
 
@@ -397,7 +415,9 @@ sub _getRevDependencies {
 
 =pod 
 
-returns dependencies that hold for all topics in a web. 
+---++ ObjectMethod getWebDependencies($web) -> \@deps
+
+Returns dependencies that hold for all topics in a web. 
 
 =cut
 
@@ -417,7 +437,7 @@ sub getWebDependencies {
             my ( $depWeb, $depTopic ) =
               $this->{session}->normalizeWebTopicName( $web, $dep );
 
-            #writeDebug("found webdep $depWeb.$depTopic");
+            writeDebug("found webdep $depWeb.$depTopic") if (TRACE);
             $this->{webDeps}{ $depWeb . '.' . $depTopic } = 1;
         }
     }
@@ -425,19 +445,15 @@ sub getWebDependencies {
     return \@result;
 }
 
-=pod
-
-set the dependencies for the given web.topic topic
-
-=cut
-
+# set the dependencies for the given web.topic topic
 sub _setDependencies {
     my ( $this, $webTopic, $variationKey, @topicDeps ) = @_;
 
     @topicDeps = keys %{ $this->{deps} } unless @topicDeps;
 
-    #writeDebug("setting ".scalar(@topicDeps)." dependencies $webTopic");
-    #writeDebug(join("\n", @topicDeps));
+    writeDebug(
+        "setting ".scalar(@topicDeps)." dependencies $webTopic\n"
+          .join("\n", @topicDeps)) if (TRACE);
 
     $this->{metaHandler}->set(
         PAGECACHE_DEPS_KEY . $webTopic . $variationKey,
@@ -465,12 +481,7 @@ sub _setDependencies {
     }
 }
 
-=pod 
-
-remove all dependencies of a web.topic/variation 
-
-=cut
-
+# remove all dependencies of a web.topic/variation 
 sub _deleteDependency {
     my ( $this, $webTopic, $variationKey ) = @_;
 
@@ -500,7 +511,9 @@ sub _deleteDependency {
 
 =pod 
 
-remove a page from the cache; this removes all of the information
+---++ ObjectMethod deletePage($web, $topic)
+
+Remove a page from the cache; this removes all of the information
 that we have about this page 
 
 =cut
@@ -512,18 +525,12 @@ sub deletePage {
     return $this->_deletePage( $web . '.' . $topic );
 }
 
-=pod
-
-internal implementation of deletePage()
-
-deletes all page variations and dependencies
-
-=cut
-
+# internal implementation of deletePage()
+# deletes all page variations and dependencies
 sub _deletePage {
     my ( $this, $webTopic ) = @_;
 
-    writeDebug("DELETE page $webTopic");
+    writeDebug("DELETE page $webTopic") if (TRACE);
 
     # get variation keys
     my $variations = $this->{handler}->get( PAGECACHE_VARS_KEY . $webTopic );
@@ -538,24 +545,22 @@ sub _deletePage {
     $this->{handler}->delete( PAGECACHE_VARS_KEY . $webTopic );
 }
 
-=pod
-
-delete a dedicated page variation
-
-=cut
-
+# delete a dedicated page variation
 sub _deletePageVariation {
     my ( $this, $webTopic, $variationKey ) = @_;
 
-    writeDebug("deleting $webTopic variation '$variationKey'");
+    writeDebug("deleting $webTopic variation '$variationKey'") if (TRACE);
 
-    $this->{handler}->delete( PAGECACHE_PAGE_KEY . $webTopic . $variationKey );
+    $this->{handler}->delete(
+        PAGECACHE_PAGE_KEY . $webTopic . $variationKey );
     $this->_deleteDependency( $webTopic, $variationKey );
 }
 
 =pod 
 
-fire a dependency invalidating the related cache entries
+---++ ObjectMethod fireDependency($web, $topic)
+
+Fire a dependency invalidating the related cache entries.
 
 =cut
 
@@ -565,7 +570,7 @@ sub fireDependency {
     $web =~ s/\//./go;
     my $webTopic = $web . '.' . $topic;
 
-    writeDebug("FIRING $webTopic");
+    writeDebug("FIRING $webTopic") if (TRACE);
 
     # delete all page variations the reverse dependencies point to
     my $revDeps = $this->_getRevDependencies($webTopic);
@@ -582,7 +587,7 @@ sub fireDependency {
     }
     else {
 
-        #writeDebug("no rev deps found");
+        writeDebug("no rev deps found") if (TRACE);
     }
 
     # delete pages in WEBDEPENDENCIES
@@ -596,17 +601,19 @@ sub fireDependency {
 
 =pod
 
-extract dirty areas and render them; this happens after storing a 
+---++ ObjectMethod renderDirtyAreas($text)
+
+Extract dirty areas and render them; this happens after storing a 
 page including the un-rendered dirty areas into the cache and after
-retrieving it again
+retrieving it again.
 
 =cut
 
 sub renderDirtyAreas {
     my ( $this, $text ) = @_;
 
-    #writeDebug("renderDirtyAreas called");
-    #writeDebug("text=$$text");
+    writeDebug("renderDirtyAreas called text=$$text") if (TRACE);
+
     $this->{session}->enterContext('dirtyarea');
 
     # remember the current page length to recompute the content length below
@@ -632,20 +639,16 @@ s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea(
 
     $this->{session}->leaveContext('dirtyarea');
 
-    #writeDebug("done renderDirtyAreas");
+    writeDebug("done renderDirtyAreas") if (TRACE);
 }
 
-=pod
-
-called by renderDirtyAreas() to process each dirty area in isolation
-
-=cut
-
+# called by renderDirtyAreas() to process each dirty area in isolation
 sub _handleDirtyArea {
     my ( $this, $args, $text, $topicObj ) = @_;
 
-    #writeDebug("_handleDirtyArea($web, $topic, $args) called");
-    #writeDebug("in text='$text'");
+    writeDebug(
+        "_handleDirtyArea($args) called in text='$text'")
+      if (TRACE);
 
     # add dirtyarea params
     my $params = new Foswiki::Attrs($args);
@@ -662,13 +665,15 @@ sub _handleDirtyArea {
         $prefs->popTopicContext();
     };
 
-    #writeDebug("out text='$text'");
+    writeDebug("out text='$text'") if (TRACE);
     return $text;
 }
 
 =pod 
 
-finish the cache impl
+---++ ObjectMethod finish()
+
+Break cyclic dependencies during destruction.
 
 =cut
 

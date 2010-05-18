@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::BDB
 
-Implementation of a Foswiki::Cache using BerkeleyDB
+Implementation of a Foswiki::Cache using BerkeleyDB. See Foswiki::Cache
+for details of the methods implemented by this class.
 
 =cut
 
@@ -15,34 +16,20 @@ use warnings;
 use BerkeleyDB;
 use Storable       ();
 use Foswiki::Cache ();
+use Foswiki::PageCache ();
 
 use constant F_STORABLE => 1;
 
 @Foswiki::Cache::BDB::ISA = ('Foswiki::Cache');
 
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache object. 
-
-=cut
-
+# See Foswiki::Cache
 sub new {
     my ( $class, $session ) = @_;
 
     return bless( $class->SUPER::new($session), $class );
 }
 
-=pod 
-
----++ ObjectMethod init($session)
-
-this is called after creating a cache object and when reusing it
-on a second call
-
-=cut
-
+# See Foswiki::Cache
 sub init {
     my ( $this, $session ) = @_;
 
@@ -68,7 +55,7 @@ sub init {
 
             #-Verbose => 1,
           )
-          or die "Foswiki::Cache:BDB: Unable to create env: $BerkeleyDB::Error";
+          or die "Foswiki::Cache:BDB: Unable to create env in $cache_root: $BerkeleyDB::Error";
 
         my $fname = $this->{namespace} . '.db';
         $fname =~ s/[\/\\:_]//go;
@@ -85,14 +72,7 @@ sub init {
     }
 }
 
-=pod 
-
----++ ObjectMethod get($key) -> $object
-
-retrieve a cached object, returns undef if it does not exist
-
-=cut
-
+# See Foswiki::Cache
 sub get {
     my ( $this, $key ) = @_;
 
@@ -140,12 +120,7 @@ sub get {
     return $obj;
 }
 
-=pod 
-
-finish up internal structures
-
-=cut
-
+# See Foswiki::Cache
 sub finish {
     my $this = shift;
 
@@ -161,7 +136,8 @@ sub finish {
                 next unless $this->{delBuffer}{$key};
                 $this->{handler}->db_del($key);
 
-                #Foswiki::Cache::writeDebug("deleting $key");
+                Foswiki::PageCache::writeDebug("deleting $key")
+                    if (Foswiki::PageCache::TRACE);
             }
         }
 
@@ -170,7 +146,8 @@ sub finish {
                 my $obj = $this->{writeBuffer}{$key};
                 next unless $obj;
 
-                #Foswiki::Cache::writeDebug("flushing $key");
+                Foswiki::PageCache::writeDebug("flushing $key")
+                    if (Foswiki::PageCache::TRACE);
                 my $value;
                 my $flags = 0;
                 if ( ref $obj ) {
@@ -178,12 +155,15 @@ sub finish {
                     $value =
                       sprintf( "%03d::", $flags ) . Storable::freeze($obj);
 
-               #Foswiki::Func::writeWarning("writing $key as a storable image");
+                    Foswiki::PageCache::writeDebug(
+                        "writing $key as a storable image")
+                        if (Foswiki::PageCache::TRACE);
                 }
                 else {
                     $value = sprintf( "%03d::", $flags ) . $obj;
 
-                    #Foswiki::Func::writeWarning("writing $key is a scalar");
+                    Foswiki::PageCache::writeDebug("writing $key as a scalar")
+                        if (Foswiki::PageCache::TRACE);
                 }
                 $this->{handler}->db_put( $key, $value );
 
@@ -208,14 +188,7 @@ sub finish {
     $this->SUPER::finish();
 }
 
-=pod 
-
----++ ObjectMethod clear()
-
-removes all objects from the cache.
-
-=cut
-
+# See Foswiki::Cache
 sub clear {
     my $this = shift;
 

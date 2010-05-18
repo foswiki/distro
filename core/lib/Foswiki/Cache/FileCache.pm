@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::FileCache
 
-Implementation of a Foswiki::Cache using Cache::FileCache
+Implementation of a Foswiki::Cache using Cache::FileCache. See Foswiki::Cache
+for details of the methods implemented by this class.
 
 =cut
 
@@ -17,29 +18,6 @@ use Foswiki::Cache;
 
 @Foswiki::Cache::FileCache::ISA = ('Foswiki::Cache');
 
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache object. 
-
-=cut
-
-sub new {
-    my ( $class, $session ) = @_;
-
-    return bless( $class->SUPER::new($session), $class );
-}
-
-=pod 
-
----++ ObjectMethod init($session)
-
-this is called after creating a cache object and when reusing it
-on a second call
-
-=cut
-
 sub init {
     my ( $this, $session ) = @_;
 
@@ -47,8 +25,9 @@ sub init {
     unless ( $this->{handler} ) {
         $this->{handler} = new Cache::FileCache(
             {
-                'namespace' => $this->{namespace}
-                ,  # also encoded into object keys, see Foswiki::Cache::genKey()
+                # also encoded into object keys, see
+                # Foswiki::Cache::genVariationKey()
+                'namespace' => $this->{namespace},
                 'cache_root' => $Foswiki::cfg{Cache}{RootDir}
                   || $Foswiki::cfg{WorkingDir} . '/cache/',
                 'cache_depth'     => $Foswiki::cfg{Cache}{SubDirs} || 3,

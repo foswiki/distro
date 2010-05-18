@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::MemoryHash
 
-Implementation of a Foswiki::Cache using an in-memory perl hash
+Implementation of a Foswiki::Cache using an in-memory perl hash.
+See Foswiki::Cache for details of the methods implemented by this class.
 
 =cut
 
@@ -16,14 +17,6 @@ use Foswiki::Cache;
 use vars qw($sharedCache);
 
 @Foswiki::Cache::MemoryHash::ISA = ('Foswiki::Cache');
-
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache object. 
-
-=cut
 
 sub new {
     my ( $class, $session ) = @_;
@@ -37,16 +30,6 @@ sub new {
     return $sharedCache;
 }
 
-=pod
-
----++ ObjectMetohd set($key, $object) -> $boolean
-
-cache an $object under the given $key
-
-returns true if it was stored sucessfully
-
-=cut
-
 sub set {
     my ( $this, $key, $obj ) = @_;
 
@@ -54,29 +37,11 @@ sub set {
     return $obj;
 }
 
-=pod 
-
----++ ObjectMethod get($key) -> $object
-
-retrieve a cached object, returns undef if it does not exist
-
-=cut
-
 sub get {
     my ( $this, $key ) = @_;
 
     return $this->{cache}{ $this->genKey($key) };
 }
-
-=pod 
-
----++ ObjectMethod delete($key)
-
-delete an entry for a given $key
-
-returns true if the key was found and deleted, and false otherwise
-
-=cut
 
 sub delete {
     my ( $this, $key ) = @_;
@@ -85,27 +50,11 @@ sub delete {
     return 1;
 }
 
-=pod 
-
----++ ObjectMethod clear()
-
-removes all objects from the cache.
-
-=cut
-
 sub clear {
     my $this = shift;
 
     $this->{cache} = ();
 }
-
-=pod
-
----++ ObjectMet finis()
-
-do nothing, keep all in memory
-
-=cut
 
 sub finish { }
 

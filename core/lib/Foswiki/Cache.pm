@@ -1,9 +1,12 @@
 # See bottom of file for license and copyright information
 
 =pod
+
 ---+ package Foswiki::Cache
 
-Base class for Foswiki::Cache implementations
+Virtual base class for cache implementations. A cache implementation is
+used by Foswiki::PageCache to store cached data (both page data and meta-data
+about the cached pages).
 
 =cut
 
@@ -11,11 +14,6 @@ package Foswiki::Cache;
 
 use strict;
 use warnings;
-
-# static poor man's debugging tools
-sub writeDebug {
-    print STDERR "Foswiki::Cache - $_[0]\n" if $Foswiki::cfg{Cache}{Debug};
-}
 
 =pod 
 
@@ -39,10 +37,13 @@ sub new {
 
 ---++ ObjectMethod init($session)
 
-initializes a cache object to be used for the current request. this
+Initializes a cache object to be used for the current request. this
 object might be _shared_ on multiple requests when Foswiki is accelerated
 using mod_perl or speedy-cgi and using the Foswiki::Cache::MemoryCache 
 handler.
+
+Subclasses should call up to this method at the start of overriding
+implementations.
 
 =cut
 
@@ -59,7 +60,9 @@ sub init {
 
 =pod 
 
-explicite destructor to break cyclic links
+---++ ObjectMethod DESTROY()
+
+Explicit destructor to break cyclic links.
 
 =cut
 
@@ -70,7 +73,9 @@ sub DESTROY {
 
 =pod 
 
-finish up internal structures
+---++ ObjectMethod finish()
+
+Clean up internal structures
 
 =cut
 
@@ -113,10 +118,11 @@ sub finish {
 
 ---++ ObjectMethod genkey($string, $key) -> $key
 
-Static function to generate a key for the current cache.
+Generate a key for the current cache.
 
-Some cache implementations don't have a namespace feature.  Those which do, are
-only able to serve objects from within one namespace per cache object. 
+Some cache implementations don't have a namespace feature.  Those
+which do are only able to serve objects from within one namespace
+per cache object. 
 
 So by default we encode the namespace into the key here, even when this is
 redundant, given that you specify the namespace for Cache::Cache
@@ -134,12 +140,12 @@ sub genKey {
 
 =pod
 
----++ ObjectMetohd set($key, $object ... ) -> $boolean
+---++ ObjectMethod set($key, $object ... ) -> $boolean
 
-cache an $object under the given $key. note, that the
+Cache an $object under the given $key. Note that the
 object won't be flushed to disk until we called finish().
 
-returns true if it was stored sucessfully
+Returns true if it was stored sucessfully
 
 =cut
 
@@ -165,7 +171,7 @@ sub set {
 
 ---++ ObjectMethod get($key) -> $object
 
-retrieve a cached object, returns undef if it does not exist
+Retrieve a cached object, returns undef if it does not exist
 
 =cut
 
@@ -190,11 +196,11 @@ sub get {
 
 =pod 
 
----++ ObjectMethod delete($key)
+---++ ObjectMethod delete($key) -> $boolean
 
-delete an entry for a given $key
+Delete an entry for a given $key
 
-returns true if the key was found and deleted, and false otherwise
+Returns true if the key was found and deleted, and false otherwise
 
 =cut
 
@@ -218,7 +224,7 @@ sub delete {
 
 ---++ ObjectMethod clear()
 
-removes all objects from the cache.
+Removes all objects from the cache.
 
 =cut
 

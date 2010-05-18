@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::Memcached
 
-implementation of a Foswiki::Cache using memcached
+implementation of a Foswiki::Cache using memcached. See Foswiki::Cache
+for details of the methods implemented by this class.
 
 =cut
 
@@ -17,27 +18,11 @@ use Foswiki::Cache;
 
 @Foswiki::Cache::Memcached::ISA = ('Foswiki::Cache');
 
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache connecting to a memcached server pool. 
-
-=cut
-
 sub new {
     my ( $class, $session ) = @_;
 
     return bless( $class->SUPER::new($session), $class );
 }
-
-=pod
-
----++ ObjectMethod init($session)
-
-connect to the memcached if we didn't already
-
-=cut
 
 sub init {
     my ( $this, $session ) = @_;
@@ -59,12 +44,6 @@ sub init {
     $this->{handler}->{compress_enable} = 0;
 }
 
-=pod 
-
-finish up internal structures
-
-=cut
-
 sub finish {
     my $this = shift;
 
@@ -79,7 +58,8 @@ sub finish {
                 next unless $this->{delBuffer}{$key};
                 $this->{handler}->delete($key);
 
-                #Foswiki::Cache::writeDebug("deleting $key");
+                Foswiki::PageCache::writeDebug("deleting $key")
+                    if (Foswiki::PageCache::TRACE);
             }
         }
 
@@ -89,7 +69,8 @@ sub finish {
                 next unless $obj;
                 $this->{handler}->set( $key, $obj );
 
-                #Foswiki::Cache::writeDebug("flushing $key");
+                Foswiki::PageCache::writeDebug("flushing $key");
+                    if (Foswiki::PageCache::TRACE);
             }
         }
 
@@ -101,14 +82,6 @@ sub finish {
 
     $this->SUPER::finish();
 }
-
-=pod 
-
----++ ObjectMethod clear()
-
-removes all objects from the cache. 
-
-=cut
 
 sub clear {
     my $this = shift;

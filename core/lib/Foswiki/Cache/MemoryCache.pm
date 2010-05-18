@@ -4,7 +4,8 @@
 
 ---+ package Foswiki::Cache::MemoryCache
 
-Implementation of a Foswiki::Cache using Cache::MemoryCache
+Implementation of a Foswiki::Cache using Cache::MemoryCache.
+See Foswiki::Cache for details of the methods implemented by this class.
 
 =cut
 
@@ -17,28 +18,11 @@ use Foswiki::Cache;
 
 @Foswiki::Cache::MemoryCache::ISA = ('Foswiki::Cache');
 
-=pod 
-
----++ ClassMethod new( $session ) -> $object
-
-Construct a new cache object. 
-
-=cut
-
 sub new {
     my ( $class, $session ) = @_;
 
     return bless( $class->SUPER::new($session), $class );
 }
-
-=pod 
-
----++ ObjectMethod init($session)
-
-this is called after creating a cache object and when reusing it
-on a second call
-
-=cut
 
 sub init {
     my ( $this, $session ) = @_;

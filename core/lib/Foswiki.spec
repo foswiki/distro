@@ -1105,10 +1105,6 @@ $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 # about disk space.
 $Foswiki::cfg{Cache}{Compress} = $TRUE;
 
-# **BOOLEAN EXPERT**
-# This setting will switch on/off debugging for caching.
-$Foswiki::cfg{Cache}{Debug} = $FALSE;
-
 #---+ Mail and Proxies
 # <p>Settings controlling if and how Foswiki sends email, and the proxies used
 # to access external web pages.</p>
