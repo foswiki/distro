@@ -746,12 +746,10 @@ distribution. NOTE: Please extend that file, not this notice.
 
 This module is based/inspired on Catalyst framework, and also CGI,
 CGI::Simple and HTTP::Headers modules. Refer to
-
 http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm,
 http://search.cpan.org/~lds/CGI.pm-3.29/CGI.pm,
 http://search.cpan.org/author/ANDYA/CGI-Simple-1.103/lib/CGI/Simple.pm, and
 http://search.cpan.org/~gaas/libwww-perl-5.808/lib/HTTP/Headers.pm
-
 for full credits and license details.
 
 This program is free software; you can redistribute it and/or

@@ -85,7 +85,7 @@ sub _serialise_ {
 }
 
 1;
-__DATA__
+__END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors

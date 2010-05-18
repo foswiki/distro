@@ -3257,9 +3257,7 @@ sub dataDecode {
 }
 
 1;
-
 __END__
-
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors

@@ -151,11 +151,11 @@ sub get {
 
 1;
 __END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
-Foswiki Contributors are listed in the AUTHORS file in the root of
-this distribution. NOTE: Please extend that file, not this notice.
-
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -169,4 +169,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
 
-author: Sven Dowideit
+Author: Sven Dowideit

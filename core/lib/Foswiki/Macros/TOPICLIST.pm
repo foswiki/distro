@@ -39,7 +39,7 @@ sub TOPICLIST {
 }
 
 1;
-__DATA__
+__END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
