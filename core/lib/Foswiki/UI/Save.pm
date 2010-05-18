@@ -440,7 +440,7 @@ WARN
     }
 
     # Do this *before* we do any query parameter rewriting
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     my $editaction = lc( $query->param('editaction') ) || '';
     my $edit       = $query->param('edit')             || 'edit';
@@ -465,9 +465,11 @@ WARN
         $query->param( -name => 'dontnotify', -value => 'checked' );
         my $edittemplate = $query->param('template');
         my %p = ( t => time() );
+
         # map editaction -> action and edittemplat -> template
-        $p{action} = $editaction if $editaction;
+        $p{action}   = $editaction   if $editaction;
         $p{template} = $edittemplate if $edittemplate;
+
         # Pass through selected parameters
         foreach my $pthru qw(redirectto skin cover nowysiwyg) {
             $p{$pthru} = $query->param($pthru);

@@ -35,12 +35,12 @@ sub new {
     my ( $class, $list, $partition, $sortby, $revSort ) = @_;
     my $this = bless(
         {
-            Itr_list    => $list,
-            Itr_index   => 0,
-            next        => undef,
-            Itr_next    => [],
-            partition   => $partition || 'web',
-            sortby   => $sortby || 'topic',
+            Itr_list  => $list,
+            Itr_index => 0,
+            next      => undef,
+            Itr_next  => [],
+            partition => $partition || 'web',
+            sortby    => $sortby || 'topic',
             revsort   => $revSort || 0,
         },
         $class
@@ -50,12 +50,12 @@ sub new {
 
 sub numberOfTopics {
     my $this = shift;
-    
+
     my $count = 0;
-    foreach my $infocache (@{ $this->{Itr_list} }) {
+    foreach my $infocache ( @{ $this->{Itr_list} } ) {
         $count += $infocache->numberOfTopics();
     }
-    
+
     return $count;
 }
 
@@ -70,11 +70,15 @@ Returns false when the iterator is exhausted.
 sub hasNext {
     my ($this) = @_;
     return 1 if $this->{next};
-    
-    #this is the 'normal' legacy way to iterate over the list of results (one web at a time)
-    if (($this->{partition} eq 'web') 
-            or (scalar( @{ $this->{Itr_list} } ) <= 0)  #no reason to got through the more complex case if there's only one itr
-        ) {
+
+#this is the 'normal' legacy way to iterate over the list of results (one web at a time)
+    if (
+        ( $this->{partition} eq 'web' )
+        or (
+            scalar( @{ $this->{Itr_list} } ) <= 0
+        ) #no reason to got through the more complex case if there's only one itr
+      )
+    {
         my $n;
         do {
             unless ( $this->{list} ) {
@@ -91,39 +95,49 @@ sub hasNext {
             else {
                 $this->{list} = undef;    #goto next iterator
             }
-          } while ( !$this->{list} );
+        } while ( !$this->{list} );
         $this->{next} = $n;
-    } else {
-        #yes, this is innefficient, for now I'm looking only to get a functioning result.
+    }
+    else {
+
+#yes, this is innefficient, for now I'm looking only to get a functioning result.
         my $next = -1;
-        for (my $idx = 0; $idx < scalar( @{ $this->{Itr_list} } ) ; $idx++) {
+        for ( my $idx = 0 ; $idx < scalar( @{ $this->{Itr_list} } ) ; $idx++ ) {
+
             #load the next element from each of the iterators
-            if (!defined($this->{Itr_next}[$idx]) and $this->{Itr_list}[$idx]->hasNext()) {
+            if ( !defined( $this->{Itr_next}[$idx] )
+                and $this->{Itr_list}[$idx]->hasNext() )
+            {
                 $this->{Itr_next}[$idx] = $this->{Itr_list}[$idx]->next();
             }
-            if (defined($this->{Itr_next}[$idx])) {
-                #find the first one of them (works because each iterator is already sorted..
-                if ($next == -1) {
+            if ( defined( $this->{Itr_next}[$idx] ) ) {
+
+    #find the first one of them (works because each iterator is already sorted..
+                if ( $next == -1 ) {
                     $next = $idx;
                     next;
-                }            
-                #print STDERR "------ trying ($idx) ".$this->{Itr_next}[$idx]."\n";
-                #compare $next's elem with $idx's and rotate if needed
-                my @two = ($this->{Itr_next}[$next], $this->{Itr_next}[$idx]);
-                Foswiki::Search::InfoCache::sortTopics( \@two, $this->{sortby}, !$this->{revsort} );
-                if ($two[0] ne $this->{Itr_next}[$next]) {
+                }
+
+             #print STDERR "------ trying ($idx) ".$this->{Itr_next}[$idx]."\n";
+             #compare $next's elem with $idx's and rotate if needed
+                my @two = ( $this->{Itr_next}[$next], $this->{Itr_next}[$idx] );
+                Foswiki::Search::InfoCache::sortTopics( \@two, $this->{sortby},
+                    !$this->{revsort} );
+                if ( $two[0] ne $this->{Itr_next}[$next] ) {
                     $next = $idx;
                 }
             }
         }
+
         #print STDERR "---getting result from $next\n";
-        if ($next == -1) {
+        if ( $next == -1 ) {
             return 0;
-        } else {
+        }
+        else {
             $this->{next} = $this->{Itr_next}[$next];
             $this->{Itr_next}[$next] = undef;
         }
-        
+
     }
     return 1;
 }
@@ -158,7 +172,7 @@ delay evaluated, partially evaluated, or even delegated to the DB/SQL
 sub sortResults {
     my ( $this, $params ) = @_;
 
-    foreach my $infocache (@{ $this->{Itr_list} }) {
+    foreach my $infocache ( @{ $this->{Itr_list} } ) {
         $infocache->sortResults($params);
     }
 }

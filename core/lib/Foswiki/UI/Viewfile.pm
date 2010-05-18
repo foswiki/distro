@@ -138,9 +138,9 @@ sub viewfile {
 
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
-    my $logEntry = $fileName; 
-    $logEntry .= ", r$rev" if $rev; 
-	$session->logEvent( 'viewfile', $web.'.'.$topic, $logEntry ); 
+    my $logEntry = $fileName;
+    $logEntry .= ", r$rev" if $rev;
+    $session->logEvent( 'viewfile', $web . '.' . $topic, $logEntry );
 
     my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 

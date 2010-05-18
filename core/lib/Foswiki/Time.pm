@@ -201,13 +201,14 @@ sub parseTime {
         return undef if ( defined($M) && ( $M < 1 || $M > 12 ) );
         my $month = ( $M || 1 ) - 1;
         my $monthlength = $MONTHLENS[$month];
+
         # If leap year, note February is month number 1 starting from 0
         $monthlength = 29 if ( $month == 1 && _daysInYear($year) == 366 );
         return undef if ( defined($D) && ( $D < 0 || $D > $monthlength ) );
         return undef if ( defined($h) && ( $h < 0 || $h > 24 ) );
         return undef if ( defined($m) && ( $m < 0 || $m > 60 ) );
         return undef if ( defined($s) && ( $s < 0 || $s > 60 ) );
-        return undef if ( defined($year) && $year < 60 ); 
+        return undef if ( defined($year) && $year < 60 );
 
         my $day  = $D || 1;
         my $hour = $h || 0;
@@ -217,7 +218,7 @@ sub parseTime {
         return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) -
           $tzadj;
     }
-    
+
     # give up, return undef
     return undef;
 }
@@ -293,7 +294,7 @@ sub formatTime {
         # e.g. "2002-12-31T19:30:12Z"
         $formatString = '$year-$mo-$dayT$hour:$min:$sec$isotz';
     }
-    elsif ($formatString =~ /longdate/i ) {
+    elsif ( $formatString =~ /longdate/i ) {
         $formatString = $Foswiki::cfg{DefaultDateFormat} . ' - $hour:$min';
     }
 
@@ -585,9 +586,10 @@ sub parseInterval {
             my $month = substr( $last, 5 );
             my $year = substr( $last, 0, 4 );
             my $monthlength = $MONTHLENS[ $month - 1 ];
+
             # If leap year, note February is month number 2 here
-            $monthlength = 29 if ( $month == 2 && _daysInYear($year) == 366 ); 
-            $last .= '-'.$monthlength;
+            $monthlength = 29 if ( $month == 2 && _daysInYear($year) == 366 );
+            $last .= '-' . $monthlength;
         }
         if ( length($last) < length('0000-12-31T23:59:59') ) {
             $last .= substr( '0000-12-31T23:59:59', length($last) );

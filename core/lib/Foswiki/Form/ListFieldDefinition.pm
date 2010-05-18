@@ -54,8 +54,8 @@ sub getOptions {
         if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
 
             # We have validated that the topic exists so OK to untaint
-            $fieldWeb = Foswiki::Sandbox::untaintUnchecked( $fieldWeb );
-            $fieldTopic = Foswiki::Sandbox::untaintUnchecked( $fieldTopic );
+            $fieldWeb   = Foswiki::Sandbox::untaintUnchecked($fieldWeb);
+            $fieldTopic = Foswiki::Sandbox::untaintUnchecked($fieldTopic);
 
             my $meta = Foswiki::Meta->load( $session, $fieldWeb, $fieldTopic );
             next unless $meta->haveAccess('VIEW');

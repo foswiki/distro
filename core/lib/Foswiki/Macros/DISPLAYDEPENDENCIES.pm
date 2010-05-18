@@ -7,32 +7,33 @@ use warnings;
 sub DISPLAYDEPENDENCIES {
     my ( $this, $params ) = @_;
 
-    my $web = $params->{web} || $this->{webName};
-    my $topic = $params->{topic} || $this->{topicName};
-    my $header = $params->{header} || '';
-    my $footer = $params->{footer} || '';
-    my $format = $params->{format} || '   1 [[$web.$topic]]';
-    my $separator = $params->{sep} || $params->{separator} || "\n";
+    my $web       = $params->{web}    || $this->{webName};
+    my $topic     = $params->{topic}  || $this->{topicName};
+    my $header    = $params->{header} || '';
+    my $footer    = $params->{footer} || '';
+    my $format    = $params->{format} || '   1 [[$web.$topic]]';
+    my $separator = $params->{sep}    || $params->{separator} || "\n";
     my $exclude = $params->{exclude};
 
-    ($web, $topic) = $this->normalizeWebTopicName($web, $topic);
+    ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
 
-    my $deps = $this->{cache}->getDependencies($web, $topic);
+    my $deps = $this->{cache}->getDependencies( $web, $topic );
     my @lines;
     my $thisWeb;
     my $thisTopic;
-    foreach my $dep (sort @$deps) {
-      next if $exclude && $dep =~ /$exclude/;
-      $dep =~ /^(.*)[\.\/](.*?)$/;
-      $thisWeb = $1;
-      $thisTopic = $2;
-      my $text = $format;
-      $text =~ s/\$web/$thisWeb/g;
-      $text =~ s/\$topic/$thisTopic/g;
-      push @lines, $text;
+    foreach my $dep ( sort @$deps ) {
+        next if $exclude && $dep =~ /$exclude/;
+        $dep =~ /^(.*)[\.\/](.*?)$/;
+        $thisWeb   = $1;
+        $thisTopic = $2;
+        my $text = $format;
+        $text =~ s/\$web/$thisWeb/g;
+        $text =~ s/\$topic/$thisTopic/g;
+        push @lines, $text;
     }
     return '' unless @lines;
-    return expandStandardEscapes($header.join($separator, @lines).$footer);
+    return expandStandardEscapes(
+        $header . join( $separator, @lines ) . $footer );
 }
 
 1;

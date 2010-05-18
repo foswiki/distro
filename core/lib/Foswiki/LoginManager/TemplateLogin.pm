@@ -48,11 +48,11 @@ sub new {
 # Used for passing meta-information about the request
 # through a URL (without requiring passthrough)
 sub _packRequest {
-    my ($uri, $method, $action) = @_;
+    my ( $uri, $method, $action ) = @_;
     return '' unless $uri;
-    if (ref($uri)) { # first parameter is a $session
+    if ( ref($uri) ) {    # first parameter is a $session
         my $r = $uri->{request};
-        $uri = $r->uri();
+        $uri    = $r->uri();
         $method = $r->method();
         $action = $r->action();
     }
@@ -62,8 +62,8 @@ sub _packRequest {
 # Unpack single value to key request parameters
 sub _unpackRequest {
     my $packed = shift || '';
-    my ($method, $action, $uri) = split(',', $packed, 3);
-    return ($uri, $method, $action);
+    my ( $method, $action, $uri ) = split( ',', $packed, 3 );
+    return ( $uri, $method, $action );
 }
 
 =begin TML
@@ -84,15 +84,17 @@ sub forceAuthentication {
 
         # Redirect with passthrough so we don't lose the original query params
 
-        my $url = $session->getScriptUrl( 0, 'login');
+        my $url = $session->getScriptUrl( 0, 'login' );
 
         # We use the query here to ensure the original path_info
         # from the request gets through to the login form. See also
         # PATH_INFO below.
         $url .= Foswiki::urlEncode( $query->path_info() );
 
-        $query->param( -name => 'foswiki_origin',
-                       -value => _packRequest($session) );
+        $query->param(
+            -name  => 'foswiki_origin',
+            -value => _packRequest($session)
+        );
         $session->redirect( $url, 1 );    # with passthrough
         return 1;
     }
@@ -112,10 +114,8 @@ sub loginUrl {
     my $session = $this->{session};
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
-    return $session->getScriptUrl(
-        0, 'login', $web, $topic,
-        foswiki_origin => _packRequest($session)
-       );
+    return $session->getScriptUrl( 0, 'login', $web, $topic,
+        foswiki_origin => _packRequest($session) );
 }
 
 =begin TML
@@ -144,11 +144,11 @@ sub login {
     my ( $this, $query, $session ) = @_;
     my $users = $session->{users};
 
-    my $origin     = $query->param('foswiki_origin');
-    my ($origurl, $origmethod, $origaction) = _unpackRequest($origin);
-    my $loginName  = $query->param('username');
-    my $loginPass  = $query->param('password');
-    my $remember   = $query->param('remember');
+    my $origin = $query->param('foswiki_origin');
+    my ( $origurl, $origmethod, $origaction ) = _unpackRequest($origin);
+    my $loginName = $query->param('username');
+    my $loginPass = $query->param('password');
+    my $remember  = $query->param('remember');
 
     # Eat these so there's no risk of accidental passthrough
     $query->delete( 'foswiki_origin', 'username', 'password' );
@@ -189,8 +189,11 @@ sub login {
             # the params passed to this script, and they will be used
             # in loadSession if no other user info is available.
             $this->userLoggedIn($loginName);
-            $session->logEvent( 'login', $web . '.' . $topic,
-                                "AUTHENTICATION SUCCESS - $loginName - " );
+            $session->logEvent(
+                'login',
+                $web . '.' . $topic,
+                "AUTHENTICATION SUCCESS - $loginName - "
+            );
 
             # remove the sudo param - its only to tell TemplateLogin
             # that we're using BaseMapper..
@@ -212,6 +215,7 @@ sub login {
                         }
                     }
                 }
+
                 # Restore the action too
                 $query->action($origaction) if $origaction;
             }
@@ -223,17 +227,22 @@ sub login {
             return;
         }
         else {
+
             # Tasks:Item1029  After much discussion, the 403 code is not
             # used for authentication failures. RFC states: "Authorization
             # will not help and the request SHOULD NOT be repeated" which
-            # is not the situation here.  
+            # is not the situation here.
             $session->{response}->status(200);
-            $session->logEvent( 'login', $web . '.' . $topic,
-                                "AUTHENTICATION FAILURE - $loginName - " );
+            $session->logEvent(
+                'login',
+                $web . '.' . $topic,
+                "AUTHENTICATION FAILURE - $loginName - "
+            );
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
     else {
+
         # If the loginName is unset, then the request was likely a perfectly
         # valid GET call to http://foswiki/bin/login
         # 4xx cannot be a correct status, as we want the user to retry the
@@ -253,15 +262,17 @@ sub login {
     # template is instantiated
     $session->{prefs}->setSessionPreferences(
         FOSWIKI_ORIGIN => Foswiki::entityEncode(
-            _packRequest($origurl, $origmethod, $origaction)),
+            _packRequest( $origurl, $origmethod, $origaction )
+        ),
+
         # Path to be used in the login form action.
         # Could have used %ENV{PATH_INFO} (after extending {AccessibleENV})
         # but decided against it as the path_info might have been rewritten
         # from the original env var.
-        PATH_INFO  => $query->path_info(),
-        BANNER     => $banner,
-        NOTE       => $note,
-        ERROR      => $error
+        PATH_INFO => $query->path_info(),
+        BANNER    => $banner,
+        NOTE      => $note,
+        ERROR     => $error
     );
 
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );

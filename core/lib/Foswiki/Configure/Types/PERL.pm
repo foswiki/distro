@@ -29,9 +29,9 @@ sub prompt {
 
     # Force textarea
     my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
-    $opts .= " ${size}x10" unless ($opts =~ /\b(\d+)x(\d+)\b/);
+    $opts .= " ${size}x10" unless ( $opts =~ /\b(\d+)x(\d+)\b/ );
 
-    return $this->SUPER::prompt($id, $opts, $v, $class);
+    return $this->SUPER::prompt( $id, $opts, $v, $class );
 }
 
 # verify that the string is a legal rvalue according to the grammar

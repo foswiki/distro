@@ -28,9 +28,9 @@ use Digest::MD5  ();
 use Fcntl;    # File control constants e.g. O_EXCL
 
 use Foswiki::Request::Upload ();
-use Foswiki::Sandbox ();
+use Foswiki::Sandbox         ();
 
-sub TRACE_CACHE { 0 };
+sub TRACE_CACHE { 0 }
 
 =begin TML
 
@@ -42,7 +42,7 @@ Construct a new request cache.
 
 sub new {
     my ($class) = @_;
-    my $this = bless({}, $class);
+    my $this = bless( {}, $class );
     return $this;
 }
 
@@ -61,7 +61,7 @@ until it is loaded (which destroys the cache) or it is cleaned up.
 =cut
 
 sub save {
-    my ($this, $req) = @_;
+    my ( $this, $req ) = @_;
 
     # get a hex-encoded session-specific unguessable key for the cache
     my $digester = new Digest::MD5();
@@ -80,9 +80,9 @@ sub save {
 
     # Serialize some key info from the request
     foreach my $field qw(method path_info action) {
-        print $F $field,'=', ($req->$field() || ''), "\n";
-        print STDERR "CACHE $uid> $field(" . ($req->$field() || '') . ")\n"
-          if (TRACE_CACHE); 
+        print $F $field, '=', ( $req->$field() || '' ), "\n";
+        print STDERR "CACHE $uid> $field(" . ( $req->$field() || '' ) . ")\n"
+          if (TRACE_CACHE);
     }
     print $F "=\n";
 
@@ -99,7 +99,7 @@ sub save {
     $req->save($F);
 
     # Serialize uploads, if there are any, and store the upload keys
-    while ( my ($k, $v) = each %{ $req->{uploads} }) {
+    while ( my ( $k, $v ) = each %{ $req->{uploads} } ) {
         $k = Foswiki::urlEncode($k);
         print STDERR "CACHE $uid> upload $k\n" if (TRACE_CACHE);
         $this->_saveUpload( $this->_cacheFile($uid), $k, $v );
@@ -121,57 +121,62 @@ with the data from the cache. Loading a cache will destroy the cache on disk.
 =cut
 
 sub load {
-    my ($this, $uid, $req) = @_;
+    my ( $this, $uid, $req ) = @_;
 
     ASSERT($uid) if DEBUG;
-    ASSERT($uid =~ /^[a-f0-9]{32}$/) if DEBUG;
+    ASSERT( $uid =~ /^[a-f0-9]{32}$/ ) if DEBUG;
 
     # Read cached post parameters
-    my $F = new IO::File($this->_cacheFile($uid), '<' );
+    my $F = new IO::File( $this->_cacheFile($uid), '<' );
     if ($F) {
+
         # Load request fields
         local $/ = "\n";
-        while (my $e = <$F>) {
+        while ( my $e = <$F> ) {
             chomp($e);
             last if $e eq '=';
-            my ($fn, $val) = split('=', $e, 2);
+            my ( $fn, $val ) = split( '=', $e, 2 );
             print STDERR "CACHE $uid< $fn($val)\n" if (TRACE_CACHE);
             $req->$fn($val);
         }
 
         if (TRACE_CACHE) {
             my $here = tell $F;
-            while (my $l = <$F>) {
+            while ( my $l = <$F> ) {
                 last if $l =~ /^=/;
                 print STDERR "CACHE $uid< $l";
             }
-            seek($F, $here, 0);
+            seek( $F, $here, 0 );
         }
 
         # Load params
         $req->load($F);
 
         # Load uploads
-        while (my $key = <$F>) {
+        while ( my $key = <$F> ) {
             chomp($key);
-            $key = Foswiki::urlDecode(
-                Foswiki::Sandbox::untaintUnchecked( $key ));
+            $key =
+              Foswiki::urlDecode( Foswiki::Sandbox::untaintUnchecked($key) );
             print STDERR "CACHE $uid< upload $key\n" if (TRACE_CACHE);
             $req->{uploads}->{$key} =
               $this->_loadUpload( $this->_cacheFile($uid), $key );
         }
+
         # Load uploads
-        unlink($this->_cacheFile($uid));
-        print STDERR "CACHE $uid< Loaded ".
-          $this->_cacheFile($uid).", URL now ".$req->url()."\n"
-            if (TRACE_CACHE);
+        unlink( $this->_cacheFile($uid) );
+        print STDERR "CACHE $uid< Loaded "
+          . $this->_cacheFile($uid)
+          . ", URL now "
+          . $req->url() . "\n"
+          if (TRACE_CACHE);
 
     }
     else {
+
         # SMELL: should this be an assert?
         print STDERR "CACHE $uid< Could not find ",
-          $this->_cacheFile($uid)."\n"
-            if (TRACE_CACHE);
+          $this->_cacheFile($uid) . "\n"
+          if (TRACE_CACHE);
     }
 }
 
@@ -185,17 +190,18 @@ If $timeout is 0 or undefined, it defaults to {Sessions}{ExpireAfter}.
 =cut
 
 sub cleanup {
+
     # Default timeout is 5 minutes
     my $timeout = shift || 5 * 60;
     my $deathtime = time() - $timeout;
     my $D;
-    return unless opendir($D, $Foswiki::cfg{WorkingDir}.'/tmp/');
-    foreach my $e (readdir $D) {
+    return unless opendir( $D, $Foswiki::cfg{WorkingDir} . '/tmp/' );
+    foreach my $e ( readdir $D ) {
         next unless $e =~ /^passthru_([a-f0-9]{32})/;
-        my $f = $Foswiki::cfg{WorkingDir}.'/tmp/'.$e;
-        my @stat = stat($f);
+        my $f     = $Foswiki::cfg{WorkingDir} . '/tmp/' . $e;
+        my @stat  = stat($f);
         my $mtime = $stat[9];
-        if ($mtime < $deathtime) {
+        if ( $mtime < $deathtime ) {
             unlink($f);
         }
     }
@@ -204,59 +210,60 @@ sub cleanup {
 
 # PRIVATE. make the name of a cache file
 sub _cacheFile {
-    my ($this, $uid) = @_;
+    my ( $this, $uid ) = @_;
+
     # Validate and untaint in one step
     die "Illegal UID" unless $uid =~ /^([0-9a-z]{32})$/i;
-    return $Foswiki::cfg{WorkingDir}.'/tmp/passthru_'.$1;
+    return $Foswiki::cfg{WorkingDir} . '/tmp/passthru_' . $1;
 }
 
 # PRIVATE. Each upload is cached in two files,
 # a serialisation of this object, and a copy of the uploaded data
 sub _saveUpload {
-    my ($this, $root, $key, $upload) = @_;
+    my ( $this, $root, $key, $upload ) = @_;
 
     require File::Copy;
     require Data::Dumper;
 
     my $ifn = "${root}_info_$key";
     my $dfn = "${root}_data_$key";
-    my $F = new IO::File( $ifn, '>' );
-    ASSERT($F, "Failed to open $ifn") if DEBUG;
+    my $F   = new IO::File( $ifn, '>' );
+    ASSERT( $F, "Failed to open $ifn" ) if DEBUG;
 
-    my $ser = Data::Dumper->new([$upload], ['info']);
+    my $ser = Data::Dumper->new( [$upload], ['info'] );
     $ser->Indent(0);
-    print $F $ser->Dump();;
+    print $F $ser->Dump();
 
     $F->close();
 
-    File::Copy::copy($upload->{tmpname}, $dfn) if (-e $upload->{tmpname});
+    File::Copy::copy( $upload->{tmpname}, $dfn ) if ( -e $upload->{tmpname} );
 }
 
 # PRIVATE. restore upload from cached data
 sub _loadUpload {
-    my ($this, $root, $key) = @_;
+    my ( $this, $root, $key ) = @_;
 
     my $ifn = "${root}_info_$key";
     my $dfn = "${root}_data_$key";
-    my $F = new IO::File( $ifn, '<' );
-    ASSERT($F, "Failed to open $ifn") if DEBUG;
-    ASSERT(-e $dfn, $dfn) if DEBUG;
+    my $F   = new IO::File( $ifn, '<' );
+    ASSERT( $F, "Failed to open $ifn" ) if DEBUG;
+    ASSERT( -e $dfn, $dfn ) if DEBUG;
 
     # Load the object cache
     local $/;
     my $data = <$F>;
-    $data = Foswiki::Sandbox::untaintUnchecked( $data );
+    $data = Foswiki::Sandbox::untaintUnchecked($data);
     my $info = undef;
     eval $data;
     $F->close();
-    unlink( $ifn );
+    unlink($ifn);
 
     # Dodge file name collisions for the data file
-    $info->{tmpname} .= '_' while (-e $info->{tmpname});
+    $info->{tmpname} .= '_' while ( -e $info->{tmpname} );
 
     # Construct the new object, and move the data file into place
     my $upload = new Foswiki::Request::Upload(%$info);
-    File::Copy::move($dfn, $upload->tmpFileName()) if (-e $dfn);
+    File::Copy::move( $dfn, $upload->tmpFileName() ) if ( -e $dfn );
 
     return $upload;
 }

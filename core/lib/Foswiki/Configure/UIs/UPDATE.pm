@@ -37,7 +37,7 @@ sub ui {
         # server as instructed in the fine manual!
         $Foswiki::cfg{Log}{Dir} =~ /^(.*)$/;
         $Foswiki::cfg{Log}{Dir} = $1;
-        unless (-d $Foswiki::cfg{Log}{Dir}) {
+        unless ( -d $Foswiki::cfg{Log}{Dir} ) {
             mkdir $Foswiki::cfg{Log}{Dir};
         }
         if ( open( F, '>>', "$Foswiki::cfg{Log}{Dir}/configure.log" ) ) {

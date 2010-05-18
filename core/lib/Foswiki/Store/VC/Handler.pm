@@ -27,13 +27,13 @@ use strict;
 use warnings;
 use Assert;
 
-use IO::File       ();
-use File::Copy     ();
-use File::Spec     ();
-use File::Path     ();
+use IO::File   ();
+use File::Copy ();
+use File::Spec ();
+use File::Path ();
 
-use Foswiki::Store   ();
-use Foswiki::Sandbox ();
+use Foswiki::Store                         ();
+use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 
 =begin TML
@@ -53,23 +53,25 @@ Note that $web, $topic and $attachment must be untainted!
 sub new {
     my ( $class, $store, $web, $topic, $attachment ) = @_;
 
-    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
+    ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
-    if (UNIVERSAL::isa($web, 'Foswiki::Meta')) {
+    if ( UNIVERSAL::isa( $web, 'Foswiki::Meta' ) ) {
+
         # $web refers to a meta object
         $attachment = $topic;
-        $topic = $web->topic();
-        $web = $web->web();
+        $topic      = $web->topic();
+        $web        = $web->web();
     }
 
     # Reuse is good
-    my $id = ($web||0).'/'.($topic||0).'/'.($attachment||0);
-    if ($store->{handler_cache} && $store->{handler_cache}->{$id}) {
+    my $id = ( $web || 0 ) . '/' . ( $topic || 0 ) . '/' . ( $attachment || 0 );
+    if ( $store->{handler_cache} && $store->{handler_cache}->{$id} ) {
         return $store->{handler_cache}->{$id};
     }
 
-    my $this = bless( {
-        web => $web, topic => $topic, attachment => $attachment }, $class );
+    my $this =
+      bless( { web => $web, topic => $topic, attachment => $attachment },
+        $class );
 
     # Cache so we can re-use this object (it has no internal state
     # so can safely be reused)
@@ -80,12 +82,12 @@ sub new {
 
         if ($attachment) {
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/'
+                $Foswiki::cfg{PubDir} . '/' 
               . $web . '/'
               . $this->{topic} . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/'
+                $Foswiki::cfg{PubDir} . '/' 
               . $web . '/' 
               . $topic
               . $rcsSubDir . '/'
@@ -96,7 +98,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/'
+                $Foswiki::cfg{DataDir} . '/' 
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -149,18 +151,18 @@ sub init {
 # Make any missing paths on the way to this file
 sub mkPathTo {
 
-    my ($this, $file) = @_;
+    my ( $this, $file ) = @_;
 
     $file = Foswiki::Sandbox::untaintUnchecked($file);
 
-    ASSERT(File::Spec->file_name_is_absolute($file)) if DEBUG;
+    ASSERT( File::Spec->file_name_is_absolute($file) ) if DEBUG;
 
-    my ( $volume, $path, undef ) = File::Spec->splitpath( $file );
+    my ( $volume, $path, undef ) = File::Spec->splitpath($file);
     $path = File::Spec->catpath( $volume, $path, '' );
 
-    # SMELL:  Sites running Apache with SuexecUserGroup will have a forced "safe" umask
-    #         Override umask here to allow correct dirPermissions to be applied
-    umask(oct(777)-$Foswiki::cfg{RCS}{dirPermission});
+# SMELL:  Sites running Apache with SuexecUserGroup will have a forced "safe" umask
+#         Override umask here to allow correct dirPermissions to be applied
+    umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
 
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
@@ -204,6 +206,7 @@ if file-based rev info is required.
 
 sub getInfo {
     my $this = shift;
+
     # SMELL: this is only required for the constant
     require Foswiki::Users::BaseUserMapping;
 
@@ -213,26 +216,28 @@ sub getInfo {
     # of the file, which is where a "proper" save will have left the tag.
     my $info = {};
     my $f;
-    if (open($f, '<', $this->{file})) {
+    if ( open( $f, '<', $this->{file} ) ) {
         local $/ = "\n";
         my $ti = <$f>;
         close($f);
-        if (defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/) {
+        if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
             require Foswiki::Attrs;
             my $a = new Foswiki::Attrs($1);
+
             # Default bad revs to 1, not 0, because this is coming from
             # a topic on disk, so we know it's a "real" rev.
-            $info->{version} =
-              Foswiki::Store::cleanUpRevID($a->{version}) || 1;
-            $info->{date} = $a->{date} if defined $a->{date};
-            $info->{author} = $a->{author} if defined $a->{author};
+            $info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
+              || 1;
+            $info->{date}    = $a->{date}    if defined $a->{date};
+            $info->{author}  = $a->{author}  if defined $a->{author};
             $info->{comment} = $a->{comment} if defined $a->{comment};
         }
     }
+
     # version, date, author and comment fields *must* be defined
     $info->{version} = 1 unless defined $info->{version};
     $info->{date} = $this->getTimestamp() unless defined $info->{date};
-    $info->{author} =  $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID
+    $info->{author} = $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID
       unless defined $info->{author};
     $info->{comment} = ''
       unless defined $info->{comment};
@@ -253,16 +258,18 @@ down to 1.
 
 sub getRevisionHistory {
     my $this = shift;
-    unless (-e $this->{rcsFile}) {
-        if (-e $this->{file}) {
-            return new Foswiki::ListIterator([1]);
-        } else {
-            return new Foswiki::ListIterator([]);
+    unless ( -e $this->{rcsFile} ) {
+        if ( -e $this->{file} ) {
+            return new Foswiki::ListIterator( [1] );
+        }
+        else {
+            return new Foswiki::ListIterator( [] );
         }
     }
+
     # SMELL: what happens with the working file?
     my $maxRev = $this->getLatestRevisionID();
-    return new Foswiki::Iterator::NumberRangeIterator($maxRev, 1);
+    return new Foswiki::Iterator::NumberRangeIterator( $maxRev, 1 );
 }
 
 =begin TML
@@ -290,7 +297,7 @@ ID into TOPICINFO before the revision is actually created.
 
 sub getNextRevisionID {
     my $this = shift;
-    return ($this->numRevisions() || 0) + 1;
+    return ( $this->numRevisions() || 0 ) + 1;
 }
 
 =begin TML
@@ -319,7 +326,7 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 sub getTopicNames {
     my $this = shift;
     my $dh;
-    opendir( $dh, "$Foswiki::cfg{DataDir}/$this->{web}")
+    opendir( $dh, "$Foswiki::cfg{DataDir}/$this->{web}" )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -342,7 +349,8 @@ history.
 =cut
 
 sub revisionExists {
-    my ($this, $rev) = @_;
+    my ( $this, $rev ) = @_;
+
     # Rev numbers run from 1 to numRevisions
     return $rev && $rev <= $this->numRevisions();
 }
@@ -408,7 +416,7 @@ if the main file revision is required.
 
 sub getRevision {
     my ($this) = @_;
-    if (-e $this->{file}) {
+    if ( -e $this->{file} ) {
         return readFile( $this, $this->{file} );
     }
     return undef;
@@ -515,7 +523,7 @@ Move/rename a topic.
 sub moveTopic {
     my ( $this, $store, $newWeb, $newTopic ) = @_;
 
-    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
+    ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
     my $oldWeb   = $this->{web};
     my $oldTopic = $this->{topic};
@@ -550,7 +558,7 @@ Copy a topic.
 sub copyTopic {
     my ( $this, $store, $newWeb, $newTopic ) = @_;
 
-    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
+    ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
     my $oldWeb   = $this->{web};
     my $oldTopic = $this->{topic};
@@ -563,11 +571,11 @@ sub copyTopic {
     }
 
     my $dh;
-    if (opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" )) {
+    if ( opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" ) ) {
         for my $att ( grep { !/^\./ } readdir $dh ) {
             $att = Foswiki::Sandbox::untaintUnchecked($att);
-            my $oldAtt = $store->getHandler(
-                  $this->{web}, $this->{topic}, $att );
+            my $oldAtt =
+              $store->getHandler( $this->{web}, $this->{topic}, $att );
             $oldAtt->copyAttachment( $store, $newWeb, $newTopic );
         }
 
@@ -586,7 +594,7 @@ Move an attachment from one topic to another. The name is retained.
 sub moveAttachment {
     my ( $this, $store, $newWeb, $newTopic, $newAttachment ) = @_;
 
-    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
+    ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
     # FIXME might want to delete old directories if empty
     my $new = $store->getHandler( $newWeb, $newTopic, $newAttachment );
@@ -609,7 +617,7 @@ Copy an attachment from one topic to another. The name is retained.
 sub copyAttachment {
     my ( $this, $store, $newWeb, $newTopic ) = @_;
 
-    ASSERT($store->isa('Foswiki::Store')) if DEBUG;
+    ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
     my $oldWeb     = $this->{web};
     my $oldTopic   = $this->{topic};
@@ -796,7 +804,7 @@ sub copyFile {
 
 sub moveFile {
     my ( $this, $from, $to ) = @_;
-    ASSERT(-e $from) if DEBUG;
+    ASSERT( -e $from ) if DEBUG;
     $this->mkPathTo($to);
     unless ( File::Copy::move( $from, $to ) ) {
         throw Error::Simple(
@@ -1016,8 +1024,10 @@ sub openStream {
             $this->mkPathTo( $this->{file} );
         }
         unless ( open( $stream, $mode, $this->{file} ) ) {
-            throw Error::Simple(
-                'VC::Handler: stream open ' . $this->{file} . ' failed: ' . $! );
+            throw Error::Simple( 'VC::Handler: stream open '
+                  . $this->{file}
+                  . ' failed: '
+                  . $! );
         }
     }
     return $stream;
@@ -1115,7 +1125,7 @@ sub getAttachmentList {
     my $this = shift;
     my $dir  = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
-    opendir($dh, $dir) || return ();
+    opendir( $dh, $dir ) || return ();
     my @files = grep { !/^[.*_]/ && !/,v$/ } readdir($dh);
     closedir($dh);
     return @files;
@@ -1192,13 +1202,14 @@ sub recordChange {
     while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
         shift(@changes);
     }
+
     # Add the new change to the end of the file
     push( @changes, [ $this->{topic} || '.', $cUID, time(), $rev, $more ] );
 
     # Doing this using a Schwartzian transform sometimes causes a mysterious
     # undefined value, so had to unwrap it to a for loop.
-    for (my $i = 0; $i <= $#changes; $i++) {
-        $changes[$i] = join("\t", @{$changes[$i]});
+    for ( my $i = 0 ; $i <= $#changes ; $i++ ) {
+        $changes[$i] = join( "\t", @{ $changes[$i] } );
     }
 
     my $text = join( "\n", @changes );

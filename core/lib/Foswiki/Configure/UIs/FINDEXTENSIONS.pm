@@ -21,8 +21,8 @@ sub renderHtml {
         }
     }
 
-    my $template =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('findextensionsintro');
+    my $template = Foswiki::Configure::UI::getTemplateParser()
+      ->readTemplate('findextensionsintro');
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $template,
         {

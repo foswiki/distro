@@ -93,37 +93,42 @@ sub rest {
 
     my $cache = $session->{cache};
     my $cachedPage;
-    $cachedPage = $cache->getPage($session->{webName}, $session->{topicName})
+    $cachedPage = $cache->getPage( $session->{webName}, $session->{topicName} )
       if $cache;
 
     if ($cachedPage) {
-        print STDERR "found REST for $session->{webName}.$session->{topicName} in cache\n" 
-	  if $Foswiki::cfg{Cache}{Debug};
+        print STDERR
+          "found REST for $session->{webName}.$session->{topicName} in cache\n"
+          if $Foswiki::cfg{Cache}{Debug};
 
         # render uncacheable areas
         my $text = $cachedPage->{text};
-        $cache->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
+        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
 
         # set status
         my $status = $cachedPage->{status};
-        if ($status == 302) {
-            $session->{response}->redirect($cachedPage->{location});
-        } else {
+        if ( $status == 302 ) {
+            $session->{response}->redirect( $cachedPage->{location} );
+        }
+        else {
             $session->{response}->status($status);
         }
 
         # set headers
-        $session->generateHTTPHeaders('rest', $cachedPage->{contentType}, $text, $cachedPage);
+        $session->generateHTTPHeaders( 'rest', $cachedPage->{contentType},
+            $text, $cachedPage );
 
         # send it out
         $session->{response}->print($text);
 
-        $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
+        $session->logEvent( 'rest',
+            $session->{webName} . '.' . $session->{topicName}, '(cached)' );
 
         return;
     }
 
-    print STDERR "computing REST for $session->{webName}.$session->{topicName}\n" 
+    print STDERR
+      "computing REST for $session->{webName}.$session->{topicName}\n"
       if $Foswiki::cfg{Cache}{Debug};
 
     # If there's login info, try and apply it
@@ -140,8 +145,7 @@ sub rest {
 
         my $cUID     = $session->{users}->getCanonicalUserID($login);
         my $WikiName = $session->{users}->getWikiName($cUID);
-        $session->{users}->getLoginManager()->userLoggedIn(
-            $login, $WikiName );
+        $session->{users}->getLoginManager()->userLoggedIn( $login, $WikiName );
     }
 
     # Check that the REST script is authorised under the standard
@@ -232,7 +236,8 @@ sub rest {
         # an XHR.
     }
 
-    $session->logEvent('rest', $session->{webName} . '.' . $session->{topicName}, '(cached)' );
+    $session->logEvent( 'rest',
+        $session->{webName} . '.' . $session->{topicName}, '(cached)' );
 
     no strict 'refs';
     my $function = $record->{function};

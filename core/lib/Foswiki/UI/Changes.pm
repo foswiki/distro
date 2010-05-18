@@ -24,20 +24,21 @@ sub changes {
     my $text = $session->templates->readTemplate('changes');
     my ( $page, $eachChange, $after ) = split( /%REPEAT%/, $text );
 
-	if (!defined($after)) {
-		#the new, non %REPEAT tmpl definition from foswiki 1.1
+    if ( !defined($after) ) {
 
-		my ( $header, $footer ) = split( /%TEXT%/, $text );
-		$page = $header;
-		$after = $footer;
-		
-		$eachChange = $session->templates->expandTemplate('CHANGES:format');
-	}
+        #the new, non %REPEAT tmpl definition from foswiki 1.1
+
+        my ( $header, $footer ) = split( /%TEXT%/, $text );
+        $page  = $header;
+        $after = $footer;
+
+        $eachChange = $session->templates->expandTemplate('CHANGES:format');
+    }
 
     my $showMinor = $query->param('minor');
     unless ($showMinor) {
         my $comment =
-            CGI::b({}, 'Note: ') 
+            CGI::b( {}, 'Note: ' ) 
           . 'This page is showing major changes only. '
           . CGI::a(
             {
@@ -57,7 +58,7 @@ sub changes {
         my $change = $iterator->next();
         next
           if ( !$showMinor && $change->{more} && $change->{more} =~ /minor/ );
-        next if ($change->{more} && $change->{more} =~ /silent/);
+        next if ( $change->{more} && $change->{more} =~ /silent/ );
         next if $done{ $change->{topic} };
         next
           unless $session->topicExists( $webObject->web, $change->{topic} );

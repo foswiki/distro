@@ -311,7 +311,7 @@ HERE
 
     # Clean out deprecated settings, so they don't occlude the
     # replacements
-    foreach my $key (keys %Foswiki::Configure::Load::remap) {
+    foreach my $key ( keys %Foswiki::Configure::Load::remap ) {
         $this->{content} =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
     }
 

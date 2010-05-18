@@ -109,8 +109,9 @@ sub evaluate {
             # a name; look it up in $domain{data}
             eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
             die $@ if $@;
-            $result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
-                $this, $domain{data}, $this->{params}[0] );
+            $result =
+              $Foswiki::cfg{Store}{QueryAlgorithm}
+              ->getField( $this, $domain{data}, $this->{params}[0] );
         }
         else {
             $result = $this->{params}[0];
@@ -123,7 +124,7 @@ sub evaluate {
         $ind-- if MONITOR_EVAL;
         print STDERR ( '-' x $ind ) . '}' . $this->{op}->{name} if MONITOR_EVAL;
     }
-    print STDERR ' -> '. toString($result). "\n" if MONITOR_EVAL;
+    print STDERR ' -> ' . toString($result) . "\n" if MONITOR_EVAL;
 
     return $result;
 }
@@ -142,13 +143,16 @@ simply pass an arbitrary Foswiki::Meta.
 
 sub evaluatesToConstant {
     my $this = shift;
-    if (!ref($this->{op})
-          && ($this->{op} == $Foswiki::Infix::Node::NUMBER
-                || $this->{op} == $Foswiki::Infix::Node::STRING)) {
+    if (
+        !ref( $this->{op} )
+        && (   $this->{op} == $Foswiki::Infix::Node::NUMBER
+            || $this->{op} == $Foswiki::Infix::Node::STRING )
+      )
+    {
         return 1;
     }
-    elsif (ref($this->{op})) {
-        return $this->{op}->evaluatesToConstant($this, @_);
+    elsif ( ref( $this->{op} ) ) {
+        return $this->{op}->evaluatesToConstant( $this, @_ );
     }
     return 0;
 }
@@ -168,17 +172,19 @@ simply pass an arbitrary Foswiki::Meta.
 sub simplify {
     my $this = shift;
 
-    if ($this->evaluatesToConstant(@_)) {
+    if ( $this->evaluatesToConstant(@_) ) {
         my $c = $this->evaluate(@_) || 0;
-        if ($c =~ /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/) {
+        if ( $c =~ /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/ ) {
             $this->{op} = $Foswiki::Infix::Node::NUMBER;
-        } else {
+        }
+        else {
             $this->{op} = $Foswiki::Infix::Node::STRING;
         }
-        @{$this->{params}} = ( $c );
-    } else {
-        for my $f (@{$this->{params}}) {
-            if (UNIVERSAL::can($f, 'simplify')) {
+        @{ $this->{params} } = ($c);
+    }
+    else {
+        for my $f ( @{ $this->{params} } ) {
+            if ( UNIVERSAL::can( $f, 'simplify' ) ) {
                 $f->simplify(@_);
             }
         }

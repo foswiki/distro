@@ -33,7 +33,6 @@ my %SKIPKEYS = (
 );
 my @requiredFields = qw(WikiName FirstName LastName Email);
 
-
 =begin TML
 
 ---++ StaticMethod register_cgi( $session )
@@ -90,7 +89,7 @@ sub register_cgi {
                 def   => 'registration_disabled'
             );
         }
-        Foswiki::UI::checkValidationKey( $session );
+        Foswiki::UI::checkValidationKey($session);
         registerAndNext($session);
     }
     elsif ( $action eq 'verify' ) {
@@ -124,8 +123,8 @@ sub register_cgi {
     # Output of reset password:
     #    unaffected user, accessible by username.$verificationCode
 
-    # Output of verify:
-    #    UnsavedUser, accessible by username.$approvalCode (only sent to administrator)
+# Output of verify:
+#    UnsavedUser, accessible by username.$approvalCode (only sent to administrator)
 
     # Output of approve:
     #    RegisteredUser, all related UnsavedUsers deleted
@@ -198,8 +197,9 @@ sub bulkRegister {
     }
 
     my $log = "---+ Report for Bulk Register\n";
-    #TODO: should check that the header row actually contains the required fields.
-    #TODO: and consider using MAKETEXT to enable translated tables.
+
+  #TODO: should check that the header row actually contains the required fields.
+  #TODO: and consider using MAKETEXT to enable translated tables.
 
     #-- Process each row, generate a log as we go
     for ( my $n = 0 ; $n < scalar(@data) ; $n++ ) {
@@ -254,7 +254,7 @@ sub _registerSingleBulkUser {
     if ( _missingElements( $fieldNames, \@requiredFields ) ) {
         $log .=
             $b1
-          . join( ' ', map {$_.' : '.$row->{$_}} @$fieldNames )
+          . join( ' ', map { $_ . ' : ' . $row->{$_} } @$fieldNames )
           . ' does not contain the full set of required fields '
           . join( ' ', @requiredFields ) . "\n";
         return ( undef, $log );
@@ -578,61 +578,67 @@ sub addUserToGroup {
     my $user    = $session->{user};
 
     my @userNames = $query->param('username');
-    
+
     my $groupName = $query->param('groupname');
-    my $create = Foswiki::isTrue( $query->param('create'), 0);
-    if (
-        ($#userNames < 0) or 
-        ($userNames[0] eq '')){
-        throw Foswiki::OopsException( 'attention', def => 'no_users_to_add_to_group' );
+    my $create = Foswiki::isTrue( $query->param('create'), 0 );
+    if (   ( $#userNames < 0 )
+        or ( $userNames[0] eq '' ) )
+    {
+        throw Foswiki::OopsException( 'attention',
+            def => 'no_users_to_add_to_group' );
     }
-    if ($#userNames == 0) {
-        @userNames = split(/,\s*/, $userNames[0]);
+    if ( $#userNames == 0 ) {
+        @userNames = split( /,\s*/, $userNames[0] );
     }
-    if (!$groupName or $groupName eq '') {
-        throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_add_to_group' );
+    if ( !$groupName or $groupName eq '' ) {
+        throw Foswiki::OopsException( 'attention',
+            def => 'no_group_specified_for_add_to_group' );
     }
-    #TODO: SMELL: if you create a new group, make sure __you__ are the first user in the list, otherwise you won't be able to add more than one user.
-    #because this code saves once per user - and the group will be restricted to that group.
-    #for now, I'll add the currently logged in user to the list..
-    if (!Foswiki::Func::isGroup($groupName) and $create) {
-        unshift(@userNames, $session->{users}->getLoginName($user));
+
+#TODO: SMELL: if you create a new group, make sure __you__ are the first user in the list, otherwise you won't be able to add more than one user.
+#because this code saves once per user - and the group will be restricted to that group.
+#for now, I'll add the currently logged in user to the list..
+    if ( !Foswiki::Func::isGroup($groupName) and $create ) {
+        unshift( @userNames, $session->{users}->getLoginName($user) );
     }
-    
+
     my @failed;
     my @succeeded;
     foreach my $u (@userNames) {
         $u =~ s/^\s+//;
         $u =~ s/\s+$//;
-        next if ($u eq '');
+        next if ( $u eq '' );
 
         try {
-            if (Foswiki::Func::addUserToGroup($u, $groupName, $create)) {
-                push(@succeeded, $u);
-            } else {
-                push(@failed, $u);
+            if ( Foswiki::Func::addUserToGroup( $u, $groupName, $create ) ) {
+                push( @succeeded, $u );
+            }
+            else {
+                push( @failed, $u );
+
                 # Log the error
                 $session->logger->log( 'warning',
-                    "'Failed to add $u to $groupName "  );
+                    "'Failed to add $u to $groupName " );
             }
         }
         catch Error::Simple with {
             my $e = shift;
 
-            push(@failed, $u);
+            push( @failed, $u );
+
             # Log the error
             $session->logger->log( 'warning',
                 "catch: Failed to add $u to $groupName " . $e->stringify() );
         };
     }
     if (@failed) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $web,
-                topic  => $topic,
-                def    => 'problem_adding_to_group',
-                params => [ join(', ', @failed), $groupName ]
-            );
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $web,
+            topic  => $topic,
+            def    => 'problem_adding_to_group',
+            params => [ join( ', ', @failed ), $groupName ]
+        );
     }
     throw Foswiki::OopsException(
         'attention',
@@ -640,7 +646,7 @@ sub addUserToGroup {
         def    => 'added_users_to_group',
         web    => $web,
         topic  => $topic,
-        params => [ join(', ',@succeeded), $groupName ]
+        params => [ join( ', ', @succeeded ), $groupName ]
     );
 }
 
@@ -662,16 +668,18 @@ sub removeUserFromGroup {
 
     my @userNames = $query->param('username');
     my $groupName = $query->param('groupname');
-    if (
-        ($#userNames < 0) or 
-        ($userNames[0] eq '')){
-        throw Foswiki::OopsException( 'attention', def => 'no_users_to_remove_from_group' );
+    if (   ( $#userNames < 0 )
+        or ( $userNames[0] eq '' ) )
+    {
+        throw Foswiki::OopsException( 'attention',
+            def => 'no_users_to_remove_from_group' );
     }
-    if ($#userNames == 0) {
-        @userNames = split(/,\s+/, $userNames[0]);
+    if ( $#userNames == 0 ) {
+        @userNames = split( /,\s+/, $userNames[0] );
     }
-    if (!$groupName or $groupName eq '') {
-        throw Foswiki::OopsException( 'attention', def => 'no_group_specified_for_remove_from_group' );
+    if ( !$groupName or $groupName eq '' ) {
+        throw Foswiki::OopsException( 'attention',
+            def => 'no_group_specified_for_remove_from_group' );
     }
     my @failed;
     my @succeeded;
@@ -680,33 +688,36 @@ sub removeUserFromGroup {
             $u =~ s/^\s+//;
             $u =~ s/\s+$//;
 
-            next if ($u eq '');
-            if (Foswiki::Func::removeUserFromGroup($u, $groupName)) { 
-                push(@succeeded, $u);
-            } else {
-                push(@failed, $u);
+            next if ( $u eq '' );
+            if ( Foswiki::Func::removeUserFromGroup( $u, $groupName ) ) {
+                push( @succeeded, $u );
+            }
+            else {
+                push( @failed, $u );
+
                 # Log the error
                 $session->logger->log( 'warning',
-                    "'Failed to add $u to $groupName "  );
+                    "'Failed to add $u to $groupName " );
             }
         }
         catch Error::Simple with {
             my $e = shift;
 
-            push(@failed, $u);
+            push( @failed, $u );
+
             # Log the error
             $session->logger->log( 'warning',
                 "catch: Failed to add $u to $groupName " . $e->stringify() );
         };
     }
     if (@failed) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $web,
-                topic  => $topic,
-                def    => 'problem_removing_from_group',
-                params => [ join(', ', @failed), $groupName ]
-            );
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $web,
+            topic  => $topic,
+            def    => 'problem_removing_from_group',
+            params => [ join( ', ', @failed ), $groupName ]
+        );
     }
     throw Foswiki::OopsException(
         'attention',
@@ -714,7 +725,7 @@ sub removeUserFromGroup {
         def    => 'removed_users_from_group',
         web    => $web,
         topic  => $topic,
-        params => [ join(', ',@succeeded), $groupName ]
+        params => [ join( ', ', @succeeded ), $groupName ]
     );
 }
 
@@ -775,29 +786,33 @@ sub _complete {
         $users->setEmails( $cUID, $data->{Email} );
 
         #convert to rego agent user copied from _writeRegistrationDetailsToTopic
-        my $safe = $session->{user};
-        my $regoAgent = $session->{user};
+        my $safe             = $session->{user};
+        my $regoAgent        = $session->{user};
         my $enableAddToGroup = 1;
-        if (Foswiki::Func::isGuest($regoAgent)) {
-            $session->{user} = $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName});
+        if ( Foswiki::Func::isGuest($regoAgent) ) {
+            $session->{user} =
+              $session->{users}->getCanonicalUserID(
+                $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
 
-            #SECURITY ISSUE:
-            #when upgrading an existing Wiki, the RegistrationUser is in the AdminGroup.
-            #combined with this feature, registering users would be able to join the AdminGroup.
-            #so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
+#SECURITY ISSUE:
+#when upgrading an existing Wiki, the RegistrationUser is in the AdminGroup.
+#combined with this feature, registering users would be able to join the AdminGroup.
+#so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
             $enableAddToGroup = !$session->{users}->isAdmin($regoAgent);
-            if (!$enableAddToGroup) {
-#TODO: should really tell the user too?
+            if ( !$enableAddToGroup ) {
+
+                #TODO: should really tell the user too?
                 $session->logger->log( 'warning',
-                    "Registration failed: ERROR: can't add user to groups ($data->{AddToGroups}) because the $Foswiki::cfg{Register}{RegistrationAgentWikiName} is in the $Foswiki::cfg{SuperAdminGroup}");
+"Registration failed: ERROR: can't add user to groups ($data->{AddToGroups}) because the $Foswiki::cfg{Register}{RegistrationAgentWikiName} is in the $Foswiki::cfg{SuperAdminGroup}"
+                );
             }
         }
-        
-        if (($enableAddToGroup) and ($data->{AddToGroups})) {
-            foreach my $groupName (split(/,/, $data->{AddToGroups})) {
+
+        if ( ($enableAddToGroup) and ( $data->{AddToGroups} ) ) {
+            foreach my $groupName ( split( /,/, $data->{AddToGroups} ) ) {
                 $session->{user} = $regoAgent;
                 try {
-                    $users->addUserToGroup($cUID, $groupName);
+                    $users->addUserToGroup( $cUID, $groupName );
                 }
                 finally {
                     $session->{user} = $safe;
@@ -1411,14 +1426,16 @@ sub _getDataFromQuery {
     # get all parameters from the form
     my $data = {};
     foreach my $key ( $query->param() ) {
-        if ($key =~ /^(Twk([0-9])(.*))/ and
-            (defined($query->param($key)))) {
+        if ( $key =~ /^(Twk([0-9])(.*))/
+            and ( defined( $query->param($key) ) ) )
+        {
             my @values   = $query->param($key);
             my $required = $2;
             my $name     = $3;
 
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
+
             # Note: field values are unvalidated (and therefore tainted).
             # This is because the registration code does not have enough
             # information to validate the data - for example, it cannot

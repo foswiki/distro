@@ -20,8 +20,8 @@ sub renderHtml {
     my $num = 0;
     for my $key ( sort keys %ENV ) {
         my $value = $ENV{$key};
-        if ($key eq 'HTTP_COOKIE') {
-            
+        if ( $key eq 'HTTP_COOKIE' ) {
+
             # url decode for readability
             $value =~ s/%7C/ | /go;
             $value =~ s/%3D/=/go;
@@ -55,7 +55,7 @@ HERE
     }
 
     my $cgiver = $CGI::VERSION;
-    if ("$cgiver" =~ m/^(2\.89|3\.37|3\.43|3\.47)$/ ) { 
+    if ( "$cgiver" =~ m/^(2\.89|3\.37|3\.43|3\.47)$/ ) {
         $contents .= $this->setting( '', $this->WARN( <<HERE ) );
 You are using a version of \$CGI that is know to have issues with Foswiki.
 CGI should be upgraded to a version > 3.11, avoiding 3.37, 3.43, and 3.47.
@@ -124,9 +124,8 @@ This is the Perl library path, used to load Foswiki modules,
 third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
-    $contents .=
-      $this->setting( 'System temporary directory',
-                      $this->_checkTmpDir( \$erk ) );
+    $contents .= $this->setting( 'System temporary directory',
+        $this->_checkTmpDir( \$erk ) );
 
     $contents .=
       $this->setting( 'CGI bin directory', $this->_checkBinDir( \$erk ) );
@@ -144,7 +143,7 @@ HERE
         $mess = $@;
         $mess =
             $this->ERROR('Foswiki.pm could not be loaded. The error was:')
-          . CGI::pre({}, $mess)
+          . CGI::pre( {}, $mess )
           . $this->ERROR(<<HERE);
 Check path to <code>twiki/lib</code> and check that LocalSite.cfg is
 present and readable
@@ -230,7 +229,7 @@ HERE
     $contents .= $this->setting( 'mod_perl', $n );
 
     my $groups = $::WebServer_gid;
-    $groups =~ s/,/, /go; # improve readability with linebreaks
+    $groups =~ s/,/, /go;    # improve readability with linebreaks
     $contents .= $this->setting(
         'CGI user',
         'userid = <strong>'
@@ -312,19 +311,20 @@ HERE
 
     my $tmp = time();
     my $F;
-    while (-e "$dir/$tmp") {
+    while ( -e "$dir/$tmp" ) {
         $tmp++;
     }
     $tmp = "$dir/$tmp";
-    $tmp =~ /^(.*)$/; $tmp = $1;
-    if (!open($F, '>', $tmp)) {
+    $tmp =~ /^(.*)$/;
+    $tmp = $1;
+    if ( !open( $F, '>', $tmp ) ) {
         $$rerk++;
         return $this->ERROR(<<HERE);
 Cannot create a file in '$dir' ($!) - check the directory exists, and that permissions are correct, and the filesystem is not full.
 HERE
     }
     close($F);
-    if (!unlink($tmp)) {
+    if ( !unlink($tmp) ) {
         $$rerk++;
         return $this->ERROR(<<HERE);
 Cannot unlink '$tmp' ($!) - check that permissions are correct on the directory.

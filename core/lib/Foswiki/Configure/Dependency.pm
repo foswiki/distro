@@ -78,9 +78,9 @@ sub new {
 
     # Other defaults
     $this->{trigger}     ||= 1;
-    $this->{type}        ||= 'external';                 # assume external module
+    $this->{type}        ||= 'external';             # assume external module
     $this->{description} ||= 'Nondescript module';
-    $this->{notes}         = '';
+    $this->{notes} = '';
 
     return $this;
 }
@@ -146,9 +146,8 @@ Check the current installation, populating the ={installedRelease}= and ={instal
 
 =cut
 
-
 sub studyInstallation {
-    my $this = shift;
+    my $this        = shift;
     my $load_errors = '';
 
     if ( !$this->{module} ) {
@@ -156,7 +155,7 @@ sub studyInstallation {
         foreach my $namespace qw(Foswiki TWiki) {
             my $path = $namespace . '::' . $lib . '::' . $this->{name};
             eval "require $path";
-            unless ($@ && $@ =~ m/^Can't locate $path/)  {
+            unless ( $@ && $@ =~ m/^Can't locate $path/ ) {
                 $this->{module} = $path;
                 $load_errors = $@ if ($@);
                 last;
@@ -168,20 +167,22 @@ sub studyInstallation {
     unless ($load_errors) {
         eval "require $this->{module}";
         $load_errors = $@ if ($@);
-        }
+    }
 
     my $path = $this->{module};
     $path =~ s#::#/#g;
     $path .= '.pm';
 
-    if ($load_errors =~ m/^Can't locate $path/)  {
+    if ( $load_errors =~ m/^Can't locate $path/ ) {
         $this->{notes} = "module is not installed";
         return;
-    } else {
-        if ($load_errors =~ m/^(Can't locate|Insecure dep)/)  {
-            $this->{notes} = "module missing required dependencies" ;
+    }
+    else {
+        if ( $load_errors =~ m/^(Can't locate|Insecure dep)/ ) {
+            $this->{notes} = "module missing required dependencies";
             return 1 if ( $this->_recover_versions($path) );
-            print STDERR "Unexpect errors attempting to determine version of dependency\n$load_errors\n";
+            print STDERR
+"Unexpect errors attempting to determine version of dependency\n$load_errors\n";
             return;
         }
     }
@@ -211,9 +212,8 @@ sub studyInstallation {
     return 1;
 }
 
-
 sub _recover_versions {
-    my ($this, $path) = @_;
+    my ( $this, $path ) = @_;
     foreach my $dir (@INC) {
         if ( -e "$dir/$path" ) {
 
@@ -226,7 +226,8 @@ sub _recover_versions {
             my $RELEASE;
 
             my ($version) = $file_contents =~ m/^\s*(?:our)?\s*(\$VERSION\s*=.*);/sm;
-            my ($release) = $file_contents =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*);/sm;
+            my ($release) =
+              $file_contents =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*);/sm;
 
             eval $version if ($version);
             eval $release if ($release);
@@ -435,12 +436,15 @@ sub _compare_extension_versions {
         }
     }
 
-    # SMELL:  Deal with poorly written DEPENDENCY files that compare for SVN release number.
-    $expect = 'svn' if ($b =~ m/^[0-9]{4,5}$/);  # If we are looking for a 4 digit number, assume SVN
+# SMELL:  Deal with poorly written DEPENDENCY files that compare for SVN release number.
+    $expect = 'svn'
+      if ( $b =~ m/^[0-9]{4,5}$/ )
+      ;    # If we are looking for a 4 digit number, assume SVN
 
-    if ($b =~ m/^r([0-9]){1,6}$/) {  # If we are looking for a r followed by 1-6 digit number, compare SVN
-        $b = $1;          # Strip the leading r
-        $expect = 'svn'   # And force SVN comparison
+    if ( $b =~ m/^r([0-9]){1,6}$/ )
+    {      # If we are looking for a r followed by 1-6 digit number, compare SVN
+        $b      = $1;      # Strip the leading r
+        $expect = 'svn'    # And force SVN comparison
     }
 
     if ( $expect eq 'svn' ) {
@@ -512,10 +516,22 @@ sub _compare_extension_versions {
 # zeroes as necessary.
 sub _digitise_tuples {
     my ( $a, $b ) = @_;
-    
+
     my ($maxDigits) = reverse sort ( map { length($_) } ( @$a, @$b ) );
-    $a = join( '', map { if ($_ eq 'HEAD') {$_} else { sprintf( '%0' . $maxDigits . 'u', $_ );} } @$a );
-    $b = join( '', map { if ($_ eq 'HEAD') {$_} else { sprintf( '%0' . $maxDigits . 'u', $_ );} } @$b );
+    $a = join(
+        '',
+        map {
+            if   ( $_ eq 'HEAD' ) { $_ }
+            else                  { sprintf( '%0' . $maxDigits . 'u', $_ ); }
+          } @$a
+    );
+    $b = join(
+        '',
+        map {
+            if   ( $_ eq 'HEAD' ) { $_ }
+            else                  { sprintf( '%0' . $maxDigits . 'u', $_ ); }
+          } @$b
+    );
 
     # Pad with zeroes to equal length
     if ( length($b) > length($a) ) {

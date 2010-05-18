@@ -4,13 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
-our $evalParser; # could share $ifParser from IF.pm
+our $evalParser;    # could share $ifParser from IF.pm
 
 sub QUERY {
     my ( $this, $params, $topicObject ) = @_;
     my $result;
     my $expr = $params->{_DEFAULT};
-    my $style = lc($params->{style} || '');
+    my $style = lc( $params->{style} || '' );
 
     # Recursion block.
     $this->{evaluatingEval} ||= {};
@@ -37,9 +37,8 @@ sub QUERY {
     catch Foswiki::Infix::Error with {
         my $e = shift;
         $result =
-          $this->inlineAlert(
-              'alerts', 'generic', 'QUERY{', $params->stringify(),
-              '}:', $e->{-text} );
+          $this->inlineAlert( 'alerts', 'generic', 'QUERY{',
+            $params->stringify(), '}:', $e->{-text} );
     }
     finally {
         delete $this->{evaluatingEval}->{$expr};
@@ -49,38 +48,40 @@ sub QUERY {
 }
 
 sub _serialise_perl {
-    my ($this, $result) = @_;
+    my ( $this, $result ) = @_;
     use Data::Dumper ();
     local $Data::Dumper::Indent = 0;
-    local $Data::Dumper::Terse = 1;
-    return Data::Dumper->Dump([$result]);
+    local $Data::Dumper::Terse  = 1;
+    return Data::Dumper->Dump( [$result] );
 }
 
 sub _serialise_json {
-    my ($this, $result) = @_;
+    my ( $this, $result ) = @_;
     eval "require JSON";
     if ($@) {
-        return
-          $this->inlineAlert(
-              'alerts', 'generic', 'Perl JSON module is not available');
+        return $this->inlineAlert( 'alerts', 'generic',
+            'Perl JSON module is not available' );
     }
-    return JSON::to_json($result, { allow_nonref => 1 });
+    return JSON::to_json( $result, { allow_nonref => 1 } );
 }
 
 # Default serialiser
 sub _serialise_ {
-    my ($this, $result) = @_;
-    if (ref($result) eq 'ARRAY') {
+    my ( $this, $result ) = @_;
+    if ( ref($result) eq 'ARRAY' ) {
+
         # If any of the results is non-scalar, have to perl it
         foreach my $v (@$result) {
-            if (ref($v)) {
+            if ( ref($v) ) {
                 return _serialise_perl($result);
             }
         }
-        return join(',', @$result);
-    } elsif (ref($result)) {
+        return join( ',', @$result );
+    }
+    elsif ( ref($result) ) {
         return _serialise_perl($result);
-    } else {
+    }
+    else {
         return defined $result ? $result : '';
     }
 }

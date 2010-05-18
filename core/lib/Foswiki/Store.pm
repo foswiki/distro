@@ -64,8 +64,8 @@ Construct a Store module.
 =cut
 
 sub new {
-    my ( $class ) = @_;
-    my $this = bless( { }, $class );
+    my ($class) = @_;
+    my $this = bless( {}, $class );
     return $this;
 }
 
@@ -101,7 +101,7 @@ sub cleanUpRevID {
     my $rev = shift;
 
     # RCS format: 1.2, or plain integer: 2
-    if (defined $rev && $rev =~ /^(?:\d+\.)?(\d+)$/) {
+    if ( defined $rev && $rev =~ /^(?:\d+\.)?(\d+)$/ ) {
         return $1;
     }
 

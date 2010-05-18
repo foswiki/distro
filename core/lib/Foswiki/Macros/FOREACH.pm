@@ -14,22 +14,31 @@ sub FOREACH {
     $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};
     $params->{type}      = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
-#    $params->{format}      = '$topic'  unless ( defined($params->{format}) );
-#TODO: change to $n some time.
-    $params->{separator}      = "\n"  unless ( defined($params->{separator}) );
-#    $params->{header}      = ''  unless ( $params->{header} );
-#    $params->{footer}      = ''  unless ( $params->{footer} );
+
+  #    $params->{format}      = '$topic'  unless ( defined($params->{format}) );
+  #TODO: change to $n some time.
+    $params->{separator} = "\n" unless ( defined( $params->{separator} ) );
+
+    #    $params->{header}      = ''  unless ( $params->{header} );
+    #    $params->{footer}      = ''  unless ( $params->{footer} );
     my $s;
     try {
         my $topicString = $params->{_DEFAULT} || '';
-        #from Search::_makeTopicPattern (plus an added . to allow web.topic)
-        my @topics = map { s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go; s/\*/\.\*/go; $_ }
-            split( /,\s*/, $topicString );
 
-        my $query;  #query node
+        #from Search::_makeTopicPattern (plus an added . to allow web.topic)
+        my @topics = map {
+            s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
+            s/\*/\.\*/go;
+            $_
+          }
+          split( /,\s*/, $topicString );
+
+        my $query;    #query node
         require Foswiki::Search::InfoCache;
-        my $infoCache = new Foswiki::Search::InfoCache($this, $params->{baseweb}, \@topics);
-        my ( $ttopics, $searchResult, $tmplTail ) = $this->search->formatResults($query, $infoCache, $params);
+        my $infoCache =
+          new Foswiki::Search::InfoCache( $this, $params->{baseweb}, \@topics );
+        my ( $ttopics, $searchResult, $tmplTail ) =
+          $this->search->formatResults( $query, $infoCache, $params );
         $s = $searchResult;
     }
     catch Error::Simple with {

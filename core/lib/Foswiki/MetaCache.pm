@@ -24,8 +24,7 @@ use Foswiki::Meta ();
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
 
-sub TRACE {0;}
-
+sub TRACE { 0; }
 
 =pod
 ---++ Foswiki::MetaCache::new($session)
@@ -34,16 +33,19 @@ sub TRACE {0;}
 =cut
 
 sub new {
-    my ( $class, $session) = @_;
-    
+    my ( $class, $session ) = @_;
+
     #my $this = $class->SUPER::new([]);
-    my $this = bless({
-                session => $session, 
-                cache => {},
-                new_count=>0,
-                get_count=>0,
-                undef_count=>0,
-            }, $class);
+    my $this = bless(
+        {
+            session     => $session,
+            cache       => {},
+            new_count   => 0,
+            get_count   => 0,
+            undef_count => 0,
+        },
+        $class
+    );
 
     return $this;
 }
@@ -62,24 +64,24 @@ Break circular references.
 sub finish {
     my $this = shift;
     undef $this->{session};
-    
+
     #must clear cache every request until the cache is hooked up to Store's save
-    
-    foreach my $web (keys(%{$this->{cache}})) {
-        foreach my $topic (keys(%{$this->{cache}->{$web}})) {
+
+    foreach my $web ( keys( %{ $this->{cache} } ) ) {
+        foreach my $topic ( keys( %{ $this->{cache}->{$web} } ) ) {
             undef $this->{cache}->{$web}{$topic};
             $this->{undef_count}++;
         }
         undef $this->{cache}->{$web};
     }
     undef $this->{cache};
-    
-    if (TRACE) {
-        print STDERR "MetaCache: new: $this->{new_count} get: $this->{get_count} undef: $this->{undef_count} \n";
-    }
-    
-}
 
+    if (TRACE) {
+        print STDERR
+"MetaCache: new: $this->{new_count} get: $this->{get_count} undef: $this->{undef_count} \n";
+    }
+
+}
 
 =begin TML
 
@@ -91,11 +93,10 @@ returns true if the topic is already int he cache.
 
 sub hasCached {
     my ( $this, $web, $topic ) = @_;
-    ASSERT(defined($topic)) if DEBUG;
-    
-    return (defined($this->{cache}->{$web}{$topic}));
-}
+    ASSERT( defined($topic) ) if DEBUG;
 
+    return ( defined( $this->{cache}->{$web}{$topic} ) );
+}
 
 =begin TML
 
@@ -109,31 +110,35 @@ optionally the $meta parameter can be used to add that to the cache - useful if 
 
 sub get {
     my ( $this, $web, $topic, $meta ) = @_;
-    ASSERT( $meta->isa('Foswiki::Meta') ) if (defined($meta) and DEBUG);
-    
-    if (!defined($topic)) {
-        #there are some instances - like the result set sorting, where we need to quickly pass "$web.$topic"
+    ASSERT( $meta->isa('Foswiki::Meta') ) if ( defined($meta) and DEBUG );
+
+    if ( !defined($topic) ) {
+
+#there are some instances - like the result set sorting, where we need to quickly pass "$web.$topic"
         ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( '', $web );
     }
 
     $this->{get_count}++;
-    
-    unless ($this->{cache}->{$web}) {
+
+    unless ( $this->{cache}->{$web} ) {
         $this->{cache}->{$web} = {};
     }
-    unless ($this->{cache}->{$web}{$topic}) {
+    unless ( $this->{cache}->{$web}{$topic} ) {
         $this->{cache}->{$web}{$topic} = {};
-        if (defined($meta)) {
+        if ( defined($meta) ) {
             $this->{cache}->{$web}{$topic}->{tom} = $meta;
-        } else {
-            $this->{cache}->{$web}{$topic}->{tom} = 
-                Foswiki::Meta->load( $this->{session}, $web, $topic );
         }
-        return if (!defined($this->{cache}->{$web}{$topic}->{tom}) or $this->{cache}->{$web}{$topic}->{tom} eq '');
+        else {
+            $this->{cache}->{$web}{$topic}->{tom} =
+              Foswiki::Meta->load( $this->{session}, $web, $topic );
+        }
+        return
+          if ( !defined( $this->{cache}->{$web}{$topic}->{tom} )
+            or $this->{cache}->{$web}{$topic}->{tom} eq '' );
 
         $this->{new_count}++;
 
-#TODO: extract this to the Meta Class, or remove entirely
+        #TODO: extract this to the Meta Class, or remove entirely
         # Extract sort fields
         my $ri = $this->{cache}->{$web}{$topic}->{tom}->getRevisionInfo();
 
@@ -142,10 +147,12 @@ sub get {
         $this->{cache}->{$web}{$topic}->{modified} = $ri->{date};
         $this->{cache}->{$web}{$topic}->{revNum}   = $ri->{version};
 
-        $this->{cache}->{$web}{$topic}->{allowView} = $this->{cache}->{$web}{$topic}->{tom}->haveAccess('VIEW');
+        $this->{cache}->{$web}{$topic}->{allowView} =
+          $this->{cache}->{$web}{$topic}->{tom}->haveAccess('VIEW');
     }
 
-    ASSERT( $this->{cache}->{$web}{$topic}->{tom}->isa('Foswiki::Meta') ) if DEBUG;
+    ASSERT( $this->{cache}->{$web}{$topic}->{tom}->isa('Foswiki::Meta') )
+      if DEBUG;
 
     return $this->{cache}->{$web}{$topic};
 }

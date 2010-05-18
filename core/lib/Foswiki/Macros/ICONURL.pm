@@ -6,7 +6,6 @@ use warnings;
 
 use Foswiki::Macros::ICON ();
 
-
 =begin TML
 
 ---++ ObjectMethod ICONURL($params) -> $html
@@ -15,10 +14,9 @@ ICONURLPATH macro implementation
 
 =cut
 
-
 sub ICONURL {
     my ( $this, $params ) = @_;
-    my ($path) = $this->_findIcon ($params);
+    my ($path) = $this->_findIcon($params);
 
     return $this->_getIconUrl( 1, $path );
 }

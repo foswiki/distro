@@ -142,8 +142,12 @@ sub _action_createweb {
             throw Foswiki::OopsException(
                 'attention',
                 def    => 'web_creation_error',
-                params => [$newWeb,$session->i18n->maketext(
-                    'The [_1] web does not exist', $parent)]
+                params => [
+                    $newWeb,
+                    $session->i18n->maketext(
+                        'The [_1] web does not exist', $parent
+                    )
+                ]
             );
         }
     }
@@ -160,7 +164,7 @@ sub _action_createweb {
     }
 
     my $baseWeb = $query->param('baseweb') || '';
-    $baseWeb =~ s#\.#/#g; # normalizeWebTopicName does this
+    $baseWeb =~ s#\.#/#g;    # normalizeWebTopicName does this
 
     # Validate the base web name
     $baseWeb = Foswiki::Sandbox::untaint(
@@ -195,7 +199,7 @@ sub _action_createweb {
         );
     }
 
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     # Get options from the form (only those options that are already
     # set in the template WebPreferences topic are changed, so we can

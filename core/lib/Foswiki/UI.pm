@@ -14,6 +14,7 @@ use strict;
 use warnings;
 
 BEGIN {
+
     #Monitor::MARK("Start of BEGIN block in UI.pm");
     $Foswiki::cfg{SwitchBoard} ||= {};
 
@@ -144,6 +145,7 @@ BEGIN {
         function => 'view',
         context  => { view => 1 },
     };
+
     #Monitor::MARK("End of BEGIN block in UI.pm");
 }
 
@@ -163,7 +165,7 @@ use Foswiki::Validation             ();
 # Used to lazily load UI handler modules
 our %isInitialized = ();
 
-sub TRACE_REQUEST { 0 };
+sub TRACE_REQUEST { 0 }
 
 =begin TML
 
@@ -182,9 +184,9 @@ sub handleRequest {
         $res = new Foswiki::Response();
         $res->header( -type => 'text/html', -status => '404' );
         my $html = CGI::start_html('404 Not Found');
-        $html .= CGI::h1({}, 'Not Found');
-        $html .=
-          CGI::p( {}, "The requested URL "
+        $html .= CGI::h1( {}, 'Not Found' );
+        $html .= CGI::p( {},
+                "The requested URL "
               . $req->uri
               . " was not found on this server." );
         $html .= CGI::end_html();
@@ -215,7 +217,7 @@ sub handleRequest {
 
     # Get the params cache from the path
     my $cache = $req->param('foswiki_redirect_cache');
-    if (defined $cache) {
+    if ( defined $cache ) {
         $req->delete('foswiki_redirect_cache');
     }
 
@@ -223,24 +225,28 @@ sub handleRequest {
     # as to which takes precedence (param or path) because we should
     # never have both at once.
     my $path_info = $req->path_info();
-    if ($path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})##) {
+    if ( $path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})## ) {
         $cache = $1;
-        $req->path_info( $path_info );
+        $req->path_info($path_info);
     }
 
     if ( defined $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
         require Foswiki::Request::Cache;
+
         # implicit untaint required, because $cache may be used in a filename.
         # Note that the cache serialises the method and path_info, which
         # will be restored.
-        Foswiki::Request::Cache->new()->load($1, $req);
+        Foswiki::Request::Cache->new()->load( $1, $req );
     }
 
     if (TRACE_REQUEST) {
-        print STDERR "INCOMING ".$req->method()." ".$req->url
-          ." -> ".$sub."\n";
-        print STDERR "validation_key: ".
-          ($req->param('validation_key')||'no key')."\n";
+        print STDERR "INCOMING "
+          . $req->method() . " "
+          . $req->url . " -> "
+          . $sub . "\n";
+        print STDERR "validation_key: "
+          . ( $req->param('validation_key') || 'no key' ) . "\n";
+
         #require Data::Dumper;
         #print STDERR Data::Dumper->Dump([$req]);
     }
@@ -303,7 +309,8 @@ sub _execute {
             $session->getLoginManager()->checkAccess();
             &$sub($session);
         }
-    } catch Foswiki::ValidationException with {
+    }
+    catch Foswiki::ValidationException with {
         my $e = shift;
 
         $session ||= $Foswiki::Plugins::SESSION;
@@ -324,13 +331,15 @@ sub _execute {
         # URL is absolute as required by
         # http://tools.ietf.org/html/rfc2616#section-14.30
         my $url = $session->getScriptUrl(
-            1, 'login',
+            1,                   'login',
             $session->{webName}, $session->{topicName},
-            foswikiloginaction => 'validate',
-            foswikioriginalquery => $uid);
-        
-        $session->redirect( $url );    # no passthrough
-    } catch Foswiki::AccessControlException with {
+            foswikiloginaction   => 'validate',
+            foswikioriginalquery => $uid
+        );
+
+        $session->redirect($url);    # no passthrough
+    }
+    catch Foswiki::AccessControlException with {
         my $e = shift;
 
         $session ||= $Foswiki::Plugins::SESSION;
@@ -348,11 +357,12 @@ sub _execute {
                 topic  => $e->{topic},
                 def    => 'topic_access',
                 params => [ $e->{mode}, $e->{reason} ]
-               );
+            );
 
             $exception->generate($session);
         }
-    } catch Foswiki::OopsException with {
+    }
+    catch Foswiki::OopsException with {
         my $e = shift;
 
         $session ||= $Foswiki::Plugins::SESSION;
@@ -360,21 +370,24 @@ sub _execute {
         $res ||= new Foswiki::Response();
 
         $e->generate($session);
-    } catch Foswiki::EngineException with {
+    }
+    catch Foswiki::EngineException with {
         my $e   = shift;
         my $res = $e->{response};
         unless ( defined $res ) {
             $res = new Foswiki::Response();
             $res->header( -type => 'text/html', -status => $e->{status} );
             my $html = CGI::start_html( $e->{status} . ' Bad Request' );
-            $html .= CGI::h1({}, 'Bad Request');
+            $html .= CGI::h1( {}, 'Bad Request' );
             $html .= CGI::p( {}, $e->{reason} );
             $html .= CGI::end_html();
             $res->print($html);
         }
         $Foswiki::engine->finalizeError($res);
         return $e->{status};
-    } catch Error::Simple with {
+    }
+    catch Error::Simple with {
+
         # Most usually a 'die'
         my $e = shift;
 
@@ -395,8 +408,8 @@ sub _execute {
 
             # tell the browser where to look for more help
             my $text =
-              'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
-                . "\n\n";
+'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
+              . "\n\n";
             $mess =~ s/ at .*$//s;
 
             # cut out pathnames from public announcement
@@ -404,7 +417,9 @@ sub _execute {
             $text .= $mess;
             $res->print($text);
         }
-    } otherwise {
+    }
+    otherwise {
+
         # Aargh! Should never get here
         $res = new Foswiki::Response;
         $res->header( -type => 'text/plain' );
@@ -426,17 +441,18 @@ Handler to "logon" action.
 
 sub logon {
     my $session = shift;
-    my $action = $session->{request}->param('foswikiloginaction');
+    my $action  = $session->{request}->param('foswikiloginaction');
     $session->{request}->delete('foswikiloginaction');
 
     # Force login if not recognisably authenticated when validating
-    if ( $action && $action eq 'validate'
-           && $session->inContext('authenticated')) {
+    if (   $action
+        && $action eq 'validate'
+        && $session->inContext('authenticated') )
+    {
         Foswiki::Validation::validate($session);
     }
     else {
-        $session->getLoginManager()
-          ->login( $session->{request}, $session );
+        $session->getLoginManager()->login( $session->{request}, $session );
     }
 }
 
@@ -504,9 +520,8 @@ sub checkAccess {
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
     unless ( $topicObject->haveAccess($mode) ) {
-        throw Foswiki::AccessControlException(
-        	$mode, $session->{user}, $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason
-        );
+        throw Foswiki::AccessControlException( $mode, $session->{user},
+            $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason );
     }
 }
 
@@ -523,7 +538,7 @@ See Foswiki::Validation for more information.
 =cut
 
 sub checkValidationKey {
-    my ( $session ) = @_;
+    my ($session) = @_;
 
     # If validation is disabled, do nothing
     return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
@@ -538,15 +553,13 @@ sub checkValidationKey {
         || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
             $nonce ) )
     {
-        throw Foswiki::ValidationException(
-            $session->{request}->action() );
+        throw Foswiki::ValidationException( $session->{request}->action() );
     }
     if ( defined($nonce) ) {
 
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted.
-        Foswiki::Validation::expireValidationKeys(
-            $session->getCGISession(),
+        Foswiki::Validation::expireValidationKeys( $session->getCGISession(),
             $Foswiki::cfg{Validation}{ExpireKeyOnUse} ? $nonce : undef );
     }
 }

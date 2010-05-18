@@ -45,13 +45,13 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
     }
-    elsif ( ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
-        && ( $Foswiki::cfg{DetailedOS } eq 'darwin' ) )
+    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
+        && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
     {
         print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
         throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
     }
-    
+
     return $this;
 }
 
@@ -108,13 +108,13 @@ sub fetchUsers {
 sub _lockPasswdFile {
     my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
 
-    sysopen(my $fh, $lockFileName, O_RDWR|O_CREAT, 0666)
-      || throw Error::Simple(
-        $lockFileName . 
-        ' open or create password lock file failed -' . 
-        'check access rights: ' . $! );
+    sysopen( my $fh, $lockFileName, O_RDWR | O_CREAT, 0666 )
+      || throw Error::Simple( $lockFileName
+          . ' open or create password lock file failed -'
+          . 'check access rights: '
+          . $! );
     flock $fh, LOCK_EX;
-    
+
     return $fh;
 }
 
@@ -122,7 +122,7 @@ sub _lockPasswdFile {
 # which was returned by _lockPasswdFile
 sub _unlockPasswdFile {
     my $fh = shift;
-    close ($fh);
+    close($fh);
 }
 
 sub _readPasswd {
@@ -285,7 +285,7 @@ sub fetchPass {
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
-    ASSERT( $login ) if DEBUG;
+    ASSERT($login) if DEBUG;
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -298,11 +298,11 @@ sub setPassword {
 
     try {
         my $lockHandle = _lockPasswdFile();
-        my $db = $this->_readPasswd();
+        my $db         = $this->_readPasswd();
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
         _savePasswd($db);
-        _unlockPasswdFile( $lockHandle );
+        _unlockPasswdFile($lockHandle);
     }
     catch Error::Simple with {
         my $e = shift;
@@ -324,7 +324,7 @@ sub removeUser {
 
     try {
         my $lockHandle = _lockPasswdFile();
-        my $db = $this->_readPasswd();
+        my $db         = $this->_readPasswd();
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
         }
@@ -333,7 +333,7 @@ sub removeUser {
             _savePasswd($db);
             $result = 1;
         }
-        _unlockPasswdFile( $lockHandle );
+        _unlockPasswdFile($lockHandle);
     }
     catch Error::Simple with {
         $this->{error} = shift->{-text};
@@ -385,7 +385,7 @@ sub setEmails {
     ASSERT($login) if DEBUG;
 
     my $lockHandle = _lockPasswdFile();
-    my $db = $this->_readPasswd();
+    my $db         = $this->_readPasswd();
     unless ( $db->{$login} ) {
         $db->{$login}->{pass} = '';
     }
@@ -399,7 +399,7 @@ sub setEmails {
         $db->{$login}->{emails} = '';
     }
     _savePasswd($db);
-    _unlockPasswdFile( $lockHandle );
+    _unlockPasswdFile($lockHandle);
     return 1;
 }
 

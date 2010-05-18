@@ -247,17 +247,17 @@ sub readTemplate {
             # handle %TMPL:DEF{key}%
             if ($key) {
 
-                # if the key is already defined, rename the existing template to  key:_PREV
-                my $new_value    = $val;
-                my $prev_key     = $key;
-                my $prev_value   = $this->{VARS}->{$prev_key};
+     # if the key is already defined, rename the existing template to  key:_PREV
+                my $new_value  = $val;
+                my $prev_key   = $key;
+                my $prev_value = $this->{VARS}->{$prev_key};
                 $this->{VARS}->{$prev_key} = $new_value;
                 while ($prev_value) {
-                    $new_value   = $prev_value;
-                    $prev_key    = "$prev_key:_PREV";
-                    $prev_value   = $this->{VARS}->{$prev_key};
+                    $new_value                 = $prev_value;
+                    $prev_key                  = "$prev_key:_PREV";
+                    $prev_value                = $this->{VARS}->{$prev_key};
                     $this->{VARS}->{$prev_key} = $new_value;
-                } 
+                }
 
             }
             $key = $1;
@@ -270,20 +270,20 @@ sub readTemplate {
 
             # handle %TMPL:END%
 
-            # if the key is already defined, rename the existing template to  key:_PREV
-            my $new_value    = $val;
-            my $prev_key     = $key;
-            my $prev_value   = $this->{VARS}->{$prev_key};
+     # if the key is already defined, rename the existing template to  key:_PREV
+            my $new_value  = $val;
+            my $prev_key   = $key;
+            my $prev_value = $this->{VARS}->{$prev_key};
             $this->{VARS}->{$prev_key} = $new_value;
             while ($prev_value) {
-                $new_value   = $prev_value;
-                $prev_key    = "$prev_key:_PREV";
-                $prev_value   = $this->{VARS}->{$prev_key};
+                $new_value                 = $prev_value;
+                $prev_key                  = "$prev_key:_PREV";
+                $prev_value                = $this->{VARS}->{$prev_key};
                 $this->{VARS}->{$prev_key} = $new_value;
-            } 
+            }
 
-            $key                  = '';
-            $val                  = '';
+            $key = '';
+            $val = '';
 
             # SMELL: unchecked implicit untaint?
             $result .= $1;

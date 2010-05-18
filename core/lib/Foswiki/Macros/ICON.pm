@@ -21,17 +21,18 @@ sub _lookupIcon {
 
     return undef unless defined $choice;
 
-    if (!defined $this->{_ICONSPACE}) {
+    if ( !defined $this->{_ICONSPACE} ) {
         my $iconTopic = $this->{prefs}->getPreference('ICONTOPIC');
         if ( defined($iconTopic) ) {
             $iconTopic =~ s/\s+$//;
             my ( $w, $t ) =
               $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-            if ($this->topicExists($w, $t)) {
-                $this->{_ICONSPACE} = new Foswiki::Meta($this, $w, $t);
-            } else {
-                $this->logger->log(
-                    'warning', 'ICONTOPIC $w.$t does not exist' );
+            if ( $this->topicExists( $w, $t ) ) {
+                $this->{_ICONSPACE} = new Foswiki::Meta( $this, $w, $t );
+            }
+            else {
+                $this->logger->log( 'warning',
+                    'ICONTOPIC $w.$t does not exist' );
             }
         }
     }
@@ -43,18 +44,26 @@ sub _lookupIcon {
 
     # First, try for a straight attachment name e.g. %ICON{"browse"}%
     # -> "System/FamFamFamGraphics/browse.gif"
-    if (defined $path) {
+    if ( defined $path ) {
+
         # Already known
-    } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.png")) {
+    }
+    elsif ( $this->{_ICONSPACE}->hasAttachment("$choice.png") ) {
+
         # Found .png attached to ICONTOPIC
-        $path = $this->{_ICONSPACE}->getPath()."/$choice.png";
-    } elsif ($this->{_ICONSPACE}->hasAttachment("$choice.gif")) {
+        $path = $this->{_ICONSPACE}->getPath() . "/$choice.png";
+    }
+    elsif ( $this->{_ICONSPACE}->hasAttachment("$choice.gif") ) {
+
         # Found .gif attached to ICONTOPIC
-        $path = $this->{_ICONSPACE}->getPath()."/$choice.gif";
-    } elsif ($choice =~ /\.([a-zA-Z0-9]+)$/) {
-#TODO: need to give this useage a chance at tmpl based icons too
+        $path = $this->{_ICONSPACE}->getPath() . "/$choice.gif";
+    }
+    elsif ( $choice =~ /\.([a-zA-Z0-9]+)$/ ) {
+
+        #TODO: need to give this useage a chance at tmpl based icons too
         my $ext = $1;
-        if (!defined $this->{_EXT2ICON}) {
+        if ( !defined $this->{_EXT2ICON} ) {
+
             # Load the file extension mapping
             $this->{_EXT2ICON} = {};
             local $/;
@@ -63,7 +72,8 @@ sub _lookupIcon {
                   $this->{_ICONSPACE}->openAttachment( '_filetypes.txt', '<' );
                 %{ $this->{_EXT2ICON} } = split( /\s+/, <$icons> );
                 $icons->close();
-            } catch Error with {
+            }
+            catch Error with {
                 ASSERT( 0, $_[0] ) if DEBUG;
                 $this->{_EXT2ICON} = {};
             };
@@ -71,11 +81,13 @@ sub _lookupIcon {
 
         my $icon = $this->{_EXT2ICON}->{$ext};
         if ( defined $icon ) {
-            if ($this->{_ICONSPACE}->hasAttachment("$icon.png")) {
+            if ( $this->{_ICONSPACE}->hasAttachment("$icon.png") ) {
+
                 # Found .png attached to ICONTOPIC
-                $path = $this->{_ICONSPACE}->getPath()."/$icon.png";
-            } else {
-                $path = $this->{_ICONSPACE}->getPath()."/$icon.gif";
+                $path = $this->{_ICONSPACE}->getPath() . "/$icon.png";
+            }
+            else {
+                $path = $this->{_ICONSPACE}->getPath() . "/$icon.gif";
             }
         }
     }
@@ -86,25 +98,26 @@ sub _lookupIcon {
 }
 
 sub _findIcon {
-    my $this = shift;
+    my $this   = shift;
     my $params = shift;
 
-    my $path = $this->_lookupIcon($params->{_DEFAULT}) || 
-      $this->_lookupIcon($params->{default}) ||
-      $this->_lookupIcon('else');
+    my $path =
+         $this->_lookupIcon( $params->{_DEFAULT} )
+      || $this->_lookupIcon( $params->{default} )
+      || $this->_lookupIcon('else');
     return ($path);
 }
 
 sub _getIconUrl {
-    my $this = shift;
+    my $this     = shift;
     my $absolute = shift;
-    my $path = shift;
-    return if (!defined($path));
-    my @path = split('/', $path);
-    my $a = pop(@path);
-    my $t = pop(@path);
-    my $w = join('/', @path);
-    return $this->getPubUrl($absolute, $w, $t, $a);
+    my $path     = shift;
+    return if ( !defined($path) );
+    my @path = split( '/', $path );
+    my $a    = pop(@path);
+    my $t    = pop(@path);
+    my $w    = join( '/', @path );
+    return $this->getPubUrl( $absolute, $w, $t, $a );
 }
 
 =begin TML
@@ -124,28 +137,34 @@ the alt parameter. If alt is not given, the main parameter will be used.
 
 sub ICON {
     my ( $this, $params ) = @_;
-    
-    if (!defined($this->{_ICONSTEMPLATE})) {
+
+    if ( !defined( $this->{_ICONSTEMPLATE} ) ) {
+
         #if we fail to load once, don't try again.
         $this->{_ICONSTEMPLATE} = $this->templates->readTemplate('icons');
     }
-    
+
     #use icons.tmpl
-    if (defined($this->{_ICONSTEMPLATE})) {
-        #can't test for default&else here - need to allow the 'old' way a chance.
-        #foreach my $iconName ($params->{_DEFAULT}, $params->{default}, 'else') {
-            my $iconName = $params->{_DEFAULT} || $params->{default} || 'else';  #can default the values if things are undefined though
-            #next unless (defined($iconName));
-            my $html = $this->templates->expandTemplate("icon:".$iconName);
-            return $html if (defined($html) and $html ne '');
+    if ( defined( $this->{_ICONSTEMPLATE} ) ) {
+
+       #can't test for default&else here - need to allow the 'old' way a chance.
+       #foreach my $iconName ($params->{_DEFAULT}, $params->{default}, 'else') {
+        my $iconName =
+             $params->{_DEFAULT}
+          || $params->{default}
+          || 'else';    #can default the values if things are undefined though
+                        #next unless (defined($iconName));
+        my $html = $this->templates->expandTemplate( "icon:" . $iconName );
+        return $html if ( defined($html) and $html ne '' );
+
         #}
     }
 
     #fall back to using the traditional brute force attachment method.
-    my ($path) = $this->_findIcon ($params);
+    my ($path) = $this->_findIcon($params);
 
-    return $this->renderer->renderIconImage(
-        $this->_getIconUrl( 0, $path ), $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else');
+    return $this->renderer->renderIconImage( $this->_getIconUrl( 0, $path ),
+        $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else' );
 }
 
 1;

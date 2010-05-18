@@ -79,8 +79,8 @@ sub tidytime {
     my ( $a, $b ) = @_;
     my $s = timestr( timediff( $a, $b ) );
     $s =~ /([\d.]+) wallclock secs.*([\d.]+) CPU/;
-    my ($w, $c) = ($1, $2);
-    if (defined $show_percent) {
+    my ( $w, $c ) = ( $1, $2 );
+    if ( defined $show_percent ) {
         $w = $w * 100.0 / $show_percent;
         return "$w%";
     }
@@ -110,18 +110,17 @@ sub END {
     my $firstbm;
     my %mash;
 
-    if (scalar(@times) > 1) {
-        my $ibm = timestr(timediff($times[$#times]->[1], $times[0]->[1]));
-        if ($ibm =~ /([\d.]+) wallclock/) {
+    if ( scalar(@times) > 1 ) {
+        my $ibm = timestr( timediff( $times[$#times]->[1], $times[0]->[1] ) );
+        if ( $ibm =~ /([\d.]+) wallclock/ ) {
             $show_percent = $1;
         }
-        print STDERR
-          "\n\n| Event  | Delta | Abs | Mem |";
+        print STDERR "\n\n| Event  | Delta | Abs | Mem |";
         foreach my $bm (@times) {
             $firstbm = $bm unless $firstbm;
             if ($lastbm) {
-                my $s = tidytime($bm->[1], $lastbm->[1]);
-                my $t = tidytime($bm->[1], $firstbm->[1]);
+                my $s = tidytime( $bm->[1], $lastbm->[1] );
+                my $t = tidytime( $bm->[1], $firstbm->[1] );
                 $s = "\n| $bm->[0] | $s | $t | $bm->[2]->{vsize} |";
                 print STDERR $s;
             }
@@ -161,7 +160,7 @@ sub END {
           if ( $methods{ $call->{method} }{mem_max} < $memdiff );
     }
     print STDERR
-      "\n\n| Count  |  Time (Min/Max) | Memory(Min/Max) | Total      | Method |";
+"\n\n| Count  |  Time (Min/Max) | Memory(Min/Max) | Total      | Method |";
     foreach my $method ( sort keys %methods ) {
         print STDERR "\n| " 
           . sprintf( '%6u', $methods{$method}{count} ) . ' | '

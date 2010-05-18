@@ -7,84 +7,116 @@ use warnings;
 sub GROUPINFO {
     my ( $this, $params ) = @_;
 
-    my $group = $params->{_DEFAULT};
+    my $group  = $params->{_DEFAULT};
     my $format = $params->{format};
-    my $sep = $params->{separator}; $sep = ', ' unless defined $sep;
+    my $sep    = $params->{separator};
+    $sep = ', ' unless defined $sep;
     my $limit = $params->{limit} || 100000000;
-    my $limited = $params->{limited}; $limited = '' unless defined $limited;
-    my $header = $params->{header}; $header = '' unless defined $header;
-    my $footer = $params->{footer}; $footer = '' unless defined $footer;
-    my $show = $params->{show}; $show = 'all' unless defined $show;
+    my $limited = $params->{limited};
+    $limited = '' unless defined $limited;
+    my $header = $params->{header};
+    $header = '' unless defined $header;
+    my $footer = $params->{footer};
+    $footer = '' unless defined $footer;
+    my $show = $params->{show};
+    $show = 'all' unless defined $show;
     my $zeroresults = $params->{zeroresults};
 
-    my $it;#erator
+    my $it;    #erator
     my @rows;
     if ($group) {
         $it = $this->{users}->eachGroupMember($group);
         $format = '$wikiusername' unless defined $format;
-    } else {
+    }
+    else {
         $it = $this->{users}->eachGroup();
         $format = '$name' unless defined $format;
     }
-    while ($it->hasNext()) {
+    while ( $it->hasNext() ) {
         my $cUID = $it->next();
-        my $row = $format;
+        my $row  = $format;
         if ($group) {
-            next unless($this->{users}->groupAllowsView( $group ));
-            my $change = $this->{users}->groupAllowsChange( $group );
-            
+            next unless ( $this->{users}->groupAllowsView($group) );
+            my $change = $this->{users}->groupAllowsChange($group);
+
             #filter by show="" param
-            next if (($show eq 'allowchange') and (not $change));
-            next if (($show eq 'denychange') and ($change));
-            if ($show =~ /allowchange\((.*)\)/) {
-                next if (not $this->{users}->groupAllowsChange( $group , $this->{users}->getCanonicalUserID($1)));
+            next if ( ( $show eq 'allowchange' ) and ( not $change ) );
+            next if ( ( $show eq 'denychange' )  and ($change) );
+            if ( $show =~ /allowchange\((.*)\)/ ) {
+                next
+                  if (
+                    not $this->{users}->groupAllowsChange(
+                        $group, $this->{users}->getCanonicalUserID($1)
+                    )
+                  );
             }
-            if ($show =~ /denychange\((.*)\)/) {
-                next if ($this->{users}->groupAllowsChange( $group , $this->{users}->getCanonicalUserID($1)));
+            if ( $show =~ /denychange\((.*)\)/ ) {
+                next
+                  if (
+                    $this->{users}->groupAllowsChange(
+                        $group, $this->{users}->getCanonicalUserID($1)
+                    )
+                  );
             }
 
-            my $wname = $this->{users}->getWikiName( $cUID );
-            my $uname = $this->{users}->getLoginName( $cUID );
-            my $wuname = $this->{users}->webDotWikiName( $cUID );
-            
+            my $wname  = $this->{users}->getWikiName($cUID);
+            my $uname  = $this->{users}->getLoginName($cUID);
+            my $wuname = $this->{users}->webDotWikiName($cUID);
+
             $row =~ s/\$wikiname/$wname/ge;
             $row =~ s/\$username/$uname/ge;
             $row =~ s/\$wikiusername/$wuname/ge;
             $row =~ s/\$name/$group/g;
 
             #TODO: should return 0 if $1 is not a valid user?
-            $row =~ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{users}->getCanonicalUserID($1))/ges;
-            $row =~ s/\$allowschange/$change/ge;
-        } else {
-            # all groups
-            next unless($this->{users}->groupAllowsView( $cUID ));
-            my $change = $this->{users}->groupAllowsChange( $cUID );
-
-            #filter by show="" param
-            next if (($show eq 'allowchange') and (not $change));
-            next if (($show eq 'denychange') and ($change));
-            if ($show =~ /allowchange\((.*)\)/) {
-                next if (not $this->{users}->groupAllowsChange( $cUID , $this->{users}->getCanonicalUserID($1)));
-            }
-            if ($show =~ /denychange\((.*)\)/) {
-                next if ($this->{users}->groupAllowsChange( $cUID , $this->{users}->getCanonicalUserID($1)));
-            }
-           
-            $row =~ s/\$name/$cUID/g;
-            #TODO: should return 0 if $1 is not a valid user?
-            $row =~ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $cUID , $this->{users}->getCanonicalUserID($1))/ges;
+            $row =~
+s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{users}->getCanonicalUserID($1))/ges;
             $row =~ s/\$allowschange/$change/ge;
         }
-        push(@rows, $row);
-        last if (--$limit == 0);
+        else {
+
+            # all groups
+            next unless ( $this->{users}->groupAllowsView($cUID) );
+            my $change = $this->{users}->groupAllowsChange($cUID);
+
+            #filter by show="" param
+            next if ( ( $show eq 'allowchange' ) and ( not $change ) );
+            next if ( ( $show eq 'denychange' )  and ($change) );
+            if ( $show =~ /allowchange\((.*)\)/ ) {
+                next
+                  if (
+                    not $this->{users}->groupAllowsChange(
+                        $cUID, $this->{users}->getCanonicalUserID($1)
+                    )
+                  );
+            }
+            if ( $show =~ /denychange\((.*)\)/ ) {
+                next
+                  if (
+                    $this->{users}->groupAllowsChange(
+                        $cUID, $this->{users}->getCanonicalUserID($1)
+                    )
+                  );
+            }
+
+            $row =~ s/\$name/$cUID/g;
+
+            #TODO: should return 0 if $1 is not a valid user?
+            $row =~
+s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $cUID , $this->{users}->getCanonicalUserID($1))/ges;
+            $row =~ s/\$allowschange/$change/ge;
+        }
+        push( @rows, $row );
+        last if ( --$limit == 0 );
     }
-    $footer = $limited.$footer if $limit == 0;
-    
+    $footer = $limited . $footer if $limit == 0;
+
     my $result;
-    if (defined($zeroresults) and (scalar(@rows) <= 0)) {
+    if ( defined($zeroresults) and ( scalar(@rows) <= 0 ) ) {
         $result = $zeroresults;
-    } else {
-        $result = $header.join($sep, @rows).$footer;
+    }
+    else {
+        $result = $header . join( $sep, @rows ) . $footer;
     }
     return expandStandardEscapes($result);
 }

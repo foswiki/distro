@@ -40,8 +40,8 @@ sub load {
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
 
-    if ($opts =~ /\b(\d+)x(\d+)\b/) {
-        my ($cols, $rows) = ($1, $2);
+    if ( $opts =~ /\b(\d+)x(\d+)\b/ ) {
+        my ( $cols, $rows ) = ( $1, $2 );
         return CGI::textarea(
             -name     => $id,
             -columns  => $cols,
@@ -49,10 +49,12 @@ sub prompt {
             -onchange => 'valueChanged(this)',
             -value    => $value,
             -class    => "foswikiTextarea $class",
-        )
+          )
 
-    } else {
+    }
+    else {
         my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+
         # percentage size should be set in CSS
         return CGI::textfield(
             -name     => $id,
@@ -60,7 +62,7 @@ sub prompt {
             -default  => $value,
             -onchange => 'valueChanged(this)',
             -class    => "foswikiInputField $class",
-           );
+        );
     }
 }
 

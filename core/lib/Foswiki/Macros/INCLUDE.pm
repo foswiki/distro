@@ -32,7 +32,7 @@ sub _fixupIncludedTopic {
 
         # 'TopicName' to 'Web.TopicName'
         $text =~
-          s#(?:^|(?<=[\s(]))($Foswiki::regex{wikiWordRegex})(?=\s|\)|$)#$fromWeb.$1#go;
+s#(?:^|(?<=[\s(]))($Foswiki::regex{wikiWordRegex})(?=\s|\)|$)#$fromWeb.$1#go;
     }
 
     # Handle explicit [[]] everywhere
@@ -220,8 +220,8 @@ sub INCLUDE {
             $text =~ s/%STOPINCLUDE%.*//s;
         }
 
-        # prevent dirty areas in included topics from being parsed 
-        $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas) 
+        # prevent dirty areas in included topics from being parsed
+        $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
           if $Foswiki::cfg{Cache}{Enabled};
 
         # handle sections

@@ -3,53 +3,54 @@ package Foswiki;
 
 use strict;
 use warnings;
-my @DIG = map { chr($_) } (0..9);
+my @DIG = map { chr($_) } ( 0 .. 9 );
 
 # Returns a decimal number encoded as a string where each digit is
 # replaced by an unprintable character
 sub _s2d {
-    return join('', map { chr(int($_)) } split('', shift));
+    return join( '', map { chr( int($_) ) } split( '', shift ) );
 }
 
 sub ENCODE {
     my ( $this, $params ) = @_;
 
-    my $old = $params->{old};
-    my $new = $params->{new};
+    my $old  = $params->{old};
+    my $new  = $params->{new};
     my $type = $params->{type};
 
-    if (defined $type && (defined $old || defined $new)) {
-        return $this->inlineAlert('alerts', 'ENCODE_bad_1');
+    if ( defined $type && ( defined $old || defined $new ) ) {
+        return $this->inlineAlert( 'alerts', 'ENCODE_bad_1' );
     }
-    if (defined $old && !defined $new || !defined $old && defined $new) {
-        return $this->inlineAlert('alerts', 'ENCODE_bad_2');
+    if ( defined $old && !defined $new || !defined $old && defined $new ) {
+        return $this->inlineAlert( 'alerts', 'ENCODE_bad_2' );
     }
 
     my $text = $params->{_DEFAULT};
     $text = '' unless defined $text;
 
-    if (defined $old) {
-        my @old = split(',', $old);
-        my @new = split(',', $new);
-        while (scalar(@new) < scalar(@old)) {
-            push(@new, '');
+    if ( defined $old ) {
+        my @old = split( ',', $old );
+        my @new = split( ',', $new );
+        while ( scalar(@new) < scalar(@old) ) {
+            push( @new, '' );
         }
+
         # The double loop is to make it behave like tr///. The first loop
         # locates the tokens to replace, and the second loop subs them.
-        my %toks; # detect repeated tokens
-        for (my $i = 0; $i <= $#old; $i++) {
+        my %toks;    # detect repeated tokens
+        for ( my $i = 0 ; $i <= $#old ; $i++ ) {
             my $e = _s2d($i);
             my $o = $old[$i];
-            if ($toks{$o}) {
-                return $this->inlineAlert('alerts', 'ENCODE_bad_3', $o);
+            if ( $toks{$o} ) {
+                return $this->inlineAlert( 'alerts', 'ENCODE_bad_3', $o );
             }
             $toks{$o} = 1;
-            $o = quotemeta(expandStandardEscapes($o));
+            $o = quotemeta( expandStandardEscapes($o) );
             $text =~ s/$o/$e/ge;
         }
-        for (my $i = 0; $i <= $#new; $i++) {
+        for ( my $i = 0 ; $i <= $#new ; $i++ ) {
             my $e = _s2d($i);
-            my $n = expandStandardEscapes($new[$i]);
+            my $n = expandStandardEscapes( $new[$i] );
             $text =~ s/$e/$n/g;
         }
         return $text;

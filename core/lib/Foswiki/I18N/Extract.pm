@@ -89,18 +89,18 @@ sub extract {
         $line++;
     }
 
- # Foswiki's %MAKETEXT{...}% inside a search format would look like this:
- # %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percent ..." ...}%
- #
- # XXX: the regex down there matches a sequence formed be an escaped double
- # quote (\"), followed by characters that are not doublequotes OR
- # double-escaped doublequotes (\\\"), and terminated with another escaped
- # double-quote.
- #
- # SMELL: although here we can extract properly the string, %SEARCH{...}%
- # won't convert (\\\") inside format into (") as we do here. So it's best
- # to avoid trying to put doublequotes inside a MAKETEXT that is inside
- # a %SEARCH{...}% format.
+# Foswiki's %MAKETEXT{...}% inside a search format would look like this:
+# %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percent ..." ...}%
+#
+# XXX: the regex down there matches a sequence formed be an escaped double
+# quote (\"), followed by characters that are not doublequotes OR
+# double-escaped doublequotes (\\\"), and terminated with another escaped
+# double-quote.
+#
+# SMELL: although here we can extract properly the string, %SEARCH{...}%
+# won't convert (\\\") inside format into (") as we do here. So it's best
+# to avoid trying to put doublequotes inside a MAKETEXT that is inside
+# a %SEARCH{...}% format.
     $line = 1;
     pos($_) = 0;
     my @_lines = split( /\n/, $_ );

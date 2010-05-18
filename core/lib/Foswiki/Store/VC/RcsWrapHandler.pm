@@ -22,7 +22,7 @@ use warnings;
 use Foswiki::Store::VC::Handler ();
 our @ISA = ('Foswiki::Store::VC::Handler');
 
-use Foswiki::Sandbox   ();
+use Foswiki::Sandbox ();
 
 sub new {
     return shift->SUPER::new(@_);
@@ -217,6 +217,7 @@ sub getRevision {
     my ( $this, $version ) = @_;
 
     unless ( $version && -e $this->{rcsFile} ) {
+
         # Get the latest rev from the cache
         return $this->SUPER::getRevision($version);
     }
@@ -268,6 +269,7 @@ sub numRevisions {
     my $this = shift;
 
     unless ( -e $this->{rcsFile} ) {
+
         # If there is no history, there can only be one.
         return 1 if -e $this->{file};
         return 0;

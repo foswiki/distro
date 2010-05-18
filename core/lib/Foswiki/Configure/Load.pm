@@ -23,12 +23,12 @@ our $FALSE = 0;
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
 our %remap = (
-    '{StoreImpl}' => '{Store}{Implementation}',
+    '{StoreImpl}'          => '{Store}{Implementation}',
     '{AutoAttachPubFiles}' => '{RCS}{AutoAttachPubFiles}',
-    '{QueryAlgorithm}' => '{Store}{QueryAlgorithm}',
-    '{SearchAlgorithm}' => '{Store}{SearchAlgorithm}',
-    '{RCS}{FgrepCmd}' => '{Store}{FgrepCmd}',
-    '{RCS}{EgrepCmd}' => '{Store}{EgrepCmd}',
+    '{QueryAlgorithm}'     => '{Store}{QueryAlgorithm}',
+    '{SearchAlgorithm}'    => '{Store}{SearchAlgorithm}',
+    '{RCS}{FgrepCmd}'      => '{Store}{FgrepCmd}',
+    '{RCS}{EgrepCmd}'      => '{Store}{EgrepCmd}',
 );
 
 =begin TML
@@ -94,23 +94,23 @@ GOLLYGOSH
     # 'uninitialised variable' alerts later.
 
     foreach my $var qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
-                        PubDir TemplateDir ScriptUrlPath LocalesDir ) {
+      PubDir TemplateDir ScriptUrlPath LocalesDir ) {
 
         # We can't do this, because it prevents Foswiki being run without
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
         $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
-    }
+      }
 
-    # Patch deprecated config settings
-    if ( exists $Foswiki::cfg{StoreImpl} ) {
+      # Patch deprecated config settings
+      if ( exists $Foswiki::cfg{StoreImpl} ) {
         $Foswiki::cfg{Store}{Implementation} =
-          'Foswiki::Store::'.$Foswiki::cfg{StoreImpl};
+          'Foswiki::Store::' . $Foswiki::cfg{StoreImpl};
         delete $Foswiki::cfg{StoreImpl};
     }
-    foreach my $el (keys %remap) {
-        if (eval 'exists $Foswiki::cfg'.$el) {
+    foreach my $el ( keys %remap ) {
+        if ( eval 'exists $Foswiki::cfg' . $el ) {
             eval <<CODE;
 \$Foswiki::cfg$remap{$el}=\$Foswiki::cfg$el;
 delete \$Foswiki::cfg$el;
@@ -204,10 +204,10 @@ sub readDefaults {
                 if ( exists $left->{$key} ) {
                     if ( ref($value) ne ref( $left->{$key} ) ) {
                         push @$errors,
-                          'Trying to overwrite $Foswiki::cfg{' 
-                            . $key
-                              . '} with its $TWiki::cfg version ('
-                                . $value . ')';
+                            'Trying to overwrite $Foswiki::cfg{' 
+                          . $key
+                          . '} with its $TWiki::cfg version ('
+                          . $value . ')';
                     }
                     elsif ( ref($value) eq 'SCALAR' ) {
                         $left->{$key} = $value;
@@ -233,11 +233,11 @@ sub readDefaults {
 
                         # It's something else (GLOB, coderef, ...)
                         push @$errors,
-                          '$TWiki::cfg{' 
-                            . $key
-                              . '} is a reference to a'
-                                . ref($value)
-                                  . '. No idea how to merge that, sorry.';
+                            '$TWiki::cfg{' 
+                          . $key
+                          . '} is a reference to a'
+                          . ref($value)
+                          . '. No idea how to merge that, sorry.';
                     }
                 }
                 else {

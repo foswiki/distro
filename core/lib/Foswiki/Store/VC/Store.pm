@@ -76,8 +76,8 @@ sub readTopic {
     my $handler = $this->getHandler($topicObject);
 
     # check that the requested revision actually exists
-    if (defined $version) {
-        if (!$version || !$handler->revisionExists($version)) {
+    if ( defined $version ) {
+        if ( !$version || !$handler->revisionExists($version) ) {
             $version = $handler->getLatestRevisionID();
         }
     }
@@ -89,16 +89,19 @@ sub readTopic {
     $topicObject->setEmbeddedStoreForm($text);
 
     my $gotRev = $version;
-    unless (defined $gotRev) {
+    unless ( defined $gotRev ) {
+
         # First try the just-loaded text for the revision
         my $ri = $topicObject->get('TOPICINFO');
         if ( defined($ri) ) {
+
             # SMELL: this can end up overriding a correct rev no (the one
             # requested) with an incorrect one (the one in the TOPICINFO)
             $gotRev = $ri->{version};
         }
     }
-    if (!$gotRev) {
+    if ( !$gotRev ) {
+
         # No revision from any other source; must be latest
         $gotRev = $handler->getLatestRevisionID();
     }
@@ -145,9 +148,8 @@ sub moveAttachment {
 
     my $handler = $this->getHandler( $oldTopicObject, $oldAttachment );
     if ( $handler->storedDataExists() ) {
-        $handler->moveAttachment(
-            $this, $newTopicObject->web, $newTopicObject->topic,
-            $newAttachment );
+        $handler->moveAttachment( $this, $newTopicObject->web,
+            $newTopicObject->topic, $newAttachment );
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -208,8 +210,8 @@ sub getRevisionHistory {
 }
 
 sub getNextRevision {
-    my( $this, $topicObject ) = @_;
-    my $handler = $this->getHandler( $topicObject );
+    my ( $this, $topicObject ) = @_;
+    my $handler = $this->getHandler($topicObject);
     return $handler->getNextRevisionID();
 }
 
@@ -231,14 +233,14 @@ sub getAttachmentVersionInfo {
 sub getVersionInfo {
     my ( $this, $topicObject ) = @_;
     my $handler = $this->getHandler($topicObject);
-    return $handler->getInfo($topicObject->getLoadedRev());
+    return $handler->getInfo( $topicObject->getLoadedRev() );
 }
 
 sub saveAttachment {
     my ( $this, $topicObject, $name, $stream, $cUID ) = @_;
-    my $handler = $this->getHandler( $topicObject, $name );
+    my $handler    = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->getLatestRevisionID();
-    my $nextRev = $currentRev + 1;
+    my $nextRev    = $currentRev + 1;
     $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
     $handler->recordChange( $cUID, $nextRev );
     return $nextRev;
@@ -256,7 +258,7 @@ sub saveTopic {
 
     # just in case they are not sequential
     my $nextRev = $handler->getLatestRevisionID();
-    
+
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
@@ -415,7 +417,7 @@ sub searchInWebMetaData {
           || UNIVERSAL::isa( $query, 'Foswiki::Search::Node' ) );
 
     $options->{web} = $webs;
-    return $this->query( $query, $inputTopicSet,$session, $options );
+    return $this->query( $query, $inputTopicSet, $session, $options );
 }
 
 #also deprecated. (use Foswiki::Meta::query)
@@ -431,11 +433,10 @@ sub searchInWebContent {
         $inputTopicSet = new Foswiki::ListIterator($topics);
     }
     $options->{web} = $webs;
-    my $query = $session->search->parseSearch($searchString, $options);
+    my $query = $session->search->parseSearch( $searchString, $options );
 
     return Foswiki::Meta::query( $query, $inputTopicSet, $session, $options );
 }
-
 
 sub query {
     my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
@@ -467,7 +468,6 @@ sub query {
     return &{$engine}( $query, $inputTopicSet, $session, $options );
     use strict 'refs';
 }
-
 
 sub getRevisionAtTime {
     my ( $this, $topicObject, $time ) = @_;

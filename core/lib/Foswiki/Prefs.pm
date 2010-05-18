@@ -66,10 +66,10 @@ preferences are stored.
 package Foswiki::Prefs;
 
 use Assert;
-use Foswiki::Prefs::HASH     ();
-use Foswiki::Prefs::Stack    ();
-use Foswiki::Prefs::Web      ();
-use Scalar::Util             ();
+use Foswiki::Prefs::HASH  ();
+use Foswiki::Prefs::Stack ();
+use Foswiki::Prefs::Web   ();
+use Scalar::Util          ();
 
 =begin TML
 
@@ -223,9 +223,9 @@ sub loadPreferences {
 
     my $path = $topicObject->getPath();
 
-#    $topicObject->session->logger->log( 'debug',
-#        "Loading preferences for $path\n" )
-#      if DEBUG;
+    #    $topicObject->session->logger->log( 'debug',
+    #        "Loading preferences for $path\n" )
+    #      if DEBUG;
 
     my $obj;
 
@@ -262,11 +262,13 @@ sub pushTopicContext {
 
     my $stack = $this->{main};
     my %internals;
-    while (my ($k, $v) = each %{$this->{internals}}) {
+    while ( my ( $k, $v ) = each %{ $this->{internals} } ) {
         $internals{$k} = $v;
     }
-    push( @{ $this->{contexts} },
-          { internals => \%internals, level => $stack->size() - 1 });
+    push(
+        @{ $this->{contexts} },
+        { internals => \%internals, level => $stack->size() - 1 }
+    );
     my @webPath = split( /[\/\.]+/, $web );
     my $subWeb = '';
     my $back;
@@ -280,7 +282,7 @@ sub pushTopicContext {
     $stack->newLevel($back);
     $stack->newLevel( Foswiki::Prefs::HASH->new() );
 
-    while ( my ( $k, $v ) = each %{$this->{internals}} ) {
+    while ( my ( $k, $v ) = each %{ $this->{internals} } ) {
         $stack->insert( 'Set', $k, $v );
     }
 
@@ -296,11 +298,11 @@ Returns the context to the state it was in before the
 =cut
 
 sub popTopicContext {
-    my $this  = shift;
-    my $stack = $this->{main};
-    my $context = pop( @{ $this->{contexts} });
-    my $level = $context->{level};
-    while (my ($k, $v) = each %{$context->{internals}}) {
+    my $this    = shift;
+    my $stack   = $this->{main};
+    my $context = pop( @{ $this->{contexts} } );
+    my $level   = $context->{level};
+    while ( my ( $k, $v ) = each %{ $context->{internals} } ) {
         $this->{internals}{$k} = $v;
     }
     $stack->restore($level);

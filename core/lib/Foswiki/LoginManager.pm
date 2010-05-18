@@ -487,6 +487,7 @@ sub checkAccess {
     unless ( $session->inContext('authenticated')
         || $Foswiki::cfg{LoginManager} eq 'none' )
     {
+
         # This checks the *base_action* which is the action in the
         # request *before* any request cache was restored. Otherwise
         # you can end up with an infinite loop - see

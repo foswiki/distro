@@ -28,7 +28,9 @@ sub prompt {
             size     => 1,
             class    => "foswikiSelect $class",
             onchange => 'valueChanged(this)',
-        }, $sopts );
+        },
+        $sopts
+    );
 }
 
 1;

@@ -35,8 +35,8 @@ This is a copy of the Foswiki 1.0 code.
 
 =cut
 
-use Foswiki::Time         ();
-use Foswiki::ListIterator ();
+use Foswiki::Time            ();
+use Foswiki::ListIterator    ();
 use Foswiki::Configure::Load ();
 
 # Local symbol used so we can override it during unit testing
@@ -69,7 +69,8 @@ sub log {
     # to the date; Foswiki::Time::ParseTime can handle it, and it looks
     # OK too.
     unshift( @fields, "$time $level" );
-    my $message = '| ' . join( ' | ', map { s/\|/&vbar;/g; $_ } @fields ) . ' |';
+    my $message =
+      '| ' . join( ' | ', map { s/\|/&vbar;/g; $_ } @fields ) . ' |';
     my $file;
     if ( open( $file, '>>', $log ) ) {
         print $file "$message\n";
@@ -88,7 +89,8 @@ sub log {
     # Private subclass of LineIterator that splits events into fields
     package Foswiki::Logger::Compatibility::EventIterator;
     require Foswiki::LineIterator;
-    @Foswiki::Logger::Compatibility::EventIterator::ISA = ('Foswiki::LineIterator');
+    @Foswiki::Logger::Compatibility::EventIterator::ISA =
+      ('Foswiki::LineIterator');
 
     sub new {
         my ( $class, $fh, $threshold, $level ) = @_;
@@ -105,7 +107,8 @@ sub log {
             my @line = split( /\s*\|\s*/, $this->SUPER::next() );
             shift @line;    # skip the leading empty cell
             next unless scalar(@line) && defined $line[0];
-            if ( $line[0] =~ s/\s+$this->{_level}\s*$//    # test the level
+            if (
+                $line[0] =~ s/\s+$this->{_level}\s*$//    # test the level
                   # accept a plain 'old' format date with no level only if reading info (statistics)
                 || $line[0] =~ /^\d{1,2} [a-z]{3} \d{4}/i
                 && $this->{_level} eq 'info'
@@ -169,8 +172,12 @@ sub eachEventSince {
         $logfile =~ s/%DATE%/$logTime/g;
         my $fh;
         if ( open( $fh, '<', $logfile ) ) {
-            push( @iterators,
-                new Foswiki::Logger::Compatibility::EventIterator( $fh, $time, $level ) );
+            push(
+                @iterators,
+                new Foswiki::Logger::Compatibility::EventIterator(
+                    $fh, $time, $level
+                )
+            );
         }
         else {
 
@@ -218,7 +225,7 @@ sub _getLogForLevel {
     # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
     # Windows seemed to be the most difficult to fix - this was the only thing
     # that I could find that worked all the time.
-    Foswiki::Configure::Load::expandValue($log);  # Expand in place
+    Foswiki::Configure::Load::expandValue($log);    # Expand in place
     return $log;
 }
 

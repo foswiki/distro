@@ -72,7 +72,7 @@ sub init_edit {
       || 'text/html';
     my $parentTopic = $query->param('topicparent') || '';
     my $ptext       = $query->param('text');
-    my $revision    = Foswiki::Store::cleanUpRevID($query->param('rev'));
+    my $revision    = Foswiki::Store::cleanUpRevID( $query->param('rev') );
 
     Foswiki::UI::checkWebExists( $session, $web, 'edit' );
 
@@ -188,11 +188,11 @@ sub init_edit {
     # because the user cannot correct it. Instead we fall back to default
     # and write a warning log entry to aid fault finding for the admin
     if ( !$tmpl ) {
-        $session->logger->log('warning',
-          "Edit template $template does not exist. " .
-          "Falling back to $templateName! ($web.$topic)" );
+        $session->logger->log( 'warning',
+                "Edit template $template does not exist. "
+              . "Falling back to $templateName! ($web.$topic)" );
 
-        $tmpl = $session->templates->readTemplate( $templateName );
+        $tmpl = $session->templates->readTemplate($templateName);
     }
 
     if ( !$tmpl ) {
@@ -279,7 +279,8 @@ sub init_edit {
         $topicObject->copyFrom( $ttom, 'FIELD' );
 
         $topicObject->text( $topicObject->expandNewTopic( $ttom->text() ) );
-#SMELL: need to at least explain why we need to do this a second time.
+
+        #SMELL: need to at least explain why we need to do this a second time.
         $topicObject->text( $topicObject->expandNewTopic( $ttom->text() ) );
     }
 

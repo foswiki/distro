@@ -145,7 +145,7 @@ sub _resetUsersPassword {
     }
 
     # Now that we have successfully reset the password we log the event
-    $session->logEvent('resetpasswd', $login);
+    $session->logEvent( 'resetpasswd', $login );
 
     # absolute URL context for email generation
     $session->enterContext('absolute_urls');
@@ -302,8 +302,9 @@ sub changePassword {
     }
 
     my $cUID = $users->getCanonicalUserID($login);
-    
+
     if ( defined $email ) {
+
         # check valid email addresses - space between each
         if ( $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ ) {
             throw Foswiki::OopsException(
@@ -311,14 +312,17 @@ sub changePassword {
                 web    => $webName,
                 topic  => $topic,
                 def    => 'bad_email',
-                params => [ $email ]
+                params => [$email]
             );
         }
-        
-        my $oldEmails = join( ', ', $users->getEmails ( $cUID ) );
+
+        my $oldEmails = join( ', ', $users->getEmails($cUID) );
         my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
-        $session->logEvent('changepasswd', $webName . '.' . $topic,
-             "from $oldEmails to $email for $login" );
+        $session->logEvent(
+            'changepasswd',
+            $webName . '.' . $topic,
+            "from $oldEmails to $email for $login"
+        );
     }
 
     # OK - password may be changed

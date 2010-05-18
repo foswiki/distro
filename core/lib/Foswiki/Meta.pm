@@ -415,8 +415,11 @@ sub stringify {
     my $s = $this->{_web};
     if ( $this->{_topic} ) {
         $s .= ".$this->{_topic} ";
-        $s .= (defined $this->{_loadedRev}) ? $this->{_loadedRev}
-          : '(not loaded)' if $debug;
+        $s .=
+          ( defined $this->{_loadedRev} )
+          ? $this->{_loadedRev}
+          : '(not loaded)'
+          if $debug;
         $s .= "\n" . $this->getEmbeddedStoreForm();
     }
     return $s;
@@ -479,13 +482,15 @@ sub populateNewWeb {
 
     my $session = $this->{_session};
 
-    my ($parent, $new)  = $this->{_web} =~ m/^(.*)\/([^\.\/]+)$/;
+    my ( $parent, $new ) = $this->{_web} =~ m/^(.*)\/([^\.\/]+)$/;
 
     if ($parent) {
         unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
-            throw Error::Simple( "Unable to create $this->{_web} - Hierrchical webs are disabled" );
+            throw Error::Simple(
+                "Unable to create $this->{_web} - Hierrchical webs are disabled"
+            );
         }
-    
+
         unless ( $session->webExists($parent) ) {
             throw Error::Simple( 'Parent web ' . $parent . ' does not exist' );
         }
@@ -706,9 +711,9 @@ sub load {
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
     my $this = new( $class, $session, $web, $topic );
     $this->reload($rev);
-    
+
     ASSERT( $this->isa('Foswiki::Meta') ) if DEBUG;
-    
+
     return $this;
 }
 
@@ -732,8 +737,9 @@ sub reload {
     return unless $this->{_topic};
     if ( defined $rev ) {
         $rev ||= 0;
-        ASSERT($rev =~ /^\d+$/, $rev) if DEBUG;
-    } else {
+        ASSERT( $rev =~ /^\d+$/, $rev ) if DEBUG;
+    }
+    else {
         $rev = $this->{_loadedRev};    # if any
     }
 
@@ -744,9 +750,10 @@ sub reload {
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
 
-    if (defined $this->{_loadedRev}) {
+    if ( defined $this->{_loadedRev} ) {
+
         # Make sure it's a simple integer
-        ASSERT($this->{_loadedRev} =~ /^\d+$/, $this->{_loadedRev}) if DEBUG;
+        ASSERT( $this->{_loadedRev} =~ /^\d+$/, $this->{_loadedRev} ) if DEBUG;
 
         $this->{_preferences}->finish() if defined $this->{_preferences};
         $this->{_preferences} = undef;
@@ -774,8 +781,8 @@ sub text {
     }
     else {
 
-        # Lazy load. Reload with no params will reload the _loadedRev, or load the
-        # latest if that is not defined.
+      # Lazy load. Reload with no params will reload the _loadedRev, or load the
+      # latest if that is not defined.
         $this->reload() unless defined( $this->{_text} );
     }
     return $this->{_text};
@@ -1084,7 +1091,7 @@ sub setRevisionInfo {
 
     my $ti = $this->get('TOPICINFO') || {};
 
-    foreach my $k (keys %data) {
+    foreach my $k ( keys %data ) {
         $ti->{$k} = $data{$k};
     }
 
@@ -1125,7 +1132,7 @@ sub getRevisionInfo {
     # forces this function to re-get it from the store.
     my $topicinfo = $this->get('TOPICINFO');
 
-    if ($topicinfo && defined $topicinfo->{version}) {
+    if ( $topicinfo && defined $topicinfo->{version} ) {
         $info = {
             date    => $topicinfo->{date},
             author  => $topicinfo->{author},
@@ -1149,7 +1156,7 @@ sub getRevisionInfo {
 sub getRev1Info {
     my ( $this, $attr ) = @_;
 
-    #my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
+#my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
     my $web   = $this->web;
     my $topic = $this->topic;
 
@@ -1350,8 +1357,8 @@ sub renderFormForDisplay {
         # Make pseudo-form from field data
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
-        my $mess = $this->{_session}->inlineAlert(
-            'alerts', 'formdef_missing', $fname);
+        my $mess =
+          $this->{_session}->inlineAlert( 'alerts', 'formdef_missing', $fname );
         $mess .= $form->renderForDisplay($this) if $form;
         return $mess;
     }
@@ -1430,6 +1437,7 @@ sub haveAccess {
     my ( $this, $mode, $cUID ) = @_;
     $cUID ||= $this->{_session}->{user};
     if ( defined $this->{_topic} && !defined $this->{_text} ) {
+
         # Lazy load the text, by reloading the _loadedRev or loading the latest
         # if that is not defined.
         $this->reload();
@@ -1572,29 +1580,33 @@ sub save {
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
     if ( $plugins->haveHandlerFor('beforeSaveHandler') ) {
+
         # Break up the tom and write the meta into the topic text.
         # Nasty compatibility requirement as some old plugins may hack the
         # meta instead of using the Meta API
         my $text = $this->getEmbeddedStoreForm();
 
-        my $pretext = $text; # text before the handler modifies it
-        my $premeta = $this->stringify(); # just the meta, no text
+        my $pretext = $text;               # text before the handler modifies it
+        my $premeta = $this->stringify();  # just the meta, no text
 
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
 
         # If the text has changed; it may be a text or meta change, or both
-        if ($text ne $pretext) {
+        if ( $text ne $pretext ) {
+
             # Create a new object to parse the changed text
-            my $after = new Foswiki::Meta(
-                $this->{_session}, $this->{_web}, $this->{_topic}, $text );
-            unless ($this->stringify() ne $premeta) {
+            my $after =
+              new Foswiki::Meta( $this->{_session}, $this->{_web},
+                $this->{_topic}, $text );
+            unless ( $this->stringify() ne $premeta ) {
+
                 # Meta-data changes in the object take priority over
                 # conflicting changes in the text. So if there have been
                 # *any* changes in the meta, ignore changes in the text.
                 $this->copyFrom($after);
             }
-            $this->text($after->text());
+            $this->text( $after->text() );
         }
     }
 
@@ -1619,15 +1631,15 @@ sub save {
     throw $signal if $signal;
 
     my @extras = ();
-    push(@extras, 'minor') if $opts{minor};     # don't notify
-    push(@extras, 'dontlog') if $opts{dontlog}; # don't statisticify
+    push( @extras, 'minor' )   if $opts{minor};      # don't notify
+    push( @extras, 'dontlog' ) if $opts{dontlog};    # don't statisticify
 
     $this->{_session}->logEvent(
         'save',
         $this->{_web} . '.' . $this->{_topic},
-        join(', ', @extras),
+        join( ', ', @extras ),
         $this->{_session}->{user}
-       );
+    );
 
     return $newRev;
 }
@@ -1689,6 +1701,7 @@ sub saveAs {
 
                 # same user?
                 if ( $info->{author} eq $cUID ) {
+
                     # reprev is required so we can tell when a merge is
                     # based on something that is *not* the original rev
                     # where another users' edit started.
@@ -1706,11 +1719,11 @@ sub saveAs {
             date => $opts{forcedate} || time(),
             author  => $cUID,
             version => $nextRev
-           );
+        );
 
-        my $checkSave = $this->{_session}->{store}->saveTopic(
-            $this, $cUID, \%opts );
-        ASSERT($checkSave == $nextRev, "$checkSave != $nextRev") if DEBUG;
+        my $checkSave =
+          $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
+        ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
         $this->{_loadedRev} = $nextRev;
     }
     finally {
@@ -1965,13 +1978,13 @@ sub replaceMostRecentRevision {
     # write log entry
     require Foswiki::Time;
     my @extras = ( $info->{version} );
-    push(@extras,
-         Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' ));
-    push(@extras, 'minor') if $opts{minor};
-    push(@extras, 'dontlog') if $opts{dontlog};
-    push(@extras, 'forced') if $opts{forcedate};
-    $this->{_session}->logEvent(
-        'reprev', $this->getPath(), join(', ', @extras), $cUID );
+    push( @extras,
+        Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' ) );
+    push( @extras, 'minor' )   if $opts{minor};
+    push( @extras, 'dontlog' ) if $opts{dontlog};
+    push( @extras, 'forced' )  if $opts{forcedate};
+    $this->{_session}
+      ->logEvent( 'reprev', $this->getPath(), join( ', ', @extras ), $cUID );
 }
 
 =begin TML
@@ -2007,7 +2020,7 @@ Not valid on webs.
 
 sub getLatestRev {
     my $this = shift;
-    my $it = $this->getRevisionHistory(@_);
+    my $it   = $this->getRevisionHistory(@_);
     return 0 unless $it->hasNext();
     return $it->next();
 }
@@ -2026,8 +2039,8 @@ Only valid on topics.
 sub latestIsLoaded {
     my $this = shift;
 
-    return defined $this->{_loadedRev} &&
-      $this->{_loadedRev} == $this->getLatestRev();
+    return defined $this->{_loadedRev}
+      && $this->{_loadedRev} == $this->getLatestRev();
 }
 
 =begin TML
@@ -2083,7 +2096,7 @@ sub removeFromStore {
               . $attachment );
     }
 
-    $store->remove($this->{_session}->{user}, $this);
+    $store->remove( $this->{_session}->{user}, $this );
 }
 
 =begin TML
@@ -2292,6 +2305,7 @@ sub attach {
           || throw Error::Simple( $opts{file} . ' binmode failed: ' . $! );
         $opts{tmpFilename} = $opts{file};
     }
+
     # Force reload of the latest version
     $this->reload(0) unless $this->latestIsLoaded();
 
@@ -2387,10 +2401,13 @@ sub attach {
     $this->saveAs() unless $opts{notopicchange};
 
     my @extras = ( $opts{name} );
-    push(@extras, 'dontlog') if $opts{dontlog}; # no statistics
+    push( @extras, 'dontlog' ) if $opts{dontlog};    # no statistics
     $this->{_session}->logEvent(
-        $action,     $this->{_web} . '.' . $this->{_topic},
-        join(', ', @extras), $this->{_session}->{user});
+        $action,
+        $this->{_web} . '.' . $this->{_topic},
+        join( ', ', @extras ),
+        $this->{_session}->{user}
+    );
 
     if ( $plugins->haveHandlerFor('afterUploadHandler') ) {
         $plugins->dispatch( 'afterUploadHandler', $attrs, $this );
@@ -2532,7 +2549,7 @@ sub moveAttachment {
         $this->remove( 'FILEATTACHMENT', $name );
         $this->saveAs(
             undef, undef,
-            dontlog => 1, # no statistics
+            dontlog => 1,                # no statistics
             comment => 'lost ' . $name
         );
 
@@ -2552,7 +2569,7 @@ sub moveAttachment {
 
         $to->saveAs(
             undef, undef,
-            dontlog => 1, # no statistics
+            dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
     }
@@ -2604,7 +2621,7 @@ Only valid on topics.
 
 sub expandMacros {
     my ( $this, $text ) = @_;
-    ASSERT( defined($this->web) && defined($this->topic) ) if DEBUG;
+    ASSERT( defined( $this->web ) && defined( $this->topic ) ) if DEBUG;
 
     return $this->{_session}->expandMacros( $text, $this );
 }
@@ -2649,7 +2666,7 @@ sub summariseText {
     $flags ||= '';
 
     $text = $this->text() unless defined $text;
-    $text = '' unless defined $text;
+    $text = ''            unless defined $text;
 
     my $plainText =
       $this->session->renderer->TML2PlainText( $text, $this, $flags );
@@ -2797,7 +2814,7 @@ sub _summariseTextWithSearchContext {
         my $endLoc = $+[0] || $-[0];
         $after = "$after $SUMMARY_ELLIPSIS" if $endLoc != length $text;
 
-        $summary .= $before . CGI::em({}, $term) . $after . ' ';
+        $summary .= $before . CGI::em( {}, $term ) . $after . ' ';
     }
 
     return $this->_summariseTextSimple( $text, $limit ) if !$summary;
@@ -3048,9 +3065,9 @@ sub setEmbeddedStoreForm {
 
         # Clean up SVN and other malformed rev nums. This can happen
         # when old code (e.g. old plugins) generated the meta.
-        $ti->{version} = Foswiki::Store::cleanUpRevID($ti->{version});
-        delete($ti->{rev}) if defined $ti->{rev}; # not needed any more
-        $ti->{reprev} = Foswiki::Store::cleanUpRevID($ti->{reprev})
+        $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
+        delete( $ti->{rev} ) if defined $ti->{rev};    # not needed any more
+        $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
           if defined $ti->{reprev};
     }
 

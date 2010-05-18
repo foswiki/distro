@@ -39,7 +39,7 @@ sub parse {
     my $text = $topicObject->text();
     $text = '' unless defined $text;
 
-    foreach ( split( "\n", $text) ) {
+    foreach ( split( "\n", $text ) ) {
         if (m/$Foswiki::regex{setVarRegex}/os) {
             if ( defined $type ) {
                 $prefs->insert( $type, $key, $value );

@@ -5,8 +5,8 @@ use strict;
 use warnings;
 
 sub new {
-    my ($class, %opts) = @_;
-    return bless(\%opts, $class);
+    my ( $class, %opts ) = @_;
+    return bless( \%opts, $class );
 }
 
 # Does this operator evaluate to a constant?

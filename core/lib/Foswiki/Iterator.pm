@@ -79,8 +79,8 @@ The default implementation simply runs the iterator to its end.
 sub all {
     my ($this) = @_;
     my @remains;
-    while ($this->hasNext()) {
-        push(@remains, $this->next());
+    while ( $this->hasNext() ) {
+        push( @remains, $this->next() );
     }
     return @remains;
 }

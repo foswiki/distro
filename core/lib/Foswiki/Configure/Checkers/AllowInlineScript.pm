@@ -9,11 +9,11 @@ use Foswiki::Configure::Checker;
 our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
-    my $this = shift;
+    my $this      = shift;
     my $valmethod = $Foswiki::cfg{Validation}{Method};
-    my $e = '';
+    my $e         = '';
 
-    if (!$Foswiki::cfg{AllowInlineScript}) {
+    if ( !$Foswiki::cfg{AllowInlineScript} ) {
         $e .= $this->ERROR(<<'MESSAGE');
 {AllowInlineScript} has been deprecated.
 Please use

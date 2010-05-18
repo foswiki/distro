@@ -233,6 +233,7 @@ sub populateMetaFromQueryData {
     my %names = map { $_ => 1 } $query->param;
 
     if ( $names{ $this->{name} } ) {
+
         # Field is present in the request
         $bPresent = 1;
         if ( $this->isMultiValued() ) {
@@ -264,6 +265,7 @@ sub populateMetaFromQueryData {
             }
         }
         else {
+
             # Default the value to the empty string (undef would result
             # in the old value being restored)
             $value = $query->param( $this->{name} ) || '';

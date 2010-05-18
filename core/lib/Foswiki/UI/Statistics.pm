@@ -474,8 +474,8 @@ sub _printMsg {
     }
     else {
         if ( $msg =~ s/^\!// ) {
-            $msg = CGI::h4({},
-                CGI::span( { class => 'foswikiAlert' }, $msg ) );
+            $msg =
+              CGI::h4( {}, CGI::span( { class => 'foswikiAlert' }, $msg ) );
         }
         elsif ( $msg =~ /^[A-Z]/ ) {
 

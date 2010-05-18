@@ -50,36 +50,40 @@ sub view {
 
     my $cache = $session->{cache};
     my $cachedPage;
-    $cachedPage = $cache->getPage($web, $topic) if $cache;
+    $cachedPage = $cache->getPage( $web, $topic ) if $cache;
     if ($cachedPage) {
-        print STDERR "found $web.$topic in cache\n" if $Foswiki::cfg{Cache}{Debug};
+        print STDERR "found $web.$topic in cache\n"
+          if $Foswiki::cfg{Cache}{Debug};
         Monitor::MARK("found page in cache");
 
         # render uncacheable areas
         my $text = $cachedPage->{text};
-        $cache->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
+        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
 
         # set status
         my $status = $cachedPage->{status};
-        if ($status == 302) {
-          $session->{response}->redirect($cachedPage->{location});
-        } else {
-          $session->{response}->status($status);
+        if ( $status == 302 ) {
+            $session->{response}->redirect( $cachedPage->{location} );
+        }
+        else {
+            $session->{response}->status($status);
         }
 
         # set headers
-        $session->generateHTTPHeaders('view', $cachedPage->{contentType}, $text, $cachedPage);
+        $session->generateHTTPHeaders( 'view', $cachedPage->{contentType},
+            $text, $cachedPage );
 
         # send it out
         $session->{response}->print($text);
 
         Monitor::MARK('Wrote HTML');
-        $session->logEvent('view', $web . '.' . $topic, '(cached)' );
+        $session->logEvent( 'view', $web . '.' . $topic, '(cached)' );
 
         return;
     }
 
-    print STDERR "computing page for $web.$topic\n" if $Foswiki::cfg{Cache}{Debug};
+    print STDERR "computing page for $web.$topic\n"
+      if $Foswiki::cfg{Cache}{Debug};
 
     my $raw = $query->param('raw') || '';
     my $contentType = $query->param('contenttype');
@@ -93,7 +97,7 @@ sub view {
     Foswiki::UI::checkWebExists( $session, $web, 'view' );
 
     my $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
-    my $showLatest = !$requestedRev;
+    my $showLatest   = !$requestedRev;
     my $showRev;
 
     my $topicObject;    # the stub of the topic we are to display
@@ -109,36 +113,39 @@ sub view {
         $topicObject = Foswiki::Meta->load( $session, $web, $topic );
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
-        $revIt = $topicObject->getRevisionHistory();
+        $revIt  = $topicObject->getRevisionHistory();
         $maxRev = 1;
-        if ($revIt->hasNext()) {
+        if ( $revIt->hasNext() ) {
             $maxRev = $revIt->next();
             $revIt->reset();
         }
-        if (defined $requestedRev) {
+        if ( defined $requestedRev ) {
+
             # Is the requested rev id known?
-            while ($revIt->hasNext()) {
-                if ($requestedRev eq $revIt->next()) {
+            while ( $revIt->hasNext() ) {
+                if ( $requestedRev eq $revIt->next() ) {
                     $showRev = $requestedRev;
                     last;
                 }
             }
+
             # if rev was not found; show max rev
-            $showRev = $maxRev unless (defined $showRev);
-            
+            $showRev = $maxRev unless ( defined $showRev );
+
             if ( $showRev ne $maxRev ) {
 
                 # Load the old revision instead
-                $topicObject = Foswiki::Meta->load(
-                    $session, $web, $topic, $showRev );
+                $topicObject =
+                  Foswiki::Meta->load( $session, $web, $topic, $showRev );
                 if ( !$topicObject->haveAccess('VIEW') ) {
-                    throw Foswiki::AccessControlException(
-                        'VIEW', $session->{user},
-                        $web, $topic, $Foswiki::Meta::reason );
+                    throw Foswiki::AccessControlException( 'VIEW',
+                        $session->{user}, $web, $topic,
+                        $Foswiki::Meta::reason );
                 }
                 $logEntry .= 'r' . $requestedRev;
             }
-        } else {
+        }
+        else {
             $showRev = $maxRev;
         }
 
@@ -170,12 +177,12 @@ sub view {
         $indexableView = 0;
         $session->enterContext('new_topic');
         $session->{response}->status(404);
-        $showRev         = 1;
-        $maxRev = 0;
+        $showRev      = 1;
+        $maxRev       = 0;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
         $raw = '';    # There is no raw view of a topic that doesn't exist
-        $revIt = new Foswiki::ListIterator([1]);
+        $revIt = new Foswiki::ListIterator( [1] );
     }
 
     if ($raw) {
@@ -245,7 +252,8 @@ sub view {
     }
 
     # Show revisions around the one being displayed.
-    $tmpl =~ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
+    $tmpl =~
+s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -426,44 +434,47 @@ bar.
 =cut
 
 sub revisionsAround {
-    my ($session, $topicObject, $requestedRev, $showRev, $maxRev) = @_;
+    my ( $session, $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
 
     my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
+
     # Soak up the revision iterator
-    my $revIt = $topicObject->getRevisionHistory();
-    my @revs = $revIt->all();
+    my $revIt          = $topicObject->getRevisionHistory();
+    my @revs           = $revIt->all();
     my $maxRevDisjoint = 0;
 
-    if ($Foswiki::cfg{NumberOfRevisions}) {
+    if ( $Foswiki::cfg{NumberOfRevisions} ) {
+
         # Locate the preferred rev in the array
         my $showIndex = $#revs;
-        my $left = 0;
-        my $right = $Foswiki::cfg{NumberOfRevisions};
+        my $left      = 0;
+        my $right     = $Foswiki::cfg{NumberOfRevisions};
         if ($requestedRev) {
-            while ($showIndex && $revs[$showIndex] != $showRev) {
+            while ( $showIndex && $revs[$showIndex] != $showRev ) {
                 $showIndex--;
             }
             $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
             $right = scalar(@revs) if $right > scalar(@revs);
-            $left = $right - $Foswiki::cfg{NumberOfRevisions};
-            if ($left < 0) {
-                $left = 0;
+            $left  = $right - $Foswiki::cfg{NumberOfRevisions};
+            if ( $left < 0 ) {
+                $left  = 0;
                 $right = $Foswiki::cfg{NumberOfRevisions};
             }
         }
-        splice(@revs, $right) if ($right < scalar(@revs));
-        splice(@revs, 0, $left);
-        if ($left > 0) {
+        splice( @revs, $right ) if ( $right < scalar(@revs) );
+        splice( @revs, 0, $left );
+        if ( $left > 0 ) {
+
             # Put the max rev back in at the front, and flag
             # special treatment
             $maxRevDisjoint = 1;
-            unshift(@revs, $maxRev);
+            unshift( @revs, $maxRev );
         }
     }
 
     my $output = '';
-    my $r = 0;
-    while ($r < scalar(@revs)) {
+    my $r      = 0;
+    while ( $r < scalar(@revs) ) {
         if ( $revs[$r] == $showRev ) {
             $output .= 'r' . $showRev;
         }
@@ -477,18 +488,19 @@ sub revisionsAround {
                     ),
                     rel => 'nofollow'
                 },
-                'r'.$revs[$r]
+                'r' . $revs[$r]
             );
         }
-        if ($r == 0 && $maxRevDisjoint) {
+        if ( $r == 0 && $maxRevDisjoint ) {
             $output .= ' | ';
-        } elsif ($r < $#revs) {
+        }
+        elsif ( $r < $#revs ) {
             $output .= '&nbsp;'
               . CGI::a(
                 {
                     href => $session->getScriptUrl(
                         0, 'rdiff', $topicObject->web, $topicObject->topic,
-                        rev1 => $revs[$r + 1],
+                        rev1 => $revs[ $r + 1 ],
                         rev2 => $revs[$r]
                     ),
                     rel => 'nofollow'

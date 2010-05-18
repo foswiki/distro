@@ -81,9 +81,11 @@ sub renderHtml {
         if ($Foswiki::Configure::UI::totwarnings) {
             $totalWarningsText =
               $Foswiki::Configure::UI::totwarnings . ' '
-              . ( $Foswiki::Configure::UI::totwarnings == 1
+              . (
+                $Foswiki::Configure::UI::totwarnings == 1
                 ? 'warning'
-                : 'warnings' );
+                : 'warnings'
+              );
         }
         my $totalErrorsText;
         if ($Foswiki::Configure::UI::toterrors) {
@@ -94,7 +96,8 @@ sub renderHtml {
         }
         my $isFirstTime = $Foswiki::Configure::UI::firsttime || 0;
 
-        $outText = Foswiki::Configure::UI::getTemplateParser()->readTemplate('main');
+        $outText =
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('main');
         Foswiki::Configure::UI::getTemplateParser()->parse(
             $outText,
             {
@@ -116,7 +119,8 @@ sub renderHtml {
           ( $sectionWarnings == 1 ) ? '1 warning' : "$sectionWarnings warnings"
           if $sectionWarnings;
 
-        $outText = Foswiki::Configure::UI::getTemplateParser()->readTemplate('section');
+        $outText =
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('section');
         Foswiki::Configure::UI::getTemplateParser()->parse(
             $outText,
             {

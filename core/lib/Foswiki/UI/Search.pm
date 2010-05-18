@@ -57,9 +57,9 @@ sub search {
 
     my $query   = $session->{request};
     my $webName = $session->{webName};
-    
+
     #TODO: is WebSearch a constant?
-    my $searchUrl = $session->getScriptUrl( 1, 'view', $webName, 'WebSearch');
+    my $searchUrl = $session->getScriptUrl( 1, 'view', $webName, 'WebSearch' );
     $session->redirect( $searchUrl, 1 );    # with passthrough
 }
 

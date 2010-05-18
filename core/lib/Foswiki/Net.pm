@@ -20,7 +20,7 @@ use Assert;
 use Error qw( :try );
 
 our $LWPAvailable;
-our $noHTTPResponse; # if set, forces local impl of HTTP::Response
+our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 
 # note that the session is *optional*
 sub new {
@@ -171,12 +171,15 @@ sub getExternalResource {
         $proxyPort = $Foswiki::cfg{PROXY}{PORT} unless defined $proxyPort;
         if ( $proxyHost && $proxyPort ) {
             my ( $proxyUser, $proxyPass );
-            if ( $proxyHost =~ m#^http://(?:(.*?)(?::(.*?))?@)?(.*)(?::(\d+))?/*# ) {
+            if ( $proxyHost =~
+                m#^http://(?:(.*?)(?::(.*?))?@)?(.*)(?::(\d+))?/*# )
+            {
                 $proxyUser = $1;
                 $proxyPass = $2;
                 $proxyHost = $3;
                 $proxyPort = $4 if defined $4;
-            } else {
+            }
+            else {
                 require Foswiki::Net::HTTPResponse;
                 return new Foswiki::Net::HTTPResponse(
                     "Proxy settings are invalid, check configure ($proxyHost)");
@@ -224,7 +227,7 @@ sub getExternalResource {
         # No LWP, but may have HTTP::Response which would make life easier
         # (it has a much more thorough parser)
         eval 'require HTTP::Response';
-        if ($@ || $noHTTPResponse) {
+        if ( $@ || $noHTTPResponse ) {
 
             # Nope, no HTTP::Response, have to do things the hard way :-(
             require Foswiki::Net::HTTPResponse;

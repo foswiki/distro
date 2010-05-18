@@ -249,14 +249,14 @@ sub _renameTopicOrAttachment {
         && $query->method()
         && uc( $query->method() ) ne 'POST' );
 
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     # Update references in referring pages - not applicable to attachments.
     my $refs;
     unless ($attachment) {
         $refs =
-          _getReferringTopicsListFromURL(
-              $session, $oldWeb, $oldTopic, $newWeb, $newTopic );
+          _getReferringTopicsListFromURL( $session, $oldWeb, $oldTopic, $newWeb,
+            $newTopic );
     }
 
     _moveTopicOrAttachment( $session, $old, $new, $attachment, $newAttachment,
@@ -594,7 +594,7 @@ sub _renameWeb {
         }
     }
 
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     my $newWebObject = Foswiki::Meta->new( $session, $newWeb );
 
@@ -933,8 +933,8 @@ sub _replaceWebInternalReferences {
 
     # Replace references that were internal to the source web; they are
     # now inter-web
-    $text = $renderer->forEachLine(
-        $text || '', \&_replaceInternalRefs, $options );
+    $text =
+      $renderer->forEachLine( $text || '', \&_replaceInternalRefs, $options );
 
     $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
         \&_replaceInternalRefs, $options );
@@ -1050,9 +1050,9 @@ sub _newTopicOrAttachmentScreen {
             # Trashing a topic; look for a non-conflicting name in the
             # trash web
             my $renamedTopic = $from->web . $to->topic;
-            $renamedTopic    =~ s/\///g;
-            my $n            = 1;
-            my $base         = $to->topic;
+            $renamedTopic =~ s/\///g;
+            my $n    = 1;
+            my $base = $to->topic;
             while ( $session->topicExists( $to->web, $renamedTopic ) ) {
                 $renamedTopic = $base . $n;
                 $n++;
@@ -1061,7 +1061,7 @@ sub _newTopicOrAttachmentScreen {
         }
     }
 
-    $attachment = ''   if not defined $attachment;
+    $attachment   = '' if not defined $attachment;
     $toattachment = '' if not defined $toattachment;
 
     $tmpl =~ s/%FILENAME%/$attachment/g;
@@ -1080,17 +1080,17 @@ sub _newTopicOrAttachmentScreen {
             $refs = _getReferringTopics( $session, $from, 1 );
             foreach my $entry ( sort keys %$refs ) {
                 $search .= CGI::div(
-                        { class => 'foswikiTopRow' },
-                        CGI::input(
-                            {
-                                type    => 'checkbox',
-                                class   => 'foswikiCheckBox',
-                                name    => 'referring_topics',
-                                value   => $entry,
-                                checked => 'checked'
-                            }
-                          )
-                          . " [[$entry]] "
+                    { class => 'foswikiTopRow' },
+                    CGI::input(
+                        {
+                            type    => 'checkbox',
+                            class   => 'foswikiCheckBox',
+                            name    => 'referring_topics',
+                            value   => $entry,
+                            checked => 'checked'
+                        }
+                      )
+                      . " [[$entry]] "
                 );
             }
             unless ($search) {
@@ -1104,17 +1104,17 @@ sub _newTopicOrAttachmentScreen {
         $search = '';
         foreach my $entry ( sort keys %$refs ) {
             $search .= CGI::div(
-                    { class => 'foswikiTopRow' },
-                    CGI::input(
-                        {
-                            type    => 'checkbox',
-                            class   => 'foswikiCheckBox',
-                            name    => 'referring_topics',
-                            value   => $entry,
-                            checked => 'checked'
-                        }
-                      )
-                      . " [[$entry]] "
+                { class => 'foswikiTopRow' },
+                CGI::input(
+                    {
+                        type    => 'checkbox',
+                        class   => 'foswikiCheckBox',
+                        name    => 'referring_topics',
+                        value   => $entry,
+                        checked => 'checked'
+                    }
+                  )
+                  . " [[$entry]] "
             );
         }
         unless ($search) {
@@ -1197,17 +1197,17 @@ sub _newWebScreen {
     $refs = ${$infoRef}{referring}{refs1};
     foreach my $entry ( sort keys %$refs ) {
         $search .= CGI::div(
-                { class => 'foswikiTopRow' },
-                CGI::input(
-                    {
-                        type    => 'checkbox',
-                        class   => 'foswikiCheckBox',
-                        name    => 'referring_topics',
-                        value   => $entry,
-                        checked => 'checked'
-                    }
-                  )
-                  . " [[$entry]] "
+            { class => 'foswikiTopRow' },
+            CGI::input(
+                {
+                    type    => 'checkbox',
+                    class   => 'foswikiCheckBox',
+                    name    => 'referring_topics',
+                    value   => $entry,
+                    checked => 'checked'
+                }
+              )
+              . " [[$entry]] "
         );
     }
     unless ($search) {
@@ -1219,17 +1219,17 @@ sub _newWebScreen {
     $search = '';
     foreach my $entry ( sort keys %$refs ) {
         $search .= CGI::div(
-                { class => 'foswikiTopRow' },
-                CGI::input(
-                    {
-                        type    => 'checkbox',
-                        class   => 'foswikiCheckBox',
-                        name    => 'referring_topics',
-                        value   => $entry,
-                        checked => 'checked'
-                    }
-                  )
-                  . " [[$entry]] "
+            { class => 'foswikiTopRow' },
+            CGI::input(
+                {
+                    type    => 'checkbox',
+                    class   => 'foswikiCheckBox',
+                    name    => 'referring_topics',
+                    value   => $entry,
+                    checked => 'checked'
+                }
+              )
+              . " [[$entry]] "
         );
     }
     unless ($search) {
@@ -1310,12 +1310,14 @@ sub _getReferringTopics {
             url      => 1
           );
 
-        my $matches = Foswiki::Func::searchInWebContent( $searchString, $searchWeb, undef,
-            { casesensitive => 1, type => 'regex'  } );
+        my $matches =
+          Foswiki::Func::searchInWebContent( $searchString, $searchWeb, undef,
+            { casesensitive => 1, type => 'regex' } );
 
-        while ($matches->hasNext) {
+        while ( $matches->hasNext ) {
             my $webtopic = $matches->next;
-            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
+            my ( $web, $searchTopic ) =
+              Foswiki::Func::normalizeWebTopicName( $searchWeb, $webtopic );
             next
               if ( $searchWeb eq $om->web
                 && $om->topic

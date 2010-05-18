@@ -581,7 +581,7 @@ sub UTF82SiteCharSet {
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
             $this->logger->log( 'warning',
-                    'UTF-8 not remotely supported on Perl '
+                    'UTF-8 not remotely supported on Perl ' 
                   . $]
                   . ' - use Perl 5.8 or higher..' );
         }
@@ -773,7 +773,8 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
     $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
     # Trim whitespace from the start and end of selected content types
-    if ($contentType =~ m#text/html#) {
+    if ( $contentType =~ m#text/html# ) {
+
         # Use \s to match unicode whitespace, in anticipation of the day when
         # we unicode everything.
         $text =~ s#^\s+##;
@@ -863,8 +864,10 @@ sub generateHTTPHeaders {
     # add http compression and conditional cache controls
     if ( !$this->inContext('command_line') && $text ) {
 
-        if ( $Foswiki::cfg{HttpCompress} && $ENV{'HTTP_ACCEPT_ENCODING'}
-            && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i ) {
+        if (   $Foswiki::cfg{HttpCompress}
+            && $ENV{'HTTP_ACCEPT_ENCODING'}
+            && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i )
+        {
             my $encoding = $1;
             $hopts->{'Content-Encoding'} = $encoding;
             $hopts->{'Vary'}             = 'Accept-Encoding';
@@ -873,15 +876,20 @@ sub generateHTTPHeaders {
             if ( $cachedPage && !$cachedPage->{isDirty} ) {
                 $text = $cachedPage->{text};
             }
+
             # Either there was no cache, or cache was not compressed
-            if ( !$Foswiki::cfg{Cache}{Compress}
-                || !$cachedPage || $cachedPage->{isDirty} ) {
+            if (   !$Foswiki::cfg{Cache}{Compress}
+                || !$cachedPage
+                || $cachedPage->{isDirty} )
+            {
                 require Compress::Zlib;
                 $text = Compress::Zlib::memGzip($text);
             }
         }
-        elsif ( $cachedPage && !$cachedPage->{isDirty} &&
-            $Foswiki::cfg{Cache}{Compress} ) {
+        elsif ($cachedPage
+            && !$cachedPage->{isDirty}
+            && $Foswiki::cfg{Cache}{Compress} )
+        {
 
             # sorry, we need to uncompressed pages from cache again
             require Compress::Zlib;
@@ -1119,7 +1127,7 @@ sub redirect {
             template => 'oopsaccessdenied',
             def      => 'topic_access',
             param1   => 'redirect',
-            param2   => 'unsafe redirect to '
+            param2   => 'unsafe redirect to ' 
               . $url
               . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls}"'
               . $Foswiki::cfg{DefaultUrlHost} . '"'
@@ -2327,7 +2335,7 @@ sub expandMacrosOnTopicCreation {
                   substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                 $this->innerExpandMacros( \$etext, $topicObject );
                 $ntext =
-                    substr( $ntext, 0, $s->{start} )
+                    substr( $ntext, 0, $s->{start} ) 
                   . $etext
                   . substr( $ntext, $s->{end}, length($ntext) );
             }

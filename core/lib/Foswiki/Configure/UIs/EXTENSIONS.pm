@@ -61,16 +61,17 @@ sub _getListOfExtensions {
 
             push( @consulted, $place->{name} );
 
-            my $url      = $place->{data} . 'FastReport?skin=text';
-            if (defined($place->{user})) { 
-                $url .= ';username='.$place->{user};
-                if (defined($place->{pass})) {
-                    $url .= ';password='.$place->{pass};
+            my $url = $place->{data} . 'FastReport?skin=text';
+            if ( defined( $place->{user} ) ) {
+                $url .= ';username=' . $place->{user};
+                if ( defined( $place->{pass} ) ) {
+                    $url .= ';password=' . $place->{pass};
                 }
             }
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
-#print STDERR "a--- ".Data::Dumper->Dump( [ $response ] )."\n";
+
+                #print STDERR "a--- ".Data::Dumper->Dump( [ $response ] )."\n";
                 my $page = $response->content();
                 if ( defined $page ) {
                     $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
@@ -109,14 +110,15 @@ sub _parseRow {
     my $original_row = $row;
     return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
 
-    if (! $data{topic}) {
-        #die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] );
-        #its a shame that at this point we don't have enough info to extract (for eg) the <title> -
-        #which might tell the user that the site has been redirected to http://slashdot.org or something
-                    push(
-                        @{ $this->{errors} },
-"no valid Extensions report found. (".$place->{name}.")"
-                    );
+    if ( !$data{topic} ) {
+
+#die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] );
+#its a shame that at this point we don't have enough info to extract (for eg) the <title> -
+#which might tell the user that the site has been redirected to http://slashdot.org or something
+        push(
+            @{ $this->{errors} },
+            "no valid Extensions report found. (" . $place->{name} . ")"
+        );
         return '';
     }
 
@@ -128,12 +130,12 @@ sub _parseRow {
 
     my $dep = new Foswiki::Configure::Dependency(%data);
     $dep->studyInstallation();
-    
+
     # If release isn't specified, then use the version string
-    
-    # SMELL:  $dep->{release} is defined as the "Required" release string that will be compared by the
-    #         dependency check function. It is being misused here to report the latest "available" 
-    #         release in the Extensions repository.
+
+# SMELL:  $dep->{release} is defined as the "Required" release string that will be compared by the
+#         dependency check function. It is being misused here to report the latest "available"
+#         release in the Extensions repository.
     if ( !$data{release} && $data{version} ) {
 
         # See if we can pull the release ID from the generated %$VERSION%
@@ -147,7 +149,8 @@ sub _parseRow {
 
         }
     }
-    #die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] ) if ($data{name} eq "WordPressPlugin");
+
+#die "RANDOMERROR5 $row: " . Data::Dumper->Dump( [ \%data ] ) if ($data{name} eq "WordPressPlugin");
 
     $this->{list}->{ $dep->{name} } = $dep;
     return '';
@@ -164,23 +167,28 @@ sub ui {
 
     # Table heads
     my $tableHeads = '';
-    my $colNum = 0;
+    my $colNum     = 0;
     foreach my $headNameKey (@tableHeads) {
-	    $colNum++;
-	    my $cssClass = ($colNum == scalar @tableHeads)
-          ? 'configureExtensionAction' : undef;
-	    $tableHeads .= CGI::th( {class => $cssClass},
-                                $headNames{$headNameKey} );
-	}
-    $table .= CGI::Tr( $tableHeads );
+        $colNum++;
+        my $cssClass =
+          ( $colNum == scalar @tableHeads )
+          ? 'configureExtensionAction'
+          : undef;
+        $tableHeads .=
+          CGI::th( { class => $cssClass }, $headNames{$headNameKey} );
+    }
+    $table .= CGI::Tr($tableHeads);
 
     # Each extension has two rows
-    
-    foreach my $key ( sort {
-	defined $exts->{$b}->{installedVersion} <=> defined $exts->{$a}->{installedVersion}
-	    ||
-	lc $a cmp lc $b
-		      } keys %$exts ) {
+
+    foreach my $key (
+        sort {
+            defined $exts->{$b}->{installedVersion} <=>
+              defined $exts->{$a}->{installedVersion}
+              || lc $a cmp lc $b
+        } keys %$exts
+      )
+    {
         my $ext = $exts->{$key};
 
         next if $ext->{topic} eq 'EmptyPlugin';    # special case
@@ -191,9 +199,9 @@ sub ui {
         # is the version number read from FastReport, and {release} will be
         # the latest release from there.
 
-        my $install = 'Install';
+        my $install   = 'Install';
         my $uninstall = '';
-        my $trClass = 'configureInstall';
+        my $trClass   = 'configureInstall';
         if ( $ext->{installedRelease} ) {
 
             # The module is installed; check the version
@@ -207,37 +215,38 @@ sub ui {
 
                 # Installed version is < available version
 
-                $install = 'Upgrade';
+                $install   = 'Upgrade';
                 $uninstall = 'Uninstall';
-                $trClass = 'configureUpgrade';
+                $trClass   = 'configureUpgrade';
             }
             else {
 
                 # Installed version is current version
 
-                $install = 'Re-install';
+                $install   = 'Re-install';
                 $uninstall = 'Uninstall';
-                $trClass = 'configureReInstall';
+                $trClass   = 'configureReInstall';
             }
             $installed++;
         }
 
-        if ($install ne 'pseudo-installed') {
+        if ( $install ne 'pseudo-installed' ) {
             $install = CGI::checkbox(
-                -name => 'add',
+                -name  => 'add',
                 -value => $ext->{repository} . '/' . $ext->{topic},
                 -class => 'foswikiCheckbox',
                 -label => $install,
-               );
+            );
         }
 
         if ($uninstall) {
-            $uninstall = '<br />'.CGI::checkbox(
-                -name => 'remove',
+            $uninstall = '<br />'
+              . CGI::checkbox(
+                -name  => 'remove',
                 -value => $ext->{repository} . '/' . $ext->{topic},
                 -class => 'foswikiCheckbox',
                 -label => $uninstall,
-               );
+              );
         }
 
         $trClass .= ' configureAlienExtension'
@@ -254,13 +263,15 @@ sub ui {
         my $colCount = 0;
 
         my @imgControls = ();
-        if ($ext->{image}) {
-            $ext->{image} = '<div title="'.$ext->{image}
-              .'" class="foswikiImage loadImage"></div>';
+        if ( $ext->{image} ) {
+            $ext->{image} =
+                '<div title="'
+              . $ext->{image}
+              . '" class="foswikiImage loadImage"></div>';
         }
 
         $table .= CGI::Tr(
-            { class => $trClass }, 
+            { class => $trClass },
             CGI::td(
                 {
                     colspan => $#tableHeads,
@@ -270,10 +281,10 @@ sub ui {
             ),
             CGI::td(
                 {
-                    class   => "configureExtensionTitle configureExtensionAction",
+                    class => "configureExtensionTitle configureExtensionAction",
                     rowspan => 2
                 },
-				$install . ' ' . $uninstall
+                $install . ' ' . $uninstall
             )
         );
 
@@ -282,16 +293,24 @@ sub ui {
             $tdd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
             my $cssClass = "configureExtensionData";
             $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
-            if ($colCount == scalar @tableHeads - 1) {
-	            # nothing (in colspan)
-			} else {
-				$row .= CGI::td( { class => $cssClass }, $tdd );
-			}
+            if ( $colCount == scalar @tableHeads - 1 ) {
+
+                # nothing (in colspan)
+            }
+            else {
+                $row .= CGI::td( { class => $cssClass }, $tdd );
+            }
             $colCount++;
         }
-		
-        $table .= CGI::Tr( { class => $trClass, id => $ext->{topic},
-                             @imgControls }, $row);
+
+        $table .= CGI::Tr(
+            {
+                class => $trClass,
+                id    => $ext->{topic},
+                @imgControls
+            },
+            $row
+        );
 
         $rows++;
     }

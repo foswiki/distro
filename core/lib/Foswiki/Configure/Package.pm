@@ -487,7 +487,7 @@ sub install {
         }
     }
     my $pkgstore = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
-    $err      = _moveFile(
+    $err = _moveFile(
         $this,
         "$dir/$this->{_pkgname}_installer",
         "$pkgstore/$this->{_pkgname}_installer"
@@ -579,7 +579,7 @@ sub _moveFile {
     pop(@path);
     unless ( $this->{_options}->{SIMULATE} ) {
         if ( scalar(@path) ) {
-            umask(oct(777)-$Foswiki::cfg{RCS}{dirPermission}); 
+            umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
             File::Path::mkpath( join( '/', @path ) );
         }
 

@@ -82,7 +82,7 @@ sub prepare {
             $res = new Foswiki::Response();
             $res->header( -type => 'text/html', -status => $e->{status} );
             my $html = CGI::start_html( $e->{status} . ' Bad Request' );
-            $html .= CGI::h1({}, 'Bad Request');
+            $html .= CGI::h1( {}, 'Bad Request' );
             $html .= CGI::p( {}, $e->{reason} );
             $html .= CGI::end_html();
             $res->print($html);

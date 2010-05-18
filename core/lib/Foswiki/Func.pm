@@ -980,6 +980,7 @@ sub addUserToGroup {
 #    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
     $user = getCanonicalUserID($user);
     return unless ( defined($user) and ( $users->userExists($user) ) );
+
     #    }
     return $users->addUserToGroup( $user, $group, $create );
 }
@@ -1272,9 +1273,8 @@ sub summariseChanges {
     my ( $web, $topic, $orev, $nrev, $tml ) = @_;
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->summariseChanges(
-        Foswiki::Store::cleanUpRevID( $orev ),
-        Foswiki::Store::cleanUpRevID( $nrev ), $tml );
+    return $topicObject->summariseChanges( Foswiki::Store::cleanUpRevID($orev),
+        Foswiki::Store::cleanUpRevID($nrev), $tml );
 }
 
 =begin TML
@@ -1929,6 +1929,7 @@ This is a compatibility wrapper for =addZoZone('head', ...)=.
 =cut=
 
 sub addToHEAD {
+
     #my ( $tag, $data, $requires ) = @_;
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
@@ -1958,11 +1959,12 @@ Foswiki::Func::addToZone( "body", 'PATTERN_JAVASCRIPT','<script type="text/javas
 =cut=
 
 sub addToZone {
+
     #my ( $zone, $tag, $data, $requires ) = @_;
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
 
-    $session->addToZone( @_ );
+    $session->addToZone(@_);
 }
 
 =begin TML
@@ -2196,6 +2198,7 @@ sub registerTagHandler {
             my ( $session, $params, $topicObject ) = @_;
             my $record = $Foswiki::Plugins::SESSION;
             $Foswiki::Plugins::SESSION = $_[0];
+
             # $pluginContext is defined for all plugins
             # but never defined for contribs.
             # This is convenient, because contribs cannot be disabled
@@ -2457,16 +2460,17 @@ sub searchInWebContent {
 
     my ( $searchString, $webs, $topics, $options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    
+
     my $inputTopicSet;
     if ($topics) {
         $inputTopicSet = new Foswiki::ListIterator($topics);
     }
     $options->{web} = $webs;
-    my $query = $Foswiki::Plugins::SESSION->search->parseSearch($searchString, $options);
-
-    return Foswiki::Meta::query( $query, $inputTopicSet,
+    my $query =
+      $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
         $options );
+
+    return Foswiki::Meta::query( $query, $inputTopicSet, $options );
 }
 
 =begin TML
@@ -2648,12 +2652,12 @@ not work with any installation that stores logs in a database.
 =cut
 
 sub writeEvent {
-    my ($action, $extra) = @_;
+    my ( $action, $extra ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $webTopic = $Foswiki::Plugins::SESSION->{webName} . '.'
+    my $webTopic =
+        $Foswiki::Plugins::SESSION->{webName} . '.'
       . $Foswiki::Plugins::SESSION->{topicName};
-    return $Foswiki::Plugins::SESSION->logEvent(
-        $action, $webTopic, $extra );
+    return $Foswiki::Plugins::SESSION->logEvent( $action, $webTopic, $extra );
 }
 
 =begin TML
@@ -2692,8 +2696,7 @@ while ($it->hasNext()) {
 
 sub eachEventSince {
     my $time = shift;
-    return $Foswiki::Plugins::SESSION->logger->eachEventSince(
-        $time, 'info' );
+    return $Foswiki::Plugins::SESSION->logger->eachEventSince( $time, 'info' );
 }
 
 =begin TML

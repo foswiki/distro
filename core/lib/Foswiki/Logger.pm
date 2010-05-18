@@ -21,7 +21,7 @@ Unfortunately this means that the simpler CPAN loggers are not suitable.
 =cut
 
 sub new {
-    return bless({}, shift);
+    return bless( {}, shift );
 }
 
 =begin TML
@@ -67,7 +67,7 @@ requested level will be returned if any of the collapsed levels is selected.
 
 # Default behaviour is an empty iteration
 sub eachEventSince {
-    return new Foswiki::ListIterator([]);
+    return new Foswiki::ListIterator( [] );
 }
 
 1;

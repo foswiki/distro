@@ -62,29 +62,30 @@ names and also Web names.   The following mapping is performed:
 
 =cut
 
-
 sub mapTarget {
     my $root = shift;
     my $file = shift;
+
     # Workaround for Tasks.Item8744 feature proposal
     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
-    foreach my $t qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+    foreach my $t
+      qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
       ) {
-        my ($val, $def) = split( ':', $t);
-        if ( defined $Foswiki::cfg{$val} )
-        {
+        my ( $val, $def ) = split( ':', $t );
+          if ( defined $Foswiki::cfg{$val} ) {
             $file =~
               s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
             $file =~ s#^pub/(.*)/$def/([^/]*)$#pub/$1/$Foswiki::cfg{$val}/$2#;
         }
-      } 
+      }
 
-    if ( defined $Foswiki::cfg{MimeTypesFileName} && ($file eq 'data/mime.types') ) {
-        $file =~ 
-              s#^data/mime\.types$#$Foswiki::cfg{MimeTypesFileName}#;
+      if ( defined $Foswiki::cfg{MimeTypesFileName}
+        && ( $file eq 'data/mime.types' ) )
+    {
+        $file =~ s#^data/mime\.types$#$Foswiki::cfg{MimeTypesFileName}#;
         return $file;
-        }
+    }
 
     if ( $sandbox ne 'Sandbox' ) {
         $file =~ s#^data/Sandbox/#data/$sandbox/#;
@@ -111,8 +112,8 @@ sub mapTarget {
         $file =~ s#^pub/Users/#pub/$Foswiki::cfg{UsersWebName}/#;
     }
 
-    # Canonical symbol mappings
-    #foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
+# Canonical symbol mappings
+#foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
     foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
         if ( defined $Foswiki::cfg{$w} ) {
             $file =~ s#^data/$w/#data/$Foswiki::cfg{$w}/#;
@@ -121,7 +122,6 @@ sub mapTarget {
     }
     $file =~ s#^data/Sandbox/#data/$sandbox/#;
     $file =~ s#^pub/Sandbox/#pub/$sandbox/#;
-
 
     if ( $file =~ s#^data/#$Foswiki::cfg{DataDir}/# ) {
     }
@@ -133,8 +133,7 @@ sub mapTarget {
     }
     elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
     }
-    elsif ( $file =~ s#^(bin/\w+)$#$root$1$Foswiki::cfg{ScriptSuffix}# )
-    {
+    elsif ( $file =~ s#^(bin/\w+)$#$root$1$Foswiki::cfg{ScriptSuffix}# ) {
 
         #This makes a couple of bad assumptions
         #1. that the twiki's bin dir _is_ called bin
@@ -170,24 +169,23 @@ Returns ($web, $topic)
 
 =cut
 
-
 sub getMappedWebTopic {
     my $file = shift;
 
     # Workaround for Tasks.Item8744 feature proposal
     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
-    foreach my $t qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+    foreach my $t
+      qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
       ) {
-        my ($val, $def) = split( ':', $t);
-        if ( defined $Foswiki::cfg{$val} )
-        {
+        my ( $val, $def ) = split( ':', $t );
+          if ( defined $Foswiki::cfg{$val} ) {
             $file =~
               s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
         }
-      } 
+      }
 
-    if ( $sandbox ne 'Sandbox' ) {
+      if ( $sandbox ne 'Sandbox' ) {
         $file =~ s#^data/Sandbox/#$sandbox/#;
     }
 
@@ -207,8 +205,8 @@ sub getMappedWebTopic {
         $file =~ s#^data/Users/#$Foswiki::cfg{UsersWebName}/#;
     }
 
-    # Canonical symbol mappings
-    #foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
+# Canonical symbol mappings
+#foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
     foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
         if ( defined $Foswiki::cfg{$w} ) {
             $file =~ s#^data/$w/#$Foswiki::cfg{$w}/#;
@@ -216,10 +214,9 @@ sub getMappedWebTopic {
     }
     $file =~ s#^data/Sandbox/#$sandbox/#;
 
-    my ($tweb, $ttopic) = $file =~ /^(.*)\/(\w+).txt$/;
+    my ( $tweb, $ttopic ) = $file =~ /^(.*)\/(\w+).txt$/;
 
-
-    return ($tweb, $ttopic);
+    return ( $tweb, $ttopic );
 }
 
 =begin TML
@@ -234,45 +231,46 @@ Create an archive of the passed directory.
 
 sub createArchive {
     my ( $name, $dir, $delete, $test ) = @_;
-    eval {use File::Path qw(rmtree)};
+    eval { use File::Path qw(rmtree) };
 
-    my $file = undef;
+    my $file    = undef;
     my $results = '';
-    my $warn = '';
-  
-    my $here = Cwd::getcwd();
-    $here =~ /(.*)/; $here = $1;    # untaint current dir name
+    my $warn    = '';
 
-    return ( undef, "Directory $dir/$name does not exist \n") unless (-e "$dir/$name" && -d "$dir/$name");
-    
+    my $here = Cwd::getcwd();
+    $here =~ /(.*)/;
+    $here = $1;    # untaint current dir name
+
+    return ( undef, "Directory $dir/$name does not exist \n" )
+      unless ( -e "$dir/$name" && -d "$dir/$name" );
+
     chdir("$dir/$name");
 
-    if (!defined $test || (defined $test && $test eq 'tar')) {
+    if ( !defined $test || ( defined $test && $test eq 'tar' ) ) {
         $results .= `tar -czvf "../$name.tgz" .`;
 
-        if ($results && ! $@) { 
+        if ( $results && !$@ ) {
             $file = "$dir/$name.tgz";
         }
     }
 
     unless ($results) {
-        $warn .= "tar command failed $!, trying zip \n"; 
+        $warn .= "tar command failed $!, trying zip \n";
 
-        if (!defined $test || (defined $test && $test eq 'zip')) {
-            $results .= `zip -r "../$name.zip" .`; 
-        
-            if ($results && ! $@) {
+        if ( !defined $test || ( defined $test && $test eq 'zip' ) ) {
+            $results .= `zip -r "../$name.zip" .`;
+
+            if ( $results && !$@ ) {
                 $file = "$dir/$name.zip";
-            }  
+            }
         }
 
-
         unless ($results) {
-            $warn .= "zip failed $!, trying perl routines \n"; 
+            $warn .= "zip failed $!, trying perl routines \n";
 
-            if (!defined $test || (defined $test && $test eq 'Ptar')) {
-                my @flist = Foswiki::Configure::Util::listDir('.', 1);
-                $results = _tar ( "../$name.tgz", \@flist );
+            if ( !defined $test || ( defined $test && $test eq 'Ptar' ) ) {
+                my @flist = Foswiki::Configure::Util::listDir( '.', 1 );
+                $results = _tar( "../$name.tgz", \@flist );
 
                 if ($results) {
                     $file = "$dir/$name.tgz";
@@ -280,36 +278,36 @@ sub createArchive {
             }
 
             unless ($results) {
-                $warn .= "Perl Archive::Tar failed - trying zip \n"; 
+                $warn .= "Perl Archive::Tar failed - trying zip \n";
 
-                if (!defined $test || (defined $test && $test eq 'Pzip')) {
-                    my @flist = Foswiki::Configure::Util::listDir('.', 1);
-                    $results = _zip ( "../$name.zip", \@flist );
+                if ( !defined $test || ( defined $test && $test eq 'Pzip' ) ) {
+                    my @flist = Foswiki::Configure::Util::listDir( '.', 1 );
+                    $results = _zip( "../$name.zip", \@flist );
 
                     if ($results) {
                         $file = "$dir/$name.zip";
-                    } else {
-                        $warn .= "Perl Archive::Zip failed - Backup directory remains \n"; 
+                    }
+                    else {
+                        $warn .=
+"Perl Archive::Zip failed - Backup directory remains \n";
                     }
                 }
             }
         }
     }
 
-
-
     chdir($here);
 
-    return (undef, $warn) unless ($results);
+    return ( undef, $warn ) unless ($results);
 
     rmtree("$dir/$name") if ($delete);
-    return ($file, $results);
+    return ( $file, $results );
 
 }
 
 sub _zip {
     my $archive = shift;
-    my $files = shift;
+    my $files   = shift;
     my $err;
 
     eval 'use Archive::Zip ( )';
@@ -319,13 +317,13 @@ sub _zip {
             return 0;
         }
 
-        # Note:  Archive::Zip addTree fails with taint errors.  
+        # Note:  Archive::Zip addTree fails with taint errors.
         # Workaround was to add each file individually
-        foreach my $f ( @$files ) {
-            $zip->addFile( $f );
+        foreach my $f (@$files) {
+            $zip->addFile($f);
         }
         $err = $zip->writeToFileNamed("$archive");
-        return join("\n",$zip->memberNames()) unless ($err);
+        return join( "\n", $zip->memberNames() ) unless ($err);
     }
 
     return 0;
@@ -333,15 +331,15 @@ sub _zip {
 
 sub _tar {
     my $archive = shift;
-    my $files = shift;
+    my $files   = shift;
 
     eval 'use Archive::Tar ()';
     unless ($@) {
         my $tgz = Archive::Tar->new();
         return 0 unless ($tgz);
-        $tgz->add_files( @$files );
-        $tgz->write( "$archive", 7) ;
-        return join("\n", $tgz->list_files());
+        $tgz->add_files(@$files);
+        $tgz->write( "$archive", 7 );
+        return join( "\n", $tgz->list_files() );
     }
     return 0;
 }
@@ -360,23 +358,25 @@ sub unpackArchive {
 
     $dir ||= File::Temp::tempdir( CLEANUP => 1 );
     my $here = Cwd::getcwd();
-    $here =~ /(.*)/; $here = $1;    # untaint current dir name
+    $here =~ /(.*)/;
+    $here = $1;    # untaint current dir name
     chdir($dir);
     my $error = "Failed to unpack archive $name\n";
 
-    if ($name =~ m/\.zip$/i) {
+    if ( $name =~ m/\.zip$/i ) {
         $error = _unzip($name);
         $error .= "Failed to unpack archive $name\n" if ($error);
-    } else {
+    }
+    else {
         if ( $name =~ m/(\.tar\.gz|\.tgz|\.tar)$/i ) {
-            $error = _untar($name); 
+            $error = _untar($name);
             $error .= "Failed to unpack archive $name\n" if ($error);
         }
     }
     $dir = undef if ($error);
     chdir($here);
 
-    return ($dir, $error);
+    return ( $dir, $error );
 }
 
 sub _unzip {
@@ -392,7 +392,8 @@ sub _unzip {
         my @members = $zip->members();
         foreach my $member (@members) {
             my $file = $member->fileName();
-            $file =~ /(.*)/; $file = $1;    #yes, we must untaint
+            $file =~ /(.*)/;
+            $file = $1;    #yes, we must untaint
             my $target = $file;
             my $err = $zip->extractMember( $file, $target );
             if ($err) {
@@ -421,7 +422,6 @@ sub _unzip {
 
 sub _untar {
     my $archive = shift;
-
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
@@ -466,8 +466,8 @@ encountered.
 
 # Recursively list a directory
 sub listDir {
-    my ( $dir, $dflag,  $path ) = @_;
-    $path ||= '';
+    my ( $dir, $dflag, $path ) = @_;
+    $path  ||= '';
     $dflag ||= '';
     $dir .= '/' unless $dir =~ /\/$/;
     my $d;
@@ -483,7 +483,7 @@ sub listDir {
                 $f = $1;
                 if ( -d "$dir$path/$f" ) {
                     push( @names, "$path$f/" ) unless ($dflag);
-                    push( @names, listDir( $dir, $dflag,  "$path$f/" ) );
+                    push( @names, listDir( $dir, $dflag, "$path$f/" ) );
                 }
                 else {
                     push( @names, "$path$f" );
@@ -509,17 +509,19 @@ script and recover the location of the perl interpreter.
 
 sub getPerlLocation {
 
-    local $/ = "\n"; 
-    open (my $fh, '<', "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}") 
-        || return '' ;
-    my $shBang  = <$fh>;
+    local $/ = "\n";
+    open( my $fh, '<',
+        "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}" )
+      || return '';
+    my $shBang = <$fh>;
     chomp $shBang;
     $shBang =~ s/^#\!\s*(.*?)\s?(:?\s-.*)?$/$1/;
     $shBang =~ s/\s+$//;
-    close ($fh);
+    close($fh);
     return $shBang;
 
 }
+
 =begin TML
 
 ---++ StaticMethod rewriteShbang($file, $newShbang )
@@ -529,30 +531,30 @@ with the specified script name.
 =cut
 
 sub rewriteShbang {
-    my $file = shift;
+    my $file      = shift;
     my $newShbang = shift;
 
-    return unless (-f $file );
+    return unless ( -f $file );
 
     local $/ = undef;
-    open(my $fh, '<', $file) || return "Rewrite shbang failed:  $!";
+    open( my $fh, '<', $file ) || return "Rewrite shbang failed:  $!";
     my $contents = <$fh>;
     close $fh;
 
     # Note: space inserted after #! - needed on some flavors of Unix
-    if( $contents =~ s/^#!\s*\S+/#! $newShbang/s ) {
-        my $mode = (stat($file))[2];
-        $file =~ /(.*)/; $file = $1;   
-        chmod( oct(600), "$file");
-        open(my $fh, '>', $file) || return "Rewrite shbang failed:  $!";
-        print $fh  $contents;
+    if ( $contents =~ s/^#!\s*\S+/#! $newShbang/s ) {
+        my $mode = ( stat($file) )[2];
+        $file =~ /(.*)/;
+        $file = $1;
+        chmod( oct(600), "$file" );
+        open( my $fh, '>', $file ) || return "Rewrite shbang failed:  $!";
+        print $fh $contents;
         close $fh;
-        $mode =~ /(.*)/; $mode = $1;   
-        chmod( $mode, "$file");
-    } 
+        $mode =~ /(.*)/;
+        $mode = $1;
+        chmod( $mode, "$file" );
+    }
 }
-
-
 
 1;
 __END__

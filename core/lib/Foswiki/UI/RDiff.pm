@@ -210,7 +210,7 @@ sub _renderDebug {
             { class => 'foswikiDiffDebug' },
             CGI::td(
                 { class => 'foswikiDiffDebugLeft ' . $styleClassLeft },
-                CGI::div({}, $left)
+                CGI::div( {}, $left )
             )
         );
     }
@@ -219,7 +219,7 @@ sub _renderDebug {
             { class => 'foswikiDiffDebug' },
             CGI::td(
                 { class => 'foswikiDiffDebugRight ' . $styleClassRight },
-                CGI::div({}, $right)
+                CGI::div( {}, $right )
             )
         );
     }
@@ -245,12 +245,13 @@ sub _sequentialRow {
         );
     }
     else {
-        $row = CGI::td({}, '&nbsp;');
+        $row = CGI::td( {}, '&nbsp;' );
     }
     $row .= CGI::td( { class => "twikiDiff${bodycls}Text" }, $data );
-    $row = CGI::Tr({}, $row);
+    $row = CGI::Tr( {}, $row );
     if ($bg) {
-        return CGI::Tr( {},
+        return CGI::Tr(
+            {},
             CGI::td(
                 {
                     bgcolor => $bg,
@@ -390,7 +391,8 @@ sub _renderRevisionDiff {
             $result .= _renderSequential( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'sidebyside' ) {
-            $result .= CGI::Tr( {},
+            $result .= CGI::Tr(
+                {},
                 CGI::td( { width => '50%' }, '' ),
                 CGI::td( { width => '50%' }, '' )
             );
@@ -408,7 +410,8 @@ sub _renderRevisionDiff {
             $result .= _renderSequential( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'sidebyside' ) {
-            $result .= CGI::Tr( {},
+            $result .= CGI::Tr(
+                {},
                 CGI::td( { width => '50%' }, '' ),
                 CGI::td( { width => '50%' }, '' )
             );
@@ -494,20 +497,21 @@ sub diff {
     $after  ||= '';
     $tail   ||= '';
 
-    my $revIt = $topicObject->getRevisionHistory();
-    my @history = $revIt->all(); # most recent rev first
+    my $revIt   = $topicObject->getRevisionHistory();
+    my @history = $revIt->all();                        # most recent rev first
 
-    my ($olderi, $neweri); # indexes into history
+    my ( $olderi, $neweri );                            # indexes into history
     if ( $diffType eq 'last' ) {
         $neweri = 0;
-        $olderi  = $neweri + 1;
-    } else {
-        for (my $i = 0; $i <= $#history; $i++) {
-            $neweri = $i if ($history[$i] == $revHigh);
-            $olderi = $i if ($history[$i] == $revLow);
-            last if (defined $olderi && defined $neweri);
+        $olderi = $neweri + 1;
+    }
+    else {
+        for ( my $i = 0 ; $i <= $#history ; $i++ ) {
+            $neweri = $i if ( $history[$i] == $revHigh );
+            $olderi = $i if ( $history[$i] == $revLow );
+            last if ( defined $olderi && defined $neweri );
         }
-        $neweri = 0 unless defined $neweri;
+        $neweri = 0         unless defined $neweri;
         $olderi = $#history unless defined $olderi;
     }
 
@@ -515,8 +519,8 @@ sub diff {
     my $revTitleLow = ( $olderi != $neweri ) ? $history[$olderi] : '';
 
     # Limit the total number of diffs to avoid DoS
-    my $step = int(($olderi - $neweri) /
-                     $Foswiki::cfg{MaxRevisionsInADiff} + 0.5);
+    my $step =
+      int( ( $olderi - $neweri ) / $Foswiki::cfg{MaxRevisionsInADiff} + 0.5 );
     $step = 1 if $step < 1;
 
     $before =~ s/%REVTITLE1%/$revTitleHigh/go;
@@ -528,22 +532,22 @@ sub diff {
 
     # do one or more diffs
     $difftmpl = $topicObject->expandMacros($difftmpl);
-    my $rNewer          = $neweri;
-    my $rOlder          = $olderi;
+    my $rNewer         = $neweri;
+    my $rOlder         = $olderi;
     my $isMultipleDiff = 0;
 
     if ( $diffType eq 'history' && $olderi > $neweri + 1 ) {
-        $rOlder = $neweri + $step;
+        $rOlder         = $neweri + $step;
         $isMultipleDiff = 1;
     }
 
     my %toms;
 
     do {
-        last if ($rOlder > $#history);
+        last if ( $rOlder > $#history );
 
         my $rHigh = $history[$rNewer];
-        my $rLow = $history[$rOlder];
+        my $rLow  = $history[$rOlder];
 
         # Load the revs being diffed
         $toms{$rHigh} =
@@ -610,8 +614,8 @@ sub diff {
             $rd = $toms{$rLow}->getDifferences( $rHigh, $contextLines );
         }
 
-        $text = _renderRevisionDiff(
-            $session, $topicObject, $rd, $renderStyle );
+        $text =
+          _renderRevisionDiff( $session, $topicObject, $rd, $renderStyle );
 
         $diff =~ s/%REVINFO1%/$rInfo/go;
         $diff =~ s/%REVINFO2%/$rInfo2/go;
@@ -619,35 +623,37 @@ sub diff {
         $page .= $diff;
         $rNewer += $step;
         $rOlder += $step;
-        $rOlder  = $#history if $rOlder > $#history;
+        $rOlder = $#history if $rOlder > $#history;
     } while ( $diffType eq 'history' && $rNewer < $olderi );
 
     $session->logEvent( 'rdiff', $web . '.' . $topic, "$revHigh $revLow" );
 
     # Generate the revisions navigator
     require Foswiki::UI::View;
-    my $revisions = Foswiki::UI::View::revisionsAround(
-        $session, $topicObject,
-        $history[$neweri], $history[$neweri], $history[0]);
+    my $revisions =
+      Foswiki::UI::View::revisionsAround( $session, $topicObject,
+        $history[$neweri], $history[$neweri], $history[0] );
 
     my $tailResult = '';
 
-    if (defined $tail) {
+    if ( defined $tail ) {
+
         # SMELL: made this conditional as it doesn't seem to be used
         # Generate information about each of the revs shown
-        my $i = $neweri;
-        my $revTitle   = '';
+        my $i        = $neweri;
+        my $revTitle = '';
         while ( $i <= $olderi ) {
-            last if ($i > $#history);
+            last if ( $i > $#history );
             my $n = $history[$i];
             $revTitle = CGI::a(
                 {
-                    href =>
-                      $session->getScriptUrl( 0, 'view', $web, $topic, rev => $n ),
+                    href => $session->getScriptUrl(
+                        0, 'view', $web, $topic, rev => $n
+                    ),
                     rel => 'nofollow'
-                   },
+                },
                 $i
-               );
+            );
             my $revInfo =
               $session->renderer->renderRevisionInfo( $topicObject, undef, $n );
             $tailResult .= $tail;
@@ -656,7 +662,7 @@ sub diff {
             $i += $step;
         }
     }
-    $after =~ s/%TAIL%/$tailResult/go; # SMELL: unused in templates
+    $after =~ s/%TAIL%/$tailResult/go;    # SMELL: unused in templates
 
     $after =~ s/%REVISIONS%/$revisions/go;
     $after =~ s/%CURRREV%/$revHigh/go;

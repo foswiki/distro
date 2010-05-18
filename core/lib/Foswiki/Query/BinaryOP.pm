@@ -4,11 +4,11 @@ package Foswiki::Query::BinaryOP;
 use strict;
 use warnings;
 use Foswiki::Query::OP;
-our @ISA = ( 'Foswiki::Query::OP');
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new(arity => 2, @_);
+    return $class->SUPER::new( arity => 2, @_ );
 }
 
 # Determine if a string represents a valid number
@@ -39,8 +39,9 @@ sub evalTest {
     my $b          = $node->{params}[1];
     my $ea         = $a->evaluate( @{$clientData} );
     my $eb         = $b->evaluate( @{$clientData} );
-    $ea            = '' unless defined $ea;
-    $eb            = '' unless defined $eb;
+    $ea = '' unless defined $ea;
+    $eb = '' unless defined $eb;
+
     if ( ref($ea) eq 'ARRAY' ) {
         my @res;
         foreach my $lhs (@$ea) {

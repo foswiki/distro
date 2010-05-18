@@ -495,7 +495,7 @@ sub merge3 {
 my $conflictAttrs = { class => 'foswikiConflict' };
 
 # SMELL: internationalisation?
-my $conflictB = CGI::b({}, 'CONFLICT');
+my $conflictB = CGI::b( {}, 'CONFLICT' );
 
 sub _handleConflict {
     my (

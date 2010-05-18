@@ -122,7 +122,7 @@ sub new {
     my $template = shift;
     my $this     = $class->SUPER::new();
     $this->{template} = $template || 'generic';
-    $this->{status}   = 500;         # default server error
+    $this->{status} = 500;    # default server error
     ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
       if DEBUG;
     while ( my $key = shift @_ ) {

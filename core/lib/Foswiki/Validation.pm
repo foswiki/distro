@@ -87,6 +87,7 @@ sub addValidationKey {
         # This has to be consistent with the algorithm in strikeone.js
         my $secret = _getSecret($cgis);
         $action = Digest::MD5::md5_hex( $nonce, $secret );
+
         #print STDERR "V: STRIKEONE $nonce + $secret = $action\n" if TRACE;
     }
     my $timeout = time() + $Foswiki::cfg{Validation}{ValidForTime};
@@ -117,7 +118,8 @@ onsubmit in the form tag.
 sub addOnSubmit {
     my ($form) = @_;
     unless ( $form =~
-        s/\bonsubmit=(["'])((?:\s*javascript:)?)(.*)\1/onsubmit=${1}${2}StrikeOne.submit(this);$3$1/i )
+s/\bonsubmit=(["'])((?:\s*javascript:)?)(.*)\1/onsubmit=${1}${2}StrikeOne.submit(this);$3$1/i
+      )
     {
         $form =~ s/>$/ onsubmit="StrikeOne.submit(this)">/;
     }
@@ -169,7 +171,7 @@ sub isValidNonce {
     $nonce =~ s/^\?// if ( $Foswiki::cfg{Validation}{Method} ne 'strikeone' );
     my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
-    print STDERR "V: CHECK $nonce -> ".($actions->{$nonce} ? 1 : 0)."\n"
+    print STDERR "V: CHECK $nonce -> " . ( $actions->{$nonce} ? 1 : 0 ) . "\n"
       if TRACE;
     return $actions->{$nonce};
 }
@@ -254,12 +256,13 @@ sub validate {
                 $url = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
+
                 # Reload the cached original query over the current query.
                 # When the redirect is validated it should pass, because
                 # it will now be using the validation code from the
                 # confirmation screen that brought us here.
                 require Foswiki::Request::Cache;
-                Foswiki::Request::Cache->new()->load($cacheUID, $query);
+                Foswiki::Request::Cache->new()->load( $cacheUID, $query );
                 $url = $query->url();
             }
 
@@ -278,8 +281,8 @@ sub validate {
     }
     else {
 
-        print STDERR "V: PROMPTING FOR CONFIRMATION ".$query->uri()
-          ."\n" if TRACE;
+        print STDERR "V: PROMPTING FOR CONFIRMATION " . $query->uri() . "\n"
+          if TRACE;
 
         # Prompt for user verification - code 419 chosen by foswiki devs.
         # None of the defined HTTP codes describe what is really happening,

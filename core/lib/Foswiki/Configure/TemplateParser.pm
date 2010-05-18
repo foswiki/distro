@@ -66,7 +66,7 @@ sub new {
 
     # This is probably slow, but we need to know where the templates are
     our $foswikiLibPath;
-    unless( defined $foswikiLibPath ) {
+    unless ( defined $foswikiLibPath ) {
         delete $INC{'setlib.cfg'};
         eval { require 'setlib.cfg'; };
     }
@@ -145,7 +145,8 @@ sub _getTemplate {
 
     my $templateName = $this->_getTemplateFileName( $name, $skin );
 
-    my $template = $this->getTemplate( $templateName,
+    my $template =
+      $this->getTemplate( $templateName,
         SCRIPTNAME => Foswiki::Configure::Util::getScriptName() );
 
     return $template;
@@ -162,13 +163,15 @@ sub _getTemplateFileName {
 sub getResource {
     my ( $this, $resource, %vars ) = @_;
 
-    return $this->getFile( "$foswikiConfigureFilesDir/resources/", $resource, %vars );
+    return $this->getFile( "$foswikiConfigureFilesDir/resources/", $resource,
+        %vars );
 }
 
 sub getTemplate {
     my ( $this, $resource, %vars ) = @_;
 
-    return $this->getFile( "$foswikiConfigureFilesDir/templates/", $resource, %vars );
+    return $this->getFile( "$foswikiConfigureFilesDir/templates/", $resource,
+        %vars );
 }
 
 sub getFile {
@@ -179,6 +182,7 @@ sub getFile {
         $text = <$F>;
         close($F);
         if ( $resource =~ /\.(js|css)$/ ) {
+
 =pod
 commenting out, this seems just 'to work'
             $text =~ s#/\*.*?\*/##g;
@@ -189,6 +193,7 @@ commenting out, this seems just 'to work'
             $text =~ s/ +/ /g;
             $text =~ s/\s*\n/\n/gs;
 =cut
+
         }
         $text =~ s/%INCLUDE{(.*?)}%/$this->getResource($1)/ges;
         while ( my ( $k, $v ) = each %vars ) {

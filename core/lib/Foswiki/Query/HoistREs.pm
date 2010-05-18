@@ -52,8 +52,8 @@ sub collatedHoist {
 
     my @ops = hoist($node);
     foreach my $op (@ops) {
-        push( @{ $collation{ $op->{node} } }, $op->{regex} );
-        push( @{ $collation{ $op->{node}.'_source' } }, $op->{source} );
+        push( @{ $collation{ $op->{node} } },             $op->{regex} );
+        push( @{ $collation{ $op->{node} . '_source' } }, $op->{source} );
     }
     return \%collation;
 }
@@ -127,8 +127,8 @@ sub _hoistOR {
         if ( $lhs && $rhs ) {
             if ( $lhs->{node} eq $rhs->{node} ) {
                 return {
-                    node  => $lhs->{node},
-                    regex => $lhs->{regex} . '|' . $rhs->{regex},
+                    node   => $lhs->{node},
+                    regex  => $lhs->{regex} . '|' . $rhs->{regex},
                     source => $lhs->{source} . ',' . $rhs->{source}
                 };
             }
@@ -162,7 +162,7 @@ sub _hoistEQ {
         if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[1]);
+            $lhs->{source} = _hoistConstant( $node->{params}[1] );
             return $lhs;
         }
 
@@ -172,7 +172,7 @@ sub _hoistEQ {
         if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[0]);
+            $lhs->{source} = _hoistConstant( $node->{params}[0] );
             return $lhs;
         }
     }
@@ -184,7 +184,7 @@ sub _hoistEQ {
             $rhs          =~ s/\\\?/./g;
             $rhs          =~ s/\\\*/.*/g;
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[1]);
+            $lhs->{source} = _hoistConstant( $node->{params}[1] );
             return $lhs;
         }
     }

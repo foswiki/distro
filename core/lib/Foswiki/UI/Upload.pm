@@ -102,7 +102,7 @@ sub _upload {
     my $topic = $session->{topicName};
     my $user  = $session->{user};
 
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     my $hideFile    = $query->param('hidefile')    || '';
     my $fileComment = $query->param('filecomment') || '';
@@ -169,8 +169,8 @@ sub _upload {
             );
         }
 
-        my $maxSize =
-          $session->{prefs}->getPreference('ATTACHFILESIZELIMIT') || 0;
+        my $maxSize = $session->{prefs}->getPreference('ATTACHFILESIZELIMIT')
+          || 0;
         $maxSize =~ s/\s+$//;
         $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
 

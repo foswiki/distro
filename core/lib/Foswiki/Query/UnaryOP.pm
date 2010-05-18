@@ -4,11 +4,11 @@ package Foswiki::Query::UnaryOP;
 use strict;
 use warnings;
 use Foswiki::Query::OP;
-our @ISA = ( 'Foswiki::Query::OP');
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new(arity => 1, @_);
+    return $class->SUPER::new( arity => 1, @_ );
 }
 
 sub evalUnary {

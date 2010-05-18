@@ -16,7 +16,7 @@ ICONPATH macro implementation
 
 sub ICONURLPATH {
     my ( $this, $params ) = @_;
-    my ($path) = $this->_findIcon ($params);
+    my ($path) = $this->_findIcon($params);
 
     return $this->_getIconUrl( 0, $path );
 }

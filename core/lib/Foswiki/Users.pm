@@ -145,13 +145,12 @@ override (in Foswiki.pm)
 =cut
 
 sub loadSession {
-    my ($this, $defaultUser) = @_;
+    my ( $this, $defaultUser ) = @_;
 
     # $this is passed in because it will be used to password check
     # a command-line login. The {remoteUser} in the session will be
     # whatever was passed in to the new Foswiki() call.
-    my $remoteUser =
-      $this->{loginManager}->loadSession( $defaultUser, $this );
+    my $remoteUser = $this->{loginManager}->loadSession( $defaultUser, $this );
 
     return $remoteUser;
 }
@@ -262,6 +261,7 @@ sub initialiseUser {
     # plugins can provide an alternate login name.
     my $plogin =
       $this->{session}->{plugins}->load( $Foswiki::cfg{DisableAllPlugins} );
+
     #Monitor::MARK("Plugins loaded");
 
     $login = $plogin if $plogin;
@@ -453,7 +453,7 @@ sub getCanonicalUserID {
     my ( $this, $identifier ) = @_;
     my $cUID;
 
-    ASSERT(defined $identifier) if DEBUG;
+    ASSERT( defined $identifier ) if DEBUG;
 
     # Someone we already know?
 
@@ -521,6 +521,7 @@ sub findUserByWikiName {
     # Trim the (pointless) userweb, if present
     $wn =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
     my $mapping = $this->_getMapping( undef, undef, $wn );
+
     #my $mapping = $this->_getMapping( $wn, $wn, $wn ); # why not?
     return $mapping->findUserByWikiName($wn);
 }
@@ -716,7 +717,9 @@ sub getWikiName {
         else {
             $wikiname = $cUID;
         }
-    } else {
+    }
+    else {
+
         # remove the web part
         # SMELL: is this really needed?
         $wikiname =~ s/^($Foswiki::cfg{UsersWebName}|%MAINWEB%|%USERSWEB%)\.//;
@@ -905,10 +908,10 @@ returns 1 if the group is able to be modified by the current logged in user
 =cut
 
 sub groupAllowsView {
-    my $this = shift;
-    my $group = shift;
+    my $this    = shift;
+    my $group   = shift;
     my $mapping = $this->{mapping};
-    return $mapping->groupAllowsView( $group );
+    return $mapping->groupAllowsView($group);
 }
 
 =begin TML
@@ -920,12 +923,12 @@ returns 1 if the group is able to be modified by the current logged in user
 =cut
 
 sub groupAllowsChange {
-    my $this = shift;
+    my $this  = shift;
     my $group = shift;
-    my $cuid = shift || $this->{session}->{user};
+    my $cuid  = shift || $this->{session}->{user};
 
-    return ($this->{basemapping}->groupAllowsChange( $group, $cuid ) and 
-        $this->{mapping}->groupAllowsChange( $group, $cuid ));
+    return (  $this->{basemapping}->groupAllowsChange( $group, $cuid )
+          and $this->{mapping}->groupAllowsChange( $group, $cuid ) );
 }
 
 =begin TML

@@ -22,7 +22,10 @@ sub RENDERZONE {
         topicObject => $topicObject,
     };
 
-    return $Foswiki::TranslationToken . "RENDERZONE{$id}" . $Foswiki::TranslationToken;
+    return
+        $Foswiki::TranslationToken
+      . "RENDERZONE{$id}"
+      . $Foswiki::TranslationToken;
 }
 
 1;

@@ -79,8 +79,7 @@ sub new {
 
     return $this unless defined($string);
 
-    $string =~ s/\\(["'])/$MARKER.sprintf("%.2u", ord($1))/ge
-      ;    # escapes
+    $string =~ s/\\(["'])/$MARKER.sprintf("%.2u", ord($1))/ge;    # escapes
 
     my $sep = ( $friendly ? "[\\s,]" : "\\s" );
     my $first = 1;
@@ -147,7 +146,7 @@ sub new {
         }
     }
     foreach my $k ( keys %$this ) {
-        $this->{$k} =~ s/$MARKER(\d\d)/chr($1)/geo; # escapes
+        $this->{$k} =~ s/$MARKER(\d\d)/chr($1)/geo;    # escapes
     }
     return $this;
 }

@@ -62,70 +62,74 @@ sub new {
     # tests have been revisited)
     $DEFAULT_USER_CUID = 'BaseUserMapping_666';
     $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
-    %BASE_USERS = (
+    %BASE_USERS        = (
         BaseUserMapping_111 => {
             login    => 'ProjectContributor',
             wikiname => 'ProjectContributor',
         },
         BaseUserMapping_222 => {
-            login    => $Foswiki::cfg{Register}{RegistrationAgentWikiName} || 'RegistrationAgent',
-            wikiname => $Foswiki::cfg{Register}{RegistrationAgentWikiName} || 'RegistrationAgent',
+            login => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+              || 'RegistrationAgent',
+            wikiname => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+              || 'RegistrationAgent',
         },
         BaseUserMapping_333 => {
-            login    => $Foswiki::cfg{AdminUserLogin} || 'admin',
+            login    => $Foswiki::cfg{AdminUserLogin}    || 'admin',
             wikiname => $Foswiki::cfg{AdminUserWikiName} || 'AdminUser',
-            email    => $Foswiki::cfg{WebMasterEmail} || 'email not set',
+            email    => $Foswiki::cfg{WebMasterEmail}    || 'email not set',
             password => $Foswiki::cfg{Password},
         },
         $DEFAULT_USER_CUID => {
-            login    => $Foswiki::cfg{DefaultUserLogin} || 'guest',
+            login    => $Foswiki::cfg{DefaultUserLogin}    || 'guest',
             wikiname => $Foswiki::cfg{DefaultUserWikiName} || 'WikiGuest',
         },
         $UNKNOWN_USER_CUID => {
             login    => 'unknown',
             wikiname => 'UnknownUser',
         }
-       );
+    );
     %BASE_GROUPS = (
         $Foswiki::cfg{SuperAdminGroup} => [
-            'BaseUserMapping_333', 
-            # Registration agent was here so registration can still take
-            # place on an otherwise locked down USERSWEB.
-            # Jan2010: Sven removed it, otherwise anyone registering can add themselves as admin.
-            #'BaseUserMapping_222'
-           ],
-        BaseGroup => [
             'BaseUserMapping_333',
-            $DEFAULT_USER_CUID,
-            $UNKNOWN_USER_CUID,
-            'BaseUserMapping_111',
-            'BaseUserMapping_222',  ],
-#         RegistrationGroup => ['BaseUserMapping_222']
-       );
+
+# Registration agent was here so registration can still take
+# place on an otherwise locked down USERSWEB.
+# Jan2010: Sven removed it, otherwise anyone registering can add themselves as admin.
+#'BaseUserMapping_222'
+        ],
+        BaseGroup => [
+            'BaseUserMapping_333', $DEFAULT_USER_CUID,
+            $UNKNOWN_USER_CUID,    'BaseUserMapping_111',
+            'BaseUserMapping_222',
+        ],
+
+        #         RegistrationGroup => ['BaseUserMapping_222']
+    );
 
     my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );
     $Foswiki::cfg{Register}{RegistrationAgentWikiName} ||= 'RegistrationAgent';
 
     # set up our users
-    $this->{L2U} = {}; # login 2 cUID
-    $this->{U2L} = {}; # cUID 2 login
-    $this->{W2U} = {}; # wikiname 2 cUID
-    $this->{U2W} = {}; # cUID 2 wikiname
-    $this->{U2E} = {}; # cUID 2 email
-    $this->{L2P} = {}; # login 2 password
+    $this->{L2U} = {};    # login 2 cUID
+    $this->{U2L} = {};    # cUID 2 login
+    $this->{W2U} = {};    # wikiname 2 cUID
+    $this->{U2W} = {};    # cUID 2 wikiname
+    $this->{U2E} = {};    # cUID 2 email
+    $this->{L2P} = {};    # login 2 password
 
-    while (my ($k, $v) = each %BASE_USERS) {
+    while ( my ( $k, $v ) = each %BASE_USERS ) {
         $this->{U2L}->{$k} = $v->{login};
         $this->{U2W}->{$k} = $v->{wikiname};
         $this->{U2E}->{$k} = $v->{email} if defined $v->{email};
 
-        $this->{L2U}->{$v->{login}} = $k;
-        $this->{L2P}->{$v->{login}} = $v->{password} if defined $v->{password};
+        $this->{L2U}->{ $v->{login} } = $k;
+        $this->{L2P}->{ $v->{login} } = $v->{password}
+          if defined $v->{password};
 
-        $this->{W2U}->{$v->{wikiname}} = $k;
-    };
+        $this->{W2U}->{ $v->{wikiname} } = $k;
+    }
 
-    %{$this->{GROUPS}} = %BASE_GROUPS;
+    %{ $this->{GROUPS} } = %BASE_GROUPS;
 
     return $this;
 }
@@ -343,13 +347,13 @@ returns 0 if the group is 'owned by the BaseMapper and it wants to veto adding t
 =cut
 
 sub groupAllowsChange {
-    my $this = shift;
+    my $this  = shift;
     my $group = shift;
-    ASSERT(defined $group) if DEBUG;
+    ASSERT( defined $group ) if DEBUG;
 
-    
-    return 0 if (($group eq 'BaseGroup') or 
-                ($group eq 'RegistrationGroup'));
+    return 0
+      if ( ( $group eq 'BaseGroup' )
+        or ( $group eq 'RegistrationGroup' ) );
     return 1;
 }
 

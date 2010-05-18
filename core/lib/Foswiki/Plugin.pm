@@ -10,10 +10,10 @@ use warnings;
 use Assert;
 use Error qw(:try);
 
-use Foswiki::Plugins ();
+use Foswiki::Plugins                ();
 use Foswiki::AccessControlException ();
-use Foswiki::OopsException ();
-use Foswiki::ValidationException ();
+use Foswiki::OopsException          ();
+use Foswiki::ValidationException    ();
 
 our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'afterUploadHandler',               # 2.1
@@ -49,14 +49,14 @@ our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
 
 # deprecated handlers
 our %deprecated = (
-    afterAttachmentSaveHandler => 1,
+    afterAttachmentSaveHandler  => 1,
     beforeAttachmentSaveHandler => 1,
-    endRenderingHandler   => 1,
-    insidePREHandler      => 1,
-    outsidePREHandler     => 1,
-    redirectCgiQueryHandler => 1,
-    startRenderingHandler => 1,
-    writeHeaderHandler    => 1,
+    endRenderingHandler         => 1,
+    insidePREHandler            => 1,
+    outsidePREHandler           => 1,
+    redirectCgiQueryHandler     => 1,
+    startRenderingHandler       => 1,
+    writeHeaderHandler          => 1,
 );
 
 =begin TML
@@ -216,10 +216,10 @@ sub registerHandlers {
 
     return if $this->{disabled};
 
-    my $p     = $this->{module};
-    my $sub   = $p . "::initPlugin";
-    my $users = $Foswiki::Plugins::SESSION->{users};
-    my $status = 0;
+    my $p         = $this->{module};
+    my $sub       = $p . "::initPlugin";
+    my $users     = $Foswiki::Plugins::SESSION->{users};
+    my $status    = 0;
     my $exception = '';
     try {
         no strict 'refs';
@@ -228,21 +228,25 @@ sub registerHandlers {
             $Foswiki::Plugins::SESSION->{webName},
             $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
             $this->topicWeb()
-           );
+        );
         use strict 'refs';
-    } catch Foswiki::AccessControlException with {
-        shift->throw(); # propagate
-    } catch Foswiki::OopsException with {
-        shift->throw(); # propagate
-    } catch Foswiki::ValidationException with {
-        shift->throw(); # propagate
-    } otherwise {
+    }
+    catch Foswiki::AccessControlException with {
+        shift->throw();    # propagate
+    }
+    catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+    }
+    catch Foswiki::ValidationException with {
+        shift->throw();    # propagate
+    }
+    otherwise {
         my $e = shift;
         $exception = $e->text() . ' ' . $e->stacktrace();
     };
 
     unless ($status) {
-        if (!$exception) {
+        if ( !$exception ) {
             $exception = $sub . ' did not return true';
         }
         push( @{ $this->{errors} }, $exception );
@@ -352,6 +356,7 @@ sub topicWeb {
             }
         }
     }
+
     # If there is no web (probably because NO_PREFS_IN_TOPIC is set)
     # then default to the system web name.
     return $this->{topicWeb} || $Foswiki::cfg{SystemWebName};

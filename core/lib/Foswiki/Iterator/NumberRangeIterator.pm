@@ -28,28 +28,32 @@ The iteration step is the absolute value of $inc, and defaults to 1.
 =cut
 
 sub new {
-    my ($class, $start, $end, $inc) = @_;
+    my ( $class, $start, $end, $inc ) = @_;
     $inc ||= 1;
-    return bless({
-        start => $start,
-        end   => $end,
-        inc   => ($end > $start) ? abs($inc) : -abs($inc),
-        cur   => $start,
-    }, $class);
+    return bless(
+        {
+            start => $start,
+            end   => $end,
+            inc   => ( $end > $start ) ? abs($inc) : -abs($inc),
+            cur   => $start,
+        },
+        $class
+    );
 }
 
 sub hasNext {
     my $this = shift;
-    if ($this->{inc} > 0) {
+    if ( $this->{inc} > 0 ) {
         return $this->{cur} <= $this->{end};
-    } else {
+    }
+    else {
         return $this->{cur} >= $this->{end};
     }
 }
 
 sub next {
     my $this = shift;
-    my $res = $this->{cur};
+    my $res  = $this->{cur};
     $this->{cur} += $this->{inc};
     return $res;
 }

@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checker ();
-use Foswiki::Configure::Util ();
+use Foswiki::Configure::Util    ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub new {
@@ -28,9 +28,11 @@ sub ui {
     my $result = '';
     my $badLSC = 0;
 
-    $this->{LocalSiteDotCfg} = Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
+    $this->{LocalSiteDotCfg} =
+      Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
     unless ( $this->{LocalSiteDotCfg} ) {
-        $this->{LocalSiteDotCfg} = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec')
+        $this->{LocalSiteDotCfg} =
+          Foswiki::Configure::Util::findFileOnPath('Foswiki.spec')
           || '';
         $this->{LocalSiteDotCfg} =~ s/Foswiki\.spec/LocalSite.cfg/;
     }

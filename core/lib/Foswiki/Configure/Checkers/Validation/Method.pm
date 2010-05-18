@@ -9,12 +9,13 @@ use Foswiki::Configure::Checker;
 our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
-    my $this = shift;
+    my $this      = shift;
     my $valmethod = $Foswiki::cfg{Validation}{Method};
-    my $e = '';
+    my $e         = '';
 
-    if ( (($valmethod eq 'strikeone') or (!$valmethod)) and
-      (!$Foswiki::cfg{AllowInlineScript}) ) {
+    if (    ( ( $valmethod eq 'strikeone' ) or ( !$valmethod ) )
+        and ( !$Foswiki::cfg{AllowInlineScript} ) )
+    {
         $e .= $this->ERROR(<<'MESSAGE');
 Validation method <code>strikeone</code> is not compatible with deprecated {AllowInlineScript} setting.
 MESSAGE

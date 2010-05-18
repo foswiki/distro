@@ -7,29 +7,31 @@ use warnings;
 sub EXPAND {
     my ( $this, $params ) = @_;
     my $macro = $params->{_DEFAULT};
-    return $this->inlineAlert('alerts', 'EXPAND_nomacro')
+    return $this->inlineAlert( 'alerts', 'EXPAND_nomacro' )
       unless $macro;
     $macro = expandStandardEscapes($macro);
     my $scope = $params->{scope};
     my $meta;
     if ($scope) {
-        my ( $web, $topic ) = $this->normalizeWebTopicName(
-           $this->{webName}, $scope);
-        return $this->inlineAlert('alerts', 'EXPAND_noscope', $scope)
-          unless $this->topicExists($web, $topic);
-        $meta = new Foswiki::Meta($this, $web, $topic);
-        return $this->inlineAlert('alerts', 'EXPAND_noaccess', $scope)
+        my ( $web, $topic ) =
+          $this->normalizeWebTopicName( $this->{webName}, $scope );
+        return $this->inlineAlert( 'alerts', 'EXPAND_noscope', $scope )
+          unless $this->topicExists( $web, $topic );
+        $meta = new Foswiki::Meta( $this, $web, $topic );
+        return $this->inlineAlert( 'alerts', 'EXPAND_noaccess', $scope )
           unless $meta->haveAccess('VIEW');
         $this->{prefs}->popTopicContext();
         $this->{prefs}->pushTopicContext( $web, $topic );
-    } else {
-        $meta = new Foswiki::Meta($this, $this->{webName}, $this->{topicName});
+    }
+    else {
+        $meta =
+          new Foswiki::Meta( $this, $this->{webName}, $this->{topicName} );
     }
     my $expansion = $meta->expandMacros($macro);
     if ($scope) {
         $this->{prefs}->popTopicContext();
-        $this->{prefs}->pushTopicContext(
-            $this->{webName}, $this->{topicName} );
+        $this->{prefs}
+          ->pushTopicContext( $this->{webName}, $this->{topicName} );
     }
     return $expansion;
 }

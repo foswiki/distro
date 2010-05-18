@@ -12,7 +12,7 @@ package Foswiki::ValidationException;
 use strict;
 use warnings;
 use Error ();
-our @ISA = ( 'Error' ); # base class
+our @ISA = ('Error');    # base class
 
 =begin TML
 
@@ -22,7 +22,7 @@ Constructor
 =cut
 
 sub new {
-    my ($class, $action ) = @_;
+    my ( $class, $action ) = @_;
     return bless( { action => $action }, $class );
 }
 
@@ -36,7 +36,8 @@ Generate a summary string. This is mainly for debugging.
 
 sub stringify {
     my $this = shift;
-    return "ValidationException ($this->{action}): Key is invalid or has expired";
+    return
+      "ValidationException ($this->{action}): Key is invalid or has expired";
 }
 
 1;

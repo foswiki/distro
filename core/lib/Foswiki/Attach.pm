@@ -60,10 +60,10 @@ view, using templates for the header, footer and each row.
 sub renderMetaData {
     my ( $this, $topicObject, $attrs ) = @_;
 
-    my $showAll  = $attrs->{all} || '';
-    my $showAttr = $showAll ? 'h' : '';
+    my $showAll = $attrs->{all} || '';
+    my $showAttr = $showAll    ? 'h'  : '';
     my $A        = ($showAttr) ? ':A' : '';
-    my $title    = $attrs->{title} || '';
+    my $title    = $attrs->{title}    || '';
     my $tmplname = $attrs->{template} || 'attachtables';
 
     my @attachments = $topicObject->find('FILEATTACHMENT');
@@ -109,8 +109,8 @@ Generate a version history table for a single attachment
 sub formatVersions {
     my ( $this, $topicObject, %attrs ) = @_;
 
-    my $users     = $this->{session}->{users};
-    my $revIt   = $topicObject->getRevisionHistory( $attrs{name} );
+    my $users = $this->{session}->{users};
+    my $revIt = $topicObject->getRevisionHistory( $attrs{name} );
 
     my $templates = $this->{session}->templates;
     $templates->readTemplate('attachtables');
@@ -121,7 +121,7 @@ sub formatVersions {
 
     my @rows;
 
-    while ($revIt->hasNext()) {
+    while ( $revIt->hasNext() ) {
         my $rev = $revIt->next();
         my $info =
           $topicObject->getAttachmentRevisionInfo( $attrs{name}, $rev );
@@ -129,10 +129,10 @@ sub formatVersions {
         $info->{attr} = $attrs{attr};
         $info->{size} = $attrs{size};
 
-        push(@rows, _formatRow( $this, $topicObject, $info, $row ));
+        push( @rows, _formatRow( $this, $topicObject, $info, $row ) );
     }
 
-    return $header.join('', @rows).$footer;
+    return $header . join( '', @rows ) . $footer;
 }
 
 #Format a single row in an attachment table by expanding a template.
@@ -162,7 +162,7 @@ sub _expandAttrs {
         return $info->{version};
     }
     elsif ( $attr eq 'ICON' ) {
-        return '%ICON{"'.$file.'" default="else"}%';
+        return '%ICON{"' . $file . '" default="else"}%';
     }
     elsif ( $attr eq 'EXT' ) {
 
@@ -274,9 +274,9 @@ sub getAttachmentLink {
         my %attrs;
 
         if ( $nx > 0 && $ny > 0 ) {
-            $attrs{width} = $nx;
+            $attrs{width}  = $nx;
             $attrs{height} = $ny;
-            $imgSize = "width='$nx' height='$ny'";
+            $imgSize       = "width='$nx' height='$ny'";
         }
 
         $fileLink = $prefs->getPreference('ATTACHEDIMAGEFORMAT');
@@ -297,8 +297,8 @@ sub getAttachmentLink {
 
     # I18N: Site specified %ATTACHEDIMAGEFORMAT% or %ATTACHEDFILELINKFORMAT%,
     # ensure that filename is URL encoded - first $name must be URL.
-    $fileLink =~ s/\$name/$fileURL/; # deprecated
-    $fileLink =~ s/\$name/$attName/; # deprecated, see Item1814
+    $fileLink =~ s/\$name/$fileURL/;        # deprecated
+    $fileLink =~ s/\$name/$attName/;        # deprecated, see Item1814
     $fileLink =~ s/\$filename/$attName/g;
     $fileLink =~ s/\$fileurl/$fileURL/g;
 

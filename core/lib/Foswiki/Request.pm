@@ -99,14 +99,16 @@ Gets/Sets action requested (view, edit, save, ...)
 =cut
 
 sub action {
-    my ($this, $action) = @_;
-    if (defined $action) {
+    my ( $this, $action ) = @_;
+    if ( defined $action ) {
+
         # Record the very first action set in this request. It will be required
         # later if a redirect cache overlays this request.
         $this->{base_action} = $action unless defined $this->{base_action};
         $ENV{FOSWIKI_ACTION} = $this->{action} = $action;
         return $action;
-    } else {
+    }
+    else {
         return $this->{action};
     }
 
@@ -126,7 +128,8 @@ controls.
 
 sub base_action {
     my $this = shift;
-    return defined $this->{base_action} ? $this->{base_action}
+    return defined $this->{base_action}
+      ? $this->{base_action}
       : $this->action();
 }
 

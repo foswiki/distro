@@ -60,7 +60,9 @@ sub search {
   FILE:
     while ( $inputTopicSet->hasNext() ) {
         my $webtopic = $inputTopicSet->next();
-        my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
+        my ( $Iweb, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+
 #TODO: need to BM if this is faster than doing it via an object in the MetaCache.
         next unless open( FILE, '<', "$sDir/$topic.txt" );
         while ( my $line = <FILE> ) {
@@ -87,20 +89,21 @@ this is the new way -
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
-    if ( (@{ $query->{tokens} } ) == 0) {
-        return new Foswiki::Search::InfoCache($session, '');
+    if ( ( @{ $query->{tokens} } ) == 0 ) {
+        return new Foswiki::Search::InfoCache( $session, '' );
     }
 
-
     my $webNames = $options->{web}       || '';
-    my $recurse = $options->{'recurse'} || '';
-    my $isAdmin = $session->{users}->isAdmin( $session->{user} );
+    my $recurse  = $options->{'recurse'} || '';
+    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
 
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse, $searchAllFlag );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
+        $searchAllFlag );
 
     my @resultCacheList;
     foreach my $web (@webs) {
+
         # can't process what ain't thar
         next unless $session->webExists($web);
 
@@ -114,17 +117,20 @@ sub query {
             && !$isAdmin
             && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
-        
-        my $infoCache = _webQuery($query, $web, $inputTopicSet, $session, $options);
-        $infoCache->sortResults( $options );
-        push(@resultCacheList, $infoCache);
+
+        my $infoCache =
+          _webQuery( $query, $web, $inputTopicSet, $session, $options );
+        $infoCache->sortResults($options);
+        push( @resultCacheList, $infoCache );
     }
-    my $resultset = new Foswiki::Search::ResultSet(\@resultCacheList, $options->{groupby}, $options->{order}, Foswiki::isTrue( $options->{reverse} ));
+    my $resultset =
+      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
+        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+
     #TODO: $options should become redundant
-    $resultset->sortResults( $options );
+    $resultset->sortResults($options);
     return $resultset;
 }
-
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
@@ -137,11 +143,14 @@ sub _webQuery {
         && $options->{'scope'} =~ /^(topic|all)$/ );
 
     my $topicSet = $inputTopicSet;
-    if (!defined($topicSet)) {
+    if ( !defined($topicSet) ) {
+
         #then we start with the whole web?
         #TODO: i'm sure that is a flawed assumption
         my $webObject = Foswiki::Meta->new( $session, $web );
-        $topicSet = Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
+        $topicSet =
+          Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
+            $options );
     }
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
@@ -150,7 +159,7 @@ sub _webQuery {
     foreach my $token ( @{ $query->{tokens} } ) {
 
         my $tokenCopy = $token;
-        
+
         # flag for AND NOT search
         my $invertSearch = 0;
         $invertSearch = ( $tokenCopy =~ s/^\!//o );
@@ -160,6 +169,7 @@ sub _webQuery {
         my %topicMatches;
         unless ( $options->{'scope'} eq 'text' ) {
             my $qtoken = $tokenCopy;
+
             # FIXME I18N
             $qtoken = quotemeta($qtoken)
               if ( $options->{'type'} ne 'regex' );
@@ -168,7 +178,8 @@ sub _webQuery {
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
                 my $webtopic = $topicSet->next();
-                my ($Iweb, $topic) = Foswiki::Func::normalizeWebTopicName($web, $webtopic);
+                my ( $Iweb, $topic ) =
+                  Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
 
                 if ( $options->{'casesensitive'} ) {
 
@@ -184,8 +195,9 @@ sub _webQuery {
         # scope='text', e.g. grep search on topic text:
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
-            $textMatches = search(
-                $tokenCopy, $web, $topicSet, $session->{store}, $options );
+            $textMatches =
+              search( $tokenCopy, $web, $topicSet, $session->{store},
+                $options );
         }
 
         #bring the text matches into the topicMatch hash
@@ -200,12 +212,14 @@ sub _webQuery {
                 my $webtopic = $topicSet->next();
 
                 if ( $topicMatches{$webtopic} ) {
-                } else {
-                    push( @scopeTextList, $webtopic );            
+                }
+                else {
+                    push( @scopeTextList, $webtopic );
                 }
             }
         }
         else {
+
             #TODO: the sad thing about this is we lose info
             @scopeTextList = keys(%topicMatches);
         }

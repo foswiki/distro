@@ -20,6 +20,7 @@ speed and memory size. It also depends on the complexity of the query.
 package Foswiki::Store::QueryAlgorithms::BruteForce;
 use strict;
 use warnings;
+
 #@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
 
 use Foswiki::Search::Node      ();

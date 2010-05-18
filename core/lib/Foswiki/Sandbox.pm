@@ -475,7 +475,7 @@ sub sysCommand {
             close $handle;
             $exit = ( $? >> 8 );
             if ( $exit == $key && $data =~ /$key: (.*)/ ) {
-                throw Error::Simple( "exec of $template failed: $1" );
+                throw Error::Simple("exec of $template failed: $1");
             }
         }
         else {
@@ -483,10 +483,11 @@ sub sysCommand {
             # Child - run the command
             untie(*STDERR);
             if (TRACE) {
-                my $log = File::Spec->tmpdir().'/foswiki_sandbox.log';
+                my $log = File::Spec->tmpdir() . '/foswiki_sandbox.log';
                 open( STDERR, '>>', $log )
                   || die "Can't kill STDERR: '$!'";
-            } else {
+            }
+            else {
                 open( STDERR, '>', File::Spec->devnull() )
                   || die "Can't kill STDERR: '$!'";
             }
@@ -549,10 +550,11 @@ sub sysCommand {
             open( STDOUT, ">&=", fileno($writeHandle) ) or die;
 
             if (TRACE) {
-                my $log = File::Spec->tmpdir().'/foswiki_sandbox.log';
+                my $log = File::Spec->tmpdir() . '/foswiki_sandbox.log';
                 open( STDERR, '>>', $log )
                   || die "Can't redirect STDERR: $!";
-            } else {
+            }
+            else {
                 open( STDERR, '>', File::Spec->devnull() )
                   || die "Can't kill STDERR: $!";
             }
@@ -600,10 +602,11 @@ sub sysCommand {
 
         open( my $oldStderr, '>&STDERR' ) || die "Can't steal STDERR: $!";
         if (TRACE) {
-            my $log = File::Spec->tmpdir().'/foswiki_sandbox.log';
-              open( STDERR, '>>', $log )
-                || die "Can't redirect STDERR: $!";
-        } else {
+            my $log = File::Spec->tmpdir() . '/foswiki_sandbox.log';
+            open( STDERR, '>>', $log )
+              || die "Can't redirect STDERR: $!";
+        }
+        else {
             open( STDERR, '>', File::Spec->devnull() );
         }
         $data = `$cmd`;

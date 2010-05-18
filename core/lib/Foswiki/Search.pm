@@ -17,7 +17,7 @@ use Error qw( :try );
 use Foswiki                           ();
 use Foswiki::Sandbox                  ();
 use Foswiki::Search::InfoCache        ();
-use Foswiki::Search::ResultSet            ();
+use Foswiki::Search::ResultSet        ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 use Foswiki::WebFilter                ();
@@ -90,8 +90,8 @@ sub metacache {
     my $this = shift;
 
 # these may well be function objects, but if (a setting changes, it needs to be picked up again.
-    if ( ! defined( $this->{MetaCache} ) ) {
-        $this->{MetaCache} = new Foswiki::MetaCache($this->{session});
+    if ( !defined( $this->{MetaCache} ) ) {
+        $this->{MetaCache} = new Foswiki::MetaCache( $this->{session} );
     }
     return $this->{MetaCache};
 }
@@ -300,7 +300,8 @@ sub searchWeb {
       || ( !$footer && $formatDefined );
 
     my $noSummary = Foswiki::isTrue( $params{nosummary}, $params{nonoise} );
-    my $zeroResults = Foswiki::isTrue( $params{zeroresults}, $params{nonoise}||1 );
+    my $zeroResults =
+      Foswiki::isTrue( $params{zeroresults}, $params{nonoise} || 1 );
 
     #END TODO
 
@@ -322,18 +323,20 @@ sub searchWeb {
         $params{wordboundaries} = 1;
     }
 
-    my $webNames  = $params{web}            || '';
-    my $date      = $params{date}           || '';
-    my $recurse   = $params{'recurse'}      || '';
+    my $webNames = $params{web}       || '';
+    my $date     = $params{date}      || '';
+    my $recurse  = $params{'recurse'} || '';
 
     $baseWeb =~ s/\./\//go;
 
     $params{type} = 'regex' if ( $params{regex} );
-    
+
 #TODO: quick hackjob - see what the feature proposal gives before it becomes public
-    if (defined($params{groupby}) and ($params{groupby} eq 'none')) {
+    if ( defined( $params{groupby} ) and ( $params{groupby} eq 'none' ) ) {
+
         #_only_ allow groupby="none" - as its a secrect none public setting.
-    } else {
+    }
+    else {
         $params{groupby} = 'web';
     }
 
@@ -347,21 +350,23 @@ sub searchWeb {
 
 ################### Do the Rendering
 
-
     # If the search did not return anything, return the rendered zeroresults
     # if it is defined as a string.
     # (http://foswiki.org/Development/AddDefaultTopicParameterToINCLUDE)
-    if (not $infoCache->hasNext()) {
-        if (not $zeroResults) {
+    if ( not $infoCache->hasNext() ) {
+        if ( not $zeroResults ) {
             return '';
-        } else {
-            if (not _isSetTrue( $params{zeroresults}, 1 )) {
-                #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results 
+        }
+        else {
+            if ( not _isSetTrue( $params{zeroresults}, 1 ) ) {
 
-                #TODO: extract & merge with extraction of footer processing code below
-                my $result = Foswiki::expandStandardEscapes($params{zeroresults});
-                $result =~ s/\$web/$baseWeb/gos;      # expand name of web
-                $result =~ s/([^\n])$/$1\n/os;    # add new line at end
+#foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results
+
+          #TODO: extract & merge with extraction of footer processing code below
+                my $result =
+                  Foswiki::expandStandardEscapes( $params{zeroresults} );
+                $result =~ s/\$web/$baseWeb/gos;    # expand name of web
+                $result =~ s/([^\n])$/$1\n/os;      # add new line at end
 
                 # output footer of $web
                 $result =~ s/\$ntopics/0/gs;
@@ -371,8 +376,8 @@ sub searchWeb {
                 $result =~ s/%NTOPICS%/0/go;
 
                 #$result = $this->formatCommon( $result, \%pager_formatting );
-                $result =~ s/\n$//os;                 # remove trailing new line
-                
+                $result =~ s/\n$//os;               # remove trailing new line
+
                 return $result;
             }
         }
@@ -384,8 +389,8 @@ sub searchWeb {
 
     # Generate 'Search:' part showing actual search string used
     # Ommit any text before search results if either nosearch or nonoise is on
-    my $nonoise    = Foswiki::isTrue( $params{nonoise} );
-    my $noSearch   = Foswiki::isTrue( $params{nosearch}, $nonoise );
+    my $nonoise = Foswiki::isTrue( $params{nonoise} );
+    my $noSearch = Foswiki::isTrue( $params{nosearch}, $nonoise );
     unless ($noSearch) {
         my $searchStr = $searchString;
         $searchStr =~ s/&/&amp;/go;
@@ -401,7 +406,7 @@ sub searchWeb {
     # separator defines what separates each search result
     # excluding header and footer
     # Replace $n and $n() with \n for separator
-    my $separator  = $params{separator};
+    my $separator = $params{separator};
     if ( defined($separator) ) {
         $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
         $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
@@ -418,23 +423,23 @@ sub searchWeb {
     $params{newline} = $newLine;
 
     # We now format the results.
-    # All the 
+    # All the
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
 
     return if ( defined $params{_callback} );
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
-    
+
     # Remove trailing separator or new line if nofinalnewline parameter is set
-    my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1);
+    my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1 );
     if ( $formatDefined && $noFinalNewline ) {
         if ($separator) {
             $separator = quotemeta($separator);
-            $searchResult =~ s/$separator$//s;       # remove separator at end
+            $searchResult =~ s/$separator$//s;    # remove separator at end
         }
         else {
-            $searchResult =~ s/\n$//os;              # remove trailing new line
+            $searchResult =~ s/\n$//os;           # remove trailing new line
         }
     }
 
@@ -477,10 +482,10 @@ sub loadTemplates {
     }
     $tmpl = $session->templates->readTemplate($template);
 
-    #print STDERR "}}} $tmpl {{{\n";
-    # SMELL: the only META tags in a template will be METASEARCH
-    # Why the heck are they being filtered????
-    #TODO: write a unit test that uses topic based templates with META's in them and if ok, remove.
+#print STDERR "}}} $tmpl {{{\n";
+# SMELL: the only META tags in a template will be METASEARCH
+# Why the heck are they being filtered????
+#TODO: write a unit test that uses topic based templates with META's in them and if ok, remove.
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
 
     # Split template into 5 sections
@@ -492,22 +497,26 @@ sub loadTemplates {
     if ( !defined($tmplTail) ) {
         $tmplSearch = $session->templates->expandTemplate('SEARCH:searched');
         $tmplNumber = $session->templates->expandTemplate('SEARCH:count');
-        
-        #it'd be nice to not need this if, but it seem that the noheader setting is ignored if a header= is set. truely bizzare
-        #TODO: push up the 'noheader' evaluation to take not of this quirk
-        #TODO: um, we die when ASSERT is on with a wide char in print
+
+#it'd be nice to not need this if, but it seem that the noheader setting is ignored if a header= is set. truely bizzare
+#TODO: push up the 'noheader' evaluation to take not of this quirk
+#TODO: um, we die when ASSERT is on with a wide char in print
         unless ($noHeader) {
-            $params->{header} = $session->templates->expandTemplate('SEARCH:header') unless defined $params->{header};
+            $params->{header} =
+              $session->templates->expandTemplate('SEARCH:header')
+              unless defined $params->{header};
         }
-        
+
         $repeatText = $session->templates->expandTemplate('SEARCH:format');
-        
+
         unless ($noFooter) {
-            $params->{footer} = $session->templates->expandTemplate('SEARCH:footer') unless defined $params->{footer};
+            $params->{footer} =
+              $session->templates->expandTemplate('SEARCH:footer')
+              unless defined $params->{footer};
         }
     }
-    else
-    {
+    else {
+
         #Historical legacy form of the search TMPL's
         # header and footer of $web
         my $beforeText;
@@ -533,7 +542,7 @@ sub loadTemplates {
         $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
     }
     $params->{format} |= $repeatText;
-    
+
     $params->{footercounter} |= $tmplNumber;
 
     return $tmplSearch;
@@ -615,9 +624,10 @@ sub formatResults {
 
         #TODO: need to ask the result set
         my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};
-        $numberofpages = int($numberofpages)+1;
+        $numberofpages = int($numberofpages) + 1;
+
         #TODO: excuse me?
-        my $sep           = ' ';
+        my $sep = ' ';
 
         my $nextidx     = $showpage + 1;
         my $previousidx = $showpage - 1;
@@ -671,11 +681,11 @@ sub formatResults {
           $this->formatCommon( $nextpagebutton, \%pager_formatting );
         $pager_formatting{'\$nextbutton'} = sub { return $nextpagebutton };
 
-        my $pager_control = $params->{pagerformat} || $session->templates->expandTemplate('SEARCH:pager');
+        my $pager_control = $params->{pagerformat}
+          || $session->templates->expandTemplate('SEARCH:pager');
         $pager_control =
           $this->formatCommon( $pager_control, \%pager_formatting );
-        $pager_control =
-          Foswiki::expandStandardEscapes($pager_control);
+        $pager_control = Foswiki::expandStandardEscapes($pager_control);
         $pager_formatting{'\$pager'} = sub { return $pager_control; };
     }
 
@@ -694,7 +704,8 @@ sub formatResults {
       || ( !$footer && $formatDefined );
 
     my $noSummary = Foswiki::isTrue( $params->{nosummary}, $nonoise );
-    my $zeroResults = Foswiki::isTrue( ( $params->{zeroresults}), $nonoise||1 );
+    my $zeroResults =
+      Foswiki::isTrue( ( $params->{zeroresults} ), $nonoise || 1 );
     my $noTotal = Foswiki::isTrue( $params->{nototal}, $nonoise );
     my $newLine   = $params->{newline} || '';
     my $separator = $params->{separator};
@@ -797,17 +808,22 @@ sub formatResults {
 
                         #c&p from below
                         #TODO: needs refactoring.
-                        my $processedfooter  = $footer;
-                        if (not $noTotal) {
+                        my $processedfooter = $footer;
+                        if ( not $noTotal ) {
                             $processedfooter .= $params->{footercounter};
                         }
-                        if ( defined($processedfooter) and ( $processedfooter ne '' ) ) {
+                        if ( defined($processedfooter)
+                            and ( $processedfooter ne '' ) )
+                        {
+
                             #footer comes before result
                             $ntopics--;
                             $nhits--;
-                            
-                            #because $pager contains more $ntopics like format strings, it needs to be expanded first.
-                            $processedfooter = $this->formatCommon( $processedfooter, \%pager_formatting );                            
+
+#because $pager contains more $ntopics like format strings, it needs to be expanded first.
+                            $processedfooter =
+                              $this->formatCommon( $processedfooter,
+                                \%pager_formatting );
                             $processedfooter =
                               Foswiki::expandStandardEscapes($processedfooter);
                             $processedfooter =~ s/\$web/$lastWebProcessed/gos
@@ -815,7 +831,7 @@ sub formatResults {
                             $processedfooter =~
                               s/([^\n])$/$1\n/os;    # add new line at end
                                                      # output footer of $web
-                                                     
+
                             $processedfooter =~ s/\$ntopics/$ntopics/gs;
                             $processedfooter =~ s/\$nhits/$nhits/gs;
 
@@ -826,13 +842,15 @@ sub formatResults {
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
                             $processedfooter =~
-                              s/\n$//os;    # remove trailing new line
+                              s/\n$//os;             # remove trailing new line
 
                             if ( defined($separator) ) {
 
  #	$header = $header.$separator if (defined($params->{header}));
  #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-                                if ( defined( $processedfooter ) and ($processedfooter ne '') ) {
+                                if ( defined($processedfooter)
+                                    and ( $processedfooter ne '' ) )
+                                {
                                     &$callback( $cbdata, $separator );
                                 }
                             }
@@ -844,7 +862,7 @@ sub formatResults {
 
                             $justdidHeaderOrFooter = 1;
                             &$callback( $cbdata, $processedfooter );
-                            
+
                             #go back to counting results
                             $ntopics++;
                             $nhits++;
@@ -859,6 +877,7 @@ sub formatResults {
             if ( $lastWebProcessed ne $web ) {
                 $webObject = new Foswiki::Meta( $session, $web );
                 $lastWebProcessed = $web;
+
                 #reset our web partitioned legacy counts
                 $ntopics = 1;
                 $nhits   = 1;
@@ -878,9 +897,12 @@ sub formatResults {
                     &$callback( $cbdata, $separator );
                 }
                 my $processedheader = $header;
-                #because $pager contains more $ntopics like format strings, it needs to be expanded first.
-                $processedheader = $this->formatCommon( $processedheader, \%pager_formatting );
-                $processedheader = Foswiki::expandStandardEscapes($processedheader);
+
+#because $pager contains more $ntopics like format strings, it needs to be expanded first.
+                $processedheader =
+                  $this->formatCommon( $processedheader, \%pager_formatting );
+                $processedheader =
+                  Foswiki::expandStandardEscapes($processedheader);
                 $processedheader =~ s/\$web/$web/gos;      # expand name of web
                 $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
 
@@ -903,7 +925,6 @@ sub formatResults {
             {
                 &$callback( $cbdata, $separator );
             }
-
 
             ###################Render the result
             my $out;
@@ -981,7 +1002,7 @@ sub formatResults {
             else {
                 $out = '';
             }
-            
+
             &$callback( $cbdata, $out );
         } while (@multipleHitLines);    # multiple=on loop
 
@@ -989,15 +1010,17 @@ sub formatResults {
     }    # end topic loop
 
     # output footer only if hits in web
-    if ($ntopics == 0) {
-        if ($zeroResults and not $noTotal) {
+    if ( $ntopics == 0 ) {
+        if ( $zeroResults and not $noTotal ) {
             $footer = $params->{footercounter};
-        } else {
+        }
+        else {
             $footer = '';
         }
         $webObject = new Foswiki::Meta( $session, $baseWeb );
-    } else {
-        if ((not $noTotal) and (defined($params->{footercounter}))) {
+    }
+    else {
+        if ( ( not $noTotal ) and ( defined( $params->{footercounter} ) ) ) {
             $footer .= $params->{footercounter};
         }
 
@@ -1007,7 +1030,8 @@ sub formatResults {
         }
     }
     if ( defined $footer ) {
-        #because $pager contains more $ntopics like format strings, it needs to be expanded first.
+
+#because $pager contains more $ntopics like format strings, it needs to be expanded first.
         $footer = $this->formatCommon( $footer, \%pager_formatting );
         $footer = Foswiki::expandStandardEscapes($footer);
         $footer =~ s/\$web/$web/gos;      # expand name of web
@@ -1020,9 +1044,9 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        $footer =~ s/\n$//os;                 # remove trailing new line
+        $footer =~ s/\n$//os;             # remove trailing new line
 
-        if ( defined($separator) and ($footer ne '')) {
+        if ( defined($separator) and ( $footer ne '' ) ) {
 
  #	$header = $header.$separator if (defined($params->{header}));
  #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)

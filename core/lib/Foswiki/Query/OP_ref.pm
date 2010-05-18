@@ -44,12 +44,13 @@ sub evaluate {
         # Has to be relative to the web of the topic we are querying
         my ( $w, $t ) =
           $Foswiki::Plugins::SESSION->normalizeWebTopicName(
-              $Foswiki::Plugins::SESSION->{webName}, $v );
+            $Foswiki::Plugins::SESSION->{webName}, $v );
         try {
-            my $submeta = $Foswiki::cfg{Store}{QueryAlgorithm}->getRefTopic(
-                $domain{tom}, $w, $t );
-            my $b       = $pnode->{params}[1];
-            my $res     = $b->evaluate( tom => $submeta, data => $submeta );
+            my $submeta =
+              $Foswiki::cfg{Store}{QueryAlgorithm}
+              ->getRefTopic( $domain{tom}, $w, $t );
+            my $b = $pnode->{params}[1];
+            my $res = $b->evaluate( tom => $submeta, data => $submeta );
             if ( ref($res) eq 'ARRAY' ) {
                 push( @result, @$res );
             }
@@ -70,6 +71,7 @@ sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
     return 1 if $node->{params}[0]->evaluatesToConstant(@_);
+
     # param[1] may contain non-constant terms, but that's OK because
     # they are evaluated relative to the (constant) param[0]
     return 0;

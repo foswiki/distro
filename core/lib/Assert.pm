@@ -16,7 +16,7 @@ package Assert;
 
 use strict;
 
-use locale; # so result of lc() is tainted
+use locale;    # so result of lc() is tainted
 use Exporter;
 our @ISA = ('Exporter');
 
@@ -31,8 +31,8 @@ our $DIRTY   = lc('x');    # Used in TAINT
 Exporter::export_tags(qw(NDEBUG DEBUG));
 
 # constant.pm, alas, adds too much load time (yes, I benchmarked it)
-sub ASSERTS_ON  { 1 }         # CONSTANT
-sub ASSERTS_OFF { 0 }         # CONSTANT
+sub ASSERTS_ON  { 1 }      # CONSTANT
+sub ASSERTS_OFF { 0 }      # CONSTANT
 
 sub noop { return $_[0] }
 

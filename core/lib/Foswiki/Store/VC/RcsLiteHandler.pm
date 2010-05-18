@@ -119,14 +119,14 @@ use Foswiki::Sandbox ();
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
-    unless ($this->{initialised}) {
+    unless ( $this->{initialised} ) {
         $this->{initialised} = 1;
-        $this->{head}    = 0;
-        $this->{access}  = '';
-        $this->{symbols} = '';
-        $this->{comment} = '# ';       # Default comment for Rcs
-        $this->{desc}    = 'none';
-        initText($this);               # Set default expand to 'o'
+        $this->{head}        = 0;
+        $this->{access}      = '';
+        $this->{symbols}     = '';
+        $this->{comment}     = '# ';     # Default comment for Rcs
+        $this->{desc}        = 'none';
+        initText($this);                 # Set default expand to 'o'
     }
 
     return $this;
@@ -429,6 +429,7 @@ sub initBinary {
 # implements VC::Handler
 sub initText {
     my ($this) = @_;
+
     # Nothing to be done but note for re-writing
     $this->{expand} = 'o';
 }
@@ -474,7 +475,7 @@ sub _addRevision {
     }
 
     if ($isStream) {
-        $this->saveStream( $data );
+        $this->saveStream($data);
 
         # SMELL: for big attachments, this is a dog
         $data = $this->readFile( $this->{file} );
