@@ -34,7 +34,7 @@
 
 %TMPL:DEF{"breadcrumb:parents"}%%META{"parent" nowebhome="on" prefix="%TMPL:P{"breadcrumb:separator"}%" separator="%TMPL:P{"breadcrumb:separator"}%" suffix=""}%%TMPL:END%
 
-%TMPL:DEF{"breadcrumb:topic"}%[[%TOPIC%][<nop>%TOPIC%]]%TMPL:END%
+%TMPL:DEF{"breadcrumb:topic"}%%TOPIC%%TMPL:END%
 
 %TMPL:DEF{"breadcrumb:title"}%<span class="patternHomePathTitle">%MAKETEXT{"You are here:"}% </span>%TMPL:END%
 
