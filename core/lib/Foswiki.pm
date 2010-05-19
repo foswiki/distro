@@ -782,7 +782,7 @@ sub _isRedirectSafe {
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
-    if ( $redirect =~ m!^(.*?://[^/]*)! ) {
+    if ( $redirect =~ m!^(.*?://[^/?#]*)! ) {
 
         # implicit untaints OK because result not used. uc retaints
         # if use locale anyway.
