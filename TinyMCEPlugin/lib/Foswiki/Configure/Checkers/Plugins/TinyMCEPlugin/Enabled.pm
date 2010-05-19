@@ -1,11 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Plugins::TinyMCEPlugin::Enabled;
+
 use warnings;
 use strict;
 
-use Foswiki::Configure::Checker;
-
-use Foswiki::Configure::Checker;
+use Foswiki::Configure::Checker ();
 our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {

@@ -3,9 +3,8 @@ package Foswiki::Configure::Checkers::AllowInlineScript;
 
 use strict;
 use warnings;
-use Foswiki::Configure::Checker;
 
-use Foswiki::Configure::Checker;
+use Foswiki::Configure::Checker ();
 our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
