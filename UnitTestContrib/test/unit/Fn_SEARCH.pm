@@ -2567,6 +2567,27 @@ GNURF
     $this->assert_equals(
         "HEADER\n$this->{test_web}/A 01 Jan 1970 - 00:16, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/B 01 Jan 1970 - 00:01, FOOTER\n",
         $result );
+
+#order by modified, limit=2, with groupby=none
+    $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+%SEARCH{"1"
+ type="query"
+ web="$this->{test_web},Main,System,Sandbox,"
+ topic="WebHome"
+ recurse="on"
+ nonoise="on"
+ order="modified"
+ header="HEADER"
+ format="\$web \$topic"
+ footer="FOOTER"
+ separator=", "
+ groupby="none"
+ limit="2"
+}%
+GNURF
+    $this->assert_equals(
+        "HEADER\nSandbox WebHome, System WebHome, FOOTER\n",
+        $result );
 }
 
 # The results of SEARCH are highly sensitive to the template;
