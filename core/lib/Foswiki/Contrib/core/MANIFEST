@@ -886,7 +886,7 @@ templates/registerfailedremoved.tmpl 0444
 templates/registernotify.tmpl 0444
 templates/registernotifyadmin.tmpl 0444
 templates/rename.tmpl 0444
-templates/renameattachmentdelete.tmpl
+templates/renameattachmentdelete.tmpl 0444
 templates/renamebase.tmpl 0444
 templates/renameconfirm.tmpl 0444
 templates/renamedelete.tmpl 0444
