@@ -5,7 +5,7 @@ Description: A list of templates, with automatic testing on the [[http://validat
 
 Pages should get validated as XHTML 1.0 Transitional.
 
-<style>
+<style type="text/css" media="all">
 .result h2 {font-size:100%; font-weight:bold; line-height:1.4em; padding:0; border:0; background:transparent; margin:0;}
 .result .valid {color:#007600;}
 .result .invalid {color:#ff0000;}

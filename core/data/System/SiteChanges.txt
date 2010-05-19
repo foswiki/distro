@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721121" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ Recently Changed Topics in %URLPARAM{"web" default="all"}% Webs
-<style>
+<style type="text/css" media="all">
 #changesForm .foswikiFormStep {padding:.5em 0; border-width:0;}
 #changesForm .foswikiFormSteps {background-color:#fff; border-width:0;}
 </style>
