@@ -35,7 +35,7 @@ sub set_up {
 								#'accessibility-check'	=> 3,
 								'drop-empty-paras'	=> 0
 									});
-	print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
+	#print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
 	#print STDERR "libtidy Version: ".HTML::Tidy::libtidy_version()."\n";
     
     $this->SUPER::set_up();
@@ -165,13 +165,22 @@ sub verify_switchboard_function {
         #$this->expect_failure();
         $this->annotate("MISSING DOCTYPE - we're returning a messy text error\n$output\n");
 	} else {
-		unless ($output eq '') {
-			#save the output html..
-		    open( F, ">${testcase}_run.html" );
-		    print F $text;
-		    close F;
+        for( $output ) { # Remove OK warnings
+            # Empty title, no easy fix and harmless
+            s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span)>\n?$//gm;
+            s/^\s*$//;
+        }
+        my $outfile = "${testcase}_run.html";
+		if ($output eq '') {
+            unlink $outfile; # Remove stale output file
+        }
+        else { # save the output html..
+		    open( my $fh, '>', $outfile ) or die "Can't open $outfile: $!";
+		    print $fh $text;
+		    close $fh;
 		}
-		$this->assert_equals('', $output);
+		$this->assert_equals('', $output,
+            "Script $SCRIPT_NAME, skin $SKIN_NAME gave errors, output in $outfile:\n$output");
 	}
 	#clean up messages for next run..
 	$this->{tidy}->clear_messages();
