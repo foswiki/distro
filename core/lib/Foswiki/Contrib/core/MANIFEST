@@ -351,7 +351,6 @@ data/_default/WebSearch.txt 0644
 data/_default/WebSearchAdvanced.txt 0644
 data/_default/WebStatistics.txt 0644
 data/_default/WebTopicList.txt 0644
-data/_empty 0755
 data/_empty/WebPreferences.txt 0644
 data/mime.types 0644
 foswiki_httpd_conf.txt 0444
@@ -395,8 +394,8 @@ lib/Foswiki/Attrs.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/CSS.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
-lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/AllowInlineScript.pm 0444
+lib/Foswiki/Configure/Checkers/AuthScripts.pm
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
 lib/Foswiki/Configure/Checkers/CGISetup.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigurationLogName.pm 0444
@@ -666,8 +665,8 @@ pub/System/DocumentGraphics/arrowup.gif 0644
 pub/System/DocumentGraphics/as.gif 0644
 pub/System/DocumentGraphics/attachfile.gif 0644
 pub/System/DocumentGraphics/award.gif 0644
-pub/System/DocumentGraphics/bat.gif 0644
 pub/System/DocumentGraphics/barcode.gif 0644
+pub/System/DocumentGraphics/bat.gif
 pub/System/DocumentGraphics/bed.gif 0644
 pub/System/DocumentGraphics/blank-bg.gif 0644
 pub/System/DocumentGraphics/blank.gif 0644
@@ -849,9 +848,9 @@ pub/System/DocumentGraphics/refreshtopic.gif 0644
 pub/System/DocumentGraphics/reg.gif 0644
 pub/System/DocumentGraphics/rfc.gif 0644
 pub/System/DocumentGraphics/right.gif 0644
-pub/System/DocumentGraphics/rss.gif 0644
 pub/System/DocumentGraphics/rss-feed.gif 0644
 pub/System/DocumentGraphics/rss-small.gif 0644
+pub/System/DocumentGraphics/rss.gif
 pub/System/DocumentGraphics/save.gif 0644
 pub/System/DocumentGraphics/search-small.gif 0644
 pub/System/DocumentGraphics/searchpackage.gif 0644
@@ -865,11 +864,11 @@ pub/System/DocumentGraphics/skype.gif 0644
 pub/System/DocumentGraphics/sniff.gif 0644
 pub/System/DocumentGraphics/socket.gif 0644
 pub/System/DocumentGraphics/sort.gif 0644
-pub/System/DocumentGraphics/stargold.gif 0644
-pub/System/DocumentGraphics/starred.gif 0644
 pub/System/DocumentGraphics/star-full.gif 0644
 pub/System/DocumentGraphics/star-half.gif 0644
 pub/System/DocumentGraphics/star-none.gif 0644
+pub/System/DocumentGraphics/stargold.gif
+pub/System/DocumentGraphics/starred.gif
 pub/System/DocumentGraphics/statistics.gif 0644
 pub/System/DocumentGraphics/stop.gif 0644
 pub/System/DocumentGraphics/support.gif 0644
@@ -1036,9 +1035,9 @@ templates/registerfailedremoved.tmpl 0444
 templates/registernotify.tmpl 0444
 templates/registernotifyadmin.tmpl 0444
 templates/rename.tmpl 0444
+templates/renameattachmentdelete.tmpl
 templates/renamebase.tmpl 0444
 templates/renameconfirm.tmpl 0444
-templates/renameattachmentdelete.tmpl 0444
 templates/renamedelete.tmpl 0444
 templates/renameweb.tmpl 0444
 templates/renamewebbase.tmpl 0444
@@ -1057,7 +1056,6 @@ templates/view.rss.tmpl 0444
 templates/view.rssatom.tmpl 0444
 templates/view.text.tmpl 0444
 templates/view.tmpl 0444
-templates/view.xml.tmpl 0444
 templates/view.xml.tmpl 0444
 templates/viewplain.tmpl 0444
 templates/viewprint.tmpl 0444
