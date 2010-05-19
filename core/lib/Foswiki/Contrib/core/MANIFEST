@@ -353,7 +353,6 @@ data/_default/WebSearch.txt 0644
 data/_default/WebSearchAdvanced.txt 0644
 data/_default/WebStatistics.txt 0644
 data/_default/WebTopicList.txt 0644
-data/_empty 0755
 data/_empty/WebPreferences.txt 0644
 data/mime.types 0644
 foswiki_httpd_conf.txt 0444
@@ -887,9 +886,9 @@ templates/registerfailedremoved.tmpl 0444
 templates/registernotify.tmpl 0444
 templates/registernotifyadmin.tmpl 0444
 templates/rename.tmpl 0444
+templates/renameattachmentdelete.tmpl
 templates/renamebase.tmpl 0444
 templates/renameconfirm.tmpl 0444
-templates/renameattachmentdelete.tmpl 0444
 templates/renamedelete.tmpl 0444
 templates/renameweb.tmpl 0444
 templates/renamewebbase.tmpl 0444
@@ -908,7 +907,6 @@ templates/view.rss.tmpl 0444
 templates/view.rssatom.tmpl 0444
 templates/view.text.tmpl 0444
 templates/view.tmpl 0444
-templates/view.xml.tmpl 0444
 templates/view.xml.tmpl 0444
 templates/viewplain.tmpl 0444
 templates/viewprint.tmpl 0444
