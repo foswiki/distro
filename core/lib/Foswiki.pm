@@ -1624,24 +1624,7 @@ sub new {
 
     #Monitor::MARK("Created users object");
 
-    # Load (or create) the CGI session
-    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
-
-    # Make %ENV safer, preventing hijack of the search path. The
-    # environment is set per-query, so this can't be done in a BEGIN.
-    # TWikibug:Item4382: Default $ENV{PATH} must be untainted because
-    # Foswiki runs with use strict and calling external programs that
-    # writes on the disk will fail unless Perl seens it as set to safe value.
-    if ( $Foswiki::cfg{SafeEnvPath} ) {
-        $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
-    }
-    else {
-
-        # SMELL: how can we validate the PATH?
-        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
-    }
-    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
-
+    #{urlHost}  is needed by loadSession..
     my $url = $query->url();
     if ( $url && $url =~ m{^([^:]*://[^/]*).*$} ) {
         $this->{urlHost} = $1;
@@ -1660,6 +1643,27 @@ sub new {
     else {
         $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
     }
+    ASSERT($this->{urlHost}) if DEBUG;
+
+    # Load (or create) the CGI session
+    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
+
+    # Make %ENV safer, preventing hijack of the search path. The
+    # environment is set per-query, so this can't be done in a BEGIN.
+    # TWikibug:Item4382: Default $ENV{PATH} must be untainted because
+    # Foswiki runs with use strict and calling external programs that
+    # writes on the disk will fail unless Perl seens it as set to safe value.
+    if ( $Foswiki::cfg{SafeEnvPath} ) {
+        $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
+    }
+    else {
+
+        # SMELL: how can we validate the PATH?
+        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
+    }
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+
+
     if (   $Foswiki::cfg{GetScriptUrlFromCgi}
         && $url
         && $url =~ m{^[^:]*://[^/]*(.*)/.*$}
