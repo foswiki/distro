@@ -116,6 +116,8 @@ sub preview {
     $displayText = $topicObject->renderTML($displayText);
 
     # Disable links and inputs in the text
+    # SMELL: This will break on <a name="blah />
+    # XXX - Use a real HTML parser like HTML::Parser
     $displayText =~
       s#<a\s[^>]*>(.*?)</a>#<span class="foswikiEmulatedLink">$1</span>#gis;
     $displayText =~ s/<(input|button|textarea) /<$1 disabled="disabled" /gis;
