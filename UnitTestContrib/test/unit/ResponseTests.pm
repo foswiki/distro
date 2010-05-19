@@ -251,4 +251,23 @@ sub test_header {
     );
 }
 
+sub test_isRedirectSafe {
+    my $this = shift;
+
+    $this->assert(not Foswiki::_isRedirectSafe('http://slashdot.org'));
+
+    #$Foswiki::cfg{DefaultUrlHost} based
+    my $baseUrlMissingSlash = $Foswiki::cfg{DefaultUrlHost};
+
+
+    #http://wiki.server.com (missing trailing slash)
+    $baseUrlMissingSlash =~ s/(.*)\/$/$1/;
+    my $url = $baseUrlMissingSlash;
+    $this->assert(Foswiki::_isRedirectSafe($url));
+    $url = $baseUrlMissingSlash.'?somestuff=12';
+    $this->assert(Foswiki::_isRedirectSafe($url));
+    $url = $baseUrlMissingSlash.'#header';
+    $this->assert(Foswiki::_isRedirectSafe($url));
+}
+
 1;
