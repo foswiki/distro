@@ -84,8 +84,9 @@ NOTE: most skins support the definition of =EDIT_SKIN=, which is used as the val
 Used for logging in with !TemplateLoginManager.
 | *Parameter* | *Description* | *Default* |
 | =origurl= | URL that was being accessed when an access violation occurred. the login process will redirect to this URL if it is successful | none |
-| =username= | username of user logging in | none |
+| =username= | username of user logging in (if set, login will attempt to authenticate) | none |
 | =password= | password of user logging in | none |
+| =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | none |
 
 ---+++ =logon=
 Used for logging in when Web Server authentication is being used (e.g. !ApacheLoginManager). The script does nothing; it is purely a placeholder for triggering the login process. The webserver will be set up to require a valid user to access this script, thus triggering the webserver login process.
