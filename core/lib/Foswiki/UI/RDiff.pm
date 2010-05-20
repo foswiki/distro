@@ -424,6 +424,7 @@ sub _renderRevisionDiff {
     return CGI::table(
         {
             class       => 'foswikiDiffTable',
+            summary     => 'changes to '.$topicObject->topic,
             width       => '100%',
             cellspacing => 0,
             cellpadding => 0
