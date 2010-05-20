@@ -45,12 +45,17 @@ sub test_allCols {
 | *Name*     | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
 | Select     | select   | 2..4   | a,b,c   | Tippity   | M            |
 | Checky Egg | checkbox | 1      | 1,2,3,4   | Blip      |              |
+| [[FormTest][The title]] | textarea | 80x20  | some initial   | Write Something      |              |
+| %NOP%TMLDoNotLink | textarea | 80x20  | some initial   | Write Something      |              |
+| <nop>HTMLDoNotLink | textarea | 80x20  | some initial   | Write Something      |              |
+| !BangDoNotLink | textarea | 80x20  | some initial   | Write Something      |              |
+| DoLink | textarea | 80x20  | some initial   | Write Something      |              |
 FORM
     $topicObject->save();
     my $def =
       new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
 
-    $this->assert_equals( 2, scalar @{ $def->getFields() } );
+    $this->assert_equals( 7, scalar @{ $def->getFields() } );
     my $f = $def->getField('Select');
     $this->assert_str_equals( 'select', $f->{type} );
     $this->assert_str_equals( 'Select', $f->{name} );
@@ -71,6 +76,42 @@ FORM
     $this->assert_str_equals( 'Blip', $f->{tooltip} );
     $this->assert_str_equals( '',     $f->{attributes} );
     $this->assert_str_equals( '',     $f->{definingTopic} );
+
+    $f = $def->getField('Thetitle');
+    $this->ASSERT($f);
+    $this->assert_str_equals( 'textarea', $f->{type} );
+    $this->assert_str_equals( 'Thetitle', $f->{name} );
+    $this->assert_str_equals( 'The title', $f->{title} );
+    $this->assert_str_equals( 'FormTest', $f->{definingTopic} );
+
+#SMELL: not what I expected to see!
+    $f = $def->getField('NOPTMLDoNotLink');
+    $this->ASSERT($f);
+    $this->assert_str_equals( 'textarea', $f->{type} );
+    $this->assert_str_equals( 'NOPTMLDoNotLink', $f->{name} );
+    $this->assert_str_equals( '%NOP%TMLDoNotLink', $f->{title} );
+    $this->assert_str_equals( '', $f->{definingTopic} );
+
+    $f = $def->getField('HTMLDoNotLink');
+    $this->ASSERT($f);
+    $this->assert_str_equals( 'textarea', $f->{type} );
+    $this->assert_str_equals( 'HTMLDoNotLink', $f->{name} );
+    $this->assert_str_equals( '<nop>HTMLDoNotLink', $f->{title} );
+    $this->assert_str_equals( '', $f->{definingTopic} );
+
+    $f = $def->getField('BangDoNotLink');
+    $this->ASSERT($f);
+    $this->assert_str_equals( 'textarea', $f->{type} );
+    $this->assert_str_equals( 'BangDoNotLink', $f->{name} );
+    $this->assert_str_equals( '!BangDoNotLink', $f->{title} );
+    $this->assert_str_equals( '', $f->{definingTopic} );
+    
+    $f = $def->getField('DoLink');
+    $this->ASSERT($f);
+    $this->assert_str_equals( 'textarea', $f->{type} );
+    $this->assert_str_equals( 'DoLink', $f->{name} );
+    $this->assert_str_equals( 'DoLink', $f->{title} );
+    $this->assert_str_equals( '', $f->{definingTopic} );
 }
 
 sub test_valsFromOtherTopic {

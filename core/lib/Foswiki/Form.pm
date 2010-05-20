@@ -143,6 +143,7 @@ valid "name" for storing in meta-data
 sub fieldTitle2FieldName {
     my ($text) = @_;
     return '' unless defined($text);
+    $text =~ s/!//g;
     $text =~ s/<nop>//g;             # support <nop> character in title
     $text =~ s/[^A-Za-z0-9_\.]//g;
     return $text;
@@ -189,7 +190,7 @@ sub _parseFormDefinition {
 
             $vals ||= '';
             $vals = $this->expandMacros($vals);
-            $vals =~ s/<\/?(nop|noautolink)\/?>//go;
+            $vals =~ s/<\/?(!|nop|noautolink)\/?>//go;
             $vals =~ s/^\s+//g;
             $vals =~ s/\s+$//g;
 
