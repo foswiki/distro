@@ -58,6 +58,7 @@ sub run {
 sub prepareConnection {
     my ( $this, $req ) = @_;
     $req->remoteAddress('127.0.0.1');
+    $req->method( $ENV{FOSWIKI_ACTION} );
 }
 
 sub prepareQueryParameters {
