@@ -29,10 +29,11 @@
 
 %TMPL:DEF{"formendstep"}%%TMPL:P{"formend"}%%TMPL:END%
 
+%{"nonwikiword" def already wraps its content in 
+    <p class='foswikiAllowNonWikiWord'>...</p>}%
 %TMPL:DEF{"topicnamestep"}%---+++ %MAKETEXT{"Topic name:"}%
-<p>
 %TMPL:P{"topicname"}%%TMPL:P{"nonwikiword"}%
-</p>%TMPL:END%
+%TMPL:END%
 
 %TMPL:DEF{"topicparentstep"}%---+++ %MAKETEXT{"Topic parent:"}%
 <p>
