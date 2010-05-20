@@ -214,6 +214,11 @@ sub notWysiwygEditable {
     return 0;
 }
 
+sub addXMLTag {
+    require Foswiki::Plugins::WysiwygPlugin::Handlers;
+    Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag(@_);
+}
+
 sub postConvertURL {
     require Foswiki::Plugins::WysiwygPlugin::Handlers;
     Foswiki::Plugins::WysiwygPlugin::Handlers::postConvertURL(@_);
