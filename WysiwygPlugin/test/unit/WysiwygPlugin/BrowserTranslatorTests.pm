@@ -6,6 +6,7 @@ use FoswikiSeleniumTestCase;
 use TranslatorBase;
 our @ISA = qw( FoswikiSeleniumTestCase TranslatorBase );
 
+use BrowserEditorInterface;
 use Foswiki::Func;
 use Foswiki::Plugins::WysiwygPlugin::Handlers;
 
@@ -70,23 +71,274 @@ HERE
 <span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
 THERE
     },
+    {
+        name => 'startOfParagraph',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+%STARTINCLUDE%
+---+ Foswiki Contribs
+
+_Extensions to Foswiki that are not plugins_
+%ENDINCLUDE%
+
+%TOC%
+HERE
+    },
+    {
+        name => "ItemSVEN",
+        exec => $TranslatorBase::TML2HTML | $TranslatorBase::ROUNDTRIP,
+        tml  => <<'HERE',
+---
+
+%SEARCH{search="Sven"}%
+HERE
+        finaltml => <<'HERE',
+---
+
+%SEARCH{search="Sven"}%
+HERE
+        html => <<'HERE',
+<hr class="TMLhr" />
+<p>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
+</p>
+HERE
+    },
+    {
+        name => 'Item4855',
+        exec => $TranslatorBase::TML2HTML | $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+| [[LegacyTopic1]] | Main.SomeGuy |
+%TABLESEP%
+%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+HERE
+        html => <<THERE,
+<div class="foswikiTableAndMacros">
+<table cellspacing="1" cellpadding="0" border="1"><tbody>
+<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+</tbody></table>
+<span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+</div>
+THERE
+    },
+
+
+    { # Copied on 29 April 2010 from
+      # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
+      # and then split into multiple tests to make analysing the result managable
+        name => 'KennethsNewLineEatingTest1',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+---++ This is a test topic where TMCE eats new lines in some cases
+
+See Bugs.Item4705
+
+Edit it in TMCE and save.
+
+Repeat the edit and save many *times* and see the topic become a Goofy topic.
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest8',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+<nop>
+   * Set CHANGEHISTORY = | Text | Number | Text with another Twiki variable |    
+
+| *Who* | *Rev* | *Description* |
+| pre_capture | 1 | include images before first motion detect |
+| post_capture | 2 | append images after last motion detect |
+%CHANGEHISTORY%
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest2',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+---+++ Some test headline.
+
+Below is what could be an example of C code
+
+<verbatim>
+/* If Labeling enabled - locate center of largest labelgroup */
+if (imgs->labelsize_max) {
+    /* Locate largest labelgroup */
+    for (y=0; y<height; y++) {
+        for (x=0; x<width; x++) {
+            if (*(labels++)&32768) {
+                cent->x += x;
+                cent->y += y;
+                centc++;
+            }
+        }
+    }
+} else {
+</verbatim>
+
+---+++ And now an example with text and table
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest3',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+These two options are defined like this
+
+| *Option* | *Function* |
+| pre_capture | include images before first motion detect |
+| post_capture | append images after last motion detect |
+and in the config code you find this
+
+<verbatim>
+{
+    "pre_capture",
+    "# Specifies the number of pre-captured (buffered) pictures from before motion\n"
+    "# was detected that will be output at motion detection.\n"
+    "# Recommended range: 0 to 5 (default: 0)\n"
+    "# Do not use large values! Large values will cause Motion to skip video frames and\n"
+    "# cause unsmooth mpegs. To smooth mpegs use larger values of post_capture instead.",
+    CONF_OFFSET(pre_capture),
+    copy_int,
+    print_int
+},
+{
+    "post_capture",
+    "# Number of frames to capture after motion is no longer detected (default: 0)",
+    CONF_OFFSET(post_capture),
+    copy_int,
+    print_int
+},
+</verbatim>
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest4',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+---+++ More code right after headline
+
+<verbatim>
+char *mystrcpy(char *to, const char *from)
+{
+    /* free the memory used by the to string, if such memory exists,
+     * and return a pointer to a freshly malloc()'d string with the
+     * same value as from.
+     */
+
+    if (to != NULL) 
+        free(to);
+
+    return mystrdup(from);
+}
+</verbatim>
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest5',
+        exec => 0,# fails $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+---+++ Some stuff protected by literal
+
+| This is a two row table |
+| This is second row |
+<literal>
+<TABLE bgColor='yellow'>
+<TBODY>
+<TR>
+<TD>
+<UL>
+<LI>TML bullet </li>
+<LI>Another TML bullet </li>
+<LI>Why not a 3rd one </li></ul></td></tr></tbody></table></literal>
+
+---+++ Same but with text before
+The text below is yellow <literal>
+<TABLE bgColor='yellow'>
+<TBODY>
+<TR>
+<TD>
+<UL>
+<LI>TML bullet </li>
+<LI>Another TML bullet </li>
+<LI>Why not a 3rd one </li></ul></td></tr></tbody></table></literal>
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest6',
+        exec => 0,# fails $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+
+---+++ Plain text
+
+Some text
+
+<verbatim>
+Hej hej
+</verbatim>
+
+---+++ Example that failed in Item4705
+
+Tralala
+
+<literal><B>Some text</b> </literal>
+
+Trala
+
+Tralala
+
+<literal><B>Some text</b> </literal>
+
+Trala 
+---
+Tralala
+
+<literal><B>Some text</b> </literal>
+
+Trala 
+---
+
+Tralala lala
+
+<literal><B>Some text</b> </literal>
+
+Trala
+HERE
+    },
+    {
+        name => 'KennethsNewLineEatingTest7',
+        exec => 0,# fails $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
+
+---+++ Literal after header
+
+<literal><B>Some bold</b> </literal>
+
+---+++ Literal after table
+
+| *Table* | *Nice* |
+| 23 | 45 |
+| 56 | 52 |
+
+<literal><B>Some bold</b> </literal>
+
+---+++ Literal after bullet
+
+   * Bullet 1 
+   * Bullet 2 
+
+<literal><B>Some bold</b> </literal>
+
+-- Main.KennethLavrsen - 24 Sep 2007
+HERE
+    },
 ];
 
-
-my $editFrameLocator = "css=iframe#topic_ifr";
-my $wikitextLocator = "css=a#topic_hide";
-my $wysiwygLocator = "css=input#topic_2WYSIWYG";
-my $editTextareaLocator = "css=textarea#topic";
-my $editCancelButtonLocator = "css=input#cancel";
-
-# This must match the text in foswiki_tiny.js
-my $waitForServerMessage = "Please wait... retrieving page from server.";
 
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
-    $self->{BrowserTranslator_WebInit} = 0;
-    $self->{BrowserTranslator_Init} = {};
+    $self->{editor} = BrowserEditorInterface->new($self);
 
     return $self;
 }
@@ -94,50 +346,36 @@ sub new {
 sub _init {
     my $this = shift;
 
-    if (not $this->{BrowserTranslator_WebInit}) {
-        my $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_web},
-            $Foswiki::cfg{WebPrefsTopicName}, "   * Set SKIN=pattern\n");
-        $topicObject->save();
-        $this->{BrowserTranslator_WebInit} = 1;
+    $this->{editor}->init();
+
+    if (not defined $this->{editor}->editorMode()) {
+        $this->{editor}->openWysiwygEditor($this->{test_web}, $this->{test_topic});
     }
-
-    if (not $this->{BrowserTranslator_Init}->{$this->{browser}}) {
-    $this->login();
-    $this->_open_editor();
-
-    $this->{BrowserTranslator_Init}->{$this->{browser}} = 1;
-}
 }
 
 sub DESTROY
 {
     my $this = shift;
-    #my $pressEnterToContinue = <STDIN>;
-    for my $browser (keys %{ $this->{BrowserTranslator_Init} }) {
-        $this->{browser} = $browser;
-        $this->{selenium} = $this->{seleniumBrowsers}->{$browser};
 
-        $this->_select_top_frame();
-        $this->{selenium}->click( $editCancelButtonLocator );
-    }
-    if (keys %{ $this->{BrowserTranslator_Init} }) {
-        $this->{selenium}->pause(); # Breathe for a moment; let TMCE settle before doing anything else
-    }
+    $this->{editor}->finish();
+
     $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
+
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
 
     $this->_init();
 
-    $this->_wikitext();
-    $this->_type($editTextareaLocator, $args->{tml});
-    $this->_wysiwyg();
-    $this->_select_editor_frame();
-    my $actualHtml = $this->_getContent("css=body");
-    $this->_select_top_frame();
+    $this->{editor}->selectWikitextMode();
+    $this->{editor}->setWikitextEditorContent($args->{tml});
+    $this->{editor}->selectWysiwygMode();
+    my $actualHtml = $this->{editor}->getWysiwygEditorContent();
+
+    #SMELL: Selenium on Firefox returns <br> instead of <br />, and similarly for <hr />
+    $actualHtml =~ s{<([bh]r[^/>]*)>}{<$1 />}g;
+
     $actualHtml =~ s/^<!--$Foswiki::Plugins::WysiwygPlugin::Handlers::SECRET_ID-->//go
       or $this->assert(0, "HTML did not contain the secret ID\n$actualHtml");
     $this->assert_html_equals( $args->{html}, $actualHtml );
@@ -154,12 +392,16 @@ sub compareRoundTrip {
 
     $this->_init();
 
-    $this->_wikitext();
-    $this->_type($editTextareaLocator, $args->{tml});
-    $this->_wysiwyg();
-    $this->_wikitext();
+    $this->{editor}->selectWikitextMode();
+    $this->{editor}->setWikitextEditorContent($args->{tml});
+    $this->{editor}->selectWysiwygMode();
+    my $actualHtml = $this->{editor}->getWysiwygEditorContent();
+	#print STDERR "HTML [$actualHtml]\n";
+    $this->{editor}->selectWikitextMode();
+    my $actualTml = $this->{editor}->getWikitextEditorContent();
+
     $this->assert_tml_equals( $args->{finaltml} || $args->{tml},
-                              $this->{selenium}->get_value($editTextareaLocator),
+                              $actualTml,
                               $args->{name} );
 }
 
@@ -168,151 +410,14 @@ sub compareHTML_TML {
 
     $this->_init();
 
-    $this->_wysiwyg();
-    $this->_select_editor_frame();
-    $this->_setContent("css=body", $args->{html});
-    $this->_select_top_frame();
-    $this->_wikitext();
+    $this->{editor}->selectWysiwygMode();
+    $this->{editor}->setWysiwygEditorContent($args->{html});
+    $this->{editor}->selectWikitextMode();
+    my $actualTml = $this->{editor}->getWikitextEditorContent();
+
     $this->assert_tml_equals( $args->{tml},
-                              $this->{selenium}->get_value($editTextareaLocator),
+                              $actualTml,
                               $args->{name} );
-}
-
-sub _open_editor {
-    my $this = shift;
-    $this->{selenium}->open_ok( Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic}, 'edit') );
-
-    # The editor can take a while to open, and has to do another server request to convert TML2HTML, so use a longer timeout
-    $this->{selenium}->wait_for_element_present( $editFrameLocator, 2 * $this->timeout() );
-    $this->{selenium}->pause(); # Breathe for a moment; let TMCE settle before doing anything else
-
-    $this->{Browser_Translator_mode}->{$this->{browser}} = 'wysiwyg';
-}
-
-sub _select_editor_frame {
-    my $this = shift;
-    $this->{selenium}->select_frame_ok($editFrameLocator);
-}
-
-sub _select_top_frame {
-    my $this = shift;
-    $this->{selenium}->select_frame_ok("relative=top");
-}
-
-sub _type {
-    my $this = shift;
-    my $locator = shift;
-    my $text = shift;
-
-    # If you pass too much text to $this->{selenium}->type()
-    # then the test fails with a 414 error from the selenium server.
-    # That can happen quite easily when pasting topic text into
-    # the edit form's textarea
-
-    $locator =~ s#"#\\"#g;
-
-    # The algorithm here is based on this posting by balrog:
-    # http://groups.google.com/group/selenium-users/msg/669560194d07734e
-    my $maxChars = 1000;
-    my $textLength = length $text;
-    if ($textLength > $maxChars) {
-        my $start = 0;
-        while ($start < $textLength) {
-            my $chunk = substr($text, $start, $maxChars);
-            $chunk =~ s#\\#\\\\#g;
-            $chunk =~ s#\n#\\n#g;
-            $chunk =~ s#"#\\"#g;
-            my $assignOperator = ($start == 0) ? '=' : '+=';
-            $start += $maxChars;
-            my $javascript = qq/selenium.browserbot.findElement("$locator").value $assignOperator "$chunk";/;
-            $this->{selenium}->get_eval($javascript);
-            #sleep 2;
-        }
-    }
-    else {
-       $this->{selenium}->type($locator, $text);
-   }
-}
-
-sub _setContent {
-    my $this = shift;
-    my $locator = shift;
-    my $text = shift;
-
-    my $bufferName = 'window.document.unitTestBuffer';
-    $this->{selenium}->get_eval("$bufferName = '';");
-
-    my $maxChars = 1000;
-    my $textLength = length $text;
-    my $start = 0;
-    while ($start < $textLength) {
-        my $chunk = substr($text, $start, $maxChars);
-        $chunk =~ s#\\#\\\\#g;
-        $chunk =~ s#\n#\\n#g;
-        $chunk =~ s#"#\\"#g;
-        $start += $maxChars;
-        my $javascript = qq/$bufferName += "$chunk";/;
-        $this->{selenium}->get_eval($javascript);
-        #sleep 2;
-    }
-
-    $locator =~ s#"#\\"#g;
-
-    my $javascript = qq/selenium.browserbot.findElement("$locator").innerHTML = $bufferName;/;
-    $this->{selenium}->get_eval($javascript);
-}
-
-sub _getContent {
-    my $this = shift;
-    my $locator = shift;
-
-    $locator =~ s#"#\\"#g;
-
-    my $javascript = qq/selenium.browserbot.findElement("$locator").innerHTML;/;
-    return $this->{selenium}->get_eval($javascript);
-}
-
-sub _wikitext {
-    my $this = shift;
-    return if $this->{Browser_Translator_mode}->{$this->{browser}} eq 'wikitext';
-    if ($this->{selenium}->is_element_present($wysiwygLocator)) {
-        # SMELL: I can't see this button, but the assert fails. Dunno why.
-        # $this->assertElementIsNotVisible( $wysiwygLocator );
-    }
-
-    $this->assertElementIsPresent( $wikitextLocator );
-    $this->assertElementIsVisible( $wikitextLocator );
-    $this->{selenium}->click_ok( $wikitextLocator );
-
-    $this->waitFor(sub{ $this->{selenium}->is_visible($editTextareaLocator); },
-                   "topic textarea must be visible");
-
-    # SMELL: I can't see the wikitext button, but this assert fails. Dunno why.
-    # $this->assertElementIsNotVisible( $wikitextLocator );
-
-    $this->waitFor(sub{ $this->{selenium}->get_value($editTextareaLocator) !~ /\Q$waitForServerMessage/; });
-
-    $this->{Browser_Translator_mode}->{$this->{browser}} = 'wikitext';
-}
-
-sub _wysiwyg {
-    my $this = shift;
-    return if $this->{Browser_Translator_mode}->{$this->{browser}} eq 'wysiwyg';
-    $this->assertElementIsPresent( $wysiwygLocator );
-    $this->assertElementIsVisible( $wysiwygLocator );
-    $this->{selenium}->click_ok( $wysiwygLocator );
-
-    $this->waitFor(sub{ $this->{selenium}->is_visible($editFrameLocator); },
-                   "wysiwyg edit area must be visible");
-
-    # SMELL: this should work
-    # $this->assertElementIsNotVisible( $editTextareaLocator );
-
-    $this->_select_editor_frame();
-    $this->waitFor(sub{ $this->{selenium}->get_text("css=body") !~ /\Q$waitForServerMessage/; });
-    $this->_select_top_frame();
-
-    $this->{Browser_Translator_mode}->{$this->{browser}} = 'wysiwyg';
 }
 
 BrowserTranslatorTests->gen_compare_tests('verify', $data);
