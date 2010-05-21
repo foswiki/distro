@@ -11,6 +11,11 @@ use Foswiki::UI::View;
 use Error qw( :try );
 
 our $UI_FN;
+our $SCRIPT_NAME;
+our %expected_status = (
+        search  => 302,
+        save  => 302
+);
 
 sub new {
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
@@ -52,6 +57,7 @@ sub fixture_groups {
 sub $script {
     eval "require \$package" if (defined(\$package));
 	\$UI_FN = \$sub;
+	\$SCRIPT_NAME = \$script;
 }
 SUB
         die $@ if $@;
@@ -72,9 +78,11 @@ sub call_UI_FN {
     $query->path_info("/$web/$topic");
     $query->method('POST');
     my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
-    my ($status, $header, $text);
+    my ($responseText, $result, $stdout, $stderr);
+    $responseText = "Status: 500";      #errr, boom
+    $result = "BOOOOM";
     try {
-		($text) = $this->captureWithKey( switchboard =>
+		($responseText, $result, $stdout, $stderr) = $this->captureWithKey( switchboard =>
 		    sub {
 		        no strict 'refs';
 		        &${UI_FN}($fatwilly);
@@ -85,19 +93,36 @@ sub call_UI_FN {
 		);
 	} catch Foswiki::OopsException with {
 		my $e = shift;
-		$text = $e->stringify();
+		$result = $e->stringify();
 	} catch Foswiki::EngineException with {
 		my $e = shift;
-		$text = $e->stringify();
+		$result = $e->stringify();
 	};
     $fatwilly->finish();
 
+    $this->assert($responseText);
+    #redirects have no body
+    #$this->assert($result);
+
+    $this->assert_str_not_equals('BOOOOM', ($result||''));
+
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
-    $text =~ s/^(.*?)$CRLF$CRLF//s;
-    $header = $1;      # untaint is OK, it's a test
+    $responseText =~ s/^(.*?)$CRLF$CRLF//s;
+    my $header = $1;      # untaint is OK, it's a test
 
-    return ($status, $header, $text);
+    my $status = 666;
+    if ($header =~ /Status: (\d*)./) {
+        $status = $1;
+    }
+    #aparently we allow the web server to add a 200 status thus risking that an error situation is marked as 200
+    #$this->assert_num_not_equals(666, $status, "no response Status set in probably valid reply\nHEADER: $header\n");
+    if ($status == 666) {
+        $status = 200;
+    }
+    $this->assert_num_not_equals(500, $status, 'exception thrown');
+
+    return ($status, $header, $result, $stdout, $stderr);
 }
 
 #TODO: work out why some 'Use of uninitialised vars' don't crash the test (see preview)
@@ -107,10 +132,15 @@ sub call_UI_FN {
 sub verify_switchboard_function {
     my $this = shift;
     
-    my ($status, $header, $text) = $this->call_UI_FN($this->{test_web}, 'WebHome');
-#    $this->assert_equals(200, $status);
-#    $this->assert_equals('', $header);
-#    $this->assert_equals('', $text);
+    my ($status, $header, $result, $stdout, $stderr) = $this->call_UI_FN($this->{test_web}, $this->{test_topic});
+
+    $this->assert_num_equals($expected_status{$SCRIPT_NAME} || 200, $status, "GOT Status : $status\nHEADER: $header\n\nSTDERR: ".($stderr||'')."\n");
+    $this->assert_str_not_equals('', $header);
+    if ($status != 302) {
+        $this->assert_str_not_equals('', $result);
+    } else {
+        $this->assert_null($result);
+    }
 }
 
 #TODO: craft specific tests for each script

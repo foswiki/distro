@@ -124,7 +124,7 @@ sub call_UI_FN {
     my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
     my ( $status, $header, $text );
     try {
-        ($text) = $this->captureWithKey(
+        ($text, $status) = $this->captureWithKey(
             switchboard => sub {
                 no strict 'refs';
                 &${UI_FN}($fatwilly);
@@ -163,7 +163,7 @@ sub verify_switchboard_function {
 
     my ( $status, $header, $text ) = $this->call_UI_FN( 'Main', 'WebHome' );
 
-    #$this->assert_equals('200', $status);
+    $this->assert_equals('200', $status);
     #    $this->assert_equals('', $header);
     #    $this->assert_equals('', $text);
 

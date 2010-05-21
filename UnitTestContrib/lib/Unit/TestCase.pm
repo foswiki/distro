@@ -303,6 +303,22 @@ sub assert_num_equals {
 
 =begin TML
 
+---++ ObjectMethod assert_num_not_equals($expected, $got [, $message])
+
+Fail the test if $got != $expected. $message is optional.
+
+=cut
+
+sub assert_num_not_equals {
+    my ( $this, $expected, $got, $mess ) = @_;
+    $this->assert_not_null($expected);
+    $this->assert_not_null($got);
+    $this->assert( $expected != $got,
+        $mess || "Expected:'$expected'\n But got:'$got'\n" );
+}
+
+=begin TML
+
 ---++ ObjectMethod assert_matches($expected, $got [, $message])
 
 Fail the test unless $got =~ /$expected/. $message is optional.
