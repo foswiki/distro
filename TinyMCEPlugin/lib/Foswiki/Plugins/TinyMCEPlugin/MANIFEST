@@ -607,6 +607,7 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/index.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/jquery_plugin.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/js/api.js 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/js/utils.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/main.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/media.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/menu.html 0644
