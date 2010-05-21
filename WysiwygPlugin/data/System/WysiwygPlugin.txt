@@ -175,6 +175,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  21 May 2010 | Foswikitask:Item5221: Use Wysiwyg transition to remove usually unwanted paragraph html tags in table cells, which are otherwise impossible to remove in !TinyMCE up to at least 3.3.6<br/>\
+                 Foswikitask:Item8274: Fix problem where Wysiwyg transition merges two consecutive lists (a result of work on Foswikitask:Item2254) |
 |  17 Jan 2010 | Foswikitask:Item2337: ATTACHFILESIZELIMIT check fails confusingly if value is "0 " |
 |  18 Dec 2009 | Foswikitask:Item2511: move code out of the plugin module to accelerate loading |
 |  18 Nov 2009 | Foswikitask:Item2369: Convert tables with cells that span rows |

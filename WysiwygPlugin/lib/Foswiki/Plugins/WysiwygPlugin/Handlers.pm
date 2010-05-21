@@ -5,6 +5,7 @@ package Foswiki::Plugins::WysiwygPlugin::Handlers;
 # WysiwygPlugin. They are implemented here so we can 'lazy-load' this
 # module only when it is actually required.
 use strict;
+use warnings;
 use Assert;
 use Error (':try');
 
@@ -25,7 +26,7 @@ our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
 
 sub _SECRET_ID {
-    $SECRET_ID
+    $SECRET_ID;
 }
 
 sub _OWEBTAG {
@@ -248,6 +249,7 @@ sub _JAVASCRIPT_TEXT {
 }
 
 sub postRenderingHandler {
+
     # Replace protected content.
     $_[0] = _dropBack( $_[0] );
 }
@@ -296,7 +298,8 @@ sub _populateVars {
 
     return if ( $opts->{exp} );
 
-    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;    # block calls to beforeCommonTagshandler
+    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock =
+      1;                 # block calls to beforeCommonTagshandler
 
     my @exp = split(
         /\0/,
@@ -334,7 +337,8 @@ sub postConvertURL {
 
     #my $orig = $url; #debug
 
-    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;    # block calls to beforeCommonTagshandler
+    local $Foswiki::Plugins::WysiwygPlugin::recursionBlock =
+      1;    # block calls to beforeCommonTagshandler
 
     my $anchor = '';
     if ( $url =~ s/(#.*)$// ) {
@@ -456,8 +460,13 @@ sub addXMLTag {
 
     return if not defined $tag;
 
-    if (   ( not exists $Foswiki::Plugins::WysiwygPlugin::xmltag{$tag} and not exists $xmltagPlugin{$tag} )
-        or ( $xmltagPlugin{$tag} eq $plugin ) )
+    if (
+        (
+                not exists $Foswiki::Plugins::WysiwygPlugin::xmltag{$tag}
+            and not exists $xmltagPlugin{$tag}
+        )
+        or ( $xmltagPlugin{$tag} eq $plugin )
+      )
     {
 
         # This is either a plugin adding a new tag
@@ -468,8 +477,8 @@ sub addXMLTag {
         $fn = sub { 1 }
           unless $fn;    # Default function
 
-        $Foswiki::Plugins::WysiwygPlugin::xmltag{$tag}       = $fn;
-        $xmltagPlugin{$tag} = $plugin;
+        $Foswiki::Plugins::WysiwygPlugin::xmltag{$tag} = $fn;
+        $xmltagPlugin{$tag}                            = $plugin;
     }
     else {
 
@@ -486,7 +495,8 @@ sub TranslateTML2HTML {
     # Translate the topic text to pure HTML.
     unless ($Foswiki::Plugins::WysiwygPlugin::tml2html) {
         require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
-        $Foswiki::Plugins::WysiwygPlugin::tml2html = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
+        $Foswiki::Plugins::WysiwygPlugin::tml2html =
+          new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     }
     return $Foswiki::Plugins::WysiwygPlugin::tml2html->convert(
         $_[0],
@@ -557,7 +567,8 @@ DEFAULT
     foreach my $row (@protectedByAttr) {
         if ( $tag =~ /^$row->{tag}$/i ) {
             if ( $attr =~ /^($row->{attrs})$/i ) {
-                #print STDERR "Protecting  $tag with $attr matches $row->{attrs} \n";    #debug
+
+ #print STDERR "Protecting  $tag with $attr matches $row->{attrs} \n";    #debug
                 return 1;
             }
         }
@@ -774,8 +785,8 @@ sub _restUpload {
             return;    # to prevent further processing
         }
 
-        my $maxSize =
-          Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') || 0;
+        my $maxSize = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT')
+          || 0;
         $maxSize =~ s/\s+$//;
         $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
 
@@ -786,7 +797,7 @@ sub _restUpload {
     }
 
     # SMELL: use of undocumented CGI::tmpFileName
-    my $tfp   = $query->tmpFileName( $query->param('filepath') );
+    my $tfp = $query->tmpFileName( $query->param('filepath') );
     my $error;
     try {
         Foswiki::Func::saveAttachment(
@@ -803,10 +814,12 @@ sub _restUpload {
                 filedate    => $fileDate,
                 tmpFilename => $tfp,
             }
-           );
-    } catch Error::Simple with {
+        );
+    }
+    catch Error::Simple with {
         $error = shift->{-text};
-    } finally {
+    }
+    finally {
         close($stream) if $stream;
     };
 

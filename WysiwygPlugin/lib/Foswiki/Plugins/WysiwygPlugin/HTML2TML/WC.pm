@@ -41,6 +41,7 @@ package WC;
 =cut
 
 use strict;
+use warnings;
 
 our (
     $NO_TML,    $NO_HTML,    $NO_BLOCK_TML, $NOP_ALL,

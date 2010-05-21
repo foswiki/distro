@@ -22,8 +22,8 @@ uploads.
 
 package Foswiki::Plugins::WysiwygPlugin;
 
-
 use strict;
+use warnings;
 
 use Assert;
 
@@ -31,9 +31,10 @@ our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 our $VERSION           = '$Rev$';
 
-our $RELEASE = '17 Jan 2010';
+our $RELEASE = '21 May 2010';
 
 our %xmltag;
+
 # The following are all used in Handlers, but declared here so we can
 # check them without loading the handlers module
 our $tml2html;
@@ -41,7 +42,7 @@ our $recursionBlock;
 our %FoswikiCompatibility;
 
 # Set to 1 for reasons for rejection
-sub WHY { 0 };
+sub WHY { 0 }
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
@@ -52,25 +53,25 @@ sub initPlugin {
     # the _execute function to hand off execution to
     # Foswiki::Plugins::WysiwygPlugin::Handlers. The goal is to keep this
     # module small and light so it loads fast.
-    Foswiki::Func::registerTagHandler(
-        'OWEB', sub { _execute('_OWEBTAG', @_) } );
-    Foswiki::Func::registerTagHandler(
-        'OTOPIC', sub { _execute('_OTOPICTAG', @_) } );
-    Foswiki::Func::registerTagHandler(
-        'WYSIWYG_TEXT', sub { _execute('_WYSIWYG_TEXT', @_) } );
-    Foswiki::Func::registerTagHandler(
-        'JAVASCRIPT_TEXT', sub { _execute('_JAVASCRIPT_TEXT', @_) } );
-    Foswiki::Func::registerTagHandler(
-        'WYSIWYG_SECRET_ID', sub { _execute('_SECRET_ID', @_) } );
+    Foswiki::Func::registerTagHandler( 'OWEB',
+        sub { _execute( '_OWEBTAG', @_ ) } );
+    Foswiki::Func::registerTagHandler( 'OTOPIC',
+        sub { _execute( '_OTOPICTAG', @_ ) } );
+    Foswiki::Func::registerTagHandler( 'WYSIWYG_TEXT',
+        sub { _execute( '_WYSIWYG_TEXT', @_ ) } );
+    Foswiki::Func::registerTagHandler( 'JAVASCRIPT_TEXT',
+        sub { _execute( '_JAVASCRIPT_TEXT', @_ ) } );
+    Foswiki::Func::registerTagHandler( 'WYSIWYG_SECRET_ID',
+        sub { _execute( '_SECRET_ID', @_ ) } );
 
-    Foswiki::Func::registerRESTHandler(
-        'tml2html', sub { _execute('_restTML2HTML', @_) } );
-    Foswiki::Func::registerRESTHandler(
-        'html2tml', sub { _execute('_restHTML2TML', @_) } );
-    Foswiki::Func::registerRESTHandler(
-        'upload', sub { _execute('_restUpload', @_) } );
-    Foswiki::Func::registerRESTHandler(
-        'attachments', sub { _execute('_restAttachments', @_) } );
+    Foswiki::Func::registerRESTHandler( 'tml2html',
+        sub { _execute( '_restTML2HTML', @_ ) } );
+    Foswiki::Func::registerRESTHandler( 'html2tml',
+        sub { _execute( '_restHTML2TML', @_ ) } );
+    Foswiki::Func::registerRESTHandler( 'upload',
+        sub { _execute( '_restUpload', @_ ) } );
+    Foswiki::Func::registerRESTHandler( 'attachments',
+        sub { _execute( '_restAttachments', @_ ) } );
 
     # Plugin correctly initialized
     return 1;
@@ -80,7 +81,7 @@ sub _execute {
     my $fn = shift;
 
     require Foswiki::Plugins::WysiwygPlugin::Handlers;
-    $fn = 'Foswiki::Plugins::WysiwygPlugin::Handlers::'.$fn;
+    $fn = 'Foswiki::Plugins::WysiwygPlugin::Handlers::' . $fn;
     no strict 'refs';
     return &$fn(@_);
     use strict 'refs';
@@ -106,11 +107,11 @@ sub notWysiwygEditable {
           || '';
     }
 
-    # Check for explicit exclusions before generic, non-configurable 
+    # Check for explicit exclusions before generic, non-configurable
     # purely content-related reasons for exclusion
     if ($exclusions) {
-        my $calls_ok = Foswiki::Func::getPreferencesValue(
-            'WYSIWYG_EDITABLE_CALLS')
+        my $calls_ok =
+          Foswiki::Func::getPreferencesValue('WYSIWYG_EDITABLE_CALLS')
           || '---';
         $calls_ok =~ s/\s//g;
 
@@ -146,17 +147,17 @@ sub notWysiwygEditable {
         }
     }
 
-    # Copy the content. 
+    # Copy the content.
     # Then crunch verbatim blocks, because verbatim blocks may
     # contain *anything*.
     my $text = $_[0];
 
     # Look for combinations of sticky and other markup that cause
     # problems together
-    for my $tag ('literal', keys %xmltag) {
-        while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
+    for my $tag ( 'literal', keys %xmltag ) {
+        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ($inner =~ /<sticky\b[^>]*>/i) {
+            if ( $inner =~ /<sticky\b[^>]*>/i ) {
                 print STDERR "WYSIWYG_DEBUG: <sticky> inside <$tag>\n"
                   if (WHY);
                 return "<sticky> inside <$tag>";
@@ -165,7 +166,8 @@ sub notWysiwygEditable {
     }
 
     my $wasAVerbatimTag = "\000verbatim\001";
-    while ($text =~ s/<verbatim\b[^>]*>(.*?)<\/verbatim>/$wasAVerbatimTag/i) {
+    while ( $text =~ s/<verbatim\b[^>]*>(.*?)<\/verbatim>/$wasAVerbatimTag/i ) {
+
         #my $content = $1;
         # If there is any content that breaks conversion if it is inside
         # a verbatim block, check for it here:
@@ -173,10 +175,10 @@ sub notWysiwygEditable {
 
     # Look for combinations of verbatim and other markup that cause
     # problems together
-    for my $tag ('literal', keys %xmltag) {
-        while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
+    for my $tag ( 'literal', keys %xmltag ) {
+        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ($inner =~ /$wasAVerbatimTag/i) {
+            if ( $inner =~ /$wasAVerbatimTag/i ) {
                 print STDERR "WYSIWYG_DEBUG: <verbatim> inside <$tag>\n"
                   if (WHY);
                 return "<verbatim> inside <$tag>";
@@ -186,10 +188,10 @@ sub notWysiwygEditable {
 
     # Look for combinations of literal and other markup that cause
     # problems together
-    for my $tag (keys %xmltag) {
-        while ($text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi) {
+    for my $tag ( keys %xmltag ) {
+        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ($inner =~ /<literal\b[^>]*>/i) {
+            if ( $inner =~ /<literal\b[^>]*>/i ) {
                 print STDERR "WYSIWYG_DEBUG: <literal> inside <$tag>\n"
                   if (WHY);
                 return "<literal> inside <$tag>";
@@ -202,11 +204,12 @@ sub notWysiwygEditable {
     # earlier checks)
     eval {
         require Foswiki::Plugins::WysiwygPlugin::Handlers;
-        Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML(
-            $_[0], 'Fakewebname', 'FakeTopicName', dieOnError => 1 );
+        Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML( $_[0],
+            'Fakewebname', 'FakeTopicName', dieOnError => 1 );
     };
     if ($@) {
-        print STDERR "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@\n"
+        print STDERR
+          "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@\n"
           if (WHY);
         return "TML2HTML conversion fails";
     }
@@ -225,25 +228,26 @@ sub postConvertURL {
 }
 
 sub beforeEditHandler {
-    _execute('beforeEditHandler', @_);
+    _execute( 'beforeEditHandler', @_ );
 }
 
 sub beforeSaveHandler {
-    _execute('beforeSaveHandler', @_);
+    _execute( 'beforeSaveHandler', @_ );
 }
 
 sub beforeMergeHandler {
-    _execute('beforeMergeHandler', @_);
+    _execute( 'beforeMergeHandler', @_ );
 }
 
 sub afterEditHandler {
-    _execute('afterEditHandler', @_);
+    _execute( 'afterEditHandler', @_ );
 }
 
 # The next few handlers have to be executed on topic views, so have to
 # avoid lazy-loading the handlers unless absolutely necessary.
 
 $FoswikiCompatibility{startRenderingHandler} = 2.1;
+
 sub startRenderingHandler {
     $_[0] =~ s#</?sticky>##g;
 }
@@ -257,19 +261,19 @@ sub beforeCommonTagsHandler {
     return unless $query;
 
     return unless defined( $query->param('wysiwyg_edit') );
-    _execute('beforeCommonTagsHandler', @_);
+    _execute( 'beforeCommonTagsHandler', @_ );
 }
 
 sub postRenderingHandler {
     return if ( $recursionBlock || !$tml2html );
-    _execute('postRenderingHandler', @_);
+    _execute( 'postRenderingHandler', @_ );
 }
 
 sub modifyHeaderHandler {
     my ( $headers, $query ) = @_;
 
     if ( $query->param('wysiwyg_edit') ) {
-        _execute('modifyHeaderHandler', @_);
+        _execute( 'modifyHeaderHandler', @_ );
     }
 }
 

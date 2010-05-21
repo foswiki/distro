@@ -3,6 +3,7 @@
 package Foswiki::Plugins::WysiwygPlugin::Constants;
 
 use strict;
+use warnings;
 
 # HTML elements that are strictly block type, as defined by
 # http://www.htmlhelp.com/reference/html40/block.html.

@@ -29,22 +29,30 @@ use Foswiki::Plugins::WysiwygPlugin::Handlers;
 # we are testing deprecated syntax.
 my $data = [
     {
-        exec => $TranslatorBase::ROUNDTRIP | $TranslatorBase::HTML2TML | $TranslatorBase::TML2HTML,
+        exec => $TranslatorBase::ROUNDTRIP | $TranslatorBase::HTML2TML |
+          $TranslatorBase::TML2HTML,
         name => 'linkAtStart',
         tml  => 'LinkAtStart',
-        html => '<p>' . $TranslatorBase::linkon . 'LinkAtStart' . $TranslatorBase::linkoff . '</p>',
+        html => '<p>'
+          . $TranslatorBase::linkon
+          . 'LinkAtStart'
+          . $TranslatorBase::linkoff . '</p>',
     },
     {
         exec => $TranslatorBase::ROUNDTRIP,
         name => 'otherWebLinkAtStart',
         tml  => 'OtherWeb.LinkAtStart',
-        html => $TranslatorBase::linkon . 'OtherWeb.LinkAtStart' . $TranslatorBase::linkoff,
+        html => $TranslatorBase::linkon
+          . 'OtherWeb.LinkAtStart'
+          . $TranslatorBase::linkoff,
     },
     {
-        exec     => $TranslatorBase::ROUNDTRIP,
-        name     => 'currentWebLinkAtStart',
-        tml      => 'Current.LinkAtStart',
-        html     => $TranslatorBase::linkon . 'Current.LinkAtStart' . $TranslatorBase::linkoff,
+        exec => $TranslatorBase::ROUNDTRIP,
+        name => 'currentWebLinkAtStart',
+        tml  => 'Current.LinkAtStart',
+        html => $TranslatorBase::linkon
+          . 'Current.LinkAtStart'
+          . $TranslatorBase::linkoff,
         finaltml => 'Current.LinkAtStart',
     },
     {
@@ -123,10 +131,9 @@ HERE
 THERE
     },
 
-
-    { # Copied on 29 April 2010 from
-      # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
-      # and then split into multiple tests to make analysing the result managable
+    {    # Copied on 29 April 2010 from
+           # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
+         # and then split into multiple tests to make analysing the result managable
         name => 'KennethsNewLineEatingTest1',
         exec => $TranslatorBase::ROUNDTRIP,
         tml  => <<HERE,
@@ -236,7 +243,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest5',
-        exec => 0,# fails $TranslatorBase::ROUNDTRIP,
+        exec => 0,                           # fails $TranslatorBase::ROUNDTRIP,
         tml  => <<HERE,
 ---+++ Some stuff protected by literal
 
@@ -266,7 +273,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest6',
-        exec => 0,# fails $TranslatorBase::ROUNDTRIP,
+        exec => 0,                           # fails $TranslatorBase::ROUNDTRIP,
         tml  => <<HERE,
 
 ---+++ Plain text
@@ -307,7 +314,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest7',
-        exec => 0,# fails $TranslatorBase::ROUNDTRIP,
+        exec => 0,                           # fails $TranslatorBase::ROUNDTRIP,
         tml  => <<HERE,
 
 ---+++ Literal after header
@@ -334,7 +341,6 @@ HERE
     },
 ];
 
-
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
@@ -348,13 +354,13 @@ sub _init {
 
     $this->{editor}->init();
 
-    if (not defined $this->{editor}->editorMode()) {
-        $this->{editor}->openWysiwygEditor($this->{test_web}, $this->{test_topic});
+    if ( not defined $this->{editor}->editorMode() ) {
+        $this->{editor}
+          ->openWysiwygEditor( $this->{test_web}, $this->{test_topic} );
     }
 }
 
-sub DESTROY
-{
+sub DESTROY {
     my $this = shift;
 
     $this->{editor}->finish();
@@ -362,28 +368,29 @@ sub DESTROY
     $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
 
-
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
 
     $this->_init();
 
     $this->{editor}->selectWikitextMode();
-    $this->{editor}->setWikitextEditorContent($args->{tml});
+    $this->{editor}->setWikitextEditorContent( $args->{tml} );
     $this->{editor}->selectWysiwygMode();
     my $actualHtml = $this->{editor}->getWysiwygEditorContent();
 
-    #SMELL: Selenium on Firefox returns <br> instead of <br />, and similarly for <hr />
+#SMELL: Selenium on Firefox returns <br> instead of <br />, and similarly for <hr />
     $actualHtml =~ s{<([bh]r[^/>]*)>}{<$1 />}g;
 
-    $actualHtml =~ s/^<!--$Foswiki::Plugins::WysiwygPlugin::Handlers::SECRET_ID-->//go
-      or $this->assert(0, "HTML did not contain the secret ID\n$actualHtml");
+    $actualHtml =~
+      s/^<!--$Foswiki::Plugins::WysiwygPlugin::Handlers::SECRET_ID-->//go
+      or $this->assert( 0, "HTML did not contain the secret ID\n$actualHtml" );
     $this->assert_html_equals( $args->{html}, $actualHtml );
 }
 
 sub compareNotWysiwygEditable {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)."::compareNotWysiwygEditable not implemented");
+    $this->assert( 0,
+        ref($this) . "::compareNotWysiwygEditable not implemented" );
 }
 
 sub compareRoundTrip {
@@ -393,16 +400,16 @@ sub compareRoundTrip {
     $this->_init();
 
     $this->{editor}->selectWikitextMode();
-    $this->{editor}->setWikitextEditorContent($args->{tml});
+    $this->{editor}->setWikitextEditorContent( $args->{tml} );
     $this->{editor}->selectWysiwygMode();
     my $actualHtml = $this->{editor}->getWysiwygEditorContent();
-	#print STDERR "HTML [$actualHtml]\n";
+
+    #print STDERR "HTML [$actualHtml]\n";
     $this->{editor}->selectWikitextMode();
     my $actualTml = $this->{editor}->getWikitextEditorContent();
 
     $this->assert_tml_equals( $args->{finaltml} || $args->{tml},
-                              $actualTml,
-                              $args->{name} );
+        $actualTml, $args->{name} );
 }
 
 sub compareHTML_TML {
@@ -411,16 +418,14 @@ sub compareHTML_TML {
     $this->_init();
 
     $this->{editor}->selectWysiwygMode();
-    $this->{editor}->setWysiwygEditorContent($args->{html});
+    $this->{editor}->setWysiwygEditorContent( $args->{html} );
     $this->{editor}->selectWikitextMode();
     my $actualTml = $this->{editor}->getWikitextEditorContent();
 
-    $this->assert_tml_equals( $args->{tml},
-                              $actualTml,
-                              $args->{name} );
+    $this->assert_tml_equals( $args->{tml}, $actualTml, $args->{name} );
 }
 
-BrowserTranslatorTests->gen_compare_tests('verify', $data);
+BrowserTranslatorTests->gen_compare_tests( 'verify', $data );
 
 1;
 

@@ -26,7 +26,8 @@ use Unit::TestSuite;
 our @ISA = 'Unit::TestSuite';
 
 sub include_tests {
-    return qw(TranslatorTests ExtendedTranslatorTests WysiwygPluginTests BrowserTranslatorTests);
+    return
+      qw(TranslatorTests ExtendedTranslatorTests WysiwygPluginTests BrowserTranslatorTests);
 }
 
 1;

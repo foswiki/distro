@@ -2,6 +2,7 @@
 package Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base;
 
 use strict;
+use warnings;
 
 use Assert;
 

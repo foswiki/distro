@@ -151,9 +151,8 @@ sub TML2HTML_test {
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
-            my $ok =
-              Foswiki::Plugins::WysiwygPlugin::Handlers::_restTML2HTML( $foswiki, undef,
-                undef, $foswiki->{response} );
+            my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::_restTML2HTML(
+                $foswiki, undef, undef, $foswiki->{response} );
             $Foswiki::engine->finalize( $foswiki->{response},
                 $foswiki->{request} );
             return $ok;
@@ -206,9 +205,8 @@ sub HTML2TML_test {
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
-            my $ok =
-              Foswiki::Plugins::WysiwygPlugin::Handlers::_restHTML2TML( $foswiki, undef,
-                undef, $foswiki->{response} );
+            my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::_restHTML2TML(
+                $foswiki, undef, undef, $foswiki->{response} );
             $Foswiki::engine->finalize( $foswiki->{response},
                 $foswiki->{request} );
             return $ok;

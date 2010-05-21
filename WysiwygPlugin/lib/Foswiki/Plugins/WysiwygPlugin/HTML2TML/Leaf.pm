@@ -32,6 +32,7 @@ use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base;
 our @ISA = qw( Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base );
 
 use strict;
+use warnings;
 
 sub new {
     my ( $class, $text ) = @_;

@@ -245,7 +245,8 @@ BLAH
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
-            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'dot', sub { 1 } );
+            Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'dot',
+                sub { 1 } );
         },
         tml => <<'DOT',
 <dot>
@@ -821,6 +822,6 @@ sub TML_HTMLconverterOptions {
     return $options;
 }
 
-ExtendedTranslatorTests->gen_compare_tests('test', $data);
+ExtendedTranslatorTests->gen_compare_tests( 'test', $data );
 
 1;

@@ -37,6 +37,7 @@ use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base;
 our @ISA = qw( Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base );
 
 use strict;
+use warnings;
 
 use Foswiki::Func;    # needed for regular expressions
 use Assert;
@@ -613,9 +614,9 @@ sub _htmlParams {
     my ( $attrs, $options ) = @_;
     my @params;
 
-    # Sort the attributes when converting back to TML 
+    # Sort the attributes when converting back to TML
     # so that the conversion is deterministic
-    for my $k (sort keys %$attrs) {
+    for my $k ( sort keys %$attrs ) {
         next unless $k;
         my $v = $attrs->{$k};
         if ( $k eq 'class' ) {
@@ -663,8 +664,8 @@ sub _isProtectedByAttrs {
     foreach my $attr ( keys %{ $this->{attrs} } ) {
         next unless length( $this->{attrs}->{$attr} );    # ignore nulls
         return $attr
-          if Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr( $this->{tag},
-            $attr );
+          if Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+            $this->{tag}, $attr );
     }
     return 0;
 }
@@ -840,7 +841,7 @@ sub _isConvertableTable {
     }
 
     my $rowspan = undef;
-    $rowspan    = [] if Foswiki::Func::getContext()->{'TablePluginEnabled'};
+    $rowspan = [] if Foswiki::Func::getContext()->{'TablePluginEnabled'};
 
     my $kid = $this->{head};
     while ($kid) {
@@ -985,37 +986,37 @@ sub _isConvertableTableRow {
 }
 
 # Remove the P tag from a table cell when it surrounds the whole content
-# These "wrapper P tags" come from TMCE, when you press Enter 
+# These "wrapper P tags" come from TMCE, when you press Enter
 # in a table cell. They are impossible to remove in TMCE itself
 # and they mess up the vertical alignment of table text.
 sub _removePWrapper {
     my $this = shift;
 
-    # Find the first kid that is a tag, 
+    # Find the first kid that is a tag,
     # keeping track of any content before it
-    my $kid = $this->{head};
+    my $kid            = $this->{head};
     my $leadingContent = '';
-    while ($kid->{next} and not $kid->{tag}) {
+    while ( $kid->{next} and not $kid->{tag} ) {
         $leadingContent .= $kid->{text};
         $kid = $kid->{next};
     }
 
     # If there are no enclosed tags, then there is nothing further to do
-    return unless $kid; 
-    return unless $kid->{tag}; 
+    return unless $kid;
+    return unless $kid->{tag};
 
     # If there is something (non-whitespace) before the first tag,
     # then there is nothing further to do
-    return if $leadingContent =~ /\S/; 
+    return if $leadingContent =~ /\S/;
 
     # This is the first node (tag)
     my $firstNodeKid = $kid;
 
-    # Find the last kid that is a tag, 
+    # Find the last kid that is a tag,
     # keeping track of any content after it
     $kid = $this->{tail};
     my $trailingContent = '';
-    while ($kid->{prev} and not $kid->{tag}) {
+    while ( $kid->{prev} and not $kid->{tag} ) {
         $trailingContent .= $kid->{text};
         $kid = $kid->{prev};
     }
@@ -1023,10 +1024,10 @@ sub _removePWrapper {
     # Note that there is at least one kid that is a node (tag)
     # so the checks here are for safety's sake
     ASSERT($kid) if DEBUG;
-    ASSERT($kid->{tag}) if DEBUG;
-    return unless $kid; 
-    return unless $kid->{tag}; 
-    
+    ASSERT( $kid->{tag} ) if DEBUG;
+    return unless $kid;
+    return unless $kid->{tag};
+
     # If there is something (non-whitespace) after the last tag,
     # then there is nothing further to do
     return if $trailingContent =~ /\S/;
@@ -1039,11 +1040,13 @@ sub _removePWrapper {
     return unless $firstNodeKid eq $lastNodeKid;
 
     # There is only a problem if the surrounding tag is a <p> tag
-    return unless uc($firstNodeKid->{tag}) eq 'P'; 
+    return unless uc( $firstNodeKid->{tag} ) eq 'P';
 
     $firstNodeKid->_remove();
+
     # Check if the tag has attributes
     if ( keys %{ $firstNodeKid->{attrs} } ) {
+
         # Replace the wrapper P tag with a span
         my $newspan =
           new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node( $this->{context},
@@ -1052,6 +1055,7 @@ sub _removePWrapper {
         $this->addChild($newspan);
     }
     else {
+
         # Remove the wrapper P tag
         $this->_eat($firstNodeKid);
     }
@@ -1283,12 +1287,14 @@ sub cleanNode {
     }
 
     # Sometimes (rarely!) there's a <span id='__caret'> </span>, an artifact of
-    # one of the strategies TinyMCE uses to recover lost cursor positioning, 
+    # one of the strategies TinyMCE uses to recover lost cursor positioning,
     # see Item2618 where this can break TML tables. #SMELL: TMCE specific
-    if ( ( $this->{tag} eq 'span' ) && ( defined $this->{attrs}->{id} ) && 
-        ( $this->{attrs}->{id} eq '__caret' ) ) {
-        $this->{tag} = q{};
-        $this->{attrs} = {};
+    if (   ( $this->{tag} eq 'span' )
+        && ( defined $this->{attrs}->{id} )
+        && ( $this->{attrs}->{id} eq '__caret' ) )
+    {
+        $this->{tag}      = q{};
+        $this->{attrs}    = {};
         $this->{nodeType} = 0;
     }
 }
@@ -1571,17 +1577,17 @@ sub _handleP {
     my ( $f, $kids ) = $this->_flatten($options);
     return ( $f, '<p>' . $kids . '</p>' ) if ( $options & $WC::NO_BLOCK_TML );
     my $prevNode = $this->{prev};
-    if ($prevNode and not $prevNode->{tag}) {
+    if ( $prevNode and not $prevNode->{tag} ) {
         $prevNode = $prevNode->{prev};
     }
-    my $afterTable = ($prevNode and uc( $prevNode->{tag} ) eq 'TABLE');
+    my $afterTable = ( $prevNode and uc( $prevNode->{tag} ) eq 'TABLE' );
     my $nextNode = $this->{next};
-    if ($nextNode and not $nextNode->{tag}) {
+    if ( $nextNode and not $nextNode->{tag} ) {
         $nextNode = $nextNode->{next};
     }
-    my $beforeTable = ($nextNode and uc( $nextNode->{tag} ) eq 'TABLE');
+    my $beforeTable = ( $nextNode and uc( $nextNode->{tag} ) eq 'TABLE' );
     my $pre;
-    if ( $afterTable and not $beforeTable) {
+    if ( $afterTable and not $beforeTable ) {
         $pre = '';
     }
     elsif ( $this->prevIsInline() ) {

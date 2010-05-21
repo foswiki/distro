@@ -280,14 +280,16 @@ BLAH
     {
         exec => $HTML2TML,
         name => 'ttClassAndPInTable',
-        html => '<table><tr><td class="WYSIWYG_TT"><p>Code</p></td></tr></table>',
-        tml  => '| =Code= |'
+        html =>
+          '<table><tr><td class="WYSIWYG_TT"><p>Code</p></td></tr></table>',
+        tml => '| =Code= |'
     },
     {
         exec => $HTML2TML,
         name => 'ttClassPInTable',
-        html => '<table><tr><td><p class="WYSIWYG_TT">Code</p></td></tr></table>',
-        tml  => '| =Code= |'
+        html =>
+          '<table><tr><td><p class="WYSIWYG_TT">Code</p></td></tr></table>',
+        tml => '| =Code= |'
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
@@ -342,7 +344,7 @@ BLAH
 <tr><td><p>X</p><p>Y</p></td></tr>
 </table>
 HTML
-        tml  => <<'TML',
+        tml => <<'TML',
 | X Y |
 | X Y |
 | X<p> Y</p> |
@@ -983,7 +985,7 @@ Outside <pre class="foswikiAlert TMLverbatim"><br />&nbsp;&nbsp;Inside<br />&nbs
     {
         name => 'verbatimWithClassForJqChili',
         exec => $ROUNDTRIP,
-        tml => <<'HERE',
+        tml  => <<'HERE',
 <verbatim class="tml">
 %STARTSECTION{"formfield"}%%FORMFIELD{
   "%URLPARAM{"formfield" default="does not exist"}%"
@@ -1604,7 +1606,7 @@ FGFG
 <span class="WYSIWYG_PROTECTED">&lt;/section&gt;</span>
 X</p>
 ',
-        finaltml  => <<FGFG,
+        finaltml => <<FGFG,
 ---+ A
 
 <section>
@@ -2344,7 +2346,7 @@ HERE
     {
         name => "brTagInMacroFormat",
         exec => $ROUNDTRIP,
-        tml => <<'HERE',
+        tml  => <<'HERE',
 %JQPLUGINS{"scrollto"
   format="
     Homepage: $homepage <br />
@@ -2355,7 +2357,6 @@ HERE
 HERE
     }
 ];
-
 
 # Run from BEGIN
 sub gen_file_tests {
@@ -2543,7 +2544,7 @@ sub convertImage {
     }
 }
 
-TranslatorTests->gen_compare_tests('test', $data);
+TranslatorTests->gen_compare_tests( 'test', $data );
 
 #gen_file_tests();
 

@@ -16,6 +16,7 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package TranslatorBase;
+
 # This is a base class for translator tests,
 # intended as a mixin with FoswikiTestCase or a class derived from it
 
@@ -64,9 +65,9 @@ our $linkoff    = '</span>';
 our $nop        = "$protecton<nop>$protectoff";
 
 sub gen_compare_tests {
-    my $class = shift;
+    my $class  = shift;
     my $method = shift;
-    my $data = shift;
+    my $data   = shift;
     my %picked = map { $_ => 1 } @_;
     for ( my $i = 0 ; $i < scalar(@$data) ; $i++ ) {
         my $datum = $data->[$i];
@@ -92,7 +93,8 @@ sub gen_compare_tests {
             use strict 'refs';
         }
         if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
-            my $fn = $class . '::' . $method . 'CANNOTWYSIWYG_' . $datum->{name};
+            my $fn =
+              $class . '::' . $method . 'CANNOTWYSIWYG_' . $datum->{name};
             no strict 'refs';
             *$fn =
               sub { my $this = shift; $this->compareNotWysiwygEditable($datum) };
@@ -103,22 +105,22 @@ sub gen_compare_tests {
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)." must override compareTML_HTML");
+    $this->assert( 0, ref($this) . " must override compareTML_HTML" );
 }
 
 sub compareNotWysiwygEditable {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)." must override compareNotWysiwygEditable");
+    $this->assert( 0, ref($this) . " must override compareNotWysiwygEditable" );
 }
 
 sub compareRoundTrip {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)." must override compareRoundTrip");
+    $this->assert( 0, ref($this) . " must override compareRoundTrip" );
 }
 
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
-    $this->assert(0, ref($this)." must override compareHTML_TML");
+    $this->assert( 0, ref($this) . " must override compareHTML_TML" );
 }
 
 sub encode {
