@@ -17,6 +17,21 @@ use HTML::Tidy;
 our $UI_FN;
 our $SCRIPT_NAME;
 our $SKIN_NAME;
+our %expected_status = (
+        search  => 302,
+        save  => 302
+);
+
+#TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
+our %expect_non_html = (
+        rest  => 1,
+        viewfile => 1,
+        register => 1,       #TODO: missing action make it throw an exception
+        manage => 1,       #TODO: missing action make it throw an exception
+        upload => 1,         #TODO: zero size upload   
+        resetpasswd => 1,
+);
+
 
 sub new {
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
@@ -110,7 +125,6 @@ sub call_UI_FN {
         {
             webName   => [$web],
             topicName => [$topic],
-
    #            template  => [$tmpl],
    #debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
             skin => $SKIN_NAME
@@ -122,34 +136,52 @@ sub call_UI_FN {
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
     $ENV{FOSWIKI_ASSERTS} = 0;
     my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
-    my ( $status, $header, $text );
+    my ($responseText, $result, $stdout, $stderr);
+    $responseText = "Status: 500";      #errr, boom
     try {
-        ($text, $status) = $this->captureWithKey(
-            switchboard => sub {
-                no strict 'refs';
-                &${UI_FN}($fatwilly);
-                use strict 'refs';
-                $Foswiki::engine->finalize( $fatwilly->{response},
-                    $fatwilly->{request} );
-            }
-        );
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $text = $e->stringify();
-    }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $text = $e->stringify();
-    };
+		($responseText, $result, $stdout, $stderr) = $this->captureWithKey( switchboard =>
+		    sub {
+		        no strict 'refs';
+		        &${UI_FN}($fatwilly);
+		        use strict 'refs';
+		        $Foswiki::engine->finalize( $fatwilly->{response},
+		            $fatwilly->{request} );
+		    }
+		);
+	} catch Foswiki::OopsException with {
+		my $e = shift;
+		$responseText = $e->stringify();
+	} catch Foswiki::EngineException with {
+		my $e = shift;
+		$responseText = $e->stringify();
+	};
     $fatwilly->finish();
+
+    $this->assert($responseText);
 
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
-    $text =~ s/^(.*?)$CRLF$CRLF//s;
-    $header = $1;             # untaint is OK, it's a test
+    my ($header, $body);
+    if ($responseText =~ /^(.*?)$CRLF$CRLF(.*)$/s) {
+        $header = $1;      # untaint is OK, it's a test
+        $body = $2;
+    } else {
+        $header = '';
+        $body = $responseText;
+    }
 
-    return ( $status, $header, $text );
+    my $status = 666;
+    if ($header =~ /Status: (\d*)./) {
+        $status = $1;
+    }
+    #aparently we allow the web server to add a 200 status thus risking that an error situation is marked as 200
+    #$this->assert_num_not_equals(666, $status, "no response Status set in probably valid reply\nHEADER: $header\n");
+    if ($status == 666) {
+        $status = 200;
+    }
+    $this->assert_num_not_equals(500, $status, 'exception thrown');
+
+    return ($status, $header, $body, $stdout, $stderr);
 }
 
 #TODO: work out why some 'Use of uninitialised vars' don't crash the test (see preview)
@@ -161,42 +193,45 @@ sub verify_switchboard_function {
 
     my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
 
-    my ( $status, $header, $text ) = $this->call_UI_FN( 'Main', 'WebHome' );
+    my ( $status, $header, $text ) = $this->call_UI_FN( 'Main', 'WebHome' );    #$this->{test_web}, $this->{test_topic} );
 
-    $this->assert_equals('200', $status);
-    #    $this->assert_equals('', $header);
-    #    $this->assert_equals('', $text);
+    $this->assert_num_equals($expected_status{$SCRIPT_NAME} || 200, $status);
+    if ($status != 302) {
+        $this->assert($text, "no body for $SCRIPT_NAME\nSTATUS: $status\nHEADER: $header");
+        $this->assert_str_not_equals('', $text, "no body for $SCRIPT_NAME\nHEADER: $header");
+        $this->{tidy}->parse( $testcase, $text );
 
-    $this->{tidy}->parse( $testcase, $text );
+        #$this->assert_null($this->{tidy}->messages());
+        my $output = join( "\n", $this->{tidy}->messages() );
 
-    #$this->assert_null($this->{tidy}->messages());
-    my $output = join( "\n", $this->{tidy}->messages() );
+        #TODO: disable missing DOCTYPE issues - we've been
+        if ( defined($expect_non_html{$SCRIPT_NAME}) and ($output =~ /missing <\!DOCTYPE> declaration/) ) {
 
-    #TODO: disable missing DOCTYPE issues - we've been
-    if ( $output =~ /missing <\!DOCTYPE> declaration/ ) {
-
-        #$this->expect_failure();
-        $this->annotate(
-            "MISSING DOCTYPE - we're returning a messy text error\n$output\n");
-    }
-    else {
-        for ($output) {    # Remove OK warnings
-                           # Empty title, no easy fix and harmless
+            #$this->expect_failure();
+            $this->annotate(
+                "MISSING DOCTYPE - we're returning a messy text error\n$output\n");
+        }
+        else {
+            for ($output) {    # Remove OK warnings
+                               # Empty title, no easy fix and harmless
 s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span)>\n?$//gm;
-            s/^\s*$//;
-        }
-        my $outfile = "${testcase}_run.html";
-        if ( $output eq '' ) {
-            unlink $outfile;    # Remove stale output file
-        }
-        else {                  # save the output html..
-            open( my $fh, '>', $outfile ) or die "Can't open $outfile: $!";
-            print $fh $text;
-            close $fh;
-        }
-        $this->assert_equals( '', $output,
+                s/^\s*$//;
+            }
+            my $outfile = "${testcase}_run.html";
+            if ( $output eq '' ) {
+                unlink $outfile;    # Remove stale output file
+            }
+            else {                  # save the output html..
+                open( my $fh, '>', $outfile ) or die "Can't open $outfile: $!";
+                print $fh $text;
+                close $fh;
+            }
+            $this->assert_equals( '', $output,
 "Script $SCRIPT_NAME, skin $SKIN_NAME gave errors, output in $outfile:\n$output"
-        );
+            );
+        }
+    } else {
+        #$this->assert_null($text);
     }
 
     #clean up messages for next run..
