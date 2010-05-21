@@ -59,6 +59,13 @@ sub set_up {
     #print STDERR "libtidy Version: ".HTML::Tidy::libtidy_version()."\n";
 
     $this->SUPER::set_up();
+
+    #the test web is made using the '_empty' web - not so useful here
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
+    $webObject->populateNewWeb('_default', {
+                        ALLOWWEBCHANGE => '',
+                        ALLOWWEBRENAME => ''
+                    });
 }
 
 sub fixture_groups {
@@ -193,7 +200,7 @@ sub verify_switchboard_function {
 
     my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
 
-    my ( $status, $header, $text ) = $this->call_UI_FN( 'Main', 'WebHome' );    #$this->{test_web}, $this->{test_topic} );
+    my ( $status, $header, $text ) = $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
     $this->assert_num_equals($expected_status{$SCRIPT_NAME} || 200, $status);
     if ($status != 302) {

@@ -473,6 +473,10 @@ an error will be thrown.
 $opts is a ref to a hash that contains settings to be modified in
 the web preferences topic in the new web.
 
+#SMELL: there seems to be no reason to call this method 'NewWeb', it can be used to copy into an existing web
+and it does not appear to be unexpectedly destructive.
+perhaps refactor into something that takes a resultset as an input list? (users have ased to be able to copy a SEARCH'd set of topics..)
+
 =cut
 
 sub populateNewWeb {
