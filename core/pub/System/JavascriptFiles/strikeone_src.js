@@ -1,5 +1,32 @@
+/*
+
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this file
+as follows:
+
+Copyright (C) Paul Johnston 1999 - 2002.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
+
+*/
+
 var md5 = {
-    /*
+    /**
      * Cut-down 8 bit MD5, taken from:
      * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
      * Digest Algorithm, as defined in RFC 1321.
@@ -12,7 +39,7 @@ var md5 = {
         return md5.binl2hex(md5.core_md5(md5.str2binl(s), s.length * 8));
     },
 
-    /*
+    /**
      * Calculate the MD5 of an array of little-endian words, and a bit length
      */
     core_md5: function(x, len) {
@@ -108,7 +135,7 @@ var md5 = {
 
     },
 
-    /*
+    /**
      * These functions implement the four basic operations the algorithm uses.
      */
     cmn: function(q, a, b, x, s, t) {
@@ -127,7 +154,7 @@ var md5 = {
         return md5.cmn(c ^ (b | (~d)), a, b, x, s, t);
     },
 
-    /*
+    /**
      * Add integers, wrapping at 2^32. This uses 16-bit operations internally
      * to work around bugs in some JS interpreters.
      */
@@ -137,14 +164,14 @@ var md5 = {
         return (msw << 16) | (lsw & 0xFFFF);
     },
 
-    /*
+    /**
      * Bitwise rotate a 32-bit number to the left.
      */
     rol: function(num, cnt) {
         return (num << cnt) | (num >>> (32 - cnt));
     },
 
-    /*
+    /**
      * Convert a string to an array of little-endian words
      * If 8 is ASCII, characters >255 have their hi-byte silently ignored.
      */
@@ -156,7 +183,7 @@ var md5 = {
         return bin;
     },
 
-    /*
+    /**
      * Convert an array of little-endian words to a hex string.
      */
     binl2hex: function(binarray) {
@@ -171,8 +198,10 @@ var md5 = {
 };
 
 var StrikeOne = {
-    // Action on form submission (this is the only function called
-    // outside this file)
+    /**
+     * Action on form submission (this is the only function called
+     * outside this file)
+     */
     submit: function(form) {
         // Read the cookie to get the secret
         var secret = StrikeOne.readCookie('FOSWIKISTRIKEONE');
@@ -189,6 +218,9 @@ var StrikeOne = {
         }
     },
 
+    /**
+     * Get and parse a document cookie value
+     */
     readCookie: function(name) {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
@@ -202,10 +234,12 @@ var StrikeOne = {
         return null;
     },
 
-    // If JS is available this will be run, if not the default message stays.
-    // The parts of the message in validate.tmpl have the css
-    // classes 's1js_missing' (meaning "show this when JS is missing" and
-    // 's1js_available' (meaning "show this when js is available")
+    /**
+     * If JS is available this will be run, if not the default message stays.
+     * The parts of the message in validate.tmpl have the css
+     * classes 's1js_missing' (meaning "show this when JS is missing" and
+     * 's1js_available' (meaning "show this when js is available")
+     */
     pcd: function() {
         var els = document.getElementsByClassName('s1js_missing');
         if (els)
@@ -218,17 +252,21 @@ var StrikeOne = {
     }
 };
 
-// Maintained for compatibility
-function foswikiStrikeOne(form) { return StrikeOne.submit(form); }
-
-// Staple the onload handler into the chain. Fingers crossed this
-// works OK with jQuery.
+/**
+ * Staple the onload handler into the chain. This duplicates foswiki.Event,
+ * but is done separately here so that strikeone can stand alone.
+ */
 if (typeof window.onload != 'function') {
     window.onload = StrikeOne.pcd;
 } else {
     var oldonload = window.onload;
     window.onload = function() {
-        StrikeOne.pcd(); oldonload();
+        StrikeOne.pcd();
+        oldonload();
     };
 }
 
+// Maintained for compatibility - do not use
+function foswikiStrikeOne(form) {
+    return StrikeOne.submit(form);
+}
