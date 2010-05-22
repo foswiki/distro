@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::PageCache
 
@@ -32,7 +32,7 @@ sub writeDebug {
     $Foswiki::Plugins::SESSION->logger->log( 'debug', @_ );
 }
 
-=pod 
+=begin TML
 
 ---++ ClassMethod new( $session ) -> $object
 
@@ -69,7 +69,7 @@ sub new {
     return bless( $this, $class );
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod genVariationKey() -> $key
 
@@ -150,7 +150,7 @@ sub genVariationKey {
     return $variationKey;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod cachePage($contentType, $text) -> $boolean
 
@@ -234,7 +234,7 @@ sub cachePage {
     return $variation;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod getPage($web, $topic)
 
@@ -303,7 +303,7 @@ sub _isCacheable {
     return $isCacheable;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addDependency($web, $topic)
 
@@ -330,7 +330,7 @@ sub addDependency {
     $this->{deps}{$depWebTopic} = 1;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod getDependencies($web, $topic, $variationKey) -> \@deps
 
@@ -382,7 +382,7 @@ sub _getDependencies {
       ->get( PAGECACHE_DEPS_KEY . $webTopic . $variationKey );
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod getRevDependencies($web, $topic) -> \@deps
 
@@ -413,7 +413,7 @@ sub _getRevDependencies {
     return $this->{metaHandler}->get( PAGECACHE_REVDEPS_KEY . $webTopic );
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod getWebDependencies($web) -> \@deps
 
@@ -509,7 +509,7 @@ sub _deleteDependency {
       ->delete( PAGECACHE_DEPS_KEY . $webTopic . $variationKey );
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod deletePage($web, $topic)
 
@@ -556,7 +556,7 @@ sub _deletePageVariation {
     $this->_deleteDependency( $webTopic, $variationKey );
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod fireDependency($web, $topic)
 
@@ -599,7 +599,7 @@ sub fireDependency {
     $this->_deletePage($webTopic);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderDirtyAreas($text)
 
@@ -669,7 +669,7 @@ sub _handleDirtyArea {
     return $text;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod finish()
 

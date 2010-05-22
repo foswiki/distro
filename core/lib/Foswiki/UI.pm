@@ -165,7 +165,7 @@ use Foswiki::Validation             ();
 # Used to lazily load UI handler modules
 our %isInitialized = ();
 
-sub TRACE_REQUEST { 0 }
+use constant TRACE_REQUEST => 0;
 
 =begin TML
 
@@ -506,7 +506,7 @@ sub checkTopicExists {
     }
 }
 
-=pod TML
+=begin TML
 
 ---++ StaticMethod checkAccess( $session, $mode, $topicObject )
 

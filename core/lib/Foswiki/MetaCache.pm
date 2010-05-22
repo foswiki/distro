@@ -24,11 +24,11 @@ use Foswiki::Meta ();
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
 
-sub TRACE { 0; }
+use constant TRACE => 0;
 
-=pod
----++ Foswiki::MetaCache::new($session)
+=begin TML
 
+---++ ClassMethod new($session)
 
 =cut
 

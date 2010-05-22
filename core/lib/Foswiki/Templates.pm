@@ -36,6 +36,11 @@ use Assert;
 
 use Foswiki::Attrs ();
 
+# Enable TRACE to get HTML comments in the output showing where templates
+# open and close. Will probably bork the output, so normally you should use
+# it with a bin/view command-line.
+use constant TRACE => 0;
+
 =begin TML
 
 ---++ ClassMethod new ( $session )
@@ -161,6 +166,7 @@ sub tmplP {
     my $val = '';
     if ( exists( $this->{VARS}->{$template} ) ) {
         $val = $this->{VARS}->{$template};
+        $val = "<!--$template-->$val<!--$template-->" if (TRACE);
         foreach my $p ( keys %$params ) {
             if ( $p eq 'then' || $p eq 'else' ) {
                 $val =~ s/%$p%/$this->expandTemplate($1)/ge;

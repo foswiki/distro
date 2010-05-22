@@ -28,8 +28,9 @@ use Foswiki::Iterator::FilterIterator ();
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::Search::InfoCache', 'getTopicListIterator');
 
-=pod
----++ Foswiki::Search::InfoCache::new($session, $defaultWeb, \@topicList)
+=begin TML
+
+---++ ClassMethod new($session, $defaultWeb, \@topicList)
 initialise a new list of topics, allowing their data to be lazy loaded if and when needed.
 
 $defaultWeb is used to qualify topics that do not have a web specifier - should expect it to be the same as BASEWEB in most cases.
@@ -108,7 +109,8 @@ sub numberOfTopics {
 }
 
 =begin TML
----++ sortResults
+
+---++ ObjectMethod sortResults($params)
 
 the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
 

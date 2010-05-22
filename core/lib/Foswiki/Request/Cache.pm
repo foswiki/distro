@@ -30,7 +30,7 @@ use Fcntl;    # File control constants e.g. O_EXCL
 use Foswiki::Request::Upload ();
 use Foswiki::Sandbox         ();
 
-sub TRACE_CACHE { 0 }
+use constant TRACE_CACHE => 0;
 
 =begin TML
 

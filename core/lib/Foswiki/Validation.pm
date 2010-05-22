@@ -50,8 +50,8 @@ object.
 
 =cut
 
-# Done as a sub to help perl optimise it away
-sub TRACE { 0 }
+# Set to 1 to trace validation steps in STDERR
+use constant TRACE => 0;
 
 # Define cookie name only once
 # WARNING: If you change this, be sure to also change the javascript

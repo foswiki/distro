@@ -41,7 +41,7 @@ use Foswiki ();
 
 # Set to 1 to trace commands to STDERR, and redirect STDERR from
 # the command subprocesses to /tmp/foswiki_sandbox.log
-sub TRACE { 0 }
+use constant TRACE => 0;
 
 our $REAL_SAFE_PIPE_OPEN;
 our $EMULATED_SAFE_PIPE_OPEN;

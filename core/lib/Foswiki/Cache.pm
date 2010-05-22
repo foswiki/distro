@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Cache
 
@@ -15,7 +15,7 @@ package Foswiki::Cache;
 use strict;
 use warnings;
 
-=pod 
+=begin TML 
 
 ---++ ClassMethod new( $session ) -> $object
 
@@ -33,7 +33,7 @@ sub new {
     return $this;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod init($session)
 
@@ -58,7 +58,7 @@ sub init {
     $this->{namespace} = $nameSpace;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod DESTROY()
 
@@ -71,7 +71,7 @@ sub DESTROY {
     $this->finish();
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod finish()
 
@@ -114,7 +114,7 @@ sub finish {
     undef $this->{delBuffer};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod genkey($string, $key) -> $key
 
@@ -138,7 +138,7 @@ sub genKey {
     return $pageKey;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod set($key, $object ... ) -> $boolean
 
@@ -167,7 +167,7 @@ sub set {
     return 1;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod get($key) -> $object
 
@@ -194,7 +194,7 @@ sub get {
     return $obj;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod delete($key) -> $boolean
 
@@ -220,7 +220,7 @@ sub delete {
     return 1;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod clear()
 
