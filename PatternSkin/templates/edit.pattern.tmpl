@@ -14,7 +14,7 @@ foswiki.Event.addLoadEvent(initForm);
 </script>%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="<h3>&#9658; %MAKETEXT{"Edit help"}%</h3>" hidelink="<h3>&#9660; %MAKETEXT{"Edit help"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="&#9658; %MAKETEXT{"Edit help"}%" hidelink="&#9660; %MAKETEXT{"Edit help"}%" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
 
 
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternEditPage%TMPL:END%
@@ -70,7 +70,7 @@ foswiki.Event.addLoadEvent(initForm);
 %TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span><!--/patternSig-->%TMPL:END%
 
 
-%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help" EDITOR_HELP="WikiSyntax"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
 
 
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%

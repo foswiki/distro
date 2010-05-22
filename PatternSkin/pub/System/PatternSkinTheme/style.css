@@ -967,6 +967,11 @@ h4.foswikiSearchResultsHeader {
 
 /* edit.pattern.tmpl */
 
+#edithelphide a span,
+#edithelpshow a span {
+	font-size:1.1em;
+}
+
 .patternNoViewPage #patternMainContents {
 	padding-top:0;
 }
