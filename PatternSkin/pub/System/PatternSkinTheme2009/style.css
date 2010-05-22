@@ -905,6 +905,10 @@ html>body #patternSideBarContents li { /* Mozilla */
 	/* no longer used in search.pattern.tmpl, but remains in rename templates */
 	margin:0 0 1em 0;
 }
+#renamehelpshow a span,
+#renamehelphide a span {
+        font-size: 1.1em; 
+}
 .patternSearchResults blockquote {
 	margin:1em 0 1em 5em;
 }
