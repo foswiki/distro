@@ -427,6 +427,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	padding:.1em .2em;
 }
 .patternAttachmentHeader {
+        font-size: 1.1em;
 	/* behaviour class */
 }
 .foswikiForm h3 a:link,

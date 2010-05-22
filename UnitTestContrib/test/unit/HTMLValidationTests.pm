@@ -217,7 +217,7 @@ sub add_attachments {
     $this->assert( open( $stream2, "<$this->{tmpdatafile2}" ) );
     binmode($stream2);
 
-    my $e = Foswiki::Func::saveAttachment(
+    Foswiki::Func::saveAttachment(
         $web, $topic, $name1,
         {
             dontlog  => 1,
@@ -228,7 +228,7 @@ sub add_attachments {
             filedate => 0,
         }
     );
-    my $e = Foswiki::Func::saveAttachment(
+    Foswiki::Func::saveAttachment(
         $web, $topic, $name2,
         {
             dontlog  => 1,
@@ -267,7 +267,6 @@ sub verify_switchboard_function {
 
         #TODO: disable missing DOCTYPE issues - we've been
         if ( defined($expect_non_html{$SCRIPT_NAME}) and ($output =~ /missing <\!DOCTYPE> declaration/) ) {
-
             #$this->expect_failure();
             $this->annotate(
                 "MISSING DOCTYPE - we're returning a messy text error\n$output\n");

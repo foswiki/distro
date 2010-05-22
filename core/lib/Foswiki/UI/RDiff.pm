@@ -58,7 +58,9 @@ sub _renderCellData {
           _renderAttrs($1, '|*FORM FIELD $title*|$name|$value|')/gem;
         $data =~ s/^%META:([A-Z]+){(.*)}%$/
           '|*META '.$1.'*|'._renderAttrs($2).'|'/gem;
-
+        if ( Foswiki::Func::getContext()->{'TablePluginEnabled'} ) {
+            $data = '%TABLE{summary="%MAKETEXT{"Attachment metadata"}%"}%' . $data;
+        }
         $data = $topicObject->expandMacros($data);
         $data = $topicObject->renderTML($data);
 
@@ -674,6 +676,8 @@ sub diff {
     $page .= $after;
 
     $session->writeCompletePage($page);
+
+    return;
 }
 
 1;
