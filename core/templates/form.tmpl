@@ -6,7 +6,7 @@
 <tr><th align="right">%ROWTITLE%%ROWEXTRA%</th><td align="left">%ROWVALUE%</td></tr>%REPEAT%<tr><th align="left" colspan="2">%ROWVALUE%</th></tr>%REPEAT% %TMPL:END%
 
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
-<div class="foswikiForm foswikiEditForm"><table class="foswikiFormTable" summary="data form table">
+<div class="foswikiForm foswikiEditForm"><table class="foswikiFormTable" summary="%MAKETEXT{"Form data"}%">
 <tr>
 <th class="foswikiFormTableHRow" colspan="2">%FORMTITLE% %TMPL:P{"changeform"}%</th>
 </tr>%TMPL:P{"repeatedformrows"}%</table>%TMPL:P{"formtail"}%</div>

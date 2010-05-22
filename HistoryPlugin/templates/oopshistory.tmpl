@@ -30,7 +30,7 @@ This version is tested with TWiki 4.2.0 and 4.1.2 and Foswiki in IE6, IE7 and FF
 %TMPL:DEF{"historytable"}%%TMPL:P{context="RevCommentPluginEnabled" then="historytable_rcp_enabled" else="historytable_rcp_disabled"}%%TMPL:END%
 
 
-%TMPL:DEF{"historytable_rcp_enabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5">
+%TMPL:DEF{"historytable_rcp_enabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5" summary="%MAKETEXT{"Topic history"}%">
 <tr>
 <th colspan="3">%MAKETEXT{"Revision"}%</th>
 <th>%MAKETEXT{"Date"}%</th>
@@ -41,7 +41,7 @@ This version is tested with TWiki 4.2.0 and 4.1.2 and Foswiki in IE6, IE7 and FF
 </table>%TMPL:END%
 
 
-%TMPL:DEF{"historytable_rcp_disabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5" summary="">
+%TMPL:DEF{"historytable_rcp_disabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5" summary="%MAKETEXT{"Topic history"}%">
 <tr>
 <th colspan="3">%MAKETEXT{"Revision"}%</th>
 <th>%MAKETEXT{"Date"}%</th>

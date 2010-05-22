@@ -12,7 +12,8 @@
 %TMPL:DEF{ATTACH:files:row(basic)}%| %A_ICON%<span class="foswikiHidden">%A_EXT%</span> | <a href="%ATTACHURLPATH%/%ENCODE{%A_FILE%}%"><noautolink>%A_FILE%</noautolink></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"%A_FILE%"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  %A_SIZE%|<span class="foswikiNoBreak">%A_DATE%</span> |%A_USER%  |%A_COMMENT%  |%TMPL:END%
 
 %{ Header for topic attachment table }%
-%TMPL:DEF{ATTACH:files:header}%%TMPL:P{ATTACH:files:header(basic)}%
+%TMPL:DEF{ATTACH:files:header}%%TABLE{summary="%MAKETEXT{"Attachments"}%"}%
+%TMPL:P{ATTACH:files:header(basic)}%
 %TMPL:END%
 
 %{ Row for topic attachment table }%
@@ -23,7 +24,8 @@
 %TMPL:DEF{ATTACH:files:footer}%</div>%TMPL:END%
 
 %{ Header for table at top of attach screen }%
-%TMPL:DEF{ATTACH:files:header:A}%%TMPL:P{ATTACH:files:header(basic)}% *%MAKETEXT{"Attribute"}%* |
+%TMPL:DEF{ATTACH:files:header:A}%%TABLE{summary="%MAKETEXT{"Attachments"}%"}%
+%TMPL:P{ATTACH:files:header(basic)}% *%MAKETEXT{"Attribute"}%* |
 %TMPL:END%
 
 %{ Row for table at top of attach screen }%
@@ -34,7 +36,8 @@
 %TMPL:DEF{ATTACH:files:footer:A}%</div>%TMPL:END%
 
 %{ Header for versions table in attach screen }%
-%TMPL:DEF{ATTACH:versions:header}%|  *%MAKETEXT{"Version"}%*  |  *%MAKETEXT{"Action"}%*   |  *%MAKETEXT{"Date"}%*  |  *%MAKETEXT{"Who"}%*  |  *%MAKETEXT{"Comment"}%*  |
+%TMPL:DEF{ATTACH:versions:header}%%TABLE{summary="%MAKETEXT{"Attachment history"}%"}%
+|  *%MAKETEXT{"Version"}%*  |  *%MAKETEXT{"Action"}%*   |  *%MAKETEXT{"Date"}%*  |  *%MAKETEXT{"Who"}%*  |  *%MAKETEXT{"Comment"}%*  |
 %TMPL:END%
 
 %{ Row for versions table in attach screen }%

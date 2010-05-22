@@ -191,6 +191,58 @@ sub call_UI_FN {
     return ($status, $header, $body, $stdout, $stderr);
 }
 
+sub add_attachments {
+    my ($this, $web, $topic) = @_;
+
+    my $data1  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
+    my $name1 = 'blahblahblah.gif';
+    my $name2 = 'bleagh.sniff';
+    $this->{tmpdatafile1} = $Foswiki::cfg{TempfileDir} . $name1;
+    $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir} . $name2;
+
+    my $stream1;
+    $this->assert( open( $stream1, ">$this->{tmpdatafile1}" ) );
+    binmode($stream1);
+    print $stream1 $data1;
+    close($stream1);
+    $this->assert( open( $stream1, "<$this->{tmpdatafile1}" ) );
+    binmode($stream1);
+
+    my $stream2;
+    $this->assert( open( $stream2, ">$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+    print $stream2 $data2;
+    close($stream2);
+    $this->assert( open( $stream2, "<$this->{tmpdatafile2}" ) );
+    binmode($stream2);
+
+    my $e = Foswiki::Func::saveAttachment(
+        $web, $topic, $name1,
+        {
+            dontlog  => 1,
+            comment  => 'Feasgar Bha',
+            stream   => $stream1,
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    my $e = Foswiki::Func::saveAttachment(
+        $web, $topic, $name2,
+        {
+            dontlog  => 1,
+            comment  => 'Feasgar Bha2',
+            stream   => $stream2,
+            filepath => '/local/file2',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+
+    return;
+}
+
 #TODO: work out why some 'Use of uninitialised vars' don't crash the test (see preview)
 #this verifies that the code called by default 'runs' with ASSERTs on
 #which would have been enough to pick up Item2342
@@ -199,6 +251,8 @@ sub verify_switchboard_function {
     my $this = shift;
 
     my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
+
+    add_attachments($this, $this->{test_web}, $this->{test_topic});
 
     my ( $status, $header, $text ) = $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
