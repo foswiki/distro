@@ -137,14 +137,12 @@ my $b2 = "\t$b1";
 
 ---++ StaticMethod bulkRegister($session)
 
-Called (requires authentication) with topic = the page with the entries on it.
+  Called by ManageCgiScript::bulkRegister (requires authentication) with topic = the page with the entries on it.
 
 =cut
 
 sub bulkRegister {
     my $session = shift;
-
-    Foswiki::UI::checkValidationKey( $session );
 
     my $user    = $session->{user};
     my $topic   = $session->{topicName};
@@ -498,8 +496,6 @@ removes user entry from passwords.
 
 sub deleteUser {
     my $session = shift;
-
-    Foswiki::UI::checkValidationKey( $session );
 
     my $webName = $session->{webName};
     my $topic   = $session->{topicName};
