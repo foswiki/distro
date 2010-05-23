@@ -75,10 +75,6 @@ sub set_up {
     die unless ( defined $Foswiki::cfg{ScriptSuffix} );
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
 
-    no warnings 'redefine';
-    *Foswiki::Sandbox::TRACE = 0;    # set to 1 to trace commands
-    use warnings 'redefine';
-
     # Switch off pipes to maximise debug opportunities
     # The following setting is for debugging and disabled
     # since it makes so much noise that normal tests drown
