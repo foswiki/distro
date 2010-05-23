@@ -39,9 +39,10 @@ For example, you can create a skin that overloads only the =foswiki.tmpl= master
 =%<nop>TMPL:DEF{"x"}% x%<nop>P%z%<nop>TMPL:END%= then =%<nop>TMPL:P{"x" P="y"}%= will expand to =xyz=.
 
 %ICON{"info"}% *Note:* the simple parameter =P= passed through in the example
-above is only available in the immediate definition being expanded: =x=. If =x=
-used any =%<nop>TMPL:P{}%= directives in _its_ definition, =%<nop>P%= would not be 
-expanded in any of those.
+above is only available in the immediate definition being included: =x=. If =x=
+used =%<nop>TMPL:P{}%= in _its_ definition, =%<nop>P%= would not be expanded in
+any of those _nested_ includes unless =x= passed each one a =P= parameter
+explicitly.
 
 Any alphanumeric characters can be used in parameter names.
 You are highly recommended to use parameter names that cannot be confused with the predefined [[macros]].
