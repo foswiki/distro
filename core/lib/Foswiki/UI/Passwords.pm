@@ -34,6 +34,8 @@ sub resetPassword {
     my $web     = $session->{webName};
     my $user    = $session->{user};
 
+    Foswiki::UI::checkValidationKey( $session );
+
     unless ( $Foswiki::cfg{EnableEmail} ) {
         my $err = $session->i18n->maketext(
             'Email has been disabled for this Foswiki installation');
@@ -219,6 +221,8 @@ An admin user can change other user's passwords.
 
 sub changePassword {
     my $session = shift;
+
+    Foswiki::UI::checkValidationKey( $session );
 
     my $topic       = $session->{topicName};
     my $webName     = $session->{webName};
