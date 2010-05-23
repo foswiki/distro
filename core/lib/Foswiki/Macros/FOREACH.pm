@@ -4,6 +4,8 @@ package Foswiki;
 use strict;
 use warnings;
 
+our $SEARCHTERMS = qr/\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/;
+
 sub FOREACH {
     my ( $this, $params, $topicObject ) = @_;
 
@@ -14,8 +16,12 @@ sub FOREACH {
     # then the list is treated as a list of topic names. Otherwise it is treated
     # as a list of strings.
     my $format = $params->{format};
+    my $header = $params->{header} || '';
+    my $footer = $params->{footer} || '';
     if ( !defined($format)
-           || $format =~ /\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/) {
+           || $format =~ /$SEARCHTERMS/o
+             || $header =~ /$SEARCHTERMS/o
+               || $footer =~ /$SEARCHTERMS/o ) {
 
         # Treat as list of topic names
 
