@@ -33,13 +33,21 @@ sub test_NOP {
     $result = $topicObject->expandMacros("%NOP{%WEB{}%}%");
     $this->assert_equals( $this->{test_web}, $result );
 
-    $result = $topicObject->expandNewTopic("%NOP%");
+    $topicObject->text("%NOP%");
+    $topicObject->expandNewTopic();
+    $result = $topicObject->text();
+
     $this->assert_equals( '', $result );
 
-    $result = $topicObject->expandNewTopic("%GM%NOP%TIME%");
+    $topicObject->text("%GM%NOP%TIME%");
+    $topicObject->expandNewTopic();
+    $result = $topicObject->text();
+
     $this->assert_equals( '%GMTIME%', $result );
 
-    $result = $topicObject->expandNewTopic("%NOP{   ignore me   }%");
+    $topicObject->text("%NOP{   ignore me   }%");
+    $result = $topicObject->expandNewTopic();
+    $result = $topicObject->text();
     $this->assert_equals( '', $result );
 
     # this *ought* to work, but by the definition of TML, it doesn't.

@@ -968,12 +968,12 @@ sub _writeRegistrationDetailsToTopic {
     my $safe = $session->{user};
     $session->{user} = $user;
     try {
-        $text = $topicObject->expandNewTopic($text);
+        $topicObject->text($text);
+        $topicObject->expandNewTopic();
         my $agent = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
         $session->{user} = $session->{users}->getCanonicalUserID($agent);
         $topicObject->put( 'TOPICPARENT',
             { name => $Foswiki::cfg{UsersTopicName} } );
-        $topicObject->text($text);
 
         unless ( $topicObject->haveAccess('CHANGE') ) {
             throw Foswiki::AccessControlException( 'CHANGE', $agent,
