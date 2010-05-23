@@ -76,7 +76,7 @@ sub set_up {
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
 
     no warnings 'redefine';
-    *Foswiki::Sandbox::TRACE = sub { 0 };    # set to 1 to trace commands
+    *Foswiki::Sandbox::TRACE = 0;    # set to 1 to trace commands
     use warnings 'redefine';
 
     # Switch off pipes to maximise debug opportunities
