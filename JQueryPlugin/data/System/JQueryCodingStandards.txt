@@ -53,35 +53,14 @@ Mind the predefined global variables. See next section.
 
 ---++ Propagating perl settings to javascript
 
-The =jquery.foswiki= plugin will initialize the global =foswiki= object with a set of variables
-that are created by reading =meta= tags in the HTML header. These have the format
-
-<verbatim class="js">
-<meta name="foswiki.foo.bar.baz" content="string/boolean/object/function" />
+The standard foswiki library initializes the global =foswiki= object with
+a subset of preference settings from foswiki, =SCRIPTURLPATH=, =SCRIPTSUFFIX=, and =PUBURLPATH=. These are sufficient to call scripts on the server and build attachment URLs. They are accessed using the =foswiki.getPreference= method:
+<verbatim>
+var pubUrlPath = foswiki.getPreference('PUBURLPATH');
 </verbatim>
 
----++ The =foswiki= object
-This will create the appropriate sub-namespaces and initialize the named property with the value in the =content= attribute.
-
-There is a set of predefined variables that can be used in your javascript code via the =foswiki= namespace:
-
-<noautolink>
-| *Name* | *Content* |
-| foswiki.web | %<nop>WEB% |
-| foswiki.topic | %<nop>TOPIC%" | 
-| foswiki.scriptUrl | %<nop>SCRIPTURL% | 
-| foswiki.scriptUrlPath | %<nop>SCRIPTURLPATH% |
-| foswiki.pubUrl | %<nop>PUBURL% |
-| foswiki.pubUrlPath | %<nop>PUBURLPATH% |
-| foswiki.systemWebName | %<nop>SYSTEMWEB% |
-| foswiki.usersWebName | %<nop>USERSWEB% |
-| foswiki.wikiName | %<nop>WIKINAME% |
-| foswiki.loginName | %<nop>USERNAME% |
-| foswiki.wikiUserName | %<nop>WIKIUSERNAME% |
-| foswiki.serverTime | %<nop>SERVERTIME% |
-| foswiki.ImagePluginEnabled | %IF<nop>{"context ImagePluginEnabled" then="true" else="false"}% | 
-| foswiki.MathModePluginEnabled | %IF<nop>{"context MathModePluginEnabled" then="true" else="false"}% |
-</noautolink>
+In addition, the JQuery =foswiki= plugin adds the macros specified by the
+global =MACROS2JS= preference (currently %MACROS2JS").
 
 ---++ Avoid Internet Explorer errors
 

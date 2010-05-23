@@ -15,7 +15,12 @@
 %TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%
 
-%TMPL:DEF{"script"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%
+%TMPL:DEF{"script:preferences"}%<script type="text/javascript">
+var foswiki = {preferences: {
+%FOREACH{"%PREFS2JS%" format="$topic:\"$percnt$topic$percnt\"" separator=","}%}};</script>
+%TMPL:END%
+
+%TMPL:DEF{"script"}%%TMPL:P{"script:preferences"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%
 
 %TMPL:DEF{"script:skinbase"}%%TMPL:END%
 
@@ -31,8 +36,6 @@
 	%TMPL:P{"windowtitle"}%
         %TMPL:P{context="edit" then="ie8compatibilitymode"}%
 	<meta http-equiv="Content-Type" content="text/html; charset=%CHARSET%" /> <meta name="robots" content="noindex" /> %HTTP_EQUIV_ON_VIEW%
-    <meta name="scripturl" content="%SCRIPTURL%" />
-    <meta name="scriptsuffix" content="%SCRIPTSUFFIX%" />
 	<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
 	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
 	<meta name="description" content="%TOPIC%" />

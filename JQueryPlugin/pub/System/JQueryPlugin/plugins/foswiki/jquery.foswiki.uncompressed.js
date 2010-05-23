@@ -29,8 +29,25 @@ if (typeof(foswiki) === "undefined") {
     return uid;
   };
 
+  // The following vars were defined in an older release of the plugin.
+  // Only systemWebName and pubUrlPath were ever used, and the calls have
+  // been changed to foswiki.getPreference calls.
+  // <meta name="foswiki.web" content="%WEB%" />
+  // <meta name="foswiki.topic" content="%TOPIC%" />
+  // <meta name="foswiki.scriptUrl" content="%SCRIPTURL%" />
+  // <meta name="foswiki.scriptUrlPath" content="%SCRIPTURLPATH%" />
+  // <meta name="foswiki.scriptSuffix" content="%SCRIPTSUFFIX%" />
+  // <meta name="foswiki.pubUrl" content="%PUBURL%" />
+  // <meta name="foswiki.pubUrlPath" content="%PUBURLPATH%" />
+  // <meta name="foswiki.systemWebName" content="%SYSTEMWEB%" />
+  // <meta name="foswiki.usersWebName" content="%USERSWEB%" />
+  // <meta name="foswiki.wikiName" content="%WIKINAME%" />
+  // <meta name="foswiki.loginName" content="%USERNAME%" />
+  // <meta name="foswiki.wikiUserName" content="%WIKIUSERNAME%" />
+  // <meta name="foswiki.serverTime" content="%SERVERTIME%" />
+
   /********************************************************
-   * hepler function to recursively create a nested object
+   * helper function to recursively create a nested object
    * based on the keys descriptor. 
    */
   foswiki.createMember = function(obj, keys, val) {
@@ -47,26 +64,5 @@ if (typeof(foswiki) === "undefined") {
       obj[key] = val;
     }
   }
-
-  /********************************************************
-   * populate foswiki obj with meta data
-   */
-  $(function() {
-    $("head meta[name^='foswiki.']").each(function() {
-      var val = this.content, keys;
-      if (val == "false") {
-        val = false; // convert to Boolean
-      } else if (val == "true") {
-        val = true; // convert to Boolean
-      } else if (val.match(/^\{.*\}$/)) {
-        val = eval("("+val+")"); // convert to object
-      } else if (val.match(/^function/)) {
-        val = eval("("+val+")"); // convert to Function
-      }
-      keys = this.name.split(/\./);
-      keys.shift(); // take out the first one
-      foswiki.createMember(foswiki, keys, val);
-    });
-  });
 
 })(jQuery);

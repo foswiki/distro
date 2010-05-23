@@ -7,7 +7,7 @@ jQuery(function($) {
     return recipeName ? recipeName : '';
   }
 
-  ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';
+  ChiliBook.recipeFolder = foswiki.getPreference("PUBURLPATH")+'/'+foswiki.getPreference("SYSTEMWEB")+'/JQueryPlugin/plugins/chili/recipes/';
   ChiliBook.automaticSelector = 'pre';
   //ChiliBook.lineNumbers = true;
 

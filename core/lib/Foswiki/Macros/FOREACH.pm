@@ -7,48 +7,76 @@ use warnings;
 sub FOREACH {
     my ( $this, $params, $topicObject ) = @_;
 
-    # pass on all attrs, and add some more
-    #$params->{_callback} = undef;
-    $params->{baseweb}   = $topicObject->web;
-    $params->{basetopic} = $topicObject->topic;
-    $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};
-    $params->{type}      = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
-      unless ( $params->{type} );
-
-  #    $params->{format}      = '$topic'  unless ( defined($params->{format}) );
-  #TODO: change to $n some time.
-    $params->{separator} = "\n" unless ( defined( $params->{separator} ) );
-
-    #    $params->{header}      = ''  unless ( $params->{header} );
-    #    $params->{footer}      = ''  unless ( $params->{footer} );
+    my @list = split( /,\s*/, $params->{_DEFAULT} || '' );
     my $s;
-    try {
-        my $topicString = $params->{_DEFAULT} || '';
 
-        #from Search::_makeTopicPattern (plus an added . to allow web.topic)
-        my @topics = map {
-            s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
-            s/\*/\.\*/go;
-            $_
-          }
-          split( /,\s*/, $topicString );
+    # If the format string contains any of the topic-specific format specifiers
+    # then the list is treated as a list of topic names. Otherwise it is treated
+    # as a list of strings.
+    my $format = $params->{format};
+    if ( !defined($format)
+           || $format =~ /\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/) {
 
-        my $query;    #query node
-        require Foswiki::Search::InfoCache;
-        my $infoCache =
-          new Foswiki::Search::InfoCache( $this, $params->{baseweb}, \@topics );
-        my ( $ttopics, $searchResult, $tmplTail ) =
-          $this->search->formatResults( $query, $infoCache, $params );
-        $s = $searchResult;
+        # Treat as list of topic names
+
+        # pass on all attrs, and add some more
+        #$params->{_callback} = undef;
+        $params->{baseweb}   = $topicObject->web;
+        $params->{basetopic} = $topicObject->topic;
+        $params->{search}    = $params->{_DEFAULT}
+          if defined $params->{_DEFAULT};
+        $params->{type}  = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
+          unless ( $params->{type} );
+
+        # TODO: change to $n some time.
+        $params->{separator} = "\n" unless ( defined( $params->{separator} ) );
+        
+        #    $params->{header}      = ''  unless ( $params->{header} );
+        #    $params->{footer}      = ''  unless ( $params->{footer} );
+
+        # $params->{format} = '$topic'  unless ( defined($params->{format}) );
+        try {
+
+            #from Search::_makeTopicPattern (plus an added . to allow web.topic)
+            my @topics = map {
+                s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
+                s/\*/\.\*/go;
+                $_
+            } @list;
+
+            my $query;    #query node
+            require Foswiki::Search::InfoCache;
+            my $infoCache =
+              new Foswiki::Search::InfoCache( $this, $params->{baseweb}, \@topics );
+            my ( $ttopics, $searchResult, $tmplTail ) =
+              $this->search->formatResults( $query, $infoCache, $params );
+            $s = $searchResult;
+        }
+          catch Error::Simple with {
+              my $message = (DEBUG) ? shift->stringify() : shift->{-text};
+
+              # Block recursions kicked off by the text being repeated in the
+              # error message
+              $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
+              $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
+          };
+    } else {
+        # Simple list of strings
+        $format = '$item' unless ( $format );
+        my $index = 1;
+        my @items;
+        foreach my $item (@list) {
+            my $entry = $format;
+            $entry =~ s/\$item(\(\))?/$item/g;
+            $entry =~ s/\$index(\(\))?/$index/g;
+            push( @items, $entry );
+            $index++;
+        }
+        $s = join($params->{separator}, @items);
+        $s = $params->{header} . $s if defined $params->{header};
+        $s .= $params->{footer} if defined $params->{footer};
+        $s = expandStandardEscapes( $s );
     }
-    catch Error::Simple with {
-        my $message = (DEBUG) ? shift->stringify() : shift->{-text};
-
-        # Block recursions kicked off by the text being repeated in the
-        # error message
-        $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
-        $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
-    };
     return $s;
 }
 
@@ -56,19 +84,9 @@ sub FOREACH {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-and TWiki Contributors. All Rights Reserved. TWiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-Based on parts of Ward Cunninghams original Wiki and JosWiki.
-Copyright (C) 1998 Markus Peter - SPiN GmbH (warpi@spin.de)
-Some changes by Dave Harris (drh@bhresearch.co.uk) incorporated
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

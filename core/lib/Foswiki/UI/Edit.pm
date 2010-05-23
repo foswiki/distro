@@ -17,6 +17,7 @@ use Error qw( :try );
 use Foswiki                ();
 use Foswiki::UI            ();
 use Foswiki::OopsException ();
+use Foswiki::Form ();
 
 =begin TML
 
@@ -373,7 +374,6 @@ sub init_edit {
     if ($adminCmd) {
     }
     elsif ($form) {
-        require Foswiki::Form;
         my $formDef = new Foswiki::Form( $session, $templateWeb, $form );
         if ( !$formDef ) {
 
@@ -398,7 +398,8 @@ sub init_edit {
     }
     else {
         my $webObject = Foswiki::Meta->new( $session, $web );
-        if ( $session->{prefs}->getPreference('WEBFORMS') ) {
+        my @forms = Foswiki::Form::getAvailableForms( $topicObject );
+        if ( scalar(@forms) ) {
             $formText = $session->templates->readTemplate('addform');
             $formText = $topicObject->expandMacros($formText);
         }

@@ -134,6 +134,29 @@ sub finish {
 
 =begin TML
 
+---++ StaticMethod getAvailableForms( $metaObject ) -> @forms
+
+Get a list of the names of forms that are available for use in the
+given topic. $metaObject can be a topic or a web.
+
+=cut
+
+sub getAvailableForms {
+    my $metaObject = shift;
+    if (defined $metaObject->topic) {
+        $metaObject = Foswiki::Meta->new(
+            $metaObject->session, $metaObject->web );
+    }
+    my $legalForms = $metaObject->getPreference('WEBFORMS');
+    $legalForms =~ s/^\s+//;
+    $legalForms =~ s/\s+$//;
+    my @forms = split( /[,\s]+/, $legalForms );
+    # This is where we could %SEARCH for *Form topics
+    return @forms;
+}
+
+=begin TML
+
 ---++ StaticMethod fieldTitle2FieldName($title) -> $name
 Chop out all except A-Za-z0-9_. from a field name to create a
 valid "name" for storing in meta-data
@@ -341,7 +364,6 @@ sub renderForEdit {
     my $tmpl = $session->templates->readTemplate("form");
     $tmpl = $topicObject->expandMacros($tmpl);
 
-    # Note: if WEBFORMS preference is not set, can only delete form.
     $tmpl =~ s/%FORMTITLE%/$this->_link( $this->web.'.'.$this->topic )/ge;
     my ( $text, $repeatTitledText, $repeatUntitledText, $afterText ) =
       split( /%REPEAT%/, $tmpl );

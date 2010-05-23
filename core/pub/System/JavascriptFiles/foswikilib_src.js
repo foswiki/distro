@@ -26,7 +26,6 @@ if (foswiki == undefined)
     foswiki = {};
 
 /**
- * DEPRECATED do not use; use foswiki.getPreference instead.
  * Get the content of a META tag from the HEAD block of the document.
  * The values are cached after reading for fast lookup.
  * @param inKey Name of the meta-tag for which to retrieve the content
@@ -65,13 +64,17 @@ foswiki.getMetaTag = function(inKey) {
  * the context of the preference.
  */
 foswiki.getPreference = function(key, useServer) {
-    // Check the preloaded foswiki hash
+    // Check the preloaded foswiki hash. This is populated with the values
+    // listed in the %PREFS2JS% foswiki preference
     if (foswiki.preferences != undefined) {
         if (foswiki.preferences[key] != undefined) {
             return foswiki.preferences[key];
         }
     }
-    var metaVal = foswiki;getMetaTag(key);
+    
+    // Check for a preference passed in a meta tag (this is the classical
+    // method)
+    var metaVal = foswiki.getMetaTag(key);
     if (metaVal != undefined) {
         // Cache it for future reference
         if (foswiki.preferences == undefined)
@@ -79,6 +82,10 @@ foswiki.getPreference = function(key, useServer) {
         foswiki.preferences[key] = metaVal;
         return metaVal;
     }
+    
+    // Use AJAX to get a preference value from the server. This requires
+    // a lot of context information to be passed to the server, and a REST
+    // handler on the server, so has not been implemented yet.
     if (useServer) {
         alert("Trying to get preference '" + key + "' from server, but "
               + "this feature is not implemented yet.");

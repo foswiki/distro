@@ -203,6 +203,11 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
    * *Note:* See SkinBrowser for currently installed skins
 
+---+++ JQuery
+   * List of Foswiki preferences, the values of which are made available
+     through the foswiki.getPreference() javascript function.
+   * Set PREFS2JS = WEB, TOPIC, SCRIPTURL, SCRIPTSUFFIX, SCRIPTURLPATH, PUBURL, PUBURLPATH, SYSTEMWEB, USERSWEB, WIKINAME, USERNAME, WIKIUSERNAME, SERVERTIME
+
 ---+++ PatternSkin
 
    * Global skin styles. To change the look of the site, point these variables to custom CSS attachments.

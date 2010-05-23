@@ -1,9 +1,20 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252806090" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
----+ Javascripts
+---+ Javascript
 
-This topic contains javascript files that are included by skin templates, and may be used by skin templates and in topics.
+Foswiki will work without Javascript being present in the browser, but the
+user experience is significantly improved if it is enabled.
+
+Foswiki Javascript support comprises a number of base Javascript files,
+attached to this topic, that provide support for features in the basic screens,
+and are used by most skins. These files are automatically included as required
+by skins.
+
+These files are gradually being phased out in favour of the !JQueryPlugin
+which uses the industry-standard JQuery framework to provide high quality
+user interface components.
 
 *Related Topics:* SkinTemplates, [[Skins]]
-
+<!--
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+-->

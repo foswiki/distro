@@ -508,5 +508,24 @@ EXPECT
 
 }
 
+sub test_not_topics {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{",+&,@:{},!!," header="HEAD " footer=" FOOT" format="$index:($item)" separator=";"}%'
+      );
+
+    $this->assert_str_equals(
+        'HEAD 1:();2:(+&);3:(@:{});4:(!!) FOOT', $result );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"A,B,C" format="$index:($item)" separator=";"}%'
+      );
+
+    $this->assert_str_equals(
+        '1:(A);2:(B);3:(C)', $result );
+}
 
 1;

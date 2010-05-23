@@ -146,10 +146,8 @@ foswiki.Window = {
 // Unfortunate global function required because so many translated
 // strings use it
 function launchWindow(inWeb, inTopic) {
-    var scripturlpath = foswiki.getPreference('SCRIPTURLPATH', false);
-    var scriptsuffix = foswiki.getPreference('SCRIPTSUFFIX', false);
-    foswiki.Window.openPopup(scripturlpath+'/view'+
-                           scriptsuffix+'/',
+    foswiki.Window.openPopup(foswiki.getPreference('SCRIPTURLPATH')+'/view'+
+                           foswiki.getPreference('SCRIPTSUFFIX')+'/',
                            { web:inWeb, topic:inTopic,
                                    template:"viewplain" } );
     return false;

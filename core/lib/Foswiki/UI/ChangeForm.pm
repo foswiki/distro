@@ -16,6 +16,7 @@ use Error qw( :try );
 use Assert;
 
 use Foswiki ();
+use Foswiki::Form ();
 
 =begin TML
 
@@ -39,12 +40,8 @@ sub generate {
     }
     $formName = 'none' if ( !$formName );
 
-    my $webObject = Foswiki::Meta->new( $session, $topicObject->web );
-    my $legalForms = $webObject->getPreference('WEBFORMS');
-    $legalForms =~ s/^\s*//;
-    $legalForms =~ s/\s*$//;
-    my @forms = split( /[,\s]+/, $legalForms );
-    unshift @forms, 'none';
+    my @forms = Foswiki::Form::getAvailableForms( $topicObject );
+    unshift( @forms, 'none' );
 
     my $formList      = '';
     my $formElemCount = 0;

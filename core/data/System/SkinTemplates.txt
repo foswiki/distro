@@ -178,6 +178,6 @@ Don't forget to switch the trace mode off again when you are finished!
 %ENDSECTION{"PowerUserGuide"}%
 
 ---
-*Related Topics:* [[Skins]] [[Macros]]
+*Related Topics:* [[Skins]] [[Macros]] [[JavascriptFiles]]
 
 %STOPINCLUDE%
