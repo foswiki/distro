@@ -435,12 +435,20 @@ BEGIN {
 
     # Foswiki concept regexes
     $regex{wikiWordRegex} =
-qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mixedAlphaNum}]*/o;
+      qr(
+            [$regex{upperAlpha}]+
+            [$regex{lowerAlphaNum}]+
+            [$regex{upperAlpha}]+
+            [$regex{mixedAlphaNum}]*
+       )xo;
     $regex{webNameBaseRegex} =
       qr/[$regex{upperAlpha}]+[$regex{mixedAlphaNum}_]*/o;
     if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
         $regex{webNameRegex} =
-          qr/$regex{webNameBaseRegex}(?:(?:[\.\/]$regex{webNameBaseRegex})+)*/o;
+          qr(
+                $regex{webNameBaseRegex}
+                (?:(?:[\.\/]$regex{webNameBaseRegex})+)*
+           )xo;
     }
     else {
         $regex{webNameRegex} = $regex{webNameBaseRegex};
@@ -448,6 +456,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
     $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/o;
     $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}_]+/o;
     $regex{abbrevRegex}         = qr/[$regex{upperAlpha}]{3,}s?\b/o;
+
     $regex{topicNameRegex} =
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
 
@@ -456,9 +465,10 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
     $regex{emailAddrRegex} =
       qr/([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)/i;
 
-# Filename regex to used to match invalid characters in attachments - allow
-# alphanumeric characters, spaces, underscores, etc.
-# TODO: Get this to work with I18N chars - currently used only with UseLocale off
+    # Filename regex to used to match invalid characters in attachments
+    # - allow alphanumeric characters, spaces, underscores, etc.
+    # TODO: Get this to work with I18N chars - currently used only
+    # with UseLocale off
     $regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/o;
 
     # Multi-character alpha-based regexes
@@ -516,7 +526,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
                     [\x80-\xBF][\x80-\xBF]
                 }xo;
 
-    $regex{validUtf8StringRegex} = qr/^ (?: $regex{validUtf8CharRegex} )+ $/xo;
+    $regex{validUtf8StringRegex} = qr/^(?:$regex{validUtf8CharRegex})+$/o;
 
     # Check for unsafe search regex mode (affects filtering in) - default
     # to safe mode
@@ -772,13 +782,21 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
     # Remove <nop> and <noautolink> tags
     $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
-    # Trim whitespace from the start and end of selected content types
-    if ( $contentType =~ m#text/html# ) {
-
-        # Use \s to match unicode whitespace, in anticipation of the day when
-        # we unicode everything.
-        $text =~ s#^\s+##;
-        $text =~ s#(</html>).*$#$1#is;
+    # Check that the templates specified clean HTML
+    if (DEBUG) {
+        # When tracing is enabled in Foswiki::Templates, then there will
+        # always be a <!--bodyend--> after </html>. So we need to disable
+        # this check.
+        require Foswiki::Templates;
+        if (!Foswiki::Templates->TRACE
+              && $contentType =~ m#text/html#
+                && $text =~ m#</html>(.*?\S.*)$#s) {
+            ASSERT(0, <<BOGUS );
+Junk after </html>: $1. Templates may be bogus
+- Check for excess blank lines at ends of .tmpl files
+- You can enable TRACE in Foswiki::Templates to help debug
+BOGUS
+        }
     }
 
     $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
