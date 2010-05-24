@@ -324,7 +324,8 @@ sub _execute {
         require Foswiki::Request::Cache;
         my $uid = Foswiki::Request::Cache->new()->save($query);
 
-        print STDERR "ValidationException: redirect with $uid\n";
+        print STDERR "ValidationException: redirect with $uid\n"
+          if DEBUG;
 
         # We use the login script for validation because it already
         # has the correct criteria in httpd.conf for Apache login.
@@ -434,24 +435,20 @@ sub _execute {
 
 ---++ StaticMethod logon($session)
 
-Handler to "logon" action.
+Handler for "logon" action.
    * =$session= is a Foswiki session object
 
 =cut
 
 sub logon {
     my $session = shift;
+
     my $action  = $session->{request}->param('foswikiloginaction');
     $session->{request}->delete('foswikiloginaction');
 
-    # Force login if not recognisably authenticated when validating
-    if (   $action
-        && $action eq 'validate'
-        && $session->inContext('authenticated') )
-    {
+    if ( defined $action && $action eq 'validate' ) {
         Foswiki::Validation::validate($session);
-    }
-    else {
+    } else {
         $session->getLoginManager()->login( $session->{request}, $session );
     }
 }

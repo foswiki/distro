@@ -373,7 +373,10 @@ sub _innerRegister {
     $data->{webName} = $session->{webName};
     $data->{debug}   = 1;
 
-    # SMELL: should perform basic checks that we have e.g. a WikiName
+    $data->{WikiName} =
+      Foswiki::Sandbox::untaint( $data->{WikiName},
+        \&Foswiki::Sandbox::validateTopicName );
+    throw Error::Simple('Bad WikiName') unless $data->{WikiName};
 
     _validateRegistration( $session, $data, 1 );
 }
@@ -751,7 +754,7 @@ sub _complete {
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
-    throw Error::Simple('bad WikiName after reload') unless $data->{WikiName};
+    throw Error::Simple('Bad WikiName') unless $data->{WikiName};
 
     if ( !exists $data->{LoginName} ) {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
@@ -789,6 +792,7 @@ sub _complete {
         my $safe             = $session->{user};
         my $regoAgent        = $session->{user};
         my $enableAddToGroup = 1;
+
         if ( Foswiki::Func::isGuest($regoAgent) ) {
             $session->{user} =
               $session->{users}->getCanonicalUserID(
@@ -941,6 +945,7 @@ sub _writeRegistrationDetailsToTopic {
     $after  = '' unless defined($after);
 
     my $user = $data->{WikiName};
+
     my $topicObject =
       Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName}, $user );
     my $log;

@@ -105,7 +105,7 @@ sub untaintUnchecked {
     if ( defined($string) && $string =~ /^(.*)$/ ) {
         return $1;
     }
-    return $string;    # Can't happen.
+    return $string;
 }
 
 =begin TML

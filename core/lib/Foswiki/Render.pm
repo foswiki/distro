@@ -759,6 +759,11 @@ sub _handleWikiWord {
     my $keepWeb      = 0;
     my $text;
 
+    # For some strange reason, $web doesn't get untainted by the regex
+    # that invokes this function. We can untaint it safely, because it's
+    # validated by the RE.
+    $web = Foswiki::Sandbox::untaintUnchecked($web);
+
     $web = $topicObject->web() unless ( defined($web) );
     if ( defined($anchor) ) {
         ASSERT( ( $anchor =~ m/\#.*/ ) ) if DEBUG;    # must include a hash.
@@ -818,7 +823,10 @@ sub _handleSquareBracketedLink {
             # [[][]] style - protect text:
             # Prevent automatic WikiWord or CAPWORD linking in explicit links
             $text =~
-s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop>$1/go;
+              s((?<=[\s\(])
+                ($Foswiki::regex{wikiWordRegex}
+                | [$Foswiki::regex{upperAlpha}]))
+               (<nop>$1)gox;
         }
         else {
 
@@ -831,7 +839,10 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
                 $link = $1;
                 $text = $2;
                 $text =~
-s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop>$1/go;
+                  s((?<=[\s\(])
+                    ($Foswiki::regex{wikiWordRegex}
+                    | [$Foswiki::regex{upperAlpha}]))
+                   (<nop>$1)gox;
             }
         }
         return _externalLink( $this, $link, $text );
@@ -1333,14 +1344,20 @@ s/$STARTWW((mailto\:)?$Foswiki::regex{emailAddrRegex})$ENDWW/_mailLink( $this, $
     # Spaced-out Wiki words with alternative link text
     # i.e. [[$1][$3]]
     $text =~
-s/\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\]/_handleSquareBracketedLink( $this,$topicObject,$1,$3)/ge;
+      s(\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\])
+        (_handleSquareBracketedLink( $this,$topicObject,$1,$3))ge;
 
     unless ( Foswiki::isTrue( $prefs->getPreference('NOAUTOLINK') ) ) {
 
         # Handle WikiWords
         $text = Foswiki::takeOutBlocks( $text, 'noautolink', $removed );
         $text =~
-s/$STARTWW(?:($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex})($Foswiki::regex{anchorRegex})?/_handleWikiWord( $this, $topicObject, $1, $2, $3)/geom;
+          s($STARTWW
+            (?:($Foswiki::regex{webNameRegex})\.)?
+            ($Foswiki::regex{wikiWordRegex}|
+                $Foswiki::regex{abbrevRegex})
+            ($Foswiki::regex{anchorRegex})?)
+           (_handleWikiWord( $this, $topicObject, $1, $2, $3))gexom;
         Foswiki::putBackBlocks( \$text, $removed, 'noautolink' );
     }
 
