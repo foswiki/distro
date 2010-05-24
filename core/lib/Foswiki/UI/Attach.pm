@@ -92,6 +92,7 @@ sub attach {
     $args->{comment} = Foswiki::entityEncode( $args->{comment} );
     $tmpl =~ s/%FILECOMMENT%/$args->{comment}/g;
 
+    $session->{response}->status(200);
     $session->writeCompletePage($tmpl);
 }
 

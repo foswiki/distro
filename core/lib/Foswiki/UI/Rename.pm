@@ -1125,6 +1125,8 @@ sub _newTopicOrAttachmentScreen {
 
     $tmpl = $from->expandMacros($tmpl);
     $tmpl = $from->renderTML($tmpl);
+
+    $session->{response}->status(200);
     $session->writeCompletePage($tmpl);
 }
 
@@ -1241,6 +1243,8 @@ sub _newWebScreen {
       new Foswiki::Meta( $session, $from->web, $Foswiki::cfg{HomeTopicName} );
     $tmpl = $fromWebHome->expandMacros($tmpl);
     $tmpl = $fromWebHome->renderTML($tmpl);
+
+    $session->{response}->status(200);
     $session->writeCompletePage($tmpl);
 }
 

@@ -135,6 +135,7 @@ sub oops {
         $tmplData = $topicObject->renderTML($tmplData);
     }
 
+    $session->{response}->status(200);
     $session->writeCompletePage($tmplData);
 }
 

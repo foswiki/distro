@@ -162,6 +162,7 @@ sub preview {
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/go if ( defined($newtopic) );
 
+    $session->{response}->status(200);
     $session->writeCompletePage($tmpl);
 }
 

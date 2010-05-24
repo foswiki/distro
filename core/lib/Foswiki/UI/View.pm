@@ -349,6 +349,8 @@ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $
     if ( $query->param('xml') ) {
         require Foswiki::TOM;
         $page = Foswiki::TOM->new->TML2TOM($text);
+
+        $session->{response}->status(200);
         $session->writeCompletePage( $page, 'view', 'text/xml' );
         return;
     }
@@ -405,6 +407,7 @@ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $
 
     # Output has to be done in one go, because if we generate the header and
     # then redirect because of some later constraint, some browsers fall over
+    $session->{response}->status(200);
     $session->writeCompletePage( $page, 'view', $contentType );
     Monitor::MARK('Wrote HTML');
 }

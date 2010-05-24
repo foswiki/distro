@@ -434,6 +434,7 @@ sub finalize_edit {
 
     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
 
+    $session->{response}->status(200);
     $session->writeCompletePage( $tmpl, 'edit', $cgiAppType );
 }
 
