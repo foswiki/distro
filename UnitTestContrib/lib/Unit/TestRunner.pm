@@ -69,7 +69,8 @@ sub start {
                               && ( print("\tFound $1\n") )
                               && push( @found, $1 . $testToFind );
                         },
-                        follow => 1
+                        follow => 1,
+                        untaint => 1
                     },
                     '.'
                 );
