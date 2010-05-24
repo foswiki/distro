@@ -675,6 +675,7 @@ sub diff {
     $after = $topicObject->renderTML($after);
     $page .= $after;
 
+    $session->{response}->status(200);
     $session->writeCompletePage($page);
 
     return;
