@@ -3312,11 +3312,15 @@ HERE
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         "VeryOldTopic", $text );
-    $topicObject->save(forcedate=>123);
+    my $rev = $topicObject->save(forcedate=>123);
+    $this->assert_num_equals(1, $rev);
     
     my $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"1" type="query" date="1970" nonoise="on" format="$topic"}%');
+
+#die "die ($rev) here: ".$this->{test_web};
+      
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 VeryOldTopic
 RESULT
