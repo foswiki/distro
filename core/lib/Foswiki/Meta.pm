@@ -2860,7 +2860,8 @@ sub summariseChanges {
 
     $orev = $nrev - 1 unless defined($orev);
 
-    ASSERT( $orev >= 0 && $nrev >= $orev ) if DEBUG;
+    ASSERT( $orev >= 0 ) if DEBUG;
+    ASSERT( $nrev >= $orev ) if DEBUG;
 
     $this->reload($nrev);
 
