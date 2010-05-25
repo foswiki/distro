@@ -1,15 +1,8 @@
-%{ This is a default template }%%TMPL:INCLUDE{"view"}%
-%TMPL:INCLUDE{"search"}%
-
+%{ This is a default template }%%TMPL:INCLUDE{"view"}%%TMPL:INCLUDE{"search"}%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(changes)"}% %TMPL:END%
-
-
 %TMPL:DEF{"topicactionbuttons"}% Subscribe or unsubscribe in %NOTIFYTOPIC% %TMPL:END%
-
-%TMPL:P{"topicinfo"}%%TMPL:END%
-
+%TMPL:DEF{"topicinfo"}%%TMPL:END%
 %TMPL:DEF{CHANGES:header}%%TMPL:P{SEARCH:header}%%TMPL:END%
 %TMPL:DEF{CHANGES:format}%%TMPL:P{SEARCH:format}%%TMPL:END%
 %TMPL:DEF{CHANGES:footer}%%TMPL:P{SEARCH:footer}%%TMPL:END%
-
-%TMPL:DEF{"content"}%%TMPL:P{CHANGES:header}%%TEXT%%TMPL:P{CHANGES:footer}%%TMPL:END% 
+%TMPL:DEF{"content"}%%TMPL:P{CHANGES:header}%%TEXT%%TMPL:P{CHANGES:footer}%

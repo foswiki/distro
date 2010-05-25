@@ -794,7 +794,7 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
             ASSERT(0, <<BOGUS );
 Junk after </html>: $1. Templates may be bogus
 - Check for excess blank lines at ends of .tmpl files
--  or newslines after %TMPL:INCLUDE
+-  or newlines after %TMPL:INCLUDE
 - You can enable TRACE in Foswiki::Templates to help debug
 BOGUS
         }

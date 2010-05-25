@@ -103,6 +103,7 @@ sub changes {
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 
+    $session->{response}->status(200);
     $session->writeCompletePage($page);
 }
 
