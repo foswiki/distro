@@ -132,5 +132,6 @@ var foswiki = {preferences: {
   else="$percntTMPL:P{\"defaultwebtopiclist\"}$percnt"
 }%%TMPL:END%
 
-%{ the bit that controls the output _MUST_ be last in the foswiki.SKIN.tmpl file. }%
+%{ the bit that controls the output _SHOULD_ be last in the foswiki.SKIN.tmpl file. }%
 %TMPL:P{"htmldoctype"}%%TMPL:P{"head"}%%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
+%{ REQUIRED: comment after output definition to filter out newlines }%

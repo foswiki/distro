@@ -166,7 +166,7 @@ sub tmplP {
     my $val = '';
     if ( exists( $this->{VARS}->{$template} ) ) {
         $val = $this->{VARS}->{$template};
-        $val = "<!--$template-->$val<!--$template-->" if (TRACE);
+        $val = "<!-- TMPL:P $template-->$val<!-- TMPL:END $template-->" if (TRACE);
         foreach my $p ( keys %$params ) {
             if ( $p eq 'then' || $p eq 'else' ) {
                 $val =~ s/%$p%/$this->expandTemplate($1)/ge;
@@ -229,8 +229,8 @@ sub readTemplate {
           _readTemplateFile( $this, $1, $skins, $web )/ge;
     }
 
-    # Kill comments, marked by %{ ... }%
-    $text =~ s/%{.*?}%//sg;
+    # Kill comments, marked by %{ ... }% (don't forget to remove excess newlines added after a comment)
+    $text =~ s/%{.*?}%(\n*)//sg;
 
     if ( !( $text =~ /%TMPL\:/s ) ) {
 
@@ -331,10 +331,13 @@ sub _readTemplateFile {
     # the templates directory. No further searching required.
     if ( $name =~ /\.tmpl$/ ) {
         my $F;
+        #SMELL: why is this an open, and the other a Foswiki::ReadFile?
         if ( open( $F, '<', $Foswiki::cfg{TemplateDir} . '/' . $name ) ) {
             local $/;
             my $data = <$F>;
             close($F);
+            $data =~ s/\n\n/<!-- newline FILE: $name -->\n\n/g if (TRACE);
+
             return $data;
         }
         else {
@@ -365,6 +368,8 @@ sub _readTemplateFile {
             }
             my $text = $meta->text();
             $text = '' unless defined $text;
+            $text =~ s/\n\n/<!-- newline FILE: $userdirweb, $userdirname -->\n\n/g if (TRACE);
+
             return $text;
         }
     }
@@ -448,6 +453,8 @@ sub _readTemplateFile {
 
                     my $text = $meta->text();
                     $text = '' unless defined $text;
+                    $text =~ s/\n\n/<!-- newline FILE: $web1, $name1 -->\n\n/g if (TRACE);
+
                     return $text;
                 }
             }
@@ -456,7 +463,9 @@ sub _readTemplateFile {
 
                 #recursion prevention.
                 $this->{files}->{$file} = 1;
-                return Foswiki::readFile($file);
+                my $text = Foswiki::readFile($file);
+                $text =~ s/\n\n/<!-- newline FILE: $file -->\n\n/g if (TRACE);
+                return $text;
             }
         }
     }

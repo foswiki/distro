@@ -288,6 +288,8 @@ sub compare {
       ;    # remove <nop> and <noautolink> tags
 
     $output .= $tmpl_after;
+
+    $session->{response}->status(200);
     $session->writeCompletePage( $output, 'view' );
 
 }
