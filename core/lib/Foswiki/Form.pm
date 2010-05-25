@@ -147,7 +147,7 @@ sub getAvailableForms {
         $metaObject = Foswiki::Meta->new(
             $metaObject->session, $metaObject->web );
     }
-    my $legalForms = $metaObject->getPreference('WEBFORMS');
+    my $legalForms = $metaObject->getPreference('WEBFORMS') || ''';
     $legalForms =~ s/^\s+//;
     $legalForms =~ s/\s+$//;
     my @forms = split( /[,\s]+/, $legalForms );
