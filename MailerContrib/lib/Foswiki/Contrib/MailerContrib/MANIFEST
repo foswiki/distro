@@ -8,6 +8,7 @@ lib/Foswiki/Contrib/MailerContrib/UpData.pm 0444
 lib/Foswiki/Contrib/MailerContrib.pm 0444
 lib/Foswiki/Contrib/MailerContribPlugin.pm 0444
 data/System/MailerContrib.txt 0644
+data/System/MailerContribPlugin.txt 0644
 tools/mailnotify 0555
 templates/mailnotify.tmpl 0444
 templates/newsletter.tmpl 0444

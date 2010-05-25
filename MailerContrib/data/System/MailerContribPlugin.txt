@@ -1,0 +1,11 @@
+
+
+---++ MailerContribPlugin
+
+This is a 'mini' plugin that makes the MailerContrib =mailnotify= bin-script into a =rest= handler
+
+It can be called from the command line as:
+   * (in the =foswiki/bin= dir) =./rest MailerContribPlugin.notify=
+   
+or from a browser (presuming sufficient privilege):
+   * %SCRIPTURL{rest}%/MailerContribPlugin/notify
