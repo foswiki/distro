@@ -797,7 +797,7 @@ sub addUserToGroup {
            return 0
        }
                         
-        my $membersString = $groupTopicObject->getPreference('GROUP');
+        my $membersString = $groupTopicObject->getPreference('GROUP') || '';
         $membersString .= ', ' if ($membersString ne '');
         $membersString .= $usersObj->getWikiName($cuid);
 
