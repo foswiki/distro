@@ -25,8 +25,6 @@ sub set_up {
     $this->{test_web2}   = $this->{test_web} . 'Extra';
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
     $webObject->populateNewWeb();
-    $this->{test_web} = Assert::TAINT($this->{test_web});
-    $this->{test_web2} = Assert::TAINT($this->{test_web2});
 }
 
 sub tear_down {
@@ -269,13 +267,13 @@ sub test_attachments {
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
     my $attnm = 'blahblahblah.gif';
-    $attnm = Assert::TAINT($attnm);
+    #$attnm = Assert::TAINT($attnm);
     my $name1 = 'blahblahblah.gif';
-    $name1 = Assert::TAINT($name1);
+    #$name1 = Assert::TAINT($name1);
     my $name2 = 'bleagh.sniff';
-    $name2 = Assert::TAINT($name2);
+    #$name2 = Assert::TAINT($name2);
     my $topic = "BlahBlahBlah";
-    $topic = Assert::TAINT($topic);
+    #$topic = Assert::TAINT($topic);
 
     my $stream;
     $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
@@ -297,7 +295,7 @@ sub test_attachments {
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
 
-    $name1 = TAINT($name1);
+    #$name1 = TAINT($name1);
 
     my $e = Foswiki::Func::saveAttachment(
         $this->{test_web},
@@ -317,7 +315,7 @@ sub test_attachments {
     my @attachments = $meta->find('FILEATTACHMENT');
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
 
-    $name2 = TAINT($name2);
+    #$name2 = TAINT($name2);
     $e = Foswiki::Func::saveAttachment(
         $this->{test_web},
         $topic, $name2,
@@ -387,9 +385,9 @@ sub test_subweb_attachments {
     my $name1 = 'blahblahblah.gif';
     my $name2 = 'bleagh.sniff';
     my $topic = "BlahBlahBlah";
-    $topic = Assert::TAINT($topic);
+    #$topic = Assert::TAINT($topic);
     my $web = $this->{test_web}."/SubWeb";
-    $web = Assert::TAINT($web);
+    #$web = Assert::TAINT($web);
 
     my $stream;
     $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
@@ -411,7 +409,7 @@ sub test_subweb_attachments {
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
 
-    $name1 = Assert::TAINT($name1);
+    #$name1 = Assert::TAINT($name1);
     my $e = Foswiki::Func::saveAttachment(
         $web,
         $topic, $name1,
@@ -430,7 +428,7 @@ sub test_subweb_attachments {
     my @attachments = $meta->find('FILEATTACHMENT');
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
 
-    $name2 = Assert::TAINT($name2);
+    #$name2 = Assert::TAINT($name2);
     my $infile = $this->{tmpdatafile};
 
     #my $web = Assert::TAINT($web);
