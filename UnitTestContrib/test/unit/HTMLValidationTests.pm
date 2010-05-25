@@ -186,7 +186,7 @@ sub call_UI_FN {
     if ($status == 666) {
         $status = 200;
     }
-    $this->assert_num_not_equals(500, $status, 'exception thrown');
+    $this->assert_num_not_equals(500, $status, 'exception thrown, or status not set properly');
 
     return ($status, $header, $body, $stdout, $stderr);
 }

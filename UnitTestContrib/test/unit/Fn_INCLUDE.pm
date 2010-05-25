@@ -140,9 +140,6 @@ THIS
 "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"on\"}%"
       );
     $this->assert_str_equals( <<HERE, $text . "\n" );
-
-
-
 <span class='foswikiAlert'>
     Warning: Can't find named section <nop>suction in topic <nop>TemporaryINCLUDETestWebINCLUDEother.<nop>TopicToInclude 
 </span>

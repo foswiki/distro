@@ -11,9 +11,6 @@ Designed by: Crawford Currie
 <!-- expected RECUSS -->
 There was an old Man of the coast
 There was an old Man of the coast
-<p />
-<p />
-<p />
 <span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE TestCases.RecursiveInclude repeatedly, topic is already included.</dd></dl></span>
 Who placidly sat on a post;
 But when it was cold
@@ -36,7 +33,6 @@ And called for some hot buttered toast.
 ---++ Expected
 <noautolink>
 <!-- expected expand FNF -->
-<p></p><p /><p />
 <span class='foswikiAlert'>Warning: Can't find topic TestCases.FileNotFound</span>
 <!-- /expected -->
 </noautolink>
@@ -79,7 +75,7 @@ IncludedTopic
 
 ---+ Include nothing
 ---++ Expected
-<!-- expected NOWT --><p></p><p></p><span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE '', path is empty or contains illegal characters.</dd></dl></span><!-- /expected -->
+<!-- expected NOWT --><span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE '', path is empty or contains illegal characters.</dd></dl></span><!-- /expected -->
 ---++ Actual
 <!-- actual -->%INCLUDE{""}%<!-- /actual -->
 

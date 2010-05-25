@@ -230,7 +230,7 @@ sub readTemplate {
     }
 
     # Kill comments, marked by %{ ... }% (don't forget to remove excess newlines added after a comment)
-    $text =~ s/%{.*?}%(\n*)//sg;
+    $text =~ s/%{.*?}%([\s\n\r]*)//sg;
 
     if ( !( $text =~ /%TMPL\:/s ) ) {
 
@@ -272,7 +272,7 @@ sub readTemplate {
             $val = $2;
 
         }
-        elsif (/^END%[\n\r]*(.*)/s) {
+        elsif (/^END%[\s\n\r]*(.*)/s) {
 
             # handle %TMPL:END%
 
