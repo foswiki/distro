@@ -1396,6 +1396,21 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
+$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} = 'Foswiki::Plugins::AutoViewTemplatePlugin';
+$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} = 'Foswiki::Plugins::CompareRevisionsAddonPlugin';
+$Foswiki::cfg{Plugins}{HistoryPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{HistoryPlugin}{Module} = 'Foswiki::Plugins::HistoryPlugin';
+$Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{JQueryPlugin}{Module} = 'Foswiki::Plugins::JQueryPlugin';
+$Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
+$Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Contrib::MailerContribPlugin';
+
+
+
 
 #---++ Install and Update Extensions
 # <p>Consult online extensions repositories for new extensions, or check and manage updates.</p>
