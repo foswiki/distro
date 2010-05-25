@@ -29,7 +29,9 @@ Directives are of the form ==%<nop>TMPL:&lt;key&gt;%== and ==%<nop>TMPL:&lt;key&
    * ==%<nop>TMPL:END%==: Ends a block definition.
    * ==%<nop>TMPL:PREV%==: returns the previous definition of the block being defined.
    * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
-   * ==%<nop>{...}%==: is a comment.
+   * ==%<nop>{...}%==: is a comment. Whitespace either side of the comment
+     (newlines, spaces, tabs etc) is treated as part of the comment, and
+     removed when the comment is removed.
 Two-pass processing lets you use a defined block before or after declaring it.
 For example, you can create a skin that overloads only the =foswiki.tmpl= master template, like the =print= skin which uses =foswiki.print.tmpl= to redefine the header and footer.
 
@@ -56,6 +58,10 @@ They are used to support a limited form of "if" condition that you can use to se
 </verbatim>
 When the "inactive" context is set, then this will expand the "link_inactive" TMPL:DEF; otherwise it will expand the "link_active" TMPL:DEF.
 See IfStatements for details of supported context identifiers.
+
+Comments =%{...}%= are removed from the templates as soon as the file is
+read, before any other template macros are evaluated. Whitespace either side
+of the comment (newlines, spaces, tabs etc) is also removed.
 
 #FindingTemplates
 ---++ Finding Skin Templates

@@ -37,8 +37,8 @@ use Assert;
 use Foswiki::Attrs ();
 
 # Enable TRACE to get HTML comments in the output showing where templates
-# open and close. Will probably bork the output, so normally you should use
-# it with a bin/view command-line.
+# (both DEFs and files) open and close. Will probably bork the output, so
+# normally you should use it with a bin/view command-line.
 use constant TRACE => 0;
 
 =begin TML
@@ -166,7 +166,7 @@ sub tmplP {
     my $val = '';
     if ( exists( $this->{VARS}->{$template} ) ) {
         $val = $this->{VARS}->{$template};
-        $val = "<!-- TMPL:P $template-->$val<!-- TMPL:END $template-->" if (TRACE);
+        $val = "<!--$template-->$val<!--/$template-->" if (TRACE);
         foreach my $p ( keys %$params ) {
             if ( $p eq 'then' || $p eq 'else' ) {
                 $val =~ s/%$p%/$this->expandTemplate($1)/ge;
@@ -228,9 +228,6 @@ sub readTemplate {
         $text =~ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/
           _readTemplateFile( $this, $1, $skins, $web )/ge;
     }
-
-    # Kill comments, marked by %{ ... }% (don't forget to remove excess newlines added after a comment)
-    $text =~ s/%{.*?}%([\s\n\r]*)//sg;
 
     if ( !( $text =~ /%TMPL\:/s ) ) {
 
@@ -307,7 +304,10 @@ sub readTemplate {
     # handle %TMPL:P{"..."}% recursively
     $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/geo;
 
-    $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom; # leading spaces to tabs
+    # leading spaces to tabs
+    # SMELL: anachronism?
+    $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
+
     return $result;
 }
 
@@ -330,21 +330,8 @@ sub _readTemplateFile {
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ /\.tmpl$/ ) {
-        my $F;
-        #SMELL: why is this an open, and the other a Foswiki::ReadFile?
-        if ( open( $F, '<', $Foswiki::cfg{TemplateDir} . '/' . $name ) ) {
-            local $/;
-            my $data = <$F>;
-            close($F);
-            $data =~ s/\n\n/<!-- newline FILE: $name -->\n\n/g if (TRACE);
-
-            return $data;
-        }
-        else {
-            $session->logger->log( 'warning',
-                "$Foswiki::cfg{TemplateDir}/$name: $!" );
-            return '';
-        }
+        return _decomment(_readFile($session,
+                                    "$Foswiki::cfg{TemplateDir}/$name"));
     }
 
     my $userdirweb  = $web;
@@ -363,14 +350,17 @@ sub _readTemplateFile {
 
             # Check we are allowed access
             unless ( $meta->haveAccess( 'VIEW', $session->{user} ) ) {
-                return $this->{session}->inlineAlert( 'alerts', 'access_denied',
+                return $this->{session}->inlineAlert(
+                    'alerts', 'access_denied',
                     "$userdirweb.$userdirname" );
             }
             my $text = $meta->text();
             $text = '' unless defined $text;
-            $text =~ s/\n\n/<!-- newline FILE: $userdirweb, $userdirname -->\n\n/g if (TRACE);
 
-            return $text;
+            $text = "<!--$userdirweb/$userdirname-->".$text
+              ."<!--/$userdirweb/$userdirname-->" if (TRACE);
+
+            return _decomment($text);
         }
     }
     else {
@@ -453,30 +443,59 @@ sub _readTemplateFile {
 
                     my $text = $meta->text();
                     $text = '' unless defined $text;
-                    $text =~ s/\n\n/<!-- newline FILE: $web1, $name1 -->\n\n/g if (TRACE);
 
-                    return $text;
+                    $text = "<!--$web1.$name1-->$text<!--/$web1.$name1-->"
+                      if (TRACE);
+
+                    return _decomment($text);
                 }
             }
             elsif ( -e $file ) {
                 next if ( defined( $this->{files}->{$file} ) );
 
-                #recursion prevention.
+                # recursion prevention.
                 $this->{files}->{$file} = 1;
-                my $text = Foswiki::readFile($file);
-                $text =~ s/\n\n/<!-- newline FILE: $file -->\n\n/g if (TRACE);
-                return $text;
+
+                return _decomment(_readFile($session, $file));
             }
         }
     }
 
-    # SMELL: should really
-    #throw Error::Simple( 'Template '.$name.' was not found' );
-    # instead of
-    #print STDERR "Template $name could not be found anywhere\n";
-    #Is Failing Silently the best option here?
+    # TRACE is paranoid
+    throw Error::Simple( 'Template "'.$name.'" was not found' ) if TRACE;
+
     return '';
 }
+
+sub _readFile {
+    my ( $session, $fn ) = @_;
+    my $F;
+
+    if ( open( $F, '<', $fn ) ) {
+        local $/;
+        my $text = <$F>;
+        close($F);
+
+        $text = "<!--$fn-->$text<!--/$fn-->" if (TRACE);
+
+        return $text;
+    }
+    else {
+        $session->logger->log(
+            'warning',
+            "$fn: $!" );
+        return '';
+    }
+}
+
+sub _decomment {
+    my $text = shift;
+    # Kill comments, marked by %{ ... }%
+    # (and remove whitespace either side of the comment)
+    $text =~ s/\s*%{.*?}%\s*//sg;
+    return $text;
+}
+
 
 1;
 __END__
