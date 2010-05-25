@@ -237,7 +237,6 @@ sub _parseFormDefinition {
             if ( $reservedFieldNames{$name} ) {
                 $name .= '_';
             }
-
             my $fieldDef = $this->createField(
                 $type,
                 name          => $name,
@@ -301,9 +300,14 @@ sub _link {
       $this->session->i18n->maketext('Details in separate window');
     $tooltip ||= $defaultToolTip;
 
-    my $web;
-    ( $web, $topic ) =
+    ( my $web, $topic ) =
       $this->session->normalizeWebTopicName( $this->{web}, $topic );
+
+    $web = Foswiki::Sandbox::untaint(
+        $web, \&Foswiki::Sandbox::validateWebName );
+
+    $topic = Foswiki::Sandbox::untaint(
+        $topic, \&Foswiki::Sandbox::validateTopicName);
 
     my $link;
 
@@ -319,7 +323,7 @@ sub _link {
         );
     }
     else {
-        my $that = Foswiki::Meta->new( $this->session, $this->web, $topic );
+        my $that = Foswiki::Meta->new( $this->session, $web, $topic );
         my $expanded = $that->expandMacros($string);
         if ( $tooltip ne $defaultToolTip ) {
             $link = CGI::span( { title => $tooltip }, $expanded );

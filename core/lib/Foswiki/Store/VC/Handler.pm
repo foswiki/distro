@@ -80,11 +80,14 @@ sub new {
     if ( $web && $topic ) {
         my $rcsSubDir = ( $Foswiki::cfg{RCS}{useSubDir} ? '/RCS' : '' );
 
+        ASSERT(UNTAINTED($web)) if DEBUG;
+        ASSERT(UNTAINTED($topic)) if DEBUG;
         if ($attachment) {
+            ASSERT(UNTAINTED($attachment)) if DEBUG;
             $this->{file} =
                 $Foswiki::cfg{PubDir} . '/' 
               . $web . '/'
-              . $this->{topic} . '/'
+              . $topic . '/'
               . $attachment;
             $this->{rcsFile} =
                 $Foswiki::cfg{PubDir} . '/' 
@@ -369,13 +372,19 @@ sub getWebNames {
     $dir .= '/' . $this->{web} if defined $this->{web};
     my @tmpList;
     my $dh;
+
     if ( opendir( $dh, $dir ) ) {
         @tmpList =
           map { Foswiki::Sandbox::untaintUnchecked($_) }
-          grep { !/\./ && !/$Foswiki::cfg{NameFilter}/ && -d $dir . '/' . $_ }
+          # The -e on the web preferences is used in preference to a
+          # -d to avoid having to validate the web name each time. Since
+          # the definition of a Web in this handler is "a directory with a
+          # WebPreferences.txt in it", this works.
+          grep { !/\./ && -e "$dir/$_/$Foswiki::cfg{WebPrefsTopicName}.txt" }
           readdir($dh);
         closedir($dh);
     }
+
     return @tmpList;
 }
 

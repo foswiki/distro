@@ -199,12 +199,18 @@ sub new {
     );
 
     # Normalise web path (replace [./]+ with /)
-    $web =~ tr#/.#/#s if defined $web;
+    if (defined $web) {
+        ASSERT(UNTAINTED($web)) if DEBUG;
+        $web =~ tr#/.#/#s;
+    }
 
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.
 
     $this->{_web}   = $web;
+
+    ASSERT(UNTAINTED($topic)) if (DEBUG && defined $topic);
+
     $this->{_topic} = $topic;
 
     #print STDERR "--new Meta($web, ".($topic||'undef').")\n";

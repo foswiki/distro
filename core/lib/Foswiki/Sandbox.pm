@@ -125,13 +125,11 @@ sub untaint {
     my $datum  = shift;
     my $method = shift;
     ASSERT( ref($method) ) if DEBUG;
-    $datum = &$method( $datum, @_ );
+    return $datum unless defined $datum;
 
-    if ( defined $datum ) {
-        $datum =~ /^(.*)$/;
-        return $1;
-    }
-    return $datum;
+    # Untaint the datum before validating it
+    return undef unless $datum =~ /^(.*)$/;
+    return &$method( $1, @_ );
 }
 
 =begin TML

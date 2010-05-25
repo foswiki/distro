@@ -1754,26 +1754,17 @@ sub new {
 
     # Validate and untaint topic name from path info
     $this->{topicName} = Foswiki::Sandbox::untaint(
-        $topic,
-        sub {
-            return $Foswiki::cfg{HomeTopicName}
-              unless isValidTopicName( $topic, 1 );
-            return $topic;
-        }
-    );
+        $topic, \&Foswiki::Sandbox::validateTopicName);
+
+    $this->{topicName} = $Foswiki::cfg{HomeTopicName}
+      unless (defined $this->{topicName} );
 
     # Validate web name from path info
     $this->{requestedWebName} = Foswiki::Sandbox::untaint(
-        $web,
-        sub {
-            return '' unless $web &&    # can be an empty string
-                  isValidWebName( $web, 1 );
-            return $web;
-        }
-    );
+        $web,\&Foswiki::Sandbox::validateWebName);
 
     $this->{webName} = $this->{requestedWebName}
-      || $Foswiki::cfg{UsersWebName};
+      ? $this->{requestedWebName} : $Foswiki::cfg{UsersWebName};
 
     # Convert UTF-8 web and topic name from URL into site charset if
     # necessary
@@ -3414,6 +3405,7 @@ A web _has_ to have a preferences topic to be a web.
 sub webExists {
     my ( $this, $web ) = @_;
 
+    ASSERT(UNTAINTED($web)) if DEBUG;
     return $this->{store}->webExists($web);
 }
 
@@ -3429,6 +3421,8 @@ Test if topic exists
 
 sub topicExists {
     my ( $this, $web, $topic ) = @_;
+    ASSERT(UNTAINTED($web)) if DEBUG;
+    ASSERT(UNTAINTED($topic)) if DEBUG;
     return $this->{store}->topicExists( $web, $topic );
 }
 
