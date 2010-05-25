@@ -22,11 +22,11 @@ sub set_up {
     $this->SUPER::set_up();
     $this->{tmpdatafile} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp.gif';
     $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp2.gif';
-    $this->{test_web} = Assert::TAINT($this->{test_web});
     $this->{test_web2}   = $this->{test_web} . 'Extra';
-    $this->{test_web2} = Assert::TAINT($this->{test_web2});
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
     $webObject->populateNewWeb();
+    $this->{test_web} = Assert::TAINT($this->{test_web});
+    $this->{test_web2} = Assert::TAINT($this->{test_web2});
 }
 
 sub tear_down {
