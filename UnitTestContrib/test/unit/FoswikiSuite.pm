@@ -15,7 +15,7 @@ sub list_tests {
 
 sub include_tests {
     my $this = shift;
-    push( @INC, '.' );
+    #push( @INC, '.' );
     my @list;
     opendir( DIR, "." ) || die "Failed to open .";
     foreach my $i ( sort readdir(DIR) ) {
@@ -53,8 +53,9 @@ sub include_tests {
             if (m#^!include ([\w.]+)/.*?/(\w+)$#) {
                 my $d = "$home/test/unit/$2";
                 next unless ( -e "$d/${2}Suite.pm" );
-                push( @INC,  $d );
                 push( @list, "${2}Suite.pm" );
+                ($d) = $d =~ m/^(.*)$/;
+                push( @INC,  $d );
             }
         }
         close(F);
