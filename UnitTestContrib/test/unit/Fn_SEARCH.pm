@@ -2586,7 +2586,7 @@ GNURF
 }%
 GNURF
     $this->assert_equals(
-        "HEADER\nSandbox WebHome, System WebHome, FOOTER\n",
+        "HEADER\nMain WebHome, Sandbox WebHome, FOOTER\n",
         $result );
 }
 
