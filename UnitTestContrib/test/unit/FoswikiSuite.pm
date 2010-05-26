@@ -17,8 +17,8 @@ sub list_tests {
 sub include_tests {
     my $this = shift;
     my $here = Cwd::abs_path;
-    $here =~ m/^(.*)$/;  # untaint
-    push( @INC, $1 );
+    ($here) = $here =~ m/^(.*)$/;  # untaint
+    push( @INC, $here );
     my @list;
     opendir( DIR, "." ) || die "Failed to open .";
     foreach my $i ( sort readdir(DIR) ) {
@@ -70,7 +70,10 @@ sub include_tests {
 
     print STDERR "Running tests from ", join( ', ', @list ), "\n";
 
-    #print STDERR "Include INC = ", join( "\n", @INC ), "\n";
+    #foreach my $dir ( @INC ) {
+    #   print "Checking $dir \n"; 
+    #   Assert::UNTAINTED( $dir );
+    #}
 
     return @list;
 }
