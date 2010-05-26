@@ -5,11 +5,16 @@ This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGI
 
 ---+ Installed Plugins
 
-Here is a list of the plugins currently installed and enabled on this Foswiki site:
+Here is a list of the plugins currently installed and enabled in the
+[[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configuration]] on this
+Foswiki site: 
 
 %PLUGINDESCRIPTIONS%
 
-Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configure]].
+Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configure]].  
+Plugins shown in the above list as _(disabled)_ are enabled in the
+configuration, but disabled in Site, Web or another preference settings topic (see System.PreferenceSettings )
+
 
 See [[Plugins]] for more detailed description of how to install and use Plugins.
 
