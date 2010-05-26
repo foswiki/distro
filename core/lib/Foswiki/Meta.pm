@@ -2608,20 +2608,16 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod expandNewTopic()
+---++ ObjectMethod expandNewTopic( $text ) -> $text
 Expand only that subset of Foswiki variables that are
-expanded during topic creation, in the body text and
-PREFERENCE meta only.
-
-The expansion is in-place in the object data.
-
+expanded during topic creation. Returns the expanded text.
 Only valid on topics.
 
 =cut
 
 sub expandNewTopic {
-    my ( $this ) = @_;
-    $this->{_session}->expandMacrosOnTopicCreation( $this );
+    my ( $this, $text ) = @_;
+    return $this->{_session}->expandMacrosOnTopicCreation( $text, $this );
 }
 
 =begin TML

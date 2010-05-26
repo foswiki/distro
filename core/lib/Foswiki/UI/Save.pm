@@ -121,7 +121,7 @@ sub buildNewTopic {
 
         $text = $ttom->text();
         $text = '' if $query->param('newtopic');       # created by edit
-        $topicObject->text($text);
+        $text = $topicObject->expandNewTopic($text);
 
         foreach my $k ( keys %$ttom ) {
 
@@ -130,9 +130,6 @@ sub buildNewTopic {
                 $topicObject->copyFrom( $ttom, $k );
             }
         }
-
-        $topicObject->expandNewTopic();
-        $text = $topicObject->text();
 
         # topic creation, there is no original rev
         $ancestorRev = 0;

@@ -456,7 +456,7 @@ EVIL
     # All meta should have found its way into text
     $this->assert_equals($text, $topicObject->text()."\n");
     $topicObject->expandMacros($topicObject->text());
-    $topicObject->expandNewTopic();
+    $topicObject->expandNewTopic($topicObject->text());
     $topicObject->renderTML($topicObject->text());
     $topicObject->renderFormForDisplay();
     $text = $topicObject->text();
@@ -494,7 +494,7 @@ GOOD
     $topicObject->save();
     $this->assert_equals($gunk, $topicObject->text());
     $topicObject->expandMacros($topicObject->text());
-    $topicObject->expandNewTopic();
+    $topicObject->expandNewTopic($topicObject->text());
     $topicObject->renderTML($topicObject->text());
     $topicObject->renderFormForDisplay();
 }

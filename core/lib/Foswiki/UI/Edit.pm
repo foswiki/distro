@@ -279,13 +279,10 @@ sub init_edit {
         # Copy field values from the template
         $topicObject->copyFrom( $ttom, 'FIELD' );
 
-        # Copy preference values
-        $topicObject->copyFrom( $ttom, 'PREFERENCE' );
+        $topicObject->text( $topicObject->expandNewTopic( $ttom->text() ) );
 
-        # Copy the text
-        $topicObject->text($ttom->text());
-
-        $topicObject->expandNewTopic();
+        #SMELL: need to at least explain why we need to do this a second time.
+        $topicObject->text( $topicObject->expandNewTopic( $ttom->text() ) );
     }
 
     $tmpl =~ s/%TEMPLATETOPIC%/$templateTopic/;

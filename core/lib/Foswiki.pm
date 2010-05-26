@@ -2287,103 +2287,94 @@ sub parseSections {
 
 =begin TML
 
----++ ObjectMethod expandMacrosOnTopicCreation ( $topicObject )
+---++ ObjectMethod expandMacrosOnTopicCreation ( $text, $topicObject ) -> $text
 
+   * =$text= - text to expand
    * =$topicObject= - the topic
 
-Expand only that subset of Foswiki variables that are
-expanded during topic creation, in the body text and
-PREFERENCE meta only. The expansion is in-place inside
-the topic object.
+Expand limited set of variables during topic creation. These are variables
+expected in templates that must be statically expanded in new content.
 
 # SMELL: no plugin handler
 
 =cut
 
 sub expandMacrosOnTopicCreation {
-    my ( $this, $topicObject ) = @_;
+    my ( $this, $text, $topicObject ) = @_;
+
+    return '' unless defined $text;
+
+    # Chop out templateonly sections
+    my ( $ntext, $sections ) = parseSections($text);
+    if ( scalar(@$sections) ) {
+
+        # Note that if named templateonly sections overlap,
+        # the behaviour is undefined.
+        foreach my $s ( reverse @$sections ) {
+            if ( $s->{type} eq 'templateonly' ) {
+                $ntext =
+                    substr( $ntext, 0, $s->{start} )
+                  . substr( $ntext, $s->{end}, length($ntext) );
+            }
+            else {
+
+                # put back non-templateonly sections
+                my $start = $s->remove('start');
+                my $end   = $s->remove('end');
+                $ntext =
+                    substr( $ntext, 0, $start )
+                  . '%STARTSECTION{'
+                  . $s->stringify() . '}%'
+                  . substr( $ntext, $start, $end - $start )
+                  . '%ENDSECTION{'
+                  . $s->stringify() . '}%'
+                  . substr( $ntext, $end, length($ntext) );
+            }
+        }
+        $text = $ntext;
+    }
 
     # Make sure func works, for registered tag handlers
-    local $Foswiki::Plugins::SESSION = $this;
+    $Foswiki::Plugins::SESSION = $this;
 
-    my $text = $topicObject->text();
-    if ($text) {
-        # Chop out templateonly sections
-        my ( $ntext, $sections ) = parseSections($text);
-        if ( scalar(@$sections) ) {
-            
-            # Note that if named templateonly sections overlap,
-            # the behaviour is undefined.
-            foreach my $s ( reverse @$sections ) {
-                if ( $s->{type} eq 'templateonly' ) {
-                    $ntext =
-                      substr( $ntext, 0, $s->{start} )
-                        . substr( $ntext, $s->{end}, length($ntext) );
-                }
-                else {
-                    
-                    # put back non-templateonly sections
-                    my $start = $s->remove('start');
-                    my $end   = $s->remove('end');
-                    $ntext =
-                      substr( $ntext, 0, $start )
-                        . '%STARTSECTION{'
-                          . $s->stringify() . '}%'
-                            . substr( $ntext, $start, $end - $start )
-                              . '%ENDSECTION{'
-                                . $s->stringify() . '}%'
-                                  . substr( $ntext, $end, length($ntext) );
-                }
+    $text = _processMacros( $this, $text, \&_expandMacroOnTopicCreation,
+        $topicObject, 16 );
+
+    # expand all variables for type="expandvariables" sections
+    ( $ntext, $sections ) = parseSections($text);
+    if ( scalar(@$sections) ) {
+        foreach my $s ( reverse @$sections ) {
+            if ( $s->{type} eq 'expandvariables' ) {
+                my $etext =
+                  substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
+                $this->innerExpandMacros( \$etext, $topicObject );
+                $ntext =
+                    substr( $ntext, 0, $s->{start} ) 
+                  . $etext
+                  . substr( $ntext, $s->{end}, length($ntext) );
             }
-            $text = $ntext;
-        }
-                
-        $text = _processMacros( $this, $text, \&_expandMacroOnTopicCreation,
-                                $topicObject, 16 );
-        
-        # expand all variables for type="expandvariables" sections
-        ( $ntext, $sections ) = parseSections($text);
-        if ( scalar(@$sections) ) {
-            foreach my $s ( reverse @$sections ) {
-                if ( $s->{type} eq 'expandvariables' ) {
-                    my $etext =
-                      substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
-                    $this->innerExpandMacros( \$etext, $topicObject );
-                    $ntext =
-                      substr( $ntext, 0, $s->{start} ) 
-                        . $etext
-                          . substr( $ntext, $s->{end}, length($ntext) );
-                }
-                else {
-                    
-                    # put back non-expandvariables sections
-                    my $start = $s->remove('start');
-                    my $end   = $s->remove('end');
-                    $ntext =
-                      substr( $ntext, 0, $start )
-                        . '%STARTSECTION{'
-                          . $s->stringify() . '}%'
-                            . substr( $ntext, $start, $end - $start )
-                              . '%ENDSECTION{'
-                                . $s->stringify() . '}%'
-                                  . substr( $ntext, $end, length($ntext) );
-                }
+            else {
+
+                # put back non-expandvariables sections
+                my $start = $s->remove('start');
+                my $end   = $s->remove('end');
+                $ntext =
+                    substr( $ntext, 0, $start )
+                  . '%STARTSECTION{'
+                  . $s->stringify() . '}%'
+                  . substr( $ntext, $start, $end - $start )
+                  . '%ENDSECTION{'
+                  . $s->stringify() . '}%'
+                  . substr( $ntext, $end, length($ntext) );
             }
-            $text = $ntext;
         }
-        
-        # kill markers used to prevent variable expansion
-        $text =~ s/%NOP%//g;
-        $topicObject->text($text);
+        $text = $ntext;
     }
 
-    # Expand preferences
-    my @prefs = $topicObject->find( 'PREFERENCE' );
-    foreach my $p (@prefs) {
-        $p->{value} = _processMacros(
-            $this, $p->{value}, \&_expandMacroOnTopicCreation,
-            $topicObject, 16 );
-    }
+    # kill markers used to prevent variable expansion
+    $text =~ s/%NOP%//g;
+
+    return $text;
 }
 
 =begin TML
