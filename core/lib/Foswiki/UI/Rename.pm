@@ -174,8 +174,7 @@ sub _renameTopicOrAttachment {
         # Validate the new attachment name, if one was provided
         if ($newAttachment) {
             $newAttachment = Foswiki::Sandbox::untaint(
-                $newAttachment,
-                \&Foswiki::Sandbox::validateAttachmentName($att) );
+                $newAttachment, \&Foswiki::Sandbox::validateAttachmentName );
         }
 
         if ( $newWeb && $newTopic && $newAttachment ) {
