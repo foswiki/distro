@@ -30,134 +30,97 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
-sub test_untaint {
+sub test_untaintUnchecked {
     my $this = shift;
     $this->assert_str_equals( '', Foswiki::Sandbox::untaintUnchecked('') );
     $this->assert_not_null( 'abc', Foswiki::Sandbox::untaintUnchecked('abc') );
     $this->assert_null( Foswiki::Sandbox::untaintUnchecked(undef) );
 }
 
-sub test_normalize {
+sub test_validateAttachmentName {
     my $this = shift;
 
     $this->assert_str_equals( "abc",
-        Foswiki::Sandbox::normalizeFileName("abc") );
+        Foswiki::Sandbox::validateAttachmentName("abc") );
     $this->assert_str_equals( "abc",
-        Foswiki::Sandbox::normalizeFileName("./abc") );
+        Foswiki::Sandbox::validateAttachmentName("./abc") );
     $this->assert_str_equals( "abc",
-        Foswiki::Sandbox::normalizeFileName("abc/.") );
-    $this->assert_str_equals( "${slash}abc",
-        Foswiki::Sandbox::normalizeFileName("/abc") );
-    $this->assert_str_equals( "${slash}abc",
-        Foswiki::Sandbox::normalizeFileName("//abc") );
-    $this->assert_str_equals( "${slash}a${slash}bc",
-        Foswiki::Sandbox::normalizeFileName("/a/bc") );
-    $this->assert_str_equals( "${slash}a${slash}b${slash}c",
-        Foswiki::Sandbox::normalizeFileName("/a/b/c") );
-    $this->assert_str_equals( "${slash}a${slash}b${slash}c",
-        Foswiki::Sandbox::normalizeFileName("/a/b/c/") );
+        Foswiki::Sandbox::validateAttachmentName("abc/.") );
+    $this->assert_str_equals( "abc",
+        Foswiki::Sandbox::validateAttachmentName("/abc") );
+    $this->assert_str_equals( "abc",
+        Foswiki::Sandbox::validateAttachmentName("//abc") );
 
-    $this->assert_str_equals( "abc",
-        Foswiki::Sandbox::normalizeFileName(".${slash}abc") );
-    $this->assert_str_equals( "abc",
-        Foswiki::Sandbox::normalizeFileName("abc${slash}.") );
-    $this->assert_str_equals( "${slash}abc",
-        Foswiki::Sandbox::normalizeFileName("${slash}${slash}abc") );
-    $this->assert_str_equals( "${slash}a${slash}bc",
-        Foswiki::Sandbox::normalizeFileName("${slash}a${slash}bc") );
-    $this->assert_str_equals( "${slash}a${slash}b${slash}c",
-        Foswiki::Sandbox::normalizeFileName("${slash}a${slash}b${slash}c") );
     $this->assert_str_equals(
-        "${slash}a${slash}b${slash}c",
-        Foswiki::Sandbox::normalizeFileName(
-            "${slash}a${slash}b${slash}c${slash}")
-    );
+        "", Foswiki::Sandbox::validateAttachmentName("c/.."));
 
-    unless ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
-        $this->assert_str_equals(
-            "${slash}a${slash}b${slash}c",
-            Foswiki::Sandbox::normalizeFileName(
-                "${slash}${slash}a${slash}b${slash}c")
-        );
-        $this->assert_str_equals( "${slash}a${slash}bc",
-            Foswiki::Sandbox::normalizeFileName("${slash}${slash}a${slash}bc")
-        );
-        $this->assert_str_equals( "${slash}abc",
-            Foswiki::Sandbox::normalizeFileName("${slash}abc") );
-        $this->assert_str_equals( "${slash}a${slash}b${slash}c",
-            Foswiki::Sandbox::normalizeFileName("//a/b/c/") );
-        $this->assert_str_equals( "${slash}a${slash}b${slash}c",
-            Foswiki::Sandbox::normalizeFileName("//a/b/c") );
-        $this->assert_str_equals( "${slash}a${slash}bc",
-            Foswiki::Sandbox::normalizeFileName("//a/bc") );
-        $this->assert_str_equals(
-            "${slash}a${slash}b${slash}c",
-            Foswiki::Sandbox::normalizeFileName(
-                "${slash}${slash}a${slash}b${slash}c${slash}")
-        );
-    }
+    $this->assert_null(Foswiki::Sandbox::validateAttachmentName("../a"));
 
-    try {
-        Foswiki::Sandbox::normalizeFileName("c/..");
-        $this->assert(0);
-    }
-    catch Error::Simple with {
-        $this->assert_matches( qr/^relative path/, shift->stringify() );
-    };
-    try {
-        Foswiki::Sandbox::normalizeFileName("../a");
-        $this->assert(0);
-    }
-    catch Error::Simple with {
-        $this->assert_matches( qr/^relative path/, shift->stringify() );
-    };
-    try {
-        $this->assert_str_equals( "a/../b",
-            Foswiki::Sandbox::normalizeFileName("//a/b/c/../..") );
-        $this->assert(0);
-    }
-    catch Error::Simple with {
-        $this->assert_matches( qr/^relative path/, shift->stringify() );
-    };
+    $this->assert_null(Foswiki::Sandbox::validateAttachmentName("/a/../.."));
+    $this->assert_str_equals(
+        "a", Foswiki::Sandbox::validateAttachmentName("//a/b/c/../..") );
     $this->assert_str_equals( "..a",
-        Foswiki::Sandbox::normalizeFileName("..a/") );
+        Foswiki::Sandbox::validateAttachmentName("..a/") );
     $this->assert_str_equals( "a${slash}..b",
-        Foswiki::Sandbox::normalizeFileName("a/..b") );
+        Foswiki::Sandbox::validateAttachmentName("a/..b") );
+}
+
+sub _shittify {
+    my ($a, $b) = Foswiki::Sandbox::sanitizeAttachmentName(shift);
+    return $a;
 }
 
 sub test_sanitizeAttachmentName {
     my $this = shift;
 
-    $this->assert_str_equals( "abc",
-        Foswiki::Sandbox::sanitizeAttachmentName("abc") );
-    $this->assert_str_equals( "abc.txt",
-        Foswiki::Sandbox::sanitizeAttachmentName("abc.txt") );
-    $this->assert_str_equals( "abc.txt",
-        Foswiki::Sandbox::sanitizeAttachmentName("../abc.txt") );
-    $this->assert_str_equals( "abc.txt",
-        Foswiki::Sandbox::sanitizeAttachmentName(".abc.txt") );
-    $this->assert_str_equals( "abc.txt",
-        Foswiki::Sandbox::sanitizeAttachmentName("\\abc.txt") );
-    $this->assert_str_equals( "abc.txt",
-        Foswiki::Sandbox::sanitizeAttachmentName("/abc.txt") );
+    # Check that leading paths are stripped
+    $this->assert_str_equals( "abc", _shittify("abc") );
+    $this->assert_str_equals( "abc", _shittify("./abc") );
+    $this->assert_str_equals( "abc", _shittify("\\abc") );
+    $this->assert_str_equals( "abc", _shittify("//abc") );
+    $this->assert_str_equals( "abc", _shittify("\\\\abc") );
 
-    $this->assert_str_equals( "abc.php.txt",
-        Foswiki::Sandbox::sanitizeAttachmentName("abc.php") )
-      ;    # just checking the string conversion, not the tainted input filename
+    # Check that "certain characters" are munched
+    my $crap = '';
+    $Foswiki::cfg{UseLocale} = 0;
+    for (0..255) {
+        my $c = chr($_);
+        $crap .= $c if $c =~ /$Foswiki::regex{filenameInvalidCharRegex}/;
+    }
+    my $x = $crap =~ / / ? '_' : '';
+    $this->assert_str_equals( "pick_me${x}pick_me",
+        _shittify("pick me${crap}pick me") );
 
-    $this->assert_str_equals( "a_b_c",
-        Foswiki::Sandbox::sanitizeAttachmentName("a b c") );
+    $crap = '';
+    $Foswiki::cfg{UseLocale} = 1;
+    for (0..255) {
+        my $c = chr($_);
+        $crap .= $c if $c =~ /$Foswiki::cfg{NameFilter}/;
+    }
+    $x = $crap =~ / / ? '_' : '';
+    $this->assert_str_equals( "pick_me${x}pick_me",
+        _shittify("pick me${crap}pick me") );
 
-    # checking tainted variable
-    my $tainted   = $ENV{PATH};
-    my $untainted = $tainted;
-    $untainted =~ s/(.*?)/$1/;
-    $untainted =~ s{[\\/]+$}{}; # Get rid of trailing slash/backslash (unlikely)
-    $untainted =~ s!^.*[\\/]!!; # Get rid of directory part
-    $untainted =~ s/^([\.\/\\]*)*(.*?)$/$2/go;
-
-    $this->assert_str_equals( $untainted,
-        Foswiki::Sandbox::sanitizeAttachmentName($tainted) );
+    # Check that the upload filter is applied.
+    $Foswiki::cfg{UploadFilter} =
+      qr(^(
+             \.htaccess
+         | .*\.(?i)(?:php[0-9s]?(\..*)?
+         | [sp]htm[l]?(\..*)?
+         | pl
+         | py
+         | cgi ))$)x;
+    $this->assert_str_equals( ".htaccess.txt", _shittify(".htaccess") );
+    for my $i qw(php shtm phtml pl py cgi PHP SHTM PHTML PL PY CGI) {
+        my $x = "bog.$i";
+        my $y = "$x.txt";
+        $this->assert_str_equals( $y, _shittify($x) );
+    }
+    for my $i qw(php phtm shtml PHP PHTM SHTML) {
+        my $x = "bog.$i.s";
+        my $y = "$x.txt";
+        $this->assert_str_equals( $y, _shittify($x) );
+    }
 }
 
 sub test_buildCommandLine {

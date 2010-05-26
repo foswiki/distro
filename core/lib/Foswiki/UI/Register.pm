@@ -373,10 +373,17 @@ sub _innerRegister {
     $data->{webName} = $session->{webName};
     $data->{debug}   = 1;
 
+    my $oldName = $data->{WikiName};
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
-    throw Error::Simple('Bad WikiName') unless $data->{WikiName};
+    throw Foswiki::OopsException(
+        'attention',
+        def    => 'bad_wikiname',
+        web    => $data->{webName},
+        topic  => $session->{topicName},
+        params => [ $oldName ]
+       ) unless $data->{WikiName};
 
     _validateRegistration( $session, $data, 1 );
 }
@@ -751,6 +758,7 @@ sub _complete {
         $data->{webName} = $web;
     }
 
+
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
@@ -973,12 +981,12 @@ sub _writeRegistrationDetailsToTopic {
     my $safe = $session->{user};
     $session->{user} = $user;
     try {
-        $text = $topicObject->expandNewTopic($text);
+        $topicObject->text($text);
+        $topicObject->expandNewTopic();
         my $agent = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
         $session->{user} = $session->{users}->getCanonicalUserID($agent);
         $topicObject->put( 'TOPICPARENT',
             { name => $Foswiki::cfg{UsersTopicName} } );
-        $topicObject->text($text);
 
         unless ( $topicObject->haveAccess('CHANGE') ) {
             throw Foswiki::AccessControlException( 'CHANGE', $agent,

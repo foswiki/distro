@@ -2110,9 +2110,11 @@ sub expandVariablesOnTopicCreation {
     my $topicObject = Foswiki::Meta->new(
         $Foswiki::Plugins::SESSION,
         $Foswiki::Plugins::SESSION->{webName},
-        $Foswiki::Plugins::SESSION->{topicName}
+        $Foswiki::Plugins::SESSION->{topicName},
+        $_[0]
     );
-    return $topicObject->expandNewTopic( $_[0] );
+    $topicObject->expandNewTopic();
+    return $topicObject->text();
 }
 
 =begin TML
@@ -2593,12 +2595,17 @@ sub normalizeWebTopicName {
 
 ---+++ StaticMethod sanitizeAttachmentName($fname) -> ($fileName, $origName)
 
-Given a file namer, sanitise it according to the rules for transforming
+Given a file path, sanitise it according to the rules for transforming
 attachment names. Returns
 the sanitised name together with the basename before sanitisation.
 
 Sanitation includes filtering illegal characters and mapping client
 file names to legal server names.
+
+Avoid using this if you can; rewriting attachment names uses some very
+nasty heuristics that cannot be changed because of compatibility issues.
+It is much better use point-of-source validation to ensure only valid
+attachment names are uploaded.
 
 =cut
 

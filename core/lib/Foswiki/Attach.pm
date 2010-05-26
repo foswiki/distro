@@ -110,8 +110,11 @@ sub formatVersions {
     my ( $this, $topicObject, %attrs ) = @_;
 
     my $users = $this->{session}->{users};
-    # SMELL:  This was needed to avoid a taint error.  Foswikitask:Item9053
-    $attrs{name} = Foswiki::Sandbox::normalizeFileName( $attrs{name} );
+
+    $attrs{name} = Foswiki::Sandbox::untaint(
+        $attrs{name},
+        \&Foswiki::Sandbox::validateAttachmentName);
+
     my $revIt = $topicObject->getRevisionHistory( $attrs{name} );
 
     my $templates = $this->{session}->templates;

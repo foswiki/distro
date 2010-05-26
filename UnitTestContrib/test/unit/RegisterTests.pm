@@ -1801,9 +1801,11 @@ sub registerUserException {
     }
     catch Error::Simple with {
         $exception = shift;
+        $exception->{template} = "died";
     }
     otherwise {
         $exception = new Error::Simple();
+        $exception->{template} = "OK";
     };
     $fatwilly->finish();
 
@@ -1959,15 +1961,15 @@ sub verify_Default_NameFilter {
 
     $ret = $this->registerUserException( 'asdf2', 'Asdf@', 'Poiu',
         'asdf@example.com' );
-    $this->assert_not_null( $ret, "at in wikiname should fail" );
+    $this->assert_not_null( $ret, "@ in wikiname should fail" );
     $this->assert_equals( 'attention', $ret->{template},
-        "at in name should fail" );
+        "@ in wikiname should oops: ".$ret->stringify );
     $this->assert_equals( 'bad_wikiname', $ret->{def},
-        "at in name should fail" );
+        "@ in wikiname should fail" );
     $this->assert_equals(
         'Asdf@Poiu',
         ${ $ret->{params} }[0],
-        "at in name should fail"
+        "@ in wikiname should fail"
     );
 
     $ret = $this->registerUserException( 'asdf3', 'Mac Asdf', 'Poiu',

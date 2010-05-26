@@ -323,7 +323,8 @@ sub _link {
         );
     }
     else {
-        my $that = Foswiki::Meta->new( $this->session, $web, $topic );
+        my $that = Foswiki::Meta->new(
+            $this->session, $web, $topic || $Foswiki::cfg{HomeTopicName} );
         my $expanded = $that->expandMacros($string);
         if ( $tooltip ne $defaultToolTip ) {
             $link = CGI::span( { title => $tooltip }, $expanded );

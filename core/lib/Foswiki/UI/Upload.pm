@@ -150,6 +150,9 @@ sub _upload {
         };
 
         $stream = $query->upload('filepath');
+        # SMELL: would be much better to throw an exception if an attempt
+        # is made to upload an invalid filename. However, it has always
+        # been this way :-(
         ( $fileName, $origName ) =
           Foswiki::Sandbox::sanitizeAttachmentName($fileName);
 

@@ -132,10 +132,13 @@ sub verify_view {
     $one =~ s/^.*?\n\n+//s;
     $one =~ s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs;
     $one =~ s/([?;&]t=)\d+/${1}0/g;
+    $one =~ s/SERVERTIME:".*?"/SERVERTIME:""/gs;
+
     $two =~ s/\r//g;
     $two =~ s/^.*?\n\n+//s;
     $two =~ s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs;
     $two =~ s/([?;&]t=)\d+/${1}0/g;
+    $two =~ s/SERVERTIME:".*?"/SERVERTIME:""/gs;
 
     $this->assert_html_equals($one, $two);
 }

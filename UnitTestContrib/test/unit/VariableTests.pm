@@ -83,7 +83,11 @@ Kill me
 %USERINFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
-    my $result = $this->{test_topicObject}->expandNewTopic($text);
+    $this->{test_topicObject}->text($text);
+    $this->{test_topicObject}->put('PREFERENCE',
+                                   {name=>"BLAH", value=>"%WIKINAME%"});
+    $this->{test_topicObject}->expandNewTopic();
+
     my $xpect  = <<END;
 scum
 
@@ -95,7 +99,8 @@ scum, $this->{users_web}.ScumBag, scumbag\@example.com
 scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
 %ENDSECTION{name="fred" type="section"}%
 END
-    $this->assert_str_equals( $xpect, $result );
+    $this->assert_str_equals( $xpect, $this->{test_topicObject}->text() );
+    $this->assert_str_equals( "ScumBag", $this->{test_topicObject}->get('PREFERENCE', 'BLAH')->{value} );
 }
 
 sub test_userExpansions {

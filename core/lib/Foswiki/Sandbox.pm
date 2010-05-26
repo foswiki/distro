@@ -164,19 +164,58 @@ sub validateTopicName {
 
 =begin TML
 
----++ StaticMethod normalizeFileName( $string ) -> $filename
+---++ StaticMethod validateAttachmentName($name) -> $attachment
 
-Throws an exception if =$string= contains filtered characters, as
-defined by =$Foswiki::cfg{NameFilter}=
+Check that the name is valid for use as an attachment name. Method used for
+validation with untaint(). Returns the name, or undef if it is invalid.
 
-The returned string is not tainted, but it may contain shell
-metacharacters and even control characters.
+Note that the name may contain path separators. This is to permit validation
+of an attachment that is stored in a subdirectory somewhere under the
+standard Web/Topic/attachment level e.g
+Web/Topic/attachmentdir/subdir/attachment.gif. While such attachments cannot
+be created via the UI, they *can* be created manually on the server.
+
+The individual path components are filtered by $Foswiki::cfg{NameFilter}
 
 =cut
 
-sub normalizeFileName {
-    my ($string) = @_;
-    return '' unless $string;
+sub validateAttachmentName {
+    my $string = shift;
+
+    return undef unless $string;
+
+    # Attachment names are always relative to web/topic, so leading /'s
+    # are simply an expression of that root.
+    $string =~ s/^\/+//;
+
+    my @dirs = split(/\/+/, $string);
+    my @result;
+    foreach my $component ( @dirs ) {
+        return undef unless defined($component) && $component ne '';
+        next if $component eq '.';
+        if ( $component eq '..' ) {
+            if (scalar(@result)) {
+                # path name is relative within its own length - we can
+                # do that
+                pop(@result);
+            } else {
+                # Illegal relative path name
+                return undef;
+            }
+        } else {
+            # Filter nasty characters
+            $component =~ s/$Foswiki::cfg{NameFilter}//g;
+            push( @result, $component );
+        }
+    }
+
+    return join('/', @result);
+}
+
+# Validate, clean up and untaint filename passed to an external command
+sub _cleanUpFilePath {
+    my $string = shift;
+    return '' unless defined $string;
     my ( $volume, $dirs, $file ) = File::Spec->splitpath($string);
     my @result;
     my $first = 1;
@@ -189,9 +228,9 @@ sub normalizeFileName {
             throw Error::Simple( 'relative path in filename ' . $string );
         }
         elsif ( $component =~ /$Foswiki::cfg{NameFilter}/ ) {
-            throw Error::Simple( 'illegal characters in file name component '
+            throw Error::Simple( 'illegal characters in file name component "'
                   . $component
-                  . ' of filename '
+                  . '" of filename '
                   . $string );
         }
         push( @result, $component );
@@ -205,8 +244,7 @@ sub normalizeFileName {
     }
     $string = File::Spec->catpath( $volume, $dirs, $file );
 
-    # We need to untaint the string explicitly.
-    # FIXME: This might be a Perl bug.
+    # Validated, can safely untaint
     return untaintUnchecked($string);
 }
 
@@ -217,8 +255,13 @@ sub normalizeFileName {
 Given a file name received in a query parameter, sanitise it. Returns
 the sanitised name together with the basename before sanitisation.
 
-Sanitation includes filtering illegal characters and mapping client
-file names to legal server names.
+Sanitation includes removal of all leading path components,
+filtering illegal characters and mapping client
+file names to a subset of legal server file names.
+
+Avoid using this if you can; encoding attachment names this way is badly
+broken, much better to use point-of-source validation to ensure only valid
+attachment names are ever uploaded.
 
 =cut
 
@@ -232,27 +275,21 @@ sub sanitizeAttachmentName {
     # Item2859 and Item2225 before trying again to use File::Spec functions and
     # remember to test with IE.
     $fileName =~ s{[\\/]+$}{};  # Get rid of trailing slash/backslash (unlikely)
-    $fileName =~ s!^.*[\\/]!!;  # Get rid of directory part
+    $fileName =~ s!^.*[\\/]!!;  # Get rid of leading directory components
 
     my $origName = $fileName;
 
     # Change spaces to underscore
     $fileName =~ s/ /_/go;
 
-    # Strip dots and slashes at start
-    # untaint at the same time
-    $fileName =~ s/^([\.\/\\]*)*(.*?)$/$2/go;
-
     if ( $Foswiki::cfg{UseLocale} ) {
 
-        # Filter out (less secure) only if using locales
-        # TODO: Make this use filtering in
-        $fileName =~ s/$Foswiki::cfg{NameFilter}//goi;
+        # Filter out only if using locales.
+        $fileName =~ s/$Foswiki::cfg{NameFilter}//go;
     }
     else {
-
-        # No I18N, so just filter in alphanumeric etc
-        $fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
+        # No I18N, filter out invalid chars
+        $fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//go;
     }
 
     # Append .txt to some files
@@ -307,7 +344,7 @@ sub _buildCommandLine {
                         push @targs, untaintUnchecked($param);
                     }
                     elsif ( $flag eq 'F' ) {
-                        $param = normalizeFileName($param);
+                        $param = _cleanUpFilePath($param);
 
                         # Some command interpreters are too stupid to deal
                         # with filenames that start with a non-alphanumeric

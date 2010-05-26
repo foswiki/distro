@@ -175,11 +175,7 @@ sub _renameTopicOrAttachment {
         if ($newAttachment) {
             $newAttachment = Foswiki::Sandbox::untaint(
                 $newAttachment,
-                sub {
-                    my ($att) = @_;
-                    return Foswiki::Sandbox::sanitizeAttachmentName($att);
-                }
-            );
+                \&Foswiki::Sandbox::validateAttachmentName($att) );
         }
 
         if ( $newWeb && $newTopic && $newAttachment ) {

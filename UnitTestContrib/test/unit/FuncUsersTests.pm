@@ -1487,6 +1487,7 @@ sub verify_removeFromGroup {
         !Foswiki::Func::isGroupMember('WiseGuyDoesntExist' , 'ZeeGroup') );
 
     $this->assert( Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( Foswiki::Func::addUserToGroup('UserA',  'ZeeGroup', 1 ) );
     $this->assert( Foswiki::Func::addUserToGroup('UserB', 'ZeeGroup',  1 ) );
 

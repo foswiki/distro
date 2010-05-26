@@ -93,7 +93,6 @@ our @ISA = ('Foswiki::Store::VC::Handler');
 use Assert;
 use Error qw( :try );
 
-use FileHandle       ();
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
 
@@ -219,15 +218,15 @@ sub _ensureProcessed {
 # Read in the whole RCS file (assuming it exists)
 sub _process {
     my ($this) = @_;
-    my $rcsFile = Foswiki::Sandbox::normalizeFileName( $this->{rcsFile} );
-    if ( !-e $rcsFile ) {
+
+    if ( !-e $this->{rcsFile} ) {
         $this->{state} = 'nocommav';
         return;
     }
-    my $fh = new FileHandle();
-    if ( !$fh->open($rcsFile) ) {
+    my $fh;
+    unless (open( $fh, '<', $this->{rcsFile} ) ) {
         $this->{session}
-          ->logger->log( 'warning', 'Failed to open ' . $rcsFile );
+          ->logger->log( 'warning', 'Failed to open ' . $this->{rcsFile} );
         $this->{state} = 'nocommav';
         return;
     }
@@ -498,21 +497,15 @@ sub _addRevision {
     $this->{revs}[$head]->{author} = $author;
     $this->{revs}[$head]->{date}   = ( defined $date ? $date : time() );
 
-    return _writeMe($this);
+    _writeMe($this);
 }
 
 sub _writeMe {
     my ($this)    = @_;
-    my $dataError = '';
-    my $out       = new FileHandle();
+    my $out;
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{rcsFile} );
-    if (
-        !$out->open(
-            '>' . Foswiki::Sandbox::normalizeFileName( $this->{rcsFile} )
-        )
-      )
-    {
+    unless ( open($out, '>', $this->{rcsFile} ) ) {
         throw Error::Simple(
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }
@@ -522,7 +515,6 @@ sub _writeMe {
         close($out);
     }
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{rcsFile} );
-    return $dataError;
 }
 
 # implements VC::Handler
@@ -541,7 +533,7 @@ sub deleteRevision {
     # Can't delete revision 1
     return unless $this->{head} > 1;
     _delLastRevision($this);
-    return _writeMe($this);
+    _writeMe($this);
 }
 
 sub _delLastRevision {

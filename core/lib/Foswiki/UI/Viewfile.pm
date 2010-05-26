@@ -56,8 +56,8 @@ sub viewfile {
     }
     elsif ( defined( $query->param('filename') ) ) {
 
-        # Filename is an attachment to the topic in the standard path info
-        # /Web/Topic?filename=Attachment.gif
+        # Attachment name is passed in URL params. This is a (possibly
+        # / separated) path relative to the pub/Web/Topic
         $fileName = $query->param('filename');
     }
     else {
@@ -67,12 +67,14 @@ sub viewfile {
         $pathInfo = $query->path_info();
     }
 
+    # If we have path_info but no ?filename=
     if ($pathInfo) {
         my @path = split( /\/+/, $pathInfo );
         shift(@path) unless ( $path[0] );    # remove leading empty string
 
         # work out the web, topic and filename
         $web = '';
+        # Note that this assumes path_info is untainted
         while ( $path[0]
             && ( $session->webExists( $web . $path[0] ) ) )
         {
@@ -90,7 +92,7 @@ sub viewfile {
                 'attention',
                 def    => 'no_such_attachment',
                 web    => $web,
-                topic  => $topic || 'Unknown',
+                topic  => 'Unknown',
                 status => 404,
                 params => [ 'viewfile', '?' ]
             );
@@ -103,10 +105,11 @@ sub viewfile {
         $fileName = join( '/', @path );
     }
 
-    # According to SvenDowideit, you can't remove the /'s from the filename,
-    # as there are directories below the pub/web/topic.
-    #$fileName = Foswiki::Sandbox::sanitizeAttachmentName($fileName);
-    $fileName = Foswiki::Sandbox::normalizeFileName($fileName);
+    # Note that there may be directories below the pub/web/topic, so
+    # simply sanitizing the attachment name won't work.
+    $fileName = Foswiki::Sandbox::untaint(
+        $fileName,
+        \&Foswiki::Sandbox::validateAttachmentName);
 
     if ( !$fileName ) {
         throw Foswiki::OopsException(

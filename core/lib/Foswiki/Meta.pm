@@ -759,6 +759,10 @@ sub reload {
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
+    # If the topic was not found on disk, then there is no text to load and
+    # _text will be undef. If we leave it that way, then ->text will force
+    # a reload again, so _text must be given a value.
+    $this->{_text} = '' unless defined $this->{_text};
 
     if ( defined $this->{_loadedRev} ) {
 
@@ -2608,16 +2612,20 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod expandNewTopic( $text ) -> $text
+---++ ObjectMethod expandNewTopic()
 Expand only that subset of Foswiki variables that are
-expanded during topic creation. Returns the expanded text.
+expanded during topic creation, in the body text and
+PREFERENCE meta only.
+
+The expansion is in-place in the object data.
+
 Only valid on topics.
 
 =cut
 
 sub expandNewTopic {
-    my ( $this, $text ) = @_;
-    return $this->{_session}->expandMacrosOnTopicCreation( $text, $this );
+    my ( $this ) = @_;
+    $this->{_session}->expandMacrosOnTopicCreation( $this );
 }
 
 =begin TML

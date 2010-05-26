@@ -117,19 +117,18 @@ sub readTopic {
         my @validAttachmentsFound;
         foreach my $foundAttachment (@attachmentsFoundInPub) {
 
-            # test if the attachment filename would need sanitizing,
-            # if so, ignore it.
-            my ( $fileName, $origName ) =
-              Foswiki::Sandbox::sanitizeAttachmentName(
+            # test if the attachment filename is valid without having to
+            # be sanitized. If not, ignore it.
+            my $validated = Foswiki::Sandbox::validateAttachmentName(
                 $foundAttachment->{name} );
+            unless ( defined $validated
+                       && $validated eq $foundAttachment->{name} ) {
 
-            if ( $fileName ne $origName ) {
                 print STDERR 'AutoAttachPubFiles ignoring '
-                  . $origName . ' in '
-                  . $topicObject->getPath()
-                  . ' - not a valid Foswiki Attachment filename';
-            }
-            else {
+                  . $foundAttachment->{name} . ' in '
+                    . $topicObject->getPath()
+                      . ' - not a valid Foswiki Attachment filename';
+            } else {
                 push @validAttachmentsFound, $foundAttachment;
             }
         }

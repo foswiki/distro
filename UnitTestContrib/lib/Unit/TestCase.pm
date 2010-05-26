@@ -219,8 +219,9 @@ sub assert_equals {
         $this->assert( $expected eq $got,
             $mess || "Expected:'$expected'\n But got:'$got'\n" );
     }
-    elsif ( !defined($got) ) {
-        $this->assert_null($expected);
+    elsif ( defined ($expected) && !defined($got) ) {
+        $this->assert( 0,
+            $mess || "Expected:'$expected'\n But got null\n" );
     }
     else {
         $this->assert_null($got);
