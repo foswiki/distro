@@ -29,8 +29,9 @@ sub set_up {
     $this->SUPER::set_up();
 
     my $here = Cwd::cwd();
-    $test_tmpls = $here . '/fake_templates';
-    $test_data  = $here . '/fake_data';
+    $here =~ m/^(.*)$/;
+    $test_tmpls = $1 . '/fake_templates';
+    $test_data  = $1 . '/fake_data';
 
     File::Path::mkpath($test_tmpls);
     File::Path::mkpath($test_data);
