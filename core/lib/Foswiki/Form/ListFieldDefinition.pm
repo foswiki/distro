@@ -49,13 +49,18 @@ sub getOptions {
     if ( !scalar(@vals) ) {
         my $topic = $this->{definingTopic} || $this->{name};
         my $session = $this->{session};
+
         my ( $fieldWeb, $fieldTopic ) =
           $session->normalizeWebTopicName( $this->{web}, $topic );
-        if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
 
-            # We have validated that the topic exists so OK to untaint
-            $fieldWeb   = Foswiki::Sandbox::untaintUnchecked($fieldWeb);
-            $fieldTopic = Foswiki::Sandbox::untaintUnchecked($fieldTopic);
+        $fieldWeb = Foswiki::Sandbox::untaint(
+            $fieldWeb,
+            \&Foswiki::Sandbox::validateWebName);
+        $fieldTopic = Foswiki::Sandbox::untaint(
+            $fieldTopic,
+            \&Foswiki::Sandbox::validateTopicName);
+
+        if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
 
             my $meta = Foswiki::Meta->load( $session, $fieldWeb, $fieldTopic );
             next unless $meta->haveAccess('VIEW');
