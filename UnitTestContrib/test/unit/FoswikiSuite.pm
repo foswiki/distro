@@ -3,6 +3,7 @@ require 5.006;
 
 package FoswikiSuite;
 use Unit::TestSuite;
+use Cwd;
 our @ISA = qw( Unit::TestSuite );
 
 use strict;
@@ -15,7 +16,9 @@ sub list_tests {
 
 sub include_tests {
     my $this = shift;
-    #push( @INC, '.' );
+    my $here = Cwd::abs_path;
+    $here =~ m/^(.*)$/;  # untaint
+    push( @INC, $1 );
     my @list;
     opendir( DIR, "." ) || die "Failed to open .";
     foreach my $i ( sort readdir(DIR) ) {
@@ -37,6 +40,7 @@ sub include_tests {
     }
     require Cwd;
     $home = Cwd::abs_path($home);
+    ($home) = $home =~ m/^(.*)$/;  # untaint
 
     print STDERR "Getting extensions from $home/lib/MANIFEST\n";
     if ( open( F, "$home/lib/MANIFEST" ) ) {
@@ -60,10 +64,13 @@ sub include_tests {
         }
         close(F);
     }
-    push( @list, "UnitTestContrib/UnitTestContribSuite.pm" );
+    push( @list, "UnitTestContribSuite.pm" );
+    push( @INC, "$here/UnitTestContrib");
     push( @list, "EngineTests.pm" );
 
     print STDERR "Running tests from ", join( ', ', @list ), "\n";
+
+    #print STDERR "Include INC = ", join( "\n", @INC ), "\n";
 
     return @list;
 }

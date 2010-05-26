@@ -4,6 +4,7 @@
 require 5.006;
 use FindBin;
 use Cwd ();
+my $starting_root;
 
 sub _findRelativeTo {
     my ( $startdir, $name ) = @_;
@@ -41,6 +42,7 @@ BEGIN {
     unshift @INC, "$root/lib";
     unshift @INC, "$root/lib/CPAN/lib";
     require 'setlib.cfg';
+    $starting_root = $root;
 };
 
 use strict;
@@ -120,6 +122,8 @@ else {
 
 print STDERR "Run was logged to $log\n" if $options{-log};
 
+
+Cwd::chdir($starting_root) if ($starting_root);
 exit $exit;
 
 sub testForFiles {
