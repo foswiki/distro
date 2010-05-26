@@ -617,7 +617,7 @@ sub sysCommand {
         }
         else {
             $cmd =
-                $path . ' ' 
+                $path . ' '
               . $CMDQUOTE
               . join(
                 $CMDQUOTE . ' ' . $CMDQUOTE,

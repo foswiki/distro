@@ -80,18 +80,18 @@ sub new {
     if ( $web && $topic ) {
         my $rcsSubDir = ( $Foswiki::cfg{RCS}{useSubDir} ? '/RCS' : '' );
 
-        ASSERT(UNTAINTED($web)) if DEBUG;
-        ASSERT(UNTAINTED($topic)) if DEBUG;
+        ASSERT( UNTAINTED($web) )   if DEBUG;
+        ASSERT( UNTAINTED($topic) ) if DEBUG;
         if ($attachment) {
-            ASSERT(UNTAINTED($attachment)) if DEBUG;
+            ASSERT( UNTAINTED($attachment) ) if DEBUG;
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/' 
+                $Foswiki::cfg{PubDir} . '/'
               . $web . '/'
               . $topic . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/' 
-              . $web . '/' 
+                $Foswiki::cfg{PubDir} . '/'
+              . $web . '/'
               . $topic
               . $rcsSubDir . '/'
               . $attachment . ',v';
@@ -101,7 +101,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/' 
+                $Foswiki::cfg{DataDir} . '/'
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -374,9 +374,10 @@ sub getWebNames {
     my $dh;
 
     if ( opendir( $dh, $dir ) ) {
-        @tmpList =
-          map { Foswiki::Sandbox::untaint($_,
-          \&Foswiki::Sandbox::validateWebName) }
+        @tmpList = map {
+            Foswiki::Sandbox::untaint( $_, \&Foswiki::Sandbox::validateWebName )
+          }
+
           # The -e on the web preferences is used in preference to a
           # -d to avoid having to validate the web name each time. Since
           # the definition of a Web in this handler is "a directory with a
@@ -583,8 +584,8 @@ sub copyTopic {
     my $dh;
     if ( opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" ) ) {
         for my $att ( grep { !/^\./ } readdir $dh ) {
-            $att = Foswiki::Sandbox::untaint($att,
-            \&Foswiki::Sandbox::validateAttachmentName);
+            $att = Foswiki::Sandbox::untaint( $att,
+                \&Foswiki::Sandbox::validateAttachmentName );
             my $oldAtt =
               $store->getHandler( $this->{web}, $this->{topic}, $att );
             $oldAtt->copyAttachment( $store, $newWeb, $newTopic );
@@ -926,7 +927,7 @@ sub _rmtree {
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple( 'VC::Handler: Failed to delete file ' 
+                    throw Error::Simple( 'VC::Handler: Failed to delete file '
                           . $entry . ': '
                           . $! );
                 }
@@ -1250,8 +1251,9 @@ sub eachChange {
 
             # Create a hash for this line
             {
-                topic    => Foswiki::Sandbox::untaint( $_->[0],
-                \&Foswiki::Sandbox::validateTopicName ),
+                topic => Foswiki::Sandbox::untaint(
+                    $_->[0], \&Foswiki::Sandbox::validateTopicName
+                ),
                 user     => $_->[1],
                 time     => $_->[2],
                 revision => $_->[3],
