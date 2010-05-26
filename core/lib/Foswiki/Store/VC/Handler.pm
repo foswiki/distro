@@ -375,7 +375,8 @@ sub getWebNames {
 
     if ( opendir( $dh, $dir ) ) {
         @tmpList =
-          map { Foswiki::Sandbox::untaintUnchecked($_) }
+          map { Foswiki::Sandbox::untaint($_,
+          \&Foswiki::Sandbox::validateWebName) }
           # The -e on the web preferences is used in preference to a
           # -d to avoid having to validate the web name each time. Since
           # the definition of a Web in this handler is "a directory with a
@@ -582,7 +583,8 @@ sub copyTopic {
     my $dh;
     if ( opendir( $dh, "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" ) ) {
         for my $att ( grep { !/^\./ } readdir $dh ) {
-            $att = Foswiki::Sandbox::untaintUnchecked($att);
+            $att = Foswiki::Sandbox::untaint($att,
+            \&Foswiki::Sandbox::validateAttachmentName);
             my $oldAtt =
               $store->getHandler( $this->{web}, $this->{topic}, $att );
             $oldAtt->copyAttachment( $store, $newWeb, $newTopic );
@@ -1248,7 +1250,8 @@ sub eachChange {
 
             # Create a hash for this line
             {
-                topic    => $_->[0],
+                topic    => Foswiki::Sandbox::untaint( $_->[0],
+                \&Foswiki::Sandbox::validateTopicName ),
                 user     => $_->[1],
                 time     => $_->[2],
                 revision => $_->[3],
@@ -1414,21 +1417,3 @@ given epoch-secs time, or undef it none could be found.
 *Virtual method* - must be implemented by subclasses
 
 =cut
-__END__
-Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-NOTE: Please extend that file, not this notice.
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version. For
-more details read LICENSE in the root of this distribution.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-As per the GPL, removal of this notice is prohibited.
