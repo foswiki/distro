@@ -202,6 +202,7 @@ sub cleanup {
         my @stat  = stat($f);
         my $mtime = $stat[9];
         if ( $mtime < $deathtime ) {
+            $f = Foswiki::Sandbox::untaintUnchecked( $f );
             unlink($f);
         }
     }
