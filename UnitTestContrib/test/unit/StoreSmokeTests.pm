@@ -121,7 +121,7 @@ sub verify_checkin {
 
     # Check-in with different text, under different user (to force change)
     $this->{session}->finish();
-    $this->{session} = new TWiki($testUser2);
+    $this->{session} = new Foswiki($testUser2);
     $text = "bye";
     $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
     $info = $meta->getRevisionInfo();
