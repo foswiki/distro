@@ -12,7 +12,7 @@
      | =location= | Regular expression specifying the comment location in the target topic. Read _carefully_ the CommentPlugin documentation! | |
      | =mode= | For compatibility with older versions only, synonymous with =type= | |
      | =nonotify= | Set to "on" to disable change notification for target topics | =off= |
-     | =noform= | Set to "on" to disable the automatic form that encloses your comment block - _remember_ to insert =&lt;form&gt;= tags yourself! See CommentPluginExamples#noform for an example. | =off= |
+     | =noform= | Set to "on" to disable the automatic form that encloses your comment block - _remember_ to insert =&lt;form&gt;= tags yourself! See [[Sandbox.CommentPluginExamples#noform][CommentPluginExamples:noform]] for an example. | =off= |
      | =nopost= | Set to "on" to disable insertion of the posted text into the topic. | =off= |
      | =remove= | Set to "on" to remove the comment prompt after the first time it is clicked. | =off= |
      | =button= | Button label text | =Add comment= |

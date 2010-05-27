@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1176025210" format="1.1" reprev="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="CommentPluginTemplate"}%
+%META:TOPICINFO{author="ProjectContributor" date="1176025210" format="1.1" reprev="1.1" version="$Rev: 4885 $"}%
    * Top comment output 2 -- Main.ProjectContributor - 26 Nov 2006
    * Top comment output 1 -- Main.ProjectContributor - 26 Nov 2006
 
----+!! CommentPlugin examples
+---+!! <nop>CommentPlugin examples
+
+See %SYSTEMWEB%.CommentPlugin
 
 %TOC%
 

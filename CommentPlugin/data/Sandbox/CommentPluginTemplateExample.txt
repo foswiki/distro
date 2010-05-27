@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="CommentPlugin"}%
 ---+!! Template Example
 
-Example template topic for [[%SYSTEMWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+Example template topic for [[Sandbox.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
 
 
 <verbatim>

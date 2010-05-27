@@ -7,7 +7,7 @@
 
 %TOC{title="On this page:"}%
 
-Related topics: CommentPluginTemplates, CommentPluginExamples
+Related topics: CommentPluginTemplates, Sandbox.CommentPluginExamples
 
 ---++ Features
 
@@ -100,7 +100,7 @@ You can also define a *comment template in a topic*, by passing the topic locati
 %COMMENT{type="blogpost" templatetopic="BlogPostCommentTemplate" target="%TOPIC%" button="Add comment" }%
 </verbatim>
 
-=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[Sandbox.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
 </blockquote>
 
 
@@ -240,6 +240,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
 |  24 Feb 2010 | Foswikitask:Item8611 - block comments resulting from calls to saveTopic from within an afterSaveHandler |
 |  12 Sep 2009 | Foswikitask:Item8269 - Targeting anchors broken by Item727 is fixed. |
 |  04 Jun 2009 | Foswikitask:Item1668 - The action template used with !ActionTrackerPlugin now uses new syntax ending with %ENDACTION. This makes each action item appear on a new line. Additionally new lines are now correctly saved as html br tags and not as html encoded br tag <br /> Foswikitask:Item1640 - Templates shipped with the plugin no longer encodes the user date entered when the date is saved so that it is possible for the user to use macros. |
