@@ -37,6 +37,7 @@ use File::Find ();
 use File::Path ();
 use File::Temp ();
 use POSIX      ();
+use Data::Dumper ();
 use warnings;
 use Foswiki::Time;
 
@@ -44,7 +45,7 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "30 Mar 2010";
+our $RELEASE = "27 May 2010";
 our $VERSION = '$Rev$';
 
 our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
@@ -58,6 +59,7 @@ my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
+my $lastUpload = 0;      # time of last upload (0 means none yet)
 
 my $targetProject;       # Foswiki or TWiki
 
@@ -317,16 +319,16 @@ sub new {
             CGI::td( { align => 'left' }, $dep->{name} )
           . CGI::td( { align => 'left' }, $v )
           . CGI::td( { align => 'left' }, $dep->{description} );
-        $deptable .= CGI::Tr($cells);
+        $deptable .= CGI::Tr({}, $cells);
     }
     $this->{RAW_DEPENDENCIES} = $rawdeps;
     $this->{DEPENDENCIES}     = 'None';
     if ($deptable) {
         my $cells =
-          CGI::th('Name') . CGI::th('Version') . CGI::th('Description');
+          CGI::th({}, 'Name') . CGI::th({}, 'Version') . CGI::th({}, 'Description');
         $this->{DEPENDENCIES} =
           CGI::table( { border => 1, class => 'foswikiTable' },
-            CGI::Tr($cells) . $deptable );
+            CGI::Tr({}, $cells) . $deptable );
     }
 
     $this->{VERSION} = $this->_get_svn_version() unless $this->{VERSION};
@@ -424,7 +426,6 @@ sub _loadConfig {
 # Save the config
 sub _saveConfig {
     my $this = shift;
-    require Data::Dumper;
     if ( open( F, '>', $this->{config}->{file} ) ) {
         print F Data::Dumper->Dump( [ $this->{config} ] );
         close(F);
@@ -1879,22 +1880,27 @@ END
     my %newform;
     my $formExists = 0;
 
-# SMELL: There appears to be no way to determine if Foswiki didn't find the topic and returns
-# the topic creator form,  or if the get was successful.  Foswiki always returns 200 for the status
-# We need a better way of handling the not-found condition.  For now, look to see if there is a
-# newtopicform present.  If found, it means that the get should be treated as a NOT FOUND.
+    # SMELL: There appears to be no way to distinguish if Foswiki didn't
+    # find the topic and returns the topic creator form, or if the GET
+    # was successful.  Foswiki always returns 200 for the status
+    # We need a better way of handling the not-found condition. 
+    # For now, look to see if there is a newtopicform present. If found,
+    # it means that the get should be treated as a NOT FOUND.
 
-    unless ( $response->is_success && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
+    unless ( $response->is_success()
+               && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
         if ( ! $response->is_success ) {
             print 'Failed to GET old topic ', $response->request->uri,
               ' -- ', $response->status_line, "\n";
             }
 
-        if (($this->{DOWNTARGETSCRIPT} ne $this->{UPLOADTARGETSCRIPT}) ||( $this->{DOWNTARGETWEB} ne $this->{UPLOADTARGETWEB})) {
+        if (($this->{DOWNTARGETSCRIPT} ne $this->{UPLOADTARGETSCRIPT})
+              ||( $this->{DOWNTARGETWEB} ne $this->{UPLOADTARGETWEB})) {
             print "Downloading $topic from $alturl to recover form\n";
             $response = $userAgent->get("$alturl?raw=all");
             unless ( $response->is_success ) { 
-                print 'Failed to GET old topic from Alternate location', $response->request->uri,
+                print 'Failed to GET old topic from Alternate location',
+                  $response->request->uri,
                 $newform{formtemplate} = 'PackageForm';
                 if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
                     $newform{TopicClassification} = $1 . 'Package';
@@ -1902,15 +1908,22 @@ END
             }
         }
     }
-    if ($response->is_success && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
+    if ($response->is_success()
+          && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
         print "Recovering form from $topic\n";
+        # SMELL: would be better to use Foswiki::Meta to do this
         foreach my $line ( split( /\n/, $response->content() ) ) {
+
             if ( $line =~ m/%META:FIELD{name="(.*?)".*?value="(.*?)"/ ) {
+                my $name = $1;
                 my $val = $2;
+
+                # URL-decode the value
+                $val =~ s/%([\da-f]{2})/chr(hex($1))/gei;
 
                 # Trim null values or we end up damaging the form
                 if ( defined $val && length($val) ) {
-                    $newform{$1} = $val;
+                    $newform{$name} = $val;
                 }
             }
             elsif ( $line =~ /META:FORM{name="PackageForm/ ) { 
@@ -2108,6 +2121,11 @@ sub _uploadAttachment {
 sub _postForm {
     my ( $this, $userAgent, $user, $pass, $url, $form ) = @_;
 
+    while ($lastUpload && $lastUpload + $GLACIERMELT > time) {
+        print "Taking a deep breath after the last upload";
+        sleep(2);
+    }
+
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
 
@@ -2116,18 +2134,6 @@ sub _postForm {
       $response->as_string
       unless $response->is_redirect
           && $response->headers->header('Location') !~ m{/oops|/log.n/};
-
-    my $sleep = $GLACIERMELT;
-    if ( $sleep > 0 ) {
-        local $| = 1;
-        print "Taking a deep breath after the upload";
-        while ( $sleep > 0 ) {
-            print '.';
-            sleep(2);
-            $sleep -= 2;
-        }
-        print "\n";
-    }
 }
 
 sub _unhtml {
@@ -2380,7 +2386,9 @@ sub _manicollect {
     elsif (!-d 
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
-        && !/$collector->{project}\.(md5|zip|tgz|txt|sha1)/ )
+        && !/\.bak$/
+        && !/^$collector->{project}_installer(\.pl)?$/
+        && !/^$collector->{project}\.(md5|zip|tgz|txt|sha1)$/ )
     {
         my $n     = $File::Find::name;
         my @a     = stat($n);
