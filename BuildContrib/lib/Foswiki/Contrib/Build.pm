@@ -2125,6 +2125,7 @@ sub _postForm {
         print "Taking a deep breath after the last upload";
         sleep(2);
     }
+    $lastUpload = time();
 
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
