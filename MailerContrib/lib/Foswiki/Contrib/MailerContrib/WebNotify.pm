@@ -17,9 +17,9 @@ use locale;    # required for matching \w with international characters
 
 use Assert;
 
-use Foswiki::Func ();
-use Foswiki::Contrib::MailerContrib ();
-use Foswiki::Contrib::MailerContrib::Subscriber ();
+use Foswiki::Func                                 ();
+use Foswiki::Contrib::MailerContrib               ();
+use Foswiki::Contrib::MailerContrib::Subscriber   ();
 use Foswiki::Contrib::MailerContrib::Subscription ();
 
 =begin TML
@@ -249,10 +249,18 @@ sub processChange {
                     # Skip this change if the subscriber is the author
                     # of the change, and we are not always sending
                     next
-                      if ( !( $subs->{options} & $Foswiki::Contrib::MailerContrib::Constants::ALWAYS )
-                        && $authors{$email} );
+                      if (
+                        !(
+                            $subs->{options} &
+                            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS
+                        )
+                        && $authors{$email}
+                      );
 
-                    if ( $subs->{options} & $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC ) {
+                    if ( $subs->{options} &
+                        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC
+                      )
+                    {
                         push( @{ $allSet->{$topic} }, $email );
                     }
                     else {
@@ -290,7 +298,9 @@ sub processCompulsory {
         my $subscriber = $this->{subscribers}{$name};
         my $subs = $subscriber->isSubscribedTo( $topic, $db );
         next unless $subs;
-        next unless ( $subs->{options} & $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
+        next
+          unless ( $subs->{options} &
+            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
         unless ( $subscriber->isUnsubscribedFrom( $topic, $db ) ) {
             my $emails = $subscriber->getEmailAddresses();
             if ($emails) {
@@ -332,18 +342,34 @@ sub _load {
         my $line =
           Foswiki::Func::expandCommonVariables( $baseline, $this->{topic},
             $this->{web}, $meta );
-        if ( $line =~
-/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex})\s+\-\s+($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)\s*$/o
-            && $1 ne $Foswiki::cfg{DefaultUserWikiName} )
+        if (
+            $line =~ m{
+                    ^\s+\*\s$webRE
+                    ($Foswiki::regex{wikiWordRegex})
+                    \s+\-\s+
+                    ($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)
+                    \s*$}xo
+            && $1 ne $Foswiki::cfg{DefaultUserWikiName}
+          )
         {
 
             # Main.WikiName - email@domain (legacy format)
             $this->subscribe( $2, '*', 0, 0 );
             $in_pre = 0;
         }
-        elsif ( $line =~
-/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex}|'.*?'|".*?"|$Foswiki::cfg{MailerContrib}{EmailFilterIn})\s*(:.*)?$/o
-            && $1 ne $Foswiki::cfg{DefaultUserWikiName} )
+        elsif (
+            $line =~ m{
+                       ^\s+\*\s$webRE
+                       (
+                           $Foswiki::regex{wikiWordRegex}
+                           | '.*?'
+                           | ".*?"
+                           | $Foswiki::cfg{MailerContrib}{EmailFilterIn}
+                       )
+                       \s*(:.*)?$
+                  }xo
+            && $1 ne $Foswiki::cfg{DefaultUserWikiName}
+          )
         {
             my $subscriber = $1;
 
@@ -355,7 +381,9 @@ sub _load {
             $topics = undef unless ( $topics =~ s/^:// );
             $subscriber =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
 
-            #SMELL:  $subscriber has been filtered at this point, but is it safe to untaint without validaion?
+            # CDot: I don't understand how this can ever be tainted, but the
+            # unit tests fail without this untaint. The subscriber is
+            # validated, and should be untainted, by the conditional regex.
             $subscriber = Foswiki::Sandbox::untaintUnchecked($subscriber);
 
             if ($topics) {
@@ -384,11 +412,11 @@ sub parsePageSubscriptions {
 
     $this->{topicSub} = \&_subscribeTopic;
 
-    my $ret = Foswiki::Contrib::MailerContrib::parsePageList(
-        $this, $who, $spec, $unsubscribe );
+    my $ret =
+      Foswiki::Contrib::MailerContrib::parsePageList( $this, $who, $spec,
+        $unsubscribe );
     if ( $ret =~ m/\S/ ) {
-        Foswiki::Func::writeWarning(
-            "Badly formatted page list at $who: $spec");
+        Foswiki::Func::writeWarning("Badly formatted page list at $who: $spec");
         return -1;
     }
     return;
