@@ -354,6 +354,10 @@ sub _load {
             # email addresses can't start with :
             $topics = undef unless ( $topics =~ s/^:// );
             $subscriber =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
+
+            #SMELL:  $subscriber has been filtered at this point, but is it safe to untaint without validaion?
+            $subscriber = Foswiki::Sandbox::untaintUnchecked($subscriber);
+
             if ($topics) {
                 $this->parsePageSubscriptions( $subscriber, $topics );
             }
