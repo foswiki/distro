@@ -2121,9 +2121,10 @@ sub _uploadAttachment {
 sub _postForm {
     my ( $this, $userAgent, $user, $pass, $url, $form ) = @_;
 
-    while ($lastUpload && $lastUpload + $GLACIERMELT > time) {
-        print "Taking a deep breath after the last upload";
-        sleep(2);
+    my $pause = $GLACIERMELT - (time - $lastUpload);
+    if ($pause > 0) {
+        print "Taking a ${pause}s breather after the last upload...\n";
+        sleep($pause);
     }
     $lastUpload = time();
 
