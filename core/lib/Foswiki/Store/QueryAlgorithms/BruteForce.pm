@@ -103,19 +103,18 @@ sub _webQuery {
         $queryIsAConstantFastpath =
           $query->evaluate( tom => $meta, data => $meta );
 
-        #print STDERR "fastpath $queryIsAConstantFastpath\n";
     }
 
-    if ( defined($queryIsAConstantFastpath) and not $queryIsAConstantFastpath )
+    if ( defined($queryIsAConstantFastpath) )
     {
-
-        #CONSTANT == FALSE - return no results
-        return $resultTopicSet;
+        if (not $queryIsAConstantFastpath) {
+            #CONSTANT _and_ FALSE - return no results
+            return $resultTopicSet;
+        }
     }
     else {
-
-        #lets set it to simplify the TRUE case..
-        $queryIsAConstantFastpath ||= 0;
+        #from here on, FALSE means its not a constant, TRUE means is is a constant and evals to TRUE
+        $queryIsAConstantFastpath = 0;
     }
 
     require Foswiki::Query::HoistREs;
@@ -180,8 +179,11 @@ sub _webQuery {
         my ( $Iweb, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
         if ($queryIsAConstantFastpath) {
-
-#TODO: frustratingly, there is no way to evaluate a filterIterator without actually iterating over it..
+            if (defined($options->{date})) {
+                #TODO: preload the meta cache if we're doing date based filtering - else the wrong filedate will be used
+                $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb, $topic );
+            }
+            #TODO: frustratingly, there is no way to evaluate a filterIterator without actually iterating over it..
             $resultTopicSet->addTopics( $Iweb, $topic );
         }
         else {

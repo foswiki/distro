@@ -3314,13 +3314,16 @@ HERE
         "VeryOldTopic", $text );
     my $rev = $topicObject->save(forcedate=>123);
     $this->assert_num_equals(1, $rev);
+    my $file_date = $this->{session}->{store}->getApproxRevTime( $this->{test_web}, "VeryOldTopic" );
+    #TODO: sadly, the core Handlers don't set the filedate, even though they could
+    #$this->assert_num_equals(123, $file_date);
     
     my $result =
       $this->{test_topicObject}
+#SMELL:
+#TODO: the query type should be abstracted to test each&all backends
       ->expandMacros('%SEARCH{"1" type="query" date="1970" nonoise="on" format="$topic"}%');
 
-#die "die ($rev) here: ".$this->{test_web};
-      
     $this->assert_html_equals( <<RESULT, _cut_the_crap($result) );
 VeryOldTopic
 RESULT

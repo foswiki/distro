@@ -209,7 +209,7 @@ sub sortResults {
     }
     sortTopics( $this->{list}, $sortOrder, !$revSort );
 
-#SMELL: this is not a sort at all - its a filters
+#SMELL: this is not a sort at all - its a filter
 #TODO: can't just make a FilterIterator, as the silent removal breaks the numberofpages..
     if ($date) {
         require Foswiki::Time;
