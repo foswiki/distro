@@ -61,8 +61,8 @@ sub checkTreePerms {
     return '' if ( defined($filter) && $path =~ $filter && !-d $path );
 
     #let's ignore Subversion directories
-    return '' if ( $path =~ /_svn/ );
-    return '' if ( $path =~ /.svn/ );
+    return '' if ( $path =~ /^_svn$/ );
+    return '' if ( $path =~ /^\.svn$/ );
 
     my $errs = '';
 
