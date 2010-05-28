@@ -230,10 +230,22 @@ sub init_edit {
     }
     else {
         if ($templateTopic) {
-
+            my $validatedTemplateTopic = Foswiki::Sandbox::untaint(
+                $templateTopic,
+                \&Foswiki::Sandbox::validateTopicName);
+            unless ($validatedTemplateTopic) {
+                throw Foswiki::OopsException(
+                    'accessdenied',
+                    status => 403,
+                    def    => 'no_such_topic_template',
+                    web    => $templateWeb,
+                    topic  => $templateTopic
+                   );  
+            }
             # User specified template
             ( $templateWeb, $templateTopic ) =
-              $session->normalizeWebTopicName( $templateWeb, $templateTopic );
+              $session->normalizeWebTopicName(
+                  $templateWeb, $validatedTemplateTopic );
         }
         else {
 
