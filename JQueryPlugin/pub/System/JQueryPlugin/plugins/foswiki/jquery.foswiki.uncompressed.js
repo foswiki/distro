@@ -6,6 +6,8 @@
 var foswiki;
 if (foswiki === undefined) {
   foswiki = {};
+}
+if (foswiki.preferences === undefined) {
   foswiki.preferences = {};
 }
 
