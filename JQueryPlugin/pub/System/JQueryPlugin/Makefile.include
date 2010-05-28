@@ -26,7 +26,15 @@ jslint: subdirs $(TARGET:.js=.jslint)
 	@echo checking code quality of $<
 	@$(JSLINT) $< && touch $@
 
+%.jslint: %_src.js
+	@echo checking code quality of $<
+	@$(JSLINT) $< && touch $@
+
 %.js: %.uncompressed.js
+	@echo minifying $@ from $<
+	@$(MINIFYJS) $< > $@
+
+%.js: %_src.js
 	@echo minifying $@ from $<
 	@$(MINIFYJS) $< > $@
 
@@ -37,6 +45,11 @@ jslint: subdirs $(TARGET:.js=.jslint)
 %.css: %.uncompressed.css
 	@echo minifying $@ from $<
 	@$(MINIFYCSS) $< > $@
+
+%.css: %_src.css
+	@echo minifying $@ from $<
+	@$(MINIFYCSS) $< > $@
+
 
 subdirs: $(SUBDIRS)
 

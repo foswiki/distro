@@ -101,6 +101,10 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 May 2010: | (3.60) removed pointless TOGGLE module; \
+                  reworked handling of =meta= tags by merging =foswikilibs.js= with =jquery.foswiki= module; \
+                  fixed IE7 error with floats inside tabpanes; \
+                  added ajax handler to query foswiki preferences async-ly |
 |  30 Apr 2010: | (3.51) fixed initial classes of click-areas in treeviews |
 |  29 Mar 2010: | (3.42) disable plugin when prerequisites are not met |
 |  28 Mar 2010: | (3.41) fix ZonePlugin listed as optional dependency (not optional for Foswiki 1.0.x installations) |

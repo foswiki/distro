@@ -30,13 +30,6 @@ ul.jqTabGroup { /* IE7 fix */
   padding-top:1px !important; 
   height:23px; /* IE8compatibility mode fix */
 }
-*:first-child+html 
-.jqTabPane .foswikiClear { /* IE7 fix to draw the borders */
-  display:none;
-}
-.jqTabPane .foswikiClear {
-  _display:none; /* IE6 Fix */
-}
 ul.jqTabGroup li {
   background-color: transparent;
   background-image: url('tab_right.png') !important;

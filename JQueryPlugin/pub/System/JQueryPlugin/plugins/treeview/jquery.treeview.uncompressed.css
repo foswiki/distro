@@ -130,6 +130,6 @@
 .treeview .open .placeholder {
   display:none;
 }
-.treeview .open .placeholder {
-  display:none;
+.treeview .open .closed .placeholder {
+  display:block;
 }

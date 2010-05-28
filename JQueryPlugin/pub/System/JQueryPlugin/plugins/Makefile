@@ -36,7 +36,6 @@ SUBDIRS=\
   supersubs \
   tabpane \
   textboxlist \
-  toggle \
   tooltip \
   treeview \
   validate \

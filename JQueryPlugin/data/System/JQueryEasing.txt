@@ -11,8 +11,6 @@
 
 %STARTSECTION{"summary"}%
 Uses the built in easing capabilities added In jQuery 1.1
-to offer multiple "easing" effects.
+to offer additional "easing" effects.
 %ENDSECTION{"summary"}%
 
----++ Examples
-See JQueryToggle

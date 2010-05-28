@@ -4,19 +4,20 @@
  * $Rev$
 */
 var foswiki;
-if (typeof(foswiki) === "undefined") {
+if (foswiki === undefined) {
   foswiki = {};
+  foswiki.preferences = {};
 }
 
 (function($) {
 
-  /********************************************************
+  /**
    * dummy to be overridden by jquery.debug 
    */
   $.log = function(message){};
   $.fn.debug = function() {};
 
-  /*******************************************************
+  /**
    * generates an unique ID. 
    */
   foswiki.getUniqueID = function() {
@@ -29,40 +30,96 @@ if (typeof(foswiki) === "undefined") {
     return uid;
   };
 
-  // The following vars were defined in an older release of the plugin.
-  // Only systemWebName and pubUrlPath were ever used, and the calls have
-  // been changed to foswiki.getPreference calls.
-  // <meta name="foswiki.web" content="%WEB%" />
-  // <meta name="foswiki.topic" content="%TOPIC%" />
-  // <meta name="foswiki.scriptUrl" content="%SCRIPTURL%" />
-  // <meta name="foswiki.scriptUrlPath" content="%SCRIPTURLPATH%" />
-  // <meta name="foswiki.scriptSuffix" content="%SCRIPTSUFFIX%" />
-  // <meta name="foswiki.pubUrl" content="%PUBURL%" />
-  // <meta name="foswiki.pubUrlPath" content="%PUBURLPATH%" />
-  // <meta name="foswiki.systemWebName" content="%SYSTEMWEB%" />
-  // <meta name="foswiki.usersWebName" content="%USERSWEB%" />
-  // <meta name="foswiki.wikiName" content="%WIKINAME%" />
-  // <meta name="foswiki.loginName" content="%USERNAME%" />
-  // <meta name="foswiki.wikiUserName" content="%WIKIUSERNAME%" />
-  // <meta name="foswiki.serverTime" content="%SERVERTIME%" />
-
-  /********************************************************
-   * helper function to recursively create a nested object
-   * based on the keys descriptor. 
+  /**
+   * Get a Foswiki preference value. Preference values can be obtained
+   * in three ways; (1) by reference to the pre-loaded foswiki.preferences
+   * hash (2) by looking up meta-data or (3) if useServer is true, by using
+   * an HTTP call to the server (a.k.a AJAX).
+   * @param key name of preference to retrieve
+   * @param useServer Allow the function to refer to the server. If this
+   * is false, then no http call will be made even if the preference is
+   * not available from the preferences has or META tags.
+   * @return value of preference, or null if it cannot be determined
+   * Note the the HTTP call (when it is implemented) will have to pass
+   * the TOPIC and WEB preferences to the server, so it can determine
+   * the context of the preference.
    */
-  foswiki.createMember = function(obj, keys, val) {
-    var key = keys.shift();
-    if (keys.length > 0) {
-      // this is a nested obj
-      if (typeof(obj[key]) == 'undefined') {
-        obj[key] = {}; // create it if it does not exist yet
-      }
-      // recurse
-      foswiki.createMember(obj[key], keys, val);
-    } else {
-      // store value
-      obj[key] = val;
+  foswiki.getPreference = function(key, useServer) {
+
+    // Check the preloaded foswiki hash. This is populated with the values
+    // listed in the %PREFS2JS% foswiki preference
+    if (foswiki.preferences[key] !== undefined) {
+      return foswiki.preferences[key];
     }
+      
+    // Check for a preference passed in a meta tag (this is the classical method)
+    var metaVal = $("meta[name=foswiki."+key+"]").attr("content");
+    if (metaVal !== undefined) {
+      // Cache it for future reference
+      foswiki.preferences[key] = metaVal;
+      return metaVal;
+    }
+      
+    // Use AJAX to get a preference value from the server. This requires
+    // a lot of context information to be passed to the server, and a REST
+    // handler on the server, so has not been implemented yet.
+    if (useServer) {
+
+      var scriptSuffix = foswiki.getPreference('SCRIPTSUFFIX');
+      var restUrl = foswiki.getPreference('SCRIPTURL') + '/view' +
+        (scriptSuffix?scriptSuffix:'') + '/' +
+        foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper';
+
+      $.ajax({
+        url: restUrl, 
+        data: {
+          skin: 'text',
+          section: 'expand',
+          expression: key
+        },
+        async: false,
+        dataType: 'text',
+        success: function(data, status, xhr) {
+          foswiki.preferences[key] = data;
+        }
+      });
+
+      return foswiki.preferences[key];
+    }
+
+    foswiki.preferences[key] = null;
+    return null;
+  };
+
+  /**
+   * Get the content of a META tag from the HEAD block of the document.
+   * @param inKey Name of the meta-tag for which to retrieve the content
+   *
+   * WARNING: this function is DEPRECATED; please use the given jQuery expression directly
+   */
+  foswiki.getMetaTag = function(inKey) {
+    return $("meta[name="+inKey+"]").attr("content");
+  };
+
+  // WARNING: the following list of properties are DEPRECATED and only provided for compatibility reasons.
+  // please use the upper case names, e.g. foswiki.getPreference("WEB") instead of foswiki.web
+  var mapping = {
+    'WEB': 'web',
+    'TOPIC': 'topic', 
+    'SCRIPTURL': 'scriptUrl', 
+    'SCRIPTURLPATH': 'scriptUrlPath', 
+    'SCRIPTSUFFIX': 'scriptSuffix', 
+    'PUBURL': 'pubUrl',
+    'PUBURLPATH': 'pubUrlPath', 
+    'SYSTEMWEB': 'systemWebName', 
+    'USERSWEB': 'usersWebName', 
+    'WIKINAME': 'wikiName', 
+    'USERNAME': 'loginName',
+    'WIKIUSERNAME': 'wikiUserName', 
+    'SERVERTIME': 'serverTime'
+  };
+  for (var pref in mapping) {
+    foswiki[mapping[pref]] = foswiki.getPreference(pref);
   }
 
 })(jQuery);

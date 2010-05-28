@@ -252,3 +252,15 @@ This one returns an =&lt;img...>= to a user's photo. See the User selector examp
 <verbatim class="tml">
 %STARTSECTION{"userphoto"}%<img src='%FORMFIELD{"Photo" topic="%USERINFO{"%URLPARAM{"name" default="does not exist"}%" format="$wikiusername"}%" default="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif" alttext="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif"}%' alt='%URLPARAM{"name"}%' height='%URLPARAM{"height" default="50"}%' />%ENDSECTION{"userphoto"}%
 </verbatim>
+
+---+++ Expand TML
+expand a TML expression in the given scope
+
+---++++ Url parameters
+   * =expression=: TML to be evaluated; will be wrapped into %...% before executing it
+   * =scope=: optionally defines the topic within which the expression is expanded
+
+---++++ Implementation
+<verbatim class="tml">
+%STARTSECTION{"expand"}%%EXPAND{"$percnt%URLPARAM{"expression"}%$percnt" scope="%URLPARAM{"scope" default="%BASEWEB%.%BASETOPIC%"}%"}%%ENDSECTION{"expand"}%
+</verbatim>

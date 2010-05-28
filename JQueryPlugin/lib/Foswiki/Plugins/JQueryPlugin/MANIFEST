@@ -38,7 +38,6 @@ data/System/JQuerySuperfish.txt 0644
 data/System/JQuerySupersubs.txt 0644
 data/System/JQueryTabpane.txt 0644
 data/System/JQueryTextboxList.txt 0644
-data/System/JQueryToggle.txt 0644
 data/System/JQueryTooltip.txt 0644
 data/System/JQueryTreeview.txt 0644
 data/System/JQueryUI.txt 0644
@@ -89,7 +88,6 @@ lib/Foswiki/Plugins/JQueryPlugin/SUPERFISH.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SUPERSUBS.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TABPANE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TEXTBOXLIST.pm 0644
-lib/Foswiki/Plugins/JQueryPlugin/TOGGLE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TOOLTIP.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/TREEVIEW.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI.pm 0644
@@ -529,10 +527,6 @@ pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.js.gz 0644
 pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/textboxlist/Makefile 0644
-pub/System/JQueryPlugin/plugins/toggle/jquery.toggle.init.js 0644
-pub/System/JQueryPlugin/plugins/toggle/jquery.toggle.init.js.gz 0644
-pub/System/JQueryPlugin/plugins/toggle/jquery.toggle.init.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/toggle/Makefile 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css.gz 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.init.js 0644

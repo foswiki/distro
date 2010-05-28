@@ -147,9 +147,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Tabpane}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{TextboxList}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Toggle}{Enabled} = 1;
-
-# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 1;
 
 # **BOOLEAN**

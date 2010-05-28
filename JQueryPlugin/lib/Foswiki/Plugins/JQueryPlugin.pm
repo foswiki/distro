@@ -34,7 +34,7 @@ use vars qw(
 
 
 $VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '3.51'; 
+$RELEASE = '3.60'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -70,9 +70,6 @@ sub initPlugin {
   # jquery.button
   Foswiki::Func::registerTagHandler('BUTTON', \&handleButton );
   Foswiki::Func::registerTagHandler('CLEAR', \&handleClear );
-
-  # jquery.toggle
-  Foswiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
 
   # nukem
   Foswiki::Plugins::JQueryPlugin::Plugins::init();

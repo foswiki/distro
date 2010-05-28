@@ -38,9 +38,7 @@ $.tabpane = {
       }
 
       if (!$thisPane.is(".jqTabPaneInitialized")) {
-
         $thisPane.addClass("jqTabPaneInitialized");
-        $("<span class='foswikiClear'></span>").prependTo($thisPane);
    
         // create tab group
         var $tabContainer = $thisPane;
