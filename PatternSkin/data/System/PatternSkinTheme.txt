@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1136467361" format="1.1" version="$Rev: 4806 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1270244482" format="1.1" version="$Rev: 4806 $"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme
 Default pattern skin theme.
@@ -32,7 +32,9 @@ Default pattern skin theme.
 %IF{"$'URLPARAM{column}'" then="<optgroup label='Current selection'><option value='%URLPARAM{"column"}%' selected='selected'>%URLPARAM{"column"}%</option></optgroup>"}%
 <optgroup label='Column options:'>
 <option value="%SYSTEMWEB%/PatternSkinTheme/column_left.css">Column left (default)</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme/column_left_flex.css">Column left, flexible width</option>
 <option value="%SYSTEMWEB%/PatternSkinTheme/column_right.css">Column right</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme/column_right_flex.css">Column right, flexible width</option>
 <option value="%SYSTEMWEB%/PatternSkinTheme/column_none.css">No column</option>
 </optgroup>
 </select>

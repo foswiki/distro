@@ -16,6 +16,7 @@ Select a theme to change the look, or tune the entire appearance with CSS or tem
 You may quickly change the appearance of this skin by setting a theme.
 
 ---+++ Browse themes
+Pattern skin has quite some flexibility out of the box. Try one of the provided themes or use them as inspiration for your own theme.
    * [[%SYSTEMWEB%.PatternSkinTheme][Foswiki (default)]]
    * [[%SYSTEMWEB%.PatternSkinTheme2009][Foswiki 2009]]
    * [[%SYSTEMWEB%.PatternSkinThemeFatWilly][Foswiki "Fat Willy" Site Skin]]
@@ -118,6 +119,9 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 
 ---+++ All !PatternSkin topics
 
+   * %SYSTEMWEB%.PatternSkinTheme
+   * %SYSTEMWEB%.PatternSkinTheme2009
+   * %SYSTEMWEB%.PatternSkinThemeFatWilly
    * %SYSTEMWEB%.PatternSkinCss
    * %SYSTEMWEB%.PatternSkinCssCookbook
    * %SYSTEMWEB%.PatternSkinCssCookbookCenterPage
@@ -150,6 +154,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  27 May 2010: | v.5.3 - Added "flexible width" column styles. |
 |  05 Apr 2010: | v.5.2 - Visual update. |
 |  04 Apr 2010: | v.5.1 - Added Foswiki site skin as theme, including horizontal navigation topic; see PatternSkinHorizontalNavigationExample. |
 |  04 Apr 2010: | v.5.0 - Changed themes from single css file to file collections to preserve older appearance and to provide bigger restyling within a theme. |
