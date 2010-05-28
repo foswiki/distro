@@ -1,7 +1,8 @@
 %TMPL:INCLUDE{twistyplugin}%
 %TMPL:DEF{twisty:header:js}%
-%ADDTOHEAD{
-  "TWISTYPLUGIN::JS"
+%ADDTOZONE{
+  "body"
+  tag="TWISTYPLUGIN::JS"
   text="
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin/twisty.jquery.js'></script>
 <script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js'></script>
