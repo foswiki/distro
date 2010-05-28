@@ -10,7 +10,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $e = $this->checkTreePerms( $Foswiki::cfg{Htpasswd}{FileName}, 'r' );
+    my $f = $Foswiki::cfg{Htpasswd}{FileName};   
+    Foswiki::Configure::Load::expandValue($f);
+    my $e = $this->checkTreePerms($f , 'rw' );
     $e = $this->ERROR($e) if $e;
     return $e;
 }

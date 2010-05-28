@@ -13,30 +13,17 @@ sub check {
     my $enc = $Foswiki::cfg{Htpasswd}{Encoding};
     my $e   = '';
 
-    if ( $enc eq 'digest' ) {
-        $e .= $this->checkPerlModules(
-            1,
-            {
-                name           => 'Digest::MD5',
-                usage          => "MD5 encoded passwords",
-                minimumVersion => 1,
-                disposition    => 'required',
-            }
-        );
+    if ( $enc eq 'md5' ) {
+        $e = $this->checkPerlModule( 'Digest::MD5',
+             'Required for MD5 encoded passwords' );
     }
     elsif ( $enc eq 'sha1' ) {
-        $e .= $this->checkPerlModules(
-            1,
-            {
-                name           => 'MIME::Base64',
-                usage          => "SHA1 password encoding",
-                minimumVersion => 1,
-                disposition    => 'required',
-            }
-        );
+        $e = $this->checkPerlModule( 'MIME::Base64',
+             'Required for SHA1 encoded passwords' );
     }
-    my $pe = $this->checkTreePerms( $Foswiki::cfg{Htpasswd}{FileName}, 'r' );
-    $e .= $this->ERROR($pe) if $pe;
+    if ($e =~ m/Not\ installed/) {
+       $e = $this->ERROR($e) ;
+    }
     return $e;
 }
 

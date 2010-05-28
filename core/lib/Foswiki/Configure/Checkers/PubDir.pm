@@ -12,7 +12,7 @@ sub check {
 
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw' );
+    my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw', qr/,v$/ );
     $e .= $this->WARN($e2) if $e2;
     return $e;
 }

@@ -58,15 +58,15 @@ sub guessMajorDir {
 sub checkTreePerms {
     my ( $this, $path, $perms, $filter ) = @_;
 
-    return '' if ( defined($filter) && $path !~ $filter && !-d $path );
+    return '' if ( defined($filter) && $path =~ $filter && !-d $path );
 
     #let's ignore Subversion directories
-    return '' if ( $path !~ /_svn/ );
-    return '' if ( $path !~ /.svn/ );
+    return '' if ( $path =~ /_svn/ );
+    return '' if ( $path =~ /.svn/ );
 
     my $errs = '';
 
-    return $path . ' cannot be found' . CGI::br() unless ( -e $path );
+    return $path . ' cannot be found' . CGI::br() unless ( -e $path || -l $path );
 
     if ( $perms =~ /r/ && !-r $path ) {
         $errs .= ' readable';
@@ -84,14 +84,16 @@ sub checkTreePerms {
 
     return '' unless -d $path;
 
-    opendir( D, $path )
-      || return 'Directory ' . $path . ' is not readable.' . CGI::br();
+    return $path . ' directory is missing \'x\' permission - not readable' . CGI::br() if ( -d $path && !-x $path);
 
-    foreach my $e ( grep { !/^\./ } readdir(D) ) {
+    opendir( my $Dfh, $path )
+      or return 'Directory ' . $path . ' is not readable.' . CGI::br();
+
+    foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
         my $p = $path . '/' . $e;
-        $errs .= checkTreePerms( $p, $perms, $filter );
+        $errs .= checkTreePerms( $this, $p, $perms, $filter );
     }
-    closedir(D);
+    closedir($Dfh);
     return $errs;
 }
 

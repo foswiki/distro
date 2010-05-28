@@ -13,7 +13,7 @@ sub check {
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
     my $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r" );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
-    $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, "w", qr/\.txt$/ )
+    $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, "w", qr/,v$/ )
       unless $e2;
     $e .= $this->WARN($e2) if $e2;
     return $e;
