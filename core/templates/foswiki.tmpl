@@ -17,7 +17,7 @@
 
 %TMPL:DEF{"script:preferences"}%<script type="text/javascript">
 var foswiki = {preferences: {
-%FOREACH{"%PREFS2JS%" format="$topic:\"$percnt$topic$percnt\"" separator=","}%}};</script>
+%FOREACH{"%EXPORTEDPREFERENCES%" format="$topic:\"$percnt$topic$percnt\"" separator=","}%}};</script>
 %TMPL:END%
 
 %TMPL:DEF{"script"}%%TMPL:P{"script:preferences"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%

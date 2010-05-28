@@ -206,7 +206,19 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---+++ JQuery
    * List of Foswiki preferences, the values of which are made available
      through the foswiki.getPreference() javascript function.
-   * Set PREFS2JS = WEB, TOPIC, SCRIPTURL, SCRIPTSUFFIX, SCRIPTURLPATH, PUBURL, PUBURLPATH, SYSTEMWEB, USERSWEB, WIKINAME, USERNAME, WIKIUSERNAME, SERVERTIME
+     Note: Plugin authors can extend this list in their =initPlugin=
+     using the following simple code fragment. Say you want to add
+     'MYPREF' to the list:
+     <verbatim>
+    my $pref = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES')||'';
+    my @list = split(/[,\s]+/, $pref);
+    unless (grep { /^MYPREF$/ } @list) {
+        push(@list, 'MYPREF');
+    }
+    Foswiki::Func::setPreferencesValue(
+        'EXPORTEDPREFERENCES', join(',', @list));
+    </verbatim>
+   * Set EXPORTEDPREFERENCES = PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME
 
 ---+++ PatternSkin
 

@@ -45,11 +45,14 @@ if (foswiki.preferences === undefined) {
    * Note the the HTTP call (when it is implemented) will have to pass
    * the TOPIC and WEB preferences to the server, so it can determine
    * the context of the preference.
+   *
+   * See System.DefaultPreferences for guidance on extending the content
+   * of the preloaded preferences hash under the control of Foswiki plugins.
    */
   foswiki.getPreference = function(key, useServer) {
 
     // Check the preloaded foswiki hash. This is populated with the values
-    // listed in the %PREFS2JS% foswiki preference
+    // listed in the %EXPORTEDPREFERENCES% foswiki preference
     if (foswiki.preferences[key] !== undefined) {
       return foswiki.preferences[key];
     }

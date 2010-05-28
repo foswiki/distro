@@ -65,7 +65,9 @@ foswiki.getMetaTag = function(inKey) {
  */
 foswiki.getPreference = function(key, useServer) {
     // Check the preloaded foswiki hash. This is populated with the values
-    // listed in the %PREFS2JS% foswiki preference
+    // listed in the %EXPORTEDPREFERENCES% Foswiki preference. See
+    // System.DefaultPreferences for guidance on extending this from
+    // Plugins.
     if (foswiki.preferences != undefined) {
         if (foswiki.preferences[key] != undefined) {
             return foswiki.preferences[key];
