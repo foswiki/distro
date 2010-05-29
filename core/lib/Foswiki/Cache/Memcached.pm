@@ -69,7 +69,7 @@ sub finish {
                 next unless $obj;
                 $this->{handler}->set( $key, $obj );
 
-                Foswiki::PageCache::writeDebug("flushing $key");
+                Foswiki::PageCache::writeDebug("flushing $key")
                     if (Foswiki::PageCache::TRACE);
             }
         }
