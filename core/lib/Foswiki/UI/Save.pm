@@ -79,8 +79,9 @@ sub buildNewTopic {
     $saveOpts->{forcenewrevision} = 1 if $query->param('forcenewrevision');
     my ( $ancestorRev, $ancestorDate );
 
-    my $templatetopic = $query->param('templatetopic');
-    my $templateweb   = $topicObject->web;
+    my $templateTopic = $query->param('templatetopic');
+
+    my $templateWeb   = $topicObject->web;
     my $ttom;    # template topic
 
     my $text = $topicObject->text();
@@ -95,28 +96,39 @@ sub buildNewTopic {
         $ancestorRev = $query->param('originalrev');    # rev edit started on
 
     }
-    elsif ($templatetopic) {
+    elsif ($templateTopic) {
 
-        # Initialise new topic from template topic
+        # User specified template. Validate it.
 
-        ( $templateweb, $templatetopic ) =
-          $session->normalizeWebTopicName( $templateweb, $templatetopic );
+        my ( $invalidTemplateWeb, $invalidTemplateTopic ) =
+          $session->normalizeWebTopicName( $templateWeb, $templateTopic );
 
-        if ( $session->topicExists( $templateweb, $templatetopic ) ) {
+        $templateWeb = Foswiki::Sandbox::untaint(
+            $invalidTemplateWeb,
+            \&Foswiki::Sandbox::validateWebName);
+        $templateTopic = Foswiki::Sandbox::untaint(
+            $invalidTemplateTopic,
+            \&Foswiki::Sandbox::validateTopicName);
 
-            # Validated
-            $templateweb   = Foswiki::Sandbox::untaintUnchecked($templateweb);
-            $templatetopic = Foswiki::Sandbox::untaintUnchecked($templatetopic);
+        unless ( $templateWeb && $templateTopic ) {
+            throw Foswiki::OopsException(
+                'attention',
+                def   => 'invalid_topic_parameter',
+                params => [$query->param('templatetopic'), 'templatetopic']
+            );
         }
-        else {
+        unless ($session->topicExists( $templateWeb, $templateTopic ) ) {
             throw Foswiki::OopsException(
                 'attention',
                 def   => 'no_such_topic_template',
-                web   => $templateweb,
-                topic => $templatetopic
-            );
+                web   => $templateWeb,
+                topic => $templateTopic
+               );
         }
-        $ttom = Foswiki::Meta->load( $session, $templateweb, $templatetopic );
+
+
+        # Initialise new topic from template topic
+        $ttom = Foswiki::Meta->load( $session, $templateWeb, $templateTopic );
         Foswiki::UI::checkAccess( $session, 'VIEW', $ttom );
 
         $text = $ttom->text();
@@ -172,6 +184,25 @@ sub buildNewTopic {
             $topicObject->remove('FORM');
             $topicObject->remove('FIELD');
             $formName = undef;
+        } else {
+            my ($invalidFWeb, $invalidFTopic) =
+              $session->normalizeWebTopicName(
+                  $topicObject->web, $formName );
+            my $fweb = Foswiki::Sandbox::untaint(
+                $invalidFWeb,
+                \&Foswiki::Sandbox::validateWebName);
+            my $ftopic = Foswiki::Sandbox::untaint(
+                $invalidFTopic,
+                \&Foswiki::Sandbox::validateTopicName);
+            unless ($fweb && $ftopic) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'invalid_topic_parameter',
+                    params => [$formName, 'formtemplate']
+                );
+            }
+            # Validated
+            $formName = Foswiki::Sandbox::untaintUnchecked($formName);
         }
     }
     else {

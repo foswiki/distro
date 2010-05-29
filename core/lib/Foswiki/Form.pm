@@ -61,7 +61,7 @@ reads it from the form definition topic on disc.
      If present, these definitions will be used, rather than any read from
      the form definition topic.
 
-May throw Foswiki::OopsException. If the form definition topic does not
+May throw access control exceptions. If the form definition topic does not
 exist, will return undef.
 
 =cut
@@ -69,17 +69,8 @@ exist, will return undef.
 sub new {
     my ( $class, $session, $web, $form, $def ) = @_;
 
-    ( $web, $form ) = $session->normalizeWebTopicName( $web, $form );
-
-    # Validate
-    $web =
-      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
-    $form =
-      Foswiki::Sandbox::untaint( $form, \&Foswiki::Sandbox::validateTopicName );
-
-    unless ( $web && $form ) {
-        return;
-    }
+    ASSERT(UNTAINTED($web)) if DEBUG;
+    ASSERT(UNTAINTED($form)) if DEBUG;
 
     my $this = $session->{forms}->{"$web.$form"};
     unless ($this) {
