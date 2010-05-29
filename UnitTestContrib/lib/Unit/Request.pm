@@ -7,11 +7,28 @@ package Unit::Request;
 
 =cut
 
+use Assert;
+
 # SMELL: this package should not be in Unit; it is a Foswiki class and
 # should be in test/unit
 
 use Foswiki::Request;
 our @ISA = qw( Foswiki::Request );
+
+sub new {
+    my $class = shift;
+    my $this = $class->SUPER::new(@_);
+
+    # Taint everything
+    foreach my $k (@{$this->{param_list}}) {
+        foreach my $k (@{$this->{param_list}}) {
+            foreach (@{$this->{param}{$k}}) {
+                $_ = TAINT($_);
+            }
+        }
+    }
+    return $this;
+}
 
 sub setUrl {
     my ( $this, $queryString ) = @_;
