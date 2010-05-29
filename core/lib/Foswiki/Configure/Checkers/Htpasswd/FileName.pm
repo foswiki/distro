@@ -12,9 +12,14 @@ sub check {
 
     my $f = $Foswiki::cfg{Htpasswd}{FileName};   
     Foswiki::Configure::Load::expandValue($f);
-    my $e = $this->checkTreePerms($f , 'rw' );
-    $e = $this->ERROR($e) if $e;
-    return $e;
+
+    return $this->WARN("file $f is not found.  This may be normal for a new installation.  it will be created when the first user registers to the site")
+      unless (-f $f);
+
+    return $this->ERROR("$f is not writable.  User registration will be disabled until this is corrected.") 
+      unless (-w $f);
+
+    return;
 }
 
 1;

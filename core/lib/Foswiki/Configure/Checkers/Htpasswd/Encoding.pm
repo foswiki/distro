@@ -7,6 +7,8 @@ use warnings;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
+use Foswiki::Configure::Dependency;
+
 sub check {
     my $this = shift;
 
@@ -14,16 +16,36 @@ sub check {
     my $e   = '';
 
     if ( $enc eq 'md5' ) {
-        $e = $this->checkPerlModule( 'Digest::MD5',
-             'Required for MD5 encoded passwords' );
+        my $dep = new Foswiki::Configure::Dependency(
+            type => "cpan", 
+            module => "Digest::MD5", 
+            version => ">0"
+        );
+        my ( $ok, $message ) = $dep->check();
+        if ($ok) {
+            $e = $this->NOTE($message);
+        } else {
+            $e = $this->ERROR($message);
+        }
     }
     elsif ( $enc eq 'sha1' ) {
-        $e = $this->checkPerlModule( 'MIME::Base64',
-             'Required for SHA1 encoded passwords' );
+        my $dep = new Foswiki::Configure::Dependency(
+            type => "cpan", 
+            module => "Digest::SHA", 
+            version => ">0"
+        );
+        my ( $ok, $message ) = $dep->check();
+        if ($ok) {
+            $e = $this->NOTE($message);
+        } else {
+            $e = $this->ERROR($message);
+        }
     }
-    if ($e =~ m/Not\ installed/) {
-       $e = $this->ERROR($e) ;
-    }
+    elsif (( $enc eq 'crypt-md5' )
+            && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) ) {
+        $e = $this->ERROR("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+        }
+
     return $e;
 }
 
