@@ -358,13 +358,13 @@ var FoswikiTiny = {
     },
     
     install : function() {
-        // find the TINYMCEPLUGIN_INIT META
-        var tmce_init = foswiki.TinyMCEPlugin.init;
+        // find the TINYMCEPLUGIN_INIT_ENCODED preference
+        var tmce_init = foswiki.getPreference('TINYMCEPLUGIN_INIT_ENCODED');
         if (tmce_init != null) {
             eval("tinyMCE.init({" + unescape(tmce_init) + "});");
             return;
         }
-        alert("Unable to install TinyMCE; <META name='TINYMCEPLUGIN_INIT' is missing"); 
+        alert("Unable to install TinyMCE; 'TINYMCEPLUGIN_INIT_ENCODED' preference is missing"); 
     },
 
     getTopicPath: function() {
