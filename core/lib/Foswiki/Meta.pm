@@ -1359,23 +1359,26 @@ sub renderFormForDisplay {
     my $fname = $this->getFormName();
 
     require Foswiki::Form;
+    require Foswiki::OopsException;
     return '' unless $fname;
 
-    my $form = new Foswiki::Form( $this->{_session}, $this->{_web}, $fname );
-
-    if ($form) {
-        return $form->renderForDisplay($this);
+    my $form;
+    my $result;
+    try {
+        $form = new Foswiki::Form(
+            $this->{_session}, $this->{_web}, $fname );
+        $result = $form->renderForDisplay($this);
     }
-    else {
-
+    catch Foswiki::OopsException with {
         # Make pseudo-form from field data
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
-        my $mess =
+        $result =
           $this->{_session}->inlineAlert( 'alerts', 'formdef_missing', $fname );
-        $mess .= $form->renderForDisplay($this) if $form;
-        return $mess;
-    }
+        $result .= $form->renderForDisplay($this) if $form;
+    };
+
+    return $result;
 }
 
 =begin TML
@@ -1412,14 +1415,16 @@ sub renderFormFieldForDisplay {
     my $fname = $this->getFormName();
     if ($fname) {
         require Foswiki::Form;
-        my $form =
-          new Foswiki::Form( $this->{_session}, $this->{_web}, $fname );
-        if ($form) {
+        try {
+            my $form =
+              new Foswiki::Form( $this->{_session}, $this->{_web}, $fname );
             my $field = $form->getField($name);
             if ($field) {
                 return $field->renderForDisplay( $format, $value, $attrs );
             }
-        }
+        } catch Foswiki::OopsException with {
+            # Form not found, ignore
+        };
     }
 
     # Form or field wasn't found, do your best!

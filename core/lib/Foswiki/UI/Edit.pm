@@ -394,10 +394,16 @@ sub init_edit {
     if ($adminCmd) {
     }
     elsif ($form) {
-        my $formDef = new Foswiki::Form( $session, $templateWeb, $form );
+        my $formDef;
+        try {
+            $formDef = new Foswiki::Form( $session, $templateWeb, $form );
+        } catch Foswiki::OopsException with {
+            # Catch and ignore oops exception from this first call
+        };
         if ( !$formDef ) {
 
             # Reverse-engineer a form definition from the topic.
+            # Allow OopsException to propagate
             $formDef =
               new Foswiki::Form( $session, $templateWeb, $form, $topicObject );
         }

@@ -184,25 +184,6 @@ sub buildNewTopic {
             $topicObject->remove('FORM');
             $topicObject->remove('FIELD');
             $formName = undef;
-        } else {
-            my ($invalidFWeb, $invalidFTopic) =
-              $session->normalizeWebTopicName(
-                  $topicObject->web, $formName );
-            my $fweb = Foswiki::Sandbox::untaint(
-                $invalidFWeb,
-                \&Foswiki::Sandbox::validateWebName);
-            my $ftopic = Foswiki::Sandbox::untaint(
-                $invalidFTopic,
-                \&Foswiki::Sandbox::validateTopicName);
-            unless ($fweb && $ftopic) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_topic_parameter',
-                    params => [$formName, 'formtemplate']
-                );
-            }
-            # Validated
-            $formName = Foswiki::Sandbox::untaintUnchecked($formName);
         }
     }
     else {
@@ -213,17 +194,10 @@ sub buildNewTopic {
     }
 
     if ($formName) {
+        $formName = Foswiki::Sandbox::untaintUnchecked($formName);
+
         require Foswiki::Form;
         $formDef = new Foswiki::Form( $session, $topicObject->web, $formName );
-        unless ($formDef) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_form_def',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                params => [ $topicObject->web, $formName ]
-            );
-        }
         $topicObject->put( 'FORM', { name => $formName } );
 
         # Remove fields that don't exist on the new form def.

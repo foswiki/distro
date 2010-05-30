@@ -38,8 +38,11 @@ our @ISA = ('Foswiki::Meta');
 use Assert;
 use Error qw( :try );
 
+use Foswiki::Sandbox                   ();
 use Foswiki::Form::FieldDefinition     ();
 use Foswiki::Form::ListFieldDefinition ();
+use Foswiki::AccessControlException    ();
+use Foswiki::OopsException             ();
 
 # The following are reserved as URL parameters to scripts and may not be
 # used as field names in forms.
@@ -61,26 +64,48 @@ reads it from the form definition topic on disc.
      If present, these definitions will be used, rather than any read from
      the form definition topic.
 
-May throw access control exceptions. If the form definition topic does not
-exist, will return undef.
+May throw Foswiki::OopsException if the web and form are not valid for use as a
+form name, or if \@def is not given and the form does not exist in the
+database. May throw Foswiki::AccessControlException if the form schema
+in the database is protected against view.
 
 =cut
 
 sub new {
     my ( $class, $session, $web, $form, $def ) = @_;
 
-    ASSERT(UNTAINTED($web)) if DEBUG;
-    ASSERT(UNTAINTED($form)) if DEBUG;
-
     my $this = $session->{forms}->{"$web.$form"};
     unless ($this) {
 
-        # Got to have either a def or a topic
-        unless ( $def || $session->topicExists( $web, $form ) ) {
-            return;
+        # A form name has to be a valid topic name after normalisation
+        my ($vweb, $vtopic) = $session->normalizeWebTopicName(
+            $web, $form);
+        $vweb = Foswiki::Sandbox::untaint(
+            $vweb, \&Foswiki::Sandbox::validateWebName);
+        $vtopic = Foswiki::Sandbox::untaint(
+            $vtopic, \&Foswiki::Sandbox::validateTopicName);
+        unless ($vweb && $vtopic) {
+           throw Foswiki::OopsException(
+                'attention',
+                def    => 'invalid_form_name',
+                web    => $session->{webName},
+                topic  => $session->{topicName},
+                params => [ $web, $form ]
+            );
         }
 
-        $this = $class->SUPER::new( $session, $web, $form );
+        # Got to have either a def or a topic
+        unless ( $def || $session->topicExists( $vweb, $vtopic ) ) {
+           throw Foswiki::OopsException(
+                'attention',
+                def    => 'no_form_def',
+                web    => $session->{webName},
+                topic  => $session->{topicName},
+                params => [ $web, $form ]
+            );
+        }
+
+        $this = $class->SUPER::new( $session, $vweb, $vtopic );
         $session->{forms}->{"$web.$form"} = $this;
 
         unless ( $def || $this->haveAccess('VIEW') ) {

@@ -218,7 +218,9 @@ sub bulkRegister {
     $log .= "----\n";
 
     my $logWeb;
-    my $logTopic = $query->param('LogTopic') || $topic . 'Result';
+    my $logTopic = Foswiki::Sandbox::untaint(
+        $query->param('LogTopic'),
+        \&Foswiki::Sandbox::validateTopicName) || $topic . 'Result';
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
@@ -398,6 +400,17 @@ sub _requireVerification {
     my $web   = $session->{webName};
 
     my $data = _getDataFromQuery( $query, $query->param() );
+    my $oldName = $data->{WikiName};
+    $data->{WikiName} =
+      Foswiki::Sandbox::untaint( $data->{WikiName},
+        \&Foswiki::Sandbox::validateTopicName );
+    throw Foswiki::OopsException(
+        'attention',
+        def    => 'bad_wikiname',
+        web    => $data->{webName},
+        topic  => $session->{topicName},
+        params => [ $oldName ]
+       ) unless $data->{WikiName};
     $data->{LoginName} ||= $data->{WikiName};
     $data->{webName} = $web;
 
