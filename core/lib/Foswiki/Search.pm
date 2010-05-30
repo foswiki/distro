@@ -401,27 +401,6 @@ sub searchWeb {
         &$callback( $cbdata, $tmplSearch );
     }
 
-    my $mixedAlpha = $Foswiki::regex{mixedAlpha};
-
-    # separator defines what separates each search result
-    # excluding header and footer
-    # Replace $n and $n() with \n for separator
-    my $separator = $params{separator};
-    if ( defined($separator) ) {
-        $separator =~ s/\$n\(\)/\n/gos;    # expand "$n()" to new line
-        $separator =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
-    }
-    $params{separator} = $separator;
-
-    # newline feature replaces newlines within each search result
-    # Replace $n and $n() with \n for newLine
-    my $newLine = $params{newline} || '';
-    if ($newLine) {
-        $newLine =~ s/\$n\(\)/\n/gos;                # expand "$n()" to new line
-        $newLine =~ s/\$n([^$mixedAlpha]|$)/\n$1/gos;
-    }
-    $params{newline} = $newLine;
-
     # We now format the results.
     # All the
     my ( $numberOfResults, $web_searchResult ) =
@@ -434,8 +413,8 @@ sub searchWeb {
     # Remove trailing separator or new line if nofinalnewline parameter is set
     my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1 );
     if ( $formatDefined && $noFinalNewline ) {
-        if ($separator) {
-            $separator = quotemeta($separator);
+        if ($params{separator}) {
+            my $separator = quotemeta($params{separator});
             $searchResult =~ s/$separator$//s;    # remove separator at end
         }
         else {
@@ -1192,9 +1171,7 @@ sub formatResult {
                 $out =~ s/([^\n])$/$1\n/s;
             }
         }
-
         $out = Foswiki::expandStandardEscapes($out);
-
     }
 
 #see http://foswiki.org/Tasks/Item2371 - needs unit test exploration

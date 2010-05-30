@@ -11,6 +11,11 @@ sub FOREACH {
 
     my @list = split( /,\s*/, $params->{_DEFAULT} || '' );
     my $s;
+    
+    #TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
+    if ( defined($params->{separator}) ) {
+        $params->{separator} = Foswiki::expandStandardEscapes($params->{separator});
+    }
 
     # If the format string contains any of the topic-specific format specifiers
     # then the list is treated as a list of topic names. Otherwise it is treated

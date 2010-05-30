@@ -30,6 +30,49 @@ sub test_separator {
     $this->assert_str_equals( "OkATopic,OkBTopic,OkTopic", $result );
 }
 
+sub test_perl_newline_separator {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="'."\n".'"}%'
+      );
+
+    $this->assert_str_equals( "OkATopic\nOkBTopic\nOkTopic", $result );
+}
+sub test_newline_separator {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="
+"}%'
+      );
+
+    $this->assert_str_equals( "OkATopic\nOkBTopic\nOkTopic", $result );
+}
+sub test_dollar_newline_separator {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="$n"}%'
+      );
+
+    $this->assert_str_equals( "OkATopic\nOkBTopic\nOkTopic", $result );
+}
+#TODO: Sven isn't sure we use \n
+sub test_backslash_escaped_newline_separator {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="\n"}%'
+      );
+
+    $this->assert_str_equals( "OkATopic\\nOkBTopic\\nOkTopic", $result );
+}
+
 sub test_separator_with_header {
     my $this = shift;
 
@@ -68,7 +111,7 @@ sub test_footer_with_ntopics_no_format {
     $this->assert_str_equals( "Total found: 3", $result );
 }
 
-sub test_footer_with_ntopics_no_format_nonooise {
+sub test_footer_with_ntopics_no_format_nonoise {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -527,5 +570,38 @@ sub test_not_topics {
     $this->assert_str_equals(
         '1:(A);2:(B);3:(C)', $result );
 }
+
+#%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
+#| =$nop= or =$nop()= | Is a "no operation". This token gets removed; useful for nested search |
+#| =$quot= | Double quote (="=) (\" also works) |
+#| =$percent= | Percent sign (=%=) (=$percnt= also works) |
+#| =$dollar= | Dollar sign (=$=) |
+#| =$lt= | Less than sign (=<=) |
+#| =$gt= | Greater than sign (=>=) |
+#| =$amp= | Ampersand (=&=) |
+#| =$comma= | Comma (=,=) |
+#%STOPINCLUDE%
+sub test_standard_escapes {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{
+        "OkATopic,OkBTopic,OkTopic" 
+        header="RESULT: $comma" 
+        footer="$amp"
+        nonoise="on" 
+        format="$topic" 
+        separator="$quot"
+}%'
+      );
+
+    $this->assert_str_equals(
+        "RESULT: ,
+OkATopic\"OkBTopic\"OkTopic\"&", $result
+    );
+
+}
+
 
 1;
