@@ -9,7 +9,7 @@
       * %<nop>QUERY{"form.name"}% gets the name of the form in the current topic
       * %<nop>QUERY{"fields[name='Firstname'].value"}% gets the value of the 'Firstname' form field in the current topic
       * %<nop>QUERY{"Firstname"}% gets the value of the 'Firstname' form field in the current topic (shorthand version)
-      * %<nop>QUERY{"'System.DocumentGraphics'/attachments[1].name"}% gets a list of all the names of attachments on the topic 'System.DocumentGraphics'
+      * %<nop>QUERY{"'System.DocumentGraphics'/attachments.name"}% gets a list of all the names of attachments on the topic 'System.DocumentGraphics'
 
 Plain strings (such as field values) are returned _without_ quotes. Simple arrays of scalars are also returned without quotes, in a comma-separated list (beware of values that contain commas!).
 
