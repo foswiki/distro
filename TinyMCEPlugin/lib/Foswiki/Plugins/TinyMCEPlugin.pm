@@ -241,7 +241,7 @@ sub beforeEditHandler {
     else {
         # There is no EXPORTEDPREFERENCES preference, so assume that preferences
         # are not exported automatically and export it here explicitly
-    Foswiki::Func::addToZone('body', 'tinyMCE_init', <<SCRIPT);
+    Foswiki::Func::addToZone('body', 'tinyMCE_init', <<"SCRIPT");
 <script language="javascript" type="text/javascript">foswiki.preferences['TINYMCEPLUGIN_INIT_ENCODED']="$metainit"</script>
 SCRIPT
     }
@@ -267,7 +267,7 @@ SCRIPT
     $encodedVersion =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
 
-    Foswiki::Func::addToZone('body', 'tinyMCE', <<SCRIPT, 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI');
+    Foswiki::Func::addToZone('body', 'tinyMCE', <<"SCRIPT", 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI');
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
