@@ -136,6 +136,7 @@ sub load {
                     Foswiki::Sandbox::untaint(
                         $pn,
                         sub {
+                            my $pn = shift;
                             throw Error::Simple('Bad debugenableplugins')
                               unless $pn =~ /^\w+$/;
                             return $pn;

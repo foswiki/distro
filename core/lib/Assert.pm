@@ -49,6 +49,7 @@ sub import {
         my $caller = caller;
         *{ $caller . '::ASSERT' } = \&noop;
         *{ $caller . '::TAINT' }  = \&noop;
+        *{ $caller . '::UNTAINTED' }  = \&noop;
         *{ $caller . '::DEBUG' }  = \&ASSERTS_OFF;
     }
     use strict 'refs';

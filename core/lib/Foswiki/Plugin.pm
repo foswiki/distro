@@ -72,7 +72,7 @@ our %deprecated = (
 
 sub new {
     my ( $class, $session, $name, $module ) = @_;
-    ASSERT( UNTAINTED($name) ) if DEBUG;
+    ASSERT( UNTAINTED($name), "Name $name is tainted!" ) if DEBUG;
     my $this = bless(
         {
             session => $session,
