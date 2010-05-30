@@ -47,10 +47,10 @@ sub import {
     }
     else {
         my $caller = caller;
-        *{ $caller . '::ASSERT' } = \&noop;
-        *{ $caller . '::TAINT' }  = \&noop;
-        *{ $caller . '::UNTAINTED' }  = \&noop;
-        *{ $caller . '::DEBUG' }  = \&ASSERTS_OFF;
+        *{ $caller . '::ASSERT' }    = \&noop;
+        *{ $caller . '::TAINT' }     = \&noop;
+        *{ $caller . '::UNTAINTED' } = \&noop;
+        *{ $caller . '::DEBUG' }     = \&ASSERTS_OFF;
     }
     use strict 'refs';
     use warnings 'redefine';

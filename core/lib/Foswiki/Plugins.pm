@@ -359,9 +359,13 @@ sub haveHandlerFor {
 sub _handleFAILEDPLUGINS {
     my $this = shift->{plugins};
 
-    my $text =
-        CGI::start_table( { border => 1, class => 'foswikiTable', summary => '%MAKETEXT{"Failed plugins"}%' } )
-      . CGI::Tr( {}, CGI::th( {}, 'Plugin' ) . CGI::th( {}, 'Errors' ) );
+    my $text = CGI::start_table(
+        {
+            border  => 1,
+            class   => 'foswikiTable',
+            summary => '%MAKETEXT{"Failed plugins"}%'
+        }
+    ) . CGI::Tr( {}, CGI::th( {}, 'Plugin' ) . CGI::th( {}, 'Errors' ) );
 
     foreach my $plugin ( @{ $this->{plugins} } ) {
         my $td;
@@ -385,10 +389,14 @@ sub _handleFAILEDPLUGINS {
         );
     }
 
-    $text .=
-        CGI::end_table()
-      . CGI::start_table( { border => 1, class => 'foswikiTable', summary => '%MAKETEXT{"Plugin handlers"}%' } )
-      . CGI::Tr( {}, CGI::th( {}, 'Handler' ) . CGI::th( {}, 'Plugins' ) );
+    $text .= CGI::end_table()
+      . CGI::start_table(
+        {
+            border  => 1,
+            class   => 'foswikiTable',
+            summary => '%MAKETEXT{"Plugin handlers"}%'
+        }
+      ) . CGI::Tr( {}, CGI::th( {}, 'Handler' ) . CGI::th( {}, 'Plugins' ) );
 
     foreach my $handler (@Foswiki::Plugin::registrableHandlers) {
         my $h = '';

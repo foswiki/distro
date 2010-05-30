@@ -80,7 +80,7 @@ sub new {
     if ( $web && $topic ) {
         my $rcsSubDir = ( $Foswiki::cfg{RCS}{useSubDir} ? '/RCS' : '' );
 
-        ASSERT( UNTAINTED($web), "web $web is tainted!" )   if DEBUG;
+        ASSERT( UNTAINTED($web),   "web $web is tainted!" )     if DEBUG;
         ASSERT( UNTAINTED($topic), "topic $topic is tainted!" ) if DEBUG;
         if ($attachment) {
             ASSERT( UNTAINTED($attachment) ) if DEBUG;
