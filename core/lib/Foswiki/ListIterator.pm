@@ -7,6 +7,9 @@
 
 Iterator over a perl list
 
+WARNING: this Iterator will skip any elements that are == undef. 
+SMELL: hasNext should not 'return 1 if defined($this->{next}), but rather use a boolean - to allow array elements to be undef too.
+
 =cut
 
 package Foswiki::ListIterator;
@@ -62,7 +65,7 @@ while ($it->hasNext()) {
 
 sub hasNext {
     my ($this) = @_;
-    return 1 if $this->{next};
+    return 1 if defined($this->{next});         #SMELL: this is still wrong if the array element == undef, but at least means zero is an element
     my $n;
     do {
         if ( $this->{list} && $this->{index} < scalar( @{ $this->{list} } ) ) {

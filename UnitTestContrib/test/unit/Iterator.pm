@@ -387,4 +387,37 @@ sub test_NumberRangeIterator {
     $this->assert(!$i->hasNext());
 }
 
+#0, '', -1 are valid elements
+#SMELL: if an array element == undef it should _also_ be a valid element
+sub test_ListIterator_falsies {
+    my $this = shift;
+
+    {
+        my @list = ( -1, 0, '', 'asd' );
+
+        my $it = new Foswiki::ListIterator( \@list );
+        $this->assert( $it->isa('Foswiki::Iterator') );
+        my $b = '';
+        while ( $it->hasNext() ) {
+            my $x = $it->next();
+            $b .= "$x, ";
+        }
+
+        $this->assert_str_equals( '-1, 0, , asd, ', $b );
+    }
+    {
+        my @list = ( '','+&','@:{}','!!','' );
+
+        my $it = new Foswiki::ListIterator( \@list );
+        $this->assert( $it->isa('Foswiki::Iterator') );
+        my $b = '';
+        while ( $it->hasNext() ) {
+            my $x = $it->next();
+            $b .= "$x, ";
+        }
+
+        $this->assert_str_equals( ', +&, @:{}, !!, , ', $b );
+    }
+}
+
 1;
