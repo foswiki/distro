@@ -556,15 +556,15 @@ sub test_not_topics {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%FOREACH{",+&,@:{},!!," header="HEAD " footer=" FOOT" format="$index:($item)" separator=";"}%'
+'%FOREACH{",+&,@:{},!!," type="string" header="HEAD " footer=" FOOT" format="$index:($item)" separator=";"}%'
       );
 
     $this->assert_str_equals(
-        'HEAD 1:();2:(+&);3:(@:{});4:(!!) FOOT', $result );
+        "HEAD \n1:();2:(+&);3:(\@:{});4:(!!); FOOT", $result );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%FOREACH{"A,B,C" format="$index:($item)" separator=";"}%'
+'%FOREACH{"A,B,C" type="string" format="$index:($item)" separator=";"}%'
       );
 
     $this->assert_str_equals(

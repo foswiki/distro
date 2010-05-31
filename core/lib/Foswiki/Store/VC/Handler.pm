@@ -458,6 +458,8 @@ Returns 0 if no file, otherwise epoch seconds
 
 sub getTimestamp {
     my ($this) = @_;
+    ASSERT($this->{file}) if DEBUG;
+    
     my $date = 0;
     if ( -e $this->{file} ) {
 

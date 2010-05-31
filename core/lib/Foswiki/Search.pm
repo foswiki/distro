@@ -695,18 +695,15 @@ sub formatResults {
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
 
-    my $web;
-    my $webObject;
+    my $web = $baseWeb;
+    my $webObject = new Foswiki::Meta( $session, $web );
     my $lastWebProcessed = '';
     my $ttopics          = 0;
     my $thits            = 0;
 
     while ( $infoCache->hasNext() ) {
-        my $webtopic = $infoCache->next();
-        ASSERT($webtopic) if DEBUG;
-        my $topic;
-        ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( '', $webtopic );
+        my $listItem = $infoCache->next();
+        ASSERT(defined($listItem)) if DEBUG;
 
         #pager..
         if ( defined( $params->{pager_skip_results_from} )
@@ -716,56 +713,64 @@ sub formatResults {
             next;
         }
 
-# add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
-        if ( my $cache = $session->{cache} ) {
-            $cache->addDependency( $web, $topic );
-        }
-
-        my $info = $this->metacache->get( $web, $topic );
-        my $text;    #current hits' text
-
-# Check security (don't show topics the current user does not have permission to view)
-        next unless $info->{allowView};
-
-        # Special handling for format='...'
-        if ($formatDefined) {
-            $text = $info->{tom}->text();
-            $text = '' unless defined $text;
-
-            if ($doExpandVars) {
-                if ( $web eq $baseWeb && $topic eq $baseTopic ) {
-
-                    # primitive way to prevent recursion
-                    $text =~ s/%SEARCH/%<nop>SEARCH/g;
-                }
-                $text = $info->{tom}->expandMacros($text);
-            }
-        }
-
-        #TODO: should extract this somehow
+        #############################################################
+        #TOPIC specific
+        my $topic = $listItem;
+        my $text;       #undef means the formatResult() gets it from $info->text;
+        my $info;
         my @multipleHitLines = ();
-        if ( $doMultiple && $query->{tokens} ) {
+        if (($infoCache->isa('Foswiki::Search::ResultSet')) or  #SEARCH
+            ($infoCache->isa('Foswiki::Search::InfoCache')))    #FOREACH
+        {
+            ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
-            #TODO: i wonder if this shoudl be a HoistRE..
-            #TODO: well, um, and how does this work for query search?
-            my @tokens  = @{ $query->{tokens} };
-            my $pattern = $tokens[$#tokens];       # last token in an AND search
-            $pattern = quotemeta($pattern) if ( $type ne 'regex' );
-            $text = $info->{tom}->text() unless defined $text;
-            $text = '' unless defined $text;
-
-            if ($caseSensitive) {
-                @multipleHitLines =
-                  reverse grep { /$pattern/ } split( /[\n\r]+/, $text );
+    # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
+            if ( my $cache = $session->{cache} ) {
+                $cache->addDependency( $web, $topic );
             }
-            else {
-                @multipleHitLines =
-                  reverse grep { /$pattern/i } split( /[\n\r]+/, $text );
+
+            $info = $this->metacache->get( $web, $topic );
+
+    # Check security (don't show topics the current user does not have permission to view)
+            next unless $info->{allowView};
+
+            # Special handling for format='...'
+            if ($formatDefined) {
+                $text = $info->{tom}->text();
+                $text = '' unless defined $text;
+
+                if ($doExpandVars) {
+                    if ( $web eq $baseWeb && $topic eq $baseTopic ) {
+
+                        # primitive way to prevent recursion
+                        $text =~ s/%SEARCH/%<nop>SEARCH/g;
+                    }
+                    $text = $info->{tom}->expandMacros($text);
+                }
+            }
+            #TODO: should extract this somehow
+            
+            if ( $doMultiple && $query->{tokens} ) {
+
+                #TODO: i wonder if this shoudl be a HoistRE..
+                #TODO: well, um, and how does this work for query search?
+                my @tokens  = @{ $query->{tokens} };
+                my $pattern = $tokens[$#tokens];       # last token in an AND search
+                $pattern = quotemeta($pattern) if ( $type ne 'regex' );
+                $text = $info->{tom}->text() unless defined $text;
+                $text = '' unless defined $text;
+
+                if ($caseSensitive) {
+                    @multipleHitLines =
+                      reverse grep { /$pattern/ } split( /[\n\r]+/, $text );
+                }
+                else {
+                    @multipleHitLines =
+                      reverse grep { /$pattern/i } split( /[\n\r]+/, $text );
+                }
             }
         }
-
-        my $ru     = $info->{editby} || 'UnknownUser';
-        my $revNum = $info->{revNum} || 0;
 
         $ntopics += 1;
         $ttopics += 1;
@@ -782,7 +787,7 @@ sub formatResults {
             {
                 if ( $lastWebProcessed ne $web ) {
 
-                    #output the footer for the previous webtopic
+                    #output the footer for the previous listItem
                     if ( $lastWebProcessed ne '' ) {
 
                         #c&p from below
@@ -935,12 +940,14 @@ sub formatResults {
 #or do i need a formatCommon sub that formatResult can also call.. (which then goes into the callback?
                 $out = $this->formatResult(
                     $format,
-                    $info->{tom},
+                    $info->{tom} || $webObject,                 #SMELL: horrid hack
                     $text,
                     $searchOptions,
                     {
                         '\$ntopics' => sub { return $ntopics },
                         '\$nhits'   => sub { return $nhits },
+                        '\$index'   => sub { return $nhits },
+                        '\$item'   => sub { return $listItem },
 
                         %pager_formatting,
 
@@ -967,7 +974,7 @@ sub formatResults {
                         },
 
                    #TODO: hacky bits that need to be moved out of formatResult()
-                        '$revNum'     => sub { return $revNum; },
+                        '$revNum'     => sub { return ($info->{revNum} || 0); },
                         '$doBookView' => sub { return $doBookView; },
                         '$baseWeb'    => sub { return $baseWeb; },
                         '$baseTopic'  => sub { return $baseTopic; },
@@ -996,7 +1003,7 @@ sub formatResults {
         else {
             $footer = '';
         }
-        $webObject = new Foswiki::Meta( $session, $baseWeb );
+        ##MOVEDUP $webObject = new Foswiki::Meta( $session, $baseWeb );
     }
     else {
         if ( ( not $noTotal ) and ( defined( $params->{footercounter} ) ) ) {
@@ -1100,8 +1107,10 @@ sub formatResult {
         $out =~ s/$key/&{$customKeys->{$key}}()/ges;
     }
 
+    #SMELL: hack to stop non-topic based FOREACH's from doing topic code
+    #TODO: this should be extracted into the customKeys above
     $out =
-      $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out );
+      $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out ) if (defined($topic));
 
     if ( $out =~ m/\$text/ ) {
         $text = $topicObject->text() unless defined $text;
