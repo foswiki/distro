@@ -1902,11 +1902,13 @@ HERE
 #TODO: rewrite using named params for more flexibility
 #need summary, and multiple
 sub _multiWebSeptic {
-    my ( $this, $head, $foot, $sep, $results, $expected ) = @_;
+    my ( $this, $head, $foot, $sep, $results, $expected, $format ) = @_;
     my $str = $results ? '*Preferences' : 'Septic';
     $head = $head        ? 'header="HEAD($web)"'            : '';
     $foot = $foot        ? 'footer="FOOT($ntopics,$nhits)"' : '';
     $sep  = defined $sep ? "separator=\"$sep\""             : '';
+    $format  = '$topic' unless (defined($format));
+
     my $result = $this->{test_topicObject}->expandMacros(
         "%SEARCH{\"name~'$str'\" 
             web=\"System,Main\" 
@@ -1914,7 +1916,7 @@ sub _multiWebSeptic {
             nosearch=\"on\" 
             nosummary=\"on\" 
             nototal=\"on\" 
-            format=\"\$topic\" 
+            format=\"$format\" 
             $head $foot $sep }%"
     );
     $expected =~ s/\n$//s;
@@ -1930,6 +1932,16 @@ DefaultPreferences
 WebPreferences
 SitePreferences
 WebPreferences
+EXPECT
+}
+
+sub verify_multiWeb_no_header_no_footer_no_separator_with_results_counters {
+    my $this = shift;
+    $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT, '$nhits, $ntopics, $index, $topic');
+1, 1, 1, DefaultPreferences
+2, 2, 2, WebPreferences
+1, 1, 3, SitePreferences
+2, 2, 4, WebPreferences
 EXPECT
 }
 

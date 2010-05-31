@@ -261,6 +261,7 @@ down to 1.
 
 sub getRevisionHistory {
     my $this = shift;
+    ASSERT($this->{file}) if DEBUG;
     unless ( -e $this->{rcsFile} ) {
         if ( -e $this->{file} ) {
             return new Foswiki::ListIterator( [1] );

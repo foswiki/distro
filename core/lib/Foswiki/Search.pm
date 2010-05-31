@@ -371,6 +371,7 @@ sub searchWeb {
                 # output footer of $web
                 $result =~ s/\$ntopics/0/gs;
                 $result =~ s/\$nhits/0/gs;
+                $result =~ s/\$index/0/gs;
 
                 #legacy SEARCH counter support
                 $result =~ s/%NTOPICS%/0/go;
@@ -698,6 +699,7 @@ sub formatResults {
     my $web = $baseWeb;
     my $webObject = new Foswiki::Meta( $session, $web );
     my $lastWebProcessed = '';
+    #total number of topics and hits - not reset when we swap webs
     my $ttopics          = 0;
     my $thits            = 0;
 
@@ -818,6 +820,7 @@ sub formatResults {
 
                             $processedfooter =~ s/\$ntopics/$ntopics/gs;
                             $processedfooter =~ s/\$nhits/$nhits/gs;
+                            $processedfooter =~ s/\$index/$thits/gs;
 
                             #legacy SEARCH counter support
                             $processedfooter =~ s/%NTOPICS%/$ntopics/go;
@@ -897,6 +900,7 @@ sub formatResults {
                 $processedheader =~ s/%WEB%/$web/go;
                 $processedheader =~ s/\$ntopics/($ntopics-1)/gse;
                 $processedheader =~ s/\$nhits/($nhits-1)/gse;
+                $processedheader =~ s/\$index/($thits-1)/gs;
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
                 &$callback( $cbdata, $processedheader );
@@ -946,7 +950,7 @@ sub formatResults {
                     {
                         '\$ntopics' => sub { return $ntopics },
                         '\$nhits'   => sub { return $nhits },
-                        '\$index'   => sub { return $nhits },
+                        '\$index'   => sub { return $thits },
                         '\$item'   => sub { return $listItem },
 
                         %pager_formatting,
@@ -1026,6 +1030,7 @@ sub formatResults {
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
         $footer =~ s/\$nhits/$nhits/gs;
+        $footer =~ s/\$index/$thits/gs;
 
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
@@ -1112,7 +1117,7 @@ sub formatResult {
     $out =
       $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out ) if (defined($topic));
 
-    if ( $out =~ m/\$text/ ) {
+    if ( $out =~ m/\$text/ and defined($topic)) {               #TODO: don't muck with text if we're not even a topic
         $text = $topicObject->text() unless defined $text;
         $text = '' unless defined $text;
 
@@ -1152,23 +1157,26 @@ sub formatResult {
 
     }
     else {
-        $out =~ s/\$summary(?:\(([^\)]*)\))?/
-	  $topicObject->summariseText( $1, $text, $searchOptions )/ges;
-        $out =~ s/\$changes(?:\(([^\)]*)\))?/
-	  $topicObject->summariseChanges($1, $revNum)/ges;
-        $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
-	  displayFormField( $topicObject, $1 )/ges;
-        $out =~ s/\$parent\(([^\)]*)\)/
-	  Foswiki::Render::breakName(
-	      $topicObject->getParent(), $1 )/ges;
-        $out =~ s/\$parent/$topicObject->getParent()/ges;
-        $out =~ s/\$formname/$topicObject->getFormName()/ges;
-        $out =~ s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
+        #TODO: more topic specific bits
+        if (defined($topic)) {
+            $out =~ s/\$summary(?:\(([^\)]*)\))?/
+              $topicObject->summariseText( $1, $text, $searchOptions )/ges;
+            $out =~ s/\$changes(?:\(([^\)]*)\))?/
+              $topicObject->summariseChanges($1, $revNum)/ges;
+            $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
+              displayFormField( $topicObject, $1 )/ges;
+            $out =~ s/\$parent\(([^\)]*)\)/
+              Foswiki::Render::breakName(
+                  $topicObject->getParent(), $1 )/ges;
+            $out =~ s/\$parent/$topicObject->getParent()/ges;
+            $out =~ s/\$formname/$topicObject->getFormName()/ges;
+            $out =~ s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
 
-   # FIXME: Allow all regex characters but escape them
-   # Note: The RE requires a .* at the end of a pattern to avoid false positives
-   # in pattern matching
-        $out =~ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+       # FIXME: Allow all regex characters but escape them
+       # Note: The RE requires a .* at the end of a pattern to avoid false positives
+       # in pattern matching
+            $out =~ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+        }
         $out =~ s/\r?\n/$newLine/gos if ($newLine);
         if ( !defined($separator) ) {
 

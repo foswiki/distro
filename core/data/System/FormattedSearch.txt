@@ -78,6 +78,8 @@ Format tokens that can be used in the format string:
 | =$locked= | LOCKED flag (if any) |
 | =$date= | Time stamp of last topic update, e.g. =%GMTIME{"$day $mon $year - $hour:$min"}%= |
 | =$isodate= | Time stamp of last topic update, e.g. =%GMTIME{"$year-$mo-$dayT$hour:$minZ"}%= |
+| =$index= | number of total results - can be used as a running counter in the =format=, or in the =footer=. This $index is not affected by web based partitioning of results. |
+| =$item= | the full name of a result item - in a SEARCH context, equivalent to =$web.$topic= |
 | =$rev= | Number of last topic revision, e.g. =4= |
 | =$username= | Login name of last topic update, e.g. =jsmith= |
 | =$wikiname= | Wiki user name of last topic update, e.g. =<nop>JohnSmith= |

@@ -569,6 +569,31 @@ sub test_not_topics {
 
     $this->assert_str_equals(
         '1:(A);2:(B);3:(C)', $result );
+        
+#use all the topic based thingies and see what they do, so that anyone modifying this code has an idea of what they are in for.
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"A,B,C" type="string" format="$index:($item) - $web, $topic, $parent, $text, $locked,
+$date, $isodate, $rev, $username, $wikiname, $wikiusername,
+$createdate, $createusername, $createwikiname, $createwikiusername,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+$ntopics, $nhits, $pager" separator=";"}%'
+      );
+
+    $this->assert_str_equals(
+        '1:(A) - $web, $topic, $parent, $text, $locked,
+$longdate, $iso, $rev, $username, $wikiname, $wikiusername,
+01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+1, 1, $pager;2:(B) - $web, $topic, $parent, $text, $locked,
+$longdate, $iso, $rev, $username, $wikiname, $wikiusername,
+01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+2, 2, $pager;3:(C) - $web, $topic, $parent, $text, $locked,
+$longdate, $iso, $rev, $username, $wikiname, $wikiusername,
+01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+3, 3, $pager', $result );
 }
 
 #%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
@@ -600,7 +625,25 @@ sub test_standard_escapes {
         "RESULT: ,
 OkATopic\"OkBTopic\"OkTopic\"&", $result
     );
+    
+    #do the string version too - so long as there are no topic specific expansions, the output needs to be identical
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{
+        "OkATopic,OkBTopic,OkTopic" 
+        type="String"
+        header="RESULT: $comma" 
+        footer="$amp"
+        nonoise="on" 
+        format="$topic" 
+        separator="$quot"
+}%'
+      );
 
+    $this->assert_str_equals(
+        "RESULT: ,
+OkATopic\"OkBTopic\"OkTopic\"&", $result
+    );
 }
 
 
