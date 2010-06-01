@@ -24,7 +24,6 @@ sub check {
             );
         }
 
-        #if (substr($orig, 0, 13) eq '$Foswiki::cfg') {
         my ($cfgparm) = $orig =~ m/.*(\$Foswiki::cfg\{.*\})/;
         if ($cfgparm) {
             Foswiki::Configure::Load::expandValue($cfgparm);
@@ -37,7 +36,7 @@ sub check {
 
         my ( $dir, $file ) = $path =~ m#^\s*([^\$]+)(.*)$#;
 
-        if ( $dir && substr( $dir, 0, 1 ) eq '/' ) {
+        if ( $dir && (substr( $dir, 0, 1 ) eq '/' || substr( $dir, 1, 1 ) eq ':' )) {
             $e .= $this->ERROR("Path $dir not found, at $orig")
               unless ( -e $dir && -d $dir );
         }
