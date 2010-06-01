@@ -12,29 +12,34 @@ sub check {
 
     my $e = '';
 
-    my $tp = $Foswiki::cfg{TemplatePath};
-    my @path = split( ',', $tp);
+    my @path = split( ',', $Foswiki::cfg{TemplatePath} );
 
     foreach my $orig (@path) {
-        my $p = $orig; 
-        Foswiki::Configure::Load::expandValue($p); 
+        my $path = $orig;
+        Foswiki::Configure::Load::expandValue($path);
 
-        if ($p =~ m/\$(?!name|web|skin)/) {
-            $e .= $this->ERROR("Unknown token - not \$name, \$web, \$skin or \$Foswiki::cfg{...}, found in $orig");
+        if ( $path =~ m/\$(?!name|web|skin)/ ) {
+            $e .= $this->ERROR(
+"Unknown token - not \$name, \$web, \$skin or \$Foswiki::cfg{...}, found in $orig"
+            );
         }
 
-        if (substr($orig, 0, 13) eq '$Foswiki::cfg') {
-            my ($cfgparm) = $orig =~ m/(\$Foswiki::cfg\{.*\})/;
-            if ($cfgparm) {
-                Foswiki::Configure::Load::expandValue($cfgparm);
-                $e .= $this->ERROR("Unknown Foswiki::cfg variable referenced in $orig") if ($cfgparm eq 'undef');
-            }
+        #if (substr($orig, 0, 13) eq '$Foswiki::cfg') {
+        my ($cfgparm) = $orig =~ m/.*(\$Foswiki::cfg\{.*\})/;
+        if ($cfgparm) {
+            Foswiki::Configure::Load::expandValue($cfgparm);
+            $e .=
+              $this->ERROR("Unknown Foswiki::cfg variable referenced in $orig")
+              if ( $cfgparm eq 'undef' );
         }
 
-        my ($dir, $file) = $p =~ m#^\s*([^\$]+)(.*)$#;
+        #}
 
-        if ($dir && substr($dir,0,1) eq '/') {
-            $e .= $this->ERROR("Path $dir not found, at $orig") unless (-e $dir && -d $dir);
+        my ( $dir, $file ) = $path =~ m#^\s*([^\$]+)(.*)$#;
+
+        if ( $dir && substr( $dir, 0, 1 ) eq '/' ) {
+            $e .= $this->ERROR("Path $dir not found, at $orig")
+              unless ( -e $dir && -d $dir );
         }
 
     }
