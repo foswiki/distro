@@ -1364,7 +1364,16 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # Plugins evaluation order. If set to a comma-separated list of plugin names,
 # will change the execution order of plugins so the listed subset of plugins
 # are executed first. The default execution order is alphabetical on plugin
-# name.
+# name. <br/><br/>
+#
+# If TWiki compatibility is required, TWikiCompatibilityPlugin should be the first
+# Plugin in the list.  SpreadSheetPlugin should typically be next in the list for proper operation.<br/><br/>
+#
+# Note that some other general extension environment checks are made and reported here.  Plugins 
+# that are enabled but not installed and duplicate plugins in the TWiki and Foswiki libraries
+# are reported here.  Also if a TWiki plugin is enabled and the Foswik version is installed, this
+# will also be reported here.  Expand the "Expert" options to find these issues.
+#
 $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 
 # *PLUGINS* Marker used by bin/configure script - do not remove!
