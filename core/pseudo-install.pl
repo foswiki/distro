@@ -23,6 +23,8 @@ my $autoenable = 0;
 my $installing = 1;
 my $autoconf   = 0;
 
+my @error_log;
+
 BEGIN {
     $basedir   = $FindBin::Bin;    # core dir
     $parentdir = "$basedir/..";
@@ -49,6 +51,7 @@ BEGIN {
 }
 
 sub error {
+    push @error_log, @_;
     warn "ERROR: ",@_;
 }
 
@@ -212,7 +215,7 @@ sub installFromMANIFEST {
             }
             close($df);
         } else {
-            warn "*** Could not open $deps\n";
+            error "*** Could not open $deps\n";
         }
     }
 }
@@ -238,9 +241,9 @@ sub satisfyDependency {
         return;
     }
     if ($type eq 'perl' && $mod =~ /^Foswiki/) {
-        warn "**** $mod is a required Foswiki dependency, but it is not installed\n";
+        error "**** $mod is a required Foswiki dependency, but it is not installed\n";
     } else {
-        warn "**** $mod is a required dependency, but it is not installed\n";
+        error "**** $mod is a required dependency, but it is not installed\n";
     }
 }
 
@@ -314,7 +317,7 @@ sub just_link {
             $path .= "$c/";
         }
         elsif ( -e "$path$c" ) {
-            warn "ERROR $path$c is in the way\n" unless $ignoreBlock;
+            error "$path$c is in the way\n" unless $ignoreBlock;
             last;
         }
         elsif (( $c eq 'TWiki' )
@@ -483,11 +486,11 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
             warn "wrote simple config to $localSiteCfg\n\n";
         }
         else {
-            warn "ERROR: failed to write to $localSiteCfg\n\n";
+            error "failed to write to $localSiteCfg\n\n";
         }
     }
     else {
-        warn "ERROR: won't overwrite $localSiteCfg without -force\n\n";
+        error "won't overwrite $localSiteCfg without -force\n\n";
     }
 }
 
@@ -624,3 +627,7 @@ print ' '
   . ' '
   . ( $installing ? 'i' : 'uni' )
   . "nstalled\n";
+
+if (scalar(@error_log)) {
+    print "\n----\nError log:\n" . join("", @error_log);
+}
