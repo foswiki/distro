@@ -213,6 +213,7 @@ sub test_header {
     my $this = shift;
     my $res  = new Foswiki::Response('');
 
+    require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
         -name    => 'Foo',
         -value   => 'bar',
