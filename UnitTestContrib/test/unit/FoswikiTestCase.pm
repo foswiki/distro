@@ -151,7 +151,15 @@ sub set_up {
     my $tmp = new Foswiki( undef, $query );
     $tmp->finish();
 
-    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir( CLEANUP => $cleanup );
+    my %tempDirOptions = (
+        CLEANUP => 1
+    );
+    if ($^O eq 'MSWin32') {
+        #on windows, don't make a big old mess of c:\
+        $ENV{TEMP} =~ /(.*)/;
+        $tempDirOptions{DIR} = $1;
+    }
+    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir( %tempDirOptions );
     mkdir("$Foswiki::cfg{WorkingDir}/tmp");
     mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
     mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
