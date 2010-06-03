@@ -542,10 +542,10 @@ $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
 # should only need to override if there is something badly wrong with
 # those calculations.</b><br />
 # {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
-# $Foswiki::cfg{OS} =
+## $Foswiki::cfg{OS} = '';
 # **STRING 20 EXPERT**
 # The value of Perl $OS
-# $Foswiki::cfg{DetailedOS} =
+## $Foswiki::cfg{DetailedOS} = '';
 
 # **BOOLEAN EXPERT**
 # Remove .. from %INCLUDE{filename}%, to stop includes
