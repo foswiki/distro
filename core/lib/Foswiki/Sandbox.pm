@@ -209,7 +209,10 @@ sub validateAttachmentName {
         }
     }
 
-    return join('/', @result);
+    #SMELL: there is a proper way to do this.... File::Spec
+    my $slash = ( $Foswiki::cfg{OS} eq 'WINDOWS' ) ? '\\' : '/';
+
+    return join($slash, @result);
 }
 
 # Validate, clean up and untaint filename passed to an external command
