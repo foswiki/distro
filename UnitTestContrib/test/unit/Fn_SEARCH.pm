@@ -39,6 +39,7 @@ sub set_up {
     $topicObject->save();
 }
 
+#TODO: figure out how to bomb out informativly if a dependency for one of the algo's isn't met - like no grep...
 sub fixture_groups {
     my ( %salgs, %qalgs );
     foreach my $dir (@INC) {
