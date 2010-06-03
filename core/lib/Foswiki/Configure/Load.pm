@@ -192,7 +192,10 @@ sub readDefaults {
         _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/TWiki/Contrib",   $root, \%read, \@errors );
     }
-    if ( exists %TWiki::cfg && \%TWiki::cfg != \%Foswiki::cfg ) {
+    # SMELL: This will create the %TWiki::cfg
+    # But as it ought to be aliased to %Foswiki::cfg, it's not a big deal
+    # XXX: Do we still need this code?
+    if ( %TWiki::cfg && \%TWiki::cfg != \%Foswiki::cfg ) {
 
         # We had some TWiki plugins, need to map their config to Foswiki
         sub mergeHash {
