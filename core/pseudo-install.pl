@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -wT
 use strict;
 
 use File::Path;
@@ -26,7 +26,8 @@ my $autoconf   = 0;
 my @error_log;
 
 BEGIN {
-    $basedir   = $FindBin::Bin;    # core dir
+    $FindBin::Bin =~ /(.*)/;    # core dir
+    $basedir   = $1;    
     $parentdir = "$basedir/..";
     my $path = $ENV{FOSWIKI_EXTENSIONS} || '';
     $path .=
