@@ -527,7 +527,15 @@ sub captureSTD {
     my $proc = shift;
 
     require File::Temp;
-    my $tmpdir = File::Temp::tempdir( CLEANUP => 1 );
+    my %tempDirOptions = (
+        CLEANUP => 1
+    );
+    if ($^O eq 'MSWin32') {
+        #on windows, don't make a big old mess of c:\
+        $ENV{TEMP} =~ /(.*)/;
+        $tempDirOptions{DIR} = $1;
+    }
+    my $tmpdir = File::Temp::tempdir( %tempDirOptions );
     my $stdoutfile = "$tmpdir/stdout";
     my $stderrfile = "$tmpdir/stderr";
 
