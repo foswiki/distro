@@ -8,6 +8,14 @@ our @ISA = qw( FoswikiTestCase );
 use Foswiki::Request;
 use Foswiki::Request::Cache;
 use File::Temp;
+my %tempFileOptions = (
+    UNLINK => 0
+);
+if ($^O eq 'MSWin32') {
+    #on windows, don't make a big old mess of c:\
+    $ENV{TEMP} =~ /(.*)/;
+    $tempFileOptions{DIR} = $1;
+}
 
 sub new {
     my $self = shift()->SUPER::new(@_);
@@ -53,7 +61,7 @@ sub test_upload {
     my $this = shift;
     my $req  = new Foswiki::Request("");
 
-    my $tmp = File::Temp->new( UNLINK => 0 );
+    my $tmp = File::Temp->new( %tempFileOptions );
     print $tmp "XXX";
     $tmp->close();
     my ( %uploads, %headers ) = ();
@@ -93,7 +101,7 @@ sub test_expire {
         multi_undef => [],
     );
     my $req = new Foswiki::Request( \%init );
-    my $tmp = File::Temp->new( UNLINK => 0 );
+    my $tmp = File::Temp->new( %tempFileOptions );
     print $tmp "XXX";
     $tmp->close();
     my ( %uploads, %headers ) = ();
