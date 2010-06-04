@@ -634,9 +634,8 @@ sub internalLink {
 
 # TODO: this should be overridable by plugins.
 sub _renderWikiWord {
-    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
-        $params )
-      = @_;
+    my ( $this, $web, $topic, $linkText, $anchor,
+         $linkIfAbsent, $keepWebPrefix, $params ) = @_;
     my $session = $this->{session};
     my $topicExists = $session->topicExists( $web, $topic );
 
@@ -2159,7 +2158,7 @@ s/([\s\(])($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex})/$1<n
             '#' => $a->{anchor},
             @qparams
           );
-        $text = $tabs . '* ' . CGI::a( { href => $target }, $text );
+        $text = $tabs . '* ' . CGI::a( { href => $target }, " $text " );
         $result .= "\n" . $text;
     }
 

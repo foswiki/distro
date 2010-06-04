@@ -198,6 +198,34 @@ HERE
 HTML
 }
 
+sub test_Item2458 {
+    my $this = shift;
+
+    my $url = $Foswiki::cfg{ScriptUrlPath};
+    my $view = '/view';
+    $view =  $Foswiki::cfg{ScriptUrlPaths}{view} if (defined $Foswiki::cfg{ScriptUrlPaths}{view}); 
+
+    $url = ( $view ) ? $url.$view : '';    # Allow for shorter URL in configuration
+
+    my $text = <<'HERE';
+%TOC%
+---+ !WikiWord
+HERE
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, $this->{test_topic}, $text );
+    $topicObject->save();
+    my $res = $topicObject->expandMacros($text);
+    $res = $topicObject->renderTML( $res );
+
+    $this->assert_html_equals(<<HTML, $res);
+<a name="foswikiTOC"></a><div class="foswikiToc"> <ul>
+<li> <a href="#WikiWord"> <nop>WikiWord</a>
+</li></ul> 
+</div>
+<nop><h1><a name="WikiWord"></a>  <nop>WikiWord </h1>
+HTML
+}
+
 sub test_TOC_SpecialCharacters {
     my ($this) = @_;
 
