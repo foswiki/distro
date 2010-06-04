@@ -61,7 +61,7 @@ sub test_validateAttachmentName {
         "a", Foswiki::Sandbox::validateAttachmentName("//a/b/c/../..") );
     $this->assert_str_equals( "..a",
         Foswiki::Sandbox::validateAttachmentName("..a/") );
-    $this->assert_str_equals( "a${slash}..b",
+    $this->assert_str_equals( "a/..b",
         Foswiki::Sandbox::validateAttachmentName("a/..b") );
 }
 
@@ -139,6 +139,7 @@ sub test_buildCommandLine {
         ]
     );
     $this->assert_deep_equals(
+        #unfortuanatly, buildCommandLine cleans up paths using File::Spec, which thus uses \\ on some win32's (strawberry for eg)
         [ 1, "./-..", "a${slash}b" ],
         [
             Foswiki::Sandbox::_buildCommandLine(
@@ -174,6 +175,7 @@ sub test_buildCommandLine {
             )
         ]
     );
+    #unfortuanatly, buildCommandLine cleans up paths using File::Spec, which thus uses \\ on some win32's (strawberry for eg)
     $this->assert_deep_equals(
         [ "a", "b", "${slash}c" ],
         [
