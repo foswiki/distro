@@ -84,6 +84,9 @@ sub mapTarget {
         && ( $file eq 'data/mime.types' ) )
     {
         $file =~ s#^data/mime\.types$#$Foswiki::cfg{MimeTypesFileName}#;
+        #force to windows paths
+        $file =~ s/\//\\/g if ($^O eq 'MSWin32');
+
         return $file;
     }
 
@@ -136,7 +139,7 @@ sub mapTarget {
     elsif ( $file =~ s#^(bin/\w+)$#$root$1$Foswiki::cfg{ScriptSuffix}# ) {
 
         #This makes a couple of bad assumptions
-        #1. that the twiki's bin dir _is_ called bin
+        #1. that the foswiki's bin dir _is_ called bin
         #2. that any file going into there _is_ a script - making installing the
         #   .htaccess file via this machanism impossible
         #3. that softlinks are not in use (same issue below)
@@ -144,6 +147,9 @@ sub mapTarget {
     else {
         $file = File::Spec->catfile( $root, $file );
     }
+    #force to windows paths
+    $file =~ s/\//\\/g if ($^O eq 'MSWin32');
+
     return $file;
 }
 

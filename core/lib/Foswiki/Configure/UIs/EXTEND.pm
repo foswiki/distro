@@ -8,7 +8,8 @@ use warnings;
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 use Foswiki::Configure::Util ();
-use File::Temp               ();
+#use File::Temp               ();
+#please explain why its there if its not used..
 use File::Copy               ();
 use File::Spec               ();
 use Cwd                      ();
