@@ -6,6 +6,34 @@ Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standar
 %TOC%
 %JQREQUIRE{"chili"}%
 
+---++ Wrap =$=
+
+If you want to use jQuery&#8217;s =$= variable, wrap your code like this:
+
+<verbatim class="js">
+(function($) {
+
+  // code using $ variable
+
+})(jQuery);
+</verbatim>
+---++ Wrap =$=
+
+If you want to use jQuery&#8217;s =$= variable, you have to wrap your code like this:
+
+<verbatim class="js">
+(function($) {
+
+  // code using $ variable
+
+})(jQuery);
+</verbatim>
+
+The =$= global variable is not used by !JQueryPlugin, to avoid conflicts
+with other javascript libraries that may be loaded. jQuery examples that
+you find on the web will work as written, just as long as you wrap
+them as described here. 
+
 ---++ Shorthands
 Use the jQuery shorthand =$= where possible:
 
@@ -17,18 +45,6 @@ instead of
 
 <verbatim class="js">
 $(document).ready(function() { ... });
-</verbatim>
-
----++ Wrap =$=
-
-If you want to use jQuery&#8217;s =$= variable, wrap your code like this:
-
-<verbatim class="js">
-(function($) {
-
-  // code using $ variable
-
-})(jQuery);
 </verbatim>
 
 ---++ Global variables
