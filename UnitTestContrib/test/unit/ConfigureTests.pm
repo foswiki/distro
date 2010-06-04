@@ -29,6 +29,7 @@ sub set_up {
     # SMELL: Force a trailing separator - Linux and Windows are inconsistent
     my $root = File::Spec->catfile( @root, 'x' );
     chop $root;
+    $root =~ s|\\|/|g;
 
     $this->{rootdir}  = $root;
     $this->{user}     = $Foswiki::cfg{AdminUserLogin};
