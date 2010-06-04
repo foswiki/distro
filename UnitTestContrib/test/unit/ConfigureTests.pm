@@ -369,23 +369,19 @@ sub test_Util_mapTarget {
 
     $Foswiki::cfg{TrashWebName} = $this->{trash_web};
     
-    #oh crumbs. windows
-    my $slash = '/';
-    $slash = '\\' if ($^O eq 'MSWin32');
-
     # Remap system web
 
     $Foswiki::cfg{SystemWebName} = 'Fizbin';
     my $file = 'pub/System/System/MyAtt.gif';
     my $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "$this->{rootdir}pub${slash}Fizbin${slash}System${slash}MyAtt.gif",
+    $this->assert_str_equals( "$this->{rootdir}pub/Fizbin/System/MyAtt.gif",
         $results );
 
     $file = 'data/System/System.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "$this->{rootdir}data${slash}Fizbin${slash}System.txt",
+    $this->assert_str_equals( "$this->{rootdir}data/Fizbin/System.txt",
         $results );
 
     # Remap data and pub directory names
@@ -398,14 +394,14 @@ sub test_Util_mapTarget {
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}public${slash}$this->{trash_web}${slash}Fizbin${slash}Data.attachment",
+        "/var/www/foswiki/public/$this->{trash_web}/Fizbin/Data.attachment",
         $results );
 
     $file = 'data/Trash/Fizbin.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}storage${slash}$this->{trash_web}${slash}Fizbin.txt", $results );
+        "/var/www/foswiki/storage/$this->{trash_web}/Fizbin.txt", $results );
 
     # Verify default Users and Main web names
 
@@ -415,13 +411,13 @@ sub test_Util_mapTarget {
     $file = 'pub/Users/Fizbin/asdf.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}public${slash}Main${slash}Fizbin${slash}asdf.txt",
+    $this->assert_str_equals( "/var/www/foswiki/public/Main/Fizbin/asdf.txt",
         $results );
 
     $file = 'data/Users/Fizbin.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}storage${slash}Main${slash}Fizbin.txt",
+    $this->assert_str_equals( "/var/www/foswiki/storage/Main/Fizbin.txt",
         $results );
 
     # Remap the UsersWebName
@@ -431,13 +427,13 @@ sub test_Util_mapTarget {
     $file = 'pub/Main/Fizbin/Blah.gif';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}public${slash}Blah${slash}Fizbin${slash}Blah.gif",
+    $this->assert_str_equals( "/var/www/foswiki/public/Blah/Fizbin/Blah.gif",
         $results );
 
     $file = 'data/Main/Fizbin.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}storage${slash}Blah${slash}Fizbin.txt",
+    $this->assert_str_equals( "/var/www/foswiki/storage/Blah/Fizbin.txt",
         $results );
 
     # Remap the SandboxWebName
@@ -448,12 +444,12 @@ sub test_Util_mapTarget {
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}public${slash}Litterbox${slash}Fizbin${slash}Blah.gif", $results );
+        "/var/www/foswiki/public/Litterbox/Fizbin/Blah.gif", $results );
 
     $file = 'data/Sandbox/Fizbin.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}storage${slash}Litterbox${slash}Fizbin.txt",
+    $this->assert_str_equals( "/var/www/foswiki/storage/Litterbox/Fizbin.txt",
         $results );
 
     $Foswiki::cfg{SandboxWebName} = $saveSandbox;
@@ -466,13 +462,13 @@ sub test_Util_mapTarget {
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}public${slash}Litterbox${slash}Beta${slash}Fizbin${slash}Blah.gif", $results );
+        "/var/www/foswiki/public/Litterbox/Beta/Fizbin/Blah.gif", $results );
 
     $file = 'data/Sandbox/Beta/Fizbin.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}storage${slash}Litterbox${slash}Beta${slash}Fizbin.txt", $results );
+        "/var/www/foswiki/storage/Litterbox/Beta/Fizbin.txt", $results );
 
     $Foswiki::cfg{SandboxWebName} = $saveSandbox;
 
@@ -484,13 +480,13 @@ sub test_Util_mapTarget {
     $file = 'data/Sandbox/WebNotify.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}storage${slash}Sandbox${slash}TellMe.txt",
+    $this->assert_str_equals( "/var/www/foswiki/storage/Sandbox/TellMe.txt",
         $results );
 
     $file = 'pub/Sandbox/WebNotify/Blah.gif';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}public${slash}Sandbox${slash}TellMe${slash}Blah.gif",
+    $this->assert_str_equals( "/var/www/foswiki/public/Sandbox/TellMe/Blah.gif",
         $results );
 
     $Foswiki::cfg{SandboxWebName} = $saveSandbox;
@@ -503,13 +499,13 @@ sub test_Util_mapTarget {
     $file = 'data/Sandbox/WebHome.txt';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}storage${slash}Sandbox${slash}HomePage.txt",
+    $this->assert_str_equals( "/var/www/foswiki/storage/Sandbox/HomePage.txt",
         $results );
 
     $file = 'pub/Sandbox/WebNotify/Blah.gif';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}public${slash}Sandbox${slash}TellMe${slash}Blah.gif",
+    $this->assert_str_equals( "/var/www/foswiki/public/Sandbox/TellMe/Blah.gif",
         $results );
 
     $Foswiki::cfg{SandboxWebName} = $saveSandbox;
@@ -521,14 +517,14 @@ sub test_Util_mapTarget {
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}storage${slash}$this->{sandbox_web}${slash}Settings.txt",
+        "/var/www/foswiki/storage/$this->{sandbox_web}/Settings.txt",
         $results );
 
     $file = 'pub/Sandbox/WebPreferences/Logo.gif';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "${slash}var${slash}www${slash}foswiki${slash}public${slash}$this->{sandbox_web}${slash}Settings${slash}Logo.gif",
+        "/var/www/foswiki/public/$this->{sandbox_web}/Settings/Logo.gif",
         $results );
 
 # Remap bin directory and script suffix -  WebPrefsTopicName - default WebPreferences
@@ -537,7 +533,7 @@ sub test_Util_mapTarget {
     $Foswiki::cfg{ScriptDir}    = 'C:/asdf/bin/';
     $file                       = 'bin/compare';
     $results = Foswiki::Configure::Util::mapTarget( "C:/asdf/", "$file" );
-    $this->assert_str_equals( "C:${slash}asdf${slash}bin${slash}compare.pl", $results );
+    $this->assert_str_equals( "C:/asdf/bin/compare.pl", $results );
 
     # Remap the data/mime.types file location
 
@@ -545,14 +541,14 @@ sub test_Util_mapTarget {
     $file = 'data/mime.types';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}storage${slash}mymime.types",
+    $this->assert_str_equals( "/var/www/foswiki/storage/mymime.types",
         $results );
 
     $Foswiki::cfg{ToolsDir} = '/var/www/foswiki/stuff';
     $file = 'tools/testrun';
     $results =
       Foswiki::Configure::Util::mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "${slash}var${slash}www${slash}foswiki${slash}stuff${slash}testrun", $results );
+    $this->assert_str_equals( "/var/www/foswiki/stuff/testrun", $results );
 
     $Foswiki::cfg{PubDir}       = $savePub;
     $Foswiki::cfg{DataDir}      = $saveData;

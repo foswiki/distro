@@ -84,9 +84,6 @@ sub mapTarget {
         && ( $file eq 'data/mime.types' ) )
     {
         $file =~ s#^data/mime\.types$#$Foswiki::cfg{MimeTypesFileName}#;
-        #force to windows paths
-        $file =~ s/\//\\/g if ($^O eq 'MSWin32');
-
         return $file;
     }
 
@@ -147,8 +144,6 @@ sub mapTarget {
     else {
         $file = File::Spec->catfile( $root, $file );
     }
-    #force to windows paths
-    $file =~ s/\//\\/g if ($^O eq 'MSWin32');
 
     return $file;
 }
