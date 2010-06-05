@@ -37,6 +37,8 @@ sub evaluate {
 
 1;
 __END__
+Author: Rafael Alvarez (http://www.soronthar.com)
+
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2005-2010 Foswiki Contributors. Foswiki Contributors
@@ -54,5 +56,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-
-Author: Rafael Alvarez (http://www.soronthar.com)

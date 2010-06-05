@@ -1,7 +1,4 @@
-# Copyright (C) 2005 Crawford Currie, http://www.c-dot.co.uk
-#
-# This code is licensed under the terms of the GNU General Public License
-# version 2. This notice must be retained in all derivatives or copies.
+# See bottom of file for license and copyright information
 #
 # Programmatic interface to the W3C validation service
 # To use this object:
@@ -116,6 +113,11 @@ Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2005 Crawford Currie, http://www.c-dot.co.uk
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

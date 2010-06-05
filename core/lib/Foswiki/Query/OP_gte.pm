@@ -1,5 +1,4 @@
 # See bottom of file for license and copyright information
-# See bottom of file for copyright and license details
 
 =begin TML
 
@@ -32,6 +31,8 @@ sub evaluate {
 
 1;
 __END__
+Author: Crawford Currie http://c-dot.co.uk
+
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
@@ -56,5 +57,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-
-Author: Crawford Currie http://c-dot.co.uk

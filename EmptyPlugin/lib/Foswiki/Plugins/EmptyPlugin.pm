@@ -867,22 +867,13 @@ caused a significant impediment to code improvements in the core.
 =cut
 
 1;
+
 __END__
-This copyright information applies to the EmptyPlugin:
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-
-EmptyPlugin is Copyright (C) 2009-2010 Foswiki Contributors.
- 
-Foswiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code as follows:
-Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
-Copyright (C) 2001-2006 Peter Thoeny, peter@thoeny.org
-and TWiki Contributors. All Rights Reserved.
-
-This license applies to EmptyPlugin and to any derivatives.
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -894,4 +885,4 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-For licensing info read LICENSE file in the root of this distribution.
+As per the GPL, removal of this notice is prohibited.
