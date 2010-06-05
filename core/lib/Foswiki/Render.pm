@@ -1499,12 +1499,10 @@ s/$STARTWW((mailto\:)?[a-zA-Z0-9-_.+]+@[a-zA-Z0-9-_.]+\.[a-zA-Z0-9-_]+)$ENDWW/_m
     #keep only test portion of [[][]] links
     $text =~ s/\[\[([^\]]*\]\[)(.*?)\]\]/$2/g;
 
-    # remove "Web." prefix from "Web.TopicName" link
-    $text =~
-s/$STARTWW(($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}))/$3/g;
+    # SMELL: can't do this, it removes these characters even when they're
+    # not for formatting
+    #$text =~ s/[\[\]\*\|=_\&\<\>]/ /g;
 
-#SMELL: can't do this, it removes these characters even when they're not for formatting
-#$text =~ s/[\[\]\*\|=_\&\<\>]/ /g;    # remove Wiki formatting chars
     $text =~ s/${STARTWW}==(\S+?|\S[^\n]*?\S)==$ENDWW/$1/gem;
     $text =~ s/${STARTWW}__(\S+?|\S[^\n]*?\S)__$ENDWW/$1/gm;
     $text =~ s/${STARTWW}\*(\S+?|\S[^\n]*?\S)\*$ENDWW/$1/gm;
@@ -1521,6 +1519,13 @@ s/$STARTWW(($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Fos
     $text =~ s/!(\w+)/$1/gs;    # remove all nop exclamation marks before words
     $text =~ s/[\r\n]+/\n/s;
     $text =~ s/[ \t]+/ /s;
+
+    # defuse "Web." prefix in "Web.TopicName" link
+    $text =~ s{$STARTWW
+               (($Foswiki::regex{webNameRegex})\.
+                   ($Foswiki::regex{wikiWordRegex}
+                   | $Foswiki::regex{abbrevRegex}))}
+              {$2.<nop>$3}gx;
 
     return $text;
 }

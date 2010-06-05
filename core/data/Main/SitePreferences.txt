@@ -44,3 +44,5 @@ Customize your [[http://en.wikipedia.org/wiki/Favicon][favicon]]:
    * Set ALLOWTOPICCHANGE = AdminGroup
    * Set ALLOWTOPICRENAME = AdminGroup
 -->
+
+   * Set SKIN = webdav,pattern
