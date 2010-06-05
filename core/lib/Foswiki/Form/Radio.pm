@@ -13,6 +13,8 @@ sub new {
     $this->{size} ||= 0;
     $this->{size} =~ s/\D//g;
     $this->{size} ||= 0;
+    # SMELL: Non-zero -columns attribute forces CGI::radio_group() to use
+    #        HTML3 tables for layout
     $this->{size} = 4 if ( $this->{size} < 1 );
 
     return $this;
@@ -27,7 +29,7 @@ sub renderForEdit {
     foreach my $item ( @{ $this->getOptions() } ) {
         $attrs{$item} = {
             class => $this->cssClasses('foswikiRadioButton'),
-            label => $topicObject->expandMacros($item)
+            title => $topicObject->expandMacros($item)
         };
 
         $selected = $item if ( $item eq $value );

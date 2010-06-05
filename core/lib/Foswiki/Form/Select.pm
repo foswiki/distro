@@ -120,7 +120,7 @@ sub renderForEdit {
         size  => $this->{size},
     };
     if ( $this->isMultiValued() ) {
-        $params->{'multiple'} = 'on';
+        $params->{'multiple'} = 'multiple';
         $value = CGI::Select( $params, $choices );
 
         # Item2410: We need a dummy control to detect the case where

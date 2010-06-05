@@ -50,14 +50,14 @@ sub renderForEdit {
     my @defaults;
     foreach my $item ( @{ $this->getOptions() } ) {
 
-        # NOTE: Does not expand $item in label
+        # NOTE: Does not expand $item in title
         $attrs{$item} = {
             class => $this->cssClasses('foswikiCheckbox'),
-            label => $topicObject->expandMacros($item),
+            title => $topicObject->expandMacros($item),
         };
 
         if ( $isSelected{$item} ) {
-            $attrs{$item}{checked} = 'checked';
+            # CGI::checkbox_group() will check these items
             push( @defaults, $item );
         }
     }
