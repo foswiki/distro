@@ -18,29 +18,27 @@ our $UI_FN;
 our $SCRIPT_NAME;
 our $SKIN_NAME;
 our %expected_status = (
-        search  => 302,
-        save  => 302
+    search => 302,
+    save   => 302
 );
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
 our %expect_non_html = (
-        rest  => 1,
-        viewfile => 1,
-        register => 1,       #TODO: missing action make it throw an exception
-        manage => 1,       #TODO: missing action make it throw an exception
-        upload => 1,         #TODO: zero size upload   
-        resetpasswd => 1,
+    rest        => 1,
+    viewfile    => 1,
+    register    => 1,    #TODO: missing action make it throw an exception
+    manage      => 1,    #TODO: missing action make it throw an exception
+    upload      => 1,    #TODO: zero size upload
+    resetpasswd => 1,
 );
 
 # Thanks to Foswiki::Form::Radio, and a default -columns attribute = 4,
 # CGI::radio_group() uses HTML3 tables (missing summary attribute) for layout
 # and this makes HTMLTidy cry.
-our %expect_table_summary_warnings = (
-        edit => 1
-);
+our %expect_table_summary_warnings = ( edit => 1 );
 
 sub new {
-    my ($class, @args) = @_;
+    my ( $class, @args ) = @_;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     my $self = $class->SUPER::new( "UIFnCompile", @args );
     return $self;
@@ -69,10 +67,13 @@ sub set_up {
 
     #the test web is made using the '_empty' web - not so useful here
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
-    $webObject->populateNewWeb('_default', {
-                        ALLOWWEBCHANGE => '',
-                        ALLOWWEBRENAME => ''
-                    });
+    $webObject->populateNewWeb(
+        '_default',
+        {
+            ALLOWWEBCHANGE => '',
+            ALLOWWEBRENAME => ''
+        }
+    );
 
     return;
 }
@@ -110,7 +111,7 @@ sub fixture_groups {
             }
             1;
 SUB
-        if ( not ( eval $evalsub ) ) {
+        if ( not( eval $evalsub ) ) {
             die $@;
         }
     }
@@ -142,6 +143,7 @@ sub call_UI_FN {
         {
             webName   => [$web],
             topicName => [$topic],
+
    #            template  => [$tmpl],
    #debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
             skin => $SKIN_NAME
@@ -153,52 +155,57 @@ sub call_UI_FN {
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
     local $ENV{FOSWIKI_ASSERTS} = 0;
     my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
-    my ($responseText, $result, $stdout, $stderr);
-    $responseText = "Status: 500";      #errr, boom
+    my ( $responseText, $result, $stdout, $stderr );
+    $responseText = "Status: 500";    #errr, boom
     try {
-		($responseText, $result, $stdout, $stderr) = $this->captureWithKey( switchboard =>
-		    sub {
-		        no strict 'refs';
-		        &${UI_FN}($fatwilly);
-		        use strict 'refs';
-		        $Foswiki::engine->finalize( $fatwilly->{response},
-		            $fatwilly->{request} );
-		    }
-		);
-	} catch Foswiki::OopsException with {
-		my $e = shift;
-		$responseText = $e->stringify();
-	} catch Foswiki::EngineException with {
-		my $e = shift;
-		$responseText = $e->stringify();
-	};
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
+            switchboard => sub {
+                no strict 'refs';
+                &${UI_FN}($fatwilly);
+                use strict 'refs';
+                $Foswiki::engine->finalize( $fatwilly->{response},
+                    $fatwilly->{request} );
+            }
+        );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $responseText = $e->stringify();
+    }
+    catch Foswiki::EngineException with {
+        my $e = shift;
+        $responseText = $e->stringify();
+    };
     $fatwilly->finish();
 
     $this->assert($responseText);
 
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
-    my ($header, $body);
-    if ($responseText =~ /^(.*?)$CRLF$CRLF(.*)$/s) {
-        $header = $1;      # untaint is OK, it's a test
-        $body = $2;
-    } else {
+    my ( $header, $body );
+    if ( $responseText =~ /^(.*?)$CRLF$CRLF(.*)$/s ) {
+        $header = $1;         # untaint is OK, it's a test
+        $body   = $2;
+    }
+    else {
         $header = '';
-        $body = $responseText;
+        $body   = $responseText;
     }
 
     my $status = 666;
-    if ($header =~ /Status: (\d*)./) {
+    if ( $header =~ /Status: (\d*)./ ) {
         $status = $1;
     }
-    #aparently we allow the web server to add a 200 status thus risking that an error situation is marked as 200
-    #$this->assert_num_not_equals(666, $status, "no response Status set in probably valid reply\nHEADER: $header\n");
-    if ($status == 666) {
+
+#aparently we allow the web server to add a 200 status thus risking that an error situation is marked as 200
+#$this->assert_num_not_equals(666, $status, "no response Status set in probably valid reply\nHEADER: $header\n");
+    if ( $status == 666 ) {
         $status = 200;
     }
-    $this->assert_num_not_equals(500, $status, 'exception thrown, or status not set properly');
+    $this->assert_num_not_equals( 500, $status,
+        'exception thrown, or status not set properly' );
 
-    return ($status, $header, $body, $stdout, $stderr);
+    return ( $status, $header, $body, $stdout, $stderr );
 }
 
 sub do_save_attachment {
@@ -211,30 +218,30 @@ sub do_save_attachment {
 }
 
 sub do_create_file {
-    my ($stream, $data) = @_;
+    my ( $stream, $data ) = @_;
 
-    binmode( $stream );
+    binmode($stream);
     print $stream $data;
 
     return length $data;
 }
 
 sub add_attachment {
-    my ($this, $web, $topic, $name, $data, $params) = @_;
+    my ( $this, $web, $topic, $name, $data, $params ) = @_;
     my %save_params = (
-            dontlog  => $params->{dontlog} || 1,
-            comment  => $params->{comment} || 'default comment for ' . $name,
-            filepath => $params->{filepath} || '/local/file/' . $name,
-            filedate => $params->{filedata} || time(),
-            createlink => $params->{createlink} || 1,
-        );
-    $this->assert( open( $save_params{stream}, '>', 
-        $Foswiki::cfg{TempfileDir} . $name ) );
-    my $size = do_create_file($save_params{stream}, $data);
+        dontlog    => $params->{dontlog}    || 1,
+        comment    => $params->{comment}    || 'default comment for ' . $name,
+        filepath   => $params->{filepath}   || '/local/file/' . $name,
+        filedate   => $params->{filedata}   || time(),
+        createlink => $params->{createlink} || 1,
+    );
+    $this->assert(
+        open( $save_params{stream}, '>', $Foswiki::cfg{TempfileDir} . $name ) );
+    my $size = do_create_file( $save_params{stream}, $data );
     close( $save_params{stream} );
     $save_params{filesize} = $size;
-    $this->assert( open( $save_params{stream}, '<', 
-        $Foswiki::cfg{TempfileDir} . $name ) );
+    $this->assert(
+        open( $save_params{stream}, '<', $Foswiki::cfg{TempfileDir} . $name ) );
     do_save_attachment( $web, $topic, $name, \%save_params );
     close( $save_params{stream} );
 
@@ -242,12 +249,12 @@ sub add_attachment {
 }
 
 sub add_attachments {
-    my ($this, $web, $topic) = @_;
+    my ( $this, $web, $topic ) = @_;
 
-    add_attachment($this, $web, $topic, 'blahblahblah.gif', 
-        "\0b\1l\2a\3h\4b\5l\6a\7h", {comment => 'Feasgar Bha'} );
-    add_attachment($this, $web, $topic, 'bleagh.sniff', 
-        "\0h\1a\2l\3b\4h\5a\6l\7b", {comment => 'Feasgar Bha2'} );
+    add_attachment( $this, $web, $topic, 'blahblahblah.gif',
+        "\0b\1l\2a\3h\4b\5l\6a\7h", { comment => 'Feasgar Bha' } );
+    add_attachment( $this, $web, $topic, 'bleagh.sniff',
+        "\0h\1a\2l\3b\4h\5a\6l\7b", { comment => 'Feasgar Bha2' } );
 
     return;
 }
@@ -255,37 +262,43 @@ sub add_attachments {
 sub put_field {
     my ( $meta, $name, $attributes, $title, $value ) = @_;
 
-    $meta->putKeyed('FIELD', {
-        name => $name,
-        attributes => $attributes,
-        title => $title,
-        value => $value
-    });
+    $meta->putKeyed(
+        'FIELD',
+        {
+            name       => $name,
+            attributes => $attributes,
+            title      => $title,
+            value      => $value
+        }
+    );
 
     return;
 }
 
 sub add_form_and_data {
-     my ($this, $web, $topic, $form) = @_;
+    my ( $this, $web, $topic, $form ) = @_;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
     $meta->put( 'FORM', { name => $form } );
     put_field( $meta, 'IssueName', 'M', 'Issue Name', '_An issue_' );
-    put_field( $meta, 'IssueDescription', '', 'Issue Description', 
-        '---+ Example problem' );
-    put_field( $meta, 'Issue1', '', 'Issue 1:', '*Defect*' );
-    put_field( $meta, 'Issue2', '', 'Issue 2:', 'Enhancement' );
-    put_field( $meta, 'Issue3', '', 'Issue 3:', 'Defect, None' );
-    put_field( $meta, 'Issue4', '', 'Issue 4:', 'Defect' );
-    put_field( $meta, 'Issue5', '', 'Issue 5:', 'Foo, Baz' );
-    put_field( $meta, 'State', 'H', 'State', 'Invisible' );
-    put_field( $meta, 'Anothertopic', '', 'Another topic', 'GRRR ' );
+    put_field(
+        $meta, 'IssueDescription', '',
+        'Issue Description',
+        '---+ Example problem'
+    );
+    put_field( $meta, 'Issue1',       '',  'Issue 1:',      '*Defect*' );
+    put_field( $meta, 'Issue2',       '',  'Issue 2:',      'Enhancement' );
+    put_field( $meta, 'Issue3',       '',  'Issue 3:',      'Defect, None' );
+    put_field( $meta, 'Issue4',       '',  'Issue 4:',      'Defect' );
+    put_field( $meta, 'Issue5',       '',  'Issue 5:',      'Foo, Baz' );
+    put_field( $meta, 'State',        'H', 'State',         'Invisible' );
+    put_field( $meta, 'Anothertopic', '',  'Another topic', 'GRRR ' );
     $meta->save();
 
-     return;
+    return;
 }
 
 sub create_form_topic {
-    my ($this, $web, $topic) = @_;
+    my ( $this, $web, $topic ) = @_;
     Foswiki::Func::saveTopic( $web, $topic, undef, <<'HERE' );
 | *Name*            | *Type*       | *Size* | *Values*        |
 | Issue Name        | text         | 40     |                 |
@@ -298,7 +311,7 @@ sub create_form_topic {
 | Issue 5           | select+multi | 3      | Foo, Bar, Baz   |
 HERE
 
-     return;
+    return;
 }
 
 #TODO: work out why some 'Use of uninitialised vars' don't crash the test (see preview)
@@ -310,26 +323,34 @@ sub verify_switchboard_function {
 
     my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
 
-    create_form_topic($this, $this->{test_web}, 'MyForm');
-    add_form_and_data($this, $this->{test_web}, $this->{test_topic}, 'MyForm');
-    add_attachments($this, $this->{test_web}, $this->{test_topic});
+    create_form_topic( $this, $this->{test_web}, 'MyForm' );
+    add_form_and_data( $this, $this->{test_web}, $this->{test_topic},
+        'MyForm' );
+    add_attachments( $this, $this->{test_web}, $this->{test_topic} );
 
-    my ( $status, $header, $text ) = $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+    my ( $status, $header, $text ) =
+      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
-    $this->assert_num_equals($expected_status{$SCRIPT_NAME} || 200, $status);
-    if ($status != 302) {
-        $this->assert($text, "no body for $SCRIPT_NAME\nSTATUS: $status\nHEADER: $header");
-        $this->assert_str_not_equals('', $text, "no body for $SCRIPT_NAME\nHEADER: $header");
+    $this->assert_num_equals( $expected_status{$SCRIPT_NAME} || 200, $status );
+    if ( $status != 302 ) {
+        $this->assert( $text,
+            "no body for $SCRIPT_NAME\nSTATUS: $status\nHEADER: $header" );
+        $this->assert_str_not_equals( '', $text,
+            "no body for $SCRIPT_NAME\nHEADER: $header" );
         $this->{tidy}->parse( $testcase, $text );
 
         #$this->assert_null($this->{tidy}->messages());
         my $output = join( "\n", $this->{tidy}->messages() );
 
         #TODO: disable missing DOCTYPE issues - we've been
-        if ( defined($expect_non_html{$SCRIPT_NAME}) and ($output =~ /missing <\!DOCTYPE> declaration/) ) {
+        if ( defined( $expect_non_html{$SCRIPT_NAME} )
+            and ( $output =~ /missing <\!DOCTYPE> declaration/ ) )
+        {
+
             #$this->expect_failure();
             $this->annotate(
-                "MISSING DOCTYPE - we're returning a messy text error\n$output\n");
+"MISSING DOCTYPE - we're returning a messy text error\n$output\n"
+            );
         }
         else {
             for ($output) {    # Remove OK warnings
@@ -337,11 +358,12 @@ sub verify_switchboard_function {
 s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span)>\n?$//gm;
                 s/^\s*$//;
             }
-            if ( defined($expect_table_summary_warnings{$SCRIPT_NAME} ) and 
-                ($output =~ /<table> lacks "summary" attribute/) ) {
-                for ($output) {# Remove missing table summary attribute warning
+            if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )
+                and ( $output =~ /<table> lacks "summary" attribute/ ) )
+            {
+                for ($output) { # Remove missing table summary attribute warning
 s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
-                s/^\s*$//;
+                    s/^\s*$//;
                 }
             }
             my $outfile = "${testcase}_run.html";
@@ -357,7 +379,9 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
 "Script $SCRIPT_NAME, skin $SKIN_NAME gave errors, output in $outfile:\n$output"
             );
         }
-    } else {
+    }
+    else {
+
         #$this->assert_null($text);
     }
 
