@@ -1,17 +1,15 @@
-use strict;
-
 package RenderFormTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-
 use Foswiki::Meta;
 use File::Temp;
 
-my $testtopic1 = "TestTopic1";
-my $testtopic2 = "TestTopic2";
+my $testtopic1 = 'TestTopic1';
+my $testtopic2 = 'TestTopic2';
 use vars qw( $codedir );
 
 BEGIN {
@@ -20,9 +18,9 @@ BEGIN {
     $codedir = File::Temp::tempdir( CLEANUP => 1 );
     mkdir("$codedir/Foswiki")      || die $!;
     mkdir("$codedir/Foswiki/Form") || die $!;
-    open( F, ">$codedir/Foswiki/Form/Nuffin.pm" ) || die $!;
+    open( my $F, '>', "$codedir/Foswiki/Form/Nuffin.pm" ) || die $!;
 
-    my $code = <<CODE;
+    my $code = <<"CODE";
 package Foswiki::Form::Nuffin;
 use Foswiki::Form::FieldDefinition;
 our \@ISA = qw( Foswiki::Form::FieldDefinition );
@@ -37,8 +35,8 @@ sub renderForDisplay {
 
 1;
 CODE
-    print F $code;
-    close(F) || die $!;
+    print $F $code;
+    close($F) || die $!;
     push( @INC, $codedir );
 }
 
@@ -48,7 +46,7 @@ sub set_up {
     $this->SUPER::set_up();
 
     Foswiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef,
-        <<HERE );
+        <<'HERE' );
    * Set WEBFORMS = InitializationForm
 HERE
 
@@ -227,12 +225,13 @@ HERE
     $meta->putKeyed( FIELD => { name=>'ZeroNumber', attributes=>'', title=>'Zero', value=>0 } );
 
     Foswiki::Func::saveTopic( $this->{test_web}, $testtopic2, $meta, 'TT2' );
+    return;
 }
 
 sub setForm {
     my $this = shift;
     Foswiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef,
-        <<HERE );
+        <<'HERE' );
 | *Name*            | *Type*       | *Size* | *Values*      |
 | Issue Name        | text         | 40     |               |
 | State             | radio        |        | none          |
@@ -244,6 +243,7 @@ sub setForm {
 | Issue 5           | select+multi | 3      | Foo, Bar, Baz |
 Topic is deliberately missing
 HERE
+    return;
 }
 
 # Simple test; no forms in place, just check value rendering
@@ -295,6 +295,7 @@ sub test_render_formfield_raw {
     $this->assert_str_equals('0', $res);
     $res = $meta->renderFormFieldForDisplay( 'ZeroNumber', '$value' );
     $this->assert_str_equals('0', $res);
+    return;
 }
 
 # Simple test; form in place, just check value rendering
@@ -307,7 +308,7 @@ sub test_render_formfield_with_form {
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic2 );
     my $text = $meta->text;
     my $res  = $meta->renderFormForDisplay();
-    $this->assert_html_equals( <<HERE, $res );
+    $this->assert_html_equals( <<"HERE", $res );
 <div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
@@ -327,7 +328,7 @@ HERE
     $text = $meta->text;
     $res  = $meta->renderFormForDisplay();
 
-    $this->assert_html_equals( <<HERE, $res );
+    $this->assert_html_equals( <<"HERE", $res );
 <div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
@@ -342,6 +343,7 @@ Defect
 Foo, Baz
 </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
+    return;
 }
 
 sub test_render_for_edit {
@@ -357,17 +359,17 @@ sub test_render_for_edit {
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
     my $text = $meta->text;
     my $formDef =
-      new Foswiki::Form( $this->{session}, $this->{test_web},
+      Foswiki::Form->new( $this->{session}, $this->{test_web},
         "InitializationForm" );
     my $res = $formDef->renderForEdit($meta);
 
-    my $expected = <<HERE;
+    my $expected = <<'HERE';
 <div class="foswikiForm foswikiEditForm"><table class="foswikiFormTable" summary='Form data'>
 <tr>
 <th class="foswikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></th>
 </tr> 
 <tr><th align="right">Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField" /></td></tr>
-<tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  label="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
+<tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
 <tr><th align="right">Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div><nop><h1>
 <a name="Example_problem"> </a> Example problem </h1></div></td></tr>
 <tr><th align="right">Issue 1</th><td align="left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
@@ -375,7 +377,7 @@ sub test_render_for_edit {
 <tr><th align="right">Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
 <tr><th align="right">Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
 Defect</textarea></td></tr>
-<tr><th align="right">Issue 5</th><td align="left"><select name="Issue5" multiple="on" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr> </table>  </div>
+<tr><th align="right">Issue 5</th><td align="left"><select name="Issue5" multiple="multiple" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr> </table>  </div>
 HERE
 
     #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
@@ -384,6 +386,7 @@ HERE
     $expected =~ s/%VIEWURL%/$viewUrl/g;
 
     $this->assert_html_equals( $expected, $res );
+    return;
 }
 
 sub test_render_hidden {
@@ -393,12 +396,13 @@ sub test_render_hidden {
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
     my $text = $meta->text;
     my $formDef =
-      new Foswiki::Form( $this->{session}, $this->{test_web},
+      Foswiki::Form->new( $this->{session}, $this->{test_web},
         "InitializationForm" );
     my $res = $formDef->renderHidden($meta);
     $this->assert_html_equals( <<'HERE', $res );
 <input type="hidden" name="IssueName" value="_An issue_"  /><input type="hidden" name="State" value="Invisible"  /><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><input type="hidden" name="Issue1" value="*Defect*"  /><input type="hidden" name="Issue2" value="Enhancement"  /><input type="hidden" name="Issue3" value="Defect"  /><input type="hidden" name="Issue3" value="None"  /><input type="hidden" name="Issue4" value="Defect"  /><input type="hidden" name="Issue5" value="Foo"  /><input type="hidden" name="Issue5" value="Baz"  />
 HERE
+    return;
 }
 
 sub test_nondefined_form {
@@ -424,7 +428,7 @@ sub test_nondefined_form {
     my $text = $meta->text;
     my $res  = $meta->renderFormForDisplay();
 
-    $this->assert_html_equals( <<HERE, $res );
+    $this->assert_html_equals( <<"HERE", $res );
 <span class="foswikiAlert">Form definition 'NonExistantPluginTestForm' not found</span><div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>$web.NonExistantPluginTestForm</h3></noautolink> " else="<h3> $web.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
 ContactAuthorFirst
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
@@ -446,6 +450,7 @@ No
 </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
 
+    return;
 }
 
 1;

@@ -1,17 +1,18 @@
 package ResponseTests;
+use strict;
+use warnings;
 
 use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );
-use strict;
-use warnings;
+use Assert;
 
 use Foswiki::Response;
 
 sub test_empty_new {
-    my $this = shift;
-    my $res  = new Foswiki::Response;
+    my ($this) = @_;
+    my $res  = Foswiki::Response->new();
 
-    $this->assert_null( $res->status, 'Non-empty initial status' );
+    $this->assert_null( $res->status, 'Non-empty initial status' ) if not DEBUG;
     $this->assert_null( $res->body,   'Non-empty initial body' );
     $this->assert_matches( 'ISO-8859-1', $res->charset,
         'Bad default initial charset' );
@@ -27,11 +28,13 @@ sub test_empty_new {
         ( scalar keys %$ref ),
         'Non-empty initial headers'
     );
+
+    return;
 }
 
 sub test_status {
-    my $this = shift;
-    my $res  = new Foswiki::Response;
+    my ($this) = @_;
+    my $res  = Foswiki::Response->new();
 
     my @status = ( 200, 302, 401, 402, '404 not found', 500 );
     foreach (@status) {
@@ -42,21 +45,25 @@ sub test_status {
     $res->status('ivalid status');
     $this->assert_null( $res->status,
         'It was possible to set an invalid status' );
+
+    return;
 }
 
 sub test_charset {
-    my $this = shift;
-    my $res  = new Foswiki::Response;
+    my ($this) = @_;
+    my $res  = Foswiki::Response->new();
 
     foreach (qw(utf8 iso-8859-1 iso-8859-15 utf16)) {
         $res->charset($_);
         $this->assert_str_equals( $_, $res->charset, 'Wrong charset value' );
     }
+
+    return;
 }
 
 sub test_headers {
-    my $this = shift;
-    my $res  = new Foswiki::Response;
+    my ($this) = @_;
+    my $res  = Foswiki::Response->new();
 
     my %hdr = (
         'CoNtEnT-tYpE' => 'text/plain; charset=utf8',
@@ -131,29 +138,31 @@ sub test_headers {
         [ sort $res->getHeader ],
         'Wrong header fields'
     );
+    return;
 }
 
 sub test_cookie {
-    my $this = shift;
-    my $res  = new Foswiki::Response('');
+    my ($this) = @_;
+    my $res  = Foswiki::Response->new('');
     require CGI::Cookie;
-    my $c1 = new CGI::Cookie(
+    my $c1 = CGI::Cookie->new(
         -name   => 'FOSWIKISID',
         -value  => '80eaee753351a6d4d050320ce4d60822',
         -domain => 'localhost'
     );
-    my $c2 = new CGI::Cookie( -name => 'Foo', -value => 'Bar' );
+    my $c2 = CGI::Cookie->new( -name => 'Foo', -value => 'Bar' );
     $res->cookies( [ $c1, $c2 ] );
     $this->assert_deep_equals(
         [ $c1, $c2 ],
         [ $res->cookies ],
         'Wrong returned cookies'
     );
+    return;
 }
 
 sub test_body {
-    my $this   = shift;
-    my $res    = new Foswiki::Response('');
+    my ($this) = @_;
+    my $res    = Foswiki::Response->new('');
     my $length = int( rand( 2**20 ) );
     my $body;
     for ( my $i = 0 ; $i < $length ; $i++ ) {
@@ -166,12 +175,13 @@ sub test_body {
         $res->getHeader('Content-Length'),
         'Wrong Content-Length header'
     );
+    return;
 }
 
 sub test_redirect {
-    my $this = shift;
+    my ($this) = @_;
 
-    my $res = new Foswiki::Response('');
+    my $res = Foswiki::Response->new('');
     my ( $uri, $status ) = ();
     $uri = 'http://foo.bar';
     $res->redirect($uri);
@@ -186,11 +196,11 @@ sub test_redirect {
         'Wrong generated Status code'
     );
 
-    $res    = new Foswiki::Response('');
+    $res    = Foswiki::Response->new('');
     $uri    = 'http://bar.foo.baz/path/to/script/path/info';
     $status = '301 Moved Permanently';
     require CGI::Cookie;
-    my $cookie = new CGI::Cookie(
+    my $cookie = CGI::Cookie->new(
         -name   => 'Cookie',
         -value  => 'tasty cookie',
         -domain => '.foo.baz'
@@ -207,11 +217,12 @@ sub test_redirect {
         'Wrong returned Status header'
     );
     $this->assert_deep_equals( [$cookie], [ $res->cookies ], 'Wrong cookie!' );
+    return;
 }
 
 sub test_header {
-    my $this = shift;
-    my $res  = new Foswiki::Response('');
+    my ($this) = @_;
+    my $res  = Foswiki::Response->new('');
 
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
@@ -250,10 +261,11 @@ sub test_header {
         [ $res->cookies ],
         'Cookie not defined'
     );
+    return;
 }
 
 sub test_isRedirectSafe {
-    my $this = shift;
+    my ($this) = @_;
 
     $this->assert(not Foswiki::_isRedirectSafe('http://slashdot.org'));
 
@@ -269,6 +281,7 @@ sub test_isRedirectSafe {
     $this->assert(Foswiki::_isRedirectSafe($url));
     $url = $baseUrlMissingSlash.'#header';
     $this->assert(Foswiki::_isRedirectSafe($url));
+    return;
 }
 
 1;
