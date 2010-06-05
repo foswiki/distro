@@ -1,6 +1,6 @@
-use strict;
-
 package HTMLValidationTests;
+use strict;
+use warnings;
 
 #this has been quickly copied from the UICompilation tests
 #TODO: need to pick a list of topics, actions, opps's and add detection of installed skins
@@ -34,8 +34,9 @@ our %expect_non_html = (
 
 
 sub new {
+    my ($class, @args) = @_;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $self = shift()->SUPER::new( "UIFnCompile", @_ );
+    my $self = $class->SUPER::new( "UIFnCompile", @args );
     return $self;
 }
 
@@ -66,6 +67,8 @@ sub set_up {
                         ALLOWWEBCHANGE => '',
                         ALLOWWEBRENAME => ''
                     });
+
+    return;
 }
 
 sub fixture_groups {
@@ -93,16 +96,17 @@ sub fixture_groups {
         my $sub      = $package . '::' . $function;
 
         #print STDERR "call $sub\n";
-
-        eval <<SUB;
-		sub $script {
-			eval "require \$package" if (defined(\$package));
-			\$UI_FN = \$sub;
-	
-			\$SCRIPT_NAME = \$script;
-		}
+        my $evalsub = <<"SUB";
+            sub $script {
+                eval "require \$package" if (defined(\$package));
+                    \$UI_FN = \$sub;
+                    \$SCRIPT_NAME = \$script;
+            }
+            1;
 SUB
-        die $@ if $@;
+        if ( not ( eval $evalsub ) ) {
+            die $@;
+        }
     }
 
     my @skins;
@@ -128,7 +132,7 @@ SUB
 
 sub call_UI_FN {
     my ( $this, $web, $topic, $tmpl ) = @_;
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             webName   => [$web],
             topicName => [$topic],
@@ -141,8 +145,8 @@ sub call_UI_FN {
     $query->method('GET');
 
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
-    $ENV{FOSWIKI_ASSERTS} = 0;
-    my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
+    local $ENV{FOSWIKI_ASSERTS} = 0;
+    my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
     my ($responseText, $result, $stdout, $stderr);
     $responseText = "Status: 500";      #errr, boom
     try {
@@ -191,56 +195,104 @@ sub call_UI_FN {
     return ($status, $header, $body, $stdout, $stderr);
 }
 
+sub do_save_attachment {
+    my ( $web, $topic, $name, $params ) = @_;
+
+    binmode( $params->{stream} );
+    Foswiki::Func::saveAttachment( $web, $topic, $name, $params );
+
+    return;
+}
+
+sub do_create_file {
+    my ($stream, $data) = @_;
+
+    binmode( $stream );
+    print $stream $data;
+
+    return length $data;
+}
+
+sub add_attachment {
+    my ($this, $web, $topic, $name, $data, $params) = @_;
+    my %save_params = (
+            dontlog  => $params->{dontlog} || 1,
+            comment  => $params->{comment} || 'default comment for ' . $name,
+            filepath => $params->{filepath} || '/local/file/' . $name,
+            filedate => $params->{filedata} || time(),
+            createlink => $params->{createlink} || 1,
+        );
+    $this->assert( open( $save_params{stream}, '>', 
+        $Foswiki::cfg{TempfileDir} . $name ) );
+    my $size = do_create_file($save_params{stream}, $data);
+    close( $save_params{stream} );
+    $save_params{filesize} = $size;
+    $this->assert( open( $save_params{stream}, '<', 
+        $Foswiki::cfg{TempfileDir} . $name ) );
+    do_save_attachment( $web, $topic, $name, \%save_params );
+    close( $save_params{stream} );
+
+    return length $data;
+}
+
 sub add_attachments {
     my ($this, $web, $topic) = @_;
 
-    my $data1  = "\0b\1l\2a\3h\4b\5l\6a\7h";
-    my $data2  = "\0h\1a\2l\3b\4h\5a\6l\7b";
-    my $name1 = 'blahblahblah.gif';
-    my $name2 = 'bleagh.sniff';
-    $this->{tmpdatafile1} = $Foswiki::cfg{TempfileDir} . $name1;
-    $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir} . $name2;
-
-    my $stream1;
-    $this->assert( open( $stream1, ">$this->{tmpdatafile1}" ) );
-    binmode($stream1);
-    print $stream1 $data1;
-    close($stream1);
-    $this->assert( open( $stream1, "<$this->{tmpdatafile1}" ) );
-    binmode($stream1);
-
-    my $stream2;
-    $this->assert( open( $stream2, ">$this->{tmpdatafile2}" ) );
-    binmode($stream2);
-    print $stream2 $data2;
-    close($stream2);
-    $this->assert( open( $stream2, "<$this->{tmpdatafile2}" ) );
-    binmode($stream2);
-
-    Foswiki::Func::saveAttachment(
-        $web, $topic, $name1,
-        {
-            dontlog  => 1,
-            comment  => 'Feasgar Bha',
-            stream   => $stream1,
-            filepath => '/local/file',
-            filesize => 999,
-            filedate => 0,
-        }
-    );
-    Foswiki::Func::saveAttachment(
-        $web, $topic, $name2,
-        {
-            dontlog  => 1,
-            comment  => 'Feasgar Bha2',
-            stream   => $stream2,
-            filepath => '/local/file2',
-            filesize => 999,
-            filedate => 0,
-        }
-    );
+    add_attachment($this, $web, $topic, 'blahblahblah.gif', 
+        "\0b\1l\2a\3h\4b\5l\6a\7h", {comment => 'Feasgar Bha'} );
+    add_attachment($this, $web, $topic, 'bleagh.sniff', 
+        "\0h\1a\2l\3b\4h\5a\6l\7b", {comment => 'Feasgar Bha2'} );
 
     return;
+}
+
+sub put_field {
+    my ( $meta, $name, $attributes, $title, $value ) = @_;
+
+    $meta->putKeyed('FIELD', {
+        name => $name,
+        attributes => $attributes,
+        title => $title,
+        value => $value
+    });
+
+    return;
+}
+
+sub add_form_and_data {
+     my ($this, $web, $topic, $form) = @_;
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    $meta->put( 'FORM', { name => $form } );
+    put_field( $meta, 'IssueName', 'M', 'Issue Name', '_An issue_' );
+    put_field( $meta, 'IssueDescription', '', 'Issue Description', 
+        '---+ Example problem' );
+    put_field( $meta, 'Issue1', '', 'Issue 1:', '*Defect*' );
+    put_field( $meta, 'Issue2', '', 'Issue 2:', 'Enhancement' );
+    put_field( $meta, 'Issue3', '', 'Issue 3:', 'Defect, None' );
+    put_field( $meta, 'Issue4', '', 'Issue 4:', 'Defect' );
+    put_field( $meta, 'Issue5', '', 'Issue 5:', 'Foo, Baz' );
+    put_field( $meta, 'State', 'H', 'State', 'Invisible' );
+    put_field( $meta, 'Anothertopic', '', 'Another topic', 'GRRR ' );
+    $meta->save();
+
+     return;
+}
+
+sub create_form_topic {
+    my ($this, $web, $topic) = @_;
+    Foswiki::Func::saveTopic( $web, $topic, undef, <<'HERE' );
+| *Name*            | *Type*       | *Size* | *Values*        |
+| Issue Name        | text         | 40     |                 |
+| State             | radio        |        | 1, Invisible, 3 |
+| Issue Description | label        | 10     | 5               |
+| Issue 1           | select       |        | x, y, *Defect*  |
+| Issue 2           | nuffin       |        |                 |
+| Issue 3           | checkbox     |        | None, Defect, c |
+| Issue 4           | textarea     |        |                 |
+| Issue 5           | select+multi | 3      | Foo, Bar, Baz   |
+HERE
+
+     return;
 }
 
 #TODO: work out why some 'Use of uninitialised vars' don't crash the test (see preview)
@@ -252,6 +304,8 @@ sub verify_switchboard_function {
 
     my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
 
+    create_form_topic($this, $this->{test_web}, 'MyForm');
+    add_form_and_data($this, $this->{test_web}, $this->{test_topic}, 'MyForm');
     add_attachments($this, $this->{test_web}, $this->{test_topic});
 
     my ( $status, $header, $text ) = $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
@@ -296,6 +350,7 @@ s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span)>\n?$//gm;
 
     #clean up messages for next run..
     $this->{tidy}->clear_messages();
+    return;
 }
 
 1;
