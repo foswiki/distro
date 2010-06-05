@@ -221,8 +221,22 @@ HERE
             value      => "GRRR "
         }
     );
-    $meta->putKeyed( FIELD => { name=>'ZeroString', attributes=>'', title=>'Zero', value=>'0' } );
-    $meta->putKeyed( FIELD => { name=>'ZeroNumber', attributes=>'', title=>'Zero', value=>0 } );
+    $meta->putKeyed(
+        FIELD => {
+            name       => 'ZeroString',
+            attributes => '',
+            title      => 'Zero',
+            value      => '0'
+        }
+    );
+    $meta->putKeyed(
+        FIELD => {
+            name       => 'ZeroNumber',
+            attributes => '',
+            title      => 'Zero',
+            value      => 0
+        }
+    );
 
     Foswiki::Func::saveTopic( $this->{test_web}, $testtopic2, $meta, 'TT2' );
     return;
@@ -292,9 +306,9 @@ sub test_render_formfield_raw {
         { newline => 'NL', bar => "BAR" } );
     $this->assert_str_equals( '', $res );
     $res = $meta->renderFormFieldForDisplay( 'ZeroString', '$value' );
-    $this->assert_str_equals('0', $res);
+    $this->assert_str_equals( '0', $res );
     $res = $meta->renderFormFieldForDisplay( 'ZeroNumber', '$value' );
-    $this->assert_str_equals('0', $res);
+    $this->assert_str_equals( '0', $res );
     return;
 }
 
@@ -351,6 +365,7 @@ sub test_render_for_edit {
 
     # Force a site charset that will generate _ in the header
     $Foswiki::cfg{Site}{CharSet} = 'iso-8859-1';
+
     # Switch off compatible anchors
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
