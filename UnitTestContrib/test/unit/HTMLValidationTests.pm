@@ -32,6 +32,12 @@ our %expect_non_html = (
         resetpasswd => 1,
 );
 
+# Thanks to Foswiki::Form::Radio, and a default -columns attribute = 4,
+# CGI::radio_group() uses HTML3 tables (missing summary attribute) for layout
+# and this makes HTMLTidy cry.
+our %expect_table_summary_warnings = (
+        edit => 1
+);
 
 sub new {
     my ($class, @args) = @_;
@@ -330,6 +336,13 @@ sub verify_switchboard_function {
                                # Empty title, no easy fix and harmless
 s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span)>\n?$//gm;
                 s/^\s*$//;
+            }
+            if ( defined($expect_table_summary_warnings{$SCRIPT_NAME} ) and 
+                ($output =~ /<table> lacks "summary" attribute/) ) {
+                for ($output) {# Remove missing table summary attribute warning
+s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
+                s/^\s*$//;
+                }
             }
             my $outfile = "${testcase}_run.html";
             if ( $output eq '' ) {
