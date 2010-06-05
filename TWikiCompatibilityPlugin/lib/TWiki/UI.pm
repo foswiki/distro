@@ -3,6 +3,7 @@ package TWiki::UI;
 # Bridge between TWiki::UI and Foswiki::UI
 
 use strict;
+use warnings;
 
 use Foswiki::UI;
 

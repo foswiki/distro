@@ -15,6 +15,7 @@ name may also be a group, so it may expand to many email addresses.
 package Foswiki::Contrib::MailerContrib::Subscriber;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki ();

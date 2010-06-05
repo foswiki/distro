@@ -1,6 +1,7 @@
 package Foswiki::Contrib::BehaviourContrib;
 
 use strict;
+use warnings;
 
 our $VERSION = '$Rev$';
 our $RELEASE = '1.5';

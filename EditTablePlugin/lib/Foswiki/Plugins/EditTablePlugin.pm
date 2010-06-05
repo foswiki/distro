@@ -21,6 +21,7 @@
 package Foswiki::Plugins::EditTablePlugin;
 
 use strict;
+use warnings;
 
 our $VERSION = '$Rev$';
 

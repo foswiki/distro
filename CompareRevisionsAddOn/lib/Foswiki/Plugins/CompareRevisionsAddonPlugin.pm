@@ -32,6 +32,7 @@ package Foswiki::Plugins::CompareRevisionsAddonPlugin;
 
 # Always use strict to enforce variable scoping
 use strict;
+use warnings;
 
 use Foswiki;
 

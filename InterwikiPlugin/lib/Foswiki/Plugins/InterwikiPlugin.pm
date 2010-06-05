@@ -37,6 +37,7 @@ in a [[link]] or [[link][text]] expression.
 package Foswiki::Plugins::InterwikiPlugin;
 
 use strict;
+use warnings;
 
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version

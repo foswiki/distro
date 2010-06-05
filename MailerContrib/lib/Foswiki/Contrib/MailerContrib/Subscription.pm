@@ -13,6 +13,7 @@ matching pages that the user is subscribed to.
 package Foswiki::Contrib::MailerContrib::Subscription;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki::Contrib::MailerContrib::Constants;

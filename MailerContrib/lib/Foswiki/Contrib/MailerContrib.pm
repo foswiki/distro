@@ -13,6 +13,7 @@ Also supported is a simple API that can be used to change the Web<nop>Notify top
 package Foswiki::Contrib::MailerContrib;
 
 use strict;
+use warnings;
 
 use URI ();
 use CGI qw(-any);

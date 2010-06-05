@@ -29,6 +29,7 @@ use Foswiki::UserMapping ();
 our @ISA = ('Foswiki::UserMapping');
 
 use strict;
+use warnings;
 use Assert;
 use Error qw( :try );
 use Foswiki::ListIterator ();

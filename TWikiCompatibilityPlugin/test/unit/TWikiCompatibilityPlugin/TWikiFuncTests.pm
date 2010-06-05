@@ -7,6 +7,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
 use TWiki;
 use TWiki::Func;
 

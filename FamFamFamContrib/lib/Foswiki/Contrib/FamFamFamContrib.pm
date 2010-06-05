@@ -14,6 +14,7 @@
 package Foswiki::Contrib::FamFamFamContrib;
 
 use strict;
+use warnings;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 

@@ -23,6 +23,7 @@
 package Foswiki::Plugins::SmiliesPlugin;
 
 use strict;
+use warnings;
 
 use Foswiki::Func ();
 

@@ -12,6 +12,7 @@
 package Foswiki::Plugins::AutoViewTemplatePlugin;
 
 use strict;
+use warnings;
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION
   $debug $mode $override $isEditAction
   $pluginName $NO_PREFS_IN_TOPIC );

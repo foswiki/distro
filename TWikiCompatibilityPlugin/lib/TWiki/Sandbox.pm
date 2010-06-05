@@ -3,6 +3,7 @@ package TWiki::Sandbox;
 # Bridge between TWiki::Sandbox and Foswiki::Sandbox
 
 use strict;
+use warnings;
 
 use Foswiki::Sandbox;
 

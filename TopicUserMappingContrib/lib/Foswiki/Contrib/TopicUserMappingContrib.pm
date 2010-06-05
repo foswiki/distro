@@ -14,6 +14,7 @@
 package Foswiki::Contrib::TopicUserMappingContrib;
 
 use strict;
+use warnings;
 
 our $VERSION          = '$Rev$';
 our $RELEASE          = '4.3';

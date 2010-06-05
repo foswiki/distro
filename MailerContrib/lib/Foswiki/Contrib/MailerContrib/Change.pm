@@ -10,6 +10,7 @@ Object that represents a change to a topic.
 package Foswiki::Contrib::MailerContrib::Change;
 
 use strict;
+use warnings;
 use Assert;
 
 use Foswiki ();

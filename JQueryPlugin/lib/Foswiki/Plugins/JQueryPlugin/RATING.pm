@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::JQueryPlugin::RATING;
 use strict;
+use warnings;
 
 use Foswiki::Plugins::JQueryPlugin::Plugin;
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );

@@ -21,6 +21,7 @@ package Foswiki::Plugins::RenderListPlugin
   ;    # change the package name and $pluginName!!!
 
 use strict;
+use warnings;
 
 # =========================
 use vars qw(

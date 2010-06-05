@@ -5,6 +5,7 @@
 package Foswiki::Plugins::CommentPlugin;
 
 use strict;
+use warnings;
 
 use Foswiki::Func ();
 use Foswiki::Plugins ();

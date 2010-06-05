@@ -27,6 +27,7 @@ package Foswiki::Plugins::TwistyPlugin;
 use Foswiki::Func ();
 use CGI::Cookie   ();
 use strict;
+use warnings;
 
 use vars qw( @modes $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);

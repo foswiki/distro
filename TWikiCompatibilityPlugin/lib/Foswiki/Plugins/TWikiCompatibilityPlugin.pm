@@ -22,6 +22,7 @@ package Foswiki::Plugins::TWikiCompatibilityPlugin;
 
 # Always use strict to enforce variable scoping
 use strict;
+use warnings;
 
 require Foswiki::Func;       # The plugins API
 require Foswiki::Plugins;    # For the API version

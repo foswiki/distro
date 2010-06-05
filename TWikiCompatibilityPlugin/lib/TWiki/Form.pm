@@ -4,6 +4,7 @@ package TWiki::Form;
 # Bridge between TWiki::Form and Foswiki::Form
 
 use strict;
+use warnings;
 
 use TWiki;
 use Foswiki::Form;

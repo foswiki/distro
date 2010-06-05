@@ -6,6 +6,7 @@ our @ISA = qw( Foswiki::Form::ListFieldDefinition );
 use Foswiki::Plugins::JQueryPlugin ();
 
 use strict;
+use warnings;
 
 sub new {
   my $class = shift;

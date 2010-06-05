@@ -3,6 +3,7 @@ package TWiki::Prefs;
 # Bridge between TWiki::Prefs and Foswiki::Prefs
 
 use strict;
+use warnings;
 
 use Foswiki::Prefs;
 

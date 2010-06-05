@@ -2,6 +2,7 @@
 package Foswiki::Form::Rating;
 
 use strict;
+use warnings;
 
 use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::Plugins::JQueryPlugin ();

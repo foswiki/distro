@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::JQueryPlugin::UI;
 use strict;
+use warnings;
 use Foswiki::Plugins ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 

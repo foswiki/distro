@@ -14,6 +14,7 @@
 package Foswiki::Plugins::TinyMCEPlugin;
 
 use strict;
+use warnings;
 
 use Assert;
 

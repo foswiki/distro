@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 package PreferencesPluginTests;
 
@@ -6,6 +7,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
 use Unit::Request;
 use Unit::Response;
 use Foswiki;

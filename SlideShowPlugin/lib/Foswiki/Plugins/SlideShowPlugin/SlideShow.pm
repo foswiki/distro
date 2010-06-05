@@ -18,6 +18,7 @@
 # As per the GPL, removal of this notice is prohibited.
 
 use strict;
+use warnings;
 use Foswiki::Func;
 
 package Foswiki::Plugins::SlideShowPlugin::SlideShow;

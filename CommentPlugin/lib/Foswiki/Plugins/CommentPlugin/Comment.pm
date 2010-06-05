@@ -25,6 +25,7 @@
 # This version is specific to Foswiki::Plugins::VERSION > 1.026
 
 use strict;
+use warnings;
 
 use Foswiki;
 use Foswiki::Plugins;

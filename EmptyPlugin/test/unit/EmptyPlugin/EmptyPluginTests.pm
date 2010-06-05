@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 package EmptyPluginTests;
 
@@ -6,6 +7,7 @@ use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
 use strict;
+use warnings;
 use Foswiki;
 use CGI;
 

@@ -16,6 +16,7 @@
 package Foswiki::Plugins::JQueryPlugin::NIFTY;
 use Foswiki::Func ();
 use strict;
+use warnings;
 
 use Foswiki::Plugins::JQueryPlugin::Plugin;
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );

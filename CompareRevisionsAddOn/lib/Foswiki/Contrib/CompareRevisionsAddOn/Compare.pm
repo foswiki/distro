@@ -10,6 +10,7 @@
 package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 
 use strict;
+use warnings;
 
 use Foswiki::UI;
 use Foswiki::Func;

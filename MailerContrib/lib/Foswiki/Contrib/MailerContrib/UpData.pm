@@ -11,6 +11,7 @@ parent relationships.
 package Foswiki::Contrib::MailerContrib::UpData;
 
 use strict;
+use warnings;
 
 =begin TML
 

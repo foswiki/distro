@@ -1,6 +1,7 @@
 #package TWiki;
 
 use strict;
+use warnings;
 
 use Foswiki;
 

@@ -20,6 +20,7 @@
 package Foswiki::Plugins::SlideShowPlugin;
 
 use strict;
+use warnings;
 
 use vars qw(
   $web $topic $user $installWeb $debug $addedHead

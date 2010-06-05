@@ -11,6 +11,7 @@ $FULL_TOPIC - send the full topic rather than just changes
 package Foswiki::Contrib::MailerContrib::Constants;
 
 use strict;
+use warnings;
 
 our $ALWAYS     = 1;
 our $FULL_TOPIC = 2;

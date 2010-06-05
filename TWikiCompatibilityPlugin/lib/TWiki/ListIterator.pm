@@ -5,6 +5,7 @@ package TWiki::ListIterator;
 # Bridge between TWiki::ListIterator and Foswiki::ListIterator
 
 use strict;
+use warnings;
 
 use Foswiki::ListIterator;
 

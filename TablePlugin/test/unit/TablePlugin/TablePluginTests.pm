@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 # tests for basic formatting
 

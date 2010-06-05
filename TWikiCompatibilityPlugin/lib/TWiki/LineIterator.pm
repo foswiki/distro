@@ -5,6 +5,7 @@ package TWiki::LineIterator;
 # Bridge between TWiki::LineIterator and Foswiki::LineIterator
 
 use strict;
+use warnings;
 
 use Foswiki::LineIterator;
 

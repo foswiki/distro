@@ -28,6 +28,7 @@
 package Foswiki::Plugins::SpreadSheetPlugin::Calc;
 
 use strict;
+use warnings;
 use Time::Local;
 
 # =========================

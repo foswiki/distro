@@ -4,6 +4,7 @@ package TWiki::Func;
 # Bridge between TWiki::Func and Foswiki::Func
 
 use strict;
+use warnings;
 
 use Foswiki::Func;
 use Foswiki::Plugins;

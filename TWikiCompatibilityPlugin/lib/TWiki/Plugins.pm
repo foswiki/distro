@@ -1,6 +1,7 @@
 package TWiki::Plugins;
 
 use strict;
+use warnings;
 
 use Foswiki::Plugins;
 

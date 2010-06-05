@@ -1,5 +1,6 @@
 package Foswiki::Contrib::PatternSkin;
 use strict;
+use warnings;
 
 our $VERSION = '$Rev$';
 our $RELEASE = '5.3';

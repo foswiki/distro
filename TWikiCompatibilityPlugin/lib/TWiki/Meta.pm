@@ -1,6 +1,7 @@
 package TWiki::Meta;
 
 use strict;
+use warnings;
 
 use Foswiki::Meta;
 

@@ -24,6 +24,7 @@
 package Foswiki::Plugins::PreferencesPlugin;
 
 use strict;
+use warnings;
 
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version

@@ -13,6 +13,7 @@ must be set up before this class is used.
 package Foswiki::Contrib::MailerContrib::WebNotify;
 
 use strict;
+use warnings;
 use locale;    # required for matching \w with international characters
 
 use Assert;

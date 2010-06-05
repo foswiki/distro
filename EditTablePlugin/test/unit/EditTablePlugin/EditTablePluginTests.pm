@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 # tests for basic formatting
 
@@ -8,6 +9,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
 use Foswiki::UI::Save;
 use Error qw( :try );
 use Foswiki::Plugins::EditTablePlugin;

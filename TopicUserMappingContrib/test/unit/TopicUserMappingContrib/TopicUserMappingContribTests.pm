@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 #
 # Tests the TopicUserMappingContrib, including dealing with legacy login

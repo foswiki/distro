@@ -3,6 +3,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
 use locale;
 
 use Foswiki::Contrib::MailerContrib;

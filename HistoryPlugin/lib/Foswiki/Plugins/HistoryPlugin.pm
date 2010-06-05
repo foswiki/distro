@@ -17,6 +17,8 @@
 #
 package Foswiki::Plugins::HistoryPlugin;
 
+use strict;
+use warnings;
 use Foswiki::Func;
 
 # =========================

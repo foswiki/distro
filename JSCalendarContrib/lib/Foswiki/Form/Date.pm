@@ -7,6 +7,7 @@ use Foswiki::Form::FieldDefinition ();
 @ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 use strict;
+use warnings;
 
 use Foswiki::Contrib::JSCalendarContrib ();
 

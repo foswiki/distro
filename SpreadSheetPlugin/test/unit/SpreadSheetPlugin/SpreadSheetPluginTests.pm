@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 
 package SpreadSheetPluginTests;
 
@@ -6,6 +7,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
 use Foswiki;
 use Foswiki::Plugins::SpreadSheetPlugin;
 use Foswiki::Plugins::SpreadSheetPlugin::Calc;

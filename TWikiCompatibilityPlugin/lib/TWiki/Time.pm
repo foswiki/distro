@@ -3,6 +3,7 @@ package TWiki::Time;
 # Bridge between TWiki::Time and Foswiki::Time
 
 use strict;
+use warnings;
 
 use Foswiki::Time;
 

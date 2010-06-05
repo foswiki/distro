@@ -13,6 +13,7 @@ easier from Foswiki plugins. This module includes the functions:
 package Foswiki::Contrib::JSCalendarContrib;
 
 use strict;
+use warnings;
 
 use Foswiki::Func ();    # The plugins API
 
