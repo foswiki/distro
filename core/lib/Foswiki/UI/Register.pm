@@ -1,4 +1,4 @@
-{# See bottom of file for license and copyright information
+# See bottom of file for license and copyright information
 
 =begin TML
 
