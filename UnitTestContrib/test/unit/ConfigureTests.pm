@@ -1417,11 +1417,11 @@ sub test_Package_fetchFile {
         $pkg->repository($repository);
 
         ($resp, $file) = $pkg->_fetchFile( '_installer' );
+        $this->assert_str_equals('', $resp);
     }
     except {
         my $E = shift;
     }
-    $this->assert_str_equals('', $resp);
 }
 
 # 
