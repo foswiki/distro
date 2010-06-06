@@ -27,8 +27,10 @@ my $autoconf   = 0;
 my @error_log;
 
 BEGIN {
+no re 'taint';
     $FindBin::Bin =~ /(.*)/;    # core dir
     $basedir   = $1;    
+use re 'taint';
     $parentdir = "$basedir/..";
     my $path = $ENV{FOSWIKI_EXTENSIONS} || '';
     $path .=
