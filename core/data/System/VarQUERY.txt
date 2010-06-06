@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarQUERY
 ---+++ QUERY -- get the value of meta-data
-   * Uses the query syntax described in [[Syntax.QuerySearch][QuerySearch]] to get information about meta-data.
+   * Uses the query syntax described in [[System.QuerySearch][QuerySearch]] to get information about meta-data.
    * Syntax: =%<nop>QUERY{ "query" [ style="perl|json" ] }%=
    * See !QuerySearch for more details of how to write queries
    * Examples:
