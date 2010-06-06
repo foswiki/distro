@@ -78,34 +78,35 @@ The ={TemplatePath}= configuration setting defines which topics will be accepted
 Skin templates that are included with an explicit ='.tmpl'= extension are looked for only in the =templates/= directory.
 For instance =%TMPL:INCLUDE{"example.tmpl"}%= will only return =templates/example.tmpl=, regardless of ={TemplatePath}= and SKIN settings.
 
-The out-of-the-box setting of ={TemplatePath}= supports the following search order to determine which template file or topic to use for a particular script or =%TMPL:INCLUDE{"script"}%= statement.
+The rules defined by the out-of-the-box setting of ={TemplatePath}= are:
+   1 =templates/$web/$name.$skin.tmpl=
+   2 =templates/$name.$skin.tmpl=
+   3 =$web.$skinSkin$nameTemplate=
+   4 =System.$skinSkin$nameTemplate=
+   5 =templates/$web/$name.tmpl=
+   6 =templates/$name.tmpl=
+   7 =$web.$nameTemplate=
+   8 =System.$nameTemplate=
+</verbatim>
+This defines the the search order to find a template file. For example, let's say we are viewing a topic in web =Sandbox= and are searching for the template called =function=. The skin path is set to =custom,pattern=. The following locations will be considered in turn, until a template is found:
+   1 =templates/Sandbox/function.custom.tmpl= _(rule 1)_ :skull:
+   1 =templates/Sandbox/function.pattern.tmpl= _(rule 1)_ :skull:
+   2 =templates/function.custom.tmpl= _(rule 2)_
+   2 =templates/function.pattern.tmpl= _(rule 2)_
+   3 =Sandbox.CustomSkinFunctionTemplate= _(rule 3)_
+   3 =Sandbox.PatternSkinFunctionTemplate= _(rule 3)_
+   4 =System.CustomSkinFunctionTemplate= _(rule 4)_
+   4 =System.PatternSkinFunctionTemplate= _(rule 4)_
+   5 =templates/Sandbox/function.tmpl= _(rule 5)_ :skull:
+   6 =templates/function.tmpl= _(rule 6)_
+   7 =Sandbox.FunctionTemplate= _(rule 7)_
+   8 =System.FunctionTemplate= _(rule 8)_
+:skull: this usage is supported *for compatibility only* and is *deprecated*.
+Store web-specific templates in topics instead.
+
+When a skin name or template name is used to build a topic name, the first character is automatically capitalised.
+
 The _skin path_ is set as described in [[Skins]].
-
-<!--
-   * Set DARKGRAY = <font color="#333333">
--->
-
-   1 <span class="foswikiGrayText">templates/%DARKGRAY%web%ENDCOLOR%/%DARKGRAY%script%ENDCOLOR%.%DARKGRAY%skin%ENDCOLOR%.tmpl for each %DARKGRAY%skin%ENDCOLOR% on the skin path</span>
-      * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
-   1 templates/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
-      * _for example templates/view.dragon.tmpl_
-   1 <span class="foswikiGrayText">templates/%DARKGRAY%web%ENDCOLOR%/%DARKGRAY%script%ENDCOLOR%.tmpl</span>
-      * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
-   1 templates/%RED%script%ENDCOLOR%.tmpl
-      * _for example templates/view.tmpl_
-   1 The topic aweb.atopic if the template name can be parsed into aweb.atopic
-   1 The topic %RED%web%ENDCOLOR%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
-      * _for example <nop>DragonSkinViewTemplate in the current Web_
-   1 The topic %RED%web%ENDCOLOR%.%RED%Script%ENDCOLOR%Template
-   1 The topic %<nop>SYSTEMWEB%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
-      * _for example <nop>%SYSTEMWEB%.DragonSkinViewTemplate_
-   1 The topic %<nop>SYSTEMWEB%.%RED%Script%ENDCOLOR%Template
-*Legend:*
-   * %RED%script%ENDCOLOR% refers to the script name, e.g =view=, =edit=
-   * %RED%Script%ENDCOLOR% refers to the same, but with the first character capitalized, e.g =View=
-   * %RED%skin%ENDCOLOR% refers to a skin name, e.g =dragon=, =pattern=. All skins are checked at each stage, in the order they appear in the skin path.
-   * %RED%Skin%ENDCOLOR% refers to the same, but with the first character capitalized, e.g =Dragon=
-   * %RED%web%ENDCOLOR% refers to the current web
 
 For example, the =example= template file will be searched for in the following places, when the current web is =Thisweb= and the skin path is =print,pattern=:
 
@@ -122,6 +123,7 @@ For example, the =example= template file will be searched for in the following p
    I. =%SYSTEMWEB%.PatternSkinExampleTemplate=
    I. =%SYSTEMWEB%.ExampleTemplate=
 
+#TemplatePreferences
 Template file names are usually derived from the name of the currently executing script; however it is also possible to override these settings in the =view= and =edit= scripts, for example when a topic-specific template is required. Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] can be used to override the skin templates used:
    * =VIEW_TEMPLATE= sets the template to be used for viewing a topic.
    * =EDIT_TEMPLATE= sets the template for editing a topic.
@@ -179,7 +181,7 @@ Note that the trace annotations may make your output look strange. However
 you can usually "view source" in the browser to see what was generated (or
 you may be able to run the script from the command-line e.g. =cd bin; perl -T -I . view topic=MyWeb.MyTopic skin=mynewskin=).
 
-Don't forget to switch the trace mode off again when you are finished!
+%I% Don't forget to switch the trace mode off again when you are finished!
 
 %ENDSECTION{"PowerUserGuide"}%
 

@@ -346,15 +346,6 @@ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $
 
     my $page;
 
-    if ( $query->param('xml') ) {
-        require Foswiki::TOM;
-        $page = Foswiki::TOM->new->TML2TOM($text);
-
-        $session->{response}->status(200);
-        $session->writeCompletePage( $page, 'view', 'text/xml' );
-        return;
-    }
-
     # Legacy: If the _only_ skin is 'text' it is used like this:
     # http://.../view/Codev/MyTopic?skin=text&contenttype=text/plain&raw=on
     # which shows the topic as plain text; useful for those who want

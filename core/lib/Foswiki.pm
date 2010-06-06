@@ -1702,8 +1702,10 @@ sub new {
         if (   $topic =~ m#^$regex{linkProtocolPattern}://#o
             && $this->{request} )
         {
-
-            # redirect to URI
+            # SMELL: this is a result of Codev.GoBoxUnderstandsURLs,
+            # an unrequested, undocumented, and AFAICT pretty useless
+            #"feature". It should be deprecated (or silently removed; I
+            # really, really doubt anyone is using it)
             $this->{webName} = '';
             $this->redirect($topic);
             return $this;

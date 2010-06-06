@@ -1,4 +1,4 @@
-# See bottom of file for license and copyright information
+{# See bottom of file for license and copyright information
 
 =begin TML
 
@@ -373,7 +373,6 @@ sub _innerRegister {
     my $data = _getDataFromQuery( $query, $query->param() );
 
     $data->{webName} = $session->{webName};
-    $data->{debug}   = 1;
 
     my $oldName = $data->{WikiName};
     $data->{WikiName} =
@@ -863,8 +862,8 @@ sub _complete {
     # Plugin to do some other post processing of the user.
     # for legacy, (callback to set cookies - now should use LoginHandler)
     $session->{plugins}
-      ->dispatch( 'registrationHandler', $data->{WebName}, $data->{WikiName},
-        $data->{LoginName}, $data );
+      ->dispatch( 'registrationHandler', $session->{webName},
+                  $data->{WikiName}, $data->{LoginName}, $data );
 
     my $status;
     my $safe2login = 1;

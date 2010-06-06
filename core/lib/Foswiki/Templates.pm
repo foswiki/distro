@@ -186,23 +186,10 @@ sub tmplP {
 
 ---++ ObjectMethod readTemplate ( $name, $skins, $web ) -> $text
 
+Reads a template.
+
 Return value: expanded template text
 
-Reads a template, constructing a candidate name for the template thus
-   0 looks for file =$name.$skin.tmpl= (for each skin)
-      0 in =templates/$web=
-      0 in =templates=, look for
-   0 looks for file =$name.tmpl=
-      0 in =templates/$web=
-      0 in =templates=, look for
-   0 if a template is not found, tries in this order
-      0 parse =$name= into a web name (default to $web) and a topic name and looks for this topic
-      0 looks for topic =${skin}Skin${name}Template= 
-         0 in $web (for each skin)
-         0 in =Foswiki::cfg{SystemWebName}= (for each skin)
-      0 looks for topic =${name}Template=
-         0 in $web (for each skin)
-         0 in =Foswiki::cfg{SystemWebName}= (for each skin)
 In the event that the read fails (template not found, access permissions fail)
 returns the empty string ''.
 
@@ -250,7 +237,8 @@ sub readTemplate {
             # handle %TMPL:DEF{key}%
             if ($key) {
 
-     # if the key is already defined, rename the existing template to  key:_PREV
+                # if the key is already defined, rename the existing
+                # template to  key:_PREV
                 my $new_value  = $val;
                 my $prev_key   = $key;
                 my $prev_value = $this->{VARS}->{$prev_key};
@@ -273,7 +261,8 @@ sub readTemplate {
 
             # handle %TMPL:END%
 
-     # if the key is already defined, rename the existing template to  key:_PREV
+            # if the key is already defined, rename the existing template to
+            # key:_PREV
             my $new_value  = $val;
             my $prev_key   = $key;
             my $prev_value = $this->{VARS}->{$prev_key};

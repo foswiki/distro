@@ -25,7 +25,6 @@ sub buildNewTopic {
     my ( $session, $topicObject, $script ) = @_;
 
     my $query = $session->{request};
-    my $revision = $query->param('rev') || undef;
 
     unless ( scalar( $query->param() ) ) {
 
@@ -454,6 +453,7 @@ WARN
     my $edit       = $query->param('edit')             || 'edit';
 
     ## SMELL: The form affecting actions do not preserve edit and editparams
+    # preview+submitChangeForm is deprecated undocumented legacy
     if (   $saveaction eq 'addform'
         || $saveaction eq 'replaceform'
         || $saveaction eq 'preview' && $query->param('submitChangeForm') )

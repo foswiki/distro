@@ -24,20 +24,8 @@ use Foswiki::Form ();
 ---++ StaticMethod edit( $session )
 
 Edit command handler.
-This method is designed to be
-invoked via the =UI::run= method.
-Most parameters are in the CGI query:
 
-| =cmd= | Undocumented save command, passed on to save script |
-| =onlywikiname= | if defined, requires a wiki name for the topic name if this is a new topic |
-| =onlynewtopic= | if defined, and the topic exists, then moans |
-| =formtemplate= | name of the form for the topic; will replace existing form |
-| =templatetopic= | name of the topic to copy if creating a new topic |
-| =skin= | skin(s) to use |
-| =topicparent= | what to put in the topic prent meta data |
-| =text= | text that will replace the old topic text if a formtemplate is defined (what the heck is this for?) |
-| =contenttype= | optional parameter that defines the application type to write into the CGI header. Defaults to text/html. |
-| =action= | Optional. If supplied, use the edit${action} template instead of the standard edit template. An empty value means edit both form and text, "form" means edit form only, "text" means edit text only |
+CGI parameters are documented in System.CommandAndCGIScripts.
 
 =cut
 
@@ -66,7 +54,7 @@ sub init_edit {
     my $formTemplate  = $query->param('formtemplate') || '';
     my $templateTopic = $query->param('templatetopic') || '';
 
-    # apptype is undocumented legacy
+    # apptype is deprecated undocumented legacy
     my $cgiAppType =
          $query->param('contenttype')
       || $query->param('apptype')
@@ -443,7 +431,7 @@ sub finalize_edit {
 
     my $query = $session->{request};
 
-    # apptype is undocumented legacy
+    # apptype is deprecated undocumented legacy
     my $cgiAppType =
          $query->param('contenttype')
       || $query->param('apptype')
