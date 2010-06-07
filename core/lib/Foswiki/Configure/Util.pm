@@ -382,13 +382,29 @@ sub unpackArchive {
 
 sub _unzip {
     my $archive = shift;
+    my $usezip = 0;         # Set true if shell zip is required
+    my $error = '';
 
-    eval 'use Archive::Zip';
-    unless ($@) {
-        my $zip = Archive::Zip->new($archive);
-        unless ($zip) {
-            return "unzip failed: Could not open zip file $archive\n";
+    eval 'use Archive::Zip ();
+          1;'
+    or do {
+        $usezip = 1;
+        };
+
+    my $zip;
+    unless ($usezip) {
+        eval {
+            $zip = Archive::Zip->new($archive);
+            unless ($zip) {
+                die "unzip failed: Could not open zip file $archive\n";
+            }
+            1;
         }
+        or do {
+            $error = $@;
+            };
+
+        return $error if ($error);
 
         my @members = $zip->members();
         foreach my $member (@members) {
@@ -404,34 +420,46 @@ sub _unzip {
         }
     }
     else {
-        my $out = `unzip -n $archive`;
-
-        # On certain older versions of perl / unzip it seems the unzip results
-        # in an illegal seek error. But running the same command again often
-        # goes well. Seems like the 2nd pass works because the subdirectories
-        # are then created. A hack but it seems to work.
-        if ($?) {
-            `unzip -n $archive`;
-            if ($?) {
-                return "unzip failed: $!\n";
+        eval {
+            my $out = `unzip -n $archive`;
+            die "$? - $!" if ($?);
+            1;
             }
-        }
+        or do {
+            $error = "unzip failed $@ \n";
+            };
     }
 
-    return;
+    return $error;
 }
 
 sub _untar {
     my $archive = shift;
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
+    my $usetar = 0;
+    my $error = '';
 
-    eval 'use Archive::Tar ()';
-    unless ($@) {
-        my $tar = Archive::Tar->new( $archive, $compressed );
-        unless ($tar) {
-            return "Could not open tar file $archive\n";
+    eval 'use Archive::Tar ();
+          1;'
+    or do {
+        $usetar = 1;
+        };
+
+    my $tar;
+    unless ($usetar)  {
+        eval {
+            $tar = Archive::Tar->new( $archive, $compressed );
+            unless ($tar) {
+                die "Could not open tar file $archive\n";
+            }
+            1;
         }
+        or do {
+            $error = $@;
+            };
+
+        return $error if ($error); 
 
         my @members = $tar->list_files();
         foreach my $file (@members) {
@@ -443,13 +471,17 @@ sub _untar {
         }
     }
     else {
-        `tar xvf$compressed $archive`;
-        if ($?) {
-            return "tar failed: $? -  $!\n";
+        eval {
+            `tar xvf$compressed $archive`;
+            die "$? - $!" if ($?);
+            1;
+            }
+        or do {
+            $error = "tar failed: $@\n";
         }
     }
 
-    return;
+    return $error;
 }
 
 =begin TML

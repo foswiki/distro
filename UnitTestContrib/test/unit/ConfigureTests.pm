@@ -1310,7 +1310,7 @@ HERE
 
 }
 
-sub test_Util_createArchive {
+sub test_Util_createArchive_shellZip {
     my $this = shift;
 
     my $file;
@@ -1325,26 +1325,125 @@ sub test_Util_createArchive {
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
+    eval  
+       {
+       my $blah = system("zip --version > null");
+       #print "zip returns $? ($blah) \n";
+       die $! unless ($? == 0 );
+       1;
+       }
+    or do {
+        my $mess = $@;
+        $this->expect_failure();
+        $this->annotate(
+            "CANNOT RUN shell test for zip archive:  $mess");
+        $this->assert(0);
+    };
+
+    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'zip');
+    $this->assert( (-f $file), "$file does not appear to exist - Create zip archive");
+
+    unlink "$tempdir/$extbkup";    # Clean up old files if left behind
+}
+
+sub test_Util_createArchive_shellTar {
+    my $this = shift;
+
+    my $file;
+    my $rslt;
+
+    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    rmtree($tempdir);    # Clean up old files if left behind
+
+    my $extension = "MyPlugin";
+    my $extbkup = "$extension-backup-20100329-123456";
+
+    mkpath("$tempdir/$extbkup");
+    _makePackage( "$tempdir/$extbkup", $extension );
+
+    eval  
+       {
+       my $blah = system("tar --version > null");
+       #print "tar returns $? ($blah) \n";
+       die $! unless ($? == 0 );
+       1;
+       }
+    or do {
+        my $mess = $@;
+        $this->expect_failure();
+        $this->annotate(
+            "CANNOT RUN shell test for tar archive:  $mess");
+        $this->assert(0);
+    };
+
     ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'tar');
     $this->assert( (-f $file), "$file does not appear to exist - Create tar archive");
     unlink ($file);  # Cleanup for next test
 
-    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'zip');
-    $this->assert( (-f $file), "$file does not appear to exist - Create zip archive");
-    unlink ($file);  # Cleanup for next test
+}
+
+sub test_Util_createArchive_perlTar {
+    my $this = shift;
+
+    my $file;
+    my $rslt;
+
+    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    rmtree($tempdir);    # Clean up old files if left behind
+
+    my $extension = "MyPlugin";
+    my $extbkup = "$extension-backup-20100329-123456";
+
+    mkpath("$tempdir/$extbkup");
+    _makePackage( "$tempdir/$extbkup", $extension );
+
+    eval  
+       'use Archive::Tar;
+       1;
+       '
+    or do {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate(
+            "CANNOT RUN test for tar archive:  $mess");
+        $this->assert(0);
+    };
 
     ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'Ptar');
     $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Tar archive");
 
-    eval 'use Archive::Zip';
-    if ($@) {
+    unlink "$tempdir/$extbkup";    # Clean up old files if left behind
+}
+
+sub test_Util_createArchive_perlZip {
+    my $this = shift;
+
+    my $file;
+    my $rslt;
+
+    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    rmtree($tempdir);    # Clean up old files if left behind
+
+    my $extension = "MyPlugin";
+    my $extbkup = "$extension-backup-20100329-123456";
+
+    mkpath("$tempdir/$extbkup");
+    _makePackage( "$tempdir/$extbkup", $extension );
+
+    eval  
+       'use Archive::Zip;
+       1;
+       '
+    or do {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
         $this->expect_failure();
         $this->annotate(
             "CANNOT RUN test for zip archive:  $mess");
         $this->assert(0);
-    }
+    };
+
     ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
     $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
 
@@ -1431,8 +1530,6 @@ sub test_Package_errors{
     my $this = shift;
     my $root = $this->{rootdir};
 
-    print STDERR "### NOTE ###\n This test is expected to generate errors due to invalid tar/zip archives\n";
-
     my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
     rmtree($tempdir);    # Clean up old files if left behind
     mkpath($tempdir);
@@ -1489,7 +1586,7 @@ DONE
 Test file data
 DONE
     $pkg->install();
-    $this->assert_matches( qr/unzip failed/, $pkg->errors(), 'Unexpected results from failed zip test');
+    $this->assert_matches( qr/(format error|unzip failed)/, $pkg->errors(), 'Unexpected results from failed zip test');
     unlink $tempdir."/MyPlugin.tgz";
     $pkg->finish();
     undef $pkg;
