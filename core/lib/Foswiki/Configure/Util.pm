@@ -382,14 +382,14 @@ sub unpackArchive {
 
 sub _unzip {
     my $archive = shift;
-    my $usezip = 0;         # Set true if shell zip is required
-    my $error = '';
+    my $usezip  = 0;       # Set true if shell zip is required
+    my $error   = '';
 
     eval 'use Archive::Zip ();
           1;'
-    or do {
+      or do {
         $usezip = 1;
-        };
+      };
 
     my $zip;
     unless ($usezip) {
@@ -399,10 +399,10 @@ sub _unzip {
                 die "unzip failed: Could not open zip file $archive\n";
             }
             1;
-        }
-        or do {
+          }
+          or do {
             $error = $@;
-            };
+          };
 
         return $error if ($error);
 
@@ -424,10 +424,10 @@ sub _unzip {
             my $out = `unzip -n $archive`;
             die "$? - $!" if ($?);
             1;
-            }
-        or do {
+          }
+          or do {
             $error = "unzip failed $@ \n";
-            };
+          };
     }
 
     return $error;
@@ -437,29 +437,29 @@ sub _untar {
     my $archive = shift;
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
-    my $usetar = 0;
-    my $error = '';
+    my $usetar     = 0;
+    my $error      = '';
 
     eval 'use Archive::Tar ();
           1;'
-    or do {
+      or do {
         $usetar = 1;
-        };
+      };
 
     my $tar;
-    unless ($usetar)  {
+    unless ($usetar) {
         eval {
             $tar = Archive::Tar->new( $archive, $compressed );
             unless ($tar) {
                 die "Could not open tar file $archive\n";
             }
             1;
-        }
-        or do {
+          }
+          or do {
             $error = $@;
-            };
+          };
 
-        return $error if ($error); 
+        return $error if ($error);
 
         my @members = $tar->list_files();
         foreach my $file (@members) {
@@ -475,10 +475,10 @@ sub _untar {
             `tar xvf$compressed $archive`;
             die "$? - $!" if ($?);
             1;
-            }
-        or do {
+          }
+          or do {
             $error = "tar failed: $@\n";
-        }
+          }
     }
 
     return $error;

@@ -369,7 +369,7 @@ sub test_Util_mapTarget {
     my $saveMime   = $Foswiki::cfg{MimeTypesFileName};
 
     $Foswiki::cfg{TrashWebName} = $this->{trash_web};
-    
+
     # Remap system web
 
     $Foswiki::cfg{SystemWebName} = 'Fizbin';
@@ -724,11 +724,17 @@ sub test_Util_listDir {
     $this->assert_str_equals( "asdf/", pop @dir, "Wrong directory returned" );
 
     _makefile( "$tempdir", "/asdf/qwerty/f~#asdf", "asdfasdf \n" );
-    my ($response, $result, $stdout) = $this->capture(sub {
-         @dir = Foswiki::Configure::Util::listDir($tempdir) ;
-    });
-    $this->assert_str_equals( "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n", $stdout );
-    $this->assert_num_equals( 3, $count, "listDir returned incorrect number of directories");
+    my ( $response, $result, $stdout ) = $this->capture(
+        sub {
+            @dir = Foswiki::Configure::Util::listDir($tempdir);
+        }
+    );
+    $this->assert_str_equals(
+"WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n",
+        $stdout
+    );
+    $this->assert_num_equals( 3, $count,
+        "listDir returned incorrect number of directories" );
 
     rmtree($tempdir);
 
@@ -866,7 +872,6 @@ DONE
 
 }
 
-
 sub _makefile {
     my $path    = shift;
     my $file    = shift;
@@ -903,13 +908,13 @@ sub test_Package_makeBackup {
 
     use Foswiki::Configure::Package;
     my $pkg =
-      new Foswiki::Configure::Package( $root, "$extension",
-        $this->{session} );
+      new Foswiki::Configure::Package( $root, "$extension", $this->{session} );
 
-    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
+    ( $result, $err ) =
+      $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
     $this->assert_str_equals( '', $err );
 
-    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 });
+    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 } );
 
     my $msg = $pkg->createBackup();
     $this->assert_matches( qr/Backup saved into/, $msg );
@@ -1046,7 +1051,8 @@ DONE
   #
     my $pkg =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
+    ( $result, $err ) =
+      $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
     $pkg->uninstall();
     $pkg->finish();
     undef $pkg;
@@ -1058,8 +1064,9 @@ DONE
     _makePackage( $tempdir, $extension );
     $pkg =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
-    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1} );
+    ( $result, $err ) =
+      $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
+    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 } );
     $this->assert_str_equals( '', $err );
 
     my $expresult = "Installed:  data/Sandbox/TestTopic1.txt
@@ -1097,12 +1104,13 @@ Installed:  MyPlugin_installer
 
     my $pkg2 =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg2->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
+    ( $result, $err ) =
+      $pkg2->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
 
     print "ERRORS: $err\n" if ($err);
 
     $result = '';
-    ( $result, $err ) = $pkg2->install({ DIR => $tempdir, EXPANDED => 1 } );
+    ( $result, $err ) = $pkg2->install( { DIR => $tempdir, EXPANDED => 1 } );
 
     $expresult = "Installed:  data/Sandbox/TestTopic1.txt
 Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43
@@ -1127,7 +1135,7 @@ Installed:  MyPlugin_installer
     #
 
     $pkg2->loadExits();
-    $this->assert_str_equals( '', $pkg2->errors(), "Load exits failed ");
+    $this->assert_str_equals( '', $pkg2->errors(), "Load exits failed " );
 
     $this->assert_str_equals( 'Pre-install entered', $pkg2->preinstall() );
     $this->assert_str_equals( "Removed $tempdir/obsolete.pl",
@@ -1135,43 +1143,63 @@ Installed:  MyPlugin_installer
     $this->assert_str_equals( 'Pre-uninstall entered', $pkg2->preuninstall() );
     $this->assert_null( $pkg2->postuninstall() );
 
-
     #
     #  Dependency Tests
     #
-    my ( $installed, $missing, $wiki, $install, $cpan ) = $pkg2->checkDependencies();
+    my ( $installed, $missing, $wiki, $install, $cpan ) =
+      $pkg2->checkDependencies();
 
     my $mods;
     foreach my $dep ( @{$wiki} ) {
-       $mods .= "$dep->{module};";
-       }
-    $this->assert_str_equals( "Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::UnitTestContrib::MultiDottedVersion;", $mods, 'Wiki modules to be installed');
+        $mods .= "$dep->{module};";
+    }
+    $this->assert_str_equals(
+"Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::UnitTestContrib::MultiDottedVersion;",
+        $mods, 'Wiki modules to be installed'
+    );
 
     $mods = '';
     foreach my $dep ( @{$install} ) {
-       $mods .= "$dep->{module};";
-       }
-    my $expected = 'Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;') . 'Cwd;';
-    $this->assert_str_equals( $expected, $mods);
-    $this->assert_str_equals( $expected, $mods, 'CPAN modules to be installed');
+        $mods .= "$dep->{module};";
+    }
+    my $expected =
+        'Filtrx::Invalid::Blah;'
+      . ( eval "use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;' )
+      . 'Cwd;';
+    $this->assert_str_equals( $expected, $mods );
+    $this->assert_str_equals( $expected, $mods,
+        'CPAN modules to be installed' );
 
     $mods = '';
     foreach my $dep ( @{$cpan} ) {
-       $mods .= "$dep->{module};";
-       }
+        $mods .= "$dep->{module};";
+    }
+
     #print "$mods\n";
-    $this->assert_str_equals( "htmldoc;", $mods, 'External modules to be installed');
+    $this->assert_str_equals( "htmldoc;", $mods,
+        'External modules to be installed' );
 
     #print "====== MISSING ========\n$missing\n";
-    $this->assert_matches( qr/Filtrx::Invalid::Blah/, $missing, 'Filtering invalid characters from module name');
-    $this->assert_matches( qr/^Foswiki::Plugins::RequiredTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
-    $this->assert_does_not_match( qr/^Foswiki::Plugins::UnneededTriggeredModule(.*)^ -- Triggered by/ms, $missing, 'Module requirement triggered by Foswiki API version');
-    $this->assert_matches( qr/^Cwd version > 55 required(.*)^ -- installed version is /ms, $missing, 'Test for backlevel module');
-    $this->assert_matches( qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl module is not installed(.*)^ -- Description: [Oo]ptional module(.*)^ -- Optional dependency will not be automatically installed/ms, $missing, "Test for optional module - Returned \n$missing\n\n");
+    $this->assert_matches( qr/Filtrx::Invalid::Blah/, $missing,
+        'Filtering invalid characters from module name' );
+    $this->assert_matches(
+        qr/^Foswiki::Plugins::RequiredTriggeredModule(.*)^ -- Triggered by/ms,
+        $missing, 'Module requirement triggered by Foswiki API version' );
+    $this->assert_does_not_match(
+        qr/^Foswiki::Plugins::UnneededTriggeredModule(.*)^ -- Triggered by/ms,
+        $missing, 'Module requirement triggered by Foswiki API version' );
+    $this->assert_matches(
+        qr/^Cwd version > 55 required(.*)^ -- installed version is /ms,
+        $missing, 'Test for backlevel module' );
+    $this->assert_matches(
+qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl module is not installed(.*)^ -- Description: [Oo]ptional module(.*)^ -- Optional dependency will not be automatically installed/ms,
+        $missing,
+        "Test for optional module - Returned \n$missing\n\n"
+    );
 
     #print "===== INSTALLED =======\n$installed\n";
-    $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed, 'Installed module File::Spec');
-
+    $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed,
+        'Installed module File::Spec' );
 
     #
     #  Now uninistall the package
@@ -1221,7 +1249,8 @@ DONE
   #
     my $pkg =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
-    ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 });
+    ( $result, $err ) =
+      $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
     $pkg->uninstall();
     $pkg->finish();
     undef $pkg;
@@ -1231,29 +1260,39 @@ DONE
    #
 
     _makePackage( $tempdir, $extension );
-    $pkg =
-      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session}, 
-          { SIMULATE => 1,            # Don't actually install any files
-            DIR => $tempdir,          # Location of expanded package
-            EXPANDED => 1,            # Already expanded
-            USELOCAL => 1,            # Use local files don't download
-            SHELL => 1,               # Shell version, no HTML markup
-            NODEPS => 1               # No dependencies
-          } );
+    $pkg = new Foswiki::Configure::Package(
+        $root,
+        'MyPlugin',
+        $this->{session},
+        {
+            SIMULATE => 1,           # Don't actually install any files
+            DIR      => $tempdir,    # Location of expanded package
+            EXPANDED => 1,           # Already expanded
+            USELOCAL => 1,           # Use local files don't download
+            SHELL    => 1,           # Shell version, no HTML markup
+            NODEPS   => 1            # No dependencies
+        }
+    );
     ( $result, $plugins, $cpan ) = $pkg->fullInstall();
 
     foreach my $pn ( keys %$plugins ) {
         print "PLUGIN $pn \n";
-        }
+    }
 
     my $cplist = '';
-    foreach my $cpdep (sort { lc ($a) cmp lc ($b) }keys %$cpan) {
-            $cplist .= "$cpdep;";
-        }
-    $this->assert_str_equals( 'Cwd;Filtrx::Invalid::Blah;' . (eval"use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;'), $cplist, "Unexpected CPAN Dependencies");
+    foreach my $cpdep ( sort { lc($a) cmp lc($b) } keys %$cpan ) {
+        $cplist .= "$cpdep;";
+    }
+    $this->assert_str_equals(
+        'Cwd;Filtrx::Invalid::Blah;'
+          . (
+            eval "use Time::ParseDate 2003.0211;1;" ? '' : 'Time::ParseDate;' ),
+        $cplist,
+        "Unexpected CPAN Dependencies"
+    );
 
     #print $result;
-   
+
     my $expresult = <<HERE;
 Creating Backup of MyPlugin ...
 Nothing to backup 
@@ -1266,7 +1305,8 @@ Simulated - Installed:  pub/Sandbox/TestTopic43/file2.att
 Simulated - Installed:  MyPlugin_installer
 HERE
 
-    $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected Installed files from Simulated fullInstall");
+    $this->assert_matches( qr#(.*)$expresult(.*)#, $result,
+        "Unexpected Installed files from Simulated fullInstall" );
 
     $expresult = <<'HERE';
 ====== MISSING ========
@@ -1301,7 +1341,9 @@ Please check it manually and install if necessary.
  -- Description: Required for generating PDF
 HERE
 
-    $this->assert_matches (qr#(.*)$expresult(.*)#, $result, "Unexpected dependency results from Simulated fullInstall - Returned\n$result\n\nExpected \n$expresult\n\n");
+    $this->assert_matches( qr#(.*)$expresult(.*)#, $result,
+"Unexpected dependency results from Simulated fullInstall - Returned\n$result\n\nExpected \n$expresult\n\n"
+    );
 
     $pkg->finish();
     undef $pkg;
@@ -1320,28 +1362,30 @@ sub test_Util_createArchive_shellZip {
     rmtree($tempdir);    # Clean up old files if left behind
 
     my $extension = "MyPlugin";
-    my $extbkup = "$extension-backup-20100329-123456";
+    my $extbkup   = "$extension-backup-20100329-123456";
 
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    eval  
-       {
-       my $blah = system("zip --version > null");
-       #print "zip returns $? ($blah) \n";
-       die $! unless ($? == 0 );
-       1;
-       }
-    or do {
+    eval {
+        my $blah = system("zip --version > null");
+
+        #print "zip returns $? ($blah) \n";
+        die $! unless ( $? == 0 );
+        1;
+      }
+      or do {
         my $mess = $@;
         $this->expect_failure();
-        $this->annotate(
-            "CANNOT RUN shell test for zip archive:  $mess");
+        $this->annotate("CANNOT RUN shell test for zip archive:  $mess");
         $this->assert(0);
-    };
+      };
 
-    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'zip');
-    $this->assert( (-f $file), "$file does not appear to exist - Create zip archive");
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
+        'zip' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create zip archive" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
@@ -1353,32 +1397,34 @@ sub test_Util_createArchive_shellTar {
     my $rslt;
 
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
-    rmtree($tempdir);    # Clean up old files if left behind
+    rmtree($tempdir);              # Clean up old files if left behind
 
     my $extension = "MyPlugin";
-    my $extbkup = "$extension-backup-20100329-123456";
+    my $extbkup   = "$extension-backup-20100329-123456";
 
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    eval  
-       {
-       my $blah = system("tar --version > null");
-       #print "tar returns $? ($blah) \n";
-       die $! unless ($? == 0 );
-       1;
-       }
-    or do {
+    eval {
+        my $blah = system("tar --version > null");
+
+        #print "tar returns $? ($blah) \n";
+        die $! unless ( $? == 0 );
+        1;
+      }
+      or do {
         my $mess = $@;
         $this->expect_failure();
-        $this->annotate(
-            "CANNOT RUN shell test for tar archive:  $mess");
+        $this->annotate("CANNOT RUN shell test for tar archive:  $mess");
         $this->assert(0);
-    };
+      };
 
-    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'tar');
-    $this->assert( (-f $file), "$file does not appear to exist - Create tar archive");
-    unlink ($file);  # Cleanup for next test
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
+        'tar' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create tar archive" );
+    unlink($file);    # Cleanup for next test
 
 }
 
@@ -1392,26 +1438,27 @@ sub test_Util_createArchive_perlTar {
     rmtree($tempdir);    # Clean up old files if left behind
 
     my $extension = "MyPlugin";
-    my $extbkup = "$extension-backup-20100329-123456";
+    my $extbkup   = "$extension-backup-20100329-123456";
 
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    eval  
-       'use Archive::Tar;
+    eval 'use Archive::Tar;
        1;
        '
-    or do {
+      or do {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
         $this->expect_failure();
-        $this->annotate(
-            "CANNOT RUN test for tar archive:  $mess");
+        $this->annotate("CANNOT RUN test for tar archive:  $mess");
         $this->assert(0);
-    };
+      };
 
-    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0', 'Ptar');
-    $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Tar archive");
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
+        'Ptar' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create Archive::Tar archive" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
@@ -1423,34 +1470,35 @@ sub test_Util_createArchive_perlZip {
     my $rslt;
 
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
-    rmtree($tempdir);    # Clean up old files if left behind
+    rmtree($tempdir);              # Clean up old files if left behind
 
     my $extension = "MyPlugin";
-    my $extbkup = "$extension-backup-20100329-123456";
+    my $extbkup   = "$extension-backup-20100329-123456";
 
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    eval  
-       'use Archive::Zip;
+    eval 'use Archive::Zip;
        1;
        '
-    or do {
+      or do {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
         $this->expect_failure();
-        $this->annotate(
-            "CANNOT RUN test for zip archive:  $mess");
+        $this->annotate("CANNOT RUN test for zip archive:  $mess");
         $this->assert(0);
-    };
+      };
 
-    ($file, $rslt) = Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1', 'Pzip');
-    $this->assert( (-f $file), "$file does not appear to exist - Create Archive::Zip archive");
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1',
+        'Pzip' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create Archive::Zip archive" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
 
-# 
+#
 # Determine that installer can download the package from Foswiki.org if not available locally
 #
 sub test_Package_loadInstaller {
@@ -1458,37 +1506,46 @@ sub test_Package_loadInstaller {
     my $root = $this->{rootdir};
 
     my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
-    rmtree($tempdir);    # Clean up old files if left behind
+    rmtree($tempdir);              # Clean up old files if left behind
     mkpath($tempdir);
 
     my $repository = {
-                 name => 'Foswiki', 
-                 data => 'http://foswiki.org/Extensions/', 
-                 pub => 'http://foswiki.org/pub/Extensions/' 
-                 };
+        name => 'Foswiki',
+        data => 'http://foswiki.org/Extensions/',
+        pub  => 'http://foswiki.org/pub/Extensions/'
+    };
     my $pkg =
       new Foswiki::Configure::Package( $root, 'EmptyPlugin', $this->{session} );
     $pkg->repository($repository);
-    my ( $result, $err ) = $pkg->loadInstaller({ DIR => $tempdir, USELOCAL => 1 } );
+    my ( $result, $err ) =
+      $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
 
     chomp $result;
-    $this->assert_matches (qr#Unable to find EmptyPlugin locally in (.*) ...fetching installer from http://foswiki.org/pub/Extensions/ ... succeeded#, $result, "Unexpected $result from loadInstaller");
+    $this->assert_matches(
+qr#Unable to find EmptyPlugin locally in (.*) ...fetching installer from http://foswiki.org/pub/Extensions/ ... succeeded#,
+        $result,
+        "Unexpected $result from loadInstaller"
+    );
 
-    $this->assert_str_equals ('', $err, "Error from loadInstaller $err");
+    $this->assert_str_equals( '', $err, "Error from loadInstaller $err" );
 
     my @files = $pkg->listFiles();
-    $this->assert_num_equals(3, scalar @files, "Unexpected number of files in EmptyPlugin manifest");
+    $this->assert_num_equals(
+        3,
+        scalar @files,
+        "Unexpected number of files in EmptyPlugin manifest"
+    );
 
     #
     # Test listPlugins
     #
     my %plugins = $pkg->listPlugins();
 
-    $this->assert_str_equals( '1', $plugins{EmptyPlugin}, 'Failed to discover plugin in manifest' );
+    $this->assert_str_equals( '1', $plugins{EmptyPlugin},
+        'Failed to discover plugin in manifest' );
     $pkg->finish();
     undef $pkg;
 }
-
 
 sub test_Load_expandValue {
     my $this = shift;
@@ -1504,29 +1561,28 @@ sub test_Package_fetchFile {
     my $root = $this->{_rootdir};
 
     my $repository = {
-                 name => 'Foswiki', 
-                 data => 'http://foswiki.org/Extensions/', 
-                 pub => 'http://foswiki.org/pub/Extensions/' 
-                 };
-     
-    my ($resp, $file);
+        name => 'Foswiki',
+        data => 'http://foswiki.org/Extensions/',
+        pub  => 'http://foswiki.org/pub/Extensions/'
+    };
+
+    my ( $resp, $file );
     try {
-        my $pkg =
-          new Foswiki::Configure::Package( $root, 'EmptyPlugin');
+        my $pkg = new Foswiki::Configure::Package( $root, 'EmptyPlugin' );
         $pkg->repository($repository);
 
-        ($resp, $file) = $pkg->_fetchFile( '_installer' );
-        $this->assert_str_equals('', $resp);
+        ( $resp, $file ) = $pkg->_fetchFile('_installer');
+        $this->assert_str_equals( '', $resp );
     }
     except {
         my $E = shift;
     }
 }
 
-# 
+#
 # Verify error handling for the Package class
 #
-sub test_Package_errors{
+sub test_Package_errors {
     my $this = shift;
     my $root = $this->{rootdir};
 
@@ -1535,16 +1591,17 @@ sub test_Package_errors{
     mkpath($tempdir);
 
     my $repository = {
-                 name => 'Foswiki', 
-                 data => 'http://foswiki.org/Extensions/', 
-                 pub => 'http://foswiki.org/pub/Extensions/' 
-                 };
+        name => 'Foswiki',
+        data => 'http://foswiki.org/Extensions/',
+        pub  => 'http://foswiki.org/pub/Extensions/'
+    };
 
     #
     # Verify error when download fails
     #
     my $pkg =
-      new Foswiki::Configure::Package( $root, 'EmptyPluginx', $this->{session}, { DIR => $tempdir, USELOCAL => 1 } );
+      new Foswiki::Configure::Package( $root, 'EmptyPluginx', $this->{session},
+        { DIR => $tempdir, USELOCAL => 1 } );
     $pkg->repository($repository);
     my ( $result, $err ) = $pkg->loadInstaller();
 
@@ -1552,7 +1609,8 @@ sub test_Package_errors{
 I can't download http://foswiki.org/pub/Extensions/EmptyPluginx/EmptyPluginx_installer because of the following error:
 Not Found
 HERE
-    $this->assert_matches( qr/$expected/, $pkg->errors(), "Unexpected error from download");
+    $this->assert_matches( qr/$expected/, $pkg->errors(),
+        "Unexpected error from download" );
 
     #
     # Verify error expanding .tgz file
@@ -1561,7 +1619,8 @@ HERE
     _makePackage( $tempdir, $extension );
 
     $pkg =
-      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session}, { DIR => $tempdir, USELOCAL => 1 } );
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session},
+        { DIR => $tempdir, USELOCAL => 1 } );
     ( $result, $err ) = $pkg->loadInstaller();
 
     _makefile( $tempdir, "MyPlugin.tgz", <<'DONE');
@@ -1569,25 +1628,27 @@ Test file data
 DONE
     $pkg->install();
 
-    $this->assert_matches( qr/Failed to unpack archive(.*)MyPlugin.tgz/, $pkg->errors(), 'Unexpected results from failed tgz test');
+    $this->assert_matches( qr/Failed to unpack archive(.*)MyPlugin.tgz/,
+        $pkg->errors(), 'Unexpected results from failed tgz test' );
 
-    unlink $tempdir."/MyPlugin.tgz";
+    unlink $tempdir . "/MyPlugin.tgz";
     $pkg->finish();
     undef $pkg;
-
 
     #
     # Verify error expanding .zip file
     #
     $pkg =
-      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session}, { DIR => $tempdir, USELOCAL => 1 } );
+      new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session},
+        { DIR => $tempdir, USELOCAL => 1 } );
     ( $result, $err ) = $pkg->loadInstaller();
     _makefile( $tempdir, "MyPlugin.zip", <<'DONE');
 Test file data
 DONE
     $pkg->install();
-    $this->assert_matches( qr/(format error|unzip failed)/, $pkg->errors(), 'Unexpected results from failed zip test');
-    unlink $tempdir."/MyPlugin.tgz";
+    $this->assert_matches( qr/(format error|unzip failed)/,
+        $pkg->errors(), 'Unexpected results from failed zip test' );
+    unlink $tempdir . "/MyPlugin.tgz";
     $pkg->finish();
     undef $pkg;
 
