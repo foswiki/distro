@@ -198,6 +198,7 @@ Fail the test unless the $condition is true. $message is optional.
 
 sub assert {
     my ( $this, $bool, $mess ) = @_;
+    ::TAP($bool, $mess);        #lets hack in perl TAP output
     return 1 if $bool;
     $mess ||= "Assertion failed";
     $mess = join( "\n", @{ $this->{annotations} } ) . "\n" . $mess;

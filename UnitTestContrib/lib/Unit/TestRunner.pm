@@ -24,6 +24,7 @@ sub new {
             unexpected_passes => [],
             expected_failures => [],
             failures          => [],
+            number_of_asserts => 0,
         },
         $class
     );
@@ -150,10 +151,12 @@ sub start {
           "\n";
         $total += $failed;
         print "$passes of $total test cases passed\n";
+        ::PRINT_TAP_TOTAL();
         return $failed;
     }
     print "All tests passed ($passes"
       . ( $passes == $total ? '' : "/$total" ) . ")\n";
+    ::PRINT_TAP_TOTAL();
     return 0;
 }
 

@@ -111,7 +111,7 @@ if (not $options{-worker}) {
     testForFiles($Foswiki::cfg{PubDir},'/Temp*');
 }
 
-my $testrunner = Unit::TestRunner->new();
+my $testrunner = Unit::TestRunner->new( {TAP => defined($options{-tap})});
 my $exit;
 if ($options{-worker}) {
     $exit = $testrunner->worker(@ARGV);
@@ -132,6 +132,19 @@ sub testForFiles {
     opendir( DIR, "$testDir" );
     my @list = grep { s/^($pattrn)/$testDir\/$1\n/ } readdir(DIR);
     die "Please remove @list (or run with the -clean option) to run tests\n" if (scalar(@list));
+}
+
+#big nasty global function hacked in to give me insta-TAP output
+#TODO: move into the testrunner - I've not looked to see if the TestCase knows who is running it
+sub TAP { 
+    my ($bool, $mess) = @_;
+    $testrunner->{number_of_asserts}++;
+    return unless (defined($options{-tap})); 
+    print ($bool?"ok\n" : "not ok\n");
+}
+sub PRINT_TAP_TOTAL {
+    #return unless (defined($options{-tap})); 
+    print "1..$testrunner->{number_of_asserts}\n"
 }
 
 1;
