@@ -1368,7 +1368,7 @@ sub test_Util_createArchive_shellZip {
     _makePackage( "$tempdir/$extbkup", $extension );
 
     eval {
-        my $blah = system("zip --version > null");
+        my $blah = system("zip --version ");
 
         #print "zip returns $? ($blah) \n";
         die $! unless ( $? == 0 );
@@ -1406,7 +1406,7 @@ sub test_Util_createArchive_shellTar {
     _makePackage( "$tempdir/$extbkup", $extension );
 
     eval {
-        my $blah = system("tar --version > null");
+        my $blah = system("tar --version ");
 
         #print "tar returns $? ($blah) \n";
         die $! unless ( $? == 0 );
