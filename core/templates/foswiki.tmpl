@@ -15,12 +15,14 @@
 %TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%
 
-%TMPL:DEF{"script:preferences"}%<script type="text/javascript">
-var foswiki = {preferences: {
-%FOREACH{"%EXPORTEDPREFERENCES%" format="$topic:\"$percnt$topic$percnt\"" separator=","}%}};</script>
+%TMPL:DEF{"meta:preferences"}%%FOREACH{"%EXPORTEDPREFERENCES%" 
+  format="<meta name='foswiki.$topic' content='$percnt$topic$percnt' />"
+  separator="
+"
+}%
 %TMPL:END%
 
-%TMPL:DEF{"script"}%%TMPL:P{"script:preferences"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%
+%TMPL:DEF{"script"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%
 
 %TMPL:DEF{"script:skinbase"}%%TMPL:END%
 
@@ -39,6 +41,7 @@ var foswiki = {preferences: {
 	<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
 	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
 	<meta name="description" content="%TOPIC%" />
+	%TMPL:P{"meta:preferences"}%
     <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%"></base>
 	%TMPL:P{"script"}%
 	%TMPL:P{"defaultstyle"}%
