@@ -178,8 +178,9 @@ var md5 = {
     str2binl: function(str) {
         var bin = Array();
         var mask = (1 << 8) - 1;
-        for(var i = 0; i < str.length * 8; i += 8)
+        for(var i = 0; i < str.length * 8; i += 8) {
             bin[i>>5] |= (str.charCodeAt(i / 8) & mask) << (i%32);
+        }
         return bin;
     },
 
@@ -226,10 +227,12 @@ var StrikeOne = {
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
-            while (c.charAt(0) == ' ')
+            while (c.charAt(0) === ' ') {
                 c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
+            }
+            if (c.indexOf(nameEQ) === 0) {
                 return c.substring(nameEQ.length, c.length);
+            }
         }
         return null;
     },
@@ -241,14 +244,19 @@ var StrikeOne = {
      * 's1js_available' (meaning "show this when js is available")
      */
     pcd: function() {
-        var els = document.getElementsByClassName('s1js_missing');
-        if (els)
-            for (var i = 0; i < els.length; i++)
+        var els = foswiki.getElementsByClassName('s1js_missing');
+        var i;
+        if (els) {
+            for (i = 0; i < els.length; i++) {
                 els[i].style.display = 'none';
-        els = document.getElementsByClassName('s1js_available');
-        if (els)
-            for (var i = 0; i < els.length; i++)
+            }
+        }
+        els = foswiki.getElementsByClassName('s1js_available');
+        if (els) {
+            for (i = 0; i < els.length; i++) {
                 els[i].style.display = 'block';
+            }
+        }
     }
 };
 
