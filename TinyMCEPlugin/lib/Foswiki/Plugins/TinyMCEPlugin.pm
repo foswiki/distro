@@ -213,28 +213,17 @@ sub beforeEditHandler {
     my $pluginURL = '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin';
     my $tmceURL   = $pluginURL . '/tinymce/jscripts/tiny_mce';
 
-    # expand and URL-encode the init string
+    # expand the init string
     my $metainit = Foswiki::Func::expandCommonVariables($init);
+
+    # URL-encode the init string
     $metainit =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
-    my $exportedPrefs = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES')||'';
-    if ($exportedPrefs) {
-        # Send the encoded JSON to foswiki_tiny.js via an exported preference
-        Foswiki::Func::setPreferencesValue( 'TINYMCEPLUGIN_INIT_ENCODED', $metainit);
-        my @list = split(/[,\s]+/, $exportedPrefs);
-        unless (grep { /^TINYMCEPLUGIN_INIT_ENCODED$/ } @list) {
-            push(@list, 'TINYMCEPLUGIN_INIT_ENCODED');
-        }
-        Foswiki::Func::setPreferencesValue(
-            'EXPORTEDPREFERENCES', join(',', @list));
-    }
-    else {
-        # There is no EXPORTEDPREFERENCES preference, so assume that preferences
-        # are not exported automatically and export it here explicitly
-    Foswiki::Func::addToZone('body', 'tinyMCE_init', <<"SCRIPT");
-<script language="javascript" type="text/javascript">foswiki.preferences['TINYMCEPLUGIN_INIT_ENCODED']="$metainit"</script>
+    # SMELL: meta tag now in a separate addToHEAD for Item8566, due to
+    # addToZONE shenanigans. <meta> tags really do have to be in the head!
+    Foswiki::Func::addToZone('head', 'tinyMCE::Meta', <<"SCRIPT");
+<meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
 SCRIPT
-    }
 
     my $behaving;
     eval {
@@ -255,7 +244,6 @@ SCRIPT
     # SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
     #        but Foswiki::Func.pm does not expose that function, so plugins may not use it
     $encodedVersion =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
-
 
     Foswiki::Func::addToZone('body', 'tinyMCE', <<"SCRIPT", 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI');
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
