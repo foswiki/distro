@@ -157,6 +157,7 @@ text/x-java-source              java javafrag
 text/x-setext                   etx
 text/x-sgml                     sgml sgm
 text/x-vcalendar                vcs
+video/x-flv                     flv
 video/mp4                       mp4
 video/mpeg                      mpeg mpg mpe
 video/quicktime                 qt mov
