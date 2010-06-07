@@ -1368,7 +1368,7 @@ sub test_Util_createArchive_shellZip {
     _makePackage( "$tempdir/$extbkup", $extension );
 
     eval {
-        my $blah = system("zip --version ");
+        my $blah = system("zip -v");
 
         #print "zip returns $? ($blah) \n";
         die $! unless ( $? == 0 );
