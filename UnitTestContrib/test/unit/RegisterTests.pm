@@ -1022,9 +1022,7 @@ sub verify_resetPasswordOkay {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        &$RP_UI_FN( $this->{session} );
-        use strict 'refs';
+        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1077,9 +1075,7 @@ sub verify_resetPasswordNoSuchUser {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        &$RP_UI_FN( $this->{session} );
-        use strict 'refs';
+        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1121,9 +1117,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        &$RP_UI_FN( $this->{session} );
-        use strict 'refs';
+        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1169,9 +1163,7 @@ sub verify_resetPasswordNoPassword {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        &$RP_UI_FN( $this->{session} );
-        use strict 'refs';
+        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1250,68 +1242,6 @@ sub verify_missingElements {
     $this->assert_deep_equals(
         [ Foswiki::UI::Register::_missingElements( \@present, \@present ) ],
         [] );
-}
-
-sub verify_bulkRegister {
-    my $this = shift;
-
-    my $testReg = <<'EOM';
-| FirstName | LastName | Email | WikiName | LoginName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
-| Test | User | Martin.Cleaver@BCS.org.uk |  TestBulkUser1 | a | A | B | C |
-| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | b | A | B | C |
-| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | c | A | B | C |
-EOM
-
-    my $regTopic = 'UnprocessedRegistrations2';
-
-    my $logTopic = 'UnprocessedRegistrations2Log';
-    my $file =
-        $Foswiki::cfg{DataDir} . '/'
-      . $this->{test_web} . '/'
-      . $regTopic . '.txt';
-    my $fh = new FileHandle;
-
-    die "Can't write $file" unless ( $fh->open(">$file") );
-    print $fh $testReg;
-    $fh->close;
-
-    my $query = new Unit::Request(
-        {
-            'LogTopic'              => [$logTopic],
-            'EmailUsersWithDetails' => ['0'],
-            'OverwriteHomeTopics'   => ['1'],
-        }
-    );
-
-    $query->path_info("/$this->{test_web}/$regTopic");
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $Foswiki::cfg{SuperAdminGroup}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->{session}->{topicName} = $regTopic;
-    $this->{session}->{webName}   = $this->{test_web};
-    try {
-        $this->capture( \&Foswiki::UI::Register::bulkRegister,
-            $this->{session} );
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify() . " UNEXPECTED" );
-
-    }
-    catch Error::Simple with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
 }
 
 sub verify_buildRegistrationEmail {
@@ -1604,69 +1534,6 @@ sub test_4061 {
 ################################################################################
 ################################ RESET EMAIL TESTS ##########################
 
-sub verify_resetEmailOkay {
-    my $this = shift;
-
-    ## Need to create an account (else oopsnotwikiuser)
-    ### with a known email address (else oopsregemail)
-    ### need to know the password too
-    $this->registerAccount();
-
-    my $cUID =
-      $this->{session}->{users}->getCanonicalUserID( $this->{new_user_login} );
-    $this->assert( $this->{session}->{users}->userExists($cUID),
-        "new user created" );
-    my $newPassU = '12345';
-    my $oldPassU = 1;         #force set
-    $this->assert(
-        $this->{session}->{users}->setPassword( $cUID, $newPassU, $oldPassU ) );
-    my $newEmail = 'UnitEmail@home.org.au';
-
-    my $query = new Unit::Request(
-        {
-            'LoginName'   => [ $this->{new_user_login} ],
-            'TopicName'   => ['ChangeEmailAddress'],
-            'username'    => [ $this->{new_user_login} ],
-            'oldpassword' => ['12345'],
-            'email'       => [$newEmail],
-            'action'      => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/' . $this->{users_web} . '/WebHome' );
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $this->{new_user_login}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    try {
-        require Foswiki::UI::Passwords;
-        Foswiki::UI::Passwords::changePassword( $this->{session} );
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
-            $e->stringify() );
-        $this->assert_str_equals( "email_changed", $e->{def}, $e->stringify() );
-        $this->assert_str_equals(
-            $newEmail,
-            ${ $e->{params} }[0],
-            ${ $e->{params} }[0]
-        );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-
-    my @emails = $this->{session}->{users}->getEmails($cUID);
-    $this->assert_str_equals( $newEmail, $emails[0] );
-}
-
 #test for TWikibug:Item3400
 sub verify_resetPassword_NoWikiUsersEntry {
     my $this = shift;
@@ -1723,9 +1590,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        &$RP_UI_FN( $this->{session} );
-        use strict 'refs';
+        $this->captureWithKey( register => $RP_UI_FN, $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -2011,75 +1876,6 @@ sub verify_Default_NameFilter {
         "question logon should fail"
     );
 
-}
-
-#in which a user correctly points out that the error checking is a bit minimal
-sub verify_bulkRegister_Item2191 {
-    my $this = shift;
-
-    my $testReg = <<'EOM';
-| Vorname  |	 Nachname  |	 Mailadresse  | WikiName | LoginName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
-| Test | User | Martin.Cleaver@BCS.org.uk |  TestBulkUser1 | a | A | B | C |
-| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | b | A | B | C |
-| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | c | A | B | C |
-EOM
-
-    my $regTopic = 'UnprocessedRegistrations2';
-
-    my $logTopic = 'UnprocessedRegistrations2Log';
-    my $file =
-        $Foswiki::cfg{DataDir} . '/'
-      . $this->{test_web} . '/'
-      . $regTopic . '.txt';
-    my $fh = new FileHandle;
-
-    die "Can't write $file" unless ( $fh->open(">$file") );
-    print $fh $testReg;
-    $fh->close;
-
-    my $query = new Unit::Request(
-        {
-            'LogTopic'              => [$logTopic],
-            'EmailUsersWithDetails' => ['0'],
-            'OverwriteHomeTopics'   => ['1'],
-        }
-    );
-
-    $query->path_info("/$this->{test_web}/$regTopic");
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $Foswiki::cfg{SuperAdminGroup}, $query );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->{session}->{topicName} = $regTopic;
-    $this->{session}->{webName}   = $this->{test_web};
-    try {
-        my ($text) = $this->capture( \&Foswiki::UI::Register::bulkRegister,
-            $this->{session} );
-         
-        #TODO: um, really need to test what the output was, and 
-        #TODO: test if a user was registered..   
-        #$this->assert( '', $text);
-        #my $readMeta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'TemporaryRegistrationTestWebRegistration/UnprocessedRegistrations2Log' );
-        #$this->assert( '', $readMeta->text());
-    }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify() . " UNEXPECTED" );
-
-    }
-    catch Error::Simple with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
-    };
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
 }
 
 1;

@@ -171,6 +171,9 @@ sub bulkRegister {
         );
     }
 
+    # Validate
+    Foswiki::UI::checkValidationKey( $session );
+
     #-- Read the topic containing the table of people to be registered
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
@@ -556,6 +559,9 @@ sub deleteUser {
             params => [ $session->{users}->getWikiName($cUID), $list ]
         );
     }
+
+    # Check the validation key
+    Foswiki::UI::checkValidationKey($session);
 
     unless (
         $users->checkPassword(

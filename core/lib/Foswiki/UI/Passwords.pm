@@ -76,6 +76,9 @@ sub resetPassword {
         # Note that the passwd script must NOT authenticate!
     }
 
+    # Parameters have been checked, check the validation key
+    Foswiki::UI::checkValidationKey( $session );
+
     # Collect all messages into one string
     my $message = '';
     my $good    = 1;
@@ -200,24 +203,14 @@ sub _resetUsersPassword {
 
 =begin TML
 
----++ StaticMethod changePassword( $session )
+---++ StaticMethod changePasswordAndOrEmail( $session )
 
 Change the user's password and/or email. Details of the user and password
 are passed in CGI parameters.
 
-   1 Checks required fields have values
-   2 get wikiName and userName from getUserByEitherLoginOrWikiName(username)
-   3 check passwords match each other, and that the password is correct, otherwise 'wrongpassword'
-   4 Foswiki::User::updateUserPassword
-   5 'oopschangepasswd'
-
-The NoPasswdUser case is not handled.
-
-An admin user can change other user's passwords.
-
 =cut
 
-sub changePassword {
+sub changePasswordAndOrEmail {
     my $session = shift;
 
     my $topic       = $session->{topicName};
@@ -303,18 +296,33 @@ sub changePassword {
 
     my $cUID = $users->getCanonicalUserID($login);
 
-    if ( defined $email ) {
+    # check valid email addresses - space between each
+    if ( defined $email
+           && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'bad_email',
+            params => [$email]
+           );
+    }
 
-        # check valid email addresses - space between each
-        if ( $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'bad_email',
-                params => [$email]
-            );
-        }
+    if ( $changePass
+           && length($passwordA) < $Foswiki::cfg{MinPasswordLength} ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'bad_password',
+            params => [ $Foswiki::cfg{MinPasswordLength} ]
+           );
+    }
+
+    # Parameters have been checked, check the validation key
+    Foswiki::UI::checkValidationKey( $session );
+
+    if ( defined $email ) {
 
         my $oldEmails = join( ', ', $users->getEmails($cUID) );
         my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
@@ -327,15 +335,6 @@ sub changePassword {
 
     # OK - password may be changed
     if ($changePass) {
-        if ( length($passwordA) < $Foswiki::cfg{MinPasswordLength} ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'bad_password',
-                params => [ $Foswiki::cfg{MinPasswordLength} ]
-            );
-        }
 
         unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
             throw Foswiki::OopsException(

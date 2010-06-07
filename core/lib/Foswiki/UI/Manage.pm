@@ -60,7 +60,7 @@ sub manage {
 sub _action_changePassword {
     my $session = shift;
     require Foswiki::UI::Passwords;
-    Foswiki::UI::Passwords::changePassword($session);
+    Foswiki::UI::Passwords::changePasswordAndOrEmail($session);
 }
 
 sub _action_resetPassword {
