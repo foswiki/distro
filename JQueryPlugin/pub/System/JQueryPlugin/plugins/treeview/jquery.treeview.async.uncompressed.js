@@ -16,36 +16,51 @@
 ;(function($) {
 
 function load(settings, root, child, container) {
-	$.getJSON(settings.url, {root: root}, function(response) {
-		function createNode(parent) {
-			var current = $("<li/>").attr("id", this.id || "").html("<span>" + this.text + "</span>").appendTo(parent);
-			if (this.classes) {
-				current.children("span").addClass(this.classes);
-			}
-			if (this.expanded) {
-				current.addClass("open");
-			} else {
-				current.addClass("closed");
-                        }
-			if (this.hasChildren || this.children && this.children.length) {
-				var branch = $("<ul/>").appendTo(current);
-				if (this.hasChildren) {
-					current.addClass("hasChildren");
-					createNode.call({
-						classes: "placeholder",
-						text: "&nbsp;",
-						children:[]
-					}, branch);
-				}
-				if (this.children && this.children.length) {
-					$.each(this.children, createNode, [branch])
-				}
-			}
-		}
-		child.empty();
-		$.each(response, createNode, [child]);
-        $(container).treeview({add: child});
-    });
+        function responseHandler(response) {
+                  function createNode(parent) {
+                          var current = $("<li/>").attr("id", this.id || "").html("<span>" + this.text + "</span>").appendTo(parent);
+                          if (this.classes) {
+                                  current.children("span").addClass(this.classes);
+                          }
+                          if (this.expanded) {
+                                  current.addClass("open");
+                          } else {
+                                  current.addClass("closed");
+                          }
+                          if (this.hasChildren || this.children && this.children.length) {
+                                  var branch = $("<ul/>").appendTo(current);
+                                  if (this.hasChildren) {
+                                          current.addClass("hasChildren");
+                                          createNode.call({
+                                                  classes: "placeholder",
+                                                  text: "&nbsp;",
+                                                  children:[]
+                                          }, branch);
+                                  }
+                                  if (this.children && this.children.length) {
+                                          $.each(this.children, createNode, [branch])
+                                  }
+                          }
+                  }
+                  child.empty();
+                  $.each(response, createNode, [child]);
+                  $(container).treeview({add: child});
+        }
+
+        if (settings.data === undefined) {
+          $.getJSON(settings.url, {root: root}, responseHandler);
+        } else {
+          var postData = $.extend({
+            root: root, 
+          }, settings.data);
+          $.ajax({
+            url:settings.url, 
+            dataType: 'json',
+            type: 'POST',
+            data: postData, 
+            success: responseHandler
+        });
+    }
 }
 
 var proxied = $.fn.treeview;
