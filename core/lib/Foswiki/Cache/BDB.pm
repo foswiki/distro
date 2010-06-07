@@ -196,7 +196,9 @@ sub clear {
 
     my $count = 0;
     $this->{handler}->truncate($count);
-    $this->{handler}->compact( undef, undef, undef, DB_FREE_SPACE, undef );
+
+    # disabled as not provided by older BerkeleyDB libraries
+    #$this->{handler}->compact(undef, undef, undef, DB_FREE_SPACE, undef);
 
     undef $this->{writeBuffer};
     undef $this->{delBuffer};

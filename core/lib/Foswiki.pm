@@ -895,22 +895,22 @@ sub generateHTTPHeaders {
             if ( $cachedPage && !$cachedPage->{isDirty} ) {
                 $text = $cachedPage->{text};
             }
-
-            # Either there was no cache, or cache was not compressed
-            if (   !$Foswiki::cfg{Cache}{Compress}
-                || !$cachedPage
-                || $cachedPage->{isDirty} )
-            {
+            else {
                 require Compress::Zlib;
                 $text = Compress::Zlib::memGzip($text);
             }
         }
         elsif ($cachedPage
             && !$cachedPage->{isDirty}
-            && $Foswiki::cfg{Cache}{Compress} )
+            && $Foswiki::cfg{HttpCompress} )
         {
 
-            # sorry, we need to uncompressed pages from cache again
+            # Outch, we need to uncompressed pages from cache again
+            # Note, this is effort to avoid under any circumstances as
+            # the page has been compressed when it has been created and now
+            # is uncompressed again to get back the original. For now the
+            # only know situation this can happen is for older browsers like IE6
+            # which does not understand gzip'ed http encodings
             require Compress::Zlib;
             $text = Compress::Zlib::memGunzip($text);
         }
