@@ -106,6 +106,29 @@ if (foswiki.preferences === undefined) {
     return $("meta[name="+inKey+"]").attr("content");
   };
 
+  /**
+   * Get all elements under root that include the given class.
+   * @param inRootElem: HTMLElement to start searching from
+   * @param inClassName: CSS class name to find
+   * @param inTag: (optional) HTML tag to speed up searching (if not given, a wildcard is used to search all elements)
+   * @example:
+   * <code>
+   * var gallery = document.getElementById('galleryTable');
+   * var elems = foswiki.getElementsByClassName(gallery, 'personalPicture');
+   * var firstPicture = elems[0];
+   * </code>
+   *
+   * WARNING: this function is DEPRECATED; please use an appropriate jQuery expression directly. 
+   * The above code can be simplified to
+   * <code>
+   * var firstPicture = $('#galleryTable .personalPicture')[0];
+   * </code>
+   */
+  foswiki.getElementsByClassName = function(inRootElem, inClassName, inTag) {
+    var tag = inTag || '';
+    return $(inRootElem).find(inTag+"."+inClassName).get();
+  };
+
   // WARNING: the following list of properties are DEPRECATED and only provided for compatibility reasons.
   // please use the upper case names, e.g. foswiki.getPreference("WEB") instead of foswiki.web
   var mapping = {

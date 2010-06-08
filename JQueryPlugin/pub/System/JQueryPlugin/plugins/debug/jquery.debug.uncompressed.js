@@ -15,11 +15,11 @@
 var DEBUG = true;
 (function($) {
 // shamelessly ripped off from http://getfirebug.com/
-if (!("console" in window) || !("firebug" in console)){
+if (!("console" in window)){
 	var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
 	// create the logging div
         $('body').append('<div id="DEBUG"><ol></ol></div>');
-	// attach a function to each of the firebug methods
+	// attach a function to each of the console methods
 	window.console = {};
 	for (var i = 0; i < names.length; ++i){
 		window.console[names[i]] = function(msg){ 
@@ -43,15 +43,15 @@ $.fn.debug = function() {
 /*
  * log
  * Send it anything, and it will add a line to the logging console.
- * If firebug is installed, it simple send the item to firebug.
+ * If a console is defined, it simple send the item to it.
  * If not, it creates a string representation of the html element (if message is an object), or just uses the supplied value (if not an object).
  */
 $.log = function(message){
 	// only if debugging is on
 	if( window.DEBUG ){
-		// if no firebug, build a debug line from the actual html element if it's an object, or just send the string
+		// if there's no console, build a debug line from the actual html element if it's an object, or just send the string
 		var str = message;
-		if( !('firebug' in console) ){
+		if(!("console" in window)){
 			if( typeof(message) == 'object' ){
 				if (message.nodeName) {
 					str = '&lt;';	
