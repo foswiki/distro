@@ -60,6 +60,9 @@ unless ($errorcode == 0) {
     my $unittestErrors = <UNIT>;
     close(UNIT);
     
+    #only output the summary
+    $unittestErrors =~ s/^(.*)Unit test run Summary://m;
+    
     chdir($foswikihome);
     if ($SvensAutomatedBuilds) {
     	`scp Foswiki* distributedinformation\@distributedinformation.com:~/www/Foswiki_$foswikiBranch/`;

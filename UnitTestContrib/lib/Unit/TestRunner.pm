@@ -133,6 +133,8 @@ sub start {
         }
     }
 
+    #marker so we can remove the above large output from the nightly emails
+    print "\nUnit test run Summary:\n";
     my $total = $passes;
     my $failed;
     if ( $failed = scalar @{ $this->{unexpected_passes} } ) {
