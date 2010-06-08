@@ -71,7 +71,12 @@ sub ENCODE {
         return $text;
     }
     elsif ( $type =~ /^url$/i ) {
-        $text =~ s/\r*\n\r*/<br \/>/;    # Legacy.
+        # This is legacy, stretching back to 2001. Checkin comment was:
+        # "Fixed URL encoding". At that time it related to the encoding of
+        # parameters to the "oops" script exclusively. I'm taking it out
+        # because I can't see any situation in which it might have been
+        # used in anger.
+        # $text =~ s/\r*\n\r*/<br \/>/;
         return urlEncode($text);
     }
     elsif ( $type =~ /^(off|none)$/i ) {

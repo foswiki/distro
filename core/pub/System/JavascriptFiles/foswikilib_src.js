@@ -45,7 +45,7 @@ foswiki.getMetaTag = function(inKey) {
         for (var i = 0; i < head.length; i++) {
             if (head[i].tagName != null &&
                 head[i].tagName.toUpperCase() == 'META') {
-                foswiki.metaTags[head[i].name] = head[i].content;
+                foswiki.metaTags[head[i].name] = unescape(head[i].content);
             }
         }
     }
@@ -86,7 +86,7 @@ foswiki.getPreference = function(key, useServer) {
         if (foswiki.preferences === undefined) {
             foswiki.preferences = {};
         }
-        foswiki.preferences[key] = metaVal;
+        foswiki.preferences[key] = unescape(metaVal);
         return metaVal;
     }
     
@@ -94,8 +94,9 @@ foswiki.getPreference = function(key, useServer) {
     // a lot of context information to be passed to the server, and a REST
     // handler on the server, so has not been implemented yet.
     if (useServer) {
-        window.alert("Trying to get preference '" + key + "' from server, but " + 
-              "this feature is not implemented yet.");
+        window.alert("Trying to get preference '" + key
+                     + "' from server, but " + 
+                     "this feature is not implemented yet.");
     }
     return null;
 };

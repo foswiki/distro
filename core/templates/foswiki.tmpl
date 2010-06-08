@@ -16,7 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%
 
 %TMPL:DEF{"meta:preferences"}%%FOREACH{"%EXPORTEDPREFERENCES%" 
-  format="<meta name='foswiki.$topic' content='$percnt$topic$percnt' />"
+  format="<meta name=\"foswiki.$topic\" content=\"$percntENCODE{\"$percnt$topic$percnt\"}$percnt\" /><!--$topic-->"
   separator="
 "
 }%

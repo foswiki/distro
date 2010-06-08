@@ -60,6 +60,7 @@ if (foswiki.preferences === undefined) {
     // Check for a preference passed in a meta tag (this is the classical method)
     var metaVal = $("meta[name=foswiki."+key+"]").attr("content");
     if (metaVal !== undefined) {
+      metaVal = unescape(metaVal);
       // Cache it for future reference
       foswiki.preferences[key] = metaVal;
       return metaVal;
