@@ -11,6 +11,14 @@ sub check {
     my $this = shift;
 
     my $mess = '';
+    
+    if ( ($^O eq 'MSWin32') and 
+        ($Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ )) {
+            $mess .= $this->ERROR(<<EOF);
+RcsWrap does not work well on Windows, please use RcsLite.
+EOF
+    }
+    
     if ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) {
 
         # Check that GNU diff is found in PATH; used by rcsdiff

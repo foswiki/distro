@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::RCS::SearchAlgorithm;
+package Foswiki::Configure::Checkers::Store::SearchAlgorithm;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -18,6 +18,12 @@ Sorry, I could not find the required components for Native search. The
 error was: $@
 EOF
         }
+    }
+    if ( ($^O eq 'MSWin32') and 
+        ($Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking/ )) {
+            $mess .= $this->ERROR(<<EOF);
+Forking (grep based Search) does not work well on Windows, please use PurePerl.
+EOF
     }
 
     return $mess;
