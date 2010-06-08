@@ -85,14 +85,14 @@ The following template files are used for Foswiki screens, and are referenced in
 
 ---+++ Partial customisation, or adding in new features to an existing skin
 
-You can use recusion in the TMPL:INCLUDE chain (eg view.tmpl contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path. 
-For example, to create a customisation of pattern skin, where you _only_ want to remove the edit & WYSIWYG buttons from view page, you create only a =view.yourlocal.tmpl=:
+You can use recursion in the TMPL:INCLUDE chain. For example, if =view.tmpl= contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path.
+To create a customisation of the Pattern skin, where you _only_ want to remove the edit & WYSIWYG buttons from the =view= screen, you create only a =view.yourlocal.tmpl=:
 <verbatim>
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"edit_topic_link"}%%TMPL:END%
 %TMPL:DEF{"edit_wysiwyg_link"}%%TMPL:END%
 </verbatim>
-and then set =SKIN=yourlocal,pattern=
+and then set =SKIN=yourlocal,pattern= in Main.SitePreferences, a particular web's WebPreferences, or in an individual topic, depending on the desired scope of the skin.
 
 ---++ Settings in Skins
 
@@ -126,7 +126,7 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 
 ---++ Using Cascading Style Sheets
 
-CSS files are gererally attachments to the skin topic that are included in the the skin templates - in the case of PatternSkin in the template =css.pattern.tmpl=.
+CSS files are gererally attachments to the skin topic that are included in the skin templates - in the case of PatternSkin in the template =css.pattern.tmpl=.
 
    * General documentation of CSS classes: CascadingStyleSheets
    * To see how CSS is used in the default Foswiki skin, see: PatternSkin
@@ -245,7 +245,7 @@ Setting =SKIN= (or the =?skin= parameter in the URL) replaces the existing skin 
 
 This pushes a different skin to the front of the skin search path (so for our example above, that final skin path will be =ruskin, catskin, bearskin=). There is also an equivalent =cover= URL parameter. The difference between setting =SKIN= vs. =COVER= is that if the chosen template is not found (e.g., for included templates), =SKIN= will fall back onto the next skin in line, or the default skin, if only one skin was present, while =COVER= will always fall back onto the current skin.
 
-An example would be invoking the printable mode, which is achieved by applying =?cover=print=. The =view.print.tmpl= simply invokes the =viewprint= template for the current skin which then can appropriately include all other used templates for the current skin. Where the printable mode be applied by using =SKIN=, all skins would have the same printable appearance.
+An example would be invoking the printable mode, which is achieved by applying =?cover=print=. The =view.print.tmpl= simply invokes the =viewprint= template for the current skin which then can appropriately include all other used templates for the current skin. If the printable mode were applied by using =SKIN=, all skins would have the same printable appearance.
 
 The full skin path is built up as follows: =SKIN= setting (or =?skin= if it is set), then =COVER= setting is added, then =?cover=.
 
