@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Skins"}%
 ---+ Plain Skin
 
@@ -6,29 +5,9 @@ The plain skin is used to get the rendered topic text without any page decoratio
 
 This skin is part of every distribution.
 
-This skin has been used to show topics in a pop-up window; this has been replaced with template =viewplain=.
-
-
----++ Skin Info
-
 |  Description: | Shows rendered topic text without any page decoration |
 |  Screenshot: | <a href="%ATTACHURL%/fullscreen.gif"><img src="%ATTACHURL%/screenshot.gif" alt="Click for full screen image" width="600" height="130" /></a> |
-|  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=plain][Preview with this topic]] |
 |  Base Name: | plain |
-|  Skin Author: | TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie |
-|  Skin Version: | 04 Jan 2006 (v8096) |
-|  Change History: | <!-- specify latest version first -->&nbsp; |
-|  04 Jan 2006: | Dakar update (v8096) |
-|  27 Jul 2004: | Initial version (v1.000) |
-|  Dependencies: |  |
-|  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
-
-*Note:* The Description, Screenshot and Base Name rows are needed by the %SYSTEMWEB%.SkinBrowser
-
----
-*Related topic:* [[%SYSTEMWEB%.Skins][Skins]], %SYSTEMWEB%.SkinBrowser, %SYSTEMWEB%.UserDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory
 
 %META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1090796589" path="screenshot.gif" size="8683" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="fullscreen.gif" attr="h" comment="" date="1090796600" path="fullscreen.gif" size="21130" user="ProjectContributor" version="1.1"}%
