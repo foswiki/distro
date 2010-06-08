@@ -140,6 +140,10 @@ sub _notAvailable {
     return 'Unsupported browser: ' . $query->user_agent()
       if $ua && $query->user_agent() && $query->user_agent() =~ /$ua/;
 
+    # This should only ever happen on Foswiki 1.0.9 and earlier
+    return 'TinyMCEPlugin requires ZonePlugin to be installed and enabled'
+      unless (defined &Foswiki::Func::addToZone);
+
     return 0;
 }
 
@@ -219,11 +223,10 @@ sub beforeEditHandler {
     # URL-encode the init string
     $metainit =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
-    # SMELL: meta tag now in a separate addToHEAD for Item8566, due to
-    # addToZONE shenanigans. <meta> tags really do have to be in the head!
-    Foswiki::Func::addToZone( 'head', 'tinyMCE::Meta', <<"SCRIPT");
+    # <meta> tags really do have to be in the head!
+    Foswiki::Func::addToHEAD( 'tinyMCE::Meta', <<META );
 <meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
-SCRIPT
+META
 
     my $behaving;
     eval {
@@ -234,26 +237,31 @@ SCRIPT
         }
     };
     unless ($behaving) {
-        Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB',
-'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>'
-        );
+        Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB', <<SCRIPT );
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js">
+</script>
+SCRIPT
     }
 
-# URL-encode the version number to include in the .js URLs, so that the browser re-fetches the .js
-# when this plugin is upgraded.
+    # URL-encode the version number to include in the .js URLs, so that
+    # the browser re-fetches the .js when this plugin is upgraded.
     my $encodedVersion = $VERSION;
 
-# SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
-#        but Foswiki::Func.pm does not expose that function, so plugins may not use it
+    # SMELL: This regex (and the one applied to $metainit, above)
+    # duplicates Foswiki::urlEncode(), but Foswiki::Func.pm does not
+    # expose that function, so plugins may not use it
     $encodedVersion =~
       s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
-    Foswiki::Func::addToZone( 'body', 'tinyMCE',
-        <<"SCRIPT", 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI' );
+    my $scripts = <<SCRIPT;
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
+
+    Foswiki::Func::addToZone(
+        'body', 'tinyMCE', $scripts,
+        'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI' );
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.
     Foswiki::Func::getContext()->{textareas_hijacked} = 1;

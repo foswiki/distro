@@ -34,9 +34,7 @@ sub initPlugin {
     my ( $topic, $web, $user ) = @_;
 
     # check for prerequisites
-    if (  !$Foswiki::cfg{Plugins}{ZonePlugin}{Enabled}
-        && $Foswiki::Plugins::VERSION < 2.1 )
-    {
+    unless (defined(&Foswiki::Func::addToZone)) {
         Foswiki::Func::writeWarning(
             "ZonePlugin not installed/enabled...disabling JQueryPlugin");
         return 0;

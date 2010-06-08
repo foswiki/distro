@@ -247,7 +247,10 @@ sub registerHandlers {
 
     unless ($status) {
         if ( !$exception ) {
-            $exception = $sub . ' did not return true';
+            $exception = <<MESSAGE;
+$sub did not return true.
+Check your Foswiki warning and error logs for more information.
+MESSAGE
         }
         push( @{ $this->{errors} }, $exception );
         $this->{disabled} = 1;

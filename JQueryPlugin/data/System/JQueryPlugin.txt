@@ -23,6 +23,23 @@ HTML documents, handle events, perform animations, and add Ajax interactions to
 your web pages."
 </blockquote>
 
+---++ Macros
+Depending on what jQuery plugins are enabled, the following Foswiki macros are available. See the documentation for the individual plugins for more information.
+   * Enabled by the 'foswiki' jQuery plugin
+      * [[VarJQTHEME][%<nop>JQTHEME%]]
+      * [[VarJQREQUIRE][%<nop>JQREQUIRE%]]
+      * [[VarJQICON][%<nop>JQICON%]]
+      * [[VarJQICONPATH][%<nop>JQICONPATH%]]
+      * [[VarJQPLUGINS][%<nop>JQPLUGINS%]]
+   * Enabled by the 'tabpane' jQuery plugin
+      * [[VarTABPANE][%<nop>TABPANE%]]
+      * [[VarENDTABPANE][%<nop>ENDTABPANE%]]
+      * [[VarTAB][%<nop>TAB%]]
+      * [[VarENDTAB][%<nop>ENDTAB%]]
+   * Enabled by the 'button' jQuery plugin
+      * [[VarBUTTON][%<nop>BUTTON%]]
+      * [[VarCLEAR][%<nop>CLEAR%]]
+
 ---++ Coding Standards
 
 See [[JQuery Coding Standards]]
@@ -38,7 +55,6 @@ using jQuery with Foswiki.
    * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
    * [[http://docs.jquery.com/Plugins][Plugin repository]]
 
-
 ---++ Using compressed javascript and css files
 All jQuery plugins are shipped with uncompressed js and css files, as well as minified and gzip compressed.
 For instance the jquery.autocomplete comes with the following set:
@@ -46,14 +62,14 @@ For instance the jquery.autocomplete comes with the following set:
    1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js
    1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js.gz
 
-There is a Makefile in the =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin= root directory that grants all these
-files are up to date. By default all files in the !JQueryPlugin package are up to date. So you only have to
+There is a Makefile in the =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin= root directory that ensures all these
+files are up to date. By default all files in the !JQueryPlugin package are up to date, so you only have to
 issue a =make= in the root directory if you wish to
 modify one of the files underneath. This will update
-all minified and gzipped files as needed. Enable the ={JQueryPlugin}{Debug}= flag in =configure=, 
-to use the uncompressed files right away to omit the =make= step during development of further javascript components.
+all minified and gzipped files as required. Enable the ={JQueryPlugin}{Debug}= flag in =configure=, 
+to use the uncompressed files right away to omit the =make= step during development of new javascript components.
 
-Apache can be configured to automatically use the =.gz= files if present using mod_rewrite as follows:
+Apache can be configured to automatically use the =.gz= files if present using =mod_rewrite= as follows:
 <verbatim>
   <FilesMatch ".*\.(js|css)$">
     RewriteEngine On
@@ -73,9 +89,9 @@ Apache can be configured to automatically use the =.gz= files if present using m
   </Files>
 </verbatim>
 
-So whenever the browser accepts encoding the file as gzip _and_ the file with the =.gz= does exist
-in the filesystem, then trigger an internal redirect while still enforcing the original mine-type.
-The browser on the other side will unzip the css and js files automatically. This will drastically
+So whenever the browser accepts encoding the file as gzip _and_ the file with the =.gz= exists
+in the filesystem, then there will be an internal redirect in the server while still enforcing the original mime-type.
+The browser on the client side will unzip the css and js files automatically. This will drastically
 reduce bandwidth and speed up interactive performance.
 
 ---++ Available jQuery plugins
@@ -93,6 +109,7 @@ reduce bandwidth and speed up interactive performance.
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
+   * %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.
 
 ---++ Plugin Info
 |  Author(s): | Michael Daum |
