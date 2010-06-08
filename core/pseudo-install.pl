@@ -449,7 +449,7 @@ sub uninstall {
         }
     }
     if ( -e $file ) {
-        unlink $file;
+        unlink _cleanPath( $file );
         print "Removed $file\n";
     }
 }
