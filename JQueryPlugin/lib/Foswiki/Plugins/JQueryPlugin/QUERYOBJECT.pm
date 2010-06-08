@@ -1,12 +1,4 @@
 # See bottom of file for license and copyright information
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2006-2010 Blair Mitchelmore
-#   (blair DOT mitchelmore AT gmail DOT com)
-#   Licensed under the WTFPL (http://sam.zoy.org/wtfpl/).
-#
-# Packaged for Foswiki by Paul.W.Harvey@csiro.au - www.taxonomy.org.au
-
 package Foswiki::Plugins::JQueryPlugin::QUERYOBJECT;
 use strict;
 use warnings;
@@ -52,9 +44,17 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2006-2010 Blair Mitchelmore
+  (blair DOT mitchelmore AT gmail DOT com)
+  Licensed under the WTFPL (http://sam.zoy.org/wtfpl/).
+Packaged for Foswiki by Paul.W.Harvey@csiro.au - www.taxonomy.org.au
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
