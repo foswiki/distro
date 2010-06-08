@@ -244,14 +244,14 @@ var StrikeOne = {
      * 's1js_available' (meaning "show this when js is available")
      */
     pcd: function() {
-        var els = foswiki.getElementsByClassName('s1js_missing');
+        var els = foswiki.getElementsByClassName(document, 's1js_missing');
         var i;
         if (els) {
             for (i = 0; i < els.length; i++) {
                 els[i].style.display = 'none';
             }
         }
-        els = foswiki.getElementsByClassName('s1js_available');
+        els = foswiki.getElementsByClassName(document, 's1js_available');
         if (els) {
             for (i = 0; i < els.length; i++) {
                 els[i].style.display = 'block';
