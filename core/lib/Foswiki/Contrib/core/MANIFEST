@@ -469,7 +469,6 @@ lib/Foswiki/Configure/Checkers/RCS/initBinaryCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/initTextCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/lockCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/rlogDateCmd.pm 0444
-lib/Foswiki/Configure/Checkers/RCS/SearchAlgorithm.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/tmpBinaryCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/unlockCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
@@ -485,6 +484,7 @@ lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
 lib/Foswiki/Configure/Checkers/Store/EgrepCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Store/FgrepCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Store/Implementation.pm 0444
+lib/Foswiki/Configure/Checkers/Store/SearchAlgorithm.pm 0444
 lib/Foswiki/Configure/Checkers/TemplateDir.pm 0444
 lib/Foswiki/Configure/Checkers/ToolsDir.pm 0444
 lib/Foswiki/Configure/Checkers/UploadFilter.pm 0444
