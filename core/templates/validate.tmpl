@@ -7,9 +7,9 @@
 
 %TMPL:DEF{"title"}%<div style="display:none" class="foswikiFormStep s1js_available">
 ---++ %MAKETEXT{"Warning! Confirmation required"}%
-</div><div class="foswikiFormStep s1js_missing">
+</div><noscript><div class="foswikiFormStep">
 ---++ %MAKETEXT{"Change cannot be completed"}%
-</div>%TMPL:END%
+</div></noscript>%TMPL:END%
 
 %TMPL:DEF{"note"}%<div class="foswikiFormStep">
 <p>
@@ -18,12 +18,11 @@
 <p>
 %MAKETEXT{"There is a risk that someone may be trying to use your identity to change content on [_1] without your knowledge." args="<nop>%WIKITOOLNAME%"}%
 </p>
-<div class="s1js_missing">
+<noscript>
 %RED% %MAKETEXT{"You cannot manually confirm this change because either Cookies or Javascript are disabled in your browser."}% %ENDCOLOR%
-</div>
-<div class="s1js_missing">
+<p />
 %MAKETEXT{"Go back to the previous page, and enable Cookies and Javascript before trying again"}%
-</div>
+</noscript>
 <div class="s1js_available" style="display:none">
    * %MAKETEXT{"Press OK to confirm that this change was intentional."}%
    * %MAKETEXT{"Press Cancel otherwise."}%

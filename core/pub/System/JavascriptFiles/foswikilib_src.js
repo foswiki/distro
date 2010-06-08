@@ -22,7 +22,7 @@ As per the GPL, removal of this notice is prohibited.
 
 // Foswiki namespace
 var foswiki;
-if (foswiki === undefined) {
+if (foswiki == undefined) {
     foswiki = {};
 }
 
@@ -32,7 +32,10 @@ if (foswiki === undefined) {
  * @param inKey Name of the meta-tag for which to retrieve the content
  */
 foswiki.getMetaTag = function(inKey) {
-    if (foswiki.metaTags === null || foswiki.metaTags.length === 0) {
+    // NOTE: == and != are used, not === and !==, because null == undefined
+    // but does not === it  - see
+    // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Operators/Comparison_Operators
+    if (foswiki.metaTags == null || foswiki.metaTags.length === 0) {
         // Do this the brute-force way because of the problem
         // seen sporadically on Bugs web where the DOM appears complete, but
         // the META tags are not all found by getElementsByTagName
@@ -40,7 +43,7 @@ foswiki.getMetaTag = function(inKey) {
         head = head[0].parentNode.childNodes;
         foswiki.metaTags = [];
         for (var i = 0; i < head.length; i++) {
-            if (head[i].tagName !== null &&
+            if (head[i].tagName != null &&
                 head[i].tagName.toUpperCase() == 'META') {
                 foswiki.metaTags[head[i].name] = head[i].content;
             }
