@@ -78,14 +78,13 @@ sub new {
     unless ($this) {
 
         # A form name has to be a valid topic name after normalisation
-        my ($vweb, $vtopic) = $session->normalizeWebTopicName(
-            $web, $form);
-        $vweb = Foswiki::Sandbox::untaint(
-            $vweb, \&Foswiki::Sandbox::validateWebName);
-        $vtopic = Foswiki::Sandbox::untaint(
-            $vtopic, \&Foswiki::Sandbox::validateTopicName);
-        unless ($vweb && $vtopic) {
-           throw Foswiki::OopsException(
+        my ( $vweb, $vtopic ) = $session->normalizeWebTopicName( $web, $form );
+        $vweb = Foswiki::Sandbox::untaint( $vweb,
+            \&Foswiki::Sandbox::validateWebName );
+        $vtopic = Foswiki::Sandbox::untaint( $vtopic,
+            \&Foswiki::Sandbox::validateTopicName );
+        unless ( $vweb && $vtopic ) {
+            throw Foswiki::OopsException(
                 'attention',
                 def    => 'invalid_form_name',
                 web    => $session->{webName},
@@ -96,7 +95,7 @@ sub new {
 
         # Got to have either a def or a topic
         unless ( $def || $session->topicExists( $vweb, $vtopic ) ) {
-           throw Foswiki::OopsException(
+            throw Foswiki::OopsException(
                 'attention',
                 def    => 'no_form_def',
                 web    => $session->{webName},
@@ -159,14 +158,15 @@ given topic. $metaObject can be a topic or a web.
 
 sub getAvailableForms {
     my $metaObject = shift;
-    if (defined $metaObject->topic) {
-        $metaObject = Foswiki::Meta->new(
-            $metaObject->session, $metaObject->web );
+    if ( defined $metaObject->topic ) {
+        $metaObject =
+          Foswiki::Meta->new( $metaObject->session, $metaObject->web );
     }
     my $legalForms = $metaObject->getPreference('WEBFORMS') || '';
     $legalForms =~ s/^\s+//;
     $legalForms =~ s/\s+$//;
     my @forms = split( /[,\s]+/, $legalForms );
+
     # This is where we could %SEARCH for *Form topics
     return @forms;
 }
@@ -319,11 +319,11 @@ sub _link {
     ( my $web, $topic ) =
       $this->session->normalizeWebTopicName( $this->{web}, $topic );
 
-    $web = Foswiki::Sandbox::untaint(
-        $web, \&Foswiki::Sandbox::validateWebName );
+    $web =
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
 
-    $topic = Foswiki::Sandbox::untaint(
-        $topic, \&Foswiki::Sandbox::validateTopicName);
+    $topic = Foswiki::Sandbox::untaint( $topic,
+        \&Foswiki::Sandbox::validateTopicName );
 
     my $link;
 
@@ -339,8 +339,9 @@ sub _link {
         );
     }
     else {
-        my $that = Foswiki::Meta->new(
-            $this->session, $web, $topic || $Foswiki::cfg{HomeTopicName} );
+        my $that =
+          Foswiki::Meta->new( $this->session, $web,
+            $topic || $Foswiki::cfg{HomeTopicName} );
         my $expanded = $that->expandMacros($string);
         if ( $tooltip ne $defaultToolTip ) {
             $link = CGI::span( { title => $tooltip }, $expanded );

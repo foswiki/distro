@@ -60,7 +60,7 @@ sub set_up_for_verify {
     $this->SUPER::set_up();
 
     $this->assert( $Foswiki::cfg{Store}{Implementation} =~ /Rcs(Lite|Wrap)/,
-                   "Test does not run with non-RCS store" );
+        "Test does not run with non-RCS store" );
 
     #default settings
     $Foswiki::cfg{LoginManager}       = 'Foswiki::LoginManager::TemplateLogin';

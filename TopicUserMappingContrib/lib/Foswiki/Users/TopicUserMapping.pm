@@ -33,7 +33,7 @@ use warnings;
 use Assert;
 use Error qw( :try );
 use Foswiki::ListIterator ();
-use Foswiki::Func ();
+use Foswiki::Func         ();
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
@@ -595,8 +595,7 @@ sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
 
-    return new Foswiki::ListIterator(
-        $this->{eachGroupMember}->{$group} )
+    return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} )
       if ( defined( $this->{eachGroupMember}->{$group} ) );
 
     my $session = $this->{session};
@@ -617,8 +616,7 @@ sub eachGroupMember {
     }
     $this->{eachGroupMember}->{$group} = $members;
 
-    return new Foswiki::ListIterator(
-        $this->{eachGroupMember}->{$group} );
+    return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
 }
 
 =begin TML
@@ -635,18 +633,18 @@ sub isGroup {
     # Groups have the same username as wikiname as canonical name
     return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
 
-    return 0 unless ($user =~ /Group$/);
+    return 0 unless ( $user =~ /Group$/ );
 
-    #actually test for the existance of this group
-    #TODO: SMELL: this is still a lie, because it will claim that a 
-    #Group which the currently logged in user does _not_ 
-    #have VIEW permission for simply is non-existant.
-    #however, this may be desirable for security reasons.
-    #SMELL: this is why we should not use topicExist to test for createability...
+   #actually test for the existance of this group
+   #TODO: SMELL: this is still a lie, because it will claim that a
+   #Group which the currently logged in user does _not_
+   #have VIEW permission for simply is non-existant.
+   #however, this may be desirable for security reasons.
+   #SMELL: this is why we should not use topicExist to test for createability...
     my $iterator = $this->eachGroup();
-    while ($iterator->hasNext()) {
+    while ( $iterator->hasNext() ) {
         my $groupname = $iterator->next();
-        return 1 if ($groupname eq $user);
+        return 1 if ( $groupname eq $user );
     }
     return 0;
 }
@@ -695,9 +693,9 @@ implemented using topic VIEW permissions
 =cut
 
 sub groupAllowsView {
-    my $this = shift;
+    my $this  = shift;
     my $Group = shift;
-    
+
     my $user = $this->{session}->{user};
     return 1 if $this->{session}->{users}->isAdmin($user);
 
@@ -706,12 +704,12 @@ sub groupAllowsView {
     my ( $groupWeb, $groupName ) =
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
-      
-    $groupName = undef
-        if (not $this->{session}->topicExists( $groupWeb, $groupName ));
 
-    return Foswiki::Func::checkAccessPermission(
-            'VIEW', $user, undef, $groupName, $groupWeb);
+    $groupName = undef
+      if ( not $this->{session}->topicExists( $groupWeb, $groupName ) );
+
+    return Foswiki::Func::checkAccessPermission( 'VIEW', $user, undef,
+        $groupName, $groupWeb );
 }
 
 =begin TML
@@ -725,12 +723,11 @@ implemented using topic CHANGE permissions
 =cut
 
 sub groupAllowsChange {
-    my $this = shift;
+    my $this  = shift;
     my $Group = shift;
-    my $user = shift;
-    ASSERT(defined $user) if DEBUG;
+    my $user  = shift;
+    ASSERT( defined $user ) if DEBUG;
 
-    
     return 1 if $this->{session}->{users}->isAdmin($user);
 
     $Group = Foswiki::Sandbox::untaint( $Group,
@@ -738,12 +735,12 @@ sub groupAllowsChange {
     my ( $groupWeb, $groupName ) =
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
-      
-    $groupName = undef
-        if (not $this->{session}->topicExists( $groupWeb, $groupName ));
 
-    return Foswiki::Func::checkAccessPermission(
-            'CHANGE', $user, undef, $groupName, $groupWeb);
+    $groupName = undef
+      if ( not $this->{session}->topicExists( $groupWeb, $groupName ) );
+
+    return Foswiki::Func::checkAccessPermission( 'CHANGE', $user, undef,
+        $groupName, $groupWeb );
 }
 
 =begin TML
@@ -772,15 +769,20 @@ sub addUserToGroup {
 #TODO: LATER: check for duplicates
 #TODO: make sure the groupName ends in Group...
 
-
     my $usersObj = $this->{session}->{users};
-    
-    print STDERR "$user, aka(".$usersObj->getWikiName($user).") is TRYING to add $cuid aka(".$usersObj->getWikiName($cuid).") to $groupName\n" if DEBUG;
+
+    print STDERR "$user, aka("
+      . $usersObj->getWikiName($user)
+      . ") is TRYING to add $cuid aka("
+      . $usersObj->getWikiName($cuid)
+      . ") to $groupName\n"
+      if DEBUG;
 
     if (
         $usersObj->isGroup($groupName)
-#        and ( $this->{session}
-#            ->topicExists( $groupWeb, $groupName ) )
+
+        #        and ( $this->{session}
+        #            ->topicExists( $groupWeb, $groupName ) )
       )
     {
         if ( $usersObj->isInGroup( $cuid, $groupName ) ) {
@@ -789,23 +791,23 @@ sub addUserToGroup {
             return 1;    #user already in group, nothing to do
         }
         my $groupTopicObject =
-          Foswiki::Meta->load( $this->{session}, $groupWeb,
-            $groupName );
+          Foswiki::Meta->load( $this->{session}, $groupWeb, $groupName );
 
-       if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
-           #can't change topic.
+        if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
+
+            #can't change topic.
             print STDERR "eee: $user does not have change access?\n" if DEBUG;
-           return 0
-       }
-                        
+            return 0;
+        }
+
         my $membersString = $groupTopicObject->getPreference('GROUP') || '';
-        $membersString .= ', ' if ($membersString ne '');
+        $membersString .= ', ' if ( $membersString ne '' );
         $membersString .= $usersObj->getWikiName($cuid);
 
 #TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
         $groupTopicObject->putKeyed( 'PREFERENCE',
             { name => 'GROUP', title => 'GROUP', value => $membersString } );
-            
+
         my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
         $groupTopicObject->text($text);
@@ -814,6 +816,7 @@ sub addUserToGroup {
         return 1;
     }
     else {
+
  #see if we have permission to add a topic, or to edit the existing topic, etc..
         return 0 unless ($create);
         return 0
@@ -824,13 +827,14 @@ sub addUserToGroup {
           );
 
         my $groupTopicObject =
-          Foswiki::Meta->load( $this->{session}, $groupWeb,
-            'GroupTemplate' );
+          Foswiki::Meta->load( $this->{session}, $groupWeb, 'GroupTemplate' );
 
         #expand the GroupTemplate as best we can.
-        $this->{session}->{request}->param(-name => 'topic', -value => $groupName);
-        $groupTopicObject->text( $groupTopicObject->expandNewTopic( $groupTopicObject->text() ) );
-        
+        $this->{session}->{request}
+          ->param( -name => 'topic', -value => $groupName );
+        $groupTopicObject->text(
+            $groupTopicObject->expandNewTopic( $groupTopicObject->text() ) );
+
         $groupTopicObject->putKeyed(
             'PREFERENCE',
             {
@@ -842,14 +846,13 @@ sub addUserToGroup {
         my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
         $groupTopicObject->text($text);
-        
+
         #TODO: should also consider securing the new topic?
-        $groupTopicObject->saveAs( $groupWeb,
-            $groupName, -author => $user );
-            
+        $groupTopicObject->saveAs( $groupWeb, $groupName, -author => $user );
+
         #reparse groups brute force :/
-        _getListOfGroups($this, 1);
-            
+        _getListOfGroups( $this, 1 );
+
         return 1;
     }
     die 'not sure how we got here';
@@ -1295,15 +1298,15 @@ sub _collateGroups {
 
 # get a list of groups defined in this Wiki
 sub _getListOfGroups {
-    my $this = shift;
+    my $this  = shift;
     my $reset = shift;
-    
+
     ASSERT( $this->isa('Foswiki::Users::TopicUserMapping') ) if DEBUG;
 
-    if ( !$this->{groupsList} || $reset) {
+    if ( !$this->{groupsList} || $reset ) {
         my $users = $this->{session}->{users};
         $this->{groupsList} = [];
-        
+
         $this->{session}->search->searchWeb(
             _callback => \&_collateGroups,
             _cbdata   => {

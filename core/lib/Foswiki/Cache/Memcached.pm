@@ -59,7 +59,7 @@ sub finish {
                 $this->{handler}->delete($key);
 
                 Foswiki::PageCache::writeDebug("deleting $key")
-                    if (Foswiki::PageCache::TRACE);
+                  if (Foswiki::PageCache::TRACE);
             }
         }
 
@@ -70,7 +70,7 @@ sub finish {
                 $this->{handler}->set( $key, $obj );
 
                 Foswiki::PageCache::writeDebug("flushing $key")
-                    if (Foswiki::PageCache::TRACE);
+                  if (Foswiki::PageCache::TRACE);
             }
         }
 

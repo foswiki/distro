@@ -105,15 +105,16 @@ sub _webQuery {
 
     }
 
-    if ( defined($queryIsAConstantFastpath) )
-    {
-        if (not $queryIsAConstantFastpath) {
+    if ( defined($queryIsAConstantFastpath) ) {
+        if ( not $queryIsAConstantFastpath ) {
+
             #CONSTANT _and_ FALSE - return no results
             return $resultTopicSet;
         }
     }
     else {
-        #from here on, FALSE means its not a constant, TRUE means is is a constant and evals to TRUE
+
+#from here on, FALSE means its not a constant, TRUE means is is a constant and evals to TRUE
         $queryIsAConstantFastpath = 0;
     }
 
@@ -179,11 +180,14 @@ sub _webQuery {
         my ( $Iweb, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
         if ($queryIsAConstantFastpath) {
-            if (defined($options->{date})) {
-                #TODO: preload the meta cache if we're doing date based filtering - else the wrong filedate will be used
-                $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb, $topic );
+            if ( defined( $options->{date} ) ) {
+
+#TODO: preload the meta cache if we're doing date based filtering - else the wrong filedate will be used
+                $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb,
+                    $topic );
             }
-            #TODO: frustratingly, there is no way to evaluate a filterIterator without actually iterating over it..
+
+#TODO: frustratingly, there is no way to evaluate a filterIterator without actually iterating over it..
             $resultTopicSet->addTopics( $Iweb, $topic );
         }
         else {

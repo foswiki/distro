@@ -93,13 +93,14 @@ sub compare {
     if ( $tree2 =~ /^http:.*oops/ ) {
         Foswiki::Func::redirectCgiQuery( $query, $tree2 );
     }
-    
+
     # TablePlugin must reinitiatilise to reset all table counters (Item1911)
     if ( defined &Foswiki::Plugins::TablePlugin::initPlugin ) {
         if ( defined &Foswiki::Plugins::TablePlugin::initialiseWhenRender ) {
             Foswiki::Plugins::TablePlugin::initialiseWhenRender();
         }
         else {
+
             # If TablePlugin does not have the reinitialise API
             # we use try a shameless hack instead
             if ( defined $Foswiki::Plugins::TablePlugin::initialised ) {
@@ -107,7 +108,7 @@ sub compare {
             }
         }
     }
-    
+
     my $tree1 = _getTree( $session, $webName, $topic, $rev1 );
     if ( $tree1 =~ /^http:.*oops/ ) {
         Foswiki::Func::redirectCgiQuery( $query, $tree1 );

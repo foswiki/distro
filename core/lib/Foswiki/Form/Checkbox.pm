@@ -57,6 +57,7 @@ sub renderForEdit {
         };
 
         if ( $isSelected{$item} ) {
+
             # CGI::checkbox_group() will check these items
             push( @defaults, $item );
         }

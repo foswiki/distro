@@ -34,13 +34,13 @@ $RELEASE = '18 Sep 2009';
 # Name of this Plugin, only used in this module
 $pluginName = 'CompareRevisionsAddonPlugin';
 
-
 sub initPlugin {
-    my( $topic, $web, $user, $installWeb ) = @_;
+    my ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if ( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning(
+            "Version mismatch between $pluginName and Plugins.pm");
         return 0;
     }
 
@@ -49,10 +49,13 @@ sub initPlugin {
 }
 
 sub commonTagsHandler {
+
     # do not uncomment, use $_[0], $_[1]... instead
     ### my ( $text, $topic, $web ) = @_;
 
-    Foswiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug(
+        "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )")
+      if $debug;
 
     $_[0] =~ s/%RDIFF2COMPARE{"?(.*?)"?}%/&_handleRdiff2Compare($1)/ge;
 }
@@ -63,7 +66,7 @@ sub _handleRdiff2Compare {
     $text =~ s{/rdiff  $Foswiki::cfg{ScriptSuffix}/}
               {/compare$Foswiki::cfg{ScriptSuffix}/}xmsg;
     return $text;
-	 
+
 }
 
 __END__

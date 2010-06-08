@@ -14,8 +14,8 @@ package Foswiki::Cache::BDB;
 use strict;
 use warnings;
 use BerkeleyDB;
-use Storable       ();
-use Foswiki::Cache ();
+use Storable           ();
+use Foswiki::Cache     ();
 use Foswiki::PageCache ();
 
 use constant F_STORABLE => 1;
@@ -55,7 +55,8 @@ sub init {
 
             #-Verbose => 1,
           )
-          or die "Foswiki::Cache:BDB: Unable to create env in $cache_root: $BerkeleyDB::Error";
+          or die
+"Foswiki::Cache:BDB: Unable to create env in $cache_root: $BerkeleyDB::Error";
 
         my $fname = $this->{namespace} . '.db';
         $fname =~ s/[\/\\:_]//go;
@@ -137,7 +138,7 @@ sub finish {
                 $this->{handler}->db_del($key);
 
                 Foswiki::PageCache::writeDebug("deleting $key")
-                    if (Foswiki::PageCache::TRACE);
+                  if (Foswiki::PageCache::TRACE);
             }
         }
 
@@ -147,7 +148,7 @@ sub finish {
                 next unless $obj;
 
                 Foswiki::PageCache::writeDebug("flushing $key")
-                    if (Foswiki::PageCache::TRACE);
+                  if (Foswiki::PageCache::TRACE);
                 my $value;
                 my $flags = 0;
                 if ( ref $obj ) {
@@ -157,13 +158,13 @@ sub finish {
 
                     Foswiki::PageCache::writeDebug(
                         "writing $key as a storable image")
-                        if (Foswiki::PageCache::TRACE);
+                      if (Foswiki::PageCache::TRACE);
                 }
                 else {
                     $value = sprintf( "%03d::", $flags ) . $obj;
 
                     Foswiki::PageCache::writeDebug("writing $key as a scalar")
-                        if (Foswiki::PageCache::TRACE);
+                      if (Foswiki::PageCache::TRACE);
                 }
                 $this->{handler}->db_put( $key, $value );
 

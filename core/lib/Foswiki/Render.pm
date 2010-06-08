@@ -634,8 +634,9 @@ sub internalLink {
 
 # TODO: this should be overridable by plugins.
 sub _renderWikiWord {
-    my ( $this, $web, $topic, $linkText, $anchor,
-         $linkIfAbsent, $keepWebPrefix, $params ) = @_;
+    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
+        $params )
+      = @_;
     my $session = $this->{session};
     my $topicExists = $session->topicExists( $web, $topic );
 
@@ -821,8 +822,7 @@ sub _handleSquareBracketedLink {
 
             # [[][]] style - protect text:
             # Prevent automatic WikiWord or CAPWORD linking in explicit links
-            $text =~
-              s((?<=[\s\(])
+            $text =~ s((?<=[\s\(])
                 ($Foswiki::regex{wikiWordRegex}
                 | [$Foswiki::regex{upperAlpha}]))
                (<nop>$1)gox;
@@ -837,8 +837,7 @@ sub _handleSquareBracketedLink {
                 # '[[URL#anchor display text]]' link:
                 $link = $1;
                 $text = $2;
-                $text =~
-                  s((?<=[\s\(])
+                $text =~ s((?<=[\s\(])
                     ($Foswiki::regex{wikiWordRegex}
                     | [$Foswiki::regex{upperAlpha}]))
                    (<nop>$1)gox;
@@ -1342,16 +1341,14 @@ s/$STARTWW((mailto\:)?$Foswiki::regex{emailAddrRegex})$ENDWW/_mailLink( $this, $
 
     # Spaced-out Wiki words with alternative link text
     # i.e. [[$1][$3]]
-    $text =~
-      s(\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\])
+    $text =~ s(\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\])
         (_handleSquareBracketedLink( $this,$topicObject,$1,$3))ge;
 
     unless ( Foswiki::isTrue( $prefs->getPreference('NOAUTOLINK') ) ) {
 
         # Handle WikiWords
         $text = Foswiki::takeOutBlocks( $text, 'noautolink', $removed );
-        $text =~
-          s($STARTWW
+        $text =~ s($STARTWW
             (?:($Foswiki::regex{webNameRegex})\.)?
             ($Foswiki::regex{wikiWordRegex}|
                 $Foswiki::regex{abbrevRegex})

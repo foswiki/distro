@@ -13,6 +13,7 @@ sub new {
     $this->{size} ||= 0;
     $this->{size} =~ s/\D//g;
     $this->{size} ||= 0;
+
     # SMELL: Non-zero -columns attribute forces CGI::radio_group() to use
     #        HTML3 tables for layout
     $this->{size} = 4 if ( $this->{size} < 1 );

@@ -13,6 +13,7 @@ package Foswiki::Plurals;
 use strict;
 use warnings;
 use Assert;
+
 =begin TML
 
 ---++ StaticMethod singularForm($web, $pluralForm) -> $singularForm
@@ -47,12 +48,12 @@ sub singularForm {
 
     # Topic name is plural in form
     my $singularForm = $pluralForm;
-    $singularForm =~ s/ies$/y/;        # plurals like policy / policies
-    $singularForm =~ s/sses$/ss/;      # plurals like address / addresses
-    $singularForm =~ s/ches$/ch/;      # plurals like search / searches
-    $singularForm =~ s/(oes|os)$/o/;   # plurals like veto / vetoes
-    $singularForm =~ s/(?<=[Xx])es$//; # plurals like box / boxes
-    $singularForm =~ s/(?<=[^s])s$//;  # others, excluding ss like address(es)
+    $singularForm =~ s/ies$/y/;          # plurals like policy / policies
+    $singularForm =~ s/sses$/ss/;        # plurals like address / addresses
+    $singularForm =~ s/ches$/ch/;        # plurals like search / searches
+    $singularForm =~ s/(oes|os)$/o/;     # plurals like veto / vetoes
+    $singularForm =~ s/(?<=[Xx])es$//;   # plurals like box / boxes
+    $singularForm =~ s/(?<=[^s])s$//;    # others, excluding ss like address(es)
     return $singularForm;
 }
 

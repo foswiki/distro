@@ -18,8 +18,8 @@ use strict;
 use warnings;
 use Assert;
 
-use Foswiki ();
-use Foswiki::Plugins ();
+use Foswiki                                    ();
+use Foswiki::Plugins                           ();
 use Foswiki::Contrib::MailerContrib::WebNotify ();
 
 =begin TML

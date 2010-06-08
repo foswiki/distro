@@ -75,7 +75,7 @@ sub set_up {
 
     # Must create a new wiki object to force re-registration of users
     $Foswiki::cfg{EnableEmail} = 1;
-	$this->{session}->finish();
+    $this->{session}->finish();
     $this->{session} = new Foswiki();
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     @FoswikiFnTestCase::mails = ();
@@ -147,8 +147,8 @@ sub set_up {
 
         # Comma separated list of subscriptions
         {
-            email     => "email4\@example.com",
-            entry     => "email4\@example.com: TestTopic1 (0), 'TestTopic2' (3)",
+            email => "email4\@example.com",
+            entry => "email4\@example.com: TestTopic1 (0), 'TestTopic2' (3)",
             topicsout => "TestTopic1 TestTopic2 TestTopic21"
         },
 
@@ -156,7 +156,7 @@ sub set_up {
         {
             email => "email5\@example.com",
             entry =>
-              "email5\@example.com: TestTopic1 + 'TestTopic2'(3), -'TestTopic21'",
+"email5\@example.com: TestTopic1 + 'TestTopic2'(3), -'TestTopic21'",
             topicsout => "TestTopic1 TestTopic2"
         },
 
@@ -218,7 +218,7 @@ sub set_up {
 
         for my $testTopic ( keys %expectedRevs ) {
             my $parent = 'WebHome';
-            if( $testTopic =~ /^TestTopic(\d+)\d$/ ) {
+            if ( $testTopic =~ /^TestTopic(\d+)\d$/ ) {
                 $parent = 'TestTopic' . $1;
             }
             $meta = Foswiki::Meta->new( $this->{session}, $web, $testTopic );
@@ -398,7 +398,8 @@ sub testCovers {
     $this->assert( !$s1->covers($s2) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-        $Foswiki::Contrib::MailerContrib::Constants::ALWAYS | $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        $Foswiki::Contrib::MailerContrib::Constants::ALWAYS |
+          $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
@@ -508,20 +509,20 @@ HERE
 sub testExpansion_1847 {
     my $this = shift;
 
-    my $testTopic = 'TestTopicWebExpansion';
-    my $testEmail = 'email1847@example.com';
+    my $testTopic   = 'TestTopicWebExpansion';
+    my $testEmail   = 'email1847@example.com';
     my %shouldMatch = (
-        WEB => $this->{test_web},
-        BASEWEB => $this->{test_web},
-        INCLUDINGWEB => $this->{test_web},
-        TOPIC => $testTopic,
-        BASETOPIC => $testTopic,
+        WEB            => $this->{test_web},
+        BASEWEB        => $this->{test_web},
+        INCLUDINGWEB   => $this->{test_web},
+        TOPIC          => $testTopic,
+        BASETOPIC      => $testTopic,
         INCLUDINGTOPIC => $testTopic,
     );
     my @token = map {
         my $type = $_;
         map { $_ . $type } ( '', BASE => 'INCLUDING' );
-        } qw( WEB TOPIC );
+    } qw( WEB TOPIC );
     my $testContent = join "\n", map { "$_: \%$_\%" } @token;
 
     # Create a WebNotify matching our topic
@@ -533,11 +534,11 @@ sub testExpansion_1847 {
         $meta, "   * $testEmail: $testTopic!", $meta );
 
     # Fill our topic with our test data
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $testTopic );
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testTopic );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $testTopic,
-        $meta, "This is $testTopic so there", $meta );
+    Foswiki::Func::saveTopic( $this->{test_web}, $testTopic, $meta,
+        "This is $testTopic so there", $meta );
 
     # stamp the baseline
     my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
@@ -551,8 +552,11 @@ sub testExpansion_1847 {
     # wait a wee bit for the clock to tick over
     sleep(1);
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $testTopic,
-        $meta, "<noautolink>$testContent\n</noautolink>", { forcenewrevision => 1 } );
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, $testTopic, $meta,
+        "<noautolink>$testContent\n</noautolink>",
+        { forcenewrevision => 1 }
+    );
 
     # Launch mailNotify
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
@@ -564,7 +568,7 @@ sub testExpansion_1847 {
         my $mailto = $1;
         $this->assert( $mailto, $message );
         $this->assert_str_equals( $testEmail, $mailto, $mailto );
-        while( my( $key, $value ) = each %shouldMatch ) {
+        while ( my ( $key, $value ) = each %shouldMatch ) {
             $this->assert_matches( qr/^$key: $value$/m, $message );
         }
     }
@@ -582,8 +586,9 @@ HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
 
-    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
    * %USERSWEB%.TestUser1: SpringCabbage
@@ -631,8 +636,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'WebIndex'
         )
     );
-    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
         $wn->stringify(1) );
@@ -650,8 +655,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'WebHome'
         )
     );
-    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
         $wn->stringify(1) );
@@ -664,8 +669,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'WebHome'
         )
     );
-    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
 
     #removing * results in nothing.
@@ -689,8 +694,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
         $wn->stringify(1) );
@@ -713,8 +718,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: WebHome (2) $topicList\n",
         $wn->stringify(1) );
@@ -738,8 +743,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
@@ -766,8 +771,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $this->{test_web},
+    $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
@@ -801,11 +806,11 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
 
-  #TODO: not quite implemented - needs a 'covers' test
-  #$wn =
-  #  new Foswiki::Contrib::MailerContrib::WebNotify(
-  #    $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-  #$this->assert_str_equals( "   * $who: WebIndex\n", $wn->stringify(1) );
+    #TODO: not quite implemented - needs a 'covers' test
+    #$wn =
+    #  new Foswiki::Contrib::MailerContrib::WebNotify(
+    #    $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    #$this->assert_str_equals( "   * $who: WebIndex\n", $wn->stringify(1) );
 }
 
 1;

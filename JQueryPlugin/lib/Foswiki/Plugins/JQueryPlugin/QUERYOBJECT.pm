@@ -1,8 +1,8 @@
 # See bottom of file for license and copyright information
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-# 
-# Copyright (C) 2006-2010 Blair Mitchelmore 
-#   (blair DOT mitchelmore AT gmail DOT com) 
+#
+# Copyright (C) 2006-2010 Blair Mitchelmore
+#   (blair DOT mitchelmore AT gmail DOT com)
 #   Licensed under the WTFPL (http://sam.zoy.org/wtfpl/).
 #
 # Packaged for Foswiki by Paul.W.Harvey@csiro.au - www.taxonomy.org.au
@@ -30,19 +30,22 @@ Constructor
 =cut
 
 sub new {
-  my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
+    my $class = shift;
+    my $session = shift || $Foswiki::Plugins::SESSION;
 
-  my $this = bless($class->SUPER::new( 
-    $session,
-    name => 'QueryObject',
-    version => '2.1.7',
-    author => 'Blair Mitchelmore',
-    homepage => 'http://plugins.jquery.com/project/query-object',
-    javascript => ['jquery.queryobject.js']
-  ), $class);
+    my $this = bless(
+        $class->SUPER::new(
+            $session,
+            name       => 'QueryObject',
+            version    => '2.1.7',
+            author     => 'Blair Mitchelmore',
+            homepage   => 'http://plugins.jquery.com/project/query-object',
+            javascript => ['jquery.queryobject.js']
+        ),
+        $class
+    );
 
-  return $this;
+    return $this;
 }
 
 1;

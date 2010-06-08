@@ -59,10 +59,11 @@ sub stringify {
     my $record = $this->{topics};
 
     # Protect non-alphanumerics in topic name
-    if ($record =~ /[^*\w.]/) {
-        if ($record =~ /'/) {
+    if ( $record =~ /[^*\w.]/ ) {
+        if ( $record =~ /'/ ) {
             $record = "\"$record\"";
-        } else {
+        }
+        else {
             $record = "'$record'";
         }
     }
@@ -153,8 +154,12 @@ specified in WebNotify.
 sub getMode {
     my $this = shift;
 
-    if ( $this->{options} & $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC ) {
-        return '!' if ( $this->{options} & $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
+    if ( $this->{options} &
+        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC )
+    {
+        return '!'
+          if ( $this->{options} &
+            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
         return '?';
     }
     return '';

@@ -414,8 +414,8 @@ sub searchWeb {
     # Remove trailing separator or new line if nofinalnewline parameter is set
     my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1 );
     if ( $formatDefined && $noFinalNewline ) {
-        if ($params{separator}) {
-            my $separator = quotemeta($params{separator});
+        if ( $params{separator} ) {
+            my $separator = quotemeta( $params{separator} );
             $searchResult =~ s/$separator$//s;    # remove separator at end
         }
         else {
@@ -696,16 +696,17 @@ sub formatResults {
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
 
-    my $web = $baseWeb;
-    my $webObject = new Foswiki::Meta( $session, $web );
+    my $web              = $baseWeb;
+    my $webObject        = new Foswiki::Meta( $session, $web );
     my $lastWebProcessed = '';
+
     #total number of topics and hits - not reset when we swap webs
-    my $ttopics          = 0;
-    my $thits            = 0;
+    my $ttopics = 0;
+    my $thits   = 0;
 
     while ( $infoCache->hasNext() ) {
         my $listItem = $infoCache->next();
-        ASSERT(defined($listItem)) if DEBUG;
+        ASSERT( defined($listItem) ) if DEBUG;
 
         #pager..
         if ( defined( $params->{pager_skip_results_from} )
@@ -718,23 +719,25 @@ sub formatResults {
         #############################################################
         #TOPIC specific
         my $topic = $listItem;
-        my $text;       #undef means the formatResult() gets it from $info->text;
+        my $text;    #undef means the formatResult() gets it from $info->text;
         my $info;
         my @multipleHitLines = ();
-        if (($infoCache->isa('Foswiki::Search::ResultSet')) or  #SEARCH
-            ($infoCache->isa('Foswiki::Search::InfoCache')))    #FOREACH
+        if (
+            ( $infoCache->isa('Foswiki::Search::ResultSet') ) or    #SEARCH
+            ( $infoCache->isa('Foswiki::Search::InfoCache') )
+          )                                                         #FOREACH
         {
             ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
-    # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
+# add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
             if ( my $cache = $session->{cache} ) {
                 $cache->addDependency( $web, $topic );
             }
 
             $info = $this->metacache->get( $web, $topic );
 
-    # Check security (don't show topics the current user does not have permission to view)
+# Check security (don't show topics the current user does not have permission to view)
             next unless $info->{allowView};
 
             # Special handling for format='...'
@@ -751,14 +754,15 @@ sub formatResults {
                     $text = $info->{tom}->expandMacros($text);
                 }
             }
+
             #TODO: should extract this somehow
-            
+
             if ( $doMultiple && $query->{tokens} ) {
 
                 #TODO: i wonder if this shoudl be a HoistRE..
                 #TODO: well, um, and how does this work for query search?
-                my @tokens  = @{ $query->{tokens} };
-                my $pattern = $tokens[$#tokens];       # last token in an AND search
+                my @tokens = @{ $query->{tokens} };
+                my $pattern = $tokens[$#tokens];   # last token in an AND search
                 $pattern = quotemeta($pattern) if ( $type ne 'regex' );
                 $text = $info->{tom}->text() unless defined $text;
                 $text = '' unless defined $text;
@@ -829,7 +833,7 @@ sub formatResults {
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
                             $processedfooter =~
-                              s/\n$//os;             # remove trailing new line
+                              s/\n$//os;    # remove trailing new line
 
                             if ( defined($separator) ) {
 
@@ -944,14 +948,14 @@ sub formatResults {
 #or do i need a formatCommon sub that formatResult can also call.. (which then goes into the callback?
                 $out = $this->formatResult(
                     $format,
-                    $info->{tom} || $webObject,                 #SMELL: horrid hack
+                    $info->{tom} || $webObject,    #SMELL: horrid hack
                     $text,
                     $searchOptions,
                     {
                         '\$ntopics' => sub { return $ntopics },
                         '\$nhits'   => sub { return $nhits },
                         '\$index'   => sub { return $thits },
-                        '\$item'   => sub { return $listItem },
+                        '\$item'    => sub { return $listItem },
 
                         %pager_formatting,
 
@@ -978,7 +982,7 @@ sub formatResults {
                         },
 
                    #TODO: hacky bits that need to be moved out of formatResult()
-                        '$revNum'     => sub { return ($info->{revNum} || 0); },
+                        '$revNum' => sub { return ( $info->{revNum} || 0 ); },
                         '$doBookView' => sub { return $doBookView; },
                         '$baseWeb'    => sub { return $baseWeb; },
                         '$baseTopic'  => sub { return $baseTopic; },
@@ -1114,10 +1118,11 @@ sub formatResult {
 
     #SMELL: hack to stop non-topic based FOREACH's from doing topic code
     #TODO: this should be extracted into the customKeys above
-    $out =
-      $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out ) if (defined($topic));
+    $out = $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out )
+      if ( defined($topic) );
 
-    if ( $out =~ m/\$text/ and defined($topic)) {               #TODO: don't muck with text if we're not even a topic
+    if ( $out =~ m/\$text/ and defined($topic) )
+    {    #TODO: don't muck with text if we're not even a topic
         $text = $topicObject->text() unless defined $text;
         $text = '' unless defined $text;
 
@@ -1157,8 +1162,9 @@ sub formatResult {
 
     }
     else {
+
         #TODO: more topic specific bits
-        if (defined($topic)) {
+        if ( defined($topic) ) {
             $out =~ s/\$summary(?:\(([^\)]*)\))?/
               $topicObject->summariseText( $1, $text, $searchOptions )/ges;
             $out =~ s/\$changes(?:\(([^\)]*)\))?/
@@ -1172,10 +1178,11 @@ sub formatResult {
             $out =~ s/\$formname/$topicObject->getFormName()/ges;
             $out =~ s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
 
-       # FIXME: Allow all regex characters but escape them
-       # Note: The RE requires a .* at the end of a pattern to avoid false positives
-       # in pattern matching
-            $out =~ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
+   # FIXME: Allow all regex characters but escape them
+   # Note: The RE requires a .* at the end of a pattern to avoid false positives
+   # in pattern matching
+            $out =~
+              s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
         }
         $out =~ s/\r?\n/$newLine/gos if ($newLine);
         if ( !defined($separator) ) {

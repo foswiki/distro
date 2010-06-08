@@ -74,6 +74,7 @@ sub viewfile {
 
         # work out the web, topic and filename
         $web = '';
+
         # Note that this assumes path_info is untainted
         while ( $path[0]
             && ( $session->webExists( $web . $path[0] ) ) )
@@ -82,7 +83,7 @@ sub viewfile {
         }
 
         # The web name has been validated, untaint
-        chop($web);                          # trailing /
+        chop($web);    # trailing /
         $web = Foswiki::Sandbox::untaintUnchecked($web);
 
         # The next element on the path has to be the topic name
@@ -107,9 +108,8 @@ sub viewfile {
 
     # Note that there may be directories below the pub/web/topic, so
     # simply sanitizing the attachment name won't work.
-    $fileName = Foswiki::Sandbox::untaint(
-        $fileName,
-        \&Foswiki::Sandbox::validateAttachmentName);
+    $fileName = Foswiki::Sandbox::untaint( $fileName,
+        \&Foswiki::Sandbox::validateAttachmentName );
 
     if ( !$fileName ) {
         throw Foswiki::OopsException(

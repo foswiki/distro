@@ -65,7 +65,9 @@ while ($it->hasNext()) {
 
 sub hasNext {
     my ($this) = @_;
-    return 1 if defined($this->{next});         #SMELL: this is still wrong if the array element == undef, but at least means zero is an element
+    return 1
+      if defined( $this->{next} )
+    ; #SMELL: this is still wrong if the array element == undef, but at least means zero is an element
     my $n;
     do {
         if ( $this->{list} && $this->{index} < scalar( @{ $this->{list} } ) ) {

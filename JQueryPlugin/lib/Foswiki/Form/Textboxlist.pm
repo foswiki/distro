@@ -9,11 +9,11 @@ use strict;
 use warnings;
 
 sub new {
-  my $class = shift;
-  my $this  = $class->SUPER::new(@_);
+    my $class = shift;
+    my $this  = $class->SUPER::new(@_);
 
-  Foswiki::Plugins::JQueryPlugin::createPlugin("textboxlist");
-  return $this;
+    Foswiki::Plugins::JQueryPlugin::createPlugin("textboxlist");
+    return $this;
 }
 
 sub isMultiValued { return 1; }
@@ -21,60 +21,67 @@ sub isMultiValued { return 1; }
 sub getDefaultValue { undef }
 
 sub renderForEdit {
-  my ($this, $param1, $param2, $param3) = @_;
+    my ( $this, $param1, $param2, $param3 ) = @_;
 
-  my $value;
-  my $web;
-  my $topic;
-  my $topicObject;
-  if (ref($param1)) { # Foswiki > 1.1
-    $topicObject = $param1;
-    $value = $param2;
-  } else {
-    $web = $param1;
-    $topic = $param2;
-    $value = $param3;
-  }
-
-  my @values = @{$this->SUPER::getOptions()};
-  my $metadata = '';
-  if (@values) {
-    if (scalar(@values) == 1 && $values[0] =~ /^https?:/) {
-      $metadata = "{autocomplete: '$values[0]'}";
-    } else {
-      $metadata = "{autocomplete: ['".join("', '", map {$_ =~ s/(["'])/\\$1/g; $_} @values)."']}";
+    my $value;
+    my $web;
+    my $topic;
+    my $topicObject;
+    if ( ref($param1) ) {    # Foswiki > 1.1
+        $topicObject = $param1;
+        $value       = $param2;
     }
-  }
+    else {
+        $web   = $param1;
+        $topic = $param2;
+        $value = $param3;
+    }
 
-  my $field = CGI::textfield(
-    -class => $this->cssClasses("foswikiInputField jqTextboxList $metadata"),
-    -name  => $this->{name},
-    -size  => $this->{size},
-    -value => $value,
-    -id  => $this->{name},
-  );
+    my @values   = @{ $this->SUPER::getOptions() };
+    my $metadata = '';
+    if (@values) {
+        if ( scalar(@values) == 1 && $values[0] =~ /^https?:/ ) {
+            $metadata = "{autocomplete: '$values[0]'}";
+        }
+        else {
+            $metadata =
+                "{autocomplete: ['"
+              . join( "', '", map { $_ =~ s/(["'])/\\$1/g; $_ } @values )
+              . "']}";
+        }
+    }
 
-  # SMELLL: in case this gets loaded via ajax
-  $field .= "<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.init.js'></script>";
+    my $field = CGI::textfield(
+        -class =>
+          $this->cssClasses("foswikiInputField jqTextboxList $metadata"),
+        -name  => $this->{name},
+        -size  => $this->{size},
+        -value => $value,
+        -id    => $this->{name},
+    );
 
-  return ('',$field);
+    # SMELLL: in case this gets loaded via ajax
+    $field .=
+"<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.init.js'></script>";
+
+    return ( '', $field );
 }
 
 sub getOptions {
-  my $this = shift;
+    my $this = shift;
 
-  my $query = Foswiki::Func::getCgiQuery();
+    my $query = Foswiki::Func::getCgiQuery();
 
-  # trick this in
-  my @values = ();
-  my @valuesFromQuery = $query->param($this->{name});
-  foreach my $item (@valuesFromQuery) {
-    foreach my $value (split(/\s*,\s*/, $item)) {
-      push @values, $value if $value;
+    # trick this in
+    my @values          = ();
+    my @valuesFromQuery = $query->param( $this->{name} );
+    foreach my $item (@valuesFromQuery) {
+        foreach my $value ( split( /\s*,\s*/, $item ) ) {
+            push @values, $value if $value;
+        }
     }
-  }
 
-  return \@values;
+    return \@values;
 }
 
 1;

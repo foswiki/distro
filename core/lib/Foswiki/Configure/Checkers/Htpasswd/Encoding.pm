@@ -17,34 +17,37 @@ sub check {
 
     if ( $enc eq 'md5' ) {
         my $dep = new Foswiki::Configure::Dependency(
-            type => "cpan", 
-            module => "Digest::MD5", 
+            type    => "cpan",
+            module  => "Digest::MD5",
             version => ">0"
         );
         my ( $ok, $message ) = $dep->check();
         if ($ok) {
             $e = $this->NOTE($message);
-        } else {
+        }
+        else {
             $e = $this->ERROR($message);
         }
     }
     elsif ( $enc eq 'sha1' ) {
         my $dep = new Foswiki::Configure::Dependency(
-            type => "cpan", 
-            module => "Digest::SHA", 
+            type    => "cpan",
+            module  => "Digest::SHA",
             version => ">0"
         );
         my ( $ok, $message ) = $dep->check();
         if ($ok) {
             $e = $this->NOTE($message);
-        } else {
+        }
+        else {
             $e = $this->ERROR($message);
         }
     }
     elsif (( $enc eq 'crypt-md5' )
-            && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) ) {
+        && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
+    {
         $e = $this->ERROR("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
-        }
+    }
 
     return $e;
 }

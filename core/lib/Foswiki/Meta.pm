@@ -199,18 +199,18 @@ sub new {
     );
 
     # Normalise web path (replace [./]+ with /)
-    if (defined $web) {
-        ASSERT(UNTAINTED($web), 'web is tainted') if DEBUG;
+    if ( defined $web ) {
+        ASSERT( UNTAINTED($web), 'web is tainted' ) if DEBUG;
         $web =~ tr#/.#/#s;
     }
 
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.
 
-    $this->{_web}   = $web;
+    $this->{_web} = $web;
 
-    ASSERT(UNTAINTED($topic), 'topic is tainted')
-      if (DEBUG && defined $topic);
+    ASSERT( UNTAINTED($topic), 'topic is tainted' )
+      if ( DEBUG && defined $topic );
 
     $this->{_topic} = $topic;
 
@@ -227,7 +227,7 @@ sub new {
     $this->{FILEATTACHMENT} = [];
 
     if ( defined $text ) {
-        ASSERT( defined($web), 'web is not defined') if DEBUG;
+        ASSERT( defined($web),   'web is not defined' )   if DEBUG;
         ASSERT( defined($topic), 'topic is not defined' ) if DEBUG;
         $this->setEmbeddedStoreForm($text);
     }
@@ -377,7 +377,7 @@ sub getContainer {
     if ( $this->{_web} ) {
         return Foswiki::Meta->new( $this->{_session} );
     }
-    ASSERT(0, 'no container for this object type') if DEBUG;
+    ASSERT( 0, 'no container for this object type' ) if DEBUG;
     return;
 }
 
@@ -489,8 +489,8 @@ perhaps refactor into something that takes a resultset as an input list? (users 
 
 sub populateNewWeb {
     my ( $this, $templateWeb, $opts ) = @_;
-    ASSERT( $this->{_web} && !$this->{_topic},
-            'this is not a web object' ) if DEBUG;
+    ASSERT( $this->{_web} && !$this->{_topic}, 'this is not a web object' )
+      if DEBUG;
 
     my $session = $this->{_session};
 
@@ -498,8 +498,8 @@ sub populateNewWeb {
 
     if ($parent) {
         unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
-            throw Error::Simple(
-                'Unable to create ' . $this->{_web}
+            throw Error::Simple( 'Unable to create '
+                  . $this->{_web}
                   . '- Hierarchical webs are disabled' );
         }
 
@@ -652,8 +652,8 @@ Return an iterator over each topic name in the web. Only valid on webs.
 
 sub eachTopic {
     my ($this) = @_;
-    ASSERT( $this->{_web} && !$this->{_topic},
-            'this is not a web object' ) if DEBUG;
+    ASSERT( $this->{_web} && !$this->{_topic}, 'this is not a web object' )
+      if DEBUG;
     if ( !$this->{_web} ) {
 
         # Root
@@ -678,8 +678,8 @@ only lists the attachments that are normally visible to the user.
 
 sub eachAttachment {
     my ($this) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_session}->{store}->eachAttachment($this);
 }
 
@@ -699,9 +699,10 @@ Only valid for a web.
 
 sub eachChange {
     my ( $this, $time ) = @_;
+
     # not valid at root level
-    ASSERT( $this->{_web} && !$this->{_topic},
-            'this is not a web object' ) if DEBUG;
+    ASSERT( $this->{_web} && !$this->{_topic}, 'this is not a web object' )
+      if DEBUG;
     return $this->{_session}->{store}->eachChange( $this, $time );
 }
 
@@ -764,6 +765,7 @@ sub reload {
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
+
     # If the topic was not found on disk, then there is no text to load and
     # _text will be undef. If we leave it that way, then ->text will force
     # a reload again, so _text must be given a value.
@@ -772,8 +774,10 @@ sub reload {
     if ( defined $this->{_loadedRev} ) {
 
         # Make sure it's a simple integer
-        ASSERT( $this->{_loadedRev} =~ /^\d+$/,
-                "bad loaded rev $this->{_loadedRev}" ) if DEBUG;
+        ASSERT(
+            $this->{_loadedRev} =~ /^\d+$/,
+            "bad loaded rev $this->{_loadedRev}"
+        ) if DEBUG;
 
         $this->{_preferences}->finish() if defined $this->{_preferences};
         $this->{_preferences} = undef;
@@ -795,14 +799,14 @@ Be Warned - it can return undef - when a topic exists but has no topicText.
 
 sub text {
     my ( $this, $val ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     if ( defined($val) ) {
         $this->{_text} = $val;
     }
     else {
 
-      # Lazy load. Reload with no params will reload the _loadedRev,
+        # Lazy load. Reload with no params will reload the _loadedRev,
         # or load the latest if that is not defined.
         $this->reload() unless defined( $this->{_text} );
     }
@@ -825,8 +829,8 @@ $meta->put( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' } );
 
 sub put {
     my ( $this, $type, $args ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     ASSERT( defined $type ) if DEBUG;
     ASSERT( defined $args && ref($args) eq 'HASH' ) if DEBUG;
 
@@ -873,10 +877,10 @@ $meta->putKeyed( 'FIELD',
 
 sub putKeyed {
     my ( $this, $type, $args ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     ASSERT($type) if DEBUG;
-    ASSERT($args && ref($args) eq 'HASH') if DEBUG;
+    ASSERT( $args && ref($args) eq 'HASH' ) if DEBUG;
     my $keyName = $args->{name};
     ASSERT( $keyName, join( ',', keys %$args ) ) if DEBUG;
 
@@ -916,8 +920,8 @@ $meta->putAll( 'FIELD',
 
 sub putAll {
     my ( $this, $type, @array ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my %indices;
     for ( my $i = 0 ; $i < scalar(@array) ; $i++ ) {
@@ -951,8 +955,8 @@ my $topicinfo = $meta->get( 'TOPICINFO' ); # get the TOPICINFO hash
 
 sub get {
     my ( $this, $type, $name ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $data = $this->{$type};
     if ($data) {
@@ -987,8 +991,8 @@ my $attachments = $meta->find( 'FILEATTACHMENT' );
 
 sub find {
     my ( $this, $type ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $itemsr = $this->{$type};
     my @items  = ();
@@ -1015,8 +1019,8 @@ With a $type and a $key it will remove only the specific item.
 
 sub remove {
     my ( $this, $type, $name ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     if ($type) {
         my $data = $this->{$type};
@@ -1070,10 +1074,11 @@ Does *not* copy web, topic or text.
 
 sub copyFrom {
     my ( $this, $other, $type, $filter ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     ASSERT( $other->isa('Foswiki::Meta') && $other->{_web} && $other->{_topic},
-            'other is not a topic object' ) if DEBUG;
+        'other is not a topic object' )
+      if DEBUG;
 
     if ($type) {
         return if $type =~ /^_/;
@@ -1107,8 +1112,8 @@ Return the number of entries of the given type
 
 sub count {
     my ( $this, $type ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     my $data = $this->{$type};
 
     return scalar @$data if ( defined($data) );
@@ -1130,8 +1135,8 @@ Set TOPICINFO information on the object, as specified by the parameters.
 
 sub setRevisionInfo {
     my ( $this, %data ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $ti = $this->get('TOPICINFO') || {};
 
@@ -1163,8 +1168,8 @@ Return revision info for the loaded revision in %info with at least:
 
 sub getRevisionInfo {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $info;
 
@@ -1201,8 +1206,8 @@ sub getRevisionInfo {
 # should be done away with.
 sub getRev1Info {
     my ( $this, $attr ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
 #my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb}, $webtopic );
     my $web   = $this->web;
@@ -1265,10 +1270,11 @@ Merge the data in the other meta block.
 
 sub merge {
     my ( $this, $other, $formDef ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     ASSERT( $other->isa('Foswiki::Meta') && $other->{_web} && $other->{_topic},
-            'other is not a topic object' ) if DEBUG;
+        'other is not a topic object' )
+      if DEBUG;
 
     my $data = $other->{FIELD};
     if ($data) {
@@ -1328,8 +1334,8 @@ with the result of \&fn.
 
 sub forEachSelectedValue {
     my ( $this, $types, $keys, $fn, $options ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     $types ||= qr/^[A-Z]+$/;
     $keys  ||= qr/^[a-z]+$/;
@@ -1395,8 +1401,8 @@ Render the form contained in the meta for display.
 
 sub renderFormForDisplay {
     my ($this) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $fname = $this->getFormName();
 
@@ -1407,11 +1413,11 @@ sub renderFormForDisplay {
     my $form;
     my $result;
     try {
-        $form = new Foswiki::Form(
-            $this->{_session}, $this->{_web}, $fname );
+        $form = new Foswiki::Form( $this->{_session}, $this->{_web}, $fname );
         $result = $form->renderForDisplay($this);
     }
     catch Foswiki::OopsException with {
+
         # Make pseudo-form from field data
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
@@ -1435,8 +1441,8 @@ is rendered.
 
 sub renderFormFieldForDisplay {
     my ( $this, $name, $format, $attrs ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $value;
     my $mf = $this->get( 'FIELD', $name );
@@ -1466,7 +1472,9 @@ sub renderFormFieldForDisplay {
             if ($field) {
                 return $field->renderForDisplay( $format, $value, $attrs );
             }
-        } catch Foswiki::OopsException with {
+        }
+        catch Foswiki::OopsException with {
+
             # Form not found, ignore
         };
     }
@@ -1633,8 +1641,8 @@ sub save {
     my $this = shift;
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
     my %opts = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $plugins = $this->{_session}->{plugins};
 
@@ -1738,9 +1746,9 @@ Returns the saved revision number.
 # SMELL: arguably save should only be permitted if the loaded rev of the object is the same as the
 # latest rev.
 sub saveAs {
-    my $this     = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    my $this = shift;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     my $newWeb   = shift;
     my $newTopic = shift;
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
@@ -1749,8 +1757,8 @@ sub saveAs {
 
     $this->{_web}   = $newWeb   if $newWeb;
     $this->{_topic} = $newTopic if $newTopic;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     $this->_atomicLock($cUID);
 
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
@@ -1896,10 +1904,10 @@ object $to. %opts may include:
 # latest rev.
 sub move {
     my ( $this, $to, %opts ) = @_;
-    ASSERT( $this->{_web},
-            'this is not a movable object' ) if DEBUG;
+    ASSERT( $this->{_web}, 'this is not a movable object' ) if DEBUG;
     ASSERT( $to->isa('Foswiki::Meta') && $to->{_web},
-            'to is not a moving target' ) if DEBUG;
+        'to is not a moving target' )
+      if DEBUG;
 
     my $cUID = $opts{user} || $this->{_session}->{user};
 
@@ -1975,8 +1983,8 @@ Delete (or elide) the most recent revision of this. Only works on topics.
 
 sub deleteMostRecentRevision {
     my ( $this, %opts ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     my $rev;
     my $cUID = $opts{user} || $this->{_session}->{user};
 
@@ -2013,8 +2021,8 @@ Only works on topics.
 sub replaceMostRecentRevision {
     my $this = shift;
     my %opts = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $cUID = $opts{user} || $this->{_session}->{user};
 
@@ -2078,8 +2086,8 @@ Not valid on webs. Returns a null iterator if no revisions exist.
 
 sub getRevisionHistory {
     my ( $this, $attachment ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_session}->{store}->getRevisionHistory( $this, $attachment );
 }
 
@@ -2115,8 +2123,8 @@ Only valid on topics.
 
 sub latestIsLoaded {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     return defined $this->{_loadedRev}
       && $this->{_loadedRev} == $this->getLatestRev();
@@ -2138,8 +2146,8 @@ rev may not be the actual latest version.
 
 sub getLoadedRev {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_loadedRev};
 }
 
@@ -2169,7 +2177,7 @@ sub removeFromStore {
     }
 
     if ( $attachment && !$this->hasAttachment($attachment) ) {
-        ASSERT($this->{topic}, 'this is not a removable object') if DEBUG;
+        ASSERT( $this->{topic}, 'this is not a removable object' ) if DEBUG;
         throw Error::Simple( 'No such attachment '
               . $this->{_web} . '.'
               . $this->{_topic} . '.'
@@ -2200,8 +2208,8 @@ Each difference is of the form [ $type, $right, $left ] where
 
 sub getDifferences {
     my ( $this, $rev2, $contextLines ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_session}->{store}
       ->getRevisionDiff( $this, $rev2, $contextLines );
 }
@@ -2219,8 +2227,8 @@ Returns a single-digit rev number or 0 if it couldn't be determined
 
 sub getRevisionAtTime {
     my ( $this, $time ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_session}->{store}->getRevisionAtTime( $this, $time );
 }
 
@@ -2236,8 +2244,8 @@ See =getLease= for more details about Leases.
 
 sub setLease {
     my ( $this, $length ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     my $t     = time();
     my $lease = {
         user    => $this->{_session}->{user},
@@ -2262,8 +2270,8 @@ another user is already editing a topic.
 
 sub getLease {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_session}->{store}->getLease($this);
 }
 
@@ -2279,8 +2287,8 @@ See =getLease= for more details about Leases.
 
 sub clearLease {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     $this->{_session}->{store}->setLease($this);
 }
 
@@ -2340,8 +2348,8 @@ $info will contain at least: date, author, version, comment
 
 sub getAttachmentRevisionInfo {
     my ( $this, $attachment, $fromrev ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     return $this->{_session}->{store}
       ->getAttachmentVersionInfo( $this, $fromrev, $attachment );
@@ -2388,8 +2396,8 @@ sub attach {
     my %opts = @_;
     my $action;
     my $plugins = $this->{_session}->{plugins};
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     if ( $opts{file} && !$opts{stream} ) {
         open( $opts{stream}, '<', $opts{file} )
@@ -2516,8 +2524,8 @@ Test if the named attachment exists. Only valid on topics.
 
 sub hasAttachment {
     my ( $this, $name ) = @_;
-    ASSERT($this->{_web} && $this->{_topic},
-           'this is not a topic object') if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return 1 if $this->{_session}->{store}->attachmentExists( $this, $name );
 
     # Store denies knowledge of it; check the meta, just in case it's
@@ -2561,8 +2569,8 @@ Errors will be signalled by an Error::Simple exception.
 
 sub testAttachment {
     my ( $this, $attachment, $test ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     $this->addDependency();
 
@@ -2606,8 +2614,8 @@ See also =attach= if this function is too basic for you.
 
 sub openAttachment {
     my ( $this, $attachment, $mode, @opts ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     return $this->{_session}->{store}
       ->openAttachment( $this, $attachment, $mode, @opts );
@@ -2630,10 +2638,9 @@ sub moveAttachment {
     my $to   = shift;
     my %opts = @_;
     my $cUID = $opts{user} || $this->{_session}->{user};
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
-    ASSERT( $to->{_web} && $to->{_topic},
-            'to is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
+    ASSERT( $to->{_web} && $to->{_topic}, 'to is not a topic object' ) if DEBUG;
 
     my $newName = $opts{new_name} || $name;
 
@@ -2713,10 +2720,10 @@ Only valid on topics.
 =cut
 
 sub expandNewTopic {
-    my ( $this ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
-    $this->{_session}->expandMacrosOnTopicCreation( $this );
+    my ($this) = @_;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
+    $this->{_session}->expandMacrosOnTopicCreation($this);
 }
 
 =begin TML
@@ -2731,7 +2738,8 @@ Only valid on topics.
 sub expandMacros {
     my ( $this, $text ) = @_;
     ASSERT( defined( $this->web ) && defined( $this->topic ),
-            'this is not a topic object') if DEBUG;
+        'this is not a topic object' )
+      if DEBUG;
 
     return $this->{_session}->expandMacros( $text, $this );
 }
@@ -2746,8 +2754,8 @@ Only valid on topics.
 
 sub renderTML {
     my ( $this, $text ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     return $this->{_session}->renderer->getRenderedVersion( $text, $this );
 }
 
@@ -2774,8 +2782,8 @@ TODO: should this really be in Meta? it seems like a rendering issue to me.
 
 sub summariseText {
     my ( $this, $flags, $text, $searchOptions ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     $flags ||= '';
 
@@ -2816,8 +2824,8 @@ TODO: should this really be in Meta? it seems like a rendering issue to me.
 
 sub _summariseTextSimple {
     my ( $this, $text, $limit ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     # SMELL: need to avoid splitting within multi-byte characters
     # by encoding bytes as Perl UTF-8 characters.
@@ -2964,8 +2972,8 @@ sub summariseChanges {
     my $session  = $this->session();
     my $renderer = $session->renderer();
 
-    ASSERT($this->{_web} && $this->{_topic},
-           'this is not a topic object') if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     $nrev = $this->getLatestRev() unless $nrev;
 
     $orev = $nrev - 1 unless defined($orev);
@@ -3078,8 +3086,8 @@ yay :/
 
 sub getEmbeddedStoreForm {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
     $this->{_text} ||= '';
 
     require Foswiki::Store;    # for encoding
@@ -3171,8 +3179,8 @@ Note: line endings must be normalised to \n *before* calling this method.
 
 sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
-    ASSERT( $this->{_web} && $this->{_topic},
-            'this is not a topic object' ) if DEBUG;
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
 
     my $format = $EMBEDDING_FORMAT_VERSION;
 

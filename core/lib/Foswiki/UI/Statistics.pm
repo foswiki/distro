@@ -61,6 +61,7 @@ sub statistics {
     $logDate =~ s/[^0-9]//g;    # remove all non numerals
 
     unless ( $session->inContext('command_line') ) {
+
         #SMELL: this prevents us from reporting errors
         $session->{response}->status(200);
 

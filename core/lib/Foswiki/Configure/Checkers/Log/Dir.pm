@@ -33,7 +33,7 @@ sub check {
     else {
         mkdir($ld)
           || return $this->ERROR(
-            "$ld does not exist, and I can't create it: $!" );
+            "$ld does not exist, and I can't create it: $!");
         $mess .= $this->NOTE("Created $ld");
     }
     my $e = $this->checkCanCreateFile("$ld/tmp.log");

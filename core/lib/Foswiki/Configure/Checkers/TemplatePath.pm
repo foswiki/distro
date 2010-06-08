@@ -36,7 +36,9 @@ sub check {
 
         my ( $dir, $file ) = $path =~ m#^\s*([^\$]+)(.*)$#;
 
-        if ( $dir && (substr( $dir, 0, 1 ) eq '/' || substr( $dir, 1, 1 ) eq ':' )) {
+        if ( $dir
+            && ( substr( $dir, 0, 1 ) eq '/' || substr( $dir, 1, 1 ) eq ':' ) )
+        {
             $e .= $this->ERROR("Path $dir not found, at $orig")
               unless ( -e $dir && -d $dir );
         }

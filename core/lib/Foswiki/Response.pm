@@ -50,7 +50,7 @@ sub new {
 
     #default to 500 in debug mode so we can shake out the missing Status's
     $this->{status} = 500 if DEBUG;
-    
+
     return bless $this, $class;
 }
 

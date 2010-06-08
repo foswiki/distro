@@ -11,18 +11,17 @@ Container for jQuery and plugins
 
 =cut
 
-use Foswiki::Plugins ();
+use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-use vars qw( 
-  $VERSION $RELEASE $SHORTDESCRIPTION 
+use vars qw(
+  $VERSION $RELEASE $SHORTDESCRIPTION
   $NO_PREFS_IN_TOPIC
 );
 
-
-$VERSION = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE = '3.60'; 
-$SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
+$VERSION           = '$Rev: 20090710 (2009-07-10) $';
+$RELEASE           = '3.60';
+$SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
 =begin TML
@@ -32,36 +31,38 @@ $NO_PREFS_IN_TOPIC = 1;
 =cut
 
 sub initPlugin {
-  my( $topic, $web, $user ) = @_;
+    my ( $topic, $web, $user ) = @_;
 
-  # check for prerequisites
-  if (!$Foswiki::cfg{Plugins}{ZonePlugin}{Enabled} && $Foswiki::Plugins::VERSION < 2.1) {
-    Foswiki::Func::writeWarning("ZonePlugin not installed/enabled...disabling JQueryPlugin");
-    return 0;
-  }
+    # check for prerequisites
+    if (  !$Foswiki::cfg{Plugins}{ZonePlugin}{Enabled}
+        && $Foswiki::Plugins::VERSION < 2.1 )
+    {
+        Foswiki::Func::writeWarning(
+            "ZonePlugin not installed/enabled...disabling JQueryPlugin");
+        return 0;
+    }
 
+    # jquery.foswiki
+    Foswiki::Func::registerTagHandler( 'JQTHEME',    \&handleJQueryTheme );
+    Foswiki::Func::registerTagHandler( 'JQREQUIRE',  \&handleJQueryRequire );
+    Foswiki::Func::registerTagHandler( 'JQICON',     \&handleJQueryIcon );
+    Foswiki::Func::registerTagHandler( 'JQICONPATH', \&handleJQueryIconPath );
+    Foswiki::Func::registerTagHandler( 'JQPLUGINS',  \&handleJQueryPlugins );
 
-  # jquery.foswiki 
-  Foswiki::Func::registerTagHandler('JQTHEME', \&handleJQueryTheme );
-  Foswiki::Func::registerTagHandler('JQREQUIRE', \&handleJQueryRequire );
-  Foswiki::Func::registerTagHandler('JQICON', \&handleJQueryIcon );
-  Foswiki::Func::registerTagHandler('JQICONPATH', \&handleJQueryIconPath );
-  Foswiki::Func::registerTagHandler('JQPLUGINS', \&handleJQueryPlugins );
+    # jquery.tabpane
+    Foswiki::Func::registerTagHandler( 'TABPANE',    \&handleTabPane );
+    Foswiki::Func::registerTagHandler( 'ENDTABPANE', \&handleEndTabPane );
+    Foswiki::Func::registerTagHandler( 'TAB',        \&handleTab );
+    Foswiki::Func::registerTagHandler( 'ENDTAB',     \&handleEndTab );
 
-  # jquery.tabpane
-  Foswiki::Func::registerTagHandler('TABPANE', \&handleTabPane );
-  Foswiki::Func::registerTagHandler('ENDTABPANE', \&handleEndTabPane );
-  Foswiki::Func::registerTagHandler('TAB', \&handleTab );
-  Foswiki::Func::registerTagHandler('ENDTAB', \&handleEndTab );
+    # jquery.button
+    Foswiki::Func::registerTagHandler( 'BUTTON', \&handleButton );
+    Foswiki::Func::registerTagHandler( 'CLEAR',  \&handleClear );
 
-  # jquery.button
-  Foswiki::Func::registerTagHandler('BUTTON', \&handleButton );
-  Foswiki::Func::registerTagHandler('CLEAR', \&handleClear );
+    # nukem
+    Foswiki::Plugins::JQueryPlugin::Plugins::init();
 
-  # nukem
-  Foswiki::Plugins::JQueryPlugin::Plugins::init();
-
-  return 1;
+    return 1;
 }
 
 =begin TML
@@ -73,7 +74,7 @@ SMELL: I'd prefer a proper finishHandler, alas it does not exist
 =cut
 
 sub modifyHeaderHandler {
-  Foswiki::Plugins::JQueryPlugin::Plugins::finish();
+    Foswiki::Plugins::JQueryPlugin::Plugins::finish();
 }
 
 =begin TML
@@ -86,7 +87,7 @@ and css files to the html page header.
 =cut
 
 sub createPlugin {
-  return Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin(@_);
+    return Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin(@_);
 }
 
 =begin TML
@@ -104,7 +105,7 @@ The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::PLUGIN c
 =cut
 
 sub registerPlugin {
-  return Foswiki::Plugins::JQueryPlugin::Plugins::registerPlugin(@_);
+    return Foswiki::Plugins::JQueryPlugin::Plugins::registerPlugin(@_);
 }
 
 =begin TML
@@ -116,10 +117,10 @@ Handles the =%<nop>BUTTON% tag.
 =cut
 
 sub handleButton {
-  my $session = shift;
-  my $plugin = createPlugin('Button', $session);
-  return $plugin->handleButton(@_) if $plugin;
-  return '';
+    my $session = shift;
+    my $plugin = createPlugin( 'Button', $session );
+    return $plugin->handleButton(@_) if $plugin;
+    return '';
 }
 
 =begin TML
@@ -131,12 +132,11 @@ Handles the =%<nop>TOGGLE% tag.
 =cut
 
 sub handleToggle {
-  my $session = shift;
-  my $plugin = createPlugin('Toggle', $session);
-  return $plugin->handleToggle(@_) if $plugin;
-  return '';
+    my $session = shift;
+    my $plugin = createPlugin( 'Toggle', $session );
+    return $plugin->handleToggle(@_) if $plugin;
+    return '';
 }
-
 
 =begin TML
 
@@ -147,10 +147,10 @@ Handles the =%<nop>TABPANE% tag.
 =cut
 
 sub handleTabPane {
-  my $session = shift;
-  my $plugin = createPlugin('Tabpane', $session);
-  return $plugin->handleTabPane(@_) if $plugin;
-  return '';
+    my $session = shift;
+    my $plugin = createPlugin( 'Tabpane', $session );
+    return $plugin->handleTabPane(@_) if $plugin;
+    return '';
 }
 
 =begin TML
@@ -162,10 +162,10 @@ Handles the =%<nop>TAB% tag.
 =cut
 
 sub handleTab {
-  my $session = shift;
-  my $plugin = createPlugin('Tabpane', $session);
-  return $plugin->handleTab(@_) if $plugin;
-  return '';
+    my $session = shift;
+    my $plugin = createPlugin( 'Tabpane', $session );
+    return $plugin->handleTab(@_) if $plugin;
+    return '';
 }
 
 =begin TML
@@ -177,10 +177,10 @@ Handles the =%<nop>ENDTAB% tag.
 =cut
 
 sub handleEndTab {
-  my $session = shift;
-  my $plugin = createPlugin('Tabpane', $session);
-  return $plugin->handleEndTab(@_) if $plugin;
-  return '';
+    my $session = shift;
+    my $plugin = createPlugin( 'Tabpane', $session );
+    return $plugin->handleEndTab(@_) if $plugin;
+    return '';
 }
 
 =begin TML
@@ -192,10 +192,10 @@ Handles the =%<nop>ENDTABPANE% tag.
 =cut
 
 sub handleEndTabPane {
-  my $session = shift;
-  my $plugin = createPlugin('Tabpane', $session);
-  return $plugin->handleEndTabPane(@_) if $plugin;
-  return '';
+    my $session = shift;
+    my $plugin = createPlugin( 'Tabpane', $session );
+    return $plugin->handleEndTabPane(@_) if $plugin;
+    return '';
 }
 
 =begin TML
@@ -210,7 +210,7 @@ way to clear using =%<nop>IMAGE{"clear"}%=.
 =cut
 
 sub handleClear {
-  return "<span class='foswikiClear'></span>";
+    return "<span class='foswikiClear'></span>";
 }
 
 =begin TML
@@ -222,18 +222,19 @@ Handles the =%<nop>JQREQUIRE% tag.
 =cut
 
 sub handleJQueryRequire {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
+    my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-  my $plugins = $params->{_DEFAULT} || '';
-  my $warn = $params->{warn} || '';
-  my $errorMsg = '';
-  foreach my $pluginName (split(/\s*,\s*/, $plugins)) {
-    my $plugin = createPlugin($pluginName, $session);
-    $errorMsg .= "<div class='foswikiAlert'>Error: no such plugin $pluginName</div>"
-      if !$plugin && $warn ne 'off' ;
-  }
+    my $plugins = $params->{_DEFAULT} || '';
+    my $warn    = $params->{warn}     || '';
+    my $errorMsg = '';
+    foreach my $pluginName ( split( /\s*,\s*/, $plugins ) ) {
+        my $plugin = createPlugin( $pluginName, $session );
+        $errorMsg .=
+          "<div class='foswikiAlert'>Error: no such plugin $pluginName</div>"
+          if !$plugin && $warn ne 'off';
+    }
 
-  return $errorMsg;
+    return $errorMsg;
 }
 
 =begin TML
@@ -245,12 +246,15 @@ Handles the =%<nop>JQTHEME% tag.
 =cut
 
 sub handleJQueryTheme {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
+    my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-  my $themeName = $params->{_DEFAULT} || $Foswiki::cfg{JQueryPlugin}{JQueryTheme} || 'base';
-  Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
+    my $themeName =
+         $params->{_DEFAULT}
+      || $Foswiki::cfg{JQueryPlugin}{JQueryTheme}
+      || 'base';
+    Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
 
-  return '';
+    return '';
 }
 
 =begin TML
@@ -262,10 +266,10 @@ Handles the =%<nop>JQICONPATH% tag.
 =cut
 
 sub handleJQueryIconPath {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
+    my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-  my $iconName = $params->{_DEFAULT} || '';
-  return Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
+    my $iconName = $params->{_DEFAULT} || '';
+    return Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
 }
 
 =begin TML
@@ -277,26 +281,28 @@ Handles the =%<nop>JQICON% tag.
 =cut
 
 sub handleJQueryIcon {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
+    my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-  my $iconName = $params->{_DEFAULT} || '';
-  my $iconAlt = $params->{alt} || $iconName;
-  my $iconTitle = $params->{title} || '';
-  my $iconPath = Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
-  
-  return '' unless $iconPath;
+    my $iconName  = $params->{_DEFAULT} || '';
+    my $iconAlt   = $params->{alt}      || $iconName;
+    my $iconTitle = $params->{title}    || '';
+    my $iconPath =
+      Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
 
-  my $iconClass = "foswikiIcon jqIcon";
-  $iconClass .= " $params->{class}" if $params->{class};
+    return '' unless $iconPath;
 
-  my $img = '<img src=\'$iconPath\' class=\'$iconClass\' $iconAlt$iconTitle/>';
-  $img =~ s/\$iconPath/$iconPath/g;
-  $img =~ s/\$iconClass/$iconClass/g;
-  $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
-  $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
-  $img =~ s/\$(iconAlt|iconTitle)//go;
+    my $iconClass = "foswikiIcon jqIcon";
+    $iconClass .= " $params->{class}" if $params->{class};
 
-  return $img;
+    my $img =
+      '<img src=\'$iconPath\' class=\'$iconClass\' $iconAlt$iconTitle/>';
+    $img =~ s/\$iconPath/$iconPath/g;
+    $img =~ s/\$iconClass/$iconClass/g;
+    $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
+    $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
+    $img =~ s/\$(iconAlt|iconTitle)//go;
+
+    return $img;
 }
 
 =begin TML
@@ -308,69 +314,71 @@ Handles the =%<nop>JQPLUGINS% tag.
 =cut
 
 sub handleJQueryPlugins {
-  my ($session, $params, $theTopic, $theWeb) = @_;   
+    my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-  my $thePlugin = $params->{_DEFAULT} || '';
-  my $theFormat = $params->{format};
-  my $theHeader = $params->{header} || '';
-  my $theFooter = $params->{footer} || '';
-  my $theSeparator = $params->{separator};
-  my $theTagFormat = $params->{tagformat};
+    my $thePlugin    = $params->{_DEFAULT} || '';
+    my $theFormat    = $params->{format};
+    my $theHeader    = $params->{header} || '';
+    my $theFooter    = $params->{footer} || '';
+    my $theSeparator = $params->{separator};
+    my $theTagFormat = $params->{tagformat};
 
-  $theFormat= '   1 <a href="$homepage">$name</a> $active $version $author'
-    unless defined $theFormat;
-  $theSeparator = '$n' 
-    unless defined $theSeparator;
-  $theTagFormat = '[[%SYSTEMWEB%.Var$tag][$tag]]' 
-    unless defined $theTagFormat;
+    $theFormat = '   1 <a href="$homepage">$name</a> $active $version $author'
+      unless defined $theFormat;
+    $theSeparator = '$n'
+      unless defined $theSeparator;
+    $theTagFormat = '[[%SYSTEMWEB%.Var$tag][$tag]]'
+      unless defined $theTagFormat;
 
-  my @plugins = Foswiki::Plugins::JQueryPlugin::Plugins::getPlugins($thePlugin);
+    my @plugins =
+      Foswiki::Plugins::JQueryPlugin::Plugins::getPlugins($thePlugin);
 
-  my @result;
-  my $counter = 0;
-  foreach my $plugin (@plugins) {
-    my $summary = $plugin->getSummary();
-    $summary =~ s/^\s+//;
-    $summary =~ s/\s+$//;
-    my $tags = '';
-    if ($theFormat =~ /\$tags/) {
-      my @tags = ();
-      foreach my $tag (sort split(/\s*,\s*/, $plugin->{tags})) {
-        my $line = $theTagFormat;
-        $line =~ s/\$tag/$tag/g;
-        push @tags, $line if $line;
-      }
-      $tags = join(', ', @tags);
+    my @result;
+    my $counter = 0;
+    foreach my $plugin (@plugins) {
+        my $summary = $plugin->getSummary();
+        $summary =~ s/^\s+//;
+        $summary =~ s/\s+$//;
+        my $tags = '';
+        if ( $theFormat =~ /\$tags/ ) {
+            my @tags = ();
+            foreach my $tag ( sort split( /\s*,\s*/, $plugin->{tags} ) ) {
+                my $line = $theTagFormat;
+                $line =~ s/\$tag/$tag/g;
+                push @tags, $line if $line;
+            }
+            $tags = join( ', ', @tags );
+        }
+        my $active =
+          defined( $plugin->{isInit} )
+          ? '<span class="foswikiAlert">(active)</span>'
+          : '';
+        my $line = Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables(
+            $theFormat,
+            'index'       => ( $counter + 1 ),
+            name          => $plugin->{name},
+            version       => $plugin->{version},
+            summary       => $summary,
+            documentation => $plugin->{documentation},
+            author        => $plugin->{author},
+            homepage      => $plugin->{homepage},
+            tags          => $tags,
+            active        => $active,
+        );
+        next unless $line;
+        push @result, $line;
+        $counter++;
     }
-    my $active = defined($plugin->{isInit})?'<span class="foswikiAlert">(active)</span>':'';
-    my $line = 
-      Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theFormat,
-        'index' => ($counter+1),
-        name => $plugin->{name},
-        version => $plugin->{version},
-        summary => $summary,
-        documentation => $plugin->{documentation},
-        author => $plugin->{author},
-        homepage => $plugin->{homepage},
-        tags => $tags,
-        active => $active,
-      );
-    next unless $line;
-    push @result, $line;
-    $counter++;
-  }
 
-  $theHeader = 
-    Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theHeader,
-      counter => $counter,
-    );
-  $theFooter = 
-    Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theFooter,
-      counter => $counter,
-    );
-  $theSeparator = 
-    Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
-  return $theHeader.join($theSeparator, @result).$theFooter;
+    $theHeader =
+      Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables( $theHeader,
+        counter => $counter, );
+    $theFooter =
+      Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables( $theFooter,
+        counter => $counter, );
+    $theSeparator =
+      Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
+    return $theHeader . join( $theSeparator, @result ) . $theFooter;
 }
 
 1;

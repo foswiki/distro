@@ -26,12 +26,12 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-our $VERSION = '$Rev$';
-our $RELEASE = '18 Dec 2009';
+our $VERSION          = '$Rev$';
+our $RELEASE          = '18 Dec 2009';
 our $SHORTDESCRIPTION = 'Supports e-mail notification of changes';
 
-our $verbose = 0;
-our $nonews = 0;
+our $verbose   = 0;
+our $nonews    = 0;
 our $nochanges = 0;
 
 # PROTECTED STATIC ensure the contrib is initernally initialised
@@ -60,8 +60,8 @@ only be called by =mailnotify= scripts.
 sub mailNotify {
     my ( $webs, $noisy, $exwebs, $nonewsmode, $nochangesmode ) = @_;
 
-    $verbose = $noisy;
-    $nonews = $nonewsmode || 0;
+    $verbose   = $noisy;
+    $nonews    = $nonewsmode || 0;
     $nochanges = $nochangesmode || 0;
 
     my $webstr;
@@ -89,7 +89,7 @@ sub mailNotify {
     my $report = '';
     foreach my $web ( Foswiki::Func::getListOfWebs('user ') ) {
         if ( $web =~ /^($webstr)$/ && $web !~ /^($exwebstr)$/ ) {
-            _processWeb( $web );
+            _processWeb($web);
         }
     }
 
@@ -116,8 +116,9 @@ sub changeSubscription {
       Foswiki::Func::normalizeWebTopicName( $defaultWeb, $topicList );
 
     #TODO: this limits us to subscribing to one web.
-    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $web, $Foswiki::cfg{NotifyTopicName}, 1 );
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $web,
+        $Foswiki::cfg{NotifyTopicName}, 1 );
     $wn->parsePageSubscriptions( $who, $topicList, $unsubscribe );
     $wn->writeWebNotify();
     return;
@@ -155,12 +156,12 @@ sub _isSubscribedToTopic {
       Foswiki::Func::normalizeWebTopicName( $subscribed->{currentWeb}, $topic );
 
     #TODO: extract this code so we only create $wn objects for each web once..
-    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $sweb, $Foswiki::cfg{NotifyTopicName} );
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $sweb,
+        $Foswiki::cfg{NotifyTopicName} );
     my $subscriber = $wn->getSubscriber($who);
 
-    my $db =
-      new Foswiki::Contrib::MailerContrib::UpData( $sweb );
+    my $db = new Foswiki::Contrib::MailerContrib::UpData($sweb);
 
     #TODO: need to check $childDepth topics too (somehow)
     if ( $subscriber->isSubscribedTo( $stopic, $db )
@@ -200,12 +201,14 @@ sub parsePageList {
     # $3: options
     # $4: child depth
     while ( $spec =~
-              s/^\s*([+-])?\s*([*\w.]+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//) {
-        my ( $us, $webTopic, $options, $childDepth ) = (
-            $unsubscribe||$1||'+', $2, $3, $4||0 );
-        $webTopic =~ s/^(['"])(.*)\1$/$2/; # remove quotes
-        &{$object->{topicSub}}(
-            $object, $who, $us, $webTopic, $options, $childDepth);
+        s/^\s*([+-])?\s*([*\w.]+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?// )
+    {
+        my ( $us, $webTopic, $options, $childDepth ) =
+          ( $unsubscribe || $1 || '+', $2, $3, $4 || 0 );
+        $webTopic =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
+        &{ $object->{topicSub} }( $object, $who, $us, $webTopic, $options,
+            $childDepth );
+
         #go
     }
     return $spec;
@@ -226,8 +229,9 @@ sub _processWeb {
     my $report = '';
 
     # Read the webnotify and load subscriptions
-    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
-        $web, $Foswiki::cfg{NotifyTopicName} );
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $web,
+        $Foswiki::cfg{NotifyTopicName} );
     if ( $wn->isEmpty() ) {
         print "\t$web has no subscribers\n" if $verbose;
     }
@@ -235,7 +239,7 @@ sub _processWeb {
 
         # create a DB object for parent pointers
         print $wn->stringify(1) if $verbose;
-        my $db = new Foswiki::Contrib::MailerContrib::UpData( $web );
+        my $db = new Foswiki::Contrib::MailerContrib::UpData($web);
         $report .= _processSubscriptions( $web, $wn, $db );
     }
 
@@ -299,9 +303,8 @@ sub _processSubscriptions {
         # Formulate a change record, irrespective of
         # whether any subscriber is interested
         $change =
-          new Foswiki::Contrib::MailerContrib::Change( $web,
-            $change->{topic}, $change->{user}, $change->{time},
-            $change->{revision} );
+          new Foswiki::Contrib::MailerContrib::Change( $web, $change->{topic},
+            $change->{user}, $change->{time}, $change->{revision} );
 
         # Now, find subscribers to this change and extend the change set
         $notify->processChange( $change, $db, \%changeset, \%seenset,
@@ -316,16 +319,17 @@ sub _processSubscriptions {
 
     # Now generate emails for each recipient
     my $report = '';
-    
+
     if ( !$nochanges ) {
-        $report .= _sendChangesMails( $web, \%changeset,
-          Foswiki::Time::formatTime($timeOfLastNotify) );
+        $report .=
+          _sendChangesMails( $web, \%changeset,
+            Foswiki::Time::formatTime($timeOfLastNotify) );
     }
 
     if ( !$nonews ) {
         $report .= _sendNewsletterMails( $web, \%allSet );
     }
-    
+
     if ( $timeOfLastChange != 0 ) {
         if ( open( F, '>', $notmeta ) ) {
             print F $timeOfLastChange;
@@ -424,8 +428,7 @@ sub _sendNewsletterMails {
 
     my $report = '';
     foreach my $topic ( keys %$allSet ) {
-        $report .=
-          _sendNewsletterMail( $web, $topic, $allSet->{$topic} );
+        $report .= _sendNewsletterMail( $web, $topic, $allSet->{$topic} );
     }
     return $report;
 }
@@ -440,23 +443,24 @@ sub _sendNewsletterMail {
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
     # SMELL: Have to hack into the core to set internal preferences :-(
-    my %old = map { $_ => undef } qw(BASEWEB BASETOPIC INCLUDINGWEB INCLUDINGTOPIC);
-    if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}) {
+    my %old =
+      map { $_ => undef } qw(BASEWEB BASETOPIC INCLUDINGWEB INCLUDINGTOPIC);
+    if ( defined $Foswiki::Plugins::SESSION->{SESSION_TAGS} ) {
 
         # In 1.0.6 and earlier, have to handle some session tags ourselves
         # because pushTopicContext doesn't do it. **
-        foreach my $macro (keys %old) {
+        foreach my $macro ( keys %old ) {
             $old{$macro} = Foswiki::Func::getPreferencesValue($macro);
         }
     }
     Foswiki::Func::pushTopicContext( $web, $topic );
 
     # See ** above
-    if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}) {
+    if ( defined $Foswiki::Plugins::SESSION->{SESSION_TAGS} ) {
         my $stags = $Foswiki::Plugins::SESSION->{SESSION_TAGS};
-        $stags->{BASEWEB} = $web;
-        $stags->{BASETOPIC} = $topic;
-        $stags->{INCLUDINGWEB} = $web;
+        $stags->{BASEWEB}        = $web;
+        $stags->{BASETOPIC}      = $topic;
+        $stags->{INCLUDINGWEB}   = $web;
         $stags->{INCLUDINGTOPIC} = $topic;
     }
 
@@ -554,13 +558,12 @@ sub _sendNewsletterMail {
     Foswiki::Func::popTopicContext();
 
     # SMELL: See ** above
-    if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}) {
+    if ( defined $Foswiki::Plugins::SESSION->{SESSION_TAGS} ) {
 
-	    # In 1.0.6 and earlier, have to handle some session tags ourselves
-	    # because pushTopicContext doesn't do it. **
-        foreach my $macro (keys %old) {
-            $Foswiki::Plugins::SESSION->{SESSION_TAGS}{$macro} =
-            $old{$macro};
+        # In 1.0.6 and earlier, have to handle some session tags ourselves
+        # because pushTopicContext doesn't do it. **
+        foreach my $macro ( keys %old ) {
+            $Foswiki::Plugins::SESSION->{SESSION_TAGS}{$macro} = $old{$macro};
         }
     }
 

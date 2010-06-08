@@ -65,7 +65,8 @@ sub changes {
         try {
             my $topicObject =
               Foswiki::Meta->new( $session, $webObject->web, $change->{topic} );
-            my $summary = $topicObject->summariseChanges( undef, $change->{revision} );
+            my $summary =
+              $topicObject->summariseChanges( undef, $change->{revision} );
             my $thisChange = $eachChange;
             $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
             my $wikiuser =

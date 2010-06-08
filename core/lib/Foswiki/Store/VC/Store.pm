@@ -122,13 +122,15 @@ sub readTopic {
             my $validated = Foswiki::Sandbox::validateAttachmentName(
                 $foundAttachment->{name} );
             unless ( defined $validated
-                       && $validated eq $foundAttachment->{name} ) {
+                && $validated eq $foundAttachment->{name} )
+            {
 
                 print STDERR 'AutoAttachPubFiles ignoring '
                   . $foundAttachment->{name} . ' in '
-                    . $topicObject->getPath()
-                      . ' - not a valid Foswiki Attachment filename';
-            } else {
+                  . $topicObject->getPath()
+                  . ' - not a valid Foswiki Attachment filename';
+            }
+            else {
                 push @validAttachmentsFound, $foundAttachment;
             }
         }

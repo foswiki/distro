@@ -221,9 +221,9 @@ sub bulkRegister {
     $log .= "----\n";
 
     my $logWeb;
-    my $logTopic = Foswiki::Sandbox::untaint(
-        $query->param('LogTopic'),
-        \&Foswiki::Sandbox::validateTopicName) || $topic . 'Result';
+    my $logTopic = Foswiki::Sandbox::untaint( $query->param('LogTopic'),
+        \&Foswiki::Sandbox::validateTopicName )
+      || $topic . 'Result';
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
@@ -386,8 +386,8 @@ sub _innerRegister {
         def    => 'bad_wikiname',
         web    => $data->{webName},
         topic  => $session->{topicName},
-        params => [ $oldName ]
-       ) unless $data->{WikiName};
+        params => [$oldName]
+    ) unless $data->{WikiName};
 
     _validateRegistration( $session, $data, 1 );
 }
@@ -411,8 +411,8 @@ sub _requireVerification {
         def    => 'bad_wikiname',
         web    => $data->{webName},
         topic  => $session->{topicName},
-        params => [ $oldName ]
-       ) unless $data->{WikiName};
+        params => [$oldName]
+    ) unless $data->{WikiName};
     $data->{LoginName} ||= $data->{WikiName};
     $data->{webName} = $web;
 
@@ -775,7 +775,6 @@ sub _complete {
         $data = _getDataFromQuery( $query, $query->param() );
         $data->{webName} = $web;
     }
-
 
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},

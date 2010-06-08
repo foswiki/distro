@@ -255,9 +255,9 @@ sub login {
     # giving the parameter twice will confuse the strikeone Javascript.
     $session->{request}->delete('validation_key');
 
-   # set the usernamestep value so it can be re-displayed if we are here due
-   # to a failed authentication attempt.
-   $query->param( -name => 'usernamestep', -value => $loginName );
+    # set the usernamestep value so it can be re-displayed if we are here due
+    # to a failed authentication attempt.
+    $query->param( -name => 'usernamestep', -value => $loginName );
 
     # TODO: add JavaScript password encryption in the template
     $origurl ||= '';

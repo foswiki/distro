@@ -224,7 +224,7 @@ sub doFunc {
         $format =~ s/^\s*(.*?)\s*$/$1/;    #Strip leading and trailing spaces
         $res    =~ s/^\s*(.*?)\s*$/$1/;
         $value  =~ s/^\s*(.*?)\s*$/$1/;
-        $res =~ m/^(.*)$/; # SMELL why do we need to untaint
+        $res    =~ m/^(.*)$/;              # SMELL why do we need to untaint
         $res = $1;
         if ( $format eq "DOLLAR" ) {
             my $neg = 1 if $value < 0;
@@ -1007,16 +1007,18 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "LISTJOIN" ) {
         my ( $sep, $str ) = _properSplit( $theAttr, 2 );
-        $str    = "" unless ( defined($str) );
-	# SMELL: repairing standard delimiter ", " in the constructed string to our custom separator
+        $str = "" unless ( defined($str) );
+
+# SMELL: repairing standard delimiter ", " in the constructed string to our custom separator
         $result = _listToDelimitedString( getList($str) );
-	if ( length $sep ) {
-	    $sep    =~ s/\$comma/,/go;
-	    $sep    =~ s/\$sp/ /go;
-	    $sep    =~ s/\$nop//go;	# make sure $nop appears before $n otherwise you end up with "\nop"
-	    $sep    =~ s/\$n/\n/go;
-	    $result =~ s/, /$sep/go;
-	}
+        if ( length $sep ) {
+            $sep =~ s/\$comma/,/go;
+            $sep =~ s/\$sp/ /go;
+            $sep =~ s/\$nop//go
+              ; # make sure $nop appears before $n otherwise you end up with "\nop"
+            $sep    =~ s/\$n/\n/go;
+            $result =~ s/, /$sep/go;
+        }
     }
     elsif ( $theFunc eq "LISTSIZE" ) {
         my @arr = getList($theAttr);

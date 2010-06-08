@@ -69,18 +69,20 @@ sub _lookupIcon {
             local $/;
             try {
                 my $icons =
-                  $this->{_ICONSPACE}->openAttachment(
-                      '_filetypes.txt', '<' );
+                  $this->{_ICONSPACE}->openAttachment( '_filetypes.txt', '<' );
+
                 # Validate the file types as we read them.
                 %{ $this->{_EXT2ICON} } = map {
                     Foswiki::Sandbox::untaint(
                         $_,
                         sub {
                             my $tok = shift;
-                            die "Bad filetype $tok" unless
-                              $tok =~ /^[$Foswiki::regex{mixedAlphaNum}]+$/o;
+                            die "Bad filetype $tok"
+                              unless $tok =~
+                                  /^[$Foswiki::regex{mixedAlphaNum}]+$/o;
                             return $tok;
-                        });
+                        }
+                    );
                 } split( /\s+/, <$icons> );
                 $icons->close();
             }

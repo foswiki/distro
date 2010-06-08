@@ -2,11 +2,11 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2006-2010 Michael Daum, http://michaeldaumconsulting.com
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. 
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -47,37 +47,39 @@ abstract class for a jQuery plugin
 =cut
 
 sub new {
-  my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
+    my $class = shift;
+    my $session = shift || $Foswiki::Plugins::SESSION;
 
-  my $this = bless({
-    session => $session,
-    debug => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
-    name => $class,
-    author => 'unknown',
-    version => 'unknown',
-    summary => undef,
-    documentation => undef,
-    homepage => 'unknown',
-    puburl => '',
-    css => [],
-    javascript => [],
-    dependencies => [],
-    tags => '',
-    @_
-  }, $class);
+    my $this = bless(
+        {
+            session       => $session,
+            debug         => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
+            name          => $class,
+            author        => 'unknown',
+            version       => 'unknown',
+            summary       => undef,
+            documentation => undef,
+            homepage      => 'unknown',
+            puburl        => '',
+            css           => [],
+            javascript    => [],
+            dependencies  => [],
+            tags          => '',
+            @_
+        },
+        $class
+    );
 
-  $this->{documentation} = $Foswiki::cfg{SystemWebName}.'.JQuery'.ucfirst($this->{name})
-    unless defined $this->{documentation};
+    $this->{documentation} =
+      $Foswiki::cfg{SystemWebName} . '.JQuery' . ucfirst( $this->{name} )
+      unless defined $this->{documentation};
 
-  unless ($this->{puburl}) {
-    $this->{puburl} = 
-      '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/'.
-      lc($this->{name});
-  }
+    unless ( $this->{puburl} ) {
+        $this->{puburl} = '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/'
+          . lc( $this->{name} );
+    }
 
-
-  return $this;
+    return $this;
 }
 
 =begin TML
@@ -90,61 +92,69 @@ are fulfilled
 =cut
 
 sub init {
-  my $this = shift;
+    my $this = shift;
 
-  return 0 if $this->{isInit};
-  $this->{isInit} = 1;
+    return 0 if $this->{isInit};
+    $this->{isInit} = 1;
 
-  my $header = '';
-  my $footer = '';
+    my $header = '';
+    my $footer = '';
 
-  # load all css
-  foreach my $css (@{$this->{css}}) {
-    $header .= $this->renderCSS($css);
-  }
-
-  # load all javascript
-  foreach my $js (@{$this->{javascript}}) {
-    $footer .= $this->renderJS($js);
-  }
-
-  # gather dependencies
-  my @dependencies = ('JQUERYPLUGIN::FOSWIKI'); # jquery.foswiki is in there by default
-  foreach my $dep (@{$this->{dependencies}}) {
-    if ($dep =~ /^JQUERYPLUGIN/) {
-      push @dependencies, $dep;
-    } else {
-      Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
-      push @dependencies, 'JQUERYPLUGIN::'.uc($dep);
+    # load all css
+    foreach my $css ( @{ $this->{css} } ) {
+        $header .= $this->renderCSS($css);
     }
-  }
 
-  Foswiki::Func::addToZone('head', "JQUERYPLUGIN::".uc($this->{name}), $header, join(', ', @dependencies))
-    if $header;
-  Foswiki::Func::addToZone('body', "JQUERYPLUGIN::".uc($this->{name}), $footer, join(', ', @dependencies))
-    if $footer;
+    # load all javascript
+    foreach my $js ( @{ $this->{javascript} } ) {
+        $footer .= $this->renderJS($js);
+    }
 
-  return 1;
+    # gather dependencies
+    my @dependencies =
+      ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
+    foreach my $dep ( @{ $this->{dependencies} } ) {
+        if ( $dep =~ /^JQUERYPLUGIN/ ) {
+            push @dependencies, $dep;
+        }
+        else {
+            Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
+            push @dependencies, 'JQUERYPLUGIN::' . uc($dep);
+        }
+    }
+
+    Foswiki::Func::addToZone(
+        'head', "JQUERYPLUGIN::" . uc( $this->{name} ),
+        $header, join( ', ', @dependencies )
+    ) if $header;
+    Foswiki::Func::addToZone(
+        'body', "JQUERYPLUGIN::" . uc( $this->{name} ),
+        $footer, join( ', ', @dependencies )
+    ) if $footer;
+
+    return 1;
 }
 
 sub renderCSS {
-  my ($this, $text) = @_;
+    my ( $this, $text ) = @_;
 
-  $text =~ s/\.css$/.uncompressed.css/ if $this->{debug};
-  $text .= '?version='.$this->{version};
-  $text = "<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all' />\n";
+    $text =~ s/\.css$/.uncompressed.css/ if $this->{debug};
+    $text .= '?version=' . $this->{version};
+    $text =
+"<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all' />\n";
 
-  return $text;
+    return $text;
 }
 
 sub renderJS {
-  my ($this, $text) = @_;
+    my ( $this, $text ) = @_;
 
-  $text =~ s/\.js$/.uncompressed.js/ if $this->{debug};
-  $text .= '?version='.$this->{version};
-  $text = "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
+    $text =~ s/\.js$/.uncompressed.js/ if $this->{debug};
+    $text .= '?version=' . $this->{version};
+    $text =
+      "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
 
-  return $text;
+    return $text;
 }
 
 =begin TML
@@ -157,20 +167,23 @@ returns the summary text for this plugin. this is either the =summary= property 
 =cut
 
 sub getSummary {
-  my $this= shift;
+    my $this = shift;
 
-  my $summary = $this->{summary};
-  
-  unless (defined $summary) {
-    $summary = 'n/a';
-    if ($this->{'documentation'}) {
-      $summary = Foswiki::Func::expandCommonVariables('%INCLUDE{"'.$this->{documentation}.'" section="summary" warn="off"}%');
+    my $summary = $this->{summary};
+
+    unless ( defined $summary ) {
+        $summary = 'n/a';
+        if ( $this->{'documentation'} ) {
+            $summary =
+              Foswiki::Func::expandCommonVariables( '%INCLUDE{"'
+                  . $this->{documentation}
+                  . '" section="summary" warn="off"}%' );
+        }
+
+        $this->{summary} = $summary;
     }
 
-    $this->{summary} = $summary;
-  }
-
-  return $summary
+    return $summary;
 }
 
 1;

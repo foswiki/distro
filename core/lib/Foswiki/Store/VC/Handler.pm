@@ -85,13 +85,13 @@ sub new {
         if ($attachment) {
             ASSERT( UNTAINTED($attachment) ) if DEBUG;
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/'
-              . $web . '/'
+                $Foswiki::cfg{PubDir} . '/' 
+              . $web . '/' 
               . $topic . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/'
-              . $web . '/'
+                $Foswiki::cfg{PubDir} . '/' 
+              . $web . '/' 
               . $topic
               . $rcsSubDir . '/'
               . $attachment . ',v';
@@ -101,7 +101,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/'
+                $Foswiki::cfg{DataDir} . '/' 
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -261,7 +261,7 @@ down to 1.
 
 sub getRevisionHistory {
     my $this = shift;
-    ASSERT($this->{file}) if DEBUG;
+    ASSERT( $this->{file} ) if DEBUG;
     unless ( -e $this->{rcsFile} ) {
         if ( -e $this->{file} ) {
             return new Foswiki::ListIterator( [1] );
@@ -459,8 +459,8 @@ Returns 0 if no file, otherwise epoch seconds
 
 sub getTimestamp {
     my ($this) = @_;
-    ASSERT($this->{file}) if DEBUG;
-    
+    ASSERT( $this->{file} ) if DEBUG;
+
     my $date = 0;
     if ( -e $this->{file} ) {
 
@@ -930,7 +930,7 @@ sub _rmtree {
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple( 'VC::Handler: Failed to delete file '
+                    throw Error::Simple( 'VC::Handler: Failed to delete file ' 
                           . $entry . ': '
                           . $! );
                 }

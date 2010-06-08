@@ -71,7 +71,7 @@ our %defaultINIT_BROWSER = (
     OPERA  => '',
     GECKO  => 'gecko_spellcheck : true',
     SAFARI => '',
-    CHROME=> '',
+    CHROME => '',
 );
 
 use Foswiki::Func ();
@@ -109,7 +109,7 @@ sub initPlugin {
         $browserInfo{isGecko}  = $ua =~ /Gecko/;   # Will also be true on Safari
         $browserInfo{isSafari} = $ua =~ /Safari/;  # Will also be true on Chrome
         $browserInfo{isOpera}  = $ua =~ /Opera/;
-        $browserInfo{isChrome}  = $ua =~ /Chrome/;
+        $browserInfo{isChrome} = $ua =~ /Chrome/;
         $browserInfo{isMac}    = $ua =~ /Mac/;
         $browserInfo{isNS7}  = $ua =~ /Netscape\/7/;
         $browserInfo{isNS71} = $ua =~ /Netscape\/7.1/;
@@ -120,9 +120,9 @@ sub initPlugin {
 
 sub _notAvailable {
     for my $c qw(TINYMCEPLUGIN_DISABLE NOWYSIWYG) {
-        return
-          "Disabled by * Set $c = " . Foswiki::Func::getPreferencesValue($c)
-            if Foswiki::Func::getPreferencesFlag($c);
+        return "Disabled by * Set $c = "
+          . Foswiki::Func::getPreferencesValue($c)
+          if Foswiki::Func::getPreferencesFlag($c);
     }
 
     # Disable TinyMCE if we are on a specialised edit skin
@@ -169,7 +169,7 @@ sub beforeEditHandler {
     # spoof eachother
     if ( $browserInfo{isChrome} ) {
         $extras = 'CHROME';
-    } 
+    }
     elsif ( $browserInfo{isSafari} ) {
         $extras = 'SAFARI';
     }
@@ -221,7 +221,7 @@ sub beforeEditHandler {
 
     # SMELL: meta tag now in a separate addToHEAD for Item8566, due to
     # addToZONE shenanigans. <meta> tags really do have to be in the head!
-    Foswiki::Func::addToZone('head', 'tinyMCE::Meta', <<"SCRIPT");
+    Foswiki::Func::addToZone( 'head', 'tinyMCE::Meta', <<"SCRIPT");
 <meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
 SCRIPT
 
@@ -238,14 +238,18 @@ SCRIPT
 '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>'
         );
     }
-    # URL-encode the version number to include in the .js URLs, so that the browser re-fetches the .js
-    # when this plugin is upgraded.
-    my $encodedVersion = $VERSION;
-    # SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
-    #        but Foswiki::Func.pm does not expose that function, so plugins may not use it
-    $encodedVersion =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
-    Foswiki::Func::addToZone('body', 'tinyMCE', <<"SCRIPT", 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI');
+# URL-encode the version number to include in the .js URLs, so that the browser re-fetches the .js
+# when this plugin is upgraded.
+    my $encodedVersion = $VERSION;
+
+# SMELL: This regex (and the one applied to $metainit, above) duplicates Foswiki::urlEncode(),
+#        but Foswiki::Func.pm does not expose that function, so plugins may not use it
+    $encodedVersion =~
+      s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
+
+    Foswiki::Func::addToZone( 'body', 'tinyMCE',
+        <<"SCRIPT", 'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI' );
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>

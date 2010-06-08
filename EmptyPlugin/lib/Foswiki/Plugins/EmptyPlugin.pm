@@ -59,7 +59,7 @@ package Foswiki::Plugins::EmptyPlugin;
 use strict;
 use warnings;
 
-use Foswiki::Func ();       # The plugins API
+use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that

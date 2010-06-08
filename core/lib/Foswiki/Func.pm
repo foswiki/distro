@@ -2110,8 +2110,7 @@ sub expandVariablesOnTopicCreation {
     my $topicObject = Foswiki::Meta->new(
         $Foswiki::Plugins::SESSION,
         $Foswiki::Plugins::SESSION->{webName},
-        $Foswiki::Plugins::SESSION->{topicName},
-        $_[0]
+        $Foswiki::Plugins::SESSION->{topicName}, $_[0]
     );
     $topicObject->expandNewTopic();
     return $topicObject->text();

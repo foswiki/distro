@@ -86,7 +86,7 @@ sub _addHeader {
     Foswiki::Func::loadTemplate(
         Foswiki::Sandbox::untaintUnchecked( lc($pluginName) ) );
     my $header = Foswiki::Func::expandTemplate('twisty:header');
-    Foswiki::Func::expandCommonVariables($header );
+    Foswiki::Func::expandCommonVariables($header);
 }
 
 sub _TWISTYSHOW {
@@ -172,9 +172,10 @@ sub _createId {
     my ( $inRawId, $inWeb, $inTopic ) = @_;
 
     my $id;
-    if ( $inRawId ) {
+    if ($inRawId) {
         $id = $inRawId;
-    } else {
+    }
+    else {
         $id = "$inWeb$inTopic";
     }
     $id =~ s/\//subweb/go;

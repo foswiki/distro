@@ -25,9 +25,10 @@ sub init {
     unless ( $this->{handler} ) {
         $this->{handler} = new Cache::FileCache(
             {
+
                 # also encoded into object keys, see
                 # Foswiki::Cache::genVariationKey()
-                'namespace' => $this->{namespace},
+                'namespace'  => $this->{namespace},
                 'cache_root' => $Foswiki::cfg{Cache}{RootDir}
                   || $Foswiki::cfg{WorkingDir} . '/cache/',
                 'cache_depth'     => $Foswiki::cfg{Cache}{SubDirs} || 3,

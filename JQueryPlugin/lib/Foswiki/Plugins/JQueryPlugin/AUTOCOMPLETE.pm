@@ -23,21 +23,27 @@ Constructor
 =cut
 
 sub new {
-  my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
+    my $class = shift;
+    my $session = shift || $Foswiki::Plugins::SESSION;
 
-  my $this = bless($class->SUPER::new( 
-    $session,
-    name => 'Autocomplete',
-    version => '1.1pre',
-    author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
-    homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
-    css => ['jquery.autocomplete.css'],
-    javascript => ['jquery.autocomplete.js', 'jquery.autocomplete.init.js'],
-    dependencies => ['metadata', 'livequery'], 
-  ), $class);
+    my $this = bless(
+        $class->SUPER::new(
+            $session,
+            name    => 'Autocomplete',
+            version => '1.1pre',
+            author =>
+              'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
+            homepage =>
+'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
+            css => ['jquery.autocomplete.css'],
+            javascript =>
+              [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
+            dependencies => [ 'metadata', 'livequery' ],
+        ),
+        $class
+    );
 
-  return $this;
+    return $this;
 }
 
 1;

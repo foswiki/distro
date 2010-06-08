@@ -59,7 +59,8 @@ sub _renderCellData {
         $data =~ s/^%META:([A-Z]+){(.*)}%$/
           '|*META '.$1.'*|'._renderAttrs($2).'|'/gem;
         if ( Foswiki::Func::getContext()->{'TablePluginEnabled'} ) {
-            $data = '%TABLE{summary="%MAKETEXT{"Attachment metadata"}%"}%' . $data;
+            $data =
+              '%TABLE{summary="%MAKETEXT{"Attachment metadata"}%"}%' . $data;
         }
         $data = $topicObject->expandMacros($data);
         $data = $topicObject->renderTML($data);
@@ -426,7 +427,7 @@ sub _renderRevisionDiff {
     return CGI::table(
         {
             class       => 'foswikiDiffTable',
-            summary     => 'changes to '.$topicObject->topic,
+            summary     => 'changes to ' . $topicObject->topic,
             width       => '100%',
             cellspacing => 0,
             cellpadding => 0

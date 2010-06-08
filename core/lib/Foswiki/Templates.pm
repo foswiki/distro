@@ -319,8 +319,8 @@ sub _readTemplateFile {
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ /\.tmpl$/ ) {
-        return _decomment(_readFile($session,
-                                    "$Foswiki::cfg{TemplateDir}/$name"));
+        return _decomment(
+            _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
     }
 
     my $userdirweb  = $web;
@@ -339,15 +339,17 @@ sub _readTemplateFile {
 
             # Check we are allowed access
             unless ( $meta->haveAccess( 'VIEW', $session->{user} ) ) {
-                return $this->{session}->inlineAlert(
-                    'alerts', 'access_denied',
+                return $this->{session}->inlineAlert( 'alerts', 'access_denied',
                     "$userdirweb.$userdirname" );
             }
             my $text = $meta->text();
             $text = '' unless defined $text;
 
-            $text = "<!--$userdirweb/$userdirname-->".$text
-              ."<!--/$userdirweb/$userdirname-->" if (TRACE);
+            $text =
+                "<!--$userdirweb/$userdirname-->" 
+              . $text
+              . "<!--/$userdirweb/$userdirname-->"
+              if (TRACE);
 
             return _decomment($text);
         }
@@ -445,13 +447,13 @@ sub _readTemplateFile {
                 # recursion prevention.
                 $this->{files}->{$file} = 1;
 
-                return _decomment(_readFile($session, $file));
+                return _decomment( _readFile( $session, $file ) );
             }
         }
     }
 
     # TRACE is paranoid
-    throw Error::Simple( 'Template "'.$name.'" was not found' ) if TRACE;
+    throw Error::Simple( 'Template "' . $name . '" was not found' ) if TRACE;
 
     return '';
 }
@@ -470,21 +472,19 @@ sub _readFile {
         return $text;
     }
     else {
-        $session->logger->log(
-            'warning',
-            "$fn: $!" );
+        $session->logger->log( 'warning', "$fn: $!" );
         return '';
     }
 }
 
 sub _decomment {
     my $text = shift;
+
     # Kill comments, marked by %{ ... }%
     # (and remove whitespace either side of the comment)
     $text =~ s/\s*%{.*?}%\s*//sg;
     return $text;
 }
-
 
 1;
 __END__

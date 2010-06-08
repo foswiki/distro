@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -18,14 +18,14 @@ use warnings;
 
 our @iconSearchPath;
 our %iconCache;
-our %plugins; # all singletons
+our %plugins;    # all singletons
 our $debug;
 our $currentTheme;
 
 use Foswiki::Func;
 
-BEGIN { 
-  srand() if $] < 5.004 
+BEGIN {
+    srand() if $] < 5.004;
 }
 
 =begin TML
@@ -46,34 +46,38 @@ initialize plugin container
 
 sub init () {
 
-  $debug = $Foswiki::cfg{JQueryPlugin}{Debug} || 0;
-  $currentTheme = undef;
+    $debug = $Foswiki::cfg{JQueryPlugin}{Debug} || 0;
+    $currentTheme = undef;
 
-  foreach my $pluginName (sort keys %{$Foswiki::cfg{JQueryPlugin}{Plugins}}) {
-    registerPlugin($pluginName)
-      if $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Enabled};
-  }
-
-  # load jquery
-  my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.3.2";
-  $jQuery .= ".uncompressed" if $debug;
-  my $footer = "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
-
-  # switch on noconflict mode
-  $footer .= "\n<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
-    if $Foswiki::cfg{JQueryPlugin}{NoConflict};
-
-  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN', $footer);
-
-  # initial plugins
-  createPlugin('Foswiki'); # this one is needed anyway
-
-  my $defaultPlugins = $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
-  if ($defaultPlugins) {
-    foreach my $pluginName (split(/\s*,\s*/, $defaultPlugins)) {
-      createPlugin($pluginName);
+    foreach
+      my $pluginName ( sort keys %{ $Foswiki::cfg{JQueryPlugin}{Plugins} } )
+    {
+        registerPlugin($pluginName)
+          if $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Enabled};
     }
-  }
+
+    # load jquery
+    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.3.2";
+    $jQuery .= ".uncompressed" if $debug;
+    my $footer =
+"<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
+
+    # switch on noconflict mode
+    $footer .=
+"\n<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
+      if $Foswiki::cfg{JQueryPlugin}{NoConflict};
+
+    Foswiki::Func::addToZone( 'body', 'JQUERYPLUGIN', $footer );
+
+    # initial plugins
+    createPlugin('Foswiki');    # this one is needed anyway
+
+    my $defaultPlugins = $Foswiki::cfg{JQueryPlugin}{DefaultPlugins};
+    if ($defaultPlugins) {
+        foreach my $pluginName ( split( /\s*,\s*/, $defaultPlugins ) ) {
+            createPlugin($pluginName);
+        }
+    }
 
 }
 
@@ -86,9 +90,9 @@ Helper method to establish plugin dependencies. See =load()=.
 =cut
 
 sub createPlugin {
-  my $plugin = load(@_);
-  $plugin->init() if $plugin;
-  return $plugin;
+    my $plugin = load(@_);
+    $plugin->init() if $plugin;
+    return $plugin;
 }
 
 =begin TML
@@ -100,20 +104,20 @@ Helper method to switch on the given theme (default =base=).
 =cut
 
 sub createTheme {
-  my $themeName = shift;
+    my $themeName = shift;
 
-  return $currentTheme if defined $currentTheme;
+    return $currentTheme if defined $currentTheme;
 
-  $themeName ||= 'base';
-  $currentTheme = $themeName;
+    $themeName ||= 'base';
+    $currentTheme = $themeName;
 
-  Foswiki::Func::addToHEAD("JQUERYPLUGIN::THEME", <<"HERE", "JQUERYPLUGIN::FOSWIKI");
+    Foswiki::Func::addToHEAD( "JQUERYPLUGIN::THEME",
+        <<"HERE", "JQUERYPLUGIN::FOSWIKI" );
 <link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/ui.all.css" type="text/css" media="all" />
 HERE
 
-  return $themeName;
+    return $themeName;
 }
-
 
 =begin TML
 
@@ -124,15 +128,15 @@ Helper method to register a plugin.
 =cut
 
 sub registerPlugin {
-  my ($pluginName, $class) = @_;
+    my ( $pluginName, $class ) = @_;
 
-  $class ||= 'Foswiki::Plugins::JQueryPlugin::'.uc($pluginName);
+    $class ||= 'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
 
-  return $plugins{lc($pluginName)} = {
-    'class' => $class,
-    'name' => $pluginName,
-    'instance' => undef,
-  };
+    return $plugins{ lc($pluginName) } = {
+        'class'    => $class,
+        'name'     => $pluginName,
+        'instance' => undef,
+    };
 }
 
 =begin TML
@@ -143,19 +147,20 @@ finalizer
 
 sub finish {
 
-  my $query = Foswiki::Func::getCgiQuery();
-  my $refresh = $query->param('refresh') || '';
+    my $query = Foswiki::Func::getCgiQuery();
+    my $refresh = $query->param('refresh') || '';
 
-  if ($Foswiki::cfg{JQueryPlugin}{MemoryCache} && $refresh ne 'on') {
-    foreach my $key (keys %plugins) {
-      my $pluginDesc = $plugins{$key};
-      $pluginDesc->{instance}->{isInit} = 0 if $pluginDesc->{instance};
+    if ( $Foswiki::cfg{JQueryPlugin}{MemoryCache} && $refresh ne 'on' ) {
+        foreach my $key ( keys %plugins ) {
+            my $pluginDesc = $plugins{$key};
+            $pluginDesc->{instance}->{isInit} = 0 if $pluginDesc->{instance};
+        }
     }
-  } else {
-    undef %plugins;
-    undef @iconSearchPath;
-    undef %iconCache;
-  }
+    else {
+        undef %plugins;
+        undef @iconSearchPath;
+        undef %iconCache;
+    }
 }
 
 =begin TML
@@ -174,28 +179,28 @@ returns
 =cut
 
 sub load {
-  my $pluginName = shift;
+    my $pluginName = shift;
 
-  my $normalizedName = lc($pluginName);
-  my $pluginDesc = $plugins{$normalizedName};
+    my $normalizedName = lc($pluginName);
+    my $pluginDesc     = $plugins{$normalizedName};
 
-  return undef unless $pluginDesc;
+    return undef unless $pluginDesc;
 
-  unless (defined $pluginDesc->{instance}) {
+    unless ( defined $pluginDesc->{instance} ) {
 
-    eval "use $pluginDesc->{class};";
+        eval "use $pluginDesc->{class};";
 
-    if ($@) {
-      print STDERR "ERROR: can't load jQuery plugin $pluginName: $@\n";
-      $pluginDesc->{instance} = 0;
-    } else {
-      $pluginDesc->{instance} = $pluginDesc->{class}->new();
+        if ($@) {
+            print STDERR "ERROR: can't load jQuery plugin $pluginName: $@\n";
+            $pluginDesc->{instance} = 0;
+        }
+        else {
+            $pluginDesc->{instance} = $pluginDesc->{class}->new();
+        }
     }
-  }
 
-  return $pluginDesc->{instance};
+    return $pluginDesc->{instance};
 }
-
 
 =begin TML
 
@@ -212,25 +217,23 @@ Helper function to expand standard escape sequences =$percnt=, =$nop=,
 
 =cut
 
-
 sub expandVariables {
-  my ($format, %params) = @_;
+    my ( $format, %params ) = @_;
 
-  return '' unless $format;
-  
-  foreach my $key (keys %params) {
-    my $val = $params{$key};
-    $val = '' unless defined $val;
-    $format =~ s/\$$key\b/$val/g;
-  }
-  $format =~ s/\$percnt/\%/go;
-  $format =~ s/\$nop//g;
-  $format =~ s/\$n/\n/go;
-  $format =~ s/\$dollar/\$/go;
+    return '' unless $format;
 
-  return $format;
+    foreach my $key ( keys %params ) {
+        my $val = $params{$key};
+        $val = '' unless defined $val;
+        $format =~ s/\$$key\b/$val/g;
+    }
+    $format =~ s/\$percnt/\%/go;
+    $format =~ s/\$nop//g;
+    $format =~ s/\$n/\n/go;
+    $format =~ s/\$dollar/\$/go;
+
+    return $format;
 }
-
 
 =begin TML
 
@@ -250,43 +253,51 @@ installing Foswiki:Extensions/FamFamFamContrib would be nice to have.
 =cut
 
 sub getIconUrlPath {
-  my ($iconName) = @_;
+    my ($iconName) = @_;
 
-  return '' unless $iconName;
+    return '' unless $iconName;
 
-  unless (@iconSearchPath) {
-    my $iconSearchPath = 
-      $Foswiki::cfg{JQueryPlugin}{IconSearchPath}
-      || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
-    @iconSearchPath = split(/\s*,\s*/, $iconSearchPath);
-  }
-
-  $iconName =~ s/^.*\.(.*?)$/$1/; # strip file extension
-
-  my $iconPath = $iconCache{$iconName};
-
-  unless ($iconPath) {
-    my $iconWeb = $Foswiki::cfg{SystemWebName};
-    my $pubSystemDir = $Foswiki::cfg{PubDir}.'/'.$Foswiki::cfg{SystemWebName};
-
-    foreach my $item (@iconSearchPath) {
-      my ($web, $topic) = 
-        Foswiki::Func::normalizeWebTopicName($Foswiki::cfg{SystemWebName}, $item);
-
-      # SMELL: store violation assumes the we have got file-level access
-      # better use store api
-      my $iconDir = $Foswiki::cfg{PubDir}.'/'.$web.'/'.$topic.'/'.$iconName.'.png';
-      if (-f $iconDir) {
-        $iconPath = Foswiki::Func::getPubUrlPath().'/'.$web.'/'.$topic.'/'.$iconName.'.png';
-        last; # first come first serve
-      }
+    unless (@iconSearchPath) {
+        my $iconSearchPath = $Foswiki::cfg{JQueryPlugin}{IconSearchPath}
+          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+        @iconSearchPath = split( /\s*,\s*/, $iconSearchPath );
     }
-   
-    $iconPath ||= '';
-    $iconCache{$iconName} = $iconPath;
-  }
 
-  return $iconPath;
+    $iconName =~ s/^.*\.(.*?)$/$1/;    # strip file extension
+
+    my $iconPath = $iconCache{$iconName};
+
+    unless ($iconPath) {
+        my $iconWeb = $Foswiki::cfg{SystemWebName};
+        my $pubSystemDir =
+          $Foswiki::cfg{PubDir} . '/' . $Foswiki::cfg{SystemWebName};
+
+        foreach my $item (@iconSearchPath) {
+            my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName(
+                $Foswiki::cfg{SystemWebName}, $item );
+
+            # SMELL: store violation assumes the we have got file-level access
+            # better use store api
+            my $iconDir =
+                $Foswiki::cfg{PubDir} . '/' 
+              . $web . '/' 
+              . $topic . '/'
+              . $iconName . '.png';
+            if ( -f $iconDir ) {
+                $iconPath =
+                    Foswiki::Func::getPubUrlPath() . '/' 
+                  . $web . '/' 
+                  . $topic . '/'
+                  . $iconName . '.png';
+                last;    # first come first serve
+            }
+        }
+
+        $iconPath ||= '';
+        $iconCache{$iconName} = $iconPath;
+    }
+
+    return $iconPath;
 }
 
 =begin TML
@@ -298,18 +309,18 @@ returns a list of all known plugins
 =cut
 
 sub getPlugins {
-  my ($include) = @_;
+    my ($include) = @_;
 
-  my @plugins = ();
-  foreach my $key (sort keys %plugins) {
-    next if $key eq 'empty'; # skip this one
-    next if $include && $key !~ /^($include)$/;
-    my $pluginDesc = $plugins{$key};
-    my $plugin = load($pluginDesc->{name});
-    push @plugins, $plugin if $plugin;
-  }
+    my @plugins = ();
+    foreach my $key ( sort keys %plugins ) {
+        next if $key eq 'empty';    # skip this one
+        next if $include && $key !~ /^($include)$/;
+        my $pluginDesc = $plugins{$key};
+        my $plugin     = load( $pluginDesc->{name} );
+        push @plugins, $plugin if $plugin;
+    }
 
-  return @plugins;
+    return @plugins;
 }
 
 =begin TML
@@ -325,7 +336,7 @@ even not when it got extended via ajax.
 =cut
 
 sub getRandom {
-  return int(rand(10000)) +1;
+    return int( rand(10000) ) + 1;
 }
 
 1;

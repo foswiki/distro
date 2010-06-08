@@ -24,19 +24,22 @@ Constructor
 =cut
 
 sub new {
-  my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
+    my $class = shift;
+    my $session = shift || $Foswiki::Plugins::SESSION;
 
-  my $this = bless($class->SUPER::new( 
-    $session,
-    name => 'Foswiki',
-    version => '2.01',
-    author => 'Michael Daum',
-    homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
-    tags=>'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
-  ), $class);
+    my $this = bless(
+        $class->SUPER::new(
+            $session,
+            name     => 'Foswiki',
+            version  => '2.01',
+            author   => 'Michael Daum',
+            homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
+            tags     => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
+        ),
+        $class
+    );
 
-  return $this;
+    return $this;
 }
 
 =begin TML
@@ -48,25 +51,25 @@ Initialize this plugin by adding the required static files to the html header
 =cut
 
 sub init {
-  my $this = shift;
+    my $this = shift;
 
-  return unless $this->SUPER::init();
+    return unless $this->SUPER::init();
 
-  my $js = 'jquery.foswiki';
-  $js .= '.uncompressed' if $this->{debug};
-  $js .= '.js?version='.$this->{version};
+    my $js = 'jquery.foswiki';
+    $js .= '.uncompressed' if $this->{debug};
+    $js .= '.js?version=' . $this->{version};
 
-  # Not used
-  #my $header = '';
-  #Foswiki::Func::addToZone('head', 'JQUERYPLUGIN::FOSWIKI',
-  #                         $header, 'JQUERYPLUGIN');
+    # Not used
+    #my $header = '';
+    #Foswiki::Func::addToZone('head', 'JQUERYPLUGIN::FOSWIKI',
+    #                         $header, 'JQUERYPLUGIN');
 
-  my $footer = <<FOOTER;
+    my $footer = <<FOOTER;
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>
 FOOTER
 
-  Foswiki::Func::addToZone('body', 'JQUERYPLUGIN::FOSWIKI',
-                           $footer, 'JQUERYPLUGIN');
+    Foswiki::Func::addToZone( 'body', 'JQUERYPLUGIN::FOSWIKI', $footer,
+        'JQUERYPLUGIN' );
 }
 
 1;

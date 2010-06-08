@@ -5,7 +5,7 @@
 
 package Foswiki::Form::Date;
 use Foswiki::Form::FieldDefinition ();
-@ISA = ( 'Foswiki::Form::FieldDefinition' );
+@ISA = ('Foswiki::Form::FieldDefinition');
 
 use strict;
 use warnings;
@@ -24,9 +24,10 @@ sub new {
 
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
-    my ($web, $topic);
+    my ( $web, $topic );
 
-    unless (ref($topicObject)) {
+    unless ( ref($topicObject) ) {
+
         # Pre 1.1
         ( $this, $web, $topic, $value ) = @_;
         undef $topicObject;
@@ -38,31 +39,37 @@ sub renderForEdit {
             size  => $this->{size},
             value => $value,
             class => $this->can('cssClasses')
-              ? $this->cssClasses( 'foswikiInputField',
-                                   'foswikiEditFormDateField' )
-                : 'foswikiInputField foswikiEditFormDateField'
-               }
-       );
-    my $ifFormat = Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT') || $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
+            ? $this->cssClasses( 'foswikiInputField',
+                'foswikiEditFormDateField' )
+            : 'foswikiInputField foswikiEditFormDateField'
+        }
+    );
+    my $ifFormat =
+         Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
+      || $Foswiki::cfg{JSCalendarContrib}{format}
+      || '%e %b %Y';
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
     my $button .= CGI::image_button(
         -name    => 'calendar',
         -onclick => "return showCalendar('id$this->{name}','$ifFormat')",
         -src     => $Foswiki::cfg{PubUrlPath} . '/'
           . $Foswiki::cfg{SystemWebName}
-            . '/JSCalendarContrib/img.gif',
+          . '/JSCalendarContrib/img.gif',
         -alt   => 'Calendar',
         -class => 'foswikiButton foswikiEditFormCalendarButton'
-       );
+    );
     $value .=
       CGI::span( { -class => 'foswikiMakeVisible' }, '&nbsp;' . $button );
     if ($topicObject) {
         $value = $topicObject->renderTML( $topicObject->expandMacros($value) );
-    } else {
+    }
+    else {
+
         # Pre 1.1
         my $session = $this->{session};
-        $value = $session->renderer->getRenderedVersion(
-            $session->handleCommonTags( $value, $web, $topic ));
+        $value =
+          $session->renderer->getRenderedVersion(
+            $session->handleCommonTags( $value, $web, $topic ) );
     }
     return ( '', $value );
 }

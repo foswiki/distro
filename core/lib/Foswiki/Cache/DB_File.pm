@@ -168,7 +168,7 @@ sub _tie {
           or die "can't lock cache db: $!";
     }
     else {
-        ASSERT(0, "unknown mode $mode in Cache::DB_File");
+        ASSERT( 0, "unknown mode $mode in Cache::DB_File" );
     }
 
     $this->{handler} = tie %{ $this->{tie} },

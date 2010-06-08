@@ -8,7 +8,8 @@ use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
 $VERSION = '$Rev$';
 $RELEASE = '1.1';
-$SHORTDESCRIPTION = 'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
+$SHORTDESCRIPTION =
+  'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

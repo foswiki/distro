@@ -185,7 +185,8 @@ sub _generateEditField {
         if ($fieldDef) {
             my $topicObject =
               Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-              ( $extras, $html ) = $fieldDef->renderForEdit( $topicObject, $value );
+            ( $extras, $html ) =
+              $fieldDef->renderForEdit( $topicObject, $value );
         }
     }
     unless ($html) {

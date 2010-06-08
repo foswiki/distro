@@ -53,12 +53,10 @@ sub getOptions {
         my ( $fieldWeb, $fieldTopic ) =
           $session->normalizeWebTopicName( $this->{web}, $topic );
 
-        $fieldWeb = Foswiki::Sandbox::untaint(
-            $fieldWeb,
-            \&Foswiki::Sandbox::validateWebName);
-        $fieldTopic = Foswiki::Sandbox::untaint(
-            $fieldTopic,
-            \&Foswiki::Sandbox::validateTopicName);
+        $fieldWeb = Foswiki::Sandbox::untaint( $fieldWeb,
+            \&Foswiki::Sandbox::validateWebName );
+        $fieldTopic = Foswiki::Sandbox::untaint( $fieldTopic,
+            \&Foswiki::Sandbox::validateTopicName );
 
         if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
 

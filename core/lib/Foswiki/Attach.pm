@@ -111,9 +111,9 @@ sub formatVersions {
 
     my $users = $this->{session}->{users};
 
-    $attrs{name} = Foswiki::Sandbox::untaint(
-        $attrs{name},
-        \&Foswiki::Sandbox::validateAttachmentName);
+    $attrs{name} =
+      Foswiki::Sandbox::untaint( $attrs{name},
+        \&Foswiki::Sandbox::validateAttachmentName );
 
     my $revIt = $topicObject->getRevisionHistory( $attrs{name} );
 

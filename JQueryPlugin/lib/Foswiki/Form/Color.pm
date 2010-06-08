@@ -9,49 +9,51 @@ use strict;
 use warnings;
 
 sub new {
-  my $class = shift;
-  my $this  = $class->SUPER::new(@_);
-  Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
-  return $this;
+    my $class = shift;
+    my $this  = $class->SUPER::new(@_);
+    Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
+    return $this;
 }
 
 sub renderForEdit {
-  my ($this, $param1, $param2, $param3) = @_;
+    my ( $this, $param1, $param2, $param3 ) = @_;
 
-  my $value;
-  my $web;
-  my $topic;
-  my $topicObject;
-  if (ref($param1)) { # Foswiki > 1.1
-    $topicObject = $param1;
-    $value = $param2;
-  } else {
-    $web = $param1;
-    $topic = $param2;
-    $value = $param3;
-  }
-  $value ||= '#000';
+    my $value;
+    my $web;
+    my $topic;
+    my $topicObject;
+    if ( ref($param1) ) {    # Foswiki > 1.1
+        $topicObject = $param1;
+        $value       = $param2;
+    }
+    else {
+        $web   = $param1;
+        $topic = $param2;
+        $value = $param3;
+    }
+    $value ||= '#000';
 
-  my $field = CGI::textfield(
-    -class => $this->cssClasses('foswikiInputField jqFarbtastic'),
-    -name  => $this->{name},
-    -size  => 11,
-    -value => $value,
-    -id  => $this->{name},
-  );
+    my $field = CGI::textfield(
+        -class => $this->cssClasses('foswikiInputField jqFarbtastic'),
+        -name  => $this->{name},
+        -size  => 11,
+        -value => $value,
+        -id    => $this->{name},
+    );
 
-  return ('',$field);
+    return ( '', $field );
 }
 
 sub renderForDisplay {
-  my ($this, $format, $value, $attrs) = @_;
+    my ( $this, $format, $value, $attrs ) = @_;
 
-  Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
+    Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
 
-  my $result = "<div class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</div>";
-  $format =~ s/\$value/$result/g;
+    my $result =
+"<div class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</div>";
+    $format =~ s/\$value/$result/g;
 
-  return $this->SUPER::renderForDisplay($format, $value, $attrs);
+    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
 }
 
 1;

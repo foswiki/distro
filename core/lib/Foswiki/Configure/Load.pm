@@ -123,20 +123,21 @@ CODE
     expand( \%Foswiki::cfg ) unless $noexpand;
 
     $Foswiki::cfg{ConfigurationFinished} = 1;
-    
-    #on Windows, File::Spec returns a really useless empty string for tempdir under apache
-    #(in its unix code, it assumes /tmp - but at least thats standard..)
-    #so defaulting $ENV{TMP} can get us limping along (and can over-ride using TMPDIR or TEMP env
-    if ($^O eq 'MSWin32') {
+
+#on Windows, File::Spec returns a really useless empty string for tempdir under apache
+#(in its unix code, it assumes /tmp - but at least thats standard..)
+#so defaulting $ENV{TMP} can get us limping along (and can over-ride using TMPDIR or TEMP env
+    if ( $^O eq 'MSWin32' ) {
+
         #force paths to use '/'
-        $Foswiki::cfg{PubDir} =~ s|\\|/|g;
-        $Foswiki::cfg{DataDir} =~ s|\\|/|g;
-        $Foswiki::cfg{ToolsDir} =~ s|\\|/|g;
-        $Foswiki::cfg{ScriptDir} =~ s|\\|/|g;
+        $Foswiki::cfg{PubDir}      =~ s|\\|/|g;
+        $Foswiki::cfg{DataDir}     =~ s|\\|/|g;
+        $Foswiki::cfg{ToolsDir}    =~ s|\\|/|g;
+        $Foswiki::cfg{ScriptDir}   =~ s|\\|/|g;
         $Foswiki::cfg{TemplateDir} =~ s|\\|/|g;
-        $Foswiki::cfg{LocalesDir} =~ s|\\|/|g;
-        $Foswiki::cfg{WorkingDir} =~ s|\\|/|g;
-        
+        $Foswiki::cfg{LocalesDir}  =~ s|\\|/|g;
+        $Foswiki::cfg{WorkingDir}  =~ s|\\|/|g;
+
         #$ENV{TMPDIR}
         #$ENV{TEMP}
         #$ENV{TMP}
@@ -211,6 +212,7 @@ sub readDefaults {
         _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/TWiki/Contrib",   $root, \%read, \@errors );
     }
+
     # SMELL: This will create the %TWiki::cfg
     # But as it ought to be aliased to %Foswiki::cfg, it's not a big deal
     # XXX: Do we still need this code?

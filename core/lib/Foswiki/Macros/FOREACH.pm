@@ -11,10 +11,11 @@ sub FOREACH {
 
     my @list = split( /,\s*/, $params->{_DEFAULT} || '' );
     my $s;
-    
-    #TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
+
+#TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
     $params->{separator} = '$n' unless ( defined( $params->{separator} ) );
-    $params->{separator} = Foswiki::expandStandardEscapes($params->{separator});
+    $params->{separator} =
+      Foswiki::expandStandardEscapes( $params->{separator} );
 
     # If the format string contains any of the topic-specific format specifiers
     # then the list is treated as a list of topic names. Otherwise it is treated
@@ -22,8 +23,9 @@ sub FOREACH {
     my $format = $params->{format};
     my $header = $params->{header} || '';
     my $footer = $params->{footer} || '';
-    my $type = $params->{type} || 'topic';
-    $type = 'topic' unless ($type eq 'string'); #only support special type 'string'
+    my $type   = $params->{type} || 'topic';
+    $type = 'topic'
+      unless ( $type eq 'string' );    #only support special type 'string'
 
     # pass on all attrs, and add some more
     #$params->{_callback} = undef;
@@ -31,39 +33,42 @@ sub FOREACH {
     $params->{basetopic} = $topicObject->topic;
     $params->{search}    = $params->{_DEFAULT}
       if defined $params->{_DEFAULT};
-    $params->{type}  = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
+    $params->{type} = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
 
     try {
         my $listIterator;
-        
-        if ($type eq 'string') {
-          require Foswiki::ListIterator;
-          $listIterator = new Foswiki::ListIterator(\@list);
-        } else {
-          #from Search::_makeTopicPattern (plus an added . to allow web.topic)
-          my @topics = map {
-              s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
-              s/\*/\.\*/go;
-              $_
-          } @list;
 
-          require Foswiki::Search::InfoCache;
-          $listIterator =
-            new Foswiki::Search::InfoCache( $this, $params->{baseweb}, \@topics );
+        if ( $type eq 'string' ) {
+            require Foswiki::ListIterator;
+            $listIterator = new Foswiki::ListIterator( \@list );
+        }
+        else {
+
+            #from Search::_makeTopicPattern (plus an added . to allow web.topic)
+            my @topics = map {
+                s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
+                s/\*/\.\*/go;
+                $_
+            } @list;
+
+            require Foswiki::Search::InfoCache;
+            $listIterator =
+              new Foswiki::Search::InfoCache( $this, $params->{baseweb},
+                \@topics );
         }
         my ( $ttopics, $searchResult, $tmplTail ) =
           $this->search->formatResults( undef, $listIterator, $params );
         $s = $searchResult;
     }
-      catch Error::Simple with {
-          my $message = (DEBUG) ? shift->stringify() : shift->{-text};
+    catch Error::Simple with {
+        my $message = (DEBUG) ? shift->stringify() : shift->{-text};
 
-          # Block recursions kicked off by the text being repeated in the
-          # error message
-          $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
-          $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
-      };
+        # Block recursions kicked off by the text being repeated in the
+        # error message
+        $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
+        $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
+    };
 
     return $s;
 }

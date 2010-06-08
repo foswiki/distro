@@ -188,21 +188,26 @@ sub validateAttachmentName {
     # are simply an expression of that root.
     $string =~ s/^\/+//;
 
-    my @dirs = split(/\/+/, $string);
+    my @dirs = split( /\/+/, $string );
     my @result;
-    foreach my $component ( @dirs ) {
+    foreach my $component (@dirs) {
         return undef unless defined($component) && $component ne '';
         next if $component eq '.';
         if ( $component eq '..' ) {
-            if (scalar(@result)) {
+            if ( scalar(@result) ) {
+
                 # path name is relative within its own length - we can
                 # do that
                 pop(@result);
-            } else {
+            }
+            else {
+
                 # Illegal relative path name
                 return undef;
             }
-        } else {
+        }
+        else {
+
             # Filter nasty characters
             $component =~ s/$Foswiki::cfg{NameFilter}//g;
             push( @result, $component );
@@ -210,7 +215,7 @@ sub validateAttachmentName {
     }
 
     #SMELL: there is a proper way to do this.... File::Spec
-    return join('/', @result);
+    return join( '/', @result );
 }
 
 # Validate, clean up and untaint filename passed to an external command
@@ -289,6 +294,7 @@ sub sanitizeAttachmentName {
         $fileName =~ s/$Foswiki::cfg{NameFilter}//go;
     }
     else {
+
         # No I18N, filter out invalid chars
         $fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//go;
     }
@@ -618,7 +624,7 @@ sub sysCommand {
         }
         else {
             $cmd =
-                $path . ' '
+                $path . ' ' 
               . $CMDQUOTE
               . join(
                 $CMDQUOTE . ' ' . $CMDQUOTE,

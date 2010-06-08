@@ -66,7 +66,8 @@ sub checkTreePerms {
 
     my $errs = '';
 
-    return $path . ' cannot be found' . CGI::br() unless ( -e $path || -l $path );
+    return $path . ' cannot be found' . CGI::br()
+      unless ( -e $path || -l $path );
 
     if ( $perms =~ /r/ && !-r $path ) {
         $errs .= ' readable';
@@ -84,7 +85,11 @@ sub checkTreePerms {
 
     return '' unless -d $path;
 
-    return $path . ' directory is missing \'x\' permission - not readable' . CGI::br() if ( -d $path && !-x $path);
+    return
+        $path
+      . ' directory is missing \'x\' permission - not readable'
+      . CGI::br()
+      if ( -d $path && !-x $path );
 
     opendir( my $Dfh, $path )
       or return 'Directory ' . $path . ' is not readable.' . CGI::br();

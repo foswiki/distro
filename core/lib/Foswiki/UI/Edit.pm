@@ -17,7 +17,7 @@ use Error qw( :try );
 use Foswiki                ();
 use Foswiki::UI            ();
 use Foswiki::OopsException ();
-use Foswiki::Form ();
+use Foswiki::Form          ();
 
 =begin TML
 
@@ -218,26 +218,24 @@ sub init_edit {
     }
     else {
         if ($templateTopic) {
+
             # User specified template. Validate it.
             my ( $invalidTemplateWeb, $invalidTemplateTopic ) =
-              $session->normalizeWebTopicName(
-                  $templateWeb, $templateTopic );
+              $session->normalizeWebTopicName( $templateWeb, $templateTopic );
 
-            $templateWeb = Foswiki::Sandbox::untaint(
-                $invalidTemplateWeb,
-                \&Foswiki::Sandbox::validateWebName);
-            $templateTopic = Foswiki::Sandbox::untaint(
-                $invalidTemplateTopic,
-                \&Foswiki::Sandbox::validateTopicName);
+            $templateWeb = Foswiki::Sandbox::untaint( $invalidTemplateWeb,
+                \&Foswiki::Sandbox::validateWebName );
+            $templateTopic = Foswiki::Sandbox::untaint( $invalidTemplateTopic,
+                \&Foswiki::Sandbox::validateTopicName );
 
-            unless ($templateWeb && $templateTopic) {
+            unless ( $templateWeb && $templateTopic ) {
                 throw Foswiki::OopsException(
                     'accessdenied',
                     status => 403,
                     def    => 'no_such_topic_template',
                     web    => $invalidTemplateWeb,
                     topic  => $invalidTemplateTopic
-                   );  
+                );
             }
         }
         else {
@@ -288,7 +286,7 @@ sub init_edit {
         $topicObject->copyFrom( $ttom, 'PREFERENCE' );
 
         # Copy the text
-        $topicObject->text($ttom->text());
+        $topicObject->text( $ttom->text() );
 
         $topicObject->expandNewTopic();
     }
@@ -385,7 +383,9 @@ sub init_edit {
         my $formDef;
         try {
             $formDef = new Foswiki::Form( $session, $templateWeb, $form );
-        } catch Foswiki::OopsException with {
+        }
+        catch Foswiki::OopsException with {
+
             # Catch and ignore oops exception from this first call
         };
         if ( !$formDef ) {
@@ -412,7 +412,7 @@ sub init_edit {
     }
     else {
         my $webObject = Foswiki::Meta->new( $session, $web );
-        my @forms = Foswiki::Form::getAvailableForms( $topicObject );
+        my @forms = Foswiki::Form::getAvailableForms($topicObject);
         if ( scalar(@forms) ) {
             $formText = $session->templates->readTemplate('addform');
             $formText = $topicObject->expandMacros($formText);

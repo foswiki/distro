@@ -12,8 +12,8 @@ our @ISA = qw( FoswikiFnTestCase );
 use Foswiki;
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebTableFormatting';
-my $tableCount = 1;
-my $debug = 0;
+my $tableCount    = 1;
+my $debug         = 0;
 
 sub new {
     my $self = shift()->SUPER::new( 'TableFormatting', @_ );
@@ -25,7 +25,8 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
-    $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} = 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
+    $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} =
+'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
@@ -48,8 +49,8 @@ sub do_test {
 =cut
 
 sub test_simpleTableusing {
-    my $this     = shift;
-    
+    my $this = shift;
+
     my $expected = <<EXPECTED;
 <nop>
 <nop>
@@ -85,7 +86,7 @@ ACTUAL
 
 sub test_simpleTheadTableUsingTablePlugin {
     my $this = shift;
-    
+
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -125,10 +126,10 @@ ACTUAL
 =cut
 
 sub test_simpleTfootTableusingTablePlugin {
-    my $this     = shift;
-	
-    my $cgi = $this->{request};
-    my $url = $cgi->url( -absolute => 1 );
+    my $this = shift;
+
+    my $cgi      = $this->{request};
+    my $url      = $cgi->url( -absolute => 1 );
     my $expected = <<EXPECTED;
 <nop>
 <nop>
@@ -168,7 +169,7 @@ ACTUAL
 
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
-    
+
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -215,7 +216,7 @@ ACTUAL
 
 sub test_doubleTheadandTfootTableusingTablePlugin {
     my $this = shift;
-    
+
     my $cgi = $this->{request};
     my $url = $cgi->url( -absolute => 1 );
 
@@ -268,7 +269,7 @@ Test sorting of Size column (format: '1.1 K')
 
 sub test_sort_size {
     my $this = shift;
-    
+
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -345,7 +346,7 @@ Test sorting of a numbers column
 
 sub test_sort_numbers {
     my $this = shift;
-    
+
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -422,7 +423,7 @@ Test sorting of a numbers column with additional strings. One cell is empty.
 
 sub test_sort_numbers_with_strings_mixed {
     my $this = shift;
-    
+
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -496,7 +497,7 @@ Test sorting of a numbers column that contains an empty cell and a cell with a s
 
 sub test_sort_numbers__mixed {
     my $this = shift;
-    
+
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -551,7 +552,7 @@ EXPECTED
 
     $this->do_test( $expected, $actual );
 }
-    
+
 =pod
 
 Test sorting of a numbers column that contains an empty cell and a cell with a string.
@@ -560,7 +561,7 @@ Test sorting of a numbers column that contains an empty cell and a cell with a s
 
 sub test_sort_dates {
     my $this = shift;
-    
+
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -670,8 +671,7 @@ EXPECTED
 
     $this->do_test( $expected, $actual );
 }
-   
-    
+
 =pod
 
 Test sorting of Date column with HTML tags before the date
@@ -680,7 +680,7 @@ Test sorting of Date column with HTML tags before the date
 
 sub test_sort_dateWithHtml {
     my $this = shift;
-    
+
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -772,8 +772,8 @@ THIS
 THIS
 
     # include this in our test topic
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName       = $this->{test_topic};
+    my $webName         = $this->{test_web};
     my $cgi             = $this->{request};
     my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
@@ -801,11 +801,10 @@ END
 
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
-    _trimSpaces( $expected );
-    _trimSpaces( $result );
+    _trimSpaces($expected);
+    _trimSpaces($result);
     $this->do_test( $expected, $result );
 }
-
 
 =pod
 
@@ -814,10 +813,10 @@ Tests that two tables have IDs suffixed by 1 and 2
 =cut
 
 sub test_tableIdNumbering {
-    my $this     = shift;
-	
-    my $cgi = $this->{request};
-    my $url = $cgi->url( -absolute => 1 );
+    my $this = shift;
+
+    my $cgi      = $this->{request};
+    my $url      = $cgi->url( -absolute => 1 );
     my $expected = <<EXPECTED;
 <nop>
 <nop>
@@ -863,7 +862,6 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
-
 =pod
 
 Tests that two tables have IDs suffixed by 1 and 1 if the 
@@ -876,11 +874,11 @@ This test also tests the initialiseWhenRender API call
 =cut
 
 sub test_tableIdNumberingInitialiseWhenRender {
-    my $this     = shift;
+    my $this = shift;
 
     my $webName   = $this->{test_web};
     my $topicName = $this->{test_topic};
-    my $expected = <<EXPECTED;
+    my $expected  = <<EXPECTED;
 <nop>
 <nop>
 <nop>
@@ -923,12 +921,12 @@ ACTUAL
     my $actual1 =
       Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
 
-    $actual1 = Foswiki::Func::renderText( $actual1, $webName, $topicName );  
+    $actual1 = Foswiki::Func::renderText( $actual1, $webName, $topicName );
 
     # Resetting the table counter (the objective of this test)
     Foswiki::Plugins::TablePlugin::initialiseWhenRender();
-   
-    my $actual2 = 
+
+    my $actual2 =
       Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
 
     $actual2 = Foswiki::Func::renderText( $actual2, $webName, $topicName );
@@ -939,214 +937,229 @@ ACTUAL
 # DEVELOPMENT TESTS
 
 sub dev_test_convertStringToNumber_empty_string {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $number);
-	
-	$text = '    ';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = undef;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $number );
+
+    $text = '    ';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = undef;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToNumber_number_int {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $number);
-	
-	$text = '1';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 1;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '0';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 0;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '-1';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = -1;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $number );
+
+    $text = '1';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 1;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '0';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 0;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '-1';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = -1;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToNumber_number_float {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $number);
-	
-	$text = '1.1';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 1.1;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '9.999';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 9.999;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '-9.999';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = -9.999;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '0.000';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 0;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $number );
+
+    $text = '1.1';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 1.1;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '9.999';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 9.999;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '-9.999';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = -9.999;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '0.000';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 0;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToNumber_number_with_string {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $number);
-	
-	$text = '1K';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 1;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '1 thing';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 1;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '9.99 kilos';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 9.99;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $number );
+
+    $text = '1K';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 1;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '1 thing';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 1;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
+
+    $text = '9.99 kilos';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 9.99;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToNumber_ip_string {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $number);
-	
-	$text = '1.1.1.1';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = undef;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '1.1.1.1 IP address';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = undef;
-	$this->assert_equals( $expected, $result );
-	
-	$text = '1.1';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = 1.1;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $number );
+
+    $text = '1.1.1.1';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = undef;
+    $this->assert_equals( $expected, $result );
+
+    $text = '1.1.1.1 IP address';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = undef;
+    $this->assert_equals( $expected, $result );
+
+    $text = '1.1';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = 1.1;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToNumber_string {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $number);
-	
-	$text = 'thing';
-	$number = Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
-	$result = $number;
-	$expected = undef;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $number );
+
+    $text = 'thing';
+    $number =
+      Foswiki::Plugins::TablePlugin::Core::_convertStringToNumber($text);
+    $result   = $number;
+    $expected = undef;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToDate_date_string_1 {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $date);
-	
-	$text = '12 Dec 2001';
-	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
-	$result = $date;
-	$expected = 1008115200;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $date );
+
+    $text   = '12 Dec 2001';
+    $date   = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+    $result = $date;
+    $expected = 1008115200;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToDate_date_string_2 {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $date);
-	
-	$text = '2001-1';
-	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
-	$result = $date;
-	$expected = 978307200;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $date );
+
+    $text   = '2001-1';
+    $date   = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+    $result = $date;
+    $expected = 978307200;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToDate_year {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $date);
-	
-	$text = '2001';
-	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
-	$result = $date;
-	$expected = 978307200;
-	print ("RES=$result.\n")     if $debug;
-	print ("EXP=$expected.\n") if $debug;
-	$this->assert_equals( $expected, $result );
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $date );
+
+    $text   = '2001';
+    $date   = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+    $result = $date;
+    $expected = 978307200;
+    print("RES=$result.\n")   if $debug;
+    print("EXP=$expected.\n") if $debug;
+    $this->assert_equals( $expected, $result );
 }
 
 sub dev_test_convertStringToDate_year_before_1970 {
-    my $this     = shift;
+    my $this = shift;
 
-	use Foswiki::Plugins::TablePlugin::Core;
-	my ($text, $result, $expected, $date);
-	
-	$text = '1940';
-	$date = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
-	$result = $date;
-	$expected = undef;
+    use Foswiki::Plugins::TablePlugin::Core;
+    my ( $text, $result, $expected, $date );
 
-	$this->assert_equals( $expected, $result );
+    $text   = '1940';
+    $date   = Foswiki::Plugins::TablePlugin::Core::_convertStringToDate($text);
+    $result = $date;
+    $expected = undef;
+
+    $this->assert_equals( $expected, $result );
 }
 
 sub _trimSpaces {

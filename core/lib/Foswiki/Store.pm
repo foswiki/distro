@@ -125,9 +125,8 @@ sub getWorkArea {
 
     # untaint and detect nasties. The rules are the same as for
     # attachment names.
-    $key = Foswiki::Sandbox::untaint(
-        $key,
-        \&Foswiki::Sandbox::validateAttachmentName);
+    $key = Foswiki::Sandbox::untaint( $key,
+        \&Foswiki::Sandbox::validateAttachmentName );
     throw Error::Simple("Bad work area name $key") unless ($key);
 
     my $dir = "$Foswiki::cfg{WorkingDir}/work_areas/$key";

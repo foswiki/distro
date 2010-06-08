@@ -224,7 +224,7 @@ sub _process {
         return;
     }
     my $fh;
-    unless (open( $fh, '<', $this->{rcsFile} ) ) {
+    unless ( open( $fh, '<', $this->{rcsFile} ) ) {
         $this->{session}
           ->logger->log( 'warning', 'Failed to open ' . $this->{rcsFile} );
         $this->{state} = 'nocommav';
@@ -501,11 +501,11 @@ sub _addRevision {
 }
 
 sub _writeMe {
-    my ($this)    = @_;
+    my ($this) = @_;
     my $out;
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{rcsFile} );
-    unless ( open($out, '>', $this->{rcsFile} ) ) {
+    unless ( open( $out, '>', $this->{rcsFile} ) ) {
         throw Error::Simple(
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }

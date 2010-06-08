@@ -15,7 +15,7 @@ use warnings;
 use Error qw( :try );
 use Assert;
 
-use Foswiki ();
+use Foswiki       ();
 use Foswiki::Form ();
 
 =begin TML
@@ -40,7 +40,7 @@ sub generate {
     }
     $formName = 'none' if ( !$formName );
 
-    my @forms = Foswiki::Form::getAvailableForms( $topicObject );
+    my @forms = Foswiki::Form::getAvailableForms($topicObject);
     unshift( @forms, 'none' );
 
     my $formList      = '';

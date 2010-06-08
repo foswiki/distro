@@ -7,7 +7,7 @@ package Foswiki::Plugins::CommentPlugin;
 use strict;
 use warnings;
 
-use Foswiki::Func ();
+use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
@@ -17,6 +17,7 @@ our $SHORTDESCRIPTION =
 our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
+
     #my ( $topic, $web, $user, $installWeb ) = @_;
     return 1;
 }
@@ -27,7 +28,7 @@ sub commonTagsHandler {
     require Foswiki::Plugins::CommentPlugin::Comment;
 
     my $query = Foswiki::Func::getCgiQuery();
-    return unless( defined( $query ) );
+    return unless ( defined($query) );
 
     return unless $_[0] =~ m/%COMMENT({.*?})?%/o;
 
@@ -36,11 +37,12 @@ sub commonTagsHandler {
 
     # SMELL: unreliable
     my $previewing = ( $scriptname =~ /\/(preview|gnusave|rdiff|compare)/ );
-    Foswiki::Plugins::CommentPlugin::Comment::prompt( $previewing,
-                                                    $_[0], $web, $topic );
+    Foswiki::Plugins::CommentPlugin::Comment::prompt( $previewing, $_[0], $web,
+        $topic );
 }
 
 sub beforeSaveHandler {
+
     #my ( $text, $topic, $web ) = @_;
 
     require Foswiki::Plugins::CommentPlugin::Comment;
@@ -50,12 +52,12 @@ sub beforeSaveHandler {
 
     my $action = $query->param('comment_action');
 
-    return unless( defined( $action ) && $action eq 'save' );
+    return unless ( defined($action) && $action eq 'save' );
 
     # Stop it being applied again
     $query->delete('comment_action');
 
-    Foswiki::Plugins::CommentPlugin::Comment::save( @_ );
+    Foswiki::Plugins::CommentPlugin::Comment::save(@_);
 }
 
 1;

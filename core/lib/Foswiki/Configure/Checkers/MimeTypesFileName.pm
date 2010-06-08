@@ -10,9 +10,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $f = $Foswiki::cfg{MimeTypesFileName};   
+    my $f = $Foswiki::cfg{MimeTypesFileName};
     Foswiki::Configure::Load::expandValue($f);
-    my $e = $this->checkTreePerms($f , 'r' );
+    my $e = $this->checkTreePerms( $f, 'r' );
     $e = $this->ERROR($e) if $e;
     return $e;
 }

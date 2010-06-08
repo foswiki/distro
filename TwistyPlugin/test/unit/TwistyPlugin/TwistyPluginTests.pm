@@ -256,9 +256,9 @@ sub test_twistyInSubWeb {
     $this->{session}->finish();
     $this->{session} = new Foswiki();
 
-	my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
-	my $testTopic = 'TwistyTestTopic';
-    my $source = <<SOURCE;
+    my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
+    my $testTopic         = 'TwistyTestTopic';
+    my $source            = <<SOURCE;
 %TWISTY{
 showlink="Show..."
 hidelink="Hide"
@@ -271,9 +271,9 @@ SOURCE
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $testWebSubWebPath, $testTopic,
         $source );
-        
+
     $topicObject->save();
-    
+
     my $expected = <<EXPECTED;
 <span class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1show" class="twistyRememberSetting twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1hide" class="twistyRememberSetting twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Hide</span></a></span></span><!--/twistyPlugin foswikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1toggle" class="twistyRememberSetting twistyContent foswikiMakeHidden twistyInited">
 my twisty content
