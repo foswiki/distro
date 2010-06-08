@@ -87,6 +87,8 @@ view
             %SYSTEMWEB%.WebBottomBar
 </verbatim>
 
+Note that =WebTopBar= is not used per web, but it's either pulled from System.WebTopBar, or, if it doesn't exist, from System.WebTopBarExample.
+
 ---++ Logo
 
 ---+++ How can I change the web logo?
