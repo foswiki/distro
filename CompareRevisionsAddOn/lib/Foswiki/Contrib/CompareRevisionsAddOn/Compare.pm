@@ -292,6 +292,12 @@ sub compare {
 
     $output .= $tmpl_after;
 
+# Break circular references to avoid memory leaks. (Tasks:9127)
+    $tree1 = $tree1->parent() while defined $tree1->parent();
+    $tree1->delete();
+    $tree2 = $tree2->parent() while defined $tree2->parent();
+    $tree2->delete();
+    
     $session->{response}->status(200);
     $session->writeCompletePage( $output, 'view' );
 
