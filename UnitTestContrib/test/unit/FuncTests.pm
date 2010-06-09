@@ -76,7 +76,7 @@ sub test_createWeb_hierarchyDisabled {
         Foswiki::Func::createWeb($this->{test_web} . "/Subweb");
     } catch Error::Simple with {
         my $e = shift;
-        $this->assert_matches( qr/^Unable to create .* - Hierrchical webs are disabled.*/, $e, "Unexpected error $e");
+        $this->assert_matches( qr/^Unable to create .*- Hierarchical webs are disabled.*/, $e, "Unexpected error $e");
     };
     $this->assert(! Foswiki::Func::webExists($this->{test_web}."/Subweb"));
 }
@@ -259,6 +259,21 @@ NONNY
     @ri = Foswiki::Func::getRevisionInfo($this->{test_web}, $topic);
     $this->assert_matches(qr/2$/, $ri[2]);
 }
+
+#sub test_Item8713 {
+#    my $this = shift;
+#    my $tweb = 'A:B';
+#    my $topic = 'C:D';
+#    Foswiki::Func::saveTopic(
+#        $tweb, $topic, undef, <<NONNY );
+#%META:PREFERENCE{name="Bird" value="Kakapo"}%
+#   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
+#NONNY
+#    $this->assert(
+#       ! Foswiki::Func::webExists( $tweb ));
+#    $this->assert(
+#       ! Foswiki::Func::topicExists( $tweb, $topic ) );
+#}
 
 sub test_attachments {
     my $this = shift;
