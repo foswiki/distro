@@ -365,9 +365,15 @@ Gets/Sets response body. Note: do not use this method for output, use
 sub body {
     my ( $this, $body ) = @_;
     if ( defined $body ) {
-        # We have to do this, because printing wide bytes will spazz
-        # print, and length, and a load of other things.
-        utf8::downgrade($body) if utf8::is_utf8($body);
+        # There *is* a risk that a unicode string could reach this far - for
+        # example, if it comes from a plugin. We need to force such strings
+        # into the "Foswiki canonical" representation of a string of bytes.
+        # The outputmay be crap, but at least it won't trigger a
+        # "Wide character in print" error.
+        if (utf8::is_utf8($body)) {
+            require Encode;
+            $body = Encode::encode('iso-8859-1', $body, 0);
+        }
         $this->{headers}->{'Content-Length'} = length($body);
         $this->{body} = $body;
     }
