@@ -368,7 +368,7 @@ sub body {
         # There *is* a risk that a unicode string could reach this far - for
         # example, if it comes from a plugin. We need to force such strings
         # into the "Foswiki canonical" representation of a string of bytes.
-        # The outputmay be crap, but at least it won't trigger a
+        # The output may be crap, but at least it won't trigger a
         # "Wide character in print" error.
         if (utf8::is_utf8($body)) {
             require Encode;
