@@ -57,8 +57,7 @@ sub renderForEdit {
         };
 
         if ( $isSelected{$item} ) {
-
-            # CGI::checkbox_group() will check these items
+            $attrs{$item}{checked} = 'checked';
             push( @defaults, $item );
         }
     }
