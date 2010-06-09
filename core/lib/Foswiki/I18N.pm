@@ -303,20 +303,25 @@ sub _discover_languages {
     if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
         foreach my $line (<LANGUAGE>) {
             my ( $key, $name ) = split( '=', $line );
+            # Filter on enabled languages
+            next unless ($Foswiki::cfg{Languages}{$key} &&
+                           $Foswiki::cfg{Languages}{$key}{Enabled});
             chop($name);
             _add_language( $this, $key, $name );
         }
     }
     else {
-
-#TODO: if the cache file don't exist, perhaps a warning should be issued to the logs?
+        # Rebuild the cache, filtering on enabled languages.
         open LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache";
         foreach my $tag ( available_languages() ) {
             my $h = Foswiki::I18N->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
             $name = $this->toSiteCharSet($name);
-            _add_language( $this, $tag, $name );
             print LANGUAGE "$tag=$name\n";
+            # Filter on enabled languages
+            next unless ($Foswiki::cfg{Languages}{$tag} &&
+                           $Foswiki::cfg{Languages}{$tag}{Enabled});
+            _add_language( $this, $tag, $name );
         }
     }
 

@@ -365,11 +365,11 @@ Gets/Sets response body. Note: do not use this method for output, use
 sub body {
     my ( $this, $body ) = @_;
     if ( defined $body ) {
+        # We have to do this, because printing wide bytes will spazz
+        # print, and length, and a load of other things.
+        utf8::downgrade($body) if utf8::is_utf8($body);
+        $this->{headers}->{'Content-Length'} = length($body);
         $this->{body} = $body;
-        {
-            use bytes;
-            $this->{headers}->{'Content-Length'} = length $body;
-        }
     }
     return $this->{body};
 }
