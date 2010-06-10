@@ -495,6 +495,7 @@ sub _printMsg {
 s/==([A-Z]*)==/'=='.CGI::span( { class=>'foswikiAlert' }, $1 ).'=='/ge;
     }
     $session->{response}->print( $msg . "\n" ) if $msg;
+    $Foswiki::engine->flush($session->{response}, $session->{request});
 }
 
 1;

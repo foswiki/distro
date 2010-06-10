@@ -384,7 +384,7 @@ sub _execute {
             $html .= CGI::end_html();
             $res->print($html);
         }
-        $Foswiki::engine->finalizeError($res);
+        $Foswiki::engine->finalizeError($res, $session->{request});
         return $e->{status};
     }
     catch Error::Simple with {
@@ -396,7 +396,8 @@ sub _execute {
         $res = $session->{response} if $session;
         $res ||= new Foswiki::Response();
 
-        $res->header( -type => 'text/plain' );
+        $res->header( -type => 'text/plain' )
+          unless $res->outputHasStarted();
         if (DEBUG) {
 
             # output the full message and stacktrace to the browser

@@ -45,7 +45,7 @@ Start point to Runtime Engines.
 
 sub run {
     my $this = shift;
-    my $req  = $this->prepare;
+    my $req  = $this->prepare();
     if ( defined $req ) {
         my $res = Foswiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
@@ -87,7 +87,7 @@ sub prepare {
             $html .= CGI::end_html();
             $res->print($html);
         }
-        $this->finalizeError($res);
+        $this->finalizeError($res, $req);
         return $e->{status};
     }
     otherwise {
@@ -114,7 +114,7 @@ sub prepare {
             $text .= $mess;
             $res->print($text);
         }
-        $this->finalizeError($res);
+        $this->finalizeError($res, $req);
         return 500;    # Internal server error
     };
     return $req;
@@ -267,9 +267,13 @@ take any appropriate finalize actions, such as delete temporary files.
 
 sub finalize {
     my ( $this, $res, $req ) = @_;
-    $this->finalizeUploads( $res, $req );
-    $this->finalizeHeaders( $res, $req );
-    $this->finalizeBody($res);
+    if ($res->outputHasStarted()) {
+        $this->flush($res, $req);
+    } else {
+        $this->finalizeUploads( $res, $req );
+        $this->finalizeHeaders( $res, $req );
+        $this->finalizeBody($res);
+    }
 }
 
 =begin TML
@@ -288,18 +292,19 @@ sub finalizeUploads { }
 
 =begin TML
 
----++ ObjectMethod finalizeError( $res )
+---++ ObjectMethod finalizeError( $res, $req )
 
 Called if some engine especific error happens.
 
    * =$res= - Foswiki::Response object to get data from
+   * =$req= - Foswiki::Request object to get data from
 
 =cut
 
 sub finalizeError {
-    my ( $this, $res ) = @_;
-    $this->finalizeHeaders($res);
-    $this->finalizeBody($res);
+    my ( $this, $res, $req ) = @_;
+    $this->finalizeHeaders($res, $req);
+    $this->finalizeBody($res, $req);
 }
 
 =begin TML
@@ -350,9 +355,10 @@ sub finalizeCookies {
 
 =begin TML
 
----++ ObjectMethod finalizeBody( $res )
+---++ ObjectMethod finalizeBody( $res, $req )
 
    * =$res= - Foswiki::Response object to get data from
+   * =$req= - Foswiki::Request object to get data from
 
 Should send $res' body to client. This method calls =write()=
 as needed, sou engines should redefine that method insted of this one.
@@ -360,7 +366,7 @@ as needed, sou engines should redefine that method insted of this one.
 =cut
 
 sub finalizeBody {
-    my ( $this, $res ) = @_;
+    my ( $this, $res, $req ) = @_;
     my $body = $res->body;
     return unless $body;
     $this->prepareWrite($res);
@@ -380,12 +386,52 @@ sub finalizeBody {
 
 =begin TML
 
+---++ flush($res, $req)
+
+Forces the response headers to be emitted if they haven't already been sent
+(note that this may in some circumstances result in cookies being missed)
+before flushing what is in the body so far.
+
+Before headers are sent, any Content-length is removed, as a call to
+flush is a statement that there's more to follow, but we don't know
+how much at this point.
+
+This function should be used with great care! It requires that the output
+headers are fully complete before it is first called. Once it *has* been
+called, the response object will refuse any modifications that would alter
+the header.
+
+=cut
+
+sub flush {
+    my ($this, $res, $req) = @_;
+
+    unless ($res->outputHasStarted()) {
+        $res->deleteHeader('Content-Length');
+        $this->finalizeUploads( $res, $req );
+        $this->finalizeHeaders( $res, $req );
+        $this->prepareWrite($res);
+        $res->outputHasStarted(1);
+    }
+
+    my $body = $res->body();
+
+    if ( Scalar::Util::blessed($body) || ref( $body ) eq 'GLOB' ) {
+        throw Foswiki::EngineException('Cannot flush non-text response body');
+    }
+
+    $this->write($body);
+    $res->body('');
+}
+
+=begin TML
+
 ---++ ObjectMethod prepareWrite( $res )
 
-Abstract method, must be defined by inherited classes.
+Abstract method, may be defined by inherited classes.
    * =$res= - Foswiki::Response object to get data from
 
-Shold perform any task needed before writing.
+Should perform any task needed before writing.
 That's ok if none needed ;-)
 
 =cut

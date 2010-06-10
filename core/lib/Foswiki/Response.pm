@@ -15,10 +15,12 @@ Fields:
 =cut
 
 package Foswiki::Response;
+
 use strict;
 use warnings;
 use Assert;
-use CGI::Util qw(rearrange expires);
+
+use CGI::Util ();
 
 =begin TML
 
@@ -28,24 +30,16 @@ Constructs a Foswiki::Response object.
 
 =cut
 
-# NOTE: CHECK_ORDER is used to indicate when the body assembly has started.
-# By associating an assert with this action we can ensure that headers are
-# fully assembled before the body print starts - an essential precondition
-# for early flushing of output.
-sub CHECK_ORDER {
-    ASSERT( !$_[0]->{startedPrinting} ) if DEBUG;
-}
-
 sub new {
     my $proto = shift;
     my $class = ref($proto) || $proto;
     my $this  = {
-        status          => undef,
-        headers         => {},
-        body            => undef,
-        charset         => 'ISO-8859-1',
-        cookies         => [],
-        startedPrinting => 0,
+        status           => undef,
+        headers          => {},
+        body             => undef,
+        charset          => 'ISO-8859-1',
+        cookies          => [],
+        outputHasStarted => 0,
     };
 
     #default to 500 in debug mode so we can shake out the missing Status's
@@ -66,7 +60,8 @@ Gets/Sets response status.
 sub status {
     my ( $this, $status ) = @_;
     if ($status) {
-        CHECK_ORDER() if DEBUG;
+        ASSERT(!$this->{outputHasStarted}, 'Too late to change status')
+          if DEBUG;
         $this->{status} = $status =~ /^\d{3}/ ? $status : undef;
     }
     return $this->{status};
@@ -104,12 +99,12 @@ sub header {
     my ( $this, @p ) = @_;
     my (@header);
 
-    CHECK_ORDER;
+    ASSERT(!$this->{outputHasStarted}, 'Too late to change headers') if DEBUG;
 
     # Ugly hack to avoid html escape in CGI::Util::rearrange
     local $CGI::Q = { escape => 0 };
     my ( $type, $status, $cookie, $charset, $expires, $attachment, @other ) =
-      rearrange(
+      CGI::Util::rearrange(
         [
             [ 'TYPE',   'CONTENT_TYPE', 'CONTENT-TYPE' ], 'STATUS',
             [ 'COOKIE', 'COOKIES' ],    'CHARSET',
@@ -162,9 +157,9 @@ sub header {
         my @cookies = ref($cookie) eq 'ARRAY' ? @$cookie : ($cookie);
         $this->cookies( \@cookies );
     }
-    $this->{headers}->{Expires} = expires( $expires, 'http' )
+    $this->{headers}->{Expires} = CGI::Util::expires( $expires, 'http' )
       if ( defined $expires );
-    $this->{headers}->{Date} = expires( 0, 'http' )
+    $this->{headers}->{Date} = CGI::Util::expires( 0, 'http' )
       if defined $expires || $cookie;
     $this->{headers}->{'Content-Disposition'} =
       "attachment; filename=\"$attachment\""
@@ -185,15 +180,16 @@ are scalars for single-valued headers or arrayref for multivalued ones.
 sub headers {
     my ( $this, $hdr ) = @_;
     if ($hdr) {
-        CHECK_ORDER;
+        ASSERT(!$this->{outputHasStarted}, 'Too late to change headers')
+          if DEBUG;
         my %headers = ();
         while ( my ( $key, $value ) = each %$hdr ) {
             $key =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
             $headers{$key} = $value;
         }
-        $headers{Expires} = expires( $headers{Expires}, 'http' )
+        $headers{Expires} = CGI::Util::expires( $headers{Expires}, 'http' )
           if defined $headers{Expires};
-        $headers{Date} = expires( 0, 'http' )
+        $headers{Date} = CGI::Util::expires( 0, 'http' )
           if defined $headers{'Set-Cookie'} || defined $headers{Expires};
         if ( defined $headers{'Set-Cookie'} ) {
             my @cookies =
@@ -252,7 +248,7 @@ sub setDefaultHeaders {
                 $this->status($hdr);
             }
             elsif ( $hdr eq 'Expires' ) {
-                $value = expires( $value, 'http' );
+                $value = CGI::Util::expires( $value, 'http' );
             }
             elsif ( $hdr eq 'Set-Cookie' ) {
                 my @cookies = ref($value) eq 'ARRAY' ? @$value : ($value);
@@ -261,7 +257,7 @@ sub setDefaultHeaders {
             $this->{headers}->{$hdr} = $value;
         }
     }
-    $this->{headers}{Date} = expires( 0, 'http' )
+    $this->{headers}{Date} = CGI::Util::expires( 0, 'http' )
       if !exists $this->{headers}{Date}
           && (   defined $this->{headers}{Expires}
               || defined $this->{headers}{'Set-Cookie'} );
@@ -301,7 +297,7 @@ Deletes headers whose names are passed.
 sub deleteHeader {
     my $this = shift;
 
-    CHECK_ORDER;
+    ASSERT(!$this->{outputHasStarted}, 'Too late to change headers') if DEBUG;
 
     foreach (@_) {
         ( my $hdr = $_ ) =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
@@ -320,7 +316,7 @@ Adds $value to list of values associated with header $name.
 sub pushHeader {
     my ( $this, $hdr, $value ) = @_;
 
-    CHECK_ORDER;
+    ASSERT(!$this->{outputHasStarted}, 'Too late to change headers') if DEBUG;
 
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
     my $cur = $this->{headers}->{$hdr};
@@ -397,9 +393,11 @@ CGI Compatibility Note: It doesn't support -target or -nph
 
 sub redirect {
     my ( $this, @p ) = @_;
+    ASSERT(!$this->{outputHasStarted}, 'Too late to redirect') if DEBUG;
     my ( $url, $status, $cookies ) =
-      rearrange( [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ],
-        @p );
+      CGI::Util::rearrange(
+          [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ],
+          @p );
 
     return unless $url;
     return if ( $status && $status !~ /^\s*3\d\d.*/ );
@@ -414,15 +412,29 @@ sub redirect {
 
 ---++ ObjectMethod print(...)
 
-Add content to the end of the body. The print may not be flushed until the
-body is complete.
+Add content to the end of the body.
 
 =cut
 
 sub print {
     my $this = shift;
-    $this->{startedPrinting} = 1;
     $this->body( ( $this->{body} || '' ) . join( '', @_ ) );
+}
+
+=begin TML
+
+---++ ObjectMethod outputHasStarted([$boolean])
+
+Get/set the output-has-started flag. This is used by the Foswiki::Engine
+to separate header and body output. Once output has started, the headers
+cannot be changed (though the body can be modified)
+
+=cut
+
+sub outputHasStarted {
+    my ($this, $flag ) = @_;
+    $this->{outputHasStarted} = $flag if defined $flag;
+    return $this->{outputHasStarted};
 }
 
 1;
