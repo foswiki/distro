@@ -3409,7 +3409,7 @@ A web _has_ to have a preferences topic to be a web.
 sub webExists {
     my ( $this, $web ) = @_;
 
-    ASSERT( UNTAINTED($web) ) if DEBUG;
+    ASSERT( UNTAINTED($web), 'web is tainted' ) if DEBUG;
     return $this->{store}->webExists($web);
 }
 
@@ -3425,8 +3425,8 @@ Test if topic exists
 
 sub topicExists {
     my ( $this, $web, $topic ) = @_;
-    ASSERT( UNTAINTED($web) )   if DEBUG;
-    ASSERT( UNTAINTED($topic) ) if DEBUG;
+    ASSERT( UNTAINTED($web), 'web is tainted' )   if DEBUG;
+    ASSERT( UNTAINTED($topic), 'topic is tainted' ) if DEBUG;
     return $this->{store}->topicExists( $web, $topic );
 }
 
