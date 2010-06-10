@@ -47,6 +47,9 @@ Foswiki 1.1 is shipped with the following:
 ---++ Important Changes since Foswiki 1.0.9
 ***UPDATE ME***
 
+See ReleaseNotes01x00 for detailed information about changes in that release.
+
+---+++ Deprecations
 The following features have been deprecated (i.e. they are still available,
 but should not be used in new code and will be removed in a future release,
 so if you have been used them, you need to modify your code).
@@ -58,8 +61,22 @@ code). This handler assumed a level of interaction with the CGI handling
 process that is dangerous if misused, and severely limits the flexibility and
 optimisations available to the core.
 
-See ReleaseNotes01x00 for detailed information about changes in that release.
+---+++ Notes for extension authors
+The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the fnctions for =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
+<verbatim>
+$validWebName = Foswiki::Sandbox::untaint(
+    $webName, \&Foswiki::Sandbox::validateWebName);
+$validTopicName = Foswiki::Sandbox::untaint(
+    $topicName, \&Foswiki::Sandbox::validateWebName);
+</verbatim>
+If =$webName= is not a legal web name, then =$webName= will end up being undefined. Similarly for the topic name.
 
+Note that values are only checked for taintedness when FOSWIKI_ASSERTS are enabled, so unless you run your Foswiki in this mode, you will never see the errors. To enable asserts, simply add the line:
+<verbatim>
+$ENV{FOSWIKI_ASSERTS} = 1;
+</verbatim>
+to your =bin/LocalLib.cfg=.
+ 
 ---++ Foswiki Release 1.1.0 Details
 
 ---+++ Fixes
