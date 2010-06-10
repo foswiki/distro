@@ -5,7 +5,6 @@ package RegisterTests;
 # Tests not implemented:
 #notest_registerTwiceWikiName
 #notest_registerTwiceEmailAddress
-#notest_bulkResetPassword
 #notest_registerIllegitimateBypassApprove
 #notest_registerVerifyAndFinish
 #test_DoubleRegistration (loginname already used)
