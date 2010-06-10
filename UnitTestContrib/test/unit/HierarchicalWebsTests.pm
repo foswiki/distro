@@ -256,7 +256,7 @@ sub test_createWeb_hierarchyDisabled {
         $this->assert( 'No error thrown from populateNewWe() ');
     } catch Error::Simple with {
         my $e = shift;
-        $this->assert_matches( qr/^Unable to create .* - Hierrchical webs are disabled.*/, $e, "Unexpected error $e");
+        $this->assert_matches( qr/^Unable to create .* Hierarchical webs are disabled.*/, $e, "Unexpected error '$e'");
     };
     $this->assert(
         !$this->{session}->webExists("$testWebSubWebPath/$webTest".'x') );
