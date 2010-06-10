@@ -69,7 +69,7 @@ sub test_encode {
     $str =
       $this->{test_topicObject}
       ->expandMacros("%ENCODE{\"<evil script>\n&\'\\\"%*A\" type=\"url\"}%");
-    $this->assert_str_equals( "%3cevil%20script%3e%3cbr%20/%3e%26'%22%25*A",
+    $this->assert_str_equals( "%3cevil%20script%3e%0a%26\'%22%25*A",
         "$str" );
 
     #http://trunk.foswiki.org/Tasks/Item5453
