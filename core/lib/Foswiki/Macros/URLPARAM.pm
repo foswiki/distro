@@ -50,7 +50,8 @@ sub URLPARAM {
             # no encoding
         }
         elsif ( $encode =~ /^url$/i ) {
-            $value =~ s/\r*\n\r*/<br \/>/;    # Legacy
+            # Legacy, see ENCODE
+            #$value =~ s/\r*\n\r*/<br \/>/; 
             $value = urlEncode($value);
         }
         else {                                # safe or default
