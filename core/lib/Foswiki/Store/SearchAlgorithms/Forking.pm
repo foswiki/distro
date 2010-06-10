@@ -67,16 +67,22 @@ sub search {
         $searchString =~ s/"/""/g;
     }
 
-    # process topics in sets, fix for Codev.ArgumentListIsTooLongForSearch
-    my $maxTopicsInSet = 512;    # max number of topics for a grep call
-      #TODO: the number is actually dependant on the length of the path to each file
-      #SMELL: the following while loop should probably be made by sysCommand, as this is a leaky abstraction.
-    ##heck, on pre WinXP its only 2048, post XP its 8192 - http://support.microsoft.com/kb/830473
-    $maxTopicsInSet = 128 if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' );
     my $matches = '';
 
     #SMELL, TODO, replace with Store call.
     my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
+
+    # process topics in sets, fix for Codev.ArgumentListIsTooLongForSearch
+    my $maxTopicsInSet = 512;    # max number of topics for a grep call
+      #TODO: the number is actually dependant on the length of the path to each file
+      #SMELL: the following while loop should probably be made by sysCommand, as this is a leaky abstraction.
+    ##heck, on pre WinXP its only 2048, post XP its 8191 - http://support.microsoft.com/kb/830473
+    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
+        #tune the number based on the length of "$sDir/WebSearchAdvanced.txt"
+        #30 is a guess - wotamess
+        $maxTopicsInSet = ((8191-(length($program)+length($searchString)+30)) / (length("$sDir/LongWebSearchAdvanced.txt")+10));
+        #print STDERR "++++++++++++ $maxTopicsInSet \n";
+    }
 
     #    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
     #        @set = map { "$sDir/$_.txt" } @set;

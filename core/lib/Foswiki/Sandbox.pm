@@ -633,13 +633,13 @@ sub sysCommand {
         }
 
         if (   ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' )
-            && ( length($cmd) > 8192 ) )
+            && ( length($cmd) > 8191 ) )
         {
-
-      #heck, on pre WinXP its only 2048 - http://support.microsoft.com/kb/830473
+            #heck, on pre WinXP its only 2048 - http://support.microsoft.com/kb/830473
             print STDERR
               "WARNING: Sandbox::sysCommand commandline probably too long ("
               . length($cmd) . ")\n";
+            ASSERT(length($cmd) < 8191) if DEBUG;
         }
 
         open( my $oldStderr, '>&STDERR' ) || die "Can't steal STDERR: $!";
