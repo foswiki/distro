@@ -20,7 +20,7 @@ our @ISA = ('Foswiki::Users::Password');
 
 use Assert;
 use Error qw( :try );
-use Fcntl qw( :DEFAULT :flock );
+use Fcntl ();
 
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in Foswiki::setupLocale
@@ -97,7 +97,7 @@ sub canFetchUsers {
 
 sub fetchUsers {
     my $this  = shift;
-    my $db    = _readPasswd($this);
+    my $db    = $this->_readPasswd();
     my @users = sort keys %$db;
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@users );
@@ -107,13 +107,14 @@ sub fetchUsers {
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
     my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
+    my $fh;
 
-    sysopen( my $fh, $lockFileName, O_RDWR | O_CREAT, 0666 )
+    sysopen( $fh, $lockFileName, Fcntl::O_RDWR | Fcntl::O_CREAT, 0666 )
       || throw Error::Simple( $lockFileName
           . ' open or create password lock file failed -'
           . 'check access rights: '
           . $! );
-    flock $fh, LOCK_EX;
+    flock( $fh, Fcntl::LOCK_EX );
 
     return $fh;
 }
@@ -125,21 +126,25 @@ sub _unlockPasswdFile {
     close($fh);
 }
 
+# Read the password file. The content of the file is cached in
+# the password object. This cache will be ignored if $forceRead is true.
 sub _readPasswd {
-    my $this = shift;
-    return $this->{passworddata} if ( defined( $this->{passworddata} ) );
+    my ($this, $forceRead) = @_;
+    return $this->{passworddata}
+      if ( !$forceRead && defined( $this->{passworddata} ) );
 
     my $data = {};
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
     my $IN_FILE;
-    open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
+    open( $IN_FILE, '<', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
     while ( defined( $line = <$IN_FILE> ) ) {
-        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
+        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+            # htdigest format
             if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
 
                 # implicit untaint OK; data from htpasswd
@@ -147,7 +152,8 @@ sub _readPasswd {
                 $data->{$1}->{emails} = $4 || '';
             }
         }
-        else {                                                 # htpasswd format
+        else {
+            # htpasswd format
             if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
 
                 # implicit untaint OK; data from htpasswd
@@ -163,33 +169,35 @@ sub _readPasswd {
 
 sub _dumpPasswd {
     my $db = shift;
-    my $s  = '';
-    foreach ( sort keys %$db ) {
-        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
-            $s .=
-                $_ . ':'
-              . $Foswiki::cfg{AuthRealm} . ':'
-              . $db->{$_}->{pass} . ':'
-              . $db->{$_}->{emails} . "\n";
+    my @entries;
+    foreach my $login (sort( keys( %$db ))) {
+        my $entry = "$login:";
+        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+            # htdigest format
+            $entry .= "$Foswiki::cfg{AuthRealm}:";
         }
-        else {                                                 # htpasswd format
-            $s .=
-              $_ . ':' . $db->{$_}->{pass} . ':' . $db->{$_}->{emails} . "\n";
-        }
+        $entry .= $db->{$login}->{pass}.':'.$db->{$login}->{emails};
+        push(@entries, $entry);
     }
-    return $s;
+    return join("\n", @entries)."\n";
 }
 
 sub _savePasswd {
     my $db = shift;
 
-    umask(077);
-    open( FILE, '>', "$Foswiki::cfg{Htpasswd}{FileName}" )
-      || throw Error::Simple(
-        $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
+    my $content = _dumpPasswd($db);
 
-    print FILE _dumpPasswd($db);
-    close(FILE);
+    umask(077);
+    my $fh;
+    # SMELL: potential race condition if $content is very large, and the
+    # write takes an appreciable time, another process may get an empty
+    # file. However the reads used for sets are inside the guards, so it
+    # shouldn't result in corruption.
+    open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
+      || throw Error::Simple(
+          "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!" );
+    print $fh $content;
+    close($fh);
 }
 
 sub encrypt {
@@ -236,8 +244,9 @@ sub encrypt {
             my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
             foreach my $i ( 0 .. 7 ) {
 
-# generate a salt not only from rand() but also mixing in the users login name: unecessary
-#SMELL - see PasswordTests.pm for failure on OSX
+                # generate a salt not only from rand() but also mixing
+                # in the users login name: unecessary
+                # SMELL - see PasswordTests.pm for failure on OSX
                 $salt .= $saltchars[
                   (
                       int( rand( $#saltchars + 1 ) ) +
@@ -296,13 +305,14 @@ sub setPassword {
         return 0;
     }
 
+    my $lockHandle;
+
     try {
-        my $lockHandle = _lockPasswdFile();
-        my $db         = $this->_readPasswd();
+        $lockHandle = _lockPasswdFile();
+        my $db      = $this->_readPasswd(1);
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
         _savePasswd($db);
-        _unlockPasswdFile($lockHandle);
     }
     catch Error::Simple with {
         my $e = shift;
@@ -311,6 +321,8 @@ sub setPassword {
         $this->{error} = 'unknown error in resetPassword'
           unless ( $this->{error} && length( $this->{error} ) );
         return undef;
+    } finally {
+        _unlockPasswdFile($lockHandle) if $lockHandle;
     };
 
     $this->{error} = undef;
@@ -322,9 +334,10 @@ sub removeUser {
     my $result = undef;
     $this->{error} = undef;
 
+    my $lockHandle;
     try {
-        my $lockHandle = _lockPasswdFile();
-        my $db         = $this->_readPasswd();
+        $lockHandle = _lockPasswdFile();
+        my $db      = $this->_readPasswd(1);
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
         }
@@ -333,10 +346,11 @@ sub removeUser {
             _savePasswd($db);
             $result = 1;
         }
-        _unlockPasswdFile($lockHandle);
     }
     catch Error::Simple with {
         $this->{error} = shift->{-text};
+    } finally {
+        _unlockPasswdFile($lockHandle) if $lockHandle;
     };
     return $result;
 }
@@ -382,24 +396,25 @@ sub getEmails {
 sub setEmails {
     my $this  = shift;
     my $login = shift;
+    my $emails = join( ';', @_ );
     ASSERT($login) if DEBUG;
+    my $lockHandle;
 
-    my $lockHandle = _lockPasswdFile();
-    my $db         = $this->_readPasswd();
-    unless ( $db->{$login} ) {
-        $db->{$login}->{pass} = '';
-    }
+    try {
+        $lockHandle = _lockPasswdFile();
+        my $db      = $this->_readPasswd(1);
+        unless ( $db->{$login} ) {
+            # Make sure the user is in the auth system, by adding them with
+            # a null password if not.
+            $db->{$login}->{pass} = '';
+        }
+        
+        $db->{$login}->{emails} = $emails;
 
-#SMELL: this makes no sense. - the if above suggests that we can get to this point without $db->{$login}
-#  what use is going on if the user is not in the auth system?
-    if ( defined( $_[0] ) ) {
-        $db->{$login}->{emails} = join( ';', @_ );
-    }
-    else {
-        $db->{$login}->{emails} = '';
-    }
-    _savePasswd($db);
-    _unlockPasswdFile($lockHandle);
+        _savePasswd($db);
+    } finally {
+        _unlockPasswdFile($lockHandle) if $lockHandle;
+    };
     return 1;
 }
 
