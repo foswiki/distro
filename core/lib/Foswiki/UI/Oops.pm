@@ -58,6 +58,7 @@ sub oops {
 
     # Foswikitask:Item885: web and topic are required to have values
     $web   ||= $session->{webName};
+    $web   ||= "(Missing or illegal web)";  #If web name is completely missing, it probably contained illegal characters 
     $topic ||= $session->{topicName};
 
     my $tmplName;

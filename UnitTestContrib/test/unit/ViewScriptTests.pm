@@ -458,6 +458,10 @@ sub test_urlparsing {
 
     #invalid..
 
+    # - Invalid web name - Tasks.Item8713
+    $this->urltest( '/A:B/WebPreferences',
+        '', 'WebPreferences' );
+
 }
 
 1;

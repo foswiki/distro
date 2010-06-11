@@ -1751,23 +1751,27 @@ sub new {
     }
 
     # Item3270 - here's the appropriate place to enforce spec
+    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
     $topic = ucfirst($topic);
 
     # Validate and untaint topic name from path info
     $this->{topicName} = Foswiki::Sandbox::untaint( $topic,
         \&Foswiki::Sandbox::validateTopicName );
 
+    # Validate web name from path info
+    $this->{webName} = Foswiki::Sandbox::untaint( $web, 
+        \&Foswiki::Sandbox::validateWebName );
+
+    if (!defined $this->{webName} && !defined $this->{topicName} ) {
+        $this->{webName} = $Foswiki::cfg{UsersWebName};
+        $this->{topicName} = $Foswiki::cfg{HomeTopicName};
+    }
+    
+    $this->{webName} = ''
+      unless ( defined $this->{webName} );
+
     $this->{topicName} = $Foswiki::cfg{HomeTopicName}
       unless ( defined $this->{topicName} );
-
-    # Validate web name from path info
-    $this->{requestedWebName} =
-      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
-
-    $this->{webName} =
-        $this->{requestedWebName}
-      ? $this->{requestedWebName}
-      : $Foswiki::cfg{UsersWebName};
 
     # Convert UTF-8 web and topic name from URL into site charset if
     # necessary

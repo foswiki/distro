@@ -106,7 +106,7 @@ sub statistics {
 
     my @weblist;
     my $webSet = $session->{request}->param('webs')
-      || $session->{requestedWebName};
+      || $session->{webName};
     if ($webSet) {
 
         # do specific webs
