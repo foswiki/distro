@@ -480,7 +480,7 @@ sub sysCommand {
     return '' unless $template;
 
     # Implicit untaint OK; $template is safe
-    $template =~ /(^.*?)\s+(.*)$/;
+    $template =~ /^(.*?)(?:\s+(.*))?$/;
     my $path  = $1;
     my $pTmpl = $2;
     my $cmd;

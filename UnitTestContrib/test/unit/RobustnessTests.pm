@@ -237,6 +237,10 @@ sub verify {
       Foswiki::Sandbox->sysCommand( 'sh -c %A%', A => 'echo urmf; exit 7' );
     $this->assert( $exit != 0 );
     $this->assert_str_equals( "urmf\n", $out );
+    ( $out, $exit ) =
+      Foswiki::Sandbox->sysCommand( 'echo' );
+    $this->assert_equals( 0, $exit );
+    $this->assert_str_equals( `echo`, $out );
 }
 
 sub test_executeRSP {
