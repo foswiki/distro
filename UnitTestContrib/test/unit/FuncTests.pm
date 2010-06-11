@@ -260,20 +260,27 @@ NONNY
     $this->assert_matches(qr/2$/, $ri[2]);
 }
 
-#sub test_Item8713 {
-#    my $this = shift;
-#    my $tweb = 'A:B';
-#    my $topic = 'C:D';
-#    Foswiki::Func::saveTopic(
-#        $tweb, $topic, undef, <<NONNY );
-#%META:PREFERENCE{name="Bird" value="Kakapo"}%
-#   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
-#NONNY
-#    $this->assert(
-#       ! Foswiki::Func::webExists( $tweb ));
-#    $this->assert(
-#       ! Foswiki::Func::topicExists( $tweb, $topic ) );
-#}
+sub test_Item8713 {
+    my $this = shift;
+    my $tweb = 'A:B';
+    my $topic = 'C:D';
+    try {
+    Foswiki::Func::saveTopic(
+        $tweb, $topic, undef, <<NONNY );
+%META:PREFERENCE{name="Bird" value="Kakapo"}%
+   * Set ALLOWTOPICCHANGE = NotMeNoNotMe
+NONNY
+    } catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr/Unable to save topic C:D - web A:B does not exist.*/, $e, "Unexpected error $e");
+    }
+
+
+    #$this->assert(
+    #   ! Foswiki::Func::webExists( $tweb ));
+    #$this->assert(
+    #   ! Foswiki::Func::topicExists( $tweb, $topic ) );
+}
 
 sub test_attachments {
     my $this = shift;
@@ -403,6 +410,7 @@ sub test_subweb_attachments {
     #$topic = Assert::TAINT($topic);
     my $web = $this->{test_web}."/SubWeb";
     #$web = Assert::TAINT($web);
+    Foswiki::Func::createWeb( $web );
 
     my $stream;
     $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );

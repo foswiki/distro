@@ -500,7 +500,7 @@ sub populateNewWeb {
         unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
             throw Error::Simple( 'Unable to create '
                   . $this->{_web}
-                  . '- Hierarchical webs are disabled' );
+                  . ' - Hierarchical webs are disabled' );
         }
 
         unless ( $session->webExists($parent) ) {
@@ -508,22 +508,11 @@ sub populateNewWeb {
         }
     }
 
+    # Validate that template web exists, or error should be thrown
     if ($templateWeb) {
         unless ( $session->webExists($templateWeb) ) {
             throw Error::Simple(
                 'Template web ' . $templateWeb . ' does not exist' );
-        }
-        my $tWebObject = $this->new( $session, $templateWeb );
-        require Foswiki::WebFilter;
-        my $sys =
-          Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
-        my $it = $tWebObject->eachTopic();
-        while ( $it->hasNext() ) {
-            my $topic = $it->next();
-            next unless ( $sys || $topic =~ /^Web/ );
-            my $topicObject =
-              $this->load( $this->{_session}, $templateWeb, $topic );
-            $topicObject->saveAs( $this->{_web}, $topic );
         }
     }
 
@@ -540,6 +529,21 @@ sub populateNewWeb {
             $Foswiki::cfg{WebPrefsTopicName}, 'Preferences'
         );
         $prefsTopicObject->save();
+    }
+
+    if ($templateWeb) {
+        my $tWebObject = $this->new( $session, $templateWeb );
+        require Foswiki::WebFilter;
+        my $sys =
+          Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
+        my $it = $tWebObject->eachTopic();
+        while ( $it->hasNext() ) {
+            my $topic = $it->next();
+            next unless ( $sys || $topic =~ /^Web/ );
+            my $topicObject =
+              $this->load( $this->{_session}, $templateWeb, $topic );
+            $topicObject->saveAs( $this->{_web}, $topic );
+        }
     }
 
     # patch WebPreferences in new web. We ignore permissions, because
@@ -1761,6 +1765,14 @@ sub saveAs {
       if DEBUG;
     $this->_atomicLock($cUID);
 
+    unless ( $this->{_topic} eq $Foswiki::cfg{WebPrefsTopicName} ) {        # Don't verify for WebPreferences, as saving WebPreferences creates the web.
+        unless ( $this->{_session}->{store}->webExists( $this->{_web} ) ) {
+            throw Error::Simple( 'Unable to save topic '
+                  . $this->{_topic}
+                  . ' - web '. $this->{_web} . ' does not exist' );
+        }
+    }
+     
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {

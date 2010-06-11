@@ -37,6 +37,8 @@ sub set_up {
 
     $this->SUPER::set_up();
 
+    Foswiki::Func::createWeb($web);
+
     #    $this->{session} = new Foswiki($this->{test_user_login});
 
     open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
@@ -94,6 +96,7 @@ sub test_CreateWeb {
 
 sub test_CreateWebWithNonExistantBaseWeb {
     my $this = shift;
+    my $web = 'FailToCreate';
 
     #create a web using non-existent Web
     my $ok = 0;
