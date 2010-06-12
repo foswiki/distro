@@ -124,10 +124,10 @@ sub start {
                 $action = runOne( $tester, $suite, $testToRun );
             }
 
-          # untaint action for the case where the test is run in another process
-            ($action) = $action =~ m/^(.*)$/ms;
-
-            eval $action;
+            # untaint action for the case where the test is run in
+            # another process
+            $action =~ m/^(.*)$/ms;
+            eval $1;
             die $@ if $@;
             die "Test suite $suite aborted\n" unless $completed;
         }
@@ -318,7 +318,8 @@ sub runOne {
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
                 $action .=
-                  'push( @{ $this->{unexpected_passes} }, "' . quotemeta($test);
+                  'push( @{ $this->{unexpected_passes} }, "'
+                    . quotemeta($test) .'");';
             }
         }
         catch Error with {
