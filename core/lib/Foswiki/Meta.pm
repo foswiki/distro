@@ -2299,7 +2299,8 @@ See =getLease= for more details about Leases.
 
 sub clearLease {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+    ASSERT( $this->{_web} && $this->{_topic}, 
+        ($this->{_web}||'undef').'.'.($this->{_topic}||'undef').' this is not a topic object' )
       if DEBUG;
     $this->{_session}->{store}->setLease($this);
 }

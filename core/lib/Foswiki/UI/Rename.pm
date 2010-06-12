@@ -708,7 +708,7 @@ sub _releaseContents {
     my $it = $webObject->eachTopic();
     while ( $it->hasNext() ) {
         my $topic = $it->next();
-        my $topicObject = Foswiki::Meta->new( $session, $web, $it->next() );
+        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
         $topicObject->clearLease();
     }
 }
