@@ -1967,6 +1967,24 @@ STUCK
 GLUED
     },
     {
+        exec => $TML2HTML, # SMELL fails these: $HTML2TML | $ROUNDTRIP,
+        name => 'entityInsideSticky',
+        tml  => <<'GLUED',
+<sticky>&#9792;</sticky>
+GLUED
+        html => <<'STUCK'
+<p>
+<div class="WYSIWYG_STICKY">&#38;&#35;9792;</div>
+</p>
+STUCK
+},
+    {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'dontOverEncodeProtectedContent',
+        tml  => '%MACRO{"<foo>"}%',
+        html => "<p>$protecton%MACRO{\"&lt;foo&gt;\"}%$protectoff</p>",
+    },
+    {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'Item4705_B',
         tml  => <<SPACED,
@@ -2330,7 +2348,7 @@ HERE
     },
     {
         name => "brTagInMacroFormat",
-        exec => $ROUNDTRIP,
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         tml  => <<'HERE',
 %JQPLUGINS{"scrollto"
   format="
@@ -2339,6 +2357,9 @@ HERE
     Version: $version
   "
 }%
+HERE
+        html => <<'HERE',
+<p><span class="WYSIWYG_PROTECTED">%JQPLUGINS{"scrollto"<br />&nbsp;&nbsp;format="<br />&nbsp;&nbsp;&nbsp;&nbsp;Homepage:&nbsp;$homepage&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Author(s):&nbsp;$author&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Version:&nbsp;$version<br />&nbsp;&nbsp;"<br />}%</span></p>
 HERE
     }
 ];

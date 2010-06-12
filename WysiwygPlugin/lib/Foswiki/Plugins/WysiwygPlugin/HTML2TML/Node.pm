@@ -263,6 +263,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     $text =~ s/<br( \/)?>$WC::NBBR/$WC::NBBR/g;    # Remove BR before P
 
     #die "Converted ",WC::debugEncode($text),"\n";
+    #print STDERR "Conv2     [",WC::debugEncode($text),"]\n";
 
     my @regions = split( /([$WC::PON$WC::POFF])/o, $text );
     my $protect = 0;
@@ -332,6 +333,10 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
         $tml =~ s/$WC::CHECK1/ /go;
         $tml =~ s/$WC::CHECK2/ /go;
 
+        # Item5127: Remove BR just before EOLs
+        unless ($protect) {
+            $tml =~ s/<br( \/)?>\n/\n/g;
+        }
         #print STDERR WC::debugEncode($before);
         #print STDERR " -> '",WC::debugEncode($tml),"'\n";
         $text .= $tml;
@@ -346,8 +351,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     $text =~ s/^\n*//s;
     $text =~ s/\s*$/\n/s;
 
-    # Item5127: Remove BR just before EOLs
-    $text =~ s/<br( \/)?>\n/\n/g;
+    #print STDERR "TML       [",WC::debugEncode($text),"]\n";
 
     return $text;
 }

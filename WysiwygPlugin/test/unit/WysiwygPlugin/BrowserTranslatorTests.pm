@@ -82,6 +82,23 @@ HERE
 THERE
     },
     {
+        name => 'numericEntityWithoutName',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => '&#9792;',
+        finaltml  => chr(9792),
+    },
+    {
+        name => 'numericEntityWithName',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => '&#945;',
+        finaltml  => '&alpha;',
+    },
+    {
+        name => 'namedEntity',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => '&alpha;',
+    },
+    {
         name => 'startOfParagraph',
         exec => $TranslatorBase::ROUNDTRIP,
         tml  => <<HERE,
@@ -131,6 +148,22 @@ HERE
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
 </div>
 THERE
+    },
+    {
+        name => "brTagInMacroFormat",
+        exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML | $TranslatorBase::ROUNDTRIP,
+        tml  => <<'HERE',
+%JQPLUGINS{"scrollto"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+HERE
+        html => <<'HERE',
+<p><span class="WYSIWYG_PROTECTED">%JQPLUGINS{"scrollto"<br />&nbsp;&nbsp;format="<br />&nbsp;&nbsp;&nbsp;&nbsp;Homepage:&nbsp;$homepage&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Author(s):&nbsp;$author&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Version:&nbsp;$version<br />&nbsp;&nbsp;"<br />}%</span></p>
+HERE
     },
 
     {    # Copied on 29 April 2010 from

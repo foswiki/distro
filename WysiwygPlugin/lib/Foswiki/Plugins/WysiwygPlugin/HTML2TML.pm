@@ -7,7 +7,7 @@
 Convertor for translating HTML into TML (Topic Meta Language)
 
 The conversion is done by parsing the HTML and generating a parse
-tree, and then converting that parse treeinto TML.
+tree, and then converting that parse tree into TML.
 
 The class is a subclass of HTML::Parser, run in XML mode, so it
 should be tolerant to many syntax errors, and will also handle
