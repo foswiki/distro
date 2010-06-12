@@ -64,18 +64,19 @@ sub search {
           Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
 
 #TODO: need to BM if this is faster than doing it via an object in the MetaCache.
-        next unless open( FILE, '<', "$sDir/$topic.txt" );
-        while ( my $line = <FILE> ) {
-            if ( &$doMatch($line) ) {
-                chomp($line);
-                push( @{ $seen{$webtopic} }, $line );
-                if ( $options->{files_without_match} ) {
-                    close(FILE);
-                    next FILE;
+        if open( my $file, '<', "$sDir/$topic.txt" ) {
+            while ( my $line = <$file> ) {
+                if ( &$doMatch($line) ) {
+                    chomp($line);
+                    push( @{ $seen{$webtopic} }, $line );
+                    if ( $options->{files_without_match} ) {
+                        close($file);
+                        next FILE;
+                    }
                 }
             }
+            close($file);
         }
-        close(FILE);
     }
     return \%seen;
 }
