@@ -24,7 +24,7 @@ sub check {
         }
         $count++;
         unless ($enabled) {
-            $e .= $this->WARN( $plug . ' is not enabled or does not exist' );
+            $e .= $this->WARN( $plug . ' is not enabled or is not installed' );
         }
     }
 
