@@ -211,9 +211,6 @@ sub _processTags {
                 my $tag = $2 . ( $3 || '' );
                 $tag = "$nl%$tag%";
 
-                # Encode &, < and > in the tag to avoid corruption
-                $tag =~ s/([&<>])/'&#'.ord($1).';'/ge;
-
               # The commented out lines disable PROTECTED for %SIMPLE% vars. See
               # Bugs: Item4828 for the sort of problem this would help to avert.
               #                if ($tag =~ /^\n?%\w+{.*}%/) {
