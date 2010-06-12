@@ -360,6 +360,31 @@ sub test_prevTopicTextSave {
     $this->assert_null( $meta->get('FORM') );
 }
 
+# Save into missing web
+sub test_missingWebSave {
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text   => ['WRONG'],
+            action => ['save'],
+            topic  => [ 'MissingWeb' . '.PrevTopicTextSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    try {
+        $this->captureWithKey( save => $UI_FN, $this->{session} );
+        $this->assert(0, 'save into missing web worked');
+        }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( 'no_such_web', $e->{def} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
+    };
+}
+
 # Save over existing topic with no text
 sub test_prevTopicEmptyTextSave {
     my $this  = shift;
