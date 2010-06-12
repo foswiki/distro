@@ -1,5 +1,7 @@
 #!/usr/bin/perl -wT
+# See bottom of file for license and copyright information
 use strict;
+use warnings;
 
 use re 'taint';
 use File::Path;
@@ -27,10 +29,10 @@ my $autoconf   = 0;
 my @error_log;
 
 BEGIN {
-no re 'taint';
+    no re 'taint';
     $FindBin::Bin =~ /(.*)/;    # core dir
-    $basedir   = $1;    
-use re 'taint';
+    $basedir = $1;
+    use re 'taint';
     $parentdir = "$basedir/..";
     my $path = $ENV{FOSWIKI_EXTENSIONS} || '';
     $path .=
@@ -56,10 +58,11 @@ use re 'taint';
 
 sub error {
     push @error_log, @_;
-    warn "ERROR: ",@_;
+    warn "ERROR: ", @_;
 }
 
 sub trace {
+
     #warn "...",@_,"\n";
 }
 
@@ -135,17 +138,20 @@ sub installModule {
     $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn|^core)$/;
 
     my $moduleDir;
+
     # If $ignoreBlock is true, will ignore blocking files (not complain
     # if a file it is trying to copy in / link already exists)
     my $ignoreBlock = 0;
 
-    if ($module eq 'core') {
+    if ( $module eq 'core' ) {
+
         # Special install procedure for core, processes manifest
         # and checks for missing files, and generates derived objects
         # along the way (such as compressed JS and CSS)
-        $moduleDir = '.';
+        $moduleDir   = '.';
         $ignoreBlock = 1;
-    } else {
+    }
+    else {
         foreach my $dir (@extensions_path) {
             if ( -d "$dir/$module/" ) {
                 $moduleDir = "$dir/$module";
@@ -159,17 +165,17 @@ sub installModule {
         return;
     }
 
-    my $manifest = findRelativeTo(
-        "$moduleDir/lib/Foswiki/$subdir/$module/", 'MANIFEST' );
+    my $manifest =
+      findRelativeTo( "$moduleDir/lib/Foswiki/$subdir/$module/", 'MANIFEST' );
     my $libDir = "Foswiki";
 
     if ( !-e $manifest ) {
-        $manifest = findRelativeTo(
-            "$moduleDir/lib/TWiki/$subdir/$module/", 'MANIFEST' );
+        $manifest =
+          findRelativeTo( "$moduleDir/lib/TWiki/$subdir/$module/", 'MANIFEST' );
         $libDir = "TWiki";
     }
     if ( -e $manifest ) {
-        installFromMANIFEST($module, $moduleDir, $manifest, $ignoreBlock);
+        installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
     }
     else {
         $libDir = undef;
@@ -180,7 +186,7 @@ sub installModule {
 }
 
 sub installFromMANIFEST {
-    my ($module, $moduleDir, $manifest, $ignoreBlock) = @_;
+    my ( $module, $moduleDir, $manifest, $ignoreBlock ) = @_;
 
     trace "Using manifest from $manifest";
 
@@ -200,8 +206,8 @@ sub installFromMANIFEST {
     if ( -d "$moduleDir/test/unit/$module" ) {
         opendir( $df, "$moduleDir/test/unit/$module" );
         foreach my $f ( grep( /\.pm$/, readdir($df) ) ) {
-            &$install( $moduleDir, "test/unit/$module",
-                       "test/unit/$module/$f", $ignoreBlock );
+            &$install( $moduleDir, "test/unit/$module", "test/unit/$module/$f",
+                $ignoreBlock );
         }
         closedir($df);
     }
@@ -210,28 +216,30 @@ sub installFromMANIFEST {
     if ($installing) {
         my $deps = $manifest;
         $deps =~ s/MANIFEST/DEPENDENCIES/;
-        if (open( $df, '<', $deps )) {
+        if ( open( $df, '<', $deps ) ) {
             trace "read deps from $deps";
             foreach my $dep (<$df>) {
                 chomp($dep);
                 next unless $dep =~ /^\w+/;
-                satisfyDependency(split(/\s*,\s*/, $dep));
+                satisfyDependency( split( /\s*,\s*/, $dep ) );
             }
             close($df);
-        } else {
+        }
+        else {
             error "*** Could not open $deps\n";
         }
     }
 }
 
 sub satisfyDependency {
-    my ($mod, $cond, $type, $mess) = @_;
+    my ( $mod, $cond, $type, $mess ) = @_;
 
     # First see if we can find it in the install or @INC path
     my $f = $mod;
     $f =~ s#::#/#g;
-    foreach my $dir ('./lib', @INC, './lib/CPAN/lib') {
-        if (-e "$dir/$f.pm") {
+    foreach my $dir ( './lib', @INC, './lib/CPAN/lib' ) {
+        if ( -e "$dir/$f.pm" ) {
+
             # Found it
             # TODO: check the version
             trace "$mod is already installed";
@@ -239,14 +247,17 @@ sub satisfyDependency {
         }
     }
     trace "$mod is not installed";
+
     # Not found, is it required?
-    if ($mess !~ /^required/i) {
+    if ( $mess !~ /^required/i ) {
         warn "$mod is an optional dependency, but is not installed\n";
         return;
     }
-    if ($type eq 'perl' && $mod =~ /^Foswiki/) {
-        error "**** $mod is a required Foswiki dependency, but it is not installed\n";
-    } else {
+    if ( $type eq 'perl' && $mod =~ /^Foswiki/ ) {
+        error
+"**** $mod is a required Foswiki dependency, but it is not installed\n";
+    }
+    else {
         error "**** $mod is a required dependency, but it is not installed\n";
     }
 }
@@ -254,7 +265,9 @@ sub satisfyDependency {
 # See also: just_link
 sub copy_in {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
-    return if ( -e "$file" && $ignoreBlock);  # For core manifest, ignore copy if target exists.
+    return
+      if ( -e "$file" && $ignoreBlock )
+      ;    # For core manifest, ignore copy if target exists.
     File::Path::mkpath($dir);
     if ( -e "$moduleDir/$file" ) {
         File::Copy::copy( "$moduleDir/$file", $file )
@@ -356,7 +369,7 @@ sub just_link {
 
     # Unlink zip generated by compression. This is inefficient, but
     # the alternative is comparing file dates, which is hard work.
-    if ($found && ! -l "$moduleDir/$file" && $file =~ /\.gz$/) {
+    if ( $found && !-l "$moduleDir/$file" && $file =~ /\.gz$/ ) {
         unlink _cleanPath("$moduleDir/$file");
         $found = 0;
     }
@@ -364,12 +377,13 @@ sub just_link {
     unless ($found) {
         trace "$moduleDir/$file not found";
         my $compress = 0;
-        if (!$found && $file =~ /(.*)\.gz$/) {
-            $file = $1;
-            $found = (-f "$moduleDir/$1");
+        if ( !$found && $file =~ /(.*)\.gz$/ ) {
+            $file     = $1;
+            $found    = ( -f "$moduleDir/$1" );
             $compress = 1;
         }
-        if ( !$found && $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
+        if (  !$found
+            && $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
             && -f "$moduleDir/$1$3" )
         {
             trace "...link $moduleDir/$file to $moduleDir/$1$3";
@@ -379,11 +393,12 @@ sub just_link {
             print "Linked $file as $1$3\n";
             $found++;
         }
-        elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/) {
-            my ( $src, $ext ) =  ($1, $2);
+        elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/ ) {
+            my ( $src, $ext ) = ( $1, $2 );
             for my $kind (qw( .uncompressed .compressed _src )) {
                 if ( -f "$moduleDir/$src$kind$ext" ) {
-                    trace "...link $moduleDir/$src$kind$ext to $moduleDir/$file";
+                    trace
+                      "...link $moduleDir/$src$kind$ext to $moduleDir/$file";
                     symlink(
                         _cleanPath("$moduleDir/$src$kind$ext"),
                         _cleanPath("$moduleDir/$file")
@@ -396,25 +411,31 @@ sub just_link {
                 }
             }
         }
-        if ($found && $compress) {
+        if ( $found && $compress ) {
             trace "...compressed $moduleDir/$file to create $file.gz";
             if ($internal_gzip) {
-                open( IF, '<', _cleanPath("$moduleDir/$file") ) || die "Failed to open $file to read: $!";
+                open( IF, '<', _cleanPath("$moduleDir/$file") )
+                  || die "Failed to open $file to read: $!";
                 local $/ = undef;
                 my $text = <IF>;
                 close(IF);
 
-                $text = Compress::Zlib::memGzip( $text );
+                $text = Compress::Zlib::memGzip($text);
 
-                open( OF, '>', _cleanPath("$moduleDir/$file") . ".gz" ) || die "Failed to open $file.gz to write: $!";
+                open( OF, '>', _cleanPath("$moduleDir/$file") . ".gz" )
+                  || die "Failed to open $file.gz to write: $!";
                 binmode OF;
                 print OF $text;
                 close(OF);
             }
             else {
-              # Try gzip as a backup, if Compress::Zlib is not available
-              my $command = "gzip -c " . _cleanPath("$moduleDir/$file") . " > " . _cleanPath("$moduleDir/$file") . ".gz";
-              trace `$command`;
+
+                # Try gzip as a backup, if Compress::Zlib is not available
+                my $command =
+                    "gzip -c "
+                  . _cleanPath("$moduleDir/$file") . " > "
+                  . _cleanPath("$moduleDir/$file") . ".gz";
+                trace `$command`;
             }
         }
     }
@@ -431,7 +452,7 @@ sub uninstall {
     # tree so it unlinks the directories, and not the leaf files.
     # Special case when install created symlink to (un)?compressed version
     if ( -l "$moduleDir/$file" ) {
-        unlink _cleanPath( "$moduleDir/$file" );
+        unlink _cleanPath("$moduleDir/$file");
         print "Unlinked $moduleDir/$file\n";
     }
     my @components = split( /\/+/, $file );
@@ -440,7 +461,7 @@ sub uninstall {
     foreach my $c (@components) {
         if ( -l "$path$c" ) {
             return unless _checkLink( $moduleDir, $path, $c ) || $force;
-            unlink _cleanPath( "$path$c" );
+            unlink _cleanPath("$path$c");
             print "Unlinked $path$c\n";
             return;
         }
@@ -449,7 +470,7 @@ sub uninstall {
         }
     }
     if ( -e $file ) {
-        unlink _cleanPath( $file );
+        unlink _cleanPath($file);
         print "Removed $file\n";
     }
 }
@@ -461,12 +482,13 @@ sub Autoconf {
     my $localSiteCfg = $foswikidir . '/lib/LocalSite.cfg';
     if ( $force || ( !-e $localSiteCfg ) ) {
         my $f;
-        open($f, '<', "$foswikidir/lib/Foswiki.spec") ||
-          die "Cannot autoconf: $!";
+        open( $f, '<', "$foswikidir/lib/Foswiki.spec" )
+          || die "Cannot autoconf: $!";
         local $/ = undef;
         my $localsite = <$f>;
         close($f);
-	#assume that the commented out settings (DataDir etc) are only on one line.
+
+     #assume that the commented out settings (DataDir etc) are only on one line.
         $localsite =~ s/^# (\$Foswiki::cfg[^\n]*)/$1/mg;
         $localsite =~ s/^#[^\n]*\n+//mg;
         $localsite =~ s/\n\s+/\n/sg;
@@ -582,7 +604,7 @@ unless ( scalar(@ARGV) ) {
 my @modules;
 for my $arg (@ARGV) {
     if ( $arg eq "all" ) {
-        push(@modules, 'core');
+        push( @modules, 'core' );
         foreach my $dir (@extensions_path) {
             my $d;
             opendir $d, $dir or next;
@@ -606,6 +628,7 @@ for my $arg (@ARGV) {
     else {
         push @modules, $arg;
     }
+
     # *Never* uninstall 'core'
     @modules = grep { !/^core$/ } @modules unless $installing;
 }
@@ -628,12 +651,33 @@ foreach my $module (@modules) {
 }
 
 print ' '
-  . ( scalar(@installedModules) ? join( ", ", @installedModules )
-        : 'No modules' )
+  . (
+    scalar(@installedModules)
+    ? join( ", ", @installedModules )
+    : 'No modules'
+  )
   . ' '
   . ( $installing ? 'i' : 'uni' )
   . "nstalled\n";
 
-if (scalar(@error_log)) {
-    print "\n----\nError log:\n" . join("", @error_log);
+if ( scalar(@error_log) ) {
+    print "\n----\nError log:\n" . join( "", @error_log );
 }
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

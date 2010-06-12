@@ -17,6 +17,7 @@
 # 0 0 * * 0 cd /usr/foswiki/bin && perl ../tools/tick_foswiki.pl
 #
 use strict;
+use warnings;
 
 BEGIN {
     if (-e './setlib.cfg') {
@@ -51,10 +52,9 @@ my $root = new Foswiki::Meta(new Foswiki());
 $root->onTick(time());
 
 __END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
-
-Copyright (C) 2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2009-2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
