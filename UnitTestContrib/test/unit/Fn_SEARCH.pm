@@ -43,21 +43,25 @@ sub set_up {
 sub fixture_groups {
     my ( %salgs, %qalgs );
     foreach my $dir (@INC) {
-        if ( opendir( D, "$dir/Foswiki/Store/SearchAlgorithms" ) ) {
-            foreach my $alg ( readdir D ) {
+        if ( opendir( my $Dir, "$dir/Foswiki/Store/SearchAlgorithms" ) ) {
+            foreach my $alg ( readdir $Dir ) {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
+                if ($^O eq 'MSWin32') {
+                    #skip forking search for now, its extremely broken on windows
+                    next if ($alg eq 'Forking');
+                }
                 $salgs{$alg} = 1;
             }
-            closedir(D);
+            closedir($Dir);
         }
-        if ( opendir( D, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
-            foreach my $alg ( readdir D ) {
+        if ( opendir( my $Dir, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
+            foreach my $alg ( readdir $Dir ) {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
                 $qalgs{$alg} = 1;
             }
-            closedir(D);
+            closedir($Dir);
         }
     }
     my @groups;
@@ -1178,7 +1182,7 @@ sub verify_refQuery {
 # make sure syntax errors are handled cleanly. All the error cases thrown by
 # the infix parser are tested more thoroughly in Fn_IF, and don't have to
 # be re-tested here.
-sub test_badQuery1 {
+sub verify_badQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
@@ -1357,7 +1361,7 @@ sub verify_likeQuery2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub test_pattern {
+sub verify_pattern {
     my $this = shift;
 
     my $result =
@@ -1369,7 +1373,7 @@ sub test_pattern {
     $this->assert_matches( qr/XY/,              $result );
 }
 
-sub test_badpattern {
+sub verify_badpattern {
     my $this = shift;
 
     # The (??{ pragma cannot be run at runtime since perl 5.5
@@ -1389,7 +1393,7 @@ sub test_badpattern {
     $this->assert_equals( 3, $result =~ s/^XY$//gm );
 }
 
-sub test_validatepattern {
+sub verify_validatepattern {
     my $this = shift;
     my ( $pattern, $temp );
 
@@ -1505,7 +1509,7 @@ sub _getTopicList {
     return \@topicList;
 }
 
-sub test_getTopicList {
+sub verify_getTopicList {
     my $this = shift;
 
     #no topics specified..
@@ -2616,7 +2620,7 @@ sub _cut_the_crap {
     return $result;
 }
 
-sub test_no_format_no_shit {
+sub verify_no_format_no_shit {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
@@ -3123,7 +3127,7 @@ Test the summary, default format.
 
 =cut
 
-sub test_summary_default_word_search {
+sub verify_summary_default_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3144,7 +3148,7 @@ Test the default summary, limited to n chars.
 
 =cut
 
-sub test_summary_short_word_search {
+sub verify_summary_short_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3165,7 +3169,7 @@ Test the summary with search context (default length).
 
 =cut
 
-sub test_summary_searchcontext_default_word_search {
+sub verify_summary_searchcontext_default_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3186,7 +3190,7 @@ Test the summary with search context, limited to n chars (short).
 
 =cut
 
-sub test_summary_searchcontext_short_word_search {
+sub verify_summary_searchcontext_short_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3207,7 +3211,7 @@ Test the summary with search context, limited to n chars (long)
 
 =cut
 
-sub test_summary_searchcontext_long_word_search {
+sub verify_summary_searchcontext_long_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3701,7 +3705,7 @@ HERE
 }
 
 
-sub test_delayed_expansion {
+sub verify_delayed_expansion {
     my $this = shift;
 eval "require Foswiki::Macros::SEARCH";
     
