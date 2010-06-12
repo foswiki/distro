@@ -82,7 +82,7 @@ my $check_perl_module = sub {
     }
     else {
         _warn("$module is not available on this server,"
-                . " some installer functions have been disabled");
+                . " some installer functions have been disabled \n $@");
         $available{$module} = 0;
     }
     return $available{$module};
@@ -318,19 +318,36 @@ sub _uninstall {
 
 
 sub usage {
-    _shout <<DONE;
-Usage: ${MODULE}_installer -a -n -d -r -u -c install
+    _inform <<DONE;
+
+Usage as a custom installer:
+
+       ${MODULE}_installer -a -n -d -r -u -c install
        ${MODULE}_installer -a -n uninstall
        ${MODULE}_installer manifest
        ${MODULE}_installer dependencies
 
+Usage as a generic installer:
+
+       tools/extension_installer ${MODULE} -a -n -d -r -u -c install
+       tools/extension_installer ${MODULE} -a -n uninstall
+       tools/extension_installer ${MODULE} manifest
+       tools/extension_installer ${MODULE} dependencies
+
+If command (install, uninstall ..) is not provided, default is to 
+install the extension.
+
 Operates on the directory tree below where it is run from,
 so should be run from the top level of your Foswiki installation.
 
-install will check dependencies and perform any required
+Depending upon your installation, you may need to execute perl directly
+  perl tools/extension_installer ...   or
+  perl ${MODULE}_installer ...
+
+"install" will check dependencies and perform any required
 post-install steps.
 
-uninstall will remove all files that were installed for
+"uninstall" will remove all files that were installed for
 $MODULE even if they have been locally modified.
 
 -a means don't prompt for confirmation before resolving
@@ -341,15 +358,13 @@ $MODULE even if they have been locally modified.
 -n means don't write any files into my current install, just
    tell me what you would have done
 -c means don't try to use CPAN to install missing libraries
--o means running from configure, so outputs HTML
 
-manifest will generate a list of the files in the package on
+"manifest" will generate a list of the files in the package on
 standard output. The list is generated in the same format as
 the MANIFEST files used by BuildContrib.
 
-dependencies will generate a list of dependencies on standard
-output. the list is generated in the same format as the
-DEPENDENCIES files used by BuidContrib.
+"dependencies" will generate a list of dependencies on standard
+output.
 
 DONE
 }
