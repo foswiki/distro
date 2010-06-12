@@ -1,5 +1,0 @@
-#!/bin/sh
-echo "Content-type: text/plain"
-echo ""
-cd /home/virtual/site2/fst/home/develop/twikisvn
-perl pseudo-install.pl -link all 2>&1
