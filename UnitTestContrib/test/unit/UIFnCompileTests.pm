@@ -14,7 +14,7 @@ our $UI_FN;
 our $SCRIPT_NAME;
 our %expected_status = (
         search  => 302,
-        save  => 302
+        save  => 302,
 );
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
 our %expect_non_html = (
@@ -24,6 +24,7 @@ our %expect_non_html = (
         manage => 1,       #TODO: missing action make it throw an exception
         upload => 1,         #TODO: zero size upload   
         resetpasswd => 1,
+        statistics => 1,
 );
 
 
@@ -143,13 +144,17 @@ sub call_UI_FN {
 sub verify_switchboard_function {
     my $this = shift;
     
-    my ($status, $header, $result, $stdout, $stderr) = $this->call_UI_FN($this->{test_web}, $this->{test_topic});
+    my ($status, $header, $result, $stdout, $stderr) =
+      $this->call_UI_FN($this->{test_web}, $this->{test_topic});
 
-    $this->assert_num_equals($expected_status{$SCRIPT_NAME} || 200, $status, "GOT Status : $status\nHEADER: $header\n\nSTDERR: ".($stderr||'')."\n");
+    $this->assert_num_equals(
+        $expected_status{$SCRIPT_NAME} || 200, $status,
+        "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
+          .($stderr||'')."\n");
     if (!defined($expect_non_html{$SCRIPT_NAME})) {
         $this->assert_str_not_equals('', $header);
         if ($status != 302) {
-            $this->assert_str_not_equals('', $result);
+            $this->assert_str_not_equals('', $result, "$status: $result");
         } else {
             #$this->assert_null($result);
         }
