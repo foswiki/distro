@@ -64,7 +64,8 @@ sub search {
           Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
 
 #TODO: need to BM if this is faster than doing it via an object in the MetaCache.
-        if open( my $file, '<', "$sDir/$topic.txt" ) {
+        my $file;
+        if (open( $file, '<', "$sDir/$topic.txt" )) {
             while ( my $line = <$file> ) {
                 if ( &$doMatch($line) ) {
                     chomp($line);
