@@ -179,16 +179,18 @@ sub call_UI_FN {
     $fatwilly->finish();
 
     $this->assert($responseText);
-    $this->assert_matches(qr/^1?$/, $result, "$SCRIPT_NAME returned '$result'")
-        if defined $result;
-    $this->assert_equals('', $stderr, "$SCRIPT_NAME errored: '$stderr'")
-        if defined $stderr;
+    $this->assert_matches( qr/^1?$/, $result,
+        "$SCRIPT_NAME returned '$result'" )
+      if defined $result;
+    $this->assert_equals( '', $stderr, "$SCRIPT_NAME errored: '$stderr'" )
+      if defined $stderr;
 
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
     my ( $header, $body );
     if ( $responseText =~ /^(.*?)$CRLF$CRLF(.+)$/s
-         or ($stdout && $stdout =~ /^(.*?)$CRLF$CRLF(.+)$/s) ) {
+        or ( $stdout && $stdout =~ /^(.*?)$CRLF$CRLF(.*)$/s ) )
+    {
 
         # Response can be in stdout if the request is split, like for
         # statistics
