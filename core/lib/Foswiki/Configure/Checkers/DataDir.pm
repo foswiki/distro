@@ -10,12 +10,22 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
+    $this->{filecount} = 0;
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
+
+    # Check that all files are readable
     my $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r" );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
-    $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, "w", qr/,v$/ )
-      unless $e2;
+    $e .= 
+     ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit} ) 
+     ? $this->NOTE("File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options")
+     : $this->NOTE("File count - $this->{filecount} ");
+
+    # Also check that all files excluding the rcs files are writable
+    $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "w", qr/,v$/ );
     $e .= $this->WARN($e2) if $e2;
+
+    $this->{filecount} = 0;
     return $e;
 }
 

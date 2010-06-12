@@ -55,6 +55,8 @@ sub new {
     $this->{root} = File::Spec->catfile( @root, 'x' );
     chop $this->{root};
 
+    $this->{filecount} = 0;  # Used by recursive checkTreePerms to count files and limit 
+
     return $this;
 }
 

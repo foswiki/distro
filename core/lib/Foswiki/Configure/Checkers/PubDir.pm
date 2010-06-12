@@ -10,10 +10,18 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
+    $this->{filecount} = 0;
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
     my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw', qr/,v$/ );
     $e .= $this->WARN($e2) if $e2;
+
+    $e .= 
+     ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit} ) 
+     ? $this->NOTE("File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options")
+     : $this->NOTE("File count - $this->{filecount} ");
+
+    $this->{filecount} = 0;
     return $e;
 }
 

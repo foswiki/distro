@@ -64,6 +64,9 @@ sub checkTreePerms {
     return '' if ( $path =~ /^_svn$/ );
     return '' if ( $path =~ /^\.svn$/ );
 
+    # Okay to increment count once filtered files are ignored.
+    $this->{filecount}++;
+
     my $errs = '';
 
     return $path . ' cannot be found' . CGI::br()
@@ -97,8 +100,10 @@ sub checkTreePerms {
     foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
         my $p = $path . '/' . $e;
         $errs .= checkTreePerms( $this, $p, $perms, $filter );
+        last if ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit});
     }
     closedir($Dfh);
+
     return $errs;
 }
 
