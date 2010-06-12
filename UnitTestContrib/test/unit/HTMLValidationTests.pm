@@ -159,7 +159,7 @@ sub call_UI_FN {
     $responseText = "Status: 500";    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            switchboard => sub {
+            $SCRIPT_NAME => sub {
                 no strict 'refs';
                 &${UI_FN}($fatwilly);
                 use strict 'refs';
@@ -179,11 +179,19 @@ sub call_UI_FN {
     $fatwilly->finish();
 
     $this->assert($responseText);
+    $this->assert_matches(qr/^1?$/, $result, "$SCRIPT_NAME returned '$result'")
+        if defined $result;
+    $this->assert_equals('', $stderr, "$SCRIPT_NAME errored: '$stderr'")
+        if defined $stderr;
 
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
     my ( $header, $body );
-    if ( $responseText =~ /^(.*?)$CRLF$CRLF(.*)$/s ) {
+    if ( $responseText =~ /^(.*?)$CRLF$CRLF(.+)$/s
+         or ($stdout && $stdout =~ /^(.*?)$CRLF$CRLF(.+)$/s) ) {
+
+        # Response can be in stdout if the request is split, like for
+        # statistics
         $header = $1;         # untaint is OK, it's a test
         $body   = $2;
     }
@@ -197,8 +205,10 @@ sub call_UI_FN {
         $status = $1;
     }
 
-#aparently we allow the web server to add a 200 status thus risking that an error situation is marked as 200
-#$this->assert_num_not_equals(666, $status, "no response Status set in probably valid reply\nHEADER: $header\n");
+    # aparently we allow the web server to add a 200 status thus risking that
+    # an error situation is marked as 200
+    # $this->assert_num_not_equals(666, $status,
+    #     "no response Status set in probably valid reply\nHEADER: $header\n");
     if ( $status == 666 ) {
         $status = 200;
     }
