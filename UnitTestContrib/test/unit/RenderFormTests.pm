@@ -20,10 +20,10 @@ BEGIN {
     mkdir("$codedir/Foswiki/Form") || die $!;
     open( my $F, '>', "$codedir/Foswiki/Form/Nuffin.pm" ) || die $!;
 
-    my $code = <<"CODE";
+    my $code = <<'CODE';
 package Foswiki::Form::Nuffin;
 use Foswiki::Form::FieldDefinition;
-our \@ISA = qw( Foswiki::Form::FieldDefinition );
+our @ISA = qw( Foswiki::Form::FieldDefinition );
 
 sub renderForEdit {
     return ('EXTRA', 'SWEET');
@@ -52,86 +52,86 @@ HERE
 
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testtopic1 );
-    $meta->put( 'FORM', { name => "InitializationForm" } );
+    $meta->put( 'FORM', { name => 'InitializationForm' } );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "IssueName",
-            attributes => "M",
-            title      => "Issue Name",
-            value      => "_An issue_"
+            name       => 'IssueName',
+            attributes => 'M',
+            title      => 'Issue Name',
+            value      => '_An issue_'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "IssueDescription",
-            attributes => "",
-            title      => "Issue Description",
-            value      => "---+ Example problem"
+            name       => 'IssueDescription',
+            attributes => '',
+            title      => 'Issue Description',
+            value      => '---+ Example problem'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue1",
-            attributes => "",
-            title      => "Issue 1:",
-            value      => "*Defect*"
+            name       => 'Issue1',
+            attributes => '',
+            title      => 'Issue 1:',
+            value      => '*Defect*'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue2",
-            attributes => "",
-            title      => "Issue 2:",
-            value      => "Enhancement"
+            name       => 'Issue2',
+            attributes => '',
+            title      => 'Issue 2:',
+            value      => 'Enhancement'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue3",
-            attributes => "",
-            title      => "Issue 3:",
-            value      => "Defect, None"
+            name       => 'Issue3',
+            attributes => '',
+            title      => 'Issue 3:',
+            value      => 'Defect, None'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue4",
-            attributes => "",
-            title      => "Issue 4:",
-            value      => "Defect"
+            name       => 'Issue4',
+            attributes => '',
+            title      => 'Issue 4:',
+            value      => 'Defect'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue5",
-            attributes => "",
-            title      => "Issue 5:",
-            value      => "Foo, Baz"
+            name       => 'Issue5',
+            attributes => '',
+            title      => 'Issue 5:',
+            value      => 'Foo, Baz'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "State",
-            attributes => "H",
-            title      => "State",
-            value      => "Invisible"
+            name       => 'State',
+            attributes => 'H',
+            title      => 'State',
+            value      => 'Invisible'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Anothertopic",
-            attributes => "",
-            title      => "Another topic",
-            value      => "GRRR "
+            name       => 'Anothertopic',
+            attributes => '',
+            title      => 'Another topic',
+            value      => 'GRRR '
         }
     );
 
@@ -139,86 +139,86 @@ HERE
 
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testtopic2 );
-    $meta->put( 'FORM', { name => "InitializationForm", } );
+    $meta->put( 'FORM', { name => 'InitializationForm', } );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "IssueName",
-            attributes => "M",
-            title      => "Issue Name",
-            value      => "_An issue_"
+            name       => 'IssueName',
+            attributes => 'M',
+            title      => 'Issue Name',
+            value      => '_An issue_'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "IssueDescription",
-            attributes => "",
-            title      => "IssueDescription",
+            name       => 'IssueDescription',
+            attributes => '',
+            title      => 'IssueDescription',
             value      => "| abc | 123 |\r\n| def | ghk |"
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue1",
-            attributes => "",
-            title      => "Issue1",
-            value      => "*no web*"
+            name       => 'Issue1',
+            attributes => '',
+            title      => 'Issue1',
+            value      => '*no web*'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue2",
-            attributes => "",
-            title      => "Issue2",
+            name       => 'Issue2',
+            attributes => '',
+            title      => 'Issue2',
             value      => ",   * abc\r\n   * def\r\n      * geh\r\n   * ijk"
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue3",
-            attributes => "",
-            title      => "Issue3",
-            value      => "_hello world_"
+            name       => 'Issue3',
+            attributes => '',
+            title      => 'Issue3',
+            value      => '_hello world_'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue4",
-            attributes => "",
-            title      => "Issue4",
-            value      => ",   * high"
+            name       => 'Issue4',
+            attributes => '',
+            title      => 'Issue4',
+            value      => ',   * high'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Issue5",
-            attributes => "",
-            title      => "Issue5",
-            value      => "Foo, Baz"
+            name       => 'Issue5',
+            attributes => '',
+            title      => 'Issue5',
+            value      => 'Foo, Baz'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "State",
-            attributes => "H",
-            title      => "State",
-            value      => "Invisible"
+            name       => 'State',
+            attributes => 'H',
+            title      => 'State',
+            value      => 'Invisible'
         }
     );
     $meta->putKeyed(
         'FIELD',
         {
-            name       => "Anothertopic",
-            attributes => "",
-            title      => "Another topic",
-            value      => "GRRR "
+            name       => 'Anothertopic',
+            attributes => '',
+            title      => 'Another topic',
+            value      => 'GRRR '
         }
     );
     $meta->putKeyed(
