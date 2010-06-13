@@ -580,7 +580,7 @@ sub _moveFile {
     unless ( $this->{_options}->{SIMULATE} ) {
         if ( scalar(@path) ) {
             umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
-            File::Path::mkpath( join( '/', @path ) );
+            File::Path::mkpath( join( '/', @path ), 0, $Foswiki::cfg{RCS}{dirPermission} );
         }
 
         if ( !File::Copy::move( "$from", $to ) ) {
