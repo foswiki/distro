@@ -31,6 +31,7 @@ use IO::File   ();
 use File::Copy ();
 use File::Spec ();
 use File::Path ();
+use Fcntl      ();
 
 use Foswiki::Store                         ();
 use Foswiki::Sandbox                       ();
@@ -832,17 +833,22 @@ sub saveFile {
     my ( $this, $name, $text ) = @_;
 
     $this->mkPathTo($name);
-    my $FILE;
-    open( $FILE, '>', $name )
-      || throw Error::Simple(
+    my $fh;
+    open( $fh, '>', $name )
+      or throw Error::Simple(
         'VC::Handler: failed to create file ' . $name . ': ' . $! );
-    binmode($FILE)
-      || throw Error::Simple(
+    flock( $fh, Fcntl::LOCK_EX )
+      or throw Error::Simple(
+        'VC::Handler: failed to lock file ' . $name . ': ' . $! );
+    binmode($fh)
+      or throw Error::Simple(
         'VC::Handler: failed to binmode ' . $name . ': ' . $! );
-    print $FILE $text;
-    close($FILE)
-      || throw Error::Simple(
-        'VC::Handler: failed to create file ' . $name . ': ' . $! );
+    print $fh $text
+      or throw Error::Simple(
+        'VC::Handler: failed to print into ' . $name . ': ' . $! );
+    close($fh)
+      or throw Error::Simple(
+        'VC::Handler: failed to close file ' . $name . ': ' . $! );
     return;
 }
 
