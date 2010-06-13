@@ -340,7 +340,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | Polish translation | [[TWiki:Main.ZbigniewKulesza][ZbigniewKulesza]] |
 | Portuguese translation | [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[TWiki:Main.CarlinhosCecconi][CarlinhosCecconi]] |
 | Spanish translation | [[Foswiki:Main.WillNorris][WillNorris]], [[TWiki:Main.MiguelABayona][MiguelABayona]] |
-| Swedish translation | [[TWiki:Main.ErikAman][Erik �man]] |
+| Swedish translation | [[TWiki:Main.ErikAman][Erik &Aring;man]] |
 | *New features for users*  ||
 | Edit conflict resolution with automatic merge | [[http://c-dot.co.uk][Crawford Currie]] |
 | Fine grained change notification on page level and parent/child relationship | [[http://c-dot.co.uk][Crawford Currie]] |
