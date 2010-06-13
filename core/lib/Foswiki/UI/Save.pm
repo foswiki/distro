@@ -446,7 +446,7 @@ WARN
     # Do this *before* we do any query parameter rewriting
     Foswiki::UI::checkValidationKey($session);
 
-    my $editaction = lc( $query->param('editaction') ) || '';
+    my $editaction = lc( $query->param('editaction') || '' );
     my $edit       = $query->param('edit')             || 'edit';
 
     ## SMELL: The form affecting actions do not preserve edit and editparams
