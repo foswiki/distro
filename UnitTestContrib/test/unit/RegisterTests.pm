@@ -535,7 +535,11 @@ sub registerVerifyOk {
         $this->assert_str_equals( "confirm", $e->{def}, $e->stringify() );
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
+        $this->assert_matches(
+            $this->{new_user_email},
+            $e->{params}->[0],
+            $e->stringify()
+        );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -620,7 +624,11 @@ sub verify_registerBadVerify {
         my $e = shift;
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
+        $this->assert_matches(
+            $this->{new_user_email},
+            $e->{params}->[0],
+            $e->stringify()
+        );
         $this->assert_str_equals( "attention", $e->{template} );
         $this->assert_str_equals( "confirm",   $e->{def} );
     }
@@ -898,7 +906,11 @@ sub verify_duplicateActivation {
         $this->assert_str_equals( "confirm", $e->{def}, $e->stringify() );
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
+        $this->assert_matches(
+            $this->{new_user_email},
+            $e->{params}->[0],
+            $e->stringify()
+        );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1436,7 +1448,11 @@ sub test_3951 {
         $this->assert_str_equals( "thanks", $e->{def}, $e->stringify() );
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
+        $this->assert_matches(
+            $this->{new_user_email},
+            $e->{params}->[0],
+            $e->stringify()
+        );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1483,7 +1499,7 @@ sub test_4061 {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     $this->assert( open( my $fh, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
-    my ($before, $stuff);
+    my ( $before, $stuff );
     {
         local $/;
         $before = <$fh>;
@@ -1832,7 +1848,7 @@ sub verify_Default_NameFilter {
         'asdf@example.com' );
     $this->assert_not_null( $ret, "@ in wikiname should fail" );
     $this->assert_equals( 'attention', $ret->{template},
-        "@ in wikiname should oops: ".$ret->stringify );
+        "@ in wikiname should oops: " . $ret->stringify );
     $this->assert_equals( 'bad_wikiname', $ret->{def},
         "@ in wikiname should fail" );
     $this->assert_equals(

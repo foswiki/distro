@@ -106,8 +106,11 @@ sub fetchUsers {
 # Lock the htpasswd semaphore file (create if it does not exist)
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
-    sysopen( my $fh, $Foswiki::cfg{Htpasswd}{FileName},
-        Fcntl::O_RDWR | Fcntl::O_CREAT, 0666 )
+    sysopen(
+        my $fh,
+        $Foswiki::cfg{Htpasswd}{FileName},
+        Fcntl::O_RDWR | Fcntl::O_CREAT, 0666
+      )
       || throw Error::Simple( $Foswiki::cfg{Htpasswd}{FileName}
           . ' open or create password file failed -'
           . ' check access rights: '
@@ -126,7 +129,7 @@ sub _unlockPasswdFile {
 # Read the password file. The content of the file is cached in
 # the password object. This cache will be ignored if $forceRead is true.
 sub _readPasswd {
-    my ($this, $forceRead) = @_;
+    my ( $this, $forceRead ) = @_;
     return $this->{passworddata}
       if ( !$forceRead && defined( $this->{passworddata} ) );
 
@@ -134,15 +137,15 @@ sub _readPasswd {
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
-    my $re = qr/^(.*?):(.*?)(?::(.*))?$/; # Default to htpasswd
+    my $re = qr/^(.*?):(.*?)(?::(.*))?$/;    # Default to htpasswd
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
-        $re = qr/^(.*?):(?:.*?):(.*?)(?::(.*))?$/; # Switch to htdigest
+        $re = qr/^(.*?):(?:.*?):(.*?)(?::(.*))?$/;    # Switch to htdigest
     }
     open( my $fh, '<', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
-    while ( <$fh> ) {
-        if( /$re/ ) {
+    while (<$fh>) {
+        if (/$re/) {
 
             # implicit untaint OK; data from htpasswd
             $data->{$1}->{pass} = $2;
@@ -158,16 +161,17 @@ sub _readPasswd {
 sub _dumpPasswd {
     my $db = shift;
     my @entries;
-    foreach my $login (sort( keys( %$db ))) {
+    foreach my $login ( sort( keys(%$db) ) ) {
         my $entry = "$login:";
         if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+
             # htdigest format
             $entry .= "$Foswiki::cfg{AuthRealm}:";
         }
-        $entry .= $db->{$login}->{pass}.':'.$db->{$login}->{emails};
-        push(@entries, $entry);
+        $entry .= $db->{$login}->{pass} . ':' . $db->{$login}->{emails};
+        push( @entries, $entry );
     }
-    return join("\n", @entries)."\n";
+    return join( "\n", @entries ) . "\n";
 }
 
 sub _savePasswd {
@@ -179,9 +183,9 @@ sub _savePasswd {
     # Rewind and print for in-place editing
     seek $fh, 0, Fcntl::SEEK_SET;
     print $fh $content
-        or throw Error::Simple("ERROR: Cannot write password file");
+      or throw Error::Simple("ERROR: Cannot write password file");
     truncate $fh, tell $fh
-        or throw Error::Simple("ERROR: Cannot truncate password file");
+      or throw Error::Simple("ERROR: Cannot truncate password file");
 }
 
 sub encrypt {
@@ -293,10 +297,10 @@ sub setPassword {
 
     try {
         $lockHandle = _lockPasswdFile();
-        my $db      = $this->_readPasswd(1);
+        my $db = $this->_readPasswd(1);
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
-        _savePasswd($lockHandle, $db);
+        _savePasswd( $lockHandle, $db );
     }
     catch Error::Simple with {
         my $e = shift;
@@ -305,7 +309,8 @@ sub setPassword {
         $this->{error} = 'unknown error in resetPassword'
           unless ( $this->{error} && length( $this->{error} ) );
         return undef;
-    } finally {
+    }
+    finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
 
@@ -321,19 +326,20 @@ sub removeUser {
     my $lockHandle;
     try {
         $lockHandle = _lockPasswdFile();
-        my $db      = $this->_readPasswd(1);
+        my $db = $this->_readPasswd(1);
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
         }
         else {
             delete $db->{$login};
-            _savePasswd($lockHandle, $db);
+            _savePasswd( $lockHandle, $db );
             $result = 1;
         }
     }
     catch Error::Simple with {
         $this->{error} = shift->{-text};
-    } finally {
+    }
+    finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
     return $result;
@@ -378,25 +384,27 @@ sub getEmails {
 }
 
 sub setEmails {
-    my $this  = shift;
-    my $login = shift;
+    my $this   = shift;
+    my $login  = shift;
     my $emails = join( ';', @_ );
     ASSERT($login) if DEBUG;
     my $lockHandle;
 
     try {
         $lockHandle = _lockPasswdFile();
-        my $db      = $this->_readPasswd(1);
+        my $db = $this->_readPasswd(1);
         unless ( $db->{$login} ) {
+
             # Make sure the user is in the auth system, by adding them with
             # a null password if not.
             $db->{$login}->{pass} = '';
         }
-        
+
         $db->{$login}->{emails} = $emails;
 
-        _savePasswd($lockHandle, $db);
-    } finally {
+        _savePasswd( $lockHandle, $db );
+    }
+    finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
     return 1;
