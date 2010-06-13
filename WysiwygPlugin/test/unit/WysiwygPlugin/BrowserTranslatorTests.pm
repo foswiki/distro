@@ -150,6 +150,35 @@ HERE
 THERE
     },
     {
+        exec => $TranslatorBase::ROUNDTRIP,
+        name => 'Item6068NewlinesInPre',
+        tml  => <<'HERE',
+<pre>
+test
+test
+test
+</pre>
+HERE
+        #SMELL: TMCE removes the newline after the <pre>
+        finaltml  => <<'HERE',
+<pre>test
+test
+test
+</pre>
+HERE
+    },
+    {
+        exec => $TranslatorBase::ROUNDTRIP,
+        name => 'Item6068NewlinesInPreInSticky',
+        tml  => <<'HERE',
+<sticky><pre>
+test
+test
+test
+</pre></sticky>
+HERE
+    },
+    {
         name => "brTagInMacroFormat",
         exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML | $TranslatorBase::ROUNDTRIP,
         tml  => <<'HERE',

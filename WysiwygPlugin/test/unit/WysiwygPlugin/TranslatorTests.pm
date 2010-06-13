@@ -960,6 +960,26 @@ EVERYWHERE
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
+        name => 'Item6068NewlinesInPre',
+        tml  => <<'HERE',
+<pre>
+test
+test
+test
+</pre>
+HERE
+        html => <<'HERE',
+<p>
+<pre>
+test
+test
+test
+</pre>
+</p>
+HERE
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'nestedPre',
         html => '<p>
 Outside <pre class="foswikiAlert TMLverbatim"><br />&nbsp;&nbsp;Inside<br />&nbsp;&nbsp;</pre> Outside </p>',
