@@ -9,6 +9,7 @@ use Foswiki::UI;
 use Foswiki::UI::Viewfile;
 use Unit::Request;
 use Error qw( :try );
+use File::Path qw(make_path);
 
 my $fatwilly;
 my $UI_FN;
@@ -100,16 +101,8 @@ sub touchFile {
 sub sneakAttachmentsToTopic {
     my $this = shift;
     my ( $web, $topic, @filenames ) = @_;
-    my $path = $Foswiki::cfg{PubDir};
-    {
-        my $dir = "$web/$topic";
-        my @dirs = split( /\//, $dir );
-        foreach my $adir (@dirs) {
-            $path .= '/' . $adir;
-            mkdir($path) unless ( -e $path );
-        }
-    }
-
+    my $path = $Foswiki::cfg{PubDir}."/$web/$topic";
+    make_path($path);
     #print STDERR "DEBUG: dir=$path\n";
 
     foreach my $file (@filenames) {
