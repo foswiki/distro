@@ -194,6 +194,30 @@ HERE
 <p><span class="WYSIWYG_PROTECTED">%JQPLUGINS{"scrollto"<br />&nbsp;&nbsp;format="<br />&nbsp;&nbsp;&nbsp;&nbsp;Homepage:&nbsp;$homepage&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Author(s):&nbsp;$author&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Version:&nbsp;$version<br />&nbsp;&nbsp;"<br />}%</span></p>
 HERE
     },
+    {
+        name => "brTagInMacroFormatNewlinesInHtml",
+        exec => $TranslatorBase::HTML2TML,
+        tml  => <<'HERE',
+%JQPLUGINS{"scrollto"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+HERE
+        html => <<'HERE',
+<p>
+<span class="WYSIWYG_PROTECTED">%JQPLUGINS{"scrollto"<br />
+&nbsp;&nbsp;format="<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Homepage:&nbsp;$homepage&nbsp;&lt;br&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Author(s):&nbsp;$author&nbsp;&lt;br&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Version:&nbsp;$version<br />
+&nbsp;&nbsp;"<br />
+}%</span>
+</p>
+HERE
+    },
 
     {    # Copied on 29 April 2010 from
            # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
