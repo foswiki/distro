@@ -13,7 +13,9 @@ sub check {
     $this->{filecount} = 0;
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw', qr/,v$/ );
+
+    # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission} 
+    my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rwd', qr/,v$/ );
     $e .= $this->WARN($e2) if $e2;
 
     $e .= 

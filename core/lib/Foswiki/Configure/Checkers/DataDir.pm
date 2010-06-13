@@ -13,16 +13,16 @@ sub check {
     $this->{filecount} = 0;
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
 
-    # Check that all files are readable
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r" );
+    # Check readable, writable  and directories match {RCS}{dirPermissions}
+    my $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rwd', qr/,v$/ );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
     $e .= 
      ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit} ) 
      ? $this->NOTE("File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options")
      : $this->NOTE("File count - $this->{filecount} ");
 
-    # Also check that all files excluding the rcs files are writable
-    $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "w", qr/,v$/ );
+    # Also check that all files excluding non-rcs files are writable
+    $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r", qr/\.txt$/ );
     $e .= $this->WARN($e2) if $e2;
 
     $this->{filecount} = 0;

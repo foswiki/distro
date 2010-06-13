@@ -72,19 +72,28 @@ sub checkTreePerms {
     return $path . ' cannot be found' . CGI::br()
       unless ( -e $path || -l $path );
 
+    if ( $perms =~ /d/ && -d $path) {
+        my $mode = (stat($path))[2] & 07777;
+        unless ($mode == $Foswiki::cfg{RCS}{dirPermission}) {
+            my $omode = sprintf('%04o', $mode);
+            my $operm = sprintf('%04o', $Foswiki::cfg{RCS}{dirPermission});
+            $errs .= " directory permission mismatch $omode should be $operm" ;
+        }
+    }
+
     if ( $perms =~ /r/ && !-r $path ) {
-        $errs .= ' readable';
+        $errs .= ' not readable';
     }
 
     if ( $perms =~ /w/ && !-d $path && !-w $path ) {
-        $errs .= ' writable';
+        $errs .= ' not writable';
     }
 
     if ( $perms =~ /x/ && !-x $path ) {
-        $errs .= ' executable';
+        $errs .= ' not executable';
     }
 
-    return $path . ' is not ' . $errs . CGI::br() if $errs;
+    return $path . $errs . CGI::br() if $errs;
 
     return '' unless -d $path;
 
@@ -101,6 +110,7 @@ sub checkTreePerms {
         my $p = $path . '/' . $e;
         $errs .= checkTreePerms( $this, $p, $perms, $filter );
         last if ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit});
+        
     }
     closedir($Dfh);
 
