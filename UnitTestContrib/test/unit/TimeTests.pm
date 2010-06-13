@@ -14,6 +14,17 @@ sub new {
     return $self;
 }
 
+#bugger, have to skip these tests in Win32
+sub list_tests {
+    #can't call _any_ of the tests because set_up calles an unimplemented POSIX::tzset
+    #verified on strawberry perl 5.12
+    #TODO: needs more testing
+    return () if ($^O eq 'MSWin32');
+    
+    my ( $this, $suite ) = @_;
+    return $this->SUPER::list_tests($suite);
+}
+
 sub set_up {
     my $this = shift;
 
