@@ -71,6 +71,21 @@ sub test_otherWeb {
     $this->assert_str_equals( join( ';', @allSubwebTopics ), $text );
 }
 
+sub test_otherWeb_NOSEARCHALL {
+    my $this = shift;
+
+    my $to = load Foswiki::Meta($this->{session},
+                               "$this->{test_web}/SubWeb",
+                               $Foswiki::cfg{WebPrefsTopicName});
+    $to->text($to->text()."\n   * Set NOSEARCHALL = on\n");
+    $to->save();
+
+    my $text =
+      $this->{test_topicObject}
+      ->expandMacros( '%TOPICLIST{web="' . $this->{test_web} . '/SubWeb"}%' );
+    $this->assert_str_equals( join( ';', @allSubwebTopics ), $text );
+}
+
 # "format"  	 Format of one line, may include $web (name of web),
 #                $topic (name of the topic)
 # format="format" 	(Alternative to above)

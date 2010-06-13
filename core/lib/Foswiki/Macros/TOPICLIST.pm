@@ -19,7 +19,7 @@ sub TOPICLIST {
 
     my $webObject = Foswiki::Meta->new( $this, $web );
     return ''
-      if $web ne $this->{webName}
+      if !defined($params->{web}) && $web ne $this->{webName}
           && $webObject->getPreference('NOSEARCHALL');
 
     my @items;
