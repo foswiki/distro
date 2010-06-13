@@ -407,6 +407,7 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
     return;
 }
 
+# assert bool($got) == bool($expected) with $message and return true if true
 sub expected_in_scan {
     my ( $this, $expected, $got, $message ) = @_;
     my $_got      = 0;
@@ -435,6 +436,8 @@ sub expected_in_scan {
 # Scan for a checked $value belonging to an <input> with $name
 # Return true if found and success was expected
 # or true if not found and absence was expected
+# Asserts an <input of $name with $value exists unless $expected->{input} false
+# Asserts the <input is checked unless $expected->{checked} is false
 sub scan_for_checked {
     my ( $this, $text, $name, $value, $expected ) = @_;
     my $fragment;
@@ -447,19 +450,22 @@ sub scan_for_checked {
       ( $text =~
 m/<input([^>]*?(name|id)=['"]$name['"][^>]*?value=['"]\Q${value}\E['"][^>]*?)\/>/
       );
-    $success = $success + $this->expected_in_scan( $expected->{expectinput},
+    $success = $success + $this->expected_in_scan( $expected->{input},
         $fragment, "to find <input (name|id)='$name' with value '$value'" );
     ($checked) = ( $fragment =~ m/checked=[\'"]checked[\'"]/ );
-    $success = $success + $this->expected_in_scan( $expected->{expectchecked},
+    $success = $success + $this->expected_in_scan( $expected->{checked},
         $checked,
         "to find <input (name|id)='$name' with checked value '$value'" );
 
     return ( $success == 2 );
 }
 
-# Scan for a selected $value belonging to a <select with $name
+# Scan for a selected $option belonging to a <select with $name
 # Return true if found and success was expected
 # or true if not found and absence was expected
+# Asserts a <select exists with $name unless $expected->{select} is false
+# Asserts contains an <option with $option unless $expected->{option} is false
+# Asserts <option is selected unless $expected->{selected} is false
 sub scan_for_selected {
     my ( $this, $text, $name, $option, $expected ) = @_;
     my $fragment;
@@ -470,7 +476,7 @@ sub scan_for_selected {
     # special characters being interpreted as part of the regex
     ( undef, $fragment ) = ( $text =~
           m/<select[^>]*?(name|id)=['"]\Q${name}\E['"][^>]*?>(.*?)<\/select>/ );
-    $success = $success + $this->expected_in_scan( $expected->{expectselect},
+    $success = $success + $this->expected_in_scan( $expected->{select},
         $fragment, "to find <select (name|id)='$name'" );
 
     # Match contents of the option markup
@@ -484,7 +490,7 @@ sub scan_for_selected {
 m/<option([^>]*?value=[\'"]\Q${option}\E[\'"][^>]*?)>[^<]*?<\/option>/
           );
     }
-    $success = $success + $this->expected_in_scan( $expected->{expectoption},
+    $success = $success + $this->expected_in_scan( $expected->{option},
         $optattributes,
         "to find <select (name|id)='$name' with <option '$option'" );
     my $selected;
@@ -494,13 +500,14 @@ m/<option([^>]*?value=[\'"]\Q${option}\E[\'"][^>]*?)>[^<]*?<\/option>/
     else {
         $selected = 0;
     }
-    $success = $success + $this->expected_in_scan( $expected->{expectselected},
+    $success = $success + $this->expected_in_scan( $expected->{selected},
         $selected,
         "to find <select (name|id)='$name' with selected <option '$option'" );
 
     return ( $success == 3 );
 }
 
+# Testing multivalue items present in the test topic's dataform
 sub test_edit_without_urlparam_presets {
     my ($this) = @_;
 
@@ -515,8 +522,8 @@ sub test_edit_without_urlparam_presets {
 
     my ( $status, $header, $text ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
-    my $notchecked  = { expectchecked  => 0 };
-    my $notselected = { expectselected => 0 };
+    my $notchecked  = { checked  => 0 };
+    my $notselected = { selected => 0 };
 
     $this->assert( $this->scan_for_checked( $text, 'State', 'Invisible' ) );
     $this->assert(
@@ -543,7 +550,8 @@ sub test_edit_without_urlparam_presets {
 
 # SMELL: This test created because a fix to Item9007 in Foswiki::Form::Checkbox
 # lost us the ability to set checkbox values from url parameters. However, this
-# test still passes, where a real life request should fail...
+# test still passed against the faulty code, where a real web browser 
+# demonstrated the fault...
 sub test_edit_with_urlparam_presets {
     my ($this) = @_;
 
@@ -562,8 +570,8 @@ sub test_edit_with_urlparam_presets {
         undef,
         { Issue3 => ['c'], State => ['1'], Issue1 => ['y'], Issue5 => ['Bar'] }
     );
-    my $notchecked  = { expectchecked  => 0 };
-    my $notselected = { expectselected => 0 };
+    my $notchecked  = { checked  => 0 };
+    my $notselected = { selected => 0 };
 
     $this->assert(
         $this->scan_for_checked( $text, 'State', 'Invisible', $notchecked ) );
