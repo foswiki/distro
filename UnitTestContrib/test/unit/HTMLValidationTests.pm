@@ -124,7 +124,7 @@ SUB
         next if ( defined(&$skin) );
 
         #print STDERR "defining sub $skin()\n";
-        eval <<SUB;
+        eval <<"SUB";
 		sub $skin {
 			\$SKIN_NAME = \$skin;
 		}
@@ -138,18 +138,16 @@ SUB
 }
 
 sub call_UI_FN {
-    my ( $this, $web, $topic, $tmpl, %params ) = @_;
-    my $query = Unit::Request->new(
-        {
-            webName   => [$web],
-            topicName => [$topic],
-
-   #            template  => [$tmpl],
-   #debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
-            skin => $SKIN_NAME,
-            %params
-        }
+    my ( $this, $web, $topic, $tmpl, $params ) = @_;
+    my %constructor = (
+        webName   => [$web],
+        topicName => [$topic],
+        skin      => $SKIN_NAME
     );
+    if ($params) {
+        %constructor = ( %constructor, %$params );
+    }
+    my $query = Unit::Request->new( \%constructor );
     $query->path_info("/$web/$topic");
     $query->method('GET');
 
@@ -157,7 +155,7 @@ sub call_UI_FN {
     local $ENV{FOSWIKI_ASSERTS} = 0;
     my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
     my ( $responseText, $result, $stdout, $stderr );
-    $responseText = "Status: 500";    #errr, boom
+    $responseText = 'Status: 500';    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             $SCRIPT_NAME => sub {
@@ -342,7 +340,7 @@ sub verify_switchboard_function {
     add_attachments( $this, $this->{test_web}, $this->{test_topic} );
 
     my ( $status, $header, $text ) =
-      $this->call_UI_FN( $this->{test_web}, $this->{test_topic}, undef, ('Issue3' => 'c') );
+      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
     $this->assert_num_equals( $expected_status{$SCRIPT_NAME} || 200, $status );
     if ( $status != 302 ) {
@@ -406,6 +404,188 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
 
     #clean up messages for next run..
     $this->{tidy}->clear_messages();
+    return;
+}
+
+sub expected_in_scan {
+    my ( $this, $expected, $got, $message ) = @_;
+    my $_got      = 0;
+    my $_expected = 0;
+
+    if ($got) {
+        $_got = 1;
+    }
+    if ( not defined $expected ) {
+        $_expected = 1;
+    }
+    if ( $_expected != $_got ) {
+        my $sensestr;
+        if ($_expected) {
+            $sensestr = 'Expected ';
+        }
+        else {
+            $sensestr = 'Did not expect ';
+        }
+        $this->assert_equals( $_expected, $_got, $sensestr . $message );
+    }
+
+    return ( $_expected == $_got );
+}
+
+# Scan for a checked $value belonging to an <input> with $name
+# Return true if found and success was expected
+# or true if not found and absence was expected
+sub scan_for_checked {
+    my ( $this, $text, $name, $value, $expected ) = @_;
+    my $fragment;
+    my $checked;
+    my $success = 0;
+
+    # The construction \Q${variable}\E matches a literal string, preventing
+    # special characters being interpreted as part of the regex
+    ($fragment) =
+      ( $text =~
+m/<input([^>]*?(name|id)=['"]$name['"][^>]*?value=['"]\Q${value}\E['"][^>]*?)\/>/
+      );
+    $success = $success + $this->expected_in_scan( $expected->{expectinput},
+        $fragment, "to find <input (name|id)='$name' with value '$value'" );
+    ($checked) = ( $fragment =~ m/checked=[\'"]checked[\'"]/ );
+    $success = $success + $this->expected_in_scan( $expected->{expectchecked},
+        $checked,
+        "to find <input (name|id)='$name' with checked value '$value'" );
+
+    return ( $success == 2 );
+}
+
+# Scan for a selected $value belonging to a <select with $name
+# Return true if found and success was expected
+# or true if not found and absence was expected
+sub scan_for_selected {
+    my ( $this, $text, $name, $option, $expected ) = @_;
+    my $fragment;
+    my $success = 0;
+    my $optattributes;
+
+    # The construction \Q${variable}\E matches a literal string, preventing
+    # special characters being interpreted as part of the regex
+    ( undef, $fragment ) = ( $text =~
+          m/<select[^>]*?(name|id)=['"]\Q${name}\E['"][^>]*?>(.*?)<\/select>/ );
+    $success = $success + $this->expected_in_scan( $expected->{expectselect},
+        $fragment, "to find <select (name|id)='$name'" );
+
+    # Match contents of the option markup
+    ($optattributes) =
+      ( $fragment =~ m/<option([^>]*?)>\s*\Q${option}\E\s*<\/option>/ );
+    if ( not $optattributes ) {
+
+        # Otherwise match a 'forced' value attribute
+        ($optattributes) =
+          ( $fragment =~
+m/<option([^>]*?value=[\'"]\Q${option}\E[\'"][^>]*?)>[^<]*?<\/option>/
+          );
+    }
+    $success = $success + $this->expected_in_scan( $expected->{expectoption},
+        $optattributes,
+        "to find <select (name|id)='$name' with <option '$option'" );
+    my $selected;
+    if ( $optattributes =~ m/selected=[\'"]selected[\'"]/ ) {
+        $selected = 1;
+    }
+    else {
+        $selected = 0;
+    }
+    $success = $success + $this->expected_in_scan( $expected->{expectselected},
+        $selected,
+        "to find <select (name|id)='$name' with selected <option '$option'" );
+
+    return ( $success == 3 );
+}
+
+sub test_edit_without_urlparam_presets {
+    my ($this) = @_;
+
+    require Foswiki::UI::Edit;
+    $UI_FN       = 'Foswiki::UI::Edit::edit';
+    $SCRIPT_NAME = 'edit';
+    $SKIN_NAME   = 'default';
+
+    create_form_topic( $this, $this->{test_web}, 'MyForm' );
+    add_form_and_data( $this, $this->{test_web}, $this->{test_topic},
+        'MyForm' );
+
+    my ( $status, $header, $text ) =
+      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+    my $notchecked  = { expectchecked  => 0 };
+    my $notselected = { expectselected => 0 };
+
+    $this->assert( $this->scan_for_checked( $text, 'State', 'Invisible' ) );
+    $this->assert(
+        $this->scan_for_checked( $text, 'State', '1', $notchecked ) );
+    $this->assert(
+        $this->scan_for_checked( $text, 'State', '3', $notchecked ) );
+    $this->assert( $this->scan_for_selected( $text, 'Issue1', '*Defect*' ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue1', 'x', $notselected ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue1', 'y', $notselected ) );
+    $this->assert(
+        $this->scan_for_checked( $text, 'Issue3', 'c', $notchecked ) );
+    $this->assert( $this->scan_for_checked( $text, 'Issue3', 'Defect' ) );
+    $this->assert( $this->scan_for_checked( $text, 'Issue3', 'None' ) );
+    $this->assert( $this->scan_for_selected( $text, 'Issue5', 'Foo' ) );
+    $this->assert( $this->scan_for_selected( $text, 'Issue5', 'Baz' ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue5', 'Bar', $notselected ) );
+
+    return;
+}
+
+
+# SMELL: This test created because a fix to Item9007 in Foswiki::Form::Checkbox
+# lost us the ability to set checkbox values from url parameters. However, this
+# test still passes, where a real life request should fail...
+sub test_edit_with_urlparam_presets {
+    my ($this) = @_;
+
+    require Foswiki::UI::Edit;
+    $UI_FN       = 'Foswiki::UI::Edit::edit';
+    $SCRIPT_NAME = 'edit';
+    $SKIN_NAME   = 'default';
+
+    create_form_topic( $this, $this->{test_web}, 'MyForm' );
+    add_form_and_data( $this, $this->{test_web}, $this->{test_topic},
+        'MyForm' );
+
+    my ( $status, $header, $text ) = $this->call_UI_FN(
+        $this->{test_web},
+        $this->{test_topic},
+        undef,
+        { Issue3 => ['c'], State => ['1'], Issue1 => ['y'], Issue5 => ['Bar'] }
+    );
+    my $notchecked  = { expectchecked  => 0 };
+    my $notselected = { expectselected => 0 };
+
+    $this->assert(
+        $this->scan_for_checked( $text, 'State', 'Invisible', $notchecked ) );
+    $this->assert( $this->scan_for_checked( $text, 'State', '1' ) );
+    $this->assert(
+        $this->scan_for_checked( $text, 'State', '3', $notchecked ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue1', '*Defect*', $notselected ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue1', 'x', $notselected ) );
+    $this->assert( $this->scan_for_selected( $text, 'Issue1', 'y' ) );
+    $this->assert( $this->scan_for_checked( $text, 'Issue3', 'c' ) );
+    $this->assert(
+        $this->scan_for_checked( $text, 'Issue3', 'Defect', $notchecked ) );
+    $this->assert(
+        $this->scan_for_checked( $text, 'Issue3', 'None', $notchecked ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue5', 'Foo', $notselected ) );
+    $this->assert(
+        $this->scan_for_selected( $text, 'Issue5', 'Baz', $notselected ) );
+    $this->assert( $this->scan_for_selected( $text, 'Issue5', 'Bar' ) );
+
     return;
 }
 

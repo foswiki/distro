@@ -8,8 +8,8 @@ use Foswiki::Form::ListFieldDefinition ();
 our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+    my ( $class, @args ) = @_;
+    my $this = $class->SUPER::new(@args);
     $this->{size} ||= 0;
     $this->{size} =~ s/\D//g;
     $this->{size} ||= 0;
@@ -19,10 +19,10 @@ sub new {
 }
 
 # Checkboxes can't provide a default from the form spec
-sub getDefaultValue { undef }
+sub getDefaultValue { return; }
 
 # Checkbox store multiple values
-sub isMultiValued { 1 }
+sub isMultiValued { return 1; }
 
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
@@ -47,7 +47,6 @@ sub renderForEdit {
     $value = '' unless defined($value) && length($value);
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     my %attrs;
-    my @defaults;
     foreach my $item ( @{ $this->getOptions() } ) {
 
         # NOTE: Does not expand $item in title
@@ -58,13 +57,11 @@ sub renderForEdit {
 
         if ( $isSelected{$item} ) {
             $attrs{$item}{checked} = 'checked';
-            push( @defaults, $item );
         }
     }
     $value = CGI::checkbox_group(
         -name       => $this->{name},
         -values     => $this->getOptions(),
-        -defaults   => \@defaults,
         -columns    => $this->{size},
         -attributes => \%attrs
     );
