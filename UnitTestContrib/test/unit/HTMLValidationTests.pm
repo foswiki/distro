@@ -138,7 +138,7 @@ SUB
 }
 
 sub call_UI_FN {
-    my ( $this, $web, $topic, $tmpl ) = @_;
+    my ( $this, $web, $topic, $tmpl, %params ) = @_;
     my $query = Unit::Request->new(
         {
             webName   => [$web],
@@ -146,7 +146,8 @@ sub call_UI_FN {
 
    #            template  => [$tmpl],
    #debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
-            skin => $SKIN_NAME
+            skin => $SKIN_NAME,
+            %params
         }
     );
     $query->path_info("/$web/$topic");
@@ -341,7 +342,7 @@ sub verify_switchboard_function {
     add_attachments( $this, $this->{test_web}, $this->{test_topic} );
 
     my ( $status, $header, $text ) =
-      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+      $this->call_UI_FN( $this->{test_web}, $this->{test_topic}, undef, ('Issue3' => 'c') );
 
     $this->assert_num_equals( $expected_status{$SCRIPT_NAME} || 200, $status );
     if ( $status != 302 ) {
