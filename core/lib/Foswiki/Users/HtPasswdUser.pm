@@ -17,7 +17,7 @@ use base 'Foswiki::Users::Password';
 use strict;
 use Assert;
 use Error qw( :try );
-use Fcntl qw( :DEFAULT :flock );
+use Fcntl qw( :DEFAULT :flock SEEK_SET );
 
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in Foswiki::setupLocale
@@ -102,15 +102,12 @@ sub fetchUsers {
 # Lock the htpasswd semaphore file (create if it does not exist)
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
-    my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
-
-    sysopen(my $fh, $lockFileName, O_RDWR|O_CREAT, 0666)
+    sysopen(my $fh, $Foswiki::cfg{Htpasswd}{FileName}, O_RDWR|O_CREAT, 0666)
       || throw Error::Simple(
-        $lockFileName . 
-        ' open or create password lock file failed -' . 
-        'check access rights: ' . $! );
+        $Foswiki::cfg{Htpasswd}{FileName}
+        . ' open or create password lock file failed -'
+        . 'check access rights: ' . $! );
     flock $fh, LOCK_EX;
-    
     return $fh;
 }
 
@@ -177,15 +174,17 @@ sub _dumpPasswd {
 }
 
 sub _savePasswd {
+    my $fh = shift;
     my $db = shift;
 
-    umask(077);
-    open( FILE, '>', "$Foswiki::cfg{Htpasswd}{FileName}" )
-      || throw Error::Simple(
-        $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
+    my $content = _dumpPasswd($db);
 
-    print FILE _dumpPasswd($db);
-    close(FILE);
+    # Rewind and print for in-place editing
+    seek $fh, 0, SEEK_SET;
+    print $fh $content
+        or throw Error::Simple("ERROR: Cannot write password file");
+    truncate $fh, tell $fh
+        or throw Error::Simple("ERROR: Cannot truncate password file");
 }
 
 sub encrypt {
@@ -297,7 +296,7 @@ sub setPassword {
         my $db = $this->_readPasswd();
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
-        _savePasswd($db);
+        _savePasswd($lockHandle, $db);
         _unlockPasswdFile( $lockHandle );
     }
     catch Error::Simple with {
@@ -326,7 +325,7 @@ sub removeUser {
         }
         else {
             delete $db->{$login};
-            _savePasswd($db);
+            _savePasswd($lockHandle, $db);
             $result = 1;
         }
         _unlockPasswdFile( $lockHandle );
@@ -394,7 +393,7 @@ sub setEmails {
     else {
         $db->{$login}->{emails} = '';
     }
-    _savePasswd($db);
+    _savePasswd($lockHandle, $db);
     _unlockPasswdFile( $lockHandle );
     return 1;
 }
