@@ -123,8 +123,9 @@ sub register_cgi {
     # Output of reset password:
     #    unaffected user, accessible by username.$verificationCode
 
-# Output of verify:
-#    UnsavedUser, accessible by username.$approvalCode (only sent to administrator)
+    # Output of verify:
+    #    UnsavedUser, accessible by username.$approvalCode (only sent
+    #    to administrator)
 
     # Output of approve:
     #    RegisteredUser, all related UnsavedUsers deleted
@@ -137,7 +138,8 @@ my $b2 = "\t$b1";
 
 ---++ StaticMethod bulkRegister($session)
 
-  Called by ManageCgiScript::bulkRegister (requires authentication) with topic = the page with the entries on it.
+Called by ManageCgiScript::bulkRegister (requires authentication) with
+topic = the page with the entries on it.
 
 =cut
 
@@ -201,8 +203,9 @@ sub bulkRegister {
 
     my $log = "---+ Report for Bulk Register\n";
 
-  #TODO: should check that the header row actually contains the required fields.
-  #TODO: and consider using MAKETEXT to enable translated tables.
+    # TODO: should check that the header row actually contains the
+    # required fields.
+    # TODO: and consider using MAKETEXT to enable translated tables.
 
     #-- Process each row, generate a log as we go
     for ( my $n = 0 ; $n < scalar(@data) ; $n++ ) {
@@ -318,8 +321,8 @@ sub _registerSingleBulkUser {
     return $log;
 }
 
-#ensures all named fields exist in hash
-#returns array containing any that are missing
+# ensures all named fields exist in hash
+# returns array containing any that are missing
 sub _missingElements {
     my ( $presentArrRef, $requiredArrRef ) = @_;
     my %present;
@@ -349,11 +352,8 @@ sub _makeFormFieldOrderMatch {
 
 ---++ StaticMethod registerAndNext($session) 
 
-This is called when action = register
-
-It calls register and either Verify or Finish.
-
-Hopefully we will get workflow integrated and rewrite this to be table driven
+This is called when action = register. It either completes the registration,
+or redirects to verification, depending on the configuration.
 
 =cut
 
@@ -368,7 +368,7 @@ sub registerAndNext {
     }
 }
 
-# This is called through: UserRegistration -> RegisterCgiScript -> here
+# Get registration data from the CGI query and validate it
 sub _innerRegister {
     my ($session) = @_;
 
@@ -484,11 +484,8 @@ sub _requireVerification {
 
 ---++ StaticMethod verifyEmailAddress($session)
 
-This is called: on receipt of the activation password -> RegisterCgiScript -> here
-   1 calls _loadPendingRegistration(activation password)
-   2 throws oops if appropriate
-   3 calls emailRegistrationConfirmations
-   4 still calls 'oopssendmailerr' if a problem, but this is not done uniformly
+This is invoked on receipt of the activation password. It reloads a
+pending registration, and verifies the email address in it.
 
 =cut
 
@@ -504,10 +501,6 @@ sub verifyEmailAddress {
     if ( !exists $data->{Email} ) {
         throw Error::Simple('verifyEmailAddress: no email address!');
     }
-
-    my $topic = $session->{topicName};
-    my $web   = $session->{webName};
-
 }
 
 =begin TML
@@ -593,8 +586,10 @@ sub deleteUser {
 
 ---++ StaticMethod addUserToGroup($session)
 adds users to a group
-   * groupname parameter must a a single groupname (group does not have to exist)
-   * username can be a single login/wikiname/(!cuid?), a URLParam list, or a comma separated list.
+   * groupname parameter must a a single groupname (group does not
+     have to exist)
+   * username can be a single login/wikiname/(!cuid?), a URLParam
+     list, or a comma separated list.
 
 =cut
 
@@ -623,9 +618,12 @@ sub addUserToGroup {
             def => 'no_group_specified_for_add_to_group' );
     }
 
-#TODO: SMELL: if you create a new group, make sure __you__ are the first user in the list, otherwise you won't be able to add more than one user.
-#because this code saves once per user - and the group will be restricted to that group.
-#for now, I'll add the currently logged in user to the list..
+    # TODO: SMELL: if you create a new group, make sure __you__ are the
+    # first user in the list, otherwise you won't be able to add more
+    # than one user.
+    # because this code saves once per user - and the group will be
+    # restricted to that group.
+    # for now, I'll add the currently logged in user to the list..
     if ( !Foswiki::Func::isGroup($groupName) and $create ) {
         unshift( @userNames, $session->{users}->getLoginName($user) );
     }
@@ -681,9 +679,11 @@ sub addUserToGroup {
 =begin TML
 
 ---++ StaticMethod removeUserFromGroup($session)
-remoces users from a group
-   * groupname parameter must a a single groupname (group does not have to exist)
-   * username can be a single login/wikiname/(cuid?), a URLParam list, or a comma separated list.
+Removes users from a group
+   * groupname parameter must a a single groupname (group does not have
+     to exist)
+   * username can be a single login/wikiname/(cuid?), a URLParam list,
+     or a comma separated list.
 
 =cut
 
@@ -757,7 +757,7 @@ sub removeUserFromGroup {
     );
 }
 
-# Complete a registration
+# Complete a registration (commit it to the DB)
 sub _complete {
     my ($session) = @_;
 
@@ -778,7 +778,7 @@ sub _complete {
 
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
-        \&Foswiki::Sandbox::validateTopicName );
+                                 \&Foswiki::Sandbox::validateTopicName );
     throw Error::Simple('Bad WikiName') unless $data->{WikiName};
 
     if ( !exists $data->{LoginName} ) {
@@ -794,26 +794,29 @@ sub _complete {
     try {
         unless ( defined( $data->{Password} ) ) {
 
-#SMELL: should give consideration to disabling $Foswiki::cfg{Register}{HidePasswd}
-#though that may reduce the conf options an admin has..
-#OR, a better option would be that the rego email would thus point the user to the resetPasswd url.
+            # SMELL: should give consideration to disabling
+            # $Foswiki::cfg{Register}{HidePasswd} though that may
+            # reduce the conf options an admin has..
+            # OR, a better option would be that the rego email would
+            # thus point the user to the resetPasswd url.
             $data->{Password} = Foswiki::Users::randomPassword();
 
             #add data to the form so it can go out in the registration emails.
             push(
                 @{ $data->{form} },
                 { name => 'Password', value => $data->{Password} }
-            );
+               );
         }
 
         my $cUID = $users->addUser(
             $data->{LoginName}, $data->{WikiName},
             $data->{Password},  $data->{Email}
-        );
+           );
         my $log = _createUserTopic( $session, $data );
         $users->setEmails( $cUID, $data->{Email} );
 
-        #convert to rego agent user copied from _writeRegistrationDetailsToTopic
+        # convert to rego agent user copied from
+        # _writeRegistrationDetailsToTopic
         my $safe             = $session->{user};
         my $regoAgent        = $session->{user};
         my $enableAddToGroup = 1;
@@ -821,19 +824,24 @@ sub _complete {
         if ( Foswiki::Func::isGuest($regoAgent) ) {
             $session->{user} =
               $session->{users}->getCanonicalUserID(
-                $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
+                  $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
 
-#SECURITY ISSUE:
-#when upgrading an existing Wiki, the RegistrationUser is in the AdminGroup.
-#combined with this feature, registering users would be able to join the AdminGroup.
-#so disable th AddUserToGroupOnRegistration if the rego agent is still admin :(
+            # SECURITY ISSUE:
+            # When upgrading an existing Wiki, the RegistrationUser is
+            # in the AdminGroup. Thus newly registering users would be
+            # able to join the AdminGroup. So disable the
+            # AddUserToGroupOnRegistration if the agent is still admin :(
             $enableAddToGroup = !$session->{users}->isAdmin($regoAgent);
             if ( !$enableAddToGroup ) {
 
-                #TODO: should really tell the user too?
-                $session->logger->log( 'warning',
-"Registration failed: ERROR: can't add user to groups ($data->{AddToGroups}) because the $Foswiki::cfg{Register}{RegistrationAgentWikiName} is in the $Foswiki::cfg{SuperAdminGroup}"
-                );
+                # TODO: should really tell the user too?
+                $session->logger->log(
+                    'warning',
+                    'Registration failed: can\'t add user to groups ('
+                      . $data->{AddToGroups}
+                        . ' because '
+                          . $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+                            . 'is in the ' .$Foswiki::cfg{SuperAdminGroup});
             }
         }
 
@@ -901,13 +909,19 @@ sub _complete {
     }
 
     # Only change the session's identity _if_ the registration was done by
-    # WikiGuest, and an email was correctly sent.
-    if (   $safe2login
-        && $session->{user} eq
-        $session->{users}->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} )
-      )
-    {
-
+    # WikiGuest or the RegistrationAgent, and an email was correctly sent.
+    # SECURITY ISSUE:
+    # When upgrading an existing Wiki, the RegistrationUser is
+    # in the AdminGroup. So disable the automatic login if the agent is
+    # still admin.
+    my $guestUID = $session->{users}->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin});
+    my $regUID = $session->{users}->getCanonicalUserID( 
+        $Foswiki::cfg{Register}{RegistrationAgentWikiName});
+    if ( $safe2login
+         && ($session->{user} eq $guestUID
+             || $session->{user} eq $regUID
+                && !$session->{users}->isAdmin($regUID))) {
         # let the client session know that we're logged in. (This probably
         # eliminates the need for the registrationHandler call above,
         # but we'll leave them both in here for now.)
@@ -926,12 +940,7 @@ sub _complete {
     );
 }
 
-#Given a template and a hash, creates a new topic for a user
-#   1 reads the template topic
-#   2 calls RegistrationHandler::register with the row details, so that a plugin can augment/delete/change the entries
-#
-#I use RegistrationHandler::register to prevent certain fields (like password)
-#appearing in the homepage and to fetch photos into the topic
+# Given a template and a hash, creates a new topic for a user
 sub _createUserTopic {
     my ( $session, $row ) = @_;
     my $template = 'NewUserTemplate';
@@ -1065,9 +1074,10 @@ sub _getRegFormAsTopicContent {
     return $text;
 }
 
-#Sends to both the WIKIWEBMASTER and the USER notice of the registration
-#emails both the admin 'registernotifyadmin' and the user 'registernotify',
-#in separate emails so they both get targeted information (and no password to the admin).
+# Sends to both the WIKIWEBMASTER and the USER notice of the registration
+# emails both the admin 'registernotifyadmin' and the user 'registernotify',
+# in separate emails so they both get targeted information (and no
+# password to the admin).
 sub _emailRegistrationConfirmations {
     my ( $session, $data ) = @_;
 
@@ -1228,7 +1238,8 @@ sub _validateRegistration {
         ( ( $users->userExists($user) ) )
         &&
 
-#user has an entry in the mapping system (if AllowLoginName == off, then entry is automatic)
+          # user has an entry in the mapping system
+          # (if AllowLoginName == off, then entry is automatic)
         (
             ( !$Foswiki::cfg{Register}{AllowLoginName} )
             || $session->topicExists( $Foswiki::cfg{UsersWebName},
