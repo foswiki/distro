@@ -124,8 +124,12 @@ sub parseTime {
 
         # Local time at midnight on the epoch gives us minus the
         # local difference. e.g. CST is GMT + 1, so midnight Jan 1 1970 CST
-        # is -01:00Z
-        $tzadj = -Time::Local::timelocal( 0, 0, 0, 1, 0, 70 );
+        # is -01:00Z. But we don't want to give you that! Because it's
+        # wrong on Winblows, where localtime() of a negative number gives
+        # undef, resulting in a mad $tzadj. So we simply offset the
+        # base by 24 hours (86400 seconds). The params are simply the
+        # result of gmtime(86400);
+        $tzadj = 86400 - Time::Local::timelocal(0, 0, 0, 2, 0, 70, 5, 1, 0);
     }
 
     # try "31 Dec 2001 - 23:59"  (Foswiki date)

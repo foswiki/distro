@@ -1,4 +1,8 @@
-# tests for Foswiki::Time
+# Tests for Foswiki::Time
+# See http://msdn.microsoft.com/en-us/library/90s5c885%28VS.80%29.aspx
+# for information about setting $ENV{TZ} on Windows.
+# Warning! localtime() is *broken* on ActiveState perl. It returns undef for
+# a negative time value.
 
 package TimeTests;
 use FoswikiTestCase;
@@ -14,22 +18,11 @@ sub new {
     return $self;
 }
 
-#bugger, have to skip these tests in Win32
-sub list_tests {
-    #can't call _any_ of the tests because set_up calles an unimplemented POSIX::tzset
-    #verified on strawberry perl 5.12
-    #TODO: needs more testing
-    return () if ($^O eq 'MSWin32');
-    
-    my ( $this, $suite ) = @_;
-    return $this->SUPER::list_tests($suite);
-}
-
 sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-    $ENV{TZ} = 'GMT';    # GMT
+    $ENV{TZ} = 'GMT';
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
 }
@@ -37,7 +30,8 @@ sub set_up {
 sub tear_down {
     my $this = shift;
     $this->SUPER::tear_down();    # should restore $ENV{TZ}
-    POSIX::tzset();
+    # Warning! segfault on Windows if $ENV{TZ} is undef
+    POSIX::tzset() if defined $ENV{TZ};
     undef $Foswiki::Time::TZSTRING;
 }
 
@@ -47,7 +41,7 @@ sub showTime {
     $#time = 5;
     $time[4]++;                   # month
     $time[5] += 1900;
-    return sprintf( "%04d:%02d:%02dT%02d:%02d:%02dZ", reverse @time );
+    return sprintf( "%04d:%02d:%02dT%02d:%02d:%02dZ($t)", reverse @time );
 }
 
 sub checkTime {
@@ -56,8 +50,10 @@ sub checkTime {
     $M--;
     my $gmt = timegm( $s, $m, $h, $D, $M, $Y );
     my $tt = Foswiki::Time::parseTime( $str, $dl );
+    my $a = showTime($tt);
+    my $b = showTime($gmt);
     $this->assert_equals( $gmt, $tt,
-        showTime($tt) . ' != ' . showTime($gmt) . ' ' . join( ' ', caller ) );
+        "$a != $b" . join( ' ', caller ) );
 }
 
 sub test_parseTimeFoswiki {
@@ -97,7 +93,11 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01" );
     $this->checkTime( 7, 59, 6,  2, 7, 1995, "1995-07-02T06:59:07Z" );
 
-    $ENV{TZ} = 'Europe/Paris';    # GMT + 1
+    if ($^O eq 'MSWin32') {
+        $ENV{TZ} = 'GMT-1';
+    } else {
+        $ENV{TZ} = 'Europe/Paris';
+    }
     POSIX::tzset();
 
     # Generate server time string
@@ -108,7 +108,11 @@ sub test_parseTimeISO8601 {
 
 sub test_parseTimeLocal {
     my $this = shift;
-    $ENV{TZ} = 'Australia/Lindeman';
+    if ($^O eq 'MSWin32') {
+        $ENV{TZ} = 'GMT-10';
+    } else {
+        $ENV{TZ} = 'Australia/Lindeman';
+    }
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
     $this->checkTime( 13, 9, 16, 7, 11, 2006, "2006-11-08T02:09:13", 1 );
@@ -121,7 +125,11 @@ sub test_generateIsoOffset {
     my $this = shift;
 
     # Nepal has a wierd TZ difference; handy
-    $ENV{TZ} = 'Asia/Katmandu';    # GMT+05:45
+    if ($^O eq 'MSWin32') {
+        $ENV{TZ} = 'GMT-5:45';
+    } else {
+        $ENV{TZ} = 'Asia/Katmandu';    # GMT+05:45
+    }
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
     my $tt = Foswiki::Time::parseTime('2009-02-07T10:22+05:45');
@@ -140,8 +148,6 @@ sub test_generateIsoOffset {
 sub test_checkInterval {
     my $this = shift;
 
-    $ENV{TZ} = 'GMT';
-    POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
 
     my $basetime = 1000000000;
