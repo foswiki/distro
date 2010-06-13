@@ -126,6 +126,7 @@ sub mkPathTo {
     my ( $volume, $path, undef ) = File::Spec->splitpath( $file );
     $path = File::Spec->catpath( $volume, $path, '' );
 
+    umask(oct(777)-$Foswiki::cfg{RCS}{dirPermission}); 
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
         throw Error::Simple("RCS: failed to create ${path}: $!");
