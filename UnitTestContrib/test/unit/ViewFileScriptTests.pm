@@ -9,7 +9,7 @@ use Foswiki::UI;
 use Foswiki::UI::Viewfile;
 use Unit::Request;
 use Error qw( :try );
-use File::Path qw(make_path);
+use File::Path qw(mkpath);
 
 my $fatwilly;
 my $UI_FN;
@@ -102,7 +102,7 @@ sub sneakAttachmentsToTopic {
     my $this = shift;
     my ( $web, $topic, @filenames ) = @_;
     my $path = $Foswiki::cfg{PubDir}."/$web/$topic";
-    make_path($path);
+    mkpath($path);
     #print STDERR "DEBUG: dir=$path\n";
 
     foreach my $file (@filenames) {
