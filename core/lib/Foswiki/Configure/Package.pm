@@ -1073,7 +1073,7 @@ sub _parseManifest {
 
     $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
-    $this->{_manifest}->{$file}->{md5}   = $md5 if ($md5);
+    $this->{_manifest}->{$file}->{md5}   = $md5 || '';
     $this->{_manifest}->{$file}->{topic} = "$tweb\t$ttopic\t$tattach";
     $desc =~ s/\(noci\)//;
     $this->{_manifest}->{$file}->{desc} = $desc;
