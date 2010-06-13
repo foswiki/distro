@@ -11,6 +11,8 @@ sub URLPARAM {
     my $encode    = $params->{encode} || 'safe';
     my $multiple  = $params->{multiple};
     my $separator = $params->{separator};
+    my $default   = $params->{default};
+
     $separator = "\n" unless ( defined $separator );
 
     my $value;
@@ -26,16 +28,27 @@ sub URLPARAM {
                         $item = $_;
                         $_    = $multiple;
                         $_ .= $item unless (s/\$item/$item/go);
-                        $_
+                        expandStandardEscapes( $_ )
                     } @valueArray;
                 }
-                $value = join( $separator, @valueArray );
+                $value = join(
+                    $separator,
+                    map { _handleURLPARAMValue(
+                        $_, $newLine, $encode, $default) } @valueArray );
             }
         }
         else {
-            $value = $this->{request}->param($param);
+            $value = _handleURLPARAMValue(
+                $this->{request}->param($param),
+                $newLine, $encode, $default );
         }
     }
+    return $value;
+}
+
+sub _handleURLPARAMValue {
+    my ($value, $newLine, $encode, $default) = @_;
+
     if ( defined $value ) {
         $value =~ s/\r?\n/$newLine/go if ( defined $newLine );
         if ( $encode =~ /^entit(y|ies)$/i ) {
@@ -60,7 +73,7 @@ sub URLPARAM {
         }
     }
     unless ( defined $value ) {
-        $value = $params->{default};
+        $value = $default;
         $value = '' unless defined $value;
     }
 
