@@ -100,30 +100,29 @@ sub touchFile {
 sub sneakAttachmentsToTopic {
     my $this = shift;
     my ( $web, $topic, @filenames ) = @_;
-    my $dir = $Foswiki::cfg{PubDir};
-    $dir = "$dir/$web/$topic";
+    my $path = $Foswiki::cfg{PubDir};
     {
+        my $dir = "$web/$topic";
         my @dirs = split( /\//, $dir );
-        my $path = '';
         foreach my $adir (@dirs) {
             $path .= '/' . $adir;
             mkdir($path) unless ( -e $path );
         }
     }
 
-    #print STDERR "DEBUG: dir=$dir\n";
+    #print STDERR "DEBUG: dir=$path\n";
 
     foreach my $file (@filenames) {
         if ( $file =~ /\// ) {
             my @dirs = split( /\//, $file );
             pop(@dirs);
-            my $path = $dir;
+            my $path = $path;
             foreach my $adir (@dirs) {
                 $path .= '/' . $adir;
                 mkdir($path);
             }
         }
-        touchFile( $dir, $file );
+        touchFile( $path, $file );
     }
 }
 
