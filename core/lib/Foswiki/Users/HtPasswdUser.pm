@@ -106,16 +106,13 @@ sub fetchUsers {
 # Lock the htpasswd semaphore file (create if it does not exist)
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
-    my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
-    my $fh;
-
-    sysopen( $fh, $lockFileName, Fcntl::O_RDWR | Fcntl::O_CREAT, 0666 )
-      || throw Error::Simple( $lockFileName
-          . ' open or create password lock file failed -'
-          . 'check access rights: '
+    sysopen( my $fh, $Foswiki::cfg{Htpasswd}{FileName},
+        Fcntl::O_RDWR | Fcntl::O_CREAT, 0666 )
+      || throw Error::Simple( $Foswiki::cfg{Htpasswd}{FileName}
+          . ' open or create password file failed -'
+          . ' check access rights: '
           . $! );
     flock( $fh, Fcntl::LOCK_EX );
-
     return $fh;
 }
 
@@ -137,36 +134,27 @@ sub _readPasswd {
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
-    my $IN_FILE;
-    open( $IN_FILE, '<', $Foswiki::cfg{Htpasswd}{FileName} )
+    my $re = qr/^(.*?):(.*?)(?::(.*))?$/; # Default to htpasswd
+    if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+        $re = qr/^(.*?):(?:.*?):(.*?)(?::(.*))?$/; # Switch to htdigest
+    }
+    open( my $fh, '<', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
-    my $line = '';
-    while ( defined( $line = <$IN_FILE> ) ) {
-        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
-            # htdigest format
-            if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
+    while ( <$fh> ) {
+        if( /$re/ ) {
 
-                # implicit untaint OK; data from htpasswd
-                $data->{$1}->{pass} = $3;
-                $data->{$1}->{emails} = $4 || '';
-            }
-        }
-        else {
-            # htpasswd format
-            if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
-
-                # implicit untaint OK; data from htpasswd
-                $data->{$1}->{pass} = $2;
-                $data->{$1}->{emails} = $3 || '';
-            }
+            # implicit untaint OK; data from htpasswd
+            $data->{$1}->{pass} = $2;
+            $data->{$1}->{emails} = $3 || '';
         }
     }
-    close($IN_FILE);
+    close($fh);
     $this->{passworddata} = $data;
     return $data;
 }
 
+# Dumps the memory password database to a newline separated string
 sub _dumpPasswd {
     my $db = shift;
     my @entries;
@@ -183,21 +171,17 @@ sub _dumpPasswd {
 }
 
 sub _savePasswd {
+    my $fh = shift;
     my $db = shift;
 
     my $content = _dumpPasswd($db);
 
-    umask(077);
-    my $fh;
-    # SMELL: potential race condition if $content is very large, and the
-    # write takes an appreciable time, another process may get an empty
-    # file. However the reads used for sets are inside the guards, so it
-    # shouldn't result in corruption.
-    open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
-      || throw Error::Simple(
-          "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!" );
-    print $fh $content;
-    close($fh);
+    # Rewind and print for in-place editing
+    seek $fh, 0, Fcntl::SEEK_SET;
+    print $fh $content
+        or throw Error::Simple("ERROR: Cannot write password file");
+    truncate $fh, tell $fh
+        or throw Error::Simple("ERROR: Cannot truncate password file");
 }
 
 sub encrypt {
@@ -312,7 +296,7 @@ sub setPassword {
         my $db      = $this->_readPasswd(1);
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
-        _savePasswd($db);
+        _savePasswd($lockHandle, $db);
     }
     catch Error::Simple with {
         my $e = shift;
@@ -343,7 +327,7 @@ sub removeUser {
         }
         else {
             delete $db->{$login};
-            _savePasswd($db);
+            _savePasswd($lockHandle, $db);
             $result = 1;
         }
     }
@@ -411,7 +395,7 @@ sub setEmails {
         
         $db->{$login}->{emails} = $emails;
 
-        _savePasswd($db);
+        _savePasswd($lockHandle, $db);
     } finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };

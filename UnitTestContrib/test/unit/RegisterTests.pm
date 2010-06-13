@@ -1482,10 +1482,13 @@ sub test_4061 {
     $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
-    $this->assert( open( F, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
-    local $/;
-    my $before = <F>;
-    close(F);
+    $this->assert( open( my $fh, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
+    my ($before, $stuff);
+    {
+        local $/;
+        $before = <$fh>;
+    }
+    close($fh);
     try {
         no strict 'refs';
         $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
@@ -1499,10 +1502,12 @@ sub test_4061 {
             $e->stringify() );
 
         # Verify that they have not been added to .htpasswd
-        $this->assert( open( F, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
-        local $/;
-        my $stuff = <F>;
-        close(F);
+        $this->assert( open( $fh, "<", $Foswiki::cfg{Htpasswd}{FileName} ) );
+        {
+            local $/;
+            $stuff = <$fh>;
+        }
+        close($fh);
         $this->assert_str_equals( $before, $stuff );
 
         # Verify they have no user topic
