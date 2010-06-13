@@ -268,7 +268,7 @@ sub copy_in {
     return
       if ( -e "$file" && $ignoreBlock )
       ;    # For core manifest, ignore copy if target exists.
-    File::Path::mkpath($dir);
+    File::Path::mkpath( _cleanPath( $dir ) );
     if ( -e "$moduleDir/$file" ) {
         File::Copy::copy( "$moduleDir/$file", $file )
           || die "Couldn't install $file: $!";
