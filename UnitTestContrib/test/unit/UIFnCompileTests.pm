@@ -1,11 +1,10 @@
-use strict;
-
 package UIFnCompileTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
 use Foswiki::UI::View;
 use Error qw( :try );
@@ -29,8 +28,9 @@ our %expect_non_html = (
 
 
 sub new {
+    my ($class, @args) = @_;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $self = shift()->SUPER::new( "UIFnCompile", @_ );
+    my $self = $class->SUPER::new( "UIFnCompile", @args );
     return $self;
 }
 
@@ -38,6 +38,7 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
+    return;
 }
 
 sub fixture_groups {
@@ -64,7 +65,7 @@ sub fixture_groups {
     my $sub = $package .'::'. $function;
 #print STDERR "call $sub\n";
 
-        eval <<SUB;
+        eval <<"SUB";
 sub $script {
     eval "require \$package" if (defined(\$package));
 	\$UI_FN = \$sub;
@@ -79,7 +80,7 @@ SUB
 
 sub call_UI_FN {
     my ( $this, $web, $topic, $tmpl ) = @_;
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             webName   => [$web],
             topicName => [$topic],
@@ -88,7 +89,7 @@ sub call_UI_FN {
     );
     $query->path_info("/$web/$topic");
     $query->method('POST');
-    my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
+    my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
     my ($responseText, $result, $stdout, $stderr);
     $responseText = "Status: 500";      #errr, boom
     try {
@@ -159,7 +160,7 @@ sub verify_switchboard_function {
             #$this->assert_null($result);
         }
     }
-
+    return;
 }
 
 #TODO: craft specific tests for each script
