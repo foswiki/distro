@@ -215,7 +215,7 @@ sub getMappedWebTopic {
     }
     $file =~ s#^data/Sandbox/#$sandbox/#;
 
-    my ( $tweb, $ttopic ) = $file =~ /^(.*)\/(\w+).txt$/;
+    my ( $tweb, $ttopic ) = $file =~ /^(?:data\/)?(.*)\/(\w+).txt$/;
 
     return ( $tweb, $ttopic );
 }

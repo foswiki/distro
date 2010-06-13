@@ -594,9 +594,14 @@ sub test_Util_getMappedWebTopic {
 
     # Remap system web
 
+    my $file = 'data/System/System.txt';
+    ( $wname, $tname ) = Foswiki::Configure::Util::getMappedWebTopic("$file");
+    $this->assert_str_equals( 'System', $wname );
+    $this->assert_str_equals( 'System', $tname );
+
     $Foswiki::cfg{SystemWebName} = 'Fizbin';
 
-    my $file = 'data/System/System.txt';
+    $file = 'data/System/System.txt';
     ( $wname, $tname ) = Foswiki::Configure::Util::getMappedWebTopic("$file");
     $this->assert_str_equals( 'Fizbin', $wname );
     $this->assert_str_equals( 'System', $tname );
