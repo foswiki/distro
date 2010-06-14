@@ -416,7 +416,7 @@ sub expected_in_scan {
     if ($got) {
         $_got = 1;
     }
-    if ( not defined $expected ) {
+    if ( $expected ) {
         $_expected = 1;
     }
     if ( $_expected != $_got ) {
