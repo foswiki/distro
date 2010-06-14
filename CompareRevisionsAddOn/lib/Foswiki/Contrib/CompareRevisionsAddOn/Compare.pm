@@ -328,6 +328,10 @@ sub _getTree {
     my $tree = new HTML::TreeBuilder;
     $tree->implicit_body_p_tag(1);
     $tree->p_strict(1);
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require Encode;
+        $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
+    }
     $tree->parse($text);
     $tree->eof;
     $tree->elementify;
