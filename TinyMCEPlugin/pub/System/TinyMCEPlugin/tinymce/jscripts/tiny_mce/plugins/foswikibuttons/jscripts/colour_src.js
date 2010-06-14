@@ -17,8 +17,8 @@
 
 var ColoursDlg = {
 
-	preInit : function() {
-		tinyMCEPopup.requireLangPack();
+    preInit: function() {
+        tinyMCEPopup.requireLangPack();
     },
 
     // invoked on load from the body of the dialog
@@ -33,12 +33,11 @@ var ColoursDlg = {
         if (s.length > 0) {
             // Styled spans don't work inside the editor for some reason
             s = '<font class="WYSIWYG_COLOR" color="' +
-                colour
-                + '">' + s + '</font>';
+                colour + '">' + s + '</font>';
             ted.selection.setContent(s);
             ted.nodeChanged();
         }
-		tinyMCEPopup.close();
+        tinyMCEPopup.close();
     }
 };
 

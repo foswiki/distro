@@ -18,14 +18,15 @@
 // The FoswikiTiny class object
 var FoswikiTiny = {
 
-    foswikiVars : null,
-    metaTags : null,
+    foswikiVars: null,
+    metaTags: null,
 
-    tml2html : new Array(), // callbacks, attached in plugins
-    html2tml : new Array(), // callbacks, attached in plugins
-
+    tml2html: new Array(),
+    // callbacks, attached in plugins
+    html2tml: new Array(),
+    // callbacks, attached in plugins
     // Get a Foswiki variable from the set passed
-    getFoswikiVar : function (name) {
+    getFoswikiVar: function(name) {
         if (FoswikiTiny.foswikiVars == null) {
             var sets = tinyMCE.activeEditor.getParam("foswiki_vars", "");
             FoswikiTiny.foswikiVars = eval(sets);
@@ -33,7 +34,7 @@ var FoswikiTiny = {
         return FoswikiTiny.foswikiVars[name];
     },
 
-    expandVariables : function(url) {
+    expandVariables: function(url) {
         for (var i in FoswikiTiny.foswikiVars) {
             url = url.replace('%' + i + '%', FoswikiTiny.foswikiVars[i], 'g');
         }
@@ -63,23 +64,22 @@ var FoswikiTiny = {
         }
     },
 
-    transform : function(editor, handler, text, onSuccess, onFail) {
+    transform: function(editor, handler, text, onSuccess, onFail) {
         // Work out the rest URL from the location
         var url = FoswikiTiny.getFoswikiVar("SCRIPTURL");
         var suffix = FoswikiTiny.getFoswikiVar("SCRIPTSUFFIX");
         if (suffix == null) suffix = '';
         url += "/rest" + suffix + "/WysiwygPlugin/" + handler;
-        var path = FoswikiTiny.getFoswikiVar("WEB") + '.'
-        + FoswikiTiny.getFoswikiVar("TOPIC");
+        var path = FoswikiTiny.getFoswikiVar("WEB") + '.' + 
+            FoswikiTiny.getFoswikiVar("TOPIC");
 
         tinymce.util.XHR.send({
             url: url,
             content_type: "application/x-www-form-urlencoded",
             type: "POST",
-            data:
-                "nocache=" + encodeURIComponent((new Date()).getTime())
-                    + "&topic=" + encodeURIComponent(path)
-                    + "&text=" + encodeURIComponent(text),
+            data: "nocache=" + encodeURIComponent((new Date()).getTime()) +
+                  "&topic=" + encodeURIComponent(path) + "&text=" +
+                  encodeURIComponent(text),
             async: true,
             scope: editor,
             success: onSuccess,
@@ -87,10 +87,10 @@ var FoswikiTiny = {
         })
     },
 
-    initialisedFromServer : false,
+    initialisedFromServer: false,
 
     // Set up content for the initial edit
-    setUpContent : function(editor_id, body, doc) {
+    setUpContent: function(editor_id, body, doc) {
         // If we haven't done it before, then transform from TML
         // to HTML. We need this test so that pressing the 'back'
         // button from a failed save doesn't banjax the old content.
@@ -100,22 +100,21 @@ var FoswikiTiny = {
         FoswikiTiny.initialisedFromServer = true;
     },
 
-    cleanBeforeSave : function (eid, buttonId) {
+    cleanBeforeSave: function(eid, buttonId) {
         var el = document.getElementById(buttonId);
-        if (el == null)
-            return;
+        if (el == null) return;
         // SMELL: what if there is already an onclick handler?
-        el.onclick = function () {
+        el.onclick = function() {
             var editor = tinyMCE.getInstanceById(eid);
             editor.isNotDirty = true;
             return true;
         }
     },
 
-    onSubmitHandler : false,
+    onSubmitHandler: false,
 
     // Convert HTML content to textarea. Called from the WYSIWYG->raw switch
-    switchToRaw : function (editor) {
+    switchToRaw: function(editor) {
         var text = editor.getContent();
 
         // Make the raw-edit help visible (still subject to toggle)
@@ -131,24 +130,21 @@ var FoswikiTiny = {
         // Evaluate post-processors attached from plugins
         for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
             var cb = FoswikiTiny.html2tml[i];
-            text = cb.apply(editor, [ editor, text ]);
+            text = cb.apply(editor, [editor, text]);
         }
         FoswikiTiny.enableSaveButton(false);
-        editor.getElement().value =
-            "Please wait... retrieving page from server.";
+        editor.getElement().value = "Please wait... retrieving page from server.";
         FoswikiTiny.transform(
-            editor, "html2tml", text,
-            function (text, req, o) {
-                this.getElement().value = text;
-                FoswikiTiny.enableSaveButton(true);
-            },
-            function (type, req, o) {
-                this.setContent("<div class='foswikiAlert'>"
-                                + "There was a problem retrieving "
-                                + o.url + ": "
-                                + type + " " + req.status + "</div>");
-                //FoswikiTiny.enableSaveButton(true); leave save disabled
-            });
+        editor, "html2tml", text, function(text, req, o) {
+            this.getElement().value = text;
+            FoswikiTiny.enableSaveButton(true);
+        },
+        function(type, req, o) {
+            this.setContent("<div class='foswikiAlert'>" + 
+                "There was a problem retrieving " + o.url + ": " + type + " " +
+                req.status + "</div>");
+            //FoswikiTiny.enableSaveButton(true); leave save disabled
+        });
         // Add the button for the switch back to WYSIWYG mode
         var eid = editor.id;
         var id = eid + "_2WYSIWYG";
@@ -163,9 +159,10 @@ var FoswikiTiny = {
             el.type = "button";
             el.value = "WYSIWYG";
             el.className = "foswikiButton";
-            el.onclick = function () {
+            el.onclick = function() {
                 // Make the wysiwyg help visible (still subject to toggle)
-                var el = document.getElementById("foswikiTinyMcePluginWysiwygEditHelp");
+                var el = document.getElementById(
+                        "foswikiTinyMcePluginWysiwygEditHelp");
                 if (el) {
                     el.style.display = 'block';
                 }
@@ -202,19 +199,22 @@ var FoswikiTiny = {
         // to break when we upgrade TMCE
         editor.onSubmit.addToTop(this.onSubmitHandler);
         // Make the save buttons mark the text as not-dirty 
-        // to avoid the popup that says "Are you sure? The changes you have made will be lost"
+        // to avoid the popup that says "Are you sure? The changes you have
+        // made will be lost"
         FoswikiTiny.cleanBeforeSave(eid, "save");
         FoswikiTiny.cleanBeforeSave(eid, "quietsave");
         FoswikiTiny.cleanBeforeSave(eid, "checkpoint");
-        // preview shouldn't get the popup either, when preview is enabled one day
-        FoswikiTiny.cleanBeforeSave(eid, "preview"); 
-        // cancel shouldn't get the popup because the user just *said* they want to cancel
-        FoswikiTiny.cleanBeforeSave(eid, "cancel"); 
+        // preview shouldn't get the popup either, when preview is enabled one
+        // day
+        FoswikiTiny.cleanBeforeSave(eid, "preview");
+        // cancel shouldn't get the popup because the user just *said* they
+        // want to cancel
+        FoswikiTiny.cleanBeforeSave(eid, "cancel");
     },
 
     // Convert textarea content to HTML. This is invoked from the content
     // setup handler, and also from the raw->WYSIWYG switch
-    switchToWYSIWYG : function (editor) {
+    switchToWYSIWYG: function(editor) {
         // Kill the change handler to avoid excess fires
         editor.getElement().onchange = null;
 
@@ -226,39 +226,36 @@ var FoswikiTiny = {
             this.onSubmitHandler = null;
         }
         FoswikiTiny.enableSaveButton(false);
-        editor.setContent("<span class='foswikiAlert'>"
-                          + "Please wait... retrieving page from server."
-                          + "</span>");
+        editor.setContent("<span class='foswikiAlert'>" +
+                "Please wait... retrieving page from server." + "</span>");
         FoswikiTiny.transform(
-            editor, "tml2html", text,
-            function (text, req, o) { // Success
-                // Evaluate any registered pre-processors
-                for (var i = 0; i < FoswikiTiny.tml2html.length; i++) {
-                    var cb = FoswikiTiny.tml2html[i];
-                    text = cb.apply(this, [ this, text ]);
-                }
-                /* SMELL: Work-around for Item2270. In future this plugin may
+        editor, "tml2html", text, function(text, req, o) { // Success
+            // Evaluate any registered pre-processors
+            for (var i = 0; i < FoswikiTiny.tml2html.length; i++) {
+                var cb = FoswikiTiny.tml2html[i];
+                text = cb.apply(this, [this, text]);
+            }
+            /* SMELL: Work-around for Item2270. In future this plugin may
                    be updated so that this needs to be changed. TMCE's wordcount
                    plugin limits itself to a max. of one count per
                    2 seconds, so users always see a wordcount of 6 (Please
                    wait... retrieving page from server) when they first edit a
                    document. So remove lock before setContent() */
-                if (this.plugins.wordcount !== undefined &&
-                  this.plugins.wordcount.block !== undefined) {
-                    this.plugins.wordcount.block = 0;
-                }
-                this.setContent(text);
-                this.isNotDirty = true;
-                FoswikiTiny.enableSaveButton(true);
-            },
-            function (type, req, o) {
-                // Handle a failure
-                this.setContent("<div class='foswikiAlert'>"
-                                + "There was a problem retrieving "
-                                + o.url + ": "
-                                + type + " " + req.status + "</div>");
-                //FoswikiTiny.enableSaveButton(true); leave save disabled
-            });
+            if (this.plugins.wordcount !== undefined && 
+                this.plugins.wordcount.block !== undefined) {
+                this.plugins.wordcount.block = 0;
+            }
+            this.setContent(text);
+            this.isNotDirty = true;
+            FoswikiTiny.enableSaveButton(true);
+        },
+        function(type, req, o) {
+            // Handle a failure
+            this.setContent("<div class='foswikiAlert'>" + 
+                    "There was a problem retrieving " + o.url + ": " + type + 
+                    " " + req.status + "</div>");
+            //FoswikiTiny.enableSaveButton(true); leave save disabled
+        });
 
         // Hide the conversion button, if it exists
         var id = editor.id + "_2WYSIWYG";
@@ -270,16 +267,16 @@ var FoswikiTiny = {
     },
 
     // Callback on save. Make sure the WYSIWYG flag ID is there.
-    saveCallback : function(editor_id, html, body) {
+    saveCallback: function(editor_id, html, body) {
         // Evaluate any registered post-processors
         var editor = tinyMCE.getInstanceById(editor_id);
         for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
             var cb = FoswikiTiny.html2tml[i];
-            html = cb.apply(editor, [ editor, html ]);
+            html = cb.apply(editor, [editor, html]);
         }
         var secret_id = tinyMCE.activeEditor.getParam('foswiki_secret_id');
-        if (secret_id != null && html.indexOf(
-                '<!--' + secret_id + '-->') == -1) {
+        if (secret_id != null && 
+                html.indexOf('<!--' + secret_id + '-->') == -1) {
             // Something ate the ID. Probably IE. Add it back.
             html = '<!--' + secret_id + '-->' + html;
         }
@@ -289,20 +286,20 @@ var FoswikiTiny = {
     // Called 
     // Called on URL insertion, but not on image sources. Expand Foswiki
     // variables in the url.
-    convertLink : function(url, node, onSave){
-        if(onSave == null)
-            onSave = false;
+    convertLink: function(url, node, onSave) {
+        if (onSave == null) onSave = false;
         var orig = url;
         var pubUrl = FoswikiTiny.getFoswikiVar("PUBURL");
         var vsu = FoswikiTiny.getFoswikiVar("VIEWSCRIPTURL");
         url = FoswikiTiny.expandVariables(url);
         if (onSave) {
-            if ((url.indexOf(pubUrl + '/') != 0) &&
-                (url.indexOf(vsu + '/') == 0)) {
+            if ((url.indexOf(pubUrl + '/') != 0) && 
+                    (url.indexOf(vsu + '/') == 0)) {
                 url = url.substr(vsu.length + 1);
                 url = url.replace(/\/+/g, '.');
                 if (url.indexOf(FoswikiTiny.getFoswikiVar('WEB') + '.') == 0) {
-                    url = url.substr(FoswikiTiny.getFoswikiVar('WEB').length + 1);
+                    url =
+                        url.substr(FoswikiTiny.getFoswikiVar('WEB').length + 1);
                 }
             }
         } else {
@@ -328,18 +325,18 @@ var FoswikiTiny = {
     // URL is only used when displaying the image in the picture dialog. It
     // is thrown away (reverts to the typed address) when the image is
     // actually inserted, at which time convertLink is called.
-    convertPubURL : function(url){
+    convertPubURL: function(url) {
         url = FoswikiTiny.expandVariables(url);
         if (url.indexOf('/') == -1) {
-            var base = FoswikiTiny.getFoswikiVar("PUBURL") + '/'
-                + FoswikiTiny.getFoswikiVar("WEB") + '/'
-                + FoswikiTiny.getFoswikiVar("TOPIC") + '/';
+            var base = FoswikiTiny.getFoswikiVar("PUBURL") + '/' + 
+                FoswikiTiny.getFoswikiVar("WEB") + '/' + 
+                FoswikiTiny.getFoswikiVar("TOPIC") + '/';
             url = base + url;
         }
         return url;
     },
 
-    getMetaTag : function(inKey) {
+    getMetaTag: function(inKey) {
         if (FoswikiTiny.metaTags == null || FoswikiTiny.metaTags.length == 0) {
             // Do this the brute-force way because of the Firefox problem
             // seen sporadically on Bugs where the DOM appears complete, but
@@ -348,23 +345,24 @@ var FoswikiTiny = {
             head = head[0].parentNode.childNodes;
             FoswikiTiny.metaTags = new Array();
             for (var i = 0; i < head.length; i++) {
-                if (head[i].tagName != null &&
-                    head[i].tagName.toUpperCase() == 'META') {
+                if (head[i].tagName != null && 
+                        head[i].tagName.toUpperCase() == 'META') {
                     FoswikiTiny.metaTags[head[i].name] = head[i].content;
                 }
             }
         }
-        return FoswikiTiny.metaTags[inKey]; 
+        return FoswikiTiny.metaTags[inKey];
     },
-    
-    install : function() {
+
+    install: function() {
         // find the TINYMCEPLUGIN_INIT_ENCODED preference
         var tmce_init = foswiki.getPreference('TINYMCEPLUGIN_INIT_ENCODED');
         if (tmce_init != null) {
             eval("tinyMCE.init({" + unescape(tmce_init) + "});");
             return;
         }
-        alert("Unable to install TinyMCE; 'TINYMCEPLUGIN_INIT_ENCODED' preference is missing"); 
+        alert(
+"Unable to install TinyMCE; 'TINYMCEPLUGIN_INIT_ENCODED' preference missing");
     },
 
     getTopicPath: function() {
@@ -385,11 +383,12 @@ var FoswikiTiny = {
     getListOfAttachments: function(onSuccess) {
         var url = this.getRESTURL('attachments');
         var path = this.getTopicPath();
-        var params = "nocache=" + encodeURIComponent((new Date()).getTime())
-        + "&topic=" + encodeURIComponent(path);
+        var params = "nocache=" + 
+            encodeURIComponent((new Date()).getTime()) + "&topic=" +
+            encodeURIComponent(path);
 
         tinymce.util.XHR.send({
-            url : url + "?" + params,
+            url: url + "?" + params,
             type: "POST",
             content_type: "application/x-www-form-urlencoded",
             data: params,

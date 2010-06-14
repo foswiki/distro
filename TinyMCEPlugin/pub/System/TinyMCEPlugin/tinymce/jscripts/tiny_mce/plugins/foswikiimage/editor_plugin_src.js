@@ -17,9 +17,9 @@
 (function() {
     tinymce.PluginManager.requireLangPack('foswikiimage');
 
-	tinymce.create('tinymce.plugins.FoswikiImage', {
+    tinymce.create('tinymce.plugins.FoswikiImage', {
 
-        init : function(ed, url) {
+        init: function(ed, url) {
 
             // Register commands
             ed.addCommand('foswikiimage', function() {
@@ -28,46 +28,45 @@
                     menubar: false,
                     toolbar: false,
                     status: false,
-                    url : url + '/image.htm',
-                    width : 550,
-                    height : 400,
-                    movable : true,
-                    inline : true
-                }, {
+                    url: url + '/image.htm',
+                    width: 550,
+                    height: 400,
+                    movable: true,
+                    inline: true
+                },
+                {
                     plugin_url: url,
-                    attach_url: FoswikiTiny.getFoswikiVar("PUBURL") + '/'
-                              + FoswikiTiny.getFoswikiVar("WEB") + '/'
-                              + FoswikiTiny.getFoswikiVar("TOPIC") + '/',
+                    attach_url: FoswikiTiny.getFoswikiVar("PUBURL") + '/' +
+                        FoswikiTiny.getFoswikiVar("WEB") + '/' +
+                        FoswikiTiny.getFoswikiVar("TOPIC") + '/',
                     vars: ed.getParam("foswiki_vars", "")
                 });
             });
 
-			// Register buttons
-			ed.addButton('image', {
-                title : 'foswikiimage.image_desc',
-                cmd : 'foswikiimage'
-			});
-		},
-
-		getInfo : function() {
-			return {
-			    longname : 'Foswiki image',
-			    author : 'Crawford Currie, from Moxiecode Systems AB original',
-			    authorurl : 'http://c-dot.co.uk.com',
-			    infourl : 'http://foswiki.org/Extensions/TinyMCEPlugin',
-			    version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
-			};
+            // Register buttons
+            ed.addButton('image', {
+                title: 'foswikiimage.image_desc',
+                cmd: 'foswikiimage'
+            });
         },
 
-        _nodeChange : function(ed, cm, n, co) {
-            if (n == null)
-                return;
+        getInfo: function() {
+            return {
+                longname: 'Foswiki image',
+                author: 'Crawford Currie, from Moxiecode Systems AB original',
+                authorurl: 'http://c-dot.co.uk.com',
+                infourl: 'http://foswiki.org/Extensions/TinyMCEPlugin',
+                version: tinyMCE.majorVersion + "." + tinyMCE.minorVersion
+            };
+        },
+
+        _nodeChange: function(ed, cm, n, co) {
+            if (n == null) return;
 
             cm.setActive('foswikiimage', ed.dom.getParent(n, 'img') != null);
         }
-	});
+    });
 
-	// Register plugin
-	tinymce.PluginManager.add('foswikiimage',
-                              tinymce.plugins.FoswikiImage);
+    // Register plugin
+    tinymce.PluginManager.add('foswikiimage', tinymce.plugins.FoswikiImage);
 })();
