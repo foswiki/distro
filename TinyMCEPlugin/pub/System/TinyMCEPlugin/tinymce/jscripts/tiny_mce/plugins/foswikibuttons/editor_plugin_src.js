@@ -25,11 +25,16 @@
 
             ed.fw_formats = ed.getParam("foswikibuttons_formats");
             ed.fw_lb = null;
+            ed.onInit.add(function () {
+                ed.formatter.register('WYSIWYG_TT', {
+                    inline: 'span',
+                    classes: 'WYSIWYG_TT'
+                });
+            });
 
             // Register commands
             ed.addCommand('foswikibuttonsTT', function() {
-                if (!ed.selection.isCollapsed()) ed.execCommand(
-                    'mceSetCSSClass', false, "WYSIWYG_TT");
+                ed.formatter.toggle('WYSIWYG_TT');
             });
 
             // Register buttons
