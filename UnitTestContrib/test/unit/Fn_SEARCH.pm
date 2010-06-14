@@ -3355,6 +3355,60 @@ VeryOldTopic
 RESULT
 }
 
+sub verify_nl_in_result {
+    my $this = shift;
+    my $text = <<HERE;
+%META:TOPICINFO{author="TopicUserMapping_guest" date="1" format="1.1" version="1.2"}%
+Radical Meta-Physics
+Marxism
+Crime
+Suicide
+Paganism.
+%META:FIELD{name="Name" attributes="" title="Name" value="Meta-Physics%0aMarxism%0aCrime%0aSuicide%0aPaganism."}%
+HERE
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        "OffColour", $text );
+    $topicObject->save();
+
+    my $result;
+
+    # Default $formfield, \n expands to <br /> (Why? F**k knows)
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"OffColour" scope="topic" nonoise="on" format="$formfield(Name)"}%');
+    $this->assert_str_equals( <<RESULT, "$result\n" );
+Meta-Physics<br />Marxism<br />Crime<br />Suicide<br />Paganism.
+RESULT
+
+    # Default $pattern, \n expands to \n (more sensible)
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"OffColour" scope="topic" nonoise="on" format="$pattern(.*?(Meta.*?Paganism).*)"}%');
+    $this->assert_str_equals( <<RESULT, "$result\n" );
+Meta-Physics
+Marxism
+Crime
+Suicide
+Paganism
+RESULT
+
+    # $pattern newline="X", \n expands to X
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"OffColour" scope="topic" nonoise="on" format="$pattern(.*?(Meta.*?Paganism).*)" newline="X"}%');
+    $this->assert_str_equals( <<RESULT, "$result\n" );
+Meta-PhysicsXMarxismXCrimeXSuicideXPaganism
+RESULT
+
+    # $formfield, newline="X", \n expands to X
+    # SMELL: C. believes this is correct behaviour, but it doesn't work
+    # because formfields are rendered by the Form package way before they
+    # get here :-(
+#    $result = $this->{test_topicObject}->expandMacros(
+#        '%SEARCH{"OffColour" scope="topic" nonoise="on" format="$formfield(Name)" newline="X"}%');
+#    $this->assert_str_equals( <<RESULT, "$result\n" );
+#Meta-PhysicsXMarxismXCrimeXSuicideXPaganism.
+#RESULT
+}
+
 ###########################################
 #pager formatting
 sub verify_pager_on {

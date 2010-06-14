@@ -1243,6 +1243,9 @@ sub displayFormField {
         $breakArgs = $params[1] || 1;
     }
 
+    # SMELL: this is a *terrible* idea. Not only does it munge the result
+    # so it can only be used for display, it also munges it such that it
+    # can't be repaired by the options on %SEARCH.
     return $meta->renderFormFieldForDisplay( $name, '$value',
         { break => $breakArgs, protectdollar => 1, showhidden => 1 } );
 }
