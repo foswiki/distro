@@ -37,8 +37,7 @@ All meta-data in a topic is referenced according to a to a simple plan.
       * =author=
       * =date=
       * =format=
-      * =rev= - topic revision (=12=) to match =%<nop>REVINFO{'$rev'}%= and FormattedSearch =$rev=
-      * =version= - internal Store topic version (=1.12= for rcs based Stores)
+      * =version= - topic version (integer)
    * =META:TOPICMOVED=
       * =by=
       * =date=

@@ -26,13 +26,13 @@ To keep everything together in one place, meta-data (Foswiki-generated or from [
 <blockquote>
 *Example of core meta-data*
 <pre>
-%<nop>META:TOPICINFO{version="1.6" date="976762663" author="LastEditor" format="1.0"}%
+%<nop>META:TOPICINFO{version="6" date="976762663" author="LastEditor" format="1.0"}%
    text of the topic
 %<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents"
    by="CoverUp" date="976762680"}%
 %<nop>META:TOPICPARENT{name="MilitaryIntelligence5"}%
-%<nop>META:FILEATTACHMENT{name="CV.txt" version="1.3" ... }%
-%<nop>META:FILEATTACHMENT{name="Photo.gif" version="1.1" ... }%
+%<nop>META:FILEATTACHMENT{name="CV.txt" version="3" ... }%
+%<nop>META:FILEATTACHMENT{name="Photo.gif" version="1" ... }%
 %<nop>META:FORM{name="SecretAgentForm"}%
 %<nop>META:FIELD{name="ChosenWeapon" value="Beretta"}%
 %<nop>META:FIELD{name="Paramour" value="PussyGalore"}%
@@ -53,7 +53,7 @@ This macro caches some of the information that would normally be derived from th
 
 |  *Key*  |  *Comment*          |
 | author%REG%  | Canonical user identifier of last user to change the topic. The exact format of this depends on the user mapping manager. |
-| version | Topic version; either CVS format (1.1), or a plain integer. |
+| version | Topic version; a plain integer. |
 | date    | epoch time |
 | format  | Format of this topic, will be used for automatic format conversion |
 | reprev  | Set when a revision is overwritten by the same author within the {ReplaceIfEditedAgainWithin} window (set in [[%SCRIPTURL{configure}%][ =configure= ]]). If =reprev= is the same as =version=, it prevents Foswiki from attempting to do a 3-way merge when merging overlapping edits by two different users. |
@@ -87,7 +87,7 @@ Reference to a file attached to this topic.
 
 | *Key*   | *Comment* |
 | name%REG%    | Name of file, no path.  Must be unique within topic |
-| version | Either a CVS format revision (1.1) or a plain integer  |
+| version | An integer |
 | path    | Full path file was loaded from |
 | size    | In bytes |
 | date    | epoch time when the file was attached |

@@ -3105,6 +3105,9 @@ sub getEmbeddedStoreForm {
 
     require Foswiki::Store;    # for encoding
 
+    my $ti = $this->get('TOPICINFO');
+    delete $ti->{rev} if $ti; # don't want this written
+
     my $text = $this->_writeTypes( 'TOPICINFO', 'TOPICPARENT' );
     $text .= $this->{_text};
     my $end =
@@ -3114,6 +3117,9 @@ sub getEmbeddedStoreForm {
         'FIELD', 'FILEATTACHMENT', 'TOPICMOVED'
       );
     $text .= "\n" if $end;
+
+    $ti->{rev} = $ti->{version} if $ti;
+
     return $text . $end;
 }
 
@@ -3210,7 +3216,7 @@ sub setEmbeddedStoreForm {
         # Clean up SVN and other malformed rev nums. This can happen
         # when old code (e.g. old plugins) generated the meta.
         $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
-        delete( $ti->{rev} ) if defined $ti->{rev};    # not needed any more
+        $ti->{rev} = $ti->{version}; # not used, maintained for compatibility
         $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
           if defined $ti->{reprev};
     }
