@@ -1763,7 +1763,6 @@ sub saveAs {
     $this->{_topic} = $newTopic if $newTopic;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-    $this->_atomicLock($cUID);
 
     unless ( $this->{_topic} eq $Foswiki::cfg{WebPrefsTopicName} ) {        # Don't verify for WebPreferences, as saving WebPreferences creates the web.
         unless ( $this->{_session}->{store}->webExists( $this->{_web} ) ) {
@@ -1773,6 +1772,7 @@ sub saveAs {
         }
     }
      
+    $this->_atomicLock($cUID);
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
