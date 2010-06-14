@@ -31,7 +31,7 @@ use IO::File   ();
 use File::Copy ();
 use File::Spec ();
 use File::Path ();
-use Fcntl      ();
+use Fcntl    qw( :DEFAULT :flock SEEK_SET );
 
 use Foswiki::Store                         ();
 use Foswiki::Sandbox                       ();
@@ -837,7 +837,7 @@ sub saveFile {
     open( $fh, '>', $name )
       or throw Error::Simple(
         'VC::Handler: failed to create file ' . $name . ': ' . $! );
-    flock( $fh, Fcntl::LOCK_EX )
+    flock( $fh, LOCK_EX )
       or throw Error::Simple(
         'VC::Handler: failed to lock file ' . $name . ': ' . $! );
     binmode($fh)
