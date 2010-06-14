@@ -15,7 +15,7 @@ sub URLPARAM {
 
     $separator = "\n" unless ( defined $separator );
 
-    my $value;
+    my $value = '';
     if ( $this->{request} ) {
         if ( Foswiki::isTrue($multiple) ) {
             my @valueArray = $this->{request}->param($param);
