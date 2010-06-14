@@ -38,9 +38,9 @@ sub URLPARAM {
             }
         }
         else {
+            $value = $this->{request}->param($param);
             $value = _handleURLPARAMValue(
-                $this->{request}->param($param),
-                $newLine, $encode, $default );
+                $value, $newLine, $encode, $default );
         }
     }
     return $value;
@@ -50,7 +50,7 @@ sub _handleURLPARAMValue {
     my ($value, $newLine, $encode, $default) = @_;
 
     if ( defined $value ) {
-        $value =~ s/\r?\n/$newLine/go if ( defined $newLine );
+        $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
         if ( $encode =~ /^entit(y|ies)$/i ) {
             $value = entityEncode($value);
         }
