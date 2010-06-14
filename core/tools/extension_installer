@@ -44,14 +44,16 @@ $wd =~ /^(.*)$/;    # untaint
 unshift( @path, $1 ) if $1;
 
 # Extract the package name from the command.
-my $pkg = shift ;
+my $pkg = shift;
 
-die "no package name provided on command \n  Example: \"perl tools/extension_installer MyPlugin usage\" for further instructions \n\nFailed" unless ($pkg);
+die
+"no package name provided on command \n  Example: \"perl tools/extension_installer MyPlugin usage\" for further instructions \n\nFailed"
+  unless ($pkg);
 
-if ($pkg eq 'usage') {
-    unshift (@ARGV, 'usage');
+if ( $pkg eq 'usage' ) {
+    unshift( @ARGV, 'usage' );
     $pkg = 'SomeExtension';
-    }
+}
 
 my $script = File::Spec->catfile(@path);
 
@@ -63,11 +65,12 @@ MESSAGE
     if ($@) {
         $message .= "There was a compile error: $@\n";
     }
-    elsif (defined $return) {
+    elsif ( defined $return ) {
         $message .= "There was a file error: $!\n";
     }
     else {
-        $message .= "An unspecified error occurred\n  Run the command from the root of your Foswiki installation!\n";
+        $message .=
+"An unspecified error occurred\n  Run the command from the root of your Foswiki installation!\n";
     }
 
     # Try again, using open. This cures some uncooperative platforms.
@@ -91,7 +94,6 @@ MESSAGE
     }
     die $message if $message;
 }
-
 
 Foswiki::Extender::install( $PACKAGES_URL, $pkg, $pkg, );
 
