@@ -20,6 +20,14 @@ sub renderHtml {
     my $num = 0;
     for my $key ( sort keys %ENV ) {
         my $value = $ENV{$key};
+        if ( $key eq 'DOCUMENT_ROOT' ) {
+            unless ( -w $this->{root} ) {
+                $value .= $this->WARN(<<"HERE");
+Could not write to the Foswiki root directory.  This is not necessarily a big problem, but can
+cause issues installing some extensions that write files into the server root.
+HERE
+            }
+        }
         if ( $key eq 'HTTP_COOKIE' ) {
 
             # url decode for readability
