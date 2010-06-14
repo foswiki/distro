@@ -7,6 +7,7 @@ our $VERSION           = '$Rev: 5752 $';
 our $RELEASE           = '18 Dec 2009';
 our $SHORTDESCRIPTION  = 'Supports e-mail notification of changes';
 our $NO_PREFS_IN_TOPIC = 1;
+our $verbose           = 0;
 
 # Plugin init method, used to initialise handlers
 sub initPlugin {
