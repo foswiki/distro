@@ -160,7 +160,7 @@ sub readDefaults {
         _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/TWiki/Contrib",   $root, \%read, \@errors );
     }
-    if ( defined %TWiki::cfg ) {
+    if ( %TWiki::cfg ) {
 
         # We had some TWiki plugins, need to map their config to Foswiki
         sub mergeHash {
