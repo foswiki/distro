@@ -16,10 +16,12 @@ sub check {
     # Check readable, writable  and directories match {RCS}{dirPermissions}
     my $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rwd', qr/,v$/ );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
-    $e .= 
-     ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit} ) 
-     ? $this->NOTE("File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options")
-     : $this->NOTE("File count - $this->{filecount} ");
+    $e .=
+      ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
+      ? $this->NOTE(
+"File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options"
+      )
+      : $this->NOTE("File count - $this->{filecount} ");
 
     # Also check that all files excluding non-rcs files are writable
     $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r", qr/\.txt$/ );

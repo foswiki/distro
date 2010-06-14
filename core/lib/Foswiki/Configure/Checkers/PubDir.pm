@@ -14,14 +14,16 @@ sub check {
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
 
-    # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission} 
+    # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission}
     my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rwd', qr/,v$/ );
     $e .= $this->WARN($e2) if $e2;
 
-    $e .= 
-     ($this->{filecount} >= $Foswiki::cfg{PathCheckLimit} ) 
-     ? $this->NOTE("File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options")
-     : $this->NOTE("File count - $this->{filecount} ");
+    $e .=
+      ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
+      ? $this->NOTE(
+"File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options"
+      )
+      : $this->NOTE("File count - $this->{filecount} ");
 
     $this->{filecount} = 0;
     return $e;
