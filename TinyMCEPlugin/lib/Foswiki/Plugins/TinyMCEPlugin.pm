@@ -45,8 +45,8 @@ foswikibuttons_formats : [
     { name: "Heading 6", block: "h6", remove: "all" },
     { name: "VERBATIM",  block: "pre", remove: "all", classes: "TMLverbatim" }, 
     { name: "LITERAL",   block: "div", remove: "all", classes: "WYSIWYG_LITERAL" },
-    { name: "Protect on save", block: "div", classes: "WYSIWYG_PROTECTED" },
-    { name: "Protect forever", block: "div", classes: "WYSIWYG_STICKY" }
+    { name: "Protect on save", block: "div", remove: "all", classes: "WYSIWYG_PROTECTED" },
+    { name: "Protect forever", block: "div", remove: "all", classes: "WYSIWYG_STICKY" }
 ],
 paste_create_paragraphs : true,
 paste_create_linebreaks : false,

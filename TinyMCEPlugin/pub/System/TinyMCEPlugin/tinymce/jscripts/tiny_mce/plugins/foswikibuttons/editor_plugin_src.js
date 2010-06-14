@@ -192,51 +192,43 @@
             return null;
         },
 
-        _nodeChange: function(ed, cm, n, co) {
-            if (n == null) return;
+        _nodeChange: function(ed, cm, node, collapsed) {
+            var i = 0,
+                gotmatch = false, 
+                wcoloured = ed.dom.getParent(node, '.WYSIWYG_COLOR');
 
-            if (co) {
-                // Disable the buttons
-                cm.setDisabled('tt', true);
-                cm.setDisabled('colour', true);
-            } else {
-                // A selection means the buttons should be active.
-                cm.setDisabled('tt', false);
-                cm.setDisabled('colour', false);
-            }
-            var elm = ed.dom.getParent(n, '.WYSIWYG_TT');
-            if (elm != null) cm.setActive('tt', true);
-            else cm.setActive('tt', false);
-            elm = ed.dom.getParent(n, '.WYSIWYG_COLOR');
-            if (elm != null) cm.setActive('colour', true);
+            if (node == null) return;
+
+            if (wcoloured != null) cm.setActive('colour', true);
             else cm.setActive('colour', false);
 
-            if (ed.fw_lb) {
-                var puck = -1;
-                var nn = n.nodeName.toLowerCase();
-                do {
-                    for (var i = 0; i < ed.fw_formats.length; i++) {
-                        if ((!ed.fw_formats[i].el || 
-                                ed.fw_formats[i].el == nn) && 
-                            (!ed.fw_formats[i].style ||
-                             ed.dom.hasClass(ed.fw_formats[i].style))) {
-                            // Matched el+style or just el
-                            puck = i;
-                            // Only break if the format is not Normal
-                            // (which always matches, and is at pos 0)
-                            if (puck > 0) break;
-                        }
-                    }
-                } while (puck < 0 && (n = n.parentNode) != null);
-                if (puck >= 0) {
-                    ed.fw_lb.selectByIndex(puck);
+            if (collapsed) { // Disable the buttons
+                cm.setDisabled('colour', true);
+                cm.setDisabled('tt', true);
+            } else {         // A selection means the buttons should be active.
+                cm.setDisabled('colour', false);
+                cm.setDisabled('tt', false);
+            }
+
+            if (ed.formatter.match('WYSIWYG_TT')) {
+                cm.setActive('tt', true);
+            } else {
+                cm.setActive('tt', false);
+            }
+            
+            // SMELL : matchAll is probably faster?
+            while (!gotmatch && i < ed.fw_formats.length) {
+                if (ed.formatter.match(ed.fw_formats[i].name, node)) {
+                    ed.fw_lb.selectByIndex(i);
+                    gotmatch = true;
                 } else {
-                    // A region has been selected that doesn't match any known
-                    // foswiki formats, so select the first format in our list 
-                    // ('Normal').
-                    ed.fw_lb.selectByIndex(0);
+                    i = i + 1;
                 }
             }
+            if (!gotmatch) {
+                ed.fw_lb.selectByIndex(0);
+            }
+
             return true;
 
         }
