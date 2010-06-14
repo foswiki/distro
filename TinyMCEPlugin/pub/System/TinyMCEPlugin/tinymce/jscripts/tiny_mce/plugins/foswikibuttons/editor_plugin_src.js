@@ -30,6 +30,10 @@
                     inline: 'span',
                     classes: 'WYSIWYG_TT'
                 });
+                for (var i = 0; i < ed.fw_formats.length; i++) {
+                    var format = ed.fw_formats[i];
+                    ed.formatter.register(format.name, format);
+                }
             });
 
             // Register commands
@@ -141,27 +145,17 @@
             });
 
             ed.addCommand('foswikibuttonsFormat', function(ui, fn) {
-                var format = null;
-                for (var i = 0; i < ed.fw_formats.length; i++) {
-                    if (ed.fw_formats[i].name === fn) {
-                        format = ed.fw_formats[i];
-                        break;
+                if (fn === 'Normal') {
+                    for (var i = 0; i < ed.fw_formats.length; i++) {
+                        var format = ed.fw_formats[i];
+                        if ('Normal' !== format.name) {
+                            ed.formatter.remove(format.name);
+                        }
                     }
+                } else {
+                    ed.formatter.apply(fn);
                 }
-                if (format.el !== null) {
-                    ed.execCommand('FormatBlock', false, format.el);
-                    /* Item2447: We apply a <div> instead of null element
-                    if (format.el === '') {
-                        var elm = ed.selection.getNode();
-                        // SMELL: MIDAS command
-                        ed.execCommand('removeformat', false, elm);
-                    }*/
-                }
-                if (format.style !== null) {
-                    // element is additionally styled
-                    ed.execCommand('mceSetCSSClass', false, format.style);
-                }
-                ed.nodeChanged();
+                //ed.nodeChanged(); - done in formatter.apply() already
             });
 
             ed.onNodeChange.add(this._nodeChange, this);
@@ -173,7 +167,7 @@
                 author: 'Crawford Currie',
                 authorurl: 'http://c-dot.co.uk',
                 infourl: 'http://c-dot.co.uk',
-                version: 2
+                version: 3
             };
         },
 

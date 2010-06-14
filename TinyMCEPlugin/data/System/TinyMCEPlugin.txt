@@ -64,17 +64,17 @@ foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
 foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
 theme_advanced_toolbar_align : "left",
 foswikibuttons_formats : [
-{ name: "Normal", el: "div", style: null },
-{ name: "Heading 1", el: "h1", style: null },
-{ name: "Heading 2", el: "h2", style: null },
-{ name: "Heading 3", el: "h3", style: null },
-{ name: "Heading 4", el: "h4", style: null },
-{ name: "Heading 5", el: "h5", style: null },
-{ name: "Heading 6", el: "h6", style: null },
-{ name: "VERBATIM", el: "pre", style: "TMLverbatim" },
-{ name: "LITERAL", el: "span", style: "WYSIWYG_LITERAL" },
-{ name: "Protect on save", el: null, style: "WYSIWYG_PROTECTED" },
-{ name: "Protect forever", el: null, style: "WYSIWYG_STICKY" }
+    { name: "Normal", remove: "all" },
+    { name: "Heading 1", block: "h1", remove: "all" },
+    { name: "Heading 2", block: "h2", remove: "all" },
+    { name: "Heading 3", block: "h3", remove: "all" },
+    { name: "Heading 4", block: "h4", remove: "all" },
+    { name: "Heading 5", block: "h5", remove: "all" },
+    { name: "Heading 6", block: "h6", remove: "all" },
+    { name: "VERBATIM",  block: "pre", remove: "all", classes: "TMLverbatim" }, 
+    { name: "LITERAL",   block: "div", remove: "all", classes: "WYSIWYG_LITERAL" },
+    { name: "Protect on save", block: "div", classes: "WYSIWYG_PROTECTED" },
+    { name: "Protect forever", block: "div", classes: "WYSIWYG_STICKY" }
 ],
 paste_create_paragraphs : true,
 paste_create_linebreaks : false,
@@ -177,6 +177,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  ?? Jun 2010 | Foswikitask:Item9155: Fix applying non-heading formats in !TinyMCE 3.3 |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
 |  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |
