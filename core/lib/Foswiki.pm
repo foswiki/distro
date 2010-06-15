@@ -1701,6 +1701,7 @@ sub new {
         if (   $topic =~ m#^$regex{linkProtocolPattern}://#o
             && $this->{request} )
         {
+
             # SMELL: this is a result of Codev.GoBoxUnderstandsURLs,
             # an unrequested, undocumented, and AFAICT pretty useless
             #"feature". It should be deprecated (or silently removed; I
@@ -1759,14 +1760,14 @@ sub new {
         \&Foswiki::Sandbox::validateTopicName );
 
     # Validate web name from path info
-    $this->{webName} = Foswiki::Sandbox::untaint( $web, 
-        \&Foswiki::Sandbox::validateWebName );
+    $this->{webName} =
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
 
-    if (!defined $this->{webName} && !defined $this->{topicName} ) {
-        $this->{webName} = $Foswiki::cfg{UsersWebName};
+    if ( !defined $this->{webName} && !defined $this->{topicName} ) {
+        $this->{webName}   = $Foswiki::cfg{UsersWebName};
         $this->{topicName} = $Foswiki::cfg{HomeTopicName};
     }
-    
+
     $this->{webName} = ''
       unless ( defined $this->{webName} );
 
@@ -3429,7 +3430,7 @@ Test if topic exists
 
 sub topicExists {
     my ( $this, $web, $topic ) = @_;
-    ASSERT( UNTAINTED($web), 'web is tainted' )   if DEBUG;
+    ASSERT( UNTAINTED($web),   'web is tainted' )   if DEBUG;
     ASSERT( UNTAINTED($topic), 'topic is tainted' ) if DEBUG;
     return $this->{store}->topicExists( $web, $topic );
 }
