@@ -588,15 +588,49 @@ DEFAULT
 sub RESTParameter2SiteCharSet {
     my ($text) = @_;
 
+    # $text is supposed to contain octets that are a valid UTF-8 encoding.
+    # $text should certainly not have any codes above 255.
+    ASSERT( $text !~ /[^\x00-\xff]/,
+        "only octets expected in input to RESTParameter2SiteCharSet" )
+      if DEBUG;
+
+    # $text might contain octets that are not a valid UTF-8 encoding
+    # because it came from the browser, and so it might be hostile content.
+    # Encode::FB_PERLQQ makes decode_utf8 convert invalid octet sequences
+    # into a perl escape sequence, octet for octet (e.g. \xFF\x80),
+    # instead of throwing an exception. This defuses the invalid sequence.
     $text = Encode::decode_utf8( $text, Encode::FB_PERLQQ );
+
+    # $text now contains unicode characters
 
     WC::mapUnicode2HighBit($text);
 
     if ( $Foswiki::cfg{Site}{CharSet} ) {
         $text = Encode::encode( $Foswiki::cfg{Site}{CharSet},
             $text, Encode::FB_PERLQQ );
+
+        # $text is now encoded as per the site charset. 
+        # For UTF-8 - that means octets.
+
+        # SMELL: The use of Encode::FB_PERLQQ is probably incorrect here.
+        # If {Site}{CharSet} is set to 'iso-8859-1' then wide characters
+        # (with codes greater than 256) which cannot be represented in
+        # iso-5589-1 are encoded as perl escapes e.g. \x{03b1}.
+        # Encode::FB_HTMLCREF would be far better, as characters that
+        # cannot be represented in the specified site character set
+        # would be converted to HTML entities e.g. &#945;
     }
 
+    # SMELL: if {Site}{CharSet} is blank (which is the default)
+    # then $text may contain wide characters.
+    # Thus, $text is NOT encoded in the SiteCharSet!
+
+    # The return value is supposed to be according to the currently selected
+    # Foswiki site character set, encoded as octets.
+    # Thus, there should not be any codes above 255.
+    ASSERT( $text !~ /[^\x00-\xff]/,
+        "only octets expected in return value for RESTParameter2SiteCharSet" )
+      if DEBUG;
     return $text;
 }
 
