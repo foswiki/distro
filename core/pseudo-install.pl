@@ -214,7 +214,8 @@ sub installFromMANIFEST {
             my $found = -f "$moduleDir/$file";
 
             unless ($found) {
-                $found = generateAlternateVersion( $moduleDir, $dir, $file );
+                $found = generateAlternateVersion( $moduleDir, $dir, $file,
+                    $CAN_LINK );
             }
             unless ($found) {
                 warn
@@ -594,7 +595,8 @@ while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
         $install = \&just_link;
     }
     elsif ( $arg =~ /^-c/ ) {
-        $install = \&copy_in;
+        $install  = \&copy_in;
+        $CAN_LINK = 0;
     }
     elsif ( $arg =~ /^-u/ ) {
         $install    = \&uninstall;
