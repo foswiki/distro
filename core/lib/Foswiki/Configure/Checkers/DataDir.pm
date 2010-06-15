@@ -13,8 +13,15 @@ sub check {
     $this->{filecount} = 0;
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
 
+    # Don't check directories against {RCS} permissions on Windows
+    my $dirchk =
+      ( $Foswiki::cfg{OS} eq 'WINDOWS' )
+      ? ''
+      : 'd';
+
     # Check readable, writable  and directories match {RCS}{dirPermissions}
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rwd', qr/,v$/ );
+    my $e2 =
+      $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rw' . $dirchk, qr/,v$/ );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
     $e .=
       ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )

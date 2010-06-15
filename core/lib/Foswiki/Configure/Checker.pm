@@ -67,7 +67,8 @@ sub checkTreePerms {
     # Okay to increment count once filtered files are ignored.
     $this->{filecount}++;
 
-    my $errs = '';
+    my $errs     = '';
+    my $permErrs = '';
 
     return $path . ' cannot be found' . CGI::br()
       unless ( -e $path || -l $path );
@@ -77,9 +78,22 @@ sub checkTreePerms {
         unless ( $mode == $Foswiki::cfg{RCS}{dirPermission} ) {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
-            $errs .= " directory permission mismatch $omode should be $operm";
+            $permErrs .=
+              "$path - directory permission mismatch $omode should be $operm"
+              . CGI::br();
         }
     }
+
+# Enable this once we work out consistent permissions between RCS settings, Manifest, and BuildContrib
+# - And probably need a fix permissions button.
+#    elsif ( $perms =~ /f/ && -f $path ) {
+#        my $mode = ( stat($path) )[2] & 07777;
+#        unless ( $mode == $Foswiki::cfg{RCS}{filePermission} ) {
+#            my $omode = sprintf( '%04o', $mode );
+#            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
+#            $errs .= " file permission mismatch $omode should be $operm";
+#        }
+#   }
 
     if ( $perms =~ /r/ && !-r $path ) {
         $errs .= ' not readable';
@@ -93,12 +107,13 @@ sub checkTreePerms {
         $errs .= ' not executable';
     }
 
-    return $path . $errs . CGI::br() if $errs;
+    return $permErrs . $path . $errs . CGI::br() if $errs;
 
-    return '' unless -d $path;
+    return $permErrs unless -d $path;
 
     return
-        $path
+        $permErrs 
+      . $path
       . ' directory is missing \'x\' permission - not readable'
       . CGI::br()
       if ( -d $path && !-x $path );
@@ -114,7 +129,7 @@ sub checkTreePerms {
     }
     closedir($Dfh);
 
-    return $errs;
+    return $permErrs . $errs;
 }
 
 sub checkCanCreateFile {

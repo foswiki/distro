@@ -14,8 +14,15 @@ sub check {
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
 
+    # Don't check directories against {RCS} permissions on Windows
+    my $dirchk =
+      ( $Foswiki::cfg{OS} eq 'WINDOWS' )
+      ? ''
+      : 'd';
+
     # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission}
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rwd', qr/,v$/ );
+    my $e2 =
+      $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw' . $dirchk, qr/,v$/ );
     $e .= $this->WARN($e2) if $e2;
 
     $e .=
