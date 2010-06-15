@@ -668,6 +668,9 @@ sub createBackup {
           unless ( $this->{_options}->{SIMULATE} );
         $rslt = ' - Simulated backup, no files copied '
           if ( $this->{_options}->{SIMULATE} );
+
+        $rslt = "FAILED \n" . $err unless ($rslt);
+
         return "Backup saved into $pkgstore \n   Archived as $rslt \n";
     }
     return "Nothing to backup \n";
