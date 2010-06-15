@@ -12,7 +12,7 @@ package Assert;
 # Usage is as for Carp::Assert except that you have to explicitly
 # enable asserts using the environment variable ENV{FOSWIKI_ASSERTS}
 # (or ENV{TWIKI_ASSERTS})
-# add ENV{FOSWIKI_ASSERTS} = 1; to you bin/setlib.cfg or bin/LocalLib.cfg
+# add ENV{FOSWIKI_ASSERTS} = 1; to your bin/setlib.cfg or bin/LocalLib.cfg
 
 use strict;
 
@@ -36,18 +36,21 @@ sub ASSERTS_OFF { 0 }            # CONSTANT
 
 sub noop { return $_[0] }
 
+our $soft = 0;
+
 # Export the proper DEBUG flag if FOSWIKI_ASSERTS is set,
 # otherwise export noop versions of our routines
 sub import {
     no warnings 'redefine';
     no strict 'refs';
     if ( $ENV{FOSWIKI_ASSERTS} || $ENV{TWIKI_ASSERTS} ) {
+        $soft = 1 if $ENV{FOSWIKI_ASSERTS} and $ENV{FOSWIKI_ASSERTS} eq 'soft';
         *DEBUG = *ASSERTS_ON;
         Assert->export_to_level( 1, @_ );
     }
     else {
         my $caller = caller;
-        *{ $caller . '::ASSERT' }    = \&noop;
+        *{ $caller . '::ASSERT' }    = \&dummyASSERT;
         *{ $caller . '::TAINT' }     = \&noop;
         *{ $caller . '::UNTAINTED' } = \&noop;
         *{ $caller . '::DEBUG' }     = \&ASSERTS_OFF;
@@ -56,13 +59,24 @@ sub import {
     use warnings 'redefine';
 }
 
+# Provides the same return value and the same context
+# for its parameters as the real ASSERT
+sub dummyASSERT($;$) {
+    return;
+}
+
 sub ASSERT ($;$) {
     unless ( $_[0] ) {
         require Carp;
         my $msg = 'Assertion';
         $msg .= " ($_[1])" if defined $_[1];
         $msg .= " failed!\n";
-        Carp::confess($msg);
+        if ($soft) {
+            Carp::cluck($msg);
+        }
+        else {
+            Carp::confess($msg);
+        }
     }
     return;
 }
