@@ -9,6 +9,8 @@ use Foswiki;
 use Foswiki::Users;
 use Foswiki::Users::HtPasswdUser;
 
+use Config;
+
 sub new {
     my $self = shift()->SUPER::new(@_);
     return $self;
@@ -175,6 +177,10 @@ sub test_htpasswd_crypt_md5 {
     if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
         $this->expect_failure();
         $this->annotate("CANNOT RUN crypt-md5 TESTS on OSX");
+    }
+    if ( $Config{myuname} =~ /strawberry/i ) {
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN crypt-md5 TESTS on strawberry perl");
     }
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );

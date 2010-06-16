@@ -45,11 +45,17 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
     }
-    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
-        && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
     {
-        print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
-        throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+        if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
+            print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
+            throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+        }
+        use Config;
+        if ( $Config{myuname} =~ /strawberry/i ) {
+            print STDERR "ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)\n";
+            throw Error::Simple("ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)");
+        }
     }
 
     return $this;
@@ -260,6 +266,7 @@ sub encrypt {
             }
         }
         my $ret = crypt( $passwd, substr( $salt, 0, 11 ) );
+print STDERR "----- $ret = crypt( $passwd, substr( $salt, 0, 11 ) );\n";
         return $ret;
 
     }
