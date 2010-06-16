@@ -117,6 +117,7 @@ sub _action_createweb {
     $newWeb = Foswiki::Sandbox::untaint(
         $newWeb,
         sub {
+            my $newWeb = shift;
             unless ($newWeb) {
                 throw Foswiki::OopsException( 'attention',
                     def => 'web_missing' );
@@ -170,17 +171,25 @@ sub _action_createweb {
     $baseWeb = Foswiki::Sandbox::untaint(
         $baseWeb,
         sub {
-            my $web = shift;
-            unless ( $session->webExists($baseWeb) ) {
+            my $baseWeb = shift;
+            unless ( Foswiki::isValidWebName( $baseWeb, 1 ) ) {
                 throw Foswiki::OopsException(
                     'attention',
-                    def    => 'base_web_missing',
+                    def    => 'invalid_web_name',
                     params => [$baseWeb]
                 );
             }
-            return $web;
+            return $baseWeb;
         }
     );
+
+    unless ( $session->webExists($baseWeb) ) {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'base_web_missing',
+            params => [$baseWeb]
+        );
+    }
 
     if ( $session->webExists($newWeb) ) {
         throw Foswiki::OopsException(
