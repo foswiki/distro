@@ -224,12 +224,12 @@ sub checkReferringTopics {
     $this->assert_equals(
         0,
         scalar( keys %not_expected ),
-        join( ' ', keys %not_expected )
+        'not expected: '.join( ' ', keys %not_expected )
     );
     $this->assert_equals(
         0,
         scalar( keys %expected_but_unseen ),
-        join( ' ', keys %expected_but_unseen )
+        'expected but missing: '.join( ' ', keys %expected_but_unseen )
     );
 
     my $i = scalar( keys %$refs );
@@ -291,6 +291,11 @@ THIS
 Refer to $ott and $lott
 THIS
     $topicObject->save();
+
+    if ($^O eq 'MSWin32') {
+        $this->expect_failure();
+        $this->annotate("this test fails on a non-case sensitive filesystem - OSX default, Windows..");
+    }
 
     # Just Web
     $this->checkReferringTopics(
@@ -417,6 +422,11 @@ THIS
 [[RanDom]]
 THIS
     $topicObject->save();
+
+    if ($^O eq 'MSWin32') {
+        $this->expect_failure();
+        $this->annotate("this test fails on a non-case sensitive filesystem - OSX default, Windows..");
+    }
 
     $this->checkReferringTopics(
         $this->{test_web},
