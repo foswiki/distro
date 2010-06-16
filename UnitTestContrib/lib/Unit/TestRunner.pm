@@ -11,6 +11,7 @@ script that runs testcases.
 =cut
 
 use strict;
+use warnings;
 use Devel::Symdump;
 use Error qw(:try);
 
@@ -71,7 +72,8 @@ sub start {
                               && push( @found, $1 . $testToFind );
                         },
                         follow => 1,
-                        untaint => 1
+                        untaint => 1,
+			untaint_pattern => qr|^([:-+@\w./]+)$|,
                     },
                     '.'
                 );
