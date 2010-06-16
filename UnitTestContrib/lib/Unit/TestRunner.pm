@@ -73,7 +73,7 @@ sub start {
                         },
                         follow          => 1,
                         untaint         => 1,
-                        untaint_pattern => qr|^([:-+@\w./]+)$|,
+                        untaint_pattern => qr|^([-+@\w./:]+)$|,
                     },
                     '.'
                 );
