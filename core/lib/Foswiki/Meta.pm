@@ -1501,7 +1501,7 @@ sub MONITOR_ACLS { 0 }
 
 ---++ ObjectMethod haveAccess($mode, $cUID) -> $boolean
 
-   * =$mode=  - 'VIEW', 'CHANGE', 'CREATE', etc.
+   * =$mode=  - 'VIEW', 'CHANGE', 'CREATE', etc. (defaults to VIEW)
    * =$cUID=    - Canonical user id (defaults to current user)
 Check if the user has the given mode of access to the topic. This call
 may result in the topic being read.
@@ -1510,6 +1510,7 @@ may result in the topic being read.
 
 sub haveAccess {
     my ( $this, $mode, $cUID ) = @_;
+    $mode ||= 'VIEW';
     $cUID ||= $this->{_session}->{user};
     if ( defined $this->{_topic} && !defined $this->{_text} ) {
 
