@@ -71,9 +71,9 @@ sub start {
                               && ( print("\tFound $1\n") )
                               && push( @found, $1 . $testToFind );
                         },
-                        follow => 1,
-                        untaint => 1,
-			untaint_pattern => qr|^([:-+@\w./]+)$|,
+                        follow          => 1,
+                        untaint         => 1,
+                        untaint_pattern => qr|^([:-+@\w./]+)$|,
                     },
                     '.'
                 );
@@ -193,7 +193,7 @@ sub runOneInNewProcess {
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
         return
-            'push( @{ $this->{failures} }, "'
+            'push( @{ $this->{failures} }, "' 
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -204,7 +204,7 @@ sub runOneInNewProcess {
             die;
             unlink $tempfilename;
             return
-                'push( @{ $this->{failures} }, "Process for '
+                'push( @{ $this->{failures} }, "Process for ' 
               . $suite
               . ' returned '
               . $returnCode . '" );';
@@ -319,9 +319,8 @@ sub runOne {
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
-                $action .=
-                  'push( @{ $this->{unexpected_passes} }, "'
-                    . quotemeta($test) .'");';
+                $action .= 'push( @{ $this->{unexpected_passes} }, "'
+                  . quotemeta($test) . '");';
             }
         }
         catch Error with {
