@@ -106,14 +106,13 @@ sub fetchUsers {
 # Lock the htpasswd semaphore file (create if it does not exist)
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
-    sysopen(
-        my $fh,
-        $Foswiki::cfg{Htpasswd}{FileName},
-        Fcntl::O_RDWR | Fcntl::O_CREAT, 0666
-      )
-      || throw Error::Simple( $Foswiki::cfg{Htpasswd}{FileName}
-          . ' open or create password file failed -'
-          . ' check access rights: '
+   my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
+   my $fh;
+
+   sysopen( $fh, $lockFileName, Fcntl::O_RDWR | Fcntl::O_CREAT, 0666 )
+     || throw Error::Simple( $lockFileName
+         . ' open or create password lock file failed -'
+         . 'check access rights: '
           . $! );
     flock( $fh, Fcntl::LOCK_EX );
     return $fh;
@@ -138,21 +137,32 @@ sub _readPasswd {
         return $data;
     }
     my $re = qr/^(.*?):(.*?)(?::(.*))?$/;    # Default to htpasswd
-    if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
-        $re = qr/^(.*?):(?:.*?):(.*?)(?::(.*))?$/;    # Switch to htdigest
-    }
-    open( my $fh, '<', $Foswiki::cfg{Htpasswd}{FileName} )
+    my $IN_FILE;
+    open( $IN_FILE, '<', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
-    while (<$fh>) {
-        if (/$re/) {
+    my $line = '';
+    while ( defined( $line = <$IN_FILE> ) ) {
+        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+            # htdigest format
+            if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
 
-            # implicit untaint OK; data from htpasswd
-            $data->{$1}->{pass} = $2;
-            $data->{$1}->{emails} = $3 || '';
+                # implicit untaint OK; data from htpasswd
+                $data->{$1}->{pass} = $3;
+                $data->{$1}->{emails} = $4 || '';
+            }
+        }
+        else {
+            # htpasswd format
+            if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
+
+                # implicit untaint OK; data from htpasswd
+                $data->{$1}->{pass} = $2;
+                $data->{$1}->{emails} = $3 || '';
+            }
         }
     }
-    close($fh);
+    close($IN_FILE);
     $this->{passworddata} = $data;
     return $data;
 }
@@ -175,17 +185,22 @@ sub _dumpPasswd {
 }
 
 sub _savePasswd {
-    my $fh = shift;
+    my $fh_NO = shift;
     my $db = shift;
 
     my $content = _dumpPasswd($db);
 
-    # Rewind and print for in-place editing
-    seek $fh, 0, Fcntl::SEEK_SET;
-    print $fh $content
-      or throw Error::Simple("ERROR: Cannot write password file");
-    truncate $fh, tell $fh
-      or throw Error::Simple("ERROR: Cannot truncate password file");
+    umask(077);
+    my $fh;
+    # SMELL: potential race condition if $content is very large, and the
+    # write takes an appreciable time, another process may get an empty
+    # file. However the reads used for sets are inside the guards, so it
+    # shouldn't result in corruption.
+    open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
+      || throw Error::Simple(
+          "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!" );
+    print $fh $content;
+    close($fh);
 }
 
 sub encrypt {
