@@ -88,7 +88,7 @@ the upgrade." );
     }
 
     my $e = $this->checkTreePerms( $Foswiki::cfg{WorkingDir},
-        'rw', qr/configure\/backup\// );
+        'rw', qr/configure\/backup\/|README/ );
     $mess .= $this->ERROR($e) if $e;
 
     return $mess;
