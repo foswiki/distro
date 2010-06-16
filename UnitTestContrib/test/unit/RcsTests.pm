@@ -11,6 +11,24 @@ sub new {
     return $self;
 }
 
+#TODO: extract this so as can re-use it in other places where Store choices might be made
+my $rcs_installed;
+sub rcs_is_installed {
+    if (!defined($rcs_installed)) {
+    #TODO: erm, who said it needed to be on the PATH?
+        eval {
+            `co -V`;    # Check to see if we have co
+        };
+        if ( $@ || $? ) {
+            $rcs_installed = 0;
+            print STDERR "*** CANNOT RUN RcsWrap TESTS - NO COMPATIBLE co: $@\n";
+        } else {
+            $rcs_installed = 1;
+        }
+    }
+    return $rcs_installed;
+}
+
 use Foswiki;
 use Foswiki::Store;
 use Foswiki::Store::VC::RcsLiteHandler;
@@ -47,15 +65,9 @@ sub RcsWrap {
 
 sub fixture_groups {
     my $groups = ['RcsLite'];
-    eval {
-        `co -V`;    # Check to see if we have co
-    };
-    if ( $@ || $? ) {
-        print STDERR "*** CANNOT RUN RcsWrap TESTS - NO COMPATIBLE co: $@\n";
-    }
-    else {
-        push( @$groups, 'RcsWrap' );
-    }
+
+    push( @$groups, 'RcsWrap' ) if (rcs_is_installed());
+    
     return ($groups);
 }
 
@@ -771,6 +783,11 @@ sub item945_checkHistoryRcs {
 
 sub item945_fillTopic {
     my ( $this, $rcs, $time, $testWeb, $testTopic ) = @_;
+    
+    if (!rcs_is_installed()) {
+        $this->expect_failure();
+        $this->annotate("rcs not installed");
+    }
 
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( undef, @params ) = @{ $historyItem945[$depth] };
@@ -782,6 +799,12 @@ sub item945_fillTopic {
 
 sub test_Item945_diff {
     my ($this) = @_;
+
+    if (!rcs_is_installed()) {
+        $this->expect_failure();
+        $this->annotate("rcs not installed");
+    }
+
     my %content;
     my $testTopic = "TestItem945";
     for my $rcsType (@rcsTypes) {

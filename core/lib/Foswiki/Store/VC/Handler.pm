@@ -766,15 +766,15 @@ some store implementations when a topic is created, but never saved.
 sub removeSpuriousLeases {
     my ($this) = @_;
     my $web = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/';
-    if ( opendir( W, $web ) ) {
-        foreach my $f ( readdir(W) ) {
+    if ( opendir( my $W, $web ) ) {
+        foreach my $f ( readdir($W) ) {
             if ( $f =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
                     unlink($f);
                 }
             }
         }
-        closedir(W);
+        closedir($W);
     }
 }
 
