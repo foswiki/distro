@@ -43,10 +43,14 @@ sub check {
             $e = $this->ERROR($message);
         }
     }
-    elsif (( $enc eq 'crypt-md5' )
-        && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
-    {
+    elsif ( $enc eq 'crypt-md5' ) {
+        if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
         $e = $this->ERROR("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+        }
+        use Config;
+        if ( $Config{myuname} =~ /strawberry/i ) {
+            $e = $this->ERROR("ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)");
+        }
     }
 
     return $e;
