@@ -740,6 +740,12 @@ sub verify_Item3122 {
 # Verify data compatibility between RcsLite and RcsWrap
 sub test_Item945 {
     my ($this) = @_;
+    
+    if (!rcs_is_installed()) {
+        $this->expect_failure();
+        $this->annotate("rcs not installed");
+    }
+    
     my $testTopic = "TestItem945";
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( $rcsType, @params ) = @{ $historyItem945[$depth] };
@@ -784,11 +790,6 @@ sub item945_checkHistoryRcs {
 sub item945_fillTopic {
     my ( $this, $rcs, $time, $testWeb, $testTopic ) = @_;
     
-    if (!rcs_is_installed()) {
-        $this->expect_failure();
-        $this->annotate("rcs not installed");
-    }
-
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( undef, @params ) = @{ $historyItem945[$depth] };
         $rcs->addRevisionFromText(@params);
