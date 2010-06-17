@@ -15,6 +15,8 @@ use Assert;
 use Foswiki::Search;
 use Foswiki::Search::InfoCache;
 
+use File::Spec qw(case_tolerant);       #TODO: this really should be in the Store somehow - but its not worth doing now, as we should really obliterate the issue
+
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
     return $self;
@@ -1140,12 +1142,14 @@ sub verify_formQuery3 {
 sub verify_formQuery4 {
     my $this = shift;
 
-    if (   $Foswiki::cfg{OS} eq 'WINDOWS'
-        && $Foswiki::cfg{DetailedOS} ne 'cygwin' )
+    if (  ($Foswiki::cfg{OS} eq 'WINDOWS')
+        and ($Foswiki::cfg{DetailedOS} ne 'cygwin')
+        and ($Foswiki::cfg{Store}{SearchAlgorithm} eq 'Foswiki::Store::SearchAlgorithms::Forking') )
     {
         $this->expect_failure();
-        $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
+        $this->annotate("THIS IS WINDOWS & grep; Test will fail because of Item1072");
     }
+    
     $this->set_up_for_queries();
 
     my $result =
@@ -1157,11 +1161,12 @@ sub verify_formQuery4 {
 sub verify_formQuery5 {
     my $this = shift;
 
-    if (   $Foswiki::cfg{OS} eq 'WINDOWS'
-        && $Foswiki::cfg{DetailedOS} ne 'cygwin' )
+    if (  ($Foswiki::cfg{OS} eq 'WINDOWS')
+        and ($Foswiki::cfg{DetailedOS} ne 'cygwin')
+        and ($Foswiki::cfg{Store}{SearchAlgorithm} eq 'Foswiki::Store::SearchAlgorithms::Forking') )
     {
         $this->expect_failure();
-        $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
+        $this->annotate("THIS IS WINDOWS & grep; Test will fail because of Item1072");
     }
 
     $this->set_up_for_queries();
@@ -1644,8 +1649,10 @@ sub verify_getTopicList {
         'case insensitive ok* topics, using wildcard'
     );
     
-    #unless ($^O eq 'darwin') {
-        # this test won't work on Mac OS X
+    if (File::Spec->case_tolerant()) {
+        print STDERR "WARNING: case insensitive file system, skipping a test\n";
+    } else {
+        # this test won't work on Mac OS X or windows.
         $this->assert_deep_equals(
             [],
             $this->_getTopicList(
@@ -1657,7 +1664,7 @@ sub verify_getTopicList {
             ),
             'case sensitive okatopic topic 1'
         );
-    #}
+    }
     
     $this->assert_deep_equals(
         ['OkATopic'],
