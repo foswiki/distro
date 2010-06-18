@@ -178,4 +178,24 @@ THIS
       ;    #add \n because expandMacros removes it :/
 }
 
+
+sub test_singlequoted_params {
+    my $this          = shift;
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+"%INCLUDE{'Oneweb.SomeTopic' section='suction'}%"
+      );
+    $this->assert_str_equals( "<span class='foswikiAlert'>
+   Warning: Can't INCLUDE '<nop>'Oneweb.SomeTopic' section='suction'', path is empty or contains illegal characters. 
+</span>", $text );
+
+    $text =
+      $this->{test_topicObject}->expandMacros(
+'%INCLUDE{"I can\'t beleive its not butter"}%'
+      );
+    $this->assert_str_equals( "<span class='foswikiAlert'>
+   Warning: Can't INCLUDE '<nop>I can't beleive its not butter', path is empty or contains illegal characters. 
+</span>", $text );
+}
+
 1;

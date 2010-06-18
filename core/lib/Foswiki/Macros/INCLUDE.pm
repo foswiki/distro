@@ -155,7 +155,12 @@ sub INCLUDE {
     ( $includedWeb, $includedTopic ) =
       $this->normalizeWebTopicName( $includingTopicObject->web,
         $includedTopic );
-
+        
+    if (!Foswiki::isValidTopicName($includedTopic, 1)) {
+        return $this->_includeWarning( $control{warn}, 'bad_include_path',
+            $control{_DEFAULT} );
+    }
+        
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
         return _includeWarning( $this, $control{warn}, 'topic_not_found',
