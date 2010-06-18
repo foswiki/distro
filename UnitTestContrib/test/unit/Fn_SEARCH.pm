@@ -871,7 +871,7 @@ sub set_up_for_formatted_search {
     my $text = <<'HERE';
 %META:TOPICINFO{author="ProjectContributor" date="1169714817" format="1.1" version="1.2"}%
 %META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
-!MichaelAnchor and !AnnaAnchor lived in Skagen in !DenmarkEurope!. There is a very nice museum you can visit!
+!MichaelAnchor, One/WIKI.NET and !AnnaAnchor lived in Skagen in !DenmarkEurope!. There is a very nice museum you can visit!
 
 This text is fill in text which is there to ensure that the unique word below does not show up in a summary.
 
@@ -903,7 +903,7 @@ sub verify_formatted_search_summary_with_exclamation_marks {
       );
     $actual = $this->{test_topicObject}->renderTML($actual);
     $expected =
-'<nop>MichaelAnchor and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!';
+'<nop>MichaelAnchor, One/<nop>WIKI.<nop><nop>NET and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!';
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
