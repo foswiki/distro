@@ -84,7 +84,7 @@ server.modules = (
 )
 server.port = $PORT
 
-server.errorlog = "/scratch/foswiki/core/working/tmp/error.log"
+server.errorlog = "$foswiki_core/working/tmp/error.log"
 
 # mimetype mapping
 $mime_mapping
