@@ -850,6 +850,15 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
 
     $text ||= $link;
 
+    # Extract '?params'
+    # $link =~ s/(\?.*?)(?>#|$)//;
+    my $params = '';
+    if ( $link =~ s/(\?.*$)// ) {
+        $params = $1;
+        my $p = quotemeta($params);
+        $text =~ s/$p//;
+    }
+
     # Extract '#anchor'
     # $link =~ s/(\#[a-zA-Z_0-9\-]*$)//;
     my $anchor = '';
