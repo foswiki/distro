@@ -73,8 +73,8 @@ EXPECTED
 $Foswiki::cfg{HomeTopicName}
 ACTUAL
     $this->do_test($expected, $actual);
-}
 
+}
 # [[WikiWord]]
 sub test_squabbedWikiword {
     my $this = shift;
@@ -87,6 +87,45 @@ EXPECTED
 ACTUAL
     $this->do_test($expected, $actual);
 }
+
+    # [[WikiWord#anchor]]
+sub test_squabbedWikiwordAnchorParams {
+    my $this = shift;
+    my $expected = <<EXPECTED;
+<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}#anchor">$Foswiki::cfg{HomeTopicName}#anchor</a>
+EXPECTED
+    my $actual = <<ACTUAL;
+[[$Foswiki::cfg{HomeTopicName}#anchor]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    # [[WikiWord?param=data]]
+    $expected = <<EXPECTED;
+<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{HomeTopicName}</a>
+EXPECTED
+    $actual = <<ACTUAL;
+[[$Foswiki::cfg{HomeTopicName}?param=data]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    # [[WikiWord?param=data#anchor]]
+    $expected = <<EXPECTED;
+<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{HomeTopicName}</a>
+EXPECTED
+    $actual = <<ACTUAL;
+[[$Foswiki::cfg{HomeTopicName}?param=data#anchor]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    # [[WikiWord#anchor?param=data]]
+    $expected = <<EXPECTED;
+<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{HomeTopicName}</a>
+EXPECTED
+    $actual = <<ACTUAL;
+[[$Foswiki::cfg{HomeTopicName}?param=data#anchor]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+} 
 
 # [[Web.WikiWord]]
 sub test_squabbedWebWikiword {
