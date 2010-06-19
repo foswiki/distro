@@ -1987,8 +1987,8 @@ STUCK
 GLUED
     },
     {
-        exec => $TML2HTML, # SMELL fails these: $HTML2TML | $ROUNDTRIP,
-        name => 'entityInsideSticky',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'entityWithNoNameInsideSticky',
         tml  => <<'GLUED',
 <sticky>&#9792;</sticky>
 GLUED
@@ -1997,7 +1997,7 @@ GLUED
 <div class="WYSIWYG_STICKY">&#38;&#35;9792;</div>
 </p>
 STUCK
-},
+    },
     {
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'dontOverEncodeProtectedContent',

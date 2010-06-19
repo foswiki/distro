@@ -226,7 +226,7 @@ generate TML)
 sub rootGenerate {
     my ( $this, $opts ) = @_;
 
-    #print STDERR "Raw       [", WC::debugEncode($this->stringify()), "\n\n";
+    #print STDERR "Raw       [", WC::debugEncode($this->stringify()), "]\n\n";
     $this->cleanParseTree();
 
     #print STDERR "Cleaned   [", WC::debugEncode($this->stringify()), "]\n\n";

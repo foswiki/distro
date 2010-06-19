@@ -4,6 +4,8 @@ package Foswiki::Plugins::WysiwygPlugin::Constants;
 use strict;
 use warnings;
 
+use Encode;
+
 # HTML elements that are strictly block type, as defined by
 # http://www.htmlhelp.com/reference/html40/block.html.
 # Block type elements do not require
@@ -202,72 +204,51 @@ our %HTML2TML_COLOURMAP = (
 
 ############ Encodings ###############
 
-# Mapping high-bit characters from unicode back to iso-8859-1
-# (a.k.a Windows 1252 a.k.a "ANSI") - http://www.alanwood.net/demos/ansi.html
-our %unicode2HighBit = (
-    chr(8364) => chr(128),
-    chr(8218) => chr(130),
-    chr(402)  => chr(131),
-    chr(8222) => chr(132),
-    chr(8230) => chr(133),
-    chr(8224) => chr(134),
-    chr(8225) => chr(135),
-    chr(710)  => chr(136),
-    chr(8240) => chr(137),
-    chr(352)  => chr(138),
-    chr(8249) => chr(139),
-    chr(338)  => chr(140),
-    chr(381)  => chr(142),
-    chr(8216) => chr(145),
-    chr(8217) => chr(146),
-    chr(8220) => chr(147),
-    chr(8221) => chr(148),
-    chr(8226) => chr(149),
-    chr(8211) => chr(150),
-    chr(8212) => chr(151),
-    chr(732)  => chr(152),
-    chr(8482) => chr(153),
-    chr(353)  => chr(154),
-    chr(8250) => chr(155),
-    chr(339)  => chr(156),
-    chr(382)  => chr(158),
-    chr(376)  => chr(159),
-);
-
-# Reverse mapping
-our %highBit2Unicode = map { $unicode2HighBit{$_} => $_ } keys %unicode2HighBit;
-
-our $unicode2HighBitChars = join( '', keys %unicode2HighBit );
-our $highBit2UnicodeChars = join( '', keys %highBit2Unicode );
 our $encoding;
 
 sub encoding {
     unless ($encoding) {
         $encoding =
           Encode::resolve_alias( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1' );
+
+        $encoding = 'windows-1252' if $encoding =~ /^iso-8859-1$/i;
     }
     return $encoding;
 }
 
-# Map selected unicode characters back to high-bit chars if
-# iso-8859-1 is selected. This is required because the same characters
-# have different code points in unicode and iso-8859-1. For example,
-# &euro; is 128 in iso-8859-1 and 8364 in unicode.
-sub mapUnicode2HighBit {
-    if ( encoding() eq 'iso-8859-1' ) {
+my $siteCharsetRepresentable;
 
-        # Map unicode back to iso-8859 high-bit chars
-        $_[0] =~ s/([$unicode2HighBitChars])/$unicode2HighBit{$1}/ge;
+# Convert characters (unicode codepoints) that cannot be represented in
+# the site charset to entities. Prefer named entities to numeric entities.
+sub convertNotRepresentabletoEntity {
+    if ( encoding() =~ /^utf-?8/ ) {
+        # UTF-8 can represent all characters, so no entities needed
     }
-}
+    else {
+        unless ($siteCharsetRepresentable) {
+            # Produce a string of unicode characters that contains all of the
+            # characters representable in the site charset
+            $siteCharsetRepresentable = '';
+            for my $code (0 .. 255) {
+                my $unicodeChar = Encode::decode(encoding(), chr($code), Encode::FB_PERLQQ);
+                if ($unicodeChar =~ /^\\x/) {
+                    # code is not valid, so skip it
+                }
+                else {
+                    # Escape codes in the standard ASCII range, as necessary,
+                    # to avoid special interpretation by perl
+                    $unicodeChar = quotemeta($unicodeChar) if ord($unicodeChar) <= 127;
 
-# Map selected high-bit chars to unicode if
-# iso-8859-1 is selected.
-sub mapHighBit2Unicode {
-    if ( encoding() eq 'iso-8859-1' ) {
+                    $siteCharsetRepresentable .= $unicodeChar;
+                }
+            }
+        }
 
-        # Map unicode back to iso-8859 high-bit chars
-        $_[0] =~ s/([$highBit2UnicodeChars])/$highBit2Unicode{$1}/ge;
+        require HTML::Entities;
+        $_[0] = HTML::Entities::encode_entities($_[0], "^$siteCharsetRepresentable");
+        # All characters that cannot be represented in the site charset are now encoded as entities
+        # Named entities are used if available, otherwise numeric entities,
+        # because named entities produce more readable TML
     }
 }
 
@@ -283,7 +264,7 @@ our @safeEntities = qw(
   ETH    Ntilde Ograve Oacute Ocirc  Otilde Ouml   times
   Oslash Ugrave Uacute Ucirc  Uuml   Yacute THORN  szlig
   agrave aacute acirc  atilde auml   aring  aelig  ccedil
-  egrave eacute ecirc  uml    igrave iacute icirc  iuml
+  egrave eacute ecirc  euml   igrave iacute icirc  iuml
   eth    ntilde ograve oacute ocirc  otilde ouml   divide
   oslash ugrave uacute ucirc  uuml   yacute thorn  yuml
 );
@@ -291,8 +272,7 @@ our @safeEntities = qw(
 # Mapping from entity names to characters
 our $safe_entities;
 
-# Get a hash that maps the safe entities values to characters
-# in the site charset.
+# Get a hash that maps the safe entities values to unicode characters
 sub safeEntities {
     unless ($safe_entities) {
         foreach my $entity (@safeEntities) {
@@ -300,9 +280,7 @@ sub safeEntities {
             # Decode the entity name to unicode
             my $unicode = HTML::Entities::decode_entities("&$entity;");
 
-            # Map unicode back to iso-8859 high-bit chars if required
-            mapUnicode2HighBit($unicode);
-            $safe_entities->{$entity} = Encode::encode( encoding(), $unicode );
+            $safe_entities->{"$entity"} = $unicode;
         }
     }
     return $safe_entities;
@@ -322,6 +300,13 @@ sub chCodes {
         }
     }
     return $s;
+}
+
+# Allow the unit tests to force re-initialisation of 
+# %Foswiki::cfg-dependent cached data
+sub reinitialiseForTesting {
+    undef $encoding;
+    undef $siteCharsetRepresentable;
 }
 
 # Create shorter alias for other modules

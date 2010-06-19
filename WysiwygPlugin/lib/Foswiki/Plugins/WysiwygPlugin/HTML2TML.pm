@@ -91,6 +91,13 @@ Convert a block of HTML text into TML.
 
 =cut
 
+sub debugEncode {
+    my $text = shift;
+    $text = WC::debugEncode($text);
+    $text =~ s/([^\x20-\x7E])/sprintf '\\x{%X}', ord($1)/ge;
+    return $text;
+}
+
 sub convert {
     my ( $this, $text, $options ) = @_;
 
@@ -100,11 +107,62 @@ sub convert {
     $opts = $WC::VERY_CLEAN
       if ( $options->{very_clean} );
 
-    # If the text is UTF8-encoded we have to decode it first, otherwise
-    # the HTML parser will barf.
+    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
+    #print STDERR "input     [". debugEncode($text). "]\n\n";
+
+    # Convert (safe) named entities back to the
+    # site charset. Numeric entities are mapped straight to the
+    # corresponding code point unless their value overflow.
+    # HTML::Entities::_decode_entities converts numeric entities 
+    # to Unicode codepoints, so first convert the text to Unicode
+    # characters
     if ( WC::encoding() =~ /^utf-?8/ ) {
+        # text is already UTF-8, so just decode
         $text = Encode::decode_utf8($text);
     }
+    else {
+        # convert to unicode codepoints
+        $text = Encode::decode(WC::encoding(), $text);
+    }
+    # $text is now Unicode characters
+    #print STDERR "unicoded  [". debugEncode($text). "]\n\n";
+
+    # Make sure that & < > ' and " remain encoded, because the parser depends
+    # on it. The safe-entities does not include the corresponding named
+    # entities, so convert numeric entities for these characters to the named 
+    # entity.
+    $text =~ s/\&\#38;/\&amp;/go;
+    $text =~ s/\&\#x26;/\&amp;/goi;
+    $text =~ s/\&\#60;/\&lt;/go;
+    $text =~ s/\&\#x3c;/\&lt;/goi;
+    $text =~ s/\&\#62;/\&gt;/go;
+    $text =~ s/\&\#x3e;/\&gt;/goi;
+    $text =~ s/\&\#39;/\&apos;/go;
+    $text =~ s/\&\#x27;/\&apos;/goi;
+    $text =~ s/\&\#34;/\&quot;/go;
+    $text =~ s/\&\#x22;/\&quot;/goi;
+
+    require HTML::Entities;
+    HTML::Entities::_decode_entities( $text, WC::safeEntities() );
+    #print STDERR "decodedent[". debugEncode($text). "]\n\n";
+
+    # HTML::Entities::_decode_entities is NOT aware of the site charset
+    # so it converts numeric entities to characters willy-nilly.
+    # Some of those were entities in the first place because the
+    # site character set cannot represent them.
+    # Convert them back to entities:
+    WC::convertNotRepresentabletoEntity($text);
+    #print STDERR "notrep2ent[". debugEncode($text). "]\n\n";
+
+    # $text is now Unicode characters that are representable
+    # in the site charset. Convert to the site charset:
+    if ( WC::encoding() =~ /^utf-?8/ ) {
+        # nothing to do, already in unicode
+    }
+    else {
+        $text = Encode::encode(WC::encoding(), $text);
+    }
+    #print STDERR "sitechrset[". debugEncode($text). "]\n\n";
 
     # get rid of nasties
     $text =~ s/\r//g;
@@ -119,21 +177,15 @@ sub convert {
     $this->_apply(undef);
     $text = $this->{stackTop}->rootGenerate($opts);
 
+    #print STDERR "parsed    [". debugEncode($text). "]\n\n";
+
     # If the site charset is UTF8, we need to recode
     if ( WC::encoding() =~ /^utf-?8/ ) {
         $text = Encode::encode_utf8($text);
+        #print STDERR "re-encoded[". debugEncode($text). "]\n\n";
     }
 
-    # Convert (safe) named entities back to the
-    # site charset. Numeric entities are mapped straight to the
-    # corresponding code point unless their value overflow.
-    require HTML::Entities;
-    HTML::Entities::_decode_entities( $text, WC::safeEntities() );
-
-    # After decoding entities, we have to map unicode characters
-    # back to high bit
-    WC::mapUnicode2HighBit($text);
-
+    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
     return $text;
 }
 

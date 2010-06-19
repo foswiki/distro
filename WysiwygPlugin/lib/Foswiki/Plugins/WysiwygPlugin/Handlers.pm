@@ -128,16 +128,6 @@ sub afterEditHandler {
     my $query = Foswiki::Func::getCgiQuery();
     return unless $query;
 
-    if (   $Foswiki::cfg{Site}{CharSet}
-        && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/i )
-    {
-
-        # If the site charset is utf-8, then form POSTs (such as the one
-        # that got us here) are utf-8 encoded. we have to decode to prevent
-        # the HTML parser from going tits up when it sees utf-8 in the data.
-        $text = Encode::decode_utf8($text);
-    }
-
     return
       unless defined( $query->param('wysiwyg_edit') )
           || $text =~ s/<!--$SECRET_ID-->//go;
@@ -154,6 +144,10 @@ sub afterEditHandler {
 # Invoked to convert HTML to TML (best efforts)
 sub TranslateHTML2TML {
     my ( $text, $topic, $web ) = @_;
+    # $text must be in encoded in the site charset
+    ASSERT( $text !~ /[^\x00-\xff]/,
+        "only octets expected in input to TranslateHTML2TML" )
+      if DEBUG;
 
     unless ($html2tml) {
         require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
@@ -182,6 +176,9 @@ sub TranslateHTML2TML {
 
     $text =~ s/\s+$/\n/s;
 
+    ASSERT( $text !~ /[^\x00-\xff]/,
+        "only octets expected in topic text output from TranslateHTML2TML" )
+      if DEBUG;
     return $top . $text . $bottom;
 }
 
@@ -492,13 +489,17 @@ sub addXMLTag {
 sub TranslateTML2HTML {
     my ( $text, $web, $topic, @extraConvertOptions ) = @_;
 
+    ASSERT( $text !~ /[^\x00-\xff]/,
+        "only octets expected in input to TranslateTML2HTML" )
+      if DEBUG;
+
     # Translate the topic text to pure HTML.
     unless ($Foswiki::Plugins::WysiwygPlugin::tml2html) {
         require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
         $Foswiki::Plugins::WysiwygPlugin::tml2html =
           new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     }
-    return $Foswiki::Plugins::WysiwygPlugin::tml2html->convert(
+    my $html = $Foswiki::Plugins::WysiwygPlugin::tml2html->convert(
         $_[0],
         {
             web             => $web,
@@ -509,6 +510,10 @@ sub TranslateTML2HTML {
             @extraConvertOptions,
         }
     );
+    ASSERT( $html !~ /[^\x00-\xff]/,
+        "only octets expected in output from TranslateTML2HTML" )
+      if DEBUG;
+    return $html;
 }
 
 # PACKAGE PRIVATE
@@ -588,13 +593,14 @@ DEFAULT
 sub RESTParameter2SiteCharSet {
     my ($text) = @_;
 
-    # $text is supposed to contain octets that are a valid UTF-8 encoding.
+    #print STDERR "octets in [". WC::debugEncode($text). "]\n\n";
+    # $text is supposed to contain octets that are valid UTF-8.
     # $text should certainly not have any codes above 255.
     ASSERT( $text !~ /[^\x00-\xff]/,
         "only octets expected in input to RESTParameter2SiteCharSet" )
       if DEBUG;
 
-    # $text might contain octets that are not a valid UTF-8 encoding
+    # $text might contain octets that are not valid UTF-8
     # because it came from the browser, and so it might be hostile content.
     # Encode::FB_PERLQQ makes decode_utf8 convert invalid octet sequences
     # into a perl escape sequence, octet for octet (e.g. \xFF\x80),
@@ -602,28 +608,30 @@ sub RESTParameter2SiteCharSet {
     $text = Encode::decode_utf8( $text, Encode::FB_PERLQQ );
 
     # $text now contains unicode characters
+    #print STDERR "as utf-8  [". WC::debugEncode($text). "]\n\n";
 
-    WC::mapUnicode2HighBit($text);
+    if ( WC::encoding() =~ /^utf-?8/ ) {
+        $text = Encode::encode_utf8($text);
+    }
+    else {
+        # The site charset is a non-UTF-8 8-bit charset
 
-    if ( $Foswiki::cfg{Site}{CharSet} ) {
-        $text = Encode::encode( $Foswiki::cfg{Site}{CharSet},
-            $text, Encode::FB_PERLQQ );
+        WC::convertNotRepresentabletoEntity($text);
+        # All characters that cannot be represented in the site charset are now encoded as entities
+        # Named entities are used if available, otherwise numeric entities,
+        # because named entities produce more readable TML
 
-        # $text is now encoded as per the site charset. 
-        # For UTF-8 - that means octets.
-
-        # SMELL: The use of Encode::FB_PERLQQ is probably incorrect here.
-        # If {Site}{CharSet} is set to 'iso-8859-1' then wide characters
-        # (with codes greater than 256) which cannot be represented in
-        # iso-5589-1 are encoded as perl escapes e.g. \x{03b1}.
-        # Encode::FB_HTMLCREF would be far better, as characters that
-        # cannot be represented in the specified site character set
-        # would be converted to HTML entities e.g. &#945;
+        # Encode $text in the site charset
+        # The Encode::FB_HTMLCREF should not be needed, as all characters in $text
+        # are supposed to be representable in the site charset.
+        $text = Encode::encode( WC::encoding(),
+            $text, Encode::FB_HTMLCREF );
     }
 
-    # SMELL: if {Site}{CharSet} is blank (which is the default)
-    # then $text may contain wide characters.
-    # Thus, $text is NOT encoded in the SiteCharSet!
+    # $text is now encoded as per the site charset. 
+    # For UTF-8 - that means octets.
+    # For non-UTF8, Unicode characters that cannot be represented in the site charset
+    # are converted to HTML entities (preferring named entities to numeric entities)
 
     # The return value is supposed to be according to the currently selected
     # Foswiki site character set, encoded as octets.
@@ -631,6 +639,7 @@ sub RESTParameter2SiteCharSet {
     ASSERT( $text !~ /[^\x00-\xff]/,
         "only octets expected in return value for RESTParameter2SiteCharSet" )
       if DEBUG;
+    #print STDERR "octets out [". WC::debugEncode($text). "]\n\n";
     return $text;
 }
 
@@ -641,13 +650,14 @@ sub RESTParameter2SiteCharSet {
 # This function generates such a response.
 sub returnRESTResult {
     my ( $response, $status, $text ) = @_;
+    ASSERT( $text !~ /[^\x00-\xff]/,
+        "only octets expected in input to returnRESTResult" )
+      if DEBUG;
 
-    if ( $Foswiki::cfg{Site}{CharSet} ) {
-        $text = Encode::decode( $Foswiki::cfg{Site}{CharSet},
-            $text, Encode::FB_PERLQQ );
-    }
+    $text = Encode::decode( WC::encoding(),
+        $text, Encode::FB_HTMLCREF );
 
-    WC::mapHighBit2Unicode($text);
+    #print STDERR "unicodechr[". WC::debugEncode($text). "]\n\n";
 
     $text = Encode::encode_utf8($text);
 
@@ -729,8 +739,10 @@ sub _restHTML2TML {
         $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     }
     my $html = Foswiki::Func::getCgiQuery()->param('text');
+    #print STDERR "param     [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
 
     $html = RESTParameter2SiteCharSet($html);
+    #print STDERR "paraminSC [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
 
     $html =~ s/<!--$SECRET_ID-->//go;
     my $tml = $html2tml->convert(
@@ -743,6 +755,7 @@ sub _restHTML2TML {
             very_clean      => 1,
         }
     );
+    #print STDERR "tml inSc  [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($tml). "]\n\n";
 
     returnRESTResult( $response, 200, $tml );
     return;    # to prevent further processing

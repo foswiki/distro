@@ -16,6 +16,39 @@ use strict;
 use warnings;
 use Carp;
 
+my @unicodeCodepointsForWindows1252 = (
+
+    # From http://www.alanwood.net/demos/ansi.html
+    # unicode   windows-1252
+    8364,    # 128
+    8218,    # 130
+    402,     # 131
+    8222,    # 132
+    8230,    # 133
+    8224,    # 134
+    8225,    # 135
+    710,     # 136
+    8240,    # 137
+    352,     # 138
+    8249,    # 139
+    338,     # 140
+    381,     # 142
+    8216,    # 145
+    8217,    # 146
+    8220,    # 147
+    8221,    # 148
+    8226,    # 149
+    8211,    # 150
+    8212,    # 151
+    732,     # 152
+    8482,    # 153
+    353,     # 154
+    8250,    # 155
+    339,     # 156
+    382,     # 158
+    376,     # 159
+);
+
 my $UI_FN;
 
 sub new {
@@ -28,6 +61,8 @@ sub set_up {
 
     $this->SUPER::set_up();
     $UI_FN ||= $this->getUIFn('save');
+
+    Foswiki::Plugins::WysiwygPlugin::Constants::reinitialiseForTesting();
 
     $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
     $WC::encoding                                  = undef;
@@ -58,17 +93,55 @@ sub anal {
     return join( ' ', @s );
 }
 
-sub save_test {
+sub save_testCharsetCodesRange {
     my ( $this, $charset, $firstchar, $lastchar ) = @_;
+    my @test;
+    for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
+        push( @test, Encode::decode( _perlEncodeCharset($charset), chr($i) ) );
+    }
+    my $text = join( '', @test ) . ".";
 
-    $Foswiki::cfg{Site}{CharSet} = $charset;
+    $this->save_test( $charset, $text, $text );
+}
+
+sub save_testUnicodeCodepointsRange {
+    my ( $this, $charset, $firstchar, $lastchar ) = @_;
 
     my @test;
     for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
         push( @test, chr($i) );
     }
     my $text = join( '', @test ) . ".";
-    my $t = $charset ? Encode::encode( $charset, $text ) : $text;
+
+    $this->save_test( $charset, $text, $text );
+}
+
+sub _perlEncodeCharset {
+    my $charset = shift;
+
+    # The default encoding is 'iso-8859-1'
+    # Foswiki treats that encoding like windows-1252
+    # Perl's Encode library treats the differently
+    $charset = 'windows-1252' if not $charset or $charset eq 'iso-8859-1';
+    return $charset;
+}
+
+# $input and $expectedOutput contain unicode codepoints;
+# they are wide characters, NOT utf-8 encoded
+sub save_test {
+    my ( $this, $charset, $input, $expectedOutput ) = @_;
+
+    # Is this enough? Regexes are inited before we get here, aren't they?
+    $Foswiki::cfg{Site}{CharSet} = $charset;
+
+    my $t =
+      $charset
+      ? Encode::encode( _perlEncodeCharset($charset), $input )
+      : $input;
+    my $e =
+      $charset
+      ? Encode::encode( _perlEncodeCharset($charset), $expectedOutput )
+      : $expectedOutput;
 
     my $query = new Unit::Request(
         {
@@ -107,32 +180,53 @@ sub save_test {
 
     $out =~ s/\s*$//s;
 
-    $this->assert( $t eq $out, "'" . anal($out) . "' !=\n'" . anal($t) . "'" );
+    $this->assert( $e eq $out, "'" . anal($out) . "' !=\n'" . anal($e) . "'" );
 }
 
-sub TML2HTML_test {
+sub TML2HTML_testCharsetCodesRange {
     my ( $this, $charset, $firstchar, $lastchar ) = @_;
+    my @test;
+    for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
+        push( @test, Encode::decode( _perlEncodeCharset($charset), chr($i) ) );
+    }
+    my $text = join( '', @test ) . ".";
 
-    # Is this enough? Regexes are inited before we get here, aren't they?
-    $Foswiki::cfg{Site}{CharSet} = $charset;
+    $this->TML2HTML_test( $charset, $text, $text );
+}
+
+sub TML2HTML_testUnicodeCodepointsRange {
+    my ( $this, $charset, $firstchar, $lastchar ) = @_;
 
     my @test;
     for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
         push( @test, chr($i) );
     }
     my $text = join( '', @test ) . ".";
+
+    $this->TML2HTML_test( $charset, $text, $text );
+}
+
+# $input and $expectedOutput contain unicode codepoints;
+# they are wide characters, NOT utf-8 encoded
+sub TML2HTML_test {
+    my ( $this, $charset, $input, $expectedOutput ) = @_;
+
+    # Is this enough? Regexes are inited before we get here, aren't they?
+    $Foswiki::cfg{Site}{CharSet} = $charset;
+
     my $query = new Unit::Request(
         {
             'wysiwyg_edit' => [1],
 
             # REST parameters are always UTF8 encoded
-            'text' => [ Encode::encode_utf8($text) ],
+            'text' => [ Encode::encode_utf8($input) ],
         }
     );
     $query->method('GET');
 
     my $foswiki = new Foswiki( 'guest', $query );
-    $foswiki->{response}->charset($charset) if $charset;
+    $foswiki->{response}->charset($charset)
+      if $charset;    # why? REST responses are supposed to be UTF-8 encoded
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
@@ -154,39 +248,57 @@ sub TML2HTML_test {
     $out = Encode::decode_utf8($out);
 
     my $id = "<!--$Foswiki::Plugins::WysiwygPlugin::Handlers::SECRET_ID-->";
-    $this->assert( $out =~ s/^\s*$id<p>\s*//s, anal($out) );
-    $out =~ s/\s*<\/p>\s*$//s;
+    $this->assert( $out =~ s/^\s*$id<p>[ \t\n]*//s, anal($out) );
+    $out =~ s/[ \t\n]*<\/p>\s*$//s;
 
-    require Foswiki::Plugins::WysiwygPlugin::Constants;
-    Foswiki::Plugins::WysiwygPlugin::Constants::mapUnicode2HighBit($out);
-
-    $this->assert( $text eq $out,
-        "'" . anal($out) . "' !=\n'" . anal($text) . "'" );
+    $this->assert( $expectedOutput eq $out,
+        "'" . anal($out) . "' !=\n'" . anal($expectedOutput) . "'" );
     $foswiki->finish();
 }
 
-sub HTML2TML_test {
+sub HTML2TML_testCharsetCodesRange {
     my ( $this, $charset, $firstchar, $lastchar ) = @_;
+    my @test;
+    for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
+        push( @test, Encode::decode( _perlEncodeCharset($charset), chr($i) ) );
+    }
+    my $text = join( '', @test ) . ".";
 
-    # Is this enough? Regexes are inited before we get here, aren't they?
-    $Foswiki::cfg{Site}{CharSet} = $charset;
+    $this->HTML2TML_test( $charset, $text, $text );
+}
+
+sub HTML2TML_testUnicodeCodepointsRange {
+    my ( $this, $charset, $firstchar, $lastchar ) = @_;
 
     my @test;
     for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
         push( @test, chr($i) );
     }
     my $text = join( '', @test ) . ".";
+
+    $this->HTML2TML_test( $charset, $text, $text );
+}
+
+# $input and $expectedOutput contain unicode codepoints;
+# they are wide characters, NOT utf-8 encoded
+sub HTML2TML_test {
+    my ( $this, $charset, $input, $expectedOutput ) = @_;
+
+    # Is this enough? Regexes are inited before we get here, aren't they?
+    $Foswiki::cfg{Site}{CharSet} = $charset;
+
     my $query = new Unit::Request(
         {
             'wysiwyg_edit' => [1],
 
             # REST parameters are always UTF8 encoded
-            'text' => [ Encode::encode_utf8($text) ],
+            'text' => [ Encode::encode_utf8($input) ],
         }
     );
     $query->method('GET');
     my $foswiki = new Foswiki( 'guest', $query );
-    $foswiki->{response}->charset($charset) if $charset;
+    $foswiki->{response}->charset($charset)
+      if $charset;    # why? REST responses are supposed to be UTF-8 encoded
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
@@ -207,111 +319,197 @@ sub HTML2TML_test {
 
     $out = Encode::decode_utf8($out);
 
-    require Foswiki::Plugins::WysiwygPlugin::Constants;
-    Foswiki::Plugins::WysiwygPlugin::Constants::mapUnicode2HighBit($out);
-
     $out =~ s/\s*$//s;
 
-    $this->assert_str_equals( $text, $out,
-        "'" . anal($out) . "' !=\n'" . anal($text) . "'" );
+    $this->assert_str_equals( $expectedOutput, $out,
+        "'" . anal($out) . "' !=\n'" . anal($expectedOutput) . "'" );
     $foswiki->finish();
 }
 
 # tests for various charsets
 sub test_restTML2HTML_undef {
     my $this = shift;
-    $this->TML2HTML_test( undef, 127, 255 );
+    $this->TML2HTML_testUnicodeCodepointsRange( undef, 160, 255 );
+
+    # Browsers commonly treat iso-8859-1 as if it is windows-1252
+    # and so does Foswiki
+    my $unicodeOfWindows1252 =
+      join( '', map { chr($_) } @unicodeCodepointsForWindows1252 );
+
+    $this->TML2HTML_test( undef, $unicodeOfWindows1252, $unicodeOfWindows1252 );
+
+    $this->TML2HTML_test( undef, chr(0x3B1) . chr(0x2640), '&alpha;&#x2640;' );
 }
 
 sub test_restTML2HTML_iso_8859_1 {
     my $this = shift;
-    $this->TML2HTML_test( 'iso-8859-1', 127, 255 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'iso-8859-1', 160, 255 );
+
+    # Browsers commonly treat iso-8859-1 as if it is windows-1252
+    # and so does Foswiki
+    my $unicodeOfWindows1252 =
+      join( '', map { chr($_) } @unicodeCodepointsForWindows1252 );
+
+    $this->TML2HTML_test( 'iso-8859-1', $unicodeOfWindows1252,
+        $unicodeOfWindows1252 );
+
+    $this->TML2HTML_test( 'iso-8859-1', chr(0x3B1) . chr(0x2640),
+        '&alpha;&#x2640;' );
+}
+
+sub test_restTML2HTML_iso_8859_7 {
+    my $this = shift;
+
+    $this->TML2HTML_testCharsetCodesRange( 'iso-8859-7', 160, 173 );
+    $this->TML2HTML_testCharsetCodesRange( 'iso-8859-7', 175, 209 );
+    $this->TML2HTML_testCharsetCodesRange( 'iso-8859-7', 211, 254 );
 }
 
 sub test_restTML2HTML_iso_8859_15 {
     my $this = shift;
-    $this->TML2HTML_test( 'iso-8859-15', 127, 163 );
-    $this->TML2HTML_test( 'iso-8859-15', 169, 179 );
-    $this->TML2HTML_test( 'iso-8859-15', 181, 183 );
-    $this->TML2HTML_test( 'iso-8859-15', 191, 255 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'iso-8859-15', 127, 163 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'iso-8859-15', 169, 179 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'iso-8859-15', 181, 183 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'iso-8859-15', 191, 255 );
+
+    # These are the codes that are different to iso-8859-1, and thus
+    # different to unicode
+    for my $code ( 0xA4, 0xA6, 0xA8, 0xB4, 0xBC, 0xBD, 0xBE ) {
+        $this->TML2HTML_testCharsetCodesRange( 'iso-8859-15', $code, $code );
+    }
 }
 
 sub test_restTML2HTML_utf_8 {
     my $this = shift;
-    $this->TML2HTML_test( 'utf-8', 127, 300 );
-    $this->TML2HTML_test( 'utf-8', 301, 400 );
-    $this->TML2HTML_test( 'utf-8', 401, 500 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'utf-8', 127, 300 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'utf-8', 301, 400 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'utf-8', 401, 500 );
 
     # Chinese
-    $this->TML2HTML_test( 'utf-8', 8000, 9000 );
+    $this->TML2HTML_testUnicodeCodepointsRange( 'utf-8', 8000, 9000 );
 }
 
 sub test_restHTML2TML_undef {
     my $this = shift;
-    $this->HTML2TML_test( undef, 127, 255 );
+    $this->HTML2TML_testUnicodeCodepointsRange( undef, 160, 255 );
+
+    # Browsers commonly treat iso-8859-1 as if it is windows-1252
+    # and so does Foswiki
+    my $unicodeOfWindows1252 =
+      join( '', map { chr($_) } @unicodeCodepointsForWindows1252 );
+
+    $this->HTML2TML_test( undef, $unicodeOfWindows1252, $unicodeOfWindows1252 );
 }
 
 sub test_restHTML2TML_iso_8859_1 {
     my $this = shift;
-    $this->HTML2TML_test( 'iso-8859-1', 127, 255 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'iso-8859-1', 160, 255 );
+
+    # Browsers commonly treat iso-8859-1 as if it is windows-1252
+    # and so does Foswiki
+    my $unicodeOfWindows1252 =
+      join( '', map { chr($_) } @unicodeCodepointsForWindows1252 );
+
+    $this->HTML2TML_test( 'iso-8859-1', $unicodeOfWindows1252,
+        $unicodeOfWindows1252 );
+}
+
+sub test_restHTML2TML_iso_8859_7 {
+    my $this = shift;
+
+    $this->HTML2TML_testCharsetCodesRange( 'iso-8859-7', 160, 173 );
+    $this->HTML2TML_testCharsetCodesRange( 'iso-8859-7', 175, 209 );
+    $this->HTML2TML_testCharsetCodesRange( 'iso-8859-7', 211, 254 );
 }
 
 sub test_restHTML2TML_iso_8859_15 {
     my $this = shift;
-    $this->HTML2TML_test( 'iso-8859-15', 127, 163 );
-    $this->HTML2TML_test( 'iso-8859-15', 169, 179 );
-    $this->HTML2TML_test( 'iso-8859-15', 181, 183 );
-    $this->HTML2TML_test( 'iso-8859-15', 191, 255 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'iso-8859-15', 127, 163 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'iso-8859-15', 169, 179 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'iso-8859-15', 181, 183 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'iso-8859-15', 191, 255 );
+
+    # These are the codes that are different to iso-8859-1, and thus
+    # different to unicode
+    for my $code ( 0xA4, 0xA6, 0xA8, 0xB4, 0xBC, 0xBD, 0xBE ) {
+        $this->HTML2TML_testCharsetCodesRange( 'iso-8859-15', $code, $code );
+    }
 }
 
 sub test_restHTML2TML_utf_8 {
     my $this = shift;
-    $this->HTML2TML_test( 'utf-8', 127, 300 );
-    $this->HTML2TML_test( 'utf-8', 301, 400 );
-    $this->HTML2TML_test( 'utf-8', 401, 500 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'utf-8', 127, 300 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'utf-8', 301, 400 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'utf-8', 401, 500 );
 
     # Chinese
-    $this->HTML2TML_test( 'utf-8', 8000, 9000 );
+    $this->HTML2TML_testUnicodeCodepointsRange( 'utf-8', 8000, 9000 );
 }
 
 sub test_save_undef {
     my $this = shift;
-    $this->save_test( undef, 127, 255 );
+    $this->save_testUnicodeCodepointsRange( undef, 127, 128 );
+    $this->save_testUnicodeCodepointsRange( undef, 130, 140 );
+    $this->save_testUnicodeCodepointsRange( undef, 142, 142 );
+    $this->save_testUnicodeCodepointsRange( undef, 145, 156 );
+    $this->save_testUnicodeCodepointsRange( undef, 158, 255 );
 }
 
 sub test_save_iso_8859_1 {
     my $this = shift;
-    $this->save_test( 'iso-8859-1', 127, 255 );
+    $this->save_testUnicodeCodepointsRange( 'iso-8859-1', 160, 255 );
+
+    # Browsers commonly treat iso-8859-1 as if it is windows-1252
+    # and so does Foswiki
+    my $unicodeOfWindows1252 =
+      join( '', map { chr($_) } @unicodeCodepointsForWindows1252 );
+
+    $this->save_test( 'iso-8859-1', $unicodeOfWindows1252,
+        $unicodeOfWindows1252 );
+}
+
+sub test_save_iso_8859_7 {
+    my $this = shift;
+
+    $this->save_testCharsetCodesRange( 'iso-8859-7', 160, 173 );
+    $this->save_testCharsetCodesRange( 'iso-8859-7', 175, 209 );
+    $this->save_testCharsetCodesRange( 'iso-8859-7', 211, 254 );
 }
 
 sub test_save_iso_8859_15 {
     my $this = shift;
-    $this->save_test( 'iso-8859-15', 127, 163 );
-    $this->save_test( 'iso-8859-15', 169, 179 );
-    $this->save_test( 'iso-8859-15', 181, 183 );
-    $this->save_test( 'iso-8859-15', 191, 255 );
+    $this->save_testUnicodeCodepointsRange( 'iso-8859-15', 127, 163 );
+    $this->save_testUnicodeCodepointsRange( 'iso-8859-15', 169, 179 );
+    $this->save_testUnicodeCodepointsRange( 'iso-8859-15', 181, 183 );
+    $this->save_testUnicodeCodepointsRange( 'iso-8859-15', 191, 255 );
+
+    # These are the codes that are different to iso-8859-1, and thus
+    # different to unicode
+    for my $code ( 0xA4, 0xA6, 0xA8, 0xB4, 0xBC, 0xBD, 0xBE ) {
+        $this->save_testCharsetCodesRange( 'iso-8859-15', $code, $code );
+    }
 }
 
 sub test_save_utf_8a {
     my $this = shift;
-    $this->save_test( 'utf-8', 127, 300 );
+    $this->save_testUnicodeCodepointsRange( 'utf-8', 127, 300 );
 }
 
 sub test_save_utf_8b {
     my $this = shift;
-    $this->save_test( 'utf-8', 301, 400 );
+    $this->save_testUnicodeCodepointsRange( 'utf-8', 301, 400 );
 }
 
 sub test_save_utf_8d {
     my $this = shift;
-    $this->save_test( 'utf-8', 401, 500 );
+    $this->save_testUnicodeCodepointsRange( 'utf-8', 401, 500 );
 }
 
 sub test_save_utf_8e {
     my $this = shift;
 
     # Chinese
-    $this->save_test( 'utf-8', 8000, 9000 );
+    $this->save_testUnicodeCodepointsRange( 'utf-8', 8000, 9000 );
 }
 
 1;

@@ -4,6 +4,8 @@ use warnings;
 
 package BrowserTranslatorTests;
 
+use Encode;
+
 use FoswikiSeleniumTestCase;
 use TranslatorBase;
 our @ISA = qw( FoswikiSeleniumTestCase TranslatorBase );
@@ -11,6 +13,7 @@ our @ISA = qw( FoswikiSeleniumTestCase TranslatorBase );
 use BrowserEditorInterface;
 use Foswiki::Func;
 use Foswiki::Plugins::WysiwygPlugin::Handlers;
+use Foswiki::Plugins::WysiwygPlugin::Constants;
 
 # The following big table contains all the testcases. These are
 # used to add a bunch of functions to the symbol table of this
@@ -70,11 +73,11 @@ HERE
     {
         name => 'Item1798',
         exec => $TranslatorBase::ROUNDTRIP,
-        tml  => <<HERE,
+        tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<THERE,
+        html => <<'THERE',
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -85,7 +88,7 @@ THERE
         name => 'numericEntityWithoutName',
         exec => $TranslatorBase::ROUNDTRIP,
         tml  => '&#9792;',
-        finaltml  => chr(9792),
+        finaltml  =>  _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
     },
     {
         name => 'numericEntityWithName',
@@ -93,6 +96,19 @@ THERE
         tml  => '&#945;',
         finaltml  => '&alpha;',
     },
+
+    # This test's finaltml is correct for ISO-8859-1 and ISO-8859-15,
+    # but not necessarily any other charsets
+    ( ( not $Foswiki::cfg{Site}{CharSet} or
+        $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i)
+    ? {
+        name => 'safeNamedEntity',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => '&Aring;',
+        finaltml  => chr(0xC5), 
+      }
+    : () ),
+
     {
         name => 'namedEntity',
         exec => $TranslatorBase::ROUNDTRIP,
@@ -196,7 +212,7 @@ HERE
     },
 
     {    # Copied on 29 April 2010 from
-           # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
+         # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
          # and then split into multiple tests to make analysing the result managable
         name => 'KennethsNewLineEatingTest1',
         exec => $TranslatorBase::ROUNDTRIP,
@@ -405,12 +421,24 @@ HERE
     },
 ];
 
+sub _siteCharsetIsUTF8 {
+    Foswiki::Plugins::WysiwygPlugin::Constants::reinitialiseForTesting();
+    return Foswiki::Plugins::WysiwygPlugin::Constants::encoding() =~ /^utf-?8/;
+}
+
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
     $self->{editor} = BrowserEditorInterface->new($self);
 
     return $self;
+}
+
+sub set_up {
+    my $this = shift;
+    $this->SUPER::set_up();
+
+    Foswiki::Plugins::WysiwygPlugin::Constants::reinitialiseForTesting();
 }
 
 sub _init {
@@ -431,6 +459,70 @@ sub DESTROY {
 
     $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
+
+# Item9170
+sub verify_editSaveTopicWithUnnamedUnicodeEntity {
+    my $this = shift;
+    
+    $this->{editor}->init();
+
+    # Close the editor because this tests uses a different topic
+    if ( $this->{editor}->editorMode() ) {
+        $this->{editor}->cancelEdit();
+    }
+
+    # \x{eb} is representable in 8-bit charsets. 
+    # In iso-8859-1 it is e-with-umluat, or &euml;
+    # &#x2640 is a valid unicode character without a
+    # common entity name
+    my $testText = "A \x{eb} B &#x2640; C";
+    my $expectedText = $testText;
+    if ( _siteCharsetIsUTF8() ) {
+        $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
+        $testText = Encode::encode_utf8($testText);
+        $expectedText = Encode::encode_utf8($expectedText);
+    }
+
+    # Create the test topic
+    my $topicName = $this->{test_topic}."For9170";
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session},
+        $this->{test_web},
+        $topicName,
+        "Before${testText}After\n");
+    $topicObject->save();
+
+    # Open the test topic in the wysiwyg editor
+    $this->{editor}
+      ->openWysiwygEditor( $this->{test_web}, $topicName );
+
+    # Write rubbish over the topic, which will be overwritten on save
+    $topicObject->text("Rubbish");
+    $topicObject->save();
+    undef $topicObject;
+
+    # Save from the editor
+    $this->{editor}->save();
+
+    # Reload the topic and check that the content is as expected
+    $topicObject = Foswiki::Meta->new(
+        $this->{session},
+        $this->{test_web},
+        $topicName);
+
+    my $text = $topicObject->text();
+
+    # Isolate the portion of interest
+    $text =~ s/.*Before//ms or $this->assert(0, $text);
+    $text =~ s/After.*//ms or $this->assert(0, $text);
+
+    # Showtime:
+    for ($expectedText, $text) {
+        s/([^\x20-\x7e])/sprintf "\\x{%X}", ord($1)/ge;
+    }
+    $this->assert_str_equals($expectedText, $text);
+}
+
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
