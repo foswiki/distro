@@ -604,7 +604,7 @@ SMELL: why is this available to Func?
 
 sub internalLink {
     my ( $this, $theWeb, $theTopic, $theLinkText, $theAnchor,
-        $doLinkToMissingPages, $doKeepWeb, $hasExplicitLinkLabel )
+        $doLinkToMissingPages, $doKeepWeb, $hasExplicitLinkLabel, $params )
       = @_;
 
     # SMELL - shouldn't it be callable by Foswiki::Func as well?
@@ -651,13 +651,13 @@ sub internalLink {
     $theLinkText =~ s/(?<=[\s\(])([$Foswiki::regex{upperAlpha}])/<nop>$1/go;
 
     return _renderWikiWord( $this, $theWeb, $theTopic, $theLinkText, $theAnchor,
-        $doLinkToMissingPages, $doKeepWeb );
+        $doLinkToMissingPages, $doKeepWeb, $params );
 }
 
 # TODO: this should be overridable by plugins.
 sub _renderWikiWord {
     my ( $this, $theWeb, $theTopic, $theLinkText, $theAnchor,
-        $doLinkToMissingPages, $doKeepWeb )
+        $doLinkToMissingPages, $doKeepWeb, $params )
       = @_;
     my $store = $this->{session}->{store};
     my $topicExists = $store->topicExists( $theWeb, $theTopic );
@@ -676,7 +676,7 @@ sub _renderWikiWord {
 
     if ($topicExists) {
         return _renderExistingWikiWord( $this, $theWeb, $theTopic, $theLinkText,
-            $theAnchor );
+            $theAnchor, $params );
     }
     if ($doLinkToMissingPages) {
 
@@ -685,7 +685,7 @@ sub _renderWikiWord {
         #     #unshift( @topics, $singular);
         # }
         return _renderNonExistingWikiWord( $this, $theWeb, $theTopic,
-            $theLinkText );
+            $theLinkText, $params );
     }
     if ($doKeepWeb) {
         return $theWeb . '.' . $theLinkText;
@@ -695,7 +695,7 @@ sub _renderWikiWord {
 }
 
 sub _renderExistingWikiWord {
-    my ( $this, $web, $topic, $text, $anchor ) = @_;
+    my ( $this, $web, $topic, $text, $anchor, $params ) = @_;
 
     my $currentWebHome = '';
     $currentWebHome = 'foswikiCurrentWebHomeLink  '
@@ -709,6 +709,9 @@ sub _renderExistingWikiWord {
 
     my @attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
+    if ($params) {
+        $href .= $params;
+    }
     if ($anchor) {
         $anchor = $this->makeAnchorName($anchor);
         # Item8556 - drop path if same topic and anchor
@@ -894,7 +897,7 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
     ( $web, $topic ) = $this->{session}->normalizeWebTopicName( $web, $topic );
 
     return $this->internalLink( $web, $topic, $text, $anchor, 1, undef,
-        $hasExplicitLinkLabel );
+        $hasExplicitLinkLabel, $params );
 }
 
 # Handle an external link typed directly into text. If it's an image
