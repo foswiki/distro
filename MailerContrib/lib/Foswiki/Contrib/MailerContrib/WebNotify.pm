@@ -390,6 +390,12 @@ sub _load {
             # email addresses can't start with :
             $topics = undef unless ( $topics =~ s/^:// );
             $subscriber =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
+
+            # CDot: I don't understand how this can ever be tainted, but the
+            # unit tests fail without this untaint. The subscriber is
+            # validated, and should be untainted, by the conditional regex.
+            $subscriber = Foswiki::Sandbox::untaintUnchecked($subscriber);
+
             if ($topics) {
                 $this->parsePageSubscriptions( $subscriber, $topics );
             }
