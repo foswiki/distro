@@ -1546,26 +1546,23 @@ sub new {
     $topic = ucfirst($topic);
 
     # Validate and untaint topic name from path info
-    $this->{topicName} = Foswiki::Sandbox::untaint(
-        $topic,
-        sub {
-            return $Foswiki::cfg{HomeTopicName}
-              unless isValidTopicName( $topic, 1 );
-            return $topic;
-        }
-    );
+    $this->{topicName} = Foswiki::Sandbox::untaint( $topic,
+        \&Foswiki::Sandbox::validateTopicName );
 
     # Validate web name from path info
-    $this->{requestedWebName} = Foswiki::Sandbox::untaint(
-        $web,
-        sub {
-            return '' unless $web &&    # can be an empty string
-                  isValidWebName( $web, 1 );
-            return $web;
-        }
-    );
-    $this->{webName} = $this->{requestedWebName}
-      || $Foswiki::cfg{UsersWebName};
+    $this->{webName} =
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
+
+    if ( !defined $this->{webName} && !defined $this->{topicName} ) {
+        $this->{webName}   = $Foswiki::cfg{UsersWebName};
+        $this->{topicName} = $Foswiki::cfg{HomeTopicName};
+    }
+
+    $this->{webName} = ''
+      unless ( defined $this->{webName} );
+
+    $this->{topicName} = $Foswiki::cfg{HomeTopicName}
+      unless ( defined $this->{topicName} );
 
     # Convert UTF-8 web and topic name from URL into site charset if
     # necessary
