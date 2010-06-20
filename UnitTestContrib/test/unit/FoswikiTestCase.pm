@@ -19,8 +19,6 @@ use strict;
 use Error qw( :try );
 
 BEGIN {
-    push( @INC, "$ENV{FOSWIKI_HOME}/lib" ) if defined($ENV{FOSWIKI_HOME});
-    unshift @INC, '../../bin'; # SMELL: dodgy
     require 'setlib.cfg';
     $SIG{__DIE__} = sub { Carp::confess $_[0] };
 };

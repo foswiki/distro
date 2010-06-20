@@ -61,10 +61,10 @@ sub test_simple {
     $req->remote_addr('192.168.254.1');
     $req->remote_user('admin');
     my %uploads;
+    my $tmpspec = Cwd::abs_path(File::Spec->catdir( $Foswiki::cfg{WorkingDir}, 'tmp'));
+    ($tmpspec) = $tmpspec =~ m/^(.*)$/go;
     my $file = new File::Temp(
-        DIR => Cwd::abs_path(
-            File::Spec->catdir( $Foswiki::cfg{WorkingDir}, 'tmp' )
-        ),
+        DIR => $tmpspec
     );
     print $file "Conteúdo\nbinário\nqualquer...";
     $file->flush;

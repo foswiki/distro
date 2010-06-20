@@ -28,13 +28,12 @@ sub set_up {
     $this->SUPER::set_up();
 
     my $here = Cwd::cwd();
+    ($here) = $here =~ /^(.*)$/;
     $test_tmpls = $here.'/fake_templates';
     $test_data = $here.'/fake_data';
 
     File::Path::mkpath($test_tmpls);
     File::Path::mkpath($test_data);
-    
-
     
     $session = new Foswiki();
     $tmpls = $session->templates;

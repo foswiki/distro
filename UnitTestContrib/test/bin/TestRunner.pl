@@ -22,6 +22,7 @@ BEGIN {
 	$Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
     # root the tree
     my $here = Cwd::abs_path;
+    ($here) = $here =~ m/^(.*)$/;
 
     # Look for the installation that we are testing in context
     # with. This will be defined by either by finding an installation
@@ -30,6 +31,7 @@ BEGIN {
 
     my $root = _findRelativeTo( $here, 'core/bin/setlib.cfg' )
       || _findRelativeTo( $here, 'bin/setlib.cfg' );
+    ($root) = $root =~ /^(.*)$/;   # untaint 
 
     die "Cannot locate bin/setlib.cfg" unless $root;
 
@@ -39,6 +41,7 @@ BEGIN {
     unshift @INC, "$root/bin";
     unshift @INC, "$root/lib";
     unshift @INC, "$root/lib/CPAN/lib";
+    unshift @INC,, $here;
     require 'setlib.cfg';
 };
 
@@ -86,14 +89,27 @@ if ($ENV{FOSWIKI_ASSERTS}) {
 
 if ($options{-clean}) {
     require File::Path;
-    my @x = glob "$Foswiki::cfg{DataDir}/Temp*";
-    File::Path::rmtree([@x]) if scalar(@x);
-    @x = glob "$Foswiki::cfg{PubDir}/Temp*";
-    File::Path::rmtree([@x]) if scalar(@x);
+    my $rmDir = $Foswiki::cfg{DataDir};
+    opendir( DIR, "$rmDir" );
+    my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
+    foreach my $x (@x) {
+       ($x) = $x =~ /^(.*)$/;
+        print "removing $x \n";
+        File::Path::rmtree($x) if ($x);
+    }
+
+    $rmDir = $Foswiki::cfg{PubDir};
+    opendir( DIR, "$rmDir" );
+    @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
+    foreach my $x (@x) {
+       ($x) = $x =~ /^(.*)$/;
+        print "removing $x \n";
+        File::Path::rmtree($x) if ($x);
+    }
 }
 
-testForFiles($Foswiki::cfg{DataDir}.'/Temp*');
-testForFiles($Foswiki::cfg{PubDir}.'/Temp*');
+testForFiles($Foswiki::cfg{DataDir}, '/Temp*');
+testForFiles($Foswiki::cfg{PubDir}, '/Temp*');
 
 my $testrunner = Unit::TestRunner->new();
 my $exit = $testrunner->start(@ARGV);
@@ -103,9 +119,12 @@ print STDERR "Run was logged to $log\n" if $options{-log};
 exit $exit;
 
 sub testForFiles {
-    my $test = shift;
-    my @list = glob $test;
-    die "Please remove $test (or run with the -clean option) to run tests\n" if (scalar(@list));
+    my $testDir = shift;
+    my $pattrn = shift;
+    print " TESTING = " . $testDir . "Pattern " . $pattrn . "\n";
+    opendir( DIR, "$testDir" );
+    my @list = grep { s/^($pattrn)/$testDir\/$1\n/ } readdir(DIR);
+    die "Please remove @list (or run with the -clean option) to run tests\n" if (scalar(@list));
 }
 
 1;

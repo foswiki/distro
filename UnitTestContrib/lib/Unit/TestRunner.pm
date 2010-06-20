@@ -29,6 +29,7 @@ sub start {
         if ( $suite =~ s/^(.*?)(\w+)\.pm$/$2/ ) {
             push( @INC, $1 ) if $1 && -d $1;
         }
+        ($suite) = $suite =~ m/^(.*)$/go;
         eval "use $suite";
         if ($@) {
 
@@ -46,7 +47,9 @@ sub start {
                               && ( print("\tFound $1\n") )
                               && push( @found, $1 . $testToFind );
                         },
-                        follow => 1
+                        follow => 1,
+                        untaint         => 1,
+                        untaint_pattern => qr|^([-+@\w./:]+)$|,
                     },
                     '.'
                 );

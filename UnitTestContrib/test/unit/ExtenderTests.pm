@@ -40,6 +40,7 @@ MESSAGE
 MESSAGE
     die $message;    # Propagate
 }
+($wd) = $wd =~ m/^(.*)$/;
 chdir $wd;           # Return after loading extender.pl
 
 sub test_check_dep_not_perl {
