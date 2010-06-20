@@ -440,9 +440,6 @@ sub test_urlparsing {
         'WebHome'
     );
 
-    #Illegal characters in web  (Item8713)
-    $this->urltest( '/A:B/C:D',    '',          'C:D' );
-
     $this->urltest( '/' . $this->{test_subweb} . '/ThisTopicShouldNotExist',
         $this->{test_subweb}, 'ThisTopicShouldNotExist' );
     $this->urltest( '/' . $this->{test_subweb} . '/ThisTopicShouldNotExist/',
