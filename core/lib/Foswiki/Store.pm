@@ -1757,7 +1757,7 @@ sub createWeb {
 
     if ($parent) {
         unless ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
-            throw Error::Simple(  "Unable to create $newWeb - Hierrchical webs are disabled" );
+            throw Error::Simple(  "Unable to create $newWeb - Hierarchical webs are disabled" );
         }
         unless ( $this->webExists($parent) ) {
             throw Error::Simple( 'Parent web ' . $parent . ' does not exist' );

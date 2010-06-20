@@ -73,7 +73,7 @@ sub test_createWeb_hierarchyDisabled {
         Foswiki::Func::createWeb($this->{test_web} . "/Subweb");
     } catch Error::Simple with {
         my $e = shift;
-        $this->assert_matches( qr/^Unable to create .* - Hierrchical webs are disabled.*/, $e, "Unexpected error $e");
+        $this->assert_matches( qr/^Unable to create .* - Hierarchical webs are disabled.*/, $e, "Unexpected error $e");
     };
     $this->assert(! Foswiki::Func::webExists($this->{test_web}."/Subweb"));
 }
@@ -368,7 +368,7 @@ sub test_subweb_attachments {
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
 
-    $name1 = Assert::TAINT($name1);
+    #$name1 = Assert::TAINT($name1);
     my $e = Foswiki::Func::saveAttachment(
         $web,
         $topic, $name1,
@@ -387,7 +387,7 @@ sub test_subweb_attachments {
     my @attachments = $meta->find('FILEATTACHMENT');
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
 
-    $name2 = Assert::TAINT($name2);
+    #$name2 = Assert::TAINT($name2);
     my $infile = $this->{tmpdatafile};
     #my $web = Assert::TAINT($web);
     #my $infile = Assert::TAINT($this->{tmpdatafile1});
