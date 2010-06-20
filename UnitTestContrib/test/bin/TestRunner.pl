@@ -121,7 +121,6 @@ exit $exit;
 sub testForFiles {
     my $testDir = shift;
     my $pattrn = shift;
-    print " TESTING = " . $testDir . "Pattern " . $pattrn . "\n";
     opendir( DIR, "$testDir" );
     my @list = grep { s/^($pattrn)/$testDir\/$1\n/ } readdir(DIR);
     die "Please remove @list (or run with the -clean option) to run tests\n" if (scalar(@list));
