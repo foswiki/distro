@@ -57,8 +57,19 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # Do <b>not</b> include a trailing /.
 # <p />
 # See <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">ShorterUrlCookbook</a> for more information on setting up
-# Foswiki to use shorter script URLs.
+# Foswiki to use shorter script URLs.  Expand expert settings to get to settings for the <code>view</code> script.  Other scripts need to 
+# be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
+
+# **URLPATH EXPERT**
+# This is the complete path used to access the Foswiki view script
+# e.g. <code>/foswiki/bin/view</code><br />
+# Do <b>not</b> include a trailing /.
+# <p />
+# If you are using Shorter URL's, then this is typically set to an empty string.  Do not change
+# this unless your Web Server configuration has been set to use shorter URLs.  See also the Foswiki
+# <a href="http://foswiki.org/Support/ApacheConfigGenerator" target="_new">Apache Config Generator</a>
+$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view';
 
 # **PATH M**
 # This is the file system path used to access the Foswiki bin
