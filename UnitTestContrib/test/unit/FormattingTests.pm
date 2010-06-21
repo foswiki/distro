@@ -724,6 +724,21 @@ sub test_4067_entities {
     $this->do_test($expected, $actual);
 }
 
+sub test_internalLinkSpacedText_Item8713 {
+    my $this     = shift;
+    
+    my $editURI = $this->{twiki}->getScriptUrl( 0, 'edit' );
+    
+    my $expected = <<EXPECTED;
+<span class="foswikiNewLink">discuss 'wiki': philosophy vs. technology<a href="$editURI/DiscussWiki:PhilosophyVs/Technology?topicparent=TemporaryFormattingTestWebFormatting.TestTopicFormatting" rel="nofollow" title="Create this topic">?</a></span>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[discuss 'wiki': philosophy vs. technology]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_externalLinkWithSpacedUrl {
     my $this = shift;
     my $expected = <<EXPECTED;
