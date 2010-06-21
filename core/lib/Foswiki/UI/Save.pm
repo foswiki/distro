@@ -164,7 +164,28 @@ sub buildNewTopic {
             $topicObject->remove('TOPICPARENT');
         }
         else {
-            $topicObject->put( 'TOPICPARENT', { 'name' => $newParent } );
+            # Validate the new parent (it must be a legal topic name)
+            my ( $vweb, $vtopic ) = $session->normalizeWebTopicName(
+                $topicObject->web(), $newParent );
+            $vweb = Foswiki::Sandbox::untaint(
+                $vweb, \&Foswiki::Sandbox::validateWebName );
+            $vtopic = Foswiki::Sandbox::untaint(
+                $vtopic, \&Foswiki::Sandbox::validateTopicName );
+            unless ( $vweb && $vtopic ) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'invalid_topic_parameter',
+                    web    => $session->{webName},
+                    topic  => $session->{topicName},
+                    params => [ $newParent, 'topicparent' ]
+                   );
+            }
+            # Re-untaint the raw parameter, so that a parent can be set with
+            # no web specification.
+            $topicObject->put(
+                'TOPICPARENT', {
+                    'name' => Foswiki::Sandbox::untaintUnchecked($newParent)
+                   } );
         }
     }
 
@@ -190,8 +211,6 @@ sub buildNewTopic {
     }
 
     if ($formName) {
-        $formName = Foswiki::Sandbox::untaintUnchecked($formName);
-
         require Foswiki::Form;
         $formDef = new Foswiki::Form( $session, $topicObject->web, $formName );
         $topicObject->put( 'FORM', { name => $formName } );
