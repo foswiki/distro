@@ -13,20 +13,21 @@ sub check {
 
     ($currentSuffix) = $ENV{SCRIPT_NAME} =~ m/configure(.*)$/;
 
-    if (defined $currentSuffix && $currentSuffix) {
+    if ( defined $currentSuffix && $currentSuffix ) {
         return $this->WARN( 'this script ('
-          . $ENV{SCRIPT_NAME} 
-          . ') has a different suffix than the current ScriptSuffix setting ('
-          . $Foswiki::cfg{ScriptSuffix} 
-          . ')')
-        unless ($Foswiki::cfg{ScriptSuffix} eq $currentSuffix); 
-    } else {
-       return $this->WARN( 'this script ('
-          . $ENV{SCRIPT_NAME} 
-          . ') does not use the script suffix ('
-          . $Foswiki::cfg{ScriptSuffix}
-          . ')')
-         if ($Foswiki::cfg{ScriptSuffix});
+              . $ENV{SCRIPT_NAME}
+              . ') has a different suffix than the current ScriptSuffix setting ('
+              . $Foswiki::cfg{ScriptSuffix}
+              . ')' )
+          unless ( $Foswiki::cfg{ScriptSuffix} eq $currentSuffix );
+    }
+    else {
+        return $this->WARN( 'this script ('
+              . $ENV{SCRIPT_NAME}
+              . ') does not use the script suffix ('
+              . $Foswiki::cfg{ScriptSuffix}
+              . ')' )
+          if ( $Foswiki::cfg{ScriptSuffix} );
     }
     return '';
 }
