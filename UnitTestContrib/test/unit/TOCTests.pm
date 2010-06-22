@@ -163,8 +163,7 @@ HTML
 sub test_Item9009 {
     my $this = shift;
 
-    my $url = $Foswiki::cfg{ScriptUrlPath} . '/view';
-    $url =  $Foswiki::cfg{ScriptUrlPaths}{view} if (defined $Foswiki::cfg{ScriptUrlPaths}{view}); 
+    my $url = $this->{session}->getScriptUrl(0, 'view');
 
     my $text = <<'HERE';
 ---+ A level 1 head!line
@@ -198,11 +197,7 @@ HTML
 sub test_Item2458 {
     my $this = shift;
 
-    my $url = $Foswiki::cfg{ScriptUrlPath};
-    my $view = '/view';
-    $view =  $Foswiki::cfg{ScriptUrlPaths}{view} if (defined $Foswiki::cfg{ScriptUrlPaths}{view}); 
-
-    $url = ( $view ) ? $url.$view : '';    # Allow for shorter URL in configuration
+    my $url = $this->{session}->getScriptUrl(0, 'view');
 
     my $text = <<'HERE';
 %TOC%
