@@ -9,18 +9,24 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
+    my $currentSuffix;
 
-    # SMELL: should check to see what the extension on _this_ script
-    # is, and generate a helpful message
-    if ( defined $Foswiki::cfg{ScriptSuffix}
-        && $Foswiki::cfg{ScriptSuffix} ne '' )
-    {
-        if ( !$Foswiki::query->path_info() =~ /$Foswiki::cfg{ScriptSuffix}$/ ) {
-            return $this->ERROR( 'this script ('
-                  . $Foswiki::query->path_info()
-                  . ') called with different ScriptSuffix setting'
-                  . $Foswiki::cfg{ScriptSuffix} );
-        }
+    ($currentSuffix) = $ENV{SCRIPT_NAME} =~ m/configure(.*)$/;
+
+    if (defined $currentSuffix && $currentSuffix) {
+        return $this->WARN( 'this script ('
+          . $ENV{SCRIPT_NAME} 
+          . ') has a different suffix than the current ScriptSuffix setting ('
+          . $Foswiki::cfg{ScriptSuffix} 
+          . ')')
+        unless ($Foswiki::cfg{ScriptSuffix} eq $currentSuffix); 
+    } else {
+       return $this->WARN( 'this script ('
+          . $ENV{SCRIPT_NAME} 
+          . ') does not use the script suffix ('
+          . $Foswiki::cfg{ScriptSuffix}
+          . ')')
+         if ($Foswiki::cfg{ScriptSuffix});
     }
     return '';
 }
