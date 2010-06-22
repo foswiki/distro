@@ -366,12 +366,14 @@ sub loadSession {
             my $validation = $pwchecker->checkPassword( $login, $pass );
             unless ($validation) {
                 my $res = $session->{response};
-
-        #                $res->header( -type => 'text/html', -status => '401' );
                 my $err = "ERROR: (401) Can't login as $login";
-
-             #                $res->print($err);
-             #                throw Foswiki::EngineException( 401, $err, $res );
+                # Item1953: You might think that this is needed:
+                #    $res->header( -type => 'text/html', -status => '401' );
+                #    throw Foswiki::EngineException( 401, $err, $res );
+                # but it would be wrong, because it would require the
+                # exception to be handled before the session object is
+                # properly initialised, which would cause an error.
+                # Instead, we do this, and let the caller handle the error.
                 undef $login;
             }
             $authUser = $login || $defaultUser;
