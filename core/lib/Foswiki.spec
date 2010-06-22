@@ -63,13 +63,14 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **URLPATH EXPERT**
 # This is the complete path used to access the Foswiki view script
-# e.g. <code>/foswiki/bin/view</code><br />
+# including any suffix.  (This is an exception override, so the ScriptSuffix is <b>not</b> automatically added.)
+# e.g. <code>/foswiki/bin/view.pl</code><br />
 # Do <b>not</b> include a trailing /.
 # <p />
 # If you are using Shorter URL's, then this is typically set to an empty string.  Do not change
 # this unless your Web Server configuration has been set to use shorter URLs.  See also the Foswiki
 # <a href="http://foswiki.org/Support/ApacheConfigGenerator" target="_new">Apache Config Generator</a>
-$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view';
+$Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
 # **PATH M**
 # This is the file system path used to access the Foswiki bin

@@ -157,7 +157,7 @@ sub expand {
             expand( \%$_ );
         }
         else {
-            s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/eval $1||'undef'/ge;
+            s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/&_handleExpand($1)/ge;
         }
     }
 }
@@ -176,8 +176,24 @@ know whether you would want that.  The replacement is done in-place,
 =cut
 
 sub expandValue {
-    $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/eval $1||'undef'/ge;
+     $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/&_handleExpand($1)/ge;
 }
+
+=begin TML
+
+---++ StaticMethod _handleExpand($string) -> $string
+
+Used to expand the $Foswiki::cfg variable in the expand* routines.
+Resolves issue with defined but null variables expanding as "undef"
+Tasks:Item5608
+
+=cut
+
+sub _handleExpand {
+    my $val = eval $_[0];
+    $val = (defined $val) ? $val : 'undef';
+    return $val;
+    }
 
 =begin TML
 
