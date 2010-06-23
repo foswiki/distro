@@ -498,7 +498,10 @@ sub test_subweb_attachments {
     ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     @attachments = $meta->find('FILEATTACHMENT');
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
+    # Make sure it has a non-0 date
+    $this->assert( $attachments[1]->{date} );
     $this->assert_str_equals( $name2, $attachments[1]->{name} );
+    $this->assert_num_equals( $fileDate, $attachments[1]->{date} );
 
     my $x = Foswiki::Func::readAttachment( $web, $topic, $name1 );
     $this->assert_str_equals( $data, $x );
