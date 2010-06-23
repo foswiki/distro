@@ -281,16 +281,23 @@ sub capture {
       : $Foswiki::Plugins::SESSION->{response};
 
     my $responseText = '';
-    # Capture headers
-    Foswiki::Engine->finalizeCookies($response);
-    foreach my $header ( keys %{ $response->headers } ) {
-        $responseText .= $header . ': ' . $_ . "\x0D\x0A"
-          foreach $response->getHeader($header);
-    }
-    $responseText .= "\x0D\x0A";
+    if ($response->outputHasStarted()) {
+        #we're streaming the output as we generate it
+        #in 2010 (foswiki 1.1) this is used in the statistics script
+        $responseText = $stdout;
+    } else {
+        # Capture headers
+        Foswiki::Engine->finalizeCookies($response);
+        foreach my $header ( keys %{ $response->headers } ) {
+            $responseText .= $header . ': ' . $_ . "\x0D\x0A"
+              foreach $response->getHeader($header);
+        }
+        $responseText .= "\x0D\x0A";
 
-    # Capture body
-    $responseText .= $response->body() if $response->body();
+        # Capture body
+        $responseText .= $response->body() if $response->body();
+    }
+    
 
     return ($responseText, $result, $stdout, $stderr);
 }
