@@ -30,19 +30,16 @@ each line of the function. For efficiency and clarity, you should
 only uncomment handlers you actually use.
 
 __NOTE:__ When developing a plugin it is important to remember that
-
 Foswiki is tolerant of plugins that do not compile. In this case,
 the failure will be silent but the plugin will not be available.
 See %SYSTEMWEB%.InstalledPlugins for error messages.
 
 __NOTE:__ Foswiki:Development.StepByStepRenderingOrder helps you decide which
 rendering handler to use. When writing handlers, keep in mind that these may
-be invoked
-
-on included topics. For example, if a plugin generates links to the current
-topic, these need to be generated before the =afterCommonTagsHandler= is run.
-After that point in the rendering loop we have lost the information that
-the text had been included from another topic.
+be invoked on included topics. For example, if a plugin generates links to the 
+current topic, these need to be generated before the =afterCommonTagsHandler= 
+is run. After that point in the rendering loop we have lost the information 
+that the text had been included from another topic.
 
 =cut
 
@@ -127,8 +124,7 @@ sub initPlugin {
     # on integrating your plugin configuration with =configure=.
 
     # Always provide a default in case the setting is not defined in
-    # LocalSite.cfg. See %SYSTEMWEB%.Plugins for help in adding your plugin
-    # configuration to the =configure= interface.
+    # LocalSite.cfg.
     # my $setting = $Foswiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} || 0;
 
     # Register the _EXAMPLETAG function to handle %EXAMPLETAG{...}%
