@@ -36,11 +36,10 @@ See %SYSTEMWEB%.InstalledPlugins for error messages.
 
 __NOTE:__ Foswiki:Development.StepByStepRenderingOrder helps you decide which
 rendering handler to use. When writing handlers, keep in mind that these may
-be invoked
-on included topics. For example, if a plugin generates links to the current
-topic, these need to be generated before the =afterCommonTagsHandler= is run.
-After that point in the rendering loop we have lost the information that
-the text had been included from another topic.
+be invoked on included topics. For example, if a plugin generates links to the
+current topic, these need to be generated before the =afterCommonTagsHandler=
+is run. After that point in the rendering loop we have lost the information
+that the text had been included from another topic.
 
 __NOTE:__ Not all handlers (and not all parameters passed to handlers) are
 available with all versions of Foswiki. Where a handler has been added
@@ -143,8 +142,7 @@ sub initPlugin {
     # on integrating your plugin configuration with =configure=.
 
     # Always provide a default in case the setting is not defined in
-    # LocalSite.cfg. See %SYSTEMWEB%.Plugins for help in adding your plugin
-    # configuration to the =configure= interface.
+    # LocalSite.cfg.
     # my $setting = $Foswiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} || 0;
 
     # Register the _EXAMPLETAG function to handle %EXAMPLETAG{...}%
