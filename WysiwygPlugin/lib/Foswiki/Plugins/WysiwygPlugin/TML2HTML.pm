@@ -612,6 +612,16 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
 
     $text =~ s/(<nop>)/$this->_liftOut($1, 'PROTECTED')/ge;
 
+    # Item1417: Insert a paragraph at the start of the document if the first tag
+    # is a table (possibly preceded by the opening tag for the div that wraps 
+    # table-and-macros), so that it is possible to place the cursor *above*
+    # the table. 
+    # The paragraph is removed automatically if it is empty, when converting 
+    # back to TML.
+    if ($text =~ /^\s*(?:<div class="foswikiTableAndMacros">\s*)?<table/) {
+        $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
+    }
+
     return $text;
 }
 

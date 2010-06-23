@@ -78,7 +78,7 @@ HERE
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
         html => <<'THERE',
-<table cellspacing="1" cellpadding="0" border="1">
+<p class="foswikiDeleteMe">&nbsp;</p><table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED">%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
@@ -148,6 +148,16 @@ HERE
 HERE
     },
     {
+        name => 'literalNbsp',
+        exec => $TranslatorBase::ROUNDTRIP, # SMELL: fails $TranslatorBase::TML2HTML
+        tml  => <<HERE,
+<literal>&nbsp;</literal>
+HERE
+        html => <<THERE,
+<div class="WYSIWYG_LITERAL">&nbsp;</div>
+THERE
+    },
+    {
         name => 'Item4855',
         exec => $TranslatorBase::TML2HTML | $TranslatorBase::ROUNDTRIP,
         tml  => <<HERE,
@@ -156,7 +166,7 @@ HERE
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
         html => <<THERE,
-<div class="foswikiTableAndMacros">
+<p class="foswikiDeleteMe">&nbsp;</p><div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1"><tbody>
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </tbody></table>
@@ -534,7 +544,11 @@ sub compareTML_HTML {
     $this->{editor}->selectWysiwygMode();
     my $actualHtml = $this->{editor}->getWysiwygEditorContent();
 
-#SMELL: Selenium on Firefox returns <br> instead of <br />, and similarly for <hr />
+    # SMELL: Selenium on Firefox converts <p>&nbsp;</p> to <p><br></p>
+    $actualHtml =~ s{<p((?: [^>]*)?)><br></p>}{<p$1>&nbsp;</p>}g;
+
+    # SMELL: Selenium on Firefox returns <br> instead of <br />,
+    # and similarly for <hr />
     $actualHtml =~ s{<([bh]r[^/>]*)>}{<$1 />}g;
 
     $actualHtml =~

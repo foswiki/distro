@@ -62,6 +62,7 @@ my $protectoff = '</span>';
 my $linkoff    = '</span>';
 my $preoff     = '</span>';
 my $nop        = "$protecton<nop>$protectoff";
+my $deleteme   = '<p class="foswikiDeleteMe">&nbsp;</p>';
 
 # Holds extra options to be passed to the TML2HTML convertor
 my %extraTML2HTMLOptions;
@@ -406,8 +407,8 @@ DOT
         name => 'TableWithRowSpan_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => <<'HTML',
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"HTML",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
 <tr><td rowspan="2">C</td></tr>
 <tr><td>M</td></tr>
@@ -469,8 +470,8 @@ HERE
         name => 'tmlInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => <<'BLAH',
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"BLAH",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td> <span class="WYSIWYG_TT">Code</span> </td></tr>
 <tr><td> <span class="WYSIWYG_TT">code</span> at start</td></tr>
 <tr><td>ends with <span class="WYSIWYG_TT">code</span> </td></tr>
@@ -600,8 +601,8 @@ EXPT
 | expe || riment |
 | | exper | iment |
 EXPT
-        html => <<'HEXPT',
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"HEXPT",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td>ex</td><td>per</td><td>iment</td></tr>
 <tr><td>exper</td><td colspan="2">iment</td></tr>
 <tr><td colspan="2">expe</td><td>riment</td></tr>
@@ -620,8 +621,8 @@ HEXPT
 | expe || riment |
 | | exper | iment |
 EXPT
-        html => <<'HEXPT',
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"HEXPT",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td>ex</td><td>per</td><td>iment</td></tr>
 <tr><td>exper</td><td colspan="2">iment</td></tr>
 <tr><td colspan="2">expe</td><td>riment</td></tr>
@@ -639,8 +640,8 @@ HEXPT
 %TABLESEP%
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<'THERE',
-<div class="foswikiTableAndMacros">
+        html => <<"THERE",
+$deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -658,8 +659,8 @@ THERE
 | [[LegacyTopic1]] | Main.SomeGuy |
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<'THERE',
-<div class="foswikiTableAndMacros">
+        html => <<"THERE",
+$deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -672,8 +673,8 @@ THERE
         name => 'colorClassInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => <<'BLAH',
-<table>
+        html => <<"BLAH",
+$deleteme<table>
 <tr><th class="WYSIWYG_COLOR" style="color:#FF0000;">Red Heading</th></tr>
 <tr><td class="WYSIWYG_COLOR" style="color:#FF0000;">Red herring</td></tr>
 </table>
@@ -688,8 +689,8 @@ BLAH
         name => 'colorAndTtClassInTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
-        html => <<'BLAH',
-<table>
+        html => <<"BLAH",
+$deleteme<table>
 <tr><th class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Redder code</th></tr>
 <tr><td class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Red code</td></tr>
 </table>
@@ -733,8 +734,8 @@ HERE
     {
         name => 'Item2618_ExtraneousCaretMarkerInTables',
         exec => $HTML2TML | $ROUNDTRIP,
-        html => <<'HERE',
-<table border="0"> <tbody> 
+        html => <<"HERE",
+$deleteme<table border="0"> <tbody> 
   <tr> <td>Foo</td> <span id="__caret"> </span> <td>a</td> </tr>
 </tbody> </table>
 HERE

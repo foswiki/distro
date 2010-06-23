@@ -62,6 +62,7 @@ my $protectoff = '</span>';
 my $linkoff    = '</span>';
 my $preoff     = '</span>';
 my $nop        = "$protecton<nop>$protectoff";
+my $deleteme   = '<p class="foswikiDeleteMe">&nbsp;</p>';
 
 # The following big table contains all the testcases. These are
 # used to add a bunch of functions to the symbol table of this
@@ -279,8 +280,8 @@ BLAH
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'tmlInTable',
-        html => <<'BLAH',
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"BLAH",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td> <span class="WYSIWYG_TT">Code</span> </td></tr>
 <tr><td> <span class="WYSIWYG_TT">code</span> at start</td></tr>
 <tr><td>ends with <span class="WYSIWYG_TT">code</span> </td></tr>
@@ -1663,8 +1664,8 @@ EXPT
 | expe || riment |
 | | exper | iment |
 EXPT
-        html => <<HEXPT,
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"HEXPT",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td>ex</td><td>per</td><td>iment</td></tr>
 <tr><td>exper</td><td colspan="2">iment</td></tr>
 <tr><td colspan="2">expe</td><td>riment</td></tr>
@@ -1681,8 +1682,8 @@ HEXPT
 | expe || riment |
 | | exper | iment |
 EXPT
-        html => <<HEXPT,
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"HEXPT",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td>ex</td><td>per</td><td>iment</td></tr>
 <tr><td>exper</td><td colspan="2">iment</td></tr>
 <tr><td colspan="2">expe</td><td>riment</td></tr>
@@ -1697,8 +1698,8 @@ HEXPT
 | A | B |
 | C | ^ |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td>A</td><td rowspan="2">B</td></tr>
 <tr><td>C</td></tr>
 </table>
@@ -1711,8 +1712,8 @@ HEXPT
 | A | B |
 | ^ | C |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td rowspan="2">A</td><td>B</td></tr>
 <tr><td>C</td></tr>
 </table>
@@ -1725,8 +1726,8 @@ HEXPT
 | A | B | X |
 | ^ | ^ | C |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td rowspan="2">A</td><td rowspan="2">B</td><td>X</td></tr>
 <tr><td>C</td></tr>
 </table>
@@ -1740,8 +1741,8 @@ HEXPT
 | ^ | ^ | C |
 | M | ^ | ^ |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
 <tr><td rowspan="2">C</td></tr>
 <tr><td>M</td></tr>
@@ -1756,8 +1757,8 @@ HEXPT
 | ^ | ^ | C |
 | M | ^ |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td rowspan="2">A</td><td rowspan="3">B</td><td>X</td></tr>
 <tr><td>C</td></tr>
 <tr><td>M</td></tr>
@@ -1778,8 +1779,8 @@ FEXPT
 | C1 | ^ | C4 |
 | D1 | D2 | D3 | D4 |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td>A1</td><td>A2</td><td>A3</td><td>A4</td></tr>
 <tr><td>B1</td><td rowspan="2" colspan="2">X</td><td>B4</td></tr>
 <tr><td>C1</td><td>C4</td></tr>
@@ -1795,8 +1796,8 @@ HEXPT
 | ^ | B3 |
 | C1 | C2 | C3 |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td rowspan="2" colspan="2">X</td><td>A3</td></tr>
 <tr><td>B3</td></tr>
 <tr><td>C1</td><td>C2</td><td>C3</td></tr>
@@ -1811,8 +1812,8 @@ HEXPT
 | B1 | ^ |
 | C1 | C2 | C3 |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td>A1</td><td rowspan="2" colspan="2">X</td></tr>
 <tr><td>B1</td></tr>
 <tr><td>C1</td><td>C2</td><td>C3</td></tr>
@@ -1827,8 +1828,8 @@ HEXPT
 | X || B3 |
 | ^ | C3 |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td>A1</td><td>A2</td><td>A3</td></tr>
 <tr><td rowspan="2" colspan="2">X</td><td>B3</td></tr>
 <tr><td>C3</td></tr>
@@ -1843,8 +1844,8 @@ HEXPT
 | B1 | X ||
 | C1 | ^ |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td>A1</td><td>A2</td><td>A3</td></tr>
 <tr><td>B1</td><td rowspan="2" colspan="2">X</td></tr>
 <tr><td>C1</td></tr>
@@ -1858,8 +1859,8 @@ HEXPT
 | ^ | B |
 | ^ | <nop>^ |
 EXPT
-        html => <<HEXPT,
-<table border="1" cellpadding="0" cellspacing="1">
+        html => <<"HEXPT",
+$deleteme<table border="1" cellpadding="0" cellspacing="1">
 <tr><td rowspan="2">^</td><td>B</td></tr>
 <tr><td>$protecton&lt;nop&gt;$protectoff^</td></tr>
 </table>
@@ -2064,8 +2065,8 @@ DECAPS
 %TABLESEP%
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<THERE,
-<div class="foswikiTableAndMacros">
+        html => <<"THERE",
+$deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -2081,8 +2082,8 @@ THERE
 | [[LegacyTopic1]] | Main.SomeGuy |
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
 HERE
-        html => <<THERE,
-<div class="foswikiTableAndMacros">
+        html => <<"THERE",
+$deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
@@ -2098,8 +2099,8 @@ THERE
 | - Main.SomeGuy - |
 Main.SomeGuy
 HERE
-        html => <<THERE,
-<table cellspacing="1" cellpadding="0" border="1">
+        html => <<"THERE",
+$deleteme<table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 <tr><td> - <span class="WYSIWYG_LINK">Main.SomeGuy</span> - </td></tr>
 </table>
@@ -2158,8 +2159,8 @@ BLAH
     {
         exec => $HTML2TML | $ROUNDTRIP,
         name => 'colorClassInTable',
-        html => <<'BLAH',
-<table>
+        html => <<"BLAH",
+$deleteme<table>
 <tr><th class="WYSIWYG_COLOR" style="color:#FF0000;">Red Heading</th></tr>
 <tr><td class="WYSIWYG_COLOR" style="color:#FF0000;">Red herring</td></tr>
 </table>
@@ -2172,8 +2173,8 @@ BLAH
     {
         exec => $HTML2TML | $ROUNDTRIP,
         name => 'colorAndTtClassInTable',
-        html => <<'BLAH',
-<table>
+        html => <<"BLAH",
+$deleteme<table>
 <tr><th class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Redder code</th></tr>
 <tr><td class="WYSIWYG_COLOR WYSIWYG_TT" style="color:#FF0000;">Red code</td></tr>
 </table>
