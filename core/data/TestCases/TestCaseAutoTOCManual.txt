@@ -1,0 +1,63 @@
+Description: test to make sure TOC doesn't override manually generated
+anchors.
+
+*NOTE: requires {RequireCompatibleAnchors} = 0*
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+Note that the "expected" is a bit wierd (doubled anchors in the TOC) because of
+the way TOC is processed.
+
+*Expected*
+<!-- expected rex -->
+<a name="ThisHeading"></a>
+This heading anchor
+
+<p />
+<a name="ThatHeading"></a>
+That heading anchor
+<p />
+<h1><a name="ThatHeading_AN2"></a> ThatHeading </h1>
+<h1><a name="ThisHeading_AN2"></a> ThisHeading </h1>
+<p />
+<a name="foswikiTOC"></a>
+<div class="foswikiToc">
+ <ul>
+  <li>
+   <a href="?@REX(.*)#ThatHeading_AN1"> ThatHeading </a>
+  </li>
+  <li>
+   <a href="?@REX(.*)#ThisHeading_AN1"> ThisHeading </a>
+  </li>
+  <li>
+   <a href="?@REX(.*)#ThatHeading_AN2"> ThatHeading </a>
+  </li>
+  <li>
+   <a href="?@REX(.*)#ThisHeading_AN2"> ThisHeading </a>
+  </li>
+ </ul> 
+</div>
+<p />
+<a href='#ThisHeading'>Link</a> to this heading anchor
+<p />
+<a href='#ThatHeading'>Link</a> to that heading anchor
+<!-- /expected -->
+*Actual*
+<!-- actual -->
+#ThisHeading
+This heading anchor
+
+#ThatHeading
+That heading anchor
+
+---+ !ThatHeading
+---+ !ThisHeading
+
+%TOC%
+
+<a href='#ThisHeading'>Link</a> to this heading anchor
+
+<a href='#ThatHeading'>Link</a> to that heading anchor
+<!-- /actual -->

@@ -16,14 +16,14 @@ use Error qw(:try);
 
 use Foswiki::Time    ();
 use Foswiki::Sandbox ();
+use Foswiki::Render::Anchors ();
 
 # Used to generate unique placeholders for when we lift blocks out of the
 # text during rendering.
 our $placeholderMarker = 0;
 
-# limiting lookbehind and lookahead for wikiwords and emphasis
+# Limiting lookbehind and lookahead for wikiwords and emphasis.
 # use like \b
-#SMELL: they really limit the number of places emphasis can happen.
 our $STARTWW = qr/^|(?<=[\s\(])/m;
 our $ENDWW   = qr/$|(?=[\s,.;:!?)])/m;
 
@@ -395,7 +395,7 @@ sub _fixedFontText {
 # Build an HTML &lt;Hn> element with suitable anchor for linking
 # from %<nop>TOC%
 sub _makeAnchorHeading {
-    my ( $this, $text, $level, $topicObject ) = @_;
+    my ( $this, $text, $level, $anchors ) = @_;
 
     # - Build '<nop><h1><a name='atext'></a> heading </h1>' markup
     # - Initial '<nop>' is needed to prevent subsequent matches.
@@ -405,100 +405,11 @@ sub _makeAnchorHeading {
     my $html =
         '<nop><h' 
       . $level . '>'
-      . $this->_makeAnchorTarget( $topicObject, $text ) . ' '
+      . $anchors->makeHTMLTarget( $text ) . ' '
       . $text . ' </h'
       . $level . '>';
 
     return $html;
-}
-
-# Make an anchor that can be used as the target of links.
-sub _makeAnchorTarget {
-    my ( $this, $topicObject, $text ) = @_;
-
-    my $goodAnchor = $this->_makeAnchorName($text);
-    my $html       = CGI::a(
-        { name => $this->_makeAnchorNameUnique( $topicObject, $goodAnchor ), },
-        ''
-    );
-
-#print STDERR "INITIAL = $text ... GOODANCHOR = $goodAnchor ...  HTML = $html\n";
-
-    if ( $Foswiki::cfg{RequireCompatibleAnchors} ) {
-
-        # Add in extra anchors compatible with old formats, as required
-        require Foswiki::Compatibility;
-        my @extras = Foswiki::Compatibility::makeCompatibleAnchors($text);
-        foreach my $extra (@extras) {
-            next if ( $extra eq $goodAnchor );
-            $html .= CGI::a(
-                {
-                    name =>
-                      $this->_makeAnchorNameUnique( $topicObject, $extra ),
-                },
-                ''
-            );
-        }
-    }
-    return $html;
-}
-
-# Make an anchor name from the base test in =$anchorName=
-# 1. Given the same text, this function must always return the same
-#    anchor name
-# 2. NAME tokens must begin with a letter ([A-Za-z]) and may be
-#    followed by any number of letters, digits ([0-9]), hyphens ("-"),
-#    underscores ("_"), colons (":"), and periods (".").
-#    (from http://www.w3.org/TR/html401/struct/links.html#h-12.2.1)
-sub _makeAnchorName {
-    my ( $this, $text ) = @_;
-
-    $text =~ s/^\s*(.*?)\s*$/$1/;
-    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//go;
-
-    if ( $text =~ /^$Foswiki::regex{anchorRegex}$/ ) {
-
-        # accept, already valid -- just remove leading #
-        return substr( $text, 1 );
-    }
-
-    # $anchorName is a *byte* string. If it contains any wide characters
-    # the encoding algorithm will not work.
-    #ASSERT($text !~ /[^\x00-\xFF]/) if DEBUG;
-    $text =~ s/[^\x00-\xFF]//g;
-    ASSERT( $text !~ /[^\x00-\xFF]/ ) if DEBUG;
-
-    # SMELL:  This corrects for anchors containing < and >
-    # which for some reason are encoded when building the anchor, but
-    # un-encoded when building the link.
-    #
-    # Convert < and > back from entity
-    $text =~ s/&lt;/</g;
-    $text =~ s/&gt;/>/g;
-
-    # remove HTML tags and entities
-    $text =~ s/<\/?[a-zA-Z][^>]*>//gi;
-    $text =~ s/&#?[a-zA-Z0-9]+;//g;
-
-    # remove escape from escaped wikiWords
-    $text =~ s/!($Foswiki::regex{wikiWordRegex})/$1/go;
-
-    # remove spaces
-    $text =~ s/\s+/_/g;
-
-    # use _ as an escape character to escape any byte outside the
-    # range specified by http://www.w3.org/TR/html401/struct/links.html
-    $text =~ s/([^A-Za-z0-9:._])/'_'.sprintf('%02d', ord($1))/ge;
-
-    # clean up a bit
-    $text =~ s/__/_/g;
-    $text =~ s/^_*//;
-    $text =~ s/_*$//;
-
-    # Ensure the anchor always starts with an [A-Za-z]
-    $text = 'A_' . $text unless $text =~ /^[A-Za-z]/;
-
-    return $text;
 }
 
 # Returns =title='...'= tooltip info if the LINKTOOLTIPINFO preference
@@ -563,27 +474,31 @@ sub _linkToolTipInfo {
 
 Generate a link.
 
-Note: Topic names may be spaced out. Spaced out names are converted to <nop>WikWords,
-for example, "spaced topic name" points to "SpacedTopicName".
+Note: Topic names may be spaced out. Spaced out names are converted
+to <nop>WikWords, for example, "spaced topic name" points to "SpacedTopicName".
    * =$web= - the web containing the topic
    * =$topic= - the topic to be link
    * =$linkText= - text to use for the link
    * =$anchor= - the link anchor, if any
-   * =$linkIfAbsent= - boolean: false means suppress link for non-existing pages
-   * =$keepWebPrefix= - boolean: true to keep web prefix (for non existing Web.TOPIC)
-   * =$hasExplicitLinkLabel= - boolean: true in case of [[TopicName][explicit link label]]
+   * =$linkIfAbsent= - boolean: false means suppress link for
+     non-existing pages
+   * =$keepWebPrefix= - boolean: true to keep web prefix (for
+     non existing Web.TOPIC)
+   * =$hasExplicitLinkLabel= - boolean: true if
+     [[link][explicit link label]]
 
-Called by _handleWikiWord and _handleSquareBracketedLink and by Func::internalLink
+Called from outside the package by Func::internalLink
 
-Calls _renderWikiWord, which in turn will use Plurals.pm to match fold plurals to equivalency with their singular form
+Calls _renderWikiWord, which in turn will use Plurals.pm to match fold
+plurals to equivalency with their singular form
 
 SMELL: why is this available to Func?
 
 =cut
 
 sub internalLink {
-    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
-        $hasExplicitLinkLabel, $params )
+    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent,
+         $keepWebPrefix, $hasExplicitLinkLabel, $params )
       = @_;
 
     # SMELL - shouldn't it be callable by Foswiki::Func as well?
@@ -634,9 +549,8 @@ sub internalLink {
 
 # TODO: this should be overridable by plugins.
 sub _renderWikiWord {
-    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
-        $params )
-      = @_;
+    my ( $this, $web, $topic, $linkText, $anchor,
+         $linkIfAbsent, $keepWebPrefix, $params ) = @_;
     my $session = $this->{session};
     my $topicExists = $session->topicExists( $web, $topic );
 
@@ -659,7 +573,8 @@ sub _renderWikiWord {
         $this->{session}->{cache}->addDependency( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
-        return _renderExistingWikiWord( $this, $web, $topic, $linkText, $anchor,
+        return _renderExistingWikiWord(
+            $this, $web, $topic, $linkText, $anchor,
             $params );
     }
     if ($linkIfAbsent) {
@@ -708,12 +623,12 @@ sub _renderExistingWikiWord {
     }
 
     if ($anchor) {
-        $anchor = $this->_makeAnchorName($anchor);
+        $anchor = Foswiki::Render::Anchors::make($anchor);
         $anchor = Foswiki::urlEncode($anchor);
 
         # No point in trying to make it unique; just aim at the first
         # occurrence
-        # Item8556 - drop path if same topic and anchor
+        # Item8556 - drop path if same topic
         $href = $inCurrentTopic ? "#$anchor" : "$href#$anchor";
     }
     $attrs{class} = join( ' ', @cssClasses ) if ( $#cssClasses >= 0 );
@@ -804,6 +719,27 @@ sub _handleWikiWord {
         $keepWeb, undef );
 }
 
+# Protect WikiWords, TLAs and URLs from further rendering with <nop>
+sub _escapeAutoLinks {
+    my $text = shift;
+
+    if ($text) {
+        # WikiWords, TLAs, and email addresses
+        $text =~ s/(?<=[\s\(])
+                   (
+                       (?:
+                           (?:($Foswiki::regex{webNameRegex})\.)?
+                           (?: $Foswiki::regex{wikiWordRegex}
+                           | $Foswiki::regex{abbrevRegex} )
+                       )
+                   | $Foswiki::regex{emailAddrRegex}
+                   )/<nop>$1/gox;
+        # Explicit links
+        $text =~ s/($Foswiki::regex{linkProtocolPattern}):(?=\S)/$1<nop>:/go;
+    }
+    return $text;
+}
+
 # Handle SquareBracketed links mentioned on page $web.$topic
 # format: [[$link]]
 # format: [[$link][$text]]
@@ -814,48 +750,36 @@ sub _handleSquareBracketedLink {
     $link =~ s/^\s+//;
     $link =~ s/\s+$//;
 
-    my $hasExplicitLinkLabel = $text ? 1 : 0;
+    my $hasExplicitLinkLabel = 0;
 
-    # Explicit external [[http://$link][$text]]-style can be handled directly
-    if ( $link =~ m!^($Foswiki::regex{linkProtocolPattern}\:|/)! ) {
-        if ( defined $text ) {
-
-            # [[][]] style - protect text:
-            # Prevent automatic WikiWord or CAPWORD linking in explicit links
-            $text =~ s((?<=[\s\(])
-                ($Foswiki::regex{wikiWordRegex}
-                | [$Foswiki::regex{upperAlpha}]))
-               (<nop>$1)gox;
-        }
-        else {
-
-            # [[]] style - take care for legacy:
-            # Prepare special case of '[[URL#anchor display text]]' link
-            # implicit untaint is OK because we are just recyling topic content
-            if ( $link =~ /^(\S+)\s+(.*)$/ ) {
-
-                # '[[URL#anchor display text]]' link:
-                $link = $1;
-                $text = $2;
-                $text =~ s((?<=[\s\(])
-                    ($Foswiki::regex{wikiWordRegex}
-                    | [$Foswiki::regex{upperAlpha}]))
-                   (<nop>$1)gox;
-            }
-        }
-        return _externalLink( $this, $link, $text );
+    if (defined($text)) {
+        # [[$link][$text]]
+        $hasExplicitLinkLabel = 1;
+        $text = _escapeAutoLinks( $text );
     }
 
-    $text ||= $link;
+    if ( $link =~ m#^($Foswiki::regex{linkProtocolPattern}:|/)# ) {
+        # Explicit external [[http://$link]] or [[http://$link][$text]]
+        # or explicit absolute [[/$link]] or [[/$link][$text]]
+
+        if ( !defined( $text ) && $link =~ /^(\S+)\s+(.*)$/ ) {
+            # Legacy case of '[[URL anchor display text]]' link
+            # implicit untaint is OK as we are just recycling topic content
+            $link = $1;
+            $text = _escapeAutoLinks( $2 );
+        }
+
+        return _externalLink( $this, $link, $text );
+    }
 
     # Extract '?params'
     # $link =~ s/(\?.*?)(?>#|$)//;
     my $params = '';
     if ( $link =~ s/(\?.*$)// ) {
         $params = $1;
-        my $p = quotemeta($params);
-        $text =~ s/$p//;
     }
+
+    $text = _escapeAutoLinks( $link ) unless defined $text;
 
     # Extract '#anchor'
     # $link =~ s/(\#[a-zA-Z_0-9\-]*$)//;
@@ -895,6 +819,7 @@ sub _handleSquareBracketedLink {
     # Topic defaults to the current topic
     my ( $web, $topic ) =
       $this->{session}->normalizeWebTopicName( $topicObject->web, $link );
+
     return $this->internalLink( $web, $topic, $text, $anchor, 1, undef,
         $hasExplicitLinkLabel, $params );
 }
@@ -913,11 +838,11 @@ sub _externalLink {
     my $opt = '';
     if ( $url =~ /^mailto:/i ) {
         if ( $Foswiki::cfg{AntiSpam}{EmailPadding} ) {
-            $url =~
-              s/(\@[\w\_\-\+]+)(\.)/$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/;
+            $url =~ s/(\@[\w\_\-\+]+)(\.)
+                     /$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/x;
             if ($text) {
-                $text =~
-s/(\@[\w\_\-\+]+)(\.)/$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/;
+                $text =~ s/(\@[\w\_\-\+]+)(\.)
+                          /$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/x;
             }
         }
         if ( $Foswiki::cfg{AntiSpam}{HideUserDetails} ) {
@@ -934,12 +859,15 @@ s/(\@[\w\_\-\+]+)(\.)/$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/;
         $opt = ' target="_top"';
     }
     $text ||= $url;
-    $url =~ s/ /%20/g
-      ; #Item5787: if a url has spaces, escape them so the url has less chance of being broken by later parsing.
-        # SMELL: Can't use CGI::a here, because it encodes ampersands in
-        # the link, and those have already been encoded once in the
-        # rendering loop (they are identified as "stand-alone"). One
-        # encoding works; two is too many. None would be better for everyone!
+
+    # Item5787: if a url has spaces, escape them so the url has less
+    # chance of being broken by later rendering.
+    $url =~ s/ /%20/g; 
+
+    # SMELL: Can't use CGI::a here, because it encodes ampersands in
+    # the link, and those have already been encoded once in the
+    # rendering loop (they are identified as "stand-alone"). One
+    # encoding works; two is too many. None would be better for everyone!
     return '<a href="' . $url . '"' . $opt . '>' . $text . '</a>';
 }
 
@@ -1174,10 +1102,6 @@ sub getRenderedVersion {
     $text =~ s/{$REMARKER/</go;
     $text =~ s/}$REMARKER/>/go;
 
-    # standard URI - don't modify if url(http://as) form
-    $text =~
-s/(^|(?<!url)[-*\s(|])($Foswiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;:)<|]))/$1._externalLink( $this,$2)/geo;
-
     # other entities
     $text =~ s/&(\w+);/$REMARKER$1;/g;              # "&abc;"
     $text =~ s/&(#x?[0-9a-f]+);/$REMARKER$1;/gi;    # "&#123;"
@@ -1188,25 +1112,24 @@ s/(^|(?<!url)[-*\s(|])($Foswiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
     # more than once, cf. explanation in expandMacros()
-    $this->_clearAnchorNames($topicObject);
+    my $anchors = $this->getAnchorNames( $topicObject );
+    $anchors->clear();
 
     # '#WikiName' anchors. Don't attempt to make these unique; renaming
     # user-defined anchors is not sensible.
-    # SMELL: if a user-defined anchor gets renamed, it should be warned
-    # about somewhere.
     $text =~ s/^(\#$Foswiki::regex{wikiWordRegex})/
       CGI::a({
-          name => $this->_makeAnchorName($1)
+          name => $anchors->add( $1 )
          }, '')/geom;
 
     # Headings
     # '<h6>...</h6>' HTML rule
     $text =~ s/$Foswiki::regex{headerPatternHt}/
-      _makeAnchorHeading($this, $2, $1, $topicObject)/geo;
+      _makeAnchorHeading($this, $2, $1, $anchors)/geo;
 
     # '----+++++++' rule
     $text =~ s/$Foswiki::regex{headerPatternDa}/
-      _makeAnchorHeading($this, $2, length($1), $topicObject)/geo;
+      _makeAnchorHeading($this, $2, length($1), $anchors)/geo;
 
     # Horizontal rule
     my $hr = CGI::hr();
@@ -1320,10 +1243,13 @@ s/(^|(?<!url)[-*\s(|])($Foswiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;
 
     $text = join( '', @result );
 
-    # <nop>WikiWords
+    # SMELL: use of $STARTWW and $ENDWW really limit the number of places
+    # emphasis can happen. But it's a tradeoff between that and excessive
+    # greed.
+
     $text =~ s/${STARTWW}==(\S+?|\S[^\n]*?\S)==$ENDWW/_fixedFontText($1,1)/gem;
-    $text =~
-s/${STARTWW}__(\S+?|\S[^\n]*?\S)__$ENDWW/<strong><em>$1<\/em><\/strong>/gm;
+    $text =~ s/${STARTWW}__(\S+?|\S[^\n]*?\S)
+               __$ENDWW/<strong><em>$1<\/em><\/strong>/gmx;
     $text =~ s/${STARTWW}\*(\S+?|\S[^\n]*?\S)\*$ENDWW/<strong>$1<\/strong>/gm;
     $text =~ s/${STARTWW}\_(\S+?|\S[^\n]*?\S)\_$ENDWW/<em>$1<\/em>/gm;
     $text =~ s/${STARTWW}\=(\S+?|\S[^\n]*?\S)\=$ENDWW/_fixedFontText($1,0)/gem;
@@ -1332,17 +1258,25 @@ s/${STARTWW}__(\S+?|\S[^\n]*?\S)__$ENDWW/<strong><em>$1<\/em><\/strong>/gm;
     # Email addresses must always be 7-bit, even within I18N sites
 
     # Normal mailto:foo@example.com ('mailto:' part optional)
-    $text =~
-s/$STARTWW((mailto\:)?$Foswiki::regex{emailAddrRegex})$ENDWW/_mailLink( $this, $1 )/gem;
+    $text =~ s/$STARTWW((mailto\:)?
+                   $Foswiki::regex{emailAddrRegex})$ENDWW/
+                     _mailLink( $this, $1 )/gemx;
 
-# Handle [[][] and [[]] links
-# Escape rendering: Change ' ![[...' to ' [<nop>[...', for final unrendered ' [[...' output
+    # Handle [[][] and [[]] links
+    # Change ' ![[...' to ' [<nop>[...' to protect from further rendering
     $text =~ s/(^|\s)\!\[\[/$1\[<nop>\[/gm;
 
     # Spaced-out Wiki words with alternative link text
     # i.e. [[$1][$3]]
     $text =~ s(\[\[([^\]\[\n]+)\](\[([^\]\n]+)\])?\])
         (_handleSquareBracketedLink( $this,$topicObject,$1,$3))ge;
+
+    # URI - don't apply if the URI is surrounded by url() to avoid naffing
+    # CSS
+    $text =~ s/(^|(?<!url)[-*\s(|])
+               ($Foswiki::regex{linkProtocolPattern}:
+                   ([^\s<>"]+[^\s*.,!?;:)<|]))/
+                     $1._externalLink( $this,$2)/geox;
 
     unless ( Foswiki::isTrue( $prefs->getPreference('NOAUTOLINK') ) ) {
 
@@ -1473,8 +1407,11 @@ sub TML2PlainText {
     }
 
     # Format e-mail to add spam padding (HTML tags removed later)
-    $text =~
-s/$STARTWW((mailto\:)?[a-zA-Z0-9-_.+]+@[a-zA-Z0-9-_.]+\.[a-zA-Z0-9-_]+)$ENDWW/_mailLink( $this, $1 )/gem;
+    $text =~ s/$STARTWW(
+                   (mailto\:)?
+                   [a-zA-Z0-9-_.+]+@[a-zA-Z0-9-_.]+\.[a-zA-Z0-9-_]+
+                   )$ENDWW
+              /_mailLink( $this, $1 )/gemx;
     $text =~ s/<!--.*?-->//gs;       # remove all HTML comments
     $text =~ s/<(?!nop)[^>]*>//g;    # remove all HTML tags except <nop>
     $text =~ s/\&[a-z]+;/ /g;        # remove entities
@@ -1540,17 +1477,13 @@ have to be protected this way.
 sub protectPlainText {
     my ( $this, $text ) = @_;
 
-# prevent text from getting rendered in inline search and link tool
-# tip text by escaping links (external, internal, Interwiki)
-#    $text =~ s/(?<=[\s\(])((($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}))/<nop>$1/g;
-#    $text =~ s/(^|(<=\W))((($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}))/<nop>$1/g;
-    $text =~
-s/((($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex}))/<nop>$1/g;
+    # prevent text from getting rendered in inline search and link tool
+    # tip text by escaping links (external, internal, Interwiki)
+    $text =~ s/((($Foswiki::regex{webNameRegex})\.)?
+                   ($Foswiki::regex{wikiWordRegex}
+                   |$Foswiki::regex{abbrevRegex}))/<nop>$1/gx;
 
- #    $text =~ s/(?<=[\s\(])($Foswiki::regex{linkProtocolPattern}\:)/<nop>$1/go;
- #    $text =~ s/(^|(<=\W))($Foswiki::regex{linkProtocolPattern}\:)/<nop>$1/go;
-    $text =~ s/($Foswiki::regex{linkProtocolPattern}\:)/<nop>$1/go;
-    $text =~ s/([@%])/<nop>$1<nop>/g;    # email address, variable
+    $text =~ s/([@%])/<nop>$1<nop>/g;    # email address, macro
 
     # Encode special chars into XML &#nnn; entities for use in RSS feeds
     # - no encoding for HTML pages, to avoid breaking international
@@ -1632,8 +1565,9 @@ sub _putBackProtected {
 Obtain and render revision info for a topic.
    * =$topicObject= - the topic
    * =$rev= - the rev number, defaults to latest rev
-   * =$format= - the render format, defaults to =$rev - $time - $wikiusername=
-=$format= can contain the following keys for expansion:
+   * =$format= - the render format, defaults to
+     =$rev - $time - $wikiusername=. =$format= can contain
+     the following keys for expansion:
    | =$web= | the web name |
    | =$topic= | the topic name |
    | =$rev= | the rev number |
@@ -1645,12 +1579,18 @@ Obtain and render revision info for a topic.
    | =$time= | the time of the rev |
    | =$min=, =$sec=, etc. | Same date format qualifiers as GMTIME |
 
-#TODO: detect if there are no relevant $keys and return as a nop
-
 =cut
 
 sub renderRevisionInfo {
     my ( $this, $topicObject, $rrev, $format ) = @_;
+    my $value = $format || 'r$rev - $date - $time - $wikiusername';
+
+    # nop if there are no format tokens
+    return $value unless $value =~
+      /\$
+       (comment|date|day|dow|email|epoch|hou|http|iso|longdate
+       |min|mo|rcs|rev|sec|time|topic|tz|username|wday|web|week
+       |wikiname|wikiusername|ye)/x;
 
     my $users = $this->{session}->{users};
     if ($rrev) {
@@ -1695,7 +1635,6 @@ sub renderRevisionInfo {
         $un  ||= $user;
     }
 
-    my $value = $format || 'r$rev - $date - $time - $wikiusername';
     $value =~ s/\$web/$topicObject->web() || ''/ge;
     $value =~ s/\$topic\(([^\)]*)\)/
       Foswiki::Render::breakName( $topicObject->topic(), $1 )/ge;
@@ -1905,7 +1844,8 @@ sub getReferenceRE {
                 $re =
                     $bow
                   . $matchWeb
-                  . "(([\/\.][$Foswiki::regex{upperAlpha}][$Foswiki::regex{mixedAlphaNum}_]*)*"
+                  . "(([\/\.][$Foswiki::regex{upperAlpha}]"
+                  . "[$Foswiki::regex{mixedAlphaNum}_]*)*"
                   . "\.[$Foswiki::regex{mixedAlphaNum}]+)"
                   . $eow;
             }
@@ -2003,221 +1943,33 @@ sub protectFormFieldValue {
     return $value;
 }
 
+
 =begin TML
 
----++ ObjectMethod renderTOC( $text, $topicObject, $args ) -> $text
+---++ ObjectMethod getAnchors( $topicObject ) -> $set
 
-Extract headings from $text and render them as a TOC table.
-   * =$text= - the text to extract the TOC from.
-   * =$topicObject= - the topic that is the context we are going to place the TOC in
-   * =$args= - Foswiki::Attrs of args to the %TOC tag (see System.VarTOC2)
+Get the anchor name set generated for the given topic. This is so that the
+same anchor names can be generated for each time the same topic is
+%INCLUDEd (the same anchor target will be generated for each time the
+topic is included.
 
-SMELL: this is _not_ a tag handler in the sense of other builtin tags,
-because it requires far more context information (the text of the topic)
-than any handler.
+Note that anchor names generated this way are unique since the last time the
+anchor set is cleared, which happens (1) whenever a new session is started
+and (2) whenever a new %TOC macro is rendered (see Foswiki/Macros/TOC).
 
-SMELL: as a tag handler that also semi-renders the topic to extract the
-headings, this handler would be much better as a preRenderingHandler in
-a plugin (where head and script sections are already protected)
+Returns an object of type Foswiki::Render::Anchors.
 
 =cut
 
-sub renderTOC {
-    my ( $this, $text, $topicObject, $params, $isSameTopic ) = @_;
-    ASSERT( UNIVERSAL::isa( $topicObject, 'Foswiki::Meta' ) )  if DEBUG;
-    ASSERT( UNIVERSAL::isa( $params,      'Foswiki::Attrs' ) ) if DEBUG;
-    my $session = $this->{session};
-
-    my ( $defaultWeb, $defaultTopic ) =
-      ( $topicObject->web, $topicObject->topic );
-
-    my $topic = $params->{_DEFAULT} || $defaultTopic;
-    $defaultWeb =~ s#/#.#g;
-    my $web = $params->{web} || $defaultWeb;
-
-    # throw away <verbatim> and <pre> blocks
-    my %junk;
-    $text = Foswiki::takeOutBlocks( $text, 'verbatim', \%junk );
-    $text = Foswiki::takeOutBlocks( $text, 'pre',      \%junk );
-
-    my $maxDepth = $params->{depth};
-    $maxDepth ||= $session->{prefs}->getPreference('TOC_MAX_DEPTH')
-      || 6;
-    my $minDepth = $session->{prefs}->getPreference('TOC_MIN_DEPTH')
-      || 1;
-
-    # get the title attribute
-    my $title =
-         $params->{title}
-      || $session->{prefs}->getPreference('TOC_TITLE')
-      || '';
-    $title = CGI::span( { class => 'foswikiTocTitle' }, $title ) if ($title);
-
-    my $highest  = 99;
-    my $result   = '';
-    my $verbatim = {};
-    $text = Foswiki::takeOutBlocks( $text, 'verbatim', $verbatim );
-    $text = Foswiki::takeOutBlocks( $text, 'pre',      $verbatim );
-
-    # Find URL parameters
-    my $query   = $session->{request};
-    my @qparams = ();
-    foreach my $name ( $query->param ) {
-        next if ( $name eq 'keywords' );
-        next if ( $name eq 'validation_key' );
-        next if ( $name eq 'topic' );
-        next if ( $name eq 'text' );
-        push @qparams, $name => $query->param($name);
-    }
-
-    # Extract anchor targets. This has to generate *identical* anchor
-    # targets to normal rendering.
-
-    # clear the set of unique anchornames in order to inhibit
-    # the 'relabeling' of anchor names if the same topic is processed
-    # more than once, cf. explanation in expandMacros()
-    $this->_clearAnchorNames($topicObject);
-
-    # NB: While we're processing $text line by line here,
-    # getRendereredVersion() 'allocates' unique anchor
-    # names by first replacing regex{headerPatternHt} followed by
-    # regex{headerPatternDa}. We have to adhere to this
-    # order here as well.
-    my @regexps =
-      ( $Foswiki::regex{headerPatternHt}, $Foswiki::regex{headerPatternDa} );
-    my @lines = split( /\r?\n/, $text );
-    my @targets;
-    my $lineno = 0;
-  LINE: foreach my $line (@lines) {
-        $lineno++;
-        for my $i ( 0 .. $#regexps ) {
-            if ( $line =~ m/$regexps[$i]/ ) {
-
-                # c.f. _makeAnchorHeading
-                my ( $level, $text ) = ( $1, $2 );
-                $text =~ s/^\s*//;
-                $text =~ s/\s*$//;
-
-                my $atext = $text;
-                $text =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.*//o;
-
-                # Ignore empty headings
-                next unless $text;
-
-                # $i == 1 is $Foswiki::regex{headerPatternDa}
-                $level = length($level) if ( $i == 1 );
-                if ( ( $level >= $minDepth ) && ( $level <= $maxDepth ) ) {
-                    my $anchor =
-                      $this->_makeAnchorNameUnique( $topicObject,
-                        $this->_makeAnchorName($atext) );
-                    my $target = {
-                        anchor => $anchor,
-                        text   => $text,
-                        level  => $level,
-                    };
-                    push( @targets, $target );
-
-                    next LINE;
-                }
-            }
-        }
-    }
-
-    foreach my $a (@targets) {
-        my $text = $a->{text};
-        $highest = $a->{level} if ( $a->{level} < $highest );
-        my $tabs = "\t" x $a->{level};
-
-        # Remove *bold*, _italic_ and =fixed= formatting
-        $text =~
-s/(^|[\s\(])\*([^\s]+?|[^\s].*?[^\s])\*($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
-        $text =~
-s/(^|[\s\(])_+([^\s]+?|[^\s].*?[^\s])_+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
-        $text =~
-s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
-
-        # Prevent WikiLinks
-        $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;    # '[[...][...]]'
-        $text =~ s/\[\[(.*?)\]\]/$1/ge;          # '[[...]]'
-        $text =~
-s/([\s\(])($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex})/$1<nop>$3/go
-          ;                                      # 'Web.TopicName'
-        $text =~
-          s/([\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/go; # 'TopicName'
-        $text =~ s/([\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/go;  # 'TLA'
-        $text =~
-          s/([\s\-\*\(])([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/go
-          ;    # 'Site:page' Interwiki link
-               # Prevent manual links
-        $text =~ s/<[\/]?a\b[^>]*>//gi;
-
-        # create linked bullet item, using a relative link to anchor
-        my $target =
-          $isSameTopic
-          ? Foswiki::_make_params( 0, '#' => $a->{anchor}, @qparams )
-          : $this->{session}->getScriptUrl(
-            0, 'view', $topicObject->web, $topicObject->topic,
-            '#' => $a->{anchor},
-            @qparams
-          );
-        $text = $tabs . '* ' . CGI::a( { href => $target }, " $text " );
-        $result .= "\n" . $text;
-    }
-
-    if ($result) {
-        if ( $highest > 1 ) {
-
-            # left shift TOC
-            $highest--;
-            $result =~ s/^\t{$highest}//gm;
-        }
-
-        # add a anchor to be able to jump to the toc and add a outer div
-        return CGI::a( { name => 'foswikiTOC' }, '' )
-          . CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
-
-    }
-    else {
-        return '';
-    }
-}
-
-# Clear anchor names in the given topic. This is so that the same anchor
-# names can be generated for each time the same topic is %INCLUDEd (the
-# same anchor target will be generated for each time the topic is included.
-# C'est la vie.
-sub _clearAnchorNames {
+sub getAnchorNames {
     my ( $this, $topicObject ) = @_;
-    $this->{_anchorNames}{ $topicObject->getPath() } = ();
-}
-
-# Generate a unique name for an anchor in the given topic
-#
-# Note that anchor names generated this way are unique since the last call
-# to clearAnchorNames for the given topic. The anchor names are cleared
-# (1) whenever a new session is started and (2) whenever a new %TOC macro
-# is rendered.
-sub _makeAnchorNameUnique {
-    my ( $this, $topicObject, $anchorName ) = @_;
-    my $cnt     = 1;
-    my $suffix  = '';
-    my $context = $topicObject->getPath();
-    $this->{_anchorNames}{$context} ||= ();
-    while ( exists $this->{_anchorNames}{$context}{ $anchorName . $suffix } ) {
-
-        # $anchorName.$suffix must _always_ be 'compatible', or things
-        # would get complicated (whatever that means)
-        $suffix = '_AN' . $cnt++;
-
-        # limit resulting name to 32 chars
-        $anchorName = substr( $anchorName, 0, 32 - length($suffix) );
-
-        # this is only needed because '__' would not be 'compatible'
-        $anchorName =~ s/_+$//g;
+    my $id = $topicObject->getPath();
+    my $a = $this->{_anchorNames}{ $id };
+    unless ($a) {
+        $a = new Foswiki::Render::Anchors();
+        $this->{_anchorNames}{ $id } = $a;
     }
-    $anchorName .= $suffix;
-    $this->{_anchorNames}{$context}{$anchorName} = 1;
-    return $anchorName;
+    return $a;
 }
 
 =begin TML

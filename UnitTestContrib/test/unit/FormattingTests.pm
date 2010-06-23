@@ -466,6 +466,37 @@ ACTUAL
 
 # End of Testcases from Item3063
 
+# Item2367 - explicit links inside the text string of a squab
+sub test_explicitLinkInsideSquabbedLink {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<a href="$this->{sup}/System/WebRss">blah http<nop>://foswiki.org blah</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[System.WebRss][blah http://foswiki.org blah]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    $expected = <<EXPECTED;
+<a href="http://foswiki.org" target="_top">blah http<nop>://foswiki.org blah</a>
+EXPECTED
+
+    $actual = <<ACTUAL;
+[[http://foswiki.org][blah http://foswiki.org blah]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    $expected = <<EXPECTED;
+<a href="http://foswiki.org" target="_top">http://foswiki.org</a>
+EXPECTED
+
+    $actual = <<ACTUAL;
+[[http://foswiki.org]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 # Numeric1Wikiword
 sub test_numericWikiWord {
     my $this     = shift;

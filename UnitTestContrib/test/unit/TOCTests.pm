@@ -284,7 +284,7 @@ sub test_TOC_makeAnchorName {
         my $expected = $set->[0];
         my $wikitext = $set->[1];
 
-        my $res = Foswiki::Render::_makeAnchorName('',$wikitext);
+        my $res = Foswiki::Render::Anchors::make($wikitext);
         $this->assert_str_equals($expected, $res, "$set->[2] - Expected = $expected,  ACTUAL = $res\n");
     }
 }
