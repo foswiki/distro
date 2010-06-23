@@ -36,9 +36,9 @@ See %SYSTEMWEB%.InstalledPlugins for error messages.
 
 __NOTE:__ Foswiki:Development.StepByStepRenderingOrder helps you decide which
 rendering handler to use. When writing handlers, keep in mind that these may
-be invoked on included topics. For example, if a plugin generates links to the 
-current topic, these need to be generated before the =afterCommonTagsHandler= 
-is run. After that point in the rendering loop we have lost the information 
+be invoked on included topics. For example, if a plugin generates links to the
+current topic, these need to be generated before the =afterCommonTagsHandler=
+is run. After that point in the rendering loop we have lost the information
 that the text had been included from another topic.
 
 =cut
@@ -144,8 +144,8 @@ sub initPlugin {
 # You would have one of these for each macro you want to process.
 #sub _EXAMPLETAG {
 #    my($session, $params, $theTopic, $theWeb) = @_;
-#    # $session  - a reference to the Foswiki session object (if you don't know
-#    #             what this is, just ignore it)
+#    # $session  - a reference to the Foswiki session object
+#    #             (you probably won't need it, but documented in Foswiki.pm)
 #    # $params=  - a reference to a Foswiki::Attrs object containing
 #    #             parameters.
 #    #             This can be used as a simple hash that maps parameter names
