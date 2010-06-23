@@ -34,7 +34,7 @@ This is a reference to the Foswiki session object. It can be used in
 plugins to get at the methods of the Foswiki kernel.
 
 You are _highly_ recommended to only use the methods in the
-=Foswiki::Func interface, unless you have no other choice,
+=Foswiki::Func= interface, unless you have no other choice,
 as kernel methods may change between Foswiki releases.
 
 =cut
