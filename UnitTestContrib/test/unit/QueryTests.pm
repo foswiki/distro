@@ -495,10 +495,8 @@ sub verify_evaluatesToConstant {
     my $meta        = $this->{meta};
 
 
-    $this->assert($query->simplify( tom => $meta, data => $meta ), 
-        "can't be a constant - we don't know what 'notafield' is without a context...");
-
-
+    $this->assert(!$query->evaluatesToConstant(), 
+        "non-constant");
 }
 
 1;
