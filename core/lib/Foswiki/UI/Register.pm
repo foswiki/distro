@@ -1098,13 +1098,13 @@ sub _emailRegistrationConfirmations {
 
             if ( $session->{users}->removeUser($cUID) ) {
                 $template =
-                  $session->templates->readTemplate( 'registerfailedremoved',
-                    $skin );
+                  $session->templates->readTemplate(
+                      'registerfailedremoved', $skin );
             }
             else {
                 $template =
-                  $session->templates->readTemplate( 'registerfailedunremoved',
-                    $skin );
+                  $session->templates->readTemplate(
+                     'registerfailednotremoved', $skin );
             }
         }
         catch Error::Simple with {
