@@ -41,7 +41,7 @@ sub query {
 
     # Eliminate static expressions
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    $query->simplify();
+    $query->simplify( tom => $context, data => $context );
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
@@ -262,7 +262,7 @@ sub getField {
             # name anywhere in the saved fields of meta
             return $data->web();
         }
-        else {
+        elsif ($data->topic()) {
 
             # The field name isn't an alias, check to see if it's
             # the form name
