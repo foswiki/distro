@@ -490,6 +490,10 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $this->_addListItem( \@result, 'ul', 'li', $1, '' );
             $inList = 1;
 
+            # TinyMCE won't let the cursor go into an empty element
+            # so make sure that the element isn't empty.
+            $line =~ s/^(<li>)\s*$/$1&nbsp;/;
+
         }
         elsif ( $line =~ m/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/ ) {
 
@@ -507,6 +511,10 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/<li$ot> /;
             $this->_addListItem( \@result, 'ol', 'li', $1, $ot );
             $inList = 1;
+
+            # TinyMCE won't let the cursor go into an empty element
+            # so make sure that the element isn't empty.
+            $line =~ s/^(<li\Q$ot\E>)\s*$/$1&nbsp;/;
 
         }
         elsif ( $inList && $line =~ /^[ \t]/ ) {

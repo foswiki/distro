@@ -64,6 +64,8 @@ my $preoff     = '</span>';
 my $nop        = "$protecton<nop>$protectoff";
 my $deleteme   = '<p class="foswikiDeleteMe">&nbsp;</p>';
 
+my $trailingSpace = ' ';
+
 # The following big table contains all the testcases. These are
 # used to add a bunch of functions to the symbol table of this
 # testcase, so they get picked up and run by TestRunner.
@@ -535,6 +537,46 @@ HERE
    A. Sushi
    i. Sushi
 HERE
+    },
+    {
+        name => 'emptyListItems_Item2605',
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => <<'TML',
+   *
+   * alpha
+   *
+   * beta
+   *
+
+   1
+   2 charlie
+   3 
+
+   i. angel
+   i.
+blah
+TML
+        html => <<'HTML',
+<ul><li>&nbsp;</li><li>alpha</li><li>&nbsp;</li><li>beta</li><li>&nbsp;</li></ul><p />
+<ol><li>&nbsp;</li><li>charlie</li><li>&nbsp;</li></ol><p />
+<ol><li type="i">angel</li><li type="i">&nbsp;</li></ol>
+<p>blah</p>
+HTML
+        finaltml  => <<"TML",
+   *$trailingSpace
+   * alpha
+   *$trailingSpace
+   * beta
+   *$trailingSpace
+
+   1$trailingSpace
+   1 charlie
+   1$trailingSpace
+
+   i. angel
+   i.$trailingSpace
+blah
+TML
     },
     {
         exec => $ROUNDTRIP,
