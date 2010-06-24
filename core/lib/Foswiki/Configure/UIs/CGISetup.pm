@@ -153,8 +153,11 @@ HERE
             $this->ERROR('Foswiki.pm could not be loaded. The error was:')
           . CGI::pre( {}, $mess )
           . $this->ERROR(<<HERE);
-Check path to <code>twiki/lib</code> and check that LocalSite.cfg is
-present and readable
+Check in your installation directory that:<ol>
+<li><code>bin/setlib.cfg</code> is present and readable</li>
+<li><code>bin/LocalLib.cfg</code> is present and readable, and sets up a correct <code>\$foswikiLibPath</code></li>
+<li><code>lib/LocalSite.cfg</code> is present and readable</li>
+All files must be readable by the webserver user ($::WebServer_uid).</ol>
 HERE
         $erk++;
     }
