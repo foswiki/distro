@@ -823,8 +823,12 @@ THIS
       $this->captureWithKey( rename => $UI_FN, $this->{session} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/s, $text );
+
+    my $ss = '/view' . $Foswiki::cfg{ScriptSuffix}.'/';
+    $ss =  $Foswiki::cfg{ScriptUrlPaths}{view}.'/' if (defined $Foswiki::cfg{ScriptUrlPaths}{view} );
+
     $this->assert_matches(
-        qr([lL]ocation:\s+\S+?/view$ext/$this->{test_web}/UpperCase)s, $text );
+        qr([lL]ocation:\s+$ss$this->{test_web}/UpperCase)s, $text );
     $this->check( $this->{test_web}, 'UpperCase', $topicObject, <<THIS, 100 );
 One lowercase
 Twolowercase

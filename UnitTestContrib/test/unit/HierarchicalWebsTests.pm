@@ -394,6 +394,9 @@ qr!<span class="foswikiNewLink">$testWeb.$testWebSubWeb<a.*href=".*edit$Foswiki:
 sub test_squab_subweb_wih_topic {
     my $this = shift;
 
+    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb", "$testWebSubWeb", 'view' );
+    ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
+
     # Make a query that should set topic=$testSubWeb
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
@@ -410,7 +413,7 @@ sub test_squab_subweb_wih_topic {
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
     $this->assert_matches(
-qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb">$testWebSubWeb</a>!,
+qr!<a href="$scripturl">$testWebSubWeb</a>!,
         $text
     );
 }
@@ -435,8 +438,12 @@ sub test_squab_full_path_with_topic {
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
+    
+    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb", "$testWebSubWeb", 'view' );
+    ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
+
     $this->assert_matches(
-qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb">$testWeb.$testWebSubWeb</a>!,
+qr!<a href="$scripturl">$testWeb.$testWebSubWeb</a>!,
         $text
     );
 }
@@ -461,8 +468,12 @@ sub test_squab_path_to_topic_in_subweb {
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
+
+    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb/$testWebSubWeb", "$Foswiki::cfg{HomeTopicName}", 'view' );
+    ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
+
     $this->assert_matches(
-qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$Foswiki::cfg{HomeTopicName}">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!,
+qr!<a href="$scripturl">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!,
         $text
     );
 
