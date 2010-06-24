@@ -487,4 +487,18 @@ sub verify_brackets {
     }
 }
 
+sub verify_evaluatesToConstant {
+    my $this = shift;
+    
+    my $queryParser = new Foswiki::Query::Parser();
+    my $query       = $queryParser->parse("notafield AND 1");
+    my $meta        = $this->{meta};
+
+
+    $this->assert($query->simplify( tom => $meta, data => $meta ), 
+        "can't be a constant - we don't know what 'notafield' is without a context...");
+
+
+}
+
 1;
