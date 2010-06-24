@@ -177,7 +177,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  ?? Jun 2010 | Foswikitask:Item9155: Fix applying non-heading formats in !TinyMCE 3.3 |
+|  ?? Jun 2010 | Foswikitask:Item9155: Fix applying non-heading formats in !TinyMCE 3.3<br/>\
+                 Foswikitask:Item2125: Change attach dialogue button text from 'cancel' to 'close' |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
 |  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |

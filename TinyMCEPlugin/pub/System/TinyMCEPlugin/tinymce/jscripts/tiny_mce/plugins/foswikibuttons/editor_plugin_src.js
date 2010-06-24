@@ -89,7 +89,7 @@
                     toolbar: false,
                     status: false,
                     url: url + htmpath,
-                    width: 350,
+                    width: 400,
                     height: htmheight,
                     movable: true,
                     inline: true

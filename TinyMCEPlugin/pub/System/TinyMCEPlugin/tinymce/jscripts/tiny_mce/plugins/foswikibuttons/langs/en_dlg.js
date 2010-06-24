@@ -2,6 +2,7 @@ tinyMCE.addI18n('en.foswikibuttons_dlg', {
     colours_dialog_title: "Font Colour",
     attach_dialog_title: "Manage Attachments",
     upload: "Upload",
+    close: "Close",
     general_tab: "Insert link to attachment",
     upload_tab: "Upload attachment",
     fieldset_general_tab: "Attachments",
