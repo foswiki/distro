@@ -41,7 +41,7 @@ sub query {
 
     # Eliminate static expressions
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    $query->simplify( tom => $context, data => $context );
+    $query->simplify();
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
