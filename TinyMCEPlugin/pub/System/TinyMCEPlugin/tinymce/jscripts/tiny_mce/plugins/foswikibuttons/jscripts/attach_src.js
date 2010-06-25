@@ -25,8 +25,20 @@ var AttachDlg = {
         FoswikiTiny.getListOfAttachments(
         function(atts) {
             var select = document.getElementById("attachments_select");
-            for (var i = 0; i < atts.length; i++) {
-                select.options[i] = new Option(atts[i].name, atts[i].name);
+            if (atts.length > 0) {
+                for (var i = 0; i < atts.length; i++) {
+                    select.options[i] = new Option(atts[i].name, atts[i].name);
+                }
+            } else {
+                /* There are no attachments, so select upload tab. NB: JQuery
+                ** not available in popup iframes, and TinyMCE's dom utils
+                ** won't be able to select an element by id string by itself
+                ** because the activeEditor seems to only scan its own
+                ** document, so we pass the iframe's dom element explicitly */
+                ed.dom.removeClass(document.getElementById('general_tab'), 'current');
+                ed.dom.removeClass(document.getElementById('general_panel'), 'current');
+                ed.dom.addClass(document.getElementById('upload_tab'), 'current');
+                ed.dom.addClass(document.getElementById('upload_panel'), 'current');
             }
         });
 

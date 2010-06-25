@@ -178,7 +178,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  ?? Jun 2010 | Foswikitask:Item9155: Fix applying non-heading formats in !TinyMCE 3.3<br/>\
-                 Foswikitask:Item2125: Change attach dialogue button text from 'cancel' to 'close' |
+                 Foswikitask:Item2125: Change attach dialogue button text from 'cancel' to 'close'<br/>\
+                 Foswikitask:Item1482: Improve attach dialogue usability: auto-refresh attachment list after switching from upload tab; auto-select upload tab if there are zero existing attachments<br/>\
+                 Foswikitask:Item1378: Fix dialogue window sizes are too small for link, attachments and colour dialogues |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
 |  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |

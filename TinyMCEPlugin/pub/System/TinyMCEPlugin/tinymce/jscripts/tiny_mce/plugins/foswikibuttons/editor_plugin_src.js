@@ -56,8 +56,8 @@
                     toolbar: false,
                     status: false,
                     url: url + '/colours.htm',
-                    width: 240,
-                    height: 140,
+                    width: 220,
+                    height: 280,
                     movable: true,
                     popup_css: false,
                     // not required
@@ -76,7 +76,7 @@
 
             ed.addCommand('foswikibuttonsAttach', function() {
                 var htmpath = '/attach.htm',
-                htmheight = 250;
+                htmheight = 300;
 
                 if (null !== FoswikiTiny.foswikiVars.TOPIC.match(
                         /(X{10}|AUTOINC[0-9]+)/)) {
@@ -89,7 +89,7 @@
                     toolbar: false,
                     status: false,
                     url: url + htmpath,
-                    width: 400,
+                    width: 450,
                     height: htmheight,
                     movable: true,
                     inline: true
