@@ -24,16 +24,17 @@
         init: function(ed, url) {
 
             ed.fw_formats = ed.getParam("foswikibuttons_formats");
-            ed.fw_lb = null;
+            ed.fw_format_names = [];
+            jQuery.each(ed.fw_formats, function (key, value) {
+                ed.fw_format_names.push(key);
+            });
+            ed.fw_listbox = null;
             ed.onInit.add(function () {
                 ed.formatter.register('WYSIWYG_TT', {
                     inline: 'span',
                     classes: 'WYSIWYG_TT'
                 });
-                for (var i = 0; i < ed.fw_formats.length; i++) {
-                    var format = ed.fw_formats[i];
-                    ed.formatter.register(format.name, format);
-                }
+                ed.formatter.register(ed.fw_formats);
             });
 
             // Register commands
@@ -146,12 +147,9 @@
 
             ed.addCommand('foswikibuttonsFormat', function(ui, fn) {
                 if (fn === 'Normal') {
-                    for (var i = 0; i < ed.fw_formats.length; i++) {
-                        var format = ed.fw_formats[i];
-                        if ('Normal' !== format.name) {
-                            ed.formatter.remove(format.name);
-                        }
-                    }
+                    jQuery.each(ed.fw_formats, function (name, format) {
+                        ed.formatter.remove(name);
+                    });
                 } else {
                     ed.formatter.apply(fn);
                 }
@@ -180,21 +178,19 @@
                         ed.execCommand('foswikibuttonsFormat', false, format);
                     }
                 });
-                var formats = ed.getParam("foswikibuttons_formats");
                 // Build format select
-                for (var i = 0; i < formats.length; i++) {
-                    m.add(formats[i].name, formats[i].name);
-                }
+                jQuery.each(ed.fw_formats, function (name, format) {
+                    m.add(name, name);
+                });
                 m.selectByIndex(0);
-                ed.fw_lb = m;
+                ed.fw_listbox = m;
                 return m;
             }
             return null;
         },
 
         _nodeChange: function(ed, cm, node, collapsed) {
-            var i = 0,
-                gotmatch = false, 
+            var selectedFormats = ed.formatter.matchAll(ed.fw_format_names),
                 wcoloured = ed.dom.getParent(node, '.WYSIWYG_COLOR');
 
             if (node == null) return;
@@ -216,17 +212,10 @@
                 cm.setActive('tt', false);
             }
             
-            // SMELL : matchAll is probably faster?
-            while (!gotmatch && i < ed.fw_formats.length) {
-                if (ed.formatter.match(ed.fw_formats[i].name, node)) {
-                    ed.fw_lb.selectByIndex(i);
-                    gotmatch = true;
-                } else {
-                    i = i + 1;
-                }
-            }
-            if (!gotmatch) {
-                ed.fw_lb.selectByIndex(0);
+            if (selectedFormats.length > 0) {
+                cm.get('topic_topic_foswikiformat').select(selectedFormats[0]);
+            } else {
+                cm.get('topic_topic_foswikiformat').select('Normal');
             }
 
             return true;
