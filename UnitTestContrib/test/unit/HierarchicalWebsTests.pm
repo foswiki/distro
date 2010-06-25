@@ -394,9 +394,6 @@ qr!<span class="foswikiNewLink">$testWeb.$testWebSubWeb<a.*href=".*edit$Foswiki:
 sub test_squab_subweb_wih_topic {
     my $this = shift;
 
-    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb", "$testWebSubWeb", 'view' );
-    ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
-
     # Make a query that should set topic=$testSubWeb
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
@@ -412,6 +409,7 @@ sub test_squab_subweb_wih_topic {
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
+    my $scripturl = $this->{session}->getScriptUrl(0, 'view')."/$testWeb/$testWebSubWeb";
     $this->assert_matches(
 qr!<a href="$scripturl">$testWebSubWeb</a>!,
         $text
@@ -423,10 +421,17 @@ qr!<a href="$scripturl">$testWebSubWeb</a>!,
 sub test_squab_full_path_with_topic {
     my $this = shift;
 
+
     # Make a query that should set topic=$testSubWeb
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{session}->finish();
+
+    # SMELL:   If this call to getScriptUrl occurs before the finish() call
+    # It decides it is in $this->inContext('command_line') and returns 
+    # absolute URLs.   Moving it here after the finish() and it returns relative URLs.
+    my $scripturl = $this->{session}->getScriptUrl(0, 'view')."/$testWeb/$testWebSubWeb";
+
     $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query );
 
     my $topicObject =
@@ -439,9 +444,6 @@ sub test_squab_full_path_with_topic {
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
     
-    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb", "$testWebSubWeb", 'view' );
-    ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
-
     $this->assert_matches(
 qr!<a href="$scripturl">$testWeb.$testWebSubWeb</a>!,
         $text
