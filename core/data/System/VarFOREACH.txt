@@ -17,7 +17,7 @@ __WARNING:__ the syntax is developing. eg. =$topic= is a legacy of the original 
       * =%<nop>FOREACH{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 
----++ Supported formatting tokens
+---++++ Supported formatting tokens
 If =type="topic"= (the default) the format string can contain _any_ of the topic-specific format tokens
 specified in FormattedSearch (=$web=, =$topic=, =$parent=, =$text=, =$locked=,
 =$date=, =$isodate=, =$index=, =$item=, =$rev=, =$username=, =$wikiname=, =$wikiusername=,
