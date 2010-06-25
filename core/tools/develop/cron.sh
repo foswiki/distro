@@ -23,7 +23,7 @@ svn update
 
 # Install the default modules
 cd core
-perl pseudo-install.pl -link default
+perl -T pseudo-install.pl -link default
 
 # Remove broken links
 find -L . -type l -exec rm \{\} \;
