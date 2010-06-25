@@ -6,20 +6,21 @@
 use strict;
 
 my $where = '/home/foswiki.org/public_html/data/Tasks';
-my $text = `cd /home/trunk.foswiki.org/core/bin && perl -T ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
+my $text =
+`cd /home/trunk.foswiki.org/core/bin && perl -T ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
 my %topics;
-foreach my $line (split(/\r?\n/, $text)) {
+foreach my $line ( split( /\r?\n/, $text ) ) {
     $line =~ s#(TWiki:)?Main[./]##g;
-    if ($line =~ /^(.*):(.*)$/) {
-        my ($names, $topic) = ($1, $2);
-        foreach my $name (split(/[,;\s]+/, $names)) {
-            if ($name =~ /^[A-Z]+[a-z]+[A-Z]/) {
+    if ( $line =~ /^(.*):(.*)$/ ) {
+        my ( $names, $topic ) = ( $1, $2 );
+        foreach my $name ( split( /[,;\s]+/, $names ) ) {
+            if ( $name =~ /^[A-Z]+[a-z]+[A-Z]/ ) {
                 $topics{$name}{$topic} = 1;
             }
         }
     }
 }
-if (open(F, '<', "$where/DontBugMe.txt")) {
+if ( open( F, '<', "$where/DontBugMe.txt" ) ) {
     local $/ = "\n";
     while (<F>) {
         $_ =~ s#(TWiki:)?Main[./]##g;
@@ -28,7 +29,7 @@ if (open(F, '<', "$where/DontBugMe.txt")) {
     }
     close(F);
 }
-open(F, '>', "$where/WebNotify.txt") || die "Can't open $where/WebNotify: $!";
+open( F, '>', "$where/WebNotify.txt" ) || die "Can't open $where/WebNotify: $!";
 print F <<GUFF;
 <!--
    * Set NOAUTOLINK = on
@@ -42,7 +43,7 @@ You can exclude yourself from all notification by adding yourself to the topic
 [[DontBugMe]].
 
 GUFF
-foreach my $name (sort keys %topics) {
-    print F "   * $name: ", join(' ', sort(keys %{$topics{$name}})), "\n";
+foreach my $name ( sort keys %topics ) {
+    print F "   * $name: ", join( ' ', sort( keys %{ $topics{$name} } ) ), "\n";
 }
 close(F);

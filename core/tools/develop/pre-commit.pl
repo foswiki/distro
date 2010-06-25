@@ -8,8 +8,8 @@ use strict;
 #
 # STDERR ends up on the users' terminal
 
-my $REPOS = $ARGV[0];
-my $TXN = $ARGV[1];
+my $REPOS   = $ARGV[0];
+my $TXN     = $ARGV[1];
 my $dataDir = '/home/foswiki.org/public_html/data';
 
 my $logmsg = `/usr/local/bin/svnlook log -t $TXN $REPOS`;
@@ -30,22 +30,22 @@ EOF
     exit 1;
 }
 
-fail("No Bug item in log message") unless( $logmsg =~ /\bItem\d+\s*:/ );
+fail("No Bug item in log message") unless ( $logmsg =~ /\bItem\d+\s*:/ );
 local $/;
 
 my @items;
 $logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
-foreach my $item ( @items ) {
+foreach my $item (@items) {
     fail "Bug item $item does not exist"
-      unless( -f "$dataDir/Tasks/$item.txt" );
-    open(F, '<', "$dataDir/Tasks/$item.txt") || die "Cannot open $item";
-    my $text = <F>;
+      unless ( -f "$dataDir/Tasks/$item.txt" );
+    open( F, '<', "$dataDir/Tasks/$item.txt" ) || die "Cannot open $item";
+    my $text  = <F>;
     my $state = "Closed";
-    if( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {
+    if ( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {
         $state = $1;
     }
     close(F);
-    if( $state =~ /^(Waiting for Release|Closed|No Action Required)$/ ) {
+    if ( $state =~ /^(Waiting for Release|Closed|No Action Required)$/ ) {
         fail("$item is in $state state; cannot check in");
     }
 }
