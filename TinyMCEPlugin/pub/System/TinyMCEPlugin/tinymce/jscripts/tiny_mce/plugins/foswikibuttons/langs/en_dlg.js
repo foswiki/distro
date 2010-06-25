@@ -8,7 +8,6 @@ tinyMCE.addI18n('en.foswikibuttons_dlg', {
     fieldset_general_tab: "Attachments",
     fieldset_upload_tab: "Upload",
     insert_attachment_link: "Insert link",
-    attach_help: "If recently uploaded files are not in the list, then close and re-open this dialog",
     attach_file: "Upload new attachment",
     attach_comment: "Comment",
     attach_hide: "Hide attachment",
