@@ -305,7 +305,9 @@ sub save {
         $this->{content} = <<'HERE';
 # Local site settings for Foswiki. This file is managed by the 'configure'
 # CGI script, though you can also make (careful!) manual changes with a
-# text editor.
+# text editor.  See the Foswiki.spec file in this directory for documentation
+# Extensions are documented in the Config.spec file in the Plugins/<extension>
+# or Contrib/<extension> directories
 HERE
     }
 
