@@ -146,13 +146,12 @@
             });
 
             ed.addCommand('foswikibuttonsFormat', function(ui, fn) {
-                if (fn === 'Normal') {
-                    jQuery.each(ed.fw_formats, function (name, format) {
-                        ed.formatter.remove(name);
-                    });
-                } else {
-                    ed.formatter.apply(fn);
-                }
+                // First, remove all existing formats.
+                jQuery.each(ed.fw_formats, function (name, format) {
+                    ed.formatter.remove(name);
+                });
+                // Now apply the format.
+                ed.formatter.apply(fn);
                 //ed.nodeChanged(); - done in formatter.apply() already
             });
 
