@@ -256,6 +256,26 @@ sub _cleanUpFilePath {
 
 =begin TML
 
+---++ StaticMethod normalizeFileName( $string ) -> $filename
+
+Throws an exception if =$string= contains filtered characters, as
+defined by =$Foswiki::cfg{NameFilter}=
+
+The returned string is not tainted, but it may contain shell
+metacharacters and even control characters.
+
+*DEPRECATED* - provided for compatibility only. Do not use!
+If you want to validate an attachment, use
+untaint($name, \&validateAttachmentName)
+
+=cut
+
+sub normalizeFileName {
+    return _cleanUpFilePath(@_);
+}
+
+=begin TML
+
 ---++ StaticMethod sanitizeAttachmentName($fname) -> ($fileName, $origName)
 
 Given a file name received in a query parameter, sanitise it. Returns
