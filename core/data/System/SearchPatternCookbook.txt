@@ -310,56 +310,9 @@ format="$pattern(.*   \*\s*([^\n]*).*)"
 }%
 </verbatim>
 
-
-<!-- ============================== -->
-#SearchNamedBulletList
----++ Pattern 7: Extract a value from a named bullet list item
-
----+++ Problem
-
-Display the user name in the user's topic title
-
----+++ Solution
-
-Search for the =Name:= entry.
-
-<verbatim>
-%SEARCH{
-"   \* [N]ame:"
-topic="%TOPIC%"
-type="regex"
-casesensitive="on"
-nosummary="on"
-nosearch="on"
-noheader="on"
-nototal="on"
-format="---+!! $pattern(.*   \* Name: ([^\n]*).*)"
-}%
-</verbatim>
-
----+++ Test case
-
-To create a test case, we will put a name entry here:
-
-   * Name: John Doe
-
-Search result:
-
-%SEARCH{
-"   \* [N]ame:"
-topic="%TOPIC%"
-type="regex"
-casesensitive="on"
-nosummary="on"
-nosearch="on"
-noheader="on"
-nototal="on"
-format="<strong>$pattern(.*   \* Name: ([^\n]*).*)</strong>"
-}%
-
 <!-- ============================== -->
 #MovedTopics
----++ Pattern 8: Search all topics that have been moved
+---++ Pattern 7: Search all topics that have been moved
 
 ---+++ Problem
 
