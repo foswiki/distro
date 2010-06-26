@@ -8,9 +8,11 @@ use strict;
 
 BEGIN { do '../bin/setlib.cfg'; }
 
+use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML;
-
 use Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+
+my $session = new Foswiki();
 my $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
 undef $/;
 my $html = <>;
