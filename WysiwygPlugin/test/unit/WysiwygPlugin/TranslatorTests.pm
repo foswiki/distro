@@ -2213,6 +2213,30 @@ BLAH
         tml  => 'the =complete= table',
     },
     {
+        name => "alternateCodeStyleTagsToTML", # Item2259
+        exec => $HTML2TML,
+        html => '<kbd>kbd</kbd> <samp>samp</samp>',
+        tml  => '=kbd= =samp=',
+    },
+    {
+        name => "flattenDfnVarBig", # Item2259
+        exec => $HTML2TML,
+        html => '<dfn>dfn</dfn> <var>var</var> <big>big</big>',
+        tml  => 'dfn var big',
+    },
+    {
+        name => "preserveSmallCite", # Item2259
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+<small>small</small> <cite>cite</cite>
+BLAH
+        html => <<'BLAH',
+<p>
+<small>small</small> <cite>cite</cite>
+</p>
+BLAH
+    },
+    {
         exec => $HTML2TML,
         name => 'strongWithColorClass',
         html => <<'BLAH',

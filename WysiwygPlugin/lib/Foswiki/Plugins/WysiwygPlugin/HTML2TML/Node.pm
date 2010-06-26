@@ -1373,7 +1373,7 @@ sub _handleB { return _emphasis( @_, '*' ); }
 sub _handleBASE     { return ( 0, '' ); }
 sub _handleBASEFONT { return ( 0, '' ); }
 
-sub _handleBIG { return ( 0, '' ); }
+sub _handleBIG { return _flatten(@_); }
 
 # BLOCKQUOTE
 sub _handleBODY { return _flatten(@_); }
@@ -1721,7 +1721,8 @@ sub _handleTT { return _handleCODE(@_); }
 
 # U
 sub _handleUL { return _LIST(@_); }
-sub _handleVAR { return ( 0, '' ); }
+
+sub _handleVAR { return _flatten(@_); }
 
 1;
 __END__
