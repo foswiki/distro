@@ -679,6 +679,30 @@ HERE
 HERE
     },
     {
+        exec     => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name     => 'centeredTableItem5955',
+        html => <<"HTML",
+$deleteme<p>
+<table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
+</p>
+HTML
+        tml      => <<'TML',
+<table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
+TML
+    },
+    {
+        exec     => $TML2HTML | $ROUNDTRIP,
+        name     => 'literalTableFirst',
+        html => <<"HTML", # SMELL: not valid HTML
+$deleteme<p>
+<div class="WYSIWYG_LITERAL"><table border='0'><tbody><tr><td> asdf</td></tr></tbody></table></div>
+</p>
+HTML
+        tml      => <<'TML',
+<literal><table border='0'><tbody><tr><td> asdf</td></tr></tbody></table></literal>
+TML
+    },
+    {
         exec     => $TML2HTML | $ROUNDTRIP,
         name     => 'noppedWikiword',
         html     => '<p>!<span class="WYSIWYG_LINK">SunOS</span></p>',
