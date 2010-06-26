@@ -634,6 +634,7 @@ lib/Foswiki/LoginManager.pm 0444
 lib/Foswiki/LoginManager/Session.pm 0444
 lib/Foswiki/LoginManager/TemplateLogin.pm 0444
 lib/Foswiki/Macros/ADDTOHEAD.pm 0444
+lib/Foswiki/Macros/ADDTOZONE.pm 0444
 lib/Foswiki/Macros/DISPLAYDEPENDENCIES.pm 0444
 lib/Foswiki/Macros/ENCODE.pm 0444
 lib/Foswiki/Macros/ENV.pm 0444
