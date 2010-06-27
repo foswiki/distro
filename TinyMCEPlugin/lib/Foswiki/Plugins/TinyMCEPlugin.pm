@@ -8,64 +8,12 @@ use warnings;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '12 Jun 2010';
+our $RELEASE           = '27 Jun 2010';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
-# Defaults for TINYMCEPLUGIN_INIT and INIT_browser. Defined as our vars to
-# allow other extensions to override them.
-# PLEASE ENSURE THE PLUGIN TOPIC EXAMPLES ARE KEPT IN SYNCH!
-our $defaultINIT = <<'HERE';
-mode: "textareas",
-editor_selector : "foswikiWysiwygEdit",
-save_on_tinymce_forms: true,
-cleanup : true,
-theme : "advanced",
-convert_urls : true,
-relative_urls : false,
-remove_script_host : false,
-dialog_type: "modal",
-extended_valid_elements : "li[type]",
-setupcontent_callback : FoswikiTiny.setUpContent,
-urlconverter_callback : "FoswikiTiny.convertLink",
-foswikipuburl_callback : "FoswikiTiny.convertPubURL",
-save_callback : "FoswikiTiny.saveCallback",
-%IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswiki,foswikibuttons,foswikiimage%IF{"defined TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS" then=",%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"}%",
-foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
-foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
-theme_advanced_toolbar_align : "left",
-foswikibuttons_formats : {
-    "Normal" : { remove: "all" },
-    "Heading 1" : { block: "h1", remove: "all" },
-    "Heading 2" : { block: "h2", remove: "all" },
-    "Heading 3" : { block: "h3", remove: "all" },
-    "Heading 4" : { block: "h4", remove: "all" },
-    "Heading 5" : { block: "h5", remove: "all" },
-    "Heading 6" : { block: "h6", remove: "all" },
-    "VERBATIM" : { block: "pre", remove: "all", classes: "TMLverbatim" }, 
-    "LITERAL" : { block: "div", remove: "all", classes: "WYSIWYG_LITERAL" },
-    "Protect on save" : { block: "div", remove: "all", classes: "WYSIWYG_PROTECTED" },
-    "Protect forever" : { block: "div", remove: "all", classes: "WYSIWYG_STICKY" }
-},
-paste_create_paragraphs : true,
-paste_create_linebreaks : false,
-paste_convert_middot_lists : true,
-paste_convert_headers_to_strong : false,
-paste_remove_spans: true,
-paste_remove_styles: true,
-paste_strip_class_attributes: "all",
-theme_advanced_buttons1 : "%IF{"defined TINYMCEPLUGIN_BUTTONS1" then="%TINYMCEPLUGIN_BUTTONS1%" else="foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,blockquote,separator,link,unlink,anchor,separator,undo,redo,separator,search,replace"}%",
-theme_advanced_buttons2 : "%IF{"defined TINYMCEPLUGIN_BUTTONS2" then="%TINYMCEPLUGIN_BUTTONS2%" else="tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen"}%",
-theme_advanced_buttons3 : "%IF{"defined TINYMCEPLUGIN_BUTTONS3" then="%TINYMCEPLUGIN_BUTTONS3%" else=""}%",
-theme_advanced_toolbar_location: "top",
-theme_advanced_resize_horizontal : false,
-theme_advanced_resizing : true,
-theme_advanced_path: false,
-theme_advanced_statusbar_location : "bottom",
-keep_styles : false,
-content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
-HERE
+use Foswiki::Func ();
+
 our %defaultINIT_BROWSER = (
     MSIE   => '',
     OPERA  => '',
@@ -73,9 +21,6 @@ our %defaultINIT_BROWSER = (
     SAFARI => '',
     CHROME => '',
 );
-
-use Foswiki::Func ();
-
 my $query;
 
 # Info about browser type
@@ -142,14 +87,13 @@ sub _notAvailable {
 
     # This should only ever happen on Foswiki 1.0.9 and earlier
     return 'TinyMCEPlugin requires ZonePlugin to be installed and enabled'
-      unless (defined &Foswiki::Func::addToZone);
+      unless ( defined &Foswiki::Func::addToZone );
 
     return 0;
 }
 
 sub beforeEditHandler {
-
-    #my ($text, $topic, $web) = @_;
+    my ( $text, $topic, $web ) = @_;
 
     my $mess = _notAvailable();
     if ($mess) {
@@ -165,33 +109,42 @@ sub beforeEditHandler {
         Foswiki::Func::setPreferencesValue( 'EDITOR_HELP', 'TinyMCEQuickHelp' );
     }
 
+    my $initTopic =
+      Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_INIT_TOPIC')
+      || $Foswiki::cfg{SystemWebName} . '.TinyMCEPlugin';
     my $init = Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_INIT')
-      || $defaultINIT;
-    my $extras = '';
+      || Foswiki::Func::expandCommonVariables(
+        '%INCLUDE{"'
+          . $initTopic
+          . '" section="TINYMCEPLUGIN_INIT" warn="off"}%',
+        $topic, $web
+      );
+    my $browser = '';
 
     # The order of these conditions is important, because browsers
     # spoof eachother
     if ( $browserInfo{isChrome} ) {
-        $extras = 'CHROME';
+        $browser = 'CHROME';
     }
     elsif ( $browserInfo{isSafari} ) {
-        $extras = 'SAFARI';
+        $browser = 'SAFARI';
     }
     elsif ( $browserInfo{isOpera} ) {
-        $extras = 'OPERA';
+        $browser = 'OPERA';
     }
     elsif ( $browserInfo{isGecko} ) {
-        $extras = 'GECKO';
+        $browser = 'GECKO';
     }
     elsif ( $browserInfo{isMSIE} ) {
-        $extras = 'MSIE';
+        $browser = 'MSIE';
     }
-    if ($extras) {
-        $extras =
-          Foswiki::Func::getPreferencesValue( 'TINYMCEPLUGIN_INIT_' . $extras )
-          || $defaultINIT_BROWSER{$extras};
-        if ( defined $extras ) {
-            $init = join( ',', ( split( ',', $init ), split( ',', $extras ) ) );
+    if ($browser) {
+        my $settings =
+          Foswiki::Func::getPreferencesValue( 'TINYMCEPLUGIN_INIT_' . $browser )
+          || $defaultINIT_BROWSER{$browser};
+        if ($settings) {
+            $init =
+              join( ',', ( split( ',', $init ), split( ',', $settings ) ) );
         }
     }
 
@@ -218,13 +171,13 @@ sub beforeEditHandler {
     my $tmceURL   = $pluginURL . '/tinymce/jscripts/tiny_mce';
 
     # expand the init string
-    my $metainit = Foswiki::Func::expandCommonVariables($init);
+    my $metainit = $init;    #Already expanded
 
     # URL-encode the init string
     $metainit =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
     # <meta> tags really do have to be in the head!
-    Foswiki::Func::addToHEAD( 'tinyMCE::Meta', <<META );
+    Foswiki::Func::addToHEAD( 'tinyMCE::Meta', <<"META" );
 <meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
 META
 
@@ -237,7 +190,7 @@ META
         }
     };
     unless ($behaving) {
-        Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB', <<SCRIPT );
+        Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB', <<'SCRIPT' );
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js">
 </script>
 SCRIPT
@@ -253,18 +206,19 @@ SCRIPT
     $encodedVersion =~
       s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
-    my $scripts = <<SCRIPT;
+    my $scripts = <<"SCRIPT";
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce_jquery$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
 
-    Foswiki::Func::addToZone(
-        'body', 'tinyMCE', $scripts,
+    Foswiki::Func::addToZone( 'body', 'tinyMCE', $scripts,
         'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI' );
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.
     Foswiki::Func::getContext()->{textareas_hijacked} = 1;
+
+    return;
 }
 
 1;

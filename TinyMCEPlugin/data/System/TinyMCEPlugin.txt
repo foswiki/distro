@@ -3,13 +3,14 @@
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
 -->
 %SHORTDESCRIPTION%
 
 <img alt="screenshot" src="%ATTACHURLPATH%/screenshot.png"/>
 
 %TOC%
-This is an integration of the fast and highly functional <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. It supports a wide range of browsers, including Firefox, IE, Safari, Opera and Google Chrome (see [[http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility][compatibility chart]]). At the time of writing it doesn't work with Konqueror.
+This is an integration of the fast and highly functional [[http://tinymce.moxiecode.com][TinyMCE]] WYSIWYG editor. It supports a wide range of browsers, including Firefox, IE, Safari, Opera and Google Chrome (see [[http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility][compatibility chart]]). At the time of writing it doesn't work with Konqueror.
 
 The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
@@ -24,8 +25,8 @@ The editor uses a translator module to convert from Foswiki Topic Markup Languag
 
 *NOTES:*
    * This plugin comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the plugin.
-   * It requires the very latest revision of WysiwygPlugin.
-   * When installed, it *replaces* the old "textarea" editor. You may still access the plaintext editor with the "Wiki Text" button provided in the toolbar, however this does not necessarily give you the original raw topic content. To bypass the TML to HTML conversion process entirely, use the Raw Edit link provided by the default Foswiki skin at the bottom of the page.
+   * It requires the very latest revision of WysiwygPlugin
+   * When installed, it *replaces* the old "textarea" editor. You may still access the plaintext editor with the "Wiki Text" button provided in the toolbar, however this does not necessarily give you the original raw/wiki text version of the topic content. To bypass the TML to HTML conversion process entirely, use the Edit WikiText link provided by the default Foswiki skin at the bottom of the page.
 
 First follow the installation instructions to install the Plugin:
 
@@ -36,34 +37,60 @@ First follow the installation instructions to install the Plugin:
    * *Click* on edit of any topic.
 
 ---++ Preferences
-No preferences are stored in this topic. The example settings here have no effect.  To learn more about setting preference variables, see the %SYSTEMWEB%.PreferenceSettings topic. 
+The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which is now deprecated in favour of =TINYMCEPLUGIN_INIT_TOPIC= described below.
 
----+++ =TINYMCEPLUGIN_INIT=
-This variable holds all the options passed to the !TinyMCE editor on startup. For a full explanation of available !TinyMCE options, and guidance on reconfiguring !TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
+---+++ TINYMCEPLUGIN_INIT_TOPIC
+To make configuration easier and less error-prone, configuraiton is now held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used.
 
-The default options are as follows (you will need to remove the newlines for your own =TINYMCEPLUGIN_INIT= string). Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
+For a full explanation and guidance on configuration of available !TinyMCE options, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
 
-%JQREQUIRE{"chili"}%<verbatim class="js">
-mode: "textareas",
-editor_selector : "foswikiWysiwygEdit",
-save_on_tinymce_forms: true,
-cleanup : true,
-theme : "advanced",
-convert_urls : true,
-relative_urls : false,
-remove_script_host : false,
-dialog_type: "modal",
-extended_valid_elements : "li[type]",
-setupcontent_callback : FoswikiTiny.setUpContent,
-urlconverter_callback : "FoswikiTiny.convertLink",
-foswikipuburl_callback : "FoswikiTiny.convertPubURL",
-save_callback : "FoswikiTiny.saveCallback",
-%IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-plugins : "table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswiki,foswikibuttons,foswikiimage%IF{"defined TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS" then=",%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"}%",
-foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
-foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
-theme_advanced_toolbar_align : "left",
-foswikibuttons_formats : {
+Below is the default configuration. If it is to be modified, it should be copied (including =%<nop>START/ENDSECTION{}%= macros) to a different topic to avoid customisations being overwritten when TinyMCEPlugin is upgraded.
+
+---++++ TINYMCEPLUGIN_INIT
+%TWISTY{showlink="Show default parameters..."}%
+<verbatim class="js">
+%STARTSECTION{"TINYMCEPLUGIN_INIT"}%
+"mode" : "textareas",
+"editor_selector" : "foswikiWysiwygEdit",
+"save_on_tinymce_forms" : true,
+"cleanup" : true,
+"theme" : "advanced",
+"convert_urls" : true,
+"relative_urls" : false,
+"remove_script_host" : false,
+"dialog_type" : "modal",
+"extended_valid_elements" : "li[type]",
+"setupcontent_callback" : FoswikiTiny.setUpContent,
+"urlconverter_callback" : "FoswikiTiny.convertLink",
+"foswikipuburl_callback" : "FoswikiTiny.convertPubURL",
+"save_callback" : "FoswikiTiny.saveCallback",%IF{
+    "$TINYMCEPLUGIN_DEBUG"
+    then="
+\"debug\" : true,"
+}%
+"plugins" : "%IF{
+    "defined 'TINYMCEPLUGIN_MCEPLUGINS'"
+    then="%TINYMCEPLUGIN_MCEPLUGINS%"
+    else="table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswiki,foswikibuttons,foswikiimage"
+}%%IF{
+    "defined 'TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS'"
+    then=",%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
+}%",
+"foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
+"foswiki_vars" : {
+    "PUBURLPATH" : "%PUBURLPATH%",
+    "PUBURL" : "%PUBURL%",
+    "WEB" : "%WEB%",
+    "TOPIC" : "%TOPIC%",
+    "ATTACHURL" : "%ATTACHURL%",
+    "ATTACHURLPATH" : "%ATTACHURLPATH%",
+    "VIEWSCRIPTURL" : "%SCRIPTURL{view}%",
+    "SCRIPTSUFFIX" : "%SCRIPTSUFFIX%",
+    "SCRIPTURL" : "%SCRIPTURL%",
+    "SYSTEMWEB" : "%SYSTEMWEB%"
+},
+"theme_advanced_toolbar_align" : "left",
+"foswikibuttons_formats" : {
     "Normal" : { remove: "all" },
     "Heading 1" : { block: "h1", remove: "all" },
     "Heading 2" : { block: "h2", remove: "all" },
@@ -76,30 +103,63 @@ foswikibuttons_formats : {
     "Protect on save" : { block: "div", remove: "all", classes: "WYSIWYG_PROTECTED" },
     "Protect forever" : { block: "div", remove: "all", classes: "WYSIWYG_STICKY" }
 },
-paste_create_paragraphs : true,
-paste_create_linebreaks : false,
-paste_convert_middot_lists : true,
-paste_convert_headers_to_strong : false,
-paste_remove_spans: true,
-paste_remove_styles: true,
-paste_strip_class_attributes: "all",
-theme_advanced_buttons1 : "%IF{"defined TINYMCEPLUGIN_BUTTONS1" then="%TINYMCEPLUGIN_BUTTONS1%" else="foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,blockquote,separator,link,unlink,anchor,separator,undo,redo,separator,search,replace"}%",
-theme_advanced_buttons2 : "%IF{"defined TINYMCEPLUGIN_BUTTONS2" then="%TINYMCEPLUGIN_BUTTONS2%" else="tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen"}%",
-theme_advanced_buttons3 : "%IF{"defined TINYMCEPLUGIN_BUTTONS3" then="%TINYMCEPLUGIN_BUTTONS3%" else=""}%",
-theme_advanced_toolbar_location: "top",
-theme_advanced_resize_horizontal : false,
-theme_advanced_resizing : true,
-theme_advanced_path: false,
-theme_advanced_statusbar_location : "bottom",
-keep_styles : false,
-content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
+"paste_create_paragraphs" : true,
+"paste_create_linebreaks" : false,
+"paste_convert_middot_lists" : true,
+"paste_convert_headers_to_strong" : false,
+"paste_remove_spans" : true,
+"paste_remove_styles" : true,
+"paste_strip_class_attributes" : "all",
+"theme_advanced_buttons1" : "%IF{
+    "defined 'TINYMCEPLUGIN_BUTTONS1'"
+    then="%TINYMCEPLUGIN_BUTTONS1%"
+    else="foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,blockquote,separator,link,unlink,anchor,separator,undo,redo,separator,search,replace"
+}%%IF{
+    "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS1'"
+    then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
+}%",
+"theme_advanced_buttons2" : "%IF{
+    "defined 'TINYMCEPLUGIN_BUTTONS2'"
+    then="%TINYMCEPLUGIN_BUTTONS2%"
+    else="tablecontrols,separator,attach,image,charmap,hr,separator,fullscreen,code,hide"
+}%%IF{
+    "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS2'"
+    then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
+}%",
+"theme_advanced_buttons3" : "%IF{
+    "defined 'TINYMCEPLUGIN_BUTTONS3'"
+    then="%TINYMCEPLUGIN_BUTTONS3%"
+}%%IF{
+    "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS3'"
+    then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS3%"
+}%",
+"theme_advanced_toolbar_location" : "top",
+"theme_advanced_resize_horizontal" : false,
+"theme_advanced_resizing" : true,
+"theme_advanced_path" : false,
+"theme_advanced_statusbar_location" : "bottom",
+"keep_styles" : false,
+"content_css" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{
+    "$TINYMCEPLUGIN_DEBUG"
+    then="_src"
+}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
+%ENDSECTION{"TINYMCEPLUGIN_INIT"}%
 </verbatim>
+%ENDTWISTY%
+
+Example:
+   * Create <nop>Main.TinyMCEPlugin, copying the text above
+   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in Main.SitePreferences or <nop>MyWeb.WebPreferences:<br/>\
+   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = Main.TinyMCEPlugin</verbatim>
 
 ---+++ Settings
 | *Variable* | *Default* | *Description* |
-| =TINYMCEPLUGIN_INIT= | As [[%TOPIC%#Preferences][above]] | Holds the initialization parameters used to start !TinyMCE |
-| =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= | '' | additional !TinyMCE plugins to initialise |
-| =TINYMCEPLUGIN_BUTTONS2= | As [[%TOPIC%#Preferences][above]] | configure the order and existance of icons in the toolbar |
+| =TINYMCEPLUGIN_INIT= | - | Deprecated. If set, =TINYMCEPLUGIN_INIT_TOPIC= is ignored |
+| =TINYMCEPLUGIN_INIT_TOPIC= | [[%SYSTEMWEB%.TinyMCEPlugin]] | The fully qualified Web.Topic containing a [[VarSTARTSECTION][section]] named =INIT= which holds the !TinyMCE initialisation parameters |
+| =TINYMCEPLUGIN_MCEPLUGINS= | See ="plugins"= parameter in [[%TOPIC%#INIT][INIT]] above | Comma separated list of !TinyMCE plugins to initialise |
+| =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= || Comma separated list of additional !TinyMCE plugins to initialise. |
+| =TINYMCEPLUGIN_BUTTONS1, TINYMCEPLUGIN_BUTTONS2, TINYMCEPLUGIN_BUTTONS3= | See ="theme_advanced_buttons1", "theme_advanced_buttons2", "theme_advanced_buttons3"= parameters in [[%TOPIC%#INIT][INIT]] above | Comma separated list of toolbar buttons (in order) for the first, second and third rows (of buttons) |
+| =TINYMCEPLUGIN_ADDITIONAL_BUTTONS1,= <br/> =TINYMCEPLUGIN_ADDITIONAL_BUTTONS2,= <br/> =TINYMCEPLUGIN_ADDITIONAL_BUTTONS3= || Comma separated list of toolbar buttons (in order) to be appended to the end of a button row |
 | =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for a specific =_browser= |
 | =TINYMCEPLUGIN_DISABLE= | 0 | If set to 1, disables TinyMCEPlugin. _Please use_ =NOWYSIWYG= _instead_ |
 | =NOWYSIWYG= | 0 | If this global setting is set to 1, TinyMCEPlugin (and all other WYSIWYG editors) will be disabled. |
@@ -116,21 +176,22 @@ The defaults are:
     OPERA => '',
     GECKO => 'gecko_spellcheck : true',
     SAFARI => '',
+    CHROME => ''
 </verbatim>
 
 ---+++ Additional !TinyMCE Plugins 
 Documentation for standard plugins shipped with !TinyMCE can be found at [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins]].
 
 To enable these extra plugins, Set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your %USERSWEB%.SitePreferences.
-If the plugin also adds a toolbar button, you will need to add it into the appropriate place in the =TINYMCEPLUGIN_BUTTONS*= variables. 
+If the plugin also adds a toolbar button, you will need to add it into the appropriate place in the =TINYMCEPLUGIN_ADDITIONAL_BUTTONS*= variables. 
 
 add the following to %USERSWEB%.SitePreferences
 
-<verbatim>
+<pre class="tml">
 ---++ TinyMCE customisations
-   * Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions
-   * Set TINYMCEPLUGIN_BUTTONS2 = emotions,tablecontrols,separator,attach,image,charmap,hr,separator,code,hide,fullscreen
-</verbatim>
+&nbsp;&nbsp;&nbsp;* Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions
+&nbsp;&nbsp;&nbsp;* Set TINYMCEPLUGIN_ADDITIONAL_BUTTONS2 = emotions
+</pre>
 
 Some notable plugins:
 | *Plugin Name* | *Toolbar buttons* | *Description* | *Notes* |
@@ -181,7 +242,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
                  Foswikitask:Item2125: Change attach dialogue button text from 'cancel' to 'close'<br/>\
                  Foswikitask:Item1482: Improve attach dialogue usability: auto-refresh attachment list after switching from upload tab; auto-select upload tab if there are zero existing attachments<br/>\
                  Foswikitask:Item1378: Fix dialogue window sizes are too small for link, attachments and colour dialogues<br/>\
-                 Foswikitask:Item1392: (IE only) Cursor jumps to beginning of document unintendedly (fixed as a result of upgrade to TinyMCE 3.3) |
+                 Foswikitask:Item1392: (IE only) Cursor jumps to beginning of document unintendedly (fixed as a result of upgrade to !TinyMCE 3.3)<br/>\
+                 Foswikitask:Item9210: Deprecate =TINYMCEPLUGIN_INIT= in favour of =TINYMCEPLUGIN_INIT_TOPIC= sections |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
 |  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |

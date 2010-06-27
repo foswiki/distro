@@ -249,6 +249,11 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ICONTOPIC = %SYSTEMWEB%.DocumentGraphics
       * to use the Foswiki 1.0 iconset, set the ICONTOPIC to %SYSTEMWEB%.DocumentGraphics
 
+---+++ TinyMCEPlugin
+   * Topic containing a [[VarSECTION][section]] named =INIT= which will hold the default initialisation parameters for the !TinyMCE editor.
+      * #Set TINYMCEPLUGIN_INIT_TOPIC = %SYSTEMWEB%.TinyMCEPlugin
+      * Not actually set in this topic because this same default will be set by the plugin if missing
+
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
       * Set EDITURL = %SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%
