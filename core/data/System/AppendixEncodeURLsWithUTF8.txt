@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721393" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+%META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 #EncodeURLsUTF8
 ---+ Appendix B: Encode URLs With UTF8 
@@ -42,4 +42,4 @@ Foswiki generates the whole page in the site charset, e.g. ISO-8859-1 or EUC-JP,
 %STOPINCLUDE%
 
 ---
-*Related Topics:* AdminDocumentationCategory
+*Related Topics:* DeveloperDocumentationCategory
