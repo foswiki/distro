@@ -6,7 +6,7 @@ use warnings;
 use Unit::TestSuite;
 our @ISA = 'Unit::TestSuite';
 
-sub include_tests { return 'TWikiFuncTests', 'TWikiLinkTests' }
+sub include_tests { return 'TWikiFuncTests' }
 
 1;
 __END__
