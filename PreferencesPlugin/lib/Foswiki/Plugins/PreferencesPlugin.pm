@@ -98,8 +98,8 @@ sub beforeCommonTagsHandler {
             }
             elsif ( !$insidecomment ) {
                 $token =~
-s(^((?:\t|   )+\*\s(Set|Local)\s*)(\w+)\s*\=(.*$(\n[ \t]+[^\s*].*$)*))
-                           ($1._generateEditField($web, $topic, $3, $4, $formDef))gem;
+s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]+[^\s*].*$)*)/
+                           $1._generateEditField($web, $topic, $3, $4, $formDef)/gem;
             }
             $outtext .= $token;
         }
@@ -136,8 +136,10 @@ s(^((?:\t|   )+\*\s(Set|Local)\s*)(\w+)\s*\=(.*$(\n[ \t]+[^\s*].*$)*))
             my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
             # SMELL: unchecked implicit untaint of value?
-            $text =~ s(^((?:\t|   )+\*\s(Set|Local)\s)(\w+)\s\=\s(.*)$)
-              ($1._saveSet($query, $web, $topic, $3, $4, $formDef))mgeo;
+            # $text =~ s/($Foswiki::regex{setVarRegex})/
+                $text =~
+s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]+[^\s*].*$)*)/
+                 $1._saveSet($query, $web, $topic, $3, $4, $formDef)/mgeo;
             Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
         }
         Foswiki::Func::setTopicEditLock( $web, $topic, 0 );
@@ -191,13 +193,26 @@ sub _generateEditField {
     }
     unless ($html) {
 
-        # No form definition, default to text field.
-        $html = CGI::textfield(
-            -class => 'foswikiAlert foswikiInputField',
-            -name  => $name,
-            -size  => 80,
-            -value => $value
-        );
+        if ($value =~ /\n/) {
+            my $rows = 1;
+            $rows++ while $value =~ /\n/g;
+            # No form definition and there are newlines, default to textarea
+            $html = CGI::textarea(
+                -class   => 'foswikiAlert foswikiInputField',
+                -name    => $name,
+                -cols    => 80,
+                -rows    => $rows,
+                -default => $value);
+        }
+        else {
+            # No form definition and no newlines, default to text field.
+            $html = CGI::textfield(
+                -class => 'foswikiAlert foswikiInputField',
+                -name  => $name,
+                -size  => 80,
+                -value => $value
+            );
+        }
     }
 
     push( @shelter, $html );
