@@ -14,7 +14,7 @@ use Foswiki::Search::ResultSet;
 
 Forking implementation of the RCS cache search.
 
----++ search($searchString, $inputTopicSet, $session, $options) -> \%seen
+---++ search($searchString, $web, $inputTopicSet, $session, $options) -> \%seen
 Search .txt files in $dir for $searchString. See RcsFile::searchInWebContent
 for details.
 
@@ -160,14 +160,14 @@ sub query {
         next unless $session->webExists($web);
 
         my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
+        my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
         # make sure we can report this web on an 'all' search
         # DON'T filter out unless it's part of an 'all' search.
         next
           if ( $searchAllFlag
             && !$isAdmin
-            && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
+            && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
 
         my $infoCache =

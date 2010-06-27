@@ -18,9 +18,10 @@ sub TOPICLIST {
     $web =~ s#\.#/#go;
 
     my $webObject = Foswiki::Meta->new( $this, $web );
+    my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
     return ''
       if !defined($params->{web}) && $web ne $this->{webName}
-          && $webObject->getPreference('NOSEARCHALL');
+          && $thisWebNoSearchAll;
 
     my @items;
     my $it = $webObject->eachTopic();

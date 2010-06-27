@@ -36,11 +36,12 @@ sub ok {
     return 0 if !$session->webExists($web);
 
     my $webObject = Foswiki::Meta->new( $session, $web );
+    my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
     return 0
       if $this->{public}
           && !$session->{users}->isAdmin( $session->{user} )
-          && $webObject->getPreference('NOSEARCHALL');
+          && $thisWebNoSearchAll;
 
     return 0 if $this->{allowed} && !$webObject->haveAccess('VIEW');
 
