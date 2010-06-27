@@ -340,7 +340,7 @@ The =save= script performs a range of save-related functions, as selected by the
 | =text= | New text of the topic | |
 | =topicparent= | If 'none' remove any current topic parent. If the name of a topic, set the topic parent to this. | |
 
-Any errors will cause a redirect to an =oops= page.
+Any errors will cause a redirect to another page, either an =oops= page to report the error, or a =login= if the save is not authorized.
 
 The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web.
 
