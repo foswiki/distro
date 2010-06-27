@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805202" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="CategoryCategory"}%
+%META:TOPICPARENT{name="WebHome"}%
 ---+ Admin tools
 Manage your whole site from one screen.
 

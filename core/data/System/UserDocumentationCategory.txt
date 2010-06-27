@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805976" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="CategoryCategory"}%
+%META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of User Documentation
 
 %SEARCH{"%TOPIC%" excludetopic="%TOPIC%,WebLeftBar" nonoise="on" format="   * [[$web.$topic][$percentSPACEOUT{$quot$topic$quot}$percent]]$n      * $summary(100, noheader)"}%

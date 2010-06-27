@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805185" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="CategoryCategory"}%
+%META:TOPICPARENT{name="ReferenceManual"}%
 ---+ A List of Wiki Administrator Documentation
 
 %SEARCH{"%TOPIC%" excludetopic="%TOPIC%" nonoise="on" format="   * $web.$topic$n      * $summary(100, noheader)"}%
