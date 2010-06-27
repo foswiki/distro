@@ -15,6 +15,7 @@ use Error qw(:try);
 use Foswiki;
 use Foswiki::UI::Manage;
 use Foswiki::UI::Save;
+use FileHandle;
 
 our $REG_UI_FN;
 our $MAN_UI_FN;
