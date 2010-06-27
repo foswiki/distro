@@ -243,7 +243,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
                  Foswikitask:Item1482: Improve attach dialogue usability: auto-refresh attachment list after switching from upload tab; auto-select upload tab if there are zero existing attachments<br/>\
                  Foswikitask:Item1378: Fix dialogue window sizes are too small for link, attachments and colour dialogues<br/>\
                  Foswikitask:Item1392: (IE only) Cursor jumps to beginning of document unintendedly (fixed as a result of upgrade to !TinyMCE 3.3)<br/>\
-                 Foswikitask:Item9210: Deprecate =TINYMCEPLUGIN_INIT= in favour of =TINYMCEPLUGIN_INIT_TOPIC= sections |
+                 Foswikitask:Item9210: Deprecate =TINYMCEPLUGIN_INIT= in favour of =TINYMCEPLUGIN_INIT_TOPIC= sections
+                 Foswikitask:Item9204: !TinyMCE strips out 'type' arguments when pasting Foswiki macros from MS Word |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
 |  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |
