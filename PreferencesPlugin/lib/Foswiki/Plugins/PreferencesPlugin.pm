@@ -281,7 +281,11 @@ sub _generateControlButtons {
 sub _saveSet {
     my ( $query, $web, $topic, $name, $value, $formDef ) = @_;
 
-    my $newValue = $query->param($name) || $value;
+    my $newValue = $query->param($name);
+    if (not defined $newValue) {
+        $newValue = $value;
+        $newValue =~ s/^\s+//; # strip leading whitespace
+    }
 
     if ($formDef) {
         my $fieldDef = _getField( $formDef, $name );

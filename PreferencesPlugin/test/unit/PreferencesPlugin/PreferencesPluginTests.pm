@@ -28,8 +28,8 @@ sub test_edit_simple {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $session = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $session;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -48,7 +48,7 @@ HERE
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
 </form>
 HTML
-    $twiki->finish();
+    $session->finish();
 }
 
 # Item4816
@@ -61,12 +61,14 @@ Normal text outside form
 %EDITPREFERENCES%
    * Set FLEEGLE = floon
    * Set FLEEGLE2 = floontoo
+   * Set FLEEGLE3 = floon
+     three
 <!-- Form ends before this
    * Set HIDDENSETTING = hidden
 -->
 HERE
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $session = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $session;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -81,42 +83,72 @@ Normal text outside form
  &nbsp;
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
-   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = SHELTER\0071</span></form>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = SHELTER\0071</span>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE3 = SHELTER\0072</span></form>
 <!-- Form ends before this
    * Set HIDDENSETTING = hidden
 -->
 HTML
-    $twiki->finish();
+
+    Foswiki::Plugins::PreferencesPlugin::postRenderingHandler($result);
+    $this->assert_html_equals( <<HTML, $result );
+<!-- Comment should be outside form -->
+Normal text outside form
+<form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
+ <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="foswikiSubmit" />
+ &nbsp;
+ <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = <input type="text" name="FLEEGLE" value="floon" size="80" class="foswikiAlert foswikiInputField" /></span>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = <input type="text" name="FLEEGLE2" value="floontoo" size="80" class="foswikiAlert foswikiInputField" /></span>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE3 = <textarea name="FLEEGLE3" rows="2" cols="80" class="foswikiAlert foswikiInputField"> floon
+     three</textarea></span></form>
+<!-- Form ends before this
+   * Set HIDDENSETTING = hidden
+-->
+HTML
+
+    $session->finish();
 }
 
 sub test_save {
     my $this  = shift;
     my $query = new Unit::Request(
         {
-            prefsaction => ['save'],
+            prefsaction => ['Save new settings'],
             FLEEGLE     => ['flurb'],
+            FOO         => ["bark\n     from the dog"],
+            MAKEMEEMPTY => [''],
+            MAKEMEZERO  => ['0'],
         }
     );
     my $input = <<HERE;
    * Set FLEEGLE = floon
+
+   * Set Pumpkin = turkey
+
+   * Set FOO =bar
+     baz
+
+   * Set MAKEMEEMPTY=blah
+   * Set MAKEMEZERO= 1
 %EDITPREFERENCES%
 HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
     $query->method('POST');
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $session = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $session;
 
     # This will attempt to redirect, so must capture
     my ( $result, $ecode ) = $this->capture(
         sub {
-            $twiki->{response}->print(
+            $session->{response}->print(
                 Foswiki::Func::expandCommonVariables(
                     $input, $this->{test_topic}, $this->{test_web}, undef
                 )
             );
-            $Foswiki::engine->finalize( $twiki->{response}, $twiki->{request} );
+            $Foswiki::engine->finalize( $session->{response}, $session->{request} );
         }
     );
     $this->assert( $result =~ /Status: 302/ );
@@ -128,10 +160,18 @@ HERE
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     $this->assert_str_equals( <<HERE, $text );
    * Set FLEEGLE = flurb
+
+   * Set Pumpkin = turkey
+
+   * Set FOO = bark
+     from the dog
+
+   * Set MAKEMEEMPTY = 
+   * Set MAKEMEZERO = 0
 %EDITPREFERENCES%
 HERE
 
-    $twiki->finish();
+    $session->finish();
 }
 
 sub test_view {
@@ -140,8 +180,8 @@ sub test_view {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    my $twiki = new Foswiki();
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $session = new Foswiki();
+    $Foswiki::Plugins::SESSION = $session;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -158,7 +198,7 @@ HERE
  <input type="submit" name="edit" value="Edit Preferences" class="foswikiButton" />
 </form>
 HTML
-    $twiki->finish();
+    $session->finish();
 }
 
 1;
