@@ -61,7 +61,7 @@ unless ($errorcode == 0) {
     close(UNIT);
     
     #only output the summary
-    $unittestErrors =~ s/^(.*)Unit test run Summary://m;
+    $unittestErrors =~ s/^(.*)Unit test run Summary://s;
     
     chdir($foswikihome);
     if ($SvensAutomatedBuilds) {
