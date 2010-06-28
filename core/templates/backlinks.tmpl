@@ -1,4 +1,4 @@
-%{ This is a default template }%%TMPL:INCLUDE{"search"}%
+%{ This is a default template }%%TMPL:INCLUDE{"oops"}%%TMPL:INCLUDE{"search"}%
 %TMPL:DEF{"searchweb"}%%SEARCH{ search="%TOPIC%([^A-Za-z0-9]|$)|%SPACEOUT{"%TOPIC%" separator=" *"}%([^A-Za-z0-9]|$)|%WEB%.%TOPIC%([^A-Za-z0-9]|$)" type="regex" scope="text" nosearch="on" excludetopic="%TOPIC%" web="%WEB%" }%%TMPL:END%
 
 

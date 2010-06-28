@@ -50,9 +50,9 @@
 
 
 %TMPL:DEF{"backlinks"}%---++ %MAKETEXT{"Backlinks"}%
-   * <b><a href="%SCRIPTURLPATH{"oops"}%/%WEB%/%TOPIC%?template=backlinksallwebs" title="%MAKETEXT{"Search all webs for topics that link to here"}%" accesskey="l">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a></b>,
+   * <b><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=backlinksallwebs" title="%MAKETEXT{"Search all webs for topics that link to here"}%" accesskey="l">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a></b>,
      %MAKETEXT{"<em>in all public webs</em>"}%
-   * <a href="%SCRIPTURLPATH{"oops"}%/%WEB%/%TOPIC%?template=backlinksweb" title="%MAKETEXT{"Search the [_1] Web for topics that link to here" args="<nop>%WEB%"}%" accesskey="w">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a>,
+   * <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=backlinksweb" title="%MAKETEXT{"Search the [_1] Web for topics that link to here" args="<nop>%WEB%"}%" accesskey="w">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a>,
      %MAKETEXT{"<em>in [_1] web</em> only" args="<nop>%WEB%"}%
 %TMPL:END%
 
