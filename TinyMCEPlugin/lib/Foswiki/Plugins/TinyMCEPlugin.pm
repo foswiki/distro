@@ -17,7 +17,7 @@ use Foswiki::Func ();
 our %defaultINIT_BROWSER = (
     MSIE   => '',
     OPERA  => '',
-    GECKO  => 'gecko_spellcheck : true',
+    GECKO  => '"gecko_spellcheck" : true',
     SAFARI => '',
     CHROME => '',
 );
