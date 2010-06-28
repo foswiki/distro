@@ -242,8 +242,7 @@ sub validate {
     my $topic     = $session->{topicName};
     my $cgis      = $session->getCGISession();
 
-    my $tmpl =
-      $session->templates->readTemplate( 'validate', $session->getSkin() );
+    my $tmpl = $session->templates->readTemplate( 'validate' );
 
     if ( $query->param('response') ) {
         my $cacheUID = $query->param('foswikioriginalquery');

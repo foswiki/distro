@@ -184,17 +184,19 @@ sub tmplP {
 
 =begin TML
 
----++ ObjectMethod readTemplate ( $name, $skins, $web ) -> $text
+---++ ObjectMethod readTemplate ( $name, %options ) -> $text
 
-Reads a template.
+Reads a template, loading the definitions therein.
 
 Return value: expanded template text
 
-In the event that the read fails (template not found, access permissions fail)
-returns the empty string ''.
+By default throws an OopsException if the template was not found or the 
+access controls denied access.
 
-=$skin=, =$web= and =$name= are forced to an upper-case first character
-when composing user topic names.
+%options include:
+   * =skin= - skin name, 
+   * =web= - web to search
+   * =no_oops= - if true, will not throw an exception. Instead, returns undef.
 
 If template text is found, extracts include statements and fully expands them.
 Also extracts template definitions and adds them to the
@@ -203,24 +205,45 @@ list of loaded templates, overwriting any previous definition.
 =cut
 
 sub readTemplate {
-    my ( $this, $name, $skins, $web ) = @_;
+    my ( $this, $name, %opts ) = @_;
+    ASSERT($name) if DEBUG;
+    my $skins = $opts{skins} || $this->{session}->getSkin();
+    my $web = $opts{web} || $this->{session}->{webName};
 
     $this->{files} = ();
 
     # recursively read template file(s)
     my $text = _readTemplateFile( $this, $name, $skins, $web );
 
+    # Check file was found
+    unless( defined $text ) {
+        # if no_oops is given, return undef silently
+        if ($opts{no_oops}) {
+            return undef;
+        } else {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'no_such_template',
+                params => [
+                    $name.join(';',caller),
+                    # More info for overridable templates
+                    ($name =~ /^(view|edit)$/) ? $name.'_TEMPLATE' : '' ]
+               );
+        }
+    }
+
     # SMELL: unchecked implicit untaint?
     while ( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
         $text =~ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/
-          _readTemplateFile( $this, $1, $skins, $web )/ge;
+          _readTemplateFile( $this, $1, $skins, $web ) || ''/ge;
     }
 
-    if ( !( $text =~ /%TMPL\:/s ) ) {
+    if ( $text !~ /%TMPL\:/ ) {
+        # no %TMPL's to process
 
-        # no template processing
-        $text =~
-          s|^(( {3})+)|"\t" x (length($1)/3)|geom;    # leading spaces to tabs
+        # SMELL: legacy - leading spaces to tabs, should not be required
+        $text =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
+
         return $text;
     }
 
@@ -293,23 +316,18 @@ sub readTemplate {
     # handle %TMPL:P{"..."}% recursively
     $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/geo;
 
-    # leading spaces to tabs
-    # SMELL: anachronism?
+    # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
 
     return $result;
 }
 
-# STATIC: Return value: raw template text, or '' if read fails
+# STATIC: Return value: raw template text, or undef if read fails
 sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
     my $session = $this->{session};
 
-    $skins = $session->getSkin() unless defined($skins);
-
     #print STDERR "SKIN path is $skins\n";
-    $web  ||= $session->{webName};
-    $name ||= '';
 
     # SMELL: not i18n-friendly (can't have accented characters in skin name)
     # zap anything suspicious
@@ -376,7 +394,7 @@ sub _readTemplateFile {
       )
     {
 
-        #TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
+        # TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
         @templatePath =
           @{ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath} };
     }
@@ -438,7 +456,7 @@ sub _readTemplateFile {
                     $text = "<!--$web1.$name1-->$text<!--/$web1.$name1-->"
                       if (TRACE);
 
-                    return _decomment($text);
+                    return _decomment( $text );
                 }
             }
             elsif ( -e $file ) {
@@ -452,10 +470,8 @@ sub _readTemplateFile {
         }
     }
 
-    # TRACE is paranoid
-    throw Error::Simple( 'Template "' . $name . '" was not found' ) if TRACE;
-
-    return '';
+    # File was not found
+    return undef;
 }
 
 sub _readFile {
@@ -473,12 +489,14 @@ sub _readFile {
     }
     else {
         $session->logger->log( 'warning', "$fn: $!" );
-        return '';
+        return undef;
     }
 }
 
 sub _decomment {
     my $text = shift;
+
+    return $text unless $text;
 
     # Kill comments, marked by %{ ... }%
     # (and remove whitespace either side of the comment)

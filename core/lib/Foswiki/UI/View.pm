@@ -223,20 +223,9 @@ sub view {
         $template = 'view';
     }
 
-    my $tmpl = $session->templates->readTemplate($template);
-    if ( !$tmpl && $template ne 'view' ) {
-        $tmpl = $session->templates->readTemplate('view');
-    }
-
-    if ( !$tmpl ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'no_such_template',
-            web    => $topicObject->web,
-            topic  => $topicObject->topic,
-            params => [ $template, 'VIEW_TEMPLATE' ]
-        );
-    }
+    my $tmpl = $session->templates->readTemplate($template, no_oops => 1);
+    # If the VIEW_TEMPLATE (or other) doesn't exist, default to view.
+    $tmpl = $session->templates->readTemplate('view') unless defined($tmpl); 
 
     $tmpl =~ s/%REVTITLE%/$revTitle/g;
     $tmpl =~ s/%REVARG%/$revArg/g;

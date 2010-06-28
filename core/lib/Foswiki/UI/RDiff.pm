@@ -484,8 +484,7 @@ sub diff {
     my $revHigh = Foswiki::Store::cleanUpRevID( $query->param('rev1') );
     my $revLow  = Foswiki::Store::cleanUpRevID( $query->param('rev2') );
 
-    my $skin = $session->getSkin();
-    my $tmpl = $session->templates->readTemplate( 'rdiff', $skin );
+    my $tmpl = $session->templates->readTemplate( 'rdiff' );
     $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
 
     # The template is split by up to 4 %REPEAT% tags. The sections are:

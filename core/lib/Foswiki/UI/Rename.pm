@@ -999,7 +999,6 @@ sub _newTopicOrAttachmentScreen {
       = @_;
 
     my $query          = $session->{cgiQuery};
-    my $tmplname       = $query->param('template') || '';
     my $tmpl           = '';
     my $currentWebOnly = $query->param('currentwebonly') || '';
 
@@ -1007,6 +1006,7 @@ sub _newTopicOrAttachmentScreen {
     $nonWikiWordFlag = 'checked="checked"' if ($doAllowNonWikiWord);
 
     if ($attachment) {
+        my $tmplname = $query->param('template');
         $tmpl =
           $session->templates->readTemplate( $tmplname || 'moveattachment' );
     }

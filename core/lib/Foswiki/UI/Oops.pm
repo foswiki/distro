@@ -97,20 +97,20 @@ sub oops {
     # Do not pass on the template parameter otherwise continuation won't work
     $query->delete('template');
 
-    my $skin = $session->getSkin();
+    my $tmplData = $session->templates->readTemplate(
+        $tmplName, no_oops => 1 );
 
-    my $tmplData = $session->templates->readTemplate( $tmplName, $skin );
-
-    if ( !$tmplData ) {
+    if ( !defined($tmplData) ) {
+        # Can't throw an OopsException here, cos we'd just recurse. Build
+        # an error page from scratch,
         $tmplData =
             CGI::start_html()
           . CGI::h1( {}, 'Foswiki Installation Error' )
-          . 'Template "'
-          . $tmplName
-          . '" not found.'
-          . CGI::p()
-          . 'Check the configuration settings for {TemplateDir} and {TemplatePath}.'
-          . CGI::end_html();
+          . <<MESSAGE . CGI::end_html();
+Template "$tmplName" not found.
+<p />
+Check the configuration settings for {TemplateDir} and {TemplatePath}.
+MESSAGE
     }
     else {
         if ( defined $def ) {

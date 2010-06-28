@@ -383,7 +383,7 @@ sub renderForEdit {
     if ( $this->{mandatoryFieldsPresent} ) {
         $session->enterContext('mandatoryfields');
     }
-    my $tmpl = $session->templates->readTemplate("form");
+    my $tmpl = $session->templates->readTemplate('form');
     $tmpl = $topicObject->expandMacros($tmpl);
 
     $tmpl =~ s/%FORMTITLE%/$this->_link( $this->web.'.'.$this->topic )/ge;

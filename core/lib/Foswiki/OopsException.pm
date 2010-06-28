@@ -158,8 +158,9 @@ sub stringify {
 
         # load the defs
         $session->templates->readTemplate( 'oops' . $this->{template},
-            $session->getSkin() );
-        my $message = $session->templates->expandTemplate( $this->{def} );
+                                          no_oops => 1 );
+        my $message = $session->templates->expandTemplate( $this->{def} )
+          || "Failed to find '$this->{def}' in 'oops$this->{template}'";
         my $topicObject =
           Foswiki::Meta->new( $session, $this->{web}, $this->{topic} );
         $message = $topicObject->expandMacros($message);

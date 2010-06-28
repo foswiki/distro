@@ -56,34 +56,23 @@ sub preview {
     my $text = $topicObject->text() || '';
     $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
 
-    my $template = $session->{prefs}->getPreference('VIEW_TEMPLATE')
-      || 'preview';
-    my $tmpl = $session->templates->readTemplate($template);
+    # Load the template for the view
+    my $content = $text;
+    my $template = $session->{prefs}->getPreference('VIEW_TEMPLATE');
+    if ($template) {
+        my $vt = $session->templates->readTemplate($template, no_oops => 1);
+        if ($vt) {
+            # We can't just use a VIEW_TEMPLATE directly because it
+            # describes an entire HTML page. But the bit we
+            # need is defined by the %TMPL:DEF{"content"}% within it, so
+            # we can just pull it out and instantiate that small bit.
 
-    # if a VIEW_TEMPLATE is set, but does not exist or is not readable,
-    # revert to 'preview' template (same code as View.pm)
-    if ( !$tmpl && $template ne 'preview' ) {
-        $tmpl     = $session->templates->readTemplate('preview');
-        $template = 'preview';
+            $content = $session->templates->expandTemplate('content');
+            $content =~ s/%TEXT%/$text/go;
+        }
     }
 
-    my $content = '';
-    if ( $template eq 'preview' ) {
-        $content = $text;
-    }
-    else {
-
-        # only get the contents of TMPL:DEF{"content"}
-        $content = $session->templates->expandTemplate('content');
-
-        # put the text we have inside this template's content
-        $content =~ s/%TEXT%/$text/go;
-
-        # now we are ready to put the expanded and styled topic content in the
-        # 'normal' preview template
-    }
-
-    $tmpl = $session->templates->readTemplate('preview');
+    my $tmpl = $session->templates->readTemplate('preview');
 
     if ( $saveOpts->{minor} ) {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/go;

@@ -1817,9 +1817,10 @@ Return: =$text=    Template text
 
 sub readTemplate {
 
-    #   my( $name, $skin ) = @_;
+    my( $name, $skin ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->templates->readTemplate(@_);
+    return $Foswiki::Plugins::SESSION->templates->readTemplate(
+        $name, skin => $skin, no_oops => 1) || '';
 }
 
 =begin TML

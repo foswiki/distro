@@ -366,7 +366,7 @@
 %MAKETEXT{"This can be automatically upgraded by:"}%
 
    * %MAKETEXT{"Creating a suitable Form Definition topic"}%
-   * %MAKETEXT{"Adding a [_1] variable in WebPreferences" args="=WEBFORMS="}%
+   * %MAKETEXT{"Adding a [_1] preference in WebPreferences" args="=WEBFORMS="}%
 
 %MAKETEXT{"You will probably have to ask your administrator, [_1], to do this." args="%WIKIWEBMASTER%"}%
 %TMPL:END%
@@ -426,11 +426,14 @@
 %TMPL:DEF{no_such_template}%
 %MAKETEXT{"Could not find template"}% =%PARAM1%=
 
-%MAKETEXT{"Check your configuration settings for {TemplateDir} and {TemplatePath}. If that's not the problem, it may be because you have a setting of [_1] that is pointing to a template that doesn't exist." args="=%PARAM2%="}%
+%MAKETEXT{"Check your configuration settings for {TemplateDir} and {TemplatePath}."}%
+<div%IF{"'%PARAM2%'" then=" style='display:none'"}%>
+%MAKETEXT{"If that's not the problem, it may be because you have a setting of [_1] that is pointing to a template that doesn't exist." args="=%PARAM2%="}%
 
 %MAKETEXT{"[_1] is currently set to [_2]" args="=%PARAM2%=,<code><nop>%PARAM1%</code>"}%
 
 (%MAKETEXT{"don't forget to check your Topic Settings"}%)
+</div>
 %TMPL:END%
 
 %TMPL:DEF{post_method_only}%

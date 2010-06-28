@@ -156,7 +156,7 @@ sub login {
     # UserMappings can over-ride where the login template is defined
     my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl
     my $tmpl =
-      $session->templates->readTemplate( $loginTemplate, $session->getSkin() );
+      $session->templates->readTemplate( $loginTemplate );
 
     my $banner = $session->templates->expandTemplate('LOG_IN_BANNER');
     my $note   = '';

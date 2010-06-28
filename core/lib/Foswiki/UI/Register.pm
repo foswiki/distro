@@ -1081,8 +1081,7 @@ sub _getRegFormAsTopicContent {
 sub _emailRegistrationConfirmations {
     my ( $session, $data ) = @_;
 
-    my $skin = $session->getSkin();
-    my $template = $session->templates->readTemplate( 'registernotify', $skin );
+    my $template = $session->templates->readTemplate( 'registernotify' );
     my $email =
       _buildConfirmationEmail( $session, $data, $template,
         $Foswiki::cfg{Register}{HidePasswd} );
@@ -1099,25 +1098,24 @@ sub _emailRegistrationConfirmations {
             if ( $session->{users}->removeUser($cUID) ) {
                 $template =
                   $session->templates->readTemplate(
-                      'registerfailedremoved', $skin );
+                      'registerfailedremoved' );
             }
             else {
                 $template =
                   $session->templates->readTemplate(
-                     'registerfailednotremoved', $skin );
+                     'registerfailednotremoved' );
             }
         }
         catch Error::Simple with {
 
             # Most Mapping Managers don't support removeUser, unfortunately
             $template =
-              $session->templates->readTemplate( 'registerfailednoremove',
-                $skin );
+              $session->templates->readTemplate( 'registerfailednoremove' );
         };
     }
     else {
         $template =
-          $session->templates->readTemplate( 'registernotifyadmin', $skin );
+          $session->templates->readTemplate( 'registernotifyadmin' );
     }
 
     $email = _buildConfirmationEmail( $session, $data, $template, 1 );
