@@ -83,7 +83,7 @@ sub loadCGIParams {
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
 
-       #Foswiki::log("loadCGIParams $typename $keys\n'$newval' != \n'$curval'");
+            #Foswiki::log("loadCGIParams ($typename: $keys)($param)\n'$newval' != \n'".($curval||'undef')."'");
             eval $xpr . ' = $newval';
             $changed++;
             $updated->{$keys} = 1;

@@ -336,7 +336,7 @@ sub log {
     my ($message) = @_;
 
     $message ||= '';
-    my $log = $Foswiki::cfg{DebugFileName};
+    my $log = $Foswiki::cfg{DebugFileName} || 'ConfigureError.log';
     my $file;
     if ( open( $file, '>>', $log ) ) {
         print $file "$message\n";

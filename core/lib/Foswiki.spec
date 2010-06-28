@@ -564,10 +564,10 @@ $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
 # should only need to override if there is something badly wrong with
 # those calculations.</b><br />
 # {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
-## $Foswiki::cfg{OS} = '';
+$Foswiki::cfg{OS} = '';
 # **STRING 20 EXPERT**
 # The value of Perl $OS
-## $Foswiki::cfg{DetailedOS} = '';
+$Foswiki::cfg{DetailedOS} = '';
 
 # **BOOLEAN EXPERT**
 # Remove .. from %INCLUDE{filename}%, to stop includes
@@ -873,6 +873,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # RCS, but is not quite as fast.</li>
 # </ul>
 $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
+$Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite' if ($^O eq 'MSWin32');
 
 # **BOOLEAN**
 # Set to enable hierarchical webs. Without this setting, Foswiki will only
@@ -906,6 +907,12 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 # http://foswiki.org/Extensions/NativeSearchContrib </a>, that often
 # gives better performance with mod_perl and Speedy CGI.
 $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
+$Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::PurePerl' if ($^O eq 'MSWin32');
+
+# bodgey up a default location for grep
+my $grepDefaultPath = '/bin/';
+$grepDefaultPath = '/usr/bin/' if ($^O eq 'darwin');
+$grepDefaultPath = 'c:/PROGRA~1/GnuWin32/bin/' if ($^O eq 'MSWin32');
 
 # **COMMAND EXPERT**
 # Full path to GNU-compatible egrep program. This is used for searching when
@@ -914,12 +921,12 @@ $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forki
 # to -i for case-sensitive search or to the empty string otherwise.
 # Similarly for %DET, which controls whether matching lines are required.
 # (see the documentation on these options with GNU grep for details).
-$Foswiki::cfg{Store}{EgrepCmd} = '/bin/grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+$Foswiki::cfg{Store}{EgrepCmd} = $grepDefaultPath.'grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
 # **COMMAND EXPERT**
 # Full path to GNU-compatible fgrep program. This is used for searching when
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
-$Foswiki::cfg{Store}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+$Foswiki::cfg{Store}{FgrepCmd} = $grepDefaultPath.'grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
 # **SELECTCLASS Foswiki::Store::QueryAlgorithms::* EXPERT**
 # The standard Foswiki algorithm for performing queries is not particularly
