@@ -2,18 +2,82 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
 	<title>{#foswikibuttons_dlg.colours_dialog_title}</title>
-	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/editable_selects.js"></script>
-	<script language="javascript" type="text/javascript" src="jscripts/colour.js"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js"></script>
+	<script type="text/javascript" src="jscripts/colour.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/popup.css" />
-	<base target="_self" />
+	<base href="_self" />
   </head>
     <body id="foswikibuttonscolours" style="display: none">
       <div class="panel_wrapper">
         <div id="general_panel" class="panel current">
-          <table class="colours">
+          <strong>{#foswikibuttons_dlg.colours_dialog_standard}</strong>
+          <table class="colours standard" summary="{#foswikibuttons_dlg.colours_dialog_standard}">
+            <tr>
+              <td class="foswikicolours" style="background-color:navy">
+                <input title="%NAVY%" class="colours" style="background-color:navy" type="button" value="&nbsp;" onclick="ColoursDlg.set('navy')" />
+              </td>
+              <td class="foswikicolours" style="background-color:blue">
+                <input title="%BLUE%" class="colours" style="background-color:blue" type="button" value="&nbsp;" onclick="ColoursDlg.set('blue')" />
+              </td>
+              <td class="foswikicolours" style="background-color:teal">
+                <input title="%TEAL%" class="colours" style="background-color:teal" type="button" value="&nbsp;" onclick="ColoursDlg.set('teal')" />
+              </td>
+              <td class="foswikicolours" style="background-color:cyan">
+                <input title="%AQUA%" class="colours" style="background-color:cyan" type="button" value="&nbsp;" onclick="ColoursDlg.set('aqua')" />
+              </td>
+              <td class="foswikicolours" style="background-color:green">
+                <input title="%GREEN%" class="colours" style="background-color:green" type="button" value="&nbsp;" onclick="ColoursDlg.set('green')" />
+              </td>
+              <td class="foswikicolours" style="background-color:lime">
+                <input title="%LIME%" class="colours" style="background-color:lime" type="button" value="&nbsp;" onclick="ColoursDlg.set('lime')" />
+              </td>
+              <td class="foswikicolours" style="background-color:olive">
+                <input title="%OLIVE%" class="colours" style="background-color:olive" type="button" value="&nbsp;" onclick="ColoursDlg.set('olive')" />
+              </td>
+              <td class="foswikicolours" style="background-color:yellow">
+                <input title="%YELLOW%" class="colours" style="background-color:yellow" type="button" value="&nbsp;" onclick="ColoursDlg.set('yellow')" />
+              </td>
+              <td class="foswikicolours" style="background-color:maroon">
+                <input title="%MAROON%" class="colours" style="background-color:maroon" type="button" value="&nbsp;" onclick="ColoursDlg.set('maroon')" />
+              </td>
+              <td class="foswikicolours" style="background-color:brown">
+                <input title="%BROWN%" class="colours" style="background-color:brown" type="button" value="&nbsp;" onclick="ColoursDlg.set('brown')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="foswikicolours" style="background-color:orange">
+                <input title="%ORANGE%" class="colours" style="background-color:orange" type="button" value="&nbsp;" onclick="ColoursDlg.set('orange')" />
+              </td>
+              <td class="foswikicolours" style="background-color:red">
+                <input title="%RED%" class="colours" style="background-color:red" type="button" value="&nbsp;" onclick="ColoursDlg.set('red')" />
+              </td>
+              <td class="foswikicolours" style="background-color:fuchsia">
+                <input title="%PINK%" class="colours" style="background-color:fuchsia" type="button" value="&nbsp;" onclick="ColoursDlg.set('fuchsia')" />
+              </td>
+              <td class="foswikicolours" style="background-color:purple">
+                <input title="%PURPLE%" class="colours" style="background-color:purple" type="button" value="&nbsp;" onclick="ColoursDlg.set('purple')" />
+              </td>
+              <td class="foswikicolours" style="background-color:white">
+                <input title="%WHITE%" class="colours" style="background-color:white" type="button" value="&nbsp;" onclick="ColoursDlg.set('white')" />
+              </td>
+              <td class="foswikicolours" style="background-color:silver">
+                <input title="%SILVER%" class="colours" style="background-color:silver" type="button" value="&nbsp;" onclick="ColoursDlg.set('silver')" />
+              </td>
+              <td class="foswikicolours" style="background-color:gray">
+                <input title="%GRAY%" class="colours" style="background-color:gray" type="button" value="&nbsp;" onclick="ColoursDlg.set('gray')" />
+              </td>
+              <td class="foswikicolours" style="background-color:black">
+                <input title="%BLACK%" class="colours" style="background-color:black" type="button" value="&nbsp;" onclick="ColoursDlg.set('black')" />
+              </td>
+              <td colspan="2"/>
+            </tr>
+          </table>
+          <p></p>
+          <strong>{#foswikibuttons_dlg.colours_dialog_extended}</strong>
+          <table class="colours extended" summary="{#foswikibuttons_dlg.colours_dialog_extended}">
             <tr>
               <td class="colours" style="background-color:steelblue">
                 <input title="steelblue" class="colours" style="background-color:steelblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('steelblue')" />
@@ -39,23 +103,17 @@
               <td class="colours" style="background-color:midnightblue">
                 <input title="midnightblue" class="colours" style="background-color:midnightblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('midnightblue')" />
               </td>
-              <td class="foswikicolours" style="background-color:navy">
-                <input title="%NAVY%" class="colours" style="background-color:navy" type="button" value="&nbsp;" onclick="ColoursDlg.set('navy')" />
-              </td>
               <td class="colours" style="background-color:darkblue">
                 <input title="darkblue" class="colours" style="background-color:darkblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkblue')" />
               </td>
               <td class="colours" style="background-color:mediumblue">
                 <input title="mediumblue" class="colours" style="background-color:mediumblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('mediumblue')" />
               </td>
-            </tr>
-            <tr>
-              <td class="foswikicolours" style="background-color:blue">
-                <input title="%BLUE%" class="colours" style="background-color:blue" type="button" value="&nbsp;" onclick="ColoursDlg.set('blue')" />
-              </td>
               <td class="colours" style="background-color:dodgerblue">
                 <input title="dodgerblue" class="colours" style="background-color:dodgerblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('dodgerblue')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:deepskyblue">
                 <input title="deepskyblue" class="colours" style="background-color:deepskyblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('deepskyblue')" />
               </td>
@@ -83,17 +141,14 @@
               <td class="colours" style="background-color:mediumturquoise">
                 <input title="mediumturquoise" class="colours" style="background-color:mediumturquoise" type="button" value="&nbsp;" onclick="ColoursDlg.set('mediumturquoise')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:lightseagreen">
                 <input title="lightseagreen" class="colours" style="background-color:lightseagreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('lightseagreen')" />
               </td>
               <td class="colours" style="background-color:darkcyan">
                 <input title="darkcyan" class="colours" style="background-color:darkcyan" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkcyan')" />
               </td>
-              <td class="foswikicolours" style="background-color:teal">
-                <input title="%TEAL%" class="colours" style="background-color:teal" type="button" value="&nbsp;" onclick="ColoursDlg.set('teal')" />
-              </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:cadetblue">
                 <input title="cadetblue" class="colours" style="background-color:cadetblue" type="button" value="&nbsp;" onclick="ColoursDlg.set('cadetblue')" />
               </td>
@@ -102,9 +157,6 @@
               </td>
               <td class="colours" style="background-color:aqua">
                 <input title="aqua" class="colours" style="background-color:aqua" type="button" value="&nbsp;" onclick="ColoursDlg.set('aqua')" />
-              </td>
-              <td class="foswikicolours" style="background-color:cyan">
-                <input title="%AQUA%" class="colours" style="background-color:cyan" type="button" value="&nbsp;" onclick="ColoursDlg.set('cyan')" />
               </td>
               <td class="colours" style="background-color:turquoise">
                 <input title="turquoise" class="colours" style="background-color:turquoise" type="button" value="&nbsp;" onclick="ColoursDlg.set('turquoise')" />
@@ -118,8 +170,6 @@
               <td class="colours" style="background-color:darkseagreen">
                 <input title="darkseagreen" class="colours" style="background-color:darkseagreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkseagreen')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:mediumseagreen">
                 <input title="mediumseagreen" class="colours" style="background-color:mediumseagreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('mediumseagreen')" />
               </td>
@@ -129,17 +179,13 @@
               <td class="colours" style="background-color:darkgreen">
                 <input title="darkgreen" class="colours" style="background-color:darkgreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkgreen')" />
               </td>
-              <td class="foswikicolours" style="background-color:green">
-                <input title="%GREEN%" class="colours" style="background-color:green" type="button" value="&nbsp;" onclick="ColoursDlg.set('green')" />
-              </td>
               <td class="colours" style="background-color:forestgreen">
                 <input title="forestgreen" class="colours" style="background-color:forestgreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('forestgreen')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:limegreen">
                 <input title="limegreen" class="colours" style="background-color:limegreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('limegreen')" />
-              </td>
-              <td class="foswikicolours" style="background-color:lime">
-                <input title="%LIME%" class="colours" style="background-color:lime" type="button" value="&nbsp;" onclick="ColoursDlg.set('lime')" />
               </td>
               <td class="colours" style="background-color:chartreuse">
                 <input title="chartreuse" class="colours" style="background-color:chartreuse" type="button" value="&nbsp;" onclick="ColoursDlg.set('chartreuse')" />
@@ -153,8 +199,6 @@
               <td class="colours" style="background-color:yellowgreen">
                 <input title="yellowgreen" class="colours" style="background-color:yellowgreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('yellowgreen')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:palegreen">
                 <input title="palegreen" class="colours" style="background-color:palegreen" type="button" value="&nbsp;" onclick="ColoursDlg.set('palegreen')" />
               </td>
@@ -173,9 +217,8 @@
               <td class="colours" style="background-color:olivedrab">
                 <input title="olivedrab" class="colours" style="background-color:olivedrab" type="button" value="&nbsp;" onclick="ColoursDlg.set('olivedrab')" />
               </td>
-              <td class="foswikicolours" style="background-color:olive">
-                <input title="%OLIVE%" class="colours" style="background-color:olive" type="button" value="&nbsp;" onclick="ColoursDlg.set('olive')" />
-              </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:darkkhaki">
                 <input title="darkkhaki" class="colours" style="background-color:darkkhaki" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkkhaki')" />
               </td>
@@ -187,11 +230,6 @@
               </td>
               <td class="colours" style="background-color:gold">
                 <input title="gold" class="colours" style="background-color:gold" type="button" value="&nbsp;" onclick="ColoursDlg.set('gold')" />
-              </td>
-            </tr>
-            <tr>
-              <td class="foswikicolours" style="background-color:yellow">
-                <input title="%YELLOW%" class="colours" style="background-color:yellow" type="button" value="&nbsp;" onclick="ColoursDlg.set('yellow')" />
               </td>
               <td class="colours" style="background-color:khaki">
                 <input title="khaki" class="colours" style="background-color:khaki" type="button" value="&nbsp;" onclick="ColoursDlg.set('khaki')" />
@@ -214,6 +252,8 @@
               <td class="colours" style="background-color:burlywood">
                 <input title="burlywood" class="colours" style="background-color:burlywood" type="button" value="&nbsp;" onclick="ColoursDlg.set('burlywood')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:tan">
                 <input title="tan" class="colours" style="background-color:tan" type="button" value="&nbsp;" onclick="ColoursDlg.set('tan')" />
               </td>
@@ -223,8 +263,6 @@
               <td class="colours" style="background-color:sienna">
                 <input title="sienna" class="colours" style="background-color:sienna" type="button" value="&nbsp;" onclick="ColoursDlg.set('sienna')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:saddlebrown">
                 <input title="saddlebrown" class="colours" style="background-color:saddlebrown" type="button" value="&nbsp;" onclick="ColoursDlg.set('saddlebrown')" />
               </td>
@@ -240,12 +278,6 @@
               <td class="colours" style="background-color:darkred">
                 <input title="darkred" class="colours" style="background-color:darkred" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkred')" />
               </td>
-              <td class="foswikicolours" style="background-color:maroon">
-                <input title="%MAROON%" class="colours" style="background-color:maroon" type="button" value="&nbsp;" onclick="ColoursDlg.set('maroon')" />
-              </td>
-              <td class="foswikicolours" style="background-color:brown">
-                <input title="%BROWN%" class="colours" style="background-color:brown" type="button" value="&nbsp;" onclick="ColoursDlg.set('brown')" />
-              </td>
               <td class="colours" style="background-color:firebrick">
                 <input title="firebrick" class="colours" style="background-color:firebrick" type="button" value="&nbsp;" onclick="ColoursDlg.set('firebrick')" />
               </td>
@@ -255,11 +287,11 @@
               <td class="colours" style="background-color:lightcoral">
                 <input title="lightcoral" class="colours" style="background-color:lightcoral" type="button" value="&nbsp;" onclick="ColoursDlg.set('lightcoral')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:salmon">
                 <input title="salmon" class="colours" style="background-color:salmon" type="button" value="&nbsp;" onclick="ColoursDlg.set('salmon')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:darksalmon">
                 <input title="darksalmon" class="colours" style="background-color:darksalmon" type="button" value="&nbsp;" onclick="ColoursDlg.set('darksalmon')" />
               </td>
@@ -275,32 +307,23 @@
               <td class="colours" style="background-color:darkorange">
                 <input title="darkorange" class="colours" style="background-color:darkorange" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkorange')" />
               </td>
-              <td class="foswikicolours" style="background-color:orange">
-                <input title="%ORANGE%" class="colours" style="background-color:orange" type="button" value="&nbsp;" onclick="ColoursDlg.set('orange')" />
-              </td>
               <td class="colours" style="background-color:orangered">
                 <input title="orangered" class="colours" style="background-color:orangered" type="button" value="&nbsp;" onclick="ColoursDlg.set('orangered')" />
               </td>
               <td class="colours" style="background-color:crimson">
                 <input title="crimson" class="colours" style="background-color:crimson" type="button" value="&nbsp;" onclick="ColoursDlg.set('crimson')" />
               </td>
-              <td class="foswikicolours" style="background-color:red">
-                <input title="%RED%" class="colours" style="background-color:red" type="button" value="&nbsp;" onclick="ColoursDlg.set('red')" />
-              </td>
               <td class="colours" style="background-color:deeppink">
                 <input title="deeppink" class="colours" style="background-color:deeppink" type="button" value="&nbsp;" onclick="ColoursDlg.set('deeppink')" />
               </td>
-              <td class="foswikicolours" style="background-color:fuchsia">
-                <input title="%PINK%" class="colours" style="background-color:fuchsia" type="button" value="&nbsp;" onclick="ColoursDlg.set('fuchsia')" />
-              </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:magenta">
                 <input title="magenta" class="colours" style="background-color:magenta" type="button" value="&nbsp;" onclick="ColoursDlg.set('magenta')" />
               </td>
               <td class="colours" style="background-color:hotpink">
                 <input title="hotpink" class="colours" style="background-color:hotpink" type="button" value="&nbsp;" onclick="ColoursDlg.set('hotpink')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:lightpink">
                 <input title="lightpink" class="colours" style="background-color:lightpink" type="button" value="&nbsp;" onclick="ColoursDlg.set('lightpink')" />
               </td>
@@ -312,9 +335,6 @@
               </td>
               <td class="colours" style="background-color:mediumvioletred">
                 <input title="mediumvioletred" class="colours" style="background-color:mediumvioletred" type="button" value="&nbsp;" onclick="ColoursDlg.set('mediumvioletred')" />
-              </td>
-              <td class="foswikicolours" style="background-color:purple">
-                <input title="%PURPLE%" class="colours" style="background-color:purple" type="button" value="&nbsp;" onclick="ColoursDlg.set('purple')" />
               </td>
               <td class="colours" style="background-color:darkmagenta">
                 <input title="darkmagenta" class="colours" style="background-color:darkmagenta" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkmagenta')" />
@@ -328,8 +348,6 @@
               <td class="colours" style="background-color:indigo">
                 <input title="indigo" class="colours" style="background-color:indigo" type="button" value="&nbsp;" onclick="ColoursDlg.set('indigo')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:darkviolet">
                 <input title="darkviolet" class="colours" style="background-color:darkviolet" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkviolet')" />
               </td>
@@ -339,6 +357,8 @@
               <td class="colours" style="background-color:mediumorchid">
                 <input title="mediumorchid" class="colours" style="background-color:mediumorchid" type="button" value="&nbsp;" onclick="ColoursDlg.set('mediumorchid')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:orchid">
                 <input title="orchid" class="colours" style="background-color:orchid" type="button" value="&nbsp;" onclick="ColoursDlg.set('orchid')" />
               </td>
@@ -363,8 +383,6 @@
               <td class="colours" style="background-color:mintcream">
                 <input title="mintcream" class="colours" style="background-color:mintcream" type="button" value="&nbsp;" onclick="ColoursDlg.set('mintcream')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:honeydew">
                 <input title="honeydew" class="colours" style="background-color:honeydew" type="button" value="&nbsp;" onclick="ColoursDlg.set('honeydew')" />
               </td>
@@ -374,6 +392,8 @@
               <td class="colours" style="background-color:lemonchiffon">
                 <input title="lemonchiffon" class="colours" style="background-color:lemonchiffon" type="button" value="&nbsp;" onclick="ColoursDlg.set('lemonchiffon')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:cornsilk">
                 <input title="cornsilk" class="colours" style="background-color:cornsilk" type="button" value="&nbsp;" onclick="ColoursDlg.set('cornsilk')" />
               </td>
@@ -398,8 +418,6 @@
               <td class="colours" style="background-color:bisque">
                 <input title="bisque" class="colours" style="background-color:bisque" type="button" value="&nbsp;" onclick="ColoursDlg.set('bisque')" />
               </td>
-            </tr>
-            <tr>
               <td class="colours" style="background-color:peachpuff">
                 <input title="peachpuff" class="colours" style="background-color:peachpuff" type="button" value="&nbsp;" onclick="ColoursDlg.set('peachpuff')" />
               </td>
@@ -409,6 +427,8 @@
               <td class="colours" style="background-color:beige">
                 <input title="beige" class="colours" style="background-color:beige" type="button" value="&nbsp;" onclick="ColoursDlg.set('beige')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:seashell">
                 <input title="seashell" class="colours" style="background-color:seashell" type="button" value="&nbsp;" onclick="ColoursDlg.set('seashell')" />
               </td>
@@ -421,9 +441,6 @@
               <td class="colours" style="background-color:snow">
                 <input title="snow" class="colours" style="background-color:snow" type="button" value="&nbsp;" onclick="ColoursDlg.set('snow')" />
               </td>
-              <td class="foswikicolours" style="background-color:white">
-                <input title="%WHITE%" class="colours" style="background-color:white" type="button" value="&nbsp;" onclick="ColoursDlg.set('white')" />
-              </td>
               <td class="colours" style="background-color:whitesmoke">
                 <input title="whitesmoke" class="colours" style="background-color:whitesmoke" type="button" value="&nbsp;" onclick="ColoursDlg.set('whitesmoke')" />
               </td>
@@ -433,16 +450,8 @@
               <td class="colours" style="background-color:lightgrey">
                 <input title="lightgrey" class="colours" style="background-color:lightgrey" type="button" value="&nbsp;" onclick="ColoursDlg.set('lightgrey')" />
               </td>
-            </tr>
-            <tr>
-              <td class="foswikicolours" style="background-color:silver">
-                <input title="%SILVER%" class="colours" style="background-color:silver" type="button" value="&nbsp;" onclick="ColoursDlg.set('silver')" />
-              </td>
               <td class="colours" style="background-color:darkgray">
                 <input title="darkgray" class="colours" style="background-color:darkgray" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkgray')" />
-              </td>
-              <td class="foswikicolours" style="background-color:gray">
-                <input title="%GRAY%" class="colours" style="background-color:gray" type="button" value="&nbsp;" onclick="ColoursDlg.set('gray')" />
               </td>
               <td class="colours" style="background-color:lightslategray">
                 <input title="lightslategray" class="colours" style="background-color:lightslategray" type="button" value="&nbsp;" onclick="ColoursDlg.set('lightslategray')" />
@@ -453,12 +462,12 @@
               <td class="colours" style="background-color:dimgray">
                 <input title="dimgray" class="colours" style="background-color:dimgray" type="button" value="&nbsp;" onclick="ColoursDlg.set('dimgray')" />
               </td>
+            </tr>
+            <tr>
               <td class="colours" style="background-color:darkslategray">
                 <input title="darkslategray" class="colours" style="background-color:darkslategray" type="button" value="&nbsp;" onclick="ColoursDlg.set('darkslategray')" />
               </td>
-              <td class="foswikicolours" style="background-color:black">
-                <input title="%BLACK%" class="colours" style="background-color:black" type="button" value="&nbsp;" onclick="ColoursDlg.set('black')" />
-              </td>
+              <td colspan="10"/>
             </tr>
           </table>
         </div>

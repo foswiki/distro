@@ -1,5 +1,7 @@
 tinyMCE.addI18n('en.foswikibuttons_dlg', {
     colours_dialog_title: "Font Colour",
+    colours_dialog_standard: "Standard Colours",
+    colours_dialog_extended: "Extended Colours",
     attach_dialog_title: "Manage Attachments",
     upload: "Upload",
     close: "Close",
