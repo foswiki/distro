@@ -22,7 +22,9 @@
   for Foswiki:
      * Fix Item1378, override (!) advanced theme link dialogue window size
      * Fix Item9198, tables at top of document: unable to position cursor above
-     * ... more as required (eg. fix autosave plugin integration)
+     * Fix Item1952, autosave monkey-patching storage key hack, unless init
+                     param foswiki_no_autosave_fixup true. autosave must appear
+                     before foswiki in the plugins order!
 */
 
 (function() {
@@ -31,6 +33,9 @@
         init: function(ed, url) {
             ed.onInit.add(function(ed) {
                 ed.plugins.foswiki._fixAdvancedTheme(ed);
+                if (!ed.settings.foswiki_no_autosave_fixup) {
+                    ed.plugins.foswiki._fixAutoSave(ed);
+                }
             });
         },
 
@@ -53,6 +58,22 @@
                     theme_url: this.url
                 });
             }
+        },
+
+        /* EXTRA SMELL: Item1952 - moxiecode ship a stripped-down autosave plugin
+         * whose storage key cannot be arbitrarily set (stuck to some 
+         * concatenation of ed.id). So... we temporarily... monkey-patch the
+         * editor's id (!) and call autosave's setupStorage() a second time,
+         * before sneakily restoring the ed.id as if nothing ever happened! */
+        _fixAutoSave: function(ed) {
+            var orig_id = ed.id;
+
+            ed.id = foswiki.getPreference('SCRIPTURL') + '/edit/' +
+                foswiki.getPreference('WEB') + '/' + foswiki.getPreference('TOPIC');
+            ed.plugins.autosave.setupStorage(ed);
+            ed.id = orig_id;
+
+            return;
         },
 
         getInfo: function() {
