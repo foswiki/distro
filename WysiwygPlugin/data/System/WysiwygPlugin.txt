@@ -160,6 +160,23 @@ WysiwygPlugin is able to convert tables with cells that span rows into TML. This
 
 If %SYSTEMWEB%.TablePlugin is *not* enabled, then TML table cells containing only =^= are not converted to rowspans, and HTML tables containing rowspans are not converted to TML.
 
+---+++ TinyMCEPlugin integration
+%STARTSECTION{"tinymceintegration"}%
+   * Foswikitask:Item2174 - WysiwygPlugin removes line breaks
+      * Work-around: Use the =* Set NOWYSIWYG = 1= setting to disable WYSIWYG on line-sensitive topics
+   * Foswikitask:Item1391 - =&lt;div&gt;= (and other) tags disappear
+      * Description: WysiwygPlugin is aggressive in cleaning up the output of TinyMCEPlugin, and sometimes removes advanced XHTML markup
+      * Work-around: Consult WysiwygPlugin's documentation for =WYSIWYGPLUGIN_STICKYBITS= if more tags/attributes should be preserved, alternatively use =* Set NOWYSIWYG = 1= to disable WYSIWYG on sensitive topics
+   * Foswikitask:Item1396 - Anchors are not handled by WysiwygPlugin
+   * Foswikitask:Item5955 - WysiwygPlugin fails to roundtrip tables with align="center", border attributes, etc.
+      * Description: Sometimes tables will fail to be converted to TML syntax (will stay as HTML) because there are attributes on the table (such as alignment or border decorations) that WysiwygPlugin does not know how to preserve. If such attributes are necessary, please use [[VarTABLE]] instead.
+      * Work-around:
+         * Click inside the offending table
+         * Click the table toolbar button (usually used to create a new table)
+         * With the exception of =Cols= and =Rows=, delete/reset all content from the fields on the 'General' and 'Advanced' tabs.
+         * Write a [[VarTABLE]] macro above the offending table that adds the desired attributes safely
+%ENDSECTION{"tinymceintegration"}%
+
 ---++ Plugin Info
 
 This plugin is brought to you by a [[http://wikiring.com][WikiRing <a href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" title="WikiRing: Professional Wiki Innovation and Support" /></a>]] partner - working together to improve your wiki experience!

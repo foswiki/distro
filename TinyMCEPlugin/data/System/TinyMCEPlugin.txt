@@ -37,7 +37,7 @@ First follow the installation instructions to install the Plugin:
    * *Click* on edit of any topic.
 
 ---++ Preferences
-The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which is now deprecated in favour of =TINYMCEPLUGIN_INIT_TOPIC= described below.
+The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which should be removed and replaced with =TINYMCEPLUGIN_INIT_TOPIC= (described below) in most circumstances.
 
 ---+++ TINYMCEPLUGIN_INIT_TOPIC
 To make configuration easier and less error-prone, configuraiton is now held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used.
@@ -71,7 +71,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "plugins" : "%IF{
     "defined 'TINYMCEPLUGIN_MCEPLUGINS'"
     then="%TINYMCEPLUGIN_MCEPLUGINS%"
-    else="table,searchreplace,autosave,paste,legacyoutput,inlinepopups,fullscreen,foswiki,foswikibuttons,foswikiimage"
+    else="%STARTSECTION{"plugins"}%table, searchreplace, autosave, paste, legacyoutput, inlinepopups, fullscreen, foswiki, foswikibuttons, foswikiimage%ENDSECTION{"plugins"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS'"
     then=",%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
@@ -113,7 +113,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "theme_advanced_buttons1" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS1'"
     then="%TINYMCEPLUGIN_BUTTONS1%"
-    else="foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,blockquote,separator,link,unlink,anchor,separator,undo,redo,separator,search,replace"
+    else="%STARTSECTION{"buttons1"}%foswikiformat, separator, bold, italic, tt, colour, removeformat, separator, bullist, numlist, outdent, indent, blockquote, separator, link, unlink, anchor, separator, undo, redo, separator, search, replace%ENDSECTION{"buttons1"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS1'"
     then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
@@ -121,7 +121,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "theme_advanced_buttons2" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS2'"
     then="%TINYMCEPLUGIN_BUTTONS2%"
-    else="tablecontrols,separator,attach,image,charmap,hr,separator,fullscreen,code,hide"
+    else="%STARTSECTION{"buttons2"}%tablecontrols, separator, attach, image, charmap, hr, separator, fullscreen, code, hide%ENDSECTION{"buttons2"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS2'"
     then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
@@ -154,11 +154,13 @@ Example:
 
 ---+++ Settings
 | *Variable* | *Default* | *Description* |
-| =TINYMCEPLUGIN_INIT= | - | Deprecated. If set, =TINYMCEPLUGIN_INIT_TOPIC= is ignored |
+| =TINYMCEPLUGIN_INIT= | - | A string holding the !TinyMCE initialisation object. If set, =TINYMCEPLUGIN_INIT_TOPIC= is ignored |
 | =TINYMCEPLUGIN_INIT_TOPIC= | [[%SYSTEMWEB%.TinyMCEPlugin]] | The fully qualified Web.Topic containing a [[VarSTARTSECTION][section]] named =INIT= which holds the !TinyMCE initialisation parameters |
-| =TINYMCEPLUGIN_MCEPLUGINS= | See ="plugins"= parameter in [[%TOPIC%#INIT][INIT]] above | Comma separated list of !TinyMCE plugins to initialise |
+| =TINYMCEPLUGIN_MCEPLUGINS= | %INCLUDE{"%TOPIC%" section="plugins"}% | Comma separated list of !TinyMCE plugins to initialise |
 | =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= || Comma separated list of additional !TinyMCE plugins to initialise. |
-| =TINYMCEPLUGIN_BUTTONS1, TINYMCEPLUGIN_BUTTONS2, TINYMCEPLUGIN_BUTTONS3= | See ="theme_advanced_buttons1", "theme_advanced_buttons2", "theme_advanced_buttons3"= parameters in [[%TOPIC%#INIT][INIT]] above | Comma separated list of toolbar buttons (in order) for the first, second and third rows (of buttons) |
+| =TINYMCEPLUGIN_BUTTONS1= | %INCLUDE{"%TOPIC%" section="buttons1"}% | Comma separated list of toolbar buttons (in order) for the first, second and third rows (of buttons) |
+| =TINYMCEPLUGIN_BUTTONS2= | %INCLUDE{"%TOPIC%" section="buttons2"}% |^|
+| =TINYMCEPLUGIN_BUTTONS3= | |^|
 | =TINYMCEPLUGIN_ADDITIONAL_BUTTONS1,= <br/> =TINYMCEPLUGIN_ADDITIONAL_BUTTONS2,= <br/> =TINYMCEPLUGIN_ADDITIONAL_BUTTONS3= || Comma separated list of toolbar buttons (in order) to be appended to the end of a button row |
 | =TINYMCEPLUGIN_INIT_browser= | See [[%TOPIC%#Browser_Specific_Settings][Browser Specific Settings]] below | Add extra parameters to =TINYMCEPLUGIN_INIT= string for a specific =_browser= |
 | =TINYMCEPLUGIN_DISABLE= | 0 | If set to 1, disables TinyMCEPlugin. _Please use_ =NOWYSIWYG= _instead_ |
@@ -171,7 +173,7 @@ Additional options may be set for specific browsers. You can define extra option
 <verbatim>   * Set TINYMCEPLUGIN_INIT_MSIE = paste_auto_cleanup_on_paste : false
 </verbatim>
 The defaults are:
-<verbatim>
+<verbatim class="perl">
     MSIE => '',
     OPERA => '',
     GECKO => 'gecko_spellcheck : true',
@@ -218,12 +220,26 @@ TinyMCEPlugin depends on WysiwygPlugin to do the conversions from HTML to TML (T
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 ----
 
----++ Known Issues
+---++ Upgrading from TinyMCEPlugin versions prior to 05 Mar 2010 release
+The =TINYMCEPLUGIN_INIT= string needs to be built differently, due to the API change affecting the way custom formats are applied in !TinyMCE 3.3.x since 3.2.x
 
-   * Applying formats such as Headings, Verbatim, Normal, etc:
-      * In Microsoft Internet Explorer 6, not working at all.
-      * In Safari and Google Chrome, only works once (must move the cursor out of the formatted region and back again for each subsequent format change).
-   * "Normal" format depends on WysiwygPlugin flattening &lt;div&gt; tags
+Please re-build any customised =TINYMCEPLUGIN_INIT= string based on the content of this documentation, and review whether your customisations are still necessary
+
+---++ Known Issues of TinyMCEPlugin
+   * Foswikitask:Item8475 - Foswiki introduces errant spaces into table cells
+   * Foswikitask:Item8582 - X11 environments: TinyMCEPlugin editor copies current topic onto the "Primary Selection"
+   * Foswikitask:Item8712 - Outdenting list items in Firefox soemtimes does not work correctly
+      * Description: The list symbol (number, bullet, etc) sometimes disappears from the item after being outdented. When this happens, it is also not possible to outdent the item another level.
+      * Work-around: Position the cursor to the beginning of the line (where the symbol should appear) and press the enter key. The symbol should be restored and another outdent will be possible.
+   * Foswikitask:Item8981 - Copy & paste of list items into a list breaks up the list
+      * Description: Consult the task linked above. After the operation described, the list is broken into three.
+      * Work-around: Users may elect to persist with this behaviour, or alternatively, override =TINYMCEPLUGIN_MCEPLUGINS= to omit the =paste= plugin: however, this solution may introduce its own problems.
+   * Foswikitask:Item9198 - Table at top of document: unable to position cursor above
+      * Work-around: Use 'Save and continue' or switch to WikiText and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
+
+---++ Known Issues of WysiwygPlugin (partial list)
+For the full list, consult [[WysiwygPlugin#Known_issues][WysiwygPlugin documentation]]
+%INCLUDE{"WysiwygPlugin" section="tinymceintegration"}%
 
 Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
@@ -242,9 +258,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
                  Foswikitask:Item2125: Change attach dialogue button text from 'cancel' to 'close'<br/>\
                  Foswikitask:Item1482: Improve attach dialogue usability: auto-refresh attachment list after switching from upload tab; auto-select upload tab if there are zero existing attachments<br/>\
                  Foswikitask:Item1378: Fix dialogue window sizes are too small for link, attachments and colour dialogues<br/>\
-                 Foswikitask:Item1392: (IE only) Cursor jumps to beginning of document unintendedly (fixed as a result of upgrade to !TinyMCE 3.3)<br/>\
-                 Foswikitask:Item9210: Deprecate =TINYMCEPLUGIN_INIT= in favour of =TINYMCEPLUGIN_INIT_TOPIC= sections
-                 Foswikitask:Item9204: !TinyMCE strips out 'type' arguments when pasting Foswiki macros from MS Word |
+                 Foswikitask:Item9210: Replace =TINYMCEPLUGIN_INIT= in favour of =TINYMCEPLUGIN_INIT_TOPIC= sections<br/>\
+                 Foswikitask:Item1392: Fixed in !TinyMCE 3.3: (IE only) Cursor jumps to beginning of document unintendedly<br/>\
+                 Foswikitask:Item9204: Fixed in !TinyMCE 3.3: !TinyMCE strips out 'type' arguments when pasting Foswiki macros from MS Word |
 |  20 Mar 2010 | Foswikitask:Item8930: Change Foswiki integration to use more JQueryPlugin features. Fixes bug where IE6 users with latest NatSkin get: "Unable to install !TinyMCE; &lt;META..." |
 |  05 Mar 2010 | Foswikitask:Item8476: Upgrade to !TinyMCE 3.3, Foswiki now uses jQuery version |
 |  19 Feb 2010 | Foswikitask:Item8566: Fix for sites with latest JQueryPlugin where IE users get: "Unable to install !TinyMCE; &lt;META..." |
