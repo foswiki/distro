@@ -13,9 +13,6 @@ an internal canonical user ID, and the displayed name used to identify the user 
 This is the default <nop>TopicUserMapping in which user information is stored in topics - one per user, and then any mapping needed is done using the
 <nop>%WIKIUSERSTOPIC% topic in the %USERSWEB%.
 
-See [[http://twiki.org/cgi-bin/view/Codev/SimplifiedUserMappingCodeInterface][SimplifiedUserMappingCodeInterface]] for a more detailed discussion
-of the concepts.
-
 It includes the topics that are used when registering and managing users and groups via Foswiki:
    * Registration and user management topics
       * %SYSTEMWEB%.UserRegistration
