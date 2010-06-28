@@ -89,14 +89,13 @@ $ENV{'LC_ALL'} = 'C';
 sub _findRelativeTo {
     my ( $startdir, $name ) = @_;
 
-    my @path = split( /\/+/, $startdir );
+    my @path = split( /[\/\\]+/, $startdir );
 
     while ( scalar(@path) > 0 ) {
         my $found = join( '/', @path ) . '/' . $name;
         return $found if -e $found;
         pop(@path);
     }
-
     #try legacy TWiki Contrib
     $startdir =~ s/\/Foswiki\//\/TWiki\//g;
     @path = split( /\/+/, $startdir );
@@ -405,8 +404,11 @@ sub _loadConfig {
     use vars qw($VAR1);
 
     if ( !defined $this->{config} ) {
-        if ( -r "$ENV{HOME}/.buildcontrib" ) {
-            do "$ENV{HOME}/.buildcontrib";
+		#TODO: this really should be abstracted
+        my $configLocation = $this->{libdir};     #default to leave one in each contrib - used for windows atm
+        $configLocation = $ENV{HOME} if (defined($ENV{HOME}));
+        if ( -r "$configLocation/.buildcontrib" ) {
+            do "$configLocation/.buildcontrib";
             $this->{config} = $VAR1;
             print "Loaded config from $this->{config}->{file}\n";
         }
@@ -414,7 +416,7 @@ sub _loadConfig {
         }
         unless ( $this->{config} ) {
             $this->{config} = {
-                file         => "$ENV{HOME}/.buildcontrib",
+                file         => "$configLocation/.buildcontrib",
                 passwords    => {},
                 repositories => {},
             };
