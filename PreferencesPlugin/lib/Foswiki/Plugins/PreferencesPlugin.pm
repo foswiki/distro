@@ -87,16 +87,24 @@ sub beforeCommonTagsHandler {
         Foswiki::Func::setTopicEditLock( $web, $topic, 1 );
 
         # Replace setting values by form fields but not inside comments Item4816
+        # and also not inside verbatim blocks Item1117
         my $outtext       = '';
         my $insidecomment = 0;
-        foreach my $token ( split /(<!--|-->)/, $_[0] ) {
-            if ( $token =~ /<!--/ ) {
+        my $insideverbatim = 0;
+        foreach my $token ( split /(<!--|-->|<\/?verbatim\b[^>]*>)/, $_[0] ) {
+            if ( !$insideverbatim and $token =~ /<!--/ ) {
                 $insidecomment++;
             }
-            elsif ( $token =~ /-->/ ) {
+            elsif ( !$insideverbatim and $token =~ /-->/ ) {
                 $insidecomment-- if ( $insidecomment > 0 );
             }
-            elsif ( !$insidecomment ) {
+            elsif ( $token =~ /<verbatim/ ) {
+                $insideverbatim++;
+            }
+            elsif ( $token =~ /<\/verbatim/ ) {
+                $insideverbatim-- if ( $insideverbatim > 0 );
+            }
+            elsif ( !$insidecomment and !$insideverbatim) {
                 $token =~
 s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]+[^\s*].*$)*)/
                            $1._generateEditField($web, $topic, $3, $4, $formDef)/gem;

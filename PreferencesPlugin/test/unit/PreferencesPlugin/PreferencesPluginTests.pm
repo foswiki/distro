@@ -110,6 +110,57 @@ HTML
     $session->finish();
 }
 
+# Item1117
+sub test_edit_multiple_with_verbatim {
+    my $this  = shift;
+    my $query = new Unit::Request( { prefsaction => ['edit'], } );
+    my $text  = <<HERE;
+Normal text outside form
+<verbatim>
+<!-- Comment-start inside verbatim is ignored
+</verbatim>
+%EDITPREFERENCES%
+   * Set FLEEGLE = floon
+<verbatim>
+Not in the form
+   * Set VERBATIMSETTING = ignored
+</verbatim>
+   * Set FLEEGLE2 = floontoo
+HERE
+    my $session = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $session;
+    my $result =
+      Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
+        $this->{test_web}, undef );
+    my $viewUrl =
+      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
+        'viewauth' );
+    Foswiki::Plugins::PreferencesPlugin::postRenderingHandler($result);
+
+    # That <!-- in the verbatim block is encoded when rendering
+    # and it must be encoded here or else the "html_equals" fails
+    $result =~ s/<!-- Comment/&lt;!-- Comment/;
+    $result =~ s/<(\/?)verbatim>/<$1pre>/g;
+    $this->assert_html_equals( <<HTML, $result );
+Normal text outside form
+<pre>
+&lt;!-- Comment-start inside verbatim is ignored
+</pre>
+<form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
+ <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="foswikiSubmit" />
+ &nbsp;
+ <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = <input type="text" name="FLEEGLE" value="floon" size="80" class="foswikiAlert foswikiInputField" /></span>
+<pre>
+Not in the form
+   * Set VERBATIMSETTING = ignored
+</pre>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = <input type="text" name="FLEEGLE2" value="floontoo" size="80" class="foswikiAlert foswikiInputField" /></span></form>
+HTML
+
+    $session->finish();
+}
+
 sub test_save {
     my $this  = shift;
     my $query = new Unit::Request(
