@@ -53,7 +53,7 @@ sub _packRequest {
     if ( ref($uri) ) {    # first parameter is a $session
         my $r = $uri->{request};
         $uri    = $r->uri();
-        $method = $r->method();
+        $method = $r->method() || 'UNDEFINED';
         $action = $r->action();
     }
     return "$method,$action,$uri";
