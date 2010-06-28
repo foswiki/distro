@@ -60,7 +60,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "remove_script_host" : false,
 "dialog_type" : "modal",
 "extended_valid_elements" : "li[type]",
-"setupcontent_callback" : FoswikiTiny.setUpContent,
+"setupcontent_callback" : "FoswikiTiny.setUpContent",
 "urlconverter_callback" : "FoswikiTiny.convertLink",
 "foswikipuburl_callback" : "FoswikiTiny.convertPubURL",
 "save_callback" : "FoswikiTiny.saveCallback",%IF{
@@ -74,7 +74,7 @@ Below is the default configuration. If it is to be modified, it should be copied
     else="%STARTSECTION{"plugins"}%table, searchreplace, autosave, paste, legacyoutput, inlinepopups, fullscreen, foswiki, foswikibuttons, foswikiimage%ENDSECTION{"plugins"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS'"
-    then=",%TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
+    then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
 "foswiki_vars" : {
@@ -91,17 +91,17 @@ Below is the default configuration. If it is to be modified, it should be copied
 },
 "theme_advanced_toolbar_align" : "left",
 "foswikibuttons_formats" : {
-    "Normal" : { remove: "all" },
-    "Heading 1" : { block: "h1", remove: "all" },
-    "Heading 2" : { block: "h2", remove: "all" },
-    "Heading 3" : { block: "h3", remove: "all" },
-    "Heading 4" : { block: "h4", remove: "all" },
-    "Heading 5" : { block: "h5", remove: "all" },
-    "Heading 6" : { block: "h6", remove: "all" },
-    "VERBATIM" : { block: "pre", remove: "all", classes: "TMLverbatim" }, 
-    "LITERAL" : { block: "div", remove: "all", classes: "WYSIWYG_LITERAL" },
-    "Protect on save" : { block: "div", remove: "all", classes: "WYSIWYG_PROTECTED" },
-    "Protect forever" : { block: "div", remove: "all", classes: "WYSIWYG_STICKY" }
+    "Normal" : { "remove" : "all" },
+    "Heading 1" : { "block" : "h1",  "remove" : "all" },
+    "Heading 2" : { "block" : "h2",  "remove" : "all" },
+    "Heading 3" : { "block" : "h3",  "remove" : "all" },
+    "Heading 4" : { "block" : "h4",  "remove" : "all" },
+    "Heading 5" : { "block" : "h5",  "remove" : "all" },
+    "Heading 6" : { "block" : "h6",  "remove" : "all" },
+    "VERBATIM" :  { "block" : "pre", "remove" : "all", "classes" : "TMLverbatim" }, 
+    "LITERAL" :   { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_LITERAL" },
+    "Protect on save" : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_PROTECTED" },
+    "Protect forever" : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_STICKY" }
 },
 "paste_create_paragraphs" : true,
 "paste_create_linebreaks" : false,
@@ -116,7 +116,7 @@ Below is the default configuration. If it is to be modified, it should be copied
     else="%STARTSECTION{"buttons1"}%foswikiformat, separator, bold, italic, tt, colour, removeformat, separator, bullist, numlist, outdent, indent, blockquote, separator, link, unlink, anchor, separator, undo, redo, separator, search, replace%ENDSECTION{"buttons1"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS1'"
-    then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
+    then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"
 }%",
 "theme_advanced_buttons2" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS2'"
@@ -124,14 +124,14 @@ Below is the default configuration. If it is to be modified, it should be copied
     else="%STARTSECTION{"buttons2"}%tablecontrols, separator, attach, image, charmap, hr, separator, fullscreen, code, hide%ENDSECTION{"buttons2"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS2'"
-    then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
+    then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS2%"
 }%",
 "theme_advanced_buttons3" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS3'"
     then="%TINYMCEPLUGIN_BUTTONS3%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS3'"
-    then=",%TINYMCEPLUGIN_ADDITIONAL_BUTTONS3%"
+    then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS3%"
 }%",
 "theme_advanced_toolbar_location" : "top",
 "theme_advanced_resize_horizontal" : false,
@@ -170,13 +170,12 @@ Example:
 
 ---+++ Browser Specific Settings
 Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
-<verbatim>   * Set TINYMCEPLUGIN_INIT_MSIE = paste_auto_cleanup_on_paste : false
-</verbatim>
+<verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_MSIE = "paste_auto_cleanup_on_paste" : false </verbatim>
 The defaults are:
 <verbatim class="perl">
     MSIE => '',
     OPERA => '',
-    GECKO => 'gecko_spellcheck : true',
+    GECKO => '"gecko_spellcheck" : true',
     SAFARI => '',
     CHROME => ''
 </verbatim>
@@ -223,7 +222,7 @@ TinyMCEPlugin depends on WysiwygPlugin to do the conversions from HTML to TML (T
 ---++ Upgrading from TinyMCEPlugin versions prior to 05 Mar 2010 release
 The =TINYMCEPLUGIN_INIT= string needs to be built differently, due to the API change affecting the way custom formats are applied in !TinyMCE 3.3.x since 3.2.x
 
-Please re-build any customised =TINYMCEPLUGIN_INIT= string based on the content of this documentation, and review whether your customisations are still necessary
+If a customised =TINYMCEPLUGIN_INIT= string is in use, it should be re-built based on the content of this documentation. The customisations should be reviewed to determine if they are still necessary.
 
 ---++ Known Issues of TinyMCEPlugin
    * Foswikitask:Item8475 - Foswiki introduces errant spaces into table cells
