@@ -217,6 +217,102 @@ sub verify_word {
     $this->assert_does_not_match( qr/OkBTopic/, $result, $result );
 }
 
+sub verify_scope_all_type_word {
+    my $this = shift;
+    
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualBeer',
+        "There are alot of Virtual Beers to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RealBeer',
+        "There are alot of Virtual Beer to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'FamouslyBeered',
+        "Virtually speaking there could be alot of famous Beers" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"Virtual Beer" type="word" scope="all" nonoise="on" format="$topic"}%'
+      );
+
+    my $expected = <<EXPECT;
+RealBeer
+VirtualBeer
+VirtualLife
+EXPECT
+    $this->assert_str_equals( $expected,  $result."\n" );
+}
+sub verify_scope_all_type_keyword {
+    my $this = shift;
+    
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualBeer',
+        "There are alot of Virtual Beers to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RealBeer',
+        "There are alot of Virtual Beer to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'FamouslyBeered',
+        "Virtually speaking there could be alot of famous Beers" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"Virtual Beer" type="keyword" scope="all" nonoise="on" format="$topic"}%'
+      );
+
+    my $expected = <<EXPECT;
+FamouslyBeered
+RealBeer
+VirtualBeer
+VirtualLife
+EXPECT
+    $this->assert_str_equals( $expected,  $result."\n" );
+}
+sub verify_scope_all_type_literal {
+    my $this = shift;
+    
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualBeer',
+        "There are alot of Virtual Beers to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RealBeer',
+        "There are alot of Virtual Beer to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'FamouslyBeered',
+        "Virtually speaking there could be alot of famous Beers" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"Virtual Beer" type="literal" scope="all" nonoise="on" format="$topic"}%'
+      );
+
+    my $expected = <<EXPECT;
+RealBeer
+VirtualBeer
+EXPECT
+    $this->assert_str_equals( $expected,  $result."\n" );
+}
 #####################
 sub _septic {
     my ( $this, $head, $foot, $sep, $results, $expected ) = @_;

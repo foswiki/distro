@@ -227,10 +227,10 @@ sub _webQuery {
 # http://foswiki.org/Tasks/Item1646 this causes us to use/leak huge amounts of memory if called too often
             $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
 
-            my @topicList;
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
-                my $topic = $topicSet->next();
+                my $webtopic = $topicSet->next();
+                my ( $itrWeb, $topic ) = Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
 
                 if ( $options->{'casesensitive'} ) {
 
@@ -247,15 +247,13 @@ sub _webQuery {
         }
 
         # scope='text', e.g. grep search on topic text:
-        my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
-            $textMatches =
+            my $textMatches =
               search( $tokenCopy, $web, $topicSet, $session, $options );
-        }
-
-        #bring the text matches into the topicMatch hash
-        if ($textMatches) {
-            @topicMatches{ keys %$textMatches } = values %$textMatches;
+            #bring the text matches into the topicMatch hash
+            if ($textMatches) {
+                @topicMatches{ keys %$textMatches } = values %$textMatches;
+            }
         }
 
         my @scopeTextList = ();
@@ -278,7 +276,6 @@ sub _webQuery {
             #TODO: the sad thing about this is we lose info
             @scopeTextList = keys(%topicMatches);
         }
-
         # reduced topic list for next token
         $topicSet =
           new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
