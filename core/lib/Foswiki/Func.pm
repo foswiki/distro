@@ -1843,7 +1843,16 @@ If template text is found, extracts include statements and fully expands them.
 
 sub loadTemplate {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->templates->readTemplate(@_);
+    my ($name, $skin, $web) = @_;
+
+    my %opts = ( no_oops => 1 );
+    $opts{skins} = $skin if defined $skin;
+    $opts{web} = $web if defined $web;
+
+    my $tmpl = $Foswiki::Plugins::SESSION->templates->readTemplate($name, %opts);
+    $tmpl = '' unless defined $tmpl;
+
+    return $tmpl;
 }
 
 =begin TML

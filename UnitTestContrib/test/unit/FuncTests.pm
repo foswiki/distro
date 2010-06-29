@@ -1616,4 +1616,13 @@ sub test_writeEvent {
     $this->assert_equals('jam', $e->[4]);
 }
 
+sub test_loadTemplate {
+    my $this = shift;
+    my $view = Foswiki::Func::loadTemplate('view');
+    $this->assert(length($view));
+    my $print = Foswiki::Func::loadTemplate('view', 'print');
+    $this->assert($print ne $view);
+    $this->assert_str_equals('', Foswiki::Func::loadTemplate('crud'));
+}
+
 1;
