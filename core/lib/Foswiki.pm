@@ -347,6 +347,7 @@ BEGIN {
     $macros{LOCALSITEPREFS} = sub { $Foswiki::cfg{LocalSitePreferences} };
     $macros{NOFOLLOW} =
       sub { $Foswiki::cfg{NoFollow} ? 'rel=' . $Foswiki::cfg{NoFollow} : '' };
+    $macros{NAMEFILTER}        = sub { $Foswiki::cfg{NameFilter} };
     $macros{NOTIFYTOPIC}       = sub { $Foswiki::cfg{NotifyTopicName} };
     $macros{SCRIPTSUFFIX}      = sub { $Foswiki::cfg{ScriptSuffix} };
     $macros{STATISTICSTOPIC}   = sub { $Foswiki::cfg{Stats}{TopicName} };
