@@ -42,6 +42,7 @@ my $useSeleniumError;
 my $browsers;
 my @BrowserFixtureGroups;
 my $currentTest;
+my $testsRunWithoutRestartingBrowsers = 0;
 
 my $debug = 0;
 
@@ -79,6 +80,14 @@ sub DESTROY {
             "Unexpected change of current test:"
           . "Expected $this but found $currentTest");
     }
+
+	# avoid memory leaks - the limit was arbitrarily chosen
+	$testsRunWithoutRestartingBrowsers++;
+	if ($testsRunWithoutRestartingBrowsers > 10) {
+	    _shutDownSeleniumBrowsers();
+	    $testsRunWithoutRestartingBrowsers = 0;
+	}
+
     $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
 
@@ -107,11 +116,20 @@ sub fixture_groups {
     {
         my $onBrowser = "on$browser";
         push @BrowserFixtureGroups, $onBrowser;
-        my $selenium = $this->{seleniumBrowsers}->{$browser};
-        eval "sub $onBrowser { my \$this = shift; \$this->{browser} = \$browser; \$this->{selenium} = \$selenium; }";
+        eval "sub $onBrowser { my \$this = shift; \$this->selectBrowser(\$browser); }";
         die $@ if $@;
     }
     return \@BrowserFixtureGroups;
+}
+
+sub selectBrowser {
+	my $this = shift;
+	my $browserName = shift;
+	$this->assert( defined($browserName), "Browser name not specified");
+	$this->assert( exists( $this->{seleniumBrowsers}->{$browserName} ),
+		           "No Test::WWW:Selenium object for $browserName");
+    $this->{browser} = $browserName;
+	$this->{selenium} = $this->{seleniumBrowsers}->{$browserName};
 }
 
 sub _loadSeleniumInterface {
@@ -195,7 +213,6 @@ sub _errorCallback {
 }
 
 sub _shutDownSeleniumBrowsers {
-    #my $pressEnterToContinue = <STDIN>;
     for my $browser (values %$browsers) {
         print STDERR "Shutting down $browser\n" if $debug;
         $browser->stop();
@@ -203,8 +220,20 @@ sub _shutDownSeleniumBrowsers {
     undef $browsers;
 }
 
+sub browserName {
+    my $this = shift;
+    return $this->{browser};
+}
+
+sub selenium {
+    my $this = shift;
+    return $this->{selenium};
+}
+
 sub login {
     my $this = shift;
+
+    #SMELL: Assumes TemplateLogin
     $this->{selenium}->open_ok( Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic}, 'login') );
     my $usernameInputFieldLocator = 'css=input[name="username"]';
     $this->{selenium}->wait_for_element_present( $usernameInputFieldLocator, $this->{selenium_timeout} );
@@ -221,7 +250,42 @@ sub login {
 
     my $postLoginLocation = $this->{selenium}->get_location();
     my $viewUrl = Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic}, 'view');
-    $this->assert_matches(qr/\Q$viewUrl?foswiki_redirect_cache=/, $postLoginLocation);
+    $this->assert_matches(qr/\Q$viewUrl\E$/, $postLoginLocation);
+}
+
+sub type {
+    my $this = shift;
+    my $locator = shift;
+    my $text = shift;
+
+    # If you pass too much text to $this->{selenium}->type()
+    # then the test fails with a 414 error from the selenium server.
+    # That can happen quite easily when pasting topic text into
+    # the edit form's textarea
+
+    $locator =~ s#"#\\"#g;
+
+    # The algorithm here is based on this posting by balrog:
+    # http://groups.google.com/group/selenium-users/msg/669560194d07734e
+    my $maxChars = 1000;
+    my $textLength = length $text;
+    if ($textLength > $maxChars) {
+        my $start = 0;
+        while ($start < $textLength) {
+            my $chunk = substr($text, $start, $maxChars);
+            $chunk =~ s#\\#\\\\#g;
+            $chunk =~ s#\n#\\n#g;
+            $chunk =~ s#"#\\"#g;
+            my $assignOperator = ($start == 0) ? '=' : '+=';
+            $start += $maxChars;
+            my $javascript = qq/selenium.browserbot.findElement("$locator").value $assignOperator "$chunk";/;
+            $this->{selenium}->get_eval($javascript);
+            #sleep 2;
+        }
+    }
+    else {
+       $this->{selenium}->type($locator, $text);
+   }
 }
 
 sub timeout {
