@@ -15,6 +15,7 @@ sub IF {
     }
 
     my $texpr = $params->{_DEFAULT};
+    $texpr = '' unless defined $texpr;
     my $expr;
     my $result;
 
