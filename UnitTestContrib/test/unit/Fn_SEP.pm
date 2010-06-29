@@ -22,4 +22,11 @@ sub test_SEP {
     $this->assert_str_equals( $a, $b );
 }
 
+# This particular test does not have to run in a separate process
+# but this test is really short and as good as any other for
+# exercising that part of the UnitTestContrib infrastructure
+sub run_in_new_process {
+    return 1;
+}
+
 1;

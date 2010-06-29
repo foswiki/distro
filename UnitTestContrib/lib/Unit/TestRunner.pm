@@ -14,6 +14,7 @@ use strict;
 use warnings;
 use Devel::Symdump;
 use Error qw(:try);
+use File::Spec;
 
 #use Devel::Leak::Object qw{ GLOBAL_bless };
 #$Devel::Leak::Object::TRACKSOURCELINES = 1;
@@ -183,11 +184,24 @@ sub runOneInNewProcess {
         shift @pushedOntoINC if $pushedOntoINC[0] eq $oneINC;
     }
 
-    my $paths =
-      join( ' ', map { '-I ' . $_ } @unshiftedOntoINC, @pushedOntoINC );
-    my $command = "perl -w $paths $0 -worker $suite $testToRun $tempfilename";
+    my @paths;
+    push( @paths, "-I", $_ ) for ( @unshiftedOntoINC, @pushedOntoINC );
+    my @command = map
+        {
+            my $value = $_;
+            if (defined $value) {
+                $value =~ /(.*)/;
+                $value = $1; # untaint
+            }
+            $value;
+        }
+        ($^X, "-wT", @paths, File::Spec->rel2abs($0), "-worker", $suite, ,$testToRun, $tempfilename);
+    my $command = join(' ', @command);
     print "Running: $command\n";
-    system($command);
+
+    $ENV{PATH} =~ /(.*)/;
+    $ENV{PATH} = $1; # untaint
+    system(@command);
     if ( $? == -1 ) {
         my $error = $!;
         unlink $tempfilename;
@@ -201,7 +215,6 @@ sub runOneInNewProcess {
         my $returnCode = $? >> 8;
         if ($returnCode) {
             print "*** Error trying to run $suite\n";
-            die;
             unlink $tempfilename;
             return
                 'push( @{ $this->{failures} }, "Process for ' 
@@ -225,10 +238,37 @@ sub runOneInNewProcess {
 }
 
 sub worker {
+    my $numArgs = scalar(@_);
     my ( $this, $testSuiteModule, $testToRun, $tempfilename ) = @_;
+    if ($numArgs != 4 or
+        not defined $this or
+        not defined $testSuiteModule or
+        not defined $testToRun or
+        not defined $tempfilename ) {
+        my $pkg = __PACKAGE__;
+        die <<"DIE";
+
+Wrong number of arguments to $pkg->worker(). Got $numArgs, expected 4.
+Are you trying to use -worker from the command-line?
+-worker is only intended for use by $pkg->runOneInNewProcess().
+To run your test in a separate process, override run_in_new_process() in your test class so that it returns true.
+DIE
+    }
+
     if ( $testToRun eq 'undef' ) {
         $testToRun = undef;
     }
+    else {
+        $testToRun =~ /(.*)/; # untaint
+        $testToRun = $1;
+    }
+
+    $testSuiteModule =~ /(.*)/; # untaint
+    $testSuiteModule = $1;
+
+
+    $tempfilename =~ /(.*)/; # untaint
+    $tempfilename = $1;
 
     my $suite = $testSuiteModule;
     eval "use $suite";
