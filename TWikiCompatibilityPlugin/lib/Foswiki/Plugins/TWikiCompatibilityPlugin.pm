@@ -56,40 +56,7 @@ This may not be enough for Plugins that do have in topic preferences.
 sub earlyInitPlugin {
 
     my $session = $Foswiki::Plugins::SESSION;
-    if (
-        ( $session->{webName} eq 'TWiki' )
-        && (
-            !Foswiki::Func::topicExists(
-                $session->{webName}, $session->{topicName}
-            )
-        )
-      )
-    {
-        my $TWikiWebTopicNameConversion =
-          $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
-          {TWikiWebTopicNameConversion};
-        $session->{webName} = $Foswiki::cfg{SystemWebName};
-        if (
-            defined( $TWikiWebTopicNameConversion->{ $session->{topicName} } ) )
-        {
-            $session->{topicName} =
-              $TWikiWebTopicNameConversion->{ $session->{topicName} };
-
-            #print STDERR "converted to $session->{topicName}";
-        }
-    }
-    my $MainWebTopicNameConversion =
-      $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
-      {MainWebTopicNameConversion};
-    if (   ( $session->{webName} eq 'Main' )
-        && ( defined( $MainWebTopicNameConversion->{ $session->{topicName} } ) )
-      )
-    {
-        $session->{topicName} =
-          $MainWebTopicNameConversion->{ $session->{topicName} };
-
-        #print STDERR "converted to $session->{topicName}";
-    }
+    _patchWebTopic( $session->{webName}, $session->{topicName} );
 
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
@@ -102,6 +69,35 @@ sub earlyInitPlugin {
     use TWiki::Plugins;
 
     return;
+}
+
+sub _patchWebTopic {
+
+    # my ($web, $topic) = @_;
+    # don't uncomment, use $_[0] etc
+    if (   ( $_[0] eq 'TWiki' )
+        && ( !Foswiki::Func::topicExists( $_[0], $_[1] ) ) )
+    {
+        my $TWikiWebTopicNameConversion =
+          $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+          {TWikiWebTopicNameConversion};
+        $_[0] = $Foswiki::cfg{SystemWebName};
+        if ( defined( $TWikiWebTopicNameConversion->{ $_[1] } ) ) {
+            $_[1] = $TWikiWebTopicNameConversion->{ $_[1] };
+
+            #print STDERR "converted to $_[1]";
+        }
+    }
+    my $MainWebTopicNameConversion =
+      $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+      {MainWebTopicNameConversion};
+    if (   ( $_[0] eq 'Main' )
+        && ( defined( $MainWebTopicNameConversion->{ $_[1] } ) ) )
+    {
+        $_[1] = $MainWebTopicNameConversion->{ $_[1] };
+
+        #print STDERR "converted to $_[1]";
+    }
 }
 
 sub augmentedTemplatePath {
@@ -172,10 +168,36 @@ sub validatePubURL {
         $filePath = $Foswiki::cfg{PubDir} . '/' . $web . $file;
         unless ( -e $filePath ) {
             print STDERR
-"   validatePubURL($pubUrl, $web, $file) ($filePath) - can't find file ine either $map{$web} or $web\n";
+"   validatePubURL($pubUrl, $web, $file) ($filePath) - can't find file in either $map{$web} or $web\n";
         }
     }
     return $pubUrl . $web . $file;
+}
+
+=pod
+
+---++ renderWikiWordHandler($linkText, $hasExplicitLinkLabel, $web, $topic) -> $linkText
+   * =$linkText= - the text for the link i.e. for =[<nop>[Link][blah blah]]=
+     it's =blah blah=, for =BlahBlah= it's =BlahBlah=, and for [[Blah Blah]] it's =Blah Blah=.
+   * =$hasExplicitLinkLabel= - true if the link is of the form =[<nop>[Link][blah blah]]= (false if it's ==<nop>[Blah]] or =BlahBlah=)
+   * =$web=, =$topic= - specify the topic being rendered
+
+Called during rendering, this handler allows the plugin a chance to change
+the rendering of labels used for links.
+
+Return the new link text.
+
+*Since:* Foswiki::Plugins::VERSION 2.0
+
+=cut
+
+sub renderWikiWordHandler {
+    my ( $linkText, $hasExplicitLinkLabel, $web, $topic ) = @_;
+    if ( $web eq 'TWiki' or $web eq 'Main' ) {
+        _patchWebTopic( $_[2], $_[3] );
+    }
+    return $_[3] if $topic ne $_[3] and not $hasExplicitLinkLabel;
+    return $linkText if $hasExplicitLinkLabel;
 }
 
 1;
