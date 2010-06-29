@@ -90,6 +90,21 @@ foswiki.String = {
 	},
 	
 	/**
+     * Removes filtered punctuation characters from a string by stripping all characters
+     * identified in the Foswiki::cfg{NameFilter} passed as NAMEFILTER+.
+     * @param inValue : the string to remove chars from
+     * @return A new string free from punctuation characters.
+     */
+	filterPunctuation:function(inValue) {
+		if (!inValue) return null;
+		var allowedRegex = "[^" + foswiki.StringConstants.getInstance()
+        .MIXED_ALPHANUM_CHARS + "]";
+        var nameFilterRegex = foswiki.getPreference('NAMEFILTER')
+		var re = new RegExp(nameFilterRegex, "g");
+		return inValue.replace(re, " ");
+	},
+	
+	/**
      * Removes punctuation characters from a string by stripping all characters
      * except for MIXED_ALPHANUM_CHARS. For example: "A / Z" becomes "AZ".
      * @param inValue : the string to remove chars from
