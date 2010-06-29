@@ -68,8 +68,8 @@
         _fixAutoSave: function(ed) {
             var orig_id = ed.id;
 
-            ed.id = foswiki.getPreference('SCRIPTURL') + '/edit/' +
-                foswiki.getPreference('WEB') + '/' + foswiki.getPreference('TOPIC');
+            ed.id = FoswikiTiny.foswikiVars['SCRIPTURL'] + '/edit/' +
+                FoswikiTiny.foswikiVars['WEB'] + '/' + FoswikiTiny.foswikiVars['TOPIC'];
             ed.plugins.autosave.setupStorage(ed);
             ed.id = orig_id;
 
