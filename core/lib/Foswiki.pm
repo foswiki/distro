@@ -3078,7 +3078,24 @@ sub inContext {
 STATIC Add a tag handler to the function tag handlers.
    * =$tag= name of the tag e.g. MYTAG
    * =$fnref= Function to execute. Will be passed ($session, \%params, $web, $topic )
-   * =$syntax= TODO: DOCUMENTME
+   * =$syntax= somewhat legacy - 'classic' or 'context-free' (context-free may be removed in future)
+   
+   
+$syntax parameter:
+Way back in prehistory, back when the dinosaur still roamed the earth, 
+Crawford tried to extend the tag syntax of macros such that they could be processed 
+by a context-free parser (hence the "context-free") 
+and bring them into line with HTML. 
+This work was banjaxed by one particular tyrranosaur, 
+who felt that the existing syntax was perfect. 
+However by that time Crawford had used it in a couple of places - most notable in the action tracker. 
+
+The syntax isn't vastly different from what's there; the differences are: 
+   1 Use either type of quote for parameters 
+   2 Optional quotes on parameter values e.g. recurse=on 
+   3 Standardised use of \ for escapes 
+   4 Boolean (valueless) options (i.e. recurse instead of recurse="on" 
+
 
 =cut
 

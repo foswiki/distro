@@ -2137,7 +2137,7 @@ and are expanded at the same time. This is a _lot_ more efficient than using the
    * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. 
    The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
    * =\&fn= - Reference to the handler function.
-   * =$syntax= can be 'classic' (the default) or 'context-free'. 
+   * =$syntax= can be 'classic' (the default) or 'context-free'. (context-free may be removed in future)
    'classic' syntax is appropriate where you want the variable to support classic syntax 
    i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, 
    as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. 
