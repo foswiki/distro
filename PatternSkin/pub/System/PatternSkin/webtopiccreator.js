@@ -84,7 +84,7 @@ function canSubmit(inForm, inShouldConvertInput) {
 		wikiWordName = removeSpacesAndPunctuation(foswiki.String.capitalize(inputForTopicName));
 	}
 	if (userAllowsNonWikiWord) {
-		wikiWordName = removeSpacesAndPunctuation(capitalizeSentence(inputForTopicName));
+		wikiWordName = filterSpacesAndPunctuation(capitalizeSentence(inputForTopicName));
 	}
 	
 	if (inShouldConvertInput) {
@@ -114,6 +114,9 @@ function canSubmit(inForm, inShouldConvertInput) {
 }
 function removeSpacesAndPunctuation (inText) {
 	return foswiki.String.removePunctuation(foswiki.String.removeSpaces(inText));
+}
+function filterSpacesAndPunctuation (inText) {
+	return foswiki.String.removeSpaces(foswiki.String.filterPunctuation(inText));
 }
 function capitalizeSentence (inText) {
 	return inText.substr(0,1).toUpperCase() + inText.substr(1);

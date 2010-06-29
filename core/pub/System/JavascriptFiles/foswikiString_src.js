@@ -97,13 +97,11 @@ foswiki.String = {
      */
 	filterPunctuation:function(inValue) {
 		if (!inValue) return null;
-		var allowedRegex = "[^" + foswiki.StringConstants.getInstance()
-        .MIXED_ALPHANUM_CHARS + "]";
         var nameFilterRegex = foswiki.getPreference('NAMEFILTER')
 		var re = new RegExp(nameFilterRegex, "g");
 		return inValue.replace(re, " ");
 	},
-	
+
 	/**
      * Removes punctuation characters from a string by stripping all characters
      * except for MIXED_ALPHANUM_CHARS. For example: "A / Z" becomes "AZ".
