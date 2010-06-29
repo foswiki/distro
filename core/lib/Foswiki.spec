@@ -322,7 +322,7 @@ $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
 # environments may require funny characters in login names, such as \.
 # This is a filter <b>in</b> expression i.e. a login name must match this
 # expression or an error will be thrown and the login denied.
-$Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>#\x00-\x1f]+$/;
+$Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>\x00-\x1f]+$/;
 
 # **STRING 20 EXPERT**
 # Guest user's login name. You are recommended not to change this.
@@ -588,7 +588,7 @@ $Foswiki::cfg{UploadFilter} = qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]h
 # and skin names. This is a filter <b>out</b>, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
-$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
+$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]#\x00-\x1f]/;
 
 # **BOOLEAN EXPERT**
 # If this is set, then the search module will use more relaxed
