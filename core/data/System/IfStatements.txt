@@ -23,7 +23,6 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | =defined= | True if a [[PreferenceSettings][preference setting]] or url parameter of this name is defined. |
 | =isempty= | True if a [[PreferenceSettings][preference setting]], url parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) &#124;&#124; $x='')= |
 | =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
-| ={X}= | expands to the value of the =configure= setting {X} - for example, ={ScriptUrlPath}= |
 
 ---+++ Examples
 
@@ -53,10 +52,12 @@ url param t is %IF{ "0 < $ t and $ t < 1000" then="in" else="out of"}% range.
 %IF{ "$'URLPARAM{scope}'='text'" then="Plain text search" }% 
 </verbatim>
 
-6. Configuration item set or not
+6. Configuration item set or not (item must be one of  %FOREACH{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
 <verbatim>
-%IF{ "{AntiSpam}{HideUserDetails}" then="User details are hidden" }%
+User details are %IF{ "{AntiSpam}{HideUserDetails}" then="hidden" else="shown" }%
 </verbatim>
+expands to:
+User details are %IF{ "{AntiSpam}{HideUserDetails}" then="hidden" else="shown" }%
 
 7. Plugin enabled test
 <verbatim>

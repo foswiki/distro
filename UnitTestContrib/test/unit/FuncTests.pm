@@ -1621,6 +1621,7 @@ sub test_loadTemplate {
     my $view = Foswiki::Func::loadTemplate('view');
     $this->assert(length($view));
     my $print = Foswiki::Func::loadTemplate('view', 'print');
+    $this->assert(length($print));
     $this->assert($print ne $view);
     $this->assert_str_equals('', Foswiki::Func::loadTemplate('crud'));
 }

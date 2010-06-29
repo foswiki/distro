@@ -986,6 +986,7 @@ sub set_up {
 sub simpleTest {
     my ( $this, %test ) = @_;
     $this->{session}->enterContext('test');
+    push(@{$Foswiki::cfg{AccessibleCFG}}, '{Fnargle}', '{A}{B}');
     $Foswiki::cfg{Fnargle} = 'Fleeble';
     $Foswiki::cfg{A}{B} = 'C';
     $this->{request}->param( 'notempty', 'v' );

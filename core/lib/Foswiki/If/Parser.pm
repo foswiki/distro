@@ -25,7 +25,6 @@ sub new {
     my $this = $class->SUPER::new(
         {
             nodeClass => 'Foswiki::If::Node',
-            words     => qr/([A-Z][A-Z0-9_:]+|({[A-Z0-9_]+})+)/i
         }
     );
     die "{Operators}{If} is undefined; re-run configure"

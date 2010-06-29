@@ -107,6 +107,11 @@ sub test_badQUERY {
         $this->assert( $result =~ s/^.*}:\s*//s );
         $this->assert_str_equals( $test->{expect}, $result );
     }
+    my $result = $this->{test_topicObject}->expandMacros('%QUERY%');
+    $result =~ s/^.*foswikiAlert'>\s*//s;
+    $result =~ s/\s*<\/span>\s*//s;
+    $this->assert( $result =~ s/^.*}:\s*//s );
+    $this->assert_str_equals( 'Empty expression', $result );
 }
 
 sub test_CAS {
@@ -216,6 +221,25 @@ PONG
 BleaghForm
 whatsnot.gif,World.gif
 THIS
+}
+
+sub test_cfg {
+    my $this = shift;
+
+    # Check a few that should be hidden
+    foreach my $var ( '{Htpasswd}{FileName}', '{Password}', '{ScriptDir}') {
+        my $text = "%QUERY{\"$var\"}%";
+        my $result = $this->{test_topicObject}->expandMacros($text);
+        $this->assert_equals( '', $result );
+    }
+
+    # Try those that *should* be visible
+    foreach my $var ( grep { !/AccessibleCFG/ } @{$Foswiki::cfg{AccessibleCFG}}) {
+        my $text = "%QUERY{\"$var\"}%";
+        my $result = $this->{test_topicObject}->expandMacros($text);
+        my $expected = eval("\$Foswiki::cfg$var");
+        $this->assert_equals( $expected, "$result", "$var!=$expected" );
+    }
 }
 
 1;

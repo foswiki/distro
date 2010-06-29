@@ -16,19 +16,6 @@ use warnings;
 use Foswiki::Query::Node ();
 our @ISA = ('Foswiki::Query::Node');
 
-use Foswiki::Infix::Node ();
-
-sub newLeaf {
-    my ( $class, $val, $type ) = @_;
-    if ( $type == $Foswiki::Infix::Node::NAME && $val =~ /^({\w+})+$/ ) {
-        eval '$val = $Foswiki::cfg' . $val;
-        return $class->SUPER::newLeaf( $val, $Foswiki::Infix::Node::STRING );
-    }
-    else {
-        return $class->SUPER::newLeaf( $val, $type );
-    }
-}
-
 # Used wherever a plain string is expected, this method suppresses automatic
 # lookup of names in meta-data
 sub _evaluate {

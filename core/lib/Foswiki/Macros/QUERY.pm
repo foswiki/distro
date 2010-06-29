@@ -10,6 +10,7 @@ sub QUERY {
     my ( $this, $params, $topicObject ) = @_;
     my $result;
     my $expr = $params->{_DEFAULT};
+    $expr = '' unless defined $expr;
     my $style = lc( $params->{style} || '' );
 
     # Recursion block.

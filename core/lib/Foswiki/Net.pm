@@ -371,6 +371,7 @@ sub sendEmail {
             $e = join( "\n", grep( /^ERROR/, split( /\n/, $e ) ) );
 
             unless ( $e =~ /^ERROR/ ) {
+                # SMELL: maketext; and WIKIWEBMASTER is an email address
                 $e =
 "Mail could not be sent - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
             }

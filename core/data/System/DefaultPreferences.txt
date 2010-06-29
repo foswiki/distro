@@ -386,6 +386,11 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
       * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
 
+---++ Accessible configuration items
+Note that any configuration variable accessed via QUERY must be included in the
+definition of {AccessibleCFG} in =configure= (expert setting)
+   * Set NAMEFILTER = %QUERY{"{NameFilter}"}%
+
 ---++ Creating New Preference Settings
 
 You can introduce new [[PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the Foswiki engine (Perl scripts).

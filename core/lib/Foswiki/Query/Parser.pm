@@ -36,7 +36,7 @@ use Foswiki::Query::Node ();
 sub new {
     my ( $class, $options ) = @_;
 
-    $options->{words}     ||= qr/[A-Z][A-Z0-9_:]*/i;
+    $options->{words}     ||= qr/([A-Z][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i;
     $options->{nodeClass} ||= 'Foswiki::Query::Node';
     my $this = $class->SUPER::new($options);
     die "{Operators}{Query} is undefined; re-run configure"

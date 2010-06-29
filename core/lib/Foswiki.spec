@@ -535,6 +535,13 @@ $Foswiki::cfg{Password} = '';
 # </ol>
 $Foswiki::cfg{SafeEnvPath} = '';
 
+# **PERL**
+# Array of the names of configuration items that are available when using %IF, %SEARCH
+# and %QUERY{}%. Extensions can push into this array to extend the set. This is done as
+# a filter in because while the bulk of configuration items are quite innocent,
+# it's better to be a bit paranoid.
+$Foswiki::cfg{AccessibleCFG} = [ qw( {ScriptSuffix} {LoginManager} {AuthScripts} {LoginNameFilterIn} {AdminUserLogin} {AdminUserWikiName} {SuperAdminGroup} {UsersTopicName} {AuthRealm} {MinPasswordLength} {Register}{AllowLoginName} {Register}{EnableNewUserRegistration} {Register}{NeedVerification} {Register}{RegistrationAgentWikiName} {AllowInlineScript} {DenyDotDotInclude} {UploadFilter} {NameFilter} {AccessibleCFG} {AntiSpam}{EmailPadding} {AntiSpam}{HideUserDetails} {AntiSpam}{RobotsAreWelcome} {Stats}{TopViews} {Stats}{TopContrib} {Stats}{TopicName} {UserInterfaceInternationalisation} {UseLocale} {Site}{Locale} {Site}{CharSet} {DisplayTimeValues} {DefaultDateFormat} {Site}{LocaleRegexes} {UpperNational} {LowerNational} {PluralToSingular} {EnableHierarchicalWebs} {WebMasterEmail} {WebMasterName} {NotifyTopicName} {SystemWebName} {TrashWebName} {SitePrefsTopicName} {LocalSitePreferences} {HomeTopicName} {WebPrefsTopicName} {UsersWebName} {TemplatePath} {LinkProtocolPattern} {NumberOfRevisions} {MaxRevisionsInADiff} {ReplaceIfEditedAgainWithin} {LeaseLength} {LeaseLengthLessForceful} {Plugins}{WebSearchPath} {PluginsOrder} {Cache}{Enabled} {Validation}{Method} ) ];
+
 # **BOOLEAN**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
 # to mount a denial-of-service (DoS) attack on a Foswiki site using INCLUDE and
@@ -640,7 +647,7 @@ $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 
 # **REGEX EXPERT**
 # Defines the filter-in regexp that must match the names of environment
-# variables that can be seen using the %ENV{}% Foswiki variable. Set it to
+# variables that can be seen using the %ENV{}% macro. Set it to
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION|PATH_INFO)$';
 
@@ -1439,9 +1446,6 @@ $Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderList
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Contrib::MailerContribPlugin';
 
-
-
-
 #---++ Install and Update Extensions
 # <p>Consult online extensions repositories for new extensions, or check and manage updates.</p>
 #
@@ -1454,7 +1458,7 @@ $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Contrib::MailerC
 # <ol>
 # <li>Create a Foswiki web to contain the repository</li>
 # <li>Copy the <tt>FastReport</tt> page from <a href="http://foswiki.org/Extensions/FastReport?raw=on" target="_new">Foswiki:Extensions.FastReport</a> to your new web</li>
-# <li> Set the <tt>WEBFORMS</tt> variable in WebPreferences to <tt>PackageForm</tt></li>
+# <li> Set the <tt>WEBFORMS</tt> preference in WebPreferences to <tt>PackageForm</tt></li>
 # </ol>
 # The page for each extension must have the <tt>PackageForm</tt> (copy from Foswiki.org),
 # and should have the packaged extension attached as a <tt>zip</tt> and/or

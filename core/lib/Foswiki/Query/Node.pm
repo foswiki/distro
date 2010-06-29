@@ -61,9 +61,31 @@ our %aliases = (
 our %isArrayType =
   map { $_ => 1 } qw( FILEATTACHMENT FIELD PREFERENCE );
 
+# Cache of the names of $Foswiki::cfg items that are accessible
+our $isAccessibleCfg;
+
 # <DEBUG SUPPORT>
 
 sub MONITOR_EVAL { 0 }
+
+# We expand config vars to constant strings during the parse, because otherwise we'd
+# have to export the knowledge of config vars out to other engines that may
+# evaluate queries instead of the default evaluator.
+sub newLeaf {
+    my ( $class, $val, $type ) = @_;
+
+    if ( $type == $Foswiki::Infix::Node::NAME && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i ) {
+        # config var name, make sure it's accessible.
+        unless (defined $isAccessibleCfg) {
+            $isAccessibleCfg = { map { $_ => 1 } @{$Foswiki::cfg{AccessibleCFG}} };
+        }
+        $val = ($isAccessibleCfg->{$val}) ? eval( '$Foswiki::cfg'.$val ) : '';
+        return $class->SUPER::newLeaf( $val, $Foswiki::Infix::Node::STRING );
+    }
+    else {
+        return $class->SUPER::newLeaf( $val, $type );
+    }
+}
 
 sub toString {
     my ($a) = @_;
@@ -90,9 +112,17 @@ my $ind = 0;
 # field of the operator. The return result is either an array ref (for many
 # results) or a scalar (for a single result)
 #
-# this function is a stub to execute the getField function in the
+# This is the default evaluator for queries. However it may not be the only
+# engine that evaluates them; external engines, such as SQL, might be delegated
+# the responsibility of evaluating queries in a search context.
+#
+# Note that the name resolution simply executes the getField function in the
 # query algorithm. It is placed there to allow for Store specific optimisations
 # such as direct database lookups.
+#
+# SMELL: is the getField passed enough domain information? It can see the data
+# object (usually a Meta) but cannot see the context of the name in the query.
+#
 sub evaluate {
     my $this = shift;
     ASSERT( scalar(@_) % 2 == 0 );
