@@ -89,9 +89,9 @@ function canSubmit(inForm, inShouldConvertInput) {
 	
 	if (inShouldConvertInput) {
 		if (hasNonWikiWordCheck && userAllowsNonWikiWord) {
-			inForm.topic.value = noSpaceName;
-		} else {
 			inForm.topic.value = wikiWordName;
+		} else {
+			inForm.topic.value = noSpaceName;
 		}
 	}
 
