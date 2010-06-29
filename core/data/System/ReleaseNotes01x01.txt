@@ -45,7 +45,9 @@ Foswiki 1.1 is shipped with the following:
 ***UPDATE ME***
 
 ---++ Important Changes since Foswiki 1.0.9
-***UPDATE ME***
+
+---+++ Testing configuration variables in %IF
+Prior to 1.1, %IF could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%SEARCH{type="query"= and the new =%QUERY= macro.
 
 See ReleaseNotes01x00 for detailed information about changes in that release.
 
@@ -62,6 +64,7 @@ process that is dangerous if misused, and severely limits the flexibility and
 optimisations available to the core.
 
 ---+++ Notes for extension authors
+---++++ Tainting
 The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the fnctions for =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
 <verbatim>
 $validWebName = Foswiki::Sandbox::untaint(
@@ -76,7 +79,7 @@ Note that values are only checked for taintedness when FOSWIKI_ASSERTS are enabl
 $ENV{FOSWIKI_ASSERTS} = 1;
 </verbatim>
 to your =bin/LocalLib.cfg=.
- 
+
 ---++ Foswiki Release 1.1.0 Details
 
 ---+++ Fixes
