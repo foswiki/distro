@@ -18,8 +18,8 @@
     tinymce.PluginManager.requireLangPack('foswikibuttons');
 
     tinymce.create('tinymce.plugins.FoswikiButtons', {
-        formats_lb: null,
         // formats listbox
+        formats_lb: null,
 
         init: function(ed, url) {
 
@@ -33,6 +33,25 @@
                 ed.formatter.register('WYSIWYG_TT', {
                     inline: 'span',
                     classes: 'WYSIWYG_TT'
+                });
+                ed.formatter.register('WYSIWYG_COLOR', [
+                    {
+                        inline:  'span',
+                        classes: 'WYSIWYG_COLOR',
+                        styles: {
+                            color: '%value'
+                        }
+                    },
+                    /* This entry allows WYSIWYG_COLOR to match without
+                       a specific color attribute, used for button state */
+                    {
+                        inline: 'span',
+                        classes: 'WYSIWYG_COLOR'
+                    }
+                ]);
+                ed.formatter.register('IS_WYSIWYG_COLOR', {
+                    inline:  'span',
+                    classes: 'WYSIWYG_COLOR',
                 });
                 ed.formatter.register(ed.fw_formats);
             });
@@ -190,15 +209,10 @@
 
         _nodeChange: function(ed, cm, node, collapsed) {
             var selectedFormats = ed.formatter.matchAll(ed.fw_format_names),
-                wcoloured = ed.dom.getParent(node, '.WYSIWYG_COLOR'),
                 // SMELL: ed.id gets concatenated twice - why?
                 listbox = cm.get(ed.id + '_' + ed.id + '_foswikiformat');
 
-            console.log( 'id: ' + ed.id);
             if (node == null) return;
-
-            if (wcoloured != null) cm.setActive('colour', true);
-            else cm.setActive('colour', false);
 
             if (collapsed) { // Disable the buttons
                 cm.setDisabled('colour', true);
@@ -212,6 +226,11 @@
                 cm.setActive('tt', true);
             } else {
                 cm.setActive('tt', false);
+            }
+            if ( ed.formatter.match('WYSIWYG_COLOR') ) {
+                cm.setActive('colour', true);
+            } else {
+                cm.setActive('colour', false);
             }
             if (selectedFormats.length > 0) {
                 listbox.select(selectedFormats[0]);
