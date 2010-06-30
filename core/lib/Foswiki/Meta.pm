@@ -27,7 +27,7 @@ calling =reload=.
 
 Unloaded objects return undef from =getLoadedRev=, or the loaded revision
 otherwise. =reload= allows you to load different revisions of the same
-topic, or 
+topic.
 
 An unloaded object can be populated through calls to =text($text)=, =put=
 and =putKeyed=. Such an object can be saved using =save()= to create a new
@@ -109,7 +109,7 @@ our $VERSION = '$Rev$';
 # Version for the embedding format (increment when embedding format changes)
 our $EMBEDDING_FORMAT_VERSION = 1.1;
 
-# defaults for trunctation of summary text
+# defaults for truncation of summary text
 our $SUMMARY_TMLTRUNC = 162;
 our $SUMMARY_MINTRUNC = 16;
 our $SUMMARY_ELLIPSIS = '<b>&hellip;</b>';    # Google style
@@ -454,7 +454,7 @@ sub addDependency {
 
 ---++ ObjectMethod fireDependency() -> $this
 
-Invalidates the cache bucked of the current meta object
+Invalidates the cache bucket of the current meta object
 within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 
 =cut
@@ -483,7 +483,7 @@ the web preferences topic in the new web.
 
 #SMELL: there seems to be no reason to call this method 'NewWeb', it can be used to copy into an existing web
 and it does not appear to be unexpectedly destructive.
-perhaps refactor into something that takes a resultset as an input list? (users have ased to be able to copy a SEARCH'd set of topics..)
+perhaps refactor into something that takes a resultset as an input list? (users have asked to be able to copy a SEARCH'd set of topics..)
 
 =cut
 
@@ -576,7 +576,7 @@ deprecated (use queries instead).
    * =\%options= - reference to an options hash
 The =\%options= hash may contain the following options:
    * =type= - if =regex= will perform a egrep-syntax RE search (default '')
-   * =casesensitive= - false to ignore case (defaulkt true)
+   * =casesensitive= - false to ignore case (default true)
    * =files_without_match= - true to return files only (default false)
 
 The return value is a reference to a hash which maps each matching topic
@@ -942,7 +942,7 @@ sub putAll {
 ---++ ObjectMethod get( $type, $key ) -> \%hash
 
 Find the value of a meta-datum in the map. If the type is
-keyed (idenitifed by a =name=), the =$key= parameter is required
+keyed (identified by a =name=), the =$key= parameter is required
 to say _which_ entry you want. Otherwise you will just get the first value.
 
 If you want all the keys of a given type use the 'find' method.
@@ -1069,7 +1069,7 @@ case it will retain the old values.
 
 If $type is undef, will copy ALL TYPES.
 
-If $nameFilter is defined (a perl refular expression), it will copy
+If $nameFilter is defined (a perl regular expression), it will copy
 only data where ={name}= matches $nameFilter.
 
 Does *not* copy web, topic or text.
@@ -1268,7 +1268,7 @@ Merge the data in the other meta block.
    * Form field values that are different in each set are text-merged
    * We don't merge for field attributes or title
    * Topic info is not touched
-   * The =mergeable= method on the form def is used to determine if that fields is mergeable. if it isn't, the value currently in meta will _not_ be changed.
+   * The =mergeable= method on the form def is used to determine if that field is mergeable. If it isn't, the value currently in meta will _not_ be changed.
 
 =cut
 
