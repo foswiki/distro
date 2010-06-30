@@ -190,8 +190,11 @@
 
         _nodeChange: function(ed, cm, node, collapsed) {
             var selectedFormats = ed.formatter.matchAll(ed.fw_format_names),
-                wcoloured = ed.dom.getParent(node, '.WYSIWYG_COLOR');
+                wcoloured = ed.dom.getParent(node, '.WYSIWYG_COLOR'),
+                // SMELL: ed.id gets concatenated twice - why?
+                listbox = cm.get(ed.id + '_' + ed.id + '_foswikiformat');
 
+            console.log( 'id: ' + ed.id);
             if (node == null) return;
 
             if (wcoloured != null) cm.setActive('colour', true);
@@ -210,11 +213,10 @@
             } else {
                 cm.setActive('tt', false);
             }
-            
             if (selectedFormats.length > 0) {
-                cm.get('topic_topic_foswikiformat').select(selectedFormats[0]);
+                listbox.select(selectedFormats[0]);
             } else {
-                cm.get('topic_topic_foswikiformat').select('Normal');
+                listbox.select('Normal');
             }
 
             return true;
