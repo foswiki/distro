@@ -10,6 +10,7 @@ our @ISA = qw( FoswikiFnTestCase );
 use Foswiki;
 use Error qw( :try );
 use Assert;
+use Foswiki::Query::Node ();
 
 sub new {
     my $self = shift()->SUPER::new( 'IF', @_ );
@@ -986,6 +987,8 @@ sub set_up {
 sub simpleTest {
     my ( $this, %test ) = @_;
     $this->{session}->enterContext('test');
+    # reset the cache
+    undef $Foswiki::Query::Node::isAccessibleCfg;
     push(@{$Foswiki::cfg{AccessibleCFG}}, '{Fnargle}', '{A}{B}');
     $Foswiki::cfg{Fnargle} = 'Fleeble';
     $Foswiki::cfg{A}{B} = 'C';
