@@ -796,6 +796,12 @@ THIS
 #    * In the new topic, the initial letter is changed to upper case
 sub test_renameTopic_with_lowercase_first_letter {
     my $this      = shift;
+    
+    if ($^O eq 'MSWin32') {
+        $this->expect_failure();
+        $this->annotate("this test fails on a non-case sensitive filesystem - OSX default, Windows..");
+    }
+    
     my $topictext = <<THIS;
 One lowercase
 Twolowercase

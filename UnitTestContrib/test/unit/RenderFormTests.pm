@@ -313,6 +313,7 @@ sub test_render_formfield_raw {
 }
 
 # Simple test; form in place, just check value rendering
+# presumes pattern skin.
 sub test_render_formfield_with_form {
     my $this = shift;
 
