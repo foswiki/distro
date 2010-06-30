@@ -2,7 +2,6 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarFOREACH
 ---+++ FOREACH{"list" format="" header="" footer="" separator=""} -- renders a comma separated list
-__WARNING:__ the syntax is developing. eg. =$topic= is a legacy of the original code, and will change
    * Syntax: =%<nop>FOREACH{"list"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
