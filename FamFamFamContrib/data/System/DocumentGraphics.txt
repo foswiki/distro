@@ -504,8 +504,49 @@ To get the full URL of the icon, use [[VarICONURL][ICONURL]]:
 and that will get rendered as: %ICONURL{"toggleopen"}%
 </blockquote>
 
+---++ Customisation
+To create a _full_ new set of Icon's, you would need to duplicate this topic, 
+and then create a set of icon files matching these names as attachments to that copy. 
+This lengthy process is required to support direct URL usages of the iconsset 
+(its common for users to find out a url to an image, and then paste it into the editor - this 'just' works).
+
+If you only want to customise a small set of icons, or add some of your own, 
+the best way to do this is to create an icon skin template containing your customisations, 
+and then to add that into your skin path.
+
+eg:
+---++++ create a Skin Template for your icons
+Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topic called =IconsMybookSkinTemplate= in the %SYSTEMWEB% web 
+(or if the icon modifications are local to a web, the topic can be created in just that web).
+<verbatim>
+%{ replace the book Icon }%
+%{ the output of %ICONURL{book}% }%
+%TMPL:DEF{"iconurl:book"}%http://someother.corp.server/My-book-company-logo.png%TMPL:END%
+%TMPL:DEF{"iconalt:book"}%Book%TMPL:END%
+%{ the html output by %ICON{book}% }%
+%TMPL:DEF{"icon:book"}%<span class="foswikiIcon"><img src="%TMPL:P{"iconurl:book"}%" width="16" height="16" alt="%TMPL:P{"iconalt:book"}%" /></span>%TMPL:END%
+
+%{ add a new fuzzy-bunny Icon }%
+%{ the output of %ICONURL{fuzzy}% }%
+%TMPL:DEF{"iconurl:fuzzy"}%http://someother.server/fuzzy.png%TMPL:END%
+%TMPL:DEF{"iconalt:fuzzy"}%Fuzzy Wuzzy%TMPL:END%
+%{ the html output by %ICON{fuzzy}% }%
+%TMPL:DEF{"icon:fuzzy"}%<span class="foswikiIcon"><img src="%TMPL:P{"iconurl:fuzzy"}%" width="16" height="16" alt="%TMPL:P{"iconalt:fuzzy"}%" /></span>%TMPL:END%
+
+</verbatim>
+---++++ add =mybook= to your SKIN setting
+<verbatim>
+   * SKIN=mybook,pattern
+</verbatim>
+
+This allows you to create non-image 'ICONS', specify images from other servers, and add Icons in a foswiki Extension.
+
+see [[%SYSTEMWEB%.Skins][Skins]] and %SYSTEMWEB%.SkinTemplates for more information about how to create Skins.
+
 ---++ Credits
-Most of these icons are from the [[http://www.famfamfam.com/lab/icons/silk/][FamFamFam Silk]] icon set, some are modifications by Foswiki:Main.SvenDowideit, and a few come from the [[http://p.yusukekamiyamane.com/][Fugue icons]] set. The social media icons are from  [[http://icondock.com/free/vector-social-media-icons][icondock's Vector social media]] set.
+Most of these icons are from the [[http://www.famfamfam.com/lab/icons/silk/][FamFamFam Silk]] icon set, 
+some are modifications by Foswiki:Main.SvenDowideit, and a few come from the [[http://p.yusukekamiyamane.com/][Fugue icons]] set. 
+The social media icons are from  [[http://icondock.com/free/vector-social-media-icons][icondock's Vector social media]] set.
 
 ---
 *Related Topics:* [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
