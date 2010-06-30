@@ -293,7 +293,7 @@ sub linkOrCopy {
         symlink(
             _cleanPath("$moduleDir/$source"),
             _cleanPath("$moduleDir/$target")
-        ) or die "Failed to link $moduleDir/$target to moduleDir/$source: $!";
+        ) or die "Failed to link $moduleDir/$target to $moduleDir/$source: $!";
         print "Linked $source as $target\n";
     }
     else {
