@@ -47,7 +47,7 @@ attacks, or used for phishing.
    * =validate= - use this boolean option to require validation of any requests
      made to this handler.
      By default, requests made to REST handlers are not validated.
-   * =http_allow= use this option to specify that the HTTP methods that can
+   * =http_allow= use this option to specify the HTTP methods that can
      be used to invoke the handler.
 
 =cut=
