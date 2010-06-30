@@ -545,6 +545,10 @@ sub test_delete {
     $this->assert_deep_equals( [qw(q2 q1 null p q3 file)],
         \@result, 'wrong returned parameter values' );
 
+    #Windows refuses (sensibly?) to refuse to unlink a file which is open
+    #so we need to close the File::Temp (this isa hackjobbie i think)
+    close($tmp);
+
     $req->delete('q1');
     @result = $req->param();
     $this->assert_deep_equals( [qw(q2 null p q3 file)], \@result,
@@ -592,6 +596,10 @@ sub test_delete_all {
     $this->assert_deep_equals( [qw(q2 q1 p q3 file)], \@result,
         'wrong returned parameter values' );
 
+    #Windows refuses (sensibly?) to refuse to unlink a file which is open
+    #so we need to close the File::Temp (this isa hackjobbie i think)
+    close($tmp);
+
     $req->deleteAll();
     @result = $req->param();
     $this->assert_num_equals( 0, scalar @result, "deleteAll didn't work" );
@@ -608,6 +616,7 @@ sub test_delete_all {
     );
     $req->uploads( \%uploads );
 
+    close($tmp);
     $req->delete_all();
     @result = $req->param();
     $this->assert_num_equals( 0, scalar @result, "deleteAll didn't work" );
