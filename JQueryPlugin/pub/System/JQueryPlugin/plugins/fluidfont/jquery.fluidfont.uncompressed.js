@@ -24,7 +24,7 @@
      * constructor
      */
     build: function(options) {
-      $.log("called fluidfont.build()");
+      //$.log("called fluidfont.build()");
      
       var $this = $(this), 
         opts = $.extend({}, $.fluidfont.defaults, options),
@@ -52,7 +52,7 @@
       lineHeight = $this.css('line-height')
       lineRatio = getRatio(lineHeight);
       lineRatio = lineRatio / fontRatio;
-      $.log("fontSize="+fontSize+" lineHeight="+lineHeight+" fontRatio="+fontRatio+" lineRatio="+lineRatio);
+      //$.log("fontSize="+fontSize+" lineHeight="+lineHeight+" fontRatio="+fontRatio+" lineRatio="+lineRatio);
 
       function resize() {
         var width = $this.width(), 
@@ -69,7 +69,7 @@
 
         lineHeight = fontSize * lineRatio;
 
-        $.log("width="+width+" font-size="+fontSize+" line-height="+lineHeight+" lineRatio="+lineRatio);
+        //$.log("width="+width+" font-size="+fontSize+" line-height="+lineHeight+" lineRatio="+lineRatio);
         $this.css({'font-size': fontSize+"px", 'line-height': lineHeight+"px"});
       
         window.setTimeout(function() {

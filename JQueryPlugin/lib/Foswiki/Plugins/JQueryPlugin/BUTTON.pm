@@ -67,7 +67,6 @@ sub handleButton {
     my $theIconName    = $params->{icon} || '';
     my $theAccessKey   = $params->{accesskey};
     my $theId          = $params->{id};
-    my $theBg          = $params->{bg} || '';
     my $theClass       = $params->{class} || '';
     my $theStyle       = $params->{style} || '';
     my $theTarget      = $params->{target};
@@ -133,7 +132,7 @@ sub handleButton {
     $callbacks = 'data="{' . $callbacks . '}"' if $callbacks;
 
     my $result =
-"<a id='$theId' class='jqButton $theBg $theClass' $callbacks href='$theHref'";
+"<a id='$theId' class='jqButton $theClass' $callbacks href='$theHref'";
     $result .= " accesskey='$theAccessKey' " if $theAccessKey;
     $result .= " title='$theTitle' "         if $theTitle;
     $result .= " style='$theStyle' "         if $theStyle;

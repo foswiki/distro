@@ -60,10 +60,6 @@ sub renderForEdit {
         -id    => $this->{name},
     );
 
-    # SMELLL: in case this gets loaded via ajax
-    $field .=
-"<script src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/textboxlist/jquery.textboxlist.init.js'></script>";
-
     return ( '', $field );
 }
 

@@ -19,7 +19,6 @@ $.tabpane = {
    * plugin definition 
    */
   build: function(options) {
-    //$.log("called tabpane()");
 
     if (typeof(options) == 'undefined') {
       options = {};
@@ -85,12 +84,12 @@ $.tabpane = {
 
     var oldTabId = thisOpts.currentTabId;
 
-    //$.log("switching from "+oldTabId+" to "+newTabId);
+    $.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
 
     var $newTab  = jQuery("#"+newTabId);
     var $oldTab = jQuery("#"+oldTabId);
-    var $newContainer = $newTab.find('.jqTabContents');
-    var $oldContainer = $oldTab.find('.jqTabContents');
+    var $newContainer = $newTab.find('.jqTabContents:first');
+    var $oldContainer = $oldTab.find('.jqTabContents:first');
     var oldHeight = $oldContainer.height(); // why does the container not work
 
     $oldTab.removeClass("current");
@@ -109,6 +108,7 @@ $.tabpane = {
     }
 
     if ((thisOpts.animate || thisOpts.autoMaxExpand) && oldHeight > 0) {
+      $.log("TABPANE: setting height to "+oldHeight);
       $newContainer.height(oldHeight);
     }
 
@@ -190,9 +190,9 @@ $.tabpane = {
    */
   fixHeight: function($thisPane, opts) {
 
-    //jQuery.log("tabpane: called fixHeight()");
+    jQuery.log("TABPANE: called fixHeight()");
 
-    var $container = $thisPane.find("> .jqTab.current .jqTabContents");
+    var $container = $thisPane.find("> .jqTab.current .jqTabContents:first");
 
     var paneOffset = $container.offset();
 
@@ -210,7 +210,7 @@ $.tabpane = {
       windowHeight = window.innerHeight; // woops, jquery, whats up for konqi
     }
 
-    var height = windowHeight-paneTop-2*bottomBarHeight;
+    var height = windowHeight-paneTop-2*bottomBarHeight+0.5;
     var $debug = $("#DEBUG");
     if ($debug) {
       height -= $debug.outerHeight(true);

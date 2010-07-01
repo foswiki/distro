@@ -8,7 +8,13 @@
 %TOC%
 
 ---++ Description
-<table style="float:right">
+<blockquote>
+"jQuery is a fast, concise, <nop>JavaScript Library that simplifies how you traverse
+HTML documents, handle events, perform animations, and add Ajax interactions to
+your web pages."
+</blockquote>
+
+<table class="foswikiRight">
 <tr>
   <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png" title="Make your Wiki ring!" alt="WikiRing"></td>
   <td><a href="http://wikiring.com" title="Make your Wiki ring!" style="text-decoration:none">
@@ -17,28 +23,24 @@
 </tr>
 </table>
 
-<blockquote>
-"jQuery is a fast, concise, <nop>JavaScript Library that simplifies how you traverse
-HTML documents, handle events, perform animations, and add Ajax interactions to
-your web pages."
-</blockquote>
+Besides jQuery itself, !JQueryPlugin comes with a selection of third party plugins that are thought to be essential for modern web applications.
+These are integrated into Foswiki either by means of a special [[#Macros][macro]], by means of "minimal markup", or initialized using
+a custom javascript initializer. That way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
+in third party plugins. "Minimal markup" is a way to avoild the need to write javascript code to initialize the interface. Instead, a special
+css class is added to an html element that triggers its initialization. See JQueryMetadata for an example.
 
----++ Macros
-Depending on what jQuery plugins are enabled, the following Foswiki macros are available. See the documentation for the individual plugins for more information.
-   * Enabled by the 'foswiki' jQuery plugin
-      * [[VarJQTHEME][%<nop>JQTHEME%]]
-      * [[VarJQREQUIRE][%<nop>JQREQUIRE%]]
-      * [[VarJQICON][%<nop>JQICON%]]
-      * [[VarJQICONPATH][%<nop>JQICONPATH%]]
-      * [[VarJQPLUGINS][%<nop>JQPLUGINS%]]
-   * Enabled by the 'tabpane' jQuery plugin
-      * [[VarTABPANE][%<nop>TABPANE%]]
-      * [[VarENDTABPANE][%<nop>ENDTABPANE%]]
-      * [[VarTAB][%<nop>TAB%]]
-      * [[VarENDTAB][%<nop>ENDTAB%]]
-   * Enabled by the 'button' jQuery plugin
-      * [[VarBUTTON][%<nop>BUTTON%]]
-      * [[VarCLEAR][%<nop>CLEAR%]]
+Use [[#VarJQREQUIRE][JQREQUIRE]] to make use of a specific jQuery plugin on a page. This will prepair the page by loading the required javascript
+and css components. If you need to make a feature available on each and every page of your site, you may add this plugin to the list of default plugins
+loaded automatically. See [[%SCRIPTURLPATH{"configure"}%][configure]]. 
+
+Those plugins coming with their own [[#Macros][macro]] will take care of loading their javascript and css by themselves. So you won't need to 
+call JQREQUIRE explicitly for those listed below.
+
+!JQueryPlugin provides a special framework how to integrate third party jQuery plugins into Foswiki so that these plugins participate in dependency
+checking part of loading them. Examples are 
+Foswiki:Extensions/JQGridPlugin, Foswiki:Extensions/JQTablePlugin,
+Foswiki:Extensions/JQFullCanendarPlugin, Foswiki:Extensions/ImagePlugin,
+Foswiki:Extensions/ImageGalleryPlugin or Foswiki:Extensions/NatEditPlugin.
 
 ---++ Coding Standards
 
@@ -48,12 +50,41 @@ This plugin contains the latest version of the [[http://jquery.com][jQuery]]
 See also Foswiki:Development.UsingJQueryWithFoswiki for more information on
 using jQuery with Foswiki.
 
----++ Further references and tutorials
+---++ References and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
    * [[http://docs.jquery.com/Tutorials][Tutorials]]
    * [[http://docs.jquery.com/Main_Page][Reference API]]
+   * [[http://jqapi.com][Alternative jQuery Documentation and API Browser]]
    * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
    * [[http://docs.jquery.com/Plugins][Plugin repository]]
+
+---++ Macros
+
+%INCLUDE{"VarBUTTON"}%
+
+%INCLUDE{"VarTABPANE"}%
+%INCLUDE{"VarENDTABPANE"}%
+
+%INCLUDE{"VarTAB"}%
+%INCLUDE{"VarENDTAB"}%
+
+%INCLUDE{"VarJQICON"}%
+%INCLUDE{"VarJQICONPATH"}%
+
+%INCLUDE{"VarJQPLUGINS"}%
+%INCLUDE{"VarJQREQUIRE"}%
+%INCLUDE{"VarJQTHEME"}%
+
+---++ Available jQuery plugins
+%JQPLUGINS{
+  format="<h3> $index. $percntIF{\"istopic '$documentation'\" 
+                  then=\"[[$documentation][$name]]\" 
+                  else=\"<nop>$name\"
+               }$percnt $active
+          </h3>
+          $summary
+  "
+}%
 
 ---++ Using compressed javascript and css files
 All jQuery plugins are shipped with uncompressed js and css files, as well as minified and gzip compressed.
@@ -93,18 +124,6 @@ So whenever the browser accepts encoding the file as gzip _and_ the file with th
 in the filesystem, then there will be an internal redirect in the server while still enforcing the original mime-type.
 The browser on the client side will unzip the css and js files automatically. This will drastically
 reduce bandwidth and speed up interactive performance.
-
----++ Available jQuery plugins
-%JQPLUGINS{
-  format="<h3> $index. $percntIF{\"istopic '$documentation'\" 
-                  then=\"[[$documentation][$name]]\" 
-                  else=\"<nop>$name\"
-               }$percnt $active
-          </h3>
-          $summary
-  "
-}%
-
 
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%

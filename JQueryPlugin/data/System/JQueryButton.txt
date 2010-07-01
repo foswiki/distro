@@ -17,6 +17,10 @@ on buttons. Note, that this widget does not participate on the jquery
 theme roller. This is independent.
 %ENDSECTION{"summary"}%
 
+---++ Macros
+
+%INCLUDE{"VarBUTTON"}%
+
 ---++ Examples
 
 %BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%

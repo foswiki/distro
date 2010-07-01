@@ -51,7 +51,7 @@ function load(settings, root, child, container) {
           $.getJSON(settings.url, {root: root}, responseHandler);
         } else {
           var postData = $.extend({
-            root: root, 
+            root: root 
           }, settings.data);
           $.ajax({
             url:settings.url, 

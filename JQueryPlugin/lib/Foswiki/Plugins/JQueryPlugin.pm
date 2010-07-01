@@ -40,7 +40,6 @@ sub initPlugin {
         return 0;
     }
 
-    # jquery.foswiki
     Foswiki::Func::registerTagHandler( 'JQTHEME',    \&handleJQueryTheme );
     Foswiki::Func::registerTagHandler( 'JQREQUIRE',  \&handleJQueryRequire );
     Foswiki::Func::registerTagHandler( 'JQICON',     \&handleJQueryIcon );
@@ -55,9 +54,8 @@ sub initPlugin {
 
     # jquery.button
     Foswiki::Func::registerTagHandler( 'BUTTON', \&handleButton );
-    Foswiki::Func::registerTagHandler( 'CLEAR',  \&handleClear );
 
-    # nukem
+    # init plugin handler and preload default plugins
     Foswiki::Plugins::JQueryPlugin::Plugins::init();
 
     return 1;
@@ -198,21 +196,6 @@ sub handleEndTabPane {
 
 =begin TML
 
----++ handleClear($session, $params, $topic, $web) -> $result
-
-Handles the =%<nop>CLEAR% tag. 
-
-TODO: move this to another plugin; check against Foswiki:Extensions/ImagePlugin's 
-way to clear using =%<nop>IMAGE{"clear"}%=.
-
-=cut
-
-sub handleClear {
-    return "<span class='foswikiClear'></span>";
-}
-
-=begin TML
-
 ---++ handleJQueryRequire($session, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQREQUIRE% tag. 
@@ -284,6 +267,8 @@ sub handleJQueryIcon {
     my $iconName  = $params->{_DEFAULT} || '';
     my $iconAlt   = $params->{alt}      || $iconName;
     my $iconTitle = $params->{title}    || '';
+    my $iconFormat = $params->{format}
+      || '<img src=\'$iconPath\' class=\'$iconClass\' $iconAlt$iconTitle/>';
     my $iconPath =
       Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
 
@@ -292,8 +277,7 @@ sub handleJQueryIcon {
     my $iconClass = "foswikiIcon jqIcon";
     $iconClass .= " $params->{class}" if $params->{class};
 
-    my $img =
-      '<img src=\'$iconPath\' class=\'$iconClass\' $iconAlt$iconTitle/>';
+    my $img = $iconFormat;
     $img =~ s/\$iconPath/$iconPath/g;
     $img =~ s/\$iconClass/$iconClass/g;
     $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
