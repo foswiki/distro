@@ -619,6 +619,7 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/performance.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/qunit.css 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/qunit.js 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/qunit/runner.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/removeformat.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/selection.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/slickspeed/config.ini 0644
