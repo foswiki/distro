@@ -98,8 +98,8 @@ Below is the default configuration. If it is to be modified, it should be copied
     "Heading 4" : { "block" : "h4",  "remove" : "all" },
     "Heading 5" : { "block" : "h5",  "remove" : "all" },
     "Heading 6" : { "block" : "h6",  "remove" : "all" },
-    "VERBATIM" :  { "block" : "pre", "remove" : "all", "classes" : "TMLverbatim" }, 
-    "LITERAL" :   { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_LITERAL" },
+    "VERBATIM"  : { "block" : "pre", "remove" : "all", "classes" : "TMLverbatim" }, 
+    "LITERAL"   : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_LITERAL" },
     "Protect on save" : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_PROTECTED" },
     "Protect forever" : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_STICKY" }
 },
@@ -269,7 +269,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  ?? Jun 2010 | Foswikitask:Item9222: Fix autosave implementation compatibility with Foswiki 1.0.x JQueryPlugin |
+|  01 Jul 2010 | Foswikitask:Item9221: Fix colour formatting problem and JS error transitioning to fullscreen<br/>\
+                 Foswikitask:Item9222: Fix autosave implementation compatibility with Foswiki 1.0.x JQueryPlugin |
 |  28 Jun 2010 | Foswikitask:Item9155: Fix applying non-heading formats in !TinyMCE 3.3<br/>\
                  Foswikitask:Item2125: Change attach dialogue button text from 'cancel' to 'close'<br/>\
                  Foswikitask:Item1482: Improve attach dialogue usability: auto-refresh attachment list after switching from upload tab; auto-select upload tab if there are zero existing attachments<br/>\

@@ -18,44 +18,52 @@
     tinymce.PluginManager.requireLangPack('foswikibuttons');
 
     tinymce.create('tinymce.plugins.FoswikiButtons', {
-        // formats listbox
-        formats_lb: null,
+        /* Foswiki formats listbox */
+        formats_listbox: null,
 
         init: function(ed, url) {
+            this.formats = ed.getParam('foswikibuttons_formats'),
+            this.format_names = [];
 
-            ed.fw_formats = ed.getParam("foswikibuttons_formats");
-            ed.fw_format_names = [];
-            jQuery.each(ed.fw_formats, function (key, value) {
-                ed.fw_format_names.push(key);
-            });
-            ed.fw_listbox = null;
-            ed.onInit.add(function () {
-                ed.formatter.register('WYSIWYG_TT', {
-                    inline: 'span',
-                    classes: 'WYSIWYG_TT'
-                });
-                ed.formatter.register('WYSIWYG_COLOR', [
-                    {
-                        inline:  'span',
-                        classes: 'WYSIWYG_COLOR',
-                        styles: {
-                            color: '%value'
-                        }
-                    },
-                    /* This entry allows WYSIWYG_COLOR to match without
-                       a specific color attribute, used for button state */
-                    {
-                        inline: 'span',
-                        classes: 'WYSIWYG_COLOR'
-                    }
-                ]);
-                ed.formatter.register('IS_WYSIWYG_COLOR', {
-                    inline:  'span',
-                    classes: 'WYSIWYG_COLOR',
-                });
-                ed.formatter.register(ed.fw_formats);
+            jQuery.each(this.formats, function(key, value) {
+                ed.plugins.foswikibuttons.format_names.push(key);
+            }),
+            /* Register Foswiki formats with TinyMCE's formatter, which isn't
+               available during plugin init */
+            ed.onInit.add(function(editor) {
+                this.plugins.foswikibuttons._registerFormats(editor, 
+                this.plugins.foswikibuttons.formats);
             });
 
+            this._setupTTButton(ed, url);
+            this._setupColourButton(ed, url);
+            this._setupAttachButton(ed, url);
+            this._setupHideButton(ed, url);
+            this._setupFormatCommand(ed, this.formats);
+
+            return;
+        },
+
+        getInfo: function() {
+            return {
+                longname: 'Foswiki Buttons Plugin',
+                author: 'Crawford Currie',
+                authorurl: 'http://c-dot.co.uk',
+                infourl: 'http://c-dot.co.uk',
+                version: 3
+            };
+        },
+
+        createControl: function(name, controlManager) {
+            if (name === 'foswikiformat') {
+                return this._createFoswikiFormatControl(name,
+                    controlManager, this);
+            }
+
+            return null;
+        },
+
+        _setupTTButton: function(ed, url) {
             // Register commands
             ed.addCommand('foswikibuttonsTT', function() {
                 ed.formatter.toggle('WYSIWYG_TT');
@@ -68,6 +76,72 @@
                 image: url + '/img/tt.gif'
             });
 
+            return;
+        },
+
+        _registerFormats: function(ed, formats) {
+            ed.formatter.register('WYSIWYG_TT', {
+                inline: 'span',
+                classes: 'WYSIWYG_TT'
+            });
+            ed.formatter.register('WYSIWYG_COLOR', [{
+                inline: 'span',
+                classes: 'WYSIWYG_COLOR',
+                styles: {
+                    color: '%value'
+                }
+            },
+            /* This entry allows WYSIWYG_COLOR to match without
+                    a specific color attribute, used for button state */
+            {
+                inline: 'span',
+                classes: 'WYSIWYG_COLOR'
+            }]);
+            ed.formatter.register('IS_WYSIWYG_COLOR', {
+                inline: 'span',
+                classes: 'WYSIWYG_COLOR',
+            });
+            ed.formatter.register(formats);
+
+            return;
+        },
+
+        _createFoswikiFormatControl: function(name, controlManager, plugin) {
+            var ed = controlManager.editor;
+            plugin.formats_listbox = controlManager.createListBox(name, {
+                title: 'Format',
+                onselect: function(format) {
+                    ed.execCommand('foswikibuttonsFormat', false, format);
+                }
+            });
+            // Build format select
+            jQuery.each(plugin.formats, function(formatname, format) {
+                plugin.formats_listbox.add(formatname, formatname);
+
+                return;
+            });
+            plugin.formats_listbox.selectByIndex(0);
+
+            return plugin.formats_listbox;
+        },
+
+        _setupFormatCommand: function(ed, formats) {
+            ed.addCommand('foswikibuttonsFormat', function(ui, formatname) {
+                // First, remove all existing formats.
+                jQuery.each(formats, function(name, format) {
+                    ed.formatter.remove(name);
+                });
+                // Now apply the format.
+                ed.formatter.apply(formatname);
+                //ed.nodeChanged(); - done in formatter.apply() already
+            });
+
+            ed.onNodeChange.add(this._nodeChange, this);
+
+            return;
+        },
+
+        _setupColourButton: function(ed, url) {
             ed.addCommand('foswikibuttonsColour', function() {
                 if (ed.selection.isCollapsed()) return;
                 ed.windowManager.open({
@@ -87,19 +161,22 @@
                     plugin_url: url
                 });
             });
-
             ed.addButton('colour', {
                 title: 'foswikibuttons.colour_desc',
                 cmd: 'foswikibuttonsColour',
                 image: url + '/img/colour.gif'
             });
 
+            return;
+        },
+
+        _setupAttachButton: function(ed, url) {
             ed.addCommand('foswikibuttonsAttach', function() {
                 var htmpath = '/attach.htm',
                 htmheight = 300;
 
                 if (null !== FoswikiTiny.foswikiVars.TOPIC.match(
-                        /(X{10}|AUTOINC[0-9]+)/)) {
+                    /(X{10}|AUTOINC[0-9]+)/)) {
                     htmpath = '/attach_error_autoinc.htm',
                     htmheight = 125;
                 }
@@ -125,6 +202,10 @@
                 image: url + '/img/attach.gif'
             });
 
+            return;
+        },
+
+        _setupHideButton: function(ed, url) {
             ed.addCommand('foswikibuttonsHide', function() {
                 if (FoswikiTiny.saveEnabled) {
                     if (ed.getParam('fullscreen_is_enabled')) {
@@ -140,7 +221,7 @@
                                 // destroyed by the time this function executes,
                                 // so the active editor is the regular one.
                                 var e = tinyMCE.activeEditor;
-                                tinyMCE.execCommand("mceToggleEditor", 
+                                tinyMCE.execCommand('mceToggleEditor', 
                                     true, e.id);
                                 FoswikiTiny.switchToRaw(e);
                             },
@@ -164,60 +245,20 @@
                 image: url + '/img/hide.gif'
             });
 
-            ed.addCommand('foswikibuttonsFormat', function(ui, fn) {
-                // First, remove all existing formats.
-                jQuery.each(ed.fw_formats, function (name, format) {
-                    ed.formatter.remove(name);
-                });
-                // Now apply the format.
-                ed.formatter.apply(fn);
-                //ed.nodeChanged(); - done in formatter.apply() already
-            });
-
-            ed.onNodeChange.add(this._nodeChange, this);
-        },
-
-        getInfo: function() {
-            return {
-                longname: 'Foswiki Buttons Plugin',
-                author: 'Crawford Currie',
-                authorurl: 'http://c-dot.co.uk',
-                infourl: 'http://c-dot.co.uk',
-                version: 3
-            };
-        },
-
-        createControl: function(n, cm) {
-            if (n == 'foswikiformat') {
-                var ed = tinyMCE.activeEditor;
-                var m = cm.createListBox(ed.id + '_' + n, {
-                    title: 'Format',
-                    onselect: function(format) {
-                        ed.execCommand('foswikibuttonsFormat', false, format);
-                    }
-                });
-                // Build format select
-                jQuery.each(ed.fw_formats, function (name, format) {
-                    m.add(name, name);
-                });
-                m.selectByIndex(0);
-                ed.fw_listbox = m;
-                return m;
-            }
-            return null;
+            return;
         },
 
         _nodeChange: function(ed, cm, node, collapsed) {
-            var selectedFormats = ed.formatter.matchAll(ed.fw_format_names),
-                // SMELL: ed.id gets concatenated twice - why?
-                listbox = cm.get(ed.id + '_' + ed.id + '_foswikiformat');
+            var selectedFormats = ed.formatter.matchAll(
+                ed.plugins.foswikibuttons.format_names),
+            listbox = cm.get(ed.id + '_foswikiformat');
 
             if (node == null) return;
 
             if (collapsed) { // Disable the buttons
                 cm.setDisabled('colour', true);
                 cm.setDisabled('tt', true);
-            } else {         // A selection means the buttons should be active.
+            } else { // A selection means the buttons should be active.
                 cm.setDisabled('colour', false);
                 cm.setDisabled('tt', false);
             }
@@ -227,7 +268,7 @@
             } else {
                 cm.setActive('tt', false);
             }
-            if ( ed.formatter.match('WYSIWYG_COLOR') ) {
+            if (ed.formatter.match('WYSIWYG_COLOR')) {
                 cm.setActive('colour', true);
             } else {
                 cm.setActive('colour', false);
