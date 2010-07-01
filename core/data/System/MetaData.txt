@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721244" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+%META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 #MetaData
 ---+ Meta data
@@ -161,6 +161,6 @@ Extensions can extend meta-data with information of their own. See
 [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func#StaticMethod_registerMETA_40_36name_44_37syntax_41][Foswiki::Func]] for more information.
 
 ---
-*Related Topics:* DeveloperDocumentationCategory, UserDocumentationCategory
+*Related Topics:* DeveloperDocumentationCategory
 
 %META:PREFERENCE{name="REG" value="<span style='color:green'>&reg;</span>"}%

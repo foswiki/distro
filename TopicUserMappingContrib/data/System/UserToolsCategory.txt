@@ -2,4 +2,25 @@
 %META:TOPICPARENT{name="WebHome"}%
 ---+ A List of User Tools
 
-%SEARCH{"%TOPIC%" excludetopic="%TOPIC%" nonoise="on" format="   * $web.$topic$n      * $summary(100, noheader)"}%
+   $ [[ChangeEmailAddress]] : Change your email address
+   $ [[ChangePassword]] : Change your password
+   $ [[UserRegistration]] : Register as a user on this wiki
+   $ [[ResetPassword]] : Reset your password
+   $ [[SiteChanges]] : Recently Changed Topics in all Webs
+   $ [[WebCreateNewTopic]] : This topic shows a form from which the user can create a new topic in the current web. There is a WebCreateNewTopic in each web
+   $ [[WebIndex]] : This topic provides an alphabetical list of all topics in the current web. There is a WebIndex topic in each web. The list is more verbose than the WebTopicList
+   $ [[WebSearch]] : Search this web for text. Each web has a WebSearch topic. You can search in current web or all webs
+   $ [[WebSearchAdvanced]] : Same as WebSearch except it starts in the advanced tab
+   $ [[WebStatistics]] : Statistics for the use of the current web
+   $ [[WebTopicList]] : List of all topics in the current web. Displays only the topic names. WebIndex shows a more verbose list. There is a WebTopicList in each web
+   $ [[WhatIsWikiWiki]] : An explanation of this !WikiWiki thing
+   $ [[WikiCulture]] : Wiki - culture, concepts and principles
+   $ [[WikiName]] : An introduction to the term WikiName
+   $ [[WikiSyntax]] : Easy to learn rules for editing text
+
+---++ Related Topics
+
+   $ [[AdminDocumentationCategory]] : List of documents relevant for the installer and administrator of the Foswiki installation
+   $ [[AdminToolsCategory]] : List of tools available to the Foswiki administrator
+   $ [[UserDocumentationCategory]] : List of documents for the everyday user from beginner to advanced user
+   $ [[DeveloperDocumentationCategory]] : List of documents for application developers as well as developers of skins and extensions.

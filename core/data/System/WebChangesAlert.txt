@@ -2,6 +2,7 @@
 %META:TOPICPARENT{name="WebHome"}%
 %TWISTY{showlink="&#9658; %MAKETEXT{"Notification help"}%" hidelink="&#9660; %MAKETEXT{"Notification help"}%" linkclass="foswikiButton" remember="on"}%
 <div class="foswikiHelp">
+%STARTSECTION{"includeasdocumentation"}%
 ---+++ Web Changes Notification Service
 
 Each Foswiki web has an automatic e-mail notification service that sends you an e-mail with links to all of the topics modified since the last alert. 
@@ -14,5 +15,6 @@ Each Foswiki web has an automatic e-mail notification service that sends you an 
 
 ---
 *Related topics:* [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%USERSWEB%.%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
+%ENDSECTION{"includeasdocumentation"}%
 </div><!--/foswikiHelp-->
 %ENDTWISTY%

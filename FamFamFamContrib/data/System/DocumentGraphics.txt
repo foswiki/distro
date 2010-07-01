@@ -549,7 +549,7 @@ some are modifications by Foswiki:Main.SvenDowideit, and a few come from the [[h
 The social media icons are from  [[http://icondock.com/free/vector-social-media-icons][icondock's Vector social media]] set.
 
 ---
-*Related Topics:* [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
+*Related Topics:* [[Skins]], UserDocumentationCategory, DeveloperDocumentationCategory
 
 %META:FILEATTACHMENT{name="addon.png" attr="h" comment="" date="1169565034" path="addon.png" size="370" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="air.png" attr="h" comment="" date="1169565034" path="air.png" size="356" user="ProjectContributor" version=""}%

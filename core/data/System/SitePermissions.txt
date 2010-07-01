@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252720289" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="AdminDocumentationCategory"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Permissions settings of the webs on this Foswiki site
 %STARTINCLUDE%
 | *Web* | *Sitemap* | *VIEW* || *CHANGE* || *RENAME* ||

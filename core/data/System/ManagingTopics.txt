@@ -1,9 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="WebHome"}%
+%META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Managing Topics
 
-_Browser-based rename, move, and delete for individual topics_
+_Browser-based rename, move, copy, and delete for individual topics_
 
 %TOC%
 

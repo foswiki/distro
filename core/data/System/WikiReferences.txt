@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="SiteMap"}%
+%META:TOPICPARENT{name="WelcomeGuest"}%
 ---+!! References on Wiki and Collaboration
 
 Some useful articles and books around collaboration and the Wiki technology in particular. 

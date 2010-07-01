@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252720297" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Data Forms
 Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications.
@@ -226,4 +226,4 @@ The best way to search in form data is using the structured query language in th
 %STOPINCLUDE%
 
 ---
-*Related Topics:* UserDocumentationCategory, TemplateTopics, AnApplicationWithWikiForm
+*Related Topics:* DeveloperDocumentationCategory, TemplateTopics, AnApplicationWithWikiForm

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721162" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="UserDocumentationCategory"}%
+%META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Background Image for Preview
 
 Preview looks like the real page, but the links lead to an oops dialog warning users of not-yet-saved topics. In addition, a background with a "PREVIEW" watermark is shown to have visual clue that you are previewing a topic. You can change the background image by specifying the name of an attached background image file in the PREVIEWBGIMAGE setting in the %WIKIPREFSTOPIC%.
@@ -10,7 +10,7 @@ Remarks:
    * You can override the PREVIEWBGIMAGE setting in your personal home page.
 
 ---
-*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
+*Related Topics:* AdminDocumentationCategory
 
 %META:FILEATTACHMENT{name="blankltgraybg.gif" attr="" comment="Blank white background" date="970534080" path="blankltgraybg.gif" size="878" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="blankwhitebg.gif" attr="" comment="Blank white background" date="970534080" path=blankwhitebg.gif" size="878" user="ProjectContributor" version=""}%

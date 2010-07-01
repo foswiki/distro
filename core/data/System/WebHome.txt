@@ -12,6 +12,10 @@ Foswiki is a flexible, powerful, secure, yet simple web-based collaboration plat
    * [[TwentyMinuteTutorial][Tutorial]] - 20 minute tutorial
    * [[UsersGuide][User's Guide]] - documentation for Foswiki users
    * [[FrequentlyAskedQuestions][Frequently Asked Questions]] - about Foswiki
+   * [[WikiSyntax][Wiki Syntax]]: Easy to learn rules for editing text
+   * [[TextFormattingRules][Text Formatting Rules]]: The complete set of text formatting rules
+
+   * [[MainFeatures][Main Features]] of Foswiki
    * [[ReferenceManual][Reference Manual]] - documentation for system administrators
    * [[AdminToolsCategory][Admin Tools]] - manage the Foswiki site
    * [[ReleaseNotes01x00][Release Notes for 1.0]] - describes what's new in this release
