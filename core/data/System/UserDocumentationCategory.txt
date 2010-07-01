@@ -52,13 +52,12 @@
    $ [[UserSetting]] : How each user can alter settings that affect the use and looks of Foswiki
    $ [[UsersGuide]] : The main entry page for the basic user documentation
    $ [[UsingHTML]] : How to use HTML in topics
-   $ [[WebAtom]] : When viewed this topic returns an ATOM feed of the changes in the web. There is a WebAtom topic in each web
-   $ [[WebChanges]] : This topic list all the changes in the current web. There is a WebChanges topic in each web
-   $ [[WebHome]] : WebHome is the default landing page for a web. There is always a WebHome in a web
    $ [[WebLeftBarCookbook]] : Instructions and tips how to use personal left bars
-   $ [[WebNotify]] : This is a subscription service to be automatically notified by e-mail when topics change in this web. Each has its own WebNotify topic. Users can add their names to this topic and be notified by email about changes in the web
-   $ [[WebRss]] : When viewed this topic returns an RSS feed of the changes in the web. There is a WebRss topic in each web
    $ [[WelcomeGuest]] : A short introduction to a Foswiki based website
+   $ [[WhatIsWikiWiki]] : An explanation of this !WikiWiki thing
+   $ [[WikiCulture]] : Wiki - culture, concepts and principles
+   $ [[WikiName]] : An introduction to the term WikiName
+   $ [[WikiSyntax]] : Easy to learn rules for editing text
    $ [[WikiWord]] : Explanation of the term WikiWord
 
 ---++ Related Topics
