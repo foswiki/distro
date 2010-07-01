@@ -192,32 +192,44 @@ The defaults are:
     CHROME => ''
 </verbatim>
 
----+++ Additional !TinyMCE Plugins 
+---++ !TinyMCE Plugins & Toolbar Buttons
 Documentation for standard plugins shipped with !TinyMCE can be found at [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins]].
 
-To enable these extra plugins, Set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your %USERSWEB%.SitePreferences.
-If the plugin also adds a toolbar button, you will need to add it into the appropriate place in the =TINYMCEPLUGIN_ADDITIONAL_BUTTONS*= variables. 
+Documentation for standard theme_advanced toolbar buttons (Eg. superscript/subscript, strikethrough, highlight colours etc) can be found at [[http://wiki.moxiecode.com/index.php/TinyMCE:Control_reference]].
 
-add the following to %USERSWEB%.SitePreferences
+---+++ Default Plugins
+These plugins are enabled by default in the standard distribution of Foswiki.
+
+| *Plugin Name* | *Toolbar buttons* | *Description* | *Notes* |
+| [[http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html#class_tinymce.plugins.AutoSave.html][autosave]] | restoredraft | Saves the editor content to your web browser's local storage periodically so that it may be restored later | See =TINYMCEPLUGIN_AUTOSAVE_INTERVAL= and defaults to %INCLUDE{"%TOPIC%" section="autosaveinterval"}%; =TINYMCEPLUGIN_AUTOSAVE_RETENTION= defaults to %INCLUDE{"%TOPIC%" section="autosaveretention"}% |
+| =foswiki= | - | Fixup !TinyMCE bugs, Foswiki integration issues | init param =foswiki_autosave_no_fixup= prevents fixup of autosave plugin if true; only works if =foswiki= is after =autosave= in the plugins list |
+| =foswikibuttons= | tt, colour, attach, hide | Provides toolbar buttons, dialogues and formatting styles for Foswiki | List of formats populated from =foswikibuttons_formats= init param |
+| =foswikiimage= | image | Provides image toolbar button, dialogue for Foswiki |  |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/fullscreen][fullscreen]] | fullscreen | Provides fullscreen capability | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/legacyoutput][legacyoutput]] | | Maintains compatibility for =&lt;font&gt;=, =&lt;u&gt;=, =&lt;b&gt;=, =&lt;strike&gt;= etc. tags | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste][paste]] | pastetext, pasteword, selectall | "Cleans" content pasted from clipboard; useful when pasting from MS Office | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/searchreplace][searchreplace]] | search, replace | Refer to !TinyMCE documentation | |
+| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table][table]] | tablecontrols, [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table#Table_controls.2Fbuttons][others]] | Refer to !TinyMCE documentation | |
+
+---+++ Additional Plugins 
+To enable extra plugins, set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your [[%USERSWEB%.SitePreferences]].
+If the plugin also offers a toolbar button, you will need to add it into the appropriate place in the =TINYMCEPLUGIN_ADDITIONAL_BUTTONS*= variables. 
+
+For example, to make use of the =emotions= and =wordcount= plugins add the following to [[%USERSWEB%.SitePreferences]]:
 
 <pre class="tml">
 ---++ TinyMCE customisations
-&nbsp;&nbsp;&nbsp;* Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions
+&nbsp;&nbsp;&nbsp;* Set TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS = emotions, wordcount
 &nbsp;&nbsp;&nbsp;* Set TINYMCEPLUGIN_ADDITIONAL_BUTTONS2 = emotions
 </pre>
 
 Some notable plugins:
 | *Plugin Name* | *Toolbar buttons* | *Description* | *Notes* |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/autoresize][autoresize]] | - | Automatically resizes the editor to the content inside it | |
-| [[http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html#class_tinymce.plugins.AutoSave.html][autosave]] | restoredraft | Saves the editor content to your web browser's local storage periodically so that it may be restored later | See =TINYMCEPLUGIN_AUTOSAVE_INTERVAL= and defaults to %INCLUDE{"%TOPIC%" section="autosaveinterval"}%; =TINYMCEPLUGIN_AUTOSAVE_RETENTION= defaults to %INCLUDE{"%TOPIC%" section="autosaveretention"}% |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/emotions][emotions]] | emotions | Insert smiley images into the !TinyMCE editable area | |
-| =foswiki= | - | Fixup !TinyMCE bugs, Foswiki integration issues | init param =foswiki_autosave_no_fixup= prevents fixup of autosave plugin if true; only works if =foswiki= is after =autosave= in the plugins list |
-| =foswikibuttons= | tt, colour, attach, hide | Provides toolbar buttons, dialogues and formatting styles for Foswiki | List of formats populated from =foswikibuttons_formats= init param |
-| =foswikiimage= | image | Provides image toolbar button, dialogue for Foswiki |  |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/iespell][iespell]] | iespell | Provides spell check for Internet Explorers | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/insertdatetime][insertdatetime]] | insertdate, inserttime | Provides buttons to insert customised date and time strings | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media][media]] | media | Handles embedded media such as !QuickTime, !Flash, !ShockWave, !RealPlayer and Windows Media Player | Requires customisation of edit templates |
-| [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste][paste]] | pastetext, pasteword, selectall | _Enabled by default in Foswiki_ | Added here to show extra toolbar buttons that are available |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker][spellchecker]] | spellchecker | Adds spellchecker functionality to !TinyMCE by providing a new button that performs a AJAX call to a backend PHP page that uses PSpell/ASpell or Google spellchecker | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/style][style]] | styleprops | Adds CSS style editing support to !TinyMCE, this will enable you to edit almost any CSS style property in a visual way. | Generally, HTML/CSS markup in topics is *not* desirable |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/visualchars][visualchars]] | visualchars | Adds the possibility to see invisible characters like =&amp;nbsp;= | |
