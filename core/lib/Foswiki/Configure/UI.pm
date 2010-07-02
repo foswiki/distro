@@ -345,8 +345,9 @@ sub checkPerlModules {
         }
         else {
             $mod_version ||= 'Unknown version';
-            $n = $this->NOTE( $mod_version . ' installed' );
+            $n = $mod_version . ' installed.';
             $n .= ' ' . $mod->{usage} if $mod->{usage};
+            $n = $this->NOTE($n);
         }
         if ($useTR) {
             $e .= $this->setting( $mod->{name}, $n );
