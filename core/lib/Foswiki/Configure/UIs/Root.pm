@@ -15,7 +15,26 @@ sub new {
 
     my $this = $class->SUPER::new(@_);
     $this->{tabs} = [];
+    $this->{lastsave} = 
+     '';    # Set to contain the results of the prior save, for display on next iteration
+
     return $this;
+}
+
+=pod
+
+Set and retrieve the save results from the previous save operation.
+
+If called with a message, sets and returns the message, otherwise just returns the message
+
+=cut
+
+sub lastSave {
+    my ( $this, $savemsg ) = @_;
+    if (defined $savemsg && $savemsg ) {
+       $this->{lastsave} = $savemsg;
+       }
+    return $this->{lastsave};
 }
 
 # Visit the nodes in a tree of configuration items, and generate

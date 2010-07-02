@@ -487,14 +487,14 @@ sub _screenFeedback {
     return '' unless $ui;
 
     $ui->ui( $root, $valuer, \%updated );
+
+    undef $ui;
+
     my $changesList = ();
     foreach my $key ( sort keys %updated ) {
         my $valueString = $query->param($key);
         push( @{$changesList}, { key => $key, value => $valueString } );
     }
-
-    my $frontpageUrl =
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
 
     my $contentTemplate =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('feedback');
@@ -502,29 +502,25 @@ sub _screenFeedback {
         $contentTemplate,
         {
             'modifiedCount' => scalar keys %updated,
-            'frontpageUrl'  => $frontpageUrl,
-            'configureUrl'  => $url,
             'changesList'   => $changesList,
             'formAction'    => $scriptName,
             'messageType'   => $messageType,
         }
     );
 
-    my $html =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    $html .= $contentTemplate;
-    $html .=
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
-        $html,
-        {
-            'time'       => '',
-            'formAction' => $scriptName,
-        }
-    );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $html);
-    print $html;
+        $contentTemplate);
+    my $stub    = new Foswiki::Configure::Item();
+
+    if ( $badLSC ) {
+        # This call will define $Foswiki::defaultCfg by loading .spec files
+        my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
+
+        # set globals
+        ( my $sanityStatement, $badLSC ) = $sanityUI->ui();
+    }
+
+    _actionConfigure($contentTemplate);
 }
 
 # Invoked by "find more extensions" button in the Extensions section
@@ -619,6 +615,8 @@ sub _actionManageExtensions {
 # This is the default screen
 sub _actionConfigure {
 
+    my $passthru = shift;
+
     my $contents    = '';
     my $isFirstTime = $badLSC;
 
@@ -654,6 +652,8 @@ sub _actionConfigure {
     # the model
     my $ui = _checkLoadUI( 'Root', $root );
     return '' unless $ui;
+
+    $ui->lastSave($passthru) if ($passthru);
 
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
