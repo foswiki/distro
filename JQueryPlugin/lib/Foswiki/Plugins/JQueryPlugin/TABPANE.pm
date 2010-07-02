@@ -83,7 +83,6 @@ sub handleTab {
     my $afterHandler     = $params->{after}     || '';
     my $afterLoadHandler = $params->{afterload} || '';
     my $url              = $params->{url}       || '';
-    my $container        = $params->{container} || '';
     my $tabClass         = $params->{id}        || '';
     my $height           = $params->{height};
     my $width            = $params->{width};
@@ -107,9 +106,6 @@ sub handleTab {
     }
     if ($url) {
         push @metaData, "url: '$url'";
-    }
-    if ($container) {
-        push @metaData, "container: '$container'";
     }
     my $metaData = scalar(@metaData) ? ' {' . join( ',', @metaData ) . '}' : '';
 

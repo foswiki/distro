@@ -1,6 +1,11 @@
 %META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258379154" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
+
+%TOC%
+
+---++ Plugin Info
+
 %JQPLUGINS{"tabpane"
   format="
     Homepage: $homepage <br />
@@ -9,6 +14,8 @@
   "
 }%
 
+
+---++ Summary
 %STARTSECTION{"summary"}%
 This implements an alternative tabpane widget. There _is_ already one in
 jquery-ui, however as long as jquery-ui is still in flux, this alternative
@@ -24,6 +31,14 @@ can be established as part of reloaded content via ajax.
 Note that this widget does _not_ participate in jquery-ui themerolling.
 It does match JQueryButton in terms of look & feel.
 %ENDSECTION{"summary"}%
+
+---++ Macros
+
+%INCLUDE{"VarTABPANE"}%
+%INCLUDE{"VarENDTABPANE"}%
+
+%INCLUDE{"VarTAB"}%
+%INCLUDE{"VarENDTAB"}%
 
 ---++ Examples
 %TABPANE%

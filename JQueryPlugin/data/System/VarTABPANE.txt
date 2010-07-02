@@ -1,11 +1,41 @@
 %META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1277985495" format="1.1" reprev="1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTABPANE
----+++ TABPANE{ ...} -- tabpane widget
-   * ...
-   * Syntax: ...
-   * Example: ...
-   * Related: ...
-
-
-
+---+++ TABPANE{...} -- tabpane widget
+   * This macro starts the tabpane, containing a series of TAB...ENDTABs and ends with ENDTABPANE. A complete tabpane normally looks like this:
+     <verbatim>
+%TABPANE%
+ %TAB{"tab 1"}%
+   ...
+ %ENDTAB%
+ %TAB{"tab 2"}%
+   ...
+ %ENDTAB%
+%ENDTABPANE%
+</verbatim>
+      Multiple tabpanes can be nested using the following scheme:
+     <verbatim>
+%TABPANE%
+ %TAB{"tab 1"}%
+   %TABPANE%
+     %TAB{"tab 1.1"}%
+       ...
+     %ENDTAB%
+     %TAB{"tab1.2"}%
+       ...
+     %ENDTAB%
+   %ENDTABPANE%
+ %ENDTAB%
+ %TAB{"tab 2"}%
+   ...
+ %ENDTAB%
+%ENDTABPANE%
+</verbatim>
+   * Example: see JQueryTabpane for more examples
+   * Parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | select | number or id of tab to select | 1 |
+     | automaxexpand | resizes the tabpane to the maximum height to fit into the window | off |
+     | minheight | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
+     | animate | (on/off) enables/disables animation of switching tabs | off |
+   * Related: [[VarTAB]], [[VarENDTAB]], [[VarENDTABPANE]], JQueryPlugin, JQueryTabpane
