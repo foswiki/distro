@@ -47,6 +47,7 @@ sub guessMajorDir {
         my @root = File::Spec->splitdir($1);
         pop(@root);
         $Foswiki::cfg{$cfg} = File::Spec->catfile( @root, $dir );
+        $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
     unless ( $silent || -d $Foswiki::cfg{$cfg} ) {
@@ -199,6 +200,8 @@ sub checkGnuProgram {
             #$diffOut =~ /(\d+(\.\d+)+)/;
             #$mess = "($prog is version $1).";
         }
+    } elsif ($Foswiki::cfg{OS} eq 'WINDOWS') {
+        #real windows - using GnuWin32 tools
     }
 
     return $mess;
