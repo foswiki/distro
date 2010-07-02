@@ -35,4 +35,4 @@ POSIX,>=1,cpan,Required, for base Foswiki
 Socket,>=0,cpan,Required, for base Foswiki
 Symbol,>=0,cpan,Optional, may be required for international characters
 Unicode::MapUTF8,>=0,cpan,Optional, may be required for international characters
-Win32::Console,>=0,cpan,Optional, may be required for Windows
+Win32::Console,>=0,cpan,Optional, may be required for  international characters on Windows 
