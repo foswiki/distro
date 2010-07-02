@@ -287,7 +287,7 @@ HERE
     }
     foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
         next if ( $ext && $script !~ /\.$ext$/ );
-        if (   $Foswiki::cfg{OS} !~ /^Windows$/i
+        if (   $^O ne 'MSWin32'
             && $script !~ /\.cfg$/
             && !-x "$dir/$script" )
         {
