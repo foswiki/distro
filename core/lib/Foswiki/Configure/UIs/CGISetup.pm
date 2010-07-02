@@ -305,10 +305,23 @@ HERE
 sub _checkTmpDir {
     my ( $this, $rerk ) = @_;
     my $dir = File::Spec->tmpdir();
+    
+    if (($dir =~ /^[\/\\]$/) and ($^O eq 'MSWin32')) {
+        #on windows, don't make a big old mess of c:\
+        $dir = $ENV{TEMP};
+        if (defined($dir) and ($dir =~ /(.*)/)) {
+            $dir = $1;
+        } else {
+            $dir = '.';
+        }
+    }
+    
     if ( $dir eq '.' ) {
         $dir = '';
+        my $newCfg = '';
+        $newCfg = "Please save your initial path settings and recheck that the guessed defaults are good." if ($Foswiki::badLSC);
         return $this->ERROR(<<HERE);
-No writable system temporary directory.
+No writable system temporary directory. $newCfg
 HERE
     }
     my $D;
