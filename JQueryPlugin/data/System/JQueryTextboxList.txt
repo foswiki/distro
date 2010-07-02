@@ -15,4 +15,20 @@ This plugin adds a new formfield type =textboxlist= to DataForms.
 %ENDSECTION{"summary"}%
 
 ---++ Examples
-%RED%todo%ENDCOLOR%
+%JQREQUIRE{"textboxlist"}%
+
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input type="text" class="foswikiInputField jqTextboxList" size="20" name="tags" value="%URLPARAM{"tags" multiple="on" separator=", " default="foo, bar, baz"}%" />
+    <div class="foswikiGrayText">
+       Type in some keywords
+    </div>
+  </div>
+  <div class="foswikiFormStep">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
+</form>

@@ -17,5 +17,3 @@ adds elements to the DOM to give it both the appearance and behavior of
 blocking user interaction.
 %ENDSECTION{"summary"}%
 
----++ Examples
-%RED%todo%ENDCOLOR%
