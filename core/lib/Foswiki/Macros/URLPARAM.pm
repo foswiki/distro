@@ -28,19 +28,25 @@ sub URLPARAM {
                         $item = $_;
                         $_    = $multiple;
                         $_ .= $item unless (s/\$item/$item/go);
-                        expandStandardEscapes( $_ )
+                        expandStandardEscapes($_)
                     } @valueArray;
                 }
                 $value = join(
                     $separator,
-                    map { _handleURLPARAMValue(
-                        $_, $newLine, $encode, $default) } @valueArray );
+                    map {
+                        _handleURLPARAMValue( $_, $newLine, $encode, $default )
+                      } @valueArray
+                );
+            }
+            else {
+                $value = $default;
+                $value = '' unless defined $value;
             }
         }
         else {
             $value = $this->{request}->param($param);
-            $value = _handleURLPARAMValue(
-                $value, $newLine, $encode, $default );
+            $value =
+              _handleURLPARAMValue( $value, $newLine, $encode, $default );
         }
     }
     return $value;
