@@ -510,9 +510,11 @@ sub _screenFeedback {
 
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
         $contentTemplate);
-    my $stub    = new Foswiki::Configure::Item();
 
+    # If this pass created the LocalSite.cfg, need to rerun the sanity check
+    # to re-establish that the configuration is valid
     if ( $badLSC ) {
+        my $stub    = new Foswiki::Configure::Item();
         # This call will define $Foswiki::defaultCfg by loading .spec files
         my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
@@ -520,6 +522,7 @@ sub _screenFeedback {
         ( my $sanityStatement, $badLSC ) = $sanityUI->ui();
     }
 
+    # Pass control to the mainline configure screen, passing along the results of the save
     _actionConfigure($contentTemplate);
 }
 
@@ -615,7 +618,8 @@ sub _actionManageExtensions {
 # This is the default screen
 sub _actionConfigure {
 
-    my $passthru = shift;
+    # If coming from the save action, pick up the messages
+    my $saveMsgs = shift;
 
     my $contents    = '';
     my $isFirstTime = $badLSC;
@@ -653,7 +657,8 @@ sub _actionConfigure {
     my $ui = _checkLoadUI( 'Root', $root );
     return '' unless $ui;
 
-    $ui->lastSave($passthru) if ($passthru);
+    # Set the save messages into the introduction panel if any.
+    $ui->lastSave($saveMsgs) if ($saveMsgs);
 
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
