@@ -17,7 +17,6 @@ SUBDIRS=\
   foswiki \
   gradient \
   hoverintent \
-  ifixpng \
   innerfade \
   localscroll \
   maskedinput \
@@ -31,7 +30,6 @@ SUBDIRS=\
   shrinkurls \
   simplemodal \
   slimbox \
-  spinner \
   superfish \
   supersubs \
   tabpane \

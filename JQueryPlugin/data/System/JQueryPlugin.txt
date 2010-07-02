@@ -137,6 +137,11 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  02 Jul 2010: | (3.70) removed outdated spinner and ifixpng plugins; \
+                  improved documentation; \
+                  fixed IE error in treeview; \
+                  added post method to async mode of treeview; \
+                  moved %CLEAR to %SYSTEM.DefaultPreferences |
 |  28 May 2010: | (3.60) removed pointless TOGGLE module; \
                   reworked handling of =meta= tags by merging =foswikilibs.js= with =jquery.foswiki= module; \
                   fixed IE7 error with floats inside tabpanes; \
