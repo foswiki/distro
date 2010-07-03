@@ -297,11 +297,13 @@ sub _encode {
 # required modules.
 # Either takes an array of hashes, or parameters in a hash.
 # Each module hash needs:
-# name - e.g. Car::Wreck
-# usage - description of what it's for
-# dispostion - 'required', 'recommended'
-# minimumVersion - lowest acceptable $Module::VERSION
+#   name - e.g. Car::Wreck
+#   usage - description of what it's for
+#   dispostion - 'required', 'recommended'
+#   minimumVersion - lowest acceptable $Module::VERSION
 #
+# if the module is installed, the hash will be updated to add
+#   installedVersion - the version installed (or 'Unknown version')
 sub checkPerlModules {
     my ( $this, $useTR, $mods ) = @_;
 
