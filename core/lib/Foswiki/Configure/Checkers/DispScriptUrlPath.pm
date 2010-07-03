@@ -10,12 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    # Check Script URL Path against REQUEST_URI
-    my $n;
     my $val = $Foswiki::cfg{DispScriptUrlPath};
-    my $guess = $ENV{REQUEST_URI} || $ENV{SCRIPT_NAME} || '';
-    $guess =~ s(/+configure[^/]*$)();
-
     if ( !defined($val) || $val eq 'NOT SET' ) {
         $Foswiki::cfg{DispScriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
         return $this->guessed(0);

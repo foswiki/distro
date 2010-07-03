@@ -39,8 +39,9 @@
 # that generate views. They are all subclasses of Foswiki::Configure::UI
 #    UIs - are top-level and pluggable UI components. All the main screens are
 #          implemented here.
-#    Checkers - are specialised UIs designed to give checking support for
-#          variable values. Checkers also include the read-only checking
+#    Checkers - are specialised UIs designed to give checking and guessing support for
+#          variable values (see Checker.pm for an example). 
+#          Checkers also include the read-only checking
 #          UIs used for checking environment.
 #    Types - provide some UI support in the form of type-specific prompters.
 #          this is really an abuse of the Model, but it saves creating
