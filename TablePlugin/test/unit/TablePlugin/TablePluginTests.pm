@@ -582,6 +582,8 @@ sub test_sort_dates {
 | 2001-12-24T |
 | 2001-12-22T23:59:59+01:00 |
 | 2001-12-23T23:59Z |
+| 01 Jan 1970 |
+| 31 Dec 1969 - 23:59 |
 | 21 Dec 2001 |
 | 18-Dec-2001 |
 | 20 Dec 2001 - 23:59 |
@@ -608,6 +610,8 @@ ACTUAL
 <nop>
 <nop>
 <nop>
+<nop>
+<nop>
 <table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
@@ -615,6 +619,12 @@ ACTUAL
 		</tr>
 	</thead>
 	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 31 Dec 1969 - 23:59 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 01 Jan 1970 </td>
+		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
 			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 18-Dec-2001 </td>
 		</tr>
