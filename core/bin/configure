@@ -624,6 +624,8 @@ sub _actionConfigure {
 
     my $contents    = '';
     my $isFirstTime = $badLSC;
+    #allow debugging of checker's guesses by showing the entire UI
+    $isFirstTime = 0 if ($query->param('DEBUG'));
 
     Foswiki::Configure::UI::reset($isFirstTime);
 
@@ -647,9 +649,9 @@ sub _actionConfigure {
     $root->addChild($cgi_checker);
 
     # Load the config structures.
-    # if $badLSC is true, the start screen will be shown (and limited
+    # if $isFirstTime is true, the start screen will be shown (and limited
     # sections in the left menu
-    Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
+    Foswiki::Configure::FoswikiCfg::load( $root, !$isFirstTime );
 
     # Now generate the UI
 
