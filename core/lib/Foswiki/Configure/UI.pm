@@ -323,8 +323,9 @@ sub checkPerlModules {
             $mod_version ||= 0;
             $mod_version =~ s/(\d+(\.\d*)?).*/$1/;    # keep 99.99 style only
             use strict 'refs';
+            $mod->{installedVersion} = $mod_version || 'Unknown version';
             if ( $mod_version < $mod->{minimumVersion} ) {
-                $n = $mod_version || 'Unknown version';
+                $n = $mod->{installedVersion};
                 $n .=
                     ' installed. Version '
                   . $mod->{minimumVersion} . ' '
