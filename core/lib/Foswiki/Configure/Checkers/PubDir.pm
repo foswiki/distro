@@ -12,6 +12,7 @@ sub check {
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
+    $this->{excessPerms} = 0;
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
 
@@ -24,16 +25,6 @@ sub check {
     # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission}
     my $e2 =
       $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw' . $dirchk, qr/,v$/ );
-    $e .= $this->WARN($e2) if $e2;
-
-    if ( $this->{fileErrors} > 10 ) {
-        $e .= $this->ERROR(<<ERRMSG)
-File/Directory permission mismatch reporting stopped at 10 warnings. 
-$this->{fileErrors} directories or files have mismatched permissions. 
-Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
-are set correctly for your environment and correct file system permissions if necessary.
-ERRMSG
-    }
 
     $e .=
       ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
@@ -41,6 +32,25 @@ ERRMSG
 "File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options"
       )
       : $this->NOTE("File count - $this->{filecount} ");
+
+    $e .= $this->WARN($e2) if $e2;
+
+    if ( $this->{excessPerms}) {
+        $e .= $this->WARN(<<PERMS);
+$this->{excessPerms} files appear to have more access permission than is recommended.
+Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
+are set correctly for your environment and correct file system permissions if necessary.
+PERMS
+    }
+
+    if ( $this->{fileErrors} > 10 ) {
+        $e .= $this->ERROR(<<ERRMSG)
+File/Directory permission mismatch reporting stopped at 10 warnings. 
+$this->{fileErrors} directories or files have insufficient permissions. 
+Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
+are set correctly for your environment and correct file system permissions if necessary.
+ERRMSG
+    }
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;

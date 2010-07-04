@@ -163,6 +163,7 @@ sub checkTreePerms {
     return '' if ( defined($filter) && $path =~ $filter && !-d $path );
 
     $this->{fileErrors} = 0 unless ( defined $this->{fileErrors} );
+    $this->{excessPerms} = 0 unless ( defined $this->{excessPerms} );
 
     #let's ignore Subversion directories
     return '' if ( $path =~ /^_svn$/ );
@@ -179,14 +180,19 @@ sub checkTreePerms {
 
     if ( $perms =~ /d/ && -d $path ) {
         my $mode = ( stat($path) )[2] & 07777;
-        unless ( $mode == $Foswiki::cfg{RCS}{dirPermission} ) {
-            my $omode = sprintf( '%04o', $mode );
-            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
-            $permErrs .=
-              "$path - directory permission mismatch $omode should be $operm"
-              . CGI::br()
-              unless ( $this->{fileErrors} > 10 );
-            $this->{fileErrors}++;
+        if ( $mode != $Foswiki::cfg{RCS}{dirPermission}) {
+            if ( ($mode & $Foswiki::cfg{RCS}{dirPermission}) == $Foswiki::cfg{RCS}{dirPermission} ) {
+                $this->{excessPerms}++;
+                }
+            else {
+                my $omode = sprintf( '%04o', $mode );
+                my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
+                $permErrs .=
+                  "$path - directory insufficient permission: $omode should be $operm"
+                  . CGI::br()
+                  unless ( $this->{fileErrors} > 10 );
+                $this->{fileErrors}++;
+            }
         }
     }
 

@@ -12,6 +12,7 @@ sub check {
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
+    $this->{excessPerms} = 0;
 
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
 
@@ -45,8 +46,17 @@ are set correctly for your environment and correct file system permissions if ne
 ERRMSG
     }
 
+    if ( $this->{excessPerms}) {
+        $e .= $this->WARN(<<PERMS);
+$this->{excessPerms} files appear to have more access permission than is recommended.
+Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
+are set correctly for your environment and correct file system permissions if necessary.
+PERMS
+    }
+
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
+    $this->{excessPerms} = 0;
 
     return $e;
 }
