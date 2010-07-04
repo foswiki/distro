@@ -47,35 +47,39 @@ HTML.
 The default setting for this preference are hard coded in the plugin.  If you
 wish to change the settings, the following list is the default setting coded
 in the plugin:
-<verbatim>
-   * Set WYSIWYGPLUGIN_STICKYBITS = .*=id,lang,title,dir,on.*;
-    A=accesskey,coords,shape,target;
-    BDO=dir;
-    BR=clear;
-    COL=char,charoff,span,valign,width;
-    COLGROUP=align,char,charoff,span,valign,width;
-    DIR=compact;
-    DIV=align,style;
-    DL=compact;
-    FONT=size,face;
-    H[0-9]=align;
-    HR=align,noshade,size,width;
-    LEGEND=accesskey,align;
-    LI=value;
-    OL=compact,start,type;
-    P=align;
-    PARAM=name,type,value,valuetype;
-    PRE=width;
-    Q=cite;
-    TABLE=align,bgcolor,frame,rules,summary,width;
-    TBODY=align,char,charoff,valign;
-    TD=abbr,align,axis,bgcolor,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
-    TFOOT=align,char,charoff,valign;
-    TH=abbr,align,axis,bgcolor,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
-    THEAD=align,char,charoff,valign;
-    TR=bgcolor,char,charoff,valign;
-    UL=compact,type
-</verbatim>
+<pre class="tml">
+   * Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYG_STICKYBITS"}%
+</pre>%JQREQUIRE{"chili"}%<!--
+%STARTSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
+        .*=id,lang,title,dir,on.*;
+        A=accesskey,coords,shape,target;
+        BDO=dir;
+        BR=clear;
+        COL=char,charoff,span,valign,width;
+        COLGROUP=align,char,charoff,span,valign,width;
+        DIR=compact;
+        DIV=align,style;
+        DL=compact;
+        FONT=size,face;
+        H[0-9]=align;
+        HR=align,noshade,size,width;
+        LEGEND=accesskey,align;
+        LI=value;
+        OL=compact,start,type;
+        P=align;
+        PARAM=name,type,value,valuetype;
+        PRE=width;
+        Q=cite;
+        TABLE=align,bgcolor,frame,rules,summary,width;
+        TBODY=align,char,charoff,valign;
+        TD=abbr,align,axis,bgcolor,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
+        TFOOT=align,char,charoff,valign;
+        TH=abbr,align,axis,bgcolor,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
+        THEAD=align,char,charoff,valign;
+        TR=bgcolor,char,charoff,valign;
+        UL=compact,type
+%ENDSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
+-->
 
 If you edit using the plain-text editor, you can use the &lt;sticky&gt;..&lt;/sticky&gt; tags to delimit HTML (or TML) that you do *not* want to be WYSIWYG edited.
 
