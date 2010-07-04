@@ -1,7 +1,14 @@
 # See bottom of file for license and copyright information
 
-# Plug-in module for finding and handling plugins
-package Foswiki::Configure::PLUGINS;
+=begin TML
+
+---+ package Foswiki::Configure::Pluggables::LANGUAGES
+Pluggable for finding and handling languages. Implements 
+<nop>*LANGUAGES* in Foswiki.spec.
+
+=cut
+
+package Foswiki::Configure::Pluggables::LANGUAGES;
 
 use strict;
 use warnings;
@@ -9,46 +16,32 @@ use warnings;
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');
 
-use Foswiki::Configure::Pluggable ();
-use Foswiki::Configure::Type      ();
-use Foswiki::Configure::Value     ();
-
-my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
-
 sub new {
     my ($class) = @_;
 
+    # Create a new section. The section is unnamed because the *LANGUAGES*
+    # extender is already inside a ---++ Lnaguages section in Foswiki.spec
     my $this = $class->SUPER::new('');
-    my %modules;
-    my $classes      = $scanner->findClasses('Foswiki::Plugins::*Plugin');
-    my $twikiclasses = $scanner->findClasses('TWiki::Plugins::*Plugin');
-    push( @$classes, @$twikiclasses );
-    foreach my $module (@$classes) {
-        my $simple = $module;
-        $simple =~ s/^.*::([^:]*)/$1/;
 
-        # only add the first instance of any plugin, as only
-        # the first can get loaded from @INC.
-        $modules{$simple} = $module;
-    }
-    foreach my $module ( sort { lc($a) cmp lc($b) } keys %modules ) {
+    # Insert a bunch of configuration items based on what's in
+    # the locales dir
+    opendir( DIR, $Foswiki::cfg{LocalesDir} )
+      or return $this;
+
+    foreach my $file ( readdir DIR ) {
+        next unless ( $file =~ m/^([\w-]+)\.po$/ );
+        my $lang = $1;
+        $lang = "'$lang'" if $lang =~ /\W/;
+
         $this->addChild(
             new Foswiki::Configure::Value(
+                'BOOLEAN',
                 parent   => $this,
-                keys     => '{Plugins}{' . $module . '}{Enabled}',
-                typename => 'BOOLEAN'
+                keys     => '{Languages}{' . $lang . '}{Enabled}',
             )
         );
-        $this->addChild(
-            new Foswiki::Configure::Value(
-                parent      => $this,
-                keys        => '{Plugins}{' . $module . '}{Module}',
-                typename    => 'STRING',
-                expertsOnly => 1
-            )
-        );
-        $Foswiki::cfg{Plugins}{$module}{Module} ||= $modules{$module};
     }
+    closedir(DIR);
     return $this;
 }
 

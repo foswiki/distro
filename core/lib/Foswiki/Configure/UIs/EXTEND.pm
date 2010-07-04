@@ -1,5 +1,16 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::EXTEND
+
+Specialised UI used by =configure= to generate the extension installation
+screen (and to actually perform the installation). Does not use the
+conventional renderHtml interface, instead implementing a special
+'install' method.
+
+=cut
+
 package Foswiki::Configure::UIs::EXTEND;
 
 use strict;
@@ -9,16 +20,22 @@ use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 use Foswiki::Configure::Util ();
 
-#use File::Temp               ();
-#please explain why its there if its not used..
 use File::Copy ();
 use File::Spec ();
 use Cwd        ();
 
-# This UI uses *print* rather than gathering output. This is to give
-# the caller early feedback.
-# Note: changed this to present information grouped
-sub ui {
+=begin TML
+
+---++ ObjectMethod install() -> $html
+
+(Un)Install the extensions selected by the URL parameters.
+
+This method uses *print* rather than gathering output. This is to give
+the caller early feedback.
+
+=cut
+
+sub install {
     my $this  = shift;
     my $query = $Foswiki::query;
 
@@ -64,8 +81,8 @@ sub _install {
         die "Can't load Foswiki: $@";
     }
 
-# Load up a new Foswiki session so that the install can checkin topics and attchments
-# that are under revision control.
+    # Load up a new Foswiki session so that the install can checkin
+    # topics and attchments that are under revision control.
     my $user    = $Foswiki::cfg{AdminUserLogin};
     my $session = new Foswiki($user);
     require Foswiki::Configure::Package;
@@ -105,18 +122,19 @@ sub _install {
         $feedback .= $this->NOTE_OK(
             "Installation of $extension and dependencies finished");
         $feedback .= $this->NOTE(<<HERE);
-Before proceeding, review the dependency reports of each installed extension and
-resolve any dependencies as required.  <ul><li>External dependencies are never automatically
-resolved by Foswiki. <li>Dependencies noted as "Optional" will not be automatically 
-resolved, and <li>CPAN dependencies are not resolved by the web installer.
+Before proceeding, review the dependency reports of each installed
+extension and resolve any dependencies as required.  <ul><li>External
+dependencies are never automatically resolved by Foswiki. <li>Dependencies
+noted as "Optional" will not be automatically resolved, and <li>CPAN
+dependencies are not resolved by the web installer.
 HERE
     }
 
     if ( keys %$depCPAN ) {
         $feedback .= $this->NOTE(<<HERE);
-Warning:  CPAN dependencies were detected, but will not be automatically installed
-by the Web installer.  The following dependencies should be manually resolved as
-required. 
+Warning:  CPAN dependencies were detected, but will not be automatically
+installed by the Web installer.  The following dependencies should be
+manually resolved as required. 
 HERE
         $feedback .= "<pre>";
         foreach my $dep ( sort { lc($a) cmp lc($b) } keys %$depCPAN ) {

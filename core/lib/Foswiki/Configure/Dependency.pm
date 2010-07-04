@@ -1,4 +1,17 @@
 # See bottom of file for license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Configure::Dependency
+
+This module defines a dependency required by a Foswiki module and provides
+functions to test if the dependency is installed, and compare versions with
+the required version.
+
+It is also used to examine the installed version of a Foswiki module.
+
+=cut
+
 package Foswiki::Configure::Dependency;
 
 use strict;
@@ -27,16 +40,6 @@ my %STRINGOPMAP = (
 );
 
 =begin TML
-
----+ package Foswiki::Configure::Dependency
-
-This module defines a dependency required by a Foswiki module and provides
-functions to test if the dependency is installed, and compare versions with
-the requred version..  
-
-It is also used to examine the installed version of a Foswiki module.
-
-%TOC%
 
 ---++ ClassMethod new( %opts ) 
 

@@ -1,19 +1,33 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::Value
+This is the UI object for a single configuration item. It must not be
+confused with Foswiki::Configure::Value, which is the value object that
+models a configuration item. There will be one corresponding
+Foswiki::Configure::Value for each object of this class.
+
+=cut
+
 package Foswiki::Configure::UIs::Value;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::UI ();
-our @ISA = ('Foswiki::Configure::UI');
+use Foswiki::Configure::UIs::Item ();
+our @ISA = ('Foswiki::Configure::UIs::Item');
 
-=pod
+=begin TML
 
-renderHtml($value, $root) -> ($html, \%properties)
+---++ ObjectMethod renderHtml($value, $root, ...) -> ($html, \%properties)
+   * =$value= - Foswiki::Configure::Value object in the model
+   * =$root= - Foswiki::Configure::UIs::Root
 
-Generates the appropriate HTML for getting a value to configure the
-entry. The actual input field is decided by the type.
+Implements Foswiki::Configure::UIs::Item
+
+Generates the appropriate HTML for getting a presenting the configure the
+entry.
 
 =cut
 
@@ -127,7 +141,7 @@ HERE
     my $class = join( ' ', @cssClasses );
 
     $output .=
-      getRowHtml( $class, "$index$hiddenTypeOf", $helpTextLink,
+      _getRowHtml( $class, "$index$hiddenTypeOf", $helpTextLink,
         "$control&nbsp;$resetToDefaultLinkText$check$helpText" )
       . "\n";
 
@@ -143,7 +157,7 @@ HERE
     );
 }
 
-sub getRowHtml {
+sub _getRowHtml {
     my ( $class, $header, $info, $data ) = @_;
 
     my $classProp = $class ? { class => $class } : undef;
@@ -151,13 +165,6 @@ sub getRowHtml {
             CGI::th( $classProp, $header )
           . CGI::td( {}, $data )
           . CGI::td( { class => "$class configureHelp" }, $info ) );
-}
-
-sub getOutsideRowHtml {
-    my ( $class, $title, $data ) = @_;
-
-    return CGI::Tr( {},
-        CGI::td( { class => $class, colspan => "3" }, "$title $data" ) );
 }
 
 1;

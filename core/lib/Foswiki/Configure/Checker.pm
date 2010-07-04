@@ -12,35 +12,24 @@ use File::Spec ();
 use CGI        ();
 
 =begin TML
----+++ ObjectMethod check($value, $root) -> 'html'
-   * $value - **UNDOCUMENTED**
-   * $root - **UNDOCUMENTED**
+
+---+++ ObjectMethod check($value) -> $html
+   * $value - Value object for the thing being checked
+
 Entry point for the value check. Overridden by subclasses.
 
-returns html formatted by $this->ERROR(), WARN(), NOTE(), guessed() or hand made
-_OR_ and empty string to be inserted in the configure UI
+Returns html formatted by $this->ERROR(), WARN(), NOTE(), guessed() or
+hand made _OR_ and empty string to be inserted in the configure UI
 
-the checker can either check the sanity of the previously saved value, or guess a one if none exists:
-
-in MySetting.pm...
-
-    #The NOT SET is automatically assigned in BasicSanity when a required or all else fails setting isn't found 
-    #(currently DataDir DefaultUrlHost PubUrlPath  PubDir TemplateDir ScriptUrlPath LocalesDir). 
-    #In this case this part of the condition will never fire, but if !defined($val) 
-    #it will still guess that $Foswiki::cfg{DispScriptUrlPath} = $Foswiki::cfg{ScriptUrlPath}. 
-    
-    my $val = $Foswiki::cfg{DispScriptUrlPath};
-    if ( !defined($val) || $val eq 'NOT SET' ) {
-        $Foswiki::cfg{MySetting} = your guess;
-        return $this->guessed(0);
-    }
+The checker can either check the sanity of the previously saved value,
+or guess a one if none exists:
 
 =cut
 
 sub check {
-    my ( $this, $value, $root ) = @_;
+    my ( $this, $value ) = @_;
 
-    # default behaviour; do nothing
+    # default behaviour; see no evil, hear no evil, speak no evil
     return '';
 }
 

@@ -1,13 +1,19 @@
 # See bottom of file for license and copyright information
 
-# This is both the factory for UIs and the base class of UI constructors.
-# A UI is the V part of the MVC model used in configure.
-#
-# Each structural entity in a configure screen has a UI type, either
-# stored directly in the entity or indirectly in the type associated
-# with a value. The UI type is used to guide a visitor which is run
-# over the structure to generate the UI.
-#
+=begin TML
+
+---+ package Foswiki::Configure::UI
+
+This is both the factory for UIs and the base class of all UI objects.
+A UI is the V part of the MVC model used in configure.
+
+Each structural entity in a configure screen has a UI type, either
+stored directly in the entity or indirectly in the type associated
+with a value. The UI type is used to guide a visitor which is run
+over the structure to generate the UI.
+
+=cut
+
 package Foswiki::Configure::UI;
 
 use strict;
@@ -31,13 +37,12 @@ our $MESSAGE_TYPE = {
 my $DEFAULT_TEMPLATE_PARSER = 'SimpleFreeMarker';
 my $templateParser;
 
-sub reset {
-    my ($isFirstTime) = @_;
+=begin TML
 
-    $firsttime   = $isFirstTime;
-    $toterrors   = 0;
-    $totwarnings = 0;
-}
+---++ ClassMethod new($item)
+Construct a new UI, attaching it to the given $item in the model.
+
+=cut
 
 sub new {
     my ( $class, $item ) = @_;
@@ -61,6 +66,30 @@ sub new {
     return $this;
 }
 
+=begin TML
+
+---++ StaticMethod reset($isFirstTime)
+
+Called from the main =configure= script, this method resets the total
+error and warning counts. This method is provided primarily for testing
+support.
+
+=cut
+
+sub reset {
+    my $ift = shift;
+    $totwarnings = $toterrors = 0;
+    $firsttime = $ift;
+}
+
+=begin TML
+
+---++ ObjectMethod findRepositories()
+Build descriptive hashes for the repositories listed in
+$Foswiki::cfg{ExtensionsRepositories}
+
+=cut
+
 sub findRepositories {
     my $this = shift;
     unless ( defined( $this->{repositories} ) ) {
@@ -79,6 +108,13 @@ sub findRepositories {
     }
 }
 
+=begin TML
+
+---++ ObjectMethod getRepository($name) -> \%repository
+Gets the hash that describes a named repository
+
+=cut
+
 sub getRepository {
     my ( $this, $reponame ) = @_;
     foreach my $place ( @{ $this->{repositories} } ) {
@@ -87,22 +123,44 @@ sub getRepository {
     return;
 }
 
-# Static UI factory
-# UIs *must* exist
+=begin TML
+
+---++ StaticMethod loadUI($id, $item) -> $ui
+
+Loads the Foswiki::Configure::UIs subclass for the
+given $id.  For example, given the id 'BEANS', it
+will try and load Foswiki::Configure::UIs::BEANS
+
+$item is passed on to the constructor for the UI.
+
+=cut
+
 sub loadUI {
     my ( $id, $item ) = @_;
-    $id = 'Foswiki::Configure::UIs::' . $id;
-    my $ui;
+    my $class = 'Foswiki::Configure::UIs::' . $id;
 
-    eval "use $id (); \$ui = new $id(\$item);";
+    eval "require $class";
+    die $@ if $@;
 
-    return if ( !$ui && $@ );
-
-    return $ui;
+    return $class->new($item);
 }
 
-# Static checker factory
-# Checkers *need not* exist
+=begin TML
+
+---++ StaticMethod loadChecker($id, $item) -> $checker
+
+Loads the Foswiki::Configure::Checker subclass for the 
+given $id. For example, given the id '{Beans}{Mung}', it
+will try and load Foswiki::Configure::Checkers::Beans::Mung
+
+Returns the checker created or undef if no such checker is found.
+
+Will die if the checker exists but fails to compile.
+
+$item is passed on to the checker's constructor.
+
+=cut
+
 sub loadChecker {
     my ( $id, $item ) = @_;
     $id =~ s/}{/::/g;
@@ -110,17 +168,23 @@ sub loadChecker {
     $id =~ s/'//g;
     $id =~ s/-/_/g;
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
-    my $checker;
-
-    eval "use $checkClass (); \$checker = new $checkClass(\$item);";
+    eval "use $checkClass ()";
 
     # Can't locate errors are OK
-    die $@ if ( $@ && $@ !~ /Can't locate / );
+    return if ( $@ && $@ =~ /Can't locate / );
+    die $@ if ( $@ );
 
-    return $checker;
+    return $checkClass->new($item);
 }
 
-# Returns a response object as described in Foswiki::Net
+=begin TML
+
+---++ ObjectMethod getUrl() -> $response
+
+Returns a response object as described in Foswiki::Net
+
+=cut
+
 sub getUrl {
     my ( $this, $url ) = @_;
 
@@ -131,8 +195,13 @@ sub getUrl {
     return $response;
 }
 
-# STATIC Used by a whole bunch of things that just need to show a key-value row
-# in a table (called as a method, i.e. with class as first parameter)
+=begin TML
+
+---++ ObjectMethod setting(...) -> $html
+Generate the HTML for a key-value row in a table.
+
+=cut
+
 sub setting {
     my $this = shift;
     my $key  = shift;
@@ -142,8 +211,15 @@ sub setting {
     return CGI::Tr( {}, CGI::th( {}, $key ) . CGI::td( {}, $data ) );
 }
 
-# encode a string to make a simplified unique ID useable
-# as an HTML id or anchor
+=begin TML
+
+---++ ObjectMethod makeID($id) -> $encodedID
+
+Encode a string to make a simplified unique ID useable
+as an HTML id or anchor
+
+=cut
+
 sub makeID {
     my ( $this, $str ) = @_;
 
@@ -152,11 +228,27 @@ sub makeID {
     return $str;
 }
 
+=begin TML
+
+---++ ObjectMethod NOTE(...)
+
+Generate HTML for an informational note.
+
+=cut
+
 sub NOTE {
     my $this = shift;
     return CGI::div( { class => 'configureInfo' },
         CGI::span( {}, join( "\n", @_ ) ) );
 }
+
+=begin TML
+
+---++ ObjectMethod NOTE_OK(...)
+
+Generate HTML for a note, but with the class configureOK
+
+=cut
 
 sub NOTE_OK {
     my $this = shift;
@@ -164,7 +256,14 @@ sub NOTE_OK {
         CGI::span( {}, join( "\n", @_ ) ) );
 }
 
-# a warning
+=begin TML
+
+---++ ObjectMethod WARN(...)
+
+Generate HTML for a warning, and flag it in the model.
+
+=cut
+
 sub WARN {
     my $this = shift;
     $this->{item}->inc('warnings');
@@ -173,7 +272,14 @@ sub WARN {
         CGI::span( {}, CGI::strong( {}, 'Warning: ' ) . join( "\n", @_ ) ) );
 }
 
-# an error
+=begin TML
+
+---++ ObjectMethod ERROR(...)
+
+Generate HTML for an error, and flag it in the model.
+
+=cut
+
 sub ERROR {
     my $this = shift;
     $this->{item}->inc('errors');
@@ -182,8 +288,14 @@ sub ERROR {
         CGI::span( {}, CGI::strong( {}, 'Error: ' ) . join( "\n", @_ ) ) );
 }
 
-# Used in place of CGI::hidden, which is broken in some versions.
-# HTML encodes the value
+=begin TML
+
+---++ ObjectMethod hidden($value) -> $html
+Used in place of CGI::hidden, which is broken in some CGI versions.
+HTML encodes the value
+
+=cut
+
 sub hidden {
     my ( $name, $value ) = @_;
     $name ||= '';
@@ -195,16 +307,22 @@ sub hidden {
     return "<input type='hidden' name='$name' value='$value' />";
 }
 
-# URL encode a value.
+=begin TML
+
+---++ ObjectMethod urlEncode($data) -> $encodedData
+URL encode a value.
+
+=cut
+
 sub urlEncode {
     my ( $this, $value ) = @_;
     $value =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
     return $value;
 }
 
-=pod
+=begin TML
 
-StaticMethod authorised () -> ($isAuthorized, $messageType)
+---++ StaticMethod authorised () -> ($isAuthorized, $messageType)
 
 Invoked to confirm authorisation, and handle password changes. The password
 is changed in $Foswiki::cfg, a change which is then detected and written when

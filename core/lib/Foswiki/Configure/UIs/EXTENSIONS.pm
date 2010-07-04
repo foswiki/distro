@@ -1,5 +1,18 @@
 # See bottom of file for license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Configure::UIs::EXTENSIONS
+
+Specialised UI; an implementation of the "Find more extensions" UI screen.
+When this screen is visited, the remote extensions repositories are visited
+to pull down details of available extensions. These are then presented
+in custom tabular form.
+
+=cut
+
 package Foswiki::Configure::UIs::EXTENSIONS;
+
 use strict;
 use warnings;
 
@@ -156,7 +169,16 @@ sub _parseRow {
     return '';
 }
 
-sub ui {
+=begin TML
+
+---++ ObjectMethod getExtensions() -> ( $consultedLocations, $table, $errors, $installedCount, $allCount )
+
+Called from =configure=, in _actionFindMoreExtensions, this constructs
+the HTML table used in the Find more extensions screen
+
+=cut
+
+sub getExtensions {
     my $this = shift;
 
     my $table = '';

@@ -1,5 +1,14 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::UPDATE
+
+Special UI, invoked directly from =configure=, that implements the
+save changes screen.
+
+=cut
+
 package Foswiki::Configure::UIs::UPDATE;
 
 use strict;
@@ -10,7 +19,15 @@ our @ISA = ('Foswiki::Configure::UI');
 
 use Foswiki::Configure::FoswikiCfg ();
 
-sub ui {
+=begin TML
+
+---++ ObjectMethod commitChanges()
+
+Commit changes to disk.
+
+=cut
+
+sub commitChanges {
     my ( $this, $root, $valuer, $updated ) = @_;
 
     $this->{changed} = 0;
@@ -26,6 +43,7 @@ sub ui {
         $this->{user} = $Foswiki::query->remote_user() || '';
     }
 
+    # Pass ourselves as log listener
     Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this );
 
     if ( $this->{log} && defined( $Foswiki::cfg{Log}{Dir} ) ) {
@@ -45,11 +63,17 @@ sub ui {
             close(F);
         }
     }
-
-    return $this->{changesList};
 }
 
-# Listener for when a saved configuration item is changed.
+=begin TML
+
+---++ ObjectMethod logChange($keys, $value)
+
+Listener for when a configuration item is saved. Called by
+Foswiki::Configure::FoswikiCfg during the save process.
+
+=cut
+
 sub logChange {
     my ( $this, $keys, $value ) = @_;
 

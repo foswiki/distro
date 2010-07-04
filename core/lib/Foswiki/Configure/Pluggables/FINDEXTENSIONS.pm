@@ -1,6 +1,14 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Configure::LANGUAGES;
+=begin TML
+
+---+ package Foswiki::Configure::Pluggables::FINDEXTENSIONS
+Pluggable for finding and downloading extensions. Implements 
+<nop>*FINDEXTENSIONS* in Foswiki.spec.
+
+=cut
+
+package Foswiki::Configure::Pluggables::FINDEXTENSIONS;
 
 use strict;
 use warnings;
@@ -11,25 +19,10 @@ our @ISA = ('Foswiki::Configure::Pluggable');
 sub new {
     my ($class) = @_;
 
-    my $this = $class->SUPER::new('Languages');
-
-    opendir( DIR, $Foswiki::cfg{LocalesDir} )
-      or return $this;
-
-    foreach my $file ( readdir DIR ) {
-        next unless ( $file =~ m/^([\w-]+)\.po$/ );
-        my $lang = $1;
-        $lang = "'$lang'" if $lang =~ /\W/;
-
-        $this->addChild(
-            new Foswiki::Configure::Value(
-                parent   => $this,
-                keys     => '{Languages}{' . $lang . '}{Enabled}',
-                typename => 'BOOLEAN'
-            )
-        );
-    }
-    closedir(DIR);
+    # Create a new unnamed section. The section is unnamed because
+    # *FINDEXTENSIONS* is already placed in an appropriate section in
+    # Foswiki.spec.
+    my $this = $class->SUPER::new('');
     return $this;
 }
 

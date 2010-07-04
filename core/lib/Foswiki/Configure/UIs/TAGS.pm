@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+# NOT USED - this may ultimately be used for adding in new tags from
+# the Foswiki/Macros dir, but not right now.
+
 package Foswiki::Configure::UIs::TAGS;
 
 use strict;
@@ -13,6 +16,7 @@ use Foswiki::Configure::Value ();
 
 sub ui {
     my %modules;
+
     my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
     my $classes = $scanner->findClasses('Foswiki::Macros::*');
     foreach my $module (@$classes) {
@@ -28,7 +32,7 @@ sub ui {
     my $block = '';
     foreach my $m ( sort keys %modules ) {
         my $value = new Foswiki::Configure::Value(
-            'BOOLEAN', '',
+            'BOOLEAN',
 
             # SMELL - i'm assuming that the Tag topic is in the SystemWeb :(
             # Which of course it isn't.

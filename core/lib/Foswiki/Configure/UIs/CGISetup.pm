@@ -1,5 +1,16 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::CGISetup
+
+Specialised UI for the CGI Setup section. This provides a renderHtml method
+that generates the bespokse screen for this section. This *could* all be
+done in a specialised Foswiki::Configure::Section type, but since all the
+data is read only, it was easier this way (if somewhat less elegant).
+
+=cut
+
 package Foswiki::Configure::UIs::CGISetup;
 
 use strict;
@@ -11,6 +22,7 @@ our @ISA = ('Foswiki::Configure::UIs::Section');
 
 use File::Spec ();
 
+# See Foswiki::Configure::UIs::Section
 sub renderHtml {
     my ( $this, $section, $root ) = @_;
 

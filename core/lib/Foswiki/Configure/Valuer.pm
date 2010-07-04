@@ -1,19 +1,33 @@
 # See bottom of file for license and copyright information
 
-#
-# This class is used to refer to two hashes of configuration values.
-# The first is a hash of default values, and the second (which will
-# have mostly the same keys) contains the *current* value (i.e. the
-# value after edits have been applied).
-#
-# $defaults is a reference to the hash of defaults
-# $values is a reference to the hash of current values
+=begin TML
+
+---+ package Foswiki::Configure::Valuer
+A container for configuration data values. This class is used to refer
+to two hashes of configuration values. The first is a hash of default
+values, and the second (which will have mostly the same keys) contains
+the *current* value (i.e. the value after any edits have been applied).
+
+=cut
+
 package Foswiki::Configure::Valuer;
 
 use strict;
 use warnings;
 
 use Foswiki::Configure::Type ();
+
+=begin TML
+
+---++ ClassMethod new($defaults, $values)
+
+$defaults is a reference to the raw hash of defaults ($Foswiki::cfg, as
+taken from Foswiki.spec + Config.spec)
+
+$values is a reference to the hash of current values (also $Foswiki::cfg,
+but as taken from Foswiki.spec + Config.spec + LocalSite.cfg)
+
+=cut
 
 sub new {
     my ( $class, $defaults, $values ) = @_;
@@ -42,23 +56,42 @@ sub _getValue {
     return $val;
 }
 
-# get the current value
+=begin TML
+
+---++ ObjectMethod getCurrentValue() -> $data
+Get the *current* value
+
+=cut
+
 sub currentValue {
     my ( $this, $value ) = @_;
     return $this->_getValue( $value, 'values' );
 }
 
-# get the default value
+=begin TML
+
+---++ ObjectMethod defaultValue() -> $data
+Get the *default* value
+
+=cut
+
 sub defaultValue {
     my ( $this, $value ) = @_;
     return $this->_getValue( $value, 'defaults' );
 }
 
-# Get changed values from CGI. Each parameter is identified by a
-# TYPEOF: param that specifies the keys e.g. ?TYPEOF:{Kiss}=Smooch. The
-# type is used to determine if the value of {Kiss} in CGI is different to
-# the value known to the Valuer (i.e. has been updated). If it is, the keys
-# are added to the $updated hash.
+=begin TML
+
+---++ ObjectMethod loadCGIParams($query, \%updated)
+
+Get changed values from CGI. Each parameter is identified by a
+TYPEOF: param that specifies the keys e.g. ?TYPEOF:{Kiss}=Smooch. The
+type is used to determine if the value of {Kiss} in CGI is different to
+the value known to the Valuer (i.e. has been updated). If it is, the keys
+are added to the $updated hash.
+
+=cut
+
 sub loadCGIParams {
     my ( $this, $query, $updated ) = @_;
     my $param;
@@ -75,7 +108,7 @@ sub loadCGIParams {
 
         # The value of TYPEOF: is the type name
         my $typename = $query->param($param);
-        $typename =~ /(\w+)/;
+        Carp::confess "Bad typename '$typename'" unless $typename =~ /(\w+)/;
         $typename = $1;    # check and untaint
         my $type   = Foswiki::Configure::Type::load($typename);
         my $newval = $type->string2value( $query->param($keys) );

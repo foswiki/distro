@@ -1,12 +1,23 @@
 # See bottom of file for license and copyright information
 
-#
-# A placeholder in a configuration representing a pluggable UI block.
-# A pluggable block has special semantics, may have a special UI which
-# may override the behaviors of a standard item. Normally pluggables
-# are sections, containing values and other sections. If this isn't
-# appropriate, you will have to implement a new visit() function for
-# saving configuration data.
+=begin TML
+
+---+ package Foswiki::Configure::Pluggable
+
+Support for placeholders in a configuration that represent a pluggable
+UI block, i.e the blocks used for downloading extensions, managing
+plugins, and managing languages.
+
+A pluggable block may be a simple section with dynamically generated
+configuration entries (e.g. generated programatically after inspecting
+the disk) and/or may have special semantics, or may have a special UI which
+may override the behaviors of a standard item. Normally pluggables
+are sections, containing values and other sections. If this isn't
+appropriate, you will have to implement a new visit() function for
+saving configuration data.
+
+=cut
+
 package Foswiki::Configure::Pluggable;
 
 use strict;
@@ -15,10 +26,18 @@ use warnings;
 use Foswiki::Configure::Section ();
 our @ISA = ('Foswiki::Configure::Section');
 
+=begin TML
+
+---++ StaticMethod load($id) -> $pluggableSection
+
+Loads a pluggable section from Foswiki::Configure::Pluggables::
+
+=cut
+
 sub load {
     my ($name) = @_;
 
-    my $modelName = 'Foswiki::Configure::' . $name;
+    my $modelName = 'Foswiki::Configure::Pluggables::' . $name;
     eval "use $modelName";
     Carp::confess $@ if $@;
 

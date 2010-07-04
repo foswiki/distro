@@ -1,9 +1,18 @@
 # See bottom of file for license and copyright information
 
-# Base class of all types. Types are involved *only* in the presentation
-# of values in the configure interface. They do not play any part in
-# loading, saving or checking configuration values.
-#
+=begin TML
+
+---+ package Foswiki::Configure::Type
+
+Base class of all types. Types are involved *only* in the presentation
+of values in the configure interface. They do not play any part in
+loading, saving or checking configuration values.
+
+This is not an abstract class. Objects of this type are used when a
+specialised class for a type cannot be found.
+
+=cut
+
 package Foswiki::Configure::Type;
 
 use strict;
@@ -19,24 +28,43 @@ sub new {
     return bless( { name => $id }, $class );
 }
 
-# Static factory
+=begin TML
+
+---++ StaticMethod load(id) -> $typeObject
+Load the named type object
+
+=cut
+
 sub load {
     my $id    = shift;
     my $typer = $knownTypes{$id};
     unless ($typer) {
         my $typeClass = 'Foswiki::Configure::Types::' . $id;
-        $typer =
-          eval 'use ' . $typeClass . '; new ' . $typeClass . '("' . $id . '")';
-
-        # unknown type - give it default string behaviours
-        $typer = new Foswiki::Configure::Type($id) unless $typer;
+        eval "use $typeClass";
+        Carp::confess "Could not load type $id: $@" if ($@);
+        $typer = $typeClass->new($id);
+        unless ($typer) {
+            # unknown type - give it default behaviours
+            $typer = new Foswiki::Configure::Type($id);
+        }
         $knownTypes{$id} = $typer;
     }
     return $typer;
 }
 
-# Generates a suitable HTML prompt for the type. Default behaviour
-# is a string 55% of the width of the display area.
+=begin TML
+
+---++ ObjectMethod prompt(id) -> $html
+   * $id e.g. {This}{Item}
+   * $opts formatting options e.g. 10x30
+   * $value current value of item (string)
+   * $class CSS class
+Generate HTML for a suitable prompt for the type. Default behaviour
+is a string 55% of the width of the display area. Subclasses will
+override this.
+
+=cut
+
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
 
@@ -66,7 +94,14 @@ sub prompt {
     }
 }
 
-# Test to determine if two values of this type are equal.
+=begin TML
+
+---++ ObjectMethod equals($a, $b)
+Test to determine if two values of this type are equal.
+   * $a, $b the values (strings, usually)
+
+=cut
+
 sub equals {
     my ( $this, $val, $def ) = @_;
 
@@ -80,10 +115,16 @@ sub equals {
     return $val eq $def;
 }
 
-# Used to process input values from CGI. Values taken from the query
-# are run through this method before being saved in the value store.
-# It should *not* be used to do validation - use a Checker to do that, or
-# JavaScript invoked from the prompt.
+=begin TML
+
+---++ ObjectMethod string2value($string) -> $data
+Used to process input values from CGI. Values taken from the query
+are run through this method before being saved in the value store.
+It should *not* be used to do validation - use a Checker to do that, or
+JavaScript invoked from the prompt.
+
+=cut
+
 sub string2value {
     my ( $this, $val ) = @_;
     return $val;

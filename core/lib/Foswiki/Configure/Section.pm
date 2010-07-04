@@ -1,16 +1,30 @@
 # See bottom of file for license and copyright information
-#
-# Collection of configuration items
-#
-# A 'Section' is a collection of configuration options and subsections.
-#
 package Foswiki::Configure::Section;
+
+=begin TML
+
+---+ package Foswiki::Configure::Section
+
+A tree node in a configuration item tree; a collection of configuration
+items and subsections.
+
+=cut
 
 use strict;
 use warnings;
 
 use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');
+
+=begin TML
+
+---++ ClassMethod new($head, $opts)
+   * $head - headline e.g. 'Security Settings'
+   * $opts - options
+
+Constructor
+
+=cut
 
 sub new {
     my ( $class, $head, $opts ) = @_;
@@ -24,6 +38,13 @@ sub new {
 
     return $this;
 }
+
+=begin TML
+
+---++ ObjectMethod addChild($child)
+Add a child node under this node.
+
+=cut
 
 sub addChild {
     my ( $this, $child ) = @_;
@@ -40,6 +61,8 @@ sub addChild {
 
 }
 
+# See Foswiki::Configure::Item
+# A section is expert if any of it's children are expert.
 sub isExpertsOnly {
     my $this = shift;
     if ( !defined( $this->{isExpert} ) ) {
@@ -54,6 +77,7 @@ sub isExpertsOnly {
     return $this->{isExpert};
 }
 
+# See Foswiki::Configure::Item
 sub visit {
     my ( $this, $visitor ) = @_;
     my %visited;
@@ -70,31 +94,20 @@ sub visit {
     return 1;
 }
 
-sub getDepth {
-    my $depth = 0;
-    my $mum   = shift;
-
-    while ($mum) {
-        $depth++;
-        $mum = $mum->{parent};
-    }
-    return $depth;
-}
-
-# Get the section object associated with the given headline and depth
+# See Foswiki::Configure::Item
 sub getSectionObject {
-    my ( $this, $head, $depth, $opts ) = @_;
+    my ( $this, $head, $depth ) = @_;
     if ( $this->{headline} eq $head && $this->getDepth() == $depth ) {
         return $this;
     }
     foreach my $child ( @{ $this->{children} } ) {
-        my $cvo = $child->getSectionObject( $head, $depth, $opts );
+        my $cvo = $child->getSectionObject( $head, $depth );
         return $cvo if $cvo;
     }
-    return;
+    return undef;
 }
 
-# Get the value object associated with the given keys
+# See Foswiki::Configure::Item
 sub getValueObject {
     my ( $this, $keys ) = @_;
     foreach my $child ( @{ $this->{children} } ) {
@@ -104,8 +117,8 @@ sub getValueObject {
     return;
 }
 
-# See if this section is changed from the default values. Should
-# return a count of changed values.
+# See Foswiki::Configure::Item
+# See if this section is changed from the default values.
 sub needsSaving {
     my ( $this, $valuer ) = @_;
     my $count = 0;

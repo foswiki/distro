@@ -1,23 +1,40 @@
 # See bottom of file for license and copyright information
-#
-# A UI for a collection object.
-# The layout of a configuration page is depth-sensitive, so we have slightly
-# different behaviours for each of level 0 (the root), level 1 (tab
-# sections) and level > 1 (subsection).
+
+=begin TML
+
+---+ package Foswiki::Configure::UIs::Section;
+
+A UI for a collection object.
+The layout of a configuration page is depth-sensitive, so we have slightly
+different behaviours for each of level 0 (the root), level 1 (tab
+sections) and level > 1 (subsection).
+
+=cut
+
 package Foswiki::Configure::UIs::Section;
 
 use strict;
 use warnings;
 use Foswiki::Configure::UIs::Value ();
 use Foswiki::Configure::UI         ();
-our @ISA = ('Foswiki::Configure::UI');
+our @ISA = ('Foswiki::Configure::UIs::Item');
 
-# Sections are of two types; "plain" and "tabbed". A plain section formats
-# all its subsections inline, in a table. A tabbed section formats all its
-# subsections as tabs.
-#
-# =$contents= are table rows
-#
+=begin TML
+
+---++ ObjectMethod renderHtml($section, $root, $contents) -> ($html, \%properties)
+
+Overrides Foswiki::Configure::UIs::Item
+
+Sections are of two types; "plain" and "tabbed". A plain section formats
+all its subsections inline, in a table. A tabbed section formats all its
+subsections as tabs.
+   * $section the Foswiki::Configure::Section
+   * $root the Foswiki::Configure::UIs::Root
+   * =$contents= is the content (a set of table rows) to use for the
+     section if there are no configuration items.
+
+=cut
+
 sub renderHtml {
     my ( $this, $section, $root, $contents ) = @_;
 
@@ -40,7 +57,7 @@ sub renderHtml {
     # note that has to happen before creating tab sections
     # because field checks are done while rendering
     # these may update the WARN and ERROR messages
-    my $values = $this->renderValues( $section, $root );
+    my $values = $this->_renderValues( $section, $root );
     if ($values) {
         $contents = $this->renderValueBlock($values) . $contents;
     }
@@ -139,7 +156,10 @@ sub renderHtml {
     return $outText;
 }
 
-sub renderValues {
+# Render the leaf values in a section.
+#    * $section the Foswiki::Configure::Section
+#    * $root the Foswiki::Configure::UIs::Root
+sub _renderValues {
     my ( $this, $section, $root ) = @_;
 
     my $out         = '';
@@ -170,12 +190,31 @@ sub renderValues {
 # - language should cater for 1 option or multiple
 #		$expertTitle = "<span class='configureTableExpertTitle'>$expertCount expert options</span>" if $expertCount > 0;
 
-        $out .= Foswiki::Configure::UIs::Value::getOutsideRowHtml(
+        $out .= _getOutsideRowHtml(
             'configureTableOutside', $expertTitle, join( ' ', @placeholders ) );
     }
 
     return $out;
 }
+
+sub _getOutsideRowHtml {
+    my ( $class, $title, $data ) = @_;
+
+    return CGI::Tr( {},
+        CGI::td( { class => $class, colspan => "3" }, "$title $data" ) );
+}
+
+=begin TML
+
+---++ PROTECTED ObjectMethod renderValueBlock($string) -> $html
+
+Render a value block. This is exported so that UIs can render value
+strings other than those composed of configuration items e.g. the
+environment.
+
+Only for use by subclasses.
+
+=cut
 
 sub renderValueBlock {
     my ( $this, $values ) = @_;

@@ -1,4 +1,15 @@
 # See bottom of file for license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Configure::UIs::LANGUAGES
+
+This package is a placeholder for creating a UI for the <nop>*LANGUAGES*
+section. No special UI behaviour is required - it's just a simple
+section with standard Value types in the model.
+
+=cut
+
 package Foswiki::Configure::UIs::LANGUAGES;
 
 use strict;

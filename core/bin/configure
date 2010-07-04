@@ -1,54 +1,85 @@
 #!/usr/bin/perl -wT
 # See bottom of file for license and copyright information
-#
-# Configuration script for Foswiki. Once you have a basic webserver
-# configuration that lets you access this script, the rest of the
-# configuration process is done from here.
-#
-# The script works from the top down, by checking features of the
-# environment before moving on. The sequence is:
-# 1. Check the version of perl
-# 2. Check we have the modules to run this script
-# 3. Check the environment
-# 4. Check we have the modules to load the rest of configure
-# ... and so on. At any stage, the script reports any errors in the
-# best way it can given the environment established so far.
-# When the basic checks are complete, the script moves into the
-# real configuration steps; setting configuration variables.
-#
-# This phase of the configure environment follows a Model-View-
-# Controller pattern.
-#
-# Controller
-# This script is the controller; it handles communication with the
-# browser (and thus the user). Communication is very simple; this script
-# is re-invoked with different 'action' parameters to determine what it does.
-#
-# Model
-# The Model consists of a simple node tree, where each node represents a
-# structural element in the *presentation* of the configuration (this may
-# not be consistent with the structure of $Foswiki:cfg, so beware). Each
-# leaf node has an associated Type (in the Types subdirectory) that has
-# collected model and view behaviours for the basic types.
-# The Model is independent of the language used to represent the
-# configuration. There is one parser/generator provided, FoswikiCfg, but it
-# would be trivial to add others.
-#
-# The View is a DOM document, generated as HTML by a set of UI classes.
-# Because of some convoluted history, there are actually three sets of classes
-# that generate views. They are all subclasses of Foswiki::Configure::UI
-#    UIs - are top-level and pluggable UI components. All the main screens are
-#          implemented here.
-#    Checkers - are specialised UIs designed to give checking and guessing support for
-#          variable values (see Checker.pm for an example). 
-#          Checkers also include the read-only checking
-#          UIs used for checking environment.
-#    Types - provide some UI support in the form of type-specific prompters.
-#          this is really an abuse of the Model, but it saves creating
-#          decorator classes for all the Model types.
-# HTML is generated for the model using Visitor pattern. Each node in the tree
-# is visited in depth-first order.
-#
+
+=begin TML
+
+Configuration script for Foswiki. Once you have a basic webserver
+configuration that lets you access this script, the rest of the
+configuration process is done from here.
+
+The script works from the top down, by checking features of the
+environment before moving on. The sequence is:
+   1. Check the version of perl
+   2. Check we have the modules to run this script
+   3. Check the environment
+   4. Check we have the modules to load the rest of configure
+... and so on. At any stage, the script reports any errors in the
+best way it can given the environment established so far.
+When the basic checks are complete, the script moves into the
+real configuration steps; setting configuration variables.
+
+This phase of the configure environment follows a Model-View-
+Controller pattern.
+
+---++ Controller
+This script is the controller; it handles communication with the
+browser (and thus the user). Communication is very simple; this script
+is re-invoked with different 'action' parameters to determine what it does.
+
+---++ Model
+The Model consists of a simple node tree, where each node represents a
+structural element in the *presentation* of the configuration (this may
+not be consistent with the structure of $Foswiki:cfg, so beware). Each
+leaf node has an associated Type (in the Types subdirectory) that has
+collected model and view behaviours for the basic types. The node tree
+is made up of the classes:
+  * Foswiki::Configure::Item
+     * Foswiki::Configure::Value - a leaf value
+     * Foswiki::Configure::Section - a running node
+        * Foswiki::Configure::Root - a root section
+        * Foswiki::Configure::Pluggable - a plug-in subsection
+           * Foswiki::Configure::Pluggables::FINDEXTENSIONS - etc
+The Model is independent of the language used to represent the
+configuration. There is one parser/generator provided, FoswikiCfg, but it
+would be trivial to add others.
+
+---++ View
+The View is a DOM document, generated as HTML by a set of UI classes,
+all subclasses of Foswiki::Configure::UI. The UI classes visit the
+model in order to generate the HTML.
+
+---+++ UIs
+Each class in the model (Root, Section, Value, Item) has a corresponding UI
+decorator object, which renders HTML for the model. There are also a
+number of bespoke UIs, some of which assist =configure= in the generation
+of full screens (Introduction, Welcome, AUTH, UPDATE, EXTEND, EXTENSIONS,
+UPDATE) and others which relate to the Pluggables (FINDEXTENSIONS, LANGUAGES,
+PLUGINS). The special UI CGISetup is a specialised Section focused on groping
+the CGI configuration. Several of the bespoke UIs (CGISetup, Introduction,
+Welcome) have corresponding Checkers, which act as placeholders in the
+model for these sections.
+
+These are top-level pluggable UI components. All the main screens are
+implemented as UIs, under Foswiki::Configure::UIs.
+
+---+++ Checkers
+Checkers give checking and guessing support for configuration values. Checkers
+are all subclasses of Foswiki::Configure::Checker, and inhabit a class
+hierarchy under it that mirrors the organisation of configuration keys in
+Foswiki.spec.  Checkers include read-only checking UI used for checking
+environment sanity (BasicSanity)
+
+---+++ Types
+Types provide some UI support in the form of type-specific prompters.
+this is really an abuse of the Model, but it saves creating
+decorator classes for all the Model types.
+
+HTML is generated for the model using Visitor pattern. Each node in the tree
+is visited in depth-first order.
+
+
+=cut
+
 use strict;
 use warnings;
 
@@ -357,8 +388,9 @@ sub _dispatchContents {
     # This call will define $Foswiki::defaultCfg by loading .spec files
     my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
-    # set globals
-    ( my $sanityStatement, $badLSC ) = $sanityUI->ui();
+    # Perform the check
+    my $sanityStatement = $sanityUI->check();
+    $badLSC = $sanityUI->lscIsBad();
 
     # This is the dispatcher; $action is the name of the action to perform,
     # this is concatenated to _action to determine the name of the procedure.
@@ -487,10 +519,12 @@ sub _screenFeedback {
     my $ui = _checkLoadUI( 'UPDATE', $root );
     return '' unless $ui;
 
-    $ui->ui( $root, $valuer, \%updated );
+    $ui->commitChanges( $root, $valuer, \%updated );
 
     undef $ui;
 
+    # SMELL: why is this list built again? It's already been built
+    # once in commitChanges()
     my $changesList = ();
     foreach my $key ( sort keys %updated ) {
         my $valueString = $query->param($key);
@@ -517,13 +551,15 @@ sub _screenFeedback {
     if ( $badLSC ) {
         my $stub    = new Foswiki::Configure::Item();
         # This call will define $Foswiki::defaultCfg by loading .spec files
-        my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
+        my $sanityUI = Foswiki::Configure::UI::loadChecker(
+            'BasicSanity', $stub );
 
-        # set globals
-        ( my $sanityStatement, $badLSC ) = $sanityUI->ui();
+        my $sanityStatement = $sanityUI->check();
+        $badLSC = $sanityUI->lscIsBad();
     }
 
-    # Pass control to the mainline configure screen, passing along the results of the save
+    # Pass control to the mainline configure screen, passing along the
+    # results of the save
     _actionConfigure($contentTemplate);
 }
 
@@ -535,7 +571,7 @@ sub _actionFindMoreExtensions {
     return unless $ui;
 
     my ( $consultedLocations, $table, $errors, $installedCount, $allCount ) =
-      $ui->ui();
+      $ui->getExtensions();
 
     my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
     my $scriptName = pop(@script);
@@ -588,12 +624,14 @@ sub _actionManageExtensions {
     if ( !Foswiki::Configure::UI::authorised() ) {
         $ui = _checkLoadUI( 'AUTH', $root );
         return 1 unless $ui;
+# SMELL: this doesn't work - should invoke _screenAuthorize, surely?
         print $ui->ui( 0, 'Install ' . ( $query->param('extension') || '' ) );
     }
     else {
         $ui = _checkLoadUI( 'EXTEND', $root );
         return 1 unless $ui;
-        print $ui->ui();
+        # Warning: the 'install' method uses print for rapid feedback
+        print $ui->install();
     }
 
     $html =
@@ -655,7 +693,7 @@ sub _actionConfigure {
 
     # Now generate the UI
 
-    # Load the UI for the root; this is simply a visitor over
+    # Load the UI for the root; this UI is simply a visitor over
     # the model
     my $ui = _checkLoadUI( 'Root', $root );
     return '' unless $ui;
@@ -665,7 +703,7 @@ sub _actionConfigure {
 
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
-    $contents .= $ui->ui( $root, $valuer );
+    $contents .= $ui->createUI( $root, $valuer );
 
     my $showSanityStatement =
       ( !$isFirstTime && !$Foswiki::query->auth_type() ) ? 1 : undef;

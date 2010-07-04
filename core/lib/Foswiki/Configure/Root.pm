@@ -1,7 +1,12 @@
 # See bottom of file for license and copyright information
 
-#
-# The root of all configurations
+=begin TML
+
+---+ package Foswiki::Configure::Root
+The root of the configuration item tree.
+
+=cut
+
 package Foswiki::Configure::Root;
 
 use strict;

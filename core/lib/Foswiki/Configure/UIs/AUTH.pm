@@ -1,5 +1,15 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::AUTH
+
+Specialised UI for the AUTH screen. This implements a special method that
+is used by =configure= to filter out certain URL parameters (the
+passwords), and pass through all others as CGI::hidden.
+
+=cut
+
 package Foswiki::Configure::UIs::AUTH;
 
 use strict;
@@ -13,6 +23,15 @@ my %nonos = (
     newCfgP   => 1,
     confCfgP  => 1,
 );
+
+=begin TML
+
+---++ ObjectMethod params() -> $html
+
+Called to generate HTML for the URL parameters, filtering out sensitive
+password parameters.
+
+=cut
 
 sub params {
     my ($this) = @_;

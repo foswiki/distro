@@ -493,15 +493,15 @@ lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/Welcome.pm
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444
-lib/Foswiki/Configure/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
 lib/Foswiki/Configure/GlobalControls.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
-lib/Foswiki/Configure/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/Package.pm 0444
 lib/Foswiki/Configure/Pluggable.pm 0444
-lib/Foswiki/Configure/PLUGINS.pm 0444
+lib/Foswiki/Configure/Pluggables/FINDEXTENSIONS.pm 0444
+lib/Foswiki/Configure/Pluggables/LANGUAGES.pm 0444
+lib/Foswiki/Configure/Pluggables/PLUGINS.pm 0444
 lib/Foswiki/Configure/resources/ajaxLoader.gif 0444
 lib/Foswiki/Configure/resources/base.css 0444
 lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
@@ -577,7 +577,6 @@ lib/Foswiki/Configure/UIs/LANGUAGES.pm 0444
 lib/Foswiki/Configure/UIs/PLUGINS.pm 0444
 lib/Foswiki/Configure/UIs/Root.pm 0444
 lib/Foswiki/Configure/UIs/Section.pm 0444
-lib/Foswiki/Configure/UIs/TAGS.pm 0444
 lib/Foswiki/Configure/UIs/UPDATE.pm 0444
 lib/Foswiki/Configure/UIs/Value.pm 0444
 lib/Foswiki/Configure/UIs/Welcome.pm

@@ -1,4 +1,13 @@
 # See bottom of file for license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Configure::Checkers::BasicSanity
+
+Checker that implements the basic sanity checks that configure performs.
+
+=cut
+
 package Foswiki::Configure::Checkers::BasicSanity;
 
 use strict;
@@ -17,16 +26,39 @@ sub new {
     return $this;
 }
 
-# return true if we have fatal errors
+=begin TML
+
+---++ ObjectMethod insane() -> $boolean
+
+Return true if we have fatal errors
+
+=cut
+
 sub insane() {
     my $this = shift;
     return $this->{errors};
 }
 
-sub ui {
+=begin TML
+
+---++ ObjectMethod lscIsBad() -> $boolean
+
+Return true if LocalSite.cfg was found to be bad.
+
+=cut
+
+sub lscIsBad() {
+    my $this = shift;
+    return $this->{errors};
+}
+
+# Override Foswiki::Configure::Checker
+# Perform basic sanity checks, returning a HTML condition statement.
+
+sub check {
     my $this   = shift;
     my $result = '';
-    my $badLSC = 0;
+    $this->{badLSC} = 0;
 
     $this->{LocalSiteDotCfg} =
       Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
@@ -62,7 +94,7 @@ that is causing a Perl error - the following message(s) was generated:
 You can continue, but configure will not pick up any of the existing
 settings from this file unless you correct the perl error.
 HERE
-            $badLSC = 1;
+            $this->{badLSC} = 1;
         }
         elsif ( !-w $this->{LocalSiteDotCfg} ) {
             $result .= <<HERE;
@@ -72,7 +104,7 @@ You can view the configuration, but you will not be able to save.
 Check the file permissions.
 HERE
         }
-        elsif ( ( my $mess = $this->checkCfg( \%Foswiki::cfg ) ) ) {
+        elsif ( ( my $mess = $this->_checkCfg( \%Foswiki::cfg ) ) ) {
             $result .= <<HERE;
 The existing configuration file
 $this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
@@ -96,7 +128,7 @@ write a new configuration file due to these errors:
 <pre/>$errs<pre>
 You can view the default configuration, but you will not be able to save.
 HERE
-            $badLSC = 1;
+            $this->{badLSC} = 1;
         }
         else {
             $result .= <<HERE;
@@ -107,7 +139,7 @@ Please fill in the required paths in the
 <h3>Did you save the configuration before?</h3>
 Please check for the existence of <code>lib/LocalSite.cfg</code>, and make sure the webserver user can read it.
 HERE
-            $badLSC = 1;
+            $this->{badLSC} = 1;
         }
     }
 
@@ -139,7 +171,7 @@ HERE
     $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 
-    return ( $result, $badLSC );
+    return $result;
 }
 
 sub _copy {
@@ -175,19 +207,19 @@ sub _copy {
 
 # Check that an existing LocalSite.cfg doesn't contain crap.
 
-sub checkCfg {
+sub _checkCfg {
     my ( $this, $entry, $keys ) = @_;
     $keys ||= '';
     my $mess = '';
 
     if ( ref($entry) eq 'HASH' ) {
         foreach my $el ( keys %$entry ) {
-            $mess .= $this->checkCfg( $entry->{$el}, "$keys\{$el}" );
+            $mess .= $this->_checkCfg( $entry->{$el}, "$keys\{$el}" );
         }
     }
     elsif ( ref($entry) eq 'ARRAY' ) {
         foreach my $i ( 0 .. scalar(@$entry) ) {
-            $mess .= $this->checkCfg( $entry->[$i], "$keys\[$i]" );
+            $mess .= $this->_checkCfg( $entry->[$i], "$keys\[$i]" );
         }
     }
     else {

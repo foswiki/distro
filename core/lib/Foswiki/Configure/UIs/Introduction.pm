@@ -1,5 +1,13 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::Introduction
+
+UI used by =configure= to generate the introduction from a template.
+
+=cut
+
 package Foswiki::Configure::UIs::Introduction;
 
 use strict;
@@ -9,6 +17,7 @@ use Foswiki::Configure::TemplateParser ();
 use Foswiki::Configure::UIs::Section   ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
 
+# See Foswiki::Configure::UIs::Section
 sub renderHtml {
     my ( $this, $section, $root ) = @_;
 

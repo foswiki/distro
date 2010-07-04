@@ -4,11 +4,8 @@
 
 ---+ package Foswiki::Configure::Load
 
----++ Purpose
-
-This module consists of just a single subroutine =readConfig=.  It allows to
-safely modify configuration variables _for one single run_ without affecting
-normal Foswiki operation.
+Handling for loading configuration information (Foswiki.spec, Config.spec and
+LocalSite.cfg) as efficiently and flexibly as possible.
 
 =cut
 
@@ -35,7 +32,7 @@ our %remap = (
 
 ---++ StaticMethod readConfig([$noexpand])
 
-In normal Foswiki operations as a web server this routine is called by the
+In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
 replaced by custom code which sets the configuration hash.  To prevent us from
 overriding the custom code again, we use an "unconfigurable" key
@@ -120,7 +117,7 @@ CODE
 
     # Expand references to $Foswiki::cfg vars embedded in the values of
     # other $Foswiki::cfg vars.
-    expand( \%Foswiki::cfg ) unless $noexpand;
+    expandValue( \%Foswiki::cfg ) unless $noexpand;
 
     $Foswiki::cfg{ConfigurationFinished} = 1;
 
@@ -148,47 +145,29 @@ CODE
     *TWiki::cfg = \%Foswiki::cfg;
 }
 
-sub expand {
-    my $hash = shift;
-
-    foreach ( values %$hash ) {
-        next unless $_;
-        if ( ref($_) eq 'HASH' ) {
-            expand( \%$_ );
-        }
-        else {
-            s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/&_handleExpand($1)/ge;
-        }
-    }
-}
-
 =begin TML
 
----++ StaticMethod expandValue($string) -> $boolean
+---++ StaticMethod expandValue($datum)
 
 Expands references to Foswiki configuration items which occur in the
-value of other configuration items.  Use expand($hashref) if the item
-is not a plain scalar.
-
-Happens to return true if something has been expanded, though I don't
-know whether you would want that.  The replacement is done in-place,
+values configuration items contained within the datum, which may be a
+hash reference or a scalar value. The replacement is done in-place.
 
 =cut
 
 sub expandValue {
-    $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/&_handleExpand($1)/ge;
+    if (ref($_[0])) {
+        Carp::confess 'Can\'t handle a '.ref($_[0])
+            unless ref($_[0]) eq 'HASH';
+        map { expandValue($_) } values %{$_[0]};
+    } else {
+        $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/_handleExpand($1)/ge;
+    }
 }
 
-=begin TML
-
----++ StaticMethod _handleExpand($string) -> $string
-
-Used to expand the $Foswiki::cfg variable in the expand* routines.
-Resolves issue with defined but null variables expanding as "undef"
-Tasks:Item5608
-
-=cut
-
+# Used to expand the $Foswiki::cfg variable in the expand* routines.
+# Resolves issue with defined but null variables expanding as "undef"
+# Tasks:Item5608
 sub _handleExpand {
     my $val = eval $_[0];
     $val = ( defined $val ) ? $val : 'undef';

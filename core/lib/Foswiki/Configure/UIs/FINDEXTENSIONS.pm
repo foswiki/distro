@@ -1,5 +1,15 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ package Foswiki::Configure::UIs::FINDEXTENSIONS
+
+This package is a placeholder for creating a UI for the <nop>*FINDEXTENSIONS*
+section. It provides specialised rendering by prepending the normal section
+rendering with the 'findextensionsinfo' template.
+
+=cut
+
 package Foswiki::Configure::UIs::FINDEXTENSIONS;
 
 use strict;
@@ -8,18 +18,15 @@ use warnings;
 use Foswiki::Configure::UIs::Section ();
 our @ISA = ('Foswiki::Configure::UIs::Section');
 
+# See Foswiki::Configure::UIs::Section
 sub renderHtml {
     my ( $this, $section, $root, $output ) = @_;
 
-    # Check that the extensions UI is loadable
+    # Check that the UI that does the actual installation is loadable.
+    # If this fails, an appropriate error will be generated in the template.
     my $bad = 0;
-    foreach my $module qw(Foswiki::Configure::UIs::EXTEND) {
-        eval "use $module ()";
-        if ($@) {
-            $bad = 1;
-            last;
-        }
-    }
+    eval "require Foswiki::Configure::UIs::EXTEND";
+    $bad = 1 if ($@);
 
     my $template = Foswiki::Configure::UI::getTemplateParser()
       ->readTemplate('findextensionsintro');

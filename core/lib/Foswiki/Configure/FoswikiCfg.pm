@@ -1,58 +1,71 @@
 # See bottom of file for license and copyright information
 
-# This is both a parser for configuration declaration files, such as
-# FoswikiCfg.spec, and a serialisation visitor for writing out changes
-# to LocalSite.cfg
-#
-# The supported syntax in declaration files is as follows:
-#
-# cfg ::= ( setting | section | extension )* ;
-# setting ::= BOL typespec EOL comment* BOL def ;
-# typespec ::= "# **" typeid options "**" ;
-# def ::= "$" ["Foswiki::"] "cfg" keys "=" value ";" ;
-# keys ::= ( "{" id "}" )+ ;
-# value is any perl value not including ";"
-# comment ::= BOL "#" string EOL ;
-# section ::= BOL "#--+" string ( "--" options )? EOL comment* ;
-# extension ::= BOL " *" id "*"
-# EOL ::= end of line
-# BOL ::= beginning of line
-# typeid ::= id ;
-# id ::= a \w+ word (legal Perl bareword)
-#
-# * A *section* is simply a divider used to create blocks. It can
-#   have varying depth depending on the number of + signs and may have
-#   options after -- e.g. #---+ Section -- TABS EXPERT
-# * A *setting* is the sugar required for the setting of a single
-#   configuration value.
-# * An *extension* is a pluggable UI extension that supports some extra UI
-#   functionality, such as the menu of languages or the menu of plugins.
-#
-# Each *setting* has a *typespec* and a *def*.
-#
-# The typespec consists of a type id and some options. Types are loaded by
-# type id from the Foswiki::Configure::Types hierachy - for example, type
-# BOOLEAN is defined by Foswiki::Configure::Types::BOOLEAN. Each type is a
-# subclass of Foswiki::Configure::Type - see that class for more details of
-# what is supported.
-#
-# A *def* is a specification of a field in the $Foswiki::cfg hash,
-# together with a perl value for that hash. Each field can have an
-# associated *Checker* which is loaded from the Foswiki::Configure::Checkers
-# hierarchy. Checkers are responsible for specific checks on the value of
-# that variable. For example, the checker for $Foswiki::cfg{Banana}{Republic}
-# will be expected to be found in
-# Foswiki::Configure::Checkers::Banana::Republic.
-# Checkers are subclasses of Foswiki::Configure::Checker. See that class for
-# more details.
-#
-# An *extension* is a placeholder for a pluggable UI module (a class in
-# Foswiki::Configure::Checkers::UIs)
+=begin TML
+
+---+ package Foswiki::Configure::FoswikiCfg
+
+This is both a parser for configuration declaration files, such as
+FoswikiCfg.spec, and a serialisation visitor for writing out changes
+to LocalSite.cfg
+
+The supported syntax in declaration files is as follows:
+<verbatim>
+cfg ::= ( setting | section | extension )* ;
+setting ::= BOL typespec EOL comment* BOL def ;
+typespec ::= "**" typeid options "**" ;
+def ::= "$" ["Foswiki::"] "cfg" keys "=" value ";" ;
+keys ::= ( "{" id "}" )+ ;
+value is any perl value not including ";"
+comment ::= BOL "#" string EOL ;
+section ::= BOL "#--+" string ( "--" options )? EOL comment* ;
+extension ::= BOL " *" id "*"
+EOL ::= end of line
+BOL ::= beginning of line
+typeid ::= id ;
+id ::= a \w+ word (legal Perl bareword)
+</verbatim>
+
+A *section* is simply a divider used to create blocks. It can
+  have varying depth depending on the number of + signs and may have
+  options after -- e.g. #---+ Section -- TABS EXPERT
+
+A *setting* is the sugar required for the setting of a single
+  configuration value.
+
+An *extension* is a pluggable UI extension that supports some extra UI
+  functionality, such as the menu of languages or the menu of plugins.
+
+Each *setting* has a *typespec* and a *def*.
+
+The typespec consists of a type id and some options. Types are loaded by
+type id from the Foswiki::Configure::Types hierachy - for example, type
+BOOLEAN is defined by Foswiki::Configure::Types::BOOLEAN. Each type is a
+subclass of Foswiki::Configure::Type - see that class for more details of
+what is supported.
+
+A *def* is a specification of a field in the $Foswiki::cfg hash,
+together with a perl value for that hash. Each field can have an
+associated *Checker* which is loaded from the Foswiki::Configure::Checkers
+hierarchy. Checkers are responsible for specific checks on the value of
+that variable. For example, the checker for $Foswiki::cfg{Banana}{Republic}
+will be expected to be found in
+Foswiki::Configure::Checkers::Banana::Republic.
+Checkers are subclasses of Foswiki::Configure::Checker. See that class for
+more details.
+
+An *extension* is a placeholder for a pluggable UI module (a class in
+Foswiki::Configure::Checkers::UIs)
+
+=cut
+
 package Foswiki::Configure::FoswikiCfg;
 
 use strict;
 use warnings;
 use Data::Dumper ();
+
+use Foswiki::Configure::Visitor ();
+our @ISA = ( 'Foswiki::Configure::Visitor' );
 
 use Foswiki::Configure::Util      ();
 use Foswiki::Configure::Section   ();
@@ -60,21 +73,38 @@ use Foswiki::Configure::Value     ();
 use Foswiki::Configure::Pluggable ();
 use Foswiki::Configure::Item      ();
 
-# Used in saving, when we need a callback. Otherwise the methods here are
-# all static.
+=begin TML
+
+---++ ClassMethod new()
+
+Used in saving, when we need a callback. Otherwise the methods here are
+all static.
+
+=cut
+
 sub new {
     my $class = shift;
 
     return bless( {}, $class );
 }
 
-# Load the configuration declarations. The core set is defined in
-# Foswiki.spec, which must be found on the @INC path and is always loaded
-# first. Then find all settings for extensions in their .spec files.
-#
-# This *only* reads type specifications, it *does not* read values.
-#
-# SEE ALSO Foswiki::Configure::Load::readDefaults
+=begin TML
+
+---++ StaticMethod load($root, $haveLSC)
+
+Load the configuration declarations. The core set is defined in
+Foswiki.spec, which must be found on the @INC path and is always loaded
+first. Then find all settings for extensions in their .spec files.
+
+This *only* reads type specifications, it *does not* read values.
+
+SEE ALSO Foswiki::Configure::Load::readDefaults
+
+   * $root Foswiki::Configure::Root of the model
+   * $haveLSC if we have a LocalSite.cfg
+
+=cut
+
 sub load {
     my ( $root, $haveLSC ) = @_;
 
@@ -144,8 +174,7 @@ sub _extractSections {
                 $opts = $2;
             }
             my $ns =
-              $root->getSectionObject( $item->{head}, $item->{depth} + 1,
-                $opts );
+              $root->getSectionObject( $item->{head}, $item->{depth} + 1 );
             if ($ns) {
                 $depth = $item->{depth};
             }
@@ -207,15 +236,19 @@ sub _parse {
         $l =~ s/\r//g;
         last if ( $l =~ /^1;|^__\w+__/ );
         if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
-            pusht( \@settings, $open ) if $open;
-            $open = new Foswiki::Configure::Value( typename => $1, opts => $2 );
+
+            # **STRING 30 EXPERT**
+            _pusht( \@settings, $open ) if $open;
+            $open = new Foswiki::Configure::Value( $1, opts => $2 );
         }
 
         elsif ( $l =~ /^#?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=(.*)$/ ) {
+
+            # $Foswiki::cfg{Rice}{Brown} =
             my $keys         = $1;
             my $tentativeVal = $2;
             if ( $open && $open->isa('SectionMarker') ) {
-                pusht( \@settings, $open );
+                _pusht( \@settings, $open );
                 $open = undef;
             }
 
@@ -227,18 +260,20 @@ sub _parse {
                 next if ( _getValueObject( $keys, \@settings ) );
 
                 # This is an untyped value
-                $open = new Foswiki::Configure::Value();
+                $open = new Foswiki::Configure::Value( 'UNKNOWN' );
             }
             $open->set( keys => $keys );
-            pusht( \@settings, $open );
+            _pusht( \@settings, $open );
             $open = undef;
         }
 
         elsif ( $l =~ /^#\s*\*([A-Z]+)\*/ ) {
+
+            # *FINDEXTENSIONS*
             my $pluggable = $1;
             my $p         = Foswiki::Configure::Pluggable::load($pluggable);
             if ($p) {
-                pusht( \@settings, $open ) if $open;
+                _pusht( \@settings, $open ) if $open;
                 $open = $p;
             }
             elsif ($open) {
@@ -249,10 +284,11 @@ sub _parse {
 
         elsif ( $l =~ /^#\s*---\+(\+*) *(.*?)$/ ) {
 
+            # ---++ Security
             # Only load the first section if we don't have LocalSite.cfg
             last if ( $sectionNum && !$haveLSC );
             $sectionNum++;
-            pusht( \@settings, $open ) if $open;
+            _pusht( \@settings, $open ) if $open;
             $open = new SectionMarker( length($1), $2 );
         }
 
@@ -261,11 +297,11 @@ sub _parse {
         }
     }
     close(F);
-    pusht( \@settings, $open ) if $open;
+    _pusht( \@settings, $open ) if $open;
     _extractSections( \@settings, $root );
 }
 
-sub pusht {
+sub _pusht {
     my ( $a, $n ) = @_;
     foreach my $v (@$a) {
         Carp::confess "$n" if $v eq $n;
@@ -277,7 +313,18 @@ sub pusht {
 ## OUTPUT
 ###########################################################################
 
-# Generate .cfg file format output
+=begin TML
+
+---++ StaticMethod save($root, $valuer, $logger)
+   * $root is a Foswiki::Configure::Root
+   * $valuer is a Foswiki::Configure::Valuer
+   * $logger an object that implements a logChange($keys,$value) method,
+     called to record the changes.
+
+Generate .cfg file format output
+
+=cut
+
 sub save {
     my ( $root, $valuer, $logger ) = @_;
 

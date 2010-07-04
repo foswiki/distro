@@ -1,5 +1,23 @@
 # See bottom of file for license and copyright information
 
+=pod
+
+---+ package Foswiki::Configure::Value
+
+A Value object is a Foswiki::Configure::Item that represents a single entry
+in a *.spec or LocalSite.cfg file i.e. it is the leaf type in a configuration
+model.
+
+Values come in two types; 'DEFAULT' and 'CURRENT'; a DEFAULT type is read
+from a *.spec file and a CURRENT type from LocalSite.cfg (or taken from
+URL parameters)
+
+Note that this object does *not* store the "actual" value of a configuration
+item; that is done by a Foswiki::Configure::Valuer. This object is
+the *model* only.
+
+=cut
+
 package Foswiki::Configure::Value;
 
 use strict;
@@ -15,15 +33,29 @@ our $VALUE_TYPE = {
     DEFAULT => ( 1 << 1 ),    # 2
 };
 
-# The opts are additional parameters, and by convention may
-# be a number (for a string length), a comma separated list of values
-# (for a select) and may also have an M for mandatory, or a H for hidden.
+=begin TML
+
+---++ ClassMethod new($typename, %params)
+   * =$typename= e.g 'STRING', name of one of the Foswiki::Configure::Types
+
+%params may include:
+   * parent     node
+   * keys       e.g {Garden}{Flowers}',
+   * expertsOnly boolean
+   * opts options
+Constructor. The opts are attributes, and by convention may
+be a number (for a string length), a comma separated list of values
+(for a select) and may also have an M for mandatory, or a H for hidden.
+
+=cut
+
 sub new {
-    my $class = shift;
+    my ($class, $typename) = @_;
 
     my $this =
       bless( $class->SUPER::new('Foswiki::Configure::UIs::Value'), $class );
 
+    $this->{typename} = ($typename || 'UNKNOWN');
     $this->{keys}        = '';
     $this->{opts}        = '';
     $this->{expertsOnly} = 0;
@@ -39,15 +71,26 @@ sub new {
     return $this;
 }
 
+# See Foswiki::Configure::Item
 sub isExpertsOnly {
     my $this = shift;
     return $this->{expertsOnly};
 }
 
+# See Foswiki::Configure::Item
 sub getKeys {
     my $this = shift;
     return $this->{keys};
 }
+
+=begin TML
+
+---++ ObjectMethod getType() -> $type
+
+Get the Foswiki::Configure::Type object that specifies the type of this
+value.
+
+=cut
 
 sub getType {
     my $this = shift;
@@ -58,12 +101,17 @@ sub getType {
     return $this->{type};
 }
 
-sub visit {
-    my ( $this, $visitor ) = @_;
-    return 0 unless $visitor->startVisit($this);
-    return 0 unless $visitor->endVisit($this);
-    return 1;
+# A value is a leaf, so this is a NOP.
+sub getSectionObject {
+   return;
 }
+
+=begin TML
+
+---++ ObjectMethod getValueObject($keys)
+Get the value
+
+=cut
 
 sub getValueObject {
     my ( $this, $keys ) = @_;
