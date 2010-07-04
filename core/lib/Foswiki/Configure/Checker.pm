@@ -11,7 +11,7 @@ our @ISA = ('Foswiki::Configure::UI');
 use File::Spec ();
 use CGI        ();
 
-=begin
+=begin TML
 ---+++ ObjectMethod check($value, $root) -> 'html'
    * $value - **UNDOCUMENTED**
    * $root - **UNDOCUMENTED**
@@ -89,10 +89,55 @@ sub guessMajorDir {
     return $msg;
 }
 
+=begin TML
+---+++ ObjectMethod checkTreePerms($path, $perms, $filter) -> 'html'
+
+Called by a Checker to perform
+a recursive check of the specified path.  The recursive check 
+is limited to the configured "PathCheckLimit".  This prevents excessive
+delay on installations with large data or pub directories.  The
+count of files checked is available in the class method $this->{fileCount}
+
+$perms is a string of permissions to check:
+
+Basic checks:
+   * r - File or directory is readable 
+   * w - File or directory is writable
+   * x - File is executable.
+
+All failures of the basic checks are reported back to the caller.
+
+Enhanced checks:
+   * d - Directory permission matches the permissions in {RCS}{dirPermission}
+   * f - File permission matches the permission in {RCS}{filePermission}  (FUTURE)
+
+If > 10 enhanced errors are encountered, reporting is stopped to avoid excessive
+errors to the administrator.   The count of enhanced errors is reported back 
+to the caller by the object variable:  $this->{fileErrors}
+
+In addition to the basic and enhanced checks specified in the $perms string, 
+Directories are always checked to determine if they have the 'x' permission.
+
+$filter is a regular expression.  Files matching the supplied regex if present
+will not be checked.  This is used to skip rcs,v  or .txt files because they
+have different permission requirements.
+
+Note that the enhanced checks are important especially on hosted sites. In some
+environments, the Foswiki perl scripts run under a different user/group than 
+the web server.  Basic checks will pass, but the server may still be unable
+to access the file.  The enhanced checks will detect this condition.
+
+Callers of this checker should reset $this->{fileCount} and $this->{fileErrors} 
+to zero before calling this routine.
+
+=cut
+
 sub checkTreePerms {
     my ( $this, $path, $perms, $filter ) = @_;
 
     return '' if ( defined($filter) && $path =~ $filter && !-d $path );
+
+    $this->{fileErrors} = 0 unless ( defined $this->{fileErrors} );
 
     #let's ignore Subversion directories
     return '' if ( $path =~ /^_svn$/ );
@@ -114,7 +159,9 @@ sub checkTreePerms {
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
             $permErrs .=
               "$path - directory permission mismatch $omode should be $operm"
-              . CGI::br();
+              . CGI::br()
+              unless ( $this->{fileErrors} > 10 );
+            $this->{fileErrors}++;
         }
     }
 
@@ -233,7 +280,9 @@ sub checkGnuProgram {
             #$diffOut =~ /(\d+(\.\d+)+)/;
             #$mess = "($prog is version $1).";
         }
-    } elsif ($Foswiki::cfg{OS} eq 'WINDOWS') {
+    }
+    elsif ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
+
         #real windows - using GnuWin32 tools
     }
 

@@ -10,7 +10,9 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    $this->{filecount} = 0;
+    $this->{filecount}  = 0;
+    $this->{fileErrors} = 0;
+
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
 
     # Don't check directories against {RCS} permissions on Windows
@@ -34,7 +36,18 @@ sub check {
     $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r", qr/\.txt$/ );
     $e .= $this->WARN($e2) if $e2;
 
-    $this->{filecount} = 0;
+    if ( $this->{fileErrors} > 10 ) {
+        $e .= $this->ERROR(<<ERRMSG)
+File/Directory permission mismatch reporting stopped at 10 warnings. 
+$this->{fileErrors} directories or files have mismatched permissions. 
+Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
+are set correctly for your environment and correct file system permissions if necessary.
+ERRMSG
+    }
+
+    $this->{filecount}  = 0;
+    $this->{fileErrors} = 0;
+
     return $e;
 }
 
