@@ -8,6 +8,12 @@ use warnings;
 use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');
 
+sub new {
+    my $class = shift;
+
+    return bless( { name => 'URLPATH' }, $class );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
