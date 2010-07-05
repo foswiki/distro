@@ -156,10 +156,12 @@ hash reference or a scalar value. The replacement is done in-place.
 =cut
 
 sub expandValue {
-    if (ref($_[0])) {
-        Carp::confess 'Can\'t handle a '.ref($_[0])
-            unless ref($_[0]) eq 'HASH';
+    if (ref($_[0]) eq 'HASH') {
         map { expandValue($_) } values %{$_[0]};
+    } elsif (ref($_[0]) eq 'ARRAY') {
+        map { expandValue($_) } @{$_[0]};
+    } elsif (ref($_[0])) {
+        Carp::confess("Can't handle a ".ref($_[0]));
     } else {
         $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/_handleExpand($1)/ge;
     }
