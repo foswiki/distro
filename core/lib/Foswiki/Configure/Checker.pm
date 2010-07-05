@@ -1,15 +1,5 @@
 # See bottom of file for license and copyright information
 
-=begin TML
-
----+ package Foswiki::Configure::Checker;
-
-Base class of all checkers. Checkers give checking and guessing support
-for configuration values. Most of the methods of this class are intended
-to be protected i.e. only available to subclasses.
-
-=cut
-
 package Foswiki::Configure::Checker;
 
 use strict;
@@ -23,14 +13,16 @@ use CGI        ();
 
 =begin TML
 
----++ ObjectMethod check($value) -> $html
+---+++ ObjectMethod check($value) -> $html
    * $value - Value object for the thing being checked
 
 Entry point for the value check. Overridden by subclasses.
 
-Returns html formatted by $this->ERROR(), WARN(), NOTE(), or
-hand made _OR_ an empty string. The output of a checker will normally
-be included in an HTML table, so don't get too carried away.
+Returns html formatted by $this->ERROR(), WARN(), NOTE(), guessed() or
+hand made _OR_ and empty string to be inserted in the configure UI
+
+The checker can either check the sanity of the previously saved value,
+or guess a one if none exists:
 
 =cut
 
@@ -40,16 +32,6 @@ sub check {
     # default behaviour; see no evil, hear no evil, speak no evil
     return '';
 }
-
-=begin TML
-
----++ PROTECTED ObjectMethod guessed($status) -> $html
-
-A checker can either check the sanity of the previously saved value,
-or guess a one if none exists. If the checker guesses, it should call
-=$this->guessed(0)= (passing 1 if the guess was an error).
-
-=cut
 
 sub guessed {
     my ( $this, $error ) = @_;
@@ -68,15 +50,6 @@ HERE
     }
 }
 
-=begin TML
-
----++ PROTECTED ObjectMethod warnAboutWindowsBackSlashes($path) -> $html
-
-Generate a warning if the supplied pathname includes windows-style
-path separators.
-
-=cut
-
 sub warnAboutWindowsBackSlashes {
     my ( $this, $path ) = @_;
     if ( $path =~ /\\/ ) {
@@ -86,15 +59,6 @@ sub warnAboutWindowsBackSlashes {
               . '"' );
     }
 }
-
-=begin TML
-
----++ PROTECTED ObjectMethod guessMajorDir($cfg, $dir, $silent) -> $html
-
-Try and guess the path of one of the major directories, by looking relative
-to the absolute pathname of the dir where configure is being run.
-
-=cut
 
 sub guessMajorDir {
     my ( $this, $cfg, $dir, $silent ) = @_;
@@ -115,10 +79,10 @@ sub guessMajorDir {
 }
 
 =begin TML
+---+++ ObjectMethod checkTreePerms($path, $perms, $filter) -> 'html'
 
----++ PROTECTED ObjectMethod checkTreePerms($path, $perms, $filter) -> $html
-
-Perform a recursive check of the specified path.  The recursive check 
+Called by a Checker to perform
+a recursive check of the specified path.  The recursive check 
 is limited to the configured "PathCheckLimit".  This prevents excessive
 delay on installations with large data or pub directories.  The
 count of files checked is available in the class method $this->{fileCount}
@@ -244,18 +208,6 @@ sub checkTreePerms {
     return $permErrs . $errs;
 }
 
-=begin TML
-
----++ PROTECTED ObjectMethod checkCanCreateFile($path) -> $html
-
-Check that the given path can be created (or, if it already exists,
-can be written). If the existing path is a directory, recursively
-check for rw permissions using =checkTreePerms=.
-
-Returns a message or the empty string if the check passed.
-
-=cut
-
 sub checkCanCreateFile {
     my ( $this, $name ) = @_;
 
@@ -288,20 +240,11 @@ sub checkCanCreateFile {
     return '';
 }
 
-=begin TML
-
----++ PROTECTED ObjectMethod checkGnuProgram($prog) -> $html
-
-Check for the availability of a GNU program.
-
-Since Windows (without Cygwin) makes it hard to capture stderr
-('2>&1' works only on Win2000 or higher), and Windows will usually have
-GNU tools in any case (installed for Foswiki since there's no built-in
-diff, grep, patch, etc), we only check for these tools on Unix/Linux
-and Cygwin.
-
-=cut
-
+# Since Windows (without Cygwin) makes it hard to capture stderr
+# ('2>&1' works only on Win2000 or higher), and Windows will usually have
+# GNU tools in any case (installed for Foswiki since there's no built-in
+# diff, grep, patch, etc), we only check for these tools on Unix/Linux
+# and Cygwin.
 sub checkGnuProgram {
     my ( $this, $prog ) = @_;
     my $mess = '';
@@ -341,14 +284,7 @@ sub checkGnuProgram {
     return $mess;
 }
 
-=begin TML
-
----++ PROTECTED ObjectMethod checkRE($keys) -> $html
-Check that the configuration item identified by the given keys represents
-a compilable perl regular expression.
-
-=cut
-
+# Check for a compilable RE
 sub checkRE {
     my ( $this, $keys ) = @_;
     my $str;
@@ -364,15 +300,38 @@ MESS
     return '';
 }
 
+sub copytree {
+    my ( $this, $from, $to ) = @_;
+    my $e = '';
+
+    if ( -d $from ) {
+        if ( !-e $to ) {
+            mkdir($to) || return "Failed to mkdir $to: $!<br />";
+        }
+        elsif ( !-d $to ) {
+            return "Existing $to is in the way<br />";
+        }
+
+        my $d;
+        return "Failed to copy $from: $!<br />" unless opendir( $d, $from );
+        foreach my $f ( grep { !/^\./ } readdir $d ) {
+            $f =~ /(.*)/;
+            $f = $1;    # untaint
+            $e .= $this->copytree( "$from/$f", "$to/$f" );
+        }
+        closedir($d);
+    }
+
+    if ( !$e && !-e $to ) {
+        require File::Copy;
+        if ( !File::Copy::copy( $from, $to ) ) {
+            $e = "Failed to copy $from to $to: $!<br />";
+        }
+    }
+    return $e;
+}
+
 my $rcsverRequired = 5.7;
-
-=begin TML
-
----++ PROTECTED ObjectMethod checkRCSProgram($prog) -> $html
-Specific to RCS, this method checks that the given program is available.
-Check is only activated when the selected store implementation is RcsWrap.
-
-=cut
 
 sub checkRCSProgram {
     my ( $this, $key ) = @_;
