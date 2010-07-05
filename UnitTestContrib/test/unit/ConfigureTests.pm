@@ -331,7 +331,7 @@ EXAMPLE
 
     my $ui       = Foswiki::Configure::UI::loadUI( 'Root', $root );
     my $controls = new Foswiki::Configure::GlobalControls();
-    my $result   = $ui->ui( $root, $valuer, $controls );
+    my $result   = $ui->createUI( $root, $valuer, $controls );
 
     # visual check
     #print $result;

@@ -56,8 +56,15 @@ sub lastSave {
     return $this->{lastsave};
 }
 
-# Visit the nodes in a tree of configuration items, and generate
-# their UIs.
+=begin TML
+
+---++ ObjectMethod createUI( $tree, $valuer )
+
+Visit the nodes in a tree of configuration items, and generate
+their UIs.
+
+=cut
+
 sub createUI {
     my ( $this, $tree, $valuer ) = @_;
     $this->{valuer} = $valuer;
