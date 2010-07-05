@@ -31,8 +31,9 @@ The Model consists of a simple node tree, where each node represents a
 structural element in the *presentation* of the configuration (this may
 not be consistent with the structure of $Foswiki:cfg, so beware). Each
 leaf node has an associated Type (in the Types subdirectory) that has
-collected model and view behaviours for the basic types. The node tree
-is made up of the classes:
+collected model and view behaviours for the basic types.
+
+Class hierarchy
   * Foswiki::Configure::Item
      * Foswiki::Configure::Value - a leaf value
      * Foswiki::Configure::Section - a running node
@@ -59,8 +60,15 @@ the CGI configuration. Several of the bespoke UIs (CGISetup, Introduction,
 Welcome) have corresponding Checkers, which act as placeholders in the
 model for these sections.
 
-These are top-level pluggable UI components. All the main screens are
-implemented as UIs, under Foswiki::Configure::UIs.
+Class hierarchy
+   * Foswiki::Configure::UI
+      * Foswiki::Configure::Checker
+         * Foswiki::Configure::Checkers::* - see below
+      * Foswiki::Configure::UIs::* - components used in building screens
+         * Foswiki::Configure::UIs::Item
+            * Foswiki::Configure::UIs::Section
+               * Foswiki::Configure::UIs::Root
+            * Foswiki::Configure::UIs::Value
 
 ---+++ Checkers
 Checkers give checking and guessing support for configuration values. Checkers
@@ -71,12 +79,34 @@ environment sanity (BasicSanity)
 
 ---+++ Types
 Types provide some UI support in the form of type-specific prompters.
-this is really an abuse of the Model, but it saves creating
+This is really an abuse of the Model, but it saves creating
 decorator classes for all the Model types.
 
 HTML is generated for the model using Visitor pattern. Each node in the tree
 is visited in depth-first order.
 
+Class hierarchy
+   * Foswiki::Configure::Type - base
+      * Foswiki::Configure::Types::NUMBER - numerical type (perl float values)
+         * Foswiki::Configure::Types::OCTAL - octal (permissions)
+      * Foswiki::Configure::Types::BOOLEAN - boolean type
+         * Foswiki::Configure::Types::LANGUAGE
+      * Foswiki::Configure::Types::PERL - perl structure
+      * Foswiki::Configure::Types::SELECT - select from a list of values
+         * Foswiki::Configure::Types::SELECTCLASS - select a class from a path
+      * Foswiki::Configure::Types::STRING - string type
+         * Foswiki::Configure::Types::REGEX - regular expression
+         * Foswiki::Configure::Types::COMMAND - shell command
+         * Foswiki::Configure::Types::PASSWORD - hidden password
+         * Foswiki::Configure::Types::PATH - file path (/)
+         * Foswiki::Configure::Types::URL - absolute url path (/)
+         * Foswiki::Configure::Types::URLPATH - relative url path (/)
+      * Foswiki::Configure::Types::UNKNOWN - unknown type
+
+TODO:
+The type classes are the obvious place to attach client-side javascript
+validators, thus releasing the server-side checkers to consider the "deeper"
+issues.
 
 =cut
 

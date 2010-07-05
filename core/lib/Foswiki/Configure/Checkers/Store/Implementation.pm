@@ -18,27 +18,6 @@ sub check {
 RcsWrap does not work well on Windows, please use RcsLite.
 EOF
     }
-    
-    if ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) {
-
-        # Check that GNU diff is found in PATH; used by rcsdiff
-        $mess .= $this->checkGnuProgram('diff');
-
-        # Check all the RCS programs
-        $mess .= $this->checkRCSProgram('initBinaryCmd');
-        $mess .= $this->checkRCSProgram('initTextCmd');
-        $mess .= $this->checkRCSProgram('tmpBinaryCmd');
-        $mess .= $this->checkRCSProgram('ciCmd');
-        $mess .= $this->checkRCSProgram('ciDateCmd');
-        $mess .= $this->checkRCSProgram('coCmd');
-        $mess .= $this->checkRCSProgram('histCmd');
-        $mess .= $this->checkRCSProgram('infoCmd');
-        $mess .= $this->checkRCSProgram('histCmd');
-        $mess .= $this->checkRCSProgram('diffCmd');
-        $mess .= $this->checkRCSProgram('lockCmd');
-        $mess .= $this->checkRCSProgram('unlockCmd');
-        $mess .= $this->checkRCSProgram('delRevCmd');
-    }
 
     return $mess;
 }
