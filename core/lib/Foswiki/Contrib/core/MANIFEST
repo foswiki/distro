@@ -582,6 +582,7 @@ lib/Foswiki/Configure/UIs/Value.pm 0444
 lib/Foswiki/Configure/UIs/Welcome.pm
 lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Valuer.pm 0444
+lib/Foswiki/Configure/Visitor.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444
 lib/Foswiki/Engine/CLI.pm 0444
 lib/Foswiki/EngineException.pm 0444
