@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarWEBLIST
 ---+++ WEBLIST{"format"} -- index of all webs
-   * List of all webs. Obfusticated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
+   * List of all webs. Obfuscated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=. Subwebs are listed recursively.
    * Syntax: =%<nop>WEBLIST{"format" ...}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |

@@ -848,7 +848,9 @@ sub _externalLink {
         if ( $Foswiki::cfg{AntiSpam}{HideUserDetails} ) {
 
             # Much harder obfuscation scheme. For link text we only encode '@'
-            # See also Item2928 and Item3430 before touching this
+            # See also http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item2928
+            # and http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3430
+            # before touching this
             $url =~ s/(\W)/'&#'.ord($1).';'/ge;
             if ($text) {
                 $text =~ s/\@/'&#'.ord('@').';'/ge;
@@ -860,7 +862,7 @@ sub _externalLink {
     }
     $text ||= $url;
 
-    # Item5787: if a url has spaces, escape them so the url has less
+    # Item5787: if a URL has spaces, escape them so the URL has less
     # chance of being broken by later rendering.
     $url =~ s/ /%20/g; 
 
