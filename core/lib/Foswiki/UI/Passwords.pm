@@ -296,6 +296,17 @@ sub changePasswordAndOrEmail {
 
     my $cUID = $users->getCanonicalUserID($login);
 
+    # Determine that the cUID exists.
+    unless ( defined $cUID ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'not_a_user',
+            params => [$login]
+           );
+    }
+
     # check valid email addresses - space between each
     if ( defined $email
            && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ ) {
