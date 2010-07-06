@@ -103,6 +103,11 @@ SEE ALSO Foswiki::Configure::Load::readDefaults
    * $root Foswiki::Configure::Root of the model
    * $haveLSC if we have a LocalSite.cfg
 
+If we don't have a LocalSite.cfg, only Foswiki.spec will be loaded
+(Config.spec files from extensions will be skipped) and only the
+first section of Config.spec will be loaded. This means that checkers
+will only be built and run for that first section.
+
 =cut
 
 sub load {

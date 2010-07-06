@@ -84,6 +84,14 @@ hierarchy under it that mirrors the organisation of configuration keys in
 Foswiki.spec.  Checkers include read-only checking UI used for checking
 environment sanity (BasicSanity)
 
+Note that when configure is run for the first time (before LocalSite.cfg
+has been created) then only the first section of Foswiki.spec is loaded,
+and thus checkers only for that subset will be created and run. This means
+that on some platforms, initial configuration is a two-phase process, as
+the initial path checks are performed on the first run, and only on the
+second run, when LocalSite.cfg exists, are the other checkers built and
+invoked. This needs improving on.
+
 ---+++ Types
 Types provide some UI support in the form of type-specific prompters.
 This is really an abuse of the Model, but it saves creating
@@ -738,8 +746,10 @@ sub _actionConfigure {
     $root->addChild($cgi_checker);
 
     # Load the config structures.
-    # if $isFirstTime is true, the start screen will be shown (and limited
-    # sections in the left menu
+    # If $isFirstTime is true, only Foswiki.spec will be loaded
+    # (extension Config.spec files will *not* be loaded) and
+    # only the first section of Foswiki.spec will be processed
+    # i.e. all other sections will be skipped.
     Foswiki::Configure::FoswikiCfg::load( $root, !$isFirstTime );
 
     # Now generate the UI
