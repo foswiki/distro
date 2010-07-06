@@ -19,6 +19,9 @@ sub check {
 
     my $ld = $Foswiki::cfg{Log}{Dir};
     $ld =~ s/\$Foswiki::cfg({[^}]+})+/eval("\$Foswiki::cfg$1")/ge;
+    # Because of the eval, $ld now has to be untainted.
+    $ld =~ /^(.*)$/;
+    $ld = $1;
 
     my $d;
     if ( opendir( $d, $ld ) ) {
