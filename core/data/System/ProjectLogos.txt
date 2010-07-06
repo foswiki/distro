@@ -7,9 +7,7 @@ The official Foswiki logo is attached to this page.
 ---++ Logo Artwork
 
 %STARTINCLUDE%
-<img src="%ATTACHURLPATH%/foswiki-logo-slogan.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
-
-<img src="%ATTACHURLPATH%/foswiki-logo.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+<img src="%ATTACHURLPATH%/foswiki-logo.gif" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
 <img src="%ATTACHURLPATH%/foswiki-badge.gif" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
@@ -36,7 +34,5 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
 
 %META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1227691956" path="favicon.ico" size="1150" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="foswiki-badge.gif" attachment="foswiki-badge.png" attr="" comment="" date="1227691956" path="foswiki-badge.png" size="4807" user="ProjectContributor" version="2"}%
-%META:FILEATTACHMENT{name="foswiki-logo-slogan.png" attachment="foswiki-logo-slogan.png" attr="" comment="" date="1227691967" path="foswiki-logo-slogan.png" size="8967" user="ProjectContributor" version="3"}%
-%META:FILEATTACHMENT{name="foswiki-logo.png" attachment="foswiki-logo.png" attr="" comment="" date="1227691994" path="foswiki-logo.png" size="7537"  user="ProjectContributor" version="2"}%
-%META:FILEATTACHMENT{name="foswiki-poweredby.gif" attachment="foswiki-poweredby.gif" attr="" comment="" date="1227691956" path="foswiki-poweredby.gif" size="477" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-logo.gif" attachment="foswiki-logo.gif" attr="" comment="" date="1227691994" path="foswiki-logo.gif" size="7537"  user="ProjectContributor" version="2"}%
 %META:FILEATTACHMENT{name="foswiki-logo.xcf" attachment="foswiki-logo.xcf" attr="" date="1227691956" path="foswiki-logo.xcf" size="45514" user="ProjectContributor" version="1"}%

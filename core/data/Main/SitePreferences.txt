@@ -19,15 +19,14 @@
 
 Customize logo and tooltip texts:
 
-   * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
+   * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.gif
    * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
    * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
 
 Give your site a specific name:
 
    * Set WIKITOOLNAME = Foswiki
-
-
+      
 Customize your [[http://en.wikipedia.org/wiki/Favicon][favicon]]:
 
    * Set FAVICON = %PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico
