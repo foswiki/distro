@@ -346,7 +346,6 @@ are strictly local to topics.
 
 sub getPreference {
     my ( $this, $key ) = @_;
-    my $scope;
 
     unless ( $this->{_web} || $this->{_topic} ) {
         return $this->{_session}->{prefs}->getPreference($key);
@@ -1164,7 +1163,7 @@ sub setRevisionInfo {
 
 Return revision info for the loaded revision in %info with at least:
 | date | in epochSec |
-| user | canonical user ID |
+| author | canonical user ID |
 | version | the revision number |
 | comment | comment in the VC system, may or may not be the same as the comment in embedded meta-data |
 
