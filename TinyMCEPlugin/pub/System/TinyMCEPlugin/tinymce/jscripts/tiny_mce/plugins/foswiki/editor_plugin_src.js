@@ -34,7 +34,8 @@
         init: function (ed, url) {
             ed.onInit.add(function (ed) {
                 ed.plugins.foswiki._fixAdvancedTheme(ed);
-                if (!ed.settings.foswiki_no_autosave_fixup) {
+                if (ed.plugins.autosave &&
+                    !ed.settings.foswiki_no_autosave_fixup) {
                     ed.plugins.foswiki._fixAutoSave(ed);
                 }
             });
