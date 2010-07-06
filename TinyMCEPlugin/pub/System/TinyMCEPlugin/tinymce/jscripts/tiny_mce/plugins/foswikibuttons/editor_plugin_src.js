@@ -14,23 +14,24 @@
 
   As per the GPL, removal of this notice is prohibited.
 */
-(function() {
+'use strict';
+(function () {
     tinymce.PluginManager.requireLangPack('foswikibuttons');
 
     tinymce.create('tinymce.plugins.FoswikiButtons', {
         /* Foswiki formats listbox */
         formats_listbox: null,
 
-        init: function(ed, url) {
-            this.formats = ed.getParam('foswikibuttons_formats'),
+        init: function (ed, url) {
+            this.formats = ed.getParam('foswikibuttons_formats');
             this.format_names = [];
 
-            jQuery.each(this.formats, function(key, value) {
+            jQuery.each(this.formats, function (key, value) {
                 ed.plugins.foswikibuttons.format_names.push(key);
-            }),
+            });
             /* Register Foswiki formats with TinyMCE's formatter, which isn't
                available during plugin init */
-            ed.onInit.add(function(editor) {
+            ed.onInit.add(function (editor) {
                 this.plugins.foswikibuttons._registerFormats(editor, 
                 this.plugins.foswikibuttons.formats);
             });
@@ -44,7 +45,7 @@
             return;
         },
 
-        getInfo: function() {
+        getInfo: function () {
             return {
                 longname: 'Foswiki Buttons Plugin',
                 author: 'Crawford Currie',
@@ -54,7 +55,7 @@
             };
         },
 
-        createControl: function(name, controlManager) {
+        createControl: function (name, controlManager) {
             if (name === 'foswikiformat') {
                 return this._createFoswikiFormatControl(name,
                     controlManager, this);
@@ -63,9 +64,9 @@
             return null;
         },
 
-        _setupTTButton: function(ed, url) {
+        _setupTTButton: function (ed, url) {
             // Register commands
-            ed.addCommand('foswikibuttonsTT', function() {
+            ed.addCommand('foswikibuttonsTT', function () {
                 ed.formatter.toggle('WYSIWYG_TT');
             });
 
@@ -79,7 +80,7 @@
             return;
         },
 
-        _registerFormats: function(ed, formats) {
+        _registerFormats: function (ed, formats) {
             ed.formatter.register('WYSIWYG_TT', {
                 inline: 'span',
                 classes: 'WYSIWYG_TT'
@@ -99,23 +100,23 @@
             }]);
             ed.formatter.register('IS_WYSIWYG_COLOR', {
                 inline: 'span',
-                classes: 'WYSIWYG_COLOR',
+                classes: 'WYSIWYG_COLOR'
             });
             ed.formatter.register(formats);
 
             return;
         },
 
-        _createFoswikiFormatControl: function(name, controlManager, plugin) {
+        _createFoswikiFormatControl: function (name, controlManager, plugin) {
             var ed = controlManager.editor;
             plugin.formats_listbox = controlManager.createListBox(name, {
                 title: 'Format',
-                onselect: function(format) {
+                onselect: function (format) {
                     ed.execCommand('foswikibuttonsFormat', false, format);
                 }
             });
             // Build format select
-            jQuery.each(plugin.formats, function(formatname, format) {
+            jQuery.each(plugin.formats, function (formatname, format) {
                 plugin.formats_listbox.add(formatname, formatname);
 
                 return;
@@ -125,10 +126,10 @@
             return plugin.formats_listbox;
         },
 
-        _setupFormatCommand: function(ed, formats) {
-            ed.addCommand('foswikibuttonsFormat', function(ui, formatname) {
+        _setupFormatCommand: function (ed, formats) {
+            ed.addCommand('foswikibuttonsFormat', function (ui, formatname) {
                 // First, remove all existing formats.
-                jQuery.each(formats, function(name, format) {
+                jQuery.each(formats, function (name, format) {
                     ed.formatter.remove(name);
                 });
                 // Now apply the format.
@@ -141,9 +142,11 @@
             return;
         },
 
-        _setupColourButton: function(ed, url) {
-            ed.addCommand('foswikibuttonsColour', function() {
-                if (ed.selection.isCollapsed()) return;
+        _setupColourButton: function (ed, url) {
+            ed.addCommand('foswikibuttonsColour', function () {
+                if (ed.selection.isCollapsed()) {
+                    return;
+                }
                 ed.windowManager.open({
                     location: false,
                     menubar: false,
@@ -170,14 +173,14 @@
             return;
         },
 
-        _setupAttachButton: function(ed, url) {
-            ed.addCommand('foswikibuttonsAttach', function() {
+        _setupAttachButton: function (ed, url) {
+            ed.addCommand('foswikibuttonsAttach', function () {
                 var htmpath = '/attach.htm',
                 htmheight = 300;
 
                 if (null !== FoswikiTiny.foswikiVars.TOPIC.match(
                     /(X{10}|AUTOINC[0-9]+)/)) {
-                    htmpath = '/attach_error_autoinc.htm',
+                    htmpath = '/attach_error_autoinc.htm';
                     htmheight = 125;
                 }
                 ed.windowManager.open({
@@ -205,8 +208,8 @@
             return;
         },
 
-        _setupHideButton: function(ed, url) {
-            ed.addCommand('foswikibuttonsHide', function() {
+        _setupHideButton: function (ed, url) {
+            ed.addCommand('foswikibuttonsHide', function () {
                 if (FoswikiTiny.saveEnabled) {
                     if (ed.getParam('fullscreen_is_enabled')) {
                         // The fullscreen plugin does its work asynchronously, 
@@ -215,8 +218,8 @@
                         // fires an onGetContent event. Hook into that, and
                         // fire off further asynchronous handling that will be
                         // processed after the fullscreen editor is destroyed.
-                        ed.onGetContent.add(function() {
-                            tinymce.DOM.win.setTimeout(function() {
+                        ed.onGetContent.add(function () {
+                            tinymce.DOM.win.setTimeout(function () {
                                 // The fullscreen editor will have been
                                 // destroyed by the time this function executes,
                                 // so the active editor is the regular one.
@@ -248,12 +251,14 @@
             return;
         },
 
-        _nodeChange: function(ed, cm, node, collapsed) {
+        _nodeChange: function (ed, cm, node, collapsed) {
             var selectedFormats = ed.formatter.matchAll(
                 ed.plugins.foswikibuttons.format_names),
             listbox = cm.get(ed.id + '_foswikiformat');
 
-            if (node == null) return;
+            if (typeof(node) !== 'object') {
+                return;
+            }
 
             if (collapsed) { // Disable the buttons
                 cm.setDisabled('colour', true);

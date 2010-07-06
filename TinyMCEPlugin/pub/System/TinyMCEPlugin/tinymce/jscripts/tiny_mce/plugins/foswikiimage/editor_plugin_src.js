@@ -14,15 +14,16 @@
 
   As per the GPL, removal of this notice is prohibited.
 */
-(function() {
+'use strict';
+(function () {
     tinymce.PluginManager.requireLangPack('foswikiimage');
 
     tinymce.create('tinymce.plugins.FoswikiImage', {
 
-        init: function(ed, url) {
+        init: function (ed, url) {
 
             // Register commands
-            ed.addCommand('foswikiimage', function() {
+            ed.addCommand('foswikiimage', function () {
                 ed.windowManager.open({
                     location: false,
                     menubar: false,
@@ -50,7 +51,7 @@
             });
         },
 
-        getInfo: function() {
+        getInfo: function () {
             return {
                 longname: 'Foswiki image',
                 author: 'Crawford Currie, from Moxiecode Systems AB original',
@@ -60,10 +61,12 @@
             };
         },
 
-        _nodeChange: function(ed, cm, n, co) {
-            if (n == null) return;
+        _nodeChange: function (ed, cm, n, co) {
+            if (!n) {
+                return;
+            }
 
-            cm.setActive('foswikiimage', ed.dom.getParent(n, 'img') != null);
+            cm.setActive('foswikiimage', ed.dom.getParent(n, 'img'));
         }
     });
 

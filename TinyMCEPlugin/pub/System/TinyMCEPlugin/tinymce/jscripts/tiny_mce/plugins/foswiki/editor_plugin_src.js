@@ -26,12 +26,13 @@
                      param foswiki_no_autosave_fixup true. autosave must appear
                      before foswiki in the plugins order!
 */
+'use strict';
 
-(function() {
+(function () {
     tinymce.create('tinymce.plugins.Foswiki', {
 
-        init: function(ed, url) {
-            ed.onInit.add(function(ed) {
+        init: function (ed, url) {
+            ed.onInit.add(function (ed) {
                 ed.plugins.foswiki._fixAdvancedTheme(ed);
                 if (!ed.settings.foswiki_no_autosave_fixup) {
                     ed.plugins.foswiki._fixAutoSave(ed);
@@ -44,20 +45,20 @@
          * theme - that can come later. Sadly there's no opportunity to
          * use any CSS to override the width param, because the link dialogue's
          * iframe is not consistently classed/id'd */
-        _fixAdvancedTheme: function(ed) {
-            ed.theme._mceLink = function(ui, val) {
+        _fixAdvancedTheme: function (ed) {
+            ed.theme._mceLink = function (ui, val) {
                 var ed = this.editor;
 
                 ed.windowManager.open({
                     url: tinymce.baseURL + '/themes/advanced/link.htm',
-                    width: 360 + parseInt(ed.getLang('advanced.link_delta_width', 0)),
-                    height: 200 + parseInt(ed.getLang('advanced.link_delta_height', 0)),
+                    width: 360 + parseInt(ed.getLang('advanced.link_delta_width', 0), 10),
+                    height: 200 + parseInt(ed.getLang('advanced.link_delta_height', 0), 10),
                     inline: true
                 },
                 {
                     theme_url: this.url
                 });
-            }
+            };
         },
 
         /* EXTRA SMELL: Item1952 - moxiecode ship a stripped-down autosave plugin
@@ -65,18 +66,18 @@
          * concatenation of ed.id). So... we temporarily... monkey-patch the
          * editor's id (!) and call autosave's setupStorage() a second time,
          * before sneakily restoring the ed.id as if nothing ever happened! */
-        _fixAutoSave: function(ed) {
+        _fixAutoSave: function (ed) {
             var orig_id = ed.id;
 
-            ed.id = FoswikiTiny.foswikiVars['SCRIPTURL'] + '/edit/' +
-                FoswikiTiny.foswikiVars['WEB'] + '/' + FoswikiTiny.foswikiVars['TOPIC'];
+            ed.id = FoswikiTiny.foswikiVars.SCRIPTURL + '/edit/' +
+                FoswikiTiny.foswikiVars.WEB + '/' + FoswikiTiny.foswikiVars.TOPIC;
             ed.plugins.autosave.setupStorage(ed);
             ed.id = orig_id;
 
             return;
         },
 
-        getInfo: function() {
+        getInfo: function () {
             return {
                 longname: 'Foswiki plugin',
                 author: 'Paul.W.Harvey@csiro.au',
