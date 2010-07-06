@@ -573,6 +573,7 @@ lib/Foswiki/Configure/UIs/EXTEND.pm 0444
 lib/Foswiki/Configure/UIs/EXTENSIONS.pm 0444
 lib/Foswiki/Configure/UIs/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/UIs/Introduction.pm 0444
+lib/Foswiki/Configure/UIs/Item.pm 0444
 lib/Foswiki/Configure/UIs/LANGUAGES.pm 0444
 lib/Foswiki/Configure/UIs/PLUGINS.pm 0444
 lib/Foswiki/Configure/UIs/Root.pm 0444
