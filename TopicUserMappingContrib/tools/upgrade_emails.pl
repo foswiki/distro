@@ -39,13 +39,15 @@ while (1) {
 };
 
 my ($meta, $text) =
-  $foswiki->{store}->readTopic(
-      undef, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
+  Foswiki::Func::readTopic(
+      $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
 
 my $users = $foswiki->{users};
 
 foreach my $line ( split( /\r?\n/, $text )) {
+
     if( $line =~ /^\s*\* ($Foswiki::regex{webNameRegex}\.)?(\w+)\s*(?:-\s*(\S+)\s*)?-\s*\d+ \w+ \d+\s*$/o ) {
+        print STDERR "Processing $line\n";
         my $web = $1 || $Foswiki::cfg{UsersWebName};
         my $wn = $2 || '';	# WikiName
         my $un = $3 || $wn;	# userid
