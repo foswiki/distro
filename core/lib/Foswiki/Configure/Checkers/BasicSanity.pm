@@ -22,6 +22,7 @@ sub new {
     my $this = $class->SUPER::new($item);
     $this->{LocalSiteDotCfg} = undef;
     $this->{errors}          = 0;
+    $this->{badLSC}          = 0;
 
     return $this;
 }
@@ -49,7 +50,7 @@ Return true if LocalSite.cfg was found to be bad.
 
 sub lscIsBad() {
     my $this = shift;
-    return $this->{errors};
+    return $this->{badLSC};
 }
 
 # Override Foswiki::Configure::Checker
