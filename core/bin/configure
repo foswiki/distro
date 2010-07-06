@@ -40,6 +40,9 @@ Class hierarchy
         * Foswiki::Configure::Root - a root section
         * Foswiki::Configure::Pluggable - a plug-in subsection
            * Foswiki::Configure::Pluggables::FINDEXTENSIONS - etc
+        * Foswiki::Configure::Checkers::Introduction - should be a Pluggable
+        * Foswiki::Configure::Checkers::Welcome - should be a Pluggable
+        * Foswiki::Configure::Checkers::MSWin32 - should be a Pluggable
 The Model is independent of the language used to represent the
 configuration. There is one parser/generator provided, FoswikiCfg, but it
 would be trivial to add others.
@@ -68,6 +71,10 @@ Class hierarchy
          * Foswiki::Configure::UIs::Item
             * Foswiki::Configure::UIs::Section
                * Foswiki::Configure::UIs::Root
+               * Foswiki::Configure::UIs::Introduction
+               * Foswiki::Configure::UIs::Welcome
+               * Foswiki::Configure::UIs::MSWin32
+               * Foswiki::Configure::UIs::* - other UIs for Pluggables and screens
             * Foswiki::Configure::UIs::Value
 
 ---+++ Checkers
@@ -703,17 +710,31 @@ sub _actionConfigure {
     # This is the root of the model
     my $root = new Foswiki::Configure::Root();
 
-    my $intro = $isFirstTime ? 'Welcome' : 'Introduction';
-    my $intro_checker = Foswiki::Configure::UI::loadChecker( $intro, $root );
+    # Load special sections used as placeholders
+
+    my $intro = 'Foswiki::Configure::Checkers::'
+      .($isFirstTime ? 'Welcome' : 'Introduction');
+    eval "require $intro";
+    Carp::confess $@ if $@;
+
+    my $intro_checker = $intro->new($root);
     $root->addChild($intro_checker);
 
-    # See if this platform has special detection or checking requirements
-    # (most don't)
-    my $os_checker =
-      Foswiki::Configure::UI::loadChecker( $Config::Config{osname}, $root );
-    $root->addChild($os_checker) if $os_checker;
+    my $oscfg = $Config::Config{osname};
+    if ($oscfg) {
+        # See if this platform has special detection or checking requirements
+        my $osospecial = "Foswiki::Configure::Checkers::$oscfg";
+        eval "require $osospecial";
+        unless ($@) {
+            my $os_checker = $osospecial->new($root);
+            $root->addChild($os_checker) if $os_checker;
+        }
+    }
 
-    my $cgi_checker = Foswiki::Configure::UI::loadChecker( 'CGISetup', $root );
+    my $cgienv = 'Foswiki::Configure::Checkers::CGISetup';
+    eval "require $cgienv";
+    Carp::confess $@ if $@;
+    my $cgi_checker = $cgienv->new($root);
     $root->addChild($cgi_checker);
 
     # Load the config structures.

@@ -115,7 +115,7 @@ sub loadCGIParams {
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
-
+Carp::confess "POOCH '$newval'!='$curval'" if defined $curval && $keys eq '{Site}{CharSet}';
             #Foswiki::log("loadCGIParams ($typename: $keys)($param)\n'$newval' != \n'".($curval||'undef')."'");
             eval $xpr . ' = $newval';
             $changed++;

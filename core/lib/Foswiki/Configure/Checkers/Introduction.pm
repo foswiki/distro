@@ -1,6 +1,17 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Introduction;
 
+=begin TML
+
+---+ package Foswiki::Configure::Checkers::Introduction
+
+Foswiki::Configure::Section for introduction screen.
+
+SMELL: This is *not* a Checker, it is only in the Checkers package
+for historical reasons and needs to be moved out.
+
+=cut
+
 use strict;
 use warnings;
 
