@@ -13,6 +13,10 @@ sub QUERY {
     $expr = '' unless defined $expr;
     my $style = lc( $params->{style} || '' );
 
+        
+    # force-reload latest revision
+    $topicObject->reload(0);
+
     # Recursion block.
     $this->{evaluatingEval} ||= {};
 
