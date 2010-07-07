@@ -12,9 +12,43 @@ sub check {
 
     my $e = $this->guessMajorDir( 'ScriptDir', 'bin' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ScriptDir} );
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{ScriptDir}, 'r' );
-    $e .= $this->WARN($e2) if $e2;
+
+    my $e2 = _checkBinDir($this, $Foswiki::cfg{ScriptDir} );
+    $e .= $e2 if $e2;
     return $e;
+}
+
+
+sub _checkBinDir {
+    my ( $this, $dir ) = @_;
+    my $ext = $Foswiki::cfg{ScriptSuffix} || '';
+    my $errs = '';
+    unless ( opendir( D, $dir ) ) {
+        return $this->ERROR(<<HERE);
+Cannot open '$dir' for read ($!) - check it exists, and that permissions are correct.
+HERE
+    }
+    foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
+        #  If a script suffix is set, make sure all scripts have one
+        if ( $ext && $script !~ /\.$ext$/
+            && $script !~ /\.cfg$/ ) {
+            $errs .= $this->WARN(<<HERE);
+$script appears to be missing the configured script suffix - please check it.
+HERE
+        }
+        #  Verify that scripts are executable
+        if (   $^O ne 'MSWin32'
+            && $script !~ /\.cfg$/
+            && !-x "$dir/$script" )
+        {
+            $errs .= $this->WARN(<<HERE);
+$script might not be an executable script - please check it (and its
+permissions) manually.
+HERE
+        }
+    }
+    closedir(D);
+    return $errs;
 }
 
 1;

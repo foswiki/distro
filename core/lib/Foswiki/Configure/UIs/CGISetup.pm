@@ -148,7 +148,7 @@ HERE
         $this->_checkTmpDir( \$erk ) );
 
     $contents .=
-      $this->setting( 'CGI bin directory', $this->_checkBinDir( \$erk ) );
+      $this->setting( 'CGI bin directory', $this->_getBinDir() );
 
     # Turn off fatalsToBrowser while checking module loads, to avoid
     # load errors in browser in some environments.
@@ -285,33 +285,10 @@ HERE
     return $contents;
 }
 
-sub _checkBinDir {
-    my ( $this, $rerk ) = @_;
+sub _getBinDir {
     my $dir = $ENV{SCRIPT_FILENAME} || '.';
     $dir =~ s(/+configure[^/]*$)();
-    my $ext = $Foswiki::cfg{ScriptSuffix} || '';
-    my $errs = '';
-    unless ( opendir( D, $dir ) ) {
-        $$rerk++;
-        return $this->ERROR(<<HERE);
-Cannot open '$dir' for read ($!) - check it exists, and that permissions are correct.
-HERE
-    }
-    foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
-        next if ( $ext && $script !~ /\.$ext$/ );
-        if (   $^O ne 'MSWin32'
-            && $script !~ /\.cfg$/
-            && !-x "$dir/$script" )
-        {
-            $errs .= $this->WARN(<<HERE);
-$script might not be an executable script - please check it (and its
-permissions) manually.
-HERE
-            $$rerk++;
-        }
-    }
-    closedir(D);
-    return $dir . CGI::br() . $errs;
+    return $dir;
 }
 
 sub _checkTmpDir {
