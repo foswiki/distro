@@ -241,6 +241,8 @@ HERE
     }
 }
 
+my $loadBasicModule = \&_loadBasicModule;   # Save a reference for use later.  
+
 foreach my $module ( 'FindBin', 'File::Spec', 'Config', 'CGI qw(:any)', ) {
     _loadBasicModule($module);
 }
@@ -283,15 +285,6 @@ our $time         = time();
 foreach my $module (
     'Cwd',                               'Data::Dumper',
     'File::Copy',                        'File::Temp',
-    'Foswiki::Configure::Checker',       'Foswiki::Configure::Item',
-    'Foswiki::Configure::Load',          'Foswiki::Configure::Pluggable',
-    'Foswiki::Configure::Root',          'Foswiki::Configure::Section',
-    'Foswiki::Configure::Type',          'Foswiki::Configure::Types::BOOLEAN',
-    'Foswiki::Configure::Types::NUMBER', 'Foswiki::Configure::Types::SELECT',
-    'Foswiki::Configure::Types::STRING', 'Foswiki::Configure::FoswikiCfg',
-    'Foswiki::Configure::Util',          'Foswiki::Configure::UI',
-    'Foswiki::Configure::UIs::Section',  'Foswiki::Configure::Value',
-    'Foswiki::Configure::Valuer',        'Foswiki::Configure::GlobalControls',
     'Foswiki::Configure::TemplateParser',
   )
 {
@@ -419,6 +412,23 @@ sub log {
         print $file "$message\n";
         close($file);
     }
+}
+
+# Load all the bits of the configure module that we explicitly use
+# The loadBasicModule does some extra analysis on errors.
+foreach my $module (
+    'Foswiki::Configure::Checker',       'Foswiki::Configure::Item',
+    'Foswiki::Configure::Load',          'Foswiki::Configure::Pluggable',
+    'Foswiki::Configure::Root',          'Foswiki::Configure::Section',
+    'Foswiki::Configure::Type',          'Foswiki::Configure::Types::BOOLEAN',
+    'Foswiki::Configure::Types::NUMBER', 'Foswiki::Configure::Types::SELECT',
+    'Foswiki::Configure::Types::STRING', 'Foswiki::Configure::FoswikiCfg',
+    'Foswiki::Configure::Util',          'Foswiki::Configure::UI',
+    'Foswiki::Configure::UIs::Section',  'Foswiki::Configure::Value',
+    'Foswiki::Configure::Valuer',        'Foswiki::Configure::GlobalControls',
+  )
+{
+    &$loadBasicModule($module);
 }
 
 print $query->header('text/html');
