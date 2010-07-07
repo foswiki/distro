@@ -73,21 +73,30 @@ sub viewfile {
         shift(@path) unless ( $path[0] );    # remove leading empty string
 
         # work out the web, topic and filename
-        $web = '';
+        my @web;
+        my $pel = Foswiki::Sandbox::untaint(
+                    $path[0],
+                    \&Foswiki::Sandbox::validateWebName);
 
-        # Note that this assumes path_info is untainted
-        while ( $path[0]
-            && ( $session->webExists( $web . $path[0] ) ) )
-        {
-            $web .= shift(@path) . '/';
+        while ( $pel && $session->webExists( join('/', @web, $pel ) ) ) {
+            push( @web, $pel );
+            shift(@path);
+            $pel = Foswiki::Sandbox::untaint(
+                $path[0],
+                \&Foswiki::Sandbox::validateWebName); 
         }
 
-        # The web name has been validated, untaint
-        chop($web);    # trailing /
-        $web = Foswiki::Sandbox::untaintUnchecked($web);
+        $web = join('/', @web);
+
+        # Must set the web name, otherwise plugins may barf if
+        # they try to manipulate the topic context when an oops is generated.
+        $session->{webName} = $web;
 
         # The next element on the path has to be the topic name
-        $topic = shift(@path);
+        $topic = Foswiki::Sandbox::untaint(
+                    shift(@path),
+                    \&Foswiki::Sandbox::validateTopicName);
+
         if ( !$topic ) {
             throw Foswiki::OopsException(
                 'attention',
@@ -98,9 +107,8 @@ sub viewfile {
                 params => [ 'viewfile', '?' ]
             );
         }
-
-        # Topic has been validated
-        $topic = Foswiki::Sandbox::untaintUnchecked($topic);
+        # See comment about webName above
+        $session->{topicName} = $topic;
 
         # What's left in the path is the attachment name.
         $fileName = join( '/', @path );
@@ -115,8 +123,8 @@ sub viewfile {
         throw Foswiki::OopsException(
             'attention',
             def    => 'no_such_attachment',
-            web    => 'Unknown',
-            topic  => 'Unknown',
+            web    => $web,
+            topic  => $topic,
             status => 404,
             params => [ 'viewfile', '?' ]
         );
@@ -128,17 +136,18 @@ sub viewfile {
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
     # This check will fail if the attachment has no "presence" in metadata
-    unless ( $fileName && $topicObject->hasAttachment($fileName) ) {
+    unless ( $topicObject->hasAttachment($fileName) ) {
         throw Foswiki::OopsException(
             'attention',
             def    => 'no_such_attachment',
             web    => $web,
             topic  => $topic,
             status => 404,
-            params => [ 'viewfile', $fileName || '?' ]
+            params => [ 'viewfile', "$web/$topic/$fileName" ]
         );
     }
 
+    # The whole point of viewfile....
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
     my $logEntry = $fileName;
