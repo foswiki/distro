@@ -34,7 +34,7 @@ our $verbose   = 0;
 our $nonews    = 0;
 our $nochanges = 0;
 
-# PROTECTED STATIC ensure the contrib is initernally initialised
+# PROTECTED STATIC ensure the contrib is internally initialised
 sub initContrib {
     $Foswiki::cfg{MailerContrib}{EmailFilterIn} ||=
       $Foswiki::regex{emailAddrRegex};
@@ -45,9 +45,9 @@ sub initContrib {
 ---++ StaticMethod mailNotify($webs, $verbose, $exwebs, $nonewsmode, $nochangesmode)
    * =$webs= - filter list of names webs to process. Wildcards (*) may be used.
    * =$verbose= - true to get verbose (debug) output.
-   * =$exwebs = - filter list of webs to exclude.
-   * =$nonewsmode = the notify script was called with the -nonews option so we skip news mode
-   * =$nochangesmode = the notify script was called with the -nochanges option
+   * =$exwebs= - filter list of webs to exclude.
+   * =$nonewsmode= - the notify script was called with the =-nonews= option so we skip news mode
+   * =$nochangesmode= - the notify script was called with the =-nochanges= option
 
 Main entry point.
 
@@ -98,13 +98,13 @@ sub mailNotify {
 
 =begin TML
 
----+++ StaticMethod changeSubscription($web, $who, $topicList, $unsubscribe)
+---++ StaticMethod changeSubscription($web, $who, $topicList, $unsubscribe)
 
 Modify a user's subscription in =WebNotify= for a web.
-   * $web - web to edit the WebNotify for
-   * $who - the user's wikiname
-   * $topicList - list of topics to (un)subscribe to(from)
-   * $unsubscribe - false to subscribe, true to unsubscribe
+   * =$web= - web to edit the WebNotify for
+   * =$who= - the user's wikiname
+   * =$topicList= - list of topics to (un)subscribe to(from)
+   * =$unsubscribe= - false to subscribe, true to unsubscribe
 
 =cut
 
@@ -117,7 +117,7 @@ sub changeSubscription {
 
     #TODO: this limits us to subscribing to one web.
     my $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $web,
+      Foswiki::Contrib::MailerContrib::WebNotify->new( $web,
         $Foswiki::cfg{NotifyTopicName}, 1 );
     $wn->parsePageSubscriptions( $who, $topicList, $unsubscribe );
     $wn->writeWebNotify();
@@ -126,10 +126,11 @@ sub changeSubscription {
 
 =begin TML
 
----+++ isSubscribedTo ($web, $who, $topicList) -> boolean
-returns true if all topics mentioned in the $topicList are subscribed to by $who.
+---++ isSubscribedTo ($web, $who, $topicList) -> boolean
 
-is able to ignore all valid special characters that can be used on the WebNotify topic
+Returns true if all topics mentioned in the =$topicList= are subscribed to by =$who=.
+
+Can ignore all valid special characters that can be used on the WebNotify topic
 such as NewsTopic! , TopicAndChildren (2)
 
 =cut
@@ -157,11 +158,11 @@ sub _isSubscribedToTopic {
 
     #TODO: extract this code so we only create $wn objects for each web once..
     my $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $sweb,
+      Foswiki::Contrib::MailerContrib::WebNotify->new( $sweb,
         $Foswiki::cfg{NotifyTopicName} );
     my $subscriber = $wn->getSubscriber($who);
 
-    my $db = new Foswiki::Contrib::MailerContrib::UpData($sweb);
+    my $db = Foswiki::Contrib::MailerContrib::UpData->new($sweb);
 
     #TODO: need to check $childDepth topics too (somehow)
     if ( $subscriber->isSubscribedTo( $stopic, $db )
@@ -176,9 +177,9 @@ sub _isSubscribedToTopic {
 
 =begin TML
 
----+++ parsePageList ( $object, $who, $spec, $unsubscribe ) => unprocessable remainder of $spec line
-Calls the $object->{topicSub} once per identified topic entry.
-   * $object (a hashref) may be a hashref that has the field, =topicSub=,
+---++ parsePageList ( $object, $who, $spec, $unsubscribe ) -> unprocessable remainder of =$spec= line
+Calls =$object->{topicSub}= once per identified topic entry.
+   * =$object= (a hashref) may be a hashref that has the field =topicSub=,
      which _may_ be a sub ref as follows:
      =&topicSub($object, $who, $unsubscribe, $webTopic, $options, $childDepth)=
    * =$unsubscribe= can be set to '-' to force an unsubscription
@@ -230,7 +231,7 @@ sub _processWeb {
 
     # Read the webnotify and load subscriptions
     my $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $web,
+      Foswiki::Contrib::MailerContrib::WebNotify->new( $web,
         $Foswiki::cfg{NotifyTopicName} );
     if ( $wn->isEmpty() ) {
         print "\t$web has no subscribers\n" if $verbose;
@@ -239,7 +240,7 @@ sub _processWeb {
 
         # create a DB object for parent pointers
         print $wn->stringify(1) if $verbose;
-        my $db = new Foswiki::Contrib::MailerContrib::UpData($web);
+        my $db = Foswiki::Contrib::MailerContrib::UpData->new($web);
         $report .= _processSubscriptions( $web, $wn, $db );
     }
 
@@ -303,7 +304,7 @@ sub _processSubscriptions {
         # Formulate a change record, irrespective of
         # whether any subscriber is interested
         $change =
-          new Foswiki::Contrib::MailerContrib::Change( $web, $change->{topic},
+          Foswiki::Contrib::MailerContrib::Change->new( $web, $change->{topic},
             $change->{user}, $change->{time}, $change->{revision} );
 
         # Now, find subscribers to this change and extend the change set
