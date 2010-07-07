@@ -164,7 +164,7 @@ sub expandValue {
 # expressions.
 #    } elsif (ref($_[0])) {
 #        Carp::confess("Can't handle a ".ref($_[0]));
-    } else {
+    } elsif (defined($_[0])) {
         $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/_handleExpand($1)/ge;
     }
 }
