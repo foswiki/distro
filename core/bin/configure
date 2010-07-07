@@ -241,10 +241,8 @@ HERE
     }
 }
 
-my $loadBasicModule = \&_loadBasicModule;   # Save a reference for use later.  
-
 foreach my $module ( 'FindBin', 'File::Spec', 'Config', 'CGI qw(:any)', ) {
-    _loadBasicModule($module);
+    ::_loadBasicModule($module);
 }
 
 # Capture DIE for stack *when debugging*
@@ -288,7 +286,7 @@ foreach my $module (
     'Foswiki::Configure::TemplateParser',
   )
 {
-    _loadBasicModule($module);
+    ::_loadBasicModule($module);
 }
 
 $| = 1;    # no buffering on STDOUT
@@ -428,7 +426,7 @@ foreach my $module (
     'Foswiki::Configure::Valuer',        'Foswiki::Configure::GlobalControls',
   )
 {
-    &$loadBasicModule($module);
+    ::_loadBasicModule($module);
 }
 
 print $query->header('text/html');
