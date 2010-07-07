@@ -923,7 +923,7 @@ sub renderFORMFIELD {
           $formTopicObject;
     }
 
-    my $text   = Foswiki::expandStandardEscapes($format);
+    my $text   = $format;
     my $found  = 0;
     my $title  = '';
     my @fields = $formTopicObject->find('FIELD');
@@ -954,6 +954,8 @@ sub renderFORMFIELD {
     unless ($found) {
         $text = $altText || '';
     }
+
+    $text = Foswiki::expandStandardEscapes($text);
 
     # render nop exclamation marks before words as <nop>
     $text =~ s/!(\w+)/<nop>$1/gs;
@@ -1166,7 +1168,7 @@ sub getRenderedVersion {
         # Lists and paragraphs
         if ( $line =~ m/^\s*$/ ) {
             unless ( $tableRow || $isFirst ) {
-                $line = '<p />';
+                $line = '<p />'; # SMELL: should be <p></p>
             }
             $isList = 0;
         }
