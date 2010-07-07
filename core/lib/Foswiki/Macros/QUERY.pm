@@ -13,9 +13,16 @@ sub QUERY {
     $expr = '' unless defined $expr;
     my $style = lc( $params->{style} || '' );
 
-        
     # force-reload latest revision
-    $topicObject->reload(0);
+
+    # SMELL: 
+    #
+    # Every call to Meta::latestIsLoaded() costs one fork of rlog (when using rcs backend)
+    # This makes QUERY a lot slower than FORMFIELD which does its own caching.
+    # This self-made cache there should go into Meta so that both FORMFIELD and
+    # QUERY benefit both from each other.
+
+    $topicObject->reload(0) unless $topicObject->latestIsLoaded();
 
     # Recursion block.
     $this->{evaluatingEval} ||= {};
