@@ -1857,14 +1857,14 @@ sub loadTemplate {
 
 =begin TML
 
----+++ expandTemplate( $def  ) -> $string
+---+++ expandTemplate( $def ) -> $string
 
-Do a %TMPL:P{$def}%, only expanding the template (not expanding any variables other than %TMPL)
+Do a =%<nop>TMPL:P{$def}%=, only expanding the template (not expanding any variables other than =%TMPL%=.)
    * =$def= - template name
 Return: the text of the expanded template
 
-A template is defined using a %TMPL:DEF% statement in a template
-file. See the documentation on Foswiki templates for more information.
+A template is defined using a =%TMPL:DEF%= statement in a template
+file. See the [[System.SkinTemplates][documentation on Foswiki templates]] for more information.
 
 =cut
 
