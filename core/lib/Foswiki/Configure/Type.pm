@@ -41,7 +41,13 @@ sub load {
     unless ($typer) {
         my $typeClass = 'Foswiki::Configure::Types::' . $id;
         eval "use $typeClass";
-        Carp::confess "Could not load type $id: $@" if ($@);
+	#TODO: rather than making Configure crash and unusable
+	#load the UNKNOWN type - I wish I knew how to also raise an error (maybe UNKNOWN's renderer shoudl always do so?
+        #Carp::confess "Could not load type $id: $@" if ($@);
+	if ($@) {
+        	$typeClass = 'Foswiki::Configure::Types::UNKNOWN';
+        	eval "use $typeClass";
+	}
         $typer = $typeClass->new($id);
         unless ($typer) {
             # unknown type - give it default behaviours
