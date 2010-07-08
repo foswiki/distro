@@ -34,7 +34,7 @@ my $args2 = {
     value => "3"
 };
 
-my $web   = "ZoopyDoopy";
+my $web   = "TemporaryZoopyDoopy";
 my $topic = "NoTopic";
 my $m1;
 my $session;

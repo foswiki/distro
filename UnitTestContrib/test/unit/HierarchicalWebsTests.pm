@@ -8,7 +8,7 @@ use Foswiki;
 use Error qw( :try );
 
 # Make sure it's a wikiname so we can check squab handling
-my $testWeb           = 'HierarchicalWebsTestsTestWeb';
+my $testWeb           = 'TemporaryHierarchicalWebsTestsTestWeb';
 my $testWebSubWeb     = 'SubWeb';
 my $testWebSubWebPath = $testWeb . '/' . $testWebSubWeb;
 my $testTopic         = 'Topic';
