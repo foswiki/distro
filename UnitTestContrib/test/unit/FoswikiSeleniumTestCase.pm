@@ -98,9 +98,16 @@ sub list_tests {
     my ( $this, $suite ) = @_;
     my @set = $this->SUPER::list_tests($suite);
 
+    unless ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
+        print STDERR "There are no browsers configured in "
+          . "\$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}, "
+          . "skipping Selenium-based tests\n";
+        return;
+    }
+
     if ( $this->{useSeleniumError} ) {
         print STDERR
-          "Cannot run Selenium-based tests: $this->{useSeleniumError}";
+          "Cannot run Selenium-based tests: $this->{useSeleniumError}\n";
         return;
     }
     return @set;
@@ -109,9 +116,15 @@ sub list_tests {
 sub fixture_groups {
     my ( $this, $suite ) = @_;
 
+    unless ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
+
+        # Message is already reported from list_tests - no need to do it twice
+        return;
+    }
+
     if ( $this->{useSeleniumError} ) {
-        print STDERR
-          "Cannot run Selenium-based tests: $this->{useSeleniumError}";
+
+        # Message is already reported from list_tests - no need to do it twice
         return;
     }
 
