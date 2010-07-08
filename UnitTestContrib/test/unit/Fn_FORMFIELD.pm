@@ -147,4 +147,13 @@ sub test_FORMFIELD_render_nops {
 
 }
 
+sub test_FORMFIELD_Item9269 {
+    my $this = shift;
+
+    my $topicObject = $this->{test_topicObject};
+    my $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Daphne" format="$dollarvalue = $value"}%');
+    $this->assert_str_equals('$value = <nop>ElleBelle', $result);
+}
+
 1;
