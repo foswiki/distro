@@ -276,24 +276,7 @@ if ($@) {
     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
 }
 
-our $time         = time();
-
-# Load all the bits of the configure module that we explicitly use
-# The loadBasicModule does some extra analysis on errors.
-foreach my $module (
-    'Cwd',                               'Data::Dumper',
-    'File::Copy',                        'File::Temp',
-    'Foswiki::Configure::TemplateParser',
-  )
-{
-    ::_loadBasicModule($module);
-}
-
 $| = 1;    # no buffering on STDOUT
-
-###########################################################
-# From this point on we shouldn't have any more "fatal" (to configure)
-# errors, so we can report errors in the browser (i.e. without using die)
 
 # We are configuring $Foswiki::cfg, so we need to be in package Foswiki from
 # now on.
@@ -310,6 +293,60 @@ use vars qw( $TRUE $FALSE );
 $TRUE  = 1;
 $FALSE = 0;
 our $badLSC;
+
+our $time         = time();
+
+our $query = new CGI;
+
+my $url = $query->url();
+my $action = $query->param('action') || 'Configure';
+
+our $DEFAULT_FIELD_WIDTH_NO_CSS = '40';
+
+# Handle serving an resource embedded in the configure page, before generating
+# any other output
+::_loadBasicModule( 'Foswiki::Configure::Util' );
+::_loadBasicModule( 'Foswiki::Configure::TemplateParser' );
+if ( $action eq 'resource' ) {
+    my $resource = $query->param('resource');
+    $resource =~ /^([-\w]+\.\w+)$/;    # filter-in and untaint
+    $resource = $1;
+    if ( defined($resource) ) {
+
+        #ignore $query->param('type') and set it using the extension
+        my $type = 'image/gif';
+        if ( $resource =~ /\.ico$/ ) {
+            $type = 'resource/x-icon';
+        }
+        elsif ( $resource =~ /\.js$/ ) {
+            $type = 'text/javascript';
+        }
+
+        my $parser = Foswiki::Configure::TemplateParser->new;
+        my $text = $parser->getResource($resource);
+
+        # SMELL: this call is correct, but causes a perl error
+        # on some versions of CGI.pm
+        # print $query->header(-type => $query->param('type'));
+        # So use this instead:
+        print 'Content-type: ' . $type . "\n\n";
+        print $text;
+    }
+    exit 0;
+}
+
+# Load all the bits of the configure module that we explicitly use
+# The loadBasicModule does some extra analysis on errors.
+#foreach my $module (
+#  )
+#{
+#    ::_loadBasicModule($module);
+#}
+
+
+###########################################################
+# From this point on we shouldn't have any more "fatal" (to configure)
+# errors, so we can report errors in the browser (i.e. without using die)
 
 # Remember what we detected previously, for use by Checkers
 if ( $scriptName =~ /(\.\w+)$/ ) {
@@ -363,43 +400,6 @@ unless ( $Foswiki::cfg{OS} ) {
     }
 }
 
-our $query = new CGI;
-
-my $url = $query->url();
-my $action = $query->param('action') || 'Configure';
-
-our $DEFAULT_FIELD_WIDTH_NO_CSS = '40';
-
-# Handle serving an resource embedded in the configure page, before generating
-# any other output
-if ( $action eq 'resource' ) {
-    my $resource = $query->param('resource');
-    $resource =~ /^([-\w]+\.\w+)$/;    # filter-in and untaint
-    $resource = $1;
-    if ( defined($resource) ) {
-
-        #ignore $query->param('type') and set it using the extension
-        my $type = 'image/gif';
-        if ( $resource =~ /\.ico$/ ) {
-            $type = 'resource/x-icon';
-        }
-        elsif ( $resource =~ /\.js$/ ) {
-            $type = 'text/javascript';
-        }
-
-        my $parser = Foswiki::Configure::TemplateParser->new;
-        my $text = $parser->getResource($resource);
-
-        # SMELL: this call is correct, but causes a perl error
-        # on some versions of CGI.pm
-        # print $query->header(-type => $query->param('type'));
-        # So use this instead:
-        print 'Content-type: ' . $type . "\n\n";
-        print $text;
-    }
-    exit 0;
-}
-
 sub log {
     my ($message) = @_;
 
@@ -415,15 +415,17 @@ sub log {
 # Load all the bits of the configure module that we explicitly use
 # The loadBasicModule does some extra analysis on errors.
 foreach my $module (
+    'Cwd',                               'Data::Dumper',
+    'File::Copy',                        'File::Temp',
     'Foswiki::Configure::Checker',       'Foswiki::Configure::Item',
     'Foswiki::Configure::Load',          'Foswiki::Configure::Pluggable',
     'Foswiki::Configure::Root',          'Foswiki::Configure::Section',
     'Foswiki::Configure::Type',          'Foswiki::Configure::Types::BOOLEAN',
     'Foswiki::Configure::Types::NUMBER', 'Foswiki::Configure::Types::SELECT',
     'Foswiki::Configure::Types::STRING', 'Foswiki::Configure::FoswikiCfg',
-    'Foswiki::Configure::Util',          'Foswiki::Configure::UI',
-    'Foswiki::Configure::UIs::Section',  'Foswiki::Configure::Value',
-    'Foswiki::Configure::Valuer',        'Foswiki::Configure::GlobalControls',
+    'Foswiki::Configure::UI',            'Foswiki::Configure::UIs::Section',
+    'Foswiki::Configure::Value',         'Foswiki::Configure::Valuer',
+    'Foswiki::Configure::GlobalControls',
   )
 {
     ::_loadBasicModule($module);
