@@ -86,19 +86,20 @@ sub test_moveWeb {
     my $this = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    Foswiki::Func::createWeb( $this->{test_web} . "Blah" );
-    Foswiki::Func::createWeb( $this->{test_web} . "Blah/SubWeb" );
-    $this->assert( Foswiki::Func::webExists( $this->{test_web} . "Blah" ) );
+    Foswiki::Func::createWeb( $this->{test_web} . 'Blah' );
+    Foswiki::Func::createWeb( $this->{test_web} . 'Blah/SubWeb' );
+    $this->assert( Foswiki::Func::webExists( $this->{test_web} . 'Blah' ) );
     $this->assert(
-        Foswiki::Func::webExists( $this->{test_web} . "Blah/SubWeb" ) );
+        Foswiki::Func::webExists( $this->{test_web} . 'Blah/SubWeb' ) );
 
-    Foswiki::Func::moveWeb( $this->{test_web} . "Blah",
-        $this->{test_web} . "Blah2" );
+    Foswiki::Func::moveWeb( $this->{test_web} . 'Blah',
+        $this->{test_web} . 'Blah2' );
 
-    $this->assert( !Foswiki::Func::webExists( $this->{test_web} . "Blah" ) );
-    $this->assert( Foswiki::Func::webExists( $this->{test_web} . "Blah2" ) );
+    $this->assert( !Foswiki::Func::webExists( $this->{test_web} . 'Blah' ) );
+    $this->assert( Foswiki::Func::webExists( $this->{test_web} . 'Blah2' ) );
     $this->assert(
-        Foswiki::Func::webExists( $this->{test_web} . "Blah2/SubWeb" ) );
+        Foswiki::Func::webExists( $this->{test_web} . 'Blah2/SubWeb' ) );
+    $this->removeWebFixture( $this->{session}, $this->{test_web}.'Blah2' );
 }
 
 sub test_getViewUrl {
