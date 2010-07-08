@@ -18,22 +18,25 @@ use Scalar::Util qw( weaken );
 
 my $startWait;
 my $doze;
+
 BEGIN {
     eval "use Time::HiRes qw/usleep time/;";
-    if (not $@) {
-        $startWait = sub{ return time(); };
+    if ( not $@ ) {
+        $startWait = sub { return time(); };
+
         # success
         $doze = sub {
             usleep(100_000);
-            return (time() - $_[0]) * 1000;
+            return ( time() - $_[0] ) * 1000;
         };
     }
     else {
+
         # use failed
-        $startWait = sub{ return time(); };
+        $startWait = sub { return time(); };
         $doze = sub {
             sleep(1);
-            return (time() - $_[0]) * 1000;
+            return ( time() - $_[0] ) * 1000;
         };
     }
 }
@@ -50,21 +53,21 @@ sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
 
-    if (defined $currentTest) {
-        $this->assert(0,
-            "There may only be one FoswikiSeleniumTestCase-based test\n"
-            . "running in each test process.\n"
-            . "Cannot run the $class test \n"
-            . "because the $currentTest is still running.");
+    if ( defined $currentTest ) {
+        $this->assert( 0,
+                "There may only be one FoswikiSeleniumTestCase-based test\n"
+              . "running in each test process.\n"
+              . "Cannot run the $class test \n"
+              . "because the $currentTest is still running." );
     }
     $currentTest = $this;
-    weaken($currentTest); # Ensure the destructor is called at the normal time
+    weaken($currentTest);   # Ensure the destructor is called at the normal time
 
-    $this->{selenium_timeout} = 30_000; # Same as WWW::Selenium's default value
+    $this->{selenium_timeout} = 30_000;  # Same as WWW::Selenium's default value
     $this->{useSeleniumError} = $this->_loadSeleniumInterface;
     $this->{seleniumBrowsers} = $this->_loadSeleniumBrowsers;
 
-    $this->timeout($Foswiki::cfg{UnitTestContrib}{SeleniumRc}{BaseTimeout});
+    $this->timeout( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{BaseTimeout} );
 
     return $this;
 }
@@ -75,18 +78,18 @@ END {
 
 sub DESTROY {
     my $this = shift;
-    if (not defined($currentTest) or $currentTest != $this) {
-        $this->assert(0,
-            "Unexpected change of current test:"
-          . "Expected $this but found $currentTest");
+    if ( not defined($currentTest) or $currentTest != $this ) {
+        $this->assert( 0,
+                "Unexpected change of current test:"
+              . "Expected $this but found $currentTest" );
     }
 
-	# avoid memory leaks - the limit was arbitrarily chosen
-	$testsRunWithoutRestartingBrowsers++;
-	if ($testsRunWithoutRestartingBrowsers > 10) {
-	    _shutDownSeleniumBrowsers();
-	    $testsRunWithoutRestartingBrowsers = 0;
-	}
+    # avoid memory leaks - the limit was arbitrarily chosen
+    $testsRunWithoutRestartingBrowsers++;
+    if ( $testsRunWithoutRestartingBrowsers > 10 ) {
+        _shutDownSeleniumBrowsers();
+        $testsRunWithoutRestartingBrowsers = 0;
+    }
 
     $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
@@ -95,8 +98,9 @@ sub list_tests {
     my ( $this, $suite ) = @_;
     my @set = $this->SUPER::list_tests($suite);
 
-    if ($this->{useSeleniumError}) {
-        print STDERR "Cannot run Selenium-based tests: $this->{useSeleniumError}";
+    if ( $this->{useSeleniumError} ) {
+        print STDERR
+          "Cannot run Selenium-based tests: $this->{useSeleniumError}";
         return;
     }
     return @set;
@@ -105,31 +109,34 @@ sub list_tests {
 sub fixture_groups {
     my ( $this, $suite ) = @_;
 
-    if ($this->{useSeleniumError}) {
-        print STDERR "Cannot run Selenium-based tests: $this->{useSeleniumError}";
+    if ( $this->{useSeleniumError} ) {
+        print STDERR
+          "Cannot run Selenium-based tests: $this->{useSeleniumError}";
         return;
     }
 
     return \@BrowserFixtureGroups if @BrowserFixtureGroups;
 
-    for my $browser (keys %{ $this->{seleniumBrowsers} })
-    {
+    for my $browser ( keys %{ $this->{seleniumBrowsers} } ) {
         my $onBrowser = "on$browser";
         push @BrowserFixtureGroups, $onBrowser;
-        eval "sub $onBrowser { my \$this = shift; \$this->selectBrowser(\$browser); }";
+        eval
+"sub $onBrowser { my \$this = shift; \$this->selectBrowser(\$browser); }";
         die $@ if $@;
     }
     return \@BrowserFixtureGroups;
 }
 
 sub selectBrowser {
-	my $this = shift;
-	my $browserName = shift;
-	$this->assert( defined($browserName), "Browser name not specified");
-	$this->assert( exists( $this->{seleniumBrowsers}->{$browserName} ),
-		           "No Test::WWW:Selenium object for $browserName");
-    $this->{browser} = $browserName;
-	$this->{selenium} = $this->{seleniumBrowsers}->{$browserName};
+    my $this        = shift;
+    my $browserName = shift;
+    $this->assert( defined($browserName), "Browser name not specified" );
+    $this->assert(
+        exists( $this->{seleniumBrowsers}->{$browserName} ),
+        "No Test::WWW:Selenium object for $browserName"
+    );
+    $this->{browser}  = $browserName;
+    $this->{selenium} = $this->{seleniumBrowsers}->{$browserName};
 }
 
 sub _loadSeleniumInterface {
@@ -142,8 +149,7 @@ sub _loadSeleniumInterface {
         $useSeleniumError = $@;
         $useSeleniumError =~ s/\(\@INC contains:.*$//s;
     }
-    else
-    {
+    else {
         $useSeleniumError = '';
     }
     return $useSeleniumError;
@@ -156,18 +162,22 @@ sub _loadSeleniumBrowsers {
 
     $browsers = {};
 
-    unless ($this->{useSeleniumError}) {
-        if ($Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}) {
-            for my $browser (keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} }) {
-                my %config = %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}{$browser} };
-                $config{host} ||= 'localhost';
-                $config{port} ||= 4444;
-                $config{browser} ||= '*firefox';
+    unless ( $this->{useSeleniumError} ) {
+        if ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
+            for my $browser (
+                keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} } )
+            {
+                my %config =
+                  %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}
+                      {$browser} };
+                $config{host}        ||= 'localhost';
+                $config{port}        ||= 4444;
+                $config{browser}     ||= '*firefox';
                 $config{browser_url} ||= $Foswiki::cfg{DefaultUrlHost};
 
                 # The error callback needs a reference to the current test
                 # object. There may be several test objects that use the
-                # selenium interface, so the error callback cannot be a 
+                # selenium interface, so the error callback cannot be a
                 # closure (anonymous sub) that uses $this (because $this
                 # in a closure would always refers to the first test
                 # to run that is derived from FoswikiSeleniumTestCase).
@@ -175,17 +185,19 @@ sub _loadSeleniumBrowsers {
                 # that is set (and weakened) in the constructor.
                 $config{error_callback} = \&_errorCallback;
 
-                my $selenium = Test::WWW::Selenium->new( %config );
+                my $selenium = Test::WWW::Selenium->new(%config);
                 if ($selenium) {
                     $browsers->{$browser} = $selenium;
                 }
                 else {
-                    $this->assert(0, "Could not create a Test::WWW::Selenium object for $browser");
+                    $this->assert( 0,
+"Could not create a Test::WWW::Selenium object for $browser"
+                    );
                 }
             }
         }
     }
-    if (keys %{ $browsers }) {
+    if ( keys %{$browsers} ) {
         eval "use Test::Builder";
         die $@ if $@;
         my $test = Test::Builder->new;
@@ -194,7 +206,7 @@ sub _loadSeleniumBrowsers {
         $test->no_diag(1);
         $test->no_ending(1);
         my $testOutput = '';
-        $test->output(\$testOutput );
+        $test->output( \$testOutput );
     }
 
     return $browsers;
@@ -202,18 +214,18 @@ sub _loadSeleniumBrowsers {
 
 sub _errorCallback {
     if ($currentTest) {
-        $currentTest->assert(0, join(' ', @_));
+        $currentTest->assert( 0, join( ' ', @_ ) );
     }
     else {
         die "A Test::WWW::Selenium class reported an error, "
           . "but the associated test-case object has "
           . "already been destroyed. The error is:\n"
-          . join(' ', @_);
+          . join( ' ', @_ );
     }
 }
 
 sub _shutDownSeleniumBrowsers {
-    for my $browser (values %$browsers) {
+    for my $browser ( values %$browsers ) {
         print STDERR "Shutting down $browser\n" if $debug;
         $browser->stop();
     }
@@ -234,29 +246,38 @@ sub login {
     my $this = shift;
 
     #SMELL: Assumes TemplateLogin
-    $this->{selenium}->open_ok( Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic}, 'login') );
+    $this->{selenium}->open_ok(
+        Foswiki::Func::getScriptUrl(
+            $this->{test_web}, $this->{test_topic}, 'login'
+        )
+    );
     my $usernameInputFieldLocator = 'css=input[name="username"]';
-    $this->{selenium}->wait_for_element_present( $usernameInputFieldLocator, $this->{selenium_timeout} );
-    $this->{selenium}->type_ok( $usernameInputFieldLocator, $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Username} );
+    $this->{selenium}->wait_for_element_present( $usernameInputFieldLocator,
+        $this->{selenium_timeout} );
+    $this->{selenium}->type_ok( $usernameInputFieldLocator,
+        $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Username} );
 
     my $passwordInputFieldLocator = 'css=input[name="password"]';
     $this->assertElementIsPresent($passwordInputFieldLocator);
-    $this->{selenium}->type_ok( $passwordInputFieldLocator, $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Password} );
+    $this->{selenium}->type_ok( $passwordInputFieldLocator,
+        $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Password} );
 
     my $loginFormLocator = 'css=form[name="loginform"]';
     $this->assertElementIsPresent($loginFormLocator);
-    $this->{selenium}->click_ok( 'css=input.foswikiSubmit[type="submit"]' );
+    $this->{selenium}->click_ok('css=input.foswikiSubmit[type="submit"]');
     $this->{selenium}->wait_for_page_to_load( $this->{selenium_timeout} );
 
     my $postLoginLocation = $this->{selenium}->get_location();
-    my $viewUrl = Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic}, 'view');
-    $this->assert_matches(qr/\Q$viewUrl\E$/, $postLoginLocation);
+    my $viewUrl =
+      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
+        'view' );
+    $this->assert_matches( qr/\Q$viewUrl\E$/, $postLoginLocation );
 }
 
 sub type {
-    my $this = shift;
+    my $this    = shift;
     my $locator = shift;
-    my $text = shift;
+    my $text    = shift;
 
     # If you pass too much text to $this->{selenium}->type()
     # then the test fails with a 414 error from the selenium server.
@@ -267,55 +288,57 @@ sub type {
 
     # The algorithm here is based on this posting by balrog:
     # http://groups.google.com/group/selenium-users/msg/669560194d07734e
-    my $maxChars = 1000;
+    my $maxChars   = 1000;
     my $textLength = length $text;
-    if ($textLength > $maxChars) {
+    if ( $textLength > $maxChars ) {
         my $start = 0;
-        while ($start < $textLength) {
-            my $chunk = substr($text, $start, $maxChars);
+        while ( $start < $textLength ) {
+            my $chunk = substr( $text, $start, $maxChars );
             $chunk =~ s#\\#\\\\#g;
             $chunk =~ s#\n#\\n#g;
             $chunk =~ s#"#\\"#g;
-            my $assignOperator = ($start == 0) ? '=' : '+=';
+            my $assignOperator = ( $start == 0 ) ? '=' : '+=';
             $start += $maxChars;
-            my $javascript = qq/selenium.browserbot.findElement("$locator").value $assignOperator "$chunk";/;
+            my $javascript =
+qq/selenium.browserbot.findElement("$locator").value $assignOperator "$chunk";/;
             $this->{selenium}->get_eval($javascript);
+
             #sleep 2;
         }
     }
     else {
-       $this->{selenium}->type($locator, $text);
-   }
+        $this->{selenium}->type( $locator, $text );
+    }
 }
 
 sub timeout {
-    my $this = shift;
+    my $this    = shift;
     my $timeout = shift;
     $this->{selenium_timeout} = $timeout if $timeout;
     return $this->{selenium_timeout};
 }
 
 sub waitFor {
-    my $this = shift;
-    my $testFn = shift;
+    my $this    = shift;
+    my $testFn  = shift;
     my $message = shift;
-    my $args = shift;
+    my $args    = shift;
     my $timeout = shift;
     $timeout ||= $this->{selenium_timeout};
     $args ||= [];
     my $result;
     my $elapsed = 0;
-    my $start = $startWait->();
-    while (not $result and $elapsed < $timeout)
-    {
-        $result = $testFn->($this, @$args);
+    my $start   = $startWait->();
+
+    while ( not $result and $elapsed < $timeout ) {
+        $result = $testFn->( $this, @$args );
         $elapsed = $doze->($start) if not $result;
     }
-    $this->assert($result, $message || "timeout");
+    $this->assert( $result, $message || "timeout" );
 }
 
 sub assertElementIsPresent {
-    my $this = shift;
+    my $this    = shift;
     my $locator = shift;
     my $message = shift;
     $message ||= "Element $locator is not present";
@@ -325,7 +348,7 @@ sub assertElementIsPresent {
 }
 
 sub assertElementIsVisible {
-    my $this = shift;
+    my $this    = shift;
     my $locator = shift;
     my $message = shift;
     $message ||= "Element $locator is not visible";
@@ -335,7 +358,7 @@ sub assertElementIsVisible {
 }
 
 sub assertElementIsNotVisible {
-    my $this = shift;
+    my $this    = shift;
     my $locator = shift;
     my $message = shift;
     $this->assertElementIsPresent($locator);
