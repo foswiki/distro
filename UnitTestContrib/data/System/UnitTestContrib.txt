@@ -50,7 +50,7 @@ It will not run if it can't find the !TestCases web, or if the Foswiki:Extension
 
 Tests derived from =FoswikiSeleniumTestCase= use [[http://seleniumhq.org/projects/remote-control/][Selenium Remote Control]] to exercise Foswiki via one or more browsers.
 These tests only execute if one or more browsers are [[%SCRIPTURLPATH{"configure"}%#UnitTestContrib$Extensions][configured]] in $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers},
-which tells the perl Selenium client (Test::WWW::Selenium) where to find the !SeleniumRC server for each browser and how the server should launch the browser.
+which tells the perl Selenium client (Test::WWW::Selenium, available from CPAN) where to find the !SeleniumRC server for each browser and how the server should launch the browser.
 The default value is blank (i.e. no browsers), so these tests are skipped by default.
 If any browsers are specified, then each test derived from =FoswikiSeleniumTestCase= is executed via each browser.
 
@@ -78,6 +78,21 @@ Here is an example configuration with three browsers: =FF= is Firefox running on
 </verbatim>
 
 Use the =SeleniumConfigTests= to verify your configuration.
+
+---+++ Quick-start
+*Prerequisites:*
+   * =Test::WWW::Selenium= from CPAN
+   * A decent Java runtime, 1.5 or newer
+   * Firefox 2.0 or newer
+
+*Get started:*
+   1 Download Selenium Remote Control (from http://seleniumhq/download)
+   1 Extract selenium-server.jar
+   1 Run =java -jar selenium-server.jar= as a user that may run firefox
+   1 Open [[%SCRIPTURLPATH{"configure"}%#UnitTestContrib$Extensions][configure]]
+      * Set =$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}= to =={ FF => {} }==
+      * Set =$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Username}= and =$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Password}= to a valid username and password
+   1 Go to =foswiki/test/unit= and run <noautolink> =perl -T ../bin/TestRunner.pl SeleniumConfigTests= </noautolink>
 
 ---++ Installation Instructions
 
