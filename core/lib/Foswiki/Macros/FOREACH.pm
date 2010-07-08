@@ -17,12 +17,6 @@ sub FOREACH {
     $params->{separator} =
       Foswiki::expandStandardEscapes( $params->{separator} );
 
-    # If the format string contains any of the topic-specific format specifiers
-    # then the list is treated as a list of topic names. Otherwise it is treated
-    # as a list of strings.
-    my $format = $params->{format};
-    my $header = $params->{header} || '';
-    my $footer = $params->{footer} || '';
     my $type   = $params->{type} || 'topic';
     $type = 'topic'
       unless ( $type eq 'string' );    #only support special type 'string'
