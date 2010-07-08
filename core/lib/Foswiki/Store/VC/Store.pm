@@ -187,7 +187,10 @@ sub moveWeb {
     my $handler = $this->getHandler($oldWebObject);
     $handler->moveWeb( $newWebObject->web );
 
-    $handler->recordChange( $cUID, 0 );
+    # We have to log in the new web, otherwise we would re-create the dir with
+    # a useless .changes. See Item9278
+    $handler = $this->getHandler($newWebObject);
+    $handler->recordChange( $cUID, 0, 'Moved from ' . $oldWebObject->web );
 }
 
 sub testAttachment {
@@ -407,7 +410,15 @@ sub remove {
 
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
-    $handler->recordChange( $cUID, 0 );
+
+    # Only log when deleting topics or attachment, otherwise we would re-create
+    # an empty directory with just a .changes. See Item9278
+    if ( my $topic = $topicObject->topic ) {
+        $handler->recordChange( $cUID, 0, 'Deleted ' . $topic );
+    }
+    elsif ($attachment) {
+        $handler->recordChange( $cUID, 0, 'Deleted attachment ' . $attachment );
+    }
 }
 
 #also deprecated. (use Foswiki::Meta::query)
