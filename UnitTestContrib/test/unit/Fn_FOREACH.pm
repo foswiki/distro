@@ -647,4 +647,15 @@ OkATopic\"OkBTopic\"OkTopic\"&", $result
 }
 
 
+sub test_Item9269 {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FOREACH{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic ($dollarntopics=$ntopics)" separator=","}%'
+      );
+
+    $this->assert_str_equals( 'OkATopic ($ntopics=1),OkBTopic ($ntopics=2),OkTopic ($ntopics=3)', $result );
+}
+
 1;
