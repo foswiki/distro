@@ -98,7 +98,7 @@ close(CONF);
 # print banner
 print "************************************************************\n";
 print "Foswiki Development Server\n";
-system('/usr/sbin/lighttpd -v 2>/dev/null');
+system('lighttpd -v 2>/dev/null');
 print "Server root: $foswiki_core\n";
 print "************************************************************\n";
 print "Browse to http://localhost:$PORT/bin/configure to configure your Foswiki\n";
@@ -108,7 +108,7 @@ print "************************************************************\n";
 
 
 # execute lighttpd
-system("/usr/sbin/lighttpd -f $conffile -D");
+system("lighttpd -f $conffile -D");
 
 # finalize
 system("rm -rf $conffile");
