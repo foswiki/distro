@@ -1,11 +1,14 @@
+---+! %TOPIC%
 
+This is a 'mini' plugin that provides a =rest= handler for invoking the
+mail notification process via an HTTP request (e.g. from the browser).
 
----++ MailerContribPlugin
-
-This is a 'mini' plugin that makes the MailerContrib =mailnotify= bin-script into a =rest= handler
+It is an integrated part of the MailerContrib and does not need to be installed separately.
 
 It can be called from the command line as:
    * (in the =foswiki/bin= dir) =./rest MailerContribPlugin.notify=
    
-or from a browser (presuming sufficient privilege):
+or from a browser as:
    * %SCRIPTURL{rest}%/MailerContribPlugin/notify
+
+The plugin requires the user calling it to be in the %USERSWEB%.AdminGroup.

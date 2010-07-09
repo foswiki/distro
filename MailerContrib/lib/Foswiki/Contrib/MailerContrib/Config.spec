@@ -10,10 +10,3 @@
 # <code>[A-Za-z0-9.+-_]+\@[A-Za-z0-9.-]+</code> is used.
 $Foswiki::cfg{MailerContrib}{EmailFilterIn} = '';
 
-# **STRING EXPERT**
-# Plugin module path for handler registration
-$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Contrib::MailerContribPlugin';
-# **BOOLEAN**
-# Enable plugin module for handler registration. You can disable the plugin
-# if you don't want to invoke mail notification from the web.
-$Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;

@@ -173,7 +173,7 @@ To learn more about cron and crontab, Google for =crontab=.
 %X% Note: Even if you run separate -nonews and -nochanges cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the mailnotify script was run even if it was run with -nonews. Separate newsletter jobs work best with the unconditional "!" mode.
 
 ---+++ Triggering mail notification from the browser
-You can also the mailer from within the browser, using a REST handler. For example, to notify changes in all webs, link to %SCRIPTURL{rest}%/MailerContrib/notify. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+You can also the mailer from within the browser, using a REST handler. For example, to notify changes in all webs, link to %SCRIPTURL{rest}%/MailerContribPlugin/notify. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
 
 Because there is a risk that a stupid person could lock up your server by
 firing multiple notification requests at it, the REST handler is only
@@ -244,11 +244,12 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://wikigardens.com][WikiGardens]]
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004, Wind River Systems; 2009 Foswiki Contributors |
+|  Copyright &copy;: | 2004, Wind River Systems; 2009-2010 Foswiki Contributors |
 |  License: | GPL |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  9 Jul 2010 | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
 |  18 Dec 2009 | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
 |  8 Dec 2009 | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |
 |  4 Dec 2009 | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
