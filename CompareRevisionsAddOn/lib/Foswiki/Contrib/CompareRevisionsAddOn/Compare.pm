@@ -298,7 +298,6 @@ sub compare {
     $tree2 = $tree2->parent() while defined $tree2->parent();
     $tree2->delete();
     
-    $session->{response}->status(200);
     $session->writeCompletePage( $output, 'view' );
 
 }
