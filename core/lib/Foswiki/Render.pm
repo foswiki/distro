@@ -534,7 +534,7 @@ sub internalLink {
     # Turn spaced-out names into WikiWords - upper case first letter of
     # whole link, and first of each word. TODO: Try to turn this off,
     # avoiding spaces being stripped elsewhere
-    $topic =~ ucfirst($topic);
+    $topic = ucfirst($topic);
     $topic =~ s/\s([$Foswiki::regex{mixedAlphaNum}])/\U$1/go;
 
     # If locales are in effect, the above conversions will taint the topic
