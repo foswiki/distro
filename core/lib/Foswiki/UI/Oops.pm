@@ -57,8 +57,9 @@ sub oops {
     my ( $session, $web, $topic, $query, $keep ) = @_;
 
     # Foswikitask:Item885: web and topic are required to have values
-    $web   ||= $session->{webName};
-    $web   ||= "(Missing or illegal web)";  #If web name is completely missing, it probably contained illegal characters 
+    $web ||= $session->{webName};
+    $web ||= "(Missing or illegal web)"
+      ; #If web name is completely missing, it probably contained illegal characters
     $topic ||= $session->{topicName};
 
     my $tmplName;
@@ -97,10 +98,10 @@ sub oops {
     # Do not pass on the template parameter otherwise continuation won't work
     $query->delete('template');
 
-    my $tmplData = $session->templates->readTemplate(
-        $tmplName, no_oops => 1 );
+    my $tmplData = $session->templates->readTemplate( $tmplName, no_oops => 1 );
 
     if ( !defined($tmplData) ) {
+
         # Can't throw an OopsException here, cos we'd just recurse. Build
         # an error page from scratch,
         $tmplData =
@@ -136,7 +137,6 @@ MESSAGE
         $tmplData = $topicObject->renderTML($tmplData);
     }
 
-    $session->{response}->status(200);
     $session->writeCompletePage($tmplData);
 }
 

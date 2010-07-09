@@ -14,6 +14,8 @@ our $SCRIPT_NAME;
 our %expected_status = (
     search => 302,
     save   => 302,
+    login  => 200,
+    logon  => 200,
 );
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
@@ -135,11 +137,6 @@ sub call_UI_FN {
         $status = $1;
     }
 
-#aparently we allow the web server to add a 200 status thus risking that an error situation is marked as 200
-#$this->assert_num_not_equals(666, $status, "no response Status set in probably valid reply\nHEADER: $header\n");
-    if ( $status == 666 ) {
-        $status = 200;
-    }
     $this->assert_num_not_equals( 500, $status, 'exception thrown' );
 
     return ( $status, $header, $body, $stdout, $stderr );
@@ -155,8 +152,11 @@ sub verify_switchboard_function {
     my ( $status, $header, $result, $stdout, $stderr ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
+#it turns out (see Foswiki:Tasks.Item9184) that hardcoding 200 status prevents the use of BasicAuth - and we really should avoid
+# preventing an admin from setting the security policy where possible.
+# 666 is a default used in the UI_FN code above for 'unset'
     $this->assert_num_equals(
-        $expected_status{$SCRIPT_NAME} || 200,
+        $expected_status{$SCRIPT_NAME} || 666,
         $status,
         "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
           . ( $stderr || '' ) . "\n"

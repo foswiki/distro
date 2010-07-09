@@ -167,25 +167,24 @@ sub init_edit {
       || $session->{prefs}->getPreference('EDIT_TEMPLATE')
       || $templateName;
 
-    my $tmpl = $session->templates->readTemplate(
-        $template . $editaction, no_oops => 1 );
+    my $tmpl = $session->templates->readTemplate( $template . $editaction,
+        no_oops => 1 );
 
-    if ( !defined( $tmpl ) ) {
-        $tmpl = $session->templates->readTemplate(
-            $template, no_oops => 1 );
+    if ( !defined($tmpl) ) {
+        $tmpl = $session->templates->readTemplate( $template, no_oops => 1 );
     }
 
     # Item2151: We cannot throw exceptions for invalid edit templates
     # because the user cannot correct it. Instead we fall back to default
     # and write a warning log entry to aid fault finding for the admin
-    if ( !defined( $tmpl ) ) {
+    if ( !defined($tmpl) ) {
         $session->logger->log( 'warning',
                 "Edit template $template does not exist. "
               . "Falling back to $templateName! ($web.$topic)" );
 
         # This may still OopsException if the template system is up
         # the creek.
-        $tmpl = $session->templates->readTemplate( $templateName );
+        $tmpl = $session->templates->readTemplate($templateName);
     }
 
     if ($revision) {
@@ -439,7 +438,6 @@ sub finalize_edit {
 
     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
 
-    $session->{response}->status(200);
     $session->writeCompletePage( $tmpl, 'edit', $cgiAppType );
 }
 

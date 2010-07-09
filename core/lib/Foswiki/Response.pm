@@ -34,6 +34,8 @@ sub new {
     my $proto = shift;
     my $class = ref($proto) || $proto;
     my $this  = {
+
+#status needs to default to 'unset' to the web server can set the status to whatever it needs (think basic auth, or other magics)
         status           => undef,
         headers          => {},
         body             => undef,
@@ -41,9 +43,6 @@ sub new {
         cookies          => [],
         outputHasStarted => 0,
     };
-
-    #default to 500 in debug mode so we can shake out the missing Status's
-    $this->{status} = 500 if DEBUG;
 
     return bless $this, $class;
 }
@@ -60,7 +59,7 @@ Gets/Sets response status.
 sub status {
     my ( $this, $status ) = @_;
     if ($status) {
-        ASSERT(!$this->{outputHasStarted}, 'Too late to change status')
+        ASSERT( !$this->{outputHasStarted}, 'Too late to change status' )
           if DEBUG;
         $this->{status} = $status =~ /^\d{3}/ ? $status : undef;
     }
@@ -99,7 +98,7 @@ sub header {
     my ( $this, @p ) = @_;
     my (@header);
 
-    ASSERT(!$this->{outputHasStarted}, 'Too late to change headers') if DEBUG;
+    ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' ) if DEBUG;
 
     # Ugly hack to avoid html escape in CGI::Util::rearrange
     local $CGI::Q = { escape => 0 };
@@ -180,7 +179,7 @@ are scalars for single-valued headers or arrayref for multivalued ones.
 sub headers {
     my ( $this, $hdr ) = @_;
     if ($hdr) {
-        ASSERT(!$this->{outputHasStarted}, 'Too late to change headers')
+        ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' )
           if DEBUG;
         my %headers = ();
         while ( my ( $key, $value ) = each %$hdr ) {
@@ -297,7 +296,7 @@ Deletes headers whose names are passed.
 sub deleteHeader {
     my $this = shift;
 
-    ASSERT(!$this->{outputHasStarted}, 'Too late to change headers') if DEBUG;
+    ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' ) if DEBUG;
 
     foreach (@_) {
         ( my $hdr = $_ ) =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
@@ -316,7 +315,7 @@ Adds $value to list of values associated with header $name.
 sub pushHeader {
     my ( $this, $hdr, $value ) = @_;
 
-    ASSERT(!$this->{outputHasStarted}, 'Too late to change headers') if DEBUG;
+    ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' ) if DEBUG;
 
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
     my $cur = $this->{headers}->{$hdr};
@@ -361,14 +360,15 @@ Gets/Sets response body. Note: do not use this method for output, use
 sub body {
     my ( $this, $body ) = @_;
     if ( defined $body ) {
+
         # There *is* a risk that a unicode string could reach this far - for
         # example, if it comes from a plugin. We need to force such strings
         # into the "Foswiki canonical" representation of a string of bytes.
         # The output may be crap, but at least it won't trigger a
         # "Wide character in print" error.
-        if (utf8::is_utf8($body)) {
+        if ( utf8::is_utf8($body) ) {
             require Encode;
-            $body = Encode::encode('iso-8859-1', $body, 0);
+            $body = Encode::encode( 'iso-8859-1', $body, 0 );
         }
         $this->{headers}->{'Content-Length'} = length($body);
         $this->{body} = $body;
@@ -393,11 +393,9 @@ CGI Compatibility Note: It doesn't support -target or -nph
 
 sub redirect {
     my ( $this, @p ) = @_;
-    ASSERT(!$this->{outputHasStarted}, 'Too late to redirect') if DEBUG;
-    my ( $url, $status, $cookies ) =
-      CGI::Util::rearrange(
-          [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ],
-          @p );
+    ASSERT( !$this->{outputHasStarted}, 'Too late to redirect' ) if DEBUG;
+    my ( $url, $status, $cookies ) = CGI::Util::rearrange(
+        [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ], @p );
 
     return unless $url;
     return if ( $status && $status !~ /^\s*3\d\d.*/ );
@@ -432,7 +430,7 @@ cannot be changed (though the body can be modified)
 =cut
 
 sub outputHasStarted {
-    my ($this, $flag ) = @_;
+    my ( $this, $flag ) = @_;
     $this->{outputHasStarted} = $flag if defined $flag;
     return $this->{outputHasStarted};
 }

@@ -223,9 +223,10 @@ sub view {
         $template = 'view';
     }
 
-    my $tmpl = $session->templates->readTemplate($template, no_oops => 1);
+    my $tmpl = $session->templates->readTemplate( $template, no_oops => 1 );
+
     # If the VIEW_TEMPLATE (or other) doesn't exist, default to view.
-    $tmpl = $session->templates->readTemplate('view') unless defined($tmpl); 
+    $tmpl = $session->templates->readTemplate('view') unless defined($tmpl);
 
     $tmpl =~ s/%REVTITLE%/$revTitle/g;
     $tmpl =~ s/%REVARG%/$revArg/g;
@@ -387,14 +388,6 @@ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $
 
     # Output has to be done in one go, because if we generate the header and
     # then redirect because of some later constraint, some browsers fall over
-    #
-    # Note:  If Apache is asking us to view the 401 ErrorDocument, we must preserve
-    # the 401 response, so the browser will prompt for the user/password.
-    #
-    # SMELL:  Are there other codes that need to be preserved when Apache asks Foswiki to 
-    # render an ErrorDocument?
-    my $rstatus = ( (defined $ENV{REDIRECT_STATUS}) && ($ENV{REDIRECT_STATUS} == 401)) ? 401 : 200;
-    $session->{response}->status($rstatus);
     $session->writeCompletePage( $page, 'view', $contentType );
     Monitor::MARK('Wrote HTML');
 }

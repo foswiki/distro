@@ -57,11 +57,12 @@ sub preview {
     $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
 
     # Load the template for the view
-    my $content = $text;
+    my $content  = $text;
     my $template = $session->{prefs}->getPreference('VIEW_TEMPLATE');
     if ($template) {
-        my $vt = $session->templates->readTemplate($template, no_oops => 1);
+        my $vt = $session->templates->readTemplate( $template, no_oops => 1 );
         if ($vt) {
+
             # We can't just use a VIEW_TEMPLATE directly because it
             # describes an entire HTML page. But the bit we
             # need is defined by the %TMPL:DEF{"content"}% within it, so
@@ -151,7 +152,6 @@ sub preview {
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/go if ( defined($newtopic) );
 
-    $session->{response}->status(200);
     $session->writeCompletePage($tmpl);
 }
 
