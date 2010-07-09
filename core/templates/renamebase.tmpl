@@ -8,7 +8,7 @@
 %TMPL:DEF{"pagehelp"}%%TMPL:P{"notes"}%%TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% [[%TOPIC%]]%TMPL:END%
 
 
 %TMPL:DEF{"changefromtitle"}%---++ %MAKETEXT{"Change from:"}% 
@@ -55,7 +55,7 @@
 ---+++ %MAKETEXT{"Update links"}%
 *%TMPL:P{"updatenote"}%*
 
----++++ %MAKETEXT{"Change links in topics that refer to [_1] in the [_2] Web:" args="%TOPIC%, <nop>%WEB%"}%
+---++++ %MAKETEXT{"Change links in topics that refer to [_1] in the [_2] Web:" args="[[%TOPIC%]], <nop>%WEB%"}%
 %LOCAL_SEARCH%
 
 ---++++ %MAKETEXT{"Change links in topics that refer to [_1] in any Web:" args="[[%WEB%.%TOPIC%]]"}%
