@@ -20,6 +20,8 @@ use warnings;
 
 use CGI qw( :any );
 
+use Foswiki::Configure::Types::UNKNOWN;
+
 our %knownTypes;
 
 sub new {
@@ -30,29 +32,34 @@ sub new {
 
 =begin TML
 
----++ StaticMethod load(id) -> $typeObject
+---++ StaticMethod load($id, $keys) -> $typeObject
 Load the named type object
+   * $id - the type name e.g. SELECTCLASS
+   * $keys - the item the type is being loaded for. Only used to
+     generate errors.
 
 =cut
 
 sub load {
-    my $id    = shift;
+    my ($id, $keys)    = @_;
     my $typer = $knownTypes{$id};
     unless ($typer) {
+        my $failinfo;
         my $typeClass = 'Foswiki::Configure::Types::' . $id;
         eval "use $typeClass";
-	#TODO: rather than making Configure crash and unusable
-	#load the UNKNOWN type - I wish I knew how to also raise an error (maybe UNKNOWN's renderer shoudl always do so?
-        #Carp::confess "Could not load type $id: $@" if ($@);
-	if ($@) {
+        if ($@) {
+            $failinfo = "**$id** could not be 'use'd";
+            print STDERR "$failinfo: $@";
         	$typeClass = 'Foswiki::Configure::Types::UNKNOWN';
         	eval "use $typeClass";
-	}
+        }
         $typer = $typeClass->new($id);
         unless ($typer) {
-            # unknown type - give it default behaviours
-            $typer = new Foswiki::Configure::Type($id);
+            # unknown type - give it UNKNOWN behaviours
+            $failinfo = "**$id** loaded, but the 'new' method returned undef";
+            $typer = new Foswiki::Configure::Types::UNKNOWN($id);
         }
+        $typer->{failinfo} = $failinfo if defined $failinfo;
         $knownTypes{$id} = $typer;
     }
     return $typer;

@@ -110,7 +110,7 @@ sub loadCGIParams {
         my $typename = $query->param($param);
         Carp::confess "Bad typename '$typename'" unless $typename =~ /(\w+)/;
         $typename = $1;    # check and untaint
-        my $type   = Foswiki::Configure::Type::load($typename);
+        my $type   = Foswiki::Configure::Type::load($typename, $keys);
         my $newval = $type->string2value( $query->param($keys) );
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;

@@ -37,10 +37,11 @@ our $VALUE_TYPE = {
 
 ---++ ClassMethod new($typename, %params)
    * =$typename= e.g 'STRING', name of one of the Foswiki::Configure::Types
+     Defaults to 'UNKNOWN' if not given ('', 0 or undef).
 
 %params may include:
    * parent     node
-   * keys       e.g {Garden}{Flowers}',
+   * keys       e.g {Garden}{Flowers}
    * expertsOnly boolean
    * opts options
 Constructor. The opts are attributes, and by convention may
@@ -50,15 +51,18 @@ be a number (for a string length), a comma separated list of values
 =cut
 
 sub new {
-    my ($class, $typename) = @_;
+    my $class = shift;
+    my $typename = shift;
 
     my $this =
       bless( $class->SUPER::new('Foswiki::Configure::UIs::Value'), $class );
 
-    $this->{typename} = ($typename || 'UNKNOWN');
+    $this->{typename}    = ($typename || 'UNKNOWN');
     $this->{keys}        = '';
     $this->{opts}        = '';
     $this->{expertsOnly} = 0;
+
+    # Transfer remaining params into the object
     $this->set(@_);
 
     if ( defined $this->{opts} ) {
@@ -96,7 +100,7 @@ sub getType {
     my $this = shift;
     unless ( $this->{type} ) {
         $this->{type} =
-          Foswiki::Configure::Type::load( $this->{typename} || 'UNKNOWN' );
+          Foswiki::Configure::Type::load( $this->{typename}, $this->{keys} );
     }
     return $this->{type};
 }
@@ -152,8 +156,6 @@ sub asString {
     $value = $valuer->defaultValue($this) if $type == $VALUE_TYPE->{DEFAULT};
 
     $value ||= '';
-
-    return $value if !defined $this->{typename};
 
     if (   $this->{typename} eq 'PERL'
         || $this->{typename} eq 'HASH'

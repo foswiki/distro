@@ -17,6 +17,14 @@ sub new {
     return bless( { name => 'UNKNOWN' }, $class );
 }
 
+sub prompt {
+    my $this = shift;
+    return $this->SUPER::prompt(@_)
+      . '<br /><span class="foswikiAlert"> .spec ERROR! TYPE '
+        . ($this->{failinfo} || 'UNKNOWN')
+          .'</span>';
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
