@@ -1515,6 +1515,7 @@ sub test_getAttachmentList {
         comment => "a comment"
     );
     $meta->save();
+    unlink $f;
     my @list = Foswiki::Func::getAttachmentList(
         $this->{test_web}, $this->{test_topic});
     my $list = join(' ', @list);
