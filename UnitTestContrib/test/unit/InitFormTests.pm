@@ -41,7 +41,7 @@ use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
 
-my $testweb    = "TestWeb";
+my $testweb    = "TemporaryTestWeb";
 my $testtopic1 = "InitTestTopic1";
 my $testtopic2 = "InitTestTopic2";
 my $testtopic3 = "InitTestTopic3";

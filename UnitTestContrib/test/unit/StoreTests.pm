@@ -29,7 +29,7 @@ sub new {
     return $self;
 }
 
-my $web   = "TestStoreWeb";
+my $web   = "TemporaryTestStoreWeb";
 my $topic = "TestStoreTopic";
 
 sub set_up {

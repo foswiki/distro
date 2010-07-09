@@ -17,7 +17,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    $this->{target_web} = 'TestSpreadSheet' || "$this->{test_web}Target";
+    $this->{target_web} = 'TemporaryTestSpreadSheet' || "$this->{test_web}Target";
     $this->{target_topic} = 'SpreadSheetTestTopic'
       || "$this->{test_topic}Target";
 
