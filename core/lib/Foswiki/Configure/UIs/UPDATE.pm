@@ -58,7 +58,7 @@ sub commitChanges {
             mkdir $logdir;
         }
         if ( open( F, '>>', "$logdir/configure.log" ) ) {
-            print F $this->{log}."\n";
+            print F $this->{log};
             close(F);
         }
     }
