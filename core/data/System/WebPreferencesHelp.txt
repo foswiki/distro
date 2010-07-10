@@ -1,11 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718115" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebPreferences"}%
-%INCLUDE{"%SYSTEMWEB%.PreferenceSettings"}%
 ---++!! Tools
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%
+%ICON{"help"}% %TWISTY{mode="div" showlink="%MAKETEXT{"Show help"}%" hidelink="%MAKETEXT{"Hide help"}%"}%
+%INCLUDE{"%SYSTEMWEB%.PreferenceSettings"}%
 
 ---++!! Related Topics
    * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]], [[%LOCALSITEPREFS%]] - site-level preferences
    * [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] - list of user topics. User topics can have optional user preferences
    * [[%SYSTEMWEB%.Macros][Macros]] - what macros are and how to use them, including a list of common macros
    * [[%SYSTEMWEB%.AccessControl][AccessControl]] - explains how to restrict access by users or groups
+%ENDTWISTY%
