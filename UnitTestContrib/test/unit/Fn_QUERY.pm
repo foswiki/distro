@@ -233,10 +233,12 @@ sub test_cfg {
         $this->assert_equals( '', $result );
     }
 
-    # Try those that *should* be visible
-    foreach my $var ( grep { !/AccessibleCFG/ } @{$Foswiki::cfg{AccessibleCFG}}) {
+    # Try those that *should* be visible (skip 'Filter' because it's a regex
+    foreach my $var ( grep { !/Accessible|Filter/ } @{$Foswiki::cfg{AccessibleCFG}}) {
         my $text = "%QUERY{\"$var\"}%";
         my $result = $this->{test_topicObject}->expandMacros($text);
+        while ($result =~ s/^\(?xism:(.*)\)$/$1/) {
+        }
         my $expected = eval("\$Foswiki::cfg$var");
         $this->assert_equals( $expected, "$result", "$var!=$expected" );
     }
