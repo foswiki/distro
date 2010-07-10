@@ -13,8 +13,15 @@ sub check {
     my $mess = $this->guessMajorDir( 'WorkingDir', 'working', 1 );
     $Foswiki::cfg{WorkingDir} =~ s#[/\\]+$##;
 
+    # SMELL:   In a suexec environment, umask is forced to 077, blocking 
+    # group and world access.  This is probably not bad for the working
+    # directories.  But noting smell if mismatched permissions are questioned.
+
+    #my $saveumask = umask();
+    #umask ( oct(000));
+
     unless ( -d "$Foswiki::cfg{WorkingDir}" ) {
-        mkdir("$Foswiki::cfg{WorkingDir}")
+        mkdir("$Foswiki::cfg{WorkingDir}", oct(755) )
           || return $this->ERROR(
 "$Foswiki::cfg{WorkingDir} does not exist, and I can't create it: $!"
           );
@@ -27,7 +34,7 @@ sub check {
 "$Foswiki::cfg{WorkingDir}/tmp already exists, but is not a directory"
             );
         }
-        elsif ( !mkdir( "$Foswiki::cfg{WorkingDir}/tmp", '1777' ) ) {
+        elsif ( !mkdir( "$Foswiki::cfg{WorkingDir}/tmp", oct(1777) ) ) {
             $mess .=
               $this->ERROR("Could not create $Foswiki::cfg{WorkingDir}/tmp");
         }
@@ -42,7 +49,7 @@ sub check {
 "$Foswiki::cfg{WorkingDir}/work_areas already exists, but is not a directory"
             );
         }
-        elsif ( !mkdir("$Foswiki::cfg{WorkingDir}/work_areas") ) {
+        elsif ( !mkdir("$Foswiki::cfg{WorkingDir}/work_areas", oct(755)) ) {
             $mess .= $this->ERROR(
                 "Could not create $Foswiki::cfg{WorkingDir}/work_areas");
         }
@@ -80,13 +87,14 @@ the upgrade." );
 "$Foswiki::cfg{WorkingDir}/registration_approvals already exists, but is not a directory"
             );
         }
-        elsif ( !mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals") ) {
+        elsif ( !mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals", oct(755)) ) {
             $mess .= $this->ERROR(
 "Could not create $Foswiki::cfg{WorkingDir}/registration_approvals"
             );
         }
     }
 
+    #umask($saveumask);
     my $e = $this->checkTreePerms( $Foswiki::cfg{WorkingDir},
         'rw', qr/configure\/backup\/|README/ );
     $mess .= $this->ERROR($e) if $e;
