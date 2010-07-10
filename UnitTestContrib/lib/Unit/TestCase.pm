@@ -474,7 +474,7 @@ sub assert_html_equals {
 
     my ( $package, $filename, $line ) = caller(0);
     my $opts = {
-        options  => 'rex',
+        options  => '',
         reporter => \&Unit::HTMLDiffer::defaultReporter,
         result   => ''
     };
