@@ -357,19 +357,7 @@ BEGIN {
     $macros{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
     $macros{WIKIPREFSTOPIC}    = sub { $Foswiki::cfg{SitePrefsTopicName} };
     $macros{WIKIUSERSTOPIC}    = sub { $Foswiki::cfg{UsersTopicName} };
-
-    if ( $Foswiki::cfg{WebMasterEmail} eq 'SERVER_ADMIN' ) {
-        if ( $ENV{SERVER_ADMIN} && ($ENV{SERVER_ADMIN}  =~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i )) {
-            $macros{WIKIWEBMASTER}     = sub { $ENV{SERVER_ADMIN} };
-        }
-        else {
-            $macros{WIKIWEBMASTER} = sub { '' };
-        }
-    }
-    else {
-        $macros{WIKIWEBMASTER}     = sub { $Foswiki::cfg{WebMasterEmail} };
-    }
-
+    $macros{WIKIWEBMASTER}     = sub { $Foswiki::cfg{WebMasterEmail} };
     $macros{WIKIWEBMASTERNAME} = sub { $Foswiki::cfg{WebMasterName} };
 
     # locale setup

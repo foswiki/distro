@@ -1146,10 +1146,8 @@ $Foswiki::cfg{EnableEmail} = $TRUE;
 # **STRING 30**
 # Wiki administrator's e-mail address e.g. <code>webmaster@example.com</code>
 # (used in <code>%WIKIWEBMASTER%</code>)
-# NOTE: must be a single valid email address.  If set to 'SERVER_ADMIN', then
-# the Web Server's ServerAdmin email address will be used if available.  It is
-# preferable to configure an explicit email address.
-$Foswiki::cfg{WebMasterEmail} = 'SERVER_ADMIN';
+# NOTE: must be a single valid email address
+$Foswiki::cfg{WebMasterEmail} = '';
 
 # **STRING 30**
 # Wiki administrator's name address, for use in mails (first name and

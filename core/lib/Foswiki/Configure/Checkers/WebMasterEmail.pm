@@ -9,37 +9,20 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $e = '';
-
-    if ( $Foswiki::cfg{WebMasterEmail} eq 'SERVER_ADMIN') {
-        if ( $ENV{SERVER_ADMIN} && $ENV{SERVER_ADMIN} !~ /^\[/ ) {
-            my $serverAdmin = $ENV{SERVER_ADMIN};
-            if ($serverAdmin !~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i ) {
-                $e .= $this->ERROR("Foswiki will try to use the web server, SERVER_ADMIN as the WebMasterEmail address.  But $ENV{SERVER_ADMIN} does not appear to be a valid address.)");
-            }
-            else {
-                $e .= $this->WARN("Foswiki will use the web server, SERVER_ADMIN ($ENV{SERVER_ADMIN}) as the WebMasterEmail address.  It is preferable to set an explicit email address here.");
-            }
-        }
-        else {
-            $e .= $this->ERROR('SERVER_ADMIN email address is not available.  Set WebMasterEmail to a valid address for proper operation.');
-        }
-        return $e;
-    }
 
     if ( !$Foswiki::cfg{WebMasterEmail} ) {
-        $e .= $this->ERROR(
-'Please make sure you enter the e-mail address of the webmaster. This is required for registration to work and appears as a feedback address  It is preferable to set an explicit email address here.'
+        return $this->WARN(
+'Please make sure you enter the e-mail address of the webmaster. This is required for registration to work.'
         );
     }
 
     #    $regex{emailAddrRegex} ...
-    elsif ( $Foswiki::cfg{WebMasterEmail} !~
+    if ( $Foswiki::cfg{WebMasterEmail} !~
         /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i )
     {
-        $e .= $this->WARN('I don\'t recognise this as a valid email address.');
+        return $this->WARN('I don\'t recognise this as a valid email address.');
     }
-    return $e;
+    return '';
 }
 
 1;
