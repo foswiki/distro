@@ -49,10 +49,11 @@ my $PALATABLE_HTML = '(' . join( '|', @PALATABLE_TAGS ) . ')';
 # There are several tags that could come before a table tag
 my @tagsBeforeTable = (
     '<div class="foswikiTableAndMacros">',
-    '<p>\s*<div class="WYSIWYG_LITERAL">', #SMELL - not valid HTML
-    '<p>', # from HTML tables not in sticky or literal blocks
+    '<p>\s*<div class="WYSIWYG_LITERAL">',    #SMELL - not valid HTML
+    '<p>',    # from HTML tables not in sticky or literal blocks
 );
-my $tagsBeforeFirstTablePattern = '^\\s*(?:' . join( '|', map { $_ . '\\s*' } @tagsBeforeTable ) . ')?<table';
+my $tagsBeforeFirstTablePattern =
+  '^\\s*(?:' . join( '|', map { $_ . '\\s*' } @tagsBeforeTable ) . ')?<table';
 
 =pod
 
@@ -630,10 +631,10 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
 
     # Item1417: Insert a paragraph at the start of the document if the first tag
     # is a table (possibly preceded one of several specific tags) so that it is
-	# possible to place the cursor *above* the table. 
-    # The paragraph is removed automatically if it is empty, when converting 
+    # possible to place the cursor *above* the table.
+    # The paragraph is removed automatically if it is empty, when converting
     # back to TML.
-    if ($text =~ /$tagsBeforeFirstTablePattern/o) {
+    if ( $text =~ /$tagsBeforeFirstTablePattern/o ) {
         $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
     }
 
