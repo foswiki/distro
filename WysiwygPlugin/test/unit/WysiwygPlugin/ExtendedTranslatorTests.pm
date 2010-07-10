@@ -638,7 +638,7 @@ HEXPT
         tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %TABLESEP%
-%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+%SEARCH{"legacy" nonoise="on" format="| [[$topic]] | [[$wikiname]] |"}%
 HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
@@ -646,7 +646,7 @@ $deleteme<div class="foswikiTableAndMacros">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
-<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
 THERE
     },
@@ -657,14 +657,14 @@ THERE
         exec => $ROUNDTRIP | $TML2HTML,
         tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
-%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
+%SEARCH{"legacy" nonoise="on" format="| [[$topic]] | [[$wikiname]] |"}%
 HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
-<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
 THERE
     },
