@@ -34,8 +34,10 @@ package Foswiki::Plugins::EditTablePlugin::Core;
 use strict;
 use warnings;
 use Assert;
-use Foswiki::Func;
+use Error qw(:try);
 use CGI qw( :all );
+
+use Foswiki::Func;
 use Foswiki::Plugins::EditTablePlugin::Data;
 use Foswiki::Plugins::EditTablePlugin::EditTableData;
 
@@ -467,17 +469,19 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
     # START SAVE
 
     if ($doSave) {
-        my $error =
-          Foswiki::Func::saveTopic( $web, $topic, $meta, $topicText,
-            { dontlog => ( $mode & $MODE->{SAVEQUIET} ) } );
-
-        Foswiki::Func::setTopicEditLock( $web, $topic, 0 );    # unlock Topic
         my $url = Foswiki::Func::getViewUrl( $web, $topic );
-        $url .= "#edittable$inSaveTableNr";
-        if ($error) {
+        try {
+            Foswiki::Func::saveTopic(
+                $web, $topic, $meta, $topicText,
+                { dontlog => ( $mode & $MODE->{SAVEQUIET} ) } );
+        } catch Error::Simple with {
+            my $e = shift;
             $url =
-              Foswiki::Func::getOopsUrl( $web, $topic, 'oopssaveerr', $error );
-        }
+              Foswiki::Func::getOopsUrl( $web, $topic, 'oopssaveerr',
+                                        "Save failed: ".$e->{-text});
+        };
+        Foswiki::Func::setTopicEditLock( $web, $topic, 0 );    # unlock Topic
+        $url .= "#edittable$inSaveTableNr";
         Foswiki::Func::redirectCgiQuery( $query, $url );
         return;
     }
