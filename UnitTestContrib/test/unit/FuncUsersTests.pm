@@ -1378,7 +1378,7 @@ sub verify_topic_meta_usermapping {
     my $metainfo = $readMeta->expandMacros('%META{"attachments"}%');
 
     #Task:Item6000
-    $metainfo =~ s/^.*?\|(.*)\|.*?$/$1/s;
+    $metainfo =~ s/^.*?(\|.*\|).*?$/$1/s;
     $metainfo =~ s/(01 Jan 1970\s*-\s*)[-\d+:]*/${1}TIME/g;
     $this->assert_html_equals( <<HERE, $metainfo );
 | *I* | *Attachment* | *Action* | *Size* | *Date* | *Who* | *Comment* |
