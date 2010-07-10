@@ -38,10 +38,8 @@ sub commitChanges {
 
     my $logfile;
     $this->{log}  = '';
-    $this->{user} = '';
-    if ( defined $Foswiki::query ) {
-        $this->{user} = $Foswiki::query->remote_user() || '';
-    }
+    $this->{user} = $Foswiki::query->remote_user() || $ENV{REMOTE_USER} || '';
+    $this->{addr} = $Foswiki::query->remote_addr() || $ENV{REMOTE_ADDR} || '';
 
     # Pass ourselves as log listener
     Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this );
@@ -53,13 +51,14 @@ sub commitChanges {
         # input a proper path and therefore untaint rigourously
         # NOTE: this assumes configure is properly hardened through the web
         # server as instructed in the fine manual!
-        $Foswiki::cfg{Log}{Dir} =~ /^(.*)$/;
-        $Foswiki::cfg{Log}{Dir} = $1;
-        unless ( -d $Foswiki::cfg{Log}{Dir} ) {
-            mkdir $Foswiki::cfg{Log}{Dir};
+        my $logdir = $Foswiki::cfg{Log}{Dir};
+        Foswiki::Configure::Load::expandValue($logdir);
+        ($logdir) = $logdir =~ /^(.*)$/;
+        unless ( -d $logdir ) {
+            mkdir $logdir;
         }
-        if ( open( F, '>>', "$Foswiki::cfg{Log}{Dir}/configure.log" ) ) {
-            print F $this->{log};
+        if ( open( F, '>>', "$logdir/configure.log" ) ) {
+            print F $this->{log}."\n";
             close(F);
         }
     }
@@ -83,8 +82,9 @@ sub logChange {
         $this->{log} .= '| '
           . gmtime() . ' | '
           . $this->{user} . ' | '
+          . $this->{addr} . ' | '
           . $keys . ' | '
-          . $value, " |\n";
+          . $value . " |\n";
     }
 }
 
