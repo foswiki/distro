@@ -172,7 +172,7 @@ sub loadChecker {
 
     # Can't locate errors are OK
     return if ( $@ && $@ =~ /Can't locate / );
-    die $@ if ( $@ );
+    die $@ if ($@);
 
     return $checkClass->new($item);
 }
@@ -335,6 +335,18 @@ sub authorised {
     my $pass    = $Foswiki::query->param('cfgAccess');
     my $newPass = $Foswiki::query->param('newCfgP');
 
+    # If a password has been defined, check that it has been used
+    if (
+        !$pass
+        || ( $Foswiki::cfg{Password}
+            && crypt( $pass, $Foswiki::cfg{Password} ) ne
+            $Foswiki::cfg{Password} )
+      )
+    {
+        logPasswordFailure();
+        return ( 0, $MESSAGE_TYPE->{PASSWORD_INCORRECT} );
+    }
+
     # Change the password if so requested
     if ( $Foswiki::query->param('changePassword') ) {
         my $confPass = $Foswiki::query->param('confCfgP') || '';
@@ -376,17 +388,6 @@ sub authorised {
         return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
     }
 
-    # If a password has been defined, check that it has been used
-    if (
-        !$pass
-        || ( $Foswiki::cfg{Password}
-            && crypt( $pass, $Foswiki::cfg{Password} ) ne
-            $Foswiki::cfg{Password} )
-      )
-    {
-        return ( 0, $MESSAGE_TYPE->{PASSWORD_INCORRECT} );
-    }
-
     # Password is correct, or no password defined
 
     return ( 1, $MESSAGE_TYPE->{OK} );
@@ -400,6 +401,30 @@ sub collectMessages {
     my $warnings = $item->{warnings} || 0;
 
     return ( $errors, $warnings );
+}
+
+sub logPasswordFailure {
+    my $logdir = $Foswiki::cfg{Log}{Dir};
+    Foswiki::Configure::Load::expandValue($logdir);
+    ($logdir) = $logdir =~ /^(.*)$/;
+    unless ( -d $logdir ) {
+        mkdir $logdir;
+    }
+    if ( open( my $lf, '>>', "$logdir/configure.log" ) ) {
+
+        my $user = $Foswiki::query->remote_user() || $ENV{REMOTE_USER} || '';
+        my $addr = $Foswiki::query->remote_addr() || $ENV{REMOTE_ADDR} || '';
+
+        my $logmsg = '| '
+          . gmtime() . ' | '
+          . $user . ' | '
+          . $addr . ' | '
+          . '{Password} | '
+          . "AUTHENTICATION FAILURE |\n";
+
+        print $lf $logmsg;
+        close($lf);
+    }
 }
 
 sub _encode {
