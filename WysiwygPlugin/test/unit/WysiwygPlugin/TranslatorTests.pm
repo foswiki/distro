@@ -1973,7 +1973,7 @@ DECAPS
 <sticky><font color="blue"> *|B|* </font></sticky>
 GLUED
         html => '<p>
-<div class="WYSIWYG_STICKY">&#60;font color="blue"&#62; *|B|* &#60;/font&#62;</div>
+<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;</div>
 </p>
 '
     },
@@ -2030,7 +2030,7 @@ GLUED
 GLUED
         html => <<'STUCK'
 <p>
-<div class="WYSIWYG_STICKY">&#60;verbatim&#62;&#60;font color="blue"&#62; *|B|* &#60;/font&#62;&#60;/verbatim&#62;</div>
+<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&lt;verbatim&gt;%H%&lt;/verbatim&gt;&nbsp;&#60;/font&#62;</div>
 </p>
 STUCK
     },
@@ -2042,7 +2042,7 @@ STUCK
 GLUED
         html => <<'STUCK'
 <p>
-<div class="WYSIWYG_STICKY">&#60;literal&#62;&#60;font color="blue"&#62; *|B|* &#60;/font&#62;&#60;/literal&#62;</div>
+<div class="WYSIWYG_STICKY">&#60;literal&#62;&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&#60;/literal&#62;</div>
 </p>
 STUCK
     },
@@ -2137,7 +2137,7 @@ $deleteme<div class="foswikiTableAndMacros">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
-<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
 THERE
     },
@@ -2153,7 +2153,7 @@ $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
 <tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
 </table>
-<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%</span>
+<span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
 THERE
     },
