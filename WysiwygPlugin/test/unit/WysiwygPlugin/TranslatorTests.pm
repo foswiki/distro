@@ -2016,7 +2016,7 @@ BLAH
 GLUED
     },
     {
-        exec => $ROUNDTRIP | $CANNOTWYSIWYG,
+        exec => $ROUNDTRIP,
         name => 'verbatimInsideLiteralItem1980',
         tml  => <<'GLUED',
 <literal><font color="blue"> *|B|*<verbatim>%H%</verbatim> </font></literal>
@@ -2047,7 +2047,7 @@ GLUED
 STUCK
     },
     {
-        exec => $ROUNDTRIP | $CANNOTWYSIWYG,
+        exec => $ROUNDTRIP,
         name => 'stickyInsideLiteral',
         tml  => <<'GLUED',
 <literal><sticky><font color="blue"> *|B|* </font></sticky/></literal>
@@ -2618,9 +2618,17 @@ sub compareRoundTrip {
     }
     else {
         $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
-        $this->assert( !$notEditable,
+        if ($html =~ /WYSIWYG_WARNING/) {
+            # The HTML contains a warning message saying that this TML 
+            # cannot be edited as HTML, and all of the TML is protected
+            # as if the whole topic were in a <sticky> block
+        }
+        else {
+            # This TML really is editable in the WYSIWYG editor
+            $this->assert( !$notEditable,
 "$args->{name} TML is wysiwyg-editable, but notWysiwygEditable() reports: $notEditable"
-        );
+            );
+        }
     }
 
 }

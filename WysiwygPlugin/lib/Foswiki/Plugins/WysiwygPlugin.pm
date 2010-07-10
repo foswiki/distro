@@ -100,6 +100,20 @@ editable, 0 otherwise.
 sub notWysiwygEditable {
 
     #my ($text, $exclusions) = @_;
+    my $disabled = wysiwygEditingDisabledForThisContent($_[0], $_[1]);
+    return $disabled if $disabled;
+
+    # Check that the topic text can be converted to HTML. This is an
+    # *expensive* process, to be avoided if possible (hence all the
+    # earlier checks)
+    my $impossible = wysiwygEditingNotPossibleForThisContent( $_[0] );
+    return $impossible if $impossible;
+
+    return 0;
+}
+
+sub wysiwygEditingDisabledForThisContent {
+    #my ($text, $exclusions) = @_;
 
     my $exclusions = $_[1];
     unless ( defined($exclusions) ) {
@@ -160,7 +174,7 @@ sub notWysiwygEditable {
             if ( $inner =~ /<sticky\b[^>]*>/i ) {
                 print STDERR "WYSIWYG_DEBUG: <sticky> inside <$tag>\n"
                   if (WHY);
-                return "<sticky> inside <$tag>";
+                return "&lt;sticky&gt; inside &lt;$tag&gt;";
             }
         }
     }
@@ -181,27 +195,15 @@ sub notWysiwygEditable {
             if ( $inner =~ /$wasAVerbatimTag/i ) {
                 print STDERR "WYSIWYG_DEBUG: <verbatim> inside <$tag>\n"
                   if (WHY);
-                return "<verbatim> inside <$tag>";
+                return "&lt;verbatim&gt; inside &lt;$tag&gt;";
             }
         }
     }
 
-    # Look for combinations of literal and other markup that cause
-    # problems together
-    for my $tag ( keys %xmltag ) {
-        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
-            my $inner = $1;
-            if ( $inner =~ /<literal\b[^>]*>/i ) {
-                print STDERR "WYSIWYG_DEBUG: <literal> inside <$tag>\n"
-                  if (WHY);
-                return "<literal> inside <$tag>";
-            }
-        }
-    }
+    return 0;
+}
 
-    # Check that the topic text can be converted to HTML. This is an
-    # *expensive* process, to be avoided if possible (hence all the
-    # earlier checks)
+sub wysiwygEditingNotPossibleForThisContent {
     eval {
         require Foswiki::Plugins::WysiwygPlugin::Handlers;
         Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML( $_[0],

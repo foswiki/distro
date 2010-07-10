@@ -1556,6 +1556,10 @@ sub _handleOL       { return _LIST(@_); }
 sub _handleP {
     my ( $this, $options ) = @_;
 
+    if ( $this->hasClass('WYSIWYG_WARNING') ) {
+        return ( 0, '' );
+    }
+
     if ( $this->hasClass('TMLverbatim') ) {
         return $this->_verbatim( 'verbatim', $options );
     }

@@ -99,28 +99,53 @@ sub convert {
 
     return '' unless $content;
 
-    $content =~ s/[$TT0$TT1$TT2]/?/go;
+    my $disabled =
+      Foswiki::Plugins::WysiwygPlugin::wysiwygEditingDisabledForThisContent(
+        $content);
+    if ($disabled) {
 
-    # Render TML constructs to tagged HTML
-    $content = $this->_getRenderedVersion($content);
+      # encode the content verbatim-style, so that the user has uncorrupted HTML
+        $content =~ s/[$TT0$TT1$TT2]/?/go;
+        $content = CGI::div(
+            { class => 'WYSIWYG_WARNING foswikiBroadcastMessage' },
+            Foswiki::Func::renderText(
+                Foswiki::Func::expandCommonVariables( <<"WARNING" ) ) )
+*%MAKETEXT{"Conversion to HTML for WYSIWYG editing is disabled because of the topic content."}%*
 
-    # Substitute back in protected elements
-    $content = $this->_dropBack($content);
+%MAKETEXT{"This is why the conversion is disabled:"}% $disabled
 
-    if ( $content =~ /[$TT0$TT1$TT2]/o ) {
+%MAKETEXT{"(This message will be removed automatically)"}%
+WARNING
+          . CGI::div( { class => 'WYSIWYG_PROTECTED' },
+            _protectVerbatimChars($content) );
+    }
+    else {
 
-        # There should never be any of these in the text at this point.
-        # If there are, then the conversion failed.
-        die("Invalid characters in HTML after conversion")
-          if $options->{dieOnError};
+        # Convert TML to HTML for wysiwyg editing
 
-        # Encode the original TML as verbatim-style HTML,
-        # so that the user has uncorrupted TML, at least.
-        my $originalContent = $_[1];
-        $originalContent =~ s/[$TT0$TT1$TT2]/?/go;
-        $originalContent = _protectVerbatimChars($originalContent);
-        $content =
-          CGI::div( { class => 'WYSIWYG_PROTECTED' }, $originalContent );
+        $content =~ s/[$TT0$TT1$TT2]/?/go;
+
+        # Render TML constructs to tagged HTML
+        $content = $this->_getRenderedVersion($content);
+
+        # Substitute back in protected elements
+        $content = $this->_dropBack($content);
+
+        if ( $content =~ /[$TT0$TT1$TT2]/o ) {
+
+            # There should never be any of these in the text at this point.
+            # If there are, then the conversion failed.
+            die("Invalid characters in HTML after conversion")
+              if $options->{dieOnError};
+
+            # Encode the original TML as verbatim-style HTML,
+            # so that the user has uncorrupted TML, at least.
+            my $originalContent = $_[1];
+            $originalContent =~ s/[$TT0$TT1$TT2]/?/go;
+            $originalContent = _protectVerbatimChars($originalContent);
+            $content =
+              CGI::div( { class => 'WYSIWYG_PROTECTED' }, $originalContent );
+        }
     }
 
     # DEBUG
