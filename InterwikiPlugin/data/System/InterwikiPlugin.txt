@@ -51,7 +51,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  10 Mar 2010: | =mod_perl= and =FastCGI= compatible |
+|  10 Jul 2010: | =mod_perl= and =FastCGI= compatible |
 |  20 Sep 2009: | Version from 15 Apr now included with Foswiki 1.0.7. |
 |  15 Apr 2009: | Foswiki:Main.CrawfordCurrie - removed plugin preferences from this topic |
 |  16 Dec 2008: | Foswiki:Main.KennethLavrsen - Foswiki version - no features changed |

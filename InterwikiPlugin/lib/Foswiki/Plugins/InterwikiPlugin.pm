@@ -42,7 +42,7 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '10 Mar 2010';
+our $RELEASE           = '10 Jul 2010';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -68,6 +68,7 @@ sub initPlugin {
     # Regexes for the Site:page format InterWiki reference
     my $man = Foswiki::Func::getRegularExpression('mixedAlphaNum');
     my $ua  = Foswiki::Func::getRegularExpression('upperAlpha');
+    %interSiteTable = ();
     $sitePattern = "([$ua][$man]+)";
     $pagePattern = "([${man}_\/][$man" . '\.\/\+\_\,\&\;\:\=\!\?\%\#\@\-]*?)';
 
@@ -110,6 +111,8 @@ s/(\[\[)$sitePattern:$pagePattern(\]\]|\]\[[^\]]+\]\])/_link($1,$2,$3,$4)/geo;
     # ref in text
     $_[0] =~
 s/(^|[\s\-\*\(])$sitePattern:$pagePattern(?=[\s\.\,\;\:\!\?\)\|]*(\s|$))/_link($1,$2,$3)/geo;
+
+    return;
 }
 
 sub _link {
