@@ -1,8 +1,7 @@
 %META:TOPICINFO{author="BaseUserMapping_333" date="1246078286" format="1.1" version="1.1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
-
-testing to let me refactor the format= functionality in foswiki 1.1
+Description: Automated formatted search tests verifying refactor of format= functionality in foswiki 1.1
 
 The major risk is the default formatting where web's are separated - for paging and FOREACH we need to turn that off.
 
@@ -11,7 +10,7 @@ The major risk is the default formatting where web's are separated - for paging 
 
 ---++ default search formatting
 ---+++ Expected
-<!-- expected expand rex old Tmwiki default multi-weboutput 4 webs -->
+<!-- expected 1 expand rex old Tmwiki default multi-weboutput 4 webs -->
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
@@ -210,29 +209,29 @@ The major risk is the default formatting where web's are separated - for paging 
 
 ---++ simple format="   * !$web.!$topic"
 ---+++ Expected
-<!-- expected expand rex simple format="   * !$web.$topic" -->
+<!-- expected 2 expand rex simple format="   * !$web.$topic" -->
 <ul>
-<li> TestCases.WebHome
-</li> <li> TestCases.WebPreferences
-</li> <li> TestCases.WebStatistics
+<li> <nop>TestCases.WebHome
+</li> <li> <nop>TestCases.WebPreferences
+</li> <li> <nop>TestCases.WebStatistics
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <ul>
-<li> System.WebHome
-</li> <li> System.WebPreferences
-</li> <li> System.WebStatistics
+<li> <nop>System.WebHome
+</li> <li> <nop>System.WebPreferences
+</li> <li> <nop>System.WebStatistics
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <ul>
-<li> Main.WebHome
-</li> <li> Main.WebPreferences
-</li> <li> Main.WebStatistics
+<li> <nop>Main.WebHome
+</li> <li> <nop>Main.WebPreferences
+</li> <li> <nop>Main.WebStatistics
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <ul>
-<li> Sandbox.WebHome
-</li> <li> Sandbox.WebPreferences
-</li> <li> Sandbox.WebStatistics
+<li> <nop>Sandbox.WebHome
+</li> <li> <nop>Sandbox.WebPreferences
+</li> <li> <nop>Sandbox.WebStatistics
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /expected -->
@@ -243,7 +242,7 @@ The major risk is the default formatting where web's are separated - for paging 
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
-    format="   * !$web.$topic"
+    format="   * <nop>$web.$topic"
     nosearch="on"
 }%
 <!-- /actual -->
@@ -253,15 +252,14 @@ The major risk is the default formatting where web's are separated - for paging 
 
 
 ---++ format="   * !$web.!$topic" separator="-"
-This shows the odd way the separator is used - it separates not just results, but also the default footer, but not the header
-__i think this is a BUG__
+
 ---+++ Expected
-<!-- expected  format="   * !$web.!$topic" separator="-" -->
+<!-- expected  3 format="   * !$web.!$topic" separator="-" -->
 <ul>
-<li> TestCases.!WebHome-   * TestCases.!WebPreferences-   * TestCases.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> System.!WebHome-   * System.!WebPreferences-   * System.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> Main.!WebHome-   * Main.!WebPreferences-   * Main.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-</li> <li> Sandbox.!WebHome-   * Sandbox.!WebPreferences-   * Sandbox.!WebStatistics-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> <nop>TestCases.WebHome-   * <nop>TestCases.WebPreferences-   * <nop>TestCases.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> <nop>System.WebHome-   * <nop>System.WebPreferences-   * <nop>System.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> <nop>Main.WebHome-   * <nop>Main.WebPreferences-   * <nop>Main.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+</li> <li> <nop>Sandbox.WebHome-   * <nop>Sandbox.WebPreferences-   * <nop>Sandbox.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li></ul>
 <p />
 <!-- /expected -->
@@ -272,7 +270,7 @@ __i think this is a BUG__
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
-    format="   * !$web.!$topic"
+    format="   * <nop>$web.$topic"
     separator="-"
     nosearch="on"
 }%
@@ -282,29 +280,19 @@ __i think this is a BUG__
 
 
 
----++ format="   * !$web.!$topic" separator="-" header="---++ header !$web" footer="---++ footer !$web"
-This shows the odd way the separator is used - it separates not just results, but also the default footer, but not the header
-__i think this is a BUG__
+---++ format="&lt;nop&gt;$web.&lt;nop&gt;$topic" separator=" - " header="   * *header <nop>$web* " footer=" *footer <nop>$web* "
+Note that the =nototal= is on which adds a new line correctly after the line listing the total
+
 ---+++ Expected
-<!-- expected  format="   * !$web.!$topic" separator="-" header="---++ header !$web" footer="---++ footer !$web" -->
-<h2><a name="header_TestCases_AN1"></a>  header TestCases </h2>
+<!-- expected  4 format="<nop>$web.<nop>$topic" separator=" - " header="   * *header <nop>$web* " footer=" *footer <nop>$web* " -->
 <ul>
-<li> TestCases.!WebHome-   * TestCases.!WebPreferences-   * TestCases.!WebStatistics----++ footer TestCases<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header <nop>TestCases</strong> <nop>TestCases.<nop>WebHome - <nop>TestCases.<nop>WebPreferences - <nop>TestCases.<nop>WebStatistics <strong>footer <nop>TestCases</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
-</ul>
-<h2><a name="header_System_AN1"></a>  header System </h2>
-<ul>
-<li> System.!WebHome-   * System.!WebPreferences-   * System.!WebStatistics----++ footer System<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header System</strong> <nop>System.<nop>WebHome - <nop>System.<nop>WebPreferences - <nop>System.<nop>WebStatistics <strong>footer <nop>System</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
-</ul>
-<h2><a name="header_Main_AN1"></a>  header Main </h2>
-<ul>
-<li> Main.!WebHome-   * Main.!WebPreferences-   * Main.!WebStatistics----++ footer Main<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header Main</strong> <nop>Main.<nop>WebHome - <nop>Main.<nop>WebPreferences - <nop>Main.<nop>WebStatistics <strong>footer <nop>Main</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
-</ul>
-<h2><a name="header_Sandbox_AN1"></a>  header Sandbox </h2>
-<ul>
-<li> Sandbox.!WebHome-   * Sandbox.!WebPreferences-   * Sandbox.!WebStatistics----++ footer Sandbox<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header Sandbox</strong> <nop>Sandbox.<nop>WebHome - <nop>Sandbox.<nop>WebPreferences - <nop>Sandbox.<nop>WebStatistics <strong>footer <nop>Sandbox</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li></ul>
 <p />
 <!-- /expected -->
@@ -315,10 +303,86 @@ __i think this is a BUG__
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
-    format="   * !$web.!$topic"
-    separator="-"
-    header="---++ header !$web"
-    footer="---++ footer !$web"
+    format="<nop>$web.<nop>$topic"
+    separator=" - "
+    header="   * *header <nop>$web* "
+    footer=" *footer <nop>$web* "
     nosearch="on"
+}%
+<!-- /actual -->
+
+---++ format="&lt;nop&gt;$topic" separator=", " header="| <nop>$web |" footer="|$n* and nototal
+Note that there is no separator after last item and the only newline is the one added by the footer.
+
+---+++ Expected
+<!-- expected  5 format="<nop>$topic" separator=", " header="| <nop>$web | " footer="|$n" -->
+
+<table border=1 cellpadding=0 cellspacing=0 class=foswikiTable>
+<tbody>
+<tr><td> <nop>TestCases </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
+<tr><td> <nop>System </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
+<tr><td> <nop>Main </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
+<tr><td> <nop>Sandbox </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
+</tbody>
+</table>
+<p />
+
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="<nop>$topic"
+    separator=", "
+    header="| <nop>$web | "
+    footer="|$n"
+    nosearch="on"
+    nototal="on"
+}%
+<!-- /actual -->
+
+---++ Compatibility Maintained when no separator is defined
+
+---+++ Expected
+<!-- expected  5 Compatibility Maintained when no separator is defined -->
+<table border=1 cellpadding=0 cellspacing=0 class=foswikiTable>
+<tbody>
+<tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
+<tr><td> TestCases </td><td> WebHome </td></tr>
+<tr><td> TestCases </td><td> WebPreferences </td></tr>
+<tr><td> TestCases </td><td> WebStatistics </td></tr>
+<tr><td> 3 </td><td> 3 </td></tr>
+<tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
+<tr><td> System </td><td> WebHome </td></tr>
+<tr><td> System </td><td> WebPreferences </td></tr>
+<tr><td> System </td><td> WebStatistics </td></tr>
+<tr><td> 3 </td><td> 3 </td></tr>
+<tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
+<tr><td> Main </td><td> WebHome </td></tr>
+<tr><td> Main </td><td> WebPreferences </td></tr>
+<tr><td> Main </td><td> WebStatistics </td></tr>
+<tr><td> 3 </td><td> 3 </td></tr>
+<tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
+<tr><td> Sandbox </td><td> WebHome </td></tr>
+<tr><td> Sandbox </td><td> WebPreferences </td></tr>
+<tr><td> Sandbox </td><td> WebStatistics </td></tr>
+<tr><td> 3 </td><td> 3 </td></tr>
+</tbody></table>
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{
+    "(WebPreferences|WebStatistics|WebHome)$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%, Main, Sandbox"
+    format="| <nop>$web | <nop>$topic |"
+    header="| <nop> *Web* | <nop> *Topics* |"
+    footer="| $nhits | $ntopics |$n"
+    nosearch="on"
+    nototal="on"
 }%
 <!-- /actual -->
