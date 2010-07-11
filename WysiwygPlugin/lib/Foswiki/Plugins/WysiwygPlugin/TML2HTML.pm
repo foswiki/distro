@@ -128,14 +128,15 @@ WARNING
         # Render TML constructs to tagged HTML
         $content = $this->_getRenderedVersion($content);
 
-        # Substitute back in protected elements
-        $content = $this->_dropBack($content);
-
-        if ( $content =~ /[$TT0$TT1$TT2]/o ) {
+        my $fail = '';
+        $fail .= "TT0:[$1|TT0|$2]" if $content =~ /(.{0,10})[$TT0](.{0,10})/o;
+        $fail .= "TT1:[$1|TT1|$2]" if $content =~ /(.{0,10})[$TT1](.{0,10})/o;
+        $fail .= "TT2:[$1|TT2|$2]" if $content =~ /(.{0,10})[$TT2](.{0,10})/o;
+        if ($fail) {
 
             # There should never be any of these in the text at this point.
             # If there are, then the conversion failed.
-            die("Invalid characters in HTML after conversion")
+            die("Invalid characters in HTML after conversion: $fail")
               if $options->{dieOnError};
 
             # Encode the original TML as verbatim-style HTML,
@@ -156,17 +157,35 @@ WARNING
 }
 
 sub _liftOut {
-    my ( $this, $text, $type, $encoding ) = @_;
-    $text = $this->_unLift($text);
+    my ( $this, $text, $type ) = @_;
+    my %options;
+    if ( $type and $type =~ /^(?:PROTECTED|STICKY|VERBATIM)$/ ) {
+        $options{protect} = 1;
+    }
+    $options{class} = 'WYSIWYG_' . $type;
+    return $this->_liftOutGeneral( $text, \%options );
+}
+
+sub _liftOutGeneral {
+    my ( $this, $text, $options ) = @_;
+
+    #$text = $this->_unLift($text);
+
+    $options = {} unless ref($options);
+
     my $n = scalar( @{ $this->{refs} } );
     push(
         @{ $this->{refs} },
         {
-            type     => $type,
-            encoding => $encoding || 'span',
-            text     => $text
+            tag => $options->{tag} || 'span',
+            text    => $text,
+            tmltag  => $options->{tmltag},
+            params  => $options->{params},
+            class   => $options->{class},
+            protect => $options->{protect},
         }
     );
+
     return $TT1 . $n . $TT2;
 }
 
@@ -180,24 +199,47 @@ sub _unLift {
 }
 
 sub _dropBack {
-    my ( $this, $text ) = @_;
+    my ( $this, $text, $protecting ) = @_;
 
     # Restore everything that was lifted out
-    while ( $text =~ s#$TT1([0-9]+)$TT2#$this->_dropIn($1)#ge ) {
+    while ( $text =~ s#$TT1([0-9]+)$TT2#$this->_dropIn($1, $protecting)#ge ) {
     }
     return $text;
 }
 
 sub _dropIn {
-    my ( $this, $n ) = @_;
+    my ( $this, $n, $protecting ) = @_;
     my $thing = $this->{refs}->[$n];
-    return $thing->{text} if $thing->{encoding} eq 'NONE';
-    my $method = 'CGI::' . $thing->{encoding};
-    my $text   = $thing->{text};
+
+    my $text = $thing->{text};
+
+    # Drop back recursively
+    $text = $this->_dropBack( $text, $protecting || $thing->{protect} );
+
+    # Only protect at the outer-most level applicable
     $text = _protectVerbatimChars($text)
-      if $thing->{type} =~ /^(PROTECTED|STICKY|VERBATIM)$/;
+      if $thing->{protect} and not $protecting;
+
+    if ($protecting) {
+        if ( $thing->{tmltag} ) {
+            return
+"<$thing->{tmltag}$thing->{params}>$thing->{text}</$thing->{tmltag}>";
+        }
+        else {
+            return $thing->{text};
+        }
+    }
+    return $thing->{text} if $thing->{tag} eq 'NONE';
+
+    my $method = 'CGI::' . $thing->{tag};
+
+    $thing->{params} ||= {};
+    $thing->{params} = _parseParams( $thing->{params} )
+      if not ref $thing->{params};
+    _addClass( $thing->{params}->{class}, $thing->{class} ) if $thing->{class};
+
     no strict 'refs';
-    return &$method( { class => 'WYSIWYG_' . $thing->{type} }, $text );
+    return &$method( $thing->{params}, $text );
     use strict 'refs';
 }
 
@@ -298,11 +340,33 @@ sub _getRenderedVersion {
     $this->{removed} = {};     # Map of placeholders to tag parameters and text
 
     # Do sticky first; it can't be ignored
-    $text = $this->_takeOutBlocks( $text, 'sticky' );
+    $text = $this->_liftOutBlocks(
+        $text, 'sticky',
+        {
+            tag     => 'div',
+            protect => 1,
+            class   => 'WYSIWYG_STICKY'
+        }
+    );
 
-    $text = $this->_takeOutBlocks( $text, 'verbatim' );
+    $text = $this->_liftOutBlocks(
+        $text,
+        'verbatim',
+        {
+            tag     => 'pre',
+            protect => 1,
+            class   => 'TMLverbatim'
+        }
+    );
 
-    $text = $this->_takeOutBlocks( $text, 'literal' );
+    $text = $this->_liftOutBlocks(
+        $text,
+        'literal',
+        {
+            tag   => 'div',
+            class => 'WYSIWYG_LITERAL'
+        }
+    );
 
     $text = $this->_takeOutSets($text);
 
@@ -312,7 +376,7 @@ sub _getRenderedVersion {
     $text =~ s/\t/   /g;
 
     # Remove PRE to prevent TML interpretation of text inside it
-    $text = $this->_takeOutBlocks( $text, 'pre' );
+    $text = $this->_liftOutBlocks( $text, 'pre', {} );
 
     # Protect comments
     $text =~ s/(<!--.*?-->)/$this->_liftOut($1, 'PROTECTED')/ges;
@@ -366,6 +430,7 @@ sub _getRenderedVersion {
 s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])/$this->_liftOut($1, 'LINK')/geo;
 
     # other entities
+    # SMELL - international characters are not allowed in entity names
     $text =~ s/&([$Foswiki::regex{mixedAlphaNum}]+;)/$TT0$1/g;    # "&abc;"
     $text =~ s/&(#[0-9]+;)/$TT0$1/g;                              # "&#123;"
          #$text =~ s/&/&amp;/g;             # escape standalone "&"
@@ -631,28 +696,10 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     $text =~
 s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOut($1, 'LINK')/geom;
 
-    while ( my ( $placeholder, $val ) = each %{ $this->{removed} } ) {
-        if ( $placeholder =~ /^verbatim/i ) {
-            _addClass( $val->{params}->{class}, 'TMLverbatim' );
-        }
-        elsif ( $placeholder =~ /^literal/i ) {
-            _addClass( $val->{params}->{class}, 'WYSIWYG_LITERAL' );
-        }
-        elsif ( $placeholder =~ /^sticky/i ) {
-            _addClass( $val->{params}->{class}, 'WYSIWYG_STICKY' );
-        }
-    }
-
-    $this->_putBackBlocks( $text, 'pre' );
-
-    $this->_putBackBlocks( $text, 'literal', 'div' );
-
-    # replace verbatim with pre in the final output, with encoded entities
-    $this->_putBackBlocks( $text, 'verbatim', 'pre', \&_protectVerbatimChars );
-
-    $this->_putBackBlocks( $text, 'sticky', 'div', \&_protectVerbatimChars );
-
     $text =~ s/(<nop>)/$this->_liftOut($1, 'PROTECTED')/ge;
+
+    # Substitute back in protected elements
+    $text = $this->_dropBack($text);
 
     # Item1417: Insert a paragraph at the start of the document if the first tag
     # is a table (possibly preceded one of several specific tags) so that it is
@@ -919,7 +966,7 @@ sub _takeOutIMGTag {
     $text =~ s/(<img [^>]*)\bmce_src=(["'])(.*?)\2/$1/gie;
     $text =~ s:([^/])>$:$1 />:;    # close the tag XHTML style
 
-    return $this->_liftOut( $text, '', 'NONE' );
+    return $this->_liftOutGeneral( $text, { tag => 'NONE' } );
 }
 
 # Pull out Foswiki Set statements, to prevent unwanted munging
@@ -988,21 +1035,30 @@ sub _takeOutCustomTags {
     return $text;
 }
 
-sub _takeOutBlocks {
+sub _liftOutBlocks {
 
-    # my ( $this, $intext, $tag ) = @_;
+    my ( $this, $intext, $tag, $commonOptions ) = @_;
 
-    sub _takeOutBlocksProcess {
-        my ( $this, $state, $scoop ) = @_;
-        my $placeholder = $state->{tag} . $state->{n};
-        $this->{removed}->{$placeholder} = {
-            params => _parseParams( $state->{tagParams} ),
-            text   => $scoop,
-        };
-        return $TT0 . $placeholder . $TT0;
+    $commonOptions = {} unless ref($commonOptions);
+    $commonOptions->{tag} ||= $tag;
+
+    my %allBlocksOptions = ( tmltag => $tag );
+    for my $option (qw/ tag class protect /) {
+        $allBlocksOptions{$option} = $commonOptions->{$option}
+          if $commonOptions->{$option};
     }
 
-    return _takeOutXml( @_, \&_takeOutBlocksProcess );
+    my $liftOutBlocksProcess = sub {
+        my ( $this, $state, $scoop ) = @_;
+
+        my %oneBlockOptions = %allBlocksOptions;
+        $oneBlockOptions{params} = $state->{tagParams};
+
+        my $params = $state->{tagParams};
+        return $this->_liftOutGeneral( $scoop, \%oneBlockOptions );
+    };
+
+    return _takeOutXml( $this, $intext, $tag, $liftOutBlocksProcess );
 }
 
 sub _takeOutXml {
@@ -1061,32 +1117,6 @@ sub _takeOutXml {
     $out =~ s/<($tag\s+\/)>/&lt;$1&gt;/g;
 
     return $out;
-}
-
-sub _putBackBlocks {
-    my ( $this, $text, $tag, $newtag, $callback ) = @_;
-    $newtag ||= $tag;
-    my $fn;
-    while ( my ( $placeholder, $val ) = each %{ $this->{removed} } ) {
-        if ( $placeholder =~ /^$tag\d+$/ ) {
-            my $params = $val->{params};
-            my $val    = $val->{text};
-            $val = &$callback($val) if ( defined($callback) );
-
-            # Use div instead of span if the block contains block HTML
-            if ( $newtag eq 'span' && $val =~ m#</?($WC::ALWAYS_BLOCK_S)\b#io )
-            {
-                $fn = 'CGI::div';
-            }
-            else {
-                $fn = 'CGI::' . $newtag;
-            }
-            no strict 'refs';
-            $_[1] =~ s/$TT0$placeholder$TT0/&$fn($params, $val)/e;
-            use strict 'refs';
-            delete( $this->{removed}->{$placeholder} );
-        }
-    }
 }
 
 sub _parseParams {

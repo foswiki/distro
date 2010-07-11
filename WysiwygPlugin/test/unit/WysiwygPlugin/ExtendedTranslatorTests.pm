@@ -220,13 +220,7 @@ BLAH
 BLAH
     },
     {
-        exec => $CANNOTWYSIWYG,
-
-        # Do not perform ROUNDTRIP on this TML, because ROUNDTRIP passes.
-        # The problem with this TML is that the special handling of
-        # <verbatim> in the conversion to HTML messes up the contents
-        # of this custom XML  tag, so that the HTML is not representative
-        # of the TML in terms of intellectual content.
+        exec => $TML2HTML | $ROUNDTRIP,
         name  => 'VerbatimInsideDot',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -244,6 +238,17 @@ digraph G {
 }
 </dot>
 DOT
+        html => '<p>'
+            . $protecton
+            . '&lt;dot&gt;<br />'
+            . 'digraph&nbsp;G&nbsp{<br />'
+            . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;[label="&lt;verbatim&gt;"];<br />'
+            . '&nbsp;&nbsp;&nbsp;&nbsp;content&nbsp;[label="Put&nbsp;arbitrary&nbsp;content&nbsp;here"];<br />'
+            . '&nbsp;&nbsp;&nbsp;&nbsp;close&nbsp;[label="&lt;/verbatim&gt;"];<br />'
+            . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;-&gt;&nbsp;content&nbsp-&gt;&nbsp;close;<br />'
+            . '}<br />'
+            . '&lt;/dot&gt;'
+            . $protectoff . '</p>',
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,
@@ -264,7 +269,7 @@ DOT
           . '</div>' . '</p>'
     },
     {
-        exec  => $ROUNDTRIP | $CANNOTWYSIWYG,    #SMELL: fix this case
+        exec  =>  $TML2HTML | $ROUNDTRIP,
         name  => 'StickyInsideCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -278,9 +283,9 @@ DOT
           . $protecton
           . '&lt;customtag&gt;'
           . 'this&nbsp;'
-          . '<div class="WYSIWYG_STICKY">'
+          . '&lt;sticky&gt;'
           . '&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the'
-          . '</div>'
+          . '&lt;/sticky&gt;'
           . '&nbsp;other&nbsp;'
           . '&lt;/customtag&gt;'
           . $protectoff . '</p>'
@@ -346,20 +351,46 @@ DOT
           . '</div>' . '</p>'
     },
     {
-        exec  => $ROUNDTRIP | $CANNOTWYSIWYG,    #SMELL: Fix this case
-        name  => 'LiteralInsideCustomtag',
+        exec  => $TML2HTML | $ROUNDTRIP,
+        name  => 'insideCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
               \%Foswiki::Plugins::WysiwygPlugin::xmltag;
             Foswiki::Plugins::WysiwygPlugin::Handlers::addXMLTag( 'customtag',
                 sub { 1 } );
         },
-        tml =>
-          '<customtag>this <literal>& that > the</literal> other </customtag>',
+        tml => <<'HERE',
+<customtag>
+%MACRO{"<b>X</b>"}%
+this <literal>& that > the</literal> other
+<verbatim>V</verbatim>
+<sticky>S</sticky>
+<pre>P</pre>
+<!--C-->
+   * Set foo=bar
+http://google.com/#q=foswiki
+WikiWord [[some link]]
+<mytag attr="value">my content</mytag>
+<img src="http://mysite.org/logo.png" alt="Alternate text" />
+</customtag>
+HERE
         html => '<p>'
-          . '<div class="WYSIWYG_LITERAL">'
-          . '<customtag>this & that > the other </customtag>'
-          . '</div>' . '</p>'
+          . $protecton
+          . '&lt;customtag&gt;<br />'
+          . '%MACRO{"&lt;b&gt;X&lt;/b&gt;"}%<br />'
+          . 'this&nbsp;&lt;literal&gt;&amp;&nbsp;that&nbsp;&gt;&nbsp;the&lt;/literal&gt;&nbsp;other<br />'
+          . '&lt;verbatim&gt;V&lt;/verbatim&gt;<br />'
+          . '&lt;sticky&gt;S&lt;/sticky&gt;<br />'
+          . '&lt;pre&gt;P&lt;/pre&gt;<br />'
+          . '&lt;!--C--&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;foo=bar<br />'
+          . 'http://google.com/#q=foswiki<br />'
+          . 'WikiWord&nbsp;[[some&nbsp;link]]<br />'
+          . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
+          . '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
+          . '&lt;/customtag&gt;'
+          . $protectoff
+          . '</p>'
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,

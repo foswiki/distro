@@ -1302,10 +1302,42 @@ hijk',
    * Set FLIBBLE = <break> <cake/>
      </break>
    * %FLIBBLE%
+   * Set Other=stuff
+   <sticky><font color="blue"> *|B|* </font></sticky>
+   <!-- hidden -->
+   http://google.com/#q=foswiki
+   %FOO% WikiWord [[some link]]
+   <img src="http://mysite.org/logo.png" alt="Alternate text" />
+   <verbatim class="tml">%H%<!--?--></verbatim>
+   <literal><font color="blue"> *|B|* </font></literal>
+   <mytag attr="value">my content</mytag>
+   <sticky> block </sticky>
+   <pre>
+     123
+    456
+   </pre>
       * Set FLEEGLE = easy gum
 HERE
-        html => '<ul>
-<li> Set FLIBBLE =<span class="WYSIWYG_PROTECTED">&nbsp;&#60;break&#62;&nbsp;&#60;cake/&#62;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/break&#62;</span></li><li><span class="WYSIWYG_PROTECTED">%FLIBBLE%</span><ul><li>Set FLEEGLE =<span class="WYSIWYG_PROTECTED">&nbsp;easy&nbsp;gum</span></li></ul></li></ul>',
+        html => '<ul>'.
+                '<li> Set FLIBBLE =<span class="WYSIWYG_PROTECTED">&nbsp;&#60;break&#62;&nbsp;&#60;cake/&#62;<br />'.
+                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/break&#62;</span></li>'.
+                '<li><span class="WYSIWYG_PROTECTED">%FLIBBLE%</span></li>'.
+                '<li> Set Other=<span class="WYSIWYG_PROTECTED">stuff<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;sticky&gt;&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&lt;/sticky&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;http://google.com/#q=foswiki<br />'.
+                '&nbsp;&nbsp;&nbsp;%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;pre&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;123<br />'.
+                '&nbsp;&nbsp;&nbsp;&nbsp;456<br />'.
+                '&nbsp;&nbsp;&nbsp;&lt;/pre&gt;'.
+                '</span>'.
+                '<ul><li>Set FLEEGLE =<span class="WYSIWYG_PROTECTED">&nbsp;easy&nbsp;gum</span></li></ul></li></ul>',
     },
     {
         exec => $HTML2TML,
@@ -1970,12 +2002,181 @@ DECAPS
         exec => $TML2HTML | $ROUNDTRIP | $HTML2TML,
         name => 'sticky',
         tml  => <<GLUED,
-<sticky><font color="blue"> *|B|* </font></sticky>
+<sticky><font color="blue"> *|B|* </font>
+
+<!-- hidden -->
+http://google.com/#q=foswiki
+%FOO% WikiWord [[some link]]
+   * Set bar=baz
+<img src="%!page!%/logo.png" alt="Alternate text" />
+
+<verbatim class="tml">%H%<!--?--></verbatim>
+<literal><font color="blue"> *|B|* </font></literal>
+<mytag attr="value">my content</mytag>
+
+nested <sticky> block </sticky>
+
+<pre>
+  123
+ 456
+</pre></sticky>
 GLUED
-        html => '<p>
-<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;</div>
+        html => '<p>'.
+                '<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'.
+                '<br />'.
+                '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'.
+                'http://google.com/#q=foswiki<br />'.
+                '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
+                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'.
+                '&lt;img&nbsp;src=&quot;%!page!%/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
+                '<br />'.
+                '&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
+                '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
+                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
+                '<br />'.
+                'nested&nbsp;&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
+                '<br />'.
+                '&lt;pre&gt;<br />'.
+                '&nbsp;&nbsp;123<br />'.
+                '&nbsp;456<br />'.
+                '&lt;/pre&gt;</div>'.
+                '</p>'
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP | $HTML2TML,
+        name => 'verbatim',
+        tml  => <<GLUED,
+<verbatim><font color="blue"> *|B|* </font>
+
+<!-- hidden -->
+http://google.com/#q=foswiki
+%FOO% WikiWord [[some link]]
+   * Set bar=baz
+<img src="http://mysite.org/logo.png" alt="Alternate text" />
+
+nested <verbatim class="tml">%H%<!--?--></verbatim>
+<literal><font color="blue"> *|B|* </font></literal>
+<mytag attr="value">my content</mytag>
+
+<sticky> block </sticky>
+
+<pre>
+  123
+ 456
+</pre></verbatim>
+GLUED
+        html => '<p>'.
+                '<pre class="TMLverbatim">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'.
+                '<br />'.
+                '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'.
+                'http://google.com/#q=foswiki<br />'.
+                '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
+                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'.
+                '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
+                '<br />'.
+                'nested&nbsp;&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
+                '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
+                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
+                '<br />'.
+                '&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
+                '<br />'.
+                '&lt;pre&gt;<br />'.
+                '&nbsp;&nbsp;123<br />'.
+                '&nbsp;456<br />'.
+                '&lt;/pre&gt;</pre>'.
+                '</p>'
+    },
+    {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'comment',
+        tml  => <<GLUED,
+<!--<font color="blue"> *|B|* </font>
+
+http://google.com/#q=foswiki
+%FOO% WikiWord [[some link]]
+   * Set bar=baz
+<img src="%!page!%/logo.png" alt="Alternate text" />
+
+<verbatim class="tml">%H%<!--?--></verbatim>
+<literal><font color="blue"> *|B|* </font></literal>
+<mytag attr="value">my content</mytag>
+
+<sticky> block </sticky>
+
+<pre>
+  123
+ 456
+</pre>-->
+GLUED
+        html => '<p>'.$protecton.
+                '&lt;!--&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'.
+                '<br />'.
+                'http://google.com/#q=foswiki<br />'.
+                '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
+                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'.
+                '&lt;img&nbsp;src=&quot;%!page!%/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
+                '<br />'.
+                '&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
+                '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
+                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
+                '<br />'.
+                '&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
+                '<br />'.
+                '&lt;pre&gt;<br />'.
+                '&nbsp;&nbsp;123<br />'.
+                '&nbsp;456<br />'.
+                '&lt;/pre&gt;--&gt;'.
+                $protectoff.'</p>',
+    },
+    {
+        # SMELL: The macro, the *Set value and the comment 
+        #        should be in WYSIWYG_PROTECTED spans
+        #        but HTML2TML doesn't yet cater for that
+        # So this test captures current (long-standing) behaviour, 
+        # but the behaviour isn't really correct
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'literal',
+        tml  => <<'HERE',
+<literal>
+<font color="blue"> *|B|* </font>
+http://google.com/#q=foswiki WikiWord [[some link]]
+%FOO{"<b>html in macro param</b>"}% <!-- hidden -->
+<pre>
+  123
+ 456
+</pre>
+   * Set bar=baz
+<mytag attr="value">my content</mytag>
+</literal>
+HERE
+        html => <<"HERE",
+<p>
+<div class="WYSIWYG_LITERAL">
+<font color="blue"> *|B|* </font>
+http://google.com/#q=foswiki WikiWord [[some link]]
+%FOO{"<b>html in macro param</b>"}% <!-- hidden -->
+<pre>
+  123
+ 456
+</pre>
+   * Set bar=baz
+<mytag attr="value">my content</mytag>
+</div>
 </p>
-'
+HERE
+        finaltml => <<'HERE',
+<literal>
+<font color='blue'> *|B|* </font>
+http://google.com/#q=foswiki WikiWord [[some link]]
+%FOO{"<b>html in macro param</b>"}% <!-- hidden -->
+<pre>
+  123
+ 456
+</pre>
+   * Set bar=baz
+<mytag attr='value'>my content</mytag>
+</literal>
+HERE
     },
     {
         exec => $HTML2TML,
@@ -1997,54 +2198,11 @@ BLAH
         tml => "<sticky>Oranges</sticky>\n\n<sticky>Apples</sticky>"
     },
     {
-        exec => $HTML2TML | $ROUNDTRIP,
-        name => 'stickyInsideVerbatimItem1980',
-        tml  => <<'GLUED',
-<verbatim><sticky>banana</sticky></verbatim>
-GLUED
-        html => <<'BLAH',
-<p>
-<pre class="TMLverbatim">&lt;sticky&gt;banana&lt;/sticky&gt;</pre>
-</p>
-BLAH
-    },
-    {
-        exec => $ROUNDTRIP,
-        name => 'literalInsideVerbatimItem1980',
-        tml  => <<'GLUED',
-<verbatim><literal><font color="blue"> *|B|* </font></literal></verbatim>
-GLUED
-    },
-    {
         exec => $ROUNDTRIP,
         name => 'verbatimInsideLiteralItem1980',
         tml  => <<'GLUED',
 <literal><font color="blue"> *|B|*<verbatim>%H%</verbatim> </font></literal>
 GLUED
-    },
-    {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'verbatimInsideStickyItem1980',
-        tml  => <<'GLUED',
-<sticky><font color="blue"> *|B|*<verbatim>%H%</verbatim> </font></sticky>
-GLUED
-        html => <<'STUCK'
-<p>
-<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&lt;verbatim&gt;%H%&lt;/verbatim&gt;&nbsp;&#60;/font&#62;</div>
-</p>
-STUCK
-    },
-    {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'literalInsideSticky',
-        tml  => <<'GLUED',
-<sticky><literal><font color="blue"> *|B|* </font></literal></sticky>
-GLUED
-        html => <<'STUCK'
-<p>
-<div class="WYSIWYG_STICKY">&#60;literal&#62;&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&#60;/literal&#62;</div>
-</p>
-STUCK
     },
     {
         exec => $ROUNDTRIP,
@@ -2415,7 +2573,7 @@ ZAT
     },
     {
         name => "Item2222",
-        exec => $ROUNDTRIP | $CANNOTWYSIWYG,
+        exec => $ROUNDTRIP,
         tml  => '<!-- <sticky></sticky> -->',
     },
     {
@@ -2472,7 +2630,54 @@ HERE
         html => <<'HERE',
 <p><span class="WYSIWYG_PROTECTED">%JQPLUGINS{"scrollto"<br />&nbsp;&nbsp;format="<br />&nbsp;&nbsp;&nbsp;&nbsp;Homepage:&nbsp;$homepage&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Author(s):&nbsp;$author&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Version:&nbsp;$version<br />&nbsp;&nbsp;"<br />}%</span></p>
 HERE
-    }
+    },
+    {
+        name => "stuffInMacro",
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml => <<'HERE',
+%MACRO{"
+a%ANOTHER%
+<verbatim>V</verbatim>
+<sticky>S</sticky>
+<literal>L</literal>
+<pre>P</pre>
+<!--C-->
+   * Set foo=bar
+http://google.com/#q=foswiki
+WikiWord [[some link]]
+<mytag attr="value">my content</mytag>
+<img src="http://mysite.org/logo.png" alt="Alternate text" />
+"}%
+HERE
+        html => '<p>' .
+                '<span class="WYSIWYG_PROTECTED">'.
+                '%MACRO{"<br />'.
+                'a%ANOTHER%<br />'.
+                '&lt;verbatim&gt;V&lt;/verbatim&gt;<br />'.
+                '&lt;sticky&gt;S&lt;/sticky&gt;<br />'.
+                '&lt;literal&gt;L&lt;/literal&gt;<br />'.
+                '&lt;pre&gt;P&lt;/pre&gt;<br />'.
+                '&lt;!--C--&gt;<br />'.
+                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;foo=bar<br />'.
+                'http://google.com/#q=foswiki<br />'.
+                'WikiWord&nbsp;[[some&nbsp;link]]<br />'.
+                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
+                '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
+                '"}%'.
+                '</span>'.
+                '</p>'
+    },
+    {
+        name => "failsTML2HTML",
+        exec => 0,#$TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'HERE',
+%MACRO{"
+%ANOTHERMACRO%"}%
+HERE
+        html => <<'HERE',
+<p><span class="WYSIWYG_PROTECTED">%MACRO{"<br />%ANOTHERMACRO%"}%</span></p>
+HERE
+    },
 ];
 
 # Run from BEGIN

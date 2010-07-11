@@ -168,7 +168,7 @@ sub wysiwygEditingDisabledForThisContent {
 
     # Look for combinations of sticky and other markup that cause
     # problems together
-    for my $tag ( 'literal', keys %xmltag ) {
+    for my $tag ( 'literal' ) {
         while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
             if ( $inner =~ /<sticky\b[^>]*>/i ) {
@@ -189,7 +189,7 @@ sub wysiwygEditingDisabledForThisContent {
 
     # Look for combinations of verbatim and other markup that cause
     # problems together
-    for my $tag ( 'literal', keys %xmltag ) {
+    for my $tag ( 'literal') {
         while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
             if ( $inner =~ /$wasAVerbatimTag/i ) {
