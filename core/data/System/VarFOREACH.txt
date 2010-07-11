@@ -6,7 +6,7 @@
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | a text list to be expanded into the format | required |
-     | =format="..."= | Format string. |
+     | =format="..."= | Format string. | =""= |
      | =header="..."= | Text to come before the formated output | =""= |
      | =footer="..."= | Text to come after the formated output | =""= |
      | =separator="n"= | separator between formatted elements | ="$n"= |
