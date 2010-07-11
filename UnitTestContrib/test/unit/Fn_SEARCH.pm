@@ -3458,7 +3458,8 @@ HERE
 
     my $result;
 
-    # Default $formfield, \n expands to <br /> (Why? F**k knows)
+    # Default $formfield, \n expands to <br /> because people most often display
+    # multiline form fields in TML tables and \n would disturb the tables
     $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{"OffColour" scope="topic" nonoise="on" format="$formfield(Name)"}%');
     $this->assert_str_equals( <<RESULT, "$result\n" );
