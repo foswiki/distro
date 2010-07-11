@@ -398,7 +398,7 @@ EXPECT
 sub verify_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 1, ",", 1, <<EXPECT);
-OkATopic,OkBTopic,OkTopic,FOOT
+OkATopic,OkBTopic,OkTopicFOOT
 EXPECT
 }
 
@@ -424,8 +424,7 @@ EXPECT
 sub verify_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, "", 1, <<EXPECT);
-HEAD
-OkATopicOkBTopicOkTopicFOOT
+HEADOkATopicOkBTopicOkTopicFOOT
 EXPECT
 }
 
@@ -438,8 +437,7 @@ EXPECT
 sub verify_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, ",", 1, <<EXPECT);
-HEAD
-OkATopic,OkBTopic,OkTopic,FOOT
+HEADOkATopic,OkBTopic,OkTopicFOOT
 EXPECT
 }
 
@@ -470,8 +468,7 @@ EXPECT
 sub verify_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, "", 1, <<EXPECT);
-HEAD
-OkATopicOkBTopicOkTopic
+HEADOkATopicOkBTopicOkTopic
 EXPECT
 }
 
@@ -484,8 +481,7 @@ EXPECT
 sub verify_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, ",", 1, <<EXPECT);
-HEAD
-OkATopic,OkBTopic,OkTopic
+HEADOkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
@@ -2122,7 +2118,7 @@ EXPECT
 sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, ",", 1, <<EXPECT);
-DefaultPreferences,WebPreferences,FOOT(2,2)SitePreferences,WebPreferences,FOOT(2,2)
+DefaultPreferences,WebPreferencesFOOT(2,2)SitePreferences,WebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2150,9 +2146,7 @@ EXPECT
 sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, "", 1, <<EXPECT);
-HEAD(System)
-DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)
-SitePreferencesWebPreferencesFOOT(2,2)
+HEAD(System)DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2165,9 +2159,7 @@ EXPECT
 sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, ",", 1, <<EXPECT);
-HEAD(System)
-DefaultPreferences,WebPreferences,FOOT(2,2)HEAD(Main)
-SitePreferences,WebPreferences,FOOT(2,2)
+HEAD(System)DefaultPreferences,WebPreferencesFOOT(2,2)HEAD(Main)SitePreferences,WebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2200,9 +2192,7 @@ EXPECT
 sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, "", 1, <<EXPECT);
-HEAD(System)
-DefaultPreferencesWebPreferencesHEAD(Main)
-SitePreferencesWebPreferences
+HEAD(System)DefaultPreferencesWebPreferencesHEAD(Main)SitePreferencesWebPreferences
 EXPECT
 }
 
@@ -2215,9 +2205,7 @@ EXPECT
 sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, ",", 1, <<EXPECT);
-HEAD(System)
-DefaultPreferences,WebPreferences,HEAD(Main)
-SitePreferences,WebPreferences
+HEAD(System)DefaultPreferences,WebPreferencesHEAD(Main)SitePreferences,WebPreferences
 EXPECT
 }
 
@@ -2646,7 +2634,7 @@ GNURF
 }%
 GNURF
     $this->assert_equals(
-        "HEADER\n$this->{test_web}/B, $this->{test_web}/C, $this->{test_web}/A, FOOTER\n",
+        "HEADER$this->{test_web}/B, $this->{test_web}/C, $this->{test_web}/AFOOTER\n",
         $result );
         
 #order by modified date, reverse=off, with groupby=none
@@ -2667,7 +2655,7 @@ GNURF
 }%
 GNURF
     $this->assert_equals(
-        "HEADER\n$this->{test_web}/B 01 Jan 1970 - 00:01, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/A 01 Jan 1970 - 00:16, FOOTER\n",
+        "HEADER$this->{test_web}/B 01 Jan 1970 - 00:01, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/A 01 Jan 1970 - 00:16FOOTER\n",
         $result );
 
 #order by modified date, reverse=n, with groupby=none
@@ -2688,7 +2676,7 @@ GNURF
 }%
 GNURF
     $this->assert_equals(
-        "HEADER\n$this->{test_web}/A 01 Jan 1970 - 00:16, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/B 01 Jan 1970 - 00:01, FOOTER\n",
+        "HEADER$this->{test_web}/A 01 Jan 1970 - 00:16, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/B 01 Jan 1970 - 00:01FOOTER\n",
         $result );
 
 #order by modified, limit=2, with groupby=none
@@ -2709,7 +2697,7 @@ GNURF
 }%
 GNURF
     $this->assert_equals(
-        "HEADER\nMain WebHome, Sandbox WebHome, FOOTER\n",
+        "HEADERMain WebHome, Sandbox WebHomeFOOTER\n",
         $result );
 }
 
@@ -3895,7 +3883,6 @@ EXPECT
 %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%, %WIKINAME%
 EXPECT
 
-#TODO: This shows the separator issue of Item1773 too
 #Item8849: the header (and similarly footer) are expended once too often, FOREACh and SEARCH should return the raw TML, which is _then_ expanded
     $result = $Foswiki::Plugins::SESSION->SEARCH({
                                     _DEFAULT=>"1",
@@ -3909,9 +3896,7 @@ EXPECT
                                     separator=>", ",
                                 }, $this->{test_topicObject});
     $this->assert_str_equals( <<EXPECT, $result."\n" );
-%INCLUDE{Main.WebHeader}%
-WebHome, WebIndex, WebPreferences, %INCLUDE{Main.WebFooter}%%INCLUDE{Main.WebHeader}%
-WebHome, WebIndex, WebPreferences, %INCLUDE{Main.WebFooter}%
+%INCLUDE{Main.WebHeader}%WebHome, WebIndex, WebPreferences%INCLUDE{Main.WebFooter}%%INCLUDE{Main.WebHeader}%WebHome, WebIndex, WebPreferences%INCLUDE{Main.WebFooter}%
 EXPECT
 
 }

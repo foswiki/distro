@@ -835,22 +835,6 @@ sub formatResults {
                             $processedfooter =~
                               s/\n$//os;    # remove trailing new line
 
-                            if ( defined($separator) ) {
-
- #	$header = $header.$separator if (defined($params->{header}));
- #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-                                if ( defined($processedfooter)
-                                    and ( $processedfooter ne '' ) )
-                                {
-                                    &$callback( $cbdata, $separator );
-                                }
-                            }
-                            else {
-
-#TODO: legacy from SEARCH - we want to remove this oddness
-#    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $processedfooter ne '<nop>');
-                            }
-
                             $justdidHeaderOrFooter = 1;
                             &$callback( $cbdata, $processedfooter );
 
@@ -879,14 +863,6 @@ sub formatResults {
                 and ( $header ne '' ) )
             {
 
-     # add legacy SEARCH separator - see Item1773 (TODO: find a better approach)
-                if (    ( $ttopics > 1 )
-                    and $noFooter
-                    and $noSummary
-                    and $separator )
-                {
-                    &$callback( $cbdata, $separator );
-                }
                 my $processedheader = $header;
 
 #because $pager contains more $ntopics like format strings, it needs to be expanded first.
@@ -895,7 +871,12 @@ sub formatResults {
                 $processedheader =
                   Foswiki::expandStandardEscapes($processedheader);
                 $processedheader =~ s/\$web/$web/gos;      # expand name of web
-                $processedheader =~ s/([^\n])$/$1\n/os;    # add new line at end
+                
+                # add new line after the header unless separator is defined
+                # per Item1773 / SearchSeparatorDefaultHeaderFooter
+                unless ( defined $separator ) {
+                    $processedheader =~ s/([^\n])$/$1\n/os;
+                }
 
                 $headerDone = 1;
                 my $thisWebBGColor = $webObject->getPreference('WEBBGCOLOR')
@@ -1041,18 +1022,6 @@ sub formatResults {
 
         $footer =~ s/\n$//os;             # remove trailing new line
 
-        if ( defined($separator) and ( $footer ne '' ) ) {
-
- #	$header = $header.$separator if (defined($params->{header}));
- #TODO: see Item1773 for discussion (foswiki 1.0 compatibility removes the if..)
-            &$callback( $cbdata, $separator );
-        }
-        else {
-
-#TODO: legacy from SEARCH - we want to remove this oddness
-#    	&$callback( $cbdata, $separator ) if (defined($params->{footer}) && $footer ne '<nop>');
-        }
-
         &$callback( $cbdata, $footer );
     }
 
@@ -1185,12 +1154,13 @@ sub formatResult {
               s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
         }
         $out =~ s/\r?\n/$newLine/gos if ($newLine);
-        if ( !defined($separator) ) {
 
-# add new line at end if needed
-# SMELL: why?
-#TODO: god, this needs to be made SEARCH legacy somehow (it has impact when format="asdf$n", rather than format="asdf\n")
-#SMELL: I wonder if this can't be wrapped into the summarizeText code
+
+        # If separator is not defined we default to \n
+        # We also add new line after last search result but before footer
+        # when separator is not defined for backwards compatibility
+        # per Item1773 / SearchSeparatorDefaultHeaderFooter
+        if ( !defined($separator) ) {
             unless ( $noTotal && !$params->{formatdefined} ) {
                 $out =~ s/([^\n])$/$1\n/s;
             }

@@ -84,8 +84,7 @@ sub test_separator_with_header {
       );
 
     $this->assert_str_equals(
-        "RESULT:
-OkATopic,OkBTopic,OkTopic", $result
+        "RESULT:OkATopic,OkBTopic,OkTopic", $result
     );
 }
 
@@ -93,7 +92,7 @@ sub test_footer_with_ntopics {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%FOREACH{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="Total found: $ntopics" format="$topic"}%'
+'%FOREACH{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="$n()Total found: $ntopics" format="$topic"}%'
     );
 
     $this->assert_str_equals(
@@ -204,7 +203,7 @@ sub test_same_topic_listed_twice {
     );
 
     $this->assert_str_equals(
-        join( "\n", qw(OkATopic OkBTopic OkTopic OkATopic) ) . "\nTotal found: 4",
+        join( "\n", qw(OkATopic OkBTopic OkTopic OkATopic) ) . "Total found: 4",
         $result );
 }
 
@@ -389,8 +388,7 @@ sub test_no_header_with_footer_no_separator_with_results {
     $this->_septic(0, 1, undef, 1, <<EXPECT);
 OkATopic
 OkBTopic
-OkTopic
-FOOT
+OkTopicFOOT
 EXPECT
 }
 
@@ -416,7 +414,7 @@ EXPECT
 sub test_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(0, 1, ",", 1, <<EXPECT);
-OkATopic,OkBTopic,OkTopic,FOOT
+OkATopic,OkBTopic,OkTopicFOOT
 EXPECT
 }
 
@@ -425,11 +423,9 @@ EXPECT
 sub test_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(1, 1, undef, 1, <<EXPECT);
-HEAD
-OkATopic
+HEADOkATopic
 OkBTopic
-OkTopic
-FOOT
+OkTopicFOOT
 EXPECT
 }
 
@@ -442,8 +438,7 @@ EXPECT
 sub test_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic(1, 1, "", 1, <<EXPECT);
-HEAD
-OkATopicOkBTopicOkTopicFOOT
+HEADOkATopicOkBTopicOkTopicFOOT
 EXPECT
 }
 
@@ -456,8 +451,7 @@ EXPECT
 sub test_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(1, 1, ",", 1, <<EXPECT);
-HEAD
-OkATopic,OkBTopic,OkTopic,FOOT
+HEADOkATopic,OkBTopic,OkTopicFOOT
 EXPECT
 }
 
@@ -472,8 +466,7 @@ EXPECT
 sub testtest_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, undef, 1, <<EXPECT);
-HEAD
-OkATopic
+HEADOkATopic
 OkBTopic
 OkTopic
 EXPECT
@@ -488,8 +481,7 @@ EXPECT
 sub test_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, "", 1, <<EXPECT);
-HEAD
-OkATopicOkBTopicOkTopic
+HEADOkATopicOkBTopicOkTopic
 EXPECT
 }
 
@@ -502,8 +494,7 @@ EXPECT
 sub test_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic(1, 0, ",", 1, <<EXPECT);
-HEAD
-OkATopic,OkBTopic,OkTopic
+HEADOkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
@@ -535,8 +526,6 @@ EXPECT
 %WIKINAME%, %WIKINAME%, %WIKINAME%
 EXPECT
 
-#TODO: This shows the separator issue of Item1773 too
-#Item8849: the header (and similarly footer) are expended once too often, FOREACh and SEARCH should return the raw TML, which is _then_ expanded
     $result = $Foswiki::Plugins::SESSION->FOREACH({
                                     _DEFAULT=>"WebHome,WebIndex, WebPreferences",
                                     header=>'$percentINCLUDE{Main.WebHome}$percent',
@@ -545,8 +534,7 @@ EXPECT
                                     separator=>", ",
                                 }, $this->{test_topicObject});
     $this->assert_str_equals( <<EXPECT, $result."\n" );
-%INCLUDE{Main.WebHome}%
-WebHome, WebIndex, WebPreferences, %INCLUDE{Main.WebHome}%
+%INCLUDE{Main.WebHome}%WebHome, WebIndex, WebPreferences%INCLUDE{Main.WebHome}%
 EXPECT
 
 }
@@ -560,7 +548,7 @@ sub test_not_topics {
       );
 
     $this->assert_str_equals(
-        "HEAD \n1:();2:(+&);3:(\@:{});4:(!!); FOOT", $result );
+        "HEAD 1:();2:(+&);3:(\@:{});4:(!!) FOOT", $result );
 
     $result =
       $this->{test_topicObject}->expandMacros(
@@ -622,8 +610,7 @@ sub test_standard_escapes {
       );
 
     $this->assert_str_equals(
-        "RESULT: ,
-OkATopic\"OkBTopic\"OkTopic\"&", $result
+        "RESULT: ,OkATopic\"OkBTopic\"OkTopic&", $result
     );
     
     #do the string version too - so long as there are no topic specific expansions, the output needs to be identical
@@ -641,8 +628,7 @@ OkATopic\"OkBTopic\"OkTopic\"&", $result
       );
 
     $this->assert_str_equals(
-        "RESULT: ,
-OkATopic\"OkBTopic\"OkTopic\"&", $result
+        "RESULT: ,OkATopic\"OkBTopic\"OkTopic&", $result
     );
 }
 

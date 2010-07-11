@@ -26,6 +26,8 @@ Format tokens that can be used in the header string:
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{FormatTokens}%
 
+   * %X% Note that if the separator parameter for SEARCH is not defined a newline is added after the header.
+
 ---+++ 2. =footer="..."= parameter
 
 Use the footer parameter to specify the footer of a search result. It should correspond to the format of the format parameter. This parameter is optional. <br /> Example: =footer="| <nop>*Topic*<nop> | <nop>*Summary*<nop> |"=
@@ -38,6 +40,8 @@ Format tokens that can be used in the footer string:
 | =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{FormatTokens}%
+
+   * %X% Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.
 
 ---+++ 3. =pagerformat="..."= parameter
 

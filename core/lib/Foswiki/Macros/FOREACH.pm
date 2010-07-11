@@ -13,6 +13,9 @@ sub FOREACH {
     my $s;
 
 #TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
+# Note that for FOREACH we do not default adding \n after header when separator is
+# not defined. FOREACH is a new feature in 1.1 and does not need the backward
+# compatibility that SEARCH needed.
     $params->{separator} = '$n' unless ( defined( $params->{separator} ) );
     $params->{separator} =
       Foswiki::expandStandardEscapes( $params->{separator} );
