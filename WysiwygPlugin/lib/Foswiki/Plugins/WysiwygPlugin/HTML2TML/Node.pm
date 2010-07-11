@@ -32,6 +32,13 @@ use vars qw( $reww );
 use Foswiki::Plugins::WysiwygPlugin::Constants;
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC;
 
+my %jqueryChiliClass = map { $_ => 1 }
+    qw( cplusplus csharp css bash delphi html java js 
+        lotusscript php-f php sql tml );
+
+my %tml2htmlClass = map { $_ => 1 }
+    qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK );
+
 =pod
 
 ---++ ObjectMethod new( $context, $tag, \%attrs )
@@ -605,20 +612,26 @@ sub _htmlParams {
 
     # Sort the attributes when converting back to TML
     # so that the conversion is deterministic
-    for my $k ( sort keys %$attrs ) {
-        next unless $k;
+    ATTR: for my $k ( sort keys %$attrs ) {
+        next ATTR unless $k;
         my $v = $attrs->{$k};
         if ( $k eq 'class' ) {
-
-            # if cleaning aggressively, remove class attributes completely
-            next if ( $options & $WC::VERY_CLEAN );
-            foreach my $c
-              qw(WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK) {
-                $v =~ s/\b$c\b//;
-            }
-            $v =~ s/\s+/ /;
+            my @classes;
             $v =~ s/^\s*(.*?)\s*$/$1/;
-            next unless $v;
+            CLASS: for my $class (split /\s+/, $v) {
+                next CLASS unless $class =~ /\S/;
+                next CLASS if $tml2htmlClass{$class};
+
+                # if cleaning aggressively, remove class attributes
+                # except for the JQuery "Chili" classes
+                next CLASS if ( $options & $WC::VERY_CLEAN
+                    and not $jqueryChiliClass{$class} );
+
+                push @classes, $class;
+            }
+            next ATTR unless @classes;
+
+            $v = join(' ', @classes);
         }
         my $q = $v =~ /"/ ? "'" : '"';
         push( @params, $k . '=' . $q . $v . $q );
