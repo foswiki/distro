@@ -59,6 +59,7 @@ BEGIN {
         require locale;
         import locale();
     }
+    %interSiteTable = ();
 }
 
 # Read preferences and get all InterWiki Site->URL mappings
