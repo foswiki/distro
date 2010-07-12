@@ -20,7 +20,6 @@
 ## $Foswiki::cfg{Blah} = "$Foswiki::cfg{DataDir}/blah.dat"; # BAD
 ## $Foswiki::cfg{Blah} = '$Foswiki::cfg{DataDir}/blah.dat'; # GOOD
 
-my $OS = $Foswiki::cfg{OS} || '';
 # Note that the general path settings are deliberately commented out.
 # This is because they *must* be defined in LocalSite.cfg, and *not* here.
 
@@ -143,6 +142,16 @@ $Foswiki::cfg{PathCheckLimit} = 4200;
 # Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
+
+# **STRING 20 EXPERT**
+# {OS} and {DetailedOS} are calculated in the Foswiki code. <b>You
+# should only need to override if there is something badly wrong with
+# those calculations.</b><br />
+# {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
+$Foswiki::cfg{OS} = '';
+# **STRING 20 EXPERT**
+# The value of Perl $OS
+$Foswiki::cfg{DetailedOS} = '';
 
 #---+ Security and Authentication -- TABS
 # <p>In order to support tracking who changed what, and apply access controls,
@@ -565,16 +574,6 @@ $Foswiki::cfg{AllowInlineScript} = $TRUE;
 # whatever identity is stored for them. For security reasons you may want
 # to obscure this stored id by setting this option to true.
 $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
-
-# **STRING 20 EXPERT**
-# {OS} and {DetailedOS} are calculated in the Foswiki code. <b>You
-# should only need to override if there is something badly wrong with
-# those calculations.</b><br />
-# {OS} may be one of UNIX WINDOWS VMS DOS MACINTOSH OS2
-$Foswiki::cfg{OS} = '';
-# **STRING 20 EXPERT**
-# The value of Perl $OS
-$Foswiki::cfg{DetailedOS} = '';
 
 # **BOOLEAN EXPERT**
 # Remove .. from %INCLUDE{filename}%, to stop includes
@@ -1444,7 +1443,7 @@ $Foswiki::cfg{Plugins}{JQueryPlugin}{Module} = 'Foswiki::Plugins::JQueryPlugin';
 $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Contrib::MailerContribPlugin';
+$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
 
 #---++ Install and Update Extensions
 # <p>Consult online extensions repositories for new extensions, or check and manage updates.</p>
