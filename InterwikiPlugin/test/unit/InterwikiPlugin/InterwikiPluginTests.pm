@@ -88,4 +88,34 @@ HERE
    );
 }
 
+sub test_link_with_url {
+    my $this = shift;
+    $this->assert_html_equals(
+      '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki" title="\'http://www.google.com/search?q=foswiki\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki</noautolink></a>',
+      Foswiki::Func::renderText("Wikipedia:http://www.google.com/search?q=foswiki", $this->{test_web})
+   );
+}
+
+sub test_link_with_topic_name {
+    my $this = shift;
+    my $localRulesTopic = "LocalInterWikis";
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $localRulesTopic, undef,
+        <<'HERE');
+---+++ Local rules
+<noautolink>
+| *Alias:* | *URL:* | *Tooltip Text:* |
+| WebHome | http://rule.invalid.url?page= | Local rule |
+</nautolink>
+HERE
+
+   Foswiki::Func::setPreferencesValue("INTERWIKIPLUGIN_RULESTOPIC", "$this->{test_web}.$localRulesTopic");
+   Foswiki::Plugins::InterwikiPlugin::initPlugin($this->{test_web}, $this->{test_topic}, $this->{test_user}, $Foswiki::cfg{SystemWebName});
+
+   $this->assert_html_equals(
+      '<a class="interwikiLink" href="http://rule.invalid.url?page=Topage" title="Local rule"><noautolink>WebHome:Topage</noautolink></a>',
+      Foswiki::Func::renderText("WebHome:Topage", $this->{test_web})
+   );
+}
+
 1;
