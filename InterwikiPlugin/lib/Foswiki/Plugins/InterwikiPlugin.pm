@@ -42,7 +42,7 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '10 Jul 2010';
+our $RELEASE           = '12 Jul 2010';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -83,6 +83,10 @@ sub initPlugin {
           || 'InterWikis'
     );
 
+    if(! Foswiki::Func::checkAccessPermission( 'VIEW', $user, undef, $interTopic, $interWeb ) ){
+        Foswiki::Func::writeWarning("InterwikiPlugin: user '$user' did not have permission to read the rules topic at '$interWeb.$interTopic'");
+        return 1;
+    }
     my $text = Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
 
     # '| alias | URL | ...' table and extract into 'alias', "URL" list
