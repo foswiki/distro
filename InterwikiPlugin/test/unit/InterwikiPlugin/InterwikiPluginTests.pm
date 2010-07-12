@@ -88,8 +88,18 @@ HERE
 sub test_link_with_url {
     my $this = shift;
     $this->assert_html_equals(
-      '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki" title="\'http://www.google.com/search?q=foswiki\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki</noautolink></a>',
-      Foswiki::Func::renderText("Wikipedia:http://www.google.com/search?q=foswiki", $this->{test_web})
+      '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo=bar" title="\'http://www.google.com/search?q=foswiki&foo=bar\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo=bar</noautolink></a>',
+      Foswiki::Func::renderText("Wikipedia:http://www.google.com/search?q=foswiki&foo=bar", $this->{test_web})
+   );
+}
+
+# tests the following characters:
+# ' . & = " /
+sub test_link_with_complex_url {
+    my $this = shift;
+    $this->assert_html_equals(
+      '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'" title="\'http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'</noautolink></a>',
+      Foswiki::Func::renderText('Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'', $this->{test_web})
    );
 }
 
