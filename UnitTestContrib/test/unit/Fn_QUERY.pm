@@ -240,6 +240,7 @@ sub test_cfg {
         while ($result =~ s/^\(?xism:(.*)\)$/$1/) {
         }
         my $expected = eval("\$Foswiki::cfg$var");
+        $expected = '' unless defined $expected;
         $this->assert_equals( $expected, "$result", "$var!=$expected" );
     }
 }
