@@ -11,6 +11,7 @@ use strict;
 use Assert;
 use Error qw( :try );
 use Foswiki::AccessControlException;
+use File::Temp;
 
 #Test the upper level Store API
 
@@ -404,18 +405,16 @@ sub beforeUploadHandler {
     die "comment $attrHash->{comment}"
       unless $attrHash->{comment} eq "a comment";
 
-    open( F, '<', $attrHash->{tmpFilename} )
-      || die "$attrHash->{tmpFilename}: $!";
     local $/ = undef;
-    my $text = <F>;
-    close(F) || die "$attrHash->{tmpFilename}: $!";
+    my $fh = $attrHash->{stream};
+    my $text = <$fh>;
 
-    $text =~ s/two/four/;
+    $text =~ s/call/beforeUploadHandler/;
 
-    open( F, '>', $attrHash->{tmpFilename} )
-      || die "$attrHash->{tmpFilename}: $!";
-    print F $text;
-    close(F) || die "$attrHash->{tmpFilename}: $!";
+    $fh = new File::Temp();;
+    print $fh $text;
+    $fh->seek(0, 0);
+    $attrHash->{stream} = $fh;
 }
 
 sub beforeAttachmentSaveHandler {
@@ -431,8 +430,7 @@ sub beforeAttachmentSaveHandler {
     my $text = <F>;
     close(F) || die "$attrHash->{tmpFilename}: $!";
 
-    $text =~ s/two/four/;
-
+    $text =~ s/call/beforeAttachmentSaveHandler/;
     open( F, '>', $attrHash->{tmpFilename} )
       || die "$attrHash->{tmpFilename}: $!";
     print F $text;
@@ -456,18 +454,8 @@ sub afterUploadHandler {
       unless $attrHash->{comment} eq "a comment";
 }
 
-
-sub test_attachmentSaveHandlers {
+sub registerAttachmentHandlers {
     my $this = shift;
-    my $args = {
-        name  => "fieldname",
-        value => "fieldvalue",
-    };
-
-    Foswiki::Func::createWeb( $web, '_default' );
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, '' );
-    $meta->save();
-
     # SMELL: assumed implementation
     push(
         @{
@@ -497,11 +485,25 @@ sub test_attachmentSaveHandlers {
           },
         new Foswiki::Plugin( $this->{session}, "StoreTestPlugin", 'StoreTests' )
     );
+}
+
+sub test_attachmentSaveHandlers_file {
+    my $this = shift;
+
+    open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
+    print FILE "call call call";
+    close(FILE);
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, '' );
+    $meta->save();
+
+    $this->registerAttachmentHandlers();
 
     $meta->attach(
         name    => "testfile.gif",
         file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
-        comment => "a comment"
+        comment => "a comment",
     );
 
     $this->assert( $meta->hasAttachment("testfile.gif") );
@@ -509,10 +511,64 @@ sub test_attachmentSaveHandlers {
     my $fh = $meta->openAttachment("testfile.gif", '<');
     my $text = <$fh>;
     close($fh);
-    $this->assert_str_equals( "one four three", $text );
+    $this->assert_str_equals( "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
+}
 
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->removeFromStore();
+sub test_attachmentSaveHandlers_stream {
+    my $this = shift;
+
+    open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
+    print FILE "call call call";
+    close(FILE);
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, '' );
+    $meta->save();
+
+    $this->registerAttachmentHandlers();
+    
+    $this->assert(open(my $fh, "$Foswiki::cfg{TempfileDir}/testfile.gif"));
+    $meta->attach(
+        name    => "testfile.gif",
+        stream => $fh,
+        comment => "a comment",
+    );
+
+    $this->assert( $meta->hasAttachment("testfile.gif") );
+
+    $fh = $meta->openAttachment("testfile.gif", '<');
+    my $text = <$fh>;
+    close($fh);
+    $this->assert_str_equals( "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
+}
+
+sub test_attachmentSaveHandlers_file_and_stream {
+    my $this = shift;
+
+    open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
+    print FILE "call call call";
+    close(FILE);
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, '' );
+    $meta->save();
+
+    $this->registerAttachmentHandlers();
+    
+    $this->assert(open(my $fh, "$Foswiki::cfg{TempfileDir}/testfile.gif"));
+    $meta->attach(
+        name    => "testfile.gif",
+        file => "$Foswiki::cfg{TempfileDir}/testfile.gif",
+        stream => $fh,
+        comment => "a comment",
+    );
+
+    $this->assert( $meta->hasAttachment("testfile.gif") );
+
+    $fh = $meta->openAttachment("testfile.gif", '<');
+    my $text = <$fh>;
+    close($fh);
+    $this->assert_str_equals( "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
 sub test_eachChange {

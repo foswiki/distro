@@ -102,6 +102,7 @@ use strict;
 use warnings;
 use Error qw(:try);
 use Assert;
+use Errno 'EINTR';
 
 our $reason;
 our $VERSION = '$Rev$';
@@ -1758,7 +1759,6 @@ sub saveAs {
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
     my %opts = @_;
     my $cUID = $opts{author} || $this->{_session}->{user};
-
     $this->{_web}   = $newWeb   if $newWeb;
     $this->{_topic} = $newTopic if $newTopic;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
@@ -2377,25 +2377,24 @@ sub getAttachmentRevisionInfo {
       * =dontlog= - don't add to statistics
       * =comment= - comment for save
       * =hide= - if the attachment is to be hidden in normal topic view
-      * =stream= - Stream of file to upload
-      * =file= - Name of a file to use for the attachment data. Ignored if
-        =stream= is set.
-      * =filepath= - Client path to file
-      * =filesize= - Size of uploaded data
-      * =filedate= - Date
-      * =tmpFilename= - Pathname of the server file the stream is
-        attached to. Required if =stream= is set.
-      * =author= - cUID of author of change
-      * =notopicchange= - if the topic is *not* to be modified. This may result
-        in incorrect meta-data stored in the topic, so must be used with care.
-        Only has a meaning if the store implementation stores meta-data in
-        topics.
+      * =stream= - Stream of file to upload. Uses =file= if not set.
+      * =file= - Name of a *server* file to use for the attachment
+        data. This should be passed if it is known, as it may be used
+        to optimise handler calls.
+      * =filepath= - Optional. Client path to file.
+      * =filesize= - Optional. Size of uploaded data.
+      * =filedate= - Optional. Date of file.
+      * =author= - Optional. cUID of author of change. Defaults to current.
+      * =notopicchange= - Optional. if the topic is *not* to be modified.
+        This may result in incorrect meta-data stored in the topic, so must
+        be used with care. Only has a meaning if the store implementation 
+        stores meta-data in topics.
 
 Saves a new revision of the attachment, invoking plugin handlers as
 appropriate. This method automatically updates the loaded rev of $this
 to the latest topic revision.
 
-If file is not set, this is a properties-only save.
+If neither of =stream= or =file= are set, this is a properties-only save.
 
 Throws an exception on error.
 
@@ -2413,15 +2412,12 @@ sub attach {
       if DEBUG;
 
     if ( $opts{file} && !$opts{stream} ) {
+        # no stream given, but a file was given; open it.
         open( $opts{stream}, '<', $opts{file} )
           || throw Error::Simple( 'Could not open ' . $opts{file} );
         binmode( $opts{stream} )
           || throw Error::Simple( $opts{file} . ' binmode failed: ' . $! );
-        $opts{tmpFilename} = $opts{file};
     }
-
-    # Force reload of the latest version
-    $this->reload(0) unless $this->latestIsLoaded();
 
     my $attrs;
     if ( $opts{stream} ) {
@@ -2431,32 +2427,53 @@ sub attach {
             name        => $opts{name},
             attachment  => $opts{name},
             stream      => $opts{stream},
-            tmpFilename => $opts{tmpFilename},
             user        => $this->{_session}->{user},    # cUID
             comment     => $opts{comment} || '',
         };
 
-        if (   $plugins->haveHandlerFor('beforeAttachmentSaveHandler')
-            || $plugins->haveHandlerFor('beforeUploadHandler') )
-        {
+        if ($plugins->haveHandlerFor('beforeAttachmentSaveHandler')) {
 
-            # SMELL: the attachment handler requires a file on disc
-            # Because of the way CGI works, the stream is actually attached
-            # to a file that is already on disc. So all we need to do
-            # is determine that filename, close the stream, process the
-            # upload and then reopen the stream on the resultant file.
-            close( $opts{stream} );
-            if ( !defined( $attrs->{tmpFilename} ) ) {
+            # *Deprecated* handler.
+
+            # The handler may have been called as a result of an upload,
+            # in which case the data is already in a file in the CGI cache,
+            # and the stream is valid, or it may be been arrived at via a
+            # call to Func::saveAttachment, in which case it's possible that
+            # the stream isn't open but we have a tmpFilename instead.
+            # 
+            $attrs->{tmpFilename} = $opts{file};
+
+            if ( !defined( $attrs->{tmpFilename} )) {
 
                 # CGI (or the caller) did not provide a temporary file
-                # SMELL: could stream the data to a temporary file.
-                throw Error::Simple(
-"Cannot call beforeAttachmentSaveHandler; caller did not provide a temporary file name"
-                );
-            }
 
-            if ( $plugins->haveHandlerFor('beforeUploadHandler') ) {
-                $plugins->dispatch( 'beforeUploadHandler', $attrs, $this );
+                # Stream the data to a temporary file, so it can be passed
+                # to the handler.
+
+                require File::Temp;
+
+                my $fh = new File::Temp();
+                binmode( $fh );
+                # transfer 512KB blocks
+                my $transfer;
+                my $r;
+                while( $r = sysread( $opts{stream}, $transfer, 0x80000 )) {
+                    if( !defined $r ) {
+                        next if( $! == Errno::EINTR );
+                        die "system read error: $!\n";
+                    }
+                    my $offset = 0;
+                    while( $r ) {
+                        my $w = syswrite( $fh, $transfer, $r, $offset );
+                        die "system write error: $!\n" unless( defined $w );
+                        $offset += $w;
+                        $r -= $w;
+                    }
+                }
+                select((select($fh), $| = 1)[0]);
+                $fh->seek(0, 0 ) or die "Can't seek temp: $!\n";
+                $opts{stream} = $fh;
+                $attrs->{tmpFilename} = $fh->filename();
             }
 
             if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
@@ -2464,10 +2481,28 @@ sub attach {
                     $this->{_topic}, $this->{_web} );
             }
 
-            open( $opts{stream}, '<', $attrs->{tmpFilename} )
+            # Have to assume it's changed, even if it hasn't.
+            open( $attrs->{stream}, '<', $attrs->{tmpFilename} )
               || die "Internal error: $!";
+            binmode( $attrs->{stream} );
+            $opts{stream} = $attrs->{stream};
+
+            delete $attrs->{tmpFilename};
+        }
+
+        if ( $plugins->haveHandlerFor('beforeUploadHandler') ) {
+            # Check the stream is seekable
+            ASSERT(seek($attrs->{stream}, 0, 1),
+                   'Stream for attachment is not seekable') if DEBUG;
+
+            $plugins->dispatch( 'beforeUploadHandler', $attrs, $this );
+            $opts{stream} = $attrs->{stream};
+            seek($opts{stream}, 0, 0); # seek to beginning
             binmode( $opts{stream} );
         }
+
+        # Force reload of the latest version
+        $this->reload(0) unless $this->latestIsLoaded();
 
         my $error;
         try {
@@ -2486,9 +2521,9 @@ sub attach {
         $attrs->{date}    = $opts{filedate} if ( defined( $opts{filedate} ) );
 
         if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
+            # *Deprecated* handler
             $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
-                $this->{_topic}, $this->{_web},
-                $error ? $error->{-text} : undef );
+                $this->{_topic}, $this->{_web} );
         }
     }
     else {

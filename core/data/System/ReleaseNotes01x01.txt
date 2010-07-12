@@ -51,8 +51,9 @@ Prior to 1.1, %IF could be used to test the value of any configuration variable 
 
 See ReleaseNotes01x00 for detailed information about changes in that release.
 
----+++ Deprecations
-The following features have been deprecated (i.e. they are still available,
+---+++ Notes for extension authors
+---++++ Deprecated handlers
+The following handlers have been deprecated (i.e. they are still available,
 but should not be used in new code and will be removed in a future release,
 so if you have been used them, you need to modify your code).
 
@@ -63,7 +64,23 @@ code). This handler assumed a level of interaction with the CGI handling
 process that is dangerous if misused, and severely limits the flexibility and
 optimisations available to the core.
 
----+++ Notes for extension authors
+The =beforeAttachmentSaveHandler= and =afterAttachmentSaveHandler= plugin
+handlers have been
+deprecated in favour of the newly added =beforeUploadHandler= and
+=afterUploadHandler. The new handlers operate on streams, and are
+more efficient as well as more secure.
+
+Deprecated handlers will continue to work as documented in 1.1 and for the
+immediate future, but will be removed in a future release. Extension authors
+are strongly recommended to implement the new handlers as soon as possible.
+
+---++++ Deprecated Foswiki::Func functions
+The =readTopicText= and =saveTopicText= functions have been deprecated. Use
+=readTopic= and =saveTopic= instead. Both =readTopic= and =saveTopic= have
+always been available in Foswiki (and it's predecessor) and are a lot safer.
+Existing code can usually be modified to eliminate these deprecated functions
+without difficulty.
+ 
 ---++++ Tainting
 The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the fnctions for =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
 <verbatim>

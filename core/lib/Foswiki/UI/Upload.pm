@@ -195,10 +195,10 @@ sub _upload {
             hide        => $hideFile,
             createlink  => $createLink,
             stream      => $stream,
+            file        => $tmpFilePath,
             filepath    => $filePath,
             filesize    => $fileSize,
             filedate    => $fileDate,
-            tmpFilename => $tmpFilePath,
         );
     }
     catch Error::Simple with {

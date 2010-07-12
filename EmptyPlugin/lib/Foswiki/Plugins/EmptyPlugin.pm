@@ -43,8 +43,14 @@ that the text had been included from another topic.
 
 __NOTE:__ Not all handlers (and not all parameters passed to handlers) are
 available with all versions of Foswiki. Where a handler has been added
-(or deprecated) the POD comment will indicate this with a "Since" line
+the POD comment will indicate this with a "Since" line
 e.g. *Since:* Foswiki::Plugins::VERSION 1.1
+
+Deprecated handlers are still available, and can continue to be used to
+maintain compatibility with earlier releases, but will be removed at some
+point in the future. If you do implement deprecated handlers, then you can
+do no harm by simply keeping them in your code, but you are recommended to
+implement the alternative as soon as possible.
 
 See http://foswiki.org/Download/ReleaseDates for a breakdown of release
 versions.
@@ -579,44 +585,45 @@ This handler is called just after the rename/move/delete action of a web, topic 
 
 =begin TML
 
----++ beforeAttachmentSaveHandler(\%attrHash, $topic, $web )
-   * =\%attrHash= - reference to hash of attachment attribute values
-   * =$topic= - the name of the topic in the current CGI query
-   * =$web= - the name of the web in the current CGI query
-This handler is called once when an attachment is uploaded. When this
-handler is called, the attachment has *not* been recorded in the database.
-
-The attributes hash will include at least the following attributes:
-   * =attachment= => the attachment name
-   * =comment= - the comment
-   * =user= - the user id
-   * =tmpFilename= - name of a temporary file containing the attachment data
-
-*Since:* Foswiki::Plugins::VERSION = 2.0,
-deprecated since 2.1; please use =beforeUploadHandler()= instead.
-
-=cut
-
-#sub beforeAttachmentSaveHandler {
-#    my( $attrHashRef, $topic, $web ) = @_;
-#}
-
-=begin TML
-
 ---++ beforeUploadHandler(\%attrHash, $meta )
    * =\%attrHash= - reference to hash of attachment attribute values
-   * =$meta= - the topic object where the upload will happen
+   * =$meta= - the Foswiki::Meta object where the upload will happen
 
 This handler is called once when an attachment is uploaded. When this
 handler is called, the attachment has *not* been recorded in the database.
 
 The attributes hash will include at least the following attributes:
-   * =attachment= => the attachment name
-   * =comment= - the comment
-   * =user= - the user id
-   * =tmpFilename= - name of a temporary file containing the attachment data
+   * =attachment= => the attachment name - must not be modified
+   * =user= - the user id - must not be modified
+   * =comment= - the comment - may be modified
+   * =stream= - an input stream that will deliver the data for the
+     attachment. The stream can be assumed to be seekable, and the file
+     pointer will be positioned at the start. It is *not* necessary to
+     reset the file pointer to the start of the stream after you are
+     done, nor is it necessary to close the stream.
 
-*Since:* Foswiki::Plugins::VERSION = 2.1,
+The handler may wish to replace the original data served by the stream
+with new data. In this case, the handler can set the ={stream}= to a
+new stream.
+
+For example:
+<verbatim>
+sub beforeUploadHandler {
+    my ( $attrs, $meta ) = @_;
+    my $fh = $attrs->{stream};
+    local $/;
+    # read the whole stream
+    my $text = <$fh>;
+    # Modify the content
+    $text =~ s/investment bank/den of thieves/gi;
+    $fh = new File::Temp();
+    print $fh $text;
+    $attrs->{stream} = $fh;
+
+}
+</verbatim>
+
+*Since:* Foswiki::Plugins::VERSION = 2.1
 
 =cut
 
@@ -626,36 +633,13 @@ The attributes hash will include at least the following attributes:
 
 =begin TML
 
----++ afterAttachmentSaveHandler(\%attrHash, $topic, $web, $error )
-
-   * =\%attrHash= - reference to hash of attachment attribute values
-   * =$topic= - the name of the topic in the current CGI query
-   * =$web= - the name of the web in the current CGI query
-   * =$error= - any error string generated during the save process
-This handler is called just after the save action. The attributes hash
-will include at least the following attributes:
-   * =attachment= => the attachment name
-   * =comment= - the comment
-   * =user= - the user id
-
-*Since:* Foswiki::Plugins::VERSION = 2.0, 
-deprecated since 2.1; please use =afterUploadHandler()= instead.
-
-
-=cut
-
-#sub afterAttachmentSaveHandler {
-#    my( $attrHashRef, $topic, $web ) = @_;
-#}
-
-=begin TML
-
 ---++ afterUploadHandler(\%attrHash, $meta )
    * =\%attrHash= - reference to hash of attachment attribute values
-   * =$meta= - a topic object pointing where the upload has happened
+   * =$meta= - a Foswiki::Meta  object where the upload has happened
 
-This handler is called just after the save action. The attributes hash
-will include at least the following attributes:
+This handler is called just after the after the attachment
+meta-data in the topic has been saved. The attributes hash
+will include at least the following attributes, all of which are read-only:
    * =attachment= => the attachment name
    * =comment= - the comment
    * =user= - the user id
@@ -855,12 +839,62 @@ Foswiki:Support.Faq1
 
 =begin TML
 
-Deprecated handlers
+---++ Deprecated handlers
 
-=redirectCgiQueryHandler($query, $url )= *Since:* Foswiki::Plugins::VERSION 2.1
+---+++ redirectCgiQueryHandler($query, $url )
+   * =$query= - the CGI query
+   * =$url= - the URL to redirect to
+
+This handler can be used to replace Foswiki's internal redirect function.
+
+If this handler is defined in more than one plugin, only the handler
+in the earliest plugin in the INSTALLEDPLUGINS list will be called. All
+the others will be ignored.
+
+*Deprecated in:* Foswiki::Plugins::VERSION 2.1
 
 This handler was deprecated because it cannot be guaranteed to work, and
 caused a significant impediment to code improvements in the core.
+
+---+++ beforeAttachmentSaveHandler(\%attrHash, $topic, $web )
+
+   * =\%attrHash= - reference to hash of attachment attribute values
+   * =$topic= - the name of the topic in the current CGI query
+   * =$web= - the name of the web in the current CGI query
+This handler is called once when an attachment is uploaded. When this
+handler is called, the attachment has *not* been recorded in the database.
+
+The attributes hash will include at least the following attributes:
+   * =attachment= => the attachment name
+   * =comment= - the comment
+   * =user= - the user id
+   * =tmpFilename= - name of a temporary file containing the attachment data
+
+*Deprecated in:* Foswiki::Plugins::VERSION 2.1
+
+The efficiency of this handler (and therefore it's impact on performance)
+is very bad. Please use =beforeUploadHandler()= instead.
+
+=begin TML
+
+---+++ afterAttachmentSaveHandler(\%attrHash, $topic, $web )
+
+   * =\%attrHash= - reference to hash of attachment attribute values
+   * =$topic= - the name of the topic in the current CGI query
+   * =$web= - the name of the web in the current CGI query
+   * =$error= - any error string generated during the save process (always
+     undef in 2.1)
+
+This handler is called just after the save action. The attributes hash
+will include at least the following attributes:
+   * =attachment= => the attachment name
+   * =comment= - the comment
+   * =user= - the user id
+
+*Deprecated in:* Foswiki::Plugins::VERSION 2.1
+
+This handler has a number of problems including security and performance
+issues. Please use =afterUploadHandler()= instead.
 
 =cut
 

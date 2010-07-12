@@ -327,6 +327,58 @@ sub test_parent {
     );
 }
 
+# Note: for full coverage, there needs to be at least one plugin with
+# a beforeUploadHandler (and one with a beforeAttachmentHandler) for
+# each of the following three attachment modes. Therefore they are repeated
+# during the store tests.
+sub test_attach_stream {
+    my $this = shift;
+
+    my $temp = new File::Temp();
+    print $temp 'eeza stream';
+    $temp->seek(0,0);
+    $this->{test_topicObject}->attach(
+        name => 'dis.dat', stream => $temp);
+    $this->assert(close($temp));
+
+    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    my $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('eeza stream', $x);
+}
+
+sub test_attach_file {
+    my $this = shift;
+
+    my $temp = new File::Temp();
+    print $temp 'eeza file';
+    $temp->seek(0,0);
+    $this->{test_topicObject}->attach(
+        name => 'dis.dat', file => $temp->filename);
+    $this->assert(close($temp));
+
+    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    my $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('eeza file', $x);
+}
+
+sub test_attach_file_and_stream{
+    my $this = shift;
+
+    my $temp = new File::Temp();
+    print $temp 'eeza file and a stream';
+    $temp->seek(0,0);
+    $this->{test_topicObject}->attach(
+        name => 'dis.dat', stream => $temp, file => $temp->filename);
+    $this->assert(close($temp));
+
+    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    my $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('eeza file and a stream', $x);
+}
+
 sub test_attachmentStreams {
     my $this = shift;
 
