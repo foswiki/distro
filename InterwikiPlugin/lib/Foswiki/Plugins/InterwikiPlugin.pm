@@ -44,7 +44,6 @@ BEGIN {
         require locale;
         import locale();
     }
-    %interSiteTable = ();
 }
 
 # Read preferences and get all InterWiki Site->URL mappings
@@ -92,11 +91,11 @@ sub preRenderingHandler {
 
     # ref in [[ref]] or [[ref][
     $_[0] =~
-s/(\[\[)$sitePattern:$pagePattern(\]\]|\]\[[^\]]+\]\])/_link($1,$2,$3,$4)/geo;
+s/(\[\[)$sitePattern:$pagePattern(\]\]|\]\[[^\]]+\]\])/_link($1,$2,$3,$4)/ge;
 
     # ref in text
     $_[0] =~
-s/(^|[\s\-\*\(])$sitePattern:$pagePattern(?=[\s\.\,\;\:\!\?\)\|]*(\s|$))/_link($1,$2,$3)/geo;
+s/(^|[\s\-\*\(])$sitePattern:$pagePattern(?=[\s\.\,\;\:\!\?\)\|]*(\s|$))/_link($1,$2,$3)/ge;
 
     return;
 }
