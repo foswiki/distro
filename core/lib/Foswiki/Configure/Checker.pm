@@ -136,7 +136,7 @@ Enhanced checks:
    * d - Directory permission matches the permissions in {RCS}{dirPermission}
    * f - File permission matches the permission in {RCS}{filePermission}  (FUTURE)
 
-If > 10 enhanced errors are encountered, reporting is stopped to avoid excessive
+If > 20 enhanced errors are encountered, reporting is stopped to avoid excessive
 errors to the administrator.   The count of enhanced errors is reported back 
 to the caller by the object variable:  $this->{fileErrors}
 
@@ -181,12 +181,16 @@ sub checkTreePerms {
     if ( $perms =~ /d/ && -d $path ) {
         my $mode = ( stat($path) )[2] & 07777;
         if ( $mode != $Foswiki::cfg{RCS}{dirPermission}) {
+            my $omode = sprintf( '%04o', $mode );
+            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
             if ( ($mode & $Foswiki::cfg{RCS}{dirPermission}) == $Foswiki::cfg{RCS}{dirPermission} ) {
+                $permErrs .=
+                  "$path - directory permission $omode exceeds requested $operm"
+                  . CGI::br()
+                  unless ( $this->{excessPerms} > 10 );
                 $this->{excessPerms}++;
                 }
             else {
-                my $omode = sprintf( '%04o', $mode );
-                my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
                 $permErrs .=
                   "$path - directory insufficient permission: $omode should be $operm"
                   . CGI::br()

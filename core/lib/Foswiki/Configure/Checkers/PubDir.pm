@@ -33,24 +33,28 @@ sub check {
       )
       : $this->NOTE("File count - $this->{filecount} ");
 
-    $e .= $this->WARN($e2) if $e2;
+    my $dperm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
+    my $fperm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
+
+    if ( $this->{fileErrors} ) {
+        $e .= $this->ERROR(<<ERRMSG)
+$this->{fileErrors} directories or files have insufficient permissions. Insufficient permissions
+could prevent Foswiki or the web server from accessing or updating the files.
+Verify that the Store expert settings of {RCS}{filePermission} ($fperm) and {RCS}{dirPermission} ($dperm)
+are set correctly for your environment and correct the file permissions listed below.
+ERRMSG
+    }
 
     if ( $this->{excessPerms}) {
         $e .= $this->WARN(<<PERMS);
-$this->{excessPerms} files appear to have more access permission than is recommended.
-Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
-are set correctly for your environment and correct file system permissions if necessary.
+$this->{excessPerms} files appear to have more access permission than requested in the Store configuration.
+Excess permissions might allow other users on the web server to have undesired access to the files.
+Verify that the Store expert settings of {RCS}{filePermission} ($fperm} and {RCS}{dirPermission}) ($dperm})
+are set correctly for your environment and correct the file permissions listed below.
 PERMS
     }
 
-    if ( $this->{fileErrors} > 10 ) {
-        $e .= $this->ERROR(<<ERRMSG)
-File/Directory permission mismatch reporting stopped at 10 warnings. 
-$this->{fileErrors} directories or files have insufficient permissions. 
-Verify that the Store expert settings of {RCS}{filePermission} and {RCS}{dirPermission}
-are set correctly for your environment and correct file system permissions if necessary.
-ERRMSG
-    }
+    $e .= $this->NOTE('<b>First 10 detected errors of insufficient, or excessive permissions</b> <br/> ' . $e2 ) if $e2;
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
