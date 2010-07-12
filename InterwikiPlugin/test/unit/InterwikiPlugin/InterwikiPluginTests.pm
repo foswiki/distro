@@ -96,6 +96,16 @@ sub test_link_with_url {
    );
 }
 
+# tests the following characters:
+# ' . & = " /
+sub test_link_with_complex_url {
+    my $this = shift;
+    $this->assert_html_equals(
+      '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'" title="\'http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'</noautolink></a>',
+      Foswiki::Func::renderText('Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'', $this->{test_web})
+   );
+}
+
 sub test_link_with_topic_name {
     my $this = shift;
     my $localRulesTopic = "LocalInterWikis";

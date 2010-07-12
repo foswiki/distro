@@ -66,11 +66,11 @@ sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
     # Regexes for the Site:page format InterWiki reference
-    my $man = Foswiki::Func::getRegularExpression('mixedAlphaNum');
-    my $ua  = Foswiki::Func::getRegularExpression('upperAlpha');
+    my $man = $Foswiki::regex{mixedAlphaNum};
+    my $ua  = $Foswiki::regex{upperAlpha};
     %interSiteTable = ();
     $sitePattern = "([$ua][$man]+)";
-    $pagePattern = "([${man}_\/][$man" . '\.\/\+\_\,\&\;\:\=\!\?\%\#\@\-]*?)';
+    $pagePattern = "([${man}_\/][$man" . '"\'\.\/\+\_\,\&\;\:\=\!\?\%\#\@\-]*?)';
 
     # Get plugin preferences from InterwikiPlugin topic
     $interLinkFormat =
