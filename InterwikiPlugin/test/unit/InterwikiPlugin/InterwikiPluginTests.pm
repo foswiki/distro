@@ -41,7 +41,6 @@ sub tear_down {
 ############################################################
 
 sub test_link_from_default_rules_topic {
-    return;
    my $this = shift;
    $this->assert_html_equals(
       '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Perl" title="\'Perl\' on \'Wikipedia\'"><noautolink>Wikipedia:Perl</noautolink></a>',
@@ -49,14 +48,14 @@ sub test_link_from_default_rules_topic {
    );
 }
 
-sub test_link_from_local_rules_topic {
-    return;
-   my $this = shift;
-   Foswiki::Func::setPreferencesValue("INTERWIKIPLUGIN_RULESTOPIC", "$this->{test_web}.$localRulesTopic");
-   $this->assert_html_equals(
-      '<a class="interwikiLink" href="http://rule.invalid.url?page=Topage" title="Local rule"><noautolink>Localrule:Topage</noautolink></a>',
-      Foswiki::Func::renderText("Localrule:Topage", $this->{test_topic})
-   );
-}
+# No longer working
+#sub test_link_from_local_rules_topic {
+#   my $this = shift;
+#   Foswiki::Func::setPreferencesValue("INTERWIKIPLUGIN_RULESTOPIC", "$this->{test_web}.$localRulesTopic");
+#   $this->assert_html_equals(
+#      '<a class="interwikiLink" href="http://rule.invalid.url?page=Topage" title="Local rule"><noautolink>Localrule:Topage</noautolink></a>',
+#      Foswiki::Func::renderText("Localrule:Topage", $this->{test_web})
+#   );
+#}
 
 1;
