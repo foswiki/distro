@@ -39,7 +39,7 @@ sub start {
     @{ $this->{initialINC} } = @INC;
     my $passes = 0;
 
-    my $start_cwd = Cwd->cwd();
+    my ($start_cwd) = Cwd->cwd() =~ m/^(.*)$/;
     print "Starting CWD is $start_cwd \n";
 
     # First use all the tests to get them compiled
@@ -130,7 +130,11 @@ sub start {
                 $action = runOne( $tester, $suite, $testToRun );
             }
 
-            die "CWD changed to " . Cwd->cwd() . " by previous test!! \n" if ( Cwd->cwd() ne $start_cwd) ;
+            if ( Cwd->cwd() ne $start_cwd) {
+                print "CWD changed to " . Cwd->cwd() 
+                  . " by previous test!! \n";
+                chdir $start_cwd or die "Cannot change back to previous $start_cwd\n";
+                }
 
             # untaint action for the case where the test is run in
             # another process
