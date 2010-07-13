@@ -130,7 +130,7 @@ sub start {
                 $action = runOne( $tester, $suite, $testToRun );
             }
 
-            die "CWD changed to " . Cwd->cwd() . " by previous test!! \n" ;#if ( Cwd->cwd() ne $start_cwd) ;
+            die "CWD changed to " . Cwd->cwd() . " by previous test!! \n" if ( Cwd->cwd() ne $start_cwd) ;
 
             # untaint action for the case where the test is run in
             # another process

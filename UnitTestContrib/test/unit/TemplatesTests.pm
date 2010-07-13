@@ -28,7 +28,10 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my $here = Cwd::cwd();
+    $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_TemplateTests';
+    mkpath( $this->{tempdir} );
+
+    my $here = $this->{tempdir};
     $here =~ m/^(.*)$/;
     $test_tmpls = $1 . '/fake_templates';
     $test_data  = $1 . '/fake_data';
@@ -54,8 +57,7 @@ sub tear_down {
     my $this = shift;
     $session->finish();
     $this->SUPER::tear_down();
-    File::Path::rmtree($test_tmpls);
-    File::Path::rmtree($test_data);
+    rmtree( $this->{tempdir} );    # Cleanup any old tests
 }
 
 sub write_template {
