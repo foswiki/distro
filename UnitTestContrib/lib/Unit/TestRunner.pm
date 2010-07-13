@@ -39,6 +39,9 @@ sub start {
     @{ $this->{initialINC} } = @INC;
     my $passes = 0;
 
+    my $start_cwd = Cwd->cwd();
+    print "Starting CWD is $start_cwd \n";
+
     # First use all the tests to get them compiled
     while ( scalar(@files) ) {
         my $testSuiteModule = shift @files;
@@ -126,6 +129,8 @@ sub start {
             else {
                 $action = runOne( $tester, $suite, $testToRun );
             }
+
+            die "CWD changed to " . Cwd->cwd() . " by previous test!! \n" ;#if ( Cwd->cwd() ne $start_cwd) ;
 
             # untaint action for the case where the test is run in
             # another process
