@@ -54,8 +54,9 @@ sub initPlugin {
     my $man = $Foswiki::regex{mixedAlphaNum};
     my $ua  = $Foswiki::regex{upperAlpha};
     %interSiteTable = ();
-    $sitePattern = "([$ua][$man]+)";
-    $pagePattern = "([${man}_\/][$man" . '"\'\.\/\+\_\,\&\;\:\=\!\?\%\#\@\-]*?)';
+    $sitePattern    = "([$ua][$man]+)";
+    $pagePattern =
+      "([${man}_\/][$man" . '"\'\.\/\+\_\,\&\;\:\=\!\?\%\#\@\-]*?)';
 
     # Get plugin preferences from InterwikiPlugin topic
     $interLinkFormat =
@@ -68,8 +69,15 @@ sub initPlugin {
           || 'InterWikis'
     );
 
-    if(! Foswiki::Func::checkAccessPermission( 'VIEW', $user, undef, $interTopic, $interWeb ) ){
-        Foswiki::Func::writeWarning("InterwikiPlugin: user '$user' did not have permission to read the rules topic at '$interWeb.$interTopic'");
+    if (
+        !Foswiki::Func::checkAccessPermission(
+            'VIEW', $user, undef, $interTopic, $interWeb
+        )
+      )
+    {
+        Foswiki::Func::writeWarning(
+"InterwikiPlugin: user '$user' did not have permission to read the rules topic at '$interWeb.$interTopic'"
+        );
         return 1;
     }
     my $text = Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
