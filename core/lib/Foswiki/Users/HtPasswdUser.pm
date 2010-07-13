@@ -266,7 +266,7 @@ sub encrypt {
             }
         }
         my $ret = crypt( $passwd, substr( $salt, 0, 11 ) );
-print STDERR "----- $ret = crypt( $passwd, substr( $salt, 0, 11 ) );\n";
+#print STDERR "----- $ret = crypt( $passwd, substr( $salt, 0, 11 ) );\n";
         return $ret;
 
     }
