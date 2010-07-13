@@ -649,7 +649,7 @@ for my $arg (@ARGV) {
         open $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
         local $/ = "\n";
         @modules =
-          map { untaint($_) }
+          map { /(\w+)/; untaint($1) }
           grep { /^!include/ } <$f>;
         close $f;
         push @modules, 'BuildContrib', 'TestFixturePlugin', 'UnitTestContrib'
