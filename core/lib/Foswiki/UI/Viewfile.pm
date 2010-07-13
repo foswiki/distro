@@ -87,6 +87,16 @@ sub viewfile {
         }
 
         $web = join('/', @web);
+        unless ( $web ) {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'no_such_attachment',
+                web    => 'Unknown',
+                topic  => 'Unknown',
+                status => 404,
+                params => [ 'viewfile', '?' ]
+            );
+        }
 
         # Must set the web name, otherwise plugins may barf if
         # they try to manipulate the topic context when an oops is generated.
