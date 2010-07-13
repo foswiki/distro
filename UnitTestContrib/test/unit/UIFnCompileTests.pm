@@ -18,13 +18,14 @@ our %expected_status_main_webhome = (
     logon  => 200,
 );
 
-#TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
+# TODO: this is beause we're calling the UI::function, not UI:Execute - need to
+# re-write it to use the full engine
 our %expect_non_html = (
     rest        => 1,
     viewfile    => 1,
-    register    => 1,    #TODO: missing action make it throw an exception
-    manage      => 1,    #TODO: missing action make it throw an exception
-    upload      => 1,    #TODO: zero size upload
+    register    => 1,    # TODO: missing action make it throw an exception
+    manage      => 1,    # TODO: missing action make it throw an exception
+    upload      => 1,    # TODO: zero size upload
     resetpasswd => 1,
     statistics  => 1,
 );
@@ -142,19 +143,20 @@ sub call_UI_FN {
     return ( $status, $header, $body, $stdout, $stderr );
 }
 
-#TODO: work out why some 'Use of uninitialised vars' don't crash the test (see preview)
-#this verifies that the code called by default 'runs' with ASSERTs on
-#which would have been enough to pick up Item2342
-#and that the switchboard still works.
+# TODO: work out why some 'Use of uninitialised vars' don't crash the test (see
+# preview) this verifies that the code called by default 'runs' with ASSERTs on
+# which would have been enough to pick up Item2342 and that the switchboard
+# still works.
 sub verify_switchboard_function {
     my $this = shift;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
-#it turns out (see Foswiki:Tasks.Item9184) that hardcoding 200 status prevents the use of BasicAuth - and we really should avoid
-# preventing an admin from setting the security policy where possible.
-# 666 is a default used in the UI_FN code above for 'unset'
+    # it turns out (see Foswiki:Tasks.Item9184) that hardcoding 200 status
+    # prevents the use of BasicAuth - and we really should avoid preventing an
+    # admin from setting the security policy where possible. 666 is a default
+    # used in the UI_FN code above for 'unset'
     $this->assert_num_equals(
         $expected_status_main_webhome{$SCRIPT_NAME} || 666,
         $status,
@@ -176,21 +178,23 @@ sub verify_switchboard_function {
 
 sub verify_switchboard_function_nonExistantWeb {
     my $this = shift;
-    
+
     #turn off ASSERTs so we can see what a normal run time will show
-$ENV{FOSWIKI_ASSERTS} = 0;
+    $ENV{FOSWIKI_ASSERTS} = 0;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
       $this->call_UI_FN( 'Nosuchweb', $this->{test_topic} );
 
-#TODO: I was expecting pretty much all scripts to return 302 redirect to oopsmissing
-#shame we're still using 302 - when we're supposed to use 303/307 (http 1.1)
+    # TODO: I was expecting pretty much all scripts to return 302 redirect to
+    # oopsmissing. Shame we're still using 302 - when we're supposed to use
+    # 303/307 (http 1.1)
+    # TODO: save - no idea why it's returning OK-nostatus - especially as
+    # NoSuchTopic works. It ought to return a 302
     our %expected_status = (
         compare => 302,
-        search => 302,
-        #TODO: save   => 302, - no idea why it's returning OK-nostatus - especially as NoSuchTopic works
-        login  => 200,
-        logon  => 200,
+        search  => 302,
+        login => 200,
+        logon => 200,
     );
     $this->assert_num_equals(
         $expected_status{$SCRIPT_NAME} || 666,
@@ -202,23 +206,21 @@ $ENV{FOSWIKI_ASSERTS} = 0;
 
 sub verify_switchboard_function_nonExistantTopic {
     my $this = shift;
-    
+
     #turn off ASSERTs so we can see what a normal run time will show
-$ENV{FOSWIKI_ASSERTS} = 0;
+    $ENV{FOSWIKI_ASSERTS} = 0;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
       $this->call_UI_FN( $this->{test_web}, 'NoSuchTopicBySven' );
 
-#TODO: I was expecting pretty much all scripts to return 302 redirect to oopsmissing
-#shame we're still using 302 - when we're supposed to use 303/307 (http 1.1)
     our %expected_status = (
-        compare => 302,
-        search => 302,
-        save   => 302,
-        login  => 200,
-        logon  => 200,
+        compare  => 302,
+        search   => 302,
+        save     => 302,
+        login    => 200,
+        logon    => 200,
         viewauth => 404,
-        view => 404,
+        view     => 404,
     );
     $this->assert_num_equals(
         $expected_status{$SCRIPT_NAME} || 666,
@@ -228,36 +230,16 @@ $ENV{FOSWIKI_ASSERTS} = 0;
     );
 }
 
-sub DOLATERtest_viewFile {
-    my $this = shift;
-    
-    #turn off ASSERTs so we can see what a normal run time will show
-$ENV{FOSWIKI_ASSERTS} = 0;
+# TODO: add test_viewfile:
+#       Failures due to non-exist are done above, but we still need:
+#       Sucess
+#       Failures due to permissions (guest and non-authorized user), groups...
 
-    my ( $status, $header, $result, $stdout, $stderr ) =
-      $this->call_UI_FN( $this->{test_web}, 'NoSuchTopicBySven' );
+# TODO: add verify_switchboard_function_SecuredTopic_DENiedView
 
-#TODO: I was expecting pretty much all scripts to return 302 redirect to oopsmissing
-#shame we're still using 302 - when we're supposed to use 303/307 (http 1.1)
-    our %expected_status = (
-        compare => 302,
-        search => 302,
-        save   => 302,
-        login  => 200,
-        logon  => 200,
-        viewauth => 404,
-        view => 404,
-    );
-    $this->assert_num_equals(
-        $expected_status{$SCRIPT_NAME} || 666,
-        $status,
-        "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
-          . ( $stderr || '' ) . "\n"
-    );
-}
-#TODO: add verify_switchboard_function_SecuredTopic_DENiedView 
+# TODO: craft specific tests for each script
 
-#TODO: craft specific tests for each script
-#TODO: including timing expectations... (imo statistics takes a long time in this test)
+# TODO: including timing expectations... (imo statistics takes a long time in
+#       this test)
 
 1;
