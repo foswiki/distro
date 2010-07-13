@@ -56,6 +56,13 @@ BEGIN {
     unlink( "testtgt$n", "testlink$n" );
 }
 
+sub untaint {
+    no re 'taint';
+    $_[0] =~ /^(.*)$/;
+    use re 'taint';
+    return $1;
+}
+
 sub error {
     push @error_log, @_;
     warn "ERROR: ", @_;
@@ -197,6 +204,7 @@ sub installFromMANIFEST {
         next unless $file =~ /^\w+/;
         $file =~ s/\s.*$//;
         next if -d "$moduleDir/$file";
+        $file = untaint($file);
         my $dir = $file;
         $dir =~ s/\/[^\/]*$//;
         &$install( $moduleDir, $dir, $file, $ignoreBlock );
@@ -228,6 +236,7 @@ sub installFromMANIFEST {
     if ( -d "$moduleDir/test/unit/$module" ) {
         opendir( $df, "$moduleDir/test/unit/$module" );
         foreach my $f ( grep( /\.pm$/, readdir($df) ) ) {
+            $f = untaint($f);
             &$install( $moduleDir, "test/unit/$module", "test/unit/$module/$f",
                 $ignoreBlock );
         }
@@ -388,9 +397,7 @@ sub _cleanPath {
     }
     $path = File::Spec->canonpath($path);
     while ( $path =~ s#/[^/]+/\.\.## ) { }
-    no re 'taint';
-    $path =~ /^(.*)$/;
-    return $1;
+    return untaint($path);
 }
 
 # Check that $path$c links to $moduleDir/$path$c
@@ -631,6 +638,7 @@ for my $arg (@ARGV) {
             my $d;
             opendir $d, $dir or next;
             push @modules,
+              map { untaint($_) }
               grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" }
               readdir $d;
             closedir $d;
@@ -641,14 +649,14 @@ for my $arg (@ARGV) {
         open $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
         local $/ = "\n";
         @modules =
-          map { /(\w+)$/; $1 }
+          map { untaint($_) }
           grep { /^!include/ } <$f>;
         close $f;
         push @modules, 'BuildContrib', 'TestFixturePlugin', 'UnitTestContrib'
           if $arg eq 'developer';
     }
     else {
-        push @modules, $arg;
+        push @modules, untaint($arg);
     }
 
     # *Never* uninstall 'core'
