@@ -228,7 +228,7 @@ $ENV{FOSWIKI_ASSERTS} = 0;
     );
 }
 
-sub test_viewFile {
+sub DOLATERtest_viewFile {
     my $this = shift;
     
     #turn off ASSERTs so we can see what a normal run time will show
