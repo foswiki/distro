@@ -31,6 +31,13 @@ sub new {
     my $this = $class->SUPER::new($session);
     $this->{apache} = new Apache::Htpasswd(
         { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
+    unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
+        # apache doesn't create the file, so need to init it
+        my $F;
+        open( $F, '>', $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
+        print $F "";
+        close($F);
+    }
 
     return $this;
 }

@@ -23,9 +23,6 @@ sub set_up {
 
     $this->{session} = new Foswiki();
     $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
-#    open( F, ">$Foswiki::cfg{Htpasswd}{FileName}" ) || die $!;
-#    print F "";
-#    close F;
 }
 
 sub tear_down {
@@ -252,11 +249,7 @@ sub test_htpasswd_apache {
 
     my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
 
-    # apache doesn't create the file, so need to init it
-    #open( F, ">$Foswiki::cfg{Htpasswd}{FileName}" );
-    #close(F);
-
-    # otherwise it should work the same as htpasswd (without salt)
+    # it should work the same as htpasswd (without salt)
     $this->doTests( $impl, 0 );
 }
 
