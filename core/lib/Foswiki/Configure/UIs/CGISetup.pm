@@ -124,13 +124,12 @@ HERE
 Note that by convention "Perl version 5.008" is referred to as "Perl version 5.8" and "Perl 5.008004" as "Perl 5.8.4" (i.e. ignore the leading zeros after the .)
 HERE
 
-    if ( $] < 5.006 ) {
+    if ( $] < 5.008 ) {
         $n .= $this->WARN(<<HERE);
-Perl version is older than 5.6.0.
-Foswiki has only been successfully tested on Perl 5.6.X and 5.8.X,
-and there have been reports that it does not run on 5.5.
-You will need to upgrade Perl libraries and tweak the Foswiki
-code to make Foswiki work on older versions of Perl
+Perl version is older than 5.8.0.
+Foswiki is tested on Perl 5.8.X and 5.10.X.  Older versions may
+work, but you may need to upgrade Perl libraries and tweak the
+Foswiki code.
 HERE
         $erk++;
     }
