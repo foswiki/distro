@@ -1880,6 +1880,8 @@ sub logEvent {
     $user = ( $this->{users}->getLoginName($user) || 'unknown' )
       if ( $this->{users} );
 
+    $user = '' unless (defined $user);  # Avoid undefined string in compare
+
     if ( $user eq $cfg{DefaultUserLogin} ) {
         my $cgiQuery = $this->{request};
         if ($cgiQuery) {
