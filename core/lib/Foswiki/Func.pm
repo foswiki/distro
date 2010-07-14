@@ -56,6 +56,7 @@ use Assert;
 use Foswiki          ();
 use Foswiki::Plugins ();
 use Foswiki::Meta    ();
+use Foswiki::AccessControlException ();
 
 =begin TML
 
@@ -1132,12 +1133,12 @@ use Foswiki::AccessControlException ();
 
 try {
     Foswiki::Func::createWeb( "Newweb" );
-} catch Error::Simple with {
-    my $e = shift;
-    # see documentation on Error::Simple
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Error::Simple with {
+    my $e = shift;
+    # see documentation on Error::Simple
 } otherwise {
     ...
 };
@@ -1166,12 +1167,12 @@ use Foswiki::AccessControlException ();
 
 try {
     Foswiki::Func::moveWeb( "Oldweb", "Newweb" );
-} catch Error::Simple with {
-    my $e = shift;
-    # see documentation on Error::Simple
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Error::Simple with {
+    my $e = shift;
+    # see documentation on Error::Simple
 } otherwise {
     ...
 };
@@ -1458,12 +1459,12 @@ use Error qw( :try );
 
 try {
     moveTopic( "Work", "TokyoOffice", "Trash", "ClosedOffice" );
-} catch Error::Simple with {
-    my $e = shift;
-    # see documentation on Error::Simple
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
+} catch Error::Simple with {
+    my $e = shift;
+    # see documentation on Error::Simple
 } otherwise {
     ...
 };
@@ -1698,7 +1699,9 @@ Create an attachment on the given topic.
 | =filedate= | Date |
 | =createlink= | Set true to create a link at the end of the topic |
 | =notopicchange= | Set to true to *prevent* this upload being recorded in the meta-data of the topic. |
-Save an attachment to the store for a topic. On success, returns undef. If there is an error, an exception will be thrown.
+Save an attachment to the store for a topic. On success, returns undef.
+If there is an error, an exception will be thrown. The current user must
+have CHANGE access on the topic being attached to.
 
 <verbatim>
     try {
@@ -1706,6 +1709,8 @@ Save an attachment to the store for a topic. On success, returns undef. If there
                                      { file => 'image.gif',
                                        comment => 'Picture of Health',
                                        hide => 1 } );
+   } catch Foswiki::AccessControlException with {
+      # Topic CHANGE access denied
    } catch Error::Simple with {
       # see documentation on Error
    } otherwise {
@@ -1720,13 +1725,16 @@ This is the way 99% of extensions will create new attachments. See
 sub saveAttachment {
     my ( $web, $topic, $name, $data ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $result = undef;
+
     my $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
-
-    # SMELL: check access controls?
-    $meta->attach( name => $name, %$data );
-
-    return $result;
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    unless ( $topicObject->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
+    $topicObject->attach( name => $name, %$data );
 }
 
 =begin TML
