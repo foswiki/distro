@@ -1726,7 +1726,6 @@ sub saveAttachment {
     my ( $web, $topic, $name, $data ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    my $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     unless ( $topicObject->haveAccess('CHANGE') ) {
