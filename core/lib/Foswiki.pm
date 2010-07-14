@@ -3201,24 +3201,11 @@ sub expandMacros {
 
 =begin TML
 
----++ ObjectMethod addToHEAD( $tag, $header, $requires )
-
-compatibility wrapper for addToZone
-
-=cut
-
-sub addToHEAD {
-    my $this = shift;
-    return $this->addToZone( 'head', @_ );
-}
-
-=begin TML
-
 ---++ ObjectMethod addToZone( $zone, $tag, $data, $requires )
 
 Add =$data= to the named zone of the page currently being generated.
 
-Programmatic interface to ADDTOZONE
+Implements ADDTOZONE
 
 =cut
 
@@ -3286,13 +3273,10 @@ sub _renderZone {
     my ( $this, $zone, $params, $topicObject ) = @_;
 
     return '' unless $zone && $this->{_zones}{$zone};
-
     $params->{header} ||= '';
     $params->{footer} ||= '';
     $params->{chomp}  ||= 'off';
-    $params->{format} ||=
-
-      $params->{format} = '$item <!-- $tag -->'
+    $params->{format} = '$item <!-- $tag -->'
       unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
 
@@ -3316,9 +3300,8 @@ sub _renderZone {
         _visit( $v, \%visited, \@total );
     }
 
-    # kill a zone ones it has been rendered
+    # kill a zone once it has been rendered
     undef $this->{_zones}{$zone};
-
     my @result = ();
     foreach my $item (@total) {
         my $text = $item->{text};
@@ -3326,6 +3309,8 @@ sub _renderZone {
             $text =~ s/^\s+//g;
             $text =~ s/\s+$//g;
         }
+#        ASSERT($text, "No content for zone tag $item->{tag} in zone $zone")
+#          if DEBUG;
         next unless $text;
         my $tag = $item->{tag} || '';
         my $line = $params->{format};

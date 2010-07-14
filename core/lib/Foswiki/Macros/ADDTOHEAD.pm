@@ -26,7 +26,7 @@ sub ADDTOHEAD {
     $text = $_DEFAULT unless defined $text;
     $text = ''        unless defined $text;
 
-    $this->addToHEAD( $_DEFAULT, $text, $requires, $topicObject );
+    $this->addToZone( 'head', $_DEFAULT, $text, $requires );
     return '';
 }
 
