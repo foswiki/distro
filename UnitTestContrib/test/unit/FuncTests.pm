@@ -202,6 +202,45 @@ sub test_leases {
     $this->assert_equals(0,$time);
 }
 
+sub test_noauth_attachment {
+    my $this = shift;
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $name1 = 'blahblahblah.gif';
+    my $topic = "BlahBlahBlah";
+
+    my $stream;
+    $this->assert(open($stream,">$this->{tmpdatafile}"));
+    binmode($stream);
+    print $stream $data;
+    close($stream);
+
+    $this->assert(open($stream, "<$this->{tmpdatafile}"));
+    binmode($stream);
+
+	Foswiki::Func::saveTopicText( $this->{test_web}, $topic," \n   * Set ALLOWTOPICCHANGE = SomeUser\n" );
+
+    try {
+    my $e = Foswiki::Func::saveAttachment(
+        $this->{test_web}, $topic, $name1,
+        {
+            dontlog => 1,
+            comment => 'Feasgar Bha',
+            stream => $stream,
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+      } );
+      $this->assert(0, "saveAttachment worked for unauthorized user");
+
+    } catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert_matches( qr/^AccessControlException: Access to CHANGE TemporaryFuncTestWebFunc.BlahBlahBlah for BaseUserMapping_666 is denied.*/, $e, "Unexpected error $e");
+    };
+}
+
 sub test_attachments {
     my $this = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
