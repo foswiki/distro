@@ -362,15 +362,28 @@ s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $
         if ($raw) {
             if ($text) {
                 my $p = $session->{prefs};
-                $page .= CGI::textarea(
-                    -readonly => 'readonly',
-                    -rows     => $p->getPreference('EDITBOXHEIGHT'),
-                    -cols     => $p->getPreference('EDITBOXWIDTH'),
-                    -style    => $p->getPreference('EDITBOXSTYLE'),
-                    -class    => 'foswikiTextarea foswikiTextareaRawView',
-                    -id       => 'topic',
-                    -default  => $text
-                );
+                # SMELL: bug in CGI? See Item758 for more. We'd like to do
+                # this:
+                # $page .= CGI::textarea(
+                #     -readonly => 'readonly',
+                #     -rows     => $p->getPreference('EDITBOXHEIGHT'),
+                #     -cols     => $p->getPreference('EDITBOXWIDTH'),
+                #     -style    => $p->getPreference('EDITBOXSTYLE'),
+                #     -class    => 'foswikiTextarea foswikiTextareaRawView',
+                #     -id       => 'topic',
+                #     -default  => $text
+                # );
+                # but have to do this instead:
+                $page .= '<textarea rows="'
+                  . $p->getPreference('EDITBOXHEIGHT')
+                  . '" cols="'
+                  . $p->getPreference('EDITBOXWIDTH')
+                  . '" readonly="readonly" style="'
+                  . $p->getPreference('EDITBOXSTYLE')
+                  . '" id="topic" '
+                  . 'class="foswikiTextarea foswikiTextareaRawView">'
+                  . $text
+                  . '</textarea>';
             }
         }
         else {
