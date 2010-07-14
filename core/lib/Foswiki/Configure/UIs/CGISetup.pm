@@ -126,7 +126,7 @@ HERE
 
     if ( $] < 5.008 ) {
         $n .= $this->WARN(<<HERE);
-Perl version is older than 5.8.0.
+Perl version is older than 5.8.0. Recommended version 5.8.4 or later.
 Foswiki is tested on Perl 5.8.X and 5.10.X.  Older versions may
 work, but you may need to upgrade Perl libraries and tweak the
 Foswiki code.
