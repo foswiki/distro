@@ -72,9 +72,16 @@ It is maintained on the fly by the methods of this module, which makes it
 important *not* to write new data directly into the structure, but *always*
 to go through the methods exported from here.
 
-This module also include some methods to support embedding meta-data for
+This module also includes some methods to support embedding meta-data for
 topics directly in topic text, a la the traditional Foswiki store
 (getEmbeddedStoreForm and setEmbeddedStoreForm)
+
+*IMPORTANT* the methods on =Foswiki::Meta= _do not check access permissions_
+(other than =haveAccess=, obviously).
+This is a deliberate design decision, as these checks are expensive and many
+callers don't require them. For this reason, be *very careful* how you use
+=Foswiki::Meta=. Extension authors will almost always find the methods
+they want in =Foswiki::Func=, rather than in this class.
 
 API version $Date$ (revision $Rev$)
 
@@ -239,7 +246,8 @@ sub new {
 =begin TML
 
 ---++ ObjectMethod finish()
-Clean up the object, releasing any memory stored in it.
+Clean up the object, releasing any memory stored in it. Make sure this
+gets called before an object you have created goes out of scope.
 
 =cut
 

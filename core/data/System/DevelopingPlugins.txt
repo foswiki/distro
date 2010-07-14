@@ -6,8 +6,8 @@ The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswi
 
 ---++ APIs available to Extensions
 To be robust, extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - bridge to core functions. This is the package you will use most.
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Meta][Foswiki::Meta]]= - topic meta-data
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - this is the package you will use most. This package exposes a lot of core functionality in a way that is friendly to extension writers. If you find that there are two ways of doing something - a =Foswiki::Func= way, and another call to one of the packages below, then the =Foswiki::Func= way is almost always the right way.
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Meta][Foswiki::Meta]]= - topic and web meta-data. Certain =Foswiki::Func= methods, and some plugin handlers, are passed (or return) objects of this type. Almost all of the methods of =Foswiki::Meta= have analagous methods in =Foswiki::Func= - in general you should call the =Foswiki::Func= methods in preference to calling =Foswiki::Meta= methods directly.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]]= - special exception for invoking the 'oops' script
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]]= - access control exception
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]]= - parser and storage object for macro parameters

@@ -37,6 +37,12 @@ releases after _date_.
 The _date_ indicates the latest date at which Foswiki releases still supported
 the function or parameter.
 
+Note that the =Foswiki::Func= API should always be the first place extension
+authors look for methods. Certain other lower-level APIs are also exposed
+by the core, but those APIs should only be called if there is no alternative
+available through =Foswiki::Func=. The APIs in question are documented in
+System.DevelopingPlugins.
+
 =cut
 
 # THIS PACKAGE IS PART OF THE PUBLISHED API USED BY EXTENSION AUTHORS.
