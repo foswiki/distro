@@ -47,10 +47,11 @@ ERRMSG
 
     if ( $this->{excessPerms}) {
         $e .= $this->WARN(<<PERMS);
-$this->{excessPerms} files appear to have more access permission than requested in the Store configuration.
+$this->{excessPerms} directories appear to have more access permission than requested in the Store configuration.
 Excess permissions might allow other users on the web server to have undesired access to the files.
 Verify that the Store expert settings of {RCS}{filePermission} ($fperm} and {RCS}{dirPermission}) ($dperm})
-are set correctly for your environment and correct the file permissions listed below.
+are set correctly for your environment and correct the file permissions listed below.  (Files are not checked for
+excessive permissions in this release).
 PERMS
     }
 

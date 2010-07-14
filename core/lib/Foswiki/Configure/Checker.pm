@@ -200,16 +200,27 @@ sub checkTreePerms {
         }
     }
 
-# Enable this once we work out consistent permissions between RCS settings, Manifest, and BuildContrib
-# - And probably need a fix permissions button.
-#    elsif ( $perms =~ /f/ && -f $path ) {
-#        my $mode = ( stat($path) )[2] & 07777;
-#        unless ( $mode == $Foswiki::cfg{RCS}{filePermission} ) {
-#            my $omode = sprintf( '%04o', $mode );
-#            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
-#            $errs .= " file permission mismatch $omode should be $operm";
-#        }
-#   }
+    if ( $perms =~ /f/ && -f $path ) {
+        my $mode = ( stat($path) )[2] & 07777;
+        if ( $mode != $Foswiki::cfg{RCS}{filePermission}) {
+            my $omode = sprintf( '%04o', $mode );
+            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
+            if ( ($mode & $Foswiki::cfg{RCS}{filePermission}) == $Foswiki::cfg{RCS}{filePermission} ) {
+                $permErrs .=
+                  "$path - file permission $omode exceeds requested $operm"
+                  . CGI::br()
+                  unless ( $this->{excessPerms} > 10 );
+                $this->{excessPerms}++;
+                }
+            else {
+                $permErrs .=
+                  "$path - file insufficient permission: $omode should be $operm"
+                  . CGI::br()
+                  unless ( $this->{fileErrors} > 10 );
+                $this->{fileErrors}++;
+            }
+        }
+    }
 
     if ( $perms =~ /r/ && !-r $path ) {
         $errs .= ' not readable';
@@ -222,6 +233,8 @@ sub checkTreePerms {
     if ( $perms =~ /x/ && !-x $path ) {
         $errs .= ' not executable';
     }
+
+    $this->{fileErrors}++ if ($errs);
 
     return $permErrs . $path . $errs . CGI::br() if $errs;
 
