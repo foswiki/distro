@@ -57,6 +57,16 @@ Alias /foswiki "/var/www/foswiki"
 # BrowserMatchNoCase ^SiteSucker blockAccess
 BrowserMatchNoCase ^$ blockAccess
 
+# Setting the NO_FOSWIKI_SESSION environment variable prevents a
+# session being created for the Google Search Appliance bot. This
+# is useful if you have the Google Search Appliance installed on
+# your intranet, as they can be very aggressive when indexing, creating
+# a lot of session files and slowing Foswiki down.
+# You can also set this environment variable for public sites, to
+# prevent Google and other search engines' bots. However, these tend
+# to index your site a lot less often than the Google Search Appliance.
+BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
+
 
 # This specifies the options on the Foswiki scripts directory. The ExecCGI
 # and SetHandler tell apache that it contains scripts. "Allow from all"

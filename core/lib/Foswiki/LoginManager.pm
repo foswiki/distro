@@ -31,7 +31,8 @@ Slightly later in Foswiki::new, loginManager->loadSession is called.
    1 Calls loginManager->getUser to get the username *before* the session is created
       * Foswiki::LoginManager::ApacheLogin looks at REMOTE_USER (only for authenticated scripts)
       * Foswiki::LoginManager::TemplateLogin just returns undef
-   1 reads the FOSWIKISID cookie to get the SID (or the FOSWIKISID parameters in the CGI query if cookies aren't available, or IP2SID mapping if that's enabled).
+   1 If the NO_FOSWIKI_SESSION environment variable is defined, then no session is created and the username is returned. This might be defined for search engine bots, depending on how the web server is configured
+   1 Reads the FOSWIKISID cookie to get the SID (or the FOSWIKISID parameters in the CGI query if cookies aren't available, or IP2SID mapping if that's enabled).
    1 Creates the CGI::Session object, and the session is thereby read.
    1 If the username still isn't known, reads it from the cookie. Thus Foswiki::LoginManager::ApacheLogin overrides the cookie using REMOTE_USER, and Foswiki::LoginManager::TemplateLogin *always* uses the session.
 
@@ -278,7 +279,13 @@ sub loadSession {
     my $authUser = $this->getUser($this);
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
-    if ( $Foswiki::cfg{UseClientSessions}
+    # If the NO_FOSWIKI_SESSION environment varaible is defined, then
+    # do not create the session. This might be defined if the request
+    # is made by a search engine bot, depending on how the web server
+    # is configured
+    return $authUser if $ENV{NO_FOSWIKI_SESSION};
+
+    if( $Foswiki::cfg{UseClientSessions}
         && !$session->inContext('command_line') )
     {
 
