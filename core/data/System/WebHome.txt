@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1268211735" format="1.1" version="$Rev$"}%
 ---+!! Welcome to the %WEB% Web
 <div style="float:right;margin:0em 0em 1em 1em;padding:0.5em;text-align:center">
-<a style="background:transparent" href="http://foswiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-slogan.png" alt="Foswiki - The Free and Open Source Wiki" title="Foswiki - The Free and Open Source Wiki" border="0" /></a>
-<br />Come to <a href="http://foswiki.org"><span class="foswikiLinkLabel">foswiki.org</span></a>.
+<a style="background:transparent" href="http://foswiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.gif" alt="Foswiki - The Free and Open Source Wiki" title="Foswiki - The Free and Open Source Wiki" border="0" /></a>
+<p>Come to <a href="http://foswiki.org"><span class="foswikiLinkLabel">foswiki.org</span></a>.</p>
 </div>
 Foswiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use Foswiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
 
