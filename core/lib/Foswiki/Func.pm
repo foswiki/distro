@@ -56,6 +56,8 @@ package Foswiki::Func;
 
 use strict;
 use warnings;
+use Scalar::Util     ();
+
 use Error qw( :try );
 use Assert;
 
@@ -63,6 +65,48 @@ use Foswiki          ();
 use Foswiki::Plugins ();
 use Foswiki::Meta    ();
 use Foswiki::AccessControlException ();
+use Foswiki::Sandbox ();
+
+# Given $web, $web and $topic, or $web $topic and $attachment, validate
+# and untaint each of them and return. If any fails to validate it will
+# be returned as undef.
+sub _checkWTA {
+    my ($web, $topic, $attachment) = @_;
+    if (defined $topic) {
+        ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+        ( $web, $topic ) =
+          $Foswiki::Plugins::SESSION->normalizeWebTopicName($web, $topic);
+    }
+    if (Scalar::Util::tainted($web)) {
+        $web = Foswiki::Sandbox::untaint(
+            $web, \&Foswiki::Sandbox::validateWebName);
+    }
+    return ($web) unless defined $web && defined $topic;
+
+    if (Scalar::Util::tainted($topic)) {
+        $topic = Foswiki::Sandbox::untaint(
+            $topic, \&Foswiki::Sandbox::validateTopicName);
+    }
+    return ($web, $topic) unless defined $topic && defined $attachment;
+
+    if (Scalar::Util::tainted($attachment)) {
+        $attachment = Foswiki::Sandbox::untaint(
+            $attachment, \&Foswiki::Sandbox::validateAttachmentName);
+    }
+    return ($web, $topic, $attachment);
+    
+}
+
+# Validate a web.topic.attachment and throw an exception if the
+# validation fails
+sub _validateWTA {
+    my ($web, $topic, $attachment) = @_;
+    my ($w, $t, $a) = _checkWTA($web, $topic, $attachment);
+    die 'Invalid web' if (defined $web && !defined $w);
+    die 'Invalid topic' if (defined $topic && !defined $t);
+    die 'Invalid attachment' if (defined $attachment && !defined $a);
+    return ($w, $t, $a);
+}
 
 =begin TML
 
@@ -375,6 +419,7 @@ from now on. All the preferences will be reset to those of the new topic.
 Note that if the new topic is not readable by the logged in user due to
 access control considerations, there will *not* be an exception. It is the
 duty of the caller to check access permissions before changing the topic.
+All other errors will throw an exception.
 
 It is the duty of the caller to restore the original context by calling
 =popTopicContext=.
@@ -388,7 +433,8 @@ values will be unchanged.
 sub pushTopicContext {
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
-    my ( $web, $topic ) = $session->normalizeWebTopicName(@_);
+    my ( $web, $topic ) = _validateWTA(@_);
+
     $session->{prefs}->pushTopicContext( $web, $topic );
     $session->{webName}   = $web;
     $session->{topicName} = $topic;
@@ -449,6 +495,8 @@ sub getPreferencesValue {
     my ( $key, $web ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     if ($web) {
+        $web = _checkWTA($web);
+        return undef unless defined $web;
 
         # Web preference
         my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
@@ -1049,6 +1097,10 @@ in =ThatWeb.ThisTopic=, then a call to =checkAccessPermission('SPIN', 'IncyWincy
 sub checkAccessPermission {
     my ( $type, $user, $text, $topic, $web, $meta ) = @_;
     return 1 unless ($user);
+
+    ($web, $topic) = _checkWTA($web, $topic);
+    return 0 unless defined $web && defined $topic;
+
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     $text = undef unless $text;
     my $cUID = getCanonicalUserID($user)
@@ -1102,6 +1154,10 @@ as follows:
 sub getListOfWebs {
     my $filter = shift;
     my $web    = shift;
+    if (defined $web) {
+        $web = _checkWTA($web);
+        return () unless defined $web;
+    }
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     require Foswiki::WebFilter;
     my $f = new Foswiki::WebFilter( $filter || '' );
@@ -1118,10 +1174,11 @@ Test if web exists
 =cut
 
 sub webExists {
+    my ($web) = _checkWTA(@_);
+    return 0 unless defined $web;
 
-    #   my( $web ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->webExists(@_);
+    return $Foswiki::Plugins::SESSION->webExists($web);
 }
 
 =begin TML
@@ -1153,12 +1210,16 @@ try {
 =cut
 
 sub createWeb {
-    my $web = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my ($web, $baseweb) = @_;
+    ($web) = _validateWTA($web);
+    if (defined $baseweb) {
+        ($baseweb) = _validateWTA($baseweb);
+    }
 
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     # SMELL: check access permissions
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-    $webObject->populateNewWeb(@_);
+    $webObject->populateNewWeb($baseweb);
 }
 
 =begin TML
@@ -1193,8 +1254,12 @@ Foswiki::Func::moveWeb( "Deadweb", "Trash.Deadweb" );
 
 sub moveWeb {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, shift );
-    my $to   = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, shift );
+    my ($from, $to) = @_;
+    ($from) = _validateWTA($from);
+    ($to) = _validateWTA($to);
+
+    $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $from );
+    $to   = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $to );
     return $from->move($to);
 
 }
@@ -1230,6 +1295,7 @@ Use it as follows:
 sub eachChangeSince {
     my ( $web, $time ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ($web) = _validateWTA($web);
     ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
 
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
@@ -1278,6 +1344,8 @@ text.
 
 sub summariseChanges {
     my ( $web, $topic, $orev, $nrev, $tml ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
+
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     return $topicObject->summariseChanges( Foswiki::Store::cleanUpRevID($orev),
@@ -1296,7 +1364,8 @@ Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'Web
 
 sub getTopicList {
 
-    my ($web) = @_;
+    my ($web) = _validateWTA(@_);
+
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
     my $it = $webObject->eachTopic();
     return $it->all();
@@ -1317,8 +1386,9 @@ To get an expected behaviour it is recommened to specify the current web for $we
 =cut
 
 sub topicExists {
-    my ( $web, $topic ) = $Foswiki::Plugins::SESSION->normalizeWebTopicName(@_);
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my ( $web, $topic ) = _checkWTA(@_);
+    return 0 unless defined $web && defined $topic;
     return $Foswiki::Plugins::SESSION->topicExists( $web, $topic );
 }
 
@@ -1338,7 +1408,9 @@ sub checkTopicEditLock {
     my ( $web, $topic, $script ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    ( $web, $topic ) = normalizeWebTopicName( $web, $topic );
+    ( $web, $topic ) = _checkWTA( $web, $topic );
+    return ( '', '', 0) unless defined $web && defined $topic;
+
     $script ||= 'edit';
 
     my $topicObject =
@@ -1392,6 +1464,7 @@ merged.
 sub setTopicEditLock {
     my ( $web, $topic, $lock ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     if ($lock) {
@@ -1437,6 +1510,7 @@ environment. May throw Foswiki::OopsException or Error::Simple.
 sub saveTopic {
     my ( $web, $topic, $smeta, $text, $options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
 
@@ -1480,8 +1554,8 @@ try {
 
 sub moveTopic {
     my ( $web, $topic, $newWeb, $newTopic ) = @_;
-    $newWeb   ||= $web;
-    $newTopic ||= $topic;
+    ($web, $topic) = _validateWTA($web, $topic);
+    ($newWeb, $newTopic) = _validateWTA($newWeb || $web, $newTopic || $topic);
 
     return if ( $newWeb eq $web && $newTopic eq $topic );
 
@@ -1515,6 +1589,9 @@ more efficient.
 
 sub getRevisionInfo {
     my ( $web, $topic, $rev, $attachment ) = @_;
+
+    ($web, $topic) = _validateWTA($web, $topic);
+
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
     my $topicObject;
@@ -1549,6 +1626,7 @@ Return: Single-digit revision number, or undef if it couldn't be determined
 
 sub getRevisionAtTime {
     my ( $web, $topic, $time ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
@@ -1577,10 +1655,12 @@ topic.
 
 sub readTopic {
 
-    #my( $web, $topic, $rev ) = @_;
+    my( $web, $topic, $rev ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    my $meta = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, @_ );
+    my $meta = Foswiki::Meta->load(
+        $Foswiki::Plugins::SESSION, $web, $topic, $rev );
     return ( $meta, $meta->text() );
 }
 
@@ -1595,8 +1675,7 @@ Get a list of the attachments on the given topic.
 
 sub getAttachmentList {
     my ( $web, $topic ) = @_;
-    ( $web, $topic ) =
-      $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
+    ($web, $topic) = _validateWTA($web, $topic);
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     my $it = $topicObject->eachAttachment();
@@ -1616,10 +1695,9 @@ $web and $topic are parsed as described in the documentation for =normalizeWebTo
 =cut
 
 sub attachmentExists {
-    my ( $web, $topic, $attachment ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    ( $web, $topic ) =
-      $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
+    my ( $web, $topic, $attachment ) = _checkWTA(@_);
+    return 0 unless defined $web && defined $topic && defined $attachment;
+
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     return $topicObject->hasAttachment($attachment);
@@ -1629,9 +1707,9 @@ sub attachmentExists {
 
 ---+++ readAttachment( $web, $topic, $name, $rev ) -> $data
 
-   * =$web= - web for topic
-   * =$topic= - topic
-   * =$name= - attachment name
+   * =$web= - web for topic - must not be tainted
+   * =$topic= - topic - must not be tainted
+   * =$name= - attachment name - must not be tainted
    * =$rev= - revision to read (default latest)
 Read an attachment from the store for a topic, and return it as a string. The
 names of attachments on a topic can be recovered from the meta-data returned
@@ -1662,7 +1740,10 @@ not check access controls.
 =cut
 
 sub readAttachment {
-    my ( $web, $topic, $name, $rev ) = @_;
+    my ( $web, $topic, $attachment, $rev ) = @_;
+
+    ( $web, $topic, $attachment ) = _validateWTA($web, $topic, $attachment);
+
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $result;
 
@@ -1675,7 +1756,7 @@ sub readAttachment {
     }
     my $fh;
     try {
-        $fh = $topicObject->openAttachment( $name, '<', version => $rev );
+        $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
     }
     catch Error::Simple with {
         $fh = undef;
@@ -1729,9 +1810,10 @@ This is the way 99% of extensions will create new attachments. See
 =cut
 
 sub saveAttachment {
-    my ( $web, $topic, $name, $data ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my ( $web, $topic, $attachment, $data ) = @_;
+    ( $web, $topic, $attachment ) = _validateWTA($web, $topic, $attachment);
 
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
     unless ( $topicObject->haveAccess('CHANGE') ) {
@@ -1739,7 +1821,7 @@ sub saveAttachment {
             $Foswiki::Plugins::SESSION->{user},
             $web, $topic, $Foswiki::Meta::reason );
     }
-    $topicObject->attach( name => $name, %$data );
+    $topicObject->attach( name => $attachment, %$data );
 }
 
 =begin TML
@@ -1783,9 +1865,10 @@ try {
 sub moveAttachment {
     my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
 
-    $newWeb        ||= $web;
-    $newTopic      ||= $topic;
-    $newAttachment ||= $attachment;
+    ( $web, $topic, $attachment ) = _validateWTA($web, $topic, $attachment);
+
+    ($newWeb, $newTopic, $newAttachment) = _validateWTA(
+        $newWeb || $web, $newTopic || $topic, $newAttachment || $attachment);
 
     return
       if ( $newWeb eq $web
@@ -1860,7 +1943,7 @@ sub loadTemplate {
 
     my %opts = ( no_oops => 1 );
     $opts{skins} = $skin if defined $skin;
-    $opts{web} = $web if defined $web;
+    ($opts{web}) = _validateWTA($web) if defined $web;
 
     my $tmpl = $Foswiki::Plugins::SESSION->templates->readTemplate($name, %opts);
     $tmpl = '' unless defined $tmpl;
@@ -2008,8 +2091,9 @@ See also: expandVariablesOnTopicCreation
 sub expandCommonVariables {
     my ( $text, $topic, $web, $meta ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    $topic ||= $Foswiki::Plugins::SESSION->{topicName};
-    $web   ||= $Foswiki::Plugins::SESSION->{webName};
+    ($web, $topic) = _validateWTA(
+        $web   || $Foswiki::Plugins::SESSION->{webName},
+        $topic || $Foswiki::Plugins::SESSION->{topicName});
     $meta  ||= Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
 
     return $meta->expandMacros($text);
