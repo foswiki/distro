@@ -180,6 +180,11 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    (for guest driven registration the RegistrationAgent's permissions are used, for logged in user registration of someone else, that user's permissions are used).
       * #Set REGISTRATIONGROUPS = 
 
+---+++ Change of Password Message
+
+   * If password management is not handled by Foswiki this message will be displayed on %SYSTEMWEB%.ChangePassword and %SYSTEMWEB%.ResetPassword. Replace this generic text with a reference to how to change or reset password within your organisation.
+      * Set CHANGEPASSWORDDISABLEDMESSAGE = %MAKETEXT{"Resetting and setting password is not handled by Foswiki"}%
+
 ---+++ HTTP-<nop>EQUIV Settings
 
    * %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems. These settings do not affect proxy caches.
