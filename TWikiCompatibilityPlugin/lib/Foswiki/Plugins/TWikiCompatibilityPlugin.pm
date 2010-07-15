@@ -73,30 +73,36 @@ sub earlyInitPlugin {
 
 sub _patchWebTopic {
 
-    # my ($web, $topic) = @_;
-    # don't uncomment, use $_[0] etc
-    if (   ( $_[0] eq 'TWiki' )
-        && ( !Foswiki::Func::topicExists( $_[0], $_[1] ) ) )
+    my ($web, $topic) = @_;
+
+    return unless Foswiki::Func::isValidWebName($web);
+    $web = Foswiki::Sandbox::untaintUnchecked($web);
+
+    return unless Foswiki::Func::isValidTopicName($topic);
+    $topic = Foswiki::Sandbox::untaintUnchecked($topic);
+
+    if (   ( $web eq 'TWiki' )
+        && ( !Foswiki::Func::topicExists( $web, $topic ) ) )
     {
         my $TWikiWebTopicNameConversion =
           $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
           {TWikiWebTopicNameConversion};
         $_[0] = $Foswiki::cfg{SystemWebName};
-        if ( defined( $TWikiWebTopicNameConversion->{ $_[1] } ) ) {
-            $_[1] = $TWikiWebTopicNameConversion->{ $_[1] };
+        if ( defined( $TWikiWebTopicNameConversion->{ $topic } ) ) {
+            $_[1] = $TWikiWebTopicNameConversion->{ $topic };
 
-            #print STDERR "converted to $_[1]";
+            #print STDERR "converted to $topic";
         }
     }
     my $MainWebTopicNameConversion =
       $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
       {MainWebTopicNameConversion};
-    if (   ( $_[0] eq 'Main' )
-        && ( defined( $MainWebTopicNameConversion->{ $_[1] } ) ) )
+    if (   ( $web eq 'Main' )
+        && ( defined( $MainWebTopicNameConversion->{ $topic } ) ) )
     {
-        $_[1] = $MainWebTopicNameConversion->{ $_[1] };
+        $_[1] = $MainWebTopicNameConversion->{ $topic };
 
-        #print STDERR "converted to $_[1]";
+        #print STDERR "converted to $topic";
     }
 }
 
