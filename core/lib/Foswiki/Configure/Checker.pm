@@ -184,18 +184,18 @@ sub checkTreePerms {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
             if ( ($mode & $Foswiki::cfg{RCS}{dirPermission}) == $Foswiki::cfg{RCS}{dirPermission} ) {
+                $this->{excessPerms}++;
                 $permErrs .=
                   "$path - directory permission $omode exceeds requested $operm"
                   . CGI::br()
                   unless ( $this->{excessPerms} > 10 );
-                $this->{excessPerms}++;
                 }
             else {
+                $this->{fileErrors}++;
                 $permErrs .=
                   "$path - directory insufficient permission: $omode should be $operm"
                   . CGI::br()
                   unless ( $this->{fileErrors} > 10 );
-                $this->{fileErrors}++;
             }
         }
     }
@@ -206,18 +206,18 @@ sub checkTreePerms {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
             if ( ($mode & $Foswiki::cfg{RCS}{filePermission}) == $Foswiki::cfg{RCS}{filePermission} ) {
+                $this->{excessPerms}++;
                 $permErrs .=
                   "$path - file permission $omode exceeds requested $operm"
                   . CGI::br()
                   unless ( $this->{excessPerms} > 10 );
-                $this->{excessPerms}++;
                 }
             else {
+                $this->{fileErrors}++;
                 $permErrs .=
                   "$path - file insufficient permission: $omode should be $operm"
                   . CGI::br()
                   unless ( $this->{fileErrors} > 10 );
-                $this->{fileErrors}++;
             }
         }
     }
