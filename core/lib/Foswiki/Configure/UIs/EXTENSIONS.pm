@@ -82,12 +82,39 @@ sub _getListOfExtensions {
                 }
             }
             my $response = $this->getUrl($url);
+
             if ( !$response->is_error() ) {
 
                 #print STDERR "a--- ".Data::Dumper->Dump( [ $response ] )."\n";
                 my $page = $response->content();
                 if ( defined $page ) {
-                    $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
+
+                    # "(Foswiki login)" or "Login - Foswiki"
+                    # status 400 for foswiki 1.0.0-1.0.9
+                    if (
+                            ( $response->code == 200 || $response->code == 400 )
+                        and
+                        ( $response->content() =~ /<title>.*login.*<\/title>/i )
+                      )
+                    {
+
+                        #TemplateAuth login required....
+                        my $errorMsg =
+"Error accessing $place->{name}: TemplateAuth failure";
+                        if (   !defined( $place->{user} )
+                            or !defined( $place->{pass} ) )
+                        {
+                            $errorMsg .=
+" you probably need to add the optional <code>,username,password)</code> options to the repository definition";
+                        }
+                        push( @{ $this->{errors} }, $errorMsg );
+                    }
+                    else {
+
+                        #probably a normal extensions FastReport
+                        $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
+                    }
+
                 }
                 else {
                     push(
