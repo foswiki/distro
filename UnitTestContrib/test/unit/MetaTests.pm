@@ -639,6 +639,45 @@ sub test_BadRevisionInfo {
 
 }
 
+sub test_getRevisionHistory {
+    my $this = shift;
+    my $topicObject = Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, 'RevIt', "Rev 1" );
+    $this->assert_equals(1, $topicObject->save());
+    $topicObject =
+      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
+    my $revIt  = $topicObject->getRevisionHistory();
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(1, $revIt->next());
+    $this->assert(!$revIt->hasNext());
+
+    $topicObject->text('Rev 2');
+    $this->assert_equals(
+        2, $topicObject->save(forcenewrevision => 1));
+    $topicObject =
+      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt  = $topicObject->getRevisionHistory();
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(2, $revIt->next());
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(1, $revIt->next());
+    $this->assert(!$revIt->hasNext());
+
+    $topicObject->text('Rev 3');
+    $this->assert_equals(
+        3, $topicObject->save(forcenewrevision => 1));
+    $topicObject =
+      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt  = $topicObject->getRevisionHistory();
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(3, $revIt->next());
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(2, $revIt->next());
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(1, $revIt->next());
+    $this->assert(!$revIt->hasNext());
+}
+
 # Disabled as XML functionnality has been removed from the core, see Foswikitask:Item1917
 # sub testXML_topic {
 #     my $this = shift;

@@ -114,14 +114,14 @@ sub view {
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
         $revIt  = $topicObject->getRevisionHistory();
-        $maxRev = 1;
-        if ( $revIt->hasNext() ) {
-            $maxRev = $revIt->next();
-            $revIt->reset();
-        }
+        # The topic exists; it must have at least one rev
+        ASSERT( $revIt->hasNext() ) if DEBUG;
+        $maxRev = $revIt->next();
+
         if ( defined $requestedRev ) {
 
             # Is the requested rev id known?
+            $revIt->reset();
             while ( $revIt->hasNext() ) {
                 if ( $requestedRev eq $revIt->next() ) {
                     $showRev = $requestedRev;
@@ -203,14 +203,14 @@ sub view {
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(
     my ( $revTitle, $revArg ) = ( '', '' );
-    if ( $showRev && $revIt->hasNext() && $showRev != $revIt->next() ) {
+    $revIt->reset();
+    if ( $showRev && $showRev != $revIt->next() ) {
         $session->enterContext('inactive');
 
         # disable edit of previous revisions
         $revTitle = '(r' . $showRev . ')';
         $revArg   = '&rev=' . $showRev;
     }
-    $revIt->reset();
 
     my $template =
          $viewTemplate
@@ -242,8 +242,9 @@ sub view {
     }
 
     # Show revisions around the one being displayed.
-    $tmpl =~
-s/%REVISIONS%/revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
+    $tmpl =~ s/%REVISIONS%/
+      revisionsAround(
+          $session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
