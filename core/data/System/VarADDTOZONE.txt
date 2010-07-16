@@ -10,16 +10,17 @@
 }%
 </verbatim>
 
-   * zone: optional, comma-separated list of zones the content should be added to,
-     special zones are =body= and =head=, defaults to =head=
-   * tag: optional, identificator for the material to be added, to be used in =requires=
-   * requires: comma-separated list of tags that must occur before the current material, constraints the order of all material in a zone
-   * text: optional, text to be added to the named zone, mutually exclusive with =topic=
-   * topic: optional, full qualified web-topic name that contains the text to be added, mutually exclusive with =text=
-   * section: optional, section of the =topic= to be added, defaults to the default section between STARTINCLUDE and
+   * ="zone"= optional, comma-separated list of zones the content should
+    be added to, valid zones are =body= and =head=, defaults to =head=
+   * =tag="id"= optional, uniq identifier for the material to be added, to be used in =requires=
+   * =requires="..."= comma-separated list of tags that must occur before the current material, constraints the order of all material in a zone
+   * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=
+   * =topic="..."= optional, full qualified web-topic name that contains the text to be added, mutually exclusive with =text=
+   * =section="..."= optional, section of the =topic= to be added,
+     defaults to the default section between STARTINCLUDE and
      STOPINCLUDE
 
-Note, that using =topic= and =section= is actually a short form of 
+Note that using =topic= and =section= is actually a short form of 
 <verbatim class="tml">
 %ADDTOZONE{
    "myzone"
@@ -27,5 +28,4 @@ Note, that using =topic= and =section= is actually a short form of
 }%
 </verbatim>
 
-
-See also VarRENDERZONE
+See also [[VarRENDERZONE][RENDERZONE]]
