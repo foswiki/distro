@@ -17,7 +17,7 @@ sub check {
             {
                 name  => 'Apache::Htpasswd',
                 usage => 'required for ApacheHtpasswd password manager',
-                minimumVersion => '>=0',
+                minimumVersion => 0,
                 disposition    => 'cpan'
             }
         );
