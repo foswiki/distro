@@ -1,5 +1,6 @@
 data/_default/WebLeftBar.txt 0644
 data/Main/WebLeftBarExample.txt 0644
+data/Main/PatternSkinUserViewTemplate.txt 0644
 data/Sandbox/WebLeftBarExample.txt 0644
 data/System/PatternSkin.txt 0644
 data/System/PatternSkinColorSettings.txt 0644

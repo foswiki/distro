@@ -18,4 +18,13 @@
 %TMPL:DEF{"active_edit"}%%TMPL:P{"sep"}%<span class="patternButton"><a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?action=text&t=%GMTIME{"$epoch"}%" rel="nofollow" title='%MAKETEXT{"Edit this topic text"}%' accesskey="E">%TMPL:P{context="new_topic" then="create_topic" else="edit_topic"}%</a></span>%TMPL:P{context="WysiwygPluginEnabled" then="wysiwyg"}%%TMPL:END%
 
 
+
+%TMPL:DEF{"formattop"}%%TMPL:P{"form"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"formatbottom"}%%TMPL:END%
+
+
+
 %TMPL:DEF{FORM:display:footer:editlink}%%TMPL:P{context="inactive" then="inactive_form" else="active_form"}%%TMPL:END% 
