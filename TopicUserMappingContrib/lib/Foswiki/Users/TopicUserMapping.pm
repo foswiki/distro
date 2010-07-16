@@ -595,6 +595,11 @@ sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
 
+    if (Scalar::Util::tainted($group)) {
+        $group = Foswiki::Sandbox::untaint(
+            $group, \&Foswiki::Sandbox::validateTopicName);
+    }
+
     return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} )
       if ( defined( $this->{eachGroupMember}->{$group} ) );
 
