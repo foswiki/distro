@@ -62,9 +62,13 @@ sub search {
 
     if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
 
-        #try to escape the ^ ad "" for native windows grep and apache
+        #try to escape the ^ and "" for native windows grep and apache
         $searchString =~ s/\[\^/[^^/g;
-        $searchString =~ s/"/""/g;
+
+        # Fix escaping and quoting for Windows
+        $searchString =~ s#\\#\\\\#g;
+        $searchString =~ s#"#\\"#g;
+        $searchString = q(") . $searchString . q(");
     }
 
     my $matches = '';
@@ -78,9 +82,13 @@ sub search {
       #SMELL: the following while loop should probably be made by sysCommand, as this is a leaky abstraction.
     ##heck, on pre WinXP its only 2048, post XP its 8191 - http://support.microsoft.com/kb/830473
     if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
+
         #tune the number based on the length of "$sDir/WebSearchAdvanced.txt"
         #30 is a guess - wotamess
-        $maxTopicsInSet = ((8191-(length($program)+length($searchString)+30)) / (length("$sDir/LongWebSearchAdvanced.txt")+10));
+        $maxTopicsInSet =
+          ( ( 8191 - ( length($program) + length($searchString) + 30 ) ) /
+              ( length("$sDir/LongWebSearchAdvanced.txt") + 10 ) );
+
         #print STDERR "++++++++++++ $maxTopicsInSet \n";
     }
 
@@ -160,7 +168,8 @@ sub query {
         next unless $session->webExists($web);
 
         my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
+        my $thisWebNoSearchAll =
+          Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
         # make sure we can report this web on an 'all' search
         # DON'T filter out unless it's part of an 'all' search.
@@ -230,7 +239,8 @@ sub _webQuery {
             $topicSet->reset();
             while ( $topicSet->hasNext() ) {
                 my $webtopic = $topicSet->next();
-                my ( $itrWeb, $topic ) = Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+                my ( $itrWeb, $topic ) =
+                  Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
 
                 if ( $options->{'casesensitive'} ) {
 
@@ -250,6 +260,7 @@ sub _webQuery {
         unless ( $options->{'scope'} eq 'topic' ) {
             my $textMatches =
               search( $tokenCopy, $web, $topicSet, $session, $options );
+
             #bring the text matches into the topicMatch hash
             if ($textMatches) {
                 @topicMatches{ keys %$textMatches } = values %$textMatches;
@@ -276,6 +287,7 @@ sub _webQuery {
             #TODO: the sad thing about this is we lose info
             @scopeTextList = keys(%topicMatches);
         }
+
         # reduced topic list for next token
         $topicSet =
           new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
