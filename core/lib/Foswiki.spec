@@ -1463,15 +1463,19 @@ $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerC
 # and should have the packaged extension attached as a <tt>zip</tt> and/or
 # <tt>tgz</tt> file.
 # <p />
-# The search list is a semicolon-separated list of repository specifications, each in the format: <i>name=(listurl,puburl)</i>
+# The search list is a semicolon-separated list of repository specifications, each in the format: <i>name=(listurl,puburl,username,password)</i>
 # where:
 # <ul>
 # <li><code>name</code> is the symbolic name of the repository e.g. Foswiki.org</li>
 # <li><code>listurl</code> is the root of a view URL</li>
 # <li><code>puburl</code> is the root of a download URL</li>
+# <li><code>username</code> is the username if TemplateAuth is required on the repository (optional)</li>
+# <li><code>password</code> is the password if TemplateAuth is required on the repository (optional)</li>
 # </ul>
+# Note: if your Repository uses ApacheAuth, embed the username and password into the listurl as <code>?username=x;password=y</code>
+# <p />
 # For example,<code>
-# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
+# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
 # For Extensions with the same name in more than one repository, the <strong>last</strong> matching repository in the list will be chosen, so Foswiki.org should always be last in the list for maximum compatibility.
 $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
 
