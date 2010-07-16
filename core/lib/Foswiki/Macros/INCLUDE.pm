@@ -12,12 +12,24 @@ sub applyPatternToIncludedText {
 
     $pattern = Foswiki::Sandbox::untaint( $pattern, \&validatePattern );
 
-    try {
-        $text =~ s/$pattern/$1/is;
-    }
-    catch Error::Simple with {
-        $text = '';
+    my $ok = 0;
+    eval {
+        # The eval acts as a try block in case there is anything evil in
+        # the pattern.
+
+        # The () ensures that $1 is defined if $pattern matches
+        # but does not capture anything
+        if ($text =~ m/$pattern()/is) {
+            $text = $1;
+        }
+        else {
+            # The pattern did not match, so return nothing
+            $text = '';
+        }
+        $ok = 1;
     };
+    $text = '' unless $ok;
+
     return $text;
 }
 
