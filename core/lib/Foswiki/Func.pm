@@ -2026,25 +2026,6 @@ sub redirectCgiQuery {
 
 =begin TML
 
----+++ addToHEAD( $id, $data, $requires )
-
-Adds =$data= to the HTML header (the <head> tag).
-
-This is a compatibility wrapper for =addZoZone('head', ...)=.
-
-=cut=
-
-sub addToHEAD {
-
-    #my ( $tag, $data, $requires ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
-    ASSERT($session) if DEBUG;
-
-    $session->addToZone( 'head', @_ );
-}
-
-=begin TML
-
 ---+++ addToZone( $zone, $tag, $data, $requires )
 
 Adds =$data= to the HTML header (the <head> tag).
@@ -2056,10 +2037,14 @@ This is useful for Plugins that want to include some javascript custom css.
 
 All macros present in =$data= will be expanded before being inserted into the =<head>= section.
 
-Example:
+Examples:
 <verbatim>
-Foswiki::Func::addToZone( "head", 'PATTERN_STYLE','<link rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
-Foswiki::Func::addToZone( "body", 'PATTERN_JAVASCRIPT','<script type="text/javascript" src="%PUBURL%/Foswiki/PatternSkin/pattern.js"></scipt>');
+Foswiki::Func::addToZone( 'head', 'PATTERN_STYLE',
+   '<link rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
+
+Foswiki::Func::addToZone( 'body', 'MY_JQUERY',
+   '<script type="text/javascript" src="%PUBURL%/Myweb/MyJQuery/myjquery.js"></scipt>',
+   'JQUERYPLUGIN::FOSWIKI');
 </verbatim>
 
 =cut=
@@ -2429,7 +2414,7 @@ sub registerRESTHandler {
 
 =begin TML
 
----++ StaticMethod registerMETA($name, %syntax)
+---++ registerMETA($name, %syntax)
 
 Foswiki supports embedding meta-data into topics. For example,
 
@@ -2699,7 +2684,7 @@ sub normalizeWebTopicName {
 
 =begin TML
 
----+++ StaticMethod sanitizeAttachmentName($fname) -> ($fileName, $origName)
+---+++ sanitizeAttachmentName($fname) -> ($fileName, $origName)
 
 Given a file path, sanitise it according to the rules for transforming
 attachment names. Returns
@@ -2775,7 +2760,7 @@ sub writeEvent {
 
 =begin TML
 
----++ ObjectMethod eachEventSince($time, $level) -> $iterator
+---++ eachEventSince($time, $level) -> $iterator
    * =$time= - a time in the past (seconds since the epoch)
    * =$level= - log level to return events for.
 
@@ -2896,7 +2881,7 @@ sub isValidWebName {
 
 =begin TML
 
----++ StaticMethod isValidTopicName( $name [, $allowNonWW] ) -> $boolean
+---++ isValidTopicName( $name [, $allowNonWW] ) -> $boolean
 
 Check for a valid topic name.
    * =$name= - topic name
@@ -3382,6 +3367,20 @@ sub saveTopicText {
         );
     };
     return $outcome;
+}
+
+=begin TML
+
+---+++ addToHEAD( $id, $data, $requires )
+
+Adds =$data= to the HTML header (the <head> tag).
+
+*Deprecated* 26 Mar 2010 - use =addZoZone('head', ...)=.
+
+=cut
+
+sub addToHEAD {
+    $Foswiki::Plugins::SESSION->addToZone( 'head', @_ );
 }
 
 1;
