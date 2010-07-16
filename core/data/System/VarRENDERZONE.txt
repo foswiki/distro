@@ -21,6 +21,9 @@ Supports the [[FormatTokens][standard format tokens]] in the =format= and =separ
 =header= and =footer= are output irrespective of whether there is any content
 in the zone or not.
 
+=head= and =body= are _built-in_ zones - there is no corresponding =RENDERZONE=
+required in the templates.
+
 Note that you can create as many zones as you like. You are not restricted
 to just =body= and =head=. Interesting use cases in wiki applications:
 

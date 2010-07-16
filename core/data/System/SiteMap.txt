@@ -3,14 +3,13 @@
 ---+ <nop>%WIKITOOLNAME% Site Map
 
 %STARTINCLUDE%
-%ADDTOHEAD{
-<style type='text/css'>
+%ADDTOZONE{"head" text="<style type='text/css'>
 #sitemap .foswikiFormSteps {background:#fff;}
 #sitemap .foswikiFormStep {padding:0;}
 #sitemap .foswikiFormSteps ul {list-style:none; margin-bottom:0; padding-left:0;}
 #sitemap .siteMapWebColor {margin:4px;}
 #sitemap .sitemapWebSummary {margin:0 0 0 15px; padding:.5em 1em .5em 25px; background:#fff;}
-</style>
+</style>"
 }%
 
 <noautolink>

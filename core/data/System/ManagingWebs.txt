@@ -4,8 +4,7 @@
 ---+ Managing Webs
 %TOC%
 
-%ADDTOHEAD{"
-<style type='text/css'>
+%ADDTOZONE{"head" text="<style type='text/css'>
 #createWeb .foswikiFormStep {padding:15px 40px;}
 #createWeb .col1 {float:left; width:30%; margin:0 3% 0 0;}
 #createWeb .col2 {float:left; width:66%;}
@@ -18,8 +17,7 @@
 #createWeb .additionalSettings .foswikiFormSteps {background:#fff;}
 #createWeb .additionalSettings .foswikiFormStep {padding:5px 20px;}
 .twistyTrigger {font-weight:bold;}
-</style>
-"}%
+</style>"}%
 
 ---++ What are Webs?
 A Foswiki site is divided into "Webs", or groups or topics - each one represents one subject, one area of collaboration. Administrators can add, rename or delete webs.%BR%
