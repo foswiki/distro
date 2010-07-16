@@ -6,17 +6,25 @@
 <verbatim class="tml">
 %RENDERZONE{"zone" ...}%
 </verbatim>
+See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
 
-   * zone: required, name of the zone to be expanded
-   * header: optional, prefix format string
-   * format: optional, format string for each item added to the zone, defaults to =$item=, any standard escapes like =$percnt=, =$dollar= etc can be used to delay evaluation order of the format parameter
-   * chomp: removed leading and trailing whitespace in formatted items, useful to pretty-print them one per line
-   * footer: optional, suffix format string
-   * separator: optional, put between each item of a zone
+Parameters:
+   * ="zone"= required, name of the zone
+   * =header="..."= optional, prefix format string
+   * =format="..."= optional, format string for each item added to the zone, defaults to =$item=.
+   * =chomp="on"= remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression.
+   * =footer="..."= optional, suffix format string
+   * =separator="..."= optional, put between each item of a zone
 
-Note, that you can create as many zones as you like. The plugin does not restrict you to use it only for =body= and =head=. Interesting use cases in wiki applications:
+Supports the [[FormatTokens][standard format tokens]] in the =format= and =separator= (but *not* in the =header= or =footer=).
+
+=header= and =footer= are output irrespective of whether there is any content
+in the zone or not.
+
+Note that you can create as many zones as you like. You are not restricted
+to just =body= and =head=. Interesting use cases in wiki applications:
 
    * create a =sidebar= zone to add widgets
    * create a =toolbar= zone to add buttons icons
 
-See also VarADDTOZONE
+See also [[VarADDTOZONE][ADDTOZONE]]

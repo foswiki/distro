@@ -10,10 +10,15 @@
 }%
 </verbatim>
 
+_Zones_ are specific areas in the output HTML that are marked in the source templates using the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various materials together, such as Javascript and CSS, that must be included in the output HTML in a specific order, and in a specific place. By default skins define two zones, =head= and =body= which are in the HEAD tag and at the end of the BODY tag respectively.
+
+Each =ADDTOZONE= call can be identified by a _unique identifier_, and you can state dependencies on other identifiers. In this way you can constraint the order in which the text added by each call is expanded in the output.
+
+Parameters:
    * ="zone"= optional, comma-separated list of zones the content should
-    be added to, valid zones are =body= and =head=, defaults to =head=
-   * =tag="id"= optional, uniq identifier for the material to be added, to be used in =requires=
-   * =requires="..."= comma-separated list of tags that must occur before the current material, constraints the order of all material in a zone
+    be added to, valid zones are =body= and =head=. Defaults to =head=.
+   * =tag="id"= optional, unique identifier for this =ADDTOZONE= call, to be used in =requires= in other =ADDTOZONE= calls,
+   * =requires="..."= comma-separated list of unique identifiers for other =ADDTOZONE= calls that must be expanded before the text from this call.
    * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=
    * =topic="..."= optional, full qualified web-topic name that contains the text to be added, mutually exclusive with =text=
    * =section="..."= optional, section of the =topic= to be added,
