@@ -141,6 +141,12 @@ sub set_up {
     local $/ = "\n";
     while (<F>) {
         if (/^!include .*?([^\/]+Plugin)$/) {
+            unless( exists $Foswiki::cfg{Plugins}{$1}{Module} ) {
+                $Foswiki::cfg{Plugins}{$1}{Module} = 'Foswiki::Plugins::' . $1;
+                print STDERR "WARNING: $1 has no module defined, "
+                    ."it might not load!\n"
+                    ."\tGuessed it to $Foswiki::cfg{Plugins}{$1}{Module}\n";
+            }
             $Foswiki::cfg{Plugins}{$1}{Enabled} = 1;
         }
     }
