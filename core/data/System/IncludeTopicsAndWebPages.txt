@@ -10,7 +10,9 @@ Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web
 
 =%<nop>INCLUDE{ "page" pattern="reg-exp" rev="2" warn="off" section="clients" PARAMETER1="value" PARAMETER2="Some value"}%=
 
-The =pattern= parameter is optional and allows you to extract some parts of a web page. Specify a %SYSTEMWEB%.RegularExpression that scans from start (='^'=) to end and contains the text you want to keep in parenthesis, e.g., =pattern="^.*?(from here.*?to here).*"=. You need to make sure that the integrity of a web page is not compromised; for example, if you include a table, make sure to include everything including the table end tag.
+The =pattern= parameter is optional and allows you to extract some parts of a web page. Specify a %SYSTEMWEB%.RegularExpression that contains the text you want to keep in parenthesis. It may be helpful for the pattern to match more than just the text you wish to keep, e.g. =pattern="Some prefix(Start here.*?to here)"=. If needed, the pattern may even scan from start (='^'=) to end and match the whole topic, e.g. =pattern="^.*?(from here.*?to here).*"=.
+
+You need to make sure that the integrity of a web page is not compromised; for example, if you include a table, make sure to include everything including the table end tag.
 
 The example parameters PARAMETER1 and PARAMETER2 will be defined as macros within the scope of the included topic. The example parameters shown will result in %PARAMETER1% and %PARAMETER2% being defined within the included topic.
 
