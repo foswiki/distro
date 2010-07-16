@@ -178,7 +178,6 @@ THIS
       ;    #add \n because expandMacros removes it :/
 }
 
-
 sub test_singlequoted_params {
     my $this          = shift;
     my $text =
@@ -196,6 +195,92 @@ sub test_singlequoted_params {
     $this->assert_str_equals( "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>I can't beleive its not butter', path is empty or contains illegal characters. 
 </span>", $text );
+}
+
+sub test_fullPattern {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        $topicText );
+    $inkyDink->save();
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"^.*?(Have.*sir).*\"}%");
+    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text )
+      ;
+}
+
+sub test_pattern {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        $topicText );
+    $inkyDink->save();
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(Have.*sir)\"}%");
+    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text )
+      ;
+}
+
+# INCLUDE{"" pattern="blah"}% that does not match should return nothing
+sub test_patternNoMatch {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        $topicText );
+    $inkyDink->save();
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(blah)\"}%");
+    $this->assert_str_equals( "", $text )
+      ;
+}
+
+# INCLUDE{"" pattern="blah"}% that does not capture should return nothing
+sub test_patternNoCapture {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        $topicText );
+    $inkyDink->save();
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\".*\"}%");
+    $this->assert_str_equals( "", $text )
+      ;
 }
 
 1;
