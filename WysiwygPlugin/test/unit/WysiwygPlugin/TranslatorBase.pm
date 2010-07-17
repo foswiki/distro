@@ -122,7 +122,10 @@ sub assert_tml_equals {
     $actual   ||= '';
     $actual   =~ s/\n$//s;
     $expected =~ s/\n$//s;
-    unless ( $expected eq $actual ) {
+    if ( $expected eq $actual ) {
+        $this->assert( 1 );
+    }
+    else {
         my $expl =
             "==$name== Expected TML:\n"
           . encode($expected)
@@ -157,6 +160,9 @@ sub assert_tml_not_equals {
           . encode($actual)
           . "\n==$name==\n";
         $this->assert( 0, $expl . "\n" );
+    }
+    else {
+        $this->assert( 1 );
     }
 }
 
