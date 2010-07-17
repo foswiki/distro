@@ -61,7 +61,13 @@ unless ($errorcode == 0) {
     close(UNIT);
     
     #only output the summary
-    $unittestErrors =~ s/^(.*)Unit test run Summary://s;
+    unless ($unittestErrors =~ s/^(.*)Unit test run Summary://s) {
+        my $lastTest = '';
+        if ($unittestErrors =~ /.*^(Running .*?\z)/sm) {
+            $lastTest = "Last test:\n$1\n";
+        }
+        $unittestErrors = "Unit tests ended abnormally. " . $lastTest . "Please check the unit test log.\n";
+    }
     
     chdir($foswikihome);
     if ($SvensAutomatedBuilds) {
