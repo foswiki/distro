@@ -174,6 +174,7 @@ sub checkTreePerms {
 
     my $errs     = '';
     my $permErrs = '';
+    my $rwxString = buildRWXMessageString($perms, $path);
 
     return $path . ' cannot be found' . CGI::br()
       unless ( -e $path || -l $path );
@@ -210,8 +211,9 @@ sub checkTreePerms {
         }
     }
 
-    $errs .= $this->getEmptyStringUnlessUnderLimit('fileErrors',
-        buildRWXMessageString($perms, $path));
+    if ($rwxString) {
+        $errs .= $this->getEmptyStringUnlessUnderLimit('fileErrors', $rwxString);
+    }
 
     return $permErrs . $path . $errs . CGI::br() if $errs;
 
@@ -242,9 +244,9 @@ sub getEmptyStringUnlessUnderLimit {
     my ($this, $type, $message) = @_;
     my $errs = '';
 
+    $this->{$type}++;
     if ($this->{$type} < 10) {
         if ($message) {
-            $this->{$type}++;
             $errs = $message . CGI::br();
         }
     }
