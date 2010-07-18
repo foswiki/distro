@@ -268,7 +268,6 @@ sub buildRWXMessageString {
         $message .= ' not executable';
     }
 
-    print STDERR ':) ' . $message . ' ' . $perms . ' ' . $path;
     return $message;
 }
 
