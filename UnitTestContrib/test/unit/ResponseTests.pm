@@ -8,6 +8,14 @@ use Assert;
 
 use Foswiki::Response;
 
+sub set_up {
+    my $this = shift;
+    $this->SUPER::set_up();
+    $Foswiki::cfg{AllowRedirectUrl} = 0;
+    $Foswiki::cfg{DefaultUrlHost} = 'http://wiki.server';
+    $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://other.wiki';
+}
+
 sub test_empty_new {
     my ($this) = @_;
     my $res  = Foswiki::Response->new();
@@ -268,10 +276,10 @@ sub test_isRedirectSafe {
     my ($this) = @_;
 
     $this->assert(not Foswiki::_isRedirectSafe('http://slashdot.org'));
+    $this->assert(Foswiki::_isRedirectSafe('/relative'));
 
     #$Foswiki::cfg{DefaultUrlHost} based
     my $baseUrlMissingSlash = $Foswiki::cfg{DefaultUrlHost};
-
 
     #http://wiki.server.com (missing trailing slash)
     $baseUrlMissingSlash =~ s/(.*)\/$/$1/;
@@ -281,6 +289,21 @@ sub test_isRedirectSafe {
     $this->assert(Foswiki::_isRedirectSafe($url));
     $url = $baseUrlMissingSlash.'#header';
     $this->assert(Foswiki::_isRedirectSafe($url));
+
+    $Foswiki::cfg{DefaultUrlHost} = 'http://wiki.server';
+    $Foswiki::cfg{PermittedRedirectHostUrls} =
+      'http://wiki.other,http://other.wiki';
+
+    $this->assert(Foswiki::_isRedirectSafe('/wiki.server'));
+    $this->assert(Foswiki::_isRedirectSafe('http://wiki.server'));
+    $this->assert(Foswiki::_isRedirectSafe('http://wiki.server/'));
+    $this->assert(Foswiki::_isRedirectSafe('http://other.wiki'));
+    $this->assert(Foswiki::_isRedirectSafe('http://other.wiki/'));
+    $this->assert(Foswiki::_isRedirectSafe('http://wiki.other'));
+    $this->assert(Foswiki::_isRedirectSafe('http://wiki.other/'));
+    $this->assert(not Foswiki::_isRedirectSafe('http://slashdot.org'));
+    $this->assert(not Foswiki::_isRedirectSafe('http://slashdot.org/'));
+
     return;
 }
 
