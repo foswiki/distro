@@ -162,7 +162,7 @@ sub checkTreePerms {
 
     return '' if ( defined($filter) && $path =~ $filter && !-d $path );
 
-    $this->{fileErrors} = 0 unless ( defined $this->{fileErrors} );
+    $this->{fileErrors}  = 0 unless ( defined $this->{fileErrors} );
     $this->{excessPerms} = 0 unless ( defined $this->{excessPerms} );
 
     #let's ignore Subversion directories
@@ -172,47 +172,59 @@ sub checkTreePerms {
     # Okay to increment count once filtered files are ignored.
     $this->{filecount}++;
 
-    my $errs     = '';
-    my $permErrs = '';
-    my $rwxString = buildRWXMessageString($perms, $path);
+    my $errs      = '';
+    my $permErrs  = '';
+    my $rwxString = buildRWXMessageString( $perms, $path );
 
     return $path . ' cannot be found' . CGI::br()
       unless ( -e $path || -l $path );
 
     if ( $perms =~ /d/ && -d $path ) {
         my $mode = ( stat($path) )[2] & oct(7777);
-        if ( $mode != $Foswiki::cfg{RCS}{dirPermission}) {
+        if ( $mode != $Foswiki::cfg{RCS}{dirPermission} ) {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
-            if ( ($mode & $Foswiki::cfg{RCS}{dirPermission}) == $Foswiki::cfg{RCS}{dirPermission} ) {
-                $permErrs .= $this->getEmptyStringUnlessUnderLimit('excessPerms',
-                    "$path - directory permission $omode exceeds requested $operm");
-                }
+            if ( ( $mode & $Foswiki::cfg{RCS}{dirPermission} ) ==
+                $Foswiki::cfg{RCS}{dirPermission} )
+            {
+                $permErrs .= $this->getEmptyStringUnlessUnderLimit(
+                    'excessPerms',
+"$path - directory permission $omode exceeds requested $operm"
+                );
+            }
             else {
-                $permErrs .= $this->getEmptyStringUnlessUnderLimit('fileErrors',
-                    "$path - directory insufficient permission: $omode should be $operm");
+                $permErrs .= $this->getEmptyStringUnlessUnderLimit(
+                    'fileErrors',
+"$path - directory insufficient permission: $omode should be $operm"
+                );
             }
         }
     }
 
     if ( $perms =~ /f/ && -f $path ) {
         my $mode = ( stat($path) )[2] & oct(7777);
-        if ( $mode != $Foswiki::cfg{RCS}{filePermission}) {
+        if ( $mode != $Foswiki::cfg{RCS}{filePermission} ) {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
-            if ( ($mode & $Foswiki::cfg{RCS}{filePermission}) == $Foswiki::cfg{RCS}{filePermission} ) {
-                $permErrs .= $this->getEmptyStringUnlessUnderLimit('excessPerms',
-                    "$path - file permission $omode exceeds requested $operm");
-                }
+            if ( ( $mode & $Foswiki::cfg{RCS}{filePermission} ) ==
+                $Foswiki::cfg{RCS}{filePermission} )
+            {
+                $permErrs .=
+                  $this->getEmptyStringUnlessUnderLimit( 'excessPerms',
+                    "$path - file permission $omode exceeds requested $operm" );
+            }
             else {
-                $permErrs .= $this->getEmptyStringUnlessUnderLimit('fileErrors',
-                    "$path - file insufficient permission: $omode should be $operm");
+                $permErrs .= $this->getEmptyStringUnlessUnderLimit(
+                    'fileErrors',
+"$path - file insufficient permission: $omode should be $operm"
+                );
             }
         }
     }
 
     if ($rwxString) {
-        $errs .= $this->getEmptyStringUnlessUnderLimit('fileErrors', $rwxString);
+        $errs .=
+          $this->getEmptyStringUnlessUnderLimit( 'fileErrors', $rwxString );
     }
 
     return $permErrs . $path . $errs . CGI::br() if $errs;
@@ -241,11 +253,11 @@ sub checkTreePerms {
 }
 
 sub getEmptyStringUnlessUnderLimit {
-    my ($this, $type, $message) = @_;
+    my ( $this, $type, $message ) = @_;
     my $errs = '';
 
     $this->{$type}++;
-    if ($this->{$type} < 10) {
+    if ( $this->{$type} < 10 ) {
         if ($message) {
             $errs = $message . CGI::br();
         }
@@ -255,7 +267,7 @@ sub getEmptyStringUnlessUnderLimit {
 }
 
 sub buildRWXMessageString {
-    my ($perms, $path) = @_;
+    my ( $perms, $path ) = @_;
     my $message = '';
 
     if ( $perms =~ /r/ && !-r $path ) {
@@ -381,11 +393,9 @@ a compilable perl regular expression.
 sub checkRE {
     my ( $this, $keys ) = @_;
     my $str;
-    eval {
-        $str = $Foswiki::cfg . $keys;
-    };
+    eval { $str = $Foswiki::cfg . $keys; };
     return '' unless defined $str;
-    eval {qr/$str/};
+    eval { qr/$str/ };
     if ($@) {
         return $this->ERROR(<<"MESS");
 Invalid regular expression: $@ <p />
