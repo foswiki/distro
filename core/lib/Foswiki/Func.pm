@@ -1560,6 +1560,20 @@ sub moveTopic {
     return if ( $newWeb eq $web && $newTopic eq $topic );
 
     my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    unless ( $from->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
+
+    my $toWeb =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb );
+    unless ( $from->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $newWeb, undef, $Foswiki::Meta::reason );
+    }
+
     my $to =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
 
@@ -1876,6 +1890,11 @@ sub moveAttachment {
         && $newAttachment eq $attachment );
 
     my $from = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+    unless ( $from->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
     my @opts;
     push( @opts, new_name => $newAttachment ) if defined $newAttachment;
 
@@ -1888,6 +1907,11 @@ sub moveAttachment {
     else {
         my $to =
           Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+        unless ( $to->haveAccess('CHANGE') ) {
+            throw Foswiki::AccessControlException( 'CHANGE',
+                $Foswiki::Plugins::SESSION->{user},
+                $newWeb, $newTopic, $Foswiki::Meta::reason );
+        }
 
         # SMELL: check access permissions
         $from->moveAttachment( $attachment, $to, @opts );
