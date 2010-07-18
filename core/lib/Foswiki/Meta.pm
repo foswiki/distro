@@ -2479,7 +2479,8 @@ sub attach {
                     }
                 }
                 select((select($fh), $| = 1)[0]);
-                $fh->seek(0, 0 ) or die "Can't seek temp: $!\n";
+                # $fh->seek only in File::Temp 0.17 and later
+                seek($fh, 0, 0 ) or die "Can't seek temp: $!\n";
                 $opts{stream} = $fh;
                 $attrs->{tmpFilename} = $fh->filename();
             }

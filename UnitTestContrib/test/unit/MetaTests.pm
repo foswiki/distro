@@ -336,7 +336,8 @@ sub test_attach_stream {
 
     my $temp = new File::Temp();
     print $temp 'eeza stream';
-    $temp->seek(0,0);
+    # $fh->seek only in File::Temp 0.17 and later
+    seek($temp,0,0);
     $this->{test_topicObject}->attach(
         name => 'dis.dat', stream => $temp);
     $this->assert(close($temp));
@@ -352,7 +353,8 @@ sub test_attach_file {
 
     my $temp = new File::Temp();
     print $temp 'eeza file';
-    $temp->seek(0,0);
+    # $fh->seek only in File::Temp 0.17 and later
+    seek($temp,0,0);
     $this->{test_topicObject}->attach(
         name => 'dis.dat', file => $temp->filename);
     $this->assert(close($temp));
@@ -368,7 +370,8 @@ sub test_attach_file_and_stream{
 
     my $temp = new File::Temp();
     print $temp 'eeza file and a stream';
-    $temp->seek(0,0);
+    # $fh->seek only in File::Temp 0.17 and later
+    seek($temp,0,0);
     $this->{test_topicObject}->attach(
         name => 'dis.dat', stream => $temp, file => $temp->filename);
     $this->assert(close($temp));

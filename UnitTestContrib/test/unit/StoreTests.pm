@@ -413,7 +413,8 @@ sub beforeUploadHandler {
 
     $fh = new File::Temp();;
     print $fh $text;
-    $fh->seek(0, 0);
+    # $fh->seek only in File::Temp 0.17 and later
+    seek($fh, 0, 0);
     $attrHash->{stream} = $fh;
 }
 
