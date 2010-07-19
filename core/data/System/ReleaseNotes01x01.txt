@@ -48,22 +48,29 @@ See ReleaseNotes01x00 for detailed information about changes in that release.
 
 ---++ Important Changes since Foswiki 1.0.9
 
+Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. We have also worked to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements.
 
----+++ Tailoring of user registration for made easier.
+---+++ =configure= user interface revamp
+Also included in 1.1 is a major improvement to the =configure= user interface, that clarifies and simplifies setting configuration options.
 
-The topic System.UserRegistration has been enhanced so it now looks whether a custom user registration page exists in %USERSWEB% and includes it if it does; otherwise it includes DefaultUserRegistration.
+---+++ Powerful new =QUERY= macro
+A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements.
+
+---+++ Tailoring of user registration made easier.
+
+The topic System.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
 
 This means that your tailored version in %USERSWEB% web will not be overwritten by future upgrades.
 
 You can create a custom version of the UserRegistration form by first copying the topic DefaultUserRegistration to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
 
-A couple of common fields are hidden from normal view to make the registration page as lean as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags) or add new ones.
+A couple of common fields are hidden from normal view to make the registration page as simple as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
 
 ---+++ Easy tailoring of reset/change password and change email forms
 
-The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now only show the change forms when Foswiki is managing the passwords (configure setting {PasswordManager} set to a manager that handles setting of passwords).
+The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now only show the change forms when Foswiki is managing the passwords (the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
 
-If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword will show a simple message. This message is defined iby the setting CHANGEPASSWORDDISABLEDMESSAGE in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
+If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword topics will show a simple message. This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE= in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
 
 ChangeEmailAddress will now guide the user to define the email address in the user topic when the PasswordManager does not handle hidden email addresses, so you should not need to tailor this topic any longer.
 
@@ -91,7 +98,7 @@ an error.
 
 Because of prior inconsistencies in the files distributed with Foswiki and
 TWiki core and extensions, migration of older Foswiki or TWiki installs may
-see excessive errors reported by configure.  It is recommended to correct the
+see excessive errors reported by configure.  You are recommended to correct the
 file system permissions. 
 
 ---+++ Notes for extension authors
@@ -124,9 +131,9 @@ always been available in Foswiki (and it's predecessor) and are a lot safer.
 Existing code can usually be modified to eliminate these deprecated functions
 without difficulty.
 
-__Note:__ =readTopicText= and =saveTopicText= had implicit access control checks.
-The replacement methods, =readTopic= and =saveTopic= require that the
-code explicitly call =checkAccessPermission= directly.
+__Note:__ =readTopicText= had implicit access control checks.
+The replacement method, =readTopic= does not, so calling
+code must call =checkAccessPermission= explicitly.
 
 ---++++ Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
 Access checking has been moved from Store up to the Meta and Func routines.
@@ -150,7 +157,7 @@ planned actions.  This was done by design to reduce repetitive access control
 checks and improve performance.
 
 ---++++ Tainting
-The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the fnctions for =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
+The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the functions in =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
 <verbatim>
 $validWebName = Foswiki::Sandbox::untaint(
     $webName, \&Foswiki::Sandbox::validateWebName);
