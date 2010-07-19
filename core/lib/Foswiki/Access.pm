@@ -142,7 +142,7 @@ sub checkAccessPermission {
 
     # Check DENYTOPIC
     if ( defined($denyText) ) {
-        if ( $denyText =~ /\S$/ ) {
+        if ( $denyText =~ /\S/ ) {
             if ( $this->{session}->{users}->isInList( $user, $denyText ) ) {
                 $this->{failure} =
                   $this->{session}->i18n->maketext('access denied on topic');

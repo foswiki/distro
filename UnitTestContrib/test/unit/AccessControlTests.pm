@@ -81,7 +81,7 @@ sub test_denytopic {
 If DENYTOPIC is set to a list of wikinames
     * people in the list will be DENIED.
 \t* Set DENYTOPICVIEW = MrGreen
-   * Set DENYTOPICVIEW = MrYellow,$this->{users_web}.MrOrange,%USERSWEB%.ReservoirDogsGroup
+   * Set DENYTOPICVIEW = ,,MrYellow,,$this->{users_web}.MrOrange,%USERSWEB%.ReservoirDogsGroup,,,
 THIS
                                 , undef);
     $this->{twiki}->finish();
@@ -111,6 +111,42 @@ THIS
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrWhite);
     $this->PERMITTED($this->{test_web},$testTopic,"view",$MrBlue);
+}
+
+# Test that an empty DENYTOPIC doesn't deny anyone
+sub test_whitespace_denytopic {
+    my $this = shift;
+    $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, <<THIS);
+If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
+    * access is PERMITTED _i.e _ no-one is denied access to this topic
+   * Set DENYTOPICVIEW =   
+THIS
+
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki();
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrGreen );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrYellow );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrOrange );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrWhite );
+    $this->PERMITTED( $this->{test_web},$testTopic,"view", $MrBlue );
+}
+
+# Test that an whitespace at the end of DENYTOPIC is ok
+sub test_denytopic_whitespace {
+    my $this = shift;
+    $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, <<THIS);
+If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
+    * access is PERMITTED _i.e _ no-one is denied access to this topic
+   * Set DENYTOPICVIEW = MrBlue  
+THIS
+
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki();
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrGreen );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrYellow );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrOrange );
+    $this->PERMITTED( $this->{test_web},$testTopic,"VIEW", $MrWhite );
+    $this->DENIED( $this->{test_web},$testTopic,"view", $MrBlue );
 }
 
 sub test_allowtopic {
