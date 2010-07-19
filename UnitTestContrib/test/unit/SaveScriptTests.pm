@@ -671,6 +671,53 @@ sub test_templateTopicWithMeta {
     $this->assert_str_equals( 'UserTopic', $pref->{value} );
 }
 
+# TODO: Not yet fixed, see Item1735
+# attachments are copied over from templatetopic
+sub TODO_test_templateTopicWithAttachments {
+    my $this = shift;
+
+    open( FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" );
+    print FILE "one two three";
+    close( FILE );
+    open( FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile2.txt" );
+    print FILE "four five six";
+    close( FILE );
+
+    my $templateTopic = "TemplateTopic";
+    my $testTopic = "TemplateTopicWithAttachment";
+
+    Foswiki::Func::saveTopic($this->{test_web}, $templateTopic, undef, "test with an attachment");
+
+    Foswiki::Func::saveAttachment(
+        $this->{test_web}, $templateTopic, "testfile.txt",
+        { file => "$Foswiki::cfg{TempfileDir}/testfile.txt",
+          comment => "a comment" } );
+    Foswiki::Func::saveAttachment(
+        $this->{test_web}, $templateTopic, "testfile2.txt",
+        { file => "$Foswiki::cfg{TempfileDir}/testfile2.txt",
+          comment => "a comment" } );
+
+    my $query = new Unit::Request(
+        {
+            templatetopic => [ 'TemplateTopic' ],
+            action => [ 'save' ],
+            topic => [ "$this->{test_web}.$testTopic" ]
+           });
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    my($meta, $text) = Foswiki::Func::readTopic($this->{test_web}, 'TemplateTopicWithAttachment');
+
+    $this->assert_matches( qr/test with an attachment/, $text );
+    $this->assert_not_null($meta->get( 'FILEATTACHMENT', 'testfile.txt' ), "attachment meta copied for testfile.txt");
+    $this->assert_not_null($meta->get( 'FILEATTACHMENT', 'testfile2.txt' ), "attachment meta copied for testfile2.txt");
+    $this->assert(
+        $meta->testAttachment("testfile.txt", 'e'), "testfile.txt copied" );
+    $this->assert(
+        $meta->testAttachment("testfile2.txt", 'e'), "testfile2.txt copied" );
+}
+
 #Mergeing is only enabled if the topic text comes from =text= and =originalrev= is &gt; 0 and is not the same as the revision number of the most recent revision. If mergeing is enabled both the topic and the meta-data are merged.
 
 sub test_merge {
