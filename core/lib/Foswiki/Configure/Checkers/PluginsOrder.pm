@@ -11,12 +11,14 @@ sub check {
     my $this = shift;
     my $e    = '';
 
-    my @plugins = split( ',', $Foswiki::cfg{PluginsOrder} );
-    my $count = 0;
+    my @plugins   = split( ',', $Foswiki::cfg{PluginsOrder} );
+    my $count     = 0;
+    my $foundTWCP = 0;
 
     foreach my $plug (@plugins) {
         my $enabled = $Foswiki::cfg{Plugins}{$plug}{Enabled};
-        if ( $plug eq 'TWikiCompatibilityPlugin' ) {
+        $foundTWCP = 1 if ( $plug eq 'TWikiCompatibilityPlugin' );
+        if ( $plug eq 'TWikiCompatibilityPlugin' && $enabled ) {
             $e .=
               $this->WARN(
                 $plug . ' must be first in the list for proper operation' )
@@ -24,8 +26,19 @@ sub check {
         }
         $count++;
         unless ($enabled) {
-            $e .= $this->WARN( $plug . ' is not enabled or is not installed' );
+            unless ( $plug eq 'TWikiCompatibilityPlugin' ) {
+                $e .=
+                  $this->WARN( $plug . ' is not enabled or is not installed' );
+            }
         }
+    }
+
+    if (  !$foundTWCP
+        && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} )
+    {
+        $e .= $this->WARN(
+'TWikiCompatibilityPlugin is enabled.  It  must be first in the PluginsOrder list for proper operation'
+        );
     }
 
     foreach my $plug ( keys %{ $Foswiki::cfg{Plugins} } ) {
