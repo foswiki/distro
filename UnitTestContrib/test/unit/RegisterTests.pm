@@ -1564,12 +1564,10 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->registerAccount();
 
     #Remove the WikiUsers entry - by deleting it :)
-    Foswiki::Func::moveTopic(
-        $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName},
-        $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} . 'DELETED'
-    );
+    my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
+    my $to =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} . 'DELETED' );
+    $from->move($to);
 
     #force a reload to unload existing user caches, and then restart as guest
     $this->{session}->finish();
