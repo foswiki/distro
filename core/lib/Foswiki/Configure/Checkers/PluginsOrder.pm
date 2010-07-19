@@ -41,6 +41,11 @@ sub check {
         );
     }
 
+    my %libs;
+    foreach my $dir (@INC) {
+        $libs{$dir} = 1;
+    }
+
     foreach my $plug ( keys %{ $Foswiki::cfg{Plugins} } ) {
         next unless ( $plug =~ m/Plugin$/ );
         my $mod = $Foswiki::cfg{Plugins}{$plug}{Module};
@@ -51,33 +56,29 @@ sub check {
             my $enabled  = shift @plugpath;
             my $plugpath = join( '/', @plugpath );
 
-            my $twmod = 'TWiki/' . $plugpath . '.pm';
-            my $fwmod = 'Foswiki/' . $plugpath . '.pm';
+            my $altmod = ( $enabled eq 'Foswiki' ) ? 'TWiki' : 'Foswiki';
 
-            my $found = 0;
+            my $found  = 0;
+            my $fcount = 0;
 
-            foreach my $dir (@INC) {
-                $found = 1 if ( -e "$dir/$enabled/$plugpath.pm" );
-
-                if ( -e "$dir/$twmod" ) {
-                    if ( -e "$dir/$fwmod" ) {
-                        $e .= $this->WARN(
-" $fwmod found in both TWiki and Foswiki library path. Obsolete extensions should be removed."
-                        );
-                        $e .= $this->WARN(
-" $mod module is enabled - be sure this is what you want. Foswiki version is also installed."
-                        ) if ( $enabled eq 'TWiki' );
-                        last;
-                    }
+            foreach my $dir ( keys %libs ) {
+                if ( -e "$dir/$enabled/$plugpath.pm" ) {
+                    $fcount++;
+                    $found = 1;
                 }
+                $fcount++ if ( -e "$dir/$altmod/$plugpath.pm" );
             }
+            $e .= $this->WARN(
+" $plug found in both TWiki and Foswiki library path. Obsolete extensions should be removed."
+            ) if ( $fcount > 1 );
+            $e .= $this->WARN(
+" $mod module is enabled - be sure this is what you want. Foswiki version is also installed."
+            ) if ( $enabled eq 'TWiki' && $fcount > 1 );
             $e .= $this->ERROR(
                 "$mod is enabled in LocalSite.cfg but was not found in the path"
             ) unless $found;
         }
-
     }
-
     return $e;
 }
 
