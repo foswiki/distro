@@ -1,14 +1,22 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252719430" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 ---+ Change E-mail Address
-%STARTINCLUDE%
 
+%IF{
+  "context passwords_modifyable"
+  then="$percentINCLUDE{\"%TOPIC%\" section=\"secretEmailEnabled\"}$percent"
+  else="$percentINCLUDE{\"%TOPIC%\" section=\"secretEmailNotEnabled\"}$percent"
+}%
+
+<!--
+<verbatim class="foswikiHidden">
+%STARTSECTION{"secretEmailEnabled"}%
 <strong>%MAKETEXT{"This form is used to change your registered e-mail addresses. Your registered e-mails are used by Foswiki for sending you e-mails, include notifications of password changes. The addresses you register via this form are kept secret and will *not* be published anywhere on this site."}%</strong>
 
-%X% *Security Note*: %MAKETEXT{"You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"}%
-<verbatim>
-   * Set Email = user@example.com
-</verbatim>
+%X% *Security Note*: %MAKETEXT{"You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a form field called Email. If this form field does not exist it will look for a line like this:"}%
+
+=&nbsp;&nbsp;&nbsp;* Set Email = <nop>user@example.com=
+
 %MAKETEXT{"If your user topic is not protected from changes by other people, and you don't register an e-mail address using this form, then your user account could be hijacked by someone else."}%
 
 %MAKETEXT{"If your old e-mail addresses are all invalid (you can't receive mail there any more) and you have forgotten your password, please contact [_1] for help." args="%WIKIWEBMASTER%"}%
@@ -16,14 +24,7 @@
 <form name="manage" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
-%IF{
-  "context passwords_modifyable"
-  then="*%MAKETEXT{"After submitting this form your e-mail will be changed, and you will be returned to this form."}%*"
-  else="<strong>%MAKETEXT{"Sorry, the password system is currently read only, please contact [_1]" args="%WIKIWEBMASTER%"}%</strong>"
-}%
-<!--
-      * Set NOTMODIFYABLE = %IF{"context passwords_modifyable" then="" else="DISABLED"}%
--->
+*%MAKETEXT{"After submitting this form your e-mail will be changed, and you will be returned to this form."}%*
 </div>
 <div class="foswikiFormStep">
 Registered e-mail addresses for currently logged in user (=%USERINFO{format="$wikiname"}%=): %USERINFO{format="$emails"}% 
@@ -31,24 +32,38 @@ Registered e-mail addresses for currently logged in user (=%USERINFO{format="$wi
 <div class="foswikiFormStep">
 %TABLE{databg="transparent" tableborder="0" tablerules="none"}%
 | | %MAKETEXT{"Fields marked [_1] are required" args="=<font color='red'>**</font>="}% |
-|  %MAKETEXT{"Your [_1].LoginName" args="%SYSTEMWEB%"}%: | <input %NOTMODIFYABLE% type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
+|  %MAKETEXT{"Your [_1].LoginName" args="%SYSTEMWEB%"}%: | <input type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
 |  %MAKETEXT{"Password"}%: | <input %NOTMODIFYABLE% type="password" name="oldpassword" value="%URLPARAM{oldpassword}%" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
-|  %MAKETEXT{"New e-mails (space-separated list)"}%: | <input %NOTMODIFYABLE% type="text" name="email" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
+|  %MAKETEXT{"New e-mails (space-separated list)"}%: | <input type="text" name="email" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
 </div>
 <div class="foswikiFormStep foswikiLast">
 <input type="hidden" name="TopicName" value="%TOPIC%" />
 <input type="hidden" name="action" value="changePassword" />
-<input %NOTMODIFYABLE% type="submit" class="foswikiSubmit" value="Change e-mail address" />
+<input type="submit" class="foswikiSubmit" value="Change e-mail address" />
 </div><!-- /foswikiFormStep-->
 </div><!-- /foswikiFormSteps-->
 </form>
+
+%ENDSECTION{"secretEmailEnabled"}%
+
+
+%STARTSECTION{"secretEmailNotEnabled"}%
+%MAKETEXT{"Your registered e-mails are used by Foswiki for sending you e-mails, include notifications of password changes."}%
+
+%MAKETEXT{"You change your email address by setting the form field called Email in your user topic. If this form field does not exist it will look for a line like this:"}%
+
+=&nbsp;&nbsp;&nbsp;* Set Email = <nop>user@example.com=
+
+%MAKETEXT{"If your old e-mail addresses are all invalid (you can't receive mail there any more) and you have forgotten your password, please contact [_1] for help." args="%WIKIWEBMASTER%"}%
+
+%ENDSECTION{"secretEmailNotEnabled"}%
+</verbatim>
+-->
 
 <div class="foswikiHelp">
    * %ICON{info}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%WIKIWEBMASTER%"}%
    * %ICON{info}% %MAKETEXT{"[_1] has a list of other Foswiki users" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
 </div>
-
-%STOPINCLUDE%
 
 ---
 *%MAKETEXT{"Related topics:"}%* ChangePassword, ResetPassword, UserToolsCategory, AdminToolsCategory
