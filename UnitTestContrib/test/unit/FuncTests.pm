@@ -12,6 +12,8 @@ use Foswiki;
 use Foswiki::Func;
 use Assert;
 
+my $MrWhite;
+
 sub new {
     my $self = shift()->SUPER::new( "Func", @_ );
     return $self;
@@ -20,6 +22,16 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
+
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session},
+        $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{DefaultUserWikiName}, ''
+    );
+    $topicObject->save();
+    $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
+    $MrWhite = $this->{session}->{users}->getCanonicalUserID('white');
+
     $this->{tmpdatafile} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp.gif';
     $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp2.gif';
     $this->{test_web2}   = $this->{test_web} . 'Extra';
@@ -398,7 +410,7 @@ sub test_attachments {
 
 }
 
-sub test_noauth_attachment {
+sub test_noauth_saveAttachment {
     my $this = shift;
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
@@ -437,6 +449,38 @@ sub test_noauth_attachment {
     };
 }
 
+sub test_noauth_saveTopic {
+    my $this = shift;
+
+    my $curUser = 'MrWhite';
+    my $userLogin = 'white';
+    my $topic = "BlahBlahcwBlah";
+    my $ttext = " APPLE \n   * Set ALLOWTOPICVIEW = SomeUser \n   * Set DENYTOPICCHANGE = BaseUserMapping_666,MrWhite \n ";
+
+    my $query = new Unit::Request();
+    $this->{session} = new Foswiki( $userLogin, $query );
+	Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $ttext );
+
+    $this->assert(Foswiki::Func::topicExists( $this->{test_web}, $topic ));
+
+    $this->assert(!Foswiki::Func::checkAccessPermission( 'VIEW', $curUser, '', $topic, $this->{test_web} ), "VIEW check failed - $curUser should be denied");
+    $this->assert(!Foswiki::Func::checkAccessPermission( 'CHANGE', $curUser, '', $topic, $this->{test_web} ), "CHANGE check failed - $curUser should be denied");
+
+    # Validate that saveTopicText throws an exception
+	$this->assert_matches( qr/oopsattention;def=topic_access/,
+      Foswiki::Func::saveTopicText( $this->{test_web}, $topic," \n   * Set ALLOWTOPIVIEW = SomeUser \n blah" )) ;
+    $this->assert(!Foswiki::Func::checkAccessPermission( 'CHANGE', $curUser, '', $topic, $this->{test_web} ));
+
+    # Also validate that saveTopic throws an exception
+    my( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    try {
+        Foswiki::Func::saveTopic( $this->{test_web}, $topic, $meta, $text );
+        $this->assert(0, "saveTopic worked for unauthorized user");
+    } catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert_matches( qr/^AccessControlException: Access to CHANGE TemporaryFuncTestWebFunc.BlahBlahcwBlah for white is denied.*/, $e, "Unexpected error $e");
+    };
+}
 
 
 sub test_subweb_attachments {
