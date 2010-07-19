@@ -182,15 +182,7 @@ Only shown if the password manager supports changing the password / email.
 Optional field join group
 
 enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences topic to automatic, one, mulitple.
-
-TODO: need to make the header&footer not display if there are no groups they can join (in one/multipl mode)
-TODO: should redo this topic to look different between a guest registering themselves, and a registered user inviting/registering a user
-      not necessarily - several of the admins requesting this feature _want_ the guest registering to select a group.
-TODO: it might make sense to separate this into several sections, dependent on the REGISTRATIONGROUPTYPE setting.
-TODO: it would be nice to have a red warning if the rego agent is in the admin group telling the admin that this feature is disabled unless they remove the rego user from that group (die to security issues)
-      (and confirming to them that this is due to an upgrade)
-
-      
+     
 %STARTSECTION{"extraField_groups"}%%FOREACH{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
