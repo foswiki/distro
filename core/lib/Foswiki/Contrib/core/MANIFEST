@@ -290,6 +290,8 @@ data/System/VarWIKITOOLNAME.txt 0644
 data/System/VarWIKIUSERNAME.txt 0644
 data/System/VarWIKIUSERSTOPIC.txt 0644
 data/System/VarWIKIVERSION.txt 0644
+data/System/VarWIKIWEBMASTER.txt 0644
+data/System/VarWIKIWEBMASTERNAME.txt 0644
 data/System/VarX.txt 0644
 data/System/VarY.txt 0644
 data/System/VarYELLOW.txt 0644
