@@ -2782,6 +2782,79 @@ sub moveAttachment {
 
 =begin TML
 
+---++ ObjectMethod copyAttachment( $name, $to, %opts ) -> $data
+Copy the named attachment to the topic indicates by $to.
+=%opts= may include:
+   * =new_name= - new name for the attachment
+   * =user= - cUID of user doing the moving
+
+=cut
+
+sub copyAttachment {
+    my $this = shift;
+    my $name = shift;
+    my $to   = shift;
+    my %opts = @_;
+    my $cUID = $opts{user} || $this->{_session}->{user};
+    ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
+      if DEBUG;
+    ASSERT( $to->{_web} && $to->{_topic}, 'to is not a topic object' ) if DEBUG;
+
+    my $newName = $opts{new_name} || $name;
+
+    $this->_atomicLock($cUID);
+    $to->_atomicLock($cUID);
+
+    # Make sure we have latest revs
+    $this->reload(0) unless $this->latestIsLoaded();
+
+    try {
+        $this->{_session}->{store}
+          ->copyAttachment( $this, $name, $to, $newName, $cUID );
+
+        # Add file attachment to new topic by copying the old one
+        my $fileAttachment = { %{$this->get( 'FILEATTACHMENT', $name )} };
+        $fileAttachment->{name} = $newName;
+
+        $to->reload(0) unless $to->latestIsLoaded();
+        $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
+
+        if ( $this->getPath() eq $to->getPath() ) {
+            $to->remove( 'FILEATTACHMENT', $name );
+        }
+
+        $to->saveAs(
+            undef, undef,
+            dontlog => 1,                    # no statistics
+            comment => 'gained' . $newName
+        );
+    }
+    finally {
+        $to->_atomicUnlock($cUID);
+        $this->_atomicUnlock($cUID);
+        $this->fireDependency();
+        $to->fireDependency();
+    };
+
+    # alert plugins of attachment move
+# SMELL: no defined handler for attachment copies
+#    $this->{_session}->{plugins}
+#      ->dispatch( 'afterCopyHandler', $this->{_web}, $this->{_topic}, $name,
+#        $to->{_web}, $to->{_topic}, $newName );
+
+    $this->{_session}->logEvent(
+        'copy',
+        $this->getPath() . '.' 
+          . $name
+          . ' copied to '
+          . $to->getPath() . '.'
+          . $newName,
+        $cUID
+    );
+}
+
+=begin TML
+
 ---++ ObjectMethod expandNewTopic()
 Expand only that subset of Foswiki variables that are
 expanded during topic creation, in the body text and

@@ -185,6 +185,23 @@ sub moveAttachment {
 
 =begin TML
 
+---++ ObjectMethod copyAttachment( $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment  )
+   * =$oldTopicObject, $oldAttachment= - spec of attachment to copy
+   * $newTopicObject, $newAttachment= - where to move to
+Copy an attachment from one topic to another.
+
+The caller to this routine should check that all topics are valid, and
+access is permitted.
+
+=cut
+
+sub copyAttachment {
+    my( $this, $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment ) = @_;
+    die "Abstract base class";
+}
+
+=begin TML
+
 ---++ ObjectMethod attachmentExists( $topicObject, $att ) -> $boolean
 
 Determine if the attachment already exists on the given topic

@@ -21,7 +21,7 @@ you will probably need to change your plugin when you upgrade Foswiki.
 
 API version $Date$ (revision $Rev$)
 
-*Since* _date_ indicates where functions or parameters have been added since
+*Since:* _date_ indicates where functions or parameters have been added since
 the baseline of the API (Foswiki 1.0.0). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
 parameter. See Foswiki:Download.ReleaseDates for version release dates.
@@ -1854,7 +1854,7 @@ sub saveAttachment {
    * =$newWeb= dest web
    * =$newTopic= dest topic
    * =$newAttachment= dest attachment
-Renames the topic. Throws an exception on error or access violation.
+Renames the attachment. Throws an exception on error or access violation.
 If $newWeb is undef, it defaults to $web. If $newTopic is undef, it defaults
 to $topic. If $newAttachment is undef, it defaults to $attachment. If all of $newWeb, $newTopic and $newAttachment are undef, it is an error.
 
@@ -1921,6 +1921,88 @@ sub moveAttachment {
 
         # SMELL: check access permissions
         $from->moveAttachment( $attachment, $to, @opts );
+    }
+}
+
+=begin TML
+
+---+++ copyAttachment( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment )
+
+   * =$web= source web - required
+   * =$topic= source topic - required
+   * =$attachment= source attachment - required
+   * =$newWeb= dest web
+   * =$newTopic= dest topic
+   * =$newAttachment= dest attachment
+Copies the attachment. Throws an exception on error or access violation.
+If $newWeb is undef, it defaults to $web. If $newTopic is undef, it defaults
+to $topic. If $newAttachment is undef, it defaults to $attachment. If all of $newWeb, $newTopic and $newAttachment are undef, it is an error.
+
+The destination topic must already exist, but the destination attachment must
+*not* exist.
+
+Rename an attachment to $Foswiki::cfg{TrashWebName}.TrashAttament to delete it.
+
+<verbatim>
+use Error qw( :try );
+
+try {
+   # copy attachment between topics
+   copyAttachment( "Countries", "Germany", "AlsaceLorraine.dat",
+                     "Countries", "France" );
+   # Note destination attachment name is defaulted to the same as source
+} catch Foswiki::AccessControlException with {
+   my $e = shift;
+   # see documentation on Foswiki::AccessControlException
+} catch Error::Simple with {
+   my $e = shift;
+   # see documentation on Error::Simple
+};
+</verbatim>
+
+*Since:* 19 Jul 2010
+
+=cut
+
+sub copyAttachment {
+    my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
+
+    ( $web, $topic, $attachment ) = _validateWTA($web, $topic, $attachment);
+
+    ($newWeb, $newTopic, $newAttachment) = _validateWTA(
+        $newWeb || $web, $newTopic || $topic, $newAttachment || $attachment);
+
+    return
+      if ( $newWeb eq $web
+        && $newTopic eq $topic
+        && $newAttachment eq $attachment );
+
+    my $from = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+    unless ( $from->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
+    my @opts;
+    push( @opts, new_name => $newAttachment ) if defined $newAttachment;
+
+    if (   $web eq $newWeb
+        && $topic eq $newTopic
+        && defined $newAttachment )
+    {
+        $from->copyAttachment( $attachment, $from, @opts );
+    }
+    else {
+        my $to =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+        unless ( $to->haveAccess('CHANGE') ) {
+            throw Foswiki::AccessControlException( 'CHANGE',
+                $Foswiki::Plugins::SESSION->{user},
+                $newWeb, $newTopic, $Foswiki::Meta::reason );
+        }
+
+        # SMELL: check access permissions
+        $from->copyAttachment( $attachment, $to, @opts );
     }
 }
 

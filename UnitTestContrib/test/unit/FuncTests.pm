@@ -907,6 +907,111 @@ sub test_moveAttachment {
 
 }
 
+sub test_copyAttachment {
+    my $this = shift;
+
+    Foswiki::Func::saveTopicText( $this->{test_web}, "SourceTopic", "Wibble" );
+    my $stream;
+    my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
+    binmode($stream);
+    print $stream $data;
+    close($stream);
+    Foswiki::Func::saveAttachment(
+        $this->{test_web},
+        "SourceTopic",
+        "Name1",
+        {
+            dontlog  => 1,
+            comment  => 'Feasgar Bha',
+            file     => $this->{tmpdatafile},
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name1"
+        )
+    );
+
+    # Verify that the source topic contains the string "Wibble"
+    my ( $meta, $text ) = Foswiki::Func::readTopic(
+        $this->{test_web}, "SourceTopic" );
+    $this->assert( $text =~ m/Wibble/o );
+
+    Foswiki::Func::saveTopicText(
+        $this->{test_web},  "TargetTopic", "Wibble" );
+    Foswiki::Func::saveTopicText(
+        $this->{test_web2}, "TargetTopic", "Wibble" );
+
+    # ###############
+    Foswiki::Func::copyAttachment( $this->{test_web}, "SourceTopic", "Name1",
+        $this->{test_web}, "SourceTopic", "Name2" );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name1"
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name2"
+        )
+    );
+    # Verify that the source topic still contains the string "Wibble"
+    # following attachment copy
+    ( $meta, $text ) = Foswiki::Func::readTopic(
+        $this->{test_web}, "SourceTopic" );
+    $this->assert( $text =~ m/Wibble/o );
+
+    # ###############
+    # Move an attachment - from/to topic in the same web
+    #  Old attachment removed, new attachment exists, and source topic
+    # text unchanged
+    # ###############
+    Foswiki::Func::copyAttachment( $this->{test_web}, "SourceTopic", "Name2",
+        $this->{test_web}, "TargetTopic", undef );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "SourceTopic", "Name2"
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "TargetTopic", "Name2"
+        )
+    );
+    # Verify that the target topic contains the string "Wibble"
+    ( $meta, $text ) = Foswiki::Func::readTopic(
+        $this->{test_web}, "TargetTopic" );
+    $this->assert( $text =~ m/Wibble/o );
+
+    # ###############
+    # Copy an attachment - to topic in a different web
+    #  Old attachment removed, new attachment exists, and source topic
+    # text unchanged
+    # ###############
+    Foswiki::Func::copyAttachment( $this->{test_web}, "TargetTopic", "Name2",
+        $this->{test_web2}, "TargetTopic", "Name1" );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, "TargetTopic", "Name2"
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web2}, "TargetTopic", "Name1"
+        )
+    );
+    # Verify that the target topic still contains the string "Wibble"
+    # following attachment copy
+    ( $meta, $text ) = Foswiki::Func::readTopic(
+        $this->{test_web}, "TargetTopic" );
+    $this->assert( $text =~ m/Wibble/o );
+
+}
+
 sub test_workarea {
     my $this = shift;
 

@@ -624,20 +624,21 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod copyAttachment( $store, $newWeb, $newTopic )
+---++ ObjectMethod copyAttachment( $store, $newWeb, $newTopic, $newAttachment )
 
-Copy an attachment from one topic to another. The name is retained.
+Copy an attachment from one topic to another. The name is retained unless
+$newAttachment is defined.
 
 =cut
 
 sub copyAttachment {
-    my ( $this, $store, $newWeb, $newTopic ) = @_;
+    my ( $this, $store, $newWeb, $newTopic, $attachment ) = @_;
 
     ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
     my $oldWeb     = $this->{web};
     my $oldTopic   = $this->{topic};
-    my $attachment = $this->{attachment};
+    $attachment ||= $this->{attachment};
 
     my $new = $store->getHandler( $newWeb, $newTopic, $attachment );
 

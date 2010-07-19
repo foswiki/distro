@@ -155,6 +155,19 @@ sub moveAttachment {
     }
 }
 
+sub copyAttachment {
+    my ( $this, $oldTopicObject, $oldAttachment, $newTopicObject,
+        $newAttachment, $cUID )
+      = @_;
+
+    my $handler = $this->getHandler( $oldTopicObject, $oldAttachment );
+    if ( $handler->storedDataExists() ) {
+        $handler->copyAttachment( $this, $newTopicObject->web,
+            $newTopicObject->topic, $newAttachment );
+        $handler->recordChange( $cUID, 0 );
+    }
+}
+
 sub attachmentExists {
     my ( $this, $topicObject, $att ) = @_;
     my $handler = $this->getHandler( $topicObject, $att );
