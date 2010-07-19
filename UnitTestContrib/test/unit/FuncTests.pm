@@ -1012,6 +1012,41 @@ sub test_copyAttachment {
 
 }
 
+sub test_attachmentExists {
+    my $this = shift;
+
+    my $topic = "AttachmentExists";
+
+    open( FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" );
+    print FILE "one two three";
+    close( FILE );
+
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'foo' );
+    Foswiki::Func::saveAttachment(
+        $this->{test_web}, $topic, "testfile.txt",
+        { file => "$Foswiki::cfg{TempfileDir}/testfile.txt",
+          comment => "a comment" } );
+
+    $this->assert(Foswiki::Func::attachmentExists( $this->{test_web}, $topic,
+                                                 "testfile.txt"));
+}
+
+sub test_attachmentExistsInMetaOnly {
+    my $this = shift;
+
+    my $topic = "AttachmentExistsInMetaOnly";
+    my $text = <<'HERE';
+foo
+
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="964294620" path="Sample.txt" size="30" user="ProjectContributor" version=""}%
+HERE
+
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $text );
+
+    $this->assert(not Foswiki::Func::attachmentExists( $this->{test_web}, $topic,
+                                                 "Sample.txt"));
+}
+
 sub test_workarea {
     my $this = shift;
 
