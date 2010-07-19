@@ -135,6 +135,10 @@ always been available in Foswiki (and it's predecessor) and are a lot safer.
 Existing code can usually be modified to eliminate these deprecated functions
 without difficulty.
 
+__Note:__ =readTopicText= had implicit access control checks.
+The replacement method, =readTopic= does not, so calling
+code must call =checkAccessPermission= explicitly.
+
 ---++++ Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
 Access checking has been moved from Store up to the Meta and Func routines.
 This was done to significantly improve perfomance of the Store backend.
