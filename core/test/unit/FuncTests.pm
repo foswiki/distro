@@ -1,1 +1,0 @@
-/work/local/foswiki/01x00/UnitTestContrib/test/unit/FuncTests.pm
