@@ -22,7 +22,8 @@ sub set_up {
     $this->SUPER::set_up();
     $this->{tmpdatafile} = $TWiki::cfg{TempfileDir} . '/tmpity-tmp.gif';
     $this->{test_web2}   = $this->{test_web} . 'Extra';
-    $this->assert_null( Foswiki::Func::createWeb( $this->{test_web2} ) );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
+    $webObject->populateNewWeb();
 }
 
 sub tear_down {
@@ -34,6 +35,9 @@ sub tear_down {
 
 sub test_web {
     my $this = shift;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
 
     TWiki::Func::createWeb( $this->{test_web} . "/Blah" );
     $this->assert( TWiki::Func::webExists( $this->{test_web} . "/Blah" ) );

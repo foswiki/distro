@@ -257,7 +257,8 @@ sub test_twistyInSubWeb {
     $this->{session} = new Foswiki();
 
     my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
-    Foswiki::Func::createWeb($testWebSubWebPath);
+    my $webObject = Foswiki::Meta->new( $this->{session}, $testWebSubWebPath );
+    $webObject->populateNewWeb();
     my $testTopic         = 'TwistyTestTopic';
     my $source            = <<SOURCE;
 %TWISTY{

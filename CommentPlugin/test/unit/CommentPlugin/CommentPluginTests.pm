@@ -23,7 +23,8 @@ sub set_up {
 
     $this->{target_web}   = "$this->{test_web}Target";
     $this->{target_topic} = "$this->{test_topic}Target";
-    Foswiki::Func::createWeb( $this->{target_web} );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
+    $webObject->populateNewWeb();
 }
 
 sub tear_down {

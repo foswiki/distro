@@ -38,8 +38,11 @@ sub set_up {
 
     $topicquery = new Unit::Request("");
     $topicquery->path_info("/$this->{test_web}/$this->{test_topic}");
+
+
     try {
-        Foswiki::Func::createWeb( $TWiki::cfg{SystemWebName}, $original );
+        my $webObject = Foswiki::Meta->new( $this->{session}, $TWiki::cfg{SystemWebName} );
+        $webObject->populateNewWeb($original);
         my $m =
           Foswiki::Meta->load( $this->{session}, $original,
             $TWiki::cfg{SitePrefsTopicName} );

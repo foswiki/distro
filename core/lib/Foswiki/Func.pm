@@ -1215,9 +1215,22 @@ sub createWeb {
     if (defined $baseweb) {
         ($baseweb) = _validateWTA($baseweb);
     }
-
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    # SMELL: check access permissions
+
+    my $rootObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION );
+    unless ( $rootObject->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, '', $Foswiki::Meta::reason );
+    }
+
+    my $baseObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $baseweb );
+    unless ( $baseObject->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'VIEW',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, '', $Foswiki::Meta::reason );
+    }
+
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
     $webObject->populateNewWeb($baseweb);
 }
@@ -1927,7 +1940,6 @@ sub moveAttachment {
                 $newWeb, $newTopic, $Foswiki::Meta::reason );
         }
 
-        # SMELL: check access permissions
         $from->moveAttachment( $attachment, $to, @opts );
     }
 }
@@ -2009,7 +2021,6 @@ sub copyAttachment {
                 $newWeb, $newTopic, $Foswiki::Meta::reason );
         }
 
-        # SMELL: check access permissions
         $from->copyAttachment( $attachment, $to, @opts );
     }
 }

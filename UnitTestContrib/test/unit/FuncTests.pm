@@ -53,6 +53,9 @@ sub test_Item9021 {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
     try {
         Foswiki::Func::createWeb($this->{test_web}."Missing/Blah");
     } catch Error::Simple with {
@@ -69,6 +72,9 @@ sub test_createWeb_InvalidBase {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
     try {
         Foswiki::Func::createWeb($this->{test_web}."InvaliBase", "Invalidbase");
     } catch Error::Simple with {
@@ -84,6 +90,9 @@ sub test_createWeb_hierarchyDisabled {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 0;
 
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
     try {
         Foswiki::Func::createWeb($this->{test_web} . "/Subweb");
     } catch Error::Simple with {
@@ -98,8 +107,12 @@ sub test_moveWeb {
     my $this = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    Foswiki::Func::createWeb( $this->{test_web} . 'Blah' );
-    Foswiki::Func::createWeb( $this->{test_web} . 'Blah/SubWeb' );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} . "Blah"  );
+    $webObject->populateNewWeb();
+    undef $webObject;
+    $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} . "Blah/SubWeb"  );
+    $webObject->populateNewWeb();
+
     $this->assert( Foswiki::Func::webExists( $this->{test_web} . 'Blah' ) );
     $this->assert(
         Foswiki::Func::webExists( $this->{test_web} . 'Blah/SubWeb' ) );
@@ -496,7 +509,9 @@ sub test_subweb_attachments {
     #$topic = Assert::TAINT($topic);
     my $web = $this->{test_web}."/SubWeb";
     #$web = Assert::TAINT($web);
-    Foswiki::Func::createWeb( $web );
+    #
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->populateNewWeb();
 
     my $stream;
     $this->assert( open( $stream, ">$this->{tmpdatafile}" ) );
@@ -635,7 +650,8 @@ sub test_getrevinfo {
     my $now = time();
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    Foswiki::Func::createWeb( $this->{test_web} . "/Blah" );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} . "/Blah"  );
+    $webObject->populateNewWeb();
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'blah' );
     Foswiki::Func::saveTopicText( "$this->{test_web}/Blah", $topic, 'blah' );

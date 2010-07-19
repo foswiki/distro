@@ -63,7 +63,8 @@ sub set_up {
     $testWeb2 = "$this->{test_web}/SubWeb";
 
     # Will get torn down when the parent web dies
-    Foswiki::Func::createWeb($testWeb2);
+    my $webObject = Foswiki::Meta->new( $this->{session}, $testWeb2 );
+    $webObject->populateNewWeb();
 
     $this->registerUser( "tu1", "Test", "User1", "test1\@example.com" );
     $this->registerUser( "tu2", "Test", "User2", "test2\@example.com" );

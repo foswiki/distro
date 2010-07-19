@@ -38,9 +38,13 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    Foswiki::Func::createWeb($web);
+    my $testWebObj = Foswiki::Meta->new( $this->{session}, $web );
+    $testWebObj->populateNewWeb();
 
-    #    $this->{session} = new Foswiki($this->{test_user_login});
+    #  Store doesn't do access checks anyway, so run as admin
+    #  so that Func:: works
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
 
     open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
     print FILE "one two three";
