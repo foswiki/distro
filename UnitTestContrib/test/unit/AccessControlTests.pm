@@ -82,7 +82,7 @@ sub test_denytopic {
 If DENYTOPIC is set to a list of wikinames
     * people in the list will be DENIED.
    * Set DENYTOPICVIEW = MrGreen
-   * Set DENYTOPICVIEW = MrYellow,$this->{users_web}.MrOrange,%USERSWEB%.ReservoirDogsGroup
+   * Set DENYTOPICVIEW = ,,MrYellow,,$this->{users_web}.MrOrange,%USERSWEB%.ReservoirDogsGroup,,,
 THIS
     $topicObject->save();
 
@@ -94,7 +94,6 @@ THIS
     $this->DENIED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrWhite );
     $this->DENIED( "view", $MrBlue );
-
 }
 
 # Test that an empty DENYTOPIC doesn't deny anyone
@@ -116,6 +115,48 @@ THIS
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", $MrWhite );
     $this->PERMITTED( "view", $MrBlue );
+}
+
+# Test that an empty DENYTOPIC doesn't deny anyone
+sub test_whitespace_denytopic {
+    my $this = shift;
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, <<THIS);
+If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
+    * access is PERMITTED _i.e _ no-one is denied access to this topic
+   * Set DENYTOPICVIEW =   
+THIS
+    $topicObject->save();
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->PERMITTED( "VIEW", $MrYellow );
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrWhite );
+    $this->PERMITTED( "view", $MrBlue );
+}
+
+# Test that an whitespace at the end of DENYTOPIC is ok
+sub test_denytopic_whitespace {
+    my $this = shift;
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, <<THIS);
+If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
+    * access is PERMITTED _i.e _ no-one is denied access to this topic
+   * Set DENYTOPICVIEW = MrBlue  
+THIS
+    $topicObject->save();
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->PERMITTED( "VIEW", $MrYellow );
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrWhite );
+    $this->DENIED( "view", $MrBlue );
 }
 
 # Test that explicitly defined ALLOWTOPIC excludes everyone else

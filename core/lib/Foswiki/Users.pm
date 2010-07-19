@@ -621,7 +621,7 @@ sub isAdmin {
 
 =begin TML
 
----++ ObjectMethod isInList( $cUID, $list ) -> $boolean
+---++ ObjectMethod isInUserList( $cUID, \@list ) -> $boolean
 
 Return true if $cUID is in a list of user *wikinames*, *logins* and group ids.
 
@@ -629,22 +629,13 @@ The list may contain the conventional web specifiers (which are ignored).
 
 =cut
 
-sub isInList {
+sub isInUserList {
     my ( $this, $cUID, $userlist ) = @_;
 
-    return 0 unless $userlist;
+    return 0 unless defined $userlist && defined $cUID;
 
-    # comma delimited list of users or groups
-    # i.e.: "%USERSWEB%.UserA, UserB, Main.UserC  # something else"
-    $userlist =~ s/(<[^>]*>)//go;    # Remove HTML tags
+    foreach my $ident ( @$userlist ) {
 
-    return 0 unless defined $cUID;
-
-    foreach my $ident ( split( /[\,\s]+/, $userlist ) ) {
-
-        # Dump the users web specifier if userweb
-        $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
-        next unless $ident;
         my $identCUID = $this->getCanonicalUserID($ident);
 
         if ( defined $identCUID ) {

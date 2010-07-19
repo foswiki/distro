@@ -1505,6 +1505,24 @@ sub renderFormFieldForDisplay {
 # Enable this for debug. Done as a sub to allow perl to optimise it out.
 sub MONITOR_ACLS { 0 }
 
+# Get an ACL preference. Returns a reference to a list of cUIDs, or undef.
+# If the preference is defined but is empty, then a reference to an
+# empty list is returned.
+# This function canonicalises the parsing of a users list. Is this the right
+# place for it?
+sub _getACL {
+    my ($this, $mode) = @_;
+    my $text = $this->getPreference( $mode );
+    return undef unless defined $text;
+    # Remove HTML tags (compatibility, inherited from Users.pm
+    $text =~ s/(<[^>]*>)//g;
+    # Dump the users web specifier if userweb
+    my @list = grep { /\S/ } map {
+        s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//; $_
+    } split(/[,\s]+/, $text);
+    return \@list;
+}
+
 =begin TML
 
 ---++ ObjectMethod haveAccess($mode, $cUID) -> $boolean
@@ -1540,17 +1558,16 @@ sub haveAccess {
 
     $mode = uc($mode);
 
-    my ( $allowText, $denyText );
+    my ( $allow, $deny );
     if ( $this->{_topic} ) {
 
-        # extract the * Set (ALLOWTOPIC|DENYTOPIC)$mode
-        $allowText = $this->getPreference( 'ALLOWTOPIC' . $mode );
-        $denyText  = $this->getPreference( 'DENYTOPIC' . $mode );
+        my $allow = $this->_getACL( 'ALLOWTOPIC' . $mode );
+        my $deny  = $this->_getACL( 'DENYTOPIC' . $mode );
 
         # Check DENYTOPIC
-        if ( defined($denyText) ) {
-            if ( $denyText =~ /\S$/ ) {
-                if ( $session->{users}->isInList( $cUID, $denyText ) ) {
+        if ( defined($deny) ) {
+            if ( scalar(@$deny) != 0 ) {
+                if ( $session->{users}->isInUserList( $cUID, $deny ) ) {
                     $reason =
                       $session->i18n->maketext('access denied on topic');
                     print STDERR $reason, "\n" if MONITOR_ACLS;
@@ -1566,8 +1583,8 @@ sub haveAccess {
         }
 
         # Check ALLOWTOPIC. If this is defined the user _must_ be in it
-        if ( defined($allowText) && $allowText =~ /\S/ ) {
-            if ( $session->{users}->isInList( $cUID, $allowText ) ) {
+        if ( defined($allow) && scalar(@$allow) != 0 ) {
+            if ( $session->{users}->isInUserList( $cUID, $allow ) ) {
                 print STDERR "in ALLOWTOPIC\n" if MONITOR_ACLS;
                 return 1;
             }
@@ -1582,10 +1599,10 @@ sub haveAccess {
 
         # Check DENYWEB, but only if DENYTOPIC is not set (even if it
         # is empty - empty means "don't deny anybody")
-        unless ( defined($denyText) ) {
-            $denyText = $this->getPreference( 'DENYWEB' . $mode );
-            if ( defined($denyText)
-                && $session->{users}->isInList( $cUID, $denyText ) )
+        unless ( defined($deny) ) {
+            $deny = $this->_getACL( 'DENYWEB' . $mode );
+            if ( defined($deny)
+                && $session->{users}->isInUserList( $cUID, $deny ) )
             {
                 $reason = $session->i18n->maketext('access denied on web');
                 print STDERR $reason, "\n" if MONITOR_ACLS;
@@ -1595,10 +1612,10 @@ sub haveAccess {
 
         # Check ALLOWWEB. If this is defined and not overridden by
         # ALLOWTOPIC, the user _must_ be in it.
-        $allowText = $this->getPreference( 'ALLOWWEB' . $mode );
+        $allow = $this->_getACL( 'ALLOWWEB' . $mode );
 
-        if ( defined($allowText) && $allowText =~ /\S/ ) {
-            unless ( $session->{users}->isInList( $cUID, $allowText ) ) {
+        if ( defined($allow) && scalar(@$allow) != 0 ) {
+            unless ( $session->{users}->isInUserList( $cUID, $allow ) ) {
                 $reason = $session->i18n->maketext('access not allowed on web');
                 print STDERR $reason, "\n" if MONITOR_ACLS;
                 return 0;
@@ -1609,20 +1626,20 @@ sub haveAccess {
     else {
 
         # No web, we are checking at the root. Check DENYROOT and ALLOWROOT.
-        $denyText = $this->getPreference( 'DENYROOT' . $mode );
+        $deny = $this->_getACL( 'DENYROOT' . $mode );
 
-        if ( defined($denyText)
-            && $session->{users}->isInList( $cUID, $denyText ) )
+        if ( defined($deny)
+            && $session->{users}->isInUserList( $cUID, $deny ) )
         {
             $reason = $session->i18n->maketext('access denied on root');
             print STDERR $reason, "\n" if MONITOR_ACLS;
             return 0;
         }
 
-        $allowText = $this->getPreference( 'ALLOWROOT' . $mode );
+        $allow = $this->_getACL( 'ALLOWROOT' . $mode );
 
-        if ( defined($allowText) && $allowText =~ /\S/ ) {
-            unless ( $session->{users}->isInList( $cUID, $allowText ) ) {
+        if ( defined($allow) && scalar(@$allow) != 0 ) {
+            unless ( $session->{users}->isInUserList( $cUID, $allow ) ) {
                 $reason =
                   $session->i18n->maketext('access not allowed on root');
                 print STDERR $reason, "\n" if MONITOR_ACLS;
@@ -1633,8 +1650,8 @@ sub haveAccess {
 
     if (MONITOR_ACLS) {
         print STDERR "OK, permitted\n";
-        print STDERR "ALLOW: $allowText\n" if defined $allowText;
-        print STDERR "DENY: $denyText\n"   if defined $denyText;
+        print STDERR 'ALLOW: '.join(',',@$allow)."\n" if defined $allow;
+        print STDERR 'DENY: '.join(',',@$deny)."\n"   if defined $deny;
     }
     return 1;
 }
