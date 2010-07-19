@@ -1514,6 +1514,12 @@ sub saveTopic {
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
 
+    unless ( $topicObject->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
+
     $topicObject->copyFrom($smeta) if $smeta;
     return $topicObject->save(%$options);
 }
