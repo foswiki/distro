@@ -671,9 +671,8 @@ sub test_templateTopicWithMeta {
     $this->assert_str_equals( 'UserTopic', $pref->{value} );
 }
 
-# TODO: Not yet fixed, see Item1735
 # attachments are copied over from templatetopic
-sub TODO_test_templateTopicWithAttachments {
+sub test_templateTopicWithAttachments {
     my $this = shift;
 
     open( FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" );
@@ -707,7 +706,7 @@ sub TODO_test_templateTopicWithAttachments {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
 
-    my($meta, $text) = Foswiki::Func::readTopic($this->{test_web}, 'TemplateTopicWithAttachment');
+    my($meta, $text) = Foswiki::Func::readTopic($this->{test_web}, $testTopic);
 
     $this->assert_matches( qr/test with an attachment/, $text );
     $this->assert_not_null($meta->get( 'FILEATTACHMENT', 'testfile.txt' ), "attachment meta copied for testfile.txt");

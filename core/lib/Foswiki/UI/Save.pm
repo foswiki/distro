@@ -85,6 +85,7 @@ sub buildNewTopic {
 
     my $text = $topicObject->text();
 
+    my @attachments;
     if ($topicExists) {
 
         # Initialise from existing topic
@@ -136,6 +137,16 @@ sub buildNewTopic {
             # Skip internal fields and TOPICINFO, TOPICMOVED
             unless ( $k =~ /^(_|TOPIC)/ ) {
                 $topicObject->copyFrom( $ttom, $k );
+            }
+
+            # attachments to be copied later
+            if ( $k eq 'FILEATTACHMENT' ){
+                foreach my $a ( @{$ttom->{$k}} ){
+                    push( @attachments, {
+                        name => $a->{name},
+                        tom  => $ttom,
+                    });
+                }
             }
         }
 
@@ -334,7 +345,7 @@ sub buildNewTopic {
     }
     $topicObject->text($text);
 
-    return ( $saveOpts, $merged );
+    return ( $saveOpts, $merged, \@attachments );
 }
 
 =begin TML
@@ -594,7 +605,7 @@ WARN
         return;
     }
 
-    my ( $saveOpts, $merged ) = buildNewTopic( $session, $topicObject, 'save' );
+    my ( $saveOpts, $merged, $attachments ) = buildNewTopic( $session, $topicObject, 'save' );
 
     if ( $saveaction =~ /^(save|checkpoint)$/ ) {
         my $text = $topicObject->text();
@@ -617,6 +628,23 @@ WARN
             params => [ shift->{-text} ]
         );
     };
+
+    if( $attachments ){
+        foreach $a ( @{ $attachments } ){
+            try {
+                $a->{tom}->copyAttachment($a->{name}, $topicObject);
+            }
+            catch Error::Simple with {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'save_error',
+                    web    => $topicObject->web,
+                    topic  => $topicObject->topic,
+                    params => [ shift->{-text} ]
+                );
+            };
+        }
+    }
 
     my $lease = $topicObject->getLease();
 
