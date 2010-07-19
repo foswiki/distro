@@ -1492,14 +1492,22 @@ sub setTopicEditLock {
      | =comment= | Comment relating to the save |
 For example,
 <verbatim>
+use Error qw( :try );
+
 my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 $text =~ s/APPLE/ORANGE/g;
-Foswiki::Func::saveTopic( $web, $topic, $meta, $text, { forcenewrevision => 1 } );
+try {
+    saveTopic( $web, $topic, $meta, $text );
+} catch Foswiki::AccessControlException with {
+    my $e = shift;
+    # see documentation on Foswiki::AccessControlException
+} catch Error::Simple with {
+    my $e = shift;
+    # see documentation on Error::Simple
+} otherwise {
+    ...
+};
 </verbatim>
-
-__Note:__ Access controls are *not* checked by this function. You should
-always call =checkAccessPermission= beforehand. Plugins handlers ( e.g.
-=beforeSaveHandler= ) will be called as appropriate.
 
 In the event of an error an exception will be thrown. Callers can elect
 to trap the exceptions thrown, or allow them to propagate to the calling
