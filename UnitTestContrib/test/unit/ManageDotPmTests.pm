@@ -836,4 +836,163 @@ sub verify_deleteUser {
     };
 }
 
+
+sub test_createDefaultWeb {
+    my $this = shift;
+    my $newWeb = $this->{test_web}.'NewExtra'; #no, this is not nested
+    my $query = new Unit::Request(
+        {
+            'action' => ['createweb'],
+            'baseweb' => ['_default'],
+#            'newtopic' => ['qwer'],            #TODO: er, what the?
+            'newweb' => [$newWeb],
+            'nosearchall' => ['on'],
+            'webbgcolor' => ['fuchsia'],
+            'websummary' => ['twinkle twinkle little star'],
+        }
+    );
+    $query->path_info("/$this->{test_web}/Arbitrary");
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{SuperAdminGroup}, $query );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->{session}->{topicName} = 'Arbitrary';
+    $this->{session}->{webName}   = $this->{test_web};
+
+    try {
+        my ($stdout, $stderr, $result) = $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( "attention", $e->{template},
+            $e->stringify() );
+        $this->assert_str_equals( "created_web", $e->{def}, $e->stringify() );
+        print STDERR "captured STDERR: ".$this->{stderr}."\n" if (defined($this->{stderr}));
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+    
+    #check that the settings we created with happened.
+    $this->assert( $this->{session}->webExists($newWeb) );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $newWeb );
+    $this->assert_equals('fuchsia',
+                         $webObject->getPreference('WEBBGCOLOR'));
+    $this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
+
+    
+    #check that the topics from _default web are actually in the new web, and make sure they are expectently similar
+    my @expectedTopicsItr = Foswiki::Func::getTopicList('_default');
+    foreach my $expectedTopic (@expectedTopicsItr) {
+        $this->assert(Foswiki::Func::topicExists($newWeb, $expectedTopic));
+        my ($eMeta, $eText) = Foswiki::Func::readTopic('_default', $expectedTopic);
+        my ($nMeta, $nText) = Foswiki::Func::readTopic($newWeb, $expectedTopic);
+        
+        #change the params set above to what they were in the template WebPreferences
+        $nText =~ s/($Foswiki::regex{setRegex}WEBBGCOLOR\s*=).fuchsia$/$1 #DDDDDD/m;
+        $this->assert(defined($1));
+        $nText =~ s/($Foswiki::regex{setRegex}WEBSUMMARY\s*=).twinkle twinkle little star$/$1 /m;
+        $this->assert(defined($1));
+        $nText =~ s/($Foswiki::regex{setRegex}NOSEARCHALL\s*=).on$/$1 /m;
+        $this->assert(defined($1));
+        
+        $this->assert_html_equals($eText, $nText);  #.($Foswiki::RELEASE =~ /1\.1\.0/?"\n":''));
+    }
+
+}
+
+
+sub test_createEmptyWeb {
+    my $this = shift;
+    my $newWeb = $this->{test_web}.'EmptyNewExtra'; #no, this is not nested
+    my $query = new Unit::Request(
+        {
+            'action' => ['createweb'],
+            'baseweb' => ['_empty'],
+#            'newtopic' => ['qwer'],            #TODO: er, what the?
+            'newweb' => [$newWeb],
+            'nosearchall' => ['on'],
+            'webbgcolor' => ['fuchsia'],
+            'websummary' => ['somthing there.'],
+#TODO: I don't think this is what will get passed through - it should probably deal correctly with ['somenewskin','another']
+            'SKIN' => ['somenewskin,another'],
+        }
+    );
+    $query->path_info("/$this->{test_web}/Arbitrary");
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{SuperAdminGroup}, $query );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->{session}->{topicName} = 'Arbitrary';
+    $this->{session}->{webName}   = $this->{test_web};
+
+    try {
+        my ($stdout, $stderr, $result) = $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( "attention", $e->{template},
+            $e->stringify() );
+        $this->assert_str_equals( "created_web", $e->{def}, $e->stringify() );
+        print STDERR "captured STDERR: ".$this->{stderr}."\n" if (defined($this->{stderr}));
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+    
+    #check that the settings we created with happened.
+    $this->assert( $this->{session}->webExists($newWeb) );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $newWeb );
+    $this->assert_equals('fuchsia',
+                         $webObject->getPreference('WEBBGCOLOR'));
+    $this->assert_equals('somenewskin,another',
+                         $webObject->getPreference('SKIN'));
+    #nope, SITEMAPLIST isn't required
+    #$this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
+
+    
+    #check that the topics from _default web are actually in the new web, and make sure they are expectently similar
+    my @expectedTopicsItr = Foswiki::Func::getTopicList('_empty');
+    foreach my $expectedTopic (@expectedTopicsItr) {
+        $this->assert(Foswiki::Func::topicExists($newWeb, $expectedTopic));
+        
+        next if ($expectedTopic eq 'WebPreferences');   # we've modified the topic alot
+        
+        my ($eMeta, $eText) = Foswiki::Func::readTopic('_empty', $expectedTopic);
+        my ($nMeta, $nText) = Foswiki::Func::readTopic($newWeb, $expectedTopic);
+        
+        #change the params set above to what they were in the template WebPreferences
+        $nText =~ s/($Foswiki::regex{setRegex}WEBBGCOLOR\s*=).fuchsia$/$1 #DDDDDD/m;
+        $this->assert(defined($1));
+        $nText =~ s/($Foswiki::regex{setRegex}WEBSUMMARY\s*=).something here$/$1 /m;
+        $this->assert(defined($1));
+        $nText =~ s/($Foswiki::regex{setRegex}NOSEARCHALL\s*=).on$/$1 /m;
+        $this->assert(defined($1));
+        
+        $this->assert_html_equals($eText, $nText);  #.($Foswiki::RELEASE =~ /1\.1\.0/?"\n":''));
+    }
+
+}
+
+
+#TODO: add tests for all the failure conditions - ie, creating a web that exists.
+
 1;

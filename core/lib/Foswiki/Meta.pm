@@ -532,9 +532,10 @@ sub populateNewWeb {
         )
       )
     {
+        my $prefsText = 'Preferences';
         $prefsTopicObject = $this->new(
             $this->{_session},                $this->{_web},
-            $Foswiki::cfg{WebPrefsTopicName}, 'Preferences'
+            $Foswiki::cfg{WebPrefsTopicName}, $prefsText
         );
         $prefsTopicObject->save();
     }
@@ -550,21 +551,33 @@ sub populateNewWeb {
             next unless ( $sys || $topic =~ /^Web/ );
             my $topicObject =
               $this->load( $this->{_session}, $templateWeb, $topic );
-            $topicObject->saveAs( $this->{_web}, $topic );
+            $topicObject->saveAs( $this->{_web}, $topic, (forcenewrevision => 1) );
         }
     }
 
     # patch WebPreferences in new web. We ignore permissions, because
     # we are creating a new web here.
     if ($opts) {
-        $prefsTopicObject ||=
+        my $prefsTopicObject =
           $this->load( $this->{_session}, $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
         foreach my $key ( keys %$opts ) {
-            $text =~
-              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
-              if defined $opts->{$key};
+            #don't create the required params to create web.
+            next if ($key eq 'BASEWEB');
+            next if ($key eq 'NEWWEB');
+            next if ($key eq 'NEWTOPIC');
+            next if ($key eq 'ACTION');
+            
+            if (defined($opts->{$key})) {
+                if ($text =~
+                  s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm) {
+              } else {
+                  #this setting wasn't found, so we need to append it.
+                  $text .= "\n   * Web Created with KEY set\n";
+                  $text .= "\n      * Set $key = $opts->{$key}\n";
+              }
+            }
         }
         $prefsTopicObject->text($text);
         $prefsTopicObject->save();
@@ -1802,7 +1815,6 @@ sub saveAs {
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
         if ( $currentRev && !$opts{forcenewrevision} ) {
-
             # See if we want to replace the existing top revision
             my $mtime1 =
               $this->{_session}->{store}

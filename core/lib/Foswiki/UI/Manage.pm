@@ -209,10 +209,10 @@ sub _action_createweb {
 
         # Set permissions such that only the creating user can modify the
         # web preferences
-        ALLOWTOPICCHANGE => $me,
-        ALLOWTOPICRENAME => 'nobody',
-        ALLOWWEBCHANGE   => $me,
-        ALLOWWEBRENAME   => $me,
+        ALLOWTOPICCHANGE => '%USERSWEB%.'.$me,
+        ALLOWTOPICRENAME => '%USERSWEB%.'.$me,
+        ALLOWWEBCHANGE   => '%USERSWEB%.'.$me,
+        ALLOWWEBRENAME   => '%USERSWEB%.'.$me,
     };
     foreach my $p ( $query->param() ) {
         $opts->{ uc($p) } = $query->param($p);

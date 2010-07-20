@@ -9,4 +9,3 @@
    * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%WEB%][force]] an update)
    * [[%SYSTEMWEB%.SiteTools#WebStatistics_site_statistics][Site tools]] tells you how to enable the automatic updates of the statistics.
    * Suggestion: You could archive this topic once a year and delete the previous year's statistics from the table.
-
