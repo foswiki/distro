@@ -50,11 +50,19 @@ See ReleaseNotes01x00 for detailed information about changes in that release.
 
 Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. We have also worked to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements.
 
----+++ =configure= user interface revamp
-Also included in 1.1 is a major improvement to the =configure= user interface, that clarifies and simplifies setting configuration options.
-
 ---+++ Powerful new =QUERY= macro
 A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements.
+
+---+++ Testing configuration variables in %IF
+Prior to 1.1, %IF could be used to test the value of any configuration
+variable (those defined in =configure=). This represented a security risk, so
+now only those variables listed in ={AccessibleCFG}= may be accessed this way.
+Note that ={AccessibleCFG}= also controls which variables are visible in
+=%SEARCH{type="query"= and the new =%QUERY= macro.
+
+---+++ "Copy topic" now copies attachments
+The "Copy Topic" function in "More topic actions" now copies attachments as
+well as the topic text and form.
 
 ---+++ Tailoring of user registration made easier.
 
@@ -74,19 +82,15 @@ If the {PasswordManager} does not support password changing, the ChangePassword 
 
 ChangeEmailAddress will now guide the user to define the email address in the user topic when the PasswordManager does not handle hidden email addresses, so you should not need to tailor this topic any longer.
 
----+++ Testing configuration variables in %IF
-Prior to 1.1, %IF could be used to test the value of any configuration
-variable (those defined in =configure=). This represented a security risk, so
-now only those variables listed in ={AccessibleCFG}= may be accessed this way.
-Note that ={AccessibleCFG}= also controls which variables are visible in
-=%SEARCH{type="query"= and the new =%QUERY= macro.
-
 ---+++ Logging of access failures
 Configure and TemplateLogin now log authentication failures to the event logs:
    * =working/logs/configure.log=
    * =working/logs/events.log=
 It is possible to monitor these logs with a product like =fail2ban= which will
 set firewall filters due to excessive failures.
+
+---+++ =configure= user interface revamp
+Also included in 1.1 is a major improvement to the =configure= user interface, that clarifies and simplifies setting configuration options.
 
 ---+++ Configure file system checks
 The configuration tool =bin/configure= now performs extensive checks of file
