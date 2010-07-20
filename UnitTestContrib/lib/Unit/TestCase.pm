@@ -543,27 +543,29 @@ sub captureSTD {
     my @params   = @_;
     my $result;
 
-    {
+    undef $this->{stdout};
+    undef $this->{stderr};
+    try {
         local *STDOUT;
         local *STDERR;
         open STDOUT, ">", $stdoutfile
           or die "Can't open temporary STDOUT file $stdoutfile: $!";
         open STDERR, ">", $stderrfile
           or die "Can't open temporary STDERR file $stderrfile: $!";
+
         $result = &$proc(@params);
-    }
-
-    my $f;
-    open($f, '<', $stdoutfile) || die "Capture failed to reopen $stdoutfile";
-    local $/;
-    my $stdout = <$f>;
-    close($f);
-    open($f, '<', $stderrfile) || die "Capture failed to reopen $stderrfile";
-    local $/;
-    my $stderr = <$f>;
-    close($f);
-
-    return ( $stdout, $stderr, $result );
+    } finally {
+        my $f;
+        open($f, '<', $stdoutfile) || die "Capture failed to reopen $stdoutfile";
+        local $/;
+        $this->{stdout} = <$f>;
+        close($f);
+        open($f, '<', $stderrfile) || die "Capture failed to reopen $stderrfile";
+        local $/;
+        $this->{stderr} = <$f>;
+        close($f);
+    };
+    return ( $this->{stdout}, $this->{stderr}, $result );
 }
 
 1;
