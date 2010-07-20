@@ -362,10 +362,17 @@ sub init_edit {
 
     $tmpl =~ s/%CMD%/$adminCmd/go;
 
-    $tmpl = $topicObject->expandMacros($tmpl);
-    $tmpl = $topicObject->renderTML($tmpl);
+    # Take a copy of the new topic in case the rendering process
+    # reloads it. This can happen if certain macros are present, and
+    # will damage the object.
+    my $tmplObject = Foswiki::Meta->new(
+        $session, $topicObject->web, $topicObject->topic);
+    $tmplObject->copyFrom($topicObject);
 
-    # Don't want to render form fields, so this after getRenderedVersion
+    $tmpl = $tmplObject->expandMacros($tmpl);
+    $tmpl = $tmplObject->renderTML($tmpl);
+
+    # Handle the form
     my $formMeta = $topicObject->get('FORM');
     my $form     = '';
     my $formText = '';
