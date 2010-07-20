@@ -199,15 +199,6 @@ sub _action_createweb {
         );
     }
 
-    my $webBGColor = $query->param('WEBBGCOLOR') || '';
-    unless ( _isValidHTMLColor($webBGColor) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'invalid_web_color',
-            params => [$webBGColor]
-        );
-    }
-
     Foswiki::UI::checkValidationKey($session);
 
     # Get options from the form (only those options that are already
@@ -225,6 +216,15 @@ sub _action_createweb {
     };
     foreach my $p ( $query->param() ) {
         $opts->{ uc($p) } = $query->param($p);
+    }
+
+    my $webBGColor = $opts->{'WEBBGCOLOR'} || '';
+    unless ( _isValidHTMLColor($webBGColor) ) {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'invalid_web_color',
+            params => [$webBGColor]
+        );
     }
 
     $webObject = Foswiki::Meta->new( $session, $newWeb );

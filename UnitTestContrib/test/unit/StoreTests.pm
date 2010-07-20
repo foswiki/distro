@@ -56,7 +56,7 @@ sub tear_down {
     my $this = shift;
 
     $this->removeWebFixture( $this->{session}, $web )
-      if (Foswiki::Func::webExists($web) );
+      if ( Foswiki::Func::webExists($web) );
     unlink("$Foswiki::cfg{TempfileDir}/testfile.gif");
 
     #$this->{session}->finish();
@@ -84,13 +84,13 @@ sub test_CreateWeb {
 #create a web using _default
 #TODO how should this fail if we are testing a store impl that does not have a _deault web ?
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->populateNewWeb('_default', { WEBBGCOLOR => '#737373', SITEMAPLIST => 'on' });
+    $webObject->populateNewWeb( '_default',
+        { WEBBGCOLOR => '#123432', SITEMAPLIST => 'on' } );
     $this->assert( $this->{session}->webExists($web) );
-    $this->assert_equals('#737373',
-                         $webObject->getPreference('WEBBGCOLOR'));
-    $this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
-    my $it        = $webObject->eachTopic();
-    my @topics    = $it->all();
+    $this->assert_equals( '#123432', $webObject->getPreference('WEBBGCOLOR') );
+    $this->assert_equals( 'on',      $webObject->getPreference('SITEMAPLIST') );
+    my $it     = $webObject->eachTopic();
+    my @topics = $it->all();
     $webObject->removeFromStore();
     $webObject = Foswiki::Meta->new( $this->{session}, '_default' );
     $it = $webObject->eachTopic();
@@ -101,7 +101,7 @@ sub test_CreateWeb {
 
 sub test_CreateWebWithNonExistantBaseWeb {
     my $this = shift;
-    my $web = 'FailToCreate';
+    my $web  = 'FailToCreate';
 
     #create a web using non-existent Web
     my $ok = 0;
@@ -150,8 +150,9 @@ sub test_CreateSimpleMetaTopic {
     # Clear out stuff that blocks assert_deep_equals
     $meta->remove('TOPICINFO');
     $readMeta->remove('TOPICINFO');
-    $meta->{_preferences} = $meta->{_session}   = $readMeta->{_session}   = undef;
-    $meta->{_preferences} = $meta->{_loadedRev} = $readMeta->{_loadedRev} = undef;
+    $meta->{_preferences} = $meta->{_session} = $readMeta->{_session} = undef;
+    $meta->{_preferences} = $meta->{_loadedRev} = $readMeta->{_loadedRev} =
+      undef;
     $this->assert_deep_equals( $meta, $readMeta );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();
@@ -348,8 +349,8 @@ sub test_beforeSaveHandlerChangeMeta {
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
     foreach my $fld qw(rev version date) {
-        delete $meta->get( 'TOPICINFO')->{$fld};
-        delete $readMeta->get( 'TOPICINFO')->{$fld};
+        delete $meta->get('TOPICINFO')->{$fld};
+        delete $readMeta->get('TOPICINFO')->{$fld};
     }
     $this->assert_str_equals( $meta->stringify(), $readMeta->stringify() );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
@@ -393,8 +394,8 @@ sub test_beforeSaveHandlerChangeBoth {
     # over conflicting changes in the *text*.
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
     foreach my $fld qw(rev version date) {
-        delete $meta->get( 'TOPICINFO')->{$fld};
-        delete $readMeta->get( 'TOPICINFO')->{$fld};
+        delete $meta->get('TOPICINFO')->{$fld};
+        delete $readMeta->get('TOPICINFO')->{$fld};
     }
     $this->assert_str_equals( $meta->stringify(), $readMeta->stringify() );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
@@ -410,15 +411,16 @@ sub beforeUploadHandler {
       unless $attrHash->{comment} eq "a comment";
 
     local $/ = undef;
-    my $fh = $attrHash->{stream};
+    my $fh   = $attrHash->{stream};
     my $text = <$fh>;
 
     $text =~ s/call/beforeUploadHandler/;
 
-    $fh = new File::Temp();;
+    $fh = new File::Temp();
     print $fh $text;
+
     # $fh->seek only in File::Temp 0.17 and later
-    seek($fh, 0, 0);
+    seek( $fh, 0, 0 );
     $attrHash->{stream} = $fh;
 }
 
@@ -461,6 +463,7 @@ sub afterUploadHandler {
 
 sub registerAttachmentHandlers {
     my $this = shift;
+
     # SMELL: assumed implementation
     push(
         @{
@@ -513,10 +516,11 @@ sub test_attachmentSaveHandlers_file {
 
     $this->assert( $meta->hasAttachment("testfile.gif") );
 
-    my $fh = $meta->openAttachment("testfile.gif", '<');
+    my $fh = $meta->openAttachment( "testfile.gif", '<' );
     my $text = <$fh>;
     close($fh);
-    $this->assert_str_equals( "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
+    $this->assert_str_equals(
+        "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
 sub test_attachmentSaveHandlers_stream {
@@ -531,20 +535,21 @@ sub test_attachmentSaveHandlers_stream {
     $meta->save();
 
     $this->registerAttachmentHandlers();
-    
-    $this->assert(open(my $fh, "$Foswiki::cfg{TempfileDir}/testfile.gif"));
+
+    $this->assert( open( my $fh, "$Foswiki::cfg{TempfileDir}/testfile.gif" ) );
     $meta->attach(
         name    => "testfile.gif",
-        stream => $fh,
+        stream  => $fh,
         comment => "a comment",
     );
 
     $this->assert( $meta->hasAttachment("testfile.gif") );
 
-    $fh = $meta->openAttachment("testfile.gif", '<');
+    $fh = $meta->openAttachment( "testfile.gif", '<' );
     my $text = <$fh>;
     close($fh);
-    $this->assert_str_equals( "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
+    $this->assert_str_equals(
+        "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
 sub test_attachmentSaveHandlers_file_and_stream {
@@ -559,21 +564,22 @@ sub test_attachmentSaveHandlers_file_and_stream {
     $meta->save();
 
     $this->registerAttachmentHandlers();
-    
-    $this->assert(open(my $fh, "$Foswiki::cfg{TempfileDir}/testfile.gif"));
+
+    $this->assert( open( my $fh, "$Foswiki::cfg{TempfileDir}/testfile.gif" ) );
     $meta->attach(
         name    => "testfile.gif",
-        file => "$Foswiki::cfg{TempfileDir}/testfile.gif",
-        stream => $fh,
+        file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
+        stream  => $fh,
         comment => "a comment",
     );
 
     $this->assert( $meta->hasAttachment("testfile.gif") );
 
-    $fh = $meta->openAttachment("testfile.gif", '<');
+    $fh = $meta->openAttachment( "testfile.gif", '<' );
     my $text = <$fh>;
     close($fh);
-    $this->assert_str_equals( "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
+    $this->assert_str_equals(
+        "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
 sub test_eachChange {
@@ -630,22 +636,23 @@ sub test_eachAttachment {
     my $this = shift;
 
     my $meta =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, $this->{test_topic}, "One" );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, "One" );
     $meta->attach(
         name    => "testfile.gif",
         file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
         comment => "a comment"
     );
     $meta->save();
-    my $f = "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/noise.dat";
-    $this->assert(open(F, ">", $f));
+    my $f =
+      "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/noise.dat";
+    $this->assert( open( F, ">", $f ) );
     print F "Naff\n";
     close(F);
-    $this->assert(-e $f);
+    $this->assert( -e $f );
     my $it = $this->{session}->{store}->eachAttachment($meta);
-    my $list = join(' ', sort $it->all());
-    $this->assert_str_equals("noise.dat testfile.gif", $list);
+    my $list = join( ' ', sort $it->all() );
+    $this->assert_str_equals( "noise.dat testfile.gif", $list );
 }
 
 1;
