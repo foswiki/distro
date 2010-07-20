@@ -17,7 +17,7 @@ use base 'Foswiki::Users::Password';
 use strict;
 use Assert;
 use Error qw( :try );
-use Fcntl qw( :DEFAULT :flock SEEK_SET );
+use Fcntl qw( :DEFAULT :flock );
 
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in Foswiki::setupLocale
@@ -93,7 +93,8 @@ sub canFetchUsers {
 
 sub fetchUsers {
     my $this  = shift;
-    my $db    = _readPasswd($this);
+    # Read passwords with shared lock
+    my $db    = $this->_readPasswd( 1 );
     my @users = sort keys %$db;
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@users );
@@ -102,12 +103,16 @@ sub fetchUsers {
 # Lock the htpasswd semaphore file (create if it does not exist)
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
-    sysopen( my $fh, $Foswiki::cfg{Htpasswd}{FileName}, O_RDWR | O_CREAT, 0666 )
-      || throw Error::Simple( $Foswiki::cfg{Htpasswd}{FileName}
-          . ' open or create password lock file failed -'
-          . 'check access rights: '
-          . $! );
-    flock $fh, LOCK_EX;
+    my $operator = @_;
+    my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
+
+    sysopen(my $fh, $lockFileName, O_RDWR|O_CREAT, 0666)
+      || throw Error::Simple(
+        $lockFileName . 
+        ' open or create password lock file failed -' . 
+        'check access rights: ' . $! );
+    flock $fh, $operator;
+    
     return $fh;
 }
 
@@ -118,14 +123,24 @@ sub _unlockPasswdFile {
     close($fh);
 }
 
+# Read the password file. The content of the file is cached in
+# the password object.
+# We put a shared lock while reading if requested to prevent
+# other processes from writing while we read but still allows
+# parallel reading. The caller must never request a shared lock
+# if there is already an exclusive lock.
 sub _readPasswd {
-    my $this = shift;
+    my ( $this, $lockShared ) = @_;
+
     return $this->{passworddata} if ( defined( $this->{passworddata} ) );
 
     my $data = {};
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
+
+    $lockShared |= 0;
+    my $lockHandle = _lockPasswdFile( LOCK_SH ) if $lockShared;
     my $IN_FILE;
     open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
@@ -150,6 +165,8 @@ sub _readPasswd {
         }
     }
     close($IN_FILE);
+    _unlockPasswdFile( $lockHandle ) if $lockShared;
+    
     $this->{passworddata} = $data;
     return $data;
 }
@@ -174,17 +191,19 @@ sub _dumpPasswd {
 }
 
 sub _savePasswd {
-    my $fh = shift;
     my $db = shift;
 
     my $content = _dumpPasswd($db);
 
-    # Rewind and print for in-place editing
-    seek $fh, 0, SEEK_SET;
-    print $fh $content
-      or throw Error::Simple("ERROR: Cannot write password file");
-    truncate $fh, tell $fh
-      or throw Error::Simple("ERROR: Cannot truncate password file");
+    umask(077);
+    my $fh;
+
+    open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
+      || throw Error::Simple(
+          "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!" );
+    print $fh $content;
+    
+    close($fh);
 }
 
 sub encrypt {
@@ -243,6 +262,7 @@ sub encrypt {
             }
         }
         my $ret = crypt( $passwd, substr( $salt, 0, 11 ) );
+
         return $ret;
 
     }
@@ -259,7 +279,8 @@ sub fetchPass {
 
     if ($login) {
         try {
-            my $db = $this->_readPasswd();
+            # Read passwords with shared lock
+            my $db = $this->_readPasswd( 1 );
             if ( exists $db->{$login} ) {
                 $ret = $db->{$login}->{pass};
             }
@@ -291,13 +312,14 @@ sub setPassword {
         return 0;
     }
 
+    my $lockHandle;
     try {
-        my $lockHandle = _lockPasswdFile();
-        my $db         = $this->_readPasswd();
+        $lockHandle = _lockPasswdFile( LOCK_EX );
+        # Read password without shared lock as we have already exclusive lock
+        my $db         = $this->_readPasswd( 0 );
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
-        _savePasswd( $lockHandle, $db );
-        _unlockPasswdFile($lockHandle);
+        _savePasswd( $db );
     }
     catch Error::Simple with {
         my $e = shift;
@@ -306,6 +328,9 @@ sub setPassword {
         $this->{error} = 'unknown error in resetPassword'
           unless ( $this->{error} && length( $this->{error} ) );
         return undef;
+    }
+    finally {
+        _unlockPasswdFile($lockHandle) if $lockHandle;
     };
 
     $this->{error} = undef;
@@ -317,22 +342,27 @@ sub removeUser {
     my $result = undef;
     $this->{error} = undef;
 
+    my $lockHandle;
     try {
-        my $lockHandle = _lockPasswdFile();
-        my $db         = $this->_readPasswd();
+        $lockHandle = _lockPasswdFile( LOCK_EX );
+        # Read password without shared lock as we have already exclusive lock
+        my $db         = $this->_readPasswd( 0 );
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
         }
         else {
             delete $db->{$login};
-            _savePasswd( $lockHandle, $db );
+            _savePasswd( $db );
             $result = 1;
         }
-        _unlockPasswdFile($lockHandle);
     }
     catch Error::Simple with {
         $this->{error} = shift->{-text};
+    }
+    finally {
+        _unlockPasswdFile($lockHandle) if $lockHandle;
     };
+    
     return $result;
 }
 
@@ -366,7 +396,8 @@ sub getEmails {
     my ( $this, $login ) = @_;
 
     # first try the mapping cache
-    my $db = $this->_readPasswd();
+    # read passwords with shared lock
+    my $db = $this->_readPasswd( 1 );
     if ( $db->{$login}->{emails} ) {
         return split( /;/, $db->{$login}->{emails} );
     }
@@ -379,8 +410,9 @@ sub setEmails {
     my $login = shift;
     ASSERT($login) if DEBUG;
 
-    my $lockHandle = _lockPasswdFile();
-    my $db         = $this->_readPasswd();
+    my $lockHandle = _lockPasswdFile( LOCK_EX );
+    # Read password without shared lock as we have already exclusive lock
+    my $db         = $this->_readPasswd( 0 );
     unless ( $db->{$login} ) {
         $db->{$login}->{pass} = '';
     }
@@ -393,7 +425,7 @@ sub setEmails {
     else {
         $db->{$login}->{emails} = '';
     }
-    _savePasswd( $lockHandle, $db );
+    _savePasswd( $db );
     _unlockPasswdFile($lockHandle);
     return 1;
 }
@@ -402,7 +434,8 @@ sub setEmails {
 sub findUserByEmail {
     my ( $this, $email ) = @_;
     my $logins = [];
-    my $db     = _readPasswd();
+    # read password with shared lock
+    my $db     = $this->_readPasswd( 1 );
     while ( my ( $k, $v ) = each %$db ) {
         my %ems = map { $_ => 1 } split( ';', $v->{emails} );
         if ( $ems{$email} ) {
@@ -417,7 +450,7 @@ sub findUserByEmail {
 __DATA__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+# Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
