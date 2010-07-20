@@ -2604,7 +2604,9 @@ sub attach {
 =begin TML
 
 ---++ ObjectMethod hasAttachment( $name ) -> $boolean
-Test if the named attachment exists. Only valid on topics.
+Test if the named attachment exists. Only valid on topics. The attachment
+must exist in the store (it is not sufficient for it to be referenced
+in the object only)
 
 =cut
 
@@ -2612,13 +2614,7 @@ sub hasAttachment {
     my ( $this, $name ) = @_;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-    return 1 if $this->{_session}->{store}->attachmentExists( $this, $name );
-
-    # Store denies knowledge of it; check the meta, just in case it's
-    # been added to meta but not saved yet
-    $this->reload(0) unless $this->latestIsLoaded();
-    return defined $this->get( 'FILEATTACHMENT', $name );
-
+    return $this->{_session}->{store}->attachmentExists( $this, $name );
 }
 
 =begin TML
