@@ -1,4 +1,8 @@
 %META:TOPICPARENT{name="Plugins"}%
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. 
+Please add comments/questions/remarks to Support.TWikiCompatibilityPlugin -->
+
 ---+!! !TWikiCompatibilityPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -14,7 +18,7 @@ Automatically maps requests for legacy TWiki web topics to Foswiki free topics a
 
 Map TWIKIWEB to SYSTEMWEB - no Preference setting required.
 
-to add similar auto-compatibility for attachments, add (or uncomment) the following !ErrorDocument handeling to
+to add similar auto-compatibility for attachments, add (or uncomment) the following !ErrorDocument handling to
 your Apache configuration _in the =pub= section_
 
 <verbatim>
@@ -45,5 +49,3 @@ Many thanks to the following sponsors for supporting this work:
 
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
