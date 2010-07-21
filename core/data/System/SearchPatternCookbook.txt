@@ -172,15 +172,15 @@ This will create similar functionality as Foswiki:Extensions.TopicClassification
 
 How to get to the parent of the current topic to display on the page?
 
----+++ Solution 1: Using META
+---+++ Solution 1: Using QUERY
 
-Use the META macro:
+Use the QUERY macro:
 
-=%<nop>META{ "parent" dontrecurse="on" }%=
+=%<nop>QUERY{ "parent.name" }%=
 
 ---+++ Test case
 
-%META{ "parent" dontrecurse="on" }%
+%QUERY{ "parent.name" }%
 
 
 <!-- ============================== -->

@@ -110,9 +110,9 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 | =%<nop>TOPIC%= | The name of the current topic. |
 | =%<nop>WEBTOPICLIST%= | Common links of current web, defined in the WebPreferences. It includes a [[#GoBox][Go box]] |
 | =%<nop>TEXT%= | The topic text, e.g. the content that can be edited |
-| =%<nop>META{"form"}%= | [[DataForms][DataForm]], if any |
-| =%<nop>META{"attachments"}%= | FileAttachment table |
-| =%<nop>META{"parent"}%= | The topic parent |
+| =%<nop>QUERY{"form.name"}%= | [[DataForms][DataForm]], if any |
+| =%<nop>QUERY{"attachments.name"}%= | FileAttachment list |
+| =%<nop>QUERY{"parent.name"}%= | The topic parent |
 | =%<nop>EDITTOPIC%= | Edit link |
 | =%<nop>REVTITLE%= | The revision title, if any, ex: =(r1.6)= |
 | =%<nop>REVINFO%= | Revision info, ex: =r1.6 - 24 Dec 2002 - 08:12 GMT - %WIKIUSERNAME%= |

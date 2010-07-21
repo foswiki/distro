@@ -42,14 +42,9 @@ The =Trash= web should be be cleared periodically, by archiving (saving) the tex
 
 ---++ Redirecting from an old topic
 
-You can use MetaData to place a command in the %SYSTEMWEB%.TopicDoesNotExistViewTemplate that will indicate that a topic has been moved by searching for the tag %<nop>META:TOPICMOVED{...}%. Customize something like this:
-
-<blockquote>
-<verbatim>
-%<nop>METASEARCH{type="topicmoved" web="%WEB%" topic="%TOPIC%" 
-title="This topic used to exist and was moved to: "}%
-</verbatim>
-</blockquote>
+The default "new topic" screen tells the user when a topic being created
+used to exist, but was moved. So if anyone follows a link to a moved topic,
+they will be able to click through to the new name.
 
 ---++ How rename/move works
 

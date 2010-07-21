@@ -653,6 +653,7 @@ lib/Foswiki/Macros/INTURLENCODE.pm 0444
 lib/Foswiki/Macros/LANGUAGES.pm 0444
 lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
+lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
 lib/Foswiki/Macros/QUERYPARAMS.pm 0444

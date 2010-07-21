@@ -53,6 +53,8 @@ Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, 
 ---+++ Powerful new =QUERY= macro
 A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements.
 
+The existing =META= macro has been deprecated (it is still available, but use is discouraged and it will be removed at some point in the future), joining the already-deprecated =METASEARCH=.
+
 ---+++ Testing configuration variables in %IF
 Prior to 1.1, %IF could be used to test the value of any configuration
 variable (those defined in =configure=). This represented a security risk, so

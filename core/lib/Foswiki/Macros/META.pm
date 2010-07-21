@@ -4,6 +4,7 @@ package Foswiki;
 use strict;
 use warnings;
 
+# DEPRECATED - use QUERY
 # Poor-man's content access.
 sub META {
     my ( $this, $params, $topicObject ) = @_;

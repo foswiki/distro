@@ -43,4 +43,4 @@
    * Example: =%<nop>SEARCH{"wiki" web="%USERSWEB%" scope="topic"}%=
    * Example with format: =%<nop>SEARCH{"FAQ" scope="topic" nosearch="on" nototal="on" header="| *Topic: * | *Summary: * |" format="<nop>| $topic | $summary |"}%= _(displays results in a table with header - [[FormattedSearch][details]])_
    * %T% If the Foswiki:Extensions.TablePlugin is installed, you may put a =%<nop>TABLE{}%= macro just before the =%<nop>SEARCH{}%= to alter the output of a search.  Example: =%<nop>TABLE{ tablewidth="90%" }%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETASEARCH][METASEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]], FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression
+   * Related: FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]

@@ -210,12 +210,8 @@ BEGIN {
         LANGUAGE     => sub { $_[0]->i18n->language(); },
         LANGUAGES    => undef,
         MAKETEXT     => undef,
-        META         => undef,
-        METASEARCH   => sub {
-
-            # DEPRECATED
-            $_[0]->search->searchMetaData( $_[1] );
-        },
+        META         => undef, # deprecated
+        METASEARCH   => undef, # deprecated
         NOP =>
 
           # Remove NOP tag in template topics but show content.

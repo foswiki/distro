@@ -1246,109 +1246,11 @@ sub setup_callback {
     return ( $callback, $cbdata );
 }
 
-# callback for search function to collate
-# results
-sub _collate {
-    my $ref = shift;
-
-    $$ref .= join( ' ', @_ );
-}
-
 # callback for search function to collate to list
 sub _collate_to_list {
     my $ref = shift;
 
     push( @$ref, @_ );
-}
-
-=begin TML
-
----++ ObjectMethod searchMetaData($params) -> $text
-
-Search meta-data associated with topics. Parameters are passed in the $params hash,
-which may contain:
-| =type= | =topicmoved=, =parent= or =field= |
-| =topic= | topic to search for, for =topicmoved= and =parent= |
-| =name= | form field to search, for =field= type searches. May be a regex. |
-| =value= | form field value. May be a regex. |
-| =title= | Title prepended to the returned search results |
-| =default= | default value if there are no results |
-| =web= | web to search in, default is all webs |
-| =format= | string for custom formatting results |
-The idea is that people can search for meta-data values without having to be
-aware of how or where meta-data is stored.
-
-SMELL: should be replaced with a proper SQL-like search, c.f. Plugins.DBCacheContrib.
-
-=cut
-
-sub searchMetaData {
-    my ( $this, $params ) = @_;
-
-    my $attrType  = $params->{type}  || 'FIELD';
-    my $attrWeb   = $params->{web}   || $this->{session}->{webName};
-    my $attrTopic = $params->{topic} || $this->{session}->{topicName};
-
-    my $searchVal = 'XXX';
-
-    if ( $attrType eq 'parent' ) {
-        $searchVal =
-          "%META:TOPICPARENT[{].*name=\\\"($attrWeb\\.)?$attrTopic\\\".*[}]%";
-    }
-    elsif ( $attrType eq 'topicmoved' ) {
-        $searchVal =
-          "%META:TOPICMOVED[{].*from=\\\"$attrWeb\.$attrTopic\\\".*[}]%";
-    }
-    else {
-        $searchVal = "%META:" . uc($attrType) . "[{].*";
-        $searchVal .= "name=\\\"$params->{name}\\\".*"
-          if ( defined $params->{name} );
-        $searchVal .= "value=\\\"$params->{value}\\\".*"
-          if ( defined $params->{value} );
-        $searchVal .= "[}]%";
-    }
-
-    my $text = '';
-    if ( $params->{format} ) {
-        $text = $this->searchWeb(
-            format    => $params->{format},
-            search    => $searchVal,
-            web       => $attrWeb,
-            type      => 'regex',
-            nosummary => 'on',
-            nosearch  => 'on',
-            noheader  => 'on',
-            nototal   => 'on',
-            noempty   => 'on',
-            template  => 'searchmeta',
-        );
-    }
-    else {
-        $this->searchWeb(
-            _callback => \&_collate,
-            _cbdata   => \$text,
-            ,
-            search    => $searchVal,
-            web       => $attrWeb,
-            type      => 'regex',
-            nosummary => 'on',
-            nosearch  => 'on',
-            noheader  => 'on',
-            nototal   => 'on',
-            noempty   => 'on',
-            template  => 'searchmeta',
-        );
-    }
-    my $attrTitle = $params->{title} || '';
-    if ($text) {
-        $text = $attrTitle . $text;
-    }
-    else {
-        my $attrDefault = $params->{default} || '';
-        $text = $attrTitle . $attrDefault;
-    }
-
-    return $text;
 }
 
 1;
