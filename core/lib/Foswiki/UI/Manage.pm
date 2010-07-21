@@ -96,10 +96,37 @@ sub _action_removeUserFromGroup {
     Foswiki::UI::Register::removeUserFromGroup($session);
 }
 
+# now using the Extended color keywords (plus transparent) that have been implemented at least since 2005
+#TODO: what about rgb(), hsl()&hsla(), html 5, there's also rgba()??
 sub _isValidHTMLColor {
     my $c = shift;
-    return $c =~
-m/^(#[0-9a-f]{6}|black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua)/i;
+    return $c =~ m/^(#[0-9a-f]{6}|transparent|peru|fuscia|seagreen|olivedrab|
+                    honeydew|khaki|indigo|cyan|springgreen|darkorange|orange|
+                    mediumturquoise|chocolate|moccasin|antiquewhite|whitesmoke|
+                    gray|maroon|deepskyblue|purple|mistyrose|darkslateblue|
+                    blanchedalmond|steelblue|darkorchid|darkgoldenrod|linen|
+                    turquoise|seashell|peachpuff|darkslategray|
+                    lightgoldenrodyellow|aqua|darkolivegreen|salmon|rosybrown|
+                    lightcyan|lightblue|plum|oldlace|lemonchiffon|palegoldenrod|
+                    teal|lightslategray|red|navajowhite|ghostwhite|sandybrown|
+                    forestgreen|mediumpurple|mediumaquamarine|lightpink|
+                    gainsboro|darkcyan|mediumvioletred|tan|grey|lightsteelblue|
+                    pink|azure|tomato|slateblue|lightyellow|darkslategrey|
+                    darkgreen|lavenderblush|lightskyblue|lightgrey|slategrey|
+                    lightgreen|dimgray|fuchsia|mediumslateblue|mediumblue|
+                    lightsalmon|saddlebrown|mediumorchid|dodgerblue|green|navy|
+                    orchid|brown|yellowgreen|yellow|burlywood|lime|mintcream|
+                    orangered|palevioletred|chartreuse|lawngreen|wheat|ivory|olive|
+                    darkgray|palegreen|slategray|darkmagenta|mediumspringgreen|
+                    black|darksalmon|deeppink|goldenrod|midnightblue|lavender|
+                    darkgrey|darkseagreen|darkblue|darkturquoise|royalblue|
+                    powderblue|blueviolet|cadetblue|thistle|lightseagreen|
+                    papayawhip|crimson|silver|greenyellow|skyblue|lightgray|
+                    paleturquoise|darkred|white|sienna|cornflowerblue|darkkhaki|
+                    violet|coral|lightcoral|beige|indianred|floralwhite|
+                    lightslategrey|cornsilk|bisque|hotpink|gold|blue|
+                    darkviolet|firebrick|limegreen|snow|magenta|dimgrey|
+                    aliceblue|mediumseagreen|aquamarine)/ix;
 
 }
 
@@ -209,10 +236,10 @@ sub _action_createweb {
 
         # Set permissions such that only the creating user can modify the
         # web preferences
-        ALLOWTOPICCHANGE => '%USERSWEB%.'.$me,
-        ALLOWTOPICRENAME => '%USERSWEB%.'.$me,
-        ALLOWWEBCHANGE   => '%USERSWEB%.'.$me,
-        ALLOWWEBRENAME   => '%USERSWEB%.'.$me,
+        ALLOWTOPICCHANGE => '%USERSWEB%.' . $me,
+        ALLOWTOPICRENAME => '%USERSWEB%.' . $me,
+        ALLOWWEBCHANGE   => '%USERSWEB%.' . $me,
+        ALLOWWEBRENAME   => '%USERSWEB%.' . $me,
     };
     foreach my $p ( $query->param() ) {
         $opts->{ uc($p) } = $query->param($p);
