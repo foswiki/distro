@@ -13,7 +13,7 @@ use vars qw(
 );
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '10 Nov 2009';
+our $RELEASE           = '21 Jul 2010';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
@@ -33,6 +33,21 @@ sub initPlugin {
 
     # Get plugin debug flag
     $debug = Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_DEBUG") || 0;
+
+    # Following code is for a registered tag handler that does the same as
+    # CALC but in a tag handler instead of in commonTagsHandler. That means
+    # you can't use table references, but you can rely on the execution order
+    # relative to other macros.
+#    Foswiki::Func::registerTagHandler(
+#        "SSP",
+#        sub {
+#            my ( $session, $attributes, $topic, $web ) = @_;
+#            require Foswiki::Plugins::SpreadSheetPlugin::Calc;
+#            $Foswiki::Plugins::SpreadSheetPlugin::Calc::rPos = 0;
+#            $Foswiki::Plugins::SpreadSheetPlugin::Calc::cPos = 0;
+#            return Foswiki::Plugins::SpreadSheetPlugin::Calc::doCalc(
+#                $attributes->{_DEFAULT});
+#        });
 
     # Flag to skip calc if in include
     $skipInclude =
