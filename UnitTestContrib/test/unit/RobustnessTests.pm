@@ -16,7 +16,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     $this->{session} = new Foswiki();
-    $slash = ( $Foswiki::cfg{OS} eq 'WINDOWS' ) ? '\\' : '/';
+    $slash = ( $^O eq 'MSWin32' ) ? '\\' : '/';
     Foswiki::Sandbox::_assessPipeSupport();
 }
 
@@ -245,7 +245,7 @@ sub verify {
 
 sub test_executeRSP {
     my $this = shift;
-    return if $Foswiki::cfg{OS} eq 'WINDOWS';
+    return if ($^O eq 'MSWin32');
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 1;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
     $this->verify();
@@ -253,7 +253,7 @@ sub test_executeRSP {
 
 sub test_executeESP {
     my $this = shift;
-    return if $Foswiki::cfg{OS} eq 'WINDOWS';
+    return if ($^O eq 'MSWin32');
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 0;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 1;
     $this->verify();
@@ -261,7 +261,7 @@ sub test_executeESP {
 
 sub test_executeNSP {
     my $this = shift;
-    return if $Foswiki::cfg{OS} eq 'WINDOWS';
+    return if ($^O eq 'MSWin32');
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 0;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
     $this->verify();
