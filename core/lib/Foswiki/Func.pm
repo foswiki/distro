@@ -2445,7 +2445,7 @@ sub spaceOutWikiWord {
 
 ---+++ writeWarning( $text )
 
-Log Warning that may require admin intervention to data/warning.txt
+Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
    * =$text= - Text to write; timestamp gets added
 
 =cut
