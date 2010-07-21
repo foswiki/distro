@@ -1948,4 +1948,171 @@ HERE
     $this->assert_str_equals( $expected, $actual );
 }
 
+
+####################################
+#order tests.
+sub set_up_for_sorting {
+    my $this = shift;
+    my $text = <<'HERE';
+%META:TOPICINFO{author="TopicUserMapping_simon" date="1178612772" format="1.1" version="1.1"}%
+%META:TOPICPARENT{name="WebHome"}%
+something before. Another
+This is QueryTopic FURTLE
+somethig after
+
+%META:FORM{name="TestyForm"}%
+%META:FIELD{name="FieldA" attributes="H" title="B Field" value="1234"}%
+%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="098"}%
+%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="Pedro"}%
+%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peal"}%
+%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
+%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
+%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
+HERE
+    $this->{twiki}->{store}->saveTopic( 'simon',
+        $this->{test_web}, 'QueryTopic', $text, undef, {forcedate=>1178612772} );
+
+    $text = <<'HERE';
+%META:TOPICINFO{author="BaseUserMapping_666" date="12" format="1.1" version="1.2"}%
+first line
+This is QueryTopicTwo SMONG
+third line
+%META:TOPICPARENT{name="QueryTopic"}%
+%META:FORM{name="TestyForm"}%
+%META:FIELD{name="FieldA" attributes="H" title="B Field" value="7"}%
+%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="8"}%
+%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="John"}%
+%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
+%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
+%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
+%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
+HERE
+    $this->{twiki}->{store}->saveTopic( 'admin',
+        $this->{test_web}, 'QueryTopicTwo', $text, undef, {forcedate=>12} );
+
+    $text = <<'HERE';
+%META:TOPICINFO{author="TopicUserMapping_Gerald" date="14" format="1.1" version="1.2"}%
+first line
+This is QueryTopicThree SMONG
+third line
+%META:TOPICPARENT{name="QueryTopic"}%
+%META:FORM{name="TestyForm"}%
+%META:FIELD{name="FieldA" attributes="H" title="B Field" value="2"}%
+%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="-0.12"}%
+%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="Jason"}%
+%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
+%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
+%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
+%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
+HERE
+    $this->{twiki}->{store}->saveTopic( 'Gerald',
+        $this->{test_web}, 'QueryTopicThree', $text, undef, {forcedate=>14} );
+
+
+    $this->{twiki}->finish();
+    my $query = new Unit::Request("");
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+
+    $this->{twiki} = new Foswiki( undef, $query );
+    $this->assert_str_equals( $this->{test_web}, $this->{twiki}->{webName} );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+}
+
+sub verify_orderTopic {
+    my $this = shift;
+
+    $this->set_up_for_sorting();
+    my $search = '%SEARCH{".*" type="regex" scope="topic" web="'.$this->{test_web}.'" format="$topic" separator="," nonoise="on" ';
+    my $result;
+    
+    #DEFAULT sort=topic..
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences", $result );
+
+    #order=topic
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="topic"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="topic" reverse="on"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkTopic,Ok-Topic,Ok+Topic", $result );
+
+    #order=created
+    #TODO: looks like forcedate is broken? so the date tests are unlikely to have enough difference to order.
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="created" format="$topic ($createdate)"}%', $this->{test_web}, $this->{test_topic} );
+    #$this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="created" reverse="on"}%', $this->{test_web}, $this->{test_topic} );
+    #$this->assert_str_equals( "WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkTopic,Ok-Topic,Ok+Topic", $result );
+
+    #order=modified
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="modified"}%', $this->{test_web}, $this->{test_topic} );
+    #$this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="modified" reverse="on"}%', $this->{test_web}, $this->{test_topic} );
+    #$this->assert_str_equals( "WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkTopic,Ok-Topic,Ok+Topic", $result );
+
+    #order=editby
+    #TODO: imo this is a bug - alpha sorting should be caseinsensitive
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="editby" format="$topic ($wikiname)"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "QueryTopicThree (Gerald),Ok+Topic (WikiGuest),Ok-Topic (WikiGuest),OkTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="editby" reverse="on" format="$topic ($wikiname)"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "QueryTopic (simon),QueryTopicTwo (admin),Ok+Topic (WikiGuest),Ok-Topic (WikiGuest),OkTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicThree (Gerald)", $result );
+
+    #order=formfield(FieldA)
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(FieldA)" format="$topic ($formfield(FieldA))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(FieldA)" reverse="on" format="$topic ($formfield(FieldA))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+
+    #order=formfield(FieldB)
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(FieldB)" format="$topic ($formfield(FieldB))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(FieldB)" reverse="on" format="$topic ($formfield(FieldB))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+
+    #order=formfield(Firstname)
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(Firstname)" format="$topic ($formfield(Firstname))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(Firstname)" reverse="on" format="$topic ($formfield(Firstname))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+
+}
+
 1;
