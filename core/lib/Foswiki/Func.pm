@@ -2932,7 +2932,7 @@ sub eachEventSince {
 
 ---+++ writeWarning( $text )
 
-Log a warning that may require admin intervention to the warnings log
+Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
    * =$text= - Text to write; timestamp gets added
 
 =cut
