@@ -70,9 +70,32 @@ sub test_renamedSystemTopic {
 
 sub test_renamedSystemTopicWithLinkText {
     my $this = shift;
-    $this->compareTWikiAndFoswikiLinks(
-        '[[System.BeginnersStartHere][Link Text]]' =>
-          '[[TWiki.ATasteOfTWiki][Link Text]]' );
+    my $i    = 0;
+    while (
+        my ( $tlink, $flink ) = each %{
+            $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+              {MainWebTopicNameConversion}
+        }
+      )
+    {
+        ++$i;
+        $this->compareTWikiAndFoswikiLinks(
+            "[[Main.$tlink][Main Link test #$i]]" =>
+              "[[Main.$flink][Main Link test #$i]]" );
+    }
+    $i = 0;
+    while (
+        my ( $tlink, $flink ) = each %{
+            $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+              {TWikiWebTopicNameConversion}
+        }
+      )
+    {
+        ++$i;
+        $this->compareTWikiAndFoswikiLinks(
+            "[[TWiki.$tlink][TWiki Link test #$i]]" =>
+              "[[System.$flink][TWiki Link test #$i]]" );
+    }
 }
 
 1;
