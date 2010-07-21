@@ -1963,6 +1963,7 @@ somethig after
 %META:FORM{name="TestyForm"}%
 %META:FIELD{name="FieldA" attributes="H" title="B Field" value="1234"}%
 %META:FIELD{name="FieldB" attributes="" title="Banother Field" value="098"}%
+%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="11"}%
 %META:FIELD{name="Firstname" attributes="" title="Pre Name" value="Pedro"}%
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peal"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
@@ -1982,6 +1983,7 @@ third line
 %META:FORM{name="TestyForm"}%
 %META:FIELD{name="FieldA" attributes="H" title="B Field" value="7"}%
 %META:FIELD{name="FieldB" attributes="" title="Banother Field" value="8"}%
+%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="2"}%
 %META:FIELD{name="Firstname" attributes="" title="Pre Name" value="John"}%
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
@@ -2001,6 +2003,7 @@ third line
 %META:FORM{name="TestyForm"}%
 %META:FIELD{name="FieldA" attributes="H" title="B Field" value="2"}%
 %META:FIELD{name="FieldB" attributes="" title="Banother Field" value="-0.12"}%
+%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="10"}%
 %META:FIELD{name="Firstname" attributes="" title="Pre Name" value="Jason"}%
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
@@ -2101,6 +2104,17 @@ sub verify_orderTopic {
       $this->{twiki}
       ->handleCommonTags( $search.'order="formfield(FieldB)" reverse="on" format="$topic ($formfield(FieldB))"}%', $this->{test_web}, $this->{test_topic} );
     $this->assert_str_equals( "QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
+
+    #order=formfield(FieldC)
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(FieldC)" format="$topic ($formfield(FieldC))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)", $result );
+
+    $result =
+      $this->{twiki}
+      ->handleCommonTags( $search.'order="formfield(FieldC)" reverse="on" format="$topic ($formfield(FieldC))"}%', $this->{test_web}, $this->{test_topic} );
+    $this->assert_str_equals( "QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),Ok+Topic (),Ok-Topic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
 
     #order=formfield(Firstname)
     $result =
