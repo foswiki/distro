@@ -447,7 +447,7 @@ sub _convertStringToDate {
 
     my $date = undef;
 
-    if ( $text =~ /^\s*-?[0-9]+(\.[0-9])*\s*$/ && $text !~ /^\s*(-*\d{4})\s*$/ )
+    if ( $text =~ /^\s*-?[0-9]+(\.[0-9])*\s*$/ )
     {
         _debug("\t this is a number");
     }

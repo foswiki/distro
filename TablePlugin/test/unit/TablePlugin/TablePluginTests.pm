@@ -557,6 +557,9 @@ EXPECTED
 
 Test sorting of a numbers column that contains an empty cell and a cell with a string.
 
+Note that we cannot interpret 4 digit numbers as dates because thet goofs up normal number
+sorting of 4 digit numbers that have nothing to do with dates (Item9374)
+
 =cut
 
 sub test_sort_dates {
@@ -577,7 +580,7 @@ sub test_sort_dates {
 | 2001-12-29 - 23:59 |
 | 2009-1-12 |
 | 2009-1 |
-| 2009 |
+| 2009-2 |
 | 2001-12-25T23:59:59 |
 | 2001-12-24T |
 | 2001-12-22T23:59:59+01:00 |
@@ -668,19 +671,97 @@ ACTUAL
 			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2001-12-31 23:59 </td>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2009 </td>
-		</tr>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
 			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2009-1 </td>
 		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol"> 2009-1-12 </td>
+		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> 2009-1-12 </td>
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLastCol foswikiLast"> 2009-2 </td>
 		</tr>
 	</tbody></table>
 EXPECTED
 
     $this->do_test( $expected, $actual );
 }
+
+=pod
+
+Test sorting of 4 digit numbers making sure they are not misinterpreted as dates (Item9374)
+
+=cut
+
+sub test_sort_4_digit_numbers {
+    my $this = shift;
+
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $actual = <<ACTUAL;
+%TABLE{initsort="3" initdirection="down"}%
+| *Title* | *Date* | *Size* | *Span date* |
+| ABC | 26 May 2007 - 22:36 | 1704 | <span class="foswikiNoBreak">26 May 2007 - 22:36</span> |
+| def | 07 Feb 2006 - 13:23 | 1009 | <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> |
+| GHI | 26 Jul 2007 - 13:23 | 0735 | <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> |
+| jkl| 16 Sep 2008 - 09:48 | 2002 | <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> |
+| MNO | 06 Feb 2006 - 19:02 | 1209 | <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table rules="none" border="1" class="foswikiTable" id="table$this->{test_topic}$tableCount">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" rel="nofollow">Title</a> </th>
+			<th class="foswikiTableCol1"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" rel="nofollow">Date</a> </th>
+			<th class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=$tableCount;up=1#sorted_table" rel="nofollow">Size</a><span class="tableSortIcon tableSortUp"><img width="11" height="13" border="0" title="Sorted ascending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortup.gif" alt="Sorted ascending"/></span> </th>
+			<th class="foswikiTableCol3 foswikiLastCol"> <a title="Sort by this column" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=$tableCount;up=0#sorted_table" rel="nofollow">Span date</a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> GHI </td>
+			<td class="foswikiTableCol1" rowspan="1"> 26 Jul 2007 - 13:23 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 0735 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">26 Jul 2007 - 13:23</span> </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> def </td>
+			<td class="foswikiTableCol1" rowspan="1"> 07 Feb 2006 - 13:23 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 1009 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">07 Feb 2006 - 13:23</span> </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> MNO </td>
+			<td class="foswikiTableCol1" rowspan="1"> 06 Feb 2006 - 19:02 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 1209 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">06 Feb 2006 - 19:02</span> </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol" rowspan="1"> ABC </td>
+			<td class="foswikiTableCol1" rowspan="1"> 26 May 2007 - 22:36 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol" rowspan="1"> 1704 </td>
+			<td class="foswikiTableCol3 foswikiLastCol" rowspan="1"> <span class="foswikiNoBreak">26 May 2007 - 22:36</span> </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast" rowspan="1"> jkl </td>
+			<td class="foswikiTableCol1 foswikiLast" rowspan="1"> 16 Sep 2008 - 09:48 </td>
+			<td class="foswikiTableCol2 foswikiSortedAscendingCol foswikiSortedCol foswikiLast" rowspan="1"> 2002 </td>
+			<td class="foswikiTableCol3 foswikiLastCol foswikiLast" rowspan="1"> <span class="foswikiNoBreak">16 Sep 2008 - 09:48</span> </td>
+		</tr>
+	</tbody></table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+
 
 =pod
 
